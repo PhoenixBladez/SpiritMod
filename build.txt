@@ -1,5 +1,5 @@
 author = PhoenixBlade and the Dev Team
-version = 1.3.5.2
+version = 1.3.5.3
 displayName = Spirit Mod
 homepage = https://forums.terraria.org/index.php?threads/the-spirit-mod.41395/
 hideCode = true
