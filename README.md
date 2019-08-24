@@ -1,2 +1,2 @@
-# SpiritMod
- The official repository for Terraria's Spirit Mod
+# Skyware-stock-trading-AI
+Skyware industries's newest stock trading AI, based on statistics, patterns, and stock history

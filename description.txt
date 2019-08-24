@@ -1,0 +1,25 @@
+
+The Spirit Mod is a huge Terraria mod, with plenty of content to explore, new enemies to fight, and new weapons to wield.
+Current content:
+- 1117 Items
+- 133 NPCs, including boss minions, enemies, and town NPCs
+- 10 New bosses with interesting AIs
+- 6 New Minibosses to be fought in different events
+- 2 New Events, The Tide and the Blue Moon, to take on!
+- 2 Biomes, the Reach and the Spirit Biome!
+- And many secrets for you to find!
+Check out the mod's forum page for more information! We hope you enjoy the mod, and please report any issues you encounter :)
+
+
+Changes from latest version on Mod Browser:
+v1.3.5.0:
+-Unofficial compability update for tmod 0.11. 
+
+Please let me know, if there are any compability issues. 
+MadeOfPixel
+
+v1.3.5.1:
+-Updated some code that caused issues with tMod 0.11 update
+-Fixed knockback on melee + projectiles
+
+
