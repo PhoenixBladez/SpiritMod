@@ -1,10 +1,10 @@
 ﻿namespace SpiritMod
 {
-	public enum DashType : byte
-	{
-		None,
-		Phase,
-		Firewall,
-		Shinigami,
-	}
+    public enum DashType : byte
+    {
+        None,
+        Phase,
+        Firewall,
+        Shinigami,
+    }
 }

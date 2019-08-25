@@ -126,15 +126,15 @@ namespace SpiritMod
                 origin = new Vector2(texture.Width * 0.5f * (1 - info.drawPlayer.direction), (info.drawPlayer.gravDir == -1f) ? 0 : texture.Height);
             }
 
-            Main.playerDrawData.Add(new DrawData(               
+            Main.playerDrawData.Add(new DrawData(
                 texture,
                 info.itemLocation - Main.screenPosition + offset,
                 texture.Bounds,
                 new Color(250, 250, 250, item.alpha),
                 info.drawPlayer.itemRotation + rotOffset,
                 origin,
-                item.scale, 
-                info.spriteEffects, 
+                item.scale,
+                info.spriteEffects,
                 0
             ));
         }
@@ -145,7 +145,7 @@ namespace SpiritMod
                 texture,
                 new Vector2(item.position.X - Main.screenPosition.X + item.width / 2, item.position.Y - Main.screenPosition.Y + item.height - (texture.Height / 2) + 2f),
                 new Rectangle(0, 0, texture.Width, texture.Height),
-                new Color(250, 250, 250, item.alpha), 
+                new Color(250, 250, 250, item.alpha),
                 rotation,
                 new Vector2(texture.Width / 2, texture.Height / 2),
                 scale,

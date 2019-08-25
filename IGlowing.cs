@@ -3,7 +3,7 @@
 namespace SpiritMod
 {
     public interface IGlowing
-	{
-		Texture2D Glowmask(out float bias);
-	}
+    {
+        Texture2D Glowmask(out float bias);
+    }
 }
