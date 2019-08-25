@@ -155,7 +155,7 @@ namespace SpiritMod.Mounts
 				{
 					direction = FOVHelper.NEG_X_DIR - tilt;
 				}
-				helper.adjustCone(muzzle, fov, direction);
+				helper.AdjustCone(muzzle, fov, direction);
 
 				//Look for the nearest, unobscured enemy inside the cone
 				NPC nearest = null;
@@ -164,7 +164,7 @@ namespace SpiritMod.Mounts
 				{
 					NPC npc = Main.npc[i];
 					Vector2 npcCenter = npc.Center;
-					if (npc.CanBeChasedBy() && helper.isInCone(npcCenter)) //first param of canBeChasedBy has no effect
+					if (npc.CanBeChasedBy() && helper.IsInCone(npcCenter)) //first param of canBeChasedBy has no effect
 					{
 						float distCurrent = Vector2.DistanceSquared(muzzle, npcCenter);
 						if (distCurrent < distNearest && Collision.CanHitLine(muzzle, 0, 0, npc.position, npc.width, npc.height))

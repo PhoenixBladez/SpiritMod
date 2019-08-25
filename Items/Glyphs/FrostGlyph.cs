@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Glyphs
 {
-	public class FrostGlyph : GlyphBase, Glowing
+	public class FrostGlyph : GlyphBase, IGlowing
 	{
 		public static int _type;
 		public static Microsoft.Xna.Framework.Graphics.Texture2D[] _textures;
@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Glyphs
 		public const float OFFSET = 50;
 
 
-		Microsoft.Xna.Framework.Graphics.Texture2D Glowing.Glowmask(out float bias)
+		Microsoft.Xna.Framework.Graphics.Texture2D IGlowing.Glowmask(out float bias)
 		{
 			bias = GLOW_BIAS;
 			return _textures[1];

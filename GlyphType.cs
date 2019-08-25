@@ -1,11 +1,6 @@
-﻿using System;
-
-using Microsoft.Xna.Framework;
-
-
-namespace SpiritMod
+﻿namespace SpiritMod
 {
-	public enum GlyphType : byte
+    public enum GlyphType : byte
 	{
 		None = 0,
 		Frost = 1,

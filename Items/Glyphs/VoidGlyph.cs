@@ -9,7 +9,7 @@ using SpiritMod.NPCs;
 
 namespace SpiritMod.Items.Glyphs
 {
-	public class VoidGlyph : GlyphBase, Glowing
+	public class VoidGlyph : GlyphBase, IGlowing
 	{
 		public static int _type;
 		public static Microsoft.Xna.Framework.Graphics.Texture2D[] _textures;
@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Glyphs
 		public const int DECAY = 3;
 
 
-		Microsoft.Xna.Framework.Graphics.Texture2D Glowing.Glowmask(out float bias)
+		Microsoft.Xna.Framework.Graphics.Texture2D IGlowing.Glowmask(out float bias)
 		{
 			bias = GLOW_BIAS;
 			return _textures[1];

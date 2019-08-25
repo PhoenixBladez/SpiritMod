@@ -1,11 +1,6 @@
-﻿using System;
-
-using Microsoft.Xna.Framework;
-
-
-namespace SpiritMod
+﻿namespace SpiritMod
 {
-	public enum MessageType : byte
+    public enum MessageType : byte
 	{
 		None = 0,
 		ProjectileData,

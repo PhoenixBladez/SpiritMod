@@ -6,12 +6,12 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Glyphs
 {
-	public class UnholyGlyph : GlyphBase, Glowing
+	public class UnholyGlyph : GlyphBase, IGlowing
 	{
 		public static int _type;
 		public static Microsoft.Xna.Framework.Graphics.Texture2D[] _textures;
 
-		Microsoft.Xna.Framework.Graphics.Texture2D Glowing.Glowmask(out float bias)
+		Microsoft.Xna.Framework.Graphics.Texture2D IGlowing.Glowmask(out float bias)
 		{
 			bias = GLOW_BIAS;
 			return _textures[1];

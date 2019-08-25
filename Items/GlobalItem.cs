@@ -553,7 +553,7 @@ namespace SpiritMod.Items
 		public override void PostDrawInWorld(Item item, SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Color glowColor = new Color(250, 250, 250, item.alpha);
-			Glowing glow = item.modItem as Glowing;
+			IGlowing glow = item.modItem as IGlowing;
 			if (glow != null)
 			{
 				float bias = 0f;

@@ -76,14 +76,14 @@ namespace SpiritMod.Projectiles.DonatorItems
 
 			var origin = projectile.Center;
 			var fov = new FOVHelper();
-			fov.adjustCone(origin, FOV, direction);
+			fov.AdjustCone(origin, FOV, direction);
 			float maxDistSquared = Max_Range * Max_Range;
 			for (int i = 0; i < Main.maxNPCs; ++i)
 			{
 				NPC npc = Main.npc[i];
 				Vector2 npcPos = npc.Center;
 				if (npc.CanBeChasedBy() &&
-					fov.isInCone(npcPos) &&
+					fov.IsInCone(npcPos) &&
 					Vector2.DistanceSquared(origin, npcPos) < maxDistSquared &&
 					Collision.CanHitLine(origin, 0, 0, npc.position, npc.width, npc.height))
 				{

@@ -1,14 +1,9 @@
-﻿using System;
-
-using Microsoft.Xna.Framework;
-
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
+﻿using Microsoft.Xna.Framework;
+using System;
 
 namespace SpiritMod
 {
-	class FOVHelper
+    class FOVHelper
 	{
 		public const float POS_X_DIR = 0f;
 		public const float NEG_X_DIR = (float)Math.PI;
@@ -32,7 +27,7 @@ namespace SpiritMod
 		private bool verticalRight = false;
 		private float slopeRight = 0f;
 
-		public void adjustCone(Vector2 center, float fov, float direction)
+		public void AdjustCone(Vector2 center, float fov, float direction)
 		{
 			if (fov >= Math.PI)
 			{
@@ -49,17 +44,11 @@ namespace SpiritMod
 			else
 			{
 				returnDefault = false;
-				if (fov > MathHelper.PiOver2)
-				{
-					overExtended = true;
-				}
-				else
-				{
-					overExtended = false;
-				}
-			}
-			origin.X = center.X;
-			origin.Y = center.Y;
+				overExtended = fov > MathHelper.PiOver2 ? true : false;
+            }
+
+            origin = center;
+
 			float left = direction + fov * .5f;
 			float right = direction - fov * .5f;
 			left = MathHelper.WrapAngle(left);
@@ -71,57 +60,30 @@ namespace SpiritMod
 
 			if (verticalLeft)
 			{
-				if (left > 0f)
-				{
-					checkAboveLeft = true;
-				}
-				else
-				{
-					checkAboveLeft = false;
-				}
-			}
+				checkAboveLeft = left > 0f ? true : false;
+            }
 			else
 			{
-				if (Math.Abs(left) > MathHelper.PiOver2)
-				{
-					checkAboveLeft = true;
-				}
-				else
-				{
-					checkAboveLeft = false;
-				}
-			}
+				checkAboveLeft = Math.Abs(left) > MathHelper.PiOver2 ? true : false;
+            }
 
 			if (verticalRight)
 			{
-				if (right > 0f)
-				{
-					checkAboveRight = false;
-				}
-				else
-				{
-					checkAboveRight = true;
-				}
-			}
+				checkAboveRight = right > 0f ? false : true;
+            }
 			else
 			{
-				if (Math.Abs(right) > MathHelper.PiOver2)
-				{
-					checkAboveRight = false;
-				}
-				else
-				{
-					checkAboveRight = true;
-				}
-			}
+				checkAboveRight = Math.Abs(right) > MathHelper.PiOver2 ? false : true;
+            }
 		}
 
-		public bool isInCone(Vector2 pos)
+		public bool IsInCone(Vector2 pos)
 		{
 			if (returnDefault)
 			{
 				return defaultValue;
 			}
+
 			float x = pos.X - origin.X;
 			float y = pos.Y - origin.Y;
 
@@ -132,26 +94,34 @@ namespace SpiritMod
 					if (x >= 0f)
 					{
 						if (overExtended)
-							return true;
-					}
+                        {
+                            return true;
+                        }
+                    }
 					else
 					{
 						if (!overExtended)
-							return false;
-					}
+                        {
+                            return false;
+                        }
+                    }
 				}
 				else
 				{
 					if (x <= 0f)
 					{
 						if (overExtended)
-							return true;
-					}
+                        {
+                            return true;
+                        }
+                    }
 					else
 					{
 						if (!overExtended)
-							return false;
-					}
+                        {
+                            return false;
+                        }
+                    }
 				}
 			}
 			else
@@ -161,51 +131,45 @@ namespace SpiritMod
 					if (x * slopeLeft <= y)
 					{
 						if (overExtended)
-							return true;
-					}
+                        {
+                            return true;
+                        }
+                    }
 					else
 					{
 						if (!overExtended)
-							return false;
-					}
+                        {
+                            return false;
+                        }
+                    }
 				}
 				else
 				{
 					if (x * slopeLeft >= y)
 					{
 						if (overExtended)
-							return true;
-					}
+                        {
+                            return true;
+                        }
+                    }
 					else
 					{
 						if (!overExtended)
-							return false;
-					}
+                        {
+                            return false;
+                        }
+                    }
 				}
 			}
 
 			if (verticalRight)
 			{
-				if (checkAboveRight)
-				{
-					return (x >= 0f);
-				}
-				else
-				{
-					return (x <= 0f);
-				}
-			}
+                return checkAboveRight ? x >= 0f : x <= 0f;
+            }
 			else
 			{
-				if (checkAboveRight)
-				{
-					return (x * slopeRight <= y);
-				}
-				else
-				{
-					return (x * slopeRight >= y);
-				}
-			}
+                return checkAboveRight ? x * slopeRight <= y : x * slopeRight >= y;
+            }
 		}
 	}
 }
