@@ -1,11 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Glyphs
 {
-	public class PhaseGlyph : GlyphBase, Glowing
+    public class PhaseGlyph : GlyphBase, Glowing
 	{
 		public static int _type;
 		public static Microsoft.Xna.Framework.Graphics.Texture2D[] _textures;

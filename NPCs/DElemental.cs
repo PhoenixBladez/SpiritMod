@@ -47,7 +47,7 @@ namespace SpiritMod.NPCs
 		}
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            SpiritUtility.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/DElemental_Glow"));
+            GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/DElemental_Glow"));
         }
 		public override void NPCLoot()
 		{

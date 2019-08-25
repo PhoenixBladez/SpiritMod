@@ -77,7 +77,7 @@ namespace SpiritMod.NPCs
 		}
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            SpiritUtility.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Reachman_Glow"));
+            GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Reachman_Glow"));
         }
 		public override void HitEffect(int hitDirection, double damage)
 		{

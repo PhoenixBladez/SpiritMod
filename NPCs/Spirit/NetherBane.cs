@@ -41,7 +41,7 @@ namespace SpiritMod.NPCs.Spirit
 		}
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            SpiritUtility.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Spirit/NetherBane_Glow"));
+            GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Spirit/NetherBane_Glow"));
         }
 		public override void HitEffect(int hitDirection, double damage)
 		{

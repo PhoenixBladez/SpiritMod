@@ -146,7 +146,7 @@ namespace SpiritMod.Items
 		{
 			if (context != "goodieBag")
 				return;
-			_ItemUtils.DropCandy(player);
+			ItemUtils.DropCandy(player);
 			if (Main.rand.Next(3) == 0)
 			{
 				string[] lootTable = { "MaskSchmo", "MaskGraydee", "MaskLordCake", "MaskVladimier", "MaskKachow", "MaskHulk", "MaskBlaze", "MaskSvante", "MaskIggy", "MaskYuyutsu", "MaskLeemyy", };

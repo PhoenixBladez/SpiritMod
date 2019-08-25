@@ -145,7 +145,7 @@ namespace SpiritMod.NPCs
 		}
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            SpiritUtility.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/WinterbornMagic_Glow"));
+            GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/WinterbornMagic_Glow"));
         }
 	
 		public void Teleport()

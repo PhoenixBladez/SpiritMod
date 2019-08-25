@@ -1,13 +1,8 @@
-﻿using System;
-
-using Microsoft.Xna.Framework;
-
-using Terraria;
-using Terraria.ID;
+﻿using Terraria;
 
 namespace SpiritMod
 {
-	public static class NPCUtils
+    public static class NPCUtils
 	{
 		public static bool CanDamage(this NPC npc)
 		{

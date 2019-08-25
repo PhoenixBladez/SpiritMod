@@ -1,30 +1,17 @@
-﻿using System;
-
-using Microsoft.Xna.Framework;
-
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-
-using SpiritMod.Items.Halloween;
 using Terraria.Utilities;
+using System.Linq;
 
 namespace SpiritMod
 {
-	public static class Utililties
+    public static class Utililties
 	{
 		public static float GetDamageBoost(this Player player)
 		{
-			float min = player.meleeDamage;
-			if (player.magicDamage < min)
-				min = player.magicDamage;
-			if (player.rangedDamage < min)
-				min = player.rangedDamage;
-			if (player.thrownDamage < min)
-				min = player.thrownDamage;
-			if (player.minionDamage < min)
-				min = player.minionDamage;
-			return min;
+            float[] damageTypes = new float[] { player.meleeDamage, player.magicDamage, player.rangedDamage, player.thrownDamage, player.minionDamage };
+            return damageTypes.Min();
 		}
 
 		public static Vector2 NextVec2CircularEven(this UnifiedRandom rand, float halfWidth, float halfHeight)
@@ -36,20 +23,26 @@ namespace SpiritMod
 				x = 1 - x;
 				y = 1 - y;
 			}
+
 			double s = 1 / (x + y);
 			if (double.IsNaN(s))
-				return Vector2.Zero;
-			s *= s;
+            {
+                return Vector2.Zero;
+            }
+
+            s *= s;
 			s = Math.Sqrt(x * x * s + y * y * s);
 			s = 1 / s;
+
 			x *= s;
 			y *= s;
-			double r = rand.NextDouble() * (2 * Math.PI);
-			double cos = Math.Cos(r);
-			double sin = Math.Sin(r);
+
+			double angle = rand.NextDouble() * (2 * Math.PI);
+			double cos = Math.Cos(angle);
+			double sin = Math.Sin(angle);
+
 			return new Vector2((float)(x * cos - y * sin) * halfWidth, (float)(x * sin + y * cos) * halfHeight);
 		}
-
 
 		public static bool LeftOf(this Vector2 point, Vector2 check)
 		{
@@ -60,16 +53,13 @@ namespace SpiritMod
 		{
 			float length = check.Length();
 			length = (check.X * point.Y - check.Y * point.X) / length;
-			if (float.IsNaN(length))
-				return 0f;
-			return length;
-		}
+            return float.IsNaN(length) ? 0f : length;
+        }
 
-		public static float SideOf(this Vector2 point, Vector2 checkNorm)
+        public static float SideOf(this Vector2 point, Vector2 checkNorm)
 		{
 			return checkNorm.X * point.Y - checkNorm.Y * point.X;
 		}
-
 
 		public static Vector2 TurnRight(this Vector2 vec)
 		{

@@ -200,7 +200,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			drawOrigin = r3.Size() / 2f;
 			Vector2 scale = new Vector2(0.75f, 1f + num16) * 1.5f;
 			float num17 = 1f + num13 * 0.75f;
-          	  SpiritUtility.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Boss/SteamRaider/SteamRaiderBody_Glow"));
+          	  GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Boss/SteamRaider/SteamRaiderBody_Glow"));
 			
 			}
         }

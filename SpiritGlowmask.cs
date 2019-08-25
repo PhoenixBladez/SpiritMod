@@ -28,7 +28,7 @@ namespace SpiritMod
 				{
 					InsertAfterVanillaLayer(layers, "Legs", new PlayerLayer(mod.Name, "GlowMaskLegs", delegate (PlayerDrawInfo info)
 						{
-							SpiritUtility.DrawArmorGlowMask(EquipType.Legs, textureLegs, info);
+							GlowmaskUtils.DrawArmorGlowMask(EquipType.Legs, textureLegs, info);
 						}));
 				}
 			}
@@ -36,7 +36,7 @@ namespace SpiritMod
 			{
 				InsertAfterVanillaLayer(layers, "Legs", new PlayerLayer(mod.Name, "GlowMaskLegs", delegate (PlayerDrawInfo info)
 					{
-						SpiritUtility.DrawArmorGlowMask(EquipType.Legs, textureLegs, info);
+						GlowmaskUtils.DrawArmorGlowMask(EquipType.Legs, textureLegs, info);
 					}));
 			}
 			Texture2D textureBody;
@@ -46,7 +46,7 @@ namespace SpiritMod
 				{
 					InsertAfterVanillaLayer(layers, "Body", new PlayerLayer(mod.Name, "GlowMaskBody", delegate (PlayerDrawInfo info)
 						{
-							SpiritUtility.DrawArmorGlowMask(EquipType.Body, textureBody, info);
+							GlowmaskUtils.DrawArmorGlowMask(EquipType.Body, textureBody, info);
 						}));
 				}
 			}
@@ -54,7 +54,7 @@ namespace SpiritMod
 			{
 				InsertAfterVanillaLayer(layers, "Body", new PlayerLayer(mod.Name, "GlowMaskBody", delegate (PlayerDrawInfo info)
 					{
-						SpiritUtility.DrawArmorGlowMask(EquipType.Body, textureBody, info);
+						GlowmaskUtils.DrawArmorGlowMask(EquipType.Body, textureBody, info);
 					}));
 			}
 			Texture2D textureHead;
@@ -64,7 +64,7 @@ namespace SpiritMod
 				{
 					InsertAfterVanillaLayer(layers, "Head", new PlayerLayer(mod.Name, "GlowMaskHead", delegate (PlayerDrawInfo info)
 						{
-							SpiritUtility.DrawArmorGlowMask(EquipType.Head, textureHead, info);
+							GlowmaskUtils.DrawArmorGlowMask(EquipType.Head, textureHead, info);
 						}));
 				}
 			}
@@ -72,7 +72,7 @@ namespace SpiritMod
 			{
 				InsertAfterVanillaLayer(layers, "Head", new PlayerLayer(mod.Name, "GlowMaskHead", delegate (PlayerDrawInfo info)
 					{
-						SpiritUtility.DrawArmorGlowMask(EquipType.Head, textureHead, info);
+						GlowmaskUtils.DrawArmorGlowMask(EquipType.Head, textureHead, info);
 					}));
 			}
 			Texture2D textureItem;
@@ -80,7 +80,7 @@ namespace SpiritMod
 			{
 				InsertAfterVanillaLayer(layers, "HeldItem", new PlayerLayer(mod.Name, "GlowMaskHeldItem", delegate (PlayerDrawInfo info)
 					{
-						SpiritUtility.DrawItemGlowMask(textureItem, info);
+						GlowmaskUtils.DrawItemGlowMask(textureItem, info);
 					}));
 			}
 		}

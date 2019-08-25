@@ -151,7 +151,7 @@ namespace SpiritMod.NPCs
 		}
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            SpiritUtility.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/ForestWraith_Glow"));
+            GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/ForestWraith_Glow"));
         }
 		public override void NPCLoot()
 		{

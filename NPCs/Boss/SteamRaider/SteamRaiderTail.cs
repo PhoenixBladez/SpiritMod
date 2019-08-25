@@ -160,7 +160,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {			
 			
-        	 SpiritUtility.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Boss/SteamRaider/SteamRaiderTail_Glow"));		
+        	 GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Boss/SteamRaider/SteamRaiderTail_Glow"));		
 			
         }
 		public override bool CheckActive()

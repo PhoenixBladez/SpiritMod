@@ -356,7 +356,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
 
-            SpiritUtility.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Boss/Atlas/Atlas_Glow"));
+            GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Boss/Atlas/Atlas_Glow"));
         }
 
 		public override bool PreNPCLoot()

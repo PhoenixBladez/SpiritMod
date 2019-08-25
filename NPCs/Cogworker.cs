@@ -37,7 +37,7 @@ namespace SpiritMod.NPCs
 		}
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            SpiritUtility.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Cogworker_Glow"));
+            GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Cogworker_Glow"));
         }	
 		public override bool PreAI()
 		{

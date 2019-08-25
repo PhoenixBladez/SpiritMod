@@ -391,7 +391,7 @@ namespace SpiritMod.NPCs
 				else
 				{
 					chat = TrickOrTeat(modPlayer, npc);
-					_ItemUtils.DropCandy(player);
+					ItemUtils.DropCandy(player);
 				}
 			}
 

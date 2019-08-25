@@ -43,7 +43,7 @@ namespace SpiritMod.NPCs.Spirit
 		}
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            SpiritUtility.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Spirit/HauntedBook_Glow"));
+            GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Spirit/HauntedBook_Glow"));
         }
 		public override void FindFrame(int frameHeight)
 		{

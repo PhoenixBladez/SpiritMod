@@ -506,7 +506,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			Vector2 scale = new Vector2(0.75f, 1f + num16) * 1.5f;
 			float num17 = 1f + num13 * 0.75f;
 			}
-        	 SpiritUtility.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Boss/SteamRaider/SteamRaiderHead_Glow"));		
+        	 GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Boss/SteamRaider/SteamRaiderHead_Glow"));		
 			
         }
 		public override void HitEffect(int hitDirection, double damage)
