@@ -381,7 +381,7 @@ namespace SpiritMod.NPCs
 		{
 			Player player = Main.player[Main.myPlayer];
 			MyPlayer modPlayer = Main.player[Main.myPlayer].GetModPlayer<MyPlayer>();
-			if (Main.halloween && !Main.dayTime && AllowTrickOrTreat(npc) && modPlayer.canTrickOrTreat(npc))
+			if (Main.halloween && !Main.dayTime && AllowTrickOrTreat(npc) && modPlayer.CanTrickOrTreat(npc))
 			{
 				if (npc.type == NPCID.Guide && !player.HasItem(Items.Halloween.CandyBag._type))
 				{
