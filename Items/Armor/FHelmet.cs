@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Floran Helmet");
-			Tooltip.SetDefault("5% Increased magic damage and critical strike chance\nReduces mana cost by 5%\nIt's natural, yet seems to be from somwhere else...");
+			Tooltip.SetDefault("5% Increased magic damage and critical strike chance\nReduces mana cost by 5%");
 		}
 
 
@@ -41,19 +41,13 @@ namespace SpiritMod.Items.Armor
 
             if (timer == 20)
             {
-                int dust = Dust.NewDust(player.position, player.width, player.height, 44);
+                int d = Dust.NewDust(player.position, player.width, player.height, 39);
+                Main.dust[d].velocity *= 0f;
                 timer = 0;
             }
 
-            player.setBonus = "Florrrann Sssstab- 5% increased damage and 5% increased movement speed";
-            player.meleeDamage += 0.05f;
-            player.thrownDamage += 0.05f;
-            player.rangedDamage += 0.05f;
-            player.magicDamage += 0.05f;
-            player.minionDamage += 0.05f;
-
-            player.maxRunSpeed += 0.05f;
-
+            player.setBonus = "Killing enemies may drop raw meat, restoring health and granting 'Well Fed'";
+            player.GetModPlayer<MyPlayer>(mod).floranSet = true;
         }
         public override void AddRecipes()  
         {

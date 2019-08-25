@@ -3,6 +3,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using System.Linq;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
 namespace SpiritMod.NPCs.Spirit
@@ -33,7 +35,10 @@ namespace SpiritMod.NPCs.Spirit
 			aiType = NPCID.Firefly;
 			Main.npcFrameCount[npc.type] = 4;
 		}
-
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return Color.White;
+		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			Player player = spawnInfo.player;

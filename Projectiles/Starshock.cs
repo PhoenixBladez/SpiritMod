@@ -16,8 +16,8 @@ namespace SpiritMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.width = 12;
-			projectile.height = 12;
+			projectile.width = 18;
+			projectile.height = 18;
 			projectile.hostile = true;
 			projectile.alpha = 255;
 			projectile.penetrate = 1;
@@ -47,23 +47,16 @@ namespace SpiritMod.Projectiles
 				return;
 			}
 
-			if (Main.rand.Next(4) == 0)
-			{
-				int num193 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 180, 0f, 0f, 100, default(Color), 1f);
-				Main.dust[num193].position = projectile.Center;
-				Main.dust[num193].scale += (float)Main.rand.Next(50) * 0.01f;
-				Main.dust[num193].noGravity = true;
-				Dust expr_835F_cp_0 = Main.dust[num193];
-				expr_835F_cp_0.velocity.Y = expr_835F_cp_0.velocity.Y - 2f;
-			}
-			if (Main.rand.Next(6) == 0)
-			{
-				int num194 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 176, 0f, 0f, 100, default(Color), 1f);
-				Main.dust[num194].position = projectile.Center;
-				Main.dust[num194].scale += 0.3f + (float)Main.rand.Next(50) * 0.01f;
-				Main.dust[num194].noGravity = true;
-				Main.dust[num194].velocity *= 0.1f;
-			}
+			int num = 5;
+			for (int k = 0; k < 2; k++)
+				{
+					int index2 = Dust.NewDust(projectile.position, 1, 1, 180, 0.0f, 0.0f, 0, new Color(), 1f);
+					Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
+					Main.dust[index2].scale = .5f;
+					Main.dust[index2].velocity *= 0f;
+					Main.dust[index2].noGravity = true;
+					Main.dust[index2].noLight = false;	
+				}	
 
 			if (projectile.localAI[1] == 0f)
 			{
@@ -75,8 +68,8 @@ namespace SpiritMod.Projectiles
 		{
 			for (int k = 0; k < 3; k++)
 			{
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 176, projectile.oldVelocity.X * 0.1f, projectile.oldVelocity.Y * 0.1f);
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 180, projectile.oldVelocity.X * 0.1f, projectile.oldVelocity.Y * 0.1f);
+				int d = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 180, projectile.oldVelocity.X * 0.1f, projectile.oldVelocity.Y * 0.1f);
+				Main.dust[d].noGravity = true;
 			}
 		}
 	}

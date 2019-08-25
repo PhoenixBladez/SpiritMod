@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.NPCs.Spirit
 {
@@ -30,7 +31,17 @@ namespace SpiritMod.NPCs.Spirit
 			npc.noTileCollide = true;
 			npc.npcSlots = 0.75f;
 		}
-
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			var effects = npc.direction == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+                             drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			return false;
+		}
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            SpiritUtility.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Spirit/SpiritSkull_Glow"));
+        }
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			Player player = spawnInfo.player;
@@ -42,9 +53,18 @@ namespace SpiritMod.NPCs.Spirit
 			return 0f;
 		}
 
-		public override bool PreAI()
+
+		public override void FindFrame(int frameHeight)
 		{
-			float velMax = 1f;
+			npc.frameCounter += 0.15f;
+			npc.frameCounter %= Main.npcFrameCount[npc.type];
+			int frame = (int)npc.frameCounter;
+			npc.frame.Y = frame * frameHeight;
+		}
+
+		public override void AI()
+		{
+						float velMax = 1f;
 			float acceleration = 0.011f;
 			npc.TargetClosest(true);
 			Vector2 center = npc.Center;
@@ -126,42 +146,14 @@ namespace SpiritMod.NPCs.Spirit
 			}
 			if ((double)velLimitX > 0.0)
 			{
-				npc.spriteDirection = -1;
 				npc.rotation = (float)Math.Atan2((double)velLimitY, (double)velLimitX);
 			}
 			if ((double)velLimitX < 0.0)
 			{
-				npc.spriteDirection = 1;
 				npc.rotation = (float)Math.Atan2((double)velLimitY, (double)velLimitX) + 3.14f;
 			}
-			return false;
-		}
-
-		public override void FindFrame(int frameHeight)
-		{
-			npc.frameCounter += 0.15f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
-		}
-
-		public override void AI()
-		{
+			npc.spriteDirection = -npc.direction;
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.05f, 0.09f, 0.4f);
-			Player target = Main.player[npc.target];
-			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
-			if (distance < 320)
-			{
-				npc.ai[0]++;
-				if (npc.ai[0] >= 120)
-				{
-					int type = mod.ProjectileType("SpiritShard");
-					int p = Terraria.Projectile.NewProjectile(npc.position.X, npc.position.Y, -(npc.position.X - target.position.X) / distance * 4, -(npc.position.Y - target.position.Y) / distance * 4, type, (int)((npc.damage * .5)), 0);
-					Main.projectile[p].friendly = false;
-					Main.projectile[p].hostile = true;
-					npc.ai[0] = 0;
-				}
-			}
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.Spirit
@@ -40,7 +41,17 @@ namespace SpiritMod.NPCs.Spirit
 			if (Main.rand.Next(3) == 1)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SoulShred"), Main.rand.Next(1) + 1);
 		}
-
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+                             drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			return false;
+		}
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            SpiritUtility.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Spirit/SoulCrusher_Glow"));
+        }
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			Player player = spawnInfo.player;

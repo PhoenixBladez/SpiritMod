@@ -33,7 +33,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 		public override void AI()
 		{
 			Vector2 targetPos = projectile.Center;
-			float targetDist = 450f;
+			float targetDist = 900f;
 			bool targetAcquired = false;
 
 			//loop through first 200 NPCs in Main.npc
@@ -52,7 +52,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 				}
 			}
 
-			projectile.velocity = projectile.velocity.RotatedBy(Math.PI / 40);
+			//projectile.velocity = projectile.velocity.RotatedBy(Math.PI / 40);
 
 			for (int i = 0; i < 10; i++)
 			{

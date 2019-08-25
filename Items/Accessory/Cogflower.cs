@@ -1,8 +1,16 @@
 using System;
-
+using System.Collections.Generic;
+using System.IO;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Projectiles;
+using Terraria.World.Generation;
+using Terraria.GameContent.Generation;
+using SpiritMod.Tiles;
+using SpiritMod;
 
 namespace SpiritMod.Items.Accessory
 {
@@ -11,7 +19,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cogflower");
-			Tooltip.SetDefault("Increases maximum mana by 30\nIncreases magic critical strike chance by 5%");
+			Tooltip.SetDefault("Increases maximum mana by 30 and magic critical strike chance by 5%\n'A rose by any other name'");
 		}
 
 
@@ -30,5 +38,26 @@ namespace SpiritMod.Items.Accessory
             player.statManaMax2 += 30;
 			player.magicCrit += 5;
 		}
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float  scale, int whoAmI) 	
+		{
+			Texture2D texture;
+			texture = Main.itemTexture[item.type];
+			spriteBatch.Draw
+			(
+				ModContent.GetTexture("SpiritMod/Items/Accessory/Cogflower_Glow"),
+				new Vector2
+				(
+					item.position.X - Main.screenPosition.X + item.width * 0.5f,
+					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+				),
+				new Rectangle(0, 0, texture.Width, texture.Height),
+				Color.White,
+				rotation,
+				texture.Size() * 0.5f,
+				scale, 
+				SpriteEffects.None, 
+				0f
+			);
+        }
 	}
 }

@@ -23,8 +23,8 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			npc.height = 42;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
-			npc.damage = 30;
-			npc.lifeMax = 2500;
+			npc.damage = 80;
+			npc.lifeMax = 1500;
 		}
 
 		public override bool PreAI()
@@ -117,7 +117,10 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			npc.lifeMax = (int)(npc.lifeMax * 0.55f * bossLifeScale);
 			npc.damage = (int)(npc.damage * 0.75f);
 		}
-
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            SpiritUtility.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Boss/Atlas/CobbledEye_Glow"));
+        }
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			if (npc.velocity != Vector2.Zero)

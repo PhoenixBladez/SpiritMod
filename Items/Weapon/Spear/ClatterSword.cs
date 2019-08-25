@@ -26,7 +26,7 @@ public class ClatterSword : ModItem
         item.useAnimation = 5;
         item.useTime = 15;
         item.shootSpeed = 5f;
-        item.knockBack = 6f;
+        item.knockBack = 3f;
         item.damage = 22;
         item.value = Item.sellPrice(0, 0, 15, 0);
         item.rare = 2;

@@ -14,7 +14,7 @@ namespace SpiritMod.Buffs
 		{
 			Main.buffNoTimeDisplay[Type] = false;
 			DisplayName.SetDefault("Sturdy");
-			Description.SetDefault("Your sturdiness has been cracked...");
+			Description.SetDefault("'Your shell has been cracked'");
 			Main.pvpBuff[Type] = false;
 			Main.debuff[Type] = true;
 			Main.buffNoSave[Type] = true;

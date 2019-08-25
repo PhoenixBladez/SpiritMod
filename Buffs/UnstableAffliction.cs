@@ -21,12 +21,9 @@ namespace SpiritMod.Buffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			if (player.wingTimeMax <= 0)
-			{
-				player.wingTimeMax = 0;
-			}
 			player.maxRunSpeed -= .10f;
 			player.moveSpeed -= .10f;
+			
 
 		}
 	}

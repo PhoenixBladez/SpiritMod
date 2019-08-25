@@ -13,6 +13,7 @@ namespace SpiritMod.NPCs.Boss
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Exploding Feather");
+			Main.projFrames[projectile.type] = 4;
 		}
 
 		public override void SetDefaults()
@@ -28,7 +29,15 @@ namespace SpiritMod.NPCs.Boss
 		public override bool PreAI()
 		{
 			projectile.spriteDirection = projectile.direction;
+			projectile.frameCounter++;
+			if (projectile.frameCounter >= 3)
+			{
+				projectile.frame++;
+				projectile.frameCounter = 0;
+				if (projectile.frame >= 4)
+					projectile.frame = 0;
 
+			}
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57F;
 
 			return true;
@@ -36,14 +45,16 @@ namespace SpiritMod.NPCs.Boss
 
 		public override void AI()
 		{
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 187, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 65, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			Main.dust[dust].noGravity = true;
-			Main.dust[dust2].noGravity = true;
-			Main.dust[dust2].velocity *= 0f;
-			Main.dust[dust2].velocity *= 0f;
-			Main.dust[dust2].scale = 0.9f;
-			Main.dust[dust].scale = 0.9f;
+			int num = 5;
+			for (int k = 0; k < 3; k++)
+				{
+					int index2 = Dust.NewDust(projectile.position, 1, 1, 60, 0.0f, 0.0f, 0, new Color(), 1f);
+					Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
+					Main.dust[index2].scale = .5f;
+					Main.dust[index2].velocity *= 0f;
+					Main.dust[index2].noGravity = true;
+					Main.dust[index2].noLight = false;	
+				}	
 		}
 
 		public override void Kill(int timeLeft)
@@ -56,7 +67,7 @@ namespace SpiritMod.NPCs.Boss
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 4);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 4);
 
-			for (int num625 = 0; num625 < 3; num625++)
+			for (int num625 = 0; num625 < 2; num625++)
 			{
 				float scaleFactor10 = 0.2f;
 				if (num625 == 1)

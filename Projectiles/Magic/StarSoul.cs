@@ -62,7 +62,7 @@ namespace SpiritMod.Projectiles
 
 			if (flag25)
 			{
-				float num1 = 4f;
+				float num1 = 12f;
 				Vector2 vector2 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
 				float num2 = Main.npc[jim].Center.X - vector2.X;
 				float num3 = Main.npc[jim].Center.Y - vector2.Y;
@@ -75,28 +75,17 @@ namespace SpiritMod.Projectiles
 				projectile.velocity.Y = (projectile.velocity.Y * (float)(num8 - 1) + num7) / (float)num8;
 			}
 
-			for (int index1 = 0; index1 < 5; ++index1)
-			{
-				float num1 = projectile.velocity.X * 0.2f * (float)index1;
-				float num2 = (float)-((double)projectile.velocity.Y * 0.200000002980232) * (float)index1;
-				int index2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 187, 0.0f, 0.0f, 100, new Color(), 1.3f);
-				Main.dust[index2].noGravity = true;
-				Main.dust[index2].velocity *= 0.0f;
-				Main.dust[index2].scale = 1f;
-				Main.dust[index2].position.X -= num1;
-				Main.dust[index2].position.Y -= num2;
-			}
-
-			projectile.frameCounter++;
-			if (projectile.frameCounter > 8)
-			{
-				projectile.frameCounter = 0;
-				projectile.frame++;
-				if (projectile.frame > 5)
+			int num = 5;
+			for (int k = 0; k < 6; k++)
 				{
-					projectile.frame = 0;
-				}
-			}
+					int index2 = Dust.NewDust(projectile.position, 1, 1, 226, 0.0f, 0.0f, 0, new Color(), 1f);
+					Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
+					Main.dust[index2].scale = .25f;
+					Main.dust[index2].velocity *= 0f;
+					Main.dust[index2].noGravity = true;
+					Main.dust[index2].noLight = false;	
+				}	
+
 
 			projectile.ai[1] += 1f;
 			if (projectile.ai[1] >= 7200f)

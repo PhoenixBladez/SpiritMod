@@ -23,7 +23,7 @@ namespace SpiritMod.NPCs.CrimsonWorm
 		public override void SetDefaults()
 		{
 			npc.lifeMax = 100;
-			npc.damage = 37;
+			npc.damage = 40;
 			npc.defense = 1;
 			npc.knockBackResist = 0f;
 			npc.HitSound = SoundID.NPCHit1;
@@ -47,7 +47,7 @@ namespace SpiritMod.NPCs.CrimsonWorm
 
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(4) == 0)
+			if (Main.rand.Next(10) == 0)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PMicrobe"));
 			}
@@ -85,7 +85,7 @@ namespace SpiritMod.NPCs.CrimsonWorm
 					npc.realLife = npc.whoAmI;
 					int latestNPC = npc.whoAmI;
 
-					int randomWormLength = Main.rand.Next(5, 6);
+					int randomWormLength = Main.rand.Next(2, 3);
 					for (int i = 0; i < randomWormLength; ++i)
 					{
 						latestNPC = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("CrimsonWorm2"), npc.whoAmI, 0, latestNPC);
@@ -287,7 +287,13 @@ namespace SpiritMod.NPCs.CrimsonWorm
 
 			return false;
 		}
-
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			if (Main.rand.Next(6) == 1)
+			{
+				target.AddBuff(BuffID.Bleeding, 600);
+			}
+		}
 		public override void AI()
 		{
 			Player player = Main.player[npc.target];

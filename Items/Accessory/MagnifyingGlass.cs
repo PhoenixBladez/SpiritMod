@@ -14,7 +14,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Magnifying Glass");
-			Tooltip.SetDefault("Increases critical strike chance by 5%");
+			Tooltip.SetDefault("Increases critical strike chance by 4%\nRight click to zoom out slightly when not holding a weapon");
 		}
 
 
@@ -30,10 +30,11 @@ namespace SpiritMod.Items.Accessory
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.magicCrit += 5;
-            player.meleeCrit += 5;
-            player.thrownCrit += 5;
-            player.rangedCrit += 5;
+            player.GetModPlayer<MyPlayer>(mod).magnifyingGlass = true;
+            player.magicCrit += 4;
+            player.meleeCrit += 4;
+            player.thrownCrit += 4;
+            player.rangedCrit += 4;
         }
     }
 }

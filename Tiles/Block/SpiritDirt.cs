@@ -20,6 +20,7 @@ namespace SpiritMod.Tiles.Block
 			Main.tileLighted[Type] = true;
 			AddMapEntry(new Color(173, 216, 230));
 			drop = mod.ItemType("SpiritDirtItem");
+			dustType = 103;
 		}
 
 		public override bool CanExplode(int i, int j)

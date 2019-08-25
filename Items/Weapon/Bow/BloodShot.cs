@@ -4,6 +4,7 @@ using Terraria.ID;
 using System.Diagnostics;
 using SpiritMod.Projectiles;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Weapon.Bow
@@ -43,6 +44,10 @@ namespace SpiritMod.Items.Weapon.Bow
             int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
             Main.projectile[p].GetGlobalProjectile<SpiritGlobalProjectile>(mod).shotFromBloodshot = true;
             return false;
+        }
+    	public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float  scale, int whoAmI) 	
+		{
+		     Lighting.AddLight(item.position, 0.92f, .14f, .24f);
         }
         public override void AddRecipes()
         {

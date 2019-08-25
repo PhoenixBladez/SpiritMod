@@ -1,3 +1,9 @@
+using System;
+
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
+
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -23,13 +29,29 @@ namespace SpiritMod.NPCs
 			animationType = NPCID.BlueSlime;
 		}
 
+		public override void AI()
+		{
+			npc.direction = npc.spriteDirection;
+			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.5f, 0.41f, .15f);
+		}
+		public override void NPCLoot()
+		{
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MarbleChunk"), 1);
+		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			int x = spawnInfo.spawnTileX;
 			int y = spawnInfo.spawnTileY;
 			int tile = (int)Main.tile[x, y].type;
-			return (tile == 367) && spawnInfo.spawnTileY > Main.rockLayer ? 0.1f : 0f;
-		}
+			return (tile == 367) && NPC.downedBoss2 && spawnInfo.spawnTileY > Main.rockLayer ? 0.1f : 0f;
 		
+		}
+		public override void HitEffect(int hitDirection, double damage)
+		{
+			for (int k = 0; k < 11; k++)
+			{
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.GoldCoin, hitDirection, -1f, 0, default(Color), .61f);
+			}
+		}		
 	}
 }

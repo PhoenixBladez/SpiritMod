@@ -30,14 +30,14 @@ namespace SpiritMod.NPCs
 			aiType = NPCID.AngryBones;
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
+		/* public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			if (spawnInfo.playerSafe)
 			{
 				return 0f;
 			}
 			return SpawnCondition.Cavern.Chance * 0.007f;
-		}
+		}*/
 
 		public override void FindFrame(int frameHeight)
 		{

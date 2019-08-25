@@ -2,6 +2,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.Items.Material.Artifact
 {
@@ -26,5 +29,13 @@ namespace SpiritMod.Items.Material.Artifact
             item.maxStack = 999;
 
         }
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float  scale, int whoAmI) 	
+		{
+            Lighting.AddLight(item.position, 0.22f, .64f, .94f);
+        }
+    	public override Color? GetAlpha(Color lightColor)
+		{
+			return Color.White;
+		}
     }
 }

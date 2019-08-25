@@ -24,9 +24,8 @@ namespace SpiritMod.Items.Weapon.Magic
 			Item.staff[item.type] = true;
 			item.useTime = 15;
 			item.useAnimation = 45;
-			item.mana = 6;
+			item.mana = 12;
             item.knockBack = 3;
-            item.crit = 8;
 			item.magic = true;
 			item.noMelee = true;
 			item.shoot = mod.ProjectileType("FloranOrb");

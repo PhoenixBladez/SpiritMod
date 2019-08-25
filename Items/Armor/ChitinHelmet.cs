@@ -2,7 +2,8 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-
+using System;
+using Microsoft.Xna.Framework;
 namespace SpiritMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
@@ -11,7 +12,6 @@ namespace SpiritMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Chitin Faceguard");
-            Tooltip.SetDefault("Increases max number of minions by 1\nIncreases minion damage and knockback by 5%");
 
         }
 
@@ -21,15 +21,9 @@ namespace SpiritMod.Items.Armor
         {
             item.width = 22;
             item.height = 20;
-            item.value = 18000;
-            item.rare = 2;
-            item.defense = 4;
-        }
-         public override void UpdateEquip(Player player)
-        {
-			 player.maxMinions += 1;
-			player.minionDamage +=0.05f;
-            player.minionKB += 0.05f;
+            item.value = 8000;
+            item.rare = 1;
+            item.defense = 3;
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
@@ -37,9 +31,25 @@ namespace SpiritMod.Items.Armor
         }
 		 public override void UpdateArmorSet(Player player)
         {
-           player.setBonus = "Increases minion damage by 7%";
-            player.minionDamage += 0.07f;
+           player.setBonus = "Greatly increases running speed\nHitting an enemy while running kicks up damaging dust and knocks them back";
+           if (player.velocity.X != 0)
+           {
+            player.GetModPlayer<MyPlayer>(mod).chitinSet = true;
+           }
+           player.moveSpeed += .18f;
+           player.maxRunSpeed += .25f;
+             if (player.velocity.X != 0f)
+                {
+                    int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 0, 0);
+                    Main.dust[dust].velocity *= 0f;
+                    Main.dust[dust].noGravity = true;     
+                }   
 
+        }
+        public override void ArmorSetShadows(Player player)
+        {
+            if (player.velocity.X != 0)
+            player.armorEffectDrawShadow = true;
         }
         public override void AddRecipes()
         {

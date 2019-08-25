@@ -12,8 +12,7 @@ namespace SpiritMod.Items.Armor.LeatherArmor
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Leather Plate");
-			Tooltip.SetDefault("Increases ranged critical strike chance by 2%");
+			DisplayName.SetDefault("Marksman's Plate");
 		}
         public override void SetDefaults()
         {
@@ -23,11 +22,6 @@ namespace SpiritMod.Items.Armor.LeatherArmor
             item.rare = 1;
 
             item.defense = 2;
-        }
-
-        public override void UpdateEquip(Player player)
-        {
-            player.rangedCrit += 2;        
         }
 
         public override void AddRecipes()

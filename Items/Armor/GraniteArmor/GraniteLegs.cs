@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.GraniteArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Granite Greaves");
-            Tooltip.SetDefault("Reduces damage taken by 3%");
+            Tooltip.SetDefault("Reduces damage taken by 4%");
 
         }
 
@@ -22,11 +22,11 @@ namespace SpiritMod.Items.Armor.GraniteArmor
             item.height = 24;
             item.value = 1100;
             item.rare = 2;
-            item.defense = 7;
+            item.defense = 10;
         }
         public override void UpdateEquip(Player player)
         {
-            player.endurance += 0.03f;
+            player.endurance += 0.04f;
         }
         public override void AddRecipes()
         {

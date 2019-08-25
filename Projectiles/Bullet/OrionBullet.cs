@@ -21,7 +21,7 @@ namespace SpiritMod.Projectiles.Bullet
 			projectile.friendly = true;
 			projectile.hostile = false;
 			projectile.ranged = true;
-			projectile.penetrate = 3;
+			projectile.penetrate = 2;
 			projectile.timeLeft = 300;
 			projectile.height = 6;
 			projectile.width = 6;
@@ -38,7 +38,7 @@ namespace SpiritMod.Projectiles.Bullet
 			if (timer == 0)
 			{
 				Projectile.NewProjectile(projectile.Center, projectile.velocity,
-					mod.ProjectileType("StarTrail"), 11, projectile.knockBack, projectile.owner);
+					mod.ProjectileType("StarTrail"), projectile.damage / 3, projectile.knockBack, projectile.owner);
 				timer = 20;
 			}
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;

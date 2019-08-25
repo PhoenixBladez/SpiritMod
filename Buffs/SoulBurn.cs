@@ -24,8 +24,8 @@ namespace SpiritMod.Buffs
 
 			if (Main.rand.Next(2) == 0)
 			{
-				int dust = Dust.NewDust(npc.position, npc.width, npc.height, 68);
-				Main.dust[dust].scale = 2.6f;
+				int dust = Dust.NewDust(npc.position, npc.width, npc.height, 187);
+				Main.dust[dust].scale = .6f;
 				Main.dust[dust].noGravity = true;
 			}
 		}

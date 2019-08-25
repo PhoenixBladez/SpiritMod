@@ -12,8 +12,7 @@ namespace SpiritMod.Items.Armor.LeatherArmor
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Leather Hood");
-			Tooltip.SetDefault("Increases ranged damage by 3%");
+			DisplayName.SetDefault("Marksman's Hood");
 		}
         public override void SetDefaults()
         {
@@ -22,23 +21,19 @@ namespace SpiritMod.Items.Armor.LeatherArmor
             item.value = 100;
             item.rare = 1;
 
-            item.defense = 2;
+            item.defense = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("LeatherPlate") && legs.type == mod.ItemType("LeatherBoots");
+            return body.type == mod.ItemType("LeatherPlate") && legs.type == mod.ItemType("LeatherLegs");
         }
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Increases ranged damage by 3%";
-            player.rangedDamage += 0.03F;
+            player.setBonus = "Wearing Marksman's Armor builds up concentration\nWhile concentrated, your next strike is a critical strike and deals more damage\nConcentration is dirupted when hurt, but charges faster when standing still";
+            player.GetModPlayer<MyPlayer>(mod).leatherSet = true;
         }
 
-        public override void UpdateEquip(Player player)
-        {
-            player.rangedDamage += 0.02F;
-        }
 
         public override void AddRecipes()
         {

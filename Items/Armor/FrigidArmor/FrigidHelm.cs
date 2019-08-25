@@ -11,7 +11,6 @@ namespace SpiritMod.Items.Armor.FrigidArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Frigid Faceplate");
-            Tooltip.SetDefault("Increases melee damage by 3%\nIncreases maximum mana by 15");
 
         }
 
@@ -23,12 +22,7 @@ namespace SpiritMod.Items.Armor.FrigidArmor
             item.height = 24;
             item.value = 1100;
             item.rare = 1;
-            item.defense = 2;
-        }
-        public override void UpdateEquip(Player player)
-        {
-            player.meleeDamage += 0.05f;
-            player.statManaMax2 += 15;
+            item.defense = 3;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -38,15 +32,13 @@ namespace SpiritMod.Items.Armor.FrigidArmor
         public override void UpdateArmorSet(Player player)
         {
             Player closest = Main.player[(int)Player.FindClosest(player.position, player.width, player.height)];
-
-            player.setBonus = "Magic and melee attacks may slow down foes";
-
-  player.GetModPlayer<MyPlayer>(mod).frigidSet = true;
+            player.setBonus = "Double tap down to create an icy wall at the cursor position\n8 second cooldown";
+            player.GetModPlayer<MyPlayer>(mod).frigidSet = true;
    
                 if (Main.rand.Next(6) == 0)
                 {
                     int dust = Dust.NewDust(player.position, player.width, player.height, 187);
-Main.dust[dust].noGravity = true;              
+                Main.dust[dust].noGravity = true;              
 			  }
             }
         

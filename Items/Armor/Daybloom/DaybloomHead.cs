@@ -37,17 +37,11 @@ namespace SpiritMod.Items.Armor.Daybloom
         public override void UpdateArmorSet(Player player)
         {
 
-            player.setBonus = "Increases your magic damage and critical strike chance during the day";
-
-            if (Main.dayTime)
+            player.setBonus = "Being outside during daytime accumulates solar energy\nOnce energy is accumulated, press the 'Armor Bonus' hotkey to Dazzle nearby foes\n1 minute warm-up";
+            player.GetModPlayer<MyPlayer>(mod).daybloomSet = true;
+            if (Main.dayTime && player.ZoneOverworldHeight)
             {
-                player.magicDamage += 0.03f;
-                player.magicCrit += 3;
-
-                if (Main.rand.Next(6) == 0)
-                {
-                    int dust = Dust.NewDust(player.position, player.width, player.height, 152);
-                }
+                 player.GetModPlayer<MyPlayer>(mod).dazzleStacks++;
             }
         }
 

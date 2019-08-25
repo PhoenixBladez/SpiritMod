@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Weapon.Returning
 		{
             item.damage = 23;            
             item.melee = true;
-            item.width = 40;
+            item.width = 44;
             item.height = 40;
 			item.useTime = 19;
 			item.useAnimation = 19;

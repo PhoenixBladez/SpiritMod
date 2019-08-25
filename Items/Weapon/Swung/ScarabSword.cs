@@ -12,8 +12,8 @@ namespace SpiritMod.Items.Weapon.Swung
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Scarab Blade");
-			Tooltip.SetDefault("Shoots a cluster of sand and dust on swing");
+			DisplayName.SetDefault("Longhorn Blade");
+			Tooltip.SetDefault("Kicks up waves of sand and dust");
 		}
 
 

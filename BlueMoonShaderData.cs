@@ -10,7 +10,7 @@ namespace SpiritMod
 			: base(passName)
 		{
 		}
-		//changes
+
 		public override void Apply()
 		{
 			base.Apply();

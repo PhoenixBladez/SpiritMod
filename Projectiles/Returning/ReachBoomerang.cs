@@ -24,7 +24,7 @@ namespace SpiritMod.Projectiles.Returning
 			projectile.magic = false;
 			projectile.penetrate = 1;
 			projectile.timeLeft = 700;
-			projectile.extraUpdates = 1;
+			projectile.extraUpdates = 2;
 		}
 
 	}

@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Clapdated Staff");
-			Tooltip.SetDefault("Shoots out two clumps of dust and dirt at foes \n Attacks occasionally pierce through enemies, lowering their defense");
+			Tooltip.SetDefault("Shoots out two clumps of dust and dirt at foes\nAttacks occasionally reduce enemy defense");
 		}
 
 

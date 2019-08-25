@@ -36,9 +36,15 @@ namespace SpiritMod.Items.Placeable.Walls
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(null, "AncientBark");
-			            recipe.AddTile(TileID.WorkBenches);
+			recipe.AddTile(TileID.WorkBenches);
 			recipe.SetResult(this, 4);
 			recipe.AddRecipe();
+
+			ModRecipe recipe1 = new ModRecipe(mod);
+			recipe1.AddIngredient(this, 4);
+			recipe1.AddTile(TileID.WorkBenches);
+			recipe1.SetResult(null, "AncientBark");
+			recipe1.AddRecipe();
 		}
 	}
 }

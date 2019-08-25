@@ -26,9 +26,9 @@ namespace SpiritMod.NPCs
 			npc.DeathSound = SoundID.NPCDeath1;
 			npc.value = 2460f;
 			npc.knockBackResist = .34f;
-			npc.aiStyle = 14;
+			npc.aiStyle = 5;
 			npc.noGravity = true;
-			aiType = NPCID.Slimer;
+			aiType = NPCID.Hornet;
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

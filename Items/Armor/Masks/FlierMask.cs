@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Armor.Masks
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Ancient Flier Mask");
+			DisplayName.SetDefault("Ancient Avian Mask");
 		}
 
 

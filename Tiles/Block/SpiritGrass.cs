@@ -20,6 +20,7 @@ namespace SpiritMod.Tiles.Block
 			Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = true;
 			AddMapEntry(new Color(0, 191, 255));
+			dustType = 187;
 			drop = mod.ItemType("SpiritDirtItem");
 		}
 

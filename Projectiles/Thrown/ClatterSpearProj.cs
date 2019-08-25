@@ -36,7 +36,8 @@ namespace SpiritMod.Projectiles.Thrown
 
 			for (int i = 0; i < 5; i++)
 			{
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 147);
+				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 147);
+				Main.dust[d].scale *= Main.rand.NextFloat(.4f, .8f);
 			}
 			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
 		}

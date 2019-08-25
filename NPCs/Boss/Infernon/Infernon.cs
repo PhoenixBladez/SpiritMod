@@ -264,8 +264,8 @@ namespace SpiritMod.NPCs.Boss.Infernon
 				npc.rotation = npc.velocity.X * 0.03f;
 			}
 
-			int dust4 = Dust.NewDust(npc.position + npc.velocity, npc.width + 158, npc.height + 160, 6, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f);
-			int dust5 = Dust.NewDust(npc.position + npc.velocity, npc.width + 162, npc.height + 160, 6, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f);
+			int dust4 = Dust.NewDust(npc.position + npc.velocity, npc.width, npc.height, 6, npc.velocity.X * 1.5f, npc.velocity.Y * 1.5f);
+			int dust5 = Dust.NewDust(npc.position + npc.velocity, npc.width, npc.height, 6, npc.velocity.X * 1.5f, npc.velocity.Y * 1.5f);
 			Main.dust[dust4].velocity *= 0f;
 			Main.dust[dust5].velocity *= 0f;
 
@@ -338,7 +338,17 @@ namespace SpiritMod.NPCs.Boss.Infernon
 				}
 			}
 		}
-
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+                             drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			return false;
+		}
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            SpiritUtility.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Boss/Infernon/Infernon_Glow"));
+        }
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frameCounter += 0.15f;

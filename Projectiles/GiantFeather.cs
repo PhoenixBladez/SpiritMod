@@ -83,10 +83,16 @@ namespace SpiritMod.Projectiles
 				}
 			}
 
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 59, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			Main.dust[dust].scale = 2f;
-			Main.dust[dust].noGravity = true;
-			Main.dust[dust].noLight = true;
+			int num = 5;
+			for (int k = 0; k < 3; k++)
+				{
+					int index2 = Dust.NewDust(projectile.position, 1, 1, 172, 0.0f, 0.0f, 0, new Color(), 1f);
+					Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
+					Main.dust[index2].scale = .5f;
+					Main.dust[index2].velocity *= 0f;
+					Main.dust[index2].noGravity = true;
+					Main.dust[index2].noLight = false;	
+				}
 
 			return false;
 		}

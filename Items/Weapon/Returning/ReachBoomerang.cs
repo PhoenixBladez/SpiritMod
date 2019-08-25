@@ -1,4 +1,4 @@
-using System;
+ using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Weapon.Returning
 
         public override void SetDefaults()
         {
-            item.damage = 14;
+            item.damage = 11;
             item.melee = true;
             item.width = 40;
             item.height = 40;

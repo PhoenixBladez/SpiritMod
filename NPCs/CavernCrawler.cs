@@ -1,7 +1,10 @@
+using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using System;
 using Terraria.ModLoader;
+using Terraria.GameContent.Events;
 
 namespace SpiritMod.NPCs
 {
@@ -10,30 +13,27 @@ namespace SpiritMod.NPCs
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cavern Crawler");
-			Main.npcFrameCount[npc.type] = Main.npcFrameCount[NPCID.Snail];
+			Main.npcFrameCount[npc.type] = 16;
+		    NPCID.Sets.TrailCacheLength[npc.type] = 5;
+            NPCID.Sets.TrailingMode[npc.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 45;
-			npc.height = 45;
+			npc.width = 46;
+			npc.height = 28;
 			npc.damage = 22;
 			npc.defense = 9;
 			npc.lifeMax = 40;
 			npc.HitSound = SoundID.NPCHit2;
 			npc.DeathSound = SoundID.NPCDeath1;
 			npc.value = 860f;
-			npc.aiStyle = 3;
-			npc.knockBackResist = 0.95f;
-			aiType = NPCID.AnomuraFungus;
-			animationType = NPCID.Snail;
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			return spawnInfo.player.ZoneUndergroundDesert && NPC.downedBoss1 ? 0.18f : 0f;
 		}
-
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(100) <= 4)
@@ -43,14 +43,80 @@ namespace SpiritMod.NPCs
 			}
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, (mod.ItemType("Carapace")), Main.rand.Next(2) + 1);
 		}
-
+		int frame = 0;
+		int timer = 0;
+		bool trailbehind;
 		public override void AI()
 		{
 			npc.spriteDirection = npc.direction;
+			Player target = Main.player[npc.target];
+			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
+			if (distance < 320)
+			{
+				{
+					aiType = NPCID.Unicorn;
+					npc.aiStyle = 26;
+					npc.knockBackResist = 0.15f;
+					trailbehind = true;
+				}
+				timer++;
+				if(timer == 4)
+				{
+					frame++;
+					timer = 0;
+				}
+				if (frame < 14)
+				{
+					frame = 14;
+				}
+				if(frame >= 16)
+				{
+					frame = 14;
+				}
+			}
+			else
+			{
+				trailbehind = false;
+				aiType = NPCID.Snail;
+				npc.aiStyle = 3;
+				npc.knockBackResist = 0.75f;
+				timer++;
+				if(timer == 4)
+				{
+					frame++;
+					timer = 0;
+				}
+				if(frame >= 13)
+				{
+					frame = 1;
+				}
+			}
 		}
-
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			if (trailbehind)
+			{
+				Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height/ Main.npcFrameCount[npc.type]) * 0.5f);
+				for (int k = 0; k < npc.oldPos.Length; k++)
+				{
+					Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
+					Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
+					spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
+				}
+			}
+            return true;
+        }
+		public override void FindFrame(int frameHeight)
+		{
+			npc.frame.Y = frameHeight * frame;
+		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
+			for (int k = 0; k < 5; k++)
+			{
+				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), .61f);
+			}
 			if (npc.life <= 0)
 			{
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CaveCrawler_1"));

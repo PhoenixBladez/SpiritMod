@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
+using System;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.DonatorItems

@@ -161,6 +161,10 @@ namespace SpiritMod.Items
 			float speed = 1f;
 			if (player.GetModPlayer<MyPlayer>().blazeBurn)
 				speed += .17f;
+			if (player.GetModPlayer<MyPlayer>().leatherGlove)
+				speed += .06f;
+			if (player.GetModPlayer<MyPlayer>().frigidGloves)
+				speed += .03f * player.GetModPlayer<MyPlayer>().frigidGloveStacks;
 			return speed;
 		}
 
@@ -173,6 +177,10 @@ namespace SpiritMod.Items
 				if (boost > 0.5f)
 					boost = 0.5f;
 				damage += (int)(damage * boost);
+			}
+			if (item.summon && spirit.silkenSet)
+			{
+				damage += 1;
 			}
 		}
 

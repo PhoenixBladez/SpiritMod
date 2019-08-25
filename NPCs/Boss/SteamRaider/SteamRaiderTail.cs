@@ -14,15 +14,15 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Starplate Raider");
+			DisplayName.SetDefault("Starplate Voyager");
 		}
 
 		public override void SetDefaults()
 		{
 			npc.damage = 25;
 			npc.npcSlots = 5f;
-			npc.width = 42; //324
-			npc.height = 44; //216
+			npc.width = 34; //324
+			npc.height = 34; //216
 			npc.defense = 15;
 			npc.lifeMax = 6500; //250000
 			npc.aiStyle = 6; //new
@@ -75,20 +75,56 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 						num942 += (float)Main.rand.Next(-10, 11) * 0.05f;
 						num943 += (float)Main.rand.Next(-10, 11) * 0.05f;
 						int num945 = expertMode ? 17 : 27;
-						int num946 = 435;
+						int num946 = 440;
 						vector104.X += num942 * 5f;
 						vector104.Y += num943 * 5f;
 						int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, num946, num945, 0f, Main.myPlayer, 0f, 0f);
 						Main.projectile[num947].timeLeft = 300;
+						Main.projectile[num947].hostile = true;
+						Main.projectile[num947].friendly = false;
 						npc.netUpdate = true;
 					}
 				}
 			}
+			int parent = NPC.FindFirstNPC(mod.NPCType("SteamRaiderHead"));
 			if (!Main.npc[(int)npc.ai[1]].active)
 			{
 				npc.life = 0;
 				npc.HitEffect(0, 10.0);
 				npc.active = false;
+			}
+			if ((Main.npc[parent].life <= 6500))
+			{
+				npc.life = 0;
+				npc.HitEffect(0, 10.0);
+				npc.active = false;
+				NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("TailProbe"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+				Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);	
+				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 4);	
+				npc.position.X = npc.position.X + (float)(npc.width / 2);
+				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
+				npc.width = 30;
+				npc.height = 30;
+				npc.position.X = npc.position.X - (float)(npc.width / 2);
+				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+				for (int num621 = 0; num621 < 20; num621++)
+				{
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default(Color), 2f);
+					Main.dust[num622].velocity *= 3f;
+					if (Main.rand.Next(2) == 0)
+					{
+						Main.dust[num622].scale = 0.5f;
+						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+					}
+				}
+				for (int num623 = 0; num623 < 40; num623++)
+				{
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default(Color), 3f);
+					Main.dust[num624].noGravity = true;
+					Main.dust[num624].velocity *= 5f;
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default(Color), 2f);
+					Main.dust[num624].velocity *= 2f;
+				}		
 			}
 			if (Main.npc[(int)npc.ai[1]].alpha < 128)
 			{
@@ -113,35 +149,20 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			{
 				Dust.NewDust(npc.position, npc.width, npc.height, 226, hitDirection, -1f, 0, default(Color), 1f);
 			}
-			if (npc.life <= 0)
-			{
-				npc.position.X = npc.position.X + (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-				npc.width = 30;
-				npc.height = 30;
-				npc.position.X = npc.position.X - (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
-				for (int num621 = 0; num621 < 20; num621++)
-				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default(Color), 2f);
-					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0)
-					{
-						Main.dust[num622].scale = 0.5f;
-						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-					}
-				}
-				for (int num623 = 0; num623 < 40; num623++)
-				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default(Color), 3f);
-					Main.dust[num624].noGravity = true;
-					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default(Color), 2f);
-					Main.dust[num624].velocity *= 2f;
-				}
-			}
 		}
-
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+                             drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			return false;
+		}
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {			
+			
+        	 SpiritUtility.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Boss/SteamRaider/SteamRaiderTail_Glow"));		
+			
+        }
 		public override bool CheckActive()
 		{
 			return false;

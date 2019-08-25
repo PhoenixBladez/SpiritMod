@@ -34,13 +34,18 @@ namespace SpiritMod.NPCs
 			{
 				return 0f;
 			}
-			return SpawnCondition.Cavern.Chance * 0.0513f;
+			return SpawnCondition.Underground.Chance * 0.0513f;
 		}
 
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BismiteCrystal"), Main.rand.Next(2) + 1);
 		}
-
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			{
+				target.AddBuff(BuffID.Poisoned, 300);
+			}
+		}
 	}
 }

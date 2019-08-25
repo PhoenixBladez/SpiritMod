@@ -2,6 +2,8 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.Items.Weapon.Thrown
 {
@@ -17,8 +19,8 @@ namespace SpiritMod.Items.Weapon.Thrown
         public override void SetDefaults()
         {
             item.useStyle = 1;
-            item.width = 14;
-            item.height = 50;
+            item.width = 24;
+            item.height = 46;
             item.noUseGraphic = true;
             item.UseSound = SoundID.Item1;
             item.thrown = true;
@@ -38,7 +40,10 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.maxStack = 999;
             item.consumable = true;
         }
-
+    	public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float  scale, int whoAmI) 	
+		{
+		     Lighting.AddLight(item.position, 0.92f, .14f, .24f);
+        }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

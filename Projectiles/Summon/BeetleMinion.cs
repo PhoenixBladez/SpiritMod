@@ -24,15 +24,17 @@ namespace SpiritMod.Projectiles.Summon
 			projectile.CloneDefaults(ProjectileID.OneEyedPirate);
 			projectile.width = 32;
 			projectile.height = 20;
+			aiType = ProjectileID.OneEyedPirate;
+			projectile.scale = Main.rand.NextFloat(.4f, 1.1f);
 			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = true;
 			projectile.netImportant = true;
-			aiType = ProjectileID.OneEyedPirate;
 			projectile.alpha = 0;
-			projectile.penetrate = -1;
-			projectile.minionSlots = 1;
+			projectile.minionSlots = 0;
+			projectile.timeLeft = 120;
+			projectile.penetrate = 2;
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
@@ -45,6 +47,7 @@ namespace SpiritMod.Projectiles.Summon
 
 		public override void AI()
 		{
+			projectile.spriteDirection = projectile.direction;
 			projectile.frameCounter++;
 			if (projectile.frameCounter >= 1)
 			{
@@ -55,20 +58,15 @@ namespace SpiritMod.Projectiles.Summon
 
 			}
 
-			bool flag64 = projectile.type == mod.ProjectileType("BeetleMinion");
-			Player player = Main.player[projectile.owner];
-			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>(mod);
-			if (flag64)
-			{
-				if (player.dead)
-					modPlayer.beetleMinion = false;
-
-				if (modPlayer.beetleMinion)
-					projectile.timeLeft =2;
-
-			}
 		}
-
+		public override void Kill(int timeLeft)
+		{
+			for (int i = 0; i < 5; i++)
+			{
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, 5);
+			}
+			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
+		}
 		public override bool MinionContactDamage()
 		{
 			return true;

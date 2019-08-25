@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Silk Robe");
+			DisplayName.SetDefault("Manasilk Robe");
             Tooltip.SetDefault("Increases max number of minions by 1");
 
         }
@@ -32,8 +32,9 @@ namespace SpiritMod.Items.Armor
         public override void AddRecipes()  
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Silk, 14);
+            recipe.AddIngredient(ItemID.Silk, 5);
             recipe.AddRecipeGroup("GoldBars", 2);
+            recipe.AddIngredient(ItemID.FallenStar, 1);
             recipe.AddTile(TileID.Anvils);   
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

@@ -2,6 +2,9 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
 namespace SpiritMod.Items.Weapon.Magic
 {
     public class BloodfireStaff : ModItem
@@ -33,6 +36,10 @@ namespace SpiritMod.Items.Weapon.Magic
             item.shoot = mod.ProjectileType("BloodClump");
             item.shootSpeed = 8f;
             item.UseSound = SoundID.Item20;
+        }
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float  scale, int whoAmI) 	
+		{
+		     Lighting.AddLight(item.position, 0.92f, .14f, .24f);
         }
         public override void AddRecipes()
         {

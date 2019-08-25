@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Tiles.Block
@@ -16,18 +17,19 @@ namespace SpiritMod.Tiles.Block
 			drop = mod.ItemType("MarbleChunk");   //put your CustomBlock name
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Enchanted Marble Chunk");
-			AddMapEntry(new Color(30, 144, 255), name);
+			AddMapEntry(new Color(227, 191, 75), name);
 			soundType = 21;
 			minPick = 65;
+			dustType = DustID.GoldCoin;
 
 		}
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
 			{
-				r = .593f;
-				g = .598f;
-				b = .545f;
+				r = .219f;
+				g = .199f;
+				b = .132f;
 			}
 		}
 	}

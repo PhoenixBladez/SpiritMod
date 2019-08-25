@@ -53,6 +53,9 @@ namespace SpiritMod.Projectiles.Boss
 				projectile.knockBack = 4f;
 			}
 		}
-
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return Color.White;
+		}
 	}
 }

@@ -44,9 +44,12 @@ namespace SpiritMod.Items.Weapon.Magic
         {
             int p = Main.rand.Next(1, 714);
             {
-                int pl = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, p, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[pl].friendly = true;
-                Main.projectile[pl].hostile = false;
+                if (!Main.projectile[p].minion)
+                {
+                    int pl = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, p, damage, knockBack, player.whoAmI, 0f, 0f);
+                    Main.projectile[pl].friendly = true;
+                    Main.projectile[pl].hostile = false;
+                }
             }
             return false;
         }

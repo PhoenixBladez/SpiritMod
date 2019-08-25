@@ -60,6 +60,7 @@ namespace SpiritMod.NPCs
 		{
 			npc.spriteDirection = npc.direction;
 			int dust = Dust.NewDust(npc.position, npc.width, npc.height, 187);
+			Main.dust[dust].noGravity = true;
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)

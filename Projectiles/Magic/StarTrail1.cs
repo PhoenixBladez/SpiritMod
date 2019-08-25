@@ -25,7 +25,7 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.melee = true;         // 
 			projectile.tileCollide = false;   //make that the projectile will be destroed if it hits the terrain
 			projectile.penetrate = 1;      //how many npc will penetrate
-			projectile.timeLeft = 180;   //how many time projectile projectile has before disepire // projectile light
+			projectile.timeLeft = 480;   //how many time projectile projectile has before disepire // projectile light
 			projectile.extraUpdates = 1;
 			projectile.ignoreWater = true;
 			projectile.alpha = 255;
@@ -54,7 +54,7 @@ namespace SpiritMod.Projectiles.Magic
 
 			if (flag25)
 			{
-				float num1 = 4f;
+				float num1 = 6f;
 				Vector2 vector2 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
 				float num2 = Main.npc[jim].Center.X - vector2.X;
 				float num3 = Main.npc[jim].Center.Y - vector2.Y;
@@ -74,7 +74,7 @@ namespace SpiritMod.Projectiles.Magic
 				int index2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 226, 0.0f, 0.0f, 100, new Color(), 1.3f);
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].velocity *= 0.0f;
-				Main.dust[index2].scale = 1f;
+				Main.dust[index2].scale = .25f;
 				Main.dust[index2].position.X -= num1;
 				Main.dust[index2].position.Y -= num2;
 			}
@@ -82,14 +82,14 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			{
-				for (int i = 0; i < 40; i++)
+				for (int i = 0; i < 20; i++)
 				{
 					int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 226, 0f, -2f, 0, default(Color), 2f);
 					Main.dust[num].noGravity = true;
 					Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 					Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
+					Main.dust[num].scale *= .25f;
 					if (Main.dust[num].position != projectile.Center)
 						Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
 				}

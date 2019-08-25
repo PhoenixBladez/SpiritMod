@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
-
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,6 +14,7 @@ namespace SpiritMod.Items.Accessory
 		{
 			DisplayName.SetDefault("Dusk Pendant");
 			Tooltip.SetDefault("Increases magic and ranged damage by 13% at nighttime");
+            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Accessory/DuskPendant_Glow");
 		}
 
 
@@ -29,7 +31,27 @@ namespace SpiritMod.Items.Accessory
 
             item.knockBack = 9f;
         }
-
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float  scale, int whoAmI) 	
+		{
+			Texture2D texture;
+			texture = Main.itemTexture[item.type];
+			spriteBatch.Draw
+			(
+				ModContent.GetTexture("SpiritMod/Items/Accessory/DuskPendant_Glow"),
+				new Vector2
+				(
+					item.position.X - Main.screenPosition.X + item.width * 0.5f,
+					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+				),
+				new Rectangle(0, 0, texture.Width, texture.Height),
+				Color.White,
+				rotation,
+				texture.Size() * 0.5f,
+				scale, 
+				SpriteEffects.None, 
+				0f
+			);
+        }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             if (!Main.dayTime)

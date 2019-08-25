@@ -9,14 +9,14 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Floran Spore Wand");
-			Tooltip.SetDefault("Shoots out a floating Floran Spore! \n Hit enemies are occasionally ensnared by vines and lose speed");
+			Tooltip.SetDefault("Shoots out a floating Floran Spore\nHit enemies are occasionally ensnared by vines and lose speed");
 		}
 
 
 		public override void SetDefaults()
 		{
-			item.width = 48;
-			item.height = 50;			
+			item.width = 30;
+			item.height = 46;			
 			item.value = Item.buyPrice(0, 0, 20, 0);
 			item.rare = 2;
 			item.damage = 16;
@@ -26,7 +26,6 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.useAnimation = 25;
 			item.mana = 6;
             item.knockBack = 3;
-            item.crit = 8;
 			item.magic = true;
 			item.noMelee = true;
 			item.shoot = mod.ProjectileType("FloranSpore");

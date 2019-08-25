@@ -19,7 +19,7 @@ namespace SpiritMod.Tiles.Block
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
 			//Main.tileLighted[Type] = true;
-			AddMapEntry(new Color(0, 255, 167));
+			AddMapEntry(new Color(104, 156, 70));
 			drop = mod.ItemType("ReachGrass");
 		}
 
@@ -41,7 +41,7 @@ namespace SpiritMod.Tiles.Block
 
 		public override void RandomUpdate(int i, int j)
 		{
-			if (!Framing.GetTileSafely(i, j-1).active() && Main.rand.Next(10) == 0)
+			if (!Framing.GetTileSafely(i, j-1).active() && Main.rand.Next(6) == 0)
 			{
 				switch (Main.rand.Next(7))
 				{

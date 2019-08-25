@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.GraniteArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Granite Breastplate");
-            Tooltip.SetDefault("Reduces movement speed by 15%\nIncreases damage dealt by 3%");
+            Tooltip.SetDefault("Reduces movement speed by 15%");
 
         }
 
@@ -21,16 +21,11 @@ namespace SpiritMod.Items.Armor.GraniteArmor
             item.height = 24;
             item.value = 1100;
             item.rare = 2;
-            item.defense = 8;
+            item.defense = 12;
         }
         public override void UpdateEquip(Player player)
         {
             player.maxRunSpeed -= 0.15f;
-            player.meleeDamage += 0.03f;
-            player.rangedDamage += 0.03f;
-            player.magicDamage += 0.03f;
-            player.thrownDamage += 0.03f;
-            player.minionDamage += 0.03f;
         }
         public override void AddRecipes()
         {

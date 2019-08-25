@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Boss
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Ancient Flier Trophy");
+			DisplayName.SetDefault("Ancient Avian Trophy");
 		}
 
 		public override void SetDefaults()

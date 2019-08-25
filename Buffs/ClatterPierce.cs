@@ -1,8 +1,11 @@
 using System;
-
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Graphics.Effects;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.NPCs;
 
 namespace SpiritMod.Buffs
 {
@@ -22,8 +25,12 @@ namespace SpiritMod.Buffs
 		public override void Update(NPC npc, ref int buffIndex)
 		{
 			npc.defense -= 3;
-
-			Dust.NewDust(npc.position, npc.width, npc.height, 147);
+			for (int k = 0; k < 2; k++)
+			{
+				int d = Dust.NewDust(npc.position, npc.width, npc.height, 147);
+				Main.dust[d].scale *= .52f;
+			}
+			npc.GetGlobalNPC<GNPC>(mod).clatterPierce = true;
 		}
 
 	}

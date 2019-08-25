@@ -31,7 +31,6 @@ namespace SpiritMod.Projectiles.DonatorItems
 			projectile.timeLeft = 180;
 			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
 			ProjectileID.Sets.Homing[projectile.type] = true;
-			projectile.minionSlots = 0.5f;
 			Main.projFrames[projectile.type] = 4;
 		}
 

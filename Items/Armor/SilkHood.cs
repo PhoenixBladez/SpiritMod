@@ -10,8 +10,7 @@ namespace SpiritMod.Items.Armor
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Silk Hood");
-			Tooltip.SetDefault("Increases minion damage by 4%");
+			DisplayName.SetDefault("Manasilk Hood");
 		}
 
 
@@ -23,11 +22,7 @@ namespace SpiritMod.Items.Armor
             item.height = 22;
             item.value = 2000;
             item.rare = 1;
-            item.defense = 2;
-        }
-        public override void UpdateEquip(Player player)
-        {
-            player.minionDamage += 0.04f;
+            item.defense = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -37,16 +32,19 @@ namespace SpiritMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
   
-            player.setBonus = "Increases minion damage and knockback by 5%";
-            player.minionKB += 0.05f;
-            player.minionDamage += 0.05f;
+            player.setBonus = "While above 70% health, your minions are 'Mana Infused'\nMana Infused minions deal 1 additional damage and glow";
+            if (player.statLife >= player.statLifeMax2 * .7f)
+            {
+                player.GetModPlayer<MyPlayer>(mod).silkenSet = true;
+            }
 
         }
         public override void AddRecipes()  
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Silk, 10);
+            recipe.AddIngredient(ItemID.Silk, 3);
             recipe.AddRecipeGroup("GoldBars");
+            recipe.AddIngredient(ItemID.FallenStar, 1);
             recipe.AddTile(TileID.Anvils);   
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

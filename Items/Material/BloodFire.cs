@@ -1,6 +1,9 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.Items.Material
 {
@@ -10,6 +13,7 @@ namespace SpiritMod.Items.Material
 		{
 			DisplayName.SetDefault("Bloodfire");
 			Tooltip.SetDefault("'This mystical blood is warm to touch'");
+            ItemID.Sets.ItemIconPulse[item.type] = true;
 		}
 
 
@@ -23,5 +27,13 @@ namespace SpiritMod.Items.Material
 
             item.maxStack = 999;
         }
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float  scale, int whoAmI) 	
+		{
+		     Lighting.AddLight(item.position, 0.92f, .14f, .24f);
+        }
+    	public override Color? GetAlpha(Color lightColor)
+		{
+			return Color.White;
+		}
     }
 }

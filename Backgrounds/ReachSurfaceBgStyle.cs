@@ -37,16 +37,18 @@ namespace SpiritMod.Backgrounds
 
 		public override int ChooseFarTexture()
 		{
-			return mod.GetBackgroundSlot("Backgrounds/ReachBiomeSurfaceFar");
+			return mod.GetBackgroundSlot("Backgrounds/ReachBiomeSurfaceMid");
 		}
 
 		public override int ChooseMiddleTexture()
 		{
-			return mod.GetBackgroundSlot("Backgrounds/ReachBiomeSurfaceMid");
+			return mod.GetBackgroundSlot("Backgrounds/ReachBiomeSurfaceFar");
 		}
 
 		public override int ChooseCloseTexture(ref float scale, ref double parallax, ref float a, ref float b)
 		{
+			scale *= .6f;
+			b -= 680; 
 			return mod.GetBackgroundSlot("Backgrounds/ReachBiomeSurfaceClose");
 		}
 	}

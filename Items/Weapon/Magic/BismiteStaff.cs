@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bismite Staff");
-			Tooltip.SetDefault("Shoots a bolt of bismite energy \n Occasionally poisons foes");
+			Tooltip.SetDefault("Shoots a bolt of energy\nOccasionally poisons foes");
 		}
 
 

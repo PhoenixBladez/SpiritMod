@@ -42,7 +42,10 @@ namespace SpiritMod.NPCs.Spirit
 			}
 			return 0f;
 		}
-
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return Color.White;
+		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (Main.netMode != 1 && npc.life <= 0)

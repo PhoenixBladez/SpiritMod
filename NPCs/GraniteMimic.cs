@@ -49,7 +49,7 @@ namespace SpiritMod.NPCs
 
 		public override void NPCLoot()
 		{
-			string[] lootTable = { "LazureLongbow", "GraniteShield", "GraniteReflector" };
+			string[] lootTable = { "LazureLongbow", "GraniteShield", "GraniteReflector", "RageBlazeDecapitator" };
 			int loot = Main.rand.Next(lootTable.Length);
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType(lootTable[loot]));
 		}

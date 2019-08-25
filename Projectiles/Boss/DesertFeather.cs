@@ -30,8 +30,9 @@ namespace SpiritMod.Projectiles.Boss
 			for (int i = 0; i < 20; i++)
 			{
 				Dust.NewDust(projectile.Center, projectile.width, projectile.height,
-					0, Main.rand.Next(8) - 4, Main.rand.Next(8) - 4, 133);
+					0, 0, 1, 133);
 			}
+			
 		}
 
 	}

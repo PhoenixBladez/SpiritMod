@@ -26,16 +26,13 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 50);
 			for (int num621 = 0; num621 < 40; num621++)
 			{
-				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 187, 0f, 0f, 100, default(Color), 2f);
+				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 68, 0f, 0f, 100, default(Color), 2f);
 				Main.dust[num622].velocity *= 3f;
-				if (Main.rand.Next(2) == 0)
-				{
-					Main.dust[num622].scale = 0.5f;
-					Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-				}
+				Main.dust[num622].noGravity = true;
+				Main.dust[num622].scale = 0.5f;
 			}
 		}
 
@@ -57,8 +54,9 @@ namespace SpiritMod.Projectiles
 			}
 
 			int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 68);
-			int dust1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 187);
 			Main.dust[dust].noGravity = true;
+			Main.dust[dust].velocity *= 0f;
+			Main.dust[dust].scale *= Main.rand.NextFloat(.4f, .6f);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

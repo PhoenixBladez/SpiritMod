@@ -30,10 +30,10 @@ namespace SpiritMod.NPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (SpawnHelper.SupressSpawns(spawnInfo, SpawnFlags.None, SpawnZones.Jungle))
+			if (SpawnHelper.SupressSpawns(spawnInfo, SpawnFlags.None, SpawnZones.Beach))
 				return 0;
 
-			return spawnInfo.spawnTileY > Main.rockLayer && NPC.downedBoss1 ? 0.0368f : 0f;
+			return spawnInfo.spawnTileY > Main.rockLayer && NPC.downedBoss1 && spawnInfo.water ? 0.0368f : 0f;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
@@ -48,7 +48,9 @@ namespace SpiritMod.NPCs
 
 		public override void NPCLoot()
 		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Carapace"), Main.rand.Next(1) + 2);
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Carapace"), Main.rand.Next(1) + 1);
+			if (Main.rand.Next(4) == 0)
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 1118);
 		}
 	}
 }

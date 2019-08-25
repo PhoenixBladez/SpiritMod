@@ -9,8 +9,8 @@ namespace SpiritMod.Items.Weapon.Summon
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Ornate Staff");
-			Tooltip.SetDefault("Summons a beetle minion to fight for you!");
+			DisplayName.SetDefault("Staff of the Insect Brood");
+			Tooltip.SetDefault("Summons swarms of tiny beetles to fight for you\nBeetles do not consume minion slots, but dissipate quickly");
 		}
 
 
@@ -18,22 +18,19 @@ namespace SpiritMod.Items.Weapon.Summon
 		{
             item.width = 26;
             item.height = 28;
-            item.value = Item.sellPrice(0, 1, 68, 46);
+            item.value = Item.sellPrice(0, 1, 27, 46);
             item.rare = 1;
-            item.mana = 10;
-            item.damage = 9;
-            item.knockBack = 7;
+            item.mana = 11;
+            item.damage = 8;
+            item.knockBack = 2;
             item.useStyle = 1;
             item.useTime = 30;
-            item.useAnimation = 30;           
-            item.summon = true;
-            item.noMelee = true;
+            item.useAnimation = 30; 
+            item.summon = true;          
             item.shoot = mod.ProjectileType("BeetleMinion");
-            item.buffType = mod.BuffType("BeetleMinionBuff");
-            item.buffTime = 3600;
             item.UseSound = SoundID.Item44;
         }
-					public override bool AltFunctionUse(Player player)
+		public override bool AltFunctionUse(Player player)
         {
             return true;
         }
@@ -45,13 +42,18 @@ namespace SpiritMod.Items.Weapon.Summon
                 player.MinionNPCTargetAim();
             }
             return base.UseItem(player);
-        }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-			            return player.altFunctionUse != 2;
-            position = Main.MouseWorld;
-            speedX = speedY = 0;
-            return true;
+        }		
+        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+			
+            //projectile spawns at mouse cursor
+            Vector2 value18 = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY);
+            position = value18;
+            for (int i = 0; i <= Main.rand.Next(1,3); i++)
+            {
+                 Terraria.Projectile.NewProjectile(position.X + Main.rand.Next(-20, 20), position.Y, 0f, 0f, type, damage, knockBack, player.whoAmI);
+            }
+            return false;
         }
     }
 }

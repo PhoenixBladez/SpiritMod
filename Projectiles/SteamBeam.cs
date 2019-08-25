@@ -26,7 +26,7 @@ namespace SpiritMod.Projectiles
 
 			projectile.alpha = 255;
 			aiType = ProjectileID.Bullet;
-			projectile.extraUpdates = 100;
+			projectile.extraUpdates = 10;
 		}
 
 		public override void AI()

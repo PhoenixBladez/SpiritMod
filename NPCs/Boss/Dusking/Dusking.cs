@@ -18,7 +18,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Dusking");
-			Main.npcFrameCount[npc.type] = 6;
+			Main.npcFrameCount[npc.type] = 5;
 		}
 
 		public override void SetDefaults()
@@ -107,7 +107,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 				{
 					Vector2 dir = Main.player[npc.target].Center - npc.Center;
 					dir.Normalize();
-					dir *= 12;
+					dir *= 14;
 					int newNPC = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("ShadowBall"), npc.whoAmI);
 					Main.npc[newNPC].velocity = dir;
 				}
@@ -196,8 +196,8 @@ namespace SpiritMod.NPCs.Boss.Dusking
 				if (npc.ai[1] == 0) // Flying Movement
 				{
 					bool expertMode = Main.expertMode;
-					float speed = 30f;
-					float acceleration = 1.12f;
+					float speed = 38f;
+					float acceleration = 1.55f;
 					Vector2 vector2 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 					float num7 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector2.X;
 					float num8 = (float)(Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - 120) - vector2.Y;
@@ -340,7 +340,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 							if ((Main.player[i].Center - npc.Center).Length() <= 200)
 							{
 								//Main.player[i].Hurt(1, 0, false, false, " was evaporated...", false, 1); commed out because this needs work
-								Main.player[i].hurtCooldowns[1] = 0;
+								Main.player[i].AddBuff(BuffID.Darkness, 330);
 							}
 						}
 					}
@@ -421,7 +421,6 @@ namespace SpiritMod.NPCs.Boss.Dusking
 			}
 			return true;
 		}
-
 		public override void BossLoot(ref string name, ref int potionType)
 		{
 			potionType = ItemID.GreaterHealingPotion;
@@ -438,7 +437,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 			npc.DropItem(mod.ItemType("DuskStone"), Main.rand.Next(25, 36));
 			npc.DropItem(mod.ItemType("DarkCrest"), 10f / 85);
 
-			string[] lootTable = { "CrystalShadow", "ShadowflameSword", "UnbraStaff", "ShadowSphere", "DuskCarbine", };
+			string[] lootTable = { "CrystalShadow", "ShadowflameSword", "UmbraStaff", "ShadowSphere", "DuskCarbine", };
 			int loot = Main.rand.Next(lootTable.Length);
 			if (loot == 0)
 				npc.DropItem(mod.ItemType("CrystalShadow"), Main.rand.Next(74, 121));
@@ -454,7 +453,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 			target.AddBuff(mod.BuffType("Shadowflame"), 150);
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			if (npc.localAI[0] > 0)
 			{
@@ -463,6 +462,10 @@ namespace SpiritMod.NPCs.Boss.Dusking
 				spriteBatch.Draw(ring, (npc.Center) - Main.screenPosition, null, Color.White * npc.localAI[0], npc.localAI[1], origin, 1, SpriteEffects.None, 0);
 			}
 			return true;
+		}
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return Color.White;
 		}
 	}
 }

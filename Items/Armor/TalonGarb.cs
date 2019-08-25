@@ -10,8 +10,8 @@ namespace SpiritMod.Items.Armor
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Talon Garb");
-            Tooltip.SetDefault("Increases magic critical strike chance by 8%\n5% increased movement speed");
+			DisplayName.SetDefault("Apostle's Garb");
+            Tooltip.SetDefault("Increases magic and ranged damage by 12%\nIncreases movement speed by 9%");
 
         }
 
@@ -21,13 +21,24 @@ namespace SpiritMod.Items.Armor
             item.height = 22;
             item.value = 10000;
             item.rare = 3;
-            item.defense = 6;
+            item.defense = 5;
         }
-
+		public override void SetMatch(bool male, ref int equipSlot, ref bool robes)
+		{
+			robes = true;
+			// The equipSlot is added in ExampleMod.cs --> Load hook
+			equipSlot = mod.GetEquipSlot("TalonGarb_Legs", EquipType.Legs);
+		}
+		
+		public override void DrawHands(ref bool drawHands, ref bool drawArms)
+		{
+			drawHands = true;
+		}
         public override void UpdateEquip(Player player)
         {
-            player.magicCrit += 8;
-            player.moveSpeed += 0.05f;
+            player.magicDamage += .12f;
+            player.rangedDamage += .12f;
+            player.moveSpeed += 0.09f;
         }
         public override void AddRecipes()
         {

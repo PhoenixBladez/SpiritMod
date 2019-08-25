@@ -28,7 +28,6 @@ namespace SpiritMod.Projectiles.Thrown
 			projectile.timeLeft = 600;
 			aiType = ProjectileID.BoneJavelin;
 			projectile.thrown = true;
-			projectile.melee = true;
 		}
 
 		public override bool PreAI()
@@ -39,8 +38,17 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
+			if (Main.rand.Next(6) == 0)
+			{
+				for (int k = 0; k < 5; k++)
+				{
+					int p = Projectile.NewProjectile(target.position.X + Main.rand.Next(-20, 20), target.position.Y - 60, 0f, 8f, mod.ProjectileType("PoisonCloud"), projectile.damage/2, 0f, projectile.owner, 0f, 0f);
+					Main.projectile[p].penetrate = 2;
+
+				}
+			}
 			MyPlayer mp = Main.player[projectile.owner].GetModPlayer<MyPlayer>(mod);
-			if (mp.sacredVine && Main.rand.Next(4) == 0)
+			if (mp.sacredVine && Main.rand.Next(2) == 0)
 				target.AddBuff(mod.BuffType("PollinationPoison"), 200, true);
 
 			else
@@ -52,7 +60,7 @@ namespace SpiritMod.Projectiles.Thrown
 		{
 			for (int i = 0; i < 5; i++)
 			{
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 107);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, 3);
 			}
 			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
 		}

@@ -17,8 +17,8 @@ namespace SpiritMod.Items.Accessory
 
         public override void SetDefaults()
         {
-            item.width = 48;     
-            item.height = 49;   
+            item.width = 38;     
+            item.height = 38;   
             item.value = Item.sellPrice(0, 0, 66, 0);
             item.rare = 2;
 

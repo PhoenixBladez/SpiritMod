@@ -36,9 +36,8 @@ namespace SpiritMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
   
-            player.setBonus = "Increases throwing velocity by 3% and movement speed by 4%";
-            player.maxRunSpeed += 0.04f;
-            player.thrownVelocity += 0.03f;
+            player.setBonus = "Getting hit grants the player three seconds of invisibility\n25 second cooldown";
+            player.GetModPlayer<MyPlayer>(mod).rogueSet = true;
         }
     }
 }

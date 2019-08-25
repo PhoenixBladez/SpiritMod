@@ -23,8 +23,8 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			npc.height = 42;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
-			npc.damage = 50;
-			npc.lifeMax = 1250;
+			npc.damage = 80;
+			npc.lifeMax = 1000;
 		}
 
 		public override bool PreAI()
@@ -111,7 +111,10 @@ namespace SpiritMod.NPCs.Boss.Atlas
 		{
 			return false;
 		}
-
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            SpiritUtility.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Boss/Atlas/CobbledEye_Glow"));
+        }
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.55f * bossLifeScale);
@@ -135,8 +138,12 @@ namespace SpiritMod.NPCs.Boss.Atlas
 					Main.spriteBatch.Draw(Main.npcTexture[npc.type], new Vector2(npc.oldPos[i].X - Main.screenPosition.X + (npc.width / 2),
 						npc.oldPos[i].Y - Main.screenPosition.Y + npc.height / 2), new Rectangle?(npc.frame), color2, npc.oldRot[i], origin, npc.scale, SpriteEffects.None, 0.0f);
 				}
+				
 			}
-			return true;
+            var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+                             drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			return false;
 		}
 	}
 }

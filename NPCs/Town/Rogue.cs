@@ -59,10 +59,9 @@ namespace SpiritMod.NPCs.Town
 				Player player = Main.player[k];
 				if (player.active)
 				{
-					for (int j = 0; j < player.inventory.Length; j++)
+					if (MyWorld.downedScarabeus)
 					{
-						if (player.inventory[j].type == mod.ItemType("IronShuriken") || player.inventory[j].type == mod.ItemType("LeadShuriken"))
-							return true;
+						return true;
 					}
 				}
 			}

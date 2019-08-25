@@ -56,6 +56,9 @@ namespace SpiritMod.Projectiles.Boss
 				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 206, 0f, 0f, 100, default(Color), 2f);
 			}
 		}
-
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return Color.White;
+		}
 	}
 }

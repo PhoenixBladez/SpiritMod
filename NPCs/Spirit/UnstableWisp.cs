@@ -28,7 +28,10 @@ namespace SpiritMod.NPCs.Spirit
 			npc.HitSound = SoundID.NPCHit3;
 			npc.DeathSound = SoundID.NPCDeath6;
 		}
-
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return Color.White;
+		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			int[] TileArray2 = { mod.TileType("SpiritDirt"), mod.TileType("SpiritStone"), mod.TileType("Spiritsand"), mod.TileType("SpiritGrass"), };

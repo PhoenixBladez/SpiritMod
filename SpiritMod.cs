@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.Shaders;
+using Terraria.GameContent.Skies;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -18,13 +20,22 @@ using Terraria.GameContent.UI;
 using SpiritMod.NPCs.Boss.Overseer;
 using SpiritMod.NPCs.Boss.Atlas;
 using SpiritMod.Tide;
+using SpiritMod.Overlays;
+using SpiritMod.Skies;
 using SpiritMod.Projectiles;
 using Terraria.Graphics;
 
 namespace SpiritMod
 {
+   	enum PacketType
+    {
+        AuroraData,
+
+    }
 	class SpiritMod : Mod
 	{
+        public static Effect auroraEffect;
+        public static Texture2D noise;
 		public const string EMPTY_TEXTURE = "SpiritMod/Empty";
 		public const string customEventName = "The Tide";
 		public static Texture2D EmptyTexture
@@ -42,18 +53,6 @@ namespace SpiritMod
 		internal static SpiritMod instance;
 
 
-		public SpiritMod()
-		{
-			Properties = new ModProperties()
-			{
-				Autoload = true,
-				AutoloadGores = true,
-				AutoloadSounds = true,
-				AutoloadBackgrounds = true
-			};
-		}
-
-
 		public ModPacket GetPacket(MessageType type, int capacity)
 		{
 			ModPacket packet = base.GetPacket(capacity + 1);
@@ -63,6 +62,13 @@ namespace SpiritMod
 
 		public override void HandlePacket(BinaryReader reader, int whoAmI)
 		{
+           	PacketType packetType = (PacketType)reader.ReadByte();
+            switch(packetType)
+            {
+				case PacketType.AuroraData:
+				MyWorld.auroraType = reader.ReadInt32();
+				break;
+			}	
 			MessageType id = (MessageType)reader.ReadByte();
 			byte player;
 			switch (id)
@@ -119,6 +125,7 @@ namespace SpiritMod
 			}
 		}
 
+
 		public override void UpdateMusic(ref int music, ref MusicPriority priority)
 		{
 			if (Main.gameMenu)
@@ -168,6 +175,125 @@ namespace SpiritMod
 		}
 
 
+		public override object Call(params object[] args)
+		{
+			if (args.Length < 1)
+			{
+				var stack = new System.Diagnostics.StackTrace(true);
+				ErrorLogger.Log("Spirit Mod Call Error: No arguments given:\n" + stack.ToString());
+				return null;
+			}
+			CallContext context;
+			int? contextNum = args[0] as int?;
+			if (contextNum.HasValue)
+				context = (CallContext)contextNum.Value;
+			else
+				context = ParseCallName(args[0] as string);
+			if (context == CallContext.Invalid && !contextNum.HasValue)
+			{
+				var stack = new System.Diagnostics.StackTrace(true);
+				ErrorLogger.Log("Spirit Mod Call Error: Context invalid or null:\n" + stack.ToString());
+				return null;
+			}
+			if (context <= CallContext.Invalid || context >= CallContext.Limit)
+			{
+				var stack = new System.Diagnostics.StackTrace(true);
+				ErrorLogger.Log("Spirit Mod Call Error: Context invalid:\n" + stack.ToString());
+				return null;
+			}
+			try
+			{
+				if (context == CallContext.Downed)
+					return BossDowned(args);
+				if (context == CallContext.GlyphGet)
+					return GetGlyph(args);
+				if (context == CallContext.GlyphSet)
+				{
+					SetGlyph(args);
+					return null;
+				}
+			}
+			catch (Exception e)
+			{
+				ErrorLogger.Log("Spirit Mod Call Error: "+ e.Message + "\n" + e.StackTrace);
+			}
+			return null;
+		}
+
+		private static CallContext ParseCallName(string context)
+		{
+			if (context == null)
+				return CallContext.Invalid;
+			switch (context)
+			{
+				case "downed":
+					return CallContext.Downed;
+				case "getGlyph":
+					return CallContext.GlyphGet;
+				case "setGlyph":
+					return CallContext.GlyphSet;
+			}
+			return CallContext.Invalid;
+		}
+
+		private static bool BossDowned(object[] args)
+		{
+			if (args.Length < 2)
+				throw new ArgumentException("No boss name specified");
+			string name = args[1] as string;
+			switch (name)
+			{
+				case "Scarabeus": return MyWorld.downedScarabeus;
+				case "Vinewrath Bane": return MyWorld.downedReachBoss;
+				case "Ancient Avian": return MyWorld.downedAncientFlier;
+				case "Starplate Raider": return MyWorld.downedRaider;
+				case "Infernon": return MyWorld.downedInfernon;
+				case "Dusking": return MyWorld.downedDusking;
+				case "Ethereal Umbra": return MyWorld.downedSpiritCore;
+				case "Illuminant Master": return MyWorld.downedIlluminantMaster;
+				case "Atlas": return MyWorld.downedAtlas;
+				case "Overseer": return MyWorld.downedOverseer;
+			}
+			throw new ArgumentException("Invalid boss name:" + name);
+		}
+		public override void ModifyLightingBrightness(ref float scale) 
+		{
+			Player player = Main.LocalPlayer;
+			MyPlayer spirit = player.GetModPlayer<MyPlayer>();
+			if (spirit.ZoneReach && !Main.dayTime)
+			{
+				scale *= .89f;
+			}
+        }	
+		private static void SetGlyph(object[] args)
+		{
+			if (args.Length < 2)
+				throw new ArgumentException("Missing argument: Item");
+			else if (args.Length < 3)
+				throw new ArgumentException("Missing argument: Glyph");
+			Item item = args[1] as Item;
+			if (item == null)
+				throw new ArgumentException("First argument must be of type Item");
+			int? glyphID = args[2] as int?;
+			if (!glyphID.HasValue)
+				throw new ArgumentException("Second argument must be of type int");
+			GlyphType glyph = (GlyphType)glyphID;
+			if (glyph < GlyphType.None || glyph >= GlyphType.Count)
+				throw new ArgumentException("Glyph must be in range ["+
+					(int)GlyphType.None +","+ (int)GlyphType.Count +")");
+			item.GetGlobalItem<Items.GItem>().SetGlyph(item, glyph);
+		}
+
+		private static int GetGlyph(object[] args)
+		{
+			if (args.Length < 2)
+				throw new ArgumentException("Missing argument: Item");
+			Item item = args[1] as Item;
+			if (item == null)
+				throw new ArgumentException("First argument must be of type Item");
+			return (int)item.GetGlobalItem<Items.GItem>().Glyph;
+		}
+
 
 		public override void Load()
 		{
@@ -175,16 +301,28 @@ namespace SpiritMod
 			if (Main.rand == null)
 				Main.rand = new Terraria.Utilities.UnifiedRandom();
 			if (!Main.dedServ)
+				AddEquipTexture(null, EquipType.Legs, "TalonGarb_Legs", "SpiritMod/Items/Armor/TalonGarb_Legs");
 				EmptyTexture = GetTexture("Empty");
 			//Always keep this call in the first line of Load!
 			LoadReferences();
 			//Don't add any code before this point,
 			// unless you know what you're doing.
 			Items.Halloween.CandyBag.Initialize();
-
-			Filters.Scene["SpiritMod:SpiritSky"] = new Filter(new ScreenShaderData("FilterMiniTower").UseColor(0f, 0.5f, 1f).UseOpacity(0.3f), EffectPriority.High);
+			Filters.Scene["SpiritMod:AsteroidSky"] = new Filter(new ScreenShaderData("FilterMiniTower").UseColor(0.1f, 0.1f, 0.1f).UseOpacity(0.8f), EffectPriority.High);
+			Filters.Scene["SpiritMod:SpiritSky"] = new Filter(new ScreenShaderData("FilterMiniTower").UseColor(0f, 0.25f, .5f).UseOpacity(0.15f), EffectPriority.High);
 			Filters.Scene["SpiritMod:BlueMoonSky"] = new Filter(new ScreenShaderData("FilterMiniTower").UseColor(0f, 0.3f, 1f).UseOpacity(0.75f), EffectPriority.High);
+			Filters.Scene["SpiritMod:ReachSky"] = new Filter(new ScreenShaderData("FilterBloodMoon").UseColor(0.05f, 0.05f, .05f).UseOpacity(0.7f), EffectPriority.High);
+			Filters.Scene["SpiritMod:WindEffect"] = new Filter((new BlizzardShaderData("FilterBlizzardForeground")).UseColor(0.4f, 0.4f, 0.4f).UseSecondaryColor(0.2f, 0.2f, 0.2f).UseImage("Images/Misc/noise", 0, null).UseOpacity(0.199f).UseImageScale(new Vector2(3f, 0.75f), 0), EffectPriority.High);
+	
+  			auroraEffect = GetEffect("Effects/aurora");
+            noise = GetTexture("Textures/noise");
 
+            //filler stuff
+            SkyManager.Instance["SpiritMod:AuroraSky"] = new AuroraSky();
+            Filters.Scene["SpiritMod:AuroraSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
+
+            //the actually important thing
+            Terraria.Graphics.Effects.Overlays.Scene["SpiritMod:AuroraSky"] = new AuroraOverlay();	
 			SpecialKey = RegisterHotKey("Armor Bonus", "Q");
 			ReachKey = RegisterHotKey("Frenzy Plant", "E");
 			HolyKey = RegisterHotKey("Holy Ward", "Z");
@@ -305,9 +443,21 @@ namespace SpiritMod
 				_texField.SetValue(null, textures);
 			}
 		}
-
+        public override void Unload()
+        {
+            auroraEffect = null;
+            noise = null;
+			instance = null;
+        }
 		public override void AddRecipeGroups()
 		{
+			RecipeGroup group1 = new RecipeGroup(() => Lang.misc[37] + " Iron Bar" + Lang.GetItemNameValue(ItemType("Iron Bar")), new int[]
+			{
+				22,
+				704
+			});
+			RecipeGroup.RegisterGroup("LeadBars", group1);	
+
 			RecipeGroup group = new RecipeGroup(() => Lang.misc[37] + " Gold Bar" + Lang.GetItemNameValue(ItemType("Gold Bar")), new int[]
 			{
 				19,
@@ -361,7 +511,7 @@ namespace SpiritMod
 				// 14 is moolord, 12 is duke fishron
 				bossChecklist.Call("AddBossWithInfo", "Scarabeus", 0.8f, (Func<bool>)(() => MyWorld.downedScarabeus), "Use a [i:" + ItemType("ScarabIdol") + "] in the Desert biome at any time");
 				bossChecklist.Call("AddBossWithInfo", "Vinewrath Bane", 3.5f, (Func<bool>)(() => MyWorld.downedReachBoss), "Use a [i:" + ItemType("ReachBossSummon") + "] in the Reach at daytime");
-				bossChecklist.Call("AddBossWithInfo", "Ancient Flier", 4.2f, (Func<bool>)(() => MyWorld.downedAncientFlier), "Use a [i:" + ItemType("JewelCrown") + "] in the sky at any time");
+				bossChecklist.Call("AddBossWithInfo", "Ancient Avian", 4.2f, (Func<bool>)(() => MyWorld.downedAncientFlier), "Use a [i:" + ItemType("JewelCrown") + "] in the sky at any time");
 				bossChecklist.Call("AddBossWithInfo", "Starplate Raider", 5.2f, (Func<bool>)(() => MyWorld.downedRaider), "Use a [i:" + ItemType("StarWormSummon") + "] at nighttime");
 				bossChecklist.Call("AddBossWithInfo", "Infernon", 6.5f, (Func<bool>)(() => MyWorld.downedInfernon), "Use [i:" + ItemType("CursedCloth") + "] in the underworld at any time");
 
@@ -381,14 +531,17 @@ namespace SpiritMod
 			if (TideWorld.TheTide)
 			{
 				int index = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));
-				LegacyGameInterfaceLayer TideThing = new LegacyGameInterfaceLayer("SpiritMod: TideBenis",
-					delegate
-					{
-						DrawTide(Main.spriteBatch);
-						return true;
-					},
-					InterfaceScaleType.UI);
-				layers.Insert(index, TideThing);
+				if (index >= 0)
+				{
+					LegacyGameInterfaceLayer TideThing = new LegacyGameInterfaceLayer("SpiritMod: TideBenis",
+						delegate
+						{
+							DrawTide(Main.spriteBatch);
+							return true;
+						},
+						InterfaceScaleType.UI);
+					layers.Insert(index, TideThing);
+				}
 			}
 		}
 
@@ -415,50 +568,29 @@ namespace SpiritMod
 		float targetOffsetY = 0;
 
 		public static float shittyModTime;
-
-		//public override Matrix ModifyTransformMatrix(Matrix Transform)
-		//{
-		//	shittyModTime--;
-		//	if (shittyModTime > 0)
-		//	{
-		//		if (shittyModTime % ShakeLength == 0)
-		//		{
-		//			ShakeCount = 0;
-		//			previousRotation = targetRotation;
-		//			previousOffsetX = targetOffsetX;
-		//			previousOffsetY = targetOffsetY;
-		//			targetRotation = (Main.rand.NextFloat() - .5f) * MathHelper.ToRadians(15);
-		//			targetOffsetX = Main.rand.Next(60) - 30;
-		//			targetOffsetY = Main.rand.Next(40) - 20;
-		//			if (shittyModTime == ShakeLength)
-		//			{
-		//				targetRotation = 0;
-		//				targetOffsetX = 0;
-		//				targetOffsetY = 0;
-		//			}
-		//		}
-		//		float transX = Main.screenWidth / 2;
-		//		float transY = Main.screenHeight / 2;
-
-		//		float lerp = (float)(ShakeCount) / ShakeLength;
-		//		float rotation = MathHelper.Lerp(previousRotation, targetRotation, lerp);
-		//		float offsetX = MathHelper.Lerp(previousOffsetX, targetOffsetX, lerp);
-		//		float offsetY = MathHelper.Lerp(previousOffsetY, targetOffsetY, lerp);
-
-		//		shittyModTime--;
-		//		ShakeCount++;
-
-
-		//		return Transform
-		//			* Matrix.CreateTranslation(-transX, -transY, 0f)
-		//			* Matrix.CreateRotationZ(rotation)
-		//			* Matrix.CreateTranslation(transX, transY, 0f)
-		//			* Matrix.CreateTranslation(offsetX, offsetY, 0f);
-		//		//Matrix.CreateFromAxisAngle(new Vector3(Main.screenWidth / 2, Main.screenHeight / 2, 0f), .2f);
-		//		//Matrix.CreateRotationZ(MathHelper.ToRadians(30));
-		//	}
-		//	return Transform;
-		//}
+		public static float tremorTime;
+		public int screenshakeTimer = 0;
+		public override void ModifyTransformMatrix(ref SpriteViewMatrix Transform)
+		{
+			 if (!Main.gameMenu)
+             {
+                   screenshakeTimer++;
+                   if (tremorTime>= 0 && screenshakeTimer >= 20) // so it doesnt immediately decrease
+                   {
+                       tremorTime-= 0.5f;
+                   }
+                   if (tremorTime< 0)
+                   {
+                      tremorTime= 0;
+                   }
+                   Main.screenPosition += new Vector2(tremorTime* Main.rand.NextFloat(), tremorTime* Main.rand.NextFloat()); //NextFloat creates a random value between 0 and 1, multiply screenshake amount for a bit of variety
+              }
+              else // dont shake on the menu
+              {
+                   tremorTime= 0;
+                   screenshakeTimer = 0;
+              }
+        }
 
 		public void DrawTide(SpriteBatch spriteBatch)
 		{
@@ -480,10 +612,11 @@ namespace SpiritMod
 				int height = (int)(46f * scmp);
 				Rectangle waveBackground = Utils.CenteredRectangle(new Vector2(Main.screenWidth - offsetX - 100f, Main.screenHeight - offsetY - 23f), new Vector2(width, height));
 				Utils.DrawInvBG(spriteBatch, waveBackground, new Color(63, 65, 151, 255) * 0.785f);
-				string waveText = "Cleared " + TideWorld.TidePoints2 + "%";
+				float cleared = TideWorld.TidePoints2/80f;
+				string waveText = "Cleared " + Math.Round(100*cleared) + "%";
 				Utils.DrawBorderString(spriteBatch, waveText, new Vector2(waveBackground.X + waveBackground.Width / 2, waveBackground.Y + 5), Color.White, scmp * 0.8f, 0.5f, -0.1f);
 				Rectangle waveProgressBar = Utils.CenteredRectangle(new Vector2(waveBackground.X + waveBackground.Width * 0.5f, waveBackground.Y + waveBackground.Height * 0.75f), new Vector2(progressColor.Width, progressColor.Height));
-				Rectangle waveProgressAmount = new Rectangle(0, 0, (int)(progressColor.Width * 0.01f * MathHelper.Clamp(TideWorld.TidePoints2, 0f, 100f)), progressColor.Height);
+				Rectangle waveProgressAmount = new Rectangle(0, 0, (int)(progressColor.Width * MathHelper.Clamp(cleared, 0f, 1f)), progressColor.Height);
 				Vector2 offset = new Vector2((waveProgressBar.Width - (int)(waveProgressBar.Width * scmp)) * 0.5f, (waveProgressBar.Height - (int)(waveProgressBar.Height * scmp)) * 0.5f);
 				spriteBatch.Draw(backGround1, waveProgressBar.Location.ToVector2() + offset, null, Color.White * alpha, 0f, new Vector2(0f), scmp, SpriteEffects.None, 0f);
 				spriteBatch.Draw(backGround1, waveProgressBar.Location.ToVector2() + offset, waveProgressAmount, waveColor, 0f, new Vector2(0f), scmp, SpriteEffects.None, 0f);
@@ -498,5 +631,14 @@ namespace SpiritMod
 				Utils.DrawBorderString(spriteBatch, customEventName, new Vector2(barrierBackground.X + barrierBackground.Width * 0.5f, barrierBackground.Y - internalOffset - descSize.Y * 0.5f), Color.White, 0.8f, 0.3f, 0.4f);
 			}
 		}
+	}
+
+	internal enum CallContext
+	{
+		Invalid = -1,
+		Downed,
+		GlyphGet,
+		GlyphSet,
+		Limit
 	}
 }

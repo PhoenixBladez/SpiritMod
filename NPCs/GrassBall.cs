@@ -12,7 +12,7 @@ namespace SpiritMod.NPCs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Grassy Sphere");
+			DisplayName.SetDefault("Old Gods' Wrath");
 		}
 
 		public override void SetDefaults()
@@ -21,7 +21,7 @@ namespace SpiritMod.NPCs
 			npc.height = 8;
 			npc.alpha = 255;
 
-			npc.damage = 13;
+			npc.damage = 18;
 			npc.defense = 0;
 			npc.lifeMax = 1;
 			npc.knockBackResist = 0;
@@ -33,7 +33,7 @@ namespace SpiritMod.NPCs
 			npc.HitSound = SoundID.NPCHit3;
 			npc.DeathSound = SoundID.NPCDeath3;
 		}
-
+		public float counter = -1440;
 		public override bool PreAI()
 		{
 			if (npc.target == 255)
@@ -48,17 +48,44 @@ namespace SpiritMod.NPCs
 				npc.velocity.X = num2 * num5;
 				npc.velocity.Y = num3 * num5;
 			}
-			int dust = Dust.NewDust(npc.position, npc.width, npc.height, 44);
-			int dust1 = Dust.NewDust(npc.position, npc.width, npc.height, 44);
-			int dust2 = Dust.NewDust(npc.position, npc.width, npc.height, 44);
-			Main.dust[dust2].scale = 2f;
-			Main.dust[dust].scale = 2f;
-			Main.dust[dust].noGravity = true;
-			Main.dust[dust2].noGravity = true;
 
 			if (npc.timeLeft > 100)
 				npc.timeLeft = 100;
+			counter++;
+			if (counter >= 1440)
+			{
+				counter = -1440;
+			}
+			for (int i = 0; i < 10; i++)
+			{
+				float x = npc.Center.X - npc.velocity.X / 10f * (float)i;
+				float y = npc.Center.Y - npc.velocity.Y / 10f * (float)i;
+				
+				int num = Dust.NewDust(npc.Center + new Vector2(0, (float)Math.Cos(counter/8.2f)*9.2f).RotatedBy(npc.rotation), 6, 6, 228, 0f, 0f, 0, default(Color), 1f);
+				Main.dust[num].velocity *= .1f;
+				Main.dust[num].scale *= .9f;				
+				Main.dust[num].noGravity = true;
+			
+			}
+			for (int f = 0; f < 10; f++)
+			{
+				float x = npc.Center.X - npc.velocity.X / 10f * (float)f;
+				float y = npc.Center.Y - npc.velocity.Y / 10f * (float)f;
+				
+				int num = Dust.NewDust(npc.Center - new Vector2(0, (float)Math.Cos(counter/8.2f)*9.2f).RotatedBy(npc.rotation), 6, 6, 228, 0f, 0f, 0, default(Color), 1f);
+				Main.dust[num].velocity *= .1f;
+				Main.dust[num].scale *= .9f;				
+				Main.dust[num].noGravity = true;
+			
+			}
+			for (int j = 0; j < 6; j++)
+			{
 
+				int num2 = Dust.NewDust(npc.Center, 6, 6, 244, 0f, 0f, 0, default(Color), 1f);
+				Main.dust[num2].velocity *= 0f;
+				Main.dust[num2].scale *= .6f;	
+				Main.dust[num2].noGravity = true;
+			}
 			return false;
 		}
 

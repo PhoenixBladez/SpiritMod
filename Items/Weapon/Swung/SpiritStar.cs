@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
@@ -12,8 +13,8 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Soul Star");
-            Tooltip.SetDefault("'The convergence of souls and the cosmos'\nRains down multiple starry bolts from the sky that inflict Star Fracture\nThese stars explode into multiple souls that inflict Soul Burn");
-
+            Tooltip.SetDefault("Rains down multiple starry bolts from the sky that inflict Star Fracture\nThese stars explode into multiple souls that inflict Soul Burn\n'The convergence of souls and the cosmos'");
+            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Swung/SpiritStar_Glow");
         }
 
 
@@ -38,10 +39,31 @@ namespace SpiritMod.Items.Weapon.Swung
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 187);
                 int dust1 = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 226);
+                Main.dust[dust1].scale *= .23f;
 
             }
+        }
+            public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float  scale, int whoAmI) 	
+		{
+			Texture2D texture;
+			texture = Main.itemTexture[item.type];
+			spriteBatch.Draw
+			(
+				ModContent.GetTexture("SpiritMod/Items/Weapon/Swung/SpiritStar_Glow"),
+				new Vector2
+				(
+					item.position.X - Main.screenPosition.X + item.width * 0.5f,
+					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+				),
+				new Rectangle(0, 0, texture.Width, texture.Height),
+				Color.White,
+				rotation,
+				texture.Size() * 0.5f,
+				scale, 
+				SpriteEffects.None, 
+				0f
+			);
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -50,7 +72,7 @@ namespace SpiritMod.Items.Weapon.Swung
                 if (Main.myPlayer == player.whoAmI)
                 {
                     Vector2 mouse = Main.MouseWorld;
-                    Projectile.NewProjectile(mouse.X + Main.rand.Next(-140, 140), player.Center.Y - 1000 + Main.rand.Next(-50, 50), 0, Main.rand.Next(18, 28), mod.ProjectileType("SpiritStar"), damage, knockBack, player.whoAmI);
+                    Projectile.NewProjectile(mouse.X + Main.rand.Next(-80, 80), player.Center.Y - 1000 + Main.rand.Next(-50, 50), 0, Main.rand.Next(11, 23), mod.ProjectileType("SpiritStar"), damage, knockBack, player.whoAmI);
                 }
             }
             return false;

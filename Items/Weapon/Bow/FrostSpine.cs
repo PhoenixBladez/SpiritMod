@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Weapon.Bow
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Frigid Spine");
-			Tooltip.SetDefault("Ocasionally shoots out a frost bolt");
+			Tooltip.SetDefault("Occasionally shoots out a frost bolt");
 		}
 
 
@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Weapon.Bow
             item.damage = 9;
             item.noMelee = true;
             item.ranged = true;
-            item.width = 20;
+            item.width = 24;
             item.height = 38;
             item.useTime = 29;
             item.useAnimation = 29;
@@ -38,10 +38,14 @@ namespace SpiritMod.Items.Weapon.Bow
             item.shootSpeed = 7.5f;
 
         }
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-3, 0);
+        }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
 			if (Main.rand.Next(8) == 1)
-			Projectile.NewProjectile(position.X, position.Y, speedX * 2f, speedY * 2f, mod.ProjectileType("FrostSpine"), damage, knockBack, player.whoAmI, 0f, 0f);
+			Projectile.NewProjectile(position.X, position.Y, speedX * 1.2f, speedY * 1.2f, mod.ProjectileType("FrostSpine"), damage, knockBack, player.whoAmI, 0f, 0f);
             return true; 
         }
         public override void AddRecipes()

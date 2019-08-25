@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.NPCs.Spirit
 {
@@ -33,7 +34,17 @@ namespace SpiritMod.NPCs.Spirit
 			npc.noTileCollide = true;
 			npc.noGravity = true;
 		}
-
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+                             drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			return false;
+		}
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            SpiritUtility.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Spirit/HauntedBook_Glow"));
+        }
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frameCounter += 0.15f;

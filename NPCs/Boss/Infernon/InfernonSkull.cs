@@ -158,13 +158,14 @@ namespace SpiritMod.NPCs.Boss.Infernon
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			if (npc.ai[0] == 1)
-			{
-				Texture2D glowmask = mod.GetTexture("Effects/Glowmasks/InfernonSkull_Glowmask");
-				Vector2 origin = new Vector2(glowmask.Width * 0.5F, glowmask.Height * 0.5F);
-				spriteBatch.Draw(glowmask, (npc.Center - origin) - Main.screenPosition, Color.White);
-			}
-			return true;
+			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+                             drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			return false;
 		}
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            SpiritUtility.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Boss/Infernon/InfernonSkull_Glow"));
+        }
 	}
 }

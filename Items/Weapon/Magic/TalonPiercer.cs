@@ -46,11 +46,11 @@ namespace SpiritMod.Items.Weapon.Magic
             {
                 if (Main.rand.Next(2) == 1)
                 {
-                    newVect = origVect.RotatedBy(System.Math.PI / (Main.rand.Next(92, 2000) / 10));
+                    newVect = origVect.RotatedBy(System.Math.PI / (Main.rand.Next(92, 800) / 10));
                 }
                 else
                 {
-                    newVect = origVect.RotatedBy(-System.Math.PI / (Main.rand.Next(92, 2000) / 10));
+                    newVect = origVect.RotatedBy(-System.Math.PI / (Main.rand.Next(92, 800) / 10));
                 }
                 Projectile proj = Main.projectile[Projectile.NewProjectile(position.X, position.Y, newVect.X, newVect.Y, type, damage, knockBack, player.whoAmI)];
                 proj.friendly = true;
@@ -63,7 +63,9 @@ namespace SpiritMod.Items.Weapon.Magic
                         {
                             for (int I = 0; I < 1; I++)
                             {
-                                Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), mod.ProjectileType("GiantFeather"), damage, knockBack, player.whoAmI, 0f, 0f);
+                               int p = Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), mod.ProjectileType("GiantFeather"), damage, knockBack, player.whoAmI, 0f, 0f);
+                                Main.projectile[p].ranged = false;
+                                Main.projectile[p].magic = true;                            
                             }
                             charger = 0;
                         }

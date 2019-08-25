@@ -23,14 +23,14 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.value = Terraria.Item.sellPrice(0, 0, 0, 3);
             item.knockBack = 6;
             item.useStyle = 1;
-            item.useTime = item.useAnimation = 30;
+            item.useTime = item.useAnimation = 44;
             item.thrown = true;
             item.noMelee = true;
             item.autoReuse = true;
             item.consumable = true;
             item.noUseGraphic = true;
             item.shoot = mod.ProjectileType("ClatterSpearProj");
-            item.shootSpeed = 12;
+            item.shootSpeed = 7;
             item.UseSound = SoundID.Item1;
         }
         public override void AddRecipes()

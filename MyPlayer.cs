@@ -20,22 +20,31 @@ namespace SpiritMod
 	public class MyPlayer : ModPlayer
 	{
 		public const int CAMO_DELAY = 100;
-
+		public int Soldiers = 0;
 		internal static bool swingingCheck;
 		internal static Item swingingItem;
-
+		public bool TormentLantern = false;
 		public bool QuacklingMinion = false;
+		public bool bismiteShield = false;
+		public int bismiteShieldStacks;
 		public bool VampireCloak = false;
 		public bool HealCloak = false;
 		public bool SpiritCloak = false;
+		public bool firewall = false;
 		private int Counter;
 		private int timerz;
+		public bool caltfist = false;
 		public bool ZoneBlueMoon = false;
 		private int timer1;
 		public bool astralSet = false;
+		public bool frigidGloves = false;
+		public bool magnifyingGlass = false;
 		public bool SoulStone = false;
 		public bool geodeSet = false;
+		public bool daybloomSet = false;
+		public int dazzleStacks;
 		public bool ToxicExtract = false;
+		public bool scarabCharm = false;
 		public bool sunStone = false;
 		public bool moonStone = false;
 		public bool animusLens = false;
@@ -50,6 +59,8 @@ namespace SpiritMod
 		public bool Fierysoul = false;
 		public bool manaWings = false;
 		public bool infernalFlame = false;
+		public bool floranSet = false;
+		public bool rogueSet = false;
 		public bool crystal = false;
 		public bool eyezorEye = false;
 		public bool shamanBand = false;
@@ -57,12 +68,14 @@ namespace SpiritMod
 		public bool wheezeScale = false;
 		public bool briarHeart = false;
 		public bool winterbornCharmMage = false;
+		public bool sepulchreCharm = false;
 		public bool HellGaze = false;
 		public bool hungryMinion = false;
 		public bool magazine = false;
 		public bool EaterSummon = false;
 		public bool CreeperSummon = false;
 		public bool CrystalShield = false;
+		public bool leatherGlove = false;
 		public bool moonHeart = false;
 		public bool babyClampers = false;
 		public bool Phantom = false;
@@ -80,6 +93,8 @@ namespace SpiritMod
 
 		public int beetleStacks = 1;
 		public int shootDelay = 0;
+		public bool bloodfireShield;
+		public int bloodfireShieldStacks;
 		public int shootDelay1 = 0;
 		public int shootDelay2 = 0;
 		public int shootDelay3 = 0;
@@ -90,6 +105,7 @@ namespace SpiritMod
 		public bool terror1Summon = false;
 		public bool terror2Summon = false;
 		public bool terror3Summon = false;
+		public bool clatterboneShield = false;
 		public bool terror4Summon = false;
 		public bool minior = false;
 
@@ -121,9 +137,13 @@ namespace SpiritMod
 		public int Rangedhits = 0;
 		public bool flametrail = false;
 		public bool icytrail = false;
+		public bool silkenSet = false;
 		public bool EnchantedPaladinsHammerMinion = false;
 		public bool ProbeMinion = false;
+		public int frigidGloveStacks;
 		public int weaponAnimationCounter;
+
+		public bool gemPickaxe = false;
 		public int hexBowAnimationFrame;
 		public bool carnivorousPlantMinion = false;
 		public bool skeletalonMinion = false;
@@ -143,16 +163,20 @@ namespace SpiritMod
 		public int soulSiphon;
 		public bool maskPet = false;
 		public bool lanternPet = false;
+		public bool chitinSet = false;
 		public bool thrallPet = false;
 		public bool jellyfishPet = false;
+		public int clatterStacks;
 		public bool starPet = false;
 		public bool saucerPet = false;
 		public bool bookPet = false;
+		public bool SwordPet = false;
 		public bool shadowPet = false;
 
 		public float SpeedMPH
 			{ get; private set; }
 		private DashType activeDash;
+		public DashType ActiveDash => activeDash;
 		public GlyphType glyph;
 		public int voidStacks = 1;
 		public int camoCounter;
@@ -230,20 +254,25 @@ namespace SpiritMod
 		public bool DarkBough;
 		public bool MoonSongBlossom;
 		public bool HolyGrail;
+		public bool bismiteSet;
+		public float virulence = 600f;
 		public bool moonGauntlet;
 		public bool starCharm;
 		public int timeLeft = 0;
 		int timer = 0;
 		public int infernalHit;
 		public int infernalDash;
+
+		public bool windEffect;
 		public int infernalSetCooldown;
+		public int firewallHit;
 		public int bubbleTimer;
 		public int clatterboneTimer;
 		public int roseTimer;
 		public int baubleTimer;
 		public int cometTimer;
 		public bool concentrated; // For the leather armor set.
-		public int concentratedCooldown;
+		public int concentratedCooldown = 360;
 		public bool basiliskMount;
 		public bool drakomireMount;
 		public int drakomireFlameTimer;
@@ -263,12 +292,29 @@ namespace SpiritMod
 
 		public override void UpdateBiomeVisuals()
 		{
+            bool showAurora = 
+                (!player.ZoneDesert && 
+                !Main.dayTime && 
+                player.ZoneSnow || ZoneSpirit && !Main.dayTime);
+
+            player.ManageSpecialBiomeVisuals("SpiritMod:AuroraSky", showAurora);
+
 			player.ManageSpecialBiomeVisuals("SpiritMod:BlueMoonSky", ZoneBlueMoon, player.Center);
+
+			player.ManageSpecialBiomeVisuals("SpiritMod:WindEffect", windEffect, player.Center);
+
 			player.ManageSpecialBiomeVisuals("SpiritMod:SpiritSky", ZoneSpirit, player.Center);
+			bool reach = !Main.dayTime && ZoneReach;
+			{
+				player.ManageSpecialBiomeVisuals("SpiritMod:ReachSky", reach, player.Center);
+			}
+
 			bool useFire = NPC.AnyNPCs(mod.NPCType("Overseer"));
 			player.ManageSpecialBiomeVisuals("SpiritMod:Overseer", useFire);
+
 			bool useFire2 = NPC.AnyNPCs(mod.NPCType("IlluminantMaster"));
 			player.ManageSpecialBiomeVisuals("SpiritMod:IlluminantMaster", useFire2);
+
 			bool useRock = NPC.AnyNPCs(mod.NPCType("Atlas"));
 			player.ManageSpecialBiomeVisuals("SpiritMod:Atlas", useRock);
 		}
@@ -277,7 +323,7 @@ namespace SpiritMod
 		{
 			ZoneSpirit = MyWorld.SpiritTiles > 100;
 			ZoneBlueMoon = MyWorld.BlueMoon;
-			ZoneReach = MyWorld.ReachTiles > 150;
+			ZoneReach = MyWorld.ReachTiles > 100;
 		}
 
 		public override bool CustomBiomesMatch(Player other)
@@ -328,18 +374,28 @@ namespace SpiritMod
 
 		public override void ResetEffects()
 		{
+			caltfist = false;
+			firewall = false;
+			TormentLantern = false;
 			QuacklingMinion = false;
 			VampireCloak = false;
 			SpiritCloak = false;
 			HealCloak = false;
 			astralSet = false;
+			scarabCharm = false;
 			ChaosCrystal = false;
 			ToxicExtract = false;
+			gemPickaxe = false;
 			cultistScarf = false;
+			bismiteSet = false;
+			scarabCharm = false;
 			moonHeart = false;
+			chitinSet = false;
 			Fierysoul = false;
 			infernalFlame = false;
+			windEffect = false;
 			gremlinTooth = false;
+			floranSet = false;
 			atmos = false;
 			SoulStone = false;
 			anglure = false;
@@ -348,6 +404,7 @@ namespace SpiritMod
 			sunStone = false;
 			fireMaw = false;
 			moonStone = false;
+			rogueSet = false;
 			timScroll = false;
 			wheezeScale = false;
 			crystal = false;
@@ -357,14 +414,18 @@ namespace SpiritMod
 			OverseerCharm = false;
 			ReachSummon = false;
 			hungryMinion = false;
+			silkenSet = false;
 			EaterSummon = false;
 			CreeperSummon = false;
 			CrystalShield = false;
+			bloodfireShield = false;
 			tankMinion = false;
 			babyClamper = false;
 			Phantom = false;
 			IchorPendant = false;
+			magnifyingGlass = false;
 			magazine = false;
+			daybloomSet = false;
 			Ward = false;
 			Ward1 = false;
 			CursedPendant = false;
@@ -375,12 +436,17 @@ namespace SpiritMod
 			eyezorEye = false;
 			minionName = false;
 			starMap = false;
+			frigidGloves = false;
 			NebulaPearl = false;
 			TiteRing = false;
+			bismiteShield = false;
 			sacredVine = false;
 			winterbornCharmMage = false;
+			sepulchreCharm = false;
+			clatterboneShield = false;
 			KingRock = false;
 			cthulhuMinion = false;
+			leatherGlove = false;
 			flametrail = false;
 			icytrail = false;
 			EnchantedPaladinsHammerMinion = false;
@@ -402,6 +468,7 @@ namespace SpiritMod
 			maskPet = false;
 			starPet = false;
 			bookPet = false;
+			SwordPet = false;
 			lanternPet = false;
 			jellyfishPet = false;
 			thrallPet = false;
@@ -552,6 +619,12 @@ namespace SpiritMod
 					player.AddBuff(mod.BuffType("WraithCooldown"), 900);
 					player.AddBuff(mod.BuffType("Wraith"), 300);
 				}
+				if (daybloomSet && dazzleStacks >= 3600)
+				{
+					Terraria.Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("Dazzle"), 0, 0, player.whoAmI, 0f, 0f);
+					Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 9);
+					dazzleStacks = 0;
+				}
 
 				if (quickSilverSet && player.FindBuffIndex(mod.BuffType("SilverCooldown")) < 0)
 				{
@@ -673,12 +746,12 @@ namespace SpiritMod
 		}
 
 
-		public override void SetupStartInventory(IList<Item> items)
+		/* public override void SetupStartInventory(IList<Item> items)
 		{
 			Item item = new Item();
 			item.SetDefaults(mod.ItemType("OddKeystone"));
 			items.Add(item);
-		}
+		}*/
 
 		public override void CatchFish(Item fishingRod, Item bait, int power, int liquidType, int poolSize, int worldLayer, int questFish, ref int caughtType, ref bool junk)
 		{
@@ -686,6 +759,17 @@ namespace SpiritMod
 				return;
 
 			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>(mod);
+			
+			if (player.ZoneDungeon && power >= 30 && Main.rand.Next(25) == 0)
+			{
+				caughtType = mod.ItemType("MysticalCage");
+			}
+			
+			if (modPlayer.ZoneSpirit && NPC.downedMechBossAny && Main.rand.Next(6) == 0)
+			{
+				caughtType = mod.ItemType("SpiritCrate");
+			}
+			
 			if (modPlayer.ZoneSpirit && NPC.downedMechBossAny && Main.rand.Next(6) == 0)
 			{
 				caughtType = mod.ItemType("SpiritCrate");
@@ -747,6 +831,19 @@ namespace SpiritMod
 
 		public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
 		{
+			if (frigidGloves && crit)
+			{
+				if (Main.rand.Next(2) == 0)
+				{
+					player.AddBuff(BuffID.Frostburn, 180);
+				}
+			}
+			if (virulence <= 0f)
+			{
+				Projectile.NewProjectile(target.position.X, target.position.Y, 0, 0, mod.ProjectileType("VirulenceExplosion"), 55, 8, Main.myPlayer);
+				virulence = 600f;
+				player.AddBuff(mod.BuffType("VirulenceCooldown"), 140);
+			}
 			if (this.duneSet && item.thrown)
 			{
 				GNPC info = target.GetGlobalNPC<GNPC>(mod);
@@ -803,8 +900,6 @@ namespace SpiritMod
 				target.AddBuff(BuffID.Venom, 240);
 			if (this.magalaSet && item.magic && Main.rand.Next(14) == 2)
 				player.AddBuff(mod.BuffType("FrenzyVirus1"), 240);
-			if (this.frigidSet && (item.magic || item.melee) && Main.rand.Next(10) == 0)
-				target.AddBuff(Buffs.MageFreeze._type, 180);
 			
 			if (this.magalaSet && item.ranged && Main.rand.Next(14) == 2)
 					player.AddBuff(mod.BuffType("FrenzyVirus1"), 240);
@@ -835,9 +930,19 @@ namespace SpiritMod
 		int Charger;
 		public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
 		{
-			if (this.frigidSet && proj.magic || proj.melee && Main.rand.Next(10) == 0)
-				target.AddBuff(Buffs.MageFreeze._type, 180);
-
+			if (sacredVine)
+			{
+				if (Main.rand.Next(11) == 0)
+				{
+					player.AddBuff(BuffID.Regeneration, 180);
+				}
+			}
+			if (virulence <= 0f)
+			{
+				Projectile.NewProjectile(target.position.X, target.position.Y, 0, 0, mod.ProjectileType("VirulenceExplosion"), 55, 8, Main.myPlayer);
+				virulence = 600f;
+				player.AddBuff(mod.BuffType("VirulenceCooldown"), 140);
+			}
 			if (this.reaperSet && Main.rand.Next(15) == 1)
 				target.AddBuff(mod.BuffType("FelBrand"), 160);
 
@@ -1089,6 +1194,21 @@ namespace SpiritMod
 
 		public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
 		{
+			if (Main.rand.Next(6) == 0 && sepulchreCharm)
+			{
+				for (int k = 0; k < 5; k++)
+				{
+					int	dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 8, 75, 0f, 0f, 100, default(Color), .84f);
+				}
+				player.longInvince = true;
+			}
+			else
+			{
+				player.longInvince = false;
+			}
+			if (activeDash == DashType.Shinigami)
+				return false;
+
 			int index = player.FindBuffIndex(Buffs.Glyph.PhantomVeil._type);
 			if (index >= 0)
 			{
@@ -1108,8 +1228,28 @@ namespace SpiritMod
 		{
 			veilCounter = 0;
 			if (glyph == GlyphType.Daze && Main.rand.Next(2) == 0)
+			{
 				player.AddBuff(BuffID.Confused, 180);
-
+			}
+			if (rogueSet && !player.HasBuff(mod.BuffType("RogueCooldown")))
+			{
+				player.AddBuff(BuffID.Invisibility, 200);
+				player.AddBuff(mod.BuffType("RogueCooldown"), 1520);
+			}
+			if (leatherSet)
+			{
+				concentratedCooldown = 360;
+				concentrated = false;
+			}
+			if (bismiteSet)
+			{
+				virulence = 600f;
+				if (!player.HasBuff(mod.BuffType("VirulenceCooldown")))
+				{
+					Projectile.NewProjectile(player.position.X, player.position.Y, 0, 0, mod.ProjectileType("VirulenceExplosion"), 15, 5, Main.myPlayer);
+				}
+				player.AddBuff(mod.BuffType("VirulenceCooldown"), 140);		
+			}
 			if (SRingOn)
 			{
 				for (int h = 0; h < 3; h++)
@@ -1399,8 +1539,25 @@ namespace SpiritMod
 				candyInBowl = 2;
 				candyFromTown.Clear();
 			}
-
-
+			if  (Main.rand.Next(15) == 0 && ZoneReach && player.ZoneOverworldHeight && !player.ZoneBeach && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneJungle && !player.ZoneHoly)
+			{
+				float goreScale = 0.01f * Main.rand.Next(20, 70);
+				int a = Gore.NewGore(new Vector2(player.Center.X + Main.rand.Next(-1000, 1000), player.Center.Y + (Main.rand.Next(-1000,-100))), new Vector2(Main.windSpeed*3f, 0f), 911, goreScale);
+				Main.gore[a].timeLeft = 15;
+				Main.gore[a].rotation = 0f;
+				Main.gore[a].velocity = new Vector2(Main.windSpeed * 40f, Main.rand.NextFloat(0.2f, 2f));
+			}
+			if (windEffect)
+			{
+				if (Main.windSpeed <= -.01f)
+				{
+					Main.windSpeed = -.8f;;
+				}
+				if (Main.windSpeed >= .01f)
+				{
+					Main.windSpeed = .8f;
+				}
+			}
 			CalculateSpeed();
 			if (player.whoAmI == Main.myPlayer)
 			{
@@ -1554,18 +1711,25 @@ namespace SpiritMod
 				player.dash = 0;
 
 				if (player.pulley)
-					DashMovement();
+					DashMovement(dash);
 			}
 		}
 
-		private void DashMovement()
+		private void DashEnd()
 		{
-			DashType dash = FindDashes();
+			if (activeDash == DashType.Shinigami)
+				player.itemAnimation = 0;
+		}
 
+		private void DashMovement(DashType dash)
+		{
 			if (player.dashDelay > 0)
 			{
-				activeDash = DashType.None;
-				//Manage dash timers
+				if (activeDash != DashType.None)
+				{
+					DashEnd();
+					activeDash = DashType.None;
+				}
 			}
 			else if (player.dashDelay < 0)
 			{
@@ -1586,16 +1750,76 @@ namespace SpiritMod
 						else
 							dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + (player.height >> 1) - 8f), player.width, 16, Dusts.TemporalDust._type, 0f, 0f, 100, default(Color), 1.4f);
 						Main.dust[dust].velocity *= 0.1f;
-						Main.dust[dust].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+						Main.dust[dust].scale *= 1f + Main.rand.Next(20) * 0.01f;
 					}
 					speedCap = speedMax;
 					decayCapped = 0.985f;
 					decayMax = decayCapped;
 					delay = 30;
 				}
+				else if (activeDash == DashType.Firewall)
+				{
+					if (firewallHit < 0)
+					{
+						Dust.NewDust(player.position, player.width, player.height, Dusts.BinaryDust._type);
+						Dust.NewDust(player.position, player.width, player.height, Dusts.BinaryDust._type);
+						Dust.NewDust(player.position, player.width, player.height, Dusts.BinaryDust._type);
+						Rectangle hitbox = new Rectangle((int)(player.position.X + player.velocity.X * 0.5 - 4), (int)(player.position.Y + player.velocity.Y * 0.5 - 4), player.width + 8, player.height + 8);
+						for (int i = 0; i < Main.maxNPCs; i++)
+						{
+							var npc = Main.npc[i];
+							if (npc.active && !npc.dontTakeDamage && !npc.friendly)
+							{
+								if (hitbox.Intersects(npc.Hitbox) && (npc.noTileCollide || Collision.CanHit(player.position, player.width, player.height, npc.position, npc.width, npc.height)))
+								{
+									float damage = 40f * player.meleeDamage;
+									float knockback = 12f;
+									bool crit = false;
+									if (player.kbGlove)
+										knockback *= 2f;
+									if (player.kbBuff)
+										knockback *= 1.5f;
+									if (Main.rand.Next(100) < player.meleeCrit)
+										crit = true;
+									int hitDirection;
+									if (player.velocity.X < 0f)
+										hitDirection = -1;
+									else
+										hitDirection = 1;
+									if (player.whoAmI == Main.myPlayer)
+									{
+										npc.AddBuff(mod.BuffType("StackingFireBuff"), 600);
+										npc.StrikeNPC((int)damage, knockback, hitDirection, crit);
+										if (Main.netMode != 0)
+										{
+											NetMessage.SendData(28, -1, -1, null, i, damage, knockback, (float)hitDirection, 0, 0, 0);
+										}
+									}
+									player.dashDelay = 30;
+									player.velocity.X = -(float)hitDirection * 1f;
+									player.velocity.Y = -4f;
+									player.immune = true;
+									player.immuneTime = 2;
+									firewallHit = i;
+								}
+							}
+						}
+					}
+				}
+				else if (activeDash == DashType.Shinigami)
+				{
+					speedCap = speedMax;
+					decayCapped = 0.88f;
+					delay = 30;
+					int animationLimit = (int)(player.itemAnimationMax * 0.6f);
+					if (player.itemAnimation > 0 && player.itemAnimation < animationLimit)
+						player.itemAnimation = animationLimit;
+				}
 
 				if (activeDash != DashType.None)
 				{
+					if (speedCap < speedMax)
+						speedCap = speedMax;
 					player.vortexStealthActive = false;
 					if (player.velocity.X > speedCap || player.velocity.X < -speedCap)
 						player.velocity.X = player.velocity.X * decayCapped;
@@ -1670,6 +1894,27 @@ namespace SpiritMod
 					Main.dust[dust].scale *= 1.4f + Main.rand.Next(20) * 0.01f;
 				}
 			}
+			else if (dash == DashType.Firewall)
+			{
+				firewallHit = -1;
+				Dust.NewDust(player.position, player.width, player.height, Dusts.BinaryDust._type, 0f, 0f, 0, default(Color), 1f);
+				Dust.NewDust(player.position, player.width, player.height, Dusts.BinaryDust._type, 0f, 0f, 0, default(Color), 1f);
+				velocity *= 18.5f;
+				for (int num22 = 0; num22 < 0; num22++)
+				{
+					int num23f = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, Dusts.TemporalDust._type, 0f, 0f, 100, default(Color), 2f);
+					Dust dust3f = Main.dust[num23f];
+					dust3f.position.X = dust3f.position.X + (float)Main.rand.Next(-5, 6);
+					Dust dust4f = Main.dust[num23f];
+					dust4f.position.Y = dust4f.position.Y + (float)Main.rand.Next(-5, 6);
+					Main.dust[num23f].velocity *= 0.2f;
+					Main.dust[num23f].shader = GameShaders.Armor.GetSecondaryShader(player.shield, player);
+				}
+			}
+			else if (dash == DashType.Shinigami)
+			{
+				velocity *= 40;
+			}
 
 			player.velocity.X = velocity;
 			Point feet = (player.Center + new Vector2(dir * (player.width >> 1) + 2, player.gravDir * -player.height * .5f + player.gravDir * 2f)).ToTileCoordinates();
@@ -1681,7 +1926,7 @@ namespace SpiritMod
 			player.dashDelay = -1;
 			activeDash = dash;
 
-			if (!local)
+			if (!local || Main.netMode == 0)
 				return;
 			ModPacket packet = SpiritMod.instance.GetPacket(MessageType.Dash, 3);
 			packet.Write((byte)player.whoAmI);
@@ -1694,6 +1939,8 @@ namespace SpiritMod
 		{
 			if (phaseStacks > 0)
 				return DashType.Phase;
+			else if (firewall)
+				return DashType.Firewall;
 
 			return DashType.None;
 		}
@@ -1701,6 +1948,179 @@ namespace SpiritMod
 
 		public override void PostUpdateEquips()
 		{
+			if (Main.mouseRight && magnifyingGlass && Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].damage <= 0)
+			{
+				player.scope = true;
+			}	
+			if (leatherSet)
+			{
+				if (concentratedCooldown > 0)
+				if (player.velocity.X != 0f)
+				{
+					concentratedCooldown--;
+				}
+				else
+				{
+					concentratedCooldown -= 2;
+				}
+			}
+			else
+			{
+				concentrated = false;
+				concentratedCooldown = 360;
+			}
+			if (concentratedCooldown <= 0)
+			{
+				concentrated = true;
+			}
+			if (concentrated)
+			{
+				Yoraiz0rEye();
+			}
+			if (clatterboneShield)
+			{
+				clatterStacks = 0;
+				for (int i = 0; i < 200; i++)
+				{
+					if (Main.npc[i].active && !Main.npc[i].friendly && Main.npc[i].type != NPCID.TargetDummy)
+					{
+						int distance = (int)Main.npc[i].Distance(player.Center);
+						if (distance < 320)
+						{
+							clatterStacks++;
+							
+						}
+						for (int k = 0; k < clatterStacks; k++)
+						{
+							if (Main.rand.Next(4) == 0)
+							{
+							int	d = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 2, 0, 0f, 0f, 100, default(Color), .64f);
+							Main.dust[d].noGravity = true;
+							}
+						}						
+					}
+				}
+				if (clatterStacks >= 5)
+				{
+					clatterStacks = 5;
+				}
+			}
+			else
+			{
+				clatterStacks = 0;
+			}
+			if (bismiteShield)
+			{
+				bismiteShieldStacks = 0;
+				for (int i = 0; i < 200; i++)
+				{
+					if (Main.npc[i].active && !Main.npc[i].friendly && Main.npc[i].HasBuff(BuffID.Poisoned) && Main.npc[i].type != NPCID.TargetDummy)
+					{
+						int distance = (int)Main.npc[i].Distance(player.Center);
+						if (distance < 320)
+						{
+							bismiteShieldStacks++;
+							
+						}
+						for (int k = 0; k < bismiteShieldStacks; k++)
+						{
+							if (Main.rand.Next(6) == 0)
+							{
+							int	d = Dust.NewDust(player.position, player.width, player.height, 167, 0f, 0f, 100, default(Color), .45f * bismiteShieldStacks);
+							Main.dust[d].noGravity = true;
+							}
+						}						
+					}
+				}
+				if (bismiteShieldStacks >= 3)
+				{
+					bismiteShieldStacks = 3;
+				}
+			}
+			if (frigidGloves)
+			{
+				frigidGloveStacks = 0;
+				for (int i = 0; i < 200; i++)
+				{
+					if (Main.npc[i].active && !Main.npc[i].friendly && Main.npc[i].type != NPCID.TargetDummy)
+					{
+						int distance = (int)Main.npc[i].Distance(player.Center);
+						if (distance < 320)
+						{
+							frigidGloveStacks++;
+							
+						}
+						for (int k = 0; k < frigidGloveStacks; k++)
+						{
+							if (Main.rand.Next(6) == 0)
+							{
+							int	d = Dust.NewDust(player.position, player.width, player.height, 68, 0f, 0f, 100, default(Color), .45f * bismiteShieldStacks);
+							Main.dust[d].noGravity = true;
+							}
+						}						
+					}
+				}
+				if (frigidGloveStacks >= 5)
+				{
+					frigidGloveStacks = 5;
+				}
+			}
+			if (bloodfireShield)
+			{
+				if (player.lifeRegen >= 0)
+				{
+					player.lifeRegen = 0;
+				}
+				player.lifeRegen--;
+				if (player.lifeRegen < 0)
+				{
+					player.lifeRegen = 0;
+				}
+				player.lifeRegenTime = 0;
+				player.lifeRegenCount = 0;
+				bloodfireShieldStacks = 0;
+				for (int i = 0; i < 200; i++)
+				{
+					if (Main.npc[i].active && !Main.npc[i].friendly && Main.npc[i].type != NPCID.TargetDummy)
+					{
+						int distance = (int)Main.npc[i].Distance(player.Center);
+						if (distance < 320)
+						{
+							bloodfireShieldStacks++;
+							
+						}
+						for (int k = 0; k < bloodfireShieldStacks; k++)
+						{
+							if (Main.rand.Next(6) == 0)
+							{
+							int	d = Dust.NewDust(player.position, player.width, player.height, 5, 0f, 0f, 0, default(Color), .14f * bloodfireShieldStacks);
+							}
+						}						
+					}
+				}
+				if (bloodfireShieldStacks >= 5)
+				{
+					bloodfireShieldStacks = 5;
+				}
+			}
+			else
+			{
+				bismiteShieldStacks = 0;
+			}
+			if (player.controlUp)
+			{
+				player.AddBuff(BuffID.Featherfall, 30);
+			}
+			if (frigidSet)
+			{
+				if (player.controlDown && player.releaseDown && !player.HasBuff(mod.BuffType("FrigidCooldown")))
+				{
+					Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
+					Terraria.Projectile.NewProjectile(mouse.X, mouse.Y, 0f, 0F, mod.ProjectileType("FrigidWall"), 14, 8, player.whoAmI, 0f, 0f);					
+					player.AddBuff(mod.BuffType("FrigidCooldown"), 500);
+				}
+			}
+			
 			//if (glyph == GlyphType.Veil && Math.Abs(player.velocity.X) < 0.05 && Math.Abs(player.velocity.Y) < 0.05)
 			//	camoCounter++;
 			//else if (camoCounter > 5)
@@ -1751,7 +2171,10 @@ namespace SpiritMod
 				Main.dust[dust].velocity *= 0.1f;
 				Main.dust[dust].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
 			}
-
+			if (clatterboneSet)
+			{
+				clatterboneTimer--;
+			}
 
 			// Update armor sets.
 			#region Infernal Set
@@ -1911,16 +2334,6 @@ namespace SpiritMod
 					Projectile.NewProjectile(player.position, Vector2.Zero, mod.ProjectileType("ShadowCircleRune1"), 18, 0, player.whoAmI);
 			}
 
-			if (leatherSet)
-			{
-				if (concentratedCooldown > 0)
-					concentratedCooldown--;
-			}
-			else
-			{
-				concentrated = false;
-				concentratedCooldown = 300;
-			}
 
 			if (shadowSet)
 			{
@@ -2036,7 +2449,6 @@ namespace SpiritMod
 			}
 			if (infernalDash > 0)
 				infernalDash--;
-
 			if (player.dashDelay < 0)
 			{
 				for (int l = 0; l < 0; l++)
@@ -2087,6 +2499,7 @@ namespace SpiritMod
 
 			// Update accessories.
 			#region Infernal Shield
+
 			if (infernalShield)
 			{
 				if (infernalDash > 0)
@@ -2390,11 +2803,41 @@ namespace SpiritMod
 			player.runAcceleration *= accel;
 			player.runSlowdown *= slowdown;
 
-			DashMovement();
+			DashMovement(FindDashes());
 		}
 
 		public override void PostUpdate()
 		{
+			if (bismiteSet)
+			{
+				if (player.HasBuff(mod.BuffType("VirulenceCooldown")) || virulence >= 0)
+				{
+					virulence--;
+				}
+				if (virulence == 0f)
+				{
+               	 	Main.PlaySound(new Terraria.Audio.LegacySoundStyle(25, 1));
+                    CombatText.NewText(new Rectangle((int)player.position.X, (int)player.position.Y - 20, player.width, player.height), new Color(95, 156, 111, 100),
+                    "Virulence Charged!");	
+				}	
+			}
+			if (daybloomSet)
+			{
+				if (dazzleStacks == 3600)
+				{
+				 	Main.PlaySound(new Terraria.Audio.LegacySoundStyle(25, 1));
+                    CombatText.NewText(new Rectangle((int)player.position.X, (int)player.position.Y - 20, player.width, player.height), new Color(245, 212, 69, 100),
+                    "Energy Charged!");	
+				
+				}
+				if (dazzleStacks >= 3600)
+				{
+					if (Main.rand.Next(6) == 0)
+					{
+						int	d = Dust.NewDust(player.position, player.width, player.height, 228, 0f, 0f, 0, default(Color), .14f * bloodfireShieldStacks);
+					}	
+				}
+			}
 			if (shootDelay > 0)
 			{
 				shootDelay--;
@@ -2417,7 +2860,7 @@ namespace SpiritMod
 		}
 
 
-		public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockBack, ref bool crit)
+		public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
 		{
 			if (CursedPendant && Main.rand.Next(5) == 1)
 				target.AddBuff(BuffID.CursedInferno, 180);
@@ -2496,6 +2939,26 @@ namespace SpiritMod
 					player.AddBuff(mod.BuffType("CelestialWill"), 300);
 				else if (item.thrown)
 					player.AddBuff(mod.BuffType("CelestialWill"), 300);
+			}
+			if (concentrated)
+			{
+				for (int i = 0; i < 40; i++)
+				{
+					int dust = Dust.NewDust(target.Center, target.width, target.height, DustID.GoldCoin);
+					Main.dust[dust].velocity *= -1f;
+					Main.dust[dust].noGravity = true;
+					Vector2 vector2_1 = new Vector2((float) Main.rand.Next(-100, 101), (float) Main.rand.Next(-100, 101));
+					vector2_1.Normalize();
+					Vector2 vector2_2 = vector2_1 * ((float) Main.rand.Next(50, 100) * 0.04f);
+					Main.dust[dust].velocity = vector2_2;
+					vector2_2.Normalize();
+					Vector2 vector2_3 = vector2_2 * 34f;
+					Main.dust[dust].position = target.Center - vector2_3;
+				}
+				damage = (int)(damage * 1.2F);
+				crit = true;
+				concentrated = false;
+				concentratedCooldown = 300;
 			}
 		}
 
@@ -2576,9 +3039,22 @@ namespace SpiritMod
 				player.HealEffect(2);
 			}
 
-			if (concentrated && proj.ranged)
-			{
-				damage = (int)(damage * 1.1F);
+			if (concentrated)
+			{			
+				for (int i = 0; i < 40; i++)
+				{
+					int dust = Dust.NewDust(target.Center, target.width, target.height, DustID.GoldCoin);
+					Main.dust[dust].velocity *= -1f;
+					Main.dust[dust].noGravity = true;
+					Vector2 vector2_1 = new Vector2((float) Main.rand.Next(-100, 101), (float) Main.rand.Next(-100, 101));
+					vector2_1.Normalize();
+					Vector2 vector2_2 = vector2_1 * ((float) Main.rand.Next(50, 100) * 0.04f);
+					Main.dust[dust].velocity = vector2_2;
+					vector2_2.Normalize();
+					Vector2 vector2_3 = vector2_2 * 34f;
+					Main.dust[dust].position = target.Center - vector2_3;
+				}
+				damage = (int)(damage * 1.2F);
 				crit = true;
 				concentrated = false;
 				concentratedCooldown = 300;
@@ -2590,9 +3066,110 @@ namespace SpiritMod
 			if (npc.whoAmI == infernalHit)
 				damage = 0;
 		}
-
+    public void Yoraiz0rEye()
+    {
+		int index = 0 + player.bodyFrame.Y / 56;
+		if (index >= Main.OffsetsPlayerHeadgear.Length)
+			index = 0;
+		Vector2 spinningpoint1 = new Vector2((float) (3 * player.direction - (player.direction == 1 ? 1 : 0)), -11.5f * player.gravDir) + Vector2.UnitY * player.gfxOffY + player.Size / 2f + Main.OffsetsPlayerHeadgear[index];
+		Vector2 spinningpoint2 = new Vector2((float) (3 * player.shadowDirection[1] - (player.direction == 1 ? 1 : 0)), -11.5f * player.gravDir) + player.Size / 2f + Main.OffsetsPlayerHeadgear[index];
+		Vector2 vector2_1 = Vector2.Zero;
+		if (player.mount.Active && player.mount.Cart)
+		{
+			int num = Math.Sign(player.velocity.X);
+			if (num == 0)
+			num = player.direction;
+			vector2_1 = new Vector2(MathHelper.Lerp(0.0f, -8f, player.fullRotation / 0.7853982f), MathHelper.Lerp(0.0f, 2f, Math.Abs(player.fullRotation / 0.7853982f))).RotatedBy((double) player.fullRotation, new Vector2());
+			if (num == Math.Sign(player.fullRotation))
+			vector2_1 *= MathHelper.Lerp(1f, 0.6f, Math.Abs(player.fullRotation / 0.7853982f));
+		}
+		if ((double) player.fullRotation != 0.0)
+		{
+			spinningpoint1 = spinningpoint1.RotatedBy((double) player.fullRotation, player.fullRotationOrigin);
+			spinningpoint2 = spinningpoint2.RotatedBy((double) player.fullRotation, player.fullRotationOrigin);
+		}
+		float num1 = 0.0f;
+		if (player.mount.Active)
+			num1 = (float) player.mount.PlayerOffset;
+		Vector2 vector2_2 = player.position + spinningpoint1 + vector2_1;
+		Vector2 vector2_3 = player.oldPosition + spinningpoint2 + vector2_1;
+		vector2_3.Y -= num1 / 2f;
+		vector2_2.Y -= num1 / 2f;
+		float num2 = 1f;
+		switch (player.yoraiz0rEye % 10)
+		{
+			case 1:
+			return;
+			case 2:
+			num2 = 0.35f;
+			break;
+			case 3:
+			num2 = 0.425f;
+			break;
+			case 4:
+			num2 = 0.5f;
+			break;
+			case 5:
+			num2 = 0.75f;
+			break;
+			case 6:
+			num2 = .85f;
+			break;
+			case 7:
+			num2 = 1f;
+			break;
+		}
+		if (player.yoraiz0rEye < 7)
+		{
+			DelegateMethods.v3_1 = Main.hslToRgb(Main.rgbToHsl(player.eyeColor).X, 1f, 0.5f).ToVector3() * 0.5f * num2;
+			if (player.velocity != Vector2.Zero)
+			Utils.PlotTileLine(player.Center, player.Center + player.velocity * 2f, 4f, new Utils.PerLinePoint(DelegateMethods.CastLightOpen));
+			else
+			Utils.PlotTileLine(player.Left, player.Right, 4f, new Utils.PerLinePoint(DelegateMethods.CastLightOpen));
+      }
+      int num3 = (int) Vector2.Distance(vector2_2, vector2_3) / 3 + 1;
+      if ((double) Vector2.Distance(vector2_2, vector2_3) % 3.0 != 0.0)
+        ++num3;
+      for (float num4 = 1f; (double) num4 <= (double) num3; ++num4)
+      {
+        Dust dust = Main.dust[Dust.NewDust(player.Center, 0, 0, DustID.GoldCoin, 0.0f, 0.0f, 0, new Color(), 1f)];
+        dust.position = Vector2.Lerp(vector2_3, vector2_2, num4 / (float) num3);
+        dust.noGravity = true;
+        dust.velocity = Vector2.Zero;
+        dust.customData = (object) player;
+        dust.scale = num2;
+        dust.shader = GameShaders.Armor.GetSecondaryShader(player.cYorai, player);
+      }
+	}
 		public override void OnHitByNPC(NPC npc, int damage, bool crit)
 		{
+			if (chitinSet)
+			{
+            	if (player.velocity.X != 0)
+				{
+					int knockBack = 6;
+					int dam = 18;
+					int hitDirection = player.direction;
+					if (player.velocity.X < 0f)
+					{
+						hitDirection = -1;
+					}
+					if (player.velocity.X > 0f)
+					{
+						hitDirection = 1;
+					}					
+					npc.StrikeNPCNoInteraction(dam, knockBack, -hitDirection, false, false, false);
+					int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, mod.ProjectileType("ScarabProjectile"), 0, 0, Main.myPlayer);
+					
+					Main.projectile[p].melee = false;
+				}
+			}
+			if (bismiteShield)
+			{
+				{
+					npc.AddBuff(BuffID.Poisoned, 300);
+				}
+			}
 			if (basiliskMount)
 			{
 				int num = player.statDefense / 2;
@@ -2799,6 +3376,16 @@ namespace SpiritMod
 
 		public override void DrawEffects(PlayerDrawInfo drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
 		{
+			if (daybloomSet)
+			{
+			
+				a = 255 - .0001180555f * dazzleStacks;
+				if (dazzleStacks >= 3600)
+				{
+					a = 255 - .0001180555f * 3600;
+				}
+
+			}
 			if (toxify)
 			{
 				if (Main.rand.Next(2) == 0)
@@ -2814,7 +3401,20 @@ namespace SpiritMod
 				b *= 0f;
 				fullBright = true;
 			}
-
+			if (virulence <= 0)
+			{
+				if (Main.rand.Next(2) == 0)
+				{
+					for (int index1 = 0; index1 < 4; ++index1)
+					{
+						int dust = Dust.NewDust(player.position, player.width, 30, 167, player.velocity.X, player.velocity.Y, 167, default(Color), Main.rand.NextFloat(.4f, 1.2f));
+						Main.dust[dust].noGravity = true;
+						Main.dust[dust].velocity *= 1.8f;
+						Main.dust[dust].velocity.Y -= 0.5f;
+						Main.playerDrawDust.Add(dust);
+					}	
+				}				
+			}
 			if (BlueDust)
 			{
 				if (Main.rand.Next(4) == 0)

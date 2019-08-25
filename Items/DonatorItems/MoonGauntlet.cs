@@ -12,7 +12,7 @@ namespace SpiritMod.Items.DonatorItems
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gauntlet of the Moon");
-			Tooltip.SetDefault("Increases melee damage by 15% and melee speed by 10% \n Attacks occasionally inflict Ichor, Cursed Inferno, and Daybroken \n Melee Attacks grant you Onyx Whirlwind, which increases movement speed \n ~Donator Item~ \n 'Infused with the Spirit of Meemourne'");
+			Tooltip.SetDefault("Increases melee damage by 15% and melee speed by 10%\nAttacks occasionally inflict Ichor, Cursed Inferno, and Daybroken\nMelee Attacks grant you Onyx Whirlwind, which increases movement speed\n~Donator Item~\n'Infused with the Spirit of Meemourne'");
 		}
 
 
@@ -37,7 +37,6 @@ namespace SpiritMod.Items.DonatorItems
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 5);
             recipe.AddRecipeGroup("EvilMaterial", 50);
-            recipe.AddIngredient(null, "SolarEmblem", 1);
             recipe.AddIngredient(null, "EternityEssence", 5);
             recipe.AddIngredient(null, "ShadowGauntlet", 1);
             recipe.AddTile(TileID.TinkerersWorkbench);

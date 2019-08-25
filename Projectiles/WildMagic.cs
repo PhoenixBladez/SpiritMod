@@ -23,7 +23,7 @@ namespace SpiritMod.Projectiles
 			projectile.penetrate = 3;
 			projectile.timeLeft = 500;
 			projectile.height = 48;
-			projectile.width = 22;
+			projectile.width = 12;
 			aiType = ProjectileID.Bullet;
 			projectile.extraUpdates = 1;
 		}

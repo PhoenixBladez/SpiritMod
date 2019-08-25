@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.FrigidArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Frigid Plate");
-            Tooltip.SetDefault("Increases melee speed by 4%\nIncreases magic critical strike chance by 3%");
+            Tooltip.SetDefault("Increases critical strike chance by 3%");
 
         }
 
@@ -24,12 +24,14 @@ namespace SpiritMod.Items.Armor.FrigidArmor
             item.height = 24;
            item.value = 1100;
             item.rare = 1;
-            item.defense = 3;
+            item.defense = 4;
         }
         public override void UpdateEquip(Player player)
         {
-            player.meleeSpeed += 0.04f;
+            player.meleeCrit += 3;
             player.magicCrit += 3;
+            player.thrownCrit += 3;
+            player.rangedCrit += 3;
         }
         public override void AddRecipes()
         {

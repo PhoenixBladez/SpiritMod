@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
@@ -12,19 +13,19 @@ namespace SpiritMod.Items.Weapon.Swung
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Bloodfire Blade");
+			DisplayName.SetDefault("Bloodfire Butcher");
 			Tooltip.SetDefault("Inflicts Blood Corruption");
 		}
 
 
         public override void SetDefaults()
         {
-            item.damage = 21;            
+            item.damage = 30;            
             item.melee = true;            
-            item.width = 40;              
-            item.height = 47;             
-            item.useTime = 24;           
-            item.useAnimation = 24;     
+            item.width = 60;              
+            item.height = 70;             
+            item.useTime = 34;           
+            item.useAnimation = 34;     
             item.useStyle = 1;        
             item.knockBack = 5;      
             item.value = 1000;        
@@ -33,14 +34,16 @@ namespace SpiritMod.Items.Weapon.Swung
             item.autoReuse = true;
 			item.value = Item.buyPrice(0, 4, 0, 0);
 			item.value = Item.sellPrice(0, 0, 32, 0);
-            item.useTurn = true;
-            item.crit = 8;                                    
+            item.useTurn = true;                                   
         }
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(mod.BuffType("BCorrupt"), 120);
         }
-		
+    	public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float  scale, int whoAmI) 	
+		{
+		     Lighting.AddLight(item.position, 0.92f, .14f, .24f);
+        }
 		public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

@@ -70,15 +70,5 @@ namespace SpiritMod.Items.Weapon.Swung
                 return true;
             }
         }
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.GraniteBlock, 60);
-            recipe.AddIngredient(ItemID.SoulofNight, 4);
-            recipe.AddIngredient(ItemID.SoulofNight, 4);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
-        }
     }
 }

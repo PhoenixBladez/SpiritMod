@@ -22,12 +22,16 @@ namespace SpiritMod.NPCs.Boss.Atlas
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Atlas");
+		    NPCID.Sets.TrailCacheLength[npc.type] = 6;
+            NPCID.Sets.TrailingMode[npc.type] = 0;
+			Main.npcFrameCount[npc.type] = 6;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 250;
-			npc.height = 400;
+			npc.width = 147;
+			npc.height = 233;
+			npc.scale = 2.0f;
 			bossBag = mod.ItemType("AtlasBag");
 			npc.damage = 100;
 			npc.lifeMax = 41000;
@@ -43,6 +47,13 @@ namespace SpiritMod.NPCs.Boss.Atlas
 		}
 
 		private int Counter;
+		public override void FindFrame(int frameHeight)
+		{
+			npc.frameCounter += 0.25f;
+			npc.frameCounter %= Main.npcFrameCount[npc.type];
+			int frame = (int)npc.frameCounter;
+			npc.frame.Y = frame * frameHeight;
+		}	
 		public override void AI()
 		{
 			bool expertMode = Main.expertMode; //expert mode bool
@@ -57,7 +68,6 @@ namespace SpiritMod.NPCs.Boss.Atlas
 
 			if (npc.ai[0] == 0f)
 			{
-				npc.dontTakeDamage = true;
 				arms[0] = NPC.NewNPC((int)npc.Center.X - 80 - Main.rand.Next(80, 160), (int)npc.position.Y, mod.NPCType("AtlasArmLeft"), npc.whoAmI, npc.whoAmI);
 				arms[1] = NPC.NewNPC((int)npc.Center.X + 80 + Main.rand.Next(80, 160), (int)npc.position.Y, mod.NPCType("AtlasArmRight"), npc.whoAmI, npc.whoAmI);
 				npc.ai[0] = 1f;
@@ -74,7 +84,6 @@ namespace SpiritMod.NPCs.Boss.Atlas
 						npc.ai[1] = 0f;
 						npc.alpha = 0;
 						npc.velocity.Y = 14f;
-						npc.dontTakeDamage = false;
 						npc.netUpdate = true;
 					}
 				}
@@ -95,10 +104,10 @@ namespace SpiritMod.NPCs.Boss.Atlas
 
 					#region Dashing mechanics
 					//dash if player is too far away
-					if (Math.Sqrt((dist.X * dist.X) + (dist.Y * dist.Y)) > 455)
+					if (Math.Sqrt((dist.X * dist.X) + (dist.Y * dist.Y)) > 155)
 					{
 						direction.Normalize();
-						npc.velocity *= 0.98f;
+						npc.velocity *= 0.99f;
 						if (Math.Sqrt((npc.velocity.X * npc.velocity.X) + (npc.velocity.Y * npc.velocity.Y)) >= 7f)
 						{
 							int dust = Dust.NewDust(npc.position + npc.velocity, npc.width, npc.height, 1, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f);
@@ -111,8 +120,8 @@ namespace SpiritMod.NPCs.Boss.Atlas
 						{
 							if (Main.rand.Next(25) == 1)
 							{
-								direction.X = direction.X * Main.rand.Next(15, 19);
-								direction.Y = direction.Y * Main.rand.Next(15, 19);
+								direction.X = direction.X * Main.rand.Next(19, 24);
+								direction.Y = direction.Y * Main.rand.Next(19, 24);
 								npc.velocity.X = direction.X;
 								npc.velocity.Y = direction.Y;
 							}
@@ -244,6 +253,32 @@ namespace SpiritMod.NPCs.Boss.Atlas
 							lastStage = true;
 						}
 					}
+					for (int index1 = 0; index1 < 6; ++index1)
+					{
+						float x = (npc.Center.X - 2);
+						float xnum2 = (npc.Center.X +2);
+						float y = (npc.Center.Y - 160);
+						if (npc.direction == -1)
+						{
+							int index2 = Dust.NewDust(new Vector2(x, y), 1, 1, 226, 0.0f, 0.0f, 0, new Color(), 1f);
+							Main.dust[index2].position.X = x;
+							Main.dust[index2].position.Y = y;
+							Main.dust[index2].scale = .85f;
+							Main.dust[index2].velocity *= 0.02f;
+							Main.dust[index2].noGravity = true;
+							Main.dust[index2].noLight = false;
+						}
+						else if (npc.direction == 1)
+						{
+							int index2 = Dust.NewDust(new Vector2(xnum2, y), 1, 1, 226, 0.0f, 0.0f, 0, new Color(), 1f);
+							Main.dust[index2].position.X = xnum2;
+							Main.dust[index2].position.Y = y;
+							Main.dust[index2].scale = .85f;
+							Main.dust[index2].velocity *= 0.02f;
+							Main.dust[index2].noGravity = true;
+							Main.dust[index2].noLight = false;
+						}
+					}	
 				}
 			}
 
@@ -264,7 +299,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			Counter++;
 			if (Counter > 400)
 			{
-				SpiritMod.shittyModTime = 120;
+				SpiritMod.tremorTime = 20;
 				Counter = 0;
 			}
 		}
@@ -309,7 +344,20 @@ namespace SpiritMod.NPCs.Boss.Atlas
 				}
 			}
 		}
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			{
+			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+             lightColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			}
+            return false;
+        }
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
 
+            SpiritUtility.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Boss/Atlas/Atlas_Glow"));
+        }
 
 		public override bool PreNPCLoot()
 		{

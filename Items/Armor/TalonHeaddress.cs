@@ -10,8 +10,8 @@ namespace SpiritMod.Items.Armor
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Talon Headdress");
-			Tooltip.SetDefault("8% increased magic damage and critical strike chance");
+			DisplayName.SetDefault("Apostle's Headdress");
+			Tooltip.SetDefault("10% increased magic and ranged critical strike chance");
 		}
 
         public override void SetDefaults()
@@ -20,12 +20,12 @@ namespace SpiritMod.Items.Armor
             item.height = 26;
             item.value = 10000;
             item.rare = 3;
-            item.defense = 5;
+            item.defense = 3;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("TalonGarb") && legs.type == mod.ItemType("TalonClaws");  
+            return body.type == mod.ItemType("TalonGarb");
         }
         public override void UpdateArmorSet(Player player)
         {
@@ -36,8 +36,8 @@ namespace SpiritMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.magicDamage += 0.08f;
-            player.magicCrit += 8;
+            player.magicCrit += 10;
+            player.rangedCrit += 10;
         }
         public override void AddRecipes()
         {

@@ -45,7 +45,8 @@ namespace SpiritMod.Items.Consumable
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("EvilMaterial", 3);
+            recipe.AddIngredient(ItemID.RainbowTorch, 1);
+            recipe.AddIngredient(ItemID.SoulofLight, 3);
             recipe.AddIngredient(547, 1);
 			recipe.AddIngredient(548, 1);
 			recipe.AddIngredient(549, 1);

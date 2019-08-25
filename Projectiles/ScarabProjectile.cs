@@ -23,16 +23,16 @@ namespace SpiritMod.Projectiles
 			projectile.aiStyle = -1;
 			projectile.friendly = true;
 			projectile.hostile = false;
-			projectile.penetrate = 4;
+			projectile.penetrate = 3;
 			projectile.alpha = 255;
 			projectile.timeLeft = 20;
 		}
 
 		public override bool PreAI()
 		{
-			int newDust = Dust.NewDust(new Vector2(projectile.position.X - projectile.velocity.X * 4f + 2f, projectile.position.Y + 2f - projectile.velocity.Y * 4f), 8, 8, 85, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default(Color), 1.25f);
-			newDust = Dust.NewDust(new Vector2(projectile.position.X - projectile.velocity.X * 4f + 2f, projectile.position.Y + 2f - projectile.velocity.Y * 4f), 8, 8, 36, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default(Color), 1.25f);
-			newDust = Dust.NewDust(new Vector2(projectile.position.X - projectile.velocity.X * 4f + 2f, projectile.position.Y + 2f - projectile.velocity.Y * 4f), 8, 8, 32, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default(Color), 1.25f);
+			int newDust = Dust.NewDust(new Vector2(projectile.position.X - projectile.velocity.X * 4f + 2f, projectile.position.Y + 2f - projectile.velocity.Y * 4f), 8, 8, 85, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default(Color), Main.rand.NextFloat(.25f, .8f));
+			newDust = Dust.NewDust(new Vector2(projectile.position.X - projectile.velocity.X * 4f + 2f, projectile.position.Y + 2f - projectile.velocity.Y * 4f), 8, 8, 36, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default(Color), Main.rand.NextFloat(.25f, .8f));
+			newDust = Dust.NewDust(new Vector2(projectile.position.X - projectile.velocity.X * 4f + 2f, projectile.position.Y + 2f - projectile.velocity.Y * 4f), 8, 8, 32, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default(Color), Main.rand.NextFloat(.25f, .8f));
 
 			return false;
 		}

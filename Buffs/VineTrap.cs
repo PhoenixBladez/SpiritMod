@@ -24,10 +24,12 @@ namespace SpiritMod.Buffs
 			{
 				npc.velocity.X *= .75f;
 
-				if (Main.rand.Next(5) == 0)
+				if (Main.rand.Next(2) == 0)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 44);
+					int d= Dust.NewDust(npc.position, npc.width, npc.height, 39);
+					Main.dust[d].scale *= Main.rand.NextFloat(.35f, 1.05f);
 				}
+				npc.GetGlobalNPC<GNPC>(mod).vineTrap = true;
 			}
 		}
 	}

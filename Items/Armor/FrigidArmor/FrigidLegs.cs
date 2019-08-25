@@ -11,7 +11,6 @@ namespace SpiritMod.Items.Armor.FrigidArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Frigid Greaves");
-            Tooltip.SetDefault("Increases melee and magic damage by 3%\nIncreases movement speed by 3 % ");
 
         }
 
@@ -25,12 +24,6 @@ namespace SpiritMod.Items.Armor.FrigidArmor
             item.value = 1100;
             item.rare = 1;
             item.defense = 2;
-        }
-        public override void UpdateEquip(Player player)
-        {
-            player.meleeDamage += 0.03f;
-            player.magicDamage += 0.03f;
-            player.maxRunSpeed += 0.03f;
         }
         public override void AddRecipes()
         {

@@ -18,26 +18,49 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.BallofFire);
-			projectile.damage = 22;
 			projectile.extraUpdates = 1;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 5;
-			aiType = ProjectileID.BallofFire;
+			projectile.alpha = 0;
+			projectile.friendly = true;
+			projectile.magic = true;
 			projectile.timeLeft = 360;
-			projectile.penetrate = -1;
+			projectile.width = 32;
+			projectile.height = 28;
+			projectile.penetrate = 4;
 		}
 
 		public override void AI()
 		{
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, 6);
+			projectile.velocity.Y += 0.4F;
+			projectile.velocity.X *= 1.005F;
+			projectile.rotation += .2f;
+			projectile.spriteDirection = projectile.direction;
+			projectile.frameCounter++;
+			if (projectile.frameCounter >= 4)
+			{
+				projectile.frame++;
+				projectile.frameCounter = 0;
+				if (projectile.frame >= 4)
+					projectile.frame = 0;
+			}
+			int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6);
+			Main.dust[d].noGravity = true;
+		}
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return Color.White;
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (Main.rand.Next(8) == 0)
+			if (Main.rand.Next(3) == 0)
 				target.AddBuff(BuffID.OnFire, 200, true);
 		}
+		public override bool OnTileCollide(Vector2 oldVelocity)
+		{
+			if (oldVelocity.X != projectile.velocity.X)
+				projectile.velocity.X = -oldVelocity.X * .95f;
 
+			return false;
+		}
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 5; i++)

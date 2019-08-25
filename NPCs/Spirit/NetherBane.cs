@@ -4,6 +4,8 @@ using Terraria.ModLoader;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace SpiritMod.NPCs.Spirit
 {
@@ -30,7 +32,17 @@ namespace SpiritMod.NPCs.Spirit
 			npc.noTileCollide = true;
 			aiType = NPCID.CaveBat;
 		}
-
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+                             drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			return false;
+		}
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            SpiritUtility.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Spirit/NetherBane_Glow"));
+        }
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0)

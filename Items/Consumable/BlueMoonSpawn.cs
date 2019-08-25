@@ -47,7 +47,10 @@ namespace SpiritMod.Items.Consumable
         {
 			Main.NewText("The Blue Moon is Rising...", 0, 90, 220, true);
             Main.PlaySound(15, (int)player.position.X, (int)player.position.Y, 0);
+            if (!Main.dayTime)
+            {
 			MyWorld.BlueMoon = true; 
+            }
             return true;
         }
 		 public override void AddRecipes()

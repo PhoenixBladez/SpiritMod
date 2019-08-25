@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Floran Saber");
-			Tooltip.SetDefault(" Vines occasionally ensnare the foes, reducing their movement speed");
+			Tooltip.SetDefault("Vines occasionally ensnare foes, reducing movement speed");
 		}
 
 
@@ -19,8 +19,8 @@ namespace SpiritMod.Items.Weapon.Swung
 		{
             item.damage = 23;            
             item.melee = true;
-            item.width = 40;
-            item.height = 40;
+            item.width = 30;
+            item.height = 36;
 			item.useTime = 25;
 			item.useAnimation = 25;
             item.useStyle = 1;
@@ -42,13 +42,12 @@ namespace SpiritMod.Items.Weapon.Swung
         {
             if (Main.rand.Next(5) == 0)
             {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 44);
+                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 39);
             }
         }
 
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
-
         {
             {
                 if (Main.rand.Next(5) == 0) target.AddBuff(mod.BuffType("VineTrap"), 180);

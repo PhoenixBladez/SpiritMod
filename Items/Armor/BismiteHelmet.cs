@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bismite Helmet");
-            Tooltip.SetDefault("Increases critical strike chance by 2%");
+            Tooltip.SetDefault("Increases movement speed by 4%");
 
         }
 
@@ -23,27 +23,27 @@ namespace SpiritMod.Items.Armor
             item.height = 20;
             item.value = 3000;
             item.rare = 1;
-            item.defense = 4;
+            item.defense = 1;
         }
          public override void UpdateEquip(Player player)
         {
-            player.magicCrit += 2;
-            player.meleeCrit += 2;
-            player.thrownCrit += 2;
-            player.rangedCrit += 2;
+            player.moveSpeed += .04f;
         }
-			public override void UpdateArmorSet(Player player)
+		public override void UpdateArmorSet(Player player)
         {
-
-            player.setBonus = "+5% Critical chance"; 
-            player.magicCrit += 5;
-            player.meleeCrit += 5;
-            player.thrownCrit += 5;
-            player.rangedCrit += 5;
+            player.GetModPlayer<MyPlayer>(mod).bismiteSet = true;
+            player.setBonus = "Not getting hit builds up stacks of Virulence\nVirulence charges up every 10 seconds\nStriking while Virulence is charged releases a toxic explosion\nGetting hit depletes Virulence entirely and releases a smaller blast"; 
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
             return body.type == mod.ItemType("BismiteChestplate") && legs.type == mod.ItemType("BismiteLeggings");
+        }
+       public override void ArmorSetShadows(Player player)
+        {
+            if ( player.GetModPlayer<MyPlayer>(mod).virulence <= 0f)
+            {
+                player.armorEffectDrawShadow = true;
+            }
         }
 		 public override void AddRecipes()
         {

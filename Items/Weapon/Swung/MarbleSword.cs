@@ -56,7 +56,7 @@ namespace SpiritMod.Items.Weapon.Swung
                 item.damage = 20;
                 item.UseSound = SoundID.Item1;
                 item.useAnimation = 24;
-                item.knockBack = 5;
+                item.knockBack = 8;
                 item.shoot = 0;
             }
             return base.CanUseItem(player);

@@ -53,7 +53,17 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			MyWorld.downedInfernon = true;
 			return true;
 		}
-
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+                             drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			return false;
+		}
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            SpiritUtility.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Boss/Infernon/InfernonSkull_Glow"));
+        }
 		public override void NPCLoot()
 		{
 			if (Main.expertMode)
@@ -110,8 +120,8 @@ namespace SpiritMod.NPCs.Boss.Infernon
 					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 33);
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
 					direction.Normalize();
-					direction.X *= 1f;
-					direction.Y *= 1f;
+					direction.X *= 6f;
+					direction.Y *= 6f;
 
 					int amountOfProjectiles = 1;
 					for (int z = 0; z < amountOfProjectiles; ++z)

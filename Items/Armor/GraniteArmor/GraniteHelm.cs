@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.GraniteArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Granite Visor");
-            Tooltip.SetDefault("Reduces movement speed by 6%\nReduces damage taken by 3%");
+            Tooltip.SetDefault("Reduces movement speed by 6%\nReduces damage taken by 5%");
 
         }
 
@@ -21,12 +21,12 @@ namespace SpiritMod.Items.Armor.GraniteArmor
             item.height = 24;
             item.value = 1100;
             item.rare = 2;
-            item.defense = 8;
+            item.defense = 9;
         }
         public override void UpdateEquip(Player player)
         {
-            player.maxRunSpeed -= 0.07f;
-            player.endurance += 0.03f;
+            player.maxRunSpeed -= 0.06f;
+            player.endurance += 0.05f;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

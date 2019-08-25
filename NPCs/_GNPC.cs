@@ -23,7 +23,8 @@ namespace SpiritMod.NPCs
 		public int titanicSetStacks;
 		public int duneSetStacks;
 		public int acidBurnStacks;
-
+		public bool vineTrap = false;
+		public bool clatterPierce = false;
 		//Glyphs
 		public bool voidInfluence;
 		public int voidStacks;
@@ -89,7 +90,8 @@ namespace SpiritMod.NPCs
 			unholyPlague = false;
 			frostChill = false;
 			stormBurst = false;
-
+			vineTrap = false;
+			clatterPierce = false;
 			DoomDestiny = false;
 			sFracture = false;
 			Death = false;
@@ -141,13 +143,6 @@ namespace SpiritMod.NPCs
 
 		public override void HitEffect(NPC npc, int hitDirection, double damage)
 		{
-			if (npc.type == NPCID.CultistBoss)
-			{
-				if (Main.netMode != 1 && npc.life < 0 && !NPC.AnyNPCs(mod.NPCType("Lunatic")))
-				{
-					NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, mod.NPCType("Lunatic"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-				}
-			}
 			if (npc.type == NPCID.MartianSaucer)
 			{
 				if (Main.netMode != 1 && npc.life < 0 && !NPC.AnyNPCs(mod.NPCType("Martian")))
@@ -576,13 +571,6 @@ namespace SpiritMod.NPCs
 				else
 					return "Candy helps fill the aching void where my sould used to be. Maybe it can help you too.";
 			}
-			else if (npc.type == Lunatic._type)
-			{
-				if (dialogue == 0)
-					return "When I served beside the Moon Lord I was offered tempting powers, but none were more tempting than this piece of candy.";
-				else
-					return "I was about to sacrifice this piece of candy, but then I realized I don't need to do that anymore. Do you want it?";
-			}
 			else if (npc.type == Martian._type)
 			{
 				if (dialogue == 0)
@@ -813,11 +801,11 @@ namespace SpiritMod.NPCs
 			}
 			#endregion
 
-			#region Artifact
 			if (Main.rand.Next(13) == 1 && !npc.SpawnedFromStatue)
 			{
 				npc.DropItem(mod.ItemType("PrimordialMagic"));
 			}
+			/* 
 			if (npc.type == mod.NPCType("Reachman") || npc.type == mod.NPCType("ReachObserver") || npc.type == mod.NPCType("GrassVine") || npc.type == mod.NPCType("ReachShaman"))
 			{
 				if (Main.rand.Next(Main.expertMode ? 140 : 190) < 2)
@@ -917,7 +905,7 @@ namespace SpiritMod.NPCs
 				}
 			}
 			#endregion
-
+			*/
 			if (npc.type == 140)
 			{
 				if (Main.rand.Next(100) <= 2)
@@ -1039,6 +1027,10 @@ namespace SpiritMod.NPCs
 			if (npc.type == 398)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AccursedRelic"), Main.rand.Next(3, 6));
+				if (Main.rand.Next(4) == 0)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HeartofMoon"));					
+				}
 			}
 			if (npc.type == 213 && Main.rand.Next(50) <= 8)
 			{
@@ -1096,7 +1088,12 @@ namespace SpiritMod.NPCs
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Cookiecutter"));
 			}
-			if (npc.type == NPCID.ZombieEskimo)
+			if (npc.type == NPCID.ZombieEskimo || npc.type == NPCID.IceSlime || npc.type == NPCID.IceBat || npc.type == 197)
+			{
+				if (Main.rand.Next(2) == 0)
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("FrigidFragment"));
+			}
+			if (npc.type == 184 || npc.type == 431)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("FrigidFragment"));
 			}
@@ -1173,7 +1170,7 @@ namespace SpiritMod.NPCs
 
 			if (npc.type == NPCID.Zombie || npc.type == NPCID.BaldZombie || npc.type == NPCID.SlimedZombie || npc.type == NPCID.SwampZombie || npc.type == NPCID.TwiggyZombie || npc.type == NPCID.ZombieRaincoat || npc.type == NPCID.PincushionZombie)
 			{
-				if (Main.rand.Next(3) == 0)
+				if (Main.rand.Next(2) == 0)
 				{
 					int amount = Main.rand.Next(1, 3);
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("OldLeather"), amount);
@@ -1222,8 +1219,28 @@ namespace SpiritMod.NPCs
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PMicrobe"));
 
 			if (npc.type == 439)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Ancient"));
-
+			{
+				int item = 0;
+				switch (Main.rand.Next(5))
+				{
+					case 0:
+						item = mod.ItemType("Ancient");
+						break;
+					case 1:
+						item = mod.ItemType("CultistScarf");
+						break;
+					case 2:
+						item = mod.ItemType("CosmicHourglass");
+						break;
+					case 3:
+						item = mod.ItemType("Tesseract");
+						break;
+					case 4:
+						item = mod.ItemType("CultDagger");
+						break;
+				}				
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, item);
+			}
 			if (npc.type == 417 && Main.rand.Next(40) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Srollerang"));
 
@@ -1279,9 +1296,16 @@ namespace SpiritMod.NPCs
 
 			if (npc.type == NPCID.DemonEye || npc.type == NPCID.DemonEye2 || npc.type == NPCID.DemonEyeOwl || npc.type == NPCID.DemonEyeSpaceship)
 			{
-				if (Main.rand.Next(20) == 1)
+				if (Main.rand.Next(25) == 1)
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnifyingGlass"), 1);
+				}
+			}
+			if (closest.GetModPlayer<MyPlayer>(mod).floranSet)
+			{
+				if (Main.rand.Next(13) == 1)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("RawMeat"), 1);
 				}
 			}
 			if (npc.type == NPCID.EaterofSouls && Main.rand.Next(28) == 1)
@@ -1360,6 +1384,14 @@ namespace SpiritMod.NPCs
 
 			if (felBrand && Main.rand.Next(2) == 0)
 				Dust.NewDust(npc.position, npc.width, npc.height, 75, (float)(Main.rand.Next(8) - 4), (float)(Main.rand.Next(8) - 4), 75);
+			if (vineTrap)
+			{	
+				drawColor = new Color(103, 138, 84);
+			}
+			if (clatterPierce)
+			{	
+				drawColor = new Color(115, 80, 57);
+			}
 		}
 
 	}

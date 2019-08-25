@@ -10,8 +10,8 @@ namespace SpiritMod.Items.Accessory
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Scarab Charm");
-			Tooltip.SetDefault("Increases minion damage by 8% and max number of minions by 1");
+			DisplayName.SetDefault("Pendant of the Warm Winds");
+			Tooltip.SetDefault("Press and hold 'up' to reduce falling speed\nProvides immunity to the 'Chilled' debuff");
 		}
 
 
@@ -28,8 +28,8 @@ namespace SpiritMod.Items.Accessory
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			player.minionDamage += 0.08f;
-            player.maxMinions += 1;
+			player.GetModPlayer<MyPlayer>(mod).scarabCharm = true;
+			player.buffImmune[BuffID.Chilled] = true;
 		}
 	}
 }

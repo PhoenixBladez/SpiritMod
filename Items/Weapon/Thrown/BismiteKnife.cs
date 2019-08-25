@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bismite Knife");
-			Tooltip.SetDefault("Flies straight, ignoring gravity \n Occasionally poisons foes");
+			Tooltip.SetDefault("Flies straight, ignoring gravity\nOccasionally poisons foes");
 		}
 
 

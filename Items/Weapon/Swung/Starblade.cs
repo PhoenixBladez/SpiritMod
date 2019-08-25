@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
@@ -13,7 +14,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		{
 			DisplayName.SetDefault("Starblade");
             Tooltip.SetDefault("'Harness the night sky'\nEvery fifth swing causes the blade to release multiple bright stars\nEach star explodes into homing star wisps");
-
+            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Swung/Starblade_Glow");
         }
 
 
@@ -39,9 +40,32 @@ namespace SpiritMod.Items.Weapon.Swung
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 172);
+                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 226);
+                Main.dust[dust].noGravity = true;
+                Main.dust[dust].velocity *= 0.1f;
 
             }
+        }
+    	public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float  scale, int whoAmI) 	
+		{
+			Texture2D texture;
+			texture = Main.itemTexture[item.type];
+			spriteBatch.Draw
+			(
+				ModContent.GetTexture("SpiritMod/Items/Weapon/Swung/Starblade_Glow"),
+				new Vector2
+				(
+					item.position.X - Main.screenPosition.X + item.width * 0.5f,
+					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+				),
+				new Rectangle(0, 0, texture.Width, texture.Height),
+				Color.White,
+				rotation,
+				texture.Size() * 0.5f,
+				scale, 
+				SpriteEffects.None, 
+				0f
+			);
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

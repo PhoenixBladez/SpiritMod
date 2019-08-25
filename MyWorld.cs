@@ -20,6 +20,11 @@ namespace SpiritMod
 		private static bool dayTimeLast;
 		public static bool dayTimeSwitched;
 
+		public static int auroraType = 1;
+		public static int auroraChance = 4;
+
+		public static bool aurora = false;
+
 		public static bool BlueMoon = false;
 		public static int SpiritTiles = 0;
 		public static int ReachTiles = 0;
@@ -56,7 +61,7 @@ namespace SpiritMod
 			SpiritTiles = tileCounts[mod.TileType("SpiritDirt")]+ tileCounts[mod.TileType("SpiritStone")]
 			+tileCounts[mod.TileType("Spiritsand")] +tileCounts[mod.TileType("SpiritIce")] + tileCounts[mod.TileType("SpiritGrass")];
 			//now you don't gotta have 6 separate things for tilecount
-			ReachTiles = tileCounts[mod.TileType("SkullStick")] +tileCounts[mod.TileType("SkullStick2")] + tileCounts[mod.TileType("ReachGrassTile")];
+			ReachTiles = tileCounts[mod.TileType("ReachGrassTile")];
 		}
 
 		public override TagCompound Save()
@@ -172,376 +177,9 @@ namespace SpiritMod
 			BlueMoon = environment[0];
 		}
 
-		public void PlaceReach(int x, int y)
-		{
-			//initial pit
-			WorldMethods.TileRunner(x, y, (double)150, 1, mod.TileType("ReachGrassTile"), false, 0f, 0f, true, true); //improve basic shape later
-			bool leftpit = false;
-			int PitX;
-			int PitY;
-			if (Main.rand.Next(2) == 0)
-			{
-				leftpit = true;
-			}
-			if (leftpit)
-			{
-				PitX = x - Main.rand.Next(5, 15);
-			}
-			else
-			{
-				PitX = x + Main.rand.Next(5, 15);
-			}
-			for (PitY = y - 16; PitY < y + 25; PitY++)
-			{
-				WorldGen.digTunnel(PitX, PitY, 0, 0, 1, 4, false);
-				WorldGen.TileRunner(PitX, PitY, 11, 1, mod.TileType("ReachGrassTile"), false, 0f, 0f, false, true);
-			}
-			//tunnel off of pit
-			int tunnellength = Main.rand.Next(50, 110);
-			int TunnelEndX = 0;
-			if (leftpit)
-			{
-				for (int TunnelX = PitX; TunnelX < PitX + tunnellength; TunnelX++)
-				{
-					WorldGen.digTunnel(TunnelX, PitY, 0, 0, 1, 4, false);
-					WorldGen.TileRunner(TunnelX, PitY, 13, 1, mod.TileType("ReachGrassTile"), false, 0f, 0f, false, true);
-					TunnelEndX = TunnelX;
-				}
-			}
-			else
-			{
-				for (int TunnelX = PitX; TunnelX > PitX - tunnellength; TunnelX--)
-				{
-					WorldGen.digTunnel(TunnelX, PitY, 0, 0, 1, 4, false);
-					WorldGen.TileRunner(TunnelX, PitY, 13, 1, mod.TileType("ReachGrassTile"), false, 0f, 0f, false, true);
-					TunnelEndX = TunnelX;
-				}
-			}
-			//More pits and spikes
-			int TrapX;
-			for (int TrapNum = 0; TrapNum < 10; TrapNum++)
-			{
-				if (leftpit)
-				{
-					TrapX = Main.rand.Next(PitX, PitX + tunnellength);
-				}
-				else
-				{
-					TrapX = Main.rand.Next(PitX - tunnellength, PitX);
-				}
-				for (int TrapY = PitY; TrapY < PitY + 15; TrapY++)
-				{
-					WorldGen.digTunnel(TrapX, TrapY, 0, 0, 1, 3, false);
-					WorldGen.TileRunner(TrapX, TrapY, 11, 1, mod.TileType("ReachGrassTile"), false, 0f, 0f, false, true);
-				}
-				WorldGen.TileRunner(TrapX, PitY + 18, 9, 1, 48, false, 0f, 0f, false, true);
-			}
-			//Additional hole and tunnel
-			int PittwoY = 0;
-			for (PittwoY = PitY; PittwoY < PitY + 40; PittwoY++)
-			{
-				WorldGen.digTunnel(TunnelEndX, PittwoY, 0, 0, 1, 4, false);
-				WorldGen.TileRunner(TunnelEndX, PittwoY, 11, 1, mod.TileType("ReachGrassTile"), false, 0f, 0f, false, true);
-			}
-			int PittwoX = 0;
-			for (PittwoX = TunnelEndX - 50; PittwoX < TunnelEndX + 50; PittwoX++)
-			{
-				WorldGen.digTunnel(PittwoX, PittwoY, 0, 0, 1, 4, false);
-				WorldGen.TileRunner(PittwoX, PittwoY, 13, 1, mod.TileType("ReachGrassTile"), false, 0f, 0f, false, true);
-				WorldGen.PlaceChest(PittwoX, PittwoY, 21, false, 2);
-				WorldGen.PlaceChest(PittwoX + 5, PittwoY + 3, 21, false, 2);
-				WorldGen.PlaceChest(PittwoX + 1, PittwoY + 2, 21, false, 2);
-			}
-			//grass walls
-			for (int wallx = x - 100; wallx < x + 100; wallx++)
-			{
-				for (int wally = y - 25; wally < y + 100; wally++)
-				{
-					if (Main.tile[wallx, wally].wall != 0)
-					{
-						WorldGen.KillWall(wallx, wally);
-						WorldGen.PlaceWall(wallx, wally, 63);
-					}
-				}
-			}
-			//campfires and shit
-			int SkullStickY = 0;
-			Tile tile = Main.tile[1, 1];
-			for (int SkullStickX = x - 90; SkullStickX < x + 90; SkullStickX++)
-			{
-				if (Main.rand.Next(4) == 1)
-				{
-					for (SkullStickY = y - 80; SkullStickY < y + 75; SkullStickY++)
-					{
-						tile = Main.tile[SkullStickX, SkullStickY];
-						if (tile.type == 2 || tile.type == 1 || tile.type == 0)
-						{
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 2, 215);//i dont know which of these is correct but i cant be bothered to test.
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 1, 215);
-							WorldGen.PlaceObject(SkullStickX, SkullStickY, 215);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 2, 215, 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 1, 215, 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY, 215, 0, 0, -1, -1);
-						}
-					}
-				}
-				if (Main.rand.Next(9) == 1)
-				{
-					for (SkullStickY = y - 60; SkullStickY < y + 75; SkullStickY++)
-					{
-						tile = Main.tile[SkullStickX, SkullStickY];
-						if (tile.type == 2 || tile.type == 1 || tile.type == 0 || tile.type == mod.TileType("ReachGrassTile"))
-						{
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 3, mod.TileType("SkullStick")); //i dont know which of these is correct but i cant be bothered to test.
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 2, mod.TileType("SkullStick"));
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 1, mod.TileType("SkullStick"));
-							WorldGen.PlaceObject(SkullStickX, SkullStickY, mod.TileType("SkullStick"));
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 3, mod.TileType("SkullStick"), 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 2, mod.TileType("SkullStick"), 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 1, mod.TileType("SkullStick"), 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY, mod.TileType("SkullStick"), 0, 0, -1, -1);
-						}
-					}
-				}
-				if (Main.rand.Next(12) == 1)
-				{
-					for (SkullStickY = y - 60; SkullStickY < y + 75; SkullStickY++)
-					{
-						tile = Main.tile[SkullStickX, SkullStickY];
-						if (tile.type == 2 || tile.type == 1 || tile.type == 0 || tile.type == mod.TileType("ReachGrassTile"))
-						{
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 3, mod.TileType("SkullStick2")); //i dont know which of these is correct but i cant be bothered to test.
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 2, mod.TileType("SkullStick2"));
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 1, mod.TileType("SkullStick2"));
-							WorldGen.PlaceObject(SkullStickX, SkullStickY, mod.TileType("SkullStick2"));
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 3, mod.TileType("SkullStick2"), 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 2, mod.TileType("SkullStick2"), 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 1, mod.TileType("SkullStick2"), 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY, mod.TileType("SkullStick2"), 0, 0, -1, -1);
-						}
-					}
-				}
-				if (Main.rand.Next(10) == 1)
-				{
-					for (SkullStickY = y - 60; SkullStickY < y + 75; SkullStickY++)
-					{
-						tile = Main.tile[SkullStickX, SkullStickY];
-						if (tile.type == 2 || tile.type == 1 || tile.type == 0 || tile.type == mod.TileType("ReachGrassTile"))
-						{
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 3, mod.TileType("SkullStick3")); //i dont know which of these is correct but i cant be bothered to test.
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 2, mod.TileType("SkullStick3"));
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 1, mod.TileType("SkullStick3"));
-							WorldGen.PlaceObject(SkullStickX, SkullStickY, mod.TileType("SkullStick3"));
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 3, mod.TileType("SkullStick3"), 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 2, mod.TileType("SkullStick3"), 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 1, mod.TileType("SkullStick3"), 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY, mod.TileType("SkullStick3"), 0, 0, -1, -1);
-						}
-					}
-				}
-				if (Main.rand.Next(25) == 1)
-				{
-					for (SkullStickY = y - 60; SkullStickY < y + 75; SkullStickY++)
-					{
-						tile = Main.tile[SkullStickX, SkullStickY];
-						if (tile.type == 2 || tile.type == 1 || tile.type == 0 || tile.type == mod.TileType("ReachGrassTile"))
-						{
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 3, mod.TileType("CreationAltarTile")); //i dont know which of these is correct but i cant be bothered to test.
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 2, mod.TileType("CreationAltarTile"));
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 1, mod.TileType("CreationAltarTile"));
-							WorldGen.PlaceObject(SkullStickX, SkullStickY, mod.TileType("CreationAltarTile"));
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 3, mod.TileType("CreationAltarTile"), 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 2, mod.TileType("CreationAltarTile"), 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 1, mod.TileType("CreationAltarTile"), 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY, mod.TileType("CreationAltarTile"), 0, 0, -1, -1);
-						}
-					}
-				}
-				if (Main.rand.Next(10) == 1)
-				{
-					for (SkullStickY = y - 60; SkullStickY < y + 75; SkullStickY++)
-					{
-						tile = Main.tile[SkullStickX, SkullStickY];
-						if (tile.type == 2 || tile.type == 1 || tile.type == 0 || tile.type == mod.TileType("ReachGrassTile"))
-						{
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 3, mod.TileType("ReachGrass1")); //i dont know which of these is correct but i cant be bothered to test.
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 2, mod.TileType("ReachGrass1"));
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 1, mod.TileType("ReachGrass1"));
-							WorldGen.PlaceObject(SkullStickX, SkullStickY, mod.TileType("ReachGrass1"));
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 3, mod.TileType("ReachGrass1"), 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 2, mod.TileType("ReachGrass1"), 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 1, mod.TileType("ReachGrass1"), 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY, mod.TileType("ReachGrass1"), 0, 0, -1, -1);
-						}
-					}
-				}
-				if (Main.rand.Next(16) == 1)
-				{
-					for (SkullStickY = y - 60; SkullStickY < y + 75; SkullStickY++)
-					{
-						tile = Main.tile[SkullStickX, SkullStickY];
-						if (tile.type == 2 || tile.type == 1 || tile.type == 0 || tile.type == mod.TileType("ReachGrassTile"))
-						{
-							WorldGen.PlaceChest(SkullStickX, SkullStickY - 3, (ushort)mod.TileType("ReachChest"), false, 0);
-							WorldGen.PlaceChest(SkullStickX, SkullStickY - 2, (ushort)mod.TileType("ReachChest"), false, 0);
-							WorldGen.PlaceChest(SkullStickX, SkullStickY - 1, (ushort)mod.TileType("ReachChest"), false, 0);
-						}
-					}
-				}
-			}
-			//loot placement
-			for (PittwoX = TunnelEndX - 20; PittwoX < TunnelEndX + 20; PittwoX++)
-			{
-				if (Main.rand.Next(30) == 1)
-				{
-					Main.tile[PittwoX, PittwoY + 1].active(true);
-					Main.tile[PittwoX + 1, PittwoY + 1].active(true);
-					Main.tile[PittwoX, PittwoY + 1].type = 1;
-					Main.tile[PittwoX + 1, PittwoY + 1].type = 1;
-					WorldGen.AddLifeCrystal(PittwoX + 1, PittwoY);
-					WorldGen.AddLifeCrystal(PittwoX + 1, PittwoY + 1);
-					break;
-				}
-			}
-			for (int trees = 0; trees < 5000; trees++)
-			{
-				int E = x + Main.rand.Next(-200, 200);
-				int F = y  + Main.rand.Next(-30, 30);
-				tile = Framing.GetTileSafely(E, F);
-				if (tile.type == mod.TileType("ReachGrassTile"))
-				{
-					WorldGen.GrowTree(E, F);
-				}
-			}
-		}
-
-		static bool CanPlaceReach(int x, int y)
-		{
-			for (int i = x - 32; i < x + 32; i++)
-			{
-				for (int j = y - 32; j < y + 32; j++)
-				{
-					int[] TileArray = { TileID.BlueDungeonBrick, TileID.GreenDungeonBrick, TileID.PinkDungeonBrick, TileID.Cloud, TileID.RainCloud,
-						TileID.SnowBlock, TileID.JungleGrass, TileID.Sand, TileID.ClayBlock, TileID.FleshGrass, TileID.CorruptGrass, TileID.Ebonstone, TileID.Crimstone };
-					for (int block = 0; block < TileArray.Length; block++)
-					{
-						if (Main.tile[i, j].type == (ushort)TileArray[block])
-						{
-							return false;
-						}
-					}
-				}
-			}
-			return true;
-		}
-		
-
-		public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
-		{
-
-			int GuideIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Guide"));
-			if (GuideIndex == -1)
-			{
-				// Guide pass removed by some other mod.
-				return;
-			}
-			tasks.Insert(GuideIndex + 1, new PassLegacy("Reach", 
-				delegate (GenerationProgress progress)
-			{
-				progress.Message = "Creating Hostile Settlements";
-				bool placed = false;
-				bool success = false;
-				int inset = 200;
-				int spawnProtect = Main.maxTilesX >> 5;
-				int spawnStart = (Main.maxTilesX >> 1) - (spawnProtect >> 1);
-				int limit = Main.maxTilesX - spawnProtect - inset;
-				int attempts = 0;
-				int x = 0;
-				int y = (int)WorldGen.worldSurface;
-				while (!success)
-				{
-					attempts++;
-					if (attempts > 1000)
-					{
-						success = true;
-						continue;
-					}
-					x = WorldGen.genRand.Next(inset, limit);
-					if (x > spawnStart)
-						x += spawnProtect;
-					y = (int)WorldGen.worldSurfaceLow;
-					while (!Main.tile[x, y].active() && (double)y < Main.worldSurface)
-					{
-						y++;
-					}
-					if (Main.tile[x, y].type == TileID.Grass || Main.tile[x, y].type == TileID.Dirt)
-					{
-						y--;
-						if (y > 150 && CanPlaceReach(x, y))
-						{
-							success = true;
-							placed = true;
-							continue;
-						}
-					}
-				}
-				PlaceReach(x, y);
-			}));
-
-			int ShiniesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Shinies"));
-			if (ShiniesIndex == -1)
-			{
-				// Shinies pass removed by some other mod.
-				return;
-			}
-			tasks.Insert(ShiniesIndex + 1, new PassLegacy("Rune Shrines", delegate (GenerationProgress progress)
-			{
-				progress.Message = "Honoring the Dead...";
-				for (int num = 0; num < Main.maxTilesX / 390; num++)
-				{
-					int xAxis = WorldGen.genRand.Next(200, Main.maxTilesX - 200);
-					int yAxis = WorldGen.genRand.Next((int)WorldGen.rockLayer + 150, Main.maxTilesY - 250);
-					WorldMethods.RoundHill2(xAxis, yAxis, 30, 30, 16, true, 2);
-					for (int A = xAxis-40; A < xAxis+40; A++)
-					{
-						for (int B = yAxis-40; B < yAxis+40; B++)
-						{
-							if (Main.tile[A, B] != null)
-							{
-								if (Main.tile[A, B].type == TileID.Grass) // A = x, B = y.
-								{
-									WorldGen.KillWall(A, B);
-									WorldGen.PlaceWall(A, B, 65);
-								}
-							}
-						}
-					}
-					for (int RuneX = xAxis - 45; RuneX < xAxis + 45; RuneX++)
-					{
-						if (Main.rand.Next(4) == 1)
-						{
-							for (int RuneY = yAxis - 45; RuneY < yAxis + 45; RuneY++)
-							{
-								Tile tile = Main.tile[RuneX, RuneY];
-								if (tile.type == 2 || tile.type == 0 && Main.rand.Next(15) == 0)
-								{
-									WorldGen.PlaceObject(RuneX, RuneY - 2, mod.TileType("RuneStone"));//i dont know which of these is correct but i cant be bothered to test.
-									WorldGen.PlaceObject(RuneX, RuneY - 1, mod.TileType("RuneStone"));
-									WorldGen.PlaceObject(RuneX, RuneY, mod.TileType("RuneStone"));
-									NetMessage.SendObjectPlacment(-1, RuneX, RuneY - 2, mod.TileType("RuneStone"), 0, 0, -1, -1);
-									NetMessage.SendObjectPlacment(-1, RuneX, RuneY - 1, mod.TileType("RuneStone"), 0, 0, -1, -1);
-									NetMessage.SendObjectPlacment(-1, RuneX, RuneY, mod.TileType("RuneStone"), 0, 0, -1, -1);
-								}
-							}
-						}
-
-					}
-				}
-			}));
-		}
-
 		public override void Initialize()
 		{
+			BlueMoon = false;
 			dayTimeLast = Main.dayTime;
 			dayTimeSwitched = false;
 
@@ -591,12 +229,2178 @@ namespace SpiritMod
 			downedIlluminantMaster = false;
 			downedOverseer = false;
 		}
+		#region MageTower
+		private void PlaceTower(int i, int j, int[,] ShrineArray, int[,] WallsArray, int[,] LootArray) {
+			
+			for (int y = 0; y < WallsArray.GetLength(0); y++) { // This Loop Placzs Furnitures.(So that they have blocks to spawn on).
+				for (int x = 0; x < WallsArray.GetLength(1); x++) {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (WallsArray[y, x]) {
+							case 1:
+								Framing.GetTileSafely(k, l).ClearTile();
+								WorldGen.PlaceWall(k, l, 66); // Stone Slab
+								break;	
+							case 2:
+								Framing.GetTileSafely(k, l).ClearTile();
+								WorldGen.PlaceWall(k, l, 144); // Stone Slab
+								break;	
+							case 4:
+								Framing.GetTileSafely(k, l).ClearTile();
+								WorldGen.PlaceTile(k, l, 124); // Platforms
+								tile.active(true);
+								break;
+							case 5:
+								Framing.GetTileSafely(k, l).ClearTile();
+								WorldGen.PlaceWall(k, l, 106); // Platforms
+								break;		
+							case 8:
+								Framing.GetTileSafely(k, l).ClearTile();
+								WorldGen.PlaceWall(k, l, 147); // Stone Slab
+								break;	
+						}
+					}
+				}
+			}
+			for (int y = 0; y < ShrineArray.GetLength(0); y++) { // This loops clears the area (makes the proper hemicircle) and placed dirt in the bottom if there are no blocks (so that the chest and fireplace can be placed).
+				for (int x = 0; x < ShrineArray.GetLength(1); x++) {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (ShrineArray[y, x]) {
+							case 0:
+								break; // no changes
+							case 1:
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;
+							case 2:
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;
+							case 3:
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;
+							case 4:
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;
+							case 5:
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 7:
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;		
+							case 8:
+								WorldGen.PlaceTile(k,l,0);
+								tile.active(true);
+								break;			
+						}
+					}
+				}
+			}
+			
+			for (int y = 0; y < ShrineArray.GetLength(0); y++) { // This Loop Placzs Furnitures.(So that they have blocks to spawn on).
+				for (int x = 0; x < ShrineArray.GetLength(1); x++) {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (ShrineArray[y, x]) {
+							case 1:
+								WorldGen.PlaceTile(k, l, 273); // Stone Slab
+								tile.active(true);
+								break;	
+							case 2:
+								WorldGen.PlaceTile(k, l, 19); // Platforms
+								tile.active(true);
+								break;
+							case 3:
+								WorldGen.PlaceTile(k, l, 30); // Wood
+								tile.active(true);
+								break;
+							case 6:
+								WorldGen.PlaceTile(k, l, 312); // Roofing
+								tile.active(true);
+								break;					
+						}
+					}
+				}
+			}
+			for (int y = 0; y < LootArray.GetLength(0); y++) { // This Loop Placzs Furnitures.(So that they have blocks to spawn on).
+				for (int x = 0; x < LootArray.GetLength(1); x++) {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (LootArray[y, x]) {
+							case 1:
+								WorldGen.PlaceTile(k, l, 28);  // Pot
+								tile.active(true);
+								break;
+							case 2:
+								WorldGen.PlaceObject(k, l, mod.TileType<Tiles.Ambient.GoblinStatueTile>());
+								break;
+							case 4:
+								WorldGen.PlaceObject(k, l - 1, mod.TileType<Tiles.Furniture.ShadowflameStone>());
+								break;	
+							case 5:
+								WorldGen.PlaceObject(k, l, 50); // Book
+								break;		
+							case 6:
+								WorldGen.PlaceObject(k, l, 376); // Crate
+								break;	
+							case 7:
+								WorldGen.PlaceChest(k, l, (ushort)mod.TileType("GoblinChest"), false, 0); // Gold Chest
+								break;	
+							case 8:
+								WorldGen.PlaceObject(k, l, 13); // Crate
+								break;
+							case 9:
+								WorldGen.PlaceObject(k, l - 1, mod.TileType<Tiles.Ambient.GoblinStandardTile>()); // Crate
+								break;
+						}
+					}
+				}
+			}
+		}
+		public void GenerateTower()
+		{
+			int[,] TowerShape = new int[,]
+			{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,6,6,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,6,6,6,6,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,6,6,6,6,6,6,0,0,0,0,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,0,0,0,6,6,6,6,6,6,6,6,0,0,0,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,0,0,6,6,6,6,6,6,6,6,6,6,0,0,0,0,0,0,0,0,0},				
+				{0,0,0,0,0,0,0,0,6,6,6,6,6,6,6,6,6,6,6,6,0,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,6,6,6,6,6,6,6,6,6,6,6,6,6,6,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,0,0,0,0,0,0},	
+				{0,0,0,0,0,6,6,6,6,0,0,0,0,0,0,0,0,0,0,6,6,6,6,0,0,0,0,0},						
+				{0,0,0,0,6,6,6,1,0,0,0,0,0,0,0,0,0,0,0,0,1,6,6,6,0,0,0,0},	
+				{0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},		
+				{0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,1,2,2,2,2,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},		
+				{0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,2,2,2,2,1,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},	
+				{0,0,3,3,3,3,3,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},						
+				{0,0,0,3,3,3,3,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},	
+				{0,0,0,0,3,3,3,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,2,1,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},		
+				{0,0,0,0,0,0,0,1,0,0,2,2,2,1,1,2,2,2,2,2,1,3,3,3,3,3,0,0},	
+				{0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,2,0,1,3,3,3,0,0,0,0},	
+				{0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,2,0,0,1,3,3,0,0,0,0,0},		
+				{0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,2,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,1,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,1,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},	
+				{0,0,3,3,3,3,3,1,2,2,2,2,0,0,0,0,2,2,2,2,1,0,0,0,0,0,0,0},						
+				{0,0,0,3,3,3,3,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},	
+				{0,0,0,0,3,3,3,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,2,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},		
+				{0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0},	
+				{0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0},	
+				{0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0},
+				{0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,7,7,7,7,0,0},	
 
+			};
+			int[,] TowerWallsShape = new int[,]
+			{	
+			
+			
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,1,1,1,8,8,1,1,0,0,8,1,4,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,1,1,8,8,8,8,8,8,8,8,8,4,1,1,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,4,8,8,8,8,8,8,8,8,8,8,4,1,1,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,4,8,8,8,8,8,1,1,1,8,8,4,1,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,4,8,8,8,8,8,1,1,1,8,8,1,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,4,8,8,8,8,8,8,8,8,0,8,1,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,1,1,1,8,8,8,8,8,0,0,8,4,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,1,1,1,8,8,8,8,8,0,8,8,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,1,4,8,1,8,8,8,8,2,2,8,8,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,4,8,1,8,0,8,0,2,2,8,8,4,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,4,8,1,8,8,8,8,8,8,8,8,4,1,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,4,8,8,8,8,8,8,8,8,8,8,4,1,1,0,0,0,0,0,0},
+				{0,0,0,5,5,5,5,5,4,8,8,8,8,8,8,0,0,8,8,4,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,5,4,8,8,8,8,8,8,8,8,8,8,4,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,5,4,8,2,2,8,8,8,1,1,1,1,4,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,4,8,2,2,8,8,8,1,1,8,8,4,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,4,8,8,0,0,8,8,8,1,8,8,4,5,5,5,5,5,0,0,0},
+				{0,0,0,0,0,0,0,0,4,8,8,0,0,8,8,8,1,8,8,4,5,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,4,8,8,8,0,8,8,8,1,8,8,4,5,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,4,1,1,8,8,8,8,8,2,2,8,4,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,4,1,1,8,8,8,8,8,2,2,8,4,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,4,8,1,8,8,8,8,8,8,8,8,4,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,4,8,8,8,8,8,8,8,8,8,8,4,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,4,8,8,8,8,8,8,8,8,8,8,0,0,0,0,0,0,0,0,0},
+				{0,0,0,5,5,5,5,5,4,8,2,2,8,8,8,8,1,1,1,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,1,4,2,8,2,8,8,8,8,1,8,8,4,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,1,1,1,8,8,8,8,0,8,8,8,8,4,0,0,0,0,0,0,0,0},
+				{0,0,0,0,4,0,0,1,1,1,8,8,8,8,0,8,8,8,8,4,0,0,0,0,0,0,0,0},
+				{0,0,0,0,4,0,0,0,4,1,8,8,8,8,8,8,8,8,8,4,0,0,0,0,0,0,0,0},
+				{0,0,0,0,4,0,0,1,4,1,8,8,8,8,8,8,8,8,8,4,0,0,0,0,0,0,0,0},
+				{0,0,0,0,4,0,0,1,1,8,8,8,8,8,8,8,1,1,8,4,1,0,0,0,0,0,0,0},
+				{0,0,0,0,4,0,1,1,1,1,1,1,8,8,8,1,1,1,8,1,1,1,0,0,0,0,0,0},
+				{0,0,0,0,4,0,1,1,4,8,8,8,8,8,8,8,8,8,8,1,1,1,1,0,0,0,0,0},
+				{0,0,0,0,4,0,1,1,4,8,8,8,8,8,8,8,8,8,8,8,1,1,1,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,8,8,8,8,8,8,8,8,8,8,8,8,0,0,0,0,0,0,0,0},
+	
+			};
+			int[,] TowerLoot = new int[,]
+			{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,6,6,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,6,6,6,6,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,6,6,6,6,6,6,0,0,0,0,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,0,0,0,6,6,6,6,6,6,6,6,0,0,0,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,0,0,6,6,6,6,6,6,6,6,6,6,0,0,0,0,0,0,0,0,0},				
+				{0,0,0,0,0,0,0,0,6,6,6,6,6,6,6,6,6,6,6,6,0,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,6,6,6,6,6,6,6,6,6,6,6,6,6,6,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,0,0,0,0,0,0},	
+				{0,0,0,0,0,6,6,6,6,0,0,0,0,0,0,0,0,0,0,6,6,6,6,0,0,0,0,0},						
+				{0,0,0,0,6,6,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,6,6,0,0,0,0},	
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},		
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,0,5,5,8,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},		
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,5,5,0,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},	
+				{0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},	
+				{0,0,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},						
+				{0,0,0,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},	
+				{0,0,0,0,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,1,0,0,1,0,0,0,0,9,0,0,0},		
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,3,3,0,0},	
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,0,0,0,0},	
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,0,0,0,0,0},		
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},	
+				{0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},	
+				{0,0,0,6,0,6,0,0,5,5,5,0,0,0,0,0,5,5,8,0,0,0,0,0,0,0,0,0},	
+				{0,0,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},						
+				{0,0,0,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},	
+				{0,0,0,0,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},		
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,0,0,1,0,0,0,4,0,0,1,0,1,0,1,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},	
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			};
+			bool placed = false;
+			while (!placed)
+			{
+				// Select a place in the first 6th of the world
+				int towerX = WorldGen.genRand.Next(50, Main.maxTilesX / 6); // from 50 since there's a unaccessible area at the world's borders
+				// 50% of choosing the last 6th of the world
+				if (WorldGen.genRand.NextBool())
+				{
+					towerX = Main.maxTilesX - towerX;
+				}
+				int towerY = 0;
+				// We go down until we hit a solid tile or go under the world's surface
+				while (!WorldGen.SolidTile(towerX, towerY) && towerY <= Main.worldSurface)
+				{
+					towerY++;
+				}
+				// If we went under the world's surface, try again
+				if (towerY > Main.worldSurface)
+				{
+					continue;
+				}
+				Tile tile = Main.tile[towerX, towerY];
+				// If the type of the tile we are placing the tower on doesn't match what we want, try again
+				if (tile.type != TileID.Dirt && tile.type != TileID.Grass && tile.type != TileID.Stone)
+				{
+					continue;
+				}
+				// place the tower
+				PlaceTower(towerX, towerY - 37, TowerShape, TowerWallsShape, TowerLoot);
+				placed = true;
+			}
+		}
+		#endregion
+		#region ReachOutpost
+		private void PlaceHideout(int i, int j, int[,] BlocksArray, int[,] WallsArray, int[,] LootArray) 
+		{
+			for (int y = 0; y < WallsArray.GetLength(0); y++) 
+			{
+				for (int x = 0; x < WallsArray.GetLength(1); x++)
+				 {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (WallsArray[y, x]) {
+							case 0:
+								break;
+							case 1:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 2:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 4:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;			
+						}
+					}
+				}
+			}			
+			for (int y = 0; y < BlocksArray.GetLength(0); y++) 
+			{
+				for (int x = 0; x < BlocksArray.GetLength(1); x++)
+				 {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (BlocksArray[y, x]) {
+							case 0:
+								break;
+							case 1:
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 2:
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;		
+						}
+					}
+				}
+			}			
+			for (int y = 0; y < LootArray.GetLength(0); y++) 
+			{
+				for (int x = 0; x < LootArray.GetLength(1); x++)
+				 {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (LootArray[y, x]) {
+							case 0:
+								break;
+							case 1:
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 2:
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;
+							case 3:
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;
+							case 4:
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;
+							case 5:
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;
+							case 6:
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;
+							case 7:
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;								
+						}
+					}
+				}
+			}
+			for (int y = 0; y < BlocksArray.GetLength(0); y++) 
+			{
+				for (int x = 0; x < BlocksArray.GetLength(1); x++)
+				 {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (BlocksArray[y, x]) {
+							case 0:
+								break;
+							case 1:
+								WorldGen.PlaceTile(k, l, mod.TileType("ReachGrassTile"));
+								tile.active(true);
+								break;	
+							case 2:
+								WorldGen.PlaceTile(k, l, mod.TileType("BarkTileTile"));
+								tile.active(true);
+								break;		
+						}
+					}
+				}
+			}
+			for (int y = 0; y < WallsArray.GetLength(0); y++) 
+			{
+				for (int x = 0; x < WallsArray.GetLength(1); x++)
+				 {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (WallsArray[y, x]) {
+							case 0:
+								break;
+							case 1:
+								WorldGen.PlaceWall(k, l, 63);
+								break;	
+							case 2:
+								WorldGen.PlaceWall(k, l, mod.WallType("BarkWall"));
+								break;		
+						}
+					}
+				}
+			}
+			for (int y = 0; y < LootArray.GetLength(0); y++) 
+			{
+				for (int x = 0; x < LootArray.GetLength(1); x++)
+				 {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (LootArray[y, x]) {
+							case 0:
+								break;
+							case 3:
+								if (Main.rand.Next(2) == 0)
+								WorldGen.PlaceObject(k, l - 1, mod.TileType("SkullStick"));
+								else
+								WorldGen.PlaceObject(k, l - 1, mod.TileType("SkullStickFlip"));
+								break;	
+							case 4:
+								WorldGen.PlaceObject(k, l, 215);
+								break;	
+							case 5:
+								WorldGen.PlaceChest(k, l, (ushort)mod.TileType("ReachChest"), false, 0); // Gold Chest
+								break;	
+							case 6:
+								WorldGen.PlaceObject(k, l, 28);  // Pot
+								break;	
+						}
+					}
+				}
+			}
+		}
+		public void GenerateHideout()
+		{
+			
+			int[,] HideoutShape = new int[,]
+			{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0,0,2,2,0,2,1,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,1,2,2,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,1,2,2,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,2,0,0,0,0,1,1,1,0,0,0,0,0},
+				{0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,0,0,0,0,0},
+				{0,0,0,0,0,0,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,1,1,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0},
+			};
+			int[,] HideoutWalls = new int[,]
+			{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,2,2,2,1,1,2,2,1,1,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,1,2,2,1,1,2,2,1,1,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,2,0,2,2,1,1,0,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,2,2,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,2,2,2,2,0,0,0,2,0,0,0,1,1,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,2,0,0,0,0,0,1,1,1,2,0,1,1,1,1,1,1,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0},
+				{0,0,0,0,0,0,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,1,1,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0},
+			};
+			int[,] HideoutLoot = new int[,]
+			{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0,0,2,2,0,2,1,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,1,2,2,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,1,2,2,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,4,0,2,0,0,0,0,0,3,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,3,0,1,1,0,6,0,6,0,0,5,0,0,0,1,1,1,2,0,6,0,6,1,1,1,0,0,0,0,0},
+				{0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,0,0,0,0,0},
+				{0,0,0,0,0,0,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,1,1,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0},
+			};
+			bool placed = false;
+			while (!placed)
+			{
+				// Select a place in the first 6th of the world
+				int hideoutX = (Main.rand.Next(Main.maxTilesX /6, Main.maxTilesX/6*5)); // from 50 since there's a unaccessible area at the world's borders
+				// 50% of choosing the last 6th of the world
+				if (WorldGen.genRand.NextBool())
+				{
+					hideoutX = Main.maxTilesX - hideoutX;
+				}
+				int hideoutY = 0;
+				// We go down until we hit a solid tile or go under the world's surface
+				while (!WorldGen.SolidTile(hideoutX, hideoutY) && hideoutY <= Main.worldSurface)
+				{
+					hideoutY++;
+				}
+				// If we went under the world's surface, try again
+				if (hideoutY > Main.worldSurface)
+				{
+					continue;
+				}
+				Tile tile = Main.tile[hideoutX, hideoutY];
+				// If the type of the tile we are placing the hideout on doesn't match what we want, try again
+				if (tile.type != TileID.Dirt && tile.type != TileID.Grass && tile.type != TileID.Stone)
+				{
+					continue;
+				}
+				Tile treeCheck = Framing.GetTileSafely(hideoutX, hideoutY);
+
+				if (treeCheck.active())
+				{
+					if (treeCheck.type == TileID.Trees || treeCheck.type == TileID.PalmTree || treeCheck.type == TileID.MushroomTrees)
+					{
+						WorldGen.KillTile(hideoutX, hideoutY, false, false, false);
+						WorldGen.KillTile(hideoutX -1, hideoutY-12, false, false, false);
+						WorldGen.KillTile(hideoutX -2, hideoutY-12, false, false, false);
+						WorldGen.KillTile(hideoutX -3, hideoutY-12, false, false, false);
+						WorldGen.KillTile(hideoutX -4, hideoutY-12, false, false, false);
+						WorldGen.KillTile(hideoutX -5, hideoutY-12, false, false, false);
+						WorldGen.KillTile(hideoutX -6, hideoutY-12, false, false, false);
+						WorldGen.KillTile(hideoutX -7, hideoutY-12, false, false, false);
+						WorldGen.KillTile(hideoutX -8, hideoutY-12, false, false, false);
+					}
+				}
+				// place the hideout
+				PlaceHideout(hideoutX, hideoutY - 4, HideoutShape, HideoutWalls, HideoutLoot);
+				placed = true;
+			}
+		}
+		#endregion
+		#region Ziggurat
+		private void PlaceZiggurat(int i, int j, int[,] BlocksArray, int[,] WallsArray, int[,] LootArray) 
+		{
+			for (int y = 0; y < BlocksArray.GetLength(0); y++) 
+			{
+				for (int x = 0; x < BlocksArray.GetLength(1); x++)
+				 {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (BlocksArray[y, x]) {
+							case 0:
+								break;
+							case 1:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 2:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 3:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;			
+						}
+					}
+				}
+			}			
+			for (int y = 0; y < WallsArray.GetLength(0); y++) 
+			{
+				for (int x = 0; x < WallsArray.GetLength(1); x++)
+				 {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (WallsArray[y, x]) {
+							case 0:
+								break;
+							case 1:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 2:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 3:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;			
+						}
+					}
+				}
+			}	
+			for (int y = 0; y < BlocksArray.GetLength(0); y++) 
+			{
+				for (int x = 0; x < BlocksArray.GetLength(1); x++)
+				 {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (BlocksArray[y, x]) {
+							case 0:
+								break;
+							case 1:
+								WorldGen.PlaceTile(k, l, 151);
+								tile.active(true);
+								break;	
+							case 2:
+								WorldGen.PlaceTile(k, l, 152);
+								tile.active(true);
+								break;		
+						}
+					}
+				}
+			}
+			for (int y = 0; y < WallsArray.GetLength(0); y++) 
+			{
+				for (int x = 0; x < WallsArray.GetLength(1); x++)
+				 {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (WallsArray[y, x]) {
+							case 0:
+								break;
+							case 1:
+								WorldGen.PlaceWall(k, l, 34);
+								break;	
+							case 2:
+								WorldGen.PlaceWall(k, l, 35);
+								break;	
+							case 3:
+								WorldGen.PlaceWall(k, l, 34);
+								break;									
+						}
+					}
+				}
+			}
+			for (int y = 0; y < LootArray.GetLength(0); y++) 
+			{
+				for (int x = 0; x < LootArray.GetLength(1); x++)
+				 {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (LootArray[y, x]) {
+							case 0:
+								break;
+							case 4:
+								WorldGen.PlaceObject(k, l, mod.TileType("ScarabIdol"));
+								break;	
+							case 5:
+								WorldGen.PlaceChest(k, l, (ushort)mod.TileType("GoldScarabChest"), false, 0); 
+								break;	
+							case 6:
+								WorldGen.PlaceObject(k, l, 91);
+								break;	
+							case 7:
+								WorldGen.PlaceTile(k, l, 28);	
+								break;		
+							case 8:
+								WorldGen.PlaceTile(k, l, 102);	
+								break;											
+						}
+					}
+				}
+			}
+		}
+		public void GenerateZiggurat()
+		{
+			int[,] ZigguratShape = new int[,]
+			{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,3,3,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,3,3,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,3,3,3,3,3,3,3,3,3,3,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,3,3,3,3,3,3,3,3,3,3,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,3,3,3,3,3,3,3,3,3,3,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,3,3,3,3,3,3,3,3,3,3,3,3,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,1,1,1,1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,1,1,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,1,1,1,1,1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,1,1,1,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,1,1,1,1,1,1,1,1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,1,1,1,1,1,1,1,0,0,0,0,0},
+				{0,0,0,0,0,1,1,1,1,1,1,1,1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,1,1,1,1,1,1,1,0,0,0,0,0},
+				{0,0,0,0,0,1,1,1,1,1,1,1,1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,1,1,1,1,1,1,1,0,0,0,0,0},
+				{0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0},
+				{0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0},
+				{0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0},
+			};
+			int[,] ZigguratWalls = new int[,]
+			{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,3,3,3,3,3,3,3,3,3,3,3,3,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,3,3,3,3,3,3,3,3,3,3,3,3,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,3,3,3,3,3,3,3,3,3,3,3,3,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,3,3,3,3,3,3,3,3,3,3,3,3,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,1,1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,1,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,1,1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,1,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,1,1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,1,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,1,1,1,1,1,1,1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,1,1,1,1,1,1,0,0,0,0,0,0},
+				{0,0,0,0,0,0,1,1,1,1,1,1,1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,1,1,1,1,1,1,0,0,0,0,0,0},
+				{0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0},
+				{0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			};
+			int[,] ZigguratLoot = new int[,]
+			{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,3,3,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,5,3,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,6,3,3,3,3,3,3,3,3,6,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,3,3,3,3,3,3,3,3,3,3,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,3,3,3,3,4,3,3,3,3,3,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,6,3,3,3,3,3,3,3,3,3,3,6,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,1,1,1,1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,1,1,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,1,1,1,1,1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,1,1,1,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,1,1,1,1,1,1,1,1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,1,1,1,1,1,1,1,0,0,0,0,0},
+				{0,0,0,0,0,1,1,1,1,1,1,1,1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,1,1,1,1,1,1,1,0,0,0,0,0},
+				{0,0,0,0,0,1,1,1,1,1,1,1,1,3,3,7,3,7,3,3,8,3,3,3,7,3,7,3,7,1,1,1,1,1,1,1,1,0,0,0,0,0},
+				{0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0},
+				{0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0},
+				{0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0},
+			};
+			bool placed = false;
+			while (!placed)
+			{
+				// Select a place in the first 6th of the world
+				int hideoutX = Main.rand.Next(Main.maxTilesX /6, Main.maxTilesX/6*5); // from 50 since there's a unaccessible area at the world's borders
+				// 50% of choosing the last 6th of the world
+				if (WorldGen.genRand.NextBool())
+				{
+					hideoutX = Main.maxTilesX - hideoutX;
+				}
+				int hideoutY = 0;
+				// We go down until we hit a solid tile or go under the world's surface
+				while (!WorldGen.SolidTile(hideoutX, hideoutY) && hideoutY <= Main.worldSurface)
+				{
+					hideoutY++;
+				}
+				// If we went under the world's surface, try again
+				if (hideoutY > Main.worldSurface)
+				{
+					continue;
+				}
+				Tile tile = Main.tile[hideoutX, hideoutY];
+				// If the type of the tile we are placing the hideout on doesn't match what we want, try again
+				if (tile.type != TileID.Sand && tile.type != TileID.Ebonsand && tile.type != TileID.Crimsand && tile.type != TileID.Sandstone)
+				{
+					continue;
+				}
+				// place the hideout
+				PlaceZiggurat(hideoutX, hideoutY - 1, ZigguratShape, ZigguratWalls, ZigguratLoot);
+				placed = true;
+			}
+		}
+		#endregion
+		#region GemStash
+		private void PlaceGemStash(int i, int j, int[,] BlocksArray, int[,] WallsArray, int[,] LootArray) 
+		{
+			for (int y = 0; y < WallsArray.GetLength(0); y++) 
+			{
+				for (int x = 0; x < WallsArray.GetLength(1); x++)
+				 {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (WallsArray[y, x]) {
+							case 0:
+								break;
+							case 1:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 2:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 3:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;			
+						}
+					}
+				}
+			}	
+			for (int y = 0; y < BlocksArray.GetLength(0); y++) 
+			{
+				for (int x = 0; x < BlocksArray.GetLength(1); x++)
+				 {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (BlocksArray[y, x]) {
+							case 0:
+								break;
+							case 1:
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 2:
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 3:
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;
+						}
+					}
+				 }
+			}
+			for (int y = 0; y < BlocksArray.GetLength(0); y++) 
+			{
+				for (int x = 0; x < BlocksArray.GetLength(1); x++)
+				 {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (BlocksArray[y, x]) {
+							case 0:
+								break;
+							case 1:
+								WorldGen.PlaceTile(k, l, 30);
+								tile.active(true);
+								break;	
+							case 2:
+								WorldGen.PlaceTile(k, l, 19);
+								tile.active(true);
+								break;	
+							case 3:
+								WorldGen.PlaceTile(k, l, 63);
+								tile.active(true);
+								break;
+							case 4:
+								WorldGen.PlaceTile(k, l, 51);
+								tile.active(true);
+								break;				
+							case 7:
+								WorldGen.PlaceTile(k, l, 64);
+								tile.active(true);
+								break;	
+						}
+					}
+				}
+			}
+			for (int y = 0; y < WallsArray.GetLength(0); y++) 
+			{
+				for (int x = 0; x < WallsArray.GetLength(1); x++)
+				 {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (WallsArray[y, x]) {
+							case 0:
+								break;
+							case 3:
+								WorldGen.PlaceWall(k, l, 27);
+								break;			
+						}
+					}
+				}
+			}
+			for (int y = 0; y < LootArray.GetLength(0); y++) 
+			{
+				for (int x = 0; x < LootArray.GetLength(1); x++)
+				 {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (LootArray[y, x]) {
+							case 0:
+								break;
+							case 4:
+								WorldGen.PlaceObject(k, l, 376);  // Crate
+								break;
+							case 5:
+								if (Main.rand.NextFloat(1.32f) == 0);
+								{
+									WorldGen.PlaceTile(k, l, 28);  // Pot
+								}
+								tile.active(true);
+								break;
+							case 6:
+								int objects;
+								if (Main.rand.Next (3) == 0)
+								{
+									objects = 105;
+								}
+								else if (Main.rand.Next(2) == 0)
+								{
+									objects = 16;
+								}
+								else if (Main.rand.Next(4) == 0)
+								{
+									objects = 87;
+								}
+								else if (Main.rand.Next(4) == 0)
+								{
+									objects = 18;
+								}
+								else 
+								{
+									objects = 28;
+								}
+								WorldGen.PlaceObject(k, l, (ushort)objects);  // Misc
+								break;
+							case 7:
+								WorldGen.PlaceObject(k, l-1, mod.TileType("GemsPickaxeSapphire"));  // Special Pick		
+								break;
+							case 8:
+								if (Main.rand.Next (3) == 0)
+								{
+									objects = 105;
+								}
+								else if (Main.rand.Next(2) == 0)
+								{
+									objects = 16;
+								}
+								else if (Main.rand.Next(4) == 0)
+								{
+									objects = 87;
+								}
+								else if (Main.rand.Next(4) == 0)
+								{
+									objects = 18;
+								}
+								else 
+								{
+									objects = 28;
+								}
+								WorldGen.PlaceObject(k, l, (ushort)objects);  // Another Misc Obj
+								break;
+							case 9:
+								WorldGen.PlaceObject(k, l-1, mod.TileType("GemsPickaxeRuby"));  // Special Pick		
+								break;							
+						}
+					}
+				}
+			}	
+		}	
+		public void GenerateGemStash()
+		{
+			
+			int[,] StashRoomMain = new int[,]
+			{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,1,2,2,2,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,0,1,1,1,0,0},
+				{0,0,1,4,4,0,0,0,0,0,4,4,4,4,4,4,0,0,0,0,0,4,4,4,1,0,0},
+				{0,0,1,4,4,0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,4,4,1,0,0},
+				{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,4,1,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,2,2,2,2,0,0,0},
+				{0,0,1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,3,0},
+				{0,0,1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,0},
+				{0,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,3,0},
+				{0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},
+			};
+			int[,] StashRoomMain1 = new int[,]
+			{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,1,2,2,2,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,0,1,1,1,0,0},
+				{0,0,1,4,4,0,0,0,0,0,4,4,4,4,4,4,0,0,0,0,0,4,4,4,1,0,0},
+				{0,0,1,4,4,0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,4,4,1,0,0},
+				{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,4,1,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,2,2,2,2,0,0,0},
+				{0,0,1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,7,0},
+				{0,0,1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,0},
+				{0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,7,7,7,7,0},
+				{0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},
+			};
+			int[,] StashMainWalls = new int[,]
+			{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,1,2,2,2,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,0,1,1,1,0,0},
+				{0,0,1,3,3,3,3,3,3,3,0,3,3,3,3,3,3,3,3,3,3,3,0,3,1,0,0},
+				{0,0,1,0,0,3,3,3,3,3,3,0,3,3,3,3,3,3,3,3,3,3,0,3,1,0,0},
+				{0,0,1,0,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,0,0},
+				{0,0,0,3,0,3,3,3,3,3,0,3,3,3,3,3,3,3,3,3,3,3,3,3,0,0,0},
+				{0,0,1,3,3,3,3,3,3,0,3,3,3,3,3,3,3,3,3,3,3,0,0,3,1,0,0},
+				{0,0,1,0,3,3,3,3,3,3,0,3,3,3,3,3,3,3,3,3,3,0,0,3,1,0,0},
+				{0,0,0,3,0,0,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,0,0,0,0,0},
+				{0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},
+			};
+			int[,] StashMainLoot = new int[,]
+			{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,5,0,5,0,0,0,7,0,0,5,0,0,6,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			};
+			int[,] StashMainLoot1 = new int[,]
+			{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,4,0,5,0,0,0,0,9,0,0,5,0,0,6,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			};
+			int[,] StashRoom1 = new int[,]
+			{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,1,1,1,0,1,1,1,1,2,2,2,2,1,1,1,1,1,1,0,1,0,0,0,0},
+				{0,0,0,1,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,1,0,0,0,0},
+				{0,0,1,1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,1,0,0,0,0},
+				{0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,1,0,0,0,0},
+				{0,0,0,1,0,0,2,2,2,0,0,0,0,2,2,2,2,2,2,0,0,0,1,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0},
+				{0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,1,1,1,1,1,1,1,0,1,2,2,2,2,1,1,1,1,1,0,1,0,0,0,0},
+			};
+			int[,] Stash1Walls = new int[,]
+			{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,1,2,2,2,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,0,1,1,1,0,0},
+				{0,0,1,3,3,3,3,3,3,3,0,3,3,3,3,3,3,3,3,3,3,3,0,3,3,0,0},
+				{0,0,1,0,0,3,3,0,0,3,3,3,3,3,3,0,0,0,3,3,3,3,0,3,3,0,0},
+				{0,0,1,0,3,3,3,3,3,3,3,3,3,3,3,3,3,0,0,3,3,3,3,3,1,0,0},
+				{0,0,0,3,0,3,3,3,3,3,0,3,3,3,0,3,3,3,3,3,3,3,3,3,0,0,0},
+				{0,0,1,3,0,3,3,3,3,0,3,3,3,3,0,3,3,3,3,3,3,0,0,3,3,0,0},
+				{0,0,1,0,3,3,3,3,3,3,3,3,3,3,3,3,3,0,0,3,3,0,0,3,3,0,0},
+				{0,0,0,3,0,0,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,0,0,3,0,0},
+				{0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},
+			};
+			int[,] Stash1Loot = new int[,]
+			{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,5,0,0,8,0,0,0,5,0,5,0,5,0,8,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			};
+			bool placed = false;
+			while (!placed)
+			{
+				int hideoutX = (Main.spawnTileX + Main.rand.Next(-800, 800)); // from 50 since there's a unaccessible area at the world's borders
+				int hideoutY = Main.spawnTileY + Main.rand.Next(120, 400);
+				// place the hideout
+				if (WorldGen.genRand.Next(2) == 0)
+				{
+					PlaceGemStash(hideoutX, hideoutY, StashRoomMain, StashMainWalls, StashMainLoot);
+				}
+				else
+				{
+					PlaceGemStash(hideoutX, hideoutY, StashRoomMain1, StashMainWalls, StashMainLoot1);
+				}
+				if (WorldGen.genRand.Next(2) == 0)
+				{
+					PlaceGemStash(hideoutX + (Main.rand.Next(-5, 5)), hideoutY - 8, StashRoom1, Stash1Walls, Stash1Loot);
+				}
+				placed = true;
+			}
+		}	
+		#endregion	
+		#region CrateStash
+		private void PlaceCrateStash(int i, int j, int[,] BlocksArray, int[,] SecondaryArray, int[,] TertiaryArray) 
+		{
+			for (int y = 0; y < BlocksArray.GetLength(0); y++) 
+			{
+				for (int x = 0; x < BlocksArray.GetLength(1); x++)
+				 {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (BlocksArray[y, x]) {
+							case 0:
+								break;
+							case 1:
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 2:
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 3:
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 4:
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 5:
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 8:
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 9:
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;			
+						}
+					}
+				}
+			}
+			for (int y = 0; y < BlocksArray.GetLength(0); y++) 
+			{
+				for (int x = 0; x < BlocksArray.GetLength(1); x++)
+				 {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (BlocksArray[y, x]) {
+							case 0:
+								break;
+							case 1:
+								WorldGen.PlaceTile(k, l, 1);
+								tile.active(true);
+								break;	
+							case 2:
+								Main.tile[k,l].liquid = 255;
+								break;	
+							case 3:
+								WorldGen.PlaceTile(k, l, 30);
+								tile.active(true);
+								break;	
+							case 4:
+								WorldGen.PlaceTile(k, l, 19);
+								tile.active(true);
+								break;	
+							case 9:
+								if (Main.rand.Next(3) == 0)
+								{
+								WorldGen.PlaceTile(k, l, 1);
+								tile.active(true);
+								}	
+								break;					
+						}
+					}
+				}
+			}
+			for (int y = 0; y < SecondaryArray.GetLength(0); y++) 
+			{
+				for (int x = 0; x < SecondaryArray.GetLength(1); x++)
+				 {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (SecondaryArray[y, x]) {
+							case 0:
+								break;	
+							case 5:
+								if (Main.rand.Next (30) == 0)
+								{
+									WorldGen.PlaceObject(k, l, 376, true, 2);
+								}
+								else if (Main.rand.Next(18) == 0)
+								{
+									WorldGen.PlaceObject(k, l, 376, true, 1);
+								}
+								else
+								{
+									WorldGen.PlaceObject(k, l, 376);
+								}
+								break;	
+							case 7:
+								{
+									WorldGen.PlaceObject(k, l, 33, true, 0);
+								}
+								break;											
+						}
+					}
+				 }
+			}
+			for (int y = 0; y < TertiaryArray.GetLength(0); y++) 
+			{
+				for (int x = 0; x < TertiaryArray.GetLength(1); x++)
+				 {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (TertiaryArray[y, x]) {
+							case 0:
+								break;
+							case 5:
+								WorldGen.PlaceObject(k, l, 376);
+								break;			
+						}
+					}
+				 }
+			}	
+		}	
+		public void GenerateCrateStash()
+		{
+			
+			int[,] CrateStashMain = new int[,]
+			{
+				{0,0,0,8,8,8,8,0,8,8,8,8,8,0,8,8,8,8,8,8,0,0},
+				{0,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8},
+				{8,8,4,4,4,4,4,4,4,4,4,4,4,4,4,8,8,8,8,8,8,8},
+				{0,4,8,8,8,8,8,8,8,8,8,8,8,8,8,4,8,8,8,8,8,8},
+				{0,1,9,2,2,2,2,2,2,2,2,2,2,2,2,1,3,3,3,3,3,4},
+				{0,1,9,2,2,2,2,2,2,2,2,2,2,2,2,1,1,0,0,0,0,0}, 
+				{0,1,1,1,9,2,2,2,2,2,2,2,2,9,1,1,1,0,0,0,0,0},
+				{0,0,1,1,2,2,2,2,2,2,2,2,9,1,1,1,0,0,0,0,0,0},
+				{0,0,0,1,1,1,9,9,9,2,9,1,1,1,1,0,0,0,0,0,0,0},
+				{0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0},
+			};
+			int[,] CrateStashExtra = new int[,]
+			{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,4,4,4,4,4,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0},
+				{0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,5,0,5,7},
+				{0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,1,3,3,3,3,3,0},
+				{0,1,1,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0,0,0,0,0}, 
+				{0,0,0,1,2,2,2,2,2,2,2,2,2,2,1,1,0,0,0,0,0,0},
+				{0,0,0,1,2,2,2,2,2,2,2,2,2,1,1,0,0,0,0,0,0,0},
+				{0,0,0,0,1,2,2,2,2,2,2,1,1,1,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0},
+			};
+			int[,] CrateStashThree = new int[,]
+			{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0},
+				{0,0,4,4,4,4,4,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0},
+				{0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0},
+				{0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,1,3,3,3,3,3,0},
+				{0,1,1,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0,0,0,0,0}, 
+				{0,0,0,1,2,2,2,2,2,2,2,2,2,2,1,1,0,0,0,0,0,0},
+				{0,0,0,1,2,2,2,2,2,2,2,2,2,1,1,0,0,0,0,0,0,0},
+				{0,0,0,0,1,2,2,2,2,2,2,1,1,1,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0},
+			};
+			bool placed = false;
+			while (!placed)
+			{
+				int hideoutX = Main.rand.Next(50, Main.maxTilesX); // from 50 since there's a unaccessible area at the world's borders
+				int hideoutY = Main.spawnTileY + Main.rand.Next(120, 700);
+				Tile tile = Main.tile[hideoutX, hideoutY];
+				if (!tile.active() || tile.type != TileID.Stone)
+				{
+					continue;
+				}
+				PlaceCrateStash(hideoutX, hideoutY + 2, CrateStashMain, CrateStashExtra, CrateStashThree);
+				
+				placed = true;
+			}
+		}
+		#endregion
+		#region Sepulchre
+		private void PlaceSepulchre(int i, int j, int[,] BlocksArray, int[,] WallsArray, int[,] LootArray) 
+		{
+			for (int y = 0; y < WallsArray.GetLength(0); y++) 
+			{
+				for (int x = 0; x < WallsArray.GetLength(1); x++)
+				 {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (WallsArray[y, x]) {
+							case 0:
+								break;
+							case 1:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 2:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;
+							case 3:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;			
+						}
+					}
+				}
+			}
+			for (int y = 0; y < BlocksArray.GetLength(0); y++) 
+			{
+				for (int x = 0; x < BlocksArray.GetLength(1); x++)
+				 {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (BlocksArray[y, x]) {
+							case 0:
+								break;
+							case 1:
+								WorldGen.PlaceTile(k, l, 250);
+								tile.active(true);
+								break;	
+							case 2:
+								WorldGen.PlaceTile(k, l, 19);
+								tile.active(true);
+								break;
+							case 3:
+								WorldGen.PlaceTile(k, l, 51);
+								tile.active(true);
+								break;				
+						}
+					}
+				}
+			}
+			for (int y = 0; y < WallsArray.GetLength(0); y++) 
+			{
+				for (int x = 0; x < WallsArray.GetLength(1); x++)
+				 {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (WallsArray[y, x]) {
+							case 0:
+								break;
+							case 2:
+								WorldGen.PlaceWall(k, l, 111);
+								break;			
+						}
+					}
+				}
+			}
+			for (int y = 0; y < LootArray.GetLength(0); y++) { 
+				for (int x = 0; x < LootArray.GetLength(1); x++) {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (LootArray[y, x]) {
+							case 3:
+								if (Main.rand.Next(2) == 0)
+								WorldGen.PlaceObject(k, l, 50); // Book
+								break;	
+							case 4:
+								WorldGen.PlaceObject(k, l, 91, true, 1);
+								break;	
+							case 5:
+							int pots;
+							if (Main.rand.Next(3) == 0)
+							{
+								pots = mod.TileType("SepulchrePot1"); 
+							}
+							else if (Main.rand.Next(2) == 0)
+							{	
+								pots = 28; 
+							}
+							else
+							{
+								pots = mod.TileType("SepulchrePot2");
+							}
+							WorldGen.PlaceTile(k, l, (ushort)pots);
+							break;	
+							case 6:
+								WorldGen.PlaceChest(k, l, (ushort)mod.TileType("SepulchreChestTile"), false, 0); // Gold Chest
+								break;	
+							case 7:
+								WorldGen.PlaceTile(k, l, 4, true, false, -1, 8);
+								break;
+							case 8:
+								WorldGen.PlaceObject(k, l, 13); // Crate
+								break;
+							case 9:
+								WorldGen.PlaceObject(k, l, 187, true, Main.rand.Next(21, 28)); // Crate
+								break;
+						}
+					}
+				}
+			}	
+		}
+		public void GenerateSepulchre()
+		{	
+			int[,] SepulchreRoom1 = new int[,]
+			{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,1,1,1,1,1,1,1,0,1,1,1,1,0,1,1,1,1,1,0,0,1,1,1,1,1,1,0,0},
+				{0,0,1,0,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,1,0,0},
+				{0,0,1,0,0,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,1,0,0},
+				{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},
+				{0,0,1,2,2,2,2,2,2,0,0,0,0,0,2,2,2,2,2,2,2,0,0,0,2,2,2,1,0,0},
+				{0,0,1,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,1,0,0},
+				{0,0,1,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0},
+				{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},
+				{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},
+				{0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},
+			};
+			int[,] SepulchreWalls1 = new int[,]
+			{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},
+				{0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0},
+				{0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0},
+				{0,0,1,3,3,2,2,2,2,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,2,2,1,0,0},
+				{0,0,1,3,3,2,3,2,2,2,2,2,2,2,2,3,3,2,2,2,2,2,2,2,3,2,2,1,0,0},
+				{0,0,1,2,2,2,3,3,2,2,2,2,2,2,2,3,3,2,2,2,2,2,2,2,3,2,2,1,0,0},
+				{0,0,1,2,2,2,3,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0},
+				{0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,3,3,2,2,2,2,2,2,2,2,2,2,1,0,0},
+				{0,0,1,2,2,2,2,2,2,2,2,2,2,3,3,3,2,2,2,2,2,2,2,2,2,2,2,1,0,0},
+				{0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},
+			};
+			int[,] SepulchreLoot1 = new int[,]
+			{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},
+				{0,0,1,4,0,0,0,0,0,0,0,4,0,4,0,0,0,0,0,0,0,0,0,4,0,0,0,1,0,0},
+				{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},
+				{0,0,1,3,3,3,8,8,3,0,0,0,0,0,3,3,5,0,8,3,3,0,0,0,3,3,0,1,0,0},
+				{0,0,1,2,2,2,2,2,2,0,0,0,0,0,2,2,2,2,2,2,2,0,0,0,2,2,2,1,0,0},
+				{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},
+				{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},
+				{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,7,0,1,0,0},
+				{0,0,1,0,5,0,0,5,0,5,0,9,0,0,5,0,5,0,5,0,0,0,0,6,0,0,0,1,0,0},
+				{0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},
+			};
+			int[,] SepulchreRoom2 = new int[,]
+			{
+				{0,0,0,1,1,1,0,1,1,0,0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,0,0,0},
+				{0,0,1,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,1,0,0,0},
+				{0,0,1,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,1,0,0,0},
+				{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0},
+				{0,0,1,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,1,0,0,0},
+				{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0},
+				{0,0,1,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,1,0,0,0},				
+				{0,0,1,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,1,0,0,0},
+				{0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0}
+			};
+			int[,] SepulchreWalls2 = new int[,]
+			{
+				{0,0,0,1,1,1,0,1,1,0,0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,0,0,0},
+				{0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0,0},
+				{0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,3,2,2,1,0,0,0},
+				{0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,3,2,2,1,0,0,0},
+				{0,0,1,2,2,3,3,2,2,2,2,3,3,3,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0},
+				{0,0,1,2,2,3,3,2,2,2,2,2,3,3,2,2,2,2,2,2,2,2,2,2,2,1,0,0,0},
+				{0,0,0,2,2,2,3,2,2,2,2,2,2,3,2,2,2,2,3,3,3,3,2,2,2,1,0,0,0},
+				{0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0,0},
+				{0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0,0},				
+				{0,0,1,2,2,3,3,2,3,3,3,3,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0,0},
+				{0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0}
+			};
+			int[,] SepulchreLoot2 = new int[,]
+			{
+				{0,0,0,1,1,1,0,1,1,0,0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,0,0,0},
+				{0,0,1,3,3,0,0,4,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,3,3,1,0,0,0},
+				{0,0,1,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,1,0,0,0},
+				{0,0,1,3,3,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0},
+				{0,0,1,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,0,3,3,1,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,1,0,0,0},
+				{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0},
+				{0,0,1,3,3,0,0,0,0,0,0,0,7,0,0,7,0,0,0,0,0,0,0,3,3,1,0,0,0},				
+				{0,0,1,3,3,3,0,0,5,0,5,0,0,6,0,0,5,0,9,0,5,0,3,3,3,1,0,0,0},
+				{0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0}
+			};
+			int hideoutX = Main.rand.Next(Main.maxTilesX /6, Main.maxTilesX/6*5); // from 50 since there's a unaccessible area at the world's borders
+			int hideoutY = Main.spawnTileY + Main.rand.Next(200, Main.maxTilesY);
+			if (Main.rand.Next(2) == 0)
+			{
+				PlaceSepulchre(hideoutX, hideoutY, SepulchreRoom1, SepulchreWalls1, SepulchreLoot1);
+			}
+			else
+			{
+			PlaceSepulchre(hideoutX, hideoutY, SepulchreRoom2, SepulchreWalls2, SepulchreLoot2);
+			}
+		}
+		#endregion 
+		private void PlaceBanditHideout(int i, int j, int[,] BlocksArray, int[,] WallsArray, int[,] LootArray) 
+		{
+			for (int y = 0; y < WallsArray.GetLength(0); y++) 
+			{
+				for (int x = 0; x < WallsArray.GetLength(1); x++)
+				 {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (WallsArray[y, x]) {
+							case 0:
+								break;
+							case 1:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 2:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 4:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 5:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;			
+						}
+					}
+				}
+			}
+			for (int y = 0; y < LootArray.GetLength(0); y++) { 
+				for (int x = 0; x < LootArray.GetLength(1); x++) {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (LootArray[y, x]) {
+							case 4:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 5:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 6:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 7:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;		
+							case 8:					
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+									
+								break;
+							case 9:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;
+							case 10:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;
+							case 11:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;
+							case 12:
+								WorldGen.PlaceObject(k, l, 15);
+								break;
+							case 13:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 14:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 15:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 16:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;										
+						}
+					}
+				}
+			}
+			for (int y = 0; y < BlocksArray.GetLength(0); y++) 
+			{
+				for (int x = 0; x < BlocksArray.GetLength(1); x++)
+				 {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (BlocksArray[y, x]) {
+							case 0:
+								break;
+							case 1:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 2:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 3:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 4:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 5:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;	
+							case 6:
+								WorldGen.KillWall(k, l);
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;			
+						}
+					}
+				}
+			}
+			for (int y = 0; y < WallsArray.GetLength(0); y++) 
+			{
+				for (int x = 0; x < WallsArray.GetLength(1); x++)
+				 {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (WallsArray[y, x]) {
+							case 0:
+								break;
+							case 4:
+								WorldGen.PlaceWall(k, l, 4);
+								break;			
+						}
+					}
+				}
+			}
+			for (int y = 0; y < BlocksArray.GetLength(0); y++) 
+			{
+				for (int x = 0; x < BlocksArray.GetLength(1); x++)
+				 {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (BlocksArray[y, x]) {
+							case 0:
+								break;
+							case 1:
+								WorldGen.PlaceTile(k, l, 30);
+								tile.active(true);
+								break;	
+							case 2:
+								WorldGen.PlaceTile(k, l, 38);
+								tile.active(true);
+								break;	
+							case 3:
+								WorldGen.PlaceTile(k, l, 124);
+								tile.active(true);
+								break;	
+							case 4:
+								WorldGen.PlaceTile(k, l, 213);
+								tile.active(true);
+								break;	
+							case 5:
+								WorldGen.PlaceTile(k, l, 19, true, false, -1, 12);
+								tile.active(true);
+								break;	
+							case 6:
+								WorldGen.PlaceWall(k, l, 106);
+								break;	
+							case 7:
+								WorldGen.PlaceTile(k, l, 19, true, false, -1, 0);
+								tile.active(true);
+								break;	
+						
+						}
+					}
+				}
+			}
+			for (int y = 0; y < LootArray.GetLength(0); y++) { 
+				for (int x = 0; x < LootArray.GetLength(1); x++) {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (LootArray[y, x]) {
+							case 4:
+								WorldGen.PlaceObject(k, l, 17, true, 0);
+								break;	
+							case 5:
+								WorldGen.PlaceTile(k, l, 28);
+								break;
+							case 6:
+								WorldGen.PlaceTile(k, l, 10, true, false, -1, 13);
+								break;	
+							case 7:
+								WorldGen.PlaceObject(k, l, 240, true, Main.rand.Next(44, 45)); // Crate
+								break;	
+							case 8:					
+								WorldGen.PlaceObject(k, l, 94); 
+								break;
+							case 9:
+								WorldGen.PlaceChest(k, l, (ushort)mod.TileType("BanditChest"), false, 0); // Gold Chest
+								break;
+							case 10:
+								WorldGen.PlaceObject(k, l, 42, true, 6);
+								break;
+							case 11:
+								WorldGen.PlaceObject(k, l, 215);
+								break;
+							case 12:
+								WorldGen.PlaceObject(k, l, 15);
+								break;
+							case 13:
+								WorldGen.PlaceObject(k, l, 187, true, 28); // Crate
+								break;	
+							case 14:
+								WorldGen.PlaceObject(k, l, 187, true, 26); // Crate
+								break;	
+							case 15:
+								WorldGen.PlaceObject(k, l, 187, true, 27); // Crate
+								break;	
+							case 16:
+								WorldGen.PlaceObject(k, l, 187, true, 23); // Crate
+								break;		
+							case 17:
+								WorldGen.PlaceObject(k, l, 376); // Crate
+								break;										
+						}
+					}
+				}
+			}
+		}	
+		public void GenerateBanditHideout()
+		{	
+			int[,] BanditTiles = new int[,]
+			{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,2,2,2,2,2,2,2,2,2,2,5,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,2,2,0,0,0,0,0,0,0,0,2,2,5,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,2,2,3,0,0,0,0,0,0,0,0,3,2,2,5,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,2,2,0,3,0,0,0,0,0,0,0,0,3,0,2,2,5,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,2,2,0,0,3,0,0,0,0,0,0,0,0,3,0,0,2,2,5,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,2,2,0,0,0,3,0,0,0,0,0,0,0,0,3,0,0,0,2,2,5,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,2,2,1,1,1,1,1,5,5,5,5,5,5,5,5,1,1,1,1,1,2,2,5},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,6,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,6,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,4,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,6,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,6,4,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,6,6,3,6,6,6,6,6,6,6,6,6,6,6,6,6,6,3,6,6,4,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,6,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,6,4,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,0,4,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,0,4,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,0,4,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,0,4,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,0,4,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,0,4,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,0,0,0},
+				{0,0,0,6,6,6,6,6,6,6,6,6,0,0,0,0,0,0,0,0,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,0,0,0},
+				{0,0,0,2,1,1,1,1,1,1,1,2,7,7,7,7,7,7,7,7,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},
+			};
+			int[,] BanditWalls = new int[,]
+			{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,2,2,2,2,2,2,2,2,2,2,5,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,2,2,4,4,4,4,4,4,4,4,2,2,5,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,2,2,4,4,4,4,4,4,4,4,4,4,2,2,5,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,2,2,4,4,4,4,4,4,4,4,4,4,4,4,2,2,5,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,2,2,4,4,4,4,4,4,4,4,4,4,4,4,4,4,2,2,5,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,2,2,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,2,2,5,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,2,2,1,1,1,1,1,4,4,4,4,4,4,4,4,1,1,1,1,1,2,2,5},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,1,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,0,0,0,0},
+				{0,0,0,5,5,5,5,5,5,5,5,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,0,0,0,0},
+				{0,0,0,5,5,5,5,5,5,5,5,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,0,0,0,0},
+				{0,0,0,5,5,5,5,5,5,5,5,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,0,0,0,0},
+			};
+			int[,] BanditLoot = new int[,]
+			{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0,7,0,0,0,0,7,0,0,2,2,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0,17,0,5,0,0,5,0,5,0,5,0,5,0,0,2,2,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,1,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,1,2,2,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,10,0,0,0,1,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,8,12,0,0,4,0,0,9,0,0,3,0,0,6,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,16,0,0,15,0,0,11,0,0,0,14,0,0,0,0,13,0,0},
+				{0,0,0,2,1,1,1,1,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			};
+		
+			bool placed = false;
+			while (!placed)
+			{
+			int hideoutX = Main.spawnTileX + Main.rand.Next(-700, 700); // from 50 since there's a unaccessible area at the world's borders
+				// 50% of choosing the last 6th of the world
+				if (WorldGen.genRand.NextBool())
+				{
+					hideoutX = Main.maxTilesX - hideoutX;
+				}
+				int hideoutY = 0;
+				// We go down until we hit a solid tile or go under the world's surface
+				while (!WorldGen.SolidTile(hideoutX, hideoutY) && hideoutY <= Main.worldSurface)
+				{
+					hideoutY++;
+				}
+				// If we went under the world's surface, try again
+				if (hideoutY > Main.worldSurface)
+				{
+					continue;
+				}
+				Tile tile = Main.tile[hideoutX, hideoutY];
+				// If the type of the tile we are placing the hideout on doesn't match what we want, try again
+				if (tile.type != TileID.Dirt && tile.type != TileID.Grass && tile.type != TileID.Stone && tile.type != TileID.SnowBlock)
+				{
+					continue;
+				}
+				PlaceBanditHideout(hideoutX, hideoutY - 22, BanditTiles, BanditWalls, BanditLoot);
+				int num = NPC.NewNPC((hideoutX + 31) * 16, (hideoutY - 20) * 16, mod.NPCType("BoundRogue"), 0, 0f, 0f, 0f, 0f, 255);
+				Main.npc[num].homeTileX = -1;
+				Main.npc[num].homeTileY = -1;
+				Main.npc[num].direction = 1;
+				Main.npc[num].homeless = true;
+
+				placed = true;
+			}
+		}
+private void PlaceAltar(int i, int j, int[,] BlocksArray, int[,] LootArray) {
+			
+			for (int y = 0; y < BlocksArray.GetLength(0); y++) { // This loops clears the area (makes the proper hemicircle) and placed dirt in the bottom if there are no blocks (so that the chest and fireplace can be placed).
+				for (int x = 0; x < BlocksArray.GetLength(1); x++) {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (BlocksArray[y, x]) {
+							case 0:
+								break; // no changes
+							case 1:
+								Framing.GetTileSafely(k, l).ClearTile();
+								WorldGen.PlaceTile(k, l, mod.TileType("ReachGrassTile"));
+								tile.active(true);
+								break;
+							case 2:
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;
+						}
+					}
+				}
+			}
+			
+			for (int y = 0; y < LootArray.GetLength(0); y++) { // This Loop Placzs Furnitures.(So that they have blocks to spawn on).
+				for (int x = 0; x < LootArray.GetLength(1); x++) {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (LootArray[y, x]) {
+							case 2:
+								WorldGen.PlaceObject(k, l-4, mod.TileType("SkeletonTree"));
+								break;
+							case 3:
+								if (Main.rand.Next(2) == 0)
+								WorldGen.PlaceObject(k, l - 1, mod.TileType("SkullStick"));
+								else
+								WorldGen.PlaceObject(k, l - 1, mod.TileType("SkullStickFlip"));
+								break;	
+							case 4:
+								WorldGen.PlaceObject(k, l - 1, mod.TileType("BoneAltar")); // Campfire
+								break;
+						}
+					}
+				}
+			}
+		}
+		public void GenerateAltar()
+		{
+			int[,] TileShape = new int[,]
+			{
+				{0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0},
+				{0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0},
+				{0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0},
+				{0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0},
+				{0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0},
+				{0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0},
+				{0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0},
+				{0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
+			};
+			int[,] DecorShape = new int[,]
+			{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,3,0,0,2,0,0,0,0,0,0,0,4,0,3,0,0},
+				{0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
+			};
+			bool placed = false;
+			while (!placed)
+			{
+				// Select a place in the first 6th of the world
+				int towerX = Main.rand.Next(Main.maxTilesX /6, Main.maxTilesX); ; // from 50 since there's a unaccessible area at the world's borders
+				// 50% of choosing the last 6th of the world
+				if (WorldGen.genRand.NextBool())
+				{
+					towerX = Main.maxTilesX - towerX;
+				}
+				int towerY = 0;
+				// We go down until we hit a solid tile or go under the world's surface
+				while (!WorldGen.SolidTile(towerX, towerY) && towerY <= Main.worldSurface)
+				{
+					towerY++;
+				}
+				// If we went under the world's surface, try again
+				if (towerY > Main.worldSurface)
+				{
+					continue;
+				}
+				Tile tile = Main.tile[towerX, towerY];
+				// If the type of the tile we are placing the tower on doesn't match what we want, try again
+				if (tile.type != mod.TileType("ReachGrassTile"))
+				{
+					continue;
+				}
+				// place the tower
+				PlaceAltar(towerX, towerY, TileShape, DecorShape);
+				int num = NPC.NewNPC((towerX) * 16, (towerY - 10) * 16, mod.NPCType("ReachmanPassive"), 0, 0f, 0f, 0f, 0f, 255);
+				Main.npc[num].homeTileX = -1;
+				Main.npc[num].homeTileY = -1;
+				Main.npc[num].direction = 1;
+				Main.npc[num].homeless = true;
+				int num1 = NPC.NewNPC((towerX + 10) * 16, (towerY - 10) * 16, mod.NPCType("ReachmanPassive"), 0, 0f, 0f, 0f, 0f, 255);
+				Main.npc[num1].homeTileX = -1;
+				Main.npc[num1].homeTileY = -1;
+				Main.npc[num1].direction = -1;
+				Main.npc[num1].homeless = true;
+				placed = true;
+			}
+		}	
+		public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
+		{
+			int GuideIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Sunflowers"));
+			if (GuideIndex == -1)
+			{
+				// Guide pass removed by some other mod.
+				return;
+			}
+			tasks.Insert(GuideIndex + 1, new PassLegacy("ReachHideout", 
+				delegate (GenerationProgress progress)
+			{
+				for (int k = 0; k < Main.rand.Next(9, 15); k++)
+				{
+					GenerateSepulchre();
+				}
+				GenerateAltar();
+				GenerateHideout();
+				GenerateTower();
+				GenerateZiggurat();
+				GenerateBanditHideout();				
+			}));
+		}		
 		public override void PostWorldGen()
 		{
+			Tile tile = Main.tile[1, 1];
+            for (int trees = 0; trees < 18000; trees++)
+			{
+				int E = Main.maxTilesX;
+				int F = (int)Main.worldSurface;
+				tile = Framing.GetTileSafely(E, F);
+				if (tile.type == mod.TileType("ReachGrassTile"))
+				{
+					WorldGen.GrowTree(E, F);
+				}
+			} 
+			for (int k = 0; k < Main.rand.Next(12, 21); k++)
+			{
+				GenerateCrateStash();
+			}		
+			for (int k = 0; k < Main.rand.Next(5, 7); k++)
+			{
+				GenerateGemStash();
+			}
+			for (int i = 1; i < Main.rand.Next(4, 6); i++)
+				{
+					int[] itemsToPlaceInGlassChestsSecondary = new int[] { mod.ItemType("OldLeather"), 19, 20, 21, 22, 52, 3093, ItemID.SilverCoin, ItemID.Bottle, ItemID.Rope, 166, 52, 290, 291, 292, 293, 294, 295, 296, 297 };
+					int[] itemsToPlacePrimary = new int[] {mod.ItemType("SepulchreStaff"), mod.ItemType("SepulchrePendant")};
+					int[] ammoToPlace = new int[] {mod.ItemType("SepulchreArrow"), mod.ItemType("SepulchreBullet")};
+					int itemsToPlaceInGlassChestsSecondaryChoice = 0;
+					for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
+					{
+						Chest chest = Main.chest[chestIndex];
+						if (chest != null && Main.tile[chest.x, chest.y].type == mod.TileType("SepulchreChestTile"))
+						{
+							chest.item[0].SetDefaults(itemsToPlacePrimary[Main.rand.Next(2)], false);
+							chest.item[0].stack = WorldGen.genRand.Next(1, 1);
+							chest.item[1].SetDefaults(ammoToPlace[Main.rand.Next(2)], false);
+							chest.item[1].stack = WorldGen.genRand.Next(20, 50);
+							chest.item[2].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(20)], false);
+							chest.item[2].stack = WorldGen.genRand.Next(1, 5);
+							chest.item[3].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(20)], false);
+							chest.item[3].stack = WorldGen.genRand.Next(1, 5);
+							chest.item[4].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(20)], false);
+							chest.item[4].stack = WorldGen.genRand.Next(1, 5);	
+							chest.item[5].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(20)], false);
+							chest.item[5].stack = WorldGen.genRand.Next(1, 5);						
+						}
+					}
+				}	
+			for (int i = 1; i < Main.rand.Next(4, 6); i++)
+				{
+					int[] itemsToPlaceInGlassChestsSecondary = new int[] { mod.ItemType("OldLeather"), 19, 20, 21, 22, 3093, ItemID.SilverCoin, ItemID.Bottle, ItemID.Rope, 290, 291, 292, 293, 294, 295, 296, 297 };
+					int[] itemsToPlacePrimary = new int[] {mod.ItemType("CleftHorn"), mod.ItemType("CactusStaff")};
+					int itemsToPlaceInGlassChestsSecondaryChoice = 0;
+					for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
+					{
+						Chest chest = Main.chest[chestIndex];
+						if (chest != null && Main.tile[chest.x, chest.y].type == mod.TileType("GoldScarabChest"))
+						{
+							chest.item[0].SetDefaults(itemsToPlacePrimary[Main.rand.Next(2)], false);
+							chest.item[0].stack = WorldGen.genRand.Next(1, 1);
+							chest.item[1].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(17)], false);
+							chest.item[1].stack = WorldGen.genRand.Next(1, 5);
+							chest.item[2].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(17)], false);
+							chest.item[2].stack = WorldGen.genRand.Next(1, 5);
+							chest.item[3].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(17)], false);
+							chest.item[3].stack = WorldGen.genRand.Next(1, 5);
+							chest.item[4].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(17)], false);
+							chest.item[4].stack = WorldGen.genRand.Next(1, 5);	
+							chest.item[5].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(17)], false);
+							chest.item[5].stack = WorldGen.genRand.Next(1, 5);	
+							break;					
+						}
+					}
+				}
+			for (int i = 1; i < Main.rand.Next(4, 6); i++)
+				{
+					int[] itemsToPlaceInGlassChestsSecondary = new int[] { mod.ItemType("OldLeather"), 19, 20, 21, 22, 3093, ItemID.SilverCoin, ItemID.Bottle, ItemID.Rope, 290, 291, 292, 293, 294, 295, 296, 297 };
+					int[] itemsToPlacePrimary = new int[] {mod.ItemType("Glyph"), ItemID.MagicMirror, ItemID.WandofSparking};
+					int itemsToPlaceInGlassChestsSecondaryChoice = 0;
+					for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
+					{
+						Chest chest = Main.chest[chestIndex];
+						if (chest != null && Main.tile[chest.x, chest.y].type == mod.TileType("GoblinChest"))
+						{
+							chest.item[0].SetDefaults(itemsToPlacePrimary[Main.rand.Next(2)], false);
+							chest.item[0].stack = WorldGen.genRand.Next(1, 1);
+							chest.item[1].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(17)], false);
+							chest.item[1].stack = WorldGen.genRand.Next(1, 5);
+							chest.item[2].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(17)], false);
+							chest.item[2].stack = WorldGen.genRand.Next(1, 5);
+							chest.item[3].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(17)], false);
+							chest.item[3].stack = WorldGen.genRand.Next(1, 5);
+							chest.item[4].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(17)], false);
+							chest.item[4].stack = WorldGen.genRand.Next(1, 5);	
+							chest.item[5].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(17)], false);
+							chest.item[5].stack = WorldGen.genRand.Next(1, 5);	
+							break;					
+						}
+					}
+				}					
 			for (int i = 1; i < 2; i++)
 			{
-				if (Main.rand.Next(20) == 0)
+				if (Main.rand.Next(7) == 0)
 				{
 					int[] itemsToPlaceInGlassChestsSecondary = new int[] { Items.Glyphs.Glyph._type };
 					int itemsToPlaceInGlassChestsSecondaryChoice = 0;
@@ -610,7 +2414,7 @@ namespace SpiritMod
 								if (chest.item[inventoryIndex].type == 0)
 								{
 									chest.item[inventoryIndex].SetDefaults(itemsToPlaceInGlassChestsSecondary[itemsToPlaceInGlassChestsSecondaryChoice]); //the error is at this line
-									chest.item[inventoryIndex].stack = Main.rand.Next(1, 1);
+									chest.item[5].stack = Main.rand.Next(1, 1);
 									itemsToPlaceInGlassChestsSecondaryChoice = (itemsToPlaceInGlassChestsSecondaryChoice + 1) % itemsToPlaceInGlassChestsSecondary.Length;
 									break;
 								}
@@ -622,7 +2426,7 @@ namespace SpiritMod
 			{
 				for (int i = 1; i < Main.rand.Next(4, 6); i++)
 				{
-					int[] itemsToPlaceInGlassChestsSecondary = new int[] { mod.ItemType("BismiteCrystal"), mod.ItemType("AncientBark"), ItemID.SilverCoin, ItemID.Bottle, ItemID.Rope };
+					int[] itemsToPlaceInGlassChestsSecondary = new int[] { mod.ItemType("BismiteCrystal"), mod.ItemType("AncientBark"), ItemID.SilverCoin, ItemID.Bottle, ItemID.Rope, 290, 291, 292, 293, 294, 295, 296, 297 };
 					int itemsToPlaceInGlassChestsSecondaryChoice = 0;
 					for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
 					{
@@ -631,14 +2435,16 @@ namespace SpiritMod
 						{
 							for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
 							{
-								if (chest.item[inventoryIndex].type == 0)
-								{
-									chest.item[inventoryIndex].SetDefaults(itemsToPlaceInGlassChestsSecondary[itemsToPlaceInGlassChestsSecondaryChoice]); //the error is at this line
-									chest.item[inventoryIndex].stack = Main.rand.Next(4, 10);
-									itemsToPlaceInGlassChestsSecondaryChoice = (itemsToPlaceInGlassChestsSecondaryChoice + 1) % itemsToPlaceInGlassChestsSecondary.Length;
-									break;
-								}
-							}
+								chest.item[1].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(13)]);
+								chest.item[1].stack = WorldGen.genRand.Next(1, 3);
+								chest.item[2].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(13)]);
+								chest.item[2].stack = WorldGen.genRand.Next(1, 3);
+								chest.item[3].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(13)]);
+								chest.item[3].stack = WorldGen.genRand.Next(1, 3);
+								chest.item[4].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(13)]);
+								chest.item[4].stack = WorldGen.genRand.Next(1, 2);			
+								break;		
+							}		
 						}
 					}
 				}
@@ -659,22 +2465,147 @@ namespace SpiritMod
 					}
 				}
 			}
+            for (int trees = 0; trees < 18000; trees++)
+			{
+				int E = Main.maxTilesX;
+				int F = (int)Main.worldSurface;
+				tile = Framing.GetTileSafely(E, F);
+				if (tile.type == mod.TileType("ReachGrassTile"))
+				{
+					WorldGen.GrowTree(E, F);
+				}
+			} 
 		}
-
+		private void PlaceBoneIsland(int i, int j, int[,] BoneIslandArray) {
+			
+			for (int y = 0; y < BoneIslandArray.GetLength(0); y++) { // This loops clears the area (makes the proper hemicircle) and placed dirt in the bottom if there are no blocks (so that the chest and fireplace can be placed).
+				for (int x = 0; x < BoneIslandArray.GetLength(1); x++) {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (BoneIslandArray[y, x]) {
+							case 0:
+								break; // no changes
+							case 1:
+								WorldGen.PlaceTile(k, l, 0); // Dirt
+								tile.active(true);
+								break;
+							case 2:
+								WorldGen.PlaceTile(k, l, 189);
+								break;
+							case 3:
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;
+							case 4:
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;
+							case 5:
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;
+							case 6:
+								WorldGen.PlaceTile(k, l, TileID.Grass); // Dirt
+								tile.active(true);
+								break;
+							case 7:
+								WorldGen.PlaceTile(k, l, 194); // Dirt
+								tile.active(true);
+								break;
+						}
+					}
+				}
+			}
+			for (int y = 0; y < BoneIslandArray.GetLength(0); y++) { // This Loop Placzs Furnitures.(So that they have blocks to spawn on).
+				for (int x = 0; x < BoneIslandArray.GetLength(1); x++) {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (BoneIslandArray[y, x]) {
+							case 3:
+								WorldGen.PlaceTile(k, l, (ushort)mod.TileType("SkullPile1")); // Gold Chest
+								break;
+							case 4:
+								WorldGen.PlaceTile(k, l, (ushort)mod.TileType("SkullPile2")); // Gold Chest
+								break;		
+							case 5:
+								WorldGen.PlaceTile(k, l - 1, (ushort)mod.TileType("AvianEgg")); // Gold Chest
+								break;					
+						}
+					}
+				}
+			}
+		}
+	private void PlaceBoneIslandWalls(int i, int j, int[,] BoneIslandArray) {
+			
+			for (int y = 0; y < BoneIslandArray.GetLength(0); y++) { // This loops clears the area (makes the proper hemicircle) and placed dirt in the bottom if there are no blocks (so that the chest and fireplace can be placed).
+				for (int x = 0; x < BoneIslandArray.GetLength(1); x++) {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (BoneIslandArray[y, x]) {
+							case 0:
+								break; // no changes
+							case 1:
+								WorldGen.PlaceTile(k, l, 0); // Dirt
+								tile.active(true);
+								break;
+							case 2:
+								WorldGen.PlaceTile(k, l, 189);
+								break;
+							case 3:
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;
+							case 4:
+								Framing.GetTileSafely(k, l).ClearTile();
+								break;
+						}
+					}
+				}
+			}
+			for (int y = 0; y < BoneIslandArray.GetLength(0); y++) { // This Loop Placzs Furnitures.(So that they have blocks to spawn on).
+				for (int x = 0; x < BoneIslandArray.GetLength(1); x++) {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (BoneIslandArray[y, x]) {
+							case 1:
+								WorldGen.PlaceWall(k, l, 73); 
+								break;		
+							case 2:
+								WorldGen.PlaceWall(k, l, 73); 
+								break;					
+						}
+					}
+				}
+			}
+		}
 		public override void PostUpdate()
 		{
+			Player player = Main.LocalPlayer;
+			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>(mod);
+			if (modPlayer.ZoneSpirit)
+			{
+				if (!aurora)
+				{
+					aurora = true;
+				}
+				auroraType = 5;
+			}
 			if (Main.dayTime != dayTimeLast)
 				dayTimeSwitched = true;
 			else
 				dayTimeSwitched = false;
 			dayTimeLast = Main.dayTime;
 
-			if (dayTimeSwitched && Main.hardMode)
+			if (dayTimeSwitched)
 			{
-				if (!Main.dayTime)
+				if (!Main.dayTime && Main.hardMode)
 				{
 					if (!Main.fastForwardTime && !Main.bloodMoon && WorldGen.spawnHardBoss == 0 &&
-						NPC.downedMechBossAny && Main.rand.Next(20) == 0)
+						NPC.downedMechBossAny && Main.rand.Next(27) == 0)
 					{
 						Main.NewText("A Blue Moon is rising...", 0, 90, 220);
 						BlueMoon = true;
@@ -684,7 +2615,38 @@ namespace SpiritMod
 				{
 					BlueMoon = false;
 				}
+			   if (NPC.downedBoss3)
+			    {
+				    auroraChance = 6;
+			    }
+			    if (Main.hardMode)
+			    {
+				    auroraChance = 15;
+			    }
+			    if (!Main.dayTime && Main.rand.Next(auroraChance) == 0)
+			    {
+				    auroraType = Main.rand.Next(new int[]{1, 2, 3, 5});
+				   	aurora = true;
+			    }
+			    else
+			    {
+				    aurora = false;
+				    auroraType = 0;
+			    }			
 			}
+			if (Main.bloodMoon)
+			{					
+				MyWorld.auroraType = 6;
+			}
+			if (Main.pumpkinMoon)
+			{
+				MyWorld.auroraType = 7;
+			}
+			if (Main.snowMoon)
+			{
+				auroraType = 8;
+			}				
+			
 
 			if (NPC.downedBoss1)
 			{
@@ -714,7 +2676,7 @@ namespace SpiritMod
 			{
 				if (!gmOre)
 				{
-					for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 37) * 15E-05); k++)
+					for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 86) * 15E-05); k++)
 					{
 						int EEXX = WorldGen.genRand.Next(100, Main.maxTilesX - 100);
 						int WHHYY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 130);
@@ -729,7 +2691,7 @@ namespace SpiritMod
 							}
 						}
 					}
-					for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 29) * 15E-05); k++)
+					for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 108) * 15E-05); k++)
 					{
 						int EEXX = WorldGen.genRand.Next(100, Main.maxTilesX - 100);
 						int WHHYY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 130);
@@ -739,7 +2701,7 @@ namespace SpiritMod
 							{
 								if (Main.tile[EEXX, WHHYY].type == 367)
 								{
-									WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(4, 8), WorldGen.genRand.Next(4, 8), (ushort)mod.TileType("MarbleOre"));
+									WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 8), WorldGen.genRand.Next(4, 9), (ushort)mod.TileType("MarbleOre"));
 								}
 							}
 						}
@@ -750,12 +2712,46 @@ namespace SpiritMod
 					}
 				}
 			}
+			int[,] BoneIslandShape = new int[,]
+			{
+				{0,0,0,0,0,0,3,0,0,3,0,0,4,0,0,0,0,5,0,0,0,4,0,4,0,0,0,3,0,0,0,0},
+				{0,0,2,2,2,2,2,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,2,2,2,0,0},
+				{0,0,0,0,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,0,0,0},
+				{0,0,0,0,0,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,0,0,0,0,0},
+				{0,0,0,0,0,2,2,2,2,2,2,1,7,7,1,1,1,1,1,7,7,1,2,2,2,2,2,0,0,0,0,0},
+				{0,0,0,0,0,0,0,2,2,2,2,2,2,7,1,1,1,1,1,2,2,2,2,2,2,0,2,0,0,0,0,0},
+				{0,0,0,0,0,0,0,2,0,0,2,2,2,7,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,2,0,0,2,2,2,2,2,2,2,2,2,2,0,0,2,2,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,2,2,0,2,2,2,2,0,2,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,2,0,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			};
+			int[,] BoneIslandWalls = new int[,]
+			{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,0,0,0,0},
+				{0,0,0,0,0,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,0,0,0,0,0},
+				{0,0,0,0,0,0,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,2,2,2,0,2,0,0,0,0,0},
+				{0,0,0,0,0,0,2,0,2,2,2,2,2,2,1,1,1,1,1,2,2,2,2,2,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,0,0,0,2,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+			};
 			if (NPC.downedQueenBee)
 			{
 				if (!flierMessage)
 				{
 					Main.NewText("Scattered bones rise into the sky...", 204, 153, 0);
 					flierMessage = true;
+					{
+						{
+							PlaceBoneIsland(Main.spawnTileX, Main.spawnTileY - 100, BoneIslandShape);
+							PlaceBoneIslandWalls(Main.spawnTileX, Main.spawnTileY - 100, BoneIslandWalls);
+						}
+					}
 				}
 			}
 			if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
@@ -860,12 +2856,6 @@ namespace SpiritMod
 						for (int i = 0; i < 450; i++)
 						{
 							xAxis++;
-							#region islands
-							if (Main.rand.Next(21000) == 1)
-							{
-								WorldMethods.Island(xAxis, Main.rand.Next(100, 275), Main.rand.Next(10, 16), (float)(Main.rand.Next(11, 25) / 10), (ushort)mod.TileType("SpiritGrass"));
-							}
-							#endregion
 							if (Main.tile[xAxis, yAxis] != null)
 							{
 								if (Main.tile[xAxis, yAxis].active())

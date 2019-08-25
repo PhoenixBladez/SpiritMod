@@ -38,7 +38,8 @@ namespace SpiritMod.Projectiles.Thrown
 
 			for (int i = 0; i < 5; i++)
 			{
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 147);
+				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 39);
+				Main.dust[d].scale *= 0.42f;
 			}
 			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
 		}
@@ -48,17 +49,6 @@ namespace SpiritMod.Projectiles.Thrown
 			if (Main.rand.Next(5) == 0)
 				target.AddBuff(mod.BuffType("VineTrap"), 180);
 		}
-
-		public override void AI()
-		{
-			if (Main.rand.Next(5) == 0)
-			{
-				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 44);
-				Main.dust[d].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-				Main.dust[d].scale *= 0.2f;
-			}
-		}
-
 		//public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		//{
 		//    Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);

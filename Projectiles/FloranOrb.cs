@@ -26,15 +26,16 @@ namespace SpiritMod.Projectiles
 			projectile.height = 18;
 			projectile.friendly = true;
 			projectile.thrown = true;
-			projectile.penetrate = -2;
+			projectile.penetrate = 2;
 			projectile.tileCollide = false;
 			projectile.alpha = 255;
-			projectile.timeLeft = 500;
+			projectile.timeLeft = 300;
 			projectile.light = 0;
 			projectile.extraUpdates = 1;
 		}
 
 		Vector2 offset = new Vector2(60, 60);
+		public float counter = -1440;
 		public override void AI()
 		{
 			var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
@@ -44,11 +45,22 @@ namespace SpiritMod.Projectiles
 				Player player = Main.player[projectile.owner];
 				projectile.ai[0] += .02f;
 				projectile.Center = player.Center + offset.RotatedBy(projectile.ai[0] + projectile.ai[1] * (Math.PI * 10 / 1));
-
-				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 44, 0f, 0f);
-				Main.dust[dust].noGravity = true;
-				Main.dust[dust].scale = 0.9f;
-
+				counter++;
+				if (counter == 0)
+				{
+					counter = -1440;
+				}
+				for (int i = 0; i < 6; i++)
+				{
+					float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
+					float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
+					
+					int num = Dust.NewDust(projectile.Center + new Vector2(0, (float)Math.Cos(counter/8.2f)*9.2f).RotatedBy(projectile.rotation), 6, 6, 39, 0f, 0f, 0, default(Color), 1f);
+					Main.dust[num].velocity *= .1f;
+					Main.dust[num].scale *= .7f;				
+					Main.dust[num].noGravity = true;
+			
+				}
 				projectile.rotation = projectile.velocity.ToRotation() + (float)(Math.PI / 2);
 			}
 
@@ -96,7 +108,7 @@ namespace SpiritMod.Projectiles
 		{
 			for (int i = 0; i < 5; i++)
 			{
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 44);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, 39);
 			}
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

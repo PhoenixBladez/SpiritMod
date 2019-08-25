@@ -2,6 +2,7 @@ using Terraria;
 using System;
 using Terraria.ID;
 using System.Diagnostics;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 
@@ -21,7 +22,7 @@ namespace SpiritMod.NPCs
 			npc.height = 32;
 			npc.damage = 27;
 			npc.defense = 11;
-			npc.lifeMax = 45;
+			npc.lifeMax = 85;
 			npc.HitSound = SoundID.NPCHit7;
 			npc.DeathSound = SoundID.NPCDeath6;
 			npc.value = 1290f;
@@ -34,13 +35,40 @@ namespace SpiritMod.NPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.player.ZoneCrimson && spawnInfo.spawnTileY > Main.rockLayer ? 0.02f : 0f;
+			return spawnInfo.player.ZoneCrimson && NPC.downedBoss1 && spawnInfo.spawnTileY > Main.rockLayer ? 0.02f : 0f;
 		}
-
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+                             drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			return false;
+		}
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            SpiritUtility.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/CElemental_Glow"));
+        }
+		public override void NPCLoot()
+		{
+			if (Main.rand.Next(3) == 2)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 880);
+			}
+		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
+			for (int k = 0; k < 11; k++)
+			{
+				Dust.NewDust(npc.position, npc.width, npc.height, 117, hitDirection, -1f, 0, default(Color), .61f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 64, hitDirection, -1f, 0, default(Color), .41f);
+			}
 			if (npc.life <= 0)
 			{
+				for (int k = 0; k < 11; k++)
+				{
+					Dust.NewDust(npc.position, npc.width, npc.height, 117, hitDirection, -1f, 0, default(Color), .61f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 64, hitDirection, -1f, 0, default(Color), .41f);
+				}				
 				Gore.NewGore(npc.position, npc.velocity, 825);
 				Gore.NewGore(npc.position, npc.velocity, 826);
 				Gore.NewGore(npc.position, npc.velocity, 827);

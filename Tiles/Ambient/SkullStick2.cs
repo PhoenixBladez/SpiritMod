@@ -19,11 +19,11 @@ namespace SpiritMod.Tiles.Ambient
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
 			Main.tileLavaDeath[Type] = true;
-			TileObjectData.newTile.CopyFrom(TileObjectData.Style1xX);
-			TileObjectData.newTile.Height = 3;
+			Main.tileLighted[Type] = true;
+			TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
+			TileObjectData.newTile.Height = 2;
 			TileObjectData.newTile.CoordinateHeights = new int[]
 			{
-			16,
 			16,
 			16
 			};
@@ -31,15 +31,15 @@ namespace SpiritMod.Tiles.Ambient
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Eerie Root");
 			AddMapEntry(new Color(193, 158, 32), name);
-			adjTiles = new int[] { TileID.Lamps };
 		}
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
+			if (!Main.dayTime)
 			{
-				r = .400f;
-				g = .361f;
-				b = .84f;
+				r = .200f;
+				g = .181f;
+				b = .44f;
 			}
 		}
 

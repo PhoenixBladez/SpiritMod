@@ -105,5 +105,17 @@ namespace SpiritMod.Items.Weapon.Magic
             }
             return false;
         }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(531, 1);
+            recipe.AddIngredient(3456, 4);
+            recipe.AddIngredient(3457, 4);
+            recipe.AddIngredient(3458, 4);
+            recipe.AddIngredient(3459, 4);           
+            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.SetResult(this, 1);
+            recipe.AddRecipe();
+        }
     }
 }

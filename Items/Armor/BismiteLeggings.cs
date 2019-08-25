@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bismite Leggings");
-            Tooltip.SetDefault("Increases critical strike chance by 2%");
+            Tooltip.SetDefault("Increases movement speed by 6%");
 
         }
         public override void SetDefaults()
@@ -20,14 +20,11 @@ namespace SpiritMod.Items.Armor
             item.height = 18;
             item.value = 4000;
             item.rare = 1;
-            item.defense = 3;
+            item.defense = 1;
         }
         public override void UpdateEquip(Player player)
         {
-            player.magicCrit += 2;
-            player.meleeCrit += 2;
-            player.thrownCrit += 2;
-            player.rangedCrit += 2;
+            player.moveSpeed += .06f;
         }
         public override void AddRecipes()
         {

@@ -11,7 +11,6 @@ namespace SpiritMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Chitin Chestplate");
-            Tooltip.SetDefault("Increases critical strike chance by 5%");
 
         }
         public override void SetDefaults()
@@ -19,16 +18,8 @@ namespace SpiritMod.Items.Armor
             item.width = 30;
             item.height = 20;
             item.value = 22000;
-            item.rare = 2;
+            item.rare = 1;
             item.defense = 4;
-        }
-
-        public override void UpdateEquip(Player player)
-        {
-            player.magicCrit += 5;
-            player.meleeCrit += 5;
-            player.thrownCrit += 5;
-            player.rangedCrit += 5;
         }
         public override void AddRecipes()
         {

@@ -1,6 +1,8 @@
 ﻿using System;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
 
 using Terraria;
 using Terraria.ID;
@@ -12,16 +14,16 @@ namespace SpiritMod.NPCs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Grove Caster");
+			DisplayName.SetDefault("Wildwood Shaman");
 			Main.npcFrameCount[npc.type] = 4;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 22;
-			npc.height = 40;
+			npc.width = 32;
+			npc.height = 54;
 
-			npc.lifeMax = 50;
+			npc.lifeMax = 54;
 			npc.defense = 6;
 			npc.damage = 19;
 
@@ -30,7 +32,7 @@ namespace SpiritMod.NPCs
 
 			npc.value = 300f;
 			npc.knockBackResist = 0.75f;
-
+			npc.noGravity = true;
 			npc.netAlways = true;
 			npc.chaseable = false;
 			npc.lavaImmune = true;
@@ -43,6 +45,24 @@ namespace SpiritMod.NPCs
 
 		public override bool PreAI()
 		{
+			if (npc.localAI[0] == 0f)
+			{
+				npc.localAI[0] = npc.Center.Y;
+				npc.netUpdate = true; //localAI probably isnt affected by this... buuuut might as well play it safe
+			}
+			if (npc.Center.Y >= npc.localAI[0])
+			{
+				npc.localAI[1] = -1f;
+				npc.netUpdate = true;
+			}
+			if (npc.Center.Y <= npc.localAI[0] - 2f)
+			{
+				npc.localAI[1] = 1f;
+				npc.netUpdate = true;
+			}
+			npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y + 0.009f * npc.localAI[1], -.5f, .5f);
+			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.46f, 0.32f, .1f);
+
 			npc.TargetClosest(true);
 			npc.velocity.X = npc.velocity.X * 0.93f;
 			if (npc.velocity.X > -0.1F && npc.velocity.X < 0.1F)
@@ -56,7 +76,7 @@ namespace SpiritMod.NPCs
 				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
 				for (int index1 = 0; index1 < 50; ++index1)
 				{
-					int newDust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 44, 0.0f, 0.0f, 100, new Color(), 1.5f);
+					int newDust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 228, 0.0f, 0.0f, 100, new Color(), 1.5f);
 					Main.dust[newDust].velocity *= 3f;
 					Main.dust[newDust].noGravity = true;
 				}
@@ -70,7 +90,7 @@ namespace SpiritMod.NPCs
 				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
 				for (int index1 = 0; index1 < 50; ++index1)
 				{
-					int newDust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 44, 0.0f, 0.0f, 100, new Color(), 1.5f);
+					int newDust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 228, 0.0f, 0.0f, 100, new Color(), 1.5f);
 					Main.dust[newDust].velocity *= 3f;
 					Main.dust[newDust].noGravity = true;
 				}
@@ -85,14 +105,6 @@ namespace SpiritMod.NPCs
 			}
 
 			bool teleport = false;
-			for (int i = 0; i < 255; ++i)
-			{
-				if (Main.player[i].active && !Main.player[i].dead && (npc.position - Main.player[i].position).Length() < 70)
-				{
-					teleport = true;
-					break;
-				}
-			}
 
 			// Teleport
 			if (npc.ai[0] >= 500 && Main.netMode != 1)
@@ -118,14 +130,24 @@ namespace SpiritMod.NPCs
 
 			if (Main.rand.Next(3) == 0)
 				return false;
-			Dust dust = Main.dust[Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + 2f), npc.width, npc.height, 44, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 100, new Color(), 0.9f)];
+			Dust dust = Main.dust[Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + 2f), npc.width, npc.height, 228, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 100, new Color(), 0.9f)];
 			dust.noGravity = true;
 			dust.velocity.X = dust.velocity.X * 0.3f;
 			dust.velocity.Y = (dust.velocity.Y * 0.2f) - 1;
 
 			return false;
 		}
-
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+                             drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			return false;
+		}
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            SpiritUtility.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/GroveCaster_Glow"));
+        }
 		public void Teleport()
 		{
 			npc.ai[0] = 1f;
@@ -190,13 +212,20 @@ namespace SpiritMod.NPCs
 			Player player = spawnInfo.player;
 			if (!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.spawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.spawnTileY > Main.worldSurface || !Main.dayTime) && (SpawnCondition.GoblinArmy.Chance == 0))
 			{
-				return spawnInfo.player.GetModPlayer<MyPlayer>(mod).ZoneReach && !Main.dayTime ? 0.06f : 0f;
+				return spawnInfo.player.GetModPlayer<MyPlayer>(mod).ZoneReach && !Main.dayTime ? 0.07f : 0f;
 			}
 			return 0f;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
+				int d = 3;
+				int d1 = 6;
+				for (int k = 0; k < 30; k++)
+			{
+				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
+				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
+			}
 			if (npc.life <= 0)
 			{
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Reach1"), 1f);

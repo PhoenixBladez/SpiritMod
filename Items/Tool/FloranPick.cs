@@ -16,8 +16,8 @@ namespace SpiritMod.Items.Tool
 
         public override void SetDefaults()
         {
-            item.width = 38;
-            item.height = 38;
+            item.width = 34;
+            item.height = 42;
             item.value = 1000;
             item.rare = 2;
 

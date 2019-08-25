@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -15,16 +16,16 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void SetDefaults()
 		{
-			projectile.width = 24;
-			projectile.height = 30;
+			projectile.width = 30;
+			projectile.height = 24;
 			projectile.friendly = true;
 			projectile.magic = true;
 			projectile.penetrate = -1;
-			projectile.timeLeft = 1000;
+			projectile.timeLeft = 180;
 			projectile.alpha = 0;
 			projectile.extraUpdates = 1;
 		}
-
+		public float counter = -1440;
 		public override void AI()
 		{
 			projectile.ai[0]++;
@@ -42,9 +43,19 @@ namespace SpiritMod.Projectiles.Magic
 
 				if (Main.rand.Next(5) == 0)
 				{
-					int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 44);
-					Main.dust[d].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-					Main.dust[d].scale *= 0.2f;
+					int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 39);
+					Main.dust[d].scale *= 0.42f;
+				}
+				for (int i = 0; i < 6; i++)
+				{
+					float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
+					float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
+					
+					int num = Dust.NewDust(projectile.Center, 6, 6, 39, 0f, 0f, 0, default(Color), 1f);
+					Main.dust[num].velocity *= .1f;
+					Main.dust[num].scale *= .9f;				
+					Main.dust[num].noGravity = true;
+			
 				}
 
 				if (projectile.velocity.Length() <= 0.1f)
@@ -60,7 +71,8 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			for (int i = 0; i < 20; i++)
 			{
-				Dust.NewDust(projectile.Center, projectile.width, projectile.height, 44, (float)(Main.rand.Next(8) - 4), (float)(Main.rand.Next(8) - 4), 133);
+				int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 39, (float)(Main.rand.Next(8) - 4), (float)(Main.rand.Next(8) - 4), 133);
+					Main.dust[d].scale *= 0.42f;
 			}
 		}
 

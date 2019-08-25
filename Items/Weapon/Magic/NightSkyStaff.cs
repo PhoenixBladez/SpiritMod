@@ -1,6 +1,7 @@
 using Terraria;
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -55,7 +56,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(null, "BreathOfTheZephyr", 1);
-			recipe.AddIngredient(null, "Desolate", 1);
+			recipe.AddIngredient(null, "ClapdateStaff", 1);
 			recipe.AddIngredient(null, "HowlingScepter", 1);
 			recipe.AddIngredient(null, "GraniteStaff", 1);
 			recipe.AddIngredient(null, "SteamParts", 4);

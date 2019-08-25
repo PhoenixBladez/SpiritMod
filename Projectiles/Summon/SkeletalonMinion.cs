@@ -12,7 +12,7 @@ namespace SpiritMod.Projectiles.Summon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Skeletal Harpy");
-			Main.projFrames[base.projectile.type] = 8;
+			Main.projFrames[base.projectile.type] = 5;
 			ProjectileID.Sets.MinionSacrificable[base.projectile.type] = true;
 			ProjectileID.Sets.Homing[base.projectile.type] = true;
 			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
@@ -143,12 +143,12 @@ namespace SpiritMod.Projectiles.Summon
 				projectile.friendly = false;
 				projectile.rotation = projectile.velocity.X * 0.05f;
 				projectile.frameCounter++;
-				if (projectile.frameCounter >= 4)
+				if (projectile.frameCounter >= 5)
 				{
 					projectile.frameCounter = 0;
 					projectile.frame++;
 				}
-				if (projectile.frame > 3)
+				if (projectile.frame > 4)
 				{
 					projectile.frame = 0;
 				}
@@ -192,15 +192,15 @@ namespace SpiritMod.Projectiles.Summon
 				}
 				projectile.rotation = projectile.velocity.X * 0.05f;
 				projectile.frameCounter++;
-				if (projectile.frameCounter >= 4)
+				if (projectile.frameCounter >= 5)
 				{
 					projectile.frameCounter = 0;
 					projectile.frame++;
 				}
 				if (projectile.frame < 4)
-					projectile.frame = 4;
-				else if (projectile.frame > 7)
-					projectile.frame = 4;
+					projectile.frame = 2;
+				else if (projectile.frame > 5)
+					projectile.frame = 2;
 
 				if (Math.Abs(projectile.velocity.X) > 0.2)
 				{
@@ -209,9 +209,9 @@ namespace SpiritMod.Projectiles.Summon
 				}
 			}
 
-			if (projectile.frameCounter < 8)
+			if (projectile.frameCounter < 5)
 				projectile.frame = 0;
-			else if (projectile.frameCounter >= 8 && projectile.frameCounter < 10)
+			else if (projectile.frameCounter >= 5 && projectile.frameCounter < 4)
 				projectile.frame = 1;
 			else
 				projectile.frameCounter = 0;

@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Stone Greaves");
-			Tooltip.SetDefault("Increases melee damage by 7%");
+			Tooltip.SetDefault("Reduces damage taken by 3%");
 		}
 
         public override void SetDefaults()
@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeDamage += 0.07f;
+            player.endurance += 0.03f;
         }
 
         public override void AddRecipes()  //How to craft this item

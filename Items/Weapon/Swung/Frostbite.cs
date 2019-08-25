@@ -51,7 +51,9 @@ namespace SpiritMod.Items.Weapon.Swung
         {
             if (Main.rand.Next(5) == 0)
             {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 68);
+                int d = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 68);
+                Main.dust[d].noGravity = true;
+                Main.dust[d].velocity *= 0f;
             }
         }
     }

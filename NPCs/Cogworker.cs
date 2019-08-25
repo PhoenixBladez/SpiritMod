@@ -17,18 +17,28 @@ namespace SpiritMod.NPCs
 		public override void SetDefaults()
 		{
 			npc.width = 34;
-			npc.height = 54;
-			npc.damage = 26;
+			npc.height = 50;
+			npc.damage = 29;
 			npc.defense = 17;
-			npc.lifeMax = 70;
+			npc.lifeMax = 102;
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath6;
 			npc.value = 630f;
-			npc.knockBackResist = .1f;
+			npc.knockBackResist = .05f;
 			npc.aiStyle = 3;
 			aiType = 508;
 		}
-
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+                             drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			return false;
+		}
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            SpiritUtility.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Cogworker_Glow"));
+        }	
 		public override bool PreAI()
 		{
 			npc.spriteDirection = npc.direction;

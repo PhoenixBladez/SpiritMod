@@ -15,7 +15,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sacred Vine");
-			Tooltip.SetDefault("Empowers Oak Heart: Oak Heart now inflicts 'Pollinating Poison'\nIncreases throwing critical strike chance by 4%");
+			Tooltip.SetDefault("Empowers Oak Heart: Oak Heart now inflicts 'Pollinating Poison'\nIncreases throwing critical strike chance by 4%\nThrowing attacks may briefly cause rapid regeneration");
 		}
 
 
@@ -32,8 +32,6 @@ namespace SpiritMod.Items.Accessory
 		{
 			player.GetModPlayer<MyPlayer>(mod).sacredVine = true;
 			player.thrownCrit += 4;
-			player.meleeDamage += .04f;
 		}
-
 	}
 }

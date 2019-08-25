@@ -14,7 +14,9 @@ namespace SpiritMod.NPCs.Boss.Dusking
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Shadow Ball");
+			DisplayName.SetDefault("Penumbral Sphere");
+			Main.npcFrameCount[npc.type] = 4;
+
 		}
 
 		public override void SetDefaults()
@@ -24,7 +26,6 @@ namespace SpiritMod.NPCs.Boss.Dusking
 
 			npc.lifeMax = 1;
 			npc.damage = 50;
-			Main.npcFrameCount[npc.type] = 4;
 			npc.friendly = false;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
@@ -107,9 +108,9 @@ namespace SpiritMod.NPCs.Boss.Dusking
 				for (int j = 0; j < 12; j++)
 				{
 					Vector2 vector2 = Vector2.UnitX * -npc.width / 2f;
-					vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.14159274f / 6f), default(Vector2)) * new Vector2(8f, 16f);
+					vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(8f, 16f);
 					vector2 = Utils.RotatedBy(vector2, (npc.rotation - 1.57079637f), default(Vector2));
-					int num8 = Dust.NewDust(npc.Center, 0, 0, 27, 0f, 0f, 160, default(Color), 1f);
+					int num8 = Dust.NewDust(npc.Center, 0, 0, 173, 0f, 0f, 160, default(Color), 1f);
 					Main.dust[num8].scale = 1.1f;
 					Main.dust[num8].noGravity = true;
 					Main.dust[num8].position = npc.Center + vector2;
@@ -117,56 +118,57 @@ namespace SpiritMod.NPCs.Boss.Dusking
 					Main.dust[num8].velocity = Vector2.Normalize(npc.Center - npc.velocity * 3f - Main.dust[num8].position) * 1.25f;
 				}
 			}
-			if (Main.rand.Next(4) == 0)
-			{
-				for (int k = 0; k < 1; k++)
-				{
-					Vector2 value = -Utils.RotatedBy(Utils.RotatedByRandom(Vector2.UnitX, 0.19634954631328583), Utils.ToRotation(npc.velocity), default(Vector2));
-					int num9 = Dust.NewDust(npc.position, npc.width, npc.height, 27, 0f, 0f, 100, default(Color), 1f);
-					Main.dust[num9].velocity *= 0.1f;
-					Main.dust[num9].position = npc.Center + value * npc.width / 2f;
-					Main.dust[num9].fadeIn = 0.9f;
-				}
-			}
-			if (Main.rand.Next(32) == 0)
-			{
-				for (int l = 0; l < 1; l++)
-				{
-					Vector2 value2 = -Utils.RotatedBy(Utils.RotatedByRandom(Vector2.UnitX, 0.39269909262657166), Utils.ToRotation(npc.velocity), default(Vector2));
-					int num10 = Dust.NewDust(npc.position, npc.width, npc.height, 27, 0f, 0f, 155, default(Color), 0.8f);
-					Main.dust[num10].velocity *= 0.3f;
-					Main.dust[num10].position = npc.Center + value2 * npc.width / 2f;
-					if (Main.rand.Next(2) == 0)
-						Main.dust[num10].fadeIn = 1.4f;
-				}
-			}
-			if (Main.rand.Next(2) == 0)
-			{
-				for (int m = 0; m < 2; m++)
-				{
-					Vector2 value3 = -Utils.RotatedBy(Utils.RotatedByRandom(Vector2.UnitX, 0.78539818525314331), Utils.ToRotation(npc.velocity), default(Vector2));
-					int num11 = Dust.NewDust(npc.position, npc.width, npc.height, 27, 0f, 0f, 0, default(Color), 1.2f);
-					Main.dust[num11].velocity *= 0.3f;
-					Main.dust[num11].noGravity = true;
-					Main.dust[num11].position = npc.Center + value3 * npc.width / 2f;
-					if (Main.rand.Next(2) == 0)
-						Main.dust[num11].fadeIn = 1.4f;
-				}
-			}
+			Vector2 position = npc.Center + Vector2.Normalize(npc.velocity) * 10;
+			Dust newDust = Main.dust[Dust.NewDust(npc.position, npc.width, npc.height, 173, 0f, 0f, 0, default(Color), 1f)];
+			newDust.position = position;
+			newDust.velocity = npc.velocity.RotatedBy(Math.PI / 2, default(Vector2)) * 0.33F + npc.velocity / 4;
+			newDust.position += npc.velocity.RotatedBy(Math.PI / 2, default(Vector2));
+			newDust.fadeIn = 0.5f;
+			newDust.noGravity = true;
+			newDust = Main.dust[Dust.NewDust(npc.position, npc.width, npc.height, 173, 0f, 0f, 0, default(Color), 1)];
+			newDust.position = position;
+			newDust.velocity = npc.velocity.RotatedBy(-Math.PI / 2, default(Vector2)) * 0.33F + npc.velocity / 4;
+			newDust.position += npc.velocity.RotatedBy(-Math.PI / 2, default(Vector2));
+			newDust.fadeIn = 0.5F;
+			newDust.noGravity = true;
 
+			for (int index1 = 0; index1 < 6; ++index1)
+			{
+					float x = (npc.Center.X - 2);
+					float xnum2 = (npc.Center.X +2);
+					float y = (npc.Center.Y);
+					if (npc.direction == -1)
+					{
+						int index2 = Dust.NewDust(new Vector2(x, y), 1, 1, 173, 0.0f, 0.0f, 0, new Color(), 1f);
+						Main.dust[index2].position.X = x;
+						Main.dust[index2].position.Y = y;
+						Main.dust[index2].scale = .85f;
+						Main.dust[index2].velocity *= 0.02f;
+						Main.dust[index2].noGravity = true;
+						Main.dust[index2].noLight = false;
+					}
+					else if (npc.direction == 1)
+					{
+						int index2 = Dust.NewDust(new Vector2(xnum2, y), 1, 1, 173, 0.0f, 0.0f, 0, new Color(), 1f);
+						Main.dust[index2].position.X = xnum2;
+						Main.dust[index2].position.Y = y;
+						Main.dust[index2].scale = .85f;
+						Main.dust[index2].velocity *= 0.02f;
+						Main.dust[index2].noGravity = true;
+						Main.dust[index2].noLight = false;
+					}
+			}
 			Lighting.AddLight(npc.Center, 1.1f, 0.3f, 1.1f);
 			return false;
 		}
 
-		public override void FindFrame(int frameHeight)
+    	public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter++;
-			if (npc.frameCounter >= 3)
-			{
-				npc.frame.Y = (npc.frame.Y + frameHeight) % (Main.projFrames[npc.type] * frameHeight);
-				npc.frameCounter = 0;
-			}
-		}
+			npc.frameCounter += 0.25f;
+			npc.frameCounter %= Main.npcFrameCount[npc.type];
+			int frame = (int)npc.frameCounter;
+			npc.frame.Y = frame * frameHeight;
+		}	
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
@@ -216,7 +218,10 @@ namespace SpiritMod.NPCs.Boss.Dusking
 			}
 			return true;
 		}
-
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return Color.White;
+		}
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
 			target.AddBuff(mod.BuffType("Shadowflame"), 150);

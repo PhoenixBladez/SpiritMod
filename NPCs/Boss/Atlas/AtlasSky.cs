@@ -16,11 +16,11 @@ namespace SpiritMod.NPCs.Boss.Atlas
 		{
 			if (isActive && intensity < 1f)
 			{
-				intensity += 0.01f;
+				intensity += 0.02f;
 			}
 			else if (!isActive && intensity > 0f)
 			{
-				intensity -= 0.01f;
+				intensity -= 0.02f;
 			}
 		}
 
@@ -37,11 +37,13 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			return 0f;
 		}
 
-		public override Color OnTileColor(Color inColor)
-		{
-			float intensity = this.GetIntensity();
-			return new Color(Vector4.Lerp(new Vector4(0.5f, 0.8f, 1f, 1f), inColor.ToVector4(), 1f - intensity));
-		}
+
+        public override Color OnTileColor(Color inColor)
+        {
+            float amt = intensity * .02f;
+            return inColor.MultiplyRGB(new Color(1f - amt, 1f - amt, 1f - amt));
+        }
+
 
 		private bool UpdateAtlasIndex()
 		{
@@ -64,11 +66,15 @@ namespace SpiritMod.NPCs.Boss.Atlas
 
 		public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
 		{
-			if (maxDepth >= 0 && minDepth < 0)
-			{
-				float intensity = this.GetIntensity();
-				spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(128, 128, 128) * intensity);
-			}
+            if (maxDepth >= 3.40282347E+38f && minDepth < 3.40282347E+38f)
+            {
+                spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(0.13f, 0.13f, 0.13f) * intensity);
+            }
+            //front of bg
+            if (maxDepth >= 0 && minDepth < 0)
+            {
+                spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(0.3f, 0.3f, 0.3f) * 0.5f);
+            }
 		}
 
 		public override float GetCloudAlpha()

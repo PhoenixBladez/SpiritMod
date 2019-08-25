@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Stone Helmet");
-			Tooltip.SetDefault("Decreases movement speed by 4%");
+			Tooltip.SetDefault("Decreases movement speed by 6%");
 		}
 
 
@@ -26,7 +26,8 @@ namespace SpiritMod.Items.Armor
         }
         public override void UpdateEquip(Player player)
         {
-            player.moveSpeed -= 0.04f;
+            player.moveSpeed -= 0.06f;
+            player.maxRunSpeed -= .03f;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -35,15 +36,24 @@ namespace SpiritMod.Items.Armor
         }
         public override void UpdateArmorSet(Player player)
         {
-  
-            player.setBonus = "Increases Melee Damage by 5%";
-            player.meleeDamage += 0.05f;
-
+            player.setBonus = "Increases falling speed greatly";
+            if (player.velocity.Y > 0)
+            {
+                player.velocity.Y = 10.53f;
+                player.armorEffectDrawShadow = true;
+            }
+        }
+        public override void ArmorSetShadows(Player player)
+        {
+            if (player.velocity.Y > 0)
+            {
+                player.armorEffectDrawShadow = true;
+            }
         }
         public override void AddRecipes()  
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.StoneBlock, 40);
+            recipe.AddIngredient(ItemID.StoneBlock, 35);
             recipe.AddTile(TileID.Anvils);   
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

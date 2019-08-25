@@ -69,14 +69,9 @@ namespace SpiritMod
 				//Main.NewText(SlopeText, Color.Orange.R, Color.Orange.G, Color.Orange.B);
 				for (int I = 0; I < Slope2; I++)
 				{
-					WorldMethods.TileRunner(xAxis, Y + I, Xsize / 5, 1, tile, true, 0f, 0f, true, true);
+					WorldMethods.TileRunner(xAxis, Y + I, Xsize / 5, 1, tile, false, 0f, 0f, true, true);
 				}
-				WorldMethods.TileRunner(xAxis, Y, Xsize / 5, 1, tile, true, 0f, 0f, true, true);
-				if (Main.rand.Next(5) == 0)
-				{
-					WorldMethods.RoundHill(xAxis, Y, Xsize / 8, Xsize / 12, Xsize / 5, true, tile);
-
-				}
+				WorldMethods.TileRunner(xAxis, Y, Xsize / 5, 1, tile, false, 0f, 0f, true, true);
 				//   if (Main.rand.Next(55) == 0)
 				//   {
 				//      WorldMethods.RoundHill(xAxis, Y - 7, 22, 14, 15, true, tile);

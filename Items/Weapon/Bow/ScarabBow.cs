@@ -11,8 +11,8 @@ namespace SpiritMod.Items.Weapon.Bow
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Scarab Bow");
-			Tooltip.SetDefault("Converts arrows into Scarab arrows");
+			DisplayName.SetDefault("Adorned Bow");
+			Tooltip.SetDefault("Converts arrows into 'Topaz Shafts'\nTopaz Bolts move fast and illuminate hit foes");
 		}
 
 
@@ -31,10 +31,10 @@ namespace SpiritMod.Items.Weapon.Bow
             item.useAmmo = AmmoID.Arrow;
             item.knockBack = 3;
             item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
-            item.rare = 2;
+            item.rare = 1;
             item.UseSound = SoundID.Item5;           
             item.autoReuse = true;
-            item.shootSpeed = 6.5f;
+            item.shootSpeed = 9.5f;
             item.crit = 8;
         }
 		 public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

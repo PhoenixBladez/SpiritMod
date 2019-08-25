@@ -45,7 +45,9 @@ namespace SpiritMod.Items.Weapon.Swung
                     {
                         for (int I = 0; I < 1; I++)
                         {
-                            Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), mod.ProjectileType("GiantFeather"), damage, knockBack, player.whoAmI, 0f, 0f);
+                            int p = Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), mod.ProjectileType("GiantFeather"), damage, knockBack, player.whoAmI, 0f, 0f);
+                            Main.projectile[p].ranged = false;
+                            Main.projectile[p].melee = true; 
                         }
                         charger = 0;
                     }

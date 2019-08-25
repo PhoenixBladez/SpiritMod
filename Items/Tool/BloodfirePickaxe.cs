@@ -1,6 +1,9 @@
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.Items.Tool
 {
@@ -29,7 +32,10 @@ namespace SpiritMod.Items.Tool
             item.autoReuse = true;
             item.UseSound = SoundID.Item1;
         }
-
+    	public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float  scale, int whoAmI) 	
+		{
+		     Lighting.AddLight(item.position, 0.92f, .14f, .24f);
+        }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

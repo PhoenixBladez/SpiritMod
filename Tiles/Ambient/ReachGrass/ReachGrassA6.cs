@@ -11,18 +11,15 @@ namespace SpiritMod.Tiles.Ambient.ReachGrass
 		public override void SetDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
-			TileObjectData.addTile(Type);
 			Main.tileCut[Type] = true;
 			Main.tileSolid[Type] = false;
 			Main.tileMergeDirt[Type] = true;
 			//Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = false;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
-            TileObjectData.newTile.Height = 2;
-            TileObjectData.newTile.CoordinateHeights = new int[]
+			TileObjectData.newTile.CoordinateHeights = new int[]
 			{
 				16,
-				16
 			};
 			TileObjectData.addTile(Type);
 			dustType = 2;

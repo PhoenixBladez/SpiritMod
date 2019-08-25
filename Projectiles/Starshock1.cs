@@ -42,24 +42,16 @@ namespace SpiritMod.Projectiles
 				projectile.Kill();
 				return;
 			}
-
-			if (Main.rand.Next(8) == 0)
-			{
-				int num193 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 226, 0f, 0f, 100, default(Color), 1f);
-				Main.dust[num193].position = projectile.Center;
-				Main.dust[num193].scale += (float)Main.rand.Next(50) * 0.01f;
-				Main.dust[num193].noGravity = true;
-				Dust expr_835F_cp_0 = Main.dust[num193];
-				expr_835F_cp_0.velocity.Y = expr_835F_cp_0.velocity.Y - 2f;
-			}
-			if (Main.rand.Next(6) == 0)
-			{
-				int num194 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 176, 0f, 0f, 100, default(Color), 1f);
-				Main.dust[num194].position = projectile.Center;
-				Main.dust[num194].scale += 0.3f + (float)Main.rand.Next(50) * 0.01f;
-				Main.dust[num194].noGravity = true;
-				Main.dust[num194].velocity *= 0.1f;
-			}
+			int num = 5;
+			for (int k = 0; k < 6; k++)
+				{
+					int index2 = Dust.NewDust(projectile.position, 1, 1, 226, 0.0f, 0.0f, 0, new Color(), 1f);
+					Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
+					Main.dust[index2].scale = .8f;
+					Main.dust[index2].velocity *= 0f;
+					Main.dust[index2].noGravity = true;
+					Main.dust[index2].noLight = false;	
+				}	
 
 			if (projectile.localAI[1] == 0f)
 			{
@@ -67,7 +59,10 @@ namespace SpiritMod.Projectiles
 				Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 7, 1f, 0f);
 			}
 		}
-
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return Color.White;
+		}
 		public override void Kill(int timeLeft)
 		{
 			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("Wrath"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
@@ -79,7 +74,7 @@ namespace SpiritMod.Projectiles
 			projectile.height = 5;
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-			for (int num621 = 0; num621 < 20; num621++)
+			for (int num621 = 0; num621 < 10; num621++)
 			{
 				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 226, 0f, 0f, 100, default(Color), 1f);
 				Main.dust[num622].velocity *= 3f;
@@ -89,13 +84,10 @@ namespace SpiritMod.Projectiles
 					Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 				}
 			}
-			for (int num623 = 0; num623 < 35; num623++)
+			for (int num623 = 0; num623 < 15; num623++)
 			{
-				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 172, 0f, 0f, 100, default(Color), 1f);
-				Main.dust[num624].noGravity = true;
-				Main.dust[num624].velocity *= 5f;
-				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 226, 0f, 0f, 100, default(Color), 1f);
-				Main.dust[num624].velocity *= 2f;
+				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 226, 0f, 0f, 100, default(Color), .31f);
+				Main.dust[num624].velocity *= 1.8f;
 			}
 		}
 	}

@@ -1,6 +1,8 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.NPCs
 {
@@ -19,12 +21,12 @@ namespace SpiritMod.NPCs
 			npc.damage = 25;
 			npc.defense = 7;
 			npc.lifeMax = 75;
-			npc.HitSound = SoundID.NPCHit1;
+			npc.HitSound = SoundID.NPCHit7;
 			npc.DeathSound = SoundID.NPCDeath6;
 			npc.value = 60f;
-			npc.knockBackResist = .20f;
+			npc.knockBackResist = .10f;
 			npc.aiStyle = 3;
-			aiType = NPCID.FaceMonster;
+			aiType = NPCID.AngryBones;
 			animationType = NPCID.Zombie;
 		}
 
@@ -38,19 +40,26 @@ namespace SpiritMod.NPCs
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
+			for (int k = 0; k < 11; k++)
+			{
+				Dust.NewDust(npc.position, npc.width, npc.height, 78, hitDirection, -1f, 1, default(Color), .61f);
+			}
 			if (npc.life <= 0)
 			{
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Ent1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Reach2"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Reach2"), 1f);
-			}
-		}
-
-		public override void AI()
-		{
-			if (Main.rand.Next(12) == 1)
-			{
-				int dust = Dust.NewDust(npc.position + npc.velocity, npc.width, npc.height, 44, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f);
+				int n = 4;
+				int deviation = Main.rand.Next(0, 300);
+				for (int i = 0; i < n; i++)
+				{
+					float rotation = MathHelper.ToRadians(270 / n * i + deviation);
+					Vector2 perturbedSpeed = new Vector2(npc.velocity.X, npc.velocity.Y).RotatedBy(rotation);
+					perturbedSpeed.Normalize();
+					perturbedSpeed.X *= 5.5f;
+					perturbedSpeed.Y *= 5.5f;
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, 572, (int)((npc.damage * .5)), 0);
+				}
 			}
 		}
 

@@ -111,7 +111,19 @@ namespace SpiritMod.Projectiles
 					return true;
 				}
 			}
-
+			if (projectile.minion && projectile.owner == Main.myPlayer && modPlayer.silkenSet)
+			{
+                int dust = Dust.NewDust(projectile.Center, projectile.width, projectile.height, DustID.GoldCoin);
+				Main.dust[dust].velocity *= -1f;
+				Main.dust[dust].noGravity = true;
+				Vector2 vector2_1 = new Vector2((float) Main.rand.Next(-100, 101), (float) Main.rand.Next(-100, 101));
+				vector2_1.Normalize();
+				Vector2 vector2_2 = vector2_1 * ((float) Main.rand.Next(50, 100) * 0.04f);
+				Main.dust[dust].velocity = vector2_2;
+				vector2_2.Normalize();
+				Vector2 vector2_3 = vector2_2 * 34f;
+				Main.dust[dust].position = projectile.Center - vector2_3;
+			}
 			if (HeroBow3 == true)
 			{
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
@@ -162,9 +174,16 @@ namespace SpiritMod.Projectiles
 				projectile.ranged = true;
 
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				if (Main.rand.Next(2) == 0)
-					Dust.NewDust(projectile.position, projectile.width, projectile.height, 147);
-				return false;
+				int num = 5;
+				for (int k = 0; k < 3; k++)
+				{
+					int index2 = Dust.NewDust(projectile.position, 1, 1, 147, 0.0f, 0.0f, 0, new Color(), 1f);
+					Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
+					Main.dust[index2].scale = .5f;
+					Main.dust[index2].velocity *= 0f;
+					Main.dust[index2].noGravity = true;
+					Main.dust[index2].noLight = false;	
+				}	
 			}
 			else if (shotFromCoralBow == true)
 			{

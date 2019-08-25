@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Oak Heart");
-			Tooltip.SetDefault("Deals both melee and throwing damage\nPoisons hit foes");
+			Tooltip.SetDefault("Hitting foes may cause poisonous spores to rain down\nPoisons hit foes");
 		}
 
 
@@ -29,8 +29,8 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.shoot = mod.ProjectileType("OakHeart");
             item.useAnimation = 21;
             item.useTime = 21;
-            item.shootSpeed = 12f;
-            item.damage = 15;
+            item.shootSpeed = 9f;
+            item.damage = 13;
             item.knockBack = 3.5f;
 			item.value = Item.sellPrice(0, 1, 0, 0);
             item.rare = 2;

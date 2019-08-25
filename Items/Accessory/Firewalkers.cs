@@ -37,6 +37,12 @@ namespace SpiritMod.Items.Accessory
             player.lavaMax += 480;
             player.rocketTimeMax = 10;
             player.rocketBoots = 1;
+            if (player.velocity.X != 0f)
+            {
+                int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 0, 127);
+                Main.dust[dust].velocity *= 0f;
+                Main.dust[dust].noGravity = true;     
+            }             
         }
         public override void AddRecipes()
         {

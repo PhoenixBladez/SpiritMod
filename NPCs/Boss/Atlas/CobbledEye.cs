@@ -23,8 +23,8 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			npc.height = 42;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
-			npc.damage = 50;
-			npc.lifeMax = 5000;
+			npc.damage = 80;
+			npc.lifeMax = 2700;
 		}
 
 		public override bool PreAI()
@@ -53,12 +53,37 @@ namespace SpiritMod.NPCs.Boss.Atlas
 					{
 						int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default(Color), 2f);
 					}
-					int damage = expertMode ? 35 : 55;
+					int damage = expertMode ? 39 : 55;
 					int proj2 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, mod.ProjectileType("MiracleBeam"), damage, 1f, npc.target);
 				}
 				timer = 0;
 			}
-
+					for (int index1 = 0; index1 < 6; ++index1)
+					{
+						float x = (npc.Center.X - 22);
+						float xnum2 = (npc.Center.X + 22);
+						float y = (npc.Center.Y);
+						if (npc.direction == -1)
+						{
+							int index2 = Dust.NewDust(new Vector2(x, y), 1, 1, 226, 0.0f, 0.0f, 0, new Color(), 1f);
+							Main.dust[index2].position.X = x;
+							Main.dust[index2].position.Y = y;
+							Main.dust[index2].scale = .85f;
+							Main.dust[index2].velocity *= 0.02f;
+							Main.dust[index2].noGravity = true;
+							Main.dust[index2].noLight = false;
+						}
+						else if (npc.direction == 1)
+						{
+							int index2 = Dust.NewDust(new Vector2(xnum2, y), 1, 1, 226, 0.0f, 0.0f, 0, new Color(), 1f);
+							Main.dust[index2].position.X = xnum2;
+							Main.dust[index2].position.Y = y;
+							Main.dust[index2].scale = .85f;
+							Main.dust[index2].velocity *= 0.02f;
+							Main.dust[index2].noGravity = true;
+							Main.dust[index2].noLight = false;
+						}
+					}
 			int parent = (int)npc.ai[0];
 			if (parent < 0 || parent >= Main.maxNPCs || !Main.npc[parent].active || Main.npc[parent].type != Atlas._type)
 			{
@@ -140,7 +165,15 @@ namespace SpiritMod.NPCs.Boss.Atlas
 						color2, npc.oldRot[i], origin, npc.scale, SpriteEffects.None, 0.0f);
 				}
 			}
-			return true;
+			            var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+                             drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			return false;
 		}
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            SpiritUtility.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Boss/Atlas/CobbledEye_Glow"));
+        }
+
 	}
 }

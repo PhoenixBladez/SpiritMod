@@ -46,7 +46,17 @@ namespace SpiritMod.NPCs.Spirit
 		//		Gore.NewGore(npc.position, npc.velocity, 11);
 		//	}
 		//}
-
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+                             drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			return false;
+		}
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            SpiritUtility.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Spirit/GhastlyBeing_Glow"));
+        }
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frameCounter += 0.25f;
@@ -68,6 +78,7 @@ namespace SpiritMod.NPCs.Spirit
 
 		public override void AI()
 		{
+			npc.spriteDirection = npc.direction;
 			npc.TargetClosest(true);
 			Player player = Main.player[npc.target];
 			Vector2 delta = player.position - npc.position;

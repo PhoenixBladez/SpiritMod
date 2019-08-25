@@ -1,3 +1,6 @@
+using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,6 +13,7 @@ namespace SpiritMod.Items.Pets
 		{
 			DisplayName.SetDefault("Stardrive Chip");
 			Tooltip.SetDefault("It's inscribed in an Astral language\nSummons a Star Spider to run alongside you");
+            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Pets/TechChip_Glow");	
 		}
 
 		public override void SetDefaults()
@@ -32,5 +36,28 @@ namespace SpiritMod.Items.Pets
 		{
 			return player.miscEquips[0].IsAir;
 		}
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float  scale, int whoAmI) 	
+		{
+			Lighting.AddLight(item.position, 0.08f, .28f, .38f);
+			Texture2D texture;
+			texture = Main.itemTexture[item.type];
+			spriteBatch.Draw
+			(
+				ModContent.GetTexture("SpiritMod/Items/Pets/TechChip_Glow"),
+				new Vector2
+				(
+					item.position.X - Main.screenPosition.X + item.width * 0.5f,
+					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+				),
+				new Rectangle(0, 0, texture.Width, texture.Height),
+				Color.White,
+				rotation,
+				texture.Size() * 0.5f,
+				scale, 
+				SpriteEffects.None, 
+				0f
+			);
+        }        
+
 	}
 }

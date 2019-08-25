@@ -20,7 +20,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			npc.height = 20;
 			npc.damage = 14;
 			npc.defense = 0;
-			npc.lifeMax = 25;
+			npc.lifeMax = 19;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
 			npc.value = 0f;

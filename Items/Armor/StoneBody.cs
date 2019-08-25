@@ -26,6 +26,7 @@ namespace SpiritMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
+            player.moveSpeed -= .05f;
             player.maxRunSpeed -= 0.05f;
         }
         public override void AddRecipes()  

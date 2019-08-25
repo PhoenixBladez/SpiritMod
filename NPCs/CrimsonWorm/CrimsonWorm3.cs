@@ -20,7 +20,7 @@ namespace SpiritMod.NPCs.CrimsonWorm
 		{
 			npc.width = 10;
 			npc.height =10;
-			npc.damage = 17;
+			npc.damage = 19;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath6;
 			npc.defense = 3;
@@ -31,6 +31,13 @@ namespace SpiritMod.NPCs.CrimsonWorm
 			npc.netAlways = true;
 			npc.noGravity = true;
 			npc.dontCountMe = true;
+		}
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			if (Main.rand.Next(6) == 1)
+			{
+				target.AddBuff(BuffID.Bleeding, 600);
+			}
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

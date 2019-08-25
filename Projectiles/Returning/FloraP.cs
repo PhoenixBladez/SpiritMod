@@ -35,11 +35,12 @@ namespace SpiritMod.Projectiles.Returning
 
 		public override void AI()
 		{
-			if (Main.rand.Next(6) == 0)
+			if (Main.rand.Next(2) == 0)
 			{
-				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 44);
-				Main.dust[d].scale *= 0.2f;
-				Main.dust[d].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 39);
+				Main.dust[d].scale *= 0.8f;
+				Main.dust[d].noGravity = true;
+				Main.dust[d].velocity *= 0f;
 			}
 		}
 

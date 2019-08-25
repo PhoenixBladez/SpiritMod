@@ -25,23 +25,23 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		public float speed = 10.5f;
 		public float turnSpeed = 0.19f;
 		public bool tail = false;
-		public int minLength = 48;
-		public int maxLength = 49;
+		public int minLength = 54;
+		public int maxLength = 55;
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Starplate Raider");
+			DisplayName.SetDefault("Starplate Voyager");
 		}
 
 		public override void SetDefaults()
 		{
-			npc.damage = 40; //150
+			npc.damage = 50; //150
 			npc.npcSlots = 5f;
 			bossBag = mod.ItemType("SteamRaiderBag");
-			npc.width = 58; //324
-			npc.height = 62; //216
+			npc.width = 64; //324
+			npc.height = 56; //216
 			npc.defense = 10;
-			npc.lifeMax = 6700; //250000
+			npc.lifeMax = 8300; //250000
 			npc.aiStyle = 6; //new
 			Main.npcFrameCount[npc.type] = 1; //new
 			aiType = -1; //new
@@ -62,47 +62,78 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				npc.buffImmune[k] = true;
 			}
 		}
-
+		int chargetimer;
+		bool charge;
 		public override void AI()
 		{
 			Player player = Main.player[npc.target];
 			bool expertMode = Main.expertMode;
 			timer++;
-			if (timer == 100|| timer == 600)
+			if (timer == 100|| timer == 400)
 			{
 				if (Main.expertMode)
 				{
 					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 91);
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
 					direction.Normalize();
-					direction.X *= 5f;
-					direction.Y *= 5f;
+					direction.X *= 2.5f;
+					direction.Y *= 2.5f;
 
 					int amountOfProjectiles = 1;
 					for (int i = 0; i < amountOfProjectiles; ++i)
 					{
 						float A = (float)Main.rand.Next(-200, 200) * 0.05f;
 						float B = (float)Main.rand.Next(-200, 200) * 0.05f;
-						int damage = expertMode ? 18 : 20;
+						int damage = expertMode ? 18 : 25;
 						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, mod.ProjectileType("SteamBeam"), damage, 0, Main.myPlayer, 0, 0);
 					}
 				}
 			}
 			if (timer == 700)
 				timer = 0;
-
-			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.075f, 0.25f);
-			if ((npc.life <= npc.lifeMax * 0.5f))
+			chargetimer++;
+			if (npc.life >= npc.lifeMax * .25)
 			{
-				if (npc.localAI[0] == 0f)
+				if (chargetimer == 700)
 				{
-					npc.localAI[0] = 1f;
-					for (int num723 = 0; num723 < 5; num723++)
-					{
-						NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("CogTrapperHead"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-					}
+					Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
+				}
+				if (chargetimer >= 700 && chargetimer <= 1000)
+				{
+					charge = true;
+				}
+				else if (chargetimer >= 1001)
+				{
+					charge = false;
+					chargetimer = 0;
 				}
 			}
+			else
+			{
+				if (Main.rand.Next(18) == 0)
+				{
+					Vector2 direction = Main.player[npc.target].Center - npc.Center;
+					direction.Normalize();
+					direction.X *= 2f;
+					direction.Y *= -2f;
+					int amountOfProjectiles = 1;
+					for (int i = 0; i < amountOfProjectiles; ++i)
+					{
+						float A = (float)Main.rand.Next(-150, 150) * 0.01f;
+						float B = (float)Main.rand.Next(-80, 0) * 0.0f;
+						int num945 = expertMode ? 13 : 24;
+						int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("SteamBodyFallingProj"), num945, 1, Main.myPlayer, 0, 0);
+						Main.projectile[p].timeLeft = 240;
+					}
+				}
+				charge = true;
+				
+			}
+			if (npc.life == npc.lifeMax * .25)
+			{
+				Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
+			}
+			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.075f, 0.25f);
 			if (npc.ai[3] > 0f)
 				npc.realLife = (int)npc.ai[3];
 
@@ -199,6 +230,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			dust.noLight = true;
 			dust.position -= new Vector2(2f); //4
 			dust.fadeIn = 1f;
+			dust.scale *= .6f;
 			dust.velocity = Vector2.Zero;
 			dust = Main.dust[Dust.NewDust(value - value2, 0, 0, 226, npc.velocity.X, npc.velocity.Y, 100, Color.Transparent, 0.5f + Main.rand.NextFloat() * 1.5f)];
 			dust.noGravity = true;
@@ -231,16 +263,27 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			{
 				npc.defense = 15;
 				num42 *= 16;
-				float num47 = (float)(num42 - 400); //was 800
-				if (player.position.Y > num47)
+				float num47 = (float)(num42 - 560); //was 800
+				if (player.position.Y > num47 && !charge)
 				{
 					num192 = num47;
 					if (Math.Abs(npc.Center.X - player.Center.X) < 250f) //was 500
 					{
 						if (npc.velocity.X > 0f)
-							num191 = player.Center.X + 300f; //was 600
+							num191 = player.Center.X + 320f; //was 600
 						else
-							num191 = player.Center.X - 300f; //was 600
+							num191 = player.Center.X - 320f; //was 600
+					}
+				}
+				else if (charge && player.position.Y < num47)
+				{
+					num192 = num47;
+					if (Math.Abs(npc.Center.X - player.Center.X) < 500f) //was 500
+					{
+						if (npc.velocity.X > 0f)
+							num191 = player.Center.X + 500f; //was 600
+						else
+							num191 = player.Center.X - 500f; //was 600
 					}
 				}
 			}
@@ -250,7 +293,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				num188 = expertMode ? 12.5f : 10f; //added 2.5
 				num189 = expertMode ? 0.25f : 0.2f; //added 0.05
 			}
-			float num48 = num188 * 1.3f;
+			float num48 = num188 * 1.23f;
 			float num49 = num188 * 0.7f;
 			float num50 = npc.velocity.Length();
 			if (num50 > 0f)
@@ -273,7 +316,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					if (Main.npc[num51].active && Main.npc[num51].type == npc.type && num51 != npc.whoAmI)
 					{
 						Vector2 vector3 = Main.npc[num51].Center - npc.Center;
-						if (vector3.Length() < 400f)
+						if (vector3.Length() < 200f)
 						{
 							vector3.Normalize();
 							vector3 *= 1000f;
@@ -417,7 +460,101 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				}
 			}
 		}
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+                             drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			return false;
+		}
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {			
+			if (charge)
+			{
+			Microsoft.Xna.Framework.Color color1 = Lighting.GetColor((int) ((double) npc.position.X + (double) npc.width * 0.5) / 16, (int) (((double) npc.position.Y + (double) npc.height * 0.5) / 16.0));
+      		 Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, npc.height * 0.5f);
+			int r1 = (int) color1.R;
+			drawOrigin.Y += 30f;
+			drawOrigin.Y += 8f;
+			--drawOrigin.X;
+			Vector2 position1 = npc.Bottom - Main.screenPosition;
+	        Texture2D texture2D2 = Main.glowMaskTexture[239];					
+			float num11 = (float) ((double) Main.GlobalTime % 1.0 / 1.0);
+			float num12 = num11;
+			if ((double) num12 > 0.5)
+			num12 = 1f - num11;
+			if ((double) num12 < 0.0)
+			num12 = 0.0f;
+			float num13 = (float) (((double) num11 + 0.5) % 1.0);
+			float num14 = num13;
+			if ((double) num14 > 0.5)
+			num14 = 1f - num13;
+			if ((double) num14 < 0.0)
+			num14 = 0.0f;
+			Microsoft.Xna.Framework.Rectangle r2 = texture2D2.Frame(1, 1, 0, 0);
+			drawOrigin = r2.Size() / 2f;
+			Vector2 position3 = position1 + new Vector2(0.0f, -20f);
+			Microsoft.Xna.Framework.Color color3 = new Microsoft.Xna.Framework.Color(252, 3, 50) * 1.6f;
+			Main.spriteBatch.Draw(texture2D2, position3, new Microsoft.Xna.Framework.Rectangle?(r2), color3, npc.rotation,drawOrigin, npc.scale * 0.5f,  SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
+			float num15 = 1f + num11 * 0.75f;
+			Main.spriteBatch.Draw(texture2D2, position3, new Microsoft.Xna.Framework.Rectangle?(r2), color3 * num12, npc.rotation,drawOrigin, npc.scale * 0.5f * num15,  SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
+			float num16 = 1f + num13 * 0.75f;
+			Main.spriteBatch.Draw(texture2D2, position3, new Microsoft.Xna.Framework.Rectangle?(r2), color3 * num14, npc.rotation,drawOrigin, npc.scale * 0.5f * num16,  SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
+			Texture2D texture2D3 = Main.extraTexture[89];
+			Microsoft.Xna.Framework.Rectangle r3 = texture2D3.Frame(1, 1, 0, 0);
+			drawOrigin = r3.Size() / 2f;
+			Vector2 scale = new Vector2(0.75f, 1f + num16) * 1.5f;
+			float num17 = 1f + num13 * 0.75f;
+			}
+        	 SpiritUtility.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Boss/SteamRaider/SteamRaiderHead_Glow"));		
+			
+        }
+		public override void HitEffect(int hitDirection, double damage)
+		{
+			for (int k = 0; k < 5; k++)
+			{
+				Dust.NewDust(npc.position, npc.width, npc.height, 226, hitDirection, -1f, 0, default(Color), 1f);
+			}
+			if (npc.life <= 0)
+			{
+				npc.position.X = npc.position.X + (float)(npc.width / 2);
+				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
+				npc.width = 30;
+				npc.height = 30;
+				npc.position.X = npc.position.X - (float)(npc.width / 2);
+				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+				for (int num621 = 0; num621 < 20; num621++)
+				{
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default(Color), 2f);
+					Main.dust[num622].velocity *= 3f;
+					if (Main.rand.Next(2) == 0)
+					{
+						Main.dust[num622].scale = 0.5f;
+						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+					}
+				}
+				for (int num623 = 0; num623 < 40; num623++)
+				{
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default(Color), 3f);
+					Main.dust[num624].noGravity = true;
+					Main.dust[num624].velocity *= 5f;
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default(Color), 2f);
+					Main.dust[num624].velocity *= 2f;
+				}
+				Vector2 direction = Main.player[npc.target].Center - npc.Center;
+				direction.Normalize();
+				direction.X *= 4f;
+				direction.Y *= -4f;
 
+				int amountOfProjectiles = Main.rand.Next(1, 2);
+				for (int i = 0; i < amountOfProjectiles; ++i)
+				{
+					float A = (float)Main.rand.Next(-150, 150) * 0.01f;
+					float B = (float)Main.rand.Next(-80, 0) * 0.01f;
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("SteamBodyFallingProj"), 15, 1, Main.myPlayer, 0, 0);
+				}
+			}
+		}
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.6f * bossLifeScale);

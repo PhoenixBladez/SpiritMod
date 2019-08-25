@@ -16,8 +16,8 @@ namespace SpiritMod.Projectiles.Returning
 
 		public override void SetDefaults()
 		{
-			projectile.width = 38;
-			projectile.height = 38;
+			projectile.width = 34;
+			projectile.height = 34;
 			projectile.aiStyle = 3;
 			projectile.friendly = true;
 			projectile.melee = true;
@@ -35,7 +35,10 @@ namespace SpiritMod.Projectiles.Returning
 
 		public override void AI()
 		{
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, 68);
+			int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 68);
+			Main.dust[d].noGravity = true;
+			Main.dust[d].scale = Main.rand.NextFloat(.4f, .6f);
+			Main.dust[d].velocity *= 0f;
 		}
 
 	}

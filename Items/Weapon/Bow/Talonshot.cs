@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Weapon.Bow
             item.noMelee = true;
             item.ranged = true;
             item.width = 20;
-            item.height = 38;
+            item.height = 28;
             item.useTime = 34;
             item.useAnimation = 34;
             item.useStyle = 5;
@@ -66,6 +66,10 @@ namespace SpiritMod.Items.Weapon.Bow
                 Projectile.NewProjectile(position.X, position.Y, newVect1.X, newVect1.Y, type, damage, knockBack, player.whoAmI, 0f, 0f);
                 return true;
             }
+        }
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-6, 0);
         }
         public override void AddRecipes()
         {

@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Armor
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Silken Leggings");
+			DisplayName.SetDefault("Manasilk Leggings");
             Tooltip.SetDefault("Increases minion damage by 4%");
 
         }
@@ -31,8 +31,9 @@ namespace SpiritMod.Items.Armor
         public override void AddRecipes()  //How to craft this item
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Silk, 12);
+            recipe.AddIngredient(ItemID.Silk, 5);
             recipe.AddRecipeGroup("GoldBars");
+            recipe.AddIngredient(ItemID.FallenStar, 1);
             recipe.AddTile(TileID.Anvils);   //at work bench
             recipe.SetResult(this);
             recipe.AddRecipe();

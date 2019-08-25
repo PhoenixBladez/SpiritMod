@@ -68,7 +68,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 					npc.velocity.Y = 16f;
 					if (npc.collideY)
 					{
-						SpiritMod.shittyModTime = 60;
+						SpiritMod.tremorTime = 20;
 						npc.ai[2] = 1f;
 					}
 				}
@@ -84,7 +84,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 				npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y, -10f, 10f);
 				npc.rotation = npc.velocity.X / 20f;
 				npc.ai[3] += (float)Main.rand.Next(4);
-				if (npc.ai[3] >= 240f)
+				if (npc.ai[3] >= 120f)
 				{
 					npc.ai[1] = 3f;
 					npc.ai[2] = 0f;

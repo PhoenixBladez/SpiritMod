@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Consumable
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Jewel Crown");
+			DisplayName.SetDefault("Feather Crown");
 			Tooltip.SetDefault("'Summons the ruler of the skies'");
 		}
 
@@ -45,7 +45,6 @@ namespace SpiritMod.Items.Consumable
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BeeWax, 1);
             recipe.AddIngredient(null, "Talon", 4);
             recipe.AddIngredient(ItemID.Feather, 6);
             recipe.AddTile(TileID.Anvils);

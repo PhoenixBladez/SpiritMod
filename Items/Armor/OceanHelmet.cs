@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Diver's Helmet");
-			Tooltip.SetDefault("Increases minion damage by 7%, and magic damage by 5% \nIncreases maximum number of minions by 1");
+			Tooltip.SetDefault("Increases minion damage by 7%, and magic damage by 5%\nIncreases maximum number of minions by 1");
 		}
         public override void SetDefaults()
         {

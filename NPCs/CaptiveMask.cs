@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -11,18 +12,21 @@ namespace SpiritMod.NPCs
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Captive Mask");
-			Main.npcFrameCount[npc.type] = 3;
+			Main.npcFrameCount[npc.type] = 4;
+		    NPCID.Sets.TrailCacheLength[npc.type] = 9;
+            NPCID.Sets.TrailingMode[npc.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 22;
-			npc.height = 22;
-			npc.damage = 18;
+			npc.width = 34;
+			npc.height = 28;
+			npc.damage = 20;
 			npc.defense = 7;
 			npc.knockBackResist = 0.2f;
-			npc.lifeMax = 40;
-			npc.HitSound = SoundID.NPCHit3;
+			npc.lifeMax = 58;
+			npc.value = 100f;
+			npc.HitSound = SoundID.NPCHit2;
 			npc.DeathSound = SoundID.NPCDeath6;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
@@ -30,7 +34,7 @@ namespace SpiritMod.NPCs
 
 		public override bool PreAI()
 		{
-			float velMax = 1f;
+			float velMax = 1.3f;
 			float acceleration = 0.011f;
 			npc.TargetClosest(true);
 			Vector2 center = npc.Center;
@@ -38,11 +42,11 @@ namespace SpiritMod.NPCs
 			float deltaY = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - center.Y;
 			float distance = (float)Math.Sqrt((double)deltaX * (double)deltaX + (double)deltaY * (double)deltaY);
 			npc.ai[1] += 1f;
-			if ((double)npc.ai[1] > 600.0)
+			if ((double)npc.ai[1] > 300.0)
 			{
-				acceleration *= 8f;
-				velMax = 4f;
-				if ((double)npc.ai[1] > 650.0)
+				acceleration *= 8.25f;
+				velMax = 4.5f;
+				if ((double)npc.ai[1] > 330.0)
 				{
 					npc.ai[1] = 0f;
 				}
@@ -84,7 +88,7 @@ namespace SpiritMod.NPCs
 			else if ((double)distance > 250.0)
 			{
 				velMax = 1.5f;
-				acceleration = 0.1f;
+				acceleration = 0.3f;
 			}
 			float stepRatio = velMax / distance;
 			float velLimitX = deltaX * stepRatio;
@@ -122,17 +126,52 @@ namespace SpiritMod.NPCs
 			}
 			return false;
 		}
-
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+                             lightColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			{
+				Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height/ Main.npcFrameCount[npc.type]) * 0.5f);
+				for (int k = 0; k < npc.oldPos.Length; k++)
+				{
+					Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
+					Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
+					spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
+				}
+			}
+            return false;
+        }
 		public override void HitEffect(int hitDirection, double damage)
 		{
+			if (npc.life <= 0 || npc.life >= 0)
+			{
+				int d = 5;
+				for (int k = 0; k < 30; k++)
+				{
+					Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.27f);
+					Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, .87f);
+				}
+
+				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, .27f);
+				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.87f);
+				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, .47f);
+				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.87f);
+			}
 			if (npc.life <= 0)
 			{
-				Gore.NewGore(npc.position, npc.velocity, 13);
-				Gore.NewGore(npc.position, npc.velocity, 12);
-				Gore.NewGore(npc.position, npc.velocity, 11);
+				{
+					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mime/MaskGore1"), Main.rand.NextFloat(.3f, 1.1f));
+					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mime/MaskGore1"), Main.rand.NextFloat(.3f, 1.1f));
+					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mime/MaskGore1"), Main.rand.NextFloat(.3f, 1.1f));
+					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mime/MaskGore1"), Main.rand.NextFloat(.3f, 1.1f));
+				}
 			}
 		}
-
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			target.AddBuff(BuffID.Obstructed, 60);
+		}
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(10) == 1)

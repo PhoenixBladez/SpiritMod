@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Infernal Shield");
-			Tooltip.SetDefault("Double tap a direction to dash in flames \n Reduces damage taken by 5%");
+			Tooltip.SetDefault("Double tap a direction to dash in flames\nReduces damage taken by 5%");
 		}
 
         public override void SetDefaults()
