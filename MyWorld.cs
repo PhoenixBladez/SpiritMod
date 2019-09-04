@@ -1778,6 +1778,7 @@ namespace SpiritMod
 			}
 		}
 		#endregion 
+		#region BanditHideout
 		private void PlaceBanditHideout(int i, int j, int[,] BlocksArray, int[,] WallsArray, int[,] LootArray) 
 		{
 			for (int y = 0; y < WallsArray.GetLength(0); y++) 
@@ -2130,7 +2131,7 @@ namespace SpiritMod
 			bool placed = false;
 			while (!placed)
 			{
-			int hideoutX = Main.spawnTileX + Main.rand.Next(-700, 700); // from 50 since there's a unaccessible area at the world's borders
+			int hideoutX = Main.spawnTileX + Main.rand.Next(-900, 900); // from 50 since there's a unaccessible area at the world's borders
 				// 50% of choosing the last 6th of the world
 				if (WorldGen.genRand.NextBool())
 				{
@@ -2163,7 +2164,8 @@ namespace SpiritMod
 				placed = true;
 			}
 		}
-private void PlaceAltar(int i, int j, int[,] BlocksArray, int[,] LootArray) {
+		#endregion
+		private void PlaceAltar(int i, int j, int[,] BlocksArray, int[,] LootArray) {
 			
 			for (int y = 0; y < BlocksArray.GetLength(0); y++) { // This loops clears the area (makes the proper hemicircle) and placed dirt in the bottom if there are no blocks (so that the chest and fireplace can be placed).
 				for (int x = 0; x < BlocksArray.GetLength(1); x++) {
@@ -2276,7 +2278,172 @@ private void PlaceAltar(int i, int j, int[,] BlocksArray, int[,] LootArray) {
 				Main.npc[num1].homeless = true;
 				placed = true;
 			}
-		}	
+		}
+		private void PlaceGlowRoom(int i, int j, int[,] BlocksArray, int[,] LootArray) {
+			
+			for (int y = 0; y < BlocksArray.GetLength(0); y++) { // This loops clears the area (makes the proper hemicircle) and placed dirt in the bottom if there are no blocks (so that the chest and fireplace can be placed).
+				for (int x = 0; x < BlocksArray.GetLength(1); x++) {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (BlocksArray[y, x]) {
+							case 0:
+								break; // no changes
+							case 1:
+								Framing.GetTileSafely(k, l).ClearTile();
+								WorldGen.PlaceTile(k, l, mod.TileType("BlastStone"));
+								tile.active(true);
+								WorldGen.KillWall(k, l);
+								break;
+							case 2:
+								Framing.GetTileSafely(k, l).ClearTile();
+								WorldGen.KillWall(k, l);
+								break;
+						}
+					}
+				}
+			}
+			for (int y = 0; y < BlocksArray.GetLength(0); y++) { // This loops clears the area (makes the proper hemicircle) and placed dirt in the bottom if there are no blocks (so that the chest and fireplace can be placed).
+				for (int x = 0; x < BlocksArray.GetLength(1); x++) {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (BlocksArray[y, x]) {
+							case 0:
+								break; // no changes
+							case 1:
+
+								break;
+							case 2:
+							if (WorldGen.genRand.Next(2) == 0)
+							{
+								WorldGen.PlaceWall(k, l, 207);
+							}
+								break;
+						}
+					}
+				}
+			}
+			for (int y = 0; y < LootArray.GetLength(0); y++) { // This loops clears the area (makes the proper hemicircle) and placed dirt in the bottom if there are no blocks (so that the chest and fireplace can be placed).
+				for (int x = 0; x < LootArray.GetLength(1); x++) {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if (WorldGen.InWorld(k, l, 30)){
+						Tile tile = Framing.GetTileSafely(k, l);
+						switch (LootArray[y, x]) {
+							case 0:
+								break; // no changes
+							case 3:
+								if (Main.rand.Next (2) == 0)
+								{
+								WorldGen.PlaceTile(k, l, mod.TileType<Tiles.Ambient.ReachMicros.GlowGrass>());
+								}
+								else
+								{
+								WorldGen.PlaceTile(k, l, mod.TileType<Tiles.Ambient.ReachMicros.GlowGrass2>());
+								}
+								break;
+							case 4:
+								WorldGen.PlaceChest(k, l, (ushort)mod.TileType("ReachChest"), false, 0); // Gold Chest
+								break;
+							case 5:
+								if (Main.rand.Next (2) == 0)
+								{
+								WorldGen.PlaceTile(k, l, mod.TileType<Tiles.Ambient.ReachMicros.GlowGrass>());
+								}
+								else
+								{
+								WorldGen.PlaceTile(k, l, mod.TileType<Tiles.Ambient.ReachMicros.GlowGrass2>());	
+								}
+								
+								break;
+							case 6:
+								WorldGen.PlaceTile(k, l, mod.TileType<Tiles.Ambient.ReachMicros.GlowGrass3>(), true);
+								break;
+						}
+					}
+				}
+			}
+		}
+		public void GenerateGlowRoom()
+		{	
+			int[,] GlowRoom1 = new int[,]
+			{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0},
+				{0,0,0,0,0,1,1,2,2,2,2,2,2,2,2,2,2,1,1,0,0,0,0,0},
+				{0,0,0,0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0,0,0},
+				{0,0,0,0,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,0,0,0},
+				{0,0,0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0,0},
+				{0,0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0,0},
+				{0,0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,0,0,0},
+				{0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},		
+			};
+			int[,] GlowRoom2 = new int[,]
+			{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0},
+				{0,0,0,0,0,1,1,1,1,1,1,2,2,2,2,2,2,1,0,0,0,0,0,0},
+				{0,0,0,0,1,1,2,2,2,2,2,2,2,2,2,2,2,1,1,0,0,0,0,0},
+				{0,0,0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0,0,0},
+				{0,0,0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,0,0,0},
+				{0,0,0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0,0},
+				{0,0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0,0},
+				{0,0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,0,0,0},
+				{0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},		
+			};
+			int[,] GlowLoot1 = new int[,]
+			{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0},
+				{0,0,0,0,0,1,1,1,1,1,1,2,2,2,2,2,2,1,0,0,0,0,0,0},
+				{0,0,0,0,1,1,2,2,6,2,6,2,2,2,2,2,2,1,1,0,0,0,0,0},
+				{0,0,0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0,0,0},
+				{0,0,0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,0,0,0},
+				{0,0,0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0,0},
+				{0,0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0,0},
+				{0,0,0,1,2,2,5,2,3,2,2,4,2,2,5,2,2,3,2,1,1,0,0,0},
+				{0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},		
+			};
+			int[,] GlowLoot2 = new int[,]
+			{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0},
+				{0,0,0,0,0,1,1,2,6,2,2,2,6,2,2,2,2,1,1,0,0,0,0,0},
+				{0,0,0,0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0,0,0},
+				{0,0,0,0,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,0,0,0},
+				{0,0,0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0,0},
+				{0,0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0,0},
+				{0,0,0,1,2,2,5,2,3,2,2,2,4,2,2,2,5,2,3,1,1,0,0,0},
+				{0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},			
+			};
+			bool placed = false;
+			while (!placed)
+			{
+				// Select a place in the first 6th of the world
+				int towerX = (int)Main.rand.Next(50, Main.maxTilesX); ; // from 50 since there's a unaccessible area at the world's borders
+				int towerY = (int)Main.rand.Next((int)Main.worldSurface + 10, Main.maxTilesY);
+				Tile tile = Main.tile[towerX, towerY];
+				// If the type of the tile we are placing the tower on doesn't match what we want, try again
+				if (tile.type != mod.TileType("ReachGrassTile"))
+				{
+					continue;
+				}
+				if (WorldGen.genRand.Next(2) == 0)
+				{
+					PlaceGlowRoom(towerX, towerY +  Main.rand.Next (-40, 0), GlowRoom1, GlowLoot1);
+				}
+				else
+				{
+					PlaceGlowRoom(towerX, towerY + Main.rand.Next (-40, 0), GlowRoom2, GlowLoot2);
+				}
+				placed = true;
+			}
+		}
 		public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
 		{
 			int GuideIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Sunflowers"));
@@ -2294,6 +2461,10 @@ private void PlaceAltar(int i, int j, int[,] BlocksArray, int[,] LootArray) {
 				}
 				GenerateAltar();
 				GenerateHideout();
+				for (int k = 0; k < Main.rand.Next(2, 4); k++)
+				{
+					GenerateGlowRoom();
+				}
 				GenerateTower();
 				GenerateZiggurat();
 				GenerateBanditHideout();				
@@ -2320,6 +2491,19 @@ private void PlaceAltar(int i, int j, int[,] BlocksArray, int[,] LootArray) {
 			{
 				GenerateGemStash();
 			}
+			for (int i = 1; i < Main.rand.Next(4, 6); i++)
+				{
+					int itemsToPlaceInGlassChestsSecondaryChoice = 0;
+					for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
+					{
+						Chest chest = Main.chest[chestIndex];
+						if (chest != null && Main.tile[chest.x, chest.y].frameX == 13 * 36 && Main.rand.Next(2) == 0)
+						{
+							chest.item[6].SetDefaults(mod.ItemType("ChaosPearl"), false);
+							chest.item[6].stack = WorldGen.genRand.Next(20, 30);
+						}
+					}
+				}				
 			for (int i = 1; i < Main.rand.Next(4, 6); i++)
 				{
 					int[] itemsToPlaceInGlassChestsSecondary = new int[] { mod.ItemType("OldLeather"), 19, 20, 21, 22, 52, 3093, ItemID.SilverCoin, ItemID.Bottle, ItemID.Rope, 166, 52, 290, 291, 292, 293, 294, 295, 296, 297 };
@@ -2416,7 +2600,7 @@ private void PlaceAltar(int i, int j, int[,] BlocksArray, int[,] LootArray) {
 									chest.item[inventoryIndex].SetDefaults(itemsToPlaceInGlassChestsSecondary[itemsToPlaceInGlassChestsSecondaryChoice]); //the error is at this line
 									chest.item[5].stack = Main.rand.Next(1, 1);
 									itemsToPlaceInGlassChestsSecondaryChoice = (itemsToPlaceInGlassChestsSecondaryChoice + 1) % itemsToPlaceInGlassChestsSecondary.Length;
-									break;
+								
 								}
 							}
 						}
@@ -2443,7 +2627,7 @@ private void PlaceAltar(int i, int j, int[,] BlocksArray, int[,] LootArray) {
 								chest.item[3].stack = WorldGen.genRand.Next(1, 3);
 								chest.item[4].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(13)]);
 								chest.item[4].stack = WorldGen.genRand.Next(1, 2);			
-								break;		
+									
 							}		
 						}
 					}
@@ -2461,7 +2645,7 @@ private void PlaceAltar(int i, int j, int[,] BlocksArray, int[,] LootArray) {
 						itemsToPlaceInGlassChestsChoice = Main.rand.Next(itemsToPlaceInGlassChests.Length);
 						chest.item[0].SetDefaults(itemsToPlaceInGlassChests[itemsToPlaceInGlassChestsChoice]);
 						//itemsToPlaceInGlassChestsChoice = (itemsToPlaceInGlassChestsChoice + 1) % itemsToPlaceInGlassChests.Length;
-						break;
+						
 					}
 				}
 			}

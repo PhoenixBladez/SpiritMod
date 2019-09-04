@@ -74,21 +74,21 @@ namespace SpiritMod.NPCs.Town
 			switch (WorldGen.genRand.Next(8))
 			{
 				case 0:
-					return "Drew";
+					return "Morgan";
 				case 1:
 					return "Adam";
 				case 2:
 					return "Aziz";
 				case 3:
-					return "Blade";
+					return "Temir";
 				case 4:
 					return "Evan";
 				case 5:
-					return "Jenosis";
+					return "Senzen";
 				case 6:
-					return "Khaelis";
+					return "Johanovic";
 				default:
-					return "Vladimier";
+					return "Adrian";
 			}
 		}
 
@@ -96,15 +96,15 @@ namespace SpiritMod.NPCs.Town
 		{
 			int TravellingMerchant = NPC.FindFirstNPC(NPCID.TravellingMerchant);
 			if (TravellingMerchant >= 0 && Main.rand.Next(8) == 0)
-				return "Ah! It's " + Main.npc[TravellingMerchant].GivenName + "! We've often met on our journeys.";
+				return "Ah! It's " + Main.npc[TravellingMerchant].GivenName + "! We've often met on our journeys. I still haven't found all those exotic jungles he speaks of.";
 
 			int ArmsDealer = NPC.FindFirstNPC(NPCID.ArmsDealer);
 			if (ArmsDealer >= 0 && Main.rand.Next(8) == 0)
-				return "Got some great prices today!" + Main.npc[ArmsDealer].GivenName + "'s wares can't compete!";
+				return "Got some great prices today!" + Main.npc[ArmsDealer].GivenName + "'s wares can't compete! They literally can't. I don't sell guns anymore.";
 
 			int Merchant = NPC.FindFirstNPC(NPCID.Merchant);
 			if (Merchant >= 0 && Main.rand.Next(8) == 0)
-				return "I swear I've got more goods today than " + Main.npc[Merchant].GivenName + ".";
+				return "I swear I've got more goods for sale than " + Main.npc[Merchant].GivenName + ".";
 
 			if (NPC.downedMechBossAny && Main.rand.Next(8) == 0)
 				return "A shimmering blue light's on the horizon. Wonder what that's about, huh?";
@@ -112,26 +112,23 @@ namespace SpiritMod.NPCs.Town
 			if (!Main.dayTime && Main.rand.Next(6) == 0)
 				return "Like the moon, my merchandise is inconstant.";
 
-			if (Main.dayTime && Main.rand.Next(6) == 0)
-				return "A bright new day, and a new shipment of goods await.";
-
 			if (Main.bloodMoon && Main.rand.Next(4) == 0)
-				return "Everyone seems to be aggressive tonight. Well, all I've got are new products, so I'm happy.";
+				return "Everyone seems to be so aggressive tonight. With the zombies knocking at our door, I think you should buy stuff and head underground as quick as you can. Can you take me with you?";
 
 			switch (Main.rand.Next(8))
 			{
 				case 0:
 					return "I've been all around this world, and I've got so many things for you to see.";
 				case 1:
-					return "The wonders I've seen! I have some to share.";
+					return "The goblins are more organized than you'd think- I saw their mages build a huge tower over yonder. You should check it out sometime!";
 				case 2:
-					return "Lovely house! I need to tell you about the time I was trapped in that Reach nearby...";
+					return "Lovely house you've got here. It's much better lodging than when those savages from The Briar hung me over a spit.";
 				case 3:
-					return "The wind... A new dawn is approaching soon, I can feel it!";
+					return "Every dawn brings with it a new opportunity for a journey! You interested?";
 				case 4:
-					return "We're pretty similar, you and I. I sense our similar thirst for adventure.";
+					return "We're pretty similar, you and I. I sense our shared thirst for adventure.";
 				case 5:
-					return "Buy my stuff and go out there! See what the world has to offer.";
+					return "Buy my stuff and go out there! See what the world has to offer, like I have.";
 				default:
 					return "From the depths of temples and the heights of space, peruse my wares.";
 			}
@@ -150,76 +147,98 @@ namespace SpiritMod.NPCs.Town
 
 		public override void SetupShop(Chest shop, ref int nextSlot)
 		{
-			if (NPC.downedBoss1 == true)
+			//Rope Coil
+			shop.item[nextSlot].SetDefaults(ItemID.RopeCoil);
+			nextSlot++;
+			//Glowsticks
+			if (Main.moonPhase == 4 && !Main.dayTime)
 			{
-				shop.item[nextSlot].SetDefaults(ItemID.Compass);
-				nextSlot++;
-				shop.item[nextSlot].SetDefaults(ItemID.DepthMeter);
-				nextSlot++;
-				shop.item[nextSlot].SetDefaults(ItemID.WarmthPotion);
-				nextSlot++;
-				shop.item[nextSlot].SetDefaults(ItemID.Hook);
-				nextSlot++;
-				shop.item[nextSlot].SetDefaults(ItemID.Rope);
-				nextSlot++;
-				shop.item[nextSlot].SetDefaults(ItemID.PurpleEmperorButterfly);
-				nextSlot++;
-				shop.item[nextSlot].SetDefaults(mod.ItemType("GatorPistol"));
-				nextSlot++;
-				shop.item[nextSlot].SetDefaults(mod.ItemType("Chakram"));
-				nextSlot++;
-				shop.item[nextSlot].SetDefaults(mod.ItemType("GoldSword"));
-				nextSlot++;
-				shop.item[nextSlot].SetDefaults(mod.ItemType("PlatinumSword"));
-				nextSlot++;
-				shop.item[nextSlot].SetDefaults(mod.ItemType("ManaFlame"));
-				nextSlot++;
-				shop.item[nextSlot].SetDefaults(mod.ItemType("BeserkerShard"));
-				nextSlot++;
-
-			}
-			if (!Main.dayTime)
-			{
-				shop.item[nextSlot].SetDefaults(mod.ItemType("PoisonArrow"));
+				shop.item[nextSlot].SetDefaults(ItemID.SpelunkerGlowstick);
 				nextSlot++;
 			}
-			if (Main.dayTime)
+			else
 			{
-				shop.item[nextSlot].SetDefaults(mod.ItemType("SlimeArrow"));
+				shop.item[nextSlot].SetDefaults(ItemID.StickyGlowstick);
 				nextSlot++;
 			}
-			if (NPC.downedBoss2 == true && !Main.dayTime)
+			//Torches
+			if (Main.moonPhase == 4 && !Main.dayTime)
 			{
-				shop.item[nextSlot].SetDefaults(mod.ItemType("KnocbackGun"));
+				shop.item[nextSlot].SetDefaults(ItemID.CursedTorch);
 				nextSlot++;
 			}
-			if (Main.bloodMoon)
+			else if (Main.moonPhase == 7 && !Main.dayTime)
 			{
-				shop.item[nextSlot].SetDefaults(mod.ItemType("BloodWard"));
+				shop.item[nextSlot].SetDefaults(ItemID.UltrabrightTorch);
 				nextSlot++;
 			}
-			if (NPC.downedBoss3 == true)
+			else
 			{
-				shop.item[nextSlot].SetDefaults(mod.ItemType("Skyblade"));
+				shop.item[nextSlot].SetDefaults(ItemID.Torch);
 				nextSlot++;
 			}
-			if (NPC.downedBoss3 == true && !Main.dayTime)
+			//Dangersense
+			shop.item[nextSlot].SetDefaults(ItemID.TrapsightPotion);
+			shop.item[nextSlot].value = 2000;
+			nextSlot++;
+			//Dart Trap
+			shop.item[nextSlot].SetDefaults(ItemID.DartTrap);
+			shop.item[nextSlot].value = 5000;
+			nextSlot++;		
+			//Treasure Map
+			shop.item[nextSlot].SetDefaults(ItemID.TreasureMap);
+			shop.item[nextSlot].value = 50000;
+			nextSlot++;
+			//Angler
+			int Angler = NPC.FindFirstNPC(NPCID.Angler);
+			if (Angler >= 0)
 			{
-				shop.item[nextSlot].SetDefaults(mod.ItemType("DemonArrow"));
-				nextSlot++;
-
+				//JellyBait
+				shop.item[nextSlot].SetDefaults(ItemID.PinkJellyfish);
+				shop.item[nextSlot].value = 45000;
+				nextSlot++;		
 			}
-			if (MyWorld.downedRaider == true)
+			//Swords
+			shop.item[nextSlot].SetDefaults(mod.ItemType("GoldSword"));
+			nextSlot++;
+			shop.item[nextSlot].SetDefaults(mod.ItemType("PlatinumSword"));
+			nextSlot++;	
+			//Lunar Wisp		
+			shop.item[nextSlot].SetDefaults(mod.ItemType("ManaFlame"));
+			nextSlot++;
+			//Whoopie Cushion
+			if (NPC.downedBoss2)
 			{
-				shop.item[nextSlot].SetDefaults(mod.ItemType("DawnStone"));
-				nextSlot++;
+				shop.item[nextSlot].SetDefaults(ItemID.WhoopieCushion);
+				shop.item[nextSlot].value = 15000;
+				nextSlot++;	
 			}
-			if (Main.hardMode)
+			if (NPC.downedQueenBee)
 			{
-				shop.item[nextSlot].SetDefaults(mod.ItemType("ScorpionGun"));
+				shop.item[nextSlot].SetDefaults(ItemID.BottledHoney);
+				shop.item[nextSlot].value = 5000;
+				nextSlot++;	
+			}
+			if (NPC.downedBoss3)
+			{
+			//Book
+				shop.item[nextSlot].SetDefaults(ItemID.Book);
+				shop.item[nextSlot].value = 20;
 				nextSlot++;
-				shop.item[nextSlot].SetDefaults(mod.ItemType("ViashinoStaff"));
+			//Skull
+				shop.item[nextSlot].SetDefaults(ItemID.Skull);
+				shop.item[nextSlot].value = 100000;
+				nextSlot++;		
+			}
+			Player closest = Main.player[(int)Player.FindClosest(npc.position, npc.width, npc.height)];
+			if (closest.GetModPlayer<MyPlayer>(mod).ZoneReach)
+			{
+				shop.item[nextSlot].SetDefaults(mod.ItemType("SkullStick"));
+				shop.item[nextSlot].value = 1000;
 				nextSlot++;
+				shop.item[nextSlot].SetDefaults(mod.ItemType("AncientBark"));
+				shop.item[nextSlot].value = 200;
+				nextSlot++;				
 			}
 			if (NPC.downedMechBossAny == true)
 			{

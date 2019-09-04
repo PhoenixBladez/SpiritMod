@@ -206,18 +206,6 @@ namespace SpiritMod
 				}
 			}
 			int SkullStickY = 0;
-            for (int SkullStickX = x - 90; SkullStickX < x + 90; SkullStickX++)
-            {
-                for (SkullStickY = y + 20; SkullStickY < y + 100; SkullStickY++)
-                {
-                   if (Main.rand.Next(5400) == 6 && Main.tile[SkullStickX, SkullStickY].active())
-					{
-						{
-							PlaceShrine(SkullStickX, SkullStickY, ShrineShape);  
-						}
-					} 	
-				}
-			}
 			for (int SkullStickX = x - 120; SkullStickX < x + 120; SkullStickX++)
 			{
 				for (SkullStickY = y - 80; SkullStickY < y + 175; SkullStickY++)

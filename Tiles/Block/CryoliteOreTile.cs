@@ -10,8 +10,7 @@ namespace SpiritMod.Tiles.Block
         {
             Main.tileSpelunker[Type] = true;
             Main.tileSolid[Type] = true;
-            Main.tileMergeDirt[Type] = true;
-            Main.tileBlockLight[Type] = false;  //true for block to emit light
+            Main.tileBlockLight[Type] = true;  //true for block to emit light
             Main.tileLighted[Type] = false;
             drop = mod.ItemType("CryoliteOre");   //put your CustomBlock name
 			ModTranslation name = CreateMapEntryName();

@@ -10,17 +10,17 @@ namespace SpiritMod.Items.Consumable
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Chaos Pearl");
-			Tooltip.SetDefault("Teleports you to landing area.");
+			DisplayName.SetDefault("Windshear Pearl");
+			Tooltip.SetDefault("Teleports you to the projectile's landing position\nYour body cannot sustain multiple uses");
 		}
 
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 20;
+            item.width = 16;
+            item.height = 16;
             item.value = Item.sellPrice(0, 0, 3, 0);
-            item.rare = 6;
+            item.rare = 3;
             item.maxStack = 999;
             //item.crit = 4;
             item.damage = 0;
@@ -35,15 +35,6 @@ namespace SpiritMod.Items.Consumable
             item.shoot = mod.ProjectileType("ChaosPearl");
             item.shootSpeed = 9;
             item.UseSound = SoundID.Item1;
-        }
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(502, 1);
-            recipe.AddIngredient(520, 1);
-			recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 4);
-            recipe.AddRecipe();
         }
     }
 }

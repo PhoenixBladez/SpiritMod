@@ -20,8 +20,8 @@ namespace SpiritMod.NPCs
 			npc.width = 24;
 			npc.height = 24;
 			npc.damage = 21;
-			npc.defense = 3;
-			npc.lifeMax = 40;
+			npc.defense = 6;
+			npc.lifeMax = 44;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
 			npc.value = 460f;
@@ -36,7 +36,7 @@ namespace SpiritMod.NPCs
 			Player player = spawnInfo.player;
 			if (!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.spawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.spawnTileY > Main.worldSurface || !Main.dayTime) && (SpawnCondition.GoblinArmy.Chance == 0))
 			{
-				return spawnInfo.player.GetModPlayer<MyPlayer>(mod).ZoneReach ? 1.8f : 0f;
+				return spawnInfo.player.GetModPlayer<MyPlayer>(mod).ZoneReach ? 1.5f : 0f;
 			}
 			return 0f;
 		}
@@ -65,9 +65,6 @@ namespace SpiritMod.NPCs
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AncientBark"));
 				}
-			}
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EnchantedLeaf"));
 			}
 		}
 		public override void FindFrame(int frameHeight)

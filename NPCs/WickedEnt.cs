@@ -17,25 +17,17 @@ namespace SpiritMod.NPCs
 		public override void SetDefaults()
 		{
 			npc.width = 28;
-			npc.height = 52;
-			npc.damage = 25;
+			npc.height = 50;
+			npc.damage = 19;
 			npc.defense = 7;
-			npc.lifeMax = 75;
+			npc.lifeMax = 48;
 			npc.HitSound = SoundID.NPCHit7;
 			npc.DeathSound = SoundID.NPCDeath6;
 			npc.value = 60f;
 			npc.knockBackResist = .10f;
 			npc.aiStyle = 3;
-			aiType = NPCID.AngryBones;
+			aiType = NPCID.SnowFlinx;
 			animationType = NPCID.Zombie;
-		}
-
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			if (SpawnHelper.SupressSpawns(spawnInfo, SpawnFlags.None, SpawnZones.Jungle))
-				return 0;
-
-			return spawnInfo.spawnTileY > Main.rockLayer ? 0.05f : 0f;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
@@ -62,11 +54,29 @@ namespace SpiritMod.NPCs
 				}
 			}
 		}
-
+		public override float SpawnChance(NPCSpawnInfo spawnInfo)
+		{
+			Player player = spawnInfo.player;
+			if (!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.spawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.spawnTileY > Main.worldSurface) && (SpawnCondition.GoblinArmy.Chance == 0 && !Main.dayTime))
+			{
+				return spawnInfo.player.GetModPlayer<MyPlayer>(mod).ZoneReach ? 1.7f : 0f;
+			}
+			return 0f;
+		}
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+                             drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			return false;
+		}
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/WickedEnt_Glow"));
+        }
 		public override void NPCLoot()
 		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.JungleSpores, Main.rand.Next(1) + 3);
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.RichMahogany, Main.rand.Next(4) + 3);
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AncientBark"));
 		}
 	}
 }

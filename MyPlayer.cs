@@ -766,9 +766,9 @@ namespace SpiritMod
 
         public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath)
         {
-            Item item = new Item();
+           /* Item item = new Item();
             item.SetDefaults(mod.ItemType("OddKeystone"));
-            items.Add(item);
+            items.Add(item);*/
         }
 
         public override void CatchFish(Item fishingRod, Item bait, int power, int liquidType, int poolSize, int worldLayer, int questFish, ref int caughtType, ref bool junk)
