@@ -6,13 +6,13 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace SpiritMod.Projectiles.Boss
+namespace SpiritMod.Projectiles.Hostile
 {
-	public class BoneWave : ModProjectile
+	public class OccultistHand : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Crystal Wave");
+			DisplayName.SetDefault("Dark Grasp");
 		}
 
 		public override void SetDefaults()
@@ -23,7 +23,7 @@ namespace SpiritMod.Projectiles.Boss
 			projectile.hostile = true;
 			projectile.penetrate = 10;
 			projectile.timeLeft = 1000;
-			projectile.tileCollide = false;
+			projectile.tileCollide = true;
 			projectile.aiStyle = 1;
 			aiType = ProjectileID.Bullet;
 		}
@@ -44,5 +44,25 @@ namespace SpiritMod.Projectiles.Boss
 			newDust.fadeIn = 0.5F;
 			newDust.noGravity = true;
 		}
-	}
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.Obstructed, 120, true);
+        }
+        public override void Kill(int timeLeft)
+        {
+            Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1);
+            Vector2 vector9 = projectile.position;
+            Vector2 value19 = (projectile.rotation - 1.57079637f).ToRotationVector2();
+            vector9 += value19 * 12f;
+            for (int num257 = 0; num257 < 20; num257++)
+            {
+                int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, 173, 0f, 0f, 0, default(Color), 1f);
+                Main.dust[newDust].position = (Main.dust[newDust].position + projectile.Center) / 2f;
+                Main.dust[newDust].velocity += value19 * 2f;
+                Main.dust[newDust].velocity *= 0.5f;
+                Main.dust[newDust].noGravity = true;
+                vector9 -= value19 * 8f;
+            }
+        }
+        }
 }

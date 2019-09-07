@@ -66,6 +66,7 @@ namespace SpiritMod.NPCs
 					Main.projectile[p].hostile = true;
 					Main.projectile[p].friendly = false;
 				}
+                npc.netUpdate = true;
 			}
 			if (timer >= 420 && timer <= 720)
 			{
@@ -89,7 +90,8 @@ namespace SpiritMod.NPCs
 						Main.projectile[p].friendly = false;
 					}
 				}
-			}
+                npc.netUpdate = true;
+            }
 			if (timer >= 730)
 			{
 				npc.defense = 10;
@@ -98,12 +100,14 @@ namespace SpiritMod.NPCs
 				direction.Normalize();
 				npc.velocity.Y = direction.Y * 6f;
 				npc.velocity.X = direction.X * 6f;
-				timer = 0;			
-			}
+				timer = 0;
+                npc.netUpdate = true;
+            }
 			if (timer >= 750)
 			{
 				timer = 0;
-			}
+                npc.netUpdate = true;
+            }
 			npc.spriteDirection = npc.direction;
 			return true;
 		}

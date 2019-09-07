@@ -159,6 +159,7 @@ namespace SpiritMod
         public bool Flayer = false;
         public int soulSiphon;
         public bool maskPet = false;
+        public bool phantomPet = false;
         public bool lanternPet = false;
         public bool chitinSet = false;
         public bool thrallPet = false;
@@ -366,12 +367,12 @@ namespace SpiritMod
             caltfist = false;
             firewall = false;
             TormentLantern = false;
+            phantomPet = false;
             QuacklingMinion = false;
             VampireCloak = false;
             SpiritCloak = false;
             HealCloak = false;
             astralSet = false;
-            scarabCharm = false;
             ChaosCrystal = false;
             ToxicExtract = false;
             gemPickaxe = false;
@@ -2430,7 +2431,7 @@ namespace SpiritMod
                 bismiteShieldStacks = 0;
             }
 
-            if (player.controlUp)
+            if (player.controlUp && scarabCharm)
             {
                 player.AddBuff(BuffID.Featherfall, 30);
             }

@@ -38,7 +38,7 @@ namespace SpiritMod
         public static Texture2D noise;
 		public const string EMPTY_TEXTURE = "SpiritMod/Empty";
 		public const string customEventName = "The Tide";
-		public static Texture2D EmptyTexture
+		public static Texture2D EmptyTexture 
 		{
 			get;
 			private set;
@@ -155,7 +155,7 @@ namespace SpiritMod
 			if (spirit.ZoneReach && !Main.dayTime || !player.ZoneOverworldHeight && spirit.ZoneReach)
 			{
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/Reach");
-				priority = MusicPriority.BiomeMedium;
+				priority = MusicPriority.BiomeHigh;
 			}
 
 			if (priority > MusicPriority.BiomeMedium)
@@ -167,10 +167,18 @@ namespace SpiritMod
 				{
 					music = GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritUnderground");
 				}
-				else
+				else 
 				{
-					music = GetSoundSlot(SoundType.Music, "Sounds/Music/spirit_overworld");
-				}
+                    if (Main.dayTime)
+                    {
+                        music = GetSoundSlot(SoundType.Music, "Sounds/Music/spirit_overworld");
+                    }
+                    else
+
+                    {
+                        music = GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritNighttime");
+                    }
+                }
 			}
 		}
 

@@ -54,8 +54,8 @@ namespace SpiritMod.Items.Weapon.Bow
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "StarlightBow", 1);
-            recipe.AddIngredient(null, "BloomBuster", 1);
-            recipe.AddIngredient(null, "Longbowne", 1);
+            recipe.AddIngredient(null, "SteamplateBow", 1);
+            recipe.AddIngredient(null, "FrostSpine", 1);
             recipe.AddIngredient(ItemID.HellwingBow, 1);
             recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this, 1);

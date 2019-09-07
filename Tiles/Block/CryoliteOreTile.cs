@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -10,6 +11,8 @@ namespace SpiritMod.Tiles.Block
         {
             Main.tileSpelunker[Type] = true;
             Main.tileSolid[Type] = true;
+            Main.tileMerge[Type][TileID.IceBlock] = true;
+            Main.tileMerge[Type][TileID.SnowBlock] = true;
             Main.tileBlockLight[Type] = true;  //true for block to emit light
             Main.tileLighted[Type] = false;
             drop = mod.ItemType("CryoliteOre");   //put your CustomBlock name

@@ -91,7 +91,7 @@ namespace SpiritMod
 			{
 				if (Main.rand.Next(2) == 1)
 				{
-				WorldMethods.TileRunner(x, y + z, (double)Main.rand.Next(255), 1, mod.TileType("ReachGrassTile"), false, 0f, 0f, true, true); //Basic grass shape. Will be improved later. Specifically, make it only override certain tiles, and make it fill in random holes in the ground.
+				WorldMethods.TileRunner(x, y + z, (double)Main.rand.Next(300), 1, mod.TileType("ReachGrassTile"), false, 0f, 0f, true, true); //Basic grass shape. Will be improved later. Specifically, make it only override certain tiles, and make it fill in random holes in the ground.
 				}
 			}
 			

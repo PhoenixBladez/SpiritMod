@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Ammo
 			item.width = 8;
 			item.height = 16;
             item.value = 80;
-            item.rare = 2;
+            item.rare = 1;
             item.value = Item.buyPrice(0, 0, 0, 4);
             item.maxStack = 999;
 

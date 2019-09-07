@@ -2298,8 +2298,12 @@ namespace SpiritMod
 								break;
 							case 2:
 								Framing.GetTileSafely(k, l).ClearTile();
-								WorldGen.KillWall(k, l);
-								break;
+                                if (WorldGen.genRand.Next(2) == 0)
+                                {
+                                    WorldGen.KillWall(k, l);
+                                    WorldGen.PlaceWall(k, l, 207);
+                                }
+                                break;
 						}
 					}
 				}
@@ -2317,10 +2321,6 @@ namespace SpiritMod
 
 								break;
 							case 2:
-							if (WorldGen.genRand.Next(2) == 0)
-							{
-								WorldGen.PlaceWall(k, l, 207);
-							}
 								break;
 						}
 					}
@@ -2836,23 +2836,25 @@ namespace SpiritMod
 			{
 				if (!Magicite)
 				{
-					for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 13) * 15E-05); k++)
+					for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 21) * 15E-05); k++)
 					{
-						int EEXX = WorldGen.genRand.Next(100, Main.maxTilesX - 100);
-						int WHHYY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 130);
-						if (Main.tile[EEXX, WHHYY] != null)
+                        int x = WorldGen.genRand.Next(0, Main.maxTilesX);
+                        int y = WorldGen.genRand.Next(0, Main.maxTilesY);
+						if (Main.tile[x, y] != null)
 						{
-							if (Main.tile[EEXX, WHHYY].active())
+							if (Main.tile[x, y].active())
 							{
-								if (Main.tile[EEXX, WHHYY].type == 60)
+								if (Main.tile[x, y].type == mod.TileType("ReachGrassTile"))
 								{
-									WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(4, 8), WorldGen.genRand.Next(4, 8), (ushort)mod.TileType("FloranOreTile"));
-								}
-							}
+                                    WorldGen.TileRunner(x, y, (double)WorldGen.genRand.Next(3, 5), WorldGen.genRand.Next(3, 5), mod.TileType("FloranOreTile"), false, 0f, 0f, false, true);
+
+
+                                }
+                            }
 						}
 					}
-					Main.NewText("The Underground Jungle seems to be glowing...", 100, 220, 100);
-					Main.NewText("New enemies have spawned forth underground", 204, 153, 0);
+					Main.NewText("The Briar's vines tremble...", 100, 220, 100);
+					Main.NewText("Ancient enemies have awakened underground!", 204, 153, 0);
 					Magicite = true;
 				}
 			}
@@ -2860,9 +2862,36 @@ namespace SpiritMod
 			{
 				if (!gmOre)
 				{
-					for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 86) * 15E-05); k++)
+                    for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 3.2f) * 15E-05); k++)
+                    {
+                        int EEXX = WorldGen.genRand.Next(100, Main.maxTilesX - 100);
+                        int WHHYY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 300);
+                        if (Main.tile[EEXX, WHHYY] != null)
+                        {
+                            if (Main.tile[EEXX, WHHYY].active())
+                            {
+                                if (Main.tile[EEXX, WHHYY].type == 161)
+                                {
+                                    WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)mod.TileType("CryoliteOreTile"));
+                                }
+                                else if (Main.tile[EEXX, WHHYY].type == 163)
+                                {
+                                    WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)mod.TileType("CryoliteOreTile"));
+                                }
+                                else if (Main.tile[EEXX, WHHYY].type == 164)
+                                {
+                                    WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)mod.TileType("CryoliteOreTile"));
+                                }
+                                else if (Main.tile[EEXX, WHHYY].type == 200)
+                                {
+                                    WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)mod.TileType("CryoliteOreTile"));
+                                }
+                            }
+                        }
+                    }
+                    for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 86) * 15E-05); k++)
 					{
-						int EEXX = WorldGen.genRand.Next(100, Main.maxTilesX - 100);
+						int EEXX = WorldGen.genRand.Next(0, Main.maxTilesX);
 						int WHHYY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 130);
 						if (Main.tile[EEXX, WHHYY] != null)
 						{
@@ -2877,7 +2906,7 @@ namespace SpiritMod
 					}
 					for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 108) * 15E-05); k++)
 					{
-						int EEXX = WorldGen.genRand.Next(100, Main.maxTilesX - 100);
+						int EEXX = WorldGen.genRand.Next(0, Main.maxTilesX);
 						int WHHYY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 130);
 						if (Main.tile[EEXX, WHHYY] != null)
 						{
@@ -2891,8 +2920,9 @@ namespace SpiritMod
 						}
 					}
 					{
-						Main.NewText("Energy seeps into Marble and Granite caverns...", 100, 220, 100);
-						gmOre = true;
+						Main.NewText("Energy seeps into marble and granite caverns...", 100, 220, 100);
+                        Main.NewText("The icy caverns are shimmering", 70, 170, 255);
+                        gmOre = true;
 					}
 				}
 			}
@@ -2975,38 +3005,10 @@ namespace SpiritMod
 			{
 				if (!starMessage)
 				{
-					for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 3.2f) * 15E-05); k++)
-					{
-						int EEXX = WorldGen.genRand.Next(100, Main.maxTilesX - 100);
-						int WHHYY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 300);
-						if (Main.tile[EEXX, WHHYY] != null)
-						{
-							if (Main.tile[EEXX, WHHYY].active())
-							{
-								if (Main.tile[EEXX, WHHYY].type == 161)
-								{
-									WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)mod.TileType("CryoliteOreTile"));
-								}
-								else if (Main.tile[EEXX, WHHYY].type == 163)
-								{
-									WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)mod.TileType("CryoliteOreTile"));
-								}
-								else if (Main.tile[EEXX, WHHYY].type == 164)
-								{
-									WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)mod.TileType("CryoliteOreTile"));
-								}
-								else if (Main.tile[EEXX, WHHYY].type == 200)
-								{
-									WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)mod.TileType("CryoliteOreTile"));
-								}
-							}
-						}
-					}
 					starMessage = true;
 					if (!txt)
 					{
 						Main.NewText("The stars are brightening...", 66, 170, 244);
-						Main.NewText("The Icy Caverns are shimmering!", 70, 170, 255);
 						txt = true;
 					}
 				}

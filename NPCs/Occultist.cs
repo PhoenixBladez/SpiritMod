@@ -23,9 +23,9 @@ namespace SpiritMod.NPCs
 			npc.width = 32;
 			npc.height = 60;
 
-			npc.lifeMax = 240;
-			npc.defense = 12;
-			npc.damage = 25;
+			npc.lifeMax = 431;
+			npc.defense = 14;
+			npc.damage = 30;
 
 			npc.HitSound = SoundID.NPCHit2;
 			npc.DeathSound = SoundID.NPCDeath2;
@@ -98,13 +98,45 @@ namespace SpiritMod.NPCs
 			if (npc.ai[1] > 0)
 			{
 				--npc.ai[1];
-				if (npc.ai[1] == 0)
-				{
-					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
-					if (Main.netMode != 1)
-					{
-						Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 53);
-                        if (Main.rand.Next(5) == 0)
+                if (npc.ai[1] == 0)
+                {
+                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
+                    if (Main.netMode != 1)
+                    {
+                        Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 53);
+                        if (Main.rand.Next(4) == 0)
+                        {
+                            {
+                                Vector2 direction = Main.player[npc.target].Center - npc.Center;
+                                direction.Normalize();
+                                direction.X *= 6f;
+                                direction.Y *= 6f;
+                                float A = (float)Main.rand.Next(-120, 120) * 0.01f;
+                                float B = (float)Main.rand.Next(-120, 120) * 0.01f;
+                                for (int z = 0; z <= Main.rand.Next(1, 4); z++)
+                                {
+                                    int p = Projectile.NewProjectile((int)npc.position.X + Main.rand.Next(-60, 60), (int)npc.position.Y + Main.rand.Next(-200, -100), direction.X + A, direction.Y + B, mod.ProjectileType("OccultistHand"), 16, 1, Main.myPlayer, 0, 0);
+                                    Main.projectile[p].velocity.X = Main.player[npc.target].Center.X - Main.projectile[p].Center.X;
+                                    Main.projectile[p].velocity.Y = Main.player[npc.target].Center.Y - Main.projectile[p].Center.Y;
+                                    Main.projectile[p].velocity.Normalize();
+                                    Main.projectile[p].velocity.X *= 3;
+                                    Main.projectile[p].velocity.Y *= 3;
+                                    Main.PlaySound(2, (int)Main.projectile[p].position.X, (int)Main.projectile[p].position.Y, 8);
+                                    for (int i = 0; i < 10; i++)
+                                    {
+                                        int num = Dust.NewDust(Main.projectile[p].position, Main.projectile[p].width, Main.projectile[p].height, 173, 0f, -2f, 0, default(Color), 2f);
+                                        Main.dust[num].noGravity = true;
+                                        Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+                                        Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+                                        if (Main.dust[num].position != Main.projectile[p].Center)
+                                        {
+                                            Main.dust[num].velocity = Main.projectile[p].DirectionTo(Main.dust[num].position) * 6f;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if (Main.rand.Next(8) == 0 || (!NPC.AnyNPCs(NPCID.BloodZombie)))
                         {
                             for (int z = 0; z <= Main.rand.Next(1, 4); z++)
                             {
@@ -133,7 +165,7 @@ namespace SpiritMod.NPCs
                                 int num = Dust.NewDust(Main.npc[feast].position, Main.npc[feast].width, Main.npc[feast].height, 173, 0f, -2f, 0, default(Color), 2f);
                                 Main.dust[num].noGravity = true;
                                 Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-                                Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;                            
+                                Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
                                 if (Main.dust[num].position != Main.npc[feast].Center)
                                 {
                                     Main.dust[num].velocity = Main.npc[feast].DirectionTo(Main.dust[num].position) * 6f;
@@ -141,14 +173,14 @@ namespace SpiritMod.NPCs
                             }
                             if (npc.life <= npc.lifeMax - 30)
                             {
-                                npc.life += 30; 
+                                npc.life += 30;
                                 npc.HealEffect(30, true);
-                            }  
+                            }
                             else if (npc.life < npc.lifeMax)
                             {
-	                          	npc.HealEffect(npc.lifeMax - npc.life, true);
-                                npc.life += npc.lifeMax - npc.life; 
-                            }                              
+                                npc.HealEffect(npc.lifeMax - npc.life, true);
+                                npc.life += npc.lifeMax - npc.life;
+                            }
                         }
 					}
 				}
@@ -174,7 +206,12 @@ namespace SpiritMod.NPCs
         {
             GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Occultist_Glow"));
         }
-		public void Teleport()
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+            npc.lifeMax = (int)(npc.lifeMax * 0.75f * bossLifeScale);
+            npc.damage = (int)(npc.damage * 0.75f);
+        }
+        public void Teleport()
 		{
 			npc.ai[0] = 1f;
 			int num1 = (int)Main.player[npc.target].position.X / 16;
@@ -232,10 +269,10 @@ namespace SpiritMod.NPCs
 
 			npc.spriteDirection = npc.direction;
 		}
-
+        
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.spawnTileY < Main.rockLayer && (Main.bloodMoon) && !NPC.AnyNPCs(mod.NPCType("Occultist")) && NPC.downedBoss1 ? 0.03f : 0f;
+			return spawnInfo.spawnTileY < Main.rockLayer && (Main.bloodMoon) && !NPC.AnyNPCs(mod.NPCType("Occultist")) && NPC.downedBoss1 ? 0.06f : 0f;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

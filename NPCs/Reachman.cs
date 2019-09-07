@@ -23,11 +23,11 @@ namespace SpiritMod.NPCs
 			npc.damage = 22;
 			npc.defense = 8;
 			npc.lifeMax = 66;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath1;
+			npc.HitSound = SoundID.NPCHit2;
+			npc.DeathSound = SoundID.NPCDeath2;
 			npc.value = 260f;
 			drawOffsetY = 4;
-			npc.knockBackResist = .4f;
+			npc.knockBackResist = .34f;
 			npc.aiStyle = 3;
 			aiType = NPCID.SnowFlinx;
 		}
