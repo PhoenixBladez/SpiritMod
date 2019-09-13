@@ -1,18 +1,25 @@
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ID;
 
 namespace SpiritMod.Backgrounds
 {
-	public class ReachSurfaceBgStyle : ModSurfaceBgStyle
+    public class ReachSurfaceBgStyle : ModSurfaceBgStyle
 	{
-		public override bool ChooseBgStyle()
-		{
-			return !Main.gameMenu && (Main.player[Main.myPlayer].GetModPlayer<MyPlayer>(mod).ZoneReach);
-		}
+        public override int ChooseFarTexture() => mod.GetBackgroundSlot("Backgrounds/ReachBiomeSurfaceMid");
 
-		// Use this to keep far Backgrounds like the mountains.
-		public override void ModifyFarFades(float[] fades, float transitionSpeed)
+        public override int ChooseMiddleTexture() => mod.GetBackgroundSlot("Backgrounds/ReachBiomeSurfaceFar");
+
+        public override int ChooseCloseTexture(ref float scale, ref double parallax, ref float a, ref float b)
+        {
+            scale *= .6f;
+            b -= 680;
+            return mod.GetBackgroundSlot("Backgrounds/ReachBiomeSurfaceClose");
+        }
+
+        public override bool ChooseBgStyle() => !Main.gameMenu && Main.LocalPlayer.GetSpiritPlayer().ZoneReach;
+
+        // Use this to keep far Backgrounds like the mountains.
+        public override void ModifyFarFades(float[] fades, float transitionSpeed)
 		{
 			for (int i = 0; i < fades.Length; i++)
 			{
@@ -33,23 +40,6 @@ namespace SpiritMod.Backgrounds
 					}
 				}
 			}
-		}
-
-		public override int ChooseFarTexture()
-		{
-			return mod.GetBackgroundSlot("Backgrounds/ReachBiomeSurfaceMid");
-		}
-
-		public override int ChooseMiddleTexture()
-		{
-			return mod.GetBackgroundSlot("Backgrounds/ReachBiomeSurfaceFar");
-		}
-
-		public override int ChooseCloseTexture(ref float scale, ref double parallax, ref float a, ref float b)
-		{
-			scale *= .6f;
-			b -= 680; 
-			return mod.GetBackgroundSlot("Backgrounds/ReachBiomeSurfaceClose");
 		}
 	}
 }

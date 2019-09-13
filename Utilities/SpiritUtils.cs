@@ -8,6 +8,8 @@ namespace SpiritMod
 {
     public static class Utililties
     {
+        public static MyPlayer GetSpiritPlayer(this Player player) => player.GetModPlayer<MyPlayer>();
+
         public static float GetDamageBoost(this Player player)
         {
             float[] damageTypes = new float[] { player.meleeDamage, player.magicDamage, player.rangedDamage, player.thrownDamage, player.minionDamage };
