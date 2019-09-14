@@ -17,7 +17,7 @@ namespace SpiritMod.Tiles
 		public override void KillTile (int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
 		{
 			Player player = Main.LocalPlayer;
-			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>(mod);
+			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (type == 1 || type == 25 || type == 117 || type == 203 || type == 57)
 			{
 				if (Main.rand.Next(50) == 1 && modPlayer.gemPickaxe)

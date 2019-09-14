@@ -48,7 +48,7 @@ namespace SpiritMod.Projectiles.Magic.Artifact
 			}
 
 			Player player = Main.player[projectile.owner];
-			if (player.GetModPlayer<MyPlayer>(mod).SoulStone == true && player.active && !player.dead)
+			if (player.GetSpiritPlayer().SoulStone == true && player.active && !player.dead)
 				projectile.timeLeft = 2;
 
 			timer++;

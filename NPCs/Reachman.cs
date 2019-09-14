@@ -43,7 +43,7 @@ namespace SpiritMod.NPCs
 			Player player = spawnInfo.player;
 			if (!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.spawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.spawnTileY > Main.worldSurface || !Main.dayTime) && (SpawnCondition.GoblinArmy.Chance == 0 && !Main.dayTime))
 			{
-				return spawnInfo.player.GetModPlayer<MyPlayer>(mod).ZoneReach ? 2.7f : 0f;
+				return spawnInfo.player.GetSpiritPlayer().ZoneReach ? 2.7f : 0f;
 			}
 			return 0f;
 		}

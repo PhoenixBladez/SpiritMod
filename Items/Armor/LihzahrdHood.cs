@@ -41,7 +41,7 @@ namespace SpiritMod.Items.Armor
 
             player.setBonus = "Throwing attacks may cause ancient explosions that spawn baby lihzahrds";
 
-            player.GetModPlayer<MyPlayer>(mod).lihzahrdSet = true;
+            player.GetSpiritPlayer().lihzahrdSet = true;
 
         }
         public override void AddRecipes()  

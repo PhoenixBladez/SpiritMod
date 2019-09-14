@@ -1,16 +1,11 @@
-using System;
-
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.NPCs;
 
 namespace SpiritMod.Buffs.Glyph
 {
-	public class BurningRage : ModBuff
+    public class BurningRage : ModBuff
 	{
-		public static int _type;
-
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Burning Rage");
@@ -22,11 +17,7 @@ namespace SpiritMod.Buffs.Glyph
 		public override void Update(Player player, ref int buffIndex)
 		{
 			player.GetModPlayer<MyPlayer>().blazeBurn = true;
-			player.meleeDamage += .17f;
-			player.rangedDamage += .17f;
-			player.magicDamage += .17f;
-			player.minionDamage += .17f;
-			player.thrownDamage += .17f;
+            player.allDamage += .17f;
 
 			if (Main.rand.NextDouble() < .5)
 			{

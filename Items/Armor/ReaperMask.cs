@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Armor
         {
             player.rangedDamage += 0.1f;
             player.rangedCrit += 9;
-            player.GetModPlayer<MyPlayer>(mod).reaperMask = true;
+            player.GetSpiritPlayer().reaperMask = true;
         }
         public override void AddRecipes()
         {

@@ -255,7 +255,7 @@ namespace SpiritMod.Items
 
 		public override bool Shoot(Item item, Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>(mod);
+			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (modPlayer.talonSet && (item.ranged || item.magic) && Main.rand.Next(10) == 0)
 			{
 				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY + 2), ProjectileID.HarpyFeather, 10, 2f, player.whoAmI);

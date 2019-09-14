@@ -70,7 +70,7 @@ namespace SpiritMod.Items.Glyphs
 				npcData.voidInfluence = true;
 				if (npcData.voidStacks < 4 * DELAY)
 					npcData.voidStacks++;
-				npc.AddBuff(Buffs.Glyph.DevouringVoid._type, 2, true);
+				npc.AddBuff(SpiritMod.instance.BuffType("DevouringVoid"), 2, true);
 			}
 		}
 
@@ -85,7 +85,7 @@ namespace SpiritMod.Items.Glyphs
 			}
 
 			if (Main.rand.Next(10) == 1)
-				player.AddBuff(Buffs.Glyph.CollapsingVoid._type, 299);
+				player.AddBuff(SpiritMod.instance.BuffType("CollapsingVoid"), 299);
 		}
 	}
 }

@@ -38,10 +38,10 @@ namespace SpiritMod.Items.Armor.Daybloom
         {
 
             player.setBonus = "Being outside during daytime accumulates solar energy\nOnce energy is accumulated, press the 'Armor Bonus' hotkey to Dazzle nearby foes\n1 minute warm-up";
-            player.GetModPlayer<MyPlayer>(mod).daybloomSet = true;
+            player.GetSpiritPlayer().daybloomSet = true;
             if (Main.dayTime && player.ZoneOverworldHeight)
             {
-                 player.GetModPlayer<MyPlayer>(mod).dazzleStacks++;
+                 player.GetSpiritPlayer().dazzleStacks++;
             }
         }
 

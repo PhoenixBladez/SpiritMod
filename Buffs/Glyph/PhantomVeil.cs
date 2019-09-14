@@ -1,16 +1,10 @@
-using System;
-
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.NPCs;
 
 namespace SpiritMod.Buffs.Glyph
 {
-	public class PhantomVeil : ModBuff
+    public class PhantomVeil : ModBuff
 	{
-		public static int _type;
-
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Phantom Veil");
@@ -21,13 +15,9 @@ namespace SpiritMod.Buffs.Glyph
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.lifeRegen += 8;
-
-			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
-			if (modPlayer.glyph == GlyphType.Veil)
-				player.buffTime[buffIndex] = 2;
-			else
-				player.buffTime[buffIndex] = 0;
-		}
+            MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
+            player.lifeRegen += 8;
+			player.buffTime[buffIndex] = modPlayer.glyph == GlyphType.Veil ? 2 : 0;
+        }
 	}
 }

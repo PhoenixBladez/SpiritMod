@@ -1,10 +1,9 @@
-using System;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs.Summon
 {
-	public class MiniorBuff : ModBuff
+    public class MiniorBuff : ModBuff
 	{
 		public override void SetDefaults()
 		{
@@ -16,17 +15,19 @@ namespace SpiritMod.Buffs.Summon
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>(mod);
+			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (player.ownedProjectileCounts[mod.ProjectileType("Minior")] > 0)
 			{
 				modPlayer.minior = true;
 			}
+
 			if (!modPlayer.minior)
 			{
 				player.DelBuff(buffIndex);
 				buffIndex--;
 				return;
 			}
+
 			player.buffTime[buffIndex] = 18000;
 		}
 	}

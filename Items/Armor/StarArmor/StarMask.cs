@@ -38,7 +38,7 @@ namespace SpiritMod.Items.Armor.StarArmor
             public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Reduces damage taken by 5% \n Leave a trail of electrical stars where you walk";
-            player.GetModPlayer<MyPlayer>(mod).starSet = true;
+            player.GetSpiritPlayer().starSet = true;
             player.endurance += 0.05f;
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)

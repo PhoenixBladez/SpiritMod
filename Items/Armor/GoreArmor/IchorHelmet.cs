@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Armor.GoreArmor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Press the 'Armor Bonus' hotkey to spawn six homing ichor clumps that sap enemy life";
-            player.GetModPlayer<MyPlayer>(mod).ichorSet2 = true;
+            player.GetSpiritPlayer().ichorSet2 = true;
         }
 
         public override void UpdateEquip(Player player)

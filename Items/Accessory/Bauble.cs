@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Accessory
 		}
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<MyPlayer>(mod).Bauble = true;
+            player.GetSpiritPlayer().Bauble = true;
             if (player.statLife <= player.statLifeMax2 / 2)
             {
                 player.endurance += .10f;

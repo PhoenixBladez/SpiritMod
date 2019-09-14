@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Armor.CosmicArmor
             int dust = Dust.NewDust(player.position, player.width, player.height, 133);
             Main.dust[dust].scale = 0.5f;
             player.setBonus = "Press the 'Armor Bonus' hotkey to spawn unstable stars around you \n 1 minute cooldown";
-            player.GetModPlayer<MyPlayer>(mod).cometSet = true;
+            player.GetSpiritPlayer().cometSet = true;
         }
         public override void UpdateEquip(Player player)
         {

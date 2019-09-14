@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Armor
         {
             player.setBonus = "Wind Spirits guide you, granting you double jumps\nMagic and ranged attacks ocassionally spawn feathers to attack foes.";
             player.doubleJumpCloud = true;
-            player.GetModPlayer<MyPlayer>(mod).talonSet = true;
+            player.GetSpiritPlayer().talonSet = true;
         }
 
         public override void UpdateEquip(Player player)

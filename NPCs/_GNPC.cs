@@ -150,7 +150,7 @@ namespace SpiritMod.NPCs
 					NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, mod.NPCType("Martian"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
 				}
 			}
-			if (npc.life <= 0 && npc.FindBuffIndex(Buffs.Glyph.WanderingPlague._type) >= 0)
+			if (npc.life <= 0 && npc.FindBuffIndex(mod.BuffType("WanderingPlague")) >= 0)
 				UnholyGlyph.ReleasePoisonClouds(npc, 0);
 		}
 
@@ -321,7 +321,7 @@ namespace SpiritMod.NPCs
 			}
 			if (necrosis)
 			{
-				MyPlayer mp = Main.player[npc.target].GetModPlayer<MyPlayer>(mod);
+				MyPlayer mp = Main.player[npc.target].GetSpiritPlayer();
 				if (mp.KingSlayerFlask)
 				{
 					drain = true;
@@ -343,7 +343,7 @@ namespace SpiritMod.NPCs
 			}
 			if (pestilence)
 			{
-				MyPlayer mp = Main.player[npc.target].GetModPlayer<MyPlayer>(mod);
+				MyPlayer mp = Main.player[npc.target].GetSpiritPlayer();
 				if (mp.KingSlayerFlask)
 				{
 					drain = true;
@@ -1301,7 +1301,7 @@ namespace SpiritMod.NPCs
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnifyingGlass"), 1);
 				}
 			}
-			if (closest.GetModPlayer<MyPlayer>(mod).floranSet)
+			if (closest.GetSpiritPlayer().floranSet)
 			{
 				if (Main.rand.Next(13) == 1)
 				{

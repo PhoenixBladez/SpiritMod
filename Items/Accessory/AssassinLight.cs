@@ -39,10 +39,10 @@ namespace SpiritMod.Items.Accessory
             {
                 player.statDefense += 2;
             }
-            player.GetModPlayer<MyPlayer>(mod).crystal = true;
-            player.GetModPlayer<MyPlayer>(mod).geodeRanged = true;
-            player.GetModPlayer<MyPlayer>(mod).anglure = true;
-            player.GetModPlayer<MyPlayer>(mod).fireMaw = true;
+            player.GetSpiritPlayer().crystal = true;
+            player.GetSpiritPlayer().geodeRanged = true;
+            player.GetSpiritPlayer().anglure = true;
+            player.GetSpiritPlayer().fireMaw = true;
 
             player.rangedDamage += 0.08f;
 

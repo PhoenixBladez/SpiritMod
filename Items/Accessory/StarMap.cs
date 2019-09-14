@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Accessory
         }
         public override void UpdateEquip(Player player)
         {
-            player.GetModPlayer<MyPlayer>(mod).starMap = true;
+            player.GetSpiritPlayer().starMap = true;
             player.maxRunSpeed += .1f;
             player.meleeCrit += 4;
             player.magicCrit += 4;

@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Armor.ThermalArmor
         public override void UpdateArmorSet(Player player)
         {            
             player.setBonus = "Melee attacks may release a cluster of rockets that explode upon hitting foes";
-            player.GetModPlayer<MyPlayer>(mod).thermalSet = true;
+            player.GetSpiritPlayer().thermalSet = true;
         }
         public override void UpdateEquip(Player player)
         {

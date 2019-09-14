@@ -41,7 +41,7 @@ namespace SpiritMod.Items.Armor.DepthArmor
         {
   
             player.setBonus = "Press the 'Armor Bonus' to release multiple mechanical shark minions that home onto enemies \n30 second cooldown";
-            player.GetModPlayer<MyPlayer>(mod).depthSet = true;
+            player.GetSpiritPlayer().depthSet = true;
         }
 		public override void AddRecipes()
         {

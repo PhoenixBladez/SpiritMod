@@ -38,7 +38,7 @@ namespace SpiritMod.Items.Armor.TitanicArmor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "'The seven seas flow in your favor' \n Melee hits on enemies causes water to erupt around you and damage enemies";
-            player.GetModPlayer<MyPlayer>(mod).titanicSet = true;
+            player.GetSpiritPlayer().titanicSet = true;
         }
 
         public override void AddRecipes()

@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Armor.LeatherArmor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Wearing Marksman's Armor builds up concentration\nWhile concentrated, your next strike is a critical strike and deals more damage\nConcentration is dirupted when hurt, but charges faster when standing still";
-            player.GetModPlayer<MyPlayer>(mod).leatherSet = true;
+            player.GetSpiritPlayer().leatherSet = true;
         }
 
 

@@ -30,8 +30,8 @@ namespace SpiritMod.Items.Accessory
         public override void UpdateEquip(Player player)
         {
             player.jumpSpeedBoost += 6f;
-            player.GetModPlayer<MyPlayer>(mod).icytrail = true;
-            player.GetModPlayer<MyPlayer>(mod).icySoul = true;
+            player.GetSpiritPlayer().icytrail = true;
+            player.GetSpiritPlayer().icySoul = true;
         }
         public override void AddRecipes()
         {

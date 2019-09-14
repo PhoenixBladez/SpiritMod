@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Accessory
         }
         public override void UpdateEquip(Player player)
         {
-            player.GetModPlayer<MyPlayer>(mod).gremlinTooth = true;
+            player.GetSpiritPlayer().gremlinTooth = true;
         }
 
     }

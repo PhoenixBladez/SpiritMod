@@ -1,18 +1,14 @@
-using System;
-
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs.Artifact
 {
-	public class Terror2SummonBuff : ModBuff
+    public class Terror2SummonBuff : ModBuff
 	{
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Terror Fiend");
 			Description.SetDefault("It's taken a liking to you");
-
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}
@@ -21,11 +17,13 @@ namespace SpiritMod.Buffs.Artifact
 		{
 			player.minionDamage += .05f;
 			player.minionKB += 0.03f;
-			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>(mod);
+
+			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (player.ownedProjectileCounts[mod.ProjectileType("Terror2Summon")] > 0)
 			{
 				modPlayer.terror2Summon = true;
 			}
+
 			if (!modPlayer.terror2Summon)
 			{
 				player.DelBuff(buffIndex);

@@ -1,10 +1,9 @@
-using System;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs.Summon
 {
-	public class EnchantedPaladinsHammerBuff : ModBuff
+    public class EnchantedPaladinsHammerBuff : ModBuff
 	{
 		public override void SetDefaults()
 		{
@@ -21,6 +20,7 @@ namespace SpiritMod.Buffs.Summon
 			{
 				modPlayer.EnchantedPaladinsHammerMinion = true;
 			}
+
 			if (!modPlayer.EnchantedPaladinsHammerMinion)
 			{
 				player.DelBuff(buffIndex);

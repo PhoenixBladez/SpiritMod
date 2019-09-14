@@ -1,16 +1,13 @@
-﻿using System;
-
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs.Mount
 {
-	class BabyMothronBuff : ModBuff
+    class BabyMothronBuff : ModBuff
 	{
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Baby Mothron");
-
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}

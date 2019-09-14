@@ -46,7 +46,7 @@ namespace SpiritMod.Projectiles
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(5) == 2)
-				target.AddBuff(Buffs.CryoCrush._type, 180);
+				target.AddBuff(mod.BuffType("CryoCrush"), 180);
 		}
 
 	}

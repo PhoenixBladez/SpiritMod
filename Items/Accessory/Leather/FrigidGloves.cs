@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Accessory.Leather
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<MyPlayer>(mod).frigidGloves = true;
+            player.GetSpiritPlayer().frigidGloves = true;
         }
 
         public override void AddRecipes()

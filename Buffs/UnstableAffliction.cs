@@ -1,13 +1,9 @@
-﻿using System;
-using Terraria;
-using Terraria.ID;
+﻿using Terraria;
 using Terraria.ModLoader;
-using SpiritMod;
-using SpiritMod.NPCs;
 
 namespace SpiritMod.Buffs
 {
-	public class UnstableAffliction : ModBuff
+    public class UnstableAffliction : ModBuff
 	{
 		public override void SetDefaults()
 		{
@@ -23,8 +19,6 @@ namespace SpiritMod.Buffs
 		{
 			player.maxRunSpeed -= .10f;
 			player.moveSpeed -= .10f;
-			
-
 		}
 	}
 }

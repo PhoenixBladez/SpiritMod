@@ -1,10 +1,9 @@
-using System;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs.Summon
 {
-	public class ProbeBuff : ModBuff
+    public class ProbeBuff : ModBuff
 	{
 		public override void SetDefaults()
 		{
@@ -12,7 +11,6 @@ namespace SpiritMod.Buffs.Summon
 			Description.SetDefault("A Probe will fight for you!");
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
-
 		}
 
 		public override void Update(Player player, ref int buffIndex)
@@ -22,6 +20,7 @@ namespace SpiritMod.Buffs.Summon
 			{
 				modPlayer.ProbeMinion = true;
 			}
+
 			if (!modPlayer.ProbeMinion)
 			{
 				player.DelBuff(buffIndex);

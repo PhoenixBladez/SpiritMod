@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Armor.WitherArmor
         public override void UpdateArmorSet(Player player)
         {            
             player.setBonus = "A mass of wither energy follows you, attacking nearby enemies";
-            player.GetModPlayer<MyPlayer>(mod).witherSet = true;
+            player.GetSpiritPlayer().witherSet = true;
         }
         public override void UpdateEquip(Player player)
         {

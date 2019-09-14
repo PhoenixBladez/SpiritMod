@@ -1,19 +1,14 @@
-using System;
-
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.NPCs;
 
 namespace SpiritMod.Buffs.Artifact
 {
-	public class Resolve : ModBuff
+    public class Resolve : ModBuff
 	{
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Unyielding Resolve");
 			Description.SetDefault("'You must go on'");
-
 			Main.debuff[Type] = true;
 			Main.pvpBuff[Type] = true;
 			Main.buffNoTimeDisplay[Type] = false;

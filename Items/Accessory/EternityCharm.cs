@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Accessory
 		{
 			player.moveSpeed += 0.5f;
 			player.maxRunSpeed += 5f;
-            player.GetModPlayer<MyPlayer>(mod).OverseerCharm = true;
+            player.GetSpiritPlayer().OverseerCharm = true;
         }
 
 	}

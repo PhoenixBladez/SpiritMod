@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Armor.PrimalstoneArmor
         public override void UpdateArmorSet(Player player)
         {            
             player.setBonus = "Melee and magic hits on enemies trigger Unstable Affliction\nEnemies suffering from the Unstable Affliction have different effects\n Reduces your movement speed by 10%";
-            player.GetModPlayer<MyPlayer>(mod).primalSet = true;
+            player.GetSpiritPlayer().primalSet = true;
             player.moveSpeed -= 0.10F;
             int dust1 = Dust.NewDust(player.position, player.width, player.height - 38, 206);
             Main.dust[dust1].scale = 2f;

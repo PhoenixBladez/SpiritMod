@@ -10,4 +10,7 @@
   <Target Name="BuildMod" AfterTargets="Build">
     <Exec Command="&quot;$(tMLBuildServerPath)&quot; -build $(ProjectDir) -eac $(TargetPath) -define $(DefineConstants) -unsafe $(AllowUnsafeBlocks)" />
   </Target>
+  <ItemGroup>
+    <None Remove="Buffs\Pet\JellyfishBuff.cs~RFfbe5e6.TMP" />
+  </ItemGroup>
 </Project>

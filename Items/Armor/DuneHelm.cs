@@ -38,7 +38,7 @@ namespace SpiritMod.Items.Armor
         {
   
             player.setBonus = "4 successful hits on enemies with thrower weapons grants you the Desert Winds buff, causing an ancient knife to attack your foes";
-            player.GetModPlayer<MyPlayer>(mod).duneSet = true;
+            player.GetSpiritPlayer().duneSet = true;
         }
 		        public override void ArmorSetShadows(Player player)
         {

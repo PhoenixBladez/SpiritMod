@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Accessory
 
         public override void UpdateEquip(Player player)
         {
-            player.GetModPlayer<MyPlayer>(mod).TiteRing = true;
+            player.GetSpiritPlayer().TiteRing = true;
         }
 
         public override void AddRecipes()

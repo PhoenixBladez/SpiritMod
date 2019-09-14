@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Accessory
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<MyPlayer>(mod).HellGaze = true;
+            player.GetSpiritPlayer().HellGaze = true;
             player.meleeCrit += 6;
             player.rangedCrit += 6;
             player.magicCrit += 6;

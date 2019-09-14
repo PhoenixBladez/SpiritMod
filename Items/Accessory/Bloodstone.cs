@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Accessory
         public override void UpdateAccessory(Player player, bool hideVisual)
 		{
             player.lifeRegen += 3;
-            player.GetModPlayer<MyPlayer>(mod).Ward = true;
+            player.GetSpiritPlayer().Ward = true;
         }
         public override void AddRecipes()
         {

@@ -1,10 +1,9 @@
-using System;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs.Summon
 {
-	public class BeetleMinionBuff : ModBuff
+    public class BeetleMinionBuff : ModBuff
 	{
 		public override void SetDefaults()
 		{
@@ -16,17 +15,19 @@ namespace SpiritMod.Buffs.Summon
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>(mod);
+			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (player.ownedProjectileCounts[mod.ProjectileType("BeetleMinion")] > 0)
 			{
 				modPlayer.beetleMinion = true;
 			}
+
 			if (!modPlayer.beetleMinion)
 			{
 				player.DelBuff(buffIndex);
 				buffIndex--;
 				return;
 			}
+
 			player.buffTime[buffIndex] = 18000;
 		}
 	}

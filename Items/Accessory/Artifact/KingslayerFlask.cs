@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Accessory.Artifact
         {
             player.thrownDamage += 0.07f;
             player.thrownCrit += 7;
-            player.GetModPlayer<MyPlayer>(mod).KingSlayerFlask = true;
+            player.GetSpiritPlayer().KingSlayerFlask = true;
         }
         public override void AddRecipes()
         {

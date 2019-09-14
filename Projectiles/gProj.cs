@@ -123,11 +123,11 @@ namespace SpiritMod.Projectiles
 			{
 				target.immune[projectile.owner] = 6;
 			}
-			if (projectile.friendly && projectile.thrown && Main.rand.Next(8) == 1 && player.GetModPlayer<MyPlayer>(mod).geodeSet == true)
+			if (projectile.friendly && projectile.thrown && Main.rand.Next(8) == 1 && player.GetSpiritPlayer().geodeSet == true)
 			{
 				target.AddBuff(24, 150);
 			}
-			if (projectile.friendly && projectile.thrown && Main.rand.Next(8) == 1 && player.GetModPlayer<MyPlayer>(mod).geodeSet == true)
+			if (projectile.friendly && projectile.thrown && Main.rand.Next(8) == 1 && player.GetSpiritPlayer().geodeSet == true)
 			{
 				target.AddBuff(44, 150);
 			}

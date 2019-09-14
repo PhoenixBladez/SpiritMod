@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs.Mount
 {
-	class RidingCandyCopter : ModBuff
+    class RidingCandyCopter : ModBuff
 	{
 		public override void SetDefaults()
 		{

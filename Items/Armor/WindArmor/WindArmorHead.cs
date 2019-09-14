@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Armor.WindArmor
         public override void UpdateArmorSet(Player player)
         {            
             player.setBonus = "Movement speed increases drastically as health wanes\nMinion attacks may release a fountain of souls from hit foes";
-            player.GetModPlayer<MyPlayer>(mod).windSet = true;
+            player.GetSpiritPlayer().windSet = true;
             float runBoost = (float)(player.statLifeMax2 - player.statLife) / (float)player.statLifeMax2 * 5f;
             player.maxRunSpeed += (int)runBoost;
         }

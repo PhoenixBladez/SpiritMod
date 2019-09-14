@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Accessory
 
         public override void UpdateEquip(Player player)
         {
-            player.GetModPlayer<MyPlayer>(mod).hpRegenRing = true;
+            player.GetSpiritPlayer().hpRegenRing = true;
         }
 
         public override void AddRecipes()

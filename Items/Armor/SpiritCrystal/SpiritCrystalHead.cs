@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Armor.SpiritCrystal
         public override void UpdateArmorSet(Player player)
         {            
             player.setBonus = "Minion attacks may inflict 'Soul Burn' to hit foes\nSummons a stationary hedron to shoot bolts at foes";
-            player.GetModPlayer<MyPlayer>(mod).crystalSet = true;
+            player.GetSpiritPlayer().crystalSet = true;
         }
         public override void UpdateEquip(Player player)
         {

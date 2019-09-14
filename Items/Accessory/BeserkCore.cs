@@ -36,17 +36,17 @@ namespace SpiritMod.Items.Accessory
                 player.meleeDamage += .12f;
                 player.meleeSpeed += .12f;
             }
-            player.GetModPlayer<MyPlayer>(mod).wheezeScale = true;
+            player.GetSpiritPlayer().wheezeScale = true;
             player.meleeCrit += 5;
             player.armorPenetration += 6;
-            player.GetModPlayer<MyPlayer>(mod).infernalFlame = true;
+            player.GetSpiritPlayer().infernalFlame = true;
             player.meleeDamage += .05f;
             if (player.statLife <= player.statLifeMax2 / 2)
             {
                 player.meleeDamage += 0.07f;
                 player.meleeSpeed += 0.07f;
             }
-            player.GetModPlayer<MyPlayer>(mod).atmos = true;
+            player.GetSpiritPlayer().atmos = true;
             player.endurance += 0.04f;
         }
         public override void AddRecipes()

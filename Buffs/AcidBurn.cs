@@ -1,14 +1,10 @@
-﻿using System;
-
+﻿using SpiritMod.NPCs;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-using SpiritMod.NPCs;
 
 namespace SpiritMod.Buffs
 {
-	public class AcidBurn : ModBuff
+    public class AcidBurn : ModBuff
 	{
 		public override void SetDefaults()
 		{
@@ -19,8 +15,12 @@ namespace SpiritMod.Buffs
 		{
 			GNPC info = npc.GetGlobalNPC<GNPC>(mod);
 			if (info.acidBurnStacks < 2)
-				info.acidBurnStacks++;
-			npc.buffTime[buffIndex] = time;
+            {
+                info.acidBurnStacks++;
+            }
+
+            npc.buffTime[buffIndex] = time;
+
 			return true;
 		}
 
@@ -28,12 +28,16 @@ namespace SpiritMod.Buffs
 		{
 			GNPC info = npc.GetGlobalNPC<GNPC>(mod);
 			if (info.acidBurnStacks <= 0)
-				info.acidBurnStacks = 1;
-			if (Main.rand.Next(2) == 0)
+            {
+                info.acidBurnStacks = 1;
+            }
+
+            npc.defense -= 2;
+
+            if (Main.rand.NextBool(2))
 			{
-				int dust = Dust.NewDust(npc.position, npc.width, npc.height, 107);
+				Dust.NewDust(npc.position, npc.width, npc.height, 107);
 			}
-			npc.defense -= 2;
 		}
 	}
 }

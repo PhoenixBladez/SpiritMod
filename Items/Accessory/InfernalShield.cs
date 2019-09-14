@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Accessory
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<MyPlayer>(mod).infernalShield = true;
+            player.GetSpiritPlayer().infernalShield = true;
             player.endurance += 0.05f;
         }
     }

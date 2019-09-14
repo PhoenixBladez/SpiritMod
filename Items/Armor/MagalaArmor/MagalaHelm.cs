@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Armor.MagalaArmor
             public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Attacks inflict Frenzy Virus on foes \n Attacks cause the player to become imbued with a modified Virus";
-            player.GetModPlayer<MyPlayer>(mod).magalaSet = true;
+            player.GetSpiritPlayer().magalaSet = true;
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {

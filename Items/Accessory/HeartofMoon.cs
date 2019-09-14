@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Accessory
             player.minionDamage += 0.11f;
             player.rangedDamage += 0.11f;
             player.meleeDamage += 0.11f;
-            player.GetModPlayer<MyPlayer>(mod).moonHeart = true;
+            player.GetSpiritPlayer().moonHeart = true;
         }
     }
 }

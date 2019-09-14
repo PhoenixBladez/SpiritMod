@@ -42,7 +42,7 @@ namespace SpiritMod.Items.Accessory
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{   
 		Projectile newProj2 = Main.projectile[proj2];
-			player.GetModPlayer<MyPlayer>(mod).Phantom = true;
+			player.GetSpiritPlayer().Phantom = true;
 			if (newProj2.type == mod.ProjectileType("PhantomMinion"))
 			{
 			}

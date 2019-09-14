@@ -41,7 +41,7 @@ namespace SpiritMod.Items.Armor.FieryArmor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Thrower attacks can burn foes and call fireballs to protect you";
-            player.GetModPlayer<MyPlayer>(mod).fierySet = true;
+            player.GetSpiritPlayer().fierySet = true;
             if (Main.rand.Next(6) == 0)
             {
                 int dust = Dust.NewDust(player.position, player.width, player.height, 6);

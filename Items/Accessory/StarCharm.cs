@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Accessory
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-            player.GetModPlayer<MyPlayer>(mod).starCharm = true;
+            player.GetSpiritPlayer().starCharm = true;
             player.longInvince = true;
             player.moveSpeed += .12f;
             player.meleeCrit += 7;

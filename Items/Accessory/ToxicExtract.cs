@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Accessory
             player.thrownCrit += 8;
             player.magicCrit += 8;
             player.rangedCrit += 8;
-            player.GetModPlayer<MyPlayer>(mod).ToxicExtract = true;
+            player.GetSpiritPlayer().ToxicExtract = true;
         }
 
 	}

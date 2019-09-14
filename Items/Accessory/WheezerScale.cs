@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Accessory
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<MyPlayer>(mod).wheezeScale = true;
+            player.GetSpiritPlayer().wheezeScale = true;
             player.meleeCrit += 5;
         }
     }

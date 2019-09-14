@@ -1,18 +1,10 @@
-using System;
-
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.NPCs;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.Buffs.Glyph
 {
-	public class TemporalShift : ModBuff
+    public class TemporalShift : ModBuff
 	{
-		public static int _type;
-		public static Texture2D[] _textures;
-
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Temporal Shift");
@@ -24,11 +16,14 @@ namespace SpiritMod.Buffs.Glyph
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
+			MyPlayer modPlayer = player.GetSpiritPlayer();
 
 			if (player.whoAmI != Main.myPlayer && player.buffTime[buffIndex] > 1)
-				player.buffTime[buffIndex]--;
-			if (player.buffTime[buffIndex] > 1)
+            {
+                player.buffTime[buffIndex]--;
+            }
+
+            if (player.buffTime[buffIndex] > 1)
 			{
 				modPlayer.phaseShift = true;
 				Main.buffNoTimeDisplay[Type] = false;
@@ -44,14 +39,25 @@ namespace SpiritMod.Buffs.Glyph
 			}
 
 			if (player.whoAmI == Main.myPlayer && !Main.dedServ)
-				Main.buffTexture[Type] = _textures[modPlayer.phaseStacks];
-		}
+            {
+                if (modPlayer.phaseStacks == 0)
+                {
+                    Main.buffTexture[Type] = mod.GetTexture("TemporalShift");
+                }
+                else
+                {
+                    Main.buffTexture[Type] = mod.GetTexture("TemporalShift_" + modPlayer.phaseStacks.ToString());
+                }
+            }
+        }
 
 		public override void ModifyBuffTip(ref string tip, ref int rare)
 		{
-			MyPlayer modPlayer = Main.LocalPlayer.GetModPlayer<MyPlayer>();
+			MyPlayer modPlayer = Main.LocalPlayer.GetSpiritPlayer();
 			if (modPlayer.phaseShift)
-				tip = "High speed and immunity to all movement impairment";
-		}
+            {
+                tip = "High speed and immunity to all movement impairment";
+            }
+        }
 	}
 }

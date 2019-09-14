@@ -28,12 +28,12 @@ namespace SpiritMod.Items.Accessory.Leather
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-           player.GetModPlayer<MyPlayer>(mod).clatterboneShield = true;
+           player.GetSpiritPlayer().clatterboneShield = true;
 
-           player.statDefense += 2 * player.GetModPlayer<MyPlayer>(mod).clatterStacks;
-           player.moveSpeed -= .04f * player.GetModPlayer<MyPlayer>(mod).clatterStacks;
-           player.maxRunSpeed -= .04f * player.GetModPlayer<MyPlayer>(mod).clatterStacks;
-            player.runAcceleration -= .005f * player.GetModPlayer<MyPlayer>(mod).clatterStacks;
+           player.statDefense += 2 * player.GetSpiritPlayer().clatterStacks;
+           player.moveSpeed -= .04f * player.GetSpiritPlayer().clatterStacks;
+           player.maxRunSpeed -= .04f * player.GetSpiritPlayer().clatterStacks;
+            player.runAcceleration -= .005f * player.GetSpiritPlayer().clatterStacks;
         }
         public override void AddRecipes()
         {

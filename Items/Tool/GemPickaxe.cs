@@ -41,7 +41,7 @@ namespace SpiritMod.Items.Tool
         }
  		public override void HoldItem(Player player)
 		{
-			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>(mod);
+			MyPlayer modPlayer = player.GetSpiritPlayer();
 			modPlayer.gemPickaxe = true;
         }       
     }

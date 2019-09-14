@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Accessory
         public override void UpdateAccessory(Player player, bool hideVisual)
 		{
             player.lifeRegen += 3;
-            player.GetModPlayer<MyPlayer>(mod).Ward1 = true;
+            player.GetSpiritPlayer().Ward1 = true;
             player.statLifeMax2 += 10;
             player.statDefense -= 1;
             player.buffImmune[BuffID.Poisoned] = true;
@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Accessory
             player.thrownCrit += 8;
             player.magicCrit += 8;
             player.rangedCrit += 8;
-            player.GetModPlayer<MyPlayer>(mod).ToxicExtract = true;
+            player.GetSpiritPlayer().ToxicExtract = true;
         }
         public override void AddRecipes()
         {

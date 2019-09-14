@@ -31,7 +31,7 @@ namespace SpiritMod.Projectiles.Pet
 		public override void AI()
 		{
 			Player player = Main.player[projectile.owner];
-			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>(mod);
+			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (player.dead)
 				modPlayer.starPet = false;
 

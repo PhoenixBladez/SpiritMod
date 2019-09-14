@@ -1,12 +1,9 @@
-﻿using System;
-
-using Terraria;
-using Terraria.ID;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs
 {
-	public class TidalWrath : ModBuff
+    public class TidalWrath : ModBuff
 	{
 		public override void SetDefaults()
 		{

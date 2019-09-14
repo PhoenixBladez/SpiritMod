@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Accessory
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			player.GetModPlayer<MyPlayer>(mod).SRingOn = true;
+			player.GetSpiritPlayer().SRingOn = true;
 		}
 		public override void AddRecipes()
         {

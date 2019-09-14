@@ -1,19 +1,14 @@
-using System;
-
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.NPCs;
 
 namespace SpiritMod.Buffs.Potion
 {
-	public class PinkPotionBuff : ModBuff
+    public class PinkPotionBuff : ModBuff
 	{
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Jump Boost");
 			Description.SetDefault("Increases jump height");
-
 			Main.pvpBuff[Type] = true;
 			Main.buffNoTimeDisplay[Type] = false;
 		}

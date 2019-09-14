@@ -93,7 +93,7 @@ namespace SpiritMod.Mounts
 				int d2 = Dust.NewDust(vector2, 0, 20, 6, 0f, 0f, 0, default(Color), 1f);
 				Main.dust[d2].scale *= 1.2f;
 			}
-			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>(mod);
+			MyPlayer modPlayer = player.GetSpiritPlayer();
 			float tilt = player.fullRotation;
 
 			// Do not allow the mount to be ridden in water, honey or lava.
@@ -139,7 +139,7 @@ namespace SpiritMod.Mounts
 
 		public override bool UpdateFrame(Player mountedPlayer, int state, Vector2 velocity)
 		{
-			MyPlayer modPlayer = mountedPlayer.GetModPlayer<MyPlayer>(mod);
+			MyPlayer modPlayer = mountedPlayer.GetSpiritPlayer();
 			Mount mount = mountedPlayer.mount;
 			// Part of vanilla code, mount will glitch out
 			// if this is not executed.

@@ -1,10 +1,9 @@
-using System;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs.Mount
 {
-	public class TideMountBuff : ModBuff
+    public class TideMountBuff : ModBuff
 	{
 		public override void SetDefaults()
 		{

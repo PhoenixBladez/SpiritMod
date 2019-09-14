@@ -52,7 +52,7 @@ namespace SpiritMod.Projectiles.Summon
 			}
 			Player player = Main.player[projectile.owner];
 
-			MyPlayer mp = Main.player[projectile.owner].GetModPlayer<MyPlayer>(mod);
+			MyPlayer mp = Main.player[projectile.owner].GetSpiritPlayer();
 			if (mp.bloomwindSet && !mp.player.dead)
 				projectile.timeLeft = 2;
 

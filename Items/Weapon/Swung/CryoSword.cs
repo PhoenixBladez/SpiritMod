@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Weapon.Swung
                     public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
                 if (Main.rand.Next(4) == 0)
-                target.AddBuff(Buffs.CryoCrush._type, 300);
+                target.AddBuff(mod.BuffType("CryoCrush"), 300);
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

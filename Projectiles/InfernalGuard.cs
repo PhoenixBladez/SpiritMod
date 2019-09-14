@@ -29,7 +29,7 @@ namespace SpiritMod.Projectiles
 		public override bool PreAI()
 		{
 			Player player = Main.player[projectile.owner];
-			if (!player.active || player.dead || player.GetModPlayer<MyPlayer>(mod).infernalSetCooldown <= 0)
+			if (!player.active || player.dead || player.GetSpiritPlayer().infernalSetCooldown <= 0)
 			{
 				projectile.Kill();
 				return false;

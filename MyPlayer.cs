@@ -310,13 +310,13 @@ namespace SpiritMod
 
         public override bool CustomBiomesMatch(Player other)
         {
-            MyPlayer modOther = other.GetModPlayer<MyPlayer>(mod);
+            MyPlayer modOther = other.GetSpiritPlayer();
             return ZoneSpirit == modOther.ZoneSpirit && ZoneReach == modOther.ZoneReach;
         }
 
         public override void CopyCustomBiomesTo(Player other)
         {
-            MyPlayer modOther = other.GetModPlayer<MyPlayer>(mod);
+            MyPlayer modOther = other.GetSpiritPlayer();
             modOther.ZoneSpirit = ZoneSpirit;
             modOther.ZoneReach = ZoneReach;
         }
@@ -1819,7 +1819,7 @@ namespace SpiritMod
                     {
                         phaseCounter = 0;
                         phaseStacks++;
-                        player.AddBuff(Buffs.Glyph.TemporalShift._type, 2);
+                        player.AddBuff(mod.BuffType("TemporalShift"), 2);
                     }
                 }
             }
@@ -1829,7 +1829,7 @@ namespace SpiritMod
                 if (veilCounter >= 8 * 60)
                 {
                     veilCounter = 0;
-                    player.AddBuff(Buffs.Glyph.PhantomVeil._type, 2);
+                    player.AddBuff(mod.BuffType("PhantomVeil"), 2);
                 }
             }
             else if (glyph == GlyphType.Void)
@@ -1842,7 +1842,7 @@ namespace SpiritMod
                 if (divineCounter >= 60)
                 {
                     divineCounter = 0;
-                    player.AddBuff(Buffs.Glyph.DivineStrike._type, 2);
+                    player.AddBuff(mod.BuffType("DivineStrike"), 2);
                 }
             }
 
@@ -2178,13 +2178,13 @@ namespace SpiritMod
 
                 if (local)
                 {
-                    player.AddBuff(Buffs.Glyph.TemporalShift._type, 3 * 60);
+                    player.AddBuff(mod.BuffType("TemporalShift"), 3 * 60);
                 }
 
                 // vfx
                 for (int num17 = 0; num17 < 20; num17++)
                 {
-                    int dust = Dust.NewDust(player.position, player.width, player.height, Dusts.TemporalDust._type, 0f, 0f, 100, default, 2f);
+                    int dust = Dust.NewDust(player.position, player.width, player.height, mod.DustType("TemporalDust"), 0f, 0f, 100, default, 2f);
                     Main.dust[dust].position.X += Main.rand.Next(-5, 6);
                     Main.dust[dust].position.Y += Main.rand.Next(-5, 6);
                     Main.dust[dust].velocity *= 0.2f;
@@ -2195,8 +2195,8 @@ namespace SpiritMod
             {
                 firewallHit = -1;
 
-                Dust.NewDust(player.position, player.width, player.height, Dusts.BinaryDust._type, 0f, 0f, 0, default, 1f);
-                Dust.NewDust(player.position, player.width, player.height, Dusts.BinaryDust._type, 0f, 0f, 0, default, 1f);
+                Dust.NewDust(player.position, player.width, player.height, mod.DustType("BinaryDust"), 0f, 0f, 0, default, 1f);
+                Dust.NewDust(player.position, player.width, player.height, mod.DustType("BinaryDust"), 0f, 0f, 0, default, 1f);
 
                 velocity *= 18.5f;
 

@@ -42,7 +42,7 @@ namespace SpiritMod.Projectiles
 		public override void AI()
 		{
 			Player player = Main.player[projectile.owner];
-			if (player.GetModPlayer<MyPlayer>(mod).SoulStone == true && player.active && !player.dead)
+			if (player.GetSpiritPlayer().SoulStone == true && player.active && !player.dead)
 			{
 				projectile.timeLeft = 2;
 			}

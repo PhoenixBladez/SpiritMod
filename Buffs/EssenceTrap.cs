@@ -1,28 +1,25 @@
-using System;
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.Graphics.Effects;
-using Terraria.Graphics.Shaders;
-using Terraria.ID;
 using SpiritMod.NPCs;
+using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs
 {
-	public class EssenceTrap : ModBuff
+    public class EssenceTrap : ModBuff
 	{
 		public override void SetDefaults()
 		{
-			Main.buffNoTimeDisplay[Type] = false;
-			DisplayName.SetDefault("Essence Trap");
+            DisplayName.SetDefault("Essence Trap");
+            Main.buffNoTimeDisplay[Type] = false;
 		}
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
 			npc.GetGlobalNPC<GNPC>(mod).Etrap = true;
-			if (Main.rand.Next(3) == 0)
+
+			if (Main.rand.NextBool(3))
 			{
-				int dust = Dust.NewDust(npc.position, npc.width, npc.height, 229);
+				int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Vortex);
 				Main.dust[dust].noGravity = true;
 			}
 		}

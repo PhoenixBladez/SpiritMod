@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Accessory
 
 		public override void UpdateEquip(Player player)
 		{
-			player.GetModPlayer<MyPlayer>(mod).OriRing = true;
+			player.GetSpiritPlayer().OriRing = true;
 		}
 
 		public override void AddRecipes()

@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Accessory
         public override void UpdateAccessory(Player player, bool hideVisual)
 		{
             player.endurance += 0.04f;
-            player.GetModPlayer<MyPlayer>(mod).atmos = true;
+            player.GetSpiritPlayer().atmos = true;
         }
 
 	}

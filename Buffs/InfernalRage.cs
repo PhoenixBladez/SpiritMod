@@ -1,12 +1,9 @@
-﻿using System;
-
-using Terraria;
-using Terraria.ID;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs
 {
-	public class InfernalRage : ModBuff
+    public class InfernalRage : ModBuff
 	{
 		public override void SetDefaults()
 		{

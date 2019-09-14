@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Armor.SeraphArmor
         {            
             player.setBonus = "Minions will sometimes shoot astral flares at enemies.";
 
-            player.GetModPlayer<MyPlayer>(mod).astralSet = true;
+            player.GetSpiritPlayer().astralSet = true;
         }
         public override void UpdateEquip(Player player)
         {

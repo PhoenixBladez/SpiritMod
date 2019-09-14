@@ -76,7 +76,7 @@ namespace SpiritMod.NPCs.Boss
 				npc.rotation = npc.velocity.X * 0.07f;	
 			bool expertMode = Main.expertMode;
 			Player player = Main.player[npc.target];
-			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>(mod);
+			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (npc.Center.X >= player.Center.X && moveSpeed >= -120) // flies to players x position
 				moveSpeed--;
 			else if (npc.Center.X <= player.Center.X && moveSpeed <= 120)

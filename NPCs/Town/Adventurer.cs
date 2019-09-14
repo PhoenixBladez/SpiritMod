@@ -231,7 +231,7 @@ namespace SpiritMod.NPCs.Town
 				nextSlot++;		
 			}
 			Player closest = Main.player[(int)Player.FindClosest(npc.position, npc.width, npc.height)];
-			if (closest.GetModPlayer<MyPlayer>(mod).ZoneReach)
+			if (closest.GetSpiritPlayer().ZoneReach)
 			{
 				shop.item[nextSlot].SetDefaults(mod.ItemType("SkullStick"));
 				shop.item[nextSlot].value = 1000;

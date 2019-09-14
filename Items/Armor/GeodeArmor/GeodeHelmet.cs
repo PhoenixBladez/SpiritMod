@@ -38,7 +38,7 @@ namespace SpiritMod.Items.Armor.GeodeArmor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Critical hits crystallize foes, slowing them in place";
-            player.GetModPlayer<MyPlayer>(mod).geodeSet = true;
+            player.GetSpiritPlayer().geodeSet = true;
         }
 
         public override void AddRecipes()

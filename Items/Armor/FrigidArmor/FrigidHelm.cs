@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Armor.FrigidArmor
         {
             Player closest = Main.player[(int)Player.FindClosest(player.position, player.width, player.height)];
             player.setBonus = "Double tap down to create an icy wall at the cursor position\n8 second cooldown";
-            player.GetModPlayer<MyPlayer>(mod).frigidSet = true;
+            player.GetSpiritPlayer().frigidSet = true;
    
                 if (Main.rand.Next(6) == 0)
                 {

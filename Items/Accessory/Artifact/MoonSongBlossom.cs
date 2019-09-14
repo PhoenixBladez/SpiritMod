@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Accessory.Artifact
         {
             player.rangedDamage += 0.1f;
             player.rangedCrit += 7;
-            player.GetModPlayer<MyPlayer>(mod).MoonSongBlossom = true;
+            player.GetSpiritPlayer().MoonSongBlossom = true;
         }
         public override void AddRecipes()
         {

@@ -1,17 +1,10 @@
-﻿using System;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.UI;
-using Terraria.DataStructures;
-using Terraria.GameContent.UI;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
 
 namespace SpiritMod.Buffs
 {
-	public class Frozen : ModBuff
+    public class Frozen : ModBuff
 	{
 		public override void SetDefaults()
 		{
@@ -24,14 +17,15 @@ namespace SpiritMod.Buffs
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			if (npc.boss == false)
+			if (!npc.boss)
 			{
 				npc.velocity.X *= 0f;
 				npc.velocity.Y *= 0f;
-				int num1 = Dust.NewDust(npc.position, npc.width, npc.height, 68);
-				Main.dust[num1].scale = 1.9f;
-				Main.dust[num1].velocity *= 3f;
-				Main.dust[num1].noGravity = true;
+
+				int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.BlueCrystalShard);
+				Main.dust[dust].scale = 1.9f;
+				Main.dust[dust].velocity *= 3f;
+				Main.dust[dust].noGravity = true;
 			}
 		}
 

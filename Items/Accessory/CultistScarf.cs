@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Accessory
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.magicCrit += 9;
-            player.GetModPlayer<MyPlayer>(mod).cultistScarf = true;
+            player.GetSpiritPlayer().cultistScarf = true;
             if (player.statLife < player.statLifeMax2 / 2)
             {
                 player.manaCost -= 0.20f;

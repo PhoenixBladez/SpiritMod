@@ -29,7 +29,7 @@ namespace SpiritMod.Items.DonatorItems
         {
             player.meleeSpeed += 0.10f;
             player.meleeDamage += 0.15f;
-            player.GetModPlayer<MyPlayer>(mod).moonGauntlet = true;
+            player.GetSpiritPlayer().moonGauntlet = true;
         }
 
         public override void AddRecipes()

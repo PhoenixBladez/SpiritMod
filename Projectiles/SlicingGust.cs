@@ -54,7 +54,7 @@ namespace SpiritMod.Projectiles
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			target.velocity.Y -= projectile.knockBack * target.knockBackResist;
-			target.AddBuff(Buffs.Glyph.WindBurst._type, 300);
+			target.AddBuff(mod.BuffType("WindBurst"), 300);
 		}
 
 		public override void Kill(int timeLeft)

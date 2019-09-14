@@ -28,7 +28,7 @@ namespace SpiritMod.Items.DonatorItems
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<MyPlayer>(mod).SpiritCloak = true;
+            player.GetSpiritPlayer().SpiritCloak = true;
 			player.minionDamage *= 0.9f;
         }
 		public override void AddRecipes()

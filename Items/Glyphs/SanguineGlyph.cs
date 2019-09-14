@@ -52,26 +52,26 @@ namespace SpiritMod.Items.Glyphs
 			if (!target.CanLeech())
 				return;
 
-			if (target.FindBuffIndex(Buffs.Glyph.SanguineBleed._type) > -1
+			if (target.FindBuffIndex(SpiritMod.instance.BuffType("SanguineBleed")) > -1
 				&& Main.rand.NextDouble() < 0.2)
 			{
 				Leech(player, target, damage);
 			}
 
 			if (Main.rand.Next(5) == 0)
-				target.AddBuff(Buffs.Glyph.SanguineBleed._type, 600);
+				target.AddBuff(SpiritMod.instance.BuffType("SanguineBleed"), 600);
 		}
 
 		public static void BloodCorruption(Player player, Player target, int damage)
 		{
-			if (target.FindBuffIndex(Buffs.Glyph.SanguineBleed._type) > -1
+			if (target.FindBuffIndex(SpiritMod.instance.BuffType("SanguineBleed")) > -1
 				&& Main.rand.NextDouble() < 0.2)
 			{
 				Leech(player, target, damage);
 			}
 
 			if (Main.rand.Next(5) == 0)
-				target.AddBuff(Buffs.Glyph.SanguineBleed._type, 600, false);
+				target.AddBuff(SpiritMod.instance.BuffType("SanguineBleed"), 600, false);
 		}
 
 		private static void Leech(Player player, Entity target, int damage)

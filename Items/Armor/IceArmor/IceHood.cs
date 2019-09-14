@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Armor.IceArmor
         {
   
             player.setBonus = "Magic hits occasionally grant you the Blizzard's Wrath";
-            player.GetModPlayer<MyPlayer>(mod).icySet = true;
+            player.GetSpiritPlayer().icySet = true;
         }
 		        public override void ArmorSetShadows(Player player)
         {

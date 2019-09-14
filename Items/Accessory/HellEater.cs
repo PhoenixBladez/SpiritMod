@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Accessory
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<MyPlayer>(mod).fireMaw = true;
+            player.GetSpiritPlayer().fireMaw = true;
             player.rangedDamage += 0.03f;
         }
     }

@@ -42,7 +42,7 @@ namespace SpiritMod.Projectiles.Sword.Artifact
 
 		public override void AI()
 		{
-			MyPlayer mp = Main.player[projectile.owner].GetModPlayer<MyPlayer>(mod);
+			MyPlayer mp = Main.player[projectile.owner].GetSpiritPlayer();
 			if (mp.DarkBough)
 			{
 				int dust1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 60);
@@ -95,7 +95,7 @@ namespace SpiritMod.Projectiles.Sword.Artifact
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			MyPlayer mp = Main.player[projectile.owner].GetModPlayer<MyPlayer>(mod);
+			MyPlayer mp = Main.player[projectile.owner].GetSpiritPlayer();
 			if (mp.DarkBough && Main.rand.Next(10) == 0)
 			{
 				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("BoughSeed"), projectile.damage / 3 * 2, 4, projectile.owner);

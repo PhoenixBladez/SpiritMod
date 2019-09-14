@@ -1,10 +1,10 @@
+using SpiritMod.NPCs;
 using Terraria;
 using Terraria.ModLoader;
-using SpiritMod.NPCs;
 
 namespace SpiritMod.Buffs
 {
-	public class DoomDestiny1 : ModBuff
+    public class DoomDestiny1 : ModBuff
 	{
 		public override void SetDefaults()
 		{

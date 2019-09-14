@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Armor
             player.setBonus = "While above 70% health, your minions are 'Mana Infused'\nMana Infused minions deal 1 additional damage and glow";
             if (player.statLife >= player.statLifeMax2 * .7f)
             {
-                player.GetModPlayer<MyPlayer>(mod).silkenSet = true;
+                player.GetSpiritPlayer().silkenSet = true;
             }
 
         }

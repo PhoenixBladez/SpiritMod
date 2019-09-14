@@ -79,7 +79,7 @@ namespace SpiritMod.Mounts
 
 		public override void UpdateEffects(Player player)
 		{
-			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>(mod);
+			MyPlayer modPlayer = player.GetSpiritPlayer();
 			float tilt = player.fullRotation;
 
 			// Do not allow the mount to be ridden in water, honey or lava.
@@ -125,7 +125,7 @@ namespace SpiritMod.Mounts
 
 		public override bool UpdateFrame(Player mountedPlayer, int state, Vector2 velocity)
 		{
-			MyPlayer modPlayer = mountedPlayer.GetModPlayer<MyPlayer>(mod);
+			MyPlayer modPlayer = mountedPlayer.GetSpiritPlayer();
 			Mount mount = mountedPlayer.mount;
 			// Part of vanilla code, mount will glitch out
 			// if this is not executed.

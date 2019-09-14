@@ -47,8 +47,8 @@ namespace SpiritMod.Items.Accessory
             player.rangedCrit += (int)defBoost;
             float defBoost1 = (float)(player.statLifeMax2 - player.statLife) / (float)player.statLifeMax2 * 7f;
             player.meleeCrit += (int)defBoost1;
-            player.GetModPlayer<MyPlayer>(mod).moonStone = true;
-            player.GetModPlayer<MyPlayer>(mod).sunStone = true;
+            player.GetSpiritPlayer().moonStone = true;
+            player.GetSpiritPlayer().sunStone = true;
         }
         public override void AddRecipes()
         {

@@ -28,9 +28,9 @@ namespace SpiritMod.Items.Accessory.Leather
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-           player.GetModPlayer<MyPlayer>(mod).bloodfireShield = true;
+           player.GetSpiritPlayer().bloodfireShield = true;
 
-           player.endurance += .03f * player.GetModPlayer<MyPlayer>(mod).bloodfireShieldStacks;
+           player.endurance += .03f * player.GetSpiritPlayer().bloodfireShieldStacks;
         }
         public override void AddRecipes()
         {

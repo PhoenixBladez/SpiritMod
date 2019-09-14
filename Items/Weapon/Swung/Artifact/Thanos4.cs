@@ -42,7 +42,7 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 
 		public override void HoldItem(Player player)
 		{
-			if (player.GetModPlayer<MyPlayer>(mod).Resolve)
+			if (player.GetSpiritPlayer().Resolve)
 			{
 				player.AddBuff(mod.BuffType("Resolve"), 2);
 			}

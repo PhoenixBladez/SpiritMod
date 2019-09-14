@@ -1,14 +1,9 @@
-using System;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Graphics.Effects;
-using Terraria.Graphics.Shaders;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs
 {
-	public class PollinationPoison : ModBuff
+    public class PollinationPoison : ModBuff
 	{
 		public override void SetDefaults()
 		{
@@ -20,7 +15,7 @@ namespace SpiritMod.Buffs
 		{
 			npc.lifeRegen -= 7;
 
-			if (Main.rand.Next(2) == 0)
+			if (Main.rand.NextBool(2))
 			{
 				int dust = Dust.NewDust(npc.position, npc.width, npc.height, 107);
 				Main.dust[dust].scale = 0.5f;

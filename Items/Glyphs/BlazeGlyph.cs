@@ -54,7 +54,7 @@ namespace SpiritMod.Items.Glyphs
 		public static void Rage(Player player)
 		{
 			if (Main.rand.NextDouble() < .075)
-				player.AddBuff(Buffs.Glyph.BurningRage._type, 300);
+				player.AddBuff(SpiritMod.instance.BuffType("BurningRage"), 300);
 		}
 	}
 }

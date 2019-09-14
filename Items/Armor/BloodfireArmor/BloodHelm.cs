@@ -41,7 +41,7 @@ namespace SpiritMod.Items.Armor.BloodfireArmor
         {
   
             player.setBonus = "Magic attacks may inflict 'Blood Corruption' \n Magic attacks may rarely steal life";
-            player.GetModPlayer<MyPlayer>(mod).bloodfireSet = true;
+            player.GetSpiritPlayer().bloodfireSet = true;
         }
 		public override void AddRecipes()
         {

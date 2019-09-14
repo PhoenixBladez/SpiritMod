@@ -29,7 +29,7 @@ namespace SpiritMod.Items.DonatorItems
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<MyPlayer>(mod).firewall = true;
+            player.GetSpiritPlayer().firewall = true;
             player.noKnockback = true;
         }
 

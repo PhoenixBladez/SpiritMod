@@ -128,7 +128,7 @@ namespace SpiritMod.Projectiles.Arrow.Artifact
 			projectile.Kill();
 			target.AddBuff(BuffID.OnFire, 180);
 
-			MyPlayer mp = Main.player[projectile.owner].GetModPlayer<MyPlayer>(mod);
+			MyPlayer mp = Main.player[projectile.owner].GetSpiritPlayer();
 			if (mp.MoonSongBlossom && Main.rand.Next(10) == 0)
 			{
 				Projectile.NewProjectile(target.Center.X, target.Center.Y - 100, 0f, 0f,

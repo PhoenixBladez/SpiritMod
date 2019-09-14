@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Armor.VeinstoneArmor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Getting hit has a 10% chance to spawn blood from the sky";
-            player.GetModPlayer<MyPlayer>(mod).veinstoneSet = true;
+            player.GetSpiritPlayer().veinstoneSet = true;
         }
 
         public override void UpdateEquip(Player player)

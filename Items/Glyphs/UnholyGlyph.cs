@@ -54,7 +54,7 @@ namespace SpiritMod.Items.Glyphs
 				return;
 			if (Main.rand.NextDouble() < 0.5)
 			{
-				target.AddBuff(Buffs.Glyph.WanderingPlague._type, 360);
+				target.AddBuff(SpiritMod.instance.BuffType("WanderingPlague"), 360);
 				target.GetGlobalNPC<NPCs.GNPC>().unholySource = owner;
 			}
 		}

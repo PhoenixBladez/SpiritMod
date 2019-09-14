@@ -59,7 +59,7 @@ namespace SpiritMod.Items.Weapon.Bow.Artifact
             if (player.altFunctionUse == 2)
             {
 
-                MyPlayer modPlayer = player.GetModPlayer<MyPlayer>(mod);
+                MyPlayer modPlayer = player.GetSpiritPlayer();
                 modPlayer.shootDelay = 60;
                 charger++;
                 if (charger >= 1)
@@ -99,7 +99,7 @@ namespace SpiritMod.Items.Weapon.Bow.Artifact
             {
                 item.useTime = 37;
                 item.useAnimation = 37;
-                MyPlayer modPlayer = player.GetModPlayer<MyPlayer>(mod);
+                MyPlayer modPlayer = player.GetSpiritPlayer();
                 if (modPlayer.shootDelay == 0)
                     return true;
                 return false;

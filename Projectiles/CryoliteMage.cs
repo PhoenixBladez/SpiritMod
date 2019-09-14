@@ -46,10 +46,10 @@ namespace SpiritMod.Projectiles
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(3) == 2)
-				target.AddBuff(Buffs.CryoCrush._type, 300);
+				target.AddBuff(mod.BuffType("CryoCrush"), 300);
 
 			if (Main.rand.Next(7) == 1)
-				target.AddBuff(Buffs.MageFreeze._type, 180);
+				target.AddBuff(mod.BuffType("MageFreeze"), 180);
 		}
 
 	}

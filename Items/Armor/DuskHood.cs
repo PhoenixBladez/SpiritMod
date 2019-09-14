@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Armor
             
             player.setBonus = "8% Increased Magic and Ranged Damage at Night\nYou are surrounded by a rune that guides the way\nMagic attacks inflict Shadowflame ";
             {
-                player.GetModPlayer<MyPlayer>(mod).duskSet = true;
+                player.GetSpiritPlayer().duskSet = true;
             }               
         }
 

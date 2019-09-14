@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Leave behind dangerous explosive runes";
-            player.GetModPlayer<MyPlayer>(mod).runicSet = true;
+            player.GetSpiritPlayer().runicSet = true;
 		}
 
         public override void UpdateEquip(Player player)

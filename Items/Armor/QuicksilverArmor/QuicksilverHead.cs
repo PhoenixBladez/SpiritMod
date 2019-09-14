@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Armor.QuicksilverArmor
             player.meleeDamage += 0.11f;
             player.rangedDamage += 0.11f;
             player.magicDamage += 0.11f;
-            player.GetModPlayer<MyPlayer>(mod).quickSilverSet = true;
+            player.GetSpiritPlayer().quickSilverSet = true;
         }
         public override void UpdateEquip(Player player)
         {

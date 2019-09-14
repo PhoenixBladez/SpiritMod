@@ -86,7 +86,7 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 			if (player.altFunctionUse == 2)
 			{
 
-				MyPlayer modPlayer = player.GetModPlayer<MyPlayer>(mod);
+				MyPlayer modPlayer = player.GetSpiritPlayer();
 				modPlayer.shootDelay1 = 360;
 				Projectile.NewProjectile(player.Center.X, player.Center.Y, 0, 0, mod.ProjectileType("SoulNet1"), 0, 0, player.whoAmI);
 				return true;
@@ -98,7 +98,7 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 		{
 			if (player.altFunctionUse == 2)
 			{
-				MyPlayer modPlayer = player.GetModPlayer<MyPlayer>(mod);
+				MyPlayer modPlayer = player.GetSpiritPlayer();
 				if (modPlayer.shootDelay1 == 0)
 					return true;
 				return false;

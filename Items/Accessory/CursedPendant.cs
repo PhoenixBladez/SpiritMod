@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Accessory
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			player.GetModPlayer<MyPlayer>(mod).CursedPendant = true;
+			player.GetSpiritPlayer().CursedPendant = true;
 			player.meleeDamage *= 1.06f;
 		}
 	}

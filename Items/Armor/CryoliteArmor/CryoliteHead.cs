@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Armor.CryoliteArmor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Ranged attacks may freeze foes\nRanged attacks may deal extra ticks of damage to frozen foes\nThis effect does not apply to bosses";
-            player.GetModPlayer<MyPlayer>(mod).cryoSet = true;
+            player.GetSpiritPlayer().cryoSet = true;
         }
 
         public override void UpdateEquip(Player player)

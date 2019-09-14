@@ -45,7 +45,7 @@ namespace SpiritMod.Projectiles.Summon
 
 		public override void AI()
 		{
-			MyPlayer mp = Main.player[projectile.owner].GetModPlayer<MyPlayer>(mod);
+			MyPlayer mp = Main.player[projectile.owner].GetSpiritPlayer();
 			if (mp.oceanSet && !mp.player.dead)
 				projectile.timeLeft = 2;
 

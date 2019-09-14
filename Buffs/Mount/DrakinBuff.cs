@@ -1,10 +1,9 @@
-using System;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs.Mount
 {
-	public class DrakinBuff : ModBuff
+    public class DrakinBuff : ModBuff
 	{
 		public override void SetDefaults()
 		{
@@ -16,18 +15,11 @@ namespace SpiritMod.Buffs.Mount
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.mount.SetMount(mod.MountType("DrakinMount"), player, false);
+            player.GetSpiritPlayer().drakinMount = true;
+            player.mount.SetMount(mod.MountType("DrakinMount"), player, false);
 			player.buffTime[buffIndex] = 10;
-
-			player.minionDamage += 0.05f;
-			player.meleeDamage += 0.05f;
-			player.thrownDamage += 0.05f;
-			player.rangedDamage += 0.05f;
-			player.magicDamage += 0.08f;
-
+			player.allDamage += 0.05f;
 			player.statDefense += 10;
-
-			player.GetModPlayer<MyPlayer>(mod).drakinMount = true;
 		}
 	}
 }

@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Accessory
             player.meleeDamage += 0.05f;
             player.statLifeMax2 += 20;
             player.meleeSpeed += 0.05f;
-            player.GetModPlayer<MyPlayer>(mod).briarHeart = true;
+            player.GetSpiritPlayer().briarHeart = true;
             {
                 player.statManaMax2 += 50;
             }

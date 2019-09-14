@@ -75,7 +75,7 @@ namespace SpiritMod.Projectiles
 			}
 
 			Player player = Main.player[projectile.owner];
-			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>(mod);
+			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (modPlayer.anglure)
 			{
 				if (projectile.ranged)
@@ -217,7 +217,7 @@ namespace SpiritMod.Projectiles
 		public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
 		{
 			Player player = Main.player[projectile.owner];
-			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>(mod);
+			MyPlayer modPlayer = player.GetSpiritPlayer();
 
 			if (shotFromStellarCrosbow == true)
 			{

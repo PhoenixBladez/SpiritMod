@@ -1,20 +1,15 @@
-﻿using System;
-
-using Terraria;
-using Terraria.ID;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs
 {
-	public class Sturdy : ModBuff
+    public class Sturdy : ModBuff
 	{
-		public static int _type;
-
 		public override void SetDefaults()
 		{
-			Main.buffNoTimeDisplay[Type] = false;
-			DisplayName.SetDefault("Sturdy");
-			Description.SetDefault("'Your shell has been cracked'");
+            DisplayName.SetDefault("Sturdy");
+            Description.SetDefault("'Your shell has been cracked'");
+            Main.buffNoTimeDisplay[Type] = false;
 			Main.pvpBuff[Type] = false;
 			Main.debuff[Type] = true;
 			Main.buffNoSave[Type] = true;

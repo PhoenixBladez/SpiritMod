@@ -53,7 +53,7 @@ namespace SpiritMod.Projectiles.Magic
 			if (Main.rand.Next(2) == 0)
 				target.AddBuff(mod.BuffType("BlightedFlames"), 260, false);
 
-			MyPlayer mp = Main.player[projectile.owner].GetModPlayer<MyPlayer>(mod);
+			MyPlayer mp = Main.player[projectile.owner].GetSpiritPlayer();
 			mp.PutridHits++;
 			if (mp.putridSet && mp.PutridHits >= 4)
 			{

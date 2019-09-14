@@ -47,7 +47,7 @@ namespace SpiritMod.Items.Armor
         {
             player.setBonus = "Provides the Ability to double jump \n A mini Clamper fights for you!";
             player.doubleJumpSail = true;
-            player.GetModPlayer<MyPlayer>(mod).oceanSet = true;
+            player.GetSpiritPlayer().oceanSet = true;
         }
         public override void ArmorSetShadows(Player player)
         {

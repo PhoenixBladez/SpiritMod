@@ -42,7 +42,7 @@ namespace SpiritMod.Items.Armor.HellArmor
         {
   
             player.setBonus = "Ranged attacks occasionally triggers explosions around the player, raining down fireballs";
-            player.GetModPlayer<MyPlayer>(mod).hellSet = true;
+            player.GetSpiritPlayer().hellSet = true;
         }
 		public override void AddRecipes()
         {

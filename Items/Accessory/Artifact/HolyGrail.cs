@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Accessory.Artifact
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.magicDamage += 0.1f;
-            player.GetModPlayer<MyPlayer>(mod).HolyGrail = true;
+            player.GetSpiritPlayer().HolyGrail = true;
         }
         public override void AddRecipes()
         {

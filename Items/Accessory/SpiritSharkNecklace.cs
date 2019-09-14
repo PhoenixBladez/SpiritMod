@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Accessory
 		}
         public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-            player.GetModPlayer<MyPlayer>(mod).spiritNecklace = true;
+            player.GetSpiritPlayer().spiritNecklace = true;
         }
         public override void AddRecipes()
         {

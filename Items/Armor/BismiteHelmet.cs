@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Armor
         }
 		public override void UpdateArmorSet(Player player)
         {
-            player.GetModPlayer<MyPlayer>(mod).bismiteSet = true;
+            player.GetSpiritPlayer().bismiteSet = true;
             player.setBonus = "Not getting hit builds up stacks of Virulence\nVirulence charges up every 10 seconds\nStriking while Virulence is charged releases a toxic explosion\nGetting hit depletes Virulence entirely and releases a smaller blast"; 
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Armor
         }
        public override void ArmorSetShadows(Player player)
         {
-            if ( player.GetModPlayer<MyPlayer>(mod).virulence <= 0f)
+            if ( player.GetSpiritPlayer().virulence <= 0f)
             {
                 player.armorEffectDrawShadow = true;
             }

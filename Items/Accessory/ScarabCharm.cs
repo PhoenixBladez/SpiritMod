@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Accessory
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			player.GetModPlayer<MyPlayer>(mod).scarabCharm = true;
+			player.GetSpiritPlayer().scarabCharm = true;
 			player.buffImmune[BuffID.Chilled] = true;
 		}
 	}

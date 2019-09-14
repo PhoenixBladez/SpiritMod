@@ -1,18 +1,14 @@
-﻿using System;
-
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs.Mount
 {
-	class DiabolicPlatformBuff : ModBuff
+    class DiabolicPlatformBuff : ModBuff
 	{
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Diabolic Platform");
 			Description.SetDefault("Command the Infernal");
-
-
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}

@@ -2769,7 +2769,7 @@ namespace SpiritMod
 		public override void PostUpdate()
 		{
 			Player player = Main.LocalPlayer;
-			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>(mod);
+			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (modPlayer.ZoneSpirit)
 			{
 				if (!aurora)

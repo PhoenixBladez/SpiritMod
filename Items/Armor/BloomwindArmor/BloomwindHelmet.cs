@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Armor.BloomwindArmor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "You are protected by a guardian of the wild";
-            player.GetModPlayer<MyPlayer>(mod).bloomwindSet = true;
+            player.GetSpiritPlayer().bloomwindSet = true;
         }
         public override void ArmorSetShadows(Player player)
         {

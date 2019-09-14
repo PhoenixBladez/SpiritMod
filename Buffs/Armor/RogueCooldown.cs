@@ -1,14 +1,9 @@
-using System;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Graphics.Effects;
-using Terraria.Graphics.Shaders;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs.Armor
 {
-	public class RogueCooldown : ModBuff
+    public class RogueCooldown : ModBuff
 	{
 		public override void SetDefaults()
 		{

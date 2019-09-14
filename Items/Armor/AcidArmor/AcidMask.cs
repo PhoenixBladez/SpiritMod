@@ -38,7 +38,7 @@ namespace SpiritMod.Items.Armor.AcidArmor
         {
   
             player.setBonus = "Getting hurt may release an acid explosion, causing enemies to suffer Acid Burn \nThrowing hits may instantly kill non boss enemies extremely rarely.";
-            player.GetModPlayer<MyPlayer>(mod).acidSet = true;
+            player.GetSpiritPlayer().acidSet = true;
         }
 		public override void AddRecipes()
         {

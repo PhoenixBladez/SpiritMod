@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Accessory
             float defBoost = (float)(player.statLifeMax2 - player.statLife) / (float)player.statLifeMax2 * 7f;
             player.meleeCrit += (int)defBoost;
 
-            player.GetModPlayer<MyPlayer>(mod).sunStone = true;
+            player.GetSpiritPlayer().sunStone = true;
         }
 
 	}

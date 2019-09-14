@@ -1,18 +1,14 @@
-using System;
-
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using SpiritMod.NPCs;
+using Terraria;
+using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs.Artifact
 {
-	public class MoonBurn : ModBuff
+    public class MoonBurn : ModBuff
 	{
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Moon Burn");
-
 			Main.debuff[Type] = true;
 			Main.pvpBuff[Type] = false;
 			Main.buffNoTimeDisplay[Type] = false;
@@ -21,12 +17,13 @@ namespace SpiritMod.Buffs.Artifact
 		public override void Update(NPC npc, ref int buffIndex)
 		{
 			npc.GetGlobalNPC<GNPC>(mod).moonBurn = true;
-			if (Main.rand.Next(1) == 0)
+
+			if (Main.rand.NextBool(2))
 			{
-				int num2 = Dust.NewDust(npc.position, npc.width, npc.height, 173);
-				Main.dust[num2].scale = 1.9f;
-				Main.dust[num2].velocity *= 1f;
-				Main.dust[num2].noGravity = true;
+				int dust = Dust.NewDust(npc.position, npc.width, npc.height, 173);
+				Main.dust[dust].scale = 1.9f;
+				Main.dust[dust].velocity *= 1f;
+				Main.dust[dust].noGravity = true;
 			}
 		}
 	}

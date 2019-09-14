@@ -47,7 +47,7 @@ namespace SpiritMod.Items.Armor
             }
 
             player.setBonus = "Killing enemies may drop raw meat, restoring health and granting 'Well Fed'";
-            player.GetModPlayer<MyPlayer>(mod).floranSet = true;
+            player.GetSpiritPlayer().floranSet = true;
         }
         public override void AddRecipes()  
         {

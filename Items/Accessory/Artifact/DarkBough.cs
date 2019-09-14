@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Accessory.Artifact
             player.minionDamage += 0.1f;
             player.maxMinions += 1;
             player.maxTurrets += 1;
-            player.GetModPlayer<MyPlayer>(mod).DarkBough = true;
+            player.GetSpiritPlayer().DarkBough = true;
         }
         public override void AddRecipes()
         {

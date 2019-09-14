@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Accessory.Artifact
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			            player.GetModPlayer<MyPlayer>(mod).Resolve = true;
+			            player.GetSpiritPlayer().Resolve = true;
             player.meleeDamage += 0.1f;
             player.meleeSpeed += 0.05f;
             float lifeBoost = (float)((player.statLifeMax2) / 10);

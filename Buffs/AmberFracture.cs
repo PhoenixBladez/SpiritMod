@@ -1,14 +1,10 @@
-﻿using System;
-
+﻿using SpiritMod.NPCs;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-using SpiritMod.NPCs;
 
 namespace SpiritMod.Buffs
 {
-	public class AmberFracture : ModBuff
+    public class AmberFracture : ModBuff
 	{
 		public override void SetDefaults()
 		{

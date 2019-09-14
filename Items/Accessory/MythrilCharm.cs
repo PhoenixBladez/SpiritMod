@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Accessory
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<MyPlayer>(mod).mythrilCharm = true;
+            player.GetSpiritPlayer().mythrilCharm = true;
         }
         public override void AddRecipes()
         {

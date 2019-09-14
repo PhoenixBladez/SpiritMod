@@ -33,8 +33,8 @@ namespace SpiritMod.Items.Armor.OverseerArmor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Melee hits spawn Soul Shards to chase down foes! \n 'You have become the Guardian' \n Double tap to dash repeatedly \n You are surrounded by protective Spirits, which deflect projectiles.";
-            player.GetModPlayer<MyPlayer>(mod).meleeshadowSet = true;
-            player.GetModPlayer<MyPlayer>(mod).shadowSet = true;
+            player.GetSpiritPlayer().meleeshadowSet = true;
+            player.GetSpiritPlayer().shadowSet = true;
 
             if (Main.rand.Next(4) == 1)
             {

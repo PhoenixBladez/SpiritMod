@@ -51,7 +51,7 @@ namespace SpiritMod.Items.Weapon.Magic
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            MyPlayer modPlayer = player.GetModPlayer<MyPlayer>(mod);
+            MyPlayer modPlayer = player.GetSpiritPlayer();
             modPlayer.shootDelay = 180;
             Vector2[] speeds = randomSpread(speedX, speedY, 8, 3);
             for (int i = 0; i < 2; ++i)
@@ -62,7 +62,7 @@ namespace SpiritMod.Items.Weapon.Magic
         }
         public override bool CanUseItem(Player player)
         {
-            MyPlayer modPlayer = player.GetModPlayer<MyPlayer>(mod);
+            MyPlayer modPlayer = player.GetSpiritPlayer();
             if (modPlayer.shootDelay == 0)
                 return true;
             return false;

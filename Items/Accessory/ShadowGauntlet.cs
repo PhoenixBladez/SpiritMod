@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Accessory
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<MyPlayer>(mod).shadowGauntlet = true;
+            player.GetSpiritPlayer().shadowGauntlet = true;
             player.meleeSpeed += 0.1f;
             player.meleeDamage += 0.1f;
             player.kbGlove = true;

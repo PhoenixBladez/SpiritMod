@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Accessory
             float defBoost = (float)(player.statLifeMax2 - player.statLife) / (float)player.statLifeMax2 * 7f;
             player.rangedCrit += (int)defBoost;
 
-            player.GetModPlayer<MyPlayer>(mod).moonStone = true;
+            player.GetSpiritPlayer().moonStone = true;
         }
 
 	}

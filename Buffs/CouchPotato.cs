@@ -1,13 +1,10 @@
-using System;
-using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs
 {
-	public class CouchPotato : ModBuff
+    public class CouchPotato : ModBuff
 	{
-
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Couch potato");

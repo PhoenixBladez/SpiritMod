@@ -32,9 +32,9 @@ namespace SpiritMod.Items.Accessory
 		}
         public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-            player.GetModPlayer<MyPlayer>(mod).eyezorEye = true;
-            player.GetModPlayer<MyPlayer>(mod).manaWings = true;
-            player.GetModPlayer<MyPlayer>(mod).winterbornCharmMage = true;
+            player.GetSpiritPlayer().eyezorEye = true;
+            player.GetSpiritPlayer().manaWings = true;
+            player.GetSpiritPlayer().winterbornCharmMage = true;
             player.statManaMax2 += 50;
             player.magicDamage += 0.07f;
             player.magicCrit += 10;

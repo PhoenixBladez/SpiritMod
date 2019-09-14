@@ -1,7 +1,4 @@
-using System;
-
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs
@@ -10,10 +7,10 @@ namespace SpiritMod.Buffs
     {
         public override void SetDefaults()
         {
-            Main.buffNoTimeDisplay[Type] = false;
             DisplayName.SetDefault("Wraith Cooldown");
             Description.SetDefault("From the shadows...");
-           Main.debuff[Type] = true;
+            Main.buffNoTimeDisplay[Type] = false;
+            Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
             longerExpertDebuff = true;

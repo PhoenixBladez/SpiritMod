@@ -37,7 +37,7 @@ namespace SpiritMod.Projectiles.Summon
 		{
 			bool flag64 = projectile.type == mod.ProjectileType("HungryMinion");
 			Player player = Main.player[projectile.owner];
-			MyPlayer mp = Main.player[projectile.owner].GetModPlayer<MyPlayer>(mod);
+			MyPlayer mp = Main.player[projectile.owner].GetSpiritPlayer();
 			if (mp.player.dead)
 				mp.hungryMinion = false;
 

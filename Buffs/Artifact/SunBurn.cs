@@ -1,18 +1,15 @@
-using System;
-
+using SpiritMod.NPCs;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.NPCs;
 
 namespace SpiritMod.Buffs.Artifact
 {
-	public class SunBurn : ModBuff
+    public class SunBurn : ModBuff
 	{
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Solar Burn");
-
 			Main.debuff[Type] = true;
 			Main.pvpBuff[Type] = false;
 			Main.buffNoTimeDisplay[Type] = false;
@@ -22,12 +19,13 @@ namespace SpiritMod.Buffs.Artifact
 		{
 			npc.GetGlobalNPC<GNPC>(mod).sunBurn = true;
 			npc.defense -= 3;
-			if (Main.rand.Next(1) == 0)
+
+			if (Main.rand.NextBool(2))
 			{
-				int num2 = Dust.NewDust(npc.position, npc.width, npc.height, 244);
-				Main.dust[num2].scale = 1.9f;
-				Main.dust[num2].velocity *= 1f;
-				Main.dust[num2].noGravity = true;
+				int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.CopperCoin);
+				Main.dust[dust].scale = 1.9f;
+				Main.dust[dust].velocity *= 1f;
+				Main.dust[dust].noGravity = true;
 			}
 		}
 	}

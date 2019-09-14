@@ -56,7 +56,7 @@ namespace SpiritMod.Items.Weapon.Magic.Artifact
 
 		public override void HoldItem(Player player)
 		{
-			if (player.GetModPlayer<MyPlayer>(mod).HolyGrail)
+			if (player.GetSpiritPlayer().HolyGrail)
 			{
 				player.AddBuff(mod.BuffType("Righteous"), 2);
 				item.crit = 10;

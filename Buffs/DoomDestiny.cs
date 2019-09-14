@@ -1,10 +1,10 @@
+using SpiritMod.NPCs;
 using Terraria;
 using Terraria.ModLoader;
-using SpiritMod.NPCs;
 
 namespace SpiritMod.Buffs
 {
-	public class DoomDestiny : ModBuff
+    public class DoomDestiny : ModBuff
 	{
 		public override void SetDefaults()
 		{
@@ -17,7 +17,7 @@ namespace SpiritMod.Buffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetModPlayer<MyPlayer>(mod).DoomDestiny = true;
+			player.GetSpiritPlayer().DoomDestiny = true;
 		}
 
 		public override void Update(NPC npc, ref int buffIndex)

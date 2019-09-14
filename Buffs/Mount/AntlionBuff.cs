@@ -1,17 +1,14 @@
-﻿using System;
-
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs.Mount
 {
-	class AntlionBuff : ModBuff
+    class AntlionBuff : ModBuff
 	{
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Antlion Charger");
 			Description.SetDefault("Its sharp claws aid your digging underground");
-
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}

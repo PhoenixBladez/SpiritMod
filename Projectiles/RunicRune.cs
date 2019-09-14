@@ -138,7 +138,7 @@ namespace SpiritMod.Projectiles
 				{
 					num4 *= 1.7f;
 				}
-				if (!Main.player[projectile.owner].GetModPlayer<MyPlayer>(mod).runicSet)
+				if (!Main.player[projectile.owner].GetSpiritPlayer().runicSet)
 				{
 					num4 += 100f;
 				}

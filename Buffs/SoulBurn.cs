@@ -1,20 +1,15 @@
-using System;
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.Graphics.Effects;
-using Terraria.Graphics.Shaders;
-using Terraria.ID;
-using Terraria.ModLoader;
 using SpiritMod.NPCs;
+using Terraria;
+using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs
 {
-	public class SoulBurn : ModBuff
+    public class SoulBurn : ModBuff
 	{
 		public override void SetDefaults()
 		{
-			Main.buffNoTimeDisplay[Type] = false;
-			DisplayName.SetDefault("Soul Burn");
+            DisplayName.SetDefault("Soul Burn");
+            Main.buffNoTimeDisplay[Type] = false;
 			Main.pvpBuff[Type] = false;
 		}
 
@@ -22,7 +17,7 @@ namespace SpiritMod.Buffs
 		{
 			npc.GetGlobalNPC<GNPC>(mod).soulBurn = true;
 
-			if (Main.rand.Next(2) == 0)
+			if (Main.rand.NextBool(2))
 			{
 				int dust = Dust.NewDust(npc.position, npc.width, npc.height, 187);
 				Main.dust[dust].scale = .6f;

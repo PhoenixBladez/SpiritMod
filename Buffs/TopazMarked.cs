@@ -1,17 +1,10 @@
-﻿using System;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.UI;
-using Terraria.DataStructures;
-using Terraria.GameContent.UI;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
 
 namespace SpiritMod.Buffs
 {
-	public class TopazMarked : ModBuff
+    public class TopazMarked : ModBuff
 	{
 		public override void SetDefaults()
 		{
@@ -24,12 +17,11 @@ namespace SpiritMod.Buffs
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			int num1 = Dust.NewDust(npc.position, npc.width, npc.height, DustID.GoldCoin);
-			Main.dust[num1].scale = Main.rand.NextFloat(.4f, .8f);
-			Main.dust[num1].velocity.Y *= -1f;
-            Main.dust[num1].velocity.X *= 0f;
-			Main.dust[num1].noGravity = true;
+			int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.GoldCoin);
+			Main.dust[dust].scale = Main.rand.NextFloat(.4f, .8f);
+			Main.dust[dust].velocity.Y *= -1f;
+            Main.dust[dust].velocity.X *= 0f;
+			Main.dust[dust].noGravity = true;
 		}
-
 	}
 }

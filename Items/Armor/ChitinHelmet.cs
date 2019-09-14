@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Armor
            player.setBonus = "Greatly increases running speed\nHitting an enemy while running kicks up damaging dust and knocks them back";
            if (player.velocity.X != 0)
            {
-            player.GetModPlayer<MyPlayer>(mod).chitinSet = true;
+            player.GetSpiritPlayer().chitinSet = true;
            }
            player.moveSpeed += .18f;
            player.maxRunSpeed += .25f;

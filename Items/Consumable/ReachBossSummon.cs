@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Consumable
 
         public override bool CanUseItem(Player player)
         {
-            return !NPC.AnyNPCs(mod.NPCType("ReachBoss")) && player.GetModPlayer<MyPlayer>(mod).ZoneReach && Main.dayTime;
+            return !NPC.AnyNPCs(mod.NPCType("ReachBoss")) && player.GetSpiritPlayer().ZoneReach && Main.dayTime;
         }
 
 

@@ -52,7 +52,7 @@ namespace SpiritMod.Items.Weapon.Gun
                 Projectile.NewProjectile(position.X - 10, position.Y, speedX * 2, speedY * 2, mod.ProjectileType("HelixRocket"), item.damage * 2 / 4 * 5 - 4, 11, player.whoAmI, 0f, 0f);
 
 
-                MyPlayer modPlayer = player.GetModPlayer<MyPlayer>(mod);
+                MyPlayer modPlayer = player.GetSpiritPlayer();
                 modPlayer.shootDelay2 = 240;
                 charger = 0;
                 return false;
@@ -171,7 +171,7 @@ namespace SpiritMod.Items.Weapon.Gun
             if (player.altFunctionUse == 2)
             {
 
-                MyPlayer modPlayer = player.GetModPlayer<MyPlayer>(mod);
+                MyPlayer modPlayer = player.GetSpiritPlayer();
                 if (modPlayer.shootDelay2 == 0)
                     return true;
                 return false;

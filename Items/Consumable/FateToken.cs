@@ -38,7 +38,7 @@ namespace SpiritMod.Items.Consumable
         {
             {
                 player.AddBuff(mod.BuffType("FateToken"), 3600);
-                MyPlayer modPlayer = player.GetModPlayer<MyPlayer>(mod);
+                MyPlayer modPlayer = player.GetSpiritPlayer();
             if (!modPlayer.fateToken)
             {
                 modPlayer.fateToken = true;
@@ -52,7 +52,7 @@ namespace SpiritMod.Items.Consumable
         }
         public override bool CanUseItem(Player player)
         {
-            MyPlayer modPlayer = player.GetModPlayer<MyPlayer>(mod);
+            MyPlayer modPlayer = player.GetSpiritPlayer();
             if (modPlayer.shootDelay3 == 0)
                     return true;
                 return false;

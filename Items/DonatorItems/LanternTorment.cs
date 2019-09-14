@@ -29,7 +29,7 @@ namespace SpiritMod.Items.DonatorItems
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<MyPlayer>(mod).TormentLantern= true;
+            player.GetSpiritPlayer().TormentLantern= true;
         }
 		public override void AddRecipes()
         {

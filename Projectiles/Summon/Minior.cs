@@ -61,7 +61,7 @@ namespace SpiritMod.Projectiles.Summon
 
 			Player player = Main.player[projectile.owner];
 			bool flag64 = projectile.type == mod.ProjectileType("Minior");
-			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>(mod);
+			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (flag64)
 			{
 				if (player.dead)

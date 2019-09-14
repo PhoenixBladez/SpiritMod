@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Armor
         {
   
             player.setBonus = "Getting hit grants the player three seconds of invisibility\n25 second cooldown";
-            player.GetModPlayer<MyPlayer>(mod).rogueSet = true;
+            player.GetSpiritPlayer().rogueSet = true;
         }
     }
 }

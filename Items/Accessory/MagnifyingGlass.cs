@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Accessory
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<MyPlayer>(mod).magnifyingGlass = true;
+            player.GetSpiritPlayer().magnifyingGlass = true;
             player.magicCrit += 4;
             player.meleeCrit += 4;
             player.thrownCrit += 4;

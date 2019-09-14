@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Accessory
 
 		public override void UpdateEquip(Player player)
 		{
-			player.GetModPlayer<MyPlayer>(mod).KingRock = true;
+			player.GetSpiritPlayer().KingRock = true;
 		}
 	}
 }

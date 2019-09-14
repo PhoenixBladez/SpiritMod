@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Armor.ClatterboneArmor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Taking fatal damage will instead return you to the amount of health you had before death\n6 minute cooldown";
-            player.GetModPlayer<MyPlayer>(mod).clatterboneSet = true;
+            player.GetSpiritPlayer().clatterboneSet = true;
         }
 
         public override void UpdateEquip(Player player)

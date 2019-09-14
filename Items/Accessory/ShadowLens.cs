@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Accessory
             player.thrownCrit += 7;
             player.magicCrit += 7;
             player.rangedCrit += 7;
-            player.GetModPlayer<MyPlayer>(mod).animusLens = true;
+            player.GetSpiritPlayer().animusLens = true;
         }
 
 	}

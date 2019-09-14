@@ -1,18 +1,10 @@
-using System;
-
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.NPCs;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.Buffs.Glyph
 {
-	public class DivineStrike : ModBuff
+    public class DivineStrike : ModBuff
 	{
-		public static int _type;
-		public static Texture2D[] _textures;
-
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Divine Strike");
@@ -23,27 +15,44 @@ namespace SpiritMod.Buffs.Glyph
 
 		public override bool ReApply(Player player, int time, int buffIndex)
 		{
-			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
+            MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (modPlayer.divineStacks < 6)
-				modPlayer.divineStacks++;
-			return false;
+            {
+                modPlayer.divineStacks++;
+            }
+
+            return false;
 		}
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
+			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (player.whoAmI == Main.myPlayer && !Main.dedServ)
-				Main.buffTexture[Type] = _textures[modPlayer.divineStacks - 1];
-			if (modPlayer.glyph == GlyphType.Radiant)
-				player.buffTime[buffIndex] = 2;
-			else
-				player.DelBuff(buffIndex--);
-		}
+            {
+                if (modPlayer.divineStacks == 1)
+                {
+                    Main.buffTexture[Type] = mod.GetTexture("DivineStrike");
+                }
+                else
+                {
+                    Main.buffTexture[Type] = mod.GetTexture("DivineStrike_" + (modPlayer.divineStacks - 1).ToString());
+                }
+            }
+
+            if (modPlayer.glyph == GlyphType.Radiant)
+            {
+                player.buffTime[buffIndex] = 2;
+            }
+            else
+            {
+                player.DelBuff(buffIndex--);
+            }
+        }
 
 		public override void ModifyBuffTip(ref string tip, ref int rare)
 		{
-			MyPlayer modPlayer = Main.player[Main.myPlayer].GetModPlayer<MyPlayer>();
-			tip += modPlayer.divineStacks * 11 + "% more damage.";
+			MyPlayer modPlayer = Main.LocalPlayer.GetSpiritPlayer();
+			tip += $"{modPlayer.divineStacks * 11}% more damage.";
 		}
 	}
 }

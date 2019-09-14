@@ -50,7 +50,7 @@ namespace SpiritMod.Projectiles.Arrow.Artifact
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
-			MyPlayer mp = Main.player[projectile.owner].GetModPlayer<MyPlayer>(mod);
+			MyPlayer mp = Main.player[projectile.owner].GetSpiritPlayer();
 			if (mp.MoonSongBlossom)
 			{
 				int dust1 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173);
