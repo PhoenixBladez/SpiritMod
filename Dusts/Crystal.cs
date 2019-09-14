@@ -19,12 +19,15 @@ namespace SpiritMod.Dusts
 		{
 			dust.position += dust.velocity;
 			dust.rotation += dust.velocity.X;
+
 			Lighting.AddLight((int)(dust.position.X / 16f), (int)(dust.position.Y / 16f), 0.76f, 0.38f, 0.86f);
+
 			dust.scale -= 0.03f;
 			if (dust.scale < 0.5f)
 			{
 				dust.active = false;
 			}
+
 			return false;
 		}
 	}

@@ -4,10 +4,8 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Dusts
 {
-	public class Wind : ModDust
+    public class Wind : ModDust
 	{
-		public static int _type;
-
 		public override void OnSpawn(Dust dust)
 		{
 			dust.noGravity = true;
@@ -16,13 +14,17 @@ namespace SpiritMod.Dusts
 
 		public override bool Update(Dust dust)
 		{
-			if (dust.customData == null)
-				dust.active = false;
+			if (dust.customData is null)
+            {
+                dust.active = false;
+            }
 
-			if (!(dust.customData is WindAnchor))
-				return true;
+            if (!(dust.customData is WindAnchor))
+            {
+                return true;
+            }
 
-			if (dust.alpha > 253)
+            if (dust.alpha > 253)
 			{
 				dust.active = false;
 				return false;
@@ -38,6 +40,7 @@ namespace SpiritMod.Dusts
 			dust.velocity *= .95f;
 			data.offset += 0.4f;
 			data.turnRate *= .92f;
+
 			return false;
 		}
 	}
@@ -52,37 +55,49 @@ namespace SpiritMod.Dusts
 		public WindAnchor(Vector2 origin, Vector2 velocity, Vector2 position)
 		{
 			float length = velocity.Length();
+
 			velocity = velocity * (1f / length);
 			if (velocity.HasNaNs())
-				velocity = new Vector2(0, -1);
-			bool left = (position - origin).LeftOf(velocity);
-			turnRate = 0.06f + Main.rand.NextFloat(0.04f); 
-			turnRate *= length > 4 ? length : 4;
-			if (left)
-			{
-				turnRate = -turnRate;
-				offsetDir = -velocity.TurnLeft();
-			}
-			else
-				offsetDir = -velocity.TurnRight();
-			offset = 2 + Main.rand.NextFloat(2);
+            {
+                velocity = new Vector2(0, -1);
+            }
+
+            turnRate = 0.06f + Main.rand.NextFloat(0.04f);
+            turnRate *= length > 4 ? length : 4;
+
+            bool left = (position - origin).LeftOf(velocity);
+            if (left)
+            {
+                turnRate = -turnRate;
+                offsetDir = -velocity.TurnLeft();
+            }
+            else
+            {
+                offsetDir = -velocity.TurnRight();
+            }
+
+            offset = 2 + Main.rand.NextFloat(2);
 			anchor = offsetDir * offset;
 			anchor += position;
 		}
 
 		public WindAnchor(Vector2 origin, Vector2 position)
 		{
-			bool left = position.X - origin.X < 0;
-			turnRate = 0.06f + Main.rand.NextFloat(0.04f);
-			turnRate *= 6;
-			if (left)
-			{
-				turnRate = -turnRate;
-				offsetDir = new Vector2(1, 0);
-			}
-			else
-				offsetDir = new Vector2(-1, 0);
-			offset = 2 + Main.rand.NextFloat(2);
+            turnRate = 0.06f + Main.rand.NextFloat(0.04f);
+            turnRate *= 6;
+
+            bool left = position.X - origin.X < 0;
+            if (left)
+            {
+                turnRate = -turnRate;
+                offsetDir = new Vector2(1, 0);
+            }
+            else
+            {
+                offsetDir = new Vector2(-1, 0);
+            }
+
+            offset = 2 + Main.rand.NextFloat(2);
 			anchor = offsetDir * offset;
 			anchor += position;
 		}

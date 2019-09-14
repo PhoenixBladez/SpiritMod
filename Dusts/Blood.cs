@@ -7,13 +7,10 @@ namespace SpiritMod.Dusts
 {
 	public class Blood : ModDust
 	{
-		public static int _type;
-
-		private const int STICK_TIME = 80;
-		private const float BASE_SCALE = 0.1f;
-		private const float GROW_RATE = (1 - BASE_SCALE) / STICK_TIME;
+		private const int stickTime = 80;
+		private const float baseScale = 0.1f;
+		private const float growRate = (1 - baseScale) / stickTime;
 		
-
 		public override void OnSpawn(Dust dust)
 		{
 			dust.noGravity = true;
@@ -23,53 +20,60 @@ namespace SpiritMod.Dusts
 		{
 			if (dust.customData != null)
 			{
-				if (dust.customData is NPC)
-				{
-					NPC npc = (NPC)dust.customData;
-					dust.customData = new
-						BloodAnchor
-					{
-						anchor = npc,
-						oldRotation = npc.rotation,
-						offset = dust.position - ((NPC)dust.customData).Center
-					};
-					dust.scale = BASE_SCALE;
-					dust.velocity = Vector2.Zero;
-				}
-				if (dust.customData is BloodAnchor)
+                if (dust.customData is NPC npc)
+                {
+                    dust.customData = new BloodAnchor
+                    {
+                        anchor = npc,
+                        oldRotation = npc.rotation,
+                        offset = dust.position - ((NPC)dust.customData).Center
+                    };
+
+                    dust.scale = baseScale;
+                    dust.velocity = Vector2.Zero;
+                }
+
+                if (dust.customData is BloodAnchor)
 				{
 					if (Follow(dust, (BloodAnchor)dust.customData))
-						return false;
-				}
+                    {
+                        return false;
+                    }
+                }
 			}
+
 			if (Collision.SolidCollision(dust.position - Vector2.One * 5f, 10, 6) && dust.fadeIn == 0f)
 			{
 				dust.velocity = Vector2.Zero;
 			}
 			else
-				dust.scale += 0.009f;
-			return true;
+            {
+                dust.scale += 0.009f;
+            }
+
+            return true;
 		}
 
 		private bool Follow(Dust dust, BloodAnchor follow)
 		{
 			NPC npc = follow.anchor;
-			if (follow.counter++ >= STICK_TIME || !npc.active)
+			if (follow.counter++ >= stickTime || !npc.active)
 			{
 				if (npc.active)
 				{
-					dust.velocity = npc.velocity
-						+ 0.5f * (follow.offset.RotatedBy(npc.rotation)
-						- follow.offset.RotatedBy(follow.oldRotation));
+					dust.velocity = npc.velocity + 0.5f * (follow.offset.RotatedBy(npc.rotation) - follow.offset.RotatedBy(follow.oldRotation));
 				}
+
 				dust.customData = null;
 				dust.noGravity = false;
+
 				return false;
 			}
-			Vector2 c = npc.Center;
-			dust.scale = BASE_SCALE + follow.counter * GROW_RATE;
-			dust.position = c + follow.offset.RotatedBy(npc.rotation);
-			follow.oldRotation = (dust.rotation = npc.rotation);
+
+            dust.scale = baseScale + follow.counter * growRate;
+			dust.position = npc.Center + follow.offset.RotatedBy(npc.rotation);
+			follow.oldRotation = dust.rotation = npc.rotation;
+
 			return true;
 		}
 	}

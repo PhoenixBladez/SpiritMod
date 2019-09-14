@@ -2004,11 +2004,11 @@ namespace SpiritMod
                         int dust;
                         if (player.velocity.Y == 0f)
                         {
-                            dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 8, Dusts.TemporalDust._type, 0f, 0f, 100, default, 1.4f);
+                            dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 8, mod.DustType("TemporalDust"), 0f, 0f, 100, default, 1.4f);
                         }
                         else
                         {
-                            dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + (player.height >> 1) - 8f), player.width, 16, Dusts.TemporalDust._type, 0f, 0f, 100, default, 1.4f);
+                            dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + (player.height >> 1) - 8f), player.width, 16, mod.DustType("TemporalDust"), 0f, 0f, 100, default, 1.4f);
                         }
 
                         Main.dust[dust].velocity *= 0.1f;
@@ -2494,11 +2494,11 @@ namespace SpiritMod
                 int dust;
                 if (player.velocity.Y == 0f)
                 {
-                    dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 8, Dusts.TemporalDust._type, 0f, 0f, 100, default, 1.4f);
+                    dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 8, mod.DustType("TemporalDust"), 0f, 0f, 100, default, 1.4f);
                 }
                 else
                 {
-                    dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + (player.height >> 1) - 8f), player.width, 16, Dusts.TemporalDust._type, 0f, 0f, 100, default, 1.4f);
+                    dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + (player.height >> 1) - 8f), player.width, 16, mod.DustType("TemporalDust"), 0f, 0f, 100, default, 1.4f);
                 }
 
                 Main.dust[dust].velocity *= 0.1f;

@@ -39,7 +39,7 @@ namespace SpiritMod.Projectiles
 			}
 			if (Main.rand.NextDouble() < 0.5)
 			{
-				Dust dust = Dust.NewDustDirect(projectile.position - new Vector2(4, 4), projectile.width + 8, projectile.height + 8, Wind._type);
+				Dust dust = Dust.NewDustDirect(projectile.position - new Vector2(4, 4), projectile.width + 8, projectile.height + 8, mod.DustType("Wind"));
 				dust.velocity = projectile.velocity * 0.2f;
 				dust.customData = new WindAnchor(projectile.Center, projectile.velocity, dust.position);
 			}
@@ -61,7 +61,7 @@ namespace SpiritMod.Projectiles
 		{
 			for (int i = 0; i < 6; i++)
 			{
-				Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, Wind._type);
+				Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, mod.DustType("Wind"));
 				dust.customData = new WindAnchor(projectile.Center, projectile.velocity, dust.position);
 			}
 		}

@@ -1,10 +1,9 @@
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Dusts
 {
-	public class ReachWaterSplash : ModDust
+    public class ReachWaterSplash : ModDust
 	{
 		public override void SetDefaults()
 		{

@@ -715,7 +715,7 @@ namespace SpiritMod.NPCs
 			{
 				for (int i = 0; i < 8; i++)
 				{
-					Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, Dusts.Wind._type);
+					Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, mod.DustType("Wind"));
 					dust.customData = new Dusts.WindAnchor(npc.Center, npc.velocity, dust.position);
 				}
 			}
@@ -742,7 +742,7 @@ namespace SpiritMod.NPCs
 			{
 				for (int i = 0; i < 8; i++)
 				{
-					Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, Dusts.Wind._type);
+					Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, mod.DustType("Wind"));
 					dust.customData = new Dusts.WindAnchor(npc.Center, npc.velocity, dust.position);
 				}
 			}
