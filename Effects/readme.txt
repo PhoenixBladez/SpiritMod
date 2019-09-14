@@ -1,1 +1,0 @@
-you don't need to include the .fx file in the mod, only the .xnb file (nor this .txt file), i just put it in so you can snoop at it if you want to :)
