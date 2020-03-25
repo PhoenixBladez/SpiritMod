@@ -46,12 +46,5 @@ namespace SpiritMod.Projectiles.Magic
 				Main.dust[num1].velocity *= 0.1f;
 			}
 		}
-
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			if (Main.rand.Next(4) == 0)
-				target.AddBuff(mod.BuffType("TidalEbb"), 240);
-		}
-
 	}
 }

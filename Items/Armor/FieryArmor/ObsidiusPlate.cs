@@ -1,4 +1,6 @@
-using System.Collections.Generic;
+using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,8 +12,9 @@ namespace SpiritMod.Items.Armor.FieryArmor
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Fiery Chestplate");
-            Tooltip.SetDefault("Increases throwing velocity by 9%");
+			DisplayName.SetDefault("Slag Tyrant's Platemail");
+            Tooltip.SetDefault("Increases minion damage by 5%\nIncreases your max number of minions by 1");
+            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/FieryArmor/ObsidiusPlate_Glow");
 
         }
 
@@ -21,12 +24,16 @@ namespace SpiritMod.Items.Armor.FieryArmor
             item.height = 20;
             item.value = Terraria.Item.sellPrice(0, 0, 35, 0);
             item.rare = 3;
-            item.defense = 8;
+            item.defense = 7;
         }
-
+        public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
+        {
+            glowMaskColor = Color.White;
+        }
         public override void UpdateEquip(Player player)
         {
-            player.thrownVelocity += 0.09f;
+            player.maxMinions += 1;
+            player.minionDamage += .05f;
         }
         public override void AddRecipes()
         {

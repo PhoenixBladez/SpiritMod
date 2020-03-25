@@ -17,7 +17,7 @@ namespace SpiritMod.Buffs.Artifact
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			npc.GetGlobalNPC<GNPC>(mod).sunBurn = true;
+			npc.GetGlobalNPC<GNPC>().sunBurn = true;
 			npc.defense -= 3;
 
 			if (Main.rand.NextBool(2))

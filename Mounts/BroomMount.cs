@@ -15,7 +15,7 @@ namespace SpiritMod.Mounts
 		public const float groundSlowdown = 0.3f;
 
 		public int fatigue;
-		public const int maxFatigue = 1400;
+		public const int maxFatigue = 800;
 		public const float verticalSpeed = 0.64f;
 		private const float maxTilt = (float)Math.PI * 0.04f;
 

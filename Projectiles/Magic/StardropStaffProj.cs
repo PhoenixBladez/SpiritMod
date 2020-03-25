@@ -19,7 +19,7 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.height = 12;
 			projectile.hide = true;
 			projectile.friendly = true;
-			projectile.penetrate = 1;
+			projectile.penetrate = 2;
 			projectile.timeLeft = 240;
 		}
 
@@ -34,13 +34,11 @@ namespace SpiritMod.Projectiles.Magic
 			{
 				Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
 
-				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0, -5, mod.ProjectileType("StardropStaffProj2"), projectile.damage, projectile.knockBack, Main.myPlayer);
-
-				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 6, -2, mod.ProjectileType("StardropStaffProj2"), projectile.damage, projectile.knockBack, Main.myPlayer);
-				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -6, -2, mod.ProjectileType("StardropStaffProj2"), projectile.damage, projectile.knockBack, Main.myPlayer);
-
-				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 3, 5, mod.ProjectileType("StardropStaffProj2"), projectile.damage, projectile.knockBack, Main.myPlayer);
-				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -3, 5, mod.ProjectileType("StardropStaffProj2"), projectile.damage, projectile.knockBack, Main.myPlayer);
+				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0, -5, mod.ProjectileType("StardropStaffProj2"), projectile.damage/2, projectile.knockBack, Main.myPlayer);
+				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 6, -2, mod.ProjectileType("StardropStaffProj2"), projectile.damage/2, projectile.knockBack, Main.myPlayer);
+				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -6, -2, mod.ProjectileType("StardropStaffProj2"), projectile.damage/2, projectile.knockBack, Main.myPlayer);
+				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 3, 5, mod.ProjectileType("StardropStaffProj2"), projectile.damage/2, projectile.knockBack, Main.myPlayer);
+				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -3, 5, mod.ProjectileType("StardropStaffProj2"), projectile.damage/2, projectile.knockBack, Main.myPlayer);
 			}
 		}
 
@@ -51,17 +49,12 @@ namespace SpiritMod.Projectiles.Magic
 
 			for (int i = 1; i <= 3; i++)
 			{
-				int num1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 172, projectile.velocity.X, projectile.velocity.Y, 0, default(Color), 2f);
+				int num1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 172, projectile.velocity.X, projectile.velocity.Y, 0, default(Color), 1.6f);
 				Main.dust[num1].noGravity = true;
 				Main.dust[num1].velocity *= 0.1f;
 			}
 		}
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			if (Main.rand.Next(4) == 0)
-				target.AddBuff(mod.BuffType("TidalEbb"), 240);
-		}
 
 	}
 }

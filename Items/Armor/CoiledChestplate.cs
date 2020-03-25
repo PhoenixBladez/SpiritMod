@@ -1,7 +1,10 @@
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
+
 
 namespace SpiritMod.Items.Armor
 {
@@ -10,8 +13,8 @@ namespace SpiritMod.Items.Armor
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Coiled Chestplate");
-            Tooltip.SetDefault("Increases throwing critical strike chance by 5%\nIncreases throwing damage by 7%");
+			DisplayName.SetDefault("Autonaut's Chestplate");
+            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/CoiledChest_Glow");
 
         }
         public override void SetDefaults()
@@ -20,21 +23,11 @@ namespace SpiritMod.Items.Armor
             item.height = 20;
             item.value = Terraria.Item.sellPrice(0, 0, 18, 0);
             item.rare = 2;
-            item.defense = 6;
+            item.vanity = true;
         }
-
-        public override void UpdateEquip(Player player)
+        public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
         {
-            player.thrownCrit += 5;
-			player.thrownDamage += 0.07f;
-        }
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "TechDrive", 16);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
+            glowMaskColor = Color.White;
         }
     }
 }

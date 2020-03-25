@@ -4,6 +4,7 @@ using Terraria.ID;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
+using SpiritMod.Projectiles;
 
 namespace SpiritMod.Items.Weapon.Bow
 {
@@ -19,13 +20,13 @@ namespace SpiritMod.Items.Weapon.Bow
         int charger;
         public override void SetDefaults()
         {
-            item.damage = 39;
+            item.damage = 35;
             item.noMelee = true;
             item.ranged = true;
             item.width = 24;
             item.height = 46;
-            item.useTime = 29;
-            item.useAnimation = 29;
+            item.useTime = 25;
+            item.useAnimation = 25;
             item.useStyle = 5;
             item.shoot = 3;
             item.useAmmo = AmmoID.Arrow;
@@ -35,20 +36,26 @@ namespace SpiritMod.Items.Weapon.Bow
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
             item.shootSpeed = 12.8f;
-            item.crit = 6;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             charger++;
             if (charger >= 4)
             {
+                int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+                Main.projectile[p].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromNightSky = true;
                 for (int I = 0; I < 4; I++)
                 {
                     Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ProjectileID.FallingStar, damage, knockBack, player.whoAmI, 0f, 0f);
                 }
                 charger = 0;
             }
-            return true;
+            else
+            {
+                int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+                Main.projectile[p].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromNightSky = true;
+            }
+            return false;
         }
         public override void AddRecipes()
         {

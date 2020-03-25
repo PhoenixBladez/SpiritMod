@@ -58,7 +58,7 @@ namespace SpiritMod.NPCs
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SanctifiedStabber"));
 			}
 
-			if (Main.rand.Next(5) == 1)
+			if (Main.rand.Next(3) == 1)
 			{
 				int Bark = Main.rand.Next(2) + 1;
 				for (int J = 0; J <= Bark; J++)
@@ -66,8 +66,12 @@ namespace SpiritMod.NPCs
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AncientBark"));
 				}
 			}
+            if (!Main.dayTime)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EnchantedLeaf"));
+            }
 
-		}
+        }
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;

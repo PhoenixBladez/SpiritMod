@@ -38,7 +38,7 @@ namespace SpiritMod.Projectiles
 		int timer = 0;
 		public override bool PreAI()
 		{
-			MyPlayer mp = Main.player[base.projectile.owner].GetModPlayer<MyPlayer>(base.mod);
+			MyPlayer mp = Main.player[base.projectile.owner].GetModPlayer<MyPlayer>();
 			if (mp.player.dead)
 				mp.Ghast = false;
 

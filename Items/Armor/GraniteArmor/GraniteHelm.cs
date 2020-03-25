@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.Items.Armor.GraniteArmor
 {
@@ -11,7 +13,7 @@ namespace SpiritMod.Items.Armor.GraniteArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Granite Visor");
-            Tooltip.SetDefault("Reduces movement speed by 6%\nReduces damage taken by 5%");
+            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/GraniteArmor/GraniteHelm_Glow");
 
         }
 
@@ -21,25 +23,25 @@ namespace SpiritMod.Items.Armor.GraniteArmor
             item.height = 24;
             item.value = 1100;
             item.rare = 2;
-            item.defense = 9;
+            item.defense = 6;
         }
-        public override void UpdateEquip(Player player)
+        public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
         {
-            player.maxRunSpeed -= 0.06f;
-            player.endurance += 0.05f;
+            glowMaskColor = Color.White;
         }
-
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
             return body.type == mod.ItemType("GraniteChest") && legs.type == mod.ItemType("GraniteLegs");
         }
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Increases invincibility time after getting hit";
-
-            player.longInvince = true;
+            player.setBonus = "Press 'Down' while falling to stomp downward\nHitting the ground releases a shockwave that scales with height\n10 second cooldown";
+            player.GetSpiritPlayer().graniteSet = true;
         }
-
+        public override void ArmorSetShadows(Player player)
+        {
+            player.armorEffectDrawShadow = true;
+        }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

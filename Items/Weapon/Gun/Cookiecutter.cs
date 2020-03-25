@@ -46,7 +46,7 @@ namespace SpiritMod.Items.Weapon.Gun
         {
             {
                 int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
-                Main.projectile[p].GetGlobalProjectile<SpiritGlobalProjectile>(mod).shotFromCookieCutter = true;
+                Main.projectile[p].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromCookieCutter = true;
                 return false;
             }
             

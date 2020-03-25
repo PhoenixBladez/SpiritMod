@@ -13,7 +13,7 @@ namespace SpiritMod.Buffs
 
 		public override bool ReApply(NPC npc, int time, int buffIndex)
 		{
-			GNPC info = npc.GetGlobalNPC<GNPC>(mod);
+			GNPC info = npc.GetGlobalNPC<GNPC>();
 			if (info.acidBurnStacks < 2)
             {
                 info.acidBurnStacks++;
@@ -26,7 +26,7 @@ namespace SpiritMod.Buffs
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			GNPC info = npc.GetGlobalNPC<GNPC>(mod);
+			GNPC info = npc.GetGlobalNPC<GNPC>();
 			if (info.acidBurnStacks <= 0)
             {
                 info.acidBurnStacks = 1;

@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,10 +14,12 @@ namespace SpiritMod.Items.Armor.StarArmor
 		{
 			DisplayName.SetDefault("Starplate Leggings");
             Tooltip.SetDefault("Increases movement speed by 5% and critical strike chance by 4%");
-
+            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/StarArmor/StarLegs_Glow");
         }
-
-
+        public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
+        {
+            glowMaskColor = Color.White;
+        }
         int timer = 0;
         public override void SetDefaults()
         {

@@ -3,39 +3,39 @@ using System;
 using Terraria.ID;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
+using SpiritMod.Projectiles;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Weapon.Gun
 {
     public class TrueHolyBurst : ModItem
     {
-        int charger;
 
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("True Holy Burst");
-			Tooltip.SetDefault("Fires three crystal rounds in rapid succession \n Occaisionally fires a Fae Blast that explodes into many wisps of energy");
+			DisplayName.SetDefault("Holy Hellstorm");
+			Tooltip.SetDefault("Fires a five round burst of angelic energy\nBullets shot inflict 'Angel's Wrath', a stacking debuff\nDifferent amounts of holy light rains down on enemies based on the stacks of 'Angel's Wrath' they have");
 		}
 
 
         public override void SetDefaults()
         {
-            item.damage = 33;  
+            item.damage = 35;  
             item.ranged = true;   
             item.width = 50;     
             item.height = 28;    
-            item.useTime = 10;
+            item.useTime = 6;
             item.useAnimation = 30;
             item.useStyle = 5;    
             item.noMelee = true; 
             item.knockBack = 1f;
             item.useTurn = false;
-            item.value = Terraria.Item.sellPrice(0, 3, 0, 0);
+            item.value = Terraria.Item.sellPrice(0, 5, 0, 0);
             item.rare = 8;
 			item.UseSound = SoundID.Item31;
-            item.autoReuse = true;
+            item.autoReuse = false;
             item.shoot = 89; 
-            item.shootSpeed = 9f;
+            item.shootSpeed = 1f;
             item.useAmmo = AmmoID.Bullet;
         }
         public override Vector2? HoldoutOffset()
@@ -45,18 +45,14 @@ namespace SpiritMod.Items.Weapon.Gun
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            charger++;
-            if (charger >= 3)
+            Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 45f;
+            if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
             {
-                for (int I = 0; I < 1; I++)
-                {
-                    Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), mod.ProjectileType("Fae2"), damage, knockBack, player.whoAmI, 0f, 0f);
-                }
-                charger = 0;
+                position += muzzleOffset;
             }
-            int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, 89, damage, knockBack, player.whoAmI);
-
-			return false;
+            int p = Projectile.NewProjectile(position.X, position.Y, speedX / 1.5f, speedY / 1.5f, type, damage, knockBack, player.whoAmI);
+            Main.projectile[p].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromTrueHolyBurst = true;
+            return false;
         }
         public override void AddRecipes()
         {

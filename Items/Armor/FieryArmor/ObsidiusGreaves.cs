@@ -1,4 +1,6 @@
-using System.Collections.Generic;
+using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,8 +12,8 @@ namespace SpiritMod.Items.Armor.FieryArmor
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Fiery Leggings");
-            Tooltip.SetDefault("Increases throwing critical strike chance by 10% and movement speed by 8%");
+			DisplayName.SetDefault("Slag Tyrant's Greaves");
+            Tooltip.SetDefault("Increases minion damage by 6%\nIncreases maximum number of minions by 1");
 
         }
 
@@ -21,13 +23,13 @@ namespace SpiritMod.Items.Armor.FieryArmor
             item.height = 20;
             item.value = Terraria.Item.sellPrice(0, 0, 39, 0);
             item.rare = 3;
-            item.defense = 6;
+            item.defense = 5;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.thrownCrit += 10;
-            player.moveSpeed += 0.08f;
+            player.minionDamage += 0.06f;
+            player.maxMinions += 1;
         }
         public override void AddRecipes()
         {

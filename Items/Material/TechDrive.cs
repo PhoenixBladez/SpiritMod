@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Material
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Tech Drive");
-			Tooltip.SetDefault("'Mechanical goodness'");
+			Tooltip.SetDefault("'How did the goblins stumble upon such advanced circuitry?'");
 		}
 
 

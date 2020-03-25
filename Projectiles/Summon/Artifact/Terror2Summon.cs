@@ -39,7 +39,7 @@ namespace SpiritMod.Projectiles.Summon.Artifact
 
 		public override void CheckActive()
 		{
-			MyPlayer mp = Main.player[projectile.owner].GetModPlayer<MyPlayer>(base.mod);
+			MyPlayer mp = Main.player[projectile.owner].GetModPlayer<MyPlayer>();
 			if (mp.player.dead)
 				mp.terror2Summon = false;
 

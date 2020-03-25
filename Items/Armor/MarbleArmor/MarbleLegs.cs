@@ -1,7 +1,8 @@
-using System.Collections.Generic;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 
 namespace SpiritMod.Items.Armor.MarbleArmor
 {
@@ -24,11 +25,13 @@ namespace SpiritMod.Items.Armor.MarbleArmor
         }
         public override void UpdateEquip(Player player)
         {
-
             player.maxRunSpeed += 0.06f;
-            int dust1 = Dust.NewDust(player.position, player.width, player.height, DustID.GoldCoin);
-            Main.dust[dust1].scale += 0.5f;
-            Main.dust[dust1].velocity *= 0f;
+            if (player.velocity.X != 0f)
+            {
+                int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 0, DustID.GoldCoin);
+                Main.dust[dust].velocity *= 0f;
+                Main.dust[dust].noGravity = true;
+            }
         }
 
         public override void AddRecipes()

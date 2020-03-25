@@ -28,7 +28,7 @@ public class IcySpear : ModItem
         item.shootSpeed = 4f;
         item.knockBack = 8f;
         item.damage = 14;
-        item.value = Item.sellPrice(0, 0, 60, 0);
+        item.value = Item.sellPrice(0, 0, 10, 0);
         item.rare = 1;
         item.shoot = mod.ProjectileType("IcySpear");
     }

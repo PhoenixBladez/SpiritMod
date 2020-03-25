@@ -146,7 +146,17 @@ namespace SpiritMod.NPCs
 				}
 			}
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            Player player = spawnInfo.player;
+            if (!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.spawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.spawnTileY > Main.worldSurface || !Main.dayTime) && (SpawnCondition.GoblinArmy.Chance == 0 && !Main.dayTime))
+            {
+                if(!NPC.AnyNPCs(mod.NPCType("ForestWraith")))
+                return spawnInfo.player.GetSpiritPlayer().ZoneReach ? .0099f : 0f;
+            }
+            return 0f;
+        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,

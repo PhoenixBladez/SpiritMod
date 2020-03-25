@@ -24,6 +24,7 @@ using SpiritMod.Overlays;
 using SpiritMod.Skies;
 using SpiritMod.Projectiles;
 using Terraria.Graphics;
+using static Terraria.ModLoader.ModContent;
 
 namespace SpiritMod
 {
@@ -152,12 +153,16 @@ namespace SpiritMod
 
 			if (priority > MusicPriority.BiomeHigh)
 				return;
-			if (spirit.ZoneReach && !Main.dayTime || !player.ZoneOverworldHeight && spirit.ZoneReach)
+			if (spirit.ZoneReach && Main.dayTime)
 			{
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/Reach");
 				priority = MusicPriority.BiomeHigh;
 			}
-
+            else if (spirit.ZoneReach && !Main.dayTime)
+            {
+                music = GetSoundSlot(SoundType.Music, "Sounds/Music/ReachNighttime");
+                priority = MusicPriority.BiomeHigh;
+            }
 			if (priority > MusicPriority.BiomeMedium)
 				return;
 			if (spirit.ZoneSpirit)
@@ -320,9 +325,10 @@ namespace SpiritMod
 			Filters.Scene["SpiritMod:SpiritSky"] = new Filter(new ScreenShaderData("FilterMiniTower").UseColor(0f, 0.25f, .5f).UseOpacity(0.15f), EffectPriority.High);
 			Filters.Scene["SpiritMod:BlueMoonSky"] = new Filter(new ScreenShaderData("FilterMiniTower").UseColor(0f, 0.3f, 1f).UseOpacity(0.75f), EffectPriority.High);
 			Filters.Scene["SpiritMod:ReachSky"] = new Filter(new ScreenShaderData("FilterBloodMoon").UseColor(0.05f, 0.05f, .05f).UseOpacity(0.7f), EffectPriority.High);
-			Filters.Scene["SpiritMod:WindEffect"] = new Filter((new BlizzardShaderData("FilterBlizzardForeground")).UseColor(0.4f, 0.4f, 0.4f).UseSecondaryColor(0.2f, 0.2f, 0.2f).UseImage("Images/Misc/noise", 0, null).UseOpacity(0.199f).UseImageScale(new Vector2(3f, 0.75f), 0), EffectPriority.High);
-	
-  			auroraEffect = GetEffect("Effects/aurora");
+			Filters.Scene["SpiritMod:WindEffect"] = new Filter((new BlizzardShaderData("FilterBlizzardForeground")).UseColor(0.4f, 0.4f, 0.4f).UseSecondaryColor(0.2f, 0.2f, 0.2f).UseImage("Images/Misc/noise", 0, null).UseOpacity(0.249f).UseImageScale(new Vector2(3f, 0.75f), 0), EffectPriority.High);
+            Filters.Scene["SpiritMod:WindEffect2"] = new Filter((new BlizzardShaderData("FilterBlizzardForeground")).UseColor(0.4f, 0.4f, 0.4f).UseSecondaryColor(0.2f, 0.2f, 0.2f).UseImage("Images/Misc/noise", 0, null).UseOpacity(0.549f).UseImageScale(new Vector2(3f, 0.75f), 0), EffectPriority.High);
+
+            auroraEffect = GetEffect("Effects/aurora");
             noise = GetTexture("Textures/noise");
 
             //filler stuff
@@ -335,7 +341,7 @@ namespace SpiritMod
 			ReachKey = RegisterHotKey("Frenzy Plant", "E");
 			HolyKey = RegisterHotKey("Holy Ward", "Z");
 
-			GlyphCurrencyID = CustomCurrencyManager.RegisterCurrency(new Currency(ItemType<Items.Glyphs.Glyph>(), 999L));
+			GlyphCurrencyID = CustomCurrencyManager.RegisterCurrency(new Currency(ModContent.ItemType<Items.Glyphs.Glyph>(), 999L));
 
 			if (!Main.dedServ)
 			{
@@ -557,7 +563,7 @@ namespace SpiritMod
 		{
 			if (name == "Concentration_Hotkey")
 			{
-				MyPlayer mp = Main.player[Main.myPlayer].GetModPlayer<MyPlayer>(this);
+				MyPlayer mp = Main.player[Main.myPlayer].GetModPlayer<MyPlayer>();
 				if (mp.leatherSet && !mp.concentrated && mp.concentratedCooldown <= 0)
 				{
 					mp.concentrated = true;

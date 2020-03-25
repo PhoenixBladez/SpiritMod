@@ -10,7 +10,7 @@ namespace SpiritMod.YoYoOverload.Items.Acc
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bloody Bauble");
-			Tooltip.SetDefault("'A must have for any Yoyoer'\nIncreases melee speed by 7%, melee damage by 6%, melee critical strike chance by 5%\nReduces damage taken by 6%");
+			Tooltip.SetDefault("Increases melee speed by 5%\nIncreases damage reduction and damage dealt by 5%\nIncreases critical strike chance by 4%\nAttacks have a small chance to steal life");
 		}
 
 
@@ -27,11 +27,19 @@ namespace SpiritMod.YoYoOverload.Items.Acc
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			player.meleeDamage += 0.06f;
-			player.meleeCrit += 5;
-			player.endurance += 0.05f;
-			player.meleeSpeed += 0.07f;
-		}
+            player.meleeDamage += 0.05f;
+            player.magicDamage += 0.05f;
+            player.rangedDamage += 0.05f;
+            player.minionDamage += 0.05f;
+            player.thrownDamage += 0.05f;
+            player.meleeCrit += 4;
+            player.rangedCrit += 4;
+            player.magicCrit += 4;
+            player.thrownCrit += 4;
+            player.endurance += 0.05f;
+			player.meleeSpeed += 0.05f;
+            player.GetSpiritPlayer().bloodyBauble = true;
+        }
 
 		public override void AddRecipes()
 		{

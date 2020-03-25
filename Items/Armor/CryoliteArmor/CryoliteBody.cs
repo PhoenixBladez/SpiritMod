@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.CryoliteArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cryolite Chestplate");
-			Tooltip.SetDefault("Increases ranged damage by 8% and ranged critical strike chance by 4%");
+			Tooltip.SetDefault("Increases melee damage by 10%\nThrowing attacks may slow down hit enemies");
 		}
 
         public override void SetDefaults()
@@ -20,13 +20,13 @@ namespace SpiritMod.Items.Armor.CryoliteArmor
             item.height = 26;
             item.value = 10000;
             item.rare = 3;
-            item.defense = 7;
+            item.defense = 6;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.rangedDamage += 0.08f;
-            player.rangedCrit += 4;
+            player.meleeDamage += 0.1f;
+            player.GetSpiritPlayer().cryoChestplate = true;
         }
         public override void AddRecipes()
         {

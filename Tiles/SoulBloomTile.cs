@@ -6,6 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.Enums;
+using static Terraria.ModLoader.ModContent;
 
 namespace SpiritMod.Tiles
 {
@@ -76,7 +77,7 @@ namespace SpiritMod.Tiles
 			if (stage == 2)
 			{
 				Terraria.Item.NewItem(i * 16, j * 16, 64, 32, mod.ItemType("SoulBloom"));
-				Item.NewItem(i * 16, j * 16, 0, 0, mod.ItemType<Items.Placeable.SoulSeeds>());
+				Item.NewItem(i * 16, j * 16, 0, 0, ModContent.ItemType<Items.Placeable.SoulSeeds>());
 			}
 			return false;
 		}

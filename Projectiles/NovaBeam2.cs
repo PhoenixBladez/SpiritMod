@@ -33,7 +33,7 @@ namespace SpiritMod.Projectiles
 			projectile.light = 0;
 			projectile.extraUpdates = 30;
 		}
-
+        int counter;
 		public override void AI()
 		{
 			bool flag25 = false;
@@ -81,12 +81,28 @@ namespace SpiritMod.Projectiles
 					int num448 = Dust.NewDust(vector33, 1, 1, 187, 0f, 0f, 0, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 0.25f);
 					Main.dust[num448].noGravity = true;
 					Main.dust[num448].position = vector33;
-					Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.023f;
+					Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.013f;
 					Main.dust[num448].velocity *= 0.2f;
 				}
 				return;
 			}
-		}
+            counter++;
+            if (counter >= 1440)
+            {
+                counter = -1440;
+            }
+            for (int i = 0; i < 20; i++)
+            {
+                float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
+                float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
+
+                int num2121 = Dust.NewDust(projectile.Center + new Vector2(0, (float)Math.Cos(counter / 4.2f) * 9.2f).RotatedBy(projectile.rotation), 6, 6, 187, 0f, 0f, 0, default(Color), 1f);
+                Main.dust[num2121].velocity *= 0f;
+                Main.dust[num2121].scale *= .75f;
+                Main.dust[num2121].noGravity = true;
+
+            }
+        }
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
@@ -94,6 +110,9 @@ namespace SpiritMod.Projectiles
 			{
 				Projectile.NewProjectile(target.Center.X + Main.rand.Next(-80, 80), target.Center.Y - 1400 + Main.rand.Next(-50, 50), 0, Main.rand.Next(8, 18), mod.ProjectileType("NovaBeam3"), projectile.damage / 5 * 2, projectile.knockBack, projectile.owner, 0f, 0f);
 			}
-		}
+            {
+                target.AddBuff(mod.BuffType("StarFlame"), 179);
+            }
+        }
 	}
 }

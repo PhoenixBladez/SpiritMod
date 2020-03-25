@@ -16,7 +16,7 @@ namespace SpiritMod.Buffs.Artifact
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			npc.GetGlobalNPC<GNPC>(mod).moonBurn = true;
+			npc.GetGlobalNPC<GNPC>().moonBurn = true;
 
 			if (Main.rand.NextBool(2))
 			{

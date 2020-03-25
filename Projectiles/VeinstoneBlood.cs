@@ -17,7 +17,7 @@ namespace SpiritMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.width = projectile.height = 14;
+			projectile.width = projectile.height = 8;
 
 			projectile.friendly = true;
 			projectile.tileCollide = false;
@@ -42,18 +42,21 @@ namespace SpiritMod.Projectiles
 			return false;
 		}
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			Player player = Main.player[projectile.owner];
-			int lifeToHeal = 0;
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            Player player = Main.player[projectile.owner];
+            if (player.statLife != player.statLifeMax2)
+            {
+                int lifeToHeal = 0;
 
-			if (player.statLife + 5 <= player.statLifeMax2)
-				lifeToHeal = 5;
-			else
-				lifeToHeal = player.statLifeMax2 - player.statLife;
+                if (player.statLife + 3 <= player.statLifeMax2)
+                    lifeToHeal = 5;
+                else
+                    lifeToHeal = player.statLifeMax2 - player.statLife;
 
-			player.statLife += lifeToHeal;
-			player.HealEffect(lifeToHeal);
-		}
-	}
+                player.statLife += lifeToHeal;
+                player.HealEffect(lifeToHeal);
+            }
+        }
+    }
 }

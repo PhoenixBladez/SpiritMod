@@ -10,13 +10,13 @@ namespace SpiritMod.Items.Weapon.Gun
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("The Cryoblaster");
-			Tooltip.SetDefault("Every sixth bullet shot out is a Cryolite Bullet that explodes upon hitting foes, inflicting 'Cryo Crush'\n'Cryo Crush' deals more damage the less life your enemies have left\nThis effect does not work on bosses, instead dealing a flat raate of damage");
+			Tooltip.SetDefault("Every sixth bullet shot out is a cryolite bullet that explodes upon hitting foes, inflicting 'Cryo Crush'\n'Cryo Crush' deals more damage the less life your enemies have left\nThis effect does not work on bosses, instead dealing a flat raate of damage");
 		}
         int charger;
 
         public override void SetDefaults()
         {
-            item.damage = 18;
+            item.damage = 17;
             item.ranged = true;
             item.width = 28;
             item.height = 14;
@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Gun
             item.useTurn = false;
             item.value = Terraria.Item.sellPrice(0, 1, 32, 0);
             item.rare = 3;
-            item.UseSound = SoundID.Item11;
+            item.UseSound = SoundID.Item41;
             item.autoReuse = true;
             item.shoot = 10;
             item.shootSpeed = 8f;
@@ -40,6 +40,7 @@ namespace SpiritMod.Items.Weapon.Gun
             if (charger >= 6)
             {
                 {
+                    Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 20);
                     Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("CryoliteBullet"), damage, knockBack, player.whoAmI, 0f, 0f);
                 }
                 charger = 0;

@@ -43,7 +43,7 @@ namespace SpiritMod.Items.Weapon
 			int projectileFired = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.EyeFire, item.damage, item.knockBack, player.whoAmI);
 			Main.projectile[projectileFired].friendly = true;
 			Main.projectile[projectileFired].friendly = true;
-			Main.projectile[projectileFired].GetGlobalProjectile<SpiritGlobalProjectile>(mod).shotFromSpazLung = true;
+			Main.projectile[projectileFired].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromSpazLung = true;
 			Main.projectile[projectileFired].hostile = false;
 			Main.projectile[projectileFired].netUpdate = true;
 			return false;

@@ -1,4 +1,6 @@
-using System.Collections.Generic;
+using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,9 +12,10 @@ namespace SpiritMod.Items.Armor.FieryArmor
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Fiery Hood");
-			Tooltip.SetDefault("Increases throwing damage by 10%");
-		}
+			DisplayName.SetDefault("Slag Tyrant's Helm");
+			Tooltip.SetDefault("Increases minion damage by 6%\nIncreases your maximum number of sentries by 1");
+            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/FieryArmor/ObsidiusHelm_Glow");
+        }
 
         public override void SetDefaults()
         {
@@ -20,11 +23,16 @@ namespace SpiritMod.Items.Armor.FieryArmor
             item.height = 20;
             item.value = Terraria.Item.sellPrice(0, 0, 35, 0);
             item.rare = 3;
-            item.defense = 8;
+            item.defense = 5;
+        }
+        public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
+        {
+            glowMaskColor = Color.White;
         }
         public override void UpdateEquip(Player player)
         {
-            player.thrownDamage += 0.1f;
+            player.maxTurrets+= 1;
+            player.minionDamage += .06f;
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
@@ -40,12 +48,8 @@ namespace SpiritMod.Items.Armor.FieryArmor
         }
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Thrower attacks can burn foes and call fireballs to protect you";
+            player.setBonus = "Press 'down' to cause all sentries to release a burst of fireballs\n8 second cooldown";
             player.GetSpiritPlayer().fierySet = true;
-            if (Main.rand.Next(6) == 0)
-            {
-                int dust = Dust.NewDust(player.position, player.width, player.height, 6);
-            }
         }
     }
 }

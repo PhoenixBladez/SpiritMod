@@ -160,7 +160,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 				}
 				if (player.showItemIconText == chest)
 				{
-					player.showItemIcon2 = mod.ItemType("ExampleDresser");
+					player.showItemIcon2 = mod.ItemType("ReachDresser");
 					player.showItemIconText = "";
 				}
 			}
@@ -202,7 +202,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 				}
 				if (player.showItemIconText == chest)
 				{
-					player.showItemIcon2 = mod.ItemType("ExampleDresser");
+					player.showItemIcon2 = mod.ItemType("ReachDresser");
 					player.showItemIconText = "";
 				}
 			}

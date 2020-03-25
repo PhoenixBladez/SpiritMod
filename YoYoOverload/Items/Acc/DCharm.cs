@@ -9,8 +9,8 @@ namespace SpiritMod.YoYoOverload.Items.Acc
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Demonite Charm");
-			Tooltip.SetDefault("Increases melee critical strike chance by 5%");
+			DisplayName.SetDefault("Vile Charm");
+			Tooltip.SetDefault("Increases melee critical strike chance by 4%\nIncreases movement speed by 10%");
 		}
 
 
@@ -28,13 +28,15 @@ namespace SpiritMod.YoYoOverload.Items.Acc
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			player.meleeCrit += 5;
+            player.moveSpeed += .1f;
 		}
 
 		public override void AddRecipes()
 		{
 			ModRecipe modRecipe = new ModRecipe(base.mod);
-			modRecipe.AddIngredient(57, 8);
-			modRecipe.AddIngredient(85, 3);
+			modRecipe.AddIngredient(68, 8);
+            modRecipe.AddIngredient(86, 4);
+            modRecipe.AddIngredient(85, 3);
 			modRecipe.AddTile(16);
 			modRecipe.SetResult(this, 1);
 			modRecipe.AddRecipe();

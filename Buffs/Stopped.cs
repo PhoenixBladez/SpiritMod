@@ -15,7 +15,7 @@ namespace SpiritMod.Buffs
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-            npc.GetGlobalNPC<GNPC>(mod).Stopped = true;
+            npc.GetGlobalNPC<GNPC>().Stopped = true;
 
             if (!npc.boss)
             {

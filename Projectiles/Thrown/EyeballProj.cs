@@ -27,7 +27,7 @@ namespace SpiritMod.Projectiles.Thrown
 			projectile.friendly = true;
 
 			projectile.alpha = 0;
-			projectile.penetrate = 2;
+			projectile.penetrate = 3;
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)

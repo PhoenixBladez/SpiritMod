@@ -9,8 +9,8 @@ namespace SpiritMod.YoYoOverload.Items.Acc
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Necro Charm");
-			Tooltip.SetDefault("Reduces damage taken by 5%");
+			DisplayName.SetDefault("Marrow Pendant");
+			Tooltip.SetDefault("Reduces damage taken by 7%");
 		}
 
 
@@ -18,7 +18,8 @@ namespace SpiritMod.YoYoOverload.Items.Acc
 		{
 			base.item.width = 18;
 			base.item.height = 24;
-			base.item.rare = 1;
+			base.item.rare = 2;
+            item.defense = 2;
 			base.item.UseSound = SoundID.Item11;
 			base.item.accessory = true;
 			base.item.value = Item.buyPrice(0, 0, 30, 0);
@@ -27,13 +28,13 @@ namespace SpiritMod.YoYoOverload.Items.Acc
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			player.endurance += 0.05f;
+			player.endurance += 0.07f;
 		}
 
 		public override void AddRecipes()
 		{
 			ModRecipe modRecipe = new ModRecipe(base.mod);
-			modRecipe.AddIngredient(154, 20);
+			modRecipe.AddIngredient(154, 25);
 			modRecipe.AddIngredient(85, 3);
 			modRecipe.AddTile(16);
 			modRecipe.SetResult(this, 1);

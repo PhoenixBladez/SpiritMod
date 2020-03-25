@@ -10,8 +10,8 @@ namespace SpiritMod.Items.Weapon.Magic
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Firespark Staff");
-			Tooltip.SetDefault("Shoots a flame that shatters into flametrails.");
+			DisplayName.SetDefault("Flarespark Staff");
+			Tooltip.SetDefault("Summons a geyser a flame from the player");
 		}
 
 

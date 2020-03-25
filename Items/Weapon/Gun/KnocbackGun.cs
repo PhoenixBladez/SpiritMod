@@ -11,36 +11,31 @@ namespace SpiritMod.Items.Weapon.Gun
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Bullet Cannon");
-			Tooltip.SetDefault("Right click to shoot out slower, extremely powerful bullets");
+			DisplayName.SetDefault("Freeman");
+			Tooltip.SetDefault("Shoots a rocket that can be controlled by the cursor\n'The right man in the wrong place can make all the difference in the world'");
 		}
 
 		
         public override void SetDefaults()
         {
-            item.damage = 18;
+            item.damage = 29;
             item.ranged = true;
             item.width = 65;
             item.height = 21;
-            item.useTime = 20;
-            item.useAnimation = 20;
+            item.useTime = 45;
+            item.useAnimation = 45;
 			item.useTurn = false;
             item.useStyle = 5;
             item.noMelee = true;
-            item.knockBack = 0;
+            item.knockBack = 7;
+            item.channel = true;
             item.value = Item.buyPrice(0, 11, 0, 0);
             item.rare = 3;
             item.UseSound = SoundID.Item36;
             item.autoReuse = true;
-            item.shoot = 10;
-            item.shootSpeed = 12f;
+            item.shoot = mod.ProjectileType("FreemanRocket");
+            item.shootSpeed = 6f;
             item.useAmmo = AmmoID.Bullet;
-        }
-
-        public override bool AltFunctionUse(Player player)
-        {
-			player.itemAnimation = 1;
-			return true;
         }
 
         public override Vector2? HoldoutOffset()
@@ -50,18 +45,9 @@ namespace SpiritMod.Items.Weapon.Gun
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (player.altFunctionUse == 2)
-            {
-				player.itemTime += 50;
-				player.itemAnimation += 50;
-				player.itemAnimationMax += 50;
-				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, 242, (int)(damage * 1.6f), knockBack + 10f, player.whoAmI);
-            }
-            else
-            {
-				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
-            }
-            return false;
+            Main.PlaySound(SoundLoader.customSoundType, player.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/CoilRocket"));
+            type = mod.ProjectileType("FreemanRocket");
+            return true;
         }
     }
 }

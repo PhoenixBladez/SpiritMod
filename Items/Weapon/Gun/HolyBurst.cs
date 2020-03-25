@@ -4,6 +4,7 @@ using Terraria.ID;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
+using SpiritMod.Projectiles;
 
 namespace SpiritMod.Items.Weapon.Gun
 {
@@ -13,28 +14,28 @@ namespace SpiritMod.Items.Weapon.Gun
         private Vector2 newVect;
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Holy Burst");
-			Tooltip.SetDefault("Fires three crystal rounds in rapid succession");
+			DisplayName.SetDefault("Maelstrom");
+			Tooltip.SetDefault("Bullets shot are surrounded in angelic energy\nBullets shot inflict 'Angel's Light', a stacking debuff\nIf enemies receive three stacks, holy light rains down upon them\nStacks last for 1 second");
 		}
 
         public override void SetDefaults()
         {
-            item.damage = 26;  
+            item.damage = 29;  
             item.ranged = true;   
             item.width = 50;     
             item.height = 28;    
-            item.useTime = 10;
-            item.useAnimation = 30;
+            item.useTime = 7;
+            item.useAnimation = 21;
             item.useStyle = 5;    
             item.noMelee = true; 
-            item.knockBack = 0.4f;
+            item.knockBack = 0.7f;
             item.useTurn = false;
             item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
             item.rare = 5;
 			item.UseSound = SoundID.Item31;
-            item.autoReuse = true;
+            item.autoReuse = false;
             item.shoot = 89; 
-            item.shootSpeed = 11f;
+            item.shootSpeed = .02f;
             item.useAmmo = AmmoID.Bullet;
         }
         public override Vector2? HoldoutOffset()
@@ -43,11 +44,15 @@ namespace SpiritMod.Items.Weapon.Gun
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        { 
         {
-            int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, 89, damage, knockBack, player.whoAmI);
-        }
-			return false;
+            Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 45f;
+            if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
+            {
+                position += muzzleOffset;
+            }
+            int p = Projectile.NewProjectile(position.X, position.Y, speedX/1.75f, speedY/1.75f, type, damage, knockBack, player.whoAmI);
+            Main.projectile[p].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromHolyBurst = true;
+            return false;
         }
         public override void AddRecipes()
         {

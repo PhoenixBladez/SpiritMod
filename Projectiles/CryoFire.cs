@@ -19,7 +19,7 @@ namespace SpiritMod.Projectiles
 			projectile.width = 80;
 			projectile.timeLeft = 20;
 			projectile.height = 80;
-			projectile.penetrate = -1;
+			projectile.penetrate = 5;
 			projectile.ignoreWater = true;
 			projectile.alpha = 255;
 			projectile.tileCollide = false;

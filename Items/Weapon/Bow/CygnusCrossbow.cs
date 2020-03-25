@@ -46,7 +46,7 @@ namespace SpiritMod.Items.Weapon.Bow
 			for (int I = 0; I < 2; I++)
 			{
 				int p = Projectile.NewProjectile(position.X, position.Y, speedX * (Main.rand.Next(400, 800) / 90), speedY * (Main.rand.Next(400, 800) / 90), mod.ProjectileType("TwilightArrow"), damage, knockBack, player.whoAmI);
-				Main.projectile[p].GetGlobalProjectile<SpiritGlobalProjectile>(mod).shotFromStellarCrosbow = true;
+				Main.projectile[p].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromStellarCrosbow = true;
 			}
 
 			return false;

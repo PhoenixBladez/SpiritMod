@@ -14,7 +14,7 @@ namespace SpiritMod.Tiles.Block
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;  //true for block to emit light
 			Main.tileLighted[Type] = true;
-			drop = mod.ItemType("MarbleChunk");   //put your CustomBlock name
+            drop = mod.ItemType("MarbleChunk");   //put your CustomBlock name
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Enchanted Marble Chunk");
 			AddMapEntry(new Color(227, 191, 75), name);

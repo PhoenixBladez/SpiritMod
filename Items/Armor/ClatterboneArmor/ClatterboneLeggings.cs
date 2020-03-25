@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Armor.ClatterboneArmor
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Clatterbone Leggings");
+			DisplayName.SetDefault("Clatterbone Greaves");
 			Tooltip.SetDefault("Increases melee speed by 5%");
 		}
         public override void SetDefaults()

@@ -59,7 +59,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
 			TileID.Sets.HousingWalls[Type] = true; //needed for non-solid blocks to count as walls
 			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Spirit Door");
+			name.SetDefault("Reach Door");
 			AddMapEntry(new Color(80, 220, 50), name);
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.OpenDoor };

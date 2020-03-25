@@ -17,7 +17,7 @@ namespace SpiritMod.Buffs
         {
             if (!npc.boss)
             {
-                npc.GetGlobalNPC<GNPC>(mod).vineTrap = true;
+                npc.GetGlobalNPC<GNPC>().vineTrap = true;
                 npc.velocity.X *= .75f;
 
                 if (Main.rand.NextBool(2))

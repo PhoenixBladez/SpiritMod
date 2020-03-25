@@ -12,7 +12,6 @@ namespace SpiritMod.Projectiles.Summon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Overgrowth");
-			Main.projFrames[base.projectile.type] = 4;
 			ProjectileID.Sets.MinionSacrificable[base.projectile.type] = true;
 		}
 
@@ -33,16 +32,6 @@ namespace SpiritMod.Projectiles.Summon
 
 		public override void AI()
 		{
-			projectile.frameCounter++;
-			if (projectile.frameCounter > 4)
-			{
-				projectile.frame++;
-				projectile.frameCounter = 0;
-			}
-			if (projectile.frame > 3)
-			{
-				projectile.frame = 0;
-			}
 
 			bool flag64 = projectile.type == mod.ProjectileType("Overgrowth");
 			Player player = Main.player[projectile.owner];

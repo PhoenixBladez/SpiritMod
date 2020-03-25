@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Weapon.Magic
         {
             item.damage = 24;
             item.magic = true;
-            item.mana = 13;
+            item.mana = 9;
             item.width = 46;
             item.height = 46;
             item.useTime = 27;
@@ -29,11 +29,11 @@ namespace SpiritMod.Items.Weapon.Magic
             item.useStyle = 5;
             Item.staff[item.type] = true;
             item.noMelee = true;
-            item.knockBack = 3.5f;
+            item.knockBack = 4.5f;
             item.useTurn = false;
             item.value = Terraria.Item.sellPrice(0, 1, 50, 0);
             item.rare = 3;
-            item.UseSound = SoundID.Item49;
+            item.UseSound = SoundID.Item20;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("CryoliteMage");
             item.shootSpeed = 8f;
@@ -44,15 +44,15 @@ namespace SpiritMod.Items.Weapon.Magic
             if(Main.rand.Next(4) == 0)
             {
                 Vector2 origVect = new Vector2(speedX, speedY);
-                for (int X = 0; X < 4; X++)
+                for (int X = 0; X < 3; X++)
                 {
                     if (Main.rand.Next(2) == 1)
                     {
-                        newVect = origVect.RotatedBy(System.Math.PI / (Main.rand.Next(192, 1400) / 10));
+                        newVect = origVect.RotatedBy(System.Math.PI / (Main.rand.Next(300, 500) / 10));
                     }
                     else
                     {
-                        newVect = origVect.RotatedBy(-System.Math.PI / (Main.rand.Next(192, 1300) / 10));
+                        newVect = origVect.RotatedBy(-System.Math.PI / (Main.rand.Next(300, 500) / 10));
                     }
                     Projectile proj = Main.projectile[Projectile.NewProjectile(position.X, position.Y, newVect.X, newVect.Y, type, damage, knockBack, player.whoAmI)];
                     proj.friendly = true;

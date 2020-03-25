@@ -16,7 +16,7 @@ namespace SpiritMod.Buffs.Artifact
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			npc.GetGlobalNPC<GNPC>(mod).necrosis = true;
+			npc.GetGlobalNPC<GNPC>().necrosis = true;
 
 			if (Main.rand.NextBool(6))
 			{

@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Armor.GraniteArmor
@@ -11,7 +13,7 @@ namespace SpiritMod.Items.Armor.GraniteArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Granite Breastplate");
-            Tooltip.SetDefault("Reduces movement speed by 15%");
+            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/GraniteArmor/GraniteBody_Glow");
 
         }
 
@@ -21,11 +23,11 @@ namespace SpiritMod.Items.Armor.GraniteArmor
             item.height = 24;
             item.value = 1100;
             item.rare = 2;
-            item.defense = 12;
+            item.defense = 10;
         }
-        public override void UpdateEquip(Player player)
+        public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
         {
-            player.maxRunSpeed -= 0.15f;
+            glowMaskColor = Color.White;
         }
         public override void AddRecipes()
         {

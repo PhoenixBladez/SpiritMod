@@ -32,8 +32,17 @@ namespace SpiritMod.Projectiles.Bullet
 		public override void AI()
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-
-			for (int i = 0; i < 10; i++)
+            {
+                int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 68, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 180, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Main.dust[dust].noGravity = true;
+                Main.dust[dust2].noGravity = true;
+                Main.dust[dust2].velocity *= 0.6f;
+                Main.dust[dust2].velocity *= 0.1f;
+                Main.dust[dust2].scale = 1.2f;
+                Main.dust[dust].scale = .8f;
+            }
+            for (int i = 0; i < 4; i++)
 			{
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
@@ -51,7 +60,8 @@ namespace SpiritMod.Projectiles.Bullet
 
 		public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(projectile.Center, Vector2.Zero,
+            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+            Projectile.NewProjectile(projectile.Center, Vector2.Zero,
 				CryoFire._type, projectile.damage, projectile.knockBack, projectile.owner);
 
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
@@ -64,7 +74,7 @@ namespace SpiritMod.Projectiles.Bullet
 			for (int num621 = 0; num621 < 20; num621++)
 			{
 				int num622 = Dust.NewDust(projectile.position, projectile.width, projectile.height,
-					68, 0f, 0f, 100, default(Color), 2f);
+					68, 0f, 0f, 100, default(Color), 1f);
 				Main.dust[num622].velocity *= 3f;
 				if (Main.rand.Next(2) == 0)
 				{
@@ -75,11 +85,11 @@ namespace SpiritMod.Projectiles.Bullet
 			for (int num623 = 0; num623 < 40; num623++)
 			{
 				int num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height,
-					68, 0f, 0f, 100, default(Color), 3f);
+					68, 0f, 0f, 100, default(Color), 1f);
 				Main.dust[num624].noGravity = true;
 				Main.dust[num624].velocity *= 5f;
 				num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height,
-					68, 0f, 0f, 100, default(Color), 2f);
+					68, 0f, 0f, 100, default(Color), 1f);
 				Main.dust[num624].velocity *= 2f;
 			}
 		}

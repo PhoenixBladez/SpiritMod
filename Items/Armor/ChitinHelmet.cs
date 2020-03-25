@@ -38,12 +38,12 @@ namespace SpiritMod.Items.Armor
            }
            player.moveSpeed += .18f;
            player.maxRunSpeed += .25f;
-             if (player.velocity.X != 0f)
-                {
-                    int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 0, 0);
-                    Main.dust[dust].velocity *= 0f;
-                    Main.dust[dust].noGravity = true;     
-                }   
+            if (player.velocity.X != 0f)
+            {
+                int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 0, 0);
+                Main.dust[dust].velocity *= 0f;
+                Main.dust[dust].noGravity = true;
+            }
 
         }
         public override void ArmorSetShadows(Player player)

@@ -10,16 +10,16 @@ namespace SpiritMod.Items.Weapon.Magic
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Putrid Staff");
-			Tooltip.SetDefault("Shoots rapidfire diseased spit.");
+			DisplayName.SetDefault("Vile Wand");
+			Tooltip.SetDefault("Shoots clumps of diseased spit\nKilling enemies with diseased spit releases homing eaters");
 		}
 
 
         public override void SetDefaults()
         {
-            item.damage = 14;
+            item.damage = 15;
             item.magic = true;
-            item.mana = 8;
+            item.mana = 9;
             item.width = 38;
             item.height = 38;
             item.useTime = 24;
@@ -27,13 +27,22 @@ namespace SpiritMod.Items.Weapon.Magic
             item.useStyle = 5;
             Item.staff[item.type] = true;
             item.noMelee = true;
-            item.knockBack = 3;
-            item.value = 20000;
-            item.rare = 2;
+            item.knockBack = 4;
+            item.value = Terraria.Item.sellPrice(0, 0, 8, 0);
+            item.rare = 1;
             item.UseSound = SoundID.Item20;
             item.autoReuse = false;
             item.shoot = mod.ProjectileType("Spit");
-            item.shootSpeed = 20f;
+            item.shootSpeed = 12f;
+        }
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 45f;
+            if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
+            {
+                position += muzzleOffset;
+            }
+            return true;
         }
         public override void AddRecipes()
         {

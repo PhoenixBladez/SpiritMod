@@ -29,16 +29,19 @@ namespace SpiritMod.Projectiles
 		public bool shotFromGaruda = false;
 		public bool shotFromClatterBow = false;
 		public bool shotFromThornBow = false;
-		public bool shotFromPalmSword = false;
+        public bool shotFromNightSky = false;
+        public bool shotFromPalmSword = false;
 		public bool shotFromGeodeBow = false;
 		public bool shotFromSpazLung = false;
 		public bool shotFromCoralBow = false;
-		public bool HeroBow1 = false;
+        public bool shotFromHolyBurst = false;
+        public bool shotFromTrueHolyBurst = false;
+        public bool HeroBow1 = false;
 		public bool HeroBow2 = false;
 		public bool HeroBow3 = false;
 		public bool shotFromMarbleBow;
-
-		public override bool PreAI(Projectile projectile)
+        public float counter = -1440;
+        public override bool PreAI(Projectile projectile)
 		{
 			if (WitherLeaf == true)
 			{
@@ -136,7 +139,21 @@ namespace SpiritMod.Projectiles
 					return true;
 				}
 			}
+            if (shotFromNightSky)
+            {
+                Vector2 position = projectile.Center + Vector2.Normalize(projectile.velocity) * 6;
 
+                Dust newDust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 206, 0f, 0f, 0, default(Color), 1.1f)];
+                newDust.position = position;
+                newDust.velocity = projectile.velocity.RotatedBy(Math.PI / 2, default(Vector2)) * 0.33F + projectile.velocity / 6;
+                newDust.position += projectile.velocity.RotatedBy(Math.PI / 2, default(Vector2));
+                newDust.noGravity = true;
+                newDust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 206, 0f, 0f, 0, default(Color), 1.1f)];
+                newDust.position = position;
+                newDust.velocity = projectile.velocity.RotatedBy(-Math.PI / 2, default(Vector2)) * 0.33F + projectile.velocity / 6;
+                newDust.position += projectile.velocity.RotatedBy(-Math.PI / 2, default(Vector2));
+                newDust.noGravity = true;
+            }
 			if (shotFromStellarCrosbow == true)
 			{
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
@@ -144,73 +161,92 @@ namespace SpiritMod.Projectiles
 					Dust.NewDust(projectile.position, projectile.width, projectile.height, 133);
 				return false;
 			}
-			else if (shotFromBloodshot == true)
-			{
-				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				if (Main.rand.Next(2) == 0)
-					Dust.NewDust(projectile.position, projectile.width, projectile.height, 5);
-				return false;
-			}
-			else if (shotFromGeodeBow == true)
-			{
-				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6);
-				int dust1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 135);
-				int dust2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 75);
-				Main.dust[dust].noGravity = true;
-				Main.dust[dust].velocity *= 0f;
-				Main.dust[dust].scale = 1.2f;
-				Main.dust[dust1].noGravity = true;
-				Main.dust[dust1].velocity *= 0f;
-				Main.dust[dust1].scale = 1.2f;
-				Main.dust[dust2].noGravity = true;
-				Main.dust[dust2].velocity *= 0f;
-				Main.dust[dust2].scale = 1.2f;
-				return false;
-			}
-			else if (shotFromClatterBow == true)
-			{
-				projectile.magic = false;
-				projectile.ranged = true;
+            if (shotFromHolyBurst == true || shotFromTrueHolyBurst == true)
+            {
+                counter++;
+                if (counter >= 1440)
+                {
+                    counter = -1440;
+                }
+                for (int i = 0; i < 6; i++)
+                {
+                    float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
+                    float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 
-				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				int num = 5;
-				for (int k = 0; k < 3; k++)
-				{
-					int index2 = Dust.NewDust(projectile.position, 1, 1, 147, 0.0f, 0.0f, 0, new Color(), 1f);
-					Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
-					Main.dust[index2].scale = .5f;
-					Main.dust[index2].velocity *= 0f;
-					Main.dust[index2].noGravity = true;
-					Main.dust[index2].noLight = false;	
-				}	
-			}
-			else if (shotFromCoralBow == true)
-			{
-				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height - 10, 172, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-				int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height - 10, 172, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-				Main.dust[dust].noGravity = true;
-				Main.dust[dust2].noGravity = true;
-				Main.dust[dust2].velocity *= 0f;
-				Main.dust[dust2].velocity *= 0f;
-				Main.dust[dust2].scale = 1.2f;
-				Main.dust[dust].scale = 1.2f;
-				return false;
-			}
-			else if (shotFromMarbleBow == true)
-			{
-				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height - 10, DustID.GoldCoin, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-				int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height - 10, 236, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-				Main.dust[dust].noGravity = true;
-				Main.dust[dust2].noGravity = true;
-				Main.dust[dust2].velocity *= 0f;
-				Main.dust[dust2].velocity *= 0f;
-				Main.dust[dust2].scale = .5f;
-				Main.dust[dust].scale = 2f;
-				return false;
-			}
+                    int num = Dust.NewDust(projectile.Center + new Vector2(0, (float)Math.Cos(counter / 8.2f) * 9.2f).RotatedBy(projectile.rotation), 6, 6, 112, 0f, 0f, 0, default(Color), 1f);
+                    Main.dust[num].velocity *= .1f;
+                    Main.dust[num].scale *= .7f;
+                    Main.dust[num].noGravity = true;
+
+                }
+                for (int f = 0; f < 6; f++)
+                {
+                    float x = projectile.Center.X - projectile.velocity.X / 10f * (float)f;
+                    float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)f;
+
+                    int num = Dust.NewDust(projectile.Center - new Vector2(0, (float)Math.Cos(counter / 8.2f) * 9.2f).RotatedBy(projectile.rotation), 6, 6, 112, 0f, 0f, 0, default(Color), 1f);
+                    Main.dust[num].velocity *= .1f;
+                    Main.dust[num].scale *= .7f;
+                    Main.dust[num].noGravity = true;
+
+                }
+                return false;
+            }
+
+            else if (shotFromBloodshot == true)
+            {
+                projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+                if (Main.rand.Next(2) == 0)
+                    Dust.NewDust(projectile.position, projectile.width, projectile.height, 5);
+                return false;
+            }
+            else if (shotFromGeodeBow == true)
+            {
+                projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+                int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6);
+                int dust1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 135);
+                int dust2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 75);
+                Main.dust[dust].noGravity = true;
+                Main.dust[dust].velocity *= 0f;
+                Main.dust[dust].scale = 1.2f;
+                Main.dust[dust1].noGravity = true;
+                Main.dust[dust1].velocity *= 0f;
+                Main.dust[dust1].scale = 1.2f;
+                Main.dust[dust2].noGravity = true;
+                Main.dust[dust2].velocity *= 0f;
+                Main.dust[dust2].scale = 1.2f;
+                return false;
+            }
+            else if (shotFromClatterBow == true)
+            {
+                projectile.magic = false;
+                projectile.ranged = true;
+
+                projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+                int num = 5;
+                for (int k = 0; k < 3; k++)
+                {
+                    int index2 = Dust.NewDust(projectile.position, 1, 1, 147, 0.0f, 0.0f, 0, new Color(), 1f);
+                    Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
+                    Main.dust[index2].scale = .5f;
+                    Main.dust[index2].velocity *= 0f;
+                    Main.dust[index2].noGravity = true;
+                    Main.dust[index2].noLight = false;
+                }
+            }
+            else if (shotFromMarbleBow == true)
+            {
+                projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+                int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height - 10, DustID.GoldCoin, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height - 10, 236, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Main.dust[dust].noGravity = true;
+                Main.dust[dust2].noGravity = true;
+                Main.dust[dust2].velocity *= 0f;
+                Main.dust[dust2].velocity *= 0f;
+                Main.dust[dust2].scale = .5f;
+                Main.dust[dust].scale = 2f;
+                return false;
+            }
 			return base.PreAI(projectile);
 		}
 
@@ -218,12 +254,28 @@ namespace SpiritMod.Projectiles
 		{
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-
-			if (shotFromStellarCrosbow == true)
+            if (shotFromCoralBow && Main.rand.Next(2) == 0)
+            {
+                target.StrikeNPC(projectile.damage/4, 0f, 0, crit);
+                for (int k = 0; k < 20; k++)
+                {
+                    Dust.NewDust(target.position, target.width, target.height, 225, 2.5f * projectile.direction, -2.5f, 0, Color.White, 0.7f);
+                    Dust.NewDust(target.position, target.width, target.height, 225, 2.5f * projectile.direction, -2.5f, 0, default(Color), .34f);
+                }
+            }
+            if (shotFromStellarCrosbow == true)
 			{
 				target.AddBuff(mod.BuffType("StarFracture"), 300);
 			}
-			else if (shotFromPalmSword == true)
+            if (shotFromHolyBurst == true)
+            {
+                target.AddBuff(mod.BuffType("AngelLight"), 60);
+            }
+            if (shotFromTrueHolyBurst == true)
+            {
+                target.AddBuff(mod.BuffType("AngelWrath"), 60);
+            }
+            else if (shotFromPalmSword == true)
 			{
 				target.AddBuff(BuffID.Poisoned, 300);
 			}
@@ -239,15 +291,15 @@ namespace SpiritMod.Projectiles
 			{
 				target.AddBuff(mod.BuffType("ClatterPierce"), 120);
 			}
-			else if (shotFromCoralBow == true && Main.rand.Next(10) == 0)
-			{
-				target.AddBuff(mod.BuffType("TidalEbb"), 360);
-			}
 			else if (shotFromCookieCutter == true)
 			{
 				player.AddBuff(mod.BuffType("CrimsonRegen"), 179);
 			}
-			else if (shotFromThornBow == true && Main.rand.Next(4) == 0)
+            else if (shotFromNightSky == true && Main.rand.Next(5) == 0)
+            {
+                target.AddBuff(mod.BuffType("StarFlame"), 179);
+            }
+            else if (shotFromThornBow == true && Main.rand.Next(4) == 0)
 			{
 				int n = Main.rand.Next(5, 6);
 				int deviation = Main.rand.Next(0, 300);

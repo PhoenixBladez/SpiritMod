@@ -20,11 +20,14 @@ namespace SpiritMod.NPCs
 		public int fireStacks;
 		public int nebulaFlameStacks;
 		public int GhostJellyStacks;
-		public int titanicSetStacks;
+        public int angelLightStacks;
+        public int angelWrathStacks;
+        public int titanicSetStacks;
 		public int duneSetStacks;
 		public int acidBurnStacks;
 		public bool vineTrap = false;
 		public bool clatterPierce = false;
+        public bool tracked = false;
 		//Glyphs
 		public bool voidInfluence;
 		public int voidStacks;
@@ -105,6 +108,7 @@ namespace SpiritMod.NPCs
 			moonBurn = false;
 			sunBurn = false;
 			blaze = false;
+            tracked = false;
 			iceCrush = false;
 			blaze1 = false;
 			felBrand = false;
@@ -150,7 +154,25 @@ namespace SpiritMod.NPCs
 					NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, mod.NPCType("Martian"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
 				}
 			}
-			if (npc.life <= 0 && npc.FindBuffIndex(mod.BuffType("WanderingPlague")) >= 0)
+            if (npc.type == NPCID.GraniteFlyer && NPC.downedBoss2 && Main.netMode != 1 && npc.life <= 0 && Main.rand.Next(2) == 0)
+            {
+                Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
+                {
+                    for (int i = 0; i < 20; i++)
+                    {
+                        int num = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, -2f, 0, default(Color), 2f);
+                        Main.dust[num].noGravity = true;
+                        Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+                        Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
+                        Main.dust[num].scale *= .25f;
+                        if (Main.dust[num].position != npc.Center)
+                            Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
+                    }
+                    Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
+                    NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, mod.NPCType("GraniteCore"));
+                }
+            }
+            if (npc.life <= 0 && npc.FindBuffIndex(mod.BuffType("WanderingPlague")) >= 0)
 				UnholyGlyph.ReleasePoisonClouds(npc, 0);
 		}
 
@@ -160,9 +182,24 @@ namespace SpiritMod.NPCs
 			bool drain = false;
 			bool noDamage = damage <= 1;
 			int damageBefore = damage;
-
-			#region Iriazul
-			if (fireStacks > 0)
+            if (angelLightStacks > 0)
+            {
+                if (npc.FindBuffIndex(mod.BuffType("AngelLight")) < 0)
+                {
+                    angelLightStacks = 0;
+                    return;
+                }
+            }
+            if (angelWrathStacks > 0)
+            {
+                if (npc.FindBuffIndex(mod.BuffType("AngelWrath")) < 0)
+                {
+                    angelWrathStacks = 0;
+                    return;
+                }
+            }
+            #region Iriazul
+            if (fireStacks > 0)
 			{
 				if (npc.FindBuffIndex(mod.BuffType("StackingFireBuff")) < 0)
 				{
@@ -999,14 +1036,6 @@ namespace SpiritMod.NPCs
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BallOfFlesh"));
 			}
-			if (npc.type == NPCID.DD2DrakinT2 && Main.rand.Next(25) == 1)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DrakinTeeth"));
-			}
-			if (npc.type == NPCID.WalkingAntlion && Main.rand.Next(50) == 1)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AntlionIdol"));
-			}
 			if (npc.type == 120 && Main.rand.Next(50) == 1)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ChaosCrystal"));
@@ -1199,10 +1228,7 @@ namespace SpiritMod.NPCs
 			}
 			if (npc.type == NPCID.EyeofCthulhu && Main.rand.Next(5) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Eyeshot"));
-
-			if (npc.type == NPCID.BloodZombie && Main.rand.Next(25) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BZombieArm"));
-
+			
 			if (npc.type == 508 && Main.rand.Next(60) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AntlionClaws"));
 
@@ -1392,7 +1418,11 @@ namespace SpiritMod.NPCs
 			{	
 				drawColor = new Color(115, 80, 57);
 			}
-		}
+            if (tracked)
+            {
+                drawColor = new Color(135, 245, 76);
+            }
+        }
 
 	}
 }

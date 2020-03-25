@@ -17,11 +17,10 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			Main.tileNoAttach[Type] = true;
 			Main.tileLavaDeath[Type] = true;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
-			TileObjectData.newTile.Height = 5;
+			TileObjectData.newTile.Height = 4;
 			TileObjectData.newTile.Width = 3;
 			TileObjectData.newTile.CoordinateHeights = new int[]
 			{
-				16,
 				16,
 				16,
 				16,

@@ -16,7 +16,7 @@ namespace SpiritMod.Buffs
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			npc.GetGlobalNPC<GNPC>(mod).afflicted = true;
+			npc.GetGlobalNPC<GNPC>().afflicted = true;
             npc.defense -= 5;
             npc.velocity.X *= 0.95f;
             npc.velocity.Y *= 0.95f;

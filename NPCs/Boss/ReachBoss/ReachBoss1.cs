@@ -38,8 +38,8 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			npc.npcSlots = 10;
 			npc.defense = 5;
 			bossBag = mod.ItemType("ReachBossBag");
-			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/reach_boss (2)");
-			npc.buffImmune[20] = true;
+            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/ReachBoss");
+            npc.buffImmune[20] = true;
 			npc.buffImmune[31] = true;
 			npc.buffImmune[70] = true;
 

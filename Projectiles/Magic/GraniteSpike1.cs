@@ -17,22 +17,27 @@ namespace SpiritMod.Projectiles.Magic
 		public override void SetDefaults()
 		{
 			projectile.friendly = true;
-			projectile.magic = true;
-			projectile.width = 14;
-			projectile.height = 26;
+			projectile.width = 10;
+			projectile.height = 10;
 			projectile.penetrate = 3;
 			projectile.timeLeft = 120;
 			projectile.alpha = 255;
 		}
 
 		public override bool PreAI()
-		{
-			int dust = Dust.NewDust(projectile.position + projectile.velocity,
-				projectile.width, projectile.height, 187);
-			Main.dust[dust].scale = 1.5f;
-			Main.dust[dust].velocity *= 0f;
-			Main.dust[dust].noGravity = true;
-			projectile.velocity.Y += projectile.ai[0];
+        {
+            for (int index1 = 0; index1 < 9; ++index1)
+            {
+                float num1 = projectile.velocity.X * 0.2f * (float)index1;
+                float num2 = projectile.velocity.Y * -0.200000002980232f * index1;
+                int index2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 226, 0.0f, 0.0f, 100, new Color(), 1.3f);
+                Main.dust[index2].noGravity = true;
+                Main.dust[index2].velocity *= 0.0f;
+                Main.dust[index2].scale = .425f;
+                Main.dust[index2].position.X -= num1;
+                Main.dust[index2].position.Y -= num2;
+            }
+            projectile.velocity.Y += projectile.ai[0];
 			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
 
 			projectile.frameCounter++;
@@ -66,12 +71,6 @@ namespace SpiritMod.Projectiles.Magic
 				Main.projectile[proj].hostile = false;
 				Main.projectile[proj].velocity *= 4f;
 			}
-		}
-
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			if (crit)
-				target.AddBuff(mod.BuffType("EnergyFlux"), 240);
 		}
 
 	}

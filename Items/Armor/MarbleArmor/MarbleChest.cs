@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.MarbleArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Marble Guard");
-            Tooltip.SetDefault("Increases critical strike chance by 4%\nIncreases movement speed by 5%");
+            Tooltip.SetDefault("");
 
         }
         public override void SetDefaults()
@@ -20,15 +20,10 @@ namespace SpiritMod.Items.Armor.MarbleArmor
             item.height = 24;
             item.value = 12100;
             item.rare = 2;
-            item.defense = 4;
+            item.defense = 5;
         }
         public override void UpdateEquip(Player player)
         {
-            player.meleeCrit += 4;
-            player.rangedCrit += 4;
-            player.magicCrit += 4;
-            player.thrownCrit += 4;
-            player.maxRunSpeed += 0.05f;
         }
 
         public override void AddRecipes()

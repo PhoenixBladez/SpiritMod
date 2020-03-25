@@ -17,7 +17,7 @@ namespace SpiritMod.Buffs.Artifact
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			npc.GetGlobalNPC<GNPC>(mod).blaze1 = true;
+			npc.GetGlobalNPC<GNPC>().blaze1 = true;
 
 			int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.CopperCoin);
 			Main.dust[dust].scale = 5.9f;

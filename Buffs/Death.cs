@@ -18,7 +18,7 @@ namespace SpiritMod.Buffs
 		{
 			if (!npc.boss)
 			{
-				npc.GetGlobalNPC<GNPC>(mod).Death = true;
+				npc.GetGlobalNPC<GNPC>().Death = true;
 			}
 		}
 	}

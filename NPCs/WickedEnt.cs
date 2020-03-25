@@ -77,6 +77,10 @@ namespace SpiritMod.NPCs
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AncientBark"));
-		}
+            if (!Main.dayTime)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EnchantedLeaf"));
+            }
+        }
 	}
 }

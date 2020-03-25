@@ -21,7 +21,7 @@ namespace SpiritMod.Projectiles.Thrown
 		public override void SetDefaults()
 		{
 			projectile.width = 18;
-			projectile.height = 28;
+			projectile.height = 18;
 			projectile.aiStyle = 113;
 			projectile.friendly = true;
 			projectile.thrown = true;
@@ -39,7 +39,8 @@ namespace SpiritMod.Projectiles.Thrown
 
 			for (int i = 0; i < 5; i++)
 			{
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 180);
+				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 180);
+                Main.dust[d].scale = .5f;
 			}
 			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
 		}
@@ -48,7 +49,11 @@ namespace SpiritMod.Projectiles.Thrown
 		{
 			if (Main.rand.Next(4) == 0)
 				target.AddBuff(mod.BuffType("CryoCrush"), 240);
-		}
-
-	}
+        }
+        public override bool PreAI()
+        {
+            projectile.rotation += 0.1f;
+            return true;
+        }
+    }
 }

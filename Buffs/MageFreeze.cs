@@ -7,7 +7,7 @@ namespace SpiritMod.Buffs
 	{
 		public override void SetDefaults()
 		{
-            DisplayName.SetDefault("Freeze");
+            DisplayName.SetDefault("Chilly Grasp");
             Main.buffNoTimeDisplay[Type] = false;
 			Main.pvpBuff[Type] = false;
 		}
@@ -16,14 +16,19 @@ namespace SpiritMod.Buffs
 		{
 			if (npc.knockBackResist > 0f)
 			{
-				npc.velocity.X *= .9f;
+				npc.velocity.X *= .89f;
+                Player player = Main.LocalPlayer;
+                if (player.GetSpiritPlayer().cryoSet = true)
+                {
+                    npc.velocity.X *= .69f;
+                }
 
-				if (Main.rand.NextBool(5))
+                if (Main.rand.NextBool(5))
 				{
 					int dust = Dust.NewDust(npc.position, npc.width, npc.height, 172);
 					Main.dust[dust].noGravity = true;
 					Main.dust[dust].velocity *= 0f;
-					Main.dust[dust].scale *= 1.9f;
+					Main.dust[dust].scale *= 1.1f;
 				}
 			}
 		}

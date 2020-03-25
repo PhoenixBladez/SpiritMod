@@ -10,8 +10,8 @@ namespace SpiritMod.Items.Armor.CryoliteArmor
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Cryolite Leggings");
-			Tooltip.SetDefault("Increases ranged damage by 4% and movement speed by 8%");
+			DisplayName.SetDefault("Cryolite Greaves");
+			Tooltip.SetDefault("Increases melee speed by 9% and throwing damage by 10%");
 		}
 
         public override void SetDefaults()
@@ -20,13 +20,13 @@ namespace SpiritMod.Items.Armor.CryoliteArmor
             item.height = 26;
             item.value = 10000;
             item.rare = 3;
-            item.defense = 6;
+            item.defense = 7;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.rangedDamage += 0.05f;
-            player.moveSpeed += 0.08f;
+            player.meleeSpeed += .09f;
+            player.thrownDamage += .1f;
         }
         public override void AddRecipes()
         {

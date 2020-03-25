@@ -10,8 +10,8 @@ namespace SpiritMod.Items.Weapon.Magic
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Sea Spray");
-			Tooltip.SetDefault("Shoots a splitting bolt of aqua energy");
+			DisplayName.SetDefault("Skullspray Staff");
+			Tooltip.SetDefault("Summons a skull at the cursor position\nThe skull erupts into four bolts of energy");
 		}
 
 
@@ -22,18 +22,29 @@ namespace SpiritMod.Items.Weapon.Magic
             item.mana = 14;
             item.width = 42;
             item.height = 42;
-            item.useTime = 30;
-            item.useAnimation = 30;
+            item.useTime = 31;
+            item.useAnimation = 31;
             item.useStyle = 5;
             Item.staff[item.type] = true;
             item.noMelee = true;
-            item.knockBack = 5;
-            item.value = 20000;
-            item.rare = 3;
+            item.knockBack = 0;
+            item.value = Terraria.Item.sellPrice(0, 0, 8, 0);
+            item.rare = 2;
             item.UseSound = SoundID.Item20;
             item.autoReuse = false;
             item.shoot = mod.ProjectileType("AquaSphere");
             item.shootSpeed = 13f;
+        }
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            {
+                if (Main.myPlayer == player.whoAmI)
+                {
+                    Vector2 mouse = Main.MouseWorld;
+                    Projectile.NewProjectile(mouse.X, mouse.Y, 0, 0, mod.ProjectileType("AquaSphere"), damage, knockBack, player.whoAmI);
+                }
+            }
+            return false;
         }
     }
 }

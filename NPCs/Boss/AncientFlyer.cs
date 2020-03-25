@@ -163,7 +163,6 @@ namespace SpiritMod.NPCs.Boss
 					modPlayer.windEffect = true;
 				}
 				framenum = .4f;
-				if (!expertMode)
 				{
 					npc.velocity = Vector2.Zero;
 				}

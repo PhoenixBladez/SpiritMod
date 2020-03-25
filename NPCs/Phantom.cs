@@ -78,9 +78,9 @@ namespace SpiritMod.NPCs
 					npc.velocity.Y = moveSpeedY * 0.12f;
                     if (player.velocity.Y < 0)
                     {
-                        HomeY = -60f;
+                        HomeY = -100f;
                         trailbehind = true;
-                        npc.velocity.Y = moveSpeedY * 0.17f;
+                        npc.velocity.Y = moveSpeedY * 0.20f;
                         int d = Dust.NewDust(npc.position, npc.width, npc.height, 173, 0f, -2.5f, 0, default(Color), 0.6f);
                         if (!noise)
                         {

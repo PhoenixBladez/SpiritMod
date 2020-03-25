@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Weapon.Gun
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			int projectileFired = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, item.damage, item.knockBack, player.whoAmI);
-			Main.projectile[projectileFired].GetGlobalProjectile<SpiritGlobalProjectile>(mod).shotFromGaruda = true;
+			Main.projectile[projectileFired].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromGaruda = true;
 			return false;
 		}
 

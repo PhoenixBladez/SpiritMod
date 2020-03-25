@@ -10,16 +10,16 @@ namespace SpiritMod.Items.Weapon.Magic
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Thornball Staff");
-			Tooltip.SetDefault("Shoots a bouncing poisonous spore");
+			DisplayName.SetDefault("Rosevine Staff");
+			Tooltip.SetDefault("Shoots a bouncing mass of vines and flowers");
 		}
 
 
         public override void SetDefaults()
         {
-            item.damage = 19;
+            item.damage = 20;
             item.magic = true;
-            item.mana = 13;
+            item.mana = 9;
             item.width = 38;
             item.height = 38;
             item.useTime = 24;
@@ -27,9 +27,9 @@ namespace SpiritMod.Items.Weapon.Magic
             item.useStyle = 5;
             Item.staff[item.type] = true;
             item.noMelee = true;
-            item.knockBack = 4;
+            item.knockBack = 5;
             item.value = 20000;
-            item.rare = 3;
+            item.rare = 2;
             item.UseSound = SoundID.Item20;
             item.autoReuse = false;
             item.shoot = mod.ProjectileType("ThornSpike");

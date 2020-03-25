@@ -40,13 +40,13 @@ namespace SpiritMod.Items.Consumable
 		public override void RightClick(Player player)
 		{
 			int[] lootTable = {3033, 3033, 3033, 3033, 3033, 3033, 855, 855, 855, 905, 854, 854, 854, 854, 854, 854};
-								   int loot = Main.rand.Next(lootTable.Length);
+			 int loot = Main.rand.Next(lootTable.Length);
 			player.QuickSpawnItem(lootTable[loot]);
 			if (Main.rand.Next(4) > 0)
 			{
 			int[] lootTable2 = {19, 21, 705, 706};
-								   int loot2 = Main.rand.Next(lootTable2.Length);
-								   int Booty = Main.rand.Next(15,30);
+            int loot2 = Main.rand.Next(lootTable2.Length);
+			int Booty = Main.rand.Next(15,30);
 			for (int j = 0; j < Booty; j++)
 			{
 			player.QuickSpawnItem(lootTable2[loot2]);

@@ -17,7 +17,6 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			Main.tileFrameImportant[Type] = true;
 			Main.tileSolid[Type] = false;
 			Main.tileMergeDirt[Type] = true;
-			Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = true;
 			this.minPick = 15;
 			TileObjectData.newTile.Height = 9;

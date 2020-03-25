@@ -18,12 +18,10 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			Main.tileLavaDeath[Type] = true;
 			Main.tileLighted[Type] = true;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style1xX);
-			TileObjectData.newTile.Height = 5;
+			TileObjectData.newTile.Height = 3;
 			TileObjectData.newTile.Width = 1;
 			TileObjectData.newTile.CoordinateHeights = new int[]
 			{
-				16,
-				16,
 				16,
 				16,
 				16
@@ -33,7 +31,6 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Elderbark Lamp");
 			AddMapEntry(new Color(200, 200, 200), name);
-			dustType = mod.DustType("Pixel");
 		}
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)

@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.CryoliteArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cryolite Helmet");
-			Tooltip.SetDefault("Increases ranged damage by 6% and ranged critical strike chance by 4%");
+			Tooltip.SetDefault("Increases melee speed by 10% and throwing velocity by 12%");
 		}
 
         public override void SetDefaults()
@@ -29,14 +29,14 @@ namespace SpiritMod.Items.Armor.CryoliteArmor
         }
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Ranged attacks may freeze foes\nRanged attacks may deal extra ticks of damage to frozen foes\nThis effect does not apply to bosses";
+            player.setBonus = "Generates an icy aura that slows nearby enemies\nThis aura expands gradually, but resets if the player is hurt";
             player.GetSpiritPlayer().cryoSet = true;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.rangedDamage += 0.06f;
-            player.rangedCrit += 4;
+            player.meleeSpeed += 0.1f;
+            player.thrownVelocity += .12f;
         }
         public override void AddRecipes()
         {

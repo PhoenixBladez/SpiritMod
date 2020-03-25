@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Weapon.Bow
             item.rare = 2;
             item.UseSound = SoundID.Item5;
             item.autoReuse = false;
-            item.shootSpeed = 20f;
+            item.shootSpeed = 11f;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

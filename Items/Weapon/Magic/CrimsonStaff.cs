@@ -11,30 +11,29 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bloodletter");
-			Tooltip.SetDefault("Shoots Clusters of Blood");
+			Tooltip.SetDefault("Spurts a tentacle of blood from the player\nCritical hits steal a small amount of life");
 		}
 
 
         public override void SetDefaults()
         {
-            item.damage = 15;
+            item.damage = 14;
             item.magic = true;
-            item.mana = 9;
+            item.mana = 6;
             item.width = 36;
             item.height = 42;
-            item.useTime = 28;
-            item.useAnimation = 28;
+            item.useTime = 25;
+            item.useAnimation = 25;
             item.useStyle = 5;
             Item.staff[item.type] = true;
             item.noMelee = true;
-            item.knockBack = 5;
-            item.value = 20000;
-            item.rare = 2;
-            item.crit = 9;
+            item.knockBack = 2;
+            item.value = Terraria.Item.sellPrice(0, 0, 8, 0);
+            item.rare = 1;
             item.UseSound = SoundID.Item20;
             item.autoReuse = false;
             item.shoot = mod.ProjectileType("Blood");
-            item.shootSpeed = 13f;
+            item.shootSpeed = 7f;
         }
         public override void AddRecipes()
         {

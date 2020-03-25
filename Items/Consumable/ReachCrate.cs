@@ -1,0 +1,64 @@
+using System;
+
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace SpiritMod.Items.Consumable
+{
+    public class ReachCrate : ModItem
+    {
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Thorny Crate");
+			Tooltip.SetDefault("Right click to open");
+		}
+
+
+        public override void SetDefaults()
+        {
+            item.width = 20;
+            item.height = 20;
+            item.rare  = 2;
+			item.useStyle = 1;
+			item.createTile = mod.TileType("ReachCrate_Tile");
+            item.maxStack = 999;
+			item.autoReuse = true;
+			item.useAnimation = 15;
+			item.useTime = 10;
+			item.consumable = true;
+
+        }
+        public override bool CanRightClick()
+        {
+            return true;
+        }
+
+        public override void RightClick(Player player)
+        {
+            string[] lootTable = { "AncientBark", "EnchantedLeaf", "BismiteCrystal"};
+            int loot = Main.rand.Next(lootTable.Length);
+            player.QuickSpawnItem(mod.ItemType(lootTable[loot]), Main.rand.Next(3, 5));
+            {
+                int[] lootTable3 = { 2674, 2675 };
+                int loot3 = Main.rand.Next(lootTable3.Length);
+                int baitamt = Main.rand.Next(2, 6);
+                for (int j = 0; j < baitamt; j++)
+                {
+                    player.QuickSpawnItem(lootTable3[loot3]);
+                }
+            }
+            if (Main.rand.Next(2) == 0)
+            {
+                int[] lootTable2 = { 19, 20, 21, 22 };
+                int loot2 = Main.rand.Next(lootTable2.Length);
+                int oreamt = Main.rand.Next(5, 9);
+                for (int j = 0; j < oreamt; j++)
+                {
+                    player.QuickSpawnItem(lootTable2[loot2]);
+                }
+            }
+            player.QuickSpawnItem(72, Main.rand.Next(7, 16));
+        }
+    }
+}

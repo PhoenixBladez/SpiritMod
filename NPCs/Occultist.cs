@@ -36,12 +36,6 @@ namespace SpiritMod.NPCs
 			npc.chaseable = false;
 			npc.lavaImmune = true;
 		}
-
-		public override void NPCLoot()
-		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Bloodfire"));
-		}
-        int bloodzombs;
 		public override bool PreAI()
 		{
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.46f, 0.12f, .64f);
@@ -140,16 +134,34 @@ namespace SpiritMod.NPCs
                         {
                             for (int z = 0; z <= Main.rand.Next(1, 4); z++)
                             {
-                                int p = NPC.NewNPC((int)Main.player[npc.target].position.X + Main.rand.Next(-200, 200), (int)Main.player[npc.target].position.Y + Main.rand.Next(-200, -100), NPCID.BloodZombie, 0, 0, 0, 0, 0, 255);
-                                for (int i = 0; i < 10; i++)
+                                if (Main.rand.Next(4) == 0)
                                 {
-                                    int num = Dust.NewDust(Main.npc[p].position, Main.npc[p].width, Main.npc[p].height, 173, 0f, -2f, 0, default(Color), 2f);
-                                    Main.dust[num].noGravity = true;
-                                    Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-                                    Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-                                    if (Main.dust[num].position != Main.npc[p].Center)
+                                    int p = NPC.NewNPC((int)Main.player[npc.target].position.X + Main.rand.Next(-200, 200), (int)Main.player[npc.target].position.Y + Main.rand.Next(-200, -100), NPCID.BloodZombie, 0, 0, 0, 0, 0, 255);
+                                    for (int i = 0; i < 10; i++)
                                     {
-                                        Main.dust[num].velocity = Main.npc[p].DirectionTo(Main.dust[num].position) * 6f;
+                                        int num = Dust.NewDust(Main.npc[p].position, Main.npc[p].width, Main.npc[p].height, 173, 0f, -2f, 0, default(Color), 2f);
+                                        Main.dust[num].noGravity = true;
+                                        Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+                                        Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+                                        if (Main.dust[num].position != Main.npc[p].Center)
+                                        {
+                                            Main.dust[num].velocity = Main.npc[p].DirectionTo(Main.dust[num].position) * 6f;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    int p = NPC.NewNPC((int)Main.player[npc.target].position.X + Main.rand.Next(-200, 200), (int)Main.player[npc.target].position.Y + Main.rand.Next(-200, -100), NPCID.Zombie, 0, 0, 0, 0, 0, 255);
+                                    for (int i = 0; i < 10; i++)
+                                    {
+                                        int num = Dust.NewDust(Main.npc[p].position, Main.npc[p].width, Main.npc[p].height, 173, 0f, -2f, 0, default(Color), 2f);
+                                        Main.dust[num].noGravity = true;
+                                        Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+                                        Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+                                        if (Main.dust[num].position != Main.npc[p].Center)
+                                        {
+                                            Main.dust[num].velocity = Main.npc[p].DirectionTo(Main.dust[num].position) * 6f;
+                                        }
                                     }
                                 }
                             }
@@ -274,8 +286,14 @@ namespace SpiritMod.NPCs
 		{
 			return spawnInfo.spawnTileY < Main.rockLayer && (Main.bloodMoon) && !NPC.AnyNPCs(mod.NPCType("Occultist")) && NPC.downedBoss1 ? 0.06f : 0f;
 		}
-
-		public override void HitEffect(int hitDirection, double damage)
+        public override void NPCLoot()
+        {
+            string[] lootTable = { "Handball", "OccultistStaff" };
+            int loot = Main.rand.Next(lootTable.Length);
+            npc.DropItem(mod.ItemType(lootTable[loot]));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Bloodfire"), 4 + Main.rand.Next(3, 5));
+        }
+        public override void HitEffect(int hitDirection, double damage)
 		{
 				int d = 173;
 				int d1 = 173;
@@ -284,6 +302,14 @@ namespace SpiritMod.NPCs
 				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0,default(Color), 0.7f);
 				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
 			}
+            if (npc.life <= 0)
+            {
+                for (int k = 0; k < 60; k++)
+                {
+                    Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -4.5f, 0, default(Color), Main.rand.NextFloat(1.9f, 2.2f));
+                    Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -4.5f, 0, default(Color), Main.rand.NextFloat(1.9f, 2.2f));
+                }
+            }
 		}
 	}
 }

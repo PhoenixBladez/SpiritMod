@@ -17,7 +17,7 @@ namespace SpiritMod.Buffs.Artifact
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			npc.GetGlobalNPC<GNPC>(mod).holyBurn = true;
+			npc.GetGlobalNPC<GNPC>().holyBurn = true;
 
 			if (Main.rand.NextBool(2))
 			{

@@ -39,47 +39,57 @@ namespace SpiritMod.Tiles.Block
 			return false;
 		}
 
-		public override void RandomUpdate(int i, int j)
-		{
-			if (!Framing.GetTileSafely(i, j-1).active() && Main.rand.Next(6) == 0)
-			{
-				switch (Main.rand.Next(7))
-				{
-					case 0:
-						ReachGrassTile.PlaceObject(i, j-1, mod.TileType("ReachGrassA1"));
-						NetMessage.SendObjectPlacment(-1, i, j-1, mod.TileType("ReachGrassA1"), 0, 0, -1, -1);
-						break;
-					case 1:
-						ReachGrassTile.PlaceObject(i, j-1, mod.TileType("ReachGrassA2"));
-						NetMessage.SendObjectPlacment(-1, i, j-1, mod.TileType("ReachGrassA2"), 0, 0, -1, -1);
-						break;
-					case 2:
-						ReachGrassTile.PlaceObject(i, j-1, mod.TileType("ReachGrassA3"));
-						NetMessage.SendObjectPlacment(-1, i, j-1, mod.TileType("ReachGrassA3"), 0, 0, -1, -1);
-						break;
-					case 3:
-						ReachGrassTile.PlaceObject(i, j-1, mod.TileType("ReachGrassA4"));
-						NetMessage.SendObjectPlacment(-1, i, j-1, mod.TileType("ReachGrassA4"), 0, 0, -1, -1);
-						break;
-					case 4:
-						ReachGrassTile.PlaceObject(i, j-1, mod.TileType("ReachGrassA5"));
-						NetMessage.SendObjectPlacment(-1, i, j-1, mod.TileType("ReachGrassA5"), 0, 0, -1, -1);
-						break;
-					case 5:
-						ReachGrassTile.PlaceObject(i, j-1, mod.TileType("ReachGrassA6"));
-						NetMessage.SendObjectPlacment(-1, i, j-1, mod.TileType("ReachGrassA6"), 0, 0, -1, -1);
-						break;
+        public override void RandomUpdate(int i, int j)
+        {
+            if (!Framing.GetTileSafely(i, j - 1).active() && Main.rand.Next(4) == 0)
+            {
+                switch (Main.rand.Next(7))
+                {
+                    case 0:
+                        ReachGrassTile.PlaceObject(i, j - 1, mod.TileType("ReachGrassA1"));
+                        NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("ReachGrassA1"), 0, 0, -1, -1);
+                        break;
+                    case 1:
+                        ReachGrassTile.PlaceObject(i, j - 1, mod.TileType("ReachGrassA2"));
+                        NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("ReachGrassA2"), 0, 0, -1, -1);
+                        break;
+                    case 2:
+                        ReachGrassTile.PlaceObject(i, j - 1, mod.TileType("ReachGrassA3"));
+                        NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("ReachGrassA3"), 0, 0, -1, -1);
+                        break;
+                    case 3:
+                        ReachGrassTile.PlaceObject(i, j - 1, mod.TileType("ReachGrassA4"));
+                        NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("ReachGrassA4"), 0, 0, -1, -1);
+                        break;
+                    case 4:
+                        ReachGrassTile.PlaceObject(i, j - 1, mod.TileType("ReachGrassA5"));
+                        NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("ReachGrassA5"), 0, 0, -1, -1);
+                        break;
+                    case 5:
+                        ReachGrassTile.PlaceObject(i, j - 1, mod.TileType("ReachGrassA6"));
+                        NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("ReachGrassA6"), 0, 0, -1, -1);
+                        break;
 
-					default:
-						ReachGrassTile.PlaceObject(i, j-1, mod.TileType("ReachGrassA7"));
-						NetMessage.SendObjectPlacment(-1, i, j-1, mod.TileType("ReachGrassA7"), 0, 0, -1, -1);
-						break;
-				}
+                    default:
+                        ReachGrassTile.PlaceObject(i, j - 1, mod.TileType("ReachGrassA7"));
+                        NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("ReachGrassA7"), 0, 0, -1, -1);
+                        break;
+                }
 
-			}
-
-
-		}
+            }
+            {
+                if (!Framing.GetTileSafely(i, j + 1).active() && Main.rand.Next(4) == 0)
+                {
+                    ReachGrassTile.PlaceObject(i, j + 1, mod.TileType("Vine1"));
+                    NetMessage.SendObjectPlacment(-1, i, j + 1, mod.TileType("Vine1"), 0, 0, -1, -1);
+                }
+                if (!Framing.GetTileSafely(i, j + 1).active() && !Framing.GetTileSafely(i, j + 2).active() && Main.rand.Next(16) == 0)
+                {
+                    ReachGrassTile.PlaceObject(i, j + 1, mod.TileType("Vine2"));
+                    NetMessage.SendObjectPlacment(-1, i, j + 1, mod.TileType("Vine2"), 0, 0, -1, -1);
+                }
+            }
+        }
 
 		public override int SaplingGrowthType(ref int style)
 		{
@@ -87,12 +97,6 @@ namespace SpiritMod.Tiles.Block
 			return mod.TileType("ReachSapling");
 		}
 
-		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
-		{
-			r = 0.028f;
-			g = 0.153f;
-			b = 0.081f;
-		}
 	}
 }
 

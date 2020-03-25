@@ -19,7 +19,7 @@ namespace SpiritMod.Buffs
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-            npc.GetGlobalNPC<GNPC>(mod).clatterPierce = true;
+            npc.GetGlobalNPC<GNPC>().clatterPierce = true;
             npc.defense -= 3;
 
 			for (int k = 0; k < 2; k++)

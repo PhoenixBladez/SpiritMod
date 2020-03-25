@@ -54,7 +54,7 @@ namespace SpiritMod.Items.DonatorItems
                 if (Main.rand.Next(3) == 1)
                 {
                     int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
-                     Main.projectile[p].GetGlobalProjectile<SpiritGlobalProjectile>(mod).HeroBow3 = true;
+                     Main.projectile[p].GetGlobalProjectile<SpiritGlobalProjectile>().HeroBow3 = true;
 
                     return false;
                 }
@@ -62,14 +62,14 @@ namespace SpiritMod.Items.DonatorItems
                 else if (Main.rand.Next(2) == 1)
                 {
                     int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
-                     Main.projectile[p].GetGlobalProjectile<SpiritGlobalProjectile>(mod).HeroBow2 = true;
+                     Main.projectile[p].GetGlobalProjectile<SpiritGlobalProjectile>().HeroBow2 = true;
 
                     return false;
                 }
                 else
                 {
                     int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
-                    Main.projectile[p].GetGlobalProjectile<SpiritGlobalProjectile>(mod).HeroBow1 = true;
+                    Main.projectile[p].GetGlobalProjectile<SpiritGlobalProjectile>().HeroBow1 = true;
 
                     return false;
                 }

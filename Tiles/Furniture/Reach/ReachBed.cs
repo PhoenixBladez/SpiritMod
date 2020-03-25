@@ -64,7 +64,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			Player player = Main.player[Main.myPlayer];
 			player.noThrow = 2;
 			player.showItemIcon = true;
-			player.showItemIcon2 = mod.ItemType("Elderbark Bed");
+			player.showItemIcon2 = mod.ItemType("ReachBedItem");
 		}
 	}
 }

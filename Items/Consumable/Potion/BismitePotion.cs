@@ -38,7 +38,7 @@ namespace SpiritMod.Items.Consumable.Potion
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "BismiteCrystal", 1);
-            recipe.AddIngredient(null, "EnchantedLeaf", 1);
+            recipe.AddIngredient(null, "ReachFishingCatch", 1);
             recipe.AddIngredient(ItemID.Waterleaf, 1);
             recipe.AddIngredient(ItemID.BottledWater, 1);
             recipe.AddTile(TileID.Bottles);

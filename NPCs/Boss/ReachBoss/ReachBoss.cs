@@ -50,8 +50,8 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			int frame = (int)npc.frameCounter;
 			npc.frame.Y = frame * frameHeight;
 		}
-
-		private int Counter;
+        int aitimer = 0;
+        private int Counter;
 		public override bool PreAI()
 		{
 			Player player = Main.player[npc.target];
@@ -86,9 +86,14 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				else if (npc.Center.Y <= player.Center.Y - 50f && moveSpeedY <= 30)
 					moveSpeedY++;
 			}
+            aitimer++;
 			npc.velocity.Y = moveSpeedY * 0.1f;
-
-			int npcType = mod.NPCType("SunFlower");
+            if (aitimer >= 540 && aitimer < 560)
+            {
+                npc.SimpleFlyMovement(npc.DirectionTo(player.Center + new Vector2((float)((double)npc.direction * 1000), player.Center.Y + .001f)) * 25.5f, 1.8f);
+                npc.direction = npc.spriteDirection = (double)npc.Center.X < (double)player.Center.X ? 1 : -1;
+            }
+            int npcType = mod.NPCType("SunFlower");
 			bool plantAlive = false;
 			for (int num569 = 0; num569 < 200; num569++)
 			{
@@ -209,7 +214,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			{
 
 			}
-			return true;
+            return true;
 		}
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

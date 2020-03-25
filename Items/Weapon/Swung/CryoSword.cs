@@ -29,12 +29,12 @@ namespace SpiritMod.Items.Weapon.Swung
             item.knockBack = 5;
             item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
             item.rare = 3;
-            item.UseSound = SoundID.Item50;
+            item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.shoot = Projectiles.CryoliteBlast._type;
             item.shootSpeed = 8;
         }
-                    public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
+        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
                 if (Main.rand.Next(4) == 0)
                 target.AddBuff(mod.BuffType("CryoCrush"), 300);
@@ -45,6 +45,7 @@ namespace SpiritMod.Items.Weapon.Swung
             if (charger >= 2)
             {
                 {
+                    Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 20);
                     Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack / 2, player.whoAmI, 0f, 0f);
 
                 }

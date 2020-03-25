@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Armor.GraniteArmor
@@ -11,22 +13,21 @@ namespace SpiritMod.Items.Armor.GraniteArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Granite Greaves");
-            Tooltip.SetDefault("Reduces damage taken by 4%");
+            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/GraniteArmor/GraniteLegs_Glow");
 
         }
 
-
+        public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
+        {
+            glowMaskColor = Color.White;
+        }
         public override void SetDefaults()
         {
             item.width = 28;
             item.height = 24;
             item.value = 1100;
             item.rare = 2;
-            item.defense = 10;
-        }
-        public override void UpdateEquip(Player player)
-        {
-            player.endurance += 0.04f;
+            item.defense = 7;
         }
         public override void AddRecipes()
         {

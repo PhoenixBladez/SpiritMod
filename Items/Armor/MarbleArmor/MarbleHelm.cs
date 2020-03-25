@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.MarbleArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Marble Helm");
-            Tooltip.SetDefault("Increases damage dealt by 5%\nIncreases movement speed by 6%");
+            Tooltip.SetDefault("");
 
         }
         public override void SetDefaults()
@@ -20,16 +20,10 @@ namespace SpiritMod.Items.Armor.MarbleArmor
             item.height = 24;
             item.value = 1100;
             item.rare = 2;
-            item.defense = 5;
+            item.defense = 6;
         }
         public override void UpdateEquip(Player player)
         {
-            player.meleeDamage += 0.05f;
-            player.rangedDamage += 0.05f;
-            player.magicDamage += 0.05f;
-            player.minionDamage += 0.05f;
-            player.thrownDamage += 0.05f;
-            player.maxRunSpeed += 0.06f;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -38,19 +32,13 @@ namespace SpiritMod.Items.Armor.MarbleArmor
         }
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Increases melee speed by 5% \n Increases life regen when moving";
-
-            player.meleeSpeed += 0.05f;
-            if (player.velocity.X != 0)
-            {
-                player.lifeRegen += 3;
-            }
-            if (player.velocity.Y != 0)
-            {
-                player.lifeRegen += 3;
-            }
+            player.setBonus = "Press 'Up' to grant 'Divine Winds', allowing for limited flight\n5 second cooldown";
+            player.GetSpiritPlayer().marbleSet = true;
         }
-
+        public override void ArmorSetShadows(Player player)
+        {
+            player.armorEffectDrawShadow = true;
+        }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

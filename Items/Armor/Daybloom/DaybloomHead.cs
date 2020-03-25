@@ -43,6 +43,10 @@ namespace SpiritMod.Items.Armor.Daybloom
             {
                  player.GetSpiritPlayer().dazzleStacks++;
             }
+            else
+            {
+                player.GetSpiritPlayer().dazzleStacks = 0;
+            }
         }
 
         public override void AddRecipes()

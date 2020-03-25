@@ -14,7 +14,7 @@ namespace SpiritMod.Buffs
 
 		public override bool ReApply(NPC npc, int time, int buffIndex)
 		{
-			GNPC info = npc.GetGlobalNPC<GNPC>(mod);
+			GNPC info = npc.GetGlobalNPC<GNPC>();
 			if (info.nebulaFlameStacks < 5)
             {
                 info.nebulaFlameStacks++;
@@ -25,7 +25,7 @@ namespace SpiritMod.Buffs
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			GNPC info = npc.GetGlobalNPC<GNPC>(mod);
+			GNPC info = npc.GetGlobalNPC<GNPC>();
 
 			if (info.nebulaFlameStacks == 0)
             {

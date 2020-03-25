@@ -1,9 +1,15 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+
+using Terraria.ModLoader;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+
 
 namespace SpiritMod.Projectiles
 {
@@ -21,7 +27,6 @@ namespace SpiritMod.Projectiles
 			projectile.width = 20;
 			projectile.height = 20;
 			projectile.timeLeft = 1000;
-			projectile.light = 0.5f;
 			;
 			projectile.friendly = false;
 			projectile.penetrate = 1;
@@ -42,10 +47,32 @@ namespace SpiritMod.Projectiles
 				Main.dust[dust].noGravity = true;
 			}
 		}
-
-		public override void AI()
+        public override bool PreAI()
+        {
+            var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
+            foreach (var proj in list)
+            {
+                if (projectile != proj && proj.friendly)
+                {
+                    projectile.Kill();
+                }
+            }
+            return true;
+        }
+        public override void AI()
 		{
-			int range = 650;   //How many tiles away the projectile targets NPCs
+
+
+            Vector2 vector207 = new Vector2((float)projectile.width * 2, (float)projectile.height *2) * projectile.scale * 0.85f;
+            vector207 /= 2f;
+            Vector2 value112 = Vector2.UnitY.RotatedByRandom(6.2831854820251465) * vector207;
+            Vector2 position178 = projectile.Center + value112;
+            int num1442 = Dust.NewDust(position178, 0, 0, 226, 0f, 0f, 0, default(Color), .5f);
+            Main.dust[num1442].position = projectile.Center + value112;
+            Main.dust[num1442].velocity = Vector2.Zero;
+            Main.dust[num1442].noGravity = true;
+
+            int range = 650;   //How many tiles away the projectile targets NPCs
 							   //int targetingMax = 20; //how many frames allowed to target nearest instead of shooting
 							   //float shootVelocity = 16f; //magnitude of the shoot vector (speed of arrows shot)
 

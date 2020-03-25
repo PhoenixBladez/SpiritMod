@@ -15,7 +15,7 @@ namespace SpiritMod.Buffs
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			npc.GetGlobalNPC<GNPC>(mod).Etrap = true;
+			npc.GetGlobalNPC<GNPC>().Etrap = true;
 
 			if (Main.rand.NextBool(3))
 			{

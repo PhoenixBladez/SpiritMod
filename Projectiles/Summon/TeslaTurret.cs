@@ -36,17 +36,6 @@ namespace SpiritMod.Projectiles.Summon
 
 		public override void AI()
 		{
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 4)
-			{
-				projectile.frame++;
-				projectile.frameCounter = 0;
-				if (projectile.frame >= 4)
-				{
-					projectile.frame = 0;
-				}
-			}
-
 			projectile.velocity.Y = 5;
 			//CONFIG INFO
 			int range = 30;   //How many tiles away the projectile targets NPCs

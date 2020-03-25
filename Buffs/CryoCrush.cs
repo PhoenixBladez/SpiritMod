@@ -16,7 +16,7 @@ namespace SpiritMod.Buffs
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			npc.GetGlobalNPC<GNPC>(mod).iceCrush = true;
+			npc.GetGlobalNPC<GNPC>().iceCrush = true;
 
 			if (Main.rand.NextBool(3))
 			{

@@ -16,7 +16,7 @@ namespace SpiritMod.Buffs
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			npc.GetGlobalNPC<GNPC>(mod).felBrand = true;
+			npc.GetGlobalNPC<GNPC>().felBrand = true;
 
 			if (Main.rand.NextBool(3))
 			{

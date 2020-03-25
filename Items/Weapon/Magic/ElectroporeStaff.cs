@@ -35,7 +35,6 @@ namespace SpiritMod.Items.Weapon.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "EelRod", 1);
-            recipe.AddIngredient(null, "CoilStaff", 1);
             recipe.AddIngredient(null, "AstralLens", 1);
             recipe.AddIngredient(null, "StellarBar", 5);
             recipe.AddTile(TileID.MythrilAnvil);

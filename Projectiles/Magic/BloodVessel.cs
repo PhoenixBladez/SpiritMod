@@ -20,92 +20,97 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.magic = true;
 			projectile.width = 30;
 			projectile.height = 30;
-			projectile.aiStyle = -1;
 			projectile.friendly = true;
-			projectile.penetrate = -1;
+			projectile.penetrate = 2;
 			projectile.alpha = 255;
+            projectile.extraUpdates = 2;
 			projectile.timeLeft = 600;
-			projectile.tileCollide = false;
+			projectile.tileCollide = true;
 		}
 
-		public override bool PreAI()
-		{
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 5, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			Main.dust[dust].scale = 2f;
-			Main.dust[dust].noGravity = true;
-
-			return true;
-		}
-
-		int timer = 30;
-
+        int num2475;
 		public override void AI()
 		{
-			timer--;
 
-			if (timer == 0)
-			{
-				Projectile.NewProjectile(projectile.position.X - 40, projectile.position.Y - 40, projectile.velocity.X, projectile.velocity.Y, mod.ProjectileType("Blood3"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-				Projectile.NewProjectile(projectile.position.X - -40, projectile.position.Y, projectile.velocity.X, projectile.velocity.Y, mod.ProjectileType("Blood3"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-				Projectile.NewProjectile(projectile.position.X - 40, projectile.position.Y, projectile.velocity.X, projectile.velocity.Y, mod.ProjectileType("Blood3"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-				Projectile.NewProjectile(projectile.position.X - -40, projectile.position.Y - -40, projectile.velocity.X, projectile.velocity.Y, mod.ProjectileType("Blood3"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-				timer = 30;
-			}
+            projectile.ai[0] += 0.6f * projectile.direction;
+            if (projectile.ai[0] > 30f || projectile.ai[0] < -30f)
+            {
+                projectile.Kill();
+            }
+            for (int num1438 = 0; num1438 < 2; num1438 = num2475 + 1)
+            {
+                Vector2 center22 = projectile.Center;
+                projectile.scale = 1f - projectile.localAI[0];
+                projectile.width = (int)(20f * projectile.scale);
+                projectile.height = projectile.width;
+                projectile.position.X = center22.X - (float)(projectile.width / 2);
+                projectile.position.Y = center22.Y - (float)(projectile.height / 2);
+                if ((double)projectile.localAI[0] < 0.1)
+                {
+                    projectile.localAI[0] += 0.01f;
+                }
+                else
+                {
+                    projectile.localAI[0] += 0.025f;
+                }
+                if (projectile.localAI[0] >= 0.95f)
+                {
+                    projectile.Kill();
+                }
+                projectile.velocity.X = projectile.velocity.X + projectile.ai[0] * 1.5f;
+                projectile.velocity.Y = projectile.velocity.Y + projectile.ai[1] * 3.5f;
+                if (projectile.velocity.Length() > 16f)
+                {
+                    projectile.velocity.Normalize();
+                    projectile.velocity *= 16f;
+                }
+                projectile.ai[0] *= 1.05f;
+                if (projectile.scale < 1f)
+                {
+                    int num1448 = 0;
+                    while ((float)num1448 < projectile.scale * 10f)
+                    {
+                        Vector2 position177 = new Vector2(projectile.position.X, projectile.position.Y);
+                        int width138 = projectile.width;
+                        int height138 = projectile.height;
+                        float x38 = projectile.velocity.X;
+                        float y36 = projectile.velocity.Y;
+                        Color newColor5 = default(Color);
+                        int num1447 = Dust.NewDust(position177, width138, height138, 5, x38, y36, 100, newColor5, 1.1f);
+                        Main.dust[num1447].position = (Main.dust[num1447].position + projectile.Center) / 2f;
+                        Main.dust[num1447].noGravity = true;
+                        Dust dust81 = Main.dust[num1447];
+                        dust81.velocity *= 0.1f;
+                        dust81 = Main.dust[num1447];
+                        dust81.velocity -= projectile.velocity * (1.3f - projectile.scale);
+                        Main.dust[num1447].fadeIn = (float)(100 + projectile.owner);
+                        dust81 = Main.dust[num1447];
+                        dust81.scale += projectile.scale * 0.45f;
+                        num2475 = num1448;
+                        num1448 = num2475 + 1;
+                    }
+                }
+            }
 
-			projectile.frameCounter++;
-			if (projectile.frameCounter > 8)
-			{
-				projectile.frameCounter = 0;
-				projectile.frame++;
-				if (projectile.frame > 5)
-					projectile.frame = 0;
-			}
-
-			projectile.ai[1] += 1f;
-			if (projectile.ai[1] >= 7200f)
-			{
-				projectile.alpha += 5;
-				if (projectile.alpha > 255)
-				{
-					projectile.alpha = 255;
-					projectile.Kill();
-				}
-			}
-
-			projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] >= 10f)
-			{
-				projectile.localAI[0] = 0f;
-				int num416 = 0;
-				int num417 = 0;
-				float num418 = 0f;
-				int num419 = projectile.type;
-				for (int num420 = 0; num420 < 1000; num420++)
-				{
-					if (Main.projectile[num420].active && Main.projectile[num420].owner == projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f)
-					{
-						num416++;
-						if (Main.projectile[num420].ai[1] > num418)
-						{
-							num417 = num420;
-							num418 = Main.projectile[num420].ai[1];
-						}
-					}
-				}
-				if (num416 > 2)
-				{
-					Main.projectile[num417].netUpdate = true;
-					Main.projectile[num417].ai[1] = 36000f;
-					return;
-				}
-			}
 		}
-
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			if (Main.rand.Next(10) <= 4)
-				Projectile.NewProjectile(projectile.Center, Vector2.Zero, 305, 0, 0f, projectile.owner, projectile.owner, Main.rand.Next(2, 4));
-		}
-
+        public override void Kill(int timeLeft)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                Dust.NewDust(projectile.position, projectile.width, projectile.height, 5);
+            }
+            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 103);
+            int n = 4;
+            int deviation = Main.rand.Next(0, 300);
+            for (int i = 0; i < n; i++)
+            {
+                float rotation = MathHelper.ToRadians(270 / n * i + deviation);
+                Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(rotation);
+                perturbedSpeed.Normalize();
+                perturbedSpeed.X *= 2.5f;
+                perturbedSpeed.Y *= 2.5f;
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("Blood3"), projectile.damage / 5 * 4, 2, projectile.owner);
+            }
+        }
 	}
 }

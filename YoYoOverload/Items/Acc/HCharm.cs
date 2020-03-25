@@ -10,7 +10,7 @@ namespace SpiritMod.YoYoOverload.Items.Acc
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Hellstone Charm");
-			Tooltip.SetDefault("Increases melee damage by 6%");
+			Tooltip.SetDefault("Increases attack damage by 7%\nAttacks may burn enemies");
 		}
 
 
@@ -27,15 +27,21 @@ namespace SpiritMod.YoYoOverload.Items.Acc
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			player.meleeDamage += 0.06f;
-		}
+			player.meleeDamage += 0.07f;
+            player.magicDamage += 0.07f;
+            player.rangedDamage += 0.07f;
+            player.minionDamage += 0.07f;
+            player.thrownDamage += 0.07f;
+            player.GetSpiritPlayer().hellCharm = true;
+        }
 
 		public override void AddRecipes()
 		{
 			ModRecipe modRecipe = new ModRecipe(base.mod);
-			modRecipe.AddIngredient(175, 8);
+			modRecipe.AddIngredient(175, 10);
 			modRecipe.AddIngredient(85, 3);
-			modRecipe.AddTile(16);
+            modRecipe.AddIngredient(mod.TileType("CarvedRock"), 1);
+            modRecipe.AddTile(16);
 			modRecipe.SetResult(this, 1);
 			modRecipe.AddRecipe();
 		}

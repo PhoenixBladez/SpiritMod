@@ -28,18 +28,15 @@ namespace SpiritMod.NPCs
 			npc.knockBackResist = .35f;
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			if (SpawnHelper.SupressSpawns(spawnInfo, SpawnFlags.None, SpawnZones.Underground))
-				return 0;
-
-			if (!NPC.downedBoss1)
-				return 0;
-			
-			return SpawnCondition.Cavern.Chance * 0.07f;
-		}
-
-		public override void HitEffect(int hitDirection, double damage)
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            if (spawnInfo.playerSafe || !NPC.downedBoss1)
+            {
+                return 0f;
+            }
+            return SpawnCondition.Cavern.Chance * 0.08f;
+        }
+        public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 11; k++)
 			{
@@ -69,21 +66,22 @@ namespace SpiritMod.NPCs
 
 		int frame = 0;
 		int timer = 0;
+        int shootTimer = 0;
 		public override void AI()
 		{
 			npc.spriteDirection = npc.direction;
 			Player target = Main.player[npc.target];
 			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
-			if (distance < 320)
+			if (distance < 200)
 			{
 				npc.velocity = Vector2.Zero;
 				if (npc.velocity == Vector2.Zero)
 				{
-					npc.velocity.X = .01f * npc.spriteDirection;
+					npc.velocity.X = .008f * npc.direction;
 					npc.velocity.Y = 12f;
 				}
-				npc.ai[0]++;
-				if (npc.ai[0] >= 120)
+				shootTimer++;
+				if (shootTimer >= 80)
 				{
 					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 95);
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
@@ -103,7 +101,7 @@ namespace SpiritMod.NPCs
 							int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y - 10, direction.X + A, direction.Y + B, mod.ProjectileType("WheezerCloud"), npc.damage / 3 * 2, 1, Main.myPlayer, 0, 0);
 							Main.projectile[p].hostile = true;
 						}
-					npc.ai[0] = 0;
+                    shootTimer = 0;
 				}
 				timer++;
 				if(timer == 4)
@@ -118,8 +116,8 @@ namespace SpiritMod.NPCs
 			}
 			else
 			{
-				npc.ai[0] = 0;
-				npc.aiStyle = 3;
+                shootTimer = 0;
+                npc.aiStyle = 3;
 				aiType = NPCID.Skeleton;
 				timer++;
 				if(timer == 4)
@@ -132,6 +130,14 @@ namespace SpiritMod.NPCs
 					frame = 1;
 				}
 			}	
+            if (shootTimer > 120)
+            {
+                shootTimer = 120;
+            }
+            if (shootTimer < 0)
+            {
+                shootTimer = 0;
+            }
 		}
 		public override void FindFrame(int frameHeight)
 		{

@@ -25,7 +25,98 @@ namespace SpiritMod.Items
 
 		private GlyphType glyph = 0;
 		public GlyphType Glyph => glyph;
-		public void SetGlyph(Item item, GlyphType glyph)
+        public override void SetDefaults(Item item)
+        {
+            if (item.type == 2303)
+            {
+                item.useStyle = 1;
+                item.useTime = item.useAnimation = 20;
+                item.noMelee = true;
+                item.consumable = true;
+                item.autoReuse = true;
+            }
+            if (item.type == 2304)
+            {
+                item.useStyle = 1;
+                item.useTime = item.useAnimation = 20;
+                item.noMelee = true;
+                item.consumable = true;
+                item.autoReuse = true;
+            }
+            if (item.type == 2305)
+            {
+                item.useStyle = 1;
+                item.useTime = item.useAnimation = 20;
+                item.noMelee = true;
+                item.consumable = true;
+                item.autoReuse = true;
+            }
+            if (item.type == 2308)
+            {
+                item.useStyle = 1;
+                item.useTime = item.useAnimation = 20;
+                item.noMelee = true;
+                item.consumable = true;
+                item.autoReuse = true;
+            }
+            if (item.type == 2309)
+            {
+                item.useStyle = 1;
+                item.useTime = item.useAnimation = 20;
+                item.noMelee = true;
+                item.consumable = true;
+                item.autoReuse = true;
+            }
+            if (item.type == 2310)
+            {
+                item.useStyle = 1;
+                item.useTime = item.useAnimation = 20;
+                item.noMelee = true;
+                item.consumable = true;
+                item.autoReuse = true;
+            }
+            if (item.type == 2318)
+            {
+                item.useStyle = 1;
+                item.useTime = item.useAnimation = 20;
+                item.noMelee = true;
+                item.consumable = true;
+                item.autoReuse = true;
+            }
+            if (item.type == 2302)
+            {
+                item.useStyle = 1;
+                item.useTime = item.useAnimation = 20;
+                item.noMelee = true;
+                item.consumable = true;
+                item.autoReuse = true;
+            }
+            if (item.type == 2299)
+            {
+                item.useStyle = 1;
+                item.useTime = item.useAnimation = 20;
+                item.noMelee = true;
+                item.consumable = true;
+                item.autoReuse = true;
+            }
+            if (item.type == 2306)
+            {
+                item.useStyle = 1;
+                item.useTime = item.useAnimation = 20;
+                item.noMelee = true;
+                item.consumable = true;
+                item.autoReuse = true;
+            }
+            if (item.type == 2301)
+            {
+                item.useStyle = 1;
+                item.useTime = item.useAnimation = 20;
+                item.noMelee = true;
+                item.consumable = true;
+                item.autoReuse = true;
+            }
+        }
+        public void SetGlyph(Item item, GlyphType glyph)
 		{
 			if (this.glyph == glyph)
 				return;
@@ -268,12 +359,6 @@ namespace SpiritMod.Items
 				Main.projectile[proj].hostile = false;
 				Main.projectile[proj].friendly = true;
 			}
-			if (modPlayer.fierySet && (item.ranged || item.thrown) && Main.rand.Next(8) == 0)
-			{
-				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ProjectileID.Fireball, 16, 2f, player.whoAmI);
-				Main.projectile[proj].hostile = false;
-				Main.projectile[proj].friendly = true;
-			}
 			if (modPlayer.cultistScarf && item.magic && Main.rand.Next(8) == 0)
 			{
 				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType("WildMagic"), 66, 2f, player.whoAmI);
@@ -313,13 +398,6 @@ namespace SpiritMod.Items
 			if (modPlayer.fireMaw && item.ranged && Main.rand.Next(10) == 0)
 			{
 				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType("FireMaw"), 30, 2f, player.whoAmI);
-				Main.projectile[proj].hostile = false;
-				Main.projectile[proj].friendly = true;
-			}
-
-			if (modPlayer.drakinMount && item.magic && Main.rand.Next(4) == 0)
-			{
-				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), 671, 41, 3f, player.whoAmI);
 				Main.projectile[proj].hostile = false;
 				Main.projectile[proj].friendly = true;
 			}
@@ -518,9 +596,65 @@ namespace SpiritMod.Items
 				tooltips.Insert(index++, tip);
 			}
 		}
+        public override bool UseItem(Item item, Player player)
+        {
+            if (item.type == 2299)
+            {
+                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("AtlanticCod"));
+                return true;
+            }
+            if (item.type == 2302)
+            {
+                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("NeonTetra"));
+                return true;
+            }
+            if (item.type == 2303)
+            {
+                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("Cavefish"));
+                return true;
+            }
+            if (item.type == 2304)
+            {
+                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("Damselfish"));
+                return true;
+            }
+            if (item.type == 2305)
+            {
+                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("CrismonTigerfish"));
+                return true;
+            }
+            if (item.type == 2308)
+            {
+                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("GoldenCarp"));
+                return true;
+            }
+            if (item.type == 2309)
+            {
+                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("SpecularFish"));
+                return true;
+            }
+            if (item.type == 2310)
+            {
+                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("Prismite"));
+                return true;
+            }
+            if (item.type == 2306)
+            {
+                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("FrostMinnow"));
+                return true;
+            }
+            if (item.type == 2301)
+            {
+                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("RedSnapper"));
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
-
-		private static readonly Vector2 SlotDimensions = new Vector2(52, 52);
+        private static readonly Vector2 SlotDimensions = new Vector2(52, 52);
 		public override void PostDrawInInventory(Item item, SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
 		{
 			if (glyph == GlyphType.None)

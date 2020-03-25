@@ -87,7 +87,7 @@ namespace SpiritMod
 			};
 			int startx = x; //keep track of starting position
 			int starty = y;
-			for (int z = 0; z < 120; z++)
+			for (int z = 0; z < 147; z++)
 			{
 				if (Main.rand.Next(2) == 1)
 				{
@@ -100,30 +100,33 @@ namespace SpiritMod
 			//temporary wall placement until i get a better method
 			for (int A = x - 150; A < x + 150; A++)
 					{
-						for (int B = y; B < y + 700; B++)
+						for (int B = y + 50; B < y + 1000; B++)
 						{
 							if (Main.tile[A,B] != null)
 							{
-								int Wal = (int)Main.tile[A,B].wall ;
-								if (Main.tile[A,B].type == mod.TileType("ReachGrassTile") && ((Wal == 2 || Wal == 54 || Wal == 55 || Wal == 56 || Wal == 57 || Wal == 58 || Wal == 59) || B > WorldGen.rockLayer - 100)) // A = x, B = y.
-								{ 
-									WorldGen.KillWall(A, B);
-									WorldGen.PlaceWall(A, B, 63);
+                                int Wal = (int)Main.tile[A, B].wall;
+                                if (Main.tile[A, B].type == mod.TileType("ReachGrassTile") && ((Wal == 2 || Wal == 54 || Wal == 55 || Wal == 56 || Wal == 57 || Wal == 58 || Wal == 59) || B > WorldGen.rockLayer - 100)) // A = x, B = y.
+                                {
+                                    if (WorldGen.genRand.Next(3) == 0)
+                                    {
+                                        WorldGen.KillWall(A, B);
+                                        WorldGen.PlaceWall(A, B, mod.WallType("ReachWallNatural"));
+                                    }
 								}
 							}
 						}
 					}
             int smoothness = 3; //how smooth the tunnels are
             int chestrarity = 7; //how rare chests are
-			int depth = 8; //how many vertical tunnels deep the initial goes.
+			int depth = 9; //how many vertical tunnels deep the initial goes.
 			int tunnelheight = Main.rand.Next(65, 80); //how high the first tunnel is 
 			int tunnelthickness = 5;
-			for (int q = 0; q < 4; q++) //make 2 tunnels to overlap
+			for (int q = 0; q < 6; q++) //make 2 tunnels to overlap
 			{
 				if (startx == x && starty == y)
 				{
-					tunnelheight = Main.rand.Next(65, 80);
-					tunnelthickness = 5;
+					tunnelheight = Main.rand.Next(45, 80);
+					tunnelthickness = 4;
 				}
 				int jt = 0; //j placeholder to use out of loop
 				int newx = startx;
@@ -161,7 +164,7 @@ namespace SpiritMod
                             {
                                 WorldGen.digTunnel(k, newy, 0, 0, 1, tunnelthickness, false); //horizontal tunneling
                             }
-                            if (Main.rand.Next(75) == 1) //make a full branch
+                            if (Main.rand.Next(50) == 1) //make a full branch
 							{
 								startx = k;
 								starty = newy;
@@ -204,108 +207,6 @@ namespace SpiritMod
 						tunnelX = Main.rand.Next(55, 75);
 					}
 				}
-			}
-			int SkullStickY = 0;
-			for (int SkullStickX = x - 120; SkullStickX < x + 120; SkullStickX++)
-			{
-				for (SkullStickY = y - 80; SkullStickY < y + 175; SkullStickY++)
-				{
-					if (Main.tile[SkullStickX, SkullStickY] != null)
-					{
-					}
-				}
-				if (Main.rand.Next(25) == 1)
-				{
-					for (SkullStickY = y - 60; SkullStickY < y + 175; SkullStickY++)
-					{
-						tile = Main.tile[SkullStickX, SkullStickY];
-						if (tile.type == 2 || tile.type == 1 || tile.type == 0 || tile.type == mod.TileType("ReachGrassTile"))
-						{
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 3, mod.TileType("SkullStick")); //i dont know which of these is correct but i cant be bothered to test.
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 2, mod.TileType("SkullStick"));
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 1, mod.TileType("SkullStick"));
-							WorldGen.PlaceObject(SkullStickX, SkullStickY, mod.TileType("SkullStick"));
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 3, mod.TileType("SkullStick"), 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 2, mod.TileType("SkullStick"), 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 1, mod.TileType("SkullStick"), 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY, mod.TileType("SkullStick"), 0, 0, -1, -1);
-						}
-					}
-
-				}
-				if (Main.rand.Next(24) == 1)
-				{
-					for (SkullStickY = y - 60; SkullStickY < y + 175; SkullStickY++)
-					{
-						tile = Main.tile[SkullStickX, SkullStickY];
-						if (tile.type == 2 || tile.type == 1 || tile.type == 0 || tile.type == mod.TileType("SkullStickFlip"))
-						{
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 3, mod.TileType("SkullStickFlip")); //i dont know which of these is correct but i cant be bothered to test.
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 2, mod.TileType("SkullStickFlip"));
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 1, mod.TileType("SkullStickFlip"));
-							WorldGen.PlaceObject(SkullStickX, SkullStickY, mod.TileType("SkullStickFlip"));
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 3, mod.TileType("SkullStickFlip"), 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 2, mod.TileType("SkullStickFlip"), 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 1, mod.TileType("SkullStickFlip"), 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY, mod.TileType("SkullStickFlip"), 0, 0, -1, -1);
-						}
-					}
-
-				}
-				if (Main.rand.Next(21) == 1)
-				{
-					for (SkullStickY = y - 60; SkullStickY < y + 75; SkullStickY++)
-					{
-						tile = Main.tile[SkullStickX, SkullStickY];
-						if (tile.type == 2 || tile.type == 1 || tile.type == 0 || tile.type == mod.TileType("ReachGrassTile"))
-						{
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 3, mod.TileType("SkullStick2")); //i dont know which of these is correct but i cant be bothered to test.
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 2, mod.TileType("SkullStick2"));
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 1, mod.TileType("SkullStick2"));
-							WorldGen.PlaceObject(SkullStickX, SkullStickY, mod.TileType("SkullStick2"));
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 3, mod.TileType("SkullStick2"), 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 2, mod.TileType("SkullStick2"), 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 1, mod.TileType("SkullStick2"), 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY, mod.TileType("SkullStick2"), 0, 0, -1, -1);
-						}
-					}
-				}
-				if (Main.rand.Next(23) == 1)
-				{
-					for (SkullStickY = y - 60; SkullStickY < y + 175; SkullStickY++)
-					{
-						tile = Main.tile[SkullStickX, SkullStickY];
-						if (tile.type == 2 || tile.type == 1 || tile.type == 0 || tile.type == mod.TileType("ReachGrassTile"))
-						{
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 3, mod.TileType("SkullStick3")); //i dont know which of these is correct but i cant be bothered to test.
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 2, mod.TileType("SkullStick3"));
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 1, mod.TileType("SkullStick3"));
-							WorldGen.PlaceObject(SkullStickX, SkullStickY, mod.TileType("SkullStick3"));
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 3, mod.TileType("SkullStick3"), 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 2, mod.TileType("SkullStick3"), 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 1, mod.TileType("SkullStick3"), 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY, mod.TileType("SkullStick3"), 0, 0, -1, -1);
-						}
-					}
-				}
-				if (Main.rand.Next(23) == 1)
-				{
-					for (SkullStickY = y - 60; SkullStickY < y + 175; SkullStickY++)
-					{
-						tile = Main.tile[SkullStickX, SkullStickY];
-						if (tile.type == 2 || tile.type == 1 || tile.type == 0 || tile.type == mod.TileType("ReachGrassTile"))
-						{
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 3, mod.TileType("SkullStick3Flip")); //i dont know which of these is correct but i cant be bothered to test.
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 2, mod.TileType("SkullStick3Flip"));
-							WorldGen.PlaceObject(SkullStickX, SkullStickY - 1, mod.TileType("SkullStick3Flip"));
-							WorldGen.PlaceObject(SkullStickX, SkullStickY, mod.TileType("SkullStick3Flip"));
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 3, mod.TileType("SkullStick3Flip"), 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 2, mod.TileType("SkullStick3Flip"), 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY - 1, mod.TileType("SkullStick3"), 0, 0, -1, -1);
-							NetMessage.SendObjectPlacment(-1, SkullStickX, SkullStickY, mod.TileType("SkullStick3Flip"), 0, 0, -1, -1);
-						}
-					}
-				}				       
 			}
 		}	
 		static bool CanPlaceReachs(int x, int y)

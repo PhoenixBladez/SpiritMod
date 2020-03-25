@@ -1,4 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -29,7 +33,17 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override bool PreAI()
 		{
-			//Create particles
+            var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
+            foreach (var proj in list)
+            {
+                if (projectile != proj && proj.hostile)
+                {
+                    proj.velocity.X = proj.velocity.X * -1;
+                    proj.hostile = false;
+                    proj.friendly = true;
+                }
+            }
+            //Create particles
             for (int k = 0; k < 4; k++)
              {
                     int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 187, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
@@ -44,13 +58,11 @@ namespace SpiritMod.Projectiles.Magic
             }
             return false;
 		}
-
 		public override void AI()
 		{
 			int timer = 0;
 
-
-			projectile.localAI[0] += 1f;
+                projectile.localAI[0] += 1f;
 			if (projectile.localAI[0] >= 10f)
 			{
 				projectile.localAI[0] = 0f;
@@ -83,11 +95,6 @@ namespace SpiritMod.Projectiles.Magic
 			int minRadius = 1;
 			int minSpeed = 1;
 
-			if (projectile.localAI[1] <= 1.0f)
-			{
-				int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, minRadius, minSpeed, mod.ProjectileType("TrueClot2"), projectile.damage, projectile.knockBack, projectile.owner, 0.0f, 0.0f);
-				Main.projectile[proj].localAI[0] = projectile.whoAmI;
-			}
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,10 +14,12 @@ namespace SpiritMod.Items.Armor.StarArmor
 		{
 			DisplayName.SetDefault("Starplate Chestguard");
             Tooltip.SetDefault("Reduces damage taken by 3%, and increases max life by 10");
-
+            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/StarArmor/StarPlate_Glow");
         }
-
-
+        public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
+        {
+            glowMaskColor = Color.White;
+        }
         int timer = 0;
 
         public override void SetDefaults()

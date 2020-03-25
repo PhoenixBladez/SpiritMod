@@ -20,13 +20,13 @@ namespace SpiritMod.Items.Weapon.Magic
 		private Vector2 newVect;
 		public override void SetDefaults()
 		{
-			item.damage = 39;
+			item.damage = 34;
 			item.magic = true;
 			item.mana = 7;
 			item.width = 58;
 			item.height = 58;
-			item.useTime = 28;
-			item.useAnimation = 28;
+			item.useTime = 24;
+			item.useAnimation = 24;
 			item.useStyle = 5;
 			Item.staff[item.type] = true;
 			item.noMelee = true;
@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.UseSound = SoundID.Item72;
 			item.autoReuse = true;
 			item.shoot = mod.ProjectileType("NovaBeam1");
-			item.shootSpeed = 8f;
+			item.shootSpeed = 15f;
 		}
 
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -58,7 +58,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			recipe.AddIngredient(null, "BreathOfTheZephyr", 1);
 			recipe.AddIngredient(null, "ClapdateStaff", 1);
 			recipe.AddIngredient(null, "HowlingScepter", 1);
-			recipe.AddIngredient(null, "GraniteStaff", 1);
+			recipe.AddIngredient(null, "GraniteWand", 1);
 			recipe.AddIngredient(null, "SteamParts", 4);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);

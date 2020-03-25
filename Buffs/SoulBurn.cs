@@ -15,7 +15,7 @@ namespace SpiritMod.Buffs
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			npc.GetGlobalNPC<GNPC>(mod).soulBurn = true;
+			npc.GetGlobalNPC<GNPC>().soulBurn = true;
 
 			if (Main.rand.NextBool(2))
 			{

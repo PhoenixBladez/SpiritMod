@@ -21,8 +21,8 @@ namespace SpiritMod.Projectiles.Boss
 			projectile.friendly = false;
 			projectile.hostile = true;
 			projectile.penetrate = 10;
-			projectile.timeLeft = 1000;
-			projectile.tileCollide = true;
+			projectile.timeLeft = 900;
+			projectile.tileCollide = false;
 			projectile.aiStyle = -1;
 		}
 

@@ -17,10 +17,11 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			Main.tileNoAttach[Type] = true;
 			Main.tileLavaDeath[Type] = true;
 			Main.tileLighted[Type] = true;
-			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
-			TileObjectData.newTile.Height = 3;
+			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
+			TileObjectData.newTile.Height = 2;
 			TileObjectData.newTile.Width = 1;
-			TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
+            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16 };
+            TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
 			TileObjectData.newTile.AnchorBottom = default(AnchorData);
 			TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);

@@ -15,41 +15,51 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void SetDefaults()
 		{
-			projectile.width = 12;
-			projectile.height = 12;
-			projectile.hide = true;
+			projectile.width = 34;
+			projectile.height = 40;
 			projectile.friendly = true;
-			projectile.penetrate = -1;
+			projectile.penetrate = 3;
 			projectile.timeLeft = 120;
+            projectile.alpha = 0;
 			projectile.tileCollide = false;
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			for (int i = 0; i < 2; i++)
+            Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 6);
+            for (int i = 0; i < 2; i++)
 			{
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 33);
+				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 187);
+                Main.dust[d].noGravity = true;
 			}
 
 			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
 
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 6, -2, mod.ProjectileType("AquaSphere2"), projectile.damage, projectile.knockBack, Main.myPlayer);
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -6, -2, mod.ProjectileType("AquaSphere2"), projectile.damage, projectile.knockBack, Main.myPlayer);
-		}
+			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 6, -4, mod.ProjectileType("AquaSphere2"), projectile.damage/2, projectile.knockBack, Main.myPlayer);
+			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -6, -4, mod.ProjectileType("AquaSphere2"), projectile.damage/2, projectile.knockBack, Main.myPlayer);
+            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 6, 4, mod.ProjectileType("AquaSphere2"), projectile.damage/2, projectile.knockBack, Main.myPlayer);
+            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -6, 4, mod.ProjectileType("AquaSphere2"), projectile.damage/2, projectile.knockBack, Main.myPlayer);
+        }
 
 		public override void AI()
 		{
-			projectile.velocity *= 0.95f;
+            projectile.alpha+= 3;
+            projectile.scale += .011f;
+            if (projectile.alpha >= 160)
+            {
+                projectile.Kill();
+            }
 
 
-			for (int i = 1; i <= 3; i++)
-			{
-				int num1 = Dust.NewDust(projectile.position, projectile.width, projectile.height,
-					33, projectile.velocity.X, projectile.velocity.Y, 0, default(Color), 2f);
-				Main.dust[num1].noGravity = true;
-				Main.dust[num1].velocity *= 0.1f;
-			}
-			Lighting.AddLight(projectile.position, 0.4f, 0.1f, 0.1f);
+            for (int i = 0; i < 5; i++)
+            {
+                Vector2 vector2 = Vector2.UnitY.RotatedByRandom(6.28318548202515) * new Vector2((float)projectile.height, (float)projectile.height) * projectile.scale * 1.45f / 2f;
+                int index = Dust.NewDust(projectile.Center + vector2, 0, 0, 187, 0.0f, 0.0f, 0, new Color(), 1f);
+                Main.dust[index].position = projectile.Center + vector2;
+                Main.dust[index].velocity = Vector2.Zero;
+                Main.dust[index].noGravity = true;
+            }
+            Lighting.AddLight(projectile.position, 0.1f, 0.2f, 0.3f);
 		}
 
 	}

@@ -28,7 +28,7 @@ namespace SpiritMod.Projectiles
 
 		public override void AI()
 		{
-						int num = 5;
+            int num = 5;
 			for (int k = 0; k < 6; k++)
 				{
 					int index2 = Dust.NewDust(projectile.position, 4, 4, 226, 0.0f, 0.0f, 0, new Color(), 1f);

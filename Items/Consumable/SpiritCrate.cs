@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Consumable
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spirit Crate");
-			Tooltip.SetDefault("Right Click to open");
+			Tooltip.SetDefault("Right click to open");
 		}
 
 
