@@ -20,7 +20,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 			projectile.friendly = true;
 			projectile.hostile = false;
 			projectile.magic = true;
-			projectile.penetrate = 2;
+			projectile.penetrate = 1;
 			projectile.timeLeft = 500;
 			projectile.height = 6;
 			projectile.width = 6;
@@ -58,7 +58,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 			Main.dust[dust2].velocity = Vector2.Zero;
 			Main.dust[dust2].velocity = Vector2.Zero;
 			Main.dust[dust2].scale = 0.9f;
-			Main.dust[dust].scale = 0.9f;
+			Main.dust[dust].scale = 1.2f;
 
 			//change trajectory to home in on target
 			if (targetAcquired)
