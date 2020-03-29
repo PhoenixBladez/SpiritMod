@@ -23,12 +23,12 @@ namespace SpiritMod.NPCs.Dungeon
 			npc.width = 40;
 			npc.height = 90;
 
-			npc.lifeMax = 190;
+			npc.lifeMax = 120;
 			npc.defense = 14;
-			npc.damage = 27;
+			npc.damage = 25;
 
 			npc.HitSound = SoundID.NPCHit2;
-			npc.DeathSound = SoundID.NPCDeath6;
+			npc.DeathSound = SoundID.NPCDeath2;
 
 			npc.value = 1200f;
 			npc.knockBackResist = 0.75f;
@@ -54,6 +54,10 @@ namespace SpiritMod.NPCs.Dungeon
             int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
             if (distance < 200)
             {
+                if (!aggroed)
+                {
+                    Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 53);
+                }
                 aggroed = true;
             }
 
@@ -168,6 +172,10 @@ namespace SpiritMod.NPCs.Dungeon
         }
         public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
         {
+            if (!aggroed)
+            {
+                Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 53);
+            }
             aggroed = true;
         }
         public override void FindFrame(int frameHeight)
@@ -176,7 +184,11 @@ namespace SpiritMod.NPCs.Dungeon
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.player.ZoneDungeon ? 0.04f : 0f;
+            if (spawnInfo.spawnTileType == TileID.BlueDungeonBrick && NPC.CountNPCS(mod.NPCType("Illusionist")) < 1)
+            {
+                return spawnInfo.player.ZoneDungeon ? 0.06f : 0f;
+            }
+            return spawnInfo.player.ZoneDungeon && NPC.CountNPCS(mod.NPCType("Illusionist")) < 1 ? 0.01f : 0f;
         }
 
         public override void HitEffect(int hitDirection, double damage)

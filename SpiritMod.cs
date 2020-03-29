@@ -313,9 +313,6 @@ namespace SpiritMod
 			instance = this;
 			if (Main.rand == null)
 				Main.rand = new Terraria.Utilities.UnifiedRandom();
-			if (!Main.dedServ)
-				AddEquipTexture(null, EquipType.Legs, "TalonGarb_Legs", "SpiritMod/Items/Armor/TalonGarb_Legs");
-				EmptyTexture = GetTexture("Empty");
 			//Always keep this call in the first line of Load!
 			LoadReferences();
 			//Don't add any code before this point,
@@ -327,13 +324,6 @@ namespace SpiritMod
 			Filters.Scene["SpiritMod:ReachSky"] = new Filter(new ScreenShaderData("FilterBloodMoon").UseColor(0.05f, 0.05f, .05f).UseOpacity(0.7f), EffectPriority.High);
 			Filters.Scene["SpiritMod:WindEffect"] = new Filter((new BlizzardShaderData("FilterBlizzardForeground")).UseColor(0.4f, 0.4f, 0.4f).UseSecondaryColor(0.2f, 0.2f, 0.2f).UseImage("Images/Misc/noise", 0, null).UseOpacity(0.249f).UseImageScale(new Vector2(3f, 0.75f), 0), EffectPriority.High);
             Filters.Scene["SpiritMod:WindEffect2"] = new Filter((new BlizzardShaderData("FilterBlizzardForeground")).UseColor(0.4f, 0.4f, 0.4f).UseSecondaryColor(0.2f, 0.2f, 0.2f).UseImage("Images/Misc/noise", 0, null).UseOpacity(0.549f).UseImageScale(new Vector2(3f, 0.75f), 0), EffectPriority.High);
-
-            auroraEffect = GetEffect("Effects/aurora");
-            noise = GetTexture("Textures/noise");
-
-            SkyManager.Instance["SpiritMod:AuroraSky"] = new AuroraSky();
-            Filters.Scene["SpiritMod:AuroraSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
-            Terraria.Graphics.Effects.Overlays.Scene["SpiritMod:AuroraSky"] = new AuroraOverlay();
             
 			SpecialKey = RegisterHotKey("Armor Bonus", "Q");
 			ReachKey = RegisterHotKey("Frenzy Plant", "E");
@@ -343,6 +333,13 @@ namespace SpiritMod
 
 			if (!Main.dedServ)
 			{
+                auroraEffect = GetEffect("Effects/aurora");
+                noise = GetTexture("Textures/noise");
+                AddEquipTexture(null, EquipType.Legs, "TalonGarb_Legs", "SpiritMod/Items/Armor/TalonGarb_Legs");
+                EmptyTexture = GetTexture("Empty");
+                SkyManager.Instance["SpiritMod:AuroraSky"] = new AuroraSky();
+                Filters.Scene["SpiritMod:AuroraSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
+                Terraria.Graphics.Effects.Overlays.Scene["SpiritMod:AuroraSky"] = new AuroraOverlay();
 
                 Filters.Scene["SpiritMod:Overseer"] = new Filter(new SeerScreenShaderData("FilterMiniTower").UseColor(0f, 0.3f, 1f).UseOpacity(0.75f), EffectPriority.VeryHigh);
 				SkyManager.Instance["SpiritMod:Overseer"] = new SeerSky();
