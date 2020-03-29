@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs
 {
-	public class SpiritSpawnRates : GlobalNPC
+	public class CultistArcherBlue : GlobalNPC
 	{
 
 		public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)

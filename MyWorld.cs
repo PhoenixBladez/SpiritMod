@@ -26,8 +26,6 @@ namespace SpiritMod
 
 		public static bool aurora = false;
 
-        public static float spiritLight = 0;
-
 		public static bool BlueMoon = false;
 		public static int SpiritTiles = 0;
 		public static int ReachTiles = 0;
@@ -3114,7 +3112,7 @@ namespace SpiritMod
 		}
 		public override void PostUpdate()
 		{
-            Player player = Main.LocalPlayer;
+			Player player = Main.LocalPlayer;
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (modPlayer.ZoneSpirit)
 			{

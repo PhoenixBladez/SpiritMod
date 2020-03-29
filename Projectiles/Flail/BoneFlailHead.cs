@@ -34,21 +34,13 @@ namespace SpiritMod.Projectiles.Flail
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			projectile.Kill();
-            Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 0);
-            for (int i = 0; i < 20; i++)
-            {
-                int dust1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 1);
-            }
-        }
+			int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 1);
+		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			projectile.Kill();
-            Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 0);
-            for (int i = 0; i < 20; i++)
-            {
-                int dust1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 1);
-            }
+			int dust1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 1);
 			return false;
 		}
 

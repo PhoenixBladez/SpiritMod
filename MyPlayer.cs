@@ -309,8 +309,10 @@ namespace SpiritMod
             player.ManageSpecialBiomeVisuals("SpiritMod:AuroraSky", showAurora);
             player.ManageSpecialBiomeVisuals("SpiritMod:ReachSky", reach, player.Center);
             player.ManageSpecialBiomeVisuals("SpiritMod:BlueMoonSky", ZoneBlueMoon, player.Center);
+            player.ManageSpecialBiomeVisuals("SpiritMod:SpiritSky", ZoneSpirit, player.Center);
             player.ManageSpecialBiomeVisuals("SpiritMod:WindEffect", windEffect, player.Center);
             player.ManageSpecialBiomeVisuals("SpiritMod:WindEffect2", windEffect2, player.Center);
+
             player.ManageSpecialBiomeVisuals("SpiritMod:Overseer", NPC.AnyNPCs(mod.NPCType("Overseer")));
             player.ManageSpecialBiomeVisuals("SpiritMod:IlluminantMaster", NPC.AnyNPCs(mod.NPCType("IlluminantMaster")));
             player.ManageSpecialBiomeVisuals("SpiritMod:Atlas", NPC.AnyNPCs(mod.NPCType("Atlas")));

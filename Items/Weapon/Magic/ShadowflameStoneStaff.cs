@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Shadowbreak Wand");
-			Tooltip.SetDefault("Shoots out two bolts of Shadowflame rapidly");
+			Tooltip.SetDefault("Shoots out three bolts of Shadowflame rapidly");
             SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Magic/ShadowflameStoneStaff_Glow");
 		}
 
@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.height = 46;
 			item.value = Item.buyPrice(0, 1, 0, 0);
 			item.rare = 2;
-			item.damage = 13;
+			item.damage = 14;
 			item.knockBack = 4;
 			item.useStyle = 5;
 			Item.staff[item.type] = true;

@@ -181,10 +181,10 @@ namespace SpiritMod.NPCs
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			if (spawnInfo.spawnTileType == TileID.BlueDungeonBrick)
-            {
-			    return spawnInfo.player.ZoneDungeon ? 0.08f : 0f;
-            }
-            return 0f;
+{
+			return spawnInfo.player.ZoneDungeon ? 0.1f : 0f;
+}
+return 0f;
 		}
 
 		public override void NPCLoot()
