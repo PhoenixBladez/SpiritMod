@@ -313,9 +313,6 @@ namespace SpiritMod
 			instance = this;
 			if (Main.rand == null)
 				Main.rand = new Terraria.Utilities.UnifiedRandom();
-			if (!Main.dedServ)
-				AddEquipTexture(null, EquipType.Legs, "TalonGarb_Legs", "SpiritMod/Items/Armor/TalonGarb_Legs");
-				EmptyTexture = GetTexture("Empty");
 			//Always keep this call in the first line of Load!
 			LoadReferences();
 			//Don't add any code before this point,
@@ -327,16 +324,7 @@ namespace SpiritMod
 			Filters.Scene["SpiritMod:ReachSky"] = new Filter(new ScreenShaderData("FilterBloodMoon").UseColor(0.05f, 0.05f, .05f).UseOpacity(0.7f), EffectPriority.High);
 			Filters.Scene["SpiritMod:WindEffect"] = new Filter((new BlizzardShaderData("FilterBlizzardForeground")).UseColor(0.4f, 0.4f, 0.4f).UseSecondaryColor(0.2f, 0.2f, 0.2f).UseImage("Images/Misc/noise", 0, null).UseOpacity(0.249f).UseImageScale(new Vector2(3f, 0.75f), 0), EffectPriority.High);
             Filters.Scene["SpiritMod:WindEffect2"] = new Filter((new BlizzardShaderData("FilterBlizzardForeground")).UseColor(0.4f, 0.4f, 0.4f).UseSecondaryColor(0.2f, 0.2f, 0.2f).UseImage("Images/Misc/noise", 0, null).UseOpacity(0.549f).UseImageScale(new Vector2(3f, 0.75f), 0), EffectPriority.High);
-
-            auroraEffect = GetEffect("Effects/aurora");
-            noise = GetTexture("Textures/noise");
-
-            //filler stuff
-            SkyManager.Instance["SpiritMod:AuroraSky"] = new AuroraSky();
-            Filters.Scene["SpiritMod:AuroraSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
-
-            //the actually important thing
-            Terraria.Graphics.Effects.Overlays.Scene["SpiritMod:AuroraSky"] = new AuroraOverlay();	
+            
 			SpecialKey = RegisterHotKey("Armor Bonus", "Q");
 			ReachKey = RegisterHotKey("Frenzy Plant", "E");
 			HolyKey = RegisterHotKey("Holy Ward", "Z");
@@ -345,8 +333,15 @@ namespace SpiritMod
 
 			if (!Main.dedServ)
 			{
+                auroraEffect = GetEffect("Effects/aurora");
+                noise = GetTexture("Textures/noise");
+                AddEquipTexture(null, EquipType.Legs, "TalonGarb_Legs", "SpiritMod/Items/Armor/TalonGarb_Legs");
+                EmptyTexture = GetTexture("Empty");
+                SkyManager.Instance["SpiritMod:AuroraSky"] = new AuroraSky();
+                Filters.Scene["SpiritMod:AuroraSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
+                Terraria.Graphics.Effects.Overlays.Scene["SpiritMod:AuroraSky"] = new AuroraOverlay();
 
-				Filters.Scene["SpiritMod:Overseer"] = new Filter(new SeerScreenShaderData("FilterMiniTower").UseColor(0f, 0.3f, 1f).UseOpacity(0.75f), EffectPriority.VeryHigh);
+                Filters.Scene["SpiritMod:Overseer"] = new Filter(new SeerScreenShaderData("FilterMiniTower").UseColor(0f, 0.3f, 1f).UseOpacity(0.75f), EffectPriority.VeryHigh);
 				SkyManager.Instance["SpiritMod:Overseer"] = new SeerSky();
 				Filters.Scene["SpiritMod:IlluminantMaster"] = new Filter(new SeerScreenShaderData("FilterMiniTower").UseColor(1.2f, 0.1f, 1f).UseOpacity(0.75f), EffectPriority.VeryHigh);
 				SkyManager.Instance["SpiritMod:IlluminantMasterr"] = new SeerSky();
@@ -571,6 +566,102 @@ namespace SpiritMod
 			}
 		}
 
+        public override void ModifySunLightColor(ref Color tileColor, ref Color backgroundColor)
+        {
+            Microsoft.Xna.Framework.Color white = Microsoft.Xna.Framework.Color.White;
+            Microsoft.Xna.Framework.Color white2 = Microsoft.Xna.Framework.Color.White;
+            if (MyWorld.SpiritTiles > 0)
+            {
+                float num255 = (float)MyWorld.SpiritTiles / 160f;
+                if (num255 > MyWorld.spiritLight)
+                {
+                    MyWorld.spiritLight += 0.01f;
+                }
+                if (num255 < MyWorld.spiritLight)
+                {
+                    MyWorld.spiritLight -= 0.01f;
+                }
+            }
+            else
+            {
+                MyWorld.spiritLight -= 0.02f;
+            }
+            if (MyWorld.spiritLight < 0f)
+            {
+                MyWorld.spiritLight = 0f;
+            }
+            if (MyWorld.spiritLight > 1f)
+            {
+                MyWorld.spiritLight = 1f;
+            }
+            if (MyWorld.spiritLight > 0f)
+            {
+                float num161 = MyWorld.spiritLight;
+                int num160 = Main.bgColor.R;
+                int num159 = Main.bgColor.G;
+                int num158 = Main.bgColor.B;
+                num159 -= (int)(250f * num161 * ((float)(int)Main.bgColor.G / 255f));
+                num160 -= (int)(250f * num161 * ((float)(int)Main.bgColor.R / 255f));
+                num158 -= (int)(250f * num161 * ((float)(int)Main.bgColor.B / 255f));
+                if (num159 < 15)
+                {
+                    num159 = 15;
+                }
+                if (num160 < 15)
+                {
+                    num160 = 15;
+                }
+                if (num158 < 15)
+                {
+                    num158 = 15;
+                }
+                Main.bgColor.R = (byte)num160;
+                Main.bgColor.G = (byte)num159;
+                Main.bgColor.B = (byte)num158;
+                num160 = white.R;
+                num159 = white.G;
+                num158 = white.B;
+                num159 -= (int)(10f * num161 * ((float)(int)white.G / 255f));
+                num160 -= (int)(30f * num161 * ((float)(int)white.R / 255f));
+                num158 -= (int)(10f * num161 * ((float)(int)white.B / 255f));
+                if (num160 < 15)
+                {
+                    num160 = 15;
+                }
+                if (num159 < 15)
+                {
+                    num159 = 15;
+                }
+                if (num158 < 15)
+                {
+                    num158 = 15;
+                }
+                white.R = (byte)num160;
+                white.G = (byte)num159;
+                white.B = (byte)num158;
+                num160 = white2.R;
+                num159 = white2.G;
+                num158 = white2.B;
+                num159 -= (int)(140f * num161 * ((float)(int)white2.R / 255f));
+                num160 -= (int)(170f * num161 * ((float)(int)white2.G / 255f));
+                num158 -= (int)(190f * num161 * ((float)(int)white2.B / 255f));
+                if (num160 < 15)
+                {
+                    num160 = 15;
+                }
+                if (num159 < 15)
+                {
+                    num159 = 15;
+                }
+                if (num158 < 15)
+                {
+                    num158 = 15;
+                }
+                white2.R = (byte)num160;
+                white2.G = (byte)num159;
+                white2.B = (byte)num158;
+            }
+        }
 
 		const int ShakeLength = 5;
 		int ShakeCount = 0;
