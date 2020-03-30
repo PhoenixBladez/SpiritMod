@@ -34,7 +34,7 @@ namespace SpiritMod.NPCs
             {
                 return 0f;
             }
-            return SpawnCondition.Cavern.Chance * 0.08f;
+            return SpawnCondition.Cavern.Chance * 0.09f;
         }
         public override void HitEffect(int hitDirection, double damage)
 		{
@@ -92,14 +92,14 @@ namespace SpiritMod.NPCs
 						int amountOfProjectiles = 1;
 						for (int i = 0; i < amountOfProjectiles; ++i)
 						{
-							for (int k = 0; k < 11; k++)
-							{
-								Dust.NewDust(npc.position, npc.width, npc.height, 5, -npc.direction, -1f, 0, default(Color), .61f);
-							}
 							float A = (float)Main.rand.Next(-50, 50) * 0.02f;
 							float B = (float)Main.rand.Next(-50, 50) * 0.02f;
 							int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y - 10, direction.X + A, direction.Y + B, mod.ProjectileType("WheezerCloud"), npc.damage / 3 * 2, 1, Main.myPlayer, 0, 0);
-							Main.projectile[p].hostile = true;
+                            for (int k = 0; k < 11; k++)
+                            {
+                                Dust.NewDust(npc.position, npc.width, npc.height, 5, direction.X + A, direction.Y + B, 0, default(Color), .61f);
+                            }
+                            Main.projectile[p].hostile = true;
 						}
                     shootTimer = 0;
 				}

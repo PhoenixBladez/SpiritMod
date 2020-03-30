@@ -6,9 +6,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.NPCs
+namespace SpiritMod.NPCs.Dungeon
 {
-	public class DungeonCubeGreen : ModNPC
+	public class DungeonCubePink : ModNPC
 	{
 		bool xacc = true;
 		bool yacc = false;
@@ -180,27 +180,27 @@ namespace SpiritMod.NPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.spawnTileType == TileID.GreenDungeonBrick)
-{
-			return spawnInfo.player.ZoneDungeon ? 0.1f : 0f;
-}
-return 0f;
+			if (spawnInfo.spawnTileType == 44)
+            {
+			    return spawnInfo.player.ZoneDungeon ? 0.08f : 0f;
+            }
+            return 0f;
 		}
 
 		public override void NPCLoot()
 		{
 
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 327);
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 137, Main.rand.Next(4));
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 139, Main.rand.Next(4));
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0)
 			{
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DungeonCubeGreenGore1"));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DungeonCubeGreenGore2"));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DungeonCubeGreenGore3"));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DungeonCubeGreenGore4"));
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DungeonCubePinkGore1"));
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DungeonCubePinkGore2"));
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DungeonCubePinkGore3"));
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DungeonCubePinkGore4"));
 			}
 		}
 		

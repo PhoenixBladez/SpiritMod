@@ -17,8 +17,6 @@ namespace SpiritMod.Projectiles.Hostile
 		{
 			projectile.CloneDefaults(ProjectileID.Bullet);
 			projectile.extraUpdates = 1;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 			projectile.light = 0;
 			projectile.timeLeft = 255;
 			aiType = ProjectileID.Bullet;
@@ -27,33 +25,23 @@ namespace SpiritMod.Projectiles.Hostile
 			projectile.scale *= .8f;
 		}
 
-		public override bool PreAI()
-		{
+        public override void AI()
+        {
             projectile.velocity *= .98f;
-			projectile.alpha --;
-			if (projectile.alpha < 0)
-				projectile.alpha = 0;
+            projectile.alpha --;
+            if (projectile.alpha <= 0)
+                projectile.Kill();
 
-			projectile.spriteDirection = projectile.direction;
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 3)
-			{
-				projectile.frame++;
-				projectile.frameCounter = 0;
-				if (projectile.frame >= 8)
-					projectile.frame = 0;
-			}
-
-			return true;
-		}
-
-		public override void Kill(int timeLeft)
-		{
-			for (int i = 0; i < 10; i++)
-			{
-				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 0);
-			}
-		}
+            projectile.spriteDirection = projectile.direction;
+            projectile.frameCounter++;
+            if (projectile.frameCounter >= 6)
+            {
+                projectile.frame++;
+                projectile.frameCounter = 0;
+                if (projectile.frame >= 8)
+                    projectile.frame = 0;
+            }
+        }
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
 			if (Main.rand.Next(2) == 1)

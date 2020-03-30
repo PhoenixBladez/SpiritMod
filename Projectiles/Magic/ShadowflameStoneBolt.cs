@@ -74,7 +74,7 @@ namespace SpiritMod.Projectiles.Magic
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (Main.rand.Next(4) == 0)
+			if (Main.rand.Next(8) == 0)
 				target.AddBuff(BuffID.ShadowFlame, 180);
         }
 	}

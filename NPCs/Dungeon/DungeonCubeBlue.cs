@@ -6,9 +6,10 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.NPCs
-{
-	public class DungeonCubeBlue : ModNPC
+namespace SpiritMod.NPCs.Dungeon
+{ 
+
+    public class DungeonCubeBlue : ModNPC
 	{
 		bool xacc = true;
 		bool yacc = false;

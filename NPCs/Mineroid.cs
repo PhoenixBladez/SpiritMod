@@ -13,7 +13,7 @@ namespace SpiritMod.NPCs
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mineroid");
-			Main.npcFrameCount[npc.type] = 10;
+			Main.npcFrameCount[npc.type] = 6;
 		}
 
 		public override void SetDefaults()
@@ -62,7 +62,6 @@ namespace SpiritMod.NPCs
 			for (int k = 0; k < 11; k++)
 			{
 				Dust.NewDust(npc.position, npc.width, npc.height, 24, hitDirection, -1f, 0, default(Color), .61f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 6, hitDirection, -1f, 0, default(Color), .41f);
 			}
 			if (npc.life <= 0)
 			{
@@ -82,7 +81,6 @@ namespace SpiritMod.NPCs
 					if (Main.rand.Next(2) == 0)
 					{
 						Main.dust[num622].scale = 0.5f;
-						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 					}
 				}
 			}
@@ -98,24 +96,14 @@ namespace SpiritMod.NPCs
 		int timer = 0;
 		public override void AI()
 		{
-			Player target = Main.player[npc.target];
-			timer++;
-			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
-			if (timer >= 180)
-			{
-			for (int k = 0; k < 11; k++)
-			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 24, -npc.direction, -1f, 0, default(Color), .61f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 6, -npc.direction, -1f, 0, default(Color), .41f);
-			}
-				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 89);
-				int type = mod.ProjectileType("MeteorShardHostile");
-				int p = Terraria.Projectile.NewProjectile(npc.position.X, npc.position.Y, -(npc.position.X - target.position.X) / distance * 4, -(npc.position.Y - target.position.Y) / distance * 4, type, (int)((npc.damage * .5)), 0);
-				Main.projectile[p].friendly = false;
-				Main.projectile[p].hostile = true;
-				timer = 0;
-			}		
-			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.227f, .174f, .059f);
+            timer++;
+            if (timer >= 90)
+            {
+                Vector2 vector2_2 = Vector2.UnitY.RotatedByRandom(1.57079637050629f) * new Vector2(5f, 3f);
+                int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector2_2.X, vector2_2.Y, mod.ProjectileType("MeteorShardHostile1"), npc.damage/2, 0.0f, Main.myPlayer, 0.0f, (float)npc.whoAmI);
+                Main.projectile[p].hostile = true;
+                timer = 0;
+            }
 
 			npc.spriteDirection = npc.direction;
 		}

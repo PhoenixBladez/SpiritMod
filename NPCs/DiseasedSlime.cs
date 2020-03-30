@@ -1,5 +1,9 @@
 using Terraria;
+using System;
 using Terraria.ID;
+using System.Diagnostics;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs
@@ -47,5 +51,17 @@ namespace SpiritMod.NPCs
 				target.AddBuff(BuffID.Poisoned, 300);
 			}
 		}
-	}
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            if (npc.life <= 0 || npc.life >= 0)
+            {
+                int d = 193;
+                for (int k = 0; k < 20; k++)
+                {
+                    Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.Purple, 0.7f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.Purple, 0.7f);
+                }
+            }
+        }
+    }
 }

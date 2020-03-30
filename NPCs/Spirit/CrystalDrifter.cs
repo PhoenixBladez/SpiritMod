@@ -114,7 +114,7 @@ namespace SpiritMod.NPCs
             Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 51);
             for (int k = 0; k < 20; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 76, hitDirection * 2f, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 68, hitDirection * 2f, -1f, 0, default(Color), 1f);
 			}
 
 			if (npc.life <= 0)
