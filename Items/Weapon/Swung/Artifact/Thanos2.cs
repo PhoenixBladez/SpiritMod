@@ -93,18 +93,5 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 			}
 			return true;
 		}
-
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "Thanos1", 1);
-			recipe.AddIngredient(null, "NecroticSkull", 1);
-			recipe.AddIngredient(null, "TideStone", 1);
-			recipe.AddIngredient(null, "StellarTech", 1);
-			recipe.AddIngredient(null, "PrimordialMagic", 75);
-			recipe.AddTile(null, "CreationAltarTile");
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
-		}
 	}
 }

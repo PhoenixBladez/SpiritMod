@@ -14,7 +14,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Forsworn Pendant");
-			Tooltip.SetDefault("Increases ranged critical strike chance by 2% and melee speed by 3%");
+			Tooltip.SetDefault("Increases ranged critical strike chance by 7% and melee speed by 6%");
 		}
 
 
@@ -30,8 +30,8 @@ namespace SpiritMod.Items.Accessory
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.meleeSpeed += 0.03f;
-            player.rangedCrit += 2;
+            player.meleeSpeed += 0.06f;
+            player.rangedCrit += 7;
         }
     }
 }

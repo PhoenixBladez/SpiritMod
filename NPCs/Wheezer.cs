@@ -34,7 +34,7 @@ namespace SpiritMod.NPCs
             {
                 return 0f;
             }
-            return SpawnCondition.Cavern.Chance * 0.09f;
+            return SpawnCondition.Cavern.Chance * 0.08f;
         }
         public override void HitEffect(int hitDirection, double damage)
 		{
@@ -83,9 +83,9 @@ namespace SpiritMod.NPCs
 				shootTimer++;
 				if (shootTimer >= 80)
 				{
-					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 95);
-					Vector2 direction = Main.player[npc.target].Center - npc.Center;
-					direction.Normalize();
+					    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 95);
+					    Vector2 direction = Main.player[npc.target].Center - npc.Center;
+					    direction.Normalize();
 						direction.X *= 5f;
 						direction.Y *= 5f;
 

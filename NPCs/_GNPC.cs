@@ -838,7 +838,7 @@ namespace SpiritMod.NPCs
 			}
 			#endregion
 
-			if (Main.rand.Next(13) == 1 && !npc.SpawnedFromStatue)
+			if (Main.rand.Next(40) == 1 && !npc.SpawnedFromStatue)
 			{
 				npc.DropItem(mod.ItemType("PrimordialMagic"));
 			}

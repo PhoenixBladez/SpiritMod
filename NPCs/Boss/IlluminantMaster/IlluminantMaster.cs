@@ -164,7 +164,7 @@ namespace SpiritMod.NPCs.Boss.IlluminantMaster
 				}
 				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 9);
 				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, mod.ProjectileType("FaeDetonator"), 35, 1, Main.myPlayer, 0, 0); //Make projectilllllelelelelele
-				npc.position.X = player.position.X - 500f; //Teleport in a corner of the screen
+				npc.position.X = player.position.X - 500f; 
 				npc.position.Y = player.position.Y + 500f;
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;//Moves to you
 				direction.Normalize();

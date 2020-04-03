@@ -99,6 +99,13 @@ namespace SpiritMod.NPCs.Dungeon
 				target.AddBuff(BuffID.Cursed, 300);
 			}
 		}
+        public override void NPCLoot()
+        {
+            if (Main.rand.Next(40) == 0)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ForbiddenKnowledgeTome"));
+            }
+        }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height * 0.5f));

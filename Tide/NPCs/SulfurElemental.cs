@@ -32,8 +32,6 @@ namespace SpiritMod.Tide.NPCs
 			npc.damage = 80;
 			npc.lifeMax = 7000;
 			npc.knockBackResist = 0;
-
-			npc.boss = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 

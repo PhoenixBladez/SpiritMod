@@ -60,17 +60,5 @@ namespace SpiritMod.Items.Weapon.Magic.Artifact
 			}
 			return false;
 		}
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "OddKeystone", 1);
-			recipe.AddIngredient(null, "RootPod", 1);
-			recipe.AddIngredient(null, "GildedIdol", 1);
-			recipe.AddIngredient(null, "DemonLens", 1);
-			recipe.AddIngredient(null, "PrimordialMagic", 50);
-			recipe.AddTile(null, "CreationAltarTile");
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
-		}
 	}
 }

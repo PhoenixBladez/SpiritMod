@@ -2599,7 +2599,7 @@ namespace SpiritMod
                 while (!placeSuccessful)
                 {
                     int x = WorldGen.genRand.Next(0, Main.maxTilesX);
-                    int y = WorldGen.genRand.Next((int)Main.worldSurface - 16, Main.maxTilesY);
+                    int y = WorldGen.genRand.Next((int)Main.worldSurface - 200, Main.maxTilesY);
                     tile = Main.tile[x, y];
                     if (tile.type == mod.TileType("ReachGrassTile"))
                     {
@@ -2633,7 +2633,59 @@ namespace SpiritMod
                         continue;
                     }
                     {
-
+                        int[,] BoneIslandShape = new int[,]
+                        {
+                            {0,0,0,0,0,0,3,0,0,3,0,0,4,0,0,0,0,5,0,0,0,4,0,4,0,0,0,3,0,0,0,0},
+                            {0,0,2,2,2,2,2,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,2,2,2,0,0},
+                            {0,0,0,0,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,0,0,0},
+                            {0,0,0,0,0,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,0,0,0,0,0},
+                            {0,0,0,0,0,2,2,2,2,2,2,1,7,7,1,1,1,1,1,7,7,1,2,2,2,2,2,0,0,0,0,0},
+                            {0,0,0,0,0,0,0,2,2,2,2,2,2,7,1,1,1,1,1,2,2,2,2,2,2,0,2,0,0,0,0,0},
+                            {0,0,0,0,0,0,0,2,0,0,2,2,2,7,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0},
+                            {0,0,0,0,0,0,0,2,0,0,2,2,2,2,2,2,2,2,2,2,0,0,2,2,0,0,0,0,0,0,0,0},
+                            {0,0,0,0,0,0,0,0,0,0,0,2,2,0,2,2,2,2,0,2,0,0,0,0,0,0,0,0,0,0,0,0},
+                            {0,0,0,0,0,0,0,0,0,0,0,0,2,0,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                        };
+                        int[,] BoneIslandWalls = new int[,]
+                        {
+                            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                            {0,0,0,0,0,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,0,0,0,0},
+                            {0,0,0,0,0,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,0,0,0,0,0},
+                            {0,0,0,0,0,0,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,2,2,2,0,2,0,0,0,0,0},
+                            {0,0,0,0,0,0,2,0,2,2,2,2,2,2,1,1,1,1,1,2,2,2,2,2,0,0,0,0,0,0,0,0},
+                            {0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0},
+                            {0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,0,0,0,2,0,0,0,0,0,0,0,0},
+                            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                        };
+                        bool placed = false;
+                        while (!placed)
+                        {
+                            for (int i = 0; i < 3; i++)
+                            {
+                                // Select a place in the first 6th of the world
+                                int towerX = WorldGen.genRand.Next(300, Main.maxTilesX / 6); // from 50 since there's a unaccessible area at the world's borders
+                                                                                             // 50% of choosing the last 6th of the world
+                                if (WorldGen.genRand.NextBool())
+                                {
+                                    towerX = Main.maxTilesX - towerX;
+                                }
+                                int towerY = WorldGen.genRand.Next(Main.maxTilesY / 9, Main.maxTilesY / 8);
+                                Tile tile = Main.tile[towerX, towerY];
+                                if (tile.active())
+                                {
+                                    continue;
+                                }
+                                {
+                                    PlaceBoneIsland(towerX, towerY, BoneIslandShape);
+                                    PlaceBoneIslandWalls(towerX, towerY, BoneIslandWalls);
+                                }
+                                placed = true;
+                            }
+                        }
                         for (int k = 0; k < Main.rand.Next(9, 15); k++)
                         {
                             GenerateSepulchre();
@@ -2676,11 +2728,12 @@ namespace SpiritMod
                 {
                     if (WorldGen.CopperTierOre == TileID.Copper)
                     {
-                        for (int i = 0; i < Main.maxTilesX * 13.5; i++)
+                        for (int i = 0; i < Main.maxTilesX * 19.5; i++)
                         {
                             int num3 = WorldGen.genRand.Next(0, Main.maxTilesX);
                             int num4 = WorldGen.genRand.Next((int)Main.worldSurface, Main.maxTilesY);
-                            if (Main.tile[num3, num4].type == TileID.Stone || Main.tile[num3, num4].type == TileID.Dirt)
+                            Tile tile = Main.tile[num3, num4];
+                            if (tile.type == TileID.Stone || tile.type == TileID.Dirt)
                             {
                                 WorldGen.PlaceObject(num3, num4, mod.TileType("CopperPile"));
                                 NetMessage.SendObjectPlacment(-1, num3, num4, mod.TileType("CopperPile"), 0, 0, -1, -1);
@@ -2689,11 +2742,12 @@ namespace SpiritMod
                     }
                     else if (WorldGen.CopperTierOre == TileID.Tin)
                     {
-                        for (int i = 0; i < Main.maxTilesX * 13.5; i++)
+                        for (int i = 0; i < Main.maxTilesX * 19.5; i++)
                         {
                             int num3 = WorldGen.genRand.Next(0, Main.maxTilesX);
                             int num4 = WorldGen.genRand.Next((int)Main.worldSurface, Main.maxTilesY);
-                            if (Main.tile[num3, num4].type == TileID.Stone || Main.tile[num3, num4].type == TileID.Dirt)
+                            Tile tile = Main.tile[num3, num4];
+                            if (tile.type == TileID.Stone || tile.type == TileID.Dirt)
                             {
                                 WorldGen.PlaceObject(num3, num4, mod.TileType("TinPile"));
                                 NetMessage.SendObjectPlacment(-1, num3, num4, mod.TileType("TinPile"), 0, 0, -1, -1);
@@ -2702,11 +2756,12 @@ namespace SpiritMod
                     }
                     if (WorldGen.IronTierOre == TileID.Iron)
                     {
-                        for (int i = 0; i < Main.maxTilesX * 9; i++)
+                        for (int i = 0; i < Main.maxTilesX * 12; i++)
                         {
                             int num3 = WorldGen.genRand.Next(0, Main.maxTilesX);
                             int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
-                            if (Main.tile[num3, num4].type == TileID.Stone || Main.tile[num3, num4].type == TileID.Dirt)
+                            Tile tile = Main.tile[num3, num4];
+                            if (tile.type == TileID.Stone || tile.type == TileID.Dirt)
                             {
                                 WorldGen.PlaceObject(num3, num4 - 1, mod.TileType("IronPile"));
                                 NetMessage.SendObjectPlacment(-1, num3, num4 - 1, mod.TileType("IronPile"), 0, 0, -1, -1);
@@ -2715,11 +2770,12 @@ namespace SpiritMod
                     }
                     else if (WorldGen.IronTierOre == TileID.Lead)
                     {
-                        for (int i = 0; i < Main.maxTilesX * 9; i++)
+                        for (int i = 0; i < Main.maxTilesX * 12; i++)
                         {
                             int num3 = WorldGen.genRand.Next(0, Main.maxTilesX);
                             int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
-                            if (Main.tile[num3, num4].type == TileID.Stone || Main.tile[num3, num4].type == TileID.Dirt)
+                            Tile tile = Main.tile[num3, num4];
+                            if (tile.type == TileID.Stone || tile.type == TileID.Dirt)
                             {
                                 WorldGen.PlaceObject(num3, num4 - 1, mod.TileType("LeadPile"));
                                 NetMessage.SendObjectPlacment(-1, num3, num4 - 1, mod.TileType("LeadPile"), 0, 0, -1, -1);
@@ -2728,11 +2784,12 @@ namespace SpiritMod
                     }
                     if (WorldGen.SilverTierOre == TileID.Silver)
                     {
-                        for (int i = 0; i < Main.maxTilesX * 6.75f; i++)
+                        for (int i = 0; i < Main.maxTilesX * 9.75f; i++)
                         {
                             int num3 = WorldGen.genRand.Next(0, Main.maxTilesX);
                             int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
-                            if (Main.tile[num3, num4].type == TileID.Stone || Main.tile[num3, num4].type == TileID.Dirt)
+                            Tile tile = Main.tile[num3, num4];
+                            if (tile.type == TileID.Stone || tile.type == TileID.Dirt)
                             {
                                 WorldGen.PlaceObject(num3, num4 - 1, mod.TileType("SilverPile"));
                                 NetMessage.SendObjectPlacment(-1, num3, num4 - 1, mod.TileType("SilverPile"), 0, 0, -1, -1);
@@ -2741,11 +2798,12 @@ namespace SpiritMod
                     }
                     else if (WorldGen.SilverTierOre == TileID.Tungsten)
                     {
-                        for (int i = 0; i < Main.maxTilesX * 6.75f; i++)
+                        for (int i = 0; i < Main.maxTilesX * 9.75f; i++)
                         {
                             int num3 = WorldGen.genRand.Next(0, Main.maxTilesX);
                             int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
-                            if (Main.tile[num3, num4].type == TileID.Stone || Main.tile[num3, num4].type == TileID.Dirt)
+                            Tile tile = Main.tile[num3, num4];
+                            if (tile.type == TileID.Stone || tile.type == TileID.Dirt)
                             {
                                 WorldGen.PlaceObject(num3, num4 - 1, mod.TileType("TungstenPile"));
                                 NetMessage.SendObjectPlacment(-1, num3, num4 - 1, mod.TileType("TungstenPile"), 0, 0, -1, -1);
@@ -2754,11 +2812,12 @@ namespace SpiritMod
                     }
                     if (WorldGen.GoldTierOre == TileID.Gold)
                     {
-                        for (int i = 0; i < Main.maxTilesX * 4f; i++)
+                        for (int i = 0; i < Main.maxTilesX * 6f; i++)
                         {
                             int num3 = WorldGen.genRand.Next(0, Main.maxTilesX);
                             int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
-                            if (Main.tile[num3, num4].type == TileID.Stone || Main.tile[num3, num4].type == TileID.Dirt)
+                            Tile tile = Main.tile[num3, num4];
+                            if (tile.type == TileID.Stone || tile.type == TileID.Dirt)
                             {
                                 WorldGen.PlaceObject(num3, num4 - 1, mod.TileType("GoldPile"));
                                 NetMessage.SendObjectPlacment(-1, num3, num4 - 1, mod.TileType("GoldPile"), 0, 0, -1, -1);
@@ -2767,11 +2826,12 @@ namespace SpiritMod
                     }
                     else if (WorldGen.GoldTierOre == TileID.Platinum)
                     {
-                        for (int i = 0; i < Main.maxTilesX * 4f; i++)
+                        for (int i = 0; i < Main.maxTilesX * 6f; i++)
                         {
                             int num3 = WorldGen.genRand.Next(0, Main.maxTilesX);
                             int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
-                            if (Main.tile[num3, num4].type == TileID.Stone || Main.tile[num3, num4].type == TileID.Dirt)
+                            Tile tile = Main.tile[num3, num4];
+                            if (tile.type == TileID.Stone || tile.type == TileID.Dirt)
                             {
                                 WorldGen.PlaceObject(num3, num4 - 1, mod.TileType("PlatinumPile"));
                                 NetMessage.SendObjectPlacment(-1, num3, num4 - 1, mod.TileType("PlatinumPile"), 0, 0, -1, -1);
@@ -3272,46 +3332,12 @@ namespace SpiritMod
 					}
 				}
 			}
-			int[,] BoneIslandShape = new int[,]
-			{
-				{0,0,0,0,0,0,3,0,0,3,0,0,4,0,0,0,0,5,0,0,0,4,0,4,0,0,0,3,0,0,0,0},
-				{0,0,2,2,2,2,2,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,2,2,2,0,0},
-				{0,0,0,0,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,0,0,0},
-				{0,0,0,0,0,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,0,0,0,0,0},
-				{0,0,0,0,0,2,2,2,2,2,2,1,7,7,1,1,1,1,1,7,7,1,2,2,2,2,2,0,0,0,0,0},
-				{0,0,0,0,0,0,0,2,2,2,2,2,2,7,1,1,1,1,1,2,2,2,2,2,2,0,2,0,0,0,0,0},
-				{0,0,0,0,0,0,0,2,0,0,2,2,2,7,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,2,0,0,2,2,2,2,2,2,2,2,2,2,0,0,2,2,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,2,2,0,2,2,2,2,0,2,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,2,0,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-			};
-			int[,] BoneIslandWalls = new int[,]
-			{
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,0,0,0,0},
-				{0,0,0,0,0,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,0,0,0,0,0},
-				{0,0,0,0,0,0,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,2,2,2,0,2,0,0,0,0,0},
-				{0,0,0,0,0,0,2,0,2,2,2,2,2,2,1,1,1,1,1,2,2,2,2,2,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,0,0,0,2,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-			};
-			if (NPC.downedQueenBee)
+            if (NPC.downedQueenBee)
 			{
 				if (!flierMessage)
 				{
-					Main.NewText("Scattered bones rise into the sky...", 204, 153, 0);
+					Main.NewText("The skies grow restless...", 204, 153, 0);
 					flierMessage = true;
-					{
-						{
-							PlaceBoneIsland(Main.spawnTileX, Main.spawnTileY - 100, BoneIslandShape);
-							PlaceBoneIslandWalls(Main.spawnTileX, Main.spawnTileY - 100, BoneIslandWalls);
-						}
-					}
 				}
 			}
 			if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)

@@ -49,7 +49,7 @@ namespace SpiritMod.Items.Accessory.Artifact
                 player.lifeRegen += (int)regenBoost;
             }
         }
-        public override void AddRecipes()
+        /*public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "FrostLotus", 1);
@@ -61,7 +61,6 @@ namespace SpiritMod.Items.Accessory.Artifact
             recipe.AddTile(null, "CreationAltarTile");
             recipe.SetResult(this);
             recipe.AddRecipe();
-        }
-
+        }*/
     }
 }

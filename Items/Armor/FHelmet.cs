@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Floran Helmet");
-			Tooltip.SetDefault("5% Increased magic damage and critical strike chance\nReduces mana cost by 5%");
+			Tooltip.SetDefault("Increases melee speed by 4% and movement speed by 6%");
 		}
 
 
@@ -26,9 +26,9 @@ namespace SpiritMod.Items.Armor
         }
         public override void UpdateEquip(Player player)
         {
-            player.magicCrit += 4;
-            player.magicDamage += 0.05f;
-            player.manaCost -= 0.05f;
+            player.meleeSpeed += .04f;
+            player.moveSpeed += .06f;
+            player.maxRunSpeed += .03f;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

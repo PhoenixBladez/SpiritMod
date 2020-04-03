@@ -15,7 +15,7 @@ namespace SpiritMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Floran Plate");
-            Tooltip.SetDefault("Increases maximum mana by 50 and magic damage by 7%");
+            Tooltip.SetDefault("Increases melee speed and movement speed by 6%");
 
         }
 
@@ -23,15 +23,16 @@ namespace SpiritMod.Items.Armor
         {
             item.width = 34;
             item.height = 18;
-            item.value = Terraria.Item.sellPrice(0, 0, 13, 0);
+            item.value = Terraria.Item.sellPrice(0, 0, 11, 0);
             item.rare = 2;
-            item.defense = 6;
+            item.defense = 5;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.statManaMax2 += 50;
-            player.magicDamage *= 1.07f; //20 max mana
+            player.meleeSpeed += .06f;
+            player.moveSpeed += .06f;
+            player.maxRunSpeed += .03f;
         }
         public override void AddRecipes()  //How to craft this item
         {

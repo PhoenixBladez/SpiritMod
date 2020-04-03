@@ -60,18 +60,5 @@ namespace SpiritMod.Items.Weapon.Magic.Artifact
 			Projectile.NewProjectile(position.X, position.Y, speedX * (Main.rand.Next(500, 900) / 100), speedY * (Main.rand.Next(500, 900) / 100), mod.ProjectileType("FreezeBolt1"), damage, knockBack, player.whoAmI);
 			return false;
 		}
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "Solus2", 1);
-			recipe.AddIngredient(null, "SearingBand", 1);
-			recipe.AddIngredient(null, "CursedMedallion", 1);
-			recipe.AddIngredient(null, "DarkCrest", 1);
-			recipe.AddIngredient(null, "BatteryCore", 1);
-			recipe.AddIngredient(null, "PrimordialMagic", 100);
-			recipe.AddTile(null, "CreationAltarTile");
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
-		}
 	}
 }

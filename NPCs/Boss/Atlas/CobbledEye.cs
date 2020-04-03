@@ -39,25 +39,25 @@ namespace SpiritMod.NPCs.Boss.Atlas
 				start = false;
 			}
 
-			npc.TargetClosest(true);
-			Vector2 direction = Main.player[npc.target].Center - npc.Center;
-			direction.Normalize();
-			direction *= 9f;
-			npc.rotation = direction.ToRotation();
-			timer++;
-			if (timer > 60)
-			{
-				if (Main.rand.Next(4) == 0)
-				{
-					for (int num621 = 0; num621 < 5; num621++)
-					{
-						int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default(Color), 2f);
-					}
-					int damage = expertMode ? 39 : 55;
-					int proj2 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, mod.ProjectileType("MiracleBeam"), damage, 1f, npc.target);
-				}
-				timer = 0;
-			}
+			    npc.TargetClosest(true);
+			    Vector2 direction = Main.player[npc.target].Center - npc.Center;
+			    direction.Normalize();
+			    direction *= 9f;
+			    npc.rotation = direction.ToRotation();
+			    timer++;
+			    if (timer > 60)
+			    {
+				    if (Main.rand.Next(4) == 0)
+				    {
+					    for (int num621 = 0; num621 < 5; num621++)
+					    {
+						    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default(Color), 2f);
+					    }
+					    int damage = expertMode ? 39 : 55;
+					    int proj2 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, mod.ProjectileType("MiracleBeam"), damage, 1f, npc.target);
+				    }
+				    timer = 0;
+			    }
 					for (int index1 = 0; index1 < 6; ++index1)
 					{
 						float x = (npc.Center.X - 22);

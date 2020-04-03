@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Weapon.Magic
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Sunbeam Staff");
+			DisplayName.SetDefault("Photosynthestrike");
             Tooltip.SetDefault("Shoots out a fast moving, homing solar bolt");
         }
 
@@ -27,12 +27,12 @@ namespace SpiritMod.Items.Weapon.Magic
             item.magic = true;
             item.width = 64;
             item.height = 64;
-            item.useTime = 23;
+            item.useTime = 19;
             item.mana = 8;
-            item.useAnimation = 23;
+            item.useAnimation = 19;
             item.useStyle = 5;
-            item.knockBack = 3f ;
-            item.value = Terraria.Item.sellPrice(0, 3, 0, 0);
+            item.knockBack = 3f;
+            item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
             item.rare = 2;
             item.UseSound = SoundID.Item72;
             item.autoReuse = true;

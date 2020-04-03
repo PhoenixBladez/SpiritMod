@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Placeable
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Coiled Energizer");
-            Tooltip.SetDefault("Creates an electric field that energizes nearby players\nThis");
+            Tooltip.SetDefault("Creates an electric field that energizes nearby players, greatly increasing movement speed");
 		}
 
 

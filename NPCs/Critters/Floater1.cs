@@ -69,7 +69,6 @@ namespace SpiritMod.NPCs.Critters
 					Main.dust[num622].noGravity = true;
 					{
 						Main.dust[num622].scale = 0.23f;
-						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 					}
 				}
 			}

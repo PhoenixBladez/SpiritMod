@@ -95,7 +95,7 @@ namespace SpiritMod.NPCs
 			if (SpawnHelper.SupressSpawns(spawnInfo, SpawnFlags.Lihzahrd, SpawnZones.None, SpawnFlags.SafeWall))
 				return 0;
 
-			return SpawnCondition.JungleTemple.Chance * 0.456f;
+			return SpawnCondition.JungleTemple.Chance * 0.256f;
 		}
 	}
 }

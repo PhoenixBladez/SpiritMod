@@ -13,7 +13,6 @@ namespace SpiritMod.Items.Armor.ClatterboneArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Clatterbone Greaves");
-			Tooltip.SetDefault("Increases melee speed by 5%");
 		}
         public override void SetDefaults()
         {
@@ -24,12 +23,6 @@ namespace SpiritMod.Items.Armor.ClatterboneArmor
 
             item.defense = 6;
         }
-
-        public override void UpdateEquip(Player player)
-        {
-            player.meleeSpeed += 0.05F;
-        }
-
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

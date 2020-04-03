@@ -25,7 +25,7 @@ namespace SpiritMod.Tiles.Piles
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Copper Pile");
-            AddMapEntry(new Color(255, 108, 255), name);
+            AddMapEntry(new Color(70, 70, 70), name);
             dustType = DustID.CopperCoin;
 			disableSmartCursor = true;
 		}
@@ -35,7 +35,7 @@ namespace SpiritMod.Tiles.Piles
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 36, 18, ItemID.CopperOre, Main.rand.Next(2) + 1);
+			Item.NewItem(i * 16, j * 16, 36, 18, ItemID.CopperOre, Main.rand.Next(5, 6) + 1);
 			Item.NewItem(i * 16, j * 10, 18, 36, ItemID.CopperOre);
 			Item.NewItem(i * 10, j * 16, 36, 36, ItemID.CopperOre);
 		}
@@ -52,7 +52,7 @@ namespace SpiritMod.Tiles.Piles
 			TileObjectData.newTile.Height = 1;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Tin Pile");
-			AddMapEntry(new Color(255, 108, 255), name);
+			AddMapEntry(new Color(70, 70, 70), name);
 			TileObjectData.newTile.CoordinateHeights = new int[]{16};
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.CoordinatePadding = 2;
@@ -66,7 +66,7 @@ namespace SpiritMod.Tiles.Piles
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 18, 36, ItemID.TinOre, Main.rand.Next(2) + 1);
+			Item.NewItem(i * 16, j * 16, 18, 36, ItemID.TinOre, Main.rand.Next(5, 6) + 1);
 			Item.NewItem(i * 16, j * 10, 36, 18, ItemID.TinOre);
 			Item.NewItem(i * 16, j * 16, 36, 36, ItemID.TinOre);
 		}
@@ -83,7 +83,7 @@ namespace SpiritMod.Tiles.Piles
 			TileObjectData.newTile.Height = 2;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Iron Pile");
-            AddMapEntry(new Color(255, 108, 255), name);
+            AddMapEntry(new Color(70, 70, 70), name);
             TileObjectData.newTile.CoordinateHeights = new int[]{16,16};
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.CoordinatePadding = 2;
@@ -97,7 +97,7 @@ namespace SpiritMod.Tiles.Piles
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 18, 36, ItemID.IronOre, Main.rand.Next(2) + 3);
+			Item.NewItem(i * 16, j * 16, 18, 36, ItemID.IronOre, Main.rand.Next(5, 7) + 3);
 			Item.NewItem(i * 16, j * 10, 36, 18, ItemID.IronOre);
 			Item.NewItem(i * 16, j * 16, 36, 36, ItemID.IronOre);
 		}
@@ -114,7 +114,7 @@ namespace SpiritMod.Tiles.Piles
 			TileObjectData.newTile.Height = 2;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Lead Pile");
-            AddMapEntry(new Color(255, 108, 255), name);
+            AddMapEntry(new Color(70, 70, 70), name);
             TileObjectData.newTile.CoordinateHeights = new int[]{16,16};
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.CoordinatePadding = 2;
@@ -128,7 +128,7 @@ namespace SpiritMod.Tiles.Piles
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 18, 36, ItemID.LeadOre, Main.rand.Next(2) + 3);
+			Item.NewItem(i * 16, j * 16, 18, 36, ItemID.LeadOre, Main.rand.Next(5, 7) + 3);
 			Item.NewItem(i * 16, j * 10, 36, 18, ItemID.LeadOre);
 			Item.NewItem(i * 16, j * 16, 36, 36, ItemID.LeadOre);
 		}
@@ -145,7 +145,7 @@ namespace SpiritMod.Tiles.Piles
 			TileObjectData.newTile.Height = 2;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Silver Pile");
-            AddMapEntry(new Color(255, 108, 255), name);
+            AddMapEntry(new Color(70, 70, 70), name);
             TileObjectData.newTile.CoordinateHeights = new int[]{16,16};
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.CoordinatePadding = 2;
@@ -159,7 +159,7 @@ namespace SpiritMod.Tiles.Piles
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 18, 36, ItemID.SilverOre, Main.rand.Next(4) + 4);
+			Item.NewItem(i * 16, j * 16, 18, 36, ItemID.SilverOre, Main.rand.Next(6, 8) + 4);
 			Item.NewItem(i * 16, j * 10, 36, 18, ItemID.SilverOre);
 			Item.NewItem(i * 16, j * 16, 36, 36, ItemID.SilverOre);
 		}
@@ -176,7 +176,7 @@ namespace SpiritMod.Tiles.Piles
 			TileObjectData.newTile.Height = 2;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Tungsten Pile");
-            AddMapEntry(new Color(255, 108, 255), name);
+            AddMapEntry(new Color(70, 70, 70), name);
             TileObjectData.newTile.CoordinateHeights = new int[]{16,16};
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.CoordinatePadding = 2;
@@ -190,7 +190,7 @@ namespace SpiritMod.Tiles.Piles
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 18, 36, ItemID.TungstenOre, Main.rand.Next(4) + 4);
+			Item.NewItem(i * 16, j * 16, 18, 36, ItemID.TungstenOre, Main.rand.Next(6, 8) + 4);
 			Item.NewItem(i * 16, j * 10, 36, 18, ItemID.TungstenOre);
 			Item.NewItem(i * 16, j * 16, 36, 36, ItemID.TungstenOre);
 		}
@@ -207,7 +207,7 @@ namespace SpiritMod.Tiles.Piles
 			TileObjectData.newTile.Height = 2;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Gold Pile");
-            AddMapEntry(new Color(255, 108, 255), name);
+            AddMapEntry(new Color(70, 70, 70), name);
             TileObjectData.newTile.CoordinateHeights = new int[]{16,16};
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.CoordinatePadding = 2;
@@ -221,7 +221,7 @@ namespace SpiritMod.Tiles.Piles
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 18, 36, ItemID.GoldOre, Main.rand.Next(5) + 4);
+			Item.NewItem(i * 16, j * 16, 18, 36, ItemID.GoldOre, Main.rand.Next(10, 12) + 4);
 			Item.NewItem(i * 16, j * 10, 36, 18, ItemID.GoldOre);
 			Item.NewItem(i * 16, j * 16, 36, 36, ItemID.GoldOre);
 		}
@@ -238,7 +238,7 @@ namespace SpiritMod.Tiles.Piles
 			TileObjectData.newTile.Height = 2;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Platinum Pile");
-            AddMapEntry(new Color(255, 108, 255), name);
+            AddMapEntry(new Color(70, 70, 70), name);
             TileObjectData.newTile.CoordinateHeights = new int[]{16,16};
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.CoordinatePadding = 2;
@@ -252,7 +252,7 @@ namespace SpiritMod.Tiles.Piles
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 18, 36, ItemID.PlatinumOre, Main.rand.Next(5) + 4);
+			Item.NewItem(i * 16, j * 16, 18, 36, ItemID.PlatinumOre, Main.rand.Next(10, 12) + 4);
 			Item.NewItem(i * 16, j * 10, 36, 18, ItemID.PlatinumOre);
 			Item.NewItem(i * 16, j * 16, 36, 36, ItemID.PlatinumOre);
 		}

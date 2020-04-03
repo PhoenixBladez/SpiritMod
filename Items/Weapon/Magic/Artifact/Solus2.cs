@@ -61,17 +61,5 @@ namespace SpiritMod.Items.Weapon.Magic.Artifact
 			}
 			return false;
 		}
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "Solus1", 1);
-			recipe.AddIngredient(null, "NecroticSkull", 1);
-			recipe.AddIngredient(null, "TideStone", 1);
-			recipe.AddIngredient(null, "StellarTech", 1);
-			recipe.AddIngredient(null, "PrimordialMagic", 75);
-			recipe.AddTile(null, "CreationAltarTile");
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
-		}
 	}
 }

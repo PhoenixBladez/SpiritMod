@@ -61,7 +61,6 @@ namespace SpiritMod.Items.Weapon.Swung
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "BoneFlail", 1);
             recipe.AddIngredient(ItemID.FieryGreatsword, 1);
             recipe.AddIngredient(null, "InfernalAppendage", 12);
             recipe.AddIngredient(null, "FieryEssence", 15);

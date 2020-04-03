@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Breath of the Zephyr");
-			Tooltip.SetDefault("Creats a mighty gust of wind to damage your foes");
+			Tooltip.SetDefault("Creats a mighty gust of wind to damage your foes and knock them back\nRight-click to thrust like a spear, at the cost of mana");
 		}
 
 
@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Weapon.Magic
         {
             item.damage = 19;
             item.magic = true;
-            item.mana = 13;
+            item.mana = 9;
             item.width = 46;
             item.height = 46;
             item.useTime = 18;
@@ -27,14 +27,36 @@ namespace SpiritMod.Items.Weapon.Magic
             item.useStyle = 5;
             Item.staff[item.type] = true;
             item.noMelee = true;
-            item.knockBack = 0;
-            item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
+            item.knockBack = 5;
+            item.value = Terraria.Item.sellPrice(0, 0, 40, 0);
             item.rare = 1;
-            item.UseSound = SoundID.Item34;
-            item.autoReuse = false;
             item.shoot = mod.ProjectileType("Zephyr");
-            item.shootSpeed = 26f;
             item.autoReuse = false;
+        }
+
+        public override bool AltFunctionUse(Player player)
+        {
+            return true;
+        }
+        public override bool CanUseItem(Player player)
+        {
+            if (player.altFunctionUse == 2)
+            {
+                item.UseSound = SoundID.Item1;
+                item.shoot = mod.ProjectileType("ZephyrSpearProj");
+                item.noMelee = false;
+                item.shootSpeed = 6f;
+                item.noUseGraphic = true;
+            }
+            else
+            {
+                item.UseSound = SoundID.Item34;
+                item.shoot = mod.ProjectileType("Zephyr");
+                item.noMelee = true;
+                item.noUseGraphic = false;
+                item.shootSpeed = 14f;
+            }
+            return true;
         }
     }
 }

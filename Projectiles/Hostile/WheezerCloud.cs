@@ -28,9 +28,6 @@ namespace SpiritMod.Projectiles.Hostile
         public override void AI()
         {
             projectile.velocity *= .98f;
-            projectile.alpha --;
-            if (projectile.alpha <= 0)
-                projectile.Kill();
 
             projectile.spriteDirection = projectile.direction;
             projectile.frameCounter++;

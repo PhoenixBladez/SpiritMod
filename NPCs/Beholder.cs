@@ -3,6 +3,7 @@ using System;
 using Terraria.ID;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs
@@ -12,129 +13,234 @@ namespace SpiritMod.NPCs
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Beholder");
-			Main.npcFrameCount[npc.type] = Main.npcFrameCount[NPCID.BoundGoblin];
-		}
+			Main.npcFrameCount[npc.type] = 9;
+            NPCID.Sets.TrailCacheLength[npc.type] = 3;
+            NPCID.Sets.TrailingMode[npc.type] = 0;
+        }
 
 		public override void SetDefaults()
 		{
 			npc.width = 72;
 			npc.height = 68;
-			npc.damage = 22;
-			npc.defense = 14;
-			npc.lifeMax = 85;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath2;
+			npc.damage = 33;
+			npc.defense = 15;
+			npc.lifeMax = 490;
+			npc.HitSound = SoundID.DD2_CrystalCartImpact;
+            npc.DeathSound = SoundID.NPCDeath2;
 			npc.value = 760f;
-			npc.knockBackResist = .35f;
+            npc.knockBackResist = 0.35f;
+            npc.noTileCollide = true;
 			npc.noGravity = true;
-			npc.noTileCollide = true;
-			animationType = NPCID.BoundGoblin;
-		}
+            npc.aiStyle = 14;
+            npc.noGravity = true;
+            aiType = NPCID.Slimer;
 
-		public override bool PreAI()
-		{
-			float velMax = 1f;
-			float acceleration = 0.011f;
-			npc.TargetClosest(true);
-			Vector2 center = npc.Center;
-			float deltaX = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - center.X;
-			float deltaY = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - center.Y;
-			float distance = (float)Math.Sqrt((double)deltaX * (double)deltaX + (double)deltaY * (double)deltaY);
-			npc.ai[1] += 1f;
-			if ((double)npc.ai[1] > 600.0)
-			{
-				acceleration *= 8f;
-				velMax = 4f;
-				if ((double)npc.ai[1] > 650.0)
-				{
-					npc.ai[1] = 0f;
-				}
-			}
-			else if ((double)distance < 250.0)
-			{
-				npc.ai[0] += 0.9f;
-				if (npc.ai[0] > 0f)
-				{
-					npc.velocity.Y = npc.velocity.Y + 0.019f;
-				}
-				else
-				{
-					npc.velocity.Y = npc.velocity.Y - 0.019f;
-				}
-				if (npc.ai[0] < -100f || npc.ai[0] > 100f)
-				{
-					npc.velocity.X = npc.velocity.X + 0.019f;
-				}
-				else
-				{
-					npc.velocity.X = npc.velocity.X - 0.019f;
-				}
-				if (npc.ai[0] > 200f)
-				{
-					npc.ai[0] = -200f;
-				}
-			}
-			if ((double)distance > 350.0)
-			{
-				velMax = 5f;
-				acceleration = 0.3f;
-			}
-			else if ((double)distance > 300.0)
-			{
-				velMax = 3f;
-				acceleration = 0.2f;
-			}
-			else if ((double)distance > 250.0)
-			{
-				velMax = 1.5f;
-				acceleration = 0.1f;
-			}
-			float stepRatio = velMax / distance;
-			float velLimitX = deltaX * stepRatio;
-			float velLimitY = deltaY * stepRatio;
-			if (Main.player[npc.target].dead)
-			{
-				velLimitX = (float)((double)((float)npc.direction * velMax) / 2.0);
-				velLimitY = (float)((double)(-(double)velMax) / 2.0);
-			}
-			if (npc.velocity.X < velLimitX)
-			{
-				npc.velocity.X = npc.velocity.X + acceleration;
-			}
-			else if (npc.velocity.X > velLimitX)
-			{
-				npc.velocity.X = npc.velocity.X - acceleration;
-			}
-			if (npc.velocity.Y < velLimitY)
-			{
-				npc.velocity.Y = npc.velocity.Y + acceleration;
-			}
-			else if (npc.velocity.Y > velLimitY)
-			{
-				npc.velocity.Y = npc.velocity.Y - acceleration;
-			}
-			if ((double)velLimitX > 0.0)
-			{
-				npc.spriteDirection = -1;
-				npc.rotation = (float)Math.Atan2((double)velLimitY, (double)velLimitX);
-			}
-			if ((double)velLimitX < 0.0)
-			{
-				npc.spriteDirection = 1;
-				npc.rotation = (float)Math.Atan2((double)velLimitY, (double)velLimitX) + 3.14f;
-			}
-			return false;
+            npc.noTileCollide = true;
 		}
+        public int dashTimer;
+        int frame = 0;
+        int timer = 0;
+        int shootTimer = 0;
+        public override bool PreAI()
+        {
+            Player player = Main.player[npc.target];
+            float num5 = npc.position.X + (float)(npc.width / 2) - player.position.X - (float)(player.width / 2);
+            float num6 = npc.position.Y + (float)npc.height - 59f - player.position.Y - (float)(player.height / 2);
+            float num7 = (float)Math.Atan2((double)num6, (double)num5) + 1.57f;
+            if (num7 < 0f)
+            {
+                num7 += 6.283f;
+            }
+            else if ((double)num7 > 6.283)
+            {
+                num7 -= 6.283f;
+            }
+            float num8 = 0.1f;
+            if (npc.rotation < num7)
+            {
+                if ((double)(num7 - npc.rotation) > 3.1415)
+                {
+                    npc.rotation -= num8;
+                }
+                else
+                {
+                    npc.rotation += num8;
+                }
+            }
+            else if (npc.rotation > num7)
+            {
+                if ((double)(npc.rotation - num7) > 3.1415)
+                {
+                    npc.rotation += num8;
+                }
+                else
+                {
+                    npc.rotation -= num8;
+                }
+            }
+            if (npc.rotation > num7 - num8 && npc.rotation < num7 + num8)
+            {
+                npc.rotation = num7;
+            }
+            if (npc.rotation < 0f)
+            {
+                npc.rotation += 6.283f;
+            }
+            else if ((double)npc.rotation > 6.283)
+            {
+                npc.rotation -= 6.283f;
+            }
+            if (npc.rotation > num7 - num8 && npc.rotation < num7 + num8)
+            {
+                npc.rotation = num7;
+            }
+            npc.spriteDirection = npc.direction;
+            return true;
+        }
+        bool manaSteal = false;
+        int manaStealTimer; 
+        public override void AI()
+        {
+            npc.spriteDirection = npc.direction;
+            Player player = Main.player[npc.target];
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			int x = spawnInfo.spawnTileX;
-			int y = spawnInfo.spawnTileY;
-			int tile = (int)Main.tile[x, y].type;
-			return (tile == 367) && spawnInfo.spawnTileY > Main.rockLayer && NPC.downedBoss2 ? 0.07f : 0f;
-		}
+            npc.TargetClosest(true);
+            dashTimer++;
+            if (dashTimer == 210 || dashTimer == 420 || dashTimer ==  630)
+            {
+                Vector2 direction = Main.player[npc.target].Center - npc.Center;
+                direction.Normalize();
+                Main.PlaySound(SoundID.DD2_WyvernDiveDown, npc.Center);
+                direction.X = direction.X * Main.rand.Next(6, 9);
+                direction.Y = direction.Y * Main.rand.Next(6, 9);
+                npc.velocity.X = direction.X;
+                npc.velocity.Y = direction.Y;
+                npc.velocity *= 0.98f;
+            }
+            timer++;
+            if (timer >= 6)
+            {
+                frame++;
+                timer = 0;
+            }
+            if (frame >= 7)
+            {
+                frame = 0;
+            }
+            if (dashTimer == 770)
+            {
+                Main.PlaySound(SoundID.DD2_WitherBeastAuraPulse, npc.Center);
+                npc.position.X = player.position.X + Main.rand.NextFloat(-200f, 200f);
+                npc.position.Y = player.position.Y + Main.rand.NextFloat(-100f, -200f);
+                for (int i = 0; i < 30; i++)
+                {
+                    Vector2 vector23 = Vector2.UnitY.RotatedByRandom(6.28318548202515) * new Vector2(100f, 20f) * npc.scale * 1.85f / 2f;
+                    int index1 = Dust.NewDust(npc.Center + vector23, 0, 0, 246, 0.0f, 0.0f, 0, new Color(), 1f);
+                    Main.dust[index1].position = npc.Center + vector23;
+                    Main.dust[index1].velocity = Vector2.Zero;
+                    Vector2 vector25 = Vector2.UnitY.RotatedByRandom(6.28318548202515) * new Vector2(20f, 100f) * npc.scale * 1.85f / 2f;
+                    int index3 = Dust.NewDust(npc.Center + vector25, 0, 0, 246, 0.0f, 0.0f, 0, new Color(), 1f);
+                    Main.dust[index3].position = npc.Center + vector25;
+                    Main.dust[index3].velocity = Vector2.Zero;
+                }
+            }
+            if (dashTimer == 800)
+            {
+                Main.PlaySound(SoundID.DD2_WyvernScream, npc.Center);
+            }
+            if (dashTimer >= 800 && dashTimer <= 1000)
+            {
+                frame = 8;
+                npc.velocity.X *= .008f * npc.direction;
+                npc.velocity.Y *= 0f;
+                shootTimer++;
+                if (shootTimer >= 40)
+                {
+                    Vector2 direction = Main.player[npc.target].Center - npc.Center;
+                    direction.Normalize();
+                    direction.X *= 5f;
+                    direction.Y *= 5f;
+                    shootTimer = 0;
+                    int amountOfProjectiles = 1;
+                    for (int i = 0; i < amountOfProjectiles; ++i)
+                    {
+                        float A = (float)Main.rand.Next(-50, 50) * 0.02f;
+                        float B = (float)Main.rand.Next(-50, 50) * 0.02f;
+                        int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y + 20, direction.X + A, direction.Y + B, 258, npc.damage / 2, 1, Main.myPlayer, 0, 0);
+                        for (int k = 0; k < 11; k++)
+                        {
+                            Dust.NewDust(npc.position, npc.width, npc.height, 6, direction.X + A, direction.Y + B, 0, default(Color), .61f);
+                        }
+                        Main.projectile[p].hostile = true;
+                    }
+                }
+            }
+            else
+            {
+                shootTimer = 0;
+            }
+            if (dashTimer >= 1020)
+            {
+                dashTimer = 0;
+            }
+            if (manaSteal)
+            {
+                manaStealTimer++;
+                int distance = (int)Math.Sqrt((npc.Center.X - player.Center.X) * (npc.Center.X - player.Center.X) + (npc.Center.Y - player.Center.Y) * (npc.Center.Y - player.Center.Y));
+                if (distance < 300)
+                {
+                    player.statMana--;
+                    for (int i = 0; i < 2; i++)
+                    {
+                        int dust = Dust.NewDust(npc.Center, npc.width, npc.height, 20);
+                        Main.dust[dust].velocity *= -1f;
+                        Main.dust[dust].scale *= 1.4f;
+                        Main.dust[dust].noGravity = true;
+                        Vector2 vector2_1 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                        vector2_1.Normalize();
+                        Vector2 vector2_2 = vector2_1 * ((float)Main.rand.Next(50, 100) * 0.04f);
+                        Main.dust[dust].velocity = vector2_2;
+                        vector2_2.Normalize();
+                        Vector2 vector2_3 = vector2_2 * 64f;
+                        Main.dust[dust].position = npc.Center - vector2_3;
+                    }
+                }
+            }
+            else
+            {
+                manaStealTimer = 0;
+            }
+            if (manaStealTimer >= 120)
+            {
+                manaSteal = false;
+                manaStealTimer = 0;
+            }
+        }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            int x = spawnInfo.spawnTileX;
+            int y = spawnInfo.spawnTileY;
+            int tile = (int)Main.tile[x, y].type;
+            return (tile == 367) && NPC.downedBoss2 && NPC.AnyNPCs(mod.NPCType("Beholder")) && spawnInfo.spawnTileY > Main.rockLayer ? 0.0099f : 0f;
 
-		public override void HitEffect(int hitDirection, double damage)
+        }
+        public override void FindFrame(int frameHeight)
+        {
+            npc.frame.Y = frameHeight * frame;
+        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height * 0.5f));
+            for (int k = 0; k < npc.oldPos.Length; k++)
+            {
+                var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+                Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
+                Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
+                spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
+            }
+            return true;
+        }
+        public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0)
 			{
@@ -149,13 +255,17 @@ namespace SpiritMod.NPCs
 		{
 			if (Main.rand.Next(4) == 1)
 			{
-				target.AddBuff(BuffID.Silenced, 160);
+				target.AddBuff(BuffID.Bleeding, 180);
 			}
+            manaSteal = true;
 		}
 
 		public override void NPCLoot()
 		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MarbleChunk"), 1);
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MarbleChunk"), Main.rand.Next(4, 7) + 1);
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BeholderYoyo"));
+            }
 		}
 	}
 }

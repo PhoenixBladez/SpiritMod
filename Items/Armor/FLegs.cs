@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Floran Leggings");
-            Tooltip.SetDefault("Increases magic critical strike chance by 5% and magic damage by 4%");
+            Tooltip.SetDefault("Increases movement speed by 4%");
 
         }
 
@@ -26,8 +26,7 @@ namespace SpiritMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.magicCrit += 5;
-            player.magicDamage += 0.04f; //player movement speed incresed 0.05f = 5%
+            player.moveSpeed += .04f;
         }
 
         public override void AddRecipes()  //How to craft this item

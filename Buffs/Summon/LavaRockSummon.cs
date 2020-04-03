@@ -8,7 +8,7 @@ namespace SpiritMod.Buffs.Summon
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Magmarock");
-			Description.SetDefault("This glob of magma is sentient and surprisingly good at its job!");
+			Description.SetDefault("The power of magma flows through you");
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.buffNoSave[Type] = true;
 		}

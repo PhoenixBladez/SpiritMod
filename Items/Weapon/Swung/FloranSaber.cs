@@ -17,12 +17,12 @@ namespace SpiritMod.Items.Weapon.Swung
 
 		public override void SetDefaults()
 		{
-            item.damage = 23;            
+            item.damage = 17;            
             item.melee = true;
             item.width = 30;
             item.height = 36;
-			item.useTime = 25;
-			item.useAnimation = 25;
+			item.useTime = 19;
+			item.useAnimation = 19;
             item.useStyle = 1;
 			item.knockBack = 3;
             item.value = Terraria.Item.sellPrice(0, 0, 10, 0);
@@ -37,13 +37,6 @@ namespace SpiritMod.Items.Weapon.Swung
             modRecipe.AddTile(TileID.Anvils);
             modRecipe.SetResult(this);
             modRecipe.AddRecipe();
-        }
-        public override void MeleeEffects(Player player, Rectangle hitbox)
-        {
-            if (Main.rand.Next(5) == 0)
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 39);
-            }
         }
 
 

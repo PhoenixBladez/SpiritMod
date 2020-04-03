@@ -70,10 +70,13 @@ namespace SpiritMod.Items.Weapon.Magic
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int num780 = Dust.NewDust(new Vector2(player.itemLocation.X - 16f, player.itemLocation.Y * player.gravDir), 4, 4, 127, 0f, 0f, 100, default(Color), 1f);
-            if (Main.rand.Next(3) != 0)
+            for (int i = 0; i < 10; i++)
             {
-                Main.dust[num780].noGravity = true;
+                int num780 = Dust.NewDust(new Vector2(player.itemLocation.X - 16f, player.itemLocation.Y * player.gravDir), 4, 4, 127, 0f, 0f, 100, default(Color), 1f);
+                if (Main.rand.Next(3) != 0)
+                {
+                    Main.dust[num780].noGravity = true;
+                }
             }
             Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 30f;
             if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
