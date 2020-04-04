@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 
 
-namespace SpiritMod.NPCs
+namespace SpiritMod.NPCs.Reach
 {
 	public class ForestWraith : ModNPC
 	{
