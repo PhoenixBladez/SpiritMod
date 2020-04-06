@@ -27,7 +27,8 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.mana = 12;
             item.knockBack = 3;
 			item.magic = true;
-			item.noMelee = true;
+            item.UseSound = SoundID.Item20;
+            item.noMelee = true;
 			item.shoot = mod.ProjectileType("FloranOrb");
 			item.shootSpeed = 10f;
 		}

@@ -99,12 +99,14 @@ namespace SpiritMod.NPCs
                     direction.X *= 5f;
                     direction.Y *= 5f;
 
-                    int amountOfProjectiles = Main.rand.Next(1, 3);
+                    int amountOfProjectiles = Main.rand.Next(2, 4);
+                    bool expertMode = Main.expertMode;
+                    int damage = expertMode ? 8 : 13;
                     for (int i = 0; i < amountOfProjectiles; ++i)
                     {
                         float A = (float)Main.rand.Next(-50, 50) * 0.02f;
-                        float B = (float)Main.rand.Next(-80, -10) * 0.1f;
-                        int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y - 10, direction.X + A, direction.Y + B, mod.ProjectileType("WheezerSporeHostile"), npc.damage / 3 * 2, 1, Main.myPlayer, 0, 0);
+                        float B = (float)Main.rand.Next(-60, -40) * 0.1f;
+                        int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y - 10, direction.X + A, direction.Y + B, mod.ProjectileType("WheezerSporeHostile"), damage, 1, Main.myPlayer, 0, 0);
                         for (int k = 0; k < 11; k++)
                         {
                             Dust.NewDust(npc.position, npc.width, npc.height, 42, direction.X + A, direction.Y + B, 0, default(Color), .61f);

@@ -64,7 +64,7 @@ namespace SpiritMod.Projectiles.Summon
 		{
 			projectile.spriteDirection = projectile.direction;
             projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            if (projectile.frameCounter > 6)
             {
                 projectile.frame++;
                 projectile.frameCounter = 0;

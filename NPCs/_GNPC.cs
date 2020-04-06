@@ -719,17 +719,16 @@ namespace SpiritMod.NPCs
 			}
 		}
 
-		public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
-		{
-			if (spawnInfo.spawnTileY <= Main.worldSurface)
-			{
-				if (MyWorld.BlueMoon && !Main.dayTime)
-					pool.Remove(0);
-				if (TideWorld.TheTide && spawnInfo.player.ZoneBeach)
-					pool.Remove(0);
-			}
-		}
-
+        public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
+        {
+            if (spawnInfo.spawnTileY <= Main.worldSurface)
+            {
+                if (MyWorld.BlueMoon && !Main.dayTime)
+                    pool.Remove(0);
+                if (TideWorld.TheTide && spawnInfo.player.ZoneBeach)
+                    pool.Remove(0);
+            }
+        }
 
 		public override void ModifyHitByItem(NPC npc, Player player, Item item, ref int damage, ref float knockback, ref bool crit)
 		{

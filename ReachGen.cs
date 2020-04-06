@@ -20,102 +20,47 @@ namespace SpiritMod
 	{
         public static int ReachTiles = 0;
 
-		private void PlaceShrine(int i, int j, int[,] ShrineArray) {
-			
-			for (int y = 0; y < ShrineArray.GetLength(0); y++) { // This loops clears the area (makes the proper hemicircle) and placed dirt in the bottom if there are no blocks (so that the chest and fireplace can be placed).
-				for (int x = 0; x < ShrineArray.GetLength(1); x++) {
-					int k = i - 3 + x;
-					int l = j - 6 + y;
-					if (WorldGen.InWorld(k, l, 30)){
-						Tile tile = Framing.GetTileSafely(k, l);
-						switch (ShrineArray[y, x]) {
-							case 0:
-								break; // no changes
-							case 1:
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;
-							case 2:
-								WorldGen.PlaceTile(k, l, mod.TileType("ReachGrassTile")); // Dirt
-								tile.active(true);
-								break;
-							case 3:
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;
-							case 4:
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;
-						}
-					}
-				}
-			}
-			
-			for (int y = 0; y < ShrineArray.GetLength(0); y++) { // This Loop Placzs Furnitures.(So that they have blocks to spawn on).
-				for (int x = 0; x < ShrineArray.GetLength(1); x++) {
-					int k = i - 3 + x;
-					int l = j - 6 + y;
-					if (WorldGen.InWorld(k, l, 30)){
-						Tile tile = Framing.GetTileSafely(k, l);
-						switch (ShrineArray[y, x]) {
-							case 2:
-								WorldGen.PlaceTile(k, l, mod.TileType("ReachGrassTile")); // Dirt
-								tile.active(true);
-								break;
-							case 3:
-								WorldGen.PlaceObject(k, l, 215); // Campfire
-								break;
-							case 4:
-								WorldGen.PlaceChest(k, l, (ushort)mod.TileType("ReachChest"), false, 0); // Gold Chest
-								break;
-						}
-					}
-				}
-			}
-		}
-		
-		public void PlaceReachs(int x, int y)
+        public void PlaceReachs(int x, int y)
 		{
 			Tile tile = Main.tile[1, 1];
-			int[,] ShrineShape = new int[,]
-			{
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0}, // 0 : no changes ; 1 : air ; 2 : dirt ; 3 : fireplace ; 4 : chest
-				{0,0,0,0,1,1,1,1,1,1,0,0,0,0},
-				{0,0,1,1,1,1,1,1,1,1,1,1,0,0},
-				{0,1,1,1,1,1,1,1,1,1,1,1,1,0},
-				{0,1,1,1,1,1,1,1,1,1,1,1,1,0},
-				{0,1,1,1,1,4,1,1,1,1,3,1,1,0},
-				{0,2,2,2,2,2,2,2,2,2,2,2,2,0},
-			};
 			int startx = x; //keep track of starting position
 			int starty = y;
 			for (int z = 0; z < 147; z++)
 			{
 				if (Main.rand.Next(2) == 1)
 				{
-				WorldMethods.TileRunner(x, y + z, (double)Main.rand.Next(300), 1, mod.TileType("ReachGrassTile"), false, 0f, 0f, true, true); //Basic grass shape. Will be improved later. Specifically, make it only override certain tiles, and make it fill in random holes in the ground.
+				    WorldMethods.TileRunner(x, y + z, (double)Main.rand.Next(300), 1, mod.TileType("ReachGrassTile"), false, 0f, 0f, true, true); //Basic grass shape. Will be improved later. Specifically, make it only override certain tiles, and make it fill in random holes in the ground.
 				}
 			}
-			
-			
-			
-			//temporary wall placement until i get a better method
-			for (int A = x - 150; A < x + 150; A++)
-					{
-						for (int B = y + 50; B < y + 1000; B++)
-						{
-							if (Main.tile[A,B] != null)
-							{
-                                int Wal = (int)Main.tile[A, B].wall;
-                                if (Main.tile[A, B].type == mod.TileType("ReachGrassTile") && ((Wal == 2 || Wal == 54 || Wal == 55 || Wal == 56 || Wal == 57 || Wal == 58 || Wal == 59) || B > WorldGen.rockLayer - 100)) // A = x, B = y.
-                                {
-                                    if (WorldGen.genRand.Next(3) == 0)
-                                    {
-                                        WorldGen.KillWall(A, B);
-                                        WorldGen.PlaceWall(A, B, mod.WallType("ReachWallNatural"));
-                                    }
-								}
-							}
-						}
-					}
+            //temporary wall placement until i get a better method
+            for (int A = x - 150; A < x + 150; A++)
+            {
+                for (int B = y + 10; B < y + 1000; B++)
+                {
+                    if (Main.tile[A, B] != null)
+                    {
+                        int Wal = (int)Main.tile[A, B].wall;
+                        if (Main.tile[A, B].type == mod.TileType("ReachGrassTile") && ((Wal == 2 || Wal == 54 || Wal == 55 || Wal == 56 || Wal == 57 || Wal == 58 || Wal == 59 || Wal == 0 && B >= WorldGen.rockLayer) || B > WorldGen.rockLayer - 100)) // A = x, B = y.
+                        {
+                            if (WorldGen.genRand.Next(2) == 0)
+                            {
+                                WorldGen.KillWall(A, B);
+                                WorldGen.PlaceWall(A, B, mod.WallType("ReachWallNatural"));
+                            }
+                            else if (WorldGen.genRand.Next(2) == 0 && B > WorldGen.rockLayer - 20)
+                            {
+                                WorldGen.KillWall(A, B);
+                                WorldGen.PlaceWall(A, B, mod.WallType("ReachStoneWall"));
+                            }
+                            else
+                            {
+                                WorldGen.KillWall(A, B);
+                                WorldGen.PlaceWall(A, B, 15);
+                            }
+                        }
+                    }
+                }
+            }
             int smoothness = 3; //how smooth the tunnels are
             int chestrarity = 7; //how rare chests are
 			int depth = 9; //how many vertical tunnels deep the initial goes.
@@ -208,7 +153,39 @@ namespace SpiritMod
 					}
 				}
 			}
-		}	
+            for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 27) * 15E-05); k++)
+            {
+                int zx = WorldGen.genRand.Next(0, Main.maxTilesX);
+                int zy = WorldGen.genRand.Next(0, Main.maxTilesY);
+                if (Main.tile[zx, zy] != null)
+                {
+                    if (Main.tile[zx, zy].active())
+                    {
+                        if (Main.tile[zx, zy].type == mod.TileType("ReachGrassTile"))
+                        {
+                            WorldGen.TileRunner(zx, zy, (double)WorldGen.genRand.Next(5, 12), WorldGen.genRand.Next(5, 12), TileID.Stone, false, 0f, 0f, false, true);
+
+                        }
+                    }
+                }
+            }
+            for (int A1 = x - 120; A1 < x + 120; A1++)
+            {
+                for (int B1 = y - 20; B1 < y + 210; B1++)
+                {
+                    if (Main.tile[A1, B1].type == TileID.Stone)
+                    {
+                        if (!Main.tile[A1, B1 - 1].active() || !Main.tile[A1, B1 + 1].active() || !Main.tile[A1 + 1, B1].active() || !Main.tile[A1 - 1, B1].active())
+                        {
+                            if (WorldGen.genRand.Next(8) == 0)
+                            {
+                                WorldGen.PlaceTile(A1, B1, 179);
+                            }
+                        }
+                    }
+                }
+            }
+        }	
 		static bool CanPlaceReachs(int x, int y)
 		{
 			x = WorldGen.genRand.Next(50, Main.maxTilesX / 6);
@@ -276,7 +253,8 @@ namespace SpiritMod
 					}
 				}
 				PlaceReachs(x, y);
-			}));
+
+            }));
 		
 		}
     }

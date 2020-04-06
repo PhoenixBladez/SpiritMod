@@ -21,8 +21,8 @@ namespace SpiritMod.Items.Consumable
 			item.height = 32;
             item.rare = 4;
             item.maxStack = 1;
-item.mana = 80;
-item.consumable = false;
+            item.mana = 80;
+            item.consumable = false;
             item.useStyle = 4;
             item.useTime = item.useAnimation = 20;
 
@@ -36,7 +36,7 @@ item.consumable = false;
         {
             int p = Main.rand.Next(1, 580);
             int n = NPC.NewNPC((int)player.Center.X - 100, (int)player.Center.Y, p);
-			if (Main.npc[n].friendly == true || Main.npc[n].boss == true|| Main.npc[n].lifeMax >= 12000)
+			if (Main.npc[n].friendly == true || Main.npc[n].boss == true|| Main.npc[n].lifeMax >= 2000 || Main.npc[n].type == 399)
 			{
 				Main.npc[n].active = false;
 			}
@@ -47,12 +47,12 @@ item.consumable = false;
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-			            recipe.AddIngredient(null, "TimScroll", 1);
+            recipe.AddIngredient(null, "TimScroll", 1);
             recipe.AddIngredient(null, "FloranBar", 5);
-									            recipe.AddIngredient(null, "GraniteChunk", 5);
-	         recipe.AddIngredient(null, "MarbleChunk", 5);
-			 			            recipe.AddIngredient(null, "CryoliteBar", 5);
-			 			            recipe.AddIngredient(ItemID.MeteoriteBar, 5);
+            recipe.AddIngredient(null, "GraniteChunk", 5);
+            recipe.AddIngredient(null, "MarbleChunk", 5);
+            recipe.AddIngredient(null, "CryoliteBar", 5);
+            recipe.AddIngredient(ItemID.MeteoriteBar, 5);
             recipe.AddIngredient(ItemID.HellstoneBar, 5);
             recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);

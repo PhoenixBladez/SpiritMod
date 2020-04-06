@@ -39,18 +39,43 @@ namespace SpiritMod.NPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (!NPC.downedBoss2)
+            if (!NPC.downedBoss2 || NPC.AnyNPCs(mod.NPCType("Mecromancer")))
             {
                 return 0f;
             }
-            return SpawnCondition.GoblinArmy.Chance * 0.09f;
+            return SpawnCondition.GoblinArmy.Chance * 0.13f;
         }
 
         public override void NPCLoot()
         {
+            if (Main.invasionType == 1)
+            {
+                Main.invasionSize -= 5;
+                if (Main.invasionSize < 0)
+                {
+                    Main.invasionSize = 0;
+                }
+                if (Main.netMode != 1)
+                {
+                    Main.ReportInvasionProgress(Main.invasionSizeStart - Main.invasionSize, Main.invasionSizeStart, 4, 0);
+                }
+                if (Main.netMode == 2)
+                {
+                    NetMessage.SendData(78, -1, -1, null, Main.invasionProgress, (float)Main.invasionProgressMax, (float)Main.invasionProgressIcon, 0f, 0, 0, 0);
+                }
+            }
             if (Main.rand.Next(3) == 0)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("KnockbackGun"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("KnocbackGun"));
+            }
+            if (Main.rand.Next(50) == 0)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.RocketBoots);
+            }
+            string[] lootTable = { "CoilMask", "CoilChestplate", "CoilLeggings" };
+            int loot = Main.rand.Next(lootTable.Length);
+            {
+                npc.DropItem(mod.ItemType(lootTable[loot]));
             }
             int Techs = Main.rand.Next(2, 5);
             for (int J = 0; J <= Techs; J++)

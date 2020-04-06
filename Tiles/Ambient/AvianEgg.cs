@@ -17,8 +17,11 @@ namespace SpiritMod.Tiles.Ambient
 		public override void SetDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
-			Main.tileNoAttach[Type] = true;	
-			Main.tileCut[Type] = true;
+			Main.tileNoAttach[Type] = true;
+            if (NPC.downedQueenBee)
+            {
+                Main.tileCut[Type] = true;
+            }
 			Main.tileLavaDeath[Type] = true;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
 			TileObjectData.newTile.Height = 4;
@@ -39,8 +42,16 @@ namespace SpiritMod.Tiles.Ambient
 		{
 			offsetY = 2;
 		}
-		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
+        public override bool CanKillTile(int i, int j, ref bool blockDamaged)
+        {
+            if (!NPC.downedQueenBee)
+            {
+                return false;
+            }
+            return true;
+        }
+        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        {
             if (NPC.downedQueenBee)
             {
                 Main.NewText("The Ancient Avian has awoken!", 80, 80, 210, true);
@@ -53,14 +64,6 @@ namespace SpiritMod.Tiles.Ambient
                     Gore.NewGore(new Vector2((int)i * 16 + Main.rand.Next(-10, 10), (int)j * 16 + Main.rand.Next(-10, 10)), new Vector2(-1, 1), mod.GetGoreSlot("Gores/Apostle2"), 1f);
                 }
             }
-        }
-        public override bool CanKillTile(int i, int j, ref bool blockDamaged)
-        {
-            if (!NPC.downedQueenBee)
-            {
-                return false;
-            }
-            return true;
         }
     }
 }

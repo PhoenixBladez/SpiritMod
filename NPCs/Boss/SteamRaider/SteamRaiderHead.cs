@@ -26,7 +26,8 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		public float turnSpeed = 0.19f;
 		public bool tail = false;
 		public int minLength = 54;
-		public int maxLength = 55;
+        public int midLength = 56;
+        public int maxLength = 57;
 
 		public override void SetStaticDefaults()
 		{
@@ -40,7 +41,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			bossBag = mod.ItemType("SteamRaiderBag");
 			npc.width = 64; //324
 			npc.height = 56; //216
-			npc.defense = 10;
+			npc.defense = 0;
 			npc.lifeMax = 8300; //250000
 			npc.aiStyle = 6; //new
 			Main.npcFrameCount[npc.type] = 1; //new
@@ -63,7 +64,8 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			}
 		}
 		int chargetimer;
-		bool charge;
+        int unstableprojtimer;
+        bool charge;
 		public override void AI()
 		{
 			Player player = Main.player[npc.target];
@@ -110,8 +112,10 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			}
 			else
 			{
-				if (Main.rand.Next(18) == 0)
+                unstableprojtimer++;
+				if (unstableprojtimer >= 50)
 				{
+                    unstableprojtimer = 0;
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
 					direction.Normalize();
 					direction.X *= 2f;
@@ -164,7 +168,9 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 						int trailing = 0;
 						if (num36 >= 0 && num36 < minLength)
 							trailing = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("SteamRaiderBody"), npc.whoAmI);
-						else
+                        else if (num36 >= minLength && num36 < midLength)
+                            trailing = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("SteamRaiderBody2"), npc.whoAmI);
+                        else
 							trailing = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("SteamRaiderTail"), npc.whoAmI);
 
 						Main.npc[trailing].realLife = npc.whoAmI;
@@ -278,12 +284,12 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				else if (charge && player.position.Y < num47)
 				{
 					num192 = num47;
-					if (Math.Abs(npc.Center.X - player.Center.X) < 500f) //was 500
+					if (Math.Abs(npc.Center.X - player.Center.X) < 450f) //was 500
 					{
 						if (npc.velocity.X > 0f)
-							num191 = player.Center.X + 500f; //was 600
+							num191 = player.Center.X + 450f; //was 600
 						else
-							num191 = player.Center.X - 500f; //was 600
+							num191 = player.Center.X - 450f; //was 600
 					}
 				}
 			}
@@ -494,7 +500,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			Microsoft.Xna.Framework.Rectangle r2 = texture2D2.Frame(1, 1, 0, 0);
 			drawOrigin = r2.Size() / 2f;
 			Vector2 position3 = position1 + new Vector2(0.0f, -20f);
-			Microsoft.Xna.Framework.Color color3 = new Microsoft.Xna.Framework.Color(252, 3, 50) * 1.6f;
+			Microsoft.Xna.Framework.Color color3 = new Microsoft.Xna.Framework.Color(255, 138, 36) * 1.6f;
 			Main.spriteBatch.Draw(texture2D2, position3, new Microsoft.Xna.Framework.Rectangle?(r2), color3, npc.rotation,drawOrigin, npc.scale * 0.5f,  SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
 			float num15 = 1f + num11 * 0.75f;
 			Main.spriteBatch.Draw(texture2D2, position3, new Microsoft.Xna.Framework.Rectangle?(r2), color3 * num12, npc.rotation,drawOrigin, npc.scale * 0.5f * num15,  SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);

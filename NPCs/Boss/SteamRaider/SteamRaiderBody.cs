@@ -21,8 +21,8 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		{
 			npc.damage = 35; //70
 			npc.npcSlots = 5f;
-			npc.width = 38; //324
-			npc.height = 40; //216
+			npc.width = 36; //324
+			npc.height = 28; //216
 			npc.defense = 19;
 			npc.lifeMax = 6500; //250000
 			npc.aiStyle = 6; //new
@@ -169,7 +169,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			Microsoft.Xna.Framework.Color color1 = Lighting.GetColor((int) ((double) npc.position.X + (double) npc.width * 0.5) / 16, (int) (((double) npc.position.Y + (double) npc.height * 0.5) / 16.0));
       		 Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, npc.height * 0.5f);
 			int r1 = (int) color1.R;
-			drawOrigin.Y += 30f;
+			drawOrigin.Y += 34f;
 			drawOrigin.Y += 8f;
 			--drawOrigin.X;
 			Vector2 position1 = npc.Bottom - Main.screenPosition;
@@ -189,7 +189,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			Microsoft.Xna.Framework.Rectangle r2 = texture2D2.Frame(1, 1, 0, 0);
 			drawOrigin = r2.Size() / 2f;
 			Vector2 position3 = position1 + new Vector2(0.0f, -20f);
-			Microsoft.Xna.Framework.Color color3 = new Microsoft.Xna.Framework.Color(54, 255, 252) * 1.6f;
+			Microsoft.Xna.Framework.Color color3 = new Microsoft.Xna.Framework.Color(84, 207, 255) * 1.6f;
 			Main.spriteBatch.Draw(texture2D2, position3, new Microsoft.Xna.Framework.Rectangle?(r2), color3, npc.rotation,drawOrigin, npc.scale * 0.5f,  SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
 			float num15 = 1f + num11 * 0.75f;
 			Main.spriteBatch.Draw(texture2D2, position3, new Microsoft.Xna.Framework.Rectangle?(r2), color3 * num12, npc.rotation,drawOrigin, npc.scale * 0.5f * num15,  SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
@@ -221,7 +221,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
 				for (int num621 = 0; num621 < 20; num621++)
 				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default(Color), 1f);
 					Main.dust[num622].velocity *= 3f;
 					if (Main.rand.Next(2) == 0)
 					{
@@ -231,10 +231,10 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				}
 				for (int num623 = 0; num623 < 40; num623++)
 				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default(Color), 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default(Color), 2f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default(Color), 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default(Color), 1f);
 					Main.dust[num624].velocity *= 2f;
 				}
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
@@ -256,11 +256,11 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		{
 			if (projectile.penetrate <= -1)
 			{
-				damage /= 3;
+				damage /= 2;
 			}
 			else if (projectile.penetrate >= 7)
 			{
-				damage /= 3;
+				damage /= 2;
 			}
 		}
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

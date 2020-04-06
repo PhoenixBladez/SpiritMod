@@ -35,6 +35,7 @@ namespace SpiritMod.Items.Consumable
 
         public override bool OnPickup(Player player)
         {
+            Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 2));
             {
                 player.statLife += 4; 
                 player.HealEffect(4, true); 

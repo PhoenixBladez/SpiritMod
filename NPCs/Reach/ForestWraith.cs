@@ -23,7 +23,6 @@ namespace SpiritMod.NPCs.Reach
 			npc.damage = 28;
 			npc.defense = 10;
 			npc.lifeMax = 400;
-			npc.boss = true;
 			npc.HitSound = SoundID.NPCHit7;
 			npc.DeathSound = SoundID.NPCDeath6;
 			npc.value = 641f;
@@ -165,7 +164,7 @@ namespace SpiritMod.NPCs.Reach
 		}
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/ForestWraith_Glow"));
+            GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Reach/ForestWraith_Glow"));
         }
 		public override void NPCLoot()
 		{

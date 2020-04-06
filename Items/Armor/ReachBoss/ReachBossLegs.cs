@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Armor.ReachBoss
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Vinecaller's Greaves");
+			DisplayName.SetDefault("Thornspeaker's Greaves");
             Tooltip.SetDefault("Increases throwing velocity by 10%");
 
         }

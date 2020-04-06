@@ -48,7 +48,7 @@ namespace SpiritMod.Items.Armor.FieryArmor
         }
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Press 'down' to cause all sentries to release a burst of fireballs\n8 second cooldown";
+            player.setBonus = "Press the 'Armor Bonus' hotkey to cause all sentries to release a burst of fireballs\n8 second cooldown";
             player.GetSpiritPlayer().fierySet = true;
         }
     }

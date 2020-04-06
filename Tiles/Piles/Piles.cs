@@ -25,7 +25,7 @@ namespace SpiritMod.Tiles.Piles
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Copper Pile");
-            AddMapEntry(new Color(70, 70, 70), name);
+            AddMapEntry(new Color(255, 70, 255), name);
             dustType = DustID.CopperCoin;
 			disableSmartCursor = true;
 		}
@@ -52,7 +52,7 @@ namespace SpiritMod.Tiles.Piles
 			TileObjectData.newTile.Height = 1;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Tin Pile");
-			AddMapEntry(new Color(70, 70, 70), name);
+			AddMapEntry(new Color(255, 70, 255), name);
 			TileObjectData.newTile.CoordinateHeights = new int[]{16};
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.CoordinatePadding = 2;
@@ -83,7 +83,7 @@ namespace SpiritMod.Tiles.Piles
 			TileObjectData.newTile.Height = 2;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Iron Pile");
-            AddMapEntry(new Color(70, 70, 70), name);
+            AddMapEntry(new Color(255, 70, 255), name);
             TileObjectData.newTile.CoordinateHeights = new int[]{16,16};
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.CoordinatePadding = 2;
@@ -114,7 +114,7 @@ namespace SpiritMod.Tiles.Piles
 			TileObjectData.newTile.Height = 2;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Lead Pile");
-            AddMapEntry(new Color(70, 70, 70), name);
+            AddMapEntry(new Color(255, 70, 255), name);
             TileObjectData.newTile.CoordinateHeights = new int[]{16,16};
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.CoordinatePadding = 2;
@@ -145,7 +145,7 @@ namespace SpiritMod.Tiles.Piles
 			TileObjectData.newTile.Height = 2;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Silver Pile");
-            AddMapEntry(new Color(70, 70, 70), name);
+            AddMapEntry(new Color(255, 70, 255), name);
             TileObjectData.newTile.CoordinateHeights = new int[]{16,16};
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.CoordinatePadding = 2;
@@ -176,7 +176,7 @@ namespace SpiritMod.Tiles.Piles
 			TileObjectData.newTile.Height = 2;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Tungsten Pile");
-            AddMapEntry(new Color(70, 70, 70), name);
+            AddMapEntry(new Color(255, 70, 255), name);
             TileObjectData.newTile.CoordinateHeights = new int[]{16,16};
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.CoordinatePadding = 2;
@@ -207,7 +207,7 @@ namespace SpiritMod.Tiles.Piles
 			TileObjectData.newTile.Height = 2;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Gold Pile");
-            AddMapEntry(new Color(70, 70, 70), name);
+            AddMapEntry(new Color(255, 70, 255), name);
             TileObjectData.newTile.CoordinateHeights = new int[]{16,16};
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.CoordinatePadding = 2;
@@ -238,7 +238,7 @@ namespace SpiritMod.Tiles.Piles
 			TileObjectData.newTile.Height = 2;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Platinum Pile");
-            AddMapEntry(new Color(70, 70, 70), name);
+            AddMapEntry(new Color(255, 70, 255), name);
             TileObjectData.newTile.CoordinateHeights = new int[]{16,16};
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.CoordinatePadding = 2;

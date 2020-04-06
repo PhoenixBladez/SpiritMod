@@ -83,6 +83,8 @@ namespace SpiritMod
         public bool sacredVine = false;
         public bool BlueDust = false;
 
+        public bool reachFireflies = false;
+
         public bool onGround = false;
         public bool moving = false;
         public bool flying = false;
@@ -734,7 +736,7 @@ namespace SpiritMod
                     }
                 }
             }
-            if (fierySet && player.controlDown && player.releaseDown && fierySetTimer <= 0)
+            if (fierySet && SpiritMod.SpecialKey.JustPressed && fierySetTimer <= 0)
             {
                 Main.PlaySound(2, player.position, 74);
                 for (int i = 0; i < 8; i++)
@@ -2014,6 +2016,14 @@ namespace SpiritMod
 
         public override void PreUpdate()
         {
+            if (ZoneReach && !Main.raining)
+            {
+                Main.cloudAlpha+= .005f;
+                if (Main.cloudAlpha >= .5f)
+                {
+                    Main.cloudAlpha = .5f;
+                }
+            }
             if (illusionistEye)
             {
                 illusionistTimer--;
@@ -2152,6 +2162,15 @@ namespace SpiritMod
                 Main.gore[a].timeLeft = 15;
                 Main.gore[a].rotation = 0f;
                 Main.gore[a].velocity = new Vector2(Main.windSpeed * 40f, Main.rand.NextFloat(0.2f, 2f));
+            }
+            if (Main.rand.Next(10) == 0 && ZoneReach && player.ZoneOverworldHeight && !player.ZoneBeach && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneJungle && !player.ZoneHoly)
+            {
+                float goreScale = Main.rand.NextFloat(0.5f, 0.9f);
+                int x = (int)(Main.windSpeed > 0 ? Main.screenPosition.X - 100 : Main.screenPosition.X + Main.screenWidth + 100);
+                int y = (int)Main.screenPosition.Y + Main.rand.Next(-100, Main.screenHeight);
+                int a = Gore.NewGore(new Vector2(x, y), Vector2.Zero, mod.GetGoreSlot("Gores/GreenLeaf"), goreScale);
+                Main.gore[a].rotation = 0f;
+                Main.gore[a].velocity.Y = Main.rand.NextFloat(1f, 3f);
             }
 
             if (windEffect)
@@ -2826,6 +2845,10 @@ namespace SpiritMod
                 player.lifeRegenCount = 0;
 
                 bloodfireShieldStacks = 0;
+                if (bloodfireShieldStacks >= 5)
+                {
+                    bloodfireShieldStacks = 5;
+                }
                 for (int i = 0; i < 200; i++)
                 {
                     if (Main.npc[i].active && !Main.npc[i].friendly && Main.npc[i].type != NPCID.TargetDummy)
@@ -2835,7 +2858,10 @@ namespace SpiritMod
                         {
                             bloodfireShieldStacks++;
                         }
-
+                        if (bloodfireShieldStacks >= 5)
+                        {
+                            bloodfireShieldStacks = 5;
+                        }
                         for (int k = 0; k < bloodfireShieldStacks; k++)
                         {
                             if (Main.rand.NextBool(6))
@@ -2844,11 +2870,6 @@ namespace SpiritMod
                             }
                         }
                     }
-                }
-
-                if (bloodfireShieldStacks >= 5)
-                {
-                    bloodfireShieldStacks = 5;
                 }
             }
             else
@@ -3716,6 +3737,29 @@ namespace SpiritMod
 
         public override void PostUpdate()
         {
+            if (ZoneReach && player.ZoneOverworldHeight)
+            {
+                int off = 5; //Change this value depending on the strength of your light. Too big and it might cause lag, though. Never go above ~20 or so.
+                int x = (int)(Main.screenPosition.X / 16f) - off;
+                int y = (int)(Main.screenPosition.Y / 16f) - off;
+                int x2 = x + (int)(Main.screenWidth / 16f) + off * 2;
+                int y2 = y + (int)(Main.screenHeight / 16f) + off * 2;
+
+                for (int i = x; i <= x2; i++)
+                {
+                    for (int j = y; j <= y2; j++)
+                    {
+                        Tile t = Main.tile[i, j];
+                        if (t == null) return;
+
+                        if (!t.active() && t.liquid > 0 && t.liquidType() == 0)
+                        {
+                            //Set your lighting colour here. Try and keep the values quite small, too strong a light will require you to increase the "off" value up there
+                            Lighting.AddLight(i, j, 0.135f, 0.3f, 0.34f);
+                        }
+                    }
+                }
+            }
             if (cryoSet)
             {
                 cryoTimer += .5f;

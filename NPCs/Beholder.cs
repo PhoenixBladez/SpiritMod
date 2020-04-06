@@ -162,11 +162,13 @@ namespace SpiritMod.NPCs
                     direction.Y *= 5f;
                     shootTimer = 0;
                     int amountOfProjectiles = 1;
+                    bool expertMode = Main.expertMode;
+                    int damage = expertMode ? 11 : 16;
                     for (int i = 0; i < amountOfProjectiles; ++i)
                     {
                         float A = (float)Main.rand.Next(-50, 50) * 0.02f;
                         float B = (float)Main.rand.Next(-50, 50) * 0.02f;
-                        int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y + 20, direction.X + A, direction.Y + B, 258, npc.damage / 2, 1, Main.myPlayer, 0, 0);
+                        int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y + 20, direction.X + A, direction.Y + B, 258, damage, 1, Main.myPlayer, 0, 0);
                         for (int k = 0; k < 11; k++)
                         {
                             Dust.NewDust(npc.position, npc.width, npc.height, 6, direction.X + A, direction.Y + B, 0, default(Color), .61f);
@@ -245,10 +247,14 @@ namespace SpiritMod.NPCs
 			if (npc.life <= 0)
 			{
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Beholder1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Beholder1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Beholder2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Beholder1"), 1f);
-			}
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Beholder3"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Beholder4"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Beholder5"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Beholder6"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Beholder7"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Beholder8"), 1f);
+            }
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
@@ -263,6 +269,7 @@ namespace SpiritMod.NPCs
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MarbleChunk"), Main.rand.Next(4, 7) + 1);
+            if (Main.rand.Next(3) == 0)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BeholderYoyo"));
             }

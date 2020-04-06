@@ -20,6 +20,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
 			adjTiles = new int[] { TileID.Torches };
+            drop = mod.TileType("ReachCandle");
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)
@@ -37,9 +38,6 @@ namespace SpiritMod.Tiles.Furniture.Reach
         {
             offsetY = 2;
         }
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Terraria.Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("ReachCandle"));
-		}
+
 	}
 }

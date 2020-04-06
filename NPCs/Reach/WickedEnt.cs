@@ -72,7 +72,7 @@ namespace SpiritMod.NPCs.Reach
 		}
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/WickedEnt_Glow"));
+            GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Reach/WickedEnt_Glow"));
         }
 		public override void NPCLoot()
 		{

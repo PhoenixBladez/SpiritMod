@@ -190,7 +190,13 @@ namespace SpiritMod.NPCs.Dungeon
             }
             return spawnInfo.player.ZoneDungeon && NPC.CountNPCS(mod.NPCType("Illusionist")) < 1 ? 0.01f : 0f;
         }
-
+        public override void NPCLoot()
+        {
+            if (Main.rand.Next(20) == 1)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("IllusionistEye"));
+            }
+        }
         public override void HitEffect(int hitDirection, double damage)
 		{
 			int d = 37;

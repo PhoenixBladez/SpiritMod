@@ -192,7 +192,7 @@ namespace SpiritMod.NPCs.Reach
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-            Texture2D ring = mod.GetTexture("NPCs/GrassVine_Texture");
+            Texture2D ring = mod.GetTexture("NPCs/Reach/GrassVine_Texture");
             Main.spriteBatch.Draw(ring, new Vector2(npc.position.X - Main.screenPosition.X + (float)(npc.width / 2), npc.position.Y - Main.screenPosition.Y + (float)npc.height + 7f), new Microsoft.Xna.Framework.Rectangle(0, 0, ring.Width, ring.Height), drawColor, (0f - npc.rotation) * 0.6f, new Vector2((float)(ring.Width / 2), (float)(ring.Height / 2)), 1.08f, SpriteEffects.None, 0f);
 
             var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;

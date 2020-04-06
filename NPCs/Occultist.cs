@@ -290,7 +290,10 @@ namespace SpiritMod.NPCs
         {
             string[] lootTable = { "Handball", "OccultistStaff" };
             int loot = Main.rand.Next(lootTable.Length);
-            npc.DropItem(mod.ItemType(lootTable[loot]));
+            if (Main.rand.Next(2) == 0)
+            {
+                npc.DropItem(mod.ItemType(lootTable[loot]));
+            }
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Bloodfire"), 4 + Main.rand.Next(3, 5));
         }
         public override void HitEffect(int hitDirection, double damage)

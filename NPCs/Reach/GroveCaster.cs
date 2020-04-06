@@ -146,7 +146,7 @@ namespace SpiritMod.NPCs.Reach
 		}
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/GroveCaster_Glow"));
+            GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Reach/GroveCaster_Glow"));
         }
 		public void Teleport()
 		{

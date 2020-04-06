@@ -10,8 +10,8 @@ namespace SpiritMod.Items.Armor.ReachBoss
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Vinecaller's Helmet");
-            Tooltip.SetDefault("Increases throwing damage by 5% and throwing velocity by 4%");
+			DisplayName.SetDefault("Thornspeaker's Helmet");
+            Tooltip.SetDefault("Increases throwing damage by 7% and throwing velocity by 5%");
 
         }
 
@@ -27,8 +27,8 @@ namespace SpiritMod.Items.Armor.ReachBoss
         }
          public override void UpdateEquip(Player player)
         {
-            player.thrownDamage += 0.05f;
-			player.thrownVelocity += 0.04f;
+            player.thrownDamage += 0.07f;
+			player.thrownVelocity += 0.05f;
         }
 			public override void UpdateArmorSet(Player player)
         {

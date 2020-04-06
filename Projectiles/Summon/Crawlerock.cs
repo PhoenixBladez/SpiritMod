@@ -13,7 +13,7 @@ namespace SpiritMod.Projectiles.Summon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Crawlerock");
-			Main.projFrames[base.projectile.type] = 1;
+			Main.projFrames[base.projectile.type] = 4;
 			ProjectileID.Sets.MinionSacrificable[base.projectile.type] = true;
 			ProjectileID.Sets.Homing[base.projectile.type] = true;
 			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
@@ -21,11 +21,12 @@ namespace SpiritMod.Projectiles.Summon
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.BabySlime);
+			projectile.CloneDefaults(ProjectileID.OneEyedPirate);
 			projectile.width = 32;
 			projectile.height = 32;
-			projectile.minion = true;
-			projectile.friendly = true;
+			aiType = ProjectileID.OneEyedPirate;
+            projectile.minion = true;
+            projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = true;
 			projectile.netImportant = true;
@@ -57,7 +58,18 @@ namespace SpiritMod.Projectiles.Summon
 					projectile.timeLeft =2;
 
 			}
-		}
+            projectile.spriteDirection = -projectile.direction;
+            projectile.frameCounter++;
+            if (projectile.frameCounter > 6)
+            {
+                projectile.frame++;
+                projectile.frameCounter = 0;
+            }
+            if (projectile.frame > 3)
+            {
+                projectile.frame = 0;
+            }
+        }
 
 		public override bool MinionContactDamage()
 		{

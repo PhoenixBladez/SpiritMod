@@ -64,7 +64,9 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					npc.TargetClosest(true);
 					if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 					{
-						float num941 = 8f; //speed
+
+                        Main.PlaySound(2, (int)npc.Center.X, (int)npc.Center.Y, 12);
+                        float num941 = 8f; //speed
 						Vector2 vector104 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
 						float num942 = player.position.X + (float)player.width * 0.5f - vector104.X + (float)Main.rand.Next(-20, 21);
 						float num943 = player.position.Y + (float)player.height * 0.5f - vector104.Y + (float)Main.rand.Next(-20, 21);
@@ -94,8 +96,9 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				npc.active = false;
 			}
 			if ((Main.npc[parent].life <= 6500))
-			{
-				npc.life = 0;
+            {
+                Main.PlaySound(2, (int)npc.Center.X, (int)npc.Center.Y, 14);
+                npc.life = 0;
 				npc.HitEffect(0, 10.0);
 				npc.active = false;
 				NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("TailProbe"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);

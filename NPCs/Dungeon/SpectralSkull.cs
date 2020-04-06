@@ -28,7 +28,7 @@ namespace SpiritMod.NPCs.Dungeon
 			npc.lifeMax = 40;
 			npc.HitSound = SoundID.NPCHit3;
 			npc.DeathSound = SoundID.NPCDeath6;
-			npc.value = 360f;
+			npc.value = 160f;
 			npc.knockBackResist = .3f;
             npc.noTileCollide = true;
 			npc.aiStyle = 44;
@@ -101,7 +101,7 @@ namespace SpiritMod.NPCs.Dungeon
 		}
         public override void NPCLoot()
         {
-            if (Main.rand.Next(40) == 0)
+            if (Main.rand.Next(25) == 0)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ForbiddenKnowledgeTome"));
             }

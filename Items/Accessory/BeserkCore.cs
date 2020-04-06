@@ -54,7 +54,6 @@ namespace SpiritMod.Items.Accessory
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "BeserkerShard", 1);
             recipe.AddIngredient(null, "WheezerScale", 1);
-            recipe.AddIngredient(null, "BoneTotem", 1);
             recipe.AddIngredient(null, "FieryTrident", 1);
             recipe.AddIngredient(null, "Atmos", 1);
             recipe.AddIngredient(null, "FossilFlower", 1);

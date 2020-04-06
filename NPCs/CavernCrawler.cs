@@ -119,8 +119,15 @@ namespace SpiritMod.NPCs
 			}
 			if (npc.life <= 0)
 			{
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CaveCrawler_1"));
-			}
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crawler1"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crawler2"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crawler3"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crawler4"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crawler5"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crawler6"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crawler7"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crawler8"));
+            }
 		}
 	}
 }

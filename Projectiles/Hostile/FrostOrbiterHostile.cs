@@ -32,8 +32,8 @@ namespace SpiritMod.Projectiles.Hostile
 		{
 	    int num1 = mod.NPCType("CrystalDrifter");
         float num2 = 60f;
-        float x = 0.6f;
-        float y = 0.3f;
+        float x = 0.08f;
+        float y = 0.1f;
         int Damage = 0;
         float num3 = 0.0f;
         bool flag1 = true;

@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Glyphs
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Blank Glyph");
-			Tooltip.SetDefault("'The Enchanter could propably use this'");
+			Tooltip.SetDefault("'The Enchanter could probably use this'");
 		}
 
 

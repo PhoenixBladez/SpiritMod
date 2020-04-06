@@ -47,6 +47,7 @@ namespace SpiritMod.NPCs
 		}
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
+            if (Main.rand.Next(3) == 0)
 			{
 				target.AddBuff(BuffID.Poisoned, 300);
 			}

@@ -26,7 +26,8 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.useAnimation = 25;
 			item.mana = 6;
             item.knockBack = 3;
-			item.magic = true;
+            item.UseSound = SoundID.Item20;
+            item.magic = true;
 			item.noMelee = true;
 			item.shoot = mod.ProjectileType("FloranSpore");
 			item.shootSpeed = 10f;

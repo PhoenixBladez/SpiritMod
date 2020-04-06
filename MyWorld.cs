@@ -2429,7 +2429,7 @@ namespace SpiritMod
 			{
 				// Select a place in the first 6th of the world
 				int towerX = (int)Main.rand.Next(50, Main.maxTilesX); ; // from 50 since there's a unaccessible area at the world's borders
-				int towerY = (int)Main.rand.Next((int)Main.worldSurface + 10, Main.maxTilesY);
+				int towerY = (int)Main.rand.Next((int)Main.worldSurface + 20, Main.maxTilesY);
 				Tile tile = Main.tile[towerX, towerY];
 				// If the type of the tile we are placing the tower on doesn't match what we want, try again
 				if (tile.type != mod.TileType("ReachGrassTile"))
@@ -2438,11 +2438,11 @@ namespace SpiritMod
 				}
 				if (WorldGen.genRand.Next(2) == 0)
 				{
-					PlaceGlowRoom(towerX, towerY +  Main.rand.Next (-20, 0), GlowRoom1, GlowLoot1);
+					PlaceGlowRoom(towerX, towerY +  Main.rand.Next (-50, 0), GlowRoom1, GlowLoot1);
 				}
 				else
 				{
-					PlaceGlowRoom(towerX, towerY + Main.rand.Next (-20, 0), GlowRoom2, GlowLoot2);
+					PlaceGlowRoom(towerX, towerY + Main.rand.Next (-50, 0), GlowRoom2, GlowLoot2);
 				}
 				placed = true;
 			}
@@ -2633,6 +2633,25 @@ namespace SpiritMod
                         continue;
                     }
                     {
+                        for (int k = 0; k < Main.rand.Next(9, 15); k++)
+                        {
+                            GenerateSepulchre();
+                        }
+                        GenerateAltar();
+                        for (int k = 0; k < Main.rand.Next(3, 5); k++)
+                        {
+                            GenerateGlowRoom();
+                        }
+                        for (int k = 0; k < Main.rand.Next(3, 8); k++)
+                        {
+                            GenerateGlowGrave();
+                        }
+                        if (WorldGen.genRand.Next(3) == 0)
+                        {
+                            GenerateTower();
+                        }
+                        GenerateZiggurat();
+                        GenerateBanditHideout();
                         int[,] BoneIslandShape = new int[,]
                         {
                             {0,0,0,0,0,0,3,0,0,3,0,0,4,0,0,0,0,5,0,0,0,4,0,4,0,0,0,3,0,0,0,0},
@@ -2686,25 +2705,6 @@ namespace SpiritMod
                                 placed = true;
                             }
                         }
-                        for (int k = 0; k < Main.rand.Next(9, 15); k++)
-                        {
-                            GenerateSepulchre();
-                        }
-                        GenerateAltar();
-                        for (int k = 0; k < Main.rand.Next(3, 5); k++)
-                        {
-                            GenerateGlowRoom();
-                        }
-                        for (int k = 0; k < Main.rand.Next(3, 8); k++)
-                        {
-                            GenerateGlowGrave();
-                        }
-                        if (WorldGen.genRand.Next(3) == 0)
-                        {
-                            GenerateTower();
-                        }
-                        GenerateZiggurat();
-                        GenerateBanditHideout();
                         success = true;
                     }
 
@@ -3242,7 +3242,7 @@ namespace SpiritMod
 			{
 				if (!Magicite)
 				{
-					for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 21) * 15E-05); k++)
+					for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 23) * 15E-05); k++)
 					{
                         int x = WorldGen.genRand.Next(0, Main.maxTilesX);
                         int y = WorldGen.genRand.Next(0, Main.maxTilesY);
@@ -3252,7 +3252,7 @@ namespace SpiritMod
 							{
 								if (Main.tile[x, y].type == mod.TileType("ReachGrassTile"))
 								{
-                                    WorldGen.TileRunner(x, y, (double)WorldGen.genRand.Next(3, 5), WorldGen.genRand.Next(3, 5), mod.TileType("FloranOreTile"), false, 0f, 0f, false, true);
+                                    WorldGen.TileRunner(x, y, (double)WorldGen.genRand.Next(4, 7), WorldGen.genRand.Next(4, 7), mod.TileType("FloranOreTile"), false, 0f, 0f, false, true);
 
 
                                 }

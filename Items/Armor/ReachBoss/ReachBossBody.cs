@@ -10,8 +10,8 @@ namespace SpiritMod.Items.Armor.ReachBoss
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Vinecaller's Garb");
-            Tooltip.SetDefault("Increases throwing damage by 8% and movement speed by 6%");
+			DisplayName.SetDefault("Thornspeaker's Garb");
+            Tooltip.SetDefault("Increases throwing damage by 10% and movement speed by 6%");
 
         }
 
@@ -23,11 +23,11 @@ namespace SpiritMod.Items.Armor.ReachBoss
             item.height = 20;
             item.value = 30200;
             item.rare = 2;
-            item.defense = 4;
+            item.defense = 5;
         }
         public override void UpdateEquip(Player player)
         {
-            player.thrownDamage += 0.08f;
+            player.thrownDamage += 0.1f;
 			player.moveSpeed += .06f;
 			player.maxRunSpeed += 0.03f;
         }

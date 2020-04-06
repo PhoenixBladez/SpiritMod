@@ -12,7 +12,8 @@ namespace SpiritMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Wheeze Gas");
-		}
+            Main.projFrames[projectile.type] = 8;
+        }
 
 		public override void SetDefaults()
 		{
@@ -20,10 +21,11 @@ namespace SpiritMod.Projectiles
 			projectile.width = 22;
 			projectile.height = 22;
 			projectile.aiStyle = 1;
-			projectile.thrown = true;
+			projectile.melee = true;
 			aiType = ProjectileID.Bullet;
 			projectile.friendly = true;
 			projectile.penetrate = 5;
+            projectile.alpha = 60;
 			projectile.timeLeft = 180;
 		}
 
@@ -37,16 +39,18 @@ namespace SpiritMod.Projectiles
 			target.AddBuff(20, 150);
 		}
 
-		public override bool PreAI()
+		public override void AI()
 		{
-			projectile.velocity *= 0.95f;
-			{
-				projectile.tileCollide = true;
-				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 60, 0f, 0f);
-				Main.dust[dust].scale = 0.8f;
-				Main.dust[dust].noGravity = true;
-			}
-			return true;
-		}
+			projectile.velocity *= 0.92f;
+            projectile.spriteDirection = projectile.direction;
+            projectile.frameCounter++;
+            if (projectile.frameCounter >= 6)
+            {
+                projectile.frame++;
+                projectile.frameCounter = 0;
+                if (projectile.frame >= 8)
+                    projectile.frame = 0;
+            }
+        }
 	}
 }

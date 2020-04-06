@@ -85,7 +85,9 @@ namespace SpiritMod.NPCs
             if (timer >= 90)
             {
                 Vector2 vector2_2 = Vector2.UnitY.RotatedByRandom(1.57079637050629f) * new Vector2(5f, 3f);
-                int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector2_2.X, vector2_2.Y, mod.ProjectileType("FrostOrbiterHostile"), npc.damage/2, 0.0f, Main.myPlayer, 0.0f, (float)npc.whoAmI);
+                bool expertMode = Main.expertMode;
+                int damage = expertMode ? 12: 18;
+                int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector2_2.X, vector2_2.Y, mod.ProjectileType("FrostOrbiterHostile"), damage, 0.0f, Main.myPlayer, 0.0f, (float)npc.whoAmI);
                 Main.projectile[p].hostile = true;
                 timer = 0;
             }

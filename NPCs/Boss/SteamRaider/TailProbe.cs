@@ -24,7 +24,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		{
 			npc.width = 56;
 			npc.height = 46;
-			npc.damage = 32;
+			npc.damage = 0;
 			npc.defense = 12;
 			npc.noTileCollide = true;
 			npc.dontTakeDamage = true;
@@ -75,12 +75,12 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			Microsoft.Xna.Framework.Rectangle r2 = texture2D2.Frame(1, 1, 0, 0);
 			drawOrigin = r2.Size() / 2f;
 			Vector2 position3 = position1 + new Vector2(0.0f, -20f);
-			Microsoft.Xna.Framework.Color color3 = new Microsoft.Xna.Framework.Color(252, 3, 50) * 1.6f;
-			Main.spriteBatch.Draw(texture2D2, position3, new Microsoft.Xna.Framework.Rectangle?(r2), color3, npc.rotation,drawOrigin, npc.scale * 1.5f,  SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
+			Microsoft.Xna.Framework.Color color3 = new Microsoft.Xna.Framework.Color(255, 138, 36) * 1.6f;
+			Main.spriteBatch.Draw(texture2D2, position3, new Microsoft.Xna.Framework.Rectangle?(r2), color3, npc.rotation,drawOrigin, npc.scale * .75f,  SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
 			float num15 = 1f + num11 * 0.75f;
-			Main.spriteBatch.Draw(texture2D2, position3, new Microsoft.Xna.Framework.Rectangle?(r2), color3 * num12, npc.rotation,drawOrigin, npc.scale * 1.5f * num15,  SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
+			Main.spriteBatch.Draw(texture2D2, position3, new Microsoft.Xna.Framework.Rectangle?(r2), color3 * num12, npc.rotation,drawOrigin, npc.scale * .75f * num15,  SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
 			float num16 = 1f + num13 * 0.75f;
-			Main.spriteBatch.Draw(texture2D2, position3, new Microsoft.Xna.Framework.Rectangle?(r2), color3 * num14, npc.rotation,drawOrigin, npc.scale * 1.5f * num16,  SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
+			Main.spriteBatch.Draw(texture2D2, position3, new Microsoft.Xna.Framework.Rectangle?(r2), color3 * num14, npc.rotation,drawOrigin, npc.scale * .75f * num16,  SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
 			Texture2D texture2D3 = Main.extraTexture[89];
 			Microsoft.Xna.Framework.Rectangle r3 = texture2D3.Frame(1, 1, 0, 0);
 			drawOrigin = r3.Size() / 2f;
@@ -115,7 +115,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		public override void AI()
 		{
 			Player player = Main.player[npc.target];
-            for (int i = 0; i < 255; ++i)
+            /*for (int i = 0; i < 255; ++i)
 					{
 						if (Main.player[i].active && !Main.player[i].dead)
 						{
@@ -125,8 +125,8 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 								Main.player[i].AddBuff(BuffID.Slow, 90);
 							}
 						}
-					}
-			int parent = NPC.FindFirstNPC(mod.NPCType("SteamRaiderHead"));
+					}*/
+            int parent = NPC.FindFirstNPC(mod.NPCType("SteamRaiderHead"));
 			{
 				if (Main.npc[parent].life <= 0)
 				{
@@ -191,7 +191,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				if(shoottimer >= 180)
 				{
 				 Main.PlaySound(2, (int)npc.Center.X, (int)npc.Center.Y, 12);
-				Vector2 direction = Main.player[npc.target].Center - npc.Center;
+				        Vector2 direction = Main.player[npc.target].Center - npc.Center;
 						direction.Normalize();
 						direction.X *= 4f;
 						direction.Y *= 4f;
@@ -201,7 +201,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 						{
 							float A = (float)Main.rand.Next(-50, 50) * 0.02f;
 							float B = (float)Main.rand.Next(-50, 50) * 0.02f;
-							int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ProjectileID.RayGunnerLaser, npc.damage / 3 * 2, 1, Main.myPlayer, 0, 0);
+							int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ProjectileID.RayGunnerLaser, 19, 1, Main.myPlayer, 0, 0);
 							Main.projectile[p].hostile = true;
 						}
 						shoottimer = 0;
@@ -231,7 +231,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				moveSpeed++;
 			}
 
-			npc.velocity.X = moveSpeed * 0.1f;
+			npc.velocity.X = moveSpeed * 0.09f;
 
 			if (npc.Center.Y >= player.Center.Y - HomeY && moveSpeedY >= -27) //Flies to players Y position
 			{
@@ -244,37 +244,11 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				moveSpeedY++;
 			}
 
-			npc.velocity.Y = moveSpeedY * 0.12f;
-			if (Main.rand.Next(220) == 44)
+			npc.velocity.Y = moveSpeedY * 0.1f;
+			if (Main.rand.Next(220) == 33)
 			{
 				HomeY = -35f;
-			}
-			for (int index1 = 0; index1 < 6; ++index1)
-            {
-				float x = (npc.Center.X);
-				float xnum2 = (npc.Center.X);
-				float y = (npc.Center.Y);
-				if (npc.direction == -1)
-				{
-					int index2 = Dust.NewDust(new Vector2(x, y), 1, 1, 60, 0.0f, 0.0f, 0, new Color(), 1f);
-					Main.dust[index2].position.X = x;
-					Main.dust[index2].position.Y = y;
-					Main.dust[index2].scale = .5f;
-					Main.dust[index2].velocity *= .1f;
-					Main.dust[index2].noGravity = true;
-					Main.dust[index2].noLight = false;
-				}
-				else if (npc.direction == 1)
-				{
-					int index2 = Dust.NewDust(new Vector2(xnum2, y), 1, 1, 60, 0.0f, 0.0f, 0, new Color(), 1f);
-					Main.dust[index2].position.X = xnum2;
-					Main.dust[index2].position.Y = y;
-					Main.dust[index2].scale = .5f;
-					Main.dust[index2].velocity *= .1f;
-					Main.dust[index2].noGravity = true;
-					Main.dust[index2].noLight = false;
-				}
-            }		
+			}		
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), .25f, .57f, .85f);
 			npc.spriteDirection = npc.direction;
 		}

@@ -76,7 +76,7 @@ namespace SpiritMod.NPCs
 						moveSpeedY++;
 					}
 					npc.velocity.Y = moveSpeedY * 0.12f;
-                    if (player.velocity.Y < 0)
+                    if (player.velocity.Y != 0)
                     {
                         HomeY = -100f;
                         trailbehind = true;

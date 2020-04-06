@@ -103,7 +103,7 @@ namespace SpiritMod.Projectiles.Hostile
                 }
 
                 projectile.velocity.X = moveSpeed * 0.1f;
-                projectile.velocity.Y = 1;
+                projectile.velocity.Y = 1.4f;
             }
         }
     }
