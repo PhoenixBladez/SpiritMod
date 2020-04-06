@@ -409,7 +409,7 @@ namespace SpiritMod
 				y = basey + Main.rand.Next(0 - height, height);
 				float xsize = (float)(Main.rand.Next(75,133)) / 100;
 				float ysize = (float)(Main.rand.Next(75,133)) / 100;
-				int size = Main.rand.Next(15,25);
+				int size = Main.rand.Next(21,28);
 				PlaceBlob(x, y, xsize, ysize, size, mod.TileType("BigAsteroid"), 10, true, mod.WallType("AsteroidWall"));
 			}
 			for (int b = 0; b < numberOfOres; b++) //ores
