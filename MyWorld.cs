@@ -30,6 +30,7 @@ namespace SpiritMod
 
 		public static bool BlueMoon = false;
 		public static int SpiritTiles = 0;
+		public static int AsteroidTiles = 0;
 		public static int ReachTiles = 0;
 		public static bool Magicite = false;
 		public static bool Thermite = false;
@@ -65,8 +66,9 @@ namespace SpiritMod
 			+tileCounts[mod.TileType("Spiritsand")] +tileCounts[mod.TileType("SpiritIce")] + tileCounts[mod.TileType("SpiritGrass")];
 			//now you don't gotta have 6 separate things for tilecount
 			ReachTiles = tileCounts[mod.TileType("ReachGrassTile")];
+			AsteroidTiles = tileCounts[mod.TileType("Asteroid")] + tileCounts[mod.TileType("BigAsteroid")];
 		}
-
+		
 		public override TagCompound Save()
 		{
 			TagCompound data = new TagCompound();
@@ -232,6 +234,197 @@ namespace SpiritMod
 			downedIlluminantMaster = false;
 			downedOverseer = false;
 		}
+		#region Asteroid
+		public static ushort OreRoller(ushort glowstone, ushort marble)
+		{
+			ushort iron = MyWorld.GetNonOre(WorldGen.IronTierOre);
+			ushort silver = MyWorld.GetNonOre(WorldGen.SilverTierOre);
+			ushort gold = MyWorld.GetNonOre(WorldGen.GoldTierOre);
+			
+			int OreRoll = Main.rand.Next(1120);
+			if (OreRoll < 300)
+			{
+				return GetNonOre(iron);
+			}
+			else if (OreRoll < 500)
+			{
+				return GetNonOre(silver);
+			}
+			else if (OreRoll < 800)
+			{
+				return GetNonOre(gold);
+			}
+			else if (OreRoll < 850)
+			{
+				return 37; //meteorite
+			}
+			else if (OreRoll < 1100)
+			{
+				return glowstone;
+			}
+			else
+			{
+				return marble;
+			}
+			return 0;
+		}
+		public static ushort GetNonOre(ushort ore)
+		{
+			switch (ore)
+			{
+				case 7: //copper ==> tin
+					return 166;
+					break;
+				case 166: //tin ==> copper
+					return 7;
+					break;
+				case 6: //iron ==> lead
+					return 167;
+					break;
+				case 167: //lead ==> iron
+					return 6;
+					break;
+				case 9: //silver ==> tungsten
+					return 168;
+					break;
+				case 168: //tungsten ==> silver
+					return 9;
+					break;
+				case 8: //gold ==> platinum
+					return 169;
+					break;
+				case 169: //platinum ==> gold
+					return 8;
+					break;
+			}
+			return 0;
+		}
+		public static void PlaceBlob(int x, int y, float xsize, float ysize, int size, int type, int roundness, bool placewall = false, int walltype = 0)
+		{
+			int distance = size;
+			for (int i = 0; i < 360; i++)
+			{
+				if ((360 - i) <= ((Math.Abs(size - distance)) / Math.Sqrt(size)) * 50)
+				{
+					if (size > distance)
+					{
+						distance++;
+					}
+					else
+					{
+						distance--;
+					}
+				}
+				else
+				{
+					int increase = Main.rand.Next(roundness);
+					if (increase == 0 && distance > 3)
+					{
+						distance--;
+					}
+					if (increase == 1)
+					{
+						distance++;
+					}
+				}
+				int offsetX = (int)(Math.Sin(i * (Math.PI / 180)) * distance * xsize);
+                int offsetY = (int)(Math.Cos(i * (Math.PI / 180)) * distance * ysize);
+				drawLine(x, y, x + offsetX, y + offsetY, type, placewall,walltype);
+			}
+			
+		}     
+		public static void drawLine(int xpoint1, int ypoint1, int xpoint2, int ypoint2, int type, bool placewall, int walltype)
+		{
+			int xdist = xpoint2 - xpoint1;
+			int ydist = ypoint2 - ypoint1;
+			float distance = (float)Math.Sqrt((Math.Abs(xpoint2 - xpoint1)^2) + (Math.Abs(ypoint2 - ypoint1)^2));
+			float xDistRelative = (float)xdist / distance;
+			float yDistRelative = (float)ydist / distance;
+			for (float i = 0; i < distance; i+= (float)0.1)
+			{
+				int tilePlaceX = xpoint1 + (int)(xDistRelative * i);
+				int tilePlaceY = ypoint1 + (int)(yDistRelative * i);
+				Tile tile = Main.tile[tilePlaceX, tilePlaceY];
+				tile.active(true);
+				tile.type = (ushort)type;
+				if (i < distance - 1 && placewall)
+				{
+					tile.wall = (ushort)walltype;
+				}
+			}
+		}
+		
+		public void PlaceAsteroids(int i, int j)
+		{
+			int basex = i;
+			int basey = j;
+			int x = basex;
+			int y = basey;
+			
+			int numberOfAsteroids = 140;
+			int numberOfBigs = 4;
+			int numberOfOres = 310;
+			int width = 350;
+			int height = 75;
+			if (Main.maxTilesX == 4200)
+			{
+				numberOfAsteroids = 70;
+				numberOfBigs = 2;
+				numberOfOres = 155;
+				width = 200;
+				height = 40;
+			}
+			if (Main.maxTilesX == 6400)
+			{
+				numberOfAsteroids = 100;
+				numberOfBigs = 3;
+				numberOfOres = 230;
+				width = 275;
+				height = 60;
+			}
+			if (Main.maxTilesX == 8400)
+			{
+				numberOfAsteroids = 140;
+				numberOfBigs = 4;
+				numberOfOres = 310;
+				width = 350;
+				height = 75;
+			}
+			int radius = (int)Math.Sqrt((width * width) + (height * height));
+			
+			for (int b = 0; b < numberOfAsteroids; b++) //small asteroids
+			{
+				float distance = (int)(((float)(Main.rand.Next(1000)) / 1000) * (float)Main.rand.Next(radius));
+				int angle = Main.rand.Next(360);
+				float xsize = (float)(Main.rand.Next(80,120)) / 100;
+				float ysize = (float)(Main.rand.Next(80,120)) / 100;
+				int size = Main.rand.Next(5,7);
+				x = basex + (int)(Main.rand.Next(width) * Math.Sin(angle * (Math.PI / 180))) + Main.rand.Next(-100, 100);
+				y = basey + (int)(Main.rand.Next(height) * Math.Cos(angle * (Math.PI / 180))) + Main.rand.Next(-10, 15);
+				PlaceBlob(x, y, xsize, ysize, size, mod.TileType("Asteroid"), 50);
+			}	
+			for (int b = 0; b < numberOfBigs; b++) //big asteroids
+			{
+				x = basex + (int)(Main.rand.Next(0 - width, width) / 1.5f);
+				y = basey + Main.rand.Next(0 - height, height);
+				float xsize = (float)(Main.rand.Next(75,133)) / 100;
+				float ysize = (float)(Main.rand.Next(75,133)) / 100;
+				int size = Main.rand.Next(15,25);
+				PlaceBlob(x, y, xsize, ysize, size, mod.TileType("BigAsteroid"), 10, true, mod.WallType("AsteroidWall"));
+			}
+			for (int b = 0; b < numberOfOres; b++) //ores
+			{
+				float distance = (int)(((float)(Main.rand.Next(1000)) / 1000) * (float)Main.rand.Next(radius));
+				int angle = Main.rand.Next(360);
+				int size = Main.rand.Next(2,5);
+				x = basex + (int)(Main.rand.Next(width) * Math.Sin(angle * (Math.PI / 180))) + Main.rand.Next(-100, 100);
+				y = basey + (int)(Main.rand.Next(height) * Math.Cos(angle * (Math.PI / 180))) + Main.rand.Next(-10, 15);
+				ushort ore = OreRoller((ushort)mod.TileType("Glowstone"), (ushort)mod.TileType("MarbleOre"));
+				WorldGen.TileRunner(x, y, Main.rand.Next(2,10), 2, ore, false, 0f, 0f, false, true); 
+			}	
+			
+		}
+		#endregion
 		#region MageTower
 		private void PlaceTower(int i, int j, int[,] ShrineArray, int[,] WallsArray, int[,] LootArray) {
 			
@@ -2721,6 +2914,45 @@ namespace SpiritMod
                 // Shinies pass removed by some other mod.
                 return;
             }
+			tasks.Insert(TrapsIndex + 1, new PassLegacy("Asteroids", delegate (GenerationProgress progress)
+            {
+
+                progress.Message = "Hurling Asteroids";
+                {
+				int width = 350;
+				int height = 75;
+				int x = 0;
+				int y = 0;
+				if (Main.maxTilesX == 4200)
+				{
+					width = 200;
+					height = 40;
+				}
+				if (Main.maxTilesX == 6400)
+				{
+					width = 275;
+					height = 60;
+				}
+				if (Main.maxTilesX == 8400)
+				{
+					width = 350;
+					height = 75;
+				}	
+				
+                if (Main.rand.Next(1) == 0) //change to check for dungeon later, idk how rn.
+				{
+					x = width + 50;
+				}
+				else
+				{
+					x = Main.maxTilesX - (width + 50);
+				}
+				
+				y = height + 50;
+				PlaceAsteroids(x,y);
+				
+                }
+            }));
             tasks.Insert(ShiniesIndex + 1, new PassLegacy("Piles", delegate (GenerationProgress progress)
             {
 

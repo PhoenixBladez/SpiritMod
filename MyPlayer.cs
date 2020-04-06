@@ -33,6 +33,7 @@ namespace SpiritMod
         private int timerz;
         public bool caltfist = false;
         public bool ZoneBlueMoon = false;
+		public bool ZoneAsteroid = false;
         private int timer1;
         public bool astralSet = false;
         public bool frigidGloves = false;
@@ -312,6 +313,7 @@ namespace SpiritMod
             bool reach = !Main.dayTime && ZoneReach;
 
             player.ManageSpecialBiomeVisuals("SpiritMod:AuroraSky", showAurora);
+			player.ManageSpecialBiomeVisuals("SpiritMod:AsteroidSky", ZoneAsteroid, player.Center);
             player.ManageSpecialBiomeVisuals("SpiritMod:ReachSky", reach, player.Center);
             player.ManageSpecialBiomeVisuals("SpiritMod:BlueMoonSky", ZoneBlueMoon, player.Center);
             player.ManageSpecialBiomeVisuals("SpiritMod:WindEffect", windEffect, player.Center);
@@ -326,6 +328,7 @@ namespace SpiritMod
             ZoneSpirit = MyWorld.SpiritTiles > 100;
             ZoneBlueMoon = MyWorld.BlueMoon;
             ZoneReach = MyWorld.ReachTiles > 100;
+			ZoneAsteroid = MyWorld.AsteroidTiles > 400;
         }
 
         public override bool CustomBiomesMatch(Player other)
