@@ -369,7 +369,7 @@ namespace SpiritMod
 			if (Main.maxTilesX == 4200)
 			{
 				numberOfAsteroids = 70;
-				numberOfBigs = 2;
+				numberOfBigs = 3;
 				numberOfOres = 155;
 				width = 200;
 				height = 40;
@@ -377,7 +377,7 @@ namespace SpiritMod
 			if (Main.maxTilesX == 6400)
 			{
 				numberOfAsteroids = 100;
-				numberOfBigs = 3;
+				numberOfBigs = 4;
 				numberOfOres = 230;
 				width = 275;
 				height = 60;
@@ -385,7 +385,7 @@ namespace SpiritMod
 			if (Main.maxTilesX == 8400)
 			{
 				numberOfAsteroids = 140;
-				numberOfBigs = 4;
+				numberOfBigs = 5;
 				numberOfOres = 310;
 				width = 350;
 				height = 75;
