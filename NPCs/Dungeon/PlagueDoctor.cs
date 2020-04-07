@@ -65,7 +65,7 @@ namespace SpiritMod.NPCs.Dungeon
 
 		int frame = 0;
 		int timer = 0;
-        int shootTimer = 0;
+      //  int shootTimer = 0;
 		public override void AI()
 		{
 			npc.spriteDirection = npc.direction;
@@ -74,8 +74,8 @@ namespace SpiritMod.NPCs.Dungeon
 			if (distance < 200)
 			{
 				npc.velocity.X = .008f * npc.direction;				
-				shootTimer++;
-				if (shootTimer >= 55)
+				//shootTimer++;
+				if (frame == 3 && timer == 0)
 				{
                     Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 106);
                     Vector2 direction = Main.player[npc.target].Center - npc.Center;
@@ -90,10 +90,11 @@ namespace SpiritMod.NPCs.Dungeon
                         Dust.NewDust(npc.position, npc.width, npc.height, 75, (float)direction.X + A, (float)direction.Y + B, 0, default(Color), .61f);
                     }
                     Main.projectile[p].hostile = true;
-                    shootTimer = 0;
+                  //  shootTimer = 0;
+					timer++;
 				}
 				timer++;
-				if(timer >= 6)
+				if(timer >= 12)
 				{
 					frame++;
 					timer = 0;
@@ -105,7 +106,7 @@ namespace SpiritMod.NPCs.Dungeon
 			}
 			else
 			{
-                shootTimer = 0;
+                //shootTimer = 0;
                 npc.aiStyle = 3;
 				aiType = NPCID.Skeleton;
 				timer++;
@@ -123,14 +124,14 @@ namespace SpiritMod.NPCs.Dungeon
                     frame = 5;
                 }
 			}	
-            if (shootTimer > 120)
+            /*if (shootTimer > 120)
             {
                 shootTimer = 120;
             }
             if (shootTimer < 0)
             {
                 shootTimer = 0;
-            }
+            }*/
 		}
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
