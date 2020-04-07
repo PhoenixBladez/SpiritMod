@@ -33,7 +33,6 @@ namespace SpiritMod
         private int timerz;
         public bool caltfist = false;
         public bool ZoneBlueMoon = false;
-		public bool ZoneAsteroid = false;
         private int timer1;
         public bool astralSet = false;
         public bool frigidGloves = false;
@@ -244,6 +243,7 @@ namespace SpiritMod
         public bool ichorSet2;
         public bool talonSet;
         public bool OverseerCharm = false;
+        public bool ZoneAsteroid = false;
         public bool Bauble = false;
 
         public bool marbleJustJumped;
@@ -313,7 +313,6 @@ namespace SpiritMod
             bool reach = !Main.dayTime && ZoneReach;
 
             player.ManageSpecialBiomeVisuals("SpiritMod:AuroraSky", showAurora);
-			player.ManageSpecialBiomeVisuals("SpiritMod:AsteroidSky", ZoneAsteroid, player.Center);
             player.ManageSpecialBiomeVisuals("SpiritMod:ReachSky", reach, player.Center);
             player.ManageSpecialBiomeVisuals("SpiritMod:BlueMoonSky", ZoneBlueMoon, player.Center);
             player.ManageSpecialBiomeVisuals("SpiritMod:WindEffect", windEffect, player.Center);
@@ -327,8 +326,8 @@ namespace SpiritMod
         {
             ZoneSpirit = MyWorld.SpiritTiles > 100;
             ZoneBlueMoon = MyWorld.BlueMoon;
-            ZoneReach = MyWorld.ReachTiles > 100;
-			ZoneAsteroid = MyWorld.AsteroidTiles > 400;
+            ZoneReach = MyWorld.ReachTiles > 200;
+            ZoneAsteroid = MyWorld.AsteroidTiles > 400;
         }
 
         public override bool CustomBiomesMatch(Player other)
@@ -1024,7 +1023,7 @@ namespace SpiritMod
             }
             if (virulence <= 0f)
             {
-                Projectile.NewProjectile(target.position, Vector2.Zero, mod.ProjectileType("VirulenceExplosion"), 55, 8, Main.myPlayer);
+                Projectile.NewProjectile(target.position, Vector2.Zero, mod.ProjectileType("VirulenceExplosion"), 25, 8, Main.myPlayer);
                 virulence = 600f;
                 player.AddBuff(mod.BuffType("VirulenceCooldown"), 140);
             }
@@ -1206,7 +1205,7 @@ namespace SpiritMod
 
             if (virulence <= 0f)
             {
-                Projectile.NewProjectile(target.position, Vector2.Zero, mod.ProjectileType("VirulenceExplosion"), 55, 8, Main.myPlayer);
+                Projectile.NewProjectile(target.position, Vector2.Zero, mod.ProjectileType("VirulenceExplosion"), 35, 8, Main.myPlayer);
                 virulence = 600f;
                 player.AddBuff(mod.BuffType("VirulenceCooldown"), 140);
             }
@@ -1622,7 +1621,7 @@ namespace SpiritMod
 
                 if (!player.HasBuff(mod.BuffType("VirulenceCooldown")))
                 {
-                    Projectile.NewProjectile(player.position, Vector2.Zero, mod.ProjectileType("VirulenceExplosion"), 15, 5, Main.myPlayer);
+                    Projectile.NewProjectile(player.position, Vector2.Zero, mod.ProjectileType("VirulenceExplosion"), 35, 5, Main.myPlayer);
                 }
 
                 player.AddBuff(mod.BuffType("VirulenceCooldown"), 140);
@@ -1930,7 +1929,7 @@ namespace SpiritMod
                         if (!npc.boss)
                         {
                             Main.PlaySound(new Terraria.Audio.LegacySoundStyle(29, 53));
-                            illusionistTimer = 18000;
+                            illusionistTimer = 36000;
                             player.statLife += 20;
                             for (int i = 0; i < 12; i++)
                             {
@@ -2098,7 +2097,7 @@ namespace SpiritMod
             {
                 int num323;
                 int num326;
-                if (player.velocity.Y == 0f && player.HasBuff(mod.BuffType("GraniteBonus")))
+                if (player.velocity.Y == 0f && player.HasBuff(mod.BuffType("GraniteBonus")) && !player.mount.Active)
                 {
                     num326 = 1;
                     num326 += player.extraFall;
@@ -2669,7 +2668,7 @@ namespace SpiritMod
             int num323;
             if (graniteSet)
             {
-                if (player.controlDown && player.releaseDown)
+                if (player.controlDown && player.releaseDown && !player.mount.Active)
                 {
                     if (player.velocity.Y != 0 && stompCooldown <= 0)
                     {
@@ -3762,6 +3761,10 @@ namespace SpiritMod
                         }
                     }
                 }
+            }
+            if (ZoneReach && player.wet && Main.expertMode)
+            {
+                player.AddBuff(BuffID.Poisoned, 120);
             }
             if (cryoSet)
             {

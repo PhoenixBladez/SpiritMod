@@ -72,7 +72,7 @@ namespace SpiritMod.NPCs
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.RocketBoots);
             }
-            string[] lootTable = { "CoilMask", "CoilChestplate", "CoilLeggings" };
+            string[] lootTable = { "CoiledMask", "CoiledChestplate", "CoiledLeggings" };
             int loot = Main.rand.Next(lootTable.Length);
             {
                 npc.DropItem(mod.ItemType(lootTable[loot]));
@@ -102,7 +102,10 @@ namespace SpiritMod.NPCs
                 direction.Normalize();
                 int MechBat = Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, -6, mod.ProjectileType("MechBat"), 11, 0);
                 int MechBat1= Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 3, -6, mod.ProjectileType("MechBat"), 11, 0);
-                int MechBat2= Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -3, -6, mod.ProjectileType("MechBat"), 11, 0);
+                if (Main.rand.Next(3) == 0)
+                {
+                    int MechBat2 = Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -3, -6, mod.ProjectileType("MechBat"), 11, 0);
+                }
             }
             if (timer > 420 && timer < 840)
             {

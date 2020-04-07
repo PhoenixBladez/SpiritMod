@@ -12,15 +12,16 @@ namespace SpiritMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Virulent Explosion");
-		}
+            Main.projFrames[projectile.type] = 8;
+        }
 
 		public override void SetDefaults()
 		{
 			projectile.width = 120;
 			projectile.height = 120;
 			projectile.timeLeft = 20;
-			projectile.alpha = 255;
 			projectile.maxPenetrate = -1;
+            projectile.alpha = 255;
 			projectile.hostile = false;
 			projectile.magic = true;
 			projectile.friendly = true;
@@ -81,6 +82,18 @@ namespace SpiritMod.Projectiles
 				expr_13D1F_cp_0.velocity.Y = expr_13D1F_cp_0.velocity.Y - 1f;
 			}
 		}
+        public override void AI()
+        {
+            projectile.alpha += 3;
+            projectile.frameCounter++;
+            if (projectile.frameCounter >= 6)
+            {
+                projectile.frame++;
+                projectile.frameCounter = 0;
+                if (projectile.frame >= 8)
+                    projectile.frame = 0;
+            }
+        }
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			target.AddBuff(BuffID.Poisoned, 240, true);

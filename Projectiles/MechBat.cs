@@ -112,8 +112,8 @@ namespace SpiritMod.Projectiles
 					moveSpeed++;
 				}
 
-				projectile.velocity.X = moveSpeed * 0.1f;
-				projectile.velocity.Y = 1;
+				projectile.velocity.X = moveSpeed * 0.08f;
+				projectile.velocity.Y = 1f;
 			}
 		}
 

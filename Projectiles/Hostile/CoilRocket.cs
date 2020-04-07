@@ -66,9 +66,9 @@ namespace SpiritMod.Projectiles.Hostile
             float num = 1f - (float)projectile.alpha / 255f;
 			num *= projectile.scale;
 
-			float num1 = 8f;
-			float num2 = 4f;
-			float num3 = 20f;
+			float num1 = 6f;
+			float num2 = 3f;
+			float num3 = 16f;
 			num1 = 9f;
 			num2 = 5.5f;
 			if (projectile.timeLeft > 30 && projectile.alpha > 0)

@@ -14,6 +14,7 @@ namespace SpiritMod.Items.Armor.GraniteArmor
 		{
 			DisplayName.SetDefault("Granite Greaves");
             SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/GraniteArmor/GraniteLegs_Glow");
+            Tooltip.SetDefault("Increases jump height slightly");
 
         }
 
@@ -28,6 +29,10 @@ namespace SpiritMod.Items.Armor.GraniteArmor
             item.value = 1100;
             item.rare = 2;
             item.defense = 7;
+        }
+        public override void UpdateEquip(Player player)
+        {
+            player.jumpSpeedBoost += .25f;
         }
         public override void AddRecipes()
         {

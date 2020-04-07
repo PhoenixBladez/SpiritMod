@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.height = 30;
             item.value = Item.sellPrice(0, 1, 43, 0);
             item.rare = 2;
-            item.damage = 23;
+            item.damage = 25;
             item.knockBack = 8;
             item.useStyle = 5;
             item.useTime = item.useAnimation = 38;   
@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.channel = true;
             item.noUseGraphic = true;
             item.shoot = mod.ProjectileType("GraniteMaceProj");
-            item.shootSpeed = 8.25f;
+            item.shootSpeed = 10.25f;
             item.UseSound = SoundID.Item1;   
         }
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

@@ -361,32 +361,32 @@ namespace SpiritMod
 			int x = basex;
 			int y = basey;
 			
-			int numberOfAsteroids = 140;
+			int numberOfAsteroids = 110;
 			int numberOfBigs = 4;
 			int numberOfOres = 310;
 			int width = 350;
 			int height = 75;
 			if (Main.maxTilesX == 4200)
 			{
-				numberOfAsteroids = 70;
-				numberOfBigs = 3;
-				numberOfOres = 155;
+				numberOfAsteroids = 33;
+				numberOfBigs = 1;
+				numberOfOres = 150;
 				width = 200;
 				height = 40;
 			}
 			if (Main.maxTilesX == 6400)
 			{
-				numberOfAsteroids = 100;
-				numberOfBigs = 4;
+				numberOfAsteroids = 50;
+				numberOfBigs = 2;
 				numberOfOres = 230;
 				width = 275;
 				height = 60;
 			}
 			if (Main.maxTilesX == 8400)
 			{
-				numberOfAsteroids = 140;
-				numberOfBigs = 5;
-				numberOfOres = 310;
+				numberOfAsteroids = 79;
+				numberOfBigs = 4;
+				numberOfOres = 300;
 				width = 350;
 				height = 75;
 			}
@@ -396,9 +396,9 @@ namespace SpiritMod
 			{
 				float distance = (int)(((float)(Main.rand.Next(1000)) / 1000) * (float)Main.rand.Next(radius));
 				int angle = Main.rand.Next(360);
-				float xsize = (float)(Main.rand.Next(80,120)) / 100;
-				float ysize = (float)(Main.rand.Next(80,120)) / 100;
-				int size = Main.rand.Next(5,7);
+				float xsize = (float)(Main.rand.Next(100,120)) / 100;
+				float ysize = (float)(Main.rand.Next(100,120)) / 100;
+				int size = Main.rand.Next(6,7);
 				x = basex + (int)(Main.rand.Next(width) * Math.Sin(angle * (Math.PI / 180))) + Main.rand.Next(-100, 100);
 				y = basey + (int)(Main.rand.Next(height) * Math.Cos(angle * (Math.PI / 180))) + Main.rand.Next(-10, 15);
 				PlaceBlob(x, y, xsize, ysize, size, mod.TileType("Asteroid"), 50);
@@ -409,7 +409,7 @@ namespace SpiritMod
 				y = basey + Main.rand.Next(0 - height, height);
 				float xsize = (float)(Main.rand.Next(75,133)) / 100;
 				float ysize = (float)(Main.rand.Next(75,133)) / 100;
-				int size = Main.rand.Next(21,28);
+				int size = Main.rand.Next(11,17);
 				PlaceBlob(x, y, xsize, ysize, size, mod.TileType("BigAsteroid"), 10, true, mod.WallType("AsteroidWall"));
 			}
 			for (int b = 0; b < numberOfOres; b++) //ores
@@ -2105,7 +2105,11 @@ namespace SpiritMod
 							case 6:
 								WorldGen.KillWall(k, l);
 								Framing.GetTileSafely(k, l).ClearTile();
-								break;			
+                                break;
+                            case 9:
+                                WorldGen.KillWall(k, l);
+                                Framing.GetTileSafely(k, l).ClearTile();
+                                break;			
 						}
 					}
 				}
@@ -2248,15 +2252,15 @@ namespace SpiritMod
 				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,6,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,6,4,0},
 				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,0,4,0},
 				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,0,4,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,0,4,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,0,4,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,0,4,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,0,4,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,0,0,0},
-				{0,0,0,6,6,6,6,6,6,6,6,6,0,0,0,0,0,0,0,0,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,0,0,0},
+				{0,0,0,0,0,9,9,9,9,9,9,9,9,9,9,9,9,9,9,4,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,0,4,0},
+				{0,0,0,0,0,9,9,9,9,9,9,9,9,9,9,9,9,9,9,4,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,0,4,9},
+				{0,0,0,0,0,9,9,9,9,9,9,9,9,9,9,9,9,9,9,4,9,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,9,4,9},
+				{0,0,0,0,0,9,9,9,9,9,9,9,9,9,9,9,9,9,9,4,9,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,9,4,9},
+				{0,0,0,0,0,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,9,9,9},
+				{0,0,0,0,0,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,9,9,9},
+				{0,0,0,0,0,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,9,9,9},
+				{0,0,0,0,0,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,9,9,9},
+				{0,0,0,6,6,6,6,6,6,6,6,6,9,9,9,9,9,9,9,9,9,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,9,9,9},
 				{0,0,0,2,1,1,1,1,1,1,1,2,7,7,7,7,7,7,7,7,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},
 			};
 			int[,] BanditWalls = new int[,]
@@ -2327,31 +2331,30 @@ namespace SpiritMod
 			bool placed = false;
 			while (!placed)
 			{
-			int hideoutX = Main.spawnTileX + Main.rand.Next(-900, 900); // from 50 since there's a unaccessible area at the world's borders
-				// 50% of choosing the last 6th of the world
-				if (WorldGen.genRand.NextBool())
-				{
-					hideoutX = Main.maxTilesX - hideoutX;
-				}
-				int hideoutY = 0;
-				// We go down until we hit a solid tile or go under the world's surface
-				while (!WorldGen.SolidTile(hideoutX, hideoutY) && hideoutY <= Main.worldSurface)
-				{
-					hideoutY++;
-				}
-				// If we went under the world's surface, try again
-				if (hideoutY > Main.worldSurface)
-				{
-					continue;
-				}
-				Tile tile = Main.tile[hideoutX, hideoutY];
-				// If the type of the tile we are placing the hideout on doesn't match what we want, try again
-				if (tile.type != TileID.Dirt && tile.type != TileID.Grass && tile.type != TileID.Stone && tile.type != TileID.SnowBlock)
-				{
-					continue;
-				}
-				PlaceBanditHideout(hideoutX, hideoutY - 22, BanditTiles, BanditWalls, BanditLoot);
-				int num = NPC.NewNPC((hideoutX + 31) * 16, (hideoutY - 20) * 16, mod.NPCType("BoundRogue"), 0, 0f, 0f, 0f, 0f, 255);
+                int towerX = WorldGen.genRand.Next(50, Main.maxTilesX / 4); 
+                if (WorldGen.genRand.NextBool())
+                {
+                    towerX = Main.maxTilesX - towerX;
+                }
+                int towerY = 0;
+                // We go down until we hit a solid tile or go under the world's surface
+                while (!WorldGen.SolidTile(towerX, towerY) && towerY <= Main.worldSurface)
+                {
+                    towerY++;
+                }
+                // If we went under the world's surface, try again
+                if (towerY > Main.worldSurface)
+                {
+                    continue;
+                }
+                Tile tile = Main.tile[towerX, towerY];
+                // If the type of the tile we are placing the tower on doesn't match what we want, try again
+                if (tile.type != TileID.Dirt && tile.type != TileID.Grass && tile.type != TileID.Stone && tile.type != TileID.SnowBlock)
+                {
+                    continue;
+                }
+                PlaceBanditHideout(towerX, towerY - 22, BanditTiles, BanditWalls, BanditLoot);
+				int num = NPC.NewNPC((towerX + 31) * 16, (towerY - 20) * 16, mod.NPCType("BoundRogue"), 0, 0f, 0f, 0f, 0f, 255);
 				Main.npc[num].homeTileX = -1;
 				Main.npc[num].homeTileY = -1;
 				Main.npc[num].direction = 1;
@@ -2831,7 +2834,20 @@ namespace SpiritMod
                             GenerateSepulchre();
                         }
                         GenerateAltar();
-                        for (int k = 0; k < Main.rand.Next(3, 5); k++)
+                        int num32 = 1;
+                        if (Main.maxTilesX == 4200)
+                        {
+                            num32 = Main.rand.Next(2, 5);
+                        }
+                        else if (Main.maxTilesX == 6400)
+                        {
+                            num32 = Main.rand.Next(5, 9);
+                        }
+                        else if (Main.maxTilesX == 8400)
+                        {
+                            num32 = Main.rand.Next(7, 12);
+                        }
+                        for (int k = 0; k < num32; k++)
                         {
                             GenerateGlowRoom();
                         }
@@ -2916,41 +2932,52 @@ namespace SpiritMod
             }
 			tasks.Insert(TrapsIndex + 1, new PassLegacy("Asteroids", delegate (GenerationProgress progress)
             {
-
-                progress.Message = "Hurling Asteroids";
+                bool success = false;
+                int attempts = 0;
+                while (!success)
                 {
-				int width = 350;
-				int height = 75;
-				int x = 0;
-				int y = 0;
-				if (Main.maxTilesX == 4200)
-				{
-					width = 200;
-					height = 40;
-				}
-				if (Main.maxTilesX == 6400)
-				{
-					width = 275;
-					height = 60;
-				}
-				if (Main.maxTilesX == 8400)
-				{
-					width = 350;
-					height = 75;
-				}	
-				
-                if (Main.rand.Next(1) == 0) //change to check for dungeon later, idk how rn.
-				{
-					x = width + 50;
-				}
-				else
-				{
-					x = Main.maxTilesX - (width + 50);
-				}
-				
-				y = height + 50;
-				PlaceAsteroids(x,y);
-				
+                    attempts++;
+                    if (attempts > 1000)
+                    {
+                        success = true;
+                        continue;
+                    }
+                    progress.Message = "Creating an asteroid belt";
+                    {
+                        int width = 350;
+                        int height = 75;
+                        int x = 0;
+                        int y = 0;
+                        if (Main.maxTilesX == 4200)
+                        {
+                            width = 200;
+                            height = 40;
+                        }
+                        if (Main.maxTilesX == 6400)
+                        {
+                            width = 275;
+                            height = 60;
+                        }
+                        if (Main.maxTilesX == 8400)
+                        {
+                            width = 350;
+                            height = 75;
+                        }
+
+                        if (Main.rand.Next(3) == 0) //change to check for dungeon later, idk how rn.
+                        {
+                            x = width + 80;
+                        }
+                        else
+                        {
+                            x = Main.maxTilesX - (width + 80);
+                        }
+
+                        y = height + 60;
+                        PlaceAsteroids(x, y);
+
+                    }
+                    success = true;
                 }
             }));
             tasks.Insert(ShiniesIndex + 1, new PassLegacy("Piles", delegate (GenerationProgress progress)

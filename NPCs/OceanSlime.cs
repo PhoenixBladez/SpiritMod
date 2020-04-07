@@ -33,15 +33,6 @@ namespace SpiritMod.NPCs
             aiType = NPCID.BlueSlime;
             animationType = NPCID.BlueSlime;
         }
-
-        public override float SpawnChance(NPCSpawnInfo spawnInfo)
-        {
-            if (spawnInfo.playerSafe || !NPC.downedBoss1)
-            {
-                return 0f;
-            }
-            return SpawnCondition.Ocean.Chance * 0.18f;
-        }
         public override void HitEffect(int hitDirection, double damage)
         {
             int d = 207;
@@ -50,6 +41,12 @@ namespace SpiritMod.NPCs
             {
                 Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
                 Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
+            }
+            if (npc.life <= 0)
+            {
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/OceanSlime1"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/OceanSlime2"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/OceanSlime3"), 1f);
             }
         }
     }

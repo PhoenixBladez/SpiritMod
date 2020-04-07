@@ -33,9 +33,9 @@ namespace SpiritMod.Items.Armor.ReachBoss
 			public override void UpdateArmorSet(Player player)
         {
 
-            player.setBonus = "'Prey on the weak'\nThrowing crits do 50% more damage to enemies under half health\nIncreases throwing velocity by 10%";
+            player.setBonus = "'Prey on the weak'\nThrowing crits do 75% more damage to enemies under half health\nIncreases throwing velocity by 15%";
             player.GetSpiritPlayer().reachSet = true;
-			player.thrownVelocity += .1f;
+			player.thrownVelocity += .15f;
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {

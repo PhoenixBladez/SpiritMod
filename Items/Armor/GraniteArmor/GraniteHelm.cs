@@ -14,6 +14,7 @@ namespace SpiritMod.Items.Armor.GraniteArmor
 		{
 			DisplayName.SetDefault("Granite Visor");
             SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/GraniteArmor/GraniteHelm_Glow");
+            Tooltip.SetDefault("Increases jump height slightly");
 
         }
 
@@ -28,6 +29,10 @@ namespace SpiritMod.Items.Armor.GraniteArmor
         public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
         {
             glowMaskColor = Color.White;
+        }
+        public override void UpdateEquip(Player player)
+        {
+            player.jumpSpeedBoost += 1f;
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {

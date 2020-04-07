@@ -25,22 +25,55 @@ namespace SpiritMod
 			Tile tile = Main.tile[1, 1];
 			int startx = x; //keep track of starting position
 			int starty = y;
-			for (int z = 0; z < 147; z++)
+            int x1213 = 300;
+            int z1592 = 147;
+            if (Main.maxTilesX == 4200)
+            {
+                x1213 = 300;
+            }
+            else if (Main.maxTilesX == 6400)
+            {
+                x1213 = 400;
+            }
+            else if (Main.maxTilesX == 8400)
+            {
+                x1213 = 520;
+            }
+            if (Main.maxTilesX == 4200)
+            {
+                z1592 = 147;
+            }
+            else if (Main.maxTilesX == 6400)
+            {
+                z1592 = 196;
+            }
+            else if (Main.maxTilesX == 8400)
+            {
+                z1592 = 263;
+            }
+            for (int z = 0; z < z1592; z++)
 			{
 				if (Main.rand.Next(2) == 1)
 				{
-				    WorldMethods.TileRunner(x, y + z, (double)Main.rand.Next(300), 1, mod.TileType("ReachGrassTile"), false, 0f, 0f, true, true); //Basic grass shape. Will be improved later. Specifically, make it only override certain tiles, and make it fill in random holes in the ground.
+				    WorldMethods.TileRunner(x, y + z, (double)x1213, 1, mod.TileType("ReachGrassTile"), false, 0f, 0f, true, true); //Basic grass shape. Will be improved later. Specifically, make it only override certain tiles, and make it fill in random holes in the ground.
 				}
 			}
+            int E = Main.maxTilesX;
+            int F = (int)Main.maxTilesY;
+            tile = Framing.GetTileSafely(E, F);
+            if (tile.type == mod.TileType("ReachGrassTile"))
+            {
+                WorldGen.GrowTree(E, F);
+            }
             //temporary wall placement until i get a better method
-            for (int A = x - 150; A < x + 150; A++)
+            for (int A = x - (int)x1213/2; A < x + (int)x1213 / 2; A++)
             {
                 for (int B = y + 10; B < y + 1000; B++)
                 {
                     if (Main.tile[A, B] != null)
                     {
                         int Wal = (int)Main.tile[A, B].wall;
-                        if (Main.tile[A, B].type == mod.TileType("ReachGrassTile") && ((Wal == 2 || Wal == 54 || Wal == 55 || Wal == 56 || Wal == 57 || Wal == 58 || Wal == 59 || Wal == 0 && B >= WorldGen.rockLayer) || B > WorldGen.rockLayer - 100)) // A = x, B = y.
+                        if (Main.tile[A, B].type == mod.TileType("ReachGrassTile") && ((Wal == 2 || Wal == 54 || Wal == 55 || Wal == 56 || Wal == 57 || Wal == 58 || Wal == 59 || Wal == 0 && B >= WorldGen.rockLayer - 10) || B > WorldGen.rockLayer - 100)) // A = x, B = y.
                         {
                             if (WorldGen.genRand.Next(2) == 0)
                             {
@@ -93,7 +126,7 @@ namespace SpiritMod
                                 }                                
                             }
                        
-                            if (Main.rand.Next(75) == 1) //make a full branch
+                            if (Main.rand.Next(63) == 1) //make a full branch
 							{
 								startx = k;
 								starty = newy;
@@ -136,11 +169,11 @@ namespace SpiritMod
 					newy = newy + jt;
 					if (Main.rand.Next(2) == 1)
 					{
-					tunnelX = Main.rand.Next(15, 50); //how far the horizontal tunnel goes
+					    tunnelX = Main.rand.Next(15, 50); //how far the horizontal tunnel goes
 					}
 					else
 					{
-					tunnelX = Main.rand.Next(-50, -15); //how far the horizontal tunnel goes
+					    tunnelX = Main.rand.Next(-50, -15); //how far the horizontal tunnel goes
 					}
 					
 					if (newx > x + 70) //if it strays too far on the x axis
@@ -169,7 +202,7 @@ namespace SpiritMod
                     }
                 }
             }
-            for (int A1 = x - 120; A1 < x + 120; A1++)
+            for (int A1 = x - x1213/2; A1 < x + x1213/2; A1++)
             {
                 for (int B1 = y - 20; B1 < y + 210; B1++)
                 {
@@ -177,7 +210,7 @@ namespace SpiritMod
                     {
                         if (!Main.tile[A1, B1 - 1].active() || !Main.tile[A1, B1 + 1].active() || !Main.tile[A1 + 1, B1].active() || !Main.tile[A1 - 1, B1].active())
                         {
-                            if (WorldGen.genRand.Next(8) == 0)
+                            if (WorldGen.genRand.Next(7) == 0)
                             {
                                 WorldGen.PlaceTile(A1, B1, 179);
                             }

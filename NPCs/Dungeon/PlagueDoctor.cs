@@ -37,7 +37,7 @@ namespace SpiritMod.NPCs.Dungeon
             {
                 return spawnInfo.player.ZoneDungeon ? 0.06f : 0f;
             }
-            return spawnInfo.player.ZoneDungeon && NPC.CountNPCS(mod.NPCType("PlagueDoctor")) < 1 ? 0.01f : 0f;
+            return spawnInfo.player.ZoneDungeon && NPC.CountNPCS(mod.NPCType("PlagueDoctor")) < 1 ? 0.04f : 0f;
         }
         public override void HitEffect(int hitDirection, double damage)
 		{
@@ -50,8 +50,10 @@ namespace SpiritMod.NPCs.Dungeon
             }
             if (npc.life <= 0)
 			{
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/PlagueDoctor_1"), 1f);
-			}
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/PDoctor1"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/PDoctor2"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/PDoctor3"), 1f);
+            }
 		}
 
 		public override void NPCLoot()

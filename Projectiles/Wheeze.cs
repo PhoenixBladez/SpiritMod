@@ -41,6 +41,7 @@ namespace SpiritMod.Projectiles
 
 		public override void AI()
 		{
+            projectile.alpha+= 3;
 			projectile.velocity *= 0.92f;
             projectile.spriteDirection = projectile.direction;
             projectile.frameCounter++;
