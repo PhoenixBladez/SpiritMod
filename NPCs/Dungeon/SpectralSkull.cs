@@ -96,7 +96,8 @@ namespace SpiritMod.NPCs.Dungeon
                 }
             }
 			{
-				target.AddBuff(BuffID.Cursed, 300);
+                target.AddBuff(BuffID.Obstructed, 140);
+                target.AddBuff(BuffID.Confused, 180);
 			}
 		}
         public override void NPCLoot()

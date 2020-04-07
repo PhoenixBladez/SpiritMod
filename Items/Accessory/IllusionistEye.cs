@@ -14,7 +14,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Eye of the Illusionist");
-			Tooltip.SetDefault("Taking fatal damage instead teleports you back home\n6 minute cooldown\n'An Illusionist without a home is simply a spectre'");
+			Tooltip.SetDefault("Taking fatal damage instead teleports you back home\nThis effects does not work if a boss is nearby\n10 minute cooldown\n'An Illusionist without a home is simply a spectre'");
             ItemID.Sets.ItemNoGravity[item.type] = true;
         }
 

@@ -70,7 +70,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 						int amountOfProjectiles = 1;
 						for (int i = 0; i < amountOfProjectiles; ++i)
 						{
-    						int damage = expertMode ? 11 : 22;
+    						int damage = expertMode ? 8 : 17;
 							float A = (float)Main.rand.Next(-50, 50) * 0.02f;
 							float B = (float)Main.rand.Next(-50, 50) * 0.02f;
 							int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("MoltenGold"), damage, 1, Main.myPlayer, 0, 0);

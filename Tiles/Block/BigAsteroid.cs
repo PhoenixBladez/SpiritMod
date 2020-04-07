@@ -16,8 +16,7 @@ namespace SpiritMod.Tiles.Block
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			AddMapEntry(new Color(200, 200, 200));
-		}
-
-		
+            Main.tileBlockLight[Type] = true;
+        }
 	}
 }

@@ -324,7 +324,7 @@ namespace SpiritMod
 			// unless you know what you're doing.
 			Items.Halloween.CandyBag.Initialize();
 			
-			Filters.Scene["SpiritMod:AsteroidSky"] = new Filter(new ScreenShaderData("FilterMiniTower").UseColor(0.1f, 0.1f, 0.1f).UseOpacity(0.8f), EffectPriority.High);
+			
 			Filters.Scene["SpiritMod:SpiritSky"] = new Filter(new ScreenShaderData("FilterMiniTower").UseColor(0f, 0.25f, .5f).UseOpacity(0.15f), EffectPriority.High);
 			Filters.Scene["SpiritMod:BlueMoonSky"] = new Filter(new ScreenShaderData("FilterMiniTower").UseColor(0f, 0.3f, 1f).UseOpacity(0.75f), EffectPriority.High);
 			Filters.Scene["SpiritMod:ReachSky"] = new Filter(new ScreenShaderData("FilterBloodMoon").UseColor(0.05f, 0.05f, .05f).UseOpacity(0.7f), EffectPriority.High);

@@ -26,7 +26,8 @@ namespace SpiritMod.Items.Accessory
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.moveSpeed += 0.1f;   
+            player.moveSpeed += 0.1f;
+            player.maxRunSpeed += .04f;
 			player.jumpSpeedBoost -= 1f;
         }
 		public override void AddRecipes()

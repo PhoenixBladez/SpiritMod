@@ -42,8 +42,15 @@ namespace SpiritMod.NPCs.Reach
 			if (distance <= 160 || npc.life < npc.lifeMax)
 			{
 			      npc.Transform(mod.NPCType("Reachman"));
-			}
-		}
+            }
+            if (Main.netMode != 1)
+            {
+                npc.homeless = false;
+                npc.homeTileX = -1;
+                npc.homeTileY = -1;
+                npc.netUpdate = true;
+            }
+        }
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			Texture2D texture;

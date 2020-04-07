@@ -94,7 +94,7 @@ namespace SpiritMod.Projectiles
 			if (modPlayer.reachSet && target.life <= target.life / 2)
 			{
 				if (projectile.thrown && crit)
-					damage = (int)((double)damage * 2f);
+					damage = (int)((double)damage * 2.25f);
 			}
 		}
 

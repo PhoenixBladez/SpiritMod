@@ -27,7 +27,7 @@ namespace SpiritMod.NPCs.Town
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Rogue");
+			DisplayName.SetDefault("Bandit");
 			Main.npcFrameCount[npc.type] = 26;
 			NPCID.Sets.ExtraFramesCount[npc.type] = 9;
 			NPCID.Sets.AttackFrameCount[npc.type] = 4;
@@ -59,7 +59,7 @@ namespace SpiritMod.NPCs.Town
 				Player player = Main.player[k];
 				if (player.active)
 				{
-					if (MyWorld.downedScarabeus)
+					if (NPC.AnyNPCs(mod.NPCType("Rogue")) || NPC.AnyNPCs(mod.NPCType("BoundRogue")))
 					{
 						return true;
 					}
@@ -73,21 +73,21 @@ namespace SpiritMod.NPCs.Town
 			switch (WorldGen.genRand.Next(8))
 			{
 				case 0:
-					return "Mark";
+					return "Zane";
 				case 1:
 					return "Carlos";
 				case 2:
-					return "Luke";
+					return "Tycho";
 				case 3:
 					return "Damien";
 				case 4:
 					return "Shane";
 				case 5:
-					return "Leroy";
+					return "Daryl";
 				case 6:
-					return "Nexus";
+					return "Shepard";
 				default:
-					return "Rufus";
+					return "Sly";
 			}
 		}
 

@@ -22,8 +22,8 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			projectile.friendly = true;
 			projectile.magic = true;
-			projectile.width = 16;
-			projectile.height = 70;
+			projectile.width = 26;
+			projectile.height = 115;
 			projectile.penetrate = 5;
             projectile.alpha = 255;
 			projectile.timeLeft = 240;
@@ -54,7 +54,7 @@ namespace SpiritMod.Projectiles.Magic
                 {
                     Vector2 vector2 = new Vector2(0.0f, -num1);
                     vector2 = (vector2 * (float)(0.850000023841858 + Main.rand.NextDouble() * 0.200000002980232)).RotatedBy((Main.rand.NextDouble() - 0.5) * 0.785398185253143, new Vector2());
-                    int index4 = Dust.NewDust(projectile.position, 4, projectile.height + 30, 221, 0.0f, 0.0f, 100, new Color(), 1f);
+                    int index4 = Dust.NewDust(projectile.position, 4, projectile.height + 10, 221, 0.0f, 0.0f, 100, new Color(), 1f);
                     Dust dust1 = Main.dust[index4];
                     dust1.scale = (float)(1.0 + Main.rand.NextDouble() * 0.300000011920929);
                     Dust dust2 = dust1;
@@ -72,7 +72,7 @@ namespace SpiritMod.Projectiles.Magic
                     for (int index3 = 0; index3 < 9; ++index3)
                     {
                         Vector2 vector2 = new Vector2((float)(index3 - 4) / 5f, -num1 * num3);
-                        int index4 = Dust.NewDust(projectile.position, 4, projectile.height + 30, 226, 0.0f, 0.0f, 100, new Color(), 1f);
+                        int index4 = Dust.NewDust(projectile.position, 4, projectile.height + 10, 226, 0.0f, 0.0f, 100, new Color(), 1f);
                         Dust dust1 = Main.dust[index4];
                         dust1.scale = (float)(0.699999988079071 + Main.rand.NextDouble() * 0.300000011920929);
                         Dust dust2 = dust1;

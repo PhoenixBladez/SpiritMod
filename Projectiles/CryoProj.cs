@@ -44,13 +44,20 @@ namespace SpiritMod.Projectiles
                     npc.AddBuff(mod.BuffType("MageFreeze"), 20);
                 }
             }
-            for (int i = 0; i < 4; i++)
+            for (int k = 0; k < 4; k++)
             {
+                Vector2 center = projectile.Center;
                 Vector2 vector2 = Vector2.UnitY.RotatedByRandom(6.28318548202515) * new Vector2((float)projectile.height, (float)projectile.height) * projectile.scale * 1.45f / 2f;
-                int index = Dust.NewDust(projectile.Center + vector2, 0, 0, 76, 0.0f, 0.0f, 0, new Color(), 1f);
-                Main.dust[index].position = projectile.Center + vector2;
-                Main.dust[index].velocity = Vector2.Zero;
-                Main.dust[index].noGravity = true;
+                float num8 = (float)player.miscCounter / 60f;
+                float num7 = 2.09439516f;
+                for (int i = 0; i < 3; i++)
+                {
+                    int num6 = Dust.NewDust(center + vector2, 0, 0, 76, 0f, 0f, 100, default(Color), 0.7f);
+                    Main.dust[num6].noGravity = true;
+                    Main.dust[num6].velocity = Vector2.Zero;
+                    Main.dust[num6].noLight = true;
+                    Main.dust[num6].position = center + vector2 + (num8 * 6.28318548f + num7 * (float)i).ToRotationVector2() * 12f;
+                }
             }
         }
 	}

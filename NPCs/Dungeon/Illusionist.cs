@@ -130,7 +130,7 @@ namespace SpiritMod.NPCs.Dungeon
                 ++npc.ai[0];
                 if (NPC.CountNPCS(mod.NPCType("IllusionistSpectre")) < 3)
                 {
-                    if (npc.ai[0] == 100 || npc.ai[0] == 200 || npc.ai[0] == 300)
+                    if (npc.ai[0] == 120 || npc.ai[0] == 240 || npc.ai[0] == 360)
                     {
                         Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
                         Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 53);
@@ -153,12 +153,12 @@ namespace SpiritMod.NPCs.Dungeon
                         }
                     }
 
-                    if (npc.ai[0] >= 100 && npc.ai[0] <= 120 || npc.ai[0] >= 200 && npc.ai[0] <= 220 || npc.ai[0] >= 280 && npc.ai[0] <= 300)
+                    if (npc.ai[0] >= 110 && npc.ai[0] <= 130 || npc.ai[0] >= 230 && npc.ai[0] <= 250 || npc.ai[0] >= 340 && npc.ai[0] <= 360)
                     {
                         frame = 4;
                     }
                 }
-                if (npc.ai[0] >= 300)
+                if (npc.ai[0] >= 360)
                 {
                     npc.ai[0] = 0;
                 }
@@ -206,7 +206,12 @@ namespace SpiritMod.NPCs.Dungeon
 				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
 				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
 			}
-
+            if (npc.life <= 0)
+            {
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Illusionist1"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Illusionist2"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Illusionist3"), 1f);
+            }
 		}
 	}
 }

@@ -19,9 +19,9 @@ namespace SpiritMod.Items.Weapon.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 22;
+            item.damage = 17;
             item.magic = true;
-            item.mana = 16;
+            item.mana = 15;
             item.width = 44;
             item.height = 44;
             item.useTime = 26;
@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.useStyle = 5;
             Item.staff[item.type] = true;
             item.noMelee = true;
-            item.knockBack = 5;
+            item.knockBack = 4;
             item.useTurn = false;
             item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
             item.rare = 2;

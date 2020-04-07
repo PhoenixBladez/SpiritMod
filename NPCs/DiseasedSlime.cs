@@ -26,6 +26,7 @@ namespace SpiritMod.NPCs
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath22;
 			npc.value = 60f;
+            npc.alpha = 60;
 			npc.knockBackResist = .6f;
 			npc.aiStyle = 1;
 			aiType = NPCID.BlueSlime;
@@ -57,10 +58,10 @@ namespace SpiritMod.NPCs
             if (npc.life <= 0 || npc.life >= 0)
             {
                 int d = 193;
-                for (int k = 0; k < 20; k++)
+                for (int k = 0; k < 12; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.Purple, 0.7f);
-                    Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.Purple, 0.7f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.Green, 0.7f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.Green, 0.7f);
                 }
             }
         }

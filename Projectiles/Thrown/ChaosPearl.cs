@@ -52,7 +52,7 @@ namespace SpiritMod.Projectiles.Thrown
 				if (player.statLife <= 0)
 				{
 					player.statLife = 1;
-					player.AddBuff(BuffID.OnFire, 120);
+					player.AddBuff(BuffID.Suffocation, 120);
 					//    player.KillMe(9999, 1, true, "'s head appeared where their legs should be.");
 				}
 			}

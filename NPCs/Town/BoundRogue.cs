@@ -4,20 +4,20 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.Town
 {
-	public class BoundRogue : ModNPC
-	{
-		public static int _type;
+    public class BoundRogue : ModNPC
+    {
+        public static int _type;
 
 
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Bound Rogue");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Bound Rogue");
             NPCID.Sets.TownCritter[npc.type] = true;
-		}
+        }
 
-		public override void SetDefaults()
-		{
-           	npc.friendly = true;
+        public override void SetDefaults()
+        {
+            npc.friendly = true;
             npc.townNPC = true;
             npc.dontTakeDamage = true;
             npc.width = 32;
@@ -31,12 +31,22 @@ namespace SpiritMod.NPCs.Town
             npc.knockBackResist = 0f;
             npc.rarity = 1;
         }
-		public override string GetChat()
-		{
+        public override string GetChat()
+        {
             npc.Transform(mod.NPCType("Rogue"));
-			npc.dontTakeDamage = false;
+            npc.dontTakeDamage = false;
             return "Hey! Thanks for saving me- Now, mind getting us out of this pickle and killing these bandits? They duped me and took all my cash! Don't think it means I'll discount my wares for you, though. Just kidding! Not.";
-		}
-	}
+        }
+        public override void AI()
+        {
+            if (Main.netMode != 1)
+            {
+                npc.homeless = false;
+                npc.homeTileX = -1;
+                npc.homeTileY = -1;
+                npc.netUpdate = true;
+            }
+        }
+    }
 }
 
