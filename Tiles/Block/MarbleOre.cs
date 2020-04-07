@@ -32,5 +32,13 @@ namespace SpiritMod.Tiles.Block
 				b = .132f;
 			}
 		}
-	}
+        public override bool CanKillTile(int i, int j, ref bool blockDamaged)
+        {
+            if (!NPC.downedBoss2)
+            {
+                return false;
+            }
+            return true;
+        }
+    }
 }
