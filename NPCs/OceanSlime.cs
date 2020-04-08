@@ -33,6 +33,18 @@ namespace SpiritMod.NPCs
             aiType = NPCID.BlueSlime;
             animationType = NPCID.BlueSlime;
         }
+		public override void NPCLoot()
+		{
+			if (Main.rand.Next(5) == 1)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Coconut"), Main.rand.Next(3) + 6);
+			}
+			if (Main.rand.Next(20) == 1)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PinaColada"), 1);
+			}
+		}
+
         public override void HitEffect(int hitDirection, double damage)
         {
             int d = 207;
