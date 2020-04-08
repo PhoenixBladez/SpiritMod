@@ -27,11 +27,11 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.noMelee = true;
             item.maxStack = 1;
             item.shoot = mod.ProjectileType("OakHeart");
-            item.useAnimation = 21;
-            item.useTime = 21;
+            item.useAnimation = 25;
+            item.useTime = 25;
             item.shootSpeed = 9f;
             item.damage = 13;
-            item.knockBack = 3.5f;
+            item.knockBack = 1.5f; ;
 			item.value = Item.sellPrice(0, 1, 0, 0);
             item.rare = 2;
             item.autoReuse = true;

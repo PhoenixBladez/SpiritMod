@@ -309,7 +309,7 @@ namespace SpiritMod
 
         public override void UpdateBiomeVisuals()
         {
-            bool showAurora = ((!player.ZoneDesert && player.ZoneSnow) || ZoneSpirit) && !Main.dayTime;
+            bool showAurora = (player.ZoneSnow || ZoneSpirit) && !Main.dayTime && !Main.raining;
             bool reach = !Main.dayTime && ZoneReach;
 
             player.ManageSpecialBiomeVisuals("SpiritMod:AuroraSky", showAurora);
@@ -326,7 +326,7 @@ namespace SpiritMod
         {
             ZoneSpirit = MyWorld.SpiritTiles > 100;
             ZoneBlueMoon = MyWorld.BlueMoon;
-            ZoneReach = MyWorld.ReachTiles > 200;
+            ZoneReach = MyWorld.ReachTiles > 350;
             ZoneAsteroid = MyWorld.AsteroidTiles > 400;
         }
 
@@ -3739,7 +3739,7 @@ namespace SpiritMod
 
         public override void PostUpdate()
         {
-            if (ZoneReach && player.ZoneOverworldHeight)
+            if (ZoneReach && player.ZoneOverworldHeight && !player.ZoneDesert)
             {
                 int off = 5; //Change this value depending on the strength of your light. Too big and it might cause lag, though. Never go above ~20 or so.
                 int x = (int)(Main.screenPosition.X / 16f) - off;

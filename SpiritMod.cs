@@ -339,10 +339,11 @@ namespace SpiritMod
 
 			if (!Main.dedServ)
 			{
-                auroraEffect = GetEffect("Effects/aurora");
-                noise = GetTexture("Textures/noise");
                 AddEquipTexture(null, EquipType.Legs, "TalonGarb_Legs", "SpiritMod/Items/Armor/TalonGarb_Legs");
                 EmptyTexture = GetTexture("Empty");
+
+                auroraEffect = GetEffect("Effects/aurora");
+                noise = GetTexture("Textures/noise");
                 SkyManager.Instance["SpiritMod:AuroraSky"] = new AuroraSky();
                 Filters.Scene["SpiritMod:AuroraSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
                 Terraria.Graphics.Effects.Overlays.Scene["SpiritMod:AuroraSky"] = new AuroraOverlay();
@@ -463,6 +464,7 @@ namespace SpiritMod
             auroraEffect = null;
             noise = null;
 			instance = null;
+            SpiritGlowmask.Unload();
         }
 		public override void AddRecipeGroups()
 		{

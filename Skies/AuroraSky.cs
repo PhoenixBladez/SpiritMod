@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Reflection;
+
+using Terraria;
+using Terraria.ModLoader;
+using Terraria.Graphics.Effects;
+using Terraria.Graphics.Shaders;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.Graphics.Effects;
-using Terraria.ModLoader;
+using System.IO;
 
 namespace SpiritMod.Skies
 {
@@ -51,7 +54,7 @@ namespace SpiritMod.Skies
             }
             else if (!skyActive && opacity > 0f)
             {
-                opacity -= 0.01f;
+                opacity -= 0.005f;
             }
         }
 

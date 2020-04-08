@@ -25,7 +25,6 @@ namespace SpiritMod
 		public static int auroraChance = 4;
 
 		public static bool aurora = false;
-
         public static float spiritLight = 0;
 
 		public static bool BlueMoon = false;
@@ -4297,32 +4296,33 @@ namespace SpiritMod
 			    {
 				    auroraChance = 15;
 			    }
-			    if (!Main.dayTime && Main.rand.Next(auroraChance) == 0)
-			    {
-				    auroraType = Main.rand.Next(new int[]{1, 2, 3, 5});
-				   	aurora = true;
-			    }
-			    else
-			    {
-				    aurora = false;
-				    auroraType = 0;
-			    }			
-			}
-			if (Main.bloodMoon)
-			{					
-				MyWorld.auroraType = 6;
-			}
-			if (Main.pumpkinMoon)
-			{
-				MyWorld.auroraType = 7;
-			}
-			if (Main.snowMoon)
-			{
-				auroraType = 8;
-			}				
-			
+                {
+                    if (!Main.dayTime && Main.rand.Next(auroraChance) == 0)
+                    {
+                        auroraType = Main.rand.Next(new int[] { 1, 2, 3, 5 });
+                        aurora = true;
+                    }
+                    else
+                    {
+                        aurora = false;
+                    }
+                }
+                if (Main.bloodMoon)
+                {
+                    MyWorld.auroraType = 6;
+                }
+                if (Main.pumpkinMoon)
+                {
+                    MyWorld.auroraType = 7;
+                }
+                if (Main.snowMoon)
+                {
+                    auroraType = 8;
+                }
 
-			if (NPC.downedBoss1)
+            }
+
+                if (NPC.downedBoss1)
 			{
 				if (!Magicite)
 				{

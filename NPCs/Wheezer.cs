@@ -55,7 +55,7 @@ namespace SpiritMod.NPCs
 
 		public override void NPCLoot()
 		{
-			int Techs = Main.rand.Next(1, 3);
+			int Techs = Main.rand.Next(1, 4);
 			for (int J = 0; J <= Techs; J++)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Carapace"));
