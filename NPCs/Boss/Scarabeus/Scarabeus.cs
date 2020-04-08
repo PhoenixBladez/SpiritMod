@@ -30,8 +30,8 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		{
 			npc.width = 100;
 			npc.height = 70;
-			npc.value = 5000;
-			npc.damage = 26;
+			npc.value = 10000;
+			npc.damage = 30;
 			npc.defense = 10;
 			npc.lifeMax = 1700;
 			npc.knockBackResist = 0f;
@@ -287,7 +287,9 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 					}
 					if (Counter == 60)
 					{
-						npc.velocity.Y = 0f;
+                        Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
+                        Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 44);
+                        npc.velocity.Y = 0f;
 						npc.velocity.X = 0f;
 						npc.ai[0] = -180f;
 						npc.ai[3] = 0f;
@@ -330,11 +332,27 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 						newDust.velocity = npc.velocity.RotatedBy(-Math.PI / 2, default(Vector2)) * 0.33F + npc.velocity / 4;
 						newDust.position += npc.velocity.RotatedBy(-Math.PI / 2, default(Vector2));
 						newDust.fadeIn = 0.5F;
-						newDust.noGravity = true;				
-						if (Counter == 600)
-						{
-							Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
-                            npc.ai[0] = -20;
+						newDust.noGravity = true;
+                        int dst = (int)Math.Abs((player.Center - npc.Center).Y);
+                        if (dst >= 300 || dst <= -300)
+                        {
+                            if (Counter == 600)
+                            {
+                                Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
+                                npc.velocity.Y = 0f;
+                                npc.velocity.X = 0f;
+                                npc.ai[0] = -180f;
+                                npc.ai[3] = 0f;
+                                npc.ai[1] = 1f;
+                            }
+                        }
+                        else
+                        {
+                            if (Counter == 600)
+                            {
+                                Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
+                                npc.ai[0] = -30f;
+                            }
                         }
 						trailbehind = true;
 						SpeedMax = 65f;
@@ -392,8 +410,8 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
                         {
 							Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 34);
 							int damage = expertMode ? 9 : 17;
-							Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 22, 7, 0, mod.ProjectileType("DustTornado"), damage, 1, Main.myPlayer, 0, 0);
-							Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 22, -7, 0, mod.ProjectileType("DustTornado"), damage, 1, Main.myPlayer, 0, 0);
+							Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 20, 7, 0, mod.ProjectileType("DustTornado"), damage, 1, Main.myPlayer, 0, 0);
+							Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 20, -7, 0, mod.ProjectileType("DustTornado"), damage, 1, Main.myPlayer, 0, 0);
 							jumpstacks = 0;
 						}
 						for (int i = 0; i < 40; i++)
@@ -542,7 +560,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			{
 				npc.noGravity = true;
 				npcCounter++;
-				if (npcCounter == 300 || npcCounter == 450 ||npcCounter == 600)
+				if (npcCounter == 300 || npcCounter == 400 || npcCounter == 500 ||npcCounter == 600)
 				{
 					Vector2 vector2_2 = Vector2.UnitY.RotatedByRandom(1.57079637050629f) * new Vector2(5f, 3f);
 					NPC.NewNPC((int)npc.Center.X+ Main.rand.Next(-20, 20), (int)npc.Center.Y + Main.rand.Next(-20, 20), mod.NPCType("ChildofScarabeus"));	
@@ -612,8 +630,8 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
                     npc.velocity *= 0f;
                     Vector2 direction = Main.player[npc.target].Center - npc.Center;
                     direction.Normalize();
-                    direction.X = direction.X * Main.rand.Next(9, 12);
-                    direction.Y = direction.Y * Main.rand.Next(9, 12);
+                    direction.X = direction.X * Main.rand.Next(12, 17);
+                    direction.Y = direction.Y * Main.rand.Next(12, 17);
                     npc.velocity.X = direction.X;
                     npc.velocity.Y = direction.Y;
                     npc.velocity *= .98f;

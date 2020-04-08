@@ -72,7 +72,14 @@ namespace SpiritMod.NPCs.Reach
             }
 
         }
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            if (Main.rand.Next(10) == 0 && Main.expertMode)
+            {
+                target.AddBuff(148, 2000);
+            }
+        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,

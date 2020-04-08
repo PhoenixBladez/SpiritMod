@@ -73,7 +73,7 @@ namespace SpiritMod
                     if (Main.tile[A, B] != null)
                     {
                         int Wal = (int)Main.tile[A, B].wall;
-                        if (Main.tile[A, B].type == mod.TileType("ReachGrassTile") && ((Wal == 2 || Wal == 54 || Wal == 55 || Wal == 56 || Wal == 57 || Wal == 58 || Wal == 59 || Wal == 0 && B >= WorldGen.rockLayer - 10) || B > WorldGen.rockLayer - 100)) // A = x, B = y.
+                        if (Main.tile[A, B].type == mod.TileType("ReachGrassTile") && ((Wal == 2 || Wal == 54 || Wal == 55 || Wal == 56 || Wal == 57 || Wal == 58 || Wal == 59 || Wal == 0 && B >= WorldGen.rockLayer - 10))) // A = x, B = y.
                         {
                             if (WorldGen.genRand.Next(2) == 0)
                             {
@@ -94,17 +94,29 @@ namespace SpiritMod
                     }
                 }
             }
+            
             int smoothness = 3; //how smooth the tunnels are
             int chestrarity = 7; //how rare chests are
-			int depth = 9; //how many vertical tunnels deep the initial goes.
+			int depth = 50; //how many vertical tunnels deep the initial goes.
 			int tunnelheight = Main.rand.Next(65, 80); //how high the first tunnel is 
 			int tunnelthickness = 5;
-			for (int q = 0; q < 6; q++) //make 2 tunnels to overlap
+			for (int q = 0; q < 10; q++) //make 2 tunnels to overlap
 			{
 				if (startx == x && starty == y)
 				{
-					tunnelheight = Main.rand.Next(45, 80);
-					tunnelthickness = 4;
+                    if (Main.maxTilesX == 4200)
+                    {
+                        tunnelheight = Main.rand.Next(30, 50);
+                    }
+                    else if (Main.maxTilesX == 6400)
+                    {
+                        tunnelheight = Main.rand.Next(80, 100);
+                    }
+                    else if (Main.maxTilesX == 8400)
+                    {
+                        tunnelheight = Main.rand.Next(90, 120);
+                    }
+					tunnelthickness = 5;
 				}
 				int jt = 0; //j placeholder to use out of loop
 				int newx = startx;
@@ -123,10 +135,11 @@ namespace SpiritMod
                                 if (Main.rand.Next(5) == 0)
                                 {
                                     WorldGen.TileRunner(k, newy, 9, 1, 48, false, 0f, 0f, false, true);
+                                    WorldGen.TileRunner(k, newy, 9, 1, 48, false, 0f, 0f, false, true);
                                 }                                
                             }
                        
-                            if (Main.rand.Next(63) == 1) //make a full branch
+                            if (Main.rand.Next(20) == 1) //make a full branch
 							{
 								startx = k;
 								starty = newy;
@@ -142,7 +155,7 @@ namespace SpiritMod
                             {
                                 WorldGen.digTunnel(k, newy, 0, 0, 1, tunnelthickness, false); //horizontal tunneling
                             }
-                            if (Main.rand.Next(50) == 1) //make a full branch
+                            if (Main.rand.Next(18) == 1) //make a full branch
 							{
 								startx = k;
 								starty = newy;
@@ -160,6 +173,7 @@ namespace SpiritMod
                             {
                                 WorldGen.TileRunner(newx + tunnelX, newy + j, 9, 1, 48, false, 0f, 0f, false, true);
                             }
+                            WorldGen.TileRunner(newx + tunnelX, newy + j, 9, 1, 48, false, 0f, 0f, false, true);
                         }
 						jt = j;
 					}

@@ -30,6 +30,13 @@ namespace SpiritMod.Tiles
                     Item.NewItem(i * 16, j * 16, 64, 48, tremorItem, Main.rand.Next(0, 2));
                 }
             }
+            if (player.HasItem(mod.ItemType("Spineshot")))
+            {
+                if (type == 3 || type == 24 || type == 61 || type == 71 || type == 110 || type == 201)
+                {
+                    Item.NewItem(i * 16, j * 16, 64, 48, ItemID.Seed, Main.rand.Next(1, 3));
+                }
+            }
         }
         public override bool Drop(int i, int j, int type)
         {

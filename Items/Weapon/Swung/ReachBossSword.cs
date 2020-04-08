@@ -23,8 +23,8 @@ namespace SpiritMod.Items.Weapon.Swung
             item.melee = true;
             item.width = 64;
             item.height = 62;
-            item.useTime = 34;
-            item.useAnimation = 34;
+            item.useTime = 32;
+            item.useAnimation = 32;
             item.useStyle = 1;
             item.knockBack = 6;
             item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
@@ -39,8 +39,8 @@ namespace SpiritMod.Items.Weapon.Swung
             if (player.statLife <= player.statLifeMax2 / 2)
             {
                 item.damage = 27;
-                item.useTime = 25;
-                item.useAnimation = 25;
+                item.useTime = 22;
+                item.useAnimation = 22;
             }
             else if (player.statLife <= player.statLifeMax2 / 3)
             {
@@ -66,16 +66,18 @@ namespace SpiritMod.Items.Weapon.Swung
         {
             if (Main.rand.Next (4) == 1 && player.statLife >= player.statLifeMax2 / 2)
             {
+                Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 20);
                 int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, 0, player.whoAmI);
                 return false;
             }
             else if (Main.rand.Next(2) == 1)
             {
+                Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 20);
                 int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, 0, player.whoAmI);
                 return false;
 
             }
-            return true;
+            return false;
         }
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {

@@ -10,7 +10,7 @@ public class BismiteSpear : ModItem
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bismite Pike");
-			Tooltip.SetDefault("Occasionally poisons foes");
+			Tooltip.SetDefault("Occasionally causes foes to receive 'Festering Wounds,' which deal more damage to enemies under half health");
 		}
         public override void SetDefaults()
         {

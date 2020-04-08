@@ -72,12 +72,16 @@ namespace SpiritMod.Tiles.Furniture
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			if (!NPC.AnyNPCs(mod.NPCType("ForestWraith")))
+            for (int a = 0; a < 30; a++)
+            {
+                Vector2 vector23 = Vector2.UnitY.RotatedByRandom(6.28318548202515) * new Vector2(40f, 40f);
+                int index1 = Dust.NewDust(new Vector2((int)i * 16, (int)j * 16) + vector23, 0, 0, 6, 0.0f, 0.0f, 0, new Color(), 1f);
+                Main.dust[index1].velocity = Vector2.Zero;
+            }
+                if (!NPC.AnyNPCs(mod.NPCType("ForestWraith")))
 			{
 				Main.NewText("You have disturbed the ancient Nature Spirits!", 0, 170, 60);
-				NPC.NewNPC((int)i * 16, (int)j * 16 - 60, mod.NPCType("ForestWraith"), 0, 2, 1, 0, 0, Main.myPlayer);
-				NPC.NewNPC((int)i * 16, (int)j * 16, mod.NPCType("Woody"), 0, 2, 1, 0, 0, Main.myPlayer);
-				NPC.NewNPC((int)i * 16, (int)j * 16, mod.NPCType("Woody"), 0, 2, 1, 0, 0, Main.myPlayer);
+				NPC.NewNPC((int)i * 16, (int)j * 16 - 30, mod.NPCType("ForestWraith"), 0, 2, 1, 0, 0, Main.myPlayer);
 			}
 		}
 	}

@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Placeable.Furniture
             item.createTile = mod.TileType("CreationAltarTile");
         }
 
-        public override void AddRecipes()
+        /*public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "OldLeather", 3);
@@ -49,6 +49,6 @@ namespace SpiritMod.Items.Placeable.Furniture
             recipe1.AddTile(TileID.Anvils);
             recipe1.SetResult(this);
             recipe1.AddRecipe();
-        }
+        }*/
     }
 }

@@ -55,7 +55,7 @@ namespace SpiritMod.Tiles.Ambient
             if (NPC.downedQueenBee)
             {
                 Main.NewText("The Ancient Avian has awoken!", 80, 80, 210, true);
-                NPC.NewNPC((int)i * 16 + Main.rand.Next(-60, 60), (int)j * 16 + 150, mod.NPCType("AncientFlyer"), 0, 2, 1, 0, 0, Main.myPlayer);
+                NPC.NewNPC((int)i * 16 + Main.rand.Next(-60, 60), (int)j * 16 - 100, mod.NPCType("AncientFlyer"), 0, 2, 1, 0, 0, Main.myPlayer);
                 Main.PlaySound(SoundID.Roar, new Vector2((int)i * 16, (int)j * 16), 0);
                 Main.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 1));
                 for (int k = 0; k < 8; k++)
