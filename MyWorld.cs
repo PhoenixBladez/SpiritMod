@@ -356,72 +356,84 @@ namespace SpiritMod
 		
 		public void PlaceAsteroids(int i, int j)
 		{
-			int basex = i;
-			int basey = j;
-			int x = basex;
-			int y = basey;
-			
-			int numberOfAsteroids = 110;
-			int numberOfBigs = 4;
-			int numberOfOres = 310;
-			int width = 350;
-			int height = 75;
-			if (Main.maxTilesX == 4200)
-			{
-				numberOfAsteroids = 33;
-				numberOfBigs = 1;
-				numberOfOres = 150;
-				width = 200;
-				height = 40;
-			}
-			if (Main.maxTilesX == 6400)
-			{
-				numberOfAsteroids = 50;
-				numberOfBigs = 2;
-				numberOfOres = 230;
-				width = 275;
-				height = 60;
-			}
-			if (Main.maxTilesX == 8400)
-			{
-				numberOfAsteroids = 79;
-				numberOfBigs = 4;
-				numberOfOres = 300;
-				width = 350;
-				height = 75;
-			}
-			int radius = (int)Math.Sqrt((width * width) + (height * height));
-			
-			for (int b = 0; b < numberOfAsteroids; b++) //small asteroids
-			{
-				float distance = (int)(((float)(Main.rand.Next(1000)) / 1000) * (float)Main.rand.Next(radius));
-				int angle = Main.rand.Next(360);
-				float xsize = (float)(Main.rand.Next(100,120)) / 100;
-				float ysize = (float)(Main.rand.Next(100,120)) / 100;
-				int size = Main.rand.Next(6,7);
-				x = basex + (int)(Main.rand.Next(width) * Math.Sin(angle * (Math.PI / 180))) + Main.rand.Next(-100, 100);
-				y = basey + (int)(Main.rand.Next(height) * Math.Cos(angle * (Math.PI / 180))) + Main.rand.Next(-10, 15);
-				PlaceBlob(x, y, xsize, ysize, size, mod.TileType("Asteroid"), 50);
-			}	
-			for (int b = 0; b < numberOfBigs; b++) //big asteroids
-			{
-				x = basex + (int)(Main.rand.Next(0 - width, width) / 1.5f);
-				y = basey + Main.rand.Next(0 - height, height);
-				float xsize = (float)(Main.rand.Next(75,133)) / 100;
-				float ysize = (float)(Main.rand.Next(75,133)) / 100;
-				int size = Main.rand.Next(11,17);
-				PlaceBlob(x, y, xsize, ysize, size, mod.TileType("BigAsteroid"), 10, true, mod.WallType("AsteroidWall"));
-			}
-			for (int b = 0; b < numberOfOres; b++) //ores
-			{
-				float distance = (int)(((float)(Main.rand.Next(1000)) / 1000) * (float)Main.rand.Next(radius));
-				int angle = Main.rand.Next(360);
-				int size = Main.rand.Next(2,5);
-				x = basex + (int)(Main.rand.Next(width) * Math.Sin(angle * (Math.PI / 180))) + Main.rand.Next(-100, 100);
-				y = basey + (int)(Main.rand.Next(height) * Math.Cos(angle * (Math.PI / 180))) + Main.rand.Next(-10, 15);
-				ushort ore = OreRoller((ushort)mod.TileType("Glowstone"), (ushort)mod.TileType("MarbleOre"));
-				WorldGen.TileRunner(x, y, Main.rand.Next(2,10), 2, ore, false, 0f, 0f, false, true); 
-			}	
+            bool success = false;
+            int attempts = 0;
+            while (!success)
+            {
+                attempts++;
+                if (attempts > 1000)
+                {
+                    success = true;
+                    continue;
+                }
+                int basex = i;
+                int basey = j;
+                int x = basex;
+                int y = basey;
+
+                int numberOfAsteroids = 110;
+                int numberOfBigs = 4;
+                int numberOfOres = 310;
+                int width = 350;
+                int height = 75;
+                if (Main.maxTilesX == 4200)
+                {
+                    numberOfAsteroids = 33;
+                    numberOfBigs = 1;
+                    numberOfOres = 150;
+                    width = 200;
+                    height = 40;
+                }
+                if (Main.maxTilesX == 6400)
+                {
+                    numberOfAsteroids = 50;
+                    numberOfBigs = 2;
+                    numberOfOres = 230;
+                    width = 275;
+                    height = 60;
+                }
+                if (Main.maxTilesX == 8400)
+                {
+                    numberOfAsteroids = 79;
+                    numberOfBigs = 4;
+                    numberOfOres = 300;
+                    width = 350;
+                    height = 75;
+                }
+                int radius = (int)Math.Sqrt((width * width) + (height * height));
+
+                for (int b = 0; b < numberOfAsteroids; b++) //small asteroids
+                {
+                    float distance = (int)(((float)(Main.rand.Next(1000)) / 1000) * (float)Main.rand.Next(radius));
+                    int angle = Main.rand.Next(360);
+                    float xsize = (float)(Main.rand.Next(100, 120)) / 100;
+                    float ysize = (float)(Main.rand.Next(100, 120)) / 100;
+                    int size = Main.rand.Next(6, 7);
+                    x = basex + (int)(Main.rand.Next(width) * Math.Sin(angle * (Math.PI / 180))) + Main.rand.Next(-100, 100);
+                    y = basey + (int)(Main.rand.Next(height) * Math.Cos(angle * (Math.PI / 180))) + Main.rand.Next(-10, 15);
+                    PlaceBlob(x, y, xsize, ysize, size, mod.TileType("Asteroid"), 50);
+                }
+                for (int b = 0; b < numberOfBigs; b++) //big asteroids
+                {
+                    x = basex + (int)(Main.rand.Next(0 - width, width) / 1.5f);
+                    y = basey + Main.rand.Next(0 - height, height);
+                    float xsize = (float)(Main.rand.Next(75, 133)) / 100;
+                    float ysize = (float)(Main.rand.Next(75, 133)) / 100;
+                    int size = Main.rand.Next(11, 17);
+                    PlaceBlob(x, y, xsize, ysize, size, mod.TileType("BigAsteroid"), 10, true, mod.WallType("AsteroidWall"));
+                }
+                for (int b = 0; b < numberOfOres; b++) //ores
+                {
+                    float distance = (int)(((float)(Main.rand.Next(1000)) / 1000) * (float)Main.rand.Next(radius));
+                    int angle = Main.rand.Next(360);
+                    int size = Main.rand.Next(2, 5);
+                    x = basex + (int)(Main.rand.Next(width) * Math.Sin(angle * (Math.PI / 180))) + Main.rand.Next(-100, 100);
+                    y = basey + (int)(Main.rand.Next(height) * Math.Cos(angle * (Math.PI / 180))) + Main.rand.Next(-10, 15);
+                    ushort ore = OreRoller((ushort)mod.TileType("Glowstone"), (ushort)mod.TileType("MarbleOre"));
+                    WorldGen.TileRunner(x, y, Main.rand.Next(2, 10), 2, ore, false, 0f, 0f, false, true);
+                }
+                success = true;
+            }
 			
 		}
 		#endregion
@@ -734,7 +746,7 @@ namespace SpiritMod
 				}
 				Tile tile = Main.tile[towerX, towerY];
 				// If the type of the tile we are placing the tower on doesn't match what we want, try again
-				if (tile.type != TileID.Dirt && tile.type != TileID.Grass && tile.type != TileID.Stone)
+				if (tile.type != TileID.Dirt && tile.type != TileID.Grass && tile.type != TileID.Stone && tile.type != TileID.Mud)
 				{
 					continue;
 				}
@@ -847,7 +859,10 @@ namespace SpiritMod
 								tile.active(true);
 								break;	
 							case 2:
-								WorldGen.PlaceTile(k, l, mod.TileType("BarkTileTile"));
+                                if (WorldGen.genRand.Next(2) == 0)
+                                {
+                                    WorldGen.PlaceTile(k, l, mod.TileType("BarkTileTile"));
+                                }
 								tile.active(true);
 								break;		
 						}
@@ -963,49 +978,31 @@ namespace SpiritMod
 			bool placed = false;
 			while (!placed)
 			{
-				// Select a place in the first 6th of the world
-				int hideoutX = (Main.rand.Next(Main.maxTilesX /6, Main.maxTilesX/6*5)); // from 50 since there's a unaccessible area at the world's borders
-				// 50% of choosing the last 6th of the world
-				if (WorldGen.genRand.NextBool())
-				{
-					hideoutX = Main.maxTilesX - hideoutX;
-				}
-				int hideoutY = 0;
-				// We go down until we hit a solid tile or go under the world's surface
-				while (!WorldGen.SolidTile(hideoutX, hideoutY) && hideoutY <= Main.worldSurface)
-				{
-					hideoutY++;
-				}
-				// If we went under the world's surface, try again
-				if (hideoutY > Main.worldSurface)
-				{
-					continue;
-				}
-				Tile tile = Main.tile[hideoutX, hideoutY];
-				// If the type of the tile we are placing the hideout on doesn't match what we want, try again
-				if (tile.type != TileID.Dirt && tile.type != TileID.Grass && tile.type != TileID.Stone)
-				{
-					continue;
-				}
-				Tile treeCheck = Framing.GetTileSafely(hideoutX, hideoutY);
-
-				if (treeCheck.active())
-				{
-					if (treeCheck.type == TileID.Trees || treeCheck.type == TileID.PalmTree || treeCheck.type == TileID.MushroomTrees)
-					{
-						WorldGen.KillTile(hideoutX, hideoutY, false, false, false);
-						WorldGen.KillTile(hideoutX -1, hideoutY-12, false, false, false);
-						WorldGen.KillTile(hideoutX -2, hideoutY-12, false, false, false);
-						WorldGen.KillTile(hideoutX -3, hideoutY-12, false, false, false);
-						WorldGen.KillTile(hideoutX -4, hideoutY-12, false, false, false);
-						WorldGen.KillTile(hideoutX -5, hideoutY-12, false, false, false);
-						WorldGen.KillTile(hideoutX -6, hideoutY-12, false, false, false);
-						WorldGen.KillTile(hideoutX -7, hideoutY-12, false, false, false);
-						WorldGen.KillTile(hideoutX -8, hideoutY-12, false, false, false);
-					}
-				}
-				// place the hideout
-				PlaceHideout(hideoutX + 6, hideoutY - 5, HideoutShape, HideoutWalls, HideoutLoot);
+                int towerX = Main.rand.Next(Main.maxTilesX / 6, Main.maxTilesX); ; // from 50 since there's a unaccessible area at the world's borders
+                                                                                   // 50% of choosing the last 6th of the world
+                if (WorldGen.genRand.NextBool())
+                {
+                    towerX = Main.maxTilesX - towerX;
+                }
+                int towerY = 0;
+                // We go down until we hit a solid tile or go under the world's surface
+                while (!WorldGen.SolidTile(towerX, towerY) && towerY <= Main.worldSurface)
+                {
+                    towerY++;
+                }
+                // If we went under the world's surface, try again
+                if (towerY > Main.worldSurface)
+                {
+                    continue;
+                }
+                Tile tile = Main.tile[towerX, towerY];
+                // If the type of the tile we are placing the tower on doesn't match what we want, try again
+                if (tile.type != mod.TileType("ReachGrassTile"))
+                {
+                    continue;
+                }
+                // place the hideout
+                PlaceHideout(towerX + 6, towerY + 9, HideoutShape, HideoutWalls, HideoutLoot);
 				placed = true;
 			}
 		}
@@ -2248,12 +2245,12 @@ namespace SpiritMod
 				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0},
 				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,4,0},
 				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,6,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,6,4,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,6,6,3,6,6,6,6,6,6,6,6,6,6,6,6,6,6,3,6,6,4,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,6,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,6,4,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,0,4,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,0,4,0},
-				{0,0,0,0,0,9,9,9,9,9,9,9,9,9,9,9,9,9,9,4,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,0,4,0},
-				{0,0,0,0,0,9,9,9,9,9,9,9,9,9,9,9,9,9,9,4,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,0,4,9},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,6,6,3,6,6,6,6,6,6,6,6,6,6,6,6,6,6,3,6,6,4,9},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,6,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,6,4,9},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,9,4,9},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,9,4,9},
+				{0,0,0,0,0,9,9,9,9,9,9,9,9,9,9,9,9,9,9,4,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,9,4,9},
+				{0,0,0,0,0,9,9,9,9,9,9,9,9,9,9,9,9,9,9,4,0,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,9,4,9},
 				{0,0,0,0,0,9,9,9,9,9,9,9,9,9,9,9,9,9,9,4,9,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,9,4,9},
 				{0,0,0,0,0,9,9,9,9,9,9,9,9,9,9,9,9,9,9,4,9,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,9,4,9},
 				{0,0,0,0,0,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,6,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,6,9,9,9},
@@ -2363,8 +2360,9 @@ namespace SpiritMod
 				placed = true;
 			}
 		}
-		#endregion
-		private void PlaceAltar(int i, int j, int[,] BlocksArray, int[,] LootArray) {
+        #endregion
+        #region ReachMicros
+        private void PlaceAltar(int i, int j, int[,] BlocksArray, int[,] LootArray) {
 			
 			for (int y = 0; y < BlocksArray.GetLength(0); y++) { // This loops clears the area (makes the proper hemicircle) and placed dirt in the bottom if there are no blocks (so that the chest and fireplace can be placed).
 				for (int x = 0; x < BlocksArray.GetLength(1); x++) {
@@ -2478,7 +2476,105 @@ namespace SpiritMod
 				placed = true;
 			}
 		}
-		private void PlaceGlowRoom(int i, int j, int[,] BlocksArray, int[,] LootArray) {
+        private void PlaceUndergroundAltar(int i, int j, int[,] BlocksArray, int[,] LootArray)
+        {
+
+            for (int y = 0; y < BlocksArray.GetLength(0); y++)
+            { // This loops clears the area (makes the proper hemicircle) and placed dirt in the bottom if there are no blocks (so that the chest and fireplace can be placed).
+                for (int x = 0; x < BlocksArray.GetLength(1); x++)
+                {
+                    int k = i - 3 + x;
+                    int l = j - 6 + y;
+                    if (WorldGen.InWorld(k, l, 30))
+                    {
+                        Tile tile = Framing.GetTileSafely(k, l);
+                        switch (BlocksArray[y, x])
+                        {
+                            case 0:
+                                break; // no changes
+                            case 1:
+                                Framing.GetTileSafely(k, l).ClearTile();
+                                WorldGen.PlaceTile(k, l, mod.TileType("ReachGrassTile"));
+                                tile.active(true);
+                                break;
+                            case 2:
+                                Framing.GetTileSafely(k, l).ClearTile();
+                                break;
+                        }
+                    }
+                }
+            }
+
+            for (int y = 0; y < LootArray.GetLength(0); y++)
+            { // This Loop Placzs Furnitures.(So that they have blocks to spawn on).
+                for (int x = 0; x < LootArray.GetLength(1); x++)
+                {
+                    int k = i - 3 + x;
+                    int l = j - 6 + y;
+                    if (WorldGen.InWorld(k, l, 30))
+                    {
+                        Tile tile = Framing.GetTileSafely(k, l);
+                        switch (LootArray[y, x])
+                        {
+                            case 2:
+                                WorldGen.PlaceObject(k, l - 4, mod.TileType("SkeletonTree"));
+                                break;
+                            case 3:
+                                if (Main.rand.Next(2) == 0)
+                                    WorldGen.PlaceObject(k, l - 1, mod.TileType("SkullStick"));
+                                else
+                                    WorldGen.PlaceObject(k, l - 1, mod.TileType("SkullStickFlip"));
+                                break;
+                            case 4:
+                                WorldGen.PlaceObject(k, l - 1, mod.TileType("BoneAltar")); // Campfire
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+        public void GenerateUndergroundAltar()
+        {
+            int[,] TileShape = new int[,]
+            {
+                {0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0},
+                {0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0},
+                {0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0},
+                {0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0},
+                {0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0},
+                {0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0},
+                {0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0},
+                {0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
+            };
+            int[,] DecorShape = new int[,]
+            {
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,3,0,0,2,0,0,0,0,0,0,0,4,0,3,0,0},
+                {0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
+            };
+            bool placed = false;
+            while (!placed)
+            {
+                int towerX = (int)Main.rand.Next(50, Main.maxTilesX); ; // from 50 since there's a unaccessible area at the world's borders
+                int towerY = (int)Main.rand.Next((int)Main.worldSurface + 20, Main.maxTilesY);
+                Tile tile = Main.tile[towerX, towerY];
+                // If the type of the tile we are placing the tower on doesn't match what we want, try again
+                if (tile.type != mod.TileType("ReachGrassTile"))
+                {
+                    continue;
+                }
+                {
+                    PlaceUndergroundAltar(towerX, towerY + Main.rand.Next(-70, 0), TileShape, DecorShape);
+                }
+                placed = true;
+            }
+        }
+        private void PlaceGlowRoom(int i, int j, int[,] BlocksArray, int[,] LootArray) {
 			
 			for (int y = 0; y < BlocksArray.GetLength(0); y++) { // This loops clears the area (makes the proper hemicircle) and placed dirt in the bottom if there are no blocks (so that the chest and fireplace can be placed).
 				for (int x = 0; x < BlocksArray.GetLength(1); x++) {
@@ -2699,13 +2795,13 @@ namespace SpiritMod
                                     switch (Main.rand.Next(6))
                                     {
                                         case 0:
-                                            Sign.TextSign(num256, "The grave of a long-forgotten soul lies here.");
+                                            Sign.TextSign(num256, "Servants to the Briar for all eternity, the Wraiths are ancient constructs of vine and blood held together by the crude spells of the savages. Bound to the will of the savages, they can only be freed should the last of their mortal body be destroyed.");
                                             break;
                                         case 1:
                                             Sign.TextSign(num256, "The text is too faded to read.");
                                             break;
                                         case 2:
-                                            Sign.TextSign(num256, "");
+                                            Sign.TextSign(num256, "An untamable land engulfed by nature, the Briar is surrounded by an aura of mystery. The maw of the Briar devours all who dare defile it, leaving them to sink unto madness as their cries are drowned out by the everlasting downpour.");
                                             break;
                                         case 3:
                                             Sign.TextSign(num256, "");
@@ -2776,6 +2872,662 @@ namespace SpiritMod
                 placed = true;
             }
         }
+        #endregion
+        #region EvilMicros
+        private void PlaceBoneSpike(int i, int j, int[,] BlocksArray)
+        {
+            for (int y = 0; y < BlocksArray.GetLength(0); y++)
+            {
+                for (int x = 0; x < BlocksArray.GetLength(1); x++)
+                {
+                    int k = i - 3 + x;
+                    int l = j - 6 + y;
+                    if (WorldGen.InWorld(k, l, 30))
+                    {
+                        Tile tile = Framing.GetTileSafely(k, l);
+                        switch (BlocksArray[y, x])
+                        {
+                            case 0:
+                                break;
+                            case 1:
+                                tile.ClearTile();
+                                tile.type = TileID.FleshBlock;
+                                tile.active(true);
+                                break;
+                            case 2:
+                                tile.ClearTile();
+                                tile.type = TileID.BoneBlock;
+                                tile.active(true);
+                                break;
+                            case 3:
+                                tile.ClearTile();
+                                tile.type = TileID.BoneBlock;
+                                tile.slope(2);
+                                tile.active(true);
+                                break;
+                            case 4:
+                                tile.ClearTile();
+                                tile.type = TileID.BoneBlock;
+                                tile.slope(1);
+                                tile.active(true);
+                                break;
+                            case 5:
+                                tile.ClearTile();
+                                tile.type = TileID.BoneBlock;
+                                tile.slope(4);
+                                tile.active(true);
+                                break;
+                            case 6:
+                                tile.ClearTile();
+                                tile.type = TileID.Dirt;
+                                tile.active(true);
+                                if (!Main.tile[k, l - 1].active())
+                                {
+                                    WorldGen.PlaceTile(k, l, TileID.FleshGrass);
+                                }
+                                break;
+                            case 7:
+                                tile.ClearTile();
+                                tile.type = TileID.BoneBlock;
+                                tile.slope(7);
+                                tile.active(true);
+                                break;
+                            case 8:
+                                tile.ClearTile();
+                                tile.type = TileID.BoneBlock;
+                                tile.slope(5);
+                                tile.active(true);
+                                break;
+                            case 9:
+                                tile.ClearTile();
+                                WorldGen.PlaceWall(k, l, 77);
+                                break;
+                            case 10:
+                                tile.ClearTile();
+                                WorldGen.PlaceWall(k, l, 77);
+                                break;
+                        }
+                    }
+                }
+            }
+            for (int y = 0; y < BlocksArray.GetLength(0); y++)
+            {
+                for (int x = 0; x < BlocksArray.GetLength(1); x++)
+                {
+                    int k = i - 3 + x;
+                    int l = j - 6 + y;
+                    if (WorldGen.InWorld(k, l, 30))
+                    {
+                        Tile tile = Framing.GetTileSafely(k, l);
+                        switch (BlocksArray[y, x])
+                        {
+                            case 9:
+                                tile.ClearTile();
+                                WorldGen.PlaceChest(k, l, (ushort)mod.TileType("FleshSpikeChest_Tile"), false, 0);
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+        public void GenerateBoneSpike()
+        {
+
+            int[,] SpikeShape1 = new int[,]
+            {
+                {0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,3,2,0,0,0,0,0,2,4,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,3,2,2,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,3,2,2,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,2,2,4,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,3,2,2,7,0,0,0,0,0,0,2,2,2,4,0,0,0,0,0,0,0},
+                {0,0,0,0,0,3,2,2,2,0,0,0,1,1,0,0,0,2,2,2,0,0,0,0,0,0,0},
+                {0,0,0,0,0,2,2,2,2,0,1,1,1,1,1,1,0,2,2,2,2,0,0,0,0,0,0},
+                {6,6,1,1,2,2,2,2,2,1,1,1,10,10,1,1,0,0,2,2,2,4,0,0,0,0,0},
+                {6,1,1,1,2,2,2,2,1,1,1,1,9,10,1,1,1,1,2,2,2,2,0,0,0,0,0},
+                {6,6,1,1,1,2,2,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,1,1,6,6},
+                {6,6,6,1,1,1,1,1,1,6,1,1,1,1,1,1,6,6,1,1,1,1,1,6,6,6,6},
+                {6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,0},
+            };
+            int[,] SpikeShape2 = new int[,]
+            {
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,3,2,0,0,0,0,0,4,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,3,2,2,0,0,0,0,0,2,4,0,0,0,0,0,0},
+                {0,0,0,0,0,0,3,2,2,0,0,0,0,0,0,0,2,4,0,0,0,0,0},
+                {0,0,0,0,0,0,2,2,2,0,1,1,1,1,0,0,2,2,4,0,0,0,0},
+                {0,0,0,0,0,0,2,2,2,2,1,10,10,1,1,0,2,2,2,4,0,1,1},
+                {0,0,0,0,0,3,2,2,2,2,1,9,10,1,1,1,2,2,2,2,1,1,1},
+                {6,1,1,1,1,2,2,2,1,1,1,1,1,1,1,1,1,1,2,1,1,1,6},
+                {6,6,1,1,1,2,1,1,1,6,6,6,6,6,6,6,6,1,1,1,6,6,0},
+                {0,6,6,6,1,1,1,1,6,6,6,6,6,6,6,6,6,6,6,6,6,0,0},
+                {0,0,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,0,0},
+                {0,0,6,6,6,6,0,0,0,0,6,6,6,6,6,6,6,6,0,0,0,0,0},
+
+            };
+            int[,] SpikeShape3 = new int[,]
+            {
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,3,0,0,0,0,4,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,3,2,0,0,0,0,2,4,0,0,0,0,0,0},
+                {0,0,0,0,3,2,2,7,0,0,0,0,0,2,4,0,0,0,0,0},
+                {0,1,1,3,2,2,2,0,0,0,0,0,0,2,2,4,0,0,0,0},
+                {6,1,1,2,2,2,2,1,1,6,0,0,0,2,2,2,4,0,1,1},
+                {6,6,1,1,2,2,1,1,6,6,6,1,1,2,2,2,2,1,1,1},
+                {0,6,6,1,1,1,1,6,6,6,6,1,1,1,1,2,1,1,1,6},
+                {0,6,6,6,6,6,6,6,6,6,6,6,6,6,6,1,1,6,6,0},
+            };
+
+            bool placed = false;
+            int counter = 0;
+            while (!placed)
+            {
+                counter++;
+                if (counter >= 300)
+                {
+                    placed = true;
+                }
+                // Select a place in the first 6th of the world
+                int towerX = WorldGen.genRand.Next(300, Main.maxTilesX); // from 50 since there's a unaccessible area at the world's borders
+                                                                         // 50% of choosing the last 6th of the world
+                if (WorldGen.genRand.NextBool())
+                {
+                    towerX = Main.maxTilesX - towerX;
+                }
+                int towerY = 0;
+                // We go down until we hit a solid tile or go under the world's surface
+                while (!WorldGen.SolidTile(towerX, towerY) && towerY <= Main.worldSurface)
+                {
+                    towerY += 2;
+                }
+                // If we went under the world's surface, try again
+                if (towerY > Main.worldSurface)
+                {
+                    continue;
+                }
+                Tile tile = Main.tile[towerX, towerY];
+
+                if (tile.type != TileID.FleshGrass)
+                {
+                    continue;
+                }
+                // place the tower
+                if (Main.rand.Next(2) == 0)
+                {
+                    PlaceBoneSpike(towerX, towerY - 4, SpikeShape1);
+                }
+                else if (Main.rand.Next(3) == 0)
+                {
+                    PlaceBoneSpike(towerX, towerY - 1, SpikeShape3);
+                }
+                else
+                {
+                    PlaceBoneSpike(towerX, towerY - 6, SpikeShape2);
+                }
+                placed = true;
+            }
+        }
+        private void PlaceCorruptHole(int i, int j, int[,] BlocksArray)
+        {
+            for (int y = 0; y < BlocksArray.GetLength(0); y++)
+            {
+                for (int x = 0; x < BlocksArray.GetLength(1); x++)
+                {
+                    int k = i - 3 + x;
+                    int l = j - 6 + y;
+                    if (WorldGen.InWorld(k, l, 30))
+                    {
+                        Tile tile = Framing.GetTileSafely(k, l);
+                        switch (BlocksArray[y, x])
+                        {
+                            case 0:
+                                break;
+                            case 1:
+                                tile.ClearTile();
+                                tile.type = TileID.Ebonstone;
+                                tile.active(true);
+                                break;
+                            case 2:
+                                tile.ClearTile();
+                                tile.type = TileID.Ebonsand;
+                                tile.active(true);
+                                break;
+                            case 3:
+                                tile.ClearTile();
+                                tile.type = TileID.CorruptSandstone;
+                                tile.active(true);
+                                break;
+                            case 4:
+                                tile.ClearTile();
+                                WorldGen.PlaceWall(k, l, 3);
+                                break;
+                            case 5:
+                                tile.ClearTile();
+                                WorldGen.PlaceWall(k, l, 3);
+                                break;
+                        }
+                    }
+                }
+            }
+            for (int y = 0; y < BlocksArray.GetLength(0); y++)
+            {
+                for (int x = 0; x < BlocksArray.GetLength(1); x++)
+                {
+                    int k = i - 3 + x;
+                    int l = j - 6 + y;
+                    if (WorldGen.InWorld(k, l, 30))
+                    {
+                        Tile tile = Framing.GetTileSafely(k, l);
+                        switch (BlocksArray[y, x])
+                        {
+                            case 5:
+                                WorldGen.PlaceChest(k, l, (ushort)mod.TileType("EbonChest_Tile"), false, 0);
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+        public void GenerateCorruptHole()
+        {
+            int[,] HoleShape1 = new int[,]
+            {
+                {0,0,0,0,0,3,0,0,0,0,0,0,3,0,0,0,0},
+                {0,0,0,3,1,2,1,1,3,3,1,1,2,1,3,0,0},
+                {0,3,1,2,2,1,1,1,4,4,1,1,1,2,2,1,3},
+                {0,2,2,2,2,2,1,4,4,4,4,1,2,2,2,2,2},
+                {2,2,2,2,1,1,1,4,5,4,4,1,1,1,1,2,1},
+                {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
+            };
+            int[,] HoleShape2 = new int[,]
+            {
+                {0,0,0,0,0,0,0,3,0,0,0,0,0,3,0,0,0,0,0,0},
+                {0,0,0,0,3,0,1,2,2,2,2,2,2,2,0,3,0,0,0,0},
+                {0,0,3,1,2,2,2,2,1,3,3,1,2,2,2,2,0,3,0,0},
+                {3,0,2,2,1,1,1,1,1,4,4,1,1,1,1,1,2,2,0,0},
+                {2,2,2,2,2,2,2,1,4,4,4,4,1,2,2,2,2,2,2,3},
+                {2,2,1,1,1,2,2,1,4,5,4,4,1,2,2,1,1,1,2,2},
+                {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                {0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},
+            };
+            int[,] HoleShape3 = new int[,]
+            {
+                {0,0,0,0,0,3,0,0,0,0,0,0,3,0,0,0,0},
+                {0,0,0,3,1,2,1,1,3,3,1,1,2,1,3,0,0},
+                {0,3,1,2,2,1,1,1,4,4,1,1,1,2,2,1,3},
+                {0,2,2,2,2,2,1,4,4,4,4,1,2,2,2,2,2},
+                {2,2,2,2,1,1,1,4,4,4,4,1,1,1,1,2,2},
+                {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
+            };
+            bool placed = false;
+            int counter = 0;
+            while (!placed)
+            {
+                counter++;
+                if (counter >= 300)
+                {
+                    placed = true;
+                }
+                // Select a place in the first 6th of the world
+                int towerX = WorldGen.genRand.Next(300, Main.maxTilesX); // from 50 since there's a unaccessible area at the world's borders
+                                                                         // 50% of choosing the last 6th of the world
+                if (WorldGen.genRand.NextBool())
+                {
+                    towerX = Main.maxTilesX - towerX;
+                }
+                int towerY = 0;
+                // We go down until we hit a solid tile or go under the world's surface
+                while (!WorldGen.SolidTile(towerX, towerY) && towerY <= Main.worldSurface)
+                {
+                    towerY += 2;
+                }
+                // If we went under the world's surface, try again
+                if (towerY > Main.worldSurface)
+                {
+                    continue;
+                }
+                Tile tile = Main.tile[towerX, towerY];
+
+                if (tile.type != TileID.CorruptGrass)
+                {
+                    continue;
+                }
+                // place the tower
+                {
+                    if (Main.rand.Next(3) == 0)
+                    {
+                        PlaceCorruptHole(towerX, towerY + 2, HoleShape3);
+                    }
+                    if (Main.rand.Next(3) == 0)
+                    {
+                        PlaceCorruptHole(towerX, towerY + 2, HoleShape2);
+                    }
+                    else
+                    {
+                        PlaceCorruptHole(towerX, towerY + 2, HoleShape1);
+                    }
+                }
+                placed = true;
+            }
+        }
+        #endregion
+        #region SurfaceMicros
+        private void PlaceCampsite(int i, int j, int[,] BlocksArray)
+        {
+            for (int y = 0; y < BlocksArray.GetLength(0); y++)
+            {
+                for (int x = 0; x < BlocksArray.GetLength(1); x++)
+                {
+                    int k = i - 3 + x;
+                    int l = j - 6 + y;
+                    if (WorldGen.InWorld(k, l, 30))
+                    {
+                        Tile tile = Framing.GetTileSafely(k, l);
+                        switch (BlocksArray[y, x])
+                        {
+                            case 0:
+                                tile.ClearTile();
+                                break;
+                            case 1:
+                                tile.ClearTile();
+                                tile.type = 0;
+                                tile.active(true);
+                                break;
+                            case 2:
+                                tile.ClearTile();
+                                break;
+                            case 3:
+                                tile.ClearTile();
+                                break;
+                            case 4:
+                                tile.ClearTile();
+                                break;
+                            case 5:
+                                tile.ClearTile();
+                                break;
+                            case 6:
+                                break;
+                        }
+                    }
+                }
+            }
+            for (int y = 0; y < BlocksArray.GetLength(0); y++)
+            {
+                for (int x = 0; x < BlocksArray.GetLength(1); x++)
+                {
+                    int k = i - 3 + x;
+                    int l = j - 6 + y;
+                    if (WorldGen.InWorld(k, l, 30))
+                    {
+                        Tile tile = Framing.GetTileSafely(k, l);
+                        switch (BlocksArray[y, x])
+                        {
+                            case 0:
+                                break;
+                            case 1:
+                                WorldGen.PlaceTile(k, l, 2);
+                                break;
+                            case 2:
+                                WorldGen.PlaceObject(k, l, 215, true, 0);
+                                break;
+                            case 3:
+                                WorldGen.PlaceTile(k, l, mod.TileType("TentOpposite"));
+                                break;
+                            case 4:
+                                WorldGen.PlaceObject(k, l, 187, true, 26, 1, -1, -1);
+                                break;
+                            case 5:
+                                WorldGen.PlaceTile(k, l, 28);  // Pot
+                                tile.active(true);
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+        public void GenerateCampsite()
+        {
+
+            int[,] CampShape1 = new int[,]
+            {
+                {6,6,6,0,0,0,0,0,0,0,6,6,6,6},
+                {6,6,0,0,0,0,0,0,0,0,0,6,6,6},
+                {6,0,0,0,0,0,0,0,0,0,0,0,6,6},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,3,0,0,0,0,2,0,0,0,4,0,5,0},
+                {1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+            };
+            bool placed = false;
+            while (!placed)
+            {
+                // Select a place in the first 6th of the world
+                int towerX = Main.spawnTileX + Main.rand.Next(-800, 800); // from 50 since there's a unaccessible area at the world's borders
+                                                                         // 50% of choosing the last 6th of the world
+                if (WorldGen.genRand.NextBool())
+                {
+                    towerX = Main.maxTilesX - towerX;
+                }
+                int towerY = 0;
+                // We go down until we hit a solid tile or go under the world's surface
+                while (!WorldGen.SolidTile(towerX, towerY) && towerY <= Main.worldSurface)
+                {
+                    towerY++;
+                }
+                // If we went under the world's surface, try again
+                if (towerY > Main.worldSurface)
+                {
+                    continue;
+                }
+                Tile tile = Main.tile[towerX, towerY];
+                // If the type of the tile we are placing the tower on doesn't match what we want, try again
+                if (tile.type != TileID.Dirt && tile.type != TileID.Grass && tile.type != TileID.Stone)
+                {
+                    continue;
+                }
+                // place the tower
+                PlaceCampsite(towerX, towerY + 1, CampShape1);
+                placed = true;
+            }
+        }
+        private void PlaceGrave(int i, int j, int[,] ShrineArray, int[,] WallArray)
+        {
+
+            for (int y = 0; y < WallArray.GetLength(0); y++)
+            { // This Loop Placzs Furnitures.(So that they have blocks to spawn on).
+                for (int x = 0; x < WallArray.GetLength(1); x++)
+                {
+                    int k = i - 3 + x;
+                    int l = j - 6 + y;
+                    if (WorldGen.InWorld(k, l, 30))
+                    {
+                        Tile tile = Framing.GetTileSafely(k, l);
+                        switch (WallArray[y, x])
+                        {
+                            case 1:
+                                Framing.GetTileSafely(k, l).ClearTile();
+                                WorldGen.KillWall(k, l);
+                                break;
+                            case 2:
+                                Framing.GetTileSafely(k, l).ClearTile();
+                                WorldGen.KillWall(k, l);
+                                WorldGen.PlaceWall(k, l, 106);
+                                break;
+                            case 3:
+                                Framing.GetTileSafely(k, l).ClearTile();
+                                WorldGen.KillWall(k, l);
+                                if (Main.rand.Next(2) == 0)
+                                {
+                                    WorldGen.PlaceWall(k, l, 106);
+                                }
+                                else
+                                {
+                                    WorldGen.PlaceWall(k, l, 63);
+                                }
+                                break;
+                            case 4:
+                                Framing.GetTileSafely(k, l).ClearTile();
+                                WorldGen.KillWall(k, l);
+                                {
+                                    WorldGen.PlaceWall(k, l, 63);
+                                }
+                                break;
+                            case 5:
+                                Framing.GetTileSafely(k, l).ClearTile();
+                                WorldGen.KillWall(k, l);
+                                break;
+                        }
+                    }
+                }
+            }
+            for (int y = 0; y < ShrineArray.GetLength(0); y++)
+            { // This Loop Placzs Furnitures.(So that they have blocks to spawn on).
+                for (int x = 0; x < ShrineArray.GetLength(1); x++)
+                {
+                    int k = i - 3 + x;
+                    int l = j - 6 + y;
+                    if (WorldGen.InWorld(k, l, 30))
+                    {
+                        Tile tile = Framing.GetTileSafely(k, l);
+                        switch (ShrineArray[y, x])
+                        {
+                            case 1:
+                                Framing.GetTileSafely(k, l).ClearTile();
+                                WorldGen.PlaceTile(k, l, 0); // Dirt
+                                break;
+                            case 3:
+                                Framing.GetTileSafely(k, l).ClearTile();
+                                WorldGen.PlaceTile(k, l, 0); // Dirt
+                                break;
+                        }
+                    }
+                }
+            }
+            for (int y = 0; y < ShrineArray.GetLength(0); y++)
+            { // This Loop Placzs Furnitures.(So that they have blocks to spawn on).
+                for (int x = 0; x < ShrineArray.GetLength(1); x++)
+                {
+                    int k = i - 3 + x;
+                    int l = j - 6 + y;
+                    if (WorldGen.InWorld(k, l, 30))
+                    {
+                        Tile tile = Framing.GetTileSafely(k, l);
+                        switch (ShrineArray[y, x])
+                        {
+                            case 1:
+                                WorldGen.PlaceTile(k, l, 2); // Dirt
+                                break;
+                            case 2:
+                                Framing.GetTileSafely(k, l).ClearTile();
+                                WorldGen.PlaceObject(k, l, 85, true, Main.rand.Next(0, 5));
+                                break;
+                        }
+                    }
+                }
+            }
+            for (int y = 0; y < ShrineArray.GetLength(0); y++)
+            { // This Loop Placzs Furnitures.(So that they have blocks to spawn on).
+                for (int x = 0; x < ShrineArray.GetLength(1); x++)
+                {
+                    int k = i - 3 + x;
+                    int l = j - 6 + y;
+                    if (WorldGen.InWorld(k, l, 30))
+                    {
+                        Tile tile = Framing.GetTileSafely(k, l);
+                        switch (ShrineArray[y, x])
+                        {
+                            case 2:
+                                int num256 = Sign.ReadSign(k, l, true);
+                                if (num256 >= 0)
+                                {
+                                    switch (Main.rand.Next(6))
+                                    {
+                                        case 0:
+                                            Sign.TextSign(num256, "The grave of a long-forgotten soul lies here.");
+                                            break;
+                                        case 1:
+                                            Sign.TextSign(num256, "The text is too faded to read.");
+                                            break;
+                                        case 2:
+                                            Sign.TextSign(num256, "");
+                                            break;
+                                        case 3:
+                                            Sign.TextSign(num256, "");
+                                            break;
+                                        case 4:
+                                            Sign.TextSign(num256, "The grave seems to be covered in indecipherable runes.");
+                                            break;
+                                        case 5:
+                                            Sign.TextSign(num256, "The grave lists the burial practices of an ancient civilization.");
+                                            break;
+                                        default:
+                                            Sign.TextSign(num256, "The text is too faded to read.");
+                                            break;
+                                    }
+                                }
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+
+        public void GenerateGrave()
+        {
+            int[,] GraveShape = new int[,]
+            {
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,2,0,0,2,0,0,2,0,0,2,0,0,2,0,0},
+                {0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
+                {0,0,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,0},
+            };
+            int[,] GraveWalls = new int[,]
+            {
+                {0,0,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,0},
+                {0,0,5,5,4,5,5,4,5,5,5,5,5,5,5,5,5,5,0},
+                {0,0,5,4,4,5,5,4,4,5,5,5,4,4,5,5,5,5,0},
+                {0,0,4,4,2,3,3,3,2,3,3,3,2,2,2,3,3,5,0},
+                {0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
+                {0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
+            };
+            bool placed = false;
+            while (!placed)
+            {
+                // Select a place in the first 6th of the world
+                int towerX = Main.spawnTileX + Main.rand.Next(-800, 800); // from 50 since there's a unaccessible area at the world's borders
+                                                                                                // 50% of choosing the last 6th of the world
+                if (WorldGen.genRand.NextBool())
+                {
+                    towerX = Main.maxTilesX - towerX;
+                }
+                int towerY = 0;
+                // We go down until we hit a solid tile or go under the world's surface
+                while (!WorldGen.SolidTile(towerX, towerY) && towerY <= Main.worldSurface)
+                {
+                    towerY++;
+                }
+                // If we went under the world's surface, try again
+                if (towerY > Main.worldSurface)
+                {
+                    continue;
+                }
+                Tile tile = Main.tile[towerX, towerY];
+                // If the type of the tile we are placing the tower on doesn't match what we want, try again
+                if (tile.type != TileID.Dirt && tile.type != TileID.Grass && tile.type != TileID.Stone)
+                {
+                    continue;
+                }
+                // place the tower
+                PlaceGrave(towerX, towerY + 2, GraveShape, GraveWalls);
+                placed = true;
+            }
+        }
+        #endregion
         private void Vines(GenerationProgress progress)
         {
             progress.Message = "Spreading vines in the Briar...";
@@ -2829,6 +3581,20 @@ namespace SpiritMod
                         continue;
                     }
                     {
+                        if (Main.rand.Next(2) == 0)
+                        {
+                            if (WorldGen.genRand.Next(2) == 0)
+                            {
+                                GenerateGrave();
+                            }
+                        }
+                        else
+                        {
+                            if (WorldGen.genRand.Next(2) == 0)
+                            {
+                                GenerateCampsite();
+                            }
+                        }
                         for (int k = 0; k < Main.rand.Next(9, 15); k++)
                         {
                             GenerateSepulchre();
@@ -2851,9 +3617,20 @@ namespace SpiritMod
                         {
                             GenerateGlowRoom();
                         }
-                        for (int k = 0; k < Main.rand.Next(3, 8); k++)
+                        for (int k = 0; k < (int)(num32 * 1.7); k++)
                         {
                             GenerateGlowGrave();
+                        }
+
+                        GenerateHideout();                       
+                        GenerateUndergroundAltar();
+                        if (WorldGen.crimson)
+                        {
+                            GenerateBoneSpike();
+                        }
+                        else
+                        {
+                            GenerateCorruptHole();
                         }
                         if (WorldGen.genRand.Next(3) == 0)
                         {
@@ -3157,125 +3934,165 @@ namespace SpiritMod
 				GenerateGemStash();
 			}
 			for (int i = 1; i < Main.rand.Next(4, 6); i++)
-				{
-					int itemsToPlaceInGlassChestsSecondaryChoice = 0;
-					for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
-					{
-						Chest chest = Main.chest[chestIndex];
-						if (chest != null && Main.tile[chest.x, chest.y].frameX == 13 * 36 && Main.rand.Next(2) == 0)
-						{
-							chest.item[6].SetDefaults(mod.ItemType("ChaosPearl"), false);
-							chest.item[6].stack = WorldGen.genRand.Next(20, 30);
-						}
-					}
-				}				
-			for (int i = 1; i < Main.rand.Next(4, 6); i++)
-				{
-					int[] itemsToPlaceInGlassChestsSecondary = new int[] { mod.ItemType("OldLeather"), 19, 20, 21, 22, 52, 3093, ItemID.SilverCoin, ItemID.Bottle, ItemID.Rope, 166, 52, 290, 291, 292, 293, 294, 295, 296, 297 };
-					int[] itemsToPlacePrimary = new int[] {mod.ItemType("SepulchreStaff"), mod.ItemType("SepulchrePendant")};
-					int[] ammoToPlace = new int[] {mod.ItemType("SepulchreArrow"), mod.ItemType("SepulchreBullet")};
-					int itemsToPlaceInGlassChestsSecondaryChoice = 0;
-					for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
-					{
-						Chest chest = Main.chest[chestIndex];
-						if (chest != null && Main.tile[chest.x, chest.y].type == mod.TileType("SepulchreChestTile"))
-						{
-							chest.item[0].SetDefaults(itemsToPlacePrimary[Main.rand.Next(2)], false);
-							chest.item[0].stack = WorldGen.genRand.Next(1, 1);
-							chest.item[1].SetDefaults(ammoToPlace[Main.rand.Next(2)], false);
-							chest.item[1].stack = WorldGen.genRand.Next(20, 50);
-							chest.item[2].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(20)], false);
-							chest.item[2].stack = WorldGen.genRand.Next(1, 5);
-							chest.item[3].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(20)], false);
-							chest.item[3].stack = WorldGen.genRand.Next(1, 5);
-							chest.item[4].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(20)], false);
-							chest.item[4].stack = WorldGen.genRand.Next(1, 5);	
-							chest.item[5].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(20)], false);
-							chest.item[5].stack = WorldGen.genRand.Next(1, 5);						
-						}
-					}
-				}	
-			for (int i = 1; i < Main.rand.Next(4, 6); i++)
-				{
-					int[] itemsToPlaceInGlassChestsSecondary = new int[] { mod.ItemType("OldLeather"), 19, 20, 21, 22, 3093, ItemID.SilverCoin, ItemID.Bottle, ItemID.Rope, 290, 291, 292, 293, 294, 295, 296, 297 };
-					int[] itemsToPlacePrimary = new int[] {mod.ItemType("CleftHorn"), mod.ItemType("CactusStaff")};
-					int itemsToPlaceInGlassChestsSecondaryChoice = 0;
-					for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
-					{
-						Chest chest = Main.chest[chestIndex];
-						if (chest != null && Main.tile[chest.x, chest.y].type == mod.TileType("GoldScarabChest"))
-						{
-							chest.item[0].SetDefaults(itemsToPlacePrimary[Main.rand.Next(2)], false);
-							chest.item[0].stack = WorldGen.genRand.Next(1, 1);
-							chest.item[1].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(17)], false);
-							chest.item[1].stack = WorldGen.genRand.Next(1, 5);
-							chest.item[2].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(17)], false);
-							chest.item[2].stack = WorldGen.genRand.Next(1, 5);
-							chest.item[3].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(17)], false);
-							chest.item[3].stack = WorldGen.genRand.Next(1, 5);
-							chest.item[4].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(17)], false);
-							chest.item[4].stack = WorldGen.genRand.Next(1, 5);	
-							chest.item[5].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(17)], false);
-							chest.item[5].stack = WorldGen.genRand.Next(1, 5);	
-							break;					
-						}
-					}
-				}
-			for (int i = 1; i < Main.rand.Next(4, 6); i++)
-				{
-					int[] itemsToPlaceInGlassChestsSecondary = new int[] { mod.ItemType("OldLeather"), 19, 20, 21, 22, 3093, ItemID.SilverCoin, ItemID.Bottle, ItemID.Rope, 290, 291, 292, 293, 294, 295, 296, 297 };
-					int[] itemsToPlacePrimary = new int[] {mod.ItemType("Glyph"), ItemID.MagicMirror, ItemID.WandofSparking};
-					int itemsToPlaceInGlassChestsSecondaryChoice = 0;
-					for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
-					{
-						Chest chest = Main.chest[chestIndex];
-						if (chest != null && Main.tile[chest.x, chest.y].type == mod.TileType("GoblinChest"))
-						{
-							chest.item[0].SetDefaults(itemsToPlacePrimary[Main.rand.Next(2)], false);
-							chest.item[0].stack = WorldGen.genRand.Next(1, 1);
-							chest.item[1].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(17)], false);
-							chest.item[1].stack = WorldGen.genRand.Next(1, 5);
-							chest.item[2].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(17)], false);
-							chest.item[2].stack = WorldGen.genRand.Next(1, 5);
-							chest.item[3].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(17)], false);
-							chest.item[3].stack = WorldGen.genRand.Next(1, 5);
-							chest.item[4].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(17)], false);
-							chest.item[4].stack = WorldGen.genRand.Next(1, 5);	
-							chest.item[5].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(17)], false);
-							chest.item[5].stack = WorldGen.genRand.Next(1, 5);	
-							break;					
-						}
-					}
-				}					
-			for (int i = 1; i < 2; i++)
-			{
-				if (Main.rand.Next(7) == 0)
-				{
-					int[] itemsToPlaceInGlassChestsSecondary = new int[] { Items.Glyphs.Glyph._type };
-					int itemsToPlaceInGlassChestsSecondaryChoice = 0;
-					for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
-					{
-						Chest chest = Main.chest[chestIndex];
-						if (chest != null && Main.tile[chest.x, chest.y].type == mod.TileType("ReachChest"))
-						{
-							for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
-							{
-								if (chest.item[inventoryIndex].type == 0)
-								{
-									chest.item[inventoryIndex].SetDefaults(itemsToPlaceInGlassChestsSecondary[itemsToPlaceInGlassChestsSecondaryChoice]); //the error is at this line
-									chest.item[5].stack = Main.rand.Next(1, 1);
-									itemsToPlaceInGlassChestsSecondaryChoice = (itemsToPlaceInGlassChestsSecondaryChoice + 1) % itemsToPlaceInGlassChestsSecondary.Length;
-								
-								}
-							}
-						}
-					}
-				}
-			}
-			{
+            {
+                int itemsToPlaceInGlassChestsSecondaryChoice = 0;
+                for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
+                {
+                    Chest chest = Main.chest[chestIndex];
+                    if (chest != null && Main.tile[chest.x, chest.y].frameX == 13 * 36 && Main.rand.Next(2) == 0)
+                    {
+                        chest.item[6].SetDefaults(mod.ItemType("ChaosPearl"), false);
+                        chest.item[6].stack = WorldGen.genRand.Next(20, 30);
+                    }
+                }
+            }
+            int[] commonItems1 = new int[] { 20, 22, 703, 704 };
+            int[] ammo1 = new int[] { 40, 42 };
+            int[] potions = new int[] { 290, 292, 298, 299, 303, 304 };
+            int[] recall = new int[] { 2350 };
+            int[] potionscorrupt = new int[] { 2349 };
+            int[] potionscrim = new int[] { 2347, 2323 };
+            int[] other1 = new int[] { 3093, 168 };
+            int[] other2 = new int[] { 31, 8 };
+            int[] moddedMaterials = new int[] { mod.ItemType("BismiteCrystal"), mod.ItemType("OldLeather") };
+            int[] crimsonMain = new int[] { mod.ItemType("Spineshot"), mod.ItemType("FleshStick") };
+            int[] corruptMain = new int[] { mod.ItemType("CorruptSpearVariant"), mod.ItemType("Ebonwand") };
+            for (int i = 1; i < Main.rand.Next(4, 6); i++)
+            {
+                int[] itemsToPlacePrimary = new int[] { mod.ItemType("SepulchreStaff"), mod.ItemType("SepulchrePendant") };
+                int[] ammoToPlace = new int[] { mod.ItemType("SepulchreArrow"), mod.ItemType("SepulchreBullet") };
+                int itemsToPlaceInGlassChestsSecondaryChoice = 0;
+                for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
+                {
+                    Chest chest = Main.chest[chestIndex];
+                    if (chest != null && Main.tile[chest.x, chest.y].type == mod.TileType("SepulchreChestTile"))
+                    {
+                        chest.item[0].SetDefaults(itemsToPlacePrimary[Main.rand.Next(2)], false);
+                        chest.item[1].SetDefaults(commonItems1[Main.rand.Next(4)], false);
+                        chest.item[1].stack = WorldGen.genRand.Next(3, 10);
+                        chest.item[2].SetDefaults(ammo1[Main.rand.Next(2)], false);
+                        chest.item[2].stack = WorldGen.genRand.Next(20, 50);
+                        chest.item[3].SetDefaults(potions[Main.rand.Next(6)], false);
+                        chest.item[3].stack = WorldGen.genRand.Next(2, 3);
+                        chest.item[4].SetDefaults(recall[Main.rand.Next(1)], false);
+                        chest.item[4].stack = WorldGen.genRand.Next(2, 3);
+                        chest.item[5].SetDefaults(other1[Main.rand.Next(2)], false);
+                        chest.item[5].stack = WorldGen.genRand.Next(1, 4);
+                        chest.item[6].SetDefaults(other2[Main.rand.Next(2)], false);
+                        chest.item[6].stack = WorldGen.genRand.Next(1, 4);
+                        chest.item[7].SetDefaults(moddedMaterials[Main.rand.Next(2)], false);
+                        chest.item[7].stack = WorldGen.genRand.Next(2, 6);
+                        chest.item[8].SetDefaults(72, false);
+                        chest.item[8].stack = WorldGen.genRand.Next(12, 30);
+                    }
+                    if (chest != null && Main.tile[chest.x, chest.y].type == mod.TileType("FleshSpikeChest_Tile"))
+                    {
+                        chest.item[0].SetDefaults(crimsonMain[Main.rand.Next(2)], false);
+                        chest.item[0].stack = 1;
+                        chest.item[1].SetDefaults(commonItems1[Main.rand.Next(4)], false);
+                        chest.item[1].stack = WorldGen.genRand.Next(3, 10);
+                        chest.item[2].SetDefaults(ammo1[Main.rand.Next(2)], false);
+                        chest.item[2].stack = WorldGen.genRand.Next(20, 50);
+                        chest.item[3].SetDefaults(potionscrim[Main.rand.Next(2)], false);
+                        chest.item[3].stack = WorldGen.genRand.Next(2, 3);
+                        chest.item[4].SetDefaults(recall[Main.rand.Next(1)], false);
+                        chest.item[4].stack = WorldGen.genRand.Next(2, 3);
+                        chest.item[5].SetDefaults(other1[Main.rand.Next(2)], false);
+                        chest.item[5].stack = WorldGen.genRand.Next(1, 4);
+                        chest.item[6].SetDefaults(other2[Main.rand.Next(2)], false);
+                        chest.item[6].stack = WorldGen.genRand.Next(1, 4);
+                        chest.item[7].SetDefaults(287, false);
+                        chest.item[7].stack = WorldGen.genRand.Next(60, 99);
+                        chest.item[8].SetDefaults(72, false);
+                        chest.item[8].stack = WorldGen.genRand.Next(10, 29);
+                    }
+                    if (chest != null && Main.tile[chest.x, chest.y].type == mod.TileType("EbonChest_Tile"))
+                    {
+                        chest.item[0].SetDefaults(corruptMain[Main.rand.Next(2)], false);
+                        chest.item[0].stack = 1;
+                        chest.item[1].SetDefaults(commonItems1[Main.rand.Next(4)], false);
+                        chest.item[1].stack = WorldGen.genRand.Next(3, 10);
+                        chest.item[2].SetDefaults(ammo1[Main.rand.Next(2)], false);
+                        chest.item[2].stack = WorldGen.genRand.Next(20, 50);
+                        chest.item[3].SetDefaults(potionscorrupt[Main.rand.Next(1)], false);
+                        chest.item[3].stack = WorldGen.genRand.Next(2, 3);
+                        chest.item[4].SetDefaults(recall[Main.rand.Next(1)], false);
+                        chest.item[4].stack = WorldGen.genRand.Next(2, 3);
+                        chest.item[5].SetDefaults(other1[Main.rand.Next(2)], false);
+                        chest.item[5].stack = WorldGen.genRand.Next(1, 4);
+                        chest.item[6].SetDefaults(other2[Main.rand.Next(2)], false);
+                        chest.item[6].stack = WorldGen.genRand.Next(1, 4);
+                        chest.item[7].SetDefaults(287, false);
+                        chest.item[7].stack = WorldGen.genRand.Next(60, 99);
+                        chest.item[8].SetDefaults(72, false);
+                        chest.item[8].stack = WorldGen.genRand.Next(10, 29);
+                    }
+                }
+            }
+            for (int i = 1; i < Main.rand.Next(4, 6); i++)
+            {
+                int[] itemsToPlacePrimary = new int[] { mod.ItemType("CleftHorn"), mod.ItemType("CactusStaff") };
+                int itemsToPlaceInGlassChestsSecondaryChoice = 0;
+                for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
+                {
+                    Chest chest = Main.chest[chestIndex];
+                    if (chest != null && Main.tile[chest.x, chest.y].type == mod.TileType("GoldScarabChest"))
+                    {
+                        chest.item[0].SetDefaults(itemsToPlacePrimary[Main.rand.Next(2)], false);
+                        chest.item[1].SetDefaults(commonItems1[Main.rand.Next(4)], false);
+                        chest.item[1].stack = WorldGen.genRand.Next(3, 10);
+                        chest.item[2].SetDefaults(ammo1[Main.rand.Next(2)], false);
+                        chest.item[2].stack = WorldGen.genRand.Next(20, 50);
+                        chest.item[3].SetDefaults(potions[Main.rand.Next(6)], false);
+                        chest.item[3].stack = WorldGen.genRand.Next(2, 3);
+                        chest.item[4].SetDefaults(recall[Main.rand.Next(1)], false);
+                        chest.item[4].stack = WorldGen.genRand.Next(2, 3);
+                        chest.item[5].SetDefaults(other1[Main.rand.Next(2)], false);
+                        chest.item[5].stack = WorldGen.genRand.Next(1, 4);
+                        chest.item[6].SetDefaults(other2[Main.rand.Next(2)], false);
+                        chest.item[6].stack = WorldGen.genRand.Next(1, 4);
+                        chest.item[7].SetDefaults(moddedMaterials[Main.rand.Next(2)], false);
+                        chest.item[7].stack = WorldGen.genRand.Next(2, 6);
+                        chest.item[8].SetDefaults(72, false);
+                        chest.item[8].stack = WorldGen.genRand.Next(12, 30);
+                        break;
+                    }
+                }
+            }
+            for (int i = 1; i < Main.rand.Next(4, 6); i++)
+            {
+                int[] itemsToPlacePrimary = new int[] { mod.ItemType("Glyph"), ItemID.MagicMirror, ItemID.WandofSparking };
+                int itemsToPlaceInGlassChestsSecondaryChoice = 0;
+                for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
+                {
+                    Chest chest = Main.chest[chestIndex];
+                    if (chest != null && Main.tile[chest.x, chest.y].type == mod.TileType("GoblinChest"))
+                    {
+                        chest.item[0].SetDefaults(itemsToPlacePrimary[Main.rand.Next(2)], false);
+                        chest.item[0].stack = WorldGen.genRand.Next(1, 1);
+                        chest.item[1].SetDefaults(commonItems1[Main.rand.Next(4)], false);
+                        chest.item[1].stack = WorldGen.genRand.Next(3, 10);
+                        chest.item[2].SetDefaults(ammo1[Main.rand.Next(2)], false);
+                        chest.item[2].stack = WorldGen.genRand.Next(20, 50);
+                        chest.item[3].SetDefaults(potions[Main.rand.Next(6)], false);
+                        chest.item[3].stack = WorldGen.genRand.Next(2, 3);
+                        chest.item[4].SetDefaults(recall[Main.rand.Next(1)], false);
+                        chest.item[4].stack = WorldGen.genRand.Next(2, 3);
+                        chest.item[5].SetDefaults(other1[Main.rand.Next(2)], false);
+                        chest.item[5].stack = WorldGen.genRand.Next(1, 4);
+                        chest.item[6].SetDefaults(other2[Main.rand.Next(2)], false);
+                        chest.item[6].stack = WorldGen.genRand.Next(1, 4);
+                        chest.item[7].SetDefaults(moddedMaterials[Main.rand.Next(2)], false);
+                        chest.item[7].stack = WorldGen.genRand.Next(2,6);
+                        chest.item[8].SetDefaults(72, false);
+                        chest.item[8].stack = WorldGen.genRand.Next(12, 30);
+                        break;
+                    }
+                }
+            }
+            {
 				for (int i = 1; i < Main.rand.Next(4, 6); i++)
 				{
-					int[] itemsToPlaceInGlassChestsSecondary = new int[] { mod.ItemType("BismiteCrystal"), mod.ItemType("AncientBark"), ItemID.SilverCoin, ItemID.Bottle, ItemID.Rope, 290, 291, 292, 293, 294, 295, 296, 297 };
 					int itemsToPlaceInGlassChestsSecondaryChoice = 0;
 					for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
 					{
@@ -3284,16 +4101,24 @@ namespace SpiritMod
 						{
 							for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
 							{
-								chest.item[1].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(13)]);
-								chest.item[1].stack = WorldGen.genRand.Next(1, 3);
-								chest.item[2].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(13)]);
-								chest.item[2].stack = WorldGen.genRand.Next(1, 3);
-								chest.item[3].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(13)]);
-								chest.item[3].stack = WorldGen.genRand.Next(1, 3);
-								chest.item[4].SetDefaults(itemsToPlaceInGlassChestsSecondary[Main.rand.Next(13)]);
-								chest.item[4].stack = WorldGen.genRand.Next(1, 2);			
-									
-							}		
+                                chest.item[1].SetDefaults(commonItems1[Main.rand.Next(4)], false);
+                                chest.item[1].stack = WorldGen.genRand.Next(3, 10);
+                                chest.item[2].SetDefaults(ammo1[Main.rand.Next(2)], false);
+                                chest.item[2].stack = WorldGen.genRand.Next(20, 50);
+                                chest.item[3].SetDefaults(potions[Main.rand.Next(6)], false);
+                                chest.item[3].stack = WorldGen.genRand.Next(2, 3);
+                                chest.item[4].SetDefaults(recall[Main.rand.Next(1)], false);
+                                chest.item[4].stack = WorldGen.genRand.Next(2, 3);
+                                chest.item[5].SetDefaults(other1[Main.rand.Next(2)], false);
+                                chest.item[5].stack = WorldGen.genRand.Next(1, 4);
+                                chest.item[6].SetDefaults(other2[Main.rand.Next(2)], false);
+                                chest.item[6].stack = WorldGen.genRand.Next(1, 4);
+                                chest.item[7].SetDefaults(moddedMaterials[Main.rand.Next(2)], false);
+                                chest.item[7].stack = WorldGen.genRand.Next(2, 6);
+                                chest.item[8].SetDefaults(72, false);
+                                chest.item[8].stack = WorldGen.genRand.Next(12, 30);
+
+                            }		
 						}
 					}
 				}

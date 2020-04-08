@@ -21,17 +21,17 @@ namespace SpiritMod.Projectiles.Boss
 		public override void SetDefaults()
 		{
 			projectile.width = 40;
-			projectile.height = 40;
+			projectile.height = 30;
 			projectile.friendly = false;
 			projectile.hostile = true;
 			projectile.penetrate = 10;
 			projectile.timeLeft = 240;
-			projectile.tileCollide = false;
-			projectile.aiStyle = -1;
+			projectile.tileCollide = true;
 		}
 		public override void AI()
 		{
-			projectile.frameCounter++;
+            projectile.velocity.Y += 0.4F;
+            projectile.frameCounter++;
 			if (projectile.frameCounter >= 8)
 			{
 				projectile.frameCounter = 0;
@@ -47,7 +47,14 @@ namespace SpiritMod.Projectiles.Boss
 			Dust newDust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 0, 0f, 0f, 0, default(Color), 1f)];
 			newDust.noGravity = true;
 		}
-		public override void Kill(int timeLeft)
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            if (oldVelocity.X != projectile.velocity.X)
+                projectile.velocity.X = -oldVelocity.X;
+
+            return false;
+        }
+        public override void Kill(int timeLeft)
 		{
 			for (int num621 = 0; num621 < 40; num621++)
 			{

@@ -34,7 +34,7 @@ namespace SpiritMod.NPCs
 			{
 				return 0f;
 			}
-			return SpawnCondition.Underground.Chance * 0.069f;
+			return SpawnCondition.Underground.Chance * 0.075f;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
@@ -45,10 +45,20 @@ namespace SpiritMod.NPCs
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Dbat2"), 1f);
 			}
 		}
-
-		public override void NPCLoot()
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            if (Main.rand.Next(3) == 0)
+            {
+                target.AddBuff(mod.BuffType("FesteringWounds"), 180);
+            }
+            if (Main.rand.Next(10) == 0 && Main.expertMode)
+            {
+                target.AddBuff(148, 2000);
+            }
+        }
+        public override void NPCLoot()
 		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BismiteCrystal"), Main.rand.Next(2) + 1);
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BismiteCrystal"), Main.rand.Next(2, 4) + 1);
 		}
 
 	}

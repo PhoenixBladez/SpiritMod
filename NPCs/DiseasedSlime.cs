@@ -39,19 +39,20 @@ namespace SpiritMod.NPCs
 			{
 				return 0f;
 			}
-			return SpawnCondition.Underground.Chance * 0.0513f;
+			return SpawnCondition.Underground.Chance * 0.0613f;
 		}
 
-		public override void NPCLoot()
-		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BismiteCrystal"), Main.rand.Next(2) + 1);
-		}
-		public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void NPCLoot()
+        {
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BismiteCrystal"), Main.rand.Next(2, 4) + 1);
+        }
+
+        public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
             if (Main.rand.Next(3) == 0)
 			{
-				target.AddBuff(BuffID.Poisoned, 300);
-			}
+                target.AddBuff(mod.BuffType("FesteringWounds"), 240);
+            }
 		}
         public override void HitEffect(int hitDirection, double damage)
         {

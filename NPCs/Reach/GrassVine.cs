@@ -216,10 +216,12 @@ namespace SpiritMod.NPCs.Reach
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LeafHead"), 1f);
 			}
 		}
-
-		public override void OnHitPlayer(Player target, int damage, bool crit)
-		{
-			target.AddBuff(BuffID.Poisoned, 600);
-		}
-	}
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            if (Main.rand.Next(10) == 0 && Main.expertMode)
+            {
+                target.AddBuff(148, 2000);
+            }
+        }
+    }
 }

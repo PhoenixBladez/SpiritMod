@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bismite Sword");
-			Tooltip.SetDefault("On use, shoots a Bismite Wrath Shard \n Occasionally poisons foes");
+			Tooltip.SetDefault("On use, shoots a Bismite Wrath Shard \nOccasionally causes foes to receive 'Festering Wounds,' which deal more damage to enemies under half health");
 		}
 
 

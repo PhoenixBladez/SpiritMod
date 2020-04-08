@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.StoneBlock, 40);
-            recipe.AddTile(TileID.Anvils);   //at work bench
+            recipe.AddTile(TileID.WorkBenches);   
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

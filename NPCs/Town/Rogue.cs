@@ -218,13 +218,13 @@ namespace SpiritMod.NPCs.Town
 
 		public override void TownNPCAttackProj(ref int projType, ref int attackDelay)
 		{
-			projType = mod.ProjectileType("IronShurikenProjectile");
+			projType = mod.ProjectileType("Kunai_Throwing");
 			attackDelay = 1;
 		}
 
 		public override void TownNPCAttackProjSpeed(ref float multiplier, ref float gravityCorrection, ref float randomOffset)
 		{
-			multiplier = 20f;
+			multiplier = 13f;
 			randomOffset = 2f;
 		}
 	}

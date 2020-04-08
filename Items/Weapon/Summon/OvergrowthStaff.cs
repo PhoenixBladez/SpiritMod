@@ -29,6 +29,7 @@ public class OvergrowthStaff : ModItem
         item.damage = 6;
         item.summon = true;
         item.mana = 10;
+        item.UseSound = SoundID.Item44;
         item.width = 36;
         item.height = 38;
         item.useTime = 36;
@@ -39,7 +40,7 @@ public class OvergrowthStaff : ModItem
         item.buffType = mod.BuffType("Overgrowth");
         item.buffTime = 3600;
         item.value = 10000;
-        item.rare = 2;
+        item.rare = 1;
         item.autoReuse = true;
         item.shoot = mod.ProjectileType("Overgrowth");
         item.shootSpeed = 10f;

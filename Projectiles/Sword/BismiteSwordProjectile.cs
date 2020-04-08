@@ -53,7 +53,7 @@ namespace SpiritMod.Projectiles.Sword
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(5) == 0)
-				target.AddBuff(BuffID.Poisoned, 180);
+				target.AddBuff(mod.BuffType("FesteringWounds"), 180);
 		}
 
 	}

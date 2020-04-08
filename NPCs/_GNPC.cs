@@ -836,12 +836,11 @@ namespace SpiritMod.NPCs
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, Glyph._type);
 			}
 			#endregion
-
+            /* 
 			if (Main.rand.Next(40) == 1 && !npc.SpawnedFromStatue)
 			{
 				npc.DropItem(mod.ItemType("PrimordialMagic"));
 			}
-			/* 
 			if (npc.type == mod.NPCType("Reachman") || npc.type == mod.NPCType("ReachObserver") || npc.type == mod.NPCType("GrassVine") || npc.type == mod.NPCType("ReachShaman"))
 			{
 				if (Main.rand.Next(Main.expertMode ? 140 : 190) < 2)
