@@ -44,8 +44,8 @@ namespace SpiritMod.Items.Weapon.Magic
 			for (int i = 0; i < 36; i++)
 			{
 				double offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
-				Projectile.NewProjectile(position.X, position.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), item.shoot, damage, knockBack, player.whoAmI);
-				Projectile.NewProjectile(position.X, position.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), item.shoot, damage, knockBack, player.whoAmI);
+				Projectile.NewProjectile(position.X, position.Y, (float)(Math.Sin(offsetAngle) * 15f), (float)(Math.Cos(offsetAngle) * 15f), item.shoot, damage, knockBack, player.whoAmI);
+				Projectile.NewProjectile(position.X, position.Y, (float)(-Math.Sin(offsetAngle) * 15f), (float)(-Math.Cos(offsetAngle) * 15f), item.shoot, damage, knockBack, player.whoAmI);
 			}
 			return false;
 		}

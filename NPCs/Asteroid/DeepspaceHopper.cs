@@ -14,7 +14,7 @@ namespace SpiritMod.NPCs.Asteroid
 		Vector2 direction9 = Vector2.Zero;
 		private bool shooting;
 		private int timer = 300;
-		private int distance = 150;
+		private int distance = 300;
 		private bool inblock = true;
 		Vector2 target = Vector2.Zero;
 

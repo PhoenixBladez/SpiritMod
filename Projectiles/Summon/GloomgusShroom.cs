@@ -77,7 +77,7 @@ namespace SpiritMod.Projectiles.Summon
 						}
 					}
 
-					if (num416 > 2)
+					if (num416 > 15)
 					{
 						Main.projectile[num417].netUpdate = true;
 						Main.projectile[num417].ai[1] = 36000f;

@@ -24,7 +24,7 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.friendly = true;
 			projectile.penetrate = -1;
 			projectile.alpha = 255;
-			projectile.timeLeft = 30;
+			projectile.timeLeft = 12;
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

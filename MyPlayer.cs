@@ -1671,7 +1671,8 @@ namespace SpiritMod
                     Vector2 newPos = vector2;
                     Main.player[Main.myPlayer].Teleport(newPos, 2, 0);
                     Main.player[Main.myPlayer].velocity = Vector2.Zero;
-
+					Main.PlaySound((int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y, 27);
+					Main.PlaySound(2, (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y, 8);
                     if (Main.netMode == 2)
                     {
                         RemoteClient.CheckSection(Main.myPlayer, Main.player[Main.myPlayer].position, 1);
