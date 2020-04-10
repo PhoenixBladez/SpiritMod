@@ -21,18 +21,16 @@ namespace SpiritMod.NPCs.Asteroid
 		{
 			npc.width = 34;
 			npc.height = 48;
-			npc.damage = 20;
+			npc.damage = 15;
 			npc.defense = 5;
-			npc.lifeMax = 540;
+			npc.lifeMax = 100;
 			npc.HitSound = SoundID.NPCHit3;
 			npc.DeathSound = SoundID.NPCDeath6;
 			npc.value = 60f;
 			npc.knockBackResist = .60f;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
-			npc.aiStyle = 22;
-			aiType = NPCID.Wraith;
-			aiType = NPCID.Wraith;
+			npc.aiStyle = 10;
 			npc.stepSpeed = .5f;
 		}
 
@@ -46,7 +44,22 @@ namespace SpiritMod.NPCs.Asteroid
 			}
 			return 0f;
 		}
-		
+		public override void AI()
+		{
+			if (!hasSpawnedBoys)
+			{	
+				int latestNPC = npc.whoAmI;
+				for (int I = 0; I < 3; I++)
+				{
+					//cos = y, sin = x
+					latestNPC = NPC.NewNPC((int)npc.Center.X + (int)(Math.Sin(I * 120) * 80), (int)npc.Center.Y + (int)(Math.Sin(I * 120) * 80), mod.NPCType("SpaceShield"), npc.whoAmI, 0, latestNPC);
+					NPC shield = Main.npc[latestNPC];
+					shield.ai[3] = npc.whoAmI;
+					shield.ai[1] = I * 120;
+				}
+				hasSpawnedBoys = true;
+			}
+		}
 
 	}
 }
