@@ -258,7 +258,7 @@ namespace SpiritMod
 		public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
 		{
 			
-			int GuideIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Marble"));
+			int GuideIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Dungeon"));
 			if (GuideIndex == -1)
 			{
 				// Guide pass removed by some other mod.
@@ -283,7 +283,14 @@ namespace SpiritMod
 						success = true;
 						continue;
 					}
-					x = WorldGen.genRand.Next(Main.maxTilesX/6, Main.maxTilesX / 3);
+					if (Main.dungeonX > Main.maxTilesX / 2)
+					{
+						x = WorldGen.genRand.Next(Main.maxTilesX/6, Main.maxTilesX / 3);
+					}
+					else
+					{
+						x = Main.maxTilesX - WorldGen.genRand.Next(Main.maxTilesX/6, Main.maxTilesX / 3);
+					}
 					y = (int)WorldGen.worldSurfaceLow;
 					while (!Main.tile[x, y].active() && (double)y < Main.worldSurface)
 					{
