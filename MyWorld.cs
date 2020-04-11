@@ -3768,10 +3768,10 @@ namespace SpiritMod
                             int num3 = WorldGen.genRand.Next(0, Main.maxTilesX);
                             int num4 = WorldGen.genRand.Next((int)Main.worldSurface, Main.maxTilesY);
                             Tile tile = Main.tile[num3, num4];
-                            if (tile.type == TileID.Stone || tile.type == TileID.Dirt)
+                            if (tile.type == TileID.Stone  && tile.active())
                             {
-                                WorldGen.PlaceObject(num3, num4, mod.TileType("CopperPile"));
-                                NetMessage.SendObjectPlacment(-1, num3, num4, mod.TileType("CopperPile"), 0, 0, -1, -1);
+                                WorldGen.PlaceObject(num3, num4 - 1, mod.TileType("CopperPile"));
+                                NetMessage.SendObjectPlacment(-1, num3, num4 - 1, mod.TileType("CopperPile"), 0, 0, -1, -1);
                             }
                         }
                     }
@@ -3782,10 +3782,10 @@ namespace SpiritMod
                             int num3 = WorldGen.genRand.Next(0, Main.maxTilesX);
                             int num4 = WorldGen.genRand.Next((int)Main.worldSurface, Main.maxTilesY);
                             Tile tile = Main.tile[num3, num4];
-                            if (tile.type == TileID.Stone || tile.type == TileID.Dirt)
+                            if (tile.type == TileID.Stone && tile.active())
                             {
-                                WorldGen.PlaceObject(num3, num4, mod.TileType("TinPile"));
-                                NetMessage.SendObjectPlacment(-1, num3, num4, mod.TileType("TinPile"), 0, 0, -1, -1);
+                                WorldGen.PlaceObject(num3, num4 - 1, mod.TileType("TinPile"));
+                                NetMessage.SendObjectPlacment(-1, num3, num4 - 1, mod.TileType("TinPile"), 0, 0, -1, -1);
                             }
                         }
                     }
@@ -3796,7 +3796,7 @@ namespace SpiritMod
                             int num3 = WorldGen.genRand.Next(0, Main.maxTilesX);
                             int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
                             Tile tile = Main.tile[num3, num4];
-                            if (tile.type == TileID.Stone || tile.type == TileID.Dirt)
+                            if (tile.type == TileID.Stone && tile.active())
                             {
                                 WorldGen.PlaceObject(num3, num4 - 1, mod.TileType("IronPile"));
                                 NetMessage.SendObjectPlacment(-1, num3, num4 - 1, mod.TileType("IronPile"), 0, 0, -1, -1);
@@ -3810,7 +3810,7 @@ namespace SpiritMod
                             int num3 = WorldGen.genRand.Next(0, Main.maxTilesX);
                             int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
                             Tile tile = Main.tile[num3, num4];
-                            if (tile.type == TileID.Stone || tile.type == TileID.Dirt)
+                            if (tile.type == TileID.Stone && tile.active())
                             {
                                 WorldGen.PlaceObject(num3, num4 - 1, mod.TileType("LeadPile"));
                                 NetMessage.SendObjectPlacment(-1, num3, num4 - 1, mod.TileType("LeadPile"), 0, 0, -1, -1);
@@ -3824,7 +3824,7 @@ namespace SpiritMod
                             int num3 = WorldGen.genRand.Next(0, Main.maxTilesX);
                             int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
                             Tile tile = Main.tile[num3, num4];
-                            if (tile.type == TileID.Stone || tile.type == TileID.Dirt)
+                            if (tile.type == TileID.Stone && tile.active())
                             {
                                 WorldGen.PlaceObject(num3, num4 - 1, mod.TileType("SilverPile"));
                                 NetMessage.SendObjectPlacment(-1, num3, num4 - 1, mod.TileType("SilverPile"), 0, 0, -1, -1);
@@ -3838,7 +3838,7 @@ namespace SpiritMod
                             int num3 = WorldGen.genRand.Next(0, Main.maxTilesX);
                             int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
                             Tile tile = Main.tile[num3, num4];
-                            if (tile.type == TileID.Stone || tile.type == TileID.Dirt)
+                            if (tile.type == TileID.Stone && tile.active())
                             {
                                 WorldGen.PlaceObject(num3, num4 - 1, mod.TileType("TungstenPile"));
                                 NetMessage.SendObjectPlacment(-1, num3, num4 - 1, mod.TileType("TungstenPile"), 0, 0, -1, -1);
@@ -3852,7 +3852,7 @@ namespace SpiritMod
                             int num3 = WorldGen.genRand.Next(0, Main.maxTilesX);
                             int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
                             Tile tile = Main.tile[num3, num4];
-                            if (tile.type == TileID.Stone || tile.type == TileID.Dirt)
+                            if (tile.type == TileID.Stone && tile.active())
                             {
                                 WorldGen.PlaceObject(num3, num4 - 1, mod.TileType("GoldPile"));
                                 NetMessage.SendObjectPlacment(-1, num3, num4 - 1, mod.TileType("GoldPile"), 0, 0, -1, -1);
@@ -3866,7 +3866,7 @@ namespace SpiritMod
                             int num3 = WorldGen.genRand.Next(0, Main.maxTilesX);
                             int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
                             Tile tile = Main.tile[num3, num4];
-                            if (tile.type == TileID.Stone || tile.type == TileID.Dirt)
+                            if (tile.type == TileID.Stone && tile.active())
                             {
                                 WorldGen.PlaceObject(num3, num4 - 1, mod.TileType("PlatinumPile"));
                                 NetMessage.SendObjectPlacment(-1, num3, num4 - 1, mod.TileType("PlatinumPile"), 0, 0, -1, -1);
