@@ -22,7 +22,6 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.noUseGraphic = true;
             item.UseSound = SoundID.Item1;
             item.thrown = true;
-            item.channel = true;
             item.noMelee = true;
             item.consumable = true;
             item.maxStack = 999;
@@ -33,8 +32,8 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.damage = 19;
             item.knockBack = 3.5f;
 			item.value = Item.buyPrice(0, 0, 1, 0);
-            item.crit = 2;
-            item.rare = 3;
+            item.crit = 4;
+            item.rare = 2;
             item.autoReuse = false;
             item.consumable = true;
         }

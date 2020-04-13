@@ -44,6 +44,10 @@ namespace SpiritMod.Tiles
             MyPlayer modPlayer = player.GetSpiritPlayer();
             if (type == TileID.PalmTree && Main.rand.Next(3) == 0 && player.ZoneBeach)
             {
+                if (Main.rand.Next(3) == 1)
+                {
+                    Item.NewItem(i * 16, j * 16, 64, 48, mod.ItemType("Coconut"), Main.rand.Next(0, 2));
+                }
                 if (NPC.CountNPCS(mod.NPCType("OceanSlime")) < 1)
                 {
                     NPC.NewNPC(i * 16, (j - 10) * 16, mod.NPCType("OceanSlime"), 0, 0.0f, 0.0f, 0.0f, 0.0f, (int)byte.MaxValue);

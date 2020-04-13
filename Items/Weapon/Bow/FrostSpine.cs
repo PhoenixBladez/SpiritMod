@@ -44,8 +44,11 @@ namespace SpiritMod.Items.Weapon.Bow
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			if (Main.rand.Next(8) == 1)
-			Projectile.NewProjectile(position.X, position.Y, speedX * 1.2f, speedY * 1.2f, mod.ProjectileType("FrostSpine"), damage, knockBack, player.whoAmI, 0f, 0f);
+            if (Main.rand.Next(6) == 1)
+            {
+                Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 8));
+                Projectile.NewProjectile(position.X, position.Y, speedX * 1.2f, speedY * 1.2f, mod.ProjectileType("FrostSpine"), damage, knockBack, player.whoAmI, 0f, 0f);
+            }
             return true; 
         }
         public override void AddRecipes()

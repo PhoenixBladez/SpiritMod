@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Weapon.Thrown
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "Chitin", 2);
-            recipe.SetResult(this, 50);
+            recipe.SetResult(this, 35);
             recipe.AddRecipe();
         }
     }

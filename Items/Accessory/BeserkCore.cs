@@ -52,7 +52,6 @@ namespace SpiritMod.Items.Accessory
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "BeserkerShard", 1);
             recipe.AddIngredient(null, "WheezerScale", 1);
             recipe.AddIngredient(null, "FieryTrident", 1);
             recipe.AddIngredient(null, "Atmos", 1);

@@ -47,9 +47,15 @@ namespace SpiritMod.Tiles.Ambient
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-				Item.NewItem(i * 16, j * 16, 48, 48, mod.ItemType("ScarabIdol"));
-			
-		}
+			Item.NewItem(i * 16, j * 16, 48, 48, mod.ItemType("ScarabIdolQuest"));
+            Main.PlaySound(29, (int)i * 16, (int)j * 16, 44);
+            Main.NewText("Scarabs are pouring out from the walls!", 204, 153, 0);
+            NPC.NewNPC((int)i * 16 + Main.rand.Next(-40, -30), (int)j * 16 + 5, mod.NPCType("Scarab"), 0, 2, 1, 0, 0, Main.myPlayer);
+            NPC.NewNPC((int)i * 16 + Main.rand.Next(-30, -10), (int)j * 16 + 3, mod.NPCType("Scarab"), 0, 2, 1, 0, 0, Main.myPlayer);
+            NPC.NewNPC((int)i * 16 + Main.rand.Next(0, 20), (int)j * 16, mod.NPCType("Scarab"), 0, 2, 1, 0, 0, Main.myPlayer);
+            NPC.NewNPC((int)i * 16 + Main.rand.Next(30, 40), (int)j * 16 + 3, mod.NPCType("Scarab"), 0, 2, 1, 0, 0, Main.myPlayer);
+            NPC.NewNPC((int)i * 16 + Main.rand.Next(50, 60), (int)j * 16 + 5, mod.NPCType("Scarab"), 0, 2, 1, 0, 0, Main.myPlayer);
+        }
 		public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
 		{
 			Tile t = Main.tile[i, j];

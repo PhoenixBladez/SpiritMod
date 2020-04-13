@@ -29,11 +29,11 @@ namespace SpiritMod.Items.Weapon.Swung
             item.knockBack = 4;
             item.value = Terraria.Item.sellPrice(0, 5, 0, 0);
             item.rare = 7;
-            item.shootSpeed = 12;
+            item.shootSpeed = 6;
             item.UseSound = SoundID.Item1;   
             item.autoReuse = true;
             item.useTurn = true;
-            item.shoot = mod.ProjectileType("PhoenixProjectile");
+            item.shoot = mod.ProjectileType("FlambergeProjectile");
         }
         
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

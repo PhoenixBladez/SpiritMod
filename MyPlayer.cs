@@ -315,6 +315,7 @@ namespace SpiritMod
             player.ManageSpecialBiomeVisuals("SpiritMod:AuroraSky", showAurora);
             player.ManageSpecialBiomeVisuals("SpiritMod:ReachSky", reach, player.Center);
             player.ManageSpecialBiomeVisuals("SpiritMod:BlueMoonSky", ZoneBlueMoon, player.Center);
+            player.ManageSpecialBiomeVisuals("SpiritMod:MeteorSky", ZoneAsteroid, player.Center);
             player.ManageSpecialBiomeVisuals("SpiritMod:WindEffect", windEffect, player.Center);
             player.ManageSpecialBiomeVisuals("SpiritMod:WindEffect2", windEffect2, player.Center);
             player.ManageSpecialBiomeVisuals("SpiritMod:Overseer", NPC.AnyNPCs(mod.NPCType("Overseer")));
@@ -327,7 +328,7 @@ namespace SpiritMod
             ZoneSpirit = MyWorld.SpiritTiles > 100;
             ZoneBlueMoon = MyWorld.BlueMoon;
             ZoneReach = MyWorld.ReachTiles > 350;
-            ZoneAsteroid = MyWorld.AsteroidTiles > 400;
+            ZoneAsteroid = MyWorld.AsteroidTiles > 130;
         }
 
         public override bool CustomBiomesMatch(Player other)
@@ -2880,14 +2881,14 @@ namespace SpiritMod
                 bismiteShieldStacks = 0;
             }
 
-            if (player.controlUp && scarabCharm)
+            if (player.controlUp && scarabCharm && player.velocity.Y >= 0)
             {
                 player.AddBuff(BuffID.Featherfall, 30);
             }
 
             if (frigidSet)
             {
-                if (player.controlDown && player.releaseDown && !player.HasBuff(mod.BuffType("FrigidCooldown")))
+                if (SpiritMod.SpecialKey.JustPressed && !player.HasBuff(mod.BuffType("FrigidCooldown")))
                 {
                     Vector2 mouse = Main.MouseScreen + Main.screenPosition;
                     Projectile.NewProjectile(mouse, Vector2.Zero, mod.ProjectileType("FrigidWall"), 14, 8, player.whoAmI);

@@ -40,8 +40,7 @@ namespace SpiritMod.Items.Accessory
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "FieryPendant", 1);
-            recipe.AddIngredient(null, "CirrusCharm", 1);
-            recipe.AddIngredient(null, "FrigidFragment", 5);
+            recipe.AddIngredient(null, "IcyEssence", 10);
             recipe.AddIngredient(null, "InfernalAppendage", 5);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);

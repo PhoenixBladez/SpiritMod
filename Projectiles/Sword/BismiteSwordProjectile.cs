@@ -44,7 +44,8 @@ namespace SpiritMod.Projectiles.Sword
 
 		public override void Kill(int timeLeft)
 		{
-			for (int i = 0; i < 10; i++)
+            Main.PlaySound(new Terraria.Audio.LegacySoundStyle(0, 1));
+            for (int i = 0; i < 10; i++)
 			{
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 167);
 			}

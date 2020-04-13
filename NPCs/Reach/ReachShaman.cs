@@ -40,15 +40,6 @@ namespace SpiritMod.NPCs.Reach
 			return 0f;
 		}
 
-		public override void NPCLoot()
-		{
-			if (Main.rand.Next(25) == 2)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ShamanBand"));
-			}
-
-		}
-
 		public override void AI()
 		{
 			npc.spriteDirection = npc.direction;

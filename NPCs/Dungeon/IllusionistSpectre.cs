@@ -36,7 +36,7 @@ namespace SpiritMod.NPCs.Dungeon
 
 			npc.noGravity = true;
 			npc.netAlways = true;
-			npc.chaseable = true;
+			npc.chaseable = false;
             npc.noTileCollide = true;
 			npc.lavaImmune = true;
 		}
@@ -117,13 +117,13 @@ namespace SpiritMod.NPCs.Dungeon
 			int d1 = 180;
 		    for (int k = 0; k < 30; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
+				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .74f);
 			}
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 30; k++)
                 {
-                    int d = Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -4.5f, 0, default(Color), .34f);
+                    int d = Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -4.5f, 0, default(Color), .74f);
                     Main.dust[d].noGravity = true;
                 }
             }

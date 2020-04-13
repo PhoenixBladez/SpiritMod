@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Slag Breaker");
-			Tooltip.SetDefault("This hammer explodes after hitting 4 targets\nHold 'down' to keep swinging\nHitting enemies releases damaging sparks");
+			Tooltip.SetDefault("This hammer explodes after hitting 4 targets\nHold 'down' to keep swinging\nHitting enemies releases damaging sparks\nRight click to throw the Hammer like a boomerang");
 		}
 
 
@@ -38,9 +38,35 @@ namespace SpiritMod.Items.Weapon.Swung
         }
 		public override bool UseItemFrame(Player player)
         {
-            player.bodyFrame.Y = 3 * player.bodyFrame.Height;
+            if (player.altFunctionUse != 2)
+            {
+                player.bodyFrame.Y = 3 * player.bodyFrame.Height;
+            }
             return true;
 		
+        }
+        public override bool AltFunctionUse(Player player)
+        {
+            return true;
+        }
+
+
+        public override bool CanUseItem(Player player)
+        {
+            if (player.altFunctionUse == 2)
+            {
+                item.useStyle = 1;
+                item.useTime = 60;
+                item.useAnimation = 60;
+                item.shoot = mod.ProjectileType("SlagHammerProjReturning");
+            }
+            else
+            {
+                item.useTime = 46;
+                item.useAnimation = 46;
+                item.shoot = mod.ProjectileType("SlagHammerProj");
+            }
+            return base.CanUseItem(player);
         }
         public override void AddRecipes()
         {

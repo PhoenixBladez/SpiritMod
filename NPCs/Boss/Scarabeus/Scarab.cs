@@ -48,7 +48,11 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
 				}
 			}
-		}
+            if (npc.life <= 0)
+            {
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Scarabeus/LittleScarab4"), 1f);
+            }
+        }
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{

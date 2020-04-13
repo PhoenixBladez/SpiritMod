@@ -12,7 +12,9 @@ namespace SpiritMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Howling Bolt");
-		}
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+        }
 
 		public override void SetDefaults()
 		{
@@ -21,12 +23,12 @@ namespace SpiritMod.Projectiles
 			projectile.width = 32;
 			projectile.height = 40;
 			projectile.friendly = true;
-			projectile.penetrate= 2;
+			projectile.penetrate= 1;
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 50);
+			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
 			for (int num621 = 0; num621 < 40; num621++)
 			{
 				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 68, 0f, 0f, 100, default(Color), 2f);
@@ -34,7 +36,28 @@ namespace SpiritMod.Projectiles
 				Main.dust[num622].noGravity = true;
 				Main.dust[num622].scale = 0.5f;
 			}
-		}
+            if (Main.rand.Next(4) == 0)
+            {
+                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+                ProjectileExtras.Explode(projectile.whoAmI, 120, 120,
+                delegate
+                {
+                    for (int i = 0; i < 40; i++)
+                    {
+                        int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 68, 0f, -2f, 0, default(Color), 1.1f);
+                        Main.dust[num].noGravity = true;
+                        Dust expr_62_cp_0 = Main.dust[num];
+                        expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-30, 31) / 20) - 1.5f);
+                        Dust expr_92_cp_0 = Main.dust[num];
+                        expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-30, 31) / 20) - 1.5f);
+                        if (Main.dust[num].position != projectile.Center)
+                        {
+                            Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
+                        }
+                    }
+                });
+            }
+        }
 
 		public override void AI()
 		{
@@ -65,16 +88,16 @@ namespace SpiritMod.Projectiles
 				target.AddBuff(BuffID.Frostburn, 180);
 		}
 
-		//public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		//{
-		//    Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-		//    for (int k = 0; k < projectile.oldPos.Length; k++)
-		//    {
-		//        Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-		//        Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-		//        spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
-		//    }
-		//    return true;
-		//}
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+		    Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
+		    for (int k = 0; k < projectile.oldPos.Length; k++)
+		    {
+		        Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
+		        Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
+		        spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+		    }
+		    return true;
+		}
 	}
 }

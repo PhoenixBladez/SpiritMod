@@ -48,7 +48,6 @@ namespace SpiritMod.Items.Accessory
             recipe.AddIngredient(null, "ManaFlame", 1);
             recipe.AddIngredient(null, "WintryCharmMage", 1);
             recipe.AddIngredient(ItemID.ManaRegenerationBand, 1);
-            recipe.AddIngredient(null, "Cogflower", 1);
             recipe.AddIngredient(null, "FallenAngel", 1);
             recipe.AddIngredient(null, "Eyezor", 1);
             recipe.AddIngredient(ItemID.Ectoplasm, 5);

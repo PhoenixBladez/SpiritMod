@@ -23,7 +23,7 @@ public class BismiteSpear : ModItem
             item.noMelee = true;
             item.useAnimation = 32;
             item.useTime = 32;
-            item.shootSpeed = 4f;
+            item.shootSpeed = 3.8f;
             item.knockBack = 4f;
             item.damage = 11;
             item.value = Item.sellPrice(0, 0, 10, 0);

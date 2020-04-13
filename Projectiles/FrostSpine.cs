@@ -46,6 +46,9 @@ namespace SpiritMod.Projectiles
 		{
 			target.AddBuff(BuffID.Frostburn, 240);
 		}
-
+        public override void Kill(int timeLeft)
+        {
+            Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
+        }
 	}
 }

@@ -25,8 +25,8 @@ namespace SpiritMod.NPCs.Reach
 			npc.lifeMax = 400;
 			npc.HitSound = SoundID.NPCHit7;
 			npc.DeathSound = SoundID.NPCDeath6;
-			npc.value = 641f;
-			npc.knockBackResist = .12f;
+			npc.value = 541f;
+			npc.knockBackResist = 0f;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.aiStyle = 22;
@@ -151,7 +151,7 @@ namespace SpiritMod.NPCs.Reach
             if (!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.spawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.spawnTileY > Main.worldSurface || !Main.dayTime) && (SpawnCondition.GoblinArmy.Chance == 0))
             {
                 if(!NPC.AnyNPCs(mod.NPCType("ForestWraith")))
-                return spawnInfo.player.GetSpiritPlayer().ZoneReach && NPC.downedBoss1 && !Main.dayTime ? .06f : 0f;
+                return spawnInfo.player.GetSpiritPlayer().ZoneReach && NPC.downedBoss1 && !Main.dayTime ? .05f : 0f;
             }
             return 0f;
         }

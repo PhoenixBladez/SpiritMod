@@ -73,9 +73,12 @@ namespace SpiritMod.Tiles.Furniture
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 32, 32, 2230);
+			Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("SepulchreChest"));
 			Chest.DestroyChest(i, j);
-		}
+            Main.PlaySound(4, (int)i * 16, (int)j * 16, 6);
+            Main.LocalPlayer.AddBuff(BuffID.Cursed, 1860);
+            Main.LocalPlayer.AddBuff(BuffID.Obstructed, 420);
+        }
 
 		public override void RightClick(int i, int j)
 		{

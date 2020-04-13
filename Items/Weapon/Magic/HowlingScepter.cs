@@ -14,7 +14,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Frigid Scepter");
-			Tooltip.SetDefault("Shoots out a chilling bolt");
+			Tooltip.SetDefault("Shoots out a chilling bolt\nThis bolt may explode and damage multiple enemies in a large radius");
 		}
 
 

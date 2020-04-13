@@ -25,7 +25,7 @@ namespace SpiritMod.NPCs.Reach
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
 			npc.value = 30f;
-            npc.alpha = 40;
+            npc.alpha = 60;
             npc.knockBackResist = .25f;
             npc.aiStyle = 1;
             aiType = NPCID.BlueSlime;

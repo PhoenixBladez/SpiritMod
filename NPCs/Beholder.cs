@@ -266,7 +266,7 @@ namespace SpiritMod.NPCs
             manaSteal = true;
 		}
 
-		public override void NPCLoot()
+        public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MarbleChunk"), Main.rand.Next(4, 7) + 1);
             if (Main.rand.Next(3) == 0)

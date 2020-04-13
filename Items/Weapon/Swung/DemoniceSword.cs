@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Vorpal Sword");
-            Tooltip.SetDefault("Shoots out an icy wave that clings to tiles upon hitting them\n~Donator Item~");
+            Tooltip.SetDefault("Shoots out an icy razor that clings to tiles upon hitting them\n~Donator Item~");
 
         }
 
@@ -48,7 +48,8 @@ namespace SpiritMod.Items.Weapon.Swung
             {
                 if (Main.rand.Next(5) == 0)
                 {
-                    int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 172);
+                    int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 206);
+                    Main.dust[dust].noGravity = true;
                 }
             }
         }

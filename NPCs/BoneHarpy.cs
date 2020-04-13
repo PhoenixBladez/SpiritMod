@@ -48,7 +48,7 @@ namespace SpiritMod.NPCs
 				moveSpeed++;
 			}
 
-			npc.velocity.X = moveSpeed * 0.1f;
+			npc.velocity.X = moveSpeed * 0.08f;
 
 			if (npc.Center.Y >= player.Center.Y - HomeY && moveSpeedY >= -30) //Flies to players Y position
 			{
@@ -87,7 +87,7 @@ namespace SpiritMod.NPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.sky && NPC.downedQueenBee ? 0.21f : 0f;
+			return spawnInfo.sky && NPC.downedQueenBee ? 0.16f : 0f;
 		}
 
 		public override void NPCLoot()
@@ -96,7 +96,11 @@ namespace SpiritMod.NPCs
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("JewelCrown"));
 			}
-		}
+            if (Main.rand.Next(2) == 0)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Talon"));
+            }
+        }
 
 		public override void HitEffect(int hitDirection, double damage)
 		{

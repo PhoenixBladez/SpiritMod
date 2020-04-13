@@ -20,9 +20,9 @@ namespace SpiritMod.Projectiles.Summon
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.Spazmamini);
-			projectile.width = 30;
-			projectile.height = 30;
+			projectile.CloneDefaults(ProjectileID.Raven);
+			projectile.width = 24;
+			projectile.height = 24;
 			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;

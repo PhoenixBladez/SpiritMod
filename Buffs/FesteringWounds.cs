@@ -33,10 +33,13 @@ namespace SpiritMod.Buffs
                 {
                     npc.lifeRegen -= 3;
                 }
-
-				int d = Dust.NewDust(npc.position, npc.width, npc.height, 167);
-                Main.dust[d].velocity.X *= 0f; 
-			}
+                if (Main.rand.Next(3) == 0)
+                {
+                    int d = Dust.NewDust(npc.position, npc.width, npc.height, 167);
+                    Main.dust[d].velocity.X *= 0f;
+                    Main.dust[d].velocity.Y *= 0.5f;
+                }
+            }
 		}
 
 		public override void Update(Player player, ref int buffIndex)
@@ -53,9 +56,12 @@ namespace SpiritMod.Buffs
             {
                 player.lifeRegen -= 3;
             }
-
-            int d = Dust.NewDust(player.position, player.width, player.height, 167);
-            Main.dust[d].velocity.X *= 0f;
+            if (Main.rand.Next(3) == 0)
+            {
+                int d = Dust.NewDust(player.position, player.width, player.height, 167);
+                Main.dust[d].velocity.X *= 0f;
+                Main.dust[d].velocity.Y *= 0.5f;
+            }
         }
 	}
 }

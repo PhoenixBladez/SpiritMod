@@ -6,6 +6,7 @@
         ProjectileData,
         Dodge,
         Dash,
-        PlayerGlyph
+        PlayerGlyph,
+        AuroraData
     }
 }

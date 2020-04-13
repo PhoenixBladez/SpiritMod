@@ -18,43 +18,45 @@ using System.Linq;
 using Terraria.UI;
 using Terraria.GameContent.UI;
 using SpiritMod.NPCs.Boss.Overseer;
+using SpiritMod.NPCs.Town;
 using SpiritMod.NPCs.Boss.Atlas;
 using SpiritMod.Tide;
-using SpiritMod.Overlays;
+using SpiritMod.Skies.Overlays;
 using SpiritMod.Skies;
 using SpiritMod.Projectiles;
+using SpiritMod.Utilities;
 using Terraria.Graphics;
 using static Terraria.ModLoader.ModContent;
 
 namespace SpiritMod
 {
-   	enum PacketType
-    {
-        AuroraData,
-
-    }
 	class SpiritMod : Mod
 	{
+        public static SpiritMod Instance;
+        public static AdventurerQuestHandler AdventurerQuests;
         public static Effect auroraEffect;
         public static Texture2D noise;
-		public const string EMPTY_TEXTURE = "SpiritMod/Empty";
+        public static Texture2D RainTexture;
+        public const string EMPTY_TEXTURE = "SpiritMod/Empty";
 		public const string customEventName = "The Tide";
 		public static Texture2D EmptyTexture 
 		{
 			get;
 			private set;
 		}
-
-		public static int customEvent;
+        public static int customEvent;
 		public static ModHotKey SpecialKey;
 		public static ModHotKey ReachKey;
 		public static ModHotKey HolyKey;
 		public static int GlyphCurrencyID;
 
 		internal static SpiritMod instance;
+        public SpiritMod()
+        {
+            Instance = this;
+        }
 
-
-		public ModPacket GetPacket(MessageType type, int capacity)
+        public ModPacket GetPacket(MessageType type, int capacity)
 		{
 			ModPacket packet = base.GetPacket(capacity + 1);
 			packet.Write((byte)type);
@@ -63,18 +65,14 @@ namespace SpiritMod
 
 		public override void HandlePacket(BinaryReader reader, int whoAmI)
 		{
-           	PacketType packetType = (PacketType)reader.ReadByte();
-            switch(packetType)
-            {
-				case PacketType.AuroraData:
-				MyWorld.auroraType = reader.ReadInt32();
-				break;
-			}	
 			MessageType id = (MessageType)reader.ReadByte();
 			byte player;
 			switch (id)
 			{
-				case MessageType.ProjectileData:
+                case MessageType.AuroraData:
+                    MyWorld.auroraType = reader.ReadInt32();
+                    break;
+                case MessageType.ProjectileData:
 					gProj.ReceiveProjectileData(reader, whoAmI);
 					break;
 				case MessageType.Dodge:
@@ -315,7 +313,9 @@ namespace SpiritMod
 
 		public override void Load()
 		{
-			instance = this;
+            AdventurerQuests = new AdventurerQuestHandler(this);
+            HookManager.Init();
+            instance = this;
 			if (Main.rand == null)
 				Main.rand = new Terraria.Utilities.UnifiedRandom();
 			//Always keep this call in the first line of Load!
@@ -341,12 +341,14 @@ namespace SpiritMod
 			{
                 AddEquipTexture(null, EquipType.Legs, "TalonGarb_Legs", "SpiritMod/Items/Armor/TalonGarb_Legs");
                 EmptyTexture = GetTexture("Empty");
-
+                RainTexture = GetTexture("Textures/CustomRain");
                 auroraEffect = GetEffect("Effects/aurora");
                 noise = GetTexture("Textures/noise");
                 SkyManager.Instance["SpiritMod:AuroraSky"] = new AuroraSky();
                 Filters.Scene["SpiritMod:AuroraSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
                 Terraria.Graphics.Effects.Overlays.Scene["SpiritMod:AuroraSky"] = new AuroraOverlay();
+                SkyManager.Instance["SpiritMod:MeteorSky"] = new MeteorSky();
+                Filters.Scene["SpiritMod:MeteorSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
 
                 Filters.Scene["SpiritMod:Overseer"] = new Filter(new SeerScreenShaderData("FilterMiniTower").UseColor(0f, 0.3f, 1f).UseOpacity(0.75f), EffectPriority.VeryHigh);
 				SkyManager.Instance["SpiritMod:Overseer"] = new SeerSky();
@@ -355,7 +357,7 @@ namespace SpiritMod
 				Filters.Scene["SpiritMod:Atlas"] = new Filter(new AtlasScreenShaderData("FilterMiniTower").UseColor(0.5f, 0.5f, 0.5f).UseOpacity(0.6f), EffectPriority.VeryHigh);
 				SkyManager.Instance["SpiritMod:Atlas"] = new AtlasSky();
 			}
-		}
+        }
 
 		/// <summary>
 		/// Scans all classes deriving from any Mod type
@@ -463,10 +465,33 @@ namespace SpiritMod
         {
             auroraEffect = null;
             noise = null;
-			instance = null;
+            instance = null;
             SpiritGlowmask.Unload();
         }
-		public override void AddRecipeGroups()
+        internal static int GetRainDustType(int rainType, out Color color)
+        {
+            color = Color.White;
+            switch (rainType / 3)
+            {
+                default:
+                case 0: //normal rain
+                    return 154;
+                case 1: //blood moon rain
+                case 7: //blood rain
+                    return 218;
+                case 2: //healing rain
+                    return Instance.DustType("ReachWaterSplash");
+                case 3: //acid rain
+                    return Instance.DustType("AcidRainDust");
+                case 4: //crystal rain
+                    return Instance.DustType("CrystalRainDust");
+                case 5: //vile rain
+                    return 98;
+                case 6: //crimson rain
+                    return 218;
+            }
+        }
+        public override void AddRecipeGroups()
 		{
 			RecipeGroup group1 = new RecipeGroup(() => Lang.misc[37] + " Iron Bar" + Lang.GetItemNameValue(ItemType("Iron Bar")), new int[]
 			{

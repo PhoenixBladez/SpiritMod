@@ -31,6 +31,7 @@ namespace SpiritMod.Projectiles.Thrown
 		}
 		public override void AI()
 		{
+            projectile.rotation += .2f;
 			projectile.velocity.X *= .98f;
 			if (projectile.velocity.Y < 0)
 			{
@@ -38,9 +39,9 @@ namespace SpiritMod.Projectiles.Thrown
 			}
 			if (!cracky)
 			projectile.velocity.Y += 0.2f;
-			if (projectile.velocity.Y > 10.5f && !cracky)
+			if (projectile.velocity.Y > 8.5f && !cracky)
 			{
-				projectile.damage = (int)(projectile.damage * 2.5f);
+				projectile.damage = (int)(projectile.damage * 2.85f);
 				cracky = true;
 			}
 		}
@@ -60,6 +61,14 @@ namespace SpiritMod.Projectiles.Thrown
 				GoreVel.X = -2f;
 				Gore.NewGore(projectile.position, GoreVel, mod.GetGoreSlot("Gores/Coconut/CoconutGore2"), 1f);	
 			}
+            else
+            {
+                Vector2 GoreVel = projectile.velocity;
+                GoreVel.X = 2f;
+                GoreVel.Y *= -0.2f;
+                int g = Gore.NewGore(projectile.position, GoreVel, mod.GetGoreSlot("Gores/Coconut/CoconutGore"), 1f);
+                Main.gore[g].timeLeft = 40;
+            }
 		}
 		
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

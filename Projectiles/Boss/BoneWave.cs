@@ -31,13 +31,13 @@ namespace SpiritMod.Projectiles.Boss
 		{
 			Vector2 position = projectile.Center + Vector2.Normalize(projectile.velocity) * 10;
             projectile.velocity.X *= 1.005f;
-			Dust newDust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 173, 0f, 0f, 0, default(Color), 1f)];
+			Dust newDust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 172, 0f, 0f, 0, default(Color), 1f)];
 			newDust.position = position;
 			newDust.velocity = projectile.velocity.RotatedBy(Math.PI / 2, default(Vector2)) * 0.33F + projectile.velocity / 4;
 			newDust.position += projectile.velocity.RotatedBy(Math.PI / 2, default(Vector2));
 			newDust.fadeIn = 0.5f;
 			newDust.noGravity = true;
-			newDust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 173, 0f, 0f, 0, default(Color), 1)];
+			newDust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 172, 0f, 0f, 0, default(Color), 1)];
 			newDust.position = position;
 			newDust.velocity = projectile.velocity.RotatedBy(-Math.PI / 2, default(Vector2)) * 0.33F + projectile.velocity / 4;
 			newDust.position += projectile.velocity.RotatedBy(-Math.PI / 2, default(Vector2));

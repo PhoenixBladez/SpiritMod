@@ -143,9 +143,8 @@ namespace SpiritMod.NPCs.Boss
 
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
-				int damage = expertMode ? 16 : 19;
+				int damage = expertMode ? 15 : 19;
 				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X * 12f, direction.Y * 12f, mod.ProjectileType("BoneWave"), damage, 1, Main.myPlayer, 0, 0);
-				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(42, 4));
 			}
 			if(timer == 500 || timer == 700)
 			{

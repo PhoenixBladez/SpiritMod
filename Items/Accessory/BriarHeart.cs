@@ -47,9 +47,7 @@ namespace SpiritMod.Items.Accessory
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "BoneCharm", 1);
             recipe.AddIngredient(null, "HuntingNecklace", 1);
-            recipe.AddIngredient(null, "ShamanBand", 1);
             recipe.AddIngredient(null, "GremlinTooth", 1);
             recipe.AddIngredient(null, "Acid", 4);
             recipe.AddRecipeGroup("EvilNecklace", 1);
