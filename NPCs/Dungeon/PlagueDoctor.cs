@@ -12,6 +12,7 @@ namespace SpiritMod.NPCs.Dungeon
 {
 	public class PlagueDoctor : ModNPC
 	{
+		bool attack = false;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Dark Alchemist");
@@ -24,7 +25,7 @@ namespace SpiritMod.NPCs.Dungeon
 			npc.height = 48;
 			npc.damage = 29;
 			npc.defense = 16;
-			npc.lifeMax = 100;
+			npc.lifeMax = 140;
 			npc.HitSound = SoundID.NPCHit2;
 			npc.DeathSound = SoundID.NPCDeath2;
 			npc.value = 1000f;
@@ -75,6 +76,14 @@ namespace SpiritMod.NPCs.Dungeon
 			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
 			if (distance < 200)
 			{
+				attack = true;
+			}
+			if (distance > 250)
+			{
+				attack = false;
+			}
+			if (attack)
+			{
 				npc.velocity.X = .008f * npc.direction;				
 				//shootTimer++;
 				if (frame == 3 && timer == 0)
@@ -86,7 +95,7 @@ namespace SpiritMod.NPCs.Dungeon
                     direction.Y *= 7f;
                     float A = (float)Main.rand.Next(-50, 50) * 0.02f;
                     float B = (float)Main.rand.Next(-50, 50) * 0.02f;
-                    int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y - 10, direction.X + A, direction.Y + B, mod.ProjectileType("ToxicFlaskHostile"), npc.damage / 3 * 2, 1, Main.myPlayer, 0, 0);
+                    int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y - 10, direction.X + A, direction.Y + B, mod.ProjectileType("ToxicFlaskHostile"), 13, 1, Main.myPlayer, 0, 0);
                     for (int k = 0; k < 11; k++)
                     {
                         Dust.NewDust(npc.position, npc.width, npc.height, 75, (float)direction.X + A, (float)direction.Y + B, 0, default(Color), .61f);
@@ -105,6 +114,14 @@ namespace SpiritMod.NPCs.Dungeon
                 {
                     frame = 0;
                 }
+				if (target.position.X > npc.position.X)
+				{
+					npc.direction = 1;
+				}
+				else
+				{
+					npc.direction = -1;
+				}
 			}
 			else
 			{

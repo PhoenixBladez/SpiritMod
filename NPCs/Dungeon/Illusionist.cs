@@ -23,7 +23,7 @@ namespace SpiritMod.NPCs.Dungeon
 			npc.width = 40;
 			npc.height = 90;
 
-			npc.lifeMax = 120;
+			npc.lifeMax = 180;
 			npc.defense = 14;
 			npc.damage = 25;
 

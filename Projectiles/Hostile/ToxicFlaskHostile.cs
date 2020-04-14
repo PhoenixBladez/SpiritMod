@@ -26,7 +26,7 @@ namespace SpiritMod.Projectiles.Hostile
 			projectile.height = 14;
 
 			projectile.aiStyle = 2;
-
+			projectile.damage = 10;
 			projectile.friendly = false;
 			projectile.hostile = true;
 

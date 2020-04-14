@@ -19,13 +19,13 @@ namespace SpiritMod.Items.Weapon.Magic
         private Vector2 newVect;
         public override void SetDefaults()
         {
-            item.damage = 22;
+            item.damage = 20;
             item.magic = true;
             item.mana = 15;
             item.width = 46;
             item.height = 46;
-            item.useTime = 27;
-            item.useAnimation = 27;
+            item.useTime = 32;
+            item.useAnimation = 32;
             item.useStyle = 5;
             Item.staff[item.type] = true;
             item.noMelee = true;

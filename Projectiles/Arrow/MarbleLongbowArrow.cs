@@ -63,8 +63,8 @@ namespace SpiritMod.Projectiles.Arrow
                 float num4 = MathHelper.ToRadians((float)(270 / num2 * j + num3));
                 Vector2 vector = new Vector2(base.projectile.velocity.X, base.projectile.velocity.Y).RotatedBy((double)num4, default(Vector2));
                 vector.Normalize();
-                vector.X *= 6.5f;
-                vector.Y *= 6.5f;
+                vector.X *= 3.5f;
+                vector.Y *= 3.5f;
                 int p = Projectile.NewProjectile(base.projectile.Center.X, base.projectile.Center.Y, vector.X, vector.Y, num24, projectile.damage / 5 * 2, 0f, 0);
                 Main.projectile[p].hostile = false;
                 Main.projectile[p].friendly = true;

@@ -28,7 +28,7 @@ namespace SpiritMod.NPCs.Dungeon
 			npc.noGravity = true;
 			npc.lifeMax = 150;
 			npc.defense = 10;
-			npc.damage = 20;
+			npc.damage = 32;
 
 			npc.HitSound = SoundID.NPCHit2;
 			npc.DeathSound = SoundID.NPCDeath6;
@@ -182,7 +182,7 @@ namespace SpiritMod.NPCs.Dungeon
 		{
 			if (spawnInfo.spawnTileType == 44)
             {
-			    return spawnInfo.player.ZoneDungeon ? 0.08f : 0f;
+			    return spawnInfo.player.ZoneDungeon ? 0.04f : 0f;
             }
             return 0f;
 		}
