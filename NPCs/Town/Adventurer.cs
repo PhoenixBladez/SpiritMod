@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod;
 
 namespace SpiritMod.NPCs.Town
 {
@@ -59,9 +60,12 @@ namespace SpiritMod.NPCs.Town
                 Player player = Main.player[k];
                 if (player.active)
                 {
-                    if (!NPC.AnyNPCs(mod.NPCType("BoundAdventurer")) || !NPC.AnyNPCs(mod.NPCType("Adventurer")))
+                    if (!NPC.AnyNPCs(mod.NPCType("BoundAdventurer")))
                     {
-                        return true;
+                        if (!NPC.AnyNPCs(mod.NPCType("Adventurer")))
+                        {
+                            return true;
+                        }
                     }
                 }
             }
@@ -119,7 +123,14 @@ namespace SpiritMod.NPCs.Town
                 case 0:
                     return "I've been all around this world, and I've got so many things for you to see.";
                 case 1:
-                    return "The goblins are more organized than you'd think- I saw their mages build a huge tower over yonder. You should check it out sometime!";
+                    if (MyWorld.gennedTower)
+                    {
+                        return "The goblins are more organized than you'd think- I saw their mages build a huge tower over yonder. You should check it out sometime!";
+                    }
+                    else
+                    {
+                        return "My old business partner turned to the bandit life a few years ago. I wonder if he's doing okay. I think his associates have set up a bandit camp somewhere near the seas.";
+                    }
                 case 2:
                     return "Lovely house you've got here. It's much better lodging than when those savages from The Briar hung me over a spit.";
                 case 3:

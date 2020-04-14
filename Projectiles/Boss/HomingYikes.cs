@@ -29,10 +29,11 @@ namespace SpiritMod.Projectiles.Boss
 			projectile.alpha = 255;
 			projectile.penetrate = 1;
 
-			projectile.timeLeft = 600;
+			projectile.timeLeft = 300;
 		}
 
-		public override bool PreAI()
+
+        public override bool PreAI()
 		{
 			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 107);
 			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 107);

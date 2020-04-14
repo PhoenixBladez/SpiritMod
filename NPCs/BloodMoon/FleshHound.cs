@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 
-namespace SpiritMod.NPCs
+namespace SpiritMod.NPCs.BloodMoon
 {
 	public class FleshHound : ModNPC
 	{
@@ -100,11 +100,18 @@ namespace SpiritMod.NPCs
 				Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 7);
 				npc.netUpdate = true;
 			}
-			if (timer >= 400 && timer <= 600 && Main.netMode != 1)
+			if (timer == 400 && Main.netMode != 1)
 			{
 				num34616 = .95f;
-				npc.velocity.X *= 1.02f;
-				npc.netUpdate = true;
+                Vector2 direction = Main.player[npc.target].Center - npc.Center;
+                direction.Normalize();
+                direction.X = direction.X * Main.rand.Next(8, 10);
+                direction.Y = direction.Y * Main.rand.Next(2, 4);
+                npc.velocity.X = direction.X;
+                npc.velocity.Y = direction.Y;
+                npc.velocity.Y *= 0.98f;
+                npc.velocity.X *= 0.995f;
+                npc.netUpdate = true;
 				trailbehind = true;
 				npc.knockBackResist = 0f;
 			}

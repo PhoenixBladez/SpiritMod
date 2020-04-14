@@ -49,6 +49,10 @@ namespace SpiritMod.NPCs.Asteroid
             }
             if (npc.life <= 0)
 			{
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hopper/Hopper1"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hopper/Hopper2"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hopper/Hopper3"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hopper/Hopper4"));
                 for (int i = 0; i < 15; i++)
                 {
                     int num = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, -2f, 0, default(Color), 2f);

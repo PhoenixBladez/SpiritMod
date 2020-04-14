@@ -27,9 +27,9 @@ namespace SpiritMod.Items.Weapon.Swung
             item.melee = true;
 			item.channel = true;
             item.noMelee = true;
-            item.useAnimation = 46;
-            item.useTime = 46;
-            item.shootSpeed = 6f;
+            item.useAnimation = 44;
+            item.useTime = 44;
+            item.shootSpeed = 8f;
             item.knockBack = 9f;
             item.damage = 39;
             item.value = Item.sellPrice(0, 0, 60, 0);
@@ -56,8 +56,6 @@ namespace SpiritMod.Items.Weapon.Swung
             if (player.altFunctionUse == 2)
             {
                 item.useStyle = 1;
-                item.useTime = 60;
-                item.useAnimation = 60;
                 item.shoot = mod.ProjectileType("SlagHammerProjReturning");
             }
             else

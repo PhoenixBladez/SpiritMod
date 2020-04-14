@@ -36,8 +36,8 @@ namespace SpiritMod.Items.Placeable.Furniture.Reach
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(null,"AncientBark", 8);
-						recipe.AddIngredient(ItemID.IronBar, 2);
-						recipe.anyIronBar = true;
+			recipe.AddIngredient(ItemID.IronBar, 2);
+			recipe.anyIronBar = true;
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
 			recipe.AddRecipe();            

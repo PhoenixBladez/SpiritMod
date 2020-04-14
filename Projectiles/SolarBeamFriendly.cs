@@ -31,7 +31,7 @@ namespace SpiritMod.Projectiles
 			projectile.alpha = 255;
 			projectile.timeLeft = 500;
 			projectile.light = 0;
-			projectile.extraUpdates = 30;
+			projectile.extraUpdates = 20;
 		}
 
 		public override void AI()

@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Clapdated Staff");
-			Tooltip.SetDefault("Shoots out two clumps of dust and dirt at foes\nAttacks occasionally reduce enemy defense");
+			Tooltip.SetDefault("Shoots out a clump dust and dirt at foes\nAttacks occasionally reduce enemy defense");
 		}
 
 
@@ -20,12 +20,12 @@ namespace SpiritMod.Items.Weapon.Magic
         {
             item.damage = 17;
             item.magic = true;
-            item.mana = 8;
+            item.mana = 7;
             item.width = 46;
             item.height = 46;
-            item.useTime = 22;
+            item.useTime = 21;
             item.crit += 2;
-            item.useAnimation = 26;
+            item.useAnimation = 21;
             item.useStyle = 5;
             Item.staff[item.type] = true;
             item.noMelee = true;

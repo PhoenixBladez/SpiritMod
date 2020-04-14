@@ -603,33 +603,34 @@ namespace SpiritMod
         {
             Microsoft.Xna.Framework.Color white = Microsoft.Xna.Framework.Color.White;
             Microsoft.Xna.Framework.Color white2 = Microsoft.Xna.Framework.Color.White;
-            if (MyWorld.SpiritTiles > 0)
+    
+            if (MyWorld.AsteroidTiles > 0)
             {
-                float num255 = (float)MyWorld.SpiritTiles / 160f;
-                if (num255 > MyWorld.spiritLight)
+                float num255 = (float)MyWorld.AsteroidTiles / 160f;
+                if (num255 > MyWorld.asteroidLight)
                 {
-                    MyWorld.spiritLight += 0.01f;
+                    MyWorld.asteroidLight += 0.01f;
                 }
-                if (num255 < MyWorld.spiritLight)
+                if (num255 < MyWorld.asteroidLight)
                 {
-                    MyWorld.spiritLight -= 0.01f;
+                    MyWorld.asteroidLight -= 0.01f;
                 }
             }
             else
             {
-                MyWorld.spiritLight -= 0.02f;
+                MyWorld.asteroidLight -= 0.02f;
             }
-            if (MyWorld.spiritLight < 0f)
+            if (MyWorld.asteroidLight < 0f)
             {
-                MyWorld.spiritLight = 0f;
+                MyWorld.asteroidLight = 0f;
             }
-            if (MyWorld.spiritLight > 1f)
+            if (MyWorld.asteroidLight > 1f)
             {
-                MyWorld.spiritLight = 1f;
+                MyWorld.asteroidLight = 1f;
             }
-            if (MyWorld.spiritLight > 0f)
+            if (MyWorld.asteroidLight > 0f)
             {
-                float num161 = MyWorld.spiritLight;
+                float num161 = MyWorld.asteroidLight;
                 int num160 = Main.bgColor.R;
                 int num159 = Main.bgColor.G;
                 int num158 = Main.bgColor.B;

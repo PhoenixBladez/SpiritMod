@@ -25,9 +25,9 @@ namespace SpiritMod
 		public static int auroraChance = 4;
 
 		public static bool aurora = false;
-        public static float spiritLight = 0;
+        public static float asteroidLight = 0;
 
-		public static bool BlueMoon = false;
+        public static bool BlueMoon = false;
 		public static int SpiritTiles = 0;
 		public static int AsteroidTiles = 0;
 		public static int ReachTiles = 0;
@@ -40,7 +40,10 @@ namespace SpiritMod
 		public static bool essenceMessage = false;
 		public static bool flierMessage = false;
 
-		public static bool downedScarabeus = false;
+        public static bool gennedTower = false;
+        public static bool gennedBandits = false;
+
+        public static bool downedScarabeus = false;
 		public static bool downedAncientFlier = false;
 		public static bool downedRaider = false;
 		public static bool downedAtlas = false;
@@ -102,6 +105,10 @@ namespace SpiritMod
 			data.Add("droppedGlyphs", droppedGlyphTag);
 
 			data.Add("blueMoon", BlueMoon);
+
+            data.Add("gennedBandits", gennedBandits);
+            data.Add("gennedTower", gennedTower);
+
             SpiritMod.AdventurerQuests.WorldSave(data);
             return data;
 		}
@@ -129,7 +136,11 @@ namespace SpiritMod
 			}
 
 			BlueMoon = tag.GetBool("blueMoon");
-		}
+
+            gennedBandits = tag.GetBool("gennedBandits");
+            gennedTower = tag.GetBool("gennedTower");
+
+        }
 
 		public override void LoadLegacy(BinaryReader reader)
 		{
@@ -223,7 +234,7 @@ namespace SpiritMod
 				essenceMessage = true;
 			else
 				essenceMessage = false;
-			
+
 			downedScarabeus = false;
 			downedAncientFlier = false;
 			downedRaider = false;
@@ -236,7 +247,7 @@ namespace SpiritMod
 			downedOverseer = false;
 		}
 		#region Asteroid
-		public static ushort OreRoller(ushort glowstone, ushort marble)
+		public static ushort OreRoller(ushort glowstone, ushort none)
 		{
 			ushort iron = MyWorld.GetNonOre(WorldGen.IronTierOre);
 			ushort silver = MyWorld.GetNonOre(WorldGen.SilverTierOre);
@@ -265,7 +276,7 @@ namespace SpiritMod
 			}
 			else
 			{
-				return marble;
+				return none;
 			}
 			return 0;
 		}
@@ -373,6 +384,7 @@ namespace SpiritMod
                 int y = basey;
 
                 int numberOfAsteroids = 110;
+                int numJunkPiles = 1;
                 int numberOfBigs = 4;
                 int numberOfOres = 310;
                 int width = 350;
@@ -381,7 +393,8 @@ namespace SpiritMod
                 {
                     numberOfAsteroids = 33;
                     numberOfBigs = 1;
-                    numberOfOres = 150;
+                    numberOfOres = 140;
+                    numJunkPiles = 15;
                     width = 200;
                     height = 40;
                 }
@@ -389,8 +402,9 @@ namespace SpiritMod
                 {
                     numberOfAsteroids = 50;
                     numberOfBigs = 2;
-                    numberOfOres = 230;
+                    numberOfOres = 220;
                     width = 275;
+                    numJunkPiles = 21;
                     height = 60;
                 }
                 if (Main.maxTilesX == 8400)
@@ -399,6 +413,7 @@ namespace SpiritMod
                     numberOfBigs = 4;
                     numberOfOres = 300;
                     width = 350;
+                    numJunkPiles = 32;
                     height = 75;
                 }
                 int radius = (int)Math.Sqrt((width * width) + (height * height));
@@ -413,6 +428,17 @@ namespace SpiritMod
                     x = basex + (int)(Main.rand.Next(width) * Math.Sin(angle * (Math.PI / 180))) + Main.rand.Next(-100, 100);
                     y = basey + (int)(Main.rand.Next(height) * Math.Cos(angle * (Math.PI / 180))) + Main.rand.Next(-10, 15);
                     PlaceBlob(x, y, xsize, ysize, size, mod.TileType("Asteroid"), 50);
+                }
+                for (int b = 0; b < numJunkPiles; b++) //junkPiles
+                {
+                    float distance = (int)(((float)(Main.rand.Next(1000)) / 1000) * (float)Main.rand.Next(radius));
+                    int angle = Main.rand.Next(360);
+                    float xsize = (float)(Main.rand.Next(100, 120)) / 100;
+                    float ysize = (float)(Main.rand.Next(100, 120)) / 100;
+                    int size = Main.rand.Next(3, 4);
+                    x = basex + (int)(Main.rand.Next(width) * Math.Sin(angle * (Math.PI / 180))) + Main.rand.Next(-100, 100);
+                    y = basey + (int)(Main.rand.Next(height) * Math.Cos(angle * (Math.PI / 180))) + Main.rand.Next(-10, 15);
+                    PlaceBlob(x, y, xsize, ysize, size, mod.TileType("SpaceJunkTile"), 50);
                 }
                 for (int b = 0; b < numberOfBigs; b++) //big asteroids
                 {
@@ -430,7 +456,7 @@ namespace SpiritMod
                     int size = Main.rand.Next(2, 5);
                     x = basex + (int)(Main.rand.Next(width) * Math.Sin(angle * (Math.PI / 180))) + Main.rand.Next(-100, 100);
                     y = basey + (int)(Main.rand.Next(height) * Math.Cos(angle * (Math.PI / 180))) + Main.rand.Next(-10, 15);
-                    ushort ore = OreRoller((ushort)mod.TileType("Glowstone"), (ushort)mod.TileType("MarbleOre"));
+                    ushort ore = OreRoller((ushort)mod.TileType("Glowstone"));
                     WorldGen.TileRunner(x, y, Main.rand.Next(2, 10), 2, ore, false, 0f, 0f, false, true);
                 }
                 success = true;
@@ -753,7 +779,12 @@ namespace SpiritMod
 				}
 				// place the tower
 				PlaceTower(towerX, towerY - 37, TowerShape, TowerWallsShape, TowerLoot);
-				placed = true;
+                int num = NPC.NewNPC((towerX + 12) * 16, (towerY - 24) * 16, mod.NPCType("BoundRogue"), 0, 0f, 0f, 0f, 0f, 255);
+                Main.npc[num].homeTileX = -1;
+                Main.npc[num].homeTileY = -1;
+                Main.npc[num].direction = 1;
+                Main.npc[num].homeless = true;
+                placed = true;
 			}
 		}
 		#endregion
@@ -2019,7 +2050,7 @@ namespace SpiritMod
 
                 PlaceSepulchre(hideoutX, hideoutY - 10, SepulchreRoom3, SepulchreWalls3, SepulchreLoot3);
 
-                PlaceSepulchre(hideoutX, hideoutY, SepulchreRoom2, SepulchreWalls2, SepulchreLoot2);
+                PlaceSepulchre(hideoutX, hideoutY + 1, SepulchreRoom2, SepulchreWalls2, SepulchreLoot2);
 			}
 		}
 		#endregion 
@@ -2778,7 +2809,7 @@ namespace SpiritMod
 			{
 				// Select a place in the first 6th of the world
 				int towerX = (int)Main.rand.Next(50, Main.maxTilesX); ; // from 50 since there's a unaccessible area at the world's borders
-				int towerY = (int)Main.rand.Next((int)Main.worldSurface + 20, Main.maxTilesY);
+				int towerY = (int)Main.rand.Next((int)Main.worldSurface + 10, Main.maxTilesY);
 				Tile tile = Main.tile[towerX, towerY];
 				// If the type of the tile we are placing the tower on doesn't match what we want, try again
 				if (tile.type != mod.TileType("ReachGrassTile"))
@@ -2787,11 +2818,11 @@ namespace SpiritMod
 				}
 				if (WorldGen.genRand.Next(2) == 0)
 				{
-					PlaceGlowRoom(towerX, towerY +  Main.rand.Next (-50, 0), GlowRoom1, GlowLoot1);
+					PlaceGlowRoom(towerX, towerY, GlowRoom1, GlowLoot1);
 				}
 				else
 				{
-					PlaceGlowRoom(towerX, towerY + Main.rand.Next (-50, 0), GlowRoom2, GlowLoot2);
+					PlaceGlowRoom(towerX, towerY, GlowRoom2, GlowLoot2);
 				}
 				placed = true;
 			}
@@ -3702,11 +3733,17 @@ namespace SpiritMod
                         {
                             GenerateCorruptHole();
                         }
+                        if (Main.rand.Next(2) == 0)
+                        {
+                            GenerateBanditHideout();
+                            gennedBandits = true;
+                        }
+                        else
                         {
                             GenerateTower();
+                            gennedTower = true;
                         }
                         GenerateZiggurat();
-                        GenerateBanditHideout();
                         int[,] BoneIslandShape = new int[,]
                         {
                             {0,0,0,0,0,0,3,0,0,3,0,0,4,0,0,0,0,5,0,0,0,4,0,4,0,0,0,3,0,0,0,0},
@@ -3741,7 +3778,7 @@ namespace SpiritMod
                             for (int i = 0; i < 3; i++)
                             {
                                 // Select a place in the first 6th of the world
-                                int towerX = WorldGen.genRand.Next(300, Main.maxTilesX / 6); // from 50 since there's a unaccessible area at the world's borders
+                                int towerX = WorldGen.genRand.Next(Main.maxTilesX / 3, Main.maxTilesX / 3 * 2); // from 50 since there's a unaccessible area at the world's borders
                                                                                              // 50% of choosing the last 6th of the world
                                 if (WorldGen.genRand.NextBool())
                                 {
@@ -4919,59 +4956,6 @@ namespace SpiritMod
 					}
 				}
 			}
-			/* if (Main.hardMode)
-             {
-                 if (!VerdantBiome)
-                 {
-                     Main.NewText("The World's Primal Life begins anew", Color.Orange.R, Color.Orange.G, Color.Orange.B);
-                     VerdantBiome = true;
-                     for (int i = 0; i < ((int)Main.maxTilesX / 250) * 3; i++)
-                     {
-                         int Xvalue = WorldGen.genRand.Next(50, Main.maxTilesX - 700);
-                         int Yvalue = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY - 300);
-                         int XvalueHigh = Xvalue + 240;
-                         int YvalueHigh = Yvalue + 160;
-                         int XvalueMid = Xvalue + 120;
-                         int YvalueMid = Yvalue + 80;
-                         if (Main.tile[XvalueMid, YvalueMid] != null)
-                         {
-                             if (Main.tile[XvalueMid, YvalueMid].type == 1) // A = x, B = y.
-                             {
-                                 WorldGen.TileRunner(XvalueMid, YvalueMid, (double)WorldGen.genRand.Next(80, 80), 1, mod.TileType("VeridianDirt"), false, 0f, 0f, true, true); //c = x, d = y
-                                 WorldGen.TileRunner(XvalueMid + 20, YvalueMid, (double)WorldGen.genRand.Next(80, 80), 1, mod.TileType("VeridianDirt"), false, 0f, 0f, true, true); //c = x, d = y
-                                 WorldGen.TileRunner(XvalueMid + 40, YvalueMid, (double)WorldGen.genRand.Next(80, 80), 1, mod.TileType("VeridianDirt"), false, 0f, 0f, true, true); //c = x, d = y
-                                 WorldGen.TileRunner(XvalueMid + 60, YvalueMid, (double)WorldGen.genRand.Next(80, 80), 1, mod.TileType("VeridianDirt"), false, 0f, 0f, true, true);
-                                 WorldGen.TileRunner(XvalueMid + 80, YvalueMid, (double)WorldGen.genRand.Next(80, 80), 1, mod.TileType("VeridianDirt"), false, 0f, 0f, true, true);//c = x, d = y
-                                                                                                                                                                                         for (int A = Xvalue; A < XvalueHigh; A++)
-                                                                                                                                                                                           {
-                                                                                                                                                                                               for (int B = Yvalue; B < YvalueHigh; B++)
-                                                                                                                                                                                               {
-                                                                                                                                                                                                   if (Main.tile[A,B] != null)
-                                                                                                                                                                                                   {
-                                                                                                                                                                                                       if (Main.tile[A,B].type ==  mod.TileType("CrystalBlock")) // A = x, B = y.
-                                                                                                                                                                                                       { 
-                                                                                                                                                                                                           WorldGen.KillWall(A, B);
-                                                                                                                                                                                                           WorldGen.PlaceWall(A, B, mod.WallType("CrystalWall"));
-                                                                                                                                                                                                       }
-                                                                                                                                                                                                   }
-                                                                                                                                                                                               }
-                                                                                                                                                                                           }
-                                 WorldGen.digTunnel(XvalueMid, YvalueMid, WorldGen.genRand.Next(0, 360), WorldGen.genRand.Next(0, 360), WorldGen.genRand.Next(10, 11), WorldGen.genRand.Next(8, 10), false);
-                                 WorldGen.digTunnel(XvalueMid + 50, YvalueMid, WorldGen.genRand.Next(0, 360), WorldGen.genRand.Next(0, 360), WorldGen.genRand.Next(10, 11), WorldGen.genRand.Next(8, 10), false);
-                                 for (int Ore = 0; Ore < 75; Ore++)
-                                 {
-                                     int Xore = XvalueMid + Main.rand.Next(100);
-                                     int Yore = YvalueMid + Main.rand.Next(-70, 70);
-                                     if (Main.tile[Xore, Yore].type == mod.TileType("VeridianDirt")) // A = x, B = y.
-                                     {
-                                         WorldGen.TileRunner(Xore, Yore, (double)WorldGen.genRand.Next(5, 8), WorldGen.genRand.Next(3, 6), mod.TileType("VeridianStone"), false, 0f, 0f, false, true);
-                                     }
-                                 }
-                             }
-                         }
-                     }
-                 }
-             } */
 		}
 	}
 }

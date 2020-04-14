@@ -210,29 +210,13 @@ namespace SpiritMod
                     {
                         if (Main.tile[zx, zy].type == mod.TileType("ReachGrassTile"))
                         {
-                            WorldGen.TileRunner(zx, zy, (double)WorldGen.genRand.Next(5, 12), WorldGen.genRand.Next(5, 12), TileID.Stone, false, 0f, 0f, false, true);
+                            WorldGen.TileRunner(zx, zy, (double)WorldGen.genRand.Next(5, 12), WorldGen.genRand.Next(5, 12), mod.TileType("MossyStone"), false, 0f, 0f, false, true);
 
                         }
                     }
                 }
             }
-            for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 3) * 15E-05); k++)
-            {
-                int zx = WorldGen.genRand.Next(0, Main.maxTilesX);
-                int zy = WorldGen.genRand.Next((int)Main.worldSurface + 5, Main.maxTilesY);
-                if (Main.tile[zx, zy] != null)
-                {
-                    if (Main.tile[zx, zy].active())
-                    {
-                        if (Main.tile[zx, zy].type == mod.TileType("ReachGrassTile"))
-                        {
-                            WorldGen.TileRunner(zx, zy, (double)WorldGen.genRand.Next(8, 15), WorldGen.genRand.Next(8, 15), TileID.ClayBlock, false, 0f, 0f, false, true);
-
-                        }
-                    }
-                }
-            }
-            for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 19) * 15E-05); k++)
+            for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 9) * 15E-05); k++)
             {
                 int zx = WorldGen.genRand.Next(0, Main.maxTilesX);
                 int zy = WorldGen.genRand.Next(0, Main.maxTilesY);
@@ -242,13 +226,13 @@ namespace SpiritMod
                     {
                         if (Main.tile[zx, zy].type == mod.TileType("ReachGrassTile"))
                         {
-                            WorldGen.TileRunner(zx, zy, (double)WorldGen.genRand.Next(3, 6), WorldGen.genRand.Next(3, 6), WorldGen.CopperTierOre, false, 0f, 0f, false, true);
+                            WorldGen.TileRunner(zx, zy, (double)WorldGen.genRand.Next(4, 6), WorldGen.genRand.Next(4, 6), WorldGen.CopperTierOre, false, 0f, 0f, false, true);
 
                         }
                     }
                 }
             }
-            for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 16) * 15E-05); k++)
+            for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 8) * 15E-05); k++)
             {
                 int zx = WorldGen.genRand.Next(0, Main.maxTilesX);
                 int zy = WorldGen.genRand.Next(0, Main.maxTilesY);
@@ -258,13 +242,13 @@ namespace SpiritMod
                     {
                         if (Main.tile[zx, zy].type == mod.TileType("ReachGrassTile"))
                         {
-                            WorldGen.TileRunner(zx, zy, (double)WorldGen.genRand.Next(3, 5), WorldGen.genRand.Next(3, 5), WorldGen.IronTierOre, false, 0f, 0f, false, true);
+                            WorldGen.TileRunner(zx, zy, (double)WorldGen.genRand.Next(3, 6), WorldGen.genRand.Next(3, 6), WorldGen.IronTierOre, false, 0f, 0f, false, true);
 
                         }
                     }
                 }
             }
-            for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 11) * 15E-05); k++)
+            for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 4) * 15E-05); k++)
             {
                 int zx = WorldGen.genRand.Next(0, Main.maxTilesX);
                 int zy = WorldGen.genRand.Next((int)Main.worldSurface + 10, Main.maxTilesY);
@@ -280,7 +264,7 @@ namespace SpiritMod
                     }
                 }
             }
-            for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 8) * 15E-05); k++)
+            for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 2) * 15E-05); k++)
             {
                 int zx = WorldGen.genRand.Next(0, Main.maxTilesX);
                 int zy = WorldGen.genRand.Next((int)Main.worldSurface + 20, Main.maxTilesY);
@@ -290,24 +274,8 @@ namespace SpiritMod
                     {
                         if (Main.tile[zx, zy].type == mod.TileType("ReachGrassTile"))
                         {
-                            WorldGen.TileRunner(zx, zy, (double)WorldGen.genRand.Next(3, 5), WorldGen.genRand.Next(3, 5), WorldGen.GoldTierOre, false, 0f, 0f, false, true);
+                            WorldGen.TileRunner(zx, zy, (double)WorldGen.genRand.Next(3, 6), WorldGen.genRand.Next(3, 6), WorldGen.GoldTierOre, false, 0f, 0f, false, true);
 
-                        }
-                    }
-                }
-            }
-            for (int A1 = x - x1213 / 2; A1 < x + x1213 / 2; A1++)
-            {
-                for (int B1 = y - 20; B1 < y + 210; B1++)
-                {
-                    if (Main.tile[A1, B1].type == TileID.Stone)
-                    {
-                        if (!Main.tile[A1, B1 - 1].active() || !Main.tile[A1, B1 + 1].active() || !Main.tile[A1 + 1, B1].active() || !Main.tile[A1 - 1, B1].active())
-                        {
-                            if (WorldGen.genRand.Next(7) == 0)
-                            {
-                                WorldGen.PlaceTile(A1, B1, 179);
-                            }
                         }
                     }
                 }

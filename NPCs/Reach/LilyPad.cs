@@ -33,29 +33,13 @@ namespace SpiritMod.NPCs.Reach
 			npc.dontTakeDamage = true;
 		}
         public float num42;
+        bool collision = false;
 		public override void AI()
 		{
             if (!Main.dayTime)
             {
                 Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.46f * 2, 0.32f * 2, .1f * 2);
             }
-            if (npc.localAI[0] == 0f)
-            {
-                npc.localAI[0] = npc.Center.Y;
-                npc.netUpdate = true; //localAI probably isnt affected by this... buuuut might as well play it safe
-            }
-            if (npc.Center.Y >= npc.localAI[0])
-            {
-                npc.localAI[1] = -1f;
-                npc.netUpdate = true;
-            }
-            if (npc.Center.Y <= npc.localAI[0] - 2f)
-            {
-                npc.localAI[1] = 1f;
-                npc.netUpdate = true;
-            }
-            npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y + 0.009f * npc.localAI[1], -.5f, .5f);
-            num42 = MathHelper.Clamp(npc.velocity.Y + 0.009f * npc.localAI[1], -.85f, .85f);
             npc.spriteDirection = -npc.direction;
             int npcXTile = (int)(npc.Center.X / 16);
             int npcYTile = (int)(npc.Center.Y / 16);
@@ -69,25 +53,26 @@ namespace SpiritMod.NPCs.Reach
                     break;
                 }
             }
-            npc.velocity.X = .3f * Main.windSpeed;
-            if (npc.collideY)
+            if (!collision)
             {
-                npc.velocity.X = -npc.velocity.X;
-                npc.netUpdate = true;
-                if (npc.velocity.Y > 0f)
+                npc.velocity.X = .5f * Main.windSpeed;
+            }
+            else
+            {
+                npc.velocity.X = -.5f * Main.windSpeed;
+            }
+            if (npc.collideX || npc.collideY)
+            {
+                npc.velocity.X *= -1f;
+                if (!collision)
                 {
-                    npc.velocity.Y = Math.Abs(npc.velocity.Y) * -1f;
-                    npc.directionY = -1;
-                    npc.ai[0] = -1f;
+                    collision = true;
                 }
-                else if (npc.velocity.Y < 0f)
+                else
                 {
-                    npc.velocity.Y = Math.Abs(npc.velocity.Y);
-                    npc.directionY = 1;
-                    npc.ai[0] = 1f;
+                    collision = false;
                 }
             }
-
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {

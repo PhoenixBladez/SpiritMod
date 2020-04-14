@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Weapon.Thrown
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Bramble Daggers");
+			DisplayName.SetDefault("Bramble Dagger");
 			Tooltip.SetDefault("Hitting enemies and tiles may cause the dagger to split into multiple spore clouds");
 		}
 

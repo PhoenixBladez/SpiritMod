@@ -11,6 +11,8 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.ID;
 
+using SpiritMod;
+
 namespace SpiritMod.NPCs.Town
 {
     public class AdventurerQuestHandler
@@ -50,6 +52,10 @@ namespace SpiritMod.NPCs.Town
                 "Hope those goblins didn't give you too much trouble, heh." +
                 "Wow, look at that craftwork! It's supposed to be real powerful, too." +
                 "So maybe you won't get killed while you're out there adventuring, yeah?", false);
+            ShadowflameStaff.CanGiveQuest = () =>
+            {
+                return MyWorld.gennedTower && !MyWorld.gennedBandits;
+            };
 
             Quest SepulchreChest = RegisterQuest(mod.ItemType("SepulchreChest"),
 

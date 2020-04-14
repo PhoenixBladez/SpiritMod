@@ -42,6 +42,16 @@ namespace SpiritMod.Projectiles
                 {
                     npc.AddBuff(mod.BuffType("BCorrupt"), 20);
                 }
+                /*if (npc.life <= 0)
+                {
+                    int healNumber = Main.rand.Next(3, 5);
+                    player.HealEffect(healNumber);
+                    if (player.statLife <= player.statLifeMax - healNumber)
+                        player.statLife += healNumber;
+                    else
+                        player.statLife += player.statLifeMax - healNumber;
+
+                }*/
             }
             for (int i = 0; i < 4; i++)
             {

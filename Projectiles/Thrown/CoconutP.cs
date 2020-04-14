@@ -39,7 +39,7 @@ namespace SpiritMod.Projectiles.Thrown
 			}
 			if (!cracky)
 			projectile.velocity.Y += 0.2f;
-			if (projectile.velocity.Y > 8.5f && !cracky)
+			if (projectile.velocity.Y > 6.5f && !cracky)
 			{
 				projectile.damage = (int)(projectile.damage * 2.85f);
 				cracky = true;

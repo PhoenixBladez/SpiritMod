@@ -15,7 +15,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sanguine Ward");
-			Tooltip.SetDefault("Enemies around you are inflicted with Blood Corruption");
+			Tooltip.SetDefault("Enemies around you are inflicted with Blood Corruption\nKilling enemies inside your blood aura heals some life");
 		}
 
 

@@ -32,6 +32,7 @@ namespace SpiritMod
         private int Counter;
         private int timerz;
         public bool caltfist = false;
+        public bool briarSlimePet = false;
         public bool ZoneBlueMoon = false;
         private int timer1;
         public bool astralSet = false;
@@ -388,6 +389,7 @@ namespace SpiritMod
         public override void ResetEffects()
         {
             caltfist = false;
+            briarSlimePet = false;
             firewall = false;
             hellCharm = false;
             bloodyBauble = false;
@@ -910,7 +912,23 @@ namespace SpiritMod
             }
 
             MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
-
+            int bobberIndex = -1;
+            if (Main.bloodMoon && Main.rand.Next(12) == 0)
+            {
+                for (int i = 0; i < 1000; i++)
+                {
+                    if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber)
+                    {
+                        bobberIndex = i;
+                        Main.projectile[i].ai[0] = 2f;
+                    }
+                }
+                if (bobberIndex != -1)
+                {
+                    Vector2 bobberPos = Main.projectile[bobberIndex].Center;
+                    caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, mod.NPCType("BottomFeeder"), 0, 2, 1, 0, 0, Main.myPlayer);
+                }
+            }
             if (player.ZoneDungeon && power >= 30 && Main.rand.NextBool(25))
             {
                 caughtType = mod.ItemType("MysticalCage");
@@ -2158,7 +2176,10 @@ namespace SpiritMod
                 candyInBowl = 2;
                 candyFromTown.Clear();
             }
-
+            if (ZoneAsteroid)
+            {
+                Main.numCloudsTemp = 0;
+            }
             if (Main.rand.NextBool(12) && ZoneReach && player.ZoneOverworldHeight && !player.ZoneBeach && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneJungle && !player.ZoneHoly)
             {
                 float goreScale = 0.01f * Main.rand.Next(20, 70);

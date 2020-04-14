@@ -98,7 +98,7 @@ namespace SpiritMod.Tiles
 
             int dust = Dust.NewDust(position - vec * distance, 0, 0, 226);
             Main.dust[dust].noGravity = true;
-            Main.dust[dust].scale *= .8f;
+            Main.dust[dust].scale *= .6f;
             Main.dust[dust].velocity = vel;
             Main.dust[dust].customData = follow;
         }

@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.Events;
 
-namespace SpiritMod.NPCs
+namespace SpiritMod.NPCs.BloodMoon
 {
 
 	public class Phantom : ModNPC
@@ -31,11 +31,11 @@ namespace SpiritMod.NPCs
 			npc.width = 60;
 			npc.height = 48;
 			npc.value = 140;
-			npc.damage = 28;
+			npc.damage = 23;
 			npc.noTileCollide = true;
 			npc.defense = 6;
-			npc.lifeMax = 90;
-			npc.knockBackResist = 0f;
+			npc.lifeMax = 50;
+			npc.knockBackResist = 0.45f;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
 		}
@@ -78,9 +78,9 @@ namespace SpiritMod.NPCs
 					npc.velocity.Y = moveSpeedY * 0.12f;
                     if (player.velocity.Y != 0)
                     {
-                        HomeY = -100f;
+                        HomeY = -60f;
                         trailbehind = true;
-                        npc.velocity.Y = moveSpeedY * 0.20f;
+                        npc.velocity.Y = moveSpeedY * 0.16f;
                         int d = Dust.NewDust(npc.position, npc.width, npc.height, 173, 0f, -2.5f, 0, default(Color), 0.6f);
                         if (!noise)
                         {
@@ -101,13 +101,24 @@ namespace SpiritMod.NPCs
                     }
                 }				
 			}
-			return true;
+            if (Main.dayTime)
+            {
+                Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 6);
+                Gore.NewGore(npc.position, npc.velocity, 99);
+                Gore.NewGore(npc.position, npc.velocity, 99);
+                Gore.NewGore(npc.position, npc.velocity, 99);
+                npc.active = false;
+            }
+            return true;
 		}
         public override void NPCLoot()
         {
             if (Main.rand.Next(12) == 0)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PhantomEgg"));
+            }
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BloodFire"));
             }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -132,7 +143,7 @@ namespace SpiritMod.NPCs
         {
             if (trailbehind)
             {
-                GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Phantom_Glow"));
+                GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/BloodMoon/Phantom_Glow"));
             }
 		}
 		public override void HitEffect(int hitDirection, double damage)
@@ -158,9 +169,9 @@ namespace SpiritMod.NPCs
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection * 2, -1f, 0, default(Color), 1f);
                 }
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Phantom/Phantom1"), .5f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Phantom/Phantom2"), .5f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Phantom/Phantom2"), .5f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Phantom/Phantom1"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Phantom/Phantom2"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Phantom/Phantom2"));
             }
         }
 		public override void FindFrame(int frameHeight)

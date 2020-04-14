@@ -24,7 +24,7 @@ namespace SpiritMod.NPCs.Critters
 			npc.damage = 0;
 			npc.defense = 0;
 			npc.lifeMax = 5;
-						Main.npcCatchable[npc.type] = true;
+			Main.npcCatchable[npc.type] = true;
 			npc.catchItem = (short)ItemID.Ebonkoi;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;

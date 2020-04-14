@@ -121,6 +121,11 @@ namespace SpiritMod.NPCs
 
 			if (npc.life <= 0)
 			{
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Drifter/Drifter1"), .5f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Drifter/Drifter2"), .5f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Drifter/Drifter3"), .5f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Drifter/Drifter4"), .5f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Drifter/Drifter5"), .5f);
                 Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 41);
                 npc.position.X = npc.position.X + (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y + (float)(npc.height / 2);

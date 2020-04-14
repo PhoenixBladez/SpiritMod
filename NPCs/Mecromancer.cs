@@ -25,8 +25,8 @@ namespace SpiritMod.NPCs
             npc.width = 32;
             npc.height = 48;
             npc.damage = 20;
-            npc.defense = 12;
-            npc.lifeMax = 300;
+            npc.defense = 8;
+            npc.lifeMax = 310;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath2;
             npc.value = 6760f;
@@ -43,7 +43,7 @@ namespace SpiritMod.NPCs
             {
                 return 0f;
             }
-            return SpawnCondition.GoblinArmy.Chance * 0.13f;
+            return SpawnCondition.GoblinArmy.Chance * 0.08666f;
         }
 
         public override void NPCLoot()
@@ -68,7 +68,7 @@ namespace SpiritMod.NPCs
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("KnocbackGun"));
             }
-            if (Main.rand.Next(50) == 0)
+            if (Main.rand.Next(25) == 0)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.RocketBoots);
             }
@@ -159,8 +159,10 @@ namespace SpiritMod.NPCs
                 npc.aiStyle = 3;
                 aiType = NPCID.GoblinThief;
             }
+            bool expertMode = Main.expertMode;
             if (timer >= 840)
             {
+                int damage = expertMode ? 13 : 22;
                 timer = 0;
                 Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/CoilRocket"));
                 for (int f = 0; f < 4; f++)
@@ -175,7 +177,7 @@ namespace SpiritMod.NPCs
                     {
                         float A = (float)Main.rand.Next(-50, 50) * 0.23f;
                         float B = (float)Main.rand.Next(-50, 50) * 0.23f;
-                        Projectile.NewProjectile(npc.Center.X + (Main.rand.Next(-50, 50)), npc.Center.Y + (Main.rand.Next(-50, 50)), direction.X + A, direction.Y + B, mod.ProjectileType("CoilRocket"), 22, 1, Main.myPlayer, 0, 0);
+                        Projectile.NewProjectile(npc.Center.X + (Main.rand.Next(-50, 50)), npc.Center.Y + (Main.rand.Next(-50, 50)), direction.X + A, direction.Y + B, mod.ProjectileType("CoilRocket"), damage, 1, Main.myPlayer, 0, 0);
                 
                     }
                 }

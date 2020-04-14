@@ -14,9 +14,11 @@ namespace SpiritMod.Tiles.Block
 		public override void SetDefaults()
 		{
 			Main.tileSolid[Type] = true;
-			Main.tileMergeDirt[Type] = true;
+            Main.tileBlendAll[this.Type] = true;
+            Main.tileMergeDirt[Type] = true;
 			AddMapEntry(new Color(200, 200, 200));
             Main.tileBlockLight[Type] = true;
+            soundType = 21;
         }
 	}
 }

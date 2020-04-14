@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod;
 
 namespace SpiritMod.NPCs.Town
 {
@@ -35,7 +36,14 @@ namespace SpiritMod.NPCs.Town
         {
             npc.Transform(mod.NPCType("Rogue"));
             npc.dontTakeDamage = false;
-            return "Hey! Thanks for saving me- Now, mind getting us out of this pickle and killing these bandits? They duped me and took all my cash! Don't think it means I'll discount my wares for you, though. Just kidding! Not.";
+            if (MyWorld.gennedTower)
+            {
+                return "Thanks for saving me from these goblins!";
+            }
+            else 
+            {
+                return "Hey! Thanks for saving me- Now, mind getting us out of this pickle and killing these bandits? They duped me and took all my cash! Don't think it means I'll discount my wares for you, though. Just kidding! Not.";
+            }
         }
         public override void AI()
         {

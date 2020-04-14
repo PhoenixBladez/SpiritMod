@@ -46,10 +46,11 @@ namespace SpiritMod.Items.Weapon.Returning
         }
         public override void AddRecipes()
         {
-                ModRecipe recipe = new ModRecipe(mod);
-                recipe.AddIngredient(null, "FloranBar", 10);
-                recipe.SetResult(this, 1);
-                recipe.AddRecipe();
-		}
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(null, "FloranBar", 10);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this, 1);
+            recipe.AddRecipe();
+        }
     }
 }

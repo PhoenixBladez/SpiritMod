@@ -11,7 +11,7 @@ namespace SpiritMod.Projectiles.Thrown
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Bramble Daggers");
+			DisplayName.SetDefault("Bramble Dagger");
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}

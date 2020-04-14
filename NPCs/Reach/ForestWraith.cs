@@ -26,7 +26,7 @@ namespace SpiritMod.NPCs.Reach
 			npc.HitSound = SoundID.NPCHit7;
 			npc.DeathSound = SoundID.NPCDeath6;
 			npc.value = 541f;
-			npc.knockBackResist = 0f;
+			npc.knockBackResist = 0.05f;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.aiStyle = 22;
@@ -82,9 +82,9 @@ namespace SpiritMod.NPCs.Reach
 					int amountOfProjectiles = Main.rand.Next(1, 1);
 					for (int i = 0; i < amountOfProjectiles; ++i)
 					{
-						float A = (float)Main.rand.Next(-120, 120) * 0.01f;
-						float B = (float)Main.rand.Next(-120, -10) * 0.01f;
-						int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, -direction.Y + B, ProjectileID.BallofFire, 8, 1, Main.myPlayer, 0, 0);
+						float A = (float)Main.rand.Next(-120, 120) * 0.05f;
+						float B = (float)Main.rand.Next(-120, -10) * 0.05f;
+						int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, -direction.Y + B, mod.ProjectileType("LittleBouncingSpore"), 8, 1, Main.myPlayer, 0, 0);
 						Main.projectile[p].hostile = true;
 						Main.projectile[p].friendly = false;
 					}
@@ -94,12 +94,15 @@ namespace SpiritMod.NPCs.Reach
 			if (timer >= 730)
 			{
 				npc.defense = 10;
-				Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
-				Vector2 direction = Main.player[npc.target].Center - npc.Center;
-				direction.Normalize();
-				npc.velocity.Y = direction.Y * 6f;
-				npc.velocity.X = direction.X * 6f;
-				timer = 0;
+                Vector2 direction = Main.player[npc.target].Center - npc.Center;
+                direction.Normalize();
+                Main.PlaySound(SoundID.DD2_WyvernDiveDown, npc.Center);
+                direction.X = direction.X * Main.rand.Next(6, 9);
+                direction.Y = direction.Y * Main.rand.Next(6, 9);
+                npc.velocity.X = direction.X;
+                npc.velocity.Y = direction.Y;
+                npc.velocity *= 0.98f;
+                timer = 0;
                 npc.netUpdate = true;
             }
 			if (timer >= 750)
@@ -126,8 +129,12 @@ namespace SpiritMod.NPCs.Reach
 					Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
 				}			
 			if (npc.life <= 0)
-			{
-				npc.position.X = npc.position.X + (float)(npc.width / 2);
+            {
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GladeWraith/GladeWraith1"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GladeWraith/GladeWraith2"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GladeWraith/GladeWraith3"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GladeWraith/GladeWraith4"));
+                npc.position.X = npc.position.X + (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
 				npc.width = 30;
 				npc.height = 30;

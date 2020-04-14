@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Weapon.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 18;
+            item.damage = 19;
             Item.staff[item.type] = true;
             item.noMelee = true;
             item.magic = true;
@@ -31,12 +31,12 @@ namespace SpiritMod.Items.Weapon.Magic
             item.mana = 8;
             item.useAnimation = 19;
             item.useStyle = 5;
-            item.knockBack = 3f;
+            item.knockBack = 0f;
             item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
             item.rare = 2;
             item.UseSound = SoundID.Item72;
             item.autoReuse = true;
-            item.shootSpeed = 14;
+            item.shootSpeed = 6;
             item.shoot = mod.ProjectileType("SolarBeamFriendly");
         }
     }

@@ -8,7 +8,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.NPCs
+namespace SpiritMod.NPCs.BloodMoon
 {
 	public class Occultist : ModNPC
 	{
@@ -81,7 +81,7 @@ namespace SpiritMod.NPCs
 			bool teleport = false;
 
 			// Teleport
-			if (npc.ai[0] >= 500 && Main.netMode != 1)
+			if (npc.ai[0] >= 600 && Main.netMode != 1)
 			{
 				teleport = true;
 			}
@@ -216,7 +216,7 @@ namespace SpiritMod.NPCs
 		}
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Occultist_Glow"));
+            GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/BloodMoon/Occultist_Glow"));
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
@@ -290,7 +290,7 @@ namespace SpiritMod.NPCs
         {
             string[] lootTable = { "Handball", "OccultistStaff" };
             int loot = Main.rand.Next(lootTable.Length);
-            if (Main.rand.Next(2) == 0)
+            if (Main.rand.Next(3) == 2)
             {
                 npc.DropItem(mod.ItemType(lootTable[loot]));
             }

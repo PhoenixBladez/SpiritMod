@@ -31,6 +31,7 @@ namespace SpiritMod.Projectiles.Hostile
 			projectile.ignoreWater = true;
 			projectile.aiStyle = -1;
 		}
+        int numHits;
         public override bool PreAI()
         {
             var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
@@ -38,7 +39,11 @@ namespace SpiritMod.Projectiles.Hostile
             {
                 if (projectile != proj && proj.friendly)
                 {
-                    projectile.Kill();
+                    numHits++;
+                    if (numHits >= 3)
+                    {
+                        projectile.Kill();
+                    }
                 }
             }
             return true;
