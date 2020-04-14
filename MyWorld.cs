@@ -456,7 +456,7 @@ namespace SpiritMod
                     int size = Main.rand.Next(2, 5);
                     x = basex + (int)(Main.rand.Next(width) * Math.Sin(angle * (Math.PI / 180))) + Main.rand.Next(-100, 100);
                     y = basey + (int)(Main.rand.Next(height) * Math.Cos(angle * (Math.PI / 180))) + Main.rand.Next(-10, 15);
-                    ushort ore = OreRoller((ushort)mod.TileType("Glowstone"));
+                    ushort ore = OreRoller((ushort)mod.TileType("Glowstone"), (ushort)mod.TileType("Asteroid"));
                     WorldGen.TileRunner(x, y, Main.rand.Next(2, 10), 2, ore, false, 0f, 0f, false, true);
                 }
                 success = true;
