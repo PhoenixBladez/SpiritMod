@@ -33,6 +33,7 @@ namespace SpiritMod.Items.Consumable
             recipe.AddIngredient(null, "GraniteChunk", 8);
             recipe.AddIngredient(ItemID.SoulofNight, 4);
             recipe.AddIngredient(ItemID.SoulofLight, 4);
+			recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

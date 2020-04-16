@@ -15,7 +15,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Folv's Staff of Protection");
-			Tooltip.SetDefault("Increases maximum mana by 30, and magic damage by 8% \nGrants immunity to a multitude of debuffs \nReduces damage taken by 8% when under half health and grants immunity to knockback\n~ Donator Item~");
+			Tooltip.SetDefault("Increases maximum mana by 30, and magic damage by 8% \nGrants immunity to a multitude of debuffs \nReduces damage taken by 8% when under half health and grants immunity to knockback\n~Donator Item~");
 		}
 
         public override void SetDefaults()

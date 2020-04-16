@@ -9,7 +9,7 @@ namespace SpiritMod.Items.BossBags
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Treasure Bag");
-			Tooltip.SetDefault("Right Click to open");
+			Tooltip.SetDefault("Consumable\nRight Click to open");
 		}
 
 

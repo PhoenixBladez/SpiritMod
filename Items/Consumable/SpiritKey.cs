@@ -33,6 +33,7 @@ namespace SpiritMod.Items.Consumable
             recipe.AddIngredient(null, "SpiritBar", 12);
             recipe.SetResult(this);
             recipe.AddRecipe();
+			recipe.AddTile(TileID.WorkBenches);
         }
     }
 }

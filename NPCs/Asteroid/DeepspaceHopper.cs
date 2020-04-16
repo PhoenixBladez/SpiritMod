@@ -93,53 +93,56 @@ namespace SpiritMod.NPCs.Asteroid
             float num5 = npc.position.X + (float)(npc.width / 2) - player.position.X - (float)(player.width / 2);
             float num6 = npc.position.Y + (float)npc.height - 59f - player.position.Y - (float)(player.height / 2);
             float num7 = (float)Math.Atan2((double)num6, (double)num5) + 1.57f;
-            if (num7 < 0f)
-            {
-                num7 += 6.283f;
-            }
-            else if ((double)num7 > 6.283)
-            {
-                num7 -= 6.283f;
-            }
-            float num8 = 0.1f;
-            if (npc.rotation < num7)
-            {
-                if ((double)(num7 - npc.rotation) > 3.1415)
-                {
-                    npc.rotation -= num8;
-                }
-                else
-                {
-                    npc.rotation += num8;
-                }
-            }
-            else if (npc.rotation > num7)
-            {
-                if ((double)(npc.rotation - num7) > 3.1415)
-                {
-                    npc.rotation += num8;
-                }
-                else
-                {
-                    npc.rotation -= num8;
-                }
-            }
-            if (npc.rotation > num7 - num8 && npc.rotation < num7 + num8)
-            {
-                npc.rotation = num7;
-            }
-            if (npc.rotation < 0f)
-            {
-                npc.rotation += 6.283f;
-            }
-            else if ((double)npc.rotation > 6.283)
-            {
-                npc.rotation -= 6.283f;
-            }
-            if (npc.rotation > num7 - num8 && npc.rotation < num7 + num8)
-            {
-                npc.rotation = num7;
-            }
+			if (!(timer >= 100 && timer <= 130))
+			{
+				if (num7 < 0f)
+				{
+					num7 += 6.283f;
+				}
+				else if ((double)num7 > 6.283)
+				{
+					num7 -= 6.283f;
+				}
+				float num8 = 0.1f;
+				if (npc.rotation < num7)
+				{
+					if ((double)(num7 - npc.rotation) > 3.1415)
+					{
+						npc.rotation -= num8;
+					}
+					else
+					{
+						npc.rotation += num8;
+					}
+				}
+				else if (npc.rotation > num7)
+				{
+					if ((double)(npc.rotation - num7) > 3.1415)
+					{
+						npc.rotation += num8;
+					}
+					else
+					{
+						npc.rotation -= num8;
+					}
+				}
+				if (npc.rotation > num7 - num8 && npc.rotation < num7 + num8)
+				{
+					npc.rotation = num7;
+				}
+				if (npc.rotation < 0f)
+				{
+					npc.rotation += 6.283f;
+				}
+				else if ((double)npc.rotation > 6.283)
+				{
+					npc.rotation -= 6.283f;
+				}
+				if (npc.rotation > num7 - num8 && npc.rotation < num7 + num8)
+				{
+					npc.rotation = num7;
+				}
+			}
             npc.spriteDirection = npc.direction;
 			timer++;
 			if (timer >= 280)

@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Consumable
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Blood Charm");
-			Tooltip.SetDefault("'Grace the moon with blood'");
+			Tooltip.SetDefault("Summon the Blood Moon");
 		}
 
 

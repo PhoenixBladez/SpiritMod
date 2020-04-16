@@ -11,7 +11,7 @@ namespace SpiritMod.Items.DonatorItems
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Lightning Throw");
-			Tooltip.SetDefault("Throw a very fast, mach speed dodgeball! \n ~Donator Item~");
+			Tooltip.SetDefault("Throw a very fast, mach speed dodgeball! \n~Donator Item~");
 		}
 
 

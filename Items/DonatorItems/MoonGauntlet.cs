@@ -12,7 +12,7 @@ namespace SpiritMod.Items.DonatorItems
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gauntlet of the Moon");
-			Tooltip.SetDefault("Increases melee damage by 15% and melee speed by 10%\nAttacks occasionally inflict Ichor, Cursed Inferno, and Daybroken\nMelee Attacks grant you Onyx Whirlwind, which increases movement speed\n~Donator Item~\n'Infused with the Spirit of Meemourne'");
+			Tooltip.SetDefault("Increases melee damage by 15% and melee speed by 10%\nAttacks occasionally inflict Ichor, Cursed Inferno, and Daybroken\nMelee Attacks grant you Onyx Whirlwind, which increases movement speed\n'Infused with the Spirit of Meemourne'\n~Donator Item~");
 		}
 
 
