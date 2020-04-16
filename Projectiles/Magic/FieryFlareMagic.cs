@@ -23,15 +23,21 @@ namespace SpiritMod.Projectiles.Magic
 			aiType = ProjectileID.Flames;
 			projectile.alpha = 255;
 			projectile.timeLeft = 120;
-			projectile.penetrate = 2;
+			projectile.penetrate = 3;
 			projectile.friendly = true;
 			projectile.magic = true;
-			projectile.extraUpdates = 12;
+			projectile.extraUpdates = 18;
 		}
-
+        int counter;
 		public override void AI()
 		{
-			projectile.rotation += 0.1f;
+            counter++;
+            if (counter >= 20)
+            {
+                counter = 0;
+                projectile.velocity = projectile.velocity.RotatedBy(System.Math.PI / Main.rand.Next(-80, 80));
+            }
+            projectile.rotation += 0.1f;
             for (int i = 0; i < 2; i++)
 			{
 				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 127, projectile.velocity.X * 1.5f, projectile.velocity.Y * 1.5f);

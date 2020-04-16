@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Material
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Illuminated Crystal");
-			Tooltip.SetDefault("'The crystal is humming with arcane energy'\n Involved in the crafting of Illuminant Armor");
+			Tooltip.SetDefault("'The crystal is humming with arcane energy'");
 		}
 
 

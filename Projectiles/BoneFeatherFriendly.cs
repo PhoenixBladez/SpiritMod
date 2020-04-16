@@ -27,10 +27,12 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			for (int i = 0; i < 20; i++)
+            Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
+            for (int i = 0; i < 20; i++)
 			{
-				Dust.NewDust(projectile.Center, projectile.width, projectile.height, 0, (float)(Main.rand.Next(8) - 4), (float)(Main.rand.Next(8) - 4), 133);
-			}
+				int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 0, (float)(Main.rand.Next(8) - 4), (float)(Main.rand.Next(8) - 4), 133);
+                Main.dust[d].scale *= .5f;
+            }
 		}
 
 	}

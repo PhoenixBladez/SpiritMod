@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Armor.FrigidArmor
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "FrigidFragment", 10);
+            recipe.AddIngredient(null, "FrigidFragment", 14);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -11,7 +11,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Magic Whetstone");
-			Tooltip.SetDefault("A crystal that pulses with energy. \n  ~Donator Item~");
+			Tooltip.SetDefault("'A crystal that pulses with energy'\n~Donator Item~");
 		}
 
 

@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Material
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Talon");
-			Tooltip.SetDefault("'Ouch! It's sharp! \n Used to craft Talon gear'");
+			Tooltip.SetDefault("'Ouch! It's sharp!'");
 		}
 
 

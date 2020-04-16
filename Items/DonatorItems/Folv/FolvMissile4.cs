@@ -11,7 +11,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Folv's Ancient Staff");
-			Tooltip.SetDefault("Shoots out bursts of Arcane Energy\n ~Donator Item~");
+			Tooltip.SetDefault("Shoots out bursts of Arcane Energy\n~Donator Item~");
 		}
 
 

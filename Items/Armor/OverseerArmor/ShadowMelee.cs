@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Armor.OverseerArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Shadowspirit Visor");
-			Tooltip.SetDefault("Increases melee damage by 28% and melee crit chance by 25% \n Increases melee speed by 30% \n Reduces damage taken by 17%");
+			Tooltip.SetDefault("Increases melee damage by 28% and melee crit chance by 25%\nIncreases melee speed by 30%\nReduces damage taken by 17%");
 		}
 
         public override void SetDefaults()

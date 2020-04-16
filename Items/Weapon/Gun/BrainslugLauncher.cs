@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Weapon.Gun
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Brainslug Blaster");
-			Tooltip.SetDefault("Shoots a Brain Slug that latches onto enemies \n Hold left click to keep the Brain Slug active");
+			Tooltip.SetDefault("Shoots a Brain Slug that latches onto enemies\nHold left click to keep the Brain Slug active");
 		}
 
 

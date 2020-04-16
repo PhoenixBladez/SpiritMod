@@ -10,7 +10,6 @@ namespace SpiritMod.Items.Weapon.Thrown
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ghost Jelly Bomb");
-			Tooltip.SetDefault("Throw an explosive, sticky jellyfish at foes!");
 		}
 
 

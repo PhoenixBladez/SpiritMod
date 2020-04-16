@@ -18,17 +18,17 @@ namespace SpiritMod.Items.Tool
 		{
 			item.width = 36;
 			item.height = 38;
-			item.value = Item.sellPrice(0, 4, 0, 0);
+			item.value = Item.sellPrice(0, 1, 0, 0);
 			item.rare = 2;
 
             item.pick = 70;
 
-            item.damage = 15;
-			item.knockBack = 4f;
+            item.damage = 16;
+			item.knockBack = 5f;
 
 			item.useStyle = 1;
-			item.useTime = 20;
-			item.useAnimation = 20;
+			item.useTime = 19;
+			item.useAnimation = 19;
 
 			item.melee = true;
 			item.autoReuse = true;

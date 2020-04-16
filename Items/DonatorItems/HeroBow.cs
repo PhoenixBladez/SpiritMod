@@ -13,7 +13,7 @@ namespace SpiritMod.Items.DonatorItems
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Hero's Bow");
-			Tooltip.SetDefault("Right-click to shoot either fiery, icy, and light arrows with different effects \n -Fiery arrows can inflict multiple different burns on foes \n -Icy Arrows can freeze an enemy in place and frostburn hit foes \n -Light Arrows have a 2% chance to instantly kill any non-boss enemy\n -Regular Arrows have powerful damage and knockback \n ~Donator Item~");
+			Tooltip.SetDefault("Right-click to shoot either fiery, icy, and light arrows with different effects\n-Fiery arrows can inflict multiple different burns on foes\n-Icy Arrows can freeze an enemy in place and frostburn hit foes \n -Light Arrows have a 2% chance to instantly kill any non-boss enemy\n-Regular Arrows have powerful damage and knockback\n~Donator Item~");
 		}
 
 

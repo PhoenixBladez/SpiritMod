@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.OverseerArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Shadowspirit Treads");
-			Tooltip.SetDefault("Increases invincibilty frames \n Increases critical strike chance by 22% \n Increases Max Life by 50");
+			Tooltip.SetDefault("Increases invincibilty frames\nIncreases critical strike chance by 22%\nIncreases Max Life by 50");
 		}
 
         public override void SetDefaults()

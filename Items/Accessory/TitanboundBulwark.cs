@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Titanbound Bulwark");
-			Tooltip.SetDefault("As your health decreases, your mana regeneration increases \n Reduces damage taken by 10% \n Increases life regeneration");
+			Tooltip.SetDefault("As your health decreases, your mana regeneration increases\nReduces damage taken by 10%\nIncreases life regeneration");
 		}
 		public override void SetDefaults()
 		{

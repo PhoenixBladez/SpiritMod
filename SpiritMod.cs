@@ -46,8 +46,6 @@ namespace SpiritMod
 		}
         public static int customEvent;
 		public static ModHotKey SpecialKey;
-		public static ModHotKey ReachKey;
-		public static ModHotKey HolyKey;
 		public static int GlyphCurrencyID;
 
 		internal static SpiritMod instance;
@@ -332,8 +330,6 @@ namespace SpiritMod
             Filters.Scene["SpiritMod:WindEffect2"] = new Filter((new BlizzardShaderData("FilterBlizzardForeground")).UseColor(0.4f, 0.4f, 0.4f).UseSecondaryColor(0.2f, 0.2f, 0.2f).UseImage("Images/Misc/noise", 0, null).UseOpacity(0.549f).UseImageScale(new Vector2(3f, 0.75f), 0), EffectPriority.High);
             
 			SpecialKey = RegisterHotKey("Armor Bonus", "Q");
-			ReachKey = RegisterHotKey("Frenzy Plant", "E");
-			HolyKey = RegisterHotKey("Holy Ward", "Z");
 
 			GlyphCurrencyID = CustomCurrencyManager.RegisterCurrency(new Currency(ModContent.ItemType<Items.Glyphs.Glyph>(), 999L));
 

@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.MagalaArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gore Magala Plate");
-            Tooltip.SetDefault("Increases maximum health by 10 and damage dealt by 9% \n ~Donator item~");
+            Tooltip.SetDefault("Increases maximum health by 10 and damage dealt by 9%\n~Donator item~");
             item.value = 3000;
 
         }

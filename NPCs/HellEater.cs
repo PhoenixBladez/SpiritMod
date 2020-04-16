@@ -22,13 +22,13 @@ namespace SpiritMod.NPCs
 		{
 			npc.width = 48;
 			npc.height = 34;
-			npc.damage = 28;
+			npc.damage = 30;
 			npc.defense = 16;
-			npc.lifeMax = 82;
+			npc.lifeMax = 112;
 			npc.HitSound = SoundID.NPCHit2;
 			npc.DeathSound = SoundID.NPCDeath6;
 			npc.value = 300f;
-			npc.knockBackResist = .45f;
+			npc.knockBackResist = .25f;
 			npc.aiStyle = 85;
 			npc.noGravity = true;
 			aiType = NPCID.StardustCellBig;
@@ -83,8 +83,8 @@ namespace SpiritMod.NPCs
             if (dashtimer >= 180)
             {
                 dashtimer = 0;
-                direction.X = direction.X * Main.rand.Next(7, 10);
-                direction.Y = direction.Y * Main.rand.Next(7, 10);
+                direction.X = direction.X * Main.rand.Next(8, 11);
+                direction.Y = direction.Y * Main.rand.Next(8, 11);
                 npc.velocity.X = direction.X;
                 npc.velocity.Y = direction.Y;
             }

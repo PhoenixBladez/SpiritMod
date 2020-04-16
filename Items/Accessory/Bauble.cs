@@ -15,7 +15,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Winter's Bauble");
-			Tooltip.SetDefault("When under half health, damage taken is reduced by 10% and movement speed is increased by 5%\n When under half health, you are also surrounded by a shield that nullifies projectiles for 6 seconds\n Two minute cooldown");
+			Tooltip.SetDefault("When under half health, damage taken is reduced by 10% and movement speed is increased by 5%\nWhen under half health, you are also surrounded by a shield that nullifies projectiles for 6 seconds\nTwo minute cooldown");
 		}
 
 

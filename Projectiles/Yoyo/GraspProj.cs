@@ -23,7 +23,8 @@ namespace SpiritMod.Projectiles.Yoyo
 			aiType = ProjectileID.Valor;
             projectile.width = 16;
             projectile.height = 18;
-		}
+            projectile.penetrate = 6;
+        }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (Main.rand.Next(3) == 0)

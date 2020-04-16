@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Consumable
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Black Pearl");
-			Tooltip.SetDefault("'Coveted by ancient horrors...'\n Summons The Tide \n Can only be used near the ocean");
+			Tooltip.SetDefault("'Coveted by ancient horrors...'\nSummons The Tide\nCan only be used near the ocean");
 		}
 
 

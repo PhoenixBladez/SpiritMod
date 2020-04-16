@@ -21,7 +21,7 @@ namespace SpiritMod.NPCs
 			npc.height = 46;
 			npc.damage = 23;
 			npc.defense = 9;
-			npc.lifeMax = 55;
+			npc.lifeMax = 43;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath6;
 			npc.value = 120f;
@@ -108,7 +108,7 @@ namespace SpiritMod.NPCs
             float num15 = num5 / num14;
             float num16 = num6 * num15;
             float SpeedY = num8 * num15;
-            int Damage = 12;
+            int Damage = 7;
             int Type = 81;    
             vector2.X += num16;
             vector2.Y += SpeedY;  

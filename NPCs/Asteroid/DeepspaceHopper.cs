@@ -29,10 +29,10 @@ namespace SpiritMod.NPCs.Asteroid
 			npc.width = 54;
 			npc.height = 24;
 			npc.damage = 15;
-			npc.defense = 6;
+			npc.defense = 9;
 			npc.lifeMax = 100;
 			npc.HitSound = SoundID.NPCHit4;
-			npc.DeathSound = SoundID.NPCDeath6;
+			npc.DeathSound = SoundID.NPCDeath14;
 			npc.value = 60f;
 			npc.knockBackResist = .45f;
 			npc.aiStyle = -1;
@@ -83,16 +83,6 @@ namespace SpiritMod.NPCs.Asteroid
                 GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Asteroid/DeepspaceHopper_Glow"));
             }
         }
-
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			Player player = spawnInfo.player;
-			if (!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.spawnTileY > Main.worldSurface || Main.dayTime) && (SpawnCondition.GoblinArmy.Chance == 0))
-			{
-				return spawnInfo.player.GetSpiritPlayer().ZoneAsteroid ? 0.1f : 0f;
-			}
-			return 0f;
-		}
 
 		public override bool PreAI()
 		{
@@ -230,7 +220,7 @@ namespace SpiritMod.NPCs.Asteroid
                 if (timer == 130) //change to frame related later
                 {
                     Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 91);
-                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 30, (float)direction9.Y * 30, mod.ProjectileType("HopperLaser"), 35, 1, Main.myPlayer);
+                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 30, (float)direction9.Y * 30, mod.ProjectileType("HopperLaser"), 27, 1, Main.myPlayer);
                 }
             }
 			return false;

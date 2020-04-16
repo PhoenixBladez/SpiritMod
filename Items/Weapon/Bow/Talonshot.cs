@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Weapon.Bow
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Talonshot");
-			Tooltip.SetDefault("Occasionally shoots out an arcane feather.");
+			Tooltip.SetDefault("Occasionally shoots out an arcane bolt");
 		}
 
 
@@ -25,8 +25,8 @@ namespace SpiritMod.Items.Weapon.Bow
             item.ranged = true;
             item.width = 20;
             item.height = 28;
-            item.useTime = 34;
-            item.useAnimation = 34;
+            item.useTime = 29;
+            item.useAnimation = 29;
             item.useStyle = 5;
             item.shoot = 3;
             item.useAmmo = AmmoID.Arrow;
@@ -38,7 +38,6 @@ namespace SpiritMod.Items.Weapon.Bow
 			item.value = Item.sellPrice(0, 1, 0, 0);
             item.autoReuse = true;
             item.shootSpeed = 14f;
-            item.crit = 8;
 
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -46,7 +45,7 @@ namespace SpiritMod.Items.Weapon.Bow
             {
                 {
                     charger++;
-                    if (charger >= 5)
+                    if (charger >= 4)
                     {
                         for (int I = 0; I < 1; I++)
                         {

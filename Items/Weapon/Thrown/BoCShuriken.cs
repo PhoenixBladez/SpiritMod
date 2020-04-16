@@ -1,4 +1,4 @@
-using System;
+//using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Creeping Shuriken");
-			Tooltip.SetDefault("Shoots a revolving creeper \n 'Fashioned after yet another fleshy eyeball'");
+			Tooltip.SetDefault("Shoots a revolving creeper\n'Fashioned after yet another fleshy eyeball'");
 		}
 
 

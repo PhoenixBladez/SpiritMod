@@ -24,8 +24,8 @@ namespace SpiritMod.Items.Weapon.Swung
             item.melee = true;            
             item.width = 34;              
             item.height = 40;             
-            item.useTime = 30;           
-            item.useAnimation = 30;     
+            item.useTime = 26;           
+            item.useAnimation = 26;     
             item.useStyle = 1;        
             item.knockBack = 5;
             item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
@@ -38,22 +38,23 @@ namespace SpiritMod.Items.Weapon.Swung
         }
       
 		 public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        { 
+         {
+            Main.PlaySound(2, (int)position.X, (int)position.Y, 8);
+            {
+                charger++;
+                if (charger >= 5)
                 {
-                    charger++;
-                    if (charger >= 5)
+                    for (int I = 0; I < 1; I++)
                     {
-                        for (int I = 0; I < 1; I++)
-                        {
-                            int p = Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), mod.ProjectileType("GiantFeather"), damage, knockBack, player.whoAmI, 0f, 0f);
-                            Main.projectile[p].ranged = false;
-                            Main.projectile[p].melee = true; 
-                        }
-                        charger = 0;
+                        int p = Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), mod.ProjectileType("GiantFeather"), damage, knockBack, player.whoAmI, 0f, 0f);
+                        Main.projectile[p].ranged = false;
+                        Main.projectile[p].melee = true;
                     }
-                    return true;
+                    charger = 0;
                 }
+                return true;
             }
+         }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

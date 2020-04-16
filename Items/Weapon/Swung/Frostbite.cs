@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Weapon.Swung
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "FrigidFragment", 13);
+            recipe.AddIngredient(null, "FrigidFragment", 9);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Floran Staff");
-			Tooltip.SetDefault("Calls three guarding energies that surround the player before dissipating \n Vines occasionally ensnare the foes, reducing their movement speed");
+			Tooltip.SetDefault("Calls three guarding energies that surround the player before dissipating\nVines occasionally ensnare the foes, reducing their movement speed");
 		}
 
 

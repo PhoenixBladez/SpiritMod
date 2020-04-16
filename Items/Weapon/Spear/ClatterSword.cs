@@ -10,7 +10,7 @@ public class ClatterSword : ModItem
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Clatter Sword");
-			Tooltip.SetDefault("A shortsword that can be swung in any direction \n Attacks occasionally pierce through enemies, lowering their defense");
+			Tooltip.SetDefault("A shortsword that can be swung in any direction\nAttacks occasionally pierce through enemies, lowering their defense");
 		}
 
 

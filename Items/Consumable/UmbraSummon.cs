@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Consumable
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Eerie Wisp");
-			Tooltip.SetDefault("'A Dark Spirit awaits...'");
+			Tooltip.SetDefault("Summons the Ethereal Umbra");
 		}
 
 

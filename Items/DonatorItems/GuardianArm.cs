@@ -15,7 +15,7 @@ namespace SpiritMod.Items.DonatorItems
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Guardian's Arm");
-			Tooltip.SetDefault("Increases sentry count by 1.\n Increases armor penetration by 5.\n~Donator Item~");
+			Tooltip.SetDefault("Increases sentry count by 1\nIncreases armor penetration by 5\n~Donator Item~");
 		}
         public override void SetDefaults()
         {

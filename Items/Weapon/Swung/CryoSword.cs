@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cryolite Sword");
-			Tooltip.SetDefault("Occasionally shoots out an icy blast that inflicts 'Cryo Crush'\n'Cryo Crush deals more damage the less life enemies have left\nThis does not affect bosses, and deals a flat rate of damage instead");
+			Tooltip.SetDefault("Occasionally shoots out an icy blast that inflicts 'Cryo Crush'\nCryo Crush deals more damage the less life enemies have left\nThis does not affect bosses, and deals a flat rate of damage instead");
 		}
 
         int charger;

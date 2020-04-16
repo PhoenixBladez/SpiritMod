@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Darkfire Katana");
-			Tooltip.SetDefault("Right Click to make the Sword and it's user immensely powerful for 30 seconds. \n The weapon of an Epic Ninja");
+			Tooltip.SetDefault("Right Click to make the Sword and its user immensely powerful for 30 seconds\n'The weapon of an Epic Ninja'");
 		}
 
 

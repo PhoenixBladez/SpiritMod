@@ -31,16 +31,20 @@ namespace SpiritMod.Items.Consumable
             item.UseSound = SoundID.Item43;
         }
 
-             public override bool CanUseItem(Player player)
+        public override bool CanUseItem(Player player)
         {
-            return !NPC.AnyNPCs(mod.NPCType("AncientFlyer"));
+            return !NPC.AnyNPCs(mod.NPCType("AncientFlyer")) && player.ZoneSkyHeight;
         }
 
-    public override bool UseItem(Player player)
+        public override bool UseItem(Player player)
         {
-            NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("AncientFlyer"));
-            Main.PlaySound(SoundID.Roar, player.position, 0);
-            return true;
+            if (player.ZoneSkyHeight)
+            {
+                NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("AncientFlyer"));
+                Main.PlaySound(SoundID.Roar, player.position, 0);
+                return true;
+            }
+            return false;
         }
         public override void AddRecipes()
         {

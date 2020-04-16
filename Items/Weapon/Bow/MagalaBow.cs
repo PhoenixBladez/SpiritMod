@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Weapon.Bow
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Entbehrung");
-			Tooltip.SetDefault("Converts arrows into spiny Magala Arrows \n 'You actually use a bow??` \n ~Donator Item~");
+			Tooltip.SetDefault("Converts arrows into spiny Magala Arrows\n'You actually use a bow?`\n~Donator Item~");
 		}
 
 

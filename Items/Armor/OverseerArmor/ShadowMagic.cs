@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Armor.OverseerArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Shadowspirit Headdress");
-			Tooltip.SetDefault("Increases magic and summon damage by 27% \n Increases magic crit chance by 16% and max minions by 4\n Increases movement speed by 25% \n Increases max mana by 120 and reduces magic cost by 7%");
+			Tooltip.SetDefault("Increases magic and summon damage by 27%\nIncreases magic crit chance by 16% and max minions by 4\nIncreases movement speed by 25%\nIncreases max mana by 120 and reduces magic cost by 7%");
 		}
 
         public override void SetDefaults()

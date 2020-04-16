@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Thrower's Glove");
-			Tooltip.SetDefault("Gives your thrower weapons a Boost! \n Increased thrown critical strike chance by 4% and throwing damage by 6%");
+			Tooltip.SetDefault("Increased thrown critical strike chance by 4% and throwing damage by 6%");
 		}
 
 

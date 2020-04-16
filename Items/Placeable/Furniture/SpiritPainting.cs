@@ -38,7 +38,7 @@ namespace SpiritMod.Items.Placeable.Furniture
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             TooltipLine line = new TooltipLine(mod, "ItemName", "'Quite a milestone indeed!\nThings can only look up from here'");
-            line.overrideColor = new Color(50, 50, 230);
+            line.overrideColor = new Color(50, 80, 200);
             tooltips.Add(line);
             foreach (TooltipLine line2 in tooltips)
             {

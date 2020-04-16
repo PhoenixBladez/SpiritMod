@@ -12,7 +12,7 @@ namespace SpiritMod.Items.DonatorItems.FrostTroll
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Chillrend");
-			Tooltip.SetDefault("Fires three consecutive rounds of bullets \n Shoots out a homing chilly blast occasionally");
+			Tooltip.SetDefault("Fires three consecutive rounds of bullets\nShoots out a homing chilly blast occasionally");
 		}
 
 

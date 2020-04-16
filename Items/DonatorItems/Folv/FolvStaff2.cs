@@ -15,7 +15,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Folv's Staff of Defense");
-			Tooltip.SetDefault("Grants 3% increased magic damage, +20 maximum mana, and immunity to knockback \n ~Donator Item~");
+			Tooltip.SetDefault("Grants 3% increased magic damage, +20 maximum mana, and immunity to knockback\n~Donator Item~");
 		}
         public override void SetDefaults()
         {

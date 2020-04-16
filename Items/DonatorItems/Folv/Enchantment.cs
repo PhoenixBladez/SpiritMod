@@ -11,7 +11,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Forgotten Enchantment");
-			Tooltip.SetDefault("Runic inscription for a particular sword. \n  ~Donator Item~");
+			Tooltip.SetDefault("'A runic inscription for a particular sword'\n~Donator Item~");
 		}
 
 

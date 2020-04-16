@@ -18,7 +18,7 @@ namespace SpiritMod.Tiles.Block
 			AddMapEntry(new Color(200, 200, 200));
             soundType = 21;
             Main.tileBlockLight[Type] = true;
-            minPick = 90;
+            minPick = 100;
         }
 	}
 }

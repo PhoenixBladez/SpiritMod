@@ -21,11 +21,14 @@ namespace SpiritMod.NPCs
 			npc.width = 44;
 			npc.height = 32;
 			npc.damage = 18;
-			npc.defense = 12;
-			npc.lifeMax = 80;
+			npc.defense = 5;
+			npc.lifeMax = 65;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath22;
-			npc.value = 60f;
+            npc.buffImmune[BuffID.Poisoned] = true;
+            npc.buffImmune[mod.BuffType("FesteringWounds")] = true;
+            npc.buffImmune[BuffID.Venom] = true;
+            npc.value = 60f;
             npc.alpha = 60;
 			npc.knockBackResist = .6f;
 			npc.aiStyle = 1;

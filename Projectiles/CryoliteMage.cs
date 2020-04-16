@@ -20,7 +20,7 @@ namespace SpiritMod.Projectiles
 			projectile.friendly = true;
 			projectile.hostile = false;
 			projectile.magic = true;
-			projectile.penetrate = 1;
+			projectile.penetrate = 2;
 			projectile.timeLeft = 240;
 			projectile.height = 18;
 			projectile.width = 18;
@@ -67,6 +67,22 @@ namespace SpiritMod.Projectiles
 			if (Main.rand.Next(2) == 0)
 				target.AddBuff(mod.BuffType("CryoCrush"), 300);
 		}
-
-	}
+        public override void Kill(int timeLeft)
+        {
+            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
+            for (int i = 0; i < 10; i++)
+            {
+                int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 68, 0f, -2f, 0, default(Color), 1.1f);
+                Main.dust[num].noGravity = true;
+                Dust expr_62_cp_0 = Main.dust[num];
+                expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-30, 31) / 20) - 1.5f);
+                Dust expr_92_cp_0 = Main.dust[num];
+                expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-30, 31) / 20) - 1.5f);
+                if (Main.dust[num].position != projectile.Center)
+                {
+                    Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
+                }
+            }
+        }
+    }
 }

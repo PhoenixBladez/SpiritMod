@@ -24,7 +24,8 @@ namespace SpiritMod.NPCs.Reach
 			npc.height = 34;
 			npc.damage = 22;
 			npc.defense = 8;
-			npc.lifeMax = 54;
+            npc.buffImmune[BuffID.Poisoned] = true;
+            npc.lifeMax = 54;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
 			npc.value = 60f;

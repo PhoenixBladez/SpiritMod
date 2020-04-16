@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Frigid Wind");
-			Tooltip.SetDefault("Greatly increases jump height \n Leave a trail of chilly embers as you walk");
+			Tooltip.SetDefault("Greatly increases jump height\nLeave a trail of chilly embers as you walk");
 		}
 
 

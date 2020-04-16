@@ -25,6 +25,9 @@ namespace SpiritMod
 		public static int auroraChance = 4;
 
 		public static bool aurora = false;
+        public static bool stardustWeather = false;
+        public static bool spaceJunkWeather = false;
+
         public static float asteroidLight = 0;
 
         public static bool BlueMoon = false;
@@ -3490,6 +3493,9 @@ namespace SpiritMod
                                 Framing.GetTileSafely(k, l).ClearTile();
                                 WorldGen.PlaceTile(k, l, 0); // Dirt
                                 break;
+                            case 4:
+                                Framing.GetTileSafely(k, l).ClearTile();
+                                break;
                         }
                     }
                 }
@@ -3567,8 +3573,8 @@ namespace SpiritMod
         {
             int[,] GraveShape = new int[,]
             {
-                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,0},
+                {0,0,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,0},
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                 {0,0,0,0,2,0,0,2,0,0,2,0,0,2,0,0,2,0,0},
                 {0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
@@ -4275,24 +4281,27 @@ namespace SpiritMod
                                 chest.item[7].stack = WorldGen.genRand.Next(2, 6);
                                 chest.item[8].SetDefaults(72, false);
                                 chest.item[8].stack = WorldGen.genRand.Next(12, 30);
+                                if (Main.rand.Next(4) == 0)
+                                {
+                                    chest.item[9].SetDefaults(mod.ItemType("GladeWreath"), false);
+                                }
 
                             }		
 						}
 					}
 				}
 			}
-			int[] itemsToPlaceInGlassChests = new int[] { mod.ItemType("ReachStaffChest"), mod.ItemType("ReachBoomerang"), mod.ItemType("ReachBrooch") };
+			int[] itemsToPlaceInGlassChests = new int[] { mod.ItemType("ReachChestMagic"), mod.ItemType("BriarRattle"), mod.ItemType("ReachStaffChest"), mod.ItemType("ReachBoomerang"), mod.ItemType("ReachBrooch") };
 			int itemsToPlaceInGlassChestsChoice = 0;
 			for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
 			{
 				Chest chest = Main.chest[chestIndex];
-				if (chest != null && Main.tile[chest.x, chest.y].type/*.frameX == 47 * 36*/ == mod.TileType("ReachChest")) // if glass chest
+				if (chest != null && Main.tile[chest.x, chest.y].type == mod.TileType("ReachChest"))
 				{
 					for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
 					{
 						itemsToPlaceInGlassChestsChoice = Main.rand.Next(itemsToPlaceInGlassChests.Length);
 						chest.item[0].SetDefaults(itemsToPlaceInGlassChests[itemsToPlaceInGlassChestsChoice]);
-						//itemsToPlaceInGlassChestsChoice = (itemsToPlaceInGlassChestsChoice + 1) % itemsToPlaceInGlassChests.Length;
 						
 					}
 				}
@@ -4434,7 +4443,23 @@ namespace SpiritMod
 
 			if (dayTimeSwitched)
 			{
-				if (!Main.dayTime && Main.hardMode)
+                if (Main.rand.Next(4) == 0 && !spaceJunkWeather)
+                {
+                    stardustWeather = true;
+                }
+                else
+                {
+                    stardustWeather = false;
+                }
+                if (Main.rand.Next(4) == 0 && !stardustWeather)
+                {
+                    spaceJunkWeather = true;
+                }
+                else
+                {
+                    spaceJunkWeather = false;
+                }
+                if (!Main.dayTime && Main.hardMode)
 				{
 					if (!Main.fastForwardTime && !Main.bloodMoon && WorldGen.spawnHardBoss == 0 &&
 						NPC.downedMechBossAny && Main.rand.Next(27) == 0)

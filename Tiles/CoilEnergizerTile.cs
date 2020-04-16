@@ -55,7 +55,7 @@ namespace SpiritMod.Tiles
             Tile t = Main.tile[i, j];
             if (t.frameX % 54 == 0 && t.frameY == 0)
             {
-                Main.spriteBatch.Draw(Main.extraTexture[60], new Vector2(i * 16 - (int)Main.screenPosition.X - 44, j * 16 - (int)Main.screenPosition.Y - 32) + zero, null, new Color(3, 169, 252, 0), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(Main.extraTexture[60], new Vector2(i * 16 - (int)Main.screenPosition.X - 44, j * 16 - (int)Main.screenPosition.Y - 46) + zero, null, new Color(3, 169, 252, 0), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             }
             if (tile.frameX == 18 && tile.frameY == 18)
             {

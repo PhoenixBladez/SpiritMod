@@ -197,6 +197,11 @@ namespace SpiritMod
         public int frostTally;
         public int frostCount;
 
+        public float shadowRotation;
+        public bool shadowUpdate;
+        public int shadowTally;
+        public int shadowCount;
+
         // Armor set booleans.
         public bool duskSet;
         public bool runicSet;
@@ -837,26 +842,6 @@ namespace SpiritMod
                     Projectile.NewProjectile(player.position, Vector2.Zero, mod.ProjectileType("Gore1"), 21, 0, player.whoAmI);
                 }
             }
-
-            if (SpiritMod.HolyKey.JustPressed)
-            {
-                if (HolyGrail && player.FindBuffIndex(mod.BuffType("HolyCooldown")) < 0)
-                {
-                    player.AddBuff(mod.BuffType("HolyCooldown"), 3600);
-                    player.AddBuff(mod.BuffType("HolyBuff"), 780);
-                    Projectile.NewProjectile(player.position, Vector2.Zero, mod.ProjectileType("GrailWard"), 0, 0, player.whoAmI);
-                }
-            }
-
-            if (SpiritMod.ReachKey.JustPressed)
-            {
-                if (deathRose && player.FindBuffIndex(mod.BuffType("DeathRoseCooldown")) < 0)
-                {
-                    player.AddBuff(mod.BuffType("DeathRoseCooldown"), 3600);
-                    Projectile.NewProjectile(player.position, Vector2.Zero, mod.ProjectileType("PlantProj"), 0, 0, player.whoAmI);
-                }
-            }
-
         }
 
         public override bool PreItemCheck()
@@ -2038,6 +2023,83 @@ namespace SpiritMod
 
         public override void PreUpdate()
         {
+            if (ZoneAsteroid && MyWorld.stardustWeather)
+            {
+                int d = Main.rand.Next(new int[] { 180, 226, 206});
+                {
+                    int maxValue = 800;
+                    int num1 = (int)((double)(int)(500.0 * (double)((float)Main.screenWidth / (float)Main.maxScreenW)) * (1.0 + 2.0 * (double)Main.cloudAlpha));
+                    float num2 = (float)(1.0 + 50.0 * (double)Main.cloudAlpha);
+                    if (Main.rand.Next(10) == 0)
+                    {
+                        int num3 = Main.rand.Next(Main.screenWidth + 1000) - 500;
+                        int num4 = (int)Main.screenPosition.Y - Main.rand.Next(50);
+                        if ((double)Main.player[Main.myPlayer].velocity.Y > 0.0)
+                            num4 -= (int)Main.player[Main.myPlayer].velocity.Y;
+                        if (Main.rand.Next(5) == 0)
+                            num3 = Main.rand.Next(500) - 500;
+                        else if (Main.rand.Next(5) == 0)
+                            num3 = Main.rand.Next(500) + Main.screenWidth;
+                        if (num3 < 0 || num3 > Main.screenWidth)
+                            num4 += Main.rand.Next((int)((double)Main.screenHeight * 0.8)) + (int)((double)Main.screenHeight * 0.1);
+                        int num5 = num3 + (int)Main.screenPosition.X;
+                        int index2 = num5 / 16;
+                        int index3 = num4 / 16;
+                        if (Main.tile[index2, index3] != null)
+                        {
+                            if ((int)Main.tile[index2, index3].wall == 0)
+                            {
+                                int index4 = Dust.NewDust(new Vector2((float)(num5), (float)num4), 10, 10, d, 0.0f, 0.0f, 0, new Microsoft.Xna.Framework.Color(), 1f);
+                                Main.dust[index4].scale += Main.cloudAlpha * 0.2f;
+                                Main.dust[index4].velocity.Y = (float)(3.0 + (double)Main.rand.Next(30) * 0.100000001490116);
+                                Main.dust[index4].velocity.Y *= Main.dust[index4].scale;
+                                if (!Main.raining)
+                                {
+                                    Main.dust[index4].velocity.X = Main.windSpeed + (float)Main.rand.Next(-10, 10) * 0.1f;
+                                    Main.dust[index4].velocity.X += (float)((double)Main.windSpeed * (double)Main.cloudAlpha * 10.0);
+                                }
+                                else
+                                {
+                                    Main.dust[index4].velocity.X = (float)(Math.Sqrt((double)Math.Abs(Main.windSpeed)) * (double)Math.Sign(Main.windSpeed) * ((double)Main.cloudAlpha + 0.5) * 25.0 + (double)Main.rand.NextFloat() * 0.200000002980232 - 0.100000001490116);
+                                    Main.dust[index4].velocity.Y *= 0.5f;
+                                }
+                                Main.dust[index4].velocity.Y *= (float)(1.0 + 0.300000011920929 * (double)Main.cloudAlpha);
+                                Main.dust[index4].scale += Main.cloudAlpha * 0.2f;
+                                Main.dust[index4].velocity *= (float)(1.0 + (double)Main.cloudAlpha * 0.5);
+                            }
+                        }
+                    }
+                }
+            }
+            if (ZoneAsteroid && MyWorld.spaceJunkWeather && Main.rand.Next(59) == 0)
+            {
+                Vector2 vector2_1 = new Vector2((float)((double)player.position.X + (double)player.width * 0.5 + (double)(Main.rand.Next(201) * -player.direction) + ((double)Main.mouseX + (double)Main.screenPosition.X - (double)player.position.X)), (float)((double)player.position.Y + (double)player.height * 0.5 - 600.0));   //this defines the projectile width, direction and position
+
+                string[] smallDebris = { "SpaceDebris1", "SpaceDebris2", "MeteorShard3", "MeteorShard4" };
+                int small = Main.rand.Next(smallDebris.Length);
+                string[] bigDebris = { "SpaceDebris3", "SpaceDebris4", "MeteorShard5", "MeteorShard6" };
+                int big = Main.rand.Next(bigDebris.Length);
+                vector2_1.X = (float)(((double)vector2_1.X + (double)player.Center.X) / 2.0) + (float)Main.rand.Next(-200, 201);
+                vector2_1.Y -= (float)(100);
+                float num12 = Main.rand.Next(-30, 30);
+                float num13 = 100;
+                if ((double)num13 < 0.0) num13 *= -1f;
+                if ((double)num13 < 20.0) num13 = 20f;
+                float num14 = (float)Math.Sqrt((double)num12 * (double)num12 + (double)num13 * (double)num13);
+                float num15 = 10 / num14;
+                float num16 = num12 * num15;
+                float num17 = num13 * num15;
+                float SpeedX = num16 + (float)Main.rand.Next(-40, 41) * Main.windSpeed + (.01f * Main.windSpeed);  //this defines the projectile X position speed and randomnes
+                float SpeedY = num17 + (float)Main.rand.Next(-40, 41) * 0.02f;  //this defines the projectile Y position speed and randomnes
+                if (Main.rand.Next(7) == 0)
+                {
+                    int proj = Projectile.NewProjectile(player.Center.X + Main.rand.Next(-1000, 1000), player.Center.Y + Main.rand.Next(-1200, -900), SpeedX, SpeedY, mod.ProjectileType(bigDebris[big]), 16, 3, Main.myPlayer, 0.0f, 1);
+                }
+                else
+                {
+                    int proj1 = Projectile.NewProjectile(player.Center.X + Main.rand.Next(-1000, 1000), player.Center.Y + Main.rand.Next(-1200, -900), SpeedX, SpeedY, mod.ProjectileType(smallDebris[small]), 7, 3, Main.myPlayer, 0.0f, 1);
+                }
+            }
             if (ZoneReach && !Main.raining)
             {
                 Main.cloudAlpha+= .005f;
@@ -3762,7 +3824,7 @@ namespace SpiritMod
 
         public override void PostUpdate()
         {
-            if (ZoneReach && player.ZoneOverworldHeight && !player.ZoneDesert)
+            if (ZoneReach && !player.ZoneDesert)
             {
                 int off = 5; //Change this value depending on the strength of your light. Too big and it might cause lag, though. Never go above ~20 or so.
                 int x = (int)(Main.screenPosition.X / 16f) - off;

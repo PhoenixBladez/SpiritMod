@@ -14,7 +14,7 @@ namespace SpiritMod.Items.DonatorItems
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Princess' Scythe");
-			Tooltip.SetDefault("Launches spinning sickles of death.\n ~Donator Item~");
+			Tooltip.SetDefault("Launches spinning sickles of death\n~Donator Item~");
 		}
 
 

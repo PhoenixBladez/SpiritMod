@@ -60,9 +60,8 @@ namespace SpiritMod.NPCs.Town
                 Player player = Main.player[k];
                 if (player.active)
                 {
-                    if (!NPC.AnyNPCs(mod.NPCType("BoundAdventurer")))
+                    if (!NPC.AnyNPCs(mod.NPCType("BoundAdventurer")) && !NPC.AnyNPCs(mod.NPCType("Adventurer")))
                     {
-                        if (!NPC.AnyNPCs(mod.NPCType("Adventurer")))
                         {
                             return true;
                         }

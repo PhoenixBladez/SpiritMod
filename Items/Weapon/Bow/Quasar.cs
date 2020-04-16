@@ -38,7 +38,9 @@ namespace SpiritMod.Items.Weapon.Bow
         }
             public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			Terraria.Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.LostSoulFriendly, damage, knockBack, player.whoAmI, 0f, 0f);
+			int p = Terraria.Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.LostSoulFriendly, damage, knockBack, player.whoAmI, 0f, 0f);
+            Main.projectile[p].magic = false;
+            Main.projectile[p].ranged = true;
             return false;
 
         }

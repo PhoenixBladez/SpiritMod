@@ -21,6 +21,7 @@ namespace SpiritMod.YoYoOverload.Items
 			base.projectile.damage = 18;
 			base.projectile.extraUpdates = 1;
 			this.aiType = 543;
+            projectile.penetrate = 5;
 		}
 
 		public override void PostAI()

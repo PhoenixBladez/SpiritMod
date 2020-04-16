@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Runic Sword");
-			Tooltip.SetDefault("Occasionally shoots out exploding, homing runes");
+			Tooltip.SetDefault("Shoots out exploding, homing runes");
 		}
 
 

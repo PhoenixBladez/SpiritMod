@@ -67,8 +67,10 @@ namespace SpiritMod.Projectiles.Magic
 					projectile.extraUpdates = 0;
 					projectile.numUpdates = 0;
 				}
-				Trail(Origin, projectile.position);
-				Origin = projectile.position;
+                {
+                    Trail(Origin, projectile.position);
+                    Origin = projectile.position;
+                }
 			}
 		}
 

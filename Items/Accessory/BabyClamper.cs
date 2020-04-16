@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Baby Clamper");
-			Tooltip.SetDefault("Increases maximum number of minions by 1\n Increases life regeneration by 3");
+			Tooltip.SetDefault("Increases maximum number of minions by 1\nIncreases life regeneration by 3");
 		}
 
 

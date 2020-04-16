@@ -18,8 +18,10 @@ namespace SpiritMod.NPCs
 			npc.height = 18;
 			npc.damage = 16;
 			npc.defense = 5;
-			npc.lifeMax = 21;
-			npc.HitSound = SoundID.NPCHit1;
+            npc.lifeMax = 21;
+            npc.buffImmune[BuffID.Poisoned] = true;
+            npc.buffImmune[mod.BuffType("FesteringWounds")] = true;
+            npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath4;
 			npc.value = 60f;
 			npc.knockBackResist = .45f;

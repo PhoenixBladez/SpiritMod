@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("The Mountain");
-			Tooltip.SetDefault("'Swinging the blade strengthens you \n Occasionally inflicts foes with 'Unstable Affliction''");
+			Tooltip.SetDefault("'Swinging the blade strengthens you'\nOccasionally inflicts foes with 'Unstable Affliction'");
 		}
 
 

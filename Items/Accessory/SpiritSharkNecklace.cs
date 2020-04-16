@@ -15,7 +15,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spiritshark Necklace");
-			Tooltip.SetDefault("Melee weapons have high armor penetration \n All attacks can inflict Essence Trap");
+			Tooltip.SetDefault("Melee weapons have high armor penetration\nAll attacks can inflict Essence Trap");
 		}
 
 

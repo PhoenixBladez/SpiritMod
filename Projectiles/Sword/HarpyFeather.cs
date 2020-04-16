@@ -35,7 +35,7 @@ namespace SpiritMod.Projectiles.Sword
 			int num = 5;
 			for (int k = 0; k < 6; k++)
 				{
-					int index2 = Dust.NewDust(projectile.position, 4, 4, 187, 0.0f, 0.0f, 0, new Color(), 1f);
+					int index2 = Dust.NewDust(projectile.position, 4, 4, 187, 0.0f, 0.0f, 0, new Color(), .6f);
 					Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
 					Main.dust[index2].scale = .8f;
 					Main.dust[index2].velocity *= 0f;

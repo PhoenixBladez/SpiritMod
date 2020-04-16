@@ -74,7 +74,7 @@ namespace SpiritMod.Items.Weapon.Summon
             position = value18;
             for (int i = 0; i <= Main.rand.Next(1,2); i++)
             {
-                 Terraria.Projectile.NewProjectile(position.X + Main.rand.Next(-20, 20), position.Y, 0f, 0f, type, damage, knockBack, player.whoAmI);
+                 Terraria.Projectile.NewProjectile(position.X + Main.rand.Next(-30, 30), position.Y, 0f, 0f, type, damage, knockBack, player.whoAmI);
             }
             return false;
         }

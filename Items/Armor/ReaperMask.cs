@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Reaper's Mask");
-            Tooltip.SetDefault("Increases ranged damage by 9%, ranged critical strike chance by 10% \n Press the 'Armor Bonus' hotkey to turn into an invulnerable wraith");
+            Tooltip.SetDefault("Increases ranged damage by 9%, ranged critical strike chance by 10%\nPress the 'Armor Bonus' hotkey to turn into an invulnerable wraith");
 
         }
 

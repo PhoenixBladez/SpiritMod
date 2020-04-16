@@ -22,7 +22,8 @@ namespace SpiritMod.NPCs.Reach
 			npc.damage = 44;
 			npc.defense = 17;
 			npc.lifeMax = 200;
-			npc.HitSound = SoundID.NPCHit1;
+            npc.buffImmune[BuffID.Poisoned] = true;
+            npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
 			npc.value = 1260f;
 			npc.knockBackResist = .22f;

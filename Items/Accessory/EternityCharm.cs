@@ -15,7 +15,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Eternity Charm");
-			Tooltip.SetDefault("You are the champion of Spirits \n Launches a multitude of Soul Shards when damaged");
+			Tooltip.SetDefault("You are the champion of Spirits\nLaunches a multitude of Soul Shards when damaged");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(7, 8));
         }
 

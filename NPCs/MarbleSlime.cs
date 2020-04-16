@@ -21,7 +21,9 @@ namespace SpiritMod.NPCs
 			npc.lifeMax = 90;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
-			npc.value = 60f;
+            npc.buffImmune[BuffID.Poisoned] = true;
+            npc.buffImmune[BuffID.Venom] = true;
+            npc.value = 60f;
 			npc.knockBackResist = .45f;
 			npc.aiStyle = 1;
 			Main.npcFrameCount[npc.type] = Main.npcFrameCount[NPCID.BlueSlime];

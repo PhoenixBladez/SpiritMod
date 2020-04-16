@@ -23,9 +23,9 @@ namespace SpiritMod.Projectiles
 			projectile.width = 2;       //projectile width
 			projectile.height = 2;  //projectile height
 			projectile.friendly = true;      //make that the projectile will not damage you
-			projectile.ranged = true;         // 
+			projectile.minion = true;         // 
 			projectile.tileCollide = true;   //make that the projectile will be destroed if it hits the terrain
-			projectile.penetrate = 2;      //how many npc will penetrate
+			projectile.penetrate = 1;      //how many npc will penetrate
 			projectile.timeLeft = 210;   //how many time projectile projectile has before disepire // projectile light
 			projectile.extraUpdates = 0;
 			projectile.ignoreWater = true;
@@ -40,7 +40,7 @@ namespace SpiritMod.Projectiles
 			{
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
-				int num = Dust.NewDust(new Vector2(x, y), 26, 26, 187, 0f, 0f, 0, default(Color), 1f);
+				int num = Dust.NewDust(new Vector2(x, y), 26, 26, 180, 0f, 0f, 0, default(Color), 1f);
 				Main.dust[num].alpha = projectile.alpha;
 				Main.dust[num].position.X = x;
 				Main.dust[num].position.Y = y;

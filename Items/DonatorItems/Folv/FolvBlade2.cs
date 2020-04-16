@@ -13,7 +13,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Folv's Sharpened Blade");
-			Tooltip.SetDefault("Occasionally returns a larger amount of mana on swing.\n  ~Donator Item~");
+			Tooltip.SetDefault("Occasionally returns a larger amount of mana on swing\n~Donator Item~");
 		}
 
 

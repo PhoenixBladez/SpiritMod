@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Lava Soul");
-			Tooltip.SetDefault("Getting hurt releases embers \n Minions have a chance to burn enemies");
+			Tooltip.SetDefault("Getting hurt releases embers\nMinions have a chance to burn enemies");
 		}
 
 

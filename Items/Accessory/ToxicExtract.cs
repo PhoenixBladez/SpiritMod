@@ -15,7 +15,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Toxic Extract");
-			Tooltip.SetDefault("Magic attacks drench enemies in venom occasionally \n Increases critical strike chance by 8%");
+			Tooltip.SetDefault("Magic attacks drench enemies in venom occasionally\nIncreases critical strike chance by 8%");
 		}
 
 

@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Geode Staff");
-			Tooltip.SetDefault("Shoots a ball of energy that inflicts a multitude of debuffs \n The energy may split into a fiery blaze or a cursed inferno");
+			Tooltip.SetDefault("Shoots a ball of energy that inflicts a multitude of debuffs\nThe energy may split into a fiery blaze or a cursed inferno");
 		}
 
 

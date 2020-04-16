@@ -728,7 +728,19 @@ namespace SpiritMod.NPCs
                 if (TideWorld.TheTide && spawnInfo.player.ZoneBeach)
                     pool.Remove(0);
             }
+            for (int k = 0; k < 255; k++)
+            {
+                Player player = Main.player[k];
+                if (spawnInfo.player.GetSpiritPlayer().ZoneAsteroid)
+                {
+                    pool.Clear();
+                    pool.Add(mod.NPCType("DeepspaceHopper"), 1.05f);
+                    pool.Add(mod.NPCType("AstralAmalgram"), 0.63f);
+                }
+            }
+            return;
         }
+    
 
 		public override void ModifyHitByItem(NPC npc, Player player, Item item, ref int damage, ref float knockback, ref bool crit)
 		{

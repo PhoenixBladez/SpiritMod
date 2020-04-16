@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bouncy Eyeball");
-			Tooltip.SetDefault("Bounces around multiple times \n 'Creatively disgusting, or disgustingly creative?'");
+			Tooltip.SetDefault("Bounces around multiple times\n'Creatively disgusting, or disgustingly creative?'");
 		}
 
 

@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Material
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Dusk Shard");
-			Tooltip.SetDefault("'The stone sparkles with twilight energies'\nInvolved in the crafting of Dusk Armor");
+			Tooltip.SetDefault("'The stone sparkles with twilight energies'");
             SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Material/DuskStone_Glow");
 		}
 

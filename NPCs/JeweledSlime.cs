@@ -24,7 +24,9 @@ namespace SpiritMod.NPCs
 			npc.value = 5060f;
 			npc.knockBackResist = .25f;
 			npc.aiStyle = 1;
-			aiType = NPCID.BlueSlime;
+            npc.buffImmune[BuffID.Poisoned] = true;
+            npc.buffImmune[BuffID.Venom] = true;
+            aiType = NPCID.BlueSlime;
 			animationType = NPCID.BlueSlime;
 		}
 

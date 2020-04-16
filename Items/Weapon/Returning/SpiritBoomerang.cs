@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Returning
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spirit Boomerang");
-			Tooltip.SetDefault("'Shoots out three boomerangs that inflict Soul Burn!'");
+			Tooltip.SetDefault("Inflicts Soul Burn");
 		}
 
 

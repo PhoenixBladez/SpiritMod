@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Ammo
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spectre Bullet");
-			Tooltip.SetDefault("A spectral bolt that homes on to enemies and occasionally saps their life \n ~Donator Item~");
+			Tooltip.SetDefault("A spectral bolt that homes on to enemies and occasionally saps their life\n~Donator Item~");
 		}
 
 

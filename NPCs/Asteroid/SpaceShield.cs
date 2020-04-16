@@ -43,10 +43,13 @@ namespace SpiritMod.NPCs.Asteroid
 		 public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
         {
             npc.dontTakeDamage = true;
-            projectile.hostile = true;
-            projectile.friendly = false;
-            projectile.penetrate = 2;
-            projectile.velocity.X = projectile.velocity.X * -1f;
+            if (!projectile.minion)
+            {
+                projectile.hostile = true;
+                projectile.friendly = false;
+                projectile.penetrate = 2;
+                projectile.velocity.X = projectile.velocity.X * -1f;
+            }
             damage = 0;
             npc.life = 100;
         }

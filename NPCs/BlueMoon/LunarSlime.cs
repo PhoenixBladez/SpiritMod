@@ -31,7 +31,9 @@ namespace SpiritMod.NPCs.BlueMoon
 			npc.value = 600f;
 			npc.knockBackResist = .4f;
 			npc.aiStyle = 1;
-			aiType = NPCID.BlueSlime;
+            npc.buffImmune[BuffID.Poisoned] = true;
+            npc.buffImmune[BuffID.Venom] = true;
+            aiType = NPCID.BlueSlime;
 			animationType = NPCID.BlueSlime;
 		}
 

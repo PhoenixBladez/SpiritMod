@@ -65,7 +65,6 @@ namespace SpiritMod.Utilities
                 }
             }
         }
-
         private static int Rain_NewRain(On.Terraria.Rain.orig_NewRain orig, Vector2 Position, Vector2 Velocity)
         {
             int id = orig(Position, Velocity);

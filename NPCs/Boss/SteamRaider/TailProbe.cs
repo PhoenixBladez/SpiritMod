@@ -101,7 +101,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				npc.position.Y = npc.position.Y - (npc.height / 2.0f);
 				for (int num621 = 0; num621 < 10; num621++)
 				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 60, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default(Color), 2f);
 					Main.dust[num622].velocity *= 1f;
 					if (Main.rand.Next(2) == 0)
 					{
@@ -114,6 +114,25 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		int shoottimer;
 		public override void AI()
 		{
+            if (!NPC.AnyNPCs(mod.NPCType("SteamRaiderHead")))
+            {
+                npc.active = false;
+                npc.position.X = npc.position.X + (npc.width / 2.0f);
+                npc.position.Y = npc.position.Y + (npc.height / 2.0f);
+                npc.width = 30;
+                npc.height = 30;
+                npc.position.X = npc.position.X - (npc.width / 2.0f);
+                npc.position.Y = npc.position.Y - (npc.height / 2.0f);
+                for (int num621 = 0; num621 < 10; num621++)
+                {
+                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default(Color), .8f);
+                    Main.dust[num622].velocity *= 1f;
+                    if (Main.rand.Next(2) == 0)
+                    {
+                        Main.dust[num622].scale = 0.5f;
+                    }
+                }
+            }
 			Player player = Main.player[npc.target];
             /*for (int i = 0; i < 255; ++i)
 					{

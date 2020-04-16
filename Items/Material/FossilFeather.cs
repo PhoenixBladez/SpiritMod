@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Material
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Fossil Feather");
-			Tooltip.SetDefault("Involved in the crafting of Talon tools and armor \n 'Suprisingly well preserved'");
+			Tooltip.SetDefault("Involved in the crafting of Talon tools and armor\n'Suprisingly well preserved'");
 		}
 
 

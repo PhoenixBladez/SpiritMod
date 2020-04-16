@@ -11,7 +11,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Folv's Magic Missiles");
-			Tooltip.SetDefault("Shoots out stationary bolts of energy that seek out nearby enemies \n ~Donator Item~");
+			Tooltip.SetDefault("Shoots out stationary bolts of energy that seek out nearby enemies\n~Donator Item~");
 		}
 
 

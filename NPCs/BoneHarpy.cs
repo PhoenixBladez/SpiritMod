@@ -33,61 +33,63 @@ namespace SpiritMod.NPCs
 			npc.HitSound = SoundID.NPCHit2;
 			npc.DeathSound = SoundID.NPCDeath6;
 		}
+        int counter;
+        public override void AI()
+        {
+            counter++;
+            npc.spriteDirection = npc.direction;
+            Player player = Main.player[npc.target];
+            if (npc.Center.X >= player.Center.X && moveSpeed >= -60) // flies to players x position
+            {
+                moveSpeed--;
+            }
 
-		public override void AI()
+            if (npc.Center.X <= player.Center.X && moveSpeed <= 60)
+            {
+                moveSpeed++;
+            }
+
+            npc.velocity.X = moveSpeed * 0.08f;
+
+            if (npc.Center.Y >= player.Center.Y - HomeY && moveSpeedY >= -50) //Flies to players Y position
+            {
+                moveSpeedY--;
+                HomeY = 150f;
+            }
+
+            if (npc.Center.Y <= player.Center.Y - HomeY && moveSpeedY <= 50)
+            {
+                moveSpeedY++;
+            }
+
+            npc.velocity.Y = moveSpeedY * 0.2f;
+            if (Main.rand.Next(220) == 8)
+            {
+                HomeY = -25f;
+            }
+            if (counter >= 240) //Fires desert feathers like a shotgun
+            {
+                counter = 0;
+                Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 73);
+                Vector2 direction = Main.player[npc.target].Center - npc.Center;
+                direction.Normalize();
+                direction.X *= 14f;
+                direction.Y *= 14f;
+
+                int amountOfProjectiles = Main.rand.Next(3, 5);
+                for (int i = 0; i < amountOfProjectiles; ++i)
+                {
+                    float A = (float)Main.rand.Next(-150, 150) * 0.01f;
+                    float B = (float)Main.rand.Next(-150, 150) * 0.01f;
+                    int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("DesertFeather"), 11, 1, Main.myPlayer, 0, 0);
+                    Main.projectile[p].scale = .6f;
+                }
+            }
+        }
+
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			npc.spriteDirection = npc.direction;
-			Player player = Main.player[npc.target];
-			if (npc.Center.X >= player.Center.X && moveSpeed >= -53) // flies to players x position
-			{
-				moveSpeed--;
-			}
-
-			if (npc.Center.X <= player.Center.X && moveSpeed <= 53)
-			{
-				moveSpeed++;
-			}
-
-			npc.velocity.X = moveSpeed * 0.08f;
-
-			if (npc.Center.Y >= player.Center.Y - HomeY && moveSpeedY >= -30) //Flies to players Y position
-			{
-				moveSpeedY--;
-				HomeY = 150f;
-			}
-
-			if (npc.Center.Y <= player.Center.Y - HomeY && moveSpeedY <= 30)
-			{
-				moveSpeedY++;
-			}
-
-			npc.velocity.Y = moveSpeedY * 0.1f;
-			if (Main.rand.Next(220) == 6)
-			{
-				HomeY = -35f;
-			}
-			if (Main.rand.Next(150) == 6) //Fires desert feathers like a shotgun
-			{
-				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 73);
-				Vector2 direction = Main.player[npc.target].Center - npc.Center;
-				direction.Normalize();
-				direction.X *= 14f;
-				direction.Y *= 14f;
-
-				int amountOfProjectiles = Main.rand.Next(3, 5);
-				for (int i = 0; i < amountOfProjectiles; ++i)
-				{
-					float A = (float)Main.rand.Next(-150, 150) * 0.01f;
-					float B = (float)Main.rand.Next(-150, 150) * 0.01f;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("DesertFeather"), 10, 1, Main.myPlayer, 0, 0);
-				}
-			}
-
-		}
-
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			return spawnInfo.sky && NPC.downedQueenBee ? 0.16f : 0f;
+			return spawnInfo.sky && NPC.downedQueenBee && !Main.LocalPlayer.GetSpiritPlayer().ZoneAsteroid ? 0.16f : 0f;
 		}
 
 		public override void NPCLoot()

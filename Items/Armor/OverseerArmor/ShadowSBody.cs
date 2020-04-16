@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.OverseerArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Shadowspirit Breastplate");
-            Tooltip.SetDefault("Increases movement speed by 30% and Increases max life by 50 \n Massively increases life regen'");
+            Tooltip.SetDefault("Increases movement speed by 30% and Increases max life by 50\nMassively increases life regen'");
 
         }
 

@@ -59,7 +59,7 @@ namespace SpiritMod.NPCs.Town
 				Player player = Main.player[k];
 				if (player.active)
 				{
-					if (!NPC.AnyNPCs(mod.NPCType("Rogue")) || !NPC.AnyNPCs(mod.NPCType("BoundRogue")))
+					if (!NPC.AnyNPCs(mod.NPCType("Rogue")) && !NPC.AnyNPCs(mod.NPCType("BoundRogue")))
 					{
 						return true;
 					}

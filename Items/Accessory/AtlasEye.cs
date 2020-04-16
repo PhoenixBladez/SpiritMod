@@ -14,7 +14,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Atlas Eye");
-			Tooltip.SetDefault("Under 50% health, movement speed is reduced by 1/3, but defense is increased by 20. \n Reduces damage taken by 12%");
+			Tooltip.SetDefault("Under 50% health, movement speed is reduced by 1/3, but defense is increased by 20.\nReduces damage taken by 12%");
 		}
 
 

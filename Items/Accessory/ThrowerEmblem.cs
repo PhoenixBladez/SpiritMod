@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Rogue Emblem");
-			Tooltip.SetDefault("Increases throwing damage by 15%");
+			Tooltip.SetDefault("Increases thrown damage by 15%");
 		}
 
 
