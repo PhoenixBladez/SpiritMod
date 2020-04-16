@@ -41,7 +41,21 @@ namespace SpiritMod.NPCs.BloodMoon
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.46f, 0.12f, .64f);
 
 			npc.TargetClosest(true);
-
+			
+			//"teleport away" at daylight
+			if (Main.dayTime)
+			{
+				npc.alpha = 255;
+				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
+				for (int index1 = 0; index1 < 50; ++index1)
+				{
+					int newDust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0.0f, 0.0f, 100, new Color(), 1.5f);
+					Main.dust[newDust].velocity *= 3f;
+					Main.dust[newDust].noGravity = true;
+				}
+				npc.active = false;
+				npc.life = 0;
+			}
 			if (npc.ai[2] != 0 && npc.ai[3] != 0)
 			{
 				// Teleport effects: away.

@@ -46,7 +46,6 @@ namespace SpiritMod.Projectiles.Thrown
 				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 133, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 0, default(Color), 0.75f);
 			}
 			Main.player[projectile.owner].Teleport(new Vector2(projectile.position.X, projectile.position.Y - 32), 2, 0);
-			Main.player[projectile.owner].AddBuff(88, 180);
 			if (Main.player[projectile.owner].FindBuffIndex(88)>=0)
 			{
 				player.statLife -= (player.statLifeMax2 / 7);
@@ -57,6 +56,7 @@ namespace SpiritMod.Projectiles.Thrown
 					//    player.KillMe(9999, 1, true, "'s head appeared where their legs should be.");
 				}
 			}
+			Main.player[projectile.owner].AddBuff(88, 180);
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

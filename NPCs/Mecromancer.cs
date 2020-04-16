@@ -31,6 +31,7 @@ namespace SpiritMod.NPCs
             npc.DeathSound = SoundID.NPCDeath2;
             npc.value = 6760f;
             npc.knockBackResist = 0.1f;
+			npc.noTileCollide = false;
             if (!flying)
             {
                 animationType = 471;
@@ -109,6 +110,7 @@ namespace SpiritMod.NPCs
             }
             if (timer > 420 && timer < 840)
             {
+				npc.noTileCollide = true;
                 if (Main.rand.Next(40) == 0)
                 {
                     int p = Terraria.Projectile.NewProjectile(npc.position.X, npc.position.Y + 40, 0, 1, ProjectileID.GreekFire1, (int)((npc.damage * .5)), 0);
@@ -153,6 +155,7 @@ namespace SpiritMod.NPCs
             }
             else
             {
+				npc.noTileCollide = false;
                 flying = false;
                 npc.rotation = 0f;
                 npc.noGravity = false;

@@ -33,7 +33,7 @@ namespace SpiritMod.Projectiles.Pet
 			if (player.dead)
 				modPlayer.phantomPet = false;
 
-			if (modPlayer.maskPet)
+			if (modPlayer.phantomPet)
 				projectile.timeLeft = 2;
 		}
 

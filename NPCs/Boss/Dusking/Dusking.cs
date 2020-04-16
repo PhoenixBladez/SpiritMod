@@ -23,8 +23,8 @@ namespace SpiritMod.NPCs.Boss.Dusking
 
 		public override void SetDefaults()
 		{
-			npc.width = 80;
-			npc.height = 80;
+			npc.width = 120;
+			npc.height = 160;
 			npc.damage = 45;
 			npc.defense = 32;
 			npc.lifeMax = 21000;

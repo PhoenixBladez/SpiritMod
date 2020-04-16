@@ -120,7 +120,7 @@ namespace SpiritMod.Projectiles.Summon
 			{
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 5);
 			}
-			Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 2);
+			Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 2);
 		}
 		public override bool MinionContactDamage()
 		{

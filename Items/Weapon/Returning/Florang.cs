@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Returning
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Florarang");
-			Tooltip.SetDefault("'Sharp as a razorleaf' \n  Vines occasionally ensnare the foes, reducing their movement speed");
+			Tooltip.SetDefault("Vines occasionally ensnare the foes, reducing their movement speed \n'Sharp as a razorleaf'");
 		}
 
 

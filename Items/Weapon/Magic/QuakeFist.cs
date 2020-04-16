@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Quake Fist");
-			Tooltip.SetDefault("Launches Prismatic fire \n Occasionally inflicts foes with 'Unstable Affliction'");
+			Tooltip.SetDefault("Launches Prismatic fire \nOccasionally inflicts foes with 'Unstable Affliction'");
 		}
 
 
