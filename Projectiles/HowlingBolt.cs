@@ -20,8 +20,8 @@ namespace SpiritMod.Projectiles
 		{
 			projectile.hostile = false;
 			projectile.magic = true;
-			projectile.width = 32;
-			projectile.height = 40;
+			projectile.width = 24;
+			projectile.height = 24;
 			projectile.friendly = true;
 			projectile.penetrate= 1;
 		}
@@ -36,8 +36,6 @@ namespace SpiritMod.Projectiles
 				Main.dust[num622].noGravity = true;
 				Main.dust[num622].scale = 0.5f;
 			}
-            if (Main.rand.Next(4) == 0)
-            {
                 Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
                 ProjectileExtras.Explode(projectile.whoAmI, 120, 120,
                 delegate
@@ -56,7 +54,6 @@ namespace SpiritMod.Projectiles
                         }
                     }
                 });
-            }
         }
 
 		public override void AI()

@@ -14,14 +14,13 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Frigid Scepter");
-			Tooltip.SetDefault("Shoots out a chilling bolt\nThis bolt may explode and damage multiple enemies in a large radius");
 		}
 
 
 
         public override void SetDefaults()
         {
-            item.damage = 11;
+            item.damage = 9;
             Item.staff[item.type] = true;
             item.noMelee = true;
             item.magic = true;
@@ -34,6 +33,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.knockBack = 4;
             item.value = Terraria.Item.sellPrice(0, 0, 5, 0);
             item.rare = 1;
+			item.crit = 6;
             item.autoReuse = false;
             item.shootSpeed = 9;
             item.UseSound = SoundID.Item20;

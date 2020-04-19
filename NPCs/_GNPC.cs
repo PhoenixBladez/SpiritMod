@@ -735,6 +735,7 @@ namespace SpiritMod.NPCs
                 {
                     pool.Clear();
                     pool.Add(mod.NPCType("DeepspaceHopper"), 1.05f);
+					 pool.Add(mod.NPCType("Mineroid"), 2.05f);
                     pool.Add(mod.NPCType("AstralAmalgram"), 0.63f);
                 }
             }

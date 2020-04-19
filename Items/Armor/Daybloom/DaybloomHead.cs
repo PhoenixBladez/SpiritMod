@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Armor.Daybloom
         {
             item.width = 28;
             item.height = 24;
-            item.value = 000;
+            item.value = Terraria.Item.sellPrice(0, 0, 10, 0);
             item.rare = 0;
             item.defense = 2;
         }

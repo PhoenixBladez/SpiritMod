@@ -41,7 +41,10 @@ namespace SpiritMod.NPCs.Dungeon
 			npc.chaseable = true;
 			npc.lavaImmune = true;
 		}
-
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			target.AddBuff(BuffID.Cursed, 250, true);
+		}
 		public override bool PreAI()
 		{
 			timer++;

@@ -193,6 +193,10 @@ namespace SpiritMod.NPCs.Dungeon
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 327);
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 139, Main.rand.Next(4));
 		}
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			target.AddBuff(BuffID.Cursed, 250, true);
+		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0)

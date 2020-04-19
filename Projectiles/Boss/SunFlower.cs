@@ -23,7 +23,7 @@ namespace SpiritMod.Projectiles.Boss
 			npc.height = 26;
 			npc.damage = 18;
 			npc.defense = 0;
-			npc.lifeMax = 120;
+			npc.lifeMax = 60;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.HitSound = SoundID.NPCHit1;

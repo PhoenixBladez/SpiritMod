@@ -30,7 +30,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		{
 			npc.width = 60;
 			npc.height = 40;
-			npc.value = 110;
+			npc.value = 0;
 			npc.damage = 23;
 			npc.noTileCollide = true;
 			npc.defense = 7;

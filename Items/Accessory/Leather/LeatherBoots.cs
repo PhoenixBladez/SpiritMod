@@ -15,7 +15,7 @@ namespace SpiritMod.Items.Accessory.Leather
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Leather Striders");
-			Tooltip.SetDefault("Increases movement speed and acceleration slightly");
+			Tooltip.SetDefault("Slightly increases movement speed and acceleration");
 		}
         public override void SetDefaults()
         {

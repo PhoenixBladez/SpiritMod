@@ -312,7 +312,7 @@ namespace SpiritMod
 				// Guide pass removed by some other mod.
 				return;
 			}
-			tasks.Insert(GuideIndex + 1, new PassLegacy("Reach", 
+			tasks.Insert(GuideIndex + 1, new PassLegacy("Briar", 
 				delegate (GenerationProgress progress)
 			{
 				progress.Message = "Creating Hostile Settlements";
