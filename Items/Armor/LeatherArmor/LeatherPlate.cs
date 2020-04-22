@@ -20,10 +20,12 @@ namespace SpiritMod.Items.Armor.LeatherArmor
             item.height = 18;
             item.value = 100;
             item.rare = 1;
-
             item.defense = 2;
         }
-
+        public override void DrawHands(ref bool drawHands, ref bool drawArms)
+        {
+            drawHands = true;
+        }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

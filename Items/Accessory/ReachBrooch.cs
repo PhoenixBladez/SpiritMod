@@ -9,12 +9,13 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Accessory
 {
+    [AutoloadEquip(EquipType.Neck)]
     public class ReachBrooch : ModItem
     {
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Forsworn Pendant");
-			Tooltip.SetDefault("Increases ranged critical strike chance by 7% and melee speed by 6%");
+			Tooltip.SetDefault("Increases critical strike chance by 4%\nAllows for increased night vision in the Briar");
 		}
 
 
@@ -30,8 +31,11 @@ namespace SpiritMod.Items.Accessory
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.meleeSpeed += 0.06f;
-            player.rangedCrit += 7;
+            player.rangedCrit += 4;
+            player.magicCrit += 4;
+            player.thrownCrit += 4;
+            player.meleeCrit += 4;
+            player.GetSpiritPlayer().reachBrooch = true;
         }
     }
 }

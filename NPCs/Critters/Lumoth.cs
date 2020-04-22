@@ -53,7 +53,11 @@ namespace SpiritMod.NPCs.Critters
 		{
 			if (npc.life <= 0)
 			{
-				npc.position.X = npc.position.X + (float)(npc.width / 2);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Lumoth/Lumoth1"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Lumoth/Lumoth2"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Lumoth/Lumoth3"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Lumoth/Lumoth4"));
+                npc.position.X = npc.position.X + (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
 				npc.width = 32;
 				npc.height = 32;
@@ -66,7 +70,6 @@ namespace SpiritMod.NPCs.Critters
 					if (Main.rand.Next(2) == 0)
 					{
 						Main.dust[num622].scale = 0.9f;
-						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.05f;
 					}
 				}
 			}

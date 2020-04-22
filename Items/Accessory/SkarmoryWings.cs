@@ -60,8 +60,8 @@ namespace SpiritMod.Items.Accessory
         {
             speed = 9.5f;
 			acceleration *= 1f;
-		}  
-public override void AddRecipes()
+		}   
+        public override void AddRecipes()
 		{
 			ModRecipe modRecipe = new ModRecipe(mod);
 			modRecipe.AddIngredient(ItemID.CopperShortsword, 1);

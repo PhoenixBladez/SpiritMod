@@ -15,7 +15,7 @@ namespace SpiritMod.Items.Accessory
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fiery Maw");
-            Tooltip.SetDefault("Ranged attacks may shoot out fiery spit that explode upon hitting enemies\nIncreases ranged damage by 4%");
+            Tooltip.SetDefault("Magic attacks may shoot out fiery spit that explode upon hitting enemies\nIncreases magic damage by 7%");
 
         }
 
@@ -24,14 +24,14 @@ namespace SpiritMod.Items.Accessory
         {
             item.width = 18;
             item.height = 18;
-            item.value = Item.buyPrice(0, 5, 0, 0);
+            item.value = Item.buyPrice(0, 1, 50, 0);
             item.rare = 3;
             item.accessory = true;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetSpiritPlayer().fireMaw = true;
-            player.rangedDamage += 0.03f;
+            player.magicDamage += 0.07f;
         }
     }
 }

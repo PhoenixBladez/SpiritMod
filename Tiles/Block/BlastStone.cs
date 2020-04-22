@@ -20,6 +20,8 @@ namespace SpiritMod.Tiles.Block
             Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(87, 85, 81));
             drop = mod.ItemType("BlastStone");
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Bedrock");
             dustType = 54;
         }
 	}

@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Weapon.Summon
             item.value = Item.sellPrice(0, 1, 27, 46);
             item.rare = 1;
             item.mana = 10;
-            item.damage = 14;
+            item.damage = 12;
             item.knockBack = 2;
             item.useStyle = 1;
             item.useTime = 30;

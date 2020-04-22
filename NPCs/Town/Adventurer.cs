@@ -52,7 +52,6 @@ namespace SpiritMod.NPCs.Town
             npc.knockBackResist = 0.4f;
             animationType = NPCID.Guide;
         }
-
         public override bool CanTownNPCSpawn(int numTownNPCs, int money)
         {
             for (int k = 0; k < 255; k++)
@@ -71,6 +70,16 @@ namespace SpiritMod.NPCs.Town
             return false;
         }
 
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            if (npc.life <= 0)
+            {
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Adventurer/Adventurer1"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Adventurer/Adventurer2"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Adventurer/Adventurer3"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Adventurer/Adventurer4"));
+            }
+        }
         public override string TownNPCName()
         {
             switch (WorldGen.genRand.Next(8))
@@ -247,7 +256,7 @@ namespace SpiritMod.NPCs.Town
 
         public override void TownNPCAttackStrength(ref int damage, ref float knockback)
         {
-            damage = 40;
+            damage = 13;
             knockback = 3f;
         }
 
@@ -259,13 +268,13 @@ namespace SpiritMod.NPCs.Town
 
         public override void TownNPCAttackProj(ref int projType, ref int attackDelay)
         {
-            projType = ProjectileID.BoneJavelin;
+            projType = 507;
             attackDelay = 1;
         }
 
         public override void TownNPCAttackProjSpeed(ref float multiplier, ref float gravityCorrection, ref float randomOffset)
         {
-            multiplier = 20f;
+            multiplier = 11f;
             randomOffset = 2f;
         }
 

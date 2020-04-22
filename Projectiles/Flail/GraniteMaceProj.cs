@@ -121,7 +121,7 @@ namespace SpiritMod.Projectiles.Flail
                     }
                 }
                 int proj = Projectile.NewProjectile(target.Center.X, target.Center.Y,
-                    0, 0, mod.ProjectileType("GraniteSpike1"), projectile.damage/3, projectile.knockBack, projectile.owner);
+                    0, 0, mod.ProjectileType("GraniteSpike1"), projectile.damage/2, projectile.knockBack, projectile.owner);
                 Main.projectile[proj].timeLeft = 2;
             }
         }

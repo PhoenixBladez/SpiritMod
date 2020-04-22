@@ -12,7 +12,7 @@ namespace SpiritMod.NPCs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Mineroid");
+			DisplayName.SetDefault("Orbidite");
 			Main.npcFrameCount[npc.type] = 6;
 		}
 
@@ -65,7 +65,10 @@ namespace SpiritMod.NPCs
 			}
 			if (npc.life <= 0)
 			{
-				Gore.NewGore(npc.position, npc.velocity, 61);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mineroid/Mineroid1"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mineroid/Mineroid2"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mineroid/Mineroid3"));
+                Gore.NewGore(npc.position, npc.velocity, 61);
 				Gore.NewGore(npc.position, npc.velocity, 62);
 				Gore.NewGore(npc.position, npc.velocity, 63);
 				npc.position.X = npc.position.X + (float)(npc.width / 2);

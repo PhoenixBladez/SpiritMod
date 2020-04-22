@@ -15,7 +15,7 @@ namespace SpiritMod.Items.Accessory
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lunar Wisp");
-            Tooltip.SetDefault("You emit light at nighttime\nReduces mana cost by 4% at nighttime");
+            Tooltip.SetDefault("You emit light at nighttime\nReduces mana cost by 5% at nighttime");
 
         }
 
@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Accessory
             if (!Main.dayTime)
             {
                 Lighting.AddLight(player.position, 0.0f, .75f, 1.25f);
-                player.manaCost -= 0.04f;
+                player.manaCost -= 0.05f;
             }
         }
     }

@@ -169,9 +169,9 @@ namespace SpiritMod.NPCs.BloodMoon
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection * 2, -1f, 0, default(Color), 1f);
                 }
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Phantom/Phantom1"));
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Phantom/Phantom2"));
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Phantom/Phantom2"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Phantom/Phantom1"), .5f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Phantom/Phantom2"), .5f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Phantom/Phantom2"), .5f);
             }
         }
 		public override void FindFrame(int frameHeight)

@@ -42,22 +42,8 @@ namespace SpiritMod.NPCs.Critters
 		{
 			if (npc.life <= 0)
 			{
-				npc.position.X = npc.position.X + (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-				npc.width = 30;
-				npc.height = 30;
-				npc.position.X = npc.position.X - (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
-				for (int num621 = 0; num621 < 20; num621++)
-				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 187, 0f, 0f, 100, default(Color), 2f);
-					Main.dust[num622].velocity *= 1f;
-					Main.dust[num622].noGravity = true;
-					{
-						Main.dust[num622].scale = 0.23f;
-						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-					}
-				}
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gulper/Gulper1"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gulper/Gulper2"));
 			}
 		}
 		private int Counter;

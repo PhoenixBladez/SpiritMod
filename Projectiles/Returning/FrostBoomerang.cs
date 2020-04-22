@@ -11,7 +11,7 @@ namespace SpiritMod.Projectiles.Returning
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Frost Boomerang");
+			DisplayName.SetDefault("Frigid Boomerang");
 		}
 
 		public override void SetDefaults()
@@ -23,6 +23,7 @@ namespace SpiritMod.Projectiles.Returning
 			projectile.melee = true;
 			projectile.magic = false;
 			projectile.penetrate = -1;
+            projectile.scale *= .95f;
 			projectile.timeLeft = 700;
 			projectile.extraUpdates = 1;
 		}

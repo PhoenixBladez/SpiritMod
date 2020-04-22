@@ -395,7 +395,7 @@ namespace SpiritMod.Items
 				Main.projectile[proj].friendly = true;
 			}
 
-			if (modPlayer.fireMaw && item.ranged && Main.rand.Next(10) == 0)
+			if (modPlayer.fireMaw && item.magic && Main.rand.Next(4) == 0)
 			{
 				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType("FireMaw"), 30, 2f, player.whoAmI);
 				Main.projectile[proj].hostile = false;

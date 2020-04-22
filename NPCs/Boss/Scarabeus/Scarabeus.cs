@@ -56,15 +56,18 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		
 		public override bool PreAI()
 		{
-			npc.TargetClosest(true);
+            npc.TargetClosest(true);
 			npc.spriteDirection = npc.direction;
 			Player player = Main.player[npc.target];
 			bool expertMode = Main.expertMode;
 			bool rage = (double)npc.life <= (double)npc.lifeMax * 0.2;
 			if (rage)
 				SpeedMax = 40f;
-
-			if (Main.rand.Next(500) == 0)
+            if (player.dead)
+            {
+                npc.active = false;
+            }
+            if (Main.rand.Next(500) == 0)
 				Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 44);
 		
 			Counter++;
@@ -277,13 +280,9 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 					npc.TargetClosest(true);
 					if (!player.ZoneDesert)
 					{
-						Counter = 601;
-						npc.damage = 100;
-						npcCounter = 1010;
-					}
-					if (player.dead)
-					{				
-						npc.active = false;
+                        wormAI = true;
+						npc.damage = 50;
+                        Counter = 0;
 					}
 					if (Counter == 60)
 					{

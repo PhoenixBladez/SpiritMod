@@ -9,12 +9,13 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Accessory
 {
-	public class CleftHorn : ModItem
+    [AutoloadEquip(EquipType.Neck)]
+    public class CleftHorn : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cleft Horn");
-			Tooltip.SetDefault("Increases melee damage and critical strike chance by 4%");
+			Tooltip.SetDefault("Increases armor penetration by 3\nMelee attacks occasionally strike enemies twice");
 		}
 
 
@@ -32,9 +33,9 @@ namespace SpiritMod.Items.Accessory
 
 		public override void UpdateEquip(Player player)
 		{
-			player.meleeCrit += 4;
-			player.meleeDamage += 0.04f;
-		}
+            player.armorPenetration += 3;
+            player.GetSpiritPlayer().cleftHorn = true;
+        }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

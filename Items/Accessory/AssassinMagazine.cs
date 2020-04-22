@@ -15,7 +15,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Assassin's Magazine");
-			Tooltip.SetDefault("Increases ranged damage by 2%\nIncreases arrow damage by 4% when moving\nIncreases bullet damage by 4% when standing still");
+			Tooltip.SetDefault("Increases arrow and bullet damage by 4% when moving\nWhen standing still, nearby enemies are illuminated");
 		}
 
 
@@ -24,26 +24,24 @@ namespace SpiritMod.Items.Accessory
 			item.width = 32;
             item.height = 32;
             item.defense = 1;
-			item.value = Item.buyPrice(0, 3, 0, 0);
+			item.value = Item.buyPrice(0, 5, 0, 0);
             item.rare = 2;
             item.accessory = true;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.rangedDamage += 0.02f;
-
+            player.GetSpiritPlayer().assassinMag = true;
             if (player.velocity.X != 0)
             {
                 player.arrowDamage += 0.04f;
+                player.bulletDamage += 0.04f;
             }
             else if (player.velocity.Y != 0)
             {
                 player.arrowDamage += 0.04f;
-            }
-            else
-            {
                 player.bulletDamage += 0.04f;
             }
+
         }
     }
 }

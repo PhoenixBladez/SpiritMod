@@ -54,6 +54,11 @@ namespace SpiritMod.NPCs.Town
                 npc.homeTileY = -1;
                 npc.netUpdate = true;
             }
+            if (npc.wet)
+            {
+                npc.life = 250;
+
+            }
         }
     }
 }

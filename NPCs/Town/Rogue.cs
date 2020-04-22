@@ -51,8 +51,16 @@ namespace SpiritMod.NPCs.Town
 			npc.knockBackResist = 0.5f;
 			animationType = NPCID.Guide;
 		}
-
-		public override bool CanTownNPCSpawn(int numTownNPCs, int money)
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            if (npc.life <= 0)
+            {
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Bandit/Bandit1"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Bandit/Bandit2"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Bandit/Bandit3"));
+            }
+        }
+        public override bool CanTownNPCSpawn(int numTownNPCs, int money)
 		{
 			for (int k = 0; k < 255; k++)
 			{

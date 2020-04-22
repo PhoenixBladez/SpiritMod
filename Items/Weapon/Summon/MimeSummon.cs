@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Weapon.Summon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Two-Faced Mask");
-			Tooltip.SetDefault("Summons either a Soul of Happiness or Sadness at the cursor position\nThe Soul of Happiness shoots out beams at foes\nThe Soul of Sadness shoots out homing tears at foes\nOnly one of either soul can exist at once");
+			Tooltip.SetDefault("Summons either a Soul of Happiness or Sadness at the cursor position with a left or right click\nThe Soul of Happiness shoots out beams at foes\nThe Soul of Sadness shoots out homing tears at foes\nOnly one of either soul can exist at once");
 		}
 
 
@@ -36,12 +36,20 @@ namespace SpiritMod.Items.Weapon.Summon
             item.shoot = mod.ProjectileType("HappySoul");
             item.shootSpeed = 0f;
         }
+        public override bool AltFunctionUse(Player player)
+        {
+            return true;
+        }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			if (Main.rand.Next(2) == 0)
+			if (player.altFunctionUse == 2)
 			{
 				type = mod.ProjectileType("SadSoul");
 			}
+            else
+            {
+                type = mod.ProjectileType("HappySoul");
+            }
             //remove any other owned SpiritBow projectiles, just like any other sentry minion
             for (int i = 0; i < Main.projectile.Length; i++)
             {

@@ -6,7 +6,8 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Accessory
 {
-	public class ScarabCharm : ModItem
+    [AutoloadEquip(EquipType.Neck)]
+    public class ScarabCharm : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

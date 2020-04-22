@@ -9,12 +9,13 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Accessory
 {
+    [AutoloadEquip(EquipType.Neck)]
     public class HuntingNecklace : ModItem
     {
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Briarhunt Charm");
-            Tooltip.SetDefault("Increases melee damage by 4% and melee speed by 3%\nIncreases melee critical srike chance by 9% and ranged critical strike chance by 7%\nIncreases magic and thrown critical strike chance by 5% and maximum life by 10");
+            Tooltip.SetDefault("Increases armor penetration by 3\nMelee attacks occasionally strike enemies twice\nWhile standing on grass of any kind, maximum life increases by 20 and life regeneration increases slightly\nIncreases critical strike chance by 4%\nAllows for increased night vision in the Briar");
 
         }
 
@@ -32,13 +33,14 @@ namespace SpiritMod.Items.Accessory
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.magicCrit += 5;
-            player.meleeCrit += 9;
-            player.thrownCrit += 5;
-            player.rangedCrit += 7;
-            player.meleeDamage += 0.04f;
-            player.statLifeMax2 += 10;
-            player.meleeSpeed += 0.03f;
+            player.rangedCrit += 4;
+            player.magicCrit += 4;
+            player.thrownCrit += 4;
+            player.meleeCrit += 4;
+            player.GetSpiritPlayer().floranCharm = true;
+            player.armorPenetration += 3;
+            player.GetSpiritPlayer().cleftHorn = true;
+            player.GetSpiritPlayer().reachBrooch = true;
         }
         public override void AddRecipes()
         {

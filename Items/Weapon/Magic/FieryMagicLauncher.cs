@@ -38,13 +38,13 @@ namespace SpiritMod.Items.Weapon.Magic
         }
         public override void SetDefaults()
 		{
-			item.damage = 26;
+			item.damage = 31;
 			item.magic = true;
 			item.mana = 5;
 			item.width = 32;
 			item.height = 26;
-			item.useTime = 15;
-			item.useAnimation = 15;
+			item.useTime = 13;
+			item.useAnimation = 13;
 			item.useStyle = 5;
 			item.noMelee = true; 
 			item.knockBack = 1;
@@ -70,14 +70,11 @@ namespace SpiritMod.Items.Weapon.Magic
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            for (int i = 0; i < 10; i++)
+            if (player.wet)
             {
-                int num780 = Dust.NewDust(new Vector2(player.itemLocation.X - 16f, player.itemLocation.Y * player.gravDir), 4, 4, 127, 0f, 0f, 100, default(Color), 1f);
-                if (Main.rand.Next(3) != 0)
-                {
-                    Main.dust[num780].noGravity = true;
-                }
+                return false;
             }
+            
             Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 30f;
             if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
             {

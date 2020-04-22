@@ -16,11 +16,10 @@ namespace SpiritMod.Tiles.Block
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
             Main.tileBlendAll[this.Type] = true;
-            soundType = 1;
             Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(87, 85, 81));
             drop = mod.ItemType("SpaceJunkItem");
-            dustType = 1;
+            dustType = 54;
         }
         public override bool HasWalkDust()
         {
@@ -35,23 +34,23 @@ namespace SpiritMod.Tiles.Block
         {
             Player player = Main.LocalPlayer;
             Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
-            int debuffsWeak = Main.rand.Next(new int[] { 30, 164, 33 });
-            int debuffStrong = Main.rand.Next(new int[] { 144, 80, 36, 196 });
-            int buffs = Main.rand.Next(new int[] { 5, 8, 18, 144, 114, 11 });
-            if (Main.rand.Next(3) == 0)
+            int debuffsWeak = Main.rand.Next(new int[] { 30, 33 });
+            int debuffStrong = Main.rand.Next(new int[] { 144, 80, 36, 196, 164 });
+            int buffs = Main.rand.Next(new int[] { 5, 8, 18, 114, 11 });
+            if (Main.rand.Next(6) == 0)
             {
                 if (Main.rand.Next(4) == 0)
                 {
-                    player.AddBuff(debuffStrong, 180);
+                    player.AddBuff(debuffStrong, 70);
                 }
                 else
                 {
-                    player.AddBuff(debuffsWeak, 600);
+                    player.AddBuff(debuffsWeak, 300);
                 }
             }
             if (Main.rand.Next(3) == 0)
             {
-                player.AddBuff(buffs, 480);
+                player.AddBuff(buffs, 540);
             }
         }
         /*public override void FloorVisuals(Player player)

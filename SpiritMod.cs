@@ -13,6 +13,7 @@ using Terraria.ID;
 using Terraria.Initializers;
 using Terraria.IO;
 using Terraria.GameContent;
+using Terraria.Utilities;
 using Terraria.ModLoader;
 using System.Linq;
 using Terraria.UI;
@@ -33,6 +34,7 @@ namespace SpiritMod
 	class SpiritMod : Mod
 	{
         public static SpiritMod Instance;
+        public UnifiedRandom spiritRNG;
         public static AdventurerQuestHandler AdventurerQuests;
         public static Effect auroraEffect;
         public static Texture2D noise;
@@ -52,6 +54,7 @@ namespace SpiritMod
         public SpiritMod()
         {
             Instance = this;
+            spiritRNG = new UnifiedRandom();
         }
 
         public ModPacket GetPacket(MessageType type, int capacity)
@@ -311,13 +314,14 @@ namespace SpiritMod
 
 		public override void Load()
 		{
+            //Always keep this call in the first line of Load!
+            LoadReferences();
             AdventurerQuests = new AdventurerQuestHandler(this);
+            StructureLoader.Load(this);
             HookManager.Init();
             instance = this;
 			if (Main.rand == null)
 				Main.rand = new Terraria.Utilities.UnifiedRandom();
-			//Always keep this call in the first line of Load!
-			LoadReferences();
 			//Don't add any code before this point,
 			// unless you know what you're doing.
 			Items.Halloween.CandyBag.Initialize();
@@ -459,10 +463,12 @@ namespace SpiritMod
 		}
         public override void Unload()
         {
+            spiritRNG = null;
             auroraEffect = null;
             noise = null;
             instance = null;
             SpiritGlowmask.Unload();
+            StructureLoader.Unload();
         }
         internal static int GetRainDustType(int rainType, out Color color)
         {
@@ -537,7 +543,14 @@ namespace SpiritMod
 			});
 
 			RecipeGroup.RegisterGroup("ModEvil", group);
-		}
+            group = new RecipeGroup(() => Lang.misc[37] + " Tungsten Bar" + Lang.GetItemNameValue(ItemType(" Tungsten Bar")), new int[]
+            {
+                705,
+                21
+            });
+
+            RecipeGroup.RegisterGroup("SilverBars", group);
+        }
 
 		public override void PostSetupContent()
 		{

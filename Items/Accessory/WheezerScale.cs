@@ -15,7 +15,7 @@ namespace SpiritMod.Items.Accessory
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wheezer Scale");
-            Tooltip.SetDefault("Melee hits on foes may cause them to emit a cloud of poisonous gas\nIncreases melee critical strike chance by 5%");
+            Tooltip.SetDefault("Melee hits on foes may cause them to emit a cloud of poisonous gas\nIncreases melee speed by 5%");
 
         }
 
@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Accessory
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetSpiritPlayer().wheezeScale = true;
-            player.meleeCrit += 5;
+            player.meleeSpeed += .05f;
         }
     }
 }

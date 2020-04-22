@@ -17,10 +17,18 @@ namespace SpiritMod.Items.Material
         {
             item.width = 42;
             item.height = 24;
-            item.value = 100;
+            item.value = 20;
             item.rare = 1;
 
             item.maxStack = 999;
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(this, 2);
+            recipe.AddTile(TileID.WorkBenches);
+            recipe.SetResult(259);
+            recipe.AddRecipe();
         }
     }
 }

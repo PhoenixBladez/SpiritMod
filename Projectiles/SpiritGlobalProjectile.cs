@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -41,9 +42,85 @@ namespace SpiritMod.Projectiles
 		public bool HeroBow3 = false;
 		public bool shotFromMarbleBow;
         public float counter = -1440;
+
+        public bool throwerGloveBoost = false;
+
+        public bool shotFromMaliwanFireCommon = false;
+        public bool shotFromMaliwanAcidCommon = false;
+        public bool shotFromMaliwanShockCommon = false;
+        public bool shotFromMaliwanFreezeCommon = false;
+
+
+
+        public override bool PreDraw(Projectile projectile, SpriteBatch spriteBatch, Color lightColor)
+        {
+            if (throwerGloveBoost && projectile.thrown)
+            {
+                Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
+                for (int k = 0; k < projectile.oldPos.Length; k++)
+                {
+                    Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
+                    Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
+                    spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+                }
+                return true;
+            }
+            return base.PreDraw(projectile, spriteBatch, lightColor);
+        }
         public override bool PreAI(Projectile projectile)
 		{
-			if (WitherLeaf == true)
+            if (throwerGloveBoost)
+            {
+                projectile.penetrate = 2;
+                projectile.scale = 1.1f;
+                ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
+                ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            }
+            if (shotFromMaliwanFreezeCommon == true)
+            {
+                projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+                for (int k = 0; k < 3; k++)
+                {
+                    int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 180);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 0f;
+                    Main.dust[dust].scale = .78f;
+                }
+            }
+            if (shotFromMaliwanFireCommon == true)
+            {
+                projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+                for (int k = 0; k < 3; k++)
+                {
+                    int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 127);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 0f;
+                    Main.dust[dust].scale = .78f;
+                }
+            }
+            if (shotFromMaliwanAcidCommon == true)
+            {
+                projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+                for (int k = 0; k < 3; k++)
+                {
+                    int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 163);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 0f;
+                    Main.dust[dust].scale = .78f;
+                }
+            }
+            if (shotFromMaliwanShockCommon == true)
+            {
+                projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+                for (int k = 0; k < 3; k++)
+                {
+                    int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 226);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 0f;
+                    Main.dust[dust].scale = .58f;
+                }
+            }
+            if (WitherLeaf == true)
 			{
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 				if (Main.rand.Next(2) == 0)
@@ -252,7 +329,72 @@ namespace SpiritMod.Projectiles
 
 		public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
 		{
-			Player player = Main.player[projectile.owner];
+            if ( shotFromMaliwanFreezeCommon == true)
+            {
+                if (Main.rand.Next(6) == 0)
+                {
+                    target.AddBuff(mod.BuffType("MageFreeze"), 120);
+                    int d = 180;
+                    int d1 = 180;
+                    for (int k = 0; k < 20; k++)
+                    {
+                        Dust.NewDust(target.position, target.width, target.height, d, 2.5f, -2.5f, 0, Color.White, .7f);
+                        Dust.NewDust(target.position, target.width, target.height, d, 2.5f, -2.5f, 0, Color.White, 0.27f);
+                        Dust.NewDust(target.position, target.width, target.height, d1, 2.5f, -2.5f, 0, Color.White, .9f);
+                        Dust.NewDust(target.position, target.width, target.height, d1, 2.5f, -2.5f, 0, Color.White, 0.27f);
+                    }
+                }
+            }
+            if (shotFromMaliwanFireCommon == true)
+            {
+                if (Main.rand.Next(6) == 0)
+                {
+                    target.AddBuff(BuffID.OnFire, Main.rand.Next(120, 180));
+                    int d = 6;
+                    int d1 = 6;
+                    for (int k = 0; k < 20; k++)
+                    {
+                        Dust.NewDust(target.position, target.width, target.height, d, 2.5f, -2.5f, 0, Color.White, .7f);
+                        Dust.NewDust(target.position, target.width, target.height, d, 2.5f, -2.5f, 0, Color.White, 0.27f);
+                        Dust.NewDust(target.position, target.width, target.height, d1, 2.5f, -2.5f, 0, Color.White, .9f);
+                        Dust.NewDust(target.position, target.width, target.height, d1, 2.5f, -2.5f, 0, Color.White, 0.27f);
+                    }
+                }
+
+            }
+            if (shotFromMaliwanAcidCommon == true)
+            {
+                if (Main.rand.Next(6) == 0)
+                {
+                    target.AddBuff(BuffID.Poisoned, Main.rand.Next(120, 180));
+                    int d = 163;
+                    int d1 = 163;
+                    for (int k = 0; k < 20; k++)
+                    {
+                        Dust.NewDust(target.position, target.width, target.height, d, 2.5f, -2.5f, 0, Color.White, .7f);
+                        Dust.NewDust(target.position, target.width, target.height, d, 2.5f, -2.5f, 0, Color.White, 0.27f);
+                        Dust.NewDust(target.position, target.width, target.height, d1, 2.5f, -2.5f, 0, Color.White, .9f);
+                        Dust.NewDust(target.position, target.width, target.height, d1, 2.5f, -2.5f, 0, Color.White, 0.27f);
+                    }
+                }
+            }
+            if (shotFromMaliwanShockCommon == true)
+            {
+                if (Main.rand.Next(12) == 0)
+                {
+                    target.AddBuff(mod.BuffType("ElectrifiedV2"), Main.rand.Next(60, 120));
+                    int d = 226;
+                    int d1 = 226;
+                    for (int k = 0; k < 20; k++)
+                    {
+                        Dust.NewDust(target.position, target.width, target.height, d, 2.5f, -2.5f, 0, Color.White, .7f);
+                        Dust.NewDust(target.position, target.width, target.height, d, 2.5f, -2.5f, 0, Color.White, 0.27f);
+                        Dust.NewDust(target.position, target.width, target.height, d1, 2.5f, -2.5f, 0, Color.White, .9f);
+                        Dust.NewDust(target.position, target.width, target.height, d1, 2.5f, -2.5f, 0, Color.White, 0.27f);
+                    }
+                }
+            }
+            Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
             if (shotFromCoralBow && Main.rand.Next(2) == 0)
             {

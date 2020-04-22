@@ -45,14 +45,6 @@ namespace SpiritMod.NPCs.CrimsonWorm
 			return spawnInfo.player.ZoneCrimson && spawnInfo.spawnTileY < Main.rockLayer ? 0.0123f : 0f;
 		}
 
-		public override void NPCLoot()
-		{
-			if (Main.rand.Next(10) == 0)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PMicrobe"));
-			}
-		}
-
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0)
