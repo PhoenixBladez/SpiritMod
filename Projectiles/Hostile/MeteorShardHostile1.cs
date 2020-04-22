@@ -34,6 +34,11 @@ namespace SpiritMod.Projectiles.Hostile
 		{
             projectile.rotation += .3f;
 	        int num1 = mod.NPCType("Mineroid");
+			if (!Main.npc[(int)projectile.ai[1]].active)
+			{
+				projectile.timeLeft = 0;
+				projectile.active = false;
+			}
             float num2 = 60f;
             float x = 0.5f;
             float y = 0.25f;

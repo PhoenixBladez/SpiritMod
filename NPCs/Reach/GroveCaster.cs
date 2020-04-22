@@ -114,7 +114,11 @@ namespace SpiritMod.NPCs.Reach
 			}
 
 			if (teleport)
+			{
 				Teleport();
+				npc.ai[1] = 200f;
+			}
+			
 
 			if (npc.ai[1] > 0)
 			{

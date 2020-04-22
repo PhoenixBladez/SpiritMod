@@ -29,7 +29,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		public override void SetDefaults()
 		{
 			npc.width = 100;
-			npc.height = 70;
+			npc.height = 62;
 			npc.value = 10000;
 			npc.damage = 30;
 			npc.defense = 10;

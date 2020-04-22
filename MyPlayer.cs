@@ -1129,7 +1129,8 @@ namespace SpiritMod
                             Main.dust[num].velocity = target.DirectionTo(Main.dust[num].position) * 6f;
                         }
                     }
-                    int p = Projectile.NewProjectile(target.position, new Vector2(Main.rand.Next(-6, 6), Main.rand.Next(-5, -1)), mod.ProjectileType("GhastSkullFriendly"), damage / 5 * 3, knockback, Main.myPlayer);
+					int upperClamp = (int)MathHelper.Clamp(target.lifeMax, 0, 75);
+                    int p = Projectile.NewProjectile(target.position, new Vector2(Main.rand.Next(-6, 6), Main.rand.Next(-5, -1)), mod.ProjectileType("GhastSkullFriendly"), (int)MathHelper.Clamp((damage / 5 * 2), 0, upperClamp), knockback, Main.myPlayer);
                     if (item.ranged)
                     {
                         Main.projectile[p].ranged = true;
