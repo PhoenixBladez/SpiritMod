@@ -45,8 +45,8 @@ namespace SpiritMod.Projectiles.Magic
             Player player = Main.player[projectile.owner];
             if (Main.player[projectile.owner].channel)
             {
-                projectile.timeLeft--;
-                if (projectile.timeLeft <= 150)
+                projectile.timeLeft-= 2;
+                if (projectile.timeLeft <= 170)
                 {
                     projectile.tileCollide = true;
                 }

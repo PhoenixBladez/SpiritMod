@@ -33,7 +33,6 @@ namespace SpiritMod.NPCs.BloodMoon
 			npc.value = 300f;
 			npc.knockBackResist = 0.45f;
 			npc.netAlways = true;
-			npc.chaseable = false;
 			npc.lavaImmune = true;
 		}
 		public override bool PreAI()
@@ -308,7 +307,7 @@ namespace SpiritMod.NPCs.BloodMoon
             {
                 npc.DropItem(mod.ItemType(lootTable[loot]));
             }
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Bloodfire"), 4 + Main.rand.Next(3, 5));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BloodFire"), 4 + Main.rand.Next(3, 5));
         }
         public override void HitEffect(int hitDirection, double damage)
 		{
@@ -321,10 +320,17 @@ namespace SpiritMod.NPCs.BloodMoon
 			}
             if (npc.life <= 0)
             {
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Occultist/Occultist1"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Occultist/Occultist2"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Occultist/Occultist3"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Occultist/Occultist4"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Occultist/Occultist5"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Occultist/Occultist6"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Occultist/Occultist7"));
                 for (int k = 0; k < 60; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -4.5f, 0, default(Color), Main.rand.NextFloat(1.9f, 2.2f));
-                    Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -4.5f, 0, default(Color), Main.rand.NextFloat(1.9f, 2.2f));
+                    Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -4.5f, 0, default(Color), Main.rand.NextFloat(.9f, 1.4f));
+                    Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -4.5f, 0, default(Color), Main.rand.NextFloat(.9f, 1.4f));
                 }
             }
 		}

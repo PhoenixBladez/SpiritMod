@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Consumable.Quest
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Decrepit Idol");
-			Tooltip.SetDefault("'It's an ancient artifact that resembles a scarab beetle'");
+			Tooltip.SetDefault("Quest Item\n'It's an ancient artifact that resembles a scarab beetle'");
 		}
 
 

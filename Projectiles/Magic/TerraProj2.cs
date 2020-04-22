@@ -29,7 +29,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override bool PreAI()
 		{
 			projectile.tileCollide = true;
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 74, 0f, 0f);
+			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 107, 0f, 0f);
 
 			if (projectile.localAI[0] == 0f)
 			{

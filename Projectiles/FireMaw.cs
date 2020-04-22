@@ -37,25 +37,6 @@ namespace SpiritMod.Projectiles
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 
-			for (int num621 = 0; num621 < 20; num621++)
-			{
-				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default(Color), 2f);
-				Main.dust[num622].velocity *= 3f;
-				if (Main.rand.Next(2) == 0)
-				{
-					Main.dust[num622].scale = 0.5f;
-					Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-				}
-			}
-			for (int num623 = 0; num623 < 35; num623++)
-			{
-				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default(Color), 3f);
-				Main.dust[num624].noGravity = true;
-				Main.dust[num624].velocity *= 5f;
-				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default(Color), 2f);
-				Main.dust[num624].velocity *= 2f;
-			}
-
 			for (int num625 = 0; num625 < 3; num625++)
 			{
 				float scaleFactor10 = 0.33f;
@@ -112,7 +93,19 @@ namespace SpiritMod.Projectiles
 			Main.dust[dust2].velocity *= 0f;
 			Main.dust[dust2].scale = 0.9f;
 			Main.dust[dust].scale = 0.9f;
-		}
+            Player player = Main.player[projectile.owner];
+            Vector2 center = projectile.Center;
+            float num8 = (float)player.miscCounter / 60f;
+            float num7 = 2.09439516f;
+            for (int i = 0; i < 3; i++)
+            {
+                int num6 = Dust.NewDust(center, 0, 0, 6, 0f, 0f, 100, default(Color), 1f);
+                Main.dust[num6].noGravity = true;
+                Main.dust[num6].velocity = Vector2.Zero;
+                Main.dust[num6].noLight = true;
+                Main.dust[num6].position = center + (num8 * 6.28318548f + num7 * (float)i).ToRotationVector2() * 12f;
+            }
+        }
 
 	}
 }

@@ -22,6 +22,7 @@ namespace SpiritMod
 		public static bool dayTimeSwitched;
 
 		public static int auroraType = 1;
+        public static int auroraTypeFixed;
 		public static int auroraChance = 4;
 
 		public static bool aurora = false;
@@ -71,7 +72,7 @@ namespace SpiritMod
 			+tileCounts[mod.TileType("Spiritsand")] +tileCounts[mod.TileType("SpiritIce")] + tileCounts[mod.TileType("SpiritGrass")];
 			//now you don't gotta have 6 separate things for tilecount
 			ReachTiles = tileCounts[mod.TileType("ReachGrassTile")];
-			AsteroidTiles = tileCounts[mod.TileType("Asteroid")] + tileCounts[mod.TileType("BigAsteroid")];
+			AsteroidTiles = tileCounts[mod.TileType("Asteroid")] + tileCounts[mod.TileType("BigAsteroid")] + tileCounts[mod.TileType("SpaceJunkTile")] + tileCounts[mod.TileType("Glowstone")];
 		}
 		
 		public override TagCompound Save()
@@ -279,8 +280,8 @@ namespace SpiritMod
 			}
 			else
 			{
-				return none;
-			}
+                return glowstone;
+            }
 			return 0;
 		}
 		public static ushort GetNonOre(ushort ore)
@@ -430,7 +431,7 @@ namespace SpiritMod
                     int size = Main.rand.Next(6, 7);
                     x = basex + (int)(Main.rand.Next(width) * Math.Sin(angle * (Math.PI / 180))) + Main.rand.Next(-100, 100);
                     y = basey + (int)(Main.rand.Next(height) * Math.Cos(angle * (Math.PI / 180))) + Main.rand.Next(-10, 15);
-                    PlaceBlob(x, y, xsize, ysize, size, mod.TileType("Asteroid"), 50);
+                    PlaceBlob(x, y, xsize, ysize, size, mod.TileType("Asteroid"), 50, true, mod.WallType("AsteroidWall"));
                 }
                 for (int b = 0; b < numJunkPiles; b++) //junkPiles
                 {
@@ -459,7 +460,7 @@ namespace SpiritMod
                     int size = Main.rand.Next(2, 5);
                     x = basex + (int)(Main.rand.Next(width) * Math.Sin(angle * (Math.PI / 180))) + Main.rand.Next(-100, 100);
                     y = basey + (int)(Main.rand.Next(height) * Math.Cos(angle * (Math.PI / 180))) + Main.rand.Next(-10, 15);
-                    ushort ore = OreRoller((ushort)mod.TileType("Glowstone"), (ushort)mod.TileType("Asteroid"));
+                    ushort ore = OreRoller((ushort)mod.TileType("Glowstone"), (ushort)mod.TileType("Glowstone"));
                     WorldGen.TileRunner(x, y, Main.rand.Next(2, 10), 2, ore, false, 0f, 0f, false, true);
                 }
                 success = true;
@@ -1599,177 +1600,9 @@ namespace SpiritMod
 			}
 		}	
 		#endregion	
-		#region CrateStash
-		private void PlaceCrateStash(int i, int j, int[,] BlocksArray, int[,] SecondaryArray, int[,] TertiaryArray) 
-		{
-			for (int y = 0; y < BlocksArray.GetLength(0); y++) 
-			{
-				for (int x = 0; x < BlocksArray.GetLength(1); x++)
-				 {
-					int k = i - 3 + x;
-					int l = j - 6 + y;
-					if (WorldGen.InWorld(k, l, 30)){
-						Tile tile = Framing.GetTileSafely(k, l);
-						switch (BlocksArray[y, x]) {
-							case 0:
-								break;
-							case 1:
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;	
-							case 2:
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;	
-							case 3:
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;	
-							case 4:
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;	
-							case 5:
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;	
-							case 8:
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;	
-							case 9:
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;			
-						}
-					}
-				}
-			}
-			for (int y = 0; y < BlocksArray.GetLength(0); y++) 
-			{
-				for (int x = 0; x < BlocksArray.GetLength(1); x++)
-				 {
-					int k = i - 3 + x;
-					int l = j - 6 + y;
-					if (WorldGen.InWorld(k, l, 30)){
-						Tile tile = Framing.GetTileSafely(k, l);
-						switch (BlocksArray[y, x]) {
-							case 0:
-								break;
-							case 1:
-								WorldGen.PlaceTile(k, l, 1);
-								tile.active(true);
-								break;	
-							case 2:
-								Main.tile[k,l].liquid = 255;
-								break;	
-							case 3:
-								WorldGen.PlaceTile(k, l, 30);
-								tile.active(true);
-								break;	
-							case 4:
-								WorldGen.PlaceTile(k, l, 19);
-								tile.active(true);
-								break;	
-							case 9:
-								if (Main.rand.Next(3) == 0)
-								{
-								WorldGen.PlaceTile(k, l, 1);
-								tile.active(true);
-								}	
-								break;					
-						}
-					}
-				}
-			}
-			for (int y = 0; y < SecondaryArray.GetLength(0); y++) 
-			{
-				for (int x = 0; x < SecondaryArray.GetLength(1); x++)
-				 {
-					int k = i - 3 + x;
-					int l = j - 6 + y;
-					if (WorldGen.InWorld(k, l, 30)){
-						Tile tile = Framing.GetTileSafely(k, l);
-						switch (SecondaryArray[y, x]) {
-							case 0:
-								break;	
-							case 5:
-								if (Main.rand.Next (30) == 0)
-								{
-									WorldGen.PlaceObject(k, l, 376, true, 2);
-								}
-								else if (Main.rand.Next(18) == 0)
-								{
-									WorldGen.PlaceObject(k, l, 376, true, 1);
-								}
-								else
-								{
-									WorldGen.PlaceObject(k, l, 376);
-								}
-								break;	
-							case 7:
-								{
-									WorldGen.PlaceObject(k, l, 33, true, 0);
-								}
-								break;											
-						}
-					}
-				 }
-			}
-			for (int y = 0; y < TertiaryArray.GetLength(0); y++) 
-			{
-				for (int x = 0; x < TertiaryArray.GetLength(1); x++)
-				 {
-					int k = i - 3 + x;
-					int l = j - 6 + y;
-					if (WorldGen.InWorld(k, l, 30)){
-						Tile tile = Framing.GetTileSafely(k, l);
-						switch (TertiaryArray[y, x]) {
-							case 0:
-								break;
-							case 5:
-								WorldGen.PlaceObject(k, l, 376);
-								break;			
-						}
-					}
-				 }
-			}	
-		}	
+		#region StructureLoadeMicros
 		public void GenerateCrateStash()
 		{
-			
-			int[,] CrateStashMain = new int[,]
-			{
-				{0,0,0,8,8,8,8,0,8,8,8,8,8,0,8,8,8,8,8,8,0,0},
-				{0,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8},
-				{8,8,4,4,4,4,4,4,4,4,4,4,4,4,4,8,8,8,8,8,8,8},
-				{0,4,8,8,8,8,8,8,8,8,8,8,8,8,8,4,8,8,8,8,8,8},
-				{0,1,9,2,2,2,2,2,2,2,2,2,2,2,2,1,3,3,3,3,3,4},
-				{0,1,9,2,2,2,2,2,2,2,2,2,2,2,2,1,1,0,0,0,0,0}, 
-				{0,1,1,1,9,2,2,2,2,2,2,2,2,9,1,1,1,0,0,0,0,0},
-				{0,0,1,1,2,2,2,2,2,2,2,2,9,1,1,1,0,0,0,0,0,0},
-				{0,0,0,1,1,1,9,9,9,2,9,1,1,1,1,0,0,0,0,0,0,0},
-				{0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0},
-			};
-			int[,] CrateStashExtra = new int[,]
-			{
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,4,4,4,4,4,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0},
-				{0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,5,0,5,7},
-				{0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,1,3,3,3,3,3,0},
-				{0,1,1,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0,0,0,0,0}, 
-				{0,0,0,1,2,2,2,2,2,2,2,2,2,2,1,1,0,0,0,0,0,0},
-				{0,0,0,1,2,2,2,2,2,2,2,2,2,1,1,0,0,0,0,0,0,0},
-				{0,0,0,0,1,2,2,2,2,2,2,1,1,1,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0},
-			};
-			int[,] CrateStashThree = new int[,]
-			{
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0},
-				{0,0,4,4,4,4,4,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0},
-				{0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0},
-				{0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,1,3,3,3,3,3,0},
-				{0,1,1,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0,0,0,0,0}, 
-				{0,0,0,1,2,2,2,2,2,2,2,2,2,2,1,1,0,0,0,0,0,0},
-				{0,0,0,1,2,2,2,2,2,2,2,2,2,1,1,0,0,0,0,0,0,0},
-				{0,0,0,0,1,2,2,2,2,2,2,1,1,1,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0},
-			};
 			bool placed = false;
 			while (!placed)
 			{
@@ -1780,14 +1613,45 @@ namespace SpiritMod
 				{
 					continue;
 				}
-				PlaceCrateStash(hideoutX, hideoutY + 2, CrateStashMain, CrateStashExtra, CrateStashThree);
-				
-				placed = true;
+                StructureLoader.GetStructure("CrateStashRegular").PlaceForce(hideoutX, hideoutY);
+                placed = true;
 			}
 		}
-		#endregion
-		#region Sepulchre
-		private void PlaceSepulchre(int i, int j, int[,] BlocksArray, int[,] WallsArray, int[,] LootArray) 
+        public void GenerateCrateStashJungle()
+        {
+            bool placed = false;
+            while (!placed)
+            {
+                int hideoutX = Main.rand.Next(50, Main.maxTilesX); // from 50 since there's a unaccessible area at the world's borders
+                int hideoutY = Main.spawnTileY + Main.rand.Next(120, 700);
+                Tile tile = Main.tile[hideoutX, hideoutY];
+                if (!tile.active() || tile.type != 60)
+                {
+                    continue;
+                }
+                StructureLoader.GetStructure("CrateStashJungle").PlaceForce(hideoutX, hideoutY);
+                placed = true;
+            }
+        }
+        public void GenerateBoneGrave()
+        {
+            bool placed = false;
+            while (!placed)
+            {
+                int hideoutX = Main.rand.Next(50, Main.maxTilesX); // from 50 since there's a unaccessible area at the world's borders
+                int hideoutY = Main.rand.Next((int)Main.rockLayer, Main.maxTilesY);
+                Tile tile = Main.tile[hideoutX, hideoutY];
+                if (!tile.active() || tile.type != TileID.Stone)
+                {
+                    continue;
+                }
+                StructureLoader.GetStructure("BoneGrave").PlaceForce(hideoutX, hideoutY);
+                placed = true;
+            }
+        }
+        #endregion
+        #region Sepulchre
+        private void PlaceSepulchre(int i, int j, int[,] BlocksArray, int[,] WallsArray, int[,] LootArray) 
 		{
 			for (int y = 0; y < WallsArray.GetLength(0); y++) 
 			{
@@ -3689,18 +3553,43 @@ namespace SpiritMod
                                 GenerateCampsite();
                             }
                         }
-                        int num67 = 1;
+                        int num584 = 1;
                         if (Main.maxTilesX == 4200)
                         {
-                            num67 = Main.rand.Next(9, 15);
+                            num584 = Main.rand.Next(7, 10);
                         }
                         else if (Main.maxTilesX == 6400)
                         {
-                            num67 = Main.rand.Next(13, 18);
+                            num584 = Main.rand.Next(12, 16);
                         }
                         else if (Main.maxTilesX == 8400)
                         {
-                            num67 = Main.rand.Next(17, 24);
+                            num584 = Main.rand.Next(15, 21);
+                        }
+                        for (int k = 0; k < num584; k++)
+                        {
+                            GenerateCrateStash();
+                        }
+                        for (int k = 0; k < (int)(num584/2 + 1); k++)
+                        {
+                            GenerateCrateStashJungle();
+                        }
+                        for (int k = 0; k < (int)(num584 * 2 - 3); k++)
+                        {
+                            GenerateBoneGrave();
+                        }
+                            int num67 = 1;
+                        if (Main.maxTilesX == 4200)
+                        {
+                            num67 = Main.rand.Next(12, 15);
+                        }
+                        else if (Main.maxTilesX == 6400)
+                        {
+                            num67 = Main.rand.Next(15, 19);
+                        }
+                        else if (Main.maxTilesX == 8400)
+                        {
+                            num67 = Main.rand.Next(21, 24);
                         }
                         for (int j = 0; j < num67; j++)
                         {
@@ -3805,7 +3694,6 @@ namespace SpiritMod
                         }
                         success = true;
                     }
-
                 }
             }));
             int TrapsIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Traps"));
@@ -4036,24 +3924,7 @@ namespace SpiritMod
                     }
                     placeSuccessful = tile.active() && tile.type == tileToPlace;
                 }
-            }
-            int num584 = 1;
-            if (Main.maxTilesX == 4200)
-            {
-                num584 = Main.rand.Next(7, 10);
-            }
-            else if (Main.maxTilesX == 6400)
-            {
-                num584 = Main.rand.Next(12, 16);
-            }
-            else if (Main.maxTilesX == 8400)
-            {
-                num584 = Main.rand.Next(15, 21);
-            }
-            for (int k = 0; k < num584; k++)
-			{
-				GenerateCrateStash();
-			}		
+            }		
 			for (int k = 0; k < Main.rand.Next(5, 7); k++)
 			{
 				GenerateGemStash();
@@ -4435,7 +4306,24 @@ namespace SpiritMod
 				}
 				auroraType = 5;
 			}
-			if (Main.dayTime != dayTimeLast)
+            if (Main.bloodMoon)
+            {
+                MyWorld.auroraType = 6;
+            }
+            if (Main.pumpkinMoon)
+            {
+                MyWorld.auroraType = 7;
+            }
+            if (Main.snowMoon)
+            {
+                auroraType = 8;
+            }
+
+            if (!Main.bloodMoon && !Main.pumpkinMoon && !Main.snowMoon)
+            {
+                auroraType = auroraTypeFixed;
+            }
+            if (Main.dayTime != dayTimeLast)
 				dayTimeSwitched = true;
 			else
 				dayTimeSwitched = false;
@@ -4483,7 +4371,7 @@ namespace SpiritMod
                 {
                     if (!Main.dayTime && Main.rand.Next(auroraChance) == 0)
                     {
-                        auroraType = Main.rand.Next(new int[] { 1, 2, 3, 5 });
+                        auroraTypeFixed = Main.rand.Next(new int[] { 1, 2, 3, 5 });
                         aurora = true;
                     }
                     else
@@ -4491,19 +4379,6 @@ namespace SpiritMod
                         aurora = false;
                     }
                 }
-                if (Main.bloodMoon)
-                {
-                    MyWorld.auroraType = 6;
-                }
-                if (Main.pumpkinMoon)
-                {
-                    MyWorld.auroraType = 7;
-                }
-                if (Main.snowMoon)
-                {
-                    auroraType = 8;
-                }
-
             }
 
                 if (NPC.downedBoss1)

@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Weapon.Yoyo
         public override void SetDefaults()
         {
             item.CloneDefaults(ItemID.WoodYoyo);
-            item.damage = 21;
+            item.damage = 16;
             item.value = Terraria.Item.sellPrice(0, 0,75, 0);
             item.rare = 2;
             item.knockBack = 3;

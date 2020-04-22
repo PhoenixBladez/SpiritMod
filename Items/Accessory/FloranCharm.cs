@@ -9,12 +9,13 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Accessory
 {
+    [AutoloadEquip(EquipType.Neck)]
     public class FloranCharm : ModItem
     {
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Floran Hunting Charm");
-			Tooltip.SetDefault("Increases critical strike chance by 5% and maximum life by 10");
+			Tooltip.SetDefault("While standing on grass of any kind, maximum life increases by 20 and life regeneration increases slightly");
 		}
 
 
@@ -31,17 +32,12 @@ namespace SpiritMod.Items.Accessory
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.magicCrit += 5;
-            player.meleeCrit += 5;
-            player.thrownCrit += 5;
-            player.rangedCrit += 5;
-
-            player.statLifeMax2 += 10;
+            player.GetSpiritPlayer().floranCharm = true;
         }
         public override void AddRecipes()
         {
             ModRecipe modRecipe = new ModRecipe(mod);
-            modRecipe.AddIngredient(null, "FloranBar", 15);
+            modRecipe.AddIngredient(null, "FloranBar", 9);
             modRecipe.AddTile(TileID.Anvils);
             modRecipe.SetResult(this);
             modRecipe.AddRecipe();

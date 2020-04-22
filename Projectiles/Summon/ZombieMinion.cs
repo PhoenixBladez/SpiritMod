@@ -14,7 +14,7 @@ namespace SpiritMod.Projectiles.Summon
 		{
 			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
 			DisplayName.SetDefault("Blood Zombie");
-			Main.projFrames[projectile.type] = 5;
+			Main.projFrames[projectile.type] = 15;
 			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
 			ProjectileID.Sets.Homing[projectile.type] = true;
 		}
@@ -23,7 +23,7 @@ namespace SpiritMod.Projectiles.Summon
 		{
 			projectile.CloneDefaults(ProjectileID.OneEyedPirate);
 			projectile.width = 32;
-			projectile.height = 38;
+			projectile.height = 36;
 			aiType = ProjectileID.OneEyedPirate;
 			projectile.scale = Main.rand.NextFloat(.7f, 1.1f);
 			projectile.minion = true;
@@ -120,7 +120,7 @@ namespace SpiritMod.Projectiles.Summon
 			{
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 5);
 			}
-			Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 2);
+			Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 6);
 		}
 		public override bool MinionContactDamage()
 		{

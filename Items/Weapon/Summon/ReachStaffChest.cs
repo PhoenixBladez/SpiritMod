@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Weapon.Summon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Thornwild Staff");
-            Tooltip.SetDefault("Summons a Briar Elemental to fight for you");
+            Tooltip.SetDefault("Summons a mini Wildwood Watcher to fight for you");
 
         }
 

@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Vitality Stone");
-			Tooltip.SetDefault("Increases life regeneration substantially\n'The night is dark and full of terrors'");
+			Tooltip.SetDefault("Hearts are more likely to drop from enemies\n'The night is dark and full of terrors'");
 		}
 
 
@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Accessory
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.lifeRegen += 3;   
+            player.GetSpiritPlayer().vitaStone = true;
         }
     }
 }

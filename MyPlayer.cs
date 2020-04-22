@@ -13,6 +13,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
+using SpiritMod.Projectiles;
+
 namespace SpiritMod
 {
     public class MyPlayer : ModPlayer
@@ -40,10 +42,18 @@ namespace SpiritMod
         public bool magnifyingGlass = false;
         public bool SoulStone = false;
         public bool geodeSet = false;
+        public bool assassinMag = false;
+        public bool reachBrooch = false;
+        public bool cleftHorn = false;
         public bool daybloomSet = false;
         public int dazzleStacks;
         public bool ToxicExtract = false;
+        public bool vitaStone = false;
+        public bool tumbleSoul = false;
+        public bool throwerGlove = false;
+        public int throwerStacks;
         public bool scarabCharm = false;
+        public bool floranCharm = false;
         public bool sunStone = false;
         public bool moonStone = false;
         public bool animusLens = false;
@@ -315,8 +325,8 @@ namespace SpiritMod
 
         public override void UpdateBiomeVisuals()
         {
-            bool showAurora = (player.ZoneSnow || ZoneSpirit) && !Main.dayTime && !Main.raining;
-            bool reach = !Main.dayTime && ZoneReach;
+            bool showAurora = (player.ZoneSnow || ZoneSpirit || player.ZoneSkyHeight) && !Main.dayTime && !Main.raining && !player.ZoneCorrupt && !player.ZoneCrimson;
+            bool reach = !Main.dayTime && ZoneReach && !reachBrooch;
 
             player.ManageSpecialBiomeVisuals("SpiritMod:AuroraSky", showAurora);
             player.ManageSpecialBiomeVisuals("SpiritMod:ReachSky", reach, player.Center);
@@ -397,15 +407,20 @@ namespace SpiritMod
             briarSlimePet = false;
             firewall = false;
             hellCharm = false;
+            tumbleSoul = false;
             bloodyBauble = false;
             amazonCharm = false;
+            cleftHorn = false;
             TormentLantern = false;
             phantomPet = false;
+            throwerGlove = false;
             QuacklingMinion = false;
             VampireCloak = false;
             SpiritCloak = false;
             HealCloak = false;
+            vitaStone = false;
             astralSet = false;
+            floranCharm = false;
             ChaosCrystal = false;
             twilightTalisman = false;
             ToxicExtract = false;
@@ -413,10 +428,12 @@ namespace SpiritMod
             cultistScarf = false;
             bismiteSet = false;
             scarabCharm = false;
+            assassinMag = false;
             moonHeart = false;
             chitinSet = false;
             Fierysoul = false;
             infernalFlame = false;
+            reachBrooch = false; 
             windEffect = false;
             windEffect2 = false;
             gremlinTooth = false;
@@ -923,7 +940,54 @@ namespace SpiritMod
             {
                 caughtType = mod.ItemType("SpiritCrate");
             }
-
+            if (Main.rand.NextBool(player.cratePotion ? 60 : 75))
+            {
+                for (int i = 0; i < 1000; i++)
+                {
+                    if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber)
+                    {
+                        bobberIndex = i;
+                        Main.projectile[i].ai[0] = 2f;
+                    }
+                }
+                if (bobberIndex != -1)
+                {
+                    Vector2 bobberPos = Main.projectile[bobberIndex].Center;
+                    caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, mod.NPCType("WoodCrateMimic"), 0, 2, 1, 0, 0, Main.myPlayer);
+                }
+            }
+            if (Main.rand.NextBool(player.cratePotion ? 90 : 125))
+            {
+                for (int i = 0; i < 1000; i++)
+                {
+                    if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber)
+                    {
+                        bobberIndex = i;
+                        Main.projectile[i].ai[0] = 2f;
+                    }
+                }
+                if (bobberIndex != -1)
+                {
+                    Vector2 bobberPos = Main.projectile[bobberIndex].Center;
+                    caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, mod.NPCType("IronCrateMimic"), 0, 2, 1, 0, 0, Main.myPlayer);
+                }
+            }
+            if (Main.rand.NextBool(player.cratePotion ? 70 : 95) && player.ZoneBeach && Main.raining)
+            {
+                for (int i = 0; i < 1000; i++)
+                {
+                    if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber)
+                    {
+                        bobberIndex = i;
+                        Main.projectile[i].ai[0] = 2f;
+                    }
+                }
+                if (bobberIndex != -1)
+                {
+                    Vector2 bobberPos = Main.projectile[bobberIndex].Center;
+                    caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, mod.NPCType("GoldCrateMimic"), 0, 2, 1, 0, 0, Main.myPlayer);
+                }
+            }
             if (modPlayer.ZoneSpirit && NPC.downedMechBossAny && Main.rand.NextBool(5))
             {
                 caughtType = mod.ItemType("SpiritKoi");
@@ -1002,7 +1066,13 @@ namespace SpiritMod
 
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
-
+            if (cleftHorn)
+            {
+                if (item.melee && Main.rand.Next(12) == 0)
+                {
+                    target.StrikeNPC(item.damage/2, 0f, 0, crit);
+                }
+            }
             if (bloodyBauble)
             {
                 if (Main.rand.Next(25) <= 1 && player.statLife != player.statLifeMax2)
@@ -1184,6 +1254,11 @@ namespace SpiritMod
         int Charger;
         public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
         {
+            if (throwerGlove)
+            {
+                throwerStacks++;
+            }
+
             if (bloodyBauble)
             {
                 if (Main.rand.Next(25) <= 1 && player.statLife != player.statLifeMax2)
@@ -1606,7 +1681,7 @@ namespace SpiritMod
 
             if (rogueSet && !player.HasBuff(mod.BuffType("RogueCooldown")))
             {
-                player.AddBuff(BuffID.Invisibility, 200);
+                player.AddBuff(BuffID.Invisibility, 260);
                 player.AddBuff(mod.BuffType("RogueCooldown"), 1520);
             }
 
@@ -2019,10 +2094,45 @@ namespace SpiritMod
                 reason = PlayerDeathReason.ByCustomReason(player.name + " was consumed by Rage.");
             }
         }
-
+        public override bool Shoot(Item item, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if (throwerGlove)
+            {
+                if (throwerStacks >= 10 && item.thrown)
+                {
+                    throwerStacks = 0;
+                    int proj = Projectile.NewProjectile(position.X, position.Y, speedX* 2, speedY * 2, type, damage + (int)(damage / 4), knockBack + 2, player.whoAmI);
+                    Main.projectile[proj].GetGlobalProjectile<SpiritGlobalProjectile>().throwerGloveBoost = true;
+                    return false;
+                }
+            }
+            return true;
+        }
 
         public override void PreUpdate()
         {
+            if (!throwerGlove)
+            {
+                throwerStacks = 0;
+            }
+            if (assassinMag)
+            {
+                if (player.velocity == Vector2.Zero)
+                {
+                    for (int i = 0; i < Main.maxNPCs; i++)
+                    {
+                        var npc = Main.npc[i];
+                        int distance = (int)Vector2.Distance(npc.Center, player.Center);
+                        if (npc.active && !npc.dontTakeDamage && !npc.friendly)
+                        {
+                            if (distance <= 360)
+                            {
+                                npc.AddBuff(mod.BuffType("AssassinMarked"), 65);
+                            }
+                        }
+                    }
+                }
+            }
             if (ZoneAsteroid && MyWorld.stardustWeather)
             {
                 int d = Main.rand.Next(new int[] { 180, 226, 206});

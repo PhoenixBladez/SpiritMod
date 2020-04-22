@@ -10,6 +10,7 @@ using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Accessory
 {
+    [AutoloadEquip(EquipType.Neck)]
     public class SepulchrePendant : ModItem
     {
         public override void SetStaticDefaults()

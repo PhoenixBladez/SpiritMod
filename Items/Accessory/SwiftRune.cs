@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Swiftness Rune");
-			Tooltip.SetDefault("Gives your Shuriken a Boost!\nIncreases thrown velocity and movement speed");
+			Tooltip.SetDefault("Increases throwing velocity and movement speed by 7%\nIf jumping or falling, this boost is increased by 50%");
 		}
 
 
@@ -19,15 +19,22 @@ namespace SpiritMod.Items.Accessory
         {
             item.width = 22;     
             item.height = 22;   
-            item.value = Item.sellPrice(0, 0, 66, 0);
+            item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 2;
             
             item.accessory = true;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.thrownVelocity += 0.12f;
-            player.maxRunSpeed += 0.09f;
+            player.thrownVelocity += 0.07f;
+            player.moveSpeed += .07f;
+            player.maxRunSpeed += 0.02f;
+            if (player.velocity.Y != 0)
+            {
+                player.thrownVelocity += 0.035f;
+                player.moveSpeed += .035f;
+                player.maxRunSpeed += 0.01f;
+            }
         }
     }
 }

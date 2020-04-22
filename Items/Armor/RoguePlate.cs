@@ -21,7 +21,10 @@ namespace SpiritMod.Items.Armor
             item.rare = 1;
             item.defense = 2;
         }
-
+        public override void DrawHands(ref bool drawHands, ref bool drawArms)
+        {
+            drawHands = true;
+        }
         public override void UpdateEquip(Player player)
         {
             player.thrownDamage += 0.04f;

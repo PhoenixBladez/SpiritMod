@@ -8,11 +8,11 @@ namespace SpiritMod.Backgrounds
         public override bool ChooseBgStyle() => NPC.downedMechBossAny && Main.LocalPlayer.GetSpiritPlayer().ZoneSpirit;
 
         public override void FillTextureArray(int[] textureSlots)
-		{
-            for (int i = 0; i <= 3; i++)
-            {
-                textureSlots[i] = mod.GetBackgroundSlot("Backgrounds/SpiritBiomeUG" + i.ToString());
-            }
-		}
-	}
+        {
+            textureSlots[0] = mod.GetBackgroundSlot("Backgrounds/SpiritBiomeUG0");
+            textureSlots[1] = mod.GetBackgroundSlot("Backgrounds/SpiritBiomeUG1");
+            textureSlots[2] = mod.GetBackgroundSlot("Backgrounds/SpiritBiomeUG2");
+            textureSlots[3] = mod.GetBackgroundSlot("Backgrounds/SpiritBiomeUG3");
+        }
+    }
 }

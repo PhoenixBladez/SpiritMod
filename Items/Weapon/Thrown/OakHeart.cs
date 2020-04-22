@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.UseSound = SoundID.Item1;
             item.thrown = true;
             item.channel = true;
-			item.melee = true;
+			item.thrown = true;
             item.noMelee = true;
             item.maxStack = 1;
             item.shoot = mod.ProjectileType("OakHeart");

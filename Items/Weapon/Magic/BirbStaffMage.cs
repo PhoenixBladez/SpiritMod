@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gandharva's Fury");
-			Tooltip.SetDefault("'The fury of the ancients reaides within'\nCalls down a Celestial Flare from the sky");
+			Tooltip.SetDefault("'The fury of the ancients resides within'\nCalls down a Celestial Flare from the sky");
 		}
 
 

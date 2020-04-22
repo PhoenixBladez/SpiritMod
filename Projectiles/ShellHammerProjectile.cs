@@ -29,7 +29,7 @@ namespace SpiritMod.Projectiles
 		public override bool PreAI()
 		{
 			projectile.velocity.Y += 0.4F;
-			projectile.velocity.X *= 1.005F;
+			projectile.velocity.X *= 1.00F;
 			projectile.velocity.X = MathHelper.Clamp(projectile.velocity.X, -10, 10);
 
 			projectile.frameCounter++;

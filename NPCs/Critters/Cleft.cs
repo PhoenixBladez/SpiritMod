@@ -40,8 +40,9 @@ namespace SpiritMod.NPCs.Critters
 		{
 			if (npc.life <= 0)
 			{
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Cleft"), 1f);
-			}
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Cleft/Cleft1"));
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Cleft/Cleft2"));
+            }
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{

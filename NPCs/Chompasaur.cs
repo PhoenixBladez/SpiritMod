@@ -28,7 +28,7 @@ namespace SpiritMod.NPCs
 			npc.HitSound = SoundID.NPCHit2;
 			npc.DeathSound = SoundID.NPCDeath5;
 			npc.value = 60f;
-			npc.knockBackResist = 0.45f;
+			npc.knockBackResist = 0.55f;
 			npc.aiStyle = 3;
 			aiType = NPCID.WalkingAntlion;
 		}
@@ -60,7 +60,7 @@ namespace SpiritMod.NPCs
         bool trailbehind;
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.player.ZoneUndergroundDesert ? 0.06f : 0f;
+			return spawnInfo.player.ZoneUndergroundDesert ? 0.04f : 0f;
 		}
         int counter;
         bool wormAI;

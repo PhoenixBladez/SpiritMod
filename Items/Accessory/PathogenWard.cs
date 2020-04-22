@@ -15,7 +15,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pathogen Ward");
-            Tooltip.SetDefault("A bloody ward surrounds you, inflicting Blood Corruption to nearby enemies\nIncreases life regeneration slightly\nProvides immunity to the 'Poisoned' buff\nIncreases maximum life by 10 at the cost of 1 defense");
+            Tooltip.SetDefault("A bloody ward surrounds you, inflicting Blood Corruption to nearby enemies\nKilling enemies within the aura restores some life\nHearts are more likely to drop from enemies\nProvides immunity to the 'Poisoned' buff");
 
         }
 
@@ -30,18 +30,15 @@ namespace SpiritMod.Items.Accessory
 		}
         public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-            player.lifeRegen += 3;
             player.GetSpiritPlayer().Ward = true;
-            player.statLifeMax2 += 10;
-            player.statDefense -= 1;
+            player.GetSpiritPlayer().vitaStone = true;
             player.buffImmune[BuffID.Poisoned] = true;
         }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-          //  recipe.AddIngredient(null, "BloodWard", 1);
+            recipe.AddIngredient(null, "BloodWard", 1);
             recipe.AddIngredient(null, "Bloodstone", 1);
-            recipe.AddIngredient(null, "PMicrobe", 1);
             recipe.AddIngredient(ItemID.Bezoar, 1);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);

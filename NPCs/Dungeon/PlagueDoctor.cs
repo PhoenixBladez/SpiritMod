@@ -64,7 +64,15 @@ namespace SpiritMod.NPCs.Dungeon
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PlagueVial"));
 			}
-		}
+            string[] lootTable = { "PlagueDoctorCowl", "PlagueDoctorRobe", "PlagueDoctorLegs" };
+            if (Main.rand.Next(6) == 0)
+            {
+                int loot = Main.rand.Next(lootTable.Length);
+                {
+                    npc.DropItem(mod.ItemType(lootTable[loot]));
+                }
+            }
+        }
 
 		int frame = 0;
 		int timer = 0;

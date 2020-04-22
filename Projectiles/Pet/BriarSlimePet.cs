@@ -18,7 +18,7 @@ namespace SpiritMod.Projectiles.Pet
             projectile.CloneDefaults(ProjectileID.Truffle);
             aiType = ProjectileID.Truffle;
             projectile.width = 30;
-            projectile.height = 22;
+            projectile.height = 20;
         }
 
         public override bool PreAI()

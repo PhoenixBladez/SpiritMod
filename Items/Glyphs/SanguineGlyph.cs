@@ -76,7 +76,7 @@ namespace SpiritMod.Items.Glyphs
 
 		private static void Leech(Player player, Entity target, int damage)
 		{
-			int leech = (int)(damage * 0.1);
+			int leech = (int)Math.Sqrt(damage);
 			if (leech == 0)
 				return;
 			if (player.lifeSteal <= 0f)

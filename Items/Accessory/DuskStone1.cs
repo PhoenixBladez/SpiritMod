@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Accessory
         public override void UpdateAccessory(Player player, bool hideVisual)
 		{
             player.rangedDamage += 0.08f;
-            float defBoost = (float)(player.statLifeMax2 - player.statLife) / (float)player.statLifeMax2 * 7f;
+            float defBoost = (float)(player.statLifeMax2 - player.statLife) / (float)player.statLifeMax2 * 10f;
             player.rangedCrit += (int)defBoost;
 
             player.GetSpiritPlayer().moonStone = true;

@@ -15,7 +15,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bloodstone");
-            Tooltip.SetDefault("A bloody ward surrounds you, inflicting Blood Corruption to nearby enemies\nIncreases life regeneration slightly");
+            Tooltip.SetDefault("A bloody ward surrounds you, inflicting Blood Corruption to nearby enemies\nKilling enemies within the aura restores some life\nHearts are more likely to drop from enemies");
 
         }
 
@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Accessory
 		}
         public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-            player.lifeRegen += 3;
+            player.GetSpiritPlayer().vitaStone = true;
             player.GetSpiritPlayer().Ward = true;
         }
         public override void AddRecipes()

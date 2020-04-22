@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Consumable
 
         public override bool UseItem(Player player)
         {
-            NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 60, mod.NPCType("ForestWraith"));
+            NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 180, mod.NPCType("ForestWraith"));
             Main.PlaySound(29, player.position, 7);
             return true;
         

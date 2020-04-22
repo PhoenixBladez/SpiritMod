@@ -13,7 +13,7 @@ namespace SpiritMod.NPCs
 		{
 			DisplayName.SetDefault("Captive Mask");
 			Main.npcFrameCount[npc.type] = 4;
-		    NPCID.Sets.TrailCacheLength[npc.type] = 9;
+		    NPCID.Sets.TrailCacheLength[npc.type] = 5;
             NPCID.Sets.TrailingMode[npc.type] = 0;
 		}
 

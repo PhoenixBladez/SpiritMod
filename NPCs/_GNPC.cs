@@ -734,9 +734,16 @@ namespace SpiritMod.NPCs
                 if (spawnInfo.player.GetSpiritPlayer().ZoneAsteroid)
                 {
                     pool.Clear();
-                    pool.Add(mod.NPCType("DeepspaceHopper"), 1.05f);
-					 pool.Add(mod.NPCType("Mineroid"), 2.05f);
-                    pool.Add(mod.NPCType("AstralAmalgram"), 0.63f);
+                    pool.Add(mod.NPCType("DeepspaceHopper"), .85f);
+                    pool.Add(mod.NPCType("AstralAmalgram"), 0.38f);
+                    if (NPC.downedBoss2)
+                    {
+                        pool.Add(mod.NPCType("Mineroid"), 0.55f);
+                    }
+                    if (NPC.downedBoss3)
+                    {
+                        pool.Add(mod.NPCType("CogTrapperHead"), 0.25f);
+                    }
                 }
             }
             return;
@@ -983,27 +990,11 @@ namespace SpiritMod.NPCs
 			}
 
 			Player closest = Main.player[(int)Player.FindClosest(npc.position, npc.width, npc.height)];
-			if (npc.type == NPCID.CultistBoss)
-			{
-				int cultistDrop = Main.rand.Next(4);
-				if (cultistDrop == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("StardustEmblem"));
-				}
-				else if (cultistDrop == 1)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("VortexEmblem"));
-				}
-				else if (cultistDrop == 2)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SolarEmblem"));
-				}
-				else if (cultistDrop == 3)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("NebulaEmblem"));
-				}
-			}
-			if (npc.type == NPCID.DungeonSpirit && Main.rand.Next(20) == 0)
+            if (closest.GetSpiritPlayer().ZoneAsteroid && Main.rand.Next(50) == 0)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Blaster"));
+            }
+            if (npc.type == NPCID.DungeonSpirit && Main.rand.Next(20) == 0)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DungeonSpirit"), Main.rand.Next(2) + 1);
 			}
@@ -1096,7 +1087,23 @@ namespace SpiritMod.NPCs
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SaucerBeacon"));
 			}
-			if (npc.type == 39 && Main.rand.Next(16) == 1)
+            if ((npc.type == 513 || npc.type == mod.NPCType("Chompasaur")) && Main.rand.Next(40) == 1 && MyWorld.downedScarabeus)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DesertSlab"));
+            }
+            if ((npc.type == 494 || npc.type == 495) && Main.rand.Next(35) == 1)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SnapperHat"));
+            }
+            if ((npc.type == 43 || npc.type == 56) && Main.rand.Next(50) == 1)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TrapperGlove"));
+            }
+            if (npc.type == 546 && Main.rand.Next(25) == 1)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Tumblesoul"));
+            }
+            if (npc.type == 39 && Main.rand.Next(16) == 1)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BoneFlail"));
 			}
@@ -1153,10 +1160,28 @@ namespace SpiritMod.NPCs
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DistortionSting"));
 			}
+            if (closest.GetSpiritPlayer().vitaStone)
+            {
+                if (!npc.friendly && npc.lifeMax > 5 && Main.rand.Next(20) == 1 && closest.statLife < closest.statLifeMax)
+                {
+                    if (Main.halloween)
+                    {
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height,1734);
+                    }
+                    else
+                    {
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 58);
+                    }
+                }
+            }
+            if (npc.type == 425 && Main.rand.Next(40) == 1)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("StormPhaser"));
+            }
 
-			#region Iriazul
-			// Bubble Shield dropping.
-			if (martianMobs.Contains(npc.type))
+            #region Iriazul
+            // Bubble Shield dropping.
+            if (martianMobs.Contains(npc.type))
 			{
 				if (Main.rand.Next(100) <= 2)
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BubbleShield"));
@@ -1252,8 +1277,6 @@ namespace SpiritMod.NPCs
 			if (npc.type == NPCID.ChaosElemental && Main.rand.Next(24) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Crystal"));
 
-			if (npc.type == 6 && Main.rand.Next(40) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PMicrobe"));
 
 			if (npc.type == 439)
 			{

@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Accessory
 {
+    [AutoloadEquip(EquipType.Waist)]
     public class AnimationStone : ModItem
     {
 		public override void SetStaticDefaults()
@@ -27,7 +28,7 @@ namespace SpiritMod.Items.Accessory
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.moveSpeed += 0.1f;
-            player.maxRunSpeed += .04f;
+            player.maxRunSpeed += .05f;
 			player.jumpSpeedBoost -= 1f;
         }
 		public override void AddRecipes()
