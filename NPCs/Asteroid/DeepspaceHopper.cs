@@ -228,5 +228,12 @@ namespace SpiritMod.NPCs.Asteroid
             }
 			return false;
 		}
+		public override void NPCLoot()
+		{
+			if (Main.rand.Next(15) == 1)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GateStaff"), 1);
+			}
+		}
 	}
 }
