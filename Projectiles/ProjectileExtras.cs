@@ -11,7 +11,6 @@ namespace SpiritMod.Projectiles
 
 	public static class ProjectileExtras
 	{
-
 		public static void HomingAIVanilla(ModProjectile modProj, NPC target, float velocity = 4f, float weight = 0.0333f)
 		{
 			Projectile projectile = modProj.projectile;
@@ -905,7 +904,7 @@ namespace SpiritMod.Projectiles
 			}
 		}
 
-		public static void DrawChain(int index, Vector2 to, string chainPath)
+		public static void DrawChain(int index, Vector2 to, string chainPath, bool electric = false, int damage = 0)
 		{
 			Texture2D texture = ModContent.GetTexture(chainPath);
 			Projectile projectile = Main.projectile[index];
@@ -940,10 +939,13 @@ namespace SpiritMod.Projectiles
 					Color color = Lighting.GetColor((int)vector.X / 16, (int)((double)vector.Y / 16.0));
 					color = projectile.GetAlpha(color);
 					Main.spriteBatch.Draw(texture, vector - Main.screenPosition, sourceRectangle, color, rotation, origin, 1f, SpriteEffects.None, 0f);
+					if (electric)
+					{
+						Projectile.NewProjectile(vector.X, vector.Y, 0, 0, ModLoader.GetMod("SpiritMod").ProjectileType("ElectricChain"), damage, 0, Main.myPlayer);
+					}
 				}
 			}
 		}
-
 		public static void DrawAroundOrigin(int index, Color lightColor)
 		{
 			Projectile projectile = Main.projectile[index];

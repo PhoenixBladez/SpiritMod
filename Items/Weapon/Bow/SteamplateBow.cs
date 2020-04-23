@@ -14,15 +14,14 @@ namespace SpiritMod.Items.Weapon.Bow
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starcharger");
-			Tooltip.SetDefault("Converts arrows into Starcharged Arrows");
-            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Bow/SteamplateBow_Glow");
+			Tooltip.SetDefault("Shoots oppositely charged arrows \nOppositely charged arrows explode upon touching each other");
+          //  SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Bow/SteamplateBow_Glow");
 		}
-
 
 
         public override void SetDefaults()
         {
-            item.damage = 32;
+            item.damage = 28;
             item.noMelee = true;
             item.ranged = true;
             item.width = 28;
@@ -41,7 +40,7 @@ namespace SpiritMod.Items.Weapon.Bow
             item.shootSpeed = 7f;
 
         }
-        public override Vector2? HoldoutOffset()
+   /*     public override Vector2? HoldoutOffset()
         {
             return new Vector2(-3, 0);
         }
@@ -65,11 +64,21 @@ namespace SpiritMod.Items.Weapon.Bow
 				SpriteEffects.None, 
 				0f
 			);
+        }*/
+		public override bool AltFunctionUse(Player player)
+        {
+            return true;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			
-			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("SteamArrow"), damage, knockBack, player.whoAmI, 0f, 0f);
+			if (player.altFunctionUse == 2)
+			{
+				int positive = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("NegativeArrow"), damage, knockBack, player.whoAmI);
+			}
+			else
+			{
+				int negative = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("PositiveArrow"), damage, knockBack, player.whoAmI);
+			}
             return false; 
         }
     }
