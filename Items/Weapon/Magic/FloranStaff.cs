@@ -2,6 +2,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Microsoft.Xna.Framework;
 namespace SpiritMod.Items.Weapon.Magic
 {
 	public class FloranStaff : ModItem
@@ -22,7 +23,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.damage = 17;
 			item.useStyle = 5;
 			Item.staff[item.type] = true;
-			item.useTime = 15;
+			item.useTime = 45;
 			item.useAnimation = 45;
 			item.mana = 12;
             item.knockBack = 3;
@@ -41,5 +42,26 @@ namespace SpiritMod.Items.Weapon.Magic
             modRecipe.SetResult(this);
             modRecipe.AddRecipe();
         }
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+			//Remove all previous Floran projectiles - creates "reset" behavior
+			for(int i = 0; i < Main.projectile.Length; i++) {
+				Projectile p = Main.projectile[i];
+				if(p.active && p.type == item.shoot && p.owner == player.whoAmI) {
+					p.active = false;
+				}
+			}
+
+			//get degrees from direction vector
+			int dir = (int)(new Vector2(speedX, speedY).ToRotation() / (Math.PI / 180));
+			int dir2 = dir + 120;
+			int dir3 = dir - 120;
+
+			//spawn the new projectiles
+			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, item.shoot, damage, knockBack, player.whoAmI, 0, dir);
+			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, item.shoot, damage, knockBack, player.whoAmI, 0, dir2);
+			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, item.shoot, damage, knockBack, player.whoAmI, 0, dir3);
+			return false;
+		}
     }
 }

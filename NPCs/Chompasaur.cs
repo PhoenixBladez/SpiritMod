@@ -60,6 +60,10 @@ namespace SpiritMod.NPCs
         bool trailbehind;
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
+			if (SpawnCondition.OceanMonster.Chance > 0)
+			{
+				return 0f;
+			}
 			return spawnInfo.player.ZoneUndergroundDesert ? 0.04f : 0f;
 		}
         int counter;

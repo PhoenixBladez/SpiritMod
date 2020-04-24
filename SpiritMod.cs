@@ -779,8 +779,94 @@ namespace SpiritMod
 				Utils.DrawBorderString(spriteBatch, customEventName, new Vector2(barrierBackground.X + barrierBackground.Width * 0.5f, barrierBackground.Y - internalOffset - descSize.Y * 0.5f), Color.White, 0.8f, 0.3f, 0.4f);
 			}
 		}
-	}
+		#region pin stuff
+				public override void PostDrawFullscreenMap( ref string mouseText ) {
+			var myplayer = Main.LocalPlayer.GetModPlayer<MyPlayer>();
+			
+				DrawMirrorOnFullscreenMap(myplayer.RedPinX, myplayer.RedPinY, true, GetTexture("Textures/Pins/RedPin"));
+				DrawMirrorOnFullscreenMap(myplayer.BluePinX, myplayer.BluePinY, true, GetTexture("Textures/Pins/BluePin"));
+				DrawMirrorOnFullscreenMap(myplayer.GreenPinX, myplayer.GreenPinY, true, GetTexture("Textures/Pins/GreenPin"));
+				DrawMirrorOnFullscreenMap(myplayer.YellowPinX, myplayer.YellowPinY, true, GetTexture("Textures/Pins/YellowPin"));
+		}
+		public void DrawMirrorOnFullscreenMap( int tileX, int tileY, bool isTarget, Texture2D tex) {
+			float myScale = isTarget ? 0.25f : 0.125f;
+			float uiScale = 5f;//Main.mapFullscreenScale;
+			float scale = uiScale * myScale;
+		
+			int wldBaseX = ((tileX + 1) << 4) + 8;
+			int wldBaseY = ((tileY + 1) << 4) + 8;
+			var wldPos = new Vector2(wldBaseX, wldBaseY);
 
+			//var overMapData = HUDMapHelpers.GetFullMapPositionAsScreenPosition( wldPos );
+			//
+			//if( overMapData.IsOnScreen ) {
+			//	Vector2 scrPos = overMapData.ScreenPosition;
+			var overMapData = GetFullMapPositionAsScreenPosition( wldPos );
+			
+			if( overMapData.IsOnScreen && tileX > 0 && tileY > 0) {
+				Vector2 scrPos = overMapData.ScreenPosition;
+				Main.spriteBatch.Draw(
+					texture: tex,
+					position: scrPos,
+					sourceRectangle: null,
+					color: Color.White,
+					rotation: 0f,
+					origin: new Vector2( tex.Width/2, tex.Height/2 ),
+					scale: scale,
+					effects: SpriteEffects.None,
+					layerDepth: 1f
+				);
+			}
+		}
+		public static (Vector2 ScreenPosition, bool IsOnScreen) GetFullMapPositionAsScreenPosition( Vector2 worldPosition ) {    //Main.mapFullscreen
+			return GetFullMapPositionAsScreenPosition( new Rectangle( (int)worldPosition.X, (int)worldPosition.Y, 0, 0 ) );
+		}
+
+		/// <summary>
+		/// Returns a screen position of a given world position as if projected onto the fullscreen map.
+		/// </summary>
+		/// <param name="worldArea"></param>
+		/// <returns>A tuple indicating the screen-relative position and whether the point is within the screen
+		/// boundaries.</returns>
+		public static Tuple<int, int> GetScreenSize() {
+			int screenWid = (int)( (float)Main.screenWidth / Main.GameZoomTarget );
+			int screenHei = (int)( (float)Main.screenHeight / Main.GameZoomTarget );
+
+			return Tuple.Create( screenWid, screenHei );
+		}
+		public static (Vector2 ScreenPosition, bool IsOnScreen) GetFullMapPositionAsScreenPosition( Rectangle worldArea ) {    //Main.mapFullscreen
+			float mapScale = GetFullMapScale();
+			var scrSize = GetScreenSize();
+
+			//float offscrLitX = 10f * mapScale;
+			//float offscrLitY = 10f * mapScale;
+
+			float mapFullscrX = Main.mapFullscreenPos.X * mapScale;
+			float mapFullscrY = Main.mapFullscreenPos.Y * mapScale;
+			float mapX = -mapFullscrX + (float)(Main.screenWidth / 2);
+			float mapY = -mapFullscrY + (float)(Main.screenHeight / 2);
+
+			float originMidX = (worldArea.X / 16f) * mapScale;
+			float originMidY = (worldArea.Y / 16f) * mapScale;
+
+			originMidX += mapX;
+			originMidY += mapY;
+
+			var scrPos = new Vector2( originMidX, originMidY );
+			bool isOnscreen = originMidX >= 0 &&
+				originMidY >= 0 &&
+				originMidX < scrSize.Item1 &&
+				originMidY < scrSize.Item2;
+
+			return ( scrPos, isOnscreen );
+		}
+		public static float GetFullMapScale() {
+			return Main.mapFullscreenScale / Main.UIScale;
+		}
+	#endregion
+
+	}
+	
 	internal enum CallContext
 	{
 		Invalid = -1,

@@ -38,13 +38,10 @@ namespace SpiritMod.Projectiles
 		public float counter = -1440;
 		public override void AI()
 		{
+			Player player = Main.player[projectile.owner];
 			var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
 			foreach (var proj in list)
 			{
-
-				Player player = Main.player[projectile.owner];
-				projectile.ai[0] += .02f;
-				projectile.Center = player.Center + offset.RotatedBy(projectile.ai[0] + projectile.ai[1] * (Math.PI * 10 / 1));
 				counter++;
 				if (counter == 0)
 				{
@@ -63,45 +60,21 @@ namespace SpiritMod.Projectiles
 				}
 				projectile.rotation = projectile.velocity.ToRotation() + (float)(Math.PI / 2);
 			}
+    		//Making player variable "p" set as the projectile's owner
 
-			projectile.ai[1] += 1f;
-			if (projectile.ai[1] >= 7200f)
-			{
-				projectile.alpha += 5;
-				if (projectile.alpha > 255)
-				{
-					projectile.alpha = 255;
-					projectile.Kill();
-				}
-			}
-
-			projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] >= 10f)
-			{
-				projectile.localAI[0] = 0f;
-				int num416 = 0;
-				int num417 = 0;
-				float num418 = 0f;
-				int num419 = projectile.type;
-				for (int num420 = 0; num420 < 1000; num420++)
-				{
-					if (Main.projectile[num420].active && Main.projectile[num420].owner == projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f)
-					{
-						num416++;
-						if (Main.projectile[num420].ai[1] > num418)
-						{
-							num417 = num420;
-							num418 = Main.projectile[num420].ai[1];
-						}
-					}
-					if (num416 > 6)
-					{
-						Main.projectile[num417].netUpdate = true;
-						Main.projectile[num417].ai[1] = 36000f;
-						return;
-					}
-				}
-			}
+    		//Factors for calculations
+    		double deg = (double) projectile.ai[1]; //The degrees, you can multiply projectile.ai[1] to make it orbit faster, may be choppy depending on the value
+    		double rad = deg * (Math.PI / 180); //Convert degrees to radians
+    		double dist = 80; //Distance away from the player
+ 			
+    		/*Position the projectile based on where the player is, the Sin/Cos of the angle times the /
+    		/distance for the desired distance away from the player minus the projectile's width   /
+    		/and height divided by two so the center of the projectile is at the right place.     */
+    		projectile.position.X = player.Center.X - (int)(Math.Cos(rad) * dist) - projectile.width/2;
+    		projectile.position.Y = player.Center.Y - (int)(Math.Sin(rad) * dist) - projectile.height/2;
+ 			
+    		//Increase the counter/angle in degrees by 1 point, you can change the rate here too, but the orbit may look choppy depending on the value
+    		projectile.ai[1] += 2f;
 		}
 
 		public override void Kill(int timeLeft)
