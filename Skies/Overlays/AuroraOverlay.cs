@@ -58,7 +58,7 @@ namespace SpiritMod.Skies.Overlays
 
             //ignore this stuff here
             SpiritMod.auroraEffect.Parameters["noiseTexture"].SetValue(SpiritMod.noise);
-            int bgTop = (int)((-Main.screenPosition.Y) / (Main.worldSurface * 16.0 - 600.0) * 200.0);
+            int bgTop = (int)((-Main.screenPosition.Y) / (Main.worldSurface * 16.0 - 550.0) * 200.0);
             float percent = Main.screenPosition.Y / ((float)Main.worldSurface * 16f);
             float bonus = 0;
             if (Main.screenPosition.Y < 1600)

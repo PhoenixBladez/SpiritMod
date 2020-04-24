@@ -19,15 +19,15 @@ namespace SpiritMod
 {
     public class MyPlayer : ModPlayer
     {
-		public int RedPinX = 0;
-		public int RedPinY = 0;
-		public int GreenPinX = 0;
-		public int GreenPinY = 0;
-		public int YellowPinX = 0;
-		public int YellowPinY = 0;
-		public int BluePinX = 0;
-		public int BluePinY = 0;
-		
+        public int RedPinX = 0;
+        public int RedPinY = 0;
+        public int GreenPinX = 0;
+        public int GreenPinY = 0;
+        public int YellowPinX = 0;
+        public int YellowPinY = 0;
+        public int BluePinX = 0;
+        public int BluePinY = 0;
+
         public const int CAMO_DELAY = 100;
         public int Soldiers = 0;
         internal static bool swingingCheck;
@@ -92,7 +92,6 @@ namespace SpiritMod
         public bool magazine = false;
         public bool EaterSummon = false;
         public bool CreeperSummon = false;
-        public bool CrystalShield = false;
         public bool leatherGlove = false;
         public bool forbiddenTome = false;
         public bool moonHeart = false;
@@ -166,6 +165,7 @@ namespace SpiritMod
 
         public bool gemPickaxe = false;
         public int hexBowAnimationFrame;
+        public bool CrystalShield = false;
         public bool carnivorousPlantMinion = false;
         public bool skeletalonMinion = false;
         public bool babyClamper = false;
@@ -334,9 +334,10 @@ namespace SpiritMod
 
         public override void UpdateBiomeVisuals()
         {
-            bool showAurora = (player.ZoneSnow || ZoneSpirit || player.ZoneSkyHeight) && !Main.dayTime && !Main.raining && !player.ZoneCorrupt && !player.ZoneCrimson;
+            bool showAurora = (((player.ZoneSnow || ZoneSpirit || player.ZoneSkyHeight) && !Main.dayTime) || ZoneAsteroid) && !Main.raining && !player.ZoneCorrupt && !player.ZoneCrimson;
             bool reach = !Main.dayTime && ZoneReach && !reachBrooch;
 
+            player.ManageSpecialBiomeVisuals("SpiritMod:AshstormParticles", true);       
             player.ManageSpecialBiomeVisuals("SpiritMod:AuroraSky", showAurora);
             player.ManageSpecialBiomeVisuals("SpiritMod:ReachSky", reach, player.Center);
             player.ManageSpecialBiomeVisuals("SpiritMod:BlueMoonSky", ZoneBlueMoon, player.Center);
@@ -399,14 +400,14 @@ namespace SpiritMod
             {
                 { "candyInBowl", candyInBowl },
                 { "candyFromTown", candyFromTown },
-				{ "RedPinX", RedPinX },
-				{ "RedPinY", RedPinY },
-				{ "BluePinX", BluePinX },
-				{ "BluePinY", BluePinY },
-				{ "GreenPinX", GreenPinX },
-				{ "GreenPinY", GreenPinY },
-				{ "YellowPinX", YellowPinX },
-				{ "YellowPinY", YellowPinY }
+                { "RedPinX", RedPinX },
+                { "RedPinY", RedPinY },
+                { "BluePinX", BluePinX },
+                { "BluePinY", BluePinY },
+                { "GreenPinX", GreenPinX },
+                { "GreenPinY", GreenPinY },
+                { "YellowPinX", YellowPinX },
+                { "YellowPinY", YellowPinY }
             };
             return tag;
         }
@@ -415,16 +416,14 @@ namespace SpiritMod
         {
             candyInBowl = tag.GetInt("candyInBowl");
             candyFromTown = tag.GetList<string>("candyFromTown");
-			
-			RedPinX = tag.GetInt("RedPinX");
-			RedPinY = tag.GetInt("RedPinY");
-			GreenPinX = tag.GetInt("GreenPinX");
-			GreenPinY = tag.GetInt("GreenPinY");
-			BluePinX = tag.GetInt("BluePinX");
-			BluePinY = tag.GetInt("BluePinY");
-			YellowPinX = tag.GetInt("YellowPinX");
-			YellowPinY = tag.GetInt("YellowPinY");
-
+            RedPinX = tag.GetInt("RedPinX");
+            RedPinY = tag.GetInt("RedPinY");
+            GreenPinX = tag.GetInt("GreenPinX");
+            GreenPinY = tag.GetInt("GreenPinY");
+            BluePinX = tag.GetInt("BluePinX");
+            BluePinY = tag.GetInt("BluePinY");
+            YellowPinX = tag.GetInt("YellowPinX");
+            YellowPinY = tag.GetInt("YellowPinY");
         }
 
 
@@ -1095,7 +1094,7 @@ namespace SpiritMod
         {
             if (cleftHorn)
             {
-                if (item.melee && Main.rand.Next(12) == 0)
+                if (item.melee && Main.rand.Next(9) == 0)
                 {
                     target.StrikeNPC(item.damage/2, 0f, 0, crit);
                 }
@@ -1156,7 +1155,7 @@ namespace SpiritMod
                             Main.dust[num].velocity = target.DirectionTo(Main.dust[num].position) * 6f;
                         }
                     }
-					int upperClamp = (int)MathHelper.Clamp(target.lifeMax, 0, 75);
+                    int upperClamp = (int)MathHelper.Clamp(target.lifeMax, 0, 75);
                     int p = Projectile.NewProjectile(target.position, new Vector2(Main.rand.Next(-6, 6), Main.rand.Next(-5, -1)), mod.ProjectileType("GhastSkullFriendly"), (int)MathHelper.Clamp((damage / 5 * 2), 0, upperClamp), knockback, Main.myPlayer);
                     if (item.ranged)
                     {
@@ -1333,7 +1332,8 @@ namespace SpiritMod
                             Main.dust[num].velocity = target.DirectionTo(Main.dust[num].position) * 6f;
                         }
                     }
-                    int p = Projectile.NewProjectile(target.position, new Vector2(Main.rand.Next(-6, 6), Main.rand.Next(-6, -1)), mod.ProjectileType("GhastSkullFriendly"), damage / 5 * 3, knockback, Main.myPlayer);
+                    int upperClamp = (int)MathHelper.Clamp(target.lifeMax, 0, 75);
+                    int p = Projectile.NewProjectile(target.position, new Vector2(Main.rand.Next(-6, 6), Main.rand.Next(-5, -1)), mod.ProjectileType("GhastSkullFriendly"), (int)MathHelper.Clamp((damage / 5 * 2), 0, upperClamp), knockback, Main.myPlayer);
                     if (proj.ranged)
                     {
                         Main.projectile[p].ranged = true;
@@ -2930,7 +2930,10 @@ namespace SpiritMod
 
             if (leatherSet)
             {
-                if (concentratedCooldown > 0)
+                if (concentratedCooldown == 0)
+                {
+                    Main.PlaySound(new Terraria.Audio.LegacySoundStyle(25, 1));
+                }
                 {
                     if (player.velocity.X != 0f)
                     {
@@ -2945,7 +2948,7 @@ namespace SpiritMod
             else
             {
                 concentrated = false;
-                concentratedCooldown = 360;
+                concentratedCooldown = 420;
             }
 
             if (concentratedCooldown <= 0)

@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace SpiritMod
 {
-    public static class Utililties
+    public static class SpiritUtils
     {
         public static MyPlayer GetSpiritPlayer(this Player player) => player.GetModPlayer<MyPlayer>();
 

@@ -207,7 +207,9 @@ namespace SpiritMod.NPCs.Town
 
 			if (Main.hardMode)
 			{
-				shop.item[nextSlot].SetDefaults(mod.ItemType("BladeOfNoah"));
+                shop.item[nextSlot].SetDefaults(mod.ItemType("PlagueVial"));
+                nextSlot++;
+                shop.item[nextSlot].SetDefaults(mod.ItemType("BladeOfNoah"));
 				nextSlot++;
 			}
 		}

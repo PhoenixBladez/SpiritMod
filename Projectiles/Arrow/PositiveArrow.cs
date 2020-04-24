@@ -45,7 +45,17 @@ namespace SpiritMod.Projectiles.Arrow
 		}
 		public override bool PreAI()
 		{
-			if (projectile.damage != 0)
+            int num = 5;
+            for (int k = 0; k < 3; k++)
+            {
+                int index2 = Dust.NewDust(projectile.position, 1, 1, 226, 0.0f, 0.0f, 0, new Color(), 1f);
+                Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
+                Main.dust[index2].scale = .5f;
+                Main.dust[index2].velocity *= 0f;
+                Main.dust[index2].noGravity = true;
+                Main.dust[index2].noLight = false;
+            }
+            if (projectile.damage != 0)
 			{
 				damage = projectile.damage;
 			}

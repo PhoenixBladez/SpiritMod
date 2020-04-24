@@ -12,7 +12,7 @@ namespace SpiritMod.NPCs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Orbidite");
+			DisplayName.SetDefault("Orbitite");
 			Main.npcFrameCount[npc.type] = 6;
 		}
 

@@ -42,8 +42,8 @@ namespace SpiritMod.Tiles
         {
             if (type == TileID.Sand && player.GetSpiritPlayer().tumbleSoul)
             {
-                player.moveSpeed += .1f;
-                player.maxRunSpeed += .08f;
+                player.moveSpeed += .16f;
+                player.maxRunSpeed += .1f;
                 if (player.velocity.X != 0f)
                 {
                     int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 0, 0);

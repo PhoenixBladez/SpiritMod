@@ -10,7 +10,8 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.BloodMoon
 {
-	public class Occultist : ModNPC
+    [AutoloadBossHead]
+    public class Occultist : ModNPC
 	{
 		public override void SetStaticDefaults()
 		{

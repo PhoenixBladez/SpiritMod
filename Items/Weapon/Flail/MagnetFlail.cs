@@ -12,8 +12,8 @@ namespace SpiritMod.Items.Weapon.Flail
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Plug Flail");
-            Tooltip.SetDefault("Plugs into tiles to create an electric shock effect in the chain");
+			DisplayName.SetDefault("Livewire");
+            Tooltip.SetDefault("Plugs into tiles, changing the chain into a shocking livewire");
 
         }
 
@@ -22,20 +22,31 @@ namespace SpiritMod.Items.Weapon.Flail
         {
             item.width = 44;
             item.height = 44;
-            item.rare = 6;
+            item.rare = 3;
             item.noMelee = true;
             item.useStyle = 5; 
             item.useAnimation = 34; 
             item.useTime = 34;
             item.knockBack = 6;
-            item.value = Item.sellPrice(0, 1, 43, 0);
-            item.damage = 71;
+            item.value = Item.sellPrice(0, 1, 20, 0);
+            item.damage = 36;
             item.noUseGraphic = true; 
             item.shoot = mod.ProjectileType("MagnetFlailProj");
-            item.shootSpeed = 28f;
+            item.shootSpeed = 18f;
             item.UseSound = SoundID.Item1;
             item.melee = true; 
             item.channel = true; 
+        }
+        public override bool CanUseItem(Player player)
+        {
+            for (int i = 0; i < 1000; ++i)
+            {
+                if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

@@ -23,14 +23,14 @@ namespace SpiritMod.Items.Weapon.Swung
             item.melee = true;            
             item.width = 36;              
             item.height = 44;
-            item.useTime = 55;
-            item.useAnimation = 55;     
+            item.useTime = 47;
+            item.useAnimation = 47;     
             item.useStyle = 1;        
             item.knockBack = 11;
             item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
             item.shoot = mod.ProjectileType("Slugger1");
             item.rare = 3;
-            item.shootSpeed = 8f;
+            item.shootSpeed = 12f;
             item.UseSound = SoundID.Item1;        
             item.autoReuse = true;
         }

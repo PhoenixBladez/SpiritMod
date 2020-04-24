@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Summon
 	{
 		bool leftactive = false;
 		Vector2 direction9 = Vector2.Zero;
-		int distance = 1000;
+		int distance = 500;
 		bool rightactive = false;
 		int right = 0;
 		int left = 0; 
@@ -23,9 +23,9 @@ namespace SpiritMod.Items.Weapon.Summon
 
 		 public override void SetDefaults()
         {
-             item.damage = 24;
+            item.damage = 15;
             item.summon = true;
-            item.mana = 12;
+            item.mana = 16;
             item.width = 44;
             item.height = 48;
             item.useTime = 35;
@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Weapon.Summon
             item.noMelee = true;
             item.knockBack = 5;
             item.value = 20000;
-            item.rare = 3;
+            item.rare = 2;
             item.UseSound = SoundID.Item20;
             item.autoReuse = false;
             item.shoot = mod.ProjectileType("RightHopper");
@@ -45,12 +45,26 @@ namespace SpiritMod.Items.Weapon.Summon
         {
             return true;
         }
-		   public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
 			return false;
 		}
-		 public override bool CanUseItem(Player player)
+        public override ModItem Clone(Item item)
         {
+            GateStaff staff = (GateStaff)base.Clone(item);
+            staff.left = this.left;
+            staff.right = this.right;
+            staff.distance = this.distance;
+            staff.rightactive = this.rightactive;
+            staff.leftactive = this.leftactive;
+            return staff;
+        }
+        public override bool CanUseItem(Player player)
+        {
+            if (player.statMana <= 12)
+            {
+                return false;
+            }
 			if (player.altFunctionUse == 2)
 			{
 				if (rightactive)

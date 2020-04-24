@@ -12,8 +12,8 @@ namespace SpiritMod.Items.Pins
 		//TODO: Minimap integration, saving upon world exit, make them not draw in corner when not in use
 		public override void SetStaticDefaults() 
 		{
-			DisplayName.SetDefault("Green Pin"); 
-			Tooltip.SetDefault("Places a map pin at your location \nRight Click to delete pin");
+			DisplayName.SetDefault("Wayfinder's Pin- Green"); 
+			Tooltip.SetDefault("Places a map pin at your location\nRight Click to delete pin\nOnly one green pin can be placed at a time");
 		}
 
 		  public override void SetDefaults()
@@ -40,12 +40,16 @@ namespace SpiritMod.Items.Pins
 			Main.PlaySound(0, (int)player.position.X, (int)player.position.Y);
 			if (player.altFunctionUse != 2)
 			{
-				((MyPlayer)player.GetModPlayer(mod, "MyPlayer")).GreenPinX = (int)(player.position.X / 16);
+                CombatText.NewText(new Rectangle((int)player.position.X, (int)player.position.Y - 10, player.width, player.height), new Color(255, 255, 255, 100),
+                "Location Pinned");
+                ((MyPlayer)player.GetModPlayer(mod, "MyPlayer")).GreenPinX = (int)(player.position.X / 16);
 				((MyPlayer)player.GetModPlayer(mod, "MyPlayer")).GreenPinY = (int)(player.position.Y / 16);
 			}
 			else
 			{
-				((MyPlayer)player.GetModPlayer(mod, "MyPlayer")).GreenPinX = 0;
+                CombatText.NewText(new Rectangle((int)player.position.X, (int)player.position.Y - 10, player.width, player.height), new Color(255, 255, 255, 100),
+                "Pin Removed");
+                ((MyPlayer)player.GetModPlayer(mod, "MyPlayer")).GreenPinX = 0;
 				((MyPlayer)player.GetModPlayer(mod, "MyPlayer")).GreenPinY = 0;
 			}
 			return true;

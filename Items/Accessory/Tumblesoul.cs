@@ -15,7 +15,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Tumblesoul");
-			Tooltip.SetDefault("Increases movement speed by 10% while on sand");
+			Tooltip.SetDefault("Increases movement speed by 16% while on sand");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 5));
         }
 

@@ -14,33 +14,32 @@ namespace SpiritMod.Items.Weapon.Bow
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starcharger");
-			Tooltip.SetDefault("Shoots oppositely charged arrows \nOppositely charged arrows explode upon touching each other");
-          //  SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Bow/SteamplateBow_Glow");
+			Tooltip.SetDefault("Shoots oppositely charged arrows that stick to enemies and tiles\nOppositely charged arrows explode upon touching each other");
+            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Bow/SteamplateBow_Glow");
 		}
 
 
         public override void SetDefaults()
         {
-            item.damage = 28;
+            item.damage = 25;
             item.noMelee = true;
             item.ranged = true;
             item.width = 28;
             item.height = 36;
-            item.useTime = 31;
-            item.useAnimation = 31;
+            item.useTime = 27;
+            item.useAnimation = 27;
             item.useStyle = 5;
             item.shoot = 3;
             item.useAmmo = AmmoID.Arrow;
-            item.knockBack = 4;
+            item.knockBack = 1;
             item.rare = 3;
             item.UseSound = SoundID.Item5;
-			item.value = Item.buyPrice(0, 5, 0, 0);
-			item.value = Item.sellPrice(0, 0, 40, 0);
+			item.value = Item.sellPrice(0, 1, 0, 0);
             item.autoReuse = true;
             item.shootSpeed = 7f;
 
         }
-   /*     public override Vector2? HoldoutOffset()
+        public override Vector2? HoldoutOffset()
         {
             return new Vector2(-3, 0);
         }
@@ -64,7 +63,7 @@ namespace SpiritMod.Items.Weapon.Bow
 				SpriteEffects.None, 
 				0f
 			);
-        }*/
+        }
 		public override bool AltFunctionUse(Player player)
         {
             return true;

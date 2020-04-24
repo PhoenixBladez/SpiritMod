@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Placeable.Tiles
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.TileType("SpaceJunkItem"), 2);
+            recipe.AddIngredient(mod.ItemType("SpaceJunkItem"), 2);
             recipe.AddTile(TileID.HeavyWorkBench);
             recipe.SetResult(this, 30);
             recipe.AddRecipe();

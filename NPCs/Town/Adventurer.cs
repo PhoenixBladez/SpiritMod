@@ -213,6 +213,10 @@ namespace SpiritMod.NPCs.Town
             //Lunar Wisp		
             shop.item[nextSlot].SetDefaults(mod.ItemType("ManaFlame"));
             nextSlot++;
+            //Lunar Wisp		
+            shop.item[nextSlot].SetDefaults(mod.ItemType("ReMapdPin"));
+            shop.item[nextSlot].value = 30000;
+            nextSlot++;
             //Whoopie Cushion
             if (NPC.downedBoss2)
             {
@@ -237,6 +241,7 @@ namespace SpiritMod.NPCs.Town
                 shop.item[nextSlot].value = 100000;
                 nextSlot++;
             }
+
             Player closest = Main.player[(int)Player.FindClosest(npc.position, npc.width, npc.height)];
             if (closest.GetSpiritPlayer().ZoneReach)
             {

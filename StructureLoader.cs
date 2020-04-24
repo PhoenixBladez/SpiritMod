@@ -30,6 +30,11 @@ namespace SpiritMod
             _structures["CrateStashRegular"] = new Structure(mod, "CrateStashRegular");
             _structures["CrateStashJungle"] = new Structure(mod, "CrateStashJungle");
             _structures["BoneGrave"] = new Structure(mod, "BoneGrave");
+            _structures["StoneDungeon1"] = new Structure(mod, "StoneDungeon1");
+            _structures["StoneDungeon2"] = new Structure(mod, "StoneDungeon2");
+            _structures["StoneDungeon3"] = new Structure(mod, "StoneDungeon3");
+            _structures["PurityShrine1"] = new Structure(mod, "PurityShrine1");
+            _structures["PurityShrine2"] = new Structure(mod, "PurityShrine2");
         }
 
         public static void Unload()

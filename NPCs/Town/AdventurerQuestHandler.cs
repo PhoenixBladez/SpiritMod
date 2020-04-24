@@ -64,8 +64,7 @@ namespace SpiritMod.NPCs.Town
                 " Well, lucky for us they're gone! But their Sepulchres still remain. Mind grabbin' me a chest from there? I'd like to study their architecture further. Don't turn into a skeleton!",
 
                 "Thanks, bud. After studying this artifact, I've managed to reproduce a few vases in their weird style. " +
-                "If you ever want your house to have a spooky vibe, here ya go. Don't go conjuring any skeletons, now.", true,
-                () => { Main.LocalPlayer.QuickSpawnItem(ItemID.GoldCoin, 10); });
+                "If you ever want your house to have a spooky vibe, here ya go. Don't go conjuring any skeletons, now.", true);
 
             //Quest 2
             Quest scarabQuest = RegisterQuest(mod.ItemType("ScarabIdolQuest"), 

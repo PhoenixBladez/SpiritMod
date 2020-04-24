@@ -256,7 +256,7 @@ namespace SpiritMod.Skies
 
 		public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
 		{
-			if (!(Main.screenPosition.Y > 10000f))
+            if (!(Main.screenPosition.Y > 10000f))
 			{
 				int num3 = -1;
 				int num2 = 0;

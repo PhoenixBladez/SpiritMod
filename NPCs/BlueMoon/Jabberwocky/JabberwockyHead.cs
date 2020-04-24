@@ -8,7 +8,8 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.BlueMoon.Jabberwocky
 {
-	public class JabberwockyHead : ModNPC
+    [AutoloadBossHead]
+    public class JabberwockyHead : ModNPC
 	{
 		public override void SetStaticDefaults()
 		{

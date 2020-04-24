@@ -26,7 +26,7 @@ namespace SpiritMod.Projectiles.Summon.LaserGate
 			projectile.aiStyle = -1;
 			projectile.friendly = true;
 			projectile.penetrate = -1;
-			projectile.timeLeft = 90000;
+			projectile.timeLeft = 600;
 			projectile.alpha = 0;
 			projectile.tileCollide = false;
 		}
@@ -47,7 +47,7 @@ namespace SpiritMod.Projectiles.Summon.LaserGate
 					other.ai[1] = projectile.whoAmI;
 					//shoot to other guy
 					timer++;
-					if (timer > 3 && distance < 800)
+					if (timer > 3 && distance < 500)
 					{
 						timer = 0;
 						int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)direction9.X * 30, (float)direction9.Y * 30, mod.ProjectileType("GateLaser"), 27, 1, Main.myPlayer);

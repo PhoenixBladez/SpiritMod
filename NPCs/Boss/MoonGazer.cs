@@ -8,7 +8,8 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.Boss
 {
-	public class MoonGazer : ModNPC
+    [AutoloadBossHead]
+    public class MoonGazer : ModNPC
 	{
 		int timer = 0;
 

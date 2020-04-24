@@ -36,7 +36,22 @@ namespace SpiritMod.Projectiles.Flail
 			}
 			else
 			{
-				timeStuck--;
+                Player player = Main.player[projectile.owner];
+                for (int k = 0; k < 2; k++)
+                {
+                    int dust = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 226);
+                    Main.dust[dust].velocity *= -1f;
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].scale *= .6f;
+                    Vector2 vector2_1 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                    vector2_1.Normalize();
+                    Vector2 vector2_2 = vector2_1 * ((float)Main.rand.Next(50, 100) * 0.04f);
+                    Main.dust[dust].velocity = vector2_2;
+                    vector2_2.Normalize();
+                    Vector2 vector2_3 = vector2_2 * 34f;
+                    Main.dust[dust].position = projectile.Center - vector2_3;
+                }
+                timeStuck--;
 				if (timeStuck < 0)
 				{
 					stuck = false;
@@ -89,7 +104,7 @@ namespace SpiritMod.Projectiles.Flail
 			if (stuck)
 			{
 				ProjectileExtras.DrawChain(projectile.whoAmI, Main.player[projectile.owner].MountedCenter,
-				"SpiritMod/Projectiles/Flail/MagnetFlail_ElectricChain", true, projectile.damage);
+				"SpiritMod/Projectiles/Flail/MagnetFlail_ElectricChain", true, projectile.damage/2);
 			}
 			else
 			{

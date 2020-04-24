@@ -19,25 +19,24 @@ namespace SpiritMod.NPCs
 		{
 			npc.width = 34;
 			npc.height = 34;
-			npc.damage = 74;
+			npc.damage = 0;
 			npc.defense = 26;
-			npc.lifeMax = 3000;
+			npc.lifeMax = 20;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath6;
-			npc.value = 50000f;
 			npc.knockBackResist = 0f;
-			npc.aiStyle = 3;
-			aiType = NPCID.AngryBones;
+			npc.aiStyle = 7;
+			aiType = NPCID.Bunny;
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.playerSafe || !NPC.downedMoonlord)
+			if (!Main.hardMode)
 			{
 				return 0f;
 			}
 
-			return SpawnCondition.OverworldNightMonster.Chance * 0.06f;
+			return SpawnCondition.OverworldNightMonster.Chance * 0.01f;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

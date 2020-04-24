@@ -137,11 +137,6 @@ namespace SpiritMod.NPCs.Town
 			nextSlot++;
 			shop.item[nextSlot].SetDefaults(mod.ItemType("SoulSeeds"));
 			nextSlot++;
-			if (NPC.downedPlantBoss)
-			{
-				shop.item[nextSlot].SetDefaults(mod.ItemType("SpiritChestKey"));
-				nextSlot++;
-			}
 		}
 
 		public override void TownNPCAttackStrength(ref int damage, ref float knockback)

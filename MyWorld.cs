@@ -144,6 +144,7 @@ namespace SpiritMod
             gennedBandits = tag.GetBool("gennedBandits");
             gennedTower = tag.GetBool("gennedTower");
 
+
         }
 
 		public override void LoadLegacy(BinaryReader reader)
@@ -1646,6 +1647,56 @@ namespace SpiritMod
                     continue;
                 }
                 StructureLoader.GetStructure("BoneGrave").PlaceForce(hideoutX, hideoutY);
+                placed = true;
+            }
+        }
+        public void GenerateStoneDungeon()
+        {
+            bool placed = false;
+            while (!placed)
+            {
+                int hideoutX = Main.rand.Next(50, Main.maxTilesX); // from 50 since there's a unaccessible area at the world's borders
+                int hideoutY = Main.rand.Next((int)Main.rockLayer, Main.maxTilesY);
+                Tile tile = Main.tile[hideoutX, hideoutY];
+                if (!tile.active() || tile.type != TileID.Stone)
+                {
+                    continue;
+                }
+                if (WorldGen.genRand.Next(2) == 0)
+                {
+                    StructureLoader.GetStructure("StoneDungeon1").PlaceForce(hideoutX, hideoutY);
+                }
+                else if (WorldGen.genRand.Next(2) == 0)
+                {
+                    StructureLoader.GetStructure("StoneDungeon2").PlaceForce(hideoutX, hideoutY);
+                }
+                else
+                {
+                    StructureLoader.GetStructure("StoneDungeon3").PlaceForce(hideoutX, hideoutY);
+                }
+                placed = true;
+            }
+        }
+        public void GeneratePurityShrine()
+        {
+            bool placed = false;
+            while (!placed)
+            {
+                int hideoutX = Main.rand.Next(50, Main.maxTilesX); // from 50 since there's a unaccessible area at the world's borders
+                int hideoutY = Main.rand.Next((int)Main.rockLayer, Main.maxTilesY);
+                Tile tile = Main.tile[hideoutX, hideoutY];
+                if (!tile.active() || tile.type != TileID.Stone)
+                {
+                    continue;
+                }
+                if (WorldGen.genRand.Next(2) == 0)
+                {
+                    StructureLoader.GetStructure("PurityShrine1").PlaceForce(hideoutX, hideoutY);
+                }
+                else 
+                {
+                    StructureLoader.GetStructure("PurityShrine2").PlaceForce(hideoutX, hideoutY);
+                }
                 placed = true;
             }
         }
@@ -3553,6 +3604,7 @@ namespace SpiritMod
                                 GenerateCampsite();
                             }
                         }
+
                         int num584 = 1;
                         if (Main.maxTilesX == 4200)
                         {
@@ -3566,7 +3618,7 @@ namespace SpiritMod
                         {
                             num584 = Main.rand.Next(15, 21);
                         }
-                        for (int k = 0; k < num584; k++)
+                        for (int k = 0; k < num584 - 2; k++)
                         {
                             GenerateCrateStash();
                         }
@@ -3574,11 +3626,26 @@ namespace SpiritMod
                         {
                             GenerateCrateStashJungle();
                         }
-                        for (int k = 0; k < (int)(num584 * 2 - 3); k++)
+                        for (int k = 0; k < (int)(num584/2 + 5); k++)
                         {
                             GenerateBoneGrave();
                         }
-                            int num67 = 1;
+                        if (WorldGen.genRand.Next(2) == 0)
+                        {
+                            for (int k = 0; k < (int)(num584 / 4); k++)
+                            {
+                                GenerateStoneDungeon();
+                            }
+                        }
+                        if (WorldGen.genRand.Next(2) == 0)
+                        {
+                            for (int k = 0; k < (int)(num584 / 4); k++)
+                            {
+                                GeneratePurityShrine();
+                            }
+                        }
+
+                        int num67 = 1;
                         if (Main.maxTilesX == 4200)
                         {
                             num67 = Main.rand.Next(12, 15);
@@ -3707,7 +3774,7 @@ namespace SpiritMod
                 // Shinies pass removed by some other mod.
                 return;
             }
-			tasks.Insert(TrapsIndex + 1, new PassLegacy("Asteroids", delegate (GenerationProgress progress)
+			tasks.Insert(TrapsIndex + 2, new PassLegacy("Asteroids", delegate (GenerationProgress progress)
             {
                 bool success = false;
                 int attempts = 0;
@@ -4512,7 +4579,6 @@ namespace SpiritMod
 						}
 					}
 					Main.NewText("The Caverns have been flooded with lava!", 220, 40, 40);
-					Main.NewText("The Spirits are ready to bless you once more...", 80, 80, 220);
 					Thermite = true;
 				}
 			}
@@ -4550,310 +4616,286 @@ namespace SpiritMod
 					int xAxisMid = xAxis + 70;
 					int xAxisEdge = xAxis + 380;
 					int yAxis = 0;
-					for (int y = 0; y < Main.maxTilesY; y++)
-					{
-						yAxis++;
-						xAxis = XTILE;
-						for (int i = 0; i < 450; i++)
-						{
-							xAxis++;
-							if (Main.tile[xAxis, yAxis] != null)
-							{
-								if (Main.tile[xAxis, yAxis].active())
-								{
-									int[] TileArray = { 0 };
-									if (TileArray.Contains(Main.tile[xAxis, yAxis].type))
-									{
-										if (Main.tile[xAxis, yAxis + 1] == null)
-										{
-											if (Main.rand.Next(0, 50) == 1)
-											{
-												WillGenn = 0;
-												if (xAxis < xAxisMid - 1)
-												{
-													Meme = xAxisMid - xAxis;
-													WillGenn = Main.rand.Next(Meme);
-												}
-												if (xAxis > xAxisEdge + 1)
-												{
-													Meme = xAxis - xAxisEdge;
-													WillGenn = Main.rand.Next(Meme);
-												}
-												if (WillGenn < 10)
-												{
-													Main.tile[xAxis, yAxis].type = (ushort)mod.TileType("SpiritDirt");
-												}
-											}
-										}
-										else
-										{
-											WillGenn = 0;
-											if (xAxis < xAxisMid - 1)
-											{
-												Meme = xAxisMid - xAxis;
-												WillGenn = Main.rand.Next(Meme);
-											}
-											if (xAxis > xAxisEdge + 1)
-											{
-												Meme = xAxis - xAxisEdge;
-												WillGenn = Main.rand.Next(Meme);
-											}
-											if (WillGenn < 10)
-											{
-												Main.tile[xAxis, yAxis].type = (ushort)mod.TileType("SpiritDirt");
-											}
-										}
-									}
-									int[] TileArray84 = { 2, 23, 109, 199 };
-									if (TileArray84.Contains(Main.tile[xAxis, yAxis].type))
-									{
-										if (Main.tile[xAxis, yAxis + 1] == null)
-										{
-											if (rand.Next(0, 50) == 1)
-											{
-												WillGenn = 0;
-												if (xAxis < xAxisMid - 1)
-												{
-													Meme = xAxisMid - xAxis;
-													WillGenn = Main.rand.Next(Meme);
-												}
-												if (xAxis > xAxisEdge + 1)
-												{
-													Meme = xAxis - xAxisEdge;
-													WillGenn = Main.rand.Next(Meme);
-												}
-												if (WillGenn < 18)
-												{
-													Main.tile[xAxis, yAxis].type = (ushort)mod.TileType("SpiritGrass");
-												}
-											}
-										}
-										else
-										{
-											WillGenn = 0;
-											if (xAxis < xAxisMid - 1)
-											{
-												Meme = xAxisMid - xAxis;
-												WillGenn = Main.rand.Next(Meme);
-											}
-											if (xAxis > xAxisEdge + 1)
-											{
-												Meme = xAxis - xAxisEdge;
-												WillGenn = Main.rand.Next(Meme);
-											}
-											if (WillGenn < 18)
-											{
-												Main.tile[xAxis, yAxis].type = (ushort)mod.TileType("SpiritGrass");
-											}
-										}
-									}
-									int[] TileArray1 = { 161, 163, 164, 200 };
-									if (TileArray1.Contains(Main.tile[xAxis, yAxis].type))
-									{
-										if (Main.tile[xAxis, yAxis + 1] == null)
-										{
-											if (rand.Next(0, 50) == 1)
-											{
-												WillGenn = 0;
-												if (xAxis < xAxisMid - 1)
-												{
-													Meme = xAxisMid - xAxis;
-													WillGenn = Main.rand.Next(Meme);
-												}
-												if (xAxis > xAxisEdge + 1)
-												{
-													Meme = xAxis - xAxisEdge;
-													WillGenn = Main.rand.Next(Meme);
-												}
-												if (WillGenn < 18)
-												{
-													Main.tile[xAxis, yAxis].type = (ushort)mod.TileType("SpiritIce");
-												}
-											}
-										}
-										else
-										{
-											WillGenn = 0;
-											if (xAxis < xAxisMid - 1)
-											{
-												Meme = xAxisMid - xAxis;
-												WillGenn = Main.rand.Next(Meme);
-											}
-											if (xAxis > xAxisEdge + 1)
-											{
-												Meme = xAxis - xAxisEdge;
-												WillGenn = Main.rand.Next(Meme);
-											}
-											if (WillGenn < 18)
-											{
-												Main.tile[xAxis, yAxis].type = (ushort)mod.TileType("SpiritIce");
-											}
-										}
-									}
-									int[] TileArray2 = { 1, 25, 117, 203 };
-									if (TileArray2.Contains(Main.tile[xAxis, yAxis].type))
-									{
-										if (Main.tile[xAxis, yAxis + 1] == null)
-										{
-											if (rand.Next(0, 50) == 1)
-											{
-												WillGenn = 0;
-												if (xAxis < xAxisMid - 1)
-												{
-													Meme = xAxisMid - xAxis;
-													WillGenn = Main.rand.Next(Meme);
-												}
-												if (xAxis > xAxisEdge + 1)
-												{
-													Meme = xAxis - xAxisEdge;
-													WillGenn = Main.rand.Next(Meme);
-												}
-												if (WillGenn < 18)
-												{
-													Main.tile[xAxis, yAxis].type = (ushort)mod.TileType("SpiritStone");
-												}
-											}
-										}
-										else
-										{
-											WillGenn = 0;
-											if (xAxis < xAxisMid - 1)
-											{
-												Meme = xAxisMid - xAxis;
-												WillGenn = Main.rand.Next(Meme);
-											}
-											if (xAxis > xAxisEdge + 1)
-											{
-												Meme = xAxis - xAxisEdge;
-												WillGenn = Main.rand.Next(Meme);
-											}
-											if (WillGenn < 18)
-											{
-												Main.tile[xAxis, yAxis].type = (ushort)mod.TileType("SpiritStone");
-											}
-										}
-									}
+                    for (int y = 0; y < Main.maxTilesY; y++)
+                    {
+                        yAxis++;
+                        xAxis = XTILE;
+                        for (int i = 0; i < 450; i++)
+                        {
+                            xAxis++;
+                            if (Main.tile[xAxis, yAxis] != null)
+                            {
+                                if (Main.tile[xAxis, yAxis].active())
+                                {
+                                    int[] TileArray = { 0 };
+                                    if (TileArray.Contains(Main.tile[xAxis, yAxis].type))
+                                    {
+                                        if (Main.tile[xAxis, yAxis + 1] == null)
+                                        {
+                                            if (Main.rand.Next(0, 50) == 1)
+                                            {
+                                                WillGenn = 0;
+                                                if (xAxis < xAxisMid - 1)
+                                                {
+                                                    Meme = xAxisMid - xAxis;
+                                                    WillGenn = Main.rand.Next(Meme);
+                                                }
+                                                if (xAxis > xAxisEdge + 1)
+                                                {
+                                                    Meme = xAxis - xAxisEdge;
+                                                    WillGenn = Main.rand.Next(Meme);
+                                                }
+                                                if (WillGenn < 10)
+                                                {
+                                                    Main.tile[xAxis, yAxis].type = (ushort)mod.TileType("SpiritDirt");
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            WillGenn = 0;
+                                            if (xAxis < xAxisMid - 1)
+                                            {
+                                                Meme = xAxisMid - xAxis;
+                                                WillGenn = Main.rand.Next(Meme);
+                                            }
+                                            if (xAxis > xAxisEdge + 1)
+                                            {
+                                                Meme = xAxis - xAxisEdge;
+                                                WillGenn = Main.rand.Next(Meme);
+                                            }
+                                            if (WillGenn < 10)
+                                            {
+                                                Main.tile[xAxis, yAxis].type = (ushort)mod.TileType("SpiritDirt");
+                                            }
+                                        }
+                                    }
+                                    int[] TileArray84 = { 2, 23, 109, 199 };
+                                    if (TileArray84.Contains(Main.tile[xAxis, yAxis].type))
+                                    {
+                                        if (Main.tile[xAxis, yAxis + 1] == null)
+                                        {
+                                            if (rand.Next(0, 50) == 1)
+                                            {
+                                                WillGenn = 0;
+                                                if (xAxis < xAxisMid - 1)
+                                                {
+                                                    Meme = xAxisMid - xAxis;
+                                                    WillGenn = Main.rand.Next(Meme);
+                                                }
+                                                if (xAxis > xAxisEdge + 1)
+                                                {
+                                                    Meme = xAxis - xAxisEdge;
+                                                    WillGenn = Main.rand.Next(Meme);
+                                                }
+                                                if (WillGenn < 18)
+                                                {
+                                                    Main.tile[xAxis, yAxis].type = (ushort)mod.TileType("SpiritGrass");
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            WillGenn = 0;
+                                            if (xAxis < xAxisMid - 1)
+                                            {
+                                                Meme = xAxisMid - xAxis;
+                                                WillGenn = Main.rand.Next(Meme);
+                                            }
+                                            if (xAxis > xAxisEdge + 1)
+                                            {
+                                                Meme = xAxis - xAxisEdge;
+                                                WillGenn = Main.rand.Next(Meme);
+                                            }
+                                            if (WillGenn < 18)
+                                            {
+                                                Main.tile[xAxis, yAxis].type = (ushort)mod.TileType("SpiritGrass");
+                                            }
+                                        }
+                                    }
+                                    int[] TileArray1 = { 161, 163, 164, 200 };
+                                    if (TileArray1.Contains(Main.tile[xAxis, yAxis].type))
+                                    {
+                                        if (Main.tile[xAxis, yAxis + 1] == null)
+                                        {
+                                            if (rand.Next(0, 50) == 1)
+                                            {
+                                                WillGenn = 0;
+                                                if (xAxis < xAxisMid - 1)
+                                                {
+                                                    Meme = xAxisMid - xAxis;
+                                                    WillGenn = Main.rand.Next(Meme);
+                                                }
+                                                if (xAxis > xAxisEdge + 1)
+                                                {
+                                                    Meme = xAxis - xAxisEdge;
+                                                    WillGenn = Main.rand.Next(Meme);
+                                                }
+                                                if (WillGenn < 18)
+                                                {
+                                                    Main.tile[xAxis, yAxis].type = (ushort)mod.TileType("SpiritIce");
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            WillGenn = 0;
+                                            if (xAxis < xAxisMid - 1)
+                                            {
+                                                Meme = xAxisMid - xAxis;
+                                                WillGenn = Main.rand.Next(Meme);
+                                            }
+                                            if (xAxis > xAxisEdge + 1)
+                                            {
+                                                Meme = xAxis - xAxisEdge;
+                                                WillGenn = Main.rand.Next(Meme);
+                                            }
+                                            if (WillGenn < 18)
+                                            {
+                                                Main.tile[xAxis, yAxis].type = (ushort)mod.TileType("SpiritIce");
+                                            }
+                                        }
+                                    }
+                                    int[] TileArray2 = { 1, 25, 117, 203 };
+                                    if (TileArray2.Contains(Main.tile[xAxis, yAxis].type))
+                                    {
+                                        if (Main.tile[xAxis, yAxis + 1] == null)
+                                        {
+                                            if (rand.Next(0, 50) == 1)
+                                            {
+                                                WillGenn = 0;
+                                                if (xAxis < xAxisMid - 1)
+                                                {
+                                                    Meme = xAxisMid - xAxis;
+                                                    WillGenn = Main.rand.Next(Meme);
+                                                }
+                                                if (xAxis > xAxisEdge + 1)
+                                                {
+                                                    Meme = xAxis - xAxisEdge;
+                                                    WillGenn = Main.rand.Next(Meme);
+                                                }
+                                                if (WillGenn < 18)
+                                                {
+                                                    Main.tile[xAxis, yAxis].type = (ushort)mod.TileType("SpiritStone");
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            WillGenn = 0;
+                                            if (xAxis < xAxisMid - 1)
+                                            {
+                                                Meme = xAxisMid - xAxis;
+                                                WillGenn = Main.rand.Next(Meme);
+                                            }
+                                            if (xAxis > xAxisEdge + 1)
+                                            {
+                                                Meme = xAxis - xAxisEdge;
+                                                WillGenn = Main.rand.Next(Meme);
+                                            }
+                                            if (WillGenn < 18)
+                                            {
+                                                Main.tile[xAxis, yAxis].type = (ushort)mod.TileType("SpiritStone");
+                                            }
+                                        }
+                                    }
 
-									int[] TileArray89 = { 3, 24, 110, 113, 115, 201, 205, 52, 62, 32, 165 };
-									if (TileArray89.Contains(Main.tile[xAxis, yAxis].type))
-									{
-										if (Main.tile[xAxis, yAxis + 1] == null)
-										{
-											if (rand.Next(0, 50) == 1)
-											{
-												WillGenn = 0;
-												if (xAxis < xAxisMid - 1)
-												{
-													Meme = xAxisMid - xAxis;
-													WillGenn = Main.rand.Next(Meme);
-												}
-												if (xAxis > xAxisEdge + 1)
-												{
-													Meme = xAxis - xAxisEdge;
-													WillGenn = Main.rand.Next(Meme);
-												}
-												if (WillGenn < 18)
-												{
-													Main.tile[xAxis, yAxis].active(false);
-												}
-											}
-										}
-										else
-										{
-											WillGenn = 0;
-											if (xAxis < xAxisMid - 1)
-											{
-												Meme = xAxisMid - xAxis;
-												WillGenn = Main.rand.Next(Meme);
-											}
-											if (xAxis > xAxisEdge + 1)
-											{
-												Meme = xAxis - xAxisEdge;
-												WillGenn = Main.rand.Next(Meme);
-											}
-											if (WillGenn < 18)
-											{
-												Main.tile[xAxis, yAxis].active(false);
-											}
-										}
-									}
+                                    int[] TileArray89 = { 3, 24, 110, 113, 115, 201, 205, 52, 62, 32, 165 };
+                                    if (TileArray89.Contains(Main.tile[xAxis, yAxis].type))
+                                    {
+                                        if (Main.tile[xAxis, yAxis + 1] == null)
+                                        {
+                                            if (rand.Next(0, 50) == 1)
+                                            {
+                                                WillGenn = 0;
+                                                if (xAxis < xAxisMid - 1)
+                                                {
+                                                    Meme = xAxisMid - xAxis;
+                                                    WillGenn = Main.rand.Next(Meme);
+                                                }
+                                                if (xAxis > xAxisEdge + 1)
+                                                {
+                                                    Meme = xAxis - xAxisEdge;
+                                                    WillGenn = Main.rand.Next(Meme);
+                                                }
+                                                if (WillGenn < 18)
+                                                {
+                                                    Main.tile[xAxis, yAxis].active(false);
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            WillGenn = 0;
+                                            if (xAxis < xAxisMid - 1)
+                                            {
+                                                Meme = xAxisMid - xAxis;
+                                                WillGenn = Main.rand.Next(Meme);
+                                            }
+                                            if (xAxis > xAxisEdge + 1)
+                                            {
+                                                Meme = xAxis - xAxisEdge;
+                                                WillGenn = Main.rand.Next(Meme);
+                                            }
+                                            if (WillGenn < 18)
+                                            {
+                                                Main.tile[xAxis, yAxis].active(false);
+                                            }
+                                        }
+                                    }
 
 
-									int[] TileArray3 = { 53, 116, 112, 234 };
-									if (TileArray3.Contains(Main.tile[xAxis, yAxis].type))
-									{
-										if (Main.tile[xAxis, yAxis + 1] == null)
-										{
-											if (rand.Next(0, 50) == 1)
-											{
-												WillGenn = 0;
-												if (xAxis < xAxisMid - 1)
-												{
-													Meme = xAxisMid - xAxis;
-													WillGenn = Main.rand.Next(Meme);
-												}
-												if (xAxis > xAxisEdge + 1)
-												{
-													Meme = xAxis - xAxisEdge;
-													WillGenn = Main.rand.Next(Meme);
-												}
-												if (WillGenn < 18)
-												{
-													Main.tile[xAxis, yAxis].type = (ushort)mod.TileType("Spiritsand");
-												}
-											}
-										}
-										else
-										{
-											WillGenn = 0;
-											if (xAxis < xAxisMid - 1)
-											{
-												Meme = xAxisMid - xAxis;
-												WillGenn = Main.rand.Next(Meme);
-											}
-											if (xAxis > xAxisEdge + 1)
-											{
-												Meme = xAxis - xAxisEdge;
-												WillGenn = Main.rand.Next(Meme);
-											}
-											if (WillGenn < 18)
-											{
-												Main.tile[xAxis, yAxis].type = (ushort)mod.TileType("Spiritsand");
-											}
-										}
-									}
-								}
-								if (Main.tile[xAxis, yAxis].type == mod.TileType("SpiritStone") && yAxis > WorldGen.rockLayer + 100 && Main.rand.Next(1500) == 6)
-								{
-									WorldGen.TileRunner(xAxis, yAxis, (double)WorldGen.genRand.Next(5, 7), 1, mod.TileType("SpiritOreTile"), false, 0f, 0f, true, true);
-								}
-							}
-						}
-					}
-					int chests = 0;
-					for (int r = 0; r < 380000; r++)
-					{
-						int success = WorldGen.PlaceChest(xAxis - Main.rand.Next(450), Main.rand.Next(100, 275), (ushort)mod.TileType("SpiritChestLocked"), false, 2);
-						if (success > -1)
-						{
-							string[] lootTable = { "GhastKnife", "GhastStaff", "GhastStaffMage", "GhastSword", "GhastBeam", };
-							Main.chest[success].item[0].SetDefaults(mod.ItemType(lootTable[chests]), false);
-							int[] lootTable2 = { 499, 1508, mod.ItemType("SpiritBar"), Items.Glyphs.Glyph._type };
-							Main.chest[success].item[1].SetDefaults(lootTable2[Main.rand.Next(4)], false);
-							Main.chest[success].item[1].stack = WorldGen.genRand.Next(3, 8);
-							Main.chest[success].item[2].SetDefaults(lootTable2[Main.rand.Next(4)], false);
-							Main.chest[success].item[2].stack = WorldGen.genRand.Next(3, 8);
-							Main.chest[success].item[3].SetDefaults(lootTable2[Main.rand.Next(4)], false);
-							Main.chest[success].item[3].stack = WorldGen.genRand.Next(3, 8);
-							Main.chest[success].item[4].SetDefaults(lootTable2[Main.rand.Next(4)], false);
-							Main.chest[success].item[4].stack = WorldGen.genRand.Next(1, 2);
-							chests++;
-							if (chests >= 5)
-							{
-								break;
-							}
-						}
-					}
+                                    int[] TileArray3 = { 53, 116, 112, 234 };
+                                    if (TileArray3.Contains(Main.tile[xAxis, yAxis].type))
+                                    {
+                                        if (Main.tile[xAxis, yAxis + 1] == null)
+                                        {
+                                            if (rand.Next(0, 50) == 1)
+                                            {
+                                                WillGenn = 0;
+                                                if (xAxis < xAxisMid - 1)
+                                                {
+                                                    Meme = xAxisMid - xAxis;
+                                                    WillGenn = Main.rand.Next(Meme);
+                                                }
+                                                if (xAxis > xAxisEdge + 1)
+                                                {
+                                                    Meme = xAxis - xAxisEdge;
+                                                    WillGenn = Main.rand.Next(Meme);
+                                                }
+                                                if (WillGenn < 18)
+                                                {
+                                                    Main.tile[xAxis, yAxis].type = (ushort)mod.TileType("Spiritsand");
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            WillGenn = 0;
+                                            if (xAxis < xAxisMid - 1)
+                                            {
+                                                Meme = xAxisMid - xAxis;
+                                                WillGenn = Main.rand.Next(Meme);
+                                            }
+                                            if (xAxis > xAxisEdge + 1)
+                                            {
+                                                Meme = xAxis - xAxisEdge;
+                                                WillGenn = Main.rand.Next(Meme);
+                                            }
+                                            if (WillGenn < 18)
+                                            {
+                                                Main.tile[xAxis, yAxis].type = (ushort)mod.TileType("Spiritsand");
+                                            }
+                                        }
+                                    }
+                                }
+                                if (Main.tile[xAxis, yAxis].type == mod.TileType("SpiritStone") && yAxis > WorldGen.rockLayer + 100 && Main.rand.Next(1500) == 6)
+                                {
+                                    WorldGen.TileRunner(xAxis, yAxis, (double)WorldGen.genRand.Next(5, 7), 1, mod.TileType("SpiritOreTile"), false, 0f, 0f, true, true);
+                                }
+                            }
+                        }
+                    }
 				}
 			}
 		}

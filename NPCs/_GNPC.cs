@@ -1123,7 +1123,7 @@ namespace SpiritMod.NPCs
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Thresher"));
 			}
-			if (npc.type == 32 && Main.rand.Next(30) == 1)
+			if (npc.type == 32 && Main.rand.Next(42) == 1)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DungeonStaff"));
 			}
@@ -1356,7 +1356,7 @@ namespace SpiritMod.NPCs
 
 			if (npc.type == NPCID.DemonEye || npc.type == NPCID.DemonEye2 || npc.type == NPCID.DemonEyeOwl || npc.type == NPCID.DemonEyeSpaceship)
 			{
-				if (Main.rand.Next(25) == 1)
+				if (Main.rand.Next(33) == 1)
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnifyingGlass"), 1);
 				}

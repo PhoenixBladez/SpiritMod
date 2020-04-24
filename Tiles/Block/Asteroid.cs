@@ -19,6 +19,7 @@ namespace SpiritMod.Tiles.Block
             soundType = 21;
             Main.tileBlockLight[Type] = true;
             minPick = 100;
+            drop = mod.ProjectileType("AsteroidBlock");
         }
 	}
 }

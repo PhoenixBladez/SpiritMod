@@ -8,7 +8,8 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.Boss
 {
-	public class BloodGazer : ModNPC
+    [AutoloadBossHead]
+    public class BloodGazer : ModNPC
 	{
 		int timer = 0;
 		int moveSpeed = 0;

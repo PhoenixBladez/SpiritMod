@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Projectiles
+namespace SpiritMod.Projectiles.DonatorItems
 {
 	public class GunProj : ModProjectile
 	{

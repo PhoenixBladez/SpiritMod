@@ -19,7 +19,7 @@ namespace SpiritMod.Projectiles.Summon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mini Meteor");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
             Main.projFrames[projectile.type] = 1;
 			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
@@ -34,6 +34,7 @@ namespace SpiritMod.Projectiles.Summon
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = true;
+            projectile.scale = .9f;
 			projectile.netImportant = true;
 			aiType = ProjectileID.Spazmamini;
 			projectile.alpha = 0;

@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs
 {
+    [AutoloadBossHead]
     public class Mecromancer : ModNPC
     {
         public override void SetStaticDefaults()

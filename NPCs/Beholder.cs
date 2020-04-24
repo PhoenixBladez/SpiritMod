@@ -8,7 +8,8 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs
 {
-	public class Beholder : ModNPC
+    [AutoloadBossHead]
+    public class Beholder : ModNPC
 	{
 		public override void SetStaticDefaults()
 		{

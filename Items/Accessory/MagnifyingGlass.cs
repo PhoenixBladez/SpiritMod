@@ -14,7 +14,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Magnifying Glass");
-			Tooltip.SetDefault("Increases critical strike chance by 4%\nRight click to zoom out slightly when not holding a weapon");
+			Tooltip.SetDefault("Increases critical strike chance by 4%\nRight click to zoom out when not holding a weapon");
 		}
 
 
