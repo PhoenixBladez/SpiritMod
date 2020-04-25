@@ -8,9 +8,10 @@ using System;
 
 namespace SpiritMod.NPCs.Reach
 {
-	public class ForestWraith : ModNPC
+    [AutoloadBossHead]
+    public class ForestWraith : ModNPC
 	{
-		public override void SetStaticDefaults()
+        public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Glade Wraith");
 			Main.npcFrameCount[npc.type] = 4;
