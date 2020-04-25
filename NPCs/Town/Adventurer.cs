@@ -1,30 +1,26 @@
+using SpiritMod.Items.Accessory;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Pins;
+using SpiritMod.Items.Placeable.Furniture;
+using SpiritMod.Items.Weapon.Gun;
+using SpiritMod.Utilities;
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
-using SpiritMod;
+using static SpiritMod.NPCUtils;
+using static Terraria.ModLoader.ModContent;
 
 namespace SpiritMod.NPCs.Town
 {
-	[AutoloadHead]
-	public class Adventurer : ModNPC
-	{
-        public static int _type;
+    [AutoloadHead]
+    public class Adventurer : ModNPC
+    {
+        public override string Texture => "SpiritMod/NPCs/Town/Adventurer";
 
-        public override string Texture
-        {
-            get
-            {
-                return "SpiritMod/NPCs/Town/Adventurer";
-            }
-        }
-
-        public override string[] AltTextures
-        {
-            get
-            {
-                return new string[] { "SpiritMod/NPCs/Town/Adventurer_Alt_1" };
-            }
-        }
+        public override string[] AltTextures => new string[] { "SpiritMod/NPCs/Town/Adventurer_Alt_1" };
 
         public override void SetStaticDefaults()
         {
@@ -54,20 +50,7 @@ namespace SpiritMod.NPCs.Town
         }
         public override bool CanTownNPCSpawn(int numTownNPCs, int money)
         {
-            for (int k = 0; k < 255; k++)
-            {
-                Player player = Main.player[k];
-                if (player.active)
-                {
-                    if (!NPC.AnyNPCs(mod.NPCType("BoundAdventurer")) && !NPC.AnyNPCs(mod.NPCType("Adventurer")))
-                    {
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
+            return Main.player.Any(x => x.active) && !NPC.AnyNPCs(mod.NPCType("BoundAdventurer")) && !NPC.AnyNPCs(mod.NPCType("Adventurer"));
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -80,183 +63,92 @@ namespace SpiritMod.NPCs.Town
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Adventurer/Adventurer4"));
             }
         }
+
         public override string TownNPCName()
         {
-            switch (WorldGen.genRand.Next(8))
-            {
-                case 0:
-                    return "Morgan";
-                case 1:
-                    return "Adam";
-                case 2:
-                    return "Aziz";
-                case 3:
-                    return "Temir";
-                case 4:
-                    return "Evan";
-                case 5:
-                    return "Senzen";
-                case 6:
-                    return "Johanovic";
-                default:
-                    return "Adrian";
-            }
+            string[] names = { "Morgan", "Adam", "Aziz", "Temir", "Evan", "Senzen", "Johanovic", "Adrian" };
+            return Main.rand.Next(names);
         }
 
         public override string GetChat()
         {
-            int TravellingMerchant = NPC.FindFirstNPC(NPCID.TravellingMerchant);
-            if (TravellingMerchant >= 0 && Main.rand.Next(8) == 0)
-                return "Ah! It's " + Main.npc[TravellingMerchant].GivenName + "! We've often met on our journeys. I still haven't found all those exotic jungles he speaks of.";
-
-            int ArmsDealer = NPC.FindFirstNPC(NPCID.ArmsDealer);
-            if (ArmsDealer >= 0 && Main.rand.Next(8) == 0)
-                return "Got some great prices today!" + Main.npc[ArmsDealer].GivenName + "'s wares can't compete! They literally can't. I don't sell guns anymore.";
-
-            int Merchant = NPC.FindFirstNPC(NPCID.Merchant);
-            if (Merchant >= 0 && Main.rand.Next(8) == 0)
-                return "I swear I've got more goods for sale than " + Main.npc[Merchant].GivenName + ".";
-
-            if (NPC.downedMechBossAny && Main.rand.Next(8) == 0)
-                return "A shimmering blue light's on the horizon. Wonder what that's about, huh?";
-
-            if (!Main.dayTime && Main.rand.Next(6) == 0)
-                return "Like the moon, my merchandise is inconstant.";
-
-            if (Main.bloodMoon && Main.rand.Next(4) == 0)
-                return "Everyone seems to be so aggressive tonight. With the zombies knocking at our door, I think you should buy stuff and head underground as quick as you can. Can you take me with you?";
-
-            switch (Main.rand.Next(8))
+            List<string> dialogue = new List<string>
             {
-                case 0:
-                    return "I've been all around this world, and I've got so many things for you to see.";
-                case 1:
-                    if (MyWorld.gennedTower)
-                    {
-                        return "The goblins are more organized than you'd think- I saw their mages build a huge tower over yonder. You should check it out sometime!";
-                    }
-                    else
-                    {
-                        return "My old business partner turned to the bandit life a few years ago. I wonder if he's doing okay. I think his associates have set up a bandit camp somewhere near the seas.";
-                    }
-                case 2:
-                    return "Lovely house you've got here. It's much better lodging than when those savages from The Briar hung me over a spit.";
-                case 3:
-                    return "Every dawn brings with it a new opportunity for a journey! You interested?";
-                case 4:
-                    return "We're pretty similar, you and I. I sense our shared thirst for adventure.";
-                case 5:
-                    return "Buy my stuff and go out there! See what the world has to offer, like I have.";
-                default:
-                    return "From the depths of temples and the heights of space, peruse my wares.";
+                "I've been all around this world, and I've got so many things for you to see.",
+                "Lovely house you've got here. It's much better lodging than when those savages from The Briar hung me over a spit.",
+                "Every dawn brings with it a new opportunity for a journey! You interested?",
+                "We're pretty similar, you and I. I sense our shared thirst for adventure.",
+                "Buy my stuff and go out there! See what the world has to offer, like I have.",
+                "From the depths of temples and the heights of space, peruse my wares.",
+            };
+
+            int travellingMerchant = NPC.FindFirstNPC(NPCID.TravellingMerchant);
+            if (travellingMerchant >= 0)
+            {
+                dialogue.Add($"Ah! It's {Main.npc[travellingMerchant].GivenName}! We've often met on our journeys. I still haven't found all those exotic jungles he speaks of.");
             }
+
+            int armsDealer = NPC.FindFirstNPC(NPCID.ArmsDealer);
+            if (armsDealer >= 0)
+            {
+                dialogue.Add($"Got some great prices today! {Main.npc[armsDealer].GivenName}'s wares can't compete! They literally can't. I don't sell guns anymore.");
+            }
+
+            int merchant = NPC.FindFirstNPC(NPCID.Merchant);
+            if (merchant >= 0)
+            {
+                dialogue.Add($"I swear I've got more goods for sale than {Main.npc[merchant].GivenName}.");
+            }
+
+            dialogue.AddWithCondition("A shimmering blue light's on the horizon. Wonder what that's about, huh?", NPC.downedMechBossAny);
+            dialogue.AddWithCondition("Like the moon, my merchandise is inconstant.", !Main.dayTime);
+            dialogue.AddWithCondition("Everyone seems to be so aggressive tonight. With the zombies knocking at our door, I think you should buy stuff and head underground as quick as you can. Can you take me with you?", Main.bloodMoon);
+
+            if (MyWorld.gennedTower)
+            {
+                dialogue.AddWithCondition("The goblins are more organized than you'd think- I saw their mages build a huge tower over yonder. You should check it out sometime!", MyWorld.gennedTower);
+            }
+            else
+            {
+                dialogue.Add("My old business partner turned to the bandit life a few years ago. I wonder if he's doing okay. I think his associates have set up a bandit camp somewhere near the seas.");
+            }
+
+            return Main.rand.Next(dialogue);
         }
+
+
 
         public override void SetupShop(Chest shop, ref int nextSlot)
         {
-            //Rope Coil
-            shop.item[nextSlot].SetDefaults(ItemID.RopeCoil);
-            nextSlot++;
-            //Glowsticks
-            if (Main.moonPhase == 4 && !Main.dayTime)
+            int glowStick = Main.moonPhase == 4 && !Main.dayTime ? ItemID.SpelunkerGlowstick : ItemID.StickyGlowstick;
+            AddItem(ref shop, ref nextSlot, glowStick);
+
+            switch (Main.moonPhase)
             {
-                shop.item[nextSlot].SetDefaults(ItemID.SpelunkerGlowstick);
-                nextSlot++;
-            }
-            else
-            {
-                shop.item[nextSlot].SetDefaults(ItemID.StickyGlowstick);
-                nextSlot++;
-            }
-            //Torches
-            if (Main.moonPhase == 4 && !Main.dayTime)
-            {
-                shop.item[nextSlot].SetDefaults(ItemID.CursedTorch);
-                nextSlot++;
-            }
-            else if (Main.moonPhase == 7 && !Main.dayTime)
-            {
-                shop.item[nextSlot].SetDefaults(ItemID.UltrabrightTorch);
-                nextSlot++;
-            }
-            else
-            {
-                shop.item[nextSlot].SetDefaults(ItemID.Torch);
-                nextSlot++;
-            }
-            //Dangersense
-            shop.item[nextSlot].SetDefaults(ItemID.TrapsightPotion);
-            shop.item[nextSlot].value = 2000;
-            nextSlot++;
-            //Dart Trap
-            shop.item[nextSlot].SetDefaults(ItemID.DartTrap);
-            shop.item[nextSlot].value = 5000;
-            nextSlot++;
-            //Treasure Map
-            shop.item[nextSlot].SetDefaults(ItemID.TreasureMap);
-            shop.item[nextSlot].value = 50000;
-            nextSlot++;
-            //Angler
-            int Angler = NPC.FindFirstNPC(NPCID.Angler);
-            if (Angler >= 0)
-            {
-                //JellyBait
-                shop.item[nextSlot].SetDefaults(ItemID.PinkJellyfish);
-                shop.item[nextSlot].value = 45000;
-                nextSlot++;
-            }
-            //Swords
-            shop.item[nextSlot].SetDefaults(mod.ItemType("GoldSword"));
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("PlatinumSword"));
-            nextSlot++;
-            //Lunar Wisp		
-            shop.item[nextSlot].SetDefaults(mod.ItemType("ManaFlame"));
-            nextSlot++;
-            //Lunar Wisp		
-            shop.item[nextSlot].SetDefaults(mod.ItemType("ReMapdPin"));
-            shop.item[nextSlot].value = 30000;
-            nextSlot++;
-            //Whoopie Cushion
-            if (NPC.downedBoss2)
-            {
-                shop.item[nextSlot].SetDefaults(ItemID.WhoopieCushion);
-                shop.item[nextSlot].value = 15000;
-                nextSlot++;
-            }
-            if (NPC.downedQueenBee)
-            {
-                shop.item[nextSlot].SetDefaults(ItemID.BottledHoney);
-                shop.item[nextSlot].value = 5000;
-                nextSlot++;
-            }
-            if (NPC.downedBoss3)
-            {
-                //Book
-                shop.item[nextSlot].SetDefaults(ItemID.Book);
-                shop.item[nextSlot].value = 20;
-                nextSlot++;
-                //Skull
-                shop.item[nextSlot].SetDefaults(ItemID.Skull);
-                shop.item[nextSlot].value = 100000;
-                nextSlot++;
+                case 4 when !Main.dayTime:
+                    AddItem(ref shop, ref nextSlot, ItemID.CursedTorch);
+                    break;
+
+                case 7 when !Main.dayTime:
+                    AddItem(ref shop, ref nextSlot, ItemID.UltrabrightTorch);
+                    break;
             }
 
-            Player closest = Main.player[(int)Player.FindClosest(npc.position, npc.width, npc.height)];
-            if (closest.GetSpiritPlayer().ZoneReach)
-            {
-                shop.item[nextSlot].SetDefaults(mod.ItemType("SkullStick"));
-                shop.item[nextSlot].value = 1000;
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(mod.ItemType("AncientBark"));
-                shop.item[nextSlot].value = 200;
-                nextSlot++;
-            }
-            if (NPC.downedMechBossAny == true)
-            {
-                shop.item[nextSlot].SetDefaults(mod.ItemType("PolymorphGun"));
-                nextSlot++;
-            }
+            AddItem(ref shop, ref nextSlot, ItemID.TrapsightPotion, 2000);
+            AddItem(ref shop, ref nextSlot, ItemID.DartTrap, 5000);
+            AddItem(ref shop, ref nextSlot, ItemID.TreasureMap, 50000);
+            AddItem(ref shop, ref nextSlot, ItemID.PinkJellyfish, 45000, NPC.FindFirstNPC(NPCID.Angler) >= 0);
+            AddItem(ref shop, ref nextSlot, ItemType<GoldSword>());
+            AddItem(ref shop, ref nextSlot, ItemType<PlatinumSword>());
+            AddItem(ref shop, ref nextSlot, ItemType<ManaFlame>());
+            AddItem(ref shop, ref nextSlot, ItemType<RedMapPin>(), 30000);
+            AddItem(ref shop, ref nextSlot, ItemID.WhoopieCushion, 15000, NPC.downedBoss2);
+            AddItem(ref shop, ref nextSlot, ItemID.BottledHoney, 5000, NPC.downedQueenBee);
+            AddItem(ref shop, ref nextSlot, ItemID.Book, 20, NPC.downedBoss3);
+            AddItem(ref shop, ref nextSlot, ItemID.Skull, 100000, NPC.downedBoss3);
+            AddItem(ref shop, ref nextSlot, ItemType<SkullStick>(), 1000, Main.LocalPlayer.GetSpiritPlayer().ZoneReach);
+            AddItem(ref shop, ref nextSlot, ItemType<AncientBark>(), 200, Main.LocalPlayer.GetSpiritPlayer().ZoneReach);
+            AddItem(ref shop, ref nextSlot, ItemType<PolymorphGun>(), check: NPC.downedMechBossAny);
         }
 
         public override void TownNPCAttackStrength(ref int damage, ref float knockback)
@@ -289,12 +181,15 @@ namespace SpiritMod.NPCs.Town
 
         public override void PostAI()
         {
-            if (Main.LocalPlayer.talkNPC == -1) clickedQuest = false;
+            if (Main.LocalPlayer.talkNPC == -1)
+            {
+                clickedQuest = false;
+            }
         }
 
         public override void SetChatButtons(ref string button, ref string button2)
         {
-            button = Lang.inter[28].Value;
+            button = Language.GetTextValue("LegacyInterface.28");
             if (SpiritMod.AdventurerQuests.QuestsAvailable())
             {
                 if (clickedQuest)
@@ -320,7 +215,7 @@ namespace SpiritMod.NPCs.Town
             }
             else if (SpiritMod.AdventurerQuests.QuestsAvailable())
             {
-                Main.PlaySound(new Terraria.Audio.LegacySoundStyle(24, 1));
+                Main.PlaySound(SoundID.Chat);
                 if (!clickedQuest)
                 {
                     //Check if there is a current quest, if the player has gotten everything required, etc.

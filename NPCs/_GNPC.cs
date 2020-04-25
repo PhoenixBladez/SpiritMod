@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 using SpiritMod.Tide;
 using SpiritMod.Items.Glyphs;
 using SpiritMod.NPCs.Town;
+using static Terraria.ModLoader.ModContent;
 
 namespace SpiritMod.NPCs
 {
@@ -594,7 +595,7 @@ namespace SpiritMod.NPCs
 					else
 						return "Wiping a counter all day has made me appreciate the little things in life, like candy. Care for a piece?";
 			}
-			if (npc.type == Adventurer._type)
+			if (npc.type == NPCType<Adventurer>())
 			{
 				if (dialogue == 0)
 					return "You wouldn't believe me if I told you I got this from a faraway kingdom made of CANDY! I promise it has an exquisite taste.";
