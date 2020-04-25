@@ -19,8 +19,8 @@ namespace SpiritMod.Items.Equipment
         {
             item.width = 44;
             item.height = 48;
-            item.useTime = 120;
-            item.useAnimation = 120;
+            item.useTime = 100;
+            item.useAnimation = 100;
             item.useStyle = 5;
             Item.staff[item.type] = true;
             item.noMelee = true;
@@ -29,17 +29,16 @@ namespace SpiritMod.Items.Equipment
             item.UseSound = SoundID.Item20;
             item.autoReuse = false;
             item.shoot = mod.ProjectileType("RightHopper");
-            item.shootSpeed = 14f;
+            item.shootSpeed = 12f;
         }
 		   public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+			if (!player.HasBuff(BuffID.Featherfall))
+			{
 			player.velocity.X = 0 - speedX;
 			player.velocity.Y = 0 - speedY;
-			if (player.HasBuff(8))
-			{
-				player.velocity.X *= 0.2f;
-				player.velocity.Y *= 0.2f;
 			}
+			
 			return false;
 		}
 		

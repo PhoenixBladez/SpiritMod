@@ -35,6 +35,7 @@ namespace SpiritMod
         public bool TormentLantern = false;
         public bool QuacklingMinion = false;
         public bool bismiteShield = false;
+		public int shieldCounter = 0;
         public int bismiteShieldStacks;
         public bool VampireCloak = false;
         public bool HealCloak = false;
@@ -49,6 +50,9 @@ namespace SpiritMod
         public bool astralSet = false;
         public bool frigidGloves = false;
         public bool magnifyingGlass = false;
+		public bool ShieldCore = false;
+		public int shieldsLeft = 3;
+		public bool spawnedShield = false;
         public bool SoulStone = false;
         public bool geodeSet = false;
         public bool assassinMag = false;
@@ -429,6 +433,7 @@ namespace SpiritMod
 
         public override void ResetEffects()
         {
+			ShieldCore = false;
             caltfist = false;
             briarSlimePet = false;
             firewall = false;
@@ -2143,6 +2148,38 @@ namespace SpiritMod
             {
                 throwerStacks = 0;
             }
+			
+			if (ShieldCore)
+				{
+					if (!spawnedShield)
+					{
+						//shootingCrystal = false;
+						Player player = Main.player[Main.myPlayer];
+						int num = shieldsLeft;
+						for (int I = 0; I < num; I++)
+						{
+							int DegreeDifference = (int)(360 / num);
+							Projectile.NewProjectile((int)player.Center.X + (int)(Math.Sin(I * DegreeDifference) * 80), (int)player.Center.Y + (int)(Math.Sin(I * DegreeDifference) * 80), 0, 0, mod.ProjectileType("InterstellarShield"), 1, 1, player.whoAmI, 0, I * DegreeDifference);
+						}	
+						spawnedShield = true;
+						
+					}
+					if (shieldsLeft == 0)
+					{
+						shieldCounter++;
+						if (shieldCounter> 2000)
+						{
+							shieldsLeft = 3;
+							spawnedShield = false;
+							shieldCounter = 0;
+						}
+					}
+				}
+			else
+			{
+				spawnedShield = false;
+			}
+			
             if (assassinMag)
             {
                 if (player.velocity == Vector2.Zero)
