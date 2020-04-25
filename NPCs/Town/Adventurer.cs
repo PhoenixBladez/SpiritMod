@@ -48,6 +48,7 @@ namespace SpiritMod.NPCs.Town
             npc.knockBackResist = 0.4f;
             animationType = NPCID.Guide;
         }
+
         public override bool CanTownNPCSpawn(int numTownNPCs, int money)
         {
             return Main.player.Any(x => x.active) && !NPC.AnyNPCs(mod.NPCType("BoundAdventurer")) && !NPC.AnyNPCs(mod.NPCType("Adventurer"));
@@ -116,8 +117,6 @@ namespace SpiritMod.NPCs.Town
             return Main.rand.Next(dialogue);
         }
 
-
-
         public override void SetupShop(Chest shop, ref int nextSlot)
         {
             int glowStick = Main.moonPhase == 4 && !Main.dayTime ? ItemID.SpelunkerGlowstick : ItemID.StickyGlowstick;
@@ -175,10 +174,7 @@ namespace SpiritMod.NPCs.Town
             randomOffset = 2f;
         }
 
-        //ADDITIONS
-
         private bool clickedQuest = false;
-
         public override void PostAI()
         {
             if (Main.LocalPlayer.talkNPC == -1)
