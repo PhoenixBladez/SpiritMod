@@ -20,7 +20,7 @@ namespace SpiritMod.Tiles.Block
             Main.tileBlockLight[Type] = true;
             soundType = 21;
             minPick = 100;
-            drop = mod.ProjectileType("AsteroidBlock");
+            drop = mod.ItemType("AsteroidBlock");
         }
         public override void RandomUpdate(int i, int j)
         {

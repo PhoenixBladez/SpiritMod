@@ -1601,7 +1601,7 @@ namespace SpiritMod
 			}
 		}	
 		#endregion	
-		#region StructureLoadeMicros
+		#region StructureLoaderMicros
 		public void GenerateCrateStash()
 		{
 			bool placed = false;
@@ -1618,6 +1618,17 @@ namespace SpiritMod
                 placed = true;
 			}
 		}
+        public void GeneratePagoda()
+        {
+            bool placed = false;
+            while (!placed)
+            {
+                int hideoutX = Main.spawnTileX;
+                int hideoutY = Main.spawnTileY - 100;
+                StructureLoader.GetStructure("Pagoda").PlaceForce(hideoutX, hideoutY);
+                placed = true;
+            }
+        }
         public void GenerateCrateStashJungle()
         {
             bool placed = false;
@@ -3687,6 +3698,7 @@ namespace SpiritMod
 
                         GenerateHideout();                       
                         GenerateUndergroundAltar();
+                        GeneratePagoda();
                         if (WorldGen.crimson)
                         {
                             GenerateBoneSpike();
