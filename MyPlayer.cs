@@ -3105,9 +3105,17 @@ namespace SpiritMod
                 bismiteShieldStacks = 0;
             }
 
-            if (player.controlUp && scarabCharm && player.velocity.Y >= 0)
+            if (player.controlUp && scarabCharm)
             {
-                player.AddBuff(BuffID.Featherfall, 30);
+                if ((double) player.gravDir == -1.0)
+				{
+					player.itemRotation = -player.itemRotation;
+					player.itemLocation.Y = (float) ((double) player.position.Y + (double) player.height + ((double) player.position.Y - (double) player.itemLocation.Y));
+					if ((double) player.velocity.Y < -2.0)
+					player.velocity.Y = -2f;
+				}
+				else if ((double) player.velocity.Y > 2.0)
+					player.velocity.Y = 2f;
             }
 
             if (frigidSet)
