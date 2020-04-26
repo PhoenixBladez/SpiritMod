@@ -1,31 +1,22 @@
+using SpiritMod.Items.Glyphs;
+using SpiritMod.Projectiles;
+using SpiritMod.Utilities;
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
-
-using SpiritMod.Items.Glyphs;
+using static Terraria.ModLoader.ModContent;
 
 namespace SpiritMod.NPCs.Town
 {
 	[AutoloadHead]
 	public class RuneWizard : ModNPC
 	{
-		public static int _type;
+		public override string Texture => "SpiritMod/NPCs/Town/RuneWizard";
 
-		public override string Texture
-		{
-			get
-			{
-				return "SpiritMod/NPCs/Town/RuneWizard";
-			}
-		}
-
-		public override string[] AltTextures
-		{
-			get
-			{
-				return new string[] { "SpiritMod/NPCs/Town/RuneWizard_Alt_1" };
-			}
-		}
+		public override string[] AltTextures => new string[] { "SpiritMod/NPCs/Town/RuneWizard_Alt_1" };
 
 		public override void SetStaticDefaults()
 		{
@@ -56,96 +47,64 @@ namespace SpiritMod.NPCs.Town
 
 		public override bool CanTownNPCSpawn(int numTownNPCs, int money)
 		{
-			for (int k = 0; k < 255; k++)
-			{
-				Player player = Main.player[k];
-				if (player.active)
-				{
-					for (int j = 0; j < player.inventory.Length; j++)
-					{
-						if (player.inventory[j].active && player.inventory[j].type == Glyph._type)
-							return true;
-					}
-				}
-			}
-			return false;
+			return Main.player.Any(x => x.active && x.inventory.Any(x => x.type == ItemType<Glyph>()));
 		}
 
 		public override string TownNPCName()
 		{
-			switch (WorldGen.genRand.Next(8))
-			{
-				case 0:
-					return "Malachai";
-				case 1:
-					return "Nisarmah";
-				case 2:
-					return "Moneque";
-				case 3:
-					return "Tosalah";
-				case 4:
-					return "Kentremah";
-				case 5:
-					return "Salqueeh";
-				case 6:
-					return "Oarno";
-				default:
-					return "Cosimo";
-			}
+			string[] names = { "Malachai", "Nisarmah", "Moneque", "Tosalah", "Kentremah", "Salqueeh", "Oarno", "Cosimo" };
+			return Main.rand.Next(names);
 		}
 
 		public override string GetChat()
 		{
-			int Wizard = NPC.FindFirstNPC(NPCID.Wizard);
-			if (Wizard >= 0 && Main.rand.Next(8) == 0)
-				return Main.npc[Wizard].GivenName + "and I often scry the runes together";
-
-			if (Main.hardMode)
+			List<string> dialogue = new List<string>
 			{
-				if (Main.rand.Next(8)== 0)
-					return "I wonder what enchantements have been placed on the moon- It's all blue!";
+				"Power up your weapons with my strange Glyphs!",
+				"Got any Blank Glyphs? I'll enchant those for you in a jiffy.",
+				"I only accept Glyphs for my wares; they're hard to come by nowadays.",
+				"I forgot the essence of Hellebore! Don't touch that!",
+				"If you're unsure of how to stumble upon Glyphs, my master once told me powerful bosses hold many!",
+				"Lost on how to find Glyphs? I've been told all foes can drop them rarely.",
+				"Anything can be enchanted if you possess the skill, wit, and essence!",
+			};
 
-				if (Main.rand.Next(8) == 0)
-					return "The resurgence of Spirits offer a whole level of enchanting possibility!";
-			}
-			switch (Main.rand.Next(6))
+			int wizard = NPC.FindFirstNPC(NPCID.Wizard);
+			if (wizard >= 0)
 			{
-				case 0:
-					return "Power up your weapons with my strange Glyphs!";
-				case 1:
-					return "Got any Blank Glyphs? I'll enchant those for you in a jiffy.";
-				case 2:
-					return "I only accept Glyphs for my wares; they're hard to come by nowadays.";
-				case 3:
-					return "I forgot the essence of Hellebore! Don't touch that!";
-				case 4:
-					return "If you're unsure of how to stumble upon Glyphs, my master once told me powerful bosses hold many!";
-				case 5:
-					return "Lost on how to find Glyphs? I've been told all foes can drop them rarely.";
-				default:
-					return "Anything can be enchanted if you possess the skill, wit, and essence!";
+				dialogue.Add($"{Main.npc[wizard].GivenName} and I often scry the runes together");
 			}
+
+			dialogue.AddWithCondition("I wonder what enchantements have been placed on the moon- It's all blue!", Main.hardMode);
+			dialogue.AddWithCondition("The resurgence of Spirits offer a whole level of enchanting possibility!", Main.hardMode);
+
+			return Main.rand.Next(dialogue);
 		}
 
 		public override void SetChatButtons(ref string button, ref string button2)
 		{
-			button = Lang.inter[28].Value;
+			button = Language.GetTextValue("LegacyInterface.28");
 		}
 
 		public override void OnChatButtonClicked(bool firstButton, ref bool shop)
 		{
 			if (firstButton)
+			{
 				shop = true;
+			}
 		}
 
 		public override void SetupShop(Chest shop, ref int nextSlot)
 		{
 			Item item = shop.item[nextSlot++];
 			item.SetDefaults(NullGlyph._type);
+
 			item = shop.item[nextSlot++];
 			CustomWare(item, FrostGlyph._type);
+
 			item = shop.item[nextSlot++];
 			CustomWare(item, EfficiencyGlyph._type);
+
 			if (NPC.downedBoss1)
 			{
 				item = shop.item[nextSlot++];
@@ -153,36 +112,43 @@ namespace SpiritMod.NPCs.Town
 				item = shop.item[nextSlot++];
 				CustomWare(item, SanguineGlyph._type, 3);
 			}
+
 			if (MyWorld.downedReachBoss)
 			{
 				item = shop.item[nextSlot++];
 				CustomWare(item, StormGlyph._type, 2);
 			}
+
 			if (NPC.downedBoss2)
 			{
 				item = shop.item[nextSlot++];
 				CustomWare(item, UnholyGlyph._type, 2);
 			}
+
 			if (NPC.downedBoss3)
 			{
 				item = shop.item[nextSlot++];
 				CustomWare(item, VeilGlyph._type, 3);
 			}
+
 			if (NPC.downedQueenBee)
 			{
 				item = shop.item[nextSlot++];
 				CustomWare(item, BeeGlyph._type, 3);
 			}
+
 			if (Main.hardMode)
 			{
 				item = shop.item[nextSlot++];
 				CustomWare(item, BlazeGlyph._type, 3);
 			}
+
 			if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
 			{
 				item = shop.item[nextSlot++];
 				CustomWare(item, VoidGlyph._type, 4);
 			}
+
 			if (MyWorld.downedDusking)
 			{
 				item = shop.item[nextSlot++];
@@ -212,7 +178,7 @@ namespace SpiritMod.NPCs.Town
 
 		public override void TownNPCAttackProj(ref int projType, ref int attackDelay)
 		{
-			projType = Projectiles.Blaze._type;
+			projType = ProjectileType<Blaze>();
 			attackDelay = 1;
 		}
 

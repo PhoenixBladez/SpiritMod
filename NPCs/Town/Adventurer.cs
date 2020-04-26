@@ -51,7 +51,7 @@ namespace SpiritMod.NPCs.Town
 
         public override bool CanTownNPCSpawn(int numTownNPCs, int money)
         {
-            return Main.player.Any(x => x.active) && !NPC.AnyNPCs(mod.NPCType("BoundAdventurer")) && !NPC.AnyNPCs(mod.NPCType("Adventurer"));
+            return Main.player.Any(x => x.active) && !NPC.AnyNPCs(NPCType<BoundAdventurer>()) && !NPC.AnyNPCs(NPCType<Adventurer>());
         }
 
         public override void HitEffect(int hitDirection, double damage)

@@ -1,15 +1,12 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod;
+using static Terraria.ModLoader.ModContent;
 
 namespace SpiritMod.NPCs.Town
 {
     public class BoundRogue : ModNPC
     {
-        public static int _type;
-
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bound Rogue");
@@ -32,32 +29,28 @@ namespace SpiritMod.NPCs.Town
             npc.knockBackResist = 0f;
             npc.rarity = 1;
         }
+
         public override string GetChat()
         {
-            npc.Transform(mod.NPCType("Rogue"));
+            npc.Transform(NPCType<Rogue>());
             npc.dontTakeDamage = false;
-            if (MyWorld.gennedTower)
-            {
-                return "Thanks for saving me from these goblins!";
-            }
-            else 
-            {
-                return "Hey! Thanks for saving me- Now, mind getting us out of this pickle and killing these bandits? They duped me and took all my cash! Don't think it means I'll discount my wares for you, though. Just kidding! Not.";
-            }
+            return MyWorld.gennedTower
+                ? "Thanks for saving me from these goblins!"
+                : "Hey! Thanks for saving me- Now, mind getting us out of this pickle and killing these bandits? They duped me and took all my cash! Don't think it means I'll discount my wares for you, though. Just kidding! Not.";
         }
         public override void AI()
         {
-            if (Main.netMode != 1)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 npc.homeless = false;
                 npc.homeTileX = -1;
                 npc.homeTileY = -1;
                 npc.netUpdate = true;
             }
+
             if (npc.wet)
             {
                 npc.life = 250;
-
             }
         }
     }

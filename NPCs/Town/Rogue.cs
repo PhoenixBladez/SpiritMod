@@ -1,29 +1,24 @@
+using SpiritMod.Items.Accessory;
+using SpiritMod.Items.Armor;
+using SpiritMod.Items.DonatorItems;
+using SpiritMod.Items.Weapon.Thrown;
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
+using static SpiritMod.NPCUtils;
+using static Terraria.ModLoader.ModContent;
 
 namespace SpiritMod.NPCs.Town
 {
 	[AutoloadHead]
 	public class Rogue : ModNPC
 	{
-		public static int _type;
+		public override string Texture => "SpiritMod/NPCs/Town/Rogue";
 
-		public override string Texture
-		{
-			get
-			{
-				return "SpiritMod/NPCs/Town/Rogue";
-			}
-		}
-
-		public override string[] AltTextures
-		{
-			get
-			{
-				return new string[] { "SpiritMod/NPCs/Town/Rogue_Alt_1" };
-			}
-		}
+		public override string[] AltTextures => new string[] { "SpiritMod/NPCs/Town/Rogue_Alt_1" };
 
 		public override void SetStaticDefaults()
 		{
@@ -51,6 +46,7 @@ namespace SpiritMod.NPCs.Town
 			npc.knockBackResist = 0.5f;
 			animationType = NPCID.Guide;
 		}
+
         public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.life <= 0)
@@ -60,158 +56,87 @@ namespace SpiritMod.NPCs.Town
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Bandit/Bandit3"));
             }
         }
+
         public override bool CanTownNPCSpawn(int numTownNPCs, int money)
 		{
-			for (int k = 0; k < 255; k++)
-			{
-				Player player = Main.player[k];
-				if (player.active)
-				{
-					if (!NPC.AnyNPCs(mod.NPCType("Rogue")) && !NPC.AnyNPCs(mod.NPCType("BoundRogue")))
-					{
-						return true;
-					}
-				}
-			}
-			return false;
+			return Main.player.Any(x => x.active) && !NPC.AnyNPCs(NPCType<Rogue>()) && !NPC.AnyNPCs(NPCType<BoundRogue>());
 		}
 
 		public override string TownNPCName()
 		{
-			switch (WorldGen.genRand.Next(8))
-			{
-				case 0:
-					return "Zane";
-				case 1:
-					return "Carlos";
-				case 2:
-					return "Tycho";
-				case 3:
-					return "Damien";
-				case 4:
-					return "Shane";
-				case 5:
-					return "Daryl";
-				case 6:
-					return "Shepard";
-				default:
-					return "Sly";
-			}
+			string[] names = { "Zane", "Carlos", "Tycho", "Damien", "Shane", "Daryl", "Shepard", "Sly" };
+			return Main.rand.Next(names);
 		}
 
 		public override string GetChat()
 		{
-			int Wizard = NPC.FindFirstNPC(NPCID.Wizard);
-			if (Wizard >= 0 && Main.rand.Next(8) == 0)
-				return "Tell " + Main.npc[Wizard].GivenName + " to stop asking me where I got the charms. He doesn't need to know that. He would die of shock.";
-
-			int Merchant = NPC.FindFirstNPC(NPCID.Merchant);
-			if (Merchant >= 0 && Main.rand.Next(8) == 0)
-				return "Why should I sell regular shurikens? " + Main.npc[Merchant].GivenName + " sells those...";
-
-			int ArmsDealer = NPC.FindFirstNPC(NPCID.ArmsDealer);
-			if (ArmsDealer >= 0 && Main.rand.Next(8) == 0)
-				return "You just missed the thrilling battle I had with " + Main.npc[ArmsDealer].GivenName + "! I won, of course";
-
-			switch (Main.rand.Next(8))
+			List<string> dialogue = new List<string>
 			{
-				case 0:
-					return "Here to peruse my wares? They're quite sharp.";
-				case 1:
-					return "Trust me- the remains of those bosses you kill don't go to waste.";
-				case 2:
-					return "The world is filled with opportunity! Now go kill some things.";
-				case 3:
-					return "This mask is getting musky...";
-				case 4:
-					return "Look at that handsome devil! Oh, it's just a mirror.";
-				case 5:
-					return "Here to satisfy all your throwing needs!";
-				default:
-					return "Nice day we're having here! Now, who do you want dead?";
+				"Here to peruse my wares? They're quite sharp.",
+				"Trust me- the remains of those bosses you kill don't go to waste.",
+				"The world is filled with opportunity! Now go kill some things.",
+				"This mask is getting musky...",
+				"Look at that handsome devil! Oh, it's just a mirror.",
+				"Here to satisfy all your throwing needs!",
+				"Nice day we're having here! Now, who do you want dead?",
+			};
+
+			int wizard = NPC.FindFirstNPC(NPCID.Wizard);
+			if (wizard >= 0)
+			{
+				dialogue.Add($"Tell {Main.npc[wizard].GivenName} to stop asking me where I got the charms. He doesn't need to know that. He would die of shock.");
 			}
+
+			int merchant = NPC.FindFirstNPC(NPCID.Merchant);
+			if (merchant >= 0)
+			{
+				dialogue.Add($"Why should I sell regular shurikens? {Main.npc[merchant].GivenName} sells those...");
+			}
+
+			int armsDealer = NPC.FindFirstNPC(NPCID.ArmsDealer);
+			if (armsDealer >= 0)
+			{
+				dialogue.Add($"You just missed the thrilling battle I had with {Main.npc[armsDealer].GivenName}! I won, of course");
+			}
+
+			return Main.rand.Next(dialogue);
 		}
 
 		public override void SetChatButtons(ref string button, ref string button2)
 		{
-			button = Lang.inter[28].Value;
+			button = Language.GetTextValue("LegacyInterface.28");
 		}
 
 		public override void OnChatButtonClicked(bool firstButton, ref bool shop)
 		{
 			if (firstButton)
+			{
 				shop = true;
+			}
 		}
 
 		public override void SetupShop(Chest shop, ref int nextSlot)
 		{
-			shop.item[nextSlot].SetDefaults(mod.ItemType("IronShuriken"));
-			nextSlot++;
-			shop.item[nextSlot].SetDefaults(mod.ItemType("LeadShuriken"));
-			nextSlot++;
-			shop.item[nextSlot].SetDefaults(mod.ItemType("RogueHood"));
-			nextSlot++;
-			shop.item[nextSlot].SetDefaults(mod.ItemType("RoguePlate"));
-			nextSlot++;
-			shop.item[nextSlot].SetDefaults(mod.ItemType("RoguePants"));
-			nextSlot++;
-			shop.item[nextSlot].SetDefaults(mod.ItemType("AssassinMagazine"));
-			nextSlot++;
-
-			if (NPC.downedBoss1 == true)
-			{
-				shop.item[nextSlot].SetDefaults(mod.ItemType("Eyeball"));
-				nextSlot++;
-
-			}
-			if (NPC.downedBoss2 == true)
-			{
-				shop.item[nextSlot].SetDefaults(mod.ItemType("EoWDagger"));
-				nextSlot++;
-				shop.item[nextSlot].SetDefaults(mod.ItemType("BoCShuriken"));
-				nextSlot++;
-				shop.item[nextSlot].SetDefaults(mod.ItemType("GoldShuriken"));
-				nextSlot++;
-				shop.item[nextSlot].SetDefaults(mod.ItemType("PlatinumShuriken"));
-				nextSlot++;
-			}
-			if (NPC.downedBoss3 == true)
-			{
-				shop.item[nextSlot].SetDefaults(mod.ItemType("SkeletronHand"));
-				nextSlot++;
-			}
-			if (NPC.downedMechBossAny)
-			{
-				shop.item[nextSlot].SetDefaults(mod.ItemType("TwilightBlades"));
-				nextSlot++;
-			}
-			if (NPC.downedMechBossAny == true)
-			{
-				shop.item[nextSlot].SetDefaults(mod.ItemType("MechKnife"));
-				nextSlot++;
-			}
-			if (MyWorld.downedRaider == true)
-			{
-				shop.item[nextSlot].SetDefaults(mod.ItemType("DuskStone1"));
-				nextSlot++;
-			}
-			if (NPC.downedPlantBoss == true)
-			{
-				shop.item[nextSlot].SetDefaults(mod.ItemType("ThornbloomKnife"));
-				nextSlot++;
-			}
-			shop.item[nextSlot].SetDefaults(mod.ItemType("ShurikenLauncher"));
-			nextSlot++;
-			shop.item[nextSlot].SetDefaults(mod.ItemType("SwiftRune"));
-			nextSlot++;
-
-			if (Main.hardMode)
-			{
-                shop.item[nextSlot].SetDefaults(mod.ItemType("PlagueVial"));
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(mod.ItemType("BladeOfNoah"));
-				nextSlot++;
-			}
+			AddItem(ref shop, ref nextSlot, ItemType<IronShuriken>());
+			AddItem(ref shop, ref nextSlot, ItemType<LeadShuriken>());
+			AddItem(ref shop, ref nextSlot, ItemType<RogueHood>());
+			AddItem(ref shop, ref nextSlot, ItemType<RoguePlate>());
+			AddItem(ref shop, ref nextSlot, ItemType<RoguePants>());
+			AddItem(ref shop, ref nextSlot, ItemType<AssassinMagazine>());
+			AddItem(ref shop, ref nextSlot, ItemType<Eyeball>(), check: NPC.downedBoss1);
+			AddItem(ref shop, ref nextSlot, ItemType<EoWDagger>(), check: NPC.downedBoss2);
+			AddItem(ref shop, ref nextSlot, ItemType<BoCShuriken>(), check: NPC.downedBoss2);
+			AddItem(ref shop, ref nextSlot, ItemType<GoldShuriken>(), check: NPC.downedBoss2);
+			AddItem(ref shop, ref nextSlot, ItemType<PlatinumShuriken>(), check: NPC.downedBoss2);
+			AddItem(ref shop, ref nextSlot, ItemType<SkeletronHand>(), check: NPC.downedBoss3);
+			AddItem(ref shop, ref nextSlot, ItemType<TwilightBlades>(), check: NPC.downedMechBossAny);
+			AddItem(ref shop, ref nextSlot, ItemType<MechKnife>(), check: NPC.downedMechBossAny);
+			AddItem(ref shop, ref nextSlot, ItemType<DuskStone1>(), check: MyWorld.downedRaider);
+			AddItem(ref shop, ref nextSlot, ItemType<ThornbloomKnife>(), check: NPC.downedPlantBoss);
+			AddItem(ref shop, ref nextSlot, ItemType<ShurikenLauncher>());
+			AddItem(ref shop, ref nextSlot, ItemType<SwiftRune>());
+			AddItem(ref shop, ref nextSlot, ItemType<PlagueVial>(), check: Main.hardMode);
+			AddItem(ref shop, ref nextSlot, ItemType<BladeOfNoah>(), check: Main.hardMode);
 		}
 
 		public override void TownNPCAttackStrength(ref int damage, ref float knockback)
@@ -228,7 +153,7 @@ namespace SpiritMod.NPCs.Town
 
 		public override void TownNPCAttackProj(ref int projType, ref int attackDelay)
 		{
-			projType = mod.ProjectileType("Kunai_Throwing");
+			projType = ProjectileType<Projectiles.Thrown.Kunai_Throwing>();
 			attackDelay = 1;
 		}
 
