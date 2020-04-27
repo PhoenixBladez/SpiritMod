@@ -602,28 +602,28 @@ namespace SpiritMod.NPCs
 				else
 					return "I hear you can get more candy from the goodie bags that monsters hold. As if I needed an excuse to slay some zombies!";
 			}
-			else if (npc.type == LoneTrapper._type)
+			else if (npc.type == NPCType<LoneTrapper>())
 			{
 				if (dialogue == 0)
 					return "The only thing that makes me forget my suffering is candy. I suppose you can have some.";
 				else
 					return "Candy helps fill the aching void where my sould used to be. Maybe it can help you too.";
 			}
-			else if (npc.type == Martian._type)
+			else if (npc.type == NPCType<Martian>())
 			{
 				if (dialogue == 0)
 					return "I've determined through years of scientific analysis that this candy here is irresistible to any anyone who- hey, give it back!";
 				else
 					return "I'm unfamiliar with this holiday of yours. Am I supposed to give only treats? Why can I not trick as well?";
 			}
-			else if (npc.type == Rogue._type)
+			else if (npc.type == NPCType<Rogue>())
 			{
 				if (dialogue == 0)
 					return "You want some candy? Here, catch!";
 				else
 					return "Hiyah! Candy attack! Oh, it's you. sorry.";
 			}
-			else if (npc.type == RuneWizard._type)
+			else if (npc.type == NPCType<RuneWizard>())
 			{
 				if (dialogue == 0)
 					return "Behold! Enchanted candy! Enchantingly tasty, that is!";
@@ -848,13 +848,13 @@ namespace SpiritMod.NPCs
 				if (!droppedGlyphs)
 				{
 					int glyphs = GlyphsHeldBy(npc);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, Glyph._type, glyphs * Main.ActivePlayersCount);
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Glyph>(), glyphs * Main.ActivePlayersCount);
 					MyWorld.droppedGlyphs[name] = true;
 				}
 			}
 			else if (!npc.SpawnedFromStatue && npc.CanDamage() && Main.rand.Next(750) == 0)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, Glyph._type);
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Glyph>());
 			}
 			#endregion
             /* 

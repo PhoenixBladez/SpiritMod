@@ -11,8 +11,6 @@ namespace SpiritMod.Projectiles
 {
 	class Blaze : ModProjectile
 	{
-		public static int _type;
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Fiery Blaze");
