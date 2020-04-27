@@ -141,42 +141,34 @@ namespace SpiritMod
             /// Places the structure, removing tiles if necessary.
             /// </summary>
             public void PlaceForce(int x, int y)
-            {
-                for (int x1 = 0; x1 < width; x1++)
-                {
-                    for (int y1 = 0; y1 < height; y1++)
-                    {
-                        if (tiles[x1, y1] != null)
-                        {
-                            byte liquid = Main.tile[x + x1, y + y1].liquid;
-                            ushort wall = Main.tile[x + x1, y + y1].wall;
-                            Main.tile[x + x1, y + y1] = new Tile(tiles[x1, y1]);
-                        }
-                    }
-                }
-            }
+			{
+				for (int x1 = 0; x1 < width; x1++)
+				{
+					for (int y1 = 0; y1 < height; y1++)
+					{
+						if (tiles[x1, y1] != null)
+						{
+							Main.tile[x + x1, y + y1] = new Tile(tiles[x1, y1]);
+						}
+					}
+				}
+			}
 
-            /// <summary>
-            /// Places the structure, doesn't remove tiles, only places them.
-            /// </summary>
-            /// <param name="removeNonSolids">If true, tiles that are active but aren't solid (like breakable grass, stalactites etc.) will be removed</param>
-            public void Place(int x, int y, bool removeNonSolids = false)
-            {
-                if (!_valid) return;
+			public void Place(int x, int y, bool removeNonSolids = false)
+			{
+				if (!_valid) return;
 
-                for (int x1 = 0; x1 < width; x1++)
-                {
-                    for (int y1 = 0; y1 < height; y1++)
-                    {
-                        if (tiles[x1, y1] != null && (!Main.tile[x + x1, y + y1].active() || (removeNonSolids && !Main.tileSolid[Main.tile[x + x1, y + y1].type])))
-                        {
-                            byte liquid = Main.tile[x + x1, y + y1].liquid;
-                            ushort wall = Main.tile[x + x1, y + y1].wall;
-                            Main.tile[x + x1, y + y1] = new Tile(tiles[x1, y1]);
-                        }
-                    }
-                }
-            }
+				for (int x1 = 0; x1 < width; x1++)
+				{
+					for (int y1 = 0; y1 < height; y1++)
+					{
+						if (tiles[x1, y1] != null && (!Main.tile[x + x1, y + y1].active() || (removeNonSolids && !Main.tileSolid[Main.tile[x + x1, y + y1].type])))
+						{
+							Main.tile[x + x1, y + y1] = new Tile(tiles[x1, y1]);
+						}
+					}
+				}
+			}
 
             public struct TileWallType
             {
