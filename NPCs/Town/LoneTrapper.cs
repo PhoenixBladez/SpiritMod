@@ -52,7 +52,7 @@ namespace SpiritMod.NPCs.Town
 
         public override bool CanTownNPCSpawn(int numTownNPCs, int money)
         {
-            return NPC.downedMechBossAny && Main.player.Any(x => x.active && x.inventory.Any(x => x.type == ItemID.GoldCoin));
+            return NPC.downedMechBossAny && Main.player.Any(x => x.active && x.inventory.Any(y => y.type == ItemID.GoldCoin));
         }
 
         public override string TownNPCName()

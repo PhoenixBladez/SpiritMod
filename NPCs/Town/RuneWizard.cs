@@ -47,7 +47,7 @@ namespace SpiritMod.NPCs.Town
 
 		public override bool CanTownNPCSpawn(int numTownNPCs, int money)
 		{
-			return Main.player.Any(x => x.active && x.inventory.Any(x => x.type == ItemType<Glyph>()));
+			return Main.player.Any(x => x.active && x.inventory.Any(y => y.type == ItemType<Glyph>()));
 		}
 
 		public override string TownNPCName()
