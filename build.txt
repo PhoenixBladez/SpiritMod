@@ -1,7 +1,7 @@
 author = PhoenixBlade and the Dev Team
 version = 1.3.5.1
 displayName = Spirit Mod
-homepage = https://forums.terraria.org/index.php?threads/the-spirit-mod.41395/
+homepage = https://discord.gg/FUNqtZQ
 hideCode = true
 hideResources = true
 includeSource = false

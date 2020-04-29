@@ -61,6 +61,15 @@ namespace SpiritMod.Items.Weapon.Summon
         }
         public override bool CanUseItem(Player player)
         {
+			if ((rightactive && Main.projectile[right].active == false) || (leftactive && Main.projectile[left].active == false)) //if the gates despawn, reset
+			{
+				Main.projectile[right].active = false;
+				Main.projectile[left].active = false;
+				rightactive = false;
+				leftactive = false;
+				right = 0;
+				left = 0; 
+			}
             if (player.statMana <= 12)
             {
                 return false;
@@ -76,9 +85,10 @@ namespace SpiritMod.Items.Weapon.Summon
 				if (leftactive)
 				{
 					Main.projectile[right].ai[1] = left;
+					Main.projectile[left].ai[1] = right;
 					direction9 = Main.projectile[right].Center - Main.projectile[left].Center;
 					distance = (int)Math.Sqrt((direction9.X * direction9.X) + (direction9.Y* direction9.Y));
-					if (distance < 800)
+					if (distance < 500)
 					{
 						Main.PlaySound(SoundID.Item93, player.position);
 					}
@@ -95,9 +105,10 @@ namespace SpiritMod.Items.Weapon.Summon
 				if (rightactive)
 				{
 					Main.projectile[left].ai[1] = right;
+					Main.projectile[right].ai[1] = left;
 					direction9 = Main.projectile[right].Center - Main.projectile[left].Center;
 					distance = (int)Math.Sqrt((direction9.X * direction9.X) + (direction9.Y* direction9.Y));
-					if (distance < 800)
+					if (distance < 500)
 					{
 						Main.PlaySound(SoundID.Item93, player.position);
 					}

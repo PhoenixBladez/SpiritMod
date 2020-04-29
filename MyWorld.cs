@@ -12,6 +12,12 @@ using Terraria.ModLoader.IO;
 using System.Reflection;
 using Terraria.Utilities;
 using static Terraria.ModLoader.ModContent;
+using SpiritMod.Items.Weapon.Summon;
+using SpiritMod.Items.Equipment;
+using SpiritMod.Items.Weapon.Swung;
+using SpiritMod.Items.Consumable;
+using SpiritMod.Items.Weapon.Thrown;
+using SpiritMod.Items.Material;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SpiritMod
@@ -3958,6 +3964,56 @@ namespace SpiritMod
         }		
 		public override void PostWorldGen()
 		{
+			//Dynasty chest loot
+			int stack = 1;
+			int itemsToPlaceInPagodaChestsChoice = 0;
+			for (int chestIndex = 0; chestIndex < 1000; chestIndex++) {
+				Chest chest = Main.chest[chestIndex];
+				// If you look at the sprite for Chests by extracting Tiles_21.xnb, you'll see that the 12th chest is the Ice Chest. Since we are counting from 0, this is where 11 comes from. 36 comes from the width of each tile including padding. 
+				if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 11 * 28) {
+					for (int inventoryIndex = 0; inventoryIndex < 5; inventoryIndex++) {
+						if (chest.item[inventoryIndex].type == 0) {
+							
+							if (inventoryIndex == 0)
+							{
+								int[] itemsToPlaceInPagodaChests1 = { ItemType<JadeStaff>(), ItemType<JadeStaff>()};
+								stack = 1;
+								chest.item[inventoryIndex].SetDefaults(Main.rand.Next(itemsToPlaceInPagodaChests1));
+								chest.item[inventoryIndex].stack = stack;
+							}
+							if (inventoryIndex == 1)
+							{
+								int[] itemsToPlaceInPagodaChests2 = { ItemType<Nunchucks>(), ItemType<DynastyFan>()};
+								stack = 1;
+								chest.item[inventoryIndex].SetDefaults(Main.rand.Next(itemsToPlaceInPagodaChests2));
+								chest.item[inventoryIndex].stack = stack;
+							}
+							if (inventoryIndex == 2)
+							{
+								int[] itemsToPlaceInPagodaChests3 = { ItemType<Kunai_Throwing>(), ItemType<ChaosPearl>()};
+								stack = Main.rand.Next(35,60);
+								chest.item[inventoryIndex].SetDefaults(Main.rand.Next(itemsToPlaceInPagodaChests3));
+								chest.item[inventoryIndex].stack = stack;
+							}
+							if (inventoryIndex == 3)
+							{
+								int[] itemsToPlaceInPagodaChests4 = { ItemType<BismiteCrystal>(), ItemType<FloranBar>(), ItemID.GoldBar, ItemID.PlatinumBar};
+								stack = Main.rand.Next(5,10);
+								chest.item[inventoryIndex].SetDefaults(Main.rand.Next(itemsToPlaceInPagodaChests4));
+								chest.item[inventoryIndex].stack = stack;
+							}
+							if (inventoryIndex == 4)
+							{
+								int[] itemsToPlaceInPagodaChests5 = { ItemID.GoldCoin, ItemID.GoldCoin};
+								stack = 2;
+								chest.item[inventoryIndex].SetDefaults(Main.rand.Next(itemsToPlaceInPagodaChests5));
+								chest.item[inventoryIndex].stack = stack;
+							}
+						}
+					}
+				}
+			}
+		
             Tile tile;
             tile = Main.tile[1, 1];
             for (int trees = 0; trees < 18000; trees++)

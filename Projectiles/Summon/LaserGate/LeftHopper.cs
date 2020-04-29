@@ -33,6 +33,7 @@ namespace SpiritMod.Projectiles.Summon.LaserGate
 
 		public override bool PreAI()
 		{
+			projectile.timeLeft = 50;
 			int rightValue = (int)projectile.ai[1];
 			if (rightValue < (double)Main.projectile.Length && rightValue != 0)
 			{
