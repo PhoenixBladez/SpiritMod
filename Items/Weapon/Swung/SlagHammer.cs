@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Slag Breaker");
-			Tooltip.SetDefault("This hammer explodes after hitting 4 targets\nHold 'down' to keep swinging\nHitting enemies releases damaging sparks\nRight click to throw the Hammer like a boomerang");
+			Tooltip.SetDefault("Hold 'down' to keep swinging\nThis hammer explodes after hitting 4 targets\nHitting enemies releases damaging sparks\nRight click to throw the Hammer like a boomerang");
 		}
 
 
@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.useTime = 44;
             item.shootSpeed = 8f;
             item.knockBack = 9f;
-            item.damage = 39;
+            item.damage = 34;
             item.value = Item.sellPrice(0, 0, 60, 0);
             item.rare = 3;
             item.shoot = mod.ProjectileType("SlagHammerProj");

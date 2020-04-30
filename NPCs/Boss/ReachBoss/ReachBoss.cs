@@ -55,6 +55,16 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		public override bool PreAI()
 		{
 			Player player = Main.player[npc.target];
+            if (player.GetSpiritPlayer().ZoneReach)
+            {
+                npc.defense = 25;
+                npc.damage = 45;
+            }
+            else
+            {
+                npc.defense = 11;
+                npc.damage = 25;
+            }
 			Counter++;
 			if (npc.life >= (npc.lifeMax / 3))
 			{

@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Armor.StarArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starplate Crown");
-            Tooltip.SetDefault("Increases damage by 4%, and max life by 10");
+            Tooltip.SetDefault("Increases ranged damage by 5%\nLeave a trail of stars where you walk");
             SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/StarArmor/StarMask_Glow");
         }
         public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
@@ -28,21 +28,23 @@ namespace SpiritMod.Items.Armor.StarArmor
             item.height = 20;
             item.value = Terraria.Item.sellPrice(0, 0, 30, 0);
             item.rare = 3;
-            item.defense = 8;
+            item.defense = 6;
         }
         public override void UpdateEquip(Player player)
         {
-            player.meleeDamage += 0.04f;
-            player.rangedDamage += 0.04f;
-            player.thrownDamage += 0.04f;
-            player.minionDamage += 0.04f;
-            player.magicDamage += 0.04f;
-            player.statLifeMax2 += 10;
+            player.rangedDamage += .05f;
+            if (player.velocity.X != 0f)
+            {
+                int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 0, 226);
+                Main.dust[dust].velocity *= 0f;
+                Main.dust[dust].scale *= .4f;
+                Main.dust[dust].noGravity = true;
+            }
         }
 
             public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Reduces damage taken by 5% \n Leave a trail of electrical stars where you walk";
+            player.setBonus = "Press the 'Armor Bonus' hotkey to deploy an energy field at the cursor position\nThis field lasts for five seconds and supercharges all ranged projectiles that pass through it\n12 second cooldown";
             player.GetSpiritPlayer().starSet = true;
             player.endurance += 0.05f;
         }
@@ -57,7 +59,8 @@ namespace SpiritMod.Items.Armor.StarArmor
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SteamParts", 4);
+            recipe.AddIngredient(null, "SteamParts", 7);
+            recipe.AddIngredient(null, "CosmiliteShard", 12);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

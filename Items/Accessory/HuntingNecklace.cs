@@ -15,7 +15,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Briarhunt Charm");
-            Tooltip.SetDefault("Increases armor penetration by 3\nMelee attacks occasionally strike enemies twice\nWhile standing on grass of any kind, maximum life increases by 20 and life regeneration increases slightly\nIncreases critical strike chance by 4%\nAllows for increased night vision in the Briar");
+            Tooltip.SetDefault("Increases armor penetration by 3\nMelee attacks occasionally strike enemies twice\nWhile standing on grass of any kind, melee speed increases by 5% and life regeneration increases slightly\nIncreases critical strike chance by 4%\nAllows for increased night vision in the Briar");
 
         }
 

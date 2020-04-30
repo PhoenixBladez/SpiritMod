@@ -15,7 +15,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Floran Hunting Charm");
-			Tooltip.SetDefault("While standing on grass of any kind, maximum life increases by 20 and life regeneration increases slightly");
+			Tooltip.SetDefault("While standing on grass of any kind, melee speed increases by 5% and life regeneration increases slightly");
 		}
 
 

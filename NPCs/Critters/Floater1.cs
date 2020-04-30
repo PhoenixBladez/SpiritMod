@@ -40,40 +40,28 @@ namespace SpiritMod.NPCs.Critters
 			int frame = (int)npc.frameCounter;
 			npc.frame.Y = frame * frameHeight;
 		}
-			public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+	    public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
             var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
                              drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
             return false;
         }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, ModContent.GetTexture("SpiritMod/NPCs/Critters/Floater_Critter_Glow"));
         }
 
-		public override void HitEffect(int hitDirection, double damage)
-		{
-			if (npc.life <= 0)
-			{
-				npc.position.X = npc.position.X + (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-				npc.width = 30;
-				npc.height = 30;
-				npc.position.X = npc.position.X - (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
-				for (int num621 = 0; num621 < 20; num621++)
-				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 242, 0f, 0f, 100, default(Color), 2f);
-					Main.dust[num622].velocity *= 1f;
-					Main.dust[num622].noGravity = true;
-					{
-						Main.dust[num622].scale = 0.23f;
-					}
-				}
-			}
-		}
-		public override bool PreAI()
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            int d1 = 242;
+            for (int k = 0; k < 30; k++)
+            {
+                Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, Color.White, Main.rand.NextFloat(.2f, .8f));
+            }
+        }
+        public override bool PreAI()
 		{
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), .3f, .2f, .3f);
 			return true;

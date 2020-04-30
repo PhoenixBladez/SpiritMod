@@ -220,7 +220,7 @@ namespace SpiritMod.Projectiles.Magic
         {
             if (projectile.tileCollide = true)
             {
-                Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1);
+                Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 6);
             }
             return true;
         }

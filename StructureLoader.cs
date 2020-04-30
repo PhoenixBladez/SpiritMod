@@ -36,6 +36,7 @@ namespace SpiritMod
             _structures["PurityShrine1"] = new Structure(mod, "PurityShrine1");
             _structures["PurityShrine2"] = new Structure(mod, "PurityShrine2");
             _structures["Pagoda"] = new Structure(mod, "Pagoda");
+            _structures["StarAltar"] = new Structure(mod, "StarAltar");
         }
 
         public static void Unload()

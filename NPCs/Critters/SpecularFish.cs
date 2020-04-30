@@ -57,13 +57,8 @@ namespace SpiritMod.NPCs.Critters
 		{
 			if (npc.life <= 0)
 			{
-
-                for (int num621 = 0; num621 < 20; num621++)
-                {
-                    int dust = Dust.NewDust(npc.position, npc.width, npc.height, 5);
-                    Main.dust[dust].noGravity = false;
-                    Main.dust[dust].velocity *= 0.5f * hitDirection;
-                }
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SpecularFish1"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SpecularFish2"), 1f);
             }
 		}
 		public override void NPCLoot()

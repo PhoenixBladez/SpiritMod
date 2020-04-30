@@ -35,7 +35,7 @@ namespace SpiritMod.Projectiles
 			if (projectile.ai[0] > 5f)
 			{
 				projectile.velocity.Y = projectile.velocity.Y + 0.01f;
-				projectile.velocity.X = projectile.velocity.X * 1.01f;
+				projectile.velocity.X = projectile.velocity.X * 1.003f;
 				projectile.alpha -= 23;
 				projectile.scale = 0.8f * (255f - (float)projectile.alpha) / 255f;
 				if (projectile.alpha < 0)

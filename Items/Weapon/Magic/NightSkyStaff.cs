@@ -59,8 +59,8 @@ namespace SpiritMod.Items.Weapon.Magic
 			recipe.AddIngredient(null, "ClapdateStaff", 1);
 			recipe.AddIngredient(null, "HowlingScepter", 1);
 			recipe.AddIngredient(null, "GraniteWand", 1);
-			recipe.AddIngredient(null, "SteamParts", 4);
-			recipe.AddTile(TileID.Anvils);
+            recipe.AddIngredient(null, "CosmiliteShard", 8);
+            recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

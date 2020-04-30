@@ -36,29 +36,15 @@ namespace SpiritMod.NPCs.Critters
 			Main.npcFrameCount[npc.type] = 45;
 		}
 
-		public override void HitEffect(int hitDirection, double damage)
-		{
-			if (npc.life <= 0)
-			{
-				npc.position.X = npc.position.X + (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-				npc.width = 32;
-				npc.height = 32;
-				npc.position.X = npc.position.X - (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
-				for (int num621 = 0; num621 < 20; num621++)
-				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 172, 0f, 0f, 100, default(Color), 1f);
-					Main.dust[num622].velocity *= .1f;
-					if (Main.rand.Next(2) == 0)
-					{
-						Main.dust[num622].scale = 0.9f;
-						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-					}
-				}
-			}
-		}
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            int d1 = 173;
+            for (int k = 0; k < 30; k++)
+            {
+                Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, Color.White, Main.rand.NextFloat(.2f, .8f));
+            }
+        }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			return spawnInfo.spawnTileY < Main.rockLayer && !Main.dayTime && !spawnInfo.playerSafe && !spawnInfo.invasion && !spawnInfo.sky && !Main.eclipse ? 0.0509f : 0f;
 		}

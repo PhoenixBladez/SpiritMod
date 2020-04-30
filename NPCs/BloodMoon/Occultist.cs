@@ -298,13 +298,12 @@ namespace SpiritMod.NPCs.BloodMoon
         
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.spawnTileY < Main.rockLayer && (Main.bloodMoon) && !NPC.AnyNPCs(mod.NPCType("Occultist")) && NPC.downedBoss1 ? 0.06f : 0f;
+			return spawnInfo.spawnTileY < Main.rockLayer && (Main.bloodMoon) && !NPC.AnyNPCs(mod.NPCType("Occultist")) && NPC.downedBoss1 ? 0.04f : 0f;
 		}
         public override void NPCLoot()
         {
             string[] lootTable = { "Handball", "OccultistStaff" };
             int loot = Main.rand.Next(lootTable.Length);
-            if (Main.rand.Next(3) == 2)
             {
                 npc.DropItem(mod.ItemType(lootTable[loot]));
             }

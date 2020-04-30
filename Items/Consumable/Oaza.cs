@@ -54,6 +54,7 @@ namespace SpiritMod.Items.Consumable
             recipe.AddIngredient(null, "CryoliteBar", 5);
             recipe.AddIngredient(ItemID.MeteoriteBar, 5);
             recipe.AddIngredient(ItemID.HellstoneBar, 5);
+            recipe.AddIngredient(ItemID.SoulofNight, 5);
             recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);
             recipe.AddRecipe();

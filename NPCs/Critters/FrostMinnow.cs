@@ -56,15 +56,10 @@ namespace SpiritMod.NPCs.Critters
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0)
-			{
-				
-				for (int num621 = 0; num621 < 20; num621++)
-				{
-					int dust = Dust.NewDust(npc.position, npc.width, npc.height, 187);
-					Main.dust[dust].noGravity = false;
-					Main.dust[dust].velocity *= 0.5f;
-				}
-			}
+            {
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/FrostMinnow1"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/FrostMinnow2"), 1f);
+            }
 		}
 		public override void NPCLoot()
 		{

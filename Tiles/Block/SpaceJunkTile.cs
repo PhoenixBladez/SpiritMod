@@ -33,24 +33,28 @@ namespace SpiritMod.Tiles.Block
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
             Player player = Main.LocalPlayer;
-            Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
-            int debuffsWeak = Main.rand.Next(new int[] { 30, 33 });
-            int debuffStrong = Main.rand.Next(new int[] { 144, 80, 36, 196, 164 });
-            int buffs = Main.rand.Next(new int[] { 5, 8, 18, 114, 11 });
-            if (Main.rand.Next(6) == 0)
+            int distance = (int)Vector2.Distance(new Vector2(i * 16, j * 16), player.Center);
+            if (distance < 54)
             {
-                if (Main.rand.Next(4) == 0)
+                Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
+                int debuffsWeak = Main.rand.Next(new int[] { 30, 33 });
+                int debuffStrong = Main.rand.Next(new int[] { 144, 80, 36, 196, 164 });
+                int buffs = Main.rand.Next(new int[] { 5, 8, 18, 114, 11 });
+                if (Main.rand.Next(6) == 0)
                 {
-                    player.AddBuff(debuffStrong, 70);
+                    if (Main.rand.Next(4) == 0)
+                    {
+                        player.AddBuff(debuffStrong, 70);
+                    }
+                    else
+                    {
+                        player.AddBuff(debuffsWeak, 300);
+                    }
                 }
-                else
+                if (Main.rand.Next(3) == 0)
                 {
-                    player.AddBuff(debuffsWeak, 300);
+                    player.AddBuff(buffs, 540);
                 }
-            }
-            if (Main.rand.Next(3) == 0)
-            {
-                player.AddBuff(buffs, 540);
             }
         }
         /*public override void FloorVisuals(Player player)

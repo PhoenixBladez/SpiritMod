@@ -57,14 +57,9 @@ namespace SpiritMod.NPCs.Critters
 		{
 			if (npc.life <= 0)
 			{
-			
-				for (int num621 = 0; num621 < 20; num621++)
-				{
-					int dust = Dust.NewDust(npc.position, npc.width, npc.height, 242);
-					Main.dust[dust].noGravity = true;
-					Main.dust[dust].velocity *= 0.5f;
-				}
-			}
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Prismite1"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Prismite2"), 1f);
+            }
 		}
 		public override void AI()
 		{

@@ -94,7 +94,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			if (timer == 700)
 				timer = 0;
 			chargetimer++;
-			if (npc.life >= npc.lifeMax * .25)
+			if (npc.life >= 800)
 			{
 				if (chargetimer == 700)
 				{
@@ -273,12 +273,12 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				if (player.position.Y > num47 && !charge)
 				{
 					num192 = num47;
-					if (Math.Abs(npc.Center.X - player.Center.X) < 250f) //was 500
+					if (Math.Abs(npc.Center.X - player.Center.X) < 170f) //was 500
 					{
 						if (npc.velocity.X > 0f)
-							num191 = player.Center.X + 320f; //was 600
+							num191 = player.Center.X + 170f; //was 600
 						else
-							num191 = player.Center.X - 320f; //was 600
+							num191 = player.Center.X - 170f; //was 600
 					}
 				}
 				else if (charge && player.position.Y < num47)
@@ -581,12 +581,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				return;
 			}
 
-			npc.DropItem(mod.ItemType("SteamParts"), 14, 20);
-			npc.DropItem(mod.ItemType("StellarTech"), 11f / 90);
-
-			string[] lootTable = { "AstralLens", "SteamStaff", "SteamplateBow" };
-			int loot = Main.rand.Next(lootTable.Length);
-			npc.DropItem(mod.ItemType(lootTable[loot]));
+			npc.DropItem(mod.ItemType("SteamParts"), 19, 25);
 
 			npc.DropItem(Items.Armor.Masks.StarplateMask._type, 1f / 7);
 			npc.DropItem(Items.Boss.Trophy3._type, 1f / 10);

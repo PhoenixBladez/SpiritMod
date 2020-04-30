@@ -40,15 +40,15 @@ namespace SpiritMod.Projectiles.Arrow
 		{
 			for (int i = 0; i < 3; i++)
 			{
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 226);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, 130);
 			}
 		}
 		public override bool PreAI()
 		{
             int num = 5;
-            for (int k = 0; k < 3; k++)
+            for (int k = 0; k < 5; k++)
             {
-                int index2 = Dust.NewDust(projectile.position, 1, 1, 60, 0.0f, 0.0f, 0, new Color(), 1f);
+                int index2 = Dust.NewDust(projectile.position, 1, 1, 130, 0.0f, 0.0f, 0, new Color(), 1.1f);
                 Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
                 Main.dust[index2].scale = .5f;
                 Main.dust[index2].velocity *= 0f;

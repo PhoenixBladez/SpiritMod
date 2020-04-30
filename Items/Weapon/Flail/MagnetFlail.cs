@@ -48,5 +48,14 @@ namespace SpiritMod.Items.Weapon.Flail
             }
             return true;
         }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(null, "SteamParts", 4);
+            recipe.AddIngredient(null, "CosmiliteShard", 12);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
     }
 }

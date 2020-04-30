@@ -54,7 +54,7 @@ namespace SpiritMod.Tiles
             if ((type == 2 || type == 60 || type == 70 || type == 109 || type == 199 || type == 23) && player.GetSpiritPlayer().floranCharm)
             {
                 player.lifeRegen += 3;
-                player.statLifeMax2 += 20;
+                player.meleeSpeed += .5f;
             }
         }
         public override bool Drop(int i, int j, int type)

@@ -22,6 +22,15 @@ namespace SpiritMod.Tiles.Block
             minPick = 100;
             drop = mod.ItemType("AsteroidBlock");
         }
+        public override bool CanKillTile(int i, int j, ref bool blockDamaged)
+        {
+            Player player = Main.LocalPlayer;
+            if (player.inventory[player.selectedItem].type == ItemID.ReaverShark)
+            {
+                return false;
+            }
+            return true;
+        }
         public override void RandomUpdate(int i, int j)
         {
             if (!Framing.GetTileSafely(i, j - 1).active() && Main.rand.Next(4) == 0)

@@ -14,18 +14,23 @@ namespace SpiritMod.Items.Material
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Cosmilite Shard");
+			DisplayName.SetDefault("Astralite Shard");
 			Tooltip.SetDefault("'It seems that Starplate entities have been scouring the stars looking for this'");
 		}
 
 
         public override void SetDefaults()
         {
+
+            item.useStyle = 1;
+            item.useTime = 10;
+            item.useAnimation = 15;
             item.width = 24;
             item.height = 26;
             item.value = 100;
             item.rare = 3;
             item.maxStack = 999;
+            item.createTile = mod.TileType("Glowstone");
         }
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float  scale, int whoAmI) 	
 		{

@@ -59,6 +59,11 @@ namespace SpiritMod.NPCs
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
+            if (npc.life <= 0 && Main.rand.Next(3) == 0)
+            {
+                Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 6);
+                npc.Transform(mod.NPCType("CaptiveMask"));
+            }
 			if (npc.life <= 0)
 			{
 				Gore.NewGore(npc.position, npc.velocity, 13);

@@ -329,6 +329,8 @@ namespace SpiritMod.Projectiles
 
 		public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
 		{
+            Player player = Main.player[projectile.owner];
+            MyPlayer modPlayer = player.GetSpiritPlayer();
             if ( shotFromMaliwanFreezeCommon == true)
             {
                 if (Main.rand.Next(6) == 0)
@@ -380,8 +382,13 @@ namespace SpiritMod.Projectiles
             }
             if (shotFromMaliwanShockCommon == true)
             {
-                if (Main.rand.Next(12) == 0)
+                if (Main.rand.Next(12) == 0 || player.GetSpiritPlayer().starSet && Main.rand.Next(8) == 0)
                 {
+                    if (player.GetSpiritPlayer().starSet)
+                    {
+                        int newdamage = damage + (int)(damage *.15f);
+                        damage = newdamage;
+                    }
                     target.AddBuff(mod.BuffType("ElectrifiedV2"), Main.rand.Next(60, 120));
                     int d = 226;
                     int d1 = 226;
@@ -394,8 +401,6 @@ namespace SpiritMod.Projectiles
                     }
                 }
             }
-            Player player = Main.player[projectile.owner];
-			MyPlayer modPlayer = player.GetSpiritPlayer();
             if (shotFromCoralBow && Main.rand.Next(2) == 0)
             {
                 target.StrikeNPC(projectile.damage/4, 0f, 0, crit);

@@ -28,7 +28,11 @@ namespace SpiritMod.Tiles.Block
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
             Player player = Main.LocalPlayer;
-            Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
+            int distance = (int)Vector2.Distance(new Vector2(i * 16, j * 16), player.Center);
+            if (distance < 54)
+            {
+                Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
+            }
         }
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {

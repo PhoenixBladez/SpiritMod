@@ -74,6 +74,13 @@ namespace SpiritMod.Tiles.Ambient.SpaceCrystals
 			TileObjectData.addTile(Type);
 			dustType = 180;
 		}
+        public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
+        {
+            Player player = Main.LocalPlayer;
+            {
+                Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
+            }
+        }
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
             r = 0.039f * 2;

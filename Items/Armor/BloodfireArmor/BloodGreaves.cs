@@ -34,6 +34,7 @@ namespace SpiritMod.Items.Armor.BloodfireArmor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "BloodFire", 9);
+            recipe.AddIngredient(null, "OldLeather", 5);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

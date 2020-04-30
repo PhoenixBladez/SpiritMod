@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Armor.StarArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starplate Leggings");
-            Tooltip.SetDefault("Increases movement speed by 5% and critical strike chance by 4%");
+            Tooltip.SetDefault("Increases ranged damage by 6% and movement speed by 8%");
             SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/StarArmor/StarLegs_Glow");
         }
         public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
@@ -27,15 +27,13 @@ namespace SpiritMod.Items.Armor.StarArmor
             item.height = 20;
             item.value = Terraria.Item.sellPrice(0, 0, 35, 0);
             item.rare = 3;
-            item.defense = 9;
+            item.defense = 5;
         }
         public override void UpdateEquip(Player player)
         {
+            player.moveSpeed += 0.08f;
             player.maxRunSpeed += 0.05f;
-            player.meleeCrit += 4;
-            player.thrownCrit += 4;
-            player.rangedCrit += 4;
-            player.magicCrit += 4;
+            player.rangedDamage += .06f;
         }
         public override void ArmorSetShadows(Player player)
         {
@@ -44,7 +42,8 @@ namespace SpiritMod.Items.Armor.StarArmor
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SteamParts", 5);
+            recipe.AddIngredient(null, "SteamParts", 8);
+            recipe.AddIngredient(null, "CosmiliteShard", 11);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

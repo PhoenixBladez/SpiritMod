@@ -21,9 +21,9 @@ namespace SpiritMod.NPCs
 		{
 			npc.width = 32;
 			npc.height = 38;
-			npc.damage = 18;
-			npc.defense = 8;
-			npc.lifeMax = 80;
+			npc.damage = 60;
+			npc.defense = 22;
+			npc.lifeMax = 220;
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath6;
 			npc.value = 100f;
@@ -33,8 +33,11 @@ namespace SpiritMod.NPCs
 			animationType = NPCID.AngryBones;
 		}
 
-
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return spawnInfo.spawnTileY < Main.rockLayer && (!Main.dayTime) && spawnInfo.player.ZoneOverworldHeight && Main.hardMode ? 0.01f : 0f;
+        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			{
 				

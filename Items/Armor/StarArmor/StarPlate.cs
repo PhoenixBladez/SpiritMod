@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Armor.StarArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starplate Chestguard");
-            Tooltip.SetDefault("Reduces damage taken by 3%, and increases max life by 10");
+            Tooltip.SetDefault("Increases ranged damage by 6%");
             SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/StarArmor/StarPlate_Glow");
         }
         public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
@@ -28,12 +28,11 @@ namespace SpiritMod.Items.Armor.StarArmor
             item.height = 20;
             item.value = Terraria.Item.sellPrice(0, 0, 38, 0);
             item.rare = 3;
-            item.defense = 9;
+            item.defense = 7;
         }
         public override void UpdateEquip(Player player)
         {
-            player.endurance += 0.03f;
-            player.statLifeMax2 += 10;
+            player.rangedDamage += .06f;
         }
         public override void ArmorSetShadows(Player player)
         {
@@ -42,7 +41,8 @@ namespace SpiritMod.Items.Armor.StarArmor
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SteamParts", 6);
+            recipe.AddIngredient(null, "SteamParts", 9);
+            recipe.AddIngredient(null, "CosmiliteShard", 14);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

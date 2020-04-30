@@ -43,7 +43,7 @@ namespace SpiritMod.Items.Weapon.Magic
             for (int i = 0; i < amount; ++i)
             {
                 Vector2 pos = new Vector2(mouse.X + player.width * 0.5f + Main.rand.Next(-20, 21), mouse.Y - 600f);
-                pos.X = (pos.X * 10f + mouse.X) / 11f + (float)Main.rand.Next(-30, 31);
+                pos.X = (pos.X * 10f + mouse.X) / 11f + (float)Main.rand.Next(-10, 11);
                 pos.Y -= 150;
                 float spX = mouse.X + player.width * 0.5f + Main.rand.Next(-200, 201) - mouse.X;
                 float spY = mouse.Y - pos.Y;
@@ -56,9 +56,9 @@ namespace SpiritMod.Items.Weapon.Magic
                 length = 12 / length;
                 spX *= length;
                 spY *= length;
-                spX = spX + (float)Main.rand.Next(-40, 41) * 0.02f;
-                spY = spY + (float)Main.rand.Next(-40, 41) * 0.09f;
-                spX *= (float)Main.rand.Next(75, 150) * 0.006f;
+                spX = spX - (float)Main.rand.Next(-10, 11) * 0.02f;
+                spY = spY + (float)Main.rand.Next(-40, 41) * 0.14f;
+                spX *= (float)Main.rand.Next(-10, 10) * 0.006f;
                 pos.X += (float)Main.rand.Next(-10, 11);
                 Projectile.NewProjectile(pos.X, pos.Y, spX, spY, type, damage, 4, player.whoAmI);
             }

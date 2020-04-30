@@ -21,8 +21,8 @@ namespace SpiritMod.Items.DonatorItems
             item.height = 28;
             item.value = Item.sellPrice(0, 1, 0, 0);
             item.rare = 3;
-            item.mana = 8;
-            item.damage = 19;
+            item.mana = 9;
+            item.damage = 21;
             item.knockBack = 1;
             item.useStyle = 1;
             item.useTime = 30;

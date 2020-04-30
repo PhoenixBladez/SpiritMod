@@ -55,25 +55,25 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			if (Main.netMode != 1)
 			{
 				npc.localAI[1] += 1;
-				if (npc.localAI[1] == (float)Main.rand.Next(100, 600))
-				{	
-						if (!exposed)
-						{
-							exposed = true;	
-						}
-				}
-				if (npc.localAI[1] >= 601)
+				if (npc.localAI[1] == (float)Main.rand.Next(100, 500))
+				{
+                    if (!exposed)
+                    {
+                        exposed = true;
+                    }
+                }
+				if (npc.localAI[1] >= 651)
 				{
 					npc.localAI[1] = 0f;
 				}	
 				npc.localAI[2] += 1;
-				if (npc.localAI[2] == (float)Main.rand.Next(100, 600))
-				{	
-						if (exposed)
-						{
-							exposed = false;
-						}	
-				}
+				if (npc.localAI[2] == (float)Main.rand.Next(200, 600))
+				{
+                    if (exposed)
+                    {
+                        exposed = false;
+                    }
+                }
 				if (npc.localAI[2] >= 601)
 				{
 					npc.localAI[2] = 0f;
@@ -81,7 +81,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			}
 			if (exposed)
 			{
-				npc.defense = 19;
+				npc.defense = 13;
 			}
 			else
 			{
@@ -113,7 +113,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 						int num945 = expertMode ? 13 : 25;
 						int num946 = mod.ProjectileType("Starshock");
 						vector104.X += num942 * 4f;
-						vector104.Y += num943 * 4;
+						vector104.Y += num943 * 2.5f;
 						int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, num946, num945, 0f, Main.myPlayer, 0f, 0f);
 						Main.projectile[num947].timeLeft = 350;
 						npc.netUpdate = true;
@@ -256,11 +256,11 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		{
 			if (projectile.penetrate <= -1)
 			{
-				damage /= 2;
+				damage /= (int)(damage / 4 * 3);
 			}
 			else if (projectile.penetrate >= 7)
 			{
-				damage /= 2;
+				damage /= (int)(damage / 4 * 3);
 			}
 		}
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

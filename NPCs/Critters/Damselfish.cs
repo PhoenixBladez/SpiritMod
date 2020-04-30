@@ -25,7 +25,7 @@ namespace SpiritMod.NPCs.Critters
 			npc.defense = 0;
 			npc.lifeMax = 5;
 			Main.npcCatchable[npc.type] = true;
-			npc.catchItem = (short)ItemID.SpecularFish;
+			npc.catchItem = (short)ItemID.Damselfish;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
 			npc.knockBackResist = .35f;
@@ -57,13 +57,8 @@ namespace SpiritMod.NPCs.Critters
 		{
 			if (npc.life <= 0)
 			{
-
-                for (int num621 = 0; num621 < 20; num621++)
-                {
-                    int dust = Dust.NewDust(npc.position, npc.width, npc.height, 5);
-                    Main.dust[dust].noGravity = false;
-                    Main.dust[dust].velocity *= 0.5f * hitDirection;
-                }
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Damselfish1"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Damselfish2"), 1f);
             }
 		}
 		public override void NPCLoot()

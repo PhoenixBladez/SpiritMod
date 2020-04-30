@@ -72,10 +72,10 @@ namespace SpiritMod.NPCs
 				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 73);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
-				direction.X *= 14f;
-				direction.Y *= 14f;
+				direction.X *= 11f;
+				direction.Y *= 11f;
 
-				int amountOfProjectiles = Main.rand.Next(3, 5);
+				int amountOfProjectiles = 3;
 				for (int i = 0; i < amountOfProjectiles; ++i)
 				{
 					float A = (float)Main.rand.Next(-150, 150) * 0.01f;

@@ -15,7 +15,7 @@ namespace SpiritMod.Items.DonatorItems
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Lantern Of The Torment");
+			DisplayName.SetDefault("Silva'S Soul");
 			Tooltip.SetDefault("Minions have a chance to spawn Tormented Soldiers \n~Donator Item~");
 		}
         public override void SetDefaults()

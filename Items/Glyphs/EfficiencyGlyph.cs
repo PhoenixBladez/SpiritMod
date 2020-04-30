@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Glyphs
 			DisplayName.SetDefault("Efficiency Glyph");
 			Tooltip.SetDefault(
 				"Can only be applied to tools\n"+
-				"Speed +30% and Range +2");
+				"+30% speed and +2 range");
 		}
 
 

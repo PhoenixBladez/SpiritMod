@@ -70,6 +70,15 @@ namespace SpiritMod.Items.Weapon.Magic
 				SpriteEffects.None, 
 				0f
 			);
-        }		
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(null, "SteamParts", 5);
+            recipe.AddIngredient(null, "CosmiliteShard", 9);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
     }
 }

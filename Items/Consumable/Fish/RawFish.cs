@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Consumable.Fish
             item.rare = 1;
             item.maxStack = 99;
             item.noUseGraphic = true;
-			item.useStyle = 1;
+			item.useStyle = 2;
             item.useTime = item.useAnimation = 30;
 			
 			item.buffType = BuffID.WellFed;
@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Consumable.Fish
         }
 		public override bool CanUseItem(Player player)
 		{
-			player.AddBuff(BuffID.Poisoned, 2700);
+			player.AddBuff(BuffID.Poisoned, 600);
 			return true;
 		}
 		public override void AddRecipes()

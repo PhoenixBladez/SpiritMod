@@ -79,7 +79,8 @@ namespace SpiritMod.Items.Weapon.Thrown
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SteamParts", 2);
+            recipe.AddIngredient(null, "SteamParts", 1);
+            recipe.AddIngredient(null, "CosmiliteShard", 3);
             recipe.AddIngredient(null, "Kunai_Throwing", 50);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 50);

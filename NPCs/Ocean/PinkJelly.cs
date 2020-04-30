@@ -11,7 +11,7 @@ namespace SpiritMod.NPCs.Ocean
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Man O' War");
+			DisplayName.SetDefault("Velella");
 			Main.npcFrameCount[npc.type] = 4;
 		}
 
@@ -19,19 +19,19 @@ namespace SpiritMod.NPCs.Ocean
 		{
 			npc.width = 44;
 			npc.height = 40;
-			npc.damage = 27;
-			npc.defense = 8;
-			npc.lifeMax = 110;
+			npc.damage = 75;
+			npc.defense = 32;
+			npc.lifeMax = 130;
 			npc.HitSound = SoundID.NPCHit25;
 			npc.DeathSound = SoundID.NPCDeath28;
-			npc.value = 160f;
+			npc.value = 660f;
 			npc.noGravity = true;
 			npc.knockBackResist = 0f;
 			npc.aiStyle = 18;
 			aiType = NPCID.BlueJellyfish;
 		}
 
-		/*public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        /*public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			if (spawnInfo.playerSafe)
 			{
@@ -39,8 +39,12 @@ namespace SpiritMod.NPCs.Ocean
 			}
 			return SpawnCondition.OceanMonster.Chance * 0.1f;
 		}*/
+        public override void NPCLoot()
+        {
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.StickyGlowstick, Main.rand.Next(4, 7) + 1);
 
-		public override void FindFrame(int frameHeight)
+        }
+        public override void FindFrame(int frameHeight)
 		{
 			npc.frameCounter += 0.15f;
 			npc.frameCounter %= Main.npcFrameCount[npc.type];

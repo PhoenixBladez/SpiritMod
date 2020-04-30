@@ -37,14 +37,14 @@ namespace SpiritMod.Items.Placeable.Tiles
         {
             if (Main.rand.Next(6) == 0)
             {
-                string[] lootTable = { "ScarpItem2", "ScrapItem3" };
+                string[] lootTable = { "ScarpItem2", "ScrapItem3", "ScrapItem5" };
                 int loot = Main.rand.Next(lootTable.Length);
                 resultType = mod.ItemType(lootTable[loot]);
                 resultStack = Main.rand.Next(1, 4);
             }
             else if (Main.rand.Next(10) == 0)
             {
-                string[] lootTable1 = { "ScrapItem1", "ScrapItem4" };
+                string[] lootTable1 = { "ScrapItem1", "ScrapItem4", "ScrapItem6" };
                 int loot2 = Main.rand.Next(lootTable1.Length);
                 resultType = mod.ItemType(lootTable1[loot2]);
                 resultStack = 1;

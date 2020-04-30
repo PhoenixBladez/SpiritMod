@@ -49,30 +49,9 @@ namespace SpiritMod.NPCs.Critters
 		{
 			if (npc.life <= 0)
 			{
-				for (int num621 = 0; num621 < 20; num621++)
-				{
-					int dust = Dust.NewDust(npc.position, npc.width, npc.height, 5);
-					Main.dust[dust].noGravity = false;
-					Main.dust[dust].velocity *= 0.5f;
-				}
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CTiger"), 1f);
-				npc.position.X = npc.position.X + (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-				npc.width = 30;
-				npc.height = 30;
-				npc.position.X = npc.position.X - (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
-				for (int num621 = 0; num621 < 20; num621++)
-				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default(Color), 2f);
-					Main.dust[num622].velocity *= 1f;
-					Main.dust[num622].noGravity = true;
-					{
-						Main.dust[num622].scale = 0.023f;
-						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-					}
-				}
-			}
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Tigerfish1"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Tigerfish2"), 1f);
+            }
 		}
 		public override void AI()
 		{

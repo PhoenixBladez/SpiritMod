@@ -41,10 +41,13 @@ namespace SpiritMod.Projectiles.Sword
 			Main.dust[dust2].scale = 0.9f;
 			Main.dust[dust].scale = 0.9f;
 		}
-
-		public override void Kill(int timeLeft)
-		{
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
             Main.PlaySound(new Terraria.Audio.LegacySoundStyle(0, 1));
+            return true;
+        }
+        public override void Kill(int timeLeft)
+		{
             for (int i = 0; i < 10; i++)
 			{
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 167);

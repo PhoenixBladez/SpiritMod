@@ -35,12 +35,6 @@ namespace SpiritMod.Items.BossBags
 			player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(2, 4));
 			player.QuickSpawnItem(mod.ItemType("StarMap"));
 			player.QuickSpawnItem(mod.ItemType("SteamParts"), Main.rand.Next(14, 20));
-			if (Main.rand.Next(80) < 11)
-				player.QuickSpawnItem(mod.ItemType("StellarTech"));
-
-			string[] lootTable = { "AstralLens", "SteamStaff", "SteamplateBow" };
-			int loot = Main.rand.Next(lootTable.Length);
-			player.QuickSpawnItem(mod.ItemType(lootTable[loot]));
 
 			if (Main.rand.NextDouble() < 1d / 7)
 				player.QuickSpawnItem(Armor.Masks.StarplateMask._type);

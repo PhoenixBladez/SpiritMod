@@ -74,7 +74,9 @@ namespace SpiritMod.NPCs.BloodMoon
                     {
 						int bloodproj;
 						bloodproj = Main.rand.Next(new int[]{mod.ProjectileType("Feeder1"), mod.ProjectileType("Feeder2"), mod.ProjectileType("Feeder3")});
-                        int p = Terraria.Projectile.NewProjectile(npc.Center.X + (7 * npc.direction), npc.Center.Y - 10, -(npc.position.X - target.position.X) / distance * 8, -(npc.position.Y - target.position.Y + Main.rand.Next(-50, 50)) / distance * 8, bloodproj, (int)((npc.damage * 2)), 0);
+                        bool expertMode = Main.expertMode;
+                        int damage = expertMode ? 12 : 17;
+                        int p = Terraria.Projectile.NewProjectile(npc.Center.X + (7 * npc.direction), npc.Center.Y - 10, -(npc.position.X - target.position.X) / distance * 8, -(npc.position.Y - target.position.Y + Main.rand.Next(-50, 50)) / distance * 8, bloodproj, damage, 0);
                         shoottimer = 0;
                     }
 				}
@@ -85,7 +87,14 @@ namespace SpiritMod.NPCs.BloodMoon
 		{
 			npc.frame.Y = frameHeight * frame;
 		}
-		public override void HitEffect(int hitDirection, double damage)
+        public override void NPCLoot()
+        {
+            if (Main.rand.Next(17) == 1)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BottomFeederGun"));
+            }
+        }
+        public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0 || npc.life >= 0)
 			{

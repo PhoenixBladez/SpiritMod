@@ -56,6 +56,7 @@ namespace SpiritMod
         public bool SoulStone = false;
         public bool geodeSet = false;
         public bool assassinMag = false;
+        public bool shadowFang = false; 
         public bool reachBrooch = false;
         public bool cleftHorn = false;
         public bool daybloomSet = false;
@@ -338,7 +339,7 @@ namespace SpiritMod
 
         public override void UpdateBiomeVisuals()
         {
-            bool showAurora = (((player.ZoneSnow || ZoneSpirit || player.ZoneSkyHeight) && !Main.dayTime) || ZoneAsteroid) && !Main.raining && !player.ZoneCorrupt && !player.ZoneCrimson;
+            bool showAurora = (player.ZoneSnow || ZoneSpirit || player.ZoneSkyHeight) && !Main.dayTime && !Main.raining && !player.ZoneCorrupt && !player.ZoneCrimson;
             bool reach = !Main.dayTime && ZoneReach && !reachBrooch;
 
             player.ManageSpecialBiomeVisuals("SpiritMod:AshstormParticles", true);       
@@ -455,6 +456,7 @@ namespace SpiritMod
             ChaosCrystal = false;
             twilightTalisman = false;
             ToxicExtract = false;
+            shadowFang = false;
             gemPickaxe = false;
             cultistScarf = false;
             bismiteSet = false;
@@ -794,6 +796,22 @@ namespace SpiritMod
                     }
                 }
             }
+            if (starSet && SpiritMod.SpecialKey.JustPressed && !player.HasBuff(mod.BuffType("StarCooldown")))
+            {
+                Main.PlaySound(2, player.position, 92);
+                Vector2 mouse = Main.MouseScreen + Main.screenPosition;
+                Projectile.NewProjectile(mouse, Vector2.Zero, mod.ProjectileType("EnergyFieldStarplate"), 0, 0, player.whoAmI);
+                for (int i = 0; i < 8; i++)
+                {
+                    int num = Dust.NewDust(player.position, player.width, player.height, 226, 0f, -2f, 0, default(Color), .7f);
+                    Main.dust[num].noGravity = true;
+                    Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+                    Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
+                    Main.dust[num].scale *= .25f;
+                    if (Main.dust[num].position != player.Center)
+                        Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
+                }
+            }
             if (fierySet && SpiritMod.SpecialKey.JustPressed && fierySetTimer <= 0)
             {
                 Main.PlaySound(2, player.position, 74);
@@ -1097,6 +1115,15 @@ namespace SpiritMod
 
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
+            if (shadowFang)
+            {
+                if (target.life <= (int)target.lifeMax/2 && Main.rand.Next(7) == 0)
+                {  
+                    Projectile.NewProjectile(target.position, Vector2.Zero, mod.ProjectileType("ShadowSingeProj"), item.damage / 3 * 2, 4, Main.myPlayer);
+                    Main.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 6));
+                    player.statLife -= 3;
+                }
+            }
             if (cleftHorn)
             {
                 if (item.melee && Main.rand.Next(9) == 0)
@@ -1286,6 +1313,14 @@ namespace SpiritMod
         int Charger;
         public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
         {
+            if (shadowFang)
+            {
+                if (target.life <= (int)target.lifeMax / 2 && Main.rand.Next(7) == 0)
+                {
+                    Projectile.NewProjectile(target.position, Vector2.Zero, mod.ProjectileType("ShadowSingeProj"), proj.damage/3 * 2, 4, Main.myPlayer);
+                    player.statLife -= 3;
+                }
+            }
             if (throwerGlove)
             {
                 throwerStacks++;
@@ -2159,7 +2194,7 @@ namespace SpiritMod
 						for (int I = 0; I < num; I++)
 						{
 							int DegreeDifference = (int)(360 / num);
-							Projectile.NewProjectile((int)player.Center.X + (int)(Math.Sin(I * DegreeDifference) * 80), (int)player.Center.Y + (int)(Math.Sin(I * DegreeDifference) * 80), 0, 0, mod.ProjectileType("InterstellarShield"), 1, 1, player.whoAmI, 0, I * DegreeDifference);
+							Projectile.NewProjectile((int)player.Center.X + (int)(Math.Sin(I * DegreeDifference) * 80), (int)player.Center.Y + (int)(Math.Sin(I * DegreeDifference) * 80), 0, 0, mod.ProjectileType("InterstellarShield"), 1, 0, player.whoAmI, 0, I * DegreeDifference);
 						}	
 						spawnedShield = true;
 						
@@ -2520,11 +2555,6 @@ namespace SpiritMod
             if (icytrail && player.velocity.X != 0)
             {
                 Projectile.NewProjectile(player.position.X, player.position.Y + 40, 0f, 0f, mod.ProjectileType("FrostTrail"), 35, 0f, player.whoAmI);
-            }
-
-            if (starSet && player.velocity.X != 0 && Main.rand.NextBool(10))
-            {
-                Projectile.NewProjectile(player.position.X, player.position.Y + 40, 0f, 0f, mod.ProjectileType("StarTrail"), 13, 0f, player.whoAmI);
             }
 
             if (flametrail && player.velocity.X != 0)

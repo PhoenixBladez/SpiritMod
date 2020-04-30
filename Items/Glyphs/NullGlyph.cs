@@ -69,7 +69,7 @@ namespace SpiritMod.Items.Glyphs
 					held.Name +"]");
 			}
 			else
-				line = new TooltipLine(mod, "GlyphHint", "Hold the item which' glyph you want to remove and right-click this glyph");
+				line = new TooltipLine(mod, "GlyphHint", "Equip the item whose glyph you want to remove, then right-click on this glyph");
 			line.overrideColor = new Color(120, 190, 120);
 			tooltips.Insert(index + 1, line);
 		}

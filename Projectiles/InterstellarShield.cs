@@ -14,7 +14,7 @@ namespace SpiritMod.Projectiles
     public class InterstellarShield : ModProjectile
     {
 		public bool shooting = false;
-		double dist = 60;
+		double dist = 80;
 		Vector2 direction = Vector2.Zero;
 		int counter = 0;
 		public override void SetStaticDefaults()
@@ -32,7 +32,6 @@ namespace SpiritMod.Projectiles
             projectile.extraUpdates = 1;
 			projectile.alpha = 255;
 			projectile.width = projectile.height = 24;
-            projectile.light = 2;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 
@@ -75,8 +74,8 @@ namespace SpiritMod.Projectiles
 			}
 			Vector2 center = projectile.Center;
             float num8 = (float)player.miscCounter / 60f;
-            float num7 = 1.0471975512f;
-            for (int i = 0; i < 6; i++)
+            float num7 = 1.0471975512f * 2;
+            for (int i = 0; i < 3; i++)
             {
                 int num6 = Dust.NewDust(center, 0, 0, 180, 0f, 0f, 100, default(Color), 1.3f);
                 Main.dust[num6].noGravity = true;
@@ -93,7 +92,7 @@ namespace SpiritMod.Projectiles
 				/and height divided by two so the center of the projectile is at the right place.     */
  			
 				//Increase the counter/angle in degrees by 1 point, you can change the rate here too, but the orbit may look choppy depending on the value
-				projectile.ai[1] += 2f;
+				projectile.ai[1] += .38f;
 				if (((MyPlayer)player.GetModPlayer(mod, "MyPlayer")).ShieldCore)
 				{
 					projectile.timeLeft = 2;
