@@ -96,7 +96,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				npc.velocity.X = 0;
 				npc.velocity.Y = 0;
 				musicTimer++;
-				if (musicTimer > 720) //change 720 if the music changes
+				if (musicTimer > 690) //change 720 if the music changes
 				{
 					npc.velocity.Y = 25;
 					for (int i = 0; i < npc.height; i++)
