@@ -21,6 +21,7 @@ namespace SpiritMod.Projectiles.Summon.LaserGate
 			projectile.height = 2;
 			projectile.aiStyle = -1;
 			projectile.friendly = true;
+			projectile.damage = 1;
 			projectile.penetrate = 8;
 			projectile.alpha = 255;
 			projectile.timeLeft = 1;

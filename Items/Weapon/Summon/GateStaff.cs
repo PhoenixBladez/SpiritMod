@@ -23,13 +23,13 @@ namespace SpiritMod.Items.Weapon.Summon
 
 		 public override void SetDefaults()
         {
-            item.damage = 15;
+            item.damage = 18;
             item.summon = true;
             item.mana = 16;
             item.width = 44;
             item.height = 48;
-            item.useTime = 35;
-            item.useAnimation = 35;
+            item.useTime = 55;
+            item.useAnimation = 55;
             item.useStyle = 5;
             Item.staff[item.type] = true;
             item.noMelee = true;
@@ -80,7 +80,7 @@ namespace SpiritMod.Items.Weapon.Summon
 				{
 					Main.projectile[right].active = false;
 				}
-				right = Projectile.NewProjectile((int)(Main.screenPosition.X + Main.mouseX), (int)(Main.screenPosition.Y + Main.mouseY), 0, 0, mod.ProjectileType("RightHopper"), 27, 1, Main.myPlayer);
+				right = Projectile.NewProjectile((int)(Main.screenPosition.X + Main.mouseX), (int)(Main.screenPosition.Y + Main.mouseY), 0, 0, mod.ProjectileType("RightHopper"), item.damage, 1, Main.myPlayer);
 				rightactive = true;
 				if (leftactive)
 				{
@@ -100,7 +100,7 @@ namespace SpiritMod.Items.Weapon.Summon
 				{
 					Main.projectile[left].active = false;
 				}
-				left = Projectile.NewProjectile((int)(Main.screenPosition.X + Main.mouseX), (int)(Main.screenPosition.Y + Main.mouseY), 0, 0, mod.ProjectileType("LeftHopper"), 27, 1, Main.myPlayer);
+				left = Projectile.NewProjectile((int)(Main.screenPosition.X + Main.mouseX), (int)(Main.screenPosition.Y + Main.mouseY), 0, 0, mod.ProjectileType("LeftHopper"), item.damage, 1, Main.myPlayer);
 				leftactive = true;
 				if (rightactive)
 				{

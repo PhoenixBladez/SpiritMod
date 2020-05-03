@@ -28,7 +28,9 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		public int minLength = 54;
         public int midLength = 56;
         public int maxLength = 57;
-
+		bool charging = true;
+		int crashY = 1000;
+		int musicTimer = 0;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starplate Voyager");
@@ -69,6 +71,51 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		public override void AI()
 		{
 			Player player = Main.player[npc.target];
+			if (crashY < npc.position.Y && charging)
+			{
+				 for (int i = 0; i < 40; i++)
+                    {
+                        int num = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, -2f, 0, default(Color), 1.1f);
+                        Main.dust[num].noGravity = true;
+                        Dust expr_62_cp_0 = Main.dust[num];
+                        expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-30, 31) / 20) - 1.5f);
+                        Dust expr_92_cp_0 = Main.dust[num];
+                        expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-30, 31) / 20) - 1.5f);
+                        if (Main.dust[num].position != npc.Center)
+                        {
+                            Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 20f;
+                        }
+                    }
+					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 89);
+					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 27);
+					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 14);
+					charging = false;
+			}
+			if (charging)
+			{
+				npc.velocity.X = 0;
+				npc.velocity.Y = 0;
+				musicTimer++;
+				if (musicTimer > 720) //change 720 if the music changes
+				{
+					npc.velocity.Y = 25;
+					for (int i = 0; i < npc.height; i++)
+					{
+						if (Main.rand.Next(10) == 1)
+						{
+						int num = Dust.NewDust(new Vector2(npc.position.X + i, npc.Center.Y), 0, 0, 226);
+						Main.dust[num].velocity.X = -10;
+						Main.dust[num].velocity.Y = Main.rand.Next(-3,3);
+						Main.dust[num].noGravity = true;
+						
+						num = Dust.NewDust(new Vector2(npc.position.X + i, npc.Center.Y), 0, 0, 226);
+						Main.dust[num].velocity.X = 10;
+						Main.dust[num].velocity.Y = Main.rand.Next(-3,3);
+						Main.dust[num].noGravity = true;
+						}
+					}
+				}
+			}
 			bool expertMode = Main.expertMode;
 			timer++;
 			if (timer == 100|| timer == 400)
@@ -162,6 +209,8 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			{
 				if (!tail && npc.ai[0] == 0f)
 				{
+					//Putting it here so it only goes once
+					crashY = (int)player.position.Y;
 					int current = npc.whoAmI;
 					for (int num36 = 0; num36 < maxLength; num36++)
 					{

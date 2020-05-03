@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Threading.Tasks;
-
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -141,8 +141,15 @@ namespace SpiritMod
             /// <summary>
             /// Places the structure, removing tiles if necessary.
             /// </summary>
-            public void PlaceForce(int x, int y)
+           public void PlaceForce(int x, int y, out Point[] chestLocations)
 			{
+				if (!_valid) 
+				{
+					chestLocations = null;
+					return;
+				}
+				
+				List<Point> containers = new List<Point>();
 				for (int x1 = 0; x1 < width; x1++)
 				{
 					for (int y1 = 0; y1 < height; y1++)
@@ -150,15 +157,22 @@ namespace SpiritMod
 						if (tiles[x1, y1] != null)
 						{
 							Main.tile[x + x1, y + y1] = new Tile(tiles[x1, y1]);
+							DoContainerCheck(ref containers, x, y, x1, y1);
 						}
 					}
 				}
+				chestLocations = containers.ToArray();
 			}
 
-			public void Place(int x, int y, bool removeNonSolids = false)
+			public void Place(int x, int y, out Point[] chestLocations, bool removeNonSolids = false)
 			{
-				if (!_valid) return;
+				if (!_valid) 
+				{
+					chestLocations = null;
+					return;
+				}
 
+				List<Point> containers = new List<Point>();
 				for (int x1 = 0; x1 < width; x1++)
 				{
 					for (int y1 = 0; y1 < height; y1++)
@@ -166,7 +180,23 @@ namespace SpiritMod
 						if (tiles[x1, y1] != null && (!Main.tile[x + x1, y + y1].active() || (removeNonSolids && !Main.tileSolid[Main.tile[x + x1, y + y1].type])))
 						{
 							Main.tile[x + x1, y + y1] = new Tile(tiles[x1, y1]);
+							DoContainerCheck(ref containers, x, y, x1, y1);
 						}
+					}
+				}
+				chestLocations = containers.ToArray();
+			}
+
+			private void DoContainerCheck(ref List<Point> containers, int x, int y, int x1, int y1)
+			{
+				if (Main.tileContainer[tiles[x1, y1].type])
+				{
+					ushort type = tiles[x1, y1].type;
+					//if top left (could do frame check but on the rare chance it's not 2x2)
+					if (Framing.GetTileSafely(x + x1 - 1, y + y1).type != type &&
+						Framing.GetTileSafely(x + x1, y + y1 - 1).type != type)
+					{
+						containers.Add(new Point(x + x1, y + y1));
 					}
 				}
 			}

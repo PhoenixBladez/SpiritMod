@@ -49,7 +49,7 @@ namespace SpiritMod
 		public static bool starMessage = false;
 		public static bool essenceMessage = false;
 		public static bool flierMessage = false;
-
+		public static int asteroidSide = 0;
         public static bool gennedTower = false;
         public static bool gennedBandits = false;
 
@@ -1620,7 +1620,9 @@ namespace SpiritMod
 				{
 					continue;
 				}
-                StructureLoader.GetStructure("CrateStashRegular").PlaceForce(hideoutX, hideoutY);
+				List<Point> location = new List<Point>(); //these are for ease of use if we ever want to add containers to these existing structures
+				Point[] containers = location.ToArray();
+                StructureLoader.GetStructure("CrateStashRegular").PlaceForce(hideoutX, hideoutY, out containers);
                 placed = true;
 			}
 		}
@@ -1636,18 +1638,42 @@ namespace SpiritMod
                 {
                     continue;
                 }
-                StructureLoader.GetStructure("StarAltar").PlaceForce(hideoutX, hideoutY);
+				List<Point> location = new List<Point>(); //these are for ease of use if we ever want to add containers to these existing structures
+				Point[] containers = location.ToArray();
+                StructureLoader.GetStructure("StarAltar").PlaceForce(hideoutX, hideoutY, out containers);
                 placed = true;
             }
         }
         public void GeneratePagoda()
         {
             bool placed = false;
+			int pagodaX = 0;
             while (!placed)
             {
-                int hideoutX = Main.spawnTileX;
-                int hideoutY = Main.spawnTileY - 100;
-                StructureLoader.GetStructure("Pagoda").PlaceForce(hideoutX, hideoutY);
+				if (asteroidSide == 0)
+				{
+					pagodaX = Main.maxTilesX - Main.rand.Next(200, 350);
+				}
+				else
+				{
+					pagodaX = Main.rand.Next(200, 350);
+				}
+				int pagodaY = (int)(Main.worldSurface / 5.0);
+				List<Point> location = new List<Point>(); //these are for ease of use if we ever want to add containers to these existing structures
+				Point[] containers = location.ToArray();
+                StructureLoader.GetStructure("Pagoda").PlaceForce(pagodaX, pagodaY, out containers);
+				foreach (Point chestLocation in containers) //foreach incase we decide to add a second chest.
+				{
+					for (int x = 0; x < 2; x++)
+					{
+						for (int y = 0; y < 2; y++)
+						{
+							Main.tile[chestLocation.X + x, chestLocation.Y + y].active(false);
+							Main.tile[chestLocation.X + x, chestLocation.Y + y].type = 0;
+						}
+					}
+					WorldGen.PlaceChest(chestLocation.X, chestLocation.Y + 1, 21, true, 28);
+				}
                 placed = true;
             }
         }
@@ -1663,7 +1689,9 @@ namespace SpiritMod
                 {
                     continue;
                 }
-                StructureLoader.GetStructure("CrateStashJungle").PlaceForce(hideoutX, hideoutY);
+				List<Point> location = new List<Point>(); //these are for ease of use if we ever want to add containers to these existing structures
+				Point[] containers = location.ToArray();
+                StructureLoader.GetStructure("CrateStashJungle").PlaceForce(hideoutX, hideoutY, out containers);
                 placed = true;
             }
         }
@@ -1679,7 +1707,9 @@ namespace SpiritMod
                 {
                     continue;
                 }
-                StructureLoader.GetStructure("BoneGrave").PlaceForce(hideoutX, hideoutY);
+				List<Point> location = new List<Point>(); //these are for ease of use if we ever want to add containers to these existing structures
+				Point[] containers = location.ToArray();
+                StructureLoader.GetStructure("BoneGrave").PlaceForce(hideoutX, hideoutY, out containers);
                 placed = true;
             }
         }
@@ -1691,21 +1721,23 @@ namespace SpiritMod
                 int hideoutX = Main.rand.Next(50, Main.maxTilesX); // from 50 since there's a unaccessible area at the world's borders
                 int hideoutY = Main.rand.Next((int)Main.rockLayer, Main.maxTilesY);
                 Tile tile = Main.tile[hideoutX, hideoutY];
+				List<Point> location = new List<Point>(); //these are for ease of use if we ever want to add containers to these existing structures
+				Point[] containers = location.ToArray();
                 if (!tile.active() || tile.type != TileID.Stone)
                 {
                     continue;
                 }
                 if (WorldGen.genRand.Next(2) == 0)
                 {
-                    StructureLoader.GetStructure("StoneDungeon1").PlaceForce(hideoutX, hideoutY);
+                    StructureLoader.GetStructure("StoneDungeon1").PlaceForce(hideoutX, hideoutY, out containers);
                 }
                 else if (WorldGen.genRand.Next(2) == 0)
                 {
-                    StructureLoader.GetStructure("StoneDungeon2").PlaceForce(hideoutX, hideoutY);
+                    StructureLoader.GetStructure("StoneDungeon2").PlaceForce(hideoutX, hideoutY, out containers);
                 }
                 else
                 {
-                    StructureLoader.GetStructure("StoneDungeon3").PlaceForce(hideoutX, hideoutY);
+                    StructureLoader.GetStructure("StoneDungeon3").PlaceForce(hideoutX, hideoutY, out containers);
                 }
                 placed = true;
             }
@@ -1718,17 +1750,19 @@ namespace SpiritMod
                 int hideoutX = Main.rand.Next(50, Main.maxTilesX); // from 50 since there's a unaccessible area at the world's borders
                 int hideoutY = Main.rand.Next((int)Main.rockLayer, Main.maxTilesY);
                 Tile tile = Main.tile[hideoutX, hideoutY];
+				List<Point> location = new List<Point>(); //these are for ease of use if we ever want to add containers to these existing structures
+				Point[] containers = location.ToArray();
                 if (!tile.active() || tile.type != TileID.Stone)
                 {
                     continue;
                 }
                 if (WorldGen.genRand.Next(2) == 0)
                 {
-                    StructureLoader.GetStructure("PurityShrine1").PlaceForce(hideoutX, hideoutY);
+                    StructureLoader.GetStructure("PurityShrine1").PlaceForce(hideoutX, hideoutY, out containers);
                 }
                 else 
                 {
-                    StructureLoader.GetStructure("PurityShrine2").PlaceForce(hideoutX, hideoutY);
+                    StructureLoader.GetStructure("PurityShrine2").PlaceForce(hideoutX, hideoutY, out containers);
                 }
                 placed = true;
             }
@@ -3843,12 +3877,13 @@ namespace SpiritMod
                             height = 75;
                         }
 
-                        if (Main.rand.Next(3) == 0) //change to check for dungeon later, idk how rn.
+                        if (Main.rand.Next(2) == 0) //change to check for dungeon later, idk how rn.
                         {
                             x = width + 80;
                         }
                         else
                         {
+							asteroidSide = 1;
                             x = Main.maxTilesX - (width + 80);
                         }
 
@@ -3987,7 +4022,7 @@ namespace SpiritMod
             {
                 Chest chest = Main.chest[chestIndex];
                 // If you look at the sprite for Chests by extracting Tiles_21.xnb, you'll see that the 12th chest is the Ice Chest. Since we are counting from 0, this is where 11 comes from. 36 comes from the width of each tile including padding. 
-                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 11 * 28)
+                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 28 * 36)
                 {
                     for (int inventoryIndex = 0; inventoryIndex < 5; inventoryIndex++)
                     {
@@ -4003,7 +4038,7 @@ namespace SpiritMod
                             }
                             if (inventoryIndex == 1)
                             {
-                                int[] itemsToPlaceInPagodaChests2 = { ItemType<Nunchucks>(), ItemType<DynastyFan>() };
+                                int[] itemsToPlaceInPagodaChests2 = { ItemType<DynastyFan>(), ItemType<DynastyFan>() };
                                 stack = 1;
                                 chest.item[inventoryIndex].SetDefaults(Main.rand.Next(itemsToPlaceInPagodaChests2));
                                 chest.item[inventoryIndex].stack = stack;

@@ -92,18 +92,20 @@ namespace SpiritMod.Tiles.Ambient
             }
 
             //check if player has a Cryptic Crystal
-            if (Main.player[Main.myPlayer].HasItem(mod.ItemType("StarWormSummon")) && !Main.dayTime)
+			Player player = Main.player[Main.myPlayer];
+            if (player.HasItem(mod.ItemType("StarWormSummon")) && !Main.dayTime)
             {
                 //now to search for it
-                Item[] inventory = Main.player[Main.myPlayer].inventory;
+                Item[] inventory = player.inventory;
                 for (int k = 0; k < inventory.Length; k++)
                 {
                     if (inventory[k].type == mod.ItemType("StarWormSummon"))
                     {
                         //consume it, and summon the Crystal King!
                         inventory[k].stack--;
-                        NPC.SpawnOnPlayer(Main.myPlayer, mod.NPCType("SteamRaiderHead"));
-
+                        NPC.NewNPC((int)player.position.X, 50, mod.NPCType("SteamRaiderHead"), player.whoAmI);
+						Main.PlaySound(15, (int)player.position.X, (int)player.position.Y, 0);
+						Main.NewText("Starplate Voyager has awoken!", 175, 75, 255, false);
                         //and don't spam crystal kings if the player didn't ask for it :P
                         return;
                     }
