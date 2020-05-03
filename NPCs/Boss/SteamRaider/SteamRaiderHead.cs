@@ -115,6 +115,12 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 						}
 					}
 				}
+				else
+				{
+					crashY = (int)player.position.Y + 48;
+					npc.position.X = player.position.X;
+					return;
+				}
 			}
 			bool expertMode = Main.expertMode;
 			timer++;
@@ -210,7 +216,6 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				if (!tail && npc.ai[0] == 0f)
 				{
 					//Putting it here so it only goes once
-					crashY = (int)player.position.Y;
 					int current = npc.whoAmI;
 					for (int num36 = 0; num36 < maxLength; num36++)
 					{
