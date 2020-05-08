@@ -21,7 +21,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			this.minPick = 15;
 			TileObjectData.newTile.Height = 9;
 			TileObjectData.newTile.Width = 9;
-			TileObjectData.newTile.Origin = new Point16(0, 0);
+			TileObjectData.newTile.Origin = new Point16(3, 8);
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
 			TileObjectData.newTile.UsesCustomCanPlace = true;
 			TileObjectData.newTile.LavaDeath = false;

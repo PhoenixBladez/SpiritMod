@@ -14,6 +14,26 @@ namespace SpiritMod.Tiles
     {
         int[] TileArray2 = { 0, 3, 185, 186, 187, 71, 28 };
         public int tremorItem = 0;
+		public override bool CanKillTile(int i, int j, int type, ref bool blockDamaged)
+		{
+			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
+			ushort eggType = (ushort)ModContent.TileType<Ambient.AvianEgg>();
+			if (type != eggType && tileAbove.type == eggType)
+			{
+				return false;
+			}
+			  return base.CanKillTile(i, j, type, ref blockDamaged);
+		}
+		public override bool CanExplode(int i, int j, int type)
+		{
+			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
+			ushort eggType = (ushort)ModContent.TileType<Ambient.AvianEgg>();
+			if (type == eggType || tileAbove.type == eggType)
+			{
+				return false;
+			}
+			 return base.CanExplode(i, j, type);
+		}
         public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
             Player player = Main.LocalPlayer;

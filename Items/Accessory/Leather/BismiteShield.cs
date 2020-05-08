@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Accessory.Leather
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Noxious Targe");
-			Tooltip.SetDefault("Being struck by an enemy poisones them\nIncreases defense by 1 for every poisoned enemy near the player\nThis effect stacks three times");
+			Tooltip.SetDefault("Being struck by an enemy poisons them\nIncreases defense by 1 for every poisoned enemy near the player\nThis effect stacks three times");
 		}
 
         public override void SetDefaults()

@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Weapon.Swung
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Vector2 mouse = Main.MouseWorld;
-            Projectile.NewProjectile(mouse.X + Main.rand.Next(-22, 22), player.Center.Y - 1000 + Main.rand.Next(-50, 50), 0, Main.rand.Next(11, 19), type, damage, knockBack, player.whoAmI);
+            Projectile.NewProjectile(mouse.X + Main.rand.Next(-22, 22), player.Center.Y - 1000 + Main.rand.Next(-50, 50), 0, 14, type, damage, knockBack, player.whoAmI);
             return false;
         }
     }

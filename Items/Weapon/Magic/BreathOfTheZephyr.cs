@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Breath of the Zephyr");
-			Tooltip.SetDefault("Creats a mighty gust of wind to damage your foes and knock them back\nRight-click to thrust like a spear, at the cost of mana");
+			Tooltip.SetDefault("Creates a mighty gust of wind to damage your foes and knock them back\nRight-click to thrust like a spear, at the cost of mana");
 		}
 
 

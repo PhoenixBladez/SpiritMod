@@ -470,6 +470,9 @@ namespace SpiritMod
                     ushort ore = OreRoller((ushort)mod.TileType("Glowstone"), (ushort)mod.TileType("Glowstone"));
                     WorldGen.TileRunner(x, y, Main.rand.Next(2, 10), 2, ore, false, 0f, 0f, false, true);
                 }
+				List<Point> location = new List<Point>(); //these are for ease of use if we ever want to add containers to these existing structures
+				Point[] containers = location.ToArray();
+                StructureLoader.GetStructure("StarAltar").PlaceForce(basex + (int)(Main.rand.Next(0 - width, width) / 1.5f), basey + Main.rand.Next(0 - height, height), out containers);
                 success = true;
             }
 			
@@ -3753,7 +3756,7 @@ namespace SpiritMod
                         }
 
                         GenerateHideout();
-                        GenerateStarAltar();
+                        //GenerateStarAltar();
                         GenerateUndergroundAltar();
                         GeneratePagoda();
                         if (WorldGen.crimson)
