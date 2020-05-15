@@ -29,6 +29,7 @@ namespace SpiritMod.NPCs.Asteroid
 			Main.npcFrameCount[npc.type] = 1; //new
 			aiType = -1; //new
 			animationType = 10; //new
+            npc.dontCountMe = true;
 			npc.knockBackResist = 0f;
 			npc.alpha = 255;
 			npc.behindTiles = true;

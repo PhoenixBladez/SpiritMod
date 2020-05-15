@@ -16,11 +16,11 @@ namespace SpiritMod.Buffs
 		{
 			if (npc.knockBackResist > 0f)
 			{
-				npc.velocity.X *= .89f;
+				npc.velocity.X *= .995f;
                 Player player = Main.LocalPlayer;
                 if (player.GetSpiritPlayer().cryoSet = true)
                 {
-                    npc.velocity.X *= .83f;
+                    npc.velocity.X *= .90f;
                 }
 
                 if (Main.rand.NextBool(5))

@@ -169,6 +169,25 @@ namespace SpiritMod.NPCs.Asteroid
 				hasSpawnedBoys = true;
 			}
 		}
+        public override void NPCLoot()
+        {
+            if (Main.rand.Next(1) == 400)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GravityModulator"));
+            }
+            if (Main.rand.Next(1) == 50)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ShieldCore"));
+            }
+            string[] lootTable = { "AstronautLegs", "AstronautHelm", "AstronautBody" };
+            if (Main.rand.Next(40) == 0)
+            {
+                int loot = Main.rand.Next(lootTable.Length);
+                {
+                    npc.DropItem(mod.ItemType(lootTable[loot]));
+                }
+            }
+        }
         public override void HitEffect(int hitDirection, double damage)
         {
             int d = 1;

@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Armor.MarbleArmor
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Marble Guard");
+			DisplayName.SetDefault("Gilded Robe");
             Tooltip.SetDefault("");
 
         }

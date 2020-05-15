@@ -60,7 +60,7 @@ namespace SpiritMod.NPCs.Critters
 		public override bool PreAI()
 		{
 			Player player = Main.player[npc.target];
-			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), .92f, .632f, 1.71f);
+			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), .92f/2, .632f/2, 1.71f/2);
 			{
 				Player target = Main.player[npc.target];
 				int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));

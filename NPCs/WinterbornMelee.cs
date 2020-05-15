@@ -19,23 +19,24 @@ namespace SpiritMod.NPCs
 		public override void SetDefaults()
 		{
 			npc.width = 24;
-			npc.height = 42;
-			npc.damage = 27;
-			npc.defense = 8;
-			npc.lifeMax = 95;
+			npc.height = 46;
+			npc.damage = 30;
+			npc.defense = 11;
+			npc.lifeMax = 115;
 			npc.HitSound = SoundID.NPCDeath15;
 			npc.DeathSound = SoundID.NPCDeath6;
-			npc.value = 69f;
+			npc.value = 189f;
 			npc.buffImmune[BuffID.OnFire] = true;
 			npc.buffImmune[BuffID.Frostburn] = true;
-			npc.knockBackResist = .4f;
+            npc.buffImmune[mod.BuffType("CryoCrush")] = true;
+            npc.knockBackResist = .01f;
 			npc.aiStyle = 3;
 			aiType = NPCID.ArmoredViking;
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.spawnTileY > Main.rockLayer && spawnInfo.player.ZoneSnow ? 0.09f : 0f;
+			return NPC.downedBoss3 && ((spawnInfo.spawnTileY > Main.rockLayer && spawnInfo.player.ZoneSnow) || (spawnInfo.player.ZoneSnow && Main.raining && spawnInfo.player.ZoneOverworldHeight))  ? 0.12f : 0f;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
@@ -53,8 +54,6 @@ namespace SpiritMod.NPCs
 			{
 				{
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore1"), 1f);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore2"), 1f);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore2"), 1f);
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore2"), 1f);
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore2"), 1f);
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore3"), 1f);
@@ -103,7 +102,11 @@ namespace SpiritMod.NPCs
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			target.AddBuff(BuffID.Frostburn, 300);
+			target.AddBuff(BuffID.Chilled, 300);
+            if (Main.rand.Next(5) == 0)
+            {
+                target.AddBuff(BuffID.Frozen, 120);
+            }
 		}
 
 		public override void AI()
@@ -115,7 +118,7 @@ namespace SpiritMod.NPCs
 
 		public override void NPCLoot()
 		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("FrigidFragment"), Main.rand.Next(1) + 1);
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CryoliteOre"), 2 + Main.rand.Next(2, 4));
 		}
 	}
 }

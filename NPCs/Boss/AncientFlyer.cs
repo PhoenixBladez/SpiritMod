@@ -102,8 +102,8 @@ namespace SpiritMod.NPCs.Boss
 				Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 2);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
-				direction.X *= 14f;
-				direction.Y *= 14f;
+				direction.X *= 11f;
+				direction.Y *= 11f;
 
 				int amountOfProjectiles = Main.rand.Next(8, 11);
 				for (int i = 0; i < amountOfProjectiles; ++i)
@@ -124,8 +124,8 @@ namespace SpiritMod.NPCs.Boss
 
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
 					direction.Normalize();
-					direction.X *= 15f;
-					direction.Y *= 15f;
+					direction.X *= 11.5f;
+					direction.Y *= 11.5f;
 
 					int amountOfProjectiles = Main.rand.Next(5, 9);
 					for (int i = 0; i < amountOfProjectiles; ++i)

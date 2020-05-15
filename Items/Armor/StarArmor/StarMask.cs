@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Armor.StarArmor
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Starplate Crown");
+			DisplayName.SetDefault("Astralite Visor");
             Tooltip.SetDefault("Increases ranged damage by 5%\nLeave a trail of stars where you walk");
             SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/StarArmor/StarMask_Glow");
         }

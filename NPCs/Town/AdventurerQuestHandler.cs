@@ -50,8 +50,8 @@ namespace SpiritMod.NPCs.Town
                 " I'm still vacationing. Just bring back the staff and show it to me, and I'll reward ya handsomely.",
 
                 "Hope those goblins didn't give you too much trouble, heh." +
-                "Wow, look at that craftwork! It's supposed to be real powerful, too." +
-                "So maybe you won't get killed while you're out there adventuring, yeah?", false);
+                " Wow, look at that craftwork! It's supposed to be real powerful, too." +
+                " So maybe you won't get killed while you're out there adventuring, yeah?", false);
             ShadowflameStaff.CanGiveQuest = () =>
             {
                 return MyWorld.gennedTower && !MyWorld.gennedBandits;

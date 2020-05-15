@@ -182,21 +182,21 @@ namespace SpiritMod
             if (spirit.ZoneSpirit)
             {
                 priority = MusicPriority.BiomeMedium;
-                if (!player.ZoneOverworldHeight)
+                if (player.ZoneRockLayerHeight && player.position.Y / 16 < (Main.rockLayer + Main.maxTilesY - 330) / 2f)
                 {
-                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritUnderground");
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer1");
                 }
-                else
+                if (player.ZoneRockLayerHeight && player.position.Y / 16 > (Main.rockLayer + Main.maxTilesY - 330) / 2f)
                 {
-                    if (Main.dayTime)
-                    {
-                        music = GetSoundSlot(SoundType.Music, "Sounds/Music/spirit_overworld");
-                    }
-                    else
-
-                    {
-                        music = GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritNighttime");
-                    }
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer2");
+                }
+                if (player.position.Y / 16 >= Main.maxTilesY - 300)
+                {
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer3");
+                }
+                if (!player.ZoneRockLayerHeight && player.position.Y / 16 < (Main.rockLayer + Main.maxTilesY - 330) / 2f)
+                {
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritOverworld");
                 }
             }
         }
@@ -328,7 +328,6 @@ namespace SpiritMod
             LoadReferences();
             AdventurerQuests = new AdventurerQuestHandler(this);
             StructureLoader.Load(this);
-            HookManager.Init();
             instance = this;
             if (Main.rand == null)
                 Main.rand = new Terraria.Utilities.UnifiedRandom();
@@ -337,9 +336,14 @@ namespace SpiritMod
             Items.Halloween.CandyBag.Initialize();
 
 
-            Filters.Scene["SpiritMod:SpiritSky"] = new Filter(new ScreenShaderData("FilterMiniTower").UseColor(0f, 0.25f, .5f).UseOpacity(0.15f), EffectPriority.High);
             Filters.Scene["SpiritMod:BlueMoonSky"] = new Filter(new ScreenShaderData("FilterMiniTower").UseColor(0f, 0.3f, 1f).UseOpacity(0.75f), EffectPriority.High);
+
             Filters.Scene["SpiritMod:ReachSky"] = new Filter(new ScreenShaderData("FilterBloodMoon").UseColor(0.05f, 0.05f, .05f).UseOpacity(0.7f), EffectPriority.High);
+
+            Filters.Scene["SpiritMod:SpiritUG1"] = new Filter(new ScreenShaderData("FilterBloodMoon").UseColor(0.2f, 0.2f, .2f).UseOpacity(0.8f), EffectPriority.High);
+            Filters.Scene["SpiritMod:SpiritUG2"] = new Filter(new ScreenShaderData("FilterBloodMoon").UseColor(0.45f, 0.45f, .45f).UseOpacity(0.9f), EffectPriority.High);
+
+
             Filters.Scene["SpiritMod:WindEffect"] = new Filter((new BlizzardShaderData("FilterBlizzardForeground")).UseColor(0.4f, 0.4f, 0.4f).UseSecondaryColor(0.2f, 0.2f, 0.2f).UseImage("Images/Misc/noise", 0, null).UseOpacity(0.249f).UseImageScale(new Vector2(3f, 0.75f), 0), EffectPriority.High);
             Filters.Scene["SpiritMod:WindEffect2"] = new Filter((new BlizzardShaderData("FilterBlizzardForeground")).UseColor(0.4f, 0.4f, 0.4f).UseSecondaryColor(0.2f, 0.2f, 0.2f).UseImage("Images/Misc/noise", 0, null).UseOpacity(0.549f).UseImageScale(new Vector2(3f, 0.75f), 0), EffectPriority.High);
 
@@ -359,7 +363,12 @@ namespace SpiritMod
                 Terraria.Graphics.Effects.Overlays.Scene["SpiritMod:AuroraSky"] = new AuroraOverlay();
 
                 SkyManager.Instance["SpiritMod:MeteorSky"] = new MeteorSky();
+                SkyManager.Instance["SpiritMod:AsteroidSky2"] = new MeteorBiomeSky2();
                 Filters.Scene["SpiritMod:MeteorSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
+                Filters.Scene["SpiritMod:AsteroidSky2"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
+
+                SkyManager.Instance["SpiritMod:SpiritBiomeSky"] = new SpiritBiomeSky();
+                Filters.Scene["SpiritMod:SpiritBiomeSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
 
                 SkyManager.Instance["SpiritMod:AshstormParticles"] = new AshstormSky();
                 Filters.Scene["SpiritMod:AshstormParticles"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
@@ -367,8 +376,7 @@ namespace SpiritMod
 
                 Filters.Scene["SpiritMod:Overseer"] = new Filter(new SeerScreenShaderData("FilterMiniTower").UseColor(0f, 0.3f, 1f).UseOpacity(0.75f), EffectPriority.VeryHigh);
                 SkyManager.Instance["SpiritMod:Overseer"] = new SeerSky();
-                Filters.Scene["SpiritMod:IlluminantMaster"] = new Filter(new SeerScreenShaderData("FilterMiniTower").UseColor(1.2f, 0.1f, 1f).UseOpacity(0.75f), EffectPriority.VeryHigh);
-                SkyManager.Instance["SpiritMod:IlluminantMasterr"] = new SeerSky();
+
                 Filters.Scene["SpiritMod:Atlas"] = new Filter(new AtlasScreenShaderData("FilterMiniTower").UseColor(0.5f, 0.5f, 0.5f).UseOpacity(0.6f), EffectPriority.VeryHigh);
                 SkyManager.Instance["SpiritMod:Atlas"] = new AtlasSky();
             }
@@ -628,6 +636,98 @@ namespace SpiritMod
             Microsoft.Xna.Framework.Color white = Microsoft.Xna.Framework.Color.White;
             Microsoft.Xna.Framework.Color white2 = Microsoft.Xna.Framework.Color.White;
             Player player = Main.LocalPlayer;
+            if (MyWorld.SpiritTiles > 0)
+            {
+                float num255 = (float)MyWorld.SpiritTiles / 160f;
+                if (num255 > MyWorld.spiritLight)
+                {
+                    MyWorld.spiritLight += 0.01f;
+                }
+                if (num255 < MyWorld.spiritLight)
+                {
+                    MyWorld.spiritLight -= 0.01f;
+                }
+            }
+            else
+            {
+                MyWorld.spiritLight -= 0.02f;
+            }
+            if (MyWorld.spiritLight < 0f)
+            {
+                MyWorld.spiritLight = 0f;
+            }
+            if (MyWorld.spiritLight > 1f)
+            {
+                MyWorld.spiritLight = 1f;
+            }
+            if (MyWorld.spiritLight > 0f)
+            {
+                float num161 = MyWorld.spiritLight;
+                int num160 = Main.bgColor.R;
+                int num159 = Main.bgColor.G;
+                int num158 = Main.bgColor.B;
+                num159 -= (int)(250f/ 1.14f * num161 * ((float)(int)Main.bgColor.G / 255f));
+                num160 -= (int)(250f/ 1.14f * num161 * ((float)(int)Main.bgColor.R / 255f));
+                num158 -= (int)(250f/ 1.14f * num161 * ((float)(int)Main.bgColor.B / 255f));
+                if (num159 < 15)
+                {
+                    num159 = 15;
+                }
+                if (num160 < 15)
+                {
+                    num160 = 15;
+                }
+                if (num158 < 15)
+                {
+                    num158 = 15;
+                }
+                Main.bgColor.R = (byte)num160;
+                Main.bgColor.G = (byte)num159;
+                Main.bgColor.B = (byte)num158;
+                num160 = white.R;
+                num159 = white.G;
+                num158 = white.B;
+                num159 -= (int)(10f/ 1.14f * num161 * ((float)(int)white.G / 255f));
+                num160 -= (int)(30f/ 1.14f * num161 * ((float)(int)white.R / 255f));
+                num158 -= (int)(10f/ 1.14f * num161 * ((float)(int)white.B / 255f));
+                if (num160 < 15)
+                {
+                    num160 = 15;
+                }
+                if (num159 < 15)
+                {
+                    num159 = 15;
+                }
+                if (num158 < 15)
+                {
+                    num158 = 15;
+                }
+                white.R = (byte)num160;
+                white.G = (byte)num159;
+                white.B = (byte)num158;
+                num160 = white2.R;
+                num159 = white2.G;
+                num158 = white2.B;
+                num159 -= (int)(140f/1.14f * num161 * ((float)(int)white2.R / 255f));
+                num160 -= (int)(170f/1.14f * num161 * ((float)(int)white2.G / 255f));
+                num158 -= (int)(190f/1.14f * num161 * ((float)(int)white2.B / 255f));
+                if (num160 < 15)
+                {
+                    num160 = 15;
+                }
+                if (num159 < 15)
+                {
+                    num159 = 15;
+                }
+                if (num158 < 15)
+                {
+                    num158 = 15;
+                }
+                white2.R = (byte)num160;
+                white2.G = (byte)num159;
+                white2.B = (byte)num158;
+            }
+       
             if (MyWorld.AsteroidTiles > 0)
             {
                 float num255 = (float)MyWorld.AsteroidTiles / 160f;
@@ -719,7 +819,9 @@ namespace SpiritMod
                 white2.G = (byte)num159;
                 white2.B = (byte)num158;
             }
+            
         }
+        
 
         const int ShakeLength = 5;
         int ShakeCount = 0;

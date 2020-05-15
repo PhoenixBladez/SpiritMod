@@ -39,10 +39,18 @@ namespace SpiritMod.Items.DonatorItems
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(2123, 1);
             recipe.AddIngredient(320, 10);
-			 recipe.AddIngredient(165, 1);
+			recipe.AddIngredient(165, 1);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();
+
+            ModRecipe recipe1 = new ModRecipe(mod);
+            recipe1.AddIngredient(2122, 1);
+            recipe1.AddIngredient(320, 10);
+            recipe1.AddIngredient(165, 1);
+            recipe1.AddTile(TileID.Anvils);
+            recipe1.SetResult(this, 1);
+            recipe1.AddRecipe();
         }
     }
 }

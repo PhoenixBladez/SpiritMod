@@ -17,8 +17,8 @@ namespace SpiritMod.Projectiles.Sword
 
 		public override void SetDefaults()
 		{
-			projectile.width = 20;
-			projectile.height = 26;
+			projectile.width = 10;
+			projectile.height = 16;
 			projectile.friendly = true;
 			projectile.melee = true;
 			projectile.tileCollide = true;
@@ -30,9 +30,8 @@ namespace SpiritMod.Projectiles.Sword
 
 		public override void AI()
 		{
-			projectile.rotation += 0.1f;
-
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 167, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+            projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+            int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 167, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 167, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust2].noGravity = true;

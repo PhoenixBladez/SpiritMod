@@ -234,6 +234,18 @@ namespace SpiritMod.NPCs.Asteroid
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GateStaff"), 1);
 			}
-		}
+            if (Main.rand.Next(1) == 400)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GravityModulator"));
+            }
+            string[] lootTable = { "AstronautLegs", "AstronautHelm", "AstronautBody" };
+            if (Main.rand.Next(40) == 0)
+            {
+                int loot = Main.rand.Next(lootTable.Length);
+                {
+                    npc.DropItem(mod.ItemType(lootTable[loot]));
+                }
+            }
+        }
 	}
 }

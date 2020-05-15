@@ -41,7 +41,7 @@ namespace SpiritMod.NPCs.Ocean
             if (target.wet)
             {
                 npc.noGravity = false;
-                npc.spriteDirection = -(int)(1 * npc.velocity.X);
+                npc.spriteDirection = -npc.direction;
 
                 timer++;
                 dashtimer++;
@@ -68,7 +68,7 @@ namespace SpiritMod.NPCs.Ocean
             }
             else
             {
-                npc.spriteDirection = npc.direction;
+                npc.spriteDirection = -npc.direction;
                 npc.aiStyle = 16;
                 npc.noGravity = true;
                 aiType = NPCID.Goldfish;

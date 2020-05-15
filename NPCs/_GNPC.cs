@@ -735,12 +735,9 @@ namespace SpiritMod.NPCs
                 if (spawnInfo.player.GetSpiritPlayer().ZoneAsteroid)
                 {
                     pool.Clear();
-                    pool.Add(mod.NPCType("DeepspaceHopper"), .85f);
-                    pool.Add(mod.NPCType("AstralAmalgram"), 0.38f);
-                    if (NPC.downedBoss2)
-                    {
-                        pool.Add(mod.NPCType("Mineroid"), 0.55f);
-                    }
+                    pool.Add(mod.NPCType("DeepspaceHopper"), .55f);
+                    pool.Add(mod.NPCType("AstralAmalgram"), 0.24f);
+                    pool.Add(mod.NPCType("Mineroid"), 0.3f);
                     if (NPC.downedBoss3)
                     {
                         pool.Add(mod.NPCType("CogTrapperHead"), 0.25f);

@@ -25,9 +25,10 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		public float speed = 10.5f;
 		public float turnSpeed = 0.19f;
 		public bool tail = false;
-		public int minLength = 54;
-        public int midLength = 56;
-        public int maxLength = 57;
+		public int minLength = 46;
+        public int midLength = 48;
+        public int maxLength = 49;
+        public bool spawnedProbes = false;
 		bool charging = true;
 		int crashY = 1000;
 		int musicTimer = 0;
@@ -39,7 +40,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		public override void SetDefaults()
 		{
 			npc.damage = 50; //150
-			npc.npcSlots = 5f;
+			npc.npcSlots = 20f;
 			bossBag = mod.ItemType("SteamRaiderBag");
 			npc.width = 64; //324
 			npc.height = 56; //216
@@ -115,14 +116,14 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 						}
 					}
 				}
-				else
-				{
-					crashY = (int)player.position.Y + 48;
-					npc.position.X = player.position.X;
-					return;
-				}
 			}
-			bool expertMode = Main.expertMode;
+            else
+            {
+                crashY = (int)player.position.Y + 48;
+                npc.position.X = player.position.X;
+                return;
+            }
+            bool expertMode = Main.expertMode;
 			timer++;
 			if (timer == 100|| timer == 400)
 			{
@@ -165,8 +166,18 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			}
 			else
 			{
+                Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
+                if (!spawnedProbes)
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        int newNPC = NPC.NewNPC((int)npc.position.X + Main.rand.Next(-100, 100), (int)npc.position.Y + Main.rand.Next(-100, 100), mod.NPCType("BodyProbe"));
+                        spawnedProbes = true;
+                        npc.netUpdate = true;
+                    }
+                }
                 unstableprojtimer++;
-				if (unstableprojtimer >= 50)
+				if (unstableprojtimer >= 30)
 				{
                     unstableprojtimer = 0;
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
@@ -183,12 +194,9 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 						Main.projectile[p].timeLeft = 240;
 					}
 				}
+                chargetimer = 702;
 				charge = true;
 				
-			}
-			if (npc.life == npc.lifeMax * .25)
-			{
-				Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
 			}
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.075f, 0.25f);
 			if (npc.ai[3] > 0f)
@@ -215,7 +223,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			{
 				if (!tail && npc.ai[0] == 0f)
 				{
-					//Putting it here so it only goes once
+
 					int current = npc.whoAmI;
 					for (int num36 = 0; num36 < maxLength; num36++)
 					{

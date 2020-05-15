@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bismite Staff");
-			Tooltip.SetDefault("Shoots a bolt of energy\nOccasionally poisons foes");
+			Tooltip.SetDefault("Shoots a bolt of energy\nOccasionally causes foes to receive 'Festering Wounds,' which deal more damage to foes under half health");
 		}
 
 
@@ -31,11 +31,11 @@ namespace SpiritMod.Items.Weapon.Magic
             item.noMelee = true;
             item.knockBack = 0;
             item.value = Terraria.Item.sellPrice(0, 0, 20, 0);
-            item.rare = 2;
+            item.rare = 1;
             item.UseSound = SoundID.Item20;
             item.autoReuse = false;
             item.shoot = mod.ProjectileType("BismiteShard");
-            item.shootSpeed = 50f;
+            item.shootSpeed = 8f;
         }
 
         public override void AddRecipes()

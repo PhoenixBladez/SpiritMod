@@ -53,12 +53,22 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		bool jump;
 		int npcCounter;		
 		int jumpstacks;
-		
-		public override bool PreAI()
+
+        public override bool PreAI()
 		{
             npc.TargetClosest(true);
 			npc.spriteDirection = npc.direction;
 			Player player = Main.player[npc.target];
+            if (!player.ZoneDesert)
+            {
+                npc.defense = 50;
+                npc.damage = 60;
+            }
+            else
+            {
+                npc.damage = 30;
+                npc.defense = 14;
+            }
 			bool expertMode = Main.expertMode;
 			bool rage = (double)npc.life <= (double)npc.lifeMax * 0.2;
 			if (rage)
@@ -278,12 +288,6 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			{
 				{
 					npc.TargetClosest(true);
-					if (!player.ZoneDesert)
-					{
-                        wormAI = true;
-						npc.damage = 50;
-                        Counter = 0;
-					}
 					if (Counter == 60)
 					{
                         Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
@@ -557,8 +561,9 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			}
 			else if (npc.life <= 800)
 			{
-				npc.noGravity = true;
+                npc.noGravity = true;
 				npcCounter++;
+
 				if (npcCounter == 300 || npcCounter == 400 || npcCounter == 500 ||npcCounter == 600)
 				{
 					Vector2 vector2_2 = Vector2.UnitY.RotatedByRandom(1.57079637050629f) * new Vector2(5f, 3f);
@@ -575,7 +580,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				{
 					charge = false;
 				}
-				if (npcCounter >= 2240)
+                if (npcCounter >= 2240)
 				{
 					npcCounter = 0;
 				}
@@ -597,12 +602,11 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				{
 					frame = 5;
 				}
-				if (!charge)
 				{
                     npc.aiStyle = 44;
                     aiType = NPCID.FlyingAntlion;
                 }
-				else
+                if (charge)
                 {
                     npc.velocity *= 0f;
                     Vector2 direction = Main.player[npc.target].Center - npc.Center;

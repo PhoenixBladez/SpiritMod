@@ -31,8 +31,8 @@ namespace SpiritMod.NPCs.Reach
 			npc.knockBackResist = 0.05f;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
-			npc.aiStyle = 22;
-			aiType = NPCID.Wraith;
+			npc.aiStyle = 44;
+			aiType = NPCID.FlyingAntlion;
 		}
 
 		public override void FindFrame(int frameHeight)
@@ -98,12 +98,12 @@ namespace SpiritMod.NPCs.Reach
 				npc.defense = 10;
                 Vector2 direction = Main.player[npc.target].Center - npc.Center;
                 direction.Normalize();
-                Main.PlaySound(SoundID.DD2_WyvernDiveDown, npc.Center);
+                Main.PlaySound(SoundID.Roar, npc.Center);
                 direction.X = direction.X * Main.rand.Next(6, 9);
                 direction.Y = direction.Y * Main.rand.Next(6, 9);
                 npc.velocity.X = direction.X;
                 npc.velocity.Y = direction.Y;
-                npc.velocity *= 0.98f;
+                npc.velocity *= 0.97f;
                 timer = 0;
                 npc.netUpdate = true;
             }

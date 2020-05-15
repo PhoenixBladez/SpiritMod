@@ -20,10 +20,10 @@ namespace SpiritMod.NPCs
 
 		public override void SetDefaults()
 		{
-			npc.width = 24;
+			npc.width = 30;
 			npc.height = 44;
 
-			npc.lifeMax = 80;
+			npc.lifeMax = 112;
 			npc.defense = 6;
 			npc.damage = 34;
 
@@ -31,8 +31,9 @@ namespace SpiritMod.NPCs
 			npc.DeathSound = SoundID.NPCDeath6;
 			npc.buffImmune[BuffID.OnFire] = true;
 			npc.buffImmune[BuffID.Frostburn] = true;
-			npc.value = 89f;
-			npc.knockBackResist = 0.45f;
+            npc.buffImmune[mod.BuffType("CryoCrush")] = true;
+            npc.value = 289f;
+			npc.knockBackResist = 0.15f;
 			npc.noGravity = false;
 			npc.netAlways = true;
 			npc.chaseable = false;
@@ -41,8 +42,8 @@ namespace SpiritMod.NPCs
 
 		public override void NPCLoot()
 		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("FrigidFragment"), Main.rand.Next(1) + 1);
-			if(Main.rand.Next(2) == 0)
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CryoliteOre"), 1 + Main.rand.Next(2, 4));
+			if(Main.rand.Next(5) == 0)
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("WintryCharmMage"));
 		}
 
@@ -106,22 +107,32 @@ namespace SpiritMod.NPCs
 				--npc.ai[1];
 				if (npc.ai[1] == 15)
 				{
-					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 30);
-					if (Main.netMode != 1)
+                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
+                    if (Main.netMode != 1)
 					{
                         Vector2 direction = Main.player[npc.target].Center - npc.Center;
                         direction.Normalize();
-                        direction.X *= 3f;
-                        direction.Y *= 3f;		
+                        direction.X *= 4.9f;
+                        direction.Y *= 4.9f;		
 					    int amountOfProjectiles = 1;
                         for (int i = 0; i < amountOfProjectiles; ++i)
                         {
-                            
-                            int somedamage = expertMode ? 16 : 34;
-                            int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, 118, somedamage, 1, Main.myPlayer, 0, 0);
-                            Main.projectile[p].hostile = true;
-                            Main.projectile[p].friendly = false;
-                            Main.projectile[p].tileCollide = false;
+                            if (Main.rand.Next(2) == 0)
+                            {
+                                int somedamage = expertMode ? 15 : 30;
+                                int p = Projectile.NewProjectile(Main.player[npc.target].Center.X, Main.player[npc.target].Center.Y - 100, 0, 0  , mod.ProjectileType("IceCloudHostile"), somedamage, 1, Main.myPlayer, 0, 0);
+                                Main.projectile[p].hostile = true;
+                                Main.projectile[p].friendly = false;
+                                Main.projectile[p].tileCollide = false;
+                            }
+                            else
+                            {
+                                int somedamage = expertMode ? 17 : 34;
+                                int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, 118, somedamage, 1, Main.myPlayer, 0, 0);
+                                Main.projectile[p].hostile = true;
+                                Main.projectile[p].friendly = false;
+                                Main.projectile[p].tileCollide = false;
+                            }
                         }
 					}
 				}
@@ -207,11 +218,11 @@ namespace SpiritMod.NPCs
 			npc.spriteDirection = npc.direction;
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			return spawnInfo.spawnTileY > Main.rockLayer && spawnInfo.player.ZoneSnow ? 0.02f : 0f;
-		}
-		public override void HitEffect(int hitDirection, double damage)
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return NPC.downedBoss3 && ((spawnInfo.spawnTileY > Main.rockLayer && spawnInfo.player.ZoneSnow) || (spawnInfo.player.ZoneSnow && Main.raining && spawnInfo.player.ZoneOverworldHeight)) ? 0.035f : 0f;
+        }
+        public override void HitEffect(int hitDirection, double damage)
 		{
 			int d = 206;
 			int d1 = 187;
@@ -228,11 +239,11 @@ namespace SpiritMod.NPCs
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore1"), 1f);
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore2"), 1f);
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore2"), 1f);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore2"), 1f);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore2"), 1f);
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore3"), 1f);
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore3"), 1f);
-				}
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore4"), 1f);
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore5"), 1f);
+                }
 				npc.position.X = npc.position.X + (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
 				npc.width = 30;

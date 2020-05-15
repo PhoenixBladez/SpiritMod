@@ -14,7 +14,7 @@ namespace SpiritMod.NPCs.Dungeon
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Illusionist's Spectre");
+			DisplayName.SetDefault("Ghast's Spectre");
 			Main.npcFrameCount[npc.type] = 5;
             NPCID.Sets.TrailCacheLength[npc.type] = 3;
             NPCID.Sets.TrailingMode[npc.type] = 0;

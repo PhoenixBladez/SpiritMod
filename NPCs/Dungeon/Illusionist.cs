@@ -14,7 +14,7 @@ namespace SpiritMod.NPCs.Dungeon
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Illusionist");
+			DisplayName.SetDefault("Ghast");
 			Main.npcFrameCount[npc.type] = 5;
 		}
 
@@ -184,14 +184,26 @@ namespace SpiritMod.NPCs.Dungeon
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.spawnTileType == TileID.BlueDungeonBrick && NPC.CountNPCS(mod.NPCType("Illusionist")) < 1)
-            {
-                return spawnInfo.player.ZoneDungeon ? 0.06f : 0f;
-            }
-            return spawnInfo.player.ZoneDungeon && NPC.CountNPCS(mod.NPCType("Illusionist")) < 1 ? 0.01f : 0f;
+            return spawnInfo.player.ZoneDungeon && NPC.CountNPCS(mod.NPCType("Illusionist")) < 1 ? 0.05f : 0f;
         }
         public override void NPCLoot()
         {
+            if (Main.rand.Next(1) == 153)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GoldenKey);
+            }
+            if (Main.rand.Next(1) == 75)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Nazar);
+            }
+            if (Main.rand.Next(1) == 100)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.TallyCounter);
+            }
+            if (Main.rand.Next(4) == 1000)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BoneWand);
+            }
             if (Main.rand.Next(20) == 1)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("IllusionistEye"));

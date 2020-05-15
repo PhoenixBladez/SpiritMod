@@ -104,8 +104,8 @@ namespace SpiritMod.NPCs.Town
             dialogue.AddWithCondition("A shimmering blue light's on the horizon. Wonder what that's about, huh?", NPC.downedMechBossAny);
             dialogue.AddWithCondition("Like the moon, my merchandise is inconstant.", !Main.dayTime);
             dialogue.AddWithCondition("Everyone seems to be so aggressive tonight. With the zombies knocking at our door, I think you should buy stuff and head underground as quick as you can. Can you take me with you?", Main.bloodMoon);
-            dialogue.AddWithCondition("The goblins are more organized than you'd think- I saw their mages build a huge tower over yonder. You should check it out sometime!", MyWorld.gennedTower);
-            dialogue.AddWithCondition("My old business partner turned to the bandit life a few years ago. I wonder if he's doing okay. I think his associates have set up a bandit camp somewhere near the seas.", !MyWorld.gennedTower);
+            dialogue.AddWithCondition("The goblins are more organized than you'd think- I saw their mages build a huge tower over yonder. You should check it out sometime!", MyWorld.gennedTower && !NPC.AnyNPCs(mod.NPCType("Rogue")) && NPC.AnyNPCs(mod.NPCType("BoundRogue")));
+            dialogue.AddWithCondition("My old business partner turned to the bandit life a few years ago. I wonder if he's doing okay. I think his associates have set up a bandit camp somewhere near the seas.", !MyWorld.gennedTower && !NPC.AnyNPCs(mod.NPCType("Rogue")) && NPC.AnyNPCs(mod.NPCType("BoundRogue")));
 
             return Main.rand.Next(dialogue);
         }
@@ -129,11 +129,10 @@ namespace SpiritMod.NPCs.Town
             AddItem(ref shop, ref nextSlot, ItemID.TrapsightPotion, 2000);
             AddItem(ref shop, ref nextSlot, ItemID.DartTrap, 5000);
             AddItem(ref shop, ref nextSlot, ItemID.TreasureMap, 50000);
-            AddItem(ref shop, ref nextSlot, ItemID.PinkJellyfish, 45000, NPC.FindFirstNPC(NPCID.Angler) >= 0);
+            AddItem(ref shop, ref nextSlot, ItemID.PinkJellyfish, 25000, NPC.FindFirstNPC(NPCID.Angler) >= 0);
             AddItem(ref shop, ref nextSlot, ItemType<GoldSword>());
             AddItem(ref shop, ref nextSlot, ItemType<PlatinumSword>());
             AddItem(ref shop, ref nextSlot, ItemType<ManaFlame>());
-            AddItem(ref shop, ref nextSlot, ItemType<RedMapPin>(), 30000);
             AddItem(ref shop, ref nextSlot, ItemID.WhoopieCushion, 15000, NPC.downedBoss2);
             AddItem(ref shop, ref nextSlot, ItemID.BottledHoney, 5000, NPC.downedQueenBee);
             AddItem(ref shop, ref nextSlot, ItemID.Book, 20, NPC.downedBoss3);
@@ -141,6 +140,8 @@ namespace SpiritMod.NPCs.Town
             AddItem(ref shop, ref nextSlot, ItemType<SkullStick>(), 1000, Main.LocalPlayer.GetSpiritPlayer().ZoneReach);
             AddItem(ref shop, ref nextSlot, ItemType<AncientBark>(), 200, Main.LocalPlayer.GetSpiritPlayer().ZoneReach);
             AddItem(ref shop, ref nextSlot, ItemType<PolymorphGun>(), check: NPC.downedMechBossAny);
+            AddItem(ref shop, ref nextSlot, ItemType<RedMapPin>(), 5000);
+            AddItem(ref shop, ref nextSlot, ItemType<BlueMapPin>(), 5000);
         }
 
         public override void TownNPCAttackStrength(ref int damage, ref float knockback)

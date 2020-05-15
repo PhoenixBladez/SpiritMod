@@ -22,7 +22,8 @@ namespace SpiritMod.Tiles
 			{
 				return false;
 			}
-			  return base.CanKillTile(i, j, type, ref blockDamaged);
+
+            return base.CanKillTile(i, j, type, ref blockDamaged);
 		}
 		public override bool CanExplode(int i, int j, int type)
 		{
@@ -91,6 +92,10 @@ namespace SpiritMod.Tiles
                 {
                     NPC.NewNPC(i * 16, (j - 10) * 16, mod.NPCType("OceanSlime"), 0, 0.0f, 0.0f, 0.0f, 0.0f, (int)byte.MaxValue);
                 }
+            }
+            if (type == 72)
+            {
+                Item.NewItem(i * 16, j * 16, 64, 48, mod.ItemType("GlowRoot"), Main.rand.Next(0, 2));
             }
             return base.Drop(i, j, type);
         }

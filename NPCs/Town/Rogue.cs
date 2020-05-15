@@ -117,27 +117,25 @@ namespace SpiritMod.NPCs.Town
 
 		public override void SetupShop(Chest shop, ref int nextSlot)
 		{
-			AddItem(ref shop, ref nextSlot, ItemType<IronShuriken>());
-			AddItem(ref shop, ref nextSlot, ItemType<LeadShuriken>());
+			AddItem(ref shop, ref nextSlot, ItemID.Shuriken);
 			AddItem(ref shop, ref nextSlot, ItemType<RogueHood>());
 			AddItem(ref shop, ref nextSlot, ItemType<RoguePlate>());
 			AddItem(ref shop, ref nextSlot, ItemType<RoguePants>());
-			AddItem(ref shop, ref nextSlot, ItemType<AssassinMagazine>());
-			AddItem(ref shop, ref nextSlot, ItemType<Eyeball>(), check: NPC.downedBoss1);
+            AddItem(ref shop, ref nextSlot, ItemType<Eyeball>(), check: NPC.downedBoss1);
 			AddItem(ref shop, ref nextSlot, ItemType<EoWDagger>(), check: NPC.downedBoss2);
 			AddItem(ref shop, ref nextSlot, ItemType<BoCShuriken>(), check: NPC.downedBoss2);
-			AddItem(ref shop, ref nextSlot, ItemType<GoldShuriken>(), check: NPC.downedBoss2);
-			AddItem(ref shop, ref nextSlot, ItemType<PlatinumShuriken>(), check: NPC.downedBoss2);
 			AddItem(ref shop, ref nextSlot, ItemType<SkeletronHand>(), check: NPC.downedBoss3);
 			AddItem(ref shop, ref nextSlot, ItemType<TwilightBlades>(), check: NPC.downedMechBossAny);
 			AddItem(ref shop, ref nextSlot, ItemType<MechKnife>(), check: NPC.downedMechBossAny);
 			AddItem(ref shop, ref nextSlot, ItemType<DuskStone1>(), check: MyWorld.downedRaider);
 			AddItem(ref shop, ref nextSlot, ItemType<ThornbloomKnife>(), check: NPC.downedPlantBoss);
-			AddItem(ref shop, ref nextSlot, ItemType<ShurikenLauncher>());
+            AddItem(ref shop, ref nextSlot, ItemType<PlagueVial>(), check: Main.hardMode);
+            AddItem(ref shop, ref nextSlot, ItemType<BladeOfNoah>(), check: Main.hardMode);
+            AddItem(ref shop, ref nextSlot, ItemType<ShurikenLauncher>());
 			AddItem(ref shop, ref nextSlot, ItemType<SwiftRune>());
-			AddItem(ref shop, ref nextSlot, ItemType<PlagueVial>(), check: Main.hardMode);
-			AddItem(ref shop, ref nextSlot, ItemType<BladeOfNoah>(), check: Main.hardMode);
-		}
+            AddItem(ref shop, ref nextSlot, ItemType<AssassinMagazine>());
+            AddItem(ref shop, ref nextSlot, ItemType<Dartboard>());
+        }
 
 		public override void TownNPCAttackStrength(ref int damage, ref float knockback)
 		{

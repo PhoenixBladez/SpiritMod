@@ -14,8 +14,8 @@ namespace SpiritMod.Projectiles.Magic
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 14;
-			projectile.height = 26;
+			projectile.width = 12;
+			projectile.height = 12;
 			projectile.aiStyle = 1;
 			projectile.friendly = true;
 			projectile.ranged = true;

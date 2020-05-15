@@ -12,13 +12,8 @@ namespace SpiritMod.Items.Armor.StarArmor
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Starplate Leggings");
+			DisplayName.SetDefault("Astralite Leggings");
             Tooltip.SetDefault("Increases ranged damage by 6% and movement speed by 8%");
-            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/StarArmor/StarLegs_Glow");
-        }
-        public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
-        {
-            glowMaskColor = Color.White;
         }
         int timer = 0;
         public override void SetDefaults()

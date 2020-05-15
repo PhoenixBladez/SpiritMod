@@ -22,8 +22,8 @@ namespace SpiritMod.Items.Weapon.Bow
             item.damage = 8;
             item.noMelee = true;
             item.ranged = true;
-            item.width = 26;
-            item.height = 62;
+            item.width = 20;
+            item.height = 46;
             item.useTime = 18;
 			item.useAnimation = 22;
             item.useStyle = 5;

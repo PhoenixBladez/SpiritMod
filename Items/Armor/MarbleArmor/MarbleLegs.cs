@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.MarbleArmor
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Marble Treads");
+			DisplayName.SetDefault("Gilded Treads");
             Tooltip.SetDefault("Increases movement speed by 6%\nLeave a bright trail of light as you walk");
 
         }

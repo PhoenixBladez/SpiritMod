@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Material
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Hardened Carapace");
-			Tooltip.SetDefault("'Fossilized shells'");
+			Tooltip.SetDefault("'Sturdy fossilized bones and shells'");
 		}
 
 

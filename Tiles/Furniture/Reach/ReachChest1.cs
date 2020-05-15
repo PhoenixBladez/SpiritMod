@@ -33,7 +33,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Reach Chest");
+			name.SetDefault("Briar Chest");
 			AddMapEntry(new Color(60, 150, 40), name, MapChestName);
 			dustType = 0;
 			disableSmartCursor = true;

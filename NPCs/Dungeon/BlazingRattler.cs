@@ -34,6 +34,25 @@ namespace SpiritMod.NPCs.Dungeon
             aiType = 218;
         }
         int hitCounter;
+        public override void NPCLoot()
+        {
+            if (Main.rand.Next(1) == 153)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GoldenKey);
+            }
+            if (Main.rand.Next(1) == 75)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Nazar);
+            }
+            if (Main.rand.Next(1) == 100)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.TallyCounter);
+            }
+            if (Main.rand.Next(4) == 1000)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BoneWand);
+            }
+        }
         public override void HitEffect(int hitDirection, double damage)
 		{
             npc.scale -= .02f;
@@ -65,6 +84,14 @@ namespace SpiritMod.NPCs.Dungeon
             }
             if (npc.life <= 0)
             {
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Rattler/Rattler1"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Rattler/Rattler5"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Rattler/Rattler6"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Rattler/Rattler7"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Rattler/Rattler2"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Rattler/Rattler3"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Rattler/Rattler4"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Rattler/Rattler8"), 1f);
                 Vector2 dir = Main.player[npc.target].Center;
                 dir.Normalize();
                 dir.X *= Main.rand.NextFloat(-12f, 12f);
@@ -91,6 +118,10 @@ namespace SpiritMod.NPCs.Dungeon
             {
                 npc.scale = .85f;
             }
+        }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return spawnInfo.player.ZoneDungeon && NPC.CountNPCS(mod.NPCType("BlazingRattler")) < 1 ? 0.05f : 0f;
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {

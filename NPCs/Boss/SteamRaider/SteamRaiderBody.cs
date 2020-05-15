@@ -81,7 +81,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			}
 			if (exposed)
 			{
-				npc.defense = 13;
+				npc.defense = 8;
 			}
 			else
 			{
@@ -120,7 +120,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					}
 				}
 			}
-			if (!Main.npc[(int)npc.ai[1]].active || Main.npc[(int)npc.ai[1]].life <= Main.npc[(int)npc.ai[1]].lifeMax * .25)
+			if (!Main.npc[(int)npc.ai[1]].active || Main.npc[(int)npc.ai[1]].life <= 800)
 			{
 				npc.life = 0;
 				npc.HitEffect(0, 10.0);
@@ -249,18 +249,6 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					float B = (float)Main.rand.Next(-80, 0) * 0.0f;
 					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("SteamBodyFallingProj"), 15, 1, Main.myPlayer, 0, 0);
 				}
-			}
-		}
-
-		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			if (projectile.penetrate <= -1)
-			{
-				damage /= (int)(damage / 4 * 3);
-			}
-			else if (projectile.penetrate >= 7)
-			{
-				damage /= (int)(damage / 4 * 3);
 			}
 		}
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

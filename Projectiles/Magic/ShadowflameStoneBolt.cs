@@ -56,7 +56,7 @@ namespace SpiritMod.Projectiles.Magic
                     player.GetSpiritPlayer().shadowCount = 0;
                 }
                 projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
-                float num2353 = 8f;
+                float num2353 = 10f;
                 Vector2 vector329 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
                 float num2352 = (float)Main.mouseX + Main.screenPosition.X - vector329.X;
                 float num2351 = (float)Main.mouseY + Main.screenPosition.Y - vector329.Y;

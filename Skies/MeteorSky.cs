@@ -17,7 +17,7 @@ namespace SpiritMod.Skies
 			public abstract bool Update(ref Meteor Meteor);
 		}
 
-		private class ZipBehavior : IMeteorController
+        private class ZipBehavior : IMeteorController
 		{
 			private Vector2 _speed;
 
@@ -71,7 +71,7 @@ namespace SpiritMod.Skies
                 }
 				return true;
 			}
-		}
+        }
 
 		private class HoverBehavior : IMeteorController
 		{
@@ -253,8 +253,12 @@ namespace SpiritMod.Skies
 				this._activeMeteors = num;
 			}
 		}
-
-		public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
+        public override Color OnTileColor(Color inColor)
+        {
+            float amt = Opacity * .6f;
+            return inColor.MultiplyRGB(new Color(1f - amt, 1f - amt, 1f - amt));
+        }
+        public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
 		{
             if (!(Main.screenPosition.Y > 10000f))
 			{
@@ -309,28 +313,72 @@ namespace SpiritMod.Skies
                 if (Main.rand.Next(2) == 0)
                 {
                     this._Meteors[j] = new Meteor(mod.GetTexture("Textures/MeteorBG2"), (float)Main.rand.NextDouble() * 4f + 6.6f);
-                    this._Meteors[j].GlowTexture = mod.GetTexture("Textures/MeteorBGGlow2");
+                    this._Meteors[j].GlowTexture = mod.GetTexture("Textures/MeteorBG2");
+                }
+                else if (Main.rand.Next(2) == 0)
+                {
+                    this._Meteors[j] = new Meteor(mod.GetTexture("Textures/MeteorBG3"), (float)Main.rand.NextDouble() * 4f + 6.6f);
+                    this._Meteors[j].GlowTexture = mod.GetTexture("Textures/MeteorBG3");
+                }
+                else if (Main.rand.Next(3) == 0)
+                {
+                    this._Meteors[j] = new Meteor(mod.GetTexture("Textures/MeteorBG5"), (float)Main.rand.NextDouble() * 4f + 6.6f);
+                    this._Meteors[j].GlowTexture = mod.GetTexture("Textures/MeteorBG5");
+                }
+                else if (Main.rand.Next(2) == 0)
+                {
+                    this._Meteors[j] = new Meteor(mod.GetTexture("Textures/MeteorBG4"), (float)Main.rand.NextDouble() * 4f + 6.6f);
+                    this._Meteors[j].GlowTexture = mod.GetTexture("Textures/MeteorBG4");
+                }
+                else if (Main.rand.Next(3) == 0)
+                {
+                    this._Meteors[j] = new Meteor(mod.GetTexture("Textures/MeteorBG6"), (float)Main.rand.NextDouble() * 4f + 6.6f);
+                    this._Meteors[j].GlowTexture = mod.GetTexture("Textures/MeteorBG6");
                 }
                 else
                 {
-                    this._Meteors[j] = new Meteor(mod.GetTexture("Textures/MeteorBG3"), (float)Main.rand.NextDouble() * 4f + 6.6f);
-                    this._Meteors[j].GlowTexture = mod.GetTexture("Textures/MeteorBGGlow3");
+                    this._Meteors[j] = new Meteor(mod.GetTexture("Textures/MeteorBG"), (float)Main.rand.NextDouble() * 4f + 6.6f);
+                    this._Meteors[j].GlowTexture = mod.GetTexture("Textures/MeteorBG");
                 }
             }
             for (int i = num2; i < this._Meteors.Length; i++)
             {
                 float num5 = (float)(i - num2) / (float)(this._Meteors.Length - num2);
-                if (Main.rand.Next(2) == 0)
+                if (Main.rand.Next(3) == 0)
                 {
                     this._Meteors[i] = new Meteor(mod.GetTexture("Textures/MeteorBG"), (float)Main.rand.NextDouble() * 5f + 1.6f);
                     this._Meteors[i].Scale = 0.5f;
-                    this._Meteors[i].GlowTexture = mod.GetTexture("Textures/MeteorBGGlow");
+                    this._Meteors[i].GlowTexture = mod.GetTexture("Textures/MeteorBG");
+                }
+                else if (Main.rand.Next(2) == 0)
+                {
+                    this._Meteors[i] = new Meteor(mod.GetTexture("Textures/MeteorBG1"), (float)Main.rand.NextDouble() * 5f + 1.6f);
+                    this._Meteors[i].Scale = 0.5f;
+                    this._Meteors[i].GlowTexture = mod.GetTexture("Textures/MeteorBG1");
+                }
+                else if (Main.rand.Next(2) == 0)
+                {
+                    this._Meteors[i] = new Meteor(mod.GetTexture("Textures/MeteorBG4"), (float)Main.rand.NextDouble() * 5f + 1.6f);
+                    this._Meteors[i].Scale = 0.5f;
+                    this._Meteors[i].GlowTexture = mod.GetTexture("Textures/MeteorBG4");
+                }
+                if (Main.rand.Next(3) == 0)
+                {
+                    this._Meteors[i] = new Meteor(mod.GetTexture("Textures/MeteorBG3"), (float)Main.rand.NextDouble() * 5f + 1.6f);
+                    this._Meteors[i].Scale = 0.5f;
+                    this._Meteors[i].GlowTexture = mod.GetTexture("Textures/MeteorBG3");
+                }
+                else if (Main.rand.Next(2) == 0)
+                {
+                    this._Meteors[i] = new Meteor(mod.GetTexture("Textures/MeteorBG4"), (float)Main.rand.NextDouble() * 5f + 1.6f);
+                    this._Meteors[i].Scale = 0.5f;
+                    this._Meteors[i].GlowTexture = mod.GetTexture("Textures/MeteorBG4");
                 }
                 else
                 {
                     this._Meteors[i] = new Meteor(mod.GetTexture("Textures/MeteorBG1"), (float)Main.rand.NextDouble() * 5f + 1.6f);
                     this._Meteors[i].Scale = 0.5f;
-                    this._Meteors[i].GlowTexture = mod.GetTexture("Textures/MeteorBGGlow1");
+                    this._Meteors[i].GlowTexture = mod.GetTexture("Textures/MeteorBG1");
                 }
             }
         }

@@ -377,9 +377,12 @@ namespace SpiritMod.Items
 			if (modPlayer.timScroll && item.magic && Main.rand.Next(12) == 0)
 			{
 				int p = Main.rand.Next(9, 22);
-				int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, p, damage, knockBack, player.whoAmI, 0f, 0f);
-				Main.projectile[proj].friendly = true;
-				Main.projectile[proj].hostile = false;
+                if (p != 11 && p != 13 && p != 18 && p != 17)
+                {
+                    int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, p, damage, knockBack, player.whoAmI, 0f, 0f);
+                    Main.projectile[proj].friendly = true;
+                    Main.projectile[proj].hostile = false;
+                }
 			}
 			if (modPlayer.crystal && item.ranged && Main.rand.Next(8) == 0)
 			{

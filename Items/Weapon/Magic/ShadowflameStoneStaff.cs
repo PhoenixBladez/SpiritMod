@@ -48,7 +48,7 @@ namespace SpiritMod.Items.Weapon.Magic
         {
             counter++;
             int spikes = player.GetSpiritPlayer().shadowCount;
-            if (counter >= 90 && !player.channel && spikes <= 4)
+            if (counter >= 85 && !player.channel && spikes <= 4)
             {
                 player.GetSpiritPlayer().shadowCount++;
                 counter = 0;

@@ -20,7 +20,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		public override void SetDefaults()
 		{
 			npc.damage = 25;
-			npc.npcSlots = 5f;
+			npc.npcSlots = 10f;
 			npc.width = 34; //324
 			npc.height = 34; //216
 			npc.defense = 15;

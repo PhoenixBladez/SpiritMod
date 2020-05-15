@@ -24,8 +24,8 @@ namespace SpiritMod.Projectiles.Hostile
 			projectile.hostile = true;
 			projectile.penetrate = 1;
 			projectile.timeLeft = 300;
-			projectile.height = 50;
-			projectile.width = 14;
+			projectile.height = 40;
+			projectile.width = 10;
 			aiType = ProjectileID.DeathLaser;
 		}
         float num;

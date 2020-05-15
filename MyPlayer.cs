@@ -49,6 +49,7 @@ namespace SpiritMod
         private int timer1;
         public bool astralSet = false;
         public bool frigidGloves = false;
+        public bool mushroomPotion = false;
         public bool magnifyingGlass = false;
 		public bool ShieldCore = false;
 		public int shieldsLeft = 3;
@@ -341,16 +342,24 @@ namespace SpiritMod
         {
             bool showAurora = (player.ZoneSnow || ZoneSpirit || player.ZoneSkyHeight) && !Main.dayTime && !Main.raining && !player.ZoneCorrupt && !player.ZoneCrimson;
             bool reach = !Main.dayTime && ZoneReach && !reachBrooch;
+            bool spirit = (player.ZoneOverworldHeight && ZoneSpirit);
 
+            bool region1 = ZoneSpirit && player.ZoneRockLayerHeight && player.position.Y / 16 > (Main.rockLayer + Main.maxTilesY - 300) / 2f; 
+            bool region2 = ZoneSpirit && player.position.Y / 16 >= Main.maxTilesY - 300;
             player.ManageSpecialBiomeVisuals("SpiritMod:AshstormParticles", true);       
             player.ManageSpecialBiomeVisuals("SpiritMod:AuroraSky", showAurora);
+            player.ManageSpecialBiomeVisuals("SpiritMod:SpiritBiomeSky", spirit);
+            player.ManageSpecialBiomeVisuals("SpiritMod:AsteroidSky2", ZoneAsteroid);
+
+            player.ManageSpecialBiomeVisuals("SpiritMod:SpiritUG1", region1);
+            player.ManageSpecialBiomeVisuals("SpiritMod:SpiritUG2", region2);
+
             player.ManageSpecialBiomeVisuals("SpiritMod:ReachSky", reach, player.Center);
             player.ManageSpecialBiomeVisuals("SpiritMod:BlueMoonSky", ZoneBlueMoon, player.Center);
-            player.ManageSpecialBiomeVisuals("SpiritMod:MeteorSky", ZoneAsteroid, player.Center);
+            player.ManageSpecialBiomeVisuals("SpiritMod:MeteorSky", ZoneAsteroid);
             player.ManageSpecialBiomeVisuals("SpiritMod:WindEffect", windEffect, player.Center);
             player.ManageSpecialBiomeVisuals("SpiritMod:WindEffect2", windEffect2, player.Center);
             player.ManageSpecialBiomeVisuals("SpiritMod:Overseer", NPC.AnyNPCs(mod.NPCType("Overseer")));
-            player.ManageSpecialBiomeVisuals("SpiritMod:IlluminantMaster", NPC.AnyNPCs(mod.NPCType("IlluminantMaster")));
             player.ManageSpecialBiomeVisuals("SpiritMod:Atlas", NPC.AnyNPCs(mod.NPCType("Atlas")));
         }
 
@@ -452,6 +461,7 @@ namespace SpiritMod
             HealCloak = false;
             vitaStone = false;
             astralSet = false;
+            mushroomPotion = false;
             floranCharm = false;
             ChaosCrystal = false;
             twilightTalisman = false;
@@ -2176,9 +2186,38 @@ namespace SpiritMod
             }
             return true;
         }
-
+        int shroomtimer;
         public override void PreUpdate()
         {
+            if (mushroomPotion)
+            {
+                shroomtimer++;
+                if (shroomtimer >= 20 && player.velocity != Vector2.Zero)
+                {
+                    shroomtimer = 0;
+                    int proj = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0, 0, 131, 10, 1, Main.myPlayer, 0.0f, 1);
+                    Main.projectile[proj].timeLeft = 120;
+                }
+            }
+            if (MyWorld.meteorShowerWeather && Main.rand.Next(270) == 0 && ZoneAsteroid)
+            {
+                Vector2 vector2_1 = new Vector2((float)((double)player.position.X + (double)player.width * 0.5 + (double)(Main.rand.Next(201) * -player.direction) + ((double)Main.mouseX + (double)Main.screenPosition.X - (double)player.position.X)), (float)((double)player.position.Y + (double)player.height * 0.5 - 600.0));   //this defines the projectile width, direction and position
+                vector2_1.X = (float)(((double)vector2_1.X + (double)player.Center.X) / 2.0) + (float)Main.rand.Next(-200, 201);
+                vector2_1.Y -= (float)(100);
+                float num12 = Main.rand.Next(-30, 30);
+                float num13 = 100;
+                if ((double)num13 < 0.0) num13 *= -1f;
+                if ((double)num13 < 20.0) num13 = 20f;
+                float num14 = (float)Math.Sqrt((double)num12 * (double)num12 + (double)num13 * (double)num13);
+                float num15 = 10 / num14;
+                float num16 = num12 * num15;
+                float num17 = num13 * num15;
+                float SpeedX = num16 + (float)Main.rand.Next(-40, 41) * 0.02f;  //this defines the projectile X position speed and randomnes
+                float SpeedY = num17 + (float)Main.rand.Next(-40, 41) * 0.02f;  //this defines the projectile Y position speed and randomnes
+                int proj = Projectile.NewProjectile(player.Center.X + Main.rand.Next(-1000, 1000), player.Center.Y + Main.rand.Next(-1200, -900), SpeedX, SpeedY, mod.ProjectileType("Meteor"), 30, 3, Main.myPlayer, 0.0f, 1);
+                Main.projectile[proj].friendly = true;
+                Main.projectile[proj].hostile = true;
+            }
             if (!throwerGlove)
             {
                 throwerStacks = 0;

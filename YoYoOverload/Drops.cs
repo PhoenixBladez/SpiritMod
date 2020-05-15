@@ -26,11 +26,6 @@ namespace SpiritMod.YoyoOverload
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, base.mod.ItemType("Ichor"), 1, false, 0, false, false);
 			}
-			if (npc.type == 113 && Main.rand.Next(2) == 0)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, base.mod.ItemType("WEye"), 1, false, 0, false, false);
-			}
-
 			if (npc.type == 213 && Main.rand.Next(50) == 0)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, base.mod.ItemType("PBoot"), 1, false, 0, false, false);

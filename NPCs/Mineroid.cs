@@ -22,7 +22,7 @@ namespace SpiritMod.NPCs
 			npc.height = 40;
 			npc.damage = 32;
 			npc.defense = 15;
-			npc.lifeMax = 60;
+			npc.lifeMax = 70;
 			npc.HitSound = SoundID.NPCHit7;
 			npc.DeathSound = SoundID.NPCDeath6;
 			npc.value = 80f;
@@ -35,17 +35,32 @@ namespace SpiritMod.NPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return (spawnInfo.player.ZoneMeteor || spawnInfo.player.GetSpiritPlayer().ZoneAsteroid ) && spawnInfo.spawnTileY < Main.rockLayer & NPC.downedBoss2 ? 0.15f : 0f;
+			return (spawnInfo.player.ZoneMeteor) && spawnInfo.spawnTileY < Main.rockLayer & NPC.downedBoss2 ? 0.15f : 0f;
 		}
 
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(20) == 0)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("OrbiterStaff"));
-			}
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Meteorite, Main.rand.Next(1, 2));
-		}
+            if (NPC.downedBoss2)
+            {
+                if (Main.rand.Next(20) == 0)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("OrbiterStaff"));
+                }
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Meteorite, Main.rand.Next(1, 2));
+            }
+            if (Main.rand.Next(1) == 400)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GravityModulator"));
+            }
+            string[] lootTable = { "AstronautLegs", "AstronautHelm", "AstronautBody" };
+            if (Main.rand.Next(40) == 0)
+            {
+                int loot = Main.rand.Next(lootTable.Length);
+                {
+                    npc.DropItem(mod.ItemType(lootTable[loot]));
+                }
+            }
+        }
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;

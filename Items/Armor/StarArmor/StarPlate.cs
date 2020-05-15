@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Armor.StarArmor
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Starplate Chestguard");
+			DisplayName.SetDefault("Astralite Chestguard");
             Tooltip.SetDefault("Increases ranged damage by 6%");
             SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/StarArmor/StarPlate_Glow");
         }

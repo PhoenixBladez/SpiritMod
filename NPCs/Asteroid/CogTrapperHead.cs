@@ -42,7 +42,7 @@ namespace SpiritMod.NPCs.Asteroid
 			aiType = -1; //new
 			animationType = 10; //new
 			npc.knockBackResist = 0f;
-			npc.value = Item.buyPrice(0, 0, 5, 0);
+			npc.value = 340;
 			npc.alpha = 255;
 			npc.behindTiles = true;
 			npc.noGravity = true;
@@ -362,6 +362,14 @@ namespace SpiritMod.NPCs.Asteroid
             if (Main.rand.Next(2) == 0)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("StarEnergy"));
+            }
+            string[] lootTable = { "AstronautLegs", "AstronautHelm", "AstronautBody" };
+            if (Main.rand.Next(40) == 0)
+            {
+                int loot = Main.rand.Next(lootTable.Length);
+                {
+                    npc.DropItem(mod.ItemType(lootTable[loot]));
+                }
             }
         }
         public override void HitEffect(int hitDirection, double damage)

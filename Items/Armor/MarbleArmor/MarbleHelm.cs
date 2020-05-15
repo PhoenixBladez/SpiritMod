@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Armor.MarbleArmor
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Marble Helm");
+			DisplayName.SetDefault("Gilded Laurel");
             Tooltip.SetDefault("");
 
         }
@@ -22,8 +22,9 @@ namespace SpiritMod.Items.Armor.MarbleArmor
             item.rare = 2;
             item.defense = 6;
         }
-        public override void UpdateEquip(Player player)
+        public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
         {
+            drawHair = true;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
