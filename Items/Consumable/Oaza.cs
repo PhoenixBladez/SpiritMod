@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Consumable
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Oaza");
-			Tooltip.SetDefault("Summons a random critter or enemy\nDoes not summon bosses or NPCs \n~Donator Item~");
+			Tooltip.SetDefault("Summons a random critter or enemy\nDoes not summon bosses or NPCs");
 		}
 
 

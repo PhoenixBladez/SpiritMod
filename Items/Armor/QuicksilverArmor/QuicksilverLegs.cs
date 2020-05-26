@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.QuicksilverArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Quicksilver Greaves");
-            Tooltip.SetDefault("Increases movement speed by 25%\nAllows detection of ores\nIncreases throwing critical strike chance by 8% and reduces mana cost by 5%");
+            Tooltip.SetDefault("Increases movement speed by 25%\nAllows detection of ores\nReduces mana cost by 5%");
 
         }
 
@@ -29,7 +29,6 @@ namespace SpiritMod.Items.Armor.QuicksilverArmor
             player.moveSpeed += 0.25f;
             player.maxRunSpeed += 2;
             player.AddBuff(BuffID.Spelunker, 1);
-            player.thrownCrit += 8;
             player.manaCost -= .05f;
         }
         public override void AddRecipes()

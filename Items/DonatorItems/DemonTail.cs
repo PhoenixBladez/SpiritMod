@@ -12,7 +12,7 @@ namespace SpiritMod.Items.DonatorItems
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Demon Tail");
-			Tooltip.SetDefault("Summons an eldrich abomination to follow you \n~Donator Item~");
+			Tooltip.SetDefault("Summons an eldrich abomination to follow you");
 		}
 
 		public override void SetDefaults()
@@ -43,10 +43,9 @@ namespace SpiritMod.Items.DonatorItems
 		{
 			var recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.BlackLens);
-			recipe.AddIngredient(ItemID.DemonScythe);
 			recipe.AddIngredient(ItemID.WaterCandle);
-			recipe.AddIngredient(ItemID.SoulofNight, 3);
-			recipe.AddTile(TileID.TinkerersWorkbench);
+            recipe.AddIngredient(mod.ItemType("Bloodfire"), 5);
+            recipe.AddTile(TileID.TinkerersWorkbench);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

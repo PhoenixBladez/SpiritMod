@@ -24,7 +24,7 @@ namespace SpiritMod.Projectiles.Thrown
 			projectile.height = 12;
 			projectile.penetrate = 4;
 			projectile.friendly = true;
-			projectile.thrown = true;
+			projectile.ranged = true;
 			projectile.tileCollide = false;
 
 			projectile.timeLeft = 120;

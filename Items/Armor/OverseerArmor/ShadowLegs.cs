@@ -30,7 +30,6 @@ namespace SpiritMod.Items.Armor.OverseerArmor
             player.magicCrit += 22;
             player.meleeCrit += 22;
             player.rangedCrit += 22;
-            player.thrownCrit += 22;
 
             player.statLifeMax2 += 50;
 

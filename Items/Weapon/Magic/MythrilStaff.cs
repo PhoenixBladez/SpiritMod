@@ -11,26 +11,26 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mythril Staff");
-			Tooltip.SetDefault("Shoots a splitting Mythril Bolt that ignores some immunity frames");
+			Tooltip.SetDefault("Shooots homing bolts that occasionally strike enemies twice");
 		}
 
 
 		public override void SetDefaults()
 		{
-			item.damage = 44;
+			item.damage = 37;
 			item.magic = true;
-			item.mana = 10;
+			item.mana = 12;
 			item.width = 40;
 			item.height = 40;
-			item.useTime = 27;
-			item.useAnimation = 27;
+			item.useTime = 30;
+			item.useAnimation = 30;
 			item.useStyle = 5;
 			Item.staff[item.type] = true;
 			item.noMelee = true; 
-			item.knockBack = 5;
+			item.knockBack = 3;
             item.useTurn = false;
             item.value = Terraria.Item.sellPrice(0, 3, 0, 0);
-            item.rare = 5;
+            item.rare = 4;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = true;
 			item.shoot = mod.ProjectileType("MythrilStaffProj");

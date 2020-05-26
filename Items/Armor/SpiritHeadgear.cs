@@ -35,7 +35,6 @@ namespace SpiritMod.Items.Armor
             {
                 player.meleeDamage += 0.08f;
                 player.rangedDamage += 0.08f;
-                player.thrownDamage += 0.08f;
                 player.minionDamage += 0.08f;
                 player.magicDamage += 0.08f;
             }

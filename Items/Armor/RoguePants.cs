@@ -11,14 +11,14 @@ namespace SpiritMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Rogue Greaves");
-            Tooltip.SetDefault("Increases throwing velocity by 6%");
+            Tooltip.SetDefault("Increases movement speed by 5%");
 
         }
         public override void SetDefaults()
         {
             item.width = 22;
             item.height = 18;
-            item.value = Terraria.Item.buyPrice(0, 0, 50, 0);
+            item.value = Terraria.Item.buyPrice(0, 0, 40, 0);
             item.value = 500;
             item.rare = 1;
             item.defense = 3;
@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.thrownVelocity += 0.03f;
+            player.moveSpeed += 0.05f;
         }
     }
 }

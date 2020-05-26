@@ -50,18 +50,18 @@ namespace SpiritMod.Projectiles.DonatorItems
 					}
 				}
 			}
+            for (int i = 0; i < 6; i++)
+            {
+                Dust dust;
+                // You need to set position depending on what you are doing. You may need to subtract width/2 and height/2 as well to center the spawn rectangle.
+                Vector2 position = projectile.Center;
+                dust = Main.dust[Terraria.Dust.NewDust(position, 0, 0, 272, 0f, 0f, 0, new Color(255, 255, 255), 0.3947368f)];
+                dust.noLight = true;
+                dust.velocity = Vector2.Zero;
+            }
 
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 62);
-			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 62);
-			Main.dust[dust].noGravity = true;
-			Main.dust[dust2].noGravity = true;
-			Main.dust[dust2].velocity = Vector2.Zero;
-			Main.dust[dust2].velocity = Vector2.Zero;
-			Main.dust[dust2].scale = 0.9f;
-			Main.dust[dust].scale = 1.2f;
-
-			//change trajectory to home in on target
-			if (targetAcquired)
+            //change trajectory to home in on target
+            if (targetAcquired)
 			{
 				float homingSpeedFactor = 6f;
 				Vector2 homingVect = targetPos - projectile.Center;

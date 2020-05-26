@@ -20,6 +20,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.shoot = mod.ProjectileType("Grenadeproj");
             item.useAnimation = 30;
             item.rare = 8;
+            item.ranged = true;
             item.useTime = 34;
             item.damage = 110;
 			item.value = 1900;

@@ -10,8 +10,8 @@ namespace SpiritMod.Items.Armor.SeraphArmor
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Seraph Breastplate");
-            Tooltip.SetDefault("Increases minion damage by 10% \nIncreases your maximum number of minions \nReduces mana cost by 17%");
+			DisplayName.SetDefault("Seraph's Breastplate");
+            Tooltip.SetDefault("Increases magic damage by 10%");
 
         }
 
@@ -20,15 +20,13 @@ namespace SpiritMod.Items.Armor.SeraphArmor
             item.width = 34;
             item.height = 24;
             item.value = 60000;
-            item.rare = 5;
-            item.defense = 11;
+            item.rare = 4;
+            item.defense = 18;
         }
 
         public override void UpdateEquip(Player player)
         {
-			player.manaCost -= .17f;
-			player.minionDamage += 0.10f;
-			player.maxMinions += 1;
+            player.meleeDamage += .10f;
         }
         public override void AddRecipes()
         {

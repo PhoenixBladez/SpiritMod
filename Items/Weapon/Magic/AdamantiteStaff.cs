@@ -17,9 +17,9 @@ namespace SpiritMod.Items.Weapon.Magic
 
 		public override void SetDefaults()
 		{
-			item.damage = 54;
+			item.damage = 51;
 			item.magic = true;
-			item.mana = 8;
+			item.mana = 11;
 			item.width = 41;
 			item.height = 41;
 			item.useTime = 28;
@@ -28,8 +28,8 @@ namespace SpiritMod.Items.Weapon.Magic
 			Item.staff[item.type] = true;
 			item.noMelee = true; 
 			item.knockBack = 1;
-            item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
-            item.rare = 7;
+            item.value = Terraria.Item.sellPrice(0, 1, 40, 0);
+            item.rare = 4;
 			item.UseSound = SoundID.Item8;
 			item.autoReuse = true;
 			item.shoot = mod.ProjectileType("AdamantiteStaffProj");

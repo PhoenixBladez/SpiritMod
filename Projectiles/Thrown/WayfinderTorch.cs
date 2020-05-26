@@ -12,13 +12,16 @@ namespace SpiritMod.Projectiles.Thrown
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Wayfinder's Torch");
-		}
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+        }
 
 		public override void SetDefaults()
 		{
 			projectile.CloneDefaults(ProjectileID.Shuriken);
 			projectile.width = 20;
-			projectile.height = 20;
+            projectile.ranged = true;
+            projectile.height = 20;
 		}
 
 		public override bool PreAI()
@@ -36,7 +39,7 @@ namespace SpiritMod.Projectiles.Thrown
 			if (Main.rand.Next(4) == 0)
 				target.AddBuff(mod.BuffType("StarFlame"), 200, true);
 
-			if (Main.rand.Next(2) == 0)
+			if (Main.rand.Next(3) == 0)
 			{
 				int n = 2;
 				int deviation = Main.rand.Next(0, 300);
@@ -47,7 +50,7 @@ namespace SpiritMod.Projectiles.Thrown
 					perturbedSpeed.Normalize();
 					perturbedSpeed.X *= 5.5f;
 					perturbedSpeed.Y *= 5.5f;
-					int newProj = Projectile.NewProjectile(target.Center.X, target.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("BlueEmber"), 20, 2, projectile.owner);
+					int newProj = Projectile.NewProjectile(target.Center.X, target.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("BlueEmber"), projectile.damage/4, 2, projectile.owner);
 
 					Main.projectile[newProj].hostile = false;
 					Main.projectile[newProj].friendly = true;
@@ -67,18 +70,21 @@ namespace SpiritMod.Projectiles.Thrown
 			}
 			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
 		}
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
+            for (int k = 0; k < projectile.oldPos.Length; k++)
+            {
+                Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
+                Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
+                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+            }
+            return false;
+        }
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return new Color(200, 200, 200, 100);
+        }
 
-		//public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		//{
-		//    Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-		//    for (int k = 0; k < projectile.oldPos.Length; k++)
-		//    {
-		//        Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-		//        Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-		//        spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
-		//    }
-		//    return true;
-		//}
-
-	}
+    }
 }

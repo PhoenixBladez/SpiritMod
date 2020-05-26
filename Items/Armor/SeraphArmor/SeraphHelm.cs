@@ -11,15 +11,15 @@ namespace SpiritMod.Items.Armor.SeraphArmor
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Seraph Helmet");
-			 Tooltip.SetDefault("Increases minion damage by 15% \nIncreases your maximum number of minions");
+			DisplayName.SetDefault("Seraph's Crown");
+			 Tooltip.SetDefault("Increases melee damage by 12%");
 		}
         public override void SetDefaults()
         {
             item.width = 28;
             item.height = 24;
             item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
-            item.rare = 5;
+            item.rare = 4;
             item.defense = 10;
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -28,14 +28,12 @@ namespace SpiritMod.Items.Armor.SeraphArmor
         }
         public override void UpdateArmorSet(Player player)
         {            
-            player.setBonus = "Minions will sometimes shoot astral flares at enemies.";
-
+            player.setBonus = "Being near enemies increases life regen and increases melee speed\nand reduces mana cost by 6% per enemy\nThis effect stacks three times";
             player.GetSpiritPlayer().astralSet = true;
         }
         public override void UpdateEquip(Player player)
         {
-			player.minionDamage += 0.15f;
-			player.maxMinions += 1;
+            player.meleeDamage += .12f;
         }
         public override void AddRecipes()
         {

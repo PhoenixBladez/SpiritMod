@@ -21,13 +21,12 @@ namespace SpiritMod.Items.Weapon.Thrown
 			item.value = Terraria.Item.buyPrice(0, 30, 0, 0);
 			item.rare = 8;
 			item.maxStack = 999;
-			item.crit = 6;
 			item.damage = 65;
 			item.knockBack = 3.5f;
 			item.useStyle = 1;
 			item.useTime = 15;
 			item.useAnimation = 15;
-			item.thrown = true;
+			item.ranged = true;
 			item.noMelee = true;
 			item.autoReuse = true;
 			item.consumable = true;

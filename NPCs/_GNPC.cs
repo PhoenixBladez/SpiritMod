@@ -744,7 +744,30 @@ namespace SpiritMod.NPCs
                     }
                 }
             }
-            return;
+            for (int k = 0; k < 255; k++)
+            {
+                Player player = Main.player[k];
+                if (player.ZoneBeach && MyWorld.luminousOcean && !Main.dayTime)
+                {
+                    pool.Clear();
+                    if (spawnInfo.water)
+                    {
+                        if (MyWorld.luminousType == 1)
+                        {
+                            pool.Add(mod.NPCType("GreenAlgae2"), 3f);
+                        }
+                        else if (MyWorld.luminousType == 2)
+                        {
+                            pool.Add(mod.NPCType("BlueAlgae2"), 3f);
+                        }
+                        else if (MyWorld.luminousType == 3)
+                        {
+                            pool.Add(mod.NPCType("PurpleAlgae2"), 3f);
+                        }
+                    }
+                }
+            }
+                return;
         }
     
 
@@ -819,8 +842,7 @@ namespace SpiritMod.NPCs
 					boss.type == NPCID.SkeletronPrime || boss.type == Boss.Dusking.Dusking._type || boss.type == Boss.SpiritCore.SpiritCore._type)
 				return 4;
 
-			if (boss.type == NPCID.Plantera || boss.type == NPCID.Golem || boss.type == NPCID.DukeFishron || boss.type == NPCID.CultistBoss ||
-					boss.type == Boss.IlluminantMaster.IlluminantMaster._type || boss.type == Boss.Atlas.Atlas._type || boss.type == Boss.Overseer.Overseer._type)
+			if (boss.type == NPCID.Plantera || boss.type == NPCID.Golem || boss.type == NPCID.DukeFishron || boss.type == NPCID.CultistBoss || boss.type == Boss.Atlas.Atlas._type || boss.type == Boss.Overseer.Overseer._type)
 				return 5;
 
 			if (boss.type == NPCID.MoonLordCore)
@@ -1305,9 +1327,7 @@ namespace SpiritMod.NPCs
 			if (npc.type == 166 && Main.rand.Next(28) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Murk"));
 
-			if (npc.type == 290 && Main.rand.Next(25) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EnchantedPaladinsHammerStaff"));
-
+		
 			if (npc.type == 268 && Main.rand.Next(50) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("IchorPendant"));
 
@@ -1397,9 +1417,9 @@ namespace SpiritMod.NPCs
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Whetstone"), 1);
 				}
 			}
-			if (npc.type == mod.NPCType("IlluminantMaster") || npc.type == mod.NPCType("Atlas"))
+			if (npc.type == mod.NPCType("Atlas"))
 			{
-				if (Main.rand.Next(4) == 1)
+				if (Main.rand.Next(3) == 1)
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Enchantment"), 1);
 				}

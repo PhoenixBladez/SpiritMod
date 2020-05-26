@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.CryoliteArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cryolite Helmet");
-			Tooltip.SetDefault("Increases melee speed by 10% and throwing velocity by 12%");
+			Tooltip.SetDefault("Increases melee speed by 13%");
 		}
 
         public override void SetDefaults()
@@ -35,8 +35,7 @@ namespace SpiritMod.Items.Armor.CryoliteArmor
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeSpeed += 0.1f;
-            player.thrownVelocity += .12f;
+            player.meleeSpeed += 0.13f;
         }
         public override void AddRecipes()
         {

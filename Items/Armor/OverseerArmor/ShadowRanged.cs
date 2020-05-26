@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Armor.OverseerArmor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shadowspirit Shako");
-            Tooltip.SetDefault("Increases ranged and throwing damage by 32%\nIncreases ranged and thrower crit chance by 22%\nIncreases movement speed by 30%\nIncreases thrown velocity by 25%");
+            Tooltip.SetDefault("Increases ranged damage by 32%\nIncreases ranged crit chance by 22%\nIncreases movement speed by 30%");
         }
         public override void SetDefaults()
         {
@@ -50,10 +50,7 @@ namespace SpiritMod.Items.Armor.OverseerArmor
         public override void UpdateEquip(Player player)
         {
             player.rangedCrit += 22;
-            player.thrownCrit += 22;
             player.rangedDamage += 0.32F;
-            player.thrownDamage += 0.32F;
-            player.thrownVelocity = 1.25f;
             player.moveSpeed += 0.30F;
         }
 

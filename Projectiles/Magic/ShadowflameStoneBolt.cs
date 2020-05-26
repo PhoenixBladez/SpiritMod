@@ -15,7 +15,7 @@ namespace SpiritMod.Projectiles.Magic
         public const float OFFSET = 50;
         public override void SetStaticDefaults()
 		{
-            DisplayName.SetDefault("Shadowbreak Staff");
+            DisplayName.SetDefault("Shadowbreak Wisp");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }

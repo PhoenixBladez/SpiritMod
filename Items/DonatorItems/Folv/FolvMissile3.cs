@@ -11,7 +11,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Folv's Missile Barrage");
-			Tooltip.SetDefault("Rapidly shoots out exploding missiles of energy\n~Donator Item~");
+			Tooltip.SetDefault("Rapidly shoots out exploding missiles of energy");
 		}
 
 

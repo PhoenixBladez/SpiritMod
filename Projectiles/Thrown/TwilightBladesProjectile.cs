@@ -19,7 +19,8 @@ namespace SpiritMod.Projectiles.Thrown
 			projectile.CloneDefaults(ProjectileID.Shuriken);
 			projectile.width = 20;
 			projectile.height = 20;
-		}
+            projectile.ranged = true;
+        }
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{

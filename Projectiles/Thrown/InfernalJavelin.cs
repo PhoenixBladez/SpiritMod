@@ -18,7 +18,6 @@ namespace SpiritMod.Projectiles.Thrown
 		{
 			projectile.width = 16;
 			projectile.height = 16;
-			projectile.thrown = true;
 			projectile.friendly = true;
 			projectile.melee = true;
 			projectile.penetrate = 1;

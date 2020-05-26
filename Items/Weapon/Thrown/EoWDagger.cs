@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.height = 50;
             item.noUseGraphic = true;
             item.UseSound = SoundID.Item1;
-            item.thrown = true;
+            item.ranged = true;
             item.channel = true;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("EoWDaggerProj");

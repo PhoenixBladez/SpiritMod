@@ -10,7 +10,7 @@ namespace SpiritMod.Items.DonatorItems
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Neutron Star Staff");
-            Tooltip.SetDefault("Summons a stationary Neutron Star to launch lightning at enemies\n~Donator Item~");
+            Tooltip.SetDefault("Summons a stationary Neutron Star to launch lightning at enemies");
 
         }
 

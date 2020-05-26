@@ -27,23 +27,21 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.alpha = 255;
 			projectile.timeLeft = 80;
 		}
-
+        int counter = -720;
 		public override bool PreAI()
 		{
-			projectile.velocity = projectile.velocity.RotatedBy(System.Math.PI / 40);
-			{
-				for (int i = 0; i < 10; i++)
-				{
-					float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
-					float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
-					int num = Dust.NewDust(new Vector2(x, y), 26, 26, 60);
-					Main.dust[num].position.X = x;
-					Main.dust[num].position.Y = y;
-					Main.dust[num].velocity *= 0f;
-					Main.dust[num].noGravity = true;
-				}
-			}
-			return true;
+            int num = 5;
+            for (int k = 0; k < 10; k++)
+            {
+                int index2 = Dust.NewDust(projectile.position, 1, 1, 60, 0.0f, 0.0f, 0, new Color(), 1.3f);
+                Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
+                Main.dust[index2].scale = .5f;
+                Main.dust[index2].velocity *= 0f;
+                Main.dust[index2].noGravity = true;
+                Main.dust[index2].noLight = true;
+            }
+            projectile.velocity = projectile.velocity.RotatedBy(System.Math.PI / 40);
+            return true;
 		}
 
 	}

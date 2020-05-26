@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Weapon.Thrown
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Coconut");
+			DisplayName.SetDefault("Hard Coconut");
 			Tooltip.SetDefault("Does more damage if dropped from high up");
 		}
 
@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.height = 15;
             item.noUseGraphic = true;
             item.UseSound = SoundID.Item1;
-            item.thrown = true;
+            item.melee = true;
             item.channel = true;
             item.noMelee = true;
             item.consumable = true;

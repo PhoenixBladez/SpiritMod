@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Vorpal Sword");
-            Tooltip.SetDefault("Shoots out an icy razor that clings to tiles upon hitting them\n~Donator Item~");
+            Tooltip.SetDefault("Shoots out an icy razor that clings to tiles upon hitting them");
 
         }
 
@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.value = Terraria.Item.sellPrice(0, 5, 0, 0);
             item.rare = 7;
             item.shootSpeed = 12;
-            item.UseSound = SoundID.Item1;   
+            item.UseSound = SoundID.Item20;   
             item.autoReuse = true;
             item.useTurn = true;
             item.shoot = mod.ProjectileType("DemonIceProj");

@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Armor.QuicksilverArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Quicksilver Mask");
-			Tooltip.SetDefault("Increases ranged damage by 10%\nIncreases critical strike chance by 6%\nIncreases throwing velocity by 10%");
+			Tooltip.SetDefault("Increases ranged damage by 10%\nIncreases critical strike chance by 6%");
 		}
         public override void SetDefaults()
         {
@@ -30,7 +30,6 @@ namespace SpiritMod.Items.Armor.QuicksilverArmor
         {            
             player.setBonus = "Increases damage by 12%\nPressing the 'Armor Bonus' hotkey will cause your cursor to release multiple damaging quicksilver droplets\nIf these droplets hit foes, they will regenerate some of the player's life\n30 second cooldown";
             player.minionDamage += 0.11f;
-            player.thrownDamage += 0.11f;
             player.meleeDamage += 0.11f;
             player.rangedDamage += 0.11f;
             player.magicDamage += 0.11f;
@@ -38,12 +37,10 @@ namespace SpiritMod.Items.Armor.QuicksilverArmor
         }
         public override void UpdateEquip(Player player)
         {
-            player.thrownCrit += 6;
             player.rangedCrit += 6;
             player.meleeCrit += 6;
             player.magicCrit += 6;
             player.rangedDamage += 0.1f;
-            player.thrownVelocity += .1f;
             player.maxMinions += 1;
         }
         public override void AddRecipes()

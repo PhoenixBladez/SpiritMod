@@ -36,7 +36,6 @@ namespace SpiritMod.Items.Accessory
             player.statDefense -= 1;
             player.buffImmune[BuffID.Poisoned] = true;
             player.meleeCrit += 8;
-            player.thrownCrit += 8;
             player.magicCrit += 8;
             player.rangedCrit += 8;
             player.GetSpiritPlayer().ToxicExtract = true;
@@ -46,7 +45,6 @@ namespace SpiritMod.Items.Accessory
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "PathogenWard", 1);
             recipe.AddIngredient(null, "ToxicExtract", 1);
-            recipe.AddIngredient(null, "Veinstone", 8);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);
             recipe.AddRecipe();

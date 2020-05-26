@@ -36,9 +36,8 @@ namespace SpiritMod.Items.Armor.WitherArmor
         {
 
 
-			            player.magicDamage += 0.1f;
+			player.magicDamage += 0.1f;
             player.meleeDamage += 0.10f;
-            player.thrownDamage += 0.10f;
             player.rangedDamage += 0.10f;
 			player.minionDamage += 0.10f;
             player.maxRunSpeed += 0.1f;
@@ -46,7 +45,6 @@ namespace SpiritMod.Items.Armor.WitherArmor
             player.magicCrit += 10;
             player.meleeCrit += 10;
             player.rangedCrit += 10;
-            player.thrownCrit += 10;
         }
         public override void AddRecipes()
         {

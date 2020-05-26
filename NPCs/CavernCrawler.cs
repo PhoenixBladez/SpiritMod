@@ -32,8 +32,12 @@ namespace SpiritMod.NPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.player.ZoneUndergroundDesert && NPC.downedBoss1 ? 0.18f : 0f;
-		}
+            if (spawnInfo.playerSafe && !NPC.downedBoss1)
+            {
+                return 0f;
+            }
+            return SpawnCondition.Underground.Chance * 0.095f;
+        }
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(100) <= 4)

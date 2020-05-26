@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mad Hat");
-			Tooltip.SetDefault("Can be thrown or worn \nIncreases magic damage by 10% \nIncreases magical crit chance by 8%");
+			Tooltip.SetDefault("Can be thrown or worn\nIncreases magic damage by 10%\nIncreases magical crit chance by 8%");
 		}
 
 
@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Armor
          public override void UpdateEquip(Player player)
         {
             player.magicCrit += 8;
-           player.magicDamage += 0.1f;
+            player.magicDamage += 0.1f;
         }
     }
 }

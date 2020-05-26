@@ -15,7 +15,7 @@ namespace SpiritMod.Items.DonatorItems
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Firewall");
-			Tooltip.SetDefault("Negates knockback \nDouble tap right to dash\n~Donator Item~");
+			Tooltip.SetDefault("Negates knockback \nDouble tap right to dash");
 		}
         public override void SetDefaults()
         {

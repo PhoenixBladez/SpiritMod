@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Pets
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Jelly Peace Candle");
-			Tooltip.SetDefault("Summons a peaceful jellyfish!\n~Donator Item~");
+			Tooltip.SetDefault("Summons a peaceful jellyfish");
 		}
 
 		public override void SetDefaults()

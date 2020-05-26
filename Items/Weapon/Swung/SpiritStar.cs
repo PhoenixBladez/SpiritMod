@@ -81,7 +81,6 @@ namespace SpiritMod.Items.Weapon.Swung
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "Starblade", 1);
-            recipe.AddIngredient(null, "StellarBlade", 1);
             recipe.AddIngredient(null, "SpiritSaber", 1);
             recipe.AddIngredient(null, "SpiritSword", 1);
             recipe.AddIngredient(null, "EtherealSword", 1);

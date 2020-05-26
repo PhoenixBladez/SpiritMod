@@ -11,8 +11,8 @@ namespace SpiritMod.Items.Accessory
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Thrower's Glove");
-			Tooltip.SetDefault("Increases throwing damage and critical strike chance by 5%\nAfter every 10 successful throwing strikes, your next attack will do more damage and fly faster");
+			DisplayName.SetDefault("Sharpshooter's Glove");
+			Tooltip.SetDefault("After every 7 strikes with a projectile, your next attack will do more damage and fly faster");
 		}
 
 
@@ -20,15 +20,13 @@ namespace SpiritMod.Items.Accessory
         {
             item.width = 38;     
             item.height = 38;   
-            item.value = Item.buyPrice(0, 8, 0, 0);
+            item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 2;
 
             item.accessory = true;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.thrownDamage += 0.05f;
-            player.thrownCrit += 5;
             player.GetSpiritPlayer().throwerGlove = true;
         }
     }

@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Eternal Sword");
-            Tooltip.SetDefault("Shoots out an eternal apparition\n~Donator Item~");
+            Tooltip.SetDefault("Shoots out apparitions of blades");
 
         }
 

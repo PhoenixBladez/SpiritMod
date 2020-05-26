@@ -113,7 +113,7 @@ namespace SpiritMod.NPCs.Ocean
             {
                 return 0f;
             }
-            return SpawnCondition.OceanMonster.Chance * 0.1f;
+            return SpawnCondition.OceanMonster.Chance * 0.06f;
         }
         public override void OnHitPlayer(Player target, int damage, bool crit)
 		{

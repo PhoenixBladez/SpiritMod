@@ -11,17 +11,14 @@ namespace SpiritMod.Items.DonatorItems
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Zanbat Sword");
-			Tooltip.SetDefault("~Donator Item~");
+			DisplayName.SetDefault("Zanbat Blade");
 		}
-
-
         int charger;
         public override void SetDefaults()
         {
             item.damage = 61;
-            item.useTime = 12;
-            item.useAnimation = 12;
+            item.useTime = 19;
+            item.useAnimation = 19;
             item.melee = true;
             item.width = 48;
             item.height = 48;
@@ -32,7 +29,7 @@ namespace SpiritMod.Items.DonatorItems
             item.crit = 5;
             item.shootSpeed = 11f;
             item.UseSound = SoundID.Item1;
-            item.autoReuse = false;
+            item.autoReuse = true;
             item.useTurn = true;
             item.shoot = mod.ProjectileType("ZanbatProj");
         }
@@ -40,10 +37,29 @@ namespace SpiritMod.Items.DonatorItems
         {
             if (Main.rand.Next(4) == 1)
             {
-                int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
-                return false;
+                Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 20);
+                return true;
             }
             return false;
+        }
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return Color.White;
+        }
+        public override void UseStyle(Player player)
+        {
+            float cosRot = (float)Math.Cos(player.itemRotation - 0.98f * player.direction * player.gravDir * 90f);
+            float sinRot = (float)Math.Sin(player.itemRotation - 0.98f * player.direction * player.gravDir * 90f);
+            for (int i = 0; i < 8; i++)
+            {
+
+                float length = (item.width * 1.2f - i * item.width / 9) * item.scale + 7 + i; //length to base + arm displacement
+                int dust = Dust.NewDust(new Vector2((float)(player.itemLocation.X + length * cosRot * player.direction), (float)(player.itemLocation.Y + length * sinRot * player.direction)), 0, 0, 133, player.velocity.X * 0.9f, player.velocity.Y * 0.9f, 100, Color.White, .8f);
+                Main.dust[dust].shader = GameShaders.Armor.GetSecondaryShader(58, Main.LocalPlayer);
+                Main.dust[dust].velocity *= 0f;
+                Main.dust[dust].noGravity = true;
+                Main.dust[dust].noLight = true;
+            }
         }
         public override void AddRecipes()
         {

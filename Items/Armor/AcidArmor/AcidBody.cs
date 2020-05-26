@@ -11,7 +11,6 @@ namespace SpiritMod.Items.Armor.AcidArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Acid Plate");
-            Tooltip.SetDefault("Increases throwing damage by 17%");
 
         }
 
@@ -20,13 +19,8 @@ namespace SpiritMod.Items.Armor.AcidArmor
             item.width = 30;
             item.height = 20;
             item.value = 6000;
-            item.rare = 5;
-            item.defense = 11;
-        }
-
-        public override void UpdateEquip(Player player)
-        {
-            player.thrownDamage += 0.17f;
+            item.rare = 4;
+            item.vanity = true;
         }
         public override void AddRecipes()
         {

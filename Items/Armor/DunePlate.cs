@@ -11,7 +11,6 @@ namespace SpiritMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Dune Plate");
-			Tooltip.SetDefault("Increases throwing velocity by 15% and throwing damage by 18%");
 		}
 
 
@@ -20,19 +19,14 @@ namespace SpiritMod.Items.Armor
         {
             item.width = 20;
             item.height = 18;
-            item.value = 66000;
+            item.value = 10000;
             item.rare = 6;
-            item.defense = 17;
-        }
-        public override void UpdateEquip(Player player)
-        {
-            player.thrownDamage += .18f;
-            player.thrownVelocity += 0.15f;
+            item.vanity = true;
         }
 		public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "DuneEssence", 20);
+            recipe.AddIngredient(null, "DuneEssence", 3);
             recipe.AddTile(null,"EssenceDistorter");
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

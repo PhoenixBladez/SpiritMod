@@ -14,7 +14,7 @@ namespace SpiritMod.Items.DonatorItems
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Blade of the You-Kai");
-			Tooltip.SetDefault("Melee hits on enemies may emit Shadowflame Embers\nInflicts Shadowflame\n~Donator Item~");
+			Tooltip.SetDefault("Melee hits on enemies may emit Shadowflame Embers\nInflicts Shadowflame");
 		}
 
 

@@ -4,6 +4,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
 namespace SpiritMod.Items.DonatorItems.Folv
 {
     public class Enchantment : ModItem
@@ -11,7 +14,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Forgotten Enchantment");
-			Tooltip.SetDefault("'A runic inscription for a particular sword'\n~Donator Item~");
+			Tooltip.SetDefault("'A runic inscription for a particular sword'");
 		}
 
 
@@ -21,6 +24,10 @@ namespace SpiritMod.Items.DonatorItems.Folv
             item.height = 30;
             item.maxStack = 999;
             item.rare = 6;
+        }
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return Color.White;
         }
     }
 }

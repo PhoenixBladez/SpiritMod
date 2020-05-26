@@ -14,7 +14,7 @@ namespace SpiritMod.Projectiles.Hostile
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Valkyrie Spear");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
@@ -31,6 +31,14 @@ namespace SpiritMod.Projectiles.Hostile
         float num;
         public override void AI()
         {
+            if (projectile.timeLeft >= 290)
+            {
+                projectile.tileCollide = false;
+            }
+            else
+            {
+                projectile.tileCollide = true;
+            }
             num += .4f;
             projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
         }

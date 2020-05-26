@@ -28,7 +28,6 @@ namespace SpiritMod.Items.Armor
             player.magicCrit += 7;
             player.rangedCrit += 7;
             player.meleeCrit += 7;
-            player.thrownCrit += 7;
         }       
 		public override void AddRecipes()
         {

@@ -27,7 +27,7 @@ namespace SpiritMod.Projectiles.Thrown
 			projectile.height = 36;
 			projectile.width = 36;
             projectile.aiStyle = -1;
-            projectile.thrown = true;
+            projectile.ranged = true;
             projectile.ignoreWater = true;
 			projectile.tileCollide = false;
 		}

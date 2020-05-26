@@ -23,7 +23,7 @@ namespace SpiritMod.Projectiles.Sword
 		{
 			projectile.friendly = true;
 			projectile.hostile = false;
-			projectile.timeLeft = 300;
+			projectile.timeLeft = 210;
 			projectile.height = 20;
 			projectile.width = 30;
 			projectile.penetrate = 2;
@@ -33,13 +33,12 @@ namespace SpiritMod.Projectiles.Sword
 
 		public override void Kill(int timeLeft)
 		{
-			for (int num623 = 0; num623 < 70; num623++)
+            Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1);
+            for (int num623 = 0; num623 < 50; num623++)
 			{
 				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default(Color), 1f);
 				Main.dust[num624].noGravity = true;
 				Main.dust[num624].velocity *= 1.5f;
-				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default(Color), 1f);
-				Main.dust[num624].velocity *= 2f;
 			}
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

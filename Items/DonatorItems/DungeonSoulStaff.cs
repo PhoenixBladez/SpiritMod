@@ -10,7 +10,7 @@ namespace SpiritMod.Items.DonatorItems
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Dungeon Soul Staff");
-            Tooltip.SetDefault("Summons a friendly Dungeon Spirit to latch on to your foes\n~Donator Item~");
+            Tooltip.SetDefault("Summons a friendly Dungeon Spirit to latch on to your foes");
 
         }
 

@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Pets
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Thrall's Gate");
-			Tooltip.SetDefault("~Donator Item~\n'Leads to a Dragon's Domain'");
+			Tooltip.SetDefault("'Leads to a Dragon's Domain'");
 		}
 
 		public override void SetDefaults()

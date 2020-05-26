@@ -10,30 +10,24 @@ namespace SpiritMod.Items.Armor.IMArmor
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Illuminant Greaves");
-			Tooltip.SetDefault("Increases life regeneration slightly");
+			DisplayName.SetDefault("Illuminant Boots");
 		}
         public override void SetDefaults()
         {
             item.width = 22;
             item.height = 16;
             item.value = 90000;
-            item.rare = 7;
-            item.defense = 17;
+            item.rare = 4;
+            item.vanity = true;
         }
-        public override void UpdateEquip(Player player)
-        {
-
-            player.statLifeMax2 += 25;
-            player.lifeRegen += 2;
-        }
-
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "IlluminatedCrystal", 12);
+            recipe.AddIngredient(ItemID.Silk, 6);
+            recipe.AddIngredient(ItemID.SoulofLight, 4);
+            recipe.AddIngredient(mod.ItemType("Geode"), 3);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 1);
+            recipe.SetResult(this);
             recipe.AddRecipe();
         }
     }

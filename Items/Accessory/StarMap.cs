@@ -34,7 +34,6 @@ namespace SpiritMod.Items.Accessory
             player.maxRunSpeed += .1f;
             player.meleeCrit += 4;
             player.magicCrit += 4;
-            player.thrownCrit += 4;
             player.rangedCrit += 4;
         }
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float  scale, int whoAmI) 	

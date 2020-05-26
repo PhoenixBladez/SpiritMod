@@ -14,7 +14,7 @@ namespace SpiritMod.Items.DonatorItems
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Crook of the Tormented");
-			Tooltip.SetDefault("Occasionally spawns forth ornate scarabs to defend you upon hitting enemies\n~Donator Item~");
+			Tooltip.SetDefault("Occasionally spawns forth ornate scarabs to defend you upon hitting enemies");
 		}
 
 

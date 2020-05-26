@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.ReachBoss
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Thornspeaker's Greaves");
-            Tooltip.SetDefault("Increases throwing velocity by 10%");
+            Tooltip.SetDefault("Increases minion damage by 4%");
 
         }
 
@@ -23,11 +23,11 @@ namespace SpiritMod.Items.Armor.ReachBoss
             item.height = 20;
             item.value = 30200;
             item.rare = 2;
-            item.defense = 4;
+            item.defense = 3;
         }
         public override void UpdateEquip(Player player)
         {
-            player.thrownVelocity += 0.1f;
+            player.minionDamage += 0.04f;
         }
 		 public override void AddRecipes()
         {

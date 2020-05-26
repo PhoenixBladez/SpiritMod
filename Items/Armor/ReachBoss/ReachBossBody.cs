@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.ReachBoss
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Thornspeaker's Garb");
-            Tooltip.SetDefault("Increases throwing damage by 10% and movement speed by 6%");
+            Tooltip.SetDefault("Increases max minions by 1");
 
         }
 
@@ -27,9 +27,7 @@ namespace SpiritMod.Items.Armor.ReachBoss
         }
         public override void UpdateEquip(Player player)
         {
-            player.thrownDamage += 0.1f;
-			player.moveSpeed += .06f;
-			player.maxRunSpeed += 0.03f;
+            player.maxMinions += 1;
         }
 		 public override void AddRecipes()
         {

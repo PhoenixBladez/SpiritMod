@@ -29,8 +29,8 @@ namespace SpiritMod.Projectiles.Thrown
 
 			projectile.friendly = true;
 			projectile.hostile = false;
-
-			projectile.alpha = 0;
+            projectile.ranged = true;
+            projectile.alpha = 0;
 		}
         public override void Kill(int timeLeft)
         {

@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.ReachBoss
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Thornspeaker's Helmet");
-            Tooltip.SetDefault("Increases throwing damage by 7% and throwing velocity by 5%");
+            Tooltip.SetDefault("Increases minion damage by 4%\nIncreases max minions by 1");
 
         }
 
@@ -27,15 +27,12 @@ namespace SpiritMod.Items.Armor.ReachBoss
         }
          public override void UpdateEquip(Player player)
         {
-            player.thrownDamage += 0.07f;
-			player.thrownVelocity += 0.05f;
+            player.minionDamage += 0.04f;
+            player.maxMinions += 1;
         }
-			public override void UpdateArmorSet(Player player)
+	    public override void UpdateArmorSet(Player player)
         {
 
-            player.setBonus = "'Prey on the weak'\nThrowing crits do 75% more damage to enemies under half health\nIncreases throwing velocity by 15%";
-            player.GetSpiritPlayer().reachSet = true;
-			player.thrownVelocity += .15f;
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {

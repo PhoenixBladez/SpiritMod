@@ -12,7 +12,6 @@ namespace SpiritMod.Items.DonatorItems.MoonMan
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Helmet of the Warrior");
-			Tooltip.SetDefault("~Donator Item~");
 		}
 
 		public override void SetDefaults()

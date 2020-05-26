@@ -20,7 +20,7 @@ namespace SpiritMod.Projectiles.Thrown
 			projectile.width = 13;
 			projectile.height = 18;
 			projectile.friendly = true;
-			projectile.thrown = true;
+			projectile.melee = true;
 			projectile.penetrate = 3;
 			projectile.timeLeft = 150;
 			projectile.light = 0;

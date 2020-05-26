@@ -34,7 +34,7 @@ namespace SpiritMod.Items.DonatorItems.FrostTroll
 			item.autoReuse = true;
 			item.useTurn = true;
 			item.crit = 6;
-			item.shoot = mod.ProjectileType("GeodeStaveProjectile");
+			item.shoot = mod.ProjectileType("FrostBolt");
 		}
 
 		public override void MeleeEffects(Player player, Rectangle hitbox)

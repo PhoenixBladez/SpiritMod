@@ -15,7 +15,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Folv's Staff");
-			Tooltip.SetDefault("Grants 2% increased magic damage and +10 maximum mana \n~Donator Item~");
+			Tooltip.SetDefault("Grants 2% increased magic damage and +10 maximum mana ");
 		}
         public override void SetDefaults()
         {

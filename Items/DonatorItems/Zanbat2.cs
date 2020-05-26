@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
@@ -12,8 +13,8 @@ namespace SpiritMod.Items.DonatorItems
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Zanbat Sword");
-			Tooltip.SetDefault("~Donator Item~");
-		}
+            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/DonatorItems/Zanbat2_Glow");
+        }
 
 
         int charger;
@@ -34,6 +35,43 @@ namespace SpiritMod.Items.DonatorItems
             item.UseSound = SoundID.Item1;
             item.autoReuse = false;
             item.useTurn = true;
+        }
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            Lighting.AddLight(item.position, 0.255f, .209f, .072f);
+            Texture2D texture;
+            texture = Main.itemTexture[item.type];
+            spriteBatch.Draw
+            (
+                mod.GetTexture("Items/DonatorItems/Zanbat2_Glow"),
+                new Vector2
+                (
+                    item.position.X - Main.screenPosition.X + item.width * 0.5f,
+                    item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+                ),
+                new Rectangle(0, 0, texture.Width, texture.Height),
+                Color.White,
+                rotation,
+                texture.Size() * 0.5f,
+                scale,
+                SpriteEffects.None,
+                0f
+            );
+        }
+        public override void UseStyle(Player player)
+        {
+            float cosRot = (float)Math.Cos(player.itemRotation - 0.98f * player.direction * player.gravDir * 90f);
+            float sinRot = (float)Math.Sin(player.itemRotation - 0.98f * player.direction * player.gravDir * 90f);
+            for (int i = 0; i < 5; i++)
+            {
+
+                float length = (item.width * 1.2f - i * item.width / 9) * item.scale + 8 + i; //length to base + arm displacement
+                int dust = Dust.NewDust(new Vector2((float)(player.itemLocation.X + length * cosRot * player.direction), (float)(player.itemLocation.Y + length * sinRot * player.direction)), 0, 0, 133, player.velocity.X * 0.9f, player.velocity.Y * 0.9f, 100, Color.White, .8f);
+                Main.dust[dust].shader = GameShaders.Armor.GetSecondaryShader(58, Main.LocalPlayer);
+                Main.dust[dust].velocity *= 0f;
+                Main.dust[dust].noGravity = true;
+                Main.dust[dust].noLight = true;
+            }
         }
         public override void AddRecipes()
         {

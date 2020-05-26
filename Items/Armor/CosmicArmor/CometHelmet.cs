@@ -1,4 +1,4 @@
-using System;
+/*using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -51,4 +51,4 @@ namespace SpiritMod.Items.Armor.CosmicArmor
             recipe.AddRecipe();
         }
     }
-}
+}*/

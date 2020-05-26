@@ -35,17 +35,18 @@ namespace SpiritMod.NPCs.Critters
 		bool txt = false;
 		public override bool PreAI()
 		{
-		if(!txt)
-		{
-			for (int i = 0; i < 8; ++i)
-			{
-             Vector2 dir = Main.player[npc.target].Center - npc.Center;
-             dir.Normalize();
-             dir *= 1;
-             int newNPC = NPC.NewNPC((int)npc.Center.X + (Main.rand.Next(-20, 20)), (int)npc.Center.Y + (Main.rand.Next(-20, 20)), mod.NPCType("Floater1"), npc.whoAmI);
-              Main.npc[newNPC].velocity = dir;
-			}
-			txt = true;
+		    if(!txt)
+		    {
+			    for (int i = 0; i < 8; ++i)
+			    {
+                 Vector2 dir = Main.player[npc.target].Center - npc.Center;
+                 dir.Normalize();
+                 dir *= 1;
+                 int newNPC = NPC.NewNPC((int)npc.Center.X + (Main.rand.Next(-20, 20)), (int)npc.Center.Y + (Main.rand.Next(-20, 20)), mod.NPCType("Floater1"), npc.whoAmI);
+                  Main.npc[newNPC].velocity = dir;
+			    }
+			    txt = true;
+                npc.netUpdate = true;
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), .3f, .2f, .3f);
 		}
 			return true;

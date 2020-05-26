@@ -33,7 +33,6 @@ namespace SpiritMod.Items.Accessory
             player.GetSpiritPlayer().magnifyingGlass = true;
             player.magicCrit += 4;
             player.meleeCrit += 4;
-            player.thrownCrit += 4;
             player.rangedCrit += 4;
         }
     }

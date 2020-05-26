@@ -12,7 +12,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Arcabe Missile");
+			DisplayName.SetDefault("Arcane Missile");
 		}
 
 		public override void SetDefaults()
@@ -20,15 +20,15 @@ namespace SpiritMod.Projectiles.DonatorItems
 			projectile.friendly = true;
 			projectile.hostile = false;
 			projectile.magic = true;
-			projectile.penetrate = 2;
-			projectile.timeLeft = 500;
+			projectile.penetrate = 1;
+			projectile.timeLeft = 180;
 			projectile.height = 14;
 			projectile.width = 14;
 			projectile.alpha = 255;
 			aiType = ProjectileID.Bullet;
 			projectile.extraUpdates = 1;
 		}
-
+        int timer;
 		public override void AI()
 		{
 			Vector2 targetPos = projectile.Center;
@@ -51,58 +51,58 @@ namespace SpiritMod.Projectiles.DonatorItems
 				}
 			}
 
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 62, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			int dust1 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 62, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 62, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			Main.dust[dust].noGravity = true;
-			Main.dust[dust2].noGravity = true;
-			Main.dust[dust2].velocity *= 0f;
-			Main.dust[dust2].velocity *= 0f;
-			Main.dust[dust2].scale = 0.99f;
-			Main.dust[dust1].scale = 0.99f;
-			Main.dust[dust].scale = 0.99f;
+            for (int i = 0; i < 3; i++)
+            {
+                Dust dust;
+                // You need to set position depending on what you are doing. You may need to subtract width/2 and height/2 as well to center the spawn rectangle.
+                Vector2 position = projectile.Center;
+                dust = Main.dust[Terraria.Dust.NewDust(position, 0, 0, 272, 0f, 0f, 0, new Color(255, 255, 255), 0.4947368f)];
+                dust.noLight = true;
+                dust.noGravity = true;
+                dust.velocity = Vector2.Zero;
+            }
+            timer++;
+            if (timer >= 40)
+            {
+                for (float num2 = 0.0f; (double)num2 < 6; ++num2)
+                {
+                    int dustIndex = Dust.NewDust(projectile.Center, 2, 2, 272, 0f, 0f, 0, default(Color), .5f);
+                    Main.dust[dustIndex].noGravity = true;
+                    Main.dust[dustIndex].noLight = true;
+                    Main.dust[dustIndex].velocity = Vector2.Normalize(projectile.Center.RotatedBy(Main.rand.NextFloat(MathHelper.TwoPi))) * 1.6f;
+                }
+                timer = 0;
+            }
 
-			//change trajectory to home in on target
-			if (targetAcquired)
-			{
-				float homingSpeedFactor = 7f;
-				Vector2 homingVect = targetPos - projectile.Center;
-				float dist = projectile.Distance(targetPos);
-				dist = homingSpeedFactor / dist;
-				homingVect *= dist;
+            //change trajectory to home in on target
+            if (targetAcquired)
+            {
+                float homingSpeedFactor = 6f;
+                Vector2 homingVect = targetPos - projectile.Center;
+                float dist = projectile.Distance(targetPos);
+                dist = homingSpeedFactor / dist;
+                homingVect *= dist;
 
-				projectile.velocity = (projectile.velocity * 20 + homingVect) / 21f;
-			}
-		}
+                projectile.velocity = (projectile.velocity * 20 + homingVect) / 21f;
+            }
+        }
 
-		public override void Kill(int timeLeft)
-		{
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
-			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-			projectile.width = 5;
-			projectile.height = 5;
-			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-			for (int num621 = 0; num621 < 20; num621++)
-			{
-				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 62, 0f, 0f, 100, default(Color), 2f);
-				Main.dust[num622].velocity *= 3f;
-				if (Main.rand.Next(2) == 0)
-				{
-					Main.dust[num622].scale = 0.5f;
-					Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-				}
-			}
-			for (int num623 = 0; num623 < 35; num623++)
-			{
-				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 62, 0f, 0f, 100, default(Color), 3f);
-				Main.dust[num624].noGravity = true;
-				Main.dust[num624].velocity *= 5f;
-				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 62, 0f, 0f, 100, default(Color), 2f);
-				Main.dust[num624].velocity *= 2f;
-			}
-		}
+        public override void Kill(int timeLeft)
+        {
+            Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 3);
+            projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
+            projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
+            projectile.width = 5;
+            projectile.height = 5;
+            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
+            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            for (float num2 = 0.0f; (double)num2 < 6; ++num2)
+            {
+                int dustIndex = Dust.NewDust(projectile.position, 2, 2, 272, 0f, 0f, 0, default(Color), 1f);
+                Main.dust[dustIndex].noGravity = true;
+                Main.dust[dustIndex].velocity = Vector2.Normalize(projectile.position.RotatedBy(Main.rand.NextFloat(MathHelper.TwoPi))) * 1.6f;
+            }
 
-	}
+        }
+    }
 }

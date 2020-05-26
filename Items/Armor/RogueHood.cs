@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Rogue Hood");
-			Tooltip.SetDefault("Increases throwing velocity by 4%");
+			Tooltip.SetDefault("Increases movement speed by 4%");
 		}
 
 
@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Armor
         }
         public override void UpdateEquip(Player player)
         {
-            player.thrownVelocity += 0.03f;
+            player.moveSpeed += 0.04f;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -35,14 +35,17 @@ namespace SpiritMod.Items.Armor
         }
         public override void UpdateArmorSet(Player player)
         { 
-            player.setBonus = "Getting hit grants the player four seconds of invisibility\nWhile invisible this way, throwing damage is increased by 100%\n25 second cooldown";
+            player.setBonus = "Getting hit grants the player four seconds of invisibility\nWhile invisible this way, damage dealt is increased by 100%\n25 second cooldown";
             player.GetSpiritPlayer().rogueSet = true;
 
             if (player.HasBuff(mod.BuffType("RogueCooldown")))
             {
                 if (player.HasBuff(BuffID.Invisibility))
                 {
-                    player.thrownDamage += 1f;
+                    player.rangedDamage += 1f;
+                    player.meleeDamage += 1f;
+                    player.magicDamage += 1f;
+                    player.minionDamage += 1f;
                 }
             }
         }

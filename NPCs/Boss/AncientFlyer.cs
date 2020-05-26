@@ -22,19 +22,22 @@ namespace SpiritMod.NPCs.Boss
 		{
 			DisplayName.SetDefault("Ancient Avian");
 			Main.npcFrameCount[npc.type] = 6;
-		}
+            NPCID.Sets.TrailCacheLength[npc.type] = 3;
+            NPCID.Sets.TrailingMode[npc.type] = 0;
+        }
 
 		public override void SetDefaults()
 		{
-			npc.width = 178;
-			npc.height = 138;
+			npc.width = 148;
+			npc.height = 120;
 			npc.damage = 23;
 			npc.defense = 14;
 			npc.lifeMax = 3800;
 			npc.knockBackResist = 0;
 			npc.boss = true;
 			npc.noGravity = true;
-			npc.noTileCollide = true;
+            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/AncientAvian");
+            npc.noTileCollide = true;
 			npc.npcSlots = 5;
 			bossBag = mod.ItemType("FlyerBag");
 			npc.HitSound = SoundID.NPCHit2;
@@ -152,8 +155,8 @@ namespace SpiritMod.NPCs.Boss
 			}
 			if (timer == 900)
 			{
-				Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
-			}
+                Main.PlaySound(SoundLoader.customSoundType, player.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/AvianScreech"));
+            }
 			else if (timer >= 900 && timer <= 1400) //Rains red comets
 			{
 				if (expertMode)
@@ -220,9 +223,19 @@ namespace SpiritMod.NPCs.Boss
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			 Vector2 vector2_3 = new Vector2((float) (Main.npcTexture[npc.type].Width / 2), (float) (Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
-			 Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, npc.height * 0.5f);
-			if (displaycircle)
+            var effects = npc.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            Vector2 vector2_3 = new Vector2((float) (Main.npcTexture[npc.type].Width / 2), (float) (Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
+            Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height / Main.npcFrameCount[npc.type]) * 0.5f);
+            if (npc.velocity != Vector2.Zero)
+            {
+                for (int k = 0; k < npc.oldPos.Length; k++)
+                {
+                    Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
+                    Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
+                    spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
+                }
+            }
+            if (displaycircle)
 			{
 			Microsoft.Xna.Framework.Color color1 = Lighting.GetColor((int) ((double) npc.position.X + (double) npc.width * 0.5) / 16, (int) (((double) npc.position.Y + (double) npc.height * 0.5) / 16.0));
       
@@ -258,8 +271,10 @@ namespace SpiritMod.NPCs.Boss
 			drawOrigin = r3.Size() / 2f;
 			Vector2 scale = new Vector2(0.75f, 1f + num16) * 1.5f;
 			float num17 = 1f + num13 * 0.75f;
-			}
-			return true;
+
+
+            }
+            return true;
 		}
 		public override void NPCLoot()
 		{

@@ -15,7 +15,7 @@ namespace SpiritMod.Items.DonatorItems
 			Tooltip.SetDefault(
 				"Can throw up to eight Duskfeather blades\n" +
 				"Right-click to recall all deployed blades\n" +
-				"Can be Equipped to summon a small Harpy pet\n~Donator Item~");
+				"Can be Equipped to summon a small Harpy pet");
 		}
 
 		public override void SetDefaults()
@@ -30,7 +30,7 @@ namespace SpiritMod.Items.DonatorItems
 			item.damage = 24;
 			item.crit = 16;
 			item.knockBack = 3f;
-			item.thrown = true;
+			item.ranged = true;
 			item.autoReuse = true;
 			item.shootSpeed = 16f;
 			item.UseSound = SoundID.Item1;

@@ -35,13 +35,11 @@ namespace SpiritMod.Items.Accessory
 			{
 				player.magicCrit += 10;
 				player.meleeCrit += 10;
-				player.thrownCrit += 10;
 				player.rangedCrit += 10;
 				player.magicDamage *= 1.1f;
 			    player.meleeDamage *= 1.1f;
 			    player.rangedDamage *= 1.1f;
 			    player.minionDamage *= 1.1f;
-			    player.thrownDamage *= 1.1f;
 			}
 		}
 

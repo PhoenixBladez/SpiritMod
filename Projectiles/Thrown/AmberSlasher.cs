@@ -22,7 +22,7 @@ namespace SpiritMod.Projectiles.Thrown
 			projectile.height = 12;
 			projectile.penetrate = 2;
 			projectile.friendly = true;
-			projectile.thrown = true;
+			projectile.ranged = true;
 		}
 
 		public override bool PreAI()

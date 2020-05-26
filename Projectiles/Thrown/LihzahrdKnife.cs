@@ -24,7 +24,7 @@ namespace SpiritMod.Projectiles.Thrown
 			projectile.aiStyle = 1;
 			aiType = ProjectileID.Bullet;
 
-			projectile.thrown = true;
+			projectile.ranged = true;
 			projectile.friendly = true;
 
 			projectile.penetrate = 5;

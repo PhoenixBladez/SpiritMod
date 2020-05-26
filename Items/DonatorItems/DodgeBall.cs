@@ -11,40 +11,39 @@ namespace SpiritMod.Items.DonatorItems
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Lightning Throw");
-			Tooltip.SetDefault("Throw a very fast, mach speed dodgeball! \n~Donator Item~");
+			Tooltip.SetDefault("Throw mach speed dodgeballs!");
 		}
 
 
         public override void SetDefaults()
         {
-            item.damage = 32;
-            item.thrown = true;
+            item.damage = 12;
+            item.ranged = true;
             item.width = 30;
             item.height = 30;
-            item.useTime = 15;
-            item.useAnimation = 15;
+            item.useTime = 22;
+            item.useAnimation = 22;
             item.noUseGraphic = true;
             item.useStyle = 1;
             item.knockBack = 0;
-            item.value = 35800;
-            item.rare = 4;
-            item.shootSpeed = 10f;
+            item.value = 4000;
+            item.rare = 2;
+            item.shootSpeed = 8f;
             item.shoot = mod.ProjectileType("Dodgeball");
             item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
+            item.autoReuse = false;
         }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Silk, 20);
-            recipe.AddIngredient(ItemID.SoulofNight, 4);
-            recipe.AddIngredient(ItemID.SoulofLight, 4);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ItemID.Silk, 11);
+            recipe.AddIngredient(mod.ItemType("OldLeather"), 8);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
 
             ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(null, "DodgeBall1", 1);
+            recipe2.AddIngredient(null, "DodgeBall1");
             recipe2.SetResult(this);
             recipe2.AddRecipe();
         }

@@ -15,7 +15,7 @@ namespace SpiritMod.Items.DonatorItems
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cloak Of Spirit");
-			Tooltip.SetDefault("Minions have a chance to return life\nMinions do 10% less damage\n~Donator Item~");
+			Tooltip.SetDefault("Minions have a chance to return life\nMinions do 10% less damage");
 		}
         public override void SetDefaults()
         {

@@ -30,7 +30,6 @@ namespace SpiritMod.Items.Armor.FrigidArmor
         {
             player.meleeCrit += 3;
             player.magicCrit += 3;
-            player.thrownCrit += 3;
             player.rangedCrit += 3;
         }
         public override void AddRecipes()

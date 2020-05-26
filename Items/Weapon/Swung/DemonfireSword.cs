@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Flameberge Sword");
-            Tooltip.SetDefault("Shoots out a fiery bolt\n~Donator Item~");
+            Tooltip.SetDefault("Shoots out a fiery bolt");
 
         }
 

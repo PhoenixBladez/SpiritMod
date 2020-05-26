@@ -31,7 +31,6 @@ namespace SpiritMod.Items.Accessory
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.magicDamage += 0.11f;
-            player.thrownDamage += 0.11f;
             player.minionDamage += 0.11f;
             player.rangedDamage += 0.11f;
             player.meleeDamage += 0.11f;

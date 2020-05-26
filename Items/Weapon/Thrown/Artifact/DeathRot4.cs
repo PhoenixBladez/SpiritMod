@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Weapon.Thrown.Artifact
             item.height = 56;
             item.noUseGraphic = true;
             item.UseSound = SoundID.Item100;
-            item.thrown = true;
+            item.melee = true;
             item.channel = true;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("DeathRot4Proj");

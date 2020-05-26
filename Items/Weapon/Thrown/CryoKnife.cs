@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.useAnimation = 19;
             item.useTime = 19;
             item.shootSpeed = 9f;
-            item.thrown = true;
+            item.ranged = true;
             item.damage = 23;
             item.autoReuse = true;
             item.knockBack = 1f;

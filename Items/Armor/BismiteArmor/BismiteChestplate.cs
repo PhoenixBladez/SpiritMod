@@ -27,12 +27,10 @@ namespace SpiritMod.Items.Armor.BismiteArmor
         {
             player.magicDamage += 0.04f;
             player.meleeDamage += 0.04f;
-            player.thrownDamage += 0.04f;
             player.rangedDamage += 0.04f;
 			player.minionDamage += 0.04f;
             player.magicCrit += 4;
             player.meleeCrit += 4;
-            player.thrownCrit += 4;
             player.rangedCrit += 4;
         }
         public override void AddRecipes()

@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Weapon.Gun
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Polymorph Gun");
-			Tooltip.SetDefault("Turns Enemies into Harmless Bunnies!");
+			Tooltip.SetDefault("Turns enemies into harmless bunnies!");
 		}
 
 
@@ -30,10 +30,10 @@ namespace SpiritMod.Items.Weapon.Gun
             item.noMelee = true; 
             item.knockBack = 4;
             item.value = Terraria.Item.buyPrice(1, 20, 0, 0);
-            item.rare = 7;
-            item.UseSound = SoundID.Item11;
+            item.rare = 6;
+            item.UseSound = SoundID.DD2_SonicBoomBladeSlash;
             item.autoReuse = true;
-            item.shootSpeed = 18f;
+            item.shootSpeed = 15f;
 			item.shoot = mod.ProjectileType("Polyshot");
         }
         public override Vector2? HoldoutOffset()

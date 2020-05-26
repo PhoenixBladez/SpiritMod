@@ -27,7 +27,7 @@ namespace SpiritMod.Projectiles.Thrown
 			projectile.penetrate = 1;
 			projectile.timeLeft = 600;
 			aiType = ProjectileID.BoneJavelin;
-			projectile.thrown = true;
+			projectile.melee = true;
 		}
 
 		public override bool PreAI()

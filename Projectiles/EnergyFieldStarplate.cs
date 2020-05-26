@@ -38,7 +38,6 @@ namespace SpiritMod.Projectiles
             {
                 if (projectile != proj && proj.friendly && proj.ranged)
                 {
-                    proj.velocity.X *= 1.1f;
                     proj.GetGlobalProjectile<SpiritGlobalProjectile>().shotFromMaliwanShockCommon = true;
                 }
             }

@@ -12,7 +12,7 @@ namespace SpiritMod.Items.DonatorItems
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Combat Shotgun");
-			Tooltip.SetDefault("'Rip and Tear'\nShoots a spread of bullets\nRight-click to shoot a grenade\n~Donator Item~");
+			Tooltip.SetDefault("'Rip and Tear'\nShoots a spread of bullets\nRight-click to shoot a grenade");
 		}
 
         

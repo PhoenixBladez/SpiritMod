@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
             item.rare = 2;
 			item.UseSound = SoundID.Item20;
-			item.autoReuse = true;
+			item.autoReuse = false;
 			item.shoot = mod.ProjectileType("ValkyrieSpearHostile");
 			item.shootSpeed = 11.5f;
 		}
@@ -40,12 +40,27 @@ namespace SpiritMod.Items.Weapon.Magic
 		{
             for (int I = 0; I < 2; I++)
 			{
-                int p = Projectile.NewProjectile(position.X, position.Y, speedX + ((float) Main.rand.Next(-250, 250) / 100), speedY - ((float) Main.rand.Next(100, 250) / -100), type, damage, knockBack, player.whoAmI, 0f, 0f);
+                float angle = Main.rand.NextFloat(MathHelper.PiOver4, -MathHelper.Pi - MathHelper.PiOver4);
+                Vector2 spawnPlace = Vector2.Normalize(new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle))) * 20f;
+                if (Collision.CanHit(position, 0, 0, position + spawnPlace, 0, 0))
+                {
+                    position += spawnPlace;
+                }
+
+                Vector2 velocity = Vector2.Normalize(Main.MouseWorld - position) * item.shootSpeed;
+                int p = Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, type, damage, knockBack, 0, 0.0f, 0.0f);
                 Main.projectile[p].friendly = true;
                 Main.projectile[p].hostile = false;
                 Main.projectile[p].melee = true;
                 Main.projectile[p].magic = true;
+                for (float num2 = 0.0f; (double)num2 < 10; ++num2)
+                {
+                    int dustIndex = Dust.NewDust(position, 2, 2, 263, 0f, 0f, 0, default(Color), 1f);
+                    Main.dust[dustIndex].noGravity = true;
+                    Main.dust[dustIndex].velocity = Vector2.Normalize(spawnPlace.RotatedBy(Main.rand.NextFloat(MathHelper.TwoPi))) * 1.6f;
+                }
             }
+
 			return false;
 		}
 	}

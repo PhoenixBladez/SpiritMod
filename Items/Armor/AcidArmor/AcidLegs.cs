@@ -11,7 +11,6 @@ namespace SpiritMod.Items.Armor.AcidArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Acid Leggings");
-            Tooltip.SetDefault("Increases movement speed by 12%");
 
         }
 
@@ -20,13 +19,8 @@ namespace SpiritMod.Items.Armor.AcidArmor
             item.width = 22;
             item.height = 18;
             item.value = 16000;
-            item.rare = 5;
-            item.defense = 7;
-        }
-		public override void UpdateEquip(Player player)
-        {
-            player.maxRunSpeed += 0.04f;
-            player.runAcceleration += 0.12f;
+            item.rare = 4;
+            item.vanity = true;
         }
         public override void AddRecipes()
         {

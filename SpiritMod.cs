@@ -167,10 +167,15 @@ namespace SpiritMod
                 music = GetSoundSlot(SoundType.Music, "Sounds/Music/AuroraSnow");
                 priority = MusicPriority.BiomeHigh;
             }
-            if (player.ZoneBeach && player.ZoneOverworldHeight && !Main.dayTime)
+            if (player.ZoneBeach && MyWorld.luminousOcean && !Main.dayTime)
             {
                 music = GetSoundSlot(SoundType.Music, "Sounds/Music/OceanNighttime");
                 priority = MusicPriority.BiomeHigh;
+            }
+            if (player.ZoneSnow && player.ZoneOverworldHeight && !Main.dayTime && !player.ZoneCorrupt && !player.ZoneCrimson && !MyWorld.aurora)
+            {
+                music = GetSoundSlot(SoundType.Music, "Sounds/Music/SnowNighttime");
+                priority = MusicPriority.BiomeMedium;
             }
             if (spirit.ZoneAsteroid)
             {
@@ -277,7 +282,6 @@ namespace SpiritMod
                 case "Infernon": return MyWorld.downedInfernon;
                 case "Dusking": return MyWorld.downedDusking;
                 case "Ethereal Umbra": return MyWorld.downedSpiritCore;
-                case "Illuminant Master": return MyWorld.downedIlluminantMaster;
                 case "Atlas": return MyWorld.downedAtlas;
                 case "Overseer": return MyWorld.downedOverseer;
             }
@@ -369,6 +373,15 @@ namespace SpiritMod
 
                 SkyManager.Instance["SpiritMod:SpiritBiomeSky"] = new SpiritBiomeSky();
                 Filters.Scene["SpiritMod:SpiritBiomeSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
+
+                SkyManager.Instance["SpiritMod:PurpleAlgaeSky"] = new PurpleAlgaeSky();
+                Filters.Scene["SpiritMod:PurpleAlgaeSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
+
+                SkyManager.Instance["SpiritMod:GreenAlgaeSky"] = new GreenAlgaeSky();
+                Filters.Scene["SpiritMod:GreenAlgaeSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
+
+                SkyManager.Instance["SpiritMod:BlueAlgaeSky"] = new BlueAlgaeSky();
+                Filters.Scene["SpiritMod:BlueAlgaeSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
 
                 SkyManager.Instance["SpiritMod:AshstormParticles"] = new AshstormSky();
                 Filters.Scene["SpiritMod:AshstormParticles"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
@@ -591,7 +604,6 @@ namespace SpiritMod
 
                 bossChecklist.Call("AddBossWithInfo", "Dusking", 7.3f, (Func<bool>)(() => MyWorld.downedDusking), "Use a [i:" + ItemType("DuskCrown") + "] at nighttime");
                 bossChecklist.Call("AddBossWithInfo", "Ethereal Umbra", 7.8f, (Func<bool>)(() => MyWorld.downedSpiritCore), "Use a [i:" + ItemType("UmbraSummon") + "] in the Spirit Biome at nighttime");
-                bossChecklist.Call("AddBossWithInfo", "Illuminant Master", 9.9f, (Func<bool>)(() => MyWorld.downedIlluminantMaster), "Use [i:" + ItemType("ChaosFire") + "] in the Hallowed Biome at Nighttime");
                 bossChecklist.Call("AddBossWithInfo", "Atlas", 12.4f, (Func<bool>)(() => MyWorld.downedAtlas), "Use a [i:" + ItemType("StoneSkin") + "] at any time");
                 bossChecklist.Call("AddBossWithInfo", "Overseer", 14.2f, (Func<bool>)(() => MyWorld.downedOverseer), "Use a [i:" + ItemType("SpiritIdol") + "] at the Spirit Biome during nighttime");
             }

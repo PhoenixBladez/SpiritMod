@@ -21,7 +21,7 @@ namespace SpiritMod.Projectiles.Thrown
 			projectile.width = 13;
 			projectile.height = 18;
 			projectile.friendly = true;
-			projectile.thrown = true;
+			projectile.ranged = true;
 			projectile.tileCollide = false;
 			projectile.penetrate = -1;
 			projectile.timeLeft = 180;

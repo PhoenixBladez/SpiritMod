@@ -12,13 +12,12 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Venom Blade");
-			Tooltip.SetDefault("Occasionally shoots out a bolt of powerful venom");
 		}
 
 
         public override void SetDefaults()
         {
-            item.damage = 52;
+            item.damage = 47;
             item.useTime = 26;
             item.useAnimation = 26;
             item.melee = true;            
@@ -32,8 +31,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.UseSound = SoundID.Item1;   
             item.autoReuse = true;
             item.useTurn = true;
-            item.crit = 12;
-            item.shoot = mod.ProjectileType("GeodeStaveProjectile");
+            item.shoot = 355;
     }
 
         public override bool OnlyShootOnSwing => true;

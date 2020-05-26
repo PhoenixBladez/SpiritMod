@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Nosferatu");
-			Tooltip.SetDefault("Summons a blood portal that heals the player for a large amount of health\n~Donator Item~");
+			Tooltip.SetDefault("Summons a blood portal that heals the player for a large amount of health");
 		}
 
 

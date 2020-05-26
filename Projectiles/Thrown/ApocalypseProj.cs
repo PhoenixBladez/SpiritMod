@@ -26,7 +26,7 @@ namespace SpiritMod.Projectiles.Thrown
 			projectile.aiStyle = 1;
 			projectile.aiStyle = 113;
 
-			projectile.thrown = true;
+			projectile.ranged = true;
 			projectile.friendly = true;
 
 			projectile.penetrate = -1;

@@ -9,7 +9,7 @@ namespace SpiritMod.Items.DonatorItems
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Arc-en-Ciel");
-			Tooltip.SetDefault("Summons a RAINBOW of lost souls\nLasts for five seconds before cancelling out\nInflicts 'Electrified' and 'Holy Light'\n~Donator Item~");
+			Tooltip.SetDefault("Summons a RAINBOW of lost souls\nLasts for five seconds before cancelling out\nInflicts 'Electrified' and 'Holy Light'");
 		}
 
 

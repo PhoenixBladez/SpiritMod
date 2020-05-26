@@ -11,24 +11,24 @@ namespace SpiritMod.Items.DonatorItems
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sluggy Throw");
-			Tooltip.SetDefault("Throw a dodgeball at snail speed \n~Donator Item~");
+			Tooltip.SetDefault("Throw a dodgeball at snail speed");
 		}
 
 
         public override void SetDefaults()
         {
-            item.damage = 65;
-            item.thrown = true;
+            item.damage = 13;
+            item.melee = true;
             item.width = 30;
             item.height = 30;
-            item.useTime = 26;
-            item.useAnimation = 26;
+            item.useTime = 30;
+            item.useAnimation = 30;
             item.noUseGraphic = true;
             item.useStyle = 1;
-            item.knockBack = 30;
-            item.value = 35800;
-            item.rare = 4;
-            item.shootSpeed = 8f;
+            item.knockBack = 9;
+            item.value = 4000;
+            item.rare = 2;
+            item.shootSpeed = 6f;
             item.shoot = mod.ProjectileType("Dodgeball1");
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
@@ -36,10 +36,9 @@ namespace SpiritMod.Items.DonatorItems
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Silk, 20);
-            recipe.AddIngredient(ItemID.SoulofNight, 4);
-            recipe.AddIngredient(ItemID.SoulofLight, 4);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ItemID.Silk, 11);
+            recipe.AddIngredient(mod.ItemType("OldLeather"), 8);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
 

@@ -20,7 +20,7 @@ namespace SpiritMod.Projectiles.Thrown
 			projectile.height = 16;
 
 			projectile.friendly = true;
-			projectile.thrown = true;
+			projectile.melee = true;
 			projectile.penetrate = -1;
 			projectile.alpha = 255;
 		}

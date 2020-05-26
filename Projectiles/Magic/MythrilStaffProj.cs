@@ -11,8 +11,10 @@ namespace SpiritMod.Projectiles.Magic
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Mythril Shot");
-		}
+			DisplayName.SetDefault("Mythril Pellet");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+        }
 
 		public override void SetDefaults()
 		{
@@ -23,18 +25,20 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.aiStyle = -1;
 			projectile.friendly = true;
 			projectile.penetrate = 1;
-			projectile.alpha = 255;
 		}
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            if (Main.rand.Next(2) == 0)
+            {
+                target.StrikeNPC(projectile.damage / 2, 0f, 0, false);
+            }
+        }
+        int counter;
+        public override bool PreAI()
 		{
-			target.StrikeNPC(projectile.damage / 2, 0f, 0, crit);
-		}
-
-		public override bool PreAI()
-		{
+            bool chasing = false;
 			projectile.ai[1] += 1f;
-			bool chasing = false;
 			if (projectile.ai[1] >= 30f)
 			{
 				chasing = true;
@@ -84,21 +88,39 @@ namespace SpiritMod.Projectiles.Magic
 				}
 			}
 
-			//Create particles
-			int i = Main.rand.Next(10);
-			if (i < 5)
-			{
-				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 83, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-				Main.dust[dust].scale = 1f;
-				Main.dust[dust].noGravity = true;
-				Main.dust[dust].noLight = true;
-				int dust1 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 83, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-				Main.dust[dust1].scale = 1f;
-				Main.dust[dust1].noGravity = true;
-				Main.dust[dust1].noLight = true;
-			}
-			return false;
+            //Create particles
+           
+            return true;
 		}
-
-	}
+        public override void AI()
+        {
+            float num395 = Main.mouseTextColor / 200f - 0.35f;
+            num395 *= 0.3f;
+            projectile.scale = num395 + 0.95f;
+            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
+            int num = 5;
+            for (int k = 0; k < 3; k++)
+            {
+                int index2 = Dust.NewDust(projectile.position, 1, 1, 83, 0.0f, 0.0f, 0, new Color(), 1f);
+                Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
+                Main.dust[index2].scale = .5f;
+                Main.dust[index2].velocity *= 0f;
+                Main.dust[index2].noGravity = true;
+                Main.dust[index2].noLight = false;
+            }
+        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            {
+                Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
+                for (int k = 0; k < projectile.oldPos.Length; k++)
+                {
+                    Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
+                    Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
+                    spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+                }
+            }
+            return false;
+        }
+    }
 }

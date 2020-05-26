@@ -11,7 +11,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ancient Hilt");
-			Tooltip.SetDefault("'A hilt of aeons past'\n~Donator Item~");
+			Tooltip.SetDefault("'A hilt of aeons past'");
 		}
 
 

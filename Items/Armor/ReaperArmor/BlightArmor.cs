@@ -28,13 +28,11 @@ namespace SpiritMod.Items.Armor.ReaperArmor
         {
             player.magicDamage += 0.11f;
             player.meleeDamage += 0.11f;
-            player.thrownDamage += 0.11f;
             player.rangedDamage += 0.11f;
             player.minionDamage += 0.11f;
 			
 			            player.magicCrit += 6;
 						player.meleeCrit += 6;
-						player.thrownCrit += 6;
 						player.rangedCrit += 6;
 						
 

@@ -24,9 +24,8 @@ namespace SpiritMod.Items.Armor.WitherArmor
         public override void UpdateEquip(Player player)
         {
 
-			            player.magicDamage += 0.05f;
+			player.magicDamage += 0.05f;
             player.meleeDamage += 0.05f;
-            player.thrownDamage += 0.05f;
             player.rangedDamage += 0.05f;
 			player.minionDamage += 0.05f;
             player.maxRunSpeed += 0.05f;
@@ -34,7 +33,6 @@ namespace SpiritMod.Items.Armor.WitherArmor
             player.magicCrit += 5;
             player.meleeCrit += 5;
             player.rangedCrit += 5;
-            player.thrownCrit += 5;
 			
 			player.moveSpeed += 0.1f;
         }

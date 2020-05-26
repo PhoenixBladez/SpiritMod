@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.autoReuse = true;
 			item.useTurn = true;
 			item.crit = 6;
-			item.shoot = mod.ProjectileType("GeodeStaveProjectile");
+			item.shoot = mod.ProjectileType("NightmareDagger");
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

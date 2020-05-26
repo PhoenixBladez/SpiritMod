@@ -16,7 +16,7 @@ namespace SpiritMod.Items.DonatorItems
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Guardian's Cloak");
-			Tooltip.SetDefault("Minions have a large chance to return life\nMinions do 18% less damage\nIncreases sentry count by 1.\nIncreases armor penetration by 5.\n~Donator Item~");
+			Tooltip.SetDefault("Minions have a large chance to return life\nMinions do 18% less damage\nIncreases sentry count by 1.\nIncreases armor penetration by 5.");
 		}
         public override void SetDefaults()
         {

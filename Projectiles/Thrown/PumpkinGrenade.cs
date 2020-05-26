@@ -18,6 +18,7 @@ namespace SpiritMod.Projectiles.Thrown
 			///for reasons, I have to put a comment here.
 			projectile.aiStyle = 16;
 			projectile.friendly = true;
+            projectile.ranged = true;
 			projectile.hostile = false;
 			projectile.timeLeft = 180;
 			projectile.width = 20;

@@ -11,7 +11,6 @@ namespace SpiritMod.Items.Armor.AcidArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Acid Mask");
-			Tooltip.SetDefault("Increases throwing velocity by 7% and throwing damage by 10%");
 		}
 
 
@@ -21,13 +20,8 @@ namespace SpiritMod.Items.Armor.AcidArmor
             item.width = 20;
             item.height = 18;
             item.value = 46000;
-            item.rare = 5;
-            item.defense = 7;
-        }
-        public override void UpdateEquip(Player player)
-        {
-            player.thrownDamage+= 0.1f;
-            player.thrownVelocity += 0.07f;
+            item.rare = 4;
+            item.vanity = true;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

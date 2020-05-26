@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Nora's Mark");
-			Tooltip.SetDefault("Increases minion damage by 18%\nIncreases maximum amount of minions by 1\nReduces damage taken by 15% when under half health\n~Donator Item~");
+			Tooltip.SetDefault("Increases minion damage by 18%\nIncreases maximum amount of minions by 1\nReduces damage taken by 15% when under half health");
 		}
 
 

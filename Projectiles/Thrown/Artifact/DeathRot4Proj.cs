@@ -22,7 +22,7 @@ namespace SpiritMod.Projectiles.Thrown.Artifact
 			projectile.height = 20;
 			projectile.aiStyle = 113;
 			projectile.friendly = true;
-			projectile.thrown = true;
+			projectile.melee = true;
 			projectile.penetrate = 3;
 			projectile.timeLeft = 600;
 			projectile.alpha = 255;

@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.height = 16;
             item.noUseGraphic = true;
             item.UseSound = SoundID.Item106;
-            item.thrown = true;
+            item.ranged = true;
             item.channel = true;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("PlagueVialFriendly");

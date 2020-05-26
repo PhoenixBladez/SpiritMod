@@ -11,7 +11,6 @@ namespace SpiritMod.Items.Armor
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Rogue Plate");
-            Tooltip.SetDefault("Increases throwing damage by 5%");
         }
         public override void SetDefaults()
         {
@@ -24,10 +23,6 @@ namespace SpiritMod.Items.Armor
         public override void DrawHands(ref bool drawHands, ref bool drawArms)
         {
             drawHands = true;
-        }
-        public override void UpdateEquip(Player player)
-        {
-            player.thrownDamage += 0.04f;
         }
     }
 }

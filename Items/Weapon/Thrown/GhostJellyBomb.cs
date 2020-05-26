@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 			item.value = Terraria.Item.sellPrice(0, 0, 3, 0);
             item.crit = 6;
             item.rare = 5;
-            item.thrown = true;
+            item.ranged = true;
             item.autoReuse = false;
         }
 

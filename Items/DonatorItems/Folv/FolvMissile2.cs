@@ -11,7 +11,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Folv's Magic Missiles");
-			Tooltip.SetDefault("Shoots out stationary bolts of energy that seek out nearby enemies\n~Donator Item~");
+			Tooltip.SetDefault("Shoots out stationary bolts of energy that seek out nearby enemies");
 		}
 
 
@@ -19,7 +19,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
 		{
 			item.damage = 41;
 			item.magic = true;
-			item.mana = 11;
+			item.mana = 12;
 			item.width = 28;
 			item.height = 30;
 			item.useTime = 22;
@@ -27,9 +27,9 @@ namespace SpiritMod.Items.DonatorItems.Folv
 			item.useStyle = 5;
 			Item.staff[item.type] = true;
 			item.noMelee = true; 
-			item.knockBack = 5;
-			item.value = 15400;
-			item.rare = 4;
+			item.knockBack = 3;
+            item.value = Terraria.Item.sellPrice(0, 1, 10, 5);
+            item.rare = 4;
 			item.UseSound = SoundID.Item8;
 			item.autoReuse = true;
 			item.shoot = mod.ProjectileType("FolvBolt2");

@@ -14,7 +14,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Elendskraft");
-			Tooltip.SetDefault("Right click to convert Elendskraft into a damaging shield\nEnemies in an aura around the shield receive 'Frenzy Virus' and are knocked back\n~Donator Item~ \n'Packs a powerful punch'");
+			Tooltip.SetDefault("Right click to convert Elendskraft into a damaging shield\nEnemies in an aura around the shield receive 'Frenzy Virus' and are knocked back\n'Packs a powerful punch'");
 		}
 
 

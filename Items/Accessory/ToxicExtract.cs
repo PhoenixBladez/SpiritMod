@@ -31,7 +31,6 @@ namespace SpiritMod.Items.Accessory
         public override void UpdateAccessory(Player player, bool hideVisual)
 		{
             player.meleeCrit += 8;
-            player.thrownCrit += 8;
             player.magicCrit += 8;
             player.rangedCrit += 8;
             player.GetSpiritPlayer().ToxicExtract = true;

@@ -35,7 +35,6 @@ namespace SpiritMod.Items.Accessory
         {
             player.rangedCrit += 4;
             player.magicCrit += 4;
-            player.thrownCrit += 4;
             player.meleeCrit += 4;
             player.GetSpiritPlayer().floranCharm = true;
             player.armorPenetration += 3;

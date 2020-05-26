@@ -11,8 +11,8 @@ namespace SpiritMod.Items.Weapon.Yoyo
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Equality");
-			Tooltip.SetDefault("Has a chance to confuse foes");
+			DisplayName.SetDefault("Taoyo");
+			Tooltip.SetDefault("May confuse foes\n'But it keeps your mind clear'");
 		}
 
 
@@ -35,8 +35,8 @@ namespace SpiritMod.Items.Weapon.Yoyo
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.DarkShard, 1);
             recipe.AddIngredient(ItemID.LightShard, 1);
-            recipe.AddIngredient(ItemID.SoulofLight, 3);
-            recipe.AddIngredient(ItemID.SoulofNight, 3);
+            recipe.AddIngredient(ItemID.SoulofLight, 5);
+            recipe.AddIngredient(ItemID.SoulofNight, 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

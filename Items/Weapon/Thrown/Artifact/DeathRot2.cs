@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Weapon.Thrown.Artifact
             item.height = 44;
             item.noUseGraphic = true;
             item.UseSound = SoundID.Item100;
-            item.thrown = true;
+            item.melee = true;
             item.crit = 3;
             item.channel = true;
             item.noMelee = true;

@@ -10,22 +10,21 @@ namespace SpiritMod.Items.Armor.SeraphArmor
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Seraph Greaves");
-			 Tooltip.SetDefault("Increases minion damage by 8% \nIncreases movement speed by 17%\nIncreases your maximum number of minions \nReduces mana cost by 17%");
+			DisplayName.SetDefault("Seraph's Greaves");
+			 Tooltip.SetDefault("Increases maximum mana by 50");
 		}
         public override void SetDefaults()
         {
             item.width = 22;
             item.height = 16;
             item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
-            item.rare = 5;
-            item.defense = 7;
+            item.rare = 4;
+            item.defense = 12;
         }
         public override void UpdateEquip(Player player)
         {
-			player.minionDamage += 0.10f;
-			player.moveSpeed += 0.17f;
-			player.maxMinions += 1;
+            player.statManaMax2 += 50;
+
         }
 
         public override void AddRecipes()

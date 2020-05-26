@@ -26,6 +26,7 @@ namespace SpiritMod.Projectiles.Thrown
 
 			projectile.hostile = false;
 			projectile.friendly = true;
+            projectile.melee = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = true;
 

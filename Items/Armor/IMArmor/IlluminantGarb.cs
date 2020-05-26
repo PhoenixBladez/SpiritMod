@@ -10,8 +10,7 @@ namespace SpiritMod.Items.Armor.IMArmor
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Illuminant Platemail");
-            Tooltip.SetDefault("Increases max life by 25 and damage by 10%");
+			DisplayName.SetDefault("Illuminant Robe");
 
         }
 
@@ -20,25 +19,17 @@ namespace SpiritMod.Items.Armor.IMArmor
             item.width = 34;
             item.height = 24;
             item.value = 120000;
-            item.rare = 7;
-            item.defense = 20;
-        }
-
-        public override void UpdateEquip(Player player)
-        {
-            player.magicDamage += 0.10f;
-            player.meleeDamage += 0.10f;
-            player.thrownDamage += 0.10f;
-            player.rangedDamage += 0.10f;
-            player.minionDamage += 0.10f;
-            player.statLifeMax2 += 25;
+            item.rare = 4;
+            item.vanity = true;
         }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "IlluminatedCrystal", 16);
+            recipe.AddIngredient(ItemID.Silk, 7);
+            recipe.AddIngredient(ItemID.SoulofLight, 5);
+            recipe.AddIngredient(mod.ItemType("Geode"), 3);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 1);
+            recipe.SetResult(this);
             recipe.AddRecipe();
         }
     }

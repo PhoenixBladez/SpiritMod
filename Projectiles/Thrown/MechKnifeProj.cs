@@ -25,6 +25,7 @@ namespace SpiritMod.Projectiles.Thrown
 			projectile.CloneDefaults(ProjectileID.ThrowingKnife);
 			projectile.penetrate = 1;
 			projectile.aiStyle = 0;
+            projectile.ranged = true;
 			aiType = 0;
 		}
 

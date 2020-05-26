@@ -22,7 +22,7 @@ namespace SpiritMod.Projectiles.Thrown
 			projectile.height = 12;
 			projectile.aiStyle = 113;
 			projectile.friendly = true;
-			projectile.thrown = true;
+			projectile.melee = true;
 			projectile.penetrate = 1;
 			projectile.timeLeft = 600;
 			projectile.extraUpdates = 1;

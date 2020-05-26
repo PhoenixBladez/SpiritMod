@@ -72,7 +72,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		public override void AI()
 		{
 			Player player = Main.player[npc.target];
-			if (crashY < npc.position.Y && charging)
+			/*if (crashY < npc.position.Y && charging)
 			{
 				 for (int i = 0; i < 40; i++)
                     {
@@ -122,7 +122,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                 crashY = (int)player.position.Y + 48;
                 npc.position.X = player.position.X;
                 return;
-            }
+            }*/
             bool expertMode = Main.expertMode;
 			timer++;
 			if (timer == 100|| timer == 400)

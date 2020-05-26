@@ -36,7 +36,6 @@ namespace SpiritMod.Items.Accessory
             player.meleeCrit += 6;
             player.rangedCrit += 6;
             player.magicCrit += 6;
-            player.thrownCrit += 6;
         }
     }
 }

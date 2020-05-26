@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Schattenstolz");
-			Tooltip.SetDefault("Inflicts Frenzy Virus \n 'I bet you don't even have Critical Draw.'\n ~Donator Item~");
+			Tooltip.SetDefault("Inflicts Frenzy Virus\n'I bet you don't even have Critical Draw.'");
 		}
 
 

@@ -11,13 +11,13 @@ namespace SpiritMod.Items.DonatorItems.Folv
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Folv's Arcane Bolt");
-			Tooltip.SetDefault("Shoots out a homing missile\n~Donator Item~");
+			Tooltip.SetDefault("Shoots out a homing missile");
 		}
 
 
 		public override void SetDefaults()
 		{
-			item.damage = 12;
+			item.damage = 11;
 			item.magic = true;
 			item.mana = 6;
 			item.width = 28;
@@ -27,7 +27,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
 			item.useStyle = 5;
 			Item.staff[item.type] = true;
 			item.noMelee = true; 
-			item.knockBack = 5;
+			item.knockBack = 2;
 			item.value = 5400;
 			item.rare = 1;
 			item.UseSound = SoundID.Item8;

@@ -13,7 +13,7 @@ namespace SpiritMod.Items.DonatorItems
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("The Couch");
-			Tooltip.SetDefault("Defense is increased, but movement speed reduced, when nearby\n'Hello Terraria Enthusiasts'\n~Donator Item~");
+			Tooltip.SetDefault("Defense is increased, but movement speed reduced, when nearby\n'Hello Terraria Enthusiasts'");
 		}
 
 

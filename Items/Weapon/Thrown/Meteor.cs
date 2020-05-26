@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.height = 22;
             item.noUseGraphic = true;
             item.UseSound = SoundID.Item1;
-            item.thrown = true;
+            item.melee = true;
             item.channel = true;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("MeteorProjectile");

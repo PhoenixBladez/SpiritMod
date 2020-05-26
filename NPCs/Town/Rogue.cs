@@ -121,14 +121,11 @@ namespace SpiritMod.NPCs.Town
 			AddItem(ref shop, ref nextSlot, ItemType<RogueHood>());
 			AddItem(ref shop, ref nextSlot, ItemType<RoguePlate>());
 			AddItem(ref shop, ref nextSlot, ItemType<RoguePants>());
-            AddItem(ref shop, ref nextSlot, ItemType<Eyeball>(), check: NPC.downedBoss1);
 			AddItem(ref shop, ref nextSlot, ItemType<EoWDagger>(), check: NPC.downedBoss2);
 			AddItem(ref shop, ref nextSlot, ItemType<BoCShuriken>(), check: NPC.downedBoss2);
 			AddItem(ref shop, ref nextSlot, ItemType<SkeletronHand>(), check: NPC.downedBoss3);
 			AddItem(ref shop, ref nextSlot, ItemType<TwilightBlades>(), check: NPC.downedMechBossAny);
 			AddItem(ref shop, ref nextSlot, ItemType<MechKnife>(), check: NPC.downedMechBossAny);
-			AddItem(ref shop, ref nextSlot, ItemType<DuskStone1>(), check: MyWorld.downedRaider);
-			AddItem(ref shop, ref nextSlot, ItemType<ThornbloomKnife>(), check: NPC.downedPlantBoss);
             AddItem(ref shop, ref nextSlot, ItemType<PlagueVial>(), check: Main.hardMode);
             AddItem(ref shop, ref nextSlot, ItemType<BladeOfNoah>(), check: Main.hardMode);
             AddItem(ref shop, ref nextSlot, ItemType<ShurikenLauncher>());

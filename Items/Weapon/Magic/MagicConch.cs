@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Weapon.Magic
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Magic Conch");
+			DisplayName.SetDefault("Devadatta");
 			Tooltip.SetDefault("Summons a whirlpool at the location of the cursor");
 		}
 

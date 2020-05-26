@@ -19,16 +19,14 @@ namespace SpiritMod.Items.Weapon.Swung
         public override void SetDefaults()
         {
             item.damage = 43;
-            item.useTime = 23;
-            item.useAnimation = 23;
+            item.useTime = 21;
+            item.useAnimation = 21;
             item.melee = true;            
             item.width = 42;              
             item.height = 42;             
             item.useStyle = 1;        
             item.knockBack = 5;
             item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
-            item.rare = 5;
-            item.shootSpeed = 10;
             item.UseSound = SoundID.Item1;   
             item.autoReuse = true;
             item.useTurn = true;
@@ -36,16 +34,13 @@ namespace SpiritMod.Items.Weapon.Swung
         }
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
+            for (int i = 0; i < 2; i++)
             {
                 int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 15);
                 Main.dust[dust].noGravity = true;
                 Main.dust[dust].velocity *= 0f;
-
+                Main.dust[dust].scale = Main.rand.NextFloat(.5f, 1.1f);
             }
-        }
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return Color.White;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -54,7 +49,7 @@ namespace SpiritMod.Items.Weapon.Swung
             int amount = 1;
             for (int i = 0; i < amount; ++i)
             {
-                Vector2 pos = new Vector2(mouse.X + player.width * 0.5f + Main.rand.Next(-40, 41), mouse.Y - 600f);
+                Vector2 pos = new Vector2(mouse.X + player.width * 0.5f + Main.rand.Next(-35, 36), mouse.Y - 600f);
                 pos.X = (pos.X * 10f + mouse.X) / 11f + (float)Main.rand.Next(-60, 61);
                 pos.Y -= 150;
                 float spX = mouse.X + player.width * 0.5f + Main.rand.Next(-100, 101) - mouse.X;

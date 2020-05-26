@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.knockBack = 9;
             item.useStyle = 1;
             item.useTime = item.useAnimation = 24;
-            item.thrown = true;
+            item.melee = true;
             item.noMelee = true;
             item.autoReuse = true;
             item.consumable = true;

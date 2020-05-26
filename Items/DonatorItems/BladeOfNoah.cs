@@ -10,7 +10,7 @@ namespace SpiritMod.Items.DonatorItems
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Blade of Noah");
-            Tooltip.SetDefault("Penetrates 5 times \n~Donator Item~");
+            Tooltip.SetDefault("Penetrates 5 times ");
 
         }
 

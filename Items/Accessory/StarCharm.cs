@@ -37,7 +37,6 @@ namespace SpiritMod.Items.Accessory
             player.moveSpeed += .12f;
             player.meleeCrit += 7;
             player.magicCrit += 7;
-            player.thrownCrit += 7;
             player.rangedCrit += 7;
         }
         public override void AddRecipes()

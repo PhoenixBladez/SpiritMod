@@ -27,32 +27,32 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.timeLeft = 50;
 		}
 
-		public override bool PreAI()
-		{
-			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-
-			for (int i = 0; i < 10; i++)
-			{
-				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
-				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
-				int num = Dust.NewDust(new Vector2(x, y), 26, 26, 60, 0f, 0f, 0, default(Color), 1f);
-				Main.dust[num].position.X = x;
-				Main.dust[num].position.Y = y;
-				Main.dust[num].velocity *= 0f;
-				Main.dust[num].noGravity = true;
-			}
+        int counter = -720;
+        public override bool PreAI()
+        {
+            int num = 5;
+            for (int k = 0; k < 10; k++)
+            {
+                int index2 = Dust.NewDust(projectile.position, 1, 1, 60, 0.0f, 0.0f, 0, new Color(), 1.3f);
+                Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
+                Main.dust[index2].scale = .5f;
+                Main.dust[index2].velocity *= 0f;
+                Main.dust[index2].noGravity = true;
+                Main.dust[index2].noLight = true;
+            }
+            projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 			return true;
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 15f, 15f, mod.ProjectileType("AdamantiteStaffProj2"), projectile.damage, 0f, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -15, -15f, mod.ProjectileType("AdamantiteStaffProj2"), projectile.damage, 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 7.5f, 7.5f, mod.ProjectileType("AdamantiteStaffProj2"), projectile.damage, 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -7.5f, -7.5f, mod.ProjectileType("AdamantiteStaffProj2"), projectile.damage, 0f, projectile.owner, 0f, 0f);
 
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 30f, 0f, mod.ProjectileType("AdamantiteStaffProj2"), projectile.damage, 0f, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -30f, 0f, mod.ProjectileType("AdamantiteStaffProj2"), projectile.damage, 0f, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, 30f, mod.ProjectileType("AdamantiteStaffProj2"), projectile.damage, 0f, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, -30f, mod.ProjectileType("AdamantiteStaffProj2"), projectile.damage, 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 15f, 0f, mod.ProjectileType("AdamantiteStaffProj2"), projectile.damage, 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -15f, 0f, mod.ProjectileType("AdamantiteStaffProj2"), projectile.damage, 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, 15f, mod.ProjectileType("AdamantiteStaffProj2"), projectile.damage, 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, -15f, mod.ProjectileType("AdamantiteStaffProj2"), projectile.damage, 0f, projectile.owner, 0f, 0f);
 		}
 
 	}

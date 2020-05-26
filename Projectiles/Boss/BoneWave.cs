@@ -12,8 +12,10 @@ namespace SpiritMod.Projectiles.Boss
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Crystal Wave");
-		}
+			DisplayName.SetDefault("Arcane Wave");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+        }
 
 		public override void SetDefaults()
 		{
@@ -27,22 +29,39 @@ namespace SpiritMod.Projectiles.Boss
 			projectile.aiStyle = 1;
 			aiType = ProjectileID.Bullet;
 		}
-		public override void AI()
-		{
-			Vector2 position = projectile.Center + Vector2.Normalize(projectile.velocity) * 10;
-            projectile.velocity.X *= 1.005f;
-			Dust newDust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 172, 0f, 0f, 0, default(Color), 1f)];
-			newDust.position = position;
-			newDust.velocity = projectile.velocity.RotatedBy(Math.PI / 2, default(Vector2)) * 0.33F + projectile.velocity / 4;
-			newDust.position += projectile.velocity.RotatedBy(Math.PI / 2, default(Vector2));
-			newDust.fadeIn = 0.5f;
-			newDust.noGravity = true;
-			newDust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 172, 0f, 0f, 0, default(Color), 1)];
-			newDust.position = position;
-			newDust.velocity = projectile.velocity.RotatedBy(-Math.PI / 2, default(Vector2)) * 0.33F + projectile.velocity / 4;
-			newDust.position += projectile.velocity.RotatedBy(-Math.PI / 2, default(Vector2));
-			newDust.fadeIn = 0.5F;
-			newDust.noGravity = true;
-		}
-	}
+        int timer;
+        int colortimer;
+        public override bool PreAI()
+        {
+            timer++;
+            if (timer <= 50)
+            {
+                colortimer++;
+            }
+            if (timer > 50)
+            {
+                colortimer--;
+            }
+            if (timer >= 100)
+            {
+                timer = 0;
+            }
+            return true;
+        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
+            for (int k = 0; k < projectile.oldPos.Length; k++)
+            {
+                Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
+                Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
+                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+            }
+            return false;
+        }
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return new Color(150 + colortimer * 2, 150 + colortimer * 2, 150 + colortimer * 2, 100);
+        }
+    }
 }

@@ -32,7 +32,6 @@ namespace SpiritMod.Items.Accessory
         public override void UpdateAccessory(Player player, bool hideVisual)
 		{
             player.meleeCrit += 7;
-            player.thrownCrit += 7;
             player.magicCrit += 7;
             player.rangedCrit += 7;
             player.GetSpiritPlayer().animusLens = true;

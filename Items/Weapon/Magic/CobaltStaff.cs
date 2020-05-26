@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cobalt Staff");
-			Tooltip.SetDefault("Shoots a bolt that explodes upon hitting multiple foes");
+			Tooltip.SetDefault("Summons magnetized cobalt shards at the cursor");
 		}
 
 
@@ -19,11 +19,11 @@ namespace SpiritMod.Items.Weapon.Magic
 		{
 			item.damage = 39;
 			item.magic = true;
-			item.mana = 6;
+			item.mana = 7;
 			item.width = 40;
 			item.height = 40;
-			item.useTime = 25;
-			item.useAnimation = 25;
+			item.useTime = 22;
+			item.useAnimation = 22;
 			item.useStyle = 5;
 			Item.staff[item.type] = true;
 			item.noMelee = true; 
@@ -35,7 +35,15 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.shoot = mod.ProjectileType("CobaltStaffProj");
 			item.shootSpeed = 20f;
 		}
-		
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            int shardType;
+            shardType = Main.rand.Next(new int[] { mod.ProjectileType("CobaltStaffProj"), mod.ProjectileType("CobaltStaffProj1") });
+            Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
+            int p = Terraria.Projectile.NewProjectile(mouse.X + Main.rand.Next(-20, 20), mouse.Y + Main.rand.Next(-20, 20), 0f, 0f, shardType, damage, knockBack, player.whoAmI);
+            Main.projectile[p].scale = Main.rand.NextFloat(.4f, 1.1f);
+            return false;
+        }   
 		public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

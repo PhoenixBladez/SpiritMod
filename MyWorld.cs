@@ -27,11 +27,14 @@ namespace SpiritMod
 		private static bool dayTimeLast;
 		public static bool dayTimeSwitched;
 
-		public static int auroraType = 1;
+        public static bool aurora = false;
+        public static int auroraType = 1;
         public static int auroraTypeFixed;
 		public static int auroraChance = 4;
 
-		public static bool aurora = false;
+        public static bool luminousOcean = false;
+        public static int luminousType = 1;
+
         public static bool stardustWeather = false;
         public static bool spaceJunkWeather = false;
         public static bool meteorShowerWeather = false;
@@ -4570,16 +4573,8 @@ namespace SpiritMod
 				{
 					BlueMoon = false;
 				}
-			   if (NPC.downedBoss3)
-			    {
-				    auroraChance = 6;
-			    }
-			    if (Main.hardMode)
-			    {
-				    auroraChance = 15;
-			    }
                 {
-                    if (!Main.dayTime && Main.rand.Next(auroraChance) == 0)
+                    if (!Main.dayTime && Main.rand.Next(6) == 0)
                     {
                         auroraTypeFixed = Main.rand.Next(new int[] { 1, 2, 3, 5 });
                         aurora = true;
@@ -4589,9 +4584,18 @@ namespace SpiritMod
                         aurora = false;
                     }
                 }
+                if (!Main.dayTime && Main.rand.Next(22) == 0)
+                {
+                    luminousType = Main.rand.Next(new int[] { 1, 2, 3 });
+                    luminousOcean = true;
+                }
+                else
+                {
+                    luminousOcean = false;
+                }
             }
 
-                if (NPC.downedBoss1)
+            if (NPC.downedBoss1)
 			{
 				if (!Magicite)
 				{
@@ -4653,7 +4657,6 @@ namespace SpiritMod
 					}
 					{
 						Main.NewText("Energy seeps into marble and granite caverns...", 100, 220, 100);
-                        Main.NewText("The icy caverns are shimmering", 70, 170, 255);
                         gmOre = true;
 					}
 				}
@@ -4761,7 +4764,8 @@ namespace SpiritMod
 					if (!txt)
 					{
 						Main.NewText("The stars are brightening...", 66, 170, 244);
-						txt = true;
+                        Main.NewText("The icy caverns are shimmering", 70, 170, 255);
+                        txt = true;
 					}
 				}
 			}

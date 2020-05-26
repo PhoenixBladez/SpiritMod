@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.CryoliteArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cryolite Greaves");
-			Tooltip.SetDefault("Increases melee speed by 9% and throwing damage by 10%");
+			Tooltip.SetDefault("Increases melee speed by 9%");
 		}
 
         public override void SetDefaults()
@@ -26,7 +26,6 @@ namespace SpiritMod.Items.Armor.CryoliteArmor
         public override void UpdateEquip(Player player)
         {
             player.meleeSpeed += .09f;
-            player.thrownDamage += .1f;
         }
         public override void AddRecipes()
         {
