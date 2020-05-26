@@ -15,24 +15,50 @@ namespace SpiritMod.Projectiles.Summon
 
 		public override void SetDefaults()
 		{
-			///for reasons, I have to put a comment here.
+			projectile.CloneDefaults(ProjectileID.StickyGrenade);
 			aiType = ProjectileID.StickyGrenade;
 			projectile.friendly = true;
 			projectile.minion = true;
 			projectile.hostile = false;
 			projectile.timeLeft = 200;
 			projectile.width = 20;
-			projectile.CloneDefaults(ProjectileID.StickyGrenade);
-			projectile.height = 20;
+			projectile.height = 30;
 		}
 
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
-			for (int i = 0; i < 15; i++)
+			if (Main.rand.Next(2) == 1)
 			{
-				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 187);
-				Main.dust[dust].noGravity = true;
+			ProjectileExtras.Explode(projectile.whoAmI, 120, 120,
+				delegate
+			{
+				for (int i = 0; i < 80; i++)
+				{
+					int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, mod.DustType("BlueMoonPinkDust"), 0f, -2f, 0, default(Color), 2f);
+					Main.dust[num].noGravity = true;
+					Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+					Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
+					if (Main.dust[num].position != projectile.Center)
+						Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 3f;
+				}
+			});
+			}
+			else
+			{
+				ProjectileExtras.Explode(projectile.whoAmI, 120, 120,
+				delegate
+			{
+				for (int i = 0; i < 80; i++)
+				{
+					int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, mod.DustType("BlueMoonBlueDust"), 0f, -2f, 0, default(Color), 2f);
+					Main.dust[num].noGravity = true;
+					Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+					Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
+					if (Main.dust[num].position != projectile.Center)
+						Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 3f;
+				}
+			});
 			}
 		}
 
@@ -56,7 +82,7 @@ namespace SpiritMod.Projectiles.Summon
 					projectile.Kill();
 				}
 			}
-
+			Lighting.AddLight((int)(projectile.position.X / 16f), (int)(projectile.position.Y / 16f), 0.196f, 0.870588235f, 0.964705882f);
 			projectile.localAI[0] += 1f;
 			if (projectile.localAI[0] >= 10f)
 			{

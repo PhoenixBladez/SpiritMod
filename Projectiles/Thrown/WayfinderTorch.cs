@@ -38,24 +38,6 @@ namespace SpiritMod.Projectiles.Thrown
 		{
 			if (Main.rand.Next(4) == 0)
 				target.AddBuff(mod.BuffType("StarFlame"), 200, true);
-
-			if (Main.rand.Next(3) == 0)
-			{
-				int n = 2;
-				int deviation = Main.rand.Next(0, 300);
-				for (int i = 0; i < n; i++)
-				{
-					float rotation = MathHelper.ToRadians(270 / n * i + deviation);
-					Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(rotation);
-					perturbedSpeed.Normalize();
-					perturbedSpeed.X *= 5.5f;
-					perturbedSpeed.Y *= 5.5f;
-					int newProj = Projectile.NewProjectile(target.Center.X, target.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("BlueEmber"), projectile.damage/4, 2, projectile.owner);
-
-					Main.projectile[newProj].hostile = false;
-					Main.projectile[newProj].friendly = true;
-				}
-			}
 		}
 
 		public override void Kill(int timeLeft)
@@ -69,6 +51,23 @@ namespace SpiritMod.Projectiles.Thrown
 				Main.dust[dust].noGravity = true;
 			}
 			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
+			if (Main.rand.Next(3) == 0)
+			{
+				int n = 2;
+				int deviation = Main.rand.Next(0, 300);
+				for (int i = 0; i < n; i++)
+				{
+					float rotation = MathHelper.ToRadians(270 / n * i + deviation);
+					Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(rotation);
+					perturbedSpeed.Normalize();
+					perturbedSpeed.X *= 5.5f;
+					perturbedSpeed.Y *= 5.5f;
+					int newProj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("BlueEmber"), projectile.damage/4, 2, projectile.owner);
+
+					Main.projectile[newProj].hostile = false;
+					Main.projectile[newProj].friendly = true;
+				}
+			}
 		}
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

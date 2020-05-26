@@ -1672,6 +1672,14 @@ namespace SpiritMod
                     Main.npc[num].direction = 1;
                     Main.npc[num].homeless = true;
                 }
+				 for (int i = 0; i < 3; i++)
+                {
+                    int num = NPC.NewNPC((pagodaX + Main.rand.Next(0, 100)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, mod.NPCType("SamuraiPassive"), 0, 0f, 0f, 0f, 0f, 255);
+                    Main.npc[num].homeTileX = -1;
+                    Main.npc[num].homeTileY = -1;
+                    Main.npc[num].direction = 1;
+                    Main.npc[num].homeless = true;
+                }
                 placed = true;
             }
         }

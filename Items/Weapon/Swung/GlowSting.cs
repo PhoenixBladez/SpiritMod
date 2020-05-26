@@ -26,8 +26,8 @@ namespace SpiritMod.Items.Weapon.Swung
             item.width = 34;              
             item.height = 40;  
             item.autoReuse = true;			
-            item.useTime = 25;           
-            item.useAnimation = 25;     
+            item.useTime = 15;           
+            item.useAnimation = 15;     
             item.useStyle = 1;        
             item.knockBack = 6;
             item.value = Item.sellPrice(0, 1, 20, 0);
@@ -58,6 +58,18 @@ namespace SpiritMod.Items.Weapon.Swung
                 0f
             );
         }
+		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit) 
+		{
+			if (Main.rand.Next(3) == 0)
+				target.AddBuff(mod.BuffType("StarFlame"), 180);
+		}
+		public override void MeleeEffects(Player player, Rectangle hitbox) {
+			if (Main.rand.NextBool(5)) {
+				//Emit dusts when the sword is swung
+				Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, mod.DustType("BlueMoonPinkDust"));
+				Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, mod.DustType("BlueMoonBlueDust"));
+			}
+		}
         public override bool AltFunctionUse(Player player)
         {
             return true;

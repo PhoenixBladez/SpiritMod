@@ -22,8 +22,8 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.height = 40;
             item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
             item.rare = 5;
-			item.useTime = 20;
-			item.useAnimation = 20;
+			item.useTime = 30;
+			item.useAnimation = 30;
 			item.autoReuse = true;
             item.knockBack = 2.5f;
 			item.UseSound = SoundID.Item25;

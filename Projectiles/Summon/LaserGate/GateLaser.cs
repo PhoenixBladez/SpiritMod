@@ -17,8 +17,8 @@ namespace SpiritMod.Projectiles.Summon.LaserGate
 		public override void SetDefaults()
 		{
 			projectile.hostile = false;
-			projectile.width = 2;
-			projectile.height = 2;
+			projectile.width = 1;
+			projectile.height = 1;
 			projectile.aiStyle = -1;
 			projectile.friendly = true;
 			projectile.damage = 1;

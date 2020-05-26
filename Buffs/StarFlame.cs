@@ -20,7 +20,7 @@ namespace SpiritMod.Buffs
 
 			if (Main.rand.NextBool(2))
 			{
-				int dust = Dust.NewDust(npc.position, npc.width, npc.height, 206);
+				int dust = Dust.NewDust(npc.position, npc.width, npc.height, mod.DustType("BlueMoonBlueDust"));
 				Main.dust[dust].scale = 1.5f;
 				Main.dust[dust].noGravity = true;
 			}
@@ -30,11 +30,14 @@ namespace SpiritMod.Buffs
 		{
 			player.lifeRegen -= 8;
 
-			if (Main.rand.NextBool(4))
+			if (Main.rand.NextBool(6))
 			{
-				int dust = Dust.NewDust(player.position, player.width, player.height, 206);
+				int dust = Dust.NewDust(player.position, player.width, player.height, mod.DustType("BlueMoonBlueDust"));
 				Main.dust[dust].scale = 1.5f;
 				Main.dust[dust].noGravity = true;
+				int dust2 = Dust.NewDust(player.position, player.width, player.height, mod.DustType("BlueMoonPinkDust"));
+				Main.dust[dust2].scale = 1.5f;
+				Main.dust[dust2].noGravity = true;
 			}
 		}
 	}

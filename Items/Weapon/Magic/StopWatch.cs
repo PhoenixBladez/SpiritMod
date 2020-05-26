@@ -1,6 +1,7 @@
 using Terraria;
 using System;
 using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,7 +12,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Astral Clock");
-			Tooltip.SetDefault("Creates a pulse around the player, stopping time.");
+			Tooltip.SetDefault("Creates a pulse around the player, stopping time. \nHas a 60 second cooldown");
 		}
 
 
@@ -38,6 +39,8 @@ namespace SpiritMod.Items.Weapon.Magic
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
+			 MyPlayer modPlayer = player.GetSpiritPlayer();
+            modPlayer.shootDelay = 3600;
 			float spread = 10f * 0.0174f;
 			double startAngle = Math.Atan2(speedX, speedY) - spread / 2;
 			double deltaAngle = spread / 8f;
@@ -49,6 +52,12 @@ namespace SpiritMod.Items.Weapon.Magic
 			}
 			return false;
 		}
-
+		public override bool CanUseItem(Player player)
+        {
+            MyPlayer modPlayer = player.GetSpiritPlayer();
+            if (modPlayer.shootDelay == 0)
+                return true;
+            return false;
+        }
 	}
 }

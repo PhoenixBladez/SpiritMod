@@ -24,23 +24,19 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.friendly = true;
 			projectile.penetrate = -1;
 			projectile.alpha = 255;
-			projectile.timeLeft = 12;
+			projectile.timeLeft = 24;
+			projectile.tileCollide = false;
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			target.AddBuff(mod.BuffType("Stopped"), 90);
+			target.AddBuff(mod.BuffType("Stopped"), 270);
 		}
 
 		public override bool PreAI()
 		{
 			if (Main.rand.Next(2) == 1)
-			{
-				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 206, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-				Main.dust[dust].scale = 2f;
-				Main.dust[dust].noGravity = true;
-			}
-
+			Dust.NewDust(projectile.position, projectile.width, projectile.height, mod.DustType("BlueMoonBlueDust"), projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			return true;
 		}
 

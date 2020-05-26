@@ -14,7 +14,7 @@ namespace SpiritMod.Items.Weapon.Bow
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Seraph's Storm");
-            Tooltip.SetDefault("Launches moon fire from the Heavens");
+            Tooltip.SetDefault("Launches bolts of sporatic moon energy");
             SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Bow/StarBow_Glow");
 
         }
@@ -34,8 +34,8 @@ namespace SpiritMod.Items.Weapon.Bow
             item.knockBack = 4;
 
             item.useStyle = 5;
-            item.useTime = 21;
-            item.useAnimation = 21;
+            item.useTime = 45;
+            item.useAnimation = 45;
 
             item.useAmmo = AmmoID.Arrow;
 
@@ -43,13 +43,13 @@ namespace SpiritMod.Items.Weapon.Bow
             item.noMelee = true;
             item.autoReuse = true;
 
-            item.shoot = mod.ProjectileType("StarBolt");
+            item.shoot = mod.ProjectileType("SleepingStar");
             item.shootSpeed = 9;
 
             item.UseSound = SoundID.Item5;
         }
 
-       public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+   /*    public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
 			if(Main.myPlayer == player.whoAmI) {
 				Vector2 mouse = Main.MouseWorld;
@@ -58,6 +58,12 @@ namespace SpiritMod.Items.Weapon.Bow
 				Projectile.NewProjectile(mouse.X + Main.rand.Next(-80, 80), player.Center.Y - 550 + Main.rand.Next(-50, 50), 0, Main.rand.Next(14,18), mod.ProjectileType("StarBolt"), damage, knockBack, player.whoAmI);
 			}
 			}
+			return false;
+        }*/
+		 public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+			 Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("SleepingStar"), damage, knockBack, player.whoAmI, 1);
+			  Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("SleepingStar"), damage, knockBack, player.whoAmI, 2);
 			return false;
         }
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
