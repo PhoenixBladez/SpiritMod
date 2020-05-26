@@ -24,18 +24,16 @@ namespace SpiritMod.Items.Weapon.Bow
         public override void SetDefaults()
         {
             item.width = 22;
-			item.damage = 46;
+			item.damage = 40;
 			
             item.height = 40;
             item.value = Terraria.Item.sellPrice(0, 2, 50, 0);
             item.rare = 4;
-
-            item.crit = 4;
             item.knockBack = 4;
 
             item.useStyle = 5;
-            item.useTime = 45;
-            item.useAnimation = 45;
+            item.useTime = 20;
+            item.useAnimation = 20;
 
             item.useAmmo = AmmoID.Arrow;
 
@@ -62,8 +60,10 @@ namespace SpiritMod.Items.Weapon.Bow
         }*/
 		 public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			 Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("SleepingStar"), damage, knockBack, player.whoAmI, 1);
-			  Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("SleepingStar"), damage, knockBack, player.whoAmI, 2);
+            int projType;
+            projType = Main.rand.Next(new int[] { mod.ProjectileType("SleepingStar1"), mod.ProjectileType("SleepingStar") });
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("SleepingStar1"), damage, knockBack, player.whoAmI, 1);
+			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("SleepingStar"), damage, knockBack, player.whoAmI, 2);
 			return false;
         }
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

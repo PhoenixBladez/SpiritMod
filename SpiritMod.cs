@@ -23,6 +23,7 @@ using SpiritMod.NPCs.Town;
 using SpiritMod.NPCs.Boss.Atlas;
 using SpiritMod.Tide;
 using SpiritMod.Skies.Overlays;
+using SpiritMod.Effects;
 using SpiritMod.Skies;
 using SpiritMod.Projectiles;
 using SpiritMod.Utilities;
@@ -332,6 +333,7 @@ namespace SpiritMod
             LoadReferences();
             AdventurerQuests = new AdventurerQuestHandler(this);
             StructureLoader.Load(this);
+            TrailHelper.Load(Main.instance.GraphicsDevice, this);
             instance = this;
             if (Main.rand == null)
                 Main.rand = new Terraria.Utilities.UnifiedRandom();
@@ -505,6 +507,7 @@ namespace SpiritMod
             instance = null;
             SpiritGlowmask.Unload();
             StructureLoader.Unload();
+            TrailHelper.Unload(); 
         }
         internal static int GetRainDustType(int rainType, out Color color)
         {

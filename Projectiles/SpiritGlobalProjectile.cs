@@ -1,26 +1,43 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod;
 
+using SpiritMod;
+using SpiritMod.Effects;
 namespace SpiritMod.Projectiles
 {
 
 	public class SpiritGlobalProjectile : GlobalProjectile
 	{
-		public override bool InstancePerEntity
-		{
-			get
-			{
-				return true;
-			}
-		}
+        public override bool InstancePerEntity => true;
 
-		public bool stop = false;
+        private List<Vector2> _points;
+
+        public SpiritGlobalProjectile()
+        {
+            _points = new List<Vector2>();
+        }
+
+        private void AddPoint(Vector2 v, int max)
+        {
+            _points.Insert(0, v);
+            if (_points.Count > max)
+            {
+                _points.RemoveAt(_points.Count - 1);
+            }
+        }
+
+
+        public bool stop = false;
 		public float xspeed;
 		public float yspeed;
 		public bool WitherLeaf = false;
@@ -65,10 +82,48 @@ namespace SpiritMod.Projectiles
                 }
                 return true;
             }
+            if (projectile.type == mod.ProjectileType("LeafProjReachChest"))
+            {
+                spriteBatch.End();
+                TrailHelper.DrawTrail(spriteBatch, Main.screenPosition, _points, new Color(38, 140, 74, 60), 4f);
+                spriteBatch.Begin();
+            }
+            if (projectile.type == mod.ProjectileType("SleepingStar"))
+            {
+                spriteBatch.End();
+                TrailHelper.DrawTrail(spriteBatch, Main.screenPosition, _points, new Color(90, 205, 237, 60), 6f);
+                spriteBatch.Begin();
+            }
+            if (projectile.type == mod.ProjectileType("SleepingStar1"))
+            {
+                spriteBatch.End();
+                TrailHelper.DrawTrail(spriteBatch, Main.screenPosition, _points, new Color(231, 112, 255, 60), 6f);
+                spriteBatch.Begin();
+            }
             return base.PreDraw(projectile, spriteBatch, lightColor);
         }
         public override bool PreAI(Projectile projectile)
 		{
+            if (projectile.type == mod.ProjectileType("LeafProjReachChest") || projectile.type == mod.ProjectileType("SleepingStar") || projectile.type == mod.ProjectileType("SleepingStar1"))
+            {
+                int max = 10;
+                if (projectile.type == mod.ProjectileType("SleepingStar") || projectile.type == mod.ProjectileType("SleepingStar1"))
+                {
+                    max = 35;
+                }
+                Vector2 point = projectile.Center;
+                Vector2 prev = _points.Count > 0 ? _points[0] : point;
+                Vector2 between = point - prev;
+                float dist = between.Length();
+                between.Normalize();
+                while (dist > 10f)
+                {
+                    prev += between * 10f;
+                    AddPoint(prev, max);
+                    dist -= 10f;
+                }
+                AddPoint(point, max);
+            }
             if (throwerGloveBoost)
             {
                 projectile.penetrate = 2;

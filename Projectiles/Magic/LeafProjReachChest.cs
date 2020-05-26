@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using SpiritMod.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,7 +15,9 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Leaf Arrow");
 			Main.projFrames[projectile.type] = 5;
-		}
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+        }
 
 		public override void SetDefaults()
 		{
@@ -160,8 +164,25 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			return true;
 		}
-
-		public override void Kill(int timeLeft)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Texture2D texture = Main.projectileTexture[projectile.type];
+            int frameHeight = texture.Height / Main.projFrames[projectile.type];
+            Rectangle frameRect = new Rectangle(0, projectile.frame * frameHeight, texture.Width, frameHeight);
+            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
+            for (int k = 0; k < projectile.oldPos.Length; k++)
+            {
+                Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
+                Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
+                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, frameRect, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+            }
+            return false;
+        }
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return new Color(200, 200, 200, 100);
+        }
+        public override void Kill(int timeLeft)
 		{
 			for (int k = 0; k < 3; k++)
 			{

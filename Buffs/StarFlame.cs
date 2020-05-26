@@ -20,10 +20,11 @@ namespace SpiritMod.Buffs
 
 			if (Main.rand.NextBool(2))
 			{
-				int dust = Dust.NewDust(npc.position, npc.width, npc.height, mod.DustType("BlueMoonBlueDust"));
-				Main.dust[dust].scale = 1.5f;
+				int dust = Dust.NewDust(npc.position, npc.width, npc.height, 206);
+				Main.dust[dust].scale = .25f;
 				Main.dust[dust].noGravity = true;
-			}
+                Main.dust[dust].noLight = true;
+            }
 		}
 
 		public override void Update(Player player, ref int buffIndex)
@@ -32,13 +33,15 @@ namespace SpiritMod.Buffs
 
 			if (Main.rand.NextBool(6))
 			{
-				int dust = Dust.NewDust(player.position, player.width, player.height, mod.DustType("BlueMoonBlueDust"));
-				Main.dust[dust].scale = 1.5f;
+				int dust = Dust.NewDust(player.position, player.width, player.height, 187);
+				Main.dust[dust].scale = .25f;
 				Main.dust[dust].noGravity = true;
-				int dust2 = Dust.NewDust(player.position, player.width, player.height, mod.DustType("BlueMoonPinkDust"));
-				Main.dust[dust2].scale = 1.5f;
+                Main.dust[dust].noLight = true;
+                int dust2 = Dust.NewDust(player.position, player.width, player.height, 206);
+				Main.dust[dust2].scale = .25f;
 				Main.dust[dust2].noGravity = true;
-			}
+                Main.dust[dust2].noLight = true;
+            }
 		}
 	}
 }

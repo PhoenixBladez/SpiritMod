@@ -63,13 +63,6 @@ namespace SpiritMod.Items.Weapon.Swung
 			if (Main.rand.Next(3) == 0)
 				target.AddBuff(mod.BuffType("StarFlame"), 180);
 		}
-		public override void MeleeEffects(Player player, Rectangle hitbox) {
-			if (Main.rand.NextBool(5)) {
-				//Emit dusts when the sword is swung
-				Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, mod.DustType("BlueMoonPinkDust"));
-				Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, mod.DustType("BlueMoonBlueDust"));
-			}
-		}
         public override bool AltFunctionUse(Player player)
         {
             return true;
