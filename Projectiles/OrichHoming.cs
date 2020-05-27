@@ -25,7 +25,7 @@ namespace SpiritMod.Projectiles
 			projectile.magic = true;         // 
 			projectile.tileCollide = false;   //make that the projectile will be destroed if it hits the terrain
 			projectile.penetrate = 1;      //how many npc will penetrate
-			projectile.timeLeft = 20;   //how many time projectile projectile has before disepire // projectile light
+			projectile.timeLeft = 36;   //how many time projectile projectile has before disepire // projectile light
 			projectile.extraUpdates = 1;
 			projectile.ignoreWater = true;
 			projectile.alpha = 255;
@@ -35,19 +35,8 @@ namespace SpiritMod.Projectiles
 		public override void AI()
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-
-			for (int i = 0; i < 7; i++)
-			{
-				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
-				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
-				int num = Dust.NewDust(new Vector2(x, y), 26, 26, 58, 0f, 0f, 0, default(Color), 1f);
-				Main.dust[num].alpha = projectile.alpha;
-				Main.dust[num].position.X = x;
-				Main.dust[num].position.Y = y;
-				Main.dust[num].velocity *= 0f;
-			}
-
-			bool flag25 = false;
+            Lighting.AddLight((int)(projectile.position.X / 16f), (int)(projectile.position.Y / 16f), 0.396f, 0.170588235f, 0.564705882f);
+            bool flag25 = false;
 			int jim = 1;
 			for (int index1 = 0; index1 < 200; index1++)
 			{
@@ -69,7 +58,7 @@ namespace SpiritMod.Projectiles
 			{
 
 
-				float num1 = 20f;
+				float num1 = 6.5f;
 				Vector2 vector2 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
 				float num2 = Main.npc[jim].Center.X - vector2.X;
 				float num3 = Main.npc[jim].Center.Y - vector2.Y;

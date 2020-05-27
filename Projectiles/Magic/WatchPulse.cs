@@ -36,7 +36,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override bool PreAI()
 		{
 			if (Main.rand.Next(2) == 1)
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, mod.DustType("BlueMoonBlueDust"), projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			Dust.NewDust(projectile.position, projectile.width, projectile.height, 206, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			return true;
 		}
 

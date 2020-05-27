@@ -13,7 +13,7 @@ namespace SpiritMod.Buffs
 			Main.pvpBuff[Type] = true;
 			Main.buffNoTimeDisplay[Type] = false;
 		}
-		float counter = 2f;
+		float counter = 3f;
 		public override void Update(NPC npc, ref int buffIndex)
 		{
 			npc.lifeRegen -= (int)counter;

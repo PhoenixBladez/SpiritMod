@@ -5,53 +5,61 @@ using Microsoft.Xna.Framework;
 
 namespace SpiritMod.NPCs
 {
-	public class MarbleMimic : ModNPC
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Marble Mimic");
-			Main.npcFrameCount[npc.type] = Main.npcFrameCount[475];
-		}
+    public class MarbleMimic : ModNPC
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Marble Mimic");
+            Main.npcFrameCount[npc.type] = 6;
+        }
 
-		public override void SetDefaults()
-		{
-			npc.width = 34;
-			npc.height = 42;
-			npc.damage = 50;
-			npc.defense = 8;
-			npc.lifeMax = 3500;
-			npc.HitSound = SoundID.NPCHit4;
-			npc.DeathSound = SoundID.NPCDeath6;
-			npc.value = 240000f;
-			npc.knockBackResist = .30f;
-			npc.aiStyle = 87;
-			aiType = NPCID.Zombie;
-			animationType = 475;
-		}
+        public override void SetDefaults()
+        {
+            npc.width = 28;
+            npc.height = 24;
+            npc.damage = 80;
+            npc.defense = 35;
+            npc.lifeMax = 550;
+            npc.HitSound = SoundID.NPCHit4;
+            npc.DeathSound = SoundID.NPCDeath6;
+            npc.value = 50000f;
+            npc.knockBackResist = .30f;
+            npc.aiStyle = 25;
+            aiType = NPCID.Mimic;
+            animationType = NPCID.Mimic;
+        }
 
-		public override void HitEffect(int hitDirection, double damage)
-		{
-			if (npc.life <= 0)
-			{
-				Gore.NewGore(npc.position, npc.velocity, 13);
-				Gore.NewGore(npc.position, npc.velocity, 12);
-				Gore.NewGore(npc.position, npc.velocity, 11);
-			}
-		}
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            int d1 = 236;
+            for (int k = 0; k < 5; k++)
+            {
+                {
+                    Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);
+                }
+            }
+            if (npc.life <= 0)
+            {
+                Gore.NewGore(npc.position, npc.velocity, 99);
+                Gore.NewGore(npc.position, npc.velocity, 99);
+                Gore.NewGore(npc.position, npc.velocity, 99);
+            }
+        }
 
-		public override void NPCLoot()
-		{
-			string[] lootTable = { "TatteredShotbow", "GoldenApple", "ZeusLightning", "CircleScimitar" };
-			int loot = Main.rand.Next(lootTable.Length);
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType(lootTable[loot]));
-		}
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            int x = spawnInfo.spawnTileX;
+            int y = spawnInfo.spawnTileY;
+            int tile = (int)Main.tile[x, y].type;
+            return (tile == 367) && Main.hardMode && spawnInfo.spawnTileY > Main.rockLayer ? 0.01f : 0f;
+        }
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			int x = spawnInfo.spawnTileX;
-			int y = spawnInfo.spawnTileY;
-			int tile = (int)Main.tile[x, y].type;
-			return (tile == 367) && Main.hardMode && spawnInfo.spawnTileY > Main.rockLayer ? 0.05f : 0f;
-		}
-	}
+        public override void NPCLoot()
+        {
+            string[] lootTable = { "TatteredShotbow", "GoldenApple", "ZeusLightning", "CircleScimitar" };
+            int loot = Main.rand.Next(lootTable.Length);
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType(lootTable[loot]));
+        }
+    }
 }

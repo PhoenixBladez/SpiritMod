@@ -38,6 +38,7 @@ namespace SpiritMod
         public UnifiedRandom spiritRNG;
         public static AdventurerQuestHandler AdventurerQuests;
         public static Effect auroraEffect;
+        public static TrailManager TrailManager;
         public static Texture2D noise;
         public static Texture2D RainTexture;
         public const string EMPTY_TEXTURE = "SpiritMod/Empty";
@@ -333,7 +334,11 @@ namespace SpiritMod
             LoadReferences();
             AdventurerQuests = new AdventurerQuestHandler(this);
             StructureLoader.Load(this);
-            TrailHelper.Load(Main.instance.GraphicsDevice, this);
+            TrailManager = new TrailManager(this);
+
+            On.Terraria.Main.DrawProjectiles += Main_DrawProjectiles;
+            On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile;
+
             instance = this;
             if (Main.rand == null)
                 Main.rand = new Terraria.Utilities.UnifiedRandom();
@@ -499,6 +504,23 @@ namespace SpiritMod
                 _texField.SetValue(null, textures);
             }
         }
+
+        private void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
+        {
+            TrailManager.DrawTrails(Main.spriteBatch);
+            orig(self);
+        }
+
+        //ugh this name
+        private int Projectile_NewProjectile(On.Terraria.Projectile.orig_NewProjectile_float_float_float_float_int_int_float_int_float_float orig, float X, float Y, float SpeedX, float SpeedY, int Type, int Damage, float KnockBack, int Owner, float ai0, float ai1)
+        {
+            int index = orig(X, Y, SpeedX, SpeedY, Type, Damage, KnockBack, Owner, ai0, ai1);
+            Projectile projectile = Main.projectile[index];
+
+            TrailManager.DoTrailCreation(projectile);
+
+            return index;
+        }
         public override void Unload()
         {
             spiritRNG = null;
@@ -507,7 +529,12 @@ namespace SpiritMod
             instance = null;
             SpiritGlowmask.Unload();
             StructureLoader.Unload();
-            TrailHelper.Unload(); 
+            TrailManager = null;
+        }
+
+        public override void MidUpdateProjectileItem()
+        {
+            TrailManager.UpdateTrails();
         }
         internal static int GetRainDustType(int rainType, out Color color)
         {

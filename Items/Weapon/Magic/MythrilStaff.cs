@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		{
 			item.damage = 37;
 			item.magic = true;
-			item.mana = 12;
+			item.mana = 9;
 			item.width = 40;
 			item.height = 40;
 			item.useTime = 30;

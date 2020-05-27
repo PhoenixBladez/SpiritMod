@@ -12,8 +12,8 @@ namespace SpiritMod.Items.Weapon.Magic
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Tome of the Thousand Fang's");
-			Tooltip.SetDefault("Summon a set of Gnashing teeth");
+			DisplayName.SetDefault("Tome of the Thousand Fangs");
+			Tooltip.SetDefault("Summon a set of gnashing teeth\nInflicts 'Surging Anguish'");
 		}
 
 		static int offsetLength = 23;
@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		{
 			item.damage = 37;
 			item.magic = true;
-			item.mana = 20;
+			item.mana = 15;
 			item.width = 38;
 			item.height = 38;
 			item.useTime = 40;
@@ -29,11 +29,11 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.useStyle = 5;
 			Item.staff[item.type] = true; 
 			item.noMelee = true;
-            item.knockBack = 23;
+            item.knockBack = 13;
 			item.rare = 2;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = false;
-			item.shoot = mod.ProjectileType("EtherealStaffProjectile");
+			item.shoot = mod.ProjectileType("TeethTop");
 			item.value = Item.sellPrice(0, 1, 0, 0);
             item.shootSpeed = 8f;
             item.crit = 6;

@@ -14,7 +14,6 @@ namespace SpiritMod.Dusts
 		}
 		public override bool Update(Dust dust)
 		{
-            Lighting.AddLight((int)(dust.position.X / 16f), (int)(dust.position.Y / 16f), 0.196f/2, 0.870588235f/2, 0.964705882f/2);
 			dust.noGravity = true;
 			dust.position += dust.velocity;
 			dust.velocity *= 0.92f;

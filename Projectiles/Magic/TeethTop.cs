@@ -11,7 +11,9 @@ namespace SpiritMod.Projectiles.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Blood Fangs");
-		}
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 18;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+        }
 		public override void SetDefaults()
 		{
 			projectile.width = 34;
@@ -22,12 +24,10 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.timeLeft = 90;
 			projectile.tileCollide = false;
 			projectile.ignoreWater = true;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 		int counter = 0;
 		int counter2 = 0;
-		static int closeSpeed = 10;
+		static int closeSpeed = 9;
 		public override void AI()
 		{
 			counter++;
@@ -42,8 +42,12 @@ namespace SpiritMod.Projectiles.Magic
 				else
 				{
 					projectile.velocity.Y = 0;
-				}
-			}
+                }
+                if (counter == 55)
+                {
+                    Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 2);
+                }
+            }
 		}
 
 

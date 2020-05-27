@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Weapon.Bow
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Heartstrike");
-			Tooltip.SetDefault("Right click after 5 shots to launched a flayed arrow\nEnemies hit will explode upon death");
+			Tooltip.SetDefault("Right click after 5 shots to launched a flayed arrow\nEnemies hit by falyed arrows will explode upon death");
 		}
 
 
@@ -54,12 +54,48 @@ namespace SpiritMod.Items.Weapon.Bow
 				{
 					counter = 5;
 				}
+                
 			}
 			else
 			{
 				counter--;
 			}
             return true;
+        }
+        public override bool CanUseItem(Player player)
+        {
+            if (player.altFunctionUse == 2)
+            {
+                if (counter > 0)
+                {
+                    return false;
+                }  
+                else
+                {
+                    return true;
+                }
+   
+            }
+            return true;
+        }
+        public override void HoldItem(Player player)
+        {
+            if (counter == 1)
+            {
+                Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 25));
+                {
+                    for (int i = 0; i < 7; i++)
+                    {
+                        int num = Dust.NewDust(player.position, player.width, player.height, 5, 0f, -2f, 0, default(Color), 2f);
+                        Main.dust[num].noGravity = true;
+                        Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+                        Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
+                        Main.dust[num].scale *= .25f;
+                        if (Main.dust[num].position != player.Center)
+                            Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
+                    }
+                }
+            }
         }
         public override Vector2? HoldoutOffset()
         {

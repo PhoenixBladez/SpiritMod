@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Headsplitter");
-			Tooltip.SetDefault("Right click to release an explosion of vengeance \nUsing it too frequently will reduce its damage");
+			Tooltip.SetDefault("Right click to release an explosion of vengeance\nUsing it too frequently will reduce its damage\nh\nInflicts 'Surging Anguish'");
 		}
 
 
@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.value = Terraria.Item.sellPrice(0, 0, 20, 0);
             item.rare = 2;
             item.UseSound = SoundID.Item1;        
-            item.shoot = mod.ProjectileType("PestilentSwordProjectile");
+            item.shoot = mod.ProjectileType("FlayedExplosion");
             item.shootSpeed = 12f;
 			item.autoReuse = true;			
         }
@@ -58,11 +58,24 @@ namespace SpiritMod.Items.Weapon.Swung
             MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (modPlayer.shootDelay < 150 && player.altFunctionUse == 2)
 			{
-				damage = 1 + (int)((damage * 1.5f) / (MathHelper.Clamp((float)Math.Sqrt(modPlayer.shootDelay), 1, 180)));
+                Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 20);
+                damage = 1 + (int)((damage * 1.5f) / (MathHelper.Clamp((float)Math.Sqrt(modPlayer.shootDelay), 1, 180)));
 				Projectile.NewProjectile(position.X, position.Y, 0, 0, mod.ProjectileType("FlayedExplosion"), damage, knockBack, Main.myPlayer);
 				modPlayer.shootDelay = 180;
 			}
             return false;
+        }
+        public override void UseStyle(Player player)
+        {
+            float cosRot = (float)Math.Cos(player.itemRotation - 0.78f * player.direction * player.gravDir);
+            float sinRot = (float)Math.Sin(player.itemRotation - 0.78f * player.direction * player.gravDir);
+            for (int i = 0; i < 1; i++)
+            {
+                float length = (item.width * 1.2f - i * item.width / 9) * item.scale + 16; //length to base + arm displacement
+                int dust = Dust.NewDust(new Vector2((float)(player.itemLocation.X + length * cosRot * player.direction), (float)(player.itemLocation.Y + length * sinRot * player.direction)), 0, 0, 5, player.velocity.X * 0.9f, player.velocity.Y * 0.9f, 100, Color.Transparent, 1.8f);
+                Main.dust[dust].velocity *= 0f;
+                Main.dust[dust].noGravity = true;
+            }
         }
     }
 }

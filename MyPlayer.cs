@@ -4144,19 +4144,6 @@ namespace SpiritMod
             {
                 shootDelay--;
 
-                Rectangle rect = new Rectangle((int)player.Center.X, (int)player.position.Y, 1, -1);
-                float x = Main.rand.NextFloat() * rect.Width;
-                float y = Main.rand.NextFloat() * rect.Height;
-
-                Tile atTile = Framing.GetTileSafely((int)((rect.X + x) / 16), (int)((rect.Y + y) / 16));
-                if (!atTile.active())
-                {
-                    Dust.NewDust(new Vector2(rect.X + x, rect.Y + y), 2, 6, 6);
-                }
-
-                Dust.NewDust(new Vector2(rect.X + x, rect.Y + y), 2, 6, 244);
-                Dust.NewDust(new Vector2(rect.X + x, rect.Y + y), 2, 6, 244);
-                Dust.NewDust(new Vector2(rect.X + x, rect.Y + y), 2, 6, 6);
             }
 
             if (shootDelay1 > 0)

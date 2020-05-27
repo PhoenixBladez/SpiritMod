@@ -20,23 +20,6 @@ namespace SpiritMod.Projectiles
 	{
         public override bool InstancePerEntity => true;
 
-        private List<Vector2> _points;
-
-        public SpiritGlobalProjectile()
-        {
-            _points = new List<Vector2>();
-        }
-
-        private void AddPoint(Vector2 v, int max)
-        {
-            _points.Insert(0, v);
-            if (_points.Count > max)
-            {
-                _points.RemoveAt(_points.Count - 1);
-            }
-        }
-
-
         public bool stop = false;
 		public float xspeed;
 		public float yspeed;
@@ -82,48 +65,10 @@ namespace SpiritMod.Projectiles
                 }
                 return true;
             }
-            if (projectile.type == mod.ProjectileType("LeafProjReachChest"))
-            {
-                spriteBatch.End();
-                TrailHelper.DrawTrail(spriteBatch, Main.screenPosition, _points, new Color(38, 140, 74, 60), 4f);
-                spriteBatch.Begin();
-            }
-            if (projectile.type == mod.ProjectileType("SleepingStar"))
-            {
-                spriteBatch.End();
-                TrailHelper.DrawTrail(spriteBatch, Main.screenPosition, _points, new Color(90, 205, 237, 60), 6f);
-                spriteBatch.Begin();
-            }
-            if (projectile.type == mod.ProjectileType("SleepingStar1"))
-            {
-                spriteBatch.End();
-                TrailHelper.DrawTrail(spriteBatch, Main.screenPosition, _points, new Color(231, 112, 255, 60), 6f);
-                spriteBatch.Begin();
-            }
             return base.PreDraw(projectile, spriteBatch, lightColor);
         }
         public override bool PreAI(Projectile projectile)
 		{
-            if (projectile.type == mod.ProjectileType("LeafProjReachChest") || projectile.type == mod.ProjectileType("SleepingStar") || projectile.type == mod.ProjectileType("SleepingStar1"))
-            {
-                int max = 10;
-                if (projectile.type == mod.ProjectileType("SleepingStar") || projectile.type == mod.ProjectileType("SleepingStar1"))
-                {
-                    max = 35;
-                }
-                Vector2 point = projectile.Center;
-                Vector2 prev = _points.Count > 0 ? _points[0] : point;
-                Vector2 between = point - prev;
-                float dist = between.Length();
-                between.Normalize();
-                while (dist > 10f)
-                {
-                    prev += between * 10f;
-                    AddPoint(prev, max);
-                    dist -= 10f;
-                }
-                AddPoint(point, max);
-            }
             if (throwerGloveBoost)
             {
                 projectile.penetrate = 2;
@@ -251,21 +196,6 @@ namespace SpiritMod.Projectiles
 					return true;
 				}
 			}
-            if (shotFromNightSky)
-            {
-                Vector2 position = projectile.Center + Vector2.Normalize(projectile.velocity) * 6;
-
-                Dust newDust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 206, 0f, 0f, 0, default(Color), 1.1f)];
-                newDust.position = position;
-                newDust.velocity = projectile.velocity.RotatedBy(Math.PI / 2, default(Vector2)) * 0.33F + projectile.velocity / 6;
-                newDust.position += projectile.velocity.RotatedBy(Math.PI / 2, default(Vector2));
-                newDust.noGravity = true;
-                newDust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 206, 0f, 0f, 0, default(Color), 1.1f)];
-                newDust.position = position;
-                newDust.velocity = projectile.velocity.RotatedBy(-Math.PI / 2, default(Vector2)) * 0.33F + projectile.velocity / 6;
-                newDust.position += projectile.velocity.RotatedBy(-Math.PI / 2, default(Vector2));
-                newDust.noGravity = true;
-            }
 			if (shotFromStellarCrosbow == true)
 			{
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
@@ -477,7 +407,7 @@ namespace SpiritMod.Projectiles
 			{
 				player.AddBuff(mod.BuffType("CrimsonRegen"), 179);
 			}
-            else if (shotFromNightSky == true && Main.rand.Next(5) == 0)
+            else if (shotFromNightSky == true && Main.rand.Next(8) == 0)
             {
                 target.AddBuff(mod.BuffType("StarFlame"), 179);
             }
@@ -576,5 +506,9 @@ namespace SpiritMod.Projectiles
 				}
 			}
 		}
-	}
+        public override void Kill(Projectile projectile, int timeLeft)
+        {
+            SpiritMod.TrailManager.TryTrailKill(projectile);
+        }
+    }
 }

@@ -55,5 +55,6 @@ namespace SpiritMod.Projectiles.Arrow
 			if (Main.rand.Next(4) == 0)
 				target.AddBuff(mod.BuffType("SurgingAnguish"), 200, true);
 		}
+
 	}
 }
