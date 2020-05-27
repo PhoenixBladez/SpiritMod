@@ -44,6 +44,7 @@ namespace SpiritMod.Items.Weapon.Magic
             {
                 item.UseSound = SoundID.Item1;
                 item.shoot = mod.ProjectileType("ZephyrSpearProj");
+				item.knockBack = 5;
                 item.noMelee = false;
                 item.shootSpeed = 6f;
                 item.noUseGraphic = true;
@@ -52,6 +53,7 @@ namespace SpiritMod.Items.Weapon.Magic
             {
                 item.UseSound = SoundID.Item34;
                 item.shoot = mod.ProjectileType("Zephyr");
+				item.knockBack = 10;
                 item.noMelee = true;
                 item.noUseGraphic = false;
                 item.shootSpeed = 14f;

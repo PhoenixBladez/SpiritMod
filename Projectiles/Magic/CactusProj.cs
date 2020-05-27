@@ -14,6 +14,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cactus Pin");
+			Main.projFrames[projectile.type] = 2;
         }
 
 		public override void SetDefaults()
@@ -62,6 +63,15 @@ namespace SpiritMod.Projectiles.Magic
 
 				if (flag52)
 					projectile.Kill();
+			}
+			
+			projectile.frameCounter++;
+			if (projectile.frameCounter >= 16)
+			{
+				projectile.frame++;
+				projectile.frameCounter = 0;
+				if (projectile.frame >= 2)
+					projectile.frame = 0;
 			}
 			return false;
 		}

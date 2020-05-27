@@ -39,7 +39,7 @@ namespace SpiritMod.Projectiles.Arrow
 		{
 			Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 3);
 			{
-                for (int i = 0; i < 8; i++)
+                for (int i = 0; i < 40; i++)
                 {
                     int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 180, 0f, -2f, 0, default(Color), 2f);
                     Main.dust[num].noGravity = true;
@@ -59,6 +59,7 @@ namespace SpiritMod.Projectiles.Arrow
 		bool looping = false;
 		int loopCounter = 0;
 		bool dustSpawn = true;
+		int loopSize = 9;
 		public override void AI()
 		{
             Lighting.AddLight((int)(projectile.position.X / 16f), (int)(projectile.position.Y / 16f), 0.396f, 0.170588235f, 0.564705882f);
@@ -69,19 +70,21 @@ namespace SpiritMod.Projectiles.Arrow
 				Vector2 currentSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y);
 				projectile.velocity = currentSpeed.RotatedBy(Main.rand.Next(-1, 2) * (Math.PI / 40));
 			}
-			if (Main.rand.Next(90) == 1 && !looping)
+			if (Main.rand.Next(100) == 1 && !looping)
 			{
 				loopCounter = 0;
 				looping = true;
+				loopSize = Main.rand.Next(8, 14);
 			}
 			if (looping)
 			{
 				Vector2 currentSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y);
-				projectile.velocity = currentSpeed.RotatedBy(Math.PI / 9);
+				projectile.velocity = currentSpeed.RotatedBy(Math.PI / loopSize);
 				loopCounter++;
-				if (loopCounter >=18)
+				if (loopCounter >= loopSize * 2)
 				{
 					looping = false;
+					loopSize = Main.rand.Next(8, 13);
 				}
 			}
 		}

@@ -14,6 +14,15 @@ namespace SpiritMod.Tiles
     {
         int[] TileArray2 = { 0, 3, 185, 186, 187, 71, 28 };
         public int tremorItem = 0;
+		
+		static ushort IceType1 = (ushort)ModContent.TileType<Ambient.IceSculpture.Hostile.IceWheezerHostile>();
+		static ushort IceType2 = (ushort)ModContent.TileType<Ambient.IceSculpture.IceWheezerPassive>();
+		static ushort IceType3 = (ushort)ModContent.TileType<Ambient.IceSculpture.Hostile.IceVikingHostile>();
+		static ushort IceType4 = (ushort)ModContent.TileType<Ambient.IceSculpture.IceVikingPassive>();
+		static ushort IceType5 = (ushort)ModContent.TileType<Ambient.IceSculpture.Hostile.IceBatHostile>();
+		static ushort IceType6 = (ushort)ModContent.TileType<Ambient.IceSculpture.IceBatPassive>();
+		static ushort IceType7 = (ushort)ModContent.TileType<Ambient.IceSculpture.Hostile.IceFlinxHostile>();
+		static ushort IceType8 = (ushort)ModContent.TileType<Ambient.IceSculpture.IceFlinxPassive>();
 		public override bool CanKillTile(int i, int j, int type, ref bool blockDamaged)
 		{
 			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
@@ -22,7 +31,38 @@ namespace SpiritMod.Tiles
 			{
 				return false;
 			}
-
+			else if (type != IceType1 && tileAbove.type == IceType1)
+			{
+				return false;
+			}
+			else if (type != IceType2 && tileAbove.type == IceType2)
+			{
+				return false;
+			}
+			else if (type != IceType3 && tileAbove.type == IceType3)
+			{
+				return false;
+			}
+			else if (type != IceType4 && tileAbove.type == IceType4)
+			{
+				return false;
+			}
+			else if (type != IceType5 && tileAbove.type == IceType5)
+			{
+				return false;
+			}
+			else if (type != IceType6 && tileAbove.type == IceType6)
+			{
+				return false;
+			}
+			else if (type != IceType7 && tileAbove.type == IceType7)
+			{
+				return false;
+			}
+			else if (type != IceType8 && tileAbove.type == IceType8)
+			{
+				return false;
+			}
             return base.CanKillTile(i, j, type, ref blockDamaged);
 		}
 		public override bool CanExplode(int i, int j, int type)
@@ -30,6 +70,38 @@ namespace SpiritMod.Tiles
 			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
 			ushort eggType = (ushort)ModContent.TileType<Ambient.AvianEgg>();
 			if (type == eggType || tileAbove.type == eggType)
+			{
+				return false;
+			}
+			else if (type != IceType1 && tileAbove.type == IceType1)
+			{
+				return false;
+			}
+			else if (type != IceType2 && tileAbove.type == IceType2)
+			{
+				return false;
+			}
+			else if (type != IceType3 && tileAbove.type == IceType3)
+			{
+				return false;
+			}
+			else if (type != IceType4 && tileAbove.type == IceType4)
+			{
+				return false;
+			}
+			else if (type != IceType5 && tileAbove.type == IceType5)
+			{
+				return false;
+			}
+			else if (type != IceType6 && tileAbove.type == IceType6)
+			{
+				return false;
+			}
+			else if (type != IceType7 && tileAbove.type == IceType7)
+			{
+				return false;
+			}
+			else if (type != IceType8 && tileAbove.type == IceType8)
 			{
 				return false;
 			}

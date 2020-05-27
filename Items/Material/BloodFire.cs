@@ -11,8 +11,8 @@ namespace SpiritMod.Items.Material
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Bloodfire");
-			Tooltip.SetDefault("'This mystical blood is warm to touch'");
+			DisplayName.SetDefault("Nightmare");
+			Tooltip.SetDefault("'The stuff of literal nightmares'");
             ItemID.Sets.ItemIconPulse[item.type] = true;
 		}
 

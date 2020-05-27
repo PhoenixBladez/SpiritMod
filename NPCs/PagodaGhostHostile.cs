@@ -98,8 +98,12 @@ namespace SpiritMod.NPCs
             npc.alpha += 1;
             if (npc.alpha >= 180)
             {
-                npc.position.X = player.position.X + Main.rand.Next(-60, 60);
-                npc.position.Y = player.position.Y + Main.rand.Next(-160, -100);
+				
+				int angle = Main.rand.Next(360);
+				int distX = (int)(Math.Sin(angle * (Math.PI / 180)) * 90);
+                int distY= (int)(Math.Cos(angle * (Math.PI / 180)) * 160);
+                npc.position.X = player.position.X + distX;
+                npc.position.Y = player.position.Y + distY;
                 Gore.NewGore(npc.position, npc.velocity, 99);
                 Gore.NewGore(npc.position, npc.velocity, 99);
                 Gore.NewGore(npc.position, npc.velocity, 99);

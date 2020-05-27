@@ -49,6 +49,7 @@ namespace SpiritMod.NPCs
 		public bool afflicted = false;
 		public bool sunBurn = false;
 		public bool starDestiny = false;
+		public bool bloodInfusion = false;
 		public bool Death = false;
 		public bool iceCrush = false;
 		public bool pestilence = false;
@@ -116,6 +117,7 @@ namespace SpiritMod.NPCs
 			spectre = false;
 			holyBurn = false;
 			pestilence = false;
+			bloodInfusion = false;
 		}
 
 		public override bool PreAI(NPC npc)
@@ -145,9 +147,9 @@ namespace SpiritMod.NPCs
 
 			return base.PreAI(npc);
 		}
-
 		public override void HitEffect(NPC npc, int hitDirection, double damage)
 		{
+			
 			if (npc.type == NPCID.MartianSaucer)
 			{
 				if (Main.netMode != 1 && npc.life < 0 && !NPC.AnyNPCs(mod.NPCType("Martian")))
@@ -853,6 +855,10 @@ namespace SpiritMod.NPCs
 
 		public override void NPCLoot(NPC npc)
 		{
+			if (bloodInfusion)
+			{
+				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, mod.ProjectileType("FlayedExplosion"), 20, 0, Main.myPlayer);
+			}
 			#region Glyph
 			if (npc.boss && (npc.modNPC == null || npc.modNPC.bossBag > 0))
 			{

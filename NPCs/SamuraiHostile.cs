@@ -239,7 +239,7 @@ namespace SpiritMod.NPCs
                 npc.velocity.X *= 0.995f;
                 for (int i = 0; i < 20; i++)
                 {
-                    int num = Dust.NewDust(npc.position, npc.width, npc.height, 180, 0f, -2f, 0, default(Color), .8f);
+                    int num = Dust.NewDust(npc.position, npc.width, npc.height, 14, 0f, -2f, 0, default(Color), .8f);
                     Main.dust[num].noGravity = true;
                     Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
                     Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;

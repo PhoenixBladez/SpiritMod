@@ -99,9 +99,11 @@ namespace SpiritMod.NPCs
 			}
 
 			if (teleport)
+			{
 				Teleport();
-
-
+				npc.ai[0] = 1;
+				npc.ai[1] = 0;
+			}
 			if (npc.ai[1] > 0)
 			{
 				--npc.ai[1];
@@ -120,7 +122,7 @@ namespace SpiritMod.NPCs
                             if (Main.rand.Next(2) == 0)
                             {
                                 int somedamage = expertMode ? 15 : 30;
-                                int p = Projectile.NewProjectile(Main.player[npc.target].Center.X, Main.player[npc.target].Center.Y - 100, 0, 0  , mod.ProjectileType("IceCloudHostile"), somedamage, 1, Main.myPlayer, 0, 0);
+                                int p = Projectile.NewProjectile(Main.player[npc.target].Center.X, Main.player[npc.target].Center.Y - 300, 0, 0  , mod.ProjectileType("IceCloudHostile"), somedamage, 1, Main.myPlayer, 0, 0);
                                 Main.projectile[p].hostile = true;
                                 Main.projectile[p].friendly = false;
                                 Main.projectile[p].tileCollide = false;

@@ -39,7 +39,7 @@ namespace SpiritMod.NPCs
         public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.15f;
-            npc.frameCounter %= 4;
+            npc.frameCounter %= 3;
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
         }
@@ -75,22 +75,6 @@ namespace SpiritMod.NPCs
                 npc.homeTileY = -1;
                 npc.netUpdate = true;
             }
-        }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height * 0.5f));
-            for (int k = 0; k < npc.oldPos.Length; k++)
-            {
-                var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-                Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
-                Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
-                spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
-            }
-            return true;
-        }
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(255, 255, 255, 100);
         }
     }
 }

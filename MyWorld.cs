@@ -4771,7 +4771,7 @@ namespace SpiritMod
                     starMessage = true;
 					if (!txt)
 					{
-						Main.NewText("The stars are brightening...", 66, 170, 244);
+						Main.NewText("Ancient Machinery spurs to life in the Asteroids", 66, 170, 244);
                         Main.NewText("The icy caverns are shimmering", 70, 170, 255);
                         txt = true;
 					}

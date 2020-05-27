@@ -33,7 +33,7 @@ namespace SpiritMod.Tiles.Ambient.IceSculpture
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Frozen Snow Flinx");
-            dustType = 51;
+            dustType = 67;
 			AddMapEntry(new Color(200, 200, 200), name);
 		}
 		public override void SetDrawPositions (int i, int j, ref int width, ref int offsetY, ref int height)
