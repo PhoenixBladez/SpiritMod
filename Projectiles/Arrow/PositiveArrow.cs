@@ -25,7 +25,7 @@ namespace SpiritMod.Projectiles.Arrow
 
 		public override void SetDefaults()
 		{
-			projectile.width = 8;
+			projectile.width = 16;
 			projectile.height = 16;
 
 			projectile.aiStyle = 1;
@@ -46,15 +46,18 @@ namespace SpiritMod.Projectiles.Arrow
 		public override bool PreAI()
 		{
             int num = 5;
-            for (int k = 0; k < 3; k++)
-            {
-                int index2 = Dust.NewDust(projectile.position, 1, 1, 226, 0.0f, 0.0f, 0, new Color(), 1f);
-                Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
-                Main.dust[index2].scale = .5f;
-                Main.dust[index2].velocity *= 0f;
-                Main.dust[index2].noGravity = true;
-                Main.dust[index2].noLight = false;
-            }
+			if (!stuck)
+			{
+				for (int k = 0; k < 3; k++)
+				{
+					int index2 = Dust.NewDust(projectile.position, 1, 1, 226, 0.0f, 0.0f, 0, new Color(), 1f);
+					Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
+					Main.dust[index2].scale = .5f;
+					Main.dust[index2].velocity *= 0f;
+					Main.dust[index2].noGravity = true;
+					Main.dust[index2].noLight = false;
+				}
+			}
             if (projectile.damage != 0)
 			{
 				damage = projectile.damage;
@@ -170,7 +173,7 @@ namespace SpiritMod.Projectiles.Arrow
 				projectile.friendly = true;
 				//projectile.penetrate = 1;
 				projectile.timeLeft = 8;
-                ProjectileExtras.Explode(projectile.whoAmI, 240, 240,
+                ProjectileExtras.Explode(projectile.whoAmI, 220, 220,
                 delegate
                 {
                     for (int i = 0; i < 20; i++)

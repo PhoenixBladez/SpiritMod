@@ -42,6 +42,7 @@ namespace SpiritMod.Projectiles
 
 		public override void AI()
 		{
+			Lighting.AddLight((int)(projectile.position.X / 16f), (int)(projectile.position.Y / 16f),  0.749019608f, 0.443137255f, 0.203921569f);
 			timer++;
 			Vector2 targetPos = projectile.Center;
 			float targetDist = 1000f;

@@ -30,7 +30,7 @@ namespace SpiritMod.Projectiles.Arrow
 		}
 		public override void AI()
 		{
-                ProjectileExtras.Explode(projectile.whoAmI, 300, 300,
+                ProjectileExtras.Explode(projectile.whoAmI, 260, 260,
                 delegate
                 {
                     for (int i = 0; i < 60; i++)

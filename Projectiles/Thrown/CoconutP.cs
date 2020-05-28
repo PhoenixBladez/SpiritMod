@@ -39,7 +39,7 @@ namespace SpiritMod.Projectiles.Thrown
 			}
 			if (!cracky)
 			projectile.velocity.Y += 0.2f;
-			if (projectile.velocity.Y > 6.5f && !cracky)
+			if (projectile.velocity.Y > 7f && !cracky)
 			{
 				projectile.damage = (int)(projectile.damage * 2.85f);
 				cracky = true;
@@ -64,7 +64,14 @@ namespace SpiritMod.Projectiles.Thrown
             else
             {
                 Vector2 GoreVel = projectile.velocity;
-                GoreVel.X = 2f;
+				if (projectile.velocity.X > 0)
+				{
+					GoreVel.X = 2f;
+				}
+				else
+				{
+					GoreVel.X = 0f;
+				}
                 GoreVel.Y *= -0.2f;
                 int g = Gore.NewGore(projectile.position, GoreVel, mod.GetGoreSlot("Gores/Coconut/CoconutGore"), 1f);
                 Main.gore[g].timeLeft = 40;

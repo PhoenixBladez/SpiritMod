@@ -31,12 +31,8 @@ namespace SpiritMod.Projectiles.Magic
         int counter;
 		public override void AI()
 		{
-            counter++;
-            if (counter >= 20)
-            {
-                counter = 0;
-                projectile.velocity = projectile.velocity.RotatedBy(System.Math.PI / Main.rand.Next(-80, 80));
-            }
+           Vector2 currentSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y);
+			projectile.velocity = currentSpeed.RotatedBy(Main.rand.Next(-1, 2) * (Math.PI / 30));
             projectile.rotation += 0.1f;
             for (int i = 0; i < 2; i++)
 			{
