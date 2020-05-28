@@ -22,8 +22,8 @@ namespace SpiritMod.Items.Weapon.Gun
             item.ranged = true;
             item.width = 65;
             item.height = 21;
-            item.useTime = 45;
-            item.useAnimation = 45;
+            item.useTime = 20;
+            item.useAnimation = 20;
 			item.useTurn = false;
             item.useStyle = 5;
             item.noMelee = true;
@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Gun
             item.value = Item.buyPrice(0, 11, 0, 0);
             item.rare = 3;
             item.UseSound = SoundID.Item36;
-            item.autoReuse = true;
+            item.autoReuse = false;
             item.shoot = mod.ProjectileType("FreemanRocket");
             item.shootSpeed = 6f;
             item.useAmmo = AmmoID.Bullet;

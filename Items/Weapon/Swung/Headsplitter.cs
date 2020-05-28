@@ -13,18 +13,18 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Headsplitter");
-			Tooltip.SetDefault("Right click to release an explosion of vengeance\nUsing it too frequently will reduce its damage\nh\nInflicts 'Surging Anguish'");
+			Tooltip.SetDefault("Right click to release an explosion of vengeance\nUsing it too frequently will reduce its damage\nInflicts 'Surging Anguish'");
 		}
 
 
         public override void SetDefaults()
         {
-            item.damage = 21;            
+            item.damage = 22;            
             item.melee = true;            
             item.width = 34;              
             item.height = 40;             
-            item.useTime = 25;           
-            item.useAnimation = 25;     
+            item.useTime = 26;           
+            item.useAnimation = 26;     
             item.useStyle = 1;        
             item.knockBack = 6;
             item.value = Terraria.Item.sellPrice(0, 0, 20, 0);

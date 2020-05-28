@@ -23,7 +23,7 @@ namespace SpiritMod.NPCs.Dungeon
 			npc.width = 40;
 			npc.height = 90;
 
-			npc.lifeMax = 180;
+			npc.lifeMax = 155;
 			npc.defense = 14;
 			npc.damage = 25;
 
@@ -130,7 +130,7 @@ namespace SpiritMod.NPCs.Dungeon
                 ++npc.ai[0];
                 if (NPC.CountNPCS(mod.NPCType("IllusionistSpectre")) < 3)
                 {
-                    if (npc.ai[0] == 120 || npc.ai[0] == 240 || npc.ai[0] == 360)
+                    if (npc.ai[0] == 240 || npc.ai[0] == 480 || npc.ai[0] == 720)
                     {
                         Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
                         Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 53);
@@ -158,7 +158,7 @@ namespace SpiritMod.NPCs.Dungeon
                         frame = 4;
                     }
                 }
-                if (npc.ai[0] >= 360)
+                if (npc.ai[0] >= 720)
                 {
                     npc.ai[0] = 0;
                 }

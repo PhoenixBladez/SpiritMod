@@ -102,10 +102,10 @@ namespace SpiritMod.NPCs
 				int angle = Main.rand.Next(360);
 				int distX = (int)(Math.Sin(angle * (Math.PI / 180)) * 90);
                 int distY= (int)(Math.Cos(angle * (Math.PI / 180)) * 160);
+                Gore.NewGore(npc.position, npc.velocity, 99);
+                Gore.NewGore(npc.position, npc.velocity, 99);
                 npc.position.X = player.position.X + distX;
                 npc.position.Y = player.position.Y + distY;
-                Gore.NewGore(npc.position, npc.velocity, 99);
-                Gore.NewGore(npc.position, npc.velocity, 99);
                 Gore.NewGore(npc.position, npc.velocity, 99);
                 npc.alpha = 0;
                 Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 6);

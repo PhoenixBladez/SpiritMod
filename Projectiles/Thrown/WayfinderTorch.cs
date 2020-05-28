@@ -53,7 +53,8 @@ namespace SpiritMod.Projectiles.Thrown
 			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
 			if (Main.rand.Next(3) == 0)
 			{
-				int n = 2;
+                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
+                int n = 2;
 				int deviation = Main.rand.Next(0, 300);
 				for (int i = 0; i < n; i++)
 				{

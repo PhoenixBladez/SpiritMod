@@ -14,7 +14,7 @@ namespace SpiritMod.NPCs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Winterborn Mage");
+			DisplayName.SetDefault("Winterborn Herald");
 			Main.npcFrameCount[npc.type] = 4;
 		}
 
@@ -23,7 +23,7 @@ namespace SpiritMod.NPCs
 			npc.width = 30;
 			npc.height = 44;
 
-			npc.lifeMax = 112;
+			npc.lifeMax = 91;
 			npc.defense = 6;
 			npc.damage = 34;
 

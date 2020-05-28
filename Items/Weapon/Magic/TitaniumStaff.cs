@@ -29,11 +29,11 @@ namespace SpiritMod.Items.Weapon.Magic
 			Item.staff[item.type] = true;
 			item.noMelee = true; 
 			item.knockBack = 6;
-            item.useTurn = false;
+            item.useTurn = true;
             item.value = Terraria.Item.sellPrice(0, 1, 50, 0);
             item.rare = 4;
 			item.UseSound = SoundID.Item8;
-			item.autoReuse = true;
+			item.autoReuse = false;
 			item.shoot = mod.ProjectileType("TitaniumStaffProj");
 			item.shootSpeed = 30f;
 		}

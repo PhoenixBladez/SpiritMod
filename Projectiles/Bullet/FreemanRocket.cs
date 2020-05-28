@@ -31,21 +31,7 @@ namespace SpiritMod.Projectiles.Bullet
 			projectile.ignoreWater = true;
 			projectile.aiStyle = -1;
 		}
-        public override bool PreAI()
-        {
-            var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
-            foreach (var proj in list)
-            {
-                if (Main.player[projectile.owner].channel)
-                {
-                    if (projectile != proj && proj.type == mod.ProjectileType("FreemanRocket"))
-                    {
-                        projectile.Kill();
-                    }
-                }
-            }
-            return true;
-        }
+       
         public override void AI()
 		{
             projectile.rotation = projectile.velocity.ToRotation() + 1.57f;

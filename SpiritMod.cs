@@ -40,7 +40,7 @@ namespace SpiritMod
         public static Effect auroraEffect;
         public static TrailManager TrailManager;
         public static Texture2D noise;
-        public static Texture2D RainTexture;
+        public static Texture2D MoonTexture;
         public const string EMPTY_TEXTURE = "SpiritMod/Empty";
         public const string customEventName = "The Tide";
         public static Texture2D EmptyTexture
@@ -146,7 +146,7 @@ namespace SpiritMod
 
             if (priority > MusicPriority.Environment)
                 return;
-            if (spirit.ZoneBlueMoon && !Main.dayTime)
+            if (spirit.ZoneBlueMoon && !Main.dayTime && (player.ZoneOverworldHeight || player.ZoneSkyHeight))
             {
                 music = GetSoundSlot(SoundType.Music, "Sounds/Music/BlueMoon");
                 priority = MusicPriority.Environment;
@@ -347,8 +347,7 @@ namespace SpiritMod
             Items.Halloween.CandyBag.Initialize();
 
 
-            Filters.Scene["SpiritMod:BlueMoonSky"] = new Filter(new ScreenShaderData("FilterMiniTower").UseColor(0f, 0.3f, 1f).UseOpacity(0.75f), EffectPriority.High);
-
+           
             Filters.Scene["SpiritMod:ReachSky"] = new Filter(new ScreenShaderData("FilterBloodMoon").UseColor(0.05f, 0.05f, .05f).UseOpacity(0.7f), EffectPriority.High);
 
             Filters.Scene["SpiritMod:SpiritUG1"] = new Filter(new ScreenShaderData("FilterBloodMoon").UseColor(0.2f, 0.2f, .2f).UseOpacity(0.8f), EffectPriority.High);
@@ -366,12 +365,15 @@ namespace SpiritMod
             {
                 AddEquipTexture(null, EquipType.Legs, "TalonGarb_Legs", "SpiritMod/Items/Armor/TalonGarb_Legs");
                 EmptyTexture = GetTexture("Empty");
-                RainTexture = GetTexture("Textures/CustomRain");
                 auroraEffect = GetEffect("Effects/aurora");
                 noise = GetTexture("Textures/noise");
+                noise = GetTexture("Textures/BlueMoonTexture");
                 SkyManager.Instance["SpiritMod:AuroraSky"] = new AuroraSky();
                 Filters.Scene["SpiritMod:AuroraSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
                 Terraria.Graphics.Effects.Overlays.Scene["SpiritMod:AuroraSky"] = new AuroraOverlay();
+
+                Filters.Scene["SpiritMod:BlueMoonSky"] = new Filter(new ScreenShaderData("FilterMiniTower").UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.High);
+                SkyManager.Instance["SpiritMod:BlueMoonSky"] = new BlueMoonSky();
 
                 SkyManager.Instance["SpiritMod:MeteorSky"] = new MeteorSky();
                 SkyManager.Instance["SpiritMod:AsteroidSky2"] = new MeteorBiomeSky2();
@@ -675,6 +677,7 @@ namespace SpiritMod
 
         public override void ModifySunLightColor(ref Color tileColor, ref Color backgroundColor)
         {
+            Mod mod = SpiritMod.instance;
             Microsoft.Xna.Framework.Color white = Microsoft.Xna.Framework.Color.White;
             Microsoft.Xna.Framework.Color white2 = Microsoft.Xna.Framework.Color.White;
             Player player = Main.LocalPlayer;
@@ -861,11 +864,16 @@ namespace SpiritMod
                 white2.G = (byte)num159;
                 white2.B = (byte)num158;
             }
-            
-        }
-        
 
-        const int ShakeLength = 5;
+            int num226 = 15;
+            int num227 = 0;
+            int num228 = 80;
+            int num229 = 80;
+            int num230 = 32;
+        }
+      
+
+    const int ShakeLength = 5;
         int ShakeCount = 0;
         float previousRotation = 0;
         float targetRotation = 0;

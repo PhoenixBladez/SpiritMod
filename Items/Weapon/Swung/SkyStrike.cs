@@ -23,7 +23,8 @@ namespace SpiritMod.Items.Weapon.Swung
             item.useAnimation = 21;
             item.melee = true;            
             item.width = 42;              
-            item.height = 42;             
+            item.height = 42;     
+            item.rare = 4;
             item.useStyle = 1;        
             item.knockBack = 5;
             item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
@@ -31,16 +32,6 @@ namespace SpiritMod.Items.Weapon.Swung
             item.autoReuse = true;
             item.useTurn = true;
             item.shoot = mod.ProjectileType("SkyStar");
-        }
-        public override void MeleeEffects(Player player, Rectangle hitbox)
-        {
-            for (int i = 0; i < 2; i++)
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 15);
-                Main.dust[dust].noGravity = true;
-                Main.dust[dust].velocity *= 0f;
-                Main.dust[dust].scale = Main.rand.NextFloat(.5f, 1.1f);
-            }
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

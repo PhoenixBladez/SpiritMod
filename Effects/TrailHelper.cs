@@ -49,6 +49,25 @@ namespace SpiritMod.Effects
             {
                 CreateTrail(projectile, new GradientTrail(new Color(241, 173, 255), new Color(105, 42, 168)), new RoundCap(), new DefaultTrailPosition(), 8f, 150f);
             }
+            if (projectile.type == mod.ProjectileType("HallowedStaffProj"))
+            {
+                switch (Main.rand.Next(3))
+                {
+                    case 0:
+                        CreateTrail(projectile, new StandardColorTrail(new Color(115, 220, 255)), new RoundCap(), new SleepingStarTrailPosition(), 16f, 100f);
+                        break;
+                    case 1:
+                        CreateTrail(projectile, new StandardColorTrail(new Color(255, 231, 145)), new RoundCap(), new SleepingStarTrailPosition(), 16f, 100f);
+                        break;
+                    case 2:
+                        CreateTrail(projectile, new StandardColorTrail(new Color(255, 128, 244)), new RoundCap(), new SleepingStarTrailPosition(), 16f, 100f);
+                        break;
+                }
+            }
+            if (projectile.type == mod.ProjectileType("TrueHallowedStaffProj"))
+            {
+                CreateTrail(projectile, new RainbowTrail(5f, 0.002f, 1f, .75f), new RoundCap(), new SleepingStarTrailPosition(), 19f, 170f);
+            }
             //HERE IS WHERE YOU ADD ALL YOUR TRAILS
             switch (projectile.type)
             {
@@ -72,7 +91,7 @@ namespace SpiritMod.Effects
         public void TryTrailKill(Projectile projectile)
         {
             Mod mod = SpiritMod.instance;
-            if (projectile.type == mod.ProjectileType("SleepingStar") || projectile.type == mod.ProjectileType("SleepingStar1") || projectile.type == mod.ProjectileType("LeafProjReachChest"))
+            if (projectile.type == mod.ProjectileType("SleepingStar") || projectile.type == mod.ProjectileType("SleepingStar1") || projectile.type == mod.ProjectileType("LeafProjReachChest") || projectile.type == mod.ProjectileType("HallowedStaffProj") || projectile.type == mod.ProjectileType("TrueHallowedStaffProj"))
             {
                 SpiritMod.TrailManager.TryEndTrail(projectile, Math.Max(15f, projectile.velocity.Length() * 3f));
             }
@@ -383,7 +402,6 @@ namespace SpiritMod.Effects
             return projectile.position + drawOrigin + Vector2.UnitY * projectile.gfxOffY;
         }
     }
-
     public interface ITrailColor
     {
         Color GetColourAt(float distanceFromStart, float trailLength, List<Vector2> points);
@@ -415,7 +433,7 @@ namespace SpiritMod.Effects
         private float _speed;
         private float _distanceMultiplier;
 
-        public RainbowTrail(float animationSpeed = 5f, float distanceMultiplier = 0.01f, float saturation = 1f, float lightness = 0.5f)
+        public RainbowTrail(float animationSpeed = 5f, float distanceMultiplier = 0.01f, float saturation = 1f, float lightness = .5f)
         {
             _saturation = saturation;
             _lightness = lightness;

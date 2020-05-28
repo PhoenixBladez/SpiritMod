@@ -68,7 +68,7 @@ namespace SpiritMod.Tiles.Ambient.IceSculpture.Hostile
                     Main.npc[n].GivenName = "Icy Undead Viking";
                     Main.npc[n].lifeMax = Main.npc[n].lifeMax * 2;
                     Main.npc[n].life = Main.npc[n].lifeMax;
-                    Main.npc[n].damage = (int)(Main.npc[n].damage * 1.5f);
+                    Main.npc[n].damage = (int)(Main.npc[n].damage * 1.65f);
                     Main.npc[n].knockBackResist = 0.25f;
                     WorldGen.KillTile(i, j);
                 }

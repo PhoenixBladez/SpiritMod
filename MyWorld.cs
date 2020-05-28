@@ -4570,8 +4570,7 @@ namespace SpiritMod
                 }
                 if (!Main.dayTime && Main.hardMode)
 				{
-					if (!Main.fastForwardTime && !Main.bloodMoon && WorldGen.spawnHardBoss == 0 &&
-						NPC.downedMechBossAny && Main.rand.Next(27) == 0)
+					if (!Main.fastForwardTime && !Main.bloodMoon && WorldGen.spawnHardBoss == 0 && Main.rand.Next(27) == 0)
 					{
 						Main.NewText("A Blue Moon is rising...", 0, 90, 220);
 						BlueMoon = true;

@@ -350,6 +350,8 @@ namespace SpiritMod
             bool blueOcean = player.ZoneBeach && MyWorld.luminousType == 2 && MyWorld.luminousOcean;
             bool purpleOcean = player.ZoneBeach && MyWorld.luminousType == 3 && MyWorld.luminousOcean;
 
+            bool blueMoon = ZoneBlueMoon && (player.ZoneOverworldHeight || player.ZoneSkyHeight);
+
             player.ManageSpecialBiomeVisuals("SpiritMod:AshstormParticles", true);       
             player.ManageSpecialBiomeVisuals("SpiritMod:AuroraSky", showAurora);
             player.ManageSpecialBiomeVisuals("SpiritMod:SpiritBiomeSky", spirit);
@@ -363,7 +365,7 @@ namespace SpiritMod
             player.ManageSpecialBiomeVisuals("SpiritMod:SpiritUG2", region2);
 
             player.ManageSpecialBiomeVisuals("SpiritMod:ReachSky", reach, player.Center);
-            player.ManageSpecialBiomeVisuals("SpiritMod:BlueMoonSky", ZoneBlueMoon, player.Center);
+            player.ManageSpecialBiomeVisuals("SpiritMod:BlueMoonSky", blueMoon, player.Center);
             player.ManageSpecialBiomeVisuals("SpiritMod:MeteorSky", ZoneAsteroid);
             player.ManageSpecialBiomeVisuals("SpiritMod:WindEffect", windEffect, player.Center);
             player.ManageSpecialBiomeVisuals("SpiritMod:WindEffect2", windEffect2, player.Center);
@@ -1345,7 +1347,7 @@ namespace SpiritMod
             }
             if (sacredVine)
             {
-                if (Main.rand.NextBool(11))
+                if (Main.rand.NextBool(20))
                 {
                     player.AddBuff(BuffID.Regeneration, 180);
                 }

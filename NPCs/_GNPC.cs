@@ -1024,15 +1024,15 @@ namespace SpiritMod.NPCs
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DungeonSpirit"), Main.rand.Next(2) + 1);
 			}
-			if (npc.type == 48 && Main.rand.Next(35) == 0)
+			if (npc.type == 48 && Main.rand.Next(45) == 0)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("StarlightBow"));
 			}
-			if (npc.type == 48 && Main.rand.Next(35) == 0)
+			if (npc.type == 48 && Main.rand.Next(45) == 0)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BreathOfTheZephyr"));
 			}
-			if (npc.type == 48 && Main.rand.Next(35) == 0)
+			if (npc.type == 48 && Main.rand.Next(45) == 0)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HarpyBlade"));
 			}

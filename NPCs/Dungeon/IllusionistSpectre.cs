@@ -25,9 +25,9 @@ namespace SpiritMod.NPCs.Dungeon
 			npc.width = 40;
 			npc.height = 90;
 
-			npc.lifeMax = 30;
+			npc.lifeMax = 20;
 			npc.defense = 0;
-			npc.damage = 15;
+			npc.damage = 19;
 
 			npc.HitSound = SoundID.NPCHit11;
 			npc.DeathSound = SoundID.NPCDeath6;

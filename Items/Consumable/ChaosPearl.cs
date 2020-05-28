@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Consumable
             item.useTime = item.useAnimation = 18;
           //  item.thrown = true;
             item.noMelee = true;
-            item.autoReuse = true;
+            item.autoReuse = false;
             item.consumable = true;
             item.noUseGraphic = true;
             item.shoot = mod.ProjectileType("ChaosPearl");
