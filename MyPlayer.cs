@@ -48,6 +48,7 @@ namespace SpiritMod
         public bool ZoneBlueMoon = false;
         private int timer1;
         public bool astralSet = false;
+		public bool bloodcourtSet = false;
         public int astralSetStacks;
         public bool frigidGloves = false;
         public bool mushroomPotion = false;
@@ -453,6 +454,7 @@ namespace SpiritMod
 
         public override void ResetEffects()
         {
+			bloodcourtSet = false;
 			ShieldCore = false;
             caltfist = false;
             briarSlimePet = false;
@@ -892,8 +894,19 @@ namespace SpiritMod
 
                 if (reaperSet && player.FindBuffIndex(mod.BuffType("FelCooldown")) < 0)
                 {
+					
                     player.AddBuff(mod.BuffType("FelCooldown"), 2700);
                     Projectile.NewProjectile(player.position, Vector2.Zero, mod.ProjectileType("FelProj"), 0, 0, player.whoAmI);
+                }
+				if (bloodcourtSet && player.FindBuffIndex(mod.BuffType("CourtCooldown")) < 0)
+                {
+                    player.AddBuff(mod.BuffType("CourtCooldown"), 500);
+					Vector2 mouse = Main.MouseScreen + Main.screenPosition;
+					Vector2 dir = mouse - player.Center;
+					dir.Normalize();
+					dir*= 7;
+					player.statLife -= (int)(player.statLifeMax / 10);
+                    Projectile.NewProjectile(player.Center, dir, mod.ProjectileType("DarkAnima"), 55, 0, player.whoAmI);
                 }
 
                 if (depthSet && player.FindBuffIndex(mod.BuffType("SharkAttackBuff")) < 0)
