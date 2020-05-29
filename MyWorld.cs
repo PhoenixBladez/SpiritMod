@@ -50,6 +50,7 @@ namespace SpiritMod
 		public static bool Thermite = false;
 		public static bool Cryolite = false;
 		public static bool spiritBiome = false;
+		public static bool rockCandy = false;
 		public static bool gmOre = false;
 		public static bool starMessage = false;
 		public static bool essenceMessage = false;
@@ -235,7 +236,14 @@ namespace SpiritMod
 				spiritBiome = true;
 			else
 				spiritBiome = false;
-			
+			if (Main.hardMode)
+			{
+				rockCandy = true;
+			}
+			else
+			{
+				rockCandy = false;
+			}
 			if (NPC.downedBoss3)
 				starMessage = true;
 			else
@@ -4790,7 +4798,39 @@ namespace SpiritMod
 				}
 			}
 
+			if (Main.hardMode && !rockCandy)
+			{
+				rockCandy = true;
+				Main.NewText("ROCK CANDAYYYYYYYYYYY", Color.Orange.R, Color.Orange.G, Color.Orange.B);
+				for (int C = 0; C < Main.maxTilesX * 9; C++)
+                    {
+						{
+                        int X = WorldGen.genRand.Next(0, Main.maxTilesX);
+                        int Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
+						if (Main.tile[X,Y].type == TileID.Stone)
+						{
+                         WorldGen.PlaceObject(X, Y, mod.TileType("GreenShardBig"));
+                     NetMessage.SendObjectPlacment(-1, X, Y, mod.TileType("GreenShardBig"), 0, 0, -1, -1);
+						}
+						}
 
+
+                    }
+					for (int C = 0; C < Main.maxTilesX * 9; C++)
+                    {
+						{
+                        int X = WorldGen.genRand.Next(0, Main.maxTilesX);
+                        int Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
+						if (Main.tile[X,Y].type == TileID.Stone)
+						{
+                         WorldGen.PlaceObject(X, Y, mod.TileType("PurpleShardBig"));
+                     NetMessage.SendObjectPlacment(-1, X, Y, mod.TileType("PurpleShardBig"), 0, 0, -1, -1);
+						}
+						}
+
+
+                    }
+			}
 			if (NPC.downedMechBoss3 == true || NPC.downedMechBoss2 == true || NPC.downedMechBoss1 == true)
 			{
 				if (!spiritBiome)

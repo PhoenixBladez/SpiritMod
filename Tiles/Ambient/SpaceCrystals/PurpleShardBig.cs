@@ -40,6 +40,18 @@ namespace SpiritMod.Tiles.Ambient.SpaceCrystals
             g = 0.05f/4;
             b = 0.9f/4;
         }
+		public override void KillMultiTile(int i, int j, int frameX, int frameY)
+		{
+			Terraria.Item.NewItem(i * 16, j * 16, 64, 32, mod.ItemType("RockCandy"));
+			if (Main.rand.Next(4) == 1)
+			{
+				Terraria.Item.NewItem(i * 16, j * 16, 64, 32, mod.ItemType("Geode"), 3);
+			}
+			Player player = Main.LocalPlayer;
+            {
+                Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
+            }
+		}
       
     }
 }
