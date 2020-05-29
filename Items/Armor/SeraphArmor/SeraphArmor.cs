@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.Items.Armor.SeraphArmor
 {
@@ -12,6 +14,7 @@ namespace SpiritMod.Items.Armor.SeraphArmor
 		{
 			DisplayName.SetDefault("Seraph's Breastplate");
             Tooltip.SetDefault("Increases magic damage by 10%");
+            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/SeraphArmor/SeraphBody_Glow");
 
         }
 
@@ -27,6 +30,10 @@ namespace SpiritMod.Items.Armor.SeraphArmor
         public override void UpdateEquip(Player player)
         {
             player.meleeDamage += .10f;
+        }
+        public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
+        {
+            glowMaskColor = Color.White;
         }
         public override void AddRecipes()
         {

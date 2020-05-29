@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 using Terraria;
 using Terraria.ID;
@@ -13,7 +14,7 @@ namespace SpiritMod.NPCs.Asteroid
 		int counter = 0;
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Gloop Gloop");
+			DisplayName.SetDefault("Gloop");
 			Main.npcFrameCount[npc.type] = 3;
 		}
 
@@ -34,18 +35,44 @@ namespace SpiritMod.NPCs.Asteroid
         {
 			npc.rotation = npc.velocity.ToRotation() + 1.57f;
             counter++;
-			npc.velocity *= 0.98f;
-			if (counter > 65)
+			npc.velocity *= 0.995f;
+            float num395 = Main.mouseTextColor / 200f - 0.35f;
+            num395 *= 0.2f;
+            npc.scale = num395 + 0.95f;
+            if (counter > 65)
 			{
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
-				direction *= 12;
+				direction *= 10;
 				npc.velocity = direction;
-				counter = 0;
+                for (int i = 0; i < 10; i++)
+                {
+                    int num = Dust.NewDust(npc.position, npc.width, npc.height, 167, 0f, -2f, 0, default(Color), 2f);
+                    Main.dust[num].noGravity = true;
+                    Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+                    Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
+                    Main.dust[num].scale *= .25f;
+                    if (Main.dust[num].position != npc.Center)
+                        Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 4f;
+                }
+                counter = 0;
 			}
         }
-
-		public override void FindFrame(int frameHeight)
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            for (int k = 0; k < 11; k++)
+            {
+                Dust.NewDust(npc.position, npc.width, npc.height, 167, hitDirection, -1f, 0, default(Color), .61f);
+            }
+            if (npc.life <= 0)
+            {
+                for (int k = 0; k < 15; k++)
+                {
+                    Dust.NewDust(npc.position, npc.width, npc.height, 167, hitDirection, -1f, 0, default(Color), .81f);
+                }
+            }
+        }
+        public override void FindFrame(int frameHeight)
 		{
 			npc.frameCounter += 0.15f;
 			npc.frameCounter %= Main.npcFrameCount[npc.type];

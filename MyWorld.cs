@@ -3913,7 +3913,7 @@ namespace SpiritMod
             tasks.Insert(ShiniesIndex + 1, new PassLegacy("Piles", delegate (GenerationProgress progress)
             {
 
-                progress.Message = "Piling Up Ores...";
+            progress.Message = "Piling Up Ores...";
                 {
                     if (WorldGen.CopperTierOre == TileID.Copper)
                     {
@@ -4037,6 +4037,19 @@ namespace SpiritMod
                             {
                                 WorldGen.PlaceObject(X, Y, (ushort)sculptures[Main.rand.Next(8)]);
                                 NetMessage.SendObjectPlacment(-1, X, Y, (ushort)sculptures[Main.rand.Next(4)], 0, 0, -1, -1);
+                            }
+                        }
+                    }
+                    for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 18.2f) * 6E-03); k++)
+                    {
+                        int[] tileType = new int[] { mod.TileType("GreenShardBig"), mod.TileType("BlueShardBig"), mod.TileType("PurpleShardBig") };
+                        {
+                            int X = WorldGen.genRand.Next(0, Main.maxTilesX);
+                            int Y = WorldGen.genRand.Next(0, Main.maxTilesY);
+                            if ((Main.tile[X, Y].type == mod.TileType("Asteroid") || Main.tile[X, Y].type == mod.TileType("BigAsteroid")))
+                            {
+                                WorldGen.PlaceObject(X, Y, (ushort)tileType[Main.rand.Next(3)]);
+                                NetMessage.SendObjectPlacment(-1, X, Y, (ushort)tileType[Main.rand.Next(3)], 0, 0, -1, -1);
                             }
                         }
                     }

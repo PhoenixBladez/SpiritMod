@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.Items.Armor.SeraphArmor
 {
@@ -12,7 +14,8 @@ namespace SpiritMod.Items.Armor.SeraphArmor
 		{
 			DisplayName.SetDefault("Seraph's Greaves");
 			 Tooltip.SetDefault("Increases maximum mana by 50");
-		}
+            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/SeraphArmor/SeraphLegs_Glow");
+        }
         public override void SetDefaults()
         {
             item.width = 22;
@@ -26,7 +29,10 @@ namespace SpiritMod.Items.Armor.SeraphArmor
             player.statManaMax2 += 50;
 
         }
-
+        public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
+        {
+            glowMaskColor = Color.White;
+        }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
