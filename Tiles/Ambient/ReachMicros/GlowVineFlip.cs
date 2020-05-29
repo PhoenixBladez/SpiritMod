@@ -33,7 +33,7 @@ namespace SpiritMod.Tiles.Ambient.ReachMicros
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Vine");
-            AddMapEntry(new Color(200, 200, 200), name);
+            AddMapEntry(new Color(104, 156, 70), name);
         }
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{

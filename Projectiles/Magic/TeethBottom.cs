@@ -35,6 +35,13 @@ namespace SpiritMod.Projectiles.Magic
 			{
 				projectile.friendly = true;
 			}
+			if (counter == 55)
+			{
+				for (int i = 0; i < 10; i++)
+				{
+					Dust.NewDust(projectile.position, projectile.width, projectile.height, 95, Main.rand.Next(-2,3), -2);
+				}
+			}
 		}
 
 

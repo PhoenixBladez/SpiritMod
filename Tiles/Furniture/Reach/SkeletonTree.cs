@@ -29,7 +29,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.CoordinatePadding = 2;
 			TileObjectData.addTile(Type);
-			AddMapEntry(new Color(200, 200, 200));
+			AddMapEntry(new Color(107, 90, 64));
 		}
 		public override void SetDrawPositions (int i, int j, ref int width, ref int offsetY, ref int height)
 		{

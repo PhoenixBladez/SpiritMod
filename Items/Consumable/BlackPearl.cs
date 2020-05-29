@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Consumable
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Black Pearl");
+			DisplayName.SetDefault("Pearl of the Tide");
 			Tooltip.SetDefault("'Coveted by ancient horrors...'\nSummons The Tide\nCan only be used near the ocean");
 		}
 
@@ -28,33 +28,26 @@ namespace SpiritMod.Items.Consumable
             item.noMelee = true;
             item.consumable = true;
             item.autoReuse = false;
-
+			item.useStyle = 4;
             item.UseSound = SoundID.Item43;
         }
 
         public override bool CanUseItem(Player player)
         {
-			if (!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && (!Main.pumpkinMoon && !Main.snowMoon))
-				return true;
-			return false;
+			if ((player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && (!Main.pumpkinMoon && !Main.snowMoon))
+				return false;
+			if (!player.ZoneBeach || TideWorld.TheTide)
+			{
+				Main.NewText("The Tide only ebbs by the calm of the sea.", 85, 172, 247);
+				return false;
+			}
+			return true;
         }
 
         public override bool UseItem(Player player)
         {			
-			if (TideWorld.TheTide)
-				return false;
-			if (player.ZoneBeach && !TideWorld.TheTide)
-			{
-				//Main.NewText("The Tide only ebbs by the sea.", 85, 172, 247);
-				TideWorld.TheTide = true;
-				return true;
-			}
-			else
-			{
-				Main.NewText("The Tide only ebbs by the sea.", 85, 172, 247);
-			}
-			//TideWorld.TheTide = true;
-			return false;
+			TideWorld.TheTide = true;
+			return true;
         }
         public override void AddRecipes()
         {

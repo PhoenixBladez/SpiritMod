@@ -34,7 +34,7 @@ namespace SpiritMod.Tiles.Ambient.ReachMicros
             dustType = 2;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Vine");
-            AddMapEntry(new Color(200, 200, 200), name);
+            AddMapEntry(new Color(104, 156, 70), name);
         }
         public override void RandomUpdate(int i, int j)
         {

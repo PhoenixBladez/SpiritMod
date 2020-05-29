@@ -20,7 +20,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
 			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Spirit Workbench");
+			name.SetDefault("Reach Workbench");
 			AddMapEntry(new Color(80, 144, 50), name);
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.WorkBenches };

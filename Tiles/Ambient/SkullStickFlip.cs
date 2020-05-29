@@ -32,7 +32,7 @@ namespace SpiritMod.Tiles.Ambient
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Skull Stick");
-			AddMapEntry(new Color(200, 200, 200), name);
+			AddMapEntry(new Color(107, 90, 64), name);
 			adjTiles = new int[] { TileID.Lamps };
 		}
 		public override void SetDrawPositions (int i, int j, ref int width, ref int offsetY, ref int height)

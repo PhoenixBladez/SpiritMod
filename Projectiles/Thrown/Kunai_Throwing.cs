@@ -18,8 +18,8 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override void SetDefaults()
 		{
-			projectile.width = 7;
-			projectile.height = 14;
+			projectile.width = 5;
+			projectile.height = 12;
 			projectile.aiStyle = 113;
 			projectile.friendly = true;
 			projectile.ranged = true;

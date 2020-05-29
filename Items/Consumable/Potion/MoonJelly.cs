@@ -45,7 +45,10 @@ namespace SpiritMod.Items.Consumable.Potion
 		}
       public override bool UseItem(Player player)
         {
-			player.AddBuff(BuffID.PotionSickness, 3600);
+			if (!player.pStone)
+				player.AddBuff(BuffID.PotionSickness, 3600);
+			else
+				player.AddBuff(BuffID.PotionSickness, 2700);
 			
             
             return true;
