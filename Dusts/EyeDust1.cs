@@ -31,7 +31,7 @@ namespace SpiritMod.Dusts
 			{
 				dust.active = false;
 			}
-			return true;
+			return false;
 		}
 	}
 }

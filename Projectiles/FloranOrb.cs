@@ -36,6 +36,7 @@ namespace SpiritMod.Projectiles
 
 		Vector2 offset = new Vector2(60, 60);
 		public float counter = -1440;
+		int j = 0;
 		public override void AI()
 		{
 			Player player = Main.player[projectile.owner];
@@ -47,18 +48,16 @@ namespace SpiritMod.Projectiles
 				{
 					counter = -1440;
 				}
-				for (int i = 0; i < 6; i++)
-				{
-					float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
-					float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
-					
-					int num = Dust.NewDust(projectile.Center + new Vector2(0, (float)Math.Cos(counter/8.2f)*9.2f).RotatedBy(projectile.rotation), 6, 6, 39, 0f, 0f, 0, default(Color), 1f);
-					Main.dust[num].velocity *= .1f;
-					Main.dust[num].scale *= .7f;				
-					Main.dust[num].noGravity = true;
-			
-				}
 				projectile.rotation = projectile.velocity.ToRotation() + (float)(Math.PI / 2);
+			}
+			j-= 10;
+			for (int i = 0; i < 300; i+= 20)
+			{
+				float xdist = (int)(Math.Sin((i + j) * (Math.PI / 180)) * 15);
+				float ydist = (int)(Math.Cos((i + j) * (Math.PI / 180)) * 15);
+				Vector2 offset = new Vector2(xdist,ydist);
+				Dust.NewDustPerfect(projectile.Center + offset, mod.DustType("FloranDust"), Vector2.Zero);
+			
 			}
     		//Making player variable "p" set as the projectile's owner
 
@@ -74,7 +73,7 @@ namespace SpiritMod.Projectiles
     		projectile.position.Y = player.Center.Y - (int)(Math.Sin(rad) * dist) - projectile.height/2;
  			
     		//Increase the counter/angle in degrees by 1 point, you can change the rate here too, but the orbit may look choppy depending on the value
-    		projectile.ai[1] += 2f;
+    		projectile.ai[1] += 1f;
 		}
 
 		public override void Kill(int timeLeft)
