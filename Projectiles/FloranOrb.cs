@@ -26,7 +26,7 @@ namespace SpiritMod.Projectiles
 			projectile.height = 18;
 			projectile.friendly = true;
 			projectile.thrown = true;
-			projectile.penetrate = 2;
+			projectile.penetrate = 4;
 			projectile.tileCollide = false;
 			projectile.alpha = 255;
 			projectile.timeLeft = 300;
@@ -36,7 +36,7 @@ namespace SpiritMod.Projectiles
 
 		Vector2 offset = new Vector2(60, 60);
 		public float counter = -1440;
-		int j = 0;
+		float j = 0;
 		public override void AI()
 		{
 			Player player = Main.player[projectile.owner];
@@ -50,8 +50,8 @@ namespace SpiritMod.Projectiles
 				}
 				projectile.rotation = projectile.velocity.ToRotation() + (float)(Math.PI / 2);
 			}
-			j-= 10;
-			for (int i = 0; i < 300; i+= 20)
+			j-= projectile.DirectionTo(Main.MouseWorld).ToRotation() + 1.57f;
+			for (int i = 0; i < 100; i+= 20)
 			{
 				float xdist = (int)(Math.Sin((i + j) * (Math.PI / 180)) * 15);
 				float ydist = (int)(Math.Cos((i + j) * (Math.PI / 180)) * 15);
@@ -80,7 +80,7 @@ namespace SpiritMod.Projectiles
 		{
 			for (int i = 0; i < 5; i++)
 			{
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 39);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, mod.DustType("FloranDust"));
 			}
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
