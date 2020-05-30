@@ -42,7 +42,7 @@ namespace SpiritMod.NPCs.Asteroid
 			aiType = -1; //new
 			animationType = 10; //new
 			npc.knockBackResist = 0f;
-			npc.value = 340;
+			npc.value = 540;
 			npc.alpha = 255;
 			npc.behindTiles = true;
 			npc.noGravity = true;

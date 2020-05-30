@@ -42,6 +42,16 @@ namespace SpiritMod.NPCs.Reach
 			if (distance <= 160 || npc.life < npc.lifeMax)
 			{
 			      npc.Transform(mod.NPCType("Reachman"));
+                for (int i = 0; i < 10; i++)
+                {
+                    int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.GoldCoin, 0f, -2f, 0, default(Color), 2f);
+                    Main.dust[num].noGravity = true;
+                    Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+                    Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
+                    Main.dust[num].scale *= .25f;
+                    if (Main.dust[num].position != npc.Center)
+                        Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 4f;
+                }
             }
             if (Main.netMode != 1)
             {

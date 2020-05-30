@@ -11,8 +11,8 @@ namespace SpiritMod.Items.Equipment
 	{
 		public override void SetStaticDefaults() 
 		{
-			DisplayName.SetDefault("Dynasty Fan"); 
-			Tooltip.SetDefault("Launch yourself");
+			DisplayName.SetDefault("Dynasty Fan");
+            Tooltip.SetDefault("Launch yourself in any direction with a gust of wind");
 		}
 
 		 public override void SetDefaults()
@@ -35,9 +35,15 @@ namespace SpiritMod.Items.Equipment
         {
 			if (!player.HasBuff(BuffID.Featherfall))
 			{
-			player.velocity.X = 0 - speedX;
-			player.velocity.Y = 0 - speedY;
-			}
+			    player.velocity.X = 0 - speedX;
+			    player.velocity.Y = 0 - speedY;
+                int ing = Gore.NewGore(player.position, player.velocity, 825);
+                Main.gore[ing].timeLeft = Main.rand.Next(30, 90);
+                int ing1 = Gore.NewGore(player.position, player.velocity, 826);
+                Main.gore[ing1].timeLeft = Main.rand.Next(30, 90);
+                int ing2 = Gore.NewGore(player.position, player.velocity, 827);
+                Main.gore[ing2].timeLeft = Main.rand.Next(30, 90);
+            }
 			
 			return false;
 		}

@@ -30,7 +30,7 @@ namespace SpiritMod.Buffs
 						center.Y += Main.rand.Next(-100, 100) * 0.05F;
 						center += npc.velocity;
 
-						int dust = Dust.NewDust(center, 1, 1, mod.DustType("SoulSiphonDust"));
+						int dust = Dust.NewDust(center, 1, 1, mod.DustType("BloodSiphonDust"));
                         Main.dust[dust].velocity *= 0.0f;
                         Main.dust[dust].scale = Main.rand.Next(70, 85) * 0.01f;
                         Main.dust[dust].fadeIn = i + 1;

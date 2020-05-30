@@ -33,7 +33,11 @@ namespace SpiritMod.NPCs.Reach
             aiType = NPCID.BlueSlime;
             animationType = NPCID.BlueSlime;    
         }
-
+        public override void AI()
+        {
+            npc.spriteDirection = -npc.direction;
+            npc.scale = (.2f * (float)(npc.life / npc.lifeMax)) + .8f;
+        }
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			Player player = spawnInfo.player;
@@ -58,10 +62,6 @@ namespace SpiritMod.NPCs.Reach
                 target.AddBuff(BuffID.Poisoned, 180);
             }
         }
-        public override void AI()
-        {
-            npc.spriteDirection = -npc.direction;
-        }
         public override void HitEffect(int hitDirection, double damage)
 		{
             int d = 193;
@@ -70,8 +70,6 @@ namespace SpiritMod.NPCs.Reach
                 Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.Green, 0.7f);
                 Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.Green, 0.7f);
             }
-            npc.scale -= .03f;
-            npc.velocity.X += .05f;
 		}
 	}
 }

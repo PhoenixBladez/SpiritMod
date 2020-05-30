@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Armor.BloodCourt
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Bloodcourt Chestplate");
+			DisplayName.SetDefault("Bloodcourt's Vestments");
             Tooltip.SetDefault("Increases damage dealt by 8%");
 
         }

@@ -231,7 +231,7 @@ namespace SpiritMod.NPCs
             {
                Vector2 direction = targetLocation - npc.Center;
 				direction.Normalize();
-                 direction.X = direction.X * Main.rand.Next(36, 45);
+                 direction.X = direction.X * Main.rand.Next(29, 37);
                 direction.Y = direction.Y * Main.rand.Next(9, 18);
                 npc.velocity.X = direction.X;
                 npc.velocity.Y = direction.Y;

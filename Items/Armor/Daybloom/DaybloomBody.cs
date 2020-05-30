@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Armor.Daybloom
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Daybloom Garb");
-			Tooltip.SetDefault("Increases magic damage by 4%");
+			Tooltip.SetDefault("Increases magic damage by 1");
 		}
         public override void SetDefaults()
         {
@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Armor.Daybloom
 
         public override void UpdateEquip(Player player)
         {
-            player.magicDamage += 0.04f;
+            player.GetSpiritPlayer().daybloomGarb = true;
         }
 
         public override void AddRecipes()

@@ -47,26 +47,38 @@ namespace SpiritMod.Effects
             }
             if (projectile.type == mod.ProjectileType("OrichHoming"))
             {
-                CreateTrail(projectile, new GradientTrail(new Color(241, 173, 255), new Color(105, 42, 168)), new RoundCap(), new DefaultTrailPosition(), 8f, 150f);
+                CreateTrail(projectile, new GradientTrail(new Color(241, 173, 255), new Color(105, 42, 168)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 150f);
+            }
+            if (projectile.type == mod.ProjectileType("DarkAnima"))
+            {
+                CreateTrail(projectile, new GradientTrail(new Color(207, 25, 25), new Color(0, 0, 0)), new RoundCap(), new DefaultTrailPosition(), 12f, 150f);
             }
             if (projectile.type == mod.ProjectileType("HallowedStaffProj"))
             {
                 switch (Main.rand.Next(3))
                 {
                     case 0:
-                        CreateTrail(projectile, new StandardColorTrail(new Color(115, 220, 255)), new RoundCap(), new SleepingStarTrailPosition(), 16f, 100f);
+                        CreateTrail(projectile, new StandardColorTrail(new Color(115, 220, 255)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 100f);
                         break;
                     case 1:
-                        CreateTrail(projectile, new StandardColorTrail(new Color(255, 231, 145)), new RoundCap(), new SleepingStarTrailPosition(), 16f, 100f);
+                        CreateTrail(projectile, new StandardColorTrail(new Color(255, 231, 145)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 100f);
                         break;
                     case 2:
-                        CreateTrail(projectile, new StandardColorTrail(new Color(255, 128, 244)), new RoundCap(), new SleepingStarTrailPosition(), 16f, 100f);
+                        CreateTrail(projectile, new StandardColorTrail(new Color(255, 128, 244)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 100f);
                         break;
                 }
             }
             if (projectile.type == mod.ProjectileType("TrueHallowedStaffProj"))
             {
-                CreateTrail(projectile, new RainbowTrail(5f, 0.002f, 1f, .75f), new RoundCap(), new SleepingStarTrailPosition(), 19f, 170f);
+                CreateTrail(projectile, new RainbowTrail(5f, 0.002f, 1f, .75f), new RoundCap(), new SleepingStarTrailPosition(), 11f, 130f);
+            }
+            if (projectile.type == mod.ProjectileType("PositiveArrow"))
+            {
+                CreateTrail(projectile, new StandardColorTrail(new Color(122, 233, 255)), new RoundCap(), new ZigZagTrailPosition(3f), 8f, 250f);
+            }
+            if (projectile.type == mod.ProjectileType("NegativeArrow"))
+            {
+                CreateTrail(projectile, new StandardColorTrail(new Color(255, 113, 36)), new RoundCap(), new ZigZagTrailPosition(3f), 8f, 250f);
             }
             //HERE IS WHERE YOU ADD ALL YOUR TRAILS
             switch (projectile.type)
@@ -91,11 +103,11 @@ namespace SpiritMod.Effects
         public void TryTrailKill(Projectile projectile)
         {
             Mod mod = SpiritMod.instance;
-            if (projectile.type == mod.ProjectileType("SleepingStar") || projectile.type == mod.ProjectileType("SleepingStar1") || projectile.type == mod.ProjectileType("LeafProjReachChest") || projectile.type == mod.ProjectileType("HallowedStaffProj") || projectile.type == mod.ProjectileType("TrueHallowedStaffProj"))
+            if (projectile.type == mod.ProjectileType("SleepingStar") || projectile.type == mod.ProjectileType("SleepingStar1") || projectile.type == mod.ProjectileType("LeafProjReachChest") || projectile.type == mod.ProjectileType("HallowedStaffProj") || projectile.type == mod.ProjectileType("TrueHallowedStaffProj") || projectile.type == mod.ProjectileType("PositiveArrow") || projectile.type == mod.ProjectileType("NegativeArrow"))
             {
                 SpiritMod.TrailManager.TryEndTrail(projectile, Math.Max(15f, projectile.velocity.Length() * 3f));
             }
-            if (projectile.type == mod.ProjectileType("OrichHoming"))
+            if (projectile.type == mod.ProjectileType("OrichHoming") || projectile.type == mod.ProjectileType("DarkAnima"))
             {
                 SpiritMod.TrailManager.TryEndTrail(projectile, Math.Max(2f, projectile.velocity.Length() * 1f));
             }
@@ -425,7 +437,41 @@ namespace SpiritMod.Effects
             return Color.Lerp(_startColour, _endColour, progress) * (1f - progress);
         }
     }
+    public class ZigZagTrailPosition : ITrailPosition
+    {
+        private int _zigType;
+        private int _zigMove;
+        private float _strength;
 
+        public ZigZagTrailPosition(float strength)
+        {
+            _strength = strength;
+            _zigType = 0;
+            _zigMove = 1;
+        }
+
+        public Vector2 GetNextTrailPosition(Projectile projectile)
+        {
+            Vector2 offset = Vector2.Zero;
+            if (_zigType == -1) offset = projectile.velocity.TurnLeft();
+            else if (_zigType == 1) offset = projectile.velocity.TurnRight();
+            if (_zigType != 0) offset.Normalize();
+
+            _zigType += _zigMove;
+            if (_zigType == 2)
+            {
+                _zigType = 0;
+                _zigMove = -1;
+            }
+            else if (_zigType == -2)
+            {
+                _zigType = 0;
+                _zigMove = 1;
+            }
+
+            return projectile.Center + offset * _strength;
+        }
+    }
     public class RainbowTrail : ITrailColor
     {
         private float _saturation;

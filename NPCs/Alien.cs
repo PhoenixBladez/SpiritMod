@@ -32,10 +32,7 @@ namespace SpiritMod.NPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (SpawnHelper.SupressSpawns(spawnInfo, SpawnFlags.Eclipse))
-				return 0;
-
-			if (NPC.downedMechBoss2 && NPC.downedMechBoss1 && NPC.downedMechBoss3)
+			if (NPC.downedMechBossAny && Main.eclipse)
 				return 0.07f;
 			return 0;
 		}

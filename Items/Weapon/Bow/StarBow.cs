@@ -14,7 +14,7 @@ namespace SpiritMod.Items.Weapon.Bow
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Seraph's Storm");
-            Tooltip.SetDefault("Launches bolts of sporatic moon energy");
+            Tooltip.SetDefault("Launches bolts of sporadic lunar energy");
             SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Bow/StarBow_Glow");
 
         }
