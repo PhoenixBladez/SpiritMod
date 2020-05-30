@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Generic;
+
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,6 +14,8 @@ namespace SpiritMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starshock");
+			 ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
 		public override void SetDefaults()
@@ -30,6 +33,7 @@ namespace SpiritMod.Projectiles
 
 		public override void AI()
 		{
+			projectile.rotation += 0.05f;
              float num1 = 5f;
             float num2 = 3f;
             float num3 = 20f;
@@ -78,7 +82,7 @@ namespace SpiritMod.Projectiles
                 projectile.netUpdate = true;
             }
             int num = 3;
-			for (int k = 0; k < 3; k++)
+		/*	for (int k = 0; k < 3; k++)
 				{
 					int index2 = Dust.NewDust(projectile.position, 1, 1, 226, 0.0f, 0.0f, 0, new Color(), .5f);
 					Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
@@ -86,7 +90,7 @@ namespace SpiritMod.Projectiles
 					Main.dust[index2].velocity *= 0f;
 					Main.dust[index2].noGravity = true;
 					Main.dust[index2].noLight = false;	
-				}	
+				}	*/
 
 			if (projectile.localAI[1] == 0f)
 			{
@@ -94,10 +98,23 @@ namespace SpiritMod.Projectiles
 				Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 7, 1f, 0f);
 			}
 		}
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return Color.White;
-		}
+		
+		 public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
+            for (int k = 0; k < projectile.oldPos.Length; k++)
+            {
+                Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
+                Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
+                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+            }
+            return false;
+        }
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return new Color(160, 160, 160, 100);
+        }
+		
 		public override void Kill(int timeLeft)
 		{
 			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("Wrath"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);

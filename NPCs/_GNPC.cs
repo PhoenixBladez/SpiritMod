@@ -744,6 +744,7 @@ namespace SpiritMod.NPCs
                     if (NPC.downedBoss3)
                     {
                         pool.Add(mod.NPCType("CogTrapperHead"), 0.25f);
+						pool.Add(mod.NPCType("StarplateSpider"), 0.25f);
                     }
                 }
             }
