@@ -43,6 +43,19 @@ namespace SpiritMod.Projectiles.Arrow
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 226);
 			}
 		}
+		public override bool OnTileCollide(Vector2 oldVelocity)
+		{
+			if (!stuck)
+			{
+				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+				projectile.position += projectile.velocity * 2;
+				stuck = true;
+				projectile.timeLeft = 270;
+				projectile.velocity = Vector2.Zero;
+				projectile.aiStyle = -1;
+			}
+			return false;
+		}
 		public override bool PreAI()
 		{
             int num = 5;

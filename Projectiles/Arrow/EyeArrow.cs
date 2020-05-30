@@ -24,7 +24,10 @@ namespace SpiritMod.Projectiles.Arrow
 			projectile.extraUpdates = 1;
 			aiType = ProjectileID.BoneArrow;
 		}
-
+		public override void AI()
+		{
+			int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, mod.DustType("EyeDust1"), 0 - projectile.velocity.X, 0 -projectile.velocity.Y);
+		}
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 5; i++)

@@ -35,7 +35,7 @@ namespace SpiritMod.Projectiles.Magic
 			{
 				projectile.friendly = true;
 			}
-			if (counter == 55)
+			if (counter == 52)
 			{
 				for (int i = 0; i < 10; i++)
 				{
