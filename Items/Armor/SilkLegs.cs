@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Manasilk Leggings");
-            Tooltip.SetDefault("Increases minion damage by 4%");
+            Tooltip.SetDefault("Increases minion damage by 1");
 
         }
         public override void SetDefaults()
@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.minionDamage += 0.04f;
+            player.GetSpiritPlayer().silkenLegs = true;
         }
 
         public override void AddRecipes()  //How to craft this item

@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 
 namespace SpiritMod.Buffs
 {
@@ -19,6 +20,7 @@ namespace SpiritMod.Buffs
 		int counter = 0;
 		public override void Update(NPC npc, ref int buffIndex)
 		{
+
 			npc.lifeRegen -= 2;
 			Player player = Main.player[npc.target];
 			counter++;
@@ -27,6 +29,18 @@ namespace SpiritMod.Buffs
 				player.HealEffect(1);
 				player.statLife += 1;
 			}
-		}
+            if (Main.rand.NextBool(2))
+            {
+                Vector2 center = npc.Center;
+                center.X += Main.rand.Next(-100, 100) * 0.05F;
+                center.Y += Main.rand.Next(-100, 100) * 0.05F;
+                center += npc.velocity;
+
+                int dust = Dust.NewDust(center, 1, 1, mod.DustType("BloodSiphonDust"));
+                Main.dust[dust].velocity *= 0.0f;
+                Main.dust[dust].scale = Main.rand.Next(70, 85) * 0.01f;
+                Main.dust[dust].fadeIn = 1;
+            }
+        }
 	}
 }

@@ -11,7 +11,7 @@ namespace SpiritMod.NPCs.Reach
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Reach Shaman");
+			DisplayName.SetDefault("Feral Spiritualist");
 			Main.npcFrameCount[npc.type] = 5;
 		}
 

@@ -5,6 +5,7 @@ using Terraria.DataStructures;
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.Items.Material
 {
@@ -26,6 +27,10 @@ namespace SpiritMod.Items.Material
             item.rare = 4;
             item.scale = .8f;
             item.maxStack = 999;            
+        }
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            scale *= .6f;
         }
         public override Color? GetAlpha(Color lightColor)
         {

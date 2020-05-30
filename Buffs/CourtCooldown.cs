@@ -7,7 +7,7 @@ namespace SpiritMod.Buffs
 	{
 		public override void SetDefaults()
 		{
-            DisplayName.SetDefault("Court Cooldown");
+            DisplayName.SetDefault("Sanguine Cooldown");
             Description.SetDefault("Your blood needs time to heal");
             Main.buffNoTimeDisplay[Type] = false;
 			Main.debuff[Type] = true;

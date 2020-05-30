@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Returning
             item.knockBack = 3;
             item.value = Terraria.Item.sellPrice(0, 0, 4, 0);
             item.rare = 2;
-            item.shootSpeed = 8f;
+            item.shootSpeed = 6f;
             item.shoot = mod.ProjectileType("ReachBoomerang");
             item.UseSound = SoundID.Item1;
             item.autoReuse = false;

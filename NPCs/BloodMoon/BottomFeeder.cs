@@ -22,7 +22,7 @@ namespace SpiritMod.NPCs.BloodMoon
 			npc.height = 68;
 			npc.damage = 24;
 			npc.defense = 9;
-			npc.lifeMax = 130;
+			npc.lifeMax = 275;
 			npc.HitSound = SoundID.NPCHit18;
 			npc.DeathSound = SoundID.NPCDeath5;
 			npc.value = 160f;
@@ -75,7 +75,7 @@ namespace SpiritMod.NPCs.BloodMoon
 						int bloodproj;
 						bloodproj = Main.rand.Next(new int[]{mod.ProjectileType("Feeder1"), mod.ProjectileType("Feeder2"), mod.ProjectileType("Feeder3")});
                         bool expertMode = Main.expertMode;
-                        int damage = expertMode ? 12 : 17;
+                        int damage = expertMode ? 10 : 15;
                         int p = Terraria.Projectile.NewProjectile(npc.Center.X + (7 * npc.direction), npc.Center.Y - 10, -(npc.position.X - target.position.X) / distance * 8, -(npc.position.Y - target.position.Y + Main.rand.Next(-50, 50)) / distance * 8, bloodproj, damage, 0);
                         shoottimer = 0;
                     }

@@ -51,7 +51,10 @@ namespace SpiritMod.Projectiles.Arrow
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			target.AddBuff(mod.BuffType("DrainLife"), 150, true);
+            if (target.type != 488)
+            {
+                target.AddBuff(mod.BuffType("DrainLife"), 150, true);
+            }
 		}
 
 	}

@@ -73,6 +73,7 @@ namespace SpiritMod
         public bool floranCharm = false;
         public bool sunStone = false;
         public bool moonStone = false;
+        public bool bloodCourtHead = false;
         public bool animusLens = false;
         public bool timScroll = false;
         public bool cultistScarf = false;
@@ -86,6 +87,7 @@ namespace SpiritMod
         public bool manaWings = false;
         public bool infernalFlame = false;
         public bool floranSet = false;
+        public bool silkenLegs = false;
         public bool rogueSet = false;
         public bool crystal = false;
         public bool eyezorEye = false;
@@ -164,6 +166,7 @@ namespace SpiritMod
         public int PutridHits = 0;
         public int Rangedhits = 0;
         public bool flametrail = false;
+        public bool daybloomGarb = false;
         public bool icytrail = false;
         public bool silkenSet = false;
         public bool EnchantedPaladinsHammerMinion = false;
@@ -472,6 +475,7 @@ namespace SpiritMod
             SpiritCloak = false;
             HealCloak = false;
             vitaStone = false;
+            silkenLegs = false;
             astralSet = false;
             mushroomPotion = false;
             floranCharm = false;
@@ -482,6 +486,7 @@ namespace SpiritMod
             gemPickaxe = false;
             cultistScarf = false;
             bismiteSet = false;
+            bloodCourtHead = false;
             scarabCharm = false;
             assassinMag = false;
             moonHeart = false;
@@ -523,6 +528,7 @@ namespace SpiritMod
             magnifyingGlass = false;
             magazine = false;
             daybloomSet = false;
+            daybloomGarb = false;
             Ward = false;
             Ward1 = false;
             CursedPendant = false;
@@ -904,8 +910,19 @@ namespace SpiritMod
 					Vector2 mouse = Main.MouseScreen + Main.screenPosition;
 					Vector2 dir = mouse - player.Center;
 					dir.Normalize();
-					dir*= 7;
-					player.statLife -= (int)(player.statLifeMax / 10);
+					dir*= 12;
+					player.statLife -= (int)(player.statLifeMax * .08f);
+                    for (int i = 0; i < 18; i++)
+                    {
+                        int num = Dust.NewDust(player.position, player.width, player.height, mod.DustType("NightmareDust"), 0f, -2f, 0, default(Color), 2f);
+                        Main.dust[num].noGravity = true;
+                        Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+                        Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
+                        Main.dust[num].scale *= .85f;
+                        if (Main.dust[num].position != player.Center)
+                            Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
+                    }
+                    Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
                     Projectile.NewProjectile(player.Center, dir, mod.ProjectileType("DarkAnima"), 55, 0, player.whoAmI);
                 }
 
@@ -944,6 +961,21 @@ namespace SpiritMod
         public override void ModifyWeaponDamage(Item item, ref float add, ref float mult, ref float flat)
         {
             BeginShotDetection(item);
+
+            if (silkenLegs)
+            {
+                if (item.summon)
+                {
+                    flat += 1;
+                }
+            }
+            if (daybloomGarb)
+            {
+                if (item.magic)
+                {
+                    flat += 1;
+                }
+            }
         }
 
         public override void PostItemCheck()
@@ -2165,6 +2197,7 @@ namespace SpiritMod
             return true;
         }
         int shroomtimer;
+        int bloodTimer;
         public override void PreUpdate()
         {
             if (mushroomPotion)
@@ -2175,6 +2208,15 @@ namespace SpiritMod
                     shroomtimer = 0;
                     int proj = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0, 0, 131, 10, 1, Main.myPlayer, 0.0f, 1);
                     Main.projectile[proj].timeLeft = 120;
+                }
+            }
+            if (bloodCourtHead)
+            {
+                bloodTimer++;
+                if (bloodTimer >= 40)
+                {
+                    bloodTimer = 0;
+                    int proj = Projectile.NewProjectile(player.Center.X + Main.rand.Next(-30, 30), player.Center.Y - Main.rand.Next(40, 50), Main.rand.Next(-1, 1), -1, mod.ProjectileType("BloodRuneEffect"), 0, 0, Main.myPlayer, 0.0f, 1);
                 }
             }
             if (MyWorld.meteorShowerWeather && Main.rand.Next(270) == 0 && ZoneAsteroid)
@@ -3044,7 +3086,10 @@ namespace SpiritMod
             {
                 Yoraiz0rEye();
             }
-
+            if (bloodCourtHead)
+            {
+                BloodCourtEye();
+            }
             if (clatterboneShield)
             {
                 clatterStacks = 0;
@@ -4492,48 +4537,6 @@ namespace SpiritMod
             vector2_3.Y -= num1 / 2f;
 
             float num2 = 1f;
-            switch (player.yoraiz0rEye % 10)
-            {
-                case 1:
-                    return;
-
-                case 2:
-                    num2 = 0.35f;
-                    break;
-
-                case 3:
-                    num2 = 0.425f;
-                    break;
-
-                case 4:
-                    num2 = 0.5f;
-                    break;
-
-                case 5:
-                    num2 = 0.75f;
-                    break;
-
-                case 6:
-                    num2 = .85f;
-                    break;
-
-                case 7:
-                    num2 = 1f;
-                    break;
-            }
-
-            if (player.yoraiz0rEye < 7)
-            {
-                DelegateMethods.v3_1 = Main.hslToRgb(Main.rgbToHsl(player.eyeColor).X, 1f, 0.5f).ToVector3() * 0.5f * num2;
-                if (player.velocity != Vector2.Zero)
-                {
-                    Utils.PlotTileLine(player.Center, player.Center + player.velocity * 2f, 4f, new Utils.PerLinePoint(DelegateMethods.CastLightOpen));
-                }
-                else
-                {
-                    Utils.PlotTileLine(player.Left, player.Right, 4f, new Utils.PerLinePoint(DelegateMethods.CastLightOpen));
-                }
-            }
 
             int num3 = (int)Vector2.Distance(vector2_2, vector2_3) / 3 + 1;
             if (Vector2.Distance(vector2_2, vector2_3) % 3.0 != 0.0)
@@ -4553,6 +4556,68 @@ namespace SpiritMod
             }
         }
 
+        public void BloodCourtEye()
+        {
+            int index = 0 + player.bodyFrame.Y / 56;
+            if (index >= Main.OffsetsPlayerHeadgear.Length)
+            {
+                index = 0;
+            }
+
+            Vector2 vector2_1 = Vector2.Zero;
+            if (player.mount.Active && player.mount.Cart)
+            {
+                int num = Math.Sign(player.velocity.X);
+                if (num == 0)
+                {
+                    num = player.direction;
+                }
+
+                vector2_1 = new Vector2(MathHelper.Lerp(0.0f, -8f, player.fullRotation / 0.7853982f), MathHelper.Lerp(0.0f, 2f, Math.Abs(player.fullRotation / 0.7853982f))).RotatedBy(player.fullRotation, new Vector2());
+                if (num == Math.Sign(player.fullRotation))
+                {
+                    vector2_1 *= MathHelper.Lerp(1f, 0.6f, Math.Abs(player.fullRotation / 0.7853982f));
+                }
+            }
+
+            Vector2 spinningpoint1 = new Vector2(3 * player.direction - (player.direction == 1 ? 1 : 0), -11.5f * player.gravDir) + Vector2.UnitY * player.gfxOffY + player.Size / 2f + Main.OffsetsPlayerHeadgear[index];
+            Vector2 spinningpoint2 = new Vector2(3 * player.shadowDirection[1] - (player.direction == 1 ? 1 : 0), -11.5f * player.gravDir) + player.Size / 2f + Main.OffsetsPlayerHeadgear[index];
+            if (player.fullRotation != 0.0)
+            {
+                spinningpoint1 = spinningpoint1.RotatedBy(player.fullRotation, player.fullRotationOrigin);
+                spinningpoint2 = spinningpoint2.RotatedBy(player.fullRotation, player.fullRotationOrigin);
+            }
+
+            float num1 = 0.0f;
+            if (player.mount.Active)
+            {
+                num1 = player.mount.PlayerOffset;
+            }
+
+            Vector2 vector2_2 = player.position + spinningpoint1 + vector2_1;
+            vector2_2.Y -= num1 / 2f;
+
+            Vector2 vector2_3 = player.oldPosition + spinningpoint2 + vector2_1;
+            vector2_3.Y -= num1 / 2f;
+
+            float num2 = 1f;
+            int num3 = (int)Vector2.Distance(vector2_2, vector2_3) / 4 + 1;
+            if (Vector2.Distance(vector2_2, vector2_3) % 3.0 != 0.0)
+            {
+                ++num3;
+            }
+
+            for (float num4 = 1f; num4 <= (double)num3; ++num4)
+            {
+                Dust dust = Main.dust[Dust.NewDust(player.Center, 0, 0, mod.DustType("NightmareDust"), 0.0f, 0.0f, 0, new Color(), .8f)];
+                dust.position = Vector2.Lerp(vector2_3, vector2_2, num4 / num3);
+                dust.noGravity = true;
+                dust.velocity = Vector2.Zero;
+                dust.customData = player;
+                dust.scale = num2;
+                dust.shader = GameShaders.Armor.GetSecondaryShader(player.cYorai, player);
+            }
+        }
         public override void OnHitByNPC(NPC npc, int damage, bool crit)
         {
             if (chitinSet)
