@@ -13,7 +13,7 @@ namespace SpiritMod.Dusts
 
 			Dust dust2 = dust;
 			dust2.scale += 0.007f;
-            dust.alpha += 12;
+           // dust.alpha += 12;
             int index = (int)dust.fadeIn - 1;
 			if (index >= 0 && index <= Main.maxPlayers)
 			{
