@@ -90,6 +90,11 @@ namespace SpiritMod.Projectiles.Summon
                 Main.dust[index].noGravity = true;
             }
         }
+		public override bool TileCollideStyle (ref int width, ref int height, ref bool fallThrough)
+		{
+			fallThrough = false;
+			return true;
+		}
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);

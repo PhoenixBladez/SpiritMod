@@ -104,8 +104,8 @@ namespace SpiritMod.Tiles.Ambient
                         //consume it, and summon the Crystal King!
                         inventory[k].stack--;
                         NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("SteamRaiderHead"));
-                        Main.PlaySound(15, (int)player.position.X, (int)player.position.Y, 0);
-						Main.NewText("Starplate Voyager has awoken!", 175, 75, 255, false);
+                      //  Main.PlaySound(15, (int)player.position.X, (int)player.position.Y, 0);
+					//	Main.NewText("Starplate Voyager has awoken!", 175, 75, 255, false);
                         //and don't spam crystal kings if the player didn't ask for it :P
                         return;
                     }

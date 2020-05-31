@@ -132,6 +132,8 @@ namespace SpiritMod.NPCs.Town
 			AddItem(ref shop, ref nextSlot, ItemType<SwiftRune>());
             AddItem(ref shop, ref nextSlot, ItemType<AssassinMagazine>());
             AddItem(ref shop, ref nextSlot, ItemType<Dartboard>());
+			AddItem(ref shop, ref nextSlot, ItemType<TargetCan>());
+			AddItem(ref shop, ref nextSlot, ItemType<TargetBottle>());
         }
 
 		public override void TownNPCAttackStrength(ref int damage, ref float knockback)
