@@ -90,7 +90,7 @@ namespace SpiritMod.NPCs.Town
 			int merchant = NPC.FindFirstNPC(NPCID.Merchant);
 			if (merchant >= 0)
 			{
-				dialogue.Add($"Why should I sell regular shurikens? {Main.npc[merchant].GivenName} sells those...");
+				dialogue.Add($"Why is {Main.npc[merchant].GivenName} so intent on selling shurikens? That's totally my thing.");
 			}
 
 			int armsDealer = NPC.FindFirstNPC(NPCID.ArmsDealer);

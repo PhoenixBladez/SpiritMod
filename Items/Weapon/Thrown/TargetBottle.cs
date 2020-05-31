@@ -37,13 +37,5 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.maxStack = 999;
             item.consumable = true;
         }
-		public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(170, 1);
-             recipe.AddTile(TileID.Furnaces);
-            recipe.SetResult(this, 2);
-            recipe.AddRecipe();
-        }
     }
 }
