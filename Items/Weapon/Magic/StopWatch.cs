@@ -33,25 +33,19 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.rare = 5;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = false;
-			item.shoot = mod.ProjectileType("Shockwave");
+			item.shoot = mod.ProjectileType("Clock");
 			item.shootSpeed = 0.3f;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			 MyPlayer modPlayer = player.GetSpiritPlayer();
-            modPlayer.shootDelay = 3600;
-			float spread = 10f * 0.0174f;
-			double startAngle = Math.Atan2(speedX, speedY) - spread / 2;
-			double deltaAngle = spread / 8f;
-			for (int i = 0; i < 36; i++)
-			{
-				double offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
-				Projectile.NewProjectile(position.X, position.Y, (float)(Math.Sin(offsetAngle) * 15f), (float)(Math.Cos(offsetAngle) * 15f), mod.ProjectileType("WatchPulse"), damage, knockBack, player.whoAmI);
-				Projectile.NewProjectile(position.X, position.Y, (float)(-Math.Sin(offsetAngle) * 15f), (float)(-Math.Cos(offsetAngle) * 15f), mod.ProjectileType("WatchPulse"), damage, knockBack, player.whoAmI);
-			}
+            //modPlayer.shootDelay = 3600;
+			modPlayer.clockX = (int)position.X;
+			modPlayer.clockY = (int)position.Y;
 			speedX = 0;
 			speedY = 0;
+			player.AddBuff(mod.BuffType("ClockBuff"), 200);
 			return true;
 		}
 		public override bool CanUseItem(Player player)

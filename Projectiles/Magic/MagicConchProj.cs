@@ -32,7 +32,7 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.tileCollide = false;
 			if (projectile.timeLeft == 450)
 			{
-				for (int i = 0; i < 160; i++)	
+				for (int i = 0; i < 110; i++)	
 				{
 					int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 15, 0f, 0f);
 					Main.dust[dust].scale = 1.5f;
@@ -58,8 +58,8 @@ namespace SpiritMod.Projectiles.Magic
 			Dust.NewDustPerfect(southPosFar, mod.DustType("ConchDust"), Vector2.Zero);
 	
 
-			Vector2 eastPosClose = projectile.Center + new Vector2((Closeness - 30f) * (float)Math.Sin(radians), (Closeness - 30f) * (float)Math.Cos(radians));
-			Vector2 westPosClose = projectile.Center - new Vector2((Closeness - 30f) * (float)Math.Sin(radians), (Closeness - 30f) * (float)Math.Cos(radians));
+			Vector2 eastPosClose = projectile.Center + new Vector2((Closeness - 30f) * (float)Math.Sin(radians), (Closeness - 30f) * (float)Math.Cos(radians) * 0.5f);
+			Vector2 westPosClose = projectile.Center - new Vector2((Closeness - 30f) * (float)Math.Sin(radians), (Closeness - 30f) * (float)Math.Cos(radians) * 0.5f);
 			Vector2 northPosClose = projectile.Center + new Vector2((Closeness - 30f) * (float)Math.Sin(radians + 1.57), (Closeness - 30f) * (float)Math.Cos(radians + 1.57));
 			Vector2 southPosClose = projectile.Center - new Vector2((Closeness - 30f) * (float)Math.Sin(radians + 1.57), (Closeness - 30f) * (float)Math.Cos(radians + 1.57));		
 			Dust.NewDustPerfect(eastPosClose, mod.DustType("ConchDust"), Vector2.Zero);
@@ -83,7 +83,6 @@ namespace SpiritMod.Projectiles.Magic
 					projectile.Kill();
 				}
 			}
-			Lighting.AddLight((int)(projectile.position.X / 16f), (int)(projectile.position.Y / 16f), 0.196f, 0.870588235f, 0.964705882f);
 			projectile.localAI[0] += 1f;
 			if (projectile.localAI[0] >= 10f)
 			{

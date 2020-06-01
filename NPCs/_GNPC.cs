@@ -123,6 +123,7 @@ namespace SpiritMod.NPCs
 		public override bool PreAI(NPC npc)
 		{
 			Player player = Main.player[Main.myPlayer];
+			 MyPlayer modPlayer = player.GetSpiritPlayer();
 			Vector2 dist = npc.position - player.position;
 			if (Main.netMode == 0)
 			{
@@ -130,6 +131,11 @@ namespace SpiritMod.NPCs
 				{
 					npc.AddBuff(24, 130, false);
 				}
+				dist = npc.Center - new Vector2(modPlayer.clockX, modPlayer.clockY);
+				if (player.GetModPlayer<MyPlayer>().clockActive == true && Math.Sqrt((dist.X * dist.X) + (dist.Y * dist.Y)) < 175 && !npc.friendly)
+				{
+					npc.AddBuff(mod.BuffType("Stopped"), 3);
+				}	
 			}
 			if (Main.netMode == 0)
 			{

@@ -33,6 +33,7 @@ namespace SpiritMod
         internal static bool swingingCheck;
         internal static Item swingingItem;
         public bool TormentLantern = false;
+		public bool clockActive = false;
         public bool QuacklingMinion = false;
         public bool bismiteShield = false;
 		public int shieldCounter = 0;
@@ -41,6 +42,8 @@ namespace SpiritMod
         public bool HealCloak = false;
         public bool SpiritCloak = false;
         public bool firewall = false;
+		public int clockX = 0;
+		public int clockY = 0;
         private int Counter;
         private int timerz;
         public bool caltfist = false;
@@ -457,6 +460,7 @@ namespace SpiritMod
 
         public override void ResetEffects()
         {
+			clockActive = false;
 			bloodcourtSet = false;
 			ShieldCore = false;
             caltfist = false;
@@ -4209,6 +4213,11 @@ namespace SpiritMod
                 shootDelay--;
 
             }
+			if (shootDelay == 1)
+			{
+				Rectangle textPos = new Rectangle((int)player.position.X, (int)player.position.Y - 20, player.width, player.height);
+				CombatText.NewText(textPos, new Color(29, 240, 255, 100), "Cooldown over!");
+			}
 
             if (shootDelay1 > 0)
             {

@@ -22,12 +22,6 @@ namespace SpiritMod.Buffs
                 npc.velocity *= 0;
                 npc.frame.Y = 0;
             }
-
-            if (Main.rand.NextBool(4))
-            {
-                int dust = Dust.NewDust(npc.position, npc.width, npc.height, 206);
-                Main.dust[dust].scale = 1f;
-            }
         }
     }
 }
