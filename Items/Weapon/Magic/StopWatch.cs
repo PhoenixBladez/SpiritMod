@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			 MyPlayer modPlayer = player.GetSpiritPlayer();
-            //modPlayer.shootDelay = 3600;
+            modPlayer.shootDelay = 3600;
 			modPlayer.clockX = (int)position.X;
 			modPlayer.clockY = (int)position.Y;
 			speedX = 0;
