@@ -4050,14 +4050,13 @@ namespace SpiritMod
                     }
                     for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 18.2f) * 6E-03); k++)
                     {
-                        int[] tileType = new int[] { mod.TileType("GreenShardBig"), mod.TileType("BlueShardBig"), mod.TileType("PurpleShardBig") };
-                        {
+                       {
                             int X = WorldGen.genRand.Next(0, Main.maxTilesX);
                             int Y = WorldGen.genRand.Next(0, Main.maxTilesY);
                             if ((Main.tile[X, Y].type == mod.TileType("Asteroid") || Main.tile[X, Y].type == mod.TileType("BigAsteroid")))
                             {
-                                WorldGen.PlaceObject(X, Y, (ushort)tileType[Main.rand.Next(3)]);
-                                NetMessage.SendObjectPlacment(-1, X, Y, (ushort)tileType[Main.rand.Next(3)], 0, 0, -1, -1);
+                                WorldGen.PlaceObject(X, Y, (ushort)mod.TileType("BlueShardBig"));
+                                NetMessage.SendObjectPlacment(-1, X, Y, (ushort)mod.TileType("BlueShardBig"), 0, 0, -1, -1);
                             }
                         }
                     }

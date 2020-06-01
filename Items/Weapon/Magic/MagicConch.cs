@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Weapon.Magic
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Devadatta");
+			DisplayName.SetDefault("Shankya");
 			Tooltip.SetDefault("Summons a whirlpool at the location of the cursor");
 		}
 
@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.useTurn = false;
             item.value = Terraria.Item.sellPrice(0, 0, 50, 0);
             item.rare = 3;
-			item.UseSound = SoundID.Item20;
+			item.UseSound = SoundID.Item21;
 			item.autoReuse = true;
 			item.shoot = mod.ProjectileType("MagicConchProj");
 			item.shootSpeed = 0f;

@@ -35,7 +35,7 @@ namespace SpiritMod.Buffs.Summon
                 player.lifeRegen = 0;
             }
 
-            player.lifeRegen -= 12;
+            player.lifeRegen -= 4;
 		}
 	}
 }

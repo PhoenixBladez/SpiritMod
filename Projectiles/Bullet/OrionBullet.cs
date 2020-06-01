@@ -34,8 +34,16 @@ namespace SpiritMod.Projectiles.Bullet
 		public override void AI()
 		{
 			timer--;
-
-			if (timer == 0)
+            for (int i = 0; i < 6; i++)
+            {
+                float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
+                float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
+                int num = Dust.NewDust(new Vector2(x, y), 2, 2, 187);
+                Main.dust[num].alpha = projectile.alpha;
+                Main.dust[num].velocity = Vector2.Zero;
+                Main.dust[num].noGravity = true;
+            }
+            if (timer == 0)
 			{
 				Projectile.NewProjectile(projectile.Center, projectile.velocity,
 					mod.ProjectileType("StarTrail"), projectile.damage / 2, projectile.knockBack, projectile.owner);

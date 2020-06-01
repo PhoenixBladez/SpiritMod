@@ -11,8 +11,8 @@ namespace SpiritMod.Items.Material
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Nightmare");
-			Tooltip.SetDefault("'The stuff of literal nightmares'");
+			DisplayName.SetDefault("Dreamstride Essence");
+			Tooltip.SetDefault("'The stuff of nightmares'");
             ItemID.Sets.ItemIconPulse[item.type] = true;
 		}
 

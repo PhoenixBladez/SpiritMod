@@ -14,7 +14,7 @@ namespace SpiritMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starshock");
-			 ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
+			 ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
@@ -101,18 +101,21 @@ namespace SpiritMod.Projectiles
 		
 		 public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
+            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.25f, projectile.height * 0.25f);
             for (int k = 0; k < projectile.oldPos.Length; k++)
             {
                 Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
+                //Vector2 drawPos1 = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY - 4);
                 Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
                 spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+                //Main.spriteBatch.Draw(SpiritMod.instance.GetTexture("Effects/Masks/Extra_A1"), drawPos1, null, new Color (0, 50, 155, (int)((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length)), 0f, drawOrigin, .6f, SpriteEffects.None, 0f);
+
             }
             return false;
         }
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(160, 160, 160, 100);
+            return Color.White;
         }
 		
 		public override void Kill(int timeLeft)

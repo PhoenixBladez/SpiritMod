@@ -11,30 +11,30 @@ namespace SpiritMod.Items.Weapon.Magic
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("The Sandstorm");
-			Tooltip.SetDefault("Summons a wall of sand to decimate foes.");
+			DisplayName.SetDefault("Khamsin");
+			Tooltip.SetDefault("Releases harsh desert winds upon enemies");
 		}
 
 
 
         public override void SetDefaults()
         {
-            item.damage = 50;
+            item.damage = 37;
             Item.staff[item.type] = true;
             item.noMelee = true;
             item.magic = true;
             item.width = 28;
             item.height = 30;
-            item.useTime = 34;
-            item.mana = 16;
-            item.useAnimation = 34;
+            item.useTime = 21;
+            item.mana = 10;
+            item.useAnimation = 21;
             item.useStyle = 5;
-            item.knockBack = 11;
-            item.value = 80000;
-            item.rare = 6;
+            item.knockBack = 3;
+            item.value = 50000;
+            item.rare = 4;
             item.UseSound = SoundID.Item34;
             item.autoReuse = true;
-            item.shootSpeed = 4;
+            item.shootSpeed = 10;
             item.UseSound = SoundID.Item20;
             item.shoot = mod.ProjectileType("SandWall");
         }

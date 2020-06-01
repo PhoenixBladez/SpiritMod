@@ -70,7 +70,15 @@ namespace SpiritMod.Effects
             }
             if (projectile.type == mod.ProjectileType("TrueHallowedStaffProj"))
             {
-                CreateTrail(projectile, new RainbowTrail(5f, 0.002f, 1f, .75f), new RoundCap(), new SleepingStarTrailPosition(), 11f, 130f);
+                CreateTrail(projectile, new RainbowTrail(5f, 0.002f, 1f, .75f), new RoundCap(), new DefaultTrailPosition(), 11f, 130f);
+            }
+            if (projectile.type == mod.ProjectileType("PartyStarterBullet"))
+            {
+                CreateTrail(projectile, new RainbowTrail(8f, 0.002f, 1f, .65f), new RoundCap(), new DefaultTrailPosition(), 9f, 150f);
+            }
+            if (projectile.type == mod.ProjectileType("PartyExplosives"))
+            {
+                CreateTrail(projectile, new RainbowTrail(Main.rand.NextFloat(5f, 9f), 0.002f, 1f, .85f), new RoundCap(), new DefaultTrailPosition(), 6f, 200f);
             }
             if (projectile.type == mod.ProjectileType("PositiveArrow") || projectile.type == mod.ProjectileType("StarTrail"))
             {
@@ -103,7 +111,7 @@ namespace SpiritMod.Effects
         public void TryTrailKill(Projectile projectile)
         {
             Mod mod = SpiritMod.instance;
-            if (projectile.type == mod.ProjectileType("SleepingStar") || projectile.type == mod.ProjectileType("SleepingStar1") || projectile.type == mod.ProjectileType("LeafProjReachChest") || projectile.type == mod.ProjectileType("HallowedStaffProj") || projectile.type == mod.ProjectileType("TrueHallowedStaffProj") || projectile.type == mod.ProjectileType("PositiveArrow") || projectile.type == mod.ProjectileType("NegativeArrow") || projectile.type == mod.ProjectileType("StarTrail"))
+            if (projectile.type == mod.ProjectileType("SleepingStar") || projectile.type == mod.ProjectileType("SleepingStar1") || projectile.type == mod.ProjectileType("LeafProjReachChest") || projectile.type == mod.ProjectileType("HallowedStaffProj") || projectile.type == mod.ProjectileType("TrueHallowedStaffProj") || projectile.type == mod.ProjectileType("PositiveArrow") || projectile.type == mod.ProjectileType("NegativeArrow") || projectile.type == mod.ProjectileType("PartyBuller") || projectile.type == mod.ProjectileType("StarTrail"))
             {
                 SpiritMod.TrailManager.TryEndTrail(projectile, Math.Max(15f, projectile.velocity.Length() * 3f));
             }

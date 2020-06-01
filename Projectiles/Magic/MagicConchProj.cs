@@ -21,7 +21,7 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.aiStyle = 27;
 			projectile.width = 120;
 			projectile.height = 120;
-			projectile.penetrate = 4;
+			projectile.penetrate = 6;
 			projectile.alpha = 255;
 			projectile.timeLeft = 450;
 		}
@@ -34,43 +34,46 @@ namespace SpiritMod.Projectiles.Magic
 			{
 				for (int i = 0; i < 110; i++)	
 				{
-					int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 15, 0f, 0f);
+					int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 180, 0f, 0f);
 					Main.dust[dust].scale = 1.5f;
 					Main.dust[dust].noGravity = true;
 				}
 			}
 			
 			
-			float Closeness = 60f;
+			float Closeness = 50f;
 			degrees+=2.5f;
-			for (float swirlDegrees = degrees; swirlDegrees < 180 + degrees; swirlDegrees+=10f)
+			for (float swirlDegrees = degrees; swirlDegrees < 160 + degrees; swirlDegrees+=5f)
 			{
 			Closeness -= swirlSize; //It closes in
 			double radians = swirlDegrees * (Math.PI / 180); //convert to radians
 			
-			Vector2 eastPosFar = projectile.Center + new Vector2(Closeness * (float)Math.Sin(radians), Closeness * (float)Math.Cos(radians));
-			Vector2 westPosFar = projectile.Center - new Vector2(Closeness * (float)Math.Sin(radians), Closeness * (float)Math.Cos(radians));				
-			Vector2 northPosFar = projectile.Center + new Vector2(Closeness * (float)Math.Sin(radians + 1.57), Closeness * (float)Math.Cos(radians + 1.57));
-			Vector2 southPosFar = projectile.Center - new Vector2(Closeness * (float)Math.Sin(radians + 1.57), Closeness * (float)Math.Cos(radians + 1.57));
-			Dust.NewDustPerfect(eastPosFar, mod.DustType("ConchDust"), Vector2.Zero);
-			Dust.NewDustPerfect(westPosFar, mod.DustType("ConchDust"), Vector2.Zero);
-			Dust.NewDustPerfect(northPosFar, mod.DustType("ConchDust"), Vector2.Zero);
-			Dust.NewDustPerfect(southPosFar, mod.DustType("ConchDust"), Vector2.Zero);
-	
+			    Vector2 eastPosFar = projectile.Center + new Vector2(Closeness * (float)Math.Sin(radians), Closeness * (float)Math.Cos(radians));
+			    Vector2 westPosFar = projectile.Center - new Vector2(Closeness * (float)Math.Sin(radians), Closeness * (float)Math.Cos(radians));				
+			    Vector2 northPosFar = projectile.Center + new Vector2(Closeness * (float)Math.Sin(radians + 1.57), Closeness * (float)Math.Cos(radians + 1.57));
+			    Vector2 southPosFar = projectile.Center - new Vector2(Closeness * (float)Math.Sin(radians + 1.57), Closeness * (float)Math.Cos(radians + 1.57));
+			    int d4 = Dust.NewDust(eastPosFar, 2, 2, 180);
+                Main.dust[d4].noGravity = true;
+			    int d5 = Dust.NewDust(westPosFar, 2, 2, 180);
+                Main.dust[d5].noGravity = true;
+                int d6 = Dust.NewDust(northPosFar, 2, 2, 180);
+                Main.dust[d6].noGravity = true;
+                int d7 = Dust.NewDust(southPosFar, 2, 2, 180);
+                Main.dust[d7].noGravity = true;
 
-			Vector2 eastPosClose = projectile.Center + new Vector2((Closeness - 30f) * (float)Math.Sin(radians), (Closeness - 30f) * (float)Math.Cos(radians) * 0.5f);
-			Vector2 westPosClose = projectile.Center - new Vector2((Closeness - 30f) * (float)Math.Sin(radians), (Closeness - 30f) * (float)Math.Cos(radians) * 0.5f);
-			Vector2 northPosClose = projectile.Center + new Vector2((Closeness - 30f) * (float)Math.Sin(radians + 1.57), (Closeness - 30f) * (float)Math.Cos(radians + 1.57));
-			Vector2 southPosClose = projectile.Center - new Vector2((Closeness - 30f) * (float)Math.Sin(radians + 1.57), (Closeness - 30f) * (float)Math.Cos(radians + 1.57));		
-			Dust.NewDustPerfect(eastPosClose, mod.DustType("ConchDust"), Vector2.Zero);
-			Dust.NewDustPerfect(westPosClose, mod.DustType("ConchDust"), Vector2.Zero);
-			Dust.NewDustPerfect(northPosClose, mod.DustType("ConchDust"), Vector2.Zero);
-			Dust.NewDustPerfect(southPosClose, mod.DustType("ConchDust"), Vector2.Zero);
-			
-			
-			
-			
-			Dust.NewDustPerfect(projectile.Center, mod.DustType("ConchDust"), Vector2.Zero);
+
+                Vector2 eastPosClose = projectile.Center + new Vector2((Closeness - 30f) * (float)Math.Sin(radians), (Closeness - 30f) * (float)Math.Cos(radians));
+                Vector2 westPosClose = projectile.Center - new Vector2((Closeness - 30f) * (float)Math.Sin(radians), (Closeness - 30f) * (float)Math.Cos(radians));
+                Vector2 northPosClose = projectile.Center + new Vector2((Closeness - 30f) * (float)Math.Sin(radians + 1.57), (Closeness - 30f) * (float)Math.Cos(radians + 1.57));
+			    Vector2 southPosClose = projectile.Center - new Vector2((Closeness - 30f) * (float)Math.Sin(radians + 1.57), (Closeness - 30f) * (float)Math.Cos(radians + 1.57));		
+			    int d = Dust.NewDust(eastPosClose, 2, 2, 180);
+                Main.dust[d].noGravity = true;
+                int d1= Dust.NewDust(westPosClose, 2, 2, 180);
+                Main.dust[d1].noGravity = true;
+                int d2 = Dust.NewDust(northPosClose, 2, 2, 180);
+                Main.dust[d2].noGravity = true;
+                int d3 = Dust.NewDust(southPosClose, 2, 2, 180);
+                Main.dust[d3].noGravity = true;
 			}
 			
 			projectile.ai[1] += 1f;
@@ -103,7 +106,7 @@ namespace SpiritMod.Projectiles.Magic
 						}
 					}
 
-					if (num416 > 2)
+					if (num416 > 1)
 					{
 						Main.projectile[num417].netUpdate = true;
 						Main.projectile[num417].ai[1] = 36000f;

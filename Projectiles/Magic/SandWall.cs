@@ -18,82 +18,72 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			projectile.hostile = false;
 			projectile.magic = true;
-			projectile.width = 24;
-			projectile.height = 180;
+			projectile.width = 30;
+			projectile.height = 30;
 			projectile.aiStyle = -1;
 			projectile.friendly = true;
-			projectile.penetrate = 6;
+			projectile.penetrate = 3;
 			projectile.alpha = 255;
-			projectile.timeLeft = 360;
-			projectile.tileCollide = false; //Tells the game whether or not it can collide with a tile
+			projectile.timeLeft = 40;
+			projectile.tileCollide = true; //Tells the game whether or not it can collide with a tile
 		}
-
-		public override bool PreAI()
+        public override bool PreAI()
 		{
-			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-			//Create particles
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 32, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			int dust1 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 36, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.GoldCoin, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			Main.dust[dust].noGravity = true;
-			Main.dust[dust1].noGravity = true;
-			Main.dust[dust2].noGravity = true;
-			Main.dust[dust2].scale = 2f;
-			Main.dust[dust1].scale = 1.5f;
-			Main.dust[dust].scale = 1.5f;
-			return false;
+            Vector2 vector33;
+            Player player = Main.player[projectile.owner];
+            Vector2 vector5 = player.RotatedRelativePoint(player.MountedCenter, true);
+            float num16 = 1f;
+            float num17 = projectile.velocity.ToRotation();
+            float num18 = projectile.velocity.Length();
+            float num19 = 22f;
+            Vector2 spinningpoint = new Vector2(1f, 0f).RotatedBy((double)(3.14159274f + num16 * 6.28318548f), default(Vector2)) * new Vector2(num18, projectile.ai[0]);
+            Vector2 destination3 = vector5 + spinningpoint.RotatedBy((double)num17, default(Vector2)) + new Vector2(num18 + num19 + 40f, 0f).RotatedBy((double)num17, default(Vector2));
+
+            Vector2 value2 = player.DirectionTo(destination3);
+            Vector2 vector9 = projectile.velocity.SafeNormalize(Vector2.UnitY);
+            float num25 = 2f;
+            for (int num26 = 0; (float)num26 < num25; num26++)
+            {
+                Dust dust4 = Dust.NewDustDirect(projectile.Center, 14, 14, 173, 0f, 0f, 110, default(Color), 1f);
+                dust4.velocity = player.DirectionTo(dust4.position) * 2f;
+                dust4.position = projectile.Center + vector9.RotatedBy((double)(num16 * 6.28318548f * 2f + (float)num26 / num25 * 6.28318548f), default(Vector2)) * 10f;
+                dust4.scale = 1f + 0.6f * Main.rand.NextFloat();
+                Dust dust6 = dust4;
+                dust6.velocity += vector9 * 3f;
+                dust4.noGravity = true;
+            }
+            for (int j = 0; j < 1; j++)
+            {
+                if (Main.rand.Next(3) == 0)
+                {
+                    Dust dust5 = Dust.NewDustDirect(projectile.Center, 20, 20, 173, 0f, 0f, 110, default(Color), 1f);
+                    dust5.velocity = player.DirectionTo(dust5.position) * 2f;
+                    dust5.position = projectile.Center + value2 * -110f;
+                    dust5.scale = 0.45f + 0.4f * Main.rand.NextFloat();
+                    dust5.fadeIn = 0.7f + 0.4f * Main.rand.NextFloat();
+                    dust5.noGravity = true;
+                    dust5.noLight = true;
+                }
+            }
+            return false;
 		}
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            projectile.penetrate--;
+            if (projectile.penetrate <= 0)
+                projectile.Kill();
+            else
+            {
+                projectile.ai[0] += 0.1f;
+                if (projectile.velocity.X != oldVelocity.X)
+                    projectile.velocity.X = -oldVelocity.X;
 
-		public override void AI()
-		{
-			int timer = 0;
-			projectile.velocity *= 1.15f;
+                if (projectile.velocity.Y != oldVelocity.Y)
+                    projectile.velocity.Y = -oldVelocity.Y;
 
-			projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] >= 10f)
-			{
-				projectile.localAI[0] = 0f;
-				int num416 = 0;
-				int num417 = 0;
-				float num418 = 0f;
-				int num419 = projectile.type;
-				for (int num420 = 0; num420 < 1000; num420++)
-				{
-					if (Main.projectile[num420].active && Main.projectile[num420].owner == projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f)
-					{
-						num416++;
-						if (Main.projectile[num420].ai[1] > num418)
-						{
-							num417 = num420;
-							num418 = Main.projectile[num420].ai[1];
-						}
-					}
-				}
-
-				if (num416 > 2)
-				{
-					Main.projectile[num417].netUpdate = true;
-					Main.projectile[num417].ai[1] = 36000f;
-					return;
-				}
-			}
-
-			++projectile.localAI[1];
-			int minRadius = 1;
-			int minSpeed = 1;
-
-			if (projectile.localAI[1] <= 1.0f)
-			{
-				int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, minRadius, minSpeed, mod.ProjectileType("TrueClot2"), projectile.damage, projectile.knockBack, projectile.owner, 0.0f, 0.0f);
-				Main.projectile[proj].localAI[0] = projectile.whoAmI;
-			}
-		}
-
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			if (Main.rand.Next(8) == 0)
-				target.AddBuff(BuffID.Midas, 300, true);
-		}
-
-	}
+                projectile.velocity *= 0.75f;
+            }
+            return false;
+        }
+    }
 }
