@@ -12,7 +12,7 @@ namespace SpiritMod.Projectiles.Sword
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Blood Wave");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 

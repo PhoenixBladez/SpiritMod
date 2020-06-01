@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Summon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Famine Scepter");
-			Tooltip.SetDefault("Summons a hungry to fight for you... on you...");
+			Tooltip.SetDefault("Summons a hungry to fight for you... on you...\nThe hungry will slowly drain your life");
 		}
 
 
@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Weapon.Summon
             item.rare = 4;
             item.crit = 4;
             item.mana = 14;
-            item.damage = 24;
+            item.damage = 32;
             item.knockBack = 3;
             item.useStyle = 1;
             item.useTime = 30;

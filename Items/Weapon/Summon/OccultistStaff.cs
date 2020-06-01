@@ -26,6 +26,7 @@ namespace SpiritMod.Items.Weapon.Summon
             item.damage = 12;
             item.knockBack = 2;
             item.useStyle = 1;
+			item.melee = false;
             item.useTime = 30;
             item.useAnimation = 30; 
             item.summon = true;          

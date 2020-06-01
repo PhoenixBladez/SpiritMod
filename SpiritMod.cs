@@ -346,7 +346,12 @@ namespace SpiritMod
             // unless you know what you're doing.
             Items.Halloween.CandyBag.Initialize();
 
-
+			if (Main.netMode != NetmodeID.Server)
+			{
+				Ref<Effect> screenRef = new Ref<Effect>(GetEffect("Effects/ShockwaveEffect")); // The path to the compiled shader file.
+				Filters.Scene["Shockwave"] = new Filter(new ScreenShaderData(screenRef, "Shockwave"), EffectPriority.VeryHigh);
+				Filters.Scene["Shockwave"].Load();
+			}
            
             Filters.Scene["SpiritMod:ReachSky"] = new Filter(new ScreenShaderData("FilterBloodMoon").UseColor(0.05f, 0.05f, .05f).UseOpacity(0.7f), EffectPriority.High);
 

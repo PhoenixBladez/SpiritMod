@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.rare = 5;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = false;
-			item.shoot = mod.ProjectileType("WatchPulse");
+			item.shoot = mod.ProjectileType("Shockwave");
 			item.shootSpeed = 0.3f;
 		}
 
@@ -47,10 +47,12 @@ namespace SpiritMod.Items.Weapon.Magic
 			for (int i = 0; i < 36; i++)
 			{
 				double offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
-				Projectile.NewProjectile(position.X, position.Y, (float)(Math.Sin(offsetAngle) * 15f), (float)(Math.Cos(offsetAngle) * 15f), item.shoot, damage, knockBack, player.whoAmI);
-				Projectile.NewProjectile(position.X, position.Y, (float)(-Math.Sin(offsetAngle) * 15f), (float)(-Math.Cos(offsetAngle) * 15f), item.shoot, damage, knockBack, player.whoAmI);
+				Projectile.NewProjectile(position.X, position.Y, (float)(Math.Sin(offsetAngle) * 15f), (float)(Math.Cos(offsetAngle) * 15f), mod.ProjectileType("WatchPulse"), damage, knockBack, player.whoAmI);
+				Projectile.NewProjectile(position.X, position.Y, (float)(-Math.Sin(offsetAngle) * 15f), (float)(-Math.Cos(offsetAngle) * 15f), mod.ProjectileType("WatchPulse"), damage, knockBack, player.whoAmI);
 			}
-			return false;
+			speedX = 0;
+			speedY = 0;
+			return true;
 		}
 		public override bool CanUseItem(Player player)
         {

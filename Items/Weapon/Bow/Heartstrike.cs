@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Weapon.Bow
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Heartstrike");
-			Tooltip.SetDefault("Right click after 5 shots to launched a flayed arrow\nEnemies hit by falyed arrows will explode upon death");
+			Tooltip.SetDefault("Right click after 5 shots to launched a flayed arrow\nEnemies hit by flayed arrows will explode upon death");
 		}
 
 

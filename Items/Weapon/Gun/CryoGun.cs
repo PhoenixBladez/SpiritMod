@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Weapon.Gun
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             charger++;
-            if (charger >= 6)
+            if (charger >= 4)
             {
                 {
                     Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 20);

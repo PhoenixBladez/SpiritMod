@@ -29,8 +29,6 @@ namespace SpiritMod.Buffs
 				player.HealEffect(1);
 				player.statLife += 1;
 			}
-            if (Main.rand.NextBool(2))
-            {
                 Vector2 center = npc.Center;
                 center.X += Main.rand.Next(-100, 100) * 0.05F;
                 center.Y += Main.rand.Next(-100, 100) * 0.05F;
@@ -40,7 +38,6 @@ namespace SpiritMod.Buffs
                 Main.dust[dust].velocity *= 0.0f;
                 Main.dust[dust].scale = Main.rand.Next(70, 85) * 0.01f;
                 Main.dust[dust].fadeIn = 1;
-            }
         }
 	}
 }

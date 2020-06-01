@@ -43,8 +43,8 @@ namespace SpiritMod.Projectiles.Summon
             }
 			if (timer <= 0)
 			{
-				Projectile.NewProjectile(projectile.Center.X + 5, projectile.Center.Y + 4, 0, Main.rand.Next(8, 18), mod.ProjectileType("SadBeam"), 13, projectile.knockBack, projectile.owner, 0f, 0f);
-				Projectile.NewProjectile(projectile.Center.X - 5, projectile.Center.Y + 4, 0, Main.rand.Next(8, 18), mod.ProjectileType("SadBeam"), 13, projectile.knockBack, projectile.owner, 0f, 0f);
+				Projectile.NewProjectile(projectile.Center.X + 5, projectile.Center.Y + 7, 0, Main.rand.Next(8, 18), mod.ProjectileType("SadBeam"), 13, projectile.knockBack, projectile.owner, 0f, 0f);
+				Projectile.NewProjectile(projectile.Center.X - 5, projectile.Center.Y + 7, 0, Main.rand.Next(8, 18), mod.ProjectileType("SadBeam"), 13, projectile.knockBack, projectile.owner, 0f, 0f);
 				timer = 40;
 			}
 

@@ -46,13 +46,13 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 7.5f, 7.5f, mod.ProjectileType("AdamantiteStaffProj2"), projectile.damage, 0f, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -7.5f, -7.5f, mod.ProjectileType("AdamantiteStaffProj2"), projectile.damage, 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 3.75f, 3.75f, mod.ProjectileType("AdamantiteStaffProj2"), projectile.damage, 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -3.75f, -3.75f, mod.ProjectileType("AdamantiteStaffProj2"), projectile.damage, 0f, projectile.owner, 0f, 0f);
 
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 15f, 0f, mod.ProjectileType("AdamantiteStaffProj2"), projectile.damage, 0f, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -15f, 0f, mod.ProjectileType("AdamantiteStaffProj2"), projectile.damage, 0f, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, 15f, mod.ProjectileType("AdamantiteStaffProj2"), projectile.damage, 0f, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, -15f, mod.ProjectileType("AdamantiteStaffProj2"), projectile.damage, 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 7.5f, 0f, mod.ProjectileType("AdamantiteStaffProj2"), projectile.damage, 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -7.5f, 0f, mod.ProjectileType("AdamantiteStaffProj2"), projectile.damage, 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, 7.5f, mod.ProjectileType("AdamantiteStaffProj2"), projectile.damage, 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, -7.5f, mod.ProjectileType("AdamantiteStaffProj2"), projectile.damage, 0f, projectile.owner, 0f, 0f);
 		}
 
 	}

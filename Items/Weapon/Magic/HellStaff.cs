@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.height = 44;
             item.useTime = 38;
             item.useAnimation = 38;
-            item.useStyle = 4;
+            item.useStyle = 5;
             Item.staff[item.type] = true;
             item.noMelee = true;
             item.knockBack = 4;
@@ -35,6 +35,15 @@ namespace SpiritMod.Items.Weapon.Magic
             item.shoot = mod.ProjectileType("Firespike");
             item.shootSpeed = 16f;
         }
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+			Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
+					Vector2 offset = mouse - player.position;
+					offset.Normalize();
+					offset*= 60f;
+					Projectile.NewProjectile(position + offset, new Vector2(speedX,speedY), type, damage, knockBack, player.whoAmI);
+					return false;
+		}
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

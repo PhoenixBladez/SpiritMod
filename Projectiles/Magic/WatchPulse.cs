@@ -24,7 +24,7 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.friendly = true;
 			projectile.penetrate = -1;
 			projectile.alpha = 255;
-			projectile.timeLeft = 24;
+			projectile.timeLeft = 30;
 			projectile.tileCollide = false;
 		}
 
@@ -35,8 +35,8 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override bool PreAI()
 		{
-			if (Main.rand.Next(2) == 1)
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, 206, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			//if (Main.rand.Next(2) == 1)
+			//Dust.NewDust(projectile.position, projectile.width, projectile.height, 206, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			return true;
 		}
 

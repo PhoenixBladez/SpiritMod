@@ -36,7 +36,7 @@ namespace SpiritMod.Buffs
 
             if (Main.rand.NextBool(2))
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 107);
+				Dust.NewDust(npc.position, npc.width, npc.height, 107, 0, 1);
 			}
 		}
 	}

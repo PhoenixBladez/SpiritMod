@@ -8,7 +8,7 @@ namespace SpiritMod.Buffs.Summon
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Hungry Minion");
-			Description.SetDefault("I bet you haven't asked yourself how the fleshy chains feel");
+			Description.SetDefault("It's taken a liking to you... and your flesh");
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}
@@ -30,6 +30,12 @@ namespace SpiritMod.Buffs.Summon
 			{
 				player.buffTime[buffIndex] = 18000;
 			}
+			if (player.lifeRegen > 0)
+            {
+                player.lifeRegen = 0;
+            }
+
+            player.lifeRegen -= 12;
 		}
 	}
 }

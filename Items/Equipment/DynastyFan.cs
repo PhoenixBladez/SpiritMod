@@ -37,11 +37,11 @@ namespace SpiritMod.Items.Equipment
 			{
 			    player.velocity.X = 0 - speedX;
 			    player.velocity.Y = 0 - speedY;
-                int ing = Gore.NewGore(player.position, player.velocity, 825);
+                int ing = Gore.NewGore(player.Center, player.velocity * 4, 825);
                 Main.gore[ing].timeLeft = Main.rand.Next(30, 90);
-                int ing1 = Gore.NewGore(player.position, player.velocity, 826);
+                int ing1 = Gore.NewGore(player.Center, player.velocity * 4, 826);
                 Main.gore[ing1].timeLeft = Main.rand.Next(30, 90);
-                int ing2 = Gore.NewGore(player.position, player.velocity, 827);
+                int ing2 = Gore.NewGore(player.Center, player.velocity * 4, 827);
                 Main.gore[ing2].timeLeft = Main.rand.Next(30, 90);
             }
 			

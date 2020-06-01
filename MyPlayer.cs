@@ -2083,7 +2083,10 @@ namespace SpiritMod
             {
                 player.statLife = 500;
                 timeLeft = 0;
-                Main.NewText("Fate has protected you");
+				MyPlayer myPlayer = Main.player[Main.myPlayer].GetModPlayer<MyPlayer>();
+                Rectangle textPos = new Rectangle((int)myPlayer.player.position.X, (int)myPlayer.player.position.Y - 60, myPlayer.player.width, myPlayer.player.height);
+                CombatText.NewText(textPos, new Color(255, 240, 0, 100), "Fate has protected you!");
+				Projectile.NewProjectile(player.position.X, player.position.Y, 0, 0, mod.ProjectileType("Shockwave"), 0, 0, player.whoAmI);
                 fateToken = false;
                 return false;
             }
@@ -2145,10 +2148,10 @@ namespace SpiritMod
                     if (type == mod.ItemType("BubbleShield"))
                     {
                         player.armor[i].SetDefaults(0);
+						
                         break;
                     }
                 }
-
                 player.statLife = 150;
                 bubbleTimer = 360;
                 return false;
@@ -2159,9 +2162,10 @@ namespace SpiritMod
                 player.AddBuff(mod.BuffType("Sturdy"), 21600);
                 MyPlayer myPlayer = Main.player[Main.myPlayer].GetModPlayer<MyPlayer>();
                 Rectangle textPos = new Rectangle((int)myPlayer.player.position.X, (int)myPlayer.player.position.Y - 60, myPlayer.player.width, myPlayer.player.height);
-                CombatText.NewText(textPos, new Color(29, 240, 255, 100), "Sturdy Activated!");
+                CombatText.NewText(textPos, new Color(100, 240, 0, 100), "Sturdy Activated!");
 
                 player.statLife += (int)damage;
+				Projectile.NewProjectile(player.position.X, player.position.Y, 0, 0, mod.ProjectileType("Shockwave"), 0, 0, player.whoAmI);
                 clatterboneTimer = 21600; // 6 minute timer.
 
                 return false;

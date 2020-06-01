@@ -66,7 +66,7 @@ namespace SpiritMod.Projectiles.Magic
 			}
 			
 			projectile.frameCounter++;
-			if (projectile.frameCounter >= 16)
+			if (projectile.frameCounter >= 8)
 			{
 				projectile.frame++;
 				projectile.frameCounter = 0;
