@@ -20,34 +20,34 @@ namespace SpiritMod.Projectiles.Summon
 
 		public override void SetDefaults()
 		{
+		//	projectile.CloneDefaults(ProjectileID.OneEyedPirate);
 			projectile.netImportant = true;
 			projectile.width = 26;
 			projectile.height = 26;
 			projectile.friendly = true;
 			Main.projPet[projectile.type] = true;
 			projectile.minion = true;
-			projectile.minionSlots = 1;
 			projectile.penetrate = -1;
-			projectile.timeLeft = 18000;
 			projectile.tileCollide = false;
 			projectile.ignoreWater = true;
+			projectile.penetrate = 3;
+			projectile.minionSlots = 0.25f;
+			projectile.timeLeft = 180;
 			aiType = ProjectileID.Raven;
 		}
 
 		public override void AI()
 		{
-			bool flag64 = projectile.type == mod.ProjectileType("SkeletalonMinion");
-			Player player = Main.player[projectile.owner];
-			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if (flag64)
-			{
-				if (player.dead)
-					modPlayer.skeletalonMinion = false;
-
-				if (modPlayer.skeletalonMinion)
-					projectile.timeLeft =2;
-
-			}
+		  projectile.ai[1] += 1f;
+            if (projectile.ai[1] >= 7200f)
+            {
+                projectile.alpha += 5;
+                if (projectile.alpha > 255)
+                {
+                    projectile.alpha = 255;
+                    projectile.Kill();
+                }
+            }
 
 			for (int num526 = 0; num526 < 1000; num526++)
 			{

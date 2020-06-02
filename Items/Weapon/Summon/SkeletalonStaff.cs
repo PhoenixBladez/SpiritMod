@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Weapon.Summon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Skeletalon Staff");
-			Tooltip.SetDefault("Summons a fossilized bird to fight for you!");
+			Tooltip.SetDefault("Summons an army of fossilized birds to fight for you!");
 		}
 
 
@@ -29,8 +29,8 @@ namespace SpiritMod.Items.Weapon.Summon
             item.summon = true;
             item.noMelee = true;
             item.shoot = mod.ProjectileType("SkeletalonMinion");
-            item.buffType = mod.BuffType("SkeletalonMinionBuff");
-            item.buffTime = 3600;
+          //  item.buffType = mod.BuffType("SkeletalonMinionBuff");
+           // item.buffTime = 3600;
             item.UseSound = SoundID.Item44;
         }
 					public override bool AltFunctionUse(Player player)
@@ -38,20 +38,25 @@ namespace SpiritMod.Items.Weapon.Summon
             return true;
         }
         
-        public override bool UseItem(Player player)
+         public override bool UseItem(Player player)
         {
             if(player.altFunctionUse == 2)
             {
                 player.MinionNPCTargetAim();
             }
             return base.UseItem(player);
-        }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-			            return player.altFunctionUse != 2;
-            position = Main.MouseWorld;
-            speedX = speedY = 0;
-            return true;
+        }		
+        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+			
+            //projectile spawns at mouse cursor
+            Vector2 value18 = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY);
+            position = value18;
+            for (int i = 0; i <= Main.rand.Next(1,2); i++)
+            {
+                 Terraria.Projectile.NewProjectile(position.X + Main.rand.Next(-30, 30), position.Y, 0f, 0f, type, damage, knockBack, player.whoAmI);
+            }
+            return false;
         }
     }
 }

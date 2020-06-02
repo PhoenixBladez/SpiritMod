@@ -286,7 +286,7 @@ namespace SpiritMod.NPCs.Boss
 
 			npc.DropItem(mod.ItemType("FossilFeather"), 3, 6);
 
-			string[] lootTable = { "SkeletalonStaff", "Talonginus" };
+			string[] lootTable = { "SkeletalonStaff", "Talonginus", "SoaringScapula" };
 			int loot = Main.rand.Next(lootTable.Length);
 			npc.DropItem(mod.ItemType(lootTable[loot]));
 

@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Weapon.Bow
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Talonshot");
-			Tooltip.SetDefault("Occasionally shoots out an arcane bolt");
+			Tooltip.SetDefault("Shoots a burst feather");
 		}
 
 
@@ -37,39 +37,19 @@ namespace SpiritMod.Items.Weapon.Bow
 			item.value = Item.buyPrice(0, 5, 0, 0);
 			item.value = Item.sellPrice(0, 1, 0, 0);
             item.autoReuse = true;
-            item.shootSpeed = 14f;
+            item.shootSpeed = 8f;
 
-        }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            {
-                {
-                    charger++;
-                    if (charger >= 4)
-                    {
-                        for (int I = 0; I < 1; I++)
-                        {
-                            Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), mod.ProjectileType("GiantFeather"), damage, knockBack, player.whoAmI, 0f, 0f);
-                        }
-                        charger = 0;
-                    }
-                    return true;
-                }
-            }
-            {
-
-                Vector2 origVect = new Vector2(speedX, speedY);
-                Vector2 newVect1 = origVect.RotatedBy(System.Math.PI / 17);
-                Vector2 newVect2 = origVect.RotatedBy(-System.Math.PI / 17);
-                int projShot0 = Terraria.Projectile.NewProjectile(position.X, position.Y, newVect2.X, newVect2.Y, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Projectile.NewProjectile(position.X, position.Y, newVect1.X, newVect1.Y, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                return true;
-            }
         }
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-6, 0);
         }
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("FeatherArrow"), damage, knockBack, player.whoAmI);
+			return false;
+		}
+		
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

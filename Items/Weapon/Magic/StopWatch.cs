@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Astral Clock");
-			Tooltip.SetDefault("Creates a pulse around the player, stopping time. \nHas a 60 second cooldown");
+			Tooltip.SetDefault("Creates a clock around the player, stopping time. \nHas a 60 second cooldown");
 		}
 
 

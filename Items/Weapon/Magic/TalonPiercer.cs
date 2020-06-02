@@ -10,8 +10,8 @@ namespace SpiritMod.Items.Weapon.Magic
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Talon Piercer");
-			Tooltip.SetDefault("Shoots a barrage of different feathers");
+			DisplayName.SetDefault("Talon's Fury");
+			Tooltip.SetDefault("Shoots feathers from off screen");
 		}
 
 
@@ -19,13 +19,13 @@ namespace SpiritMod.Items.Weapon.Magic
         private Vector2 newVect;
         public override void SetDefaults()
         {
-            item.damage = 20;
+            item.damage = 25;
             item.magic = true;
-            item.mana = 15;
+            item.mana = 10;
             item.width = 46;
             item.height = 46;
-            item.useTime = 32;
-            item.useAnimation = 32;
+            item.useTime = 25;
+            item.useAnimation = 25;
             item.useStyle = 5;
             Item.staff[item.type] = true;
             item.noMelee = true;
@@ -36,42 +36,33 @@ namespace SpiritMod.Items.Weapon.Magic
             item.UseSound = SoundID.Item20;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("BoneFeatherFriendly");
-            item.shootSpeed = 8f;
+            item.shootSpeed = 12f;
         }
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 origVect = new Vector2(speedX, speedY);
-            for (int X = 0; X < 2; X++)
-            {
-                if (Main.rand.Next(2) == 1)
+			position -= new Vector2(speedX, speedY) * 100;
+			speedX += (Main.rand.Next(-3,4) / 5f);
+			speedY += (Main.rand.Next(-3,4) / 5f);
+				 for (int k = 0; k < 15; k++)
                 {
-                    newVect = origVect.RotatedBy(System.Math.PI / (Main.rand.Next(92, 800) / 10));
+					Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
+					Vector2 offset = mouse - player.position;
+					offset.Normalize();
+					offset*= 43f;
+                    int dust = Dust.NewDust(player.Center + offset, 20, 20, 1);
+					
+                    Main.dust[dust].velocity *= -1f;
+                    Main.dust[dust].noGravity = true;
+            //        Main.dust[dust].scale *= 2f;
+                    Vector2 vector2_1 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                    vector2_1.Normalize();
+                    Vector2 vector2_2 = vector2_1 * ((float)Main.rand.Next(50, 100) * 0.04f);
+                    Main.dust[dust].velocity = vector2_2;
+                    vector2_2.Normalize();
+                    Vector2 vector2_3 = vector2_2 * 34f;
+                    Main.dust[dust].position = (player.Center + offset) - vector2_3;
                 }
-                else
-                {
-                    newVect = origVect.RotatedBy(-System.Math.PI / (Main.rand.Next(92, 800) / 10));
-                }
-                Projectile proj = Main.projectile[Projectile.NewProjectile(position.X, position.Y, newVect.X, newVect.Y, type, damage, knockBack, player.whoAmI)];
-                proj.friendly = true;
-                proj.hostile = false;
-                proj.netUpdate = true;
-                {
-                    {
-                        charger++;
-                        if (charger >= 6)
-                        {
-                            for (int I = 0; I < 1; I++)
-                            {
-                               int p = Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), mod.ProjectileType("GiantFeather"), damage, knockBack, player.whoAmI, 0f, 0f);
-                                Main.projectile[p].ranged = false;
-                                Main.projectile[p].magic = true;                            
-                            }
-                            charger = 0;
-                        }
-                    }
-                }
-            }
             return true;
         }
         public override void AddRecipes()
