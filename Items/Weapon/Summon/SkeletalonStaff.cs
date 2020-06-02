@@ -54,7 +54,13 @@ namespace SpiritMod.Items.Weapon.Summon
             position = value18;
             for (int i = 0; i <= Main.rand.Next(1,2); i++)
             {
-                 Terraria.Projectile.NewProjectile(position.X + Main.rand.Next(-30, 30), position.Y, 0f, 0f, type, damage, knockBack, player.whoAmI);
+                 int proj = Terraria.Projectile.NewProjectile(position.X + Main.rand.Next(-30, 30), position.Y, 0f, 0f, type, damage, knockBack, player.whoAmI);
+				 Projectile projectile = Main.projectile[proj];
+				for (int j = 0; j < 20; j++)
+				{
+					int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 0, (float)(Main.rand.Next(5) - 2), (float)(Main.rand.Next(5) - 2), 133);
+					Main.dust[d].scale *= .75f;
+				}
             }
             return false;
         }

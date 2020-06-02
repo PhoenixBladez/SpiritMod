@@ -44,25 +44,6 @@ namespace SpiritMod.Items.Weapon.Magic
 			position -= new Vector2(speedX, speedY) * 100;
 			speedX += (Main.rand.Next(-3,4) / 5f);
 			speedY += (Main.rand.Next(-3,4) / 5f);
-				 for (int k = 0; k < 15; k++)
-                {
-					Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
-					Vector2 offset = mouse - player.position;
-					offset.Normalize();
-					offset*= 43f;
-                    int dust = Dust.NewDust(player.Center + offset, 20, 20, 1);
-					
-                    Main.dust[dust].velocity *= -1f;
-                    Main.dust[dust].noGravity = true;
-            //        Main.dust[dust].scale *= 2f;
-                    Vector2 vector2_1 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    vector2_1.Normalize();
-                    Vector2 vector2_2 = vector2_1 * ((float)Main.rand.Next(50, 100) * 0.04f);
-                    Main.dust[dust].velocity = vector2_2;
-                    vector2_2.Normalize();
-                    Vector2 vector2_3 = vector2_2 * 34f;
-                    Main.dust[dust].position = (player.Center + offset) - vector2_3;
-                }
             return true;
         }
         public override void AddRecipes()

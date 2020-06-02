@@ -23,11 +23,12 @@ namespace SpiritMod.Projectiles.Arrow
 			projectile.aiStyle = -1;
 			projectile.friendly = true;
 			projectile.penetrate = 1;
-			projectile.timeLeft = 40;
+			projectile.timeLeft = 50;
 		}
 		public override void AI()
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+			projectile.alpha += 4;
 		}
 
 	}

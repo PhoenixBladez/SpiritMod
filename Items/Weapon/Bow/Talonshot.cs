@@ -46,8 +46,28 @@ namespace SpiritMod.Items.Weapon.Bow
         }
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("FeatherArrow"), damage, knockBack, player.whoAmI);
+			int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("FeatherArrow"), damage, knockBack, player.whoAmI);
 			return false;
+			Projectile projectile = Main.projectile[proj];
+				 for (int k = 0; k < 15; k++)
+                {
+					Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
+					Vector2 offset = mouse - player.position;
+					offset.Normalize();
+					offset*= 23f;
+                    int dust = Dust.NewDust(projectile.Center + offset, projectile.width, projectile.height, 42);
+					
+                    Main.dust[dust].velocity *= -1f;
+                    Main.dust[dust].noGravity = true;
+            //        Main.dust[dust].scale *= 2f;
+                    Vector2 vector2_1 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                    vector2_1.Normalize();
+                    Vector2 vector2_2 = vector2_1 * ((float)Main.rand.Next(50, 100) * 0.04f);
+                    Main.dust[dust].velocity = vector2_2;
+                    vector2_2.Normalize();
+                    Vector2 vector2_3 = vector2_2 * 34f;
+                    Main.dust[dust].position = (projectile.Center + offset) - vector2_3;
+                }
 		}
 		
         public override void AddRecipes()

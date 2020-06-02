@@ -31,7 +31,7 @@ namespace SpiritMod.Projectiles.Summon
 			projectile.tileCollide = false;
 			projectile.ignoreWater = true;
 			projectile.penetrate = 3;
-			projectile.minionSlots = 0.25f;
+			projectile.minionSlots = 0.24f;
 			projectile.timeLeft = 180;
 			aiType = ProjectileID.Raven;
 		}
@@ -222,6 +222,12 @@ namespace SpiritMod.Projectiles.Summon
 		{
 			return true;
 		}
-
+		public override void Kill(int timeLeft)
+		{
+            for (int i = 0; i < 30; i++)
+			{
+				int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 0, (float)(Main.rand.Next(5) - 2), (float)(Main.rand.Next(5) - 2), 133);
+            }
+		}
 	}
 }
