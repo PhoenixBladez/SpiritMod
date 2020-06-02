@@ -24,19 +24,19 @@ namespace SpiritMod.Items.Weapon.Magic
             item.mana = 10;
             item.width = 46;
             item.height = 46;
-            item.useTime = 25;
-            item.useAnimation = 25;
+            item.useTime = 21;
+            item.useAnimation = 21;
             item.useStyle = 5;
             Item.staff[item.type] = true;
             item.noMelee = true;
             item.knockBack = 3.5f;
             item.useTurn = false;
             item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
-            item.rare = 3;
+            item.rare = 2;
             item.UseSound = SoundID.Item20;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("BoneFeatherFriendly");
-            item.shootSpeed = 12f;
+            item.shootSpeed = 14f;
         }
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

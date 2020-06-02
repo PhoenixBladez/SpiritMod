@@ -20,12 +20,12 @@ namespace SpiritMod.Items.Weapon.Swung
         int charger;
         public override void SetDefaults()
         {
-            item.damage = 27;            
+            item.damage = 25;            
             item.melee = true;            
             item.width = 34;              
             item.height = 40;             
-            item.useTime = 26;           
-            item.useAnimation = 26;     
+            item.useTime = 22;           
+            item.useAnimation = 22;     
             item.useStyle = 1;        
             item.knockBack = 5;
             item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
@@ -36,14 +36,15 @@ namespace SpiritMod.Items.Weapon.Swung
             item.crit = 8;  
 			item.autoReuse = true;
         }
-      
-		 public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool OnlyShootOnSwing => true;
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
          {
             Main.PlaySound(2, (int)position.X, (int)position.Y, 8);
             {
                 charger++;
                 if (charger >= 5)
                 {
+                    Main.PlaySound(2, (int)position.X, (int)position.Y, 20);
                     for (int I = 0; I < 1; I++)
                     {
                         int p = Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), mod.ProjectileType("GiantFeather"), damage, knockBack, player.whoAmI, 0f, 0f);

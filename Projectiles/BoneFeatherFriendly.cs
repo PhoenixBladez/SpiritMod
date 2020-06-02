@@ -31,7 +31,7 @@ namespace SpiritMod.Projectiles
 		public override void Kill(int timeLeft)
 		{
             Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 10; i++)
 			{
 				int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 0, (float)(Main.rand.Next(8) - 4), (float)(Main.rand.Next(8) - 4), 133);
                 Main.dust[d].scale *= .75f;
@@ -52,6 +52,16 @@ namespace SpiritMod.Projectiles
         {
             return new Color(160, 160, 160, 100);
         }
-
+        public override void AI()
+        {
+            if (projectile.timeLeft >= 880)
+            {
+                projectile.tileCollide = false;
+            }
+            else
+            {
+                projectile.tileCollide = true;
+            }
+        }
 	}
 }

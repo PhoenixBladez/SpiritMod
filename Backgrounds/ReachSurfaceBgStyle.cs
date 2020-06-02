@@ -12,7 +12,7 @@ namespace SpiritMod.Backgrounds
         public override int ChooseCloseTexture(ref float scale, ref double parallax, ref float a, ref float b)
         {
             scale *= .86f;
-            b -= 180;
+            b -= 240;
             return mod.GetBackgroundSlot("Backgrounds/ReachBiomeSurfaceClose");
         }
 
