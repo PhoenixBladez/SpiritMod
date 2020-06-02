@@ -42,7 +42,7 @@ namespace SpiritMod.Projectiles.Thrown
             Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
             for (int i = 0; i < 30; i++)
 			{
-				int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 0, (float)(Main.rand.Next(8) - 4), (float)(Main.rand.Next(8) - 4), 133);
+				int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 0, (float)(Main.rand.Next(5) - 2), (float)(Main.rand.Next(5) - 2), 133);
             }
 		}
 	}
