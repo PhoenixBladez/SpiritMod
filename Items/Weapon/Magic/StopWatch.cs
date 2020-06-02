@@ -18,13 +18,11 @@ namespace SpiritMod.Items.Weapon.Magic
 
 		public override void SetDefaults()
 		{
-			item.damage = 33;
-			item.magic = true;
 			item.mana = 100;
 			item.width = 40;
 			item.height = 40;
-			item.useTime = 100;
-			item.useAnimation = 100;
+			item.useTime = 30;
+			item.useAnimation = 30;
 			item.useStyle = 5;
 			Item.staff[item.type] = false; //this makes the useStyle animate as a staff instead of as a gun
 			item.noMelee = true; //so the item's animation doesn't do damage
@@ -40,7 +38,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			 MyPlayer modPlayer = player.GetSpiritPlayer();
-            modPlayer.shootDelay = 3600;
+          //  modPlayer.shootDelay = 3600;
 			modPlayer.clockX = (int)position.X;
 			modPlayer.clockY = (int)position.Y;
 			speedX = 0;

@@ -26,7 +26,7 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.friendly = false;
 			projectile.alpha = 255;
 			projectile.penetrate = -1;
-			projectile.timeLeft = 200;
+			projectile.timeLeft = 209;
 			projectile.tileCollide = false;
 		}
 		
@@ -44,46 +44,61 @@ namespace SpiritMod.Projectiles.Magic
 		
         int counter = -720;
 		bool boom = false;
-		private float distortStrength = 300f;
+		private float distortStrength = 450f;
 		
 		int minuteHand = -90;
 		int hourHand = -90;
-		int minuteLength = 175;
+		int minuteLength = 168;
 		int hourLength = 125;
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			if (projectile.timeLeft > 35)
+			{
+				Rectangle? sourceRectangle = null;
+				Main.spriteBatch.Draw(ModContent.GetTexture("SpiritMod/Effects/LargeHand"), projectile.Center - Main.screenPosition, sourceRectangle, new Color(100, 185, 205, 0), minuteHand * (float)(Math.PI / 180), new Vector2(13,134), 1f, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(ModContent.GetTexture("SpiritMod/Effects/SmallHand"), projectile.Center - Main.screenPosition, sourceRectangle, new Color(100, 185, 205, 0), hourHand * (float)(Math.PI / 180), new Vector2(9,72), 1f, SpriteEffects.None, 0f);
+			}
+			return false;
+		}
         public override bool PreAI()
         {
 			Player player = Main.player[projectile.owner];
-			if (projectile.timeLeft <= 24)
+			if (projectile.timeLeft <= 35)
 			{
 				if (!boom)
 				{
 				   if (Main.netMode != NetmodeID.Server && !Filters.Scene["Shockwave"].IsActive())
 					{
-						Filters.Scene.Activate("Shockwave", projectile.Center).GetShader().UseColor(10, 5, 15).UseTargetPosition(projectile.Center);
+						Filters.Scene.Activate("Shockwave", projectile.Center).GetShader().UseColor(3, 15, 15).UseTargetPosition(projectile.Center);
 					}
 					
 					boom = true;
 				}
 				if (Main.netMode != NetmodeID.Server && Filters.Scene["Shockwave"].IsActive())
 				{
-					float progress = (24f - projectile.timeLeft) / 60f; // Will range from -3 to 3, 0 being the point where the bomb explodes.
+					float progress = (35f - projectile.timeLeft) / 60f; // Will range from -3 to 3, 0 being the point where the bomb explodes.
 					Filters.Scene["Shockwave"].GetShader().UseProgress(progress).UseOpacity(distortStrength * (1 - progress / 3f));
 				}
 			}
 			else
 			{
-				minuteHand -= 5;
-				hourHand -= 1;
-				Trail(projectile.Center, projectile.Center + new Vector2((float)Math.Sin(minuteHand * (Math.PI / 180)) * minuteLength, (float)Math.Cos(minuteHand * (Math.PI / 180)) * minuteLength));
-				Trail(projectile.Center, projectile.Center + new Vector2((float)Math.Sin(hourHand * (Math.PI / 180)) * hourLength, (float)Math.Cos(hourHand * (Math.PI / 180)) * hourLength));
-				for (int i = 0; i < 360; i+= 10)
+				minuteHand += 5;
+				hourHand += 1;
+			/*	Trail(projectile.Center, projectile.Center + new Vector2((float)Math.Sin(minuteHand * (Math.PI / 180)) * minuteLength, (float)Math.Cos(minuteHand * (Math.PI / 180)) * minuteLength));
+				Trail(projectile.Center, projectile.Center + new Vector2((float)Math.Sin(hourHand * (Math.PI / 180)) * hourLength, (float)Math.Cos(hourHand * (Math.PI / 180)) * hourLength));*/
+				for (int i = 0; i < 360; i+= 6)
 				{
-					Dust.NewDustPerfect(projectile.Center + new Vector2((float)Math.Sin(i * (Math.PI / 180)) * minuteLength, (float)Math.Cos(i * (Math.PI / 180)) * minuteLength), 206).velocity = Vector2.Zero;
+					Dust dust2 = Dust.NewDustPerfect(projectile.Center + new Vector2((float)Math.Sin(i * (Math.PI / 180)) * minuteLength, (float)Math.Cos(i * (Math.PI / 180)) * minuteLength), 206);
+					//dust2.alpha = fadeIn;
+					dust2.velocity = Vector2.Zero;
 					if (i % 30 == 0)
 					{
-						for (int j = minuteLength; j > minuteLength - 15; j-=3)
+						for (int j = minuteLength; j > minuteLength - 21; j-=3)
 						{
-							Dust.NewDustPerfect(projectile.Center + new Vector2((float)Math.Sin(i * (Math.PI / 180)) * j, (float)Math.Cos(i * (Math.PI / 180)) * j), 206).velocity = Vector2.Zero;
+							Dust dust = Dust.NewDustPerfect(projectile.Center + new Vector2((float)Math.Sin(i * (Math.PI / 180)) * j, (float)Math.Cos(i * (Math.PI / 180)) * j), 206);
+							dust.velocity = Vector2.Zero;
+							dust.scale = 1.5f;
+							//dust.alpha = fadeIn;
 						}
 					}
 				}

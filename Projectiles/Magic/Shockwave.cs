@@ -26,7 +26,7 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.friendly = false;
 			projectile.alpha = 255;
 			projectile.penetrate = -1;
-			projectile.timeLeft = 24;
+			projectile.timeLeft = 35;
 			projectile.tileCollide = false;
 		}
 
@@ -45,7 +45,7 @@ namespace SpiritMod.Projectiles.Magic
 			}
 			if (Main.netMode != NetmodeID.Server && Filters.Scene["Shockwave"].IsActive())
 			{
-				float progress = (24f - projectile.timeLeft) / 60f; // Will range from -3 to 3, 0 being the point where the bomb explodes.
+				float progress = (35f - projectile.timeLeft) / 60f; // Will range from -3 to 3, 0 being the point where the bomb explodes.
 				Filters.Scene["Shockwave"].GetShader().UseProgress(progress).UseOpacity(distortStrength * (1 - progress / 3f));
 			}
 			return false;

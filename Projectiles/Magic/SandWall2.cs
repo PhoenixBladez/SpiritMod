@@ -7,13 +7,13 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Magic
 {
-	public class SandWall : ModProjectile
+	public class SandWall2 : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Sand Wall");
+			DisplayName.SetDefault("Sand Wall2");
 		}
-		int counter = -180;
+		int counter = 0;
 		float distance = 5f;
 		int rotationalSpeed = 2;
 		float initialSpeedMult = 1;
@@ -31,7 +31,7 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.extraUpdates = 2;
 			projectile.tileCollide = true; //Tells the game whether or not it can collide with a tile
 		}
-        public override void AI()
+         public override void AI()
 		{
 			
 			 if (Main.rand.Next(3) == 1)
