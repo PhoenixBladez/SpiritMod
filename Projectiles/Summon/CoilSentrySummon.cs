@@ -17,7 +17,7 @@ namespace SpiritMod.Projectiles.Summon
 		public override void SetDefaults()
 		{
 			projectile.width = 32;
-			projectile.height = 30;
+			projectile.height = 28;
 			projectile.timeLeft = 3600;
 			projectile.friendly = false;
 			projectile.hostile = false;
@@ -27,7 +27,6 @@ namespace SpiritMod.Projectiles.Summon
 			projectile.minion = true;
 			projectile.minionSlots = 0;
 		}
-
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			return false;
@@ -71,24 +70,34 @@ namespace SpiritMod.Projectiles.Summon
 			if (projectile.ai[0] >= 30 && target.active && projectile.Distance(target.Center) / 16 < range)
 			{
                 projectile.ai[0] = 0;
-                Vector2 ShootArea = new Vector2(projectile.Center.X, projectile.Center.Y - 25);
+                Vector2 ShootArea = new Vector2(projectile.Center.X, projectile.Center.Y - 13);
 				Vector2 direction = target.Center - ShootArea;
 				direction.Normalize();
 				direction.X *= shootVelocity;
 				direction.Y *= shootVelocity;
-				int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 25, direction.X, direction.Y, mod.ProjectileType("CoilBullet1"), projectile.damage, 0, Main.myPlayer);
+				int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 13, direction.X, direction.Y, mod.ProjectileType("CoilBullet1"), projectile.damage, 0, Main.myPlayer);
                 Main.projectile[proj2].ranged = false;
                 Main.projectile[proj2].minion = true;
 				Main.PlaySound(2, projectile.Center, 12);  //make bow shooty sound
 			}
-            for (int i = 0; i < 2; i++)
+			Vector2 globePos = new Vector2(projectile.Center.X + 2, projectile.position.Y + 6);
+            if (Main.rand.Next(11) == 1)
+			{
+                Vector2 vector2 = Vector2.UnitY.RotatedByRandom(6.28318548202515) * new Vector2(8f, 8f) * projectile.scale * 1.45f / 2f;
+                int index = Dust.NewDust(globePos + vector2, 0, 0, 226, 0.0f, 0.0f, 0, new Color(), .8f);
+                Main.dust[index].position = globePos + vector2;
+                Main.dust[index].velocity = new Vector2(0,-1);
+                Main.dust[index].noGravity = true;
+            }
+			//old dust effect incase you don't like this
+			/*for (int i = 0; i < 2; i++)
             {
                 Vector2 vector2 = Vector2.UnitY.RotatedByRandom(6.28318548202515) * new Vector2((float)projectile.height, (float)projectile.height) * projectile.scale * 1.45f / 2f;
                 int index = Dust.NewDust(projectile.Center + vector2, 0, 0, 226, 0.0f, 0.0f, 0, new Color(), .8f);
                 Main.dust[index].position = projectile.Center + vector2;
                 Main.dust[index].velocity = Vector2.Zero;
                 Main.dust[index].noGravity = true;
-            }
+            }*/
         }
 		public override bool TileCollideStyle (ref int width, ref int height, ref bool fallThrough)
 		{

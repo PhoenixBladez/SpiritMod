@@ -486,6 +486,22 @@ namespace SpiritMod
                 List<Point> location = new List<Point>(); //these are for ease of use if we ever want to add containers to these existing structures
                 Point[] containers = location.ToArray();
                 StructureLoader.GetStructure("StarAltar").PlaceForce(basex + (int)(Main.rand.Next(0 - width, width) / 1.5f), basey + Main.rand.Next(0 - height, height), out containers);
+				
+				//chest spawning
+				int CmaxTries = 20000;
+				int Ctries = 0;
+				int Csuccesses = 0;
+				while (Ctries < CmaxTries && Csuccesses < 3)
+					{
+						x = i + WorldGen.genRand.Next(0-width, width);
+						y = j + WorldGen.genRand.Next(0-height, height);
+						if (WorldGen.PlaceChest(x, y, (ushort)mod.TileType("AsteroidChest"),false,0) != -1)
+						{
+							Csuccesses++;
+						}
+						Ctries++;
+					}
+				
                 success = true;
             }
 			
