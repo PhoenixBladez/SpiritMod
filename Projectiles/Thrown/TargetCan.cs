@@ -36,7 +36,7 @@ namespace SpiritMod.Projectiles.Thrown
 				{
 					Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);
 					shot = true;
-					projectile.damage = (int)MathHelper.Clamp(proj.damage * 4, 0, 220);
+					projectile.damage = (int)MathHelper.Clamp(90, 0, 220);
 					projectile.velocity = proj.velocity * 2;
 					proj.active = false;
 					 CombatText.NewText(new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height), new Color(255, 155, 0, 100),

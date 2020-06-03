@@ -30,7 +30,8 @@ namespace SpiritMod.Tiles.Block
             }
             return true;
         }
-        public override void RandomUpdate(int i, int j)
+		//UNCOMMENT THIS IF YOU WANT CRYSTALS TO GROW ON REGULAR ASTEROIDS
+    /*    public override void RandomUpdate(int i, int j)
         {
             if (!Framing.GetTileSafely(i, j - 1).active() && Main.rand.Next(50) == 0)
             {
@@ -50,6 +51,6 @@ namespace SpiritMod.Tiles.Block
                         break;
                 }
             }
-        }
+        }*/
     }
 }
