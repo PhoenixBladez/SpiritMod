@@ -12,21 +12,21 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Khamsin");
-			Tooltip.SetDefault("Releases harsh desert winds upon enemies");
+			Tooltip.SetDefault("Creats a violent sandnado from the player\nEnemies caught by the tornado are lifted upwards");
 		}
 
 
 
         public override void SetDefaults()
         {
-            item.damage = 37;
+            item.damage = 38;
             Item.staff[item.type] = true;
             item.noMelee = true;
             item.magic = true;
             item.width = 28;
             item.height = 30;
             item.useTime = 15;
-            item.mana = 30;
+            item.mana = 15;
             item.useAnimation = 60;
             item.useStyle = 5;
             item.knockBack = 3;
@@ -42,23 +42,25 @@ namespace SpiritMod.Items.Weapon.Magic
         {
 			speedX = 0;
 			speedY = -0.25f;
-				Projectile.NewProjectile(position.X, position.Y - 60, speedX, speedY, mod.ProjectileType("SandWall"), damage, knockBack, player.whoAmI, speedX, speedY);
-				Projectile.NewProjectile(position.X, position.Y - 60, speedX, speedY, mod.ProjectileType("SandWall2"), damage, knockBack, player.whoAmI, speedX, speedY);
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("SandWall"), damage, knockBack, player.whoAmI, speedX, speedY);
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("SandWall2"), damage, knockBack, player.whoAmI, speedX, speedY);
 				return false;
 		}
 		
-                public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.TitaniumBar, 10);
+            recipe.AddIngredient(ItemID.TitaniumBar, 4);
             recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 1);
+            recipe.AddIngredient(ItemID.SpellTome, 1);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();
 
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.AdamantiteBar, 10);
+            recipe.AddIngredient(ItemID.AdamantiteBar, 4);
             recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 1);
+            recipe.AddIngredient(ItemID.SpellTome, 1);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

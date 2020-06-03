@@ -179,6 +179,11 @@ namespace SpiritMod
                 music = GetSoundSlot(SoundType.Music, "Sounds/Music/SnowNighttime");
                 priority = MusicPriority.BiomeMedium;
             }
+            if (player.ZoneDesert && player.ZoneOverworldHeight && !Main.dayTime && !player.ZoneCorrupt && !player.ZoneCrimson)
+            {
+                music = GetSoundSlot(SoundType.Music, "Sounds/Music/DesertNighttime");
+                priority = MusicPriority.BiomeHigh;
+            }
             if (spirit.ZoneAsteroid)
             {
                 music = this.GetSoundSlot(SoundType.Music, "Sounds/Music/Asteroids");

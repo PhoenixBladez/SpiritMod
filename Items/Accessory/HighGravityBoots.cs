@@ -14,8 +14,8 @@ namespace SpiritMod.Items.Accessory
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("High Gravity Boots");
-			Tooltip.SetDefault("Increases your gravity");
+			DisplayName.SetDefault("High-Grav Boots");
+			Tooltip.SetDefault("Increases your gravity when falling");
 		}
         public override void SetDefaults()
         {
@@ -29,11 +29,11 @@ namespace SpiritMod.Items.Accessory
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			if (Main.rand.Next(5) == 1)
-			{
-				player.velocity.Y+=0.07f;
-				Dust.NewDustPerfect(new Vector2(player.position.X + Main.rand.Next(player.width), player.position.Y + player.height - Main.rand.Next(7)), 206, Vector2.Zero);
-			}
+            if (player.velocity.Y > 0 && !player.gravControl)
+            {
+                player.velocity.Y = 7f;
+                Dust.NewDustPerfect(new Vector2(player.position.X + Main.rand.Next(player.width), player.position.Y + player.height - Main.rand.Next(7)), 206, Vector2.Zero);
+            }
         }
     }
 }

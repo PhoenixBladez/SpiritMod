@@ -4,26 +4,28 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
 namespace SpiritMod.Items.Equipment
 {
 	public class StarMap : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Star Map");
-			Tooltip.SetDefault("Hold and release to teleport");
-		}
+			DisplayName.SetDefault("Astral Map");
+			Tooltip.SetDefault("Hold for three seconds, then release to teleport");
+            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Equipment/StarMap_Glow");
+        }
 
 		public override void SetDefaults()
 		{
-			item.damage = 40;
+			item.damage = 0;
 			item.noMelee = true;
-			item.magic = true;
 			item.channel = true; //Channel so that you can held the weapon [Important]
-			item.mana = 5;
 			item.rare = 5;
-			item.width = 28;
-			item.height = 30;
+			item.width = 18;
+			item.height = 18;
 			item.useTime = 20;
 			item.UseSound = SoundID.Item13;
 			item.useStyle = 5;
@@ -32,5 +34,27 @@ namespace SpiritMod.Items.Equipment
 			item.shoot = mod.ProjectileType("StarMapProj");
 			item.shootSpeed = 0f;
 		}
-	}
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            Lighting.AddLight(item.position, 0.08f, .28f, .38f);
+            Texture2D texture;
+            texture = Main.itemTexture[item.type];
+            spriteBatch.Draw
+            (
+                ModContent.GetTexture("SpiritMod/Items/Equipment/StarMap_Glow"),
+                new Vector2
+                (
+                    item.position.X - Main.screenPosition.X + item.width * 0.5f,
+                    item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+                ),
+                new Rectangle(0, 0, texture.Width, texture.Height),
+                Color.White,
+                rotation,
+                texture.Size() * 0.5f,
+                scale,
+                SpriteEffects.None,
+                0f
+            );
+        }
+    }
 }

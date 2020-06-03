@@ -12,8 +12,6 @@ using Terraria.Utilities;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-using SpiritMod.Projectiles;
-
 namespace SpiritMod.Effects
 {
     public class TrailManager
@@ -43,11 +41,11 @@ namespace SpiritMod.Effects
             }
             if (projectile.type == mod.ProjectileType("LeafProjReachChest"))
             {
-                CreateTrail(projectile, new StandardColorTrail(new Color(56, 194, 93)), new RoundCap(), new DefaultTrailPosition(), 4f, 100f);
+                CreateTrail(projectile, new StandardColorTrail(new Color(56, 194, 93)), new RoundCap(), new DefaultTrailPosition(), 4f, 100f, new ImageShader(mod.GetTexture("Textures/noise"), 0.2f, .4f, 1f));
             }
             if (projectile.type == mod.ProjectileType("OrichHoming"))
             {
-                CreateTrail(projectile, new GradientTrail(new Color(241, 173, 255), new Color(105, 42, 168)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 150f);
+                CreateTrail(projectile, new GradientTrail(new Color(241, 173, 255), new Color(105, 42, 168)), new RoundCap(), new DefaultTrailPosition(), 6f, 150f);
             }
             if (projectile.type == mod.ProjectileType("DarkAnima"))
             {
@@ -58,19 +56,31 @@ namespace SpiritMod.Effects
                 switch (Main.rand.Next(3))
                 {
                     case 0:
-                        CreateTrail(projectile, new StandardColorTrail(new Color(115, 220, 255)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 100f);
+                        CreateTrail(projectile, new StandardColorTrail(new Color(115, 220, 255)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 100f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
                         break;
                     case 1:
-                        CreateTrail(projectile, new StandardColorTrail(new Color(255, 231, 145)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 100f);
+                        CreateTrail(projectile, new StandardColorTrail(new Color(255, 231, 145)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 100f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
                         break;
                     case 2:
-                        CreateTrail(projectile, new StandardColorTrail(new Color(255, 128, 244)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 100f);
+                        CreateTrail(projectile, new StandardColorTrail(new Color(255, 128, 244)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 100f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
                         break;
                 }
             }
             if (projectile.type == mod.ProjectileType("TrueHallowedStaffProj"))
             {
-                CreateTrail(projectile, new RainbowTrail(5f, 0.002f, 1f, .75f), new RoundCap(), new DefaultTrailPosition(), 11f, 130f);
+                CreateTrail(projectile, new RainbowTrail(5f, 0.002f, 1f, .75f), new RoundCap(), new SleepingStarTrailPosition(), 150f, 130f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
+            }
+            if (projectile.type == mod.ProjectileType("TeleportBolt"))
+            {
+                CreateTrail(projectile, new StandardColorTrail(new Color(122, 233, 255) * .6f), new RoundCap(), new SleepingStarTrailPosition(), 15f, 130f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
+            }
+            if (projectile.type == mod.ProjectileType("SandWall") || projectile.type == mod.ProjectileType("SandWall2"))
+            {
+                CreateTrail(projectile, new StandardColorTrail(new Color(255, 236, 115, 200)), new RoundCap(), new DefaultTrailPosition(), 100f, 130f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
+                CreateTrail(projectile, new StandardColorTrail(Color.White * 0.2f), new RoundCap(), new DefaultTrailPosition(), 12f, 80f, new DefaultShader());
+                CreateTrail(projectile, new StandardColorTrail(Color.White * 0.2f), new RoundCap(), new DefaultTrailPosition(), 12f, 80f, new DefaultShader());
+                CreateTrail(projectile, new StandardColorTrail(Color.Gold * 0.4f), new RoundCap(), new DefaultTrailPosition(), 20f, 250f, new DefaultShader());
+
             }
             if (projectile.type == mod.ProjectileType("PartyStarterBullet"))
             {
@@ -80,7 +90,7 @@ namespace SpiritMod.Effects
             {
                 CreateTrail(projectile, new RainbowTrail(Main.rand.NextFloat(5f, 9f), 0.002f, 1f, .85f), new RoundCap(), new DefaultTrailPosition(), 6f, 200f);
             }
-            if (projectile.type == mod.ProjectileType("PositiveArrow") || projectile.type == mod.ProjectileType("StarTrail"))
+            if (projectile.type == mod.ProjectileType("PositiveArrow"))
             {
                 CreateTrail(projectile, new StandardColorTrail(new Color(122, 233, 255)), new RoundCap(), new ZigZagTrailPosition(3f), 8f, 250f);
             }
@@ -88,30 +98,22 @@ namespace SpiritMod.Effects
             {
                 CreateTrail(projectile, new StandardColorTrail(new Color(255, 113, 36)), new RoundCap(), new ZigZagTrailPosition(3f), 8f, 250f);
             }
-            //HERE IS WHERE YOU ADD ALL YOUR TRAILS
-            switch (projectile.type)
+            /*switch (projectile.type)
             {
-                /*case ProjectileID.WoodenArrowFriendly:
-                    switch (Main.rand.Next(3))
-                    {
-                        case 0:
-                            CreateTrail(projectile, new GradientTrail(Color.Blue, Color.Red), new RoundCap(), 8f, 250f);
-                            break;
-                        case 1:
-                            CreateTrail(projectile, new RainbowTrail(5f, 0.002f, 1f, 0.5f), new RoundCap(), 8f, 250f);
-                            break;
-                        case 2:
-                            CreateTrail(projectile, new StandardColorTrail(Color.White), new RoundCap(), 8f, 250f);
-                            break;
-                    }
-                    break;*/
-            }
+                case ProjectileID.WoodenArrowFriendly:
+                    //CreateTrail(projectile, new RainbowTrail(), new RoundCap(), new DefaultTrailPosition(), 64f, 750f, new ImageShader(mod.GetTexture("Textures/trail_triangle"), 0.01f, 1f, 1f));
+                    CreateTrail(projectile, new StandardColorTrail(Color.Purple * 0.8f), new RoundCap(), new DefaultTrailPosition(), 56f, 250f, new DefaultShader());
+                    CreateTrail(projectile, new StandardColorTrail(Color.White * 0.2f), new RoundCap(), new DefaultTrailPosition(), 44f, 80f, new DefaultShader());
+                    //duplicate for sharper effect
+                    CreateTrail(projectile, new StandardColorTrail(Color.White * 0.2f), new RoundCap(), new DefaultTrailPosition(), 44f, 80f, new DefaultShader());
+                    CreateTrail(projectile, new StandardColorTrail(Color.HotPink * 0.8f), new RoundCap(), new DefaultTrailPosition(), 150f, 250f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
+                    break;
+            }*/
         }
-
         public void TryTrailKill(Projectile projectile)
         {
             Mod mod = SpiritMod.instance;
-            if (projectile.type == mod.ProjectileType("SleepingStar") || projectile.type == mod.ProjectileType("SleepingStar1") || projectile.type == mod.ProjectileType("LeafProjReachChest") || projectile.type == mod.ProjectileType("HallowedStaffProj") || projectile.type == mod.ProjectileType("TrueHallowedStaffProj") || projectile.type == mod.ProjectileType("PositiveArrow") || projectile.type == mod.ProjectileType("NegativeArrow") || projectile.type == mod.ProjectileType("PartyBuller") || projectile.type == mod.ProjectileType("StarTrail"))
+            if (projectile.type == mod.ProjectileType("SleepingStar") || projectile.type == mod.ProjectileType("SleepingStar1") || projectile.type == mod.ProjectileType("LeafProjReachChest") || projectile.type == mod.ProjectileType("HallowedStaffProj") || projectile.type == mod.ProjectileType("TrueHallowedStaffProj") || projectile.type == mod.ProjectileType("PositiveArrow") || projectile.type == mod.ProjectileType("NegativeArrow") || projectile.type == mod.ProjectileType("PartyBullet") || projectile.type == mod.ProjectileType("SandWall") || projectile.type == mod.ProjectileType("SandWall2"))
             {
                 SpiritMod.TrailManager.TryEndTrail(projectile, Math.Max(15f, projectile.velocity.Length() * 3f));
             }
@@ -142,9 +144,9 @@ namespace SpiritMod.Effects
             }
         }
 
-        public void CreateTrail(Projectile projectile, ITrailColor trailType, ITrailCap trailCap, ITrailPosition trailPosition, float widthAtFront, float maxLength, string passName = "DefaultPass")
+        public void CreateTrail(Projectile projectile, ITrailColor trailType, ITrailCap trailCap, ITrailPosition trailPosition, float widthAtFront, float maxLength, ITrailShader shader = null)
         {
-            Trail newTrail = new Trail(projectile, trailType, trailCap, trailPosition, passName, widthAtFront, maxLength);
+            Trail newTrail = new Trail(projectile, trailType, trailCap, trailPosition, shader == null ? new DefaultShader() : shader, widthAtFront, maxLength);
             newTrail.Update();
             _trails.Add(newTrail);
         }
@@ -194,10 +196,10 @@ namespace SpiritMod.Effects
 
         private int _originalProjectileType;
 
-        private string _shaderPass;
         private ITrailCap _trailCap;
         private ITrailColor _trailColor;
         private ITrailPosition _trailPosition;
+        private ITrailShader _trailShader;
         private float _widthStart;
 
         private float _currentLength;
@@ -210,7 +212,7 @@ namespace SpiritMod.Effects
         private float _originalMaxLength;
         private float _originalWidth;
 
-        public Trail(Projectile projectile, ITrailColor type, ITrailCap cap, ITrailPosition position, string pass, float widthAtFront, float maxLength)
+        public Trail(Projectile projectile, ITrailColor type, ITrailCap cap, ITrailPosition position, ITrailShader shader, float widthAtFront, float maxLength)
         {
             MyProjectile = projectile;
             Dead = false;
@@ -218,7 +220,7 @@ namespace SpiritMod.Effects
             _trailCap = cap;
             _trailColor = type;
             _trailPosition = position;
-            _shaderPass = pass;
+            _trailShader = shader;
             _maxLength = maxLength;
             _widthStart = widthAtFront;
 
@@ -370,12 +372,14 @@ namespace SpiritMod.Effects
             //set effect parameter for matrix (todo: try have this only calculated when screen size changes?)
             int width = device.Viewport.Width;
             int height = device.Viewport.Height;
-            Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / 2, height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi);
+            Vector2 zoom = Main.GameViewMatrix.Zoom;
+            Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / 2, height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
             Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
-            effect.Parameters["WorldViewProjection"].SetValue(Matrix.Multiply(view, projection));
+            effect.Parameters["WorldViewProjection"].SetValue(view * projection);
+            //effect.Parameters["WorldViewProjection"].SetValue(Main.GameViewMatrix.TransformationMatrix * Main.GameViewMatrix.ZoomMatrix);
 
             //apply this trail's shader pass and draw
-            effect.CurrentTechnique.Passes[_shaderPass].Apply();
+            _trailShader.ApplyShader(effect, this, this._points);
             device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, (_points.Count - 1) * 2 + _trailCap.ExtraTris);
         }
 
@@ -401,6 +405,54 @@ namespace SpiritMod.Effects
         }
     }
 
+    public interface ITrailShader
+    {
+        string ShaderPass { get; }
+        void ApplyShader(Effect effect, Trail trail, List<Vector2> positions);
+    }
+
+    public class DefaultShader : ITrailShader
+    {
+        public string ShaderPass => "DefaultPass";
+        public void ApplyShader(Effect effect, Trail trail, List<Vector2> positions)
+        {
+            effect.CurrentTechnique.Passes[ShaderPass].Apply();
+        }
+    }
+
+    public class ImageShader : ITrailShader
+    {
+        public new string ShaderPass => "BasicImagePass";
+
+        protected Vector2 _coordMult;
+        protected float _xOffset;
+        protected float _yAnimSpeed;
+        protected float _strength;
+        private Texture2D _texture;
+
+        public ImageShader(Texture2D image, Vector2 coordinateMultiplier, float strength = 1f, float yAnimSpeed = 0f)
+        {
+            _coordMult = coordinateMultiplier;
+            _strength = strength;
+            _yAnimSpeed = yAnimSpeed;
+            _texture = image;
+        }
+
+        public ImageShader(Texture2D image, float xCoordinateMultiplier, float yCoordinateMultiplier, float strength = 1f, float yAnimSpeed = 0f) : this(image, new Vector2(xCoordinateMultiplier, yCoordinateMultiplier), strength, yAnimSpeed)
+        {
+        }
+
+        public new void ApplyShader(Effect effect, Trail trail, List<Vector2> positions)
+        {
+            _xOffset -= _coordMult.X;
+            effect.Parameters["imageTexture"].SetValue(_texture);
+            effect.Parameters["coordOffset"].SetValue(new Vector2(_xOffset, Main.GlobalTime * _yAnimSpeed));
+            effect.Parameters["coordMultiplier"].SetValue(_coordMult);
+            effect.Parameters["strength"].SetValue(_strength);
+            effect.CurrentTechnique.Passes[ShaderPass].Apply();
+        }
+    }
+
     public interface ITrailPosition
     {
         Vector2 GetNextTrailPosition(Projectile projectile);
@@ -422,29 +474,7 @@ namespace SpiritMod.Effects
             return projectile.position + drawOrigin + Vector2.UnitY * projectile.gfxOffY;
         }
     }
-    public interface ITrailColor
-    {
-        Color GetColourAt(float distanceFromStart, float trailLength, List<Vector2> points);
-    }
 
-    #region Different Trail Color Types
-    public class GradientTrail : ITrailColor
-    {
-        private Color _startColour;
-        private Color _endColour;
-
-        public GradientTrail(Color start, Color end)
-        {
-            _startColour = start;
-            _endColour = end;
-        }
-
-        public Color GetColourAt(float distanceFromStart, float trailLength, List<Vector2> points)
-        {
-            float progress = distanceFromStart / trailLength;
-            return Color.Lerp(_startColour, _endColour, progress) * (1f - progress);
-        }
-    }
     public class ZigZagTrailPosition : ITrailPosition
     {
         private int _zigType;
@@ -480,6 +510,31 @@ namespace SpiritMod.Effects
             return projectile.Center + offset * _strength;
         }
     }
+
+    public interface ITrailColor
+    {
+        Color GetColourAt(float distanceFromStart, float trailLength, List<Vector2> points);
+    }
+
+    #region Different Trail Color Types
+    public class GradientTrail : ITrailColor
+    {
+        private Color _startColour;
+        private Color _endColour;
+
+        public GradientTrail(Color start, Color end)
+        {
+            _startColour = start;
+            _endColour = end;
+        }
+
+        public Color GetColourAt(float distanceFromStart, float trailLength, List<Vector2> points)
+        {
+            float progress = distanceFromStart / trailLength;
+            return Color.Lerp(_startColour, _endColour, progress) * (1f - progress);
+        }
+    }
+
     public class RainbowTrail : ITrailColor
     {
         private float _saturation;
@@ -487,7 +542,7 @@ namespace SpiritMod.Effects
         private float _speed;
         private float _distanceMultiplier;
 
-        public RainbowTrail(float animationSpeed = 5f, float distanceMultiplier = 0.01f, float saturation = 1f, float lightness = .5f)
+        public RainbowTrail(float animationSpeed = 5f, float distanceMultiplier = 0.01f, float saturation = 1f, float lightness = 0.5f)
         {
             _saturation = saturation;
             _lightness = lightness;
@@ -612,6 +667,15 @@ namespace SpiritMod.Effects
 
                 prev = next;
             }
+        }
+    }
+    public class NoCap : ITrailCap
+    {
+        public int ExtraTris => 0;
+
+        public void AddCap(VertexPositionColorTexture[] array, ref int currentIndex, Color colour, Vector2 position, Vector2 startNormal, float width)
+        {
+          
         }
     }
     #endregion

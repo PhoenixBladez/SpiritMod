@@ -60,141 +60,186 @@ namespace SpiritMod.Items.Equipment
 			projectile.timeLeft = 400;
 		}
 
-		// Use this hook for hooks that can have multiple hooks mid-flight: Dual Hook, Web Slinger, Fish Hook, Static Hook, Lunar Hook
-		public override bool? CanUseGrapple(Player player) {
-			int hooksOut = 0;
-			for (int l = 0; l < 1000; l++) {
-				if (Main.projectile[l].active && Main.projectile[l].owner == Main.myPlayer && Main.projectile[l].type == projectile.type) {
-					hooksOut++;
-				}
-			}
-			if (hooksOut > 0) // This hook can have 1 hooks out.
-			{
-				return false;
-			}
-			return true;
-		}
+        // Use this hook for hooks that can have multiple hooks mid-flight: Dual Hook, Web Slinger, Fish Hook, Static Hook, Lunar Hook
+        public override bool? CanUseGrapple(Player player)
+        {
+            int hooksOut = 0;
+            for (int l = 0; l < 1000; l++)
+            {
+                if (Main.projectile[l].active && Main.projectile[l].owner == Main.myPlayer && Main.projectile[l].type == projectile.type)
+                {
+                    hooksOut++;
+                }
+            }
+            if (hooksOut > 1) // This hook can have 2 hooks out.
+            {
+                return false;
+            }
+            return true;
+        }
 
-		// Return true if it is like: Hook, CandyCaneHook, BatHook, GemHooks
-		public override bool? SingleGrappleHook(Player player)
-		{
-			return true;
-		}
+        // Return true if it is like: Hook, CandyCaneHook, BatHook, GemHooks
+        //public override bool? SingleGrappleHook(Player player)
+        //{
+        //	return true;
+        //}
 
-		// Use this to kill oldest hook. For hooks that kill the oldest when shot, not when the newest latches on: Like SkeletronHand
-		// You can also change the projectile like: Dual Hook, Lunar Hook
-		//public override void UseGrapple(Player player, ref int type)
-		//{
-		//	int hooksOut = 0;
-		//	int oldestHookIndex = -1;
-		//	int oldestHookTimeLeft = 100000;
-		//	for (int i = 0; i < 1000; i++)
-		//	{
-		//		if (Main.projectile[i].active && Main.projectile[i].owner == projectile.whoAmI && Main.projectile[i].type == projectile.type)
-		//		{
-		//			hooksOut++;
-		//			if (Main.projectile[i].timeLeft < oldestHookTimeLeft)
-		//			{
-		//				oldestHookIndex = i;
-		//				oldestHookTimeLeft = Main.projectile[i].timeLeft;
-		//			}
-		//		}
-		//	}
-		//	if (hooksOut > 1)
-		//	{
-		//		Main.projectile[oldestHookIndex].Kill();
-		//	}
-		//}
+        // Use this to kill oldest hook. For hooks that kill the oldest when shot, not when the newest latches on: Like SkeletronHand
+        // You can also change the projectile like: Dual Hook, Lunar Hook
+        //public override void UseGrapple(Player player, ref int type)
+        //{
+        //	int hooksOut = 0;
+        //	int oldestHookIndex = -1;
+        //	int oldestHookTimeLeft = 100000;
+        //	for (int i = 0; i < 1000; i++)
+        //	{
+        //		if (Main.projectile[i].active && Main.projectile[i].owner == projectile.whoAmI && Main.projectile[i].type == projectile.type)
+        //		{
+        //			hooksOut++;
+        //			if (Main.projectile[i].timeLeft < oldestHookTimeLeft)
+        //			{
+        //				oldestHookIndex = i;
+        //				oldestHookTimeLeft = Main.projectile[i].timeLeft;
+        //			}
+        //		}
+        //	}
+        //	if (hooksOut > 1)
+        //	{
+        //		Main.projectile[oldestHookIndex].Kill();
+        //	}
+        //}
 
-		// Amethyst Hook is 300, Static Hook is 600
-		public override float GrappleRange() {
-			return 350f;
-		}
+        // Amethyst Hook is 300, Static Hook is 600
+        public override float GrappleRange()
+        {
+            return 350f;
+        }
 
-		public override void NumGrappleHooks(Player player, ref int numHooks) {
-			numHooks = 1;
-		}
+        public override void NumGrappleHooks(Player player, ref int numHooks)
+        {
+            numHooks = 1;
+        }
 
-		// default is 11, Lunar is 24
-		public override void GrappleRetreatSpeed(Player player, ref float speed) {
-			speed = 11f;
-		}
+        // default is 11, Lunar is 24
+        public override void GrappleRetreatSpeed(Player player, ref float speed)
+        {
+            speed = 13f;
+        }
 
-		public override void GrapplePullSpeed(Player player, ref float speed) {
-			speed = 9;
-		}
-		public override void AI()
-		{
-			float lowestDist = float.MaxValue;
-			int tilepositionx = (int)(projectile.position.X / 16);
-			int tilepositiony = (int)(projectile.position.Y / 16);
-			int targetpositionx = 0;
-			int targetpositiony = 0;
-			int range = 5;
-			for (int i = tilepositionx - 5; i < tilepositionx + 5; i++)
-			{
-				for (int j = tilepositiony - 5; j < tilepositiony + 5; j++)
-				{
-					Tile tile = Main.tile[i,j];
-					if (tile.active() && Main.tileSolid[tile.type])
-					{
-						//if npc is within 50 blocks
-						float dist = projectile.Distance(new Vector2(i * 16,j * 16));
-						if (dist / 16 < range)
-						{
-							//if npc is closer than closest found npc
-							if (dist < lowestDist + 32)
-							{
-								lowestDist = dist;
-								targetpositionx = i * 16;
-								targetpositiony = j * 16;
-							}
-						}
-					}
-				}
-			}
-			if (lowestDist < 150 && projectile.timeLeft > 366 && projectile.timeLeft < 385)
-			{
-				Vector2 direction = new Vector2(targetpositionx - projectile.position.X, targetpositiony - projectile.position.Y);
-				direction.Normalize();
-				projectile.velocity = direction * (int)Math.Sqrt((projectile.velocity.X * projectile.velocity.X) + (projectile.velocity.Y * projectile.velocity.Y));
-			}
-		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) {
-			Vector2 playerCenter = Main.player[projectile.owner].MountedCenter;
-			Vector2 center = projectile.Center;
-			Vector2 distToProj = playerCenter - projectile.Center;
-			float projRotation = distToProj.ToRotation() - 1.57f;
-			float distance = distToProj.Length();
-			while (distance > 30f && !float.IsNaN(distance)) {
-				distToProj.Normalize();                 //get unit vector
-				distToProj *= 24f;                      //speed = 24
-				center += distToProj;                   //update draw position
-				distToProj = playerCenter - center;    //update distance
-				distance = distToProj.Length();
-				Color drawColor = lightColor;
+        public override void GrapplePullSpeed(Player player, ref float speed)
+        {
+            speed = 12;
+        }
 
-				//Draw chain
-				spriteBatch.Draw(mod.GetTexture("Items/Equipment/MagnetHookChain"), new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
-					new Rectangle(0, 0, Main.chain30Texture.Width, Main.chain30Texture.Height), drawColor, projRotation,
-					new Vector2(Main.chain30Texture.Width * 0.5f, Main.chain30Texture.Height * 0.5f), 1f, SpriteEffects.None, 0f);
-			}
-			return true;
-		}
-	}
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Texture2D texture = ModContent.GetTexture("SpiritMod/Items/Equipment/MagnetHookChain");
+            Vector2 vector = projectile.Center;
+            Vector2 mountedCenter = Main.player[projectile.owner].MountedCenter;
+            Rectangle? sourceRectangle = null;
+            Vector2 origin = new Vector2((float)texture.Width * 0.5f, (float)texture.Height * 0.5f);
+            float num = (float)texture.Height;
+            Vector2 vector2 = mountedCenter - vector;
+            float rotation = (float)Math.Atan2((double)vector2.Y, (double)vector2.X) - 1.57f;
+            bool flag = true;
+            if (float.IsNaN(vector.X) && float.IsNaN(vector.Y))
+            {
+                flag = false;
+            }
+            if (float.IsNaN(vector2.X) && float.IsNaN(vector2.Y))
+            {
+                flag = false;
+            }
+            while (flag)
+            {
+                if ((double)vector2.Length() < (double)num + 1.0)
+                {
+                    flag = false;
+                }
+                else
+                {
+                    Vector2 value = vector2;
+                    value.Normalize();
+                    vector += value * num;
+                    vector2 = mountedCenter - vector;
+                    Color color = Lighting.GetColor((int)vector.X / 16, (int)((double)vector.Y / 16.0));
+                    color = projectile.GetAlpha(color);
+                    Main.spriteBatch.Draw(texture, vector - Main.screenPosition, sourceRectangle, color, rotation, origin, 1f, SpriteEffects.None, 0f);
+                }
+            }
+        }
+        public override void AI()
+        {
+            int num = 5;
+            for (int k = 0; k < 1; k++)
+            {
+                int index2 = Dust.NewDust(new Vector2(projectile.Center.X + 15, projectile.Center.Y), 1, 1, 180, 0.0f, 0.0f, 0, new Color(), 1f);
+                Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
+                Main.dust[index2].scale = .5f;
+                Main.dust[index2].velocity *= 0f;
+                Main.dust[index2].noGravity = true;
+                Main.dust[index2].noLight = false;
+            }
+            for (int j = 0; j < 1; j++)
+            {
+                int index2 = Dust.NewDust(new Vector2(projectile.Center.X - 15, projectile.Center.Y), 1, 1, 130, 0.0f, 0.0f, 0, new Color(), 1f);
+                Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)j;
+                Main.dust[index2].scale = .5f;
+                Main.dust[index2].velocity *= 0f;
+                Main.dust[index2].noGravity = true;
+                Main.dust[index2].noLight = false;
+            }
+            {
+                float lowestDist = float.MaxValue;
+                int tilepositionx = (int)(projectile.position.X / 16);
+                int tilepositiony = (int)(projectile.position.Y / 16);
+                int targetpositionx = 0;
+                int targetpositiony = 0;
+                int range = 5;
+                for (int i = tilepositionx - 5; i < tilepositionx + 5; i++)
+                {
+                    for (int j = tilepositiony - 5; j < tilepositiony + 5; j++)
+                    {
+                        Tile tile = Main.tile[i, j];
+                        if (tile.active() && Main.tileSolid[tile.type])
+                        {
+                            //if npc is within 50 blocks
+                            float dist = projectile.Distance(new Vector2(i * 16, j * 16));
+                            if (dist / 16 < range)
+                            {
+                                //if npc is closer than closest found npc
+                                if (dist < lowestDist + 32)
+                                {
+                                    lowestDist = dist;
+                                    targetpositionx = i * 16;
+                                    targetpositiony = j * 16;
+                                }
+                            }
+                        }
+                    }
+                }
+                if (lowestDist < 150 && projectile.timeLeft > 366 && projectile.timeLeft < 385)
+                {
+                    Vector2 direction = new Vector2(targetpositionx - projectile.position.X, targetpositiony - projectile.position.Y);
+                    direction.Normalize();
+                    projectile.velocity = direction * (int)Math.Sqrt((projectile.velocity.X * projectile.velocity.X) + (projectile.velocity.Y * projectile.velocity.Y));
+                }
+            }
+        }
+    }
 
-	// Animated hook example
-	// Multiple, 
-	// only 1 connected, spawn mult
-	// Light the path
-	// Gem Hooks: 1 spawn only
-	// Thorn: 4 spawns, 3 connected
-	// Dual: 2/1 
-	// Lunar: 5/4 -- Cycle hooks, more than 1 at once
-	// AntiGravity -- Push player to position
-	// Static -- move player with keys, don't pull to wall
-	// Christmas -- light ends
-	// Web slinger -- 9/8, can shoot more than 1 at once
-	// Bat hook -- Fast reeling
+    // Animated hook example
+    // Multiple, 
+    // only 1 connected, spawn mult
+    // Light the path
+    // Gem Hooks: 1 spawn only
+    // Thorn: 4 spawns, 3 connected
+    // Dual: 2/1 
+    // Lunar: 5/4 -- Cycle hooks, more than 1 at once
+    // AntiGravity -- Push player to position
+    // Static -- move player with keys, don't pull to wall
+    // Christmas -- light ends
+    // Web slinger -- 9/8, can shoot more than 1 at once
+    // Bat hook -- Fast reeling
 
 }
