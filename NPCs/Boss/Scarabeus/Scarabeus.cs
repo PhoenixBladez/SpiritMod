@@ -559,8 +559,9 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 					}
 				}
 			}
-			else if (npc.life <= 800)
+			else if (npc.life < 800)
 			{
+                wormAI = false;
                 npc.noGravity = true;
 				npcCounter++;
 
@@ -569,17 +570,31 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 					Vector2 vector2_2 = Vector2.UnitY.RotatedByRandom(1.57079637050629f) * new Vector2(5f, 3f);
 					NPC.NewNPC((int)npc.Center.X+ Main.rand.Next(-20, 20), (int)npc.Center.Y + Main.rand.Next(-20, 20), mod.NPCType("ChildofScarabeus"));	
 				}
-				if (npcCounter >= 1000 && npcCounter <= 1012 || npcCounter == 1200  && npcCounter <= 1212 || npcCounter == 1400  && npcCounter <= 1430 || npcCounter == 1600  && npcCounter <= 1630 || npcCounter == 1800  && npcCounter <= 1830 || npcCounter == 2000  && npcCounter <= 2030 ||  npcCounter == 2200  && npcCounter <= 2230)
-				{
-					charge = true;
-					Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
-					HomeY = -25f;				
-					npc.rotation = npc.velocity.X * .025f;
-				}
-				else
-				{
-					charge = false;
-				}
+                else
+                {
+                    if (npc.Center.X >= player.Center.X && moveSpeed >= -30) // flies to players x position
+                    {
+                        moveSpeed--;
+                    }
+
+                    if (npc.Center.X <= player.Center.X && moveSpeed <= 30)
+                    {
+                        moveSpeed++;
+                    }
+
+                    npc.velocity.X = moveSpeed * 0.1f;
+
+                    if (npc.Center.Y >= player.Center.Y - HomeY && moveSpeedY >= -27) //Flies to players Y position
+                    {
+                        moveSpeedY--;
+                        HomeY = 160f;
+                    }
+
+                    if (npc.Center.Y <= player.Center.Y - HomeY && moveSpeedY <= 27)
+                    {
+                        moveSpeedY++;
+                    }
+                }
                 if (npcCounter >= 2240)
 				{
 					npcCounter = 0;
@@ -602,22 +617,8 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				{
 					frame = 5;
 				}
-				{
-                    npc.aiStyle = 44;
-                    aiType = NPCID.FlyingAntlion;
-                }
-                if (charge)
-                {
-                    npc.velocity *= 0f;
-                    Vector2 direction = Main.player[npc.target].Center - npc.Center;
-                    direction.Normalize();
-                    direction.X = direction.X * Main.rand.Next(10, 14);
-                    direction.Y = direction.Y * Main.rand.Next(12, 17);
-                    npc.velocity.X = direction.X;
-                    npc.velocity.Y = direction.Y;
-                    npc.velocity *= .98f;
-                }				
-			}
+                npc.velocity.Y = moveSpeedY * 0.12f;
+            }
 			return true;
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
