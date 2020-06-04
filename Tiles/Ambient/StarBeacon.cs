@@ -36,7 +36,7 @@ namespace SpiritMod.Tiles.Ambient
             dustType = 226;
         }
 
-
+		float alphaCounter = 0;
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
             r = .12f;
@@ -46,6 +46,8 @@ namespace SpiritMod.Tiles.Ambient
         }
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
+			alphaCounter+=0.04f;
+			float sineAdd = (float)Math.Sin(alphaCounter) + 3;
             Tile tile = Main.tile[i, j];
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
             if (Main.drawToScreen)
@@ -54,6 +56,7 @@ namespace SpiritMod.Tiles.Ambient
             }
             int height = tile.frameY == 36 ? 18 : 16;
             Main.spriteBatch.Draw(mod.GetTexture("Tiles/Ambient/StarBeacon_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(SpiritMod.instance.GetTexture("Effects/Masks/Extra_49"), new Vector2(i * 16 - (int)Main.screenPosition.X + 8, j * 16 - (int)Main.screenPosition.Y + 16) + zero, null, new Color((int)(2.5f * sineAdd), (int)(5f * sineAdd), (int)(6f * sineAdd), 0), 0f, new Vector2(50,50), 0.2f * (sineAdd + 1), SpriteEffects.None, 0f);
         }
         public override bool CanKillTile(int i, int j, ref bool blockDamaged)
         {

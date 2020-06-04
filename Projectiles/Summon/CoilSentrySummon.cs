@@ -27,13 +27,19 @@ namespace SpiritMod.Projectiles.Summon
 			projectile.minion = true;
 			projectile.minionSlots = 0;
 		}
+		float alphaCounter = 0;
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			return false;
 		}
-
+		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		{	
+			float sineAdd = (float)Math.Sin(alphaCounter) + 3;
+			Main.spriteBatch.Draw(SpiritMod.instance.GetTexture("Effects/Masks/Extra_49"), (projectile.Center - Main.screenPosition) - new Vector2(-2,8), null, new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50,50), 0.25f * (sineAdd + 1), SpriteEffects.None, 0f);
+		}
 		public override void AI()
 		{
+			alphaCounter+=0.04f;
 			projectile.velocity.Y = 5;
 			//CONFIG INFO
 			int range = 15;   //How many tiles away the projectile targets NPCs
@@ -88,6 +94,7 @@ namespace SpiritMod.Projectiles.Summon
                 Main.dust[index].position = globePos + vector2;
                 Main.dust[index].velocity = new Vector2(0,-1);
                 Main.dust[index].noGravity = true;
+				Main.dust[index].noLight = true;
             }
 			//old dust effect incase you don't like this
 			/*for (int i = 0; i < 2; i++)

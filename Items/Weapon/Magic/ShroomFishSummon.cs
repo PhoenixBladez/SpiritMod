@@ -97,6 +97,41 @@ namespace SpiritMod.Items.Weapon.Magic
                     }
                 }
             }
+			 for (int k = 0; k < 15; k++)
+                {
+					Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
+					Vector2 offset = mouse - player.position;
+					offset.Normalize();
+					if (speedX > 0)
+					{
+						offset = offset.RotatedBy(-0.2f);
+					}
+					else
+					{
+						offset = offset.RotatedBy(0.2f);
+					}
+					offset*= 58f;
+                    int dust = Dust.NewDust(player.Center + offset, player.width / 2, player.height / 2, 42);
+					
+                    Main.dust[dust].velocity *= -1f;
+                    Main.dust[dust].noGravity = true;
+            //        Main.dust[dust].scale *= 2f;
+                    Vector2 vector2_1 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                    vector2_1.Normalize();
+                    Vector2 vector2_2 = vector2_1 * ((float)Main.rand.Next(50, 100) * 0.02f);
+                    Main.dust[dust].velocity = vector2_2;
+                    vector2_2.Normalize();
+                    Vector2 vector2_3 = vector2_2 * 5f;
+                    Main.dust[dust].position = (player.Center + offset) + vector2_3;
+					if (speedX > 0)
+					{
+						Main.dust[dust].velocity = new Vector2(speedX / 3f, speedY / 3f).RotatedBy(Main.rand.Next(-220,180) / 100);
+					}
+					else
+					{
+						Main.dust[dust].velocity = new Vector2(speedX / 3f, speedY / 3f).RotatedBy(Main.rand.Next(-180,220) / 100);
+					}
+                }
             return false;
         }
     }
