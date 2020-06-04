@@ -904,7 +904,7 @@ namespace SpiritMod.Projectiles
 			}
 		}
 
-		public static void DrawChain(int index, Vector2 to, string chainPath, bool electric = false, int damage = 0)
+		public static void DrawChain(int index, Vector2 to, string chainPath, bool electric = false, int damage = 0, bool zipline = false, float velocityX = 0, float velocityY = 0)
 		{
 			Texture2D texture = ModContent.GetTexture(chainPath);
 			Projectile projectile = Main.projectile[index];
@@ -942,6 +942,10 @@ namespace SpiritMod.Projectiles
 					if (electric)
 					{
 						Projectile.NewProjectile(vector.X, vector.Y, 0, 0, ModLoader.GetMod("SpiritMod").ProjectileType("ElectricChain"), damage, 0, Main.myPlayer);
+					}
+					if (zipline)
+					{
+						Projectile.NewProjectile(vector.X, vector.Y, 0, 0, ModLoader.GetMod("SpiritMod").ProjectileType("ZiplinePiece"), 1, 0, Main.myPlayer, velocityX, velocityY);
 					}
 				}
 			}

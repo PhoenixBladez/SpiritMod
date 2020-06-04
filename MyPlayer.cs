@@ -36,6 +36,11 @@ namespace SpiritMod
 		public bool clockActive = false;
         public bool QuacklingMinion = false;
         public bool bismiteShield = false;
+        public bool zipline = false;
+         public bool ziplineActive = false;
+        public float ziplineX = 0;
+        public float ziplineY = 0;
+        public float ziplineCounter = 0f;
 		public int shieldCounter = 0;
         public int bismiteShieldStacks;
         public bool VampireCloak = false;
@@ -460,6 +465,7 @@ namespace SpiritMod
 
         public override void ResetEffects()
         {
+            zipline = false;
 			clockActive = false;
 			bloodcourtSet = false;
 			ShieldCore = false;
@@ -2208,6 +2214,22 @@ namespace SpiritMod
         int bloodTimer;
         public override void PreUpdate()
         {
+            if (zipline)
+            {
+                if (!ziplineActive)
+                {
+                    ziplineCounter = 80;
+                    ziplineActive = true;
+                }
+                float g = 0.15f;
+                ziplineCounter+=2;
+                 Dust.NewDustPerfect(new Vector2(player.position.X + Main.rand.Next(player.width), player.position.Y + player.height - Main.rand.Next(7)), 6, new Vector2(-ziplineX * Main.rand.Next(6),-ziplineY * Main.rand.Next(10)));
+                player.velocity = ziplineCounter * g * ziplineY * new Vector2(ziplineX,ziplineY); 
+            }
+            else if (ziplineCounter > 45)
+            {
+                ziplineCounter-=0.75f;
+            }
             if (mushroomPotion)
             {
                 shroomtimer++;
