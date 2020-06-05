@@ -863,7 +863,9 @@ namespace SpiritMod.NPCs
 
 		public override void NPCLoot(NPC npc)
 		{
-			if (bloodInfusion)
+
+            Player closest = Main.player[(int)Player.FindClosest(npc.position, npc.width, npc.height)];
+            if (bloodInfusion)
 			{
 				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, mod.ProjectileType("FlayedExplosion"), 20, 0, Main.myPlayer);
 			}
@@ -1023,7 +1025,42 @@ namespace SpiritMod.NPCs
 				}
 			}
 
-			Player closest = Main.player[(int)Player.FindClosest(npc.position, npc.width, npc.height)];
+            //IceSculptures
+            if (npc.type == 167)
+            {
+                if (Main.rand.Next(150) == 1 && !npc.SpawnedFromStatue)
+                {
+                    npc.DropItem(mod.ItemType("IceVikingSculpture"));
+                }
+            }
+            if (npc.type == 185)
+            {
+                if (Main.rand.Next(150) == 1 && !npc.SpawnedFromStatue)
+                {
+                    npc.DropItem(mod.ItemType("IceFlinxSculpture"));
+                }
+            }
+            if (npc.type == 150)
+            {
+                if (Main.rand.Next(150) == 1 && !npc.SpawnedFromStatue)
+                {
+                    npc.DropItem(mod.ItemType("IceBatSculpture"));
+                }
+            }
+            if (npc.type == mod.NPCType("WinterbornMelee") || npc.type == mod.NPCType("WinterbornMage"))
+            {
+                if (Main.rand.Next(150) == 1 && !npc.SpawnedFromStatue)
+                {
+                    npc.DropItem(mod.ItemType("WinterbornSculpture"));
+                }
+            }
+            if (npc.type == mod.NPCType("Wheezer") && closest.ZoneSnow)
+            {
+                if (Main.rand.Next(100) == 1 && !npc.SpawnedFromStatue)
+                {
+                    npc.DropItem(mod.ItemType("IceWheezerSculpture"));
+                }
+            }
             if (closest.GetSpiritPlayer().ZoneAsteroid && Main.rand.Next(50) == 0)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Blaster"));

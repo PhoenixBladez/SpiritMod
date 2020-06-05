@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Apostle's Garb");
-            Tooltip.SetDefault("Increases magic and ranged damage by 12%\nIncreases movement speed by 9%");
+            Tooltip.SetDefault("Increases magic and ranged damage by 8%\nIncreases movement speed by 9%");
 
         }
 
@@ -36,8 +36,8 @@ namespace SpiritMod.Items.Armor
 		}
         public override void UpdateEquip(Player player)
         {
-            player.magicDamage += .12f;
-            player.rangedDamage += .12f;
+            player.magicDamage += .08f;
+            player.rangedDamage += .08f;
             player.moveSpeed += 0.09f;
         }
         public override void AddRecipes()

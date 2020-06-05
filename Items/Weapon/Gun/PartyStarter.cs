@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Weapon.Gun
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Partystarter");
-			Tooltip.SetDefault("'Let's get this party started!'\nConverts bullets into VIP party bullets'");
+			Tooltip.SetDefault("'Let's get this party started!'\nConverts bullets into VIP party bullets");
 		}
 
 
@@ -22,8 +22,8 @@ namespace SpiritMod.Items.Weapon.Gun
             item.ranged = true;   
             item.width = 65;     
             item.height = 32;    
-            item.useTime = 60;
-            item.useAnimation = 60;
+            item.useTime = 50;
+            item.useAnimation = 50;
             item.useStyle = 5;    
             item.noMelee = true; 
             item.knockBack = 12;

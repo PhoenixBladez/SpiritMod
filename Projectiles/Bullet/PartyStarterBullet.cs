@@ -97,10 +97,8 @@ namespace SpiritMod.Projectiles.Bullet
             Main.PlaySound(SoundLoader.customSoundType, projectile.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Firework"));
             for (int i = 0; i < 3; i++)
             {
-                float rotation = (float)(Main.rand.Next(0, 361) * (Math.PI / 180));
-                Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
                 int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y,
-                    velocity.X, velocity.Y, mod.ProjectileType("PartyExplosives"), projectile.damage / 2, projectile.knockBack, projectile.owner);
+                    Main.rand.Next(-2, 2), Main.rand.Next(-2, 1), mod.ProjectileType("PartyExplosives"), projectile.damage / 2, projectile.knockBack, projectile.owner);
                 Main.projectile[proj].friendly = true;
                 Main.projectile[proj].hostile = false;
                 Main.projectile[proj].velocity *= 4f;

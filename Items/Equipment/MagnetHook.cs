@@ -12,6 +12,7 @@ namespace SpiritMod.Items.Equipment
 	{
 		public override void SetStaticDefaults() {
 			DisplayName.SetDefault("Magnet Hook");
+            Tooltip.SetDefault("Homes in on nearby blocks");
 		}
 
 		public override void SetDefaults() {

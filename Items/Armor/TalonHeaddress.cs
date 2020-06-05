@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Apostle's Headdress");
-			Tooltip.SetDefault("10% increased magic and ranged critical strike chance");
+			Tooltip.SetDefault("7% increased magic and ranged critical strike chance");
 		}
 
         public override void SetDefaults()
@@ -36,8 +36,8 @@ namespace SpiritMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.magicCrit += 10;
-            player.rangedCrit += 10;
+            player.magicCrit += 7;
+            player.rangedCrit += 7;
         }
         public override void AddRecipes()
         {

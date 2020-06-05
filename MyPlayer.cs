@@ -14,6 +14,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
 using SpiritMod.Projectiles;
+using SpiritMod.Effects;
 
 namespace SpiritMod
 {
@@ -265,6 +266,7 @@ namespace SpiritMod
         public bool hellSet;
         public bool bloodfireSet;
         public bool quickSilverSet;
+        public bool stellarSet;
         public bool magicshadowSet;
         public bool cryoChestplate;
         public bool cryoSet;
@@ -355,7 +357,7 @@ namespace SpiritMod
             bool reach = !Main.dayTime && ZoneReach && !reachBrooch;
             bool spirit = (player.ZoneOverworldHeight && ZoneSpirit);
 
-            bool region1 = ZoneSpirit && player.ZoneRockLayerHeight && player.position.Y / 16 > (Main.rockLayer + Main.maxTilesY - 300) / 2f; 
+            bool region1 = ZoneSpirit && player.ZoneRockLayerHeight && player.position.Y / 16 > (Main.rockLayer + Main.maxTilesY - 330) / 2f; 
             bool region2 = ZoneSpirit && player.position.Y / 16 >= Main.maxTilesY - 300;
 
             bool greenOcean = player.ZoneBeach && MyWorld.luminousType == 1 && MyWorld.luminousOcean;
@@ -363,6 +365,23 @@ namespace SpiritMod
             bool purpleOcean = player.ZoneBeach && MyWorld.luminousType == 3 && MyWorld.luminousOcean;
 
             bool blueMoon = ZoneBlueMoon && (player.ZoneOverworldHeight || player.ZoneSkyHeight);
+
+            if (ZoneSpirit && player.position.Y / 16 >= Main.maxTilesY - 300)
+            {
+                SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.2f); //0.4f is default
+                SpiritMod.glitchScreenShader.UseIntensity(0.004f);
+            }
+            else if (player.ZoneRockLayerHeight && player.position.Y / 16 > (Main.rockLayer + Main.maxTilesY - 330) / 2f && ZoneSpirit)
+            {
+                SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.1f); //0.4f is default
+                SpiritMod.glitchScreenShader.UseIntensity(0.0005f);
+            }
+            else
+            {
+                player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);
+                return;
+            }
+            player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
 
             player.ManageSpecialBiomeVisuals("SpiritMod:AshstormParticles", true);       
             player.ManageSpecialBiomeVisuals("SpiritMod:AuroraSky", showAurora);
@@ -621,6 +640,7 @@ namespace SpiritMod
             spiritSet = false;
             coralSet = false;
             ichorSet1 = false;
+            stellarSet = false;
             ichorSet2 = false;
             icySet = false;
             graniteSet = false;
@@ -1182,6 +1202,7 @@ namespace SpiritMod
 
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
+
             if (astralSet)
             {
                 if (crit)
@@ -1372,6 +1393,23 @@ namespace SpiritMod
         int Charger;
         public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
         {
+            if (stellarSet)
+            {
+                if (proj.minion)
+                {
+                    if (target.life <= 0)
+                    {
+                        player.AddBuff(mod.BuffType("StellarSpeed"), 300);
+                    }
+                }
+                if (!target.SpawnedFromStatue)
+                {
+                    if (proj.ranged && crit)
+                    {
+                        player.AddBuff(mod.BuffType("StellarMinionBonus"), 360);
+                    }
+                }
+            }
             if (shadowFang)
             {
                 if (target.life <= (int)target.lifeMax / 2 && Main.rand.Next(7) == 0)
@@ -2221,9 +2259,10 @@ namespace SpiritMod
                     ziplineCounter = 80;
                     ziplineActive = true;
                 }
-                float g = 0.15f;
+                player.noFallDmg = true;
+                float g = 0.18f;
                 ziplineCounter+=2;
-                 Dust.NewDustPerfect(new Vector2(player.position.X + Main.rand.Next(player.width), player.position.Y + player.height - Main.rand.Next(7)), 6, new Vector2(-ziplineX * Main.rand.Next(6),-ziplineY * Main.rand.Next(10)));
+                Dust.NewDustPerfect(new Vector2(player.position.X + Main.rand.Next(player.width), player.position.Y + player.height - Main.rand.Next(7)), 6, new Vector2(-ziplineX * Main.rand.Next(6),-ziplineY * Main.rand.Next(10)));
                 player.velocity = ziplineCounter * g * ziplineY * new Vector2(ziplineX,ziplineY); 
             }
             else if (ziplineCounter > 45)

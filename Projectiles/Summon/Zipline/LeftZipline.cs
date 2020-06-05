@@ -35,8 +35,14 @@ namespace SpiritMod.Projectiles.Summon.Zipline
 		int rightValue;
 		int distance = 9999;
 		bool stuck = false;
+        float alphaCounter;
 		public override bool PreAI()
 		{
+            alphaCounter += 0.04f;
+            if (!stuck)
+            {
+                projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+            }
 			projectile.timeLeft = 50;
 			rightValue = (int)projectile.ai[1];
 			if (rightValue < (double)Main.projectile.Length && rightValue != 0)
@@ -63,6 +69,11 @@ namespace SpiritMod.Projectiles.Summon.Zipline
 			}
 			return true;
 		}
+        public override void AI()
+        {
+            if (stuck)
+            DoDustEffect(projectile.Center, 18f);
+        }
 		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			if (chain && distance < 2000 && stuck)
@@ -74,11 +85,27 @@ namespace SpiritMod.Projectiles.Summon.Zipline
 				ProjectileExtras.DrawChain(projectile.whoAmI, other.Center,
 				"SpiritMod/Projectiles/Summon/Zipline/Zipline_Chain", false, 0, true, direction9.X, direction9.Y);
 			}
-		}	
-		
-		public override bool OnTileCollide(Vector2 oldVelocity)
-		{	
-			if (oldVelocity.X != projectile.velocity.X) //if its an X axis collision
+           
+        }
+        private void DoDustEffect(Vector2 position, float distance, float minSpeed = 2f, float maxSpeed = 3f, object follow = null)
+        {
+            float angle = Main.rand.NextFloat(-MathHelper.Pi, MathHelper.Pi);
+            Vector2 vec = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
+            Vector2 vel = vec * Main.rand.NextFloat(minSpeed, maxSpeed);
+
+            int dust = Dust.NewDust(position - vec * distance, 0, 0, 226);
+            Main.dust[dust].noGravity = true;
+            Main.dust[dust].scale *= .26f;
+            Main.dust[dust].velocity = vel;
+            Main.dust[dust].customData = follow;
+        }
+        public override bool OnTileCollide(Vector2 oldVelocity)
+		{
+            if (!stuck)
+            {
+                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 52);
+            }
+            if (oldVelocity.X != projectile.velocity.X) //if its an X axis collision
 				{
 					if (projectile.velocity.X > 0)
 					{

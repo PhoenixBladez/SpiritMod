@@ -41,7 +41,7 @@ namespace SpiritMod.Projectiles.Arrow
 			{
                 for (int i = 0; i < 40; i++)
                 {
-                    int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 223, 0f, -2f, 0, default(Color), 1.4f);
+                    int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 223, 0f, -2f, 0, default(Color), .6f);
                     Main.dust[num].noGravity = true;
                     Dust expr_62_cp_0 = Main.dust[num];
                     expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
