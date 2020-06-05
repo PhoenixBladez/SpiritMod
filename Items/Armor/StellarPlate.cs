@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Stellar Plate");
-            Tooltip.SetDefault("8% increased ranged damage and critical strike chace/nReduces ammo consumption by 25%");
+            Tooltip.SetDefault("Increases minion damage by 10%\nIncreases your maximum number of minions by 1");
 
         }
         public override void SetDefaults()
@@ -20,14 +20,13 @@ namespace SpiritMod.Items.Armor
             item.height = 30;
             item.value = Item.sellPrice(0, 1, 0, 0);
             item.rare = 5;
-            item.defense = 14;
+            item.defense = 12;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.rangedDamage += 0.08f;
-            player.rangedCrit += 08;
-			player.ammoCost75 = true;
+            player.minionDamage += 0.1f;
+            player.maxMinions += 1;
         }
         
 		public override void AddRecipes()

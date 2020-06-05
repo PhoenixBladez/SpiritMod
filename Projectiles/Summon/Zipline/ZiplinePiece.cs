@@ -47,9 +47,13 @@ namespace SpiritMod.Projectiles.Summon.Zipline
 				player.GetSpiritPlayer().ziplineY = projectile.ai[1];
 				//player.velocity.X = projectile.ai[0];
 				//player.velocity.Y = projectile.ai[1];
-				if (Main.rand.Next(5) == 1)
+				if (Main.rand.Next(4) == 1)
 					player.position.Y --;
-			}
+                if (Main.rand.Next(10) == 0)
+                {
+                    Main.PlaySound(SoundID.Item13, player.position);
+                }
+            }
 		}
     }
 }

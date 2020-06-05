@@ -24,7 +24,7 @@ public class DuskLance : ModItem
             item.noMelee = true;
             item.useAnimation = 28;
             item.useTime = 28;
-            item.shootSpeed = 6f;
+            item.shootSpeed = 5.5f;
             item.knockBack = 6f;
             item.damage = 38;
             item.value = Item.sellPrice(0, 3, 60, 0);

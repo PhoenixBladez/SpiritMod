@@ -73,7 +73,7 @@ namespace SpiritMod.Tiles.Furniture
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 32, 32, ItemID.Chest);
+			Item.NewItem(i * 16, j * 16, 32, 32, ItemID.FleshChest);
 			Chest.DestroyChest(i, j);
 		}
 		public override void SetDrawPositions (int i, int j, ref int width, ref int offsetY, ref int height)

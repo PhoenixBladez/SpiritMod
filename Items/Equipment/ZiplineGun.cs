@@ -17,8 +17,8 @@ namespace SpiritMod.Items.Equipment
 		int left = 0; 
 		public override void SetStaticDefaults() 
 		{
-			DisplayName.SetDefault("Rail Railgun"); 
-			Tooltip.SetDefault("Left click and right click to create a rail you can slide down");
+			DisplayName.SetDefault("Rail-gun"); 
+			Tooltip.SetDefault("Left and right click to shoot tethers that latch to tiles\nThese tethers are connected by a rail\nHold UP to slide down the rail");
 		}
 
 		 public override void SetDefaults()

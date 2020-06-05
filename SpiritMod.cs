@@ -39,6 +39,8 @@ namespace SpiritMod
         public static AdventurerQuestHandler AdventurerQuests;
         public static Effect auroraEffect;
         public static TrailManager TrailManager;
+        public static Effect glitchEffect;
+        public static GlitchScreenShader glitchScreenShader;
         public static Texture2D noise;
         public static Texture2D MoonTexture;
         public const string EMPTY_TEXTURE = "SpiritMod/Empty";
@@ -202,7 +204,7 @@ namespace SpiritMod
                 {
                     music = GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer2");
                 }
-                if (player.position.Y / 16 >= Main.maxTilesY - 300)
+                if (player.position.Y / 16 >= Main.maxTilesY - 330)
                 {
                     music = GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer3");
                 }
@@ -378,11 +380,16 @@ namespace SpiritMod
                 auroraEffect = GetEffect("Effects/aurora");
                 noise = GetTexture("Textures/noise");
                 noise = GetTexture("Textures/BlueMoonTexture");
+
+                glitchEffect = GetEffect("Effects/glitch");
+                glitchScreenShader = new GlitchScreenShader(glitchEffect);
+                Filters.Scene["SpiritMod:Glitch"] = new Filter(glitchScreenShader, EffectPriority.High);
+
                 SkyManager.Instance["SpiritMod:AuroraSky"] = new AuroraSky();
                 Filters.Scene["SpiritMod:AuroraSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
                 Terraria.Graphics.Effects.Overlays.Scene["SpiritMod:AuroraSky"] = new AuroraOverlay();
 
-                Filters.Scene["SpiritMod:BlueMoonSky"] = new Filter(new ScreenShaderData("FilterMiniTower").UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.High);
+                Filters.Scene["SpiritMod:BlueMoonSky"] = new Filter(new ScreenShaderData("FilterMiniTower").UseColor(0.1f, 0.2f, 0.5f).UseOpacity(0.53f), EffectPriority.High);
                 SkyManager.Instance["SpiritMod:BlueMoonSky"] = new BlueMoonSky();
 
                 SkyManager.Instance["SpiritMod:MeteorSky"] = new MeteorSky();
@@ -411,6 +418,9 @@ namespace SpiritMod
 
                 Filters.Scene["SpiritMod:Atlas"] = new Filter(new AtlasScreenShaderData("FilterMiniTower").UseColor(0.5f, 0.5f, 0.5f).UseOpacity(0.6f), EffectPriority.VeryHigh);
                 SkyManager.Instance["SpiritMod:Atlas"] = new AtlasSky();
+
+                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Asteroids"), ItemType("AsteroidBox"), TileType("AsteroidBox"));
+                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Starplate"), ItemType("StarplateBox"), TileType("StarplateBox"));
             }
         }
 
@@ -541,6 +551,8 @@ namespace SpiritMod
             instance = null;
             SpiritGlowmask.Unload();
             StructureLoader.Unload();
+            glitchEffect = null;
+            glitchScreenShader = null;
             TrailManager = null;
         }
 

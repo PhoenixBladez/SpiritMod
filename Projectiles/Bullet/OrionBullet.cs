@@ -51,6 +51,9 @@ namespace SpiritMod.Projectiles.Bullet
 			}
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 		}
-
+        public override void Kill(int timeLeft)
+        {
+            Main.PlaySound(3, projectile.position, 3);
+        }
 	}
 }

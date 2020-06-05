@@ -3712,7 +3712,16 @@ namespace SpiritMod
                                 GenerateCampsite();
                             }
                         }
-
+                        if (Main.rand.Next(2) == 0)
+                        {
+                            GenerateBanditHideout();
+                            gennedBandits = true;
+                        }
+                        else
+                        {
+                            GenerateTower();
+                            gennedTower = true;
+                        }
                         int num584 = 1;
                         if (Main.maxTilesX == 4200)
                         {
@@ -3803,16 +3812,6 @@ namespace SpiritMod
                         else
                         {
                             GenerateCorruptHole();
-                        }
-                        if (Main.rand.Next(2) == 0)
-                        {
-                            GenerateBanditHideout();
-                            gennedBandits = true;
-                        }
-                        else
-                        {
-                            GenerateTower();
-                            gennedTower = true;
                         }
                         GenerateZiggurat();
                         int[,] BoneIslandShape = new int[,]

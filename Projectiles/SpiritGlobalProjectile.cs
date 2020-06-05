@@ -54,6 +54,14 @@ namespace SpiritMod.Projectiles
 
         public override bool PreDraw(Projectile projectile, SpriteBatch spriteBatch, Color lightColor)
         {
+            Player player = Main.player[projectile.owner];
+            MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
+            if (projectile.minion && projectile.owner == Main.myPlayer && modPlayer.stellarSet && player.HasBuff(mod.BuffType("StellarMinionBonus")))
+            {
+                float sineAdd = (float)Math.Sin(alphaCounter) + 3;
+                Main.spriteBatch.Draw(SpiritMod.instance.GetTexture("Effects/Masks/Extra_49"), (projectile.Center - Main.screenPosition), null, new Color((int)(20f * sineAdd), (int)(16f * sineAdd), (int)(4f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + .25f), SpriteEffects.None, 0f);
+
+            }
             if (throwerGloveBoost && projectile.thrown)
             {
                 Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
@@ -67,8 +75,15 @@ namespace SpiritMod.Projectiles
             }
             return base.PreDraw(projectile, spriteBatch, lightColor);
         }
+        float alphaCounter;
         public override bool PreAI(Projectile projectile)
-		{
+        {
+            Player player = Main.player[projectile.owner];
+            MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
+            if (projectile.minion && projectile.owner == Main.myPlayer && modPlayer.stellarSet && player.HasBuff(mod.BuffType("StellarMinionBonus")))
+            {
+                alphaCounter += .04f;
+            }
             if (throwerGloveBoost)
             {
                 projectile.penetrate = 2;
@@ -154,8 +169,6 @@ namespace SpiritMod.Projectiles
 				}
 			}
 
-			Player player = Main.player[projectile.owner];
-			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (modPlayer.anglure)
 			{
 				if (projectile.ranged)
@@ -184,6 +197,7 @@ namespace SpiritMod.Projectiles
 				Vector2 vector2_3 = vector2_2 * 34f;
 				Main.dust[dust].position = projectile.Center - vector2_3;
 			}
+
 			if (HeroBow3 == true)
 			{
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;

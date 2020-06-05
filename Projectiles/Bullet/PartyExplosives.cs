@@ -26,8 +26,8 @@ namespace SpiritMod.Projectiles.Bullet
             projectile.penetrate = 1;
             projectile.timeLeft = 90;
             projectile.alpha = 255;
-            projectile.height = 16;
-            projectile.width = 2;
+            projectile.height = 8;
+            projectile.width = 8;
             aiType = ProjectileID.Bullet;
 
         }
@@ -88,7 +88,7 @@ namespace SpiritMod.Projectiles.Bullet
         {
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
 
-            ProjectileExtras.Explode(projectile.whoAmI, 220, 220,
+            ProjectileExtras.Explode(projectile.whoAmI, 120, 120,
                 delegate
                 {
                    for (int i = 0; i < 10; i++)

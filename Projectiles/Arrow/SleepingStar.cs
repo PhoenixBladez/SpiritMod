@@ -41,7 +41,7 @@ namespace SpiritMod.Projectiles.Arrow
 			{
                 for (int i = 0; i < 40; i++)
                 {
-                    int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 180, 0f, -2f, 0, default(Color), 2f);
+                    int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 180, 0f, -2f, 0, default(Color), 1.2f);
                     Main.dust[num].noGravity = true;
                     Dust expr_62_cp_0 = Main.dust[num];
                     expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
@@ -49,7 +49,7 @@ namespace SpiritMod.Projectiles.Arrow
                     expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
                     if (Main.dust[num].position != projectile.Center)
                     {
-                        Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 4f;
+                        Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 2f;
                     }
                 }
 

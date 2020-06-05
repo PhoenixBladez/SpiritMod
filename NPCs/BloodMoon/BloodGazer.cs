@@ -52,7 +52,23 @@ namespace SpiritMod.NPCs.BloodMoon
 				moveSpeedY++;
 
 			npc.velocity.Y = moveSpeedY * 0.1f;
-		}
+            npc.ai[0] += 4f;
+            if (npc.ai[0] > 96f)
+            {
+                npc.ai[0] = 0f;
+                int num1169 = (int)(npc.position.X + 10f + (float)Main.rand.Next(npc.width - 20));
+                int num1170 = (int)(npc.position.Y + (float)npc.height + 4f);
+                int num184 = 26;
+                if (Main.expertMode)
+                {
+                    num184 = 18;
+                }
+                int bloodproj;
+                bloodproj = Main.rand.Next(new int[] { mod.ProjectileType("GazerEye"), mod.ProjectileType("GazerEye1")});
+                Projectile.NewProjectile((float)num1169, (float)num1170, 0f, 5f, bloodproj, num184, 0f, Main.myPlayer, 0f, 0f);
+                return;
+            }
+        }
         public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.life <= 0 || npc.life >= 0)
@@ -67,6 +83,9 @@ namespace SpiritMod.NPCs.BloodMoon
 
             if (npc.life <= 0)
             {
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gazer/Gazer1"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gazer/Gazer2"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gazer/Gazer3"), 1f);
                 int d = 5;
                 for (int k = 0; k < 25; k++)
                 {

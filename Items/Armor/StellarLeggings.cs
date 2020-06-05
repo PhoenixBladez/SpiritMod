@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Stellar Leggings");
-            Tooltip.SetDefault("12% increased movement speed and 8% increased ranged damage");
+            Tooltip.SetDefault("Increases minion knocback by 20%\nIncreases flight time by 15%");
 
         }
 
@@ -27,8 +27,8 @@ namespace SpiritMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.moveSpeed += 0.12f;
-			player.rangedDamage += 0.08f;
+			player.minionKB += 0.15f;
+            player.wingTimeMax += player.wingTimeMax + (int)(player.wingTimeMax *.15f);
         } 
         
         public override void AddRecipes()
