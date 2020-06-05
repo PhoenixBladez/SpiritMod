@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
@@ -23,9 +24,15 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.magic = true;
 			projectile.ignoreWater = true;
 		}
-
+		float alphaCounter = 0;
+		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		{	
+			float sineAdd = (float)Math.Sin(alphaCounter) + 3;
+			Main.spriteBatch.Draw(SpiritMod.instance.GetTexture("Effects/Masks/Extra_49"), (projectile.Center - Main.screenPosition), null, new Color((int)(2.5f * sineAdd), (int)(5.5f * sineAdd), (int)(6f * sineAdd), 0), 0f, new Vector2(50,50), 0.25f * (sineAdd + 1), SpriteEffects.None, 0f);
+		}
 		public override bool PreAI()
 		{
+			alphaCounter+=0.04f;
 			Player player = Main.player[projectile.owner];
 			float num = MathHelper.PiOver2;
 			Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);

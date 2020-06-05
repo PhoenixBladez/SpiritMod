@@ -491,7 +491,7 @@ namespace SpiritMod
 				int CmaxTries = 20000;
 				int Ctries = 0;
 				int Csuccesses = 0;
-				while (Ctries < CmaxTries && Csuccesses < 3)
+				while (Ctries < CmaxTries && Csuccesses < 4)
 					{
 						x = i + WorldGen.genRand.Next(0-width, width);
 						y = j + WorldGen.genRand.Next(0-height, height);
@@ -4816,7 +4816,7 @@ namespace SpiritMod
 			if (Main.hardMode && !rockCandy)
 			{
 				rockCandy = true;
-				Main.NewText("ROCK CANDAYYYYYYYYYYY", Color.Orange.R, Color.Orange.G, Color.Orange.B);
+				//Main.NewText("ROCK CANDAYYYYYYYYYYY", Color.Orange.R, Color.Orange.G, Color.Orange.B);
 				for (int C = 0; C < Main.maxTilesX * 9; C++)
                     {
 						{

@@ -49,6 +49,27 @@ namespace SpiritMod.Items.Weapon.Bow
                     Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ProjectileID.FallingStar, damage, knockBack, player.whoAmI, 0f, 0f);
                 }
                 charger = 0;
+                Projectile projectile = Main.projectile[p];
+                 for (int k = 0; k < 30; k++)
+                {
+					Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
+					Vector2 offset = mouse - player.position;
+					offset.Normalize();
+					offset*= 20f;
+                    int dust = Dust.NewDust(projectile.Center + offset, projectile.width, projectile.height, 242);
+					
+                    Main.dust[dust].velocity *= -1f;
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].scale = 1.25f;
+            //        Main.dust[dust].scale *= 2f;
+                    Vector2 vector2_1 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                    vector2_1.Normalize();
+                    Vector2 vector2_2 = vector2_1 * ((float)Main.rand.Next(50, 100) * 0.04f);
+                    Main.dust[dust].velocity = vector2_2;
+                    vector2_2.Normalize();
+                    Vector2 vector2_3 = vector2_2 * 45f;
+                    Main.dust[dust].position = (projectile.Center + offset) - vector2_3;
+                }
             }
             else
             {

@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using System;
+using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.Asteroid
@@ -12,7 +13,8 @@ namespace SpiritMod.NPCs.Asteroid
 			DisplayName.SetDefault("Starplate Spider");
 			Main.npcFrameCount[npc.type] = 4;
 		}
-
+		int jumpCounter = 0;
+		bool jump = false;
 		public override void SetDefaults()
 		{
 			npc.width = 54;
@@ -21,9 +23,7 @@ namespace SpiritMod.NPCs.Asteroid
 			npc.defense = 9;
 			npc.lifeMax = 201;
 			npc.value = 860f;
-			npc.knockBackResist = 0.95f;
-			npc.aiStyle = 3;
-			aiType = NPCID.AngryBones;
+		//	npc.knockBackResist = 0.95f;
 		}
 
 		public override void NPCLoot()
@@ -43,7 +43,10 @@ namespace SpiritMod.NPCs.Asteroid
         }
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.25f;
+			if (jump)
+			{
+				npc.frameCounter += 0.25f;
+			}
 			npc.frameCounter %= Main.npcFrameCount[npc.type];
 			int frame = (int)npc.frameCounter;
 			npc.frame.Y = frame * frameHeight;
@@ -53,10 +56,41 @@ namespace SpiritMod.NPCs.Asteroid
 			npc.spriteDirection = npc.direction;
 			//npc.targetClosest();
 			Player target = Main.player[npc.target];
-			if (target.position.Y - npc.position.Y < -300)
+			if (jumpCounter % 120 == 0)
+			{
+				jumpCounter++;
+				jump = true;
+				Vector2 JumpDir = new Vector2(Main.rand.Next(40),Main.rand.Next(40));
+				int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
+				if (distance <= 540)
+				{
+					JumpDir = (target.Center - new Vector2(0,100)) - npc.Center;
+				}
+				JumpDir.Normalize();
+				JumpDir*= 8;
+				npc.velocity = JumpDir;
+				 npc.noGravity = true;
+			}
+
+			if (jump)
+			{
+				if (npc.velocity.X == 0 || npc.velocity.Y == 0)
+				{
+					jump = false;
+					 npc.noGravity = false;
+				}
+			}
+			else
+			{
+				jumpCounter++;
+				npc.velocity = Vector2.Zero;
+			}
+			if (target.position.Y - npc.position.Y < -400)
 			{
 				Teleport();
+				npc.noGravity = false;
 			}
+
 		}
 		public void Teleport()
 		{

@@ -82,7 +82,7 @@ namespace SpiritMod.Projectiles
 			projectile.rotation = projectile.velocity.ToRotation() + (float)(Math.PI / 2);
 
 			NPC target = (Main.npc[(int)projectile.ai[1]] ?? new NPC()); //our target
-			if (target.active && projectile.Distance(target.Center) / 16 < range && timer > 100)
+			if (target.active && !target.friendly && projectile.Distance(target.Center) / 16 < range && timer > 100)
 			{
 				Vector2 direction = target.Center - projectile.Center;
 				direction.Normalize();

@@ -52,7 +52,7 @@ namespace SpiritMod.Projectiles.Summon
 			{
 				NPC npc = Main.npc[i];
 				//if npc is a valid target (active, not friendly, and not a critter)
-				if (npc.active && npc.CanBeChasedBy(projectile))
+				if (npc.active && npc.CanBeChasedBy(projectile) && !npc.friendly)
 				{
 					//if npc is within 50 blocks
 					float dist = projectile.Distance(npc.Center);
@@ -73,7 +73,7 @@ namespace SpiritMod.Projectiles.Summon
 			NPC target = (Main.npc[(int)projectile.ai[1]] ?? new NPC()); //our target
 																		 //firing
 			projectile.ai[0]++;
-			if (projectile.ai[0] >= 30 && target.active && projectile.Distance(target.Center) / 16 < range)
+			if (projectile.ai[0] >= 30 && target.active && !target.friendly && projectile.Distance(target.Center) / 16 < range)
 			{
                 projectile.ai[0] = 0;
                 Vector2 ShootArea = new Vector2(projectile.Center.X, projectile.Center.Y - 13);

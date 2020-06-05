@@ -21,8 +21,8 @@ namespace SpiritMod.Items.Weapon.Swung
         {
             item.damage = 26;            
             item.melee = true;            
-            item.width = 60;              
-            item.height = 60;             
+            item.width = 40;              
+            item.height = 40;             
             item.useTime = 19;           
             item.useAnimation = 19;     
             item.useStyle = 1;        
@@ -55,6 +55,19 @@ namespace SpiritMod.Items.Weapon.Swung
             if (Main.rand.Next(5) == 0)
             {
                 int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 5);
+                Main.dust[dust].noGravity = true;
+            }
+        }
+         public override void UseStyle(Player player)
+        {
+            float cosRot = (float)Math.Cos(player.itemRotation - 0.78f * player.direction * player.gravDir);
+            float sinRot = (float)Math.Sin(player.itemRotation - 0.78f * player.direction * player.gravDir);
+            for (int i = 0; i < 1; i++)
+            {
+                float length = (item.width * 1.2f - i * item.width / 9) * item.scale + 16; //length to base + arm displacement
+                int dust = Dust.NewDust(new Vector2((float)(player.itemLocation.X + length * cosRot * player.direction), (float)(player.itemLocation.Y + length * sinRot * player.direction)), 0, 0, 5, player.velocity.X * 0.9f, player.velocity.Y * 0.9f, 100, Color.Transparent, 1.8f);
+                Main.dust[dust].velocity *= 0f;
+                 Main.dust[dust].scale = 0.5f;
                 Main.dust[dust].noGravity = true;
             }
         }
