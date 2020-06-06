@@ -2256,14 +2256,15 @@ namespace SpiritMod
             {
                 if (!ziplineActive)
                 {
-                    ziplineCounter = 80;
+                    ziplineCounter = 45;
                     ziplineActive = true;
                 }
                 player.noFallDmg = true;
                 float g = 0.18f;
-                ziplineCounter+=2;
+                if (ziplineCounter * g * ziplineY < 20 && ziplineCounter < 400)
+                    ziplineCounter+=2;
                 Dust.NewDustPerfect(new Vector2(player.position.X + Main.rand.Next(player.width), player.position.Y + player.height - Main.rand.Next(7)), 6, new Vector2(-ziplineX * Main.rand.Next(6),-ziplineY * Main.rand.Next(10)));
-                player.velocity = ziplineCounter * g * ziplineY * new Vector2(ziplineX,ziplineY); 
+                player.velocity = MathHelper.Max(ziplineCounter * g * ziplineY, 5) * new Vector2(ziplineX,ziplineY); 
             }
             else if (ziplineCounter > 45)
             {
