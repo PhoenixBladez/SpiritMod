@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Armor
 			item.height = 28;
             item.useTime = 19;
 			item.useAnimation = 19;
-			item.useStyle = 1;
+			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.noMelee = true; //so the item's animation doesn't do damage
 			item.knockBack = 5;
             item.value = Item.sellPrice(0, 2, 0, 0);

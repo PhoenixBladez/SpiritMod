@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Weapon.Returning
 			item.useTime = 24;
 			item.useAnimation = 24;
             item.noUseGraphic = true;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 5;
             item.value = Terraria.Item.sellPrice(0, 0, 20, 0);
             item.rare = 1;

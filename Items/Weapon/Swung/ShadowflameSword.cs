@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.rare = 6;
             item.damage = 44;
             item.knockBack = 6;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = item.useAnimation = 20;
             item.melee = true;
             item.shoot = mod.ProjectileType("ShadowPulse1");

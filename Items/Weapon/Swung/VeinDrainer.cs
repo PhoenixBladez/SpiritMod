@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.height = 72;             
             item.useTime = 28;           
             item.useAnimation = 28;     
-            item.useStyle = 1;        
+            item.useStyle = ItemUseStyleID.SwingThrow;        
             item.knockBack = 4;
             item.shoot = mod.ProjectileType("Moondrainer");
             item.rare = 5;

@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.useTime = 23;
             item.noUseGraphic = false;
             item.useAnimation = 23;     
-            item.useStyle = 1;        
+            item.useStyle = ItemUseStyleID.SwingThrow;        
             item.knockBack = 5;
             item.value = Terraria.Item.sellPrice(0, 5, 0, 0);
             item.shoot = mod.ProjectileType("MagalaShield");
@@ -71,7 +71,7 @@ namespace SpiritMod.Items.Weapon.Swung
                 item.useAnimation = 24;
                 item.shoot = 0;
                 item.knockBack = 5;
-                item.useStyle = 1;
+                item.useStyle = ItemUseStyleID.SwingThrow;
                 item.autoReuse = true;
                 item.shootSpeed = 0f;
             }

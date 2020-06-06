@@ -17,7 +17,7 @@ namespace SpiritMod.Items.DonatorItems.MoonMan
 		{
 			item.width = 42;
 			item.height = 42;
-			item.useStyle = 1;
+			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.UseSound = SoundID.Item1;
 
 			item.value = 150000;

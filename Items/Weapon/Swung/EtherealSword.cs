@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.height = 42;             
             item.useTime = 17;           
             item.useAnimation = 17;     
-            item.useStyle = 1;        
+            item.useStyle = ItemUseStyleID.SwingThrow;        
             item.knockBack = 5;      
             item.value = 1000;        
             item.rare = 5;

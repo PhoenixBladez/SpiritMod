@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.maxStack = 999;
             item.damage = 72;
             item.knockBack = 5;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = item.useAnimation = 13;
             item.value = Terraria.Item.sellPrice(0, 0, 3, 0);
             item.ranged = true;

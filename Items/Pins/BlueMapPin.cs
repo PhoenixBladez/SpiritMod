@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Pins
             item.height = 32;
             item.useTime = 25;
             item.useAnimation = 25;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 5;
             item.value = 20000;

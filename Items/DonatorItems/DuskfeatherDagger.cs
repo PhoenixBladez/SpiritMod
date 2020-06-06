@@ -22,7 +22,7 @@ namespace SpiritMod.Items.DonatorItems
 		{
 			item.width = 42;
 			item.height = 42;
-			item.useStyle = 1;
+			item.useStyle = ItemUseStyleID.SwingThrow;
 
 			item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
 			item.rare = 3;
@@ -69,7 +69,7 @@ namespace SpiritMod.Items.DonatorItems
 			{
 				if (player.ownedProjectileCounts[Projectiles.DonatorItems.DuskfeatherBlade._type] >= 8)
 					Projectiles.DonatorItems.DuskfeatherBlade.AttractOldestBlade(player);
-				item.useStyle = 1;
+				item.useStyle = ItemUseStyleID.SwingThrow;
 				item.noUseGraphic = true;
 				item.UseSound = SoundID.Item1;
 			}

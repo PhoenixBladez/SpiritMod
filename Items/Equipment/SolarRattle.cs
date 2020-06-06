@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Equipment
 			item.value = Item.buyPrice(0, 30, 0, 0);
 			item.rare = 9;
 
-			item.useStyle = 1;
+			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = 20;
 			item.useAnimation = 20;
 

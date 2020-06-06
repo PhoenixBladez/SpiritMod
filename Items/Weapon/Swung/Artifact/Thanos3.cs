@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 			item.height = 44;
 			item.useTime = 20;
 			item.useAnimation = 20;
-			item.useStyle = 1;
+			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 6;
 			item.value = Item.sellPrice(0, 8, 0, 50);
 			item.shoot = mod.ProjectileType("Thanos3Proj");

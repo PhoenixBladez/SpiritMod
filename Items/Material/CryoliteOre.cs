@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Material
 
             item.maxStack = 999;
 
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 10;
             item.useAnimation = 15;
             item.rare = 3;

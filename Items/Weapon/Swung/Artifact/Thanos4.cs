@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 			item.height = 50;
 			item.useTime = 15;
 			item.useAnimation = 15;
-			item.useStyle = 1;
+			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 8;
 			item.value = Item.sellPrice(0, 11, 0, 50);
 			item.shoot = mod.ProjectileType("Thanos4Proj");

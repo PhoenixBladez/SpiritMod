@@ -18,7 +18,7 @@ namespace SpiritMod.Items.DonatorItems
 		{
 			item.width = 50;
 			item.height = 48;
-			item.useStyle = 1;
+			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.UseSound = SoundID.Item1;
 
 			item.value = Item.sellPrice(0,11, 50, 0);

@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Weapon.Returning
 			item.useTime = 24;
 			item.useAnimation = 24;
             item.noUseGraphic = true;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 3;
             item.value = Terraria.Item.buyPrice(0, 1, 70, 0);
             item.rare = 2;

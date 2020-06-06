@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Weapon.Thrown.Artifact
 
         public override void SetDefaults()
         {
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.width = 48;
             item.height = 52;
             item.noUseGraphic = true;

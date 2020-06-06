@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Halloween.SpookySet
 			item.useTime = 28;
 			item.useAnimation = 25;
             item.noUseGraphic = true;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 2;
             item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
             item.rare = 8;

@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Consumable
             item.width = 20;
             item.height = 20;
             item.rare  = 2;
-			item.useStyle = 1;
+			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.createTile = mod.TileType("ReachCrate_Tile");
             item.maxStack = 999;
 			item.autoReuse = true;

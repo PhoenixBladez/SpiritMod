@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.height = 64;
             item.useTime = 36;
             item.useAnimation = 36;     
-            item.useStyle = 1;        
+            item.useStyle = ItemUseStyleID.SwingThrow;        
             item.knockBack = 15;
             item.value = Terraria.Item.sellPrice(0, 10, 0, 0);
             item.shoot = mod.ProjectileType("ShadowBlast");

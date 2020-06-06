@@ -24,7 +24,7 @@ namespace SpiritMod.Items.DonatorItems
             item.mana = 30;
             item.damage = 85;
             item.knockBack = 1;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 15;
             item.useAnimation = 15;
             item.summon = true;

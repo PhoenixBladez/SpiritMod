@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 			item.height = 18;
 			item.useTime = 20;
             item.useAnimation = 60;
-			item.useStyle = 1;
+			item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = item.useAnimation = 24;
             item.melee = true;
             item.noMelee = true;

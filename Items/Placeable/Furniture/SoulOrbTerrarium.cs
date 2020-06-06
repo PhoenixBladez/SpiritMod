@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Placeable.Furniture
 
             item.maxStack = 99;
 
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = 15;
             item.useAnimation = 15;
 

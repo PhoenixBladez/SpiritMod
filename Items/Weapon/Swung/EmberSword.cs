@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.melee = true;
 			item.width = 38;
 			item.height = 38;
-			item.useStyle = 1;
+			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 5;
 			item.value = Item.sellPrice(0, 2, 0, 0);
 			item.rare = 5;

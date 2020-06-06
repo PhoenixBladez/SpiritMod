@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Tool
             item.pick = 85;
             item.damage = 20;
             item.knockBack = 2;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 16;
             item.useAnimation = 18;
             item.melee = true;

@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Weapon.Summon
             item.height = 48;
             item.useTime = 37;
             item.useAnimation = 26;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 1;
             item.value = Item.buyPrice(0, 2, 0, 0);

@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Material
         public override void SetDefaults()
         {
 
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 10;
             item.useAnimation = 15;
             item.width = 24;

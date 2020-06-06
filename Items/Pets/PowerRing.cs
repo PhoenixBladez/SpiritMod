@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Pets
 		{
 
 			item.damage = 0;
-			item.useStyle = 1;
+			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.shoot = mod.ProjectileType("Lantern");
 			item.width = 16;
 			item.height = 30;

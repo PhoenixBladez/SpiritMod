@@ -28,7 +28,7 @@ namespace SpiritMod.Items.DonatorItems
             item.height = 50;             
             item.useTime = 19;           
             item.useAnimation = 19;     
-            item.useStyle = 1;        
+            item.useStyle = ItemUseStyleID.SwingThrow;        
             item.knockBack = 6;            
             item.rare = 3;
             item.UseSound = SoundID.Item1;         

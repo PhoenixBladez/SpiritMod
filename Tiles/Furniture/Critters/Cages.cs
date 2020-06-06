@@ -23,7 +23,7 @@ namespace SpiritMod.Tiles.Furniture.Critters
 
             item.maxStack = 999;
 
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 15;
             item.useAnimation = 15;
 
@@ -104,7 +104,7 @@ namespace SpiritMod.Tiles.Furniture.Critters
 
             item.maxStack = 999;
 
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 15;
             item.useAnimation = 15;
 
@@ -180,7 +180,7 @@ namespace SpiritMod.Tiles.Furniture.Critters
 
             item.maxStack = 99;
 
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 10;
             item.useAnimation = 15;
 
@@ -255,7 +255,7 @@ namespace SpiritMod.Tiles.Furniture.Critters
 
             item.maxStack = 99;
 
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 10;
             item.useAnimation = 15;
 

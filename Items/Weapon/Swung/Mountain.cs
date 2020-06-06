@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.height = 58;
             item.useTime = 22;
             item.useAnimation = 22;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 7;
             item.value = Terraria.Item.sellPrice(0, 8, 0, 0);
             item.rare = 9;

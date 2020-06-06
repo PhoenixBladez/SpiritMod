@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 			item.height = 40;
 			item.useTime = 16;
 			item.useAnimation = 16;
-			item.useStyle = 1;
+			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 6;
 			item.value = Item.sellPrice(0, 9, 0, 50);
 			item.shoot = mod.ProjectileType("DeathWind3Proj");

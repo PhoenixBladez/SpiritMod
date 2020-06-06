@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Tool
             item.damage = 30;
             item.knockBack = 6;
 
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 24;
             item.useAnimation = 24;
 

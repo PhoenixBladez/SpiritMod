@@ -27,7 +27,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
             item.height = 40;
             item.useTime = 23;
             item.useAnimation = 23;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.autoReuse = false;
             item.knockBack = 4;
             item.value = Item.sellPrice(0, 5, 0, 0);

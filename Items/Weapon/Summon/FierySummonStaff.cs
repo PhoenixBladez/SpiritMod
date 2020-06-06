@@ -33,7 +33,7 @@ public class FierySummonStaff : ModItem
             item.height = 38;
             item.useTime = 36;
             item.useAnimation = 36;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true; //so the item's animation doesn't do damage
             item.knockBack = 1.25f;
             item.buffType = mod.BuffType("LavaRockSummon");

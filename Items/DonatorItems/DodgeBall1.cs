@@ -24,7 +24,7 @@ namespace SpiritMod.Items.DonatorItems
             item.useTime = 30;
             item.useAnimation = 30;
             item.noUseGraphic = true;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 9;
             item.value = 4000;
             item.rare = 2;

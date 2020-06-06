@@ -22,7 +22,7 @@ namespace SpiritMod.Items.DonatorItems
             item.melee = true;
             item.width = 48;
             item.height = 48;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 7;
             item.value = 25700;
             item.rare = 4;

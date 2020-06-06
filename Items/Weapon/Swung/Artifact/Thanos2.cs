@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 			item.height = 42;
 			item.useTime = 21;
 			item.useAnimation = 21;
-			item.useStyle = 1;
+			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 6;
 			item.value = Terraria.Item.sellPrice(0, 5, 0, 50);
 			item.shoot = mod.ProjectileType("Thanos2Proj");

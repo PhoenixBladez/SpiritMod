@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.autoReuse = true;			
             item.useTime = 15;           
             item.useAnimation = 15;     
-            item.useStyle = 1;        
+            item.useStyle = ItemUseStyleID.SwingThrow;        
             item.knockBack = 6;
             item.value = Item.sellPrice(0, 1, 20, 0);
             item.rare = 4;
@@ -86,7 +86,7 @@ namespace SpiritMod.Items.Weapon.Swung
                 item.useAnimation = 25;
                 item.shoot = 0;
                 item.knockBack = 5;
-                item.useStyle = 1;
+                item.useStyle = ItemUseStyleID.SwingThrow;
                 item.shootSpeed = 0f;
             }
             if (player.ownedProjectileCounts[item.shoot] > 0)

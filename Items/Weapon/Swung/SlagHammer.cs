@@ -62,7 +62,7 @@ namespace SpiritMod.Items.Weapon.Swung
             }
             if (player.altFunctionUse == 2)
             {
-                item.useStyle = 1;
+                item.useStyle = ItemUseStyleID.SwingThrow;
                 item.shoot = mod.ProjectileType("SlagHammerProjReturning");
             }
             else

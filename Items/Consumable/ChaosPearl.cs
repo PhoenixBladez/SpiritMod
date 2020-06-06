@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Consumable
             //item.crit = 4;
             item.damage = 0;
            // item.knockBack = 3;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = item.useAnimation = 18;
           //  item.thrown = true;
             item.noMelee = true;

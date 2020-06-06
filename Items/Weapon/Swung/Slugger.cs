@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.height = 44;
             item.useTime = 47;
             item.useAnimation = 47;     
-            item.useStyle = 1;        
+            item.useStyle = ItemUseStyleID.SwingThrow;        
             item.knockBack = 11;
             item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
             item.shoot = mod.ProjectileType("Slugger1");

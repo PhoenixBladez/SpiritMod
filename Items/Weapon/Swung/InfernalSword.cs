@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.damage = 43;
 			item.knockBack = 5;
 			item.value = Item.sellPrice(0, 3, 0, 0);
-			item.useStyle = 1;
+			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = item.useAnimation = 25;
 			item.melee = true;
 			item.shoot = mod.ProjectileType("CombustionBlaze");

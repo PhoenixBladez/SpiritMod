@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Material
             item.width = 30;
             item.height = 24;
             item.value = 10000;
-			item.useStyle = 1;
+			item.useStyle = ItemUseStyleID.SwingThrow;
             item.rare = 8;
 	        item.consumable = true;
             item.maxStack = 99;

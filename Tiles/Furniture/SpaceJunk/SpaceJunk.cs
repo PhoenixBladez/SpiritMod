@@ -23,7 +23,7 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 
             item.maxStack = 999;
 
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 15;
             item.useAnimation = 15;
 
@@ -74,7 +74,7 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 
             item.maxStack = 999;
 
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 15;
             item.useAnimation = 15;
 
@@ -126,7 +126,7 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 
             item.maxStack = 999;
 
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 15;
             item.useAnimation = 15;
 
@@ -186,7 +186,7 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 
             item.maxStack = 999;
 
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 15;
             item.useAnimation = 15;
 
@@ -247,7 +247,7 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 
             item.maxStack = 999;
 
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 15;
             item.useAnimation = 15;
 
@@ -298,7 +298,7 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 
             item.maxStack = 999;
 
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 15;
             item.useAnimation = 15;
 

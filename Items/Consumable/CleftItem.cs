@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Consumable
             item.maxStack = 99;
             item.noUseGraphic = true;
 			item.value = Item.sellPrice(0, 0, 2, 0);
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = item.useAnimation = 20;
 
             item.noMelee = true;

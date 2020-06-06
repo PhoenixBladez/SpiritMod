@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Placeable.Walls
 
 			item.maxStack = 999;
 
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = 7;
             item.useAnimation = 15;
 

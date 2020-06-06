@@ -18,7 +18,7 @@ namespace SpiritMod.Items.DonatorItems
 		{
 			item.width = 54;
 			item.height = 66;
-			item.useStyle = 1;
+			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.UseSound = SoundID.Item1;
 
 			item.value = Item.sellPrice(0,7, 50, 0);
@@ -62,7 +62,7 @@ namespace SpiritMod.Items.DonatorItems
 			}
 			else
 			{
-				item.useStyle = 1;
+				item.useStyle = ItemUseStyleID.SwingThrow;
 				item.noMelee = false;
 			}
 			return true;

@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Weapon.Summon.Artifact
             item.mana = 11;
             item.damage = 17;
             item.knockBack = 3;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 30;
             item.useAnimation = 30;
             item.summon = true;

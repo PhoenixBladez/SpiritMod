@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.width = 42;              
             item.height = 42;     
             item.rare = 4;
-            item.useStyle = 1;        
+            item.useStyle = ItemUseStyleID.SwingThrow;        
             item.knockBack = 5;
             item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
             item.UseSound = SoundID.Item1;   

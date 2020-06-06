@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.damage = 49;
 			item.knockBack = 9;
 
-			item.useStyle = 1;
+			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = item.useAnimation = 31;
 
 			item.melee = true;

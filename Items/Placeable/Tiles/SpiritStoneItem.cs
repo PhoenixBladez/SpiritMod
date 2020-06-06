@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Placeable.Tiles
 
 			item.maxStack = 999;
 
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = 10;
             item.useAnimation = 15;
 

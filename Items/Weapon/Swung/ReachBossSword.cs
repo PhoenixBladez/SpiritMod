@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.height = 62;
             item.useTime = 32;
             item.useAnimation = 32;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 6;
             item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
             item.shoot = mod.ProjectileType("BloodWave");

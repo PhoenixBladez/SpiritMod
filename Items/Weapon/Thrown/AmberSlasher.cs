@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.crit = 4;
             item.damage = 57;
             item.knockBack = 3;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = item.useAnimation = 16;
             item.ranged = true;
             item.noMelee = true;

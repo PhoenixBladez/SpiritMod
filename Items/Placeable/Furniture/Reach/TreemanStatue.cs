@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Placeable.Furniture.Reach
             item.maxStack = 99;
 			item.rare = 3;
 
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = 10;
             item.useAnimation = 15;
 

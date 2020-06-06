@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.damage = 19;
             item.value = Terraria.Item.sellPrice(0, 0, 0, 3);
             item.knockBack = 6;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = item.useAnimation = 44;
             item.melee = true;
             item.noMelee = true;

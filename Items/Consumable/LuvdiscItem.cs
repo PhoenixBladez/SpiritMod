@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Consumable
             item.rare = 1;
             item.maxStack = 99;
             item.noUseGraphic = true;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
 			item.value = Item.sellPrice(0, 0, 4, 0);
             item.useTime = item.useAnimation = 20;
 

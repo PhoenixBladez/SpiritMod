@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Placeable.Furniture
 			item.autoReuse = true;
             item.consumable = true;
 
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 10;
             item.useAnimation = 15;
 

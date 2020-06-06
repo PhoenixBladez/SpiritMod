@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.rare = 5;
 			item.damage = 44;
             item.mana = 7;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = 17;
 			item.useAnimation = 17;
 			item.magic = true;

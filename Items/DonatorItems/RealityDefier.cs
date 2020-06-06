@@ -47,7 +47,7 @@ namespace SpiritMod.Items.DonatorItems
         {
             if (player.altFunctionUse == 2)
             {
-                item.useStyle = 1;
+                item.useStyle = ItemUseStyleID.SwingThrow;
                 item.noUseGraphic = true;
                 item.UseSound = SoundID.Item1;
                 item.shootSpeed = 8f;

@@ -27,89 +27,89 @@ namespace SpiritMod.Items
 		public GlyphType Glyph => glyph;
         public override void SetDefaults(Item item)
         {
-            if (item.type == 2303)
+            if (item.type == ItemID.ArmoredCavefish)
             {
-                item.useStyle = 1;
+                item.useStyle = ItemUseStyleID.SwingThrow;
                 item.useTime = item.useAnimation = 20;
                 item.noMelee = true;
                 item.consumable = true;
                 item.autoReuse = true;
             }
-            if (item.type == 2304)
+            if (item.type == ItemID.Damselfish)
             {
-                item.useStyle = 1;
+                item.useStyle = ItemUseStyleID.SwingThrow;
                 item.useTime = item.useAnimation = 20;
                 item.noMelee = true;
                 item.consumable = true;
                 item.autoReuse = true;
             }
-            if (item.type == 2305)
+            if (item.type == ItemID.CrimsonTigerfish)
             {
-                item.useStyle = 1;
+                item.useStyle = ItemUseStyleID.SwingThrow;
                 item.useTime = item.useAnimation = 20;
                 item.noMelee = true;
                 item.consumable = true;
                 item.autoReuse = true;
             }
-            if (item.type == 2308)
+            if (item.type == ItemID.GoldenCarp)
             {
-                item.useStyle = 1;
+                item.useStyle = ItemUseStyleID.SwingThrow;
                 item.useTime = item.useAnimation = 20;
                 item.noMelee = true;
                 item.consumable = true;
                 item.autoReuse = true;
             }
-            if (item.type == 2309)
+            if (item.type == ItemID.SpecularFish)
             {
-                item.useStyle = 1;
+                item.useStyle = ItemUseStyleID.SwingThrow;
                 item.useTime = item.useAnimation = 20;
                 item.noMelee = true;
                 item.consumable = true;
                 item.autoReuse = true;
             }
-            if (item.type == 2310)
+            if (item.type == ItemID.Prismite)
             {
-                item.useStyle = 1;
+                item.useStyle = ItemUseStyleID.SwingThrow;
                 item.useTime = item.useAnimation = 20;
                 item.noMelee = true;
                 item.consumable = true;
                 item.autoReuse = true;
             }
-            if (item.type == 2318)
+            if (item.type == ItemID.Ebonkoi)
             {
-                item.useStyle = 1;
+                item.useStyle = ItemUseStyleID.SwingThrow;
                 item.useTime = item.useAnimation = 20;
                 item.noMelee = true;
                 item.consumable = true;
                 item.autoReuse = true;
             }
-            if (item.type == 2302)
+            if (item.type == ItemID.NeonTetra)
             {
-                item.useStyle = 1;
+                item.useStyle = ItemUseStyleID.SwingThrow;
                 item.useTime = item.useAnimation = 20;
                 item.noMelee = true;
                 item.consumable = true;
                 item.autoReuse = true;
             }
-            if (item.type == 2299)
+            if (item.type == ItemID.AtlanticCod)
             {
-                item.useStyle = 1;
+                item.useStyle = ItemUseStyleID.SwingThrow;
                 item.useTime = item.useAnimation = 20;
                 item.noMelee = true;
                 item.consumable = true;
                 item.autoReuse = true;
             }
-            if (item.type == 2306)
+            if (item.type == ItemID.FrostMinnow)
             {
-                item.useStyle = 1;
+                item.useStyle = ItemUseStyleID.SwingThrow;
                 item.useTime = item.useAnimation = 20;
                 item.noMelee = true;
                 item.consumable = true;
                 item.autoReuse = true;
             }
-            if (item.type == 2301)
+            if (item.type == ItemID.RedSnapper)
             {
-                item.useStyle = 1;
+                item.useStyle = ItemUseStyleID.SwingThrow;
                 item.useTime = item.useAnimation = 20;
                 item.noMelee = true;
                 item.consumable = true;

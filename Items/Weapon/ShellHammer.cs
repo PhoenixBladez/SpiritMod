@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Weapon
             item.rare = 8;
             item.damage = 67;
             item.knockBack = 9;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 35;
 			item.useAnimation = 35;
             item.melee = true;

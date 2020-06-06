@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Weapon.Summon
             item.mana = 20;
             item.damage = 112;
             item.knockBack = 7;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 30;
             item.useAnimation = 30; 
             item.summon = true;

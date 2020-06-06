@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Weapon.Spear
         public override void SetDefaults()
         {
             item.CloneDefaults(ItemID.BoneJavelin);
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.width = 38;
             item.height = 38;
             item.noUseGraphic = true;

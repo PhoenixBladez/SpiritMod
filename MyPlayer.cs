@@ -15,6 +15,26 @@ using Terraria.ModLoader.IO;
 
 using SpiritMod.Projectiles;
 using SpiritMod.Effects;
+using SpiritMod.NPCs.BloodMoon;
+using SpiritMod.Items.DonatorItems;
+using SpiritMod.Items.Consumable;
+using SpiritMod.NPCs.Mimic;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Projectiles.Magic;
+using SpiritMod.Buffs;
+using SpiritMod.Buffs.Armor;
+using SpiritMod.Buffs.Artifact;
+using SpiritMod.Projectiles.DonatorItems;
+using SpiritMod.Projectiles.Sword;
+using SpiritMod.Buffs.Glyph;
+using SpiritMod.Items.Accessory;
+using SpiritMod.Dusts;
+using SpiritMod.Projectiles.Hostile;
+using SpiritMod.Projectiles.Summon;
+using SpiritMod.Buffs.Summon;
+using SpiritMod.NPCs.Boss.Overseer;
+using SpiritMod.NPCs.Boss.Atlas;
 
 namespace SpiritMod
 {
@@ -400,8 +420,8 @@ namespace SpiritMod
             player.ManageSpecialBiomeVisuals("SpiritMod:MeteorSky", ZoneAsteroid);
             player.ManageSpecialBiomeVisuals("SpiritMod:WindEffect", windEffect, player.Center);
             player.ManageSpecialBiomeVisuals("SpiritMod:WindEffect2", windEffect2, player.Center);
-            player.ManageSpecialBiomeVisuals("SpiritMod:Overseer", NPC.AnyNPCs(mod.NPCType("Overseer")));
-            player.ManageSpecialBiomeVisuals("SpiritMod:Atlas", NPC.AnyNPCs(mod.NPCType("Atlas")));
+            player.ManageSpecialBiomeVisuals("SpiritMod:Overseer", NPC.AnyNPCs(ModContent.NPCType<Overseer>()));
+            player.ManageSpecialBiomeVisuals("SpiritMod:Atlas", NPC.AnyNPCs(ModContent.NPCType<Atlas>()));
         }
 
         public override void UpdateBiomes()
@@ -694,12 +714,12 @@ namespace SpiritMod
             moonGauntlet = false;
             unboundSoulMinion = false;
 
-            if (player.FindBuffIndex(mod.BuffType("BeetleFortitude")) < 0)
+            if (player.FindBuffIndex(ModContent.BuffType<BeetleFortitude>()) < 0)
             {
                 beetleStacks = 1;
             }
 
-            if (player.FindBuffIndex(mod.BuffType("CollapsingVoid")) < 0)
+            if (player.FindBuffIndex(ModContent.BuffType<CollapsingVoid>()) < 0)
             {
                 voidStacks = 1;
             }
@@ -785,11 +805,11 @@ namespace SpiritMod
         {
             if (marbleSet && player.controlUp && player.releaseUp && marbleJump <= 0)
             {
-                player.AddBuff(mod.BuffType("MarbleDivineWinds"), 120);
-                Main.PlaySound(2, player.position, 20);
+                player.AddBuff(ModContent.BuffType<MarbleDivineWinds>(), 120);
+                Main.PlaySound(SoundID.Item, player.position, 20);
                 for (int i = 0; i < 8; i++)
                 {
-                    int num = Dust.NewDust(player.position, player.width, player.height, 222, 0f, -2f, 0, default(Color), 2f);
+                    int num = Dust.NewDust(player.position, player.width, player.height, 222, 0f, -2f, 0, default, 2f);
                     Main.dust[num].noGravity = true;
                     Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
                     Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -812,11 +832,11 @@ namespace SpiritMod
                 {
                     marbleJustJumped = false;
                     flag8 = true;
-                    if (flag8 && player.HasBuff(mod.BuffType("MarbleDivineWinds")))
+                    if (flag8 && player.HasBuff(ModContent.BuffType<MarbleDivineWinds>()))
                     {
                         if (Main.rand.Next(20) == 0)
                         {
-                            Main.PlaySound(2, player.position, 24);
+                            Main.PlaySound(SoundID.Item, player.position, 24);
                         }
                         marbleJumpEffects = true;
                         int num23 = player.height;
@@ -825,10 +845,10 @@ namespace SpiritMod
                             num23 = 0;
                         }
                         player.velocity.Y = (0f - Player.jumpSpeed) * player.gravDir;
-                        player.jump = (int)((double)Player.jumpHeight * 1.25);
+                        player.jump = (int)(Player.jumpHeight * 1.25);
                         for (int m = 0; m < 4; m++)
                         {
-                            int num22 = Dust.NewDust(new Vector2(player.position.X, player.position.Y + (float)num23), player.width, 6, 222, player.velocity.X * 0.3f, player.velocity.Y * 0.3f, 100, Color.White, .8f);
+                            int num22 = Dust.NewDust(new Vector2(player.position.X, player.position.Y + num23), player.width, 6, 222, player.velocity.X * 0.3f, player.velocity.Y * 0.3f, 100, Color.White, .8f);
                             if (m % 2 == 0)
                             {
                                 Dust expr_79B_cp_0 = Main.dust[num22];
@@ -837,26 +857,26 @@ namespace SpiritMod
                             else
                             {
                                 Dust expr_7CB_cp_0 = Main.dust[num22];
-                                expr_7CB_cp_0.velocity.X = expr_7CB_cp_0.velocity.X - (float)Main.rand.Next(31, 71) * 0.1f;
+                                expr_7CB_cp_0.velocity.X = expr_7CB_cp_0.velocity.X - Main.rand.Next(31, 71) * 0.1f;
                             }
                             Dust expr_7F9_cp_0 = Main.dust[num22];
-                            expr_7F9_cp_0.velocity.Y = expr_7F9_cp_0.velocity.Y + (float)Main.rand.Next(-10, 31) * 0.1f;
+                            expr_7F9_cp_0.velocity.Y = expr_7F9_cp_0.velocity.Y + Main.rand.Next(-10, 31) * 0.1f;
                             Main.dust[num22].noGravity = true;
-                            Main.dust[num22].scale += (float)Main.rand.Next(-10, 11) * .0025f;
+                            Main.dust[num22].scale += Main.rand.Next(-10, 11) * .0025f;
                             Dust obj = Main.dust[num22];
                             obj.velocity *= Main.dust[num22].scale * 0.7f;
-                            Vector2 value3 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                            Vector2 value3 = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
                             value3.Normalize();
-                            value3 *= (float)Main.rand.Next(81) * 0.08f;
+                            value3 *= Main.rand.Next(81) * 0.08f;
                         }
                     }
                 }
             }
-            if (starSet && SpiritMod.SpecialKey.JustPressed && !player.HasBuff(mod.BuffType("StarCooldown")))
+            if (starSet && SpiritMod.SpecialKey.JustPressed && !player.HasBuff(ModContent.BuffType<StarCooldown>()))
             {
-                Main.PlaySound(2, player.position, 92);
+                Main.PlaySound(SoundID.Item, player.position, 92);
                 Vector2 mouse = Main.MouseScreen + Main.screenPosition;
-                Projectile.NewProjectile(mouse, Vector2.Zero, mod.ProjectileType("EnergyFieldStarplate"), 0, 0, player.whoAmI);
+                Projectile.NewProjectile(mouse, Vector2.Zero, ModContent.ProjectileType<EnergyFieldStarplate>(), 0, 0, player.whoAmI);
                 for (int i = 0; i < 8; i++)
                 {
                     int num = Dust.NewDust(player.position, player.width, player.height, 226, 0f, -2f, 0, default(Color), .7f);
@@ -870,7 +890,7 @@ namespace SpiritMod
             }
             if (fierySet && SpiritMod.SpecialKey.JustPressed && fierySetTimer <= 0)
             {
-                Main.PlaySound(2, player.position, 74);
+                Main.PlaySound(SoundID.Item, player.position, 74);
                 for (int i = 0; i < 8; i++)
                 {
                     int num = Dust.NewDust(player.position, player.width, player.height, 6, 0f, -2f, 0, default(Color), 2f);
@@ -885,7 +905,7 @@ namespace SpiritMod
                 {
                     if (Main.projectile[projFinder].sentry == true)
                     {
-                        int p = Projectile.NewProjectile(Main.projectile[projFinder].Center.X, Main.projectile[projFinder].Center.Y - 20, 0f, 0f, mod.ProjectileType("FierySetExplosion"), Main.projectile[projFinder].damage, Main.projectile[projFinder].knockBack, player.whoAmI);                         
+                        int p = Projectile.NewProjectile(Main.projectile[projFinder].Center.X, Main.projectile[projFinder].Center.Y - 20, 0f, 0f, ModContent.ProjectileType<FierySetExplosion>(), Main.projectile[projFinder].damage, Main.projectile[projFinder].knockBack, player.whoAmI);                         
                     }
                     fierySetTimer = 480;
 
@@ -895,14 +915,14 @@ namespace SpiritMod
             {
                 if (daybloomSet && dazzleStacks >= 3600)
                 {
-                    Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("Dazzle"), 0, 0, player.whoAmI);
-                    Main.PlaySound(2, player.position, 9);
+                    Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<Dazzle>(), 0, 0, player.whoAmI);
+                    Main.PlaySound(SoundID.Item, player.position, 9);
                     dazzleStacks = 0;
                 }
 
-                if (quickSilverSet && player.FindBuffIndex(mod.BuffType("SilverCooldown")) < 0)
+                if (quickSilverSet && player.FindBuffIndex(ModContent.BuffType<SilverCooldown>()) < 0)
                 {
-                    player.AddBuff(mod.BuffType("SilverCooldown"), 1800);
+                    player.AddBuff(ModContent.BuffType<SilverCooldown>(), 1800);
 
                     for (int h = 0; h < 12; h++)
                     {
@@ -913,13 +933,13 @@ namespace SpiritMod
                         vel *= 7f;
 
                         Vector2 mouse = Main.MouseScreen + Main.screenPosition;
-                        Projectile.NewProjectile(mouse, vel, mod.ProjectileType("QuicksilverDroplet"), 62, 2, player.whoAmI);
+                        Projectile.NewProjectile(mouse, vel, ModContent.ProjectileType<QuicksilverDroplet>(), 62, 2, player.whoAmI);
                     }
                 }
 
-                if (cometSet && player.FindBuffIndex(mod.BuffType("StarCooldown")) < 0)
+                if (cometSet && player.FindBuffIndex(ModContent.BuffType<StarCooldown>()) < 0)
                 {
-                    player.AddBuff(mod.BuffType("StarCooldown"), 1800);
+                    player.AddBuff(ModContent.BuffType<StarCooldown>(), 1800);
 
                     string[] projectileNames = new string[] { "Star1", "Star2", "Star3", "Star4", "Star5", "Star6" };
                     foreach (string name in projectileNames)
@@ -928,15 +948,15 @@ namespace SpiritMod
                     }
                 }
 
-                if (reaperSet && player.FindBuffIndex(mod.BuffType("FelCooldown")) < 0)
+                if (reaperSet && player.FindBuffIndex(ModContent.BuffType<FelCooldown>()) < 0)
                 {
 					
-                    player.AddBuff(mod.BuffType("FelCooldown"), 2700);
-                    Projectile.NewProjectile(player.position, Vector2.Zero, mod.ProjectileType("FelProj"), 0, 0, player.whoAmI);
+                    player.AddBuff(ModContent.BuffType<FelCooldown>(), 2700);
+                    Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<FelProj>(), 0, 0, player.whoAmI);
                 }
-				if (bloodcourtSet && player.FindBuffIndex(mod.BuffType("CourtCooldown")) < 0)
+				if (bloodcourtSet && player.FindBuffIndex(ModContent.BuffType<CourtCooldown>()) < 0)
                 {
-                    player.AddBuff(mod.BuffType("CourtCooldown"), 500);
+                    player.AddBuff(ModContent.BuffType<CourtCooldown>(), 500);
 					Vector2 mouse = Main.MouseScreen + Main.screenPosition;
 					Vector2 dir = mouse - player.Center;
 					dir.Normalize();
@@ -944,7 +964,7 @@ namespace SpiritMod
 					player.statLife -= (int)(player.statLifeMax * .08f);
                     for (int i = 0; i < 18; i++)
                     {
-                        int num = Dust.NewDust(player.position, player.width, player.height, mod.DustType("NightmareDust"), 0f, -2f, 0, default(Color), 2f);
+                        int num = Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<NightmareDust>(), 0f, -2f, 0, default(Color), 2f);
                         Main.dust[num].noGravity = true;
                         Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
                         Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -953,31 +973,31 @@ namespace SpiritMod
                             Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
                     }
                     Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
-                    Projectile.NewProjectile(player.Center, dir, mod.ProjectileType("DarkAnima"), 55, 0, player.whoAmI);
+                    Projectile.NewProjectile(player.Center, dir, ModContent.ProjectileType<DarkAnima>(), 55, 0, player.whoAmI);
                 }
 
-                if (depthSet && player.FindBuffIndex(mod.BuffType("SharkAttackBuff")) < 0)
+                if (depthSet && player.FindBuffIndex(ModContent.BuffType<SharkAttackBuff>()) < 0)
                 {
                     MyPlayer myPlayer = Main.player[Main.myPlayer].GetModPlayer<MyPlayer>();
                     Rectangle textPos = new Rectangle((int)myPlayer.player.position.X, (int)myPlayer.player.position.Y - 60, myPlayer.player.width, myPlayer.player.height);
 
                     CombatText.NewText(textPos, new Color(29, 240, 255, 100), "Shark Attack!");
-                    player.AddBuff(mod.BuffType("SharkAttackBuff"), 1800);
-                    Projectile.NewProjectile(player.position, Vector2.Zero, mod.ProjectileType("SharkBlast"), 35, 0, player.whoAmI);
+                    player.AddBuff(ModContent.BuffType<SharkAttackBuff>(), 1800);
+                    Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<SharkBlast>(), 35, 0, player.whoAmI);
                 }
 
-                if (ichorSet1 && player.FindBuffIndex(mod.BuffType("GoreCooldown1")) < 0)
+                if (ichorSet1 && player.FindBuffIndex(ModContent.BuffType<GoreCooldown1>()) < 0)
                 {
-                    player.AddBuff(mod.BuffType("GoreCooldown1"), 3600);
-                    Projectile.NewProjectile(player.position, Vector2.Zero, mod.ProjectileType("Gores"), 4, 0, player.whoAmI);
+                    player.AddBuff(ModContent.BuffType<GoreCooldown1>(), 3600);
+                    Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<Projectiles.Gores>(), 4, 0, player.whoAmI);
                 }
 
-                if (ichorSet2 && player.FindBuffIndex(mod.BuffType("GoreCooldown2")) < 0)
+                if (ichorSet2 && player.FindBuffIndex(ModContent.BuffType<GoreCooldown2>()) < 0)
                 {
-                    player.AddBuff(mod.BuffType("GoreCooldown2"), 3600);
-                    Projectile.NewProjectile(player.position, Vector2.Zero, mod.ProjectileType("Gore1"), 21, 0, player.whoAmI);
-                    Projectile.NewProjectile(player.position, Vector2.Zero, mod.ProjectileType("Gore1"), 21, 0, player.whoAmI);
-                    Projectile.NewProjectile(player.position, Vector2.Zero, mod.ProjectileType("Gore1"), 21, 0, player.whoAmI);
+                    player.AddBuff(ModContent.BuffType<GoreCooldown2>(), 3600);
+                    Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<Gore1>(), 21, 0, player.whoAmI);
+                    Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<Gore1>(), 21, 0, player.whoAmI);
+                    Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<Gore1>(), 21, 0, player.whoAmI);
                 }
             }
         }
@@ -1038,7 +1058,7 @@ namespace SpiritMod
         public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath)
         {
            /* Item item = new Item();
-            item.SetDefaults(mod.ItemType("OddKeystone"));
+            item.SetDefaults(ModContent.ItemType<OddKeystone>());
             items.Add(item);*/
         }
 
@@ -1064,17 +1084,17 @@ namespace SpiritMod
                 if (bobberIndex != -1)
                 {
                     Vector2 bobberPos = Main.projectile[bobberIndex].Center;
-                    caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, mod.NPCType("BottomFeeder"), 0, 2, 1, 0, 0, Main.myPlayer);
+                    caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<BottomFeeder>(), 0, 2, 1, 0, 0, Main.myPlayer);
                 }
             }
             if (player.ZoneDungeon && power >= 30 && Main.rand.NextBool(25))
             {
-                caughtType = mod.ItemType("MysticalCage");
+                caughtType = ModContent.ItemType<MysticalCage>();
             }
 
             if (modPlayer.ZoneSpirit && NPC.downedMechBossAny && Main.rand.NextBool(player.cratePotion ? 35 : 65))
             {
-                caughtType = mod.ItemType("SpiritCrate");
+                caughtType = ModContent.ItemType<SpiritCrate>();
             }
             if (Main.rand.NextBool(player.cratePotion ? 60 : 75))
             {
@@ -1089,7 +1109,7 @@ namespace SpiritMod
                 if (bobberIndex != -1)
                 {
                     Vector2 bobberPos = Main.projectile[bobberIndex].Center;
-                    caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, mod.NPCType("WoodCrateMimic"), 0, 2, 1, 0, 0, Main.myPlayer);
+                    caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<WoodCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
                 }
             }
             if (Main.rand.NextBool(player.cratePotion ? 90 : 125))
@@ -1105,7 +1125,7 @@ namespace SpiritMod
                 if (bobberIndex != -1)
                 {
                     Vector2 bobberPos = Main.projectile[bobberIndex].Center;
-                    caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, mod.NPCType("IronCrateMimic"), 0, 2, 1, 0, 0, Main.myPlayer);
+                    caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<IronCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
                 }
             }
             if (Main.rand.NextBool(player.cratePotion ? 70 : 95) && player.ZoneBeach && Main.raining)
@@ -1121,28 +1141,28 @@ namespace SpiritMod
                 if (bobberIndex != -1)
                 {
                     Vector2 bobberPos = Main.projectile[bobberIndex].Center;
-                    caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, mod.NPCType("GoldCrateMimic"), 0, 2, 1, 0, 0, Main.myPlayer);
+                    caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<GoldCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
                 }
             }
             if (modPlayer.ZoneSpirit && NPC.downedMechBossAny && Main.rand.NextBool(5))
             {
-                caughtType = mod.ItemType("SpiritKoi");
+                caughtType = ModContent.ItemType<SpiritKoi>();
             }
             if (modPlayer.ZoneReach&& Main.rand.NextBool(5))
             {
-                caughtType = mod.ItemType("ReachFishingCatch");
+                caughtType = ModContent.ItemType<ReachFishingCatch>();
             }
             if (modPlayer.ZoneReach && Main.rand.NextBool(player.cratePotion ? 25 : 45))
             {
-                caughtType = mod.ItemType("ReachCrate");
+                caughtType = ModContent.ItemType<ReachCrate>();
             }
             if (modPlayer.ZoneReach && Main.rand.NextBool(25))
             {
-                caughtType = mod.ItemType("ThornDevilfish");
+                caughtType = ModContent.ItemType<ThornDevilfish>();
             }
             if (player.ZoneGlowshroom && Main.rand.NextBool(27))
             {
-                caughtType = mod.ItemType("ShroomFishSummon");
+                caughtType = ModContent.ItemType<ShroomFishSummon>();
             }
         }
 
@@ -1194,7 +1214,7 @@ namespace SpiritMod
                 float A = Main.rand.Next(-100, 100) * 0.01f;
                 float B = Main.rand.Next(-100, 100) * 0.01f;
 
-                Projectile.NewProjectile(distX, distY, direction.X + A, direction.Y + B, mod.ProjectileType("OriPetal"), 30, 1, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(distX, distY, direction.X + A, direction.Y + B, ModContent.ProjectileType<OriPetal>(), 30, 1, player.whoAmI, 0f, 0f);
             }
 
             LastEnemyHit = victim;
@@ -1212,9 +1232,9 @@ namespace SpiritMod
             }
             if (shadowFang)
             {
-                if (target.life <= (int)target.lifeMax/2 && Main.rand.Next(7) == 0)
+                if (target.life <= target.lifeMax/2 && Main.rand.Next(7) == 0)
                 {  
-                    Projectile.NewProjectile(target.position, Vector2.Zero, mod.ProjectileType("ShadowSingeProj"), item.damage / 3 * 2, 4, Main.myPlayer);
+                    Projectile.NewProjectile(target.position, Vector2.Zero, ModContent.ProjectileType<ShadowSingeProj>(), item.damage / 3 * 2, 4, Main.myPlayer);
                     Main.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 6));
                     player.statLife -= 3;
                 }
@@ -1250,9 +1270,9 @@ namespace SpiritMod
             }
             if (virulence <= 0f)
             {
-                Projectile.NewProjectile(target.position, Vector2.Zero, mod.ProjectileType("VirulenceExplosion"), 25, 8, Main.myPlayer);
+                Projectile.NewProjectile(target.position, Vector2.Zero, ModContent.ProjectileType<VirulenceExplosion>(), 25, 8, Main.myPlayer);
                 virulence = 600f;
-                player.AddBuff(mod.BuffType("VirulenceCooldown"), 140);
+                player.AddBuff(ModContent.BuffType<VirulenceCooldown>(), 140);
             }
 
             if (forbiddenTome)
@@ -1264,16 +1284,16 @@ namespace SpiritMod
                         int num = Dust.NewDust(target.position, target.width, target.height, 156, 0f, -2f, 117, new Color(0, 255, 142), .6f);
                         Main.dust[num].noGravity = true;
                         Dust expr_62_cp_0 = Main.dust[num];
-                        expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
+                        expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((Main.rand.Next(-50, 51) / 20) - 1.5f);
                         Dust expr_92_cp_0 = Main.dust[num];
-                        expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
+                        expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((Main.rand.Next(-50, 51) / 20) - 1.5f);
                         if (Main.dust[num].position != target.Center)
                         {
                             Main.dust[num].velocity = target.DirectionTo(Main.dust[num].position) * 6f;
                         }
                     }
                     int upperClamp = (int)MathHelper.Clamp(target.lifeMax, 0, 75);
-                    int p = Projectile.NewProjectile(target.position, new Vector2(Main.rand.Next(-6, 6), Main.rand.Next(-5, -1)), mod.ProjectileType("GhastSkullFriendly"), (int)MathHelper.Clamp((damage / 5 * 2), 0, upperClamp), knockback, Main.myPlayer);
+                    int p = Projectile.NewProjectile(target.position, new Vector2(Main.rand.Next(-6, 6), Main.rand.Next(-5, -1)), ModContent.ProjectileType<GhastSkullFriendly>(), (int)MathHelper.Clamp((damage / 5 * 2), 0, upperClamp), knockback, Main.myPlayer);
                     if (item.ranged)
                     {
                         Main.projectile[p].ranged = true;
@@ -1294,43 +1314,43 @@ namespace SpiritMod
             }
             if (icySet && item.magic && Main.rand.NextBool(14))
             {
-                player.AddBuff(mod.BuffType("BlizzardWrath"), 240);
+                player.AddBuff(ModContent.BuffType<BlizzardWrath>(), 240);
             }
 
             if (meleeshadowSet && Main.rand.NextBool(10) && item.melee)
             {
-                Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, -12, mod.ProjectileType("SpiritShardFriendly"), 60, 0, Main.myPlayer);
+                Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, -12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
             }
 
             if (magicshadowSet && Main.rand.NextBool(10) && item.magic)
             {
-                Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, -12, mod.ProjectileType("SpiritShardFriendly"), 60, 0, Main.myPlayer);
+                Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, -12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
             }
 
             if (magicshadowSet && Main.rand.NextBool(10) && item.summon)
             {
-                Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, -12, mod.ProjectileType("SpiritShardFriendly"), 60, 0, Main.myPlayer);
+                Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, -12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
             }
 
             if (rangedshadowSet && Main.rand.NextBool(10) && item.ranged)
             {
-                Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, -12, mod.ProjectileType("SpiritShardFriendly"), 60, 0, Main.myPlayer);
+                Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, -12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
             }
 
             if (spiritNecklace && Main.rand.NextBool(10) && item.melee)
             {
-                target.AddBuff(mod.BuffType("EssenceTrap"), 240);
+                target.AddBuff(ModContent.BuffType<EssenceTrap>(), 240);
                 damage += target.defense;
             }
 
             if (reaperSet && Main.rand.NextBool(15))
             {
-                target.AddBuff(mod.BuffType("FelBrand"), 160);
+                target.AddBuff(ModContent.BuffType<FelBrand>(), 160);
             }
 
             if (magalaSet && Main.rand.NextBool(6))
             {
-                target.AddBuff(mod.BuffType("FrenzyVirus"), 240);
+                target.AddBuff(ModContent.BuffType<FrenzyVirus>(), 240);
             }
 
             if (wheezeScale && Main.rand.NextBool(9) && item.melee)
@@ -1339,7 +1359,7 @@ namespace SpiritMod
                 float rand = Main.rand.NextFloat() * 6.283f;
                 vel = vel.RotatedBy(rand);
                 vel *= 8f;
-                Projectile.NewProjectile(target.Center, vel, mod.ProjectileType("Wheeze"), item.damage / 2, 0, Main.myPlayer);
+                Projectile.NewProjectile(target.Center, vel, ModContent.ProjectileType<Wheeze>(), item.damage / 2, 0, Main.myPlayer);
             }
 
             if (ToxicExtract && Main.rand.NextBool(5) && item.magic)
@@ -1349,17 +1369,17 @@ namespace SpiritMod
 
             if (magalaSet && (item.magic || item.ranged || item.melee) && Main.rand.NextBool(14))
             {
-                player.AddBuff(mod.BuffType("FrenzyVirus1"), 240);
+                player.AddBuff(ModContent.BuffType<FrenzyVirus1>(), 240);
             }
 
             if (sunStone && item.melee && Main.rand.NextBool(18))
             {
-                target.AddBuff(mod.BuffType("SunBurn"), 240);
+                target.AddBuff(ModContent.BuffType<SunBurn>(), 240);
             }
 
             if (geodeSet && crit && Main.rand.NextBool(5))
             {
-                target.AddBuff(mod.BuffType("Crystal"), 180);
+                target.AddBuff(ModContent.BuffType<Buffs.Crystal>(), 180);
             }
 
             if (gremlinBuff && item.melee)
@@ -1380,13 +1400,13 @@ namespace SpiritMod
                 {
                     if (Main.rand.NextBool(12))
                     {
-                        Projectile.NewProjectile(target.Center, Vector2.Zero, mod.ProjectileType("PhoenixProjectile"), 50, 4, Main.myPlayer);
+                        Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<PhoenixProjectile>(), 50, 4, Main.myPlayer);
                     }
                 }
             }
             if (cryoChestplate && item.melee && Main.rand.NextBool(8))
             {
-                target.AddBuff(mod.BuffType("MageFreeze"), 180);
+                target.AddBuff(ModContent.BuffType<MageFreeze>(), 180);
             }
         }
 
@@ -1399,22 +1419,23 @@ namespace SpiritMod
                 {
                     if (target.life <= 0)
                     {
-                        player.AddBuff(mod.BuffType("StellarSpeed"), 300);
+                        // TODO: GET SOMEONE TO MAKE THIS BUFF REAL
+                        //player.AddBuff(ModContent.BuffType<StellarSpeed>(), 300);
                     }
                 }
                 if (!target.SpawnedFromStatue)
                 {
                     if (proj.ranged && crit)
                     {
-                        player.AddBuff(mod.BuffType("StellarMinionBonus"), 360);
+                        player.AddBuff(ModContent.BuffType<StellarMinionBonus>(), 360);
                     }
                 }
             }
             if (shadowFang)
             {
-                if (target.life <= (int)target.lifeMax / 2 && Main.rand.Next(7) == 0)
+                if (target.life <= target.lifeMax / 2 && Main.rand.Next(7) == 0)
                 {
-                    Projectile.NewProjectile(target.position, Vector2.Zero, mod.ProjectileType("ShadowSingeProj"), proj.damage/3 * 2, 4, Main.myPlayer);
+                    Projectile.NewProjectile(target.position, Vector2.Zero, ModContent.ProjectileType<ShadowSingeProj>(), proj.damage/3 * 2, 4, Main.myPlayer);
                     player.statLife -= 3;
                 }
             }
@@ -1448,9 +1469,9 @@ namespace SpiritMod
 
             if (virulence <= 0f)
             {
-                Projectile.NewProjectile(target.position, Vector2.Zero, mod.ProjectileType("VirulenceExplosion"), 35, 8, Main.myPlayer);
+                Projectile.NewProjectile(target.position, Vector2.Zero, ModContent.ProjectileType<VirulenceExplosion>(), 35, 8, Main.myPlayer);
                 virulence = 600f;
-                player.AddBuff(mod.BuffType("VirulenceCooldown"), 140);
+                player.AddBuff(ModContent.BuffType<VirulenceCooldown>(), 140);
             }
             if (forbiddenTome)
             {
@@ -1470,7 +1491,7 @@ namespace SpiritMod
                         }
                     }
                     int upperClamp = (int)MathHelper.Clamp(target.lifeMax, 0, 75);
-                    int p = Projectile.NewProjectile(target.position, new Vector2(Main.rand.Next(-6, 6), Main.rand.Next(-5, -1)), mod.ProjectileType("GhastSkullFriendly"), (int)MathHelper.Clamp((damage / 5 * 2), 0, upperClamp), knockback, Main.myPlayer);
+                    int p = Projectile.NewProjectile(target.position, new Vector2(Main.rand.Next(-6, 6), Main.rand.Next(-5, -1)), ModContent.ProjectileType<GhastSkullFriendly>(), (int)MathHelper.Clamp((damage / 5 * 2), 0, upperClamp), knockback, Main.myPlayer);
                     if (proj.ranged)
                     {
                         Main.projectile[p].ranged = true;
@@ -1491,18 +1512,18 @@ namespace SpiritMod
             }       
             if (reaperSet && Main.rand.NextBool(15))
             {
-                target.AddBuff(mod.BuffType("FelBrand"), 160);
+                target.AddBuff(ModContent.BuffType<FelBrand>(), 160);
             }
 
             if (KingRock && Main.rand.NextBool(5) && proj.magic)
             {
-                Projectile.NewProjectile(player.position.X + Main.rand.Next(-350, 350), player.position.Y - 350, 0, 12, mod.ProjectileType("PrismaticBolt"), 55, 0, Main.myPlayer);
-                Projectile.NewProjectile(player.position.X + Main.rand.Next(-350, 350), player.position.Y - 350, 0, 12, mod.ProjectileType("PrismaticBolt"), 55, 0, Main.myPlayer);
+                Projectile.NewProjectile(player.position.X + Main.rand.Next(-350, 350), player.position.Y - 350, 0, 12, ModContent.ProjectileType<PrismaticBolt>(), 55, 0, Main.myPlayer);
+                Projectile.NewProjectile(player.position.X + Main.rand.Next(-350, 350), player.position.Y - 350, 0, 12, ModContent.ProjectileType<PrismaticBolt>(), 55, 0, Main.myPlayer);
             }
 
             if (geodeSet && crit && Main.rand.NextBool(5))
             {
-                target.AddBuff(mod.BuffType("Crystal"), 180);
+                target.AddBuff(ModContent.BuffType<Buffs.Crystal>(), 180);
             }
             if (amazonCharm && Main.rand.Next(12) == 0)
             {
@@ -1534,7 +1555,7 @@ namespace SpiritMod
 
                 if (Main.rand.NextBool(3))
                 {
-                    player.AddBuff(mod.BuffType("ToothBuff"), 300);
+                    player.AddBuff(ModContent.BuffType<ToothBuff>(), 300);
                 }
             }
 
@@ -1542,7 +1563,7 @@ namespace SpiritMod
             {
                 if (Main.rand.NextBool(15))
                 {
-                    target.AddBuff(mod.BuffType("BCorrupt"), 180);
+                    target.AddBuff(ModContent.BuffType<BCorrupt>(), 180);
                 }
 
                 if (Main.rand.NextBool(30))
@@ -1559,12 +1580,12 @@ namespace SpiritMod
 
             if (sunStone && proj.melee && Main.rand.NextBool(18))
             {
-                target.AddBuff(mod.BuffType("SunBurn"), 240);
+                target.AddBuff(ModContent.BuffType<SunBurn>(), 240);
             }
 
             if (moonStone && proj.ranged && Main.rand.NextBool(18))
             {
-                target.AddBuff(mod.BuffType("MoonBurn"), 240);
+                target.AddBuff(ModContent.BuffType<MoonBurn>(), 240);
             }
 
             if (wheezeScale && Main.rand.NextBool(9) && proj.melee)
@@ -1573,7 +1594,7 @@ namespace SpiritMod
                 float rand = Main.rand.NextFloat() * 6.283f;
                 vel = vel.RotatedBy(rand);
                 vel *= 8f;
-                Projectile.NewProjectile(target.Center, vel, mod.ProjectileType("Wheeze"), Main.hardMode ? 40 : 20, 0, player.whoAmI);
+                Projectile.NewProjectile(target.Center, vel, ModContent.ProjectileType<Wheeze>(), Main.hardMode ? 40 : 20, 0, player.whoAmI);
             }
 
             if (DarkBough && proj.minion)
@@ -1586,7 +1607,7 @@ namespace SpiritMod
                         float rand = Main.rand.NextFloat() * 6.283f;
                         vel = vel.RotatedBy(rand);
                         vel *= 8f;
-                        Projectile.NewProjectile(target.Center, vel, mod.ProjectileType("NightmareBarb"), 29, 1, player.whoAmI);
+                        Projectile.NewProjectile(target.Center, vel, ModContent.ProjectileType<NightmareBarb>(), 29, 1, player.whoAmI);
                     }
                 }
 
@@ -1607,13 +1628,13 @@ namespace SpiritMod
             {
                 for (int i = 0; i <= 3; i++)
                 {
-                    Projectile.NewProjectile(target.Center.X, target.Center.Y, Main.rand.Next(-2, 4), -5, mod.ProjectileType("DeitySoul2"), 39, 1, player.whoAmI);
+                    Projectile.NewProjectile(target.Center.X, target.Center.Y, Main.rand.Next(-2, 4), -5, ModContent.ProjectileType<DeitySoul2>(), 39, 1, player.whoAmI);
                 }
             }
 
             if (magalaSet && (proj.melee || proj.minion || proj.magic || proj.ranged))
             {
-                target.AddBuff(mod.BuffType("FrenzyVirus"), 180);
+                target.AddBuff(ModContent.BuffType<FrenzyVirus>(), 180);
             }
 
             if (timScroll && proj.magic)
@@ -1661,48 +1682,48 @@ namespace SpiritMod
 
             if (crystalSet && proj.minion && Main.rand.NextBool(15))
             {
-                target.AddBuff(mod.BuffType("SoulBurn"), 240);
+                target.AddBuff(ModContent.BuffType<SoulBurn>(), 240);
             }
 
 
             if (spiritNecklace && proj.melee && Main.rand.NextBool(10))
             {
-                target.AddBuff(mod.BuffType("EssenceTrap"), 180);
+                target.AddBuff(ModContent.BuffType<EssenceTrap>(), 180);
                 damage += target.defense >> 1;
             }
 
             if (winterbornCharmMage && proj.magic && Main.rand.NextBool(7))
             {
-                target.AddBuff(mod.BuffType("MageFreeze"), 180);
+                target.AddBuff(ModContent.BuffType<MageFreeze>(), 180);
             }
             if (cryoChestplate && proj.melee && Main.rand.NextBool(8))
             {
-                target.AddBuff(mod.BuffType("MageFreeze"), 180);
+                target.AddBuff(ModContent.BuffType<MageFreeze>(), 180);
             }
             if (putridSet && proj.ranged && ++Rangedhits >= 4)
             {
-                Projectile.NewProjectile(proj.position, Vector2.Zero, mod.ProjectileType("CursedFlame"), proj.damage, 0f, proj.owner);
+                Projectile.NewProjectile(proj.position, Vector2.Zero, ModContent.ProjectileType<CursedFlame>(), proj.damage, 0f, proj.owner);
                 Rangedhits = 0;
             }
 
             if (spiritNecklace && (proj.minion || proj.magic || proj.ranged) && Main.rand.NextBool(10))
             {
-                target.AddBuff(mod.BuffType("EssenceTrap"), 180);
+                target.AddBuff(ModContent.BuffType<EssenceTrap>(), 180);
             }
 
             if (magicshadowSet && Main.rand.NextBool(4) && proj.magic)
             {
-                Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, 12, mod.ProjectileType("SpiritShardFriendly"), 60, 0, Main.myPlayer);
+                Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, 12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
             }
 
             if (meleeshadowSet && Main.rand.NextBool(4) && proj.melee)
             {
-                Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, 12, mod.ProjectileType("SpiritShardFriendly"), 60, 0, Main.myPlayer);
+                Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, 12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
             }
 
             if (rangedshadowSet && Main.rand.Next(4) == 2 && (proj.ranged))
             {
-                Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, 12, mod.ProjectileType("SpiritShardFriendly"), 60, 0, Main.myPlayer);
+                Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, 12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
             }
 
             if (ToxicExtract && Main.rand.NextBool(5) && proj.magic)
@@ -1712,7 +1733,7 @@ namespace SpiritMod
 
             if (infernalFlame && proj.melee && crit && Main.rand.NextBool(8))
             {
-                Projectile.NewProjectile(target.Center, Vector2.Zero, mod.ProjectileType("PhoenixProjectile"), 50, 4, player.whoAmI);
+                Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<PhoenixProjectile>(), 50, 4, player.whoAmI);
             }
 
             if (NebulaPearl && Main.rand.NextBool(8) && proj.magic)
@@ -1728,10 +1749,10 @@ namespace SpiritMod
                     float rand = Main.rand.NextFloat() * 6.283f;
                     vel = vel.RotatedBy(rand);
                     vel *= 4f;
-                    Projectile.NewProjectile(Main.player[Main.myPlayer].Center, vel, 15, 40, 0, Main.myPlayer);
+                    Projectile.NewProjectile(Main.player[Main.myPlayer].Center, vel, ProjectileID.BallofFire, 40, 0, Main.myPlayer);
                 }
 
-                Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, 0, mod.ProjectileType("FireExplosion"), 39, 0, Main.myPlayer);
+                Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, 0, ModContent.ProjectileType<FireExplosion>(), 39, 0, Main.myPlayer);
             }
 
             /*if (duneSet && proj.thrown)
@@ -1739,20 +1760,20 @@ namespace SpiritMod
                 GNPC info = target.GetGlobalNPC<GNPC>();
                 if (info.duneSetStacks++ >= 4)
                 {
-                    player.AddBuff(mod.BuffType("DesertWinds"), 180);
-                    Projectile.NewProjectile(player.position.X + 20, player.position.Y, 0, -2, mod.ProjectileType("DuneKnife"), 40, 0, Main.myPlayer);
+                    player.AddBuff(ModContent.BuffType<DesertWinds>(), 180);
+                    Projectile.NewProjectile(player.position.X + 20, player.position.Y, 0, -2, ModContent.ProjectileType<DuneKnife>(), 40, 0, Main.myPlayer);
                     info.duneSetStacks = 0;
                 }
             }*/
 
             if (icySet && proj.magic && Main.rand.NextBool(14))
             {
-                player.AddBuff(mod.BuffType("BlizzardWrath"), 240);
+                player.AddBuff(ModContent.BuffType<BlizzardWrath>(), 240);
             }
 
             if (magalaSet && Main.rand.NextBool(6))
             {
-                player.AddBuff(mod.BuffType("FrenzyVirus1"), 240);
+                player.AddBuff(ModContent.BuffType<FrenzyVirus1>(), 240);
             }
 
             if (titanicSet && proj.melee)
@@ -1760,7 +1781,7 @@ namespace SpiritMod
                 GNPC info = target.GetGlobalNPC<GNPC>();
                 if (info.titanicSetStacks++ >= 4)
                 {
-                    Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, 12, mod.ProjectileType("WaterMass"), 60, 0, Main.myPlayer);
+                    Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, 12, ModContent.ProjectileType<WaterMass>(), 60, 0, Main.myPlayer);
                     info.titanicSetStacks = 0;
                 }
             }
@@ -1787,7 +1808,7 @@ namespace SpiritMod
                 return false;
             }
 
-            int index = player.FindBuffIndex(mod.BuffType("PhantomVeil"));
+            int index = player.FindBuffIndex(ModContent.BuffType<PhantomVeil>());
             if (index >= 0)
             {
                 player.DelBuff(index);
@@ -1814,10 +1835,10 @@ namespace SpiritMod
                 player.AddBuff(BuffID.Confused, 180);
             }
 
-            if (rogueSet && !player.HasBuff(mod.BuffType("RogueCooldown")))
+            if (rogueSet && !player.HasBuff(ModContent.BuffType<RogueCooldown>()))
             {
                 player.AddBuff(BuffID.Invisibility, 260);
-                player.AddBuff(mod.BuffType("RogueCooldown"), 1520);
+                player.AddBuff(ModContent.BuffType<RogueCooldown>(), 1520);
             }
 
             if (leatherSet)
@@ -1833,12 +1854,12 @@ namespace SpiritMod
             {
                 virulence = 600f;
 
-                if (!player.HasBuff(mod.BuffType("VirulenceCooldown")))
+                if (!player.HasBuff(ModContent.BuffType<VirulenceCooldown>()))
                 {
-                    Projectile.NewProjectile(player.position, Vector2.Zero, mod.ProjectileType("VirulenceExplosion"), 35, 5, Main.myPlayer);
+                    Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<VirulenceExplosion>(), 35, 5, Main.myPlayer);
                 }
 
-                player.AddBuff(mod.BuffType("VirulenceCooldown"), 140);
+                player.AddBuff(ModContent.BuffType<VirulenceCooldown>(), 140);
             }
 
             if (SRingOn)
@@ -1849,7 +1870,7 @@ namespace SpiritMod
                     float rand = Main.rand.NextFloat() * MathHelper.TwoPi;
                     vel = vel.RotatedBy(rand);
                     vel *= 2f;
-                    Projectile.NewProjectile(Main.player[Main.myPlayer].Center, vel, 297, 45, 0, Main.myPlayer);
+                    Projectile.NewProjectile(Main.player[Main.myPlayer].Center, vel, ProjectileID.LostSoulFriendly, 45, 0, Main.myPlayer);
                 }
             }
 
@@ -1862,13 +1883,13 @@ namespace SpiritMod
                     float rand = Main.rand.NextFloat() * MathHelper.TwoPi;
                     vel = vel.RotatedBy(rand);
                     vel *= 5f;
-                    Projectile.NewProjectile(Main.player[Main.myPlayer].Center, vel, mod.ProjectileType("AlienSpit"), 65, 0, Main.myPlayer);
+                    Projectile.NewProjectile(Main.player[Main.myPlayer].Center, vel, ModContent.ProjectileType<AlienSpit>(), 65, 0, Main.myPlayer);
                 }
             }
 
             if (cryoSet)
             {
-                Main.PlaySound(2, player.position, 50);
+                Main.PlaySound(SoundID.Item, player.position, 50);
             }
 
             if (ChaosCrystal && Main.rand.Next(4) == 1)
@@ -1886,11 +1907,11 @@ namespace SpiritMod
                     Main.player[Main.myPlayer].Teleport(newPos, 2, 0);
                     Main.player[Main.myPlayer].velocity = Vector2.Zero;
 					Main.PlaySound((int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y, 27);
-					Main.PlaySound(2, (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y, 8);
-                    if (Main.netMode == 2)
+					Main.PlaySound(SoundID.Item, (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y, 8);
+                    if (Main.netMode == NetmodeID.Server)
                     {
                         RemoteClient.CheckSection(Main.myPlayer, Main.player[Main.myPlayer].position, 1);
-                        NetMessage.SendData(65, -1, -1, null, 0, Main.myPlayer, newPos.X, newPos.Y, 3, 0, 0);
+                        NetMessage.SendData(MessageID.Teleport, -1, -1, null, 0, Main.myPlayer, newPos.X, newPos.Y, 3, 0, 0);
                     }
                 }
 
@@ -1928,18 +1949,18 @@ namespace SpiritMod
                     speedX *= Main.rand.Next(75, 150) * 0.01f;
 
                     position.X += Main.rand.Next(-50, 51);
-                    Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType("VeinstoneBlood"), 40, 1, player.whoAmI);
+                    Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<VeinstoneBlood>(), 40, 1, player.whoAmI);
                 }
             }
 
             if (acidSet && Main.rand.NextBool(3))
             {
-                Projectile.NewProjectile(player.position, new Vector2(0, -2), mod.ProjectileType("AcidBlast"), 25, 0, Main.myPlayer);
+                Projectile.NewProjectile(player.position, new Vector2(0, -2), ModContent.ProjectileType<AcidBlast>(), 25, 0, Main.myPlayer);
             }
 
             if (infernalSet && Main.rand.NextBool(10))
             {
-                Projectile.NewProjectile(player.position, new Vector2(0, -2), mod.ProjectileType("InfernalBlast"), 50, 7, Main.myPlayer);
+                Projectile.NewProjectile(player.position, new Vector2(0, -2), ModContent.ProjectileType<InfernalBlast>(), 50, 7, Main.myPlayer);
             }
 
             if (starCharm)
@@ -1973,13 +1994,13 @@ namespace SpiritMod
                     speedX *= Main.rand.Next(75, 150) * 0.01f;
 
                     position.X += Main.rand.Next(-50, 51);
-                    Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType("Starshock1"), 35, 1, player.whoAmI);
+                    Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<Starshock1>(), 35, 1, player.whoAmI);
                 }
             }
 
             if (gremlinTooth && Main.rand.NextBool(3))
             {
-                player.AddBuff(mod.BuffType("ToothBuff"), 300);
+                player.AddBuff(ModContent.BuffType<ToothBuff>(), 300);
             }
 
             if (starMap && Main.rand.NextBool(2))
@@ -2013,14 +2034,14 @@ namespace SpiritMod
                     speedX *= Main.rand.Next(75, 150) * 0.01f;
 
                     position.X += Main.rand.Next(-10, 11);
-                    int p = Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType("Starshock1"), 24, 1, player.whoAmI);
+                    int p = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<Starshock1>(), 24, 1, player.whoAmI);
                     Main.projectile[p].timeLeft = 600;
                 }
             }
 
             if (Bauble && player.statLife < (player.statLifeMax2 >> 1) && baubleTimer <= 0)
             {
-                Projectile.NewProjectile(Main.player[Main.myPlayer].Center, Vector2.Zero, mod.ProjectileType("IceReflector"), 0, 0, Main.myPlayer);
+                Projectile.NewProjectile(Main.player[Main.myPlayer].Center, Vector2.Zero, ModContent.ProjectileType<IceReflector>(), 0, 0, Main.myPlayer);
                 player.endurance += .30f;
                 baubleTimer = 7200;
             }
@@ -2033,13 +2054,13 @@ namespace SpiritMod
                     float rand = Main.rand.NextFloat() * 6.283f;
                     vel = vel.RotatedBy(rand);
                     vel *= 4f;
-                    int proj = Projectile.NewProjectile(Main.player[Main.myPlayer].Center, vel, mod.ProjectileType("SpiritShardFriendly"), 250, 0, Main.myPlayer);
+                    int proj = Projectile.NewProjectile(Main.player[Main.myPlayer].Center, vel, ModContent.ProjectileType<SpiritShardFriendly>(), 250, 0, Main.myPlayer);
                 }
             }
 
             if (babyClamper == true && Main.rand.NextBool(6))
             {
-                Projectile.NewProjectile(player.position.X + 20, player.position.Y, 0, -2, mod.ProjectileType("ClampOrb"), 0, 0, Main.myPlayer);
+                Projectile.NewProjectile(player.position.X + 20, player.position.Y, 0, -2, ModContent.ProjectileType<ClampOrb>(), 0, 0, Main.myPlayer);
                 player.endurance += 0.1F;
             }
 
@@ -2071,7 +2092,7 @@ namespace SpiritMod
         {
             if (SRingOn)
             {
-                int newProj = Projectile.NewProjectile(player.Center, new Vector2(6, 6), 356, 40, 0f, Main.myPlayer);
+                int newProj = Projectile.NewProjectile(player.Center, new Vector2(6, 6), ProjectileID.SpectreWrath, 40, 0f, Main.myPlayer);
 
                 int dist = 800;
                 int target = -1;
@@ -2102,12 +2123,12 @@ namespace SpiritMod
 
             if (soulPotion && Main.rand.NextBool(5))
             {
-                Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("SoulPotionWard"), 0, 0f, Main.myPlayer);
+                Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<SoulPotionWard>(), 0, 0f, Main.myPlayer);
             }
 
             if (spiritBuff && Main.rand.NextBool(3))
             {
-                int newProj = Projectile.NewProjectile(player.Center, new Vector2(6, 6), mod.ProjectileType("StarSoul"), 40, 0f, Main.myPlayer);
+                int newProj = Projectile.NewProjectile(player.Center, new Vector2(6, 6), ModContent.ProjectileType<StarSoul>(), 40, 0f, Main.myPlayer);
 
                 int dist = 800;
                 int target = -1;
@@ -2134,7 +2155,7 @@ namespace SpiritMod
 				MyPlayer myPlayer = Main.player[Main.myPlayer].GetModPlayer<MyPlayer>();
                 Rectangle textPos = new Rectangle((int)myPlayer.player.position.X, (int)myPlayer.player.position.Y - 60, myPlayer.player.width, myPlayer.player.height);
                 CombatText.NewText(textPos, new Color(255, 240, 0, 100), "Fate has protected you!");
-				Projectile.NewProjectile(player.position.X, player.position.Y, 0, 0, mod.ProjectileType("Shockwave"), 0, 0, player.whoAmI);
+				Projectile.NewProjectile(player.position.X, player.position.Y, 0, 0, ModContent.ProjectileType<Shockwave>(), 0, 0, player.whoAmI);
                 fateToken = false;
                 return false;
             }
@@ -2193,7 +2214,7 @@ namespace SpiritMod
                 for (int i = 3; i < 8 + player.extraAccessorySlots; i++)
                 {
                     int type = player.armor[i].type;
-                    if (type == mod.ItemType("BubbleShield"))
+                    if (type == ModContent.ItemType<BubbleShield>())
                     {
                         player.armor[i].SetDefaults(0);
 						
@@ -2207,13 +2228,13 @@ namespace SpiritMod
 
             if (clatterboneSet && clatterboneTimer <= 0)
             {
-                player.AddBuff(mod.BuffType("Sturdy"), 21600);
+                player.AddBuff(ModContent.BuffType<Sturdy>(), 21600);
                 MyPlayer myPlayer = Main.player[Main.myPlayer].GetModPlayer<MyPlayer>();
                 Rectangle textPos = new Rectangle((int)myPlayer.player.position.X, (int)myPlayer.player.position.Y - 60, myPlayer.player.width, myPlayer.player.height);
                 CombatText.NewText(textPos, new Color(100, 240, 0, 100), "Sturdy Activated!");
 
                 player.statLife += (int)damage;
-				Projectile.NewProjectile(player.position.X, player.position.Y, 0, 0, mod.ProjectileType("Shockwave"), 0, 0, player.whoAmI);
+				Projectile.NewProjectile(player.position.X, player.position.Y, 0, 0, ModContent.ProjectileType<Shockwave>(), 0, 0, player.whoAmI);
                 clatterboneTimer = 21600; // 6 minute timer.
 
                 return false;
@@ -2229,7 +2250,7 @@ namespace SpiritMod
 
         private void CustomDeath(ref PlayerDeathReason reason)
         {
-            if (player.FindBuffIndex(mod.BuffType("BurningRage")) >= 0)
+            if (player.FindBuffIndex(ModContent.BuffType<BurningRage>()) >= 0)
             {
                 reason = PlayerDeathReason.ByCustomReason(player.name + " was consumed by Rage.");
             }
@@ -2276,7 +2297,7 @@ namespace SpiritMod
                 if (shroomtimer >= 20 && player.velocity != Vector2.Zero)
                 {
                     shroomtimer = 0;
-                    int proj = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0, 0, 131, 10, 1, Main.myPlayer, 0.0f, 1);
+                    int proj = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0, 0, ProjectileID.Mushroom, 10, 1, Main.myPlayer, 0.0f, 1);
                     Main.projectile[proj].timeLeft = 120;
                 }
             }
@@ -2286,7 +2307,7 @@ namespace SpiritMod
                 if (bloodTimer >= 40)
                 {
                     bloodTimer = 0;
-                    int proj = Projectile.NewProjectile(player.Center.X + Main.rand.Next(-30, 30), player.Center.Y - Main.rand.Next(40, 50), Main.rand.Next(-1, 1), -1, mod.ProjectileType("BloodRuneEffect"), 0, 0, Main.myPlayer, 0.0f, 1);
+                    int proj = Projectile.NewProjectile(player.Center.X + Main.rand.Next(-30, 30), player.Center.Y - Main.rand.Next(40, 50), Main.rand.Next(-1, 1), -1, ModContent.ProjectileType<BloodRuneEffect>(), 0, 0, Main.myPlayer, 0.0f, 1);
                 }
             }
             if (MyWorld.meteorShowerWeather && Main.rand.Next(270) == 0 && ZoneAsteroid)
@@ -2304,7 +2325,7 @@ namespace SpiritMod
                 float num17 = num13 * num15;
                 float SpeedX = num16 + (float)Main.rand.Next(-40, 41) * 0.02f;  //this defines the projectile X position speed and randomnes
                 float SpeedY = num17 + (float)Main.rand.Next(-40, 41) * 0.02f;  //this defines the projectile Y position speed and randomnes
-                int proj = Projectile.NewProjectile(player.Center.X + Main.rand.Next(-1000, 1000), player.Center.Y + Main.rand.Next(-1200, -900), SpeedX, SpeedY, mod.ProjectileType("Meteor"), 30, 3, Main.myPlayer, 0.0f, 1);
+                int proj = Projectile.NewProjectile(player.Center.X + Main.rand.Next(-1000, 1000), player.Center.Y + Main.rand.Next(-1200, -900), SpeedX, SpeedY, ModContent.ProjectileType<Meteor>(), 30, 3, Main.myPlayer, 0.0f, 1);
                 Main.projectile[proj].friendly = true;
                 Main.projectile[proj].hostile = true;
             }
@@ -2323,7 +2344,7 @@ namespace SpiritMod
 						for (int I = 0; I < num; I++)
 						{
 							int DegreeDifference = (int)(360 / num);
-							Projectile.NewProjectile((int)player.Center.X + (int)(Math.Sin(I * DegreeDifference) * 80), (int)player.Center.Y + (int)(Math.Sin(I * DegreeDifference) * 80), 0, 0, mod.ProjectileType("InterstellarShield"), 1, 0, player.whoAmI, 0, I * DegreeDifference);
+							Projectile.NewProjectile((int)player.Center.X + (int)(Math.Sin(I * DegreeDifference) * 80), (int)player.Center.Y + (int)(Math.Sin(I * DegreeDifference) * 80), 0, 0, ModContent.ProjectileType<InterstellarShield>(), 1, 0, player.whoAmI, 0, I * DegreeDifference);
 						}	
 						spawnedShield = true;
 						
@@ -2356,7 +2377,7 @@ namespace SpiritMod
                         {
                             if (distance <= 360)
                             {
-                                npc.AddBuff(mod.BuffType("AssassinMarked"), 65);
+                                npc.AddBuff(ModContent.BuffType<AssassinMarked>(), 65);
                             }
                         }
                     }
@@ -2366,45 +2387,45 @@ namespace SpiritMod
             {
                 int d = Main.rand.Next(new int[] { 180, 226, 206});
                 {
-                    int maxValue = 800;
-                    int num1 = (int)((double)(int)(500.0 * (double)((float)Main.screenWidth / (float)Main.maxScreenW)) * (1.0 + 2.0 * (double)Main.cloudAlpha));
-                    float num2 = (float)(1.0 + 50.0 * (double)Main.cloudAlpha);
+                    //int maxValue = 800;
+                    int num1 = (int)((int)(500.0 * (Main.screenWidth / (float)Main.maxScreenW)) * (1.0 + 2.0 * Main.cloudAlpha));
+                    float num2 = (float)(1.0 + 50.0 * Main.cloudAlpha);
                     if (Main.rand.Next(10) == 0)
                     {
                         int num3 = Main.rand.Next(Main.screenWidth + 1000) - 500;
                         int num4 = (int)Main.screenPosition.Y - Main.rand.Next(50);
-                        if ((double)Main.player[Main.myPlayer].velocity.Y > 0.0)
+                        if (Main.player[Main.myPlayer].velocity.Y > 0.0)
                             num4 -= (int)Main.player[Main.myPlayer].velocity.Y;
                         if (Main.rand.Next(5) == 0)
                             num3 = Main.rand.Next(500) - 500;
                         else if (Main.rand.Next(5) == 0)
                             num3 = Main.rand.Next(500) + Main.screenWidth;
                         if (num3 < 0 || num3 > Main.screenWidth)
-                            num4 += Main.rand.Next((int)((double)Main.screenHeight * 0.8)) + (int)((double)Main.screenHeight * 0.1);
+                            num4 += Main.rand.Next((int)(Main.screenHeight * 0.8)) + (int)(Main.screenHeight * 0.1);
                         int num5 = num3 + (int)Main.screenPosition.X;
                         int index2 = num5 / 16;
                         int index3 = num4 / 16;
                         if (Main.tile[index2, index3] != null)
                         {
-                            if ((int)Main.tile[index2, index3].wall == 0)
+                            if (Main.tile[index2, index3].wall == 0)
                             {
-                                int index4 = Dust.NewDust(new Vector2((float)(num5), (float)num4), 10, 10, d, 0.0f, 0.0f, 0, new Microsoft.Xna.Framework.Color(), 1f);
+                                int index4 = Dust.NewDust(new Vector2(num5, num4), 10, 10, d, 0.0f, 0.0f, 0, new Color(), 1f);
                                 Main.dust[index4].scale += Main.cloudAlpha * 0.2f;
-                                Main.dust[index4].velocity.Y = (float)(3.0 + (double)Main.rand.Next(30) * 0.100000001490116);
+                                Main.dust[index4].velocity.Y = (float)(3.0 + Main.rand.Next(30) * 0.100000001490116);
                                 Main.dust[index4].velocity.Y *= Main.dust[index4].scale;
                                 if (!Main.raining)
                                 {
-                                    Main.dust[index4].velocity.X = Main.windSpeed + (float)Main.rand.Next(-10, 10) * 0.1f;
-                                    Main.dust[index4].velocity.X += (float)((double)Main.windSpeed * (double)Main.cloudAlpha * 10.0);
+                                    Main.dust[index4].velocity.X = Main.windSpeed + Main.rand.Next(-10, 10) * 0.1f;
+                                    Main.dust[index4].velocity.X += (float)(Main.windSpeed * Main.cloudAlpha * 10.0);
                                 }
                                 else
                                 {
-                                    Main.dust[index4].velocity.X = (float)(Math.Sqrt((double)Math.Abs(Main.windSpeed)) * (double)Math.Sign(Main.windSpeed) * ((double)Main.cloudAlpha + 0.5) * 25.0 + (double)Main.rand.NextFloat() * 0.200000002980232 - 0.100000001490116);
+                                    Main.dust[index4].velocity.X = (float)(Math.Sqrt(Math.Abs(Main.windSpeed)) * Math.Sign(Main.windSpeed) * (Main.cloudAlpha + 0.5) * 25.0 + (double)Main.rand.NextFloat() * 0.200000002980232 - 0.100000001490116);
                                     Main.dust[index4].velocity.Y *= 0.5f;
                                 }
-                                Main.dust[index4].velocity.Y *= (float)(1.0 + 0.300000011920929 * (double)Main.cloudAlpha);
+                                Main.dust[index4].velocity.Y *= (float)(1.0 + 0.300000011920929 * Main.cloudAlpha);
                                 Main.dust[index4].scale += Main.cloudAlpha * 0.2f;
-                                Main.dust[index4].velocity *= (float)(1.0 + (double)Main.cloudAlpha * 0.5);
+                                Main.dust[index4].velocity *= (float)(1.0 + Main.cloudAlpha * 0.5);
                             }
                         }
                     }
@@ -2412,24 +2433,24 @@ namespace SpiritMod
             }
             if (ZoneAsteroid && MyWorld.spaceJunkWeather && Main.rand.Next(59) == 0)
             {
-                Vector2 vector2_1 = new Vector2((float)((double)player.position.X + (double)player.width * 0.5 + (double)(Main.rand.Next(201) * -player.direction) + ((double)Main.mouseX + (double)Main.screenPosition.X - (double)player.position.X)), (float)((double)player.position.Y + (double)player.height * 0.5 - 600.0));   //this defines the projectile width, direction and position
+                Vector2 vector2_1 = new Vector2((float)(player.position.X + player.width * 0.5 + (Main.rand.Next(201) * -player.direction) + ((double)Main.mouseX + (double)Main.screenPosition.X - (double)player.position.X)), (float)((double)player.position.Y + (double)player.height * 0.5 - 600.0));   //this defines the projectile width, direction and position
 
                 string[] smallDebris = { "SpaceDebris1", "SpaceDebris2", "MeteorShard3", "MeteorShard4" };
                 int small = Main.rand.Next(smallDebris.Length);
                 string[] bigDebris = { "SpaceDebris3", "SpaceDebris4", "MeteorShard5", "MeteorShard6" };
                 int big = Main.rand.Next(bigDebris.Length);
-                vector2_1.X = (float)(((double)vector2_1.X + (double)player.Center.X) / 2.0) + (float)Main.rand.Next(-200, 201);
-                vector2_1.Y -= (float)(100);
+                vector2_1.X = (float)(((double)vector2_1.X + player.Center.X) / 2.0) + Main.rand.Next(-200, 201);
+                vector2_1.Y -= 100;
                 float num12 = Main.rand.Next(-30, 30);
                 float num13 = 100;
-                if ((double)num13 < 0.0) num13 *= -1f;
-                if ((double)num13 < 20.0) num13 = 20f;
-                float num14 = (float)Math.Sqrt((double)num12 * (double)num12 + (double)num13 * (double)num13);
+                if (num13 < 0.0) num13 *= -1f;
+                if (num13 < 20.0) num13 = 20f;
+                float num14 = (float)Math.Sqrt(num12 * num12 + num13 * num13);
                 float num15 = 10 / num14;
                 float num16 = num12 * num15;
                 float num17 = num13 * num15;
-                float SpeedX = num16 + (float)Main.rand.Next(-40, 41) * Main.windSpeed + (.01f * Main.windSpeed);  //this defines the projectile X position speed and randomnes
-                float SpeedY = num17 + (float)Main.rand.Next(-40, 41) * 0.02f;  //this defines the projectile Y position speed and randomnes
+                float SpeedX = num16 + Main.rand.Next(-40, 41) * Main.windSpeed + (.01f * Main.windSpeed);  //this defines the projectile X position speed and randomnes
+                float SpeedY = num17 + Main.rand.Next(-40, 41) * 0.02f;  //this defines the projectile Y position speed and randomnes
                 if (Main.rand.Next(7) == 0)
                 {
                     int proj = Projectile.NewProjectile(player.Center.X + Main.rand.Next(-1000, 1000), player.Center.Y + Main.rand.Next(-1200, -900), SpeedX, SpeedY, mod.ProjectileType(bigDebris[big]), 16, 3, Main.myPlayer, 0.0f, 1);
@@ -2497,7 +2518,7 @@ namespace SpiritMod
                 Main.PlaySound(new Terraria.Audio.LegacySoundStyle(25, 1));
                 for (int i = 0; i < 2; i++)
                 {
-                    int num = Dust.NewDust(player.position, player.width, player.height, 222, 0f, -2f, 0, default(Color), 2f);
+                    int num = Dust.NewDust(player.position, player.width, player.height, 222, 0f, -2f, 0, default, 2f);
                     Main.dust[num].noGravity = true;
                     Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
                     Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -2518,7 +2539,7 @@ namespace SpiritMod
             {
                 int num323;
                 int num326;
-                if (player.velocity.Y == 0f && player.HasBuff(mod.BuffType("GraniteBonus")) && !player.mount.Active)
+                if (player.velocity.Y == 0f && player.HasBuff(ModContent.BuffType<GraniteBonus>()) && !player.mount.Active)
                 {
                     num326 = 1;
                     num326 += player.extraFall;
@@ -2530,7 +2551,7 @@ namespace SpiritMod
                     {
                         if (player.gravDir == 1f && num323 > num326)
                         {
-                            player.ClearBuff(mod.BuffType("GraniteBonus"));
+                            player.ClearBuff(ModContent.BuffType<GraniteBonus>());
                             Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
                             {
                                 for (int i = 0; i < 8 * num323; i++)
@@ -2545,9 +2566,9 @@ namespace SpiritMod
                                 }
                             }
                             int proj = Projectile.NewProjectile(player.position.X, player.position.Y,
-                                0, 0, mod.ProjectileType("GraniteSpike1"), num323 * 10, 0, player.whoAmI);
+                                0, 0, ModContent.ProjectileType<GraniteSpike1>(), num323 * 10, 0, player.whoAmI);
                             int proj1 = Projectile.NewProjectile(player.position.X, player.position.Y,
-                               0, 0, mod.ProjectileType("StompExplosion"), num323 * 10, 6, player.whoAmI);
+                               0, 0, ModContent.ProjectileType<StompExplosion>(), num323 * 10, 6, player.whoAmI);
                             Main.projectile[proj].timeLeft = 0;
                             Main.projectile[proj].ranged = true;
 
@@ -2632,7 +2653,7 @@ namespace SpiritMod
                     glyph = GlyphType.None;
                 }
 
-                if (Main.netMode == 1)
+                if (Main.netMode == NetmodeID.MultiplayerClient)
                 {
                     ModPacket packet = SpiritMod.instance.GetPacket(MessageType.PlayerGlyph, 2);
                     packet.Write((byte)Main.myPlayer);
@@ -2654,7 +2675,7 @@ namespace SpiritMod
                     {
                         phaseCounter = 0;
                         phaseStacks++;
-                        player.AddBuff(mod.BuffType("TemporalShift"), 2);
+                        player.AddBuff(ModContent.BuffType<TemporalShift>(), 2);
                     }
                 }
             }
@@ -2664,7 +2685,7 @@ namespace SpiritMod
                 if (veilCounter >= 8 * 60)
                 {
                     veilCounter = 0;
-                    player.AddBuff(mod.BuffType("PhantomVeil"), 2);
+                    player.AddBuff(ModContent.BuffType<PhantomVeil>(), 2);
                 }
             }
             else if (glyph == GlyphType.Void)
@@ -2677,30 +2698,30 @@ namespace SpiritMod
                 if (divineCounter >= 60)
                 {
                     divineCounter = 0;
-                    player.AddBuff(mod.BuffType("DivineStrike"), 2);
+                    player.AddBuff(ModContent.BuffType<DivineStrike>(), 2);
                 }
             }
 
             if (icytrail && player.velocity.X != 0)
             {
-                Projectile.NewProjectile(player.position.X, player.position.Y + 40, 0f, 0f, mod.ProjectileType("FrostTrail"), 35, 0f, player.whoAmI);
+                Projectile.NewProjectile(player.position.X, player.position.Y + 40, 0f, 0f, ModContent.ProjectileType<FrostTrail>(), 35, 0f, player.whoAmI);
             }
 
             if (flametrail && player.velocity.X != 0)
             {
-                Projectile.NewProjectile(player.position.X, player.position.Y + 40, 0f, 0f, mod.ProjectileType("CursedFlameTrail"), 35, 0f, player.whoAmI);
+                Projectile.NewProjectile(player.position.X, player.position.Y + 40, 0f, 0f, ModContent.ProjectileType<CursedFlameTrail>(), 35, 0f, player.whoAmI);
             }
 
             if (CrystalShield && player.velocity.X != 0 && Main.rand.NextBool(3))
             {
                 if (player.velocity.X < 0)
                 {
-                    Projectile.NewProjectile(player.position.X, player.Center.Y, Main.rand.Next(6, 10), Main.rand.Next(-3, 3), 90, 36, 0f, player.whoAmI);
+                    Projectile.NewProjectile(player.position.X, player.Center.Y, Main.rand.Next(6, 10), Main.rand.Next(-3, 3), ProjectileID.CrystalShard, 36, 0f, player.whoAmI);
                 }
 
                 if (player.velocity.X > 0)
                 {
-                    Projectile.NewProjectile(player.position.X, player.Center.Y, Main.rand.Next(-10, -6), Main.rand.Next(-3, 3), 90, 36, 0f, player.whoAmI);
+                    Projectile.NewProjectile(player.position.X, player.Center.Y, Main.rand.Next(-10, -6), Main.rand.Next(-3, 3), ProjectileID.CrystalShard, 36, 0f, player.whoAmI);
                 }
             }
         }
@@ -2834,11 +2855,11 @@ namespace SpiritMod
                         int dust;
                         if (player.velocity.Y == 0f)
                         {
-                            dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 8, mod.DustType("TemporalDust"), 0f, 0f, 100, default, 1.4f);
+                            dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 8, ModContent.DustType<TemporalDust>(), 0f, 0f, 100, default, 1.4f);
                         }
                         else
                         {
-                            dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + (player.height >> 1) - 8f), player.width, 16, mod.DustType("TemporalDust"), 0f, 0f, 100, default, 1.4f);
+                            dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + (player.height >> 1) - 8f), player.width, 16, ModContent.DustType<TemporalDust>(), 0f, 0f, 100, default, 1.4f);
                         }
 
                         Main.dust[dust].velocity *= 0.1f;
@@ -2854,9 +2875,9 @@ namespace SpiritMod
                 {
                     if (firewallHit < 0)
                     {
-                        Dust.NewDust(player.position, player.width, player.height, mod.DustType("BinaryDust"));
-                        Dust.NewDust(player.position, player.width, player.height, mod.DustType("BinaryDust"));
-                        Dust.NewDust(player.position, player.width, player.height, mod.DustType("BinaryDust"));
+                        Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<BinaryDust>());
+                        Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<BinaryDust>());
+                        Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<BinaryDust>());
                         Rectangle hitbox = new Rectangle((int)(player.position.X + player.velocity.X * 0.5 - 4), (int)(player.position.Y + player.velocity.Y * 0.5 - 4), player.width + 8, player.height + 8);
                         for (int i = 0; i < Main.maxNPCs; i++)
                         {
@@ -2888,11 +2909,11 @@ namespace SpiritMod
 
                                     if (player.whoAmI == Main.myPlayer)
                                     {
-                                        npc.AddBuff(mod.BuffType("StackingFireBuff"), 600);
+                                        npc.AddBuff(ModContent.BuffType<StackingFireBuff>(), 600);
                                         npc.StrikeNPC((int)damage, knockback, hitDirection, crit);
-                                        if (Main.netMode != 0)
+                                        if (Main.netMode != NetmodeID.SinglePlayer)
                                         {
-                                            NetMessage.SendData(28, -1, -1, null, i, damage, knockback, hitDirection, 0, 0, 0);
+                                            NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, i, damage, knockback, hitDirection, 0, 0, 0);
                                         }
                                     }
 
@@ -3008,13 +3029,13 @@ namespace SpiritMod
 
                 if (local)
                 {
-                    player.AddBuff(mod.BuffType("TemporalShift"), 3 * 60);
+                    player.AddBuff(ModContent.BuffType<TemporalShift>(), 3 * 60);
                 }
 
                 // vfx
                 for (int num17 = 0; num17 < 20; num17++)
                 {
-                    int dust = Dust.NewDust(player.position, player.width, player.height, mod.DustType("TemporalDust"), 0f, 0f, 100, default, 2f);
+                    int dust = Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<TemporalDust>(), 0f, 0f, 100, default, 2f);
                     Main.dust[dust].position.X += Main.rand.Next(-5, 6);
                     Main.dust[dust].position.Y += Main.rand.Next(-5, 6);
                     Main.dust[dust].velocity *= 0.2f;
@@ -3025,14 +3046,14 @@ namespace SpiritMod
             {
                 firewallHit = -1;
 
-                Dust.NewDust(player.position, player.width, player.height, mod.DustType("BinaryDust"), 0f, 0f, 0, default, 1f);
-                Dust.NewDust(player.position, player.width, player.height, mod.DustType("BinaryDust"), 0f, 0f, 0, default, 1f);
+                Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<BinaryDust>(), 0f, 0f, 0, default, 1f);
+                Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<BinaryDust>(), 0f, 0f, 0, default, 1f);
 
                 velocity *= 18.5f;
 
                 for (int num22 = 0; num22 < 0; num22++)
                 {
-                    int num23f = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, mod.DustType("TemporalDust"), 0f, 0f, 100, default, 2f);
+                    int num23f = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, ModContent.DustType<TemporalDust>(), 0f, 0f, 100, default, 2f);
                     Main.dust[num23f].position.X = Main.dust[num23f].position.X + Main.rand.Next(-5, 6);
                     Main.dust[num23f].position.Y = Main.dust[num23f].position.Y + Main.rand.Next(-5, 6);
                     Main.dust[num23f].velocity *= 0.2f;
@@ -3055,7 +3076,7 @@ namespace SpiritMod
             player.dashDelay = -1;
             ActiveDash = dash;
 
-            if (!local || Main.netMode == 0)
+            if (!local || Main.netMode == NetmodeID.SinglePlayer)
             {
                 return;
             }
@@ -3091,10 +3112,10 @@ namespace SpiritMod
                 {
                     if (player.velocity.Y != 0 && stompCooldown <= 0)
                     {
-                        player.AddBuff(mod.BuffType("GraniteBonus"), 300);
+                        player.AddBuff(ModContent.BuffType<GraniteBonus>(), 300);
                     }
                 }
-                if (player.velocity.Y > 0 && player.HasBuff(mod.BuffType("GraniteBonus")))
+                if (player.velocity.Y > 0 && player.HasBuff(ModContent.BuffType<GraniteBonus>()))
                 {
                     player.noFallDmg = true;
                     player.velocity.Y = 15.53f;
@@ -3354,11 +3375,11 @@ namespace SpiritMod
 
             if (frigidSet)
             {
-                if (SpiritMod.SpecialKey.JustPressed && !player.HasBuff(mod.BuffType("FrigidCooldown")))
+                if (SpiritMod.SpecialKey.JustPressed && !player.HasBuff(ModContent.BuffType<FrigidCooldown>()))
                 {
                     Vector2 mouse = Main.MouseScreen + Main.screenPosition;
-                    Projectile.NewProjectile(mouse, Vector2.Zero, mod.ProjectileType("FrigidWall"), 14, 8, player.whoAmI);
-                    player.AddBuff(mod.BuffType("FrigidCooldown"), 500);
+                    Projectile.NewProjectile(mouse, Vector2.Zero, ModContent.ProjectileType<FrigidWall>(), 14, 8, player.whoAmI);
+                    player.AddBuff(ModContent.BuffType<FrigidCooldown>(), 500);
                 }
             }
 
@@ -3410,11 +3431,11 @@ namespace SpiritMod
                 int dust;
                 if (player.velocity.Y == 0f)
                 {
-                    dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 8, mod.DustType("TemporalDust"), 0f, 0f, 100, default, 1.4f);
+                    dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 8, ModContent.DustType<TemporalDust>(), 0f, 0f, 100, default, 1.4f);
                 }
                 else
                 {
-                    dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + (player.height >> 1) - 8f), player.width, 16, mod.DustType("TemporalDust"), 0f, 0f, 100, default, 1.4f);
+                    dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + (player.height >> 1) - 8f), player.width, 16, ModContent.DustType<TemporalDust>(), 0f, 0f, 100, default, 1.4f);
                 }
 
                 Main.dust[dust].velocity *= 0.1f;
@@ -3439,7 +3460,7 @@ namespace SpiritMod
                     bool spawnProj = true;
                     for (int i = 0; i < 1000; ++i)
                     {
-                        if (Main.projectile[i].type == mod.ProjectileType("InfernalGuard") && Main.projectile[i].owner == player.whoAmI)
+                        if (Main.projectile[i].type == ModContent.ProjectileType<InfernalGuard>() && Main.projectile[i].owner == player.whoAmI)
                         {
                             spawnProj = false;
                             break;
@@ -3450,12 +3471,12 @@ namespace SpiritMod
                     {
                         for (int i = 0; i < 3; ++i)
                         {
-                            int newProj = Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("InfernalGuard"), 0, 0, player.whoAmI, 90, 1);
+                            int newProj = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<InfernalGuard>(), 0, 0, player.whoAmI, 90, 1);
                             Main.projectile[newProj].localAI[1] = 2f * (float)Math.PI / 3f * i;
                         }
                     }
 
-                    player.AddBuff(mod.BuffType("InfernalRage"), 2);
+                    player.AddBuff(ModContent.BuffType<InfernalRage>(), 2);
                     infernalSetCooldown = 60;
                 }
             }
@@ -3501,108 +3522,108 @@ namespace SpiritMod
 
             if (bloomwindSet)
             {
-                player.AddBuff(mod.BuffType("BloomwindMinionBuff"), 3600);
+                player.AddBuff(ModContent.BuffType<BloomwindMinionBuff>(), 3600);
                 timer1++;
-                if (player.ownedProjectileCounts[mod.ProjectileType("BloomwindMinion")] <= 0 && timer1 > 30)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<BloomwindMinion>()] <= 0 && timer1 > 30)
                 {
-                    Projectile.NewProjectile(player.position, Vector2.Zero, mod.ProjectileType("BloomwindMinion"), 35, 0, player.whoAmI);
+                    Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<BloomwindMinion>(), 35, 0, player.whoAmI);
                     timer1 = 0;
                 }
             }
 
             if (Ward || Ward1)
             {
-                if (player.ownedProjectileCounts[mod.ProjectileType("WardProj")] <= 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<WardProj>()] <= 1)
                 {
-                    Projectile.NewProjectile(player.position, Vector2.Zero, mod.ProjectileType("WardProj"), 0, 0, player.whoAmI);
+                    Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<WardProj>(), 0, 0, player.whoAmI);
                 }
             }
             if (cryoSet)
             {
-                if (player.ownedProjectileCounts[mod.ProjectileType("CryoProj")] <= 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<CryoProj>()] <= 1)
                 {
-                    Projectile.NewProjectile(player.position, Vector2.Zero, mod.ProjectileType("CryoProj"), 0, 0, player.whoAmI);
+                    Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<CryoProj>(), 0, 0, player.whoAmI);
                 }
             }
             if (atmos)
             {
-                if (player.ownedProjectileCounts[mod.ProjectileType("AtmosProj")] <= 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<AtmosProj>()] <= 1)
                 {
-                    Projectile.NewProjectile(player.position, Vector2.Zero, mod.ProjectileType("AtmosProj"), 0, 0, player.whoAmI);
+                    Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<AtmosProj>(), 0, 0, player.whoAmI);
                 }
             }
 
             if (oceanSet)
             {
                 timerz++;
-                player.AddBuff(mod.BuffType("BabyClamperBuff"), 3600);
-                if (player.ownedProjectileCounts[mod.ProjectileType("BabyClamper")] <= 0 && timerz > 30)
+                player.AddBuff(ModContent.BuffType<BabyClamperBuff>(), 3600);
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Summon.BabyClamper>()] <= 0 && timerz > 30)
                 {
-                    Projectile.NewProjectile(player.position, Vector2.Zero, mod.ProjectileType("BabyClamper"), 19, 0, player.whoAmI);
+                    Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<Projectiles.Summon.BabyClamper>(), 19, 0, player.whoAmI);
                     timerz = 0;
                 }
             }
 
             if (animusLens)
             {
-                if (player.ownedProjectileCounts[mod.ProjectileType("ShadowGuard")] <= 0)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<ShadowGuard>()] <= 0)
                 {
-                    Projectile.NewProjectile(player.position, Vector2.Zero, mod.ProjectileType("ShadowGuard"), 20, 0, player.whoAmI);
+                    Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<ShadowGuard>(), 20, 0, player.whoAmI);
                 }
 
-                if (player.ownedProjectileCounts[mod.ProjectileType("SpiritGuard")] <= 0)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<SpiritGuard>()] <= 0)
                 {
-                    Projectile.NewProjectile(player.position, Vector2.Zero, mod.ProjectileType("SpiritGuard"), 20, 0, player.whoAmI);
+                    Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<SpiritGuard>(), 20, 0, player.whoAmI);
                 }
             }
 
             if (witherSet)
             {
-                if (player.ownedProjectileCounts[mod.ProjectileType("WitherOrb")] <= 0)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<WitherOrb>()] <= 0)
                 {
-                    Projectile.NewProjectile(player.position, Vector2.Zero, mod.ProjectileType("WitherOrb"), 45, 0, player.whoAmI);
+                    Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<WitherOrb>(), 45, 0, player.whoAmI);
                 }
             }
 
             Counter++;
             if (MoonSongBlossom)
             {
-                if (player.ownedProjectileCounts[mod.ProjectileType("MoonShard")] <= 2 && Counter > 120)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<MoonShard>()] <= 2 && Counter > 120)
                 {
-                    Projectile.NewProjectile(player.position, Vector2.Zero, mod.ProjectileType("MoonShard"), 25, 0, player.whoAmI);
+                    Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<MoonShard>(), 25, 0, player.whoAmI);
                     Counter = 0;
                 }
             }
 
             if (crystalSet)
             {
-                if (player.ownedProjectileCounts[mod.ProjectileType("HedronCrystal")] <= 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<HedronCrystal>()] <= 1)
                 {
-                    Projectile.NewProjectile(player.position, Vector2.Zero, mod.ProjectileType("HedronCrystal"), 25, 0, player.whoAmI);
+                    Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<HedronCrystal>(), 25, 0, player.whoAmI);
                 }
             }
 
             if (shadowSet && (Main.rand.NextBool(2)))
             {
-                if (player.ownedProjectileCounts[mod.ProjectileType("Spirit")] <= 2)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<Spirit>()] <= 2)
                 {
-                    Projectile.NewProjectile(player.position, Vector2.Zero, mod.ProjectileType("Spirit"), 56, 0, player.whoAmI);
+                    Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<Spirit>(), 56, 0, player.whoAmI);
                 }
             }
 
             if (SoulStone && (Main.rand.NextBool(2)))
             {
-                if (player.ownedProjectileCounts[mod.ProjectileType("StoneSpirit")] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<StoneSpirit>()] < 1)
                 {
-                    Projectile.NewProjectile(player.position, Vector2.Zero, mod.ProjectileType("StoneSpirit"), 35, 0, player.whoAmI);
+                    Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<StoneSpirit>(), 35, 0, player.whoAmI);
                 }
             }
 
             if (duskSet)
             {
-                if (player.ownedProjectileCounts[mod.ProjectileType("ShadowCircleRune1")] <= 0)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<ShadowCircleRune1>()] <= 0)
                 {
-                    Projectile.NewProjectile(player.position, Vector2.Zero, mod.ProjectileType("ShadowCircleRune1"), 18, 0, player.whoAmI);
+                    Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<ShadowCircleRune1>(), 18, 0, player.whoAmI);
                 }
             }
 
@@ -3661,12 +3682,12 @@ namespace SpiritMod
 
                                 if (player.whoAmI == Main.myPlayer)
                                 {
-                                    npc.AddBuff(mod.BuffType("SoulFlare"), 600);
+                                    npc.AddBuff(ModContent.BuffType<SoulFlare>(), 600);
                                     npc.StrikeNPC((int)damage, knockback, hitDirection, crit, false, false);
 
-                                    if (Main.netMode != 0)
+                                    if (Main.netMode != NetmodeID.SinglePlayer)
                                     {
-                                        NetMessage.SendData(28, -1, -1, null, i, damage, knockback, hitDirection);
+                                        NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, i, damage, knockback, hitDirection);
                                     }
                                 }
 
@@ -3876,12 +3897,12 @@ namespace SpiritMod
 
                                 if (player.whoAmI == Main.myPlayer)
                                 {
-                                    npc.AddBuff(mod.BuffType("StackingFireBuff"), 600);
+                                    npc.AddBuff(ModContent.BuffType<StackingFireBuff>(), 600);
                                     npc.StrikeNPC((int)damage, knockback, hitDirection, crit, false, false);
 
-                                    if (Main.netMode != 0)
+                                    if (Main.netMode != NetmodeID.SinglePlayer)
                                     {
-                                        NetMessage.SendData(28, -1, -1, null, i, damage, knockback, hitDirection, 0, 0, 0);
+                                        NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, i, damage, knockback, hitDirection, 0, 0, 0);
                                     }
                                 }
 
@@ -4125,7 +4146,7 @@ namespace SpiritMod
                     if (drakomireFlameTimer >= 15)
                     {
                         Vector2 vector = player.Center + new Vector2(26 * -(float)player.direction, 26f * player.gravDir);
-                        Projectile.NewProjectile(vector.X, vector.Y, 0f, 0f, mod.ProjectileType("DrakomireFlame"), player.statDefense / 2, 0f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(vector.X, vector.Y, 0f, 0f, ModContent.ProjectileType<DrakomireFlame>(), player.statDefense / 2, 0f, player.whoAmI, 0f, 0f);
                         drakomireFlameTimer = 0;
                     }
                 }
@@ -4145,7 +4166,7 @@ namespace SpiritMod
 
         public override void PostUpdateRunSpeeds()
         {
-            if (copterBrake && player.mount.Active && player.mount.Type == mod.MountType("CandyCopter"))
+            if (copterBrake && player.mount.Active && player.mount.Type == ModContent.MountType<CandyCopter>())
             {
                 // Prevent horizontal movement
                 player.maxRunSpeed = 0f;
@@ -4239,7 +4260,7 @@ namespace SpiritMod
             }
             if (bismiteSet)
             {
-                if (player.HasBuff(mod.BuffType("VirulenceCooldown")) || virulence >= 0)
+                if (player.HasBuff(ModContent.BuffType<VirulenceCooldown>()) || virulence >= 0)
                 {
                     virulence--;
                 }
@@ -4325,7 +4346,7 @@ namespace SpiritMod
 
             if (primalSet && item.melee && Main.rand.NextBool(2))
             {
-                target.AddBuff(mod.BuffType("Afflicted"), 120);
+                target.AddBuff(ModContent.BuffType<Afflicted>(), 120);
             }
 
             if (moonGauntlet && item.melee)
@@ -4347,7 +4368,7 @@ namespace SpiritMod
 
                 if (Main.rand.NextBool(8))
                 {
-                    player.AddBuff(mod.BuffType("OnyxWind"), 120);
+                    player.AddBuff(ModContent.BuffType<OnyxWind>(), 120);
                 }
             }
 
@@ -4369,7 +4390,7 @@ namespace SpiritMod
                     {
                         if (Main.myPlayer == player.whoAmI)
                         {
-                            Projectile.NewProjectile(target.Center.X + Main.rand.Next(-140, 140), target.Center.Y - 1000 + Main.rand.Next(-50, 50), 0, Main.rand.Next(18, 28), 92, 40, 3, player.whoAmI);
+                            Projectile.NewProjectile(target.Center.X + Main.rand.Next(-140, 140), target.Center.Y - 1000 + Main.rand.Next(-50, 50), 0, Main.rand.Next(18, 28), ProjectileID.HallowStar, 40, 3, player.whoAmI);
                         }
                     }
                 }
@@ -4393,7 +4414,7 @@ namespace SpiritMod
                         float rand = Main.rand.NextFloat() * 6.283f;
                         vel = vel.RotatedBy(rand);
                         vel *= 8f;
-                        Projectile.NewProjectile(target.Center - new Vector2(10f, 10f), vel, mod.ProjectileType("Rune"), 27, 1, player.whoAmI);
+                        Projectile.NewProjectile(target.Center - new Vector2(10f, 10f), vel, ModContent.ProjectileType<Projectiles.Magic.Rune>(), 27, 1, player.whoAmI);
                     }
                 }
             }
@@ -4402,7 +4423,7 @@ namespace SpiritMod
             {
                 if (item.melee || item.ranged || item.magic)
                 {
-                    player.AddBuff(mod.BuffType("CelestialWill"), 300);
+                    player.AddBuff(ModContent.BuffType<CelestialWill>(), 300);
                 }
             }
 
@@ -4474,7 +4495,7 @@ namespace SpiritMod
 
                 if (Main.rand.NextBool(8))
                 {
-                    player.AddBuff(mod.BuffType("OnyxWind"), 120);
+                    player.AddBuff(ModContent.BuffType<OnyxWind>(), 120);
                 }
             }
 
@@ -4486,7 +4507,7 @@ namespace SpiritMod
                     float rand = Main.rand.NextFloat() * 6.283f;
                     vel = vel.RotatedBy(rand);
                     vel *= 8f;
-                    Projectile.NewProjectile(target.Center.X - 10, target.Center.Y - 10, vel.X, vel.Y, mod.ProjectileType("Rune"), 27, 1, player.whoAmI);
+                    Projectile.NewProjectile(target.Center.X - 10, target.Center.Y - 10, vel.X, vel.Y, ModContent.ProjectileType<Projectiles.Magic.Rune>(), 27, 1, player.whoAmI);
                 }
             }
 
@@ -4496,20 +4517,20 @@ namespace SpiritMod
                 {
                     if (Main.myPlayer == player.whoAmI)
                     {
-                        Projectile.NewProjectile(target.Center.X + Main.rand.Next(-140, 140), target.Center.Y - 1000 + Main.rand.Next(-50, 50), 0, Main.rand.Next(18, 28), 92, 40, 3, player.whoAmI);
+                        Projectile.NewProjectile(target.Center.X + Main.rand.Next(-140, 140), target.Center.Y - 1000 + Main.rand.Next(-50, 50), 0, Main.rand.Next(18, 28), ProjectileID.HallowStar, 40, 3, player.whoAmI);
                     }
                 }
             }
             if (moonHeart && Main.rand.NextBool(15))
             {
-                player.AddBuff(mod.BuffType("CelestialWill"), 300);
+                player.AddBuff(ModContent.BuffType<CelestialWill>(), 300);
             }
 
             if (primalSet && Main.rand.NextBool(2))
             {
                 if (proj.magic || proj.melee)
                 {
-                    target.AddBuff(mod.BuffType("Afflicted"), 120);
+                    target.AddBuff(ModContent.BuffType<Afflicted>(), 120);
                 }
             }
 
@@ -4684,7 +4705,7 @@ namespace SpiritMod
 
             for (float num4 = 1f; num4 <= (double)num3; ++num4)
             {
-                Dust dust = Main.dust[Dust.NewDust(player.Center, 0, 0, mod.DustType("NightmareDust"), 0.0f, 0.0f, 0, new Color(), .8f)];
+                Dust dust = Main.dust[Dust.NewDust(player.Center, 0, 0, ModContent.DustType<NightmareDust>(), 0.0f, 0.0f, 0, new Color(), .8f)];
                 dust.position = Vector2.Lerp(vector2_3, vector2_2, num4 / num3);
                 dust.noGravity = true;
                 dust.velocity = Vector2.Zero;
@@ -4715,7 +4736,7 @@ namespace SpiritMod
 
                     npc.StrikeNPCNoInteraction(dam, knockBack, -hitDirection, false, false, false);
 
-                    int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, mod.ProjectileType("ScarabProjectile"), dam/2, knockBack, 0, Main.myPlayer);
+                    int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, ModContent.ProjectileType<ScarabProjectile>(), dam/2, knockBack, 0, Main.myPlayer);
                     Main.projectile[p].melee = false;
                 }
             }
@@ -4765,7 +4786,7 @@ namespace SpiritMod
                 int runeAmount = 0;
                 for (int i = 0; i < 1000; i++)
                 {
-                    if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].type == mod.ProjectileType("RunicRune"))
+                    if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<RunicRune>())
                     {
                         runeAmount++;
                     }
@@ -4814,7 +4835,7 @@ namespace SpiritMod
                                 {
                                     for (int k = 0; k < 1000; k++)
                                     {
-                                        if (Main.projectile[k].active && Main.projectile[k].owner == player.whoAmI && Main.projectile[k].type == mod.ProjectileType("RunicRune") && (center - Main.projectile[k].Center).Length() < 48f)
+                                        if (Main.projectile[k].active && Main.projectile[k].owner == player.whoAmI && Main.projectile[k].type == ModContent.ProjectileType<RunicRune>() && (center - Main.projectile[k].Center).Length() < 48f)
                                         {
                                             flag = false;
                                             break;
@@ -4823,7 +4844,7 @@ namespace SpiritMod
 
                                     if (flag && Main.myPlayer == player.whoAmI)
                                     {
-                                        Projectile.NewProjectile(center.X, center.Y, 0f, 0f, mod.ProjectileType("RunicRune"), 40, 1.5f, player.whoAmI, 0f, 0f);
+                                        Projectile.NewProjectile(center.X, center.Y, 0f, 0f, ModContent.ProjectileType<RunicRune>(), 40, 1.5f, player.whoAmI, 0f, 0f);
                                         return;
                                     }
                                 }
@@ -5069,7 +5090,8 @@ namespace SpiritMod
 
                 if (layers[i].Name == "HeldItem")
                 {
-                    if (player.inventory[player.selectedItem].type == mod.ItemType("HexBow") && player.itemAnimation > 0)
+                    // Can someone please tell me what HexBow was? It. Doesn't. Exist.
+                    /*if (player.inventory[player.selectedItem].type == ModContent.ItemType<HexBow>() && player.itemAnimation > 0)
                     {
                         weaponAnimationCounter++;
                         if (weaponAnimationCounter >= 10)
@@ -5078,7 +5100,7 @@ namespace SpiritMod
                             weaponAnimationCounter = 0;
                         }
                         layers[i] = WeaponLayer;
-                    }
+                    }*/
                 }
             }
 
