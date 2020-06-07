@@ -1,4 +1,5 @@
 using System;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.YoYoOverload.Items

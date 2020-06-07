@@ -45,7 +45,7 @@ namespace SpiritMod.Buffs
             }
             if (info.angelLightStacks == 2)
             {
-                Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 9);
+                Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 9);
                 for (int k = 0; k < Main.rand.Next(1, 3); k++)
                 {
                     float num12 = Main.rand.Next(-10, 10);
