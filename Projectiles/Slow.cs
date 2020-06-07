@@ -41,7 +41,7 @@ namespace SpiritMod.Projectiles
 			for (int index1 = 0; index1 < 200; index1++)
 			{
 				if (rect.Contains(Main.npc[index1].Center.ToPoint()))
-					Main.npc[index1].AddBuff(ModContent.BuffType<Slow>(), 240);
+					Main.npc[index1].AddBuff(ModContent.BuffType<Buffs.Slow>(), 240);
 			}
 		}
 

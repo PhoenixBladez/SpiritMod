@@ -1,6 +1,8 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Buffs;
+using SpiritMod.Items.Weapon.Thrown;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Projectiles.Sword.Artifact;
 using Terraria;
 using Terraria.ModLoader;
 

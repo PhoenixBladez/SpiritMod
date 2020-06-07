@@ -22,7 +22,7 @@ namespace SpiritMod.Tiles.Furniture
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Terraria.Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<PirateCrate>());
+			Terraria.Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<Items.Consumable.PirateCrate>());
 		}
 	}
 }

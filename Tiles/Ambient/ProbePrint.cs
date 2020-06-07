@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Placeable.Furniture;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ObjectData;

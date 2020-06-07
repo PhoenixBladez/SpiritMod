@@ -34,7 +34,7 @@ namespace SpiritMod.Tiles.Furniture
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Altar of Creation");
-			this.AddMapEntry(new Color(100, 100, 100), name);
+			AddMapEntry(new Color(100, 100, 100), name);
 		}
 		public override void SetDrawPositions (int i, int j, ref int width, ref int offsetY, ref int height)
 		{
@@ -49,7 +49,7 @@ namespace SpiritMod.Tiles.Furniture
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Terraria.Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<CreationAltar>());
+			Terraria.Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<Items.Placeable.Furniture.CreationAltar>());
 		}
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{

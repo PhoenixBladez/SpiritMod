@@ -6,6 +6,7 @@ using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.NPCs.Boss.Dusking;
 
 namespace SpiritMod.Projectiles.Magic
 {

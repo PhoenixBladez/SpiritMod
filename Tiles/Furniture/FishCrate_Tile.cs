@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Placeable;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,7 +23,7 @@ namespace SpiritMod.Tiles.Furniture
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Terraria.Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<FishCrate>());
+			Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<FishCrate>());
 		}
 	}
 }

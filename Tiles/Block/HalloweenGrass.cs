@@ -17,12 +17,12 @@ namespace SpiritMod.Tiles.Block
 			Main.tileSolid[Type] = true;
 			SetModTree(new SpookyTree());
 			Main.tileMerge[Type][ModContent.TileType<HalloweenGrass>()] = true;
-			Main.tileBlendAll[this.Type] = true;
+			Main.tileBlendAll[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
 			//Main.tileLighted[Type] = true;
 			AddMapEntry(new Color(0, 255, 167));
-			drop = ModContent.ItemType<HalloweenGrass>();
+			drop = ModContent.ItemType<Items.Placeable.Tiles.HalloweenGrass>();
 		}
 
 		public static bool PlaceObject(int x, int y, int type, bool mute = false, int style = 0, int alternate = 0, int random = -1, int direction = -1)

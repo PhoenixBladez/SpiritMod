@@ -2,7 +2,9 @@ using System;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using SpiritMod.Items.Consumable;
+using SpiritMod.Items.Placeable;
+using SpiritMod.NPCs.Boss.SteamRaider;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;

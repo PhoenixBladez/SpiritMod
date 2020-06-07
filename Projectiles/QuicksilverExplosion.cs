@@ -4,6 +4,7 @@ using System;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
+using SpiritMod.Projectiles.DonatorItems;
 
 namespace SpiritMod.Projectiles
 {

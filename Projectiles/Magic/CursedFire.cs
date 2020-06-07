@@ -55,9 +55,6 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			if (Main.rand.Next(3) == 0)
 				target.AddBuff(BuffID.CursedInferno, 300, true);
-
-			if (Main.rand.Next(3) == 0)
-				target.AddBuff(ModContent.BuffType<ShadowCurse>(), 120, true);
 		}
 
 	}

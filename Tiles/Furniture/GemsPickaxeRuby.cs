@@ -9,6 +9,7 @@ using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.DataStructures;
+using SpiritMod.Items.Tool;
 
 namespace SpiritMod.Tiles.Furniture
 {
@@ -34,7 +35,7 @@ namespace SpiritMod.Tiles.Furniture
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Lodged Pickaxe");
-			this.AddMapEntry(Color.Red, name);
+			AddMapEntry(Color.Red, name);
 		}
 		public override void SetDrawPositions (int i, int j, ref int width, ref int offsetY, ref int height)
 		{
@@ -51,11 +52,11 @@ namespace SpiritMod.Tiles.Furniture
 		{
 			if (Main.rand.Next(2) == 0)
             {
-			    Terraria.Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<GemPickaxe>());
+			    Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<GemPickaxe>());
             }
 			for (int k = 0; k < 3; k++)
 			{
-				Terraria.Item.NewItem(i * 16, j * 16, 64, 32, ItemID.Ruby);
+				Item.NewItem(i * 16, j * 16, 64, 32, ItemID.Ruby);
 			}
 		}
 	}

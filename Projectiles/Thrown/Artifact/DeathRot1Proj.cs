@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Buffs.Artifact;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -41,7 +42,7 @@ namespace SpiritMod.Projectiles.Thrown.Artifact
 		{
 			projectile.tileCollide = true;
 			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 75, 0f, 0f);
-			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, ModContent.DustType<Pestilence>(), 0f, 0f);
+			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, ModContent.DustType<Dusts.Pestilence>(), 0f, 0f);
 			Main.dust[dust].scale = 1.0f;
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust].velocity *= 0f;
@@ -59,13 +60,13 @@ namespace SpiritMod.Projectiles.Thrown.Artifact
 			vector9 += value19 * 16f;
 			for (int num257 = 0; num257 < 20; num257++)
 			{
-				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, ModContent.DustType<Pestilence>(), 0f, 0f, 0, default(Color), 1f);
+				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, ModContent.DustType<Dusts.Pestilence>(), 0f, 0f, 0, default, 1f);
 				Main.dust[newDust].position = (Main.dust[newDust].position + projectile.Center) / 2f;
 				Main.dust[newDust].velocity += value19 * 2f;
 				Main.dust[newDust].velocity *= 0.5f;
 				Main.dust[newDust].noGravity = true;
 				vector9 -= value19 * 8f;
-				int newDust1 = Dust.NewDust(vector9, projectile.width, projectile.height, 75, 0f, 0f, 0, default(Color), 1f);
+				int newDust1 = Dust.NewDust(vector9, projectile.width, projectile.height, 75, 0f, 0f, 0, default, 1f);
 				Main.dust[newDust1].position = (Main.dust[newDust].position + projectile.Center) / 2f;
 				Main.dust[newDust1].velocity += value19 * 2f;
 				Main.dust[newDust1].velocity *= 0.5f;

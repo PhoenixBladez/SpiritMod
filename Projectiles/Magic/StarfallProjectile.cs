@@ -1,5 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
+using SpiritMod.Buffs;
+using SpiritMod.Projectiles.DonatorItems;
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;

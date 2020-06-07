@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using SpiritMod.NPCs.Reach;
 
 namespace SpiritMod.Tiles.Block
 {
@@ -19,7 +20,7 @@ namespace SpiritMod.Tiles.Block
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = true;
-			this.minPick = 15;
+			minPick = 15;
 			dustType = 107;
 			TileObjectData.newTile.Height = 3;
 			TileObjectData.newTile.Width = 2;
@@ -47,9 +48,7 @@ namespace SpiritMod.Tiles.Block
 			if (!NPC.AnyNPCs(ModContent.NPCType<ForestWraith>()))
 			{
 				Main.NewText("You have disturbed the ancient Nature Spirits!", 0, 170, 60);
-				NPC.NewNPC((int)i * 16, (int)j * 16, ModContent.NPCType<ForestWraith>(), 0, 2, 1, 0, 0, Main.myPlayer);
-				NPC.NewNPC((int)i * 16, (int)j * 16, ModContent.NPCType<Woody>(), 0, 2, 1, 0, 0, Main.myPlayer);
-				NPC.NewNPC((int)i * 16, (int)j * 16, ModContent.NPCType<Woody>(), 0, 2, 1, 0, 0, Main.myPlayer);
+				NPC.NewNPC(i * 16, j * 16, ModContent.NPCType<ForestWraith>(), 0, 2, 1, 0, 0, Main.myPlayer);
 			}
 		}
 	}

@@ -55,11 +55,7 @@ namespace SpiritMod.Projectiles.Hostile
 		}
 		public override void Kill(int timeLeft)
 		{
-			if (Main.rand.Next(20) == 0)
-			{
-			int spiritdude = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y, ModContent.NPCType<Blob>(), 0, 0, 0, 0, -1);
-			}
-			 Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			
 			if (Main.rand.Next(0, 4) == 0)
 				Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, 116, 1, false, 0, false, false);

@@ -13,6 +13,9 @@ using Terraria.ModLoader;
 
 using SpiritMod;
 using SpiritMod.Effects;
+using SpiritMod.Buffs;
+using SpiritMod.Buffs.Armor;
+
 namespace SpiritMod.Projectiles
 {
 
@@ -508,8 +511,8 @@ namespace SpiritMod.Projectiles
 				target.AddBuff(BuffID.Frostburn, 120, true);
 
 				if (Main.rand.Next(15) == 0)
-				{
-					target.AddBuff(ModContent.BuffType<DeepFreeze>(), 180, true);
+                {
+					target.AddBuff(ModContent.BuffType<MageFreeze>(), 180, true);
 				}
 			}
 			if (HeroBow3 == true)

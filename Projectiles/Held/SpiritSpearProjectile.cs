@@ -1,3 +1,4 @@
+using SpiritMod.Buffs;
 using System;
 using System.Linq;
 using Terraria;

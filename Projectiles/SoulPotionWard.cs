@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 using Terraria;
 using Terraria.ID;
+using SpiritMod.Buffs;
 
 namespace SpiritMod.Projectiles
 {

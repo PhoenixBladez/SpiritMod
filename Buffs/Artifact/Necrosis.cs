@@ -20,7 +20,7 @@ namespace SpiritMod.Buffs.Artifact
 
 			if (Main.rand.NextBool(6))
 			{
-				int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<Pestilence>());
+				int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<Dusts.Pestilence>());
 				Main.dust[dust].scale = 1.9f;
 				Main.dust[dust].velocity *= 1f;
 				Main.dust[dust].noGravity = true;

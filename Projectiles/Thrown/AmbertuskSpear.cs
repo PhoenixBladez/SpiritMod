@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using SpiritMod.Buffs;
 
 namespace SpiritMod.Projectiles.Thrown
 {
@@ -74,7 +75,7 @@ namespace SpiritMod.Projectiles.Thrown
 				vector9 -= value19 * 8f;
 			}
 			if (Main.rand.Next(0, 4) == 0)
-				Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<AmbertuskSpear>(), 1, false, 0, false, false);
+				Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<Items.Weapon.Thrown.AmbertuskSpear>(), 1, false, 0, false, false);
 
 		}
 

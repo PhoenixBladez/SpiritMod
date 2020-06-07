@@ -1,6 +1,8 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Buffs.Artifact;
+using SpiritMod.Dusts;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -37,14 +39,14 @@ namespace SpiritMod.Projectiles.Thrown.Artifact
 				target.AddBuff(ModContent.BuffType<Necrosis>(), 500);
 
 			if (crit)
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("RotExplosion1"), projectile.damage / 3 * 4, projectile.knockBack, projectile.owner, 0f, 0f);
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<RotExplosion1>(), projectile.damage / 3 * 4, projectile.knockBack, projectile.owner, 0f, 0f);
 		}
 
 		public override void AI()
 		{
 			projectile.tileCollide = true;
 			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 75, 0f, 0f);
-			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, ModContent.DustType<Pestilence>(), 0f, 0f);
+			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, ModContent.DustType<Dusts.Pestilence>(), 0f, 0f);
 			Main.dust[dust].scale = 1.0f;
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust].velocity *= 0f;
@@ -62,7 +64,7 @@ namespace SpiritMod.Projectiles.Thrown.Artifact
 
 			for (int num257 = 0; num257 < 20; num257++)
 			{
-				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, ModContent.DustType<Pestilence>(), 0f, 0f, 0, default(Color), 1f);
+				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, ModContent.DustType<Dusts.Pestilence>(), 0f, 0f, 0, default(Color), 1f);
 				Main.dust[newDust].position = (Main.dust[newDust].position + projectile.Center) / 2f;
 				Main.dust[newDust].velocity += value19 * 2f;
 				Main.dust[newDust].velocity *= 0.5f;

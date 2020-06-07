@@ -9,6 +9,7 @@ using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.DataStructures;
+using SpiritMod.Items.Weapon.Magic;
 
 namespace SpiritMod.Tiles.Furniture
 {

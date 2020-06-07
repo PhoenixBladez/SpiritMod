@@ -1,5 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Items.Consumable.Food;
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -42,10 +44,10 @@ namespace SpiritMod.Tiles.Ambient.SpaceCrystals
         }
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Terraria.Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<RockCandy>());
+			Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<RockCandy>());
 			if (Main.rand.Next(2) == 1)
 			{
-				Terraria.Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<Geode>(), 3);
+				Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<Geode>(), 3);
 			}
 			Player player = Main.LocalPlayer;
             {

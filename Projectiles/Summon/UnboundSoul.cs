@@ -195,7 +195,7 @@ namespace SpiritMod.Projectiles.Summon
 						}
 						vector2.Normalize();
 						vector2 *= 9f;
-						int num8 = Terraria.Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector2.X, vector2.Y, base.ModContent.ProjectileType<SoulRune>(), 34, projectile.knockBack, Main.myPlayer, 0f, 0f);
+						int num8 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector2.X, vector2.Y, ModContent.ProjectileType<SoulRune>(), 34, projectile.knockBack, Main.myPlayer, 0f, 0f);
 						Main.projectile[num8].timeLeft = 300;
 						Main.projectile[num8].netUpdate = true;
 						projectile.netUpdate = true;
@@ -207,7 +207,7 @@ namespace SpiritMod.Projectiles.Summon
 			{
 				if (Main.rand.Next(5) == 0)
 				{
-					int num9 = Dust.NewDust(projectile.position, projectile.width, projectile.height / 2, 187, 0f, 0f, 0, default(Color), 1f);
+					int num9 = Dust.NewDust(projectile.position, projectile.width, projectile.height / 2, 187, 0f, 0f, 0, default, 1f);
 					Main.dust[num9].velocity.Y -= 1.2f;
 				}
 			}

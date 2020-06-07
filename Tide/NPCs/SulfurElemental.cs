@@ -1,7 +1,10 @@
 ﻿using System;
 
 using Microsoft.Xna.Framework;
-
+using SpiritMod.Items.Accessory;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Items.Weapon.Spear;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -277,15 +280,21 @@ namespace SpiritMod.Tide.NPCs
 
 		public override void NPCLoot()
 		{
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthShard>(), 1);
-			}
-			{
-				string[] lootTable = { "FierySoul", "LavaStaff", "LavaSpear", };
-				int loot = Main.rand.Next(lootTable.Length);
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType(lootTable[loot]));
-			}
-
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthShard>(), 1);
+			
+			int loot = 0;
+			switch(Main.rand.Next(3)) {
+				case 0:
+					loot = ModContent.ItemType<FierySoul>();
+					break;
+				case 1:
+					loot = ModContent.ItemType<LavaStaff>();
+					break;
+				case 2:
+					loot = ModContent.ItemType<LavaSpear>();
+					break;
+            }
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, loot);
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

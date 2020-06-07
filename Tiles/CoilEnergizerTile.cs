@@ -2,7 +2,8 @@ using System;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using SpiritMod.Buffs;
+using SpiritMod.Items.Placeable;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;

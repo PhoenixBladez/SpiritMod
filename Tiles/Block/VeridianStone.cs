@@ -5,6 +5,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Collections.Generic;
+using SpiritMod.Items.Placeable.Tiles;
+
 namespace SpiritMod.Tiles.Block
 {
 	public class VeridianStone : ModTile

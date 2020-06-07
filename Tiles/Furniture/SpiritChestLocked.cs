@@ -1,4 +1,6 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Consumable;
+using SpiritMod.Items.Placeable.Furniture;
 using System;
 using Terraria;
 using Terraria.DataStructures;
@@ -88,7 +90,7 @@ namespace SpiritMod.Tiles.Furniture
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("SpiritChest2"));
+			Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<SpiritChest2>());
 			Chest.DestroyChest(i, j);
 		}
 
@@ -97,7 +99,7 @@ namespace SpiritMod.Tiles.Furniture
 			Player player = Main.player[Main.myPlayer];
 			for (int num66 = 0; num66 < 58; num66++)
 			{
-				if (player.inventory[num66].type == ModContent.ItemType<SpiritChestKey>() && player.inventory[num66].stack > 0)
+				if (player.inventory[num66].type == ModContent.ItemType<SpiritKey>() && player.inventory[num66].stack > 0)
 				{
 					/* player.inventory[num66].stack--; */
 					Chest.Unlock(i, j);
@@ -135,13 +137,13 @@ namespace SpiritMod.Tiles.Furniture
 				}
 				if (Main.editChest)
 				{
-					Main.PlaySound(12, -1, -1, 1);
+					Main.PlaySound(SoundID.MenuTick, -1, -1, 1);
 					Main.editChest = false;
 					Main.npcChatText = "";
 				}
 				if (player.editedChestName)
 				{
-					NetMessage.SendData(33, -1, -1, NetworkText.FromLiteral(Main.chest[player.chest].name), player.chest, 1f, 0f, 0f, 0, 0, 0);
+					NetMessage.SendData(MessageID.SyncPlayerChest, -1, -1, NetworkText.FromLiteral(Main.chest[player.chest].name), player.chest, 1f, 0f, 0f, 0, 0, 0);
 					player.editedChestName = false;
 				}
 				if (Main.netMode == 1)
@@ -150,11 +152,11 @@ namespace SpiritMod.Tiles.Furniture
 					{
 						player.chest = -1;
 						Recipe.FindRecipes();
-						Main.PlaySound(11, -1, -1, 1);
+						Main.PlaySound(SoundID.MenuClose, -1, -1, 1);
 					}
 					else
 					{
-						NetMessage.SendData(31, -1, -1, null, left, (float)top, 0f, 0f, 0, 0, 0);
+						NetMessage.SendData(MessageID.RequestChestOpen, -1, -1, null, left, top, 0f, 0f, 0, 0, 0);
 						Main.stackSplit = 600;
 					}
 				}
@@ -167,7 +169,7 @@ namespace SpiritMod.Tiles.Furniture
 						if (chest == player.chest)
 						{
 							player.chest = -1;
-							Main.PlaySound(11, -1, -1, 1);
+							Main.PlaySound(SoundID.MenuClose, -1, -1, 1);
 						}
 						else
 						{
@@ -211,7 +213,7 @@ namespace SpiritMod.Tiles.Furniture
 				{
 					if (tile.frameX == 72 || tile.frameX == 90)
 					{
-						player.showItemIcon2 = ModContent.ItemType<SpiritChestKey>();
+						player.showItemIcon2 = ModContent.ItemType<SpiritKey>();
 						player.showItemIconText = "";
 					}
 					//else

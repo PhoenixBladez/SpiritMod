@@ -6,6 +6,7 @@ using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using SpiritMod.Items.Placeable.Furniture.Reach;
 
 namespace SpiritMod.Tiles.Furniture.Reach
 {

@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Dusts;
+using SpiritMod.Buffs.Glyph;
 
 namespace SpiritMod.Projectiles
 {

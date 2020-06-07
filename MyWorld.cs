@@ -19,6 +19,28 @@ using SpiritMod.Items.Consumable;
 using SpiritMod.Items.Weapon.Thrown;
 using SpiritMod.Items.Material;
 using System.Runtime.Serialization.Formatters.Binary;
+using SpiritMod.Tiles.Block;
+using SpiritMod.Tiles.Walls.Natural;
+using SpiritMod.Tiles.Furniture.SpaceJunk;
+using SpiritMod.Tiles.Furniture;
+using SpiritMod.Tiles.Furniture.Reach;
+using SpiritMod.Tiles.Ambient;
+using SpiritMod.NPCs.Town;
+using SpiritMod.NPCs;
+using SpiritMod.NPCs.Reach;
+using SpiritMod.Tiles.Ambient.ReachMicros;
+using SpiritMod.Tiles.Piles;
+using SpiritMod.Tiles.Ambient.SpaceCrystals;
+using SpiritMod.Tiles.Ambient.IceSculpture;
+using SpiritMod.Items.Accessory;
+using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Items.Weapon.Gun;
+using SpiritMod.Items.Weapon.Spear;
+using SpiritMod.Items.Ammo;
+using SpiritMod.Items.Weapon.Returning;
+using SpiritMod.Items.Glyphs;
+using SpiritMod.Tiles.Ambient.IceSculpture.Hostile;
+using SpiritMod.Items.Pets;
 
 namespace SpiritMod
 {
@@ -1198,10 +1220,10 @@ namespace SpiritMod
 							case 0:
 								break;
 							case 4:
-								WorldGen.PlaceObject(k, l, ModContent.TileType<ScarabIdol>());
+								WorldGen.PlaceObject(k, l, TileType<Tiles.Ambient.ScarabIdol>());
 								break;	
 							case 5:
-								WorldGen.PlaceChest(k, l, (ushort)ModContent.TileType<GoldScarabChest>(), false, 0); 
+								WorldGen.PlaceChest(k, l, (ushort)TileType<GoldScarabChest>(), false, 0); 
 								break;	
 							case 6:
 								WorldGen.PlaceObject(k, l, 91);
@@ -2304,7 +2326,8 @@ namespace SpiritMod
 								WorldGen.PlaceObject(k, l, 94); 
 								break;
 							case 9:
-								WorldGen.PlaceChest(k, l, (ushort)ModContent.TileType<BanditChest>(), false, 0); // Gold Chest
+								// TODO: Add this chest tile so this is valid
+								//WorldGen.PlaceChest(k, l, (ushort)TileType<BanditChest>(), false, 0); // Gold Chest
 								break;
 							case 10:
 								WorldGen.PlaceObject(k, l, 42, true, 6);
@@ -2934,17 +2957,13 @@ namespace SpiritMod
                                 break;
                             case 4:
                                 tile.ClearTile();
-                                if (Main.rand.Next(3) == 0)
+                                if (Main.rand.NextBool())
                                 {
-                                    WorldGen.PlaceTile(k, l, ModContent.TileType<GlowGrass>());
-                                }
-                                else if (Main.rand.Next(3) == 0)
-                                {
-                                    WorldGen.PlaceTile(k, l, mod.TileType("GlowGrass2"));
+                                    WorldGen.PlaceTile(k, l, TileType<GlowGrass>());
                                 }
                                 else
                                 {
-                                    WorldGen.PlaceTile(k, l, mod.TileType("GlowGrass3"));
+                                    WorldGen.PlaceTile(k, l, TileType<GlowGrass2>());
                                 }
                                 break;
 
@@ -4194,34 +4213,34 @@ namespace SpiritMod
                     Chest chest = Main.chest[chestIndex];
                     if (chest != null && Main.tile[chest.x, chest.y].frameX == 13 * 36 && Main.rand.Next(3) == 0)
                     {
-                        chest.item[6].SetDefaults(ModContent.ItemType<ChaosPearl>(), false);
+                        chest.item[6].SetDefaults(ItemType<ChaosPearl>(), false);
                         chest.item[6].stack = WorldGen.genRand.Next(20, 30);
                     }
                     if (chest != null && Main.tile[chest.x, chest.y].frameX == 2 * 36 && Main.rand.Next(10) == 0)
                     {
                         if (WorldGen.crimson)
                         {
-                            chest.item[5].SetDefaults(ModContent.ItemType<Tenderizer>(), false);
+                            chest.item[5].SetDefaults(ItemType<Tenderizer>(), false);
                         }
                         else
                         {
-                            chest.item[5].SetDefaults(ModContent.ItemType<Slugger>(), false);
+                            chest.item[5].SetDefaults(ItemType<Slugger>(), false);
                         }
                     }
 
                 }
             }
-            int[] crimsonMain = new int[] { ModContent.ItemType<Spineshot>(), ModContent.ItemType<FleshStick>() };
-            int[] corruptMain = new int[] { ModContent.ItemType<CorruptSpearVariant>(), ModContent.ItemType<Ebonwand>() };
+            int[] crimsonMain = new int[] { ItemType<Spineshot>(), ItemType<FleshStick>() };
+            int[] corruptMain = new int[] { ItemType<CorruptSpearVariant>(), ItemType<Ebonwand>() };
             for (int i = 1; i < Main.rand.Next(4, 6); i++)
             {
-                int[] itemsToPlacePrimary = new int[] { ModContent.ItemType<SepulchreStaff>(), ModContent.ItemType<SepulchrePendant>() };
-                int[] ammoToPlace = new int[] { ModContent.ItemType<SepulchreArrow>(), ModContent.ItemType<SepulchreBullet>() };
+                int[] itemsToPlacePrimary = new int[] { ItemType<SepulchreStaff>(), ItemType<SepulchrePendant>() };
+                int[] ammoToPlace = new int[] { ItemType<SepulchreArrow>(), ItemType<SepulchreBullet>() };
                 int itemsToPlaceInGlassChestsSecondaryChoice = 0;
                 for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
                 {
                     Chest chest = Main.chest[chestIndex];
-                    if (chest != null && Main.tile[chest.x, chest.y].type == ModContent.TileType<SepulchreChestTile>())
+                    if (chest != null && Main.tile[chest.x, chest.y].type == TileType<SepulchreChestTile>())
                     {
                         chest.item[0].SetDefaults(itemsToPlacePrimary[Main.rand.Next(2)], false);
                         chest.item[1].SetDefaults(commonItems1[Main.rand.Next(4)], false);
@@ -4241,7 +4260,7 @@ namespace SpiritMod
                         chest.item[8].SetDefaults(72, false);
                         chest.item[8].stack = WorldGen.genRand.Next(12, 30);
                     }
-                    if (chest != null && Main.tile[chest.x, chest.y].type == mod.TileType("FleshSpikeChest_Tile"))
+                    if (chest != null && Main.tile[chest.x, chest.y].type == TileType<FleshSpikeChest_Tile>())
                     {
                         chest.item[0].SetDefaults(crimsonMain[Main.rand.Next(2)], false);
                         chest.item[0].stack = 1;
@@ -4262,7 +4281,7 @@ namespace SpiritMod
                         chest.item[8].SetDefaults(72, false);
                         chest.item[8].stack = WorldGen.genRand.Next(10, 29);
                     }
-                    if (chest != null && Main.tile[chest.x, chest.y].type == mod.TileType("EbonChest_Tile"))
+                    if (chest != null && Main.tile[chest.x, chest.y].type == TileType<EbonChest_Tile>())
                     {
                         chest.item[0].SetDefaults(corruptMain[Main.rand.Next(2)], false);
                         chest.item[0].stack = 1;
@@ -4287,12 +4306,12 @@ namespace SpiritMod
             }
             for (int i = 1; i < Main.rand.Next(4, 6); i++)
             {
-                int[] itemsToPlacePrimary = new int[] { ModContent.ItemType<CleftHorn>(), ModContent.ItemType<CactusStaff>() };
+                int[] itemsToPlacePrimary = new int[] { ItemType<CleftHorn>(), ItemType<CactusStaff>() };
                 int itemsToPlaceInGlassChestsSecondaryChoice = 0;
                 for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
                 {
                     Chest chest = Main.chest[chestIndex];
-                    if (chest != null && Main.tile[chest.x, chest.y].type == ModContent.TileType<GoldScarabChest>())
+                    if (chest != null && Main.tile[chest.x, chest.y].type == TileType<GoldScarabChest>())
                     {
                         chest.item[0].SetDefaults(itemsToPlacePrimary[Main.rand.Next(2)], false);
                         chest.item[1].SetDefaults(commonItems1[Main.rand.Next(4)], false);
@@ -4724,7 +4743,7 @@ namespace SpiritMod
 			{
 				if (!Thermite)
 				{
-					for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 1.13f) * 15E-05); k++)
+					for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY * 1.13f) * 15E-05); k++)
 					{
 						int EEXX = WorldGen.genRand.Next(100, Main.maxTilesX - 100);
 						int WHHYY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 500);
@@ -4734,7 +4753,7 @@ namespace SpiritMod
 							{
 								if (Main.tile[EEXX, WHHYY].type == 1)
 								{
-									WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(4, 6), WorldGen.genRand.Next(4, 6), (ushort)ModContent.TileType<ThermiteOre>());
+									WorldGen.OreRunner(EEXX, WHHYY, WorldGen.genRand.Next(4, 6), WorldGen.genRand.Next(4, 6), (ushort)TileType<Tiles.Block.ThermiteOre>());
 								}
 							}
 						}

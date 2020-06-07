@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Buffs;
+using SpiritMod.Dusts;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

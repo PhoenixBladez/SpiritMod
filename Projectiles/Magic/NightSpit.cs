@@ -109,9 +109,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
             projectile.Kill();
-			target.AddBuff(ModContent.BuffType<ShadowCurse>(), 120, true);
 		}
-
 	}
 }
 

@@ -18,7 +18,7 @@ namespace SpiritMod.Tiles.Furniture
 			Main.tileLavaDeath[Type] = true;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
 			TileObjectData.addTile(Type);
-			drop = ModContent.ItemType<FloranBar>();
+			drop = ModContent.ItemType<Items.Material.FloranBar>();
 			adjTiles = new int[] { TileID.MetalBars };
 		}
 

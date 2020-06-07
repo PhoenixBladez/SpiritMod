@@ -4,6 +4,8 @@ using Terraria.ID;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Weapon.Magic;
 
 namespace SpiritMod.Tide.NPCs
 {
@@ -33,14 +35,11 @@ namespace SpiritMod.Tide.NPCs
 
 		public override void NPCLoot()
 		{
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthShard>(), 1);
-			}
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthShard>(), 1);
 			if (Main.rand.Next(33) == 0)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<JellyStaff>(), 1);
 			}
-
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

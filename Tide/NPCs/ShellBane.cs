@@ -4,6 +4,9 @@ using Terraria.ID;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
+using SpiritMod.Items.Weapon.Flail;
+using SpiritMod.Items.Material;
+using SpiritMod.Projectiles;
 
 namespace SpiritMod.Tide.NPCs
 {
@@ -37,16 +40,10 @@ namespace SpiritMod.Tide.NPCs
 
 		public override void NPCLoot()
 		{
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthShard>(), 1);
+			if (Main.rand.Next(50) == 0)
 			{
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthShard>(), 1);
-				}
-				{
-					if (Main.rand.Next(50) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Clauncher>(), 1);
-					}
-				}
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Clauncher>(), 1);
 			}
 		}
 

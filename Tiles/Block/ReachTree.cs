@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Items.Material;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Tiles.Block

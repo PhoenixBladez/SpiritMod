@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Placeable.Tiles;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -14,7 +15,7 @@ namespace SpiritMod.Tiles.Block
         public override void SetDefaults()
         {
             Main.tileSolid[Type] = true;
-            Main.tileBlendAll[this.Type] = true;
+            Main.tileBlendAll[Type] = true;
             Main.tileMergeDirt[Type] = true;
             AddMapEntry(new Color(99, 79, 49));
             Main.tileBlockLight[Type] = true;

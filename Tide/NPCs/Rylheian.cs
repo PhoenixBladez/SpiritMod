@@ -1,7 +1,9 @@
 ﻿using System;
 
 using Microsoft.Xna.Framework;
-
+using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Items.Weapon.Summon;
+using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -103,11 +105,16 @@ namespace SpiritMod.Tide.NPCs
 
 		public override void NPCLoot()
 		{
-			{
-				string[] lootTable = { "CthulhuStaff2", "CthulhuStaff1" };
-				int loot = Main.rand.Next(lootTable.Length);
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType(lootTable[loot]));
-			}
+			int loot = 0;
+			switch(Main.rand.Next(2)) {
+				case 0:
+					loot = ModContent.ItemType<CthulhuStaff1>();
+					break;
+				case 1:
+					loot = ModContent.ItemType<CthulhuStaff2>();
+					break;
+            }
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, loot);
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

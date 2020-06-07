@@ -1,6 +1,8 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Tiles.Block;
+using SpiritMod.Tiles.Walls.Natural;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

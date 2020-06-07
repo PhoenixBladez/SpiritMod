@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
+using SpiritMod.Items.Material;
 
 namespace SpiritMod.Tiles.Block
 {

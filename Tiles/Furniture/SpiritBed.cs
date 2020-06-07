@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Placeable.Furniture;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -32,7 +33,7 @@ namespace SpiritMod.Tiles.Furniture
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Terraria.Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<SpiritBed>());
+			Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<SpiritBedItem>());
 		}
 
 		public override void RightClick(int i, int j)
@@ -64,7 +65,7 @@ namespace SpiritMod.Tiles.Furniture
 			Player player = Main.player[Main.myPlayer];
 			player.noThrow = 2;
 			player.showItemIcon = true;
-			player.showItemIcon2 = mod.ItemType("Spirit Wood Bed");
+			player.showItemIcon2 = ModContent.ItemType<SpiritBedItem>();
 		}
 	}
 }

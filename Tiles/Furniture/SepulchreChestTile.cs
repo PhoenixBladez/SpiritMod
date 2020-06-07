@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Placeable.Furniture;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -38,7 +39,7 @@ namespace SpiritMod.Tiles.Furniture
 			dustType = 0;
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.Containers };
-			chestDrop = ModContent.TileType<SepulchreChest>();
+			chestDrop = ModContent.ItemType<SepulchreChest>();
 			chest = "Sepulchre Chest";
 		}
 

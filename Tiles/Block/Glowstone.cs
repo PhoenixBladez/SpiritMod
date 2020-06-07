@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -16,14 +17,14 @@ namespace SpiritMod.Tiles.Block
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
-            Main.tileBlendAll[this.Type] = true;
+            Main.tileBlendAll[Type] = true;
             AddMapEntry(new Color(156, 102, 36));
             Main.tileBlockLight[Type] = true;
             Main.tileLighted[Type] = true;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Cosmilite");
             drop = ModContent.ItemType<CosmiliteShard>();
-            soundType = 21;
+            soundType = SoundID.Tink;
         }
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
         {

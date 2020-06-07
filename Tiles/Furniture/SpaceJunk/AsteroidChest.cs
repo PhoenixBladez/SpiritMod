@@ -38,7 +38,7 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 			dustType = 0;
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.Containers };
-			chestDrop = ModContent.ItemType<AsteroidChest>();
+			chestDrop = ModContent.ItemType<Items.Placeable.Furniture.AsteroidChest>();
 			chest = "Asteroid Chest";
 		}
 
@@ -174,7 +174,7 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 				player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Asteroid Chest";
 				if (player.showItemIconText == "Asteroid Chest")
 				{
-					player.showItemIcon2 = ModContent.ItemType<AsteroidChest>();
+					player.showItemIcon2 = ModContent.ItemType<Items.Placeable.Furniture.AsteroidChest>();
 					player.showItemIconText = "";
 				}
 			}

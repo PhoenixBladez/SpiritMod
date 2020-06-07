@@ -5,6 +5,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Collections.Generic;
+using SpiritMod.Items.Placeable.Tiles;
+using SpiritMod.Tiles.Ambient.ReachGrass;
+using SpiritMod.Tiles.Ambient.ReachMicros;
 
 namespace SpiritMod.Tiles.Block
 {
@@ -15,7 +18,7 @@ namespace SpiritMod.Tiles.Block
 			Main.tileSolid[Type] = true;
 			SetModTree(new ReachTree());
 			Main.tileMerge[Type][ModContent.TileType<ReachGrassTile>()] = true;
-			Main.tileBlendAll[this.Type] = true;
+			Main.tileBlendAll[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
 			//Main.tileLighted[Type] = true;
@@ -46,33 +49,33 @@ namespace SpiritMod.Tiles.Block
                 switch (Main.rand.Next(7))
                 {
                     case 0:
-                        ReachGrassTile.PlaceObject(i, j - 1, mod.TileType("ReachGrassA1"));
-                        NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("ReachGrassA1"), 0, 0, -1, -1);
+                        PlaceObject(i, j - 1, ModContent.TileType<ReachGrassA1>());
+                        NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<ReachGrassA1>(), 0, 0, -1, -1);
                         break;
                     case 1:
-                        ReachGrassTile.PlaceObject(i, j - 1, mod.TileType("ReachGrassA2"));
-                        NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("ReachGrassA2"), 0, 0, -1, -1);
+                        PlaceObject(i, j - 1, ModContent.TileType<ReachGrassA2>());
+                        NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<ReachGrassA2>(), 0, 0, -1, -1);
                         break;
                     case 2:
-                        ReachGrassTile.PlaceObject(i, j - 1, mod.TileType("ReachGrassA3"));
-                        NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("ReachGrassA3"), 0, 0, -1, -1);
+                        PlaceObject(i, j - 1, ModContent.TileType<ReachGrassA3>());
+                        NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<ReachGrassA3>(), 0, 0, -1, -1);
                         break;
                     case 3:
-                        ReachGrassTile.PlaceObject(i, j - 1, mod.TileType("ReachGrassA4"));
-                        NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("ReachGrassA4"), 0, 0, -1, -1);
+                        PlaceObject(i, j - 1, ModContent.TileType<ReachGrassA4>());
+                        NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<ReachGrassA4>(), 0, 0, -1, -1);
                         break;
                     case 4:
-                        ReachGrassTile.PlaceObject(i, j - 1, mod.TileType("ReachGrassA5"));
-                        NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("ReachGrassA5"), 0, 0, -1, -1);
+                        PlaceObject(i, j - 1, ModContent.TileType<ReachGrassA5>());
+                        NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<ReachGrassA5>(), 0, 0, -1, -1);
                         break;
                     case 5:
-                        ReachGrassTile.PlaceObject(i, j - 1, mod.TileType("ReachGrassA6"));
-                        NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("ReachGrassA6"), 0, 0, -1, -1);
+                        PlaceObject(i, j - 1, ModContent.TileType<ReachGrassA6>());
+                        NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<ReachGrassA6>(), 0, 0, -1, -1);
                         break;
 
                     default:
-                        ReachGrassTile.PlaceObject(i, j - 1, mod.TileType("ReachGrassA7"));
-                        NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("ReachGrassA7"), 0, 0, -1, -1);
+                        PlaceObject(i, j - 1, ModContent.TileType<ReachGrassA7>());
+                        NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<ReachGrassA7>(), 0, 0, -1, -1);
                         break;
                 }
 
@@ -80,13 +83,13 @@ namespace SpiritMod.Tiles.Block
             {
                 if (!Framing.GetTileSafely(i, j + 1).active() && Main.rand.Next(4) == 0)
                 {
-                    ReachGrassTile.PlaceObject(i, j + 1, mod.TileType("Vine1"));
-                    NetMessage.SendObjectPlacment(-1, i, j + 1, mod.TileType("Vine1"), 0, 0, -1, -1);
+                    PlaceObject(i, j + 1, ModContent.TileType<Vine1>());
+                    NetMessage.SendObjectPlacment(-1, i, j + 1, ModContent.TileType<Vine1>(), 0, 0, -1, -1);
                 }
                 if (!Framing.GetTileSafely(i, j + 1).active() && !Framing.GetTileSafely(i, j + 2).active() && Main.rand.Next(16) == 0)
                 {
-                    ReachGrassTile.PlaceObject(i, j + 1, mod.TileType("Vine2"));
-                    NetMessage.SendObjectPlacment(-1, i, j + 1, mod.TileType("Vine2"), 0, 0, -1, -1);
+                    PlaceObject(i, j + 1, ModContent.TileType<Vine2>());
+                    NetMessage.SendObjectPlacment(-1, i, j + 1, ModContent.TileType<Vine2>(), 0, 0, -1, -1);
                 }
             }
         }

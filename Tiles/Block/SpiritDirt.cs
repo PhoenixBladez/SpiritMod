@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System.Collections.Generic;
 using Terraria.World.Generation;
+using SpiritMod.Items.Placeable.Tiles;
 
 namespace SpiritMod.Tiles.Block
 {
@@ -14,7 +15,7 @@ namespace SpiritMod.Tiles.Block
 		{
 			Main.tileSolid[Type] = true;
 			Main.tileMerge[Type][ModContent.TileType<SpiritGrass>()] = true;
-			Main.tileBlendAll[this.Type] = true;
+			Main.tileBlendAll[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = true;

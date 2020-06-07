@@ -9,6 +9,8 @@ using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.DataStructures;
+using SpiritMod.NPCs.Boss.Scarabeus;
+using SpiritMod.Items.Consumable.Quest;
 
 namespace SpiritMod.Tiles.Ambient
 {
@@ -48,7 +50,7 @@ namespace SpiritMod.Tiles.Ambient
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<ScarabIdolQuest>());
-            Main.PlaySound(29, (int)i * 16, (int)j * 16, 44);
+            Main.PlaySound(SoundID.Zombie, (int)i * 16, (int)j * 16, 44);
             Main.NewText("Scarabs are pouring out from the walls!", 204, 153, 0);
             NPC.NewNPC((int)i * 16 + Main.rand.Next(-40, -30), (int)j * 16 + 5, ModContent.NPCType<Scarab>(), 0, 2, 1, 0, 0, Main.myPlayer);
             NPC.NewNPC((int)i * 16 + Main.rand.Next(-30, -10), (int)j * 16 + 3, ModContent.NPCType<Scarab>(), 0, 2, 1, 0, 0, Main.myPlayer);

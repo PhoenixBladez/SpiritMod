@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Placeable.Furniture.Reach;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -73,7 +74,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Terraria.Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<ReachDoorItem>());
+			Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<ReachDoorItem>());
 		}
 	}
 }

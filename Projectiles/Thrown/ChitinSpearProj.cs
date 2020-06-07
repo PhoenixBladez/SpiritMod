@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Items.Weapon.Thrown;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -38,7 +39,7 @@ namespace SpiritMod.Projectiles.Thrown
 			{
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 147);
 			}
-			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
+			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 		}
 
 		//public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

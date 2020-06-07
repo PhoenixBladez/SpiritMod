@@ -4,6 +4,9 @@ using Terraria.ID;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
+using SpiritMod.Buffs;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Weapon.Magic;
 
 namespace SpiritMod.Tide.NPCs
 {
@@ -45,18 +48,13 @@ namespace SpiritMod.Tide.NPCs
 
 		public override void NPCLoot()
 		{
+			if (!NPC.downedMechBossAny)
 			{
-				if (!NPC.downedMechBossAny)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PearlFragment>(), 1);
-				}
-				if (Main.rand.Next(25) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BlackTide>(), 1);
-				}
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PearlFragment>(), 1);
 			}
+			if (Main.rand.Next(25) == 0)
 			{
-
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BlackTide>(), 1);
 			}
 		}
 

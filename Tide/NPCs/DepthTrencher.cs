@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Material;
+using SpiritMod.Projectiles;
 
 namespace SpiritMod.Tide.NPCs
 {
@@ -88,9 +90,7 @@ namespace SpiritMod.Tide.NPCs
 
 		public override void NPCLoot()
 		{
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthShard>(), 1);
-			}
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthShard>(), 1);
 			if (Main.rand.Next(2) == 1)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Acid>());
 		}

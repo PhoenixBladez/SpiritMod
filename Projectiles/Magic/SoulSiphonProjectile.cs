@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpiritMod.Buffs;
+using System;
 
 using Terraria;
 using Terraria.ID;

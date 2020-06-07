@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Placeable.Furniture.Reach;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -32,7 +33,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
 			AddMapEntry(new Color(80, 200, 50));
-			dustType = ModContent.DustType<Sparkle>();
+			dustType = 0;
 			drop = ModContent.ItemType<ReachPlatformTile>();
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.Platforms };

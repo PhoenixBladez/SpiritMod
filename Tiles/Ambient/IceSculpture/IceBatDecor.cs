@@ -9,6 +9,7 @@ using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.DataStructures;
+using SpiritMod.Items.Placeable.IceSculpture;
 
 namespace SpiritMod.Tiles.Ambient.IceSculpture
 {

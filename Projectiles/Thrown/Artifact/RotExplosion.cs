@@ -1,3 +1,4 @@
+using SpiritMod.Dusts;
 using System;
 using Terraria;
 using Terraria.ID;

@@ -45,16 +45,10 @@ namespace SpiritMod.Tiles.Ambient
 			switch (frameX / 54)
 			{
 				case 0:
-					item = ModContent.ItemType<SkullStick>();
-					break;
 				case 1:
-					item = ModContent.ItemType<SkullStick>();
-					break;
 				case 2:
-					item = ModContent.ItemType<SkullStick>();
-					break;
 				case 3:
-					item = ModContent.ItemType<SkullStick>();
+					item = ModContent.ItemType<Items.Placeable.Furniture.SkullStick>();
 					break;
 			}
 			if (item > 0)

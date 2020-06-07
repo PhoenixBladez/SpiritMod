@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System.Collections.Generic;
 using Terraria.World.Generation;
+using SpiritMod.Items.Placeable.Tiles;
 
 namespace SpiritMod.Tiles.Block
 {

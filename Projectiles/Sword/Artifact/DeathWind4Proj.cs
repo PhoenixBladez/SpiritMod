@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Buffs.Artifact;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -108,7 +109,7 @@ namespace SpiritMod.Projectiles.Sword.Artifact
 				player.AddBuff(ModContent.BuffType<SoulReap>(), 240);
 
 			if (Main.rand.Next(3) == 0)
-				target.AddBuff(mod.BuffType("DeathWreathe3"), 240);
+				target.AddBuff(ModContent.BuffType<DeathWreathe3>(), 240);
 
 			if (Main.rand.Next(3) == 0 && target.life <= 0)
 				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0, 0, ModContent.ProjectileType<Necromancer>(), 60, 0, Main.myPlayer, 0, 0);

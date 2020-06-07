@@ -1,3 +1,4 @@
+using SpiritMod.Dusts;
 using SpiritMod.NPCs;
 using Terraria;
 using Terraria.ModLoader;

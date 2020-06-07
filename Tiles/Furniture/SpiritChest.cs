@@ -86,7 +86,7 @@ namespace SpiritMod.Tiles.Furniture
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Terraria.Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<SpiritChest>());
+			Terraria.Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<Items.Placeable.Furniture.SpiritChest>());
 			Chest.DestroyChest(i, j);
 		}
 
@@ -187,7 +187,7 @@ namespace SpiritMod.Tiles.Furniture
 				player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Spirit Chest";
 				if (player.showItemIconText == "Spirit Chest")
 				{
-					player.showItemIcon2 = ModContent.ItemType<SpiritChest>();
+					player.showItemIcon2 = ModContent.ItemType<Items.Placeable.Furniture.SpiritChest>();
 					player.showItemIconText = "";
 				}
 			}

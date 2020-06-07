@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Placeable.Furniture.Reach;
 using Terraria;
 using Terraria.Enums;
 using Terraria.ID;

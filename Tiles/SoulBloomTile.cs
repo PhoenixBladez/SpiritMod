@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.Enums;
 using static Terraria.ModLoader.ModContent;
+using SpiritMod.Items.Material;
 
 namespace SpiritMod.Tiles
 {
@@ -42,8 +43,7 @@ namespace SpiritMod.Tiles
 			TileObjectData.newTile.CopyFrom(TileObjectData.StyleAlch);
 			TileObjectData.newTile.AnchorValidTiles = new int[]
 			{
-
-				ModContent.TileType<SpiritGrass>()
+				TileType<Block.SpiritGrass>()
 			};
 			TileObjectData.newTile.AnchorAlternateTiles = new int[]
 			{
@@ -72,12 +72,12 @@ namespace SpiritMod.Tiles
 			int stage = Main.tile[i, j].frameX / 18;
 			if (stage == 1)
 			{
-				Terraria.Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<SoulBloom>());
+				Item.NewItem(i * 16, j * 16, 64, 32, ItemType<SoulBloom>());
 			}
 			if (stage == 2)
 			{
-				Terraria.Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<SoulBloom>());
-				Item.NewItem(i * 16, j * 16, 0, 0, ModContent.ItemType<Items.Placeable.SoulSeeds>());
+				Item.NewItem(i * 16, j * 16, 64, 32, ItemType<SoulBloom>());
+				Item.NewItem(i * 16, j * 16, 0, 0, ItemType<Items.Placeable.SoulSeeds>());
 			}
 			return false;
 		}

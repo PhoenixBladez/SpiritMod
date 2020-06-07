@@ -4,6 +4,8 @@ using Terraria.ID;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
+using SpiritMod.Items.Accessory;
+using SpiritMod.Items.Material;
 
 namespace SpiritMod.Tide.NPCs
 {

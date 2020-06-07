@@ -1,7 +1,7 @@
 ﻿using System;
 
 using Microsoft.Xna.Framework;
-
+using SpiritMod.Buffs;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

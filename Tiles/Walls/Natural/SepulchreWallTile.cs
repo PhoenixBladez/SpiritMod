@@ -11,7 +11,7 @@ namespace SpiritMod.Tiles.Walls.Natural
 		public override void SetDefaults()
 		{
 			Main.wallHouse[Type] = true;
-			drop = ModContent.ItemType<SepulchreWallItem>();
+			drop = ModContent.ItemType<Items.Placeable.Walls.SepulchreWallItem>();
 			AddMapEntry(new Color(50, 50, 50));
 		}
 	}

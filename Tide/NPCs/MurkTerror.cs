@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Weapon.Bow;
+using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -112,21 +116,18 @@ namespace SpiritMod.Tide.NPCs
 
 		public override void NPCLoot()
 		{
+			if (Main.rand.Next(2) == 0 && !NPC.downedMechBossAny)
 			{
-				if (Main.rand.Next(2) == 0 && !NPC.downedMechBossAny)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PearlFragment>(), 1);
-				}
-				if (Main.rand.Next(25) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DreadWater>(), 1);
-				}
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PearlFragment>(), 1);
+			}
+			if (Main.rand.Next(25) == 0)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DreadWater>(), 1);
 			}
 			if (Main.rand.Next(25) == 0)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BlackTide>(), 1);
 			}
-
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

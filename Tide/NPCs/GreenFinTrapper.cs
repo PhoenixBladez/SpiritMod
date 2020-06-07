@@ -4,6 +4,10 @@ using Terraria.ID;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
+using SpiritMod.Items.Equipment;
+using SpiritMod.Items.Weapon.Spear;
+using SpiritMod.Items.Material;
+using SpiritMod.Buffs;
 
 namespace SpiritMod.Tide.NPCs
 {
@@ -33,27 +37,18 @@ namespace SpiritMod.Tide.NPCs
 
 		public override void NPCLoot()
 		{
+			if (Main.rand.Next(2) == 0 && !NPC.downedMechBossAny)
 			{
-				if (Main.rand.Next(2) == 0 && !NPC.downedMechBossAny)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PearlFragment>(), 1);
-				}
-				{
-					if (Main.rand.Next(33) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GaleJavelin>(), 1);
-					}
-
-				}
-				{
-					if (Main.rand.Next(33) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<StrangeKelp>(), 1);
-					}
-
-				}
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PearlFragment>(), 1);
 			}
-
+			if (Main.rand.Next(33) == 0)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GaleJavelin>(), 1);
+			}
+			if (Main.rand.Next(33) == 0)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<StrangeKelp>(), 1);
+			}
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

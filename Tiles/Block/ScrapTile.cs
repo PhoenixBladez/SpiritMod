@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Placeable.Tiles;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -14,12 +15,12 @@ namespace SpiritMod.Tiles.Block
 		public override void SetDefaults()
 		{
 			Main.tileSolid[Type] = true;
-            Main.tileBlendAll[this.Type] = true;
+            Main.tileBlendAll[Type] = true;
             Main.tileMergeDirt[Type] = true;
 			AddMapEntry(new Color(150, 150, 150));
             Main.tileBlockLight[Type] = true;
             drop = ModContent.ItemType<ScrapItem>();
-            soundType = 21;
+            soundType = SoundID.Tink;
         }
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
         {

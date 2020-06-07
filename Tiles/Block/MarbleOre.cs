@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -26,11 +27,9 @@ namespace SpiritMod.Tiles.Block
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
-			{
-				r = .219f;
-				g = .199f;
-				b = .132f;
-			}
+			r = .219f;
+			g = .199f;
+			b = .132f;
 		}
         public override bool CanKillTile(int i, int j, ref bool blockDamaged)
         {

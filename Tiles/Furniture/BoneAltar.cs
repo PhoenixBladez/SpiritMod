@@ -9,6 +9,7 @@ using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.DataStructures;
+using SpiritMod.NPCs.Reach;
 
 namespace SpiritMod.Tiles.Furniture
 {

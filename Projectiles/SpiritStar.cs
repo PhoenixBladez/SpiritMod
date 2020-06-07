@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using SpiritMod.Buffs;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

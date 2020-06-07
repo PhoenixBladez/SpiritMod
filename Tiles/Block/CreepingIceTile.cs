@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using Terraria.World.Generation;
 using SpiritMod;
 using System.Linq;
+using SpiritMod.Items.Placeable.Tiles;
+using SpiritMod.Buffs;
 
 namespace SpiritMod.Tiles.Block
 {
@@ -16,7 +18,7 @@ namespace SpiritMod.Tiles.Block
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
-            Main.tileBlendAll[this.Type] = true;
+            Main.tileBlendAll[Type] = true;
             Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(163, 224, 240));
             drop = ModContent.ItemType<CreepingIce>();

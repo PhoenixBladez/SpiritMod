@@ -9,6 +9,7 @@ using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.DataStructures;
+using SpiritMod.Items.Placeable.Tiles;
 
 namespace SpiritMod.Tiles.Ambient.IceSculpture
 {
@@ -48,10 +49,8 @@ namespace SpiritMod.Tiles.Ambient.IceSculpture
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			{
-				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
-				Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<CreepingIce>(), Main.rand.Next(6, 13));
-			}
+			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
+			Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<CreepingIce>(), Main.rand.Next(6, 13));
 		}
 
 	}

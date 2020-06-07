@@ -13,6 +13,8 @@ using SpiritMod;
 using System.Reflection;
 using Terraria.Utilities;
 using System.Runtime.Serialization.Formatters.Binary;
+using SpiritMod.Tiles.Walls.Natural;
+using SpiritMod.Tiles.Block;
 
 namespace SpiritMod
 {

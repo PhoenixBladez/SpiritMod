@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -10,7 +11,7 @@ namespace SpiritMod.Tiles.Block
 		{
 			Main.tileSpelunker[Type] = true;
 			Main.tileSolid[Type] = true;
-			Main.tileBlendAll[this.Type] = true;
+			Main.tileBlendAll[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;  //true for block to emit light
 			Main.tileLighted[Type] = true;
@@ -25,11 +26,9 @@ namespace SpiritMod.Tiles.Block
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
-			{
-				r = 0.2f;
-				g = 0.4f;
-				b = 1.4f;
-			}
+			r = 0.2f;
+			g = 0.4f;
+			b = 1.4f;
 		}
 	}
 }

@@ -19,7 +19,7 @@ namespace SpiritMod.Buffs.Artifact
 				npc.velocity.X = 0f;
 				npc.velocity.Y = 0f;
 
-				Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<Crystal>());
+				Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<Dusts.Crystal>());
 			}
 		}
 	}
