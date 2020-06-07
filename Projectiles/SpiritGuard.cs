@@ -117,7 +117,7 @@ namespace SpiritMod.Projectiles
 					direction.Normalize();
 					direction.X *= shootVelocity;
 					direction.Y *= shootVelocity;
-					int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, direction.X, direction.Y, mod.ProjectileType("StarSoul"), 45, 1, Main.myPlayer);
+					int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<StarSoul>(), 45, 1, Main.myPlayer);
 
 				}
 			}
@@ -131,7 +131,7 @@ namespace SpiritMod.Projectiles
 					direction.Normalize();
 					direction.X *= shootVelocity;
 					direction.Y *= shootVelocity;
-					int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, direction.X, direction.Y, mod.ProjectileType("StarSoul"), 55, 2, Main.myPlayer);
+					int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<StarSoul>(), 55, 2, Main.myPlayer);
 
 				}
 			}

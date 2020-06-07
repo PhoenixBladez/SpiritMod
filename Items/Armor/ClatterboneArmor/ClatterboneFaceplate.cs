@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Armor.ClatterboneArmor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("ClatterboneBreastplate") && legs.type == mod.ItemType("ClatterboneLeggings");
+            return body.type == ModContent.ItemType<ClatterboneBreastplate>() && legs.type == ModContent.ItemType<ClatterboneLeggings>();
         }
         public override void UpdateArmorSet(Player player)
         {

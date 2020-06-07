@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Equipment
 
 			item.noMelee = true;
 
-			item.mountType = mod.MountType("DiabolicPlatform");
+			item.mountType = ModContent.MountType<DiabolicPlatform>();
 
             item.UseSound = SoundID.Item25;
         }

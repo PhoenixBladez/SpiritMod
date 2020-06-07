@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 9;
 			item.UseSound = SoundID.Item8;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("PrismaticBolt");
+			item.shoot = ModContent.ProjectileType<PrismaticBolt>();
 			item.shootSpeed = 16f;
 		}
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -65,7 +65,7 @@ namespace SpiritMod.Items.Weapon.Magic
                     if (Main.myPlayer == player.whoAmI)
                     {
                         Vector2 mouse = Main.MouseWorld;
-                        Projectile.NewProjectile(mouse.X + Main.rand.Next(-80, 80), player.Center.Y - 1000 + Main.rand.Next(-50, 50), 0, Main.rand.Next(18, 28), mod.ProjectileType("AtlasBolt"), 50, knockBack, player.whoAmI);
+                        Projectile.NewProjectile(mouse.X + Main.rand.Next(-80, 80), player.Center.Y - 1000 + Main.rand.Next(-50, 50), 0, Main.rand.Next(18, 28), ModContent.ProjectileType<AtlasBolt>(), 50, knockBack, player.whoAmI);
                     }
                 }
             }

@@ -59,14 +59,14 @@ namespace SpiritMod.NPCs.Boss.SpiritCore
 					dir += new Vector2(Main.rand.Next(-40, 41), Main.rand.Next(-40, 41));
 					dir.Normalize();
 					dir *= 12;
-					int newNPC = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("SpiritMinionHostile"), npc.whoAmI);
+					int newNPC = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<SpiritMinionHostile>(), npc.whoAmI);
 					Main.npc[newNPC].velocity = dir;
 				}
 				timer = 0;
 			}
 
 			Player player = Main.player[npc.target];
-			NPC parent = Main.npc[NPC.FindFirstNPC(mod.NPCType("SpiritCore"))];
+			NPC parent = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<SpiritCore>())];
 			//Factors for calculations
 			double deg = (double)npc.ai[1]; //The degrees, you can multiply npc.ai[1] to make it orbit faster, may be choppy depending on the value
 			double rad = deg * (Math.PI / 180); //Convert degrees to radians

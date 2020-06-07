@@ -35,14 +35,14 @@ namespace SpiritMod.Items.Weapon.Magic.Artifact
 			item.crit = 3;
 			item.UseSound = SoundID.Item74;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("PhoenixBolt");
+			item.shoot = ModContent.ProjectileType<PhoenixBolt>();
 			item.shootSpeed = 1f;
 		}
 		public override void HoldItem(Player player)
 		{
 			if (player.GetSpiritPlayer().HolyGrail)
 			{
-				player.AddBuff(mod.BuffType("Righteous"), 2);
+				player.AddBuff(ModContent.BuffType<Righteous>(), 2);
 
 			}
 		}
@@ -55,9 +55,9 @@ namespace SpiritMod.Items.Weapon.Magic.Artifact
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			{
-				Projectile.NewProjectile(position.X, position.Y, speedX * (Main.rand.Next(500, 900) / 100), speedY * (Main.rand.Next(500, 900) / 100), mod.ProjectileType("PhoenixBolt"), damage, knockBack, player.whoAmI);
-				Projectile.NewProjectile(position.X, position.Y, speedX * (Main.rand.Next(500, 900) / 100), speedY * (Main.rand.Next(500, 900) / 100), mod.ProjectileType("DarkBolt"), damage, knockBack, player.whoAmI);
-				Projectile.NewProjectile(position.X, position.Y, speedX * (Main.rand.Next(500, 900) / 100), speedY * (Main.rand.Next(500, 900) / 100), mod.ProjectileType("FreezeBolt"), damage, knockBack, player.whoAmI);
+				Projectile.NewProjectile(position.X, position.Y, speedX * (Main.rand.Next(500, 900) / 100), speedY * (Main.rand.Next(500, 900) / 100), ModContent.ProjectileType<PhoenixBolt>(), damage, knockBack, player.whoAmI);
+				Projectile.NewProjectile(position.X, position.Y, speedX * (Main.rand.Next(500, 900) / 100), speedY * (Main.rand.Next(500, 900) / 100), ModContent.ProjectileType<DarkBolt>(), damage, knockBack, player.whoAmI);
+				Projectile.NewProjectile(position.X, position.Y, speedX * (Main.rand.Next(500, 900) / 100), speedY * (Main.rand.Next(500, 900) / 100), ModContent.ProjectileType<FreezeBolt>(), damage, knockBack, player.whoAmI);
 			}
 			return false;
 		}

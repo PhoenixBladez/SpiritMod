@@ -50,7 +50,7 @@ namespace SpiritMod.Projectiles.Bullet
 		{
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			Projectile.NewProjectile(projectile.Center, Vector2.Zero,
-				mod.ProjectileType("Wrath"), projectile.damage / 2, projectile.knockBack, projectile.owner);
+				ModContent.ProjectileType<Wrath>(), projectile.damage / 2, projectile.knockBack, projectile.owner);
 
 			for (int i = 0; i < 40; i++)
 			{

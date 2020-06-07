@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.noMelee = true;
             item.consumable = true;
             item.maxStack = 999;
-            item.shoot = mod.ProjectileType("TargetCan");
+            item.shoot = ModContent.ProjectileType<TargetCan>();
             item.useAnimation = 25;
             item.useTime = 25;
             item.shootSpeed = 8.5f;

@@ -45,7 +45,7 @@ namespace SpiritMod.Items.Weapon.Swung
         {
             if (Main.rand.Next(2) == 0)
             {
-                target.AddBuff(mod.BuffType("WitheringLeaf"), 180);
+                target.AddBuff(ModContent.BuffType<WitheringLeaf>(), 180);
             }
         }
     }

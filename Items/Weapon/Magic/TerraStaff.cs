@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.crit = 20;
             item.UseSound = SoundID.Item60;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("TerraProj");
+            item.shoot = ModContent.ProjectileType<TerraProj>();
             item.shootSpeed = 16f;
         }
 

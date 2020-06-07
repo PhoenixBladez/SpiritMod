@@ -41,14 +41,14 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 30f, 0f, mod.ProjectileType("CursedFlames"), projectile.damage, 0f, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -30f, 0f, mod.ProjectileType("CursedFlames"), projectile.damage, 0f, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, -30f, mod.ProjectileType("CursedFlames"), projectile.damage, 0f, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 10f, 30f, mod.ProjectileType("CursedFlames"), projectile.damage, 0f, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -10f, 30f, mod.ProjectileType("CursedFlames"), projectile.damage, 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 30f, 0f, ModContent.ProjectileType<CursedFlames>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -30f, 0f, ModContent.ProjectileType<CursedFlames>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, -30f, ModContent.ProjectileType<CursedFlames>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 10f, 30f, ModContent.ProjectileType<CursedFlames>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -10f, 30f, ModContent.ProjectileType<CursedFlames>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
 
-			Projectile.NewProjectile(projectile.position.X - 100, projectile.position.Y - 100, 0f, 30f, mod.ProjectileType("NightSpit"), projectile.damage, 0f, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.position.X - -100, projectile.position.Y - 100, 0f, 30f, mod.ProjectileType("NightSpit"), projectile.damage, 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.position.X - 100, projectile.position.Y - 100, 0f, 30f, ModContent.ProjectileType<NightSpit>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.position.X - -100, projectile.position.Y - 100, 0f, 30f, ModContent.ProjectileType<NightSpit>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -57,7 +57,7 @@ namespace SpiritMod.Projectiles.Magic
 				target.AddBuff(BuffID.CursedInferno, 300, true);
 
 			if (Main.rand.Next(3) == 0)
-				target.AddBuff(mod.BuffType("ShadowCurse"), 120, true);
+				target.AddBuff(ModContent.BuffType<ShadowCurse>(), 120, true);
 		}
 
 	}

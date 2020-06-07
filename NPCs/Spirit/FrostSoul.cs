@@ -37,7 +37,7 @@ namespace SpiritMod.NPCs.Spirit
 			Player player = spawnInfo.player;
 			if (!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.spawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.spawnTileY > Main.worldSurface || !Main.dayTime) && (SpawnCondition.GoblinArmy.Chance == 0))
 			{
-				int[] TileArray2 = { mod.TileType("SpiritIce"), };
+				int[] TileArray2 = { ModContent.TileType<SpiritIce>(), };
 				return TileArray2.Contains(Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].type) && NPC.downedMechBossAny && spawnInfo.spawnTileY > (Main.rockLayer + 30) ? 3f : 0f;
 			}
 			return 0f;
@@ -51,7 +51,7 @@ namespace SpiritMod.NPCs.Spirit
 			if (Main.netMode != 1 && npc.life <= 0)
 			{
 				Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
-				NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, mod.NPCType("IceCore"));
+				NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<IceCore>());
 				Gore.NewGore(npc.position, npc.velocity, 13);
 				Gore.NewGore(npc.position, npc.velocity, 12);
 				Gore.NewGore(npc.position, npc.velocity, 11);

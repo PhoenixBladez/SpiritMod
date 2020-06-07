@@ -104,7 +104,7 @@ namespace SpiritMod.NPCs.Dungeon
         {
             if (Main.rand.Next(25) == 0)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ForbiddenKnowledgeTome"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ForbiddenKnowledgeTome>());
             }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

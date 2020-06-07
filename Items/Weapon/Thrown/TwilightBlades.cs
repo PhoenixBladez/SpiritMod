@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.CloneDefaults(ItemID.Shuriken);
             item.width = 32;
             item.height = 32;           
-            item.shoot = mod.ProjectileType("TwilightBladesProjectile");
+            item.shoot = ModContent.ProjectileType<TwilightBladesProjectile>();
             item.useAnimation = 18;
             item.useTime = 18;
             item.shootSpeed = 12f;

@@ -101,7 +101,7 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
 				int amountOfProjectiles = Main.rand.Next(1, 1);
 				for (int i = 0; i < amountOfProjectiles; ++i)
 				{
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, mod.ProjectileType("SnowBall"), 32, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<SnowBall>(), 32, 1, Main.myPlayer, 0, 0);
 				}
 
 			}
@@ -131,7 +131,7 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return Main.invasionType == 2 && !NPC.AnyNPCs(mod.NPCType("FrostSaucer")) ? 0.04f : 0f;
+			return Main.invasionType == 2 && !NPC.AnyNPCs(ModContent.NPCType<FrostSaucer>()) ? 0.04f : 0f;
 		}
 
 		public override void AI()

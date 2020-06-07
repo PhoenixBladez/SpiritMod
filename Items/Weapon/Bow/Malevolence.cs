@@ -63,7 +63,7 @@ namespace SpiritMod.Items.Weapon.Bow
 				{
 					newVect = origVect.RotatedBy(-System.Math.PI / (Main.rand.Next(112, 1800) / 10));
 				}
-			int proj = Projectile.NewProjectile(position.X, position.Y, newVect.X, newVect.Y, mod.ProjectileType("HellArrow"), damage, knockBack, player.whoAmI);
+			int proj = Projectile.NewProjectile(position.X, position.Y, newVect.X, newVect.Y, ModContent.ProjectileType<HellArrow>(), damage, knockBack, player.whoAmI);
 				Projectile newProj1 = Main.projectile[proj];
 				newProj1.timeLeft = 120;
 				

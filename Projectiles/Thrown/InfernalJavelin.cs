@@ -54,7 +54,7 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			target.AddBuff(mod.BuffType("StackingFireBuff"), 300);
+			target.AddBuff(ModContent.BuffType<StackingFireBuff>(), 300);
 		}
 
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

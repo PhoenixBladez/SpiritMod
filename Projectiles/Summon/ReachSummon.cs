@@ -45,7 +45,7 @@ namespace SpiritMod.Projectiles.Summon
 
 		public override void AI()
 		{
-			bool flag64 = projectile.type == mod.ProjectileType("ReachSummon");
+			bool flag64 = projectile.type == ModContent.ProjectileType<ReachSummon>();
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (flag64)

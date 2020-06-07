@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.magic = true;
             item.UseSound = SoundID.Item9;
             item.noMelee = true;
-			item.shoot = mod.ProjectileType("StarOrb");
+			item.shoot = ModContent.ProjectileType<StarOrb>();
 			item.shootSpeed = 15f;
 		}
         public override void AddRecipes()

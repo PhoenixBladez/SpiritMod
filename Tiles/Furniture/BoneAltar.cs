@@ -78,10 +78,10 @@ namespace SpiritMod.Tiles.Furniture
                 int index1 = Dust.NewDust(new Vector2((int)i * 16, (int)j * 16) + vector23, 0, 0, 6, 0.0f, 0.0f, 0, new Color(), 1f);
                 Main.dust[index1].velocity = Vector2.Zero;
             }
-                if (!NPC.AnyNPCs(mod.NPCType("ForestWraith")))
+                if (!NPC.AnyNPCs(ModContent.NPCType<ForestWraith>()))
 			{
 				Main.NewText("You have disturbed the ancient Nature Spirits!", 0, 170, 60);
-				NPC.NewNPC((int)i * 16, (int)j * 16 - 30, mod.NPCType("ForestWraith"), 0, 2, 1, 0, 0, Main.myPlayer);
+				NPC.NewNPC((int)i * 16, (int)j * 16 - 30, ModContent.NPCType<ForestWraith>(), 0, 2, 1, 0, 0, Main.myPlayer);
 			}
 		}
 	}

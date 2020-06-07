@@ -61,7 +61,7 @@ namespace SpiritMod.NPCs.Mimic
 			{
 				if (Main.rand.Next(4) == 0)
 				{
-					Projectile.NewProjectile(npc.position.X, npc.position.Y, 0, 1, mod.ProjectileType("InkBlob"), 9, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(npc.position.X, npc.position.Y, 0, 1, ModContent.ProjectileType<InkBlob>(), 9, 1, Main.myPlayer, 0, 0);
 
 					jump = false;
 					for (int i = 0; i < 20; i++)

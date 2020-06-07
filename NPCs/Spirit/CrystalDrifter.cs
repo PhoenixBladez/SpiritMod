@@ -87,7 +87,7 @@ namespace SpiritMod.NPCs
                 Vector2 vector2_2 = Vector2.UnitY.RotatedByRandom(1.57079637050629f) * new Vector2(5f, 3f);
                 bool expertMode = Main.expertMode;
                 int damage = expertMode ? 12: 18;
-                int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector2_2.X, vector2_2.Y, mod.ProjectileType("FrostOrbiterHostile"), damage, 0.0f, Main.myPlayer, 0.0f, (float)npc.whoAmI);
+                int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector2_2.X, vector2_2.Y, ModContent.ProjectileType<FrostOrbiterHostile>(), damage, 0.0f, Main.myPlayer, 0.0f, (float)npc.whoAmI);
                 Main.projectile[p].hostile = true;
                 timer = 0;
             }
@@ -107,7 +107,7 @@ namespace SpiritMod.NPCs
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {     
-            return spawnInfo.player.ZoneOverworldHeight && spawnInfo.player.ZoneSnow && Main.raining && !NPC.AnyNPCs(mod.NPCType("CrystalDrifter")) && NPC.downedBoss3 ? 0.09f : 0f;
+            return spawnInfo.player.ZoneOverworldHeight && spawnInfo.player.ZoneSnow && Main.raining && !NPC.AnyNPCs(ModContent.NPCType<CrystalDrifter>()) && NPC.downedBoss3 ? 0.09f : 0f;
         }
 
 
@@ -162,9 +162,9 @@ namespace SpiritMod.NPCs
 
 		public override void NPCLoot()
 		{
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CryoliteOre"), Main.rand.Next(4, 9) + 1);
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CryoliteOre>(), Main.rand.Next(4, 9) + 1);
             if (Main.rand.Next(30) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("FrostSoul"));
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<FrostSoul>());
 		}
 	}
 }

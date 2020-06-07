@@ -36,7 +36,7 @@ namespace SpiritMod.Projectiles.Thrown
 
 			if (timer == 0)
 			{
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, mod.ProjectileType("AsuraTrail"), projectile.damage / 2, projectile.knockBack, projectile.owner, 0f, 0f);
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<AsuraTrail>(), projectile.damage / 2, projectile.knockBack, projectile.owner, 0f, 0f);
 				timer = 25;
 			}
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;

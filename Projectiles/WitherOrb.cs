@@ -84,7 +84,7 @@ namespace SpiritMod.Projectiles
 			timer--;
 			if (timer == 0)
 			{
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, mod.ProjectileType("WitherShot"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<WitherShot>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				timer = 120;
 			}
 			projectile.frameCounter++;

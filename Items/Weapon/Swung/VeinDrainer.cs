@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.useAnimation = 28;     
             item.useStyle = ItemUseStyleID.SwingThrow;        
             item.knockBack = 4;
-            item.shoot = mod.ProjectileType("Moondrainer");
+            item.shoot = ModContent.ProjectileType<Moondrainer>();
             item.rare = 5;
             item.UseSound = SoundID.Item1;        
             item.autoReuse = true;
@@ -45,7 +45,7 @@ namespace SpiritMod.Items.Weapon.Swung
             player.statLife += 4;
 			}
         {
-            target.AddBuff(mod.BuffType("BCorrupt"), 180);
+            target.AddBuff(ModContent.BuffType<BCorrupt>(), 180);
         }
     }
     }

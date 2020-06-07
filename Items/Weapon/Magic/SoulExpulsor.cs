@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 11;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("SpiritShardFriendly");
+			item.shoot = ModContent.ProjectileType<SpiritShardFriendly>();
 			item.shootSpeed = 6f;
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

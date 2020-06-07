@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Placeable
             item.autoReuse = true;
             item.consumable = true;
 
-			item.createTile = mod.TileType("CoilEnergizerTile");
+			item.createTile = ModContent.TileType<CoilEnergizerTile>();
 		}
 
 		public override void AddRecipes()

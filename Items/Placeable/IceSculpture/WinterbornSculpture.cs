@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Placeable.IceSculpture
             item.autoReuse = true;
             item.consumable = true;
 
-			item.createTile = mod.TileType("WinterbornDecor");
+			item.createTile = ModContent.TileType<WinterbornDecor>();
 		}
 
 		public override void AddRecipes()

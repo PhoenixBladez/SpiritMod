@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Placeable.Tiles
             item.autoReuse = true;
             item.consumable = true;
 
-            item.createTile = mod.TileType("SpiritDirt");
+            item.createTile = ModContent.TileType<SpiritDirt>();
 		}
 	}
 }

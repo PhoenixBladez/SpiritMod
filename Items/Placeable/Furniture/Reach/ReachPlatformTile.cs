@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Placeable.Furniture.Reach
 			item.useTime = 10;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.consumable = true;
-			item.createTile = mod.TileType("ReachPlatform");
+			item.createTile = ModContent.TileType<ReachPlatform>();
 		}
 
 		public override void AddRecipes()

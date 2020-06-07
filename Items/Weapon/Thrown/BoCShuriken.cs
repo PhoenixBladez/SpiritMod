@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.thrown = true;
             item.channel = true;
             item.noMelee = true;
-            item.shoot = mod.ProjectileType("BrainProj");
+            item.shoot = ModContent.ProjectileType<BrainProj>();
             item.useAnimation = 24;
             item.consumable = true;
             item.maxStack = 999;

@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.UseSound = SoundID.Item69;   
             item.autoReuse = true;
             item.useTurn = true;
-            item.shoot = mod.ProjectileType("HarpyFeather");
+            item.shoot = ModContent.ProjectileType<HarpyFeather>();
         }
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
@@ -50,7 +50,7 @@ namespace SpiritMod.Items.Weapon.Swung
                 if (Main.myPlayer == player.whoAmI)
                 {
                     Vector2 mouse = Main.MouseWorld;
-                    Projectile.NewProjectile(mouse.X + Main.rand.Next(-60, 60), player.Center.Y + 1000 + Main.rand.Next(-50, 50), 0, Main.rand.Next(-28, -18), mod.ProjectileType("QuicksilverWave"), damage, knockBack, player.whoAmI);
+                    Projectile.NewProjectile(mouse.X + Main.rand.Next(-60, 60), player.Center.Y + 1000 + Main.rand.Next(-50, 50), 0, Main.rand.Next(-28, -18), ModContent.ProjectileType<QuicksilverWave>(), damage, knockBack, player.whoAmI);
                 }
             }
             return false;

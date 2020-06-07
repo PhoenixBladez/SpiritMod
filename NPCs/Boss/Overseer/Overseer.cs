@@ -37,7 +37,7 @@ namespace SpiritMod.NPCs.Boss.Overseer
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.npcSlots = 10;
-			bossBag = mod.ItemType("OverseerBag");
+			bossBag = ModContent.ItemType<OverseerBag>();
 			npc.HitSound = SoundID.NPCHit7;
 			npc.DeathSound = SoundID.NPCDeath5;
 			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Overseer");
@@ -58,7 +58,7 @@ namespace SpiritMod.NPCs.Boss.Overseer
 				return;
 			}
 
-			npc.DropItem(mod.ItemType("EternityEssence"), Main.rand.Next(16, 28));
+			npc.DropItem(ModContent.ItemType<EternityEssence>(), Main.rand.Next(16, 28));
 
 			string[] lootTable = { "Eternity", "SoulExpulsor", "EssenseTearer", "AeonRipper", };
 			int loot = Main.rand.Next(lootTable.Length);
@@ -149,7 +149,7 @@ namespace SpiritMod.NPCs.Boss.Overseer
 							{
 								float A = (float)Main.rand.Next(-250, 250) * 0.01f;
 								float B = (float)Main.rand.Next(-250, 250) * 0.01f;
-								Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction9.X + A, direction9.Y + B, mod.ProjectileType("CoreShard"), 120, 1, Main.myPlayer, 0, 0);
+								Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction9.X + A, direction9.Y + B, ModContent.ProjectileType<CoreShard>(), 120, 1, Main.myPlayer, 0, 0);
 							}
 						}
 					}
@@ -172,7 +172,7 @@ namespace SpiritMod.NPCs.Boss.Overseer
 							{
 								float A = (float)Main.rand.Next(-250, 250) * 0.01f;
 								float B = (float)Main.rand.Next(-250, 250) * 0.01f;
-								Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction8.X + A, direction8.Y + B, mod.ProjectileType("SpiritShard"), 90, 1, Main.myPlayer, 0, 0);
+								Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction8.X + A, direction8.Y + B, ModContent.ProjectileType<SpiritShard>(), 90, 1, Main.myPlayer, 0, 0);
 							}
 						}
 						float speed = 14f;
@@ -252,7 +252,7 @@ namespace SpiritMod.NPCs.Boss.Overseer
 							{
 								float A = (float)Main.rand.Next(-250, 250) * 0.01f;
 								float B = (float)Main.rand.Next(-250, 250) * 0.01f;
-								Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction9.X + A, direction9.Y + B, mod.ProjectileType("CoreShard"), 130, 1, Main.myPlayer, 0, 0);
+								Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction9.X + A, direction9.Y + B, ModContent.ProjectileType<CoreShard>(), 130, 1, Main.myPlayer, 0, 0);
 							}
 						}
 
@@ -312,7 +312,7 @@ namespace SpiritMod.NPCs.Boss.Overseer
 							{
 								float A = (float)Main.rand.Next(-350, 350) * 0.01f;
 								float B = (float)Main.rand.Next(-350, 350) * 0.01f;
-								Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction8.X + A, direction8.Y + B, mod.ProjectileType("SpiritShard"), 87, 1, npc.target, 0, 0);
+								Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction8.X + A, direction8.Y + B, ModContent.ProjectileType<SpiritShard>(), 87, 1, npc.target, 0, 0);
 							}
 						}
 
@@ -370,7 +370,7 @@ namespace SpiritMod.NPCs.Boss.Overseer
 						for (int I = 0; I < 2; I++)
 						{
 							//cos = y, sin = x
-							int portal = Projectile.NewProjectile((int)(Main.player[npc.target].Center.X + (Math.Sin(I * 180) * 500)), (int)(Main.player[npc.target].Center.Y + (Math.Cos(I * 180) * 500)), 0, 0, mod.ProjectileType("SpiritPortal"), npc.damage, 1, npc.target, 0, 0);
+							int portal = Projectile.NewProjectile((int)(Main.player[npc.target].Center.X + (Math.Sin(I * 180) * 500)), (int)(Main.player[npc.target].Center.Y + (Math.Cos(I * 180) * 500)), 0, 0, ModContent.ProjectileType<SpiritPortal>(), npc.damage, 1, npc.target, 0, 0);
 							Projectile Eye = Main.projectile[portal];
 							Eye.ai[0] = I * 180;
 						}
@@ -384,7 +384,7 @@ namespace SpiritMod.NPCs.Boss.Overseer
 					#region teleportation
 					if (Main.rand.Next(300) == 0)
 					{
-						int teleport = Projectile.NewProjectile(Main.player[npc.target].Center.X + Main.rand.Next(-600, 600), Main.player[npc.target].Center.Y + Main.rand.Next(-600, 600), 0, 0, mod.ProjectileType("SeerPortal"), 55, 0, npc.target);
+						int teleport = Projectile.NewProjectile(Main.player[npc.target].Center.X + Main.rand.Next(-600, 600), Main.player[npc.target].Center.Y + Main.rand.Next(-600, 600), 0, 0, ModContent.ProjectileType<SeerPortal>(), 55, 0, npc.target);
 						Projectile tele = Main.projectile[teleport];
 					}
 					#endregion
@@ -398,7 +398,7 @@ namespace SpiritMod.NPCs.Boss.Overseer
 					Vector2 dir = Main.player[npc.target].Center - npc.Center;
 					dir.Normalize();
 					dir *= 8;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, dir.X, dir.Y, mod.ProjectileType("HauntedWisp"), 60, 0, Main.myPlayer);
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, dir.X, dir.Y, ModContent.ProjectileType<HauntedWisp>(), 60, 0, Main.myPlayer);
 
 					npc.ai[1] = 0;
 				}
@@ -408,7 +408,7 @@ namespace SpiritMod.NPCs.Boss.Overseer
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			target.AddBuff(mod.BuffType("SoulFlare"), 150);
+			target.AddBuff(ModContent.BuffType<SoulFlare>(), 150);
 		}
 
 		public override void FindFrame(int frameHeight)

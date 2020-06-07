@@ -58,10 +58,10 @@ namespace SpiritMod.NPCs
 			int Techs = Main.rand.Next(1, 4);
 			for (int J = 0; J <= Techs; J++)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Carapace"));
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Carapace>());
 			}
 			if (Main.rand.Next(15) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("WheezerScale"));
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<WheezerScale>());
 		}
 
 		int frame = 0;
@@ -94,7 +94,7 @@ namespace SpiritMod.NPCs
 						{
 							float A = (float)Main.rand.Next(-50, 50) * 0.02f;
 							float B = (float)Main.rand.Next(-50, 50) * 0.02f;
-							int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y - 10, direction.X + A, direction.Y + B, mod.ProjectileType("WheezerCloud"), npc.damage / 3 * 2, 1, Main.myPlayer, 0, 0);
+							int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y - 10, direction.X + A, direction.Y + B, ModContent.ProjectileType<WheezerCloud>(), npc.damage / 3 * 2, 1, Main.myPlayer, 0, 0);
                             for (int k = 0; k < 11; k++)
                             {
                                 Dust.NewDust(npc.position, npc.width, npc.height, 5, direction.X + A, direction.Y + B, 0, default(Color), .61f);

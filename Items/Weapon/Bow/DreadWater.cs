@@ -42,8 +42,8 @@ namespace SpiritMod.Items.Weapon.Bow
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			type = mod.ProjectileType("Dreadshot");
-			Projectile.NewProjectile(position.X, position.Y - 10, speedX, speedY, mod.ProjectileType("Dreadshot"), damage, knockBack, player.whoAmI, 0f, 0f);
+			type = ModContent.ProjectileType<Dreadshot>();
+			Projectile.NewProjectile(position.X, position.Y - 10, speedX, speedY, ModContent.ProjectileType<Dreadshot>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return true; 
         }
     }

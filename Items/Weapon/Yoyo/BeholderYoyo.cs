@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Yoyo
             item.useAnimation = 25;
             item.mana = 1;
             item.useTime = 25;
-            item.shoot = mod.ProjectileType("BeholderYoyoProj"); 
+            item.shoot = ModContent.ProjectileType<BeholderYoyoProj>(); 
 			item.magic = true;
             item.channel = true;
 			item.melee = false;     

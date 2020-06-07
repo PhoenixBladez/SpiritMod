@@ -46,7 +46,7 @@ namespace SpiritMod.Items.Consumable.Potion
 		public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("Coconut"), 5);
+            recipe.AddIngredient(ModContent.ItemType<Coconut>(), 5);
             recipe.AddTile(94); //keg
             recipe.SetResult(this);
             recipe.AddRecipe();

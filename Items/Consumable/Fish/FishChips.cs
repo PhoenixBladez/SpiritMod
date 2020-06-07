@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Consumable.Fish
         }
 		public override bool CanUseItem(Player player)
 		{
-			player.AddBuff(mod.BuffType("CouchPotato"), 3600);
+			player.AddBuff(ModContent.BuffType<CouchPotato>(), 3600);
 			return true;
 		}
 		public override void AddRecipes()

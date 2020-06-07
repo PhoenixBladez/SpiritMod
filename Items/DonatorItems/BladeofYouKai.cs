@@ -48,9 +48,9 @@ namespace SpiritMod.Items.DonatorItems
 			target.AddBuff(BuffID.ShadowFlame, 180, true);
 			if (Main.rand.Next(4) == 0)
 			{
-				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("ShadowEmber"), damage, knockback, player.whoAmI, 0f, 0f);
-				Projectile.NewProjectile(target.Center.X, target.Center.Y, 1f, 0f, mod.ProjectileType("ShadowEmber"), damage, knockback, player.whoAmI, 0f, 0f);
-				Projectile.NewProjectile(target.Center.X, target.Center.Y, -2f, 0f, mod.ProjectileType("ShadowEmber"), damage, knockback, player.whoAmI, 0f, 0f);
+				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<ShadowEmber>(), damage, knockback, player.whoAmI, 0f, 0f);
+				Projectile.NewProjectile(target.Center.X, target.Center.Y, 1f, 0f, ModContent.ProjectileType<ShadowEmber>(), damage, knockback, player.whoAmI, 0f, 0f);
+				Projectile.NewProjectile(target.Center.X, target.Center.Y, -2f, 0f, ModContent.ProjectileType<ShadowEmber>(), damage, knockback, player.whoAmI, 0f, 0f);
 			}
 		}
 		public override void AddRecipes()

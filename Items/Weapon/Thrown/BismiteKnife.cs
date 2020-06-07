@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.ranged = true;
             item.channel = true;
             item.noMelee = true;
-            item.shoot = mod.ProjectileType("BismiteKnifeProjectile");
+            item.shoot = ModContent.ProjectileType<BismiteKnifeProjectile>();
             item.useAnimation = 19;
             item.useTime = 19;
             item.consumable = true;

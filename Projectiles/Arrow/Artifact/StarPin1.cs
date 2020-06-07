@@ -38,13 +38,13 @@ namespace SpiritMod.Projectiles.Arrow.Artifact
 			{
 				Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
 
-				Projectile.NewProjectile(projectile.position, new Vector2(0, -5), mod.ProjectileType("StarEnergyBolt"), projectile.damage, 0.4f, Main.myPlayer);
+				Projectile.NewProjectile(projectile.position, new Vector2(0, -5), ModContent.ProjectileType<StarEnergyBolt>(), projectile.damage, 0.4f, Main.myPlayer);
 
-				Projectile.NewProjectile(projectile.position, new Vector2(6, -2), mod.ProjectileType("StarEnergyBolt"), projectile.damage, 0.4f, Main.myPlayer);
-				Projectile.NewProjectile(projectile.position, new Vector2(-6, -2), mod.ProjectileType("StarEnergyBolt"), projectile.damage, 0.4f, Main.myPlayer);
+				Projectile.NewProjectile(projectile.position, new Vector2(6, -2), ModContent.ProjectileType<StarEnergyBolt>(), projectile.damage, 0.4f, Main.myPlayer);
+				Projectile.NewProjectile(projectile.position, new Vector2(-6, -2), ModContent.ProjectileType<StarEnergyBolt>(), projectile.damage, 0.4f, Main.myPlayer);
 
-				Projectile.NewProjectile(projectile.position, new Vector2(3, 5), mod.ProjectileType("StarEnergyBolt"), projectile.damage, 0.4f, Main.myPlayer);
-				Projectile.NewProjectile(projectile.position, new Vector2(-3, 5), mod.ProjectileType("StarEnergyBolt"), projectile.damage, 0.4f, Main.myPlayer);
+				Projectile.NewProjectile(projectile.position, new Vector2(3, 5), ModContent.ProjectileType<StarEnergyBolt>(), projectile.damage, 0.4f, Main.myPlayer);
+				Projectile.NewProjectile(projectile.position, new Vector2(-3, 5), ModContent.ProjectileType<StarEnergyBolt>(), projectile.damage, 0.4f, Main.myPlayer);
 			}
 		}
 
@@ -90,7 +90,7 @@ namespace SpiritMod.Projectiles.Arrow.Artifact
 					if (Main.myPlayer == player.whoAmI)
 					{
 						Vector2 mouse = Main.MouseWorld;
-						Projectile.NewProjectile(mouse.X + Main.rand.Next(-80, 80), projectile.position.Y - 1000 + Main.rand.Next(-50, 50), 0, Main.rand.Next(10, 20), mod.ProjectileType("AstralArrow"), projectile.damage / 5 * 4, projectile.knockBack, Main.myPlayer);
+						Projectile.NewProjectile(mouse.X + Main.rand.Next(-80, 80), projectile.position.Y - 1000 + Main.rand.Next(-50, 50), 0, Main.rand.Next(10, 20), ModContent.ProjectileType<AstralArrow>(), projectile.damage / 5 * 4, projectile.knockBack, Main.myPlayer);
 					}
 				}
 			}
@@ -99,13 +99,13 @@ namespace SpiritMod.Projectiles.Arrow.Artifact
 			{
 				Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
 
-				Projectile.NewProjectile(projectile.position, new Vector2(0, -5), mod.ProjectileType("StarEnergyBolt"), projectile.damage, 0.4f, Main.myPlayer);
+				Projectile.NewProjectile(projectile.position, new Vector2(0, -5), ModContent.ProjectileType<StarEnergyBolt>(), projectile.damage, 0.4f, Main.myPlayer);
 
-				Projectile.NewProjectile(projectile.position, new Vector2(6, -2), mod.ProjectileType("StarEnergyBolt"), projectile.damage, 0.4f, Main.myPlayer);
-				Projectile.NewProjectile(projectile.position, new Vector2(-6, -2), mod.ProjectileType("StarEnergyBolt"), projectile.damage, 0.4f, Main.myPlayer);
+				Projectile.NewProjectile(projectile.position, new Vector2(6, -2), ModContent.ProjectileType<StarEnergyBolt>(), projectile.damage, 0.4f, Main.myPlayer);
+				Projectile.NewProjectile(projectile.position, new Vector2(-6, -2), ModContent.ProjectileType<StarEnergyBolt>(), projectile.damage, 0.4f, Main.myPlayer);
 
-				Projectile.NewProjectile(projectile.position, new Vector2(3, 5), mod.ProjectileType("StarEnergyBolt"), projectile.damage, 0.4f, Main.myPlayer);
-				Projectile.NewProjectile(projectile.position, new Vector2(-3, 5), mod.ProjectileType("StarEnergyBolt"), projectile.damage, 0.4f, Main.myPlayer);
+				Projectile.NewProjectile(projectile.position, new Vector2(3, 5), ModContent.ProjectileType<StarEnergyBolt>(), projectile.damage, 0.4f, Main.myPlayer);
+				Projectile.NewProjectile(projectile.position, new Vector2(-3, 5), ModContent.ProjectileType<StarEnergyBolt>(), projectile.damage, 0.4f, Main.myPlayer);
 			}
 		}
 

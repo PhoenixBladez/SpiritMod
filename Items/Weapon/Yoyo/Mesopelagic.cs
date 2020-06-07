@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Yoyo
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.useAnimation = 25;
             item.useTime = 25;
-            item.shoot = mod.ProjectileType("MesopelagicProj");           
+            item.shoot = ModContent.ProjectileType<MesopelagicProj>();           
         }
         public override void AddRecipes()
         {

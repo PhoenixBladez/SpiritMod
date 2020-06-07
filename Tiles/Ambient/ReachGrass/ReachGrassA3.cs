@@ -23,7 +23,7 @@ namespace SpiritMod.Tiles.Ambient.ReachGrass
 				16,
 			};
 			TileObjectData.addTile(Type);
-			dustType = 2;
+			dustType = DustID.Grass;
 			soundType = SoundID.Grass;
 		}
 

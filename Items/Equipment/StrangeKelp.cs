@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Equipment
 
 			item.noMelee = true;
 
-			item.mountType = mod.MountType("TideMount");
+			item.mountType = ModContent.MountType<TideMount>();
 
             item.UseSound = SoundID.Item25;
         }

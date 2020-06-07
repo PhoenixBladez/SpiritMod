@@ -30,7 +30,7 @@ public class IcySpear : ModItem
         item.damage = 14;
         item.value = Item.sellPrice(0, 0, 10, 0);
         item.rare = 1;
-        item.shoot = mod.ProjectileType("IcySpear");
+        item.shoot = ModContent.ProjectileType<IcySpear>();
     }
     
     public override void AddRecipes()

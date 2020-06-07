@@ -30,7 +30,7 @@ public class MarbleBident : ModItem
         item.damage = 17;
         item.value = Item.sellPrice(0, 0, 60, 0);
         item.rare = 2;
-        item.shoot = mod.ProjectileType("MarbleBidentProj");
+        item.shoot = ModContent.ProjectileType<MarbleBidentProj>();
     }
     
     public override void AddRecipes()

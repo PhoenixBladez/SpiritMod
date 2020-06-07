@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.value = Terraria.Item.sellPrice(0, 7, 0, 0);
             item.rare = 8;
             item.UseSound = SoundID.Item1;
-            item.shoot = mod.ProjectileType("FelShot");
+            item.shoot = ModContent.ProjectileType<FelShot>();
             item.shootSpeed = 6f;
             item.autoReuse = true;
         }
@@ -44,7 +44,7 @@ namespace SpiritMod.Items.Weapon.Swung
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
             {
-                target.AddBuff(mod.BuffType("FelBrand"), 200);
+                target.AddBuff(ModContent.BuffType<FelBrand>(), 200);
             }
         }
     }

@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Yoyo
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.shootSpeed = 12f;
-			item.shoot = mod.ProjectileType("Typhoon");
+			item.shoot = ModContent.ProjectileType<Typhoon>();
 			item.UseSound = SoundID.Item1;
 		}
 	}

@@ -131,7 +131,7 @@ namespace SpiritMod.Projectiles
 			projectile.velocity = (target.Center - projectile.Center) * 0.75f;
 			projectile.netUpdate = true;
 			projectile.damage = 0;
-			target.AddBuff(mod.BuffType("StackingFireBuff"), 200);
+			target.AddBuff(ModContent.BuffType<StackingFireBuff>(), 200);
 			knockback = 0;
 			int num31 = 6;
 			Point[] array2 = new Point[num31];
@@ -161,7 +161,7 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("Fire"), 80, 8, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Fire>(), 80, 8, projectile.owner, 0f, 0f);
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);

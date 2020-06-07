@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Weapon.Yoyo
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.useAnimation = 25;
             item.useTime = 23;
-            item.shoot = mod.ProjectileType("TaoP");
+            item.shoot = ModContent.ProjectileType<TaoP>();
         }
 
         public override void AddRecipes()

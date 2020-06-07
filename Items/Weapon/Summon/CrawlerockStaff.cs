@@ -28,8 +28,8 @@ namespace SpiritMod.Items.Weapon.Summon
             item.useAnimation = 30;
             item.summon = true;
             item.noMelee = true;
-            item.shoot = mod.ProjectileType("Crawlerock");
-            item.buffType = mod.BuffType("CrawlerockMinionBuff");
+            item.shoot = ModContent.ProjectileType<Crawlerock>();
+            item.buffType = ModContent.BuffType<CrawlerockMinionBuff>();
             item.buffTime = 3600;
             item.UseSound = SoundID.Item44;
         }

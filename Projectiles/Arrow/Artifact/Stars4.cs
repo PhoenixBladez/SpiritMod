@@ -35,7 +35,7 @@ namespace SpiritMod.Projectiles.Arrow.Artifact
 				0, Main.rand.Next(18, 28),
 				mod.ProjectileType("Stars3"), projectile.damage / 4 * 3, projectile.knockBack, Main.myPlayer);
 			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f,
-				mod.ProjectileType("Fire"), projectile.damage / 2 * 3, projectile.knockBack, projectile.owner);
+				ModContent.ProjectileType<Fire>(), projectile.damage / 2 * 3, projectile.knockBack, projectile.owner);
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
 
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
@@ -132,7 +132,7 @@ namespace SpiritMod.Projectiles.Arrow.Artifact
 			if (mp.MoonSongBlossom && Main.rand.Next(10) == 0)
 			{
 				Projectile.NewProjectile(target.Center.X, target.Center.Y - 100, 0f, 0f,
-					mod.ProjectileType("Moon"), projectile.damage / 3 * 2, 4, projectile.owner);
+					ModContent.ProjectileType<Moon>(), projectile.damage / 3 * 2, 4, projectile.owner);
 			}
 		}
 

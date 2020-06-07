@@ -42,7 +42,7 @@ namespace SpiritMod.NPCs.Boss.SpiritCore
 			npc.lifeMax = 7800;
 			npc.knockBackResist = 0;
 
-			bossBag = mod.ItemType("SpiritCoreBag");
+			bossBag = ModContent.ItemType<SpiritCoreBag>();
 			npc.boss = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
@@ -128,7 +128,7 @@ namespace SpiritMod.NPCs.Boss.SpiritCore
 					for (int I = 0; I < 4; I++)
 					{
 						//cos = y, sin = x
-						int GeyserEye = NPC.NewNPC((int)(npc.Center.X + (Math.Sin(I * 90) * 100)), (int)(npc.Center.Y + (Math.Cos(I * 90) * 100)), mod.NPCType("SpiritRotator"), npc.whoAmI, 0, 0, 0, -1);
+						int GeyserEye = NPC.NewNPC((int)(npc.Center.X + (Math.Sin(I * 90) * 100)), (int)(npc.Center.Y + (Math.Cos(I * 90) * 100)), ModContent.NPCType<SpiritRotator>(), npc.whoAmI, 0, 0, 0, -1);
 						NPC Eye = Main.npc[GeyserEye];
 						Eye.ai[0] = I * 90;
 						Eye.ai[3] = I * 90;
@@ -136,7 +136,7 @@ namespace SpiritMod.NPCs.Boss.SpiritCore
 					}
 
 				}
-				int npcType1 = mod.NPCType("SpiritRotator");
+				int npcType1 = ModContent.NPCType<SpiritRotator>();
 				bool shadow = false;
 				bool spirit = false;
 				for (int num569 = 0; num569 < 200; num569++)
@@ -161,7 +161,7 @@ namespace SpiritMod.NPCs.Boss.SpiritCore
 								targetDir.Normalize();
 								targetDir *= 15;
 								int damageAmount = expertMode ? 34 : 50;
-								Projectile.NewProjectile(npc.Center.X, npc.Center.Y, targetDir.X, targetDir.Y, mod.ProjectileType("CurvingFlame"), damageAmount, 0.5F, Main.myPlayer);
+								Projectile.NewProjectile(npc.Center.X, npc.Center.Y, targetDir.X, targetDir.Y, ModContent.ProjectileType<CurvingFlame>(), damageAmount, 0.5F, Main.myPlayer);
 								timer = 0;
 							}
 						}
@@ -175,7 +175,7 @@ namespace SpiritMod.NPCs.Boss.SpiritCore
 								int B = Main.rand.Next(-200, 200) - 1000;
 								int damageAmount = expertMode ? 21 : 44;
 
-								Projectile.NewProjectile(player.Center.X + A, player.Center.Y + B, 0f, 14f, mod.ProjectileType("SpiritRainHostile"), damageAmount, 1, Main.myPlayer, 0, 0);
+								Projectile.NewProjectile(player.Center.X + A, player.Center.Y + B, 0f, 14f, ModContent.ProjectileType<SpiritRainHostile>(), damageAmount, 1, Main.myPlayer, 0, 0);
 							}
 						}
 						if (timer1 == 1500)
@@ -206,7 +206,7 @@ namespace SpiritMod.NPCs.Boss.SpiritCore
 					npc.defense = 11;
 					if (!mirage)
 					{
-						int Mirage = NPC.NewNPC((int)(npc.Center.X - 100), (int)(npc.Center.Y), mod.NPCType("Mirage"), npc.whoAmI, 0, 0, 0, -1);
+						int Mirage = NPC.NewNPC((int)(npc.Center.X - 100), (int)(npc.Center.Y), ModContent.NPCType<Mirage>(), npc.whoAmI, 0, 0, 0, -1);
 						mirage = true;
 					}
 					if (!rotationspawns1)
@@ -214,7 +214,7 @@ namespace SpiritMod.NPCs.Boss.SpiritCore
 						for (int I = 0; I < 2; I++)
 						{
 							//cos = y, sin = x
-							int GeyserEye = NPC.NewNPC((int)(npc.Center.X + (Math.Sin(I * 180) * 100)), (int)(npc.Center.Y + (Math.Cos(I * 180) * 100)), mod.NPCType("ShadowRotator"), npc.whoAmI, 0, 0, 0, -1);
+							int GeyserEye = NPC.NewNPC((int)(npc.Center.X + (Math.Sin(I * 180) * 100)), (int)(npc.Center.Y + (Math.Cos(I * 180) * 100)), ModContent.NPCType<ShadowRotator>(), npc.whoAmI, 0, 0, 0, -1);
 							NPC Eye = Main.npc[GeyserEye];
 							Eye.ai[0] = I * 180;
 							Eye.ai[3] = I * 180;
@@ -232,7 +232,7 @@ namespace SpiritMod.NPCs.Boss.SpiritCore
 							targetDir.Normalize();
 							targetDir *= 15;
 							int damageAmount = expertMode ? 34 : 60;
-							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, targetDir.X, targetDir.Y, mod.ProjectileType("ShadowPulse"), damageAmount, 0.5F, Main.myPlayer);
+							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, targetDir.X, targetDir.Y, ModContent.ProjectileType<ShadowPulse>(), damageAmount, 0.5F, Main.myPlayer);
 							timer2 = 0;
 						}
 					}
@@ -243,7 +243,7 @@ namespace SpiritMod.NPCs.Boss.SpiritCore
 					}
 
 				}
-				int npcType = mod.NPCType("ShadowRotator");
+				int npcType = ModContent.NPCType<ShadowRotator>();
 				for (int num569 = 0; num569 < 200; num569++)
 				{
 					if ((Main.npc[num569].active && Main.npc[num569].type == (npcType)))
@@ -289,7 +289,7 @@ namespace SpiritMod.NPCs.Boss.SpiritCore
 						int B = Main.rand.Next(-200, 200) - 1000;
 						int damageAmount = expertMode ? 18 : 44;
 
-						Projectile.NewProjectile(player.Center.X + A, player.Center.Y + B, 0f, 14f, mod.ProjectileType("SpiritRainHostile"), damageAmount, 1, Main.myPlayer, 0, 0);
+						Projectile.NewProjectile(player.Center.X + A, player.Center.Y + B, 0f, 14f, ModContent.ProjectileType<SpiritRainHostile>(), damageAmount, 1, Main.myPlayer, 0, 0);
 					}
 					timer3++;
 					if (timer3 == 100)
@@ -301,7 +301,7 @@ namespace SpiritMod.NPCs.Boss.SpiritCore
 							targetDir.Normalize();
 							targetDir *= 15;
 							int damageAmount = expertMode ? 34 : 50;
-							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, targetDir.X, targetDir.Y, mod.ProjectileType("CurvingFlame"), damageAmount, 0.5F, Main.myPlayer);
+							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, targetDir.X, targetDir.Y, ModContent.ProjectileType<CurvingFlame>(), damageAmount, 0.5F, Main.myPlayer);
 							timer3 = 0;
 						}
 					}
@@ -356,22 +356,22 @@ namespace SpiritMod.NPCs.Boss.SpiritCore
 			npc.DropItem(mod.ItemType(lootTable[loot]));
 
 			if (Main.rand.Next(4) == 1)
-				npc.DropItem(mod.ItemType("SpiritBar"), Main.rand.Next(3, 6));
+				npc.DropItem(ModContent.ItemType<SpiritBar>(), Main.rand.Next(3, 6));
 
 			if (Main.rand.Next(4) == 1)
-				npc.DropItem(mod.ItemType("StellarBar"), Main.rand.Next(3, 6));
+				npc.DropItem(ModContent.ItemType<StellarBar>(), Main.rand.Next(3, 6));
 
 			if (Main.rand.Next(4) == 1)
-				npc.DropItem(mod.ItemType("Rune"), Main.rand.Next(3, 6));
+				npc.DropItem(ModContent.ItemType<Rune>(), Main.rand.Next(3, 6));
 
 			if (Main.rand.Next(4) == 1)
-				npc.DropItem(mod.ItemType("SoulShred"), Main.rand.Next(5, 9));
+				npc.DropItem(ModContent.ItemType<SoulShred>(), Main.rand.Next(5, 9));
 
 			if (Main.rand.Next(4) == 1)
-				npc.DropItem(mod.ItemType("DuskStone"), Main.rand.Next(4, 8));
+				npc.DropItem(ModContent.ItemType<DuskStone>(), Main.rand.Next(4, 8));
 
 			if (Main.rand.Next(4) == 1)
-				npc.DropItem(mod.ItemType("SpiritCrystal"), Main.rand.Next(3, 6));
+				npc.DropItem(ModContent.ItemType<SpiritCrystal>(), Main.rand.Next(3, 6));
 
 			npc.DropItem(Items.Armor.Masks.SpiritCoreMask._type, 1f / 7);
 			npc.DropItem(Items.Boss.Trophy10._type, 1f / 10);

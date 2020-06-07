@@ -121,7 +121,7 @@ namespace SpiritMod.NPCs.Dungeon
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.player.ZoneDungeon && NPC.CountNPCS(mod.NPCType("BlazingRattler")) < 1 ? 0.05f : 0f;
+            return spawnInfo.player.ZoneDungeon && NPC.CountNPCS(ModContent.NPCType<BlazingRattler>()) < 1 ? 0.05f : 0f;
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {

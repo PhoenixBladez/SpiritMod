@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 5;
 			item.UseSound = SoundID.Item72;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("JellyBeam");
+			item.shoot = ModContent.ProjectileType<JellyBeam>();
 			item.shootSpeed = 10f;
 		}
 	}

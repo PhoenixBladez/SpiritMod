@@ -50,7 +50,7 @@ namespace SpiritMod.Projectiles
 			{
 				if (rect.Contains(Main.npc[index1].Center.ToPoint()))
 				{
-					Main.npc[index1].AddBuff(mod.BuffType("HolyBurn"), 150);
+					Main.npc[index1].AddBuff(ModContent.BuffType<HolyBurn>(), 150);
 				}
 			}
 		}
@@ -76,7 +76,7 @@ namespace SpiritMod.Projectiles
 
 		//public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		//{
-		//	target.AddBuff(mod.BuffType("Slow"), 240); 
+		//	target.AddBuff(ModContent.BuffType<Slow>(), 240); 
 		//	damage = 0;
 		//}
 	}

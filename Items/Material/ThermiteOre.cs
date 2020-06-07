@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Material
             item.autoReuse = true;
             item.consumable = true;
 
-            item.createTile = mod.TileType("ThermiteOre");
+            item.createTile = ModContent.TileType<ThermiteOre>();
         }
     }
 }

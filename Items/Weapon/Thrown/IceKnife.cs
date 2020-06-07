@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.ranged = true;
             item.channel = true;
             item.noMelee = true;
-            item.shoot = mod.ProjectileType("IceKnife");
+            item.shoot = ModContent.ProjectileType<IceKnife>();
             item.useAnimation = 27;
             item.consumable = true;
             item.maxStack = 999;

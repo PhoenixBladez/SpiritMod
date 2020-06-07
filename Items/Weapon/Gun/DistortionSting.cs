@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Gun
             item.rare = 9;
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("AlienSpit"); 
+            item.shoot = ModContent.ProjectileType<AlienSpit>(); 
             item.shootSpeed = 15f;
         }
         public override Vector2? HoldoutOffset()

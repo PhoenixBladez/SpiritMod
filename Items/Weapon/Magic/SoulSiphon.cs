@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.noMelee = true;
             item.autoReuse = true;
             Item.staff[item.type] = true;
-            item.shoot = mod.ProjectileType("SoulSiphonProjectile");
+            item.shoot = ModContent.ProjectileType<SoulSiphonProjectile>();
             item.shootSpeed = 10;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

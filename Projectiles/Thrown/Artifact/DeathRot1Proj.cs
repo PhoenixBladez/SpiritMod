@@ -34,14 +34,14 @@ namespace SpiritMod.Projectiles.Thrown.Artifact
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(3) == 0)
-				target.AddBuff(mod.BuffType("Pestilence"), 90);
+				target.AddBuff(ModContent.BuffType<Pestilence>(), 90);
 		}
 
 		public override void AI()
 		{
 			projectile.tileCollide = true;
 			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 75, 0f, 0f);
-			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, mod.DustType("Pestilence"), 0f, 0f);
+			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, ModContent.DustType<Pestilence>(), 0f, 0f);
 			Main.dust[dust].scale = 1.0f;
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust].velocity *= 0f;
@@ -59,7 +59,7 @@ namespace SpiritMod.Projectiles.Thrown.Artifact
 			vector9 += value19 * 16f;
 			for (int num257 = 0; num257 < 20; num257++)
 			{
-				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, mod.DustType("Pestilence"), 0f, 0f, 0, default(Color), 1f);
+				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, ModContent.DustType<Pestilence>(), 0f, 0f, 0, default(Color), 1f);
 				Main.dust[newDust].position = (Main.dust[newDust].position + projectile.Center) / 2f;
 				Main.dust[newDust].velocity += value19 * 2f;
 				Main.dust[newDust].velocity *= 0.5f;

@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.noMelee = true;
             item.consumable = true;
             item.maxStack = 999;
-            item.shoot = mod.ProjectileType("SkeletronHandProj");
+            item.shoot = ModContent.ProjectileType<SkeletronHandProj>();
             item.useAnimation = 27;
             item.useTime = 27;
             item.shootSpeed = 12f;

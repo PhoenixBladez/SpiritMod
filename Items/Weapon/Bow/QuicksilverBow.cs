@@ -43,7 +43,7 @@ namespace SpiritMod.Items.Weapon.Bow
             Vector2 offset = new Vector2(speedY, -speedX);
             offset.Normalize();
             offset *= 10;
-            int proj = mod.ProjectileType("QuicksilverArrow");
+            int proj = ModContent.ProjectileType<QuicksilverArrow>();
             Projectile.NewProjectile(position.X + offset.X, position.Y + offset.Y, speedX, speedY, proj, damage, knockBack, player.whoAmI);
             Projectile.NewProjectile(position.X - offset.X, position.Y - offset.Y, speedX, speedY, proj, damage, knockBack, player.whoAmI);
             return false;

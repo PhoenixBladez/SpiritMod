@@ -122,9 +122,9 @@ namespace SpiritMod.NPCs.Dungeon
             if (elementalType.Contains("Possessed "))
             {
                 Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 53);
-                int newNPC = NPC.NewNPC((int)npc.position.X + Main.rand.Next(-10, 10), (int)npc.position.Y + Main.rand.Next(-10, 10), mod.NPCType("SpectralSkull"));
-                int newNPC1 = NPC.NewNPC((int)npc.position.X + Main.rand.Next(-10, 10), (int)npc.position.Y + Main.rand.Next(-10, 10), mod.NPCType("SpectralSkull"));
-                int newNPC2 = NPC.NewNPC((int)npc.position.X + Main.rand.Next(-10, 10), (int)npc.position.Y + Main.rand.Next(-10, 10), mod.NPCType("SpectralSkull"));
+                int newNPC = NPC.NewNPC((int)npc.position.X + Main.rand.Next(-10, 10), (int)npc.position.Y + Main.rand.Next(-10, 10), ModContent.NPCType<SpectralSkull>());
+                int newNPC1 = NPC.NewNPC((int)npc.position.X + Main.rand.Next(-10, 10), (int)npc.position.Y + Main.rand.Next(-10, 10), ModContent.NPCType<SpectralSkull>());
+                int newNPC2 = NPC.NewNPC((int)npc.position.X + Main.rand.Next(-10, 10), (int)npc.position.Y + Main.rand.Next(-10, 10), ModContent.NPCType<SpectralSkull>());
             }
             return base.CheckDead(npc);
         }

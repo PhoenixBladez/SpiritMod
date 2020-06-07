@@ -33,14 +33,14 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.autoReuse = true;
 			item.useTurn = true;
 			item.crit = 6;
-			item.shoot = mod.ProjectileType("NightmareDagger");
+			item.shoot = ModContent.ProjectileType<NightmareDagger>();
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			for (int I = 0; I < 3; I++)
 			{
-				Projectile.NewProjectile(position.X, position.Y, speedX * (Main.rand.Next(500, 900) / 100), speedY * (Main.rand.Next(500, 900) / 100), mod.ProjectileType("NightmareDagger"), damage, knockBack, player.whoAmI);
+				Projectile.NewProjectile(position.X, position.Y, speedX * (Main.rand.Next(500, 900) / 100), speedY * (Main.rand.Next(500, 900) / 100), ModContent.ProjectileType<NightmareDagger>(), damage, knockBack, player.whoAmI);
 			}
 			return false;
 		}
@@ -56,7 +56,7 @@ namespace SpiritMod.Items.Weapon.Swung
 
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
-			target.AddBuff(mod.BuffType("Wither"), 220);
+			target.AddBuff(ModContent.BuffType<Wither>(), 220);
 		}
 
 	}

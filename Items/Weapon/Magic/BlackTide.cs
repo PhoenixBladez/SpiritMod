@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 3;
             item.UseSound = SoundID.Item34;
             item.autoReuse = false;
-            item.shoot = mod.ProjectileType("Blacksludge");
+            item.shoot = ModContent.ProjectileType<Blacksludge>();
             item.shootSpeed = 11f;
             item.autoReuse = true;
         }

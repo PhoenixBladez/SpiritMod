@@ -54,7 +54,7 @@ namespace SpiritMod.Items.Weapon.Swung
 
             }
             Main.PlaySound(2, (int)position.X, (int)position.Y, 14);
-            //Projectile.NewProjectile(position.X, position.Y, 0f, 0f, mod.ProjectileType("Wrath"), damage, knockback, player.whoAmI, 0f, 0f);
+            //Projectile.NewProjectile(position.X, position.Y, 0f, 0f, ModContent.ProjectileType<Wrath>(), damage, knockback, player.whoAmI, 0f, 0f);
 
             //Projectiles.ProjectileExtras.Explode()
         }

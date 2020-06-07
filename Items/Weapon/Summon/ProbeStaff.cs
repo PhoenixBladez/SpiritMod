@@ -30,9 +30,9 @@ namespace SpiritMod.Items.Weapon.Summon
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = 5;
             item.UseSound = SoundID.Item44;
-            item.shoot = mod.ProjectileType("ProbeMinion");
+            item.shoot = ModContent.ProjectileType<ProbeMinion>();
             item.shootSpeed = 10f;
-            item.buffType = mod.BuffType("ProbeBuff");
+            item.buffType = ModContent.BuffType<ProbeBuff>();
             item.buffTime = 3600;
 
         }

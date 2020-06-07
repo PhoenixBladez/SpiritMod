@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Armor.AcidArmor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("AcidBody") && legs.type == mod.ItemType("AcidLegs");  
+            return body.type == ModContent.ItemType<AcidBody>() && legs.type == ModContent.ItemType<AcidLegs>();  
         }
         public override void UpdateArmorSet(Player player)
         {

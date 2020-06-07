@@ -355,13 +355,13 @@ namespace SpiritMod.Items
 			}
 			if (modPlayer.titanicSet && item.melee && Main.rand.Next(6) == 0)
 			{
-				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType("WaterMass"), 40, 2f, player.whoAmI);
+				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<WaterMass>(), 40, 2f, player.whoAmI);
 				Main.projectile[proj].hostile = false;
 				Main.projectile[proj].friendly = true;
 			}
 			if (modPlayer.cultistScarf && item.magic && Main.rand.Next(8) == 0)
 			{
-				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType("WildMagic"), 66, 2f, player.whoAmI);
+				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<WildMagic>(), 66, 2f, player.whoAmI);
 				Main.projectile[proj].hostile = false;
 				Main.projectile[proj].friendly = true;
 			}
@@ -393,35 +393,35 @@ namespace SpiritMod.Items
 
 			if (modPlayer.KingSlayerFlask && item.thrown && Main.rand.Next(5) == 0)
 			{
-				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType("KingSlayerKnife"), 35, 2f, player.whoAmI);
+				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<KingSlayerKnife>(), 35, 2f, player.whoAmI);
 				Main.projectile[proj].hostile = false;
 				Main.projectile[proj].friendly = true;
 			}
 
 			if (modPlayer.fireMaw && item.magic && Main.rand.Next(4) == 0)
 			{
-				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType("FireMaw"), 30, 2f, player.whoAmI);
+				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<FireMaw>(), 30, 2f, player.whoAmI);
 				Main.projectile[proj].hostile = false;
 				Main.projectile[proj].friendly = true;
 			}
 			if (modPlayer.MoonSongBlossom && item.ranged && Main.rand.Next(8) == 0)
 			{
-				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType("BlossomArrow"), 29, 2f, player.whoAmI);
+				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<BlossomArrow>(), 29, 2f, player.whoAmI);
 				Main.projectile[proj].hostile = false;
 				Main.projectile[proj].friendly = true;
 
-				int proj1 = Projectile.NewProjectile(position, new Vector2(speedX + 1, speedY), mod.ProjectileType("BlossomArrow"), 29, 2f, player.whoAmI);
+				int proj1 = Projectile.NewProjectile(position, new Vector2(speedX + 1, speedY), ModContent.ProjectileType<BlossomArrow>(), 29, 2f, player.whoAmI);
 				Main.projectile[proj1].hostile = false;
 				Main.projectile[proj1].friendly = true;
 
-				int proj2 = Projectile.NewProjectile(position, new Vector2(speedX, speedY - 1), mod.ProjectileType("BlossomArrow"), 29, 2f, player.whoAmI);
+				int proj2 = Projectile.NewProjectile(position, new Vector2(speedX, speedY - 1), ModContent.ProjectileType<BlossomArrow>(), 29, 2f, player.whoAmI);
 				Main.projectile[proj2].hostile = false;
 				Main.projectile[proj2].friendly = true;
 			}
 			if (modPlayer.manaWings && item.magic && Main.rand.Next(7) == 0)
 			{
 				float d1 = 20 + ((player.statManaMax2 - player.statMana) / 3);
-				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType("ManaSpark"), (int)d1, 2f, player.whoAmI);
+				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<ManaSpark>(), (int)d1, 2f, player.whoAmI);
 				Main.projectile[proj].hostile = false;
 				Main.projectile[proj].friendly = true;
 			}
@@ -603,52 +603,52 @@ namespace SpiritMod.Items
         {
             if (item.type == 2299)
             {
-                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("AtlanticCod"));
+                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<AtlanticCod>());
                 return true;
             }
             if (item.type == 2302)
             {
-                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("NeonTetra"));
+                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<NeonTetra>());
                 return true;
             }
             if (item.type == 2303)
             {
-                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("Cavefish"));
+                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<Cavefish>());
                 return true;
             }
             if (item.type == 2304)
             {
-                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("Damselfish"));
+                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<Damselfish>());
                 return true;
             }
             if (item.type == 2305)
             {
-                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("CrismonTigerfish"));
+                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<CrismonTigerfish>());
                 return true;
             }
             if (item.type == 2308)
             {
-                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("GoldenCarp"));
+                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<GoldenCarp>());
                 return true;
             }
             if (item.type == 2309)
             {
-                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("SpecularFish"));
+                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<SpecularFish>());
                 return true;
             }
             if (item.type == 2310)
             {
-                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("Prismite"));
+                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<Prismite>());
                 return true;
             }
             if (item.type == 2306)
             {
-                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("FrostMinnow"));
+                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<FrostMinnow>());
                 return true;
             }
             if (item.type == 2301)
             {
-                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("RedSnapper"));
+                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<RedSnapper>());
                 return true;
             }
             else

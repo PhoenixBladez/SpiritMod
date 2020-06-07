@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 4;
 			item.UseSound = SoundID.Item88;
 			item.autoReuse = false;
-			item.shoot = mod.ProjectileType("TitaniumStaffProj");
+			item.shoot = ModContent.ProjectileType<TitaniumStaffProj>();
 			item.shootSpeed = 30f;
 		}
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -53,7 +53,7 @@ namespace SpiritMod.Items.Weapon.Magic
                 for (int I = 0; I < num; I++)
                 {
                     int DegreeDifference = (int)(360 / num);
-                    Projectile.NewProjectile((int)player.Center.X + (int)(Math.Sin(I * DegreeDifference) * 80), (int)player.Center.Y + (int)(Math.Sin(I * DegreeDifference) * 80), 0, 0, mod.ProjectileType("TitaniumStaffProj"), item.damage, item.knockBack, player.whoAmI, 0, I * DegreeDifference);
+                    Projectile.NewProjectile((int)player.Center.X + (int)(Math.Sin(I * DegreeDifference) * 80), (int)player.Center.Y + (int)(Math.Sin(I * DegreeDifference) * 80), 0, 0, ModContent.ProjectileType<TitaniumStaffProj>(), item.damage, item.knockBack, player.whoAmI, 0, I * DegreeDifference);
                     player.GetSpiritPlayer().shadowCount++;
                 }
             }

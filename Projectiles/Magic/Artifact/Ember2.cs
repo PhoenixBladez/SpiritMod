@@ -134,7 +134,7 @@ namespace SpiritMod.Projectiles.Magic.Artifact
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(20) == 0)
-				target.AddBuff(mod.BuffType("Freeze"), 180);
+				target.AddBuff(ModContent.BuffType<Freeze>(), 180);
 		}
 
 		public override void Kill(int timeLeft)

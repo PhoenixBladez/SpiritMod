@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.value = Terraria.Item.sellPrice(0, 9, 0, 0);
             item.rare = 6;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("FrostFlake");
+            item.shoot = ModContent.ProjectileType<FrostFlake>();
             item.shootSpeed = 10;
         }
         public override void AddRecipes()

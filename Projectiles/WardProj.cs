@@ -45,7 +45,7 @@ namespace SpiritMod.Projectiles
             {
                 if (!npc.friendly)
                 {
-                    npc.AddBuff(mod.BuffType("BCorrupt"), 20);
+                    npc.AddBuff(ModContent.BuffType<BCorrupt>(), 20);
                 }
                 if (_npcAliveLast[npc.whoAmI] && npc.life <= 0 && !npc.friendly) //if the npc was alive last frame and is now dead
                 {

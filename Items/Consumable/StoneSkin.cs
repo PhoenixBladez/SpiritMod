@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Consumable
 
         public override bool CanUseItem(Player player)
         {
-            if (!NPC.AnyNPCs(mod.NPCType("Atlas")))
+            if (!NPC.AnyNPCs(ModContent.NPCType<Atlas>()))
                 return true;
             return false;
         }
@@ -41,7 +41,7 @@ namespace SpiritMod.Items.Consumable
         public override bool UseItem(Player player)
         {
             Main.PlaySound(15, (int)player.Center.X, (int)player.Center.Y, 0);
-            NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 600, mod.NPCType("Atlas"));
+            NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 600, ModContent.NPCType<Atlas>());
 
             Main.NewText("The earth is trembling", 255, 60, 255);
             return true;

@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.UseSound = SoundID.Item20;   
             item.autoReuse = true;
             item.useTurn = true;
-            item.shoot = mod.ProjectileType("DemonIceProj");
+            item.shoot = ModContent.ProjectileType<DemonIceProj>();
         }
         
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

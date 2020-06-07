@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.knockBack = 5;
             item.value = Terraria.Item.sellPrice(0, 0, 40, 0);
             item.rare = 1;
-            item.shoot = mod.ProjectileType("Zephyr");
+            item.shoot = ModContent.ProjectileType<Zephyr>();
             item.autoReuse = false;
         }
 
@@ -43,7 +43,7 @@ namespace SpiritMod.Items.Weapon.Magic
             if (player.altFunctionUse == 2)
             {
                 item.UseSound = SoundID.Item1;
-                item.shoot = mod.ProjectileType("ZephyrSpearProj");
+                item.shoot = ModContent.ProjectileType<ZephyrSpearProj>();
 				item.knockBack = 5;
                 item.noMelee = false;
                 item.shootSpeed = 6f;
@@ -52,7 +52,7 @@ namespace SpiritMod.Items.Weapon.Magic
             else
             {
                 item.UseSound = SoundID.Item34;
-                item.shoot = mod.ProjectileType("Zephyr");
+                item.shoot = ModContent.ProjectileType<Zephyr>();
 				item.knockBack = 10;
                 item.noMelee = true;
                 item.noUseGraphic = false;

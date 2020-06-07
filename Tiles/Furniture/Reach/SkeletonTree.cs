@@ -42,7 +42,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Terraria.Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("AncientBark"), Main.rand.Next(4, 9));
+			Terraria.Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<AncientBark>(), Main.rand.Next(4, 9));
 			Terraria.Item.NewItem(i * 16, j * 16, 16, 32, 1377);
 		}
 	}

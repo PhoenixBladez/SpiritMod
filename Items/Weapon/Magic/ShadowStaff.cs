@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 5;
 			item.UseSound = SoundID.Item92;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("ExplodingWispShadow");
+			item.shoot = ModContent.ProjectileType<ExplodingWispShadow>();
 			item.shootSpeed = 13.5f;
 		}
 	}

@@ -52,7 +52,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(4) == 0)
-				target.AddBuff(mod.BuffType("ClatterPierce"), 180);
+				target.AddBuff(ModContent.BuffType<ClatterPierce>(), 180);
 		}
 
 	}

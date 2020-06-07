@@ -33,13 +33,13 @@ namespace SpiritMod.Items.Consumable
 
         public override bool CanUseItem(Player player)
         {
-            if (!NPC.AnyNPCs(mod.NPCType("Overseer")) && player.GetSpiritPlayer().ZoneSpirit && !Main.dayTime)
+            if (!NPC.AnyNPCs(ModContent.NPCType<Overseer>()) && player.GetSpiritPlayer().ZoneSpirit && !Main.dayTime)
                 return true;
             return false;
         }
 public override bool UseItem(Player player)
 		{
-			NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("Overseer"));
+			NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Overseer>());
 			Main.PlaySound(SoundID.Roar, player.position, 0);
 			return true;
 		}

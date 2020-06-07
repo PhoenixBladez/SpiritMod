@@ -33,7 +33,7 @@ namespace SpiritMod.Projectiles.Flail
 				if (Main.npc[i].active && !Main.npc[i].boss)
 				{
 					if ((Main.npc[i].Center - projectile.Center).Length() < 128)
-						Main.npc[i].AddBuff(mod.BuffType("TidalWrath"), 120);
+						Main.npc[i].AddBuff(ModContent.BuffType<TidalWrath>(), 120);
 				}
 			}
 			return false;

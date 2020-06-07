@@ -85,7 +85,7 @@ namespace SpiritMod.Projectiles.Summon.Artifact
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(2) == 0)
-				target.AddBuff(mod.BuffType("Wither"), 180, true);
+				target.AddBuff(ModContent.BuffType<Wither>(), 180, true);
 
 			Player player = Main.player[projectile.owner];
 			if (Main.rand.Next(7) == 0)

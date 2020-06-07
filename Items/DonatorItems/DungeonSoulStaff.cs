@@ -29,8 +29,8 @@ namespace SpiritMod.Items.DonatorItems
             item.useAnimation = 30;
             item.summon = true;
             item.noMelee = true;
-            item.shoot = mod.ProjectileType("DungeonSummon");
-            item.buffType = mod.BuffType("DungeonSummonBuff");
+            item.shoot = ModContent.ProjectileType<DungeonSummon>();
+            item.buffType = ModContent.BuffType<DungeonSummonBuff>();
             item.buffTime = 3600;
             item.UseSound = SoundID.Item44;
         }

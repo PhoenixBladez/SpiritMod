@@ -88,7 +88,7 @@ namespace SpiritMod.Items.Weapon.Bow.Artifact
                 charger = 0;
                 for (int I = 0; I < 2; I++)
                 {
-                    Projectile.NewProjectile(position.X, position.Y,  speedX + ((float)Main.rand.Next(-102, 102) / 100), speedY + ((float)Main.rand.Next(-102, 102) / 100), mod.ProjectileType("StarPin"), damage, knockBack, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(position.X, position.Y,  speedX + ((float)Main.rand.Next(-102, 102) / 100), speedY + ((float)Main.rand.Next(-102, 102) / 100), ModContent.ProjectileType<StarPin>(), damage, knockBack, player.whoAmI, 0f, 0f);
                 };
             }
             return false;

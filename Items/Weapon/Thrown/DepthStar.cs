@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.ranged = true;
             item.channel = true;
             item.noMelee = true;
-            item.shoot = mod.ProjectileType("DepthStar");
+            item.shoot = ModContent.ProjectileType<DepthStar>();
             item.useAnimation = 25;
             item.consumable = true;
             item.maxStack = 999;

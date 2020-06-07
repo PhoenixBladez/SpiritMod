@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Flail
 			item.value = 2000;
             item.damage = 57;
             item.noUseGraphic = true; 
-            item.shoot = mod.ProjectileType("CoreCrusher");
+            item.shoot = ModContent.ProjectileType<CoreCrusher>();
             item.shootSpeed = 15f;
             item.UseSound = SoundID.Item1;
             item.melee = true; 

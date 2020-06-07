@@ -47,10 +47,10 @@ namespace SpiritMod.Projectiles.Hostile
 
 		public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 14f, 0f, mod.ProjectileType("SunBlast"), projectile.damage, 0f, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -14f, 0f, mod.ProjectileType("SunBlast"), projectile.damage, 0f, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, 14f, mod.ProjectileType("SunBlast"), projectile.damage, 0f, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, -14f, mod.ProjectileType("SunBlast"), projectile.damage, 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 14f, 0f, ModContent.ProjectileType<SunBlast>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -14f, 0f, ModContent.ProjectileType<SunBlast>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, 14f, ModContent.ProjectileType<SunBlast>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, -14f, ModContent.ProjectileType<SunBlast>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
 
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);

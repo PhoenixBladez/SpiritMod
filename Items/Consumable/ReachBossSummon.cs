@@ -33,13 +33,13 @@ namespace SpiritMod.Items.Consumable
 
         public override bool CanUseItem(Player player)
         {
-            return !NPC.AnyNPCs(mod.NPCType("ReachBoss")) && player.GetSpiritPlayer().ZoneReach && Main.dayTime;
+            return !NPC.AnyNPCs(ModContent.NPCType<ReachBoss>()) && player.GetSpiritPlayer().ZoneReach && Main.dayTime;
         }
 
 
     public override bool UseItem(Player player)
         {
-            NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("ReachBoss"));
+            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<ReachBoss>());
             Main.PlaySound(SoundID.Roar, player.position, 0);
             return true;
         

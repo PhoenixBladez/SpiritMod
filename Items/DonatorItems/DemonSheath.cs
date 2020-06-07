@@ -15,8 +15,8 @@ namespace SpiritMod.Items.DonatorItems
 		public override void SetDefaults()
 		{
 			item.CloneDefaults(ItemID.Fish);
-			item.shoot = mod.ProjectileType("SwordPet");
-			item.buffType = mod.BuffType("SwordPetBuff");
+			item.shoot = ModContent.ProjectileType<SwordPet>();
+			item.buffType = ModContent.BuffType<SwordPetBuff>();
 			item.value = Terraria.Item.sellPrice(0, 0, 54, 0);
 			item.rare = 3;
 		}
@@ -38,7 +38,7 @@ namespace SpiritMod.Items.DonatorItems
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.Muramasa, 1);
-			recipe.AddIngredient(mod.ItemType("BloodFire"), 5);
+			recipe.AddIngredient(ModContent.ItemType<BloodFire>(), 5);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();

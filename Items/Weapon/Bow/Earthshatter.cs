@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Weapon.Bow
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Earthrock"), damage, knockBack, player.whoAmI);
+            int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Earthrock>(), damage, knockBack, player.whoAmI);
             Projectile newProj = Main.projectile[proj];
             newProj.friendly = true;
             newProj.hostile = false;

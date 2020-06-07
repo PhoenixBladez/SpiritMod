@@ -36,7 +36,7 @@ namespace SpiritMod.Projectiles.Flail
 					Vector2 targetDir = ((((float)Math.PI * 2) / 8) * i).ToRotationVector2();
 					targetDir.Normalize();
 					targetDir *= 3;
-					int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, targetDir.X, targetDir.Y, mod.ProjectileType("EarthshakerProj"), projectile.damage, projectile.knockBack, projectile.owner);
+					int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, targetDir.X, targetDir.Y, ModContent.ProjectileType<EarthshakerProj>(), projectile.damage, projectile.knockBack, projectile.owner);
 					Main.projectile[proj].friendly = true;
 					Main.projectile[proj].hostile = false;
 					projectile.Kill();

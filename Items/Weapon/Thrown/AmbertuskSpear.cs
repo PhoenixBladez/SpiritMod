@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.autoReuse = true;
             item.consumable = true;
             item.noUseGraphic = true;
-            item.shoot = mod.ProjectileType("AmbertuskSpear");
+            item.shoot = ModContent.ProjectileType<AmbertuskSpear>();
             item.shootSpeed = 15;
             item.UseSound = SoundID.Item1;
         }

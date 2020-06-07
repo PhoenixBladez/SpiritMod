@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Equipment
             item.rare = 2;
             item.UseSound = SoundID.Item20;
             item.autoReuse = false;
-            item.shoot = mod.ProjectileType("RightHopper");
+            item.shoot = ModContent.ProjectileType<RightHopper>();
             item.shootSpeed = 13f;
         }
 		public override bool AltFunctionUse(Player player)
@@ -64,7 +64,7 @@ namespace SpiritMod.Items.Equipment
 				{
 					Main.projectile[right].active = false;
 				}
-				right = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("RightZipline"), item.damage, 1, Main.myPlayer);
+				right = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<RightZipline>(), item.damage, 1, Main.myPlayer);
 				rightactive = true;
 				if (leftactive)
 				{
@@ -78,7 +78,7 @@ namespace SpiritMod.Items.Equipment
 				{
 					Main.projectile[left].active = false;
 				}
-				left = Projectile.NewProjectile(position.X,position.Y, speedX, speedY, mod.ProjectileType("LeftZipline"), item.damage, 1, Main.myPlayer);
+				left = Projectile.NewProjectile(position.X,position.Y, speedX, speedY, ModContent.ProjectileType<LeftZipline>(), item.damage, 1, Main.myPlayer);
 				leftactive = true;
 				if (rightactive)
 				{

@@ -76,37 +76,37 @@ namespace SpiritMod.Projectiles.Magic
 					{
 						int type = (int)Main.tile[k, l].type;
 						int wall = (int)Main.tile[k, l].wall;
-						if (type == (int)mod.WallType("SpiritWall"))
+						if (type == (int)ModContent.WallType<SpiritWall>())
 						{
 							Main.tile[k, l].wall = (ushort)2;
 							WorldGen.SquareWallFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
-						if (type == mod.TileType("SpiritStone"))
+						if (type == ModContent.TileType<SpiritStone>())
 						{
 							Main.tile[k, l].type = (ushort)1;
 							WorldGen.SquareTileFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
-						else if (type == mod.TileType("SpiritDirt"))
+						else if (type == ModContent.TileType<SpiritDirt>())
 						{
 							Main.tile[k, l].type = 0;
 							WorldGen.SquareTileFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
-						else if (type == mod.TileType("SpiritGrass"))
+						else if (type == ModContent.TileType<SpiritGrass>())
 						{
 							Main.tile[k, l].type = (ushort)2;
 							WorldGen.SquareTileFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
-						else if (type == mod.TileType("Spiritsand"))
+						else if (type == ModContent.TileType<Spiritsand>())
 						{
 							Main.tile[k, l].type = (ushort)53;
 							WorldGen.SquareTileFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
-						else if (type == mod.TileType("SpiritIce"))
+						else if (type == ModContent.TileType<SpiritIce>())
 						{
 							Main.tile[k, l].type = (ushort)161;
 							WorldGen.SquareTileFrame(k, l, true);

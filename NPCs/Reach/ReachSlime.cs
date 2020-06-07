@@ -52,7 +52,7 @@ namespace SpiritMod.NPCs.Reach
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Gel, Main.rand.Next(1, 4));
             if (Main.rand.Next(2) == 0)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AncientBark"), Main.rand.Next(1, 4));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<AncientBark>(), Main.rand.Next(1, 4));
             }
         }
         public override void OnHitPlayer(Player target, int damage, bool crit)

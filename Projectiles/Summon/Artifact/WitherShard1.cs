@@ -53,7 +53,7 @@ namespace SpiritMod.Projectiles.Summon.Artifact
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(2) == 0)
-				target.AddBuff(mod.BuffType("BCorrupt"), 300, true);
+				target.AddBuff(ModContent.BuffType<BCorrupt>(), 300, true);
 		}
 
 		public override void Kill(int timeLeft)

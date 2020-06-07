@@ -94,7 +94,7 @@ namespace SpiritMod.NPCs.BlueMoon
 			{
 				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 43);
 
-				Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 15, 0, -7, mod.ProjectileType("MadHat"), 40, 1, Main.myPlayer, 0, 0);
+				Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 15, 0, -7, ModContent.ProjectileType<MadHat>(), 40, 1, Main.myPlayer, 0, 0);
 				hat = true;
 			}
 
@@ -123,7 +123,7 @@ namespace SpiritMod.NPCs.BlueMoon
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
 			if (Main.rand.Next(5) == 0)
-				target.AddBuff(mod.BuffType("StarFlame"), 200);
+				target.AddBuff(ModContent.BuffType<StarFlame>(), 200);
 		}
 
 		public override void NPCLoot()
@@ -131,7 +131,7 @@ namespace SpiritMod.NPCs.BlueMoon
 			if (Main.rand.Next(12) == 1)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 239);
 			if (Main.rand.Next(20) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MadHat"));
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MadHat>());
 		}
 
 	}

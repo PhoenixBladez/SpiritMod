@@ -41,8 +41,8 @@ namespace SpiritMod.Items.Weapon.Bow
         {
             if (Main.rand.Next(8) == 1)
             {
-                int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Dreadshot"), damage, knockBack, player.whoAmI);
-                int proj1 = Projectile.NewProjectile(position.X, position.Y - 10, speedX, speedY, mod.ProjectileType("Dreadshot"), damage, knockBack, player.whoAmI);
+                int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Dreadshot>(), damage, knockBack, player.whoAmI);
+                int proj1 = Projectile.NewProjectile(position.X, position.Y - 10, speedX, speedY, ModContent.ProjectileType<Dreadshot>(), damage, knockBack, player.whoAmI);
             }
             else if (Main.rand.Next(8) == 1)
             {

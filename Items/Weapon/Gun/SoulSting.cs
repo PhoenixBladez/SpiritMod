@@ -32,12 +32,12 @@ namespace SpiritMod.Items.Weapon.Gun
             item.rare = 5;
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("SoulSting");
+            item.shoot = ModContent.ProjectileType<SoulSting>();
             item.shootSpeed = 10f;
         }
 		 public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            type = mod.ProjectileType("SoulSting");
+            type = ModContent.ProjectileType<SoulSting>();
             return true;
         }
         public override Vector2? HoldoutOffset()

@@ -28,7 +28,7 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			target.AddBuff(mod.BuffType("FelBrand"), 300);
+			target.AddBuff(ModContent.BuffType<FelBrand>(), 300);
 		}
 
 		public override bool PreAI()

@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Placeable.MusicBox
 			item.useTime = 10;
 			item.autoReuse = true;
 			item.consumable = true;
-			item.createTile = mod.TileType("StarplateBox");
+			item.createTile = ModContent.TileType<StarplateBox>();
 			item.width = 24;
 			item.height = 24;
 			item.rare = 4;

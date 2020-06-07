@@ -223,7 +223,7 @@ namespace SpiritMod.NPCs.Asteroid
                 if (timer == 130) //change to frame related later
                 {
                     Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 91);
-                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 30, (float)direction9.Y * 30, mod.ProjectileType("HopperLaser"), 27, 1, Main.myPlayer);
+                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 30, (float)direction9.Y * 30, ModContent.ProjectileType<HopperLaser>(), 27, 1, Main.myPlayer);
                 }
             }
 			return false;
@@ -232,11 +232,11 @@ namespace SpiritMod.NPCs.Asteroid
 		{
 			if (Main.rand.Next(70) == 1)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GateStaff"), 1);
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GateStaff>(), 1);
 			}
             if (Main.rand.Next(1) == 400)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GravityModulator"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GravityModulator>());
             }
             string[] lootTable = { "AstronautLegs", "AstronautHelm", "AstronautBody" };
             if (Main.rand.Next(40) == 0)

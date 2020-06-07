@@ -36,7 +36,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 
 		public override bool PreAI()
 		{
-			if (!Main.npc[(int)npc.ai[3]].active || Main.npc[(int)npc.ai[3]].type != mod.NPCType("Infernon"))
+			if (!Main.npc[(int)npc.ai[3]].active || Main.npc[(int)npc.ai[3]].type != ModContent.NPCType<Infernon>())
 				npc.ai[0] = -1;
 
 			if (npc.ai[0] == -1)
@@ -76,8 +76,8 @@ namespace SpiritMod.NPCs.Boss.Infernon
 					for (i = 0; i < 4; i++)
 					{
 						offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
-						Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), mod.ProjectileType("InfernalWave"), 28, 0, Main.myPlayer);
-						Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), mod.ProjectileType("InfernalWave"), 28, 0, Main.myPlayer);
+						Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<InfernalWave>(), 28, 0, Main.myPlayer);
+						Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<InfernalWave>(), 28, 0, Main.myPlayer);
 						npc.netUpdate = true;
 					}
 					bool expertMode = Main.expertMode;
@@ -94,7 +94,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 							float A = (float)Main.rand.Next(-200, 200) * 0.01f;
 							float B = (float)Main.rand.Next(-200, 200) * 0.01f;
 							int damage = expertMode ? 20 : 24;
-							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("SunBlast"), damage, 1, Main.myPlayer, 0, 0);
+							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<SunBlast>(), damage, 1, Main.myPlayer, 0, 0);
 
 						}
 					}

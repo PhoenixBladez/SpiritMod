@@ -37,13 +37,13 @@ namespace SpiritMod.Projectiles.Thrown
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(4) == 0)
-				target.AddBuff(mod.BuffType("StarFlame"), 200, true);
+				target.AddBuff(ModContent.BuffType<StarFlame>(), 200, true);
 		}
 
 		public override void Kill(int timeLeft)
 		{
 			if (Main.rand.Next(0, 4) == 0)
-				Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, mod.ItemType("WayfinderTorch"), 1, false, 0, false, false);
+				Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<WayfinderTorch>(), 1, false, 0, false, false);
 
 			for (int i = 0; i < 5; i++)
 			{
@@ -63,7 +63,7 @@ namespace SpiritMod.Projectiles.Thrown
 					perturbedSpeed.Normalize();
 					perturbedSpeed.X *= 5.5f;
 					perturbedSpeed.Y *= 5.5f;
-					int newProj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("BlueEmber"), projectile.damage/4, 2, projectile.owner);
+					int newProj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<BlueEmber>(), projectile.damage/4, 2, projectile.owner);
 
 					Main.projectile[newProj].hostile = false;
 					Main.projectile[newProj].friendly = true;

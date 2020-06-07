@@ -38,7 +38,7 @@ namespace SpiritMod.NPCs
 		}
 		public override void NPCLoot()
 		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MarbleChunk"), 1);
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MarbleChunk>(), 1);
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{

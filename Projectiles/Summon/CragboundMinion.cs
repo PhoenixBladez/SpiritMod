@@ -35,7 +35,7 @@ namespace SpiritMod.Projectiles.Summon
 
 		public override void AI()
 		{
-			bool flag64 = projectile.type == mod.ProjectileType("CragboundMinion");
+			bool flag64 = projectile.type == ModContent.ProjectileType<CragboundMinion>();
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (flag64)
@@ -117,7 +117,7 @@ namespace SpiritMod.Projectiles.Summon
 							speedY = speedY + (float)Main.rand.Next(-40, 41) * 0.03f;
 							speedX *= (float)Main.rand.Next(75, 150) * 0.01f;
 							position.X += (float)Main.rand.Next(-50, 51);
-							Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("PrismaticBolt"), projectile.damage, projectile.knockBack, projectile.owner);
+							Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PrismaticBolt>(), projectile.damage, projectile.knockBack, projectile.owner);
 							break;
 						}
 					}

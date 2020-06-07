@@ -103,7 +103,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
                 npc.SimpleFlyMovement(npc.DirectionTo(player.Center + new Vector2((float)((double)npc.direction * 1000), player.Center.Y + .001f)) * 25.5f, 1.8f);
                 npc.direction = npc.spriteDirection = (double)npc.Center.X < (double)player.Center.X ? 1 : -1;
             }
-            int npcType = mod.NPCType("SunFlower");
+            int npcType = ModContent.NPCType<SunFlower>();
 			bool plantAlive = false;
 			for (int num569 = 0; num569 < 200; num569++)
 			{
@@ -115,11 +115,11 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				if (Counter > 2000)
 				{
 					Vector2 direction = Vector2.One.RotatedByRandom(MathHelper.ToRadians(100));
-					int newNPC = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, mod.NPCType("SunFlower"));
-					int newNPC1 = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, mod.NPCType("SunFlower"));
-					int newNPC2 = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, mod.NPCType("SunFlower"));
-					int newNPC3 = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, mod.NPCType("SunFlower"));
-					int newNPC4 = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, mod.NPCType("SunFlower"));
+					int newNPC = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, ModContent.NPCType<SunFlower>());
+					int newNPC1 = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, ModContent.NPCType<SunFlower>());
+					int newNPC2 = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, ModContent.NPCType<SunFlower>());
+					int newNPC3 = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, ModContent.NPCType<SunFlower>());
+					int newNPC4 = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, ModContent.NPCType<SunFlower>());
 					Main.npc[newNPC].velocity = direction * (Main.rand.Next(4, 6));
 					Main.npc[newNPC1].velocity = direction * (Main.rand.Next(-7, 11));
 					Main.npc[newNPC2].velocity = direction * (Main.rand.Next(12, 15));
@@ -144,7 +144,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 					float A = (float)Main.rand.Next(-200, 200) * 0.01f;
 					float B = (float)Main.rand.Next(-200, 200) * 0.01f;
 					int damage = expertMode ? 13 : 17;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("BouncingSpore"), damage, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BouncingSpore>(), damage, 1, Main.myPlayer, 0, 0);
 
 				}
 			}
@@ -163,7 +163,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 					float A = (float)Main.rand.Next(-200, 200) * 0.01f;
 					float B = (float)Main.rand.Next(-200, 200) * 0.01f;
 					int damage = expertMode ? 14 : 20;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("BouncingSpore"), damage, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BouncingSpore>(), damage, 1, Main.myPlayer, 0, 0);
 
 				}
 			}
@@ -183,7 +183,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 					float A = (float)Main.rand.Next(-200, 200) * 0.05f;
 					float B = (float)Main.rand.Next(-200, 200) * 0.05f;
 					int damage = expertMode ? 11 : 16;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("BossSpike"), damage, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BossSpike>(), damage, 1, Main.myPlayer, 0, 0);
 				}
 			}
 			if (Main.rand.Next(180) == 0 && npc.life >= (npc.lifeMax / 3) && npc.life <= (npc.lifeMax / 2))
@@ -200,7 +200,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 					float A = (float)Main.rand.Next(-200, 200) * 0.05f;
 					float B = (float)Main.rand.Next(-200, 200) * 0.05f;
 					int damage = expertMode ? 11 : 16;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("BossSpike"), damage, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BossSpike>(), damage, 1, Main.myPlayer, 0, 0);
 				}
 			}
 			else if (Main.rand.Next(22) == 1 && npc.life <= (npc.lifeMax / 3))
@@ -217,7 +217,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 					float A = (float)Main.rand.Next(-100, 100) * 0.01f;
 					float B = (float)Main.rand.Next(-100, 100) * 0.01f;
 					int damage = expertMode ? 12 : 20;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("BossRedSpike"), damage, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BossRedSpike>(), damage, 1, Main.myPlayer, 0, 0);
 				}
 			}
 			else

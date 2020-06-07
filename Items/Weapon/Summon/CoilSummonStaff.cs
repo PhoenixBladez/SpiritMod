@@ -48,7 +48,7 @@ namespace SpiritMod.Items.Weapon.Summon
             item.rare = 2;
             item.knockBack = 2.5f;
 			item.UseSound = SoundID.Item25;
-			item.shoot = mod.ProjectileType("CoilSentrySummon");
+			item.shoot = ModContent.ProjectileType<CoilSentrySummon>();
 			item.shootSpeed = 0f;
 		}
 

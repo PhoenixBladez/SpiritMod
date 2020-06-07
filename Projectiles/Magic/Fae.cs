@@ -75,7 +75,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(6) == 0)
-				target.AddBuff(mod.BuffType("HolyLight"), 120, true);
+				target.AddBuff(ModContent.BuffType<HolyLight>(), 120, true);
 		}
 
 	}

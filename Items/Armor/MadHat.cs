@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Armor
             item.rare = 5;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("MadHatProj");
+			item.shoot = ModContent.ProjectileType<MadHatProj>();
 			item.shootSpeed = 10f;
 			item.noUseGraphic = true;
 			item.defense = 6;

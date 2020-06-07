@@ -93,7 +93,7 @@ namespace SpiritMod.NPCs
 		{
             if (Main.rand.Next(2) == 0)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GraniteChunk"), 1);
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GraniteChunk>(), 1);
             }
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -130,7 +130,7 @@ namespace SpiritMod.NPCs
                             Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
                     }
                     Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
-                    NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, mod.NPCType("GraniteCore"));
+                    NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<GraniteCore>());
                 }
             }
         }

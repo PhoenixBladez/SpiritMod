@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.melee = true;
             item.channel = true;
             item.noMelee = true;
-            item.shoot = mod.ProjectileType("LihzahrdSpear");
+            item.shoot = ModContent.ProjectileType<LihzahrdSpear>();
             item.useAnimation = 13;
             item.consumable = true;
             item.maxStack = 999;

@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Material
             item.rare = 8;
 	        item.consumable = true;
             item.maxStack = 99;
-			item.createTile = mod.TileType("ThermiteBar");
+			item.createTile = ModContent.TileType<ThermiteBar>();
 			item.autoReuse = true;
 			item.useAnimation = 15;
 			item.useTime = 10;

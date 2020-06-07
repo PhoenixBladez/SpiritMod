@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Equipment
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.expert = true;
 			item.autoReuse = false;
-			item.shoot = mod.ProjectileType("StarMapProj");
+			item.shoot = ModContent.ProjectileType<StarMapProj>();
 			item.shootSpeed = 0f;
 		}
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

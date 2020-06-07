@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.ranged = true;
             item.channel = true;
             item.noMelee = true;
-            item.shoot = mod.ProjectileType("LihzahrdKnife");
+            item.shoot = ModContent.ProjectileType<LihzahrdKnife>();
             item.useAnimation = 11;
             item.consumable = true;
             item.maxStack = 999;

@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Summon
             item.rare = 3;
             item.UseSound = SoundID.Item20;
             item.autoReuse = false;
-            item.shoot = mod.ProjectileType("HappySoul");
+            item.shoot = ModContent.ProjectileType<HappySoul>();
             item.shootSpeed = 0f;
         }
         public override bool AltFunctionUse(Player player)
@@ -44,17 +44,17 @@ namespace SpiritMod.Items.Weapon.Summon
         {
 			if (player.altFunctionUse == 2)
 			{
-				type = mod.ProjectileType("SadSoul");
+				type = ModContent.ProjectileType<SadSoul>();
 			}
             else
             {
-                type = mod.ProjectileType("HappySoul");
+                type = ModContent.ProjectileType<HappySoul>();
             }
             //remove any other owned SpiritBow projectiles, just like any other sentry minion
             for (int i = 0; i < Main.projectile.Length; i++)
             {
                 Projectile p = Main.projectile[i];
-                if (p.active && (p.type == item.shoot || p.type == mod.ProjectileType("SadSoul")) && p.owner == player.whoAmI)
+                if (p.active && (p.type == item.shoot || p.type == ModContent.ProjectileType<SadSoul>()) && p.owner == player.whoAmI)
                 { 
                     p.active = false;
                 }

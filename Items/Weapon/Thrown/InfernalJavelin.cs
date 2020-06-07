@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.noMelee = true;
             item.autoReuse = true;
             item.noUseGraphic = true;
-            item.shoot = mod.ProjectileType("InfernalJavelin");
+            item.shoot = ModContent.ProjectileType<InfernalJavelin>();
             item.shootSpeed = 14;
             item.UseSound = SoundID.Item1;
         }

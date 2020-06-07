@@ -1,4 +1,5 @@
 using System;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,19 +12,18 @@ namespace SpiritMod.YoYoOverload.Items
 			DisplayName.SetDefault("The Creeper");
 		}
 
-
 		public override void SetDefaults()
 		{
-			base.item.CloneDefaults(3278);
-			base.item.damage = 15;
-			base.item.value = 90040;
-			base.item.rare = 2;
-			base.item.knockBack = 3f;
-			base.item.channel = true;
-			base.item.useStyle = ItemUseStyleID.HoldingOut;
-			base.item.useAnimation = 25;
-			base.item.useTime = 25;
-			base.item.shoot = base.mod.ProjectileType("CreepP");
+			item.CloneDefaults(ItemID.WoodYoyo);
+			item.damage = 15;
+			item.value = Item.buyPrice(gold: 9, copper: 40);
+			item.rare = 2;
+			item.knockBack = 3f;
+			item.channel = true;
+			item.useStyle = ItemUseStyleID.HoldingOut;
+			item.useAnimation = 25;
+			item.useTime = 25;
+			item.shoot = ModContent.ProjectileType<CreepP>();
 		}
 	}
 }

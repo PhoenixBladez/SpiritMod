@@ -46,7 +46,7 @@ namespace SpiritMod.Projectiles
 			{
 				NPC target = Main.npc[i];
 				if (!target.friendly && target.catchItem == 0 && hitbox.Contains(target.Center.ToPoint()))
-					target.AddBuff(mod.BuffType("MageFreeze"), 240);
+					target.AddBuff(ModContent.BuffType<MageFreeze>(), 240);
 			}
 			if (Main.rand.Next(9) == 1)
 			{

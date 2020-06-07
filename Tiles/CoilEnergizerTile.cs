@@ -72,7 +72,7 @@ namespace SpiritMod.Tiles
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 64, 48, mod.ItemType("CoilEnergizerItem"));
+            Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<CoilEnergizerItem>());
             Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
         }
 
@@ -86,7 +86,7 @@ namespace SpiritMod.Tiles
                 {
                     DoDustEffect(player.MountedCenter, 46f - speed * 4.5f, 1.08f - speed * 0.13f, 2.08f - speed * 0.24f, player);
                 }
-                player.AddBuff(mod.BuffType("OverDrive"), 60);
+                player.AddBuff(ModContent.BuffType<OverDrive>(), 60);
             }
         }
 

@@ -36,13 +36,13 @@ public class FierySummonStaff : ModItem
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true; //so the item's animation doesn't do damage
             item.knockBack = 1.25f;
-            item.buffType = mod.BuffType("LavaRockSummon");
+            item.buffType = ModContent.BuffType<LavaRockSummon>();
             item.buffTime = 3600;
             item.value = 10000;
             item.UseSound = SoundID.Item73;
             item.rare = 3;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("LavaRockSummon");
+            item.shoot = ModContent.ProjectileType<LavaRockSummon>();
             item.shootSpeed = 10f;
         }
         public override void AddRecipes()
@@ -87,7 +87,7 @@ public class FierySummonStaff : ModItem
 		num79 = 0f;
 		vector2.X = (float)Main.mouseX + Main.screenPosition.X;
 		vector2.Y = (float)Main.mouseY + Main.screenPosition.Y;
-		Projectile.NewProjectile(vector2.X, vector2.Y, num78, num79, mod.ProjectileType("LavaRockSummon"), num73, num74, i, 0f, 0f);
+		Projectile.NewProjectile(vector2.X, vector2.Y, num78, num79, ModContent.ProjectileType<LavaRockSummon>(), num73, num74, i, 0f, 0f);
 		return false;
     }
 }}

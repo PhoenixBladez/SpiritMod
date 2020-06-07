@@ -51,7 +51,7 @@ namespace SpiritMod.Projectiles.Summon.LaserGate
 					if (timer > 3 && distance < 500)
 					{
 						timer = 0;
-						int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)direction9.X * 30, (float)direction9.Y * 30, mod.ProjectileType("GateLaser"), 27, 1, Main.myPlayer);
+						int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)direction9.X * 30, (float)direction9.Y * 30, ModContent.ProjectileType<GateLaser>(), 27, 1, Main.myPlayer);
 						Main.projectile[proj].timeLeft = (int)(distance / 30) - 1;
 					}		
 				}

@@ -41,7 +41,7 @@ namespace SpiritMod.Tiles.Furniture
 			AddMapEntry(new Color(0, 0, 255), name);
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.ClosedDoor };
-			openDoorID = mod.TileType("SpiritDoorOpen");
+			openDoorID = ModContent.TileType<SpiritDoorOpen>();
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)
@@ -51,7 +51,7 @@ namespace SpiritMod.Tiles.Furniture
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Terraria.Item.NewItem(i * 16, j * 16, 16, 48, mod.ItemType("SpiritDoorItem"));
+			Terraria.Item.NewItem(i * 16, j * 16, 16, 48, ModContent.ItemType<SpiritDoorItem>());
 		}
 	}
 }

@@ -41,7 +41,7 @@ namespace SpiritMod.Projectiles
             {
                 if (!npc.friendly)
                 {
-                    npc.AddBuff(mod.BuffType("MageFreeze"), 20);
+                    npc.AddBuff(ModContent.BuffType<MageFreeze>(), 20);
                 }
             }
             for (int k = 0; k < 4; k++)

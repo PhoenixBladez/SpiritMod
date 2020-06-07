@@ -49,7 +49,7 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			for (int i = 0; i < 5; i++)
 			{
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, mod.DustType("NightmareDust"));
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<NightmareDust>());
 			}
 			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
 		}
@@ -57,7 +57,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(5) == 0)
-                target.AddBuff(mod.BuffType("SurgingAnguish"), 180);
+                target.AddBuff(ModContent.BuffType<SurgingAnguish>(), 180);
         }
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

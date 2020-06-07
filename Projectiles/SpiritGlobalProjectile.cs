@@ -56,7 +56,7 @@ namespace SpiritMod.Projectiles
         {
             Player player = Main.player[projectile.owner];
             MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
-            if (projectile.minion && projectile.owner == Main.myPlayer && modPlayer.stellarSet && player.HasBuff(mod.BuffType("StellarMinionBonus")))
+            if (projectile.minion && projectile.owner == Main.myPlayer && modPlayer.stellarSet && player.HasBuff(ModContent.BuffType<StellarMinionBonus>()))
             {
                 float sineAdd = (float)Math.Sin(alphaCounter) + 3;
                 Main.spriteBatch.Draw(SpiritMod.instance.GetTexture("Effects/Masks/Extra_49"), (projectile.Center - Main.screenPosition), null, new Color((int)(20f * sineAdd), (int)(16f * sineAdd), (int)(4f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + .25f), SpriteEffects.None, 0f);
@@ -80,7 +80,7 @@ namespace SpiritMod.Projectiles
         {
             Player player = Main.player[projectile.owner];
             MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
-            if (projectile.minion && projectile.owner == Main.myPlayer && modPlayer.stellarSet && player.HasBuff(mod.BuffType("StellarMinionBonus")))
+            if (projectile.minion && projectile.owner == Main.myPlayer && modPlayer.stellarSet && player.HasBuff(ModContent.BuffType<StellarMinionBonus>()))
             {
                 alphaCounter += .04f;
             }
@@ -314,7 +314,7 @@ namespace SpiritMod.Projectiles
             {
                 if (Main.rand.Next(6) == 0)
                 {
-                    target.AddBuff(mod.BuffType("MageFreeze"), 120);
+                    target.AddBuff(ModContent.BuffType<MageFreeze>(), 120);
                     int d = 180;
                     int d1 = 180;
                     for (int k = 0; k < 20; k++)
@@ -391,15 +391,15 @@ namespace SpiritMod.Projectiles
             }
             if (shotFromStellarCrosbow == true)
 			{
-				target.AddBuff(mod.BuffType("StarFracture"), 300);
+				target.AddBuff(ModContent.BuffType<StarFracture>(), 300);
 			}
             if (shotFromHolyBurst == true)
             {
-                target.AddBuff(mod.BuffType("AngelLight"), 60);
+                target.AddBuff(ModContent.BuffType<AngelLight>(), 60);
             }
             if (shotFromTrueHolyBurst == true)
             {
-                target.AddBuff(mod.BuffType("AngelWrath"), 60);
+                target.AddBuff(ModContent.BuffType<AngelWrath>(), 60);
             }
             else if (shotFromPalmSword == true)
 			{
@@ -411,19 +411,19 @@ namespace SpiritMod.Projectiles
 			}
 			else if (shotFromBloodshot == true)
 			{
-				target.AddBuff(mod.BuffType("BCorrupt"), 120);
+				target.AddBuff(ModContent.BuffType<BCorrupt>(), 120);
 			}
 			else if (shotFromClatterBow == true && Main.rand.Next(6) == 0)
 			{
-				target.AddBuff(mod.BuffType("ClatterPierce"), 120);
+				target.AddBuff(ModContent.BuffType<ClatterPierce>(), 120);
 			}
 			else if (shotFromCookieCutter == true)
 			{
-				player.AddBuff(mod.BuffType("CrimsonRegen"), 179);
+				player.AddBuff(ModContent.BuffType<CrimsonRegen>(), 179);
 			}
             else if (shotFromNightSky == true && Main.rand.Next(8) == 0)
             {
-                target.AddBuff(mod.BuffType("StarFlame"), 179);
+                target.AddBuff(ModContent.BuffType<StarFlame>(), 179);
             }
             else if (shotFromThornBow == true && Main.rand.Next(4) == 0)
 			{
@@ -436,7 +436,7 @@ namespace SpiritMod.Projectiles
 					perturbedSpeed.Normalize();
 					perturbedSpeed.X *= 3.5f;
 					perturbedSpeed.Y *= 3.5f;
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("ThornBowThorn"), projectile.damage / 5 * 3, projectile.knockBack, projectile.owner);
+					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<ThornBowThorn>(), projectile.damage / 5 * 3, projectile.knockBack, projectile.owner);
 				}
 			}
 			else if (shotFromGaruda == true && Main.rand.Next(2) == 0)
@@ -450,7 +450,7 @@ namespace SpiritMod.Projectiles
 					perturbedSpeed.Normalize();
 					perturbedSpeed.X *= 0f;
 					perturbedSpeed.Y *= 7.5f;
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 200, 0, 12, mod.ProjectileType("GodHomingProj"), projectile.damage / 2 * 3, projectile.knockBack, projectile.owner);
+					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 200, 0, 12, ModContent.ProjectileType<GodHomingProj>(), projectile.damage / 2 * 3, projectile.knockBack, projectile.owner);
 				}
 			}
 			else if (shotFromGeodeBow == true)
@@ -465,13 +465,13 @@ namespace SpiritMod.Projectiles
 
 			if (WitherLeaf == true)
 			{
-				target.AddBuff(mod.BuffType("WitheringLeaf"), 180);
+				target.AddBuff(ModContent.BuffType<WitheringLeaf>(), 180);
 			}
 
 			if (modPlayer.anglure && projectile.ranged)
 			{
 				if (Main.rand.Next(8) == 0)
-					target.AddBuff(mod.BuffType("Marked"), 180);
+					target.AddBuff(ModContent.BuffType<Marked>(), 180);
 			}
 			if (modPlayer.HealCloak && projectile.minion && Main.rand.Next(25) == 1)
 			{
@@ -509,14 +509,14 @@ namespace SpiritMod.Projectiles
 
 				if (Main.rand.Next(15) == 0)
 				{
-					target.AddBuff(mod.BuffType("DeepFreeze"), 180, true);
+					target.AddBuff(ModContent.BuffType<DeepFreeze>(), 180, true);
 				}
 			}
 			if (HeroBow3 == true)
 			{
 				if (Main.rand.Next(100) == 2)
 				{
-					target.AddBuff(mod.BuffType("Death"), 240, true);
+					target.AddBuff(ModContent.BuffType<Death>(), 240, true);
 				}
 			}
 		}

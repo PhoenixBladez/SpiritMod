@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = item.useAnimation = 25;
 			item.melee = true;
-			item.shoot = mod.ProjectileType("CombustionBlaze");
+			item.shoot = ModContent.ProjectileType<CombustionBlaze>();
 			item.shootSpeed = 3f;
 			item.autoReuse = true;
 			item.UseSound = SoundID.Item1;
@@ -44,14 +44,14 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
 		{
 			if (Main.rand.Next(2) == 0)
-				target.AddBuff(mod.BuffType("StackingFireBuff"), 300);
+				target.AddBuff(ModContent.BuffType<StackingFireBuff>(), 300);
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			for (int I = 0; I < 2; I++)
 			{
-				int projectileFired = Projectile.NewProjectile(position.X, position.Y, speedX * (Main.rand.Next(500, 900) / 100), speedY * (Main.rand.Next(500, 900) / 100), mod.ProjectileType("CombustionBlaze"), item.damage / 6 * 5, item.knockBack, player.whoAmI);
+				int projectileFired = Projectile.NewProjectile(position.X, position.Y, speedX * (Main.rand.Next(500, 900) / 100), speedY * (Main.rand.Next(500, 900) / 100), ModContent.ProjectileType<CombustionBlaze>(), item.damage / 6 * 5, item.knockBack, player.whoAmI);
 			}
 			return false;
 		}

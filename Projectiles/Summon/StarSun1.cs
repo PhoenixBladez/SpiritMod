@@ -82,7 +82,7 @@ namespace SpiritMod.Projectiles.Summon
 					direction.Normalize();
 					direction.X *= shootVelocity;
 					direction.Y *= shootVelocity;
-					int proj2 = Projectile.NewProjectile(projectile.Center.X + (Main.rand.Next(3, 4)), projectile.Center.Y + (Main.rand.Next(3, 4)), direction.X, direction.Y, mod.ProjectileType("StarBeam"), projectile.damage, 0, Main.myPlayer);
+					int proj2 = Projectile.NewProjectile(projectile.Center.X + (Main.rand.Next(3, 4)), projectile.Center.Y + (Main.rand.Next(3, 4)), direction.X, direction.Y, ModContent.ProjectileType<StarBeam>(), projectile.damage, 0, Main.myPlayer);
 				}
 			}
 		}

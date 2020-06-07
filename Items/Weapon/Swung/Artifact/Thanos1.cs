@@ -42,7 +42,7 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 		{
 			if (player.GetSpiritPlayer().Resolve)
 			{
-				player.AddBuff(mod.BuffType("Resolve"), 2);
+				player.AddBuff(ModContent.BuffType<Resolve>(), 2);
 			}
 		}
 
@@ -60,7 +60,7 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
-			Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, mod.DustType("Crystal"));
+			Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, ModContent.DustType<Crystal>());
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

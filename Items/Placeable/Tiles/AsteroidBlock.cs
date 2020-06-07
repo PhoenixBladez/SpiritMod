@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Placeable.Tiles
 			item.useTime = 10;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.consumable = true;
-			item.createTile = mod.TileType("Asteroid");
+			item.createTile = ModContent.TileType<Asteroid>();
 		}
 	}
 }

@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Armor.CoralArmor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("CoralBody") && legs.type == mod.ItemType("CoralLegs");
+            return body.type == ModContent.ItemType<CoralBody>() && legs.type == ModContent.ItemType<CoralLegs>();
         }
         public override void UpdateArmorSet(Player player)
         {

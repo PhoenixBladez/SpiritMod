@@ -43,7 +43,7 @@ namespace SpiritMod.Projectiles
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
 			if (Main.rand.Next(4) == 0)
-				target.AddBuff(mod.BuffType("Wobbly"), 180);
+				target.AddBuff(ModContent.BuffType<Wobbly>(), 180);
 
 			if (Main.rand.Next(4) == 0)
 				target.AddBuff(BuffID.Confused, 180, true);

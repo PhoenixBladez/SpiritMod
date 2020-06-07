@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.ranged = true;
             item.channel = true;
             item.noMelee = true;
-            item.shoot = mod.ProjectileType("BirbDagger");
+            item.shoot = ModContent.ProjectileType<BirbDagger>();
             item.useAnimation = 13;
             item.consumable = true;
             item.maxStack = 999;

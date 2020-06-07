@@ -18,7 +18,7 @@ namespace SpiritMod.Tiles.Block
 			Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = true;
 			AddMapEntry(new Color(70, 130, 180));
-			drop = mod.ItemType("SpiritIceItem");
+			drop = ModContent.ItemType<SpiritIceItem>();
 		}
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)

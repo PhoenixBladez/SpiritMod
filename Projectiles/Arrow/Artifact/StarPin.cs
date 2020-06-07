@@ -36,13 +36,13 @@ namespace SpiritMod.Projectiles.Arrow.Artifact
 			{
 				Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
 
-				Projectile.NewProjectile(projectile.position, new Vector2(0, -5), mod.ProjectileType("StarEnergyBolt"), projectile.damage / 3, 0, Main.myPlayer);
+				Projectile.NewProjectile(projectile.position, new Vector2(0, -5), ModContent.ProjectileType<StarEnergyBolt>(), projectile.damage / 3, 0, Main.myPlayer);
 
-				Projectile.NewProjectile(projectile.position, new Vector2(6, -2), mod.ProjectileType("StarEnergyBolt"), projectile.damage / 3, 0, Main.myPlayer);
-				Projectile.NewProjectile(projectile.position, new Vector2(-6, -2), mod.ProjectileType("StarEnergyBolt"), projectile.damage / 3, 0, Main.myPlayer);
+				Projectile.NewProjectile(projectile.position, new Vector2(6, -2), ModContent.ProjectileType<StarEnergyBolt>(), projectile.damage / 3, 0, Main.myPlayer);
+				Projectile.NewProjectile(projectile.position, new Vector2(-6, -2), ModContent.ProjectileType<StarEnergyBolt>(), projectile.damage / 3, 0, Main.myPlayer);
 
-				Projectile.NewProjectile(projectile.position, new Vector2(3, 5), mod.ProjectileType("StarEnergyBolt"), projectile.damage / 3, 0, Main.myPlayer);
-				Projectile.NewProjectile(projectile.position, new Vector2(-3, 5), mod.ProjectileType("StarEnergyBolt"), projectile.damage / 3, 0, Main.myPlayer);
+				Projectile.NewProjectile(projectile.position, new Vector2(3, 5), ModContent.ProjectileType<StarEnergyBolt>(), projectile.damage / 3, 0, Main.myPlayer);
+				Projectile.NewProjectile(projectile.position, new Vector2(-3, 5), ModContent.ProjectileType<StarEnergyBolt>(), projectile.damage / 3, 0, Main.myPlayer);
 			}
 		}
 

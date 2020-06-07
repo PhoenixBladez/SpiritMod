@@ -31,7 +31,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(3) == 0)
-				target.AddBuff(mod.BuffType("StarFracture"), 280);
+				target.AddBuff(ModContent.BuffType<StarFracture>(), 280);
 		}
 
 		public override void AI()
@@ -42,7 +42,7 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("Wrath"), projectile.damage / 3 * 2, projectile.knockBack, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Wrath>(), projectile.damage / 3 * 2, projectile.knockBack, projectile.owner, 0f, 0f);
 
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			for (int num623 = 0; num623 < 70; num623++)

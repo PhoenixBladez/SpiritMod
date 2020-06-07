@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Flail
             item.value = Item.sellPrice(0, 1, 20, 0);
             item.damage = 36;
             item.noUseGraphic = true; 
-            item.shoot = mod.ProjectileType("MagnetFlailProj");
+            item.shoot = ModContent.ProjectileType<MagnetFlailProj>();
             item.shootSpeed = 18f;
             item.UseSound = SoundID.Item1;
             item.melee = true; 

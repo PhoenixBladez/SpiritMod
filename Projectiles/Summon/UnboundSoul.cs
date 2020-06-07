@@ -195,7 +195,7 @@ namespace SpiritMod.Projectiles.Summon
 						}
 						vector2.Normalize();
 						vector2 *= 9f;
-						int num8 = Terraria.Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector2.X, vector2.Y, base.mod.ProjectileType("SoulRune"), 34, projectile.knockBack, Main.myPlayer, 0f, 0f);
+						int num8 = Terraria.Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector2.X, vector2.Y, base.ModContent.ProjectileType<SoulRune>(), 34, projectile.knockBack, Main.myPlayer, 0f, 0f);
 						Main.projectile[num8].timeLeft = 300;
 						Main.projectile[num8].netUpdate = true;
 						projectile.netUpdate = true;

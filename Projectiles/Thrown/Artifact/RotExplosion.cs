@@ -46,7 +46,7 @@ namespace SpiritMod.Projectiles.Thrown.Artifact
 		public override void AI()
 		{
 			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 75, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, mod.DustType("Pestilence"), projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, ModContent.DustType<Pestilence>(), projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 		}
 
 	}

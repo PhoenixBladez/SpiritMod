@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Placeable.Furniture
             item.autoReuse = true;
             item.consumable = true;
 
-			item.createTile = mod.TileType("SpiritChest");
+			item.createTile = ModContent.TileType<SpiritChest>();
 		}
 	}
 }

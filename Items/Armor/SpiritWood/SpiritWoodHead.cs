@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Armor.SpiritWood
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("SpiritWoodBody") && legs.type == mod.ItemType("SpiritWoodLegs");
+            return body.type == ModContent.ItemType<SpiritWoodBody>() && legs.type == ModContent.ItemType<SpiritWoodLegs>();
         }
 		 public override void AddRecipes()
         {

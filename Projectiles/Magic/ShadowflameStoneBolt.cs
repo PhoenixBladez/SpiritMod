@@ -162,7 +162,7 @@ namespace SpiritMod.Projectiles.Magic
                 projectile.tileCollide = false;
                 projectile.penetrate = 1;
                 MyPlayer modPlayer = player.GetSpiritPlayer();
-                if (player.whoAmI == Main.myPlayer && player.inventory[player.selectedItem].type != mod.ItemType("ShadowflameStoneStaff"))
+                if (player.whoAmI == Main.myPlayer && player.inventory[player.selectedItem].type != ModContent.ItemType<ShadowflameStoneStaff>())
                 {
                     projectile.Kill();
                     player.GetSpiritPlayer().shadowCount = 0;

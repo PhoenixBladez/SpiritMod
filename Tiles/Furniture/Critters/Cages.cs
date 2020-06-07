@@ -87,7 +87,7 @@ namespace SpiritMod.Tiles.Furniture.Critters
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 64, 48, mod.ItemType("BlossomCage"));
+            Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<BlossomCage>());
         }
     }
     public class CleftCage : ModItem
@@ -161,7 +161,7 @@ namespace SpiritMod.Tiles.Furniture.Critters
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 64, 48, mod.ItemType("CleftCage"));
+            Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<CleftCage>());
         }
     }
     public class LuvdiscBowl : ModItem
@@ -236,7 +236,7 @@ namespace SpiritMod.Tiles.Furniture.Critters
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 64, 48, mod.ItemType("LuvdiscBowl"));
+            Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<LuvdiscBowl>());
         }
     }
     public class GulperBowl : ModItem
@@ -311,7 +311,7 @@ namespace SpiritMod.Tiles.Furniture.Critters
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 64, 48, mod.ItemType("GulperBowl"));
+            Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<GulperBowl>());
         }
     }
 }

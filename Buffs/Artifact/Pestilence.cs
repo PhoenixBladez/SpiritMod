@@ -21,7 +21,7 @@ namespace SpiritMod.Buffs.Artifact
 
 			if (Main.rand.NextBool(6))
 			{
-				int dust = Dust.NewDust(npc.position, npc.width, npc.height, mod.DustType("Pestilence"));
+				int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<Pestilence>());
 				Main.dust[dust].scale = 1.9f;
 				Main.dust[dust].velocity *= 2f;
 				Main.dust[dust].noGravity = true;
@@ -35,7 +35,7 @@ namespace SpiritMod.Buffs.Artifact
 						if (homeDistance < maxHomeDistance)
 						{
 							maxHomeDistance = homeDistance;
-							Main.npc[npcFinder].AddBuff(mod.BuffType("Pestilence"), 60);
+							Main.npc[npcFinder].AddBuff(ModContent.BuffType<Pestilence>(), 60);
 						}
 					}
 				}

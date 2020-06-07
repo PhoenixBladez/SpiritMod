@@ -28,7 +28,7 @@ namespace SpiritMod.Projectiles.Thrown
 		public override void Kill(int timeLeft)
 		{
 			if (Main.rand.Next(0, 4) == 0)
-				Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, mod.ItemType("BladeOfNoah"), 1, false, 0, false, false);
+				Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<BladeOfNoah>(), 1, false, 0, false, false);
 			
 			for (int i = 0; i < 10; i++)
 			{

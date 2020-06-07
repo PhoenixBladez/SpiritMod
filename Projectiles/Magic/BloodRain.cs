@@ -36,7 +36,7 @@ namespace SpiritMod.Projectiles.Magic
 				int randFire = Main.rand.Next(3);
 				int newProj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y,
 					Main.rand.Next(-400, 400) / 100, Main.rand.Next(-4, 4),
-					mod.ProjectileType("Terrorflame"), projectile.damage, 0, projectile.owner);
+					ModContent.ProjectileType<Terrorflame>(), projectile.damage, 0, projectile.owner);
 			}
 		}
 
@@ -51,7 +51,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(5) == 0)
-				target.AddBuff(mod.BuffType("Wither"), 180);
+				target.AddBuff(ModContent.BuffType<Wither>(), 180);
 		}
 
 	}

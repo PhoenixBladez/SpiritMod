@@ -74,7 +74,7 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			projectile.ai[0] = 1f;
 			projectile.ai[1] = (float)target.whoAmI;
-            target.AddBuff(mod.BuffType("BCorrupt"), projectile.timeLeft);
+            target.AddBuff(ModContent.BuffType<BCorrupt>(), projectile.timeLeft);
             if (strike)
             {
                 target.StrikeNPC(10, 0f, 0, crit);

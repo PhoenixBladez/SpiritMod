@@ -15,7 +15,7 @@ namespace SpiritMod.Buffs.Mount
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.mount.SetMount(mod.MountType("TideMount"), player, false);
+			player.mount.SetMount(ModContent.MountType<TideMount>(), player, false);
 			player.buffTime[buffIndex] = 10;
 		}
 	}

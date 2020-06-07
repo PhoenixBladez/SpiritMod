@@ -57,7 +57,7 @@ namespace SpiritMod.Projectiles.Arrow
             }
             int num2 = Main.rand.Next(2, 4);
             int num3 = Main.rand.Next(0, 360);
-            int num24 = mod.ProjectileType("MarbleArrowStone");
+            int num24 = ModContent.ProjectileType<MarbleArrowStone>();
             for (int j = 0; j < num2; j++)
             {
                 float num4 = MathHelper.ToRadians((float)(270 / num2 * j + num3));

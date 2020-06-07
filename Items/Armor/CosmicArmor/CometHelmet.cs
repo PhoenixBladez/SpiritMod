@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Armor.CosmicArmor
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("CometArmor") && legs.type == mod.ItemType("CometLegs");  
+            return body.type == ModContent.ItemType<CometArmor>() && legs.type == ModContent.ItemType<CometLegs>();  
         }
         public override void UpdateArmorSet(Player player)
         {

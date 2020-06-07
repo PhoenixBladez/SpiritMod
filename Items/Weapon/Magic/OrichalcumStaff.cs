@@ -32,13 +32,13 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 5;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("OrichalcumStaffProj");
+			item.shoot = ModContent.ProjectileType<OrichalcumStaffProj>();
 			item.shootSpeed = 1f;
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
                 Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
-                Terraria.Projectile.NewProjectile(mouse.X, mouse.Y, 0f, 0f, mod.ProjectileType("OrichalcumStaffProj"), (int)(damage * 1), knockBack, player.whoAmI);
+                Terraria.Projectile.NewProjectile(mouse.X, mouse.Y, 0f, 0f, ModContent.ProjectileType<OrichalcumStaffProj>(), (int)(damage * 1), knockBack, player.whoAmI);
 				for (int k = 0; k < 30; k++)
                 {
 					Vector2 offset = mouse - player.Center;

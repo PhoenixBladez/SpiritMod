@@ -76,7 +76,7 @@ namespace SpiritMod.Projectiles.Summon
 				direction.Normalize();
 				direction.X *= shootVelocity;
 				direction.Y *= shootVelocity;
-				int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 25, direction.X, direction.Y, mod.ProjectileType("TeslaSpikeProjectile"), projectile.damage, 0, Main.myPlayer);
+				int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 25, direction.X, direction.Y, ModContent.ProjectileType<TeslaSpikeProjectile>(), projectile.damage, 0, Main.myPlayer);
 				Main.PlaySound(2, projectile.Center, 12);  //make bow shooty sound
 			}
 		}

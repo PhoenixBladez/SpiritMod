@@ -40,7 +40,7 @@ namespace SpiritMod.Projectiles.Bullet.Crimbine
             var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
             foreach (var proj in list)
             {
-                if (projectile != proj && proj.type == mod.ProjectileType("CrimbineBone"))
+                if (projectile != proj && proj.type == ModContent.ProjectileType<CrimbineBone>())
                 {
                     Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 95);
                     proj.Kill();
@@ -56,17 +56,17 @@ namespace SpiritMod.Projectiles.Bullet.Crimbine
                             perturbedSpeed.Y *= Main.rand.NextFloat(8.5f, 10.5f);
                             if (Main.rand.Next(10) == 0)
                             {
-                                projType = mod.ProjectileType("CrimbineSpine");
+                                projType = ModContent.ProjectileType<CrimbineSpine>();
 
                             }
                             else if (Main.rand.Next(8) == 0)
                             {
-                                projType = mod.ProjectileType("CrimbineHeart");
+                                projType = ModContent.ProjectileType<CrimbineHeart>();
 
                             }
                             else if (Main.rand.Next(4) == 0)
                             {
-                                projType = mod.ProjectileType("CrimbineBlob");
+                                projType = ModContent.ProjectileType<CrimbineBlob>();
 
                             }
                             int newProj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, projType, projectile.damage/5 * 6, 2, projectile.owner);

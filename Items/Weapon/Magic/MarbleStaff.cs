@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 2;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("MarbleStalactite");
+			item.shoot = ModContent.ProjectileType<MarbleStalactite>();
             item.shootSpeed = 20f;
 		}
         public override void AddRecipes()
@@ -51,7 +51,7 @@ namespace SpiritMod.Items.Weapon.Magic
                 if (Main.myPlayer == player.whoAmI)
                 {
                     Vector2 mouse = Main.MouseWorld;
-                    Projectile.NewProjectile(mouse.X, player.Center.Y - 500 + Main.rand.Next(-50, 50), 0, Main.rand.Next(18, 28), mod.ProjectileType("MarbleStalactite"), damage, knockBack, player.whoAmI);
+                    Projectile.NewProjectile(mouse.X, player.Center.Y - 500 + Main.rand.Next(-50, 50), 0, Main.rand.Next(18, 28), ModContent.ProjectileType<MarbleStalactite>(), damage, knockBack, player.whoAmI);
                 }
             }
             return false;

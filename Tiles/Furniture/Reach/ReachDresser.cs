@@ -35,11 +35,11 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Example Dresser");
 			AddMapEntry(new Color(200, 200, 200), name);
-			dustType = mod.DustType("Sparkle");
+			dustType = ModContent.DustType<Sparkle>();
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.Dressers };
 			dresser = "Example Dresser";
-			dresserDrop = mod.ItemType("ReachDresser");
+			dresserDrop = ModContent.ItemType<ReachDresser>();
 		}
 
 		public override void RightClick(int i, int j)
@@ -160,7 +160,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 				}
 				if (player.showItemIconText == chest)
 				{
-					player.showItemIcon2 = mod.ItemType("ReachDresser");
+					player.showItemIcon2 = ModContent.ItemType<ReachDresser>();
 					player.showItemIconText = "";
 				}
 			}
@@ -202,7 +202,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 				}
 				if (player.showItemIconText == chest)
 				{
-					player.showItemIcon2 = mod.ItemType("ReachDresser");
+					player.showItemIcon2 = ModContent.ItemType<ReachDresser>();
 					player.showItemIconText = "";
 				}
 			}

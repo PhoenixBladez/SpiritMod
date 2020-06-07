@@ -16,7 +16,7 @@ namespace SpiritMod.Buffs.Summon
 		public override void Update(Player player, ref int buffIndex)
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if (player.ownedProjectileCounts[mod.ProjectileType("Cthulhu")] > 0)
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<Cthulhu>()] > 0)
 			{
 				modPlayer.cthulhuMinion = true;
 			}

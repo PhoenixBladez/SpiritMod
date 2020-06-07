@@ -28,7 +28,7 @@ namespace SpiritMod.NPCs
 			npc.value = 189f;
 			npc.buffImmune[BuffID.OnFire] = true;
 			npc.buffImmune[BuffID.Frostburn] = true;
-            npc.buffImmune[mod.BuffType("CryoCrush")] = true;
+            npc.buffImmune[ModContent.BuffType<CryoCrush>()] = true;
             npc.knockBackResist = .01f;
 			npc.aiStyle = 3;
 			aiType = NPCID.ArmoredViking;
@@ -118,7 +118,7 @@ namespace SpiritMod.NPCs
 
 		public override void NPCLoot()
 		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CryoliteOre"), 2 + Main.rand.Next(2, 4));
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CryoliteOre>(), 2 + Main.rand.Next(2, 4));
 		}
 	}
 }

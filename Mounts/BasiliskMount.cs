@@ -15,7 +15,7 @@ namespace SpiritMod.Mounts
 
 		public override void SetDefaults()
 		{
-			mountData.buff = mod.BuffType("RidingBasiisk");
+			mountData.buff = ModContent.BuffType<RidingBasiisk>();
 			mountData.heightBoost = 16;
 			mountData.fallDamage = 0f;
 			mountData.runSpeed = 8f;

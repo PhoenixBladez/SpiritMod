@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.UseSound = SoundID.Item69;
             item.autoReuse = true;
             item.useTurn = true;
-            item.shoot = mod.ProjectileType("DeityBlast");
+            item.shoot = ModContent.ProjectileType<DeityBlast>();
         }
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
@@ -49,7 +49,7 @@ namespace SpiritMod.Items.Weapon.Swung
 
             {
                 {
-                    Projectile.NewProjectile(position.X , position.Y , speedX, speedY, mod.ProjectileType("DeityBlast"), damage, knockBack, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(position.X , position.Y , speedX, speedY, ModContent.ProjectileType<DeityBlast>(), damage, knockBack, player.whoAmI, 0f, 0f);
                 }
             }
             return false;

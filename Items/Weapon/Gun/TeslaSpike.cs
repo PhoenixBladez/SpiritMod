@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Gun
             item.rare = 8;
             item.UseSound = SoundID.Item12;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("TeslaSpikeProjectile");
+            item.shoot = ModContent.ProjectileType<TeslaSpikeProjectile>();
             item.shootSpeed = 20f;
         }
         public override Vector2? HoldoutOffset()

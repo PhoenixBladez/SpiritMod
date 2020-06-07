@@ -54,7 +54,7 @@ namespace SpiritMod.Projectiles.Magic
             if (timer <= 0)
             {
                 Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 8);
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X + Main.rand.Next(-3, 5), projectile.velocity.Y + Main.rand.Next(-3, 5), mod.ProjectileType("NightSpit"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X + Main.rand.Next(-3, 5), projectile.velocity.Y + Main.rand.Next(-3, 5), ModContent.ProjectileType<NightSpit>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 timer = 50;
             }
             projectile.ai[1] += 1f;

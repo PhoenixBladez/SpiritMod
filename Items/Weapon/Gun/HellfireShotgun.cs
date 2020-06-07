@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.value = Item.sellPrice(0, 8, 0, 0);
 			item.rare = 8;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("ReaperBlast");
+			item.shoot = ModContent.ProjectileType<ReaperBlast>();
 			item.shootSpeed = 15f;
 			item.useAmmo = AmmoID.Bullet;
 		}
@@ -54,14 +54,14 @@ namespace SpiritMod.Items.Weapon.Gun
 				else
 					vel = origVect.RotatedBy(-System.Math.PI / (Main.rand.Next(200, 3000) / 12));
 
-				Projectile.NewProjectile(position.X, position.Y, vel.X, vel.Y, mod.ProjectileType("ReaperBlast"), damage / 4 * 3, knockBack, player.whoAmI);
+				Projectile.NewProjectile(position.X, position.Y, vel.X, vel.Y, ModContent.ProjectileType<ReaperBlast>(), damage / 4 * 3, knockBack, player.whoAmI);
 			}
 
 			Main.PlaySound(SoundLoader.customSoundType, player.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Reaper1"));
 			Vector2 vector82 = -Main.player[Main.myPlayer].Center + Main.MouseWorld;
 			float ai = Main.rand.Next(100);
 			Vector2 vector83 = Vector2.Normalize(vector82) * item.shootSpeed;
-			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("ReaperBlast"), damage, knockBack, player.whoAmI);
+			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ReaperBlast>(), damage, knockBack, player.whoAmI);
 
 			charger++;
 			if (charger == 20)

@@ -19,7 +19,7 @@ namespace SpiritMod.Tiles.Block
             soundType = 21;
             Main.tileBlockLight[Type] = true;
             minPick = 100;
-            drop = mod.ItemType("AsteroidBlock");
+            drop = ModContent.ItemType<AsteroidBlock>();
         }
         public override bool CanKillTile(int i, int j, ref bool blockDamaged)
         {
@@ -42,12 +42,12 @@ namespace SpiritMod.Tiles.Block
                         NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("GlowShard1"), 0, 0, -1, -1);
                         break;
                     case 1:
-                        ReachGrassTile.PlaceObject(i, j - 1, mod.TileType("GreenShard"));
-                        NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("GreenShard"), 0, 0, -1, -1);
+                        ReachGrassTile.PlaceObject(i, j - 1, ModContent.TileType<GreenShard>());
+                        NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<GreenShard>(), 0, 0, -1, -1);
                         break;
                     case 2:
-                        ReachGrassTile.PlaceObject(i, j - 1, mod.TileType("PurpleShard"));
-                        NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("PurpleShard"), 0, 0, -1, -1);
+                        ReachGrassTile.PlaceObject(i, j - 1, ModContent.TileType<PurpleShard>());
+                        NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<PurpleShard>(), 0, 0, -1, -1);
                         break;
                 }
             }

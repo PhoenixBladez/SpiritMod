@@ -56,7 +56,7 @@ namespace SpiritMod.NPCs.Reach
 		{
 			if (Main.rand.Next(15) == 1)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SanctifiedStabber"));
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SanctifiedStabber>());
 			}
 
 			if (Main.rand.Next(3) == 1)
@@ -64,12 +64,12 @@ namespace SpiritMod.NPCs.Reach
 				int Bark = Main.rand.Next(2) + 1;
 				for (int J = 0; J <= Bark; J++)
 				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AncientBark"));
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<AncientBark>());
 				}
 			}
             if (!Main.dayTime)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EnchantedLeaf"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EnchantedLeaf>());
             }
 
         }

@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.UseSound = SoundID.Item72;
             item.autoReuse = false;
             item.shootSpeed = 14;
-            item.shoot = mod.ProjectileType("StardropStaffProj");
+            item.shoot = ModContent.ProjectileType<StardropStaffProj>();
         }
         public override bool CanUseItem(Player player)
         {

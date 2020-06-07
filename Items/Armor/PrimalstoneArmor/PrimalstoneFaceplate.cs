@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Armor.PrimalstoneArmor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("PrimalstoneBreastplate") && legs.type == mod.ItemType("PrimalstoneLeggings");  
+            return body.type == ModContent.ItemType<PrimalstoneBreastplate>() && legs.type == ModContent.ItemType<PrimalstoneLeggings>();  
         }
 
         public override void UpdateArmorSet(Player player)

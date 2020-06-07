@@ -27,7 +27,7 @@ namespace SpiritMod.NPCs.Critters
 			npc.aiStyle = 1;
 			npc.npcSlots = 0;
 			Main.npcCatchable[npc.type] = true;
-			npc.catchItem = (short)mod.ItemType("FishCrate");
+			npc.catchItem = (short)ModContent.ItemType<FishCrate>();
 			npc.noGravity = false;
 			aiType = NPCID.Grasshopper;
 			npc.alpha = 40;

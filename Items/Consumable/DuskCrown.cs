@@ -33,12 +33,12 @@ namespace SpiritMod.Items.Consumable
 
        public override bool CanUseItem(Player player)
         {
-            return !NPC.AnyNPCs(mod.NPCType("Dusking")) && !Main.dayTime;
+            return !NPC.AnyNPCs(ModContent.NPCType<Dusking>()) && !Main.dayTime;
         }
 
     public override bool UseItem(Player player)
         {
-            NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("Dusking"));
+            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Dusking>());
             Main.PlaySound(SoundID.Roar, player.position, 0);
             return true;
         }

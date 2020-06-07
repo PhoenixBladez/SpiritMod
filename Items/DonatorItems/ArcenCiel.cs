@@ -31,7 +31,7 @@ namespace SpiritMod.Items.DonatorItems
 			item.channel = true;
 			item.noMelee = true;
 			//item.noUseGraphic = true;
-			item.shoot = mod.ProjectileType("ArcEnCielHandle");
+			item.shoot = ModContent.ProjectileType<ArcEnCielHandle>();
 			item.shootSpeed = 26f;
 		}
 		public override void AddRecipes()

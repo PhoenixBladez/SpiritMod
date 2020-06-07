@@ -45,7 +45,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override void Kill(int timeLeft)
 		{
 			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y,
-				0f, 0f, mod.ProjectileType("Wrath"), projectile.damage, projectile.knockBack, projectile.owner);
+				0f, 0f, ModContent.ProjectileType<Wrath>(), projectile.damage, projectile.knockBack, projectile.owner);
 
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 69);
 			int n = 1;
@@ -58,7 +58,7 @@ namespace SpiritMod.Projectiles.Magic
 				perturbedSpeed.Normalize();
 				perturbedSpeed.X *= 4.5f;
 				perturbedSpeed.Y *= 4.5f;
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("StarSoul"), projectile.damage / 3 * 2, 2, projectile.owner);
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<StarSoul>(), projectile.damage / 3 * 2, 2, projectile.owner);
 			}
 
 			for (int i = 0; i < 40; i++)
@@ -87,7 +87,7 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			projectile.Kill();
 			if (Main.rand.Next(5) == 0)
-				target.AddBuff(mod.BuffType("SpectreFury"), 180);
+				target.AddBuff(ModContent.BuffType<SpectreFury>(), 180);
 			target.StrikeNPC(projectile.damage / 5 * 4, 0f, 0, crit);
 			target.StrikeNPC(projectile.damage / 5 * 4, 0f, 0, crit);
 			target.StrikeNPC(projectile.damage / 5 * 4, 0f, 0, crit);

@@ -38,7 +38,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.autoReuse = false;
             item.shootSpeed = 16;
             item.UseSound = SoundID.Item20;
-            item.shoot = mod.ProjectileType("AquaFlareProj");
+            item.shoot = ModContent.ProjectileType<AquaFlareProj>();
         }
         public override void AddRecipes()
         {

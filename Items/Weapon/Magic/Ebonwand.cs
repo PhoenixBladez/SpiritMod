@@ -41,7 +41,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.UseSound = SoundID.Item20;
             item.autoReuse = false;
             item.shootSpeed = 6;
-            item.shoot = mod.ProjectileType("EbonwandProj");
+            item.shoot = ModContent.ProjectileType<EbonwandProj>();
         }
         public override bool Shoot(Player player,ref Vector2 position,ref float speedX,ref float speedY,ref int type,ref int damage,ref float knockBack)
 		{

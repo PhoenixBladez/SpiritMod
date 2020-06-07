@@ -26,7 +26,7 @@ namespace SpiritMod.Tiles.Block
 
 		public override int DropWood()
 		{
-			return mod.ItemType("SpiritWoodItem");
+			return ModContent.ItemType<SpiritWoodItem>();
 		}
 
 		public override Texture2D GetTexture()

@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.UseSound = SoundID.Item100;   
             item.autoReuse = true;
             item.useTurn = true;
-            item.shoot = mod.ProjectileType("GeodeStaveProjectile");
+            item.shoot = ModContent.ProjectileType<GeodeStaveProjectile>();
         }
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
@@ -48,7 +48,7 @@ namespace SpiritMod.Items.Weapon.Swung
             {
                 for (int I = 0; I < 2; I++)
                 {
-                    Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 80), speedY + ((float)Main.rand.Next(-230, 230) / 80), mod.ProjectileType("ShadowWisp"), damage, knockBack, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 80), speedY + ((float)Main.rand.Next(-230, 230) / 80), ModContent.ProjectileType<ShadowWisp>(), damage, knockBack, player.whoAmI, 0f, 0f);
                 }
                 charger = 0;
             }

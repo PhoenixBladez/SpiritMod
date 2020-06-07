@@ -21,7 +21,7 @@ namespace SpiritMod.Mounts
 		{
 			mountData.spawnDust = 6;
 			mountData.spawnDustNoGravity = true;
-			mountData.buff = mod.BuffType("DiabolicPlatformBuff");
+			mountData.buff = ModContent.BuffType<DiabolicPlatformBuff>();
 			mountData.heightBoost = 2;
 			mountData.flightTimeMax = 60;
 			mountData.fatigueMax = 120;

@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Material
 			  item.consumable = true;
             item.rare = 5;
             item.maxStack = 999;
-			item.createTile = mod.TileType("SpiritBar");
+			item.createTile = ModContent.TileType<SpiritBar>();
 			item.autoReuse = true;
 			item.useAnimation = 15;
 			item.useTime = 10;

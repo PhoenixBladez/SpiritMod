@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Spear
             item.value = Item.sellPrice(0, 1, 15, 0);
             item.rare = 2;
             item.autoReuse = false;
-            item.shoot = mod.ProjectileType("EoWSpearProj");
+            item.shoot = ModContent.ProjectileType<EoWSpearProj>();
         }
         public override Vector2? HoldoutOffset()
         {

@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Armor.TitanicArmor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("TitanicPlatemail") && legs.type == mod.ItemType("TitanicGreaves");
+            return body.type == ModContent.ItemType<TitanicPlatemail>() && legs.type == ModContent.ItemType<TitanicGreaves>();
         }
         public override void UpdateArmorSet(Player player)
         {

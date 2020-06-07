@@ -111,7 +111,7 @@ namespace SpiritMod.Projectiles
 				Projectile.NewProjectile(target.Center.X + Main.rand.Next(-80, 80), target.Center.Y - 1400 + Main.rand.Next(-50, 50), 0, Main.rand.Next(8, 18), mod.ProjectileType("NovaBeam3"), projectile.damage / 5 * 2, projectile.knockBack, projectile.owner, 0f, 0f);
 			}
             {
-                target.AddBuff(mod.BuffType("StarFlame"), 179);
+                target.AddBuff(ModContent.BuffType<StarFlame>(), 179);
             }
         }
 	}

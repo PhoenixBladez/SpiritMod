@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.damage = 34;
             item.value = Item.sellPrice(0, 0, 60, 0);
             item.rare = 3;
-            item.shoot = mod.ProjectileType("SlagHammerProj");
+            item.shoot = ModContent.ProjectileType<SlagHammerProj>();
         }
 		public override bool UseItemFrame(Player player)
         {
@@ -63,13 +63,13 @@ namespace SpiritMod.Items.Weapon.Swung
             if (player.altFunctionUse == 2)
             {
                 item.useStyle = ItemUseStyleID.SwingThrow;
-                item.shoot = mod.ProjectileType("SlagHammerProjReturning");
+                item.shoot = ModContent.ProjectileType<SlagHammerProjReturning>();
             }
             else
             {
                 item.useTime = 46;
                 item.useAnimation = 46;
-                item.shoot = mod.ProjectileType("SlagHammerProj");
+                item.shoot = ModContent.ProjectileType<SlagHammerProj>();
             }
             return base.CanUseItem(player);
         }

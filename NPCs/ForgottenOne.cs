@@ -77,7 +77,7 @@ namespace SpiritMod.NPCs
 				int dust = Dust.NewDust(npc.position, npc.width, npc.height, 6);
 				Main.dust[dust].noGravity = true;
 			}
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CarvedRock"), Main.rand.Next(1) + 2);
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CarvedRock>(), Main.rand.Next(1) + 2);
 		}
 	}
 }

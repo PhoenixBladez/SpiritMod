@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.channel = true;
             item.noMelee = true;
             item.maxStack = 1;
-            item.shoot = mod.ProjectileType("OakHeart");
+            item.shoot = ModContent.ProjectileType<OakHeart>();
             item.useAnimation = 25;
             item.useTime = 25;
             item.shootSpeed = 9f;

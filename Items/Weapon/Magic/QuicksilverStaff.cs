@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 8;
             item.UseSound = SoundID.Item21;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("QuicksilverBurst");
+            item.shoot = ModContent.ProjectileType<QuicksilverBurst>();
             item.shootSpeed = 8f;
         }
         public override void AddRecipes()

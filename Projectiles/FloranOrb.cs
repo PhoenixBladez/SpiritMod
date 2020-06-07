@@ -56,7 +56,7 @@ namespace SpiritMod.Projectiles
 				float xdist = (int)(Math.Sin((i + j) * (Math.PI / 180)) * 15);
 				float ydist = (int)(Math.Cos((i + j) * (Math.PI / 180)) * 15);
 				Vector2 offset = new Vector2(xdist,ydist);
-				Dust.NewDustPerfect(projectile.Center + offset, mod.DustType("FloranDust"), Vector2.Zero);
+				Dust.NewDustPerfect(projectile.Center + offset, ModContent.DustType<FloranDust>(), Vector2.Zero);
 			
 			}
     		//Making player variable "p" set as the projectile's owner
@@ -80,13 +80,13 @@ namespace SpiritMod.Projectiles
 		{
 			for (int i = 0; i < 5; i++)
 			{
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, mod.DustType("FloranDust"));
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<FloranDust>());
 			}
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(5) == 0)
-				target.AddBuff(mod.BuffType("VineTrap"), 180);
+				target.AddBuff(ModContent.BuffType<VineTrap>(), 180);
 		}
 
 

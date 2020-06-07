@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Placeable.IceSculpture
             item.autoReuse = true;
             item.consumable = true;
 
-			item.createTile = mod.TileType("IceWheezerDecor");
+			item.createTile = ModContent.TileType<IceWheezerDecor>();
 		}
 
 		public override void AddRecipes()

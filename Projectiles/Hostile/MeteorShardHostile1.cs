@@ -33,7 +33,7 @@ namespace SpiritMod.Projectiles.Hostile
 		public override void AI()
 		{
             projectile.rotation += .3f;
-	        int num1 = mod.NPCType("Mineroid");
+	        int num1 = ModContent.NPCType<Mineroid>();
 			if (!Main.npc[(int)projectile.ai[1]].active)
 			{
 				projectile.timeLeft = 0;

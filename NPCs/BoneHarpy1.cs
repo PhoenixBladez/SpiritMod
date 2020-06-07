@@ -80,11 +80,11 @@ namespace SpiritMod.NPCs
 				{
 					float A = (float)Main.rand.Next(-150, 150) * 0.01f;
 					float B = (float)Main.rand.Next(-150, 150) * 0.01f;
-					int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("DesertFeather"), 11, 1, Main.myPlayer, 0, 0);
+					int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<DesertFeather>(), 11, 1, Main.myPlayer, 0, 0);
                     Main.projectile[p].scale = .6f;
                 }
 			}
-            if (!NPC.AnyNPCs(mod.NPCType("AncientFlyer")))
+            if (!NPC.AnyNPCs(ModContent.NPCType<AncientFlyer>()))
             {
                 npc.active = false;
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Apostle2"), 1f);

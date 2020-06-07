@@ -31,7 +31,7 @@ public class ClatterSword : ModItem
         item.value = Item.sellPrice(0, 0, 15, 0);
         item.rare = 2;
         item.autoReuse = false;
-        item.shoot = mod.ProjectileType("ClatterSwordProj");
+        item.shoot = ModContent.ProjectileType<ClatterSwordProj>();
     }
     
     public override void AddRecipes()

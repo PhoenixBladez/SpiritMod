@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 5;
 			item.UseSound = SoundID.Item8;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("EarthSpirit");
+			item.shoot = ModContent.ProjectileType<EarthSpirit>();
 			item.shootSpeed = 8f;
 		}
         public override void AddRecipes()

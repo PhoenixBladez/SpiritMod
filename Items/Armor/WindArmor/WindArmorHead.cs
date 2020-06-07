@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Armor.WindArmor
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("WindArmorBody") && legs.type == mod.ItemType("WindArmorLegs");  
+            return body.type == ModContent.ItemType<WindArmorBody>() && legs.type == ModContent.ItemType<WindArmorLegs>();  
         }
         public override void UpdateArmorSet(Player player)
         {            

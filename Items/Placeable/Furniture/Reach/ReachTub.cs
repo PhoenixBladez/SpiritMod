@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Placeable.Furniture.Reach
             item.autoReuse = true;
             item.consumable = true;
 
-			item.createTile = mod.TileType("ReachTub");
+			item.createTile = ModContent.TileType<ReachTub>();
 		}
 
 		public override void AddRecipes()

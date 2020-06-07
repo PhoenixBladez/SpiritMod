@@ -77,7 +77,7 @@ namespace SpiritMod.NPCs.BloodMoon
 		{
 			if (Main.rand.Next(2) == 1)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BloodFire"));
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BloodFire>());
 			}
 		}
 
@@ -130,7 +130,7 @@ namespace SpiritMod.NPCs.BloodMoon
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			target.AddBuff(mod.BuffType("BCorrupt"), 180);
+			target.AddBuff(ModContent.BuffType<BCorrupt>(), 180);
 		}
 	}
 }

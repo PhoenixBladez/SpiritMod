@@ -28,16 +28,16 @@ namespace SpiritMod.Tiles.Ambient
 			switch (frameX / 54)
 			{
 				case 0:
-					item = mod.ItemType("PrintPrime");
+					item = ModContent.ItemType<PrintPrime>();
 					break;
 				case 1:
-					item = mod.ItemType("PrintPrime");
+					item = ModContent.ItemType<PrintPrime>();
 					break;
 				case 2:
-					item = mod.ItemType("PrintPrime");
+					item = ModContent.ItemType<PrintPrime>();
 					break;
 				case 3:
-					item = mod.ItemType("PrintPrime");
+					item = ModContent.ItemType<PrintPrime>();
 					break;
 			}
 			if (item > 0)

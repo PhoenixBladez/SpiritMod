@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.rare = 8;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("TrueHallowedStaffProj");
+			item.shoot = ModContent.ProjectileType<TrueHallowedStaffProj>();
 			item.shootSpeed = 16f;
 		}
 

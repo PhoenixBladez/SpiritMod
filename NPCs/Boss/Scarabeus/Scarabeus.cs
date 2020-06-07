@@ -40,7 +40,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			npc.npcSlots = 10f;
 			npc.HitSound = SoundID.NPCHit31;
 			npc.DeathSound = SoundID.NPCDeath5;
-			bossBag = mod.ItemType("BagOScarabs");
+			bossBag = ModContent.ItemType<BagOScarabs>();
 		}
 		private int Counter;
 		float frametimer = .25f;
@@ -383,7 +383,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 						}
 						if (Counter == 780)
 						{
-							NPC.NewNPC((int)npc.Center.X+ Main.rand.Next(-20, 20), (int)npc.Center.Y + Main.rand.Next(-20, 20), mod.NPCType("ChildofScarabeus"));
+							NPC.NewNPC((int)npc.Center.X+ Main.rand.Next(-20, 20), (int)npc.Center.Y + Main.rand.Next(-20, 20), ModContent.NPCType<ChildofScarabeus>());
 						}		
 					}
 					if (Counter >= 1000)
@@ -401,7 +401,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 					{
 						if (Main.rand.Next(450) == 0)
 						{
-							NPC.NewNPC((int)npc.Center.X+ Main.rand.Next(-20, 20), (int)npc.Center.Y + Main.rand.Next(-20, 20), mod.NPCType("ChildofScarabeus"));
+							NPC.NewNPC((int)npc.Center.X+ Main.rand.Next(-20, 20), (int)npc.Center.Y + Main.rand.Next(-20, 20), ModContent.NPCType<ChildofScarabeus>());
 							Counter = 479;
 						}
 					}
@@ -413,8 +413,8 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
                         {
 							Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 34);
 							int damage = expertMode ? 9 : 17;
-							Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 20, 7, 0, mod.ProjectileType("DustTornado"), damage, 1, Main.myPlayer, 0, 0);
-							Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 20, -7, 0, mod.ProjectileType("DustTornado"), damage, 1, Main.myPlayer, 0, 0);
+							Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 20, 7, 0, ModContent.ProjectileType<DustTornado>(), damage, 1, Main.myPlayer, 0, 0);
+							Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 20, -7, 0, ModContent.ProjectileType<DustTornado>(), damage, 1, Main.myPlayer, 0, 0);
 							jumpstacks = 0;
 						}
 						for (int i = 0; i < 40; i++)
@@ -568,7 +568,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				if (npcCounter == 300 || npcCounter == 400 || npcCounter == 500 ||npcCounter == 600)
 				{
 					Vector2 vector2_2 = Vector2.UnitY.RotatedByRandom(1.57079637050629f) * new Vector2(5f, 3f);
-					NPC.NewNPC((int)npc.Center.X+ Main.rand.Next(-20, 20), (int)npc.Center.Y + Main.rand.Next(-20, 20), mod.NPCType("ChildofScarabeus"));	
+					NPC.NewNPC((int)npc.Center.X+ Main.rand.Next(-20, 20), (int)npc.Center.Y + Main.rand.Next(-20, 20), ModContent.NPCType<ChildofScarabeus>());	
 				}
                 else
                 {
@@ -723,8 +723,8 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				return;
 			}
 
-			npc.DropItem(mod.ItemType("Chitin"), 25, 36);
-			npc.DropItem(mod.ItemType("GildedIdol"), 1f / 9);
+			npc.DropItem(ModContent.ItemType<Chitin>(), 25, 36);
+			npc.DropItem(ModContent.ItemType<GildedIdol>(), 1f / 9);
 
 			string[] lootTable = { "ScarabBow", "OrnateStaff", "ScarabSword" };
 			int loot = Main.rand.Next(lootTable.Length);

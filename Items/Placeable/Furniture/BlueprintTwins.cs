@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Placeable.Furniture
             item.useAnimation = 15;
 
 
-            item.createTile = mod.TileType("TwinsPrint");
+            item.createTile = ModContent.TileType<TwinsPrint>();
 		}
 	}
 }

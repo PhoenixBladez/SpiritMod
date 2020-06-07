@@ -41,7 +41,7 @@ namespace SpiritMod.Items.Weapon.Bow
             item.noMelee = true;
             item.autoReuse = true;
 
-            item.shoot = mod.ProjectileType("SleepingStar");
+            item.shoot = ModContent.ProjectileType<SleepingStar>();
             item.shootSpeed = 9;
 
             item.UseSound = SoundID.Item5;
@@ -53,7 +53,7 @@ namespace SpiritMod.Items.Weapon.Bow
 				Vector2 mouse = Main.MouseWorld;
 				 for (int i = 0; i < 3; ++i)
             {
-				Projectile.NewProjectile(mouse.X + Main.rand.Next(-80, 80), player.Center.Y - 550 + Main.rand.Next(-50, 50), 0, Main.rand.Next(14,18), mod.ProjectileType("StarBolt"), damage, knockBack, player.whoAmI);
+				Projectile.NewProjectile(mouse.X + Main.rand.Next(-80, 80), player.Center.Y - 550 + Main.rand.Next(-50, 50), 0, Main.rand.Next(14,18), ModContent.ProjectileType<StarBolt>(), damage, knockBack, player.whoAmI);
 			}
 			}
 			return false;
@@ -61,9 +61,9 @@ namespace SpiritMod.Items.Weapon.Bow
 		 public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int projType;
-            projType = Main.rand.Next(new int[] { mod.ProjectileType("SleepingStar1"), mod.ProjectileType("SleepingStar") });
+            projType = Main.rand.Next(new int[] { mod.ProjectileType("SleepingStar1"), ModContent.ProjectileType<SleepingStar>() });
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("SleepingStar1"), damage, knockBack, player.whoAmI, 1);
-			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("SleepingStar"), damage, knockBack, player.whoAmI, 2);
+			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SleepingStar>(), damage, knockBack, player.whoAmI, 2);
 			return false;
         }
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

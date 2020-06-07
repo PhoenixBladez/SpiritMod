@@ -52,7 +52,7 @@ namespace SpiritMod.NPCs.Spirit
 		{
 			if (SpawnTiles.Length == 0)
 			{
-				int[] Tiles = { mod.TileType("SpiritDirt"), mod.TileType("SpiritStone"), mod.TileType("SpiritGrass"), mod.TileType("SpiritIce") };
+				int[] Tiles = { ModContent.TileType<SpiritDirt>(), ModContent.TileType<SpiritStone>(), ModContent.TileType<SpiritGrass>(), ModContent.TileType<SpiritIce>() };
 				SpawnTiles = Tiles;
 			}
 			return SpawnTiles.Contains(Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].type) && !spawnInfo.playerSafe && !spawnInfo.invasion && NPC.downedMechBossAny ? 5f : 0f;
@@ -71,7 +71,7 @@ namespace SpiritMod.NPCs.Spirit
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(3) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Rune"));
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Rune>());
 		}
 
 	}

@@ -29,7 +29,7 @@ namespace SpiritMod.Projectiles.Boss
 
 		public override void AI()
 		{
-	    int num1 = mod.NPCType("AncientFlyer");
+	    int num1 = ModContent.NPCType<AncientFlyer>();
         float num2 = 210f;
         float x = 0.08f;
         float y = 0.1f;

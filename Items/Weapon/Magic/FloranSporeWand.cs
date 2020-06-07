@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.UseSound = SoundID.Item20;
             item.magic = true;
 			item.noMelee = true;
-			item.shoot = mod.ProjectileType("FloranSpore");
+			item.shoot = ModContent.ProjectileType<FloranSpore>();
 			item.shootSpeed = 10f;
 		}
 

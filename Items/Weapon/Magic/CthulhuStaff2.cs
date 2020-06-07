@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 5;
             item.UseSound = SoundID.Item20;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("StarfallProjectile");
+            item.shoot = ModContent.ProjectileType<StarfallProjectile>();
             item.shootSpeed = 14f;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -42,7 +42,7 @@ namespace SpiritMod.Items.Weapon.Magic
                 if (Main.myPlayer == player.whoAmI)
                 {
                     Vector2 mouse = Main.MouseWorld;
-                    Projectile.NewProjectile(mouse.X + Main.rand.Next(-80, 80), player.Center.Y - 1000 + Main.rand.Next(-50, 50), 0, Main.rand.Next(18, 28), mod.ProjectileType("CthulhuBolt"), damage, knockBack, player.whoAmI);
+                    Projectile.NewProjectile(mouse.X + Main.rand.Next(-80, 80), player.Center.Y - 1000 + Main.rand.Next(-50, 50), 0, Main.rand.Next(18, 28), ModContent.ProjectileType<CthulhuBolt>(), damage, knockBack, player.whoAmI);
                 }
             }
             return false;

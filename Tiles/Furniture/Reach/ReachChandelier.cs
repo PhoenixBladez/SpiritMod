@@ -22,7 +22,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			TileObjectData.newTile.AnchorBottom = default(AnchorData);
 			TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
-			dustType = mod.DustType("Pixel");
+			dustType = ModContent.DustType<Pixel>();
 			adjTiles = new int[] { TileID.Chandeliers };
 		}
 
@@ -40,7 +40,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 48, 48, mod.ItemType("ReachChandelier"));
+			Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<ReachChandelier>());
 		}
 	}
 }

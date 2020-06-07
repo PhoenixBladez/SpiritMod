@@ -41,7 +41,7 @@ namespace SpiritMod.Items.Weapon.Gun
             {
                 {
                     Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 20);
-                    Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("CryoliteBullet"), damage, knockBack, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<CryoliteBullet>(), damage, knockBack, player.whoAmI, 0f, 0f);
                 }
                 charger = 0;
             }

@@ -20,7 +20,7 @@ namespace SpiritMod.NPCs
 			npc.defense = 5;
             npc.lifeMax = 21;
             npc.buffImmune[BuffID.Poisoned] = true;
-            npc.buffImmune[mod.BuffType("FesteringWounds")] = true;
+            npc.buffImmune[ModContent.BuffType<FesteringWounds>()] = true;
             npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath4;
 			npc.value = 60f;
@@ -51,7 +51,7 @@ namespace SpiritMod.NPCs
         {
             if (Main.rand.Next(3) == 0)
             {
-                target.AddBuff(mod.BuffType("FesteringWounds"), 180);
+                target.AddBuff(ModContent.BuffType<FesteringWounds>(), 180);
             }
             if (Main.rand.Next(10) == 0 && Main.expertMode)
             {
@@ -60,7 +60,7 @@ namespace SpiritMod.NPCs
         }
         public override void NPCLoot()
 		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BismiteCrystal"), Main.rand.Next(2, 4) + 1);
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BismiteCrystal>(), Main.rand.Next(2, 4) + 1);
 		}
 
 	}

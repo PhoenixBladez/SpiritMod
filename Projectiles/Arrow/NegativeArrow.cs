@@ -143,7 +143,7 @@ namespace SpiritMod.Projectiles.Arrow
 			var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
 			foreach (var proj in list)
 			{
-				if (proj.type == mod.ProjectileType("PositiveArrow") && proj.active)
+				if (proj.type == ModContent.ProjectileType<PositiveArrow>() && proj.active)
 				{
 					projectile.damage = damage;
 					proj.active = false;

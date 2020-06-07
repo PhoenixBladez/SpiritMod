@@ -42,7 +42,7 @@ namespace SpiritMod.NPCs.Ocean
 		{
 			if (Main.rand.Next(25) == 1)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Sharkon"), 1);
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Sharkon>(), 1);
 			}
 		}
 

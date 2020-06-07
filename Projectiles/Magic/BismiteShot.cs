@@ -70,7 +70,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(5) == 0)
-                target.AddBuff(mod.BuffType("FesteringWounds"), 180);
+                target.AddBuff(ModContent.BuffType<FesteringWounds>(), 180);
         }
 
 	}

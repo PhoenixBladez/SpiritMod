@@ -42,7 +42,7 @@ namespace SpiritMod.Buffs.Glyph
             {
                 if (modPlayer.phaseStacks == 0)
                 {
-                    Main.buffTexture[Type] = mod.GetTexture("TemporalShift");
+                    Main.buffTexture[Type] = ModContent.GetTexture<TemporalShift>();
                 }
                 else
                 {

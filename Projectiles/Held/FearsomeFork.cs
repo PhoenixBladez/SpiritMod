@@ -27,7 +27,7 @@ namespace SpiritMod.Projectiles.Held
 			timer++;
 			if (timer % 7 == 1)
 			{
-				int newProj = Projectile.NewProjectile(projectile.position, new Vector2(0, 0), mod.ProjectileType("Pumpkin"), projectile.damage, 0, projectile.owner);
+				int newProj = Projectile.NewProjectile(projectile.position, new Vector2(0, 0), ModContent.ProjectileType<Pumpkin>(), projectile.damage, 0, projectile.owner);
 					Main.projectile[newProj].magic = false;
 					Main.projectile[newProj].melee = true;
 			}

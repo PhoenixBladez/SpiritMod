@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 4;
 			item.UseSound = SoundID.Item101;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("MythrilStaffProj");
+			item.shoot = ModContent.ProjectileType<MythrilStaffProj>();
 			item.shootSpeed = 8f;
 		}
 		

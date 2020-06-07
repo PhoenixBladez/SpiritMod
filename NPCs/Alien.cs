@@ -66,7 +66,7 @@ namespace SpiritMod.NPCs
 		{
 			if (Main.rand.Next(40) == 1)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ToxicExtract"));
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ToxicExtract>());
 			}
 		}
 

@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Placeable.Furniture
             item.autoReuse = true;
             item.consumable = true;
 
-            item.createTile = mod.TileType("PrimePrint");
+            item.createTile = ModContent.TileType<PrimePrint>();
 		}
 	}
 }

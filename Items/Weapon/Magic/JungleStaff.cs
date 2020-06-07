@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 2;
             item.UseSound = SoundID.Item20;
             item.autoReuse = false;
-            item.shoot = mod.ProjectileType("ThornSpike");
+            item.shoot = ModContent.ProjectileType<ThornSpike>();
             item.shootSpeed = 13f;
         }
         public override void AddRecipes()

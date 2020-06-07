@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Armor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("FPlate") && legs.type == mod.ItemType("FLegs");  
+            return body.type == ModContent.ItemType<FPlate>() && legs.type == ModContent.ItemType<FLegs>();  
         }
         public override void UpdateArmorSet(Player player)
         {

@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Tool
             item.autoReuse = true;
             item.noUseGraphic = true;
 
-            item.shoot = mod.ProjectileType("SpiritDrillProjectile");
+            item.shoot = ModContent.ProjectileType<SpiritDrillProjectile>();
 			item.shootSpeed = 40f;
 
             item.UseSound = SoundID.Item23;

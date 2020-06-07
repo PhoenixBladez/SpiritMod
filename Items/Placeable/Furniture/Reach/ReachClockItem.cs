@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Placeable.Furniture.Reach
             item.autoReuse = true;
             item.consumable = true;
 
-			item.createTile = mod.TileType("ReachClockTile");
+			item.createTile = ModContent.TileType<ReachClockTile>();
 		}
 		public override void AddRecipes()
 		{

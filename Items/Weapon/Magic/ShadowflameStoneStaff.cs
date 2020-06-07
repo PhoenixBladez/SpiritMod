@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.UseSound = SoundID.Item8;
             item.autoReuse = false;
 			item.noMelee = true;
-			item.shoot = mod.ProjectileType("ShadowflameStoneBolt");
+			item.shoot = ModContent.ProjectileType<ShadowflameStoneBolt>();
 			item.shootSpeed = 10f;
 		}
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -52,7 +52,7 @@ namespace SpiritMod.Items.Weapon.Magic
             {
                 player.GetSpiritPlayer().shadowCount++;
                 counter = 0;
-                int p = Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("ShadowflameStoneBolt"), item.damage, 2f, player.whoAmI, spikes);
+                int p = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameStoneBolt>(), item.damage, 2f, player.whoAmI, spikes);
                 player.GetModPlayer<MyPlayer>().shadowRotation = Main.projectile[p].rotation;
             }
         }

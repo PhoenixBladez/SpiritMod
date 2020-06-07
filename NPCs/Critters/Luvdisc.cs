@@ -22,7 +22,7 @@ namespace SpiritMod.NPCs.Critters
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
 			Main.npcCatchable[npc.type] = true;
-			npc.catchItem = (short)mod.ItemType("LuvdiscItem");
+			npc.catchItem = (short)ModContent.ItemType<LuvdiscItem>();
 			
 			npc.knockBackResist = .35f;
 			npc.aiStyle = 16;
@@ -43,7 +43,7 @@ namespace SpiritMod.NPCs.Critters
 		{
 			if (Main.rand.Next(2) == 1)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HeartScale"), 1);
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HeartScale>(), 1);
 			}
 		}
 		public override void AI()

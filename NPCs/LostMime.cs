@@ -62,7 +62,7 @@ namespace SpiritMod.NPCs
             if (npc.life <= 0 && Main.rand.Next(3) == 0)
             {
                 Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 6);
-                npc.Transform(mod.NPCType("CaptiveMask"));
+                npc.Transform(ModContent.NPCType<CaptiveMask>());
             }
 			if (npc.life <= 0)
 			{
@@ -74,7 +74,7 @@ namespace SpiritMod.NPCs
 
 		public override void NPCLoot()
 		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MimeMask"), 1);
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MimeMask>(), 1);
 		}
 
 	}

@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Placeable.Furniture.Reach
             item.autoReuse = true;
             item.consumable = true;
 
-			item.createTile = mod.TileType("ReachLanternTile");
+			item.createTile = ModContent.TileType<ReachLanternTile>();
 		}
 
 		public override void AddRecipes()

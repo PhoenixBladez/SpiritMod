@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.autoReuse = true;
 			item.useTurn = true;
 			item.crit = 6;
-			item.shoot = mod.ProjectileType("SpiritAura");
+			item.shoot = ModContent.ProjectileType<SpiritAura>();
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -42,7 +42,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			{
 				if (Main.rand.Next(3) == 0)
 				{
-					Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("SpiritAura"), 30, knockBack, player.whoAmI);
+					Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SpiritAura>(), 30, knockBack, player.whoAmI);
 				}
 			}
 			return false;

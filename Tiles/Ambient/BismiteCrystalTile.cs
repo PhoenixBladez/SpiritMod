@@ -21,7 +21,7 @@ namespace SpiritMod.Tiles.Ambient
 				16,
 			};
 			TileObjectData.addTile(Type);
-            drop = mod.ItemType("BismiteCrystal");
+            drop = ModContent.ItemType<BismiteCrystal>();
 			dustType = 167;
             soundType = 21;
         }

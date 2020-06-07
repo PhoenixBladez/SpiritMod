@@ -21,7 +21,7 @@ namespace SpiritMod.Mounts
 		{
 			mountData.spawnDust = 226;
 			mountData.spawnDustNoGravity = true;
-			mountData.buff = mod.BuffType("BabyMothronBuff");
+			mountData.buff = ModContent.BuffType<BabyMothronBuff>();
 			mountData.heightBoost = 2;
 			mountData.flightTimeMax = 320;
 			mountData.fatigueMax = 320;

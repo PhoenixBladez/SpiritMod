@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Weapon.Summon
             item.useAnimation = 30; 
             item.summon = true;
             item.noMelee = true;
-            item.shoot = mod.ProjectileType("CragboundMinion");
+            item.shoot = ModContent.ProjectileType<CragboundMinion>();
             item.UseSound = SoundID.Item44;
         }
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

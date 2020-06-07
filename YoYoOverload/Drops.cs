@@ -1,6 +1,8 @@
+using Terraria.ID;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using SpiritMod.YoYoOverload.Items;
 
 namespace SpiritMod.YoyoOverload
 {
@@ -9,84 +11,84 @@ namespace SpiritMod.YoyoOverload
 		public override void NPCLoot(NPC npc)
 		{
 
-			if (npc.type == 126 && Main.rand.Next(2) == 0)
+			/*if (npc.type == NPCID.Spazmatism && Main.rand.Next(2) == 0)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, base.mod.ItemType("Cursed"), 1, false, 0, false, false);
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Cursed>(), 1, false, 0, false, false);
+			}*/
+
+			if (npc.type == NPCID.SantaNK1 && Main.rand.Next(8) == 0)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Crumbler>(), 1, false, 0, false, false);
+			}
+			/*if (npc.type == NPCID.IchorSticker && Main.rand.Next(28) == 0)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Ichor>(), 1, false, 0, false, false);
+			}
+			if (npc.type == NPCID.FloatyGross && Main.rand.Next(28) == 0)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Ichor>(), 1, false, 0, false, false);
+			}
+			if (npc.type == NPCID.PirateCorsair && Main.rand.Next(50) == 0)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PBoot>(), 1, false, 0, false, false);
+			}
+			if (npc.type == NPCID.PirateCrossbower && Main.rand.Next(50) == 0)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PBoot>(), 1, false, 0, false, false);
+			}
+			if (npc.type == NPCID.PirateCaptain && Main.rand.Next(25) == 0)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PBoot>(), 1, false, 0, false, false);
+			}*/
+			if (npc.type == NPCID.SkeletronPrime && Main.rand.Next(4) == 0)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SkellyV>(), 1, false, 0, false, false);
+			}
+			/*if (npc.type == NPCID.GoblinSorcerer && Main.rand.Next(30) == 0)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CBall>(), 1, false, 0, false, false);
+			}*/
+			if (npc.type == NPCID.Creeper && Main.rand.Next(25) == 0)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Creep>(), 1, false, 0, false, false);
 			}
 
-			if (npc.type == 346 && Main.rand.Next(8) == 0)
+			/*if (npc.type == NPCID.BloodZombie && Main.rand.Next(25) == 0)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, base.mod.ItemType("Crumbler"), 1, false, 0, false, false);
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Plague>(), 1, false, 0, false, false);
 			}
-			if (npc.type == 268 && Main.rand.Next(28) == 0)
+			if (npc.type == NPCID.Drippler && Main.rand.Next(25) == 0)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, base.mod.ItemType("Ichor"), 1, false, 0, false, false);
-			}
-			if (npc.type == 182 && Main.rand.Next(28) == 0)
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Plague>(), 1, false, 0, false, false);
+			}*/
+			if (npc.type == NPCID.SkeletronHead)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, base.mod.ItemType("Ichor"), 1, false, 0, false, false);
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Bone>(), 1, false, 0, false, false);
 			}
-			if (npc.type == 213 && Main.rand.Next(50) == 0)
+			/*if (npc.type == NPCID.RuneWizard)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, base.mod.ItemType("PBoot"), 1, false, 0, false, false);
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Rune>(), 1, false, 0, false, false);
 			}
-			if (npc.type == 215 && Main.rand.Next(50) == 0)
+			if (npc.type == NPCID.Reaper && Main.rand.Next(50) == 0)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, base.mod.ItemType("PBoot"), 1, false, 0, false, false);
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Reap>(), 1, false, 0, false, false);
 			}
-			if (npc.type == 216 && Main.rand.Next(25) == 0)
+			if (npc.type == NPCID.GreekSkeleton && NPC.downedBoss3 && Main.rand.Next(25) == 0)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, base.mod.ItemType("PBoot"), 1, false, 0, false, false);
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Medusa>(), 1, false, 0, false, false);
 			}
-			if (npc.type == 127 && Main.rand.Next(4) == 0)
+			if (npc.type == NPCID.GraniteFlyer && NPC.downedBoss3 && Main.rand.Next(25) == 0)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, base.mod.ItemType("SkellyV"), 1, false, 0, false, false);
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Granite>(), 1, false, 0, false, false);
 			}
-			if (npc.type == 29 && Main.rand.Next(30) == 0)
+			if (npc.type == NPCID.DesertLamiaLight && Main.rand.Next(28) == 0)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, base.mod.ItemType("CBall"), 1, false, 0, false, false);
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Equinox>(), 1, false, 0, false, false);
 			}
-			if (npc.type == 267 && Main.rand.Next(25) == 0)
+			if (npc.type == NPCID.DesertLamiaDark && Main.rand.Next(28) == 0)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, base.mod.ItemType("Creep"), 1, false, 0, false, false);
-			}
-
-			if (npc.type == 489 && Main.rand.Next(25) == 0)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, base.mod.ItemType("Plague"), 1, false, 0, false, false);
-			}
-			if (npc.type == 490 && Main.rand.Next(25) == 0)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, base.mod.ItemType("Plague"), 1, false, 0, false, false);
-			}
-			if (npc.type == 35)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, base.mod.ItemType("Bone"), 1, false, 0, false, false);
-			}
-			if (npc.type == 172)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, base.mod.ItemType("Rune"), 1, false, 0, false, false);
-			}
-			if (npc.type == 253 && Main.rand.Next(50) == 0)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, base.mod.ItemType("Reap"), 1, false, 0, false, false);
-			}
-			if (npc.type == 481 && NPC.downedBoss3 && Main.rand.Next(25) == 0)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, base.mod.ItemType("Medusa"), 1, false, 0, false, false);
-			}
-			if (npc.type == 483 && NPC.downedBoss3 && Main.rand.Next(25) == 0)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, base.mod.ItemType("Granite"), 1, false, 0, false, false);
-			}
-			if (npc.type == 528 && Main.rand.Next(28) == 0)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, base.mod.ItemType("Equinox"), 1, false, 0, false, false);
-			}
-			if (npc.type == 529 && Main.rand.Next(28) == 0)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, base.mod.ItemType("Equinox"), 1, false, 0, false, false);
-			}
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Equinox>(), 1, false, 0, false, false);
+			}*/
 		}
 	}
 }

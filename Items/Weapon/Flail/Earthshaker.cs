@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Flail
             item.value = Item.sellPrice(0, 2, 43, 0);
             item.damage = 85;
             item.noUseGraphic = true; 
-            item.shoot = mod.ProjectileType("EarthshatterProj");
+            item.shoot = ModContent.ProjectileType<EarthshatterProj>();
             item.shootSpeed = 16f;
             item.UseSound = SoundID.Item1;
             item.melee = true; 

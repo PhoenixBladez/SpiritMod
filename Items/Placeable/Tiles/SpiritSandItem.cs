@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Placeable.Tiles
             item.useTurn = true;
             item.autoReuse = true;
             item.consumable = true;
-            item.createTile = mod.TileType("Spiritsand");
+            item.createTile = ModContent.TileType<Spiritsand>();
 		}
 	}
 }

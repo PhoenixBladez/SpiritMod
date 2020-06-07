@@ -42,7 +42,7 @@ namespace SpiritMod.Items.Weapon.Bow
         {
             if (type == ProjectileID.WoodenArrowFriendly)
             {
-                type = mod.ProjectileType("DoomSingerArrow");
+                type = ModContent.ProjectileType<DoomSingerArrow>();
                 return true;
             }
             {
@@ -50,7 +50,7 @@ namespace SpiritMod.Items.Weapon.Bow
                 for (int i = 0; i < numberProjectiles; i++)
                 {
                     Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(30));
-                    Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("DoomSingerArrow"), damage, knockBack, player.whoAmI);
+                    Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<DoomSingerArrow>(), damage, knockBack, player.whoAmI);
                 }
                 return false;
             }

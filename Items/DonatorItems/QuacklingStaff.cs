@@ -29,8 +29,8 @@ namespace SpiritMod.Items.DonatorItems
             item.useAnimation = 30;
             item.summon = true;
             item.noMelee = true;
-            item.shoot = mod.ProjectileType("QuacklingMinion");
-            item.buffType = mod.BuffType("QuacklingBuff");
+            item.shoot = ModContent.ProjectileType<QuacklingMinion>();
+            item.buffType = ModContent.BuffType<QuacklingBuff>();
             item.buffTime = 3600;
             item.UseSound = SoundID.Item44;
         }

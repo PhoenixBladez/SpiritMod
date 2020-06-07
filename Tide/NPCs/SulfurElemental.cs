@@ -278,7 +278,7 @@ namespace SpiritMod.Tide.NPCs
 		public override void NPCLoot()
 		{
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DepthShard"), 1);
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthShard>(), 1);
 			}
 			{
 				string[] lootTable = { "FierySoul", "LavaStaff", "LavaSpear", };
@@ -290,7 +290,7 @@ namespace SpiritMod.Tide.NPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (TideWorld.TheTide && TideWorld.InBeach && NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3 && !NPC.AnyNPCs(mod.NPCType("SulfurElemental")))
+			if (TideWorld.TheTide && TideWorld.InBeach && NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3 && !NPC.AnyNPCs(ModContent.NPCType<SulfurElemental>()))
 				return 0.3f;
 
 			return 0;

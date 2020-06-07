@@ -12,7 +12,6 @@ namespace SpiritMod.YoYoOverload.Items
 			DisplayName.SetDefault("ViceLaser");
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.CloneDefaults(ItemID.WoodYoyo);
@@ -24,7 +23,7 @@ namespace SpiritMod.YoYoOverload.Items
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useAnimation = 28;
 			item.useTime = 25;
-			item.shoot = mod.ProjectileType("SkellyP");
+			item.shoot = ModContent.ProjectileType<SkellyP>();
 		}
 	}
 }

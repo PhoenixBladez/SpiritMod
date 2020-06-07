@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Consumable
             item.autoReuse = false;
             item.consumable = true;
             item.noUseGraphic = true;
-            item.shoot = mod.ProjectileType("ChaosPearl");
+            item.shoot = ModContent.ProjectileType<ChaosPearl>();
             item.shootSpeed = 12;
             item.UseSound = SoundID.Item1;
         }

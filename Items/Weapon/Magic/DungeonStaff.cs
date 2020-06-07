@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 2;
             item.UseSound = SoundID.Item20;
             item.autoReuse = false;
-            item.shoot = mod.ProjectileType("AquaSphere");
+            item.shoot = ModContent.ProjectileType<AquaSphere>();
             item.shootSpeed = 13f;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -41,7 +41,7 @@ namespace SpiritMod.Items.Weapon.Magic
                 if (Main.myPlayer == player.whoAmI)
                 {
                     Vector2 mouse = Main.MouseWorld;
-                    Projectile.NewProjectile(mouse.X, mouse.Y, 0, 0, mod.ProjectileType("AquaSphere"), damage, knockBack, player.whoAmI);
+                    Projectile.NewProjectile(mouse.X, mouse.Y, 0, 0, ModContent.ProjectileType<AquaSphere>(), damage, knockBack, player.whoAmI);
                 }
             }
             return false;

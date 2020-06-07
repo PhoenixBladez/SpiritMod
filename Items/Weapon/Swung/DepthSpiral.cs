@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.value = Terraria.Item.sellPrice(0, 5, 0, 0);
 			item.rare = 5;
 			item.UseSound = SoundID.Item1;
-			item.shoot = mod.ProjectileType("DepthSpiral");
+			item.shoot = ModContent.ProjectileType<DepthSpiral>();
 			item.shootSpeed = 7f;
 			item.autoReuse = true;
 		}

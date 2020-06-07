@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon
             item.value = Item.buyPrice(0, 50, 0, 0);
             item.rare = 10;
             item.shootSpeed = 4;
-            item.shoot = mod.ProjectileType("Slow");
+            item.shoot = ModContent.ProjectileType<Slow>();
             item.UseSound = SoundID.Item20;
             item.autoReuse = false;
         }

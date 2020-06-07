@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 1;
             item.UseSound = SoundID.Item20;
             item.autoReuse = false;
-            item.shoot = mod.ProjectileType("Spit");
+            item.shoot = ModContent.ProjectileType<Spit>();
             item.shootSpeed = 12f;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 5;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("IchorBomb");
+			item.shoot = ModContent.ProjectileType<IchorBomb>();
 			item.shootSpeed = 6f;
 		}
 		

@@ -30,7 +30,7 @@ namespace SpiritMod.Projectiles
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(8) == 0)
-				target.AddBuff(mod.BuffType("StackingFireBuff"), 120, true);
+				target.AddBuff(ModContent.BuffType<StackingFireBuff>(), 120, true);
 		}
 
 		public override bool PreAI()

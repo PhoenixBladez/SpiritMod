@@ -76,7 +76,7 @@ namespace SpiritMod.NPCs.Asteroid
 						num942 += (float)Main.rand.Next(-10, 11) * 0.05f;
 						num943 += (float)Main.rand.Next(-10, 11) * 0.05f;
 						int num945 = expertMode ? 10 : 15;
-						int num946 = mod.ProjectileType("Starshock");
+						int num946 = ModContent.ProjectileType<Starshock>();
 						vector104.X += num942 * 5f;
 						vector104.Y += num943 * 5f;
 						int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, num946, num945, 0f, Main.myPlayer, 0f, 0f);

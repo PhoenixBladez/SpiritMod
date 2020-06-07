@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 8;
             item.UseSound = SoundID.Item66;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("BirdSpiritPortal");
+            item.shoot = ModContent.ProjectileType<BirdSpiritPortal>();
             item.shootSpeed = 13f;
         }
 

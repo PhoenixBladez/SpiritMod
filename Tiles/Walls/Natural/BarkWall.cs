@@ -11,7 +11,7 @@ namespace SpiritMod.Tiles.Walls.Natural
 		public override void SetDefaults()
 		{
 			Main.wallHouse[Type] = true;
-			drop = mod.ItemType("BarkWall");
+			drop = ModContent.ItemType<Items.Placeable.Walls.BarkWall>();
 			AddMapEntry(new Color(165, 60, 60));
 		}
 	}

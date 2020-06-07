@@ -28,8 +28,8 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.mana = 14;
 			item.summon = true;
 			item.noMelee = true;
-			item.shoot = mod.ProjectileType("Flayer");
-			item.buffType = mod.BuffType("Flayerbuff");
+			item.shoot = ModContent.ProjectileType<Flayer>();
+			item.buffType = ModContent.BuffType<Flayerbuff>();
 			item.buffTime = 3600;
 			item.UseSound = SoundID.Item44;
 		}

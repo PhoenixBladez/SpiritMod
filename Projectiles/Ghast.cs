@@ -83,7 +83,7 @@ namespace SpiritMod.Projectiles
 							num5 = num4 / num5;
 						}
 						value *= num5;
-						int p = Terraria.Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value.X, value.Y, mod.ProjectileType("WhiteSoul"), projectile.damage / 7 * 6, projectile.knockBack / 2f, projectile.owner, 0f, 0f);
+						int p = Terraria.Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value.X, value.Y, ModContent.ProjectileType<WhiteSoul>(), projectile.damage / 7 * 6, projectile.knockBack / 2f, projectile.owner, 0f, 0f);
 						Main.projectile[p].friendly = true;
 						Main.projectile[p].hostile = false;
 					}

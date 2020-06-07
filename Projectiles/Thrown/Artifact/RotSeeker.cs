@@ -119,7 +119,7 @@ namespace SpiritMod.Projectiles.Thrown.Artifact
 					{
 						Main.projectile[num417].netUpdate = true;
 						Main.projectile[num417].ai[1] = 36000f;
-						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("RotExplosion"), projectile.damage / 3 * 4, projectile.knockBack, projectile.owner, 0f, 0f);
+						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<RotExplosion>(), projectile.damage / 3 * 4, projectile.knockBack, projectile.owner, 0f, 0f);
 
 						return;
 					}
@@ -130,7 +130,7 @@ namespace SpiritMod.Projectiles.Thrown.Artifact
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("RotExplosion"), projectile.damage / 3 * 4, projectile.knockBack, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<RotExplosion>(), projectile.damage / 3 * 4, projectile.knockBack, projectile.owner, 0f, 0f);
 		}
 
 	}

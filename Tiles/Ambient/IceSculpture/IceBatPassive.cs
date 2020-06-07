@@ -50,7 +50,7 @@ namespace SpiritMod.Tiles.Ambient.IceSculpture
 		{
 			{
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
-				Item.NewItem(i * 16, j * 16, 48, 48, mod.ItemType("CreepingIce"), Main.rand.Next(6, 13));
+				Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<CreepingIce>(), Main.rand.Next(6, 13));
 			}
 		}
 

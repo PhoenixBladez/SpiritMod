@@ -56,7 +56,7 @@ namespace SpiritMod.Projectiles
 
 		//public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		//{
-		//	target.AddBuff(mod.BuffType("Slow"), 240); 
+		//	target.AddBuff(ModContent.BuffType<Slow>(), 240); 
 		//	damage = 0;
 		//}
 	}

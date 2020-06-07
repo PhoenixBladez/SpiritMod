@@ -19,10 +19,10 @@ namespace SpiritMod.Buffs.Pet
 			player.GetSpiritPlayer().lanternPet = true;
 			player.buffTime[buffIndex] = 18000;
 
-			bool petProjectileNotSpawned = player.ownedProjectileCounts[mod.ProjectileType("Lantern")] <= 0;
+			bool petProjectileNotSpawned = player.ownedProjectileCounts[ModContent.ProjectileType<Lantern>()] <= 0;
 			if (petProjectileNotSpawned && player.whoAmI == Main.myPlayer)
 			{
-				Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("Lantern"), 0, 0f, player.whoAmI);
+				Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<Lantern>(), 0, 0f, player.whoAmI);
 			}
 
 			if (player.controlDown && player.releaseDown)
@@ -31,7 +31,7 @@ namespace SpiritMod.Buffs.Pet
 				{
 					for (int j = 0; j < Main.maxProjectiles; j++)
 					{
-						if (Main.projectile[j].active && Main.projectile[j].type == mod.ProjectileType("Lantern") && Main.projectile[j].owner == player.whoAmI)
+						if (Main.projectile[j].active && Main.projectile[j].type == ModContent.ProjectileType<Lantern>() && Main.projectile[j].owner == player.whoAmI)
 						{
 							Projectile lightpet = Main.projectile[j];
 							Vector2 vectorToMouse = Main.MouseWorld - lightpet.Center;

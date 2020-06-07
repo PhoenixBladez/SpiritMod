@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Ammo
             item.ranged = true;
             item.consumable = true;
 
-            item.shoot = mod.ProjectileType("TikiArrow");
+            item.shoot = ModContent.ProjectileType<TikiArrow>();
             item.shootSpeed = 2f;
         }
 	}

@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Armor.FrigidArmor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("FrigidChestplate") && legs.type == mod.ItemType("FrigidLegs");
+            return body.type == ModContent.ItemType<FrigidChestplate>() && legs.type == ModContent.ItemType<FrigidLegs>();
         }
         public override void UpdateArmorSet(Player player)
         {

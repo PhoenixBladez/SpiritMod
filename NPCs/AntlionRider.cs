@@ -168,7 +168,7 @@ namespace SpiritMod.NPCs
 			else
 			{
 				// This code is called when Bottom is dead. Top is transformed into a new NPC.
-				npc.Transform(mod.NPCType("AntlionAssassin"));
+				npc.Transform(ModContent.NPCType<AntlionAssassin>());
 				return;
 			}
 		}

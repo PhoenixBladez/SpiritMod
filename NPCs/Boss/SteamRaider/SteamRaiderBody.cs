@@ -111,7 +111,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 						num942 += (float)Main.rand.Next(-10, 11) * 0.0125f;
 						num943 += (float)Main.rand.Next(-10, 11) * 0.0125f;
 						int num945 = expertMode ? 13 : 25;
-						int num946 = mod.ProjectileType("Starshock");
+						int num946 = ModContent.ProjectileType<Starshock>();
 						vector104.X += num942 * 4f;
 						vector104.Y += num943 * 2.5f;
 						int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, num946, num945, 0f, Main.myPlayer, 0f, 0f);
@@ -247,7 +247,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				{
 					float A = (float)Main.rand.Next(-150, 150) * 0.01f;
 					float B = (float)Main.rand.Next(-80, 0) * 0.0f;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("SteamBodyFallingProj"), 15, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<SteamBodyFallingProj>(), 15, 1, Main.myPlayer, 0, 0);
 				}
 			}
 		}

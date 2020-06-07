@@ -37,7 +37,7 @@ namespace SpiritMod.NPCs.Reach
 		{
             if (!Main.dayTime)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EnchantedLeaf"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EnchantedLeaf>());
             }
 		}
 
@@ -187,7 +187,7 @@ namespace SpiritMod.NPCs.Reach
 			Player player = spawnInfo.player;
 			if (!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.spawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.spawnTileY > Main.worldSurface || !Main.dayTime) && (SpawnCondition.GoblinArmy.Chance == 0))
 			{
-				return spawnInfo.player.GetSpiritPlayer().ZoneReach && player.ZoneOverworldHeight && NPC.downedBoss1 && Main.tile[(int)(spawnInfo.spawnTileX),(int)(spawnInfo.spawnTileY)].type == mod.TileType("ReachGrassTile") ? 0.8f : 0f;
+				return spawnInfo.player.GetSpiritPlayer().ZoneReach && player.ZoneOverworldHeight && NPC.downedBoss1 && Main.tile[(int)(spawnInfo.spawnTileX),(int)(spawnInfo.spawnTileY)].type == ModContent.TileType<ReachGrassTile>() ? 0.8f : 0f;
 			}
 			return 0f;
 		}

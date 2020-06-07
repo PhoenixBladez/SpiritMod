@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Spear
             item.damage = 48;
             item.value = Item.sellPrice(0, 0, 70, 0);
             item.rare = 5;
-            item.shoot = mod.ProjectileType("Halberd");
+            item.shoot = ModContent.ProjectileType<Halberd>();
         }
         public override void AddRecipes()
         {

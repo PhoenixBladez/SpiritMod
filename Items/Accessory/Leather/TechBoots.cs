@@ -46,7 +46,7 @@ namespace SpiritMod.Items.Accessory.Leather
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("LeatherBoots"), 1);
+            recipe.AddIngredient(ModContent.ItemType<LeatherBoots>(), 1);
             recipe.AddIngredient(null, "TechDrive", 5);
             recipe.AddRecipeGroup("EvilMaterial1", 2);
             recipe.AddTile(TileID.Anvils);

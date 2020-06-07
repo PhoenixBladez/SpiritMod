@@ -28,8 +28,8 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.mana = 10;
 			item.summon = true;
 			item.noMelee = true;
-			item.shoot = mod.ProjectileType("UnboundSoul");
-			item.buffType = mod.BuffType("UnboundSoulMinionBuff");
+			item.shoot = ModContent.ProjectileType<UnboundSoul>();
+			item.buffType = ModContent.BuffType<UnboundSoulMinionBuff>();
 			item.buffTime = 3600;
 			item.UseSound = SoundID.Item44;
 		}

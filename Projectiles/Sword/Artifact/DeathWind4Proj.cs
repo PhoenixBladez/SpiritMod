@@ -98,20 +98,20 @@ namespace SpiritMod.Projectiles.Sword.Artifact
 			MyPlayer mp = Main.player[projectile.owner].GetSpiritPlayer();
 			if (mp.DarkBough && Main.rand.Next(10) == 0)
 			{
-				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("BoughSeed"), projectile.damage / 3 * 2, 4, projectile.owner);
+				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BoughSeed>(), projectile.damage / 3 * 2, 4, projectile.owner);
 			}
 			Player player = Main.player[base.projectile.owner];
 			if (Main.rand.Next(6) == 1)
 				damage = damage + target.defense;
 
 			if (Main.rand.Next(19) == 2)
-				player.AddBuff(mod.BuffType("SoulReap"), 240);
+				player.AddBuff(ModContent.BuffType<SoulReap>(), 240);
 
 			if (Main.rand.Next(3) == 0)
 				target.AddBuff(mod.BuffType("DeathWreathe3"), 240);
 
 			if (Main.rand.Next(3) == 0 && target.life <= 0)
-				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0, 0, mod.ProjectileType("Necromancer"), 60, 0, Main.myPlayer, 0, 0);
+				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0, 0, ModContent.ProjectileType<Necromancer>(), 60, 0, Main.myPlayer, 0, 0);
 
 		}
 

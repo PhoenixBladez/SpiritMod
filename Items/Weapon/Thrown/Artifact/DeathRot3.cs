@@ -55,7 +55,7 @@ namespace SpiritMod.Items.Weapon.Thrown.Artifact
             {
                 for (int I = 0; I < 3; I++)
                 {
-                    Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), mod.ProjectileType("Miasma"), damage, knockBack, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<Miasma>(), damage, knockBack, player.whoAmI, 0f, 0f);
                 }
                 charger = 0;
             }
@@ -63,7 +63,7 @@ namespace SpiritMod.Items.Weapon.Thrown.Artifact
             {
                 for (int I = 0; I < 3; I++)
                 {
-                    Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-130, 130) / 100), speedY + ((float)Main.rand.Next(-130, 130) / 100), mod.ProjectileType("RotSeeker"), 40, knockBack, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-130, 130) / 100), speedY + ((float)Main.rand.Next(-130, 130) / 100), ModContent.ProjectileType<RotSeeker>(), 40, knockBack, player.whoAmI, 0f, 0f);
 
                 }
             }

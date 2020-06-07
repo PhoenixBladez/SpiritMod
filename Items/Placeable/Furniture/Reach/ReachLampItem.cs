@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Placeable.Furniture.Reach
             item.autoReuse = true;
             item.consumable = true;
 
-			item.createTile = mod.TileType("ReachLamp");
+			item.createTile = ModContent.TileType<ReachLamp>();
 		}
 
 		public override void AddRecipes()

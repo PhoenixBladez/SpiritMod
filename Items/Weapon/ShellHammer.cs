@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Weapon
 			item.useAnimation = 35;
             item.melee = true;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("ShellHammerProjectile");
+            item.shoot = ModContent.ProjectileType<ShellHammerProjectile>();
             item.shootSpeed = 7;
             item.UseSound = SoundID.Item1;
             this.shellCooldown = 240;

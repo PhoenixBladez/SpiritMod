@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Consumable.Potion
             item.consumable = true;
             item.autoReuse = false;
 
-            item.buffType = mod.BuffType("MushroomPotionBuff");
+            item.buffType = ModContent.BuffType<MushroomPotionBuff>();
             item.buffTime = 7300;
 
             item.UseSound = SoundID.Item3;

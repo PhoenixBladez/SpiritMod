@@ -59,7 +59,7 @@ namespace SpiritMod.NPCs
 			int lootcount = Main.rand.Next(1, 3);
 			for (int J = 0; J <= lootcount; J++)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Carapace"));
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Carapace>());
 			}
             int lootcount1 = Main.rand.Next(3, 6);
             for (int J = 0; J <= lootcount1; J++)
@@ -67,7 +67,7 @@ namespace SpiritMod.NPCs
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GlowingMushroom);
             }
             if (Main.rand.Next(15) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("WheezerScale"));
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<WheezerScale>());
 		}
 
 		int frame = 0;
@@ -106,7 +106,7 @@ namespace SpiritMod.NPCs
                     {
                         float A = (float)Main.rand.Next(-50, 50) * 0.02f;
                         float B = (float)Main.rand.Next(-60, -40) * 0.1f;
-                        int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y - 10, direction.X + A, direction.Y + B, mod.ProjectileType("WheezerSporeHostile"), damage, 1, Main.myPlayer, 0, 0);
+                        int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y - 10, direction.X + A, direction.Y + B, ModContent.ProjectileType<WheezerSporeHostile>(), damage, 1, Main.myPlayer, 0, 0);
                         for (int k = 0; k < 11; k++)
                         {
                             Dust.NewDust(npc.position, npc.width, npc.height, 42, direction.X + A, direction.Y + B, 0, default(Color), .61f);

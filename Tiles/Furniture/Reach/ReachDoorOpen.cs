@@ -63,7 +63,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			AddMapEntry(new Color(80, 220, 50), name);
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.OpenDoor };
-			closeDoorID = mod.TileType("ReachDoorClosed");
+			closeDoorID = ModContent.TileType<ReachDoorClosed>();
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)
@@ -73,7 +73,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Terraria.Item.NewItem(i * 16, j * 16, 32, 48, mod.ItemType("ReachDoorItem"));
+			Terraria.Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<ReachDoorItem>());
 		}
 	}
 }

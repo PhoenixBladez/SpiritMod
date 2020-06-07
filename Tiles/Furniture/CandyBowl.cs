@@ -21,7 +21,7 @@ namespace SpiritMod.Tiles.Furniture
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 64, 32, mod.ItemType("CandyBowl"));
+			Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<CandyBowl>());
 		}
 
 		public override void AnimateTile(ref int frame, ref int frameCounter)

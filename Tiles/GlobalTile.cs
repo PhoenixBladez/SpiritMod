@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Weapon.Gun;
+using SpiritMod.Items.Weapon.Thrown;
+using SpiritMod.NPCs.Ocean;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -123,7 +127,7 @@ namespace SpiritMod.Tiles
                     Item.NewItem(i * 16, j * 16, 64, 48, tremorItem, Main.rand.Next(0, 2));
                 }
             }
-            if (player.HasItem(mod.ItemType("Spineshot")))
+            if (player.HasItem(ModContent.ItemType<Spineshot>()))
             {
                 if (type == 3 || type == 24 || type == 61 || type == 71 || type == 110 || type == 201)
                 {
@@ -158,16 +162,16 @@ namespace SpiritMod.Tiles
             {
                 if (Main.rand.Next(2) == 1)
                 {
-                    Item.NewItem(i * 16, j * 16, 64, 48, mod.ItemType("Coconut"), Main.rand.Next(5, 8));
+                    Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<Coconut>(), Main.rand.Next(5, 8));
                 }
-                if (NPC.CountNPCS(mod.NPCType("OceanSlime")) < 1)
+                if (NPC.CountNPCS(ModContent.NPCType<OceanSlime>()) < 1)
                 {
-                    NPC.NewNPC(i * 16, (j - 10) * 16, mod.NPCType("OceanSlime"), 0, 0.0f, 0.0f, 0.0f, 0.0f, (int)byte.MaxValue);
+                    NPC.NewNPC(i * 16, (j - 10) * 16, ModContent.NPCType<OceanSlime>(), 0, 0.0f, 0.0f, 0.0f, 0.0f, (int)byte.MaxValue);
                 }
             }
             if (type == 72)
             {
-                Item.NewItem(i * 16, j * 16, 64, 48, mod.ItemType("GlowRoot"), Main.rand.Next(0, 2));
+                Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<GlowRoot>(), Main.rand.Next(0, 2));
             }
             return base.Drop(i, j, type);
         }

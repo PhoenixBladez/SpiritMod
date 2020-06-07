@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Placeable.Furniture.Reach
             item.autoReuse = true;
             item.consumable = true;
 
-			item.createTile = mod.TileType("TreemanStatue");
+			item.createTile = ModContent.TileType<TreemanStatue>();
 		}
 		public override void AddRecipes()
 		{

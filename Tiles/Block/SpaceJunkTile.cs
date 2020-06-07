@@ -18,7 +18,7 @@ namespace SpiritMod.Tiles.Block
             Main.tileBlendAll[this.Type] = true;
             Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(87, 85, 81));
-            drop = mod.ItemType("SpaceJunkItem");
+            drop = ModContent.ItemType<SpaceJunkItem>();
             dustType = 54;
         }
         public override bool HasWalkDust()

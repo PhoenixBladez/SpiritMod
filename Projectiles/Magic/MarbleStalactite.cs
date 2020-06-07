@@ -79,7 +79,7 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-            target.AddBuff(mod.BuffType("GildedSlow"), 210);
+            target.AddBuff(ModContent.BuffType<GildedSlow>(), 210);
             projectile.ai[0] = 1f;
 			projectile.ai[1] = (float)target.whoAmI;
 			projectile.velocity = (target.Center - projectile.Center) * 0.75f;

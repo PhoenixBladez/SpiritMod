@@ -32,7 +32,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Terraria.Item.NewItem(i * 16, j * 16, 64, 32, mod.ItemType("ReachBedItem"));
+			Terraria.Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<ReachBedItem>());
 		}
 
 		public override void RightClick(int i, int j)
@@ -64,7 +64,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			Player player = Main.player[Main.myPlayer];
 			player.noThrow = 2;
 			player.showItemIcon = true;
-			player.showItemIcon2 = mod.ItemType("ReachBedItem");
+			player.showItemIcon2 = ModContent.ItemType<ReachBedItem>();
 		}
 	}
 }

@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Placeable.Furniture
             item.autoReuse = true;
             item.consumable = true;
 
-			item.createTile = mod.TileType("SpiritTorch");
+			item.createTile = ModContent.TileType<SpiritTorch>();
 		}
 
         public override void HoldItem(Player player)

@@ -81,38 +81,38 @@ namespace SpiritMod.Projectiles.Magic
 						{
 							if (wall != 87 || wall != 94 || wall != 95 || wall != 96 || wall != 97 || wall != 98 || wall != 99 || wall != 100 || wall != 101 || wall != 102 || wall != 103 || wall != 104 || wall != 105 || wall != 62)
 							{
-								Main.tile[k, l].wall = (ushort)mod.WallType("SpiritWall");
+								Main.tile[k, l].wall = (ushort)ModContent.WallType<SpiritWall>();
 								WorldGen.SquareWallFrame(k, l, true);
 								NetMessage.SendTileSquare(-1, k, l, 1);
 							}
 						}
 						if (TileID.Sets.Conversion.Stone[type] || type == 179 || type == 180 || type == 181 || type == 182 || type == 183)
 						{
-							Main.tile[k, l].type = (ushort)mod.TileType("SpiritStone");
+							Main.tile[k, l].type = (ushort)ModContent.TileType<SpiritStone>();
 							WorldGen.SquareTileFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
 						else if (type == 0)
 						{
-							Main.tile[k, l].type = (ushort)mod.TileType("SpiritDirt");
+							Main.tile[k, l].type = (ushort)ModContent.TileType<SpiritDirt>();
 							WorldGen.SquareTileFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
 						else if (type == 2 || type == 23 || type == 109 || type == 199)
 						{
-							Main.tile[k, l].type = (ushort)mod.TileType("SpiritGrass");
+							Main.tile[k, l].type = (ushort)ModContent.TileType<SpiritGrass>();
 							WorldGen.SquareTileFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
 						else if (type == 53)
 						{
-							Main.tile[k, l].type = (ushort)mod.TileType("Spiritsand");
+							Main.tile[k, l].type = (ushort)ModContent.TileType<Spiritsand>();
 							WorldGen.SquareTileFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
 						else if (type == 161 || type == 200 || type == 163 || type == 164)
 						{
-							Main.tile[k, l].type = (ushort)mod.TileType("SpiritIce");
+							Main.tile[k, l].type = (ushort)ModContent.TileType<SpiritIce>();
 							WorldGen.SquareTileFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}

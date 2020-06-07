@@ -44,12 +44,12 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X + 10, projectile.velocity.Y + 10, mod.ProjectileType("Fae"), 25, projectile.knockBack, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X - 10, projectile.velocity.Y - 10, mod.ProjectileType("Fae"), 25, projectile.knockBack, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X - 10, projectile.velocity.Y + 10, mod.ProjectileType("Fae"), 25, projectile.knockBack, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X + 10, projectile.velocity.Y - 10, mod.ProjectileType("Fae"), 25, projectile.knockBack, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y + 10, mod.ProjectileType("Fae"), 25, projectile.knockBack, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y - 10, mod.ProjectileType("Fae"), 25, projectile.knockBack, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X + 10, projectile.velocity.Y + 10, ModContent.ProjectileType<Fae>(), 25, projectile.knockBack, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X - 10, projectile.velocity.Y - 10, ModContent.ProjectileType<Fae>(), 25, projectile.knockBack, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X - 10, projectile.velocity.Y + 10, ModContent.ProjectileType<Fae>(), 25, projectile.knockBack, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X + 10, projectile.velocity.Y - 10, ModContent.ProjectileType<Fae>(), 25, projectile.knockBack, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y + 10, ModContent.ProjectileType<Fae>(), 25, projectile.knockBack, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y - 10, ModContent.ProjectileType<Fae>(), 25, projectile.knockBack, projectile.owner, 0f, 0f);
 		}
 	}
 }

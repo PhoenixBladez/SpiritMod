@@ -41,7 +41,7 @@ namespace SpiritMod.NPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (!NPC.downedBoss2 || NPC.AnyNPCs(mod.NPCType("Mecromancer")))
+            if (!NPC.downedBoss2 || NPC.AnyNPCs(ModContent.NPCType<Mecromancer>()))
             {
                 return 0f;
             }
@@ -68,7 +68,7 @@ namespace SpiritMod.NPCs
             }
             if (Main.rand.Next(3) == 0)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("KnocbackGun"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<KnocbackGun>());
             }
             if (Main.rand.Next(25) == 0)
             {
@@ -82,7 +82,7 @@ namespace SpiritMod.NPCs
             int Techs = Main.rand.Next(2, 5);
             for (int J = 0; J <= Techs; J++)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TechDrive"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TechDrive>());
             }
         }
         int timer;
@@ -102,11 +102,11 @@ namespace SpiritMod.NPCs
                 Vector2 direction = Main.player[npc.target].Center - npc.Center;
                 float ai = Main.rand.Next(100);
                 direction.Normalize();
-                int MechBat = Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, -6, mod.ProjectileType("MechBat"), 11, 0);
-                int MechBat1= Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 3, -6, mod.ProjectileType("MechBat"), 11, 0);
+                int MechBat = Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, -6, ModContent.ProjectileType<MechBat>(), 11, 0);
+                int MechBat1= Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 3, -6, ModContent.ProjectileType<MechBat>(), 11, 0);
                 if (Main.rand.Next(3) == 0)
                 {
-                    int MechBat2 = Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -3, -6, mod.ProjectileType("MechBat"), 11, 0);
+                    int MechBat2 = Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -3, -6, ModContent.ProjectileType<MechBat>(), 11, 0);
                 }
             }
             if (timer > 420 && timer < 840)
@@ -181,7 +181,7 @@ namespace SpiritMod.NPCs
                     {
                         float A = (float)Main.rand.Next(-50, 50) * 0.23f;
                         float B = (float)Main.rand.Next(-50, 50) * 0.23f;
-                        Projectile.NewProjectile(npc.Center.X + (Main.rand.Next(-50, 50)), npc.Center.Y + (Main.rand.Next(-50, 50)), direction.X + A, direction.Y + B, mod.ProjectileType("CoilRocket"), damage, 1, Main.myPlayer, 0, 0);
+                        Projectile.NewProjectile(npc.Center.X + (Main.rand.Next(-50, 50)), npc.Center.Y + (Main.rand.Next(-50, 50)), direction.X + A, direction.Y + B, ModContent.ProjectileType<CoilRocket>(), damage, 1, Main.myPlayer, 0, 0);
                 
                     }
                 }

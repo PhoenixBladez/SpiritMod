@@ -30,7 +30,7 @@ public class IchorImpaler : ModItem
         item.damage = 50;
         item.value = Item.sellPrice(0, 0, 60, 0);
         item.rare = 4;
-        item.shoot = mod.ProjectileType("IchorImpalerProj");
+        item.shoot = ModContent.ProjectileType<IchorImpalerProj>();
     }
     
     public override void AddRecipes()

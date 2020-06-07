@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Placeable.Furniture
             item.consumable = true;
 
 
-            item.createTile = mod.TileType("CreationAltarTile");
+            item.createTile = ModContent.TileType<CreationAltarTile>();
         }
 
         /*public override void AddRecipes()

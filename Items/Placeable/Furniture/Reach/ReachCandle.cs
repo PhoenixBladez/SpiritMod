@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Placeable.Furniture.Reach
             item.autoReuse = true;
             item.consumable = true;
 
-			item.createTile = mod.TileType("ReachCandle");
+			item.createTile = ModContent.TileType<ReachCandle>();
 		}
 		public override void AddRecipes()
 		{

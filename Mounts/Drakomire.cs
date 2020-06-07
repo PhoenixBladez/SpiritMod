@@ -13,7 +13,7 @@ namespace SpiritMod.Mounts
 
 		public override void SetDefaults()
 		{
-			mountData.buff = mod.BuffType("DrakomireMountBuff");
+			mountData.buff = ModContent.BuffType<DrakomireMountBuff>();
 			mountData.heightBoost = 20;
 			mountData.fallDamage = 0f;
 			mountData.runSpeed = 8f;
@@ -137,7 +137,7 @@ namespace SpiritMod.Mounts
 				if (player.mount._abilityCooldown <= -15)
 				{
 					Vector2 vector = player.Center + new Vector2((float)(26 * -(float)player.direction), 26f * player.gravDir);
-					Terraria.Projectile.NewProjectile(vector.X, vector.Y, 0f, 0f, mod.ProjectileType("DrakomireFlame"), player.statDefense / 2, 0f, player.whoAmI, 0f, 0f);
+					Terraria.Projectile.NewProjectile(vector.X, vector.Y, 0f, 0f, ModContent.ProjectileType<DrakomireFlame>(), player.statDefense / 2, 0f, player.whoAmI, 0f, 0f);
 					player.mount._abilityCooldown = 0;
 				}
 			}

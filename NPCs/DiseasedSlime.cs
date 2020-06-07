@@ -26,7 +26,7 @@ namespace SpiritMod.NPCs
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath22;
             npc.buffImmune[BuffID.Poisoned] = true;
-            npc.buffImmune[mod.BuffType("FesteringWounds")] = true;
+            npc.buffImmune[ModContent.BuffType<FesteringWounds>()] = true;
             npc.buffImmune[BuffID.Venom] = true;
             npc.value = 60f;
             npc.alpha = 60;
@@ -47,14 +47,14 @@ namespace SpiritMod.NPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BismiteCrystal"), Main.rand.Next(2, 4) + 1);
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BismiteCrystal>(), Main.rand.Next(2, 4) + 1);
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
             if (Main.rand.Next(3) == 0)
 			{
-                target.AddBuff(mod.BuffType("FesteringWounds"), 240);
+                target.AddBuff(ModContent.BuffType<FesteringWounds>(), 240);
             }
 		}
         public override void HitEffect(int hitDirection, double damage)

@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.autoReuse = true;
             item.shootSpeed = 14;
             item.UseSound = SoundID.Item20;
-            item.shoot = mod.ProjectileType("BrimBlaze");
+            item.shoot = ModContent.ProjectileType<BrimBlaze>();
         }
 
         public override void AddRecipes()

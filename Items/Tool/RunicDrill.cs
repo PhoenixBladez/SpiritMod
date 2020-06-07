@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Tool
             item.autoReuse = true;
             item.noUseGraphic = true;
 
-            item.shoot = mod.ProjectileType("RunicDrillProjectile");
+            item.shoot = ModContent.ProjectileType<RunicDrillProjectile>();
 			item.shootSpeed = 40f;
 
             item.UseSound = SoundID.Item23;

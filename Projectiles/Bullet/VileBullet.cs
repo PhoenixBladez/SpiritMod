@@ -35,7 +35,7 @@ namespace SpiritMod.Projectiles.Bullet
             int jim = 1;
             for (int index1 = 0; index1 < 200; index1++)
             {
-                if (Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1) && Main.npc[index1].HasBuff(mod.BuffType("Tracked")))
+                if (Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1) && Main.npc[index1].HasBuff(ModContent.BuffType<Tracked>()))
                 {
                     float num23 = Main.npc[index1].position.X + (float)(Main.npc[index1].width / 2);
                     float num24 = Main.npc[index1].position.Y + (float)(Main.npc[index1].height / 2);
@@ -83,7 +83,7 @@ namespace SpiritMod.Projectiles.Bullet
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			target.AddBuff(mod.BuffType("ShadowCurse"), 120, true);
+			target.AddBuff(ModContent.BuffType<ShadowCurse>(), 120, true);
 		}
 	}
 }

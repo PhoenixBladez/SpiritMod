@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.CloneDefaults(ItemID.Shuriken);
             item.width = 37;
             item.height = 26;           
-            item.shoot = mod.ProjectileType("GhostJellyBombProj");
+            item.shoot = ModContent.ProjectileType<GhostJellyBombProj>();
             item.useAnimation = 27;
             item.useTime = 27;
             item.shootSpeed = 11f;

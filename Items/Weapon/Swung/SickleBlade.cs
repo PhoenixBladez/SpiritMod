@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.value = Item.sellPrice(0, 1, 40, 0);
             item.rare = 5;
             item.UseSound = SoundID.Item1;          
-            item.shoot = mod.ProjectileType("SpiritSickle");
+            item.shoot = ModContent.ProjectileType<SpiritSickle>();
             item.shootSpeed = 9f;                               
         }
 

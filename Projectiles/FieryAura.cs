@@ -32,7 +32,7 @@ namespace SpiritMod.Projectiles
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			projectile.localAI[1] += 1f;
-			target.AddBuff(mod.BuffType("StackingFireBuff"), 280);
+			target.AddBuff(ModContent.BuffType<StackingFireBuff>(), 280);
 			projectile.velocity *= 0f;
 		}
 
@@ -43,7 +43,7 @@ namespace SpiritMod.Projectiles
 			int num2 = 1;
 			if (projectile.localAI[1] <= 1.0)
 			{
-				int num3 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num, num2, mod.ProjectileType("DuskAura"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+				int num3 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num, num2, ModContent.ProjectileType<DuskAura>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				Main.projectile[num3].localAI[0] = projectile.whoAmI;
 				return;
 			}
@@ -63,17 +63,17 @@ namespace SpiritMod.Projectiles
 
 			if ((int)projectile.localAI[1] == 20)
 			{
-				int num5 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)num, (float)num2, mod.ProjectileType("DuskAura"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+				int num5 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)num, (float)num2, ModContent.ProjectileType<DuskAura>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				Main.projectile[num5].localAI[0] = (float)projectile.whoAmI;
 			}
 			if ((int)projectile.localAI[1] == 30)
 			{
-				int num6 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)num, (float)num2, mod.ProjectileType("DuskAura"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+				int num6 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)num, (float)num2, ModContent.ProjectileType<DuskAura>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				Main.projectile[num6].localAI[0] = (float)projectile.whoAmI;
 			}
 			if ((int)projectile.localAI[1] == 40)
 			{
-				int num7 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)num, (float)num2, mod.ProjectileType("DuskAura"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+				int num7 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)num, (float)num2, ModContent.ProjectileType<DuskAura>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				Main.projectile[num7].localAI[0] = (float)projectile.whoAmI;
 			}
 

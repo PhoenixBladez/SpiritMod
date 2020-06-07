@@ -23,7 +23,7 @@ namespace SpiritMod.Mounts
 		{
 			mountData.spawnDust = 173;
 			mountData.spawnDustNoGravity = true;
-            mountData.buff = mod.MountType("BroomBuff");
+            mountData.buff = ModContent.MountType<BroomBuff>();
 			mountData.heightBoost = 2;
 			mountData.flightTimeMax = 60;
 			mountData.fatigueMax = 120;

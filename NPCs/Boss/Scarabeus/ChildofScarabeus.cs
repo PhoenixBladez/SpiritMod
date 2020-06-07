@@ -39,7 +39,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			npc.npcSlots = 10f;
 			npc.HitSound = SoundID.NPCHit31;
 			npc.DeathSound = SoundID.NPCDeath5;
-			bossBag = mod.ItemType("BagOScarabs");
+			bossBag = ModContent.ItemType<BagOScarabs>();
 		}
 		private int Counter;
 		float frametimer = .25f;
@@ -73,7 +73,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
     						int damage = expertMode ? 8 : 17;
 							float A = (float)Main.rand.Next(-50, 50) * 0.02f;
 							float B = (float)Main.rand.Next(-50, 50) * 0.02f;
-							int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("MoltenGold"), damage, 1, Main.myPlayer, 0, 0);
+							int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<MoltenGold>(), damage, 1, Main.myPlayer, 0, 0);
 							Main.projectile[p].hostile = true;
 						}
 						shoottimer = 0;

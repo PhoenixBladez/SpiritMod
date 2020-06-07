@@ -74,7 +74,7 @@ namespace SpiritMod.Tide.NPCs
 				Counter++;
 				if (Counter > 400)
 				{
-					int newNPC = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("Tentacle"), npc.whoAmI);
+					int newNPC = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<Tentacle>(), npc.whoAmI);
 					Counter = 0;
 				}
 			}
@@ -91,7 +91,7 @@ namespace SpiritMod.Tide.NPCs
 				{
 					float A = (float)Main.rand.Next(-150, 150) * 0.03f;
 					float B = (float)Main.rand.Next(-150, 150) * 0.03f;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, mod.ProjectileType("WitherBolt"), 28, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<WitherBolt>(), 28, 1, Main.myPlayer, 0, 0);
 				}
 			}
 			if (timer >= 500)
@@ -112,7 +112,7 @@ namespace SpiritMod.Tide.NPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (TideWorld.TheTide && TideWorld.InBeach && Main.hardMode && !NPC.AnyNPCs(mod.NPCType("Rylheian")))
+			if (TideWorld.TheTide && TideWorld.InBeach && Main.hardMode && !NPC.AnyNPCs(ModContent.NPCType<Rylheian>()))
 				return 0.6f;
 
 			return 0;

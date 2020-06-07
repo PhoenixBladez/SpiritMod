@@ -43,7 +43,7 @@ namespace SpiritMod.NPCs.Town
             _quests = new List<Quest>();
 
             //This is just a normal reward quest, uses default reward system
-            Quest ShadowflameStaff = RegisterQuest(mod.ItemType("ShadowflameStoneStaff"),
+            Quest ShadowflameStaff = RegisterQuest(ModContent.ItemType<ShadowflameStoneStaff>(),
 
                 "I've heard tell of an Arcane Goblin Tower near the far shores of this land." +
                 " There's supposed to be a staff inside that holds tremendous power. Could you check it out for me?" +
@@ -57,7 +57,7 @@ namespace SpiritMod.NPCs.Town
                 return MyWorld.gennedTower && !MyWorld.gennedBandits;
             };
 
-            Quest SepulchreChest = RegisterQuest(mod.ItemType("SepulchreChest"),
+            Quest SepulchreChest = RegisterQuest(ModContent.ItemType<SepulchreChest>(),
 
                 "You ever wonder why there're so many skeletons underground?" +
                 " Turns out that there was a band of necromancers that holed up in the caverns all across the world and performed all kinds of experiments." +
@@ -67,7 +67,7 @@ namespace SpiritMod.NPCs.Town
                 "If you ever want your house to have a spooky vibe, here ya go. Don't go conjuring any skeletons, now.", true);
 
             //Quest 2
-            Quest scarabQuest = RegisterQuest(mod.ItemType("ScarabIdolQuest"), 
+            Quest scarabQuest = RegisterQuest(ModContent.ItemType<ScarabIdolQuest>(), 
                 
                 "The sands of the desert hide a lot of secrets beneath 'em. " +
                 "There's supposed to be an Ancient Ziggurat buried near the surface of one of those wastelands. " +
@@ -76,7 +76,7 @@ namespace SpiritMod.NPCs.Town
                 "I knew it. I was polishin' up this old thing when it started to look real familiar. " +
                 "That's a Scarab Idol right there. I'm warning ya, don't mess with it until you get real strong. " +
                 "Me and some bounty hunters tried to take that thing on years ago. We barely escaped with our lives. Be safe, kid.", true,
-                () => { Main.LocalPlayer.QuickSpawnItem(mod.ItemType("ScarabIdol"), 1);
+                () => { Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ScarabIdol>(), 1);
                     if (Main.rand.Next(2) == 0)
                     {
                         Main.LocalPlayer.QuickSpawnItem(ItemID.Topaz, Main.rand.Next(2, 5));

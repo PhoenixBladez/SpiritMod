@@ -47,7 +47,7 @@ namespace SpiritMod.Items.Weapon.Bow
             if (Main.rand.Next(6) == 1)
             {
                 Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 8));
-                Projectile.NewProjectile(position.X, position.Y, speedX * 1.2f, speedY * 1.2f, mod.ProjectileType("FrostSpine"), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX * 1.2f, speedY * 1.2f, ModContent.ProjectileType<FrostSpine>(), damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return true; 
         }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using SpiritMod.Items.Halloween;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -37,39 +38,39 @@ namespace SpiritMod
             int effect = Main.rand.Next(100);
             if (effect < 9)
             {
-                player.QuickSpawnItem(mod.ItemType("Taffy"));
+                player.QuickSpawnItem(ModContent.ItemType<Taffy>());
             }
             else if (effect < 29)
             {
-                player.QuickSpawnItem(mod.ItemType("Candy"));
+                player.QuickSpawnItem(ModContent.ItemType<Candy>());
             }
             else if (effect < 49)
             {
-                player.QuickSpawnItem(mod.ItemType("ChocolateBar"));
+                player.QuickSpawnItem(ModContent.ItemType<ChocolateBar>());
             }
             else if (effect < 59)
             {
-                player.QuickSpawnItem(mod.ItemType("HealthCandy"));
+                player.QuickSpawnItem(ModContent.ItemType<HealthCandy>());
             }
             else if (effect < 69)
             {
-                player.QuickSpawnItem(mod.ItemType("ManaCandy"));
+                player.QuickSpawnItem(ModContent.ItemType<ManaCandy>());
             }
             else if (effect < 79)
             {
-                player.QuickSpawnItem(mod.ItemType("Lollipop"));
+                player.QuickSpawnItem(ModContent.ItemType<Lollipop>());
             }
             else if (effect < 83)
             {
-                player.QuickSpawnItem(mod.ItemType("Apple"));
+                player.QuickSpawnItem(ModContent.ItemType<Apple>());
             }
             else if (effect < 95)
             {
-                player.QuickSpawnItem(mod.ItemType("MysteryCandy"));
+                player.QuickSpawnItem(ModContent.ItemType<MysteryCandy>());
             }
             else
             {
-                player.QuickSpawnItem(mod.ItemType("GoldCandy"));
+                player.QuickSpawnItem(ModContent.ItemType<GoldCandy>());
             }
         }
 

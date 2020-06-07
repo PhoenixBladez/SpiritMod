@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.melee = true;
             item.channel = true;
             item.noMelee = true;
-            item.shoot = mod.ProjectileType("SinisterBladeProj");
+            item.shoot = ModContent.ProjectileType<SinisterBladeProj>();
             item.useAnimation = 17;
             item.consumable = true;
             item.maxStack = 999;

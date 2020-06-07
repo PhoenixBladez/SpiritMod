@@ -28,7 +28,7 @@ namespace SpiritMod.Projectiles.Yoyo
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (Main.rand.Next(3) == 0)
-                target.AddBuff(mod.BuffType("BCorrupt"), 180);
+                target.AddBuff(ModContent.BuffType<BCorrupt>(), 180);
             if (crit)
             {
                 target.AddBuff(BuffID.ShadowFlame, 180);

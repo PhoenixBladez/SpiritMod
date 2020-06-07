@@ -161,7 +161,7 @@ namespace SpiritMod.NPCs.Asteroid
 				for (int I = 0; I < 3; I++)
 				{
 					//cos = y, sin = x
-					latestNPC = NPC.NewNPC((int)npc.Center.X + (int)(Math.Sin(I * 120) * 80), (int)npc.Center.Y + (int)(Math.Sin(I * 120) * 80), mod.NPCType("SpaceShield"), npc.whoAmI, 0, latestNPC);
+					latestNPC = NPC.NewNPC((int)npc.Center.X + (int)(Math.Sin(I * 120) * 80), (int)npc.Center.Y + (int)(Math.Sin(I * 120) * 80), ModContent.NPCType<SpaceShield>(), npc.whoAmI, 0, latestNPC);
 					NPC shield = Main.npc[latestNPC];
 					shield.ai[3] = npc.whoAmI;
 					shield.ai[1] = I * 120;
@@ -173,11 +173,11 @@ namespace SpiritMod.NPCs.Asteroid
         {
             if (Main.rand.Next(1) == 400)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GravityModulator"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GravityModulator>());
             }
             if (Main.rand.Next(1) == 50)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ShieldCore"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ShieldCore>());
             }
             string[] lootTable = { "AstronautLegs", "AstronautHelm", "AstronautBody" };
             if (Main.rand.Next(40) == 0)

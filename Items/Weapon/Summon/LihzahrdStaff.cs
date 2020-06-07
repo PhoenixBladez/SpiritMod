@@ -27,8 +27,8 @@ namespace SpiritMod.Items.Weapon.Summon
             item.useAnimation = 30;          
             item.summon = true;
             item.noMelee = true;
-            item.shoot = mod.ProjectileType("LihzahrdMinion");
-            item.buffType = mod.BuffType("LihzahrdMinionBuff");
+            item.shoot = ModContent.ProjectileType<LihzahrdMinion>();
+            item.buffType = ModContent.BuffType<LihzahrdMinionBuff>();
             item.buffTime = 3600;
             item.UseSound = SoundID.Item44;
         }

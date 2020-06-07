@@ -80,7 +80,7 @@ namespace SpiritMod.Projectiles.Summon
 				}
 			}
 
-			bool flag64 = projectile.type == mod.ProjectileType("GastropodMinion");
+			bool flag64 = projectile.type == ModContent.ProjectileType<GastropodMinion>();
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (flag64)

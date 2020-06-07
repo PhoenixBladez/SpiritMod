@@ -34,10 +34,10 @@ namespace SpiritMod.Items.BossBags
 		public override void RightClick(Player player)
 		{
 			player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(1, 3));
-			player.QuickSpawnItem(mod.ItemType("DeathRose"));
-			player.QuickSpawnItem(mod.ItemType("ReachFlowers"), Main.rand.Next(14, 20));
+			player.QuickSpawnItem(ModContent.ItemType<DeathRose>());
+			player.QuickSpawnItem(ModContent.ItemType<ReachFlowers>(), Main.rand.Next(14, 20));
 			if (Main.rand.Next(73) < 3)
-				player.QuickSpawnItem(mod.ItemType("RootPod"));
+				player.QuickSpawnItem(ModContent.ItemType<RootPod>());
 
 			string[] lootTable = { "ThornBow", "SunbeamStaff", "ReachVineStaff", "ReachBossSword", "ReachKnife" };
 			int loot = Main.rand.Next(lootTable.Length);

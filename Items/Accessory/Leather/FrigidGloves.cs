@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Accessory.Leather
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("LeatherGlove"), 1);
+            recipe.AddIngredient(ModContent.ItemType<LeatherGlove>(), 1);
             recipe.AddIngredient(null, "FrigidFragment", 6);
             recipe.AddRecipeGroup("EvilMaterial1", 4);
             recipe.AddTile(TileID.Anvils);

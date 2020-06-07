@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 1;
             item.UseSound = SoundID.Item20;
             item.autoReuse = false;
-            item.shoot = mod.ProjectileType("BismiteShard");
+            item.shoot = ModContent.ProjectileType<BismiteShard>();
             item.shootSpeed = 8f;
         }
 

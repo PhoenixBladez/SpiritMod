@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Armor.OverseerArmor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("ShadowSBody") && legs.type == mod.ItemType("ShadowLegs");
+            return body.type == ModContent.ItemType<ShadowSBody>() && legs.type == ModContent.ItemType<ShadowLegs>();
         }
         public override void UpdateArmorSet(Player player)
         {

@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Material
             item.autoReuse = true;
             item.consumable = true;
 
-            item.createTile = mod.TileType("CryoliteOreTile");
+            item.createTile = ModContent.TileType<CryoliteOreTile>();
         }
     }
 }

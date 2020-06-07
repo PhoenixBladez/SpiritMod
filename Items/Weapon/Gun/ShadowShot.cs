@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Gun
             item.value = Terraria.Item.sellPrice(0, 4, 0, 0);
             item.rare = 4;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("VileBullet"); 
+            item.shoot = ModContent.ProjectileType<VileBullet>(); 
             item.shootSpeed = 10f;
             item.useAmmo = AmmoID.Bullet;
             item.crit = 6;
@@ -67,7 +67,7 @@ namespace SpiritMod.Items.Weapon.Gun
                 Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 94));
                 MyPlayer modPlayer = player.GetSpiritPlayer();
                 modPlayer.shootDelay2 = 300;
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("ShadowShotTracker"), item.damage/3, knockBack, item.owner, 0, 0);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ShadowShotTracker>(), item.damage/3, knockBack, item.owner, 0, 0);
             }
             else
             {
@@ -79,7 +79,7 @@ namespace SpiritMod.Items.Weapon.Gun
                     double randomAngle = baseAngle + (Main.rand.NextFloat() - 0.5f) * spread;
                     speedX = baseSpeed * (float)Math.Sin(randomAngle);
                     speedY = baseSpeed * (float)Math.Cos(randomAngle);
-                    Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("VileBullet"), item.damage, knockBack, item.owner, 0, 0);
+                    Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<VileBullet>(), item.damage, knockBack, item.owner, 0, 0);
                 }
             }
             return false;

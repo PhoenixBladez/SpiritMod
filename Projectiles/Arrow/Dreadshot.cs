@@ -42,7 +42,7 @@ namespace SpiritMod.Projectiles.Arrow
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(5) == 0)
-				target.AddBuff(mod.BuffType("Brine"), 180);
+				target.AddBuff(ModContent.BuffType<Brine>(), 180);
 		}
 
 		public override bool PreAI()

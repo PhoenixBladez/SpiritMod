@@ -16,7 +16,7 @@ namespace SpiritMod.Buffs.Summon
 		public override void Update(Player player, ref int buffIndex)
 		{
 			MyPlayer modPlayer = (MyPlayer)player.GetModPlayer(mod, "MyPlayer");
-			if (player.ownedProjectileCounts[mod.ProjectileType("ProbeMinion")] > 0)
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<ProbeMinion>()] > 0)
 			{
 				modPlayer.ProbeMinion = true;
 			}

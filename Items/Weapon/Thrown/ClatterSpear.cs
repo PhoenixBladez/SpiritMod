@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.autoReuse = true;
             item.consumable = true;
             item.noUseGraphic = true;
-            item.shoot = mod.ProjectileType("ClatterSpearProj");
+            item.shoot = ModContent.ProjectileType<ClatterSpearProj>();
             item.shootSpeed = 7;
             item.UseSound = SoundID.Item1;
         }

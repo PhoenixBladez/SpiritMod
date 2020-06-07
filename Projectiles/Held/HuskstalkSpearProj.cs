@@ -25,7 +25,7 @@ namespace SpiritMod.Projectiles.Held
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(2) == 0)
-				target.AddBuff(mod.BuffType("WitheringLeaf"), 180);
+				target.AddBuff(ModContent.BuffType<WitheringLeaf>(), 180);
 		}
 
 	}

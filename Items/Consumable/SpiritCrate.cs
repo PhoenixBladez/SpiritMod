@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Consumable
             item.height = 20;
             item.rare  = 5;
 			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.createTile = mod.TileType("SpiritCrate");
+			item.createTile = ModContent.TileType<SpiritCrate>();
             item.maxStack = 999;
 			item.autoReuse = true;
 			item.useAnimation = 15;
@@ -50,7 +50,7 @@ namespace SpiritMod.Items.Consumable
             if (Main.rand.Next(7) == 0)
             {
                 
-                player.QuickSpawnItem(mod.ItemType("SoulStinger"));
+                player.QuickSpawnItem(ModContent.ItemType<SoulStinger>());
             }
             
             if (Main.rand.Next(6) == 0)

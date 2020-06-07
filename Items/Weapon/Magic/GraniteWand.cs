@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 2;
             item.crit = 10;
             item.UseSound = SoundID.Item109;
-            item.shoot = mod.ProjectileType("GraniteWandProj");
+            item.shoot = ModContent.ProjectileType<GraniteWandProj>();
             item.shootSpeed = 8f;
             item.autoReuse = false;
         }

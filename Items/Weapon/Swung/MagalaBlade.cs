@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.useStyle = ItemUseStyleID.SwingThrow;        
             item.knockBack = 5;
             item.value = Terraria.Item.sellPrice(0, 5, 0, 0);
-            item.shoot = mod.ProjectileType("MagalaShield");
+            item.shoot = ModContent.ProjectileType<MagalaShield>();
             item.rare = 5;
             item.shootSpeed = 5f;
             item.UseSound = SoundID.Item1;        
@@ -44,7 +44,7 @@ namespace SpiritMod.Items.Weapon.Swung
         {
             if (player.altFunctionUse == 2)
             {
-                target.AddBuff(mod.BuffType("FrenzyVirus"), 580);
+                target.AddBuff(ModContent.BuffType<FrenzyVirus>(), 580);
             }
         }
         public override bool CanUseItem(Player player)
@@ -53,7 +53,7 @@ namespace SpiritMod.Items.Weapon.Swung
             {
                 item.damage = 10;
                 item.noUseGraphic = true;
-                item.shoot = mod.ProjectileType("MagalaShield");
+                item.shoot = ModContent.ProjectileType<MagalaShield>();
                 item.useStyle = 3;
                 item.height = 2;
                 item.width = 2;

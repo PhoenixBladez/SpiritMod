@@ -50,7 +50,7 @@ namespace SpiritMod.Projectiles.Returning
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(5) == 0)
-				target.AddBuff(mod.BuffType("StarFlame"), 180);
+				target.AddBuff(ModContent.BuffType<StarFlame>(), 180);
 		}
 
 	}

@@ -47,7 +47,7 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			target.AddBuff(mod.BuffType("AmberFracture"), 240);
+			target.AddBuff(ModContent.BuffType<AmberFracture>(), 240);
 		}
 
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -74,7 +74,7 @@ namespace SpiritMod.Projectiles.Thrown
 				vector9 -= value19 * 8f;
 			}
 			if (Main.rand.Next(0, 4) == 0)
-				Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, mod.ItemType("AmbertuskSpear"), 1, false, 0, false, false);
+				Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<AmbertuskSpear>(), 1, false, 0, false, false);
 
 		}
 

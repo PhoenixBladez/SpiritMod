@@ -38,7 +38,7 @@ namespace SpiritMod.Projectiles
 				int randFire = Main.rand.Next(1);
 				int newProj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y,
 					Main.rand.Next(0) / 100, Main.rand.Next(0, 0),
-					mod.ProjectileType("AbyssalSludge"), projectile.damage, 0, projectile.owner);
+					ModContent.ProjectileType<AbyssalSludge>(), projectile.damage, 0, projectile.owner);
 			}
 		}
 
@@ -54,14 +54,14 @@ namespace SpiritMod.Projectiles
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(5) == 0)
-				target.AddBuff(mod.BuffType("Brine"), 180);
+				target.AddBuff(ModContent.BuffType<Brine>(), 180);
 
 			for (int i = 0; i < 3; ++i)
 			{
 				int randFire = Main.rand.Next(1);
 				int newProj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y,
 					Main.rand.Next(0) / 100, Main.rand.Next(0, 0),
-					mod.ProjectileType("AbyssalSludge"), projectile.damage, 0, projectile.owner);
+					ModContent.ProjectileType<AbyssalSludge>(), projectile.damage, 0, projectile.owner);
 			}
 		}
 

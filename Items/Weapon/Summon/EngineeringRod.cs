@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Weapon.Summon
             item.rare = 8;
             item.knockBack = 2.5f;
 			item.UseSound = SoundID.Item25;
-			item.shoot = mod.ProjectileType("TeslaTurret");
+			item.shoot = ModContent.ProjectileType<TeslaTurret>();
 			item.shootSpeed = 0f;
 		}
 

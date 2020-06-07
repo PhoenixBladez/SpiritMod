@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 3;
 			item.UseSound = SoundID.Item21;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("MagicConchProj");
+			item.shoot = ModContent.ProjectileType<MagicConchProj>();
 			item.shootSpeed = 0f;
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

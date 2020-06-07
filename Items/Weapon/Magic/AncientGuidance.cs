@@ -60,7 +60,7 @@ namespace SpiritMod.Items.Weapon.Magic
         {
             if (Main.rand.Next(7) == 0)
             {
-                int pl = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("CultistIce"), damage, knockBack, player.whoAmI, 0f, 0f);
+                int pl = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<CultistIce>(), damage, knockBack, player.whoAmI, 0f, 0f);
                 Main.projectile[pl].friendly = true;
                 Main.projectile[pl].hostile = false;
                 return false;
@@ -87,7 +87,7 @@ namespace SpiritMod.Items.Weapon.Magic
                     double randomAngle = baseAngle + (Main.rand.NextFloat() - 0.5f) * spread;
                     speedX = baseSpeed * (float)Math.Sin(randomAngle);
                     speedY = baseSpeed * (float)Math.Cos(randomAngle);
-                    Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("CultistFire"), item.damage, knockBack, item.owner, 0, 0);
+                    Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<CultistFire>(), item.damage, knockBack, item.owner, 0, 0);
                 }
             }
             else
@@ -100,7 +100,7 @@ namespace SpiritMod.Items.Weapon.Magic
                     double randomAngle = baseAngle + (Main.rand.NextFloat() - 0.5f) * spread;
                     speedX = baseSpeed * (float)Math.Sin(randomAngle);
                     speedY = baseSpeed * (float)Math.Cos(randomAngle);
-                    Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("CultistLight"), item.damage, knockBack, item.owner, 0, 0);
+                    Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<CultistLight>(), item.damage, knockBack, item.owner, 0, 0);
                 }
             }
             return false;

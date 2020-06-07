@@ -43,9 +43,9 @@ namespace SpiritMod.NPCs
 			if (Main.rand.Next(100) <= 4)
 			{
 
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, (mod.ItemType("CrawlerockStaff")));
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, (ModContent.ItemType<CrawlerockStaff>()));
 			}
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, (mod.ItemType("Carapace")), Main.rand.Next(2) + 1);
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, (ModContent.ItemType<Carapace>()), Main.rand.Next(2) + 1);
 		}
 		int frame = 0;
 		int timer = 0;

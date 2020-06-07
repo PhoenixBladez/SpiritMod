@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 4;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("NecropolisTrident");
+			item.shoot = ModContent.ProjectileType<NecropolisTrident>();
 			item.shootSpeed = 12f;
 		}
 		

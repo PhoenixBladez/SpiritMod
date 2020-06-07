@@ -34,13 +34,13 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.value = Item.buyPrice(0, 4, 0, 0);
 			item.value = Item.sellPrice(0, 1, 0, 0);
             item.useTurn = true;
-			item.shoot = mod.ProjectileType("EtherealSwordProjectile");
+			item.shoot = ModContent.ProjectileType<EtherealSwordProjectile>();
 			item.shootSpeed = 6;
             item.crit = 6;                                
         }
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("EssenceTrap"), 520);
+            target.AddBuff(ModContent.BuffType<EssenceTrap>(), 520);
         }
     }
 }

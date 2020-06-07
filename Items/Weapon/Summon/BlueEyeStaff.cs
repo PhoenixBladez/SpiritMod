@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Summon
             item.rare = 5;
             item.UseSound = SoundID.Item20;
             item.autoReuse = false;
-            item.shoot = mod.ProjectileType("EyeballBlue");
+            item.shoot = ModContent.ProjectileType<EyeballBlue>();
             item.shootSpeed = 0f;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

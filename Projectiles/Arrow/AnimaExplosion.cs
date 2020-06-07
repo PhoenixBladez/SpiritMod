@@ -34,7 +34,7 @@ namespace SpiritMod.Projectiles.Arrow
                 {
                     for (int i = 0; i < 60; i++)
                     {
-                        int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, mod.DustType("NightmareDust"), 0f, -2f, 0, default(Color), 1.1f);
+                        int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<NightmareDust>(), 0f, -2f, 0, default(Color), 1.1f);
                         Main.dust[num].noGravity = true;
 						Main.dust[num].scale = 1.5f;
                         Dust expr_62_cp_0 = Main.dust[num];
@@ -53,7 +53,7 @@ namespace SpiritMod.Projectiles.Arrow
 		{
             if (target.type != 488)
             {
-                target.AddBuff(mod.BuffType("DrainLife"), 150, true);
+                target.AddBuff(ModContent.BuffType<DrainLife>(), 150, true);
             }
 		}
 

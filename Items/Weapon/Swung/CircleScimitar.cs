@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.value = Terraria.Item.sellPrice(0, 3, 0, 0);
             item.rare = 5;
             item.UseSound = SoundID.Item1;         
-            item.shoot = mod.ProjectileType("MarbleBrick");
+            item.shoot = ModContent.ProjectileType<MarbleBrick>();
             item.shootSpeed = 6f;            
             item.crit = 4;                     
         }

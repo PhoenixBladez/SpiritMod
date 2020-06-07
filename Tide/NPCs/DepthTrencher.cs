@@ -47,7 +47,7 @@ namespace SpiritMod.Tide.NPCs
 				npc.ai[0]++;
 				if (npc.ai[0] >= 120)
 				{
-					int type = mod.ProjectileType("PoisonGlob");
+					int type = ModContent.ProjectileType<PoisonGlob>();
 					int p = Terraria.Projectile.NewProjectile(npc.position.X, npc.position.Y, -(npc.position.X - target.position.X) / distance * 4, -(npc.position.Y - target.position.Y) / distance * 4, type, (int)((npc.damage * .5)), 0);
 					Main.projectile[p].friendly = false;
 					Main.projectile[p].hostile = true;
@@ -89,10 +89,10 @@ namespace SpiritMod.Tide.NPCs
 		public override void NPCLoot()
 		{
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DepthShard"), 1);
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthShard>(), 1);
 			}
 			if (Main.rand.Next(2) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Acid"));
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Acid>());
 		}
 
 		public override void FindFrame(int frameHeight)

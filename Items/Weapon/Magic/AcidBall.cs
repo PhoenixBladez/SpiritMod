@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.UseSound = SoundID.Item66;
             item.noMelee = true;
             item.noUseGraphic = true;
-            item.shoot = mod.ProjectileType("AcidGlobs");
+            item.shoot = ModContent.ProjectileType<AcidGlobs>();
 			item.shootSpeed = 12f;
 		}
 		public override void AddRecipes()

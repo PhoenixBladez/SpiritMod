@@ -29,7 +29,7 @@ namespace SpiritMod.Projectiles.Yoyo
 			int num2 = 1;
 			if ((double)projectile.localAI[1] <= 1.0)
 			{
-				int num3 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)num, (float)num2, mod.ProjectileType("za"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+				int num3 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)num, (float)num2, ModContent.ProjectileType<za>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				Main.projectile[num3].localAI[0] = (float)projectile.whoAmI;
 				return;
 			}
@@ -63,17 +63,17 @@ namespace SpiritMod.Projectiles.Yoyo
 
 			if ((int)projectile.localAI[1] == 20)
 			{
-				int num5 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)num, (float)num2, mod.ProjectileType("SpikeBall"), 50, projectile.knockBack, projectile.owner, 0f, 0f);
+				int num5 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)num, (float)num2, ModContent.ProjectileType<SpikeBall>(), 50, projectile.knockBack, projectile.owner, 0f, 0f);
 				Main.projectile[num5].localAI[0] = (float)projectile.whoAmI;
 			}
 			if ((int)projectile.localAI[1] == 30)
 			{
-				int num6 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)num, (float)num2, mod.ProjectileType("z"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+				int num6 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)num, (float)num2, ModContent.ProjectileType<z>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				Main.projectile[num6].localAI[0] = (float)projectile.whoAmI;
 			}
 			if ((int)projectile.localAI[1] == 40)
 			{
-				int num7 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)num, (float)num2, mod.ProjectileType("x"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+				int num7 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)num, (float)num2, ModContent.ProjectileType<x>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				Main.projectile[num7].localAI[0] = (float)projectile.whoAmI;
 			}
 
@@ -89,7 +89,7 @@ namespace SpiritMod.Projectiles.Yoyo
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			target.AddBuff(mod.BuffType("StackingFireBuff"), 280);
+			target.AddBuff(ModContent.BuffType<StackingFireBuff>(), 280);
 			projectile.velocity *= 0f;
 		}
 

@@ -32,7 +32,7 @@ namespace SpiritMod.Projectiles.Thrown
 		public override void Kill(int timeLeft)
 		{
 			if (Main.rand.Next(0, 4) == 0)
-				Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, mod.ItemType("ClatterSpear"), 1, false, 0, false, false);
+				Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<ClatterSpear>(), 1, false, 0, false, false);
 
 			for (int i = 0; i < 5; i++)
 			{
@@ -45,7 +45,7 @@ namespace SpiritMod.Projectiles.Thrown
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(6) == 0)
-				target.AddBuff(mod.BuffType("ClatterPierce"), 180);
+				target.AddBuff(ModContent.BuffType<ClatterPierce>(), 180);
 		}
 
 		//public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

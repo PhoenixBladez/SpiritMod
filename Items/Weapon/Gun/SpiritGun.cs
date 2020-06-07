@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Gun
             item.rare = 5;
             item.UseSound = SoundID.Item36;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("SpiritBullet");
+            item.shoot = ModContent.ProjectileType<SpiritBullet>();
             item.shootSpeed = 16f;
             item.useAmmo = AmmoID.Bullet;
  
@@ -38,7 +38,7 @@ namespace SpiritMod.Items.Weapon.Gun
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            type = mod.ProjectileType("SpiritBullet");
+            type = ModContent.ProjectileType<SpiritBullet>();
             float spread = 15 * 0.0174f;//45 degrees converted to radians
             float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
             double baseAngle = Math.Atan2(speedX, speedY);

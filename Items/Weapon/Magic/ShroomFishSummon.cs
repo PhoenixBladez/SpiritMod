@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.autoReuse = false;
             item.shootSpeed = 9;
             item.UseSound = SoundID.Item20;
-            item.shoot = mod.ProjectileType("ShroomSummon");
+            item.shoot = ModContent.ProjectileType<ShroomSummon>();
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -82,7 +82,7 @@ namespace SpiritMod.Items.Weapon.Magic
                         {
                             for (int k = 0; k < 1000; k++)
                             {
-                                if (Main.projectile[k].active && Main.projectile[k].owner == player.whoAmI && Main.projectile[k].type == mod.ProjectileType("ShroomSummon") && (center - Main.projectile[k].Center).Length() < 48f)
+                                if (Main.projectile[k].active && Main.projectile[k].owner == player.whoAmI && Main.projectile[k].type == ModContent.ProjectileType<ShroomSummon>() && (center - Main.projectile[k].Center).Length() < 48f)
                                 {
                                     flag = false;
                                     break;
@@ -91,7 +91,7 @@ namespace SpiritMod.Items.Weapon.Magic
 
                             if (flag && Main.myPlayer == player.whoAmI)
                             {
-                                Projectile.NewProjectile(center.X, center.Y, 0f, 0f, mod.ProjectileType("ShroomSummon"), damage, knockBack, player.whoAmI, 0f, 0f);
+                                Projectile.NewProjectile(center.X, center.Y, 0f, 0f, ModContent.ProjectileType<ShroomSummon>(), damage, knockBack, player.whoAmI, 0f, 0f);
                             }
                         }
                     }

@@ -35,7 +35,7 @@ namespace SpiritMod.Projectiles.Summon
 
 		public override bool PreAI()
 		{
-			bool flag64 = projectile.type == mod.ProjectileType("HungryMinion");
+			bool flag64 = projectile.type == ModContent.ProjectileType<HungryMinion>();
 			Player player = Main.player[projectile.owner];
 			MyPlayer mp = Main.player[projectile.owner].GetSpiritPlayer();
 			if (mp.player.dead)

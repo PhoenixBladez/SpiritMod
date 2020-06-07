@@ -80,11 +80,11 @@ namespace SpiritMod
 
 		public override void TileCountsAvailable(int[] tileCounts)
 		{
-			SpiritTiles = tileCounts[mod.TileType("SpiritDirt")]+ tileCounts[mod.TileType("SpiritStone")]
-			+tileCounts[mod.TileType("Spiritsand")] +tileCounts[mod.TileType("SpiritIce")] + tileCounts[mod.TileType("SpiritGrass")];
+			SpiritTiles = tileCounts[ModContent.TileType<SpiritDirt>()]+ tileCounts[ModContent.TileType<SpiritStone>()]
+			+tileCounts[ModContent.TileType<Spiritsand>()] +tileCounts[ModContent.TileType<SpiritIce>()] + tileCounts[ModContent.TileType<SpiritGrass>()];
 			//now you don't gotta have 6 separate things for tilecount
-			ReachTiles = tileCounts[mod.TileType("ReachGrassTile")];
-			AsteroidTiles = tileCounts[mod.TileType("Asteroid")] + tileCounts[mod.TileType("BigAsteroid")] + tileCounts[mod.TileType("SpaceJunkTile")] + tileCounts[mod.TileType("Glowstone")];
+			ReachTiles = tileCounts[ModContent.TileType<ReachGrassTile>()];
+			AsteroidTiles = tileCounts[ModContent.TileType<Asteroid>()] + tileCounts[ModContent.TileType<BigAsteroid>()] + tileCounts[ModContent.TileType<SpaceJunkTile>()] + tileCounts[ModContent.TileType<Glowstone>()];
 		}
 		
 		public override TagCompound Save()
@@ -451,7 +451,7 @@ namespace SpiritMod
                     int size = Main.rand.Next(6, 7);
                     x = basex + (int)(Main.rand.Next(width) * Math.Sin(angle * (Math.PI / 180))) + Main.rand.Next(-100, 100);
                     y = basey + (int)(Main.rand.Next(height) * Math.Cos(angle * (Math.PI / 180))) + Main.rand.Next(-10, 15);
-                    PlaceBlob(x, y, xsize, ysize, size, mod.TileType("Asteroid"), 50, true, mod.WallType("AsteroidWall"));
+                    PlaceBlob(x, y, xsize, ysize, size, ModContent.TileType<Asteroid>(), 50, true, ModContent.WallType<AsteroidWall>());
                 }
                 for (int b = 0; b < numJunkPiles; b++) //junkPiles
                 {
@@ -462,7 +462,7 @@ namespace SpiritMod
                     int size = Main.rand.Next(3, 4);
                     x = basex + (int)(Main.rand.Next(width) * Math.Sin(angle * (Math.PI / 180))) + Main.rand.Next(-100, 100);
                     y = basey + (int)(Main.rand.Next(height) * Math.Cos(angle * (Math.PI / 180))) + Main.rand.Next(-10, 15);
-                    PlaceBlob(x, y, xsize, ysize, size, mod.TileType("SpaceJunkTile"), 50);
+                    PlaceBlob(x, y, xsize, ysize, size, ModContent.TileType<SpaceJunkTile>(), 50);
                 }
                 for (int b = 0; b < numberOfBigs; b++) //big asteroids
                 {
@@ -471,7 +471,7 @@ namespace SpiritMod
                     float xsize = (float)(Main.rand.Next(75, 133)) / 100;
                     float ysize = (float)(Main.rand.Next(75, 133)) / 100;
                     int size = Main.rand.Next(11, 17);
-                    PlaceBlob(x, y, xsize, ysize, size, mod.TileType("BigAsteroid"), 10, true, mod.WallType("AsteroidWall"));
+                    PlaceBlob(x, y, xsize, ysize, size, ModContent.TileType<BigAsteroid>(), 10, true, ModContent.WallType<AsteroidWall>());
                 }
                 for (int b = 0; b < numberOfOres; b++) //ores
                 {
@@ -480,7 +480,7 @@ namespace SpiritMod
                     int size = Main.rand.Next(2, 5);
                     x = basex + (int)(Main.rand.Next(width) * Math.Sin(angle * (Math.PI / 180))) + Main.rand.Next(-100, 100);
                     y = basey + (int)(Main.rand.Next(height) * Math.Cos(angle * (Math.PI / 180))) + Main.rand.Next(-10, 15);
-                    ushort ore = OreRoller((ushort)mod.TileType("Glowstone"), (ushort)mod.TileType("Glowstone"));
+                    ushort ore = OreRoller((ushort)ModContent.TileType<Glowstone>(), (ushort)ModContent.TileType<Glowstone>());
                     WorldGen.TileRunner(x, y, Main.rand.Next(2, 10), 2, ore, false, 0f, 0f, false, true);
                 }
                 List<Point> location = new List<Point>(); //these are for ease of use if we ever want to add containers to these existing structures
@@ -495,7 +495,7 @@ namespace SpiritMod
 					{
 						x = i + WorldGen.genRand.Next(0-width, width);
 						y = j + WorldGen.genRand.Next(0-height, height);
-						if (WorldGen.PlaceChest(x, y, (ushort)mod.TileType("AsteroidChest"),false,0) != -1)
+						if (WorldGen.PlaceChest(x, y, (ushort)ModContent.TileType<AsteroidChest>(),false,0) != -1)
 						{
 							Csuccesses++;
 						}
@@ -617,10 +617,10 @@ namespace SpiritMod
 								tile.active(true);
 								break;
 							case 2:
-								WorldGen.PlaceObject(k, l, mod.TileType("GoblinStatueTile"));
+								WorldGen.PlaceObject(k, l, ModContent.TileType<GoblinStatueTile>());
 								break;
 							case 4:
-								WorldGen.PlaceObject(k, l - 1, mod.TileType("ShadowflameStone"));
+								WorldGen.PlaceObject(k, l - 1, ModContent.TileType<ShadowflameStone>());
 								break;	
 							case 5:
 								WorldGen.PlaceObject(k, l, 50); // Book
@@ -629,13 +629,13 @@ namespace SpiritMod
 								WorldGen.PlaceObject(k, l, 376); // Crate
 								break;	
 							case 7:
-								WorldGen.PlaceChest(k, l, (ushort)mod.TileType("GoblinChest"), false, 0); // Gold Chest
+								WorldGen.PlaceChest(k, l, (ushort)ModContent.TileType<GoblinChest>(), false, 0); // Gold Chest
 								break;	
 							case 8:
 								WorldGen.PlaceObject(k, l, 13); // Crate
 								break;
 							case 9:
-								WorldGen.PlaceObject(k, l - 1, mod.TileType("GoblinStandardTile")); // Crate
+								WorldGen.PlaceObject(k, l - 1, ModContent.TileType<GoblinStandardTile>()); // Crate
 								break;
 						}
 					}
@@ -822,7 +822,7 @@ namespace SpiritMod
 				}
 				// place the tower
 				PlaceTower(towerX, towerY - 37, TowerShape, TowerWallsShape, TowerLoot);
-                int num = NPC.NewNPC((towerX + 12) * 16, (towerY - 24) * 16, mod.NPCType("BoundRogue"), 0, 0f, 0f, 0f, 0f, 255);
+                int num = NPC.NewNPC((towerX + 12) * 16, (towerY - 24) * 16, ModContent.NPCType<BoundRogue>(), 0, 0f, 0f, 0f, 0f, 255);
                 Main.npc[num].homeTileX = -1;
                 Main.npc[num].homeTileY = -1;
                 Main.npc[num].direction = 1;
@@ -930,13 +930,13 @@ namespace SpiritMod
 							case 0:
 								break;
 							case 1:
-								WorldGen.PlaceTile(k, l, mod.TileType("ReachGrassTile"));
+								WorldGen.PlaceTile(k, l, ModContent.TileType<ReachGrassTile>());
 								tile.active(true);
 								break;	
 							case 2:
                                 if (WorldGen.genRand.Next(2) == 0)
                                 {
-                                    WorldGen.PlaceTile(k, l, mod.TileType("BarkTileTile"));
+                                    WorldGen.PlaceTile(k, l, ModContent.TileType<BarkTileTile>());
                                 }
 								tile.active(true);
 								break;		
@@ -959,7 +959,7 @@ namespace SpiritMod
 								WorldGen.PlaceWall(k, l, 63);
 								break;	
 							case 2:
-								WorldGen.PlaceWall(k, l, mod.WallType("BarkWall"));
+								WorldGen.PlaceWall(k, l, ModContent.WallType<BarkWall>());
 								break;		
 						}
 					}
@@ -978,15 +978,15 @@ namespace SpiritMod
 								break;
 							case 3:
 								if (Main.rand.Next(2) == 0)
-								WorldGen.PlaceObject(k, l - 1, mod.TileType("SkullStick"));
+								WorldGen.PlaceObject(k, l - 1, ModContent.TileType<SkullStick>());
 								else
-								WorldGen.PlaceObject(k, l - 1, mod.TileType("SkullStickFlip"));
+								WorldGen.PlaceObject(k, l - 1, ModContent.TileType<SkullStickFlip>());
 								break;	
 							case 4:
 								WorldGen.PlaceObject(k, l, 215);
 								break;	
 							case 5:
-								WorldGen.PlaceChest(k, l, (ushort)mod.TileType("ReachHideoutWoodChest"), false, 0); // Gold Chest
+								WorldGen.PlaceChest(k, l, (ushort)ModContent.TileType<ReachHideoutWoodChest>(), false, 0); // Gold Chest
 								break;	
 							case 6:
 								WorldGen.PlaceObject(k, l, 28);  // Pot
@@ -1072,7 +1072,7 @@ namespace SpiritMod
                 }
                 Tile tile = Main.tile[towerX, towerY];
                 // If the type of the tile we are placing the tower on doesn't match what we want, try again
-                if (tile.type != mod.TileType("ReachGrassTile"))
+                if (tile.type != ModContent.TileType<ReachGrassTile>())
                 {
                     continue;
                 }
@@ -1198,10 +1198,10 @@ namespace SpiritMod
 							case 0:
 								break;
 							case 4:
-								WorldGen.PlaceObject(k, l, mod.TileType("ScarabIdol"));
+								WorldGen.PlaceObject(k, l, ModContent.TileType<ScarabIdol>());
 								break;	
 							case 5:
-								WorldGen.PlaceChest(k, l, (ushort)mod.TileType("GoldScarabChest"), false, 0); 
+								WorldGen.PlaceChest(k, l, (ushort)ModContent.TileType<GoldScarabChest>(), false, 0); 
 								break;	
 							case 6:
 								WorldGen.PlaceObject(k, l, 91);
@@ -1477,7 +1477,7 @@ namespace SpiritMod
 								WorldGen.PlaceObject(k, l, (ushort)objects);  // Misc
 								break;
 							case 7:
-								WorldGen.PlaceObject(k, l-1, mod.TileType("GemsPickaxeSapphire"));  // Special Pick		
+								WorldGen.PlaceObject(k, l-1, ModContent.TileType<GemsPickaxeSapphire>());  // Special Pick		
 								break;
 							case 8:
 								if (Main.rand.Next (3) == 0)
@@ -1503,7 +1503,7 @@ namespace SpiritMod
 								WorldGen.PlaceObject(k, l, (ushort)objects);  // Another Misc Obj
 								break;
 							case 9:
-								WorldGen.PlaceObject(k, l-1, mod.TileType("GemsPickaxeRuby"));  // Special Pick		
+								WorldGen.PlaceObject(k, l-1, ModContent.TileType<GemsPickaxeRuby>());  // Special Pick		
 								break;							
 						}
 					}
@@ -1690,7 +1690,7 @@ namespace SpiritMod
 				}
                 for (int i = 0; i < Main.rand.Next(8, 10); i++)
                 {
-                    int num = NPC.NewNPC((pagodaX + Main.rand.Next(0, 100)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, mod.NPCType("PagodaGhostPassive"), 0, 0f, 0f, 0f, 0f, 255);
+                    int num = NPC.NewNPC((pagodaX + Main.rand.Next(0, 100)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, ModContent.NPCType<PagodaGhostPassive>(), 0, 0f, 0f, 0f, 0f, 255);
                     Main.npc[num].homeTileX = -1;
                     Main.npc[num].homeTileY = -1;
                     Main.npc[num].direction = 1;
@@ -1698,7 +1698,7 @@ namespace SpiritMod
                 }
 				 for (int i = 0; i < 3; i++)
                 {
-                    int num = NPC.NewNPC((pagodaX + Main.rand.Next(0, 100)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, mod.NPCType("SamuraiPassive"), 0, 0f, 0f, 0f, 0f, 255);
+                    int num = NPC.NewNPC((pagodaX + Main.rand.Next(0, 100)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, ModContent.NPCType<SamuraiPassive>(), 0, 0f, 0f, 0f, 0f, 255);
                     Main.npc[num].homeTileX = -1;
                     Main.npc[num].homeTileY = -1;
                     Main.npc[num].direction = 1;
@@ -1855,7 +1855,7 @@ namespace SpiritMod
 							case 0:
 								break;
 							case 1:
-								WorldGen.PlaceTile(k, l, mod.TileType("SepulchreBrick"));
+								WorldGen.PlaceTile(k, l, ModContent.TileType<SepulchreBrick>());
 								tile.active(true);
 								break;	
 							case 2:
@@ -1882,7 +1882,7 @@ namespace SpiritMod
 							case 0:
 								break;
 							case 2:
-								WorldGen.PlaceWall(k, l, mod.WallType("SepulchreWallTile"));
+								WorldGen.PlaceWall(k, l, ModContent.WallType<SepulchreWallTile>());
 								break;			
 						}
 					}
@@ -1900,7 +1900,7 @@ namespace SpiritMod
                                     WorldGen.PlaceObject(k, l, 50, true, Main.rand.Next(0, 5)); //Books
                                 break;	
 							case 4:
-								WorldGen.PlaceObject(k, l, mod.TileType("SepulchreBannerTile"), true);
+								WorldGen.PlaceObject(k, l, ModContent.TileType<SepulchreBannerTile>(), true);
 								break;	
 							case 5:
 							int pots;
@@ -1919,7 +1919,7 @@ namespace SpiritMod
 							WorldGen.PlaceTile(k, l, (ushort)pots);
 							break;	
 							case 6:
-								WorldGen.PlaceChest(k, l, (ushort)mod.TileType("SepulchreChestTile"), false, 0); // Gold Chest
+								WorldGen.PlaceChest(k, l, (ushort)ModContent.TileType<SepulchreChestTile>(), false, 0); // Gold Chest
 								break;	
 							case 7:
 								WorldGen.PlaceTile(k, l, 4, true, false, -1, 8);
@@ -2304,7 +2304,7 @@ namespace SpiritMod
 								WorldGen.PlaceObject(k, l, 94); 
 								break;
 							case 9:
-								WorldGen.PlaceChest(k, l, (ushort)mod.TileType("BanditChest"), false, 0); // Gold Chest
+								WorldGen.PlaceChest(k, l, (ushort)ModContent.TileType<BanditChest>(), false, 0); // Gold Chest
 								break;
 							case 10:
 								WorldGen.PlaceObject(k, l, 42, true, 6);
@@ -2460,7 +2460,7 @@ namespace SpiritMod
                     continue;
                 }
                 PlaceBanditHideout(towerX, towerY - 22, BanditTiles, BanditWalls, BanditLoot);
-				int num = NPC.NewNPC((towerX + 31) * 16, (towerY - 20) * 16, mod.NPCType("BoundRogue"), 0, 0f, 0f, 0f, 0f, 255);
+				int num = NPC.NewNPC((towerX + 31) * 16, (towerY - 20) * 16, ModContent.NPCType<BoundRogue>(), 0, 0f, 0f, 0f, 0f, 255);
 				Main.npc[num].homeTileX = -1;
 				Main.npc[num].homeTileY = -1;
 				Main.npc[num].direction = 1;
@@ -2484,7 +2484,7 @@ namespace SpiritMod
 								break; // no changes
 							case 1:
 								Framing.GetTileSafely(k, l).ClearTile();
-								WorldGen.PlaceTile(k, l, mod.TileType("ReachGrassTile"));
+								WorldGen.PlaceTile(k, l, ModContent.TileType<ReachGrassTile>());
 								tile.active(true);
 								break;
 							case 2:
@@ -2503,16 +2503,16 @@ namespace SpiritMod
 						Tile tile = Framing.GetTileSafely(k, l);
 						switch (LootArray[y, x]) {
 							case 2:
-								WorldGen.PlaceObject(k, l-4, mod.TileType("SkeletonTree"));
+								WorldGen.PlaceObject(k, l-4, ModContent.TileType<SkeletonTree>());
 								break;
 							case 3:
 								if (Main.rand.Next(2) == 0)
-								WorldGen.PlaceObject(k, l - 1, mod.TileType("SkullStick"));
+								WorldGen.PlaceObject(k, l - 1, ModContent.TileType<SkullStick>());
 								else
-								WorldGen.PlaceObject(k, l - 1, mod.TileType("SkullStickFlip"));
+								WorldGen.PlaceObject(k, l - 1, ModContent.TileType<SkullStickFlip>());
 								break;	
 							case 4:
-								WorldGen.PlaceObject(k, l - 1, mod.TileType("BoneAltar")); // Campfire
+								WorldGen.PlaceObject(k, l - 1, ModContent.TileType<BoneAltar>()); // Campfire
 								break;
 						}
 					}
@@ -2566,23 +2566,23 @@ namespace SpiritMod
 				}
 				Tile tile = Main.tile[towerX, towerY];
 				// If the type of the tile we are placing the tower on doesn't match what we want, try again
-				if (tile.type != mod.TileType("ReachGrassTile"))
+				if (tile.type != ModContent.TileType<ReachGrassTile>())
 				{
 					continue;
 				}
 				// place the tower
 				PlaceAltar(towerX, towerY, TileShape, DecorShape);
-				int num = NPC.NewNPC((towerX) * 16, (towerY - 10) * 16, mod.NPCType("ReachmanPassive"), 0, 0f, 0f, 0f, 0f, 255);
+				int num = NPC.NewNPC((towerX) * 16, (towerY - 10) * 16, ModContent.NPCType<ReachmanPassive>(), 0, 0f, 0f, 0f, 0f, 255);
 				Main.npc[num].homeTileX = -1;
 				Main.npc[num].homeTileY = -1;
 				Main.npc[num].direction = 1;
 				Main.npc[num].homeless = true;
-				int num1 = NPC.NewNPC((towerX + 10) * 16, (towerY - 10) * 16, mod.NPCType("ReachmanPassive"), 0, 0f, 0f, 0f, 0f, 255);
+				int num1 = NPC.NewNPC((towerX + 10) * 16, (towerY - 10) * 16, ModContent.NPCType<ReachmanPassive>(), 0, 0f, 0f, 0f, 0f, 255);
 				Main.npc[num1].homeTileX = -1;
 				Main.npc[num1].homeTileY = -1;
 				Main.npc[num1].direction = -1;
 				Main.npc[num1].homeless = true;
-                int num2 = NPC.NewNPC((towerX + 5) * 16, (towerY - 10) * 16, mod.NPCType("BoundAdventurer"), 0, 0f, 0f, 0f, 0f, 255);
+                int num2 = NPC.NewNPC((towerX + 5) * 16, (towerY - 10) * 16, ModContent.NPCType<BoundAdventurer>(), 0, 0f, 0f, 0f, 0f, 255);
                 Main.npc[num2].homeTileX = -1;
                 Main.npc[num2].homeTileY = -1;
                 Main.npc[num2].direction = -1;
@@ -2608,7 +2608,7 @@ namespace SpiritMod
                                 break; // no changes
                             case 1:
                                 Framing.GetTileSafely(k, l).ClearTile();
-                                WorldGen.PlaceTile(k, l, mod.TileType("ReachGrassTile"));
+                                WorldGen.PlaceTile(k, l, ModContent.TileType<ReachGrassTile>());
                                 tile.active(true);
                                 break;
                             case 2:
@@ -2631,16 +2631,16 @@ namespace SpiritMod
                         switch (LootArray[y, x])
                         {
                             case 2:
-                                WorldGen.PlaceObject(k, l - 4, mod.TileType("SkeletonTree"));
+                                WorldGen.PlaceObject(k, l - 4, ModContent.TileType<SkeletonTree>());
                                 break;
                             case 3:
                                 if (Main.rand.Next(2) == 0)
-                                    WorldGen.PlaceObject(k, l - 1, mod.TileType("SkullStick"));
+                                    WorldGen.PlaceObject(k, l - 1, ModContent.TileType<SkullStick>());
                                 else
-                                    WorldGen.PlaceObject(k, l - 1, mod.TileType("SkullStickFlip"));
+                                    WorldGen.PlaceObject(k, l - 1, ModContent.TileType<SkullStickFlip>());
                                 break;
                             case 4:
-                                WorldGen.PlaceObject(k, l - 1, mod.TileType("BoneAltar")); // Campfire
+                                WorldGen.PlaceObject(k, l - 1, ModContent.TileType<BoneAltar>()); // Campfire
                                 break;
                         }
                     }
@@ -2678,7 +2678,7 @@ namespace SpiritMod
                 int towerY = (int)Main.rand.Next((int)Main.worldSurface + 20, Main.maxTilesY);
                 Tile tile = Main.tile[towerX, towerY];
                 // If the type of the tile we are placing the tower on doesn't match what we want, try again
-                if (tile.type != mod.TileType("ReachGrassTile"))
+                if (tile.type != ModContent.TileType<ReachGrassTile>())
                 {
                     continue;
                 }
@@ -2701,7 +2701,7 @@ namespace SpiritMod
 								break; // no changes
 							case 1:
 								Framing.GetTileSafely(k, l).ClearTile();
-								WorldGen.PlaceTile(k, l, mod.TileType("BlastStone"));
+								WorldGen.PlaceTile(k, l, ModContent.TileType<BlastStone>());
 								tile.active(true);
 								WorldGen.KillWall(k, l);
 								break;
@@ -2755,7 +2755,7 @@ namespace SpiritMod
 								}
 								break;
 							case 4:
-								WorldGen.PlaceChest(k, l, (ushort)mod.TileType("ReachChest"), false, 0); // Gold Chest
+								WorldGen.PlaceChest(k, l, (ushort)ModContent.TileType<ReachChest>(), false, 0); // Gold Chest
 								break;
 							case 5:
 								if (Main.rand.Next (2) == 0)
@@ -2838,7 +2838,7 @@ namespace SpiritMod
 				int towerY = (int)Main.rand.Next((int)Main.worldSurface + 10, Main.maxTilesY);
 				Tile tile = Main.tile[towerX, towerY];
 				// If the type of the tile we are placing the tower on doesn't match what we want, try again
-				if (tile.type != mod.TileType("ReachGrassTile"))
+				if (tile.type != ModContent.TileType<ReachGrassTile>())
 				{
 					continue;
 				}
@@ -2870,12 +2870,12 @@ namespace SpiritMod
                                 break;
                             case 1:
                                 tile.ClearTile();
-                                WorldGen.PlaceTile(k, l, mod.TileType("ReachGrassTile"));
+                                WorldGen.PlaceTile(k, l, ModContent.TileType<ReachGrassTile>());
                                 tile.active(true);
                                 break;
                             case 3:
                                 tile.ClearTile();
-                                WorldGen.PlaceTile(k, l, mod.TileType("ReachGrassTile"));
+                                WorldGen.PlaceTile(k, l, ModContent.TileType<ReachGrassTile>());
                                 tile.active(true);
                                 break;
                             case 5:
@@ -2897,7 +2897,7 @@ namespace SpiritMod
                         switch (BlocksArray[y, x])
                         {
                             case 1:
-                                WorldGen.PlaceTile(k, l, mod.TileType("ReachGrassTile"));
+                                WorldGen.PlaceTile(k, l, ModContent.TileType<ReachGrassTile>());
                                 tile.active(true);
                                 break;
                             case 2:
@@ -2936,7 +2936,7 @@ namespace SpiritMod
                                 tile.ClearTile();
                                 if (Main.rand.Next(3) == 0)
                                 {
-                                    WorldGen.PlaceTile(k, l, mod.TileType("GlowGrass"));
+                                    WorldGen.PlaceTile(k, l, ModContent.TileType<GlowGrass>());
                                 }
                                 else if (Main.rand.Next(3) == 0)
                                 {
@@ -2975,7 +2975,7 @@ namespace SpiritMod
                 int hideoutX = Main.rand.Next(50, Main.maxTilesX); // from 50 since there's a unaccessible area at the world's borders
                 int hideoutY = Main.spawnTileY + Main.rand.Next(120, 700);
                 Tile tile = Main.tile[hideoutX, hideoutY];
-                if (!tile.active() || tile.type != mod.TileType("ReachGrassTile"))
+                if (!tile.active() || tile.type != ModContent.TileType<ReachGrassTile>())
                 {
                     continue;
                 }
@@ -3389,7 +3389,7 @@ namespace SpiritMod
                                 WorldGen.PlaceObject(k, l, 215, true, 0);
                                 break;
                             case 3:
-                                WorldGen.PlaceTile(k, l, mod.TileType("TentOpposite"));
+                                WorldGen.PlaceTile(k, l, ModContent.TileType<TentOpposite>());
                                 break;
                             case 4:
                                 WorldGen.PlaceObject(k, l, 187, true, 26, 1, -1, -1);
@@ -3666,7 +3666,7 @@ namespace SpiritMod
                     int x = WorldGen.genRand.Next(0, Main.maxTilesX);
                     int y = WorldGen.genRand.Next((int)Main.worldSurface - 200, Main.maxTilesY);
                     tile = Main.tile[x, y];
-                    if (tile.type == mod.TileType("ReachGrassTile"))
+                    if (tile.type == ModContent.TileType<ReachGrassTile>())
                     {
                         {
                             WorldGen.PlaceTile(x, y, tileToPlace);
@@ -3947,8 +3947,8 @@ namespace SpiritMod
                             Tile tile = Main.tile[num3, num4];
                             if (tile.type == TileID.Stone && tile.active())
                             {
-                                WorldGen.PlaceObject(num3, num4 - 1, mod.TileType("CopperPile"));
-                                NetMessage.SendObjectPlacment(-1, num3, num4 - 1, mod.TileType("CopperPile"), 0, 0, -1, -1);
+                                WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<CopperPile>());
+                                NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<CopperPile>(), 0, 0, -1, -1);
                             }
                         }
                     }
@@ -3961,8 +3961,8 @@ namespace SpiritMod
                             Tile tile = Main.tile[num3, num4];
                             if (tile.type == TileID.Stone && tile.active())
                             {
-                                WorldGen.PlaceObject(num3, num4 - 1, mod.TileType("TinPile"));
-                                NetMessage.SendObjectPlacment(-1, num3, num4 - 1, mod.TileType("TinPile"), 0, 0, -1, -1);
+                                WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<TinPile>());
+                                NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<TinPile>(), 0, 0, -1, -1);
                             }
                         }
                     }
@@ -3975,8 +3975,8 @@ namespace SpiritMod
                             Tile tile = Main.tile[num3, num4];
                             if (tile.type == TileID.Stone && tile.active())
                             {
-                                WorldGen.PlaceObject(num3, num4 - 1, mod.TileType("IronPile"));
-                                NetMessage.SendObjectPlacment(-1, num3, num4 - 1, mod.TileType("IronPile"), 0, 0, -1, -1);
+                                WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<IronPile>());
+                                NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<IronPile>(), 0, 0, -1, -1);
                             }
                         }
                     }
@@ -3989,8 +3989,8 @@ namespace SpiritMod
                             Tile tile = Main.tile[num3, num4];
                             if (tile.type == TileID.Stone && tile.active())
                             {
-                                WorldGen.PlaceObject(num3, num4 - 1, mod.TileType("LeadPile"));
-                                NetMessage.SendObjectPlacment(-1, num3, num4 - 1, mod.TileType("LeadPile"), 0, 0, -1, -1);
+                                WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<LeadPile>());
+                                NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<LeadPile>(), 0, 0, -1, -1);
                             }
                         }
                     }
@@ -4003,8 +4003,8 @@ namespace SpiritMod
                             Tile tile = Main.tile[num3, num4];
                             if (tile.type == TileID.Stone && tile.active())
                             {
-                                WorldGen.PlaceObject(num3, num4 - 1, mod.TileType("SilverPile"));
-                                NetMessage.SendObjectPlacment(-1, num3, num4 - 1, mod.TileType("SilverPile"), 0, 0, -1, -1);
+                                WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<SilverPile>());
+                                NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<SilverPile>(), 0, 0, -1, -1);
                             }
                         }
                     }
@@ -4017,8 +4017,8 @@ namespace SpiritMod
                             Tile tile = Main.tile[num3, num4];
                             if (tile.type == TileID.Stone && tile.active())
                             {
-                                WorldGen.PlaceObject(num3, num4 - 1, mod.TileType("TungstenPile"));
-                                NetMessage.SendObjectPlacment(-1, num3, num4 - 1, mod.TileType("TungstenPile"), 0, 0, -1, -1);
+                                WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<TungstenPile>());
+                                NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<TungstenPile>(), 0, 0, -1, -1);
                             }
                         }
                     }
@@ -4031,8 +4031,8 @@ namespace SpiritMod
                             Tile tile = Main.tile[num3, num4];
                             if (tile.type == TileID.Stone && tile.active())
                             {
-                                WorldGen.PlaceObject(num3, num4 - 1, mod.TileType("GoldPile"));
-                                NetMessage.SendObjectPlacment(-1, num3, num4 - 1, mod.TileType("GoldPile"), 0, 0, -1, -1);
+                                WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<GoldPile>());
+                                NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<GoldPile>(), 0, 0, -1, -1);
                             }
                         }
                     }
@@ -4045,14 +4045,14 @@ namespace SpiritMod
                             Tile tile = Main.tile[num3, num4];
                             if (tile.type == TileID.Stone && tile.active())
                             {
-                                WorldGen.PlaceObject(num3, num4 - 1, mod.TileType("PlatinumPile"));
-                                NetMessage.SendObjectPlacment(-1, num3, num4 - 1, mod.TileType("PlatinumPile"), 0, 0, -1, -1);
+                                WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<PlatinumPile>());
+                                NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<PlatinumPile>(), 0, 0, -1, -1);
                             }
                         }
                     }
                     for (int C = 0; C < Main.maxTilesX * 45; C++)
                     {
-                        int[] sculptures = new int[] { mod.TileType("IceWheezerPassive"), mod.TileType("IceFlinxPassive"), mod.TileType("IceBatPassive"), mod.TileType("IceVikingPassive"), mod.TileType("IceWheezerHostile"), mod.TileType("IceFlinxHostile"), mod.TileType("IceBatHostile"), mod.TileType("IceVikingHostile") };
+                        int[] sculptures = new int[] { ModContent.TileType<IceWheezerPassive>(), ModContent.TileType<IceFlinxPassive>(), ModContent.TileType<IceBatPassive>(), ModContent.TileType<IceVikingPassive>(), ModContent.TileType<IceWheezerHostile>(), ModContent.TileType<IceFlinxHostile>(), ModContent.TileType<IceBatHostile>(), ModContent.TileType<IceVikingHostile>() };
                         {
                             int X = WorldGen.genRand.Next(0, Main.maxTilesX);
                             int Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
@@ -4068,10 +4068,10 @@ namespace SpiritMod
                        {
                             int X = WorldGen.genRand.Next(0, Main.maxTilesX);
                             int Y = WorldGen.genRand.Next(0, Main.maxTilesY);
-                            if ((Main.tile[X, Y].type == mod.TileType("Asteroid") || Main.tile[X, Y].type == mod.TileType("BigAsteroid")))
+                            if ((Main.tile[X, Y].type == ModContent.TileType<Asteroid>() || Main.tile[X, Y].type == ModContent.TileType<BigAsteroid>()))
                             {
-                                WorldGen.PlaceObject(X, Y, (ushort)mod.TileType("BlueShardBig"));
-                                NetMessage.SendObjectPlacment(-1, X, Y, (ushort)mod.TileType("BlueShardBig"), 0, 0, -1, -1);
+                                WorldGen.PlaceObject(X, Y, (ushort)ModContent.TileType<BlueShardBig>());
+                                NetMessage.SendObjectPlacment(-1, X, Y, (ushort)ModContent.TileType<BlueShardBig>(), 0, 0, -1, -1);
                             }
                         }
                     }
@@ -4088,7 +4088,7 @@ namespace SpiritMod
             int[] potionscrim = new int[] { 2347, 2323 };
             int[] other1 = new int[] { 3093, 168 };
             int[] other2 = new int[] { 31, 8 };
-            int[] moddedMaterials = new int[] { mod.ItemType("BismiteCrystal"), mod.ItemType("OldLeather") };
+            int[] moddedMaterials = new int[] { ModContent.ItemType<BismiteCrystal>(), ModContent.ItemType<OldLeather>() };
             int stack = 1;
             int itemsToPlaceInPagodaChestsChoice = 0;
             for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
@@ -4143,7 +4143,7 @@ namespace SpiritMod
 				int E = Main.maxTilesX;
                 int F = (int)Main.worldSurface;
                 tile = Framing.GetTileSafely(E, F);
-				if (tile.type == mod.TileType("ReachGrassTile"))
+				if (tile.type == ModContent.TileType<ReachGrassTile>())
 				{
 					WorldGen.GrowTree(E, F);
 				}
@@ -4173,7 +4173,7 @@ namespace SpiritMod
                     int x = WorldGen.genRand.Next(0, Main.maxTilesX);
                     int y = WorldGen.genRand.Next((int)Main.worldSurface - 100, Main.maxTilesY);
                     tile = Main.tile[x, y];
-                    if (tile.type == mod.TileType("ReachGrassTile"))
+                    if (tile.type == ModContent.TileType<ReachGrassTile>())
                     {
                         {
                             WorldGen.PlaceTile(x, y, tileToPlace);
@@ -4194,34 +4194,34 @@ namespace SpiritMod
                     Chest chest = Main.chest[chestIndex];
                     if (chest != null && Main.tile[chest.x, chest.y].frameX == 13 * 36 && Main.rand.Next(3) == 0)
                     {
-                        chest.item[6].SetDefaults(mod.ItemType("ChaosPearl"), false);
+                        chest.item[6].SetDefaults(ModContent.ItemType<ChaosPearl>(), false);
                         chest.item[6].stack = WorldGen.genRand.Next(20, 30);
                     }
                     if (chest != null && Main.tile[chest.x, chest.y].frameX == 2 * 36 && Main.rand.Next(10) == 0)
                     {
                         if (WorldGen.crimson)
                         {
-                            chest.item[5].SetDefaults(mod.ItemType("Tenderizer"), false);
+                            chest.item[5].SetDefaults(ModContent.ItemType<Tenderizer>(), false);
                         }
                         else
                         {
-                            chest.item[5].SetDefaults(mod.ItemType("Slugger"), false);
+                            chest.item[5].SetDefaults(ModContent.ItemType<Slugger>(), false);
                         }
                     }
 
                 }
             }
-            int[] crimsonMain = new int[] { mod.ItemType("Spineshot"), mod.ItemType("FleshStick") };
-            int[] corruptMain = new int[] { mod.ItemType("CorruptSpearVariant"), mod.ItemType("Ebonwand") };
+            int[] crimsonMain = new int[] { ModContent.ItemType<Spineshot>(), ModContent.ItemType<FleshStick>() };
+            int[] corruptMain = new int[] { ModContent.ItemType<CorruptSpearVariant>(), ModContent.ItemType<Ebonwand>() };
             for (int i = 1; i < Main.rand.Next(4, 6); i++)
             {
-                int[] itemsToPlacePrimary = new int[] { mod.ItemType("SepulchreStaff"), mod.ItemType("SepulchrePendant") };
-                int[] ammoToPlace = new int[] { mod.ItemType("SepulchreArrow"), mod.ItemType("SepulchreBullet") };
+                int[] itemsToPlacePrimary = new int[] { ModContent.ItemType<SepulchreStaff>(), ModContent.ItemType<SepulchrePendant>() };
+                int[] ammoToPlace = new int[] { ModContent.ItemType<SepulchreArrow>(), ModContent.ItemType<SepulchreBullet>() };
                 int itemsToPlaceInGlassChestsSecondaryChoice = 0;
                 for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
                 {
                     Chest chest = Main.chest[chestIndex];
-                    if (chest != null && Main.tile[chest.x, chest.y].type == mod.TileType("SepulchreChestTile"))
+                    if (chest != null && Main.tile[chest.x, chest.y].type == ModContent.TileType<SepulchreChestTile>())
                     {
                         chest.item[0].SetDefaults(itemsToPlacePrimary[Main.rand.Next(2)], false);
                         chest.item[1].SetDefaults(commonItems1[Main.rand.Next(4)], false);
@@ -4287,12 +4287,12 @@ namespace SpiritMod
             }
             for (int i = 1; i < Main.rand.Next(4, 6); i++)
             {
-                int[] itemsToPlacePrimary = new int[] { mod.ItemType("CleftHorn"), mod.ItemType("CactusStaff") };
+                int[] itemsToPlacePrimary = new int[] { ModContent.ItemType<CleftHorn>(), ModContent.ItemType<CactusStaff>() };
                 int itemsToPlaceInGlassChestsSecondaryChoice = 0;
                 for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
                 {
                     Chest chest = Main.chest[chestIndex];
-                    if (chest != null && Main.tile[chest.x, chest.y].type == mod.TileType("GoldScarabChest"))
+                    if (chest != null && Main.tile[chest.x, chest.y].type == ModContent.TileType<GoldScarabChest>())
                     {
                         chest.item[0].SetDefaults(itemsToPlacePrimary[Main.rand.Next(2)], false);
                         chest.item[1].SetDefaults(commonItems1[Main.rand.Next(4)], false);
@@ -4317,12 +4317,12 @@ namespace SpiritMod
             }
             for (int i = 1; i < Main.rand.Next(4, 6); i++)
             {
-                int[] itemsToPlacePrimary = new int[] { mod.ItemType("Glyph"), ItemID.MagicMirror, ItemID.WandofSparking };
+                int[] itemsToPlacePrimary = new int[] { ModContent.ItemType<Glyph>(), ItemID.MagicMirror, ItemID.WandofSparking };
                 int itemsToPlaceInGlassChestsSecondaryChoice = 0;
                 for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
                 {
                     Chest chest = Main.chest[chestIndex];
-                    if (chest != null && Main.tile[chest.x, chest.y].type == mod.TileType("GoblinChest"))
+                    if (chest != null && Main.tile[chest.x, chest.y].type == ModContent.TileType<GoblinChest>())
                     {
                         chest.item[0].SetDefaults(itemsToPlacePrimary[Main.rand.Next(2)], false);
                         chest.item[0].stack = WorldGen.genRand.Next(1, 1);
@@ -4345,11 +4345,11 @@ namespace SpiritMod
                         break;
                     }
                 }
-                int[] itemsToPlacePrimary1 = new int[] { mod.ItemType("Glyph"), ItemID.Radar, ItemID.Blowpipe, ItemID.WandofSparking };
+                int[] itemsToPlacePrimary1 = new int[] { ModContent.ItemType<Glyph>(), ItemID.Radar, ItemID.Blowpipe, ItemID.WandofSparking };
                 for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
                 {
                     Chest chest = Main.chest[chestIndex];
-                    if (chest != null && Main.tile[chest.x, chest.y].type == mod.TileType("ReachHideoutWoodChest"))
+                    if (chest != null && Main.tile[chest.x, chest.y].type == ModContent.TileType<ReachHideoutWoodChest>())
                     {
                         chest.item[0].SetDefaults(itemsToPlacePrimary1[Main.rand.Next(2)], false);
                         chest.item[0].stack = WorldGen.genRand.Next(1, 1);
@@ -4380,7 +4380,7 @@ namespace SpiritMod
 					for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
 					{
 						Chest chest = Main.chest[chestIndex];
-						if (chest != null && Main.tile[chest.x, chest.y].type == mod.TileType("ReachChest"))
+						if (chest != null && Main.tile[chest.x, chest.y].type == ModContent.TileType<ReachChest>())
 						{
 							for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
 							{
@@ -4402,7 +4402,7 @@ namespace SpiritMod
                                 chest.item[8].stack = WorldGen.genRand.Next(12, 30);
                                 if (Main.rand.Next(4) == 0)
                                 {
-                                    chest.item[9].SetDefaults(mod.ItemType("GladeWreath"), false);
+                                    chest.item[9].SetDefaults(ModContent.ItemType<GladeWreath>(), false);
                                 }
 
                             }		
@@ -4410,12 +4410,12 @@ namespace SpiritMod
 					}
 				}
 			}
-			int[] itemsToPlaceInGlassChests = new int[] { mod.ItemType("ReachChestMagic"), mod.ItemType("BriarRattle"), mod.ItemType("ReachStaffChest"), mod.ItemType("ReachBoomerang"), mod.ItemType("ReachBrooch") };
+			int[] itemsToPlaceInGlassChests = new int[] { ModContent.ItemType<ReachChestMagic>(), ModContent.ItemType<BriarRattle>(), ModContent.ItemType<ReachStaffChest>(), ModContent.ItemType<ReachBoomerang>(), ModContent.ItemType<ReachBrooch>() };
 			int itemsToPlaceInGlassChestsChoice = 0;
 			for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
 			{
 				Chest chest = Main.chest[chestIndex];
-				if (chest != null && Main.tile[chest.x, chest.y].type == mod.TileType("ReachChest"))
+				if (chest != null && Main.tile[chest.x, chest.y].type == ModContent.TileType<ReachChest>())
 				{
 					for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
 					{
@@ -4430,7 +4430,7 @@ namespace SpiritMod
 				int E = Main.maxTilesX;
 				int F = (int)Main.worldSurface;
 				tile = Framing.GetTileSafely(E, F);
-				if (tile.type == mod.TileType("ReachGrassTile"))
+				if (tile.type == ModContent.TileType<ReachGrassTile>())
 				{
 					WorldGen.GrowTree(E, F);
 				}
@@ -4489,7 +4489,7 @@ namespace SpiritMod
 								WorldGen.PlaceTile(k, l, (ushort)mod.TileType("SkullPile2")); // Gold Chest
 								break;		
 							case 5:
-								WorldGen.PlaceTile(k, l - 1, (ushort)mod.TileType("AvianEgg")); // Gold Chest
+								WorldGen.PlaceTile(k, l - 1, (ushort)ModContent.TileType<AvianEgg>()); // Gold Chest
 								break;					
 						}
 					}
@@ -4649,9 +4649,9 @@ namespace SpiritMod
 						{
 							if (Main.tile[x, y].active())
 							{
-								if (Main.tile[x, y].type == mod.TileType("ReachGrassTile"))
+								if (Main.tile[x, y].type == ModContent.TileType<ReachGrassTile>())
 								{
-                                    WorldGen.TileRunner(x, y, (double)WorldGen.genRand.Next(4, 7), WorldGen.genRand.Next(4, 7), mod.TileType("FloranOreTile"), false, 0f, 0f, false, true);
+                                    WorldGen.TileRunner(x, y, (double)WorldGen.genRand.Next(4, 7), WorldGen.genRand.Next(4, 7), ModContent.TileType<FloranOreTile>(), false, 0f, 0f, false, true);
 
 
                                 }
@@ -4677,7 +4677,7 @@ namespace SpiritMod
 							{
 								if (Main.tile[EEXX, WHHYY].type == 368)
 								{
-									WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(4, 8), WorldGen.genRand.Next(4, 8), (ushort)mod.TileType("GraniteOre"));
+									WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(4, 8), WorldGen.genRand.Next(4, 8), (ushort)ModContent.TileType<GraniteOre>());
 								}
 							}
 						}
@@ -4692,7 +4692,7 @@ namespace SpiritMod
 							{
 								if (Main.tile[EEXX, WHHYY].type == 367)
 								{
-									WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 8), WorldGen.genRand.Next(4, 9), (ushort)mod.TileType("MarbleOre"));
+									WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 8), WorldGen.genRand.Next(4, 9), (ushort)ModContent.TileType<MarbleOre>());
 								}
 							}
 						}
@@ -4734,7 +4734,7 @@ namespace SpiritMod
 							{
 								if (Main.tile[EEXX, WHHYY].type == 1)
 								{
-									WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(4, 6), WorldGen.genRand.Next(4, 6), (ushort)mod.TileType("ThermiteOre"));
+									WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(4, 6), WorldGen.genRand.Next(4, 6), (ushort)ModContent.TileType<ThermiteOre>());
 								}
 							}
 						}
@@ -4758,19 +4758,19 @@ namespace SpiritMod
                             {
                                 if (Main.tile[EEXX, WHHYY].type == 161)
                                 {
-                                    WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)mod.TileType("CryoliteOreTile"));
+                                    WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)ModContent.TileType<CryoliteOreTile>());
                                 }
                                 else if (Main.tile[EEXX, WHHYY].type == 163)
                                 {
-                                    WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)mod.TileType("CryoliteOreTile"));
+                                    WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)ModContent.TileType<CryoliteOreTile>());
                                 }
                                 else if (Main.tile[EEXX, WHHYY].type == 164)
                                 {
-                                    WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)mod.TileType("CryoliteOreTile"));
+                                    WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)ModContent.TileType<CryoliteOreTile>());
                                 }
                                 else if (Main.tile[EEXX, WHHYY].type == 200)
                                 {
-                                    WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)mod.TileType("CryoliteOreTile"));
+                                    WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)ModContent.TileType<CryoliteOreTile>());
                                 }
                             }
                         }
@@ -4785,19 +4785,19 @@ namespace SpiritMod
                             {
                                 if (Main.tile[EEXX, WHHYY].type == 161)
                                 {
-                                    WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(6, 7), WorldGen.genRand.Next(6, 7), (ushort)mod.TileType("CreepingIceTile"));
+                                    WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(6, 7), WorldGen.genRand.Next(6, 7), (ushort)ModContent.TileType<CreepingIceTile>());
                                 }
                                 else if (Main.tile[EEXX, WHHYY].type == 163)
                                 {
-                                    WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(6, 7), WorldGen.genRand.Next(6, 7), (ushort)mod.TileType("CreepingIceTile"));
+                                    WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(6, 7), WorldGen.genRand.Next(6, 7), (ushort)ModContent.TileType<CreepingIceTile>());
                                 }
                                 else if (Main.tile[EEXX, WHHYY].type == 164)
                                 {
-                                    WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(6, 7), WorldGen.genRand.Next(6, 7), (ushort)mod.TileType("CreepingIceTile"));
+                                    WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(6, 7), WorldGen.genRand.Next(6, 7), (ushort)ModContent.TileType<CreepingIceTile>());
                                 }
                                 else if (Main.tile[EEXX, WHHYY].type == 200)
                                 {
-                                    WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(6, 7), WorldGen.genRand.Next(6, 7), (ushort)mod.TileType("CreepingIceTile"));
+                                    WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(6, 7), WorldGen.genRand.Next(6, 7), (ushort)ModContent.TileType<CreepingIceTile>());
                                 }
                             }
                         }
@@ -4823,8 +4823,8 @@ namespace SpiritMod
                         int Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 						if (Main.tile[X,Y].type == TileID.Stone)
 						{
-                         WorldGen.PlaceObject(X, Y, mod.TileType("GreenShardBig"));
-                     NetMessage.SendObjectPlacment(-1, X, Y, mod.TileType("GreenShardBig"), 0, 0, -1, -1);
+                         WorldGen.PlaceObject(X, Y, ModContent.TileType<GreenShardBig>());
+                     NetMessage.SendObjectPlacment(-1, X, Y, ModContent.TileType<GreenShardBig>(), 0, 0, -1, -1);
 						}
 						}
 
@@ -4837,8 +4837,8 @@ namespace SpiritMod
                         int Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 						if (Main.tile[X,Y].type == TileID.Stone)
 						{
-                         WorldGen.PlaceObject(X, Y, mod.TileType("PurpleShardBig"));
-                     NetMessage.SendObjectPlacment(-1, X, Y, mod.TileType("PurpleShardBig"), 0, 0, -1, -1);
+                         WorldGen.PlaceObject(X, Y, ModContent.TileType<PurpleShardBig>());
+                     NetMessage.SendObjectPlacment(-1, X, Y, ModContent.TileType<PurpleShardBig>(), 0, 0, -1, -1);
 						}
 						}
 
@@ -4896,7 +4896,7 @@ namespace SpiritMod
                                                 }
                                                 if (WillGenn < 10)
                                                 {
-                                                    Main.tile[xAxis, yAxis].type = (ushort)mod.TileType("SpiritDirt");
+                                                    Main.tile[xAxis, yAxis].type = (ushort)ModContent.TileType<SpiritDirt>();
                                                 }
                                             }
                                         }
@@ -4915,7 +4915,7 @@ namespace SpiritMod
                                             }
                                             if (WillGenn < 10)
                                             {
-                                                Main.tile[xAxis, yAxis].type = (ushort)mod.TileType("SpiritDirt");
+                                                Main.tile[xAxis, yAxis].type = (ushort)ModContent.TileType<SpiritDirt>();
                                             }
                                         }
                                     }
@@ -4939,7 +4939,7 @@ namespace SpiritMod
                                                 }
                                                 if (WillGenn < 18)
                                                 {
-                                                    Main.tile[xAxis, yAxis].type = (ushort)mod.TileType("SpiritGrass");
+                                                    Main.tile[xAxis, yAxis].type = (ushort)ModContent.TileType<SpiritGrass>();
                                                 }
                                             }
                                         }
@@ -4958,7 +4958,7 @@ namespace SpiritMod
                                             }
                                             if (WillGenn < 18)
                                             {
-                                                Main.tile[xAxis, yAxis].type = (ushort)mod.TileType("SpiritGrass");
+                                                Main.tile[xAxis, yAxis].type = (ushort)ModContent.TileType<SpiritGrass>();
                                             }
                                         }
                                     }
@@ -4982,7 +4982,7 @@ namespace SpiritMod
                                                 }
                                                 if (WillGenn < 18)
                                                 {
-                                                    Main.tile[xAxis, yAxis].type = (ushort)mod.TileType("SpiritIce");
+                                                    Main.tile[xAxis, yAxis].type = (ushort)ModContent.TileType<SpiritIce>();
                                                 }
                                             }
                                         }
@@ -5001,7 +5001,7 @@ namespace SpiritMod
                                             }
                                             if (WillGenn < 18)
                                             {
-                                                Main.tile[xAxis, yAxis].type = (ushort)mod.TileType("SpiritIce");
+                                                Main.tile[xAxis, yAxis].type = (ushort)ModContent.TileType<SpiritIce>();
                                             }
                                         }
                                     }
@@ -5025,7 +5025,7 @@ namespace SpiritMod
                                                 }
                                                 if (WillGenn < 18)
                                                 {
-                                                    Main.tile[xAxis, yAxis].type = (ushort)mod.TileType("SpiritStone");
+                                                    Main.tile[xAxis, yAxis].type = (ushort)ModContent.TileType<SpiritStone>();
                                                 }
                                             }
                                         }
@@ -5044,7 +5044,7 @@ namespace SpiritMod
                                             }
                                             if (WillGenn < 18)
                                             {
-                                                Main.tile[xAxis, yAxis].type = (ushort)mod.TileType("SpiritStone");
+                                                Main.tile[xAxis, yAxis].type = (ushort)ModContent.TileType<SpiritStone>();
                                             }
                                         }
                                     }
@@ -5114,7 +5114,7 @@ namespace SpiritMod
                                                 }
                                                 if (WillGenn < 18)
                                                 {
-                                                    Main.tile[xAxis, yAxis].type = (ushort)mod.TileType("Spiritsand");
+                                                    Main.tile[xAxis, yAxis].type = (ushort)ModContent.TileType<Spiritsand>();
                                                 }
                                             }
                                         }
@@ -5133,14 +5133,14 @@ namespace SpiritMod
                                             }
                                             if (WillGenn < 18)
                                             {
-                                                Main.tile[xAxis, yAxis].type = (ushort)mod.TileType("Spiritsand");
+                                                Main.tile[xAxis, yAxis].type = (ushort)ModContent.TileType<Spiritsand>();
                                             }
                                         }
                                     }
                                 }
-                                if (Main.tile[xAxis, yAxis].type == mod.TileType("SpiritStone") && yAxis > WorldGen.rockLayer + 300 && Main.rand.Next(1500) == 6)
+                                if (Main.tile[xAxis, yAxis].type == ModContent.TileType<SpiritStone>() && yAxis > WorldGen.rockLayer + 300 && Main.rand.Next(1500) == 6)
                                 {
-                                    WorldGen.TileRunner(xAxis, yAxis, (double)WorldGen.genRand.Next(5, 7), 1, mod.TileType("SpiritOreTile"), false, 0f, 0f, true, true);
+                                    WorldGen.TileRunner(xAxis, yAxis, (double)WorldGen.genRand.Next(5, 7), 1, ModContent.TileType<SpiritOreTile>(), false, 0f, 0f, true, true);
                                 }
                             }
                         }

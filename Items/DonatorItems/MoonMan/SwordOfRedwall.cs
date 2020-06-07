@@ -38,7 +38,7 @@ namespace SpiritMod.Items.DonatorItems.MoonMan
             recipe.AddRecipeGroup("SilverBars", 12);
             recipe.AddIngredient(ItemID.MeteoriteBar, 12);
 			recipe.AddIngredient(ItemID.Ruby, 1);
-			recipe.AddIngredient(mod.ItemType("OldLeather"), 10);
+			recipe.AddIngredient(ModContent.ItemType<OldLeather>(), 10);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

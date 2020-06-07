@@ -45,13 +45,13 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			target.AddBuff(mod.BuffType("FelBrand"), 300);
+			target.AddBuff(ModContent.BuffType<FelBrand>(), 300);
 		}
 
 		public override void Kill(int timeLeft)
 		{
 			if (Main.rand.Next(0, 4) == 0)
-				Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, mod.ItemType("Apocalypse"), 1, false, 0, false, false);
+				Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<Apocalypse>(), 1, false, 0, false, false);
 
 			Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 6);
 			for (int I = 0; I < 8; I++)

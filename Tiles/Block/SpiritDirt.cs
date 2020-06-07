@@ -13,13 +13,13 @@ namespace SpiritMod.Tiles.Block
 		public override void SetDefaults()
 		{
 			Main.tileSolid[Type] = true;
-			Main.tileMerge[Type][mod.TileType("SpiritGrass")] = true;
+			Main.tileMerge[Type][ModContent.TileType<SpiritGrass>()] = true;
 			Main.tileBlendAll[this.Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = true;
 			AddMapEntry(new Color(173, 216, 230));
-			drop = mod.ItemType("SpiritDirtItem");
+			drop = ModContent.ItemType<SpiritDirtItem>();
 			dustType = 103;
 		}
 

@@ -50,7 +50,7 @@ namespace SpiritMod.Buffs.Glyph
             {
                 if (modPlayer.voidStacks == 0)
                 {
-                    Main.buffTexture[Type] = mod.GetTexture("CollapsingVoid");
+                    Main.buffTexture[Type] = ModContent.GetTexture<CollapsingVoid>();
                 }
                 else
                 {

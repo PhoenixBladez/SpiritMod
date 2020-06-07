@@ -55,7 +55,7 @@ namespace SpiritMod.Projectiles
 			if (Main.rand.Next(2) == 0)
 				target.StrikeNPC(projectile.damage / 3 * 2, 0f, 0, crit);
 			else
-				target.AddBuff(mod.BuffType("SpectreFury"), 300);
+				target.AddBuff(ModContent.BuffType<SpectreFury>(), 300);
 		}
 
 	}

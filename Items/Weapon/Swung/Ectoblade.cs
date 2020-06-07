@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.useStyle = ItemUseStyleID.SwingThrow;        
             item.knockBack = 15;
             item.value = Terraria.Item.sellPrice(0, 10, 0, 0);
-            item.shoot = mod.ProjectileType("ShadowBlast");
+            item.shoot = ModContent.ProjectileType<ShadowBlast>();
             item.rare = 8;
             item.shootSpeed = 15f;
             item.UseSound = SoundID.Item1;        
@@ -56,7 +56,7 @@ namespace SpiritMod.Items.Weapon.Swung
         {
             if (player.altFunctionUse == 2)
             {
-                player.AddBuff(mod.BuffType("ShadowTread"), 180);
+                player.AddBuff(ModContent.BuffType<ShadowTread>(), 180);
             }
             else
             {
@@ -71,7 +71,7 @@ namespace SpiritMod.Items.Weapon.Swung
                 item.damage = 75;
                 item.useTime = 20;
                 item.useAnimation = 20;
-                item.shoot = mod.ProjectileType("ShadowBlast");
+                item.shoot = ModContent.ProjectileType<ShadowBlast>();
                 item.knockBack = 3;
             }
             else

@@ -55,13 +55,13 @@ namespace SpiritMod
             {
                 if (Main.rand.Next(2) == 1)
                 {
-                    WorldMethods.TileRunner(x, y + z, (double)x1213, 1, mod.TileType("ReachGrassTile"), false, 0f, 0f, true, true); //Basic grass shape. Will be improved later. Specifically, make it only override certain tiles, and make it fill in random holes in the ground.
+                    WorldMethods.TileRunner(x, y + z, (double)x1213, 1, ModContent.TileType<ReachGrassTile>(), false, 0f, 0f, true, true); //Basic grass shape. Will be improved later. Specifically, make it only override certain tiles, and make it fill in random holes in the ground.
                 }
             }
             int E = Main.maxTilesX;
             int F = (int)Main.maxTilesY;
             tile = Framing.GetTileSafely(E, F);
-            if (tile.type == mod.TileType("ReachGrassTile"))
+            if (tile.type == ModContent.TileType<ReachGrassTile>())
             {
                 WorldGen.GrowTree(E, F);
             }
@@ -73,17 +73,17 @@ namespace SpiritMod
                     if (Main.tile[A, B] != null)
                     {
                         int Wal = (int)Main.tile[A, B].wall;
-                        if (Main.tile[A, B].type == mod.TileType("ReachGrassTile") && ((Wal == 2 || Wal == 54 || Wal == 55 || Wal == 56 || Wal == 57 || Wal == 58 || Wal == 59 || Wal == 0 && B >= WorldGen.rockLayer - 10))) // A = x, B = y.
+                        if (Main.tile[A, B].type == ModContent.TileType<ReachGrassTile>() && ((Wal == 2 || Wal == 54 || Wal == 55 || Wal == 56 || Wal == 57 || Wal == 58 || Wal == 59 || Wal == 0 && B >= WorldGen.rockLayer - 10))) // A = x, B = y.
                         {
                             if (WorldGen.genRand.Next(2) == 0)
                             {
                                 WorldGen.KillWall(A, B);
-                                WorldGen.PlaceWall(A, B, mod.WallType("ReachWallNatural"));
+                                WorldGen.PlaceWall(A, B, ModContent.WallType<ReachWallNatural>());
                             }
                             else if (WorldGen.genRand.Next(2) == 0 && B > WorldGen.rockLayer - 20)
                             {
                                 WorldGen.KillWall(A, B);
-                                WorldGen.PlaceWall(A, B, mod.WallType("ReachStoneWall"));
+                                WorldGen.PlaceWall(A, B, ModContent.WallType<ReachStoneWall>());
                             }
                             else
                             {
@@ -208,9 +208,9 @@ namespace SpiritMod
                 {
                     if (Main.tile[zx, zy].active())
                     {
-                        if (Main.tile[zx, zy].type == mod.TileType("ReachGrassTile"))
+                        if (Main.tile[zx, zy].type == ModContent.TileType<ReachGrassTile>())
                         {
-                            WorldGen.TileRunner(zx, zy, (double)WorldGen.genRand.Next(5, 12), WorldGen.genRand.Next(5, 12), mod.TileType("MossyStone"), false, 0f, 0f, false, true);
+                            WorldGen.TileRunner(zx, zy, (double)WorldGen.genRand.Next(5, 12), WorldGen.genRand.Next(5, 12), ModContent.TileType<MossyStone>(), false, 0f, 0f, false, true);
 
                         }
                     }
@@ -224,7 +224,7 @@ namespace SpiritMod
                 {
                     if (Main.tile[zx, zy].active())
                     {
-                        if (Main.tile[zx, zy].type == mod.TileType("ReachGrassTile"))
+                        if (Main.tile[zx, zy].type == ModContent.TileType<ReachGrassTile>())
                         {
                             WorldGen.TileRunner(zx, zy, (double)WorldGen.genRand.Next(4, 6), WorldGen.genRand.Next(4, 6), WorldGen.CopperTierOre, false, 0f, 0f, false, true);
 
@@ -240,7 +240,7 @@ namespace SpiritMod
                 {
                     if (Main.tile[zx, zy].active())
                     {
-                        if (Main.tile[zx, zy].type == mod.TileType("ReachGrassTile"))
+                        if (Main.tile[zx, zy].type == ModContent.TileType<ReachGrassTile>())
                         {
                             WorldGen.TileRunner(zx, zy, (double)WorldGen.genRand.Next(3, 6), WorldGen.genRand.Next(3, 6), WorldGen.IronTierOre, false, 0f, 0f, false, true);
 
@@ -256,7 +256,7 @@ namespace SpiritMod
                 {
                     if (Main.tile[zx, zy].active())
                     {
-                        if (Main.tile[zx, zy].type == mod.TileType("ReachGrassTile"))
+                        if (Main.tile[zx, zy].type == ModContent.TileType<ReachGrassTile>())
                         {
                             WorldGen.TileRunner(zx, zy, (double)WorldGen.genRand.Next(3, 6), WorldGen.genRand.Next(3, 6), WorldGen.SilverTierOre, false, 0f, 0f, false, true);
 
@@ -272,7 +272,7 @@ namespace SpiritMod
                 {
                     if (Main.tile[zx, zy].active())
                     {
-                        if (Main.tile[zx, zy].type == mod.TileType("ReachGrassTile"))
+                        if (Main.tile[zx, zy].type == ModContent.TileType<ReachGrassTile>())
                         {
                             WorldGen.TileRunner(zx, zy, (double)WorldGen.genRand.Next(3, 6), WorldGen.genRand.Next(3, 6), WorldGen.GoldTierOre, false, 0f, 0f, false, true);
 

@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Placeable.Furniture
             item.autoReuse = true;
             item.consumable = true;
 
-			item.createTile = mod.TileType("SepulchreBannerTile");
+			item.createTile = ModContent.TileType<SepulchreBannerTile>();
 		}
 	}
 }

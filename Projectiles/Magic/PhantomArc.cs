@@ -35,7 +35,7 @@ namespace SpiritMod.Projectiles.Magic
 			if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
 				projectile.velocity = -Vector2.UnitY;
 
-			if (Main.projectile[(int)projectile.ai[1]].active && Main.projectile[(int)projectile.ai[1]].type == mod.ProjectileType("PhantomArcHandle"))
+			if (Main.projectile[(int)projectile.ai[1]].active && Main.projectile[(int)projectile.ai[1]].type == ModContent.ProjectileType<PhantomArcHandle>())
 			{
 				projectile.Center = Main.projectile[(int)projectile.ai[1]].Center;
 				projectile.velocity = Vector2.Normalize(Main.projectile[(int)projectile.ai[1]].velocity);

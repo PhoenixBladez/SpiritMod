@@ -36,7 +36,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 			for (int i = 0; i < 3; ++i)
 			{
 				Projectile.NewProjectile(projectile.Center, Vector2.Zero,
-					mod.ProjectileType("FrostRune"), projectile.damage, 0, projectile.owner);
+					ModContent.ProjectileType<FrostRune>(), projectile.damage, 0, projectile.owner);
 			}
 		}
 		public override bool PreAI()
@@ -56,7 +56,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 				int randFire = Main.rand.Next(1);
 				int newProj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y,
 					Main.rand.Next(0) / 100, Main.rand.Next(0, 0),
-					mod.ProjectileType("FrostRune"), projectile.damage, 0, projectile.owner);
+					ModContent.ProjectileType<FrostRune>(), projectile.damage, 0, projectile.owner);
 			}
 		}
 

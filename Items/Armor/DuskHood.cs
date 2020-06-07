@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Armor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("DuskPlate") && legs.type == mod.ItemType("DuskLeggings");  
+            return body.type == ModContent.ItemType<DuskPlate>() && legs.type == ModContent.ItemType<DuskLeggings>();  
         }
         public override void UpdateArmorSet(Player player)
         {

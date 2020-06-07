@@ -34,7 +34,7 @@ namespace SpiritMod.Items.DonatorItems.FrostTroll
 			item.autoReuse = true;
 			item.useTurn = true;
 			item.crit = 6;
-			item.shoot = mod.ProjectileType("FrostBolt");
+			item.shoot = ModContent.ProjectileType<FrostBolt>();
 		}
 
 		public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -47,7 +47,7 @@ namespace SpiritMod.Items.DonatorItems.FrostTroll
 		{
 			for (int I = 0; I < 5; I++)
 				if (Main.rand.Next(3) == 0)
-					Projectile.NewProjectile(position.X, position.Y, speedX * (Main.rand.Next(500, 900) / 100), speedY * (Main.rand.Next(500, 900) / 100), mod.ProjectileType("FrostBolt"), damage, knockBack, player.whoAmI);
+					Projectile.NewProjectile(position.X, position.Y, speedX * (Main.rand.Next(500, 900) / 100), speedY * (Main.rand.Next(500, 900) / 100), ModContent.ProjectileType<FrostBolt>(), damage, knockBack, player.whoAmI);
 			return false;
 		}
 

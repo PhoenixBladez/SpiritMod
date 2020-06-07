@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Ammo
             item.ranged = true;
             item.consumable = true;
 
-            item.shoot = mod.ProjectileType("ElectricArrow");
+            item.shoot = ModContent.ProjectileType<ElectricArrow>();
             item.shootSpeed = 1f;
         }
 

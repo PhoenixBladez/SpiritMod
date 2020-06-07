@@ -47,7 +47,7 @@ namespace SpiritMod.Projectiles
 			projectile.velocity *= 0.95f;
 			int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 75, 0f, 0f);
 			Main.dust[dust].noGravity = true;
-			dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, mod.DustType("Pestilence"), 0f, 0f);
+			dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<Pestilence>(), 0f, 0f);
 			Main.dust[dust].noGravity = true;
 
 			projectile.frameCounter++;

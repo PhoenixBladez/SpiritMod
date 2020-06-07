@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.mana = 10;
 			item.summon = true;
 			item.noMelee = true;
-			item.shoot = mod.ProjectileType("ShadowCircleRune");
+			item.shoot = ModContent.ProjectileType<ShadowCircleRune>();
 			item.shootSpeed = 0f;
 		}
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float  scale, int whoAmI) 	

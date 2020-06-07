@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Consumable.Potion
             item.consumable = true;
             item.autoReuse = false;
 
-            item.buffType = mod.BuffType("BismitePotionBuff");
+            item.buffType = ModContent.BuffType<BismitePotionBuff>();
             item.buffTime = 14400;
 
             item.UseSound = SoundID.Item3;

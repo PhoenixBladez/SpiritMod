@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 4;
 			item.UseSound = SoundID.Item83;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("PalladiumStaffProj");
+			item.shoot = ModContent.ProjectileType<PalladiumStaffProj>();
 			item.shootSpeed = 8f;
 		}
 

@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Consumable
         public override bool UseItem(Player player)
         {
             {
-                player.AddBuff(mod.BuffType("FateToken"), 3600);
+                player.AddBuff(ModContent.BuffType<FateToken>(), 3600);
                 MyPlayer modPlayer = player.GetSpiritPlayer();
             if (!modPlayer.fateToken)
             {

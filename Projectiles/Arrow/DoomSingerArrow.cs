@@ -32,7 +32,7 @@ namespace SpiritMod.Projectiles.Arrow
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			target.AddBuff(mod.BuffType("DoomDestiny"), 18000);
+			target.AddBuff(ModContent.BuffType<DoomDestiny>(), 18000);
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)

@@ -30,7 +30,7 @@ public class PestilentPike : ModItem
         item.damage = 38;
         item.value = Item.sellPrice(0, 0, 70, 0);
         item.rare = 4;
-        item.shoot = mod.ProjectileType("PestilentPikeProj");
+        item.shoot = ModContent.ProjectileType<PestilentPikeProj>();
     }
     
     public override void AddRecipes()

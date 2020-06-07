@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Placeable.Walls
             item.autoReuse = true;
             item.consumable = true;
 
-			item.createWall = mod.WallType("BismiteWall");
+			item.createWall = ModContent.WallType<BismiteWall>();
 		}
 	}
 }*/

@@ -40,7 +40,7 @@ namespace SpiritMod.Projectiles.Thrown.Artifact
 
 		public override void AI()
 		{
-			int newDust1 = Dust.NewDust(projectile.position, projectile.width * 2, projectile.height, mod.DustType("Pestilence"), Main.rand.Next(-3, 4), Main.rand.Next(-3, 4), 100, default(Color), 1f);
+			int newDust1 = Dust.NewDust(projectile.position, projectile.width * 2, projectile.height, ModContent.DustType<Pestilence>(), Main.rand.Next(-3, 4), Main.rand.Next(-3, 4), 100, default(Color), 1f);
 			Dust dust = Main.dust[newDust1];
 			dust.position.X = dust.position.X - 2f;
 			dust.position.Y = dust.position.Y + 2f;
@@ -50,7 +50,7 @@ namespace SpiritMod.Projectiles.Thrown.Artifact
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			target.AddBuff(mod.BuffType("Necrosis"), 60);
+			target.AddBuff(ModContent.BuffType<Necrosis>(), 60);
 		}
 
 	}

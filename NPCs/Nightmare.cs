@@ -106,7 +106,7 @@ namespace SpiritMod.NPCs
 					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
 					if (Main.netMode != 1)
 					{
-						NPC.NewNPC((int)npc.position.X + npc.width / 2, (int)npc.Center.Y - 16, mod.NPCType("WitherBall"), 0, 0, 0, 0, 0, 255);
+						NPC.NewNPC((int)npc.position.X + npc.width / 2, (int)npc.Center.Y - 16, ModContent.NPCType<WitherBall>(), 0, 0, 0, 0, 0, 255);
 					}
 				}
 			}
@@ -183,7 +183,7 @@ namespace SpiritMod.NPCs
 		public override void NPCLoot()
 		{
 
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("NightmareFuel"), Main.rand.Next(1) + 1);
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<NightmareFuel>(), Main.rand.Next(1) + 1);
 			if (Main.rand.Next(14) == 0)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TerrorBark4"), 1);

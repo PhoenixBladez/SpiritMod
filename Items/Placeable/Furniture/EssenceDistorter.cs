@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Placeable.Furniture
             item.consumable = true;
 
 
-            item.createTile = mod.TileType("EssenceDistorter");
+            item.createTile = ModContent.TileType<EssenceDistorter>();
         }
 
         public override void AddRecipes()

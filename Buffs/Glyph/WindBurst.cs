@@ -21,7 +21,7 @@ namespace SpiritMod.Buffs.Glyph
 
 			if (Main.rand.NextDouble() < 0.1)
 			{
-				Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, mod.DustType("Wind"));
+				Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, ModContent.DustType<Wind>());
 				dust.customData = new WindAnchor(npc.Center, dust.position);
 			}
 		}

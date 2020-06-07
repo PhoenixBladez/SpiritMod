@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
             item.rare = 2;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("ReachPetal");
+            item.shoot = ModContent.ProjectileType<ReachPetal>();
             item.shootSpeed = 15f;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

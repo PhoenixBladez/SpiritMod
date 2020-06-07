@@ -20,7 +20,7 @@ namespace SpiritMod.Tiles.Block
             Main.tileBlockLight[Type] = true;
             soundType = 21;
             minPick = 100;
-            drop = mod.ItemType("AsteroidBlock");
+            drop = ModContent.ItemType<AsteroidBlock>();
         }
         public override bool CanKillTile(int i, int j, ref bool blockDamaged)
         {

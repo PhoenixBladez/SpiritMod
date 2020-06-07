@@ -70,7 +70,7 @@ namespace SpiritMod.NPCs.Critters
 		{
 			if (Main.rand.Next(2) == 1)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("RawFish"), 1);
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<RawFish>(), 1);
 			}
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

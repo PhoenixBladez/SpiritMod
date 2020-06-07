@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Armor.ThermalArmor
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("ThermalBody") && legs.type == mod.ItemType("ThermalLegs");  
+            return body.type == ModContent.ItemType<ThermalBody>() && legs.type == ModContent.ItemType<ThermalLegs>();  
         }
         public override void UpdateArmorSet(Player player)
         {            

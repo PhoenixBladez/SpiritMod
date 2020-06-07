@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Gun
             item.rare = 8;
             item.UseSound = SoundID.Item92;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("TerraBullet");
+            item.shoot = ModContent.ProjectileType<TerraBullet>();
             item.shootSpeed = 14f;
             item.useAmmo = AmmoID.Bullet;
         }
@@ -85,12 +85,12 @@ namespace SpiritMod.Items.Weapon.Gun
                 {
                     for (int I = 0; I < 1; I++)
                     {
-                        Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), mod.ProjectileType("TerraBomb"), 60, knockBack, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<TerraBomb>(), 60, knockBack, player.whoAmI, 0f, 0f);
                     }
                     charger = 0;
                 }
 
-                type = mod.ProjectileType("TerraBullet");
+                type = ModContent.ProjectileType<TerraBullet>();
                 float spread = 10 * 0.00774f;//45 degrees converted to radians
                 float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
                 double baseAngle = Math.Atan2(speedX, speedY);

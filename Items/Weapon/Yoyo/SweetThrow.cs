@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Weapon.Yoyo
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.useAnimation = 25;
             item.useTime = 27;
-            item.shoot = mod.ProjectileType("SweetThrowProjectile");           
+            item.shoot = ModContent.ProjectileType<SweetThrowProjectile>();           
         }
     }
 }

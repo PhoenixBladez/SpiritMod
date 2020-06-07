@@ -33,12 +33,12 @@ namespace SpiritMod.Items.Consumable
 
        public override bool CanUseItem(Player player)
         {
-            return !NPC.AnyNPCs(mod.NPCType("Infernon")) && !(player.position.Y / 16f < Main.maxTilesY - 200);
+            return !NPC.AnyNPCs(ModContent.NPCType<Infernon>()) && !(player.position.Y / 16f < Main.maxTilesY - 200);
         }
 
     public override bool UseItem(Player player)
         {
-            NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("Infernon"));
+            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Infernon>());
             Main.PlaySound(SoundID.Roar, player.position, 0);
             return true;
         }

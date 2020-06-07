@@ -20,7 +20,7 @@ namespace SpiritMod.Items.DonatorItems
             item.CloneDefaults(ItemID.Shuriken);
             item.width = 26;
             item.height = 26;
-            item.shoot = mod.ProjectileType("BladeOfNoah");
+            item.shoot = ModContent.ProjectileType<BladeOfNoah>();
             item.useAnimation = 25;
             item.useTime = 25;
             item.shootSpeed = 10f;

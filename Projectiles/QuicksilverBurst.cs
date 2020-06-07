@@ -51,7 +51,7 @@ namespace SpiritMod.Projectiles
 				float rand = Main.rand.NextFloat() * 6.283f;
 				vel = vel.RotatedBy(rand);
 				vel *= 8f;
-				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, vel.X, vel.Y, mod.ProjectileType("QuicksilverBeam"), projectile.damage / 2 * 3, 1, projectile.owner, 0f, 0f);
+				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, vel.X, vel.Y, ModContent.ProjectileType<QuicksilverBeam>(), projectile.damage / 2 * 3, 1, projectile.owner, 0f, 0f);
 			}
 		}
 	}

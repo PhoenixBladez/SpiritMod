@@ -34,7 +34,7 @@ item.crit = 4;
             item.autoReuse = true;
             item.noUseGraphic = true;
 
-            item.shoot = mod.ProjectileType("PrimeSawProj");
+            item.shoot = ModContent.ProjectileType<PrimeSawProj>();
             item.shootSpeed = 40f;
 			item.melee = true;
             item.UseSound = SoundID.Item23;

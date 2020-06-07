@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Armor.QuicksilverArmor
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("QuicksilverBody") && legs.type == mod.ItemType("QuicksilverLegs");  
+            return body.type == ModContent.ItemType<QuicksilverBody>() && legs.type == ModContent.ItemType<QuicksilverLegs>();  
         }
         public override void UpdateArmorSet(Player player)
         {            

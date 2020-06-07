@@ -34,7 +34,7 @@ namespace SpiritMod.Projectiles
 				Vector2 targetDir = ((((float)Math.PI * 2) / 6) * i).ToRotationVector2();
 				targetDir.Normalize();
 				targetDir *= 7;
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, targetDir.X, targetDir.Y, mod.ProjectileType("GodHomingProj"), projectile.damage, 0.5f, Main.myPlayer);
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, targetDir.X, targetDir.Y, ModContent.ProjectileType<GodHomingProj>(), projectile.damage, 0.5f, Main.myPlayer);
 			}
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 94);
 		}

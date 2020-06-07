@@ -48,7 +48,7 @@ namespace SpiritMod.Projectiles.Held
                 if (!target.SpawnedFromStatue && Main.rand.Next(4) == 0 && target.HasBuff(BuffID.Midas))
                 {
                     int proj = Projectile.NewProjectile(target.Center.X, target.Center.Y,
-                    0, 0, mod.ProjectileType("GildedFountain"), projectile.damage, projectile.knockBack, projectile.owner);
+                    0, 0, ModContent.ProjectileType<GildedFountain>(), projectile.damage, projectile.knockBack, projectile.owner);
                 }
             }
 		}

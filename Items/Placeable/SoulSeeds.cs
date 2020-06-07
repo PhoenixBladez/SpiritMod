@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Placeable
 			item.width = 12;
 			item.height = 14;
 			item.value = Item.buyPrice(0, 0, 5, 0);
-            item.createTile = mod.TileType("SoulBloomTile");
+            item.createTile = ModContent.TileType<SoulBloomTile>();
         }
 	}
 }

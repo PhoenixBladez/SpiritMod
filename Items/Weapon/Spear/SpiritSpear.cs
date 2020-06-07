@@ -30,7 +30,7 @@ public class SpiritSpear : ModItem
         item.value = Item.sellPrice(0, 1, 15, 0);
         item.rare = 5;
         item.autoReuse = false;
-        item.shoot = mod.ProjectileType("SpiritSpearProjectile");
+        item.shoot = ModContent.ProjectileType<SpiritSpearProjectile>();
     }
     
     public override void AddRecipes()

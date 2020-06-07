@@ -95,7 +95,7 @@ namespace SpiritMod.Projectiles.Hostile
                 Main.dust[num624].scale *= 0.3f;
             }
             if (Main.rand.Next(0, 20) == 0)
-				Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, mod.ItemType("SpaceJunkItem"), 1, false, 0, false, false);
+				Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<SpaceJunkItem>(), 1, false, 0, false, false);
 		}
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

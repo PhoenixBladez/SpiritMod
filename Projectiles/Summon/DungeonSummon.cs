@@ -38,7 +38,7 @@ namespace SpiritMod.Projectiles.Summon
 		{
 			int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 187);
 
-			bool flag64 = projectile.type == mod.ProjectileType("DungeonSummon");
+			bool flag64 = projectile.type == ModContent.ProjectileType<DungeonSummon>();
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (flag64)

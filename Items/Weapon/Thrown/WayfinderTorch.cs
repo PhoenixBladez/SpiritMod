@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.CloneDefaults(ItemID.Shuriken);
             item.width = 32;
             item.height = 32;           
-            item.shoot = mod.ProjectileType("WayfinderTorch");
+            item.shoot = ModContent.ProjectileType<WayfinderTorch>();
             item.useAnimation = 21;
             item.useTime = 21;
             item.mana = 4;

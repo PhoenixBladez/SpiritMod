@@ -42,14 +42,14 @@ namespace SpiritMod.Projectiles.Thrown
 			{
 				for (int k = 0; k < 5; k++)
 				{
-					int p = Projectile.NewProjectile(target.position.X + Main.rand.Next(-20, 20), target.position.Y - 60, 0f, 8f, mod.ProjectileType("PoisonCloud"), projectile.damage/2, 0f, projectile.owner, 0f, 0f);
+					int p = Projectile.NewProjectile(target.position.X + Main.rand.Next(-20, 20), target.position.Y - 60, 0f, 8f, ModContent.ProjectileType<PoisonCloud>(), projectile.damage/2, 0f, projectile.owner, 0f, 0f);
 					Main.projectile[p].penetrate = 2;
 
 				}
 			}
 			MyPlayer mp = Main.player[projectile.owner].GetSpiritPlayer();
 			if (mp.sacredVine && Main.rand.Next(2) == 0)
-				target.AddBuff(mod.BuffType("PollinationPoison"), 200, true);
+				target.AddBuff(ModContent.BuffType<PollinationPoison>(), 200, true);
 
 			else
 			if (Main.rand.Next(4) == 0)

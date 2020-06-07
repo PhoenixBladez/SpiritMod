@@ -51,7 +51,7 @@ namespace SpiritMod.Tiles.Furniture
 		{
 			if (Main.rand.Next(2) == 0)
             {
-			    Terraria.Item.NewItem(i * 16, j * 16, 64, 32, mod.ItemType("GemPickaxe"));
+			    Terraria.Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<GemPickaxe>());
             }
 			for (int k = 0; k < 3; k++)
 			{

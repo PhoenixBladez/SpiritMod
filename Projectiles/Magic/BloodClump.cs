@@ -45,7 +45,7 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			target.AddBuff(mod.BuffType("BCorrupt"), 180);
+			target.AddBuff(ModContent.BuffType<BCorrupt>(), 180);
 		}
 
 	}

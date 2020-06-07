@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 4;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = false;
-			item.shoot = mod.ProjectileType("GrimoireScythe");
+			item.shoot = ModContent.ProjectileType<GrimoireScythe>();
 			item.shootSpeed = 2f;
 		}
         public override void AddRecipes()

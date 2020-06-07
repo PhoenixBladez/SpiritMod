@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.UseSound = SoundID.Item8;
             item.autoReuse = false;
             item.shootSpeed = 14;
-            item.shoot = mod.ProjectileType("CursedBallJump");
+            item.shoot = ModContent.ProjectileType<CursedBallJump>();
         }
       
     }

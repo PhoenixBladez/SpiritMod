@@ -123,7 +123,7 @@ namespace SpiritMod.NPCs.BloodMoon
                                 float B = (float)Main.rand.Next(-120, 120) * 0.01f;
                                 for (int z = 0; z <= Main.rand.Next(1, 4); z++)
                                 {
-                                    int p = Projectile.NewProjectile((int)npc.position.X + Main.rand.Next(-60, 60), (int)npc.position.Y + Main.rand.Next(-200, -100), direction.X + A, direction.Y + B, mod.ProjectileType("OccultistHand"), 16, 1, Main.myPlayer, 0, 0);
+                                    int p = Projectile.NewProjectile((int)npc.position.X + Main.rand.Next(-60, 60), (int)npc.position.Y + Main.rand.Next(-200, -100), direction.X + A, direction.Y + B, ModContent.ProjectileType<OccultistHand>(), 16, 1, Main.myPlayer, 0, 0);
                                     Main.projectile[p].velocity.X = Main.player[npc.target].Center.X - Main.projectile[p].Center.X;
                                     Main.projectile[p].velocity.Y = Main.player[npc.target].Center.Y - Main.projectile[p].Center.Y;
                                     Main.projectile[p].velocity.Normalize();
@@ -298,7 +298,7 @@ namespace SpiritMod.NPCs.BloodMoon
         
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.spawnTileY < Main.rockLayer && (Main.bloodMoon) && !NPC.AnyNPCs(mod.NPCType("Occultist")) && NPC.downedBoss1 ? 0.04f : 0f;
+			return spawnInfo.spawnTileY < Main.rockLayer && (Main.bloodMoon) && !NPC.AnyNPCs(ModContent.NPCType<Occultist>()) && NPC.downedBoss1 ? 0.04f : 0f;
 		}
         public override void NPCLoot()
         {
@@ -307,7 +307,7 @@ namespace SpiritMod.NPCs.BloodMoon
             {
                 npc.DropItem(mod.ItemType(lootTable[loot]));
             }
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BloodFire"), 4 + Main.rand.Next(3, 5));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BloodFire>(), 4 + Main.rand.Next(3, 5));
         }
         public override void HitEffect(int hitDirection, double damage)
 		{

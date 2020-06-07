@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Consumable.Potion
             item.consumable = true;
             item.autoReuse = false;
 
-            item.buffType = mod.BuffType("PinkPotionBuff");
+            item.buffType = ModContent.BuffType<PinkPotionBuff>();
             item.buffTime = 7200;
 
             item.UseSound = SoundID.Item3;

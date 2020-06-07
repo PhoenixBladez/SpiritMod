@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Flail
             item.value = Item.sellPrice(0, 1, 43, 0);
             item.damage = 71;
             item.noUseGraphic = true; 
-            item.shoot = mod.ProjectileType("ClauncherHead");
+            item.shoot = ModContent.ProjectileType<ClauncherHead>();
             item.shootSpeed = 28f;
             item.UseSound = SoundID.Item1;
             item.melee = true; 

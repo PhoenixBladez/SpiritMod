@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Gun
             item.rare = 8;
             item.UseSound = SoundID.Item11;
             item.autoReuse = false;
-            item.shoot = mod.ProjectileType("Brainslug");
+            item.shoot = ModContent.ProjectileType<Brainslug>();
             item.shootSpeed = 15f;
         }
         public override Vector2? HoldoutOffset()
@@ -41,7 +41,7 @@ namespace SpiritMod.Items.Weapon.Gun
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             {
-                base.item.shoot = base.mod.ProjectileType("Brainslug");
+                base.item.shoot = base.ModContent.ProjectileType<Brainslug>();
                 return true;
             }
         }

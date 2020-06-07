@@ -40,7 +40,7 @@ namespace SpiritMod.Projectiles.Thrown
 		public override void Kill(int timeLeft)
 		{
 			if (Main.rand.Next(0, 4) == 0)
-				Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, mod.ItemType("LihzahrdKnife"), 1, false, 0, false, false);
+				Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<LihzahrdKnife>(), 1, false, 0, false, false);
 
 			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1);
 			Vector2 vector9 = projectile.position;

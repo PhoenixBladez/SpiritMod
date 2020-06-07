@@ -46,7 +46,7 @@ namespace SpiritMod.Projectiles.Summon
 			if (projectile.velocity.Y > 5)
 				projectile.velocity.Y = 5;
 			
-			bool flag64 = projectile.type == mod.ProjectileType("TankMinion");
+			bool flag64 = projectile.type == ModContent.ProjectileType<TankMinion>();
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (flag64)

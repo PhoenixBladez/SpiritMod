@@ -76,14 +76,14 @@ namespace SpiritMod.Tiles.Ambient
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 64, 48, mod.ItemType("StarBeaconItem"));
+            Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<StarBeaconItem>());
             Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
         }
         public override void MouseOver(int i, int j)
         {
             //shows the Cryptic Crystal icon while mousing over this tile
             Main.player[Main.myPlayer].showItemIcon = true;
-            Main.player[Main.myPlayer].showItemIcon2 = mod.ItemType("StarWormSummon");
+            Main.player[Main.myPlayer].showItemIcon2 = ModContent.ItemType<StarWormSummon>();
         }
 
         public override void RightClick(int i, int j)
@@ -91,22 +91,22 @@ namespace SpiritMod.Tiles.Ambient
             //don't bother if there's already a Crystal King in the world
             for (int x = 0; x < Main.npc.Length; x++)
             {
-                if (Main.npc[x].active && Main.npc[x].type == mod.NPCType("SteamRaiderHead")) return;
+                if (Main.npc[x].active && Main.npc[x].type == ModContent.NPCType<SteamRaiderHead>()) return;
             }
 
             //check if player has a Cryptic Crystal
 			Player player = Main.player[Main.myPlayer];
-            if (player.HasItem(mod.ItemType("StarWormSummon")) && !Main.dayTime)
+            if (player.HasItem(ModContent.ItemType<StarWormSummon>()) && !Main.dayTime)
             {
                 //now to search for it
                 Item[] inventory = player.inventory;
                 for (int k = 0; k < inventory.Length; k++)
                 {
-                    if (inventory[k].type == mod.ItemType("StarWormSummon"))
+                    if (inventory[k].type == ModContent.ItemType<StarWormSummon>())
                     {
                         //consume it, and summon the Crystal King!
                         inventory[k].stack--;
-                        NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("SteamRaiderHead"));
+                        NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<SteamRaiderHead>());
                       //  Main.PlaySound(15, (int)player.position.X, (int)player.position.Y, 0);
 					//	Main.NewText("Starplate Voyager has awoken!", 175, 75, 255, false);
                         //and don't spam crystal kings if the player didn't ask for it :P

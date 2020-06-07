@@ -33,7 +33,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			npc.boss = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
-			bossBag = mod.ItemType("InfernonBag");
+			bossBag = ModContent.ItemType<InfernonBag>();
 			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Infernon");
 			npc.npcSlots = 10;
 
@@ -49,10 +49,10 @@ namespace SpiritMod.NPCs.Boss.Infernon
 				npc.TargetClosest(false);
 				npc.velocity.Y = -100;
 			}
-			if (!NPC.AnyNPCs(mod.NPCType("InfernonSkull")))
+			if (!NPC.AnyNPCs(ModContent.NPCType<InfernonSkull>()))
 			{
 				if (Main.expertMode || npc.life <= 7000)
-					NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, mod.NPCType("InfernonSkull"), 0, 2, 1, 0, npc.whoAmI, npc.target);
+					NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, ModContent.NPCType<InfernonSkull>(), 0, 2, 1, 0, npc.whoAmI, npc.target);
 			}
 
 			if (npc.ai[0] == 0)
@@ -124,7 +124,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 						float num12 = speed / length;
 						speedX = speedX * num12;
 						speedY = speedY * num12;
-						Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("InfernalWave"), 28, 0, Main.myPlayer);
+						Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<InfernalWave>(), 28, 0, Main.myPlayer);
 					}
 				}
 				else if (npc.ai[3] < 0)
@@ -178,7 +178,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 							Vector2 dir = player.Center - pos;
 							dir.Normalize();
 							dir *= 12;
-							Projectile.NewProjectile(pos.X, pos.Y, dir.X, dir.Y, mod.ProjectileType("FireSpike"), 22, 0, Main.myPlayer);
+							Projectile.NewProjectile(pos.X, pos.Y, dir.X, dir.Y, ModContent.ProjectileType<FireSpike>(), 22, 0, Main.myPlayer);
 							currentSpread++;
 						}
 					}
@@ -235,7 +235,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 						Main.dust[dust3].noGravity = true;
 						Main.dust[dust3].scale = 1.9f;
 						Vector2 direction = Vector2.One.RotatedByRandom(MathHelper.ToRadians(100));
-						int newNPC = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, mod.NPCType("InfernonSkullMini"));
+						int newNPC = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, ModContent.NPCType<InfernonSkullMini>());
 						Main.npc[newNPC].velocity = direction * 8;
 					}
 					// Shoot mini skulls.
@@ -309,7 +309,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 
 						Main.NewText("You have yet to defeat the true master of Hell...", 220, 100, 100, true);
 						Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height);
-						NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, mod.NPCType("InfernoSkull"));
+						NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<InfernoSkull>());
 					}
 				}
 				npc.position.X = npc.position.X + (float)(npc.width / 2);
@@ -369,13 +369,13 @@ namespace SpiritMod.NPCs.Boss.Infernon
 
 		public override void NPCLoot()
 		{
-			npc.DropItem(mod.ItemType("InfernalAppendage"), 25, 36);
+			npc.DropItem(ModContent.ItemType<InfernalAppendage>(), 25, 36);
 
 			string[] lootTable = { "InfernalJavelin", "InfernalSword", "DiabolicHorn", "SevenSins", "InfernalStaff", "EyeOfTheInferno", "InfernalShield" };
 			int loot = Main.rand.Next(lootTable.Length);
 			npc.DropItem(mod.ItemType(lootTable[loot]));
 
-			npc.DropItem(mod.ItemType("SearingBand"), 10f / 85);
+			npc.DropItem(ModContent.ItemType<SearingBand>(), 10f / 85);
 			npc.DropItem(Items.Armor.Masks.InfernonMask._type, 1f / 7);
 			npc.DropItem(Items.Boss.Trophy4._type, 1f / 10);
 		}

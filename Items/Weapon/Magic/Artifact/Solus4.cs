@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Weapon.Magic.Artifact
 			item.crit = 6;
 			item.UseSound = SoundID.Item74;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("PhoenixBolt");
+			item.shoot = ModContent.ProjectileType<PhoenixBolt>();
 			item.shootSpeed = 1f;
 		}
 
@@ -58,7 +58,7 @@ namespace SpiritMod.Items.Weapon.Magic.Artifact
 		{
 			if (player.GetSpiritPlayer().HolyGrail)
 			{
-				player.AddBuff(mod.BuffType("Righteous"), 2);
+				player.AddBuff(ModContent.BuffType<Righteous>(), 2);
 				item.crit = 10;
 				item.mana = 10;
 			}

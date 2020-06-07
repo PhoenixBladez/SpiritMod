@@ -60,7 +60,7 @@ namespace SpiritMod.NPCs.Reach
 		{
 			if (Main.rand.Next(40) == 1)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GremlinTooth"), 1);
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GremlinTooth>(), 1);
 			}
 		}
 	}

@@ -29,8 +29,8 @@ namespace SpiritMod.Items.Weapon.Summon
             item.useAnimation = 30;            
             item.summon = true;
             item.noMelee = true;
-            item.shoot = mod.ProjectileType("CarnivorousPlantMinion");
-            item.buffType = mod.BuffType("CarnivorousPlantMinionBuff");
+            item.shoot = ModContent.ProjectileType<CarnivorousPlantMinion>();
+            item.buffType = ModContent.BuffType<CarnivorousPlantMinionBuff>();
             item.buffTime = 3600;
             item.UseSound = SoundID.Item44;
         }

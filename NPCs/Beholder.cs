@@ -224,7 +224,7 @@ namespace SpiritMod.NPCs
             int x = spawnInfo.spawnTileX;
             int y = spawnInfo.spawnTileY;
             int tile = (int)Main.tile[x, y].type;
-            return (tile == 367) && NPC.downedBoss2 && NPC.AnyNPCs(mod.NPCType("Beholder")) && spawnInfo.spawnTileY > Main.rockLayer ? 0.0099f : 0f;
+            return (tile == 367) && NPC.downedBoss2 && NPC.AnyNPCs(ModContent.NPCType<Beholder>()) && spawnInfo.spawnTileY > Main.rockLayer ? 0.0099f : 0f;
 
         }
         public override void FindFrame(int frameHeight)
@@ -269,10 +269,10 @@ namespace SpiritMod.NPCs
 
         public override void NPCLoot()
 		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MarbleChunk"), Main.rand.Next(4, 7) + 1);
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MarbleChunk>(), Main.rand.Next(4, 7) + 1);
             if (Main.rand.Next(3) == 0)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BeholderYoyo"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BeholderYoyo>());
             }
 		}
 	}

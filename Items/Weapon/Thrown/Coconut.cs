@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.noMelee = true;
             item.consumable = true;
             item.maxStack = 999;
-            item.shoot = mod.ProjectileType("CoconutP");
+            item.shoot = ModContent.ProjectileType<CoconutP>();
             item.useAnimation = 60;
             item.useTime = 60;
             item.shootSpeed = 4f;

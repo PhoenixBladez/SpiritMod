@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Pets
 
 			item.damage = 0;
 			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.shoot = mod.ProjectileType("Lantern");
+			item.shoot = ModContent.ProjectileType<Lantern>();
 			item.width = 16;
 			item.height = 30;
 			item.useAnimation = 20;
@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Pets
 			item.rare = 3;
 			item.noMelee = true;
 			item.value = Item.sellPrice(0, 3, 50, 0);
-			item.buffType = mod.BuffType("LanternBuff");
+			item.buffType = ModContent.BuffType<LanternBuff>();
 		}
 
 		public override void UseStyle(Player player)

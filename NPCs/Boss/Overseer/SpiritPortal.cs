@@ -35,7 +35,7 @@ namespace SpiritMod.NPCs.Boss.Overseer
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 6);
-			NPC parent = Main.npc[NPC.FindFirstNPC(mod.NPCType("Overseer"))];
+			NPC parent = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<Overseer>())];
 			Player player = Main.player[parent.target];
 			Vector2 direction8 = player.Center - projectile.Center;
 			direction8.Normalize();
@@ -47,7 +47,7 @@ namespace SpiritMod.NPCs.Boss.Overseer
 			{
 				float A = (float)Main.rand.Next(-250, 250) * 0.01f;
 				float B = (float)Main.rand.Next(-250, 250) * 0.01f;
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, direction8.X + A, direction8.Y + B, mod.ProjectileType("SpiritShard"), 80, 1, Main.myPlayer, 0, 0);
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, direction8.X + A, direction8.Y + B, ModContent.ProjectileType<SpiritShard>(), 80, 1, Main.myPlayer, 0, 0);
 			}
 		}
 
@@ -70,14 +70,14 @@ namespace SpiritMod.NPCs.Boss.Overseer
 			//projectile.rotation = projectile.rotation + 3f;
 			//Making player variable "p" set as the projectile's owner
 			float lowestDist = float.MaxValue;
-			NPC parent = Main.npc[NPC.FindFirstNPC(mod.NPCType("Overseer"))];
+			NPC parent = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<Overseer>())];
 			Player player = Main.player[parent.target]; // 
 			if ((projectile.ai[1] / 2) % 75 == 1)
 			{
 				Vector2 dir = player.Center - projectile.Center;
 				dir.Normalize();
 				dir *= 14;
-				int spiritdude = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y, mod.NPCType("CaptiveSpirit"), parent.target, 0, 0, 0, -1);
+				int spiritdude = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y, ModContent.NPCType<CaptiveSpirit>(), parent.target, 0, 0, 0, -1);
 				NPC Spirits = Main.npc[spiritdude];
 				Spirits.ai[0] = dir.X;
 				Spirits.ai[1] = dir.Y;

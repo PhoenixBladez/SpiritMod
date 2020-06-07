@@ -42,7 +42,7 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 		{
 			if (player.GetSpiritPlayer().Resolve)
 			{
-				player.AddBuff(mod.BuffType("Resolve"), 2);
+				player.AddBuff(ModContent.BuffType<Resolve>(), 2);
 			}
 		}
 
@@ -60,14 +60,14 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
-			Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, mod.DustType("Crystal"));
+			Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, ModContent.DustType<Crystal>());
 		}
 
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
 		{
 			if (Main.rand.Next(12) == 1)
 			{
-				target.AddBuff(mod.BuffType("Crystallize"), 180);
+				target.AddBuff(ModContent.BuffType<Crystallize>(), 180);
 			}
 			if (Main.rand.Next(6) == 1)
 			{
@@ -77,7 +77,7 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 					float rand = Main.rand.NextFloat() * MathHelper.TwoPi;
 					vel = vel.RotatedBy(rand);
 					vel *= 8f;
-					Projectile.NewProjectile(player.position.X, player.position.Y, vel.X, vel.Y, mod.ProjectileType("AncientCrystal"), (int)(damage*.875f), knockBack * .2f, player.whoAmI);
+					Projectile.NewProjectile(player.position.X, player.position.Y, vel.X, vel.Y, ModContent.ProjectileType<AncientCrystal>(), (int)(damage*.875f), knockBack * .2f, player.whoAmI);
 
 				}
 			}

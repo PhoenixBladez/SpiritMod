@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Summon
             item.rare = 3;
             item.UseSound = new Terraria.Audio.LegacySoundStyle(3, 56);
             item.autoReuse = false;
-            item.shoot = mod.ProjectileType("DragonHeadOne");
+            item.shoot = ModContent.ProjectileType<DragonHeadOne>();
             item.shootSpeed = 3f;
         }
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -49,19 +49,19 @@ namespace SpiritMod.Items.Weapon.Summon
 				offset = 32;
 			}
 			
-			int latestprojectile = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("DragonHeadOne"), damage, knockBack, player.whoAmI, speedX, speedY); //bottom
+			int latestprojectile = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<DragonHeadOne>(), damage, knockBack, player.whoAmI, speedX, speedY); //bottom
 			for (int i = 0; i < dragonLength; ++i)
 			{
-				latestprojectile = Projectile.NewProjectile(position.X + (i * offset), position.Y, 0, 0, mod.ProjectileType("DragonBodyOne"), damage, 0, player.whoAmI, 0, latestprojectile);
+				latestprojectile = Projectile.NewProjectile(position.X + (i * offset), position.Y, 0, 0, ModContent.ProjectileType<DragonBodyOne>(), damage, 0, player.whoAmI, 0, latestprojectile);
 			}
-			latestprojectile = Projectile.NewProjectile(position.X + (dragonLength * offset), position.Y, 0, 0, mod.ProjectileType("DragonTailOne"), damage, 0, player.whoAmI, 0, latestprojectile);
+			latestprojectile = Projectile.NewProjectile(position.X + (dragonLength * offset), position.Y, 0, 0, ModContent.ProjectileType<DragonTailOne>(), damage, 0, player.whoAmI, 0, latestprojectile);
 			
-			latestprojectile = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("DragonHeadTwo"), damage, knockBack, player.whoAmI, speedX, speedY); //bottom
+			latestprojectile = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<DragonHeadTwo>(), damage, knockBack, player.whoAmI, speedX, speedY); //bottom
 			for (int j = 0; j < dragonLength; ++j)
 			{
-				latestprojectile = Projectile.NewProjectile(position.X + (j * offset), position.Y, 0, 0, mod.ProjectileType("DragonBodyTwo"), damage, 0, player.whoAmI, 0, latestprojectile);
+				latestprojectile = Projectile.NewProjectile(position.X + (j * offset), position.Y, 0, 0, ModContent.ProjectileType<DragonBodyTwo>(), damage, 0, player.whoAmI, 0, latestprojectile);
 			}
-			latestprojectile = Projectile.NewProjectile(position.X + (dragonLength * offset), position.Y, 0, 0, mod.ProjectileType("DragonTailTwo"), damage, 0, player.whoAmI, 0, latestprojectile);
+			latestprojectile = Projectile.NewProjectile(position.X + (dragonLength * offset), position.Y, 0, 0, ModContent.ProjectileType<DragonTailTwo>(), damage, 0, player.whoAmI, 0, latestprojectile);
 			//Main.projectile[(int)latestprojectile].realLife = projectile.whoAmI;
 			return true;
 		}

@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.autoReuse = true;
             item.shootSpeed = 4;
             item.UseSound = SoundID.Item20;
-            item.shoot = mod.ProjectileType("GrassPortal");
+            item.shoot = ModContent.ProjectileType<GrassPortal>();
         }
                 public override void AddRecipes()
         {

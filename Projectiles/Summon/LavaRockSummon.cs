@@ -90,7 +90,7 @@ namespace SpiritMod.Projectiles.Summon
                 Main.dust[index2].velocity.Y *= 1.7f;
                 Main.dust[index2].noLight = false;
             }
-            bool flag64 = projectile.type == mod.ProjectileType("LavaRockSummon");
+            bool flag64 = projectile.type == ModContent.ProjectileType<LavaRockSummon>();
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (flag64)
@@ -158,7 +158,7 @@ namespace SpiritMod.Projectiles.Summon
 					num406 = num403 / num406;
 					num404 *= num406;
 					num405 *= num406;
-					int p = Projectile.NewProjectile(projectile.Center.X - 4f, projectile.Center.Y, num404, num405, mod.ProjectileType("Blaze"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+					int p = Projectile.NewProjectile(projectile.Center.X - 4f, projectile.Center.Y, num404, num405, ModContent.ProjectileType<Blaze>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                     Main.projectile[p].magic = false;
                     Main.projectile[p].minion = true;
                     projectile.ai[0] = 30f;

@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Armor.MarbleArmor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("MarbleChest") && legs.type == mod.ItemType("MarbleLegs");
+            return body.type == ModContent.ItemType<MarbleChest>() && legs.type == ModContent.ItemType<MarbleLegs>();
         }
         public override void UpdateArmorSet(Player player)
         {

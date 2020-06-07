@@ -52,29 +52,29 @@ namespace SpiritMod.Items.Placeable
 			if (Main.rand.Next(2) == 0)
             {
                 
-                player.QuickSpawnItem(mod.ItemType("RawFish"));
+                player.QuickSpawnItem(ModContent.ItemType<RawFish>());
             }
 			if (Main.rand.Next(4) == 0)
             {
 				if (Main.rand.Next(2) == 0)
 				{
-					player.QuickSpawnItem(mod.ItemType("FloaterItem"));
+					player.QuickSpawnItem(ModContent.ItemType<FloaterItem>());
 				}
 				else if (Main.rand.Next (2) ==0)
 				{
-					 player.QuickSpawnItem(mod.ItemType("CoralfishItem"));
+					 player.QuickSpawnItem(ModContent.ItemType<CoralfishItem>());
 				}
 				else if (Main.rand.Next (2) ==0)
 				{
-					 player.QuickSpawnItem(mod.ItemType("LuvdiscItem"));
+					 player.QuickSpawnItem(ModContent.ItemType<LuvdiscItem>());
 				}
 				else if (Main.rand.Next (2) ==0)
 				{
-					 player.QuickSpawnItem(mod.ItemType("LanternfishItem"));
+					 player.QuickSpawnItem(ModContent.ItemType<LanternfishItem>());
 				}
 				else
 				{
-				player.QuickSpawnItem(mod.ItemType("KelpfishItem"));
+				player.QuickSpawnItem(ModContent.ItemType<KelpfishItem>());
 				}
 			}
             int[] lootTable = { 2316, 2298, 2290, 2301, 2297};

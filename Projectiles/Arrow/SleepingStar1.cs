@@ -32,7 +32,7 @@ namespace SpiritMod.Projectiles.Arrow
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(4) == 0)
-				target.AddBuff(mod.BuffType("StarFlame"), 200, true);
+				target.AddBuff(ModContent.BuffType<StarFlame>(), 200, true);
 		}
 	
 		public override void Kill(int timeLeft)

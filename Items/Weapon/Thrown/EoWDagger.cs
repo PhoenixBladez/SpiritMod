@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.ranged = true;
             item.channel = true;
             item.noMelee = true;
-            item.shoot = mod.ProjectileType("EoWDaggerProj");
+            item.shoot = ModContent.ProjectileType<EoWDaggerProj>();
             item.useAnimation = 25;
             item.consumable = true;
             item.maxStack = 999;

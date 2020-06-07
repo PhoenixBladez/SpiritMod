@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.UseSound = SoundID.Item20;
 			item.autoReuse = false;
              item.noUseGraphic = true;
-			item.shoot = mod.ProjectileType("TikiJavelinProj");
+			item.shoot = ModContent.ProjectileType<TikiJavelinProj>();
 			item.shootSpeed = 0f;
 		}
      /*   public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

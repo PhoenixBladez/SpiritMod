@@ -28,8 +28,8 @@ namespace SpiritMod.Items.Weapon.Summon
             item.useAnimation = 30;      
             item.summon = true;
             item.noMelee = true;
-            item.shoot = mod.ProjectileType("SkeletalonMinion");
-          //  item.buffType = mod.BuffType("SkeletalonMinionBuff");
+            item.shoot = ModContent.ProjectileType<SkeletalonMinion>();
+          //  item.buffType = ModContent.BuffType<SkeletalonMinionBuff>();
            // item.buffTime = 3600;
             item.UseSound = SoundID.Item44;
         }

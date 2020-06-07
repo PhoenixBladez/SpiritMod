@@ -20,7 +20,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
 			adjTiles = new int[] { TileID.Torches };
-            drop = mod.TileType("ReachCandle");
+            drop = ModContent.TileType<ReachCandle>();
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)

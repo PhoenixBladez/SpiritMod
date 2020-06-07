@@ -31,7 +31,7 @@ namespace SpiritMod.Effects
         public void DoTrailCreation(Projectile projectile)
         {
             Mod mod = SpiritMod.instance;
-            if (projectile.type == mod.ProjectileType("SleepingStar"))
+            if (projectile.type == ModContent.ProjectileType<SleepingStar>())
             {
                 CreateTrail(projectile, new StandardColorTrail(new Color(120, 217, 255)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 250f);
             }
@@ -39,16 +39,16 @@ namespace SpiritMod.Effects
             {
                 CreateTrail(projectile, new StandardColorTrail(new Color(218, 94, 255)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 250f);
             }
-            if (projectile.type == mod.ProjectileType("LeafProjReachChest"))
+            if (projectile.type == ModContent.ProjectileType<LeafProjReachChest>())
             {
                 CreateTrail(projectile, new StandardColorTrail(new Color(56, 194, 93)), new RoundCap(), new DefaultTrailPosition(), 4f, 100f, new ImageShader(mod.GetTexture("Textures/noise"), 0.2f, .4f, 1f));
             }
-            if (projectile.type == mod.ProjectileType("OrichHoming"))
+            if (projectile.type == ModContent.ProjectileType<OrichHoming>())
             {
                 CreateTrail(projectile, new GradientTrail(new Color(241, 173, 255), new Color(105, 42, 168)), new RoundCap(), new DefaultTrailPosition(), 6f, 150f);
                
             }
-            if (projectile.type == mod.ProjectileType("ShootingStarHostile"))
+            if (projectile.type == ModContent.ProjectileType<ShootingStarHostile>())
             {
                 CreateTrail(projectile, new GradientTrail(new Color(255, 215, 105), new Color(105, 213, 255)), new RoundCap(), new SleepingStarTrailPosition(), 14f, 150f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
                 CreateTrail(projectile, new GradientTrail(new Color(255, 215, 105) * .5f, new Color(105, 213, 255) * .5f), new RoundCap(), new SleepingStarTrailPosition(), 56f, 250f, new DefaultShader());
@@ -57,11 +57,11 @@ namespace SpiritMod.Effects
                 CreateTrail(projectile, new StandardColorTrail(Color.White * 0.2f), new RoundCap(), new SleepingStarTrailPosition(), 56f, 30f, new DefaultShader());
 
             }
-            if (projectile.type == mod.ProjectileType("DarkAnima"))
+            if (projectile.type == ModContent.ProjectileType<DarkAnima>())
             {
                 CreateTrail(projectile, new GradientTrail(new Color(207, 25, 25), new Color(0, 0, 0)), new RoundCap(), new DefaultTrailPosition(), 12f, 150f);
             }
-            if (projectile.type == mod.ProjectileType("HallowedStaffProj"))
+            if (projectile.type == ModContent.ProjectileType<HallowedStaffProj>())
             {
                 switch (Main.rand.Next(3))
                 {
@@ -76,21 +76,21 @@ namespace SpiritMod.Effects
                         break;
                 }
             }
-            if (projectile.type == mod.ProjectileType("TrueHallowedStaffProj"))
+            if (projectile.type == ModContent.ProjectileType<TrueHallowedStaffProj>())
             {
                 CreateTrail(projectile, new RainbowTrail(5f, 0.002f, 1f, .75f), new RoundCap(), new SleepingStarTrailPosition(), 150f, 130f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
             }
-            if (projectile.type == mod.ProjectileType("TeleportBolt"))
+            if (projectile.type == ModContent.ProjectileType<TeleportBolt>())
             {
                 CreateTrail(projectile, new StandardColorTrail(new Color(122, 233, 255) * .6f), new RoundCap(), new SleepingStarTrailPosition(), 15f, 130f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
             }
-            if (projectile.type == mod.ProjectileType("AquaFlareProj"))
+            if (projectile.type == ModContent.ProjectileType<AquaFlareProj>())
             {
                 CreateTrail(projectile, new StandardColorTrail(new Color(0, 98, 255) * .95f), new RoundCap(), new SleepingStarTrailPosition(), 18f, 450f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
                 CreateTrail(projectile, new StandardColorTrail(new Color(255, 68, 0)), new RoundCap(), new SleepingStarTrailPosition(), 18f, 330f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
                 CreateTrail(projectile, new StandardColorTrail(new Color(107, 211, 255) * 0.5f), new RoundCap(), new DefaultTrailPosition(), 12f, 80f, new DefaultShader());
             }
-            if (projectile.type == mod.ProjectileType("SandWall") || projectile.type == mod.ProjectileType("SandWall2"))
+            if (projectile.type == ModContent.ProjectileType<SandWall>() || projectile.type == mod.ProjectileType("SandWall2"))
             {
                 CreateTrail(projectile, new StandardColorTrail(new Color(255, 236, 115, 200)), new RoundCap(), new DefaultTrailPosition(), 100f, 130f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
                 CreateTrail(projectile, new StandardColorTrail(Color.White * 0.2f), new RoundCap(), new DefaultTrailPosition(), 12f, 80f, new DefaultShader());
@@ -98,19 +98,19 @@ namespace SpiritMod.Effects
                 CreateTrail(projectile, new StandardColorTrail(Color.Gold * 0.4f), new RoundCap(), new DefaultTrailPosition(), 20f, 250f, new DefaultShader());
 
             }
-            if (projectile.type == mod.ProjectileType("PartyStarterBullet"))
+            if (projectile.type == ModContent.ProjectileType<PartyStarterBullet>())
             {
                 CreateTrail(projectile, new RainbowTrail(8f, 0.002f, 1f, .65f), new RoundCap(), new DefaultTrailPosition(), 9f, 150f);
             }
-            if (projectile.type == mod.ProjectileType("PartyExplosives"))
+            if (projectile.type == ModContent.ProjectileType<PartyExplosives>())
             {
                 CreateTrail(projectile, new RainbowTrail(Main.rand.NextFloat(5f, 9f), 0.002f, 1f, .85f), new RoundCap(), new DefaultTrailPosition(), 6f, 200f);
             }
-            if (projectile.type == mod.ProjectileType("PositiveArrow"))
+            if (projectile.type == ModContent.ProjectileType<PositiveArrow>())
             {
                 CreateTrail(projectile, new StandardColorTrail(new Color(122, 233, 255)), new RoundCap(), new ZigZagTrailPosition(3f), 8f, 250f);
             }
-            if (projectile.type == mod.ProjectileType("NegativeArrow"))
+            if (projectile.type == ModContent.ProjectileType<NegativeArrow>())
             {
                 CreateTrail(projectile, new StandardColorTrail(new Color(255, 113, 36)), new RoundCap(), new ZigZagTrailPosition(3f), 8f, 250f);
             }
@@ -129,11 +129,11 @@ namespace SpiritMod.Effects
         public void TryTrailKill(Projectile projectile)
         {
             Mod mod = SpiritMod.instance;
-            if (projectile.type == mod.ProjectileType("SleepingStar") || projectile.type == mod.ProjectileType("SleepingStar1") || projectile.type == mod.ProjectileType("LeafProjReachChest") || projectile.type == mod.ProjectileType("HallowedStaffProj") || projectile.type == mod.ProjectileType("TrueHallowedStaffProj") || projectile.type == mod.ProjectileType("PositiveArrow") || projectile.type == mod.ProjectileType("NegativeArrow") || projectile.type == mod.ProjectileType("PartyBullet") || projectile.type == mod.ProjectileType("SandWall") || projectile.type == mod.ProjectileType("SandWall2"))
+            if (projectile.type == ModContent.ProjectileType<SleepingStar>() || projectile.type == mod.ProjectileType("SleepingStar1") || projectile.type == ModContent.ProjectileType<LeafProjReachChest>() || projectile.type == ModContent.ProjectileType<HallowedStaffProj>() || projectile.type == ModContent.ProjectileType<TrueHallowedStaffProj>() || projectile.type == ModContent.ProjectileType<PositiveArrow>() || projectile.type == ModContent.ProjectileType<NegativeArrow>() || projectile.type == ModContent.ProjectileType<PartyBullet>() || projectile.type == ModContent.ProjectileType<SandWall>() || projectile.type == mod.ProjectileType("SandWall2"))
             {
                 SpiritMod.TrailManager.TryEndTrail(projectile, Math.Max(15f, projectile.velocity.Length() * 3f));
             }
-            if (projectile.type == mod.ProjectileType("OrichHoming") || projectile.type == mod.ProjectileType("DarkAnima"))
+            if (projectile.type == ModContent.ProjectileType<OrichHoming>() || projectile.type == ModContent.ProjectileType<DarkAnima>())
             {
                 SpiritMod.TrailManager.TryEndTrail(projectile, Math.Max(2f, projectile.velocity.Length() * 1f));
             }

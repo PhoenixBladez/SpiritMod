@@ -31,13 +31,13 @@ namespace SpiritMod.Items.Weapon.Bow
 			item.ranged = true;
 			item.noMelee = true;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("SpiritArrow");
+			item.shoot = ModContent.ProjectileType<SpiritArrow>();
 			item.shootSpeed = 10f;
 			item.UseSound = SoundID.Item5;
 		}
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Terraria.Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("SpiritArrow"), damage, knockBack, player.whoAmI, 0f, 0f);
+            Terraria.Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SpiritArrow>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
         public override void AddRecipes()

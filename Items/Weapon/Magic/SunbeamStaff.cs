@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.UseSound = SoundID.Item72;
             item.autoReuse = true;
             item.shootSpeed = 6;
-            item.shoot = mod.ProjectileType("SolarBeamFriendly");
+            item.shoot = ModContent.ProjectileType<SolarBeamFriendly>();
         }
     }
 }

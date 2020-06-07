@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Weapon.Bow
             item.useTime = 35;
             item.useAnimation = 35;
             item.useStyle = ItemUseStyleID.HoldingOut;
-            item.shoot = mod.ProjectileType("ScarabArrow");
+            item.shoot = ModContent.ProjectileType<ScarabArrow>();
             item.useAmmo = AmmoID.Arrow;
             item.knockBack = 3;
             item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Weapon.Bow
         }
 		 public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("ScarabArrow"), damage, knockBack, player.whoAmI);
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ScarabArrow>(), damage, knockBack, player.whoAmI);
             return false;
         }
     }

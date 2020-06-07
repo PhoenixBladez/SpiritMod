@@ -98,7 +98,7 @@ namespace SpiritMod.Projectiles
         public override void Kill(int timeLeft)
         {
             Player player = Main.player[projectile.owner];
-            player.AddBuff(mod.BuffType("StarCooldown"), 720);
+            player.AddBuff(ModContent.BuffType<StarCooldown>(), 720);
         }
 	}
 }

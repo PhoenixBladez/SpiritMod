@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.melee = true;
 			item.autoReuse = true;
 
-        item.shoot = mod.ProjectileType("GeodeStaveProjectile");
+        item.shoot = ModContent.ProjectileType<GeodeStaveProjectile>();
 			item.shootSpeed = 9;
 			item.UseSound = SoundID.Item1;
 			item.value = Item.sellPrice(0, 3, 0, 0);

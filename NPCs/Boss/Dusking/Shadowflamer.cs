@@ -125,7 +125,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			target.AddBuff(mod.BuffType("Shadowflame"), 150);
+			target.AddBuff(ModContent.BuffType<Shadowflame>(), 150);
 		}
 
 		public override void FindFrame(int frameHeight)

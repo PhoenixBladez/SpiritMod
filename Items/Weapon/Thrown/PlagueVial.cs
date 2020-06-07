@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.ranged = true;
             item.channel = true;
             item.noMelee = true;
-            item.shoot = mod.ProjectileType("PlagueVialFriendly");
+            item.shoot = ModContent.ProjectileType<PlagueVialFriendly>();
             item.useAnimation = 21;
             item.useTime = 21;
             item.consumable = true;

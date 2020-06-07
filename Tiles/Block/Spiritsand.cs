@@ -19,7 +19,7 @@ namespace SpiritMod.Tiles.Block
 			Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = true;
 			AddMapEntry(new Color(135, 206, 235));
-			drop = mod.ItemType("SpiritSandItem");
+			drop = ModContent.ItemType<SpiritSandItem>();
 			dustType = 103;
 		}
 
@@ -32,7 +32,7 @@ namespace SpiritMod.Tiles.Block
             if (j < Main.maxTilesY && !Main.tile[i, j + 1].active())
             {
                 Main.tile[i, j].active(false);
-                Projectile.NewProjectile(new Vector2(i * 16f + 8f, j * 16f + 8f), Vector2.Zero * 15f, mod.ProjectileType("SpiritSand"), 15, 0f);
+                Projectile.NewProjectile(new Vector2(i * 16f + 8f, j * 16f + 8f), Vector2.Zero * 15f, ModContent.ProjectileType<SpiritSand>(), 15, 0f);
                 WorldGen.SquareTileFrame(i, j);
                 return false;
             }

@@ -54,7 +54,7 @@ namespace SpiritMod.Projectiles.Summon
 		public override void AI()
 		{
 			Player player = Main.player[projectile.owner];
-			bool flag64 = projectile.type == mod.ProjectileType("Minior");
+			bool flag64 = projectile.type == ModContent.ProjectileType<Minior>();
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (flag64)
 			{

@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Weapon.Summon
             item.useTime = 30;
             item.useAnimation = 30; 
             item.summon = true;          
-            item.shoot = mod.ProjectileType("BeetleMinion");
+            item.shoot = ModContent.ProjectileType<BeetleMinion>();
             item.UseSound = SoundID.Item44;
         }
 		public override bool AltFunctionUse(Player player)

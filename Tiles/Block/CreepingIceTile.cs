@@ -19,7 +19,7 @@ namespace SpiritMod.Tiles.Block
             Main.tileBlendAll[this.Type] = true;
             Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(163, 224, 240));
-            drop = mod.ItemType("CreepingIce");
+            drop = ModContent.ItemType<CreepingIce>();
             dustType = 51;
         }
         public override bool HasWalkDust()
@@ -58,7 +58,7 @@ namespace SpiritMod.Tiles.Block
                         int distance1 = (int)Vector2.Distance(new Vector2(i * 16, j * 16), foundNPC.Center);
                         if (distance1 < 22)
                         {
-                            foundNPC.AddBuff(mod.BuffType("MageFreeze"), 20);
+                            foundNPC.AddBuff(ModContent.BuffType<MageFreeze>(), 20);
                         }
                     }
                 }

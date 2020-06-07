@@ -46,7 +46,7 @@ namespace SpiritMod.Projectiles
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			target.AddBuff(mod.BuffType("BCorrupt"), 180);
+			target.AddBuff(ModContent.BuffType<BCorrupt>(), 180);
 		}
 
 	}

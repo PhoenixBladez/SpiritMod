@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.UseSound = SoundID.Item1;        
             item.autoReuse = true;
             item.crit = 0;
-            item.shoot = mod.ProjectileType("ReapersHarvestProjectile");
+            item.shoot = ModContent.ProjectileType<ReapersHarvestProjectile>();
             item.shootSpeed = 12f;
         }
         public override void AddRecipes()

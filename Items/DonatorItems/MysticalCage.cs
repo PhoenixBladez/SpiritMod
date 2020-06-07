@@ -17,8 +17,8 @@ namespace SpiritMod.Items.DonatorItems
 			item.CloneDefaults(ItemID.Fish);
 			item.value = 25000;
 			item.rare = 3;
-			item.shoot = mod.ProjectileType("Caltfist");
-			item.buffType = mod.BuffType("CaltfistPetBuff");
+			item.shoot = ModContent.ProjectileType<Caltfist>();
+			item.buffType = ModContent.BuffType<CaltfistPetBuff>();
 		}
 
 		public override void UseStyle(Player player)

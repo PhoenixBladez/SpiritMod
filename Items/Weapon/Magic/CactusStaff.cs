@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 1;
             item.UseSound = new Terraria.Audio.LegacySoundStyle(2, 8);
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("CactusProj");
+            item.shoot = ModContent.ProjectileType<CactusProj>();
             item.shootSpeed = 8f;
             item.autoReuse = false;
         }

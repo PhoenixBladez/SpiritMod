@@ -57,7 +57,7 @@ namespace SpiritMod.Projectiles.Hostile
 		{
 			if (Main.rand.Next(20) == 0)
 			{
-			int spiritdude = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y, mod.NPCType("Blob"), 0, 0, 0, 0, -1);
+			int spiritdude = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y, ModContent.NPCType<Blob>(), 0, 0, 0, 0, -1);
 			}
 			 Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			

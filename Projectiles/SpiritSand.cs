@@ -38,7 +38,7 @@ namespace SpiritMod.Projectiles
 		
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			WorldGen.PlaceTile((int)(projectile.position.X/16), (int)(projectile.position.Y/16), mod.TileType("Spiritsand"));
+			WorldGen.PlaceTile((int)(projectile.position.X/16), (int)(projectile.position.Y/16), ModContent.TileType<Spiritsand>());
 			int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 103, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			int dust1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 103, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			int dust2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 103, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);

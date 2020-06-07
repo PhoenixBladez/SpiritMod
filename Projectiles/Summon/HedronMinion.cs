@@ -38,7 +38,7 @@ namespace SpiritMod.Projectiles.Summon
 			ProjectileExtras.Explode(projectile.whoAmI, 120, 120,
 				delegate
 			{
-				int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0, 0, mod.ProjectileType("SpiritBoom"), (int)(projectile.damage), 0, Main.myPlayer);
+				int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0, 0, ModContent.ProjectileType<SpiritBoom>(), (int)(projectile.damage), 0, Main.myPlayer);
 				for (int i = 0; i < 15; i++)
 				{
 					Dust.NewDust(projectile.position, projectile.width, projectile.height, 187);

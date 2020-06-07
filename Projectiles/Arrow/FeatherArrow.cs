@@ -16,10 +16,10 @@ namespace SpiritMod.Projectiles.Arrow
 		public override bool OnTileCollide(Vector2 oldVelocity)
         {
 			Vector2 vel = new Vector2(2,0).RotatedBy((float)(Main.rand.Next(90) * Math.PI / 180));
-				Projectile.NewProjectile(projectile.Center, vel, mod.ProjectileType("FeatherFrag"), projectile.damage, 0, Main.myPlayer);
-				Projectile.NewProjectile(projectile.Center, vel.RotatedBy(1.57), mod.ProjectileType("FeatherFrag"), projectile.damage, 0, Main.myPlayer);
-				Projectile.NewProjectile(projectile.Center, vel.RotatedBy(3.14), mod.ProjectileType("FeatherFrag"), projectile.damage, 0, Main.myPlayer);
-				Projectile.NewProjectile(projectile.Center, vel.RotatedBy(4.71), mod.ProjectileType("FeatherFrag"), projectile.damage, 0, Main.myPlayer);
+				Projectile.NewProjectile(projectile.Center, vel, ModContent.ProjectileType<FeatherFrag>(), projectile.damage, 0, Main.myPlayer);
+				Projectile.NewProjectile(projectile.Center, vel.RotatedBy(1.57), ModContent.ProjectileType<FeatherFrag>(), projectile.damage, 0, Main.myPlayer);
+				Projectile.NewProjectile(projectile.Center, vel.RotatedBy(3.14), ModContent.ProjectileType<FeatherFrag>(), projectile.damage, 0, Main.myPlayer);
+				Projectile.NewProjectile(projectile.Center, vel.RotatedBy(4.71), ModContent.ProjectileType<FeatherFrag>(), projectile.damage, 0, Main.myPlayer);
 			return true;
 		}
 		public override void SetDefaults()

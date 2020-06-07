@@ -114,7 +114,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		int shoottimer;
 		public override void AI()
 		{
-            if (!NPC.AnyNPCs(mod.NPCType("SteamRaiderHead")))
+            if (!NPC.AnyNPCs(ModContent.NPCType<SteamRaiderHead>()))
             {
                 npc.active = false;
                 npc.position.X = npc.position.X + (npc.width / 2.0f);
@@ -145,7 +145,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 							}
 						}
 					}*/
-            int parent = NPC.FindFirstNPC(mod.NPCType("SteamRaiderHead"));
+            int parent = NPC.FindFirstNPC(ModContent.NPCType<SteamRaiderHead>());
 			{
 				if (Main.npc[parent].life <= 0)
 				{

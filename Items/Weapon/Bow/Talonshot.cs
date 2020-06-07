@@ -46,7 +46,7 @@ namespace SpiritMod.Items.Weapon.Bow
         }
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("FeatherArrow"), damage, knockBack, player.whoAmI);
+			int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<FeatherArrow>(), damage, knockBack, player.whoAmI);
 			return false;
 			Projectile projectile = Main.projectile[proj];
 				 for (int k = 0; k < 15; k++)

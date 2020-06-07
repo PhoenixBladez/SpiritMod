@@ -16,10 +16,10 @@ namespace SpiritMod.Tiles.Block
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = false;
-			Main.tileMerge[Type][mod.TileType("VeridianStone")] = true;
+			Main.tileMerge[Type][ModContent.TileType<VeridianStone>()] = true;
 			Main.tileMergeDirt[Type] = true;
 			AddMapEntry(new Color(0, 191, 255));
-			drop = mod.ItemType("SpiritDirtItem");
+			drop = ModContent.ItemType<SpiritDirtItem>();
 		}
 
 

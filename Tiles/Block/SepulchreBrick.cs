@@ -19,7 +19,7 @@ namespace SpiritMod.Tiles.Block
             soundType = 21;
             Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(87, 85, 81));
-            drop = mod.ItemType("SepulchreBrickItem");
+            drop = ModContent.ItemType<SepulchreBrickItem>();
             dustType = 54;
         }
 	}

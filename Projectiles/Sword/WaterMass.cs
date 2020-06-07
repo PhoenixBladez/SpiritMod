@@ -58,7 +58,7 @@ namespace SpiritMod.Projectiles.Sword
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			target.AddBuff(mod.BuffType("TidalWrath"), 300);
+			target.AddBuff(ModContent.BuffType<TidalWrath>(), 300);
 
 			if (Main.rand.Next(6) == 0 && projectile.timeLeft > 3)
 			{

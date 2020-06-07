@@ -17,7 +17,7 @@ public class CryoliteBar : ModTile
         Main.tileLavaDeath[Type] = true;
         TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
         TileObjectData.addTile(Type);
-		drop = mod.ItemType("CryoliteBar");
+		drop = ModContent.ItemType<CryoliteBar>();
 		adjTiles = new int[]{TileID.MetalBars};
     }
 

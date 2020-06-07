@@ -52,7 +52,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 3;
 			item.UseSound = SoundID.Item34;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("FieryFlareMagic");
+			item.shoot = ModContent.ProjectileType<FieryFlareMagic>();
 			item.shootSpeed = 2f;
 		}
         public override void AddRecipes()

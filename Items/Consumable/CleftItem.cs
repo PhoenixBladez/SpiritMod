@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Consumable
         }
         public override bool UseItem(Player player)
         {
-            NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, mod.NPCType("Cleft"));
+            NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<Cleft>());
             return true;
         }
     }

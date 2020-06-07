@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.autoReuse = true;
             item.consumable = false;
             item.noUseGraphic = true;
-            item.shoot = mod.ProjectileType("Scapula");
+            item.shoot = ModContent.ProjectileType<Scapula>();
             item.shootSpeed = 8;
             item.UseSound = SoundID.Item1;
         }

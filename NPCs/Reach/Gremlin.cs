@@ -47,7 +47,7 @@ namespace SpiritMod.NPCs.Reach
 			if (Main.netMode != 1 && npc.life <= 0)
 			{
 				Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
-				NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, mod.NPCType("AngryGremlin"));
+				NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<AngryGremlin>());
 			}
 		}
 	}

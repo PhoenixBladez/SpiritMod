@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Armor.SeraphArmor
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("SeraphArmor") && legs.type == mod.ItemType("SeraphLegs");  
+            return body.type == ModContent.ItemType<SeraphArmor>() && legs.type == ModContent.ItemType<SeraphLegs>();  
         }
         public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
         {

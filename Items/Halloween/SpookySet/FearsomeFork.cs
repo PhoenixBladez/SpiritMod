@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Halloween.SpookySet
             item.damage = 67;
             item.value = Item.sellPrice(0, 2, 0, 0);
             item.rare = 8;
-            item.shoot = mod.ProjectileType("FearsomeFork");
+            item.shoot = ModContent.ProjectileType<FearsomeFork>();
         }
 		
 		public override void AddRecipes()

@@ -56,13 +56,13 @@ namespace SpiritMod.Projectiles.Sword.Artifact
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(5) == 0)
-				target.AddBuff(mod.BuffType("DeathWreathe"), 180);
+				target.AddBuff(ModContent.BuffType<DeathWreathe>(), 180);
 
 			MyPlayer mp = Main.player[projectile.owner].GetSpiritPlayer();
 			if (mp.DarkBough)
 			{
 				if (Main.rand.Next(10) == 0)
-					Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("BoughSeed"), projectile.damage / 3 * 2, 4, projectile.owner);
+					Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BoughSeed>(), projectile.damage / 3 * 2, 4, projectile.owner);
 			}
 		}
 

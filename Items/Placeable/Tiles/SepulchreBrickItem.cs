@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Placeable.Tiles
             item.autoReuse = true;
             item.consumable = true;
 
-            item.createTile = mod.TileType("SepulchreBrick");
+            item.createTile = ModContent.TileType<SepulchreBrick>();
         }
         public override void AddRecipes()
         {

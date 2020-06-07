@@ -44,7 +44,7 @@ namespace SpiritMod.Items.Weapon.Bow
 			{
 				for (int I = 0; I < 5; I++)
 			{
-			Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float) Main.rand.Next(-230, 230) / 100), speedY + ((float) Main.rand.Next(-230, 230) / 100), mod.ProjectileType("CursedBone"), damage, knockBack, player.whoAmI, 0f, 0f);
+			Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float) Main.rand.Next(-230, 230) / 100), speedY + ((float) Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<CursedBone>(), damage, knockBack, player.whoAmI, 0f, 0f);
 			}
 			charger = 0;
 			}

@@ -39,14 +39,14 @@ namespace SpiritMod.Buffs.Glyph
 				for (int i = 0; i < 4; i++)
 				{
 					Vector2 offset = Main.rand.NextVec2CircularEven(npc.width >> 1, npc.height >> 1);
-					Dust.NewDustPerfect(npc.Center + offset, mod.DustType("Blood")).customData = npc;
+					Dust.NewDustPerfect(npc.Center + offset, ModContent.DustType<Blood>()).customData = npc;
 				}
 			}
 
 			if (Main.rand.NextDouble() < chance && npc.buffTime[buffIndex] > 60)
 			{
 				Vector2 offset = Main.rand.NextVec2CircularEven(npc.width >> 1, npc.height >> 1);
-				Dust.NewDustPerfect(npc.Center + offset, mod.DustType("Blood")).customData = npc;
+				Dust.NewDustPerfect(npc.Center + offset, ModContent.DustType<Blood>()).customData = npc;
 			}
 
 			modNPC.sanguineBleed = true;

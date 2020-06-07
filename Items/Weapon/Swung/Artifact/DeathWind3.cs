@@ -70,7 +70,7 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 			if (Main.rand.Next(6) == 1)
 				damage = damage + (int)(target.defense);
 			if (Main.rand.Next(6) == 2)
-				player.AddBuff(mod.BuffType("SoulReap"), 240);
+				player.AddBuff(ModContent.BuffType<SoulReap>(), 240);
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

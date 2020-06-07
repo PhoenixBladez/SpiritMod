@@ -44,7 +44,7 @@ namespace SpiritMod.Projectiles.Magic
 
 			if (timer == 0)
 			{
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X + Main.rand.Next(10, -10), projectile.velocity.Y, mod.ProjectileType("DepthBall"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X + Main.rand.Next(10, -10), projectile.velocity.Y, ModContent.ProjectileType<DepthBall>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				timer = 30;
 			}
 

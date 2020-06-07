@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Armor.Daybloom
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("DaybloomBody") && legs.type == mod.ItemType("DaybloomLegs");
+            return body.type == ModContent.ItemType<DaybloomBody>() && legs.type == ModContent.ItemType<DaybloomLegs>();
         }
         public override void UpdateArmorSet(Player player)
         {

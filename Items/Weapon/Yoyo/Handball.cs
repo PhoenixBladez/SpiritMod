@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Yoyo
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.useAnimation = 25;
             item.useTime = 23;
-            item.shoot = mod.ProjectileType("GraspProj");
+            item.shoot = ModContent.ProjectileType<GraspProj>();
         }
         	public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {

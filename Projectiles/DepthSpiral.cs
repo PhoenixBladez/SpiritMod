@@ -36,7 +36,7 @@ namespace SpiritMod.Projectiles
 			int num2 = 1;
 			if ((double)projectile.localAI[1] <= 1.0)
 			{
-				int num3 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)num, (float)num2, mod.ProjectileType("DepthBolt"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+				int num3 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)num, (float)num2, ModContent.ProjectileType<DepthBolt>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				Main.projectile[num3].localAI[0] = (float)projectile.whoAmI;
 				return;
 			}
@@ -69,7 +69,7 @@ namespace SpiritMod.Projectiles
 
 			if ((int)projectile.localAI[1] == 20)
 			{
-				int num5 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)num, (float)num2, mod.ProjectileType("DepthBolt"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+				int num5 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)num, (float)num2, ModContent.ProjectileType<DepthBolt>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				Main.projectile[num5].localAI[0] = (float)projectile.whoAmI;
 			}
 			if ((int)projectile.localAI[1] == 30)

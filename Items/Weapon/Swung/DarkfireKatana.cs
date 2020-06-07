@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Weapon.Swung
 
         public override void UpdateInventory(Player player)
         {
-            if (player.FindBuffIndex (mod.BuffType("PowerUnleash")) >= 0)
+            if (player.FindBuffIndex (ModContent.BuffType<PowerUnleash>()) >= 0)
             {
                 item.damage = 145;
                 item.useTime = 8;
@@ -56,14 +56,14 @@ namespace SpiritMod.Items.Weapon.Swung
 
             if (player.altFunctionUse == 2)
             {
-                if (player.FindBuffIndex (mod.BuffType("UnPowered")) >= 0)
+                if (player.FindBuffIndex (ModContent.BuffType<UnPowered>()) >= 0)
                 {
 
                 }
                 else
                 {
-                    player.AddBuff(mod.BuffType("PowerUnleash"), 1800);
-                    player.AddBuff(mod.BuffType("UnPowered"), 7200);
+                    player.AddBuff(ModContent.BuffType<PowerUnleash>(), 1800);
+                    player.AddBuff(ModContent.BuffType<UnPowered>(), 7200);
                 }
             }
             

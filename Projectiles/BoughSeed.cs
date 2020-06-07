@@ -173,7 +173,7 @@ namespace SpiritMod.Projectiles
         {
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
             {
-				int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0, 0, mod.ProjectileType("Wrath"), 55, 7, Main.myPlayer);
+				int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0, 0, ModContent.ProjectileType<Wrath>(), 55, 7, Main.myPlayer);
          
           
                 for (int num621 = 0; num621 < 40; num621++)

@@ -53,7 +53,7 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("Wrath"), projectile.damage / 5 * 3, projectile.knockBack, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Wrath>(), projectile.damage / 5 * 3, projectile.knockBack, projectile.owner, 0f, 0f);
 			for (int i = 0; i < 40; i++)
 			{
 				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 187, 0f, -2f, 0, default(Color), 2f);

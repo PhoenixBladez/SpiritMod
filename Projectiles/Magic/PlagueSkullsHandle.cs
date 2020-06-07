@@ -55,7 +55,7 @@ namespace SpiritMod.Projectiles.Magic
 				Projectile.NewProjectile(center3.X, center3.Y,
 					vector12.X * (Main.rand.Next(700, 900) / 100),
 					vector12.Y * (Main.rand.Next(700, 900) / 100),
-					mod.ProjectileType("PlagueSkullProj"),
+					ModContent.ProjectileType<PlagueSkullProj>(),
 					num29 - ((DamageSub / 3) * 2), projectile.knockBack, projectile.owner, 0, projectile.whoAmI);
 				projectile.netUpdate = true;
 				if (SpeedMult > 10)
@@ -117,7 +117,7 @@ namespace SpiritMod.Projectiles.Magic
 						Projectile.NewProjectile(center3.X, center3.Y,
 							vector12.X * (Main.rand.Next(700, 900) / 100),
 							vector12.Y * (Main.rand.Next(700, 900) / 100),
-							mod.ProjectileType("PlagueSkullProj"),
+							ModContent.ProjectileType<PlagueSkullProj>(),
 							num29 - DamageSub, projectile.knockBack, projectile.owner, 0, projectile.whoAmI);
 						projectile.netUpdate = true;
 					}

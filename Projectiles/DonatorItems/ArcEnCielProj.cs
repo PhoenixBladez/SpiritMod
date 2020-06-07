@@ -36,7 +36,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 			if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
 				projectile.velocity = -Vector2.UnitY;
 
-			if (Main.projectile[(int)projectile.ai[1]].active && Main.projectile[(int)projectile.ai[1]].type == mod.ProjectileType("ArcEnCielHandle"))
+			if (Main.projectile[(int)projectile.ai[1]].active && Main.projectile[(int)projectile.ai[1]].type == ModContent.ProjectileType<ArcEnCielHandle>())
 			{
 				projectile.Center = Main.projectile[(int)projectile.ai[1]].Center;
 				projectile.velocity = Vector2.Normalize(Main.projectile[(int)projectile.ai[1]].velocity);
@@ -141,7 +141,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 				target.AddBuff(mod.BuffType("ElectrifiedV2"), 180);
 
 			if (Main.rand.Next(8) == 0)
-				target.AddBuff(mod.BuffType("HolyLight"), 180);
+				target.AddBuff(ModContent.BuffType<HolyLight>(), 180);
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

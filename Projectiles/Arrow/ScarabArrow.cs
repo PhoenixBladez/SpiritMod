@@ -25,7 +25,7 @@ namespace SpiritMod.Projectiles.Arrow
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			target.AddBuff(mod.BuffType("TopazMarked"), 120);
+			target.AddBuff(ModContent.BuffType<TopazMarked>(), 120);
 		}
 		public override void AI()
 		{

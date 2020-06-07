@@ -66,7 +66,7 @@ namespace SpiritMod.NPCs
             int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
 			if (distance <= 540 || npc.life < npc.lifeMax)
 			{
-			      npc.Transform(mod.NPCType("PagodaGhostHostile"));
+			      npc.Transform(ModContent.NPCType<PagodaGhostHostile>());
             }
             if (Main.netMode != 1)
             {

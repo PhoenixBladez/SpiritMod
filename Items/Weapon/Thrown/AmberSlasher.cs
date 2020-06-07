@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.autoReuse = true;
             item.consumable = true;
             item.noUseGraphic = true;
-            item.shoot = mod.ProjectileType("AmberSlasher");
+            item.shoot = ModContent.ProjectileType<AmberSlasher>();
             item.shootSpeed = 11;
             item.UseSound = SoundID.Item1;
         }

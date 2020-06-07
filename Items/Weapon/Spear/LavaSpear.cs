@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Spear
             item.value = Item.sellPrice(0, 3, 0, 0);
             item.rare = 5;
             item.autoReuse = false;
-            item.shoot = mod.ProjectileType("LavaSpearProj");
+            item.shoot = ModContent.ProjectileType<LavaSpearProj>();
         }
     }
 }

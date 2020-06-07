@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.rare = 9;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("PrismaticBolt");
+            item.shoot = ModContent.ProjectileType<PrismaticBolt>();
             item.shootSpeed = 12;
         }
         public override bool UseItem(Player player)
@@ -52,7 +52,7 @@ namespace SpiritMod.Items.Weapon.Swung
                 {
                     for (int I = 0; I < 4; I++)
                     {
-                        Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 300), speedY + ((float)Main.rand.Next(-230, 230) / 300), mod.ProjectileType("AtlasBolt"), 50, knockBack, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 300), speedY + ((float)Main.rand.Next(-230, 230) / 300), ModContent.ProjectileType<AtlasBolt>(), 50, knockBack, player.whoAmI, 0f, 0f);
                     }
                     charger = 0;
                 }
@@ -66,7 +66,7 @@ namespace SpiritMod.Items.Weapon.Swung
             }
             else
             {
-                item.shoot = mod.ProjectileType("PrismaticBolt");
+                item.shoot = ModContent.ProjectileType<PrismaticBolt>();
                 return true;
             }
             return true;
@@ -74,7 +74,7 @@ namespace SpiritMod.Items.Weapon.Swung
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
             {
-                target.AddBuff(mod.BuffType("Afflicted"), 180);
+                target.AddBuff(ModContent.BuffType<Afflicted>(), 180);
             }
         }
 

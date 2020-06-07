@@ -27,7 +27,7 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override void Kill(int timeLeft)
 		{
-			int proj = Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0, 0, mod.ProjectileType("PumpkinBoom"), (int)(projectile.damage), 0, Main.myPlayer);
+			int proj = Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0, 0, ModContent.ProjectileType<PumpkinBoom>(), (int)(projectile.damage), 0, Main.myPlayer);
 			//Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 12);
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
 		}

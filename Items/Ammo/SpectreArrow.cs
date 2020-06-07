@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Ammo
             item.ranged = true;
             item.consumable = true;
 
-            item.shoot = mod.ProjectileType("SpectreArrow");
+            item.shoot = ModContent.ProjectileType<SpectreArrow>();
             item.shootSpeed = 3f;
         }
 

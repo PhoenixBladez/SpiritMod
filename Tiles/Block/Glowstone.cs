@@ -22,7 +22,7 @@ namespace SpiritMod.Tiles.Block
             Main.tileLighted[Type] = true;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Cosmilite");
-            drop = mod.ItemType("CosmiliteShard");
+            drop = ModContent.ItemType<CosmiliteShard>();
             soundType = 21;
         }
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)

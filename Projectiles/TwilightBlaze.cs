@@ -29,13 +29,13 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("Fire"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Fire>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 			for (int i = 0; i < 2; ++i)
 			{
 				int randFire = Main.rand.Next(3);
 				int newProj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y,
 					Main.rand.Next(-400, 400) / 100, Main.rand.Next(-4, 4),
-					mod.ProjectileType("ShadowEmber"), 25, 0, projectile.owner);
+					ModContent.ProjectileType<ShadowEmber>(), 25, 0, projectile.owner);
 			}
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
@@ -118,8 +118,8 @@ namespace SpiritMod.Projectiles
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			projectile.Kill();
-			target.AddBuff(mod.BuffType("StackingFireBuff"), 180, false);
-			target.AddBuff(mod.BuffType("HolyLight"), 180, false);
+			target.AddBuff(ModContent.BuffType<StackingFireBuff>(), 180, false);
+			target.AddBuff(ModContent.BuffType<HolyLight>(), 180, false);
 		}
 	}
 }

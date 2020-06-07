@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.noMelee = true;
             item.autoReuse = true;
             item.noUseGraphic = true;
-            item.shoot = mod.ProjectileType("ReachKnife");
+            item.shoot = ModContent.ProjectileType<ReachKnife>();
             item.shootSpeed = 8;
             item.UseSound = SoundID.Item1;
         }

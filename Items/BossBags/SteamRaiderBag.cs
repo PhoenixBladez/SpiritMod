@@ -33,8 +33,8 @@ namespace SpiritMod.Items.BossBags
 		public override void RightClick(Player player)
 		{
 			player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(2, 4));
-			player.QuickSpawnItem(mod.ItemType("StarMap"));
-			player.QuickSpawnItem(mod.ItemType("SteamParts"), Main.rand.Next(14, 20));
+			player.QuickSpawnItem(ModContent.ItemType<StarMap>());
+			player.QuickSpawnItem(ModContent.ItemType<SteamParts>(), Main.rand.Next(14, 20));
 
 			if (Main.rand.NextDouble() < 1d / 7)
 				player.QuickSpawnItem(Armor.Masks.StarplateMask._type);

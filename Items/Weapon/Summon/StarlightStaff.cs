@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Weapon.Summon
             item.rare = 9;
             item.knockBack = 2.5f;
 			item.UseSound = SoundID.Item25;
-			item.shoot = mod.ProjectileType("TwinklePopperMinion");
+			item.shoot = ModContent.ProjectileType<TwinklePopperMinion>();
 			item.shootSpeed = 0f;
 		}
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

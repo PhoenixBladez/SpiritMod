@@ -49,7 +49,7 @@ namespace SpiritMod.Items.Armor.BloodCourt
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("BloodCourtChestplate") && legs.type == mod.ItemType("BloodCourtLeggings");
+            return body.type == ModContent.ItemType<BloodCourtChestplate>() && legs.type == ModContent.ItemType<BloodCourtLeggings>();
         }
 		 public override void AddRecipes()
         {

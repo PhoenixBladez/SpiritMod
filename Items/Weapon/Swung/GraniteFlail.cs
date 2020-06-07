@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.noMelee = true;
             item.channel = true;
             item.noUseGraphic = true;
-            item.shoot = mod.ProjectileType("GraniteMaceProj");
+            item.shoot = ModContent.ProjectileType<GraniteMaceProj>();
             item.shootSpeed = 10.25f;
             item.UseSound = SoundID.Item1;   
         }

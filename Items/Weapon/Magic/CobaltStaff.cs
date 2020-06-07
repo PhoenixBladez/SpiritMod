@@ -32,13 +32,13 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 4;
 			item.UseSound = SoundID.Item43;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("CobaltStaffProj");
+			item.shoot = ModContent.ProjectileType<CobaltStaffProj>();
 			item.shootSpeed = 20f;
 		}
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int shardType;
-            shardType = Main.rand.Next(new int[] { mod.ProjectileType("CobaltStaffProj"), mod.ProjectileType("CobaltStaffProj1") });
+            shardType = Main.rand.Next(new int[] { ModContent.ProjectileType<CobaltStaffProj>(), mod.ProjectileType("CobaltStaffProj1") });
             Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
             int p = Terraria.Projectile.NewProjectile(mouse.X + Main.rand.Next(-20, 20), mouse.Y + Main.rand.Next(-20, 20), 0f, 0f, shardType, damage, knockBack, player.whoAmI);
             Main.projectile[p].scale = Main.rand.NextFloat(.4f, 1.1f);

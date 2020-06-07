@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Consumable
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			  item.consumable = true;
             item.maxStack = 99;
-			item.createTile = mod.TileType("PirateCrate");
+			item.createTile = ModContent.TileType<PirateCrate>();
             item.useTime = item.useAnimation = 20;
 			item.useAnimation = 15;
 			item.useTime = 10;

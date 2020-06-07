@@ -39,12 +39,12 @@ namespace SpiritMod.Tide.NPCs
 		{
 			{
 				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DepthShard"), 1);
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthShard>(), 1);
 				}
 				{
 					if (Main.rand.Next(50) == 0)
 					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Clauncher"), 1);
+						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Clauncher>(), 1);
 					}
 				}
 			}
@@ -97,7 +97,7 @@ namespace SpiritMod.Tide.NPCs
 						Vector2 targetDir = ((((float)Math.PI * 2) / 8) * i).ToRotationVector2();
 						targetDir.Normalize();
 						targetDir *= 3;
-						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, targetDir.X, targetDir.Y, mod.ProjectileType("ShellBolt"), 30, 0.5F, Main.myPlayer);
+						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, targetDir.X, targetDir.Y, ModContent.ProjectileType<ShellBolt>(), 30, 0.5F, Main.myPlayer);
 					}
 					timer = 0;
 				}

@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			Item.staff[item.type] = true;
 			item.UseSound = SoundID.Item25;
-			item.shoot = mod.ProjectileType("HedronMinion");
+			item.shoot = ModContent.ProjectileType<HedronMinion>();
 			item.shootSpeed = 0f;
 		}
 

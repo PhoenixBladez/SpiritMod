@@ -63,7 +63,7 @@ namespace SpiritMod.NPCs.Reach
 				{
 					float A = (float)Main.rand.Next(-120, 120) * 0.01f;
 					float B = (float)Main.rand.Next(-120, 120) * 0.01f;
-					int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("OvergrowthLeaf"), 6, 1, Main.myPlayer, 0, 0);
+					int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<OvergrowthLeaf>(), 6, 1, Main.myPlayer, 0, 0);
 					Main.projectile[p].hostile = true;
 					Main.projectile[p].friendly = false;
 				}
@@ -86,7 +86,7 @@ namespace SpiritMod.NPCs.Reach
 					{
 						float A = (float)Main.rand.Next(-120, 120) * 0.05f;
 						float B = (float)Main.rand.Next(-120, -10) * 0.05f;
-						int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, -direction.Y + B, mod.ProjectileType("LittleBouncingSpore"), 8, 1, Main.myPlayer, 0, 0);
+						int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, -direction.Y + B, ModContent.ProjectileType<LittleBouncingSpore>(), 8, 1, Main.myPlayer, 0, 0);
 						Main.projectile[p].hostile = true;
 						Main.projectile[p].friendly = false;
 					}
@@ -159,7 +159,7 @@ namespace SpiritMod.NPCs.Reach
             Player player = spawnInfo.player;
             if (!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.spawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.spawnTileY > Main.worldSurface || !Main.dayTime) && (SpawnCondition.GoblinArmy.Chance == 0))
             {
-                if(!NPC.AnyNPCs(mod.NPCType("ForestWraith")))
+                if(!NPC.AnyNPCs(ModContent.NPCType<ForestWraith>()))
                 return spawnInfo.player.GetSpiritPlayer().ZoneReach && NPC.downedBoss1 && !Main.dayTime ? .05f : 0f;
             }
             return 0f;
@@ -181,7 +181,7 @@ namespace SpiritMod.NPCs.Reach
 			int loot = Main.rand.Next(lootTable.Length);
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType(lootTable[loot]));
 
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AncientBark"), 3);
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<AncientBark>(), 3);
 		}
 
 	}

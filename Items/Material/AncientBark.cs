@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Material
             item.autoReuse = true;
             item.consumable = true;
 			
-						item.createTile = mod.TileType("BarkTileTile");
+						item.createTile = ModContent.TileType<BarkTileTile>();
         }
     }
 }

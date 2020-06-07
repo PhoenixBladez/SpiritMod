@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Gun
             item.rare = 8;
             item.UseSound = SoundID.Item45;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("BouncingMagma");
+            item.shoot = ModContent.ProjectileType<BouncingMagma>();
             item.shootSpeed = 14f;
         }
 		        public static Vector2[] randomSpread(float speedX, float speedY, int angle, int num)

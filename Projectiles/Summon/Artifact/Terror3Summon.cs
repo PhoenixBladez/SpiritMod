@@ -255,7 +255,7 @@ namespace SpiritMod.Projectiles.Summon.Artifact
 			if (Main.rand.Next(19) == 0)
 			{
 				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("NightmareExplosion"), 60, projectile.knockBack, projectile.owner, 0f, 0f);
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<NightmareExplosion>(), 60, projectile.knockBack, projectile.owner, 0f, 0f);
 			}
 		}
 

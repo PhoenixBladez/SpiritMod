@@ -40,7 +40,7 @@ namespace SpiritMod.Projectiles
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			target.AddBuff(mod.BuffType("FrenzyVirus"), 580);
+			target.AddBuff(ModContent.BuffType<FrenzyVirus>(), 580);
 		}
 	}
 }

@@ -30,7 +30,7 @@ namespace SpiritMod.Projectiles.Hostile
 
 		public override void AI()
 		{
-	    int num1 = mod.NPCType("CrystalDrifter");
+	    int num1 = ModContent.NPCType<CrystalDrifter>();
         float num2 = 60f;
         float x = 0.08f;
         float y = 0.1f;

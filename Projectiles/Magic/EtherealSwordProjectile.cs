@@ -71,7 +71,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(0) == 0)
-				target.AddBuff(mod.BuffType("EssenceTrap"), 540, true);
+				target.AddBuff(ModContent.BuffType<EssenceTrap>(), 540, true);
 		}
 
 	}

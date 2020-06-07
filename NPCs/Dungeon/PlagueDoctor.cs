@@ -71,7 +71,7 @@ namespace SpiritMod.NPCs.Dungeon
             int lootamt = Main.rand.Next(30, 60);
 			for (int J = 0; J <= lootamt; J++)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PlagueVial"));
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PlagueVial>());
 			}
             string[] lootTable = { "PlagueDoctorCowl", "PlagueDoctorRobe", "PlagueDoctorLegs" };
             if (Main.rand.Next(6) == 0)
@@ -112,7 +112,7 @@ namespace SpiritMod.NPCs.Dungeon
                     direction.Y *= 7f;
                     float A = (float)Main.rand.Next(-50, 50) * 0.02f;
                     float B = (float)Main.rand.Next(-50, 50) * 0.02f;
-                    int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y - 10, direction.X + A, direction.Y + B, mod.ProjectileType("ToxicFlaskHostile"), 13, 1, Main.myPlayer, 0, 0);
+                    int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y - 10, direction.X + A, direction.Y + B, ModContent.ProjectileType<ToxicFlaskHostile>(), 13, 1, Main.myPlayer, 0, 0);
                     for (int k = 0; k < 11; k++)
                     {
                         Dust.NewDust(npc.position, npc.width, npc.height, 75, (float)direction.X + A, (float)direction.Y + B, 0, default(Color), .61f);
@@ -171,7 +171,7 @@ namespace SpiritMod.NPCs.Dungeon
 		}
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.player.ZoneDungeon && NPC.CountNPCS(mod.NPCType("PlagueDoctor")) < 1 ? 0.05f : 0f;
+            return spawnInfo.player.ZoneDungeon && NPC.CountNPCS(ModContent.NPCType<PlagueDoctor>()) < 1 ? 0.05f : 0f;
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {

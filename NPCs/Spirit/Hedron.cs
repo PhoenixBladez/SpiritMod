@@ -44,7 +44,7 @@ namespace SpiritMod.NPCs.Spirit
 			Player player = spawnInfo.player;
 			if (!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.spawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.spawnTileY > Main.worldSurface || !Main.dayTime) && (SpawnCondition.GoblinArmy.Chance == 0))
 			{
-				int[] TileArray2 = { mod.TileType("SpiritDirt"), mod.TileType("SpiritStone"), mod.TileType("SpiritGrass"), };
+				int[] TileArray2 = { ModContent.TileType<SpiritDirt>(), ModContent.TileType<SpiritStone>(), ModContent.TileType<SpiritGrass>(), };
 				return TileArray2.Contains(Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].type) && NPC.downedMechBossAny && spawnInfo.spawnTileY < Main.rockLayer ? 1.4f : 0f;
 			}
 			return 0f;
@@ -95,7 +95,7 @@ namespace SpiritMod.NPCs.Spirit
 					Vector2 delta = target - npc.Center;
 					delta.Normalize();
 					delta *= 6f;
-					int slot = Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y, delta.X, delta.Y, mod.ProjectileType("HedronBeam"), 32, 1f, Main.myPlayer, 0f, 0f);
+					int slot = Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y, delta.X, delta.Y, ModContent.ProjectileType<HedronBeam>(), 32, 1f, Main.myPlayer, 0f, 0f);
 					Main.projectile[slot].tileCollide = false;
 					Main.projectile[slot].netUpdate = true;
 				}
@@ -133,7 +133,7 @@ namespace SpiritMod.NPCs.Spirit
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(25) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HedronStaff"));
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HedronStaff>());
 		}
 	}
 }

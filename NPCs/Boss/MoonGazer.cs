@@ -38,7 +38,7 @@ namespace SpiritMod.NPCs.Boss
 
 		public override void NPCLoot()
 		{
-			npc.DropItem(mod.ItemType("Veinstone"), Main.rand.Next(10, 26));
+			npc.DropItem(ModContent.ItemType<Veinstone>(), Main.rand.Next(10, 26));
 		}
 
 		public override void AI()

@@ -66,7 +66,7 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
 		{
 			if (Main.rand.Next(9) == 2)
-				target.AddBuff(mod.BuffType("DeathWreathe"), 180);
+				target.AddBuff(ModContent.BuffType<DeathWreathe>(), 180);
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -75,7 +75,7 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 			{
 				MyPlayer modPlayer = player.GetSpiritPlayer();
 				modPlayer.shootDelay1 = 420;
-				Projectile.NewProjectile(player.Center.X, player.Center.Y, 0, 0, mod.ProjectileType("SoulNet"), 0, 0, player.whoAmI);
+				Projectile.NewProjectile(player.Center.X, player.Center.Y, 0, 0, ModContent.ProjectileType<SoulNet>(), 0, 0, player.whoAmI);
 				return true;
 			}
 			return true;

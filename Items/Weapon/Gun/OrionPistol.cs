@@ -53,13 +53,13 @@ namespace SpiritMod.Items.Weapon.Gun
             item.rare = 3;
             item.UseSound = SoundID.Item41;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("OrionBullet");
+            item.shoot = ModContent.ProjectileType<OrionBullet>();
             item.shootSpeed = 6f;
             item.useAmmo = AmmoID.Bullet;
         }
 		 public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("OrionBullet"), 23, knockBack, player.whoAmI);
+            int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<OrionBullet>(), 23, knockBack, player.whoAmI);
             return false;
         }
         public override Vector2? HoldoutOffset()

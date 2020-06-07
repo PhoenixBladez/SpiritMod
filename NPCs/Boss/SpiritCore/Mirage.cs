@@ -81,7 +81,7 @@ namespace SpiritMod.NPCs.Boss.SpiritCore
 					for (int I = 0; I < 4; I++)
 					{
 						//cos = y, sin = x
-						int GeyserEye = NPC.NewNPC((int)(npc.Center.X + (Math.Sin(I * 90) * 100)), (int)(npc.Center.Y + (Math.Cos(I * 90) * 100)), mod.NPCType("ShadowMirage"), npc.whoAmI, 0, 0, 0, -1);
+						int GeyserEye = NPC.NewNPC((int)(npc.Center.X + (Math.Sin(I * 90) * 100)), (int)(npc.Center.Y + (Math.Cos(I * 90) * 100)), ModContent.NPCType<ShadowMirage>(), npc.whoAmI, 0, 0, 0, -1);
 						NPC Eye = Main.npc[GeyserEye];
 						Eye.ai[0] = I * 90;
 						Eye.ai[3] = I * 90;
@@ -93,7 +93,7 @@ namespace SpiritMod.NPCs.Boss.SpiritCore
 					for (int I = 0; I < 2; I++)
 					{
 						//cos = y, sin = x
-						int GeyserEye = NPC.NewNPC((int)(npc.Center.X + (Math.Sin(I * 180) * 100)), (int)(npc.Center.Y + (Math.Cos(I * 180) * 100)), mod.NPCType("ShadowMirage"), npc.whoAmI, 0, 0, 0, -1);
+						int GeyserEye = NPC.NewNPC((int)(npc.Center.X + (Math.Sin(I * 180) * 100)), (int)(npc.Center.Y + (Math.Cos(I * 180) * 100)), ModContent.NPCType<ShadowMirage>(), npc.whoAmI, 0, 0, 0, -1);
 						NPC Eye = Main.npc[GeyserEye];
 						Eye.ai[0] = I * 180;
 						Eye.ai[3] = I * 180;
@@ -103,7 +103,7 @@ namespace SpiritMod.NPCs.Boss.SpiritCore
 			}
 
 			bool spirit = false;
-			int npcType = mod.NPCType("ShadowMirage");
+			int npcType = ModContent.NPCType<ShadowMirage>();
 			for (int num569 = 0; num569 < 200; num569++)
 			{
 				if ((Main.npc[num569].active && Main.npc[num569].type == (npcType)))

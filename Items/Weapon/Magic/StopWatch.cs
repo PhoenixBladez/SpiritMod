@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.rare = 5;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = false;
-			item.shoot = mod.ProjectileType("Clock");
+			item.shoot = ModContent.ProjectileType<Clock>();
 			item.shootSpeed = 0.3f;
 		}
 
@@ -43,7 +43,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			modPlayer.clockY = (int)position.Y;
 			speedX = 0;
 			speedY = 0;
-			player.AddBuff(mod.BuffType("ClockBuff"), 200);
+			player.AddBuff(ModContent.BuffType<ClockBuff>(), 200);
 			return true;
 		}
 		public override bool CanUseItem(Player player)

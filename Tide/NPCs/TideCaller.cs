@@ -37,7 +37,7 @@ namespace SpiritMod.Tide.NPCs
 			Counter++;
 			if (Counter > 500)
 			{
-				int newNPC = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("Clamper"), npc.whoAmI);
+				int newNPC = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<Clamper>(), npc.whoAmI);
 				Counter = 0;
 			}
 			return true;
@@ -48,11 +48,11 @@ namespace SpiritMod.Tide.NPCs
 			{
 				if (!NPC.downedMechBossAny)
 				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PearlFragment"), 1);
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PearlFragment>(), 1);
 				}
 				if (Main.rand.Next(25) == 0)
 				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BlackTide"), 1);
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BlackTide>(), 1);
 				}
 			}
 			{
@@ -86,7 +86,7 @@ namespace SpiritMod.Tide.NPCs
 		{
 			npc.lifeRegen += (int)Math.Sqrt(npc.lifeMax - npc.life) / 2 + 1;
 			if (Main.rand.Next(12) == 1)
-				target.AddBuff(mod.BuffType("Wobbly"), 120);
+				target.AddBuff(ModContent.BuffType<Wobbly>(), 120);
 		}
 
 		public override void FindFrame(int frameHeight)

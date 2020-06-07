@@ -42,7 +42,7 @@ namespace SpiritMod.NPCs
 				npc.ai[3]++;
 				if (npc.ai[3] >= 100)
 				{
-					int type = mod.ProjectileType("PoisonGlob");
+					int type = ModContent.ProjectileType<PoisonGlob>();
 					int p = Terraria.Projectile.NewProjectile(npc.position.X + 5, npc.position.Y + 8, -(npc.position.X - target.position.X) / distance * 4, -(npc.position.Y - target.position.Y) / distance * 4, type, (int)((npc.damage * .5)), 0);
 					Main.projectile[p].friendly = false;
 					Main.projectile[p].hostile = true;
@@ -82,7 +82,7 @@ namespace SpiritMod.NPCs
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(2) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Acid"));
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Acid>());
 		}
 	}
 }

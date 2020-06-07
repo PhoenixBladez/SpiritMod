@@ -174,7 +174,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 		{
 			bool expertMode = Main.expertMode;
 			int dam = expertMode ? 19 : 35;
-			int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, mod.ProjectileType("HostileWrath"), dam, 1, Main.myPlayer, 0, 0);
+			int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, ModContent.ProjectileType<HostileWrath>(), dam, 1, Main.myPlayer, 0, 0);
 			Main.projectile[p].timeLeft = 30;
 
 			Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 14);
@@ -224,7 +224,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 		}
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			target.AddBuff(mod.BuffType("Shadowflame"), 150);
+			target.AddBuff(ModContent.BuffType<Shadowflame>(), 150);
 		}
 	}
 }

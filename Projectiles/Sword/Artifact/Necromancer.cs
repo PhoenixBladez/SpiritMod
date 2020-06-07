@@ -41,7 +41,7 @@ namespace SpiritMod.Projectiles.Sword.Artifact
 			timer--;
 			if (timer == 0)
 			{
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X + Main.rand.Next(-2, 4), projectile.velocity.Y + Main.rand.Next(-6, 7), mod.ProjectileType("NecroBurst"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X + Main.rand.Next(-2, 4), projectile.velocity.Y + Main.rand.Next(-6, 7), ModContent.ProjectileType<NecroBurst>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				timer = 100;
 			}
 

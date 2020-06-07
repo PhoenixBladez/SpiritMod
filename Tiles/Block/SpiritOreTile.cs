@@ -14,7 +14,7 @@ namespace SpiritMod.Tiles.Block
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;  //true for block to emit light
 			Main.tileLighted[Type] = true;
-			drop = mod.ItemType("SpiritOre");   //put your CustomBlock name
+			drop = ModContent.ItemType<SpiritOre>();   //put your CustomBlock name
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Spirit Ore");
 			AddMapEntry(new Color(30, 144, 255), name);

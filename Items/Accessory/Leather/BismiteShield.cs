@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Accessory.Leather
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("LeatherShield"), 1);
+            recipe.AddIngredient(ModContent.ItemType<LeatherShield>(), 1);
             recipe.AddIngredient(null, "BismiteCrystal", 6);
             recipe.AddRecipeGroup("EvilMaterial1", 4);
             recipe.AddTile(TileID.Anvils);

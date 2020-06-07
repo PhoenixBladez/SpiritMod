@@ -29,8 +29,8 @@ namespace SpiritMod.Items.Weapon.Summon
             item.useAnimation = 30;        
             item.summon = true;
             item.noMelee = true;
-            item.shoot = mod.ProjectileType("GastropodMinion");
-            item.buffType = mod.BuffType("GastropodMinionBuff");
+            item.shoot = ModContent.ProjectileType<GastropodMinion>();
+            item.buffType = ModContent.BuffType<GastropodMinionBuff>();
             item.buffTime = 3600;
             item.UseSound = SoundID.Item44;
         

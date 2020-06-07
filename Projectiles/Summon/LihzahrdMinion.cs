@@ -55,7 +55,7 @@ namespace SpiritMod.Projectiles.Summon
 					projectile.frame = 0;
 
 			}
-			bool flag64 = projectile.type == mod.ProjectileType("LihzahrdMinion");
+			bool flag64 = projectile.type == ModContent.ProjectileType<LihzahrdMinion>();
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (flag64)

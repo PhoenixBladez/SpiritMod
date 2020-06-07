@@ -32,7 +32,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			npc.width = 147;
 			npc.height = 233;
 			npc.scale = 2.0f;
-			bossBag = mod.ItemType("AtlasBag");
+			bossBag = ModContent.ItemType<AtlasBag>();
 			npc.damage = 100;
 			npc.lifeMax = 41000;
 			npc.defense = 48;
@@ -62,14 +62,14 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			bool aiChange2 = (double)npc.life <= (double)npc.lifeMax * 0.5; //ai change to phase 3
 			bool aiChange3 = (double)npc.life <= (double)npc.lifeMax * 0.25; //ai change to phase 4
 			bool phaseChange = (double)npc.life <= (double)npc.lifeMax * 0.1; //aggression increase
-			player.AddBuff(mod.BuffType("UnstableAffliction"), 2); //buff that causes gravity shit
+			player.AddBuff(ModContent.BuffType<UnstableAffliction>(), 2); //buff that causes gravity shit
 			int defenseBuff = (int)(65f * (1f - npc.life / npc.lifeMax));
 			npc.defense = npc.defDefense + defenseBuff;
 
 			if (npc.ai[0] == 0f)
 			{
-				arms[0] = NPC.NewNPC((int)npc.Center.X - 80 - Main.rand.Next(80, 160), (int)npc.position.Y, mod.NPCType("AtlasArmLeft"), npc.whoAmI, npc.whoAmI);
-				arms[1] = NPC.NewNPC((int)npc.Center.X + 80 + Main.rand.Next(80, 160), (int)npc.position.Y, mod.NPCType("AtlasArmRight"), npc.whoAmI, npc.whoAmI);
+				arms[0] = NPC.NewNPC((int)npc.Center.X - 80 - Main.rand.Next(80, 160), (int)npc.position.Y, ModContent.NPCType<AtlasArmLeft>(), npc.whoAmI, npc.whoAmI);
+				arms[1] = NPC.NewNPC((int)npc.Center.X + 80 + Main.rand.Next(80, 160), (int)npc.position.Y, ModContent.NPCType<AtlasArmRight>(), npc.whoAmI, npc.whoAmI);
 				npc.ai[0] = 1f;
 			}
 			else if (npc.ai[0] == 1f)
@@ -201,7 +201,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 						{
 							float A = (float)Main.rand.Next(-250, 250) * 0.01f;
 							float B = (float)Main.rand.Next(-250, 250) * 0.01f;
-							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("PrismaticBoltHostile"), damageAmount, 1, npc.target);
+							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<PrismaticBoltHostile>(), damageAmount, 1, npc.target);
 							timer = 0;
 						}
 					}
@@ -216,7 +216,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 							for (int I = 0; I < 5; I++)
 							{
 								Vector2 position = npc.Center + radius * (I * rot).ToRotationVector2();
-								NPC.NewNPC((int)(position.X), (int)(position.Y), mod.NPCType("CobbledEye"), npc.whoAmI, npc.whoAmI, I * rot, radius);
+								NPC.NewNPC((int)(position.X), (int)(position.Y), ModContent.NPCType<CobbledEye>(), npc.whoAmI, npc.whoAmI, I * rot, radius);
 							}
 							secondStage = true;
 						}
@@ -373,8 +373,8 @@ namespace SpiritMod.NPCs.Boss.Atlas
 				return;
 			}
 
-			npc.DropItem(mod.ItemType("ArcaneGeyser"), Main.rand.Next(32, 44));
-			npc.DropItem(mod.ItemType("UnrefinedRuneStone"), 1f / 9);
+			npc.DropItem(ModContent.ItemType<ArcaneGeyser>(), Main.rand.Next(32, 44));
+			npc.DropItem(ModContent.ItemType<UnrefinedRuneStone>(), 1f / 9);
 
 			string[] lootTable =
 			{

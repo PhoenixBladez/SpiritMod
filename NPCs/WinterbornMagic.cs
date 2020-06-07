@@ -31,7 +31,7 @@ namespace SpiritMod.NPCs
 			npc.DeathSound = SoundID.NPCDeath6;
 			npc.buffImmune[BuffID.OnFire] = true;
 			npc.buffImmune[BuffID.Frostburn] = true;
-            npc.buffImmune[mod.BuffType("CryoCrush")] = true;
+            npc.buffImmune[ModContent.BuffType<CryoCrush>()] = true;
             npc.value = 289f;
 			npc.knockBackResist = 0.15f;
 			npc.noGravity = false;
@@ -42,9 +42,9 @@ namespace SpiritMod.NPCs
 
 		public override void NPCLoot()
 		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CryoliteOre"), 1 + Main.rand.Next(2, 4));
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CryoliteOre>(), 1 + Main.rand.Next(2, 4));
 			if(Main.rand.Next(5) == 0)
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("WintryCharmMage"));
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<WintryCharmMage>());
 		}
 
 		public override bool PreAI()
@@ -122,7 +122,7 @@ namespace SpiritMod.NPCs
                             if (Main.rand.Next(2) == 0)
                             {
                                 int somedamage = expertMode ? 15 : 30;
-                                int p = Projectile.NewProjectile(Main.player[npc.target].Center.X, Main.player[npc.target].Center.Y - 300, 0, 0  , mod.ProjectileType("IceCloudHostile"), somedamage, 1, Main.myPlayer, 0, 0);
+                                int p = Projectile.NewProjectile(Main.player[npc.target].Center.X, Main.player[npc.target].Center.Y - 300, 0, 0  , ModContent.ProjectileType<IceCloudHostile>(), somedamage, 1, Main.myPlayer, 0, 0);
                                 Main.projectile[p].hostile = true;
                                 Main.projectile[p].friendly = false;
                                 Main.projectile[p].tileCollide = false;

@@ -45,7 +45,7 @@ namespace SpiritMod.Tiles.Ambient
 
         public override void RightClick(int i, int j)
         {
-            if (!NPC.AnyNPCs(mod.NPCType("Overseer")))
+            if (!NPC.AnyNPCs(ModContent.NPCType<Overseer>()))
             {
                 Vector2 checkPos = new Vector2(i * 16, j * 16);
 
@@ -55,7 +55,7 @@ namespace SpiritMod.Tiles.Ambient
                 {
                     if (Main.player[p].active && !Main.player[p].dead && (checkPos - Main.player[p].Center).Length() < distance)
                     {
-                        NPC.SpawnOnPlayer(p, mod.NPCType("Overseer"));
+                        NPC.SpawnOnPlayer(p, ModContent.NPCType<Overseer>());
                         break;
                     }
                 }

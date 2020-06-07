@@ -59,7 +59,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 							num5 = num4 / num5;
 
 						value *= num5;
-						int p = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value.X, value.Y, mod.ProjectileType("PhoenixProjectile"), 41, projectile.knockBack / 2f, projectile.owner, 0f, 0f);
+						int p = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value.X, value.Y, ModContent.ProjectileType<PhoenixProjectile>(), 41, projectile.knockBack / 2f, projectile.owner, 0f, 0f);
 						Main.projectile[p].friendly = true;
 						Main.projectile[p].hostile = false;
 					}
@@ -84,7 +84,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 
 		public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("Fire"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Fire>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 			Projectile.NewProjectile(projectile.Center.X + 10, projectile.Center.Y, 0f, 0f, 15, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 			Projectile.NewProjectile(projectile.Center.X - 10, projectile.Center.Y, 0f, 0f, 15, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 			Projectile.NewProjectile(projectile.Center.X + 30, projectile.Center.Y - 10, 0f, 0f, 15, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);

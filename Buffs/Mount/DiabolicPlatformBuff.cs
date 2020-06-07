@@ -15,7 +15,7 @@ namespace SpiritMod.Buffs.Mount
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.mount.SetMount(mod.MountType("DiabolicPlatform"), player);
+			player.mount.SetMount(ModContent.MountType<DiabolicPlatform>(), player);
 			player.buffTime[buffIndex] = 10;
 		}
 	}

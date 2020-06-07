@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Weapon.Summon
             item.rare = 6;
             item.knockBack = 2.5f;
 			item.UseSound = SoundID.Item25;
-			item.shoot = mod.ProjectileType("Primavore");
+			item.shoot = ModContent.ProjectileType<Primavore>();
 			item.shootSpeed = 0f;
 		}
 

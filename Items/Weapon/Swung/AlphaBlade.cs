@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.value = Terraria.Item.sellPrice(1, 0, 0, 0);
             item.rare = 12;
             item.UseSound = SoundID.Item1;    
-            item.shoot = mod.ProjectileType("PestilentSwordProjectile");
+            item.shoot = ModContent.ProjectileType<PestilentSwordProjectile>();
             item.shootSpeed = 4f;
 			item.autoReuse = true;			
         }

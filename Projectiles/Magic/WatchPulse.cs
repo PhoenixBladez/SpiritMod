@@ -30,7 +30,7 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			target.AddBuff(mod.BuffType("Stopped"), 270);
+			target.AddBuff(ModContent.BuffType<Stopped>(), 270);
 		}
 
 		public override bool PreAI()

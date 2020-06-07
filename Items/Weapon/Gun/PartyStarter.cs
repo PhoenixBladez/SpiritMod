@@ -33,13 +33,13 @@ namespace SpiritMod.Items.Weapon.Gun
             item.crit = 10;
             item.UseSound = SoundID.Item40;
             item.autoReuse = false;
-            item.shoot = mod.ProjectileType("PartyStarterBullet"); 
+            item.shoot = ModContent.ProjectileType<PartyStarterBullet>(); 
             item.shootSpeed = 17f;
             item.useAmmo = AmmoID.Bullet;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            type = mod.ProjectileType("PartyStarterBullet");
+            type = ModContent.ProjectileType<PartyStarterBullet>();
             return true;
         }
         public override Vector2? HoldoutOffset()

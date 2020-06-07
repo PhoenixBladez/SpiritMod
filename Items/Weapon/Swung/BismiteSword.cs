@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.value = Item.sellPrice(0, 0, 15, 0);
             item.rare = 1;
             item.UseSound = SoundID.Item1;          
-            item.shoot = mod.ProjectileType("BismiteSwordProjectile");
+            item.shoot = ModContent.ProjectileType<BismiteSwordProjectile>();
             item.shootSpeed = 7;               
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

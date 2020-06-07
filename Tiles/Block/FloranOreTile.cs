@@ -12,7 +12,7 @@ namespace SpiritMod.Tiles.Block
             Main.tileSpelunker[Type] = true;
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
-            drop = mod.ItemType("FloranOre");   //put your CustomBlock name
+            drop = ModContent.ItemType<FloranOre>();   //put your CustomBlock name
 			ModTranslation name = CreateMapEntryName();
             name.SetDefault("Floran Ore");
             AddMapEntry(new Color(30, 200, 25), name);

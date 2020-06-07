@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.value = Terraria.Item.sellPrice(0, 0, 20, 0);
             item.rare = 2;
             item.UseSound = SoundID.Item1;        
-            item.shoot = mod.ProjectileType("FlayedExplosion");
+            item.shoot = ModContent.ProjectileType<FlayedExplosion>();
             item.shootSpeed = 12f;
 			item.autoReuse = true;			
         }
@@ -50,7 +50,7 @@ namespace SpiritMod.Items.Weapon.Swung
         {
             if (Main.rand.Next(4) == 0)
             {
-                target.AddBuff(mod.BuffType("SurgingAnguish"), 180);
+                target.AddBuff(ModContent.BuffType<SurgingAnguish>(), 180);
             }
         }
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -60,7 +60,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			{
                 Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 20);
                 damage = 1 + (int)((damage * 1.5f) / (MathHelper.Clamp((float)Math.Sqrt(modPlayer.shootDelay), 1, 180)));
-				Projectile.NewProjectile(position.X, position.Y, 0, 0, mod.ProjectileType("FlayedExplosion"), damage, knockBack, Main.myPlayer);
+				Projectile.NewProjectile(position.X, position.Y, 0, 0, ModContent.ProjectileType<FlayedExplosion>(), damage, knockBack, Main.myPlayer);
 				modPlayer.shootDelay = 180;
 			}
             return false;

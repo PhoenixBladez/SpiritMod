@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.value = Item.sellPrice(0, 1, 20, 0);
             item.rare = 4;
             item.UseSound = SoundID.Item1;          
-            item.shoot = mod.ProjectileType("GlowStingSpear");
+            item.shoot = ModContent.ProjectileType<GlowStingSpear>();
             item.shootSpeed = 10f;
             this.currentHit = 0;
         }
@@ -61,7 +61,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit) 
 		{
 			if (Main.rand.Next(3) == 0)
-				target.AddBuff(mod.BuffType("StarFlame"), 180);
+				target.AddBuff(ModContent.BuffType<StarFlame>(), 180);
 		}
         public override bool AltFunctionUse(Player player)
         {
@@ -72,7 +72,7 @@ namespace SpiritMod.Items.Weapon.Swung
             if (player.altFunctionUse == 2)
             {
                 item.noUseGraphic = true;
-                item.shoot = mod.ProjectileType("GlowStingSpear");
+                item.shoot = ModContent.ProjectileType<GlowStingSpear>();
                 item.useStyle = ItemUseStyleID.HoldingOut;
                 item.useTime = 12;
                 item.useAnimation = 12;
@@ -99,7 +99,7 @@ namespace SpiritMod.Items.Weapon.Swung
             {
                 for (int projFinder = 0; projFinder < 300; ++projFinder)
                 {
-                    if (Main.projectile[projFinder].type == mod.ProjectileType("GlowStingSpear"))
+                    if (Main.projectile[projFinder].type == ModContent.ProjectileType<GlowStingSpear>())
                     {
                         Main.projectile[projFinder].Kill();
                         Main.projectile[projFinder].timeLeft = 2;

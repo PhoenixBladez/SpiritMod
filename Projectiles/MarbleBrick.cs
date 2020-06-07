@@ -45,7 +45,7 @@ namespace SpiritMod.Projectiles
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(9) == 0)
-				target.AddBuff(mod.BuffType("Marbled"), 70, true);
+				target.AddBuff(ModContent.BuffType<Marbled>(), 70, true);
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)

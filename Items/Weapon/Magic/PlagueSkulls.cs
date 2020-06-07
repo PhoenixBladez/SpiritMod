@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.channel = true;
 			item.noMelee = true;
 			item.noUseGraphic = true;
-			item.shoot = mod.ProjectileType("PlagueSkullsHandle");
+			item.shoot = ModContent.ProjectileType<PlagueSkullsHandle>();
 			item.shootSpeed = 26f;
 		}
 		 public override void AddRecipes()

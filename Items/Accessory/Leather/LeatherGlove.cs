@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Accessory.Leather
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("OldLeather"), 6);
+            recipe.AddIngredient(ModContent.ItemType<OldLeather>(), 6);
             recipe.AddRecipeGroup("LeadBars", 2);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);

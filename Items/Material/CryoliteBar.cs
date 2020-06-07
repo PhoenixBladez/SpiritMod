@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Material
 			  item.consumable = true;
             item.rare = 3;
             item.maxStack = 999;
-			item.createTile = mod.TileType("CryoliteBar");
+			item.createTile = ModContent.TileType<CryoliteBar>();
 			item.autoReuse = true;
 			item.useAnimation = 15;
 			item.useTime = 10;

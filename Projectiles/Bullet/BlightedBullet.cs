@@ -41,14 +41,14 @@ namespace SpiritMod.Projectiles.Bullet
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(2) == 0)
-				target.AddBuff(mod.BuffType("BlightedFlames"), 260, false);
+				target.AddBuff(ModContent.BuffType<BlightedFlames>(), 260, false);
 
 			MyPlayer mp = Main.player[projectile.owner].GetSpiritPlayer();
 			mp.PutridHits++;
 			if (mp.putridSet && mp.PutridHits >= 4)
 			{
 				Projectile.NewProjectile(projectile.position, Vector2.Zero,
-					mod.ProjectileType("CursedFlame"), projectile.damage, 0f, projectile.owner);
+					ModContent.ProjectileType<CursedFlame>(), projectile.damage, 0f, projectile.owner);
 				mp.PutridHits = 0;
 			}
 		}

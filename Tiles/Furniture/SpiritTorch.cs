@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Items.Placeable.Furniture;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -37,8 +38,8 @@ namespace SpiritMod.Tiles.Furniture
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Spirit Torch");
 			AddMapEntry(new Color(102, 178, 255), name);
-			dustType = mod.DustType("Sparkle");
-			drop = mod.ItemType("SpiritTorchItem");
+			dustType = 0;//ModContent.DustType<Sparkle>();
+			drop = ModContent.ItemType<SpiritTorchItem>();
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.Torches };
 			torch = true;

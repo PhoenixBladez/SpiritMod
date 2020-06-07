@@ -35,7 +35,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 			npc.npcSlots = 5;
 			npc.HitSound = SoundID.NPCHit7;
 			npc.DeathSound = SoundID.NPCDeath5;
-			bossBag = mod.ItemType("DuskingBag");
+			bossBag = ModContent.ItemType<DuskingBag>();
 			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/DuskingTheme");
 		}
 
@@ -108,7 +108,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 					Vector2 dir = Main.player[npc.target].Center - npc.Center;
 					dir.Normalize();
 					dir *= 14;
-					int newNPC = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("ShadowBall"), npc.whoAmI);
+					int newNPC = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<ShadowBall>(), npc.whoAmI);
 					Main.npc[newNPC].velocity = dir;
 				}
 				// Crystal Shadow Shoot.
@@ -121,7 +121,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 						targetDir.Normalize();
 						targetDir *= 3;
 						int dmg = expertMode ? 23 : 37;
-						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, targetDir.X, targetDir.Y, mod.ProjectileType("CrystalShadow"), dmg, 0.5F, Main.myPlayer);
+						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, targetDir.X, targetDir.Y, ModContent.ProjectileType<CrystalShadow>(), dmg, 0.5F, Main.myPlayer);
 					}
 				}
 				// Shadowflamer Shoot
@@ -131,7 +131,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 					dir += new Vector2(Main.rand.Next(-40, 41), Main.rand.Next(-40, 41));
 					dir.Normalize();
 					dir *= 12;
-					int newNPC = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("Shadowflamer"), npc.whoAmI);
+					int newNPC = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<Shadowflamer>(), npc.whoAmI);
 					Main.npc[newNPC].velocity = dir;
 				}
 				npc.ai[1]++;
@@ -209,7 +209,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 							Vector2 targetDir = ((((float)Math.PI * 2) / 8) * i).ToRotationVector2();
 							targetDir.Normalize();
 							targetDir *= 3;
-							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, targetDir.X, targetDir.Y, mod.ProjectileType("CrystalShadow"), 26, 0.5F, Main.myPlayer);
+							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, targetDir.X, targetDir.Y, ModContent.ProjectileType<CrystalShadow>(), 26, 0.5F, Main.myPlayer);
 						}
 					}
 					if (npc.life >= (npc.lifeMax / 2))
@@ -228,7 +228,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 								float A = (float)Main.rand.Next(-200, 200) * 0.01f;
 								float B = (float)Main.rand.Next(-200, 200) * 0.01f;
 								int damage = expertMode ? 23 : 37;
-								Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("CrystalShadow"), damage, 1, Main.myPlayer, 0, 0);
+								Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<CrystalShadow>(), damage, 1, Main.myPlayer, 0, 0);
 							}
 						}
 
@@ -316,7 +316,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 							Vector2 targetDir = ((((float)Math.PI * 2) / 8) * i).ToRotationVector2();
 							targetDir.Normalize();
 							targetDir *= 3;
-							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, targetDir.X, targetDir.Y, mod.ProjectileType("CrystalShadow"), 26, 0.5F, Main.myPlayer);
+							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, targetDir.X, targetDir.Y, ModContent.ProjectileType<CrystalShadow>(), 26, 0.5F, Main.myPlayer);
 						}
 					}
 					if (npc.ai[2] >= 270)
@@ -390,7 +390,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 						float A = (float)Main.rand.Next(-80, 80) * 0.01f;
 						float B = (float)Main.rand.Next(-80, 80) * 0.01f;
 						int damage = expertMode ? 23 : 37;
-						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("ShadowPulse"), damage, 1, Main.myPlayer, 0, 0);
+						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<ShadowPulse>(), damage, 1, Main.myPlayer, 0, 0);
 					}
 				}
 			}
@@ -434,13 +434,13 @@ namespace SpiritMod.NPCs.Boss.Dusking
 				return;
 			}
 
-			npc.DropItem(mod.ItemType("DuskStone"), Main.rand.Next(25, 36));
-			npc.DropItem(mod.ItemType("DarkCrest"), 10f / 85);
+			npc.DropItem(ModContent.ItemType<DuskStone>(), Main.rand.Next(25, 36));
+			npc.DropItem(ModContent.ItemType<DarkCrest>(), 10f / 85);
 
 			string[] lootTable = { "CrystalShadow", "ShadowflameSword", "UmbraStaff", "ShadowSphere", "DuskCarbine", };
 			int loot = Main.rand.Next(lootTable.Length);
 			if (loot == 0)
-				npc.DropItem(mod.ItemType("CrystalShadow"), Main.rand.Next(74, 121));
+				npc.DropItem(ModContent.ItemType<CrystalShadow>(), Main.rand.Next(74, 121));
 			else
 				npc.DropItem(mod.ItemType(lootTable[loot]));
 
@@ -450,7 +450,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			target.AddBuff(mod.BuffType("Shadowflame"), 150);
+			target.AddBuff(ModContent.BuffType<Shadowflame>(), 150);
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

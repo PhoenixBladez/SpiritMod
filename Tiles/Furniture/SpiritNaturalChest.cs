@@ -33,7 +33,7 @@ namespace SpiritMod.Tiles.Furniture
 			ModTranslation name = CreateMapEntryName();
             name.SetDefault("Spirit Chest");
 			AddMapEntry(new Color(200, 200, 200), name, MapChestName);
-			dustType = mod.DustType("Sparkle");
+			dustType = ModContent.DustType<Sparkle>();
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.Containers };
 			chest = "SpiritChest";
@@ -86,7 +86,7 @@ namespace SpiritMod.Tiles.Furniture
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Terraria.Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("SpiritChest"));
+			Terraria.Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<SpiritChest>());
 			Chest.DestroyChest(i, j);
 		}
 
@@ -99,7 +99,7 @@ namespace SpiritMod.Tiles.Furniture
 
             if (tile.frameX >= 36)//If the chest is locked
             {
-                if (player.HasItem(mod.ItemType("SpiritKey")) || tile.frameX == 36)//If the player has a key or if the chest was unlocked in legacy (remove the second check to discontinue legacy format support)
+                if (player.HasItem(ModContent.ItemType<SpiritKey>()) || tile.frameX == 36)//If the player has a key or if the chest was unlocked in legacy (remove the second check to discontinue legacy format support)
                 {
                     Main.PlaySound(22, i * 16, j * 16, 1);
 
@@ -216,12 +216,12 @@ namespace SpiritMod.Tiles.Furniture
                 {
                     if (tile.frameX >= 36)
                     {
-                        player.showItemIcon2 = mod.ItemType("SpiritKey");
+                        player.showItemIcon2 = ModContent.ItemType<SpiritKey>();
                         player.showItemIconText = "";
                     }
                     else
                     {
-                        player.showItemIcon2 = mod.ItemType("CrystalChest");
+                        player.showItemIcon2 = ModContent.ItemType<CrystalChest>();
                     }
                 }
             }

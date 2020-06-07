@@ -109,7 +109,7 @@ namespace SpiritMod.Projectiles
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			target.AddBuff(mod.BuffType("AcidBurn"), 180);
+			target.AddBuff(ModContent.BuffType<AcidBurn>(), 180);
 		}
 
 	}

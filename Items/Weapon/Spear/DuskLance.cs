@@ -29,7 +29,7 @@ public class DuskLance : ModItem
             item.damage = 38;
             item.value = Item.sellPrice(0, 3, 60, 0);
             item.rare = 4;
-            item.shoot = mod.ProjectileType("DuskLanceProj");
+            item.shoot = ModContent.ProjectileType<DuskLanceProj>();
         }
         public override bool CanUseItem(Player player)
         {

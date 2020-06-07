@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Placeable.Furniture.Reach
             item.autoReuse = true;
             item.consumable = true;
 
-			item.createTile = mod.TileType("ReachDoorClosed");
+			item.createTile = ModContent.TileType<ReachDoorClosed>();
 		}
 
 		public override void AddRecipes()

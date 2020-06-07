@@ -29,8 +29,8 @@ namespace SpiritMod.Items.Weapon.Summon
             item.useAnimation = 30;    
             item.summon = true;
             item.noMelee = true;
-            item.shoot = mod.ProjectileType("ReachSummon");
-            item.buffType = mod.BuffType("ReachSummonBuff");
+            item.shoot = ModContent.ProjectileType<ReachSummon>();
+            item.buffType = ModContent.BuffType<ReachSummonBuff>();
             item.buffTime = 3600;
             item.UseSound = SoundID.Item44;
         }

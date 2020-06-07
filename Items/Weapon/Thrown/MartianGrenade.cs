@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Weapon.Thrown
         public override void SetDefaults()
         {
             item.CloneDefaults(ItemID.Grenade);
-            item.shoot = mod.ProjectileType("Grenadeproj");
+            item.shoot = ModContent.ProjectileType<Grenadeproj>();
             item.useAnimation = 30;
             item.rare = 8;
             item.ranged = true;

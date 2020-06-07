@@ -32,7 +32,7 @@ namespace SpiritMod.Projectiles.CometArmor
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(2) == 0)
-				target.AddBuff(mod.BuffType("StarFracture"), 240, false);
+				target.AddBuff(ModContent.BuffType<StarFracture>(), 240, false);
 		}
 
 		public override void AI()

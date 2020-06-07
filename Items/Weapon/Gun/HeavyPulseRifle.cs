@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Gun
             item.value = Terraria.Item.sellPrice(0, 3, 50, 0);
             item.rare = 8;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("PulseBullet");
+            item.shoot = ModContent.ProjectileType<PulseBullet>();
             item.shootSpeed = 16f;
             item.useAmmo = AmmoID.Bullet;
         }
@@ -47,9 +47,9 @@ namespace SpiritMod.Items.Weapon.Gun
             {
                 Main.PlaySound(SoundLoader.customSoundType, player.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Soldier1"));
 
-                Projectile.NewProjectile(position.X, position.Y - 14, speedX * 2, speedY * 2, mod.ProjectileType("HelixRocket"), item.damage * 2 / 4 * 5 - 4, 11, player.whoAmI, 0f, 0f);
-                Projectile.NewProjectile(position.X + 10, position.Y, speedX * 2, speedY * 2, mod.ProjectileType("HelixRocket"), item.damage * 2 / 4 * 5 - 4, 11, player.whoAmI, 0f, 0f);
-                Projectile.NewProjectile(position.X - 10, position.Y, speedX * 2, speedY * 2, mod.ProjectileType("HelixRocket"), item.damage * 2 / 4 * 5 - 4, 11, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y - 14, speedX * 2, speedY * 2, ModContent.ProjectileType<HelixRocket>(), item.damage * 2 / 4 * 5 - 4, 11, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X + 10, position.Y, speedX * 2, speedY * 2, ModContent.ProjectileType<HelixRocket>(), item.damage * 2 / 4 * 5 - 4, 11, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X - 10, position.Y, speedX * 2, speedY * 2, ModContent.ProjectileType<HelixRocket>(), item.damage * 2 / 4 * 5 - 4, 11, player.whoAmI, 0f, 0f);
 
 
                 MyPlayer modPlayer = player.GetSpiritPlayer();
@@ -64,91 +64,91 @@ namespace SpiritMod.Items.Weapon.Gun
                 {
                     {
                         Main.PlaySound(SoundLoader.customSoundType, player.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SoldierUlt"));
-                        Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), mod.ProjectileType("VisorBullet"), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<VisorBullet>(), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
                         return false;
                     }
                 }
                 if (charger == 31)
                 {
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), mod.ProjectileType("VisorBullet"), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<VisorBullet>(), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
                         return false;
                     }
                 }
                 if (charger == 32)
                 {
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), mod.ProjectileType("VisorBullet"), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<VisorBullet>(), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
                         return false;
                     }
                 }
                 if (charger == 33)
                 {
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), mod.ProjectileType("VisorBullet"), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<VisorBullet>(), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
                         return false;
                     }
                 }
                 if (charger == 34)
                 {
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), mod.ProjectileType("VisorBullet"), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<VisorBullet>(), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
                         return false;
                     }
                 }
                 if (charger == 35)
                 {
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), mod.ProjectileType("VisorBullet"), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<VisorBullet>(), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
                         return false;
                     }
                 }
                 if (charger == 36)
                 {
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), mod.ProjectileType("VisorBullet"), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<VisorBullet>(), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
                         return false;
                     }
                 }
                 if (charger == 37)
                 {
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), mod.ProjectileType("VisorBullet"), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<VisorBullet>(), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
                         return false;
                     }
                 }
                 if (charger == 38)
                 {
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), mod.ProjectileType("VisorBullet"), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<VisorBullet>(), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
                         return false;
                     }
                 }
                 if (charger == 39)
                 {
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), mod.ProjectileType("VisorBullet"), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<VisorBullet>(), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
                         return false;
                     }
                 }
                 if (charger == 40)
                 {
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), mod.ProjectileType("VisorBullet"), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<VisorBullet>(), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
                         return false;
                     }
                 }
                 if (charger == 41)
                 {
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), mod.ProjectileType("VisorBullet"), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<VisorBullet>(), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
                         return false;
                     }
                 }
                 if (charger == 42)
                 {
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), mod.ProjectileType("VisorBullet"), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<VisorBullet>(), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
                         return false;
                     }
                 }
@@ -156,7 +156,7 @@ namespace SpiritMod.Items.Weapon.Gun
                 {
                     charger = 0;
                 }
-                type = mod.ProjectileType("PulseBullet");
+                type = ModContent.ProjectileType<PulseBullet>();
                 float spread = 7 * 0.0174f;//45 degrees converted to radians
                 float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
                 double baseAngle = Math.Atan2(speedX, speedY);

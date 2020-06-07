@@ -12,7 +12,7 @@ namespace SpiritMod.Items.DonatorItems
             {
                 if (Main.rand.Next(100) == 1)
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CombatShotgun"), 1);
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CombatShotgun>(), 1);
                 }
             }
         }

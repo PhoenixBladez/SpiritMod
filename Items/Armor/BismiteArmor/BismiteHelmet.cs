@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Armor.BismiteArmor
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("BismiteChestplate") && legs.type == mod.ItemType("BismiteLeggings");
+            return body.type == ModContent.ItemType<BismiteChestplate>() && legs.type == ModContent.ItemType<BismiteLeggings>();
         }
        public override void ArmorSetShadows(Player player)
         {

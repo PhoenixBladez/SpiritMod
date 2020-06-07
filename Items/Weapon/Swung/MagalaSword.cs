@@ -41,7 +41,7 @@ namespace SpiritMod.Items.Weapon.Swung
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
             {
-                target.AddBuff(mod.BuffType("FrenzyVirus"), 120);
+                target.AddBuff(ModContent.BuffType<FrenzyVirus>(), 120);
             }
         }
         public override void MeleeEffects(Player player, Rectangle hitbox)

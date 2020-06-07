@@ -30,8 +30,8 @@ namespace SpiritMod.Items.Weapon.Summon
             item.useAnimation = 30;
             item.summon = true;
             item.noMelee = true;
-            item.shoot = mod.ProjectileType("HungryMinion");
-            item.buffType = mod.BuffType("HungryMinionBuff");
+            item.shoot = ModContent.ProjectileType<HungryMinion>();
+            item.buffType = ModContent.BuffType<HungryMinionBuff>();
             item.buffTime = 3600;
             item.UseSound = SoundID.Item44;
         }

@@ -81,7 +81,7 @@ namespace SpiritMod.NPCs
                 {
                     float A = (float)Main.rand.Next(-150, 150) * 0.01f;
                     float B = (float)Main.rand.Next(-150, 150) * 0.01f;
-                    int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("DesertFeather"), 11, 1, Main.myPlayer, 0, 0);
+                    int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<DesertFeather>(), 11, 1, Main.myPlayer, 0, 0);
                     Main.projectile[p].scale = .6f;
                 }
             }
@@ -96,11 +96,11 @@ namespace SpiritMod.NPCs
 		{
 			if (Main.rand.Next(6) == 0)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("JewelCrown"));
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<JewelCrown>());
 			}
             if (Main.rand.Next(2) == 0)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Talon"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Talon>());
             }
         }
 

@@ -87,7 +87,7 @@ namespace SpiritMod.Projectiles.Bullet.Crimbine
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (Main.rand.Next(4) == 0)
-                target.AddBuff(mod.BuffType("BCorrupt"), 180);
+                target.AddBuff(ModContent.BuffType<BCorrupt>(), 180);
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {

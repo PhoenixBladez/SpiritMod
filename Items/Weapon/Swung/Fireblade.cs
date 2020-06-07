@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Weapon.Swung
             if (Main.rand.Next(4) == 0)
             {
                 {
-                    Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("ViashinoExplosion"), damage, knockback, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<ViashinoExplosion>(), damage, knockback, player.whoAmI, 0f, 0f);
                 }
             }
             if (Main.rand.Next(10) == 0)

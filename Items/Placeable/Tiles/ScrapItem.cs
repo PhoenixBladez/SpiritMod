@@ -29,12 +29,12 @@ namespace SpiritMod.Items.Placeable.Tiles
             item.autoReuse = true;
             item.consumable = true;
 
-            item.createTile = mod.TileType("ScrapTile");
+            item.createTile = ModContent.TileType<ScrapTile>();
         }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("SpaceJunkItem"), 2);
+            recipe.AddIngredient(ModContent.ItemType<SpaceJunkItem>(), 2);
             recipe.AddTile(TileID.HeavyWorkBench);
             recipe.SetResult(this, 30);
             recipe.AddRecipe();

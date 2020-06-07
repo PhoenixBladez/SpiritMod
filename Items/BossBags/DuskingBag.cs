@@ -34,15 +34,15 @@ namespace SpiritMod.Items.BossBags
 		public override void RightClick(Player player)
 		{
 			player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(3, 7));
-			player.QuickSpawnItem(mod.ItemType("DuskPendant"));
-			player.QuickSpawnItem(mod.ItemType("DuskStone"), Main.rand.Next(25, 36));
+			player.QuickSpawnItem(ModContent.ItemType<DuskPendant>());
+			player.QuickSpawnItem(ModContent.ItemType<DuskStone>(), Main.rand.Next(25, 36));
 			if (Main.rand.Next(73) < 10)
-				player.QuickSpawnItem(mod.ItemType("DarkCrest"));
+				player.QuickSpawnItem(ModContent.ItemType<DarkCrest>());
 
 			string[] lootTable = { "CrystalShadow", "ShadowflameSword", "UmbraStaff", "ShadowSphere", "DuskCarbine" };
 			int loot = Main.rand.Next(lootTable.Length);
 			if (loot == 0)
-				player.QuickSpawnItem(mod.ItemType("CrystalShadow"), Main.rand.Next(29, 49));
+				player.QuickSpawnItem(ModContent.ItemType<CrystalShadow>(), Main.rand.Next(29, 49));
 			else
 				player.QuickSpawnItem(mod.ItemType(lootTable[loot]));
 

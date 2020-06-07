@@ -58,7 +58,7 @@ namespace SpiritMod.Projectiles
 					int randFire = Main.rand.Next(3);
 					int newProj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y,
 						Main.rand.Next(-400, 400) / 100, Main.rand.Next(-4, 4),
-						mod.ProjectileType("BrimstoneEmber"), 30, 0, projectile.owner);
+						ModContent.ProjectileType<BrimstoneEmber>(), 30, 0, projectile.owner);
 				}
 				for (int i = 0; i < 40; i++)
 				{
@@ -79,7 +79,7 @@ namespace SpiritMod.Projectiles
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(2) == 0)
-				target.AddBuff(mod.BuffType("StackingFireBuff"), 120, true);
+				target.AddBuff(ModContent.BuffType<StackingFireBuff>(), 120, true);
 		}
 
 	}

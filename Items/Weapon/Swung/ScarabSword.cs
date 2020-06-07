@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.value = Item.sellPrice(0, 1, 0, 0);
             item.rare = 1;
             item.UseSound = SoundID.Item1;          
-            item.shoot = mod.ProjectileType("ScarabProjectile");
+            item.shoot = ModContent.ProjectileType<ScarabProjectile>();
             item.shootSpeed = 7; ;            
             item.crit = 8;                     
         }

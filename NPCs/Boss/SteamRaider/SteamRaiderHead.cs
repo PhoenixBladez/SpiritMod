@@ -41,7 +41,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		{
 			npc.damage = 50; //150
 			npc.npcSlots = 20f;
-			bossBag = mod.ItemType("SteamRaiderBag");
+			bossBag = ModContent.ItemType<SteamRaiderBag>();
 			npc.width = 64; //324
 			npc.height = 56; //216
 			npc.defense = 0;
@@ -141,7 +141,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 						float A = (float)Main.rand.Next(-200, 200) * 0.05f;
 						float B = (float)Main.rand.Next(-200, 200) * 0.05f;
 						int damage = expertMode ? 18 : 25;
-						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, mod.ProjectileType("SteamBeam"), damage, 0, Main.myPlayer, 0, 0);
+						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<SteamBeam>(), damage, 0, Main.myPlayer, 0, 0);
 					}
 				}
 			}
@@ -171,7 +171,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                 {
                     for (int i = 0; i < 3; i++)
                     {
-                        int newNPC = NPC.NewNPC((int)npc.position.X + Main.rand.Next(-100, 100), (int)npc.position.Y + Main.rand.Next(-100, 100), mod.NPCType("BodyProbe"));
+                        int newNPC = NPC.NewNPC((int)npc.position.X + Main.rand.Next(-100, 100), (int)npc.position.Y + Main.rand.Next(-100, 100), ModContent.NPCType<BodyProbe>());
                         spawnedProbes = true;
                         npc.netUpdate = true;
                     }
@@ -190,7 +190,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 						float A = (float)Main.rand.Next(-150, 150) * 0.01f;
 						float B = (float)Main.rand.Next(-80, 0) * 0.0f;
 						int num945 = expertMode ? 13 : 24;
-						int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("SteamBodyFallingProj"), num945, 1, Main.myPlayer, 0, 0);
+						int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<SteamBodyFallingProj>(), num945, 1, Main.myPlayer, 0, 0);
 						Main.projectile[p].timeLeft = 240;
 					}
 				}
@@ -229,11 +229,11 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					{
 						int trailing = 0;
 						if (num36 >= 0 && num36 < minLength)
-							trailing = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("SteamRaiderBody"), npc.whoAmI);
+							trailing = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<SteamRaiderBody>(), npc.whoAmI);
                         else if (num36 >= minLength && num36 < midLength)
                             trailing = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("SteamRaiderBody2"), npc.whoAmI);
                         else
-							trailing = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("SteamRaiderTail"), npc.whoAmI);
+							trailing = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<SteamRaiderTail>(), npc.whoAmI);
 
 						Main.npc[trailing].realLife = npc.whoAmI;
 						Main.npc[trailing].ai[2] = (float)npc.whoAmI;
@@ -619,7 +619,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				{
 					float A = (float)Main.rand.Next(-150, 150) * 0.01f;
 					float B = (float)Main.rand.Next(-80, 0) * 0.01f;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("SteamBodyFallingProj"), 15, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<SteamBodyFallingProj>(), 15, 1, Main.myPlayer, 0, 0);
 				}
 			}
 		}
@@ -643,7 +643,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				return;
 			}
 
-			npc.DropItem(mod.ItemType("SteamParts"), 19, 25);
+			npc.DropItem(ModContent.ItemType<SteamParts>(), 19, 25);
 
 			npc.DropItem(Items.Armor.Masks.StarplateMask._type, 1f / 7);
 			npc.DropItem(Items.Boss.Trophy3._type, 1f / 10);

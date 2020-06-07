@@ -14,14 +14,14 @@ namespace SpiritMod.Tiles.Block
 		{
 			Main.tileSolid[Type] = true;
 			SetModTree(new SpiritTree());
-			Main.tileMerge[Type][mod.TileType("SpiritDirt")] = true;
+			Main.tileMerge[Type][ModContent.TileType<SpiritDirt>()] = true;
 			Main.tileBlendAll[this.Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = true;
 			AddMapEntry(new Color(0, 191, 255));
 			dustType = 187;
-			drop = mod.ItemType("SpiritDirtItem");
+			drop = ModContent.ItemType<SpiritDirtItem>();
 		}
 
 		public static bool PlaceObject(int x, int y, int type, bool mute = false, int style = 0, int alternate = 0, int random = -1, int direction = -1)
@@ -77,7 +77,7 @@ namespace SpiritMod.Tiles.Block
 		public override int SaplingGrowthType(ref int style)
 		{
 			style = 0;
-			return mod.TileType("SpiritSapling");
+			return ModContent.TileType<SpiritSapling>();
 		}
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)

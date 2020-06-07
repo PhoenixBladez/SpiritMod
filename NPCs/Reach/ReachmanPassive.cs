@@ -41,7 +41,7 @@ namespace SpiritMod.NPCs.Reach
 			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
 			if (distance <= 160 || npc.life < npc.lifeMax)
 			{
-			      npc.Transform(mod.NPCType("Reachman"));
+			      npc.Transform(ModContent.NPCType<Reachman>());
                 for (int i = 0; i < 10; i++)
                 {
                     int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.GoldCoin, 0f, -2f, 0, default(Color), 2f);

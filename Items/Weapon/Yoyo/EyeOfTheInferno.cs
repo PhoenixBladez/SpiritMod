@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Yoyo
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.useAnimation = 26;
             item.useTime = 26;
-            item.shoot = mod.ProjectileType("EyeOfTheInfernoProj");           
+            item.shoot = ModContent.ProjectileType<EyeOfTheInfernoProj>();           
         }
     }
 }

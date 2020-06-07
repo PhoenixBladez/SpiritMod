@@ -51,13 +51,13 @@ namespace SpiritMod.Projectiles.Magic
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(2) == 0)
-				target.AddBuff(mod.BuffType("BlightedFlames"), 260, false);
+				target.AddBuff(ModContent.BuffType<BlightedFlames>(), 260, false);
 
 			MyPlayer mp = Main.player[projectile.owner].GetSpiritPlayer();
 			mp.PutridHits++;
 			if (mp.putridSet && mp.PutridHits >= 4)
 			{
-				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, 0f, mod.ProjectileType("CursedFlame"), projectile.damage, 0f, projectile.owner, 0f, 0f);
+				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, 0f, ModContent.ProjectileType<CursedFlame>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
 				mp.PutridHits = 0;
 			}
 		}

@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Spear
             item.damage = 19;
             item.value = Item.sellPrice(0, 0, 10, 0);
             item.rare = 1;
-            item.shoot = mod.ProjectileType("HuskstalkSpearProj");
+            item.shoot = ModContent.ProjectileType<HuskstalkSpearProj>();
         }
         public override void AddRecipes()
         {

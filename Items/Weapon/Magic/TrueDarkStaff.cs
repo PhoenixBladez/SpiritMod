@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 8;
             item.UseSound = SoundID.Item92;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("CursedFire");
+            item.shoot = ModContent.ProjectileType<CursedFire>();
             item.shootSpeed = 16f;
         }
 

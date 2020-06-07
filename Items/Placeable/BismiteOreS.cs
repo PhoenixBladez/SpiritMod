@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Placeable
             item.height = 20;
             item.rare = 3;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.createTile = mod.TileType("BismiteOre");
+            item.createTile = ModContent.TileType<BismiteOre>();
             item.maxStack = 999;
             item.autoReuse = true;
             item.useAnimation = 15;

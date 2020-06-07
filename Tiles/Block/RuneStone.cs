@@ -44,12 +44,12 @@ namespace SpiritMod.Tiles.Block
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			if (!NPC.AnyNPCs(mod.NPCType("ForestWraith")))
+			if (!NPC.AnyNPCs(ModContent.NPCType<ForestWraith>()))
 			{
 				Main.NewText("You have disturbed the ancient Nature Spirits!", 0, 170, 60);
-				NPC.NewNPC((int)i * 16, (int)j * 16, mod.NPCType("ForestWraith"), 0, 2, 1, 0, 0, Main.myPlayer);
-				NPC.NewNPC((int)i * 16, (int)j * 16, mod.NPCType("Woody"), 0, 2, 1, 0, 0, Main.myPlayer);
-				NPC.NewNPC((int)i * 16, (int)j * 16, mod.NPCType("Woody"), 0, 2, 1, 0, 0, Main.myPlayer);
+				NPC.NewNPC((int)i * 16, (int)j * 16, ModContent.NPCType<ForestWraith>(), 0, 2, 1, 0, 0, Main.myPlayer);
+				NPC.NewNPC((int)i * 16, (int)j * 16, ModContent.NPCType<Woody>(), 0, 2, 1, 0, 0, Main.myPlayer);
+				NPC.NewNPC((int)i * 16, (int)j * 16, ModContent.NPCType<Woody>(), 0, 2, 1, 0, 0, Main.myPlayer);
 			}
 		}
 	}

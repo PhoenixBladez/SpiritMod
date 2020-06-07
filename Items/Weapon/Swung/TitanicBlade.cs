@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.melee = true;
             item.autoReuse = true;
 
-            item.shoot = mod.ProjectileType("WaterMass");
+            item.shoot = ModContent.ProjectileType<WaterMass>();
             item.shootSpeed = 12;
             item.UseSound = SoundID.Item1;
             item.value = Terraria.Item.sellPrice(0, 6, 0, 0);

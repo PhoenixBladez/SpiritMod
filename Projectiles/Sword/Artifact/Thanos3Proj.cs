@@ -65,7 +65,7 @@ namespace SpiritMod.Projectiles.Sword.Artifact
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(15) == 0)
-				target.AddBuff(mod.BuffType("Crystallize"), 240, true);
+				target.AddBuff(ModContent.BuffType<Crystallize>(), 240, true);
 
 			if (Main.rand.Next(6) == 0)
 			{
@@ -78,7 +78,7 @@ namespace SpiritMod.Projectiles.Sword.Artifact
 					perturbedSpeed.Normalize();
 					perturbedSpeed.X *= 5.5f;
 					perturbedSpeed.Y *= 5.5f;
-					Projectile.NewProjectile(target.Center.X, target.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("AncientCrystal"), 41, 2, projectile.owner);
+					Projectile.NewProjectile(target.Center.X, target.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<AncientCrystal>(), 41, 2, projectile.owner);
 				}
 			}
 		}
@@ -86,7 +86,7 @@ namespace SpiritMod.Projectiles.Sword.Artifact
 		public override void AI()
 		{
 			projectile.tileCollide = true;
-			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, mod.DustType("Crystal"), 0f, 0f);
+			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, ModContent.DustType<Crystal>(), 0f, 0f);
 			Main.dust[dust2].scale = 1.0f;
 			Main.dust[dust2].noGravity = true;
 			Main.dust[dust2].velocity *= 0f;
@@ -95,13 +95,13 @@ namespace SpiritMod.Projectiles.Sword.Artifact
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 0);
-			int newDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, mod.DustType("Crystal"), 0f, 0f, 0, default(Color), 1f);
+			int newDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<Crystal>(), 0f, 0f, 0, default(Color), 1f);
 			Main.dust[newDust].scale = 2f;
-			int newDust1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, mod.DustType("Crystal"), 0f, 0f, 0, default(Color), 1f);
+			int newDust1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<Crystal>(), 0f, 0f, 0, default(Color), 1f);
 			Main.dust[newDust1].scale = 2f;
-			int newDust2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, mod.DustType("Crystal"), 0f, 0f, 0, default(Color), 1f);
+			int newDust2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<Crystal>(), 0f, 0f, 0, default(Color), 1f);
 			Main.dust[newDust2].scale = 2f;
-			int newDust3 = Dust.NewDust(projectile.position, projectile.width, projectile.height, mod.DustType("Crystal"), 0f, 0f, 0, default(Color), 1f);
+			int newDust3 = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<Crystal>(), 0f, 0f, 0, default(Color), 1f);
 			Main.dust[newDust3].scale = 2f;
 		}
 

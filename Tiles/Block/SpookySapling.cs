@@ -24,7 +24,7 @@ namespace SpiritMod.Tiles.Block
 			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.CoordinatePadding = 2;
-			TileObjectData.newTile.AnchorValidTiles = new int[] { mod.TileType("HalloweenGrass") };
+			TileObjectData.newTile.AnchorValidTiles = new int[] { ModContent.TileType<HalloweenGrass>() };
 			TileObjectData.newTile.StyleHorizontal = true;
 			TileObjectData.newTile.DrawFlipHorizontal = true;
 			TileObjectData.newTile.WaterPlacement = LiquidPlacement.NotAllowed;

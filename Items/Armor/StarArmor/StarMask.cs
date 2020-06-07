@@ -50,7 +50,7 @@ namespace SpiritMod.Items.Armor.StarArmor
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("StarPlate") && legs.type == mod.ItemType("StarLegs");
+            return body.type == ModContent.ItemType<StarPlate>() && legs.type == ModContent.ItemType<StarLegs>();
         }
         public override void ArmorSetShadows(Player player)
         {

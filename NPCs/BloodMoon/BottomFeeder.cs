@@ -91,7 +91,7 @@ namespace SpiritMod.NPCs.BloodMoon
         {
             if (Main.rand.Next(17) == 1)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BottomFeederGun"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BottomFeederGun>());
             }
         }
         public override void HitEffect(int hitDirection, double damage)

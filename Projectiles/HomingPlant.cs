@@ -83,7 +83,7 @@ namespace SpiritMod.Projectiles
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (projectile.owner == Main.myPlayer && Main.rand.Next(4) == 1)
-				Main.player[Main.myPlayer].AddBuff(mod.BuffType("FrenzyPlant"), 240);
+				Main.player[Main.myPlayer].AddBuff(ModContent.BuffType<FrenzyPlant>(), 240);
 		}
 
 		public override void Kill(int timeLeft)
@@ -94,7 +94,7 @@ namespace SpiritMod.Projectiles
 		public override void OnHitPvp(Player target, int damage, bool crit)
 		{
 			if (projectile.owner == Main.myPlayer && Main.rand.Next(4) == 1)
-				Main.player[Main.myPlayer].AddBuff(mod.BuffType("FrenzyPlant"), 240);
+				Main.player[Main.myPlayer].AddBuff(ModContent.BuffType<FrenzyPlant>(), 240);
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)

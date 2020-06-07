@@ -32,8 +32,8 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
 			AddMapEntry(new Color(80, 200, 50));
-			dustType = mod.DustType("Sparkle");
-			drop = mod.ItemType("ReachPlatformTile");
+			dustType = ModContent.DustType<Sparkle>();
+			drop = ModContent.ItemType<ReachPlatformTile>();
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.Platforms };
 		}

@@ -39,7 +39,7 @@ namespace SpiritMod.NPCs.Boss
             music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/AncientAvian");
             npc.noTileCollide = true;
 			npc.npcSlots = 5;
-			bossBag = mod.ItemType("FlyerBag");
+			bossBag = ModContent.ItemType<FlyerBag>();
 			npc.HitSound = SoundID.NPCHit2;
 			npc.DeathSound = SoundID.NPCDeath5;
 			npc.scale = 1.1f;
@@ -112,7 +112,7 @@ namespace SpiritMod.NPCs.Boss
 					float A = (float)Main.rand.Next(-200, 200) * 0.01f;
 					float B = (float)Main.rand.Next(-200, 200) * 0.01f;
 					int damage = expertMode ? 15 : 17;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("DesertFeather"), damage, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<DesertFeather>(), damage, 1, Main.myPlayer, 0, 0);
 				}
 			}
 			else if (timer == 300 || timer == 400 || timer == 500 || timer == 550)
@@ -134,7 +134,7 @@ namespace SpiritMod.NPCs.Boss
 						float A = (float)Main.rand.Next(-300, 300) * 0.01f;
 						float B = (float)Main.rand.Next(-300, 300) * 0.01f;
 						int damage = expertMode ? 18 : 20;
-						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("ExplodingFeather"), damage, 1, Main.myPlayer, 0, 0);
+						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<ExplodingFeather>(), damage, 1, Main.myPlayer, 0, 0);
 					}
 				}
 			}
@@ -145,7 +145,7 @@ namespace SpiritMod.NPCs.Boss
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
 				int damage = expertMode ? 15 : 19;
-				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X * 12f, direction.Y * 12f, mod.ProjectileType("BoneWave"), damage, 1, Main.myPlayer, 0, 0);
+				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X * 12f, direction.Y * 12f, ModContent.ProjectileType<BoneWave>(), damage, 1, Main.myPlayer, 0, 0);
 			}
 			if(timer == 500 || timer == 700)
 			{
@@ -174,7 +174,7 @@ namespace SpiritMod.NPCs.Boss
 					int A = Main.rand.Next(-200, 200) * 6;
 					int B = Main.rand.Next(-200, 200) - 1000;
 					int damage = expertMode ? 18 : 22;
-					Projectile.NewProjectile(player.Center.X + A, player.Center.Y + B, 0f, 10f, mod.ProjectileType("RedComet"), damage, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(player.Center.X + A, player.Center.Y + B, 0f, 10f, ModContent.ProjectileType<RedComet>(), damage, 1, Main.myPlayer, 0, 0);
 				}
 				displaycircle = true;
 			}
@@ -203,7 +203,7 @@ namespace SpiritMod.NPCs.Boss
 					int A = Main.rand.Next(-2500, 2500) * 2;
 					int B = Main.rand.Next(-1000, 1000) - 700;
 					int damage = expertMode ? 15 : 17;
-					Projectile.NewProjectile(player.Center.X + A, player.Center.Y + B, 0f, 10f, mod.ProjectileType("RedComet"), damage, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(player.Center.X + A, player.Center.Y + B, 0f, 10f, ModContent.ProjectileType<RedComet>(), damage, 1, Main.myPlayer, 0, 0);
 				}
 			}
 
@@ -287,7 +287,7 @@ namespace SpiritMod.NPCs.Boss
 				return;
 			}
 
-			npc.DropItem(mod.ItemType("FossilFeather"), 3, 6);
+			npc.DropItem(ModContent.ItemType<FossilFeather>(), 3, 6);
 
 			string[] lootTable = { "SkeletalonStaff", "Talonginus", "SoaringScapula" };
 			int loot = Main.rand.Next(lootTable.Length);

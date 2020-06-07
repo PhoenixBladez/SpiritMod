@@ -38,7 +38,7 @@ namespace SpiritMod.Projectiles.Returning
 			if (Counter % 15 == 1)
 			{
 					int randFire = Main.rand.Next(3);
-					int newProj = Projectile.NewProjectile(projectile.Center, new Vector2(0, 0), mod.ProjectileType("Pumpkin"), projectile.damage, 0, projectile.owner);
+					int newProj = Projectile.NewProjectile(projectile.Center, new Vector2(0, 0), ModContent.ProjectileType<Pumpkin>(), projectile.damage, 0, projectile.owner);
 					Main.projectile[newProj].magic = false;
 					Main.projectile[newProj].melee = true;
 				

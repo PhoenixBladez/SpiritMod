@@ -31,7 +31,7 @@ namespace SpiritMod.Items.DonatorItems
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.useTurn = true;
-            item.shoot = mod.ProjectileType("ZanbatProj");
+            item.shoot = ModContent.ProjectileType<ZanbatProj>();
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Ammo
             item.ranged = true;
             item.consumable = true;
 
-            item.shoot = mod.ProjectileType("AccursedBullet");
+            item.shoot = ModContent.ProjectileType<AccursedBullet>();
 			item.shootSpeed = 8f;
 
 		}

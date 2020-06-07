@@ -44,7 +44,7 @@ namespace SpiritMod.Items.Weapon.Swung
         {
             if (Main.rand.Next(6) == 0)
             {
-                target.AddBuff(mod.BuffType("ClatterPierce"), 180);
+                target.AddBuff(ModContent.BuffType<ClatterPierce>(), 180);
             }
         }
     }

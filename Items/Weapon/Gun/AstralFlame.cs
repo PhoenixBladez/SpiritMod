@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Weapon.Gun
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			int projectileFired = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("AstralFlareRanged"), item.damage, item.knockBack, player.whoAmI);
+			int projectileFired = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<AstralFlareRanged>(), item.damage, item.knockBack, player.whoAmI);
 			Main.projectile[projectileFired].friendly = true;
 			Main.projectile[projectileFired].friendly = true;
 			Main.projectile[projectileFired].hostile = false;

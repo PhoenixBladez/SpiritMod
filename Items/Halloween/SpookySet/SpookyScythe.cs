@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Halloween.SpookySet
             item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
             item.rare = 8;
             item.UseSound = SoundID.Item1;    
-          //  item.shoot = mod.ProjectileType("PestilentSwordProjectile");
+          //  item.shoot = ModContent.ProjectileType<PestilentSwordProjectile>();
           //  item.shootSpeed = 4f;
 			item.autoReuse = true;			
         }
@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Halloween.SpookySet
 			counter++;
 			if (counter % 10== 1)
             {
-               int newProj = Projectile.NewProjectile(new Vector2(hitbox.X, hitbox.Y), new Vector2(0, 0), mod.ProjectileType("Pumpkin"), item.damage, 0, player.whoAmI);
+               int newProj = Projectile.NewProjectile(new Vector2(hitbox.X, hitbox.Y), new Vector2(0, 0), ModContent.ProjectileType<Pumpkin>(), item.damage, 0, player.whoAmI);
 					Main.projectile[newProj].magic = false;
 					Main.projectile[newProj].melee = true;
              

@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Material
             item.autoReuse = true;
             item.consumable = true;
 
-            item.createTile = mod.TileType("MarbleOre");
+            item.createTile = ModContent.TileType<MarbleOre>();
         }
     }
 }

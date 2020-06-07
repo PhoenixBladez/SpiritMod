@@ -25,7 +25,7 @@ namespace SpiritMod.Buffs.Glyph
 
 			if (Main.rand.NextDouble() < 0.06f + npcData.voidStacks * (0.072f / Items.Glyphs.VoidGlyph.DELAY))
             {
-                Dust.NewDustDirect(npc.position - new Vector2(4), npc.width + 8, npc.height + 8, mod.DustType("VoidDust")).customData = npc;
+                Dust.NewDustDirect(npc.position - new Vector2(4), npc.width + 8, npc.height + 8, ModContent.DustType<VoidDust>()).customData = npc;
             }
 
             if (npcData.voidStacks > 0)

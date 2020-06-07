@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Placeable.Furniture
             item.autoReuse = true;
             item.consumable = true;
 
-			item.createTile = mod.TileType("SpiritWorkbench");
+			item.createTile = ModContent.TileType<SpiritWorkbench>();
 		}
 
 		public override void AddRecipes()

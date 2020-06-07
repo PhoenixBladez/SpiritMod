@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Ammo
             item.ranged = true;
             item.consumable = true;
 
-            item.shoot = mod.ProjectileType("BeetleArrow");
+            item.shoot = ModContent.ProjectileType<BeetleArrow>();
             item.shootSpeed = 2.5f;
         }
 

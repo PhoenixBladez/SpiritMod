@@ -48,7 +48,7 @@ namespace SpiritMod.Items.Weapon.Bow
                     {
                         for (int I = 0; I < 1; I++)
                         {
-                            Projectile.NewProjectile(position.X, position.Y, speedX * 4, speedY * 4, mod.ProjectileType("FireSin"), 50, knockBack, player.whoAmI, 0f, 0f);
+                            Projectile.NewProjectile(position.X, position.Y, speedX * 4, speedY * 4, ModContent.ProjectileType<FireSin>(), 50, knockBack, player.whoAmI, 0f, 0f);
                         }
                         charger = 0;
                     }

@@ -28,9 +28,9 @@ namespace SpiritMod.Tide
 				//const int spawnOffsetX = 600;
 				//const int spawnOffsetY = 600;
 				//if (Main.rand.Next(1200) == 1 && !NPC.downedMechBossAny)
-				//NPC.NewNPC((int)player.Center.X + spawnOffsetX, (int)player.Center.Y, mod.NPCType("Clamper"));
+				//NPC.NewNPC((int)player.Center.X + spawnOffsetX, (int)player.Center.Y, ModContent.NPCType<Clamper>());
 				//if (Main.rand.Next(1200) == 1 && !NPC.downedMechBossAny)
-				//NPC.NewNPC((int)player.Center.X - spawnOffsetX, (int)player.Center.Y, mod.NPCType("Clamper"));
+				//NPC.NewNPC((int)player.Center.X - spawnOffsetX, (int)player.Center.Y, ModContent.NPCType<Clamper>());
 				//Stuff for manually spawning if spawning is broken
 			}
 			TideWorld.TidePoints = TideWorld.TidePoints2;

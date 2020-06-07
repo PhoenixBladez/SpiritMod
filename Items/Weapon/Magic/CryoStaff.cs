@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 3;
             item.UseSound = SoundID.Item20;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("CryoliteMage");
+            item.shoot = ModContent.ProjectileType<CryoliteMage>();
             item.shootSpeed = 8f;
         }
 

@@ -89,7 +89,7 @@ namespace SpiritMod.Projectiles.Sword.Artifact
 		{
 			for (int i = 0; i < 5; i++)
 			{
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, mod.DustType("Crystal"));
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<Crystal>());
 			}
 		}
 

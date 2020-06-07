@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Accessory
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.FireGauntlet);
-            recipe.AddIngredient(mod.ItemType("DuskStone"), 18);
+            recipe.AddIngredient(ModContent.ItemType<DuskStone>(), 18);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);
             recipe.AddRecipe();

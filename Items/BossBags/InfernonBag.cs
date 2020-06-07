@@ -34,8 +34,8 @@ namespace SpiritMod.Items.BossBags
 		public override void RightClick(Player player)
 		{
 			player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(2, 5));
-			player.QuickSpawnItem(mod.ItemType("HellsGaze")); //expert drop
-			player.QuickSpawnItem(mod.ItemType("InfernalAppendage"), Main.rand.Next(25, 36));
+			player.QuickSpawnItem(ModContent.ItemType<HellsGaze>()); //expert drop
+			player.QuickSpawnItem(ModContent.ItemType<InfernalAppendage>(), Main.rand.Next(25, 36));
 
 			string[] lootTable = { "InfernalJavelin", "DiabolicHorn", "SevenSins", "InfernalSword", "InfernalStaff", "InfernalShield", "EyeOfTheInferno", };
 			int loot = Main.rand.Next(lootTable.Length);
@@ -47,7 +47,7 @@ namespace SpiritMod.Items.BossBags
 				player.QuickSpawnItem(Boss.Trophy4._type);
 
 			if (Main.rand.NextDouble() < 10d / 73)
-				player.QuickSpawnItem(mod.ItemType("SearingBand"));
+				player.QuickSpawnItem(ModContent.ItemType<SearingBand>());
 		}
 	}
 }

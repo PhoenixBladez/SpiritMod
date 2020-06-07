@@ -38,7 +38,7 @@ namespace SpiritMod.Projectiles
 			{
 				float rotation = (float)(Main.rand.Next(0, 361) * (Math.PI / 180));
 				Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
-				int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, velocity.X, velocity.Y, mod.ProjectileType("FireSpark"), 30, projectile.owner, 0, 0f);
+				int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, velocity.X, velocity.Y, ModContent.ProjectileType<FireSpark>(), 30, projectile.owner, 0, 0f);
 				Main.projectile[proj].friendly = true;
 				Main.projectile[proj].hostile = false;
 				Main.projectile[proj].velocity *= 6f;
@@ -47,7 +47,7 @@ namespace SpiritMod.Projectiles
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			target.AddBuff(mod.BuffType("StackingFireBuff"), 180);
+			target.AddBuff(ModContent.BuffType<StackingFireBuff>(), 180);
 		}
 	}
 }

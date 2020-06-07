@@ -28,7 +28,7 @@ namespace SpiritMod.NPCs.Critters
 			npc.HitSound = SoundID.NPCHit7;
 			npc.DeathSound = SoundID.NPCDeath4;
 			Main.npcCatchable[npc.type] = true;
-			npc.catchItem = (short)mod.ItemType("CleftItem");
+			npc.catchItem = (short)ModContent.ItemType<CleftItem>();
 			npc.knockBackResist = .45f;
 			npc.aiStyle = 67;
 			npc.npcSlots = 0;

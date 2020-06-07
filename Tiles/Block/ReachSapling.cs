@@ -24,7 +24,7 @@ namespace SpiritMod.Tiles.Block
 			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.CoordinatePadding = 2;
-			TileObjectData.newTile.AnchorValidTiles = new int[] { mod.TileType("ReachGrassTile") };
+			TileObjectData.newTile.AnchorValidTiles = new int[] { ModContent.TileType<ReachGrassTile>() };
 			TileObjectData.newTile.StyleHorizontal = true;
 			TileObjectData.newTile.DrawFlipHorizontal = true;
 			TileObjectData.newTile.WaterPlacement = LiquidPlacement.NotAllowed;
@@ -43,7 +43,7 @@ namespace SpiritMod.Tiles.Block
 		public override int SaplingGrowthType(ref int style)
 		{
 			style = 0;
-			return mod.TileType("ReachSapling");
+			return ModContent.TileType<ReachSapling>();
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)

@@ -48,7 +48,7 @@ namespace SpiritMod.NPCs.Boss.SpiritCore
 					float A = (float)Main.rand.Next(-200, 200) * 0.01f;
 					float B = (float)Main.rand.Next(-200, 200) * 0.01f;
 					int damage = expertMode ? 23 : 38;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, dir.X + A, dir.Y + B, mod.ProjectileType("ShadowPulse"), damage, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, dir.X + A, dir.Y + B, ModContent.ProjectileType<ShadowPulse>(), damage, 1, Main.myPlayer, 0, 0);
 				}
 			}
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.6f, 0.04f, 0.8f);
@@ -68,7 +68,7 @@ namespace SpiritMod.NPCs.Boss.SpiritCore
 			npc.rotation = direction.ToRotation();
 
 			Player player = Main.player[npc.target];
-			NPC parent = Main.npc[NPC.FindFirstNPC(mod.NPCType("Mirage"))];
+			NPC parent = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<Mirage>())];
 			//Factors for calculations
 			double deg = (double)npc.ai[1]; //The degrees, you can multiply npc.ai[1] to make it orbit faster, may be choppy depending on the value
 			double rad = deg * (Math.PI / 180); //Convert degrees to radians
@@ -87,7 +87,7 @@ namespace SpiritMod.NPCs.Boss.SpiritCore
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			target.AddBuff(mod.BuffType("Shadowflame"), 150);
+			target.AddBuff(ModContent.BuffType<Shadowflame>(), 150);
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

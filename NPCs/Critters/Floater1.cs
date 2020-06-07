@@ -20,7 +20,7 @@ namespace SpiritMod.NPCs.Critters
 			npc.height = 22;
 			npc.damage = 0;
 			Main.npcCatchable[npc.type] = true;
-			npc.catchItem = (short)mod.ItemType("FloaterItem");
+			npc.catchItem = (short)ModContent.ItemType<FloaterItem>();
 			npc.defense = 0;
 			npc.dontCountMe = true;
 			npc.lifeMax = 5;

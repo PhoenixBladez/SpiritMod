@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Weapon.Yoyo
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.useAnimation = 25;
             item.useTime = 25;
-            item.shoot = mod.ProjectileType("TechnoProjectile");
+            item.shoot = ModContent.ProjectileType<TechnoProjectile>();
         }
     }
 }

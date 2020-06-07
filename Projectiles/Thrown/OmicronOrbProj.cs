@@ -29,7 +29,7 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			target.AddBuff(mod.BuffType("StarFracture"), 200, true);
+			target.AddBuff(ModContent.BuffType<StarFracture>(), 200, true);
 			projectile.Kill();
 		}
 
@@ -49,7 +49,7 @@ namespace SpiritMod.Projectiles.Thrown
 				perturbedSpeed.Normalize();
 				perturbedSpeed.X *= 5.5f;
 				perturbedSpeed.Y *= 5.5f;
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("OmicronPin"), projectile.damage, projectile.knockBack, projectile.owner);
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<OmicronPin>(), projectile.damage, projectile.knockBack, projectile.owner);
 			}
 
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);

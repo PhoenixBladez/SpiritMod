@@ -15,8 +15,8 @@ namespace SpiritMod.Items.Pets
 		public override void SetDefaults()
 		{
 			item.CloneDefaults(ItemID.Fish);
-			item.shoot = mod.ProjectileType("BriarSlimePet");
-			item.buffType = mod.BuffType("BriarSlimeBuff");
+			item.shoot = ModContent.ProjectileType<BriarSlimePet>();
+			item.buffType = ModContent.BuffType<BriarSlimeBuff>();
 			item.UseSound = SoundID.Item8;
 		}
 

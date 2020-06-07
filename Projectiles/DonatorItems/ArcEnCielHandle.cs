@@ -100,7 +100,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 							vector12 = -Vector2.UnitY;
 
 						int num29 = projectile.damage;
-						Projectile.NewProjectile(center3.X, center3.Y, vector12.X, vector12.Y, mod.ProjectileType("ArcEnCielProj"),
+						Projectile.NewProjectile(center3.X, center3.Y, vector12.X, vector12.Y, ModContent.ProjectileType<ArcEnCielProj>(),
 							   num29, projectile.knockBack, projectile.owner, 0, projectile.whoAmI);
 						projectile.netUpdate = true;
 					}

@@ -30,7 +30,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			npc.defense = 20;
 			npc.damage = 50;
 			npc.lifeMax = 2500;
-			bossBag = mod.ItemType("InfernonBag");
+			bossBag = ModContent.ItemType<InfernonBag>();
 			npc.aiStyle = -1;
 			npc.npcSlots = 10;
 			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Infernon");
@@ -108,8 +108,8 @@ namespace SpiritMod.NPCs.Boss.Infernon
 				for (i = 0; i < 4; i++)
 				{
 					offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
-					Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), mod.ProjectileType("InfernalWave"), 28, 0, Main.myPlayer);
-					Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), mod.ProjectileType("InfernalWave"), 28, 0, Main.myPlayer);
+					Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<InfernalWave>(), 28, 0, Main.myPlayer);
+					Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<InfernalWave>(), 28, 0, Main.myPlayer);
 					npc.netUpdate = true;
 				}
 			}
@@ -128,7 +128,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 					{
 						float A = (float)Main.rand.Next(-200, 200) * 0.03f;
 						float B = (float)Main.rand.Next(-200, 200) * 0.03f;
-						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("InfernalBlastHostile"), damage, 1, Main.myPlayer, 0, 0);
+						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<InfernalBlastHostile>(), damage, 1, Main.myPlayer, 0, 0);
 
 					}
 				}
@@ -137,25 +137,25 @@ namespace SpiritMod.NPCs.Boss.Infernon
 
 			if (timer == 400)
 			{
-				Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 200, 0f, 0f, mod.ProjectileType("Fireball"), damage, 1, Main.myPlayer, 0, 0);
+				Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 200, 0f, 0f, ModContent.ProjectileType<Fireball>(), damage, 1, Main.myPlayer, 0, 0);
 
-				Projectile.NewProjectile(npc.Center.X + 200, npc.Center.Y, 0f, 0f, mod.ProjectileType("Fireball"), damage, 1, Main.myPlayer, 0, 0);
+				Projectile.NewProjectile(npc.Center.X + 200, npc.Center.Y, 0f, 0f, ModContent.ProjectileType<Fireball>(), damage, 1, Main.myPlayer, 0, 0);
 
-				Projectile.NewProjectile(npc.Center.X - 200, npc.Center.Y, 0f, 0f, mod.ProjectileType("Fireball"), damage, 1, Main.myPlayer, 0, 0);
+				Projectile.NewProjectile(npc.Center.X - 200, npc.Center.Y, 0f, 0f, ModContent.ProjectileType<Fireball>(), damage, 1, Main.myPlayer, 0, 0);
 
-				Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 200, 0f, 0f, mod.ProjectileType("Fireball"), damage, 1, Main.myPlayer, 0, 0);
+				Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 200, 0f, 0f, ModContent.ProjectileType<Fireball>(), damage, 1, Main.myPlayer, 0, 0);
 
 				timer = 0;
 			}
 			else if (Main.rand.Next(90) == 1 && npc.life <= (npc.lifeMax / 3))
 			{
-				Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 500, 0f, 0f, mod.ProjectileType("Fireball"), damage, 1, Main.myPlayer, 0, 0);
+				Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 500, 0f, 0f, ModContent.ProjectileType<Fireball>(), damage, 1, Main.myPlayer, 0, 0);
 
-				Projectile.NewProjectile(npc.Center.X + 500, npc.Center.Y, 0f, 0f, mod.ProjectileType("Fireball"), damage, 1, Main.myPlayer, 0, 0);
+				Projectile.NewProjectile(npc.Center.X + 500, npc.Center.Y, 0f, 0f, ModContent.ProjectileType<Fireball>(), damage, 1, Main.myPlayer, 0, 0);
 
-				Projectile.NewProjectile(npc.Center.X - 500, npc.Center.Y, 0f, 0f, mod.ProjectileType("Fireball"), damage, 1, Main.myPlayer, 0, 0);
+				Projectile.NewProjectile(npc.Center.X - 500, npc.Center.Y, 0f, 0f, ModContent.ProjectileType<Fireball>(), damage, 1, Main.myPlayer, 0, 0);
 
-				Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 500, 0f, 0f, mod.ProjectileType("Fireball"), damage, 1, Main.myPlayer, 0, 0);
+				Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 500, 0f, 0f, ModContent.ProjectileType<Fireball>(), damage, 1, Main.myPlayer, 0, 0);
 			}
 		}
 

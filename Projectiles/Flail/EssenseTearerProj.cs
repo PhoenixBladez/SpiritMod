@@ -55,7 +55,7 @@ namespace SpiritMod.Projectiles.Flail
 				direction.Normalize();
 				direction.X *= 14f;
 				direction.Y *= 14f;
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, direction.X, direction.Y, mod.ProjectileType("SpiritShardFriendly"), projectile.damage, 1, projectile.owner, 0, 0);
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<SpiritShardFriendly>(), projectile.damage, 1, projectile.owner, 0, 0);
 				timer = 0;
 			}
 

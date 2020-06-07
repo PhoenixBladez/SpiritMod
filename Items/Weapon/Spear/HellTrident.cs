@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Spear
             item.noMelee = true;
             item.autoReuse = true;
             item.noUseGraphic = true;
-            item.shoot = mod.ProjectileType("HellTridentProj");
+            item.shoot = ModContent.ProjectileType<HellTridentProj>();
             item.shootSpeed = 15f;
             item.UseSound = SoundID.Item1;
             this.currentHit = 0;

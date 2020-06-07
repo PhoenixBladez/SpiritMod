@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Material
             item.maxStack = 999;
             item.consumable = true;
             item.autoReuse = true;
-            item.createTile = mod.TileType("Glowstone");
+            item.createTile = ModContent.TileType<Glowstone>();
         }
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float  scale, int whoAmI) 	
 		{

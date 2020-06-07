@@ -21,7 +21,7 @@ namespace SpiritMod.Buffs
 				npc.velocity.Y *= 0.4f;
 
 				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Dirt);
-				Dust.NewDust(npc.position, npc.width, npc.height, mod.DustType("Crystal"));
+				Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<Crystal>());
 			}
 		}
 	}

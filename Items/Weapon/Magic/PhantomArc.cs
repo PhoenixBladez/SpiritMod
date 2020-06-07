@@ -1,3 +1,5 @@
+using SpiritMod.Items.Material;
+using SpiritMod.Projectiles.Magic;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -12,13 +14,11 @@ namespace SpiritMod.Items.Weapon.Magic
 			Tooltip.SetDefault("Summons an infinitely piercing laser of lost souls");
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.width = 24;
 			item.height = 28;
             item.useTurn = false;
-            item.value = Terraria.Item.sellPrice(0, 4, 0, 0);
             item.value = Item.buyPrice(0, 6, 0, 0);
 			item.rare = 5;
 			item.damage = 34;
@@ -32,16 +32,17 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.channel = true;
 			item.noMelee = true;
 			//item.noUseGraphic = true;
-			item.shoot = mod.ProjectileType("PhantomArcHandle");
+			item.shoot = ModContent.ProjectileType<PhantomArcHandle>();
 			item.shootSpeed = 26f;
 		}
+
 		public override void AddRecipes()
 		{
 			ModRecipe modRecipe = new ModRecipe(mod);
-			modRecipe.AddIngredient(null, "SpiritBar", 8);
-            modRecipe.AddIngredient(null, "SoulShred", 6);
-            modRecipe.AddIngredient(531, 1);
-			modRecipe.AddTile(101);
+			modRecipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 8);
+            modRecipe.AddIngredient(ModContent.ItemType<SoulShred>(), 6);
+            modRecipe.AddIngredient(ItemID.SpellTome, 1);
+			modRecipe.AddTile(TileID.Bookcases);
 			modRecipe.SetResult(this, 1);
 			modRecipe.AddRecipe();
 		}

@@ -93,15 +93,15 @@ namespace SpiritMod.NPCs.BlueMoon
 				int speed = 4;
 				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 43);
 
-				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, -1 * speed, mod.ProjectileType("ToadStool"), damage, 1, Main.myPlayer, 0, 0);
+				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, -1 * speed, ModContent.ProjectileType<ToadStool>(), damage, 1, Main.myPlayer, 0, 0);
 
-				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 1 * speed, 0, mod.ProjectileType("ToadStool"), damage, 1, Main.myPlayer, 0, 0);
+				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 1 * speed, 0, ModContent.ProjectileType<ToadStool>(), damage, 1, Main.myPlayer, 0, 0);
 
-				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -1* speed, 0, mod.ProjectileType("ToadStool"), damage, 1, Main.myPlayer, 0, 0);
+				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -1* speed, 0, ModContent.ProjectileType<ToadStool>(), damage, 1, Main.myPlayer, 0, 0);
 
-				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(0.70710678118 * speed), (float)(-0.70710678118 * speed), mod.ProjectileType("ToadStool"), damage, 1, Main.myPlayer, 0, 0);
+				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(0.70710678118 * speed), (float)(-0.70710678118 * speed), ModContent.ProjectileType<ToadStool>(), damage, 1, Main.myPlayer, 0, 0);
 
-				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(-0.70710678118 * speed), (float)(-0.70710678118 * speed), mod.ProjectileType("ToadStool"), damage, 1, Main.myPlayer, 0, 0);
+				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(-0.70710678118 * speed), (float)(-0.70710678118 * speed), ModContent.ProjectileType<ToadStool>(), damage, 1, Main.myPlayer, 0, 0);
 				shrooms = true;
 			}
 			if (timer % 300 < 79)
@@ -131,13 +131,13 @@ namespace SpiritMod.NPCs.BlueMoon
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
 			if (Main.rand.Next(5) == 0)
-				target.AddBuff(mod.BuffType("StarFlame"), 200);
+				target.AddBuff(ModContent.BuffType<StarFlame>(), 200);
 		}
 
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(40) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GloomgusStaff"));
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GloomgusStaff>());
 		}
 
 	}

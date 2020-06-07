@@ -30,7 +30,7 @@ namespace SpiritMod.NPCs.Asteroid
         {
             if (Main.rand.Next(2) == 0)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("StarEnergy"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<StarEnergy>());
             }
             string[] lootTable = { "AstronautLegs", "AstronautHelm", "AstronautBody" };
             if (Main.rand.Next(40) == 0)

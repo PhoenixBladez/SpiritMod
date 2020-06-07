@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Gun
             item.rare = 8;
             item.UseSound = SoundID.Item36;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("SwordBarrage"); 
+            item.shoot = ModContent.ProjectileType<SwordBarrage>(); 
             item.shootSpeed = 10f;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -46,7 +46,7 @@ namespace SpiritMod.Items.Weapon.Gun
                 double randomAngle = baseAngle + (Main.rand.NextFloat() - 0.5f) * spread;
                 speedX = baseSpeed * (float)Math.Sin(randomAngle);
                 speedY = baseSpeed * (float)Math.Cos(randomAngle);
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("SwordBarrage"), item.damage, knockBack, item.owner, 0, 0);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SwordBarrage>(), item.damage, knockBack, item.owner, 0, 0);
             }
             return false;
         }

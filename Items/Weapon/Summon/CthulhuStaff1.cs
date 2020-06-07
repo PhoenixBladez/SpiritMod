@@ -28,8 +28,8 @@ namespace SpiritMod.Items.Weapon.Summon
             item.useAnimation = 30;          
             item.summon = true;
             item.noMelee = true;
-            item.shoot = mod.ProjectileType("Cthulhu");
-            item.buffType = mod.BuffType("CthulhuBuff");
+            item.shoot = ModContent.ProjectileType<Cthulhu>();
+            item.buffType = ModContent.BuffType<CthulhuBuff>();
             item.buffTime = 3600;
             item.UseSound = SoundID.Item44;
         }

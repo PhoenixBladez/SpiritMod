@@ -32,7 +32,7 @@ namespace SpiritMod.Tiles.Furniture.Donator
 			if (closer)
 			{
 				Player player = Main.player[Main.myPlayer];
-				player.AddBuff(mod.BuffType("CouchPotato"), 60, true);
+				player.AddBuff(ModContent.BuffType<CouchPotato>(), 60, true);
 			}
 		}
 
@@ -43,7 +43,7 @@ namespace SpiritMod.Tiles.Furniture.Donator
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Terraria.Item.NewItem(i * 16, j * 16, 64, 32, mod.ItemType("TheCouch"));
+			Terraria.Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<TheCouch>());
 		}
 
 	}

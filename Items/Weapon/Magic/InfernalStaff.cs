@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.useAnimation = 24;
             item.magic = true;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("FireSoul");
+            item.shoot = ModContent.ProjectileType<FireSoul>();
             item.shootSpeed = 12f;
         }
 

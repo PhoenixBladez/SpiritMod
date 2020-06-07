@@ -97,7 +97,7 @@ namespace SpiritMod.Tiles.Furniture
 			Player player = Main.player[Main.myPlayer];
 			for (int num66 = 0; num66 < 58; num66++)
 			{
-				if (player.inventory[num66].type == mod.ItemType("SpiritChestKey") && player.inventory[num66].stack > 0)
+				if (player.inventory[num66].type == ModContent.ItemType<SpiritChestKey>() && player.inventory[num66].stack > 0)
 				{
 					/* player.inventory[num66].stack--; */
 					Chest.Unlock(i, j);
@@ -211,12 +211,12 @@ namespace SpiritMod.Tiles.Furniture
 				{
 					if (tile.frameX == 72 || tile.frameX == 90)
 					{
-						player.showItemIcon2 = mod.ItemType("SpiritChestKey");
+						player.showItemIcon2 = ModContent.ItemType<SpiritChestKey>();
 						player.showItemIconText = "";
 					}
 					//else
 					//{
-					//player.showItemIcon2 = mod.ItemType("CrystalChest");
+					//player.showItemIcon2 = ModContent.ItemType<CrystalChest>();
 					//}
 				}
 			}

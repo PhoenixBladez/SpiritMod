@@ -35,14 +35,14 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.autoReuse = true;
 			item.useTurn = true;
 			item.crit = 12;
-			item.shoot = mod.ProjectileType("EmberSwordProj");
+			item.shoot = ModContent.ProjectileType<EmberSwordProj>();
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			for (int I = 0; I < 1; I++)
 			{
-				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("EmberSwordProj"), 40, knockBack, player.whoAmI);
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<EmberSwordProj>(), 40, knockBack, player.whoAmI);
 			}
 			return false;
 		}

@@ -28,7 +28,7 @@ namespace SpiritMod.NPCs.Critters
 			npc.HitSound = SoundID.NPCHit7;
 			npc.DeathSound = SoundID.NPCDeath4;
 			Main.npcCatchable[npc.type] = true;
-			npc.catchItem = (short)mod.ItemType("CluckItem");
+			npc.catchItem = (short)ModContent.ItemType<CluckItem>();
 			npc.knockBackResist = .45f;
 			npc.aiStyle = 24;
 			npc.npcSlots = 0;
@@ -62,7 +62,7 @@ namespace SpiritMod.NPCs.Critters
 		{
 			if (Main.rand.Next(2) == 1)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CrimsonFeather"), 1);
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CrimsonFeather>(), 1);
 			}
 		}
 	}

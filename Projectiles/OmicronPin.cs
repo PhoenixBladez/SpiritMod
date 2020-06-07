@@ -114,7 +114,7 @@ namespace SpiritMod.Projectiles
 		{
 			projectile.ai[0] = 1f;
 			projectile.ai[1] = (float)target.whoAmI;
-			target.AddBuff(mod.BuffType("StarDestiny"), 9000, false);
+			target.AddBuff(ModContent.BuffType<StarDestiny>(), 9000, false);
 			projectile.velocity = (target.Center - projectile.Center) * 0.75f;
 			projectile.netUpdate = true;
 			projectile.damage = 0;

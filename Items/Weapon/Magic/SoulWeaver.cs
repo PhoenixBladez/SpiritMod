@@ -35,13 +35,13 @@ namespace SpiritMod.Items.Weapon.Magic
             item.channel = true;
             item.noMelee = true;
             item.noUseGraphic = true; 
-            item.shoot = mod.ProjectileType("SoulShard");
+            item.shoot = ModContent.ProjectileType<SoulShard>();
             item.shootSpeed = 12f;
         }
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            type = mod.ProjectileType("SoulShard");
+            type = ModContent.ProjectileType<SoulShard>();
             float spread = 30 * 0.0174f;//45 degrees converted to radians
             float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
             double baseAngle = Math.Atan2(speedX, speedY);

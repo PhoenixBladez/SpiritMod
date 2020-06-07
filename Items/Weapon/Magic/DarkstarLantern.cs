@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 8;
             item.UseSound = SoundID.Item93;
             item.autoReuse = false;
-            item.shoot = mod.ProjectileType("ShadowOrb");
+            item.shoot = ModContent.ProjectileType<ShadowOrb>();
             item.shootSpeed = 1f;
         }
         public override void AddRecipes()

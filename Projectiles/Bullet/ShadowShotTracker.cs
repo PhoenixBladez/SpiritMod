@@ -84,7 +84,7 @@ namespace SpiritMod.Projectiles.Bullet
         {
             projectile.ai[0] = 1f;
             projectile.ai[1] = (float)target.whoAmI;
-            target.AddBuff(mod.BuffType("Tracked"), projectile.timeLeft);
+            target.AddBuff(ModContent.BuffType<Tracked>(), projectile.timeLeft);
             projectile.velocity = (target.Center - projectile.Center) * 0.75f;
             projectile.netUpdate = true;
             projectile.damage = 0;

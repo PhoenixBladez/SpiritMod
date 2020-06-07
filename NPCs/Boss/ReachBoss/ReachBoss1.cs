@@ -37,7 +37,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			npc.noTileCollide = true;
 			npc.npcSlots = 10;
 			npc.defense = 5;
-			bossBag = mod.ItemType("ReachBossBag");
+			bossBag = ModContent.ItemType<ReachBossBag>();
             music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/ReachBoss");
             npc.buffImmune[20] = true;
 			npc.buffImmune[31] = true;
@@ -105,7 +105,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 					float A = (float)Main.rand.Next(-200, 200) * 0.01f;
 					float B = (float)Main.rand.Next(-200, 200) * 0.01f;
 					int damage = expertMode ? 15 : 17;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("BouncingSpore"), damage, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BouncingSpore>(), damage, 1, Main.myPlayer, 0, 0);
 				}
 			}
 			if (Main.rand.Next(170) == 5 && npc.life >= (npc.lifeMax / 9 * 4))
@@ -122,7 +122,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 					float A = (float)Main.rand.Next(-200, 200) * 0.07f;
 					float B = (float)Main.rand.Next(-200, 200) * 0.07f;
 					int damage = expertMode ? 11 : 18;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("BoneBlast"), damage, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BoneBlast>(), damage, 1, Main.myPlayer, 0, 0);
 				}
 			}
 			if (npc.life <= (npc.lifeMax / 9 * 4))
@@ -143,7 +143,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 						float A = (float)Main.rand.Next(-300, 300) * 0.01f;
 						float B = (float)Main.rand.Next(-300, 300) * 0.01f;
 						int damage = expertMode ? 13 : 20;
-						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("BouncingSpore"), damage, 1, Main.myPlayer, 0, 0);
+						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BouncingSpore>(), damage, 1, Main.myPlayer, 0, 0);
 					}
 					txt = true;
 				}
@@ -162,7 +162,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 					float A = (float)Main.rand.Next(-200, 200) * 0.05f;
 					float B = (float)Main.rand.Next(-200, 200) * 0.05f;
 					int damage = expertMode ? 8 : 16;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("Yikes"), damage, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<Yikes>(), damage, 1, Main.myPlayer, 0, 0);
 
 				}
 			}
@@ -180,7 +180,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 					float A = (float)Main.rand.Next(-200, 200) * 0.05f;
 					float B = (float)Main.rand.Next(-200, 200) * 0.05f;
 					int damage = expertMode ? 18 : 25;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 3, 3, mod.ProjectileType("HomingYikes"), damage, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 3, 3, ModContent.ProjectileType<HomingYikes>(), damage, 1, Main.myPlayer, 0, 0);
 
 				}
 			}
@@ -255,14 +255,14 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				return;
 			}
 
-			npc.DropItem(mod.ItemType("ReachFlower"), Main.rand.Next(25, 36));
-			npc.DropItem(mod.ItemType("RootPod"), 1f / 30);
+			npc.DropItem(ModContent.ItemType<ReachFlower>(), Main.rand.Next(25, 36));
+			npc.DropItem(ModContent.ItemType<RootPod>(), 1f / 30);
 
 			string[] lootTable = { "ThornBow", "SunbeamStaff", "ReachVineStaff", "ReachBossSword", "ReachKnife" };
 			int loot = Main.rand.Next(lootTable.Length);
 			npc.DropItem(mod.ItemType(lootTable[loot]));
 			
-			npc.DropItem(mod.ItemType("ReachFlowers"), Main.rand.Next(14, 20));
+			npc.DropItem(ModContent.ItemType<ReachFlowers>(), Main.rand.Next(14, 20));
 			npc.DropItem(Items.Armor.Masks.ReachMask._type, 1f / 7);
 			npc.DropItem(Items.Boss.Trophy5._type, 1f / 10);
 		}

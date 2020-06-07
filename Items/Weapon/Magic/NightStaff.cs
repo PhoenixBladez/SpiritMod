@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.UseSound = SoundID.Item20;
             item.mana = 14;
             item.autoReuse = false;
-            item.shoot = mod.ProjectileType("CorruptPortal");
+            item.shoot = ModContent.ProjectileType<CorruptPortal>();
             item.shootSpeed = 13f;
         }
 

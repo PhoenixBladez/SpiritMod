@@ -31,7 +31,7 @@ namespace SpiritMod.Projectiles.Arrow
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(2) == 0)
-				target.AddBuff(mod.BuffType("SoulBurn"), 180, false);
+				target.AddBuff(ModContent.BuffType<SoulBurn>(), 180, false);
 		}
 
 		public override void Kill(int timeLeft)

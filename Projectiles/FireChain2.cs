@@ -66,12 +66,12 @@ namespace SpiritMod.Projectiles
 			}
 			if ((int)projectile.localAI[1] == 30)
 			{
-				int num6 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)num, (float)num2, mod.ProjectileType("t"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+				int num6 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)num, (float)num2, ModContent.ProjectileType<t>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				Main.projectile[num6].localAI[0] = (float)projectile.whoAmI;
 			}
 			if ((int)projectile.localAI[1] == 40)
 			{
-				int num7 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)num, (float)num2, mod.ProjectileType("e"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+				int num7 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)num, (float)num2, ModContent.ProjectileType<e>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				Main.projectile[num7].localAI[0] = (float)projectile.whoAmI;
 			}
 			return true;

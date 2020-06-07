@@ -104,7 +104,7 @@ namespace SpiritMod.Projectiles.Magic.Artifact
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(20) == 0)
-				target.AddBuff(mod.BuffType("Freeze"), 180);
+				target.AddBuff(ModContent.BuffType<Freeze>(), 180);
 		}
 
 		public override void Kill(int timeLeft)
@@ -120,12 +120,12 @@ namespace SpiritMod.Projectiles.Magic.Artifact
 					perturbedSpeed.Normalize();
 					perturbedSpeed.X *= 4.5f;
 					perturbedSpeed.Y *= 4.5f;
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("FrostTrail"), projectile.damage / 2, projectile.owner);
+					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<FrostTrail>(), projectile.damage / 2, projectile.owner);
 				}
 			}
 
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 74);
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("Fire"), projectile.damage / 3 * 4, projectile.knockBack, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Fire>(), projectile.damage / 3 * 4, projectile.knockBack, projectile.owner, 0f, 0f);
 
 			for (int i = 0; i < 40; i++)
 			{

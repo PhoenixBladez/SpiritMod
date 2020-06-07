@@ -35,7 +35,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Terraria.Item.NewItem(i * 16, j * 16, 32, 16, mod.ItemType("ReachSofa"));
+			Terraria.Item.NewItem(i * 16, j * 16, 32, 16, ModContent.ItemType<ReachSofa>());
 		}
 	}
 }

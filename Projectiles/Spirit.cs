@@ -78,7 +78,7 @@ namespace SpiritMod.Projectiles
 			timer--;
 			if (timer == 0)
 			{
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X + 2, projectile.velocity.Y, mod.ProjectileType("EnchantedShot"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X + 2, projectile.velocity.Y, ModContent.ProjectileType<EnchantedShot>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				timer = 200;
 			}
 
@@ -130,7 +130,7 @@ namespace SpiritMod.Projectiles
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(5) == 2)
-				target.AddBuff(mod.BuffType("SoulFlare"), 180);
+				target.AddBuff(ModContent.BuffType<SoulFlare>(), 180);
 		}
 
 		//public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

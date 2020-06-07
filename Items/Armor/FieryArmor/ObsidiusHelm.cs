@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Armor.FieryArmor
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("ObsidiusPlate") && legs.type == mod.ItemType("ObsidiusGreaves");
+            return body.type == ModContent.ItemType<ObsidiusPlate>() && legs.type == ModContent.ItemType<ObsidiusGreaves>();
         }
         public override void AddRecipes()
         {

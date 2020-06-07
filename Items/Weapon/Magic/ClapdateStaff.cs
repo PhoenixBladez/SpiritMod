@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 2;
             item.UseSound = SoundID.Item20;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("Sandstorm");
+            item.shoot = ModContent.ProjectileType<Sandstorm>();
             item.shootSpeed = 9f;
         }
 		public override void AddRecipes()

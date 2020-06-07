@@ -43,8 +43,8 @@ namespace SpiritMod.Projectiles.Arrow
 			if (Main.rand.Next(4) == 0)
 			{
 				target.AddBuff(BuffID.ShadowFlame, 180, false);
-				target.AddBuff(mod.BuffType("StackingFireBuff"), 180, false);
-				target.AddBuff(mod.BuffType("HolyLight"), 180, false);
+				target.AddBuff(ModContent.BuffType<StackingFireBuff>(), 180, false);
+				target.AddBuff(ModContent.BuffType<HolyLight>(), 180, false);
 			}
 		}
 

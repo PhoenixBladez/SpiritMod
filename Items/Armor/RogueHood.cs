@@ -31,14 +31,14 @@ namespace SpiritMod.Items.Armor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("RoguePlate") && legs.type == mod.ItemType("RoguePants");  
+            return body.type == ModContent.ItemType<RoguePlate>() && legs.type == ModContent.ItemType<RoguePants>();  
         }
         public override void UpdateArmorSet(Player player)
         { 
             player.setBonus = "Getting hit grants the player four seconds of invisibility\nWhile invisible this way, damage dealt is increased by 100%\n25 second cooldown";
             player.GetSpiritPlayer().rogueSet = true;
 
-            if (player.HasBuff(mod.BuffType("RogueCooldown")))
+            if (player.HasBuff(ModContent.BuffType<RogueCooldown>()))
             {
                 if (player.HasBuff(BuffID.Invisibility))
                 {

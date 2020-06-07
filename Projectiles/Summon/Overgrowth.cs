@@ -33,7 +33,7 @@ namespace SpiritMod.Projectiles.Summon
 		public override void AI()
 		{
 
-			bool flag64 = projectile.type == mod.ProjectileType("Overgrowth");
+			bool flag64 = projectile.type == ModContent.ProjectileType<Overgrowth>();
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (flag64)
@@ -101,7 +101,7 @@ namespace SpiritMod.Projectiles.Summon
 					num406 = num403 / num406;
 					num404 *= num406;
 					num405 *= num406;
-					Projectile.NewProjectile(projectile.Center.X - 4f, projectile.Center.Y, num404, num405, mod.ProjectileType("OvergrowthLeaf"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(projectile.Center.X - 4f, projectile.Center.Y, num404, num405, ModContent.ProjectileType<OvergrowthLeaf>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 					projectile.ai[0] = 50f;
 					return;
 				}

@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Returning
             item.value = Terraria.Item.sellPrice(0, 0, 20, 0);
             item.rare = 1;
 			item.shootSpeed = 6f;
-			item.shoot = mod.ProjectileType("FleshStickProj");
+			item.shoot = ModContent.ProjectileType<FleshStickProj>();
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = false;
 		}

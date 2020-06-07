@@ -35,7 +35,7 @@ namespace SpiritMod.Items.DonatorItems
 			item.value = Item.sellPrice(0, 3, 0, 0);
 			item.useTurn = true;
 			item.crit = 9;
-			item.shoot = mod.ProjectileType("PrincessSickle");
+			item.shoot = ModContent.ProjectileType<PrincessSickle>();
 			item.shootSpeed = 8f;
 		}
 
@@ -43,7 +43,7 @@ namespace SpiritMod.Items.DonatorItems
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(mod.ItemType("CrystalShield"), 1);
+			recipe.AddIngredient(ModContent.ItemType<CrystalShield>(), 1);
 			recipe.AddIngredient(ItemID.DeathSickle, 1);
 			recipe.AddIngredient(ItemID.ButterflyDust, 2);
 			recipe.AddTile(TileID.MythrilAnvil);

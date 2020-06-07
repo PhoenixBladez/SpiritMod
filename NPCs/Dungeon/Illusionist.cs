@@ -128,7 +128,7 @@ namespace SpiritMod.NPCs.Dungeon
                 }
 
                 ++npc.ai[0];
-                if (NPC.CountNPCS(mod.NPCType("IllusionistSpectre")) < 3)
+                if (NPC.CountNPCS(ModContent.NPCType<IllusionistSpectre>()) < 3)
                 {
                     if (npc.ai[0] == 240 || npc.ai[0] == 480 || npc.ai[0] == 720)
                     {
@@ -136,7 +136,7 @@ namespace SpiritMod.NPCs.Dungeon
                         Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 53);
                         if (Main.netMode != 1)
                         {
-                            NPC.NewNPC((int)npc.position.X + npc.width / 2, (int)npc.Center.Y - 16, mod.NPCType("IllusionistSpectre"), 0, 0, 0, 0, 0, 255);
+                            NPC.NewNPC((int)npc.position.X + npc.width / 2, (int)npc.Center.Y - 16, ModContent.NPCType<IllusionistSpectre>(), 0, 0, 0, 0, 0, 255);
                         }
                         for (int k = 0; k < 30; k++)
                         {
@@ -184,7 +184,7 @@ namespace SpiritMod.NPCs.Dungeon
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.player.ZoneDungeon && NPC.CountNPCS(mod.NPCType("Illusionist")) < 1 ? 0.05f : 0f;
+            return spawnInfo.player.ZoneDungeon && NPC.CountNPCS(ModContent.NPCType<Illusionist>()) < 1 ? 0.05f : 0f;
         }
         public override void NPCLoot()
         {
@@ -206,7 +206,7 @@ namespace SpiritMod.NPCs.Dungeon
             }
             if (Main.rand.Next(20) == 1)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("IllusionistEye"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<IllusionistEye>());
             }
         }
         public override void HitEffect(int hitDirection, double damage)

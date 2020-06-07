@@ -39,7 +39,7 @@ namespace SpiritMod.NPCs
             {
                 if (Main.rand.Next(20) == 0)
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ValkyrieSpear"));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ValkyrieSpear>());
                 }
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Feather, Main.rand.Next(1, 2));
 
@@ -94,7 +94,7 @@ namespace SpiritMod.NPCs
                 {
                     float A = (float)Main.rand.Next(-150, 150) * 0.01f;
                     float B = (float)Main.rand.Next(-150, 150) * 0.01f;
-                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("ValkyrieSpearHostile"), damage, 1, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<ValkyrieSpearHostile>(), damage, 1, Main.myPlayer, 0, 0);
                 }
             }
             if (aiTimer >= 500)
@@ -104,7 +104,7 @@ namespace SpiritMod.NPCs
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.sky && !NPC.AnyNPCs(mod.NPCType("Valkyrie")) ? 0.06f : 0f;
+            return spawnInfo.sky && !NPC.AnyNPCs(ModContent.NPCType<Valkyrie>()) ? 0.06f : 0f;
         }
         public override void HitEffect(int hitDirection, double damage)
         {

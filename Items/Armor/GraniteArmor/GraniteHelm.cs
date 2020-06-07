@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Armor.GraniteArmor
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("GraniteChest") && legs.type == mod.ItemType("GraniteLegs");
+            return body.type == ModContent.ItemType<GraniteChest>() && legs.type == ModContent.ItemType<GraniteLegs>();
         }
         public override void UpdateArmorSet(Player player)
         {

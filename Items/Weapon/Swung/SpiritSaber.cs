@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.useAnimation = 26;
 			item.melee = true;
 			item.autoReuse = true;
-            item.shoot = mod.ProjectileType("SoulSpirit");
+            item.shoot = ModContent.ProjectileType<SoulSpirit>();
             item.shootSpeed = 12f;
 			item.UseSound = SoundID.Item1;
 		}

@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Armor.BloomwindArmor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("BloomwindChestguard") && legs.type == mod.ItemType("BloomwindLeggings");
+            return body.type == ModContent.ItemType<BloomwindChestguard>() && legs.type == ModContent.ItemType<BloomwindLeggings>();
         }
         public override void UpdateArmorSet(Player player)
         {

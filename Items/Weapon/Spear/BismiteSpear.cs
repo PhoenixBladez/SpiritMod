@@ -28,7 +28,7 @@ public class BismiteSpear : ModItem
             item.damage = 11;
             item.value = Item.sellPrice(0, 0, 10, 0);
             item.rare = 1;
-            item.shoot = mod.ProjectileType("BismiteSpearProj");
+            item.shoot = ModContent.ProjectileType<BismiteSpearProj>();
         }
         public override void AddRecipes()
         {

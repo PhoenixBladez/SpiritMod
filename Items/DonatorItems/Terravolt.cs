@@ -29,7 +29,7 @@ namespace SpiritMod.Items.DonatorItems
             item.knockBack = 6;
             item.value = item.value = Item.sellPrice(0, 2, 50, 0);;
             item.rare = 8;
-			item.shoot = mod.ProjectileType("ElectricityBolt");
+			item.shoot = ModContent.ProjectileType<ElectricityBolt>();
             item.shootSpeed = 25f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;

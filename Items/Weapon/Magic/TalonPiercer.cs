@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 2;
             item.UseSound = SoundID.Item20;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("BoneFeatherFriendly");
+            item.shoot = ModContent.ProjectileType<BoneFeatherFriendly>();
             item.shootSpeed = 14f;
         }
 

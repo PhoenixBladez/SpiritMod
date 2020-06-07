@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 5;
             item.UseSound = SoundID.Item20;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("DepthBall");
+            item.shoot = ModContent.ProjectileType<DepthBall>();
             item.shootSpeed = 8f;
         }
         public override void AddRecipes()

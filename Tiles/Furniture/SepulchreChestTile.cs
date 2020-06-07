@@ -38,7 +38,7 @@ namespace SpiritMod.Tiles.Furniture
 			dustType = 0;
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.Containers };
-			chestDrop = mod.TileType("SepulchreChest");
+			chestDrop = ModContent.TileType<SepulchreChest>();
 			chest = "Sepulchre Chest";
 		}
 
@@ -73,7 +73,7 @@ namespace SpiritMod.Tiles.Furniture
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("SepulchreChest"));
+			Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<SepulchreChest>());
 			Chest.DestroyChest(i, j);
             Main.PlaySound(4, (int)i * 16, (int)j * 16, 6);
             Player player = Main.LocalPlayer;
@@ -185,7 +185,7 @@ namespace SpiritMod.Tiles.Furniture
 				player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Sepulchre Chest";
 				if (player.showItemIconText == "Sepulchre Chest")
 				{
-					player.showItemIcon2 = mod.ItemType("SepulchreChest");
+					player.showItemIcon2 = ModContent.ItemType<SepulchreChest>();
 					player.showItemIconText = "";
 				}
 			}

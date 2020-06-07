@@ -51,7 +51,7 @@ namespace SpiritMod.Projectiles.Magic
 					Vector2 direction = Main.MouseWorld - (player.Center - new Vector2(4,4));
 					direction.Normalize();
 					direction*= 15f;
-					Projectile.NewProjectile(player.Center - new Vector2(4,4), direction, mod.ProjectileType("TeleportBolt"), 0, 0, projectile.owner);
+					Projectile.NewProjectile(player.Center - new Vector2(4,4), direction, ModContent.ProjectileType<TeleportBolt>(), 0, 0, projectile.owner);
 				}
 				projectile.active = false;
 			}

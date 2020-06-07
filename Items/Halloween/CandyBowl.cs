@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Halloween
             item.autoReuse = true;
             item.consumable = true;
 
-			item.createTile = mod.TileType("CandyBowl");
+			item.createTile = ModContent.TileType<CandyBowl>();
 		}
 	}
 }

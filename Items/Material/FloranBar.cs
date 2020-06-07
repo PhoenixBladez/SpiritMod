@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Material
 			item.useStyle = ItemUseStyleID.SwingThrow;
             item.value = 4050;
             item.rare = 2;
-			item.createTile = mod.TileType("FloranBar");
+			item.createTile = ModContent.TileType<FloranBar>();
             item.maxStack = 999;
 			item.autoReuse = true;
 			  item.consumable = true;

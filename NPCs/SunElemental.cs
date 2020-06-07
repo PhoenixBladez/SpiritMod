@@ -168,9 +168,9 @@ namespace SpiritMod.NPCs
 		{
 			if (Main.rand.Next(20) == 1)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("LihzardShield"));
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<LihzardShield>());
 			}
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SunShard"), Main.rand.Next(1) + 1);
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SunShard>(), Main.rand.Next(1) + 1);
 		}
 	}
 }

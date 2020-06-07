@@ -89,9 +89,9 @@ namespace SpiritMod.NPCs.Asteroid
 					{
 						int trailing = 0;
 						if (num36 >= 0 && num36 < minLength)
-							trailing = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("CogTrapperBody"), npc.whoAmI);
+							trailing = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<CogTrapperBody>(), npc.whoAmI);
 						else
-							trailing = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("CogTrapperTail"), npc.whoAmI);
+							trailing = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<CogTrapperTail>(), npc.whoAmI);
 						Main.npc[trailing].realLife = npc.whoAmI;
 						Main.npc[trailing].ai[2] = (float)npc.whoAmI;
 						Main.npc[trailing].ai[1] = (float)current;
@@ -361,7 +361,7 @@ namespace SpiritMod.NPCs.Asteroid
         {
             if (Main.rand.Next(2) == 0)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("StarEnergy"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<StarEnergy>());
             }
             string[] lootTable = { "AstronautLegs", "AstronautHelm", "AstronautBody" };
             if (Main.rand.Next(40) == 0)

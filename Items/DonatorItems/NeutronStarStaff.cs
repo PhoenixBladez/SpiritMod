@@ -29,7 +29,7 @@ namespace SpiritMod.Items.DonatorItems
             item.useAnimation = 15;
             item.summon = true;
             item.noMelee = true;
-            item.shoot = mod.ProjectileType("NeutronStar");
+            item.shoot = ModContent.ProjectileType<NeutronStar>();
             item.buffTime = 3600;
 			item.shootSpeed = 0f;
            item.UseSound = SoundID.Item25;

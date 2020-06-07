@@ -41,7 +41,7 @@ namespace SpiritMod.NPCs.Reach
 
 		public override void NPCLoot()
 		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EnchantedLeaf"));
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EnchantedLeaf>());
 		}
 
 		public override bool PreAI()
@@ -128,7 +128,7 @@ namespace SpiritMod.NPCs.Reach
 					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
 					if (Main.netMode != 1)
 					{
-						NPC.NewNPC((int)npc.position.X + npc.width / 2, (int)npc.Center.Y - 16, mod.NPCType("GrassBall"), 0, 0, 0, 0, 0, 255);
+						NPC.NewNPC((int)npc.position.X + npc.width / 2, (int)npc.Center.Y - 16, ModContent.NPCType<GrassBall>(), 0, 0, 0, 0, 0, 255);
 					}
 				}
 			}

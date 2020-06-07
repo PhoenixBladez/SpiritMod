@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Consumable.Potion
             item.consumable = true;
             item.autoReuse = false;
 
-            item.buffType = mod.BuffType("TurtlePotionBuff");
+            item.buffType = ModContent.BuffType<TurtlePotionBuff>();
             item.buffTime = 14400;
 
             item.UseSound = SoundID.Item3;

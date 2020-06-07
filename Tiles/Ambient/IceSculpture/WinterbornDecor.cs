@@ -48,7 +48,7 @@ namespace SpiritMod.Tiles.Ambient.IceSculpture
             {
                 Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
             }
-            Item.NewItem(i * 16, j * 16, 48, 48, mod.ItemType("WinterbornSculpture"));
+            Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<WinterbornSculpture>());
 
         }
 

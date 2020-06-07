@@ -15,7 +15,7 @@ namespace SpiritMod.Buffs.Mount
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.mount.SetMount(mod.MountType("BroomMount"), player);
+			player.mount.SetMount(ModContent.MountType<BroomMount>(), player);
 			player.buffTime[buffIndex] = 10;
 			player.minionDamage += 0.08f;
 			player.magicDamage += 0.08f;

@@ -79,7 +79,7 @@ namespace SpiritMod.NPCs.BlueMoon
 			if (npc.collideY && jump && npc.velocity.Y > 0)
 			{
 				if (Main.rand.Next(4) == 0)
-					Projectile.NewProjectile(npc.position.X, npc.position.Y - 500, 0, 4, mod.ProjectileType("LunarStar"), 45, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(npc.position.X, npc.position.Y - 500, 0, 4, ModContent.ProjectileType<LunarStar>(), 45, 1, Main.myPlayer, 0, 0);
 
 				jump = false;
 				for (int i = 0; i < 10; i++)
@@ -97,17 +97,17 @@ namespace SpiritMod.NPCs.BlueMoon
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
 			if (Main.rand.Next(5) == 0)
-				target.AddBuff(mod.BuffType("StarFlame"), 200);
+				target.AddBuff(ModContent.BuffType<StarFlame>(), 200);
 
 		}
 
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(5) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MoonJelly"));
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MoonJelly>());
 
 			if (Main.rand.Next(2) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MoonStone"));
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MoonStone>());
 		}
 
 	}

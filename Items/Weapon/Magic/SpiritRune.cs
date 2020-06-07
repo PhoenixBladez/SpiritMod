@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 5;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("RuneBook");
+			item.shoot = ModContent.ProjectileType<RuneBook>();
 			item.shootSpeed = 2f;
 		}
         public override void AddRecipes()

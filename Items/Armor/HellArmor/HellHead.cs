@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Armor.HellArmor
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("HellBody") && legs.type == mod.ItemType("HellLegs");  
+            return body.type == ModContent.ItemType<HellBody>() && legs.type == ModContent.ItemType<HellLegs>();  
         }
         public override void UpdateArmorSet(Player player)
         {

@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Armor.WitherArmor
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("WitherPlate") && legs.type == mod.ItemType("WitherLeggings");  
+            return body.type == ModContent.ItemType<WitherPlate>() && legs.type == ModContent.ItemType<WitherLeggings>();  
         }
         public override void UpdateArmorSet(Player player)
         {            

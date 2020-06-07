@@ -50,7 +50,7 @@ namespace SpiritMod.Tiles.Ambient.IceSculpture.Hostile
 		{
 			{
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
-				Item.NewItem(i * 16, j * 16, 48, 48, mod.ItemType("CreepingIce"), Main.rand.Next(6, 13));
+				Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<CreepingIce>(), Main.rand.Next(6, 13));
 			}
 		}
         public override void NearbyEffects(int i, int j, bool closer)
@@ -63,7 +63,7 @@ namespace SpiritMod.Tiles.Ambient.IceSculpture.Hostile
                 if (distance1 < 56)
                 {
                     Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
-                    int n = NPC.NewNPC((int)i * 16, (int)j * 16, mod.NPCType("Wheezer"), 0, 2, 1, 0, 0, Main.myPlayer);
+                    int n = NPC.NewNPC((int)i * 16, (int)j * 16, ModContent.NPCType<Wheezer>(), 0, 2, 1, 0, 0, Main.myPlayer);
                     Main.npc[n].GivenName = "Icy Wheezer";
                     Main.npc[n].lifeMax = Main.npc[n].lifeMax * 2;
                     Main.npc[n].life = Main.npc[n].lifeMax;

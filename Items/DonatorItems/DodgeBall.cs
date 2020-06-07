@@ -29,7 +29,7 @@ namespace SpiritMod.Items.DonatorItems
             item.value = 4000;
             item.rare = 2;
             item.shootSpeed = 8f;
-            item.shoot = mod.ProjectileType("Dodgeball");
+            item.shoot = ModContent.ProjectileType<Dodgeball>();
             item.UseSound = SoundID.Item1;
             item.autoReuse = false;
         }
@@ -37,7 +37,7 @@ namespace SpiritMod.Items.DonatorItems
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Silk, 11);
-            recipe.AddIngredient(mod.ItemType("OldLeather"), 8);
+            recipe.AddIngredient(ModContent.ItemType<OldLeather>(), 8);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

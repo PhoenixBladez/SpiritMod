@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Placeable.Walls
             item.autoReuse = true;
             item.consumable = true;
 
-			item.createWall = mod.WallType("SpiritWall");
+			item.createWall = ModContent.WallType<SpiritWall>();
 		}
 
 		public override void AddRecipes()

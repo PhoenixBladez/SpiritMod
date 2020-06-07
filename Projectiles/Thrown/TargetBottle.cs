@@ -36,9 +36,9 @@ namespace SpiritMod.Projectiles.Thrown
 				{
 					Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
 					shot = true;
-					Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 2, projectile.velocity.Y, mod.ProjectileType("TargetShard"), (int)MathHelper.Clamp(proj.damage * 2.5f, 0, 120), 0, Main.myPlayer);
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 1, projectile.velocity.Y, mod.ProjectileType("TargetShard"), (int)MathHelper.Clamp(proj.damage * 2.5f, 0, 120), 0, Main.myPlayer);
-					Projectile.NewProjectile(projectile.position.X + 25, projectile.position.Y - 10, -2, projectile.velocity.Y, mod.ProjectileType("TargetShard"), (int)MathHelper.Clamp(proj.damage * 2.5f, 0, 120), 0, Main.myPlayer);
+					Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 2, projectile.velocity.Y, ModContent.ProjectileType<TargetShard>(), (int)MathHelper.Clamp(proj.damage * 2.5f, 0, 120), 0, Main.myPlayer);
+					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 1, projectile.velocity.Y, ModContent.ProjectileType<TargetShard>(), (int)MathHelper.Clamp(proj.damage * 2.5f, 0, 120), 0, Main.myPlayer);
+					Projectile.NewProjectile(projectile.position.X + 25, projectile.position.Y - 10, -2, projectile.velocity.Y, ModContent.ProjectileType<TargetShard>(), (int)MathHelper.Clamp(proj.damage * 2.5f, 0, 120), 0, Main.myPlayer);
 					projectile.active = false;
 					 CombatText.NewText(new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height), new Color(255, 155, 0, 100),
 					"Bullseye!");

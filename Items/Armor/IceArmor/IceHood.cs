@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Armor.IceArmor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("IceArmor") && legs.type == mod.ItemType("IceRobe");  
+            return body.type == ModContent.ItemType<IceArmor>() && legs.type == ModContent.ItemType<IceRobe>();  
         }
         public override void UpdateArmorSet(Player player)
         {

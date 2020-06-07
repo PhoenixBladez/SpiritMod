@@ -37,7 +37,7 @@ namespace SpiritMod.NPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.sky && Main.hardMode && NPC.AnyNPCs(mod.NPCType("FallenAngel"))? 0.013f  : 0f;
+			return spawnInfo.sky && Main.hardMode && NPC.AnyNPCs(ModContent.NPCType<FallenAngel>())? 0.013f  : 0f;
 		}
         int aiTimer;
         float alphaCounter;
@@ -76,7 +76,7 @@ namespace SpiritMod.NPCs
                         Vector2 vector2_3 = vector2_2 * 34f;
                         Main.dust[dust].position = npc.Center - vector2_3;
                     }
-                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, Main.rand.Next(-8, 8), Main.rand.Next(-8, 8), mod.ProjectileType("ShootingStarHostile"), 30, 1, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, Main.rand.Next(-8, 8), Main.rand.Next(-8, 8), ModContent.ProjectileType<ShootingStarHostile>(), 30, 1, Main.myPlayer, 0, 0);
                 }
                 aiTimer = 0;
             }
@@ -111,11 +111,11 @@ namespace SpiritMod.NPCs
         }	
 		public override void NPCLoot()
 		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("StarPiece"), Main.rand.Next(1, 3) + 1);
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<StarPiece>(), Main.rand.Next(1, 3) + 1);
 		
 			if (Main.rand.Next(100) == 20)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("FallenAngel"));
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<FallenAngel>());
 			}
 		}
 

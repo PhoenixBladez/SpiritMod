@@ -69,7 +69,7 @@ namespace SpiritMod.Projectiles.Magic
 							num5 = num4 / num5;
 
 						value *= num5;
-						int p = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value.X, value.Y, mod.ProjectileType("CrystalShadow"), projectile.damage, projectile.knockBack / 2f, projectile.owner, 0f, 0f);
+						int p = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value.X, value.Y, ModContent.ProjectileType<CrystalShadow>(), projectile.damage, projectile.knockBack / 2f, projectile.owner, 0f, 0f);
 						Main.projectile[p].friendly = true;
 						Main.projectile[p].hostile = false;
 					}

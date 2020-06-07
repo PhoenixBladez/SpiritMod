@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.autoReuse = true;
 			item.value = Item.sellPrice(0, 1, 0, 0);
             item.useTurn = true;
-            item.shoot = mod.ProjectileType("Rune");
+            item.shoot = ModContent.ProjectileType<Rune>();
             item.shootSpeed = 4f;
         }
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

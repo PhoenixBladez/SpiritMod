@@ -42,7 +42,7 @@ namespace SpiritMod.Projectiles
                 perturbedSpeed.Normalize();
                 perturbedSpeed.X *= 2.5f;
                 perturbedSpeed.Y *= 2.5f;
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("Blaze"), projectile.damage, projectile.knockBack, projectile.owner);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<Blaze>(), projectile.damage, projectile.knockBack, projectile.owner);
             }
         }
 	}

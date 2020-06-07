@@ -66,7 +66,7 @@ namespace SpiritMod.Projectiles.Arrow
 			if (Main.rand.Next(5) == 0)
 			{
 				target.AddBuff(31, 120);
-				target.AddBuff(mod.BuffType("HolyLight"), 120);
+				target.AddBuff(ModContent.BuffType<HolyLight>(), 120);
 			}
 		}
 

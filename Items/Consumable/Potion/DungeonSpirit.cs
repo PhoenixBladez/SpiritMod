@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Consumable.Potion
             item.consumable = true;
             item.autoReuse = false;
 
-            item.buffType = mod.BuffType("Crunk");
+            item.buffType = ModContent.BuffType<Crunk>();
             item.buffTime = 36000;
 
             item.UseSound = SoundID.Item3;

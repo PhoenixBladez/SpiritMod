@@ -88,7 +88,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					}
 				}
 			}
-			int parent = NPC.FindFirstNPC(mod.NPCType("SteamRaiderHead"));
+			int parent = NPC.FindFirstNPC(ModContent.NPCType<SteamRaiderHead>());
 			if (!Main.npc[(int)npc.ai[1]].active)
 			{
 				npc.life = 0;
@@ -101,7 +101,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                 npc.life = 0;
 				npc.HitEffect(0, 10.0);
 				npc.active = false;
-				NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("TailProbe"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+				NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<TailProbe>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
 				Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);	
 				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 4);	
 				npc.position.X = npc.position.X + (float)(npc.width / 2);

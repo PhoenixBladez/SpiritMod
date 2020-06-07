@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Ammo
 			item.ranged = true;
             item.consumable = true;
 
-            item.shoot = mod.ProjectileType("DemonArrowProj");
+            item.shoot = ModContent.ProjectileType<DemonArrowProj>();
             item.shootSpeed = 1f;
         }
 	}

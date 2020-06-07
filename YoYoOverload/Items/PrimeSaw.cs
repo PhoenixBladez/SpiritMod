@@ -14,46 +14,45 @@ namespace SpiritMod.YoYoOverload.Items
 
 		public override void SetDefaults()
 		{
-			base.projectile.damage = base.mod.GetItem("SkellyV").item.damage;
-			base.projectile.friendly = true;
-			base.projectile.width = 16;
-			base.projectile.height = 16;
-			base.projectile.penetrate = -1;
-			base.projectile.ignoreWater = true;
-			base.projectile.tileCollide = false;
-			base.projectile.melee = true;
+			projectile.friendly = true;
+			projectile.width = 16;
+			projectile.height = 16;
+			projectile.penetrate = -1;
+			projectile.ignoreWater = true;
+			projectile.tileCollide = false;
+			projectile.melee = true;
 		}
 
 		public override void AI()
 		{
-			if (!Main.projectile[(int)base.projectile.localAI[0]].active)
+			if (!Main.projectile[(int)projectile.localAI[0]].active)
 			{
 				base.projectile.Kill();
 			}
-			int num = (int)base.projectile.velocity.X * 16;
-			int num2 = (int)base.projectile.velocity.Y;
-			base.projectile.frameCounter++;
-			if (base.projectile.frameCounter > 120)
+			int num = (int)projectile.velocity.X * 16;
+			int num2 = (int)projectile.velocity.Y;
+			projectile.frameCounter++;
+			if (projectile.frameCounter > 120)
 			{
-				base.projectile.frameCounter = 0;
-				if (base.projectile.frame == 5)
+				projectile.frameCounter = 0;
+				if (projectile.frame == 5)
 				{
-					base.projectile.frame = 0;
+					projectile.frame = 0;
 				}
 				else
 				{
-					base.projectile.frame++;
+					projectile.frame++;
 				}
 			}
 			int num3 = 80 - num;
 			int num4 = 12 - num2;
 			int num5 = 16;
-			base.projectile.localAI[1] += 0.0104719754f * (float)num4;
-			base.projectile.localAI[1] %= 6.28318548f;
-			Vector2 center = Main.projectile[(int)base.projectile.localAI[0]].Center;
-			center.X -= (float)num5;
-			base.projectile.rotation = (float)Math.Atan2((double)center.Y, (double)center.X) - 2f;
-			base.projectile.Center = center + (float)num3 * new Vector2((float)Math.Cos((double)base.projectile.localAI[1]), (float)Math.Sin((double)base.projectile.localAI[1]));
+			projectile.localAI[1] += 0.0104719754f * num4;
+			projectile.localAI[1] %= 6.28318548f;
+			Vector2 center = Main.projectile[(int)projectile.localAI[0]].Center;
+			center.X -= num5;
+			projectile.rotation = (float)Math.Atan2(center.Y, center.X) - 2f;
+			projectile.Center = center + num3 * new Vector2((float)Math.Cos(projectile.localAI[1]), (float)Math.Sin(projectile.localAI[1]));
 		}
 
 		private static Vector2 GetVelocity(Projectile projectile)

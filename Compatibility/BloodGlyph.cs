@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Glyphs
 
 		public override void Load(TagCompound tag)
 		{
-			item.SetDefaults(mod.ItemType("SanguineGlyph"));
+			item.SetDefaults(ModContent.ItemType<SanguineGlyph>());
 		}
 	}
 }

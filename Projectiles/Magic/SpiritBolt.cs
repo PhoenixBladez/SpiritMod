@@ -47,7 +47,7 @@ namespace SpiritMod.Projectiles.Magic
 				perturbedSpeed.Normalize();
 				perturbedSpeed.X *= 5.5f;
 				perturbedSpeed.Y *= 5.5f;
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("SpiritWave"), projectile.damage, projectile.knockBack, projectile.owner);
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<SpiritWave>(), projectile.damage, projectile.knockBack, projectile.owner);
 			}
 		}
 

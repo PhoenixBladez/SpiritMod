@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.rare = 2;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = false;
-			item.shoot = mod.ProjectileType("TeethTop");
+			item.shoot = ModContent.ProjectileType<TeethTop>();
 			item.value = Item.sellPrice(0, 1, 0, 0);
             item.shootSpeed = 8f;
             item.crit = 6;
@@ -42,8 +42,8 @@ namespace SpiritMod.Items.Weapon.Magic
         {
 			Vector2 value18 = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY);
             position = value18;
-			Projectile.NewProjectile(position.X, (position.Y - offsetLength) - 12, 0, 0, mod.ProjectileType("TeethTop"), damage, knockBack, Main.myPlayer, offsetLength);
-			Projectile.NewProjectile(position.X + 4, (position.Y + offsetLength) + 12, 0, 0, mod.ProjectileType("TeethBottom"), damage, knockBack, Main.myPlayer, offsetLength);
+			Projectile.NewProjectile(position.X, (position.Y - offsetLength) - 12, 0, 0, ModContent.ProjectileType<TeethTop>(), damage, knockBack, Main.myPlayer, offsetLength);
+			Projectile.NewProjectile(position.X + 4, (position.Y + offsetLength) + 12, 0, 0, ModContent.ProjectileType<TeethBottom>(), damage, knockBack, Main.myPlayer, offsetLength);
 			return false;
 		}
 		public override void AddRecipes()

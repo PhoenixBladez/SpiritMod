@@ -24,7 +24,7 @@ namespace SpiritMod.Items.DonatorItems
             item.rare = 5;
             item.knockBack = 3.5f;
 			item.UseSound = SoundID.Item25;
-			item.shoot = mod.ProjectileType("PhoenixMinion");
+			item.shoot = ModContent.ProjectileType<PhoenixMinion>();
 			item.shootSpeed = 0f;
 		}
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

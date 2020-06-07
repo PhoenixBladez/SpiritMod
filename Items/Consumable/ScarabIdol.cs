@@ -33,14 +33,14 @@ namespace SpiritMod.Items.Consumable
 
         public override bool CanUseItem(Player player)
         {
-            if (!NPC.AnyNPCs(mod.NPCType("Scarabeus")))
+            if (!NPC.AnyNPCs(ModContent.NPCType<Scarabeus>()))
                 return true;
             return false;
         }
 
  public override bool UseItem(Player player)
 		{
-			NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("Scarabeus"));
+			NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Scarabeus>());
 			Main.PlaySound(SoundID.Roar, player.position, 0);
 			return true;
 		}

@@ -98,7 +98,7 @@ namespace SpiritMod.Projectiles.Bullet
             for (int i = 0; i < 3; i++)
             {
                 int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y,
-                    Main.rand.Next(-2, 2), Main.rand.Next(-2, 1), mod.ProjectileType("PartyExplosives"), projectile.damage / 2, projectile.knockBack, projectile.owner);
+                    Main.rand.Next(-2, 2), Main.rand.Next(-2, 1), ModContent.ProjectileType<PartyExplosives>(), projectile.damage / 2, projectile.knockBack, projectile.owner);
                 Main.projectile[proj].friendly = true;
                 Main.projectile[proj].hostile = false;
                 Main.projectile[proj].velocity *= 4f;

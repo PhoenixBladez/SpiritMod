@@ -64,7 +64,7 @@ namespace SpiritMod.NPCs.BloodMoon
                     num184 = 18;
                 }
                 int bloodproj;
-                bloodproj = Main.rand.Next(new int[] { mod.ProjectileType("GazerEye"), mod.ProjectileType("GazerEye1")});
+                bloodproj = Main.rand.Next(new int[] { ModContent.ProjectileType<GazerEye>(), mod.ProjectileType("GazerEye1")});
                 Projectile.NewProjectile((float)num1169, (float)num1170, 0f, 5f, bloodproj, num184, 0f, Main.myPlayer, 0f, 0f);
                 return;
             }
@@ -115,7 +115,7 @@ namespace SpiritMod.NPCs.BloodMoon
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.spawnTileY < Main.rockLayer && (Main.bloodMoon) && Main.hardMode && !NPC.AnyNPCs(mod.NPCType("BloodGazer")) ? 0.024f : 0f;
+			return spawnInfo.spawnTileY < Main.rockLayer && (Main.bloodMoon) && Main.hardMode && !NPC.AnyNPCs(ModContent.NPCType<BloodGazer>()) ? 0.024f : 0f;
 		}
 	}
 }

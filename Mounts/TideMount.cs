@@ -17,7 +17,7 @@ namespace SpiritMod.Mounts
 		{
 			mountData.spawnDust = 172;
 			mountData.spawnDustNoGravity = true;
-			mountData.buff = mod.BuffType("TideMountBuff");
+			mountData.buff = ModContent.BuffType<TideMountBuff>();
 			mountData.heightBoost = 16;
 			mountData.fallDamage = 0f;
 			mountData.runSpeed = 10f;

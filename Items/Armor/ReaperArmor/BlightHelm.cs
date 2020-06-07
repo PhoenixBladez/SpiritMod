@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Armor.ReaperArmor
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("BlightArmor") && legs.type == mod.ItemType("BlightLegs");  
+            return body.type == ModContent.ItemType<BlightArmor>() && legs.type == ModContent.ItemType<BlightLegs>();  
         }
         public override void UpdateArmorSet(Player player)
         {            

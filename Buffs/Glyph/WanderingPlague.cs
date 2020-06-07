@@ -23,7 +23,7 @@ namespace SpiritMod.Buffs.Glyph
 
 			if (Main.rand.NextDouble() < 0.25f)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, mod.DustType("PlagueDust"), npc.velocity.X, npc.velocity.Y);
+                Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<PlagueDust>(), npc.velocity.X, npc.velocity.Y);
             }
 
             UnholyGlyph.ReleasePoisonClouds(npc, npc.buffTime[buffIndex]);

@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Accessory
 			recipe.AddIngredient(ItemID.ObsidianShield);
 			recipe.AddIngredient(ItemID.WarriorEmblem);
 			recipe.AddIngredient(ItemID.LifeCrystal, 15);
-			recipe.AddIngredient(mod.ItemType("SpiritBar"), 5);
+			recipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 5);
 			recipe.AddTile(TileID.TinkerersWorkbench);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

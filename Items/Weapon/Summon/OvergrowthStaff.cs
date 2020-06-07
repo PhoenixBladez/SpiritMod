@@ -37,12 +37,12 @@ public class OvergrowthStaff : ModItem
         item.useStyle = ItemUseStyleID.SwingThrow;
         item.noMelee = true; //so the item's animation doesn't do damage
         item.knockBack = 1.25f;
-        item.buffType = mod.BuffType("Overgrowth");
+        item.buffType = ModContent.BuffType<Overgrowth>();
         item.buffTime = 3600;
         item.value = 10000;
         item.rare = 1;
         item.autoReuse = true;
-        item.shoot = mod.ProjectileType("Overgrowth");
+        item.shoot = ModContent.ProjectileType<Overgrowth>();
         item.shootSpeed = 10f;
     }
     
@@ -87,7 +87,7 @@ public class OvergrowthStaff : ModItem
 		num79 = 0f;
 		vector2.X = (float)Main.mouseX + Main.screenPosition.X;
 		vector2.Y = (float)Main.mouseY + Main.screenPosition.Y;
-		Projectile.NewProjectile(vector2.X, vector2.Y, num78, num79, mod.ProjectileType("Overgrowth"), num73, num74, i, 0f, 0f);
+		Projectile.NewProjectile(vector2.X, vector2.Y, num78, num79, ModContent.ProjectileType<Overgrowth>(), num73, num74, i, 0f, 0f);
 		return false;
     }
 }}

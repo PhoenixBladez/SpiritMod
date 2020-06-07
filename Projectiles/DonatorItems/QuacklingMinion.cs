@@ -45,7 +45,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 				projectile.frameCounter = 0;
 			}
 
-			bool flag64 = projectile.type == mod.ProjectileType("QuacklingMinion");
+			bool flag64 = projectile.type == ModContent.ProjectileType<QuacklingMinion>();
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (flag64)
@@ -156,7 +156,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 				timer++;
 				if (timer % 60 == 1)
 					Projectile.NewProjectile(projectile.Center, new Vector2(0, 3),
-						mod.ProjectileType("AquaBall"), projectile.damage, 0, Main.myPlayer);
+						ModContent.ProjectileType<AquaBall>(), projectile.damage, 0, Main.myPlayer);
 
 				if (projectile.ai[1] == -1f)
 					projectile.ai[1] = 17f;

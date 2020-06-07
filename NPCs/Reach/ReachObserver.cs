@@ -64,7 +64,7 @@ namespace SpiritMod.NPCs.Reach
 				int Bark = Main.rand.Next(1) + 1;
 				for (int J = 0; J <= Bark; J++)
 				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AncientBark"));
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<AncientBark>());
 				}
 			}
 		}

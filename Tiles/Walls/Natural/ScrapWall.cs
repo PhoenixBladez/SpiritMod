@@ -10,7 +10,7 @@ namespace SpiritMod.Tiles.Walls.Natural
 		{
 			Main.wallHouse[Type] = true;
 			AddMapEntry(new Color(100, 100, 100));
-            drop = mod.ItemType("ScrapWallItem");
+            drop = ModContent.ItemType<ScrapWallItem>();
         }
 
 	/*	public override void NumDust(int i, int j, bool fail, ref int num)

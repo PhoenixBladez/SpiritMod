@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 			item.autoReuse = true;
 			item.consumable = true;
 			item.noUseGraphic = true;
-			item.shoot = mod.ProjectileType("SpectreKnifeProj");
+			item.shoot = ModContent.ProjectileType<SpectreKnifeProj>();
 			item.shootSpeed = 11f;
 			item.UseSound = SoundID.Item1;
 		}

@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Placeable
             item.autoReuse = true;
             item.consumable = true;
 
-			item.createTile = mod.TileType("StarBeacon");
+			item.createTile = ModContent.TileType<StarBeacon>();
 		}
 	}
 }

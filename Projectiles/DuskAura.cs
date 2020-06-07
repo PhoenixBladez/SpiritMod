@@ -72,7 +72,7 @@ namespace SpiritMod.Projectiles
 			if (Main.rand.Next(4) == 0)
 				target.AddBuff(BuffID.ShadowFlame, 180);
 
-			target.AddBuff(mod.BuffType("HolyLight"), 180);
+			target.AddBuff(ModContent.BuffType<HolyLight>(), 180);
 		}
 
 		private static Vector2 GetVelocity(Projectile projectile)

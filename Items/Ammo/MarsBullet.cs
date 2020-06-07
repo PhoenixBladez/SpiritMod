@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Ammo
             item.ranged = true;
             item.consumable = true;
 
-            item.shoot = mod.ProjectileType("MarsBulletProj");
+            item.shoot = ModContent.ProjectileType<MarsBulletProj>();
 			item.shootSpeed = 9f;
 
 		}

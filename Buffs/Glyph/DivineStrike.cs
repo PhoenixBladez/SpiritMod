@@ -31,7 +31,7 @@ namespace SpiritMod.Buffs.Glyph
             {
                 if (modPlayer.divineStacks == 1)
                 {
-                    Main.buffTexture[Type] = mod.GetTexture("DivineStrike");
+                    Main.buffTexture[Type] = ModContent.GetTexture<DivineStrike>();
                 }
                 else
                 {

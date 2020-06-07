@@ -36,7 +36,7 @@ namespace SpiritMod.Projectiles
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 6);
-			NPC parent = Main.npc[NPC.FindFirstNPC(mod.NPCType("Rylheian"))];
+			NPC parent = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<Rylheian>())];
 			Player player = Main.player[parent.target];
 			Vector2 direction8 = player.Center - projectile.Center;
 			direction8.Normalize();
@@ -46,7 +46,7 @@ namespace SpiritMod.Projectiles
 				Vector2 dir = player.Center - projectile.Center;
 				dir.Normalize();
 				dir *= 14;
-				int spiritdude = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y, mod.NPCType("Tentacle"), parent.target, 0, 0, 0, -1);
+				int spiritdude = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y, ModContent.NPCType<Tentacle>(), parent.target, 0, 0, 0, -1);
 				NPC Spirits = Main.npc[spiritdude];
 				Spirits.ai[0] = dir.X;
 				Spirits.ai[1] = dir.Y;
@@ -74,14 +74,14 @@ namespace SpiritMod.Projectiles
 
 			//Making player variable "p" set as the projectile's owner
 			float lowestDist = float.MaxValue;
-			NPC parent = Main.npc[NPC.FindFirstNPC(mod.NPCType("Rylheian"))];
+			NPC parent = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<Rylheian>())];
 			Player player = Main.player[parent.target]; // 
 			if ((projectile.ai[1] / 2) % 75 == 1)
 			{
 				Vector2 dir = player.Center - projectile.Center;
 				dir.Normalize();
 				dir *= 14;
-				int spiritdude = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y, mod.NPCType("Tentacle"), parent.target, 0, 0, 0, -1);
+				int spiritdude = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y, ModContent.NPCType<Tentacle>(), parent.target, 0, 0, 0, -1);
 				NPC Spirits = Main.npc[spiritdude];
 				Spirits.ai[0] = dir.X;
 				Spirits.ai[1] = dir.Y;

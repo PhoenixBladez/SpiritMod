@@ -71,7 +71,7 @@ namespace SpiritMod.Projectiles
 				perturbedSpeed.Normalize();
 				perturbedSpeed.X *= 4.5f;
 				perturbedSpeed.Y *= 4.5f;
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("StarSoul"), projectile.damage / 3, 2, projectile.owner);
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<StarSoul>(), projectile.damage / 3, 2, projectile.owner);
 			}
 
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
@@ -92,7 +92,7 @@ namespace SpiritMod.Projectiles
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(2) == 0)
-				target.AddBuff(mod.BuffType("StarFracture"), 200, true);
+				target.AddBuff(ModContent.BuffType<StarFracture>(), 200, true);
 			
 			projectile.Kill();
 		}

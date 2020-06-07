@@ -45,7 +45,7 @@ namespace SpiritMod.Items.Weapon.Bow
         {
 			if (player.altFunctionUse == 2)
 			{
-				type = mod.ProjectileType("FlayedShot");
+				type = ModContent.ProjectileType<FlayedShot>();
 				if (counter > 0)
 				{
 					return false;

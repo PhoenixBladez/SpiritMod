@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.UseSound = SoundID.Item1;
             item.ranged = true;
             item.noMelee = true;
-            item.shoot = mod.ProjectileType("CrystalShadow");
+            item.shoot = ModContent.ProjectileType<CrystalShadow>();
             item.useAnimation = 22;
             item.consumable = true;
             item.maxStack = 999;

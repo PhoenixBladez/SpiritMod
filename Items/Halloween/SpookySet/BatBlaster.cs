@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Halloween.SpookySet
             item.rare = 8;
 			item.UseSound = SoundID.Item36;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("BatBullet"); 
+            item.shoot = ModContent.ProjectileType<BatBullet>(); 
             item.shootSpeed = 6.8f;
             item.useAmmo = AmmoID.Bullet;
         }
@@ -50,7 +50,7 @@ namespace SpiritMod.Items.Halloween.SpookySet
 				{
 					newVect = origVect.RotatedBy(-System.Math.PI / (Main.rand.Next(150, 1800) / 10));
 				}
-			int proj2 = Projectile.NewProjectile(position.X, position.Y, newVect.X, newVect.Y, mod.ProjectileType("BatBullet"), damage, knockBack, player.whoAmI);
+			int proj2 = Projectile.NewProjectile(position.X, position.Y, newVect.X, newVect.Y, ModContent.ProjectileType<BatBullet>(), damage, knockBack, player.whoAmI);
 			
 			
 			return false;

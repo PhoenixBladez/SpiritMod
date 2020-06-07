@@ -29,7 +29,7 @@ namespace SpiritMod.Projectiles.Returning
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			target.AddBuff(mod.BuffType("SoulBurn"), 280);
+			target.AddBuff(ModContent.BuffType<SoulBurn>(), 280);
 		}
 
 		public override void AI()

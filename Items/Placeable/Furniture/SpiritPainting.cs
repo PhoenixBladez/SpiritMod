@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Placeable.Furniture
             item.autoReuse = true;
             item.consumable = true;
 
-            item.createTile = mod.TileType("SpiritPainting");
+            item.createTile = ModContent.TileType<SpiritPainting>();
 		}
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {

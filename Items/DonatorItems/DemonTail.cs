@@ -44,7 +44,7 @@ namespace SpiritMod.Items.DonatorItems
 			var recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.BlackLens);
 			recipe.AddIngredient(ItemID.WaterCandle);
-            recipe.AddIngredient(mod.ItemType("Bloodfire"), 5);
+            recipe.AddIngredient(ModContent.ItemType<Bloodfire>(), 5);
             recipe.AddTile(TileID.TinkerersWorkbench);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

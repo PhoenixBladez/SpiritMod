@@ -74,7 +74,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
         {
             if (Main.rand.Next(4) == 0)
             {
-                target.AddBuff(mod.BuffType("ArcaneSurge"), 120);
+                target.AddBuff(ModContent.BuffType<ArcaneSurge>(), 120);
             }
             {
                 player.statMana += 16;

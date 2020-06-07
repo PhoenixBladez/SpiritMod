@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 1;
             item.UseSound = SoundID.Item20;
             item.autoReuse = false;
-            item.shoot = mod.ProjectileType("Blood");
+            item.shoot = ModContent.ProjectileType<Blood>();
             item.shootSpeed = 7f;
         }
         public override void AddRecipes()

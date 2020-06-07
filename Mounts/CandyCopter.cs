@@ -36,7 +36,7 @@ namespace SpiritMod.Mounts
 		{
 			mountData.spawnDust = 226;
 			mountData.spawnDustNoGravity = true;
-			mountData.buff = mod.BuffType("RidingCandyCopter");
+			mountData.buff = ModContent.BuffType<RidingCandyCopter>();
 			mountData.flightTimeMax = 2;
 			mountData.fatigueMax = 1;
 			mountData.fallDamage = 0f;
@@ -195,7 +195,7 @@ namespace SpiritMod.Mounts
 							vX += Main.rand.Next(-30, 31) * 0.02f;
 							vY += Main.rand.Next(-30, 31) * 0.02f;
 						}
-						Terraria.Projectile.NewProjectile(muzzle.X, muzzle.Y, vX, vY, mod.ProjectileType("CandyCopterBullet"), (int)(damage * player.minionDamage), knockback * player.minionKB, player.whoAmI); //CandyCopterBullet
+						Terraria.Projectile.NewProjectile(muzzle.X, muzzle.Y, vX, vY, ModContent.ProjectileType<CandyCopterBullet>(), (int)(damage * player.minionDamage), knockback * player.minionKB, player.whoAmI); //CandyCopterBullet
 					}
 					Point point = player.Center.ToTileCoordinates();
 					Lighting.AddLight(point.X, point.Y, lightColor.X, lightColor.Y, lightColor.Z);

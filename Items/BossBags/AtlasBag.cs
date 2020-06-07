@@ -33,10 +33,10 @@ namespace SpiritMod.Items.BossBags
 		public override void RightClick(Player player)
 		{
 			player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(7, 12));
-			player.QuickSpawnItem(mod.ItemType("AtlasEye"));
-			player.QuickSpawnItem(mod.ItemType("ArcaneGeyser"), Main.rand.Next(30, 46));
+			player.QuickSpawnItem(ModContent.ItemType<AtlasEye>());
+			player.QuickSpawnItem(ModContent.ItemType<ArcaneGeyser>(), Main.rand.Next(30, 46));
 			if (Main.rand.Next(8) < 1)
-				player.QuickSpawnItem(mod.ItemType("UnrefinedRuneStone"));
+				player.QuickSpawnItem(ModContent.ItemType<UnrefinedRuneStone>());
 
 			string[] lootTable = { "KingRock", "Mountain", "TitanboundBulwark", "CragboundStaff", "QuakeFist", "Earthshatter", };
 			int loot = Main.rand.Next(lootTable.Length);

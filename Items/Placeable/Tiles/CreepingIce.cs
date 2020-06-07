@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Placeable.Tiles
             item.autoReuse = true;
             item.consumable = true;
 
-            item.createTile = mod.TileType("CreepingIceTile");
+            item.createTile = ModContent.TileType<CreepingIceTile>();
 		}
 	}
 }

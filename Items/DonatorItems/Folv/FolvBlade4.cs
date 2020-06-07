@@ -33,7 +33,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
             item.value = Item.sellPrice(0, 40, 0, 0);
             item.rare = 9;
             item.UseSound = SoundID.Item20;
-            item.shoot = mod.ProjectileType("ArcaneSword");
+            item.shoot = ModContent.ProjectileType<ArcaneSword>();
             item.shootSpeed = 12;
         }
         public override void UseStyle(Player player)

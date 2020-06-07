@@ -65,7 +65,7 @@ namespace SpiritMod.Items.DonatorItems
             if (Main.rand.Next(8) == 1)
             {
                 Vector2 velocity = new Vector2(player.direction, 0) * 4f;
-                int proj = Terraria.Projectile.NewProjectile(player.Center.X, player.position.Y + player.height + -35, velocity.X, velocity.Y, mod.ProjectileType("JadeScarab"), item.damage/2, item.owner, 0, 0f);
+                int proj = Terraria.Projectile.NewProjectile(player.Center.X, player.position.Y + player.height + -35, velocity.X, velocity.Y, ModContent.ProjectileType<JadeScarab>(), item.damage/2, item.owner, 0, 0f);
                 Main.projectile[proj].friendly = true;
                 Main.projectile[proj].hostile = false;
             }

@@ -33,7 +33,7 @@ namespace SpiritMod.Items.DonatorItems
             item.autoReuse = true;
             item.consumable = true;
 
-			item.createTile = mod.TileType("TheCouch");
+			item.createTile = ModContent.TileType<TheCouch>();
 		}
 
     }

@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 6;
             item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
-            item.shoot = mod.ProjectileType("BloodWave");
+            item.shoot = ModContent.ProjectileType<BloodWave>();
             item.rare = 2;
             item.shootSpeed = 8f;
             item.UseSound = SoundID.Item1;
@@ -84,7 +84,7 @@ namespace SpiritMod.Items.Weapon.Swung
             if (crit)
             {
                 target.AddBuff(BuffID.Poisoned, 240);
-                target.AddBuff(mod.BuffType("WitheringLeaf"), 120, true);
+                target.AddBuff(ModContent.BuffType<WitheringLeaf>(), 120, true);
             }
         }
     }

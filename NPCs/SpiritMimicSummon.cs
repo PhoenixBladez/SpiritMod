@@ -43,7 +43,7 @@ namespace SpiritMod.NPCs
 				{
 					if (Main.chest[num].item[i] != null && Main.chest[num].item[i].type > 0)
 					{
-						if (Main.chest[num].item[i].type == mod.ItemType("SpiritKey"))
+						if (Main.chest[num].item[i].type == ModContent.ItemType<SpiritKey>())
 						{
 							numberExampleBlocks += Main.chest[num].item[i].stack;
 						}
@@ -85,7 +85,7 @@ namespace SpiritMod.NPCs
 					NetMessage.SendData(34, -1, -1, null, 1, (float)x, (float)y, 0f, number, 0, 0);
 					NetMessage.SendTileSquare(-1, x, y, 3);
 				}
-				int npcToSpawn = mod.NPCType("SpiritMimic");
+				int npcToSpawn = ModContent.NPCType<SpiritMimic>();
 				int npcIndex = NPC.NewNPC(x * 16 + 16, y * 16 + 32, npcToSpawn, 0, 0f, 0f, 0f, 0f, 255);
 				Main.npc[npcIndex].whoAmI = npcIndex;
 				NetMessage.SendData(23, -1, -1, null, npcIndex, 0f, 0f, 0f, 0, 0, 0);

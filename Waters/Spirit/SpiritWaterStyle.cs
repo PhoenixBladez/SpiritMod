@@ -1,4 +1,7 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Backgrounds;
+using SpiritMod.Dusts;
+using SpiritMod.Gores;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -8,22 +11,22 @@ namespace SpiritMod.Waters.Spirit
 	{
 		public override bool ChooseWaterStyle()
 		{
-			return Main.bgStyle == mod.GetSurfaceBgStyleSlot("SpiritSurfaceBgStyle");
+			return Main.bgStyle == mod.GetSurfaceBgStyleSlot<SpiritSurfaceBgStyle>();
 		}
 
 		public override int ChooseWaterfallStyle()
 		{
-			return mod.GetWaterfallStyleSlot("SpiritWaterfallStyle");
+			return mod.GetWaterfallStyleSlot<SpiritWaterfallStyle>();
 		}
 
 		public override int GetSplashDust()
 		{
-			return mod.DustType("SpiritWaterSplash");
+			return ModContent.DustType<SpiritWaterSplash>();
 		}
 
 		public override int GetDropletGore()
 		{
-			return mod.GetGoreSlot("Gores/SpiritDroplet");
+			return mod.GetGoreSlot<SpiritDroplet>();
 		}
 
 		public override void LightColorMultiplier(ref float r, ref float g, ref float b)

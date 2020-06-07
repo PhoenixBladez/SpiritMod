@@ -40,7 +40,7 @@ namespace SpiritMod.Tide.NPCs
 				npc.ai[0]++;
 				if (npc.ai[0] >= 120)
 				{
-					int type = mod.ProjectileType("WitherBolt");
+					int type = ModContent.ProjectileType<WitherBolt>();
 					int p = Terraria.Projectile.NewProjectile(npc.position.X, npc.position.Y, -(npc.position.X - target.position.X) / distance * 4, -(npc.position.Y - target.position.Y) / distance * 4, type, (int)((npc.damage * .5)), 0);
 					Main.projectile[p].friendly = false;
 					Main.projectile[p].hostile = true;

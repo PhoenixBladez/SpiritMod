@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.crit += 10;
             item.UseSound = SoundID.Item20;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("BloodVessel");
+            item.shoot = ModContent.ProjectileType<BloodVessel>();
             item.shootSpeed = 19f;
         }
 

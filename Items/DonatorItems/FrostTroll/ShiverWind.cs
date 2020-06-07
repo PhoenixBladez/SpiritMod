@@ -33,7 +33,7 @@ namespace SpiritMod.Items.DonatorItems.FrostTroll
             item.UseSound = SoundID.Item34;
 			item.crit = 11;
             item.autoReuse = false;
-            item.shoot = mod.ProjectileType("ChillBolt");
+            item.shoot = ModContent.ProjectileType<ChillBolt>();
             item.shootSpeed = 7f;
             item.autoReuse = true;
         }

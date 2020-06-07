@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Projectiles;
 
 namespace SpiritMod.Buffs
 {
@@ -70,7 +71,7 @@ namespace SpiritMod.Buffs
                     float num17 = num13 * num15;
                     float SpeedX = num16 + (float)Main.rand.Next(-40, 41) * 0.15f;  //this defines the projectile X position speed and randomnes
                     float SpeedY = num17 + (float)Main.rand.Next(-40, 41) * 0.15f;  //this defines the projectile Y position speed and randomnes
-                    int proj = Projectile.NewProjectile(npc.position.X, npc.position.Y + Main.rand.Next(-400, -380), SpeedX, SpeedY, mod.ProjectileType("AngelLightStar"), 65, 0, Main.myPlayer, 0.0f, 1);
+                    int proj = Projectile.NewProjectile(npc.position.X, npc.position.Y + Main.rand.Next(-400, -380), SpeedX, SpeedY, ModContent.ProjectileType<AngelLightStar>(), 65, 0, Main.myPlayer, 0.0f, 1);
                     info.angelWrathStacks = 0;
                 }
             }

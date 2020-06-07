@@ -15,8 +15,8 @@ namespace SpiritMod.Items.Pets
 		public override void SetDefaults()
 		{
 			item.CloneDefaults(ItemID.ZephyrFish);
-			item.shoot = mod.ProjectileType("CaptiveMaskPet");
-			item.buffType = mod.BuffType("CaptiveMaskPetBuff");
+			item.shoot = ModContent.ProjectileType<CaptiveMaskPet>();
+			item.buffType = ModContent.BuffType<CaptiveMaskPetBuff>();
 		}
 
 		public override void UseStyle(Player player)

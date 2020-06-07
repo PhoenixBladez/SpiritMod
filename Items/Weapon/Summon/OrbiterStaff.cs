@@ -31,8 +31,8 @@ namespace SpiritMod.Items.Weapon.Summon
             item.useAnimation = 30;
             item.summon = true;
             item.noMelee = true;
-            item.shoot = mod.ProjectileType("Minior");
-            item.buffType = mod.BuffType("MiniorBuff");
+            item.shoot = ModContent.ProjectileType<Minior>();
+            item.buffType = ModContent.BuffType<MiniorBuff>();
             item.buffTime = 3600;
             item.UseSound = SoundID.Item44;
         }

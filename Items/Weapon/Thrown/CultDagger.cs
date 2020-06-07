@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.melee = true;
             item.channel = true;
             item.noMelee = true;
-            item.shoot = mod.ProjectileType("CultDagger");
+            item.shoot = ModContent.ProjectileType<CultDagger>();
             item.useAnimation = 14;
             item.maxStack = 999;
             item.useTime = 14;

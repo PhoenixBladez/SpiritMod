@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Placeable.Tiles
             item.autoReuse = true;
             item.consumable = true;
 
-            item.createTile = mod.TileType("SpaceJunkTile");
+            item.createTile = ModContent.TileType<SpaceJunkTile>();
         }
         public override void ExtractinatorUse(ref int resultType, ref int resultStack)
         {
@@ -56,7 +56,7 @@ namespace SpiritMod.Items.Placeable.Tiles
             }
             else if (Main.rand.Next(40) == 0)
             {
-                resultType = mod.ItemType("ScrapGunHarold");
+                resultType = ModContent.ItemType<ScrapGunHarold>();
                 resultStack = 1;
             }
             else

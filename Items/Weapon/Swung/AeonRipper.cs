@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Weapon.Swung
         }
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("SoulFlare"), 180);
+            target.AddBuff(ModContent.BuffType<SoulFlare>(), 180);
         }
     }
 }

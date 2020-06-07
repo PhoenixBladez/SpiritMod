@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Weapon.Gun
             item.rare = 5;
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("DepthBullet");
+            item.shoot = ModContent.ProjectileType<DepthBullet>();
             item.shootSpeed = 15f;
         }
         public override Vector2? HoldoutOffset()
@@ -43,7 +43,7 @@ namespace SpiritMod.Items.Weapon.Gun
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("DepthBullet"), damage, knockBack, player.whoAmI);
+            int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<DepthBullet>(), damage, knockBack, player.whoAmI);
             return false;
         }
         public override void AddRecipes()

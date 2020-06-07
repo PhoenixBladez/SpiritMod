@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Weapon.Gun
             item.UseSound = SoundID.DD2_SonicBoomBladeSlash;
             item.autoReuse = true;
             item.shootSpeed = 15f;
-			item.shoot = mod.ProjectileType("Polyshot");
+			item.shoot = ModContent.ProjectileType<Polyshot>();
         }
         public override Vector2? HoldoutOffset()
         {

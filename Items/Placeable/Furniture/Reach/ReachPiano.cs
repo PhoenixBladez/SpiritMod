@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Placeable.Furniture.Reach
             item.autoReuse = true;
             item.consumable = true;
 
-			item.createTile = mod.TileType("ReachPiano");
+			item.createTile = ModContent.TileType<ReachPiano>();
 		}
 		public override void AddRecipes()
 		{

@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Weapon.Gun
             item.noMelee = true;
             item.knockBack = 0;
             item.useTurn = false;
-            item.shoot = mod.ProjectileType("CrimbineBone");
+            item.shoot = ModContent.ProjectileType<CrimbineBone>();
             item.value = Terraria.Item.sellPrice(0, 3, 0, 0);
             item.rare = 4;
             item.shootSpeed = 10f;
@@ -80,7 +80,7 @@ namespace SpiritMod.Items.Weapon.Gun
                 Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 95));
                 MyPlayer modPlayer = player.GetSpiritPlayer();
                 modPlayer.shootDelay2 = 300;
-                type = mod.ProjectileType("CrimbineAmalgam");
+                type = ModContent.ProjectileType<CrimbineAmalgam>();
                 speedX /= 4;
                 speedY /= 4;
             }
@@ -94,7 +94,7 @@ namespace SpiritMod.Items.Weapon.Gun
                 double randomAngle = baseAngle + (Main.rand.NextFloat() - 0.5f) * spread;
                 speedX = baseSpeed * (float)Math.Sin(randomAngle);
                 speedY = baseSpeed * (float)Math.Cos(randomAngle);
-                type = mod.ProjectileType("CrimbineBone");
+                type = ModContent.ProjectileType<CrimbineBone>();
             }
             return true;
         }

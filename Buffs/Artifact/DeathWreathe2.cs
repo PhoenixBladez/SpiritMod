@@ -27,7 +27,7 @@ namespace SpiritMod.Buffs.Artifact
 
                 if (Main.rand.NextBool(100))
                 {
-                    Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("SoulBurst"), 50, 0, Main.myPlayer);
+                    Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<SoulBurst>(), 50, 0, Main.myPlayer);
                 }
 			}
 		}

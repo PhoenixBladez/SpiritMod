@@ -17,7 +17,7 @@ public class ThermiteBar : ModTile
         Main.tileLavaDeath[Type] = true;
         TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
         TileObjectData.addTile(Type);
-		drop = mod.ItemType("ThermiteBar");
+		drop = ModContent.ItemType<Items.Material.ThermiteBar>();
 		adjTiles = new int[]{TileID.MetalBars};
     }
 

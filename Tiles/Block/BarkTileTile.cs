@@ -18,7 +18,7 @@ namespace SpiritMod.Tiles.Block
 			Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = true;
 			AddMapEntry(new Color(120, 60, 60));
-			drop = mod.ItemType("AncientBark");
+			drop = ModContent.ItemType<AncientBark>();
 		}
 
 		public override bool CanExplode(int i, int j)

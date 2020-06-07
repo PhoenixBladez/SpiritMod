@@ -23,7 +23,7 @@ namespace SpiritMod.NPCs.Critters
 			npc.lifeMax = 5;
 			npc.HitSound = SoundID.NPCHit1;
 			Main.npcCatchable[npc.type] = true;
-			npc.catchItem = (short)mod.ItemType("GulperItem");
+			npc.catchItem = (short)ModContent.ItemType<GulperItem>();
 			npc.DeathSound = SoundID.NPCDeath1;
 			npc.knockBackResist = .35f;
 			npc.aiStyle = 16;
@@ -74,7 +74,7 @@ namespace SpiritMod.NPCs.Critters
 		{
 			if (Main.rand.Next(2) == 1)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("RawFish"), 1);
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<RawFish>(), 1);
 			}
 		}
 	}

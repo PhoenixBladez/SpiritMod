@@ -14,13 +14,13 @@ namespace SpiritMod.Tiles.Block
 		{
 			Main.tileSolid[Type] = true;
 			SetModTree(new ReachTree());
-			Main.tileMerge[Type][mod.TileType("ReachGrassTile")] = true;
+			Main.tileMerge[Type][ModContent.TileType<ReachGrassTile>()] = true;
 			Main.tileBlendAll[this.Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
 			//Main.tileLighted[Type] = true;
 			AddMapEntry(new Color(104, 156, 70));
-			drop = mod.ItemType("ReachGrass");
+			drop = ModContent.ItemType<ReachGrass>();
 		}
 
 		public static bool PlaceObject(int x, int y, int type, bool mute = false, int style = 0, int alternate = 0, int random = -1, int direction = -1)
@@ -94,7 +94,7 @@ namespace SpiritMod.Tiles.Block
 		public override int SaplingGrowthType(ref int style)
 		{
 			style = 0;
-			return mod.TileType("ReachSapling");
+			return ModContent.TileType<ReachSapling>();
 		}
 
 	}

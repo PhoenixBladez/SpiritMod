@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Ammo
 			item.ranged = true;
             item.consumable = true;
 
-            item.shoot = mod.ProjectileType("ShroomiteArrow");
+            item.shoot = ModContent.ProjectileType<ShroomiteArrow>();
             item.shootSpeed = 4f;
         }
 

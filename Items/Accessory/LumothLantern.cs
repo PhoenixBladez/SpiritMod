@@ -42,7 +42,7 @@ namespace SpiritMod.Items.Accessory
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(mod.ItemType("Brightbulb"), 1);
+			recipe.AddIngredient(ModContent.ItemType<Brightbulb>(), 1);
 			recipe.AddIngredient(ItemID.SilverBar, 5);
 			recipe.AddIngredient(ItemID.Wood, 20);
 			recipe.AddTile(TileID.WorkBenches);
@@ -50,7 +50,7 @@ namespace SpiritMod.Items.Accessory
 			recipe.AddRecipe();
 			
 			ModRecipe recipe1 = new ModRecipe(mod);
-			recipe1.AddIngredient(mod.ItemType("Brightbulb"), 1);
+			recipe1.AddIngredient(ModContent.ItemType<Brightbulb>(), 1);
 			recipe1.AddIngredient(ItemID.TungstenBar, 5);
 			recipe1.AddIngredient(ItemID.Wood, 20);
 			recipe1.AddTile(TileID.WorkBenches);

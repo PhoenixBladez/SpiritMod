@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.rare = 2;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
-            item.shoot = mod.ProjectileType("FloranVine");
+            item.shoot = ModContent.ProjectileType<FloranVine>();
             item.shootSpeed = 8f;
 		}
         public override void AddRecipes()
@@ -62,7 +62,7 @@ namespace SpiritMod.Items.Weapon.Swung
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
             {
-                if (Main.rand.Next(5) == 0) target.AddBuff(mod.BuffType("VineTrap"), 180);
+                if (Main.rand.Next(5) == 0) target.AddBuff(ModContent.BuffType<VineTrap>(), 180);
             }
         }
          public override void UseStyle(Player player)

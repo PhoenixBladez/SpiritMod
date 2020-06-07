@@ -65,13 +65,13 @@ namespace SpiritMod.Projectiles
 					float rand = Main.rand.NextFloat() * 6.283f;
 					vel = vel.RotatedBy(rand);
 					vel *= 8f;
-					int p = Projectile.NewProjectile(projectile.position.X, projectile.position.Y, vel.X, vel.Y, mod.ProjectileType("QuicksilverBolt"), projectile.damage, 1, projectile.owner, 0f, 0f);
+					int p = Projectile.NewProjectile(projectile.position.X, projectile.position.Y, vel.X, vel.Y, ModContent.ProjectileType<QuicksilverBolt>(), projectile.damage, 1, projectile.owner, 0f, 0f);
 					Main.projectile[p].thrown = true;
 					Main.projectile[p].melee = false;
 				}
 			}
 			if (Main.rand.Next(0, 12) == 0)
-				Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, mod.ItemType("QuicksilverKunai"), 1, false, 0, false, false);
+				Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<QuicksilverKunai>(), 1, false, 0, false, false);
 
 			for (int i = 0; i < 5; i++)
 			{

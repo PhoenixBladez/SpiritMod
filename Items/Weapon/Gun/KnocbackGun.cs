@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Gun
             item.rare = 3;
             item.UseSound = SoundID.Item36;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("FreemanRocket");
+            item.shoot = ModContent.ProjectileType<FreemanRocket>();
             item.shootSpeed = 6f;
             item.useAmmo = AmmoID.Bullet;
         }
@@ -46,7 +46,7 @@ namespace SpiritMod.Items.Weapon.Gun
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Main.PlaySound(SoundLoader.customSoundType, player.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/CoilRocket"));
-            type = mod.ProjectileType("FreemanRocket");
+            type = ModContent.ProjectileType<FreemanRocket>();
             return true;
         }
     }

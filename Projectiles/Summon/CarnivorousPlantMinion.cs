@@ -46,7 +46,7 @@ namespace SpiritMod.Projectiles.Summon
 		public override void AI()
 		{
 			Player player = Main.player[projectile.owner];
-			bool flag64 = projectile.type == mod.ProjectileType("CarnivorousPlantMinion");
+			bool flag64 = projectile.type == ModContent.ProjectileType<CarnivorousPlantMinion>();
 			MyPlayer mp = Main.player[projectile.owner].GetSpiritPlayer();
 			if (flag64)
 			{

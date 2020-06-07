@@ -32,7 +32,7 @@ namespace SpiritMod.Items.DonatorItems
             item.rare = 5;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("BlueFist");
+            item.shoot = ModContent.ProjectileType<BlueFist>();
             item.shootSpeed = 12f;
         }
         public override bool AltFunctionUse(Player player)
@@ -67,7 +67,7 @@ namespace SpiritMod.Items.DonatorItems
             if (player.altFunctionUse == 2)
             {
 
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("GunProj"), (int)(damage * 2.5f), knockBack, player.whoAmI);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<GunProj>(), (int)(damage * 2.5f), knockBack, player.whoAmI);
                 return false;
             }
             else

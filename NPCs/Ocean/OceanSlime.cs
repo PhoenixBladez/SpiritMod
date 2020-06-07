@@ -38,11 +38,11 @@ namespace SpiritMod.NPCs.Ocean
 		public override void NPCLoot()
 		{
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Coconut"), Main.rand.Next(3) + 6);
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Coconut>(), Main.rand.Next(3) + 6);
 			}
 			if (Main.rand.Next(20) == 1)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PinaColada"), 1);
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PinaColada>(), 1);
 			}
 		}
 

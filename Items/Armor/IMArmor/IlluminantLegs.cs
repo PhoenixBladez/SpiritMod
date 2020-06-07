@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Armor.IMArmor
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Silk, 6);
             recipe.AddIngredient(ItemID.SoulofLight, 4);
-            recipe.AddIngredient(mod.ItemType("Geode"), 3);
+            recipe.AddIngredient(ModContent.ItemType<Geode>(), 3);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

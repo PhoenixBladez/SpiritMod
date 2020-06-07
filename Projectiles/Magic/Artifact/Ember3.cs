@@ -134,7 +134,7 @@ namespace SpiritMod.Projectiles.Magic.Artifact
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(4) == 0)
-				target.AddBuff(mod.BuffType("ShadowBurn"), 180);
+				target.AddBuff(ModContent.BuffType<ShadowBurn>(), 180);
 		}
 
 		public override void Kill(int timeLeft)
@@ -143,7 +143,7 @@ namespace SpiritMod.Projectiles.Magic.Artifact
 			{
 				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Shadowflame, 0f, -2f, 0, default(Color), 2f);
 				Main.dust[num].noGravity = true;
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("Fire"), projectile.damage, projectile.knockBack, projectile.owner);
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Fire>(), projectile.damage, projectile.knockBack, projectile.owner);
 
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;

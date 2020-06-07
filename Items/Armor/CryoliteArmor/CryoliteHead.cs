@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Armor.CryoliteArmor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("CryoliteBody") && legs.type == mod.ItemType("CryoliteLegs");  
+            return body.type == ModContent.ItemType<CryoliteBody>() && legs.type == ModContent.ItemType<CryoliteLegs>();  
         }
         public override void UpdateArmorSet(Player player)
         {

@@ -32,14 +32,14 @@ namespace SpiritMod.Items.Weapon.Gun
             item.rare = 6;
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("HellBullet");
+            item.shoot = ModContent.ProjectileType<HellBullet>();
             item.shootSpeed = 19f;
             item.useAmmo = AmmoID.Bullet;
             item.crit = 18;
         }
 		 public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            type = mod.ProjectileType("HellBullet");
+            type = ModContent.ProjectileType<HellBullet>();
             return true;
         }
 		public override void AddRecipes()

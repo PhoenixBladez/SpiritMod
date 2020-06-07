@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 6;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("SpiritBolt");
+			item.shoot = ModContent.ProjectileType<SpiritBolt>();
 			item.shootSpeed = 5f;
 		}
 		

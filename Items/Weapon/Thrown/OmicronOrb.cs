@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.autoReuse = true;
             item.consumable = false;
             item.noUseGraphic = true;
-            item.shoot = mod.ProjectileType("OmicronOrbProj");
+            item.shoot = ModContent.ProjectileType<OmicronOrbProj>();
             item.shootSpeed = 11;
             item.UseSound = SoundID.Item1;
         }

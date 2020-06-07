@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.autoReuse = false;
             item.shootSpeed = 9;
             item.UseSound = SoundID.Item20;
-            item.shoot = mod.ProjectileType("HowlingBolt");
+            item.shoot = ModContent.ProjectileType<HowlingBolt>();
         }
 		 public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

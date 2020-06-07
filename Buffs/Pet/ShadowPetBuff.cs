@@ -19,10 +19,10 @@ namespace SpiritMod.Buffs.Pet
 			player.buffTime[buffIndex] = 18000;
 			player.GetSpiritPlayer().shadowPet = true;
 
-			bool petProjectileNotSpawned = player.ownedProjectileCounts[mod.ProjectileType("ShadowPet")] <= 0;
+			bool petProjectileNotSpawned = player.ownedProjectileCounts[ModContent.ProjectileType<ShadowPet>()] <= 0;
 			if (petProjectileNotSpawned && player.whoAmI == Main.myPlayer)
 			{
-				Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("ShadowPet"), 0, 0f, player.whoAmI);
+				Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<ShadowPet>(), 0, 0f, player.whoAmI);
 			}
 		}
 	}
