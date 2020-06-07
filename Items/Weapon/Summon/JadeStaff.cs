@@ -12,12 +12,12 @@ namespace SpiritMod.Items.Weapon.Summon
 		public override void SetStaticDefaults() 
 		{
 			DisplayName.SetDefault("Staff of the Jade Dragon");
-            Tooltip.SetDefault("Summons two revolving ethereal dragons");
+            Tooltip.SetDefault("Summons two revolving ethereal dragons\nEach dragon takes up 1/2 a minion slot");
 		}
 
 		 public override void SetDefaults()
         {
-             item.damage = 13;
+            item.damage = 14;
             item.summon = true;
             item.mana = 60;
             item.width = 44;
@@ -27,10 +27,10 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.useStyle = 5;
 			Item.staff[item.type] = true;
 			item.noMelee = true; 
-            item.knockBack = 0;
+            item.knockBack = 1.25f;
             item.value = 20000;
             item.rare = 3;
-            item.UseSound = SoundID.Item20;
+            item.UseSound = new Terraria.Audio.LegacySoundStyle(3, 56);
             item.autoReuse = false;
             item.shoot = mod.ProjectileType("DragonHeadOne");
             item.shootSpeed = 3f;

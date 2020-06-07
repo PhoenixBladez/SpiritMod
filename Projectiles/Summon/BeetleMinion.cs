@@ -32,7 +32,7 @@ namespace SpiritMod.Projectiles.Summon
 			projectile.tileCollide = true;
 			projectile.netImportant = true;
 			projectile.alpha = 0;
-			projectile.minionSlots = 0;
+			projectile.minionSlots = 0.25f;
 			projectile.timeLeft = 120;
 			projectile.penetrate = 2;
 		}

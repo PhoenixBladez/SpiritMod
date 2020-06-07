@@ -15,7 +15,7 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override void SetDefaults()
 		{
-			projectile.width = 10;
+			projectile.width = 8;
 			projectile.height = 39;
 			projectile.aiStyle = 113;
 			projectile.friendly = false;
@@ -30,7 +30,7 @@ namespace SpiritMod.Projectiles.Thrown
 		 public override bool PreAI()
         {
             int num = 5;
-                int index2 = Dust.NewDust(projectile.position, 1, 1, 60, 0.0f, 0.0f, 0, new Color(), 1.3f);
+                int index2 = Dust.NewDust(projectile.position, 1, 1, 6, 0.0f, 0.0f, 0, new Color(), 1.3f);
                 Main.dust[index2].position = projectile.Center - projectile.velocity / num;
                 Main.dust[index2].velocity *= 0f;
                 Main.dust[index2].noGravity = true;

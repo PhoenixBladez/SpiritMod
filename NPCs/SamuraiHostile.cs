@@ -86,10 +86,10 @@ namespace SpiritMod.NPCs
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-            int d1 = 91;
+            int d1 = 54;
             for (int k = 0; k < 20; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 117, new Color(0, 255, 142), .6f);
+                Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 54, new Color(0, 255, 142), .6f);
             }
             if (npc.life <= 0)
             {
@@ -98,7 +98,7 @@ namespace SpiritMod.NPCs
                 Gore.NewGore(npc.position, npc.velocity, 99);
                 for (int i = 0; i < 40; i++)
                 {
-                    int num = Dust.NewDust(npc.position, npc.width, npc.height, 91, 0f, -2f, 117, new Color(0, 255, 142), .6f);
+                    int num = Dust.NewDust(npc.position, npc.width, npc.height, 54, 0f, -2f, 117, new Color(0, 255, 142), .6f);
                     Main.dust[num].noGravity = true;
                     Dust expr_62_cp_0 = Main.dust[num];
                     expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
@@ -231,12 +231,12 @@ namespace SpiritMod.NPCs
             {
                Vector2 direction = targetLocation - npc.Center;
 				direction.Normalize();
-                 direction.X = direction.X * Main.rand.Next(29, 37);
-                direction.Y = direction.Y * Main.rand.Next(9, 18);
+                 direction.X = direction.X * Main.rand.Next(15, 19);
+                direction.Y = direction.Y * Main.rand.Next(9, 10);
                 npc.velocity.X = direction.X;
                 npc.velocity.Y = direction.Y;
-                npc.velocity.Y *= 0.98f;
-                npc.velocity.X *= 0.995f;
+                npc.velocity.Y *= 0.95f;
+                npc.velocity.X *= 0.95f;
                 for (int i = 0; i < 20; i++)
                 {
                     int num = Dust.NewDust(npc.position, npc.width, npc.height, 14, 0f, -2f, 0, default(Color), .8f);

@@ -51,7 +51,7 @@ namespace SpiritMod.Projectiles.Summon.Zipline
 					player.position.Y --;
                 if (Main.rand.Next(10) == 0)
                 {
-                    Main.PlaySound(SoundID.Item13, player.position);
+                    Main.PlaySound(2, player.position, 55);
                 }
             }
 		}

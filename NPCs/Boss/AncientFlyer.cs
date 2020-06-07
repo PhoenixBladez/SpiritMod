@@ -32,7 +32,7 @@ namespace SpiritMod.NPCs.Boss
 			npc.height = 120;
 			npc.damage = 23;
 			npc.defense = 14;
-			npc.lifeMax = 3800;
+			npc.lifeMax = 3100;
 			npc.knockBackResist = 0;
 			npc.boss = true;
 			npc.noGravity = true;
@@ -60,13 +60,11 @@ namespace SpiritMod.NPCs.Boss
 
 			if (!harpySpawn)
 			{
-				if (Counter > 1000)
+				if (Counter > 1200)
 				{
 					Vector2 direction = Vector2.One.RotatedByRandom(MathHelper.ToRadians(100));
 					int newNPC = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, mod.NPCType("BoneHarpy1"));
-					int newNPC1 = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, mod.NPCType("BoneHarpy1"));
-					Main.npc[newNPC].velocity = direction * (Main.rand.Next(1, 2));
-					Main.npc[newNPC1].velocity = direction * (Main.rand.Next(-2, 2));
+					Main.npc[newNPC].velocity = direction * (Main.rand.Next(-2, 2));
 					Counter = 0;
 				}
 			}
@@ -159,6 +157,7 @@ namespace SpiritMod.NPCs.Boss
             }
 			else if (timer >= 900 && timer <= 1400) //Rains red comets
 			{
+                npc.defense = 30;
 				if (expertMode)
 				{
 					player.AddBuff(BuffID.WindPushed, 90);
@@ -181,6 +180,7 @@ namespace SpiritMod.NPCs.Boss
 			}
 			else
 			{
+                npc.defense = 14;
 				framenum = .2f;
 				displaycircle = false;
 				modPlayer.windEffect = false;
@@ -215,8 +215,11 @@ namespace SpiritMod.NPCs.Boss
 			}
 		}
 
-
-		public override bool PreNPCLoot()
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
+        }
+        public override bool PreNPCLoot()
 		{
 			MyWorld.downedAncientFlier = true;
 			return true;

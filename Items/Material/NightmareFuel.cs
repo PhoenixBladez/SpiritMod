@@ -8,8 +8,7 @@ namespace SpiritMod.Items.Material
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Nightmare Fuel");
-			Tooltip.SetDefault("'The stuff of... well... nightmares'");
+			DisplayName.SetDefault("Wither Tablet");
 		}
 
 

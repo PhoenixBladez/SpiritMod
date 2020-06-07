@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.useTurn = false;
             item.value = Terraria.Item.sellPrice(0, 3, 0, 0);
             item.rare = 4;
-			item.UseSound = SoundID.Item20;
+			item.UseSound = SoundID.Item83;
 			item.autoReuse = true;
 			item.shoot = mod.ProjectileType("PalladiumStaffProj");
 			item.shootSpeed = 8f;

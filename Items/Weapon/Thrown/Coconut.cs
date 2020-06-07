@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.shoot = mod.ProjectileType("CoconutP");
             item.useAnimation = 60;
             item.useTime = 60;
-            item.shootSpeed = 2f;
+            item.shootSpeed = 4f;
             item.damage = 16;
             item.knockBack = 3.5f;
 			item.value = Terraria.Item.sellPrice(0, 0, 3, 0);

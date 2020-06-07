@@ -83,7 +83,7 @@ namespace SpiritMod
         public bool mushroomPotion = false;
         public bool magnifyingGlass = false;
 		public bool ShieldCore = false;
-		public int shieldsLeft = 3;
+		public int shieldsLeft = 2;
 		public bool spawnedShield = false;
         public bool SoulStone = false;
         public bool geodeSet = false;
@@ -2354,7 +2354,7 @@ namespace SpiritMod
 						shieldCounter++;
 						if (shieldCounter> 2000)
 						{
-							shieldsLeft = 3;
+							shieldsLeft = 2;
 							spawnedShield = false;
 							shieldCounter = 0;
 						}

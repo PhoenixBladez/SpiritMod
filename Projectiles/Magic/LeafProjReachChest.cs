@@ -27,7 +27,7 @@ namespace SpiritMod.Projectiles.Magic
 			aiType = 227;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
-			projectile.minion = true;
+			projectile.magic = true;
 			projectile.minionSlots = 0;
 			projectile.penetrate = 3;
 			projectile.timeLeft = 180;

@@ -20,19 +20,19 @@ namespace SpiritMod.Items.Weapon.Thrown
 
 		public override void SetDefaults()
 		{
-			item.damage = 18;
+			item.damage = 20;
 			item.noMelee = true;
 			item.channel = true; //Channel so that you can held the weapon [Important]
-			item.rare = 5;
+			item.rare = 3;
 			item.width = 18;
 			item.height = 18;
-			item.useTime = 20;
-            item.useAnimation = 60;
+			item.useTime = 15;
+            item.useAnimation = 45;
 			item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = item.useAnimation = 24;
             item.melee = true;
             item.noMelee = true;
-            item.UseSound = SoundID.Item1;
+            item.UseSound = SoundID.Item20;
 			item.autoReuse = false;
              item.noUseGraphic = true;
 			item.shoot = mod.ProjectileType("TikiJavelinProj");

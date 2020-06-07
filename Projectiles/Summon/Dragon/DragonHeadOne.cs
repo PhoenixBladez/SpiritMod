@@ -26,6 +26,7 @@ namespace SpiritMod.Projectiles.Summon.Dragon
 			projectile.friendly = true;
 			projectile.timeLeft = 190;
 			projectile.damage = 13;
+            projectile.minionSlots = .5f;
             projectile.extraUpdates = 1;
 			projectile.width = projectile.height = 32;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
@@ -69,6 +70,6 @@ namespace SpiritMod.Projectiles.Summon.Dragon
 			offset.Normalize();
 			offset *= (float)(Math.Cos(counter * (Math.PI / 180)) * (distance / 3));
 			projectile.velocity = initialSpeed + offset;
-		}
+        }
 	}
 }

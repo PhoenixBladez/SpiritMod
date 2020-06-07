@@ -25,9 +25,9 @@ namespace SpiritMod.Tiles.Ambient.SpaceCrystals
             16
             };
             TileObjectData.addTile(Type);
+            dustType = -3;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Giant Crystal");
-            dustType = 110;
             AddMapEntry(new Color(200, 200, 200), name);
         }
         public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
@@ -43,7 +43,7 @@ namespace SpiritMod.Tiles.Ambient.SpaceCrystals
        public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			Terraria.Item.NewItem(i * 16, j * 16, 64, 32, mod.ItemType("RockCandy"));
-			if (Main.rand.Next(4) == 1)
+			if (Main.rand.Next(2) == 1)
 			{
 				Terraria.Item.NewItem(i * 16, j * 16, 64, 32, mod.ItemType("Geode"), 3);
 			}

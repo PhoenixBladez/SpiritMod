@@ -61,7 +61,8 @@ namespace SpiritMod.Projectiles.Thrown
 			}
 			else
 			{
-				Vector2 direction = Main.MouseWorld - (projectile.position);
+                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 1);
+                Vector2 direction = Main.MouseWorld - (projectile.position);
 				direction.Normalize();
 				direction*= counter;
 				Projectile.NewProjectile(projectile.position, direction, mod.ProjectileType("TikiJavelinProj2"), (int)(projectile.damage * Math.Sqrt(counter)), projectile.knockBack, projectile.owner);

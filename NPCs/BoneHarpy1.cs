@@ -25,7 +25,7 @@ namespace SpiritMod.NPCs
 			npc.width = 32;
 			npc.height = 34;
 			npc.damage = 18;
-			npc.defense = 10;
+			npc.defense = 15;
 			npc.lifeMax = 42;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
@@ -48,7 +48,7 @@ namespace SpiritMod.NPCs
 				moveSpeed++;
 			}
 
-			npc.velocity.X = moveSpeed * 0.08f;
+			npc.velocity.X = moveSpeed * 0.06f;
 
 			if (npc.Center.Y >= player.Center.Y - HomeY && moveSpeedY >= -50) //Flies to players Y position
 			{
@@ -61,8 +61,8 @@ namespace SpiritMod.NPCs
 				moveSpeedY++;
 			}
 
-			npc.velocity.Y = moveSpeedY * 0.2f;
-			if (Main.rand.Next(220) == 8)
+			npc.velocity.Y = moveSpeedY * 0.14f;
+			if (Main.rand.Next(220) == 4)
 			{
 				HomeY = -25f;
 			}

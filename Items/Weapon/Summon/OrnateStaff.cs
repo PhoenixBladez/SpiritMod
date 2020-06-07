@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Weapon.Summon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Staff of the Insect Brood");
-			Tooltip.SetDefault("Summons swarms of tiny beetles to fight for you\nBeetles do not consume minion slots, but dissipate quickly");
+			Tooltip.SetDefault("Summons swarms of tiny beetles to fight for you\nBeetles consume 1/4 of a minion slot and dissipate quickly");
 		}
 
 
@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Weapon.Summon
             item.mana = 11;
             item.damage = 8;
             item.knockBack = 2;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.useStyle = ItemUseStyleID.SwingThrow; 
             item.useTime = 30;
             item.useAnimation = 30; 
             item.summon = true;          

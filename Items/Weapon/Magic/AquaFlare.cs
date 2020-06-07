@@ -13,37 +13,32 @@ namespace SpiritMod.Items.Weapon.Magic
     {
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Aquafire");
-			Tooltip.SetDefault("Shoots out waves of Aquafire that revolve round the player or around one another\nMay inflict On Fire! or Frostburn");
+			DisplayName.SetDefault("Hydroflare");
+			Tooltip.SetDefault("Summons a controllable ball of water and fire");
 		}
 
 
 
         public override void SetDefaults()
         {
-            item.damage = 52;
-            Item.staff[item.type] = true;
+            item.damage = 51;
             item.noMelee = true;
             item.magic = true;
             item.width = 64;
             item.height = 64;
-            item.useTime = 32;
-            item.mana = 10;
-            item.useAnimation = 32;
-            item.useStyle = 5;
-            item.knockBack = 5;
+            item.useTime = 27;
+            item.mana = 17;
+            item.useAnimation = 27;
+            item.useStyle = 1;
+            item.knockBack = 7;
             item.value = 90000;
-            item.rare = 6;
+            item.channel = true;
+            item.rare = 5;
             item.UseSound = SoundID.Item34;
-            item.autoReuse = true;
-            item.shootSpeed = 6;
+            item.autoReuse = false;
+            item.shootSpeed = 16;
             item.UseSound = SoundID.Item20;
             item.shoot = mod.ProjectileType("AquaFlareProj");
-        }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, 0, 5, player.whoAmI, 0f, 0f);
-            return false;
         }
         public override void AddRecipes()
         {

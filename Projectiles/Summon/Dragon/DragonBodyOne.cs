@@ -86,6 +86,7 @@ namespace SpiritMod.Projectiles.Summon.Dragon
 				projectile.position.X = projectile.position.X + posX;
 				projectile.position.Y = projectile.position.Y + posY;
 			}
+
 			return false;
 		}
 	}
