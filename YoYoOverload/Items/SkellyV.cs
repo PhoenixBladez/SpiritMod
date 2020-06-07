@@ -1,4 +1,6 @@
 using System;
+using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.YoYoOverload.Items
@@ -13,16 +15,16 @@ namespace SpiritMod.YoYoOverload.Items
 
 		public override void SetDefaults()
 		{
-			base.item.CloneDefaults(3278);
-			base.item.damage = 41;
-			base.item.value = 300000;
-			base.item.rare = 5;
-			base.item.knockBack = 3f;
-			base.item.channel = true;
-			base.item.useStyle = 5;
-			base.item.useAnimation = 28;
-			base.item.useTime = 25;
-			base.item.shoot = base.mod.ProjectileType("SkellyP");
+			item.CloneDefaults(ItemID.WoodYoyo);
+			item.damage = 41;
+			item.value = Item.buyPrice(gold: 30);
+			item.rare = 5;
+			item.knockBack = 3f;
+			item.channel = true;
+			item.useStyle = ItemUseStyleID.HoldingOut;
+			item.useAnimation = 28;
+			item.useTime = 25;
+			item.shoot = mod.ProjectileType("SkellyP");
 		}
 	}
 }

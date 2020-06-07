@@ -24,7 +24,7 @@ item.crit = 4;
             item.damage = 84;
             item.knockBack = 8;
 
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.useTime = 35;
             item.useAnimation = 30;
 

@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Equipment
 			item.height = 18;
 			item.useTime = 20;
 			item.UseSound = SoundID.Item13;
-			item.useStyle = 5;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.expert = true;
 			item.autoReuse = false;
 			item.shoot = mod.ProjectileType("StarMapProj");

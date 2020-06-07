@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Weapon.Bow
             item.damage = 41;
             item.knockBack = 5;
 
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.useTime = 28;
             item.useAnimation = 28;
 

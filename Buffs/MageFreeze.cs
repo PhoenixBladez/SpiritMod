@@ -18,7 +18,7 @@ namespace SpiritMod.Buffs
 			{
 				npc.velocity.X *= .995f;
                 Player player = Main.LocalPlayer;
-                if (player.GetSpiritPlayer().cryoSet == true)
+                if (player.GetSpiritPlayer().cryoSet)
                 {
                     npc.velocity.X *= .90f;
                 }

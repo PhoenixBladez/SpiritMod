@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Weapon.Gun
             item.useTime = 40;
             item.useAnimation = 40;
 			item.useTurn = false;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 7;
             item.channel = true;

@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Returning
             item.knockBack = 2;
             item.height = 46;
             item.width = 46;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.useAnimation = 26;
             item.useTime = 26;
             item.autoReuse = true;

@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.crit = 8;
             item.damage = 165;
             item.knockBack = 8;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.useTime = item.useAnimation = 32;   
             item.scale = 1.1F;
             item.melee = true;

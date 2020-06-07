@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Weapon.Flail
             item.height = 44;
             item.rare = 6;
             item.noMelee = true;
-            item.useStyle = 5; 
+            item.useStyle = ItemUseStyleID.HoldingOut; 
             item.useAnimation = 34; 
             item.useTime = 34;
             item.knockBack = 6;

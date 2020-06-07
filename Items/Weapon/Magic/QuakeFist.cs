@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.height = 34;
 			item.useTime = 24;
 			item.useAnimation = 24;
-			item.useStyle = 5;//this makes the useStyle animate as a staff instead of as a gun
+			item.useStyle = ItemUseStyleID.HoldingOut;//this makes the useStyle animate as a staff instead of as a gun
 			item.noMelee = true; //so the item's animation doesn't do damage
 			item.knockBack = 6;
             item.useTurn = false;

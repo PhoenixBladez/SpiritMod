@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Halloween.SpookySet
             item.height = 34;
             item.useTime = 20;
             item.useAnimation = 20;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             Item.staff[item.type] = true;
             item.noMelee = true;
             item.knockBack = 2;

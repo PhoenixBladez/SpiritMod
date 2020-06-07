@@ -24,7 +24,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
 			item.height = 30;
 			item.useTime = 21;
 			item.useAnimation = 21;
-			item.useStyle = 5;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			Item.staff[item.type] = true;
 			item.noMelee = true; 
 			item.knockBack = 5;

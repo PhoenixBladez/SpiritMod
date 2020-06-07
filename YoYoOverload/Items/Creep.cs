@@ -19,7 +19,7 @@ namespace SpiritMod.YoYoOverload.Items
 			base.item.rare = 2;
 			base.item.knockBack = 3f;
 			base.item.channel = true;
-			base.item.useStyle = 5;
+			base.item.useStyle = ItemUseStyleID.HoldingOut;
 			base.item.useAnimation = 25;
 			base.item.useTime = 25;
 			base.item.shoot = base.mod.ProjectileType("CreepP");

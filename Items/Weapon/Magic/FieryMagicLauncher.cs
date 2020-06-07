@@ -45,7 +45,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.height = 26;
 			item.useTime = 13;
 			item.useAnimation = 13;
-			item.useStyle = 5;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.noMelee = true; 
 			item.knockBack = 1;
             item.value = Item.sellPrice(0, 0, 40, 0);

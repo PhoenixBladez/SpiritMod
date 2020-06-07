@@ -15,7 +15,7 @@ public class SpiritSpear : ModItem
 
     public override void SetDefaults()
     {
-        item.useStyle = 5;
+        item.useStyle = ItemUseStyleID.HoldingOut;
         item.width = 56;
         item.height = 56;
         item.noUseGraphic = true;

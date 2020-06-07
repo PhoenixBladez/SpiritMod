@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Bow
             item.value = Terraria.Item.sellPrice(0, 0, 6, 3);
             item.useTime = 25; //How long it takes to use the weapon. If this is shorter than the useAnimation it will fire twice in one click.
             item.useAnimation = 25;  //The animations time length
-            item.useStyle = 5; //The style in which the item gets used. 5 for bows.
+            item.useStyle = ItemUseStyleID.HoldingOut; //The style in which the item gets used. 5 for bows.
             item.shoot = 3; //Makes the bow shoot arrows
             item.useAmmo = AmmoID.Arrow;//Makes the bow consume arrows
             item.knockBack = 2; //The amount of knockback the item has

@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -16,13 +17,13 @@ namespace SpiritMod.YoYoOverload.Items.Acc
 
 		public override void SetDefaults()
 		{
-			base.item.width = 14;
-			base.item.height = 24;
-			base.item.rare = 2;
-			base.item.UseSound = SoundID.Item11;
-			base.item.accessory = true;
-			base.item.value = Item.buyPrice(0, 1, 0, 0);
-			base.item.value = Item.sellPrice(0, 0, 50, 0);
+			item.width = 14;
+			item.height = 24;
+			item.rare = 2;
+			item.UseSound = SoundID.Item11;
+			item.accessory = true;
+			item.value = Item.buyPrice(0, 1, 0, 0);
+			item.value = Item.sellPrice(0, 0, 50, 0);
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
@@ -37,11 +38,11 @@ namespace SpiritMod.YoYoOverload.Items.Acc
 
 		public override void AddRecipes()
 		{
-			ModRecipe modRecipe = new ModRecipe(base.mod);
-			modRecipe.AddIngredient(175, 10);
-			modRecipe.AddIngredient(85, 3);
-            modRecipe.AddIngredient(mod.TileType("CarvedRock"), 1);
-            modRecipe.AddTile(16);
+			ModRecipe modRecipe = new ModRecipe(mod);
+			modRecipe.AddIngredient(ItemID.HellstoneBar, 10);
+			modRecipe.AddIngredient(ItemID.Chain, 3);
+            modRecipe.AddIngredient(ModContent.ItemType<CarvedRock>(), 1);
+            modRecipe.AddTile(TileID.Anvils);
 			modRecipe.SetResult(this, 1);
 			modRecipe.AddRecipe();
 		}

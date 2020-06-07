@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Weapon.Yoyo
             item.rare = 3;
             item.knockBack = 3.5f;
             item.channel = true;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.useAnimation = 25;
             item.mana = 1;
             item.useTime = 25;

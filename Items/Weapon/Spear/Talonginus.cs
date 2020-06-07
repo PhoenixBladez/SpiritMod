@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Weapon.Spear
             item.crit = 6;
             item.damage = 22;
             item.knockBack = 6f;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.useTime = 7;
             item.useAnimation = 7;
             item.melee = true;

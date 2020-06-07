@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.mana = 6;
             item.damage = 54;
             item.knockBack = 0;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.useTime = item.useAnimation = 17;
             item.magic = true;
             item.useTurn = false;

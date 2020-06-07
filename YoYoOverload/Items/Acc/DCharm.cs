@@ -34,10 +34,10 @@ namespace SpiritMod.YoYoOverload.Items.Acc
 		public override void AddRecipes()
 		{
 			ModRecipe modRecipe = new ModRecipe(base.mod);
-			modRecipe.AddIngredient(68, 8);
-            modRecipe.AddIngredient(86, 4);
-            modRecipe.AddIngredient(85, 3);
-			modRecipe.AddTile(16);
+			modRecipe.AddIngredient(ItemID.RottenChunk, 8);
+            modRecipe.AddIngredient(ItemID.ShadowScale, 4);
+            modRecipe.AddIngredient(ItemID.Chain, 3);
+			modRecipe.AddTile(TileID.Anvils);
 			modRecipe.SetResult(this, 1);
 			modRecipe.AddRecipe();
 		}

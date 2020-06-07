@@ -24,7 +24,7 @@ namespace SpiritMod.Items.DonatorItems
             item.height = 50;
             item.useTime = 26;
             item.useAnimation = 26;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.shoot = 495;
             item.useAmmo = AmmoID.Arrow;
             item.knockBack = 4;

@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Halloween.SpookySet
 
          public override void SetDefaults()
         {
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.width = 24;
             item.height = 24;
             item.noUseGraphic = true;

@@ -41,7 +41,7 @@ namespace SpiritMod.Items.Weapon.Gun
             item.knockBack = 1f;
             item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
             item.scale = .85f;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.useTurn = false;
             item.rare = 2;

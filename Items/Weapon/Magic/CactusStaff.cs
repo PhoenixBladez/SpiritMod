@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.height = 40;
             item.useTime = 11;
             item.useAnimation = 22;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             Item.staff[item.type] = true;
             item.noMelee = true;
             item.knockBack = 2f;

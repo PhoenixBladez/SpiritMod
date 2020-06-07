@@ -19,7 +19,7 @@ namespace SpiritMod.Tiles.Ambient.ReachMicros
 			Main.tileNoAttach[Type] = true;
 			Main.tileLavaDeath[Type] = true;
             Main.tileLighted[Type] = false;
-            soundType = 6;
+            soundType = SoundID.Grass;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
 			TileObjectData.newTile.Height = 2;
 			TileObjectData.newTile.Width = 1;		

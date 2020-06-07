@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.crit += 6;
 			item.damage = 72;
             item.mana = 1;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useTime = 60;
 			item.useAnimation = 60;
             item.reuseDelay = 5;

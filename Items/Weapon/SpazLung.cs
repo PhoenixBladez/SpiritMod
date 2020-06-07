@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Weapon
 			item.height = 20;
 			item.useTime = 14;
 			item.useAnimation = 14;
-			item.useStyle = 5;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shoot = 3;
 			item.useAmmo = 23;
 			item.knockBack = 3;

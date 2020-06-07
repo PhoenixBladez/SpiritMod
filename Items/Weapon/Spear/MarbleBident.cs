@@ -16,7 +16,7 @@ public class MarbleBident : ModItem
 
     public override void SetDefaults()
     {
-        item.useStyle = 5;
+        item.useStyle = ItemUseStyleID.HoldingOut;
         item.width = 50;
         item.height = 50;
         item.noUseGraphic = true;

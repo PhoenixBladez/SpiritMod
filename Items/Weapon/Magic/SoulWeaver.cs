@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 5;
             item.damage = 38;
             item.mana = 5;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.useTime = 11;
             item.useAnimation = 11;
             item.UseSound = SoundID.Item9;

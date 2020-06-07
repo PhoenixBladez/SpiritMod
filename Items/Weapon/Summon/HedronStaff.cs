@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Weapon.Summon
             item.value = Terraria.Item.sellPrice(0, 8, 0, 0);
             item.rare = 6;
             item.knockBack = 2.5f;
-			item.useStyle = 5;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			Item.staff[item.type] = true;
 			item.UseSound = SoundID.Item25;
 			item.shoot = mod.ProjectileType("HedronMinion");

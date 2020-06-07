@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Weapon.Yoyo
             base.item.rare = 6;
 			base.item.knockBack = 3f;
 			base.item.channel = true;
-			base.item.useStyle = 5;
+			base.item.useStyle = ItemUseStyleID.HoldingOut;
 			base.item.useAnimation = 25;
 			base.item.useTime = 24;
 			base.item.shoot = base.mod.ProjectileType("ProbeP");

@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Weapon.Magic
             Item.staff[item.type] = true;
             item.knockBack = 7f; //How much knockback the item produces
             item.noMelee = true; //Whether the weapon should do melee damage or not
-            item.useStyle = 5; //How the weapon is held, 5 is the gun hold style
+            item.useStyle = ItemUseStyleID.HoldingOut; //How the weapon is held, 5 is the gun hold style
             item.value = 1; //How much the item is worth
             item.rare = 4; //The rarity of the item
             item.shoot = 580; //What the item shoots, retains an int value | *

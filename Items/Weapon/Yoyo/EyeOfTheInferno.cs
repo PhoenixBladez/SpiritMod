@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Weapon.Yoyo
             item.rare = 5;
             item.knockBack = 2.9f;
             item.channel = true;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.useAnimation = 26;
             item.useTime = 26;
             item.shoot = mod.ProjectileType("EyeOfTheInfernoProj");           

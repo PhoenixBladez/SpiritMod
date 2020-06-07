@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Tool
             item.damage = 23;
             item.knockBack = 0;
 
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.useTime = 7;
 			item.useAnimation = 25;
 

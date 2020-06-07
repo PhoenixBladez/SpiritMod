@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.mana = 12;
             item.damage = 55;
             item.knockBack = 5F;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.value = Terraria.Item.sellPrice(0, 2, 50, 0);
             item.useTime = 24;
             item.useAnimation = 24;

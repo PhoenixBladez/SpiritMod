@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Weapon.Swung
             item.rare = 2;
             item.damage = 25;
             item.knockBack = 8;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.useTime = item.useAnimation = 38;   
             item.melee = true;
             item.noMelee = true;

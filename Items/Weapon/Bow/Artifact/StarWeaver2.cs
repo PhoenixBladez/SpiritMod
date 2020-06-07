@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Bow.Artifact
             item.height = 66;
             item.useTime = 23;
             item.useAnimation = 23;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.shoot = 1;
             item.useAmmo = AmmoID.Arrow;
             item.knockBack = 1.5f;

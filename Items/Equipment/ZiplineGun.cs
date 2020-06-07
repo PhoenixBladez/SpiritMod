@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Equipment
             item.height = 48;
             item.useTime = 55;
             item.useAnimation = 55;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 5;
             item.value = 20000;

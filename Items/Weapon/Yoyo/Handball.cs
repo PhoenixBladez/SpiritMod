@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Weapon.Yoyo
             item.rare = 2;
             item.knockBack = 3;
             item.channel = true;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.useAnimation = 25;
             item.useTime = 23;
             item.shoot = mod.ProjectileType("GraspProj");

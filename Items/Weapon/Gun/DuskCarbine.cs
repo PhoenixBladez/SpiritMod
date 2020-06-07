@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Gun
             item.useTurn = false;
             item.value = Terraria.Item.sellPrice(0, 3, 0, 0);
 
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.useTime = 9;
             item.useAnimation = 9;
             item.reuseDelay = 16;

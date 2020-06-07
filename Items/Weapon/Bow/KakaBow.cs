@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Weapon.Bow
             item.height = 40;
             item.useTime = 34;
             item.useAnimation = 34;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.shoot = 9;
             item.useAmmo = AmmoID.Arrow;
             item.knockBack = 2;

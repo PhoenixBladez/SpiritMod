@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Weapon.Yoyo
 			item.crit += 4;
 			item.damage = 115;
 			item.knockBack = 4f;
-			item.useStyle = 5;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useTime = 25;
 			item.useAnimation = 25;
 			item.melee = true;

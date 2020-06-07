@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Weapon.Gun
             item.height = 26;    
             item.useTime = 25;  
             item.useAnimation = 25;
-            item.useStyle = 5;    
+            item.useStyle = ItemUseStyleID.HoldingOut;    
             item.noMelee = true; 
             item.knockBack = 4;
             item.value = Terraria.Item.buyPrice(1, 20, 0, 0);

@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Weapon.Yoyo
             item.rare = 3;
             item.knockBack = 1;
             item.channel = true;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.useAnimation = 28;
             item.useTime = 25;
             item.shoot = mod.ProjectileType("FireballProj");           

@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Weapon.Spear
 		private Vector2 newVect;
 		public override void SetDefaults()
 		{
-			item.useStyle = 5;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.width = 24;
 			item.height = 24;
 			item.noUseGraphic = true;

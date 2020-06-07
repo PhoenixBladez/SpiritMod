@@ -23,7 +23,7 @@ namespace SpiritMod.Items.DonatorItems
 			item.rare = 7;
 			item.damage = 38;
             item.mana = 12;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useTime = 10;
 			item.useAnimation = 7;
             item.reuseDelay = 5;

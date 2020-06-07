@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -22,8 +23,8 @@ namespace SpiritMod.Tiles.Ambient.ReachGrass
 				16,
 			};
 			TileObjectData.addTile(Type);
-			dustType = 2;
-			soundType = 6;
+			dustType = DustID.Grass;
+			soundType = SoundID.Grass;
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)

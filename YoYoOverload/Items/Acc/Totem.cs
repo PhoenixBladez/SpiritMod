@@ -48,7 +48,7 @@ namespace SpiritMod.YoYoOverload.Items.Acc
 			modRecipe.AddIngredient(null, "MCharm", 1);
 			modRecipe.AddIngredient(null, "CCharm", 1);
 			modRecipe.AddIngredient(null, "HCharm", 1);
-			modRecipe.AddTile(26);
+			modRecipe.AddTile(TileID.DemonAltar);
 			modRecipe.SetResult(this, 1);
 			modRecipe.AddRecipe();
 		}

@@ -25,7 +25,7 @@ namespace SpiritMod.Items.DonatorItems
             item.height = 21;
             item.useTime = 28;
             item.useAnimation = 28;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 5;
             item.value = 10780;
@@ -56,7 +56,7 @@ namespace SpiritMod.Items.DonatorItems
             else
             {
                 item.noUseGraphic = false;
-                item.useStyle = 5;
+                item.useStyle = ItemUseStyleID.HoldingOut;
                 item.UseSound = SoundID.Item92;
                 item.shootSpeed = 12f;
             }
