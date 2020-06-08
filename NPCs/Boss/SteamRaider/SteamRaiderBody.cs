@@ -68,8 +68,10 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
             }
             if(exposed) {
                 npc.defense = 8;
+                 npc.dontTakeDamage = false;
             } else {
                 npc.defense = 9999;
+                npc.dontTakeDamage = true;
             }
             Player player = Main.player[npc.target];
             bool expertMode = Main.expertMode;

@@ -500,36 +500,6 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
             {
                 npc.netUpdate = true;
                 npc.aiStyle = -1;
-                /*Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
-                if (!spawnedProbes)
-                {
-                    for (int i = 0; i < 3; i++)
-                    {
-                        int newNPC = NPC.NewNPC((int)npc.position.X + Main.rand.Next(-100, 100), (int)npc.position.Y + Main.rand.Next(-100, 100), mod.NPCType("BodyProbe"));
-                        spawnedProbes = true;
-                        npc.netUpdate = true;
-                    }
-                }
-                unstableprojtimer++;
-                if (unstableprojtimer >= 30)
-                {
-                    unstableprojtimer = 0;
-                    Vector2 direction = Main.player[npc.target].Center - npc.Center;
-                    direction.Normalize();
-                    direction.X *= 2f;
-                    direction.Y *= -2f;
-                    int amountOfProjectiles = 1;
-                    for (int i = 0; i < amountOfProjectiles; ++i)
-                    {
-                        float A = (float)Main.rand.Next(-150, 150) * 0.01f;
-                        float B = (float)Main.rand.Next(-80, 0) * 0.0f;
-                        int num945 = expertMode ? 13 : 24;
-                        int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("SteamBodyFallingProj"), num945, 1, Main.myPlayer, 0, 0);
-                        Main.projectile[p].timeLeft = 240;
-                    }
-                }
-                chargetimer = 702;
-                charge = true;*/
                 atkCounter++;
                 shootCounter++;
                 if (atkCounter % 1500 > 0 && atkCounter % 1500 < 1000) //if it's in the teleport phase
@@ -544,8 +514,11 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                         bool outOfBlock = false;
                         while (!outOfBlock)
                         {
-                            npc.position.X = (int)Main.player[npc.target].Center.X + Main.rand.Next(-400,400);
-                            npc.position.Y = (int)Main.player[npc.target].Center.Y + Main.rand.Next(-400,400);
+                             int angle = Main.rand.Next(360);
+                            double anglex = Math.Sin(angle * (Math.PI / 180));
+                            double angley = Math.Cos(angle * (Math.PI / 180));
+                            npc.position.X = player.Center.X + (int)(480 * anglex);
+                            npc.position.Y = player.Center.Y + (int)(480 * angley);
                             if(!Main.tile[(int)(npc.position.X / 16), (int)(npc.position.Y / 16)].active())
                             {
                                 outOfBlock = true;
@@ -558,13 +531,6 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                 }
                 else
                 {
-                    if (atkCounter % 1500 == 1000)
-                    {
-                        for (int i = 0; i < 3; i++)
-                        {
-                            NPC.NewNPC((int)Main.player[npc.target].Center.X + Main.rand.Next(-300,300), (int)Main.player[npc.target].Center.Y + Main.rand.Next(-300,300), ModContent.NPCType<ArcadeProbe>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-                        }
-                    }
                     if (atkCounter % 251 == 0)
                     {
                         distAbove = 425;
@@ -581,6 +547,11 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                             npc.velocity.X = -4f;
                         }
                          npc.rotation = 3.14f;
+
+                         for (int i = 0; i < 3; i++)
+                        {
+                            NPC.NewNPC((int)Main.player[npc.target].Center.X + Main.rand.Next(-300,300), (int)Main.player[npc.target].Center.Y + Main.rand.Next(-300,300), ModContent.NPCType<ArcadeProbe>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                        }
                     }
                       //npc.position.Y = Main.player[npc.target].Center.Y -  distAbove;
                       if (atkCounter % 20 == 0)
