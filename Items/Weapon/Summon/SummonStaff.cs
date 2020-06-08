@@ -42,7 +42,7 @@ namespace SpiritMod.Items.Weapon.Summon
                 }
             }
             //projectile spawns at mouse cursor
-            Vector2 value18 = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY);
+            Vector2 value18 = Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY);
             position = value18;
             return true;
         }

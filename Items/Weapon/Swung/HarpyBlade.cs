@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Weapon.Swung
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Fury's Talon");
-            Tooltip.SetDefault("Rains a harpy feather from the sky at the cursor position");
+            Tooltip.SetDefault("Causes harpy feathers to fall from orbit");
         }
 
 
