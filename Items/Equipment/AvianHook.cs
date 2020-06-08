@@ -115,8 +115,9 @@ namespace SpiritMod.Items.Equipment
             numHooks = 1;
         }
 
-        // default is 11, Lunar is 24
-        public override void GrappleRetreatSpeed(Player player, ref float speed) {
+         // default is 11, Lunar is 24
+        public override void GrappleRetreatSpeed(Player player, ref float speed)
+        {
             speed = 13f;
         }
 
@@ -126,6 +127,7 @@ namespace SpiritMod.Items.Equipment
         float yvel = 0;
         Vector2 position = Vector2.Zero;
         float momentum = 0;
+        float momentumChange = 0f;
         float distance = 0;
         Vector2 angle = Vector2.Zero;
         float deltaX = 0;
@@ -135,24 +137,69 @@ namespace SpiritMod.Items.Equipment
         bool rightswing = false;
 
         int xDist = 0;
-        public override void GrapplePullSpeed(Player player, ref float speed) {
+        public override void GrapplePullSpeed(Player player, ref float speed)
+        {
             speed = 0f;
-            if(!swinging) {
+            if (!swinging)
+            {
                 swinging = true;
 
                 deltaX = player.position.X + (float)(player.width / 2) - projectile.Center.X;
                 deltaY = player.position.Y + (float)(player.height / 2) - projectile.Center.Y;
-                angle = new Vector2(deltaX, deltaY);
+                angle = new Vector2(deltaX,deltaY);
                 angle.Normalize();
                 distance = (float)Math.Sqrt((double)deltaX * (double)deltaX + (double)deltaY * (double)deltaY);
                 angle *= distance;
-                if(player.position.X + (float)(player.width / 2) > projectile.Center.X) {
+                if (player.position.X + (float)(player.width / 2) > projectile.Center.X)
+                {
+                    leftswing = true;
+                 //    momentum = 3.14f - angle.ToRotation;
+                }
+                else
+                {
                     rightswing = true;
-                } else {
+                  //  momentum = angle.ToRotation - 3.14f;
+                }
+                 momentumChange = 0.6f / distance;
+            }
+            player.position = angle + projectile.Center;
+            if (rightswing)
+            {
+                angle = angle.RotatedBy(0-momentum);
+                if (player.position.X + (float)(player.width / 2) > projectile.Center.X)
+                {
+                     momentum-=(momentumChange * 1.1f);
+                }
+                else
+                {
+                    momentum+=momentumChange;
+                }
+
+                if (momentum < 0f)
+                {
+                    rightswing = false;
                     leftswing = true;
                 }
             }
-            player.position = angle + projectile.Center;
+             if (leftswing)
+            {
+                angle = angle.RotatedBy(momentum);
+                if (player.position.X + (float)(player.width / 2) > projectile.Center.X)
+                {
+                     momentum+=momentumChange;
+                }
+                else
+                {   
+                    momentum-=(momentumChange * 1.1f);
+                }
+
+                if (momentum < 0f)
+                {
+                    rightswing = true;
+                    leftswing = false;
+                }
+            }
+            
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor) {
