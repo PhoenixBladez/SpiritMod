@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Buffs.Summon;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ID;
@@ -10,14 +11,15 @@ namespace SpiritMod.Items.Weapon.Summon
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Core Controller");
-            Tooltip.SetDefault("Summons a Molten Tank to fight for you!\nThough the tank acts as a sentry, the tank will move toward nearby foes and shoot at them!");
+            Tooltip.SetDefault("Summons a Molten Tank to fight for you!\nCounts as a Sentry");
+            ItemID.Sets.GamepadWholeScreenUseRange[item.type] = true;
+            ItemID.Sets.LockOnIgnoresCollision[item.type] = true;
         }
-
 
         public override void SetDefaults() {
             item.width = 26;
             item.height = 28;
-            item.value = Item.sellPrice(0, 2, 10, 0);
+            item.value = Item.buyPrice(gold: 10, silver: 50);
             item.rare = 8;
             item.crit = 4;
             item.mana = 7;
@@ -29,26 +31,26 @@ namespace SpiritMod.Items.Weapon.Summon
             item.summon = true;
             item.noMelee = true;
             item.shoot = ModContent.ProjectileType<TankMinion>();
-            item.buffType = ModContent.BuffType<TankMinionBuff>();
-            item.buffTime = 3600;
             item.UseSound = SoundID.Item44;
         }
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) {
-            //remove any other owned SpiritBow projectiles, just like any other sentry minion
-            for(int i = 0; i < Main.projectile.Length; i++) {
-                Projectile p = Main.projectile[i];
-                if(p.active && p.type == item.shoot && p.owner == player.whoAmI) {
-                    p.active = false;
-                }
-            }
-            //projectile spawns at mouse cursor
-            Vector2 value18 = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY);
-            position = value18;
-            return true;
+
+        public override bool CanUseItem(Player player) {
+            player.FindSentryRestingSpot(item.shoot, out int worldX, out int worldY, out _);
+            worldX /= 16;
+            worldY /= 16;
+            worldY--;
+            return !WorldGen.SolidTile(worldX, worldY);
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) {
+            player.FindSentryRestingSpot(type, out int worldX, out int worldY, out int pushYUp);
+            Projectile.NewProjectile(worldX, worldY - pushYUp, speedX, speedY, type, damage, knockBack, player.whoAmI);
+            player.UpdateMaxTurrets();
+            return false;
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "ThermiteBar", 11);
+            recipe.AddIngredient(ModContent.ItemType<ThermiteBar>(), 11);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
