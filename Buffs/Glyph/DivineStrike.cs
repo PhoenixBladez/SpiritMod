@@ -25,9 +25,9 @@ namespace SpiritMod.Buffs.Glyph
             MyPlayer modPlayer = player.GetSpiritPlayer();
             if(player.whoAmI == Main.myPlayer && !Main.dedServ) {
                 if(modPlayer.divineStacks == 1) {
-                    Main.buffTexture[Type] = mod.GetTexture("DivineStrike");
+                    Main.buffTexture[Type] = mod.GetTexture("Buffs/Glyph/DivineStrike");
                 } else {
-                    Main.buffTexture[Type] = mod.GetTexture("DivineStrike_" + (modPlayer.divineStacks - 1).ToString());
+                    Main.buffTexture[Type] = mod.GetTexture("Buffs/Glyph/DivineStrike_" + (modPlayer.divineStacks - 1).ToString());
                 }
             }
 
