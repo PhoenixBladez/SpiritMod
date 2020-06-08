@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-
-using Microsoft.Xna.Framework;
 
 using Terraria;
 using Terraria.ID;
@@ -11,16 +7,14 @@ namespace SpiritMod.Items.Accessory
 {
     public class BriarHeart : ModItem
     {
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             DisplayName.SetDefault("Briar Heart");
             Tooltip.SetDefault("Increases melee damage by 5% and melee speed by 5%\nIncreases melee critical srike chance by 9% and ranged critical strike chance by 7%\nIncreases magic critical strike chance by 5% and maximum life by 20\nMagic attacks may inflict Cursed Inferno and Ichor\nGetting hurt may trigger 'Poison Bite,' causing all attacks to inflict poison for a short while\nIncreases maximum mana by 50");
 
         }
 
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             item.width = 32;
             item.height = 42;
             item.value = Item.buyPrice(0, 1, 20, 0);
@@ -30,8 +24,7 @@ namespace SpiritMod.Items.Accessory
             item.accessory = true;
         }
 
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
+        public override void UpdateAccessory(Player player, bool hideVisual) {
             player.magicCrit += 5;
             player.meleeCrit += 9;
             player.rangedCrit += 7;
@@ -43,8 +36,7 @@ namespace SpiritMod.Items.Accessory
                 player.statManaMax2 += 50;
             }
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "HuntingNecklace", 1);
             recipe.AddIngredient(null, "GremlinTooth", 1);

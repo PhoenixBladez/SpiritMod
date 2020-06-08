@@ -1,7 +1,3 @@
-using System.Collections.Generic;
-using System;
-
-using Microsoft.Xna.Framework;
 
 using Terraria;
 using Terraria.ID;
@@ -12,15 +8,13 @@ namespace SpiritMod.Items.Armor
     [AutoloadEquip(EquipType.Body)]
     public class FPlate : ModItem
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Floran Plate");
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("Floran Plate");
             Tooltip.SetDefault("Increases melee speed and movement speed by 6%");
 
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             item.width = 34;
             item.height = 18;
             item.value = Terraria.Item.sellPrice(0, 0, 11, 0);
@@ -28,8 +22,7 @@ namespace SpiritMod.Items.Armor
             item.defense = 5;
         }
 
-        public override void UpdateEquip(Player player)
-        {
+        public override void UpdateEquip(Player player) {
             player.meleeSpeed += .06f;
             player.moveSpeed += .06f;
             player.maxRunSpeed += .03f;

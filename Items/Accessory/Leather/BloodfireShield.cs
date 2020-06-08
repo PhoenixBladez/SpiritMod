@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 
 using Terraria;
 using Terraria.ID;
@@ -10,14 +8,12 @@ namespace SpiritMod.Items.Accessory.Leather
     [AutoloadEquip(EquipType.Shield)]
     public class BloodfireShield : ModItem
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Sanguine Scutum");
-			Tooltip.SetDefault("Reduces life regen to 0\nIncreases damage reduction by 3% for every nearby enemy\nThis effect stacks up to five times");
-		}
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("Sanguine Scutum");
+            Tooltip.SetDefault("Reduces life regen to 0\nIncreases damage reduction by 3% for every nearby enemy\nThis effect stacks up to five times");
+        }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             item.width = 24;
             item.height = 28;
             item.rare = 2;
@@ -26,14 +22,12 @@ namespace SpiritMod.Items.Accessory.Leather
             item.accessory = true;
         }
 
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-           player.GetSpiritPlayer().bloodfireShield = true;
+        public override void UpdateAccessory(Player player, bool hideVisual) {
+            player.GetSpiritPlayer().bloodfireShield = true;
 
-           player.endurance += .03f * player.GetSpiritPlayer().bloodfireShieldStacks;
+            player.endurance += .03f * player.GetSpiritPlayer().bloodfireShieldStacks;
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<LeatherShield>(), 1);
             recipe.AddIngredient(null, "BloodFire", 6);

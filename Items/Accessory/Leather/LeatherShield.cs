@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 
 using Terraria;
 using Terraria.ID;
@@ -10,14 +8,12 @@ namespace SpiritMod.Items.Accessory.Leather
     [AutoloadEquip(EquipType.Shield)]
     public class LeatherShield : ModItem
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Leather Safeguard");
-			Tooltip.SetDefault("Increases max life by 10");
-		}
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("Leather Safeguard");
+            Tooltip.SetDefault("Increases max life by 10");
+        }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             item.width = 24;
             item.height = 28;
             item.rare = 1;
@@ -26,12 +22,10 @@ namespace SpiritMod.Items.Accessory.Leather
             item.accessory = true;
         }
 
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-           player.statLifeMax2 += 10;
+        public override void UpdateAccessory(Player player, bool hideVisual) {
+            player.statLifeMax2 += 10;
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<OldLeather>(), 8);
             recipe.AddRecipeGroup("LeadBars", 5);

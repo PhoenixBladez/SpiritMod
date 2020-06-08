@@ -1,27 +1,21 @@
-using System;
-
-using Microsoft.Xna.Framework;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Weapon.Magic
 {
     public class CalamityStaff : ModItem
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Brimstone Blaze");
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("Brimstone Blaze");
             Tooltip.SetDefault("'Fire and Brimstone, the heralds of Calamity'\nShoots a brimstone laser that explodes into brimstone flames on htting foes\nHit enemies can combust, with additional hits dealing more damage over time");
 
         }
 
 
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             item.damage = 53;
             Item.staff[item.type] = true;
             item.noMelee = true;
@@ -39,11 +33,10 @@ namespace SpiritMod.Items.Weapon.Magic
             item.autoReuse = true;
             item.shootSpeed = 14;
             item.UseSound = SoundID.Item20;
-            item.shoot = ModContent.ProjectileType<BrimBlaze>();
+            item.shoot = ModContent.ProjectileType<Projectiles.BrimBlaze>();
         }
 
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
 
             ModRecipe modRecipe = new ModRecipe(mod);
             modRecipe.AddIngredient(null, "ViashinoStaff", 1);

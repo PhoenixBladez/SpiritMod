@@ -1,83 +1,150 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Tiles.Furniture.Reach;
+using SpiritMod.NPCs.Critters;
+using SpiritMod.Mounts;
+using SpiritMod.NPCs.Boss.SpiritCore;
+using SpiritMod.Boss.SpiritCore;
+using SpiritMod.Buffs.Candy;
+using SpiritMod.Buffs.Potion;
+using SpiritMod.Projectiles.Pet;
+using SpiritMod.Buffs.Pet;
+using SpiritMod.Projectiles.Arrow.Artifact;
+using SpiritMod.Projectiles.Bullet.Crimbine;
+using SpiritMod.Projectiles.Bullet;
+using SpiritMod.Projectiles.Magic.Artifact;
+using SpiritMod.Projectiles.Summon.Artifact;
+using SpiritMod.Projectiles.Summon.LaserGate;
+using SpiritMod.Projectiles.Flail;
+using SpiritMod.Projectiles.Arrow;
+using SpiritMod.Projectiles.Magic;
+using SpiritMod.Projectiles.Sword.Artifact;
+using SpiritMod.Projectiles.Summon.Dragon;
+using SpiritMod.Projectiles.Sword;
+using SpiritMod.Projectiles.Thrown.Artifact;
+using SpiritMod.Items.Boss;
+using SpiritMod.Items.Armor.Masks;
+using SpiritMod.Projectiles.Returning;
+using SpiritMod.Projectiles.Held;
+using SpiritMod.Projectiles.Thrown;
+using SpiritMod.Items.Equipment;
+using SpiritMod.Projectiles.DonatorItems;
+using SpiritMod.Buffs.Mount;
+using SpiritMod.Items.Weapon.Yoyo;
+using SpiritMod.Projectiles.Yoyo;
+using SpiritMod.Items.Weapon.Spear;
+using SpiritMod.Items.Weapon.Swung;
+using SpiritMod.NPCs.Boss;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Pets;
+using SpiritMod.Items.Weapon.Summon;
+using SpiritMod.Projectiles.Boss;
+using SpiritMod.Items.BossBags;
+using SpiritMod.Items.Consumable.Fish;
+using SpiritMod.Buffs.Summon;
+using SpiritMod.Projectiles.Summon;
+using SpiritMod.NPCs.Spirit;
+using SpiritMod.Items.Consumable;
+using SpiritMod.Tiles.Block;
+using SpiritMod.Items.Placeable.Furniture;
+using SpiritMod.Items.Consumable.Quest;
+using SpiritMod.Items.Consumable.Potion;
+using SpiritMod.Items.Placeable.IceSculpture;
+using SpiritMod.Items.Weapon.Bow;
+using SpiritMod.Items.Weapon.Gun;
+using SpiritMod.Buffs;
+using SpiritMod.Items;
+using SpiritMod.Items.Weapon;
+using SpiritMod.Items.Weapon.Returning;
+using SpiritMod.Items.Weapon.Thrown;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Items.Accessory;
+
+using SpiritMod.Items.Accessory.Leather;
+using SpiritMod.Items.Ammo;
+using SpiritMod.Items.Armor;
+using SpiritMod.Dusts;
+using SpiritMod.Buffs;
+using SpiritMod.Buffs.Artifact;
+using SpiritMod.NPCs;
+using SpiritMod.NPCs.Asteroid;
+using SpiritMod.Projectiles;
+using SpiritMod.Projectiles.Hostile;
+using SpiritMod.Tiles;
+using SpiritMod.Tiles.Ambient;
+using SpiritMod.Tiles.Ambient.IceSculpture;
+using SpiritMod.Tiles.Ambient.ReachGrass;
+using SpiritMod.Tiles.Ambient.ReachMicros;
 
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Glyphs
 {
-	public class VeilGlyph : GlyphBase, IGlowing
-	{
-		public static int _type;
-		public static Microsoft.Xna.Framework.Graphics.Texture2D[] _textures;
+    public class VeilGlyph : GlyphBase, IGlowing
+    {
+        public static int _type;
+        public static Microsoft.Xna.Framework.Graphics.Texture2D[] _textures;
 
-		Microsoft.Xna.Framework.Graphics.Texture2D IGlowing.Glowmask(out float bias)
-		{
-			bias = GLOW_BIAS;
-			return _textures[1];
-		}
+        Microsoft.Xna.Framework.Graphics.Texture2D IGlowing.Glowmask(out float bias) {
+            bias = GLOW_BIAS;
+            return _textures[1];
+        }
 
-		public override GlyphType Glyph => GlyphType.Veil;
-		public override Microsoft.Xna.Framework.Graphics.Texture2D Overlay => _textures[2];
-		public override Color Color => new Color { PackedValue = 0x89cc3e };
-		public override string ItemType => "item";
-		public override string Effect => "Shielding Veil";
-		public override string Addendum =>
-			"After 8 seconds of not taking damage you gain Phantom Veil\n"+
-			"This Veil will increase life regen and block the next attack";
+        public override GlyphType Glyph => GlyphType.Veil;
+        public override Microsoft.Xna.Framework.Graphics.Texture2D Overlay => _textures[2];
+        public override Color Color => new Color { PackedValue = 0x89cc3e };
+        public override string ItemType => "item";
+        public override string Effect => "Shielding Veil";
+        public override string Addendum =>
+            "After 8 seconds of not taking damage you gain Phantom Veil\n" +
+            "This Veil will increase life regen and block the next attack";
 
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Veil Glyph");
-			Tooltip.SetDefault(
-				"+5% attack speed\n"+
-				"After 8 seconds of not taking damage you gain Phantom Veil\n"+
-				"This Veil will increase life regen and block the next attack");
-		}
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("Veil Glyph");
+            Tooltip.SetDefault(
+                "+5% attack speed\n" +
+                "After 8 seconds of not taking damage you gain Phantom Veil\n" +
+                "This Veil will increase life regen and block the next attack");
+        }
 
 
-		public override void SetDefaults()
-		{
-			item.width = 28;
-			item.height = 28;
-			item.value = Item.sellPrice(0, 2, 0, 0);
-			item.rare = 3;
+        public override void SetDefaults() {
+            item.width = 28;
+            item.height = 28;
+            item.value = Item.sellPrice(0, 2, 0, 0);
+            item.rare = 3;
 
-			item.maxStack = 999;
-		}
+            item.maxStack = 999;
+        }
 
-		public override bool CanApply(Item item)
-		{
-			return item.IsWeapon() || item.useStyle > 0 && item.mountType < 0 && item.shoot <= 0;
-		}
+        public override bool CanApply(Item item) {
+            return item.IsWeapon() || item.useStyle > 0 && item.mountType < 0 && item.shoot <= 0;
+        }
 
 
-		public static void Block(Player player)
-		{
-			player.immune = true;
-			player.immuneTime = 80;
-			if (player.longInvince)
-				player.immuneTime += 40;
-			for (int i = 0; i < player.hurtCooldowns.Length; i++)
-			{
-				player.hurtCooldowns[i] = player.immuneTime;
-			}
-			Vector2 center = player.Center;
-			Vector2 scale = new Vector2((player.width >> 1) + 4f, (player.height >> 1) + 4f);
-			for (int i = 0; i < 50; i++)
-			{
-				Vector2 offset = Main.rand.NextVec2CircularEven(1, 1);
-				Dust dust = Dust.NewDustPerfect(center + scale*offset, 110, 3*offset, 100);
-				dust.scale *= 2.5f;
-				dust.noGravity = true;
-			}
-			if (player.whoAmI == Main.myPlayer && Main.netMode == 1)
-			{
-				ModPacket packet = SpiritMod.instance.GetPacket(MessageType.Dodge, 2);
-				packet.Write((byte)player.whoAmI);
-				packet.Write((byte)1);
-				packet.Send();
-			}
-		}
-	}
+        public static void Block(Player player) {
+            player.immune = true;
+            player.immuneTime = 80;
+            if(player.longInvince)
+                player.immuneTime += 40;
+            for(int i = 0; i < player.hurtCooldowns.Length; i++) {
+                player.hurtCooldowns[i] = player.immuneTime;
+            }
+            Vector2 center = player.Center;
+            Vector2 scale = new Vector2((player.width >> 1) + 4f, (player.height >> 1) + 4f);
+            for(int i = 0; i < 50; i++) {
+                Vector2 offset = Main.rand.NextVec2CircularEven(1, 1);
+                Dust dust = Dust.NewDustPerfect(center + scale * offset, 110, 3 * offset, 100);
+                dust.scale *= 2.5f;
+                dust.noGravity = true;
+            }
+            if(player.whoAmI == Main.myPlayer && Main.netMode == 1) {
+                ModPacket packet = SpiritMod.instance.GetPacket(MessageType.Dodge, 2);
+                packet.Write((byte)player.whoAmI);
+                packet.Write((byte)1);
+                packet.Send();
+            }
+        }
+    }
 }

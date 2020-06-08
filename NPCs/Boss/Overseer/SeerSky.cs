@@ -1,101 +1,158 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Tiles.Furniture.Reach;
+using SpiritMod.NPCs.Critters;
+using SpiritMod.Mounts;
+using SpiritMod.NPCs.Boss.SpiritCore;
+using SpiritMod.Boss.SpiritCore;
+using SpiritMod.Buffs.Candy;
+using SpiritMod.Buffs.Potion;
+using SpiritMod.Projectiles.Pet;
+using SpiritMod.Buffs.Pet;
+using SpiritMod.Projectiles.Arrow.Artifact;
+using SpiritMod.Projectiles.Bullet.Crimbine;
+using SpiritMod.Projectiles.Bullet;
+using SpiritMod.Projectiles.Magic.Artifact;
+using SpiritMod.Projectiles.Summon.Artifact;
+using SpiritMod.Projectiles.Summon.LaserGate;
+using SpiritMod.Projectiles.Flail;
+using SpiritMod.Projectiles.Arrow;
+using SpiritMod.Projectiles.Magic;
+using SpiritMod.Projectiles.Sword.Artifact;
+using SpiritMod.Projectiles.Summon.Dragon;
+using SpiritMod.Projectiles.Sword;
+using SpiritMod.Projectiles.Thrown.Artifact;
+using SpiritMod.Items.Boss;
+using SpiritMod.Items.Armor.Masks;
+using SpiritMod.Projectiles.Returning;
+using SpiritMod.Projectiles.Held;
+using SpiritMod.Projectiles.Thrown;
+using SpiritMod.Items.Equipment;
+using SpiritMod.Projectiles.DonatorItems;
+using SpiritMod.Buffs.Mount;
+using SpiritMod.Items.Weapon.Yoyo;
+using SpiritMod.Projectiles.Yoyo;
+using SpiritMod.Items.Weapon.Spear;
+using SpiritMod.Items.Weapon.Swung;
+using SpiritMod.NPCs.Boss;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Pets;
+using SpiritMod.Items.Weapon.Summon;
+using SpiritMod.Projectiles.Boss;
+using SpiritMod.Items.BossBags;
+using SpiritMod.Items.Consumable.Fish;
+using SpiritMod.Buffs.Summon;
+using SpiritMod.Projectiles.Summon;
+using SpiritMod.NPCs.Spirit;
+using SpiritMod.Items.Consumable;
+using SpiritMod.Tiles.Block;
+using SpiritMod.Items.Placeable.Furniture;
+using SpiritMod.Items.Consumable.Quest;
+using SpiritMod.Items.Consumable.Potion;
+using SpiritMod.Items.Placeable.IceSculpture;
+using SpiritMod.Items.Weapon.Bow;
+using SpiritMod.Items.Weapon.Gun;
+using SpiritMod.Buffs;
+using SpiritMod.Items;
+using SpiritMod.Items.Weapon;
+using SpiritMod.Items.Weapon.Returning;
+using SpiritMod.Items.Weapon.Thrown;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Items.Accessory;
+
+using SpiritMod.Items.Accessory.Leather;
+using SpiritMod.Items.Ammo;
+using SpiritMod.Items.Armor;
+using SpiritMod.Dusts;
+using SpiritMod.Buffs;
+using SpiritMod.Buffs.Artifact;
+using SpiritMod.NPCs;
+using SpiritMod.NPCs.Asteroid;
+using SpiritMod.Projectiles;
+using SpiritMod.Projectiles.Hostile;
+using SpiritMod.Tiles;
+using SpiritMod.Tiles.Ambient;
+using SpiritMod.Tiles.Ambient.IceSculpture;
+using SpiritMod.Tiles.Ambient.ReachGrass;
+using SpiritMod.Tiles.Ambient.ReachMicros;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.Graphics;
 using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.Boss.Overseer
 {
-	public class SeerSky : CustomSky
-	{
-		private bool isActive = false;
-		private float intensity = 0f;
-		private int SeerIndex = -1;
+    public class SeerSky : CustomSky
+    {
+        private bool isActive = false;
+        private float intensity = 0f;
+        private int SeerIndex = -1;
 
-		public override void Update(GameTime gameTime)
-		{
-			if (isActive && intensity < 1f)
-			{
-				intensity += 0.01f;
-			}
-			else if (!isActive && intensity > 0f)
-			{
-				intensity -= 0.01f;
-			}
-		}
+        public override void Update(GameTime gameTime) {
+            if(isActive && intensity < 1f) {
+                intensity += 0.01f;
+            } else if(!isActive && intensity > 0f) {
+                intensity -= 0.01f;
+            }
+        }
 
-		private float GetIntensity()
-		{
-			if (this.UpdateSeerIndex())
-			{
-				float x = 0f;
-				if (this.SeerIndex != -1)
-				{
-					x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[this.SeerIndex].Center);
-				}
-				return 1f - Utils.SmoothStep(3000f, 6000f, x);
-			}
-			return 0f;
-		}
+        private float GetIntensity() {
+            if(this.UpdateSeerIndex()) {
+                float x = 0f;
+                if(this.SeerIndex != -1) {
+                    x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[this.SeerIndex].Center);
+                }
+                return 1f - Utils.SmoothStep(3000f, 6000f, x);
+            }
+            return 0f;
+        }
 
-		public override Color OnTileColor(Color inColor)
-		{
-			float intensity = this.GetIntensity();
-			return new Color(Vector4.Lerp(new Vector4(0f, 0.3f, 1f, 1f), inColor.ToVector4(), 1f - intensity));
-		}
+        public override Color OnTileColor(Color inColor) {
+            float intensity = this.GetIntensity();
+            return new Color(Vector4.Lerp(new Vector4(0f, 0.3f, 1f, 1f), inColor.ToVector4(), 1f - intensity));
+        }
 
-		private bool UpdateSeerIndex()
-		{
-			int SeerType = ModLoader.GetMod("SpiritMod").NPCType("Overseer");
-			if (SeerIndex >= 0 && Main.npc[SeerIndex].active && Main.npc[SeerIndex].type == SeerType)
-				return true;
+        private bool UpdateSeerIndex() {
+            int SeerType = ModLoader.GetMod("SpiritMod").NPCType("Overseer");
+            if(SeerIndex >= 0 && Main.npc[SeerIndex].active && Main.npc[SeerIndex].type == SeerType)
+                return true;
 
-			SeerIndex = -1;
-			for (int i = 0; i < Main.npc.Length; i++)
-			{
-				if (Main.npc[i].active && Main.npc[i].type == SeerType)
-				{
-					SeerIndex = i;
-					break;
-				}
-			}
-			//this.DoGIndex = DoGIndex;
-			return SeerIndex != -1;
-		}
+            SeerIndex = -1;
+            for(int i = 0; i < Main.npc.Length; i++) {
+                if(Main.npc[i].active && Main.npc[i].type == SeerType) {
+                    SeerIndex = i;
+                    break;
+                }
+            }
+            //this.DoGIndex = DoGIndex;
+            return SeerIndex != -1;
+        }
 
-		public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
-		{
-			if (maxDepth >= 0 && minDepth < 0)
-			{
-				float intensity = this.GetIntensity();
-				spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Black * intensity);
-			}
-		}
+        public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth) {
+            if(maxDepth >= 0 && minDepth < 0) {
+                float intensity = this.GetIntensity();
+                spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Black * intensity);
+            }
+        }
 
-		public override float GetCloudAlpha()
-		{
-			return 0f;
-		}
+        public override float GetCloudAlpha() {
+            return 0f;
+        }
 
-		public override void Activate(Vector2 position, params object[] args)
-		{
-			isActive = true;
-		}
+        public override void Activate(Vector2 position, params object[] args) {
+            isActive = true;
+        }
 
-		public override void Deactivate(params object[] args)
-		{
-			isActive = false;
-		}
+        public override void Deactivate(params object[] args) {
+            isActive = false;
+        }
 
-		public override void Reset()
-		{
-			isActive = false;
-		}
+        public override void Reset() {
+            isActive = false;
+        }
 
-		public override bool IsActive()
-		{
-			return isActive || intensity > 0f;
-		}
-	}
+        public override bool IsActive() {
+            return isActive || intensity > 0f;
+        }
+    }
 }

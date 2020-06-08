@@ -1,21 +1,97 @@
 ﻿using Microsoft.Xna.Framework;
+using SpiritMod.Tiles.Furniture.Reach;
+using SpiritMod.NPCs.Critters;
+using SpiritMod.Mounts;
+using SpiritMod.NPCs.Boss.SpiritCore;
+using SpiritMod.Boss.SpiritCore;
+using SpiritMod.Buffs.Candy;
+using SpiritMod.Buffs.Potion;
+using SpiritMod.Projectiles.Pet;
+using SpiritMod.Buffs.Pet;
+using SpiritMod.Projectiles.Arrow.Artifact;
+using SpiritMod.Projectiles.Bullet.Crimbine;
+using SpiritMod.Projectiles.Bullet;
+using SpiritMod.Projectiles.Magic.Artifact;
+using SpiritMod.Projectiles.Summon.Artifact;
+using SpiritMod.Projectiles.Summon.LaserGate;
+using SpiritMod.Projectiles.Flail;
+using SpiritMod.Projectiles.Arrow;
+using SpiritMod.Projectiles.Magic;
+using SpiritMod.Projectiles.Sword.Artifact;
+using SpiritMod.Projectiles.Summon.Dragon;
+using SpiritMod.Projectiles.Sword;
+using SpiritMod.Projectiles.Thrown.Artifact;
+using SpiritMod.Items.Boss;
+using SpiritMod.Items.Armor.Masks;
+using SpiritMod.Projectiles.Returning;
+using SpiritMod.Projectiles.Held;
+using SpiritMod.Projectiles.Thrown;
+using SpiritMod.Items.Equipment;
+using SpiritMod.Projectiles.DonatorItems;
+using SpiritMod.Buffs.Mount;
+using SpiritMod.Items.Weapon.Yoyo;
+using SpiritMod.Projectiles.Yoyo;
+using SpiritMod.Items.Weapon.Spear;
+using SpiritMod.Items.Weapon.Swung;
+using SpiritMod.NPCs.Boss;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Pets;
+using SpiritMod.Items.Weapon.Summon;
+using SpiritMod.Projectiles.Boss;
+using SpiritMod.Items.BossBags;
+using SpiritMod.Items.Consumable.Fish;
+using SpiritMod.Buffs.Summon;
+using SpiritMod.Projectiles.Summon;
+using SpiritMod.NPCs.Spirit;
+using SpiritMod.Items.Consumable;
+using SpiritMod.Tiles.Block;
+using SpiritMod.Items.Placeable.Furniture;
+using SpiritMod.Items.Consumable.Quest;
+using SpiritMod.Items.Consumable.Potion;
+using SpiritMod.Items.Placeable.IceSculpture;
+using SpiritMod.Items.Weapon.Bow;
+using SpiritMod.Items.Weapon.Gun;
+using SpiritMod.Buffs;
+using SpiritMod.Items;
+using SpiritMod.Items.Weapon;
+using SpiritMod.Items.Weapon.Returning;
+using SpiritMod.Items.Weapon.Thrown;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Items.Accessory;
+
+using SpiritMod.Items.Accessory.Leather;
+using SpiritMod.Items.Ammo;
+using SpiritMod.Items.Armor;
+using SpiritMod.Dusts;
+using SpiritMod.Buffs;
+using SpiritMod.Buffs.Artifact;
+using SpiritMod.NPCs;
+using SpiritMod.NPCs.Asteroid;
+using SpiritMod.Projectiles;
+using SpiritMod.Projectiles.Hostile;
+using SpiritMod.Tiles;
+using SpiritMod.Tiles.Ambient;
+using SpiritMod.Tiles.Ambient.IceSculpture;
+using SpiritMod.Tiles.Ambient.ReachGrass;
+using SpiritMod.Tiles.Ambient.ReachMicros;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
 using static Terraria.ModLoader.ModContent;
 
 namespace SpiritMod.Items.Equipment
 {
-	internal class AvianHook : ModItem
-	{
-		public override void SetStaticDefaults() {
-			DisplayName.SetDefault("Avian Hook");
-		}
+    internal class AvianHook : ModItem
+    {
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("Avian Hook");
+        }
 
-		public override void SetDefaults() {
-			/*
+        public override void SetDefaults() {
+            /*
 				this.noUseGraphic = true;
 				this.damage = 0;
 				this.knockBack = 7f;
@@ -32,21 +108,21 @@ namespace SpiritMod.Items.Equipment
 				this.noMelee = true;
 				this.value = 20000;
 			*/
-			// Instead of copying these values, we can clone and modify the ones we want to copy
-			item.CloneDefaults(ItemID.AmethystHook);
-			item.shootSpeed = 12f; // how quickly the hook is shot.
-			item.shoot = ProjectileType<AvianHookProjectile>();
-		}
-	}
+            // Instead of copying these values, we can clone and modify the ones we want to copy
+            item.CloneDefaults(ItemID.AmethystHook);
+            item.shootSpeed = 12f; // how quickly the hook is shot.
+            item.shoot = ProjectileType<AvianHookProjectile>();
+        }
+    }
 
-	internal class AvianHookProjectile : ModProjectile
-	{
-		public override void SetStaticDefaults() {
-			DisplayName.SetDefault("${ProjectileName.GemHookAmethyst}");
-		}
+    internal class AvianHookProjectile : ModProjectile
+    {
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("${ProjectileName.GemHookAmethyst}");
+        }
 
-		public override void SetDefaults() {
-			/*	this.netImportant = true;
+        public override void SetDefaults() {
+            /*	this.netImportant = true;
 				this.name = "Gem Hook";
 				this.width = 18;
 				this.height = 18;
@@ -56,22 +132,19 @@ namespace SpiritMod.Items.Equipment
 				this.tileCollide = false;
 				this.timeLeft *= 10;
 			*/
-			projectile.CloneDefaults(ProjectileID.GemHookAmethyst);
-			//projectile.timeLeft = 400;
-		}
+            projectile.CloneDefaults(ProjectileID.GemHookAmethyst);
+            //projectile.timeLeft = 400;
+        }
 
         // Use this hook for hooks that can have multiple hooks mid-flight: Dual Hook, Web Slinger, Fish Hook, Static Hook, Lunar Hook
-        public override bool? CanUseGrapple(Player player)
-        {
+        public override bool? CanUseGrapple(Player player) {
             int hooksOut = 0;
-            for (int l = 0; l < 1000; l++)
-            {
-                if (Main.projectile[l].active && Main.projectile[l].owner == Main.myPlayer && Main.projectile[l].type == projectile.type)
-                {
+            for(int l = 0; l < 1000; l++) {
+                if(Main.projectile[l].active && Main.projectile[l].owner == Main.myPlayer && Main.projectile[l].type == projectile.type) {
                     hooksOut++;
                 }
             }
-            if (hooksOut > 1) // This hook can have 2 hooks out.
+            if(hooksOut > 1) // This hook can have 2 hooks out.
             {
                 return false;
             }
@@ -110,19 +183,16 @@ namespace SpiritMod.Items.Equipment
         //}
 
         // Amethyst Hook is 300, Static Hook is 600
-        public override float GrappleRange()
-        {
+        public override float GrappleRange() {
             return 400f;
         }
 
-        public override void NumGrappleHooks(Player player, ref int numHooks)
-        {
+        public override void NumGrappleHooks(Player player, ref int numHooks) {
             numHooks = 1;
         }
 
         // default is 11, Lunar is 24
-        public override void GrappleRetreatSpeed(Player player, ref float speed)
-        {
+        public override void GrappleRetreatSpeed(Player player, ref float speed) {
             speed = 13f;
         }
 
@@ -141,33 +211,27 @@ namespace SpiritMod.Items.Equipment
         bool rightswing = false;
 
         int xDist = 0;
-        public override void GrapplePullSpeed(Player player, ref float speed)
-        {
+        public override void GrapplePullSpeed(Player player, ref float speed) {
             speed = 0f;
-            if (!swinging)
-            {
+            if(!swinging) {
                 swinging = true;
 
                 deltaX = player.position.X + (float)(player.width / 2) - projectile.Center.X;
                 deltaY = player.position.Y + (float)(player.height / 2) - projectile.Center.Y;
-                angle = new Vector2(deltaX,deltaY);
+                angle = new Vector2(deltaX, deltaY);
                 angle.Normalize();
                 distance = (float)Math.Sqrt((double)deltaX * (double)deltaX + (double)deltaY * (double)deltaY);
                 angle *= distance;
-                if (player.position.X + (float)(player.width / 2) > projectile.Center.X)
-                {
+                if(player.position.X + (float)(player.width / 2) > projectile.Center.X) {
                     rightswing = true;
-                }
-                else
-                {
+                } else {
                     leftswing = true;
                 }
             }
             player.position = angle + projectile.Center;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor) {
             Texture2D texture = ModContent.GetTexture("SpiritMod/Items/Equipment/AvianHookChain");
             Vector2 vector = projectile.Center;
             Vector2 mountedCenter = Main.player[projectile.owner].MountedCenter;
@@ -177,22 +241,16 @@ namespace SpiritMod.Items.Equipment
             Vector2 vector2 = mountedCenter - vector;
             float rotation = (float)Math.Atan2((double)vector2.Y, (double)vector2.X) - 1.57f;
             bool flag = true;
-            if (float.IsNaN(vector.X) && float.IsNaN(vector.Y))
-            {
+            if(float.IsNaN(vector.X) && float.IsNaN(vector.Y)) {
                 flag = false;
             }
-            if (float.IsNaN(vector2.X) && float.IsNaN(vector2.Y))
-            {
+            if(float.IsNaN(vector2.X) && float.IsNaN(vector2.Y)) {
                 flag = false;
             }
-            while (flag)
-            {
-                if ((double)vector2.Length() < (double)num + 1.0)
-                {
+            while(flag) {
+                if((double)vector2.Length() < (double)num + 1.0) {
                     flag = false;
-                }
-                else
-                {
+                } else {
                     Vector2 value = vector2;
                     value.Normalize();
                     vector += value * num;
@@ -203,11 +261,9 @@ namespace SpiritMod.Items.Equipment
                 }
             }
         }
-        public override void AI()
-        {
+        public override void AI() {
             int num = 5;
-            for (int k = 0; k < 1; k++)
-            {
+            for(int k = 0; k < 1; k++) {
                 int index2 = Dust.NewDust(new Vector2(projectile.Center.X + 15, projectile.Center.Y), 1, 1, 180, 0.0f, 0.0f, 0, new Color(), 1f);
                 Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
                 Main.dust[index2].scale = .5f;
@@ -215,8 +271,7 @@ namespace SpiritMod.Items.Equipment
                 Main.dust[index2].noGravity = true;
                 Main.dust[index2].noLight = false;
             }
-            for (int j = 0; j < 1; j++)
-            {
+            for(int j = 0; j < 1; j++) {
                 int index2 = Dust.NewDust(new Vector2(projectile.Center.X - 15, projectile.Center.Y), 1, 1, 130, 0.0f, 0.0f, 0, new Color(), 1f);
                 Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)j;
                 Main.dust[index2].scale = .5f;

@@ -1,42 +1,33 @@
-using System;
-using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
-
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Accessory
 {
-	public class AssassinLight : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Beacon of the Assassin");
-			Tooltip.SetDefault("Increases ranged damage by 8% and arrow damage by 4% when moving\nIncreases bullet damage by 4% and ranged damage and movement speed by 10% when submerged in liquid\nIncreases defense by 2 when not submerged and increases ranged critical strike chance by 5%\nRanged projectiles emit light, inflict a multitude of debuffs, and may bathe enemies in light\nRanged weapons may shoot out extra projectiles");
+    public class AssassinLight : ModItem
+    {
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("Beacon of the Assassin");
+            Tooltip.SetDefault("Increases ranged damage by 8% and arrow damage by 4% when moving\nIncreases bullet damage by 4% and ranged damage and movement speed by 10% when submerged in liquid\nIncreases defense by 2 when not submerged and increases ranged critical strike chance by 5%\nRanged projectiles emit light, inflict a multitude of debuffs, and may bathe enemies in light\nRanged weapons may shoot out extra projectiles");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 4));
         }
 
 
-		public override void SetDefaults()
-		{
-			item.width = 18;
+        public override void SetDefaults() {
+            item.width = 18;
             item.height = 18;
-			item.value = Item.sellPrice(0, 3, 0, 0);
+            item.value = Item.sellPrice(0, 3, 0, 0);
             item.rare = 8;
             item.accessory = true;
-		}
-        public override void UpdateAccessory(Player player, bool hideVisual)
-		{
-            if (player.wet)
-            {
+        }
+        public override void UpdateAccessory(Player player, bool hideVisual) {
+            if(player.wet) {
                 player.rangedDamage += .10f;
                 player.moveSpeed += .10f;
-            }
-            else
-            {
+            } else {
                 player.statDefense += 2;
             }
             player.GetSpiritPlayer().crystal = true;
@@ -45,26 +36,19 @@ namespace SpiritMod.Items.Accessory
 
             player.rangedDamage += 0.08f;
 
-            if (player.velocity.X != 0)
-            {
+            if(player.velocity.X != 0) {
                 player.arrowDamage += 0.04f;
-            }
-            else if (player.velocity.Y != 0)
-            {
+            } else if(player.velocity.Y != 0) {
                 player.arrowDamage += 0.04f;
-            }
-            else
-            {
+            } else {
                 player.bulletDamage += 0.04f;
             }
             player.rangedCrit += 5;
         }
-        public override Color? GetAlpha(Color lightColor)
-        {
+        public override Color? GetAlpha(Color lightColor) {
             return Color.White;
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "AssassinMagazine", 1);
             recipe.AddIngredient(null, "HellEater", 1);

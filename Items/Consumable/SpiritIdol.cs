@@ -1,5 +1,4 @@
-using System;
-
+using SpiritMod.NPCs.Boss.Overseer;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,15 +7,13 @@ namespace SpiritMod.Items.Consumable
 {
     public class SpiritIdol : ModItem
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Spirit Idol");
-			Tooltip.SetDefault("'Awaken the Being, asleep for aeons'");
-		}
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("Spirit Idol");
+            Tooltip.SetDefault("'Awaken the Being, asleep for aeons'");
+        }
 
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             item.width = item.height = 16;
             item.rare = 9;
             item.maxStack = 99;
@@ -31,20 +28,17 @@ namespace SpiritMod.Items.Consumable
             item.UseSound = SoundID.Item43;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            if (!NPC.AnyNPCs(ModContent.NPCType<Overseer>()) && player.GetSpiritPlayer().ZoneSpirit && !Main.dayTime)
+        public override bool CanUseItem(Player player) {
+            if(!NPC.AnyNPCs(ModContent.NPCType<Overseer>()) && player.GetSpiritPlayer().ZoneSpirit && !Main.dayTime)
                 return true;
             return false;
         }
-public override bool UseItem(Player player)
-		{
-			NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Overseer>());
-			Main.PlaySound(SoundID.Roar, player.position, 0);
-			return true;
-		}
-        public override void AddRecipes()
-        {
+        public override bool UseItem(Player player) {
+            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Overseer>());
+            Main.PlaySound(SoundID.Roar, player.position, 0);
+            return true;
+        }
+        public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(520, 4);
             recipe.AddIngredient(521, 4);

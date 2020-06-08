@@ -1,72 +1,135 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using SpiritMod.Tiles.Furniture.Reach;
+using SpiritMod.NPCs.Critters;
+using SpiritMod.Mounts;
+using SpiritMod.NPCs.Boss.SpiritCore;
+using SpiritMod.Boss.SpiritCore;
+using SpiritMod.Buffs.Candy;
+using SpiritMod.Buffs.Potion;
+using SpiritMod.Projectiles.Pet;
+using SpiritMod.Buffs.Pet;
+using SpiritMod.Projectiles.Arrow.Artifact;
+using SpiritMod.Projectiles.Bullet.Crimbine;
+using SpiritMod.Projectiles.Bullet;
+using SpiritMod.Projectiles.Magic.Artifact;
+using SpiritMod.Projectiles.Summon.Artifact;
+using SpiritMod.Projectiles.Summon.LaserGate;
+using SpiritMod.Projectiles.Flail;
+using SpiritMod.Projectiles.Arrow;
+using SpiritMod.Projectiles.Magic;
+using SpiritMod.Projectiles.Sword.Artifact;
+using SpiritMod.Projectiles.Summon.Dragon;
+using SpiritMod.Projectiles.Sword;
+using SpiritMod.Projectiles.Thrown.Artifact;
+using SpiritMod.Items.Boss;
+using SpiritMod.Items.Armor.Masks;
+using SpiritMod.Projectiles.Returning;
+using SpiritMod.Projectiles.Held;
+using SpiritMod.Projectiles.Thrown;
+using SpiritMod.Items.Equipment;
+using SpiritMod.Projectiles.DonatorItems;
+using SpiritMod.Buffs.Mount;
+using SpiritMod.Items.Weapon.Yoyo;
+using SpiritMod.Projectiles.Yoyo;
+using SpiritMod.Items.Weapon.Spear;
+using SpiritMod.Items.Weapon.Swung;
+using SpiritMod.NPCs.Boss;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Pets;
+using SpiritMod.Items.Weapon.Summon;
+using SpiritMod.Projectiles.Boss;
+using SpiritMod.Items.BossBags;
+using SpiritMod.Items.Consumable.Fish;
+using SpiritMod.Buffs.Summon;
+using SpiritMod.Projectiles.Summon;
+using SpiritMod.NPCs.Spirit;
+using SpiritMod.Items.Consumable;
+using SpiritMod.Tiles.Block;
+using SpiritMod.Items.Placeable.Furniture;
+using SpiritMod.Items.Consumable.Quest;
+using SpiritMod.Items.Consumable.Potion;
+using SpiritMod.Items.Placeable.IceSculpture;
+using SpiritMod.Items.Weapon.Bow;
+using SpiritMod.Items.Weapon.Gun;
+using SpiritMod.Buffs;
+using SpiritMod.Items;
+using SpiritMod.Items.Weapon;
+using SpiritMod.Items.Weapon.Returning;
+using SpiritMod.Items.Weapon.Thrown;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Items.Accessory;
 
-using Microsoft.Xna.Framework;
+using SpiritMod.Items.Accessory.Leather;
+using SpiritMod.Items.Ammo;
+using SpiritMod.Items.Armor;
+using SpiritMod.Dusts;
+using SpiritMod.Buffs;
+using SpiritMod.Buffs.Artifact;
+using SpiritMod.NPCs;
+using SpiritMod.NPCs.Asteroid;
+using SpiritMod.Projectiles;
+using SpiritMod.Projectiles.Hostile;
+using SpiritMod.Tiles;
+using SpiritMod.Tiles.Ambient;
+using SpiritMod.Tiles.Ambient.IceSculpture;
+using SpiritMod.Tiles.Ambient.ReachGrass;
+using SpiritMod.Tiles.Ambient.ReachMicros;
 using Microsoft.Xna.Framework.Graphics;
-
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Magic
 {
-	class MagicBlaze : ModProjectile
-	{
-		public static int _type;
+    class MagicBlaze : ModProjectile
+    {
+        public static int _type;
 
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Fiery Blaze");
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("Fiery Blaze");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
             ProjectileID.Sets.TrailingMode[projectile.type] = 1;
         }
 
-		public override void SetDefaults()
-		{
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.magic = true;
-			projectile.penetrate = 4;
-			projectile.timeLeft = 500;
-			projectile.height = 18;
-			projectile.width = 10;
+        public override void SetDefaults() {
+            projectile.friendly = true;
+            projectile.hostile = false;
+            projectile.magic = true;
+            projectile.penetrate = 4;
+            projectile.timeLeft = 500;
+            projectile.height = 18;
+            projectile.width = 10;
             projectile.alpha = 50;
             projectile.CloneDefaults(ProjectileID.Bullet);
             projectile.extraUpdates = 1;
-		}
+        }
 
-		public override bool OnTileCollide(Vector2 oldVelocity)
-		{
-			projectile.penetrate--;
-			if (projectile.penetrate <= 0)
-			{
-				projectile.Kill();
-			}
-			else
-			{
-				projectile.ai[0] += 0.1f;
-				if (projectile.velocity.X != oldVelocity.X)
-				{
-					projectile.velocity.X = -oldVelocity.X;
-				}
-				if (projectile.velocity.Y != oldVelocity.Y)
-				{
-					projectile.velocity.Y = -oldVelocity.Y;
-				}
-				projectile.velocity *= 0.75f;
-			}
-			return false;
-		}
+        public override bool OnTileCollide(Vector2 oldVelocity) {
+            projectile.penetrate--;
+            if(projectile.penetrate <= 0) {
+                projectile.Kill();
+            } else {
+                projectile.ai[0] += 0.1f;
+                if(projectile.velocity.X != oldVelocity.X) {
+                    projectile.velocity.X = -oldVelocity.X;
+                }
+                if(projectile.velocity.Y != oldVelocity.Y) {
+                    projectile.velocity.Y = -oldVelocity.Y;
+                }
+                projectile.velocity *= 0.75f;
+            }
+            return false;
+        }
         int counter;
-        public override void AI()
-        {
+        public override void AI() {
             Lighting.AddLight(projectile.position, 0.4f, .12f, .036f);
             counter++;
-            if (counter >= 1440)
-            {
+            if(counter >= 1440) {
                 counter = -1440;
             }
-            for (int i = 0; i < 4; i++)
-            {
+            for(int i = 0; i < 4; i++) {
                 float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
                 float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 
@@ -78,11 +141,9 @@ namespace SpiritMod.Projectiles.Magic
             }
 
             projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] == 12f)
-            {
+            if(projectile.localAI[0] == 12f) {
                 projectile.localAI[0] = 0f;
-                for (int j = 0; j < 12; j++)
-                {
+                for(int j = 0; j < 12; j++) {
                     Vector2 vector2 = Vector2.UnitX * -projectile.width / 2f;
                     vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(8f, 16f);
                     vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default(Vector2));
@@ -95,16 +156,13 @@ namespace SpiritMod.Projectiles.Magic
                 }
             }
         }
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			if (Main.rand.Next(6) == 2)
-				target.AddBuff(BuffID.OnFire, 180);
-            if (Main.rand.Next(4) == 0)
-            {
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
+            if(Main.rand.Next(6) == 2)
+                target.AddBuff(BuffID.OnFire, 180);
+            if(Main.rand.Next(4) == 0) {
                 int n = 4;
                 int deviation = Main.rand.Next(0, 300);
-                for (int i = 0; i < n; i++)
-                {
+                for(int i = 0; i < n; i++) {
                     float rotation = MathHelper.ToRadians(270 / n * i + deviation);
                     Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(rotation);
                     perturbedSpeed.Normalize();
@@ -114,33 +172,28 @@ namespace SpiritMod.Projectiles.Magic
                 }
             }
         }
-        public override void Kill(int timeLeft)
-        {
+        public override void Kill(int timeLeft) {
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 74);
             ProjectileExtras.Explode(projectile.whoAmI, 120, 120,
-                delegate
-                {
-                    for (int i = 0; i < 40; i++)
-                    {
+                delegate {
+                    for(int i = 0; i < 40; i++) {
                         int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, -2f, 0, default(Color), 1.2f);
                         Main.dust[num].noGravity = true;
                         Dust expr_62_cp_0 = Main.dust[num];
                         expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
                         Dust expr_92_cp_0 = Main.dust[num];
                         expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
-                        if (Main.dust[num].position != projectile.Center)
-                        {
+                        if(Main.dust[num].position != projectile.Center) {
                             Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
                         }
                     }
                 });
-            for (int num625 = 0; num625 < 2; num625++)
-            {
+            for(int num625 = 0; num625 < 2; num625++) {
                 float scaleFactor10 = 0.33f;
-                if (num625 == 1)
+                if(num625 == 1)
                     scaleFactor10 = 0.66f;
 
-                if (num625 == 2)
+                if(num625 == 2)
                     scaleFactor10 = 1f;
 
                 int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default(Vector2), Main.rand.Next(61, 64), 1f);
@@ -157,11 +210,9 @@ namespace SpiritMod.Projectiles.Magic
                 expr_13B99_cp_0.velocity.Y = expr_13B99_cp_0.velocity.Y + 1f;
             }
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) {
             Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-            for (int k = 0; k < projectile.oldPos.Length; k++)
-            {
+            for(int k = 0; k < projectile.oldPos.Length; k++) {
                 Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
                 Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
                 spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);

@@ -1,4 +1,3 @@
-using System;
 
 using Terraria;
 using Terraria.ID;
@@ -9,17 +8,15 @@ namespace SpiritMod.Items.Armor
     [AutoloadEquip(EquipType.Head)]
     public class InfernalVisor : ModItem
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Pain Monger's Mask");
-			Tooltip.SetDefault("Increases magic damage by 15% and magic critical strike chance by 9%");
-		}
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("Pain Monger's Mask");
+            Tooltip.SetDefault("Increases magic damage by 15% and magic critical strike chance by 9%");
+        }
 
 
         int timer;
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             item.width = 28;
             item.height = 20;
             item.rare = 5;
@@ -28,23 +25,19 @@ namespace SpiritMod.Items.Armor
             item.defense = 9;
         }
 
-        public override void UpdateEquip(Player player)
-        {
+        public override void UpdateEquip(Player player) {
             player.magicCrit += 9;
             player.magicDamage += 0.15f;
         }
 
-        public override bool IsArmorSet(Item head, Item body, Item legs)
-        {
+        public override bool IsArmorSet(Item head, Item body, Item legs) {
             return body.type == ModContent.ItemType<InfernalBreastplate>() && legs.type == ModContent.ItemType<InfernalGreaves>();
         }
 
-        public override void UpdateArmorSet(Player player)
-        {
+        public override void UpdateArmorSet(Player player) {
             timer++;
 
-            if (timer == 20)
-            {
+            if(timer == 20) {
                 int dust = Dust.NewDust(player.position, player.width, player.height, 6);
                 timer = 0;
             }
@@ -54,8 +47,7 @@ namespace SpiritMod.Items.Armor
 
             }
         }
-		public override void AddRecipes()
-        {
+        public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "InfernalAppendage", 10);
             recipe.AddTile(TileID.MythrilAnvil);

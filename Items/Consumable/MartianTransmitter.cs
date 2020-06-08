@@ -1,4 +1,3 @@
-using System;
 
 using Terraria;
 using Terraria.ID;
@@ -8,15 +7,13 @@ namespace SpiritMod.Items.Consumable
 {
     public class MartianTransmitter : ModItem
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Martian Transmitter");
-			Tooltip.SetDefault("Summons the martian invasion \n'Broadcasting on strange frequencies'");
-		}
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("Martian Transmitter");
+            Tooltip.SetDefault("Summons the martian invasion \n'Broadcasting on strange frequencies'");
+        }
 
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             item.width = item.height = 16;
             item.rare = 9;
             item.maxStack = 99;
@@ -31,14 +28,13 @@ namespace SpiritMod.Items.Consumable
             item.UseSound = SoundID.Item43;
         }
 
-        
 
-        public override bool UseItem(Player player)
-        {
+
+        public override bool UseItem(Player player) {
             NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 64, 399);
             return true;
         }
 
-       
+
     }
 }

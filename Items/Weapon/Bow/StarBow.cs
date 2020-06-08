@@ -1,31 +1,37 @@
-using System;
-
 using Microsoft.Xna.Framework;
+using SpiritMod.Tiles.Furniture.Reach;
+using SpiritMod.NPCs.Critters;
+using SpiritMod.Mounts;
+using SpiritMod.NPCs.Boss.SpiritCore;
+using SpiritMod.Boss.SpiritCore;
+using SpiritMod.Buffs.Candy;
+using SpiritMod.Buffs.Potion;
+using SpiritMod.Projectiles.Pet;
+using SpiritMod.Buffs.Pet;
+using SpiritMod.Projectiles.Arrow.Artifact;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Projectiles.Arrow;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Weapon.Bow
 {
     public class StarBow : ModItem
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Seraph's Storm");
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("Seraph's Storm");
             Tooltip.SetDefault("Launches bolts of sporadic lunar energy");
             SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Bow/StarBow_Glow");
 
         }
 
 
-		//private Vector2 newVect;
-        public override void SetDefaults()
-        {
+        //private Vector2 newVect;
+        public override void SetDefaults() {
             item.width = 22;
-			item.damage = 40;
-			
+            item.damage = 40;
+
             item.height = 40;
             item.value = Terraria.Item.sellPrice(0, 2, 50, 0);
             item.rare = 4;
@@ -47,27 +53,25 @@ namespace SpiritMod.Items.Weapon.Bow
             item.UseSound = SoundID.Item5;
         }
 
-   /*    public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-			if(Main.myPlayer == player.whoAmI) {
-				Vector2 mouse = Main.MouseWorld;
-				 for (int i = 0; i < 3; ++i)
-            {
-				Projectile.NewProjectile(mouse.X + Main.rand.Next(-80, 80), player.Center.Y - 550 + Main.rand.Next(-50, 50), 0, Main.rand.Next(14,18), ModContent.ProjectileType<StarBolt>(), damage, knockBack, player.whoAmI);
-			}
-			}
-			return false;
-        }*/
-		 public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
+        /*    public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+             {
+                 if(Main.myPlayer == player.whoAmI) {
+                     Vector2 mouse = Main.MouseWorld;
+                      for (int i = 0; i < 3; ++i)
+                 {
+                     Projectile.NewProjectile(mouse.X + Main.rand.Next(-80, 80), player.Center.Y - 550 + Main.rand.Next(-50, 50), 0, Main.rand.Next(14,18), ModContent.ProjectileType<StarBolt>(), damage, knockBack, player.whoAmI);
+                 }
+                 }
+                 return false;
+             }*/
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) {
             int projType;
             projType = Main.rand.Next(new int[] { mod.ProjectileType("SleepingStar1"), ModContent.ProjectileType<SleepingStar>() });
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("SleepingStar1"), damage, knockBack, player.whoAmI, 1);
-			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SleepingStar>(), damage, knockBack, player.whoAmI, 2);
-			return false;
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SleepingStar>(), damage, knockBack, player.whoAmI, 2);
+            return false;
         }
-        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-        {
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) {
             Texture2D texture;
             texture = Main.itemTexture[item.type];
             spriteBatch.Draw
@@ -87,8 +91,7 @@ namespace SpiritMod.Items.Weapon.Bow
                 0f
             );
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "MoonStone", 10);
             recipe.AddTile(TileID.MythrilAnvil);

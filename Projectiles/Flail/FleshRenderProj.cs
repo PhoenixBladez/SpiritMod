@@ -1,98 +1,160 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using SpiritMod.Tiles.Furniture.Reach;
+using SpiritMod.NPCs.Critters;
+using SpiritMod.Mounts;
+using SpiritMod.NPCs.Boss.SpiritCore;
+using SpiritMod.Boss.SpiritCore;
+using SpiritMod.Buffs.Candy;
+using SpiritMod.Buffs.Potion;
+using SpiritMod.Projectiles.Pet;
+using SpiritMod.Buffs.Pet;
+using SpiritMod.Projectiles.Arrow.Artifact;
+using SpiritMod.Projectiles.Bullet.Crimbine;
+using SpiritMod.Projectiles.Bullet;
+using SpiritMod.Projectiles.Magic.Artifact;
+using SpiritMod.Projectiles.Summon.Artifact;
+using SpiritMod.Projectiles.Summon.LaserGate;
+using SpiritMod.Projectiles.Flail;
+using SpiritMod.Projectiles.Arrow;
+using SpiritMod.Projectiles.Magic;
+using SpiritMod.Projectiles.Sword.Artifact;
+using SpiritMod.Projectiles.Summon.Dragon;
+using SpiritMod.Projectiles.Sword;
+using SpiritMod.Projectiles.Thrown.Artifact;
+using SpiritMod.Items.Boss;
+using SpiritMod.Items.Armor.Masks;
+using SpiritMod.Projectiles.Returning;
+using SpiritMod.Projectiles.Held;
+using SpiritMod.Projectiles.Thrown;
+using SpiritMod.Items.Equipment;
+using SpiritMod.Projectiles.DonatorItems;
+using SpiritMod.Buffs.Mount;
+using SpiritMod.Items.Weapon.Yoyo;
+using SpiritMod.Projectiles.Yoyo;
+using SpiritMod.Items.Weapon.Spear;
+using SpiritMod.Items.Weapon.Swung;
+using SpiritMod.NPCs.Boss;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Pets;
+using SpiritMod.Items.Weapon.Summon;
+using SpiritMod.Projectiles.Boss;
+using SpiritMod.Items.BossBags;
+using SpiritMod.Items.Consumable.Fish;
+using SpiritMod.Buffs.Summon;
+using SpiritMod.Projectiles.Summon;
+using SpiritMod.NPCs.Spirit;
+using SpiritMod.Items.Consumable;
+using SpiritMod.Tiles.Block;
+using SpiritMod.Items.Placeable.Furniture;
+using SpiritMod.Items.Consumable.Quest;
+using SpiritMod.Items.Consumable.Potion;
+using SpiritMod.Items.Placeable.IceSculpture;
+using SpiritMod.Items.Weapon.Bow;
+using SpiritMod.Items.Weapon.Gun;
+using SpiritMod.Buffs;
+using SpiritMod.Items;
+using SpiritMod.Items.Weapon;
+using SpiritMod.Items.Weapon.Returning;
+using SpiritMod.Items.Weapon.Thrown;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Items.Accessory;
 
-using Microsoft.Xna.Framework;
+using SpiritMod.Items.Accessory.Leather;
+using SpiritMod.Items.Ammo;
+using SpiritMod.Items.Armor;
+using SpiritMod.Dusts;
+using SpiritMod.Buffs;
+using SpiritMod.Buffs.Artifact;
+using SpiritMod.NPCs;
+using SpiritMod.NPCs.Asteroid;
+using SpiritMod.Projectiles;
+using SpiritMod.Projectiles.Hostile;
+using SpiritMod.Tiles;
+using SpiritMod.Tiles.Ambient;
+using SpiritMod.Tiles.Ambient.IceSculpture;
+using SpiritMod.Tiles.Ambient.ReachGrass;
+using SpiritMod.Tiles.Ambient.ReachMicros;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Flail
 {
-	public class FleshRenderProj : ModProjectile
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Flesh Render");
-		}
+    public class FleshRenderProj : ModProjectile
+    {
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("Flesh Render");
+        }
 
-		public override void SetDefaults()
-		{
-			projectile.width = 12;
-			projectile.height = 20;
-			projectile.friendly = true;
-			projectile.penetrate = -1;
-			projectile.melee = true;
-		}
+        public override void SetDefaults() {
+            projectile.width = 12;
+            projectile.height = 20;
+            projectile.friendly = true;
+            projectile.penetrate = -1;
+            projectile.melee = true;
+        }
 
-		public override bool PreAI()
-		{
-			ProjectileExtras.FlailAI(projectile.whoAmI);
-			return true;
-		}
+        public override bool PreAI() {
+            ProjectileExtras.FlailAI(projectile.whoAmI);
+            return true;
+        }
 
-		public override void AI()
-		{
-			Vector2 targetPos = projectile.Center;
-			float targetDist = 450f;
-			bool targetAcquired = false;
+        public override void AI() {
+            Vector2 targetPos = projectile.Center;
+            float targetDist = 450f;
+            bool targetAcquired = false;
 
-			//loop through first 200 NPCs in Main.npc
-			//this loop finds the closest valid target NPC within the range of targetDist pixels
-			for (int i = 0; i < 200; i++)
-			{
-				if (Main.npc[i].CanBeChasedBy(projectile) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
-				{
-					float dist = projectile.Distance(Main.npc[i].Center);
-					if (dist < targetDist)
-					{
-						targetDist = dist;
-						targetPos = Main.npc[i].Center;
-						targetAcquired = true;
-					}
-				}
-			}
+            //loop through first 200 NPCs in Main.npc
+            //this loop finds the closest valid target NPC within the range of targetDist pixels
+            for(int i = 0; i < 200; i++) {
+                if(Main.npc[i].CanBeChasedBy(projectile) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1)) {
+                    float dist = projectile.Distance(Main.npc[i].Center);
+                    if(dist < targetDist) {
+                        targetDist = dist;
+                        targetPos = Main.npc[i].Center;
+                        targetAcquired = true;
+                    }
+                }
+            }
 
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 5, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 5, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			Main.dust[dust].noGravity = true;
-			Main.dust[dust2].noGravity = true;
-			Main.dust[dust2].velocity *= 0f;
-			Main.dust[dust2].velocity *= 0f;
-			Main.dust[dust2].scale = 0.9f;
-			Main.dust[dust].scale = 0.9f;
+            int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 5, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+            int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 5, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+            Main.dust[dust].noGravity = true;
+            Main.dust[dust2].noGravity = true;
+            Main.dust[dust2].velocity *= 0f;
+            Main.dust[dust2].velocity *= 0f;
+            Main.dust[dust2].scale = 0.9f;
+            Main.dust[dust].scale = 0.9f;
 
-			//change trajectory to home in on target
-			if (targetAcquired)
-			{
-				float homingSpeedFactor = 6f;
-				Vector2 homingVect = targetPos - projectile.Center;
-				float dist = projectile.Distance(targetPos);
-				dist = homingSpeedFactor / dist;
-				homingVect *= dist;
+            //change trajectory to home in on target
+            if(targetAcquired) {
+                float homingSpeedFactor = 6f;
+                Vector2 homingVect = targetPos - projectile.Center;
+                float dist = projectile.Distance(targetPos);
+                dist = homingSpeedFactor / dist;
+                homingVect *= dist;
 
-				projectile.velocity = (projectile.velocity * 20 + homingVect) / 21f;
-			}
-		}
+                projectile.velocity = (projectile.velocity * 20 + homingVect) / 21f;
+            }
+        }
 
-		public override bool OnTileCollide(Vector2 oldVelocity)
-		{
-			return ProjectileExtras.FlailTileCollide(projectile.whoAmI, oldVelocity);
-		}
+        public override bool OnTileCollide(Vector2 oldVelocity) {
+            return ProjectileExtras.FlailTileCollide(projectile.whoAmI, oldVelocity);
+        }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			ProjectileExtras.DrawChain(projectile.whoAmI, Main.player[projectile.owner].MountedCenter,
-				"SpiritMod/Projectiles/Flail/FleshRender_Chain");
-			ProjectileExtras.DrawAroundOrigin(projectile.whoAmI, lightColor);
-			return false;
-		}
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) {
+            ProjectileExtras.DrawChain(projectile.whoAmI, Main.player[projectile.owner].MountedCenter,
+                "SpiritMod/Projectiles/Flail/FleshRender_Chain");
+            ProjectileExtras.DrawAroundOrigin(projectile.whoAmI, lightColor);
+            return false;
+        }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			if (Main.rand.Next(4) == 0)
-				target.AddBuff(ModContent.BuffType<BCorrupt>(), 180);
-		}
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
+            if(Main.rand.Next(4) == 0)
+                target.AddBuff(ModContent.BuffType<BCorrupt>(), 180);
+        }
 
-	}
+    }
 }

@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 
 using Terraria;
 using Terraria.ID;
@@ -10,13 +8,11 @@ namespace SpiritMod.Items.Accessory
     [AutoloadEquip(EquipType.Shield)]
     public class MedusaShield : ModItem
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Medusa Shield");
-			Tooltip.SetDefault("Provides immunity to knockback and the stoned debuff\nAs your health goes down, your life regeneration increases");
-		}
-        public override void SetDefaults()
-        {
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("Medusa Shield");
+            Tooltip.SetDefault("Provides immunity to knockback and the stoned debuff\nAs your health goes down, your life regeneration increases");
+        }
+        public override void SetDefaults() {
             item.width = 28;
             item.height = 36;
             item.rare = 5;
@@ -24,8 +20,7 @@ namespace SpiritMod.Items.Accessory
             item.accessory = true;
             item.defense = 6;
         }
-		public override void AddRecipes()
-        {
+        public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "GoldShield", 1);
             recipe.AddIngredient(ItemID.PocketMirror, 1);
@@ -33,8 +28,7 @@ namespace SpiritMod.Items.Accessory
             recipe.SetResult(this, 1);
             recipe.AddRecipe();
         }
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
+        public override void UpdateAccessory(Player player, bool hideVisual) {
             player.noKnockback = true;
             float defBoost = (float)(player.statLifeMax2 - player.statLife) / (float)player.statLifeMax2 * 20f;
             player.statDefense += (int)defBoost;

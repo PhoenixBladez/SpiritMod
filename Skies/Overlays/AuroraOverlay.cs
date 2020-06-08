@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
-
+﻿
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod;
 using Terraria;
 using Terraria.Graphics.Effects;
 
@@ -16,44 +10,37 @@ namespace SpiritMod.Skies.Overlays
     {
         private readonly int BG_TOP_OFFSET = 460; //this is the offset that the top of the aurora has in comparison to the top of the backgrounds, before camera offset
         private readonly int CAMERA_OFFSET_MULT = 700; //this is how much moving the camera up and down effects the position of the auroras
-        
+
         private float time;
 
-        public AuroraOverlay(EffectPriority priority = EffectPriority.High, RenderLayers layer = RenderLayers.Sky) : base(priority, layer)
-        {
+        public AuroraOverlay(EffectPriority priority = EffectPriority.High, RenderLayers layer = RenderLayers.Sky) : base(priority, layer) {
         }
 
-        public override void Activate(Vector2 position, params object[] args)
-        {
+        public override void Activate(Vector2 position, params object[] args) {
             this.Mode = OverlayMode.FadeIn;
         }
 
-        public override void Deactivate(params object[] args)
-        {
+        public override void Deactivate(params object[] args) {
             this.Mode = OverlayMode.FadeOut;
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
-        {
+        public override void Draw(SpriteBatch spriteBatch) {
             spriteBatch.End();
             DrawAurora(spriteBatch);
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
         }
 
-        public override bool IsVisible()
-        {
+        public override bool IsVisible() {
             return !Main.gameMenu;
         }
 
-        public override void Update(GameTime gameTime)
-        {
+        public override void Update(GameTime gameTime) {
             time = (float)gameTime.TotalGameTime.TotalSeconds * 3f;
         }
 
-        private void DrawAurora(SpriteBatch spriteBatch)
-        {
+        private void DrawAurora(SpriteBatch spriteBatch) {
             //check if the effect is null or not
-            if (SpiritMod.auroraEffect == null)
+            if(SpiritMod.auroraEffect == null)
                 return;
 
             //ignore this stuff here
@@ -61,53 +48,40 @@ namespace SpiritMod.Skies.Overlays
             int bgTop = (int)((-Main.screenPosition.Y) / (Main.worldSurface * 16.0 - 550.0) * 200.0);
             float percent = Main.screenPosition.Y / ((float)Main.worldSurface * 16f);
             float bonus = 0;
-            if (Main.screenPosition.Y < 1600)
-            {
+            if(Main.screenPosition.Y < 1600) {
                 bonus = (1600f - Main.screenPosition.Y) * 0.036f;
                 bonus *= bonus;
             }
             int basePoint = (int)(bgTop + BG_TOP_OFFSET - percent * (CAMERA_OFFSET_MULT - bonus));
 
             //--THIS IS WHERE YOU EDIT!
-			if (MyWorld.auroraType == 1)
-			{
-				DrawSingularAurora(spriteBatch, basePoint, 20, 400, new Color(0, 143, 233), new Color(0, 255, 255), 0.0023f, 1f, 0.1f);
-				DrawSingularAurora(spriteBatch, basePoint, 0, 400, new Color(60, 200, 183), new Color(0, 255, 100), 0.0028f, 1f, 0.4f);
-			}
-			if (MyWorld.auroraType == 2)
-			{
-				DrawSingularAurora(spriteBatch, basePoint, 20, 400, new Color(0, 143, 233), new Color(0, 255, 255), 0.0023f, 1f, 0.4f);
-				DrawSingularAurora(spriteBatch, basePoint, 0, 400, new Color(60, 200, 183), new Color(0, 255, 100), 0.0028f, 1f, 0.6f);
-			}
-            if (MyWorld.auroraType == 3)
-            {
+            if(MyWorld.auroraType == 1) {
+                DrawSingularAurora(spriteBatch, basePoint, 20, 400, new Color(0, 143, 233), new Color(0, 255, 255), 0.0023f, 1f, 0.1f);
+                DrawSingularAurora(spriteBatch, basePoint, 0, 400, new Color(60, 200, 183), new Color(0, 255, 100), 0.0028f, 1f, 0.4f);
+            }
+            if(MyWorld.auroraType == 2) {
+                DrawSingularAurora(spriteBatch, basePoint, 20, 400, new Color(0, 143, 233), new Color(0, 255, 255), 0.0023f, 1f, 0.4f);
+                DrawSingularAurora(spriteBatch, basePoint, 0, 400, new Color(60, 200, 183), new Color(0, 255, 100), 0.0028f, 1f, 0.6f);
+            }
+            if(MyWorld.auroraType == 3) {
                 DrawSingularAurora(spriteBatch, basePoint, 20, 400, new Color(0, 143, 233), new Color(0, 255, 255), 0.0023f, 1f, 0.7f);
                 DrawSingularAurora(spriteBatch, basePoint, 0, 400, new Color(60, 200, 183), new Color(0, 255, 100), 0.0028f, 1f, 0.43f);
-            }
-            else if (MyWorld.auroraType == 5)
-            {
+            } else if(MyWorld.auroraType == 5) {
                 DrawSingularAurora(spriteBatch, basePoint, 0, 400, new Color(137, 48, 255), new Color(125, 0, 255), 0.0028f, 0.8f, 0.97f);
                 DrawSingularAurora(spriteBatch, basePoint, 20, 400, new Color(0, 143, 233), new Color(0, 255, 255), 0.0023f, 1f, 0.32f);
-            }
-            else if (MyWorld.auroraType == 6)
-            {
+            } else if(MyWorld.auroraType == 6) {
                 DrawSingularAurora(spriteBatch, basePoint, 0, 400, new Color(247, 39, 67), new Color(206, 51, 72), 0.0028f, 0.8f, 0.97f);
                 DrawSingularAurora(spriteBatch, basePoint, 20, 400, new Color(252, 42, 186), new Color(143, 15, 155), 0.0023f, 1f, 0.32f);
-            }
-            else if (MyWorld.auroraType == 7)
-            {
+            } else if(MyWorld.auroraType == 7) {
                 DrawSingularAurora(spriteBatch, basePoint, 20, 400, new Color(255, 170, 114), new Color(255, 170, 114), 0.0028f, 0.8f, 0.57f);
                 DrawSingularAurora(spriteBatch, basePoint, 0, 400, new Color(255, 195, 56), new Color(255, 195, 56), 0.0028f, 0.8f, 0.97f);
 
-            }
-            else if (MyWorld.auroraType == 8)
-            {
+            } else if(MyWorld.auroraType == 8) {
                 DrawSingularAurora(spriteBatch, basePoint, 0, 400, new Color(124, 142, 255), new Color(124, 142, 255), 0.0028f, 0.8f, 0.87f);
                 DrawSingularAurora(spriteBatch, basePoint, 20, 400, new Color(127, 255, 250), new Color(127, 255, 250), 0.0028f, 0.8f, 0.37f);
             }
 
-            if (!MyWorld.aurora)
-            {
+            if(!MyWorld.aurora) {
                 Deactivate();
             }
         }
@@ -120,8 +94,7 @@ namespace SpiritMod.Skies.Overlays
         //speed is how fast the aurora moves, this doesnt affect the waviness, only the bands
         //opacity is the opacity of the aurora (this does not include the normal overlay opacity)
         //randY is a random y value you have to specify to change up each one, just pick a random y value each time you make a new one (no two should have the same decimal number, like 0.6 and 1.6 is bad, but 0.6 and 1.3 is good :D )
-        private void DrawSingularAurora(SpriteBatch spriteBatch, int basePoint, int yOffset, int height, Color topColor, Color bottomColor, float speed, float opacity, float randY)
-        {
+        private void DrawSingularAurora(SpriteBatch spriteBatch, int basePoint, int yOffset, int height, Color topColor, Color bottomColor, float speed, float opacity, float randY) {
             spriteBatch.Begin(SpriteSortMode.Immediate, null);
 
             SpiritMod.auroraEffect.Parameters["time"].SetValue(time + (int)(randY * 1000));

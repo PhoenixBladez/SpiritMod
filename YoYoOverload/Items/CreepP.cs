@@ -1,4 +1,80 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Tiles.Furniture.Reach;
+using SpiritMod.NPCs.Critters;
+using SpiritMod.Mounts;
+using SpiritMod.NPCs.Boss.SpiritCore;
+using SpiritMod.Boss.SpiritCore;
+using SpiritMod.Buffs.Candy;
+using SpiritMod.Buffs.Potion;
+using SpiritMod.Projectiles.Pet;
+using SpiritMod.Buffs.Pet;
+using SpiritMod.Projectiles.Arrow.Artifact;
+using SpiritMod.Projectiles.Bullet.Crimbine;
+using SpiritMod.Projectiles.Bullet;
+using SpiritMod.Projectiles.Magic.Artifact;
+using SpiritMod.Projectiles.Summon.Artifact;
+using SpiritMod.Projectiles.Summon.LaserGate;
+using SpiritMod.Projectiles.Flail;
+using SpiritMod.Projectiles.Arrow;
+using SpiritMod.Projectiles.Magic;
+using SpiritMod.Projectiles.Sword.Artifact;
+using SpiritMod.Projectiles.Summon.Dragon;
+using SpiritMod.Projectiles.Sword;
+using SpiritMod.Projectiles.Thrown.Artifact;
+using SpiritMod.Items.Boss;
+using SpiritMod.Items.Armor.Masks;
+using SpiritMod.Projectiles.Returning;
+using SpiritMod.Projectiles.Held;
+using SpiritMod.Projectiles.Thrown;
+using SpiritMod.Items.Equipment;
+using SpiritMod.Projectiles.DonatorItems;
+using SpiritMod.Buffs.Mount;
+using SpiritMod.Items.Weapon.Yoyo;
+using SpiritMod.Projectiles.Yoyo;
+using SpiritMod.Items.Weapon.Spear;
+using SpiritMod.Items.Weapon.Swung;
+using SpiritMod.NPCs.Boss;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Pets;
+using SpiritMod.Items.Weapon.Summon;
+using SpiritMod.Projectiles.Boss;
+using SpiritMod.Items.BossBags;
+using SpiritMod.Items.Consumable.Fish;
+using SpiritMod.Buffs.Summon;
+using SpiritMod.Projectiles.Summon;
+using SpiritMod.NPCs.Spirit;
+using SpiritMod.Items.Consumable;
+using SpiritMod.Tiles.Block;
+using SpiritMod.Items.Placeable.Furniture;
+using SpiritMod.Items.Consumable.Quest;
+using SpiritMod.Items.Consumable.Potion;
+using SpiritMod.Items.Placeable.IceSculpture;
+using SpiritMod.Items.Weapon.Bow;
+using SpiritMod.Items.Weapon.Gun;
+using SpiritMod.Buffs;
+using SpiritMod.Items;
+using SpiritMod.Items.Weapon;
+using SpiritMod.Items.Weapon.Returning;
+using SpiritMod.Items.Weapon.Thrown;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Items.Accessory;
+
+using SpiritMod.Items.Accessory.Leather;
+using SpiritMod.Items.Ammo;
+using SpiritMod.Items.Armor;
+using SpiritMod.Dusts;
+using SpiritMod.Buffs;
+using SpiritMod.Buffs.Artifact;
+using SpiritMod.NPCs;
+using SpiritMod.NPCs.Asteroid;
+using SpiritMod.Projectiles;
+using SpiritMod.Projectiles.Hostile;
+using SpiritMod.Tiles;
+using SpiritMod.Tiles.Ambient;
+using SpiritMod.Tiles.Ambient.IceSculpture;
+using SpiritMod.Tiles.Ambient.ReachGrass;
+using SpiritMod.Tiles.Ambient.ReachMicros;
 using SpiritMod.YoYoOverload.Projectiles;
 using System;
 using Terraria;
@@ -7,41 +83,36 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.YoYoOverload.Items
 {
-	public class CreepP : ModProjectile
-	{
-		public override void SetStaticDefaults()
-		{
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
-		}
+    public class CreepP : ModProjectile
+    {
+        public override void SetStaticDefaults() {
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+        }
 
-		public override void SetDefaults()
-		{
-			projectile.CloneDefaults(ProjectileID.CrimsonYoyo);
-			projectile.damage = 18;
-			projectile.extraUpdates = 1;
-			aiType = ProjectileID.CrimsonYoyo;
+        public override void SetDefaults() {
+            projectile.CloneDefaults(ProjectileID.CrimsonYoyo);
+            projectile.damage = 18;
+            projectile.extraUpdates = 1;
+            aiType = ProjectileID.CrimsonYoyo;
             projectile.penetrate = 5;
-		}
+        }
 
-		public override void PostAI()
-		{
-			projectile.rotation -= 10f;
-		}
+        public override void PostAI() {
+            projectile.rotation -= 10f;
+        }
 
-		public override void AI()
-		{
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 100)
-			{
-				projectile.frameCounter = 0;
-				float num = (float)(Main.rand.Next(0, 100) * 0.052359877559829883);
-				Vector2 vector = new Vector2((float)Math.Cos(num), (float)Math.Sin(num));
-				int num2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector.X, vector.Y, ModContent.ProjectileType<CreepT>(), projectile.damage, projectile.owner, 0, 0f, 0f);
-				Main.projectile[num2].friendly = true;
-				Main.projectile[num2].hostile = false;
-				Main.projectile[num2].velocity *= 7f;
-			}
-		}
-	}
+        public override void AI() {
+            projectile.frameCounter++;
+            if(projectile.frameCounter >= 100) {
+                projectile.frameCounter = 0;
+                float num = (float)(Main.rand.Next(0, 100) * 0.052359877559829883);
+                Vector2 vector = new Vector2((float)Math.Cos(num), (float)Math.Sin(num));
+                int num2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector.X, vector.Y, ModContent.ProjectileType<CreepT>(), projectile.damage, projectile.owner, 0, 0f, 0f);
+                Main.projectile[num2].friendly = true;
+                Main.projectile[num2].hostile = false;
+                Main.projectile[num2].velocity *= 7f;
+            }
+        }
+    }
 }

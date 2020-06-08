@@ -1,5 +1,7 @@
-using System;
-
+using SpiritMod.NPCs.Boss.SpiritCore;
+using SpiritMod.Tiles.Furniture.Reach;
+using SpiritMod.NPCs.Critters;
+using SpiritMod.Mounts;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,17 +10,15 @@ namespace SpiritMod.Items.Consumable
 {
     public class UmbraSummon : ModItem
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Eerie Wisp");
-			Tooltip.SetDefault("Summons the Ethereal Umbra");
-		}
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("Eerie Wisp");
+            Tooltip.SetDefault("Summons the Ethereal Umbra");
+        }
 
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             item.width = 16;
-                item.height = 26;
+            item.height = 26;
             item.rare = 5;
             item.maxStack = 99;
 
@@ -32,22 +32,19 @@ namespace SpiritMod.Items.Consumable
             item.UseSound = SoundID.Item43;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            if (!NPC.AnyNPCs(ModContent.NPCType<SpiritCore>()) && player.GetSpiritPlayer().ZoneSpirit && !Main.dayTime)
+        public override bool CanUseItem(Player player) {
+            if(!NPC.AnyNPCs(ModContent.NPCType<SpiritCore>()) && player.GetSpiritPlayer().ZoneSpirit && !Main.dayTime)
                 return true;
             return false;
         }
 
-         public override bool UseItem(Player player)
-		{
-			NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<SpiritCore>());
-			Main.PlaySound(SoundID.Roar, player.position, 0);
-			return true;
-		}
+        public override bool UseItem(Player player) {
+            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<SpiritCore>());
+            Main.PlaySound(SoundID.Roar, player.position, 0);
+            return true;
+        }
 
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "DuskStone", 3);
             recipe.AddIngredient(null, "SpiritBar", 3);

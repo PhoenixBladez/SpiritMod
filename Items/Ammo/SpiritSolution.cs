@@ -1,21 +1,18 @@
-﻿using System;
-
+﻿
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Ammo
 {
-	class SpiritSolution : ModItem
-	{
-        public override void SetStaticDefaults()
-        {
+    class SpiritSolution : ModItem
+    {
+        public override void SetStaticDefaults() {
             DisplayName.SetDefault("Spirit Solution");
             Tooltip.SetDefault("Used by the Clentaminator\nSpreads the Spirit");
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             item.shoot = ModContent.ProjectileType<SpiritSolution>() - ProjectileID.PureSpray;
             item.ammo = AmmoID.Solution;
             item.width = 10;

@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 
 using Terraria;
 using Terraria.ID;
@@ -10,13 +8,11 @@ namespace SpiritMod.Items.Armor.Daybloom
     [AutoloadEquip(EquipType.Body)]
     public class DaybloomBody : ModItem
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Daybloom Garb");
-			Tooltip.SetDefault("Increases magic damage by 1");
-		}
-        public override void SetDefaults()
-        {
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("Daybloom Garb");
+            Tooltip.SetDefault("Increases magic damage by 1");
+        }
+        public override void SetDefaults() {
             item.width = 30;
             item.height = 20;
             item.value = Terraria.Item.sellPrice(0, 0, 10, 0);
@@ -24,13 +20,11 @@ namespace SpiritMod.Items.Armor.Daybloom
             item.defense = 2;
         }
 
-        public override void UpdateEquip(Player player)
-        {
+        public override void UpdateEquip(Player player) {
             player.GetSpiritPlayer().daybloomGarb = true;
         }
 
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Daybloom, 1);
             recipe.AddIngredient(ItemID.FallenStar, 2);

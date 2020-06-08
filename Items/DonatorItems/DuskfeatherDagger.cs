@@ -1,101 +1,165 @@
 ﻿using Microsoft.Xna.Framework;
+using SpiritMod.Tiles.Furniture.Reach;
+using SpiritMod.NPCs.Critters;
+using SpiritMod.Mounts;
+using SpiritMod.NPCs.Boss.SpiritCore;
+using SpiritMod.Boss.SpiritCore;
+using SpiritMod.Buffs.Candy;
+using SpiritMod.Buffs.Potion;
+using SpiritMod.Projectiles.Pet;
+using SpiritMod.Buffs.Pet;
+using SpiritMod.Projectiles.Arrow.Artifact;
+using SpiritMod.Projectiles.Bullet.Crimbine;
+using SpiritMod.Projectiles.Bullet;
+using SpiritMod.Projectiles.Magic.Artifact;
+using SpiritMod.Projectiles.Summon.Artifact;
+using SpiritMod.Projectiles.Summon.LaserGate;
+using SpiritMod.Projectiles.Flail;
+using SpiritMod.Projectiles.Arrow;
+using SpiritMod.Projectiles.Magic;
+using SpiritMod.Projectiles.Sword.Artifact;
+using SpiritMod.Projectiles.Summon.Dragon;
+using SpiritMod.Projectiles.Sword;
+using SpiritMod.Projectiles.Thrown.Artifact;
+using SpiritMod.Items.Boss;
+using SpiritMod.Items.Armor.Masks;
+using SpiritMod.Projectiles.Returning;
+using SpiritMod.Projectiles.Held;
+using SpiritMod.Projectiles.Thrown;
+using SpiritMod.Items.Equipment;
+using SpiritMod.Projectiles.DonatorItems;
+using SpiritMod.Buffs.Mount;
+using SpiritMod.Items.Weapon.Yoyo;
+using SpiritMod.Projectiles.Yoyo;
+using SpiritMod.Items.Weapon.Spear;
+using SpiritMod.Items.Weapon.Swung;
+using SpiritMod.NPCs.Boss;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Pets;
+using SpiritMod.Items.Weapon.Summon;
+using SpiritMod.Projectiles.Boss;
+using SpiritMod.Items.BossBags;
+using SpiritMod.Items.Consumable.Fish;
+using SpiritMod.Buffs.Summon;
+using SpiritMod.Projectiles.Summon;
+using SpiritMod.NPCs.Spirit;
+using SpiritMod.Items.Consumable;
+using SpiritMod.Tiles.Block;
+using SpiritMod.Items.Placeable.Furniture;
+using SpiritMod.Items.Consumable.Quest;
+using SpiritMod.Items.Consumable.Potion;
+using SpiritMod.Items.Placeable.IceSculpture;
+using SpiritMod.Items.Weapon.Bow;
+using SpiritMod.Items.Weapon.Gun;
+using SpiritMod.Buffs;
+using SpiritMod.Items;
+using SpiritMod.Items.Weapon;
+using SpiritMod.Items.Weapon.Returning;
+using SpiritMod.Items.Weapon.Thrown;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Items.Accessory;
+
+using SpiritMod.Items.Accessory.Leather;
+using SpiritMod.Items.Ammo;
+using SpiritMod.Items.Armor;
+using SpiritMod.Dusts;
+using SpiritMod.Buffs;
+using SpiritMod.Buffs.Artifact;
+using SpiritMod.NPCs;
+using SpiritMod.NPCs.Asteroid;
+using SpiritMod.Projectiles;
+using SpiritMod.Projectiles.Hostile;
+using SpiritMod.Tiles;
+using SpiritMod.Tiles.Ambient;
+using SpiritMod.Tiles.Ambient.IceSculpture;
+using SpiritMod.Tiles.Ambient.ReachGrass;
+using SpiritMod.Tiles.Ambient.ReachMicros;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.DonatorItems
 {
-	class DuskfeatherDagger : ModItem
-	{
-		public static readonly int _type;
+    class DuskfeatherDagger : ModItem
+    {
+        public static readonly int _type;
 
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Duskfeather Dagger");
-			Tooltip.SetDefault(
-				"Can throw up to eight Duskfeather blades\n" +
-				"Right-click to recall all deployed blades\n" +
-				"Can be Equipped to summon a small Harpy pet");
-		}
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("Duskfeather Dagger");
+            Tooltip.SetDefault(
+                "Can throw up to eight Duskfeather blades\n" +
+                "Right-click to recall all deployed blades\n" +
+                "Can be Equipped to summon a small Harpy pet");
+        }
 
-		public override void SetDefaults()
-		{
-			item.width = 42;
-			item.height = 42;
-			item.useStyle = ItemUseStyleID.SwingThrow;
+        public override void SetDefaults() {
+            item.width = 42;
+            item.height = 42;
+            item.useStyle = ItemUseStyleID.SwingThrow;
 
-			item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
-			item.rare = 3;
+            item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
+            item.rare = 3;
 
-			item.damage = 24;
-			item.crit = 16;
-			item.knockBack = 3f;
-			item.ranged = true;
-			item.autoReuse = true;
-			item.shootSpeed = 16f;
-			item.UseSound = SoundID.Item1;
-			item.noUseGraphic = true;
-			item.noMelee = true;
+            item.damage = 24;
+            item.crit = 16;
+            item.knockBack = 3f;
+            item.ranged = true;
+            item.autoReuse = true;
+            item.shootSpeed = 16f;
+            item.UseSound = SoundID.Item1;
+            item.noUseGraphic = true;
+            item.noMelee = true;
 
-			item.useTime = 18;
-			item.useAnimation = 18;
+            item.useTime = 18;
+            item.useAnimation = 18;
 
-			item.buffType = HarpyPetBuff._type;
-			//Don't change this line, or the item will break.
-			item.shoot = Projectiles.DonatorItems.HarpyPet._type;
-		}
+            item.buffType = HarpyPetBuff._type;
+            //Don't change this line, or the item will break.
+            item.shoot = Projectiles.DonatorItems.HarpyPet._type;
+        }
 
-		public override bool AltFunctionUse(Player player)
-		{
-			return true;
-		}
+        public override bool AltFunctionUse(Player player) {
+            return true;
+        }
 
-		public override bool CanUseItem(Player player)
-		{
-			//Don't put this line into SetDefaults, or the item will break.
-			item.shoot = Projectiles.DonatorItems.DuskfeatherBlade._type;
-			if (player.altFunctionUse == 2)
-			{
-				if (item.useStyle == 1)
-				{
-					item.useStyle = 4;
-					item.noUseGraphic = false;
-					item.UseSound = null;
-				}
-				else
-					return false;
-			}
-			else
-			{
-				if (player.ownedProjectileCounts[Projectiles.DonatorItems.DuskfeatherBlade._type] >= 8)
-					Projectiles.DonatorItems.DuskfeatherBlade.AttractOldestBlade(player);
-				item.useStyle = ItemUseStyleID.SwingThrow;
-				item.noUseGraphic = true;
-				item.UseSound = SoundID.Item1;
-			}
-			return true;
-		}
+        public override bool CanUseItem(Player player) {
+            //Don't put this line into SetDefaults, or the item will break.
+            item.shoot = Projectiles.DonatorItems.DuskfeatherBlade._type;
+            if(player.altFunctionUse == 2) {
+                if(item.useStyle == 1) {
+                    item.useStyle = 4;
+                    item.noUseGraphic = false;
+                    item.UseSound = null;
+                } else
+                    return false;
+            } else {
+                if(player.ownedProjectileCounts[Projectiles.DonatorItems.DuskfeatherBlade._type] >= 8)
+                    Projectiles.DonatorItems.DuskfeatherBlade.AttractOldestBlade(player);
+                item.useStyle = ItemUseStyleID.SwingThrow;
+                item.noUseGraphic = true;
+                item.UseSound = SoundID.Item1;
+            }
+            return true;
+        }
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			if (player.altFunctionUse == 2)
-			{
-				Projectiles.DonatorItems.DuskfeatherBlade.AttractBlades(player);
-				return false;
-			}
-			return true;
-		}
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) {
+            if(player.altFunctionUse == 2) {
+                Projectiles.DonatorItems.DuskfeatherBlade.AttractBlades(player);
+                return false;
+            }
+            return true;
+        }
 
-		public override void AddRecipes()
-		{
-			var recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Muramasa);
-			recipe.AddIngredient(ItemID.Feather, 8);
-			recipe.AddIngredient(ItemID.FossilOre, 25);
-			recipe.AddIngredient(ItemID.Amber, 8);
-			recipe.AddTile(TileID.DemonAltar);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
-	}
+        public override void AddRecipes() {
+            var recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.Muramasa);
+            recipe.AddIngredient(ItemID.Feather, 8);
+            recipe.AddIngredient(ItemID.FossilOre, 25);
+            recipe.AddIngredient(ItemID.Amber, 8);
+            recipe.AddTile(TileID.DemonAltar);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+    }
 }

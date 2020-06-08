@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 
 using Terraria;
 using Terraria.ID;
@@ -10,14 +8,12 @@ namespace SpiritMod.Items.Accessory.Leather
     [AutoloadEquip(EquipType.Shield)]
     public class BismiteShield : ModItem
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Noxious Targe");
-			Tooltip.SetDefault("Being struck by an enemy poisons them\nIncreases defense by 1 for every poisoned enemy near the player\nThis effect stacks three times");
-		}
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("Noxious Targe");
+            Tooltip.SetDefault("Being struck by an enemy poisons them\nIncreases defense by 1 for every poisoned enemy near the player\nThis effect stacks three times");
+        }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             item.width = 24;
             item.height = 28;
             item.rare = 2;
@@ -26,14 +22,12 @@ namespace SpiritMod.Items.Accessory.Leather
             item.accessory = true;
         }
 
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-           player.GetSpiritPlayer().bismiteShield = true;
+        public override void UpdateAccessory(Player player, bool hideVisual) {
+            player.GetSpiritPlayer().bismiteShield = true;
 
-           player.statDefense += 1 * player.GetSpiritPlayer().bismiteShieldStacks;
+            player.statDefense += 1 * player.GetSpiritPlayer().bismiteShieldStacks;
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<LeatherShield>(), 1);
             recipe.AddIngredient(null, "BismiteCrystal", 6);

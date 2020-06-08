@@ -1,34 +1,102 @@
+using Microsoft.Xna.Framework;
+using SpiritMod.Tiles.Furniture.Reach;
+using SpiritMod.NPCs.Critters;
+using SpiritMod.Mounts;
+using SpiritMod.NPCs.Boss.SpiritCore;
+using SpiritMod.Boss.SpiritCore;
+using SpiritMod.Buffs.Candy;
+using SpiritMod.Buffs.Potion;
+using SpiritMod.Projectiles.Pet;
+using SpiritMod.Buffs.Pet;
+using SpiritMod.Projectiles.Arrow.Artifact;
+using SpiritMod.Projectiles.Bullet.Crimbine;
+using SpiritMod.Projectiles.Bullet;
+using SpiritMod.Projectiles.Magic.Artifact;
+using SpiritMod.Projectiles.Summon.Artifact;
+using SpiritMod.Projectiles.Summon.LaserGate;
+using SpiritMod.Projectiles.Flail;
+using SpiritMod.Projectiles.Arrow;
+using SpiritMod.Projectiles.Magic;
+using SpiritMod.Projectiles.Sword.Artifact;
+using SpiritMod.Projectiles.Summon.Dragon;
+using SpiritMod.Projectiles.Sword;
+using SpiritMod.Projectiles.Thrown.Artifact;
+using SpiritMod.Items.Boss;
+using SpiritMod.Items.Armor.Masks;
+using SpiritMod.Projectiles.Returning;
+using SpiritMod.Projectiles.Held;
+using SpiritMod.Projectiles.Thrown;
+using SpiritMod.Items.Equipment;
+using SpiritMod.Projectiles.DonatorItems;
+using SpiritMod.Buffs.Mount;
+using SpiritMod.Items.Weapon.Yoyo;
+using SpiritMod.Projectiles.Yoyo;
+using SpiritMod.Items.Weapon.Spear;
+using SpiritMod.Items.Weapon.Swung;
+using SpiritMod.NPCs.Boss;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Pets;
+using SpiritMod.Items.Weapon.Summon;
+using SpiritMod.Projectiles.Boss;
+using SpiritMod.Items.BossBags;
+using SpiritMod.Items.Consumable.Fish;
+using SpiritMod.Buffs.Summon;
+using SpiritMod.Projectiles.Summon;
+using SpiritMod.NPCs.Spirit;
+using SpiritMod.Items.Consumable;
+using SpiritMod.Tiles.Block;
+using SpiritMod.Items.Placeable.Furniture;
+using SpiritMod.Items.Consumable.Quest;
+using SpiritMod.Items.Consumable.Potion;
+using SpiritMod.Items.Placeable.IceSculpture;
+using SpiritMod.Items.Weapon.Bow;
+using SpiritMod.Items.Weapon.Gun;
+using SpiritMod.Buffs;
+using SpiritMod.Items;
+using SpiritMod.Items.Weapon;
+using SpiritMod.Items.Weapon.Returning;
+using SpiritMod.Items.Weapon.Thrown;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Items.Accessory;
+
+using SpiritMod.Items.Accessory.Leather;
+using SpiritMod.Items.Ammo;
+using SpiritMod.Items.Armor;
+using SpiritMod.Dusts;
+using SpiritMod.Buffs;
+using SpiritMod.Buffs.Artifact;
+using SpiritMod.NPCs;
+using SpiritMod.NPCs.Asteroid;
+using SpiritMod.Projectiles;
+using SpiritMod.Projectiles.Hostile;
+using SpiritMod.Tiles;
+using SpiritMod.Tiles.Ambient;
+using SpiritMod.Tiles.Ambient.IceSculpture;
+using SpiritMod.Tiles.Ambient.ReachGrass;
+using SpiritMod.Tiles.Ambient.ReachMicros;
+using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Effects;
+using SpiritMod.NPCs.Boss.Atlas;
+using SpiritMod.NPCs.Boss.Overseer;
+using SpiritMod.NPCs.Town;
+using SpiritMod.Projectiles;
+using SpiritMod.Skies;
+using SpiritMod.Skies.Overlays;
+using SpiritMod.Tide;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent.Shaders;
-using Terraria.GameContent.Skies;
+using Terraria.GameContent.UI;
+using Terraria.Graphics;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
-using Terraria.Initializers;
-using Terraria.IO;
-using Terraria.GameContent;
-using Terraria.Utilities;
 using Terraria.ModLoader;
-using System.Linq;
 using Terraria.UI;
-using Terraria.GameContent.UI;
-using SpiritMod.NPCs.Boss.Overseer;
-using SpiritMod.NPCs.Town;
-using SpiritMod.NPCs.Boss.Atlas;
-using SpiritMod.Tide;
-using SpiritMod.Skies.Overlays;
-using SpiritMod.Effects;
-using SpiritMod.Skies;
-using SpiritMod.Projectiles;
-using SpiritMod.Utilities;
-using Terraria.Graphics;
-using static Terraria.ModLoader.ModContent;
+using Terraria.Utilities;
 
 namespace SpiritMod
 {
@@ -45,8 +113,7 @@ namespace SpiritMod
         public static Texture2D MoonTexture;
         public const string EMPTY_TEXTURE = "SpiritMod/Empty";
         public const string customEventName = "The Tide";
-        public static Texture2D EmptyTexture
-        {
+        public static Texture2D EmptyTexture {
             get;
             private set;
         }
@@ -55,25 +122,21 @@ namespace SpiritMod
         public static int GlyphCurrencyID;
 
         internal static SpiritMod instance;
-        public SpiritMod()
-        {
+        public SpiritMod() {
             Instance = this;
             spiritRNG = new UnifiedRandom();
         }
 
-        public ModPacket GetPacket(MessageType type, int capacity)
-        {
+        public ModPacket GetPacket(MessageType type, int capacity) {
             ModPacket packet = base.GetPacket(capacity + 1);
             packet.Write((byte)type);
             return packet;
         }
 
-        public override void HandlePacket(BinaryReader reader, int whoAmI)
-        {
+        public override void HandlePacket(BinaryReader reader, int whoAmI) {
             MessageType id = (MessageType)reader.ReadByte();
             byte player;
-            switch (id)
-            {
+            switch(id) {
                 case MessageType.AuroraData:
                     MyWorld.auroraType = reader.ReadInt32();
                     break;
@@ -83,14 +146,13 @@ namespace SpiritMod
                 case MessageType.Dodge:
                     player = reader.ReadByte();
                     byte type = reader.ReadByte();
-                    if (Main.netMode == 2)
-                    {
+                    if(Main.netMode == 2) {
                         ModPacket packet = GetPacket(MessageType.Dodge, 2);
                         packet.Write(player);
                         packet.Write(type);
                         packet.Send(-1, whoAmI);
                     }
-                    if (type == 1)
+                    if(type == 1)
                         Items.Glyphs.VeilGlyph.Block(Main.player[player]);
                     else
                         ErrorLogger.Log("SpiritMod: Unknown message (2:" + type + ")");
@@ -99,8 +161,7 @@ namespace SpiritMod
                     player = reader.ReadByte();
                     DashType dash = (DashType)reader.ReadByte();
                     sbyte dir = reader.ReadSByte();
-                    if (Main.netMode == 2)
-                    {
+                    if(Main.netMode == 2) {
                         ModPacket packet = GetPacket(MessageType.Dash, 3);
                         packet.Write(player);
                         packet.Write((byte)dash);
@@ -112,14 +173,13 @@ namespace SpiritMod
                 case MessageType.PlayerGlyph:
                     player = reader.ReadByte();
                     GlyphType glyph = (GlyphType)reader.ReadByte();
-                    if (Main.netMode == 2)
-                    {
+                    if(Main.netMode == 2) {
                         ModPacket packet = GetPacket(MessageType.PlayerGlyph, 2);
                         packet.Write(player);
                         packet.Write((byte)glyph);
                         packet.Send(-1, whoAmI);
                     }
-                    if (player == Main.myPlayer)
+                    if(player == Main.myPlayer)
                         break;
                     Main.player[player].GetModPlayer<MyPlayer>().glyph = glyph;
                     break;
@@ -130,143 +190,117 @@ namespace SpiritMod
         }
 
 
-        public override void UpdateMusic(ref int music, ref MusicPriority priority)
-        {
-            if (Main.gameMenu)
+        public override void UpdateMusic(ref int music, ref MusicPriority priority) {
+            if(Main.gameMenu)
                 return;
-            if (priority > MusicPriority.Event)
+            if(priority > MusicPriority.Event)
                 return;
             Player player = Main.LocalPlayer;
-            if (!player.active)
+            if(!player.active)
                 return;
             MyPlayer spirit = player.GetModPlayer<MyPlayer>();
-            if (TideWorld.TheTide && TideWorld.InBeach)
-            {
+            if(TideWorld.TheTide && TideWorld.InBeach) {
                 music = GetSoundSlot(SoundType.Music, "Sounds/Music/DepthInvasion");
                 priority = MusicPriority.Event;
             }
 
-            if (priority > MusicPriority.Environment)
+            if(priority > MusicPriority.Environment)
                 return;
-            if (spirit.ZoneBlueMoon && !Main.dayTime && (player.ZoneOverworldHeight || player.ZoneSkyHeight))
-            {
+            if(spirit.ZoneBlueMoon && !Main.dayTime && (player.ZoneOverworldHeight || player.ZoneSkyHeight)) {
                 music = GetSoundSlot(SoundType.Music, "Sounds/Music/BlueMoon");
                 priority = MusicPriority.Environment;
             }
 
-            if (priority > MusicPriority.BiomeHigh)
+            if(priority > MusicPriority.BiomeHigh)
                 return;
-            if (spirit.ZoneReach && Main.dayTime)
-            {
+            if(spirit.ZoneReach && Main.dayTime) {
                 music = GetSoundSlot(SoundType.Music, "Sounds/Music/Reach");
                 priority = MusicPriority.BiomeHigh;
-            }
-            else if (spirit.ZoneReach && !Main.dayTime)
-            {
+            } else if(spirit.ZoneReach && !Main.dayTime) {
                 music = GetSoundSlot(SoundType.Music, "Sounds/Music/ReachNighttime");
                 priority = MusicPriority.BiomeHigh;
             }
-            if (MyWorld.aurora && player.ZoneSnow && player.ZoneOverworldHeight && !Main.dayTime)
-            {
+            if(MyWorld.aurora && player.ZoneSnow && player.ZoneOverworldHeight && !Main.dayTime) {
                 music = GetSoundSlot(SoundType.Music, "Sounds/Music/AuroraSnow");
                 priority = MusicPriority.BiomeHigh;
             }
-            if (player.ZoneBeach && MyWorld.luminousOcean && !Main.dayTime)
-            {
+            if(player.ZoneBeach && MyWorld.luminousOcean && !Main.dayTime) {
                 music = GetSoundSlot(SoundType.Music, "Sounds/Music/OceanNighttime");
                 priority = MusicPriority.BiomeHigh;
             }
-            if (player.ZoneSnow && player.ZoneOverworldHeight && !Main.dayTime && !player.ZoneCorrupt && !player.ZoneCrimson && !MyWorld.aurora)
-            {
+            if(player.ZoneSnow && player.ZoneOverworldHeight && !Main.dayTime && !player.ZoneCorrupt && !player.ZoneCrimson && !MyWorld.aurora) {
                 music = GetSoundSlot(SoundType.Music, "Sounds/Music/SnowNighttime");
                 priority = MusicPriority.BiomeMedium;
             }
-            if (player.ZoneDesert && player.ZoneOverworldHeight && !Main.dayTime && !player.ZoneCorrupt && !player.ZoneCrimson)
-            {
+            if(player.ZoneDesert && player.ZoneOverworldHeight && !Main.dayTime && !player.ZoneCorrupt && !player.ZoneCrimson) {
                 music = GetSoundSlot(SoundType.Music, "Sounds/Music/DesertNighttime");
                 priority = MusicPriority.BiomeHigh;
             }
-            if (spirit.ZoneAsteroid)
-            {
+            if(spirit.ZoneAsteroid) {
                 music = this.GetSoundSlot(SoundType.Music, "Sounds/Music/Asteroids");
                 priority = MusicPriority.Environment;
             }
-            if (priority > MusicPriority.BiomeMedium)
+            if(priority > MusicPriority.BiomeMedium)
                 return;
-            if (spirit.ZoneSpirit)
-            {
+            if(spirit.ZoneSpirit) {
                 priority = MusicPriority.BiomeMedium;
-                if (player.ZoneRockLayerHeight && player.position.Y / 16 < (Main.rockLayer + Main.maxTilesY - 330) / 2f)
-                {
+                if(player.ZoneRockLayerHeight && player.position.Y / 16 < (Main.rockLayer + Main.maxTilesY - 330) / 2f) {
                     music = GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer1");
                 }
-                if (player.ZoneRockLayerHeight && player.position.Y / 16 > (Main.rockLayer + Main.maxTilesY - 330) / 2f)
-                {
+                if(player.ZoneRockLayerHeight && player.position.Y / 16 > (Main.rockLayer + Main.maxTilesY - 330) / 2f) {
                     music = GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer2");
                 }
-                if (player.position.Y / 16 >= Main.maxTilesY - 330)
-                {
+                if(player.position.Y / 16 >= Main.maxTilesY - 330) {
                     music = GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer3");
                 }
-                if (!player.ZoneRockLayerHeight && player.position.Y / 16 < (Main.rockLayer + Main.maxTilesY - 330) / 2f)
-                {
+                if(!player.ZoneRockLayerHeight && player.position.Y / 16 < (Main.rockLayer + Main.maxTilesY - 330) / 2f) {
                     music = GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritOverworld");
                 }
             }
         }
 
 
-        public override object Call(params object[] args)
-        {
-            if (args.Length < 1)
-            {
+        public override object Call(params object[] args) {
+            if(args.Length < 1) {
                 var stack = new System.Diagnostics.StackTrace(true);
                 ErrorLogger.Log("Spirit Mod Call Error: No arguments given:\n" + stack.ToString());
                 return null;
             }
             CallContext context;
             int? contextNum = args[0] as int?;
-            if (contextNum.HasValue)
+            if(contextNum.HasValue)
                 context = (CallContext)contextNum.Value;
             else
                 context = ParseCallName(args[0] as string);
-            if (context == CallContext.Invalid && !contextNum.HasValue)
-            {
+            if(context == CallContext.Invalid && !contextNum.HasValue) {
                 var stack = new System.Diagnostics.StackTrace(true);
                 ErrorLogger.Log("Spirit Mod Call Error: Context invalid or null:\n" + stack.ToString());
                 return null;
             }
-            if (context <= CallContext.Invalid || context >= CallContext.Limit)
-            {
+            if(context <= CallContext.Invalid || context >= CallContext.Limit) {
                 var stack = new System.Diagnostics.StackTrace(true);
                 ErrorLogger.Log("Spirit Mod Call Error: Context invalid:\n" + stack.ToString());
                 return null;
             }
-            try
-            {
-                if (context == CallContext.Downed)
+            try {
+                if(context == CallContext.Downed)
                     return BossDowned(args);
-                if (context == CallContext.GlyphGet)
+                if(context == CallContext.GlyphGet)
                     return GetGlyph(args);
-                if (context == CallContext.GlyphSet)
-                {
+                if(context == CallContext.GlyphSet) {
                     SetGlyph(args);
                     return null;
                 }
-            }
-            catch (Exception e)
-            {
+            } catch(Exception e) {
                 ErrorLogger.Log("Spirit Mod Call Error: " + e.Message + "\n" + e.StackTrace);
             }
             return null;
         }
 
-        private static CallContext ParseCallName(string context)
-        {
-            if (context == null)
+        private static CallContext ParseCallName(string context) {
+            if(context == null)
                 return CallContext.Invalid;
-            switch (context)
-            {
+            switch(context) {
                 case "downed":
                     return CallContext.Downed;
                 case "getGlyph":
@@ -277,13 +311,11 @@ namespace SpiritMod
             return CallContext.Invalid;
         }
 
-        private static bool BossDowned(object[] args)
-        {
-            if (args.Length < 2)
+        private static bool BossDowned(object[] args) {
+            if(args.Length < 2)
                 throw new ArgumentException("No boss name specified");
             string name = args[1] as string;
-            switch (name)
-            {
+            switch(name) {
                 case "Scarabeus": return MyWorld.downedScarabeus;
                 case "Vinewrath Bane": return MyWorld.downedReachBoss;
                 case "Ancient Avian": return MyWorld.downedAncientFlier;
@@ -296,47 +328,42 @@ namespace SpiritMod
             }
             throw new ArgumentException("Invalid boss name:" + name);
         }
-        public override void ModifyLightingBrightness(ref float scale)
-        {
+        public override void ModifyLightingBrightness(ref float scale) {
             Player player = Main.LocalPlayer;
             MyPlayer spirit = player.GetModPlayer<MyPlayer>();
-            if (spirit.ZoneReach && !Main.dayTime)
-            {
+            if(spirit.ZoneReach && !Main.dayTime) {
                 scale *= .89f;
             }
         }
-        private static void SetGlyph(object[] args)
-        {
-            if (args.Length < 2)
+        private static void SetGlyph(object[] args) {
+            if(args.Length < 2)
                 throw new ArgumentException("Missing argument: Item");
-            else if (args.Length < 3)
+            else if(args.Length < 3)
                 throw new ArgumentException("Missing argument: Glyph");
             Item item = args[1] as Item;
-            if (item == null)
+            if(item == null)
                 throw new ArgumentException("First argument must be of type Item");
             int? glyphID = args[2] as int?;
-            if (!glyphID.HasValue)
+            if(!glyphID.HasValue)
                 throw new ArgumentException("Second argument must be of type int");
             GlyphType glyph = (GlyphType)glyphID;
-            if (glyph < GlyphType.None || glyph >= GlyphType.Count)
+            if(glyph < GlyphType.None || glyph >= GlyphType.Count)
                 throw new ArgumentException("Glyph must be in range [" +
                     (int)GlyphType.None + "," + (int)GlyphType.Count + ")");
             item.GetGlobalItem<Items.GItem>().SetGlyph(item, glyph);
         }
 
-        private static int GetGlyph(object[] args)
-        {
-            if (args.Length < 2)
+        private static int GetGlyph(object[] args) {
+            if(args.Length < 2)
                 throw new ArgumentException("Missing argument: Item");
             Item item = args[1] as Item;
-            if (item == null)
+            if(item == null)
                 throw new ArgumentException("First argument must be of type Item");
             return (int)item.GetGlobalItem<Items.GItem>().Glyph;
         }
 
 
-        public override void Load()
-        {
+        public override void Load() {
             //Always keep this call in the first line of Load!
             LoadReferences();
             AdventurerQuests = new AdventurerQuestHandler(this);
@@ -347,19 +374,18 @@ namespace SpiritMod
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile;
 
             instance = this;
-            if (Main.rand == null)
+            if(Main.rand == null)
                 Main.rand = new Terraria.Utilities.UnifiedRandom();
             //Don't add any code before this point,
             // unless you know what you're doing.
             Items.Halloween.CandyBag.Initialize();
 
-			if (Main.netMode != NetmodeID.Server)
-			{
-				Ref<Effect> screenRef = new Ref<Effect>(GetEffect("Effects/ShockwaveEffect")); // The path to the compiled shader file.
-				Filters.Scene["Shockwave"] = new Filter(new ScreenShaderData(screenRef, "Shockwave"), EffectPriority.VeryHigh);
-				Filters.Scene["Shockwave"].Load();
-			}
-           
+            if(Main.netMode != NetmodeID.Server) {
+                Ref<Effect> screenRef = new Ref<Effect>(GetEffect("Effects/ShockwaveEffect")); // The path to the compiled shader file.
+                Filters.Scene["Shockwave"] = new Filter(new ScreenShaderData(screenRef, "Shockwave"), EffectPriority.VeryHigh);
+                Filters.Scene["Shockwave"].Load();
+            }
+
             Filters.Scene["SpiritMod:ReachSky"] = new Filter(new ScreenShaderData("FilterBloodMoon").UseColor(0.05f, 0.05f, .05f).UseOpacity(0.7f), EffectPriority.High);
 
             Filters.Scene["SpiritMod:SpiritUG1"] = new Filter(new ScreenShaderData("FilterBloodMoon").UseColor(0.2f, 0.2f, .2f).UseOpacity(0.8f), EffectPriority.High);
@@ -373,8 +399,7 @@ namespace SpiritMod
 
             GlyphCurrencyID = CustomCurrencyManager.RegisterCurrency(new Currency(ModContent.ItemType<Items.Glyphs.Glyph>(), 999L));
 
-            if (!Main.dedServ)
-            {
+            if(!Main.dedServ) {
                 AddEquipTexture(null, EquipType.Legs, "TalonGarb_Legs", "SpiritMod/Items/Armor/TalonGarb_Legs");
                 EmptyTexture = GetTexture("Empty");
                 auroraEffect = GetEffect("Effects/aurora");
@@ -429,12 +454,9 @@ namespace SpiritMod
         /// for a field called _ref
         /// and populates it, if it exists.
         /// </summary>
-        private void LoadReferences()
-        {
-            foreach (Type type in Code.GetTypes())
-            {
-                if (type.IsAbstract)
-                {
+        private void LoadReferences() {
+            foreach(Type type in Code.GetTypes()) {
+                if(type.IsAbstract) {
                     continue;
                 }
 
@@ -444,98 +466,78 @@ namespace SpiritMod
                 bool isDefT = _typeField != null && _typeField.IsStatic && _typeField.FieldType == typeof(int);
                 bool modType = true;
 
-                if (type.IsSubclassOf(typeof(ModItem)))
-                {
-                    if (isDefR && _refField.FieldType == typeof(ModItem))
+                if(type.IsSubclassOf(typeof(ModItem))) {
+                    if(isDefR && _refField.FieldType == typeof(ModItem))
                         _refField.SetValue(null, GetItem(type.Name));
-                    if (isDefT)
+                    if(isDefT)
                         _typeField.SetValue(null, ItemType(type.Name));
-                }
-                else if (type.IsSubclassOf(typeof(ModNPC)))
-                {
-                    if (isDefR && _refField.FieldType == typeof(ModNPC))
+                } else if(type.IsSubclassOf(typeof(ModNPC))) {
+                    if(isDefR && _refField.FieldType == typeof(ModNPC))
                         _refField.SetValue(null, GetNPC(type.Name));
-                    if (isDefT)
+                    if(isDefT)
                         _typeField.SetValue(null, NPCType(type.Name));
-                }
-                else if (type.IsSubclassOf(typeof(ModProjectile)))
-                {
-                    if (isDefR && _refField.FieldType == typeof(ModProjectile))
+                } else if(type.IsSubclassOf(typeof(ModProjectile))) {
+                    if(isDefR && _refField.FieldType == typeof(ModProjectile))
                         _refField.SetValue(null, GetProjectile(type.Name));
-                    if (isDefT)
+                    if(isDefT)
                         _typeField.SetValue(null, ProjectileType(type.Name));
-                }
-                else if (type.IsSubclassOf(typeof(ModDust)))
-                {
-                    if (isDefR && _refField.FieldType == typeof(ModDust))
+                } else if(type.IsSubclassOf(typeof(ModDust))) {
+                    if(isDefR && _refField.FieldType == typeof(ModDust))
                         _refField.SetValue(null, GetDust(type.Name));
-                    if (isDefT)
+                    if(isDefT)
                         _typeField.SetValue(null, DustType(type.Name));
-                }
-                else if (type.IsSubclassOf(typeof(ModTile)))
-                {
-                    if (isDefR && _refField.FieldType == typeof(ModTile))
+                } else if(type.IsSubclassOf(typeof(ModTile))) {
+                    if(isDefR && _refField.FieldType == typeof(ModTile))
                         _refField.SetValue(null, GetTile(type.Name));
-                    if (isDefT)
+                    if(isDefT)
                         _typeField.SetValue(null, TileType(type.Name));
-                }
-                else if (type.IsSubclassOf(typeof(ModWall)))
-                {
-                    if (isDefR && _refField.FieldType == typeof(ModWall))
+                } else if(type.IsSubclassOf(typeof(ModWall))) {
+                    if(isDefR && _refField.FieldType == typeof(ModWall))
                         _refField.SetValue(null, GetWall(type.Name));
-                    if (isDefT)
+                    if(isDefT)
                         _typeField.SetValue(null, WallType(type.Name));
-                }
-                else if (type.IsSubclassOf(typeof(ModBuff)))
-                {
-                    if (isDefR && _refField.FieldType == typeof(ModBuff))
+                } else if(type.IsSubclassOf(typeof(ModBuff))) {
+                    if(isDefR && _refField.FieldType == typeof(ModBuff))
                         _refField.SetValue(null, GetBuff(type.Name));
-                    if (isDefT)
+                    if(isDefT)
                         _typeField.SetValue(null, BuffType(type.Name));
-                }
-                else if (type.IsSubclassOf(typeof(ModMountData)))
-                {
-                    if (isDefR && _refField.FieldType == typeof(ModMountData))
+                } else if(type.IsSubclassOf(typeof(ModMountData))) {
+                    if(isDefR && _refField.FieldType == typeof(ModMountData))
                         _refField.SetValue(null, GetMount(type.Name));
-                    if (isDefT)
+                    if(isDefT)
                         _typeField.SetValue(null, MountType(type.Name));
-                }
-                else
+                } else
                     modType = false;
 
-                if (Main.dedServ || !modType)
+                if(Main.dedServ || !modType)
                     continue;
 
                 System.Reflection.FieldInfo _texField = type.GetField("_textures");
-                if (_texField == null || !_texField.IsStatic || _texField.FieldType != typeof(Texture2D[]))
+                if(_texField == null || !_texField.IsStatic || _texField.FieldType != typeof(Texture2D[]))
                     continue;
 
                 string path = type.FullName.Substring(10).Replace('.', '/'); //Substring(10) removes "SpiritMod."
                 int texCount = 0;
-                while (TextureExists(path + "_" + (texCount + 1)))
-                {
+                while(TextureExists(path + "_" + (texCount + 1))) {
                     texCount++;
                 }
                 Texture2D[] textures = new Texture2D[texCount + 1];
-                if (TextureExists(path))
+                if(TextureExists(path))
                     textures[0] = GetTexture(path);
-                for (int i = 1; i <= texCount; i++)
-                {
+                for(int i = 1; i <= texCount; i++) {
                     textures[i] = GetTexture(path + "_" + i);
                 }
                 _texField.SetValue(null, textures);
             }
         }
 
-        private void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
-        {
+        private void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self) {
             TrailManager.DrawTrails(Main.spriteBatch);
             orig(self);
         }
 
         //ugh this name
-        private int Projectile_NewProjectile(On.Terraria.Projectile.orig_NewProjectile_float_float_float_float_int_int_float_int_float_float orig, float X, float Y, float SpeedX, float SpeedY, int Type, int Damage, float KnockBack, int Owner, float ai0, float ai1)
-        {
+        private int Projectile_NewProjectile(On.Terraria.Projectile.orig_NewProjectile_float_float_float_float_int_int_float_int_float_float orig, float X, float Y, float SpeedX, float SpeedY, int Type, int Damage, float KnockBack, int Owner, float ai0, float ai1) {
             int index = orig(X, Y, SpeedX, SpeedY, Type, Damage, KnockBack, Owner, ai0, ai1);
             Projectile projectile = Main.projectile[index];
 
@@ -543,8 +545,7 @@ namespace SpiritMod
 
             return index;
         }
-        public override void Unload()
-        {
+        public override void Unload() {
             spiritRNG = null;
             auroraEffect = null;
             noise = null;
@@ -556,15 +557,12 @@ namespace SpiritMod
             TrailManager = null;
         }
 
-        public override void MidUpdateProjectileItem()
-        {
+        public override void MidUpdateProjectileItem() {
             TrailManager.UpdateTrails();
         }
-        internal static int GetRainDustType(int rainType, out Color color)
-        {
+        internal static int GetRainDustType(int rainType, out Color color) {
             color = Color.White;
-            switch (rainType / 3)
-            {
+            switch(rainType / 3) {
                 default:
                 case 0: //normal rain
                     return 154;
@@ -583,8 +581,7 @@ namespace SpiritMod
                     return 218;
             }
         }
-        public override void AddRecipeGroups()
-        {
+        public override void AddRecipeGroups() {
             RecipeGroup group1 = new RecipeGroup(() => Lang.misc[37] + " Iron Bar" + Lang.GetItemNameValue(ItemType("Iron Bar")), new int[]
             {
                 22,
@@ -642,13 +639,11 @@ namespace SpiritMod
             RecipeGroup.RegisterGroup("SilverBars", group);
         }
 
-        public override void PostSetupContent()
-        {
+        public override void PostSetupContent() {
             Items.Glyphs.GlyphBase.InitializeGlyphLookup();
 
             Mod bossChecklist = ModLoader.GetMod("BossChecklist");
-            if (bossChecklist != null)
-            {
+            if(bossChecklist != null) {
                 // 14 is moolord, 12 is duke fishron
                 bossChecklist.Call("AddBossWithInfo", "Scarabeus", 0.8f, (Func<bool>)(() => MyWorld.downedScarabeus), "Use a [i:" + ItemType("ScarabIdol") + "] in the Desert biome at any time");
                 bossChecklist.Call("AddBossWithInfo", "Vinewrath Bane", 3.5f, (Func<bool>)(() => MyWorld.downedReachBoss), "Use a [i:" + ItemType("ReachBossSummon") + "] in the Reach at daytime");
@@ -665,17 +660,13 @@ namespace SpiritMod
         }
 
 
-        public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
-        {
+        public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers) {
             TidePlayer modPlayer1 = Main.player[Main.myPlayer].GetModPlayer<TidePlayer>();
-            if (TideWorld.TheTide)
-            {
+            if(TideWorld.TheTide) {
                 int index = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));
-                if (index >= 0)
-                {
+                if(index >= 0) {
                     LegacyGameInterfaceLayer TideThing = new LegacyGameInterfaceLayer("SpiritMod: TideBenis",
-                        delegate
-                        {
+                        delegate {
                             DrawTide(Main.spriteBatch);
                             return true;
                         },
@@ -685,67 +676,52 @@ namespace SpiritMod
             }
         }
 
-        public override void HotKeyPressed(string name)
-        {
-            if (name == "Concentration_Hotkey")
-            {
+        public override void HotKeyPressed(string name) {
+            if(name == "Concentration_Hotkey") {
                 MyPlayer mp = Main.player[Main.myPlayer].GetModPlayer<MyPlayer>();
-                if (mp.leatherSet && !mp.concentrated && mp.concentratedCooldown <= 0)
-                {
+                if(mp.leatherSet && !mp.concentrated && mp.concentratedCooldown <= 0) {
                     mp.concentrated = true;
                 }
             }
         }
 
-        public override void ModifySunLightColor(ref Color tileColor, ref Color backgroundColor)
-        {
+        public override void ModifySunLightColor(ref Color tileColor, ref Color backgroundColor) {
             Mod mod = SpiritMod.instance;
             Microsoft.Xna.Framework.Color white = Microsoft.Xna.Framework.Color.White;
             Microsoft.Xna.Framework.Color white2 = Microsoft.Xna.Framework.Color.White;
             Player player = Main.LocalPlayer;
-            if (MyWorld.SpiritTiles > 0)
-            {
+            if(MyWorld.SpiritTiles > 0) {
                 float num255 = (float)MyWorld.SpiritTiles / 160f;
-                if (num255 > MyWorld.spiritLight)
-                {
+                if(num255 > MyWorld.spiritLight) {
                     MyWorld.spiritLight += 0.01f;
                 }
-                if (num255 < MyWorld.spiritLight)
-                {
+                if(num255 < MyWorld.spiritLight) {
                     MyWorld.spiritLight -= 0.01f;
                 }
-            }
-            else
-            {
+            } else {
                 MyWorld.spiritLight -= 0.02f;
             }
-            if (MyWorld.spiritLight < 0f)
-            {
+            if(MyWorld.spiritLight < 0f) {
                 MyWorld.spiritLight = 0f;
             }
-            if (MyWorld.spiritLight > 1f)
-            {
+            if(MyWorld.spiritLight > 1f) {
                 MyWorld.spiritLight = 1f;
             }
-            if (MyWorld.spiritLight > 0f)
-            {
+            if(MyWorld.spiritLight > 0f) {
                 float num161 = MyWorld.spiritLight;
                 int num160 = Main.bgColor.R;
                 int num159 = Main.bgColor.G;
                 int num158 = Main.bgColor.B;
-                num159 -= (int)(250f/ 1.14f * num161 * ((float)(int)Main.bgColor.G / 255f));
-                num160 -= (int)(250f/ 1.14f * num161 * ((float)(int)Main.bgColor.R / 255f));
-                num158 -= (int)(250f/ 1.14f * num161 * ((float)(int)Main.bgColor.B / 255f));
-                if (num159 < 15)
-                {
+                num159 -= (int)(250f / 1.14f * num161 * ((float)(int)Main.bgColor.G / 255f));
+                num160 -= (int)(250f / 1.14f * num161 * ((float)(int)Main.bgColor.R / 255f));
+                num158 -= (int)(250f / 1.14f * num161 * ((float)(int)Main.bgColor.B / 255f));
+                if(num159 < 15) {
                     num159 = 15;
                 }
-                if (num160 < 15)
-                {
+                if(num160 < 15) {
                     num160 = 15;
                 }
-                if (num158 < 15)
-                {
+                if(num158 < 15) {
                     num158 = 15;
                 }
                 Main.bgColor.R = (byte)num160;
@@ -754,19 +730,16 @@ namespace SpiritMod
                 num160 = white.R;
                 num159 = white.G;
                 num158 = white.B;
-                num159 -= (int)(10f/ 1.14f * num161 * ((float)(int)white.G / 255f));
-                num160 -= (int)(30f/ 1.14f * num161 * ((float)(int)white.R / 255f));
-                num158 -= (int)(10f/ 1.14f * num161 * ((float)(int)white.B / 255f));
-                if (num160 < 15)
-                {
+                num159 -= (int)(10f / 1.14f * num161 * ((float)(int)white.G / 255f));
+                num160 -= (int)(30f / 1.14f * num161 * ((float)(int)white.R / 255f));
+                num158 -= (int)(10f / 1.14f * num161 * ((float)(int)white.B / 255f));
+                if(num160 < 15) {
                     num160 = 15;
                 }
-                if (num159 < 15)
-                {
+                if(num159 < 15) {
                     num159 = 15;
                 }
-                if (num158 < 15)
-                {
+                if(num158 < 15) {
                     num158 = 15;
                 }
                 white.R = (byte)num160;
@@ -775,52 +748,41 @@ namespace SpiritMod
                 num160 = white2.R;
                 num159 = white2.G;
                 num158 = white2.B;
-                num159 -= (int)(140f/1.14f * num161 * ((float)(int)white2.R / 255f));
-                num160 -= (int)(170f/1.14f * num161 * ((float)(int)white2.G / 255f));
-                num158 -= (int)(190f/1.14f * num161 * ((float)(int)white2.B / 255f));
-                if (num160 < 15)
-                {
+                num159 -= (int)(140f / 1.14f * num161 * ((float)(int)white2.R / 255f));
+                num160 -= (int)(170f / 1.14f * num161 * ((float)(int)white2.G / 255f));
+                num158 -= (int)(190f / 1.14f * num161 * ((float)(int)white2.B / 255f));
+                if(num160 < 15) {
                     num160 = 15;
                 }
-                if (num159 < 15)
-                {
+                if(num159 < 15) {
                     num159 = 15;
                 }
-                if (num158 < 15)
-                {
+                if(num158 < 15) {
                     num158 = 15;
                 }
                 white2.R = (byte)num160;
                 white2.G = (byte)num159;
                 white2.B = (byte)num158;
             }
-       
-            if (MyWorld.AsteroidTiles > 0)
-            {
+
+            if(MyWorld.AsteroidTiles > 0) {
                 float num255 = (float)MyWorld.AsteroidTiles / 160f;
-                if (num255 > MyWorld.asteroidLight)
-                {
+                if(num255 > MyWorld.asteroidLight) {
                     MyWorld.asteroidLight += 0.01f;
                 }
-                if (num255 < MyWorld.asteroidLight)
-                {
+                if(num255 < MyWorld.asteroidLight) {
                     MyWorld.asteroidLight -= 0.01f;
                 }
-            }
-            else
-            {
+            } else {
                 MyWorld.asteroidLight -= 0.02f;
             }
-            if (MyWorld.asteroidLight < 0f)
-            {
+            if(MyWorld.asteroidLight < 0f) {
                 MyWorld.asteroidLight = 0f;
             }
-            if (MyWorld.asteroidLight > 1f)
-            {
+            if(MyWorld.asteroidLight > 1f) {
                 MyWorld.asteroidLight = 1f;
             }
-            if (MyWorld.asteroidLight > 0f)
-            {
+            if(MyWorld.asteroidLight > 0f) {
                 float num161 = MyWorld.asteroidLight;
                 int num160 = Main.bgColor.R;
                 int num159 = Main.bgColor.G;
@@ -828,16 +790,13 @@ namespace SpiritMod
                 num159 -= (int)(250f * num161 * ((float)(int)Main.bgColor.G / 255f));
                 num160 -= (int)(250f * num161 * ((float)(int)Main.bgColor.R / 255f));
                 num158 -= (int)(250f * num161 * ((float)(int)Main.bgColor.B / 255f));
-                if (num159 < 15)
-                {
+                if(num159 < 15) {
                     num159 = 15;
                 }
-                if (num160 < 15)
-                {
+                if(num160 < 15) {
                     num160 = 15;
                 }
-                if (num158 < 15)
-                {
+                if(num158 < 15) {
                     num158 = 15;
                 }
                 Main.bgColor.R = (byte)num160;
@@ -849,16 +808,13 @@ namespace SpiritMod
                 num159 -= (int)(10f * num161 * ((float)(int)white.G / 255f));
                 num160 -= (int)(30f * num161 * ((float)(int)white.R / 255f));
                 num158 -= (int)(10f * num161 * ((float)(int)white.B / 255f));
-                if (num160 < 15)
-                {
+                if(num160 < 15) {
                     num160 = 15;
                 }
-                if (num159 < 15)
-                {
+                if(num159 < 15) {
                     num159 = 15;
                 }
-                if (num158 < 15)
-                {
+                if(num158 < 15) {
                     num158 = 15;
                 }
                 white.R = (byte)num160;
@@ -870,16 +826,13 @@ namespace SpiritMod
                 num159 -= (int)(140f * num161 * ((float)(int)white2.R / 255f));
                 num160 -= (int)(170f * num161 * ((float)(int)white2.G / 255f));
                 num158 -= (int)(190f * num161 * ((float)(int)white2.B / 255f));
-                if (num160 < 15)
-                {
+                if(num160 < 15) {
                     num160 = 15;
                 }
-                if (num159 < 15)
-                {
+                if(num159 < 15) {
                     num159 = 15;
                 }
-                if (num158 < 15)
-                {
+                if(num158 < 15) {
                     num158 = 15;
                 }
                 white2.R = (byte)num160;
@@ -893,9 +846,9 @@ namespace SpiritMod
             int num229 = 80;
             int num230 = 32;
         }
-      
 
-    const int ShakeLength = 5;
+
+        const int ShakeLength = 5;
         int ShakeCount = 0;
         float previousRotation = 0;
         float targetRotation = 0;
@@ -907,33 +860,27 @@ namespace SpiritMod
         public static float shittyModTime;
         public static float tremorTime;
         public int screenshakeTimer = 0;
-        public override void ModifyTransformMatrix(ref SpriteViewMatrix Transform)
-        {
-            if (!Main.gameMenu)
-            {
+        public override void ModifyTransformMatrix(ref SpriteViewMatrix Transform) {
+            if(!Main.gameMenu) {
                 screenshakeTimer++;
-                if (tremorTime >= 0 && screenshakeTimer >= 20) // so it doesnt immediately decrease
+                if(tremorTime >= 0 && screenshakeTimer >= 20) // so it doesnt immediately decrease
                 {
                     tremorTime -= 0.5f;
                 }
-                if (tremorTime < 0)
-                {
+                if(tremorTime < 0) {
                     tremorTime = 0;
                 }
                 Main.screenPosition += new Vector2(tremorTime * Main.rand.NextFloat(), tremorTime * Main.rand.NextFloat()); //NextFloat creates a random value between 0 and 1, multiply screenshake amount for a bit of variety
-            }
-            else // dont shake on the menu
-            {
+            } else // dont shake on the menu
+              {
                 tremorTime = 0;
                 screenshakeTimer = 0;
             }
         }
 
-        public void DrawTide(SpriteBatch spriteBatch)
-        {
+        public void DrawTide(SpriteBatch spriteBatch) {
             TidePlayer modPlayer1 = Main.player[Main.myPlayer].GetModPlayer<TidePlayer>();
-            if (TideWorld.TheTide && TideWorld.InBeach)
-            {
+            if(TideWorld.TheTide && TideWorld.InBeach) {
 
                 float alpha = 0.5f;
                 Texture2D backGround1 = Main.colorBarTexture;
@@ -969,8 +916,7 @@ namespace SpiritMod
             }
         }
         #region pin stuff
-        public override void PostDrawFullscreenMap(ref string mouseText)
-        {
+        public override void PostDrawFullscreenMap(ref string mouseText) {
             var myplayer = Main.LocalPlayer.GetModPlayer<MyPlayer>();
 
             DrawMirrorOnFullscreenMap(myplayer.RedPinX, myplayer.RedPinY, true, GetTexture("Textures/Pins/RedPin"));
@@ -978,8 +924,7 @@ namespace SpiritMod
             DrawMirrorOnFullscreenMap(myplayer.GreenPinX, myplayer.GreenPinY, true, GetTexture("Textures/Pins/GreenPin"));
             DrawMirrorOnFullscreenMap(myplayer.YellowPinX, myplayer.YellowPinY, true, GetTexture("Textures/Pins/YellowPin"));
         }
-        public void DrawMirrorOnFullscreenMap(int tileX, int tileY, bool isTarget, Texture2D tex)
-        {
+        public void DrawMirrorOnFullscreenMap(int tileX, int tileY, bool isTarget, Texture2D tex) {
             float myScale = isTarget ? 0.25f : 0.125f;
             float uiScale = 5f;//Main.mapFullscreenScale;
             float scale = uiScale * myScale;
@@ -994,8 +939,7 @@ namespace SpiritMod
             //	Vector2 scrPos = overMapData.ScreenPosition;
             var overMapData = GetFullMapPositionAsScreenPosition(wldPos);
 
-            if (overMapData.IsOnScreen && tileX > 0 && tileY > 0)
-            {
+            if(overMapData.IsOnScreen && tileX > 0 && tileY > 0) {
                 Vector2 scrPos = overMapData.ScreenPosition;
                 Main.spriteBatch.Draw(
                     texture: tex,
@@ -1010,8 +954,7 @@ namespace SpiritMod
                 );
             }
         }
-        public static (Vector2 ScreenPosition, bool IsOnScreen) GetFullMapPositionAsScreenPosition(Vector2 worldPosition)
-        {    //Main.mapFullscreen
+        public static (Vector2 ScreenPosition, bool IsOnScreen) GetFullMapPositionAsScreenPosition(Vector2 worldPosition) {    //Main.mapFullscreen
             return GetFullMapPositionAsScreenPosition(new Rectangle((int)worldPosition.X, (int)worldPosition.Y, 0, 0));
         }
 
@@ -1021,15 +964,13 @@ namespace SpiritMod
         /// <param name="worldArea"></param>
         /// <returns>A tuple indicating the screen-relative position and whether the point is within the screen
         /// boundaries.</returns>
-        public static Tuple<int, int> GetScreenSize()
-        {
+        public static Tuple<int, int> GetScreenSize() {
             int screenWid = (int)((float)Main.screenWidth / Main.GameZoomTarget);
             int screenHei = (int)((float)Main.screenHeight / Main.GameZoomTarget);
 
             return Tuple.Create(screenWid, screenHei);
         }
-        public static (Vector2 ScreenPosition, bool IsOnScreen) GetFullMapPositionAsScreenPosition(Rectangle worldArea)
-        {    //Main.mapFullscreen
+        public static (Vector2 ScreenPosition, bool IsOnScreen) GetFullMapPositionAsScreenPosition(Rectangle worldArea) {    //Main.mapFullscreen
             float mapScale = GetFullMapScale();
             var scrSize = GetScreenSize();
 
@@ -1056,8 +997,7 @@ namespace SpiritMod
 
             return (scrPos, isOnscreen);
         }
-        public static float GetFullMapScale()
-        {
+        public static float GetFullMapScale() {
             return Main.mapFullscreenScale / Main.UIScale;
         }
         #endregion

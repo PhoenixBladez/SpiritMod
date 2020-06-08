@@ -1,44 +1,115 @@
+using Microsoft.Xna.Framework;
+using SpiritMod.Tiles.Furniture.Reach;
+using SpiritMod.NPCs.Critters;
+using SpiritMod.Mounts;
+using SpiritMod.NPCs.Boss.SpiritCore;
+using SpiritMod.Boss.SpiritCore;
+using SpiritMod.Buffs.Candy;
+using SpiritMod.Buffs.Potion;
+using SpiritMod.Projectiles.Pet;
+using SpiritMod.Buffs.Pet;
+using SpiritMod.Projectiles.Arrow.Artifact;
+using SpiritMod.Projectiles.Bullet.Crimbine;
+using SpiritMod.Projectiles.Bullet;
+using SpiritMod.Projectiles.Magic.Artifact;
+using SpiritMod.Projectiles.Summon.Artifact;
+using SpiritMod.Projectiles.Summon.LaserGate;
+using SpiritMod.Projectiles.Flail;
+using SpiritMod.Projectiles.Arrow;
+using SpiritMod.Projectiles.Magic;
+using SpiritMod.Projectiles.Sword.Artifact;
+using SpiritMod.Projectiles.Summon.Dragon;
+using SpiritMod.Projectiles.Sword;
+using SpiritMod.Projectiles.Thrown.Artifact;
+using SpiritMod.Items.Boss;
+using SpiritMod.Items.Armor.Masks;
+using SpiritMod.Projectiles.Returning;
+using SpiritMod.Projectiles.Held;
+using SpiritMod.Projectiles.Thrown;
+using SpiritMod.Items.Equipment;
+using SpiritMod.Projectiles.DonatorItems;
+using SpiritMod.Buffs.Mount;
+using SpiritMod.Items.Weapon.Yoyo;
+using SpiritMod.Projectiles.Yoyo;
+using SpiritMod.Items.Weapon.Spear;
+using SpiritMod.Items.Weapon.Swung;
+using SpiritMod.NPCs.Boss;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Pets;
+using SpiritMod.Items.Weapon.Summon;
+using SpiritMod.Projectiles.Boss;
+using SpiritMod.Items.BossBags;
+using SpiritMod.Items.Consumable.Fish;
+using SpiritMod.Buffs.Summon;
+using SpiritMod.Projectiles.Summon;
+using SpiritMod.NPCs.Spirit;
+using SpiritMod.Items.Consumable;
+using SpiritMod.Tiles.Block;
+using SpiritMod.Items.Placeable.Furniture;
+using SpiritMod.Items.Consumable.Quest;
+using SpiritMod.Items.Consumable.Potion;
+using SpiritMod.Items.Placeable.IceSculpture;
+using SpiritMod.Items.Weapon.Bow;
+using SpiritMod.Items.Weapon.Gun;
+using SpiritMod.Buffs;
+using SpiritMod.Items;
+using SpiritMod.Items.Weapon;
+using SpiritMod.Items.Weapon.Returning;
+using SpiritMod.Items.Weapon.Thrown;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Items.Accessory;
+
+using SpiritMod.Items.Accessory.Leather;
+using SpiritMod.Items.Ammo;
+using SpiritMod.Items.Armor;
+using SpiritMod.Dusts;
+using SpiritMod.Buffs;
+using SpiritMod.Buffs.Artifact;
+using SpiritMod.NPCs;
+using SpiritMod.NPCs.Asteroid;
+using SpiritMod.Projectiles;
+using SpiritMod.Projectiles.Hostile;
+using SpiritMod.Tiles;
+using SpiritMod.Tiles.Ambient;
+using SpiritMod.Tiles.Ambient.IceSculpture;
+using SpiritMod.Tiles.Ambient.ReachGrass;
+using SpiritMod.Tiles.Ambient.ReachMicros;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.NPCs.Asteroid
 {
-	public class AstralAmalgram : ModNPC
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Astral Amalgam");
-			Main.npcFrameCount[npc.type] = 1;
+    public class AstralAmalgram : ModNPC
+    {
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("Astral Amalgam");
+            Main.npcFrameCount[npc.type] = 1;
             NPCID.Sets.TrailCacheLength[npc.type] = 3;
             NPCID.Sets.TrailingMode[npc.type] = 0;
         }
-		private bool hasSpawnedBoys = false;
-		public override void SetDefaults()
-		{
-			npc.width = 60;
-			npc.height = 60;
-			npc.damage = 24;
-			npc.defense = 10;
-			npc.lifeMax = 180;
-			npc.HitSound = SoundID.NPCHit3;
-			npc.DeathSound = SoundID.NPCDeath6;
-			npc.value = 210f;
+        private bool hasSpawnedBoys = false;
+        public override void SetDefaults() {
+            npc.width = 60;
+            npc.height = 60;
+            npc.damage = 24;
+            npc.defense = 10;
+            npc.lifeMax = 180;
+            npc.HitSound = SoundID.NPCHit3;
+            npc.DeathSound = SoundID.NPCDeath6;
+            npc.value = 210f;
             npc.knockBackResist = .40f;
-			npc.noTileCollide = true;
+            npc.noTileCollide = true;
             npc.noGravity = true;
 
-		}
+        }
 
-		private static int[] SpawnTiles = { };
+        private static int[] SpawnTiles = { };
         int chargetimer = 0;
-		public override void AI()
-		{
+        public override void AI() {
             float num395 = Main.mouseTextColor / 200f - 0.35f;
             num395 *= 0.14f;
             npc.scale = num395 + 0.95f;
@@ -50,89 +121,63 @@ namespace SpiritMod.NPCs.Asteroid
             float deltaY = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - center.Y;
             float distance = (float)Math.Sqrt((double)deltaX * (double)deltaX + (double)deltaY * (double)deltaY);
             npc.ai[1] += 1f;
-            if ((double)npc.ai[1] > 600.0)
-            {
+            if((double)npc.ai[1] > 600.0) {
                 acceleration *= 8f;
                 velMax = 4f;
-                if ((double)npc.ai[1] > 650.0)
-                {
+                if((double)npc.ai[1] > 650.0) {
                     npc.ai[1] = 0f;
                 }
-            }
-            else if ((double)distance < 250.0)
-            {
+            } else if((double)distance < 250.0) {
                 npc.ai[0] += 0.9f;
-                if (npc.ai[0] > 0f)
-                {
+                if(npc.ai[0] > 0f) {
                     npc.velocity.Y = npc.velocity.Y + 0.019f;
-                }
-                else
-                {
+                } else {
                     npc.velocity.Y = npc.velocity.Y - 0.019f;
                 }
-                if (npc.ai[0] < -100f || npc.ai[0] > 100f)
-                {
+                if(npc.ai[0] < -100f || npc.ai[0] > 100f) {
                     npc.velocity.X = npc.velocity.X + 0.019f;
-                }
-                else
-                {
+                } else {
                     npc.velocity.X = npc.velocity.X - 0.019f;
                 }
-                if (npc.ai[0] > 200f)
-                {
+                if(npc.ai[0] > 200f) {
                     npc.ai[0] = -200f;
                 }
             }
-            if ((double)distance > 350.0)
-            {
+            if((double)distance > 350.0) {
                 velMax = 5f;
                 acceleration = 0.3f;
-            }
-            else if ((double)distance > 300.0)
-            {
+            } else if((double)distance > 300.0) {
                 velMax = 3f;
                 acceleration = 0.2f;
-            }
-            else if ((double)distance > 250.0)
-            {
+            } else if((double)distance > 250.0) {
                 velMax = 1.5f;
                 acceleration = 0.1f;
             }
             float stepRatio = velMax / distance;
             float velLimitX = deltaX * stepRatio;
             float velLimitY = deltaY * stepRatio;
-            if (Main.player[npc.target].dead)
-            {
+            if(Main.player[npc.target].dead) {
                 velLimitX = (float)((double)((float)npc.direction * velMax) / 2.0);
                 velLimitY = (float)((double)(-(double)velMax) / 2.0);
             }
-            if (npc.velocity.X < velLimitX)
-            {
+            if(npc.velocity.X < velLimitX) {
                 npc.velocity.X = npc.velocity.X + acceleration;
-            }
-            else if (npc.velocity.X > velLimitX)
-            {
+            } else if(npc.velocity.X > velLimitX) {
                 npc.velocity.X = npc.velocity.X - acceleration;
             }
-            if (npc.velocity.Y < velLimitY)
-            {
+            if(npc.velocity.Y < velLimitY) {
                 npc.velocity.Y = npc.velocity.Y + acceleration;
-            }
-            else if (npc.velocity.Y > velLimitY)
-            {
+            } else if(npc.velocity.Y > velLimitY) {
                 npc.velocity.Y = npc.velocity.Y - acceleration;
             }
-            if ((double)velLimitX > 0.0)
-            {
+            if((double)velLimitX > 0.0) {
                 npc.rotation = (float)Math.Atan2((double)velLimitY, (double)velLimitX);
             }
-            if ((double)velLimitX < 0.0)
-            {
+            if((double)velLimitX < 0.0) {
                 npc.rotation = (float)Math.Atan2((double)velLimitY, (double)velLimitX) + 3.14f;
             }
             chargetimer++;
-            if (chargetimer >= 300)
-            {
+            if(chargetimer >= 300) {
                 chargetimer = 0;
                 Vector2 direction = Main.player[npc.target].Center - npc.Center;
                 direction.Normalize();
@@ -142,63 +187,53 @@ namespace SpiritMod.NPCs.Asteroid
                 npc.velocity.Y = direction.Y;
                 npc.velocity.Y *= 0.98f;
                 npc.velocity.X *= 0.995f;
-                for (int i = 0; i < 20; i++)
-                {
+                for(int i = 0; i < 20; i++) {
                     int num = Dust.NewDust(npc.position, npc.width, npc.height, 180, 0f, -2f, 0, default(Color), .8f);
                     Main.dust[num].noGravity = true;
                     Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
                     Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
-                    if (Main.dust[num].position != npc.Center)
+                    if(Main.dust[num].position != npc.Center)
                         Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
                 }
             }
             npc.spriteDirection = npc.direction;
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.05f, 0.09f, 0.4f);
 
-            if (!hasSpawnedBoys)
-			{	
-				int latestNPC = npc.whoAmI;
-				for (int I = 0; I < 3; I++)
-				{
-					//cos = y, sin = x
-					latestNPC = NPC.NewNPC((int)npc.Center.X + (int)(Math.Sin(I * 120) * 80), (int)npc.Center.Y + (int)(Math.Sin(I * 120) * 80), ModContent.NPCType<SpaceShield>(), npc.whoAmI, 0, latestNPC);
-					NPC shield = Main.npc[latestNPC];
-					shield.ai[3] = npc.whoAmI;
-					shield.ai[1] = I * 120;
-				}
-				hasSpawnedBoys = true;
-			}
-		}
-        public override void NPCLoot()
-        {
-            if (Main.rand.Next(1) == 400)
-            {
+            if(!hasSpawnedBoys) {
+                int latestNPC = npc.whoAmI;
+                for(int I = 0; I < 3; I++) {
+                    //cos = y, sin = x
+                    latestNPC = NPC.NewNPC((int)npc.Center.X + (int)(Math.Sin(I * 120) * 80), (int)npc.Center.Y + (int)(Math.Sin(I * 120) * 80), ModContent.NPCType<SpaceShield>(), npc.whoAmI, 0, latestNPC);
+                    NPC shield = Main.npc[latestNPC];
+                    shield.ai[3] = npc.whoAmI;
+                    shield.ai[1] = I * 120;
+                }
+                hasSpawnedBoys = true;
+            }
+        }
+        public override void NPCLoot() {
+            if(Main.rand.Next(1) == 400) {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GravityModulator>());
             }
-            if (Main.rand.Next(1) == 50)
-            {
+            if(Main.rand.Next(1) == 50) {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ShieldCore>());
             }
             string[] lootTable = { "AstronautLegs", "AstronautHelm", "AstronautBody" };
-            if (Main.rand.Next(40) == 0)
-            {
+            if(Main.rand.Next(40) == 0) {
                 int loot = Main.rand.Next(lootTable.Length);
                 {
                     npc.DropItem(mod.ItemType(lootTable[loot]));
                 }
             }
         }
-        public override void HitEffect(int hitDirection, double damage)
-        {
+        public override void HitEffect(int hitDirection, double damage) {
             int d = 1;
             int d1 = 180;
-            for (int k = 0; k < 30; k++)
-            {
+            for(int k = 0; k < 30; k++) {
                 Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
                 Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .74f);
             }
-            if (npc.life <= 0)
-            {
+            if(npc.life <= 0) {
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Amalgam/Amalgam1"));
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Amalgam/Amalgam2"));
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Amalgam/Amalgam3"));
@@ -207,25 +242,22 @@ namespace SpiritMod.NPCs.Asteroid
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Amalgam/Amalgam6"));
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Amalgam/Amalgam7"));
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Amalgam/Amalgam8"));
-                for (int i = 0; i < 20; i++)
-                {
+                for(int i = 0; i < 20; i++) {
                     int num = Dust.NewDust(npc.position, npc.width, npc.height, 180, 0f, -2f, 0, default(Color), .8f);
                     Main.dust[num].noGravity = true;
                     Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
                     Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
-                    if (Main.dust[num].position != npc.Center)
+                    if(Main.dust[num].position != npc.Center)
                         Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
                 }
             }
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) {
             var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, lightColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
             {
                 Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height / Main.npcFrameCount[npc.type]) * 0.5f);
-                for (int k = 0; k < npc.oldPos.Length; k++)
-                {
+                for(int k = 0; k < npc.oldPos.Length; k++) {
                     Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
                     Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
                     spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
@@ -233,10 +265,8 @@ namespace SpiritMod.NPCs.Asteroid
             }
             return false;
         }
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
-        {
-            if (npc.alpha != 255)
-            {
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor) {
+            if(npc.alpha != 255) {
                 GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Asteroid/AstralAmalgam_Glow"));
             }
         }

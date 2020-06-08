@@ -1,21 +1,93 @@
 using Microsoft.Xna.Framework;
-using Terraria.GameContent.Generation;
+using SpiritMod.Tiles.Furniture.Reach;
+using SpiritMod.NPCs.Critters;
+using SpiritMod.Mounts;
+using SpiritMod.NPCs.Boss.SpiritCore;
+using SpiritMod.Boss.SpiritCore;
+using SpiritMod.Buffs.Candy;
+using SpiritMod.Buffs.Potion;
+using SpiritMod.Projectiles.Pet;
+using SpiritMod.Buffs.Pet;
+using SpiritMod.Projectiles.Arrow.Artifact;
+using SpiritMod.Projectiles.Bullet.Crimbine;
+using SpiritMod.Projectiles.Bullet;
+using SpiritMod.Projectiles.Magic.Artifact;
+using SpiritMod.Projectiles.Summon.Artifact;
+using SpiritMod.Projectiles.Summon.LaserGate;
+using SpiritMod.Projectiles.Flail;
+using SpiritMod.Projectiles.Arrow;
+using SpiritMod.Projectiles.Magic;
+using SpiritMod.Projectiles.Sword.Artifact;
+using SpiritMod.Projectiles.Summon.Dragon;
+using SpiritMod.Projectiles.Sword;
+using SpiritMod.Projectiles.Thrown.Artifact;
+using SpiritMod.Items.Boss;
+using SpiritMod.Items.Armor.Masks;
+using SpiritMod.Projectiles.Returning;
+using SpiritMod.Projectiles.Held;
+using SpiritMod.Projectiles.Thrown;
+using SpiritMod.Items.Equipment;
+using SpiritMod.Projectiles.DonatorItems;
+using SpiritMod.Buffs.Mount;
+using SpiritMod.Items.Weapon.Yoyo;
+using SpiritMod.Projectiles.Yoyo;
+using SpiritMod.Items.Weapon.Spear;
+using SpiritMod.Items.Weapon.Swung;
+using SpiritMod.NPCs.Boss;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Pets;
+using SpiritMod.Items.Weapon.Summon;
+using SpiritMod.Projectiles.Boss;
+using SpiritMod.Items.BossBags;
+using SpiritMod.Items.Consumable.Fish;
+using SpiritMod.Buffs.Summon;
+using SpiritMod.Projectiles.Summon;
+using SpiritMod.NPCs.Spirit;
+using SpiritMod.Items.Consumable;
+using SpiritMod.Tiles.Block;
+using SpiritMod.Items.Placeable.Furniture;
+using SpiritMod.Items.Consumable.Quest;
+using SpiritMod.Items.Consumable.Potion;
+using SpiritMod.Items.Placeable.IceSculpture;
+using SpiritMod.Items.Weapon.Bow;
+using SpiritMod.Items.Weapon.Gun;
+using SpiritMod.Buffs;
+using SpiritMod.Items;
+using SpiritMod.Items.Weapon;
+using SpiritMod.Items.Weapon.Returning;
+using SpiritMod.Items.Weapon.Thrown;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Items.Accessory;
+
+using SpiritMod.Items.Accessory.Leather;
+using SpiritMod.Items.Ammo;
+using SpiritMod.Items.Armor;
+using SpiritMod.Dusts;
+using SpiritMod.Buffs;
+using SpiritMod.Buffs.Artifact;
+using SpiritMod.NPCs;
+using SpiritMod.NPCs.Asteroid;
+using SpiritMod.Projectiles;
+using SpiritMod.Projectiles.Hostile;
+using SpiritMod.Tiles;
+using SpiritMod.Tiles.Ambient;
+using SpiritMod.Tiles.Ambient.IceSculpture;
+using SpiritMod.Tiles.Ambient.ReachGrass;
+using SpiritMod.Tiles.Ambient.ReachMicros;
+using SpiritMod.Buffs;
+using SpiritMod.Items.Placeable.Tiles;
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System.Collections.Generic;
-using Terraria.World.Generation;
-using SpiritMod;
-using System.Linq;
-using SpiritMod.Items.Placeable.Tiles;
-using SpiritMod.Buffs;
 
 namespace SpiritMod.Tiles.Block
 {
     public class CreepingIceTile : ModTile
     {
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
             Main.tileBlendAll[Type] = true;
@@ -24,47 +96,37 @@ namespace SpiritMod.Tiles.Block
             drop = ModContent.ItemType<CreepingIce>();
             dustType = 51;
         }
-        public override bool HasWalkDust()
-        {
+        public override bool HasWalkDust() {
             return true;
         }
-        public override void WalkDust(ref int dustType, ref bool makeDust, ref Color color)
-        {
+        public override void WalkDust(ref int dustType, ref bool makeDust, ref Color color) {
             dustType = 51;
             makeDust = true;
         }
-        public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
-        {
+        public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem) {
             Player player = Main.LocalPlayer;
             int distance = (int)Vector2.Distance(new Vector2(i * 16, j * 16), player.Center);
-            if (distance < 54)
-            {
+            if(distance < 54) {
                 Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
-                
+
             }
         }
-        public override void FloorVisuals(Player player)
-        {
+        public override void FloorVisuals(Player player) {
             player.AddBuff(BuffID.Chilled, 1200);
         }
-        public override void NearbyEffects(int i, int j, bool closer)
-        {
-            if (closer)
-            {
+        public override void NearbyEffects(int i, int j, bool closer) {
+            if(closer) {
                 float distance = 15 * 16;
                 List<NPC> foundNPCs = Main.npc.Where(n => n.active && n.DistanceSQ(new Vector2(i * 16, j * 16)) < distance * distance).OrderBy(n => n.DistanceSQ(new Vector2(i * 16, j * 16)) < distance * distance).ToList();
-                foreach (var foundNPC in foundNPCs)
-                {
-                    if (foundNPC != null)
-                    {
+                foreach(var foundNPC in foundNPCs) {
+                    if(foundNPC != null) {
                         int distance1 = (int)Vector2.Distance(new Vector2(i * 16, j * 16), foundNPC.Center);
-                        if (distance1 < 22)
-                        {
+                        if(distance1 < 22) {
                             foundNPC.AddBuff(ModContent.BuffType<MageFreeze>(), 20);
                         }
                     }
                 }
-             
+
             }
         }
     }

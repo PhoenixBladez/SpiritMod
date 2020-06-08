@@ -1,26 +1,22 @@
-using System;
 
 using Microsoft.Xna.Framework;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Weapon.Magic
 {
     public class ThornDevilfish : ModItem
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Thorn Devilfish");
-			Tooltip.SetDefault("Shoots out poisonous bubbles");
-		}
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("Thorn Devilfish");
+            Tooltip.SetDefault("Shoots out poisonous bubbles");
+        }
 
 
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             item.damage = 11;
             Item.staff[item.type] = true;
             item.noMelee = true;
@@ -39,8 +35,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.UseSound = SoundID.Item111;
             item.shoot = 523;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) {
             int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, 523, damage, knockBack, player.whoAmI);
             Main.projectile[p].timeLeft = 60;
             Main.projectile[p].scale *= .6f;

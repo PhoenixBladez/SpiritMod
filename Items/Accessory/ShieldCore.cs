@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-
-using Microsoft.Xna.Framework;
 
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Accessory
@@ -12,13 +7,11 @@ namespace SpiritMod.Items.Accessory
     //[AutoloadEquip(EquipType.Shield)]
     public class ShieldCore : ModItem
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Interstellar Shield Core");
-			Tooltip.SetDefault("You are surrounded by reflective shields");
-		}
-        public override void SetDefaults()
-        {
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("Interstellar Shield Core");
+            Tooltip.SetDefault("You are surrounded by reflective shields");
+        }
+        public override void SetDefaults() {
             item.width = 30;
             item.height = 28;
             item.rare = 1;
@@ -26,8 +19,7 @@ namespace SpiritMod.Items.Accessory
             item.accessory = true;
         }
 
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
+        public override void UpdateAccessory(Player player, bool hideVisual) {
             player.GetSpiritPlayer().ShieldCore = true;
         }
     }

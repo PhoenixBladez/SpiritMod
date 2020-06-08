@@ -131,113 +131,113 @@ namespace SpiritMod.Tiles.Furniture
 				{
 					top--;
 				}*/
-             /*   if (player.sign >= 0)
-                {
-                    Main.PlaySound(11, -1, -1, 1);
-                    player.sign = -1;
-                    Main.editSign = false;
-                    Main.npcChatText = "";
-                }
-                if (Main.editChest)
-                {
-                    Main.PlaySound(12, -1, -1, 1);
-                    Main.editChest = false;
-                    Main.npcChatText = "";
-                }
-                if (player.editedChestName)
-                {
-                    NetMessage.SendData(33, -1, -1, Main.chest[player.chest].name, player.chest, 1f);
-                    player.editedChestName = false;
-                }
-                if (Main.netMode == 1)
-                {
-                    if (left == player.chestX && top == player.chestY && player.chest >= 0)
-                    {
-                        player.chest = -1;
-                        Recipe.FindRecipes();
-                        Main.PlaySound(11, -1, -1, 1);
-                    }
-                    else
-                    {
-                        NetMessage.SendData(31, -1, -1, null, left, top);
-                        Main.stackSplit = 600;
-                    }
-                }
-                else
-                {
-                    int chest = Chest.FindChest(left, top);
-                    if (chest >= 0)
-                    {
-                        Main.stackSplit = 600;
-                        if (chest == player.chest)
-                        {
-                            player.chest = -1;
-                            Main.PlaySound(11, -1, -1, 1);
-                        }
-                        else
-                        {
-                            player.chest = chest;
-                            Main.playerInventory = true;
-                            Main.recBigList = false;
-                            player.chestX = left;
-                            player.chestY = top;
-                            Main.PlaySound(player.chest < 0 ? 10 : 12, -1, -1, 1);
-                        }
-                        Recipe.FindRecipes();
-                    }
-                }
-            }
-        }
+/*   if (player.sign >= 0)
+   {
+       Main.PlaySound(11, -1, -1, 1);
+       player.sign = -1;
+       Main.editSign = false;
+       Main.npcChatText = "";
+   }
+   if (Main.editChest)
+   {
+       Main.PlaySound(12, -1, -1, 1);
+       Main.editChest = false;
+       Main.npcChatText = "";
+   }
+   if (player.editedChestName)
+   {
+       NetMessage.SendData(33, -1, -1, Main.chest[player.chest].name, player.chest, 1f);
+       player.editedChestName = false;
+   }
+   if (Main.netMode == 1)
+   {
+       if (left == player.chestX && top == player.chestY && player.chest >= 0)
+       {
+           player.chest = -1;
+           Recipe.FindRecipes();
+           Main.PlaySound(11, -1, -1, 1);
+       }
+       else
+       {
+           NetMessage.SendData(31, -1, -1, null, left, top);
+           Main.stackSplit = 600;
+       }
+   }
+   else
+   {
+       int chest = Chest.FindChest(left, top);
+       if (chest >= 0)
+       {
+           Main.stackSplit = 600;
+           if (chest == player.chest)
+           {
+               player.chest = -1;
+               Main.PlaySound(11, -1, -1, 1);
+           }
+           else
+           {
+               player.chest = chest;
+               Main.playerInventory = true;
+               Main.recBigList = false;
+               player.chestX = left;
+               player.chestY = top;
+               Main.PlaySound(player.chest < 0 ? 10 : 12, -1, -1, 1);
+           }
+           Recipe.FindRecipes();
+       }
+   }
+}
+}
 
-        public override void MouseOver(int i, int j)
-        {
-            Player player = Main.player[Main.myPlayer];
-            Tile tile = Main.tile[i, j];
-            int left = i;
-            int top = j;
-            if (tile.frameX % 36 != 0)
-            {
-                left--;
-            }
-            if (tile.frameY != 0)
-            {
-                top--;
-            }
-            int chest = Chest.FindChest(left, top);
-            player.showItemIcon2 = -1;
-            if (chest < 0)
-            {
-                player.showItemIconText = Lang.chestType[0].Value;
-            }
-            else
-            {
-                player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Crystal Chest";
-                if (player.showItemIconText == "Crystal Chest")
-                {
-                    if (tile.frameX >= 36)
-                    {
-                        player.showItemIcon2 = ModContent.ItemType<SpiritKey>();
-                        player.showItemIconText = "";
-                    }
-                    else
-                    {
-                        player.showItemIcon2 = ModContent.ItemType<CrystalChest>();
-                    }
-                }
-            }
-            player.noThrow = 2;
-            player.showItemIcon = true;
-        }
+public override void MouseOver(int i, int j)
+{
+Player player = Main.player[Main.myPlayer];
+Tile tile = Main.tile[i, j];
+int left = i;
+int top = j;
+if (tile.frameX % 36 != 0)
+{
+   left--;
+}
+if (tile.frameY != 0)
+{
+   top--;
+}
+int chest = Chest.FindChest(left, top);
+player.showItemIcon2 = -1;
+if (chest < 0)
+{
+   player.showItemIconText = Lang.chestType[0].Value;
+}
+else
+{
+   player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Crystal Chest";
+   if (player.showItemIconText == "Crystal Chest")
+   {
+       if (tile.frameX >= 36)
+       {
+           player.showItemIcon2 = ModContent.ItemType<SpiritKey>();
+           player.showItemIconText = "";
+       }
+       else
+       {
+           player.showItemIcon2 = ModContent.ItemType<CrystalChest>();
+       }
+   }
+}
+player.noThrow = 2;
+player.showItemIcon = true;
+}
 
-        public override void MouseOverFar(int i, int j)
-        {
-            MouseOver(i, j);
-            Player player = Main.player[Main.myPlayer];
-            if (player.showItemIconText == "")
-            {
-                player.showItemIcon = false;
-                player.showItemIcon2 = 0;
-            }
-        }
-    }
+public override void MouseOverFar(int i, int j)
+{
+MouseOver(i, j);
+Player player = Main.player[Main.myPlayer];
+if (player.showItemIconText == "")
+{
+   player.showItemIcon = false;
+   player.showItemIcon2 = 0;
+}
+}
+}
 }*/

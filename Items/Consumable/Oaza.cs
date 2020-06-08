@@ -1,4 +1,3 @@
-using System;
 
 using Terraria;
 using Terraria.ID;
@@ -8,17 +7,15 @@ namespace SpiritMod.Items.Consumable
 {
     public class Oaza : ModItem
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Oaza");
-			Tooltip.SetDefault("Summons a random critter or enemy\nDoes not summon bosses or NPCs");
-		}
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("Oaza");
+            Tooltip.SetDefault("Summons a random critter or enemy\nDoes not summon bosses or NPCs");
+        }
 
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             item.width = 28;
-			item.height = 32;
+            item.height = 32;
             item.rare = 4;
             item.maxStack = 1;
             item.mana = 80;
@@ -32,20 +29,17 @@ namespace SpiritMod.Items.Consumable
             item.UseSound = SoundID.Item43;
         }
 
-        public override bool UseItem(Player player)
-        {
+        public override bool UseItem(Player player) {
             int p = Main.rand.Next(1, 580);
             int n = NPC.NewNPC((int)player.Center.X - 100, (int)player.Center.Y, p);
-			if (Main.npc[n].friendly == true || Main.npc[n].boss == true|| Main.npc[n].lifeMax >= 2000 || Main.npc[n].type == 399)
-			{
-				Main.npc[n].active = false;
-			}
+            if(Main.npc[n].friendly == true || Main.npc[n].boss == true || Main.npc[n].lifeMax >= 2000 || Main.npc[n].type == 399) {
+                Main.npc[n].active = false;
+            }
             Main.PlaySound(SoundID.Roar, player.position, 0);
             return true;
         }
 
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "TimScroll", 1);
             recipe.AddIngredient(null, "FloranBar", 5);

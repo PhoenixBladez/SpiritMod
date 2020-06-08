@@ -1,41 +1,36 @@
-using System;
-
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
 namespace SpiritMod.Items.Equipment
 {
-	public class StarMap : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Astral Map");
-			Tooltip.SetDefault("Hold for three seconds, then release to teleport");
+    public class StarMap : ModItem
+    {
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("Astral Map");
+            Tooltip.SetDefault("Hold for three seconds, then release to teleport");
             SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Equipment/StarMap_Glow");
         }
 
-		public override void SetDefaults()
-		{
-			item.damage = 0;
-			item.noMelee = true;
-			item.channel = true; //Channel so that you can held the weapon [Important]
-			item.rare = 5;
-			item.width = 18;
-			item.height = 18;
-			item.useTime = 20;
-			item.UseSound = SoundID.Item13;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.expert = true;
-			item.autoReuse = false;
-			item.shoot = ModContent.ProjectileType<StarMapProj>();
-			item.shootSpeed = 0f;
-		}
-        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-        {
+        public override void SetDefaults() {
+            item.damage = 0;
+            item.noMelee = true;
+            item.channel = true; //Channel so that you can held the weapon [Important]
+            item.rare = 5;
+            item.width = 18;
+            item.height = 18;
+            item.useTime = 20;
+            item.UseSound = SoundID.Item13;
+            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.expert = true;
+            item.autoReuse = false;
+            item.shoot = ModContent.ProjectileType<StarMapProj>();
+            item.shootSpeed = 0f;
+        }
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) {
             Lighting.AddLight(item.position, 0.08f, .28f, .38f);
             Texture2D texture;
             texture = Main.itemTexture[item.type];

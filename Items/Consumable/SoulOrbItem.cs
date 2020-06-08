@@ -1,5 +1,4 @@
-using System;
-
+using SpiritMod.NPCs.Spirit;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,15 +7,13 @@ namespace SpiritMod.Items.Consumable
 {
     public class SoulOrbItem : ModItem
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Soul Orb");
-			Tooltip.SetDefault("'Legend says touching it gives good luck'");
-		}
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("Soul Orb");
+            Tooltip.SetDefault("'Legend says touching it gives good luck'");
+        }
 
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             item.width = item.height = 16;
             item.rare = 1;
             item.maxStack = 99;
@@ -29,11 +26,10 @@ namespace SpiritMod.Items.Consumable
             item.autoReuse = false;
 
         }
-        public override bool UseItem(Player player)
-        {
+        public override bool UseItem(Player player) {
             NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<SoulOrb>());
             return true;
         }
 
-        }
+    }
 }

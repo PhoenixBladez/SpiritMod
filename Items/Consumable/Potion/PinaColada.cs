@@ -1,5 +1,4 @@
-using System;
-
+using SpiritMod.Items.Weapon.Thrown;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,16 +7,14 @@ namespace SpiritMod.Items.Consumable.Potion
 {
     public class PinaColada : ModItem
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Pina Colada");
-			Tooltip.SetDefault("'Life is good'");
-		}
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("Pina Colada");
+            Tooltip.SetDefault("'Life is good'");
+        }
 
 
-        public override void SetDefaults()
-        {
-            item.width = 20; 
+        public override void SetDefaults() {
+            item.width = 20;
             item.height = 30;
             item.rare = 2;
             item.maxStack = 30;
@@ -32,19 +29,16 @@ namespace SpiritMod.Items.Consumable.Potion
 
             item.UseSound = SoundID.Item3;
         }
-		
-      public override bool UseItem(Player player)
-        {
-			player.AddBuff(146, 25000); //happy
-			player.AddBuff(BuffID.Calm, 25000);
-			if (Main.hardMode)
-			{
-				player.AddBuff(BuffID.Tipsy, 25000);
-			}
+
+        public override bool UseItem(Player player) {
+            player.AddBuff(146, 25000); //happy
+            player.AddBuff(BuffID.Calm, 25000);
+            if(Main.hardMode) {
+                player.AddBuff(BuffID.Tipsy, 25000);
+            }
             return true;
         }
-		public override void AddRecipes()
-        {
+        public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Coconut>(), 5);
             recipe.AddTile(94); //keg

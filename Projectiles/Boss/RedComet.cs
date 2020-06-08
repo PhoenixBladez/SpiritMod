@@ -1,67 +1,133 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Tiles.Furniture.Reach;
+using SpiritMod.NPCs.Critters;
+using SpiritMod.Mounts;
+using SpiritMod.NPCs.Boss.SpiritCore;
+using SpiritMod.Boss.SpiritCore;
+using SpiritMod.Buffs.Candy;
+using SpiritMod.Buffs.Potion;
+using SpiritMod.Projectiles.Pet;
+using SpiritMod.Buffs.Pet;
+using SpiritMod.Projectiles.Arrow.Artifact;
+using SpiritMod.Projectiles.Bullet.Crimbine;
+using SpiritMod.Projectiles.Bullet;
+using SpiritMod.Projectiles.Magic.Artifact;
+using SpiritMod.Projectiles.Summon.Artifact;
+using SpiritMod.Projectiles.Summon.LaserGate;
+using SpiritMod.Projectiles.Flail;
+using SpiritMod.Projectiles.Arrow;
+using SpiritMod.Projectiles.Magic;
+using SpiritMod.Projectiles.Sword.Artifact;
+using SpiritMod.Projectiles.Summon.Dragon;
+using SpiritMod.Projectiles.Sword;
+using SpiritMod.Projectiles.Thrown.Artifact;
+using SpiritMod.Items.Boss;
+using SpiritMod.Items.Armor.Masks;
+using SpiritMod.Projectiles.Returning;
+using SpiritMod.Projectiles.Held;
+using SpiritMod.Projectiles.Thrown;
+using SpiritMod.Items.Equipment;
+using SpiritMod.Projectiles.DonatorItems;
+using SpiritMod.Buffs.Mount;
+using SpiritMod.Items.Weapon.Yoyo;
+using SpiritMod.Projectiles.Yoyo;
+using SpiritMod.Items.Weapon.Spear;
+using SpiritMod.Items.Weapon.Swung;
+using SpiritMod.NPCs.Boss;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Pets;
+using SpiritMod.Items.Weapon.Summon;
+using SpiritMod.Projectiles.Boss;
+using SpiritMod.Items.BossBags;
+using SpiritMod.Items.Consumable.Fish;
+using SpiritMod.Buffs.Summon;
+using SpiritMod.Projectiles.Summon;
+using SpiritMod.NPCs.Spirit;
+using SpiritMod.Items.Consumable;
+using SpiritMod.Tiles.Block;
+using SpiritMod.Items.Placeable.Furniture;
+using SpiritMod.Items.Consumable.Quest;
+using SpiritMod.Items.Consumable.Potion;
+using SpiritMod.Items.Placeable.IceSculpture;
+using SpiritMod.Items.Weapon.Bow;
+using SpiritMod.Items.Weapon.Gun;
+using SpiritMod.Buffs;
+using SpiritMod.Items;
+using SpiritMod.Items.Weapon;
+using SpiritMod.Items.Weapon.Returning;
+using SpiritMod.Items.Weapon.Thrown;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Items.Accessory;
+
+using SpiritMod.Items.Accessory.Leather;
+using SpiritMod.Items.Ammo;
+using SpiritMod.Items.Armor;
+using SpiritMod.Dusts;
+using SpiritMod.Buffs;
+using SpiritMod.Buffs.Artifact;
+using SpiritMod.NPCs;
+using SpiritMod.NPCs.Asteroid;
+using SpiritMod.Projectiles;
+using SpiritMod.Projectiles.Hostile;
+using SpiritMod.Tiles;
+using SpiritMod.Tiles.Ambient;
+using SpiritMod.Tiles.Ambient.IceSculpture;
+using SpiritMod.Tiles.Ambient.ReachGrass;
+using SpiritMod.Tiles.Ambient.ReachMicros;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ID;
 
 namespace SpiritMod.Projectiles.Boss
 {
-	public class RedComet : ModProjectile
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Red Comet");
-			Main.projFrames[projectile.type] = 5;
-		}
+    public class RedComet : ModProjectile
+    {
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("Red Comet");
+            Main.projFrames[projectile.type] = 5;
+        }
 
-		public override void SetDefaults()
-		{
-			projectile.width = 34;
-			projectile.height = 34;
-			projectile.friendly = false;
-			projectile.hostile = true;
-			projectile.penetrate = 10;
-			projectile.timeLeft = 900;
-			projectile.tileCollide = false;
-			projectile.aiStyle = -1;
-		}
+        public override void SetDefaults() {
+            projectile.width = 34;
+            projectile.height = 34;
+            projectile.friendly = false;
+            projectile.hostile = true;
+            projectile.penetrate = 10;
+            projectile.timeLeft = 900;
+            projectile.tileCollide = false;
+            projectile.aiStyle = -1;
+        }
 
-		public override bool PreAI()
-		{
-			projectile.alpha -= 40;
-			if (projectile.alpha < 0)
-				projectile.alpha = 0;
+        public override bool PreAI() {
+            projectile.alpha -= 40;
+            if(projectile.alpha < 0)
+                projectile.alpha = 0;
 
-			projectile.spriteDirection = projectile.direction;
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 4)
-			{
-				projectile.frame++;
-				projectile.frameCounter = 0;
-				if (projectile.frame >= 5)
-					projectile.frame = 0;
+            projectile.spriteDirection = projectile.direction;
+            projectile.frameCounter++;
+            if(projectile.frameCounter >= 4) {
+                projectile.frame++;
+                projectile.frameCounter = 0;
+                if(projectile.frame >= 5)
+                    projectile.frame = 0;
 
-			}
-			return true;
-		}
-		public override void Kill(int timeLeft)
-		{
-			for (int i = 0; i < 20; i++)
-			{
-				Dust.NewDust(projectile.Center, projectile.width, projectile.height,
-					0, 0, 60, 133);
-			}
-		}
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return Color.White;
-		}
-		public override void AI()
-		{
-			if (Main.rand.Next(3) == 0)
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height,
-					60, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-		}
+            }
+            return true;
+        }
+        public override void Kill(int timeLeft) {
+            for(int i = 0; i < 20; i++) {
+                Dust.NewDust(projectile.Center, projectile.width, projectile.height,
+                    0, 0, 60, 133);
+            }
+        }
+        public override Color? GetAlpha(Color lightColor) {
+            return Color.White;
+        }
+        public override void AI() {
+            if(Main.rand.Next(3) == 0)
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height,
+                    60, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+        }
 
-	}
+    }
 }

@@ -1,182 +1,237 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using SpiritMod.Tiles.Furniture.Reach;
+using SpiritMod.NPCs.Critters;
+using SpiritMod.Mounts;
+using SpiritMod.NPCs.Boss.SpiritCore;
+using SpiritMod.Boss.SpiritCore;
+using SpiritMod.Buffs.Candy;
+using SpiritMod.Buffs.Potion;
+using SpiritMod.Projectiles.Pet;
+using SpiritMod.Buffs.Pet;
+using SpiritMod.Projectiles.Arrow.Artifact;
+using SpiritMod.Projectiles.Bullet.Crimbine;
+using SpiritMod.Projectiles.Bullet;
+using SpiritMod.Projectiles.Magic.Artifact;
+using SpiritMod.Projectiles.Summon.Artifact;
+using SpiritMod.Projectiles.Summon.LaserGate;
+using SpiritMod.Projectiles.Flail;
+using SpiritMod.Projectiles.Arrow;
+using SpiritMod.Projectiles.Magic;
+using SpiritMod.Projectiles.Sword.Artifact;
+using SpiritMod.Projectiles.Summon.Dragon;
+using SpiritMod.Projectiles.Sword;
+using SpiritMod.Projectiles.Thrown.Artifact;
+using SpiritMod.Items.Boss;
+using SpiritMod.Items.Armor.Masks;
+using SpiritMod.Projectiles.Returning;
+using SpiritMod.Projectiles.Held;
+using SpiritMod.Projectiles.Thrown;
+using SpiritMod.Items.Equipment;
+using SpiritMod.Projectiles.DonatorItems;
+using SpiritMod.Buffs.Mount;
+using SpiritMod.Items.Weapon.Yoyo;
+using SpiritMod.Projectiles.Yoyo;
+using SpiritMod.Items.Weapon.Spear;
+using SpiritMod.Items.Weapon.Swung;
+using SpiritMod.NPCs.Boss;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Pets;
+using SpiritMod.Items.Weapon.Summon;
+using SpiritMod.Projectiles.Boss;
+using SpiritMod.Items.BossBags;
+using SpiritMod.Items.Consumable.Fish;
+using SpiritMod.Buffs.Summon;
+using SpiritMod.Projectiles.Summon;
+using SpiritMod.NPCs.Spirit;
+using SpiritMod.Items.Consumable;
+using SpiritMod.Tiles.Block;
+using SpiritMod.Items.Placeable.Furniture;
+using SpiritMod.Items.Consumable.Quest;
+using SpiritMod.Items.Consumable.Potion;
+using SpiritMod.Items.Placeable.IceSculpture;
+using SpiritMod.Items.Weapon.Bow;
+using SpiritMod.Items.Weapon.Gun;
+using SpiritMod.Buffs;
+using SpiritMod.Items;
+using SpiritMod.Items.Weapon;
+using SpiritMod.Items.Weapon.Returning;
+using SpiritMod.Items.Weapon.Thrown;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Items.Accessory;
+
+using SpiritMod.Items.Accessory.Leather;
+using SpiritMod.Items.Ammo;
+using SpiritMod.Items.Armor;
+using SpiritMod.Dusts;
+using SpiritMod.Buffs;
+using SpiritMod.Buffs.Artifact;
+using SpiritMod.NPCs;
+using SpiritMod.NPCs.Asteroid;
+using SpiritMod.Projectiles;
+using SpiritMod.Projectiles.Hostile;
+using SpiritMod.Tiles;
+using SpiritMod.Tiles.Ambient;
+using SpiritMod.Tiles.Ambient.IceSculpture;
+using SpiritMod.Tiles.Ambient.ReachGrass;
+using SpiritMod.Tiles.Ambient.ReachMicros;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Buffs;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.Boss.SpiritCore
 {
-	public class ShadowRotator : ModNPC
-	{
-		int timer = 0;
-		bool start = true;
+    public class ShadowRotator : ModNPC
+    {
+        int timer = 0;
+        bool start = true;
 
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Shadow Guardian");
-			Main.npcFrameCount[npc.type] = Main.npcFrameCount[NPCID.Pixie];
-		}
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("Shadow Guardian");
+            Main.npcFrameCount[npc.type] = Main.npcFrameCount[NPCID.Pixie];
+        }
 
-		public override void SetDefaults()
-		{
-			npc.width = 42;
-			npc.height = 42;
-			npc.noGravity = true;
-			npc.noTileCollide = true;
-			npc.damage = 55;
-			npc.knockBackResist = 0;
-			npc.HitSound = SoundID.NPCHit7;
-			npc.DeathSound = SoundID.NPCDeath6;
-			npc.defense = 14;
-			animationType = NPCID.Pixie;
-			npc.lifeMax = 5000;
-		}
+        public override void SetDefaults() {
+            npc.width = 42;
+            npc.height = 42;
+            npc.noGravity = true;
+            npc.noTileCollide = true;
+            npc.damage = 55;
+            npc.knockBackResist = 0;
+            npc.HitSound = SoundID.NPCHit7;
+            npc.DeathSound = SoundID.NPCDeath6;
+            npc.defense = 14;
+            animationType = NPCID.Pixie;
+            npc.lifeMax = 5000;
+        }
 
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return Color.White;
-		}
+        public override Color? GetAlpha(Color lightColor) {
+            return Color.White;
+        }
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
-		{
-			target.AddBuff(ModContent.BuffType<Shadowflame>(), 150);
-		}
+        public override void OnHitPlayer(Player target, int damage, bool crit) {
+            target.AddBuff(ModContent.BuffType<Shadowflame>(), 150);
+        }
 
-		public override bool PreAI()
-		{
-			bool expertMode = Main.expertMode;
-			if (start)
-			{
-				for (int num621 = 0; num621 < 15; num621++)
-				{
-					Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 2f);
-				}
-				npc.ai[1] = npc.ai[0];
-				start = false;
-			}
-			npc.TargetClosest(true);
-			Vector2 direction = Main.player[npc.target].Center - npc.Center;
-			direction.Normalize();
-			direction *= 9f;
-			npc.rotation = direction.ToRotation();
+        public override bool PreAI() {
+            bool expertMode = Main.expertMode;
+            if(start) {
+                for(int num621 = 0; num621 < 15; num621++) {
+                    Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 2f);
+                }
+                npc.ai[1] = npc.ai[0];
+                start = false;
+            }
+            npc.TargetClosest(true);
+            Vector2 direction = Main.player[npc.target].Center - npc.Center;
+            direction.Normalize();
+            direction *= 9f;
+            npc.rotation = direction.ToRotation();
 
-			Player player = Main.player[npc.target];
-			NPC parent = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<SpiritCore>())];
-			//Factors for calculations
-			double deg = (double)npc.ai[1]; //The degrees, you can multiply npc.ai[1] to make it orbit faster, may be choppy depending on the value
-			double rad = deg * (Math.PI / 180); //Convert degrees to radians
-			double dist = 50; //Distance away from the player
+            Player player = Main.player[npc.target];
+            NPC parent = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<SpiritCore>())];
+            //Factors for calculations
+            double deg = (double)npc.ai[1]; //The degrees, you can multiply npc.ai[1] to make it orbit faster, may be choppy depending on the value
+            double rad = deg * (Math.PI / 180); //Convert degrees to radians
+            double dist = 50; //Distance away from the player
 
-			/*Position the npc based on where the player is, the Sin/Cos of the angle times the /
+            /*Position the npc based on where the player is, the Sin/Cos of the angle times the /
     		/distance for the desired distance away from the player minus the npc's width   /
     		/and height divided by two so the center of the npc is at the right place.     */
-			npc.position.X = parent.Center.X - (int)(Math.Cos(rad) * dist) - npc.width / 2;
-			npc.position.Y = parent.Center.Y - (int)(Math.Sin(rad) * dist) - npc.height / 2;
+            npc.position.X = parent.Center.X - (int)(Math.Cos(rad) * dist) - npc.width / 2;
+            npc.position.Y = parent.Center.Y - (int)(Math.Sin(rad) * dist) - npc.height / 2;
 
-			//Increase the counter/angle in degrees by 1 point, you can change the rate here too, but the orbit may look choppy depending on the value
-			npc.ai[1] += 2f;
-			return true;
-		}
+            //Increase the counter/angle in degrees by 1 point, you can change the rate here too, but the orbit may look choppy depending on the value
+            npc.ai[1] += 2f;
+            return true;
+        }
 
-		public override void AI()
-		{
-			for (int i = 0; i < 1; i++)
-			{
-				int dust1 = Dust.NewDust(npc.position, npc.width, npc.height, 173, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f);
-				Main.dust[dust1].velocity *= 0f;
-				Main.dust[dust1].scale *= 1.8f;
-				Main.dust[dust1].noGravity = true;
-			}
-			bool expertMode = Main.expertMode;
-			if (Main.rand.Next(180) == 1 && npc.life >= (npc.lifeMax / 3))
-			{
-				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 33);
-				Vector2 direction = Main.player[npc.target].Center - npc.Center;
-				direction.Normalize();
-				direction.X *= 20f;
-				direction.Y *= 20f;
+        public override void AI() {
+            for(int i = 0; i < 1; i++) {
+                int dust1 = Dust.NewDust(npc.position, npc.width, npc.height, 173, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f);
+                Main.dust[dust1].velocity *= 0f;
+                Main.dust[dust1].scale *= 1.8f;
+                Main.dust[dust1].noGravity = true;
+            }
+            bool expertMode = Main.expertMode;
+            if(Main.rand.Next(180) == 1 && npc.life >= (npc.lifeMax / 3)) {
+                Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 33);
+                Vector2 direction = Main.player[npc.target].Center - npc.Center;
+                direction.Normalize();
+                direction.X *= 20f;
+                direction.Y *= 20f;
 
-				int amountOfProjectiles = Main.rand.Next(4, 5);
-				for (int i = 0; i < amountOfProjectiles; ++i)
-				{
-					float A = (float)Main.rand.Next(-200, 200) * 0.01f;
-					float B = (float)Main.rand.Next(-200, 200) * 0.01f;
-					int damage = expertMode ? 23 : 38;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<DarkPulse>(), damage, 1, Main.myPlayer, 0, 0);
+                int amountOfProjectiles = Main.rand.Next(4, 5);
+                for(int i = 0; i < amountOfProjectiles; ++i) {
+                    float A = (float)Main.rand.Next(-200, 200) * 0.01f;
+                    float B = (float)Main.rand.Next(-200, 200) * 0.01f;
+                    int damage = expertMode ? 23 : 38;
+                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<DarkPulse>(), damage, 1, Main.myPlayer, 0, 0);
 
-				}
-			}
-		}
+                }
+            }
+        }
 
-		public override void HitEffect(int hitDirection, double damage)
-		{
-			for (int k = 0; k < 5; k++)
-			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 173, hitDirection, -1f, 0, default(Color), 1f);
-			}
-			if (npc.life <= 0)
-			{
-				npc.position.X = npc.position.X + (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-				npc.width = 50;
-				npc.height = 50;
-				npc.position.X = npc.position.X - (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
-				for (int num621 = 0; num621 < 20; num621++)
-				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 2f);
-					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0)
-					{
-						Main.dust[num622].scale = 0.5f;
-						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-					}
-				}
-				for (int num623 = 0; num623 < 40; num623++)
-				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 3f);
-					Main.dust[num624].noGravity = true;
-					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 2f);
-					Main.dust[num624].velocity *= 2f;
-				}
-			}
-		}
+        public override void HitEffect(int hitDirection, double damage) {
+            for(int k = 0; k < 5; k++) {
+                Dust.NewDust(npc.position, npc.width, npc.height, 173, hitDirection, -1f, 0, default(Color), 1f);
+            }
+            if(npc.life <= 0) {
+                npc.position.X = npc.position.X + (float)(npc.width / 2);
+                npc.position.Y = npc.position.Y + (float)(npc.height / 2);
+                npc.width = 50;
+                npc.height = 50;
+                npc.position.X = npc.position.X - (float)(npc.width / 2);
+                npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+                for(int num621 = 0; num621 < 20; num621++) {
+                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 2f);
+                    Main.dust[num622].velocity *= 3f;
+                    if(Main.rand.Next(2) == 0) {
+                        Main.dust[num622].scale = 0.5f;
+                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    }
+                }
+                for(int num623 = 0; num623 < 40; num623++) {
+                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 3f);
+                    Main.dust[num624].noGravity = true;
+                    Main.dust[num624].velocity *= 5f;
+                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 2f);
+                    Main.dust[num624].velocity *= 2f;
+                }
+            }
+        }
 
-		public override bool CheckActive()
-		{
-			return false;
-		}
+        public override bool CheckActive() {
+            return false;
+        }
 
-		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-		{
-			npc.lifeMax = (int)(npc.lifeMax * 0.65f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.75f);
-		}
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale) {
+            npc.lifeMax = (int)(npc.lifeMax * 0.65f * bossLifeScale);
+            npc.damage = (int)(npc.damage * 0.75f);
+        }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
-		{
-			if (npc.velocity != Vector2.Zero)
-			{
-				Texture2D texture = Main.npcTexture[npc.type];
-				Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
-				for (int i = 1; i < npc.oldPos.Length; ++i)
-				{
-					Vector2 vector2_2 = npc.oldPos[i];
-					Microsoft.Xna.Framework.Color color2 = Color.White * npc.Opacity;
-					color2.R = (byte)(0.5 * (double)color2.R * (double)(10 - i) / 20.0);
-					color2.G = (byte)(0.5 * (double)color2.G * (double)(10 - i) / 20.0);
-					color2.B = (byte)(0.5 * (double)color2.B * (double)(10 - i) / 20.0);
-					color2.A = (byte)(0.5 * (double)color2.A * (double)(10 - i) / 20.0);
-					Main.spriteBatch.Draw(Main.npcTexture[npc.type],
-						new Vector2(npc.oldPos[i].X - Main.screenPosition.X + (npc.width / 2),
-							npc.oldPos[i].Y - Main.screenPosition.Y + npc.height / 2),
-						new Rectangle?(npc.frame),
-						color2, npc.oldRot[i], origin, npc.scale, SpriteEffects.None, 0.0f);
-				}
-			}
-			return true;
-		}
-	}
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor) {
+            if(npc.velocity != Vector2.Zero) {
+                Texture2D texture = Main.npcTexture[npc.type];
+                Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
+                for(int i = 1; i < npc.oldPos.Length; ++i) {
+                    Vector2 vector2_2 = npc.oldPos[i];
+                    Microsoft.Xna.Framework.Color color2 = Color.White * npc.Opacity;
+                    color2.R = (byte)(0.5 * (double)color2.R * (double)(10 - i) / 20.0);
+                    color2.G = (byte)(0.5 * (double)color2.G * (double)(10 - i) / 20.0);
+                    color2.B = (byte)(0.5 * (double)color2.B * (double)(10 - i) / 20.0);
+                    color2.A = (byte)(0.5 * (double)color2.A * (double)(10 - i) / 20.0);
+                    Main.spriteBatch.Draw(Main.npcTexture[npc.type],
+                        new Vector2(npc.oldPos[i].X - Main.screenPosition.X + (npc.width / 2),
+                            npc.oldPos[i].Y - Main.screenPosition.Y + npc.height / 2),
+                        new Rectangle?(npc.frame),
+                        color2, npc.oldRot[i], origin, npc.scale, SpriteEffects.None, 0.0f);
+                }
+            }
+            return true;
+        }
+    }
 }

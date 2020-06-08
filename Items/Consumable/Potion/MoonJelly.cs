@@ -1,5 +1,5 @@
-using System;
 
+using SpiritMod.Buffs.Potion;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,16 +8,14 @@ namespace SpiritMod.Items.Consumable.Potion
 {
     public class MoonJelly : ModItem
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Moon Jelly");
-			Tooltip.SetDefault("Gives high regeneration.");
-		}
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("Moon Jelly");
+            Tooltip.SetDefault("Gives high regeneration.");
+        }
 
 
-        public override void SetDefaults()
-        {
-            item.width = 20; 
+        public override void SetDefaults() {
+            item.width = 20;
             item.height = 30;
             item.rare = 5;
             item.maxStack = 30;
@@ -33,24 +31,21 @@ namespace SpiritMod.Items.Consumable.Potion
 
             item.UseSound = SoundID.Item3;
         }
-		
-		public override bool CanUseItem(Player player)
-		{
-			if (player.FindBuffIndex(BuffID.PotionSickness)>=0)
-			{
-				return false;
-			}
-			return true;
-			
-		}
-      public override bool UseItem(Player player)
-        {
-			if (!player.pStone)
-				player.AddBuff(BuffID.PotionSickness, 3600);
-			else
-				player.AddBuff(BuffID.PotionSickness, 2700);
-			
-            
+
+        public override bool CanUseItem(Player player) {
+            if(player.FindBuffIndex(BuffID.PotionSickness) >= 0) {
+                return false;
+            }
+            return true;
+
+        }
+        public override bool UseItem(Player player) {
+            if(!player.pStone)
+                player.AddBuff(BuffID.PotionSickness, 3600);
+            else
+                player.AddBuff(BuffID.PotionSickness, 2700);
+
+
             return true;
         }
     }

@@ -1,4 +1,3 @@
-using System;
 
 using Terraria;
 using Terraria.ID;
@@ -8,15 +7,13 @@ namespace SpiritMod.Items.Accessory
 {
     public class NoraMark : ModItem
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Nora's Mark");
-			Tooltip.SetDefault("Increases minion damage by 18%\nIncreases maximum amount of minions by 1\nReduces damage taken by 15% when under half health");
-		}
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("Nora's Mark");
+            Tooltip.SetDefault("Increases minion damage by 18%\nIncreases maximum amount of minions by 1\nReduces damage taken by 15% when under half health");
+        }
 
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             item.width = 40;
             item.height = 40;
             item.value = Item.sellPrice(0, 5, 0, 0);
@@ -25,17 +22,14 @@ namespace SpiritMod.Items.Accessory
             item.defense = 2;
         }
 
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
+        public override void UpdateAccessory(Player player, bool hideVisual) {
             player.minionDamage += 0.18f;
             player.maxMinions += 1;
-            if (player.statLife < player.statLifeMax2 / 2)
-            {
+            if(player.statLife < player.statLifeMax2 / 2) {
                 player.endurance += 0.15f;
             }
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SummonerEmblem, 1);
             recipe.AddIngredient(ItemID.CobaltShield, 1);

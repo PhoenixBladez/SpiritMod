@@ -1,24 +1,31 @@
-using System;
-
-using Microsoft.Xna.Framework;
-
+using SpiritMod.Projectiles.Magic;
+using SpiritMod.Tiles.Furniture.Reach;
+using SpiritMod.NPCs.Critters;
+using SpiritMod.Mounts;
+using SpiritMod.NPCs.Boss.SpiritCore;
+using SpiritMod.Boss.SpiritCore;
+using SpiritMod.Buffs.Candy;
+using SpiritMod.Buffs.Potion;
+using SpiritMod.Projectiles.Pet;
+using SpiritMod.Buffs.Pet;
+using SpiritMod.Projectiles.Arrow.Artifact;
+using SpiritMod.Projectiles.Bullet.Crimbine;
+using SpiritMod.Projectiles.Bullet;
+using SpiritMod.Projectiles.Magic.Artifact;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Weapon.Magic
 {
     public class CoralStaff : ModItem
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Stardrop Staff");
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("Stardrop Staff");
             Tooltip.SetDefault("Weapon damage increases and mana cost decreases while the player is underwater\nShoots a splitting bolt of water");
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             item.damage = 8;
             Item.staff[item.type] = true;
             item.noMelee = true;
@@ -37,22 +44,17 @@ namespace SpiritMod.Items.Weapon.Magic
             item.shootSpeed = 14;
             item.shoot = ModContent.ProjectileType<StardropStaffProj>();
         }
-        public override bool CanUseItem(Player player)
-        {
-            if (player.wet)
-            {
+        public override bool CanUseItem(Player player) {
+            if(player.wet) {
                 item.damage = 10;
                 item.mana = 6;
-            }
-            else
-            {
+            } else {
                 item.damage = 8;
                 item.mana = 8;
             }
             return base.CanUseItem(player);
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
             ModRecipe modRecipe = new ModRecipe(base.mod);
             modRecipe.AddIngredient(ItemID.Coral, 10);
             modRecipe.AddIngredient(ItemID.Starfish, 1);

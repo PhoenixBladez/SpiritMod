@@ -1,46 +1,111 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
+using SpiritMod.Tiles.Furniture.Reach;
+using SpiritMod.NPCs.Critters;
+using SpiritMod.Mounts;
+using SpiritMod.NPCs.Boss.SpiritCore;
+using SpiritMod.Boss.SpiritCore;
+using SpiritMod.Buffs.Candy;
+using SpiritMod.Buffs.Potion;
+using SpiritMod.Projectiles.Pet;
+using SpiritMod.Buffs.Pet;
+using SpiritMod.Projectiles.Arrow.Artifact;
+using SpiritMod.Projectiles.Bullet.Crimbine;
+using SpiritMod.Projectiles.Bullet;
+using SpiritMod.Projectiles.Magic.Artifact;
+using SpiritMod.Projectiles.Summon.Artifact;
+using SpiritMod.Projectiles.Summon.LaserGate;
+using SpiritMod.Projectiles.Flail;
+using SpiritMod.Projectiles.Arrow;
+using SpiritMod.Projectiles.Magic;
+using SpiritMod.Projectiles.Sword.Artifact;
+using SpiritMod.Projectiles.Summon.Dragon;
+using SpiritMod.Projectiles.Sword;
+using SpiritMod.Projectiles.Thrown.Artifact;
+using SpiritMod.Items.Boss;
+using SpiritMod.Items.Armor.Masks;
+using SpiritMod.Projectiles.Returning;
+using SpiritMod.Projectiles.Held;
+using SpiritMod.Projectiles.Thrown;
+using SpiritMod.Items.Equipment;
+using SpiritMod.Projectiles.DonatorItems;
+using SpiritMod.Buffs.Mount;
+using SpiritMod.Items.Weapon.Yoyo;
+using SpiritMod.Projectiles.Yoyo;
+using SpiritMod.Items.Weapon.Spear;
+using SpiritMod.Items.Weapon.Swung;
+using SpiritMod.NPCs.Boss;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Pets;
+using SpiritMod.Items.Weapon.Summon;
+using SpiritMod.Projectiles.Boss;
+using SpiritMod.Items.BossBags;
+using SpiritMod.Items.Consumable.Fish;
+using SpiritMod.Buffs.Summon;
+using SpiritMod.Projectiles.Summon;
+using SpiritMod.NPCs.Spirit;
+using SpiritMod.Items.Consumable;
+using SpiritMod.Tiles.Block;
+using SpiritMod.Items.Placeable.Furniture;
+using SpiritMod.Items.Consumable.Quest;
+using SpiritMod.Items.Consumable.Potion;
+using SpiritMod.Items.Placeable.IceSculpture;
+using SpiritMod.Items.Weapon.Bow;
+using SpiritMod.Items.Weapon.Gun;
+using SpiritMod.Buffs;
+using SpiritMod.Items;
+using SpiritMod.Items.Weapon;
+using SpiritMod.Items.Weapon.Returning;
+using SpiritMod.Items.Weapon.Thrown;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Items.Accessory;
 
-using Microsoft.Xna.Framework;
-
-using Terraria.ModLoader;
+using SpiritMod.Items.Accessory.Leather;
+using SpiritMod.Items.Ammo;
+using SpiritMod.Items.Armor;
+using SpiritMod.Dusts;
+using SpiritMod.Buffs;
+using SpiritMod.Buffs.Artifact;
+using SpiritMod.NPCs;
+using SpiritMod.NPCs.Asteroid;
+using SpiritMod.Projectiles;
+using SpiritMod.Projectiles.Hostile;
+using SpiritMod.Tiles;
+using SpiritMod.Tiles.Ambient;
+using SpiritMod.Tiles.Ambient.IceSculpture;
+using SpiritMod.Tiles.Ambient.ReachGrass;
+using SpiritMod.Tiles.Ambient.ReachMicros;
+using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Bullet
 {
-	public class FreemanRocket : ModProjectile
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Coiled Rocket");
-		}
+    public class FreemanRocket : ModProjectile
+    {
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("Coiled Rocket");
+        }
 
-		public override void SetDefaults()
-		{
-			projectile.width = 18;       //projectile width
-			projectile.height = 24;  //projectile height
-			projectile.friendly = true;      //make that the projectile will not damage you
-			projectile.ranged = true;        // 
-			projectile.tileCollide = true;   //make that the projectile will be destroed if it hits the terrain
-			projectile.penetrate = 1;      //how many npc will penetrate
-			projectile.timeLeft = 300;   //how many time projectile projectile has before disepire
-			projectile.ignoreWater = true;
-			projectile.aiStyle = -1;
-		}
-       
-        public override void AI()
-		{
+        public override void SetDefaults() {
+            projectile.width = 18;       //projectile width
+            projectile.height = 24;  //projectile height
+            projectile.friendly = true;      //make that the projectile will not damage you
+            projectile.ranged = true;        // 
+            projectile.tileCollide = true;   //make that the projectile will be destroed if it hits the terrain
+            projectile.penetrate = 1;      //how many npc will penetrate
+            projectile.timeLeft = 300;   //how many time projectile projectile has before disepire
+            projectile.ignoreWater = true;
+            projectile.aiStyle = -1;
+        }
+
+        public override void AI() {
             projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
             projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] == 16f)
-            {
+            if(projectile.localAI[0] == 16f) {
                 projectile.localAI[0] = 0f;
-                for (int j = 0; j < 12; j++)
-                {
+                for(int j = 0; j < 12; j++) {
                     Vector2 vector2 = Vector2.UnitX * -projectile.width / 2f;
                     vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(8f, 16f);
                     vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default(Vector2));
@@ -52,42 +117,32 @@ namespace SpiritMod.Projectiles.Bullet
                     Main.dust[num8].velocity = Vector2.Normalize(projectile.Center - projectile.velocity * 3f - Main.dust[num8].position) * 1.25f;
                 }
             }
-            if (Main.myPlayer == projectile.owner && projectile.ai[0] <= 0f)
-            {
-                if (Main.player[projectile.owner].channel)
-                {
+            if(Main.myPlayer == projectile.owner && projectile.ai[0] <= 0f) {
+                if(Main.player[projectile.owner].channel) {
                     float num2353 = 8f;
                     Vector2 vector329 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
                     float num2352 = (float)Main.mouseX + Main.screenPosition.X - vector329.X;
                     float num2351 = (float)Main.mouseY + Main.screenPosition.Y - vector329.Y;
-                    if (Main.player[projectile.owner].gravDir == -1f)
-                    {
+                    if(Main.player[projectile.owner].gravDir == -1f) {
                         num2351 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector329.Y;
                     }
                     float num2350 = (float)Math.Sqrt((double)(num2352 * num2352 + num2351 * num2351));
                     num2350 = (float)Math.Sqrt((double)(num2352 * num2352 + num2351 * num2351));
-                    if (projectile.ai[0] < 0f)
-                    {
+                    if(projectile.ai[0] < 0f) {
                         projectile.ai[0] += 1f;
                     }
-                    if (projectile.type == 491 && num2350 < 100f)
-                    {
-                        if (projectile.velocity.Length() < num2353)
-                        {
+                    if(projectile.type == 491 && num2350 < 100f) {
+                        if(projectile.velocity.Length() < num2353) {
                             projectile.velocity *= 1.1f;
-                            if (projectile.velocity.Length() > num2353)
-                            {
+                            if(projectile.velocity.Length() > num2353) {
                                 projectile.velocity.Normalize();
                                 projectile.velocity *= num2353;
                             }
                         }
-                        if (projectile.ai[0] == 0f)
-                        {
+                        if(projectile.ai[0] == 0f) {
                             projectile.ai[0] = -10f;
                         }
-                    }
-                    else if (num2350 > num2353)
-                    {
+                    } else if(num2350 > num2353) {
                         num2350 = num2353 / num2350;
                         num2352 *= num2350;
                         num2351 *= num2350;
@@ -95,51 +150,39 @@ namespace SpiritMod.Projectiles.Bullet
                         int num2344 = (int)(projectile.velocity.X * 1000f);
                         int num2343 = (int)(num2351 * 1000f);
                         int num2342 = (int)(projectile.velocity.Y * 1000f);
-                        if (num2345 != num2344 || num2343 != num2342)
-                        {
+                        if(num2345 != num2344 || num2343 != num2342) {
                             projectile.netUpdate = true;
                         }
-                        if (projectile.type == 491)
-                        {
+                        if(projectile.type == 491) {
                             Vector2 value167 = new Vector2(num2352, num2351);
                             projectile.velocity = (projectile.velocity * 4f + value167) / 5f;
-                        }
-                        else
-                        {
+                        } else {
                             projectile.velocity.X = num2352;
                             projectile.velocity.Y = num2351;
                         }
-                    }
-                    else
-                    {
+                    } else {
                         int num2341 = (int)(num2352 * 1000f);
                         int num2340 = (int)(projectile.velocity.X * 1000f);
                         int num2339 = (int)(num2351 * 1000f);
                         int num2338 = (int)(projectile.velocity.Y * 1000f);
-                        if (num2341 != num2340 || num2339 != num2338)
-                        {
+                        if(num2341 != num2340 || num2339 != num2338) {
                             projectile.netUpdate = true;
                         }
                         projectile.velocity.X = num2352;
                         projectile.velocity.Y = num2351;
                     }
-                }
-                else if (projectile.ai[0] <= 0f)
-                {
+                } else if(projectile.ai[0] <= 0f) {
                     projectile.netUpdate = true;
-                    if (projectile.type != 491)
-                    {
+                    if(projectile.type != 491) {
                         float num2337 = 12f;
                         Vector2 vector328 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
                         float num2336 = (float)Main.mouseX + Main.screenPosition.X - vector328.X;
                         float num2335 = (float)Main.mouseY + Main.screenPosition.Y - vector328.Y;
-                        if (Main.player[projectile.owner].gravDir == -1f)
-                        {
+                        if(Main.player[projectile.owner].gravDir == -1f) {
                             num2335 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector328.Y;
                         }
                         float num2334 = (float)Math.Sqrt((double)(num2336 * num2336 + num2335 * num2335));
-                        if (num2334 == 0f || projectile.ai[0] < 0f)
-                        {
+                        if(num2334 == 0f || projectile.ai[0] < 0f) {
                             vector328 = new Vector2(Main.player[projectile.owner].position.X + (float)(Main.player[projectile.owner].width / 2), Main.player[projectile.owner].position.Y + (float)(Main.player[projectile.owner].height / 2));
                             num2336 = projectile.position.X + (float)projectile.width * 0.5f - vector328.X;
                             num2335 = projectile.position.Y + (float)projectile.height * 0.5f - vector328.Y;
@@ -150,8 +193,7 @@ namespace SpiritMod.Projectiles.Bullet
                         num2335 *= num2334;
                         projectile.velocity.X = num2336;
                         projectile.velocity.Y = num2335;
-                        if (projectile.velocity.X == 0f && projectile.velocity.Y == 0f)
-                        {
+                        if(projectile.velocity.X == 0f && projectile.velocity.Y == 0f) {
                             projectile.Kill();
                         }
                     }
@@ -159,8 +201,7 @@ namespace SpiritMod.Projectiles.Bullet
                 }
             }
             int num1222 = 5;
-            for (int k = 0; k < 3; k++)
-            {
+            for(int k = 0; k < 3; k++) {
                 int index2 = Dust.NewDust(projectile.position, 1, 1, 6, 0.0f, 0.0f, 0, new Color(), 1f);
                 Main.dust[index2].position = projectile.Center - projectile.velocity / num1222 * (float)k;
                 Main.dust[index2].scale = .95f;
@@ -169,29 +210,25 @@ namespace SpiritMod.Projectiles.Bullet
                 Main.dust[index2].noLight = false;
             }
         }
-        public override void OnHitNPC(NPC target, int damage, float knockBack, bool crit)
-        {
+        public override void OnHitNPC(NPC target, int damage, float knockBack, bool crit) {
             target.AddBuff(BuffID.OnFire, 480);
             projectile.Kill();
         }
-        public override void Kill(int timeLeft)
-        {
+        public override void Kill(int timeLeft) {
             {
-               for (int i = 0; i < 40; i++)
-               {
-                   int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, -2f, 0, default(Color), 2f);
-                   Main.dust[num].noGravity = true;
-                   Dust expr_62_cp_0 = Main.dust[num];
-                   expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
-                   Dust expr_92_cp_0 = Main.dust[num];
-                   expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
-                   if (Main.dust[num].position != projectile.Center)
-                   {
-                       Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
-                   }
-               }
-           }
-           Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+                for(int i = 0; i < 40; i++) {
+                    int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, -2f, 0, default(Color), 2f);
+                    Main.dust[num].noGravity = true;
+                    Dust expr_62_cp_0 = Main.dust[num];
+                    expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
+                    Dust expr_92_cp_0 = Main.dust[num];
+                    expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
+                    if(Main.dust[num].position != projectile.Center) {
+                        Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
+                    }
+                }
+            }
+            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
         }
-	}
+    }
 }

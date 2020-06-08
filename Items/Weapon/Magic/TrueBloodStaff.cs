@@ -1,25 +1,21 @@
-using System;
 
 using Microsoft.Xna.Framework;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Weapon.Magic
 {
     public class TrueBloodStaff : ModItem
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("True Vessel Drainer");
-			Tooltip.SetDefault("Shoots a clot that gathers power over time.");
-		}
+        public override void SetStaticDefaults() {
+            DisplayName.SetDefault("True Vessel Drainer");
+            Tooltip.SetDefault("Shoots a clot that gathers power over time.");
+        }
 
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             item.damage = 64;
             item.magic = true;
             item.mana = 20;
@@ -40,8 +36,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.shootSpeed = 16f;
         }
 
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
             ModRecipe modRecipe = new ModRecipe(mod);
             modRecipe.AddIngredient(null, "BrokenStaff", 1);
             modRecipe.AddIngredient(null, "BloodStaff", 1);
@@ -49,8 +44,7 @@ namespace SpiritMod.Items.Weapon.Magic
             modRecipe.SetResult(this, 1);
             modRecipe.AddRecipe();
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) {
             Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
             Terraria.Projectile.NewProjectile(mouse.X, mouse.Y, 0f, 0f, type, damage, knockBack, player.whoAmI);
             return false;
