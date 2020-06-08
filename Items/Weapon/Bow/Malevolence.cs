@@ -1,15 +1,4 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Tiles.Furniture.Reach;
-using SpiritMod.NPCs.Critters;
-using SpiritMod.Mounts;
-using SpiritMod.NPCs.Boss.SpiritCore;
-using SpiritMod.Boss.SpiritCore;
-using SpiritMod.Buffs.Candy;
-using SpiritMod.Buffs.Potion;
-using SpiritMod.Projectiles.Pet;
-using SpiritMod.Buffs.Pet;
-using SpiritMod.Projectiles.Arrow.Artifact;
-using SpiritMod.Projectiles.Bullet.Crimbine;
 using SpiritMod.Projectiles.Arrow;
 using Terraria;
 using Terraria.ID;

@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Ammo
         }
 
         public override void SetDefaults() {
-            item.shoot = ModContent.ProjectileType<SpiritSolution>() - ProjectileID.PureSpray;
+            item.shoot = ModContent.ProjectileType<Projectiles.Magic.SpiritSolution>();
             item.ammo = AmmoID.Solution;
             item.width = 10;
             item.height = 12;

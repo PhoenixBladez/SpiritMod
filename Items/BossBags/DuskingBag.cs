@@ -39,13 +39,13 @@ namespace SpiritMod.Items.BossBags
             player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(3, 7));
             player.QuickSpawnItem(ModContent.ItemType<DuskPendant>());
             player.QuickSpawnItem(ModContent.ItemType<DuskStone>(), Main.rand.Next(25, 36));
-            
-            int[] lootTable = { 
-                ModContent.ItemType<CrystalShadow>(), 
-                ModContent.ItemType<ShadowflameSword>(), 
-                ModContent.ItemType<UmbraStaff>(), 
-                ModContent.ItemType<ShadowSphere>(), 
-                ModContent.ItemType<DuskCarbine>() 
+
+            int[] lootTable = {
+                ModContent.ItemType<CrystalShadow>(),
+                ModContent.ItemType<ShadowflameSword>(),
+                ModContent.ItemType<UmbraStaff>(),
+                ModContent.ItemType<ShadowSphere>(),
+                ModContent.ItemType<DuskCarbine>()
             };
             int loot = Main.rand.Next(lootTable.Length);
             if(loot == 0)

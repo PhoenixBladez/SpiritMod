@@ -1,47 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
-using SpiritMod.Tiles.Furniture.Reach;
-using SpiritMod.NPCs.Critters;
-using SpiritMod.Mounts;
-using SpiritMod.NPCs.Boss.SpiritCore;
-using SpiritMod.Boss.SpiritCore;
-using SpiritMod.Buffs.Candy;
-using SpiritMod.Buffs.Potion;
-using SpiritMod.Projectiles.Pet;
-using SpiritMod.Buffs.Pet;
-using SpiritMod.Projectiles.Arrow.Artifact;
-using SpiritMod.Projectiles.Bullet.Crimbine;
-using SpiritMod.Projectiles.Bullet;
-using SpiritMod.Projectiles.Magic.Artifact;
-using SpiritMod.Projectiles.Summon.Artifact;
-using SpiritMod.Projectiles.Summon.LaserGate;
-using SpiritMod.Projectiles.Flail;
-using SpiritMod.Projectiles.Arrow;
-using SpiritMod.Projectiles.Magic;
-using SpiritMod.Projectiles.Sword.Artifact;
-using SpiritMod.Projectiles.Summon.Dragon;
-using SpiritMod.Projectiles.Sword;
-using SpiritMod.Projectiles.Thrown.Artifact;
-using SpiritMod.Items.Boss;
 using SpiritMod.Items.Armor.Masks;
-using SpiritMod.Projectiles.Returning;
-using SpiritMod.Projectiles.Held;
-using SpiritMod.Projectiles.Thrown;
-using SpiritMod.Items.Equipment;
-using SpiritMod.Projectiles.DonatorItems;
-using SpiritMod.Buffs.Mount;
-using SpiritMod.Items.Weapon.Yoyo;
-using SpiritMod.Projectiles.Yoyo;
-using SpiritMod.Items.Weapon.Spear;
-using SpiritMod.Items.Weapon.Swung;
-using SpiritMod.NPCs.Boss;
-using SpiritMod.Items.Material;
-using SpiritMod.Items.Pets;
+using SpiritMod.Items.Boss;
 using SpiritMod.Items.BossBags;
 using SpiritMod.Items.Material;
 using SpiritMod.Items.Weapon.Bow;
 using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Items.Weapon.Swung;
-using SpiritMod.Items.Weapon.Thrown;
 using SpiritMod.Projectiles.Boss;
 using Terraria;
 using Terraria.ID;
@@ -267,7 +231,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
                 return;
             }
 
-            int[] lootTable = { 
+            int[] lootTable = {
                 ModContent.ItemType<ThornBow>(),
                 ModContent.ItemType<SunbeamStaff>(),
                 ModContent.ItemType<ReachVineStaff>(),

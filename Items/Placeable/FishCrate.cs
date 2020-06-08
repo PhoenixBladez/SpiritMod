@@ -1,13 +1,4 @@
 using SpiritMod.Items.Consumable;
-using SpiritMod.Tiles.Furniture.Reach;
-using SpiritMod.NPCs.Critters;
-using SpiritMod.Mounts;
-using SpiritMod.NPCs.Boss.SpiritCore;
-using SpiritMod.Boss.SpiritCore;
-using SpiritMod.Buffs.Candy;
-using SpiritMod.Buffs.Potion;
-using SpiritMod.Projectiles.Pet;
-using SpiritMod.Buffs.Pet;
 using SpiritMod.Items.Consumable.Fish;
 using Terraria;
 using Terraria.ID;
@@ -61,12 +52,12 @@ namespace SpiritMod.Items.Placeable
                     player.QuickSpawnItem(ModContent.ItemType<LuvdiscItem>());
                 }
             }
-            int[] lootTable = { 
-                ItemID.Shrimp, 
-                ItemID.Salmon, 
-                ItemID.Bass, 
-                ItemID.RedSnapper, 
-                ItemID.Trout 
+            int[] lootTable = {
+                ItemID.Shrimp,
+                ItemID.Salmon,
+                ItemID.Bass,
+                ItemID.RedSnapper,
+                ItemID.Trout
             };
             int loot = Main.rand.Next(lootTable.Length);
             int Fish = Main.rand.Next(3, 5);
@@ -74,11 +65,11 @@ namespace SpiritMod.Items.Placeable
                 player.QuickSpawnItem(lootTable[loot]);
             }
             if(Main.rand.Next(4) == 1) {
-                int[] lootTable3 = { 
-                    ItemID.ArmoredCavefish, 
-                    ItemID.Damselfish, 
-                    ItemID.DoubleCod, 
-                    ItemID.FrostMinnow 
+                int[] lootTable3 = {
+                    ItemID.ArmoredCavefish,
+                    ItemID.Damselfish,
+                    ItemID.DoubleCod,
+                    ItemID.FrostMinnow
                 };
                 int loot3 = Main.rand.Next(lootTable3.Length);
                 int Booty = Main.rand.Next(1, 2);
@@ -88,19 +79,19 @@ namespace SpiritMod.Items.Placeable
 
             }
             if(Main.rand.Next(27) == 0) {
-                int[] lootTable4 = { 
-                    ItemID.ReaverShark, 
-                    ItemID.Swordfish, 
-                    ItemID.SawtoothShark 
+                int[] lootTable4 = {
+                    ItemID.ReaverShark,
+                    ItemID.Swordfish,
+                    ItemID.SawtoothShark
                 };
                 int loot4 = Main.rand.Next(lootTable4.Length);
                 player.QuickSpawnItem(lootTable4[loot4]);
             }
 
             if(Main.rand.Next(3) == 0) {
-                int[] lootTable2 = { 
-                    ItemID.FrostDaggerfish, 
-                    ItemID.BombFish 
+                int[] lootTable2 = {
+                    ItemID.FrostDaggerfish,
+                    ItemID.BombFish
                 };
                 int loot2 = Main.rand.Next(lootTable2.Length);
                 int Fish1 = Main.rand.Next(9, 12);
@@ -110,11 +101,11 @@ namespace SpiritMod.Items.Placeable
                 }
             }
             if(Main.hardMode && Main.rand.Next(10) == 0) {
-                int[] lootTable51 = { 
-                    ItemID.FlarefinKoi, 
-                    ItemID.Obsidifish, 
-                    ItemID.Prismite, 
-                    ItemID.PrincessFish 
+                int[] lootTable51 = {
+                    ItemID.FlarefinKoi,
+                    ItemID.Obsidifish,
+                    ItemID.Prismite,
+                    ItemID.PrincessFish
                 };
                 int loot51 = Main.rand.Next(lootTable51.Length);
                 int Booty = Main.rand.Next(1, 2);

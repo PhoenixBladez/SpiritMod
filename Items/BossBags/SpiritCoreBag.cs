@@ -35,10 +35,10 @@ namespace SpiritMod.Items.BossBags
             player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(7, 12));
             player.QuickSpawnItem(ModContent.ItemType<ShadowLens>());
 
-            int[] lootTable = { 
-                ModContent.ItemType<SummonStaff>(), 
-                ModContent.ItemType<ShadowStaff>(), 
-                ModContent.ItemType<WispSword>() 
+            int[] lootTable = {
+                ModContent.ItemType<SummonStaff>(),
+                ModContent.ItemType<ShadowStaff>(),
+                ModContent.ItemType<WispSword>()
             };
             int loot = Main.rand.Next(lootTable.Length);
             player.QuickSpawnItem(lootTable[loot]);

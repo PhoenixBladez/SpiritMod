@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Ammo
             item.ranged = true;
             item.consumable = true;
 
-            item.shoot = ModContent.ProjectileType<MagicBullet>();
+            item.shoot = ModContent.ProjectileType<Projectiles.Bullet.MagicBullet>();
             item.shootSpeed = 9f;
 
         }

@@ -1,7 +1,4 @@
 using SpiritMod.NPCs.Boss.SpiritCore;
-using SpiritMod.Tiles.Furniture.Reach;
-using SpiritMod.NPCs.Critters;
-using SpiritMod.Mounts;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

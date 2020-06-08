@@ -37,10 +37,10 @@ namespace SpiritMod.Items.BossBags
             player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(1, 3));
             player.QuickSpawnItem(ModContent.ItemType<FossilFeather>(), Main.rand.Next(4, 7));
 
-            int[] lootTable = { 
-                ModContent.ItemType<SkeletalonStaff>(), 
-                ModContent.ItemType<Talonginus>(), 
-                ModContent.ItemType<SoaringScapula>() 
+            int[] lootTable = {
+                ModContent.ItemType<SkeletalonStaff>(),
+                ModContent.ItemType<Talonginus>(),
+                ModContent.ItemType<SoaringScapula>()
             };
             int loot = Main.rand.Next(lootTable.Length);
             player.QuickSpawnItem(lootTable[loot]);

@@ -1,4 +1,5 @@
 
+using SpiritMod.Projectiles.Bullet;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

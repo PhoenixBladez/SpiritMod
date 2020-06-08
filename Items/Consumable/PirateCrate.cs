@@ -32,17 +32,17 @@ namespace SpiritMod.Items.Consumable
         }
 
         public override void RightClick(Player player) {
-            int[] lootTable = { 
+            int[] lootTable = {
                 ItemID.GoldRing,
                 ItemID.GoldRing,
                 ItemID.GoldRing,
                 ItemID.GoldRing,
                 ItemID.GoldRing,
-                ItemID.GoldRing, 
-                ItemID.LuckyCoin, 
-                ItemID.LuckyCoin, 
-                ItemID.LuckyCoin, 
-                ItemID.CoinGun, 
+                ItemID.GoldRing,
+                ItemID.LuckyCoin,
+                ItemID.LuckyCoin,
+                ItemID.LuckyCoin,
+                ItemID.CoinGun,
                 ItemID.DiscountCard,
                 ItemID.DiscountCard,
                 ItemID.DiscountCard,
@@ -53,10 +53,10 @@ namespace SpiritMod.Items.Consumable
             int loot = Main.rand.Next(lootTable.Length);
             player.QuickSpawnItem(lootTable[loot]);
             if(Main.rand.Next(4) > 0) {
-                int[] lootTable2 = { 
-                    ItemID.GoldBar, 
-                    ItemID.SilverBar, 
-                    ItemID.TungstenBar, 
+                int[] lootTable2 = {
+                    ItemID.GoldBar,
+                    ItemID.SilverBar,
+                    ItemID.TungstenBar,
                     ItemID.PlatinumBar
                 };
                 int loot2 = Main.rand.Next(lootTable2.Length);
@@ -69,12 +69,12 @@ namespace SpiritMod.Items.Consumable
             if(Main.rand.Next(2) == 1) {
                 int Gems = Main.rand.Next(15, 30);
                 for(int I = 0; I < Gems; I++) {
-                    int[] lootTable3 = { 
-                        ItemID.Ruby, 
-                        ItemID.Emerald, 
-                        ItemID.Topaz, 
-                        ItemID.Amethyst, 
-                        ItemID.Diamond, 
+                    int[] lootTable3 = {
+                        ItemID.Ruby,
+                        ItemID.Emerald,
+                        ItemID.Topaz,
+                        ItemID.Amethyst,
+                        ItemID.Diamond,
                         ItemID.Sapphire,
                         ItemID.Amber
                     };

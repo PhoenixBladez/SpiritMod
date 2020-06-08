@@ -38,11 +38,11 @@ namespace SpiritMod.Items.BossBags
             player.QuickSpawnItem(ModContent.ItemType<EternityCharm>());
             player.QuickSpawnItem(ModContent.ItemType<EternityEssence>(), Main.rand.Next(18, 28));
 
-            int[] lootTable = { 
-                ModContent.ItemType<Eternity>(), 
-                ModContent.ItemType<SoulExpulsor>(), 
-                ModContent.ItemType<EssenseTearer>(), 
-                ModContent.ItemType<AeonRipper>() 
+            int[] lootTable = {
+                ModContent.ItemType<Eternity>(),
+                ModContent.ItemType<SoulExpulsor>(),
+                ModContent.ItemType<EssenseTearer>(),
+                ModContent.ItemType<AeonRipper>()
             };
             int loot = Main.rand.Next(lootTable.Length);
             player.QuickSpawnItem(lootTable[loot]);

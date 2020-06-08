@@ -42,13 +42,13 @@ namespace SpiritMod.Items.BossBags
             player.QuickSpawnItem(ModContent.ItemType<HellsGaze>()); //expert drop
             player.QuickSpawnItem(ModContent.ItemType<InfernalAppendage>(), Main.rand.Next(25, 36));
 
-            int[] lootTable = { 
-                ModContent.ItemType<InfernalJavelin>(), 
-                ModContent.ItemType<DiabolicHorn>(), 
-                ModContent.ItemType<SevenSins>(), 
-                ModContent.ItemType<InfernalSword>(), 
-                ModContent.ItemType<InfernalStaff>(), 
-                ModContent.ItemType<InfernalShield>(), 
+            int[] lootTable = {
+                ModContent.ItemType<InfernalJavelin>(),
+                ModContent.ItemType<DiabolicHorn>(),
+                ModContent.ItemType<SevenSins>(),
+                ModContent.ItemType<InfernalSword>(),
+                ModContent.ItemType<InfernalStaff>(),
+                ModContent.ItemType<InfernalShield>(),
                 ModContent.ItemType<EyeOfTheInferno>()
             };
             int loot = Main.rand.Next(lootTable.Length);

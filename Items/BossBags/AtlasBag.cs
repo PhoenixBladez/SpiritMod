@@ -1,4 +1,12 @@
 
+using SpiritMod.Items.Accessory;
+using SpiritMod.Items.Armor.Masks;
+using SpiritMod.Items.Boss;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Weapon.Bow;
+using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Items.Weapon.Summon;
+using SpiritMod.Items.Weapon.Swung;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,17 +38,22 @@ namespace SpiritMod.Items.BossBags
             player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(7, 12));
             player.QuickSpawnItem(ModContent.ItemType<AtlasEye>());
             player.QuickSpawnItem(ModContent.ItemType<ArcaneGeyser>(), Main.rand.Next(30, 46));
-            if(Main.rand.Next(8) < 1)
-                player.QuickSpawnItem(ModContent.ItemType<UnrefinedRuneStone>());
 
-            string[] lootTable = { "KingRock", "Mountain", "TitanboundBulwark", "CragboundStaff", "QuakeFist", "Earthshatter", };
+            int[] lootTable = {
+                ModContent.ItemType<KingRock>(),
+                ModContent.ItemType<Mountain>(),
+                ModContent.ItemType<TitanboundBulwark>(),
+                ModContent.ItemType<CragboundStaff>(),
+                ModContent.ItemType<QuakeFist>(),
+                ModContent.ItemType<Earthshatter>()
+            };
             int loot = Main.rand.Next(lootTable.Length);
-            player.QuickSpawnItem(mod.ItemType(lootTable[loot]));
+            player.QuickSpawnItem(lootTable[loot]);
 
             if(Main.rand.NextDouble() < 1d / 7)
-                player.QuickSpawnItem(Armor.Masks.AtlasMask._type);
+                player.QuickSpawnItem(ModContent.ItemType<AtlasMask>());
             if(Main.rand.NextDouble() < 1d / 10)
-                player.QuickSpawnItem(Boss.Trophy8._type);
+                player.QuickSpawnItem(ModContent.ItemType<Trophy8>());
         }
     }
 }
