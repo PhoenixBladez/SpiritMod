@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.Boss.SteamRaider
 {
-    public class TailProbe : ModNPC
+    public class ArcadeProbe : ModNPC
     {
         int moveSpeed = 0;
         int moveSpeedY = 0;
@@ -102,6 +102,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
             }
         }
         int shoottimer;
+        int lifeSpan = 500;
         public override void AI() {
             if(!NPC.AnyNPCs(ModContent.NPCType<SteamRaiderHead>())) {
                 npc.active = false;
@@ -133,12 +134,13 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					}*/
             int parent = NPC.FindFirstNPC(ModContent.NPCType<SteamRaiderHead>());
             {
-                if(Main.npc[parent].life <= 1200) {
+                if(Main.npc[parent].life <= 0 || lifeSpan <= 0) {
                     npc.life = 0;
                     npc.HitEffect(0, 10.0);
                     npc.active = false;
                 }
             }
+            lifeSpan--;
             float num5 = base.npc.position.X + (float)(base.npc.width / 2) - player.position.X - (float)(player.width / 2);
             float num6 = base.npc.position.Y + (float)base.npc.height - 59f - player.position.Y - (float)(player.height / 2);
             float num7 = (float)Math.Atan2((double)num6, (double)num5) + 1.57f;
@@ -175,7 +177,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
             base.npc.spriteDirection = base.npc.direction;
             shoottimer++;
             {
-                if(shoottimer >= 180) {
+                if(shoottimer >= 120) {
                     Main.PlaySound(2, (int)npc.Center.X, (int)npc.Center.Y, 12);
                     Vector2 direction = Main.player[npc.target].Center - npc.Center;
                     direction.Normalize();
