@@ -147,6 +147,16 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					}
 				}
 			}
+            if (timer == 600)
+            {
+                if (npc.life <= 5000 && npc.life > 1200)
+                {
+                    for (int i = 0; i < 2; i++)
+                    {
+                        NPC.NewNPC((int)Main.player[npc.target].Center.X + Main.rand.Next(-700, 700), (int)Main.player[npc.target].Center.Y + Main.rand.Next(-700, 700), mod.NPCType("LaserBase"), npc.whoAmI);
+                    }
+                }
+            }
 			if (timer == 700)
 				timer = 0;
 			chargetimer++;
@@ -500,6 +510,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
             #region Phase2
             else
             {
+                npc.defense = 20;
                 alphaCounter += 0.08f;
                 npc.netUpdate = true;
                 Player nearby = Main.LocalPlayer;
