@@ -26,7 +26,7 @@ namespace SpiritMod.Projectiles.Thrown
                 if(proj.ranged && proj.active && !shot && proj.friendly && !proj.hostile && (proj.width <= 6 || proj.height <= 6)) {
                     Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);
                     shot = true;
-                    projectile.damage = (int)MathHelper.Clamp(90, 0, 220);
+                    projectile.damage = 110;
                     projectile.velocity = proj.velocity * 2;
                     proj.active = false;
                     CombatText.NewText(new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height), new Color(255, 155, 0, 100),

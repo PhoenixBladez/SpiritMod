@@ -1,16 +1,16 @@
 using System;
 using Microsoft.Xna.Framework;
 using Terraria;
-using SpiritMod.Projectiles.Thrown;
+using SpiritMod.Projectiles.Thrown.Charge;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Projectiles.Thrown
+namespace SpiritMod.Projectiles.Thrown.Charge
 {
-	public class TikiJavelinProj : ModProjectile
+	public class FrigidJavelinProj : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Tiki Javelin");
+			DisplayName.SetDefault("Frigid Javelin");
 		}
 
 		public override void SetDefaults()
@@ -37,9 +37,9 @@ namespace SpiritMod.Projectiles.Thrown
 			{
 				projectile.position = player.position + holdOffset;
 				player.velocity.X *= 0.95f;
-				if (counter < 13)
+				if (counter < 10)
 				{
-					counter+=0.1f;
+					counter+=0.07f;
 				}
 				Vector2 direction = Main.MouseWorld - (projectile.position);
 				direction.Normalize();
@@ -57,7 +57,7 @@ namespace SpiritMod.Projectiles.Thrown
 				}
 				trailcounter++;
 				if (trailcounter % 5 == 0)
-				Projectile.NewProjectile(projectile.Center + (direction * 3), direction, ModContent.ProjectileType<TikiJavelinProj1>(), 0, 0, projectile.owner); //predictor trail, please pick a better dust Yuy
+				Projectile.NewProjectile(projectile.Center + (direction * 4), direction, ModContent.ProjectileType<FrigidJavelinProj1>(), 0, 0, projectile.owner); //predictor trail, please pick a better dust Yuy
 			}
 			else
 			{
@@ -65,7 +65,7 @@ namespace SpiritMod.Projectiles.Thrown
                 Vector2 direction = Main.MouseWorld - (projectile.position);
 				direction.Normalize();
 				direction*= counter;
-				Projectile.NewProjectile(projectile.Center + (direction * 3), direction, ModContent.ProjectileType<TikiJavelinProj2>(), (int)(projectile.damage * Math.Sqrt(counter)), projectile.knockBack, projectile.owner);
+				Projectile.NewProjectile(projectile.Center + (direction * 4), direction, ModContent.ProjectileType<FrigidJavelinProj2>(), (int)(projectile.damage * Math.Sqrt(counter)), projectile.knockBack, projectile.owner);
 				projectile.active = false;
 			}
 			player.heldProj = projectile.whoAmI;

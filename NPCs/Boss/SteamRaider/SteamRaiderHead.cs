@@ -696,42 +696,8 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			}
 			if (npc.life <= 0)
 			{
-				npc.position.X = npc.position.X + (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-				npc.width = 30;
-				npc.height = 30;
-				npc.position.X = npc.position.X - (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
-				for (int num621 = 0; num621 < 20; num621++)
-				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default(Color), 2f);
-					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0)
-					{
-						Main.dust[num622].scale = 0.5f;
-						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-					}
-				}
-				for (int num623 = 0; num623 < 40; num623++)
-				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default(Color), 3f);
-					Main.dust[num624].noGravity = true;
-					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default(Color), 2f);
-					Main.dust[num624].velocity *= 2f;
-				}
-				Vector2 direction = Main.player[npc.target].Center - npc.Center;
-				direction.Normalize();
-				direction.X *= 4f;
-				direction.Y *= -4f;
-
-				int amountOfProjectiles = Main.rand.Next(1, 2);
-				for (int i = 0; i < amountOfProjectiles; ++i)
-				{
-					float A = (float)Main.rand.Next(-150, 150) * 0.01f;
-					float B = (float)Main.rand.Next(-80, 0) * 0.01f;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, mod.ProjectileType("SteamBodyFallingProj"), 15, 1, Main.myPlayer, 0, 0);
-				}
+                 NPC.NewNPC((int)npc.position.X + npc.width - 20, (int)npc.position.Y + npc.height, mod.NPCType("SteamRaiderHeadDeath"), npc.whoAmI);
+                 npc.active = false;
 			}
 		}
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
@@ -744,20 +710,6 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		{
 			MyWorld.downedRaider = true;
 			return true;
-		}
-
-		public override void NPCLoot()
-		{
-			if (Main.expertMode)
-			{
-				npc.DropBossBags();
-				return;
-			}
-
-			npc.DropItem(mod.ItemType("SteamParts"), 19, 25);
-
-			npc.DropItem(Items.Armor.Masks.StarplateMask._type, 1f / 7);
-			npc.DropItem(Items.Boss.Trophy3._type, 1f / 10);
 		}
 	}
 }

@@ -1,4 +1,4 @@
-using SpiritMod.Projectiles.Thrown;
+using SpiritMod.Projectiles.Thrown.Charge;
 using Terraria.ID;
 using Terraria.ModLoader;
 
