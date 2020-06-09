@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Placeable.Walls
 
             ModRecipe recipe1 = new ModRecipe(mod);
             recipe1.AddIngredient(this, 4);
-            recipe1.AddTile(TileID.WorkBenches);
+            recipe1.AddTile(TileID.HeavyWorkBench);
             recipe1.SetResult(null, "SepulchreBrickItem");
             recipe1.AddRecipe();
         }
