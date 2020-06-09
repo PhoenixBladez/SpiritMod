@@ -1,4 +1,5 @@
 
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,10 +17,7 @@ namespace SpiritMod.Items.Accessory
             item.width = 47;
             item.height = 37;
             item.value = 60000;
-            item.rare = 5;
-
             item.accessory = true;
-
             item.rare = 5;
         }
 
@@ -31,8 +29,7 @@ namespace SpiritMod.Items.Accessory
             }
 
         }
-        public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising,
-    ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend) {
+        public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend) {
             ascentWhenFalling = 0.65f;
             ascentWhenRising = 0.07f;
             maxCanAscendMultiplier = 1f;
@@ -46,8 +43,8 @@ namespace SpiritMod.Items.Accessory
         }
         public override void AddRecipes() {
             ModRecipe modRecipe = new ModRecipe(mod);
-            modRecipe.AddIngredient(null, "NetherCrystal", 1);
-            modRecipe.AddIngredient(575, 20);
+            modRecipe.AddIngredient(ModContent.ItemType<NetherCrystal>(), 1);
+            modRecipe.AddIngredient(ItemID.SoulofFlight, 20);
             modRecipe.AddTile(TileID.MythrilAnvil);
             modRecipe.SetResult(this, 1);
             modRecipe.AddRecipe();

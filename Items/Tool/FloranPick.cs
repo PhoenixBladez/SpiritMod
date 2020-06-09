@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -33,7 +34,7 @@ namespace SpiritMod.Items.Tool
         }
         public override void AddRecipes() {
             ModRecipe modRecipe = new ModRecipe(mod);
-            modRecipe.AddIngredient(null, "FloranBar", 15);
+            modRecipe.AddIngredient(ModContent.ItemType<FloranBar>(), 15);
             modRecipe.AddTile(TileID.Anvils);
             modRecipe.SetResult(this);
             modRecipe.AddRecipe();

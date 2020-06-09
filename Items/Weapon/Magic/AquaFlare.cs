@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Magic;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -38,7 +39,7 @@ namespace SpiritMod.Items.Weapon.Magic
             ModRecipe modRecipe = new ModRecipe(mod);
             modRecipe.AddIngredient(ItemID.Flamelash, 1);
             modRecipe.AddIngredient(ItemID.AquaScepter, 1);
-            modRecipe.AddIngredient(null, "SpiritBar", 5);
+            modRecipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 5);
             modRecipe.AddTile(TileID.MythrilAnvil);
             modRecipe.SetResult(this, 1);
             modRecipe.AddRecipe();

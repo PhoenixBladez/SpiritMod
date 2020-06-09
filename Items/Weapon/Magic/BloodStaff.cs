@@ -36,10 +36,10 @@ namespace SpiritMod.Items.Weapon.Magic
 
         public override void AddRecipes() {
             ModRecipe modRecipe = new ModRecipe(mod);
-            modRecipe.AddIngredient(null, "CrimsonStaff", 1);
-            modRecipe.AddIngredient(null, "JungleStaff", 1);
-            modRecipe.AddIngredient(null, "DungeonStaff", 1);
-            modRecipe.AddIngredient(null, "HellStaff", 1);
+            modRecipe.AddIngredient(ModContent.ItemType<CrimsonStaff>(), 1);
+            modRecipe.AddIngredient(ModContent.ItemType<JungleStaff>(), 1);
+            modRecipe.AddIngredient(ModContent.ItemType<DungeonStaff>(), 1);
+            modRecipe.AddIngredient(ModContent.ItemType<HellStaff>(), 1);
             modRecipe.AddTile(26);
             modRecipe.SetResult(this, 1);
             modRecipe.AddRecipe();

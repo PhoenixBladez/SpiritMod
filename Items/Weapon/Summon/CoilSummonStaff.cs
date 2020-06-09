@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ID;
@@ -63,7 +64,7 @@ namespace SpiritMod.Items.Weapon.Summon
         }
         public override void AddRecipes() {
             ModRecipe modRecipe = new ModRecipe(mod);
-            modRecipe.AddIngredient(null, "TechDrive", 6);
+            modRecipe.AddIngredient(ModContent.ItemType<TechDrive>(), 6);
             modRecipe.AddTile(TileID.Anvils);
             modRecipe.SetResult(this);
             modRecipe.AddRecipe();

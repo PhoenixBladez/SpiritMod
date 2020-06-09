@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -37,7 +38,7 @@ namespace SpiritMod.Items.Tool
 
         public override void AddRecipes() {
             ModRecipe modRecipe = new ModRecipe(mod);
-            modRecipe.AddIngredient(null, "CryoliteBar", 12);
+            modRecipe.AddIngredient(ModContent.ItemType<CryoliteBar>(), 12);
             modRecipe.AddTile(TileID.Anvils);
             modRecipe.SetResult(this);
             modRecipe.AddRecipe();

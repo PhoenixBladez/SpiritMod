@@ -38,7 +38,7 @@ namespace SpiritMod.Items.Weapon.Magic
         public override void AddRecipes() {
 
             ModRecipe modRecipe = new ModRecipe(mod);
-            modRecipe.AddIngredient(null, "ChloroStaff", 1);
+            modRecipe.AddIngredient(ModContent.ItemType<ChloroStaff>(), 1);
             modRecipe.AddIngredient(ItemID.TurtleShell, 3);
             modRecipe.AddTile(134);
             modRecipe.SetResult(this, 1);

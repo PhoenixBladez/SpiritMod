@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Held;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -39,7 +40,7 @@ namespace SpiritMod.Items.Tool
         }
         public override void AddRecipes() {
             ModRecipe modRecipe = new ModRecipe(mod);
-            modRecipe.AddIngredient(null, "SpiritBar", 18);
+            modRecipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 18);
             modRecipe.AddTile(TileID.MythrilAnvil);
             modRecipe.SetResult(this);
             modRecipe.AddRecipe();

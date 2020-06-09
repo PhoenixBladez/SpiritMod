@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.ID;
@@ -34,15 +35,15 @@ namespace SpiritMod.Items.Weapon.Swung
 
         public override void AddRecipes() {
             ModRecipe modRecipe = new ModRecipe(mod);
-            modRecipe.AddIngredient(null, "SpiritBar", 12);
-            modRecipe.AddIngredient(null, "SoulShred", 6);
-            modRecipe.AddTile(134);
+            modRecipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 12);
+            modRecipe.AddIngredient(ModContent.ItemType<SoulShred>(), 6);
+            modRecipe.AddTile(TileID.MythrilAnvil);
             modRecipe.SetResult(this, 1);
             modRecipe.AddRecipe();
         }
         public override void MeleeEffects(Player player, Rectangle hitbox) {
             if(Main.rand.Next(2) == 0) {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 68);
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 68);
             }
         }
     }

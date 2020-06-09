@@ -1,6 +1,8 @@
 
 using Microsoft.Xna.Framework;
-
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Placeable.Furniture;
+using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -28,13 +30,13 @@ namespace SpiritMod.Items.Weapon.Magic
             item.useAnimation = 9;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 10;
-            item.value = 200000;
+            item.value = Item.buyPrice(gold: 20);
             item.rare = 9;
             item.UseSound = SoundID.Item92;
             item.autoReuse = true;
             item.shootSpeed = 15;
             item.UseSound = SoundID.Item20;
-            item.shoot = mod.ProjectileType("Starshock1");
+            item.shoot = ModContent.ProjectileType<Starshock1>();
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) {
             int p = Main.rand.Next(1, 714);
@@ -50,13 +52,13 @@ namespace SpiritMod.Items.Weapon.Magic
         public override void AddRecipes() {
 
             ModRecipe modRecipe = new ModRecipe(mod);
-            modRecipe.AddIngredient(null, "SteamParts", 10);
-            modRecipe.AddIngredient(null, "TechDrive", 10);
-            modRecipe.AddIngredient(null, "PrintPrime", 1);
-            modRecipe.AddIngredient(null, "PrintProbe", 1);
-            modRecipe.AddIngredient(null, "BlueprintTwins", 1);
-            modRecipe.AddIngredient(null, "SpiritBar", 10);
-            modRecipe.AddIngredient(null, "StellarBar", 10);
+            modRecipe.AddIngredient(ModContent.ItemType<SteamParts>(), 10);
+            modRecipe.AddIngredient(ModContent.ItemType<TechDrive>(), 10);
+            modRecipe.AddIngredient(ModContent.ItemType<PrintPrime>(), 1);
+            modRecipe.AddIngredient(ModContent.ItemType<PrintProbe>(), 1);
+            modRecipe.AddIngredient(ModContent.ItemType<BlueprintTwins>(), 1);
+            modRecipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 10);
+            modRecipe.AddIngredient(ModContent.ItemType<StellarBar>(), 10);
             modRecipe.AddIngredient(ItemID.FragmentVortex, 2);
             modRecipe.AddIngredient(ItemID.FragmentNebula, 2);
             modRecipe.AddIngredient(ItemID.FragmentStardust, 2);
@@ -64,7 +66,7 @@ namespace SpiritMod.Items.Weapon.Magic
             modRecipe.AddIngredient(ItemID.Cog, 25);
             modRecipe.AddIngredient(ItemID.Ectoplasm, 6);
             modRecipe.AddIngredient(ItemID.LihzahrdPowerCell, 2);
-            modRecipe.AddTile(134);
+            modRecipe.AddTile(TileID.MythrilAnvil);
             modRecipe.SetResult(this, 1);
             modRecipe.AddRecipe();
         }

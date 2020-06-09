@@ -1,4 +1,6 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Armor;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ID;
@@ -50,15 +52,15 @@ namespace SpiritMod.Items.Weapon.Summon
                 }
             }
             //projectile spawns at mouse cursor
-            Vector2 value18 = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY);
+            Vector2 value18 = Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY);
             position = value18;
             return true;
         }
         public override void AddRecipes() {
             ModRecipe modRecipe = new ModRecipe(mod);
-            modRecipe.AddIngredient(null, "MimeMask", 1);
-            modRecipe.AddIngredient(null, "BloodFire", 5);
-            modRecipe.AddIngredient(null, "FossilFeather", 1);
+            modRecipe.AddIngredient(ModContent.ItemType<MimeMask>(), 1);
+            modRecipe.AddIngredient(ModContent.ItemType<BloodFire>(), 5);
+            modRecipe.AddIngredient(ModContent.ItemType<FossilFeather>(), 1);
             modRecipe.AddTile(TileID.Anvils);
             modRecipe.SetResult(this, 1);
             modRecipe.AddRecipe();

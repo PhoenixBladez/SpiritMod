@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.ID;
@@ -37,8 +38,8 @@ namespace SpiritMod.Items.Weapon.Magic
         }
         public override void AddRecipes() {
             ModRecipe modRecipe = new ModRecipe(mod);
-            modRecipe.AddIngredient(null, "DuskStone", 10);
-            modRecipe.AddIngredient(null, "StellarBar", 6);
+            modRecipe.AddIngredient(ModContent.ItemType<DuskStone>(), 10);
+            modRecipe.AddIngredient(ModContent.ItemType<StellarBar>(), 6);
             modRecipe.AddIngredient(ItemID.Ectoplasm, 6);
             modRecipe.AddTile(134);
             modRecipe.SetResult(this, 1);

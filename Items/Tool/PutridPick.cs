@@ -1,4 +1,5 @@
 
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -35,8 +36,8 @@ namespace SpiritMod.Items.Tool
 
         public override void AddRecipes() {
             ModRecipe modRecipe = new ModRecipe(mod);
-            modRecipe.AddIngredient(null, "PutridPiece", 5);
-            modRecipe.AddTile(134);
+            modRecipe.AddIngredient(ModContent.ItemType<PutridPiece>(), 5);
+            modRecipe.AddTile(TileID.MythrilAnvil);
             modRecipe.SetResult(this);
             modRecipe.AddRecipe();
         }

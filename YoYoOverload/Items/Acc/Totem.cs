@@ -39,10 +39,10 @@ namespace SpiritMod.YoYoOverload.Items.Acc
 
         public override void AddRecipes() {
             ModRecipe modRecipe = new ModRecipe(base.mod);
-            modRecipe.AddIngredient(null, "YoyoCharm2", 1);
-            modRecipe.AddIngredient(null, "MCharm", 1);
-            modRecipe.AddIngredient(null, "CCharm", 1);
-            modRecipe.AddIngredient(null, "HCharm", 1);
+            modRecipe.AddIngredient(ModContent.ItemType<YoyoCharm2>(), 1);
+            modRecipe.AddIngredient(ModContent.ItemType<MCharm>(), 1);
+            modRecipe.AddIngredient(ModContent.ItemType<CCharm>(), 1);
+            modRecipe.AddIngredient(ModContent.ItemType<HCharm>(), 1);
             modRecipe.AddTile(TileID.DemonAltar);
             modRecipe.SetResult(this, 1);
             modRecipe.AddRecipe();

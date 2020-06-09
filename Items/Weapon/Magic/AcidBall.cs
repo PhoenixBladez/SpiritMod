@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.ID;
@@ -36,7 +37,7 @@ namespace SpiritMod.Items.Weapon.Magic
         }
         public override void AddRecipes() {
             ModRecipe modRecipe = new ModRecipe(mod);
-            modRecipe.AddIngredient(null, "Acid", 8);
+            modRecipe.AddIngredient(ModContent.ItemType<Acid>(), 8);
             modRecipe.AddTile(TileID.MythrilAnvil);
             modRecipe.SetResult(this, 1);
             modRecipe.AddRecipe();

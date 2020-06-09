@@ -38,8 +38,8 @@ namespace SpiritMod.Items.Weapon.Magic
 
         public override void AddRecipes() {
             ModRecipe modRecipe = new ModRecipe(mod);
-            modRecipe.AddIngredient(null, "BrokenStaff", 1);
-            modRecipe.AddIngredient(null, "BloodStaff", 1);
+            modRecipe.AddIngredient(ModContent.ItemType<BrokenStaff>(), 1);
+            modRecipe.AddIngredient(ModContent.ItemType<BloodStaff>(), 1);
             modRecipe.AddTile(134);
             modRecipe.SetResult(this, 1);
             modRecipe.AddRecipe();

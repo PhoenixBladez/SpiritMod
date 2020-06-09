@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.ID;
@@ -24,7 +25,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.useAnimation = 25;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 4;
-            item.value = Terraria.Item.sellPrice(0, 0, 5, 0);
+            item.value = Item.sellPrice(0, 0, 5, 0);
             item.rare = 1;
             item.crit = 6;
             item.autoReuse = false;
@@ -45,9 +46,9 @@ namespace SpiritMod.Items.Weapon.Magic
                 Main.dust[dust].velocity *= -1f;
                 Main.dust[dust].noGravity = true;
                 //        Main.dust[dust].scale *= 2f;
-                Vector2 vector2_1 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                Vector2 vector2_1 = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
                 vector2_1.Normalize();
-                Vector2 vector2_2 = vector2_1 * ((float)Main.rand.Next(50, 100) * 0.04f);
+                Vector2 vector2_2 = vector2_1 * (Main.rand.Next(50, 100) * 0.04f);
                 Main.dust[dust].velocity = vector2_2;
                 vector2_2.Normalize();
                 Vector2 vector2_3 = vector2_2 * 42f;
@@ -56,9 +57,8 @@ namespace SpiritMod.Items.Weapon.Magic
             return false;
         }
         public override void AddRecipes() {
-
             ModRecipe modRecipe = new ModRecipe(mod);
-            modRecipe.AddIngredient(null, "FrigidFragment", 12);
+            modRecipe.AddIngredient(ModContent.ItemType<FrigidFragment>(), 12);
             modRecipe.AddTile(TileID.Anvils);
             modRecipe.SetResult(this, 1);
             modRecipe.AddRecipe();

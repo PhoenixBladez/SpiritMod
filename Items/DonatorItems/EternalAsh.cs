@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.DonatorItems;
 using Terraria;
 using Terraria.ID;
@@ -40,19 +41,19 @@ namespace SpiritMod.Items.DonatorItems
             return true;
         }
         public override void AddRecipes() {
-            ModRecipe modRecipe = new ModRecipe(base.mod);
-            modRecipe.AddIngredient(1518, 1);
-            modRecipe.AddIngredient(null, "FleshClump", 3);
-            modRecipe.AddIngredient(501, 20);
-            modRecipe.AddTile(134);
+            ModRecipe modRecipe = new ModRecipe(mod);
+            modRecipe.AddIngredient(ItemID.FireFeather, 1);
+            modRecipe.AddIngredient(ModContent.ItemType<FleshClump>(), 3);
+            modRecipe.AddIngredient(ItemID.PixieDust, 20);
+            modRecipe.AddTile(TileID.MythrilAnvil);
             modRecipe.SetResult(this, 1);
             modRecipe.AddRecipe();
 
-            ModRecipe modRecipe2 = new ModRecipe(base.mod);
-            modRecipe2.AddIngredient(1518, 1);
-            modRecipe2.AddIngredient(null, "PutridPiece", 3);
-            modRecipe2.AddIngredient(501, 20);
-            modRecipe2.AddTile(134);
+            ModRecipe modRecipe2 = new ModRecipe(mod);
+            modRecipe2.AddIngredient(ItemID.FireFeather, 1);
+            modRecipe.AddIngredient(ModContent.ItemType<PutridPiece>(), 3);
+            modRecipe2.AddIngredient(ItemID.PixieDust, 20);
+            modRecipe2.AddTile(TileID.MythrilAnvil);
             modRecipe2.SetResult(this, 1);
             modRecipe2.AddRecipe();
         }

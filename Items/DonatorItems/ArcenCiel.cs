@@ -1,3 +1,4 @@
+using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Projectiles.DonatorItems;
 using Terraria;
 using Terraria.ID;
@@ -16,7 +17,7 @@ namespace SpiritMod.Items.DonatorItems
             item.width = 24;
             item.height = 28;
             item.useTurn = false;
-            item.value = Terraria.Item.sellPrice(0, 4, 0, 0);
+            item.value = Item.sellPrice(0, 4, 0, 0);
             item.value = Item.buyPrice(0, 6, 0, 0);
             item.rare = 7;
             item.damage = 38;
@@ -34,12 +35,12 @@ namespace SpiritMod.Items.DonatorItems
         }
         public override void AddRecipes() {
             ModRecipe modRecipe = new ModRecipe(mod);
-            modRecipe.AddIngredient(null, "PhantomArc", 1);
+            modRecipe.AddIngredient(ModContent.ItemType<PhantomArc>(), 1);
             modRecipe.AddIngredient(ItemID.ChlorophyteBar, 3);
             modRecipe.AddIngredient(ItemID.SoulofLight, 5);
             modRecipe.AddIngredient(ItemID.SoulofSight, 5);
             modRecipe.AddIngredient(ItemID.PixieDust, 8);
-            modRecipe.AddTile(101);
+            modRecipe.AddTile(TileID.Bookcases);
             modRecipe.SetResult(this, 1);
             modRecipe.AddRecipe();
         }

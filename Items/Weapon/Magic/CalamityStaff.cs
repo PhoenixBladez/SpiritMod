@@ -1,4 +1,5 @@
 
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -39,12 +40,12 @@ namespace SpiritMod.Items.Weapon.Magic
         public override void AddRecipes() {
 
             ModRecipe modRecipe = new ModRecipe(mod);
-            modRecipe.AddIngredient(null, "ViashinoStaff", 1);
-            modRecipe.AddIngredient(null, "InfernalAppendage", 3);
-            modRecipe.AddIngredient(null, "CarvedRock", 5);
+            modRecipe.AddIngredient(ModContent.ItemType<ViashinoStaff>(), 1);
+            modRecipe.AddIngredient(ModContent.ItemType<InfernalAppendage>(), 3);
+            modRecipe.AddIngredient(ModContent.ItemType<CarvedRock>(), 5);
             modRecipe.AddIngredient(ItemID.SoulofSight, 5);
             modRecipe.AddIngredient(ItemID.SoulofNight, 5);
-            modRecipe.AddTile(134);
+            modRecipe.AddTile(TileID.MythrilAnvil);
             modRecipe.SetResult(this, 1);
             modRecipe.AddRecipe();
         }

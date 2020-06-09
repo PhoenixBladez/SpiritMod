@@ -1,4 +1,5 @@
 
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -44,7 +45,7 @@ ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float const
         }
         public override void AddRecipes() {
             ModRecipe modRecipe = new ModRecipe(mod);
-            modRecipe.AddIngredient(null, "SpiritBar", 14);
+            modRecipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 14);
             modRecipe.AddIngredient(575, 12);
             modRecipe.AddTile(TileID.MythrilAnvil);
             modRecipe.SetResult(this, 1);
