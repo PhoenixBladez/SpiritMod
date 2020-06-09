@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.BossBags;
 using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Boss;
+using SpiritMod.Projectiles.Hostile;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -173,7 +174,6 @@ namespace SpiritMod.NPCs.Boss
             }
             if(Main.expertMode && npc.life <= 3000) //Fires comets when low on health in expert
             {
-                player.AddBuff(BuffID.WindPushed, 90);
                 modPlayer.windEffect = true;
                 if(Main.rand.Next(22) == 0) {
                     int A = Main.rand.Next(-2500, 2500) * 2;
