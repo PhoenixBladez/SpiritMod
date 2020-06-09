@@ -13,12 +13,12 @@ namespace SpiritMod.Items.Weapon.Thrown
         public override void SetDefaults() {
             item.width = 20;
             item.height = 46;
-            item.rare = 5;
+            item.rare = 2;
             item.value = Terraria.Item.sellPrice(0, 3, 70, 0);
-            item.damage = 17;
+            item.damage = 18;
             item.knockBack = 2;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = item.useAnimation = 24;
+            item.useTime = item.useAnimation = 21;
             item.melee = true;
             item.noMelee = true;
             item.autoReuse = true;

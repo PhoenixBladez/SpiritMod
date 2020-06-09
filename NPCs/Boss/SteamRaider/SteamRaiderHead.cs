@@ -7,12 +7,14 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Projectiles;
+using Terraria.Graphics.Shaders;
 using Terraria.World.Generation;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Projectiles.Boss;
 using Terraria.GameContent.Generation;
 using SpiritMod.Tiles;
 using SpiritMod;
+using SpiritMod.Effects;
 
 namespace SpiritMod.NPCs.Boss.SteamRaider
 {
@@ -125,7 +127,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
             }*/
             bool expertMode = Main.expertMode;
 			timer++;
-			if (timer == 100|| timer == 400)
+			if ((timer == 100|| timer == 400) && npc.life > 1200)
 			{
 				if (Main.expertMode)
 				{
@@ -498,15 +500,47 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
             #region Phase2
             else
             {
+                alphaCounter += 0.08f;
                 npc.netUpdate = true;
+                Player nearby = Main.LocalPlayer;
+                if (Main.expertMode)
+                {
+                    int distance = (int)Vector2.Distance(npc.Center, nearby.Center);
+                    if (distance <= 1000)
+                    {
+                        nearby.GetSpiritPlayer().starplateGlitchEffect = true;
+                        nearby.GetSpiritPlayer().starplateGlitchIntensity = (float)MathHelper.Clamp((1200 / npc.life) * .002f, 0f, .025f);
+                    }
+                    else
+                    {
+                        nearby.GetSpiritPlayer().starplateGlitchIntensity = 0f;
+                        nearby.GetSpiritPlayer().starplateGlitchEffect = false;
+                    }
+                }
+
                 npc.aiStyle = -1;
                 atkCounter++;
                 shootCounter++;
                 if (atkCounter % 1500 > 0 && atkCounter % 1500 < 1000) //if it's in the teleport phase
                 {
+                    {
+                        int dust1 = Dust.NewDust(npc.Center, npc.width, npc.height, 226);
+
+                        Main.dust[dust1].velocity *= -1f;
+                        Main.dust[dust1].noGravity = true;
+                        Main.dust[dust1].scale *= .8f;
+                        Vector2 vector2_1 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                        vector2_1.Normalize();
+                        Vector2 vector2_2 = vector2_1 * ((float)Main.rand.Next(50, 100) * 0.04f);
+                        Main.dust[dust1].velocity = vector2_2;
+                        vector2_2.Normalize();
+                        Vector2 vector2_3 = vector2_2 * 34f;
+                        Main.dust[dust1].position = (npc.Center) - vector2_3;
+                    }
                     npc.velocity = Vector2.Zero; //sets his velocity to 0 in the teleport phase
                     if (shootCounter % 201 == 0) //teleport and create laser boys
                     {
+                        Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 94);
                         for (int i = 0; i < 6; i++)
                         {
                             NPC.NewNPC((int)Main.player[npc.target].Center.X + Main.rand.Next(-700,700), (int)Main.player[npc.target].Center.Y + Main.rand.Next(-700,700),mod.NPCType("LaserBase"), npc.whoAmI);
@@ -523,14 +557,15 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                             {
                                 outOfBlock = true;
                             }
-                        }
-                        Vector2 direction9 = Main.player[npc.target].Center - npc.Center;
-                        direction9.Normalize();
-                        npc.rotation = direction9.ToRotation() + 1.57f;
+                        }                  
                     }
+                    Vector2 direction9 = Main.player[npc.target].Center - npc.Center;
+                    direction9.Normalize();
+                    npc.rotation = direction9.ToRotation() + 1.57f;
                 }
                 else
                 {
+                    charge = true;
                     if (atkCounter % 251 == 0)
                     {
                         distAbove = 425;
@@ -547,35 +582,62 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                             npc.velocity.X = -4f;
                         }
                          npc.rotation = 3.14f;
-
-                         for (int i = 0; i < 3; i++)
+                        Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 94);
+                        for (int i = 0; i < 3; i++)
                         {
                             NPC.NewNPC((int)Main.player[npc.target].Center.X + Main.rand.Next(-300,300), (int)Main.player[npc.target].Center.Y + Main.rand.Next(-300,300), ModContent.NPCType<ArcadeProbe>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                         }
                     }
-                      //npc.position.Y = Main.player[npc.target].Center.Y -  distAbove;
-                      if (atkCounter % 20 == 0)
-                      {
-                          Projectile.NewProjectile(npc.Center, new Vector2(0, 10), ProjectileID.RayGunnerLaser, 19, 1, Main.myPlayer, 0, 0);
-                      }
-                      shootCounter = 180; //make sure he fires lasers immediately after ending this section
+                    //npc.position.Y = Main.player[npc.target].Center.Y -  distAbove;
+                    if (atkCounter % 20 == 0)
+                    {
+                        Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 91);
+                        for (int i = 0; i < 16; i++)
+                        {
+                            int dust = Dust.NewDust(npc.Center, npc.width, npc.height, DustID.GoldCoin);
+
+                            Main.dust[dust].velocity *= -1f;
+                            Main.dust[dust].noGravity = true;
+                            //        Main.dust[dust].scale *= 2f;
+                            Vector2 vector2_1 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                            vector2_1.Normalize();
+                            Vector2 vector2_2 = vector2_1 * ((float)Main.rand.Next(50, 100) * 0.04f);
+                            Main.dust[dust].velocity = vector2_2;
+                            vector2_2.Normalize();
+                            Vector2 vector2_3 = vector2_2 * 34f;
+                            Main.dust[dust].position = (npc.Center) - vector2_3;
+                        }
+                        Projectile.NewProjectile(npc.Center, new Vector2(0, 10), ModContent.ProjectileType<GlitchLaser>(), 19, 1, Main.myPlayer, 0, 0);
+                    }
+                    shootCounter = 180; //make sure he fires lasers immediately after ending this section
                 }
             }
             #endregion
         }
+        float alphaCounter;
         int atkCounter = 0;
         int distAbove = 500;
         int shootCounter = 150;
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            if (npc.life <= 1200)
+            {
+                Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height / Main.npcFrameCount[npc.type]) * 0.5f);
+                {
+                    float sineAdd = (float)Math.Sin(alphaCounter * 2) + 3;
+                    Vector2 drawPos1 = npc.Center - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
+                    Main.spriteBatch.Draw(SpiritMod.instance.GetTexture("Effects/Masks/Extra_49"), (npc.Center - Main.screenPosition) - new Vector2(-2, 8), null, new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + .65f), SpriteEffects.None, 0f);
+                }
+            }
+            var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
                              drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 			return false;
 		}
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
-        {			
-			if (charge)
+        {
+           
+            if (charge)
 			{
 			Microsoft.Xna.Framework.Color color1 = Lighting.GetColor((int) ((double) npc.position.X + (double) npc.width * 0.5) / 16, (int) (((double) npc.position.Y + (double) npc.height * 0.5) / 16.0));
       		 Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, npc.height * 0.5f);

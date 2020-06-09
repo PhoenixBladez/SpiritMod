@@ -944,7 +944,7 @@ namespace SpiritMod.NPCs
             if(npc.type == 48 && Main.rand.Next(45) == 0) {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HarpyBlade>());
             }
-            if(npc.type == 48 && Main.rand.Next(4) == 0 && NPC.downedQueenBee) {
+            if(npc.type == 48 && Main.rand.Next(4) == 0) {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Talon>(), Main.rand.Next(2) + 2);
             }
             if(npc.type == NPCID.Tim) {

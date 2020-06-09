@@ -144,7 +144,7 @@ namespace SpiritMod
                 music = GetSoundSlot(SoundType.Music, "Sounds/Music/ReachNighttime");
                 priority = MusicPriority.BiomeHigh;
             }
-            if(MyWorld.aurora && player.ZoneSnow && player.ZoneOverworldHeight && !Main.dayTime) {
+            if(MyWorld.aurora && player.ZoneSnow && player.ZoneOverworldHeight && !player.ZoneCorrupt && !player.ZoneCrimson && !Main.dayTime) {
                 music = GetSoundSlot(SoundType.Music, "Sounds/Music/AuroraSnow");
                 priority = MusicPriority.BiomeHigh;
             }
@@ -156,7 +156,7 @@ namespace SpiritMod
                 music = GetSoundSlot(SoundType.Music, "Sounds/Music/SnowNighttime");
                 priority = MusicPriority.BiomeMedium;
             }
-            if(player.ZoneDesert && player.ZoneOverworldHeight && !Main.dayTime && !player.ZoneCorrupt && !player.ZoneCrimson) {
+            if(player.ZoneDesert && player.ZoneOverworldHeight && !Main.dayTime && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneBeach) {
                 music = GetSoundSlot(SoundType.Music, "Sounds/Music/DesertNighttime");
                 priority = MusicPriority.BiomeHigh;
             }
@@ -333,6 +333,7 @@ namespace SpiritMod
                 glitchEffect = GetEffect("Effects/glitch");
                 glitchScreenShader = new GlitchScreenShader(glitchEffect);
                 Filters.Scene["SpiritMod:Glitch"] = new Filter(glitchScreenShader, EffectPriority.High);
+
 
                 SkyManager.Instance["SpiritMod:AuroraSky"] = new AuroraSky();
                 Filters.Scene["SpiritMod:AuroraSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);

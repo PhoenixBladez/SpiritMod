@@ -34,7 +34,7 @@ namespace SpiritMod.Tiles.Ambient.IceSculpture.Hostile
             offsetY = 2;
         }
         public override bool CanKillTile(int i, int j, ref bool blockDamaged) {
-            if(!NPC.downedQueenBee) {
+            if(!NPC.downedBoss3) {
                 return false;
             }
             return true;

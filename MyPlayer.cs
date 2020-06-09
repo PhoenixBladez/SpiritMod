@@ -62,6 +62,7 @@ namespace SpiritMod
         public int shieldCounter = 0;
         public int bismiteShieldStacks;
         public bool VampireCloak = false;
+        public bool starplateGlitchEffect = false;
         public bool HealCloak = false;
         public bool SpiritCloak = false;
         public bool firewall = false;
@@ -345,6 +346,7 @@ namespace SpiritMod
         public int fierySetTimer = 480;
         public int firewallHit;
         public int bubbleTimer;
+        public float starplateGlitchIntensity;
         public int clatterboneTimer;
         public int roseTimer;
         public int baubleTimer;
@@ -382,17 +384,22 @@ namespace SpiritMod
 
             bool blueMoon = ZoneBlueMoon && (player.ZoneOverworldHeight || player.ZoneSkyHeight);
 
-            if(ZoneSpirit && player.position.Y / 16 >= Main.maxTilesY - 300) {
+            if(ZoneSpirit && player.position.Y / 16 >= Main.maxTilesY - 330) {
                 SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.2f); //0.4f is default
                 SpiritMod.glitchScreenShader.UseIntensity(0.004f);
-            } else if(player.ZoneRockLayerHeight && player.position.Y / 16 > (Main.rockLayer + Main.maxTilesY - 330) / 2f && ZoneSpirit) {
+                player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
+            } else if(ZoneSpirit && player.ZoneRockLayerHeight && player.position.Y / 16 > (Main.rockLayer + Main.maxTilesY - 330) / 2f) {
                 SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.1f); //0.4f is default
                 SpiritMod.glitchScreenShader.UseIntensity(0.0005f);
+                player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
+            } else if (starplateGlitchEffect)
+            {
+                SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.3f); 
+                SpiritMod.glitchScreenShader.UseIntensity(starplateGlitchIntensity);
+                player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
             } else {
                 player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);
-                return;
             }
-            player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
 
             player.ManageSpecialBiomeVisuals("SpiritMod:AshstormParticles", true);
             player.ManageSpecialBiomeVisuals("SpiritMod:AuroraSky", showAurora);
@@ -521,6 +528,7 @@ namespace SpiritMod
             assassinMag = false;
             moonHeart = false;
             chitinSet = false;
+            starplateGlitchEffect = false;
             Fierysoul = false;
             infernalFlame = false;
             reachBrooch = false;
@@ -1128,7 +1136,7 @@ namespace SpiritMod
                 }
             }
             if(bloodyBauble) {
-                if(Main.rand.Next(25) <= 1 && player.statLife != player.statLifeMax2) {
+                if(Main.rand.Next(20) <= 1 && player.statLife != player.statLifeMax2) {
                     int lifeToHeal = 0;
 
                     if(player.statLife + damage / 4 <= player.statLifeMax2)
@@ -1263,8 +1271,7 @@ namespace SpiritMod
             if(stellarSet) {
                 if(proj.minion) {
                     if(target.life <= 0) {
-                        // TODO: GET SOMEONE TO MAKE THIS BUFF REAL
-                        //player.AddBuff(ModContent.BuffType<StellarSpeed>(), 300);
+                        player.AddBuff(ModContent.BuffType<StellarSpeed>(), 300);
                     }
                 }
                 if(!target.SpawnedFromStatue) {
@@ -3606,7 +3613,7 @@ namespace SpiritMod
             if(shadowGauntlet && Main.rand.NextBool(2)) {
                 target.AddBuff(BuffID.ShadowFlame, 180);
             }
-            if(twilightTalisman && Main.rand.NextBool(15)) {
+            if(twilightTalisman && Main.rand.NextBool(13)) {
                 target.AddBuff(BuffID.ShadowFlame, 180);
             }
             if(duskSet && item.magic && Main.rand.NextBool(4)) {

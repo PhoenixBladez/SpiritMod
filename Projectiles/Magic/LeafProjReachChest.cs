@@ -46,7 +46,7 @@ namespace SpiritMod.Projectiles.Magic
             }
             if(Main.myPlayer == projectile.owner && projectile.ai[0] <= 0f) {
                 if(Main.player[projectile.owner].channel) {
-                    float num2353 = 8f;
+                    float num2353 = 12f;
                     Vector2 vector329 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
                     float num2352 = (float)Main.mouseX + Main.screenPosition.X - vector329.X;
                     float num2351 = (float)Main.mouseY + Main.screenPosition.Y - vector329.Y;
@@ -101,7 +101,7 @@ namespace SpiritMod.Projectiles.Magic
                 } else if(projectile.ai[0] <= 0f) {
                     projectile.netUpdate = true;
                     if(projectile.type != 491) {
-                        float num2337 = 12f;
+                        float num2337 = 16f;
                         Vector2 vector328 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
                         float num2336 = (float)Main.mouseX + Main.screenPosition.X - vector328.X;
                         float num2335 = (float)Main.mouseY + Main.screenPosition.Y - vector328.Y;

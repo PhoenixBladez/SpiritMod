@@ -5,6 +5,7 @@ using SpiritMod.Projectiles.Arrow;
 using SpiritMod.Projectiles.Bullet;
 using SpiritMod.Projectiles.Hostile;
 using SpiritMod.Projectiles.Magic;
+using SpiritMod.NPCs.Boss.SteamRaider;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +39,18 @@ namespace SpiritMod.Effects
             if(projectile.type == ModContent.ProjectileType<LeafProjReachChest>()) {
                 CreateTrail(projectile, new StandardColorTrail(new Color(56, 194, 93)), new RoundCap(), new DefaultTrailPosition(), 4f, 100f, new ImageShader(mod.GetTexture("Textures/noise"), 0.2f, .4f, 1f));
             }
-            if(projectile.type == ModContent.ProjectileType<OrichHoming>()) {
+            if (projectile.type == ModContent.ProjectileType<StarLaser>()) {
+                CreateTrail(projectile, new StandardColorTrail(new Color(66, 239, 245)), new RoundCap(), new DefaultTrailPosition(), 10f, 1550f);
+            }
+            if (projectile.type == ModContent.ProjectileType<GlitchLaser>())
+            {
+                CreateTrail(projectile, new StandardColorTrail(new Color(255, 232, 82)), new RoundCap(), new DefaultTrailPosition(), 10f, 1550f);
+            }
+            if (projectile.type == ModContent.ProjectileType<StarLaserTrace>())
+            {
+                CreateTrail(projectile, new StandardColorTrail(new Color(40, 111, 153) * .3f), new RoundCap(), new DefaultTrailPosition(), 10f, 1550f);
+            }
+            if (projectile.type == ModContent.ProjectileType<OrichHoming>()) {
                 CreateTrail(projectile, new GradientTrail(new Color(241, 173, 255), new Color(105, 42, 168)), new RoundCap(), new DefaultTrailPosition(), 6f, 150f);
 
             }
