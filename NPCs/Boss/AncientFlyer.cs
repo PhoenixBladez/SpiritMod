@@ -97,6 +97,7 @@ namespace SpiritMod.NPCs.Boss
                 Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 73);
 
                 Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 2);
+                Main.PlaySound(SoundID.DD2_LightningBugZap, npc.position);
                 Vector2 direction = Main.player[npc.target].Center - npc.Center;
                 direction.Normalize();
                 direction.X *= 11f;
@@ -114,6 +115,7 @@ namespace SpiritMod.NPCs.Boss
                     Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
 
                     Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 2);
+                    Main.PlaySound(SoundID.DD2_LightningBugZap, npc.position);
 
                     Vector2 direction = Main.player[npc.target].Center - npc.Center;
                     direction.Normalize();
@@ -131,7 +133,7 @@ namespace SpiritMod.NPCs.Boss
             } else if(timer == 600 || timer == 650 || timer == 700 || timer == 800 || timer == 850 || timer == 880) // Fires bone waves
               {
                 Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
-
+                Main.PlayTrackedSound(SoundID.DD2_EtherianPortalSpawnEnemy, npc.Center);
                 Vector2 direction = Main.player[npc.target].Center - npc.Center;
                 direction.Normalize();
                 int damage = expertMode ? 15 : 19;
@@ -172,17 +174,19 @@ namespace SpiritMod.NPCs.Boss
             if(timer >= 1400) {
                 timer = 0;
             }
-            if(npc.life == 3000) {
-                Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
-            }
-            if(Main.expertMode && npc.life <= 3000) //Fires comets when low on health in expert
+            
+            
+            if(npc.life <= npc.lifeMax * .6f) //Fires comets when low on health in expert
             {
-                modPlayer.windEffect = true;
-                if(Main.rand.Next(22) == 0) {
-                    int A = Main.rand.Next(-2500, 2500) * 2;
-                    int B = Main.rand.Next(-1000, 1000) - 700;
-                    int damage = expertMode ? 15 : 17;
-                    Projectile.NewProjectile(player.Center.X + A, player.Center.Y + B, 0f, 10f, ModContent.ProjectileType<RedComet>(), damage, 1, Main.myPlayer, 0, 0);
+                if (Main.expertMode) {
+                    modPlayer.windEffect = true;
+                    if (Main.rand.Next(22) == 0)
+                    {
+                        int A = Main.rand.Next(-2500, 2500) * 2;
+                        int B = Main.rand.Next(-1000, 1000) - 700;
+                        int damage = expertMode ? 15 : 17;
+                        Projectile.NewProjectile(player.Center.X + A, player.Center.Y + B, 0f, 10f, ModContent.ProjectileType<RedComet>(), damage, 1, Main.myPlayer, 0, 0);
+                    }
                 }
                 if (timer == 100)
                 {
@@ -193,18 +197,29 @@ namespace SpiritMod.NPCs.Boss
                 {
                     for (int k = 0; k < 3; k++)
                     {
-                        int dust = Dust.NewDust(new Vector2(tornadoX - 50, tornadoY + player.height - 10), 100, 10, 85, 0, -15);
+                        int dust = Dust.NewDust(new Vector2(tornadoX - 50, tornadoY + player.height - 10), 50, 10, DustID.SilverCoin, 0, -15);
                         Main.dust[dust].noGravity = true;
-                        Main.dust[dust].scale = 1.5f;
+                        Main.dust[dust].noLight = true;
+                        Main.dust[dust].scale = .85f;
+                        int dust1 = Dust.NewDust(new Vector2(tornadoX - 260, tornadoY - 200), 50, 10, DustID.SilverCoin, 0, -15);
+                        Main.dust[dust1].noGravity = true;
+                        Main.dust[dust1].noLight = true;
+                        Main.dust[dust1].scale = .85f;
+                        int dust2 = Dust.NewDust(new Vector2(tornadoX + 200, tornadoY - 200), 50, 10, DustID.SilverCoin, 0, -15);
+                        Main.dust[dust2].noGravity = true;
+                        Main.dust[dust2].noLight = true;
+                        Main.dust[dust2].scale = .85f;
                     }
-                }
-                 if (timer > 100 && timer < 200 && timer % 10 == 5)
-                {
-                    Projectile.NewProjectile(tornadoX, tornadoY - 1000, 0f, 17f, ModContent.ProjectileType<TornadoTrace>(), 0, 1, Main.myPlayer, 0, 0);
                 }
                 if (timer == 220)
                 {
-                     Projectile.NewProjectile(tornadoX, tornadoY, 0f, 0f, ModContent.ProjectileType<AvianNado>(), 0, 1, Main.myPlayer, 0, 0);
+                    Main.PlaySound(SoundID.Item82, new Vector2(tornadoX, tornadoY));
+                    Main.PlaySound(SoundID.Item82, new Vector2(tornadoX-260, tornadoY-400));
+                    Main.PlaySound(SoundID.Item82, new Vector2(tornadoX+200, tornadoY-400));
+                    int damage = expertMode ? 16 : 20;
+                    Projectile.NewProjectile(tornadoX, tornadoY, 0f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(tornadoX - 260, tornadoY - 400, 0f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(tornadoX + 200, tornadoY - 400, 0f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
                 }
             }
 
@@ -292,11 +307,12 @@ namespace SpiritMod.NPCs.Boss
 
         public override void HitEffect(int hitDirection, double damage) {
             int d1 = 1;
-            for(int k = 0; k < 30; k++) {
+            for (int k = 0; k < 30; k++) {
                 Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, Color.White, Main.rand.NextFloat(.2f, .8f));
                 Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
             }
             if(npc.life <= 0) {
+                Main.PlaySound(new Terraria.Audio.LegacySoundStyle(42, 39));
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gore1"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gore2"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gore3"), 1f);

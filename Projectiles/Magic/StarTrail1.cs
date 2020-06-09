@@ -19,7 +19,7 @@ namespace SpiritMod.Projectiles.Magic
             projectile.melee = true;         // 
             projectile.tileCollide = false;   //make that the projectile will be destroed if it hits the terrain
             projectile.penetrate = 1;      //how many npc will penetrate
-            projectile.timeLeft = 480;   //how many time projectile projectile has before disepire // projectile light
+            projectile.timeLeft = 240;   //how many time projectile projectile has before disepire // projectile light
             projectile.extraUpdates = 1;
             projectile.ignoreWater = true;
             projectile.alpha = 255;
@@ -70,7 +70,7 @@ namespace SpiritMod.Projectiles.Magic
 
         public override void Kill(int timeLeft) {
             {
-                for(int i = 0; i < 20; i++) {
+                for(int i = 0; i < 8; i++) {
                     int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 226, 0f, -2f, 0, default(Color), 2f);
                     Main.dust[num].noGravity = true;
                     Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;

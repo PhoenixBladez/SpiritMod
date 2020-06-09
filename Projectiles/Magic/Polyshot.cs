@@ -44,8 +44,10 @@ namespace SpiritMod.Projectiles.Magic
             return false;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
-            target.life = 0;
-            NPC.NewNPC((int)target.position.X, (int)target.position.Y, NPCID.Bunny);
+            if (target.life <= target.lifeMax / 2 && !target.boss) {
+                target.life = 0;
+                NPC.NewNPC((int)target.position.X, (int)target.position.Y, NPCID.Bunny);
+            }
             for(int i = 0; i < 10; i++) {
                 int num = Dust.NewDust(target.position, target.width, target.height, 107, 0f, -2f, 0, Color.White, .9f);
                 Main.dust[num].noLight = true;

@@ -28,8 +28,8 @@ namespace SpiritMod.Items.Weapon.Swung
             item.useAnimation = 44;
             item.useTime = 44;
             item.shootSpeed = 8f;
-            item.knockBack = 9f;
-            item.damage = 34;
+            item.knockBack = 5f;
+            item.damage = 29;
             item.value = Item.sellPrice(0, 0, 60, 0);
             item.rare = 3;
             item.shoot = ModContent.ProjectileType<SlagHammerProj>();

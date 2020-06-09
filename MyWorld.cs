@@ -6,12 +6,15 @@ using SpiritMod.Items.Equipment;
 using SpiritMod.Items.Glyphs;
 using SpiritMod.Items.Material;
 using SpiritMod.Items.Pets;
+using SpiritMod.Items.Placeable;
+using SpiritMod.Items.Placeable.Tiles;
 using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Items.Weapon.Returning;
 using SpiritMod.Items.Weapon.Spear;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Swung;
+using SpiritMod.Items.Weapon.Thrown;
 using SpiritMod.NPCs;
 using SpiritMod.NPCs.Reach;
 using SpiritMod.NPCs.Town;
@@ -1895,8 +1898,8 @@ namespace SpiritMod
                 {0,0,1,0,0,5,0,5,0,5,0,9,0,0,5,0,0,0,5,0,0,0,0,5,0,0,5,1,0,0},
                 {0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},
             };
-            int hideoutX = Main.rand.Next(0, Main.maxTilesX); // from 50 since there's a unaccessible area at the world's borders
-            int hideoutY = Main.spawnTileY + Main.rand.Next(200, Main.maxTilesY);
+            int hideoutX = Main.rand.Next(Main.maxTilesX / 3, Main.maxTilesX / 3 * 2); // from 50 since there's a unaccessible area at the world's borders
+            int hideoutY = Main.spawnTileY + Main.rand.Next(200, Main.maxTilesY - 250);
             if(Main.rand.Next(2) == 0) {
                 PlaceSepulchre(hideoutX, hideoutY + 9, SepulchreRoom3, SepulchreWalls3, SepulchreLoot3);
 
@@ -3710,6 +3713,63 @@ namespace SpiritMod
                         }
                     }
                 }
+                if (chest != null && Main.tile[chest.x, chest.y].type == mod.TileType("AsteroidChest"))
+                {
+                    for (int inventoryIndex = 0; inventoryIndex < 5; inventoryIndex++)
+                    {
+                        if (chest.item[inventoryIndex].type == 0)
+                        {
+
+                            if (inventoryIndex == 0)
+                            {
+                                int[] itemsToPlaceInPagodaChests1 = { ItemType<ZiplineGun>(), ItemType<HighGravityBoots>(), ItemType<MagnetHook>() };
+                                stack = 1;
+                                chest.item[inventoryIndex].SetDefaults(Main.rand.Next(itemsToPlaceInPagodaChests1));
+                                chest.item[inventoryIndex].stack = stack;
+                            }
+                            if (inventoryIndex == 1)
+                            {
+                                if (WorldGen.genRand.Next(2) == 0)
+                                {
+                                    int[] itemsToPlaceInPagodaChests2 = { ItemType<JumpPadItem>(), ItemID.SuspiciousLookingEye };
+                                    stack = 1;
+                                    chest.item[inventoryIndex].SetDefaults(Main.rand.Next(itemsToPlaceInPagodaChests2));
+                                    chest.item[inventoryIndex].stack = stack;
+                                }
+                                else if (WorldGen.genRand.Next(2) == 0)
+                                {
+                                    int[] itemsToPlaceInPagodaChests2 = { ItemType<TargetCan>()};
+                                    stack = WorldGen.genRand.Next(10, 15);
+                                    chest.item[inventoryIndex].SetDefaults(Main.rand.Next(itemsToPlaceInPagodaChests2));
+                                    chest.item[inventoryIndex].stack = stack;
+                                }
+                                else
+                                {
+                                    int[] itemsToPlaceInPagodaChests2 = { ItemType<SpaceJunkItem>(), ItemType<SpaceJunkItem>() };
+                                    stack = WorldGen.genRand.Next(30, 55);
+                                    chest.item[inventoryIndex].SetDefaults(Main.rand.Next(itemsToPlaceInPagodaChests2));
+                                    chest.item[inventoryIndex].stack = stack;
+                                }
+                            }
+                            chest.item[2].SetDefaults(commonItems1[Main.rand.Next(4)], false);
+                            chest.item[2].stack = WorldGen.genRand.Next(3, 10);
+                            chest.item[3].SetDefaults(ammo1[Main.rand.Next(2)], false);
+                            chest.item[3].stack = WorldGen.genRand.Next(20, 50);
+                            chest.item[4].SetDefaults(potions[Main.rand.Next(6)], false);
+                            chest.item[4].stack = WorldGen.genRand.Next(2, 3);
+                            chest.item[5].SetDefaults(recall[Main.rand.Next(1)], false);
+                            chest.item[5].stack = WorldGen.genRand.Next(2, 3);
+                            chest.item[6].SetDefaults(other1[Main.rand.Next(2)], false);
+                            chest.item[6].stack = WorldGen.genRand.Next(1, 4);
+                            chest.item[7].SetDefaults(other2[Main.rand.Next(2)], false);
+                            chest.item[7].stack = WorldGen.genRand.Next(1, 4);
+                            chest.item[8].SetDefaults(moddedMaterials[Main.rand.Next(2)], false);
+                            chest.item[8].stack = WorldGen.genRand.Next(2, 6);
+                            chest.item[9].SetDefaults(72, false);
+                            chest.item[9].stack = WorldGen.genRand.Next(12, 30);
+                        }
+                    }
+                }
             }
             Tile tile;
             tile = Main.tile[1, 1];
@@ -3758,9 +3818,9 @@ namespace SpiritMod
                     }
                     if(chest != null && Main.tile[chest.x, chest.y].frameX == 2 * 36 && Main.rand.Next(10) == 0) {
                         if(WorldGen.crimson) {
-                            chest.item[5].SetDefaults(ItemType<Tenderizer>(), false);
+                            chest.item[1].SetDefaults(ItemType<Tenderizer>(), false);
                         } else {
-                            chest.item[5].SetDefaults(ItemType<Slugger>(), false);
+                            chest.item[1].SetDefaults(ItemType<Slugger>(), false);
                         }
                     }
 

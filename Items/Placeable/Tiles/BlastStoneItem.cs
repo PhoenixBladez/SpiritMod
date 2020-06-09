@@ -4,7 +4,7 @@ using BlastStoneTile = SpiritMod.Tiles.Block.BlastStone;
 
 namespace SpiritMod.Items.Placeable.Tiles
 {
-    public class BlastStone : ModItem
+    public class BlastStoneItem : ModItem
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Blast Stone");

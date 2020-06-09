@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Placeable.Tiles
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(TileID.GrayBrick, 5);
+            recipe.AddIngredient(ItemID.GrayBrick, 5);
             recipe.AddTile(TileID.HeavyWorkBench);
             recipe.SetResult(this, 10);
             recipe.AddRecipe();

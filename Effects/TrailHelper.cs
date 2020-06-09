@@ -47,10 +47,6 @@ namespace SpiritMod.Effects
             {
                 CreateTrail(projectile, new StandardColorTrail(new Color(255, 232, 82)), new RoundCap(), new DefaultTrailPosition(), 10f, 1550f);
             }
-            if (projectile.type == ModContent.ProjectileType<TornadoTrace>())
-            {
-                CreateTrail(projectile, new StandardColorTrail(new Color(224, 205, 88) * .3f), new RoundCap(), new DefaultTrailPosition(), 10f, 1550f);
-            }
              if (projectile.type == ModContent.ProjectileType<StarLaserTrace>())
             {
                 CreateTrail(projectile, new StandardColorTrail(new Color(40, 111, 153) * .3f), new RoundCap(), new DefaultTrailPosition(), 10f, 1550f);

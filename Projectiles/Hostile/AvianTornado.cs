@@ -10,11 +10,13 @@ namespace SpiritMod.Projectiles.Hostile
 {
     public class AvianNado : ModProjectile
     {
-        public override void SetStaticDefaults() {
+        public override void SetStaticDefaults()
+        {
             DisplayName.SetDefault("Gustnado");
         }
 
-        public override void SetDefaults() {
+        public override void SetDefaults()
+        {
             projectile.width = 24;
             projectile.height = 100;
             projectile.hostile = true;
@@ -62,7 +64,7 @@ namespace SpiritMod.Projectiles.Hostile
             projectile.width = (int)(value159.X * 0.65f);
             projectile.height = (int)value159.Y;
             projectile.Center = vector152;
-           
+
             if (projectile.ai[0] < num1178 - 120f)
             {
                 for (int num1172 = 0; num1172 < 1; num1172 = num2475 + 1)
@@ -80,6 +82,7 @@ namespace SpiritMod.Projectiles.Hostile
                     Color newColor5 = default(Color);
                     Dust dust44 = dust122[Dust.NewDust(position221, 0, 0, DustID.SilverCoin, 0f, 0f, 0, newColor5, 1f)];
                     dust44.position = position7;
+                    dust44.noLight = true;
                     dust44.customData = vector152 + value89;
                     dust44.fadeIn = 1f;
                     dust44.scale = 0.3f;
@@ -151,6 +154,10 @@ namespace SpiritMod.Projectiles.Hostile
                 spriteBatch.Draw(texture2D12, vector47, rectangle5, color70, num386 + num380, origin6, 1f + num379, SpriteEffects.None, 0f);
             }
             return false;
+        }
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            target.velocity.Y -= 8f;
         }
     }
 }

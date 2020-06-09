@@ -16,9 +16,9 @@ namespace SpiritMod.Items.Weapon.Swung
 
         int charger;
         public override void SetDefaults() {
-            item.damage = 31;
-            item.useTime = 22;
-            item.useAnimation = 22;
+            item.damage = 27;
+            item.useTime = 25;
+            item.useAnimation = 25;
             item.melee = true;
             item.width = 50;
             item.height = 50;
@@ -63,7 +63,7 @@ namespace SpiritMod.Items.Weapon.Swung
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) {
             charger++;
             if(charger >= 5) {
-                for(int I = 0; I < 4; I++) {
+                for(int I = 0; I < 3; I++) {
                     Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), mod.ProjectileType("Starshock2"), damage, knockBack, player.whoAmI, 0f, 0f);
                 }
                 charger = 0;

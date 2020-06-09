@@ -14,7 +14,7 @@ namespace SpiritMod.Tiles.Block
             soundType = SoundID.Tink;
             Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(87, 85, 81));
-            drop = ModContent.ItemType<Items.Placeable.Tiles.BlastStone>();
+            drop = ModContent.ItemType<Items.Placeable.Tiles.BlastStoneItem>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Bedrock");
             dustType = 54;
