@@ -316,6 +316,8 @@ namespace SpiritMod.NPCs.Asteroid
                 Dust.NewDust(npc.position, npc.width, npc.height, 226, hitDirection, -1f, 0, default(Color), 1f);
             }
             if(npc.life <= 0) {
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Stardancer/Stardancer1"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Stardancer/Stardancer2"), 1f);
                 npc.position.X = npc.position.X + (float)(npc.width / 2);
                 npc.position.Y = npc.position.Y + (float)(npc.height / 2);
                 npc.width = 20;

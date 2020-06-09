@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace SpiritMod.Projectiles.Thrown
+namespace SpiritMod.Projectiles.Thrown.Charge
 {
 	public class TikiJavelinProj1 : ModProjectile
 	{

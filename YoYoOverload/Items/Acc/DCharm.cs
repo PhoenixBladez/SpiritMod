@@ -8,7 +8,7 @@ namespace SpiritMod.YoYoOverload.Items.Acc
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Vile Charm");
-            Tooltip.SetDefault("Increases melee critical strike chance by 4%\nIncreases movement speed by 10%");
+            Tooltip.SetDefault("Increases melee critical strike chance by 5%\nIncreases movement speed by 10%");
         }
 
 

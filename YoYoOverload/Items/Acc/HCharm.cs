@@ -9,7 +9,7 @@ namespace SpiritMod.YoYoOverload.Items.Acc
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Hellstone Charm");
-            Tooltip.SetDefault("Increases attack damage by 7%\nAttacks may burn enemies");
+            Tooltip.SetDefault("Increases attack damage by 5%\nAttacks may burn enemies");
         }
 
 
@@ -24,11 +24,11 @@ namespace SpiritMod.YoYoOverload.Items.Acc
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual) {
-            player.meleeDamage += 0.07f;
-            player.magicDamage += 0.07f;
-            player.rangedDamage += 0.07f;
-            player.minionDamage += 0.07f;
-            player.thrownDamage += 0.07f;
+            player.meleeDamage += 0.05f;
+            player.magicDamage += 0.05f;
+            player.rangedDamage += 0.05f;
+            player.minionDamage += 0.05f;
+            player.thrownDamage += 0.05f;
             player.GetSpiritPlayer().hellCharm = true;
         }
 

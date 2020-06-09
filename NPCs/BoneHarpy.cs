@@ -22,9 +22,9 @@ namespace SpiritMod.NPCs
         public override void SetDefaults() {
             npc.width = 32;
             npc.height = 34;
-            npc.damage = 18;
+            npc.damage = 16;
             npc.defense = 10;
-            npc.lifeMax = 170;
+            npc.lifeMax = 117;
             npc.noGravity = true;
             npc.value = 800f;
             npc.noTileCollide = false;
@@ -81,7 +81,7 @@ namespace SpiritMod.NPCs
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo) {
-            return spawnInfo.sky && NPC.downedQueenBee && !Main.LocalPlayer.GetSpiritPlayer().ZoneAsteroid ? 0.16f : 0f;
+            return spawnInfo.sky && !Main.LocalPlayer.GetSpiritPlayer().ZoneAsteroid ? 0.1f : 0f;
         }
 
         public override void NPCLoot() {

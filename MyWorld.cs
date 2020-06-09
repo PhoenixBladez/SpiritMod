@@ -71,7 +71,6 @@ namespace SpiritMod
         public static bool gmOre = false;
         public static bool starMessage = false;
         public static bool essenceMessage = false;
-        public static bool flierMessage = false;
         public static int asteroidSide = 0;
         public static bool gennedTower = false;
         public static bool gennedBandits = false;
@@ -221,11 +220,6 @@ namespace SpiritMod
             BlueMoon = false;
             dayTimeLast = Main.dayTime;
             dayTimeSwitched = false;
-
-            if(NPC.downedQueenBee)
-                flierMessage = true;
-            else
-                flierMessage = false;
 
             if(NPC.downedBoss2 == true)
                 gmOre = true;
@@ -4196,12 +4190,6 @@ namespace SpiritMod
                         Main.NewText("Energy seeps into marble and granite caverns...", 100, 220, 100);
                         gmOre = true;
                     }
-                }
-            }
-            if(NPC.downedQueenBee) {
-                if(!flierMessage) {
-                    Main.NewText("The skies grow restless...", 204, 153, 0);
-                    flierMessage = true;
                 }
             }
             if(NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3) {

@@ -8,7 +8,7 @@ namespace SpiritMod.YoYoOverload.Items.Acc
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Marrow Pendant");
-            Tooltip.SetDefault("Reduces damage taken by 7%");
+            Tooltip.SetDefault("Reduces damage taken by 5%");
         }
 
 
@@ -24,7 +24,7 @@ namespace SpiritMod.YoYoOverload.Items.Acc
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual) {
-            player.endurance += 0.07f;
+            player.endurance += 0.05f;
         }
 
         public override void AddRecipes() {

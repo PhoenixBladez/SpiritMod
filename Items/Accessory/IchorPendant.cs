@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Ichor Pendant");
-            Tooltip.SetDefault("Increased melee damage by 6%\nWeapons have a 10% chance to inflict Ichor");
+            Tooltip.SetDefault("Increased melee damage by 6%\nMelee weapons have a 10% chance to inflict Ichor");
         }
 
 

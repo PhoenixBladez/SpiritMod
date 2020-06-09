@@ -186,7 +186,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                     for(int i = 0; i < amountOfProjectiles; ++i) {
                         float A = (float)Main.rand.Next(-50, 50) * 0.02f;
                         float B = (float)Main.rand.Next(-50, 50) * 0.02f;
-                        int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ProjectileID.RayGunnerLaser, 19, 1, Main.myPlayer, 0, 0);
+                        int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<GlitchLaser>(), 17, 1, Main.myPlayer, 0, 0);
                         Main.projectile[p].hostile = true;
                     }
                     shoottimer = 0;

@@ -573,7 +573,7 @@ namespace SpiritMod.Items
                 return true;
             }
             if(item.type == ItemID.RedSnapper) {
-                //NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<RedSnapper>());
+                NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<RedSnapper>());
                 return true;
             } else {
                 return false;
