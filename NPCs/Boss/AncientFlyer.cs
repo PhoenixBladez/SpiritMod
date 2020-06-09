@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.BossBags;
 using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Boss;
+using SpiritMod.NPCs.Boss.SteamRaider;
 using SpiritMod.Projectiles.Hostile;
 using Terraria;
 using Terraria.ID;
@@ -15,6 +16,8 @@ namespace SpiritMod.NPCs.Boss
     {
         public static int _type;
 
+        int tornadoX = 0;
+        int tornadoY = 0;
         int timer = 0;
         int moveSpeed = 0;
         int moveSpeedY = 0;
@@ -180,6 +183,28 @@ namespace SpiritMod.NPCs.Boss
                     int B = Main.rand.Next(-1000, 1000) - 700;
                     int damage = expertMode ? 15 : 17;
                     Projectile.NewProjectile(player.Center.X + A, player.Center.Y + B, 0f, 10f, ModContent.ProjectileType<RedComet>(), damage, 1, Main.myPlayer, 0, 0);
+                }
+                if (timer == 100)
+                {
+                    tornadoX = (int)player.Center.X;
+                    tornadoY = (int)player.Center.Y;
+                }
+                if (timer > 100 && timer < 260)
+                {
+                    for (int k = 0; k < 3; k++)
+                    {
+                        int dust = Dust.NewDust(new Vector2(tornadoX - 50, tornadoY + player.height - 10), 100, 10, 85, 0, -15);
+                        Main.dust[dust].noGravity = true;
+                        Main.dust[dust].scale = 1.5f;
+                    }
+                }
+                 if (timer > 100 && timer < 200 && timer % 10 == 5)
+                {
+                    Projectile.NewProjectile(tornadoX, tornadoY - 1000, 0f, 17f, ModContent.ProjectileType<TornadoTrace>(), 0, 1, Main.myPlayer, 0, 0);
+                }
+                if (timer == 220)
+                {
+                     Projectile.NewProjectile(tornadoX, tornadoY, 0f, 0f, ModContent.ProjectileType<AvianNado>(), 0, 1, Main.myPlayer, 0, 0);
                 }
             }
 

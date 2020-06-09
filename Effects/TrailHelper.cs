@@ -6,6 +6,7 @@ using SpiritMod.Projectiles.Bullet;
 using SpiritMod.Projectiles.Hostile;
 using SpiritMod.Projectiles.Magic;
 using SpiritMod.NPCs.Boss.SteamRaider;
+using SpiritMod.NPCs.Boss;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,7 +47,11 @@ namespace SpiritMod.Effects
             {
                 CreateTrail(projectile, new StandardColorTrail(new Color(255, 232, 82)), new RoundCap(), new DefaultTrailPosition(), 10f, 1550f);
             }
-            if (projectile.type == ModContent.ProjectileType<StarLaserTrace>())
+            if (projectile.type == ModContent.ProjectileType<TornadoTrace>())
+            {
+                CreateTrail(projectile, new StandardColorTrail(new Color(224, 205, 88) * .3f), new RoundCap(), new DefaultTrailPosition(), 10f, 1550f);
+            }
+             if (projectile.type == ModContent.ProjectileType<StarLaserTrace>())
             {
                 CreateTrail(projectile, new StandardColorTrail(new Color(40, 111, 153) * .3f), new RoundCap(), new DefaultTrailPosition(), 10f, 1550f);
             }
@@ -120,6 +125,7 @@ namespace SpiritMod.Effects
                     break;
             }*/
         }
+
         public void TryTrailKill(Projectile projectile) {
             Mod mod = SpiritMod.instance;
             if(projectile.type == ModContent.ProjectileType<SleepingStar>() || projectile.type == ModContent.ProjectileType<SleepingStar1>() || projectile.type == ModContent.ProjectileType<LeafProjReachChest>() || projectile.type == ModContent.ProjectileType<HallowedStaffProj>() || projectile.type == ModContent.ProjectileType<TrueHallowedStaffProj>() || projectile.type == ModContent.ProjectileType<PositiveArrow>() || projectile.type == ModContent.ProjectileType<NegativeArrow>() || projectile.type == ModContent.ProjectileType<PartyStarterBullet>() || projectile.type == ModContent.ProjectileType<SandWall>() || projectile.type == ModContent.ProjectileType<SandWall2>()) {

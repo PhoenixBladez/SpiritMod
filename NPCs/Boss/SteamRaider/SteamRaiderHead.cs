@@ -43,7 +43,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 
 		public override void SetDefaults()
 		{
-			npc.damage = 50; //150
+			npc.damage = 25; //150
 			npc.npcSlots = 20f;
 			bossBag = mod.ItemType("SteamRaiderBag");
 			npc.width = 64; //324
@@ -618,7 +618,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                             Vector2 vector2_3 = vector2_2 * 34f;
                             Main.dust[dust].position = (npc.Center) - vector2_3;
                         }
-                        Projectile.NewProjectile(npc.Center, new Vector2(0, 10), ModContent.ProjectileType<GlitchLaser>(), 19, 1, Main.myPlayer, 0, 0);
+                        Projectile.NewProjectile(npc.Center, new Vector2(0, 10), ModContent.ProjectileType<GlitchLaser>(), 25, 1, Main.myPlayer, 0, 0);
                     }
                     shootCounter = 180; //make sure he fires lasers immediately after ending this section
                 }
