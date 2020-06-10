@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Adamantite Band");
-            Tooltip.SetDefault("Increases damage and critical strike chance by 10% when under half health, but decreases defense by 8");
+            Tooltip.SetDefault("Increases damage and critical strike chance by 10% when under half health\nDecreases defence by 8");
         }
 
 
