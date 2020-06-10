@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Crystal Distorter");
-            Tooltip.SetDefault("Ranged weapons have a chance to shoot out multiple projectiles\nThe duplicate projectiles usually lack special effects");
+            Tooltip.SetDefault("Ranged weapons have a chance to fire multiple projectiles\nThe duplicate projectiles usually lack special effects");
 
         }
 
