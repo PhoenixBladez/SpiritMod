@@ -56,7 +56,7 @@ namespace SpiritMod.Items.DonatorItems
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Zanbat2", 1);
+            recipe.AddIngredient(ModContent.ItemType<Zanbat2>(), 1);
             recipe.AddIngredient(ItemID.TitaniumSword, 1);
             recipe.AddIngredient(ItemID.SoulofMight, 10);
             recipe.AddTile(TileID.MythrilAnvil);
@@ -64,7 +64,7 @@ namespace SpiritMod.Items.DonatorItems
             recipe.AddRecipe();
 
             ModRecipe recipe1 = new ModRecipe(mod);
-            recipe1.AddIngredient(null, "Zanbat2", 1);
+            recipe1.AddIngredient(ModContent.ItemType<Zanbat2>(), 1);
             recipe1.AddIngredient(ItemID.AdamantiteSword, 1);
             recipe1.AddIngredient(ItemID.SoulofMight, 10);
             recipe1.AddTile(TileID.MythrilAnvil);

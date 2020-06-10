@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles;
 using System;
 using Terraria;
@@ -113,9 +114,9 @@ namespace SpiritMod.Items.Weapon.Gun
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.OnyxBlaster, 1);
-            recipe.AddIngredient(null, "SunShard", 2);
-            recipe.AddIngredient(null, "FieryEssence", 5);
-            recipe.AddIngredient(null, "DuskStone", 6);
+            recipe.AddIngredient(ModContent.ItemType<SunShard>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<FieryEssence>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<DuskStone>(), 6);
             recipe.AddIngredient(ItemID.ChlorophyteBar, 12);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);

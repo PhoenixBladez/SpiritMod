@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -35,7 +36,7 @@ namespace SpiritMod.Items.Armor.SeraphArmor
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "MoonStone", 8);
+            recipe.AddIngredient(ModContent.ItemType<MoonStone>(), 8);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

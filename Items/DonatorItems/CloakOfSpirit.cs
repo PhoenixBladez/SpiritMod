@@ -1,5 +1,7 @@
 
+using SpiritMod.Items.Material;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.DonatorItems
@@ -25,10 +27,10 @@ namespace SpiritMod.Items.DonatorItems
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CloakOfHealing");
-            recipe.AddIngredient(null, "SpiritBar", 10);
-            recipe.AddIngredient(null, "SoulShred", 5);
-            recipe.AddTile(114);
+            recipe.AddIngredient(ModContent.ItemType<CloakOfHealing>());
+            recipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<SoulShred>(), 5);
+            recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

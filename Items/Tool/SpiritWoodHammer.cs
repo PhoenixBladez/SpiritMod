@@ -1,3 +1,4 @@
+using SpiritMod.Items.Placeable.Tiles;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -34,7 +35,7 @@ namespace SpiritMod.Items.Tool
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SpiritWoodItem", 8);
+            recipe.AddIngredient(ModContent.ItemType<SpiritWoodItem>(), 8);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();

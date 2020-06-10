@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,8 +31,8 @@ namespace SpiritMod.Items.Armor
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SpiritBar", 20);
-            recipe.AddIngredient(null, "SoulShred", 5);
+            recipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<SoulShred>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

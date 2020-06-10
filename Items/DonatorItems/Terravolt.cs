@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.DonatorItems;
 using Terraria;
 using Terraria.ID;
@@ -32,7 +33,7 @@ namespace SpiritMod.Items.DonatorItems
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SunShard", 5);
+            recipe.AddIngredient(ModContent.ItemType<SunShard>(), 5);
             recipe.AddIngredient(671, 1);
             recipe.AddIngredient(1508, 1);
             recipe.AddTile(TileID.MythrilAnvil);

@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -40,7 +41,7 @@ namespace SpiritMod.Items.Armor.GraniteArmor
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "GraniteChunk", 14);
+            recipe.AddIngredient(ModContent.ItemType<GraniteChunk>(), 14);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

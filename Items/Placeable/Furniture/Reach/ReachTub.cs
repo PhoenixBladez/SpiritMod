@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using Terraria.ID;
 using Terraria.ModLoader;
 using ReachTubTile = SpiritMod.Tiles.Furniture.Reach.ReachTub;
@@ -31,7 +32,7 @@ namespace SpiritMod.Items.Placeable.Furniture.Reach
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AncientBark", 14);
+            recipe.AddIngredient(ModContent.ItemType<AncientBark>(), 14);
             recipe.AddTile(TileID.Sawmill);
             recipe.SetResult(this);
             recipe.AddRecipe();

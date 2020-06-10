@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Buffs;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.ID;
@@ -70,9 +71,9 @@ namespace SpiritMod.Items.Weapon.Swung
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Slugger", 1);
-            recipe.AddIngredient(null, "Tenderizer", 1);
-            recipe.AddIngredient(null, "SpiritBar", 10);
+            recipe.AddIngredient(ModContent.ItemType<Slugger>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<Tenderizer>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 10);
             recipe.AddIngredient(ItemID.Ectoplasm, 15);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

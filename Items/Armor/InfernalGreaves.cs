@@ -1,4 +1,5 @@
 
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -26,7 +27,7 @@ namespace SpiritMod.Items.Armor
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "InfernalAppendage", 10);
+            recipe.AddIngredient(ModContent.ItemType<InfernalAppendage>(), 10);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

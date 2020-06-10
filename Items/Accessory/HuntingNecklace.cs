@@ -36,9 +36,9 @@ namespace SpiritMod.Items.Accessory
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "ReachBrooch", 1);
-            recipe.AddIngredient(null, "CleftHorn", 1);
-            recipe.AddIngredient(null, "FloranCharm", 1);
+            recipe.AddIngredient(ModContent.ItemType<ReachBrooch>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<CleftHorn>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<FloranCharm>(), 1);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);
             recipe.AddRecipe();

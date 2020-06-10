@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Material
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CryoliteOre", 3);
+            recipe.AddIngredient(ModContent.ItemType<CryoliteOre>(), 3);
             recipe.AddTile(TileID.Furnaces);
             recipe.SetResult(this);
             recipe.AddRecipe();

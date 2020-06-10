@@ -45,7 +45,7 @@ namespace SpiritMod.Items.Weapon.Magic
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "ThermiteBar", 10);
+            recipe.AddIngredient(ModContent.ItemType<Material.ThermiteBar>(), 10);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

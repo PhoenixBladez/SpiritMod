@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -36,7 +37,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "WorshipCrystal", 3);
+            recipe.AddIngredient(ModContent.ItemType<WorshipCrystal>(), 3);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 111);
             recipe.AddRecipe();

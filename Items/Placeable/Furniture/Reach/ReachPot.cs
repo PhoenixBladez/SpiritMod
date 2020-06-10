@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using Terraria.ID;
 using Terraria.ModLoader;
 using ReachPotTile = SpiritMod.Tiles.Furniture.Reach.ReachPotTile;
@@ -30,7 +31,7 @@ namespace SpiritMod.Items.Placeable.Furniture.Reach
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AncientBark", 8);
+            recipe.AddIngredient(ModContent.ItemType<AncientBark>(), 8);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();

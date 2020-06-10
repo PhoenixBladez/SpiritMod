@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -33,8 +34,8 @@ namespace SpiritMod.Items.Armor.StarArmor
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SteamParts", 9);
-            recipe.AddIngredient(null, "CosmiliteShard", 14);
+            recipe.AddIngredient(ModContent.ItemType<SteamParts>(), 9);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 14);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -1,4 +1,5 @@
 
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -35,7 +36,7 @@ namespace SpiritMod.Items.Accessory
             recipe.AddIngredient(ItemID.MagicCuffs, 1);
             recipe.AddIngredient(ItemID.SorcererEmblem, 1);
             recipe.AddIngredient(ItemID.ManaCrystal, 2);
-            recipe.AddIngredient(null, "SpiritBar", 5);
+            recipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 5);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);
             recipe.AddRecipe();

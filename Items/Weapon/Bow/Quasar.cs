@@ -41,7 +41,7 @@ namespace SpiritMod.Items.Weapon.Bow
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "NightSky", 1);
+            recipe.AddIngredient(ModContent.ItemType<NightSky>(), 1);
             recipe.AddIngredient(ItemID.Ectoplasm, 16);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);

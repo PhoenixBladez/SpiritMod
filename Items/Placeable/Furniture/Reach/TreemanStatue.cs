@@ -1,3 +1,5 @@
+using SpiritMod.Items.Material;
+using SpiritMod.Tiles.Furniture;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TreemanStatueTile = SpiritMod.Tiles.Furniture.Reach.TreemanStatue;
@@ -33,12 +35,12 @@ namespace SpiritMod.Items.Placeable.Furniture.Reach
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AncientBark", 50);
-            recipe.AddIngredient(null, "EnchantedLeaf", 20);
+            recipe.AddIngredient(ModContent.ItemType<AncientBark>(), 50);
+            recipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 20);
             recipe.AddIngredient(ItemID.GoldCoin, 10);
             recipe.AddIngredient(ItemID.Book, 5);
             recipe.AddIngredient(ItemID.Bone, 5);
-            recipe.AddTile(null, "CreationAltarTile");
+            recipe.AddTile(ModContent.TileType<CreationAltarTile>());
             recipe.SetResult(this, 1);
             recipe.AddRecipe();
         }

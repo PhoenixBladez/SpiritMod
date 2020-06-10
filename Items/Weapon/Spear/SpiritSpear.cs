@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Held;
 using Terraria;
 using Terraria.ID;
@@ -33,8 +34,8 @@ namespace SpiritMod.Items.Weapon.Spear
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SpiritBar", 12);
-            recipe.AddIngredient(null, "SoulShred", 7);
+            recipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 12);
+            recipe.AddIngredient(ModContent.ItemType<SoulShred>(), 7);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

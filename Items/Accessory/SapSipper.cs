@@ -34,8 +34,8 @@ namespace SpiritMod.Items.Accessory
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "PathogenWard", 1);
-            recipe.AddIngredient(null, "ToxicExtract", 1);
+            recipe.AddIngredient(ModContent.ItemType<PathogenWard>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<ToxicExtract>(), 1);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);
             recipe.AddRecipe();

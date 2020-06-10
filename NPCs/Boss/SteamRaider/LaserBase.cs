@@ -1,8 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Accessory;
-using SpiritMod.Items.Weapon.Summon;
-using SpiritMod.Projectiles.Hostile;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -38,7 +35,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
             npc.dontCountMe = true;
         }
 
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor) {
             var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
@@ -111,8 +108,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                     Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 91);
                     Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 30, (float)direction9.Y * 30, ModContent.ProjectileType<StarLaser>(), 90, 1, Main.myPlayer);
                 }
-                if (timer < 130 && timer > 75 && timer % 3 == 0)
-                {
+                if(timer < 130 && timer > 75 && timer % 3 == 0) {
                     Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 30, (float)direction9.Y * 30, ModContent.ProjectileType<StarLaserTrace>(), 27, 1, Main.myPlayer);
                 }
                 npc.rotation = direction9.ToRotation() - 1.57f;

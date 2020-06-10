@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -24,7 +25,7 @@ namespace SpiritMod.Items.Consumable
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SpiritBar", 12);
+            recipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 12);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe.AddTile(TileID.WorkBenches);

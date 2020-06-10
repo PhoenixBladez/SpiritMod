@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Held;
 using Terraria;
 using Terraria.ID;
@@ -54,10 +55,10 @@ namespace SpiritMod.Items.Weapon.Spear
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "DuskLance", 1);
-            recipe.AddIngredient(null, "Talonginus", 1);
+            recipe.AddIngredient(ModContent.ItemType<DuskLance>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<Talonginus>(), 1);
             recipe.AddIngredient(ItemID.Gungnir, 1);
-            recipe.AddIngredient(null, "SunShard", 8);
+            recipe.AddIngredient(ModContent.ItemType<SunShard>(), 8);
             recipe.AddIngredient(ItemID.HellstoneBar, 15);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);

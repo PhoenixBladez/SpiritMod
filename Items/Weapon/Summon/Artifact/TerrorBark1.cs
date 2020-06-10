@@ -39,12 +39,12 @@ namespace SpiritMod.Items.Weapon.Summon.Artifact
         /* public override void AddRecipes()
          {
              ModRecipe recipe = new ModRecipe(mod);
-             recipe.AddIngredient(null, "OddKeystone", 1);
-             recipe.AddIngredient(null, "RootPod", 1);
-             recipe.AddIngredient(null, "GildedIdol", 1);
-             recipe.AddIngredient(null, "DemonLens", 1);
-             recipe.AddIngredient(null, "PrimordialMagic", 50);
-             recipe.AddTile(null, "CreationAltarTile");
+             recipe.AddIngredient(ModContent.ItemType<OddKeystone>(), 1);
+             recipe.AddIngredient(ModContent.ItemType<RootPod>(), 1);
+             recipe.AddIngredient(ModContent.ItemType<GildedIdol>(), 1);
+             recipe.AddIngredient(ModContent.ItemType<DemonLens>(), 1);
+             recipe.AddIngredient(ModContent.ItemType<PrimordialMagic>(), 50);
+             recipe.AddTile(ModContent.TileType<CreationAltarTile>());
              recipe.SetResult(this, 1);
              recipe.AddRecipe();
 

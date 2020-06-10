@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.ID;
@@ -31,9 +32,9 @@ namespace SpiritMod.Items.Weapon.Magic
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "EelRod", 1);
-            recipe.AddIngredient(null, "AstralLens", 1);
-            recipe.AddIngredient(null, "StellarBar", 5);
+            recipe.AddIngredient(ModContent.ItemType<EelRod>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<AstralLens>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<StellarBar>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

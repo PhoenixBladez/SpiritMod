@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -20,7 +21,7 @@ namespace SpiritMod.Items.Armor
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "BloodFire", 5);
+            recipe.AddIngredient(ModContent.ItemType<BloodFire>(), 5);
             recipe.AddIngredient(ItemID.SoulofNight, 1);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);

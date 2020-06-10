@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Material
 
 
             ModRecipe recipe1 = new ModRecipe(mod);
-            recipe1.AddIngredient(null, "ManaShard", 3);
+            recipe1.AddIngredient(ModContent.ItemType<ManaShard>(), 3);
             recipe1.AddTile(TileID.Anvils);
             recipe1.SetResult(ItemID.BandofStarpower, 1);
             recipe1.AddRecipe();

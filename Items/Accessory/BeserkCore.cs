@@ -1,5 +1,5 @@
-
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -43,11 +43,11 @@ namespace SpiritMod.Items.Accessory
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "WheezerScale", 1);
-            recipe.AddIngredient(null, "FieryTrident", 1);
-            recipe.AddIngredient(null, "Atmos", 1);
-            recipe.AddIngredient(null, "FossilFlower", 1);
-            recipe.AddIngredient(null, "SunShard", 5);
+            recipe.AddIngredient(ModContent.ItemType<WheezerScale>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<FieryTrident>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<Atmos>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<FossilFlower>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<SunShard>(), 5);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);
             recipe.AddRecipe();

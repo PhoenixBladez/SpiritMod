@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -52,7 +51,7 @@ namespace SpiritMod.Items.Weapon.Bow
                     } else {
                         newVect = origVect.RotatedBy(-System.Math.PI / (Main.rand.Next(92, 1800) / 10));
                     }
-                    int proj = Projectile.NewProjectile(position.X, position.Y, newVect.X, newVect.Y, ModContent.ProjectileType<Rune>(), damage, knockBack, player.whoAmI);
+                    int proj = Projectile.NewProjectile(position.X, position.Y, newVect.X, newVect.Y, ModContent.ProjectileType<Projectiles.Magic.Rune>(), damage, knockBack, player.whoAmI);
                     Projectile newProj1 = Main.projectile[proj];
                     newProj1.timeLeft = 120;
 
@@ -62,7 +61,7 @@ namespace SpiritMod.Items.Weapon.Bow
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Rune", 12);
+            recipe.AddIngredient(ModContent.ItemType<Material.Rune>(), 12);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

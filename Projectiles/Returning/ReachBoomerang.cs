@@ -1,6 +1,5 @@
-using Terraria.ModLoader;
 using Terraria;
-using System;
+using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Returning
 {
@@ -20,8 +19,7 @@ namespace SpiritMod.Projectiles.Returning
             projectile.penetrate = -1;
             projectile.timeLeft = 700;
         }
-        public override void AI()
-        {
+        public override void AI() {
             projectile.rotation += 0.1f;
             {
                 int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 167, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);

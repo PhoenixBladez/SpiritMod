@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -17,7 +18,7 @@ namespace SpiritMod.Items.Armor
         public override void SetDefaults() {
             item.width = 24;
             item.height = 22;
-            item.value = Terraria.Item.sellPrice(0, 0, 12, 0);
+            item.value = Item.sellPrice(0, 0, 12, 0);
             item.rare = 2;
             item.defense = 5;
         }
@@ -44,7 +45,7 @@ namespace SpiritMod.Items.Armor
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "FloranBar", 12);
+            recipe.AddIngredient(ModContent.ItemType<FloranBar>(), 12);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

@@ -44,7 +44,7 @@ namespace SpiritMod.Projectiles.Magic
             return false;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
-            if (target.life <= target.lifeMax / 2 && !target.boss) {
+            if(target.life <= target.lifeMax / 2 && !target.boss) {
                 target.life = 0;
                 NPC.NewNPC((int)target.position.X, (int)target.position.Y, NPCID.Bunny);
             }

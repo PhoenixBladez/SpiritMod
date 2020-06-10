@@ -1,9 +1,11 @@
+using SpiritMod.Items.Consumable;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+
 namespace SpiritMod.Tiles.Furniture.Critters
 {
     public class BlossomCage : ModItem
@@ -26,12 +28,12 @@ namespace SpiritMod.Tiles.Furniture.Critters
             item.autoReuse = true;
             item.consumable = true;
 
-            item.createTile = mod.TileType("Blossom_Tile");
+            item.createTile = ModContent.TileType<Blossom_Tile>();
         }
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "BlossmoonItem", 1);
+            recipe.AddIngredient(ModContent.ItemType<BlossmoonItem>(), 1);
             recipe.AddIngredient(ItemID.Terrarium, 1);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
@@ -99,12 +101,12 @@ namespace SpiritMod.Tiles.Furniture.Critters
             item.autoReuse = true;
             item.consumable = true;
 
-            item.createTile = mod.TileType("Cleft_Tile");
+            item.createTile = ModContent.TileType<Cleft_Tile>();
         }
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CleftItem", 1);
+            recipe.AddIngredient(ModContent.ItemType<CleftItem>(), 1);
             recipe.AddIngredient(ItemID.Terrarium, 1);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
@@ -168,12 +170,12 @@ namespace SpiritMod.Tiles.Furniture.Critters
             item.autoReuse = true;
             item.consumable = true;
 
-            item.createTile = mod.TileType("Luvdisc_Tile");
+            item.createTile = ModContent.TileType<Luvdisc_Tile>();
         }
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "LuvdiscItem", 1);
+            recipe.AddIngredient(ModContent.ItemType<LuvdiscItem>(), 1);
             recipe.AddIngredient(ItemID.BottledWater, 1);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
@@ -241,7 +243,7 @@ namespace SpiritMod.Tiles.Furniture.Critters
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "GulperItem", 1);
+            recipe.AddIngredient(ModContent.ItemType<GulperItem>(), 1);
             recipe.AddIngredient(ItemID.BottledWater, 1);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);

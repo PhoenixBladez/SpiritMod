@@ -1,3 +1,4 @@
+using SpiritMod.Items.Placeable.Tiles;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace SpiritMod.Items.Weapon.Swung
@@ -27,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Swung
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SpiritWoodItem", 7);
+            recipe.AddIngredient(ModContent.ItemType<SpiritWoodItem>(), 7);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();

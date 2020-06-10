@@ -33,7 +33,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "FolvMissile1", 1);
+            recipe.AddIngredient(ModContent.ItemType<FolvMissile1>(), 1);
             recipe.AddIngredient(ItemID.SorcererEmblem, 1);
             recipe.AddIngredient(ItemID.CrystalShard, 20);
             recipe.AddTile(TileID.MythrilAnvil);

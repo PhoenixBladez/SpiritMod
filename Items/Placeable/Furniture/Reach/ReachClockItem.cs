@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using Terraria.ID;
 using Terraria.ModLoader;
 using ReachClockTile = SpiritMod.Tiles.Furniture.Reach.ReachClockTile;
@@ -30,7 +31,7 @@ namespace SpiritMod.Items.Placeable.Furniture.Reach
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AncientBark", 10);
+            recipe.AddIngredient(ModContent.ItemType<AncientBark>(), 10);
             recipe.AddIngredient(ItemID.IronBar, 3);
             recipe.anyIronBar = true;
             recipe.AddIngredient(ItemID.Glass, 6);

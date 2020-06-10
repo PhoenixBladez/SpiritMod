@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -48,11 +49,11 @@ namespace SpiritMod.Items.Weapon.Magic
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "BreathOfTheZephyr", 1);
-            recipe.AddIngredient(null, "ClapdateStaff", 1);
-            recipe.AddIngredient(null, "HowlingScepter", 1);
-            recipe.AddIngredient(null, "GraniteWand", 1);
-            recipe.AddIngredient(null, "CosmiliteShard", 8);
+            recipe.AddIngredient(ModContent.ItemType<BreathOfTheZephyr>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<ClapdateStaff>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<HowlingScepter>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<GraniteWand>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 8);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

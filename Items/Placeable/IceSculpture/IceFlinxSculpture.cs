@@ -1,3 +1,5 @@
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Placeable.Tiles;
 using SpiritMod.Tiles.Ambient.IceSculpture;
 using Terraria;
 using Terraria.ID;
@@ -32,8 +34,8 @@ namespace SpiritMod.Items.Placeable.IceSculpture
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CreepingIce", 20);
-            recipe.AddIngredient(null, "CryoliteBar", 2);
+            recipe.AddIngredient(ModContent.ItemType<CreepingIce>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<CryoliteBar>(), 2);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

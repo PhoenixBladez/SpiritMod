@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.ID;
@@ -45,8 +46,8 @@ namespace SpiritMod.Items.Weapon.Magic
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Talon", 14);
-            recipe.AddIngredient(null, "FossilFeather", 1);
+            recipe.AddIngredient(ModContent.ItemType<Talon>(), 14);
+            recipe.AddIngredient(ModContent.ItemType<FossilFeather>(), 1);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

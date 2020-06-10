@@ -46,12 +46,12 @@ namespace SpiritMod.Items.Weapon.Summon.Artifact
         /*  public override void AddRecipes()
           {
               ModRecipe recipe = new ModRecipe(mod);
-              recipe.AddIngredient(null, "TerrorBark1", 1);
-              recipe.AddIngredient(null, "NecroticSkull", 1);
-              recipe.AddIngredient(null, "TideStone", 1);
-              recipe.AddIngredient(null, "StellarTech", 1);
-              recipe.AddIngredient(null, "PrimordialMagic", 100);
-              recipe.AddTile(null, "CreationAltarTile");
+              recipe.AddIngredient(ModContent.ItemType<TerrorBark1>(), 1);
+              recipe.AddIngredient(ModContent.ItemType<NecroticSkull>(), 1);
+              recipe.AddIngredient(ModContent.ItemType<TideStone>(), 1);
+              recipe.AddIngredient(ModContent.ItemType<StellarTech>(), 1);
+              recipe.AddIngredient(ModContent.ItemType<PrimordialMagic>(), 100);
+              recipe.AddTile(ModContent.TileType<CreationAltarTile>());
               recipe.SetResult(this, 1);
               recipe.AddRecipe();
 

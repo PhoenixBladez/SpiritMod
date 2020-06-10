@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Buffs.Summon;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ID;
@@ -51,8 +52,8 @@ namespace SpiritMod.Items.Weapon.Summon
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "PrimevalEssence", 14);
-            recipe.AddTile(null, "EssenceDistorter");
+            recipe.AddIngredient(ModContent.ItemType<PrimevalEssence>(), 14);
+            recipe.AddTile(ModContent.TileType<Tiles.Furniture.EssenceDistorter>());
             recipe.SetResult(this, 1);
             recipe.AddRecipe();
         }

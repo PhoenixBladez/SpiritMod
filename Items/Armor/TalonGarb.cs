@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -36,8 +37,8 @@ namespace SpiritMod.Items.Armor
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Talon", 16);
-            recipe.AddIngredient(null, "FossilFeather", 1);
+            recipe.AddIngredient(ModContent.ItemType<Talon>(), 16);
+            recipe.AddIngredient(ModContent.ItemType<FossilFeather>(), 1);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

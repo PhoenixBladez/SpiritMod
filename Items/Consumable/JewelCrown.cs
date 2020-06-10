@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using SpiritMod.NPCs.Boss;
 using Terraria;
 using Terraria.ID;
@@ -42,7 +43,7 @@ namespace SpiritMod.Items.Consumable
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Talon", 4);
+            recipe.AddIngredient(ModContent.ItemType<Talon>(), 4);
             recipe.AddIngredient(ItemID.Feather, 6);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 1);

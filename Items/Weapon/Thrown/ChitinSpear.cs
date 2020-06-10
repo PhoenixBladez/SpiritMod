@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Thrown;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -31,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Thrown
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Chitin", 2);
+            recipe.AddIngredient(ModContent.ItemType<Chitin>(), 2);
             recipe.SetResult(this, 35);
             recipe.AddRecipe();
         }

@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -28,8 +29,8 @@ namespace SpiritMod.Items.Armor.HellArmor
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "FieryEssence", 20);
-            recipe.AddTile(null, "EssenceDistorter");
+            recipe.AddIngredient(ModContent.ItemType<FieryEssence>(), 20);
+            recipe.AddTile(ModContent.TileType<Tiles.Furniture.EssenceDistorter>());
             recipe.SetResult(this, 1);
             recipe.AddRecipe();
         }

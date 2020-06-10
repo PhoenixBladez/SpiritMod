@@ -1,4 +1,5 @@
-
+using SpiritMod.Items.Accessory;
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,9 +31,9 @@ namespace SpiritMod.Items.DonatorItems
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 5);
-            recipe.AddRecipeGroup("EvilMaterial", 50);
-            recipe.AddIngredient(null, "EternityEssence", 5);
-            recipe.AddIngredient(null, "ShadowGauntlet", 1);
+            recipe.AddRecipeGroup("SpiritMod:EvilMaterial", 50);
+            recipe.AddIngredient(ModContent.ItemType<EternityEssence>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<ShadowGauntlet>(), 1);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

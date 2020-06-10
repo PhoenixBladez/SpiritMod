@@ -65,7 +65,7 @@ namespace SpiritMod.Items.Weapon.Swung
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Material", 17);
+            recipe.AddIngredient(ModContent.ItemType<Material.Material>(), 17);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

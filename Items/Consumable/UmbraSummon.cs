@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using SpiritMod.NPCs.Boss.SpiritCore;
 using Terraria;
 using Terraria.ID;
@@ -43,8 +44,8 @@ namespace SpiritMod.Items.Consumable
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "DuskStone", 3);
-            recipe.AddIngredient(null, "SpiritBar", 3);
+            recipe.AddIngredient(ModContent.ItemType<DuskStone>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 3);
             recipe.AddIngredient(ItemID.SoulofNight, 5);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);

@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Sword;
 using Terraria;
 using Terraria.ID;
@@ -64,7 +65,7 @@ namespace SpiritMod.Items.Weapon.Swung
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.HellstoneBar, 12);
-            recipe.AddIngredient(null, "CarvedRock", 12);
+            recipe.AddIngredient(ModContent.ItemType<CarvedRock>(), 12);
             recipe.AddIngredient(ItemID.SoulofNight, 4);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Thrown;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Thrown
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CursedFire", 1);
+            recipe.AddIngredient(ModContent.ItemType<CursedFire>(), 1);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 33);
             recipe.AddRecipe();

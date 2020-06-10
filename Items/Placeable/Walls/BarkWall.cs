@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using Terraria.ID;
 using Terraria.ModLoader;
 using BarkWallWall = SpiritMod.Tiles.Walls.Natural.BarkWall;
@@ -30,7 +31,7 @@ namespace SpiritMod.Items.Placeable.Walls
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AncientBark");
+            recipe.AddIngredient(ModContent.ItemType<AncientBark>());
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this, 4);
             recipe.AddRecipe();
@@ -38,7 +39,7 @@ namespace SpiritMod.Items.Placeable.Walls
             ModRecipe recipe1 = new ModRecipe(mod);
             recipe1.AddIngredient(this, 4);
             recipe1.AddTile(TileID.WorkBenches);
-            recipe1.SetResult(null, "AncientBark");
+            recipe1.SetResult(ModContent.ItemType<AncientBark>());
             recipe1.AddRecipe();
         }
     }

@@ -392,9 +392,8 @@ namespace SpiritMod
                 SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.1f); //0.4f is default
                 SpiritMod.glitchScreenShader.UseIntensity(0.0005f);
                 player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
-            } else if (starplateGlitchEffect)
-            {
-                SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.3f); 
+            } else if(starplateGlitchEffect) {
+                SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.3f);
                 SpiritMod.glitchScreenShader.UseIntensity(starplateGlitchIntensity);
                 player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
             } else {

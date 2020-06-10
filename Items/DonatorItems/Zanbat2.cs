@@ -69,7 +69,7 @@ namespace SpiritMod.Items.DonatorItems
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Zanbat1", 1);
+            recipe.AddIngredient(ModContent.ItemType<Zanbat1>(), 1);
             recipe.AddIngredient(ItemID.HellstoneBar, 15);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 1);

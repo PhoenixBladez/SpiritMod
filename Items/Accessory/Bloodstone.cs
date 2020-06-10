@@ -27,8 +27,8 @@ namespace SpiritMod.Items.Accessory
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "BloodWard", 1);
-            recipe.AddIngredient(null, "VitalityStone", 1);
+            recipe.AddIngredient(ModContent.ItemType<BloodWard>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<VitalityStone>(), 1);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);
             recipe.AddRecipe();

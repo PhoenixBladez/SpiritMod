@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using Terraria.ID;
 using Terraria.ModLoader;
 using ReachPianoTile = SpiritMod.Tiles.Furniture.Reach.ReachPiano;
@@ -31,7 +32,7 @@ namespace SpiritMod.Items.Placeable.Furniture.Reach
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Bone, 4);
-            recipe.AddIngredient(null, "AncientBark", 15);
+            recipe.AddIngredient(ModContent.ItemType<AncientBark>(), 15);
             recipe.AddIngredient(ItemID.Book, 1);
             recipe.anyIronBar = true;
             recipe.AddTile(TileID.Sawmill);

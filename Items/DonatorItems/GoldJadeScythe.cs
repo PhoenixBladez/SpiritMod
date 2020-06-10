@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.DonatorItems;
 using System;
 using Terraria;
@@ -77,9 +78,9 @@ namespace SpiritMod.Items.DonatorItems
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Chitin", 12);
+            recipe.AddIngredient(ModContent.ItemType<Chitin>(), 12);
             recipe.AddIngredient(ItemID.Emerald, 4);
-            recipe.AddRecipeGroup("GoldBars", 5);
+            recipe.AddRecipeGroup("SpiritMod:GoldBars", 5);
             recipe.AddIngredient(ItemID.SoulofLight, 5);
             recipe.AddIngredient(ItemID.SoulofNight, 5);
             recipe.AddTile(TileID.MythrilAnvil);

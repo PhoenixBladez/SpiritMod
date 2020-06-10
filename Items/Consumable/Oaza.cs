@@ -1,4 +1,5 @@
-
+using SpiritMod.Items.Accessory;
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -41,11 +42,11 @@ namespace SpiritMod.Items.Consumable
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "TimScroll", 1);
-            recipe.AddIngredient(null, "FloranBar", 5);
-            recipe.AddIngredient(null, "GraniteChunk", 5);
-            recipe.AddIngredient(null, "MarbleChunk", 5);
-            recipe.AddIngredient(null, "CryoliteBar", 5);
+            recipe.AddIngredient(ModContent.ItemType<TimScroll>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<FloranBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<GraniteChunk>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<MarbleChunk>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<CryoliteBar>(), 5);
             recipe.AddIngredient(ItemID.MeteoriteBar, 5);
             recipe.AddIngredient(ItemID.HellstoneBar, 5);
             recipe.AddIngredient(ItemID.SoulofNight, 5);

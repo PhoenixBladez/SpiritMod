@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using Terraria.ID;
 using Terraria.ModLoader;
 using ReachBookcaseTile = SpiritMod.Tiles.Furniture.Reach.ReachBookcase;
@@ -30,7 +31,7 @@ namespace SpiritMod.Items.Placeable.Furniture.Reach
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AncientBark", 20);
+            recipe.AddIngredient(ModContent.ItemType<AncientBark>(), 20);
             recipe.AddIngredient(ItemID.Book, 10);
             recipe.AddTile(TileID.Sawmill);
             recipe.SetResult(this);

@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.ID;
@@ -69,9 +70,9 @@ namespace SpiritMod.Items.DonatorItems
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Ectoplasm, 8);
-            recipe.AddIngredient(null, "AncientBark", 10);
-            recipe.AddIngredient(null, "OldLeather", 10);
-            recipe.AddIngredient(null, "SpiritBar", 8);
+            recipe.AddIngredient(ModContent.ItemType<AncientBark>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<OldLeather>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 8);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

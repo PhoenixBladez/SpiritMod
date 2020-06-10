@@ -1,4 +1,4 @@
-
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -46,8 +46,8 @@ namespace SpiritMod.Items.DonatorItems.Folv
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
 
-            recipe.AddIngredient(null, "FolvStaff2", 1);
-            recipe.AddIngredient(null, "IcyEssence", 5);
+            recipe.AddIngredient(ModContent.ItemType<FolvStaff2>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<IcyEssence>(), 5);
             recipe.AddIngredient(ItemID.AnkhCharm, 1);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);

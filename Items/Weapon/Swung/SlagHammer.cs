@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Held;
 using SpiritMod.Projectiles.Returning;
 using Terraria;
@@ -64,7 +65,7 @@ namespace SpiritMod.Items.Weapon.Swung
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CarvedRock", 16);
+            recipe.AddIngredient(ModContent.ItemType<CarvedRock>(), 16);
             recipe.AddIngredient(ItemID.Bone, 15);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);

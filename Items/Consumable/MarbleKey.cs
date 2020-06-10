@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -24,7 +25,7 @@ namespace SpiritMod.Items.Consumable
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "MarbleChunk", 8);
+            recipe.AddIngredient(ModContent.ItemType<MarbleChunk>(), 8);
             recipe.AddIngredient(ItemID.SoulofNight, 4);
             recipe.AddIngredient(ItemID.SoulofLight, 4);
             recipe.AddTile(TileID.WorkBenches);

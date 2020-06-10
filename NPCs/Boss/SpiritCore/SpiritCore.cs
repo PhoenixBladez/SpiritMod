@@ -332,7 +332,7 @@ namespace SpiritMod.NPCs.Boss.SpiritCore
                 npc.DropItem(ModContent.ItemType<StellarBar>(), Main.rand.Next(3, 6));
 
             if(Main.rand.Next(4) == 1)
-                npc.DropItem(ModContent.ItemType<Items.Material.Rune>(), Main.rand.Next(3, 6));
+                npc.DropItem(ModContent.ItemType<Rune>(), Main.rand.Next(3, 6));
 
             if(Main.rand.Next(4) == 1)
                 npc.DropItem(ModContent.ItemType<SoulShred>(), Main.rand.Next(5, 9));

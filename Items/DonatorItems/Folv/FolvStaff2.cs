@@ -35,7 +35,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
             recipe.AddIngredient(ItemID.Sapphire, 1);
             recipe.AddIngredient(ItemID.Topaz, 1);
             recipe.AddIngredient(ItemID.Amethyst, 1);
-            recipe.AddIngredient(null, "FolvStaff1", 1);
+            recipe.AddIngredient(ModContent.ItemType<FolvStaff1>(), 1);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

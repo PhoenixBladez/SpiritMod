@@ -72,8 +72,8 @@ namespace SpiritMod.Items.DonatorItems.Folv
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "FolvMissile3", 1);
-            recipe.AddRecipeGroup("CelestialFragment", 6);
+            recipe.AddIngredient(ModContent.ItemType<FolvMissile3>(), 1);
+            recipe.AddRecipeGroup(RecipeGroupID.Fragment, 6);
             recipe.AddIngredient(ItemID.LunarBar, 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);

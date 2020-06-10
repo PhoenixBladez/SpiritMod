@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
@@ -36,7 +37,7 @@ namespace SpiritMod.Items.Weapon.Magic
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "WorshipCrystal", 14);
+            recipe.AddIngredient(ModContent.ItemType<WorshipCrystal>(), 14);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

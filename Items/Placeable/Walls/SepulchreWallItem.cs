@@ -1,3 +1,4 @@
+using SpiritMod.Items.Placeable.Tiles;
 using SpiritMod.Tiles.Walls.Natural;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,7 +31,7 @@ namespace SpiritMod.Items.Placeable.Walls
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SepulchreBrickItem");
+            recipe.AddIngredient(ModContent.ItemType<SepulchreBrickItem>());
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this, 4);
             recipe.AddRecipe();
@@ -38,7 +39,7 @@ namespace SpiritMod.Items.Placeable.Walls
             ModRecipe recipe1 = new ModRecipe(mod);
             recipe1.AddIngredient(this, 4);
             recipe1.AddTile(TileID.WorkBenches);
-            recipe1.SetResult(null, "SepulchreBrickItem");
+            recipe1.SetResult(ModContent.ItemType<SepulchreBrickItem>());
             recipe1.AddRecipe();
         }
     }

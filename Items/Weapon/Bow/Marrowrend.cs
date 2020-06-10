@@ -46,7 +46,7 @@ namespace SpiritMod.Items.Weapon.Bow
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CursedFire", 10);
+            recipe.AddIngredient(ModContent.ItemType<Material.CursedFire>(), 10);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

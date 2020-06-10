@@ -3713,38 +3713,28 @@ namespace SpiritMod
                         }
                     }
                 }
-                if (chest != null && Main.tile[chest.x, chest.y].type == mod.TileType("AsteroidChest"))
-                {
-                    for (int inventoryIndex = 0; inventoryIndex < 5; inventoryIndex++)
-                    {
-                        if (chest.item[inventoryIndex].type == 0)
-                        {
+                if(chest != null && Main.tile[chest.x, chest.y].type == mod.TileType("AsteroidChest")) {
+                    for(int inventoryIndex = 0; inventoryIndex < 5; inventoryIndex++) {
+                        if(chest.item[inventoryIndex].type == 0) {
 
-                            if (inventoryIndex == 0)
-                            {
+                            if(inventoryIndex == 0) {
                                 int[] itemsToPlaceInPagodaChests1 = { ItemType<ZiplineGun>(), ItemType<HighGravityBoots>(), ItemType<MagnetHook>() };
                                 stack = 1;
                                 chest.item[inventoryIndex].SetDefaults(Main.rand.Next(itemsToPlaceInPagodaChests1));
                                 chest.item[inventoryIndex].stack = stack;
                             }
-                            if (inventoryIndex == 1)
-                            {
-                                if (WorldGen.genRand.Next(2) == 0)
-                                {
+                            if(inventoryIndex == 1) {
+                                if(WorldGen.genRand.Next(2) == 0) {
                                     int[] itemsToPlaceInPagodaChests2 = { ItemType<JumpPadItem>(), ItemID.SuspiciousLookingEye };
                                     stack = 1;
                                     chest.item[inventoryIndex].SetDefaults(Main.rand.Next(itemsToPlaceInPagodaChests2));
                                     chest.item[inventoryIndex].stack = stack;
-                                }
-                                else if (WorldGen.genRand.Next(2) == 0)
-                                {
-                                    int[] itemsToPlaceInPagodaChests2 = { ItemType<TargetCan>()};
+                                } else if(WorldGen.genRand.Next(2) == 0) {
+                                    int[] itemsToPlaceInPagodaChests2 = { ItemType<TargetCan>() };
                                     stack = WorldGen.genRand.Next(10, 15);
                                     chest.item[inventoryIndex].SetDefaults(Main.rand.Next(itemsToPlaceInPagodaChests2));
                                     chest.item[inventoryIndex].stack = stack;
-                                }
-                                else
-                                {
+                                } else {
                                     int[] itemsToPlaceInPagodaChests2 = { ItemType<SpaceJunkItem>(), ItemType<SpaceJunkItem>() };
                                     stack = WorldGen.genRand.Next(30, 55);
                                     chest.item[inventoryIndex].SetDefaults(Main.rand.Next(itemsToPlaceInPagodaChests2));

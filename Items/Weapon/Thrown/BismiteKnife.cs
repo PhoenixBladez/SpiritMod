@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Thrown;
 using Terraria;
 using Terraria.ID;
@@ -39,7 +40,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "BismiteCrystal", 1);
+            recipe.AddIngredient(ModContent.ItemType<BismiteCrystal>(), 1);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 30);
             recipe.AddRecipe();

@@ -38,7 +38,7 @@ namespace SpiritMod.Items.Armor.QuicksilverArmor
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Material", 11);
+            recipe.AddIngredient(ModContent.ItemType<Material.Material>(), 11);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

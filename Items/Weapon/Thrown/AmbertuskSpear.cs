@@ -1,3 +1,5 @@
+using SpiritMod.Items.Material;
+using SpiritMod.Tiles.Furniture;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace SpiritMod.Items.Weapon.Thrown
@@ -31,8 +33,8 @@ namespace SpiritMod.Items.Weapon.Thrown
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "DuneEssence", 5);
-            recipe.AddTile(null, "EssenceDistorter");
+            recipe.AddIngredient(ModContent.ItemType<DuneEssence>(), 5);
+            recipe.AddTile(ModContent.TileType<EssenceDistorter>());
             recipe.SetResult(this, 100);
             recipe.AddRecipe();
         }

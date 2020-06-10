@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Sword;
 using Terraria;
 using Terraria.ID;
@@ -50,8 +51,8 @@ namespace SpiritMod.Items.Weapon.Swung
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "EternityEssence", 20);
-            recipe.AddIngredient(null, "SpiritStar", 1);
+            recipe.AddIngredient(ModContent.ItemType<EternityEssence>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<SpiritStar>(), 1);
             recipe.AddIngredient(3467, 10);
             recipe.AddIngredient(3456, 4);
             recipe.AddIngredient(3457, 4);

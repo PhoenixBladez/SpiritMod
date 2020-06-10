@@ -35,13 +35,13 @@ namespace SpiritMod.Items.Consumable.Fish
         }
         public override void AddRecipes() {
             ModRecipe recipe1 = new ModRecipe(mod);
-            recipe1.AddIngredient(null, "RawFish", 1);
+            recipe1.AddIngredient(ModContent.ItemType<RawFish>(), 1);
             recipe1.AddTile(TileID.CookingPots);
             recipe1.SetResult(ItemID.CookedFish, 1);
             recipe1.AddRecipe();
 
             ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(null, "RawFish", 1);
+            recipe2.AddIngredient(ModContent.ItemType<RawFish>(), 1);
             recipe2.AddTile(TileID.WorkBenches);
             recipe2.SetResult(ItemID.Sashimi, 1);
             recipe2.AddRecipe();

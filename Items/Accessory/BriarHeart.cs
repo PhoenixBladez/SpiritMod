@@ -1,4 +1,4 @@
-
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,7 +10,6 @@ namespace SpiritMod.Items.Accessory
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Briar Heart");
             Tooltip.SetDefault("Increases melee damage by 5% and melee speed by 5%\nIncreases melee critical srike chance by 9% and ranged critical strike chance by 7%\nIncreases magic critical strike chance by 5% and maximum life by 20\nMagic attacks may inflict Cursed Inferno and Ichor\nGetting hurt may trigger 'Poison Bite,' causing all attacks to inflict poison for a short while\nIncreases maximum mana by 50");
-
         }
 
 
@@ -36,12 +35,13 @@ namespace SpiritMod.Items.Accessory
                 player.statManaMax2 += 50;
             }
         }
+
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "HuntingNecklace", 1);
-            recipe.AddIngredient(null, "GremlinTooth", 1);
-            recipe.AddIngredient(null, "Acid", 4);
-            recipe.AddRecipeGroup("EvilNecklace", 1);
+            recipe.AddIngredient(ModContent.ItemType<HuntingNecklace>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<GremlinTooth>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<Acid>(), 4);
+            recipe.AddRecipeGroup("SpiritMod:EvilNecklace", 1);
             recipe.AddIngredient(ItemID.SoulofNight, 8);
             recipe.AddIngredient(ItemID.SoulofLight, 8);
             recipe.AddTile(TileID.TinkerersWorkbench);

@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -36,7 +37,7 @@ namespace SpiritMod.Items.Weapon.Thrown
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "FrigidFragment", 2);
+            recipe.AddIngredient(ModContent.ItemType<FrigidFragment>(), 2);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 50);
             recipe.AddRecipe();

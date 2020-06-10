@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -66,8 +67,8 @@ namespace SpiritMod.Items.Weapon.Magic
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SteamParts", 5);
-            recipe.AddIngredient(null, "CosmiliteShard", 9);
+            recipe.AddIngredient(ModContent.ItemType<SteamParts>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 9);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

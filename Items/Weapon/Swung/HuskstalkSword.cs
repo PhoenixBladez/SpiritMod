@@ -1,4 +1,5 @@
 using SpiritMod.Buffs;
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -29,8 +30,8 @@ namespace SpiritMod.Items.Weapon.Swung
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AncientBark", 8);
-            recipe.AddIngredient(null, "EnchantedLeaf", 4);
+            recipe.AddIngredient(ModContent.ItemType<AncientBark>(), 8);
+            recipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 4);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

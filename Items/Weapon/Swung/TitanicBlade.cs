@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Sword;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -35,8 +36,8 @@ namespace SpiritMod.Items.Weapon.Swung
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "TidalEssence", 16);
-            recipe.AddTile(null, "EssenceDistorter");
+            recipe.AddIngredient(ModContent.ItemType<TidalEssence>(), 16);
+            recipe.AddTile(ModContent.TileType<Tiles.Furniture.EssenceDistorter>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

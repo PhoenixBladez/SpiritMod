@@ -44,13 +44,13 @@ namespace SpiritMod.Items.Weapon.Summon.Artifact
         /* public override void AddRecipes()
          {
              ModRecipe recipe = new ModRecipe(mod);
-             recipe.AddIngredient(null, "TerrorBark2", 1);
-             recipe.AddIngredient(null, "SearingBand", 1);
-             recipe.AddIngredient(null, "CursedMedallion", 1);
-             recipe.AddIngredient(null, "DarkCrest", 1);
-             recipe.AddIngredient(null, "BatteryCore", 1);
-             recipe.AddIngredient(null, "PrimordialMagic", 100);
-             recipe.AddTile(null, "CreationAltarTile");
+             recipe.AddIngredient(ModContent.ItemType<TerrorBark2>(), 1);
+             recipe.AddIngredient(ModContent.ItemType<SearingBand>(), 1);
+             recipe.AddIngredient(ModContent.ItemType<CursedMedallion>(), 1);
+             recipe.AddIngredient(ModContent.ItemType<DarkCrest>(), 1);
+             recipe.AddIngredient(ModContent.ItemType<BatteryCore>(), 1);
+             recipe.AddIngredient(ModContent.ItemType<PrimordialMagic>(), 100);
+             recipe.AddTile(ModContent.TileType<CreationAltarTile>());
              recipe.SetResult(this, 1);
              recipe.AddRecipe();
          }*/

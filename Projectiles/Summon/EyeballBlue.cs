@@ -1,6 +1,4 @@
-using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.Hostile;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -57,7 +55,7 @@ namespace SpiritMod.Projectiles.Summon
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].scale *= 2f;
                     Main.dust[dust].velocity *= 3f;
-                    
+
                     var angle = projectile.DirectionTo(target.Center);
                     int p = Projectile.NewProjectile(projectile.Center, angle * 9f, ModContent.ProjectileType<BlueMoonBeam>(), projectile.damage, projectile.knockBack / 2f, projectile.owner, 0f, 0f);
                     Main.projectile[p].friendly = true;

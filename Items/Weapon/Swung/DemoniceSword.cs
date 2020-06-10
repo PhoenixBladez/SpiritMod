@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.DonatorItems;
 using Terraria;
 using Terraria.ID;
@@ -47,8 +48,8 @@ namespace SpiritMod.Items.Weapon.Swung
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CryoliteBar", 12);
-            recipe.AddIngredient(null, "IcyEssence", 6);
+            recipe.AddIngredient(ModContent.ItemType<CryoliteBar>(), 12);
+            recipe.AddIngredient(ModContent.ItemType<IcyEssence>(), 6);
             recipe.AddIngredient(ItemID.SoulofNight, 10);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -37,7 +38,7 @@ namespace SpiritMod.Items.Weapon.Thrown
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "DepthShard", 3);
+            recipe.AddIngredient(ModContent.ItemType<DepthShard>(), 3);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 33);
             recipe.AddRecipe();

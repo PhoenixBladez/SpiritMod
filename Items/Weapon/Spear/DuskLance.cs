@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Held;
 using Terraria;
 using Terraria.ID;
@@ -37,7 +38,7 @@ namespace SpiritMod.Items.Weapon.Spear
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.DarkLance, 1);
-            recipe.AddIngredient(null, "DuskStone", 4);
+            recipe.AddIngredient(ModContent.ItemType<DuskStone>(), 4);
             recipe.AddIngredient(ItemID.SoulofNight, 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);

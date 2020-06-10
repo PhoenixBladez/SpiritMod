@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Material
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "FloranOre", 3);
+            recipe.AddIngredient(ModContent.ItemType<FloranOre>(), 3);
             recipe.AddTile(TileID.Furnaces);
             recipe.SetResult(this);
             recipe.AddRecipe();

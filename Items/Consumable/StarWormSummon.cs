@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -48,8 +49,8 @@ namespace SpiritMod.Items.Consumable
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "TechDrive", 1);
-            recipe.AddIngredient(null, "StarEnergy", 3);
+            recipe.AddIngredient(ModContent.ItemType<TechDrive>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<StarEnergy>(), 3);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

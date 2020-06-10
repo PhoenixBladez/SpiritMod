@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.ID;
@@ -46,7 +47,7 @@ namespace SpiritMod.Items.DonatorItems
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "DuskStone", 5);
+            recipe.AddIngredient(ModContent.ItemType<DuskStone>(), 5);
             recipe.AddIngredient(ItemID.SoulofNight, 30);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);

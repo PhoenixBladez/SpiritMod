@@ -1,8 +1,11 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Projectiles.DonatorItems;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace SpiritMod.Items.DonatorItems
 {
     public class NeutronStarStaff : ModItem
@@ -49,10 +52,10 @@ namespace SpiritMod.Items.DonatorItems
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "ZeusLightning", 1);
-            recipe.AddIngredient(3569, 1);
-            recipe.AddIngredient(null, "AccursedRelic", 6);
-            recipe.AddTile(412);
+            recipe.AddIngredient(ModContent.ItemType<ZeusLightning>(), 1);
+            recipe.AddIngredient(ItemID.MoonlordTurretStaff, 1);
+            recipe.AddIngredient(ModContent.ItemType<AccursedRelic>(), 6);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();
         }

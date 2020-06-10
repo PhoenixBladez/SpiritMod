@@ -1,4 +1,6 @@
 
+using SpiritMod.Items.Equipment;
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -34,8 +36,8 @@ namespace SpiritMod.Items.Accessory
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.StarVeil, 1);
-            recipe.AddIngredient(null, "StarMap", 1);
-            recipe.AddIngredient(null, "StarPiece", 3);
+            recipe.AddIngredient(ModContent.ItemType<StarMap>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<StarPiece>(), 3);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);
             recipe.AddRecipe();

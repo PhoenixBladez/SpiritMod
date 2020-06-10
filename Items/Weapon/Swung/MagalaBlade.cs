@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Buffs;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.ID;
@@ -77,7 +78,7 @@ namespace SpiritMod.Items.Weapon.Swung
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "MagalaScale", 20);
+            recipe.AddIngredient(ModContent.ItemType<MagalaScale>(), 20);
             recipe.AddIngredient(ItemID.DD2SquireDemonSword);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
@@ -36,7 +37,7 @@ namespace SpiritMod.Items.Weapon.Magic
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "MarbleChunk", 13);
+            recipe.AddIngredient(ModContent.ItemType<MarbleChunk>(), 13);
             recipe.AddIngredient(ItemID.Book, 1);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 1);

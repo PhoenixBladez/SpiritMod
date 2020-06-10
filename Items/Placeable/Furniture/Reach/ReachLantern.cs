@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using Terraria.ID;
 using Terraria.ModLoader;
 using ReachLanternTile = SpiritMod.Tiles.Furniture.Reach.ReachLanternTile;
@@ -31,7 +32,7 @@ namespace SpiritMod.Items.Placeable.Furniture.Reach
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AncientBark", 4);
+            recipe.AddIngredient(ModContent.ItemType<AncientBark>(), 4);
             recipe.AddIngredient(ItemID.Torch, 1);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);

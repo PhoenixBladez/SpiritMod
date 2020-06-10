@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Bullet;
 using System;
 using Terraria;
@@ -164,10 +165,10 @@ namespace SpiritMod.Items.Weapon.Gun
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Uzi, 1);
-            recipe.AddIngredient(null, "SunShard", 2);
-            recipe.AddIngredient(null, "TechDrive", 5);
-            recipe.AddIngredient(null, "SteamParts", 6);
-            recipe.AddIngredient(null, "SpiritBar", 10);
+            recipe.AddIngredient(ModContent.ItemType<SunShard>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<TechDrive>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<SteamParts>(), 6);
+            recipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 10);
             recipe.AddIngredient(ItemID.ChlorophyteBar, 12);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);

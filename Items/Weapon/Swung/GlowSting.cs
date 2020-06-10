@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Held;
 using Terraria;
 using Terraria.ID;
@@ -111,7 +112,7 @@ namespace SpiritMod.Items.Weapon.Swung
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "MoonStone", 8);
+            recipe.AddIngredient(ModContent.ItemType<MoonStone>(), 8);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

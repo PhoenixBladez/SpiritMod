@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -90,8 +91,8 @@ namespace SpiritMod.Items.Weapon.Gun
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "ShadowShot", 1);
-            recipe.AddIngredient(null, "BrokenParts", 1);
+            recipe.AddIngredient(ModContent.ItemType<ShadowShot>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<BrokenParts>(), 1);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

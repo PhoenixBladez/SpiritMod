@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Magic;
 using System;
 using Terraria;
@@ -49,7 +50,7 @@ namespace SpiritMod.Items.Weapon.Magic
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "NightmareFuel", 10);
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 10);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -1,4 +1,5 @@
 
+using SpiritMod.Items.Material;
 using SpiritMod.NPCs.Boss.Dusking;
 using Terraria;
 using Terraria.ID;
@@ -41,7 +42,7 @@ namespace SpiritMod.Items.Consumable
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SpiritBar", 3);
+            recipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 3);
             recipe.AddIngredient(ItemID.SoulofNight, 4);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

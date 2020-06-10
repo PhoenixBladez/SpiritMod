@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using SpiritMod.NPCs.Boss.ReachBoss;
 using Terraria;
 using Terraria.ID;
@@ -42,9 +43,9 @@ namespace SpiritMod.Items.Consumable
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "BismiteCrystal", 2);
-            recipe.AddIngredient(null, "EnchantedLeaf", 2);
-            recipe.AddRecipeGroup("EvilMaterial1", 3);
+            recipe.AddIngredient(ModContent.ItemType<BismiteCrystal>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 2);
+            recipe.AddRecipeGroup("SpiritMod:EvilMaterial1", 3);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

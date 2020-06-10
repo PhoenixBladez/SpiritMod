@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
@@ -57,7 +58,7 @@ namespace SpiritMod.Items.Weapon.Magic
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "BismiteCrystal", 8);
+            recipe.AddIngredient(ModContent.ItemType<BismiteCrystal>(), 8);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

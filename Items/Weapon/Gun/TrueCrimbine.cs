@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Bullet;
 using System;
 using Terraria;
@@ -58,8 +59,8 @@ namespace SpiritMod.Items.Weapon.Gun
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Crimbine", 1);
-            recipe.AddIngredient(null, "BrokenParts", 1);
+            recipe.AddIngredient(ModContent.ItemType<Crimbine>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<BrokenParts>(), 1);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

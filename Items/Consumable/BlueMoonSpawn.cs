@@ -1,4 +1,4 @@
-
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -48,9 +48,9 @@ namespace SpiritMod.Items.Consumable
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Geode", 8);
+            recipe.AddIngredient(ModContent.ItemType<Geode>(), 8);
             recipe.AddIngredient(ItemID.SoulofLight, 10);
-            recipe.AddIngredient(null, "SteamParts", 10);
+            recipe.AddIngredient(ModContent.ItemType<SteamParts>(), 10);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

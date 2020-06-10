@@ -1,3 +1,4 @@
+using SpiritMod.Items.Placeable.Tiles;
 using SpiritMod.Tiles.Walls.Natural;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,7 +31,7 @@ namespace SpiritMod.Items.Placeable.Walls
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SpiritWoodItem");
+            recipe.AddIngredient(ModContent.ItemType<SpiritWoodItem>());
             recipe.SetResult(this, 4);
             recipe.AddRecipe();
         }

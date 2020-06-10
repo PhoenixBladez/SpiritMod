@@ -1,4 +1,5 @@
 
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -26,10 +27,10 @@ namespace SpiritMod.Items.DonatorItems
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(177, 5);
-            recipe.AddIngredient(521, 5);
-            recipe.AddIngredient(180, 5);
-            recipe.AddIngredient(null, "Chitin", 10);
+            recipe.AddIngredient(ItemID.Sapphire, 5);
+            recipe.AddIngredient(ItemID.SoulofNight, 5);
+            recipe.AddIngredient(ItemID.Topaz, 5);
+            recipe.AddIngredient(ModContent.ItemType<Chitin>(), 10);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

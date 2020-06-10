@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Held;
 using Terraria;
 using Terraria.ID;
@@ -33,8 +34,8 @@ namespace SpiritMod.Items.Weapon.Spear
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "HuskstalkSpear", 1);
-            recipe.AddIngredient(null, "Acid", 6);
+            recipe.AddIngredient(ModContent.ItemType<HuskstalkSpear>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<Acid>(), 6);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

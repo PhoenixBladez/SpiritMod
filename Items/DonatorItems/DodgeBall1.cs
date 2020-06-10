@@ -38,7 +38,7 @@ namespace SpiritMod.Items.DonatorItems
             recipe.AddRecipe();
 
             ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(null, "DodgeBall", 1);
+            recipe2.AddIngredient(ModContent.ItemType<DodgeBall>(), 1);
             recipe2.SetResult(this);
             recipe2.AddRecipe();
         }

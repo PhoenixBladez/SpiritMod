@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.BossBags;
 using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Boss;
-using SpiritMod.NPCs.Boss.SteamRaider;
 using SpiritMod.Projectiles.Hostile;
 using Terraria;
 using Terraria.ID;
@@ -174,29 +173,25 @@ namespace SpiritMod.NPCs.Boss
             if(timer >= 1400) {
                 timer = 0;
             }
-            
-            
+
+
             if(npc.life <= npc.lifeMax * .6f) //Fires comets when low on health in expert
             {
-                if (Main.expertMode) {
+                if(Main.expertMode) {
                     modPlayer.windEffect = true;
-                    if (Main.rand.Next(22) == 0)
-                    {
+                    if(Main.rand.Next(22) == 0) {
                         int A = Main.rand.Next(-2500, 2500) * 2;
                         int B = Main.rand.Next(-1000, 1000) - 700;
                         int damage = expertMode ? 15 : 17;
                         Projectile.NewProjectile(player.Center.X + A, player.Center.Y + B, 0f, 10f, ModContent.ProjectileType<RedComet>(), damage, 1, Main.myPlayer, 0, 0);
                     }
                 }
-                if (timer == 100)
-                {
+                if(timer == 100) {
                     tornadoX = (int)player.Center.X;
                     tornadoY = (int)player.Center.Y;
                 }
-                if (timer > 100 && timer < 260)
-                {
-                    for (int k = 0; k < 3; k++)
-                    {
+                if(timer > 100 && timer < 260) {
+                    for(int k = 0; k < 3; k++) {
                         int dust = Dust.NewDust(new Vector2(tornadoX - 50, tornadoY + player.height - 10), 50, 10, DustID.SilverCoin, 0, -15);
                         Main.dust[dust].noGravity = true;
                         Main.dust[dust].noLight = true;
@@ -211,11 +206,10 @@ namespace SpiritMod.NPCs.Boss
                         Main.dust[dust2].scale = .85f;
                     }
                 }
-                if (timer == 220)
-                {
+                if(timer == 220) {
                     Main.PlaySound(SoundID.Item82, new Vector2(tornadoX, tornadoY));
-                    Main.PlaySound(SoundID.Item82, new Vector2(tornadoX-260, tornadoY-400));
-                    Main.PlaySound(SoundID.Item82, new Vector2(tornadoX+200, tornadoY-400));
+                    Main.PlaySound(SoundID.Item82, new Vector2(tornadoX - 260, tornadoY - 400));
+                    Main.PlaySound(SoundID.Item82, new Vector2(tornadoX + 200, tornadoY - 400));
                     int damage = expertMode ? 16 : 20;
                     Projectile.NewProjectile(tornadoX, tornadoY, 0f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
                     Projectile.NewProjectile(tornadoX - 260, tornadoY - 400, 0f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
@@ -307,7 +301,7 @@ namespace SpiritMod.NPCs.Boss
 
         public override void HitEffect(int hitDirection, double damage) {
             int d1 = 1;
-            for (int k = 0; k < 30; k++) {
+            for(int k = 0; k < 30; k++) {
                 Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, Color.White, Main.rand.NextFloat(.2f, .8f));
                 Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
             }

@@ -1,4 +1,5 @@
 
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -27,8 +28,8 @@ namespace SpiritMod.Items.Accessory.Leather
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<LeatherGlove>(), 1);
-            recipe.AddIngredient(null, "FrigidFragment", 6);
-            recipe.AddRecipeGroup("EvilMaterial1", 4);
+            recipe.AddIngredient(ModContent.ItemType<FrigidFragment>(), 6);
+            recipe.AddRecipeGroup("SpiritMod:EvilMaterial1", 4);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

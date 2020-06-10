@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Armor.CosmicArmor
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AccursedRelic", 1);
+            recipe.AddIngredient(ModContent.ItemType<AccursedRelic>(), 1);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -40,8 +41,8 @@ namespace SpiritMod.Items.Tool
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Rune", 15);
-            recipe.AddIngredient(null, "SoulShred", 3);
+            recipe.AddIngredient(ModContent.ItemType<Rune>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<SoulShred>(), 3);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

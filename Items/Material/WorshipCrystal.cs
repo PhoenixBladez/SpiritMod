@@ -21,8 +21,8 @@ namespace SpiritMod.Items.Material
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SunShard", 3);
-            recipe.AddIngredient(null, "EnchantedLeaf", 3);
+            recipe.AddIngredient(ModContent.ItemType<SunShard>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 3);
             recipe.AddIngredient(ItemID.SoulofFlight, 3);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 4);

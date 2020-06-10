@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Accessory
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "GoldenApple", 1);
+            recipe.AddIngredient(ModContent.ItemType<GoldenApple>(), 1);
             recipe.AddIngredient(156, 1);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);

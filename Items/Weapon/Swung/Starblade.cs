@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -72,11 +73,11 @@ namespace SpiritMod.Items.Weapon.Swung
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "HarpyBlade", 1);
-            recipe.AddIngredient(null, "TalonBlade", 1);
-            recipe.AddIngredient(null, "SteamParts", 1);
+            recipe.AddIngredient(ModContent.ItemType<HarpyBlade>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<TalonBlade>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<SteamParts>(), 1);
             recipe.AddIngredient(ItemID.FallenStar, 5);
-            recipe.AddIngredient(null, "CosmiliteShard", 7);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 7);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

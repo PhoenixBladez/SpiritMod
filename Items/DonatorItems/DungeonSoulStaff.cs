@@ -1,8 +1,10 @@
 using SpiritMod.Buffs.Summon;
+using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace SpiritMod.Items.DonatorItems
 {
     public class DungeonSoulStaff : ModItem
@@ -34,8 +36,8 @@ namespace SpiritMod.Items.DonatorItems
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SpiritStaff", 1);
-            recipe.AddIngredient(null, "SpiritBar", 4);
+            recipe.AddIngredient(ModContent.ItemType<SpiritStaff>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<Material.SpiritBar>(), 4);
             recipe.AddIngredient(ItemID.Ectoplasm, 8);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);

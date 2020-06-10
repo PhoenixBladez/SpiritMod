@@ -1,4 +1,4 @@
-
+using SpiritMod.Items.Material;
 using SpiritMod.Tide;
 using Terraria;
 using Terraria.ID;
@@ -47,7 +47,7 @@ namespace SpiritMod.Items.Consumable
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Coral, 5);
             recipe.AddIngredient(ItemID.Bone, 10);
-            recipe.AddIngredient(null, "FossilFeather", 1);
+            recipe.AddIngredient(ModContent.ItemType<FossilFeather>(), 1);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

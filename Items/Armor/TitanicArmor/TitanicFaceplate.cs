@@ -1,4 +1,6 @@
 
+using SpiritMod.Items.Material;
+using SpiritMod.Tiles.Furniture;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -36,8 +38,8 @@ namespace SpiritMod.Items.Armor.TitanicArmor
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "TidalEssence", 16);
-            recipe.AddTile(null, "EssenceDistorter");
+            recipe.AddIngredient(ModContent.ItemType<TidalEssence>(), 16);
+            recipe.AddTile(ModContent.TileType<EssenceDistorter>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

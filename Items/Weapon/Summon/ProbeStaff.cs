@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Buffs.Summon;
+using SpiritMod.Items.Placeable.Furniture;
 using SpiritMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ID;
@@ -55,7 +56,7 @@ namespace SpiritMod.Items.Weapon.Summon
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.HallowedBar, 11);
             recipe.AddIngredient(ItemID.SoulofMight, 13);
-            recipe.AddIngredient(null, "PrintProbe", 1);
+            recipe.AddIngredient(ModContent.ItemType<PrintProbe>(), 1);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

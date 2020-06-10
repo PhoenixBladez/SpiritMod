@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Bullet;
 using Terraria;
 using Terraria.ID;
@@ -64,8 +65,8 @@ namespace SpiritMod.Items.Weapon.Gun
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.FlintlockPistol, 1);
-            recipe.AddIngredient(null, "SteamParts", 4);
-            recipe.AddIngredient(null, "CosmiliteShard", 8);
+            recipe.AddIngredient(ModContent.ItemType<SteamParts>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 8);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

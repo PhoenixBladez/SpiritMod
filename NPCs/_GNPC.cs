@@ -603,7 +603,7 @@ namespace SpiritMod.NPCs
         public override void SetupShop(int type, Chest shop, ref int nextSlot) {
             if(type == NPCID.Merchant) {
                 if(Main.halloween && Main.halloween) {
-                    shop.item[nextSlot].SetDefaults(ModContent.ItemType<CandyBowl>(), false);
+                    shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Halloween.CandyBowl>(), false);
                     nextSlot++;
                 }
             } else if(type == NPCID.Dryad) {
@@ -629,7 +629,7 @@ namespace SpiritMod.NPCs
                 if(NPC.downedMechBossAny) {
                     shop.item[nextSlot].SetDefaults(ModContent.ItemType<PartyStarter>(), false);
                     nextSlot++;
-                    shop.item[nextSlot].SetDefaults(ModContent.ItemType<SpiritPainting>(), false);
+                    shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Placeable.Furniture.SpiritPainting>(), false);
                     nextSlot++;
                 }
             } else if(type == NPCID.WitchDoctor) {
@@ -969,7 +969,7 @@ namespace SpiritMod.NPCs
                 if(Main.rand.Next(50) <= 5) {
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CaptainsRegards>());
                 }
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PirateCrate>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Consumable.PirateCrate>());
                 if(Main.rand.Next(100) <= 6) {
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Magic.SoulSiphon>());
                 }

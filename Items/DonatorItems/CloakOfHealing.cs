@@ -1,4 +1,4 @@
-
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,7 +16,7 @@ namespace SpiritMod.Items.DonatorItems
             item.width = 30;
             item.height = 28;
             item.rare = 2;
-            item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
+            item.value = Item.sellPrice(0, 1, 0, 0);
             item.accessory = true;
         }
 
@@ -25,9 +25,9 @@ namespace SpiritMod.Items.DonatorItems
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(188, 1);
-            recipe.AddIngredient(null, "OldLeather", 5);
-            recipe.AddIngredient(null, "BloodFire", 5);
+            recipe.AddIngredient(ItemID.HealingPotion, 1);
+            recipe.AddIngredient(ModContent.ItemType<OldLeather>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<BloodFire>(), 5);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

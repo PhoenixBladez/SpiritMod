@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -33,9 +34,9 @@ namespace SpiritMod.Items.Accessory
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "FieryPendant", 1);
-            recipe.AddIngredient(null, "IcyEssence", 10);
-            recipe.AddIngredient(null, "InfernalAppendage", 5);
+            recipe.AddIngredient(ModContent.ItemType<FieryPendant>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<IcyEssence>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<InfernalAppendage>(), 5);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -1,4 +1,5 @@
 using SpiritMod.Buffs.Potion;
+using SpiritMod.Items.Material;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -32,9 +33,9 @@ namespace SpiritMod.Items.Consumable.Potion
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SoulBloom", 1);
+            recipe.AddIngredient(ModContent.ItemType<SoulBloom>(), 1);
             recipe.AddIngredient(ItemID.Feather, 2);
-            recipe.AddIngredient(null, "StarPiece", 1);
+            recipe.AddIngredient(ModContent.ItemType<StarPiece>(), 1);
             recipe.AddIngredient(ItemID.BottledWater, 1);
             recipe.AddTile(TileID.Bottles);
             recipe.SetResult(this);

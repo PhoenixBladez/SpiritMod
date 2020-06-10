@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -37,8 +38,8 @@ namespace SpiritMod.Items.Weapon.Summon
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "OvergrowthStaff", 1);
-            recipe.AddIngredient(null, "CarvedRock", 14);
+            recipe.AddIngredient(ModContent.ItemType<OvergrowthStaff>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<CarvedRock>(), 14);
             recipe.AddIngredient(ItemID.Bone, 8);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);

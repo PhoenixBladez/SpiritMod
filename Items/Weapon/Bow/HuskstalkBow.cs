@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.ID;
@@ -42,8 +43,8 @@ namespace SpiritMod.Items.Weapon.Bow
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AncientBark", 6);
-            recipe.AddIngredient(null, "EnchantedLeaf", 6);
+            recipe.AddIngredient(ModContent.ItemType<AncientBark>(), 6);
+            recipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 6);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

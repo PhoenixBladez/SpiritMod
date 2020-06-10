@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles;
 using SpiritMod.Projectiles.DonatorItems;
 using Terraria;
@@ -68,8 +69,8 @@ namespace SpiritMod.Items.DonatorItems
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Shotgun, 1);
-            recipe.AddIngredient(null, "SoulShred", 5);
-            recipe.AddIngredient(null, "SpiritBar", 5);
+            recipe.AddIngredient(ModContent.ItemType<SoulShred>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 5);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

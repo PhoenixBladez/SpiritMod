@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Silk, 5);
-            recipe.AddRecipeGroup("GoldBars");
+            recipe.AddRecipeGroup("SpiritMod:GoldBars");
             recipe.AddIngredient(ItemID.FallenStar, 1);
             recipe.AddTile(TileID.Anvils);   //at work bench
             recipe.SetResult(this);

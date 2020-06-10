@@ -70,10 +70,10 @@ namespace SpiritMod.Items.Weapon.Swung
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Starblade", 1);
-            recipe.AddIngredient(null, "SpiritSaber", 1);
-            recipe.AddIngredient(null, "SpiritSword", 1);
-            recipe.AddIngredient(null, "EtherealSword", 1);
+            recipe.AddIngredient(ModContent.ItemType<Starblade>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<SpiritSaber>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<SpiritSword>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<EtherealSword>(), 1);
             recipe.AddIngredient(ItemID.Ectoplasm, 15);
             recipe.AddIngredient(ItemID.FragmentSolar, 4);
             recipe.AddIngredient(ItemID.FragmentVortex, 4);

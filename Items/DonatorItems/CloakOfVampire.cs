@@ -25,7 +25,7 @@ namespace SpiritMod.Items.DonatorItems
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CloakOfSpirit");
+            recipe.AddIngredient(ModContent.ItemType<CloakOfSpirit>());
             recipe.AddIngredient(1569, 1);
             recipe.AddTile(114);
             recipe.SetResult(this);

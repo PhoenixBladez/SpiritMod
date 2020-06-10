@@ -1,4 +1,5 @@
 
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -40,10 +41,10 @@ namespace SpiritMod.Items.Accessory
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "DawnStone", 1);
-            recipe.AddIngredient(null, "DuskStone1", 1);
-            recipe.AddIngredient(null, "InfernalAppendage", 5);
-            recipe.AddIngredient(null, "DuskStone", 5);
+            recipe.AddIngredient(ModContent.ItemType<DawnStone>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<DuskStone1>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<InfernalAppendage>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<DuskStone>(), 5);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

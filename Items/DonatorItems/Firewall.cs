@@ -1,5 +1,7 @@
 
+using SpiritMod.Items.Accessory;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.DonatorItems
@@ -27,10 +29,10 @@ namespace SpiritMod.Items.DonatorItems
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(397, 1);
-            recipe.AddIngredient(3097, 1);
-            recipe.AddIngredient(null, "InfernalShield", 1);
-            recipe.AddTile(114);
+            recipe.AddIngredient(ItemID.ObsidianShield, 1);
+            recipe.AddIngredient(ItemID.EoCShield, 1);
+            recipe.AddIngredient(ModContent.ItemType<InfernalShield>(), 1);
+            recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

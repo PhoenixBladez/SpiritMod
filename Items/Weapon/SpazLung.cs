@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Placeable.Furniture;
 using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.ID;
@@ -53,7 +54,7 @@ namespace SpiritMod.Items.Weapon
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "BlueprintTwins", 1);
+            recipe.AddIngredient(ModContent.ItemType<BlueprintTwins>(), 1);
             recipe.AddIngredient(ItemID.HallowedBar, 6);
             recipe.AddIngredient(ItemID.SoulofSight, 10);
             recipe.AddTile(TileID.MythrilAnvil);

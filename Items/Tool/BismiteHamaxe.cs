@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -30,7 +31,7 @@ namespace SpiritMod.Items.Tool
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "BismiteCrystal", 12);
+            recipe.AddIngredient(ModContent.ItemType<BismiteCrystal>(), 12);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Thrown;
 using System;
 using Terraria;
@@ -68,7 +69,7 @@ namespace SpiritMod.Items.Weapon.Thrown
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "NightmareFuel", 1);
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 1);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 33);
             recipe.AddRecipe();

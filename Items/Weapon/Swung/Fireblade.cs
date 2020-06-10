@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Sword;
 using Terraria;
 using Terraria.ID;
@@ -52,8 +53,8 @@ namespace SpiritMod.Items.Weapon.Swung
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.FieryGreatsword, 1);
-            recipe.AddIngredient(null, "InfernalAppendage", 12);
-            recipe.AddIngredient(null, "FieryEssence", 15);
+            recipe.AddIngredient(ModContent.ItemType<InfernalAppendage>(), 12);
+            recipe.AddIngredient(ModContent.ItemType<FieryEssence>(), 15);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

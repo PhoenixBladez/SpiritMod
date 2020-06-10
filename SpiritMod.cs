@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Effects;
+using SpiritMod.Items.Accessory;
+using SpiritMod.Items.Material;
 using SpiritMod.NPCs.Boss.Atlas;
 using SpiritMod.NPCs.Boss.Overseer;
 using SpiritMod.NPCs.Town;
@@ -18,6 +20,7 @@ using Terraria.Graphics;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
 using Terraria.Utilities;
@@ -507,61 +510,47 @@ namespace SpiritMod
             }
         }
         public override void AddRecipeGroups() {
-            RecipeGroup group1 = new RecipeGroup(() => Lang.misc[37] + " Iron Bar" + Lang.GetItemNameValue(ItemType("Iron Bar")), new int[]
+            RecipeGroup group = new RecipeGroup(() => Language.GetTextValue("LegacyMisc.37") + " " + Lang.GetItemNameValue(ItemID.GoldBar), new int[]
             {
-                22,
-                704
+                ItemID.GoldBar,
+                ItemID.PlatinumBar
             });
-            RecipeGroup.RegisterGroup("LeadBars", group1);
+            RecipeGroup.RegisterGroup("SpiritMod:GoldBars", group);
 
-            RecipeGroup group = new RecipeGroup(() => Lang.misc[37] + " Gold Bar" + Lang.GetItemNameValue(ItemType("Gold Bar")), new int[]
+            group = new RecipeGroup(() => Language.GetTextValue("LegacyMisc.37") + " " + Lang.GetItemNameValue(ItemID.CursedFlame), new int[]
             {
-                19,
-                706
+                ItemID.CursedFlame,
+                ItemID.Ichor
             });
-            RecipeGroup.RegisterGroup("GoldBars", group);
-            group = new RecipeGroup(() => Lang.misc[37] + " Lunar Fragment" + Lang.GetItemNameValue(ItemType("Lunar Fragment")), new int[]
-            {
-                3456,
-                3457,
-                3458,
-                3459
-            });
-            RecipeGroup.RegisterGroup("CelestialFragment", group);
-            group = new RecipeGroup(() => Lang.misc[37] + " Cursed Flame" + Lang.GetItemNameValue(ItemType("Cursed Flame")), new int[]
-            {
-                ItemID.Ichor,
-                ItemID.CursedFlame
-            });
-            RecipeGroup.RegisterGroup("EvilMaterial", group);
-            group = new RecipeGroup(() => Lang.misc[37] + " Ichor Pendant" + Lang.GetItemNameValue(ItemType("Ichor Pendant")), new int[]
-            {
-                ItemType("CursedPendant"),
-                ItemType("IchorPendant")
-            });
+            RecipeGroup.RegisterGroup("SpiritMod:EvilMaterial", group);
 
-            RecipeGroup.RegisterGroup("EvilNecklace", group);
-            group = new RecipeGroup(() => Lang.misc[37] + " Shadow Scale" + Lang.GetItemNameValue(ItemType("Shadow Scale")), new int[]
+            group = new RecipeGroup(() => Language.GetTextValue("LegacyMisc.37") + " " + Lang.GetItemNameValue(ModContent.ItemType<CursedPendant>()), new int[]
+            {
+                ModContent.ItemType<CursedPendant>(),
+                ModContent.ItemType<IchorPendant>()
+            });
+            RecipeGroup.RegisterGroup("SpiritMod:EvilNecklace", group);
+
+            group = new RecipeGroup(() => Language.GetTextValue("LegacyMisc.37") + " " + Lang.GetItemNameValue(ItemID.ShadowScale), new int[]
             {
                 ItemID.ShadowScale,
                 ItemID.TissueSample
             });
+            RecipeGroup.RegisterGroup("SpiritMod:EvilMaterial1", group);
 
-            RecipeGroup.RegisterGroup("EvilMaterial1", group);
-            group = new RecipeGroup(() => Lang.misc[37] + " Nightmare Fuel" + Lang.GetItemNameValue(ItemType("Nightmare Fuel")), new int[]
+            group = new RecipeGroup(() => Language.GetTextValue("LegacyMisc.37") + " " + Lang.GetItemNameValue(ModContent.ItemType<CursedFire>()), new int[]
             {
-                ItemType("CursedFire"),
-                ItemType("NightmareFuel")
+                ModContent.ItemType<CursedFire>(),
+                ModContent.ItemType<NightmareFuel>()
             });
+            RecipeGroup.RegisterGroup("SpiritMod:ModEvil", group);
 
-            RecipeGroup.RegisterGroup("ModEvil", group);
-            group = new RecipeGroup(() => Lang.misc[37] + " Tungsten Bar" + Lang.GetItemNameValue(ItemType(" Tungsten Bar")), new int[]
+            group = new RecipeGroup(() => Language.GetTextValue("LegacyMisc.37") + " " + Lang.GetItemNameValue(ItemID.SilverBar), new int[]
             {
-                705,
-                21
+                ItemID.SilverBar,
+                ItemID.TungstenBar
             });
-
-            RecipeGroup.RegisterGroup("SilverBars", group);
+            RecipeGroup.RegisterGroup("SpiritMod:SilverBars", group);
         }
 
         public override void PostSetupContent() {

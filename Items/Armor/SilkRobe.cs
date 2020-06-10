@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Armor
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Silk, 5);
-            recipe.AddRecipeGroup("GoldBars", 2);
+            recipe.AddRecipeGroup("SpiritMod:GoldBars", 2);
             recipe.AddIngredient(ItemID.FallenStar, 1);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 1);

@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Thrown;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -32,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Thrown
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Carapace", 2);
+            recipe.AddIngredient(ModContent.ItemType<Carapace>(), 2);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 50);
             recipe.AddRecipe();

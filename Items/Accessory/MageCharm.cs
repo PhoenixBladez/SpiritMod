@@ -38,11 +38,11 @@ namespace SpiritMod.Items.Accessory
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "ManaFlame", 1);
-            recipe.AddIngredient(null, "WintryCharmMage", 1);
+            recipe.AddIngredient(ModContent.ItemType<ManaFlame>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<WintryCharmMage>(), 1);
             recipe.AddIngredient(ItemID.ManaRegenerationBand, 1);
-            recipe.AddIngredient(null, "FallenAngel", 1);
-            recipe.AddIngredient(null, "Eyezor", 1);
+            recipe.AddIngredient(ModContent.ItemType<FallenAngel>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<Eyezor>(), 1);
             recipe.AddIngredient(ItemID.Ectoplasm, 5);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);

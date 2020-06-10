@@ -1,4 +1,3 @@
-using SpiritMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -29,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.rare = 8;
             item.UseSound = SoundID.Item92;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<CursedFire>();
+            item.shoot = ModContent.ProjectileType<Projectiles.Magic.CursedFire>();
             item.shootSpeed = 16f;
         }
 

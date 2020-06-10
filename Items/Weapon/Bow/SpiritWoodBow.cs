@@ -1,3 +1,4 @@
+using SpiritMod.Items.Placeable.Tiles;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -33,7 +34,7 @@ namespace SpiritMod.Items.Weapon.Bow
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SpiritWoodItem", 10);
+            recipe.AddIngredient(ModContent.ItemType<SpiritWoodItem>(), 10);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();

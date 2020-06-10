@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.DonatorItems;
 using Terraria;
 using Terraria.ID;
@@ -49,10 +50,10 @@ namespace SpiritMod.Items.Weapon.Swung
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "DemoniceSword", 1);
-            recipe.AddIngredient(null, "DemonfireSword", 1);
-            recipe.AddIngredient(null, "ThermiteBar", 8);
-            recipe.AddIngredient(null, "SpiritBar", 8);
+            recipe.AddIngredient(ModContent.ItemType<DemoniceSword>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<DemonfireSword>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<ThermiteBar>(), 8);
+            recipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 8);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

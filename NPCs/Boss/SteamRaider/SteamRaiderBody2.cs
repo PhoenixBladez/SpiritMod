@@ -68,10 +68,10 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
             }
             if(exposed) {
                 npc.defense = 19;
-                 npc.dontTakeDamage = false;
+                npc.dontTakeDamage = false;
             } else {
                 npc.defense = 9999;
-                 npc.dontTakeDamage = true;
+                npc.dontTakeDamage = true;
             }
             Player player = Main.player[npc.target];
             bool expertMode = Main.expertMode;
@@ -185,8 +185,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                 Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 14);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Starplate/Starplate6"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Starplate/Starplate7"), 1f);
-                for (int num623 = 0; num623 < 20; num623++)
-                {
+                for(int num623 = 0; num623 < 20; num623++) {
                     int dust1 = Dust.NewDust(npc.Center, npc.width, npc.height, 226);
 
                     Main.dust[dust1].velocity *= -1f;

@@ -1,3 +1,4 @@
+using SpiritMod.Items.Placeable.Furniture;
 using SpiritMod.Projectiles.Held;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -40,7 +41,7 @@ namespace SpiritMod.Items.Tool
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "PrintPrime");
+            recipe.AddIngredient(ModContent.ItemType<PrintPrime>());
             recipe.AddIngredient(ItemID.HallowedBar, 6);
             recipe.AddIngredient(ItemID.SoulofFright, 12);
             recipe.AddTile(TileID.MythrilAnvil);

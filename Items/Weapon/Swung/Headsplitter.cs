@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Buffs;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Arrow;
 using System;
 using Terraria;
@@ -34,7 +35,7 @@ namespace SpiritMod.Items.Weapon.Swung
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "BloodFire", 12);
+            recipe.AddIngredient(ModContent.ItemType<BloodFire>(), 12);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

@@ -1,4 +1,5 @@
 using SpiritMod.Buffs;
+using SpiritMod.Items.Material;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -32,7 +33,7 @@ namespace SpiritMod.Items.Consumable.Potion
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SpiritKoi", 1);
+            recipe.AddIngredient(ModContent.ItemType<SpiritKoi>(), 1);
             recipe.AddIngredient(ItemID.SoulofLight, 1);
             recipe.AddIngredient(ItemID.BottledWater, 1);
             recipe.AddTile(TileID.Bottles);

@@ -73,9 +73,9 @@ namespace SpiritMod.Items.Weapon.Bow
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "StarlightBow", 1);
-            recipe.AddIngredient(null, "SteamplateBow", 1);
-            recipe.AddIngredient(null, "FrostSpine", 1);
+            recipe.AddIngredient(ModContent.ItemType<StarlightBow>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<SteamplateBow>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<FrostSpine>(), 1);
             recipe.AddIngredient(ItemID.HellwingBow, 1);
             recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this, 1);

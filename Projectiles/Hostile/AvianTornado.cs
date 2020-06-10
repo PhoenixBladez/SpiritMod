@@ -1,22 +1,19 @@
 ﻿
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Hostile
 {
     public class AvianNado : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             DisplayName.SetDefault("Gustnado");
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             projectile.width = 24;
             projectile.height = 100;
             projectile.hostile = true;
@@ -24,23 +21,18 @@ namespace SpiritMod.Projectiles.Hostile
             projectile.tileCollide = false;
             projectile.penetrate = -1;
         }
-        public override void AI()
-        {
+        public override void AI() {
             float num1178 = 900f;
-            if (projectile.type == 657)
-            {
+            if(projectile.type == 657) {
                 num1178 = 300f;
             }
             projectile.ai[0] += 1f;
-            if (projectile.ai[0] >= num1178)
-            {
+            if(projectile.ai[0] >= num1178) {
                 projectile.Kill();
             }
-            if (projectile.type == 656 && projectile.localAI[0] >= 30f)
-            {
+            if(projectile.type == 656 && projectile.localAI[0] >= 30f) {
                 projectile.damage = 0;
-                if (projectile.ai[0] < num1178 - 120f)
-                {
+                if(projectile.ai[0] < num1178 - 120f) {
                     float num1177 = projectile.ai[0] % 60f;
                     projectile.ai[0] = num1178 - 120f + num1177;
                     projectile.netUpdate = true;
@@ -65,10 +57,8 @@ namespace SpiritMod.Projectiles.Hostile
             projectile.height = (int)value159.Y;
             projectile.Center = vector152;
 
-            if (projectile.ai[0] < num1178 - 120f)
-            {
-                for (int num1172 = 0; num1172 < 1; num1172 = num2475 + 1)
-                {
+            if(projectile.ai[0] < num1178 - 120f) {
+                for(int num1172 = 0; num1172 < 1; num1172 = num2475 + 1) {
                     float value91 = -0.5f;
                     float value90 = 0.9f;
                     float amount5 = Main.rand.NextFloat();
@@ -86,8 +76,7 @@ namespace SpiritMod.Projectiles.Hostile
                     dust44.customData = vector152 + value89;
                     dust44.fadeIn = 1f;
                     dust44.scale = 0.3f;
-                    if (value160.X > -1.2f)
-                    {
+                    if(value160.X > -1.2f) {
                         dust44.velocity.X = 1f + Main.rand.NextFloat();
                     }
                     dust44.velocity.Y = Main.rand.NextFloat() * -0.5f - 1f;
@@ -95,19 +84,16 @@ namespace SpiritMod.Projectiles.Hostile
                 }
             }
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) {
             float num391 = 900f;
-            if (projectile.type == 657)
-            {
+            if(projectile.type == 657) {
                 num391 = 300f;
             }
             float num390 = 15f;
             float num389 = 15f;
             float num388 = projectile.ai[0];
             float scale6 = MathHelper.Clamp(num388 / 30f, 0f, 1f);
-            if (num388 > num391 - 60f)
-            {
+            if(num388 > num391 - 60f) {
                 scale6 = MathHelper.Lerp(1f, 0f, (num388 - (num391 - 60f)) / 60f);
             }
             Microsoft.Xna.Framework.Point point5 = projectile.Center.ToTileCoordinates();
@@ -131,8 +117,7 @@ namespace SpiritMod.Projectiles.Hostile
             float num384 = 0f;
             float num383 = 5.1f;
             Microsoft.Xna.Framework.Color value11 = new Microsoft.Xna.Framework.Color(214, 201, 176);
-            for (float num382 = (float)(int)value12.Y; num382 > (float)(int)value13.Y; num382 -= num383)
-            {
+            for(float num382 = (float)(int)value12.Y; num382 > (float)(int)value13.Y; num382 -= num383) {
                 num384 += num383;
                 float num381 = num384 / vector46.Y;
                 float num380 = num384 * 6.28318548f / -20f;
@@ -141,8 +126,7 @@ namespace SpiritMod.Projectiles.Hostile
                 Vector2 value57 = new Vector2(0f, num381 + 1f);
                 value57.X = value57.Y * num387;
                 Microsoft.Xna.Framework.Color color70 = Microsoft.Xna.Framework.Color.Lerp(Microsoft.Xna.Framework.Color.Transparent, value11, num381 * 2f);
-                if (num381 > 0.5f)
-                {
+                if(num381 > 0.5f) {
                     color70 = Microsoft.Xna.Framework.Color.Lerp(Microsoft.Xna.Framework.Color.Transparent, value11, 2f - num381 * 2f);
                 }
                 color70.A = (byte)((float)(int)color70.A * 0.5f);
@@ -155,8 +139,7 @@ namespace SpiritMod.Projectiles.Hostile
             }
             return false;
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
-        {
+        public override void OnHitPlayer(Player target, int damage, bool crit) {
             target.velocity.Y -= 8f;
         }
     }

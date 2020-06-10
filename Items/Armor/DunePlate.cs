@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Armor
@@ -20,8 +21,8 @@ namespace SpiritMod.Items.Armor
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "DuneEssence", 3);
-            recipe.AddTile(null, "EssenceDistorter");
+            recipe.AddIngredient(ModContent.ItemType<DuneEssence>(), 3);
+            recipe.AddTile(ModContent.TileType<Tiles.Furniture.EssenceDistorter>());
             recipe.SetResult(this, 1);
             recipe.AddRecipe();
         }

@@ -27,7 +27,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Wood, 40);
-            recipe.AddRecipeGroup("GoldBars", 2);
+            recipe.AddRecipeGroup("SpiritMod:GoldBars", 2);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

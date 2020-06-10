@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using Terraria.ID;
 using Terraria.ModLoader;
 using EssenceDistorterTile = SpiritMod.Tiles.Furniture.EssenceDistorter;
@@ -29,11 +30,11 @@ namespace SpiritMod.Items.Placeable.Furniture
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "DuneEssence");
-            recipe.AddIngredient(null, "TidalEssence");
-            recipe.AddIngredient(null, "FieryEssence");
-            recipe.AddIngredient(null, "IcyEssence");
-            recipe.AddIngredient(null, "PrimevalEssence");
+            recipe.AddIngredient(ModContent.ItemType<DuneEssence>());
+            recipe.AddIngredient(ModContent.ItemType<TidalEssence>());
+            recipe.AddIngredient(ModContent.ItemType<FieryEssence>());
+            recipe.AddIngredient(ModContent.ItemType<IcyEssence>());
+            recipe.AddIngredient(ModContent.ItemType<PrimevalEssence>());
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

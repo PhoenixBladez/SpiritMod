@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Material
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "FleshClump", 3);
+            recipe.AddIngredient(ModContent.ItemType<FleshClump>(), 3);
             recipe.AddIngredient(ItemID.Ectoplasm);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 5);

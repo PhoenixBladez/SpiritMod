@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Bullet;
 using Terraria;
 using Terraria.ID;
@@ -40,8 +41,8 @@ namespace SpiritMod.Items.Weapon.Gun
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "FieryEssence", 14);
-            recipe.AddTile(null, "EssenceDistorter");
+            recipe.AddIngredient(ModContent.ItemType<FieryEssence>(), 14);
+            recipe.AddTile(ModContent.TileType<Tiles.Furniture.EssenceDistorter>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

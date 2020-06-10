@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Material
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "PutridPiece", 3);
+            recipe.AddIngredient(ModContent.ItemType<PutridPiece>(), 3);
             recipe.AddIngredient(ItemID.Ectoplasm);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 5);

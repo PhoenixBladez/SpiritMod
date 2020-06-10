@@ -34,7 +34,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "FolvMissile2", 1);
+            recipe.AddIngredient(ModContent.ItemType<FolvMissile2>(), 1);
             recipe.AddIngredient(ItemID.SoulofSight, 3);
             recipe.AddIngredient(ItemID.SoulofFright, 3);
             recipe.AddIngredient(ItemID.SoulofMight, 3);

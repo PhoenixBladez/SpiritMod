@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -22,7 +23,7 @@ namespace SpiritMod.Items.Armor.MagalaArmor
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "MagalaScale", 4);
+            recipe.AddIngredient(ModContent.ItemType<MagalaScale>(), 4);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
@@ -34,7 +35,7 @@ namespace SpiritMod.Items.Weapon.Magic
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "PutridPiece", 8);
+            recipe.AddIngredient(ModContent.ItemType<PutridPiece>(), 8);
             recipe.AddIngredient(531, 1);
             recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this, 1);

@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using SpiritMod.NPCs.Boss.Overseer;
 using Terraria;
 using Terraria.ID;
@@ -42,7 +43,7 @@ namespace SpiritMod.Items.Consumable
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(520, 4);
             recipe.AddIngredient(521, 4);
-            recipe.AddIngredient(null, "SpiritBar", 4);
+            recipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 4);
             recipe.AddIngredient(3467, 4);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

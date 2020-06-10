@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Accessory
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SummonerEmblem, 1);
             recipe.AddIngredient(ItemID.CobaltShield, 1);
-            recipe.AddRecipeGroup("GoldBars", 5);
+            recipe.AddRecipeGroup("SpiritMod:GoldBars", 5);
             recipe.AddIngredient(ItemID.SoulofSight, 15);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

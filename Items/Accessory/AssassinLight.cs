@@ -50,12 +50,12 @@ namespace SpiritMod.Items.Accessory
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AssassinMagazine", 1);
-            recipe.AddIngredient(null, "HellEater", 1);
-            recipe.AddIngredient(null, "JeweledSlime", 1);
-            recipe.AddIngredient(null, "Angelure", 1);
-            recipe.AddIngredient(null, "Sharkon", 1);
-            recipe.AddIngredient(null, "Crystal", 1);
+            recipe.AddIngredient(ModContent.ItemType<AssassinMagazine>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<HellEater>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<JeweledSlime>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<Angelure>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<Sharkon>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<Crystal>(), 1);
             recipe.AddIngredient(ItemID.Ectoplasm, 5);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);

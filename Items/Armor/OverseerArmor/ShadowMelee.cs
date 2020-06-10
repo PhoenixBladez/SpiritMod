@@ -1,4 +1,5 @@
 
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -48,7 +49,7 @@ namespace SpiritMod.Items.Armor.OverseerArmor
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "EternityEssence", 6);
+            recipe.AddIngredient(ModContent.ItemType<EternityEssence>(), 6);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

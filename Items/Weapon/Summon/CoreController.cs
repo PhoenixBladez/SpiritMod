@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Buffs.Summon;
 using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Summon;
 using Terraria;

@@ -1,4 +1,4 @@
-
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,7 +16,7 @@ namespace SpiritMod.Items.DonatorItems
             item.width = 30;
             item.height = 28;
             item.rare = 5;
-            item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
+            item.value = Item.sellPrice(0, 2, 0, 0);
             item.accessory = true;
         }
 
@@ -26,9 +26,9 @@ namespace SpiritMod.Items.DonatorItems
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Geode", 4);
-            recipe.AddIngredient(520, 5);
-            recipe.AddIngredient(502, 10);
+            recipe.AddIngredient(ModContent.ItemType<Geode>(), 4);
+            recipe.AddIngredient(ItemID.SoulofLight, 5);
+            recipe.AddIngredient(ItemID.CrystalShard, 10);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

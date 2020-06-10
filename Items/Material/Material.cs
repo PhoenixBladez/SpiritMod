@@ -21,9 +21,9 @@ namespace SpiritMod.Items.Material
 
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SpiritOre", 3);
-            recipe.AddIngredient(null, "Rune", 3);
-            recipe.AddIngredient(null, "SoulShred", 3);
+            recipe.AddIngredient(ModContent.ItemType<SpiritOre>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<Rune>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<SoulShred>(), 3);
             recipe.AddIngredient(ItemID.Ectoplasm);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 5);
