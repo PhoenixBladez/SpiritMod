@@ -1089,7 +1089,7 @@ namespace SpiritMod.NPCs
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SolarRattle>());
                 }
             }
-            if(npc.type == 385 || npc.type == 382 || npc.type == 381) {
+            if(npc.type == NPCID.GrayGrunt || npc.type == NPCID.RayGunner || npc.type == NPCID.BrainScrambler) {
                 if(Main.rand.Next(50) == 0) {
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EngineeringRod>());
                 }
@@ -1097,7 +1097,7 @@ namespace SpiritMod.NPCs
             if(npc.type == NPCID.EyeofCthulhu && Main.rand.Next(5) == 0)
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Eyeshot>());
 
-            if(npc.type == 392 && Main.rand.Next(2) == 0)
+            if(npc.type == NPCID.MartianSaucer && Main.rand.Next(2) == 0)
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Yoyo.Martian>());
 
             if(npc.type == NPCID.AnglerFish && Main.rand.Next(30) == 0)
@@ -1107,7 +1107,7 @@ namespace SpiritMod.NPCs
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Accessory.Crystal>());
 
 
-            if(npc.type == 439) {
+            if(npc.type == NPCID.CultistBoss) {
                 int item = 0;
                 switch(Main.rand.Next(5)) {
                     case 0:
@@ -1128,33 +1128,33 @@ namespace SpiritMod.NPCs
                 }
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, item);
             }
-            if(npc.type == 417 && Main.rand.Next(40) == 0)
+            if(npc.type == NPCID.SolarSroller && Main.rand.Next(40) == 0)
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Srollerang>());
 
-            if(npc.type == 268 && Main.rand.Next(50) == 0)
+            if(npc.type == NPCID.IchorSticker && Main.rand.Next(50) == 0)
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<IchorPendant>());
 
-            if(npc.type == 156 && Main.rand.Next(40) == 0)
+            if(npc.type == NPCID.RedDevil && Main.rand.Next(40) == 0)
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<FieryPendant>());
 
-            if(npc.type == 370)
+            if(npc.type == NPCID.DukeFishron)
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Yoyo.Typhoon>());
 
-            if(npc.type == 62 && NPC.downedBoss3 && Main.rand.Next(4) == 0)
+            if(npc.type == NPCID.Demon && NPC.downedBoss3 && Main.rand.Next(4) == 0)
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CarvedRock>(), Main.rand.Next(1) + 2);
 
-            if(npc.type == 170 || npc.type == 171 || npc.type == 180) {
+            if(npc.type == NPCID.PigronCorruption || npc.type == NPCID.PigronHallow || npc.type == NPCID.PigronCrimson) {
                 if(Main.rand.Next(18) == 0) {
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PigronStaff>());
                 }
             }
-            if(npc.type == 113 && Main.rand.Next(2) == 0)
+            if(npc.type == NPCID.WallofFlesh && Main.rand.Next(2) == 0)
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<FamineScepter>());
 
-            if(npc.type == 24 && Main.rand.Next(18) == 0)
+            if(npc.type == NPCID.FireImp && Main.rand.Next(18) == 0)
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TheFireball>());
 
-            if(npc.type == 101 && Main.rand.Next(50) == 0)
+            if(npc.type == NPCID.Clinger && Main.rand.Next(50) == 0)
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CursedPendant>());
 
             if(npc.type == NPCID.DemonEye || npc.type == NPCID.DemonEye2 || npc.type == NPCID.DemonEyeOwl || npc.type == NPCID.DemonEyeSpaceship) {
@@ -1199,7 +1199,7 @@ namespace SpiritMod.NPCs
             }
             //End Folv
 
-            if(npc.type == 156) {
+            if(npc.type == NPCID.RedDevil) {
                 if(Main.rand.Next(80) == 0) {
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CombatShotgun>());
                 }
