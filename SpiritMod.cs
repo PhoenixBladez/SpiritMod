@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Dusts;
 using SpiritMod.Effects;
 using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Material;
@@ -37,14 +38,14 @@ namespace SpiritMod
 		public static Effect glitchEffect;
 		public static GlitchScreenShader glitchScreenShader;
 		public static Texture2D noise;
-		public static Texture2D MoonTexture;
+		//public static Texture2D MoonTexture;
 		public const string EMPTY_TEXTURE = "SpiritMod/Empty";
 		public const string customEventName = "The Tide";
 		public static Texture2D EmptyTexture {
 			get;
 			private set;
 		}
-		public static int customEvent;
+		//public static int customEvent;
 		public static ModHotKey SpecialKey;
 		public static int GlyphCurrencyID;
 
@@ -504,28 +505,7 @@ namespace SpiritMod
 		{
 			TrailManager.UpdateTrails();
 		}
-		internal static int GetRainDustType(int rainType, out Color color)
-		{
-			color = Color.White;
-			switch(rainType / 3) {
-				default:
-				case 0: //normal rain
-					return 154;
-				case 1: //blood moon rain
-				case 7: //blood rain
-					return 218;
-				case 2: //healing rain
-					return Instance.DustType("ReachWaterSplash");
-				case 3: //acid rain
-					return Instance.DustType("AcidRainDust");
-				case 4: //crystal rain
-					return Instance.DustType("CrystalRainDust");
-				case 5: //vile rain
-					return 98;
-				case 6: //crimson rain
-					return 218;
-			}
-		}
+		
 		public override void AddRecipeGroups()
 		{
 			RecipeGroup group = new RecipeGroup(() => Language.GetTextValue("LegacyMisc.37") + " " + Lang.GetItemNameValue(ItemID.GoldBar), new int[]
