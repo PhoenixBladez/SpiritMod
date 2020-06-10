@@ -57,7 +57,7 @@ namespace SpiritMod
 
 		public ModPacket GetPacket(MessageType type, int capacity)
 		{
-			ModPacket packet = base.GetPacket(capacity + 1);
+			ModPacket packet = GetPacket(capacity + 1);
 			packet.Write((byte)type);
 			return packet;
 		}
@@ -76,7 +76,7 @@ namespace SpiritMod
 				case MessageType.Dodge:
 					player = reader.ReadByte();
 					byte type = reader.ReadByte();
-					if(Main.netMode == 2) {
+					if(Main.netMode == NetmodeID.Server) {
 						ModPacket packet = GetPacket(MessageType.Dodge, 2);
 						packet.Write(player);
 						packet.Write(type);
@@ -85,13 +85,13 @@ namespace SpiritMod
 					if(type == 1)
 						Items.Glyphs.VeilGlyph.Block(Main.player[player]);
 					else
-						ErrorLogger.Log("SpiritMod: Unknown message (2:" + type + ")");
+						Logger.Error("Unknown message (2:" + type + ")");
 					break;
 				case MessageType.Dash:
 					player = reader.ReadByte();
 					DashType dash = (DashType)reader.ReadByte();
 					sbyte dir = reader.ReadSByte();
-					if(Main.netMode == 2) {
+					if(Main.netMode == NetmodeID.Server) {
 						ModPacket packet = GetPacket(MessageType.Dash, 3);
 						packet.Write(player);
 						packet.Write((byte)dash);
@@ -103,7 +103,7 @@ namespace SpiritMod
 				case MessageType.PlayerGlyph:
 					player = reader.ReadByte();
 					GlyphType glyph = (GlyphType)reader.ReadByte();
-					if(Main.netMode == 2) {
+					if(Main.netMode == NetmodeID.Server) {
 						ModPacket packet = GetPacket(MessageType.PlayerGlyph, 2);
 						packet.Write(player);
 						packet.Write((byte)glyph);
@@ -114,7 +114,7 @@ namespace SpiritMod
 					Main.player[player].GetModPlayer<MyPlayer>().glyph = glyph;
 					break;
 				default:
-					ErrorLogger.Log("SpiritMod: Unknown message (" + id + ")");
+					Logger.Error("Unknown message (" + id + ")");
 					break;
 			}
 		}
@@ -195,7 +195,7 @@ namespace SpiritMod
 		{
 			if(args.Length < 1) {
 				var stack = new System.Diagnostics.StackTrace(true);
-				ErrorLogger.Log("Spirit Mod Call Error: No arguments given:\n" + stack.ToString());
+				Logger.Error("Call Error: No arguments given:\n" + stack.ToString());
 				return null;
 			}
 			CallContext context;
@@ -206,12 +206,12 @@ namespace SpiritMod
 				context = ParseCallName(args[0] as string);
 			if(context == CallContext.Invalid && !contextNum.HasValue) {
 				var stack = new System.Diagnostics.StackTrace(true);
-				ErrorLogger.Log("Spirit Mod Call Error: Context invalid or null:\n" + stack.ToString());
+				Logger.Error("Call Error: Context invalid or null:\n" + stack.ToString());
 				return null;
 			}
 			if(context <= CallContext.Invalid || context >= CallContext.Limit) {
 				var stack = new System.Diagnostics.StackTrace(true);
-				ErrorLogger.Log("Spirit Mod Call Error: Context invalid:\n" + stack.ToString());
+				Logger.Error("Call Error: Context invalid:\n" + stack.ToString());
 				return null;
 			}
 			try {
@@ -224,7 +224,7 @@ namespace SpiritMod
 					return null;
 				}
 			} catch(Exception e) {
-				ErrorLogger.Log("Spirit Mod Call Error: " + e.Message + "\n" + e.StackTrace);
+				Logger.Error("Call Error: " + e.Message + "\n" + e.StackTrace);
 			}
 			return null;
 		}
@@ -622,12 +622,10 @@ namespace SpiritMod
 
 		public override void ModifySunLightColor(ref Color tileColor, ref Color backgroundColor)
 		{
-			Mod mod = SpiritMod.instance;
-			Microsoft.Xna.Framework.Color white = Microsoft.Xna.Framework.Color.White;
-			Microsoft.Xna.Framework.Color white2 = Microsoft.Xna.Framework.Color.White;
-			Player player = Main.LocalPlayer;
+			Color white = Color.White;
+			Color white2 = Color.White;
 			if(MyWorld.SpiritTiles > 0) {
-				float num255 = (float)MyWorld.SpiritTiles / 160f;
+				float num255 = MyWorld.SpiritTiles / 160f;
 				if(num255 > MyWorld.spiritLight) {
 					MyWorld.spiritLight += 0.01f;
 				}
@@ -648,9 +646,9 @@ namespace SpiritMod
 				int num160 = Main.bgColor.R;
 				int num159 = Main.bgColor.G;
 				int num158 = Main.bgColor.B;
-				num159 -= (int)(250f / 1.14f * num161 * ((float)(int)Main.bgColor.G / 255f));
-				num160 -= (int)(250f / 1.14f * num161 * ((float)(int)Main.bgColor.R / 255f));
-				num158 -= (int)(250f / 1.14f * num161 * ((float)(int)Main.bgColor.B / 255f));
+				num159 -= (int)(250f / 1.14f * num161 * (Main.bgColor.G / 255f));
+				num160 -= (int)(250f / 1.14f * num161 * (Main.bgColor.R / 255f));
+				num158 -= (int)(250f / 1.14f * num161 * (Main.bgColor.B / 255f));
 				if(num159 < 15) {
 					num159 = 15;
 				}
@@ -666,9 +664,9 @@ namespace SpiritMod
 				num160 = white.R;
 				num159 = white.G;
 				num158 = white.B;
-				num159 -= (int)(10f / 1.14f * num161 * ((float)(int)white.G / 255f));
-				num160 -= (int)(30f / 1.14f * num161 * ((float)(int)white.R / 255f));
-				num158 -= (int)(10f / 1.14f * num161 * ((float)(int)white.B / 255f));
+				num159 -= (int)(10f / 1.14f * num161 * (white.G / 255f));
+				num160 -= (int)(30f / 1.14f * num161 * (white.R / 255f));
+				num158 -= (int)(10f / 1.14f * num161 * (white.B / 255f));
 				if(num160 < 15) {
 					num160 = 15;
 				}
@@ -684,9 +682,9 @@ namespace SpiritMod
 				num160 = white2.R;
 				num159 = white2.G;
 				num158 = white2.B;
-				num159 -= (int)(140f / 1.14f * num161 * ((float)(int)white2.R / 255f));
-				num160 -= (int)(170f / 1.14f * num161 * ((float)(int)white2.G / 255f));
-				num158 -= (int)(190f / 1.14f * num161 * ((float)(int)white2.B / 255f));
+				num159 -= (int)(140f / 1.14f * num161 * (white2.R / 255f));
+				num160 -= (int)(170f / 1.14f * num161 * (white2.G / 255f));
+				num158 -= (int)(190f / 1.14f * num161 * (white2.B / 255f));
 				if(num160 < 15) {
 					num160 = 15;
 				}
@@ -702,7 +700,7 @@ namespace SpiritMod
 			}
 
 			if(MyWorld.AsteroidTiles > 0) {
-				float num255 = (float)MyWorld.AsteroidTiles / 160f;
+				float num255 = MyWorld.AsteroidTiles / 160f;
 				if(num255 > MyWorld.asteroidLight) {
 					MyWorld.asteroidLight += 0.01f;
 				}
@@ -723,9 +721,9 @@ namespace SpiritMod
 				int num160 = Main.bgColor.R;
 				int num159 = Main.bgColor.G;
 				int num158 = Main.bgColor.B;
-				num159 -= (int)(250f * num161 * ((float)(int)Main.bgColor.G / 255f));
-				num160 -= (int)(250f * num161 * ((float)(int)Main.bgColor.R / 255f));
-				num158 -= (int)(250f * num161 * ((float)(int)Main.bgColor.B / 255f));
+				num159 -= (int)(250f * num161 * (Main.bgColor.G / 255f));
+				num160 -= (int)(250f * num161 * (Main.bgColor.R / 255f));
+				num158 -= (int)(250f * num161 * (Main.bgColor.B / 255f));
 				if(num159 < 15) {
 					num159 = 15;
 				}
@@ -741,9 +739,9 @@ namespace SpiritMod
 				num160 = white.R;
 				num159 = white.G;
 				num158 = white.B;
-				num159 -= (int)(10f * num161 * ((float)(int)white.G / 255f));
-				num160 -= (int)(30f * num161 * ((float)(int)white.R / 255f));
-				num158 -= (int)(10f * num161 * ((float)(int)white.B / 255f));
+				num159 -= (int)(10f * num161 * (white.G / 255f));
+				num160 -= (int)(30f * num161 * (white.R / 255f));
+				num158 -= (int)(10f * num161 * (white.B / 255f));
 				if(num160 < 15) {
 					num160 = 15;
 				}
@@ -759,9 +757,9 @@ namespace SpiritMod
 				num160 = white2.R;
 				num159 = white2.G;
 				num158 = white2.B;
-				num159 -= (int)(140f * num161 * ((float)(int)white2.R / 255f));
-				num160 -= (int)(170f * num161 * ((float)(int)white2.G / 255f));
-				num158 -= (int)(190f * num161 * ((float)(int)white2.B / 255f));
+				num159 -= (int)(140f * num161 * (white2.R / 255f));
+				num160 -= (int)(170f * num161 * (white2.G / 255f));
+				num158 -= (int)(190f * num161 * (white2.B / 255f));
 				if(num160 < 15) {
 					num160 = 15;
 				}
@@ -775,16 +773,16 @@ namespace SpiritMod
 				white2.G = (byte)num159;
 				white2.B = (byte)num158;
 			}
-
-			int num226 = 15;
+			
+			/*int num226 = 15;
 			int num227 = 0;
 			int num228 = 80;
 			int num229 = 80;
-			int num230 = 32;
+			int num230 = 32;*/
 		}
 
 
-		const int ShakeLength = 5;
+		/*const int ShakeLength = 5;
 		int ShakeCount = 0;
 		float previousRotation = 0;
 		float targetRotation = 0;
@@ -793,7 +791,7 @@ namespace SpiritMod
 		float targetOffsetX = 0;
 		float targetOffsetY = 0;
 
-		public static float shittyModTime;
+		public static float shittyModTime;*/
 		public static float tremorTime;
 		public int screenshakeTimer = 0;
 		public override void ModifyTransformMatrix(ref SpriteViewMatrix Transform)
@@ -817,17 +815,17 @@ namespace SpiritMod
 
 		public void DrawTide(SpriteBatch spriteBatch)
 		{
-			TidePlayer modPlayer1 = Main.player[Main.myPlayer].GetModPlayer<TidePlayer>();
+			//TidePlayer modPlayer1 = Main.player[Main.myPlayer].GetModPlayer<TidePlayer>();
 			if(TideWorld.TheTide && TideWorld.InBeach) {
 
 				float alpha = 0.5f;
 				Texture2D backGround1 = Main.colorBarTexture;
 				Texture2D progressColor = Main.colorBarTexture;
-				Texture2D TideIcon = SpiritMod.instance.GetTexture("Effects/InvasionIcons/Depths_Icon");
+				Texture2D TideIcon = GetTexture("Effects/InvasionIcons/Depths_Icon");
 				float scmp = 0.5f + 0.75f * 0.5f;
 				Color descColor = new Color(77, 39, 135);
 				Color waveColor = new Color(255, 241, 51);
-				Color barrierColor = new Color(255, 241, 51);
+				//Color barrierColor = new Color(255, 241, 51);
 				const int offsetX = 20;
 				const int offsetY = 20;
 				int width = (int)(200f * scmp);
