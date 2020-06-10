@@ -1158,7 +1158,7 @@ namespace SpiritMod.NPCs
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CursedPendant>());
 
             if(npc.type == NPCID.DemonEye || npc.type == NPCID.DemonEye2 || npc.type == NPCID.DemonEyeOwl || npc.type == NPCID.DemonEyeSpaceship) {
-                if(Main.rand.Next(33) == 1) {
+                if(Main.rand.Next(50) == 1) {
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MagnifyingGlass>(), 1);
                 }
             }
