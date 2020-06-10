@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Eura's Will");
-            Tooltip.SetDefault("'The Arcane speaks to me...'\nIncreases magic damage by 18%\nIncreases maximum mana by 40\nYou restore mana when damaged\n~Donator item~");
+            Tooltip.SetDefault("'The Arcane speaks to me...'\nIncreases magic damage by 18%\nIncreases maximum mana by 40\nRestores mana when damaged\n~Donator item~");
         }
 
 
