@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Adamantite Band");
-            Tooltip.SetDefault("Increases damage and critical strike chance by 10% when under half health, but decreases defense by 8");
+            Tooltip.SetDefault("-8 defense\n10% increased damage and critical strike chance when under half health");
         }
 
 
@@ -18,12 +18,11 @@ namespace SpiritMod.Items.Accessory
             item.height = 18;
             item.value = Item.buyPrice(0, 10, 0, 0);
             item.rare = 4;
-
+            item.defense = -8;
             item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual) {
-            player.statDefense -= 8;
             if(player.statLife < player.statLifeMax2 / 2) {
                 player.magicCrit += 10;
                 player.meleeCrit += 10;
