@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Angelic Sigil");
-            Tooltip.SetDefault("Magic attacks may shoot out an angelic spark\nThis spark deals more damage the less mana the player has left");
+            Tooltip.SetDefault("Magic attacks may fire an angelic spark\nThis spark deals more damage the less mana the player has left");
         }
 
 
