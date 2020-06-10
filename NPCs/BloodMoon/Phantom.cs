@@ -30,10 +30,10 @@ namespace SpiritMod.NPCs.BloodMoon
             npc.width = 60;
             npc.height = 48;
             npc.value = 140;
-            npc.damage = 23;
+            npc.damage = 45;
             npc.noTileCollide = true;
-            npc.defense = 6;
-            npc.lifeMax = 50;
+            npc.defense = 10;
+            npc.lifeMax = 200;
             npc.knockBackResist = 0.45f;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
@@ -41,7 +41,7 @@ namespace SpiritMod.NPCs.BloodMoon
         bool trailbehind;
         bool noise;
         public override float SpawnChance(NPCSpawnInfo spawnInfo) {
-            return spawnInfo.spawnTileY < Main.rockLayer && (Main.bloodMoon) && NPC.downedBoss1 ? 0.14f : 0f;
+            return spawnInfo.spawnTileY < Main.rockLayer && (Main.hardMode) && !Main.dayTime && !spawnInfo.player.ZoneSnow && !spawnInfo.player.ZoneCorrupt && !spawnInfo.player.ZoneCrimson && !spawnInfo.player.ZoneHoly ? 0.05f : 0f;
         }
         public override bool PreAI() {
             npc.TargetClosest(true);
@@ -106,9 +106,6 @@ namespace SpiritMod.NPCs.BloodMoon
             }
             if(Main.rand.Next(22) == 0) {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ShadowSingeFang>());
-            }
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BloodFire>());
             }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) {

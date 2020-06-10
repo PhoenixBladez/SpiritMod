@@ -1529,7 +1529,7 @@ namespace SpiritMod
             bool placed = false;
             while(!placed) {
                 int hideoutX = Main.rand.Next(50, Main.maxTilesX); // from 50 since there's a unaccessible area at the world's borders
-                int hideoutY = Main.spawnTileY + Main.rand.Next(120, 700);
+                int hideoutY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 450);
                 Tile tile = Main.tile[hideoutX, hideoutY];
                 if(!tile.active() || tile.type != TileID.Stone) {
                     continue;
@@ -1584,7 +1584,7 @@ namespace SpiritMod
             bool placed = false;
             while(!placed) {
                 int hideoutX = Main.rand.Next(50, Main.maxTilesX); // from 50 since there's a unaccessible area at the world's borders
-                int hideoutY = Main.spawnTileY + Main.rand.Next(120, 700);
+                int hideoutY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 450);
                 Tile tile = Main.tile[hideoutX, hideoutY];
                 if(!tile.active() || tile.type != 60) {
                     continue;
@@ -3396,7 +3396,7 @@ namespace SpiritMod
                             for(int k = 0; k < (int)(num584 / 2 + 1); k++) {
                                 GenerateCrateStashJungle();
                             }
-                            for(int k = 0; k < (int)(num584 / 2 + 2); k++) {
+                            for(int k = 0; k < (int)(num584 / 3 * 2 + 2); k++) {
                                 GenerateBismiteCavern();
                             }
                             if(WorldGen.genRand.Next(2) == 0) {
@@ -3483,7 +3483,7 @@ namespace SpiritMod
                                     if(WorldGen.genRand.NextBool()) {
                                         towerX = Main.maxTilesX - towerX;
                                     }
-                                    int towerY = WorldGen.genRand.Next(Main.maxTilesY / 9, Main.maxTilesY / 8);
+                                    int towerY = WorldGen.genRand.Next(Main.maxTilesY / 10, Main.maxTilesY / 9);
                                     Tile tile = Main.tile[towerX, towerY];
                                     if(tile.active()) {
                                         continue;

@@ -31,9 +31,9 @@ namespace SpiritMod.Items.Weapon.Gun
             item.ranged = true;
             item.width = 60;
             item.height = 32;
-            item.damage = 15;
-            item.useTime = 29;
-            item.useAnimation = 29;
+            item.damage = 13;
+            item.useTime = 27;
+            item.useAnimation = 27;
             item.knockBack = 1f;
             item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
             item.scale = .85f;

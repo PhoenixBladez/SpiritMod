@@ -26,6 +26,7 @@ namespace SpiritMod.Tiles.Ambient.ReachMicros
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Eerie Root");
+            dustType = 167;
             AddMapEntry(new Color(193, 158, 32), name);
         }
 
@@ -36,6 +37,11 @@ namespace SpiritMod.Tiles.Ambient.ReachMicros
                 b = .12f;
             }
         }
+        public override void NumDust(int i, int j, bool fail, ref int num)
+        {
+            num = 4;
+        }
+
         public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) {
             offsetY = 4;
         }

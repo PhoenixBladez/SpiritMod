@@ -29,6 +29,7 @@ namespace SpiritMod.Items.Tool
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Talon>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<FossilFeather>(), 1);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -14,7 +14,7 @@ namespace SpiritMod.Tiles.Ambient
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
 
-            Main.tileCut[Type] = true;
+            Main.tileCut[Type] = false;
 
             Main.tileLavaDeath[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
@@ -37,7 +37,7 @@ namespace SpiritMod.Tiles.Ambient
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY) {
             {
-                Main.NewText("The Ancient Avian has awoken!", 80, 80, 210, true);
+                Main.NewText("The Ancient Avian has awoken!", 175, 75, 255, true);
                 NPC.NewNPC((int)i * 16 + Main.rand.Next(-60, 60), (int)j * 16 - 100, ModContent.NPCType<AncientFlyer>(), 0, 2, 1, 0, 0, Main.myPlayer);
                 Main.PlaySound(SoundID.Roar, new Vector2((int)i * 16, (int)j * 16), 0);
                 Main.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 1));

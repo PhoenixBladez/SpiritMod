@@ -154,7 +154,7 @@ namespace SpiritMod.NPCs.Boss
                 {
                     npc.velocity = Vector2.Zero;
                 }
-                if(Main.rand.Next(9) == 0) {
+                if(Main.rand.Next(8) == 0) {
                     Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
 
                     int A = Main.rand.Next(-200, 200) * 6;
@@ -196,24 +196,41 @@ namespace SpiritMod.NPCs.Boss
                         Main.dust[dust].noGravity = true;
                         Main.dust[dust].noLight = true;
                         Main.dust[dust].scale = .85f;
-                        int dust1 = Dust.NewDust(new Vector2(tornadoX - 260, tornadoY - 200), 50, 10, DustID.SilverCoin, 0, -15);
+                        int dust1 = Dust.NewDust(new Vector2(tornadoX - 360, tornadoY - 250), 50, 10, DustID.SilverCoin, 0, -15);
                         Main.dust[dust1].noGravity = true;
                         Main.dust[dust1].noLight = true;
                         Main.dust[dust1].scale = .85f;
-                        int dust2 = Dust.NewDust(new Vector2(tornadoX + 200, tornadoY - 200), 50, 10, DustID.SilverCoin, 0, -15);
+                        int dust2 = Dust.NewDust(new Vector2(tornadoX + 300, tornadoY - 250), 50, 10, DustID.SilverCoin, 0, -15);
                         Main.dust[dust2].noGravity = true;
                         Main.dust[dust2].noLight = true;
                         Main.dust[dust2].scale = .85f;
+						if (npc.life <= 1000)
+                        {
+                            int dust6 = Dust.NewDust(new Vector2(tornadoX - 500, tornadoY + player.height - 10), 50, 10, DustID.SilverCoin, 0, -15);
+                            Main.dust[dust6].noGravity = true;
+                            Main.dust[dust6].noLight = true;
+                            Main.dust[dust6].scale = .85f;
+                            int dust7 = Dust.NewDust(new Vector2(tornadoX + 500, tornadoY + player.height - 10), 50, 10, DustID.SilverCoin, 0, -15);
+                            Main.dust[dust7].noGravity = true;
+                            Main.dust[dust7].noLight = true;
+                            Main.dust[dust7].scale = .85f;
+                        }
                     }
                 }
-                if(timer == 220) {
+                if (timer == 220)
+                {
                     Main.PlaySound(SoundID.Item82, new Vector2(tornadoX, tornadoY));
                     Main.PlaySound(SoundID.Item82, new Vector2(tornadoX - 260, tornadoY - 400));
                     Main.PlaySound(SoundID.Item82, new Vector2(tornadoX + 200, tornadoY - 400));
                     int damage = expertMode ? 16 : 20;
                     Projectile.NewProjectile(tornadoX, tornadoY, 0f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(tornadoX - 260, tornadoY - 400, 0f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(tornadoX + 200, tornadoY - 400, 0f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(tornadoX - 360, tornadoY - 400, 0f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(tornadoX + 300, tornadoY - 400, 0f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
+                    if (npc.life <= 1000)
+                    {
+                        Projectile.NewProjectile(tornadoX - 500, tornadoY, 0f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
+                        Projectile.NewProjectile(tornadoX + 500, tornadoY, 0f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
+                    }
                 }
             }
 

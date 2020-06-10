@@ -62,7 +62,7 @@ namespace SpiritMod.Projectiles.Summon
                 }
                 float num396 = projectile.position.X;
                 float num397 = projectile.position.Y;
-                float num398 = 700f;
+                float num398 = 600f;
                 bool flag11 = false;
                 for(int num399 = 0; num399 < 200; num399++) {
                     if(Main.npc[num399].CanBeChasedBy(projectile, true)) {
@@ -88,7 +88,7 @@ namespace SpiritMod.Projectiles.Summon
                     num404 *= num406;
                     num405 *= num406;
                     Projectile.NewProjectile(projectile.Center.X - 4f, projectile.Center.Y, num404, num405, ModContent.ProjectileType<OvergrowthLeaf>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                    projectile.ai[0] = 50f;
+                    projectile.ai[0] = 37f;
                     return;
                 }
             }

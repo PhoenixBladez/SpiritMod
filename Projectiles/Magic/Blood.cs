@@ -26,7 +26,7 @@ namespace SpiritMod.Projectiles.Magic
         int counter;
         public override void AI() {
 
-            projectile.ai[0] += 0.6f * projectile.direction;
+            projectile.ai[0] += 0.5f * projectile.direction;
             if(projectile.ai[0] > 20f || projectile.ai[0] < -20f) {
                 projectile.Kill();
             }
@@ -46,7 +46,7 @@ namespace SpiritMod.Projectiles.Magic
                     projectile.Kill();
                 }
                 projectile.velocity.X = projectile.velocity.X + projectile.ai[0] * 1.5f;
-                projectile.velocity.Y = projectile.velocity.Y + projectile.ai[1] * 1.5f;
+                projectile.velocity.Y = projectile.velocity.Y + projectile.ai[1] * 1.5f * projectile.direction;
                 if(projectile.velocity.Length() > 16f) {
                     projectile.velocity.Normalize();
                     projectile.velocity *= 16f;

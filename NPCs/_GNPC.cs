@@ -1015,7 +1015,7 @@ namespace SpiritMod.NPCs
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Swordsplosion>());
             }
             if(npc.type == NPCID.ZombieEskimo || npc.type == NPCID.IceSlime || npc.type == NPCID.IceBat || npc.type == 197) {
-                if(Main.rand.Next(2) == 0)
+                if(Main.rand.Next(3) == 0)
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<FrigidFragment>(), Main.rand.Next(1, 3));
             }
             if(npc.type == 184 || npc.type == 431) {
@@ -1163,7 +1163,7 @@ namespace SpiritMod.NPCs
                 }
             }
             if(closest.GetSpiritPlayer().floranSet) {
-                if(Main.rand.Next(13) == 1) {
+                if(Main.rand.Next(9) == 1) {
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<RawMeat>(), 1);
                 }
             }

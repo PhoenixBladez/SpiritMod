@@ -29,7 +29,7 @@ namespace SpiritMod.NPCs.Asteroid
             npc.height = 24;
             npc.damage = 15;
             npc.defense = 9;
-            npc.lifeMax = 100;
+            npc.lifeMax = 68;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
             npc.value = 130f;
@@ -182,7 +182,7 @@ namespace SpiritMod.NPCs.Asteroid
                 if(timer == 130) //change to frame related later
                 {
                     Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 91);
-                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 30, (float)direction9.Y * 30, ModContent.ProjectileType<HopperLaser>(), 27, 1, Main.myPlayer);
+                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 30, (float)direction9.Y * 30, ModContent.ProjectileType<HopperLaser>(), 19, 1, Main.myPlayer);
                 }
             }
             return false;

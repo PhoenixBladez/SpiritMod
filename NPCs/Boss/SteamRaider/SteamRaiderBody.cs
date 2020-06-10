@@ -78,7 +78,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.075f, 0.25f);
             if(Main.netMode != 1) {
                 npc.localAI[0] += Main.rand.Next(3);
-                if(npc.localAI[0] >= (float)Main.rand.Next(1000, 7500)) {
+                if(npc.localAI[0] >= (float)Main.rand.Next(1400, 7500)) {
                     Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 9);
                     npc.localAI[0] = 0f;
                     npc.TargetClosest(true);

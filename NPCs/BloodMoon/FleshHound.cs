@@ -89,7 +89,7 @@ namespace SpiritMod.NPCs.BloodMoon
                 num34616 = .95f;
                 Vector2 direction = Main.player[npc.target].Center - npc.Center;
                 direction.Normalize();
-                direction.X = direction.X * Main.rand.Next(8, 10);
+                direction.X = direction.X * Main.rand.Next(7, 9);
                 direction.Y = direction.Y * Main.rand.Next(2, 4);
                 npc.velocity.X = direction.X;
                 npc.velocity.Y = direction.Y;
@@ -101,7 +101,7 @@ namespace SpiritMod.NPCs.BloodMoon
             } else {
                 num34616 = .55f;
             }
-            if(timer >= 601) {
+            if(timer >= 551) {
                 timer = 0;
                 npc.netUpdate = true;
                 trailbehind = false;

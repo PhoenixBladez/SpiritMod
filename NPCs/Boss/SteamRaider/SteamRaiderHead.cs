@@ -155,8 +155,8 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                 if(npc.ai[3] > 0f)
                     npc.realLife = (int)npc.ai[3];
 
-                if(npc.target < 0 || npc.target == 255 || player.dead)
-                    npc.TargetClosest(true);
+                if (npc.target < 0 || npc.target == 255 || player.dead)
+                    npc.velocity.Y -= 700f;
 
                 npc.velocity.Length();
                 if(npc.alpha != 0) {
