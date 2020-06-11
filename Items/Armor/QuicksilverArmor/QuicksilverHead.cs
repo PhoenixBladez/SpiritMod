@@ -9,12 +9,12 @@ namespace SpiritMod.Items.Armor.QuicksilverArmor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Quicksilver Mask");
-            Tooltip.SetDefault("Increases ranged damage by 10%\nIncreases critical strike chance by 6%");
+            Tooltip.SetDefault("10% increased ranged damage\n6% increased critical strike chance");
         }
         public override void SetDefaults() {
             item.width = 28;
             item.height = 24;
-            item.value = Terraria.Item.sellPrice(0, 3, 0, 0);
+            item.value = Item.sellPrice(gold: 3);
             item.rare = 8;
             item.defense = 19;
         }
@@ -22,11 +22,8 @@ namespace SpiritMod.Items.Armor.QuicksilverArmor
             return body.type == ModContent.ItemType<QuicksilverBody>() && legs.type == ModContent.ItemType<QuicksilverLegs>();
         }
         public override void UpdateArmorSet(Player player) {
-            player.setBonus = "Increases damage by 12%\nPressing the 'Armor Bonus' hotkey will cause your cursor to release multiple damaging quicksilver droplets\nIf these droplets hit foes, they will regenerate some of the player's life\n30 second cooldown";
-            player.minionDamage += 0.11f;
-            player.meleeDamage += 0.11f;
-            player.rangedDamage += 0.11f;
-            player.magicDamage += 0.11f;
+            player.setBonus = "12% increased damage\nPressing the 'Armor Bonus' hotkey will cause your cursor to release multiple damaging quicksilver droplets\nIf these droplets hit foes, they will regenerate some of the player's life\n30 second cooldown";
+            player.allDamage += 0.12f;
             player.GetSpiritPlayer().quickSilverSet = true;
         }
         public override void UpdateEquip(Player player) {

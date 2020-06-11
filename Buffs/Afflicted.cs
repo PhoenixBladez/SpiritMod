@@ -9,7 +9,7 @@ namespace SpiritMod.Buffs
     {
         public override void SetDefaults() {
             DisplayName.SetDefault("Unstable Affliction");
-            Description.SetDefault("Throwing attacks occasionally inflict Acid Burn");
+            Description.SetDefault("Falling to pieces");
             Main.buffNoTimeDisplay[Type] = false;
         }
 

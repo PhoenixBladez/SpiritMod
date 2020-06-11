@@ -9,14 +9,13 @@ namespace SpiritMod.Items.Armor.QuicksilverArmor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Quicksilver Greaves");
-            Tooltip.SetDefault("Increases movement speed by 25%\nAllows detection of ores\nReduces mana cost by 5%");
-
+            Tooltip.SetDefault("25% increased movement speed\nAllows detection of ores\n5% reduced mana usage");
         }
 
         public override void SetDefaults() {
             item.width = 26;
             item.height = 12;
-            item.value = 10000;
+            item.value = Item.buyPrice(gold: 1);
             item.rare = 8;
             item.defense = 18;
         }
