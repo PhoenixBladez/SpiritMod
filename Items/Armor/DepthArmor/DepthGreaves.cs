@@ -10,20 +10,20 @@ namespace SpiritMod.Items.Armor.DepthArmor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Depth Walker's Greaves");
-            Tooltip.SetDefault("Increases minion knockback by 7% and melee speed by 10%\nIncreases maximum number of minions by 1");
+            Tooltip.SetDefault("10% increased melee speed\nIncreases your max number of minions\nSlightly increases the knockback of your minions");
 
         }
 
         public override void SetDefaults() {
             item.width = 30;
             item.height = 20;
-            item.value = 6000;
+            item.value = Item.buyPrice(silver: 60);
             item.rare = 5;
             item.defense = 10;
         }
 
         public override void UpdateEquip(Player player) {
-            player.minionKB += 0.07f;
+            player.minionKB += 0.5f;
             player.meleeSpeed += 0.10f;
             player.maxMinions += 1;
         }

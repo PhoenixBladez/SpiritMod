@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Sacred Vine");
-            Tooltip.SetDefault("Empowers Oak Heart: Oak Heart now inflicts 'Pollinating Poison'\nIncreases melee critical strike chance by 4%\nAttacks may briefly increase regeneration");
+            Tooltip.SetDefault("Oak Heart covers enemies in poisonous pollen\n4% increased melee critical strike chance\nAttacks may briefly increase regeneration");
         }
 
 

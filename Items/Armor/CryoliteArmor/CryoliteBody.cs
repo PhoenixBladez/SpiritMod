@@ -10,13 +10,13 @@ namespace SpiritMod.Items.Armor.CryoliteArmor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Cryolite Chestplate");
-            Tooltip.SetDefault("Increases melee damage by 10%\nThrowing attacks may slow down hit enemies");
+            Tooltip.SetDefault("10% increased melee damage\nMelee attacks may slow down hit enemies");
         }
 
         public override void SetDefaults() {
             item.width = 38;
             item.height = 26;
-            item.value = 10000;
+            item.value = Item.buyPrice(gold: 1);
             item.rare = 3;
             item.defense = 6;
         }

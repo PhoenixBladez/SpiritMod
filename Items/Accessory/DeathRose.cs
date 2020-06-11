@@ -7,7 +7,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Briar Blossom");
-            Tooltip.SetDefault("Successfully hitting enemies may cause the player to recieve 'Nature's Fury', increasing damage and movement speed by 5%\nIncreases summoning damage by 6%\nPress a hotkey to rapidly grow homing nature energy around the cursor position\n1 minute cooldown");
+            Tooltip.SetDefault("Hitting enemies may grant 5% increased damage and movement speed\n6% increased minion damage\nPress a hotkey to rapidly grow homing nature energy around the cursor position\n1 minute cooldown");
         }
 
 

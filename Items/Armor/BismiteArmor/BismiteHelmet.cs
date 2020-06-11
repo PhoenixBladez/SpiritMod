@@ -10,16 +10,15 @@ namespace SpiritMod.Items.Armor.BismiteArmor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Bismite Helmet");
-            Tooltip.SetDefault("Increases movement speed by 4%");
+            Tooltip.SetDefault("4% increased movement speed");
 
         }
-
 
         int timer = 0;
         public override void SetDefaults() {
             item.width = 22;
             item.height = 20;
-            item.value = 3000;
+            item.value = Item.buyPrice(silver: 30);
             item.rare = 1;
             item.defense = 3;
         }

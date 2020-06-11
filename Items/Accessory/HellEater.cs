@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Fiery Maw");
-            Tooltip.SetDefault("Magic attacks may shoot out fiery spit that explode upon hitting enemies\nIncreases magic damage by 7%");
+            Tooltip.SetDefault("Magic attacks may shoot out fiery spit that explode upon hitting enemies\n7% increased magic damage");
 
         }
 

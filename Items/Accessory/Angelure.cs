@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Anglure");
-            Tooltip.SetDefault("All ranged projectiles emit light\nRanged projectiles may engulf foes in light\nIncreases ranged critical strike chance by 5%");
+            Tooltip.SetDefault("All ranged projectiles emit light\nRanged projectiles may engulf foes in light\n5% increased ranged critical strike chance");
 
         }
 

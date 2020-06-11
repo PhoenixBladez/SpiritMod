@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Starplate Signet");
-            Tooltip.SetDefault("Causes electrical stars to fall and increases length of invincibility after taking damage\nIncreases critical strike chance by 7% and movement speed by 12% \n'The stars shine in your favor'");
+            Tooltip.SetDefault("Causes electrical stars to fall and increases length of invincibility after taking damage\n7% increased critical strike chance\n12% increased movement speed\n'The stars shine in your favor'");
         }
 
 

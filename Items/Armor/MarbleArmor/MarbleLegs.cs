@@ -11,16 +11,17 @@ namespace SpiritMod.Items.Armor.MarbleArmor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Gilded Treads");
-            Tooltip.SetDefault("Increases movement speed by 6%\nLeave a bright trail of light as you walk");
-
+            Tooltip.SetDefault("6% increased movement speed\n'All that glitters is gold'");
         }
+
         public override void SetDefaults() {
             item.width = 28;
             item.height = 24;
-            item.value = 15100;
+            item.value = Item.buyPrice(gold: 1, silver: 51);
             item.rare = 2;
             item.defense = 4;
         }
+
         public override void UpdateEquip(Player player) {
             player.maxRunSpeed += 0.06f;
             if(player.velocity.X != 0f) {

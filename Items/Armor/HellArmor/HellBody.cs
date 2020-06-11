@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Armor.HellArmor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Malevolent Platemail");
-            Tooltip.SetDefault("Increases movement speed by 15% and increases ranged critical strike chance by 8%");
+            Tooltip.SetDefault("15% increased movement speed\n8% increased ranged critical strike chance");
         }
 
 
@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Armor.HellArmor
         public override void SetDefaults() {
             item.width = 20;
             item.height = 18;
-            item.value = 46000;
+            item.value = Item.buyPrice(gold: 4, silver: 60);
             item.rare = 6;
             item.defense = 20;
         }

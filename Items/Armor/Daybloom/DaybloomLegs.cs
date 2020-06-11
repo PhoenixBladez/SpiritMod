@@ -10,13 +10,13 @@ namespace SpiritMod.Items.Armor.Daybloom
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Daybloom Leggings");
-            Tooltip.SetDefault("Increases magic critical strike chance by 4%");
+            Tooltip.SetDefault("4% increased magic critical strike");
         }
 
         public override void SetDefaults() {
             item.width = 30;
             item.height = 20;
-            item.value = Terraria.Item.sellPrice(0, 0, 10, 0);
+            item.value = Item.sellPrice(0, 0, 10, 0);
             item.rare = 0;
             item.defense = 1;
         }

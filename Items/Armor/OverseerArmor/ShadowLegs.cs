@@ -10,13 +10,13 @@ namespace SpiritMod.Items.Armor.OverseerArmor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Shadowspirit Treads");
-            Tooltip.SetDefault("Increases invincibilty frames\nIncreases critical strike chance by 22%\nIncreases Max Life by 50");
+            Tooltip.SetDefault("Increases length of invincibility after taking damage\n22% increased critical strike chance\nIncreases Max Life by 50");
         }
 
         public override void SetDefaults() {
             item.width = 22;
             item.height = 16;
-            item.value = 200000;
+            item.value = Item.buyPrice(gold: 20);
             item.rare = 11;
             item.defense = 28;
         }

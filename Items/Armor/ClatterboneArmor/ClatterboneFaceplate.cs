@@ -11,13 +11,13 @@ namespace SpiritMod.Items.Armor.ClatterboneArmor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Clatterbone Faceplate");
-            Tooltip.SetDefault("Increases melee damage by 4%");
+            Tooltip.SetDefault("4% increased melee damage");
         }
 
         public override void SetDefaults() {
             item.width = 40;
             item.height = 30;
-            item.value = 11000;
+            item.value = Item.buyPrice(gold: 1, silver: 10);
             item.rare = 2;
 
             item.defense = 4;

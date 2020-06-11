@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Animation Stone");
-            Tooltip.SetDefault("Increases movement speed by 10%, but reduces jump height by 10%.");
+            Tooltip.SetDefault("10% increased movement speed\n10% reduced jump height");
         }
 
 
@@ -31,14 +31,14 @@ namespace SpiritMod.Items.Accessory
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.StoneBlock, 50);
             recipe.AddIngredient(ItemID.DemoniteBar, 6);
-            recipe.AddTile(16);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
 
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.StoneBlock, 50);
             recipe.AddIngredient(ItemID.CrimtaneBar, 6);
-            recipe.AddTile(16);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

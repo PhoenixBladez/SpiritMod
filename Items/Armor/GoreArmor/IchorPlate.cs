@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.GoreArmor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Gore Platemail");
-            Tooltip.SetDefault("Increases melee damage by 7% and melee speed by 6%");
+            Tooltip.SetDefault("7% increased melee damage\n6% increased melee speed");
         }
 
         public override void SetDefaults() {

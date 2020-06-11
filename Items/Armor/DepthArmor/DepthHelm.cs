@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Armor.DepthArmor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Depth Walker's Helmet");
-            Tooltip.SetDefault("Increases melee critical strike chance by 10% and minion damage by 10%\nIncreases maximum number of minions by 1");
+            Tooltip.SetDefault("10% increased melee critical strike chance\n10% increased minion damage\nIncreases your max number of minions");
 
         }
 
@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Armor.DepthArmor
         public override void SetDefaults() {
             item.width = 20;
             item.height = 18;
-            item.value = 46000;
+            item.value = Item.buyPrice(gold: 4, silver: 60);
             item.rare = 5;
             item.defense = 9;
         }
@@ -34,8 +34,7 @@ namespace SpiritMod.Items.Armor.DepthArmor
             return body.type == ModContent.ItemType<DepthChest>() && legs.type == ModContent.ItemType<DepthGreaves>();
         }
         public override void UpdateArmorSet(Player player) {
-
-            player.setBonus = "Press the 'Armor Bonus' to release multiple mechanical shark minions that home onto enemies \n30 second cooldown";
+            player.setBonus = "Press the 'Armor Bonus' to release multiple mechanical shark minions that home onto enemies\n30 second cooldown";
             player.GetSpiritPlayer().depthSet = true;
         }
         public override void AddRecipes() {

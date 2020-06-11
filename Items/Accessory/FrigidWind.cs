@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Accessory
 
         public override void UpdateEquip(Player player) {
             player.jumpSpeedBoost += 6f;
-            ((MyPlayer)player.GetModPlayer(mod, "MyPlayer")).icytrail = true;
+            player.GetModPlayer<MyPlayer>().icytrail = true;
         }
     }
 }

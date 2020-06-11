@@ -98,7 +98,16 @@ namespace SpiritMod.Tiles
                     Main.dust[dust].noGravity = true;
                 }
             }
-            if((type == 2 || type == 60 || type == 70 || type == 109 || type == 199 || type == 23) && player.GetSpiritPlayer().floranCharm) {
+            if((type == TileID.Grass
+				|| type == TileID.JungleGrass
+				|| type == TileID.MushroomGrass
+				|| type == TileID.HallowedGrass
+				|| type == TileID.FleshGrass
+				|| type == TileID.CorruptGrass
+				|| type == ModContent.TileType<Block.HalloweenGrass>()
+				|| type == ModContent.TileType<Block.ReachGrassTile>()
+				|| type == ModContent.TileType<Block.SpiritGrass>())
+				&& player.GetSpiritPlayer().floranCharm) {
                 player.lifeRegen += 3;
                 player.meleeSpeed += .5f;
             }

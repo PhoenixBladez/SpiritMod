@@ -7,7 +7,7 @@ namespace SpiritMod.Buffs
     {
         public override void SetDefaults() {
             DisplayName.SetDefault("Nature's Fury");
-            Description.SetDefault("Increases damage and movement speed by 8%");
+            Description.SetDefault("8% increased damage and movement speed");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoTimeDisplay[Type] = false;

@@ -8,7 +8,7 @@ namespace SpiritMod.Buffs
     {
         public override void SetDefaults() {
             DisplayName.SetDefault("Onyx Whirlwind");
-            Description.SetDefault("Increases movement speed by 10%");
+            Description.SetDefault("10% increased movement speed");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoTimeDisplay[Type] = false;

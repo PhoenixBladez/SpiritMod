@@ -11,12 +11,13 @@ namespace SpiritMod.Items.Armor.BloomwindArmor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Bloomwind Helmet");
-            Tooltip.SetDefault("Increases maximum minions by 3 and increases minion damage by 10%");
+            Tooltip.SetDefault("Increases your max number of minions\n10% increased minion damage");
         }
+
         public override void SetDefaults() {
             item.width = 40;
             item.height = 30;
-            item.value = 120000;
+            item.value = Item.buyPrice(gold: 5);
             item.rare = 6;
 
             item.defense = 9;
@@ -25,17 +26,21 @@ namespace SpiritMod.Items.Armor.BloomwindArmor
         public override bool IsArmorSet(Item head, Item body, Item legs) {
             return body.type == ModContent.ItemType<BloomwindChestguard>() && legs.type == ModContent.ItemType<BloomwindLeggings>();
         }
+
         public override void UpdateArmorSet(Player player) {
             player.setBonus = "You are protected by a guardian of the wild";
             player.GetSpiritPlayer().bloomwindSet = true;
         }
+
         public override void ArmorSetShadows(Player player) {
             player.armorEffectDrawShadow = true;
         }
+
         public override void UpdateEquip(Player player) {
-            player.maxMinions += 3;
+            player.maxMinions += 1;
             player.minionDamage += 0.10f;
         }
+
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<PrimevalEssence>(), 8);

@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Frostfire Necklace");
-            Tooltip.SetDefault("Increases melee damage by 6%\nMelee attacks may inflict 'On Fire'\nGreatly increases jump height\nLeave a trail of chilly embers as you walk\nThrowing weapons may inflict 'Soul Burn'\nMagic attacks may inflict 'Frostburn'");
+            Tooltip.SetDefault("6% increased melee damage\nMelee attacks may set enemies on fire\nMagic attacks may cause frostburn\nGreatly increases jump height\nLeave a trail of chilly embers as you walk");
 
         }
 
@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Accessory
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<FieryPendant>(), 1);
-            recipe.AddIngredient(ModContent.ItemType<IcyEssence>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<FrigidWind>(), 1);
             recipe.AddIngredient(ModContent.ItemType<InfernalAppendage>(), 5);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);

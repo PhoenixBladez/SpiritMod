@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.GoreArmor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Gore Helm");
-            Tooltip.SetDefault("Increases melee speed by 8% and reduces damage taken by 7%");
+            Tooltip.SetDefault("8% increased melee speed\nReduces damage taken by 7%");
         }
 
         public override void SetDefaults() {
@@ -33,7 +33,6 @@ namespace SpiritMod.Items.Armor.GoreArmor
 
         public override void UpdateEquip(Player player) {
             player.meleeSpeed += 0.08f;
-
             player.endurance += 0.07f;
         }
 

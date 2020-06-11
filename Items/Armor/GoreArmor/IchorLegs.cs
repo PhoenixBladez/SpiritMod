@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.GoreArmor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Gore Leggings");
-            Tooltip.SetDefault("Increases movement speed by 10% and melee critical strike chance by 6%");
+            Tooltip.SetDefault("10% increased movement speed\n6% increased melee critical strike chance");
         }
         public override void SetDefaults() {
             item.width = 40;
@@ -24,8 +24,7 @@ namespace SpiritMod.Items.Armor.GoreArmor
 
         public override void UpdateEquip(Player player) {
             player.meleeCrit += 6;
-
-            player.moveSpeed += 0.1f; ;
+            player.moveSpeed += 0.1f;
         }
 
         public override void AddRecipes() {

@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Sona's Determination");
-            Tooltip.SetDefault("'I will never back down'\nIncreases maximum life by 30\nReduces damage taken by 10%\nGrants immunity to knockback\nEnemies are more likely to target you");
+            Tooltip.SetDefault("Increases maximum life by 30\nReduces damage taken by 10%\nGrants immunity to knockback\nEnemies are more likely to target you\n'I will never back down!'");
         }
 
         public override void SetDefaults() {

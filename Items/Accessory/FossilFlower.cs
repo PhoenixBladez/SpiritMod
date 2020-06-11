@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Fossil Flower");
-            Tooltip.SetDefault("Increases melee damage and melee speed by 12% when underground");
+            Tooltip.SetDefault("12% increased melee damage and speed when underground");
         }
 
 

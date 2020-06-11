@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Assassin's Magazine");
-            Tooltip.SetDefault("Increases arrow and bullet damage by 4% when moving\nWhen standing still, nearby enemies are illuminated");
+            Tooltip.SetDefault("4% increased arrow and bullet damage when moving\nWhen standing still, nearby enemies are illuminated");
         }
 
 

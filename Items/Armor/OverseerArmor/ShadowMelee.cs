@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.OverseerArmor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Shadowspirit Visor");
-            Tooltip.SetDefault("Increases melee damage by 28% and melee crit chance by 25%\nIncreases melee speed by 30%\nReduces damage taken by 17%");
+            Tooltip.SetDefault("28% increased melee damage\n25% increased melee critical strike chance\n30% increased melee speed\nReduces damage taken by 17%");
         }
 
         public override void SetDefaults() {
@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Armor.OverseerArmor
             return body.type == ModContent.ItemType<ShadowSBody>() && legs.type == ModContent.ItemType<ShadowLegs>();
         }
         public override void UpdateArmorSet(Player player) {
-            player.setBonus = "Melee hits spawn Soul Shards to chase down foes! \n 'You have become the Guardian' \n Double tap to dash repeatedly \n You are surrounded by protective Spirits, which deflect projectiles.";
+            player.setBonus = "Melee hits spawn Soul Shards to chase down foes!\n'You have become the Guardian'\nDouble tap to dash repeatedly\nYou are surrounded by protective Spirits, which deflect projectiles.";
             player.GetSpiritPlayer().meleeshadowSet = true;
             player.GetSpiritPlayer().shadowSet = true;
 

@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Armor.BloodCourt
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Bloodcourt's Leggings");
-            Tooltip.SetDefault("5% increased damage\nIncreases minion knockback by 12%");
+            Tooltip.SetDefault("5% increased damage\n12% increased minion knockback");
 
         }
         public override void SetDefaults() {

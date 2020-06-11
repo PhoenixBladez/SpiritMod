@@ -9,10 +9,9 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Tumblesoul");
-            Tooltip.SetDefault("Increases movement speed by 16% while on sand");
+            Tooltip.SetDefault("16% increased movement speed while on sand");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 5));
         }
-
 
         public override void SetDefaults() {
             item.width = 34;
@@ -21,6 +20,7 @@ namespace SpiritMod.Items.Accessory
             item.rare = 1;
             item.accessory = true;
         }
+
         public override void UpdateAccessory(Player player, bool hideVisual) {
             player.GetSpiritPlayer().tumbleSoul = true;
         }

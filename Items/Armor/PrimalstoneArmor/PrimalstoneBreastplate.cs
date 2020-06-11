@@ -9,23 +9,22 @@ namespace SpiritMod.Items.Armor.PrimalstoneArmor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Primalstone Breastplate");
-            Tooltip.SetDefault("Increases life regeneration and melee critical strike chance by 10%\nIncreases melee damage by 5% and melee and magic critical strike chance by 7%");
+            Tooltip.SetDefault("Increases life regeneration\n5% increased melee damage\n17% increased melee critical strike chance\n7% increased magic critical strike chance");
         }
 
         public override void SetDefaults() {
             item.width = 34;
             item.height = 30;
-            item.value = 10000;
+            item.value = Item.buyPrice(gold: 1);
             item.rare = 9;
             item.defense = 19;
         }
 
         public override void UpdateEquip(Player player) {
             player.lifeRegen += 2;
-            player.meleeCrit += 10;
+            player.meleeCrit += 17;
             player.meleeDamage += .05f;
             player.magicCrit += 7;
-            player.meleeCrit += 7;
         }
 
         public override void AddRecipes() {

@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Shadow-Singed Fang");
-            Tooltip.SetDefault("Increases critical strike chance by 4%\nThis effect is doubled at nighttime or while underground\nAttacking enemies that have less than half health may strike them with shadows\nThis effect costs the player some life");
+            Tooltip.SetDefault("4% increased critical strike chance\n4% increased critical strike chance at night or underground\nAttacking enemies that have less than half health may strike them with shadows, at the cost of life");
         }
 
 

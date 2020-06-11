@@ -11,12 +11,12 @@ namespace SpiritMod.Items.Armor.BloomwindArmor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Bloomwind Leggings");
-            Tooltip.SetDefault("Increases maximum minions by 1 and increases minion damage by 7%");
+            Tooltip.SetDefault("Increases your max number of minions\n7% increased minion damage");
         }
         public override void SetDefaults() {
             item.width = 34;
             item.height = 30;
-            item.value = 10000;
+            item.value = Item.buyPrice(gold: 4);
             item.rare = 6;
 
             item.defense = 9;

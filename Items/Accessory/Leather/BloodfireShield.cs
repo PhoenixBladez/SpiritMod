@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Accessory.Leather
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Sanguine Scutum");
-            Tooltip.SetDefault("Reduces life regen to 0\nIncreases damage reduction by 3% for every nearby enemy\nThis effect stacks up to five times");
+            Tooltip.SetDefault("Reduces life regen to 0\nReduces damage taken by 3% for every nearby enemy, up to 15%");
         }
 
         public override void SetDefaults() {

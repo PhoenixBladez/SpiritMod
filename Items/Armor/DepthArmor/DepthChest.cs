@@ -10,14 +10,14 @@ namespace SpiritMod.Items.Armor.DepthArmor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Depth Walker's Platemail");
-            Tooltip.SetDefault("Increases melee and summon damage by 12%\nIncreases maximum number of minions by 1");
+            Tooltip.SetDefault("12% increased melee and minion damage\nIncreases your maximum number of minions");
 
         }
 
         public override void SetDefaults() {
             item.width = 30;
             item.height = 20;
-            item.value = 6000;
+            item.value = Item.buyPrice(silver: 60);
             item.rare = 5;
             item.defense = 16;
         }

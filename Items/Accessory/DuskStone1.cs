@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Dusk Stone");
-            Tooltip.SetDefault("Increases ranged damage by 8%\nIncreases ranged critical strike chance the less health you have\nRanged attacks may inflict 'Moon Burn'");
+            Tooltip.SetDefault("8% increased ranged damage\nIncreases ranged critical strike chance the less health you have\nRanged attacks may burn enemies with lunar rays");
         }
 
 
@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Accessory
         }
         public override void UpdateAccessory(Player player, bool hideVisual) {
             player.rangedDamage += 0.08f;
-            float defBoost = (float)(player.statLifeMax2 - player.statLife) / (float)player.statLifeMax2 * 10f;
+            float defBoost = (player.statLifeMax2 - player.statLife) / (float)player.statLifeMax2 * 10f;
             player.rangedCrit += (int)defBoost;
 
             player.GetSpiritPlayer().moonStone = true;

@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Armor.HellArmor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Malevolent Cowl");
-            Tooltip.SetDefault("Increases ranged damage by 18% and increases ranged critical strike chance by 7%");
+            Tooltip.SetDefault("18% increased ranged damage\n7% increased ranged critical strike chance");
         }
 
 
@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Armor.HellArmor
         public override void SetDefaults() {
             item.width = 20;
             item.height = 18;
-            item.value = 46000;
+            item.value = Item.buyPrice(gold: 4, silver: 60);
             item.rare = 6;
             item.defense = 11;
         }
@@ -33,7 +33,6 @@ namespace SpiritMod.Items.Armor.HellArmor
             return body.type == ModContent.ItemType<HellBody>() && legs.type == ModContent.ItemType<HellLegs>();
         }
         public override void UpdateArmorSet(Player player) {
-
             player.setBonus = "Ranged attacks occasionally triggers explosions around the player, raining down fireballs";
             player.GetSpiritPlayer().hellSet = true;
         }

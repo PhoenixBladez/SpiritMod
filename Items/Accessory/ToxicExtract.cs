@@ -8,9 +8,8 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Toxic Extract");
-            Tooltip.SetDefault("Magic attacks drench enemies in venom occasionally\nIncreases critical strike chance by 8%");
+            Tooltip.SetDefault("Magic attacks occasionally drench enemies in venom\n8% increased critical strike chance");
         }
-
 
         public override void SetDefaults() {
             item.width = 32;
@@ -20,6 +19,7 @@ namespace SpiritMod.Items.Accessory
             item.rare = 8;
             item.accessory = true;
         }
+
         public override void UpdateAccessory(Player player, bool hideVisual) {
             player.meleeCrit += 8;
             player.magicCrit += 8;

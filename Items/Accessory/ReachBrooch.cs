@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Forsworn Pendant");
-            Tooltip.SetDefault("Increases critical strike chance by 4%\nAllows for increased night vision in the Briar");
+            Tooltip.SetDefault("4% increased critical strike chance\nAllows for increased night vision in the Briar");
         }
 
 

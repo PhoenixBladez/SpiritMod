@@ -11,13 +11,13 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Shadow Gauntlet");
-            Tooltip.SetDefault("Melee attacks have a chance to inflict Shadowflame\nIncreases melee damage and melee speed by 10%\nIncreases melee knockback");
+            Tooltip.SetDefault("Melee attacks may inflict Shadowflame\n10% increased melee damage and speed\nIncreases melee knockback");
         }
         public override void SetDefaults() {
             item.width = 16;
             item.height = 16;
             item.rare = 8;
-            item.value = 150000;
+            item.value = Item.buyPrice(gold: 15);
             item.accessory = true;
         }
 

@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.GoreArmor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Gore Mask");
-            Tooltip.SetDefault("Increases melee damage by 10% and melee critical strike chance by 6%");
+            Tooltip.SetDefault("10% increased melee damage\n6% increased melee critical strike chance");
         }
 
         public override void SetDefaults() {
@@ -33,7 +33,6 @@ namespace SpiritMod.Items.Armor.GoreArmor
 
         public override void UpdateEquip(Player player) {
             player.meleeDamage += 0.1f;
-
             player.meleeCrit += 6;
         }
 

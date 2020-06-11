@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.OverseerArmor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Shadowspirit Shako");
-            Tooltip.SetDefault("Increases ranged damage by 32%\nIncreases ranged crit chance by 22%\nIncreases movement speed by 30%");
+            Tooltip.SetDefault("32% increased ranged damage\n22% increased ranged critical strike chance\n30% increased movement speed");
         }
         public override void SetDefaults() {
             item.width = 40;
@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Armor.OverseerArmor
             return body.type == ModContent.ItemType<ShadowSBody>() && legs.type == ModContent.ItemType<ShadowLegs>();
         }
         public override void UpdateArmorSet(Player player) {
-            player.setBonus = "Ranged and thrower hits spawn Soul Shards to chase down foes! \n 'You have become the Guardian' \n Double tap to dash repeatedly \n You are surrounded by protective Spirits, which deflect projectiles.";
+            player.setBonus = "Ranged and thrower hits spawn Soul Shards to chase down foes!\n'You have become the Guardian'\nDouble tap to dash repeatedly\nYou are surrounded by protective Spirits, which deflect projectiles.";
             player.GetSpiritPlayer().rangedshadowSet = true;
             player.GetSpiritPlayer().shadowSet = true;
 

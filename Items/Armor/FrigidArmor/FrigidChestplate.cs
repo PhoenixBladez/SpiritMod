@@ -10,8 +10,7 @@ namespace SpiritMod.Items.Armor.FrigidArmor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Frigid Plate");
-            Tooltip.SetDefault("Increases critical strike chance by 3%");
-
+            Tooltip.SetDefault("3% increased critical strike chance");
         }
 
 
@@ -20,7 +19,7 @@ namespace SpiritMod.Items.Armor.FrigidArmor
         public override void SetDefaults() {
             item.width = 28;
             item.height = 24;
-            item.value = 1100;
+            item.value = Item.buyPrice(silver: 11);
             item.rare = 1;
             item.defense = 4;
         }

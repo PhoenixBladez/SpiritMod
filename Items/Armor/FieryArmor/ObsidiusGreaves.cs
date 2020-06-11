@@ -10,14 +10,14 @@ namespace SpiritMod.Items.Armor.FieryArmor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Slag Tyrant's Greaves");
-            Tooltip.SetDefault("Increases minion damage by 6%\nIncreases maximum number of minions by 1");
+            Tooltip.SetDefault("6% increased minion damage\nIncreases your max number of minions");
 
         }
 
         public override void SetDefaults() {
             item.width = 30;
             item.height = 20;
-            item.value = Terraria.Item.sellPrice(0, 0, 39, 0);
+            item.value = Item.sellPrice(0, 0, 39, 0);
             item.rare = 3;
             item.defense = 5;
         }

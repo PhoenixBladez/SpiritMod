@@ -9,18 +9,17 @@ namespace SpiritMod.Items.Armor.IceArmor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Blizzard Robes");
-            Tooltip.SetDefault("Increases magic damage by 10% and magic critical strike chance by 5%");
+            Tooltip.SetDefault("10% increased magic damage\n5% increased magic critical strike chance");
         }
 
-
-        int timer = 0;
         public override void SetDefaults() {
             item.width = 20;
             item.height = 18;
-            item.value = 86000;
+            item.value = Item.buyPrice(gold: 8, silver: 60);
             item.rare = 6;
             item.defense = 10;
         }
+
         public override void UpdateEquip(Player player) {
             player.magicDamage += 0.1f;
             player.magicCrit += 5;

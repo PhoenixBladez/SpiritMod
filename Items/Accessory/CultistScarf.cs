@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Elderweave Scarf");
-            Tooltip.SetDefault("Reduces mana usage by 20% when under half health\nIncreases maximum mana by 120 when above half health\nIncreases magic critical strike chance by 9%\nMagic attacks occasionally release bolts of powerful Ancient Magic that bounce off of walls");
+            Tooltip.SetDefault("20% reduced mana usage when under half health\nIncreases maximum mana by 120 when above half health\n9% increased magic critical strike chance\nMagic attacks occasionally release bolts of powerful Ancient Magic that bounce off of walls");
 
         }
 

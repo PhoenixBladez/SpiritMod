@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Sap Sipper");
-            Tooltip.SetDefault("A bloody ward surrounds you, inflicting Blood Corruption to nearby enemies\nIncreases life regeneration slightly\nProvides immunity to the 'Poisoned' buff\nIncreases maximum life by 10\nMagic attacks drench enemies in venom occasionally\nIncreases critical strike chance by 8%\nCritical hits may heal the player");
+            Tooltip.SetDefault("A bloody ward surrounds you, inflicting Blood Corruption to nearby enemies\nIncreases life regeneration slightly\nImmunity to Poison\nIncreases maximum life by 10\nMagic attacks occasionally drench enemies in venom\n8% increased critical strike chance\nCritical hits occasionally steal some life");
 
         }
 

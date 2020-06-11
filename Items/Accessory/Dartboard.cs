@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Dartboard");
-            Tooltip.SetDefault("Decreases damage dealt by 13%\nIncreases critical strike chance by 15%\n'Right on the mark'");
+            Tooltip.SetDefault("13% reduced damage\n15% increased critical strike chance\n'Right on the mark'");
         }
 
 
@@ -20,10 +20,7 @@ namespace SpiritMod.Items.Accessory
             item.accessory = true;
         }
         public override void UpdateAccessory(Player player, bool hideVisual) {
-            player.meleeDamage -= .13f;
-            player.magicDamage -= .13f;
-            player.rangedDamage -= .13f;
-            player.minionDamage -= .13f;
+			player.allDamage -= 0.13f;
             player.meleeCrit += 15;
             player.magicCrit += 15;
             player.rangedCrit += 15;

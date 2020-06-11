@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Briar Heart");
-            Tooltip.SetDefault("Increases melee damage by 5% and melee speed by 5%\nIncreases melee critical srike chance by 9% and ranged critical strike chance by 7%\nIncreases magic critical strike chance by 5%\nMagic attacks may inflict Cursed Inferno and Ichor\nGetting hurt may trigger 'Poison Bite,' causing all attacks to inflict poison for a short while\nIncreases maximum mana by 50\nIncreases maximum life by 20");
+            Tooltip.SetDefault("5% increased melee damage and speed\n9% increased melee critical srike chance\n7% increased ranged critical strike chance\n5% increased magic critical strike chance\nMagic attacks may inflict Cursed Inferno and Ichor\nGetting hurt may cause all attacks to inflict poison for a short while\nIncreases maximum mana by 50\nIncreases maximum life by 20");
         }
 
 

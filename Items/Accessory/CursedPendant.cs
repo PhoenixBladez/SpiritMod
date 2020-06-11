@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Cursed Pendant");
-            Tooltip.SetDefault("Increases melee damage by 6%\nWeapons have a 15% chance to inflict Cursed Inferno");
+            Tooltip.SetDefault("6% increased melee damage\nWeapons have a 15% chance to inflict Cursed Inferno");
         }
 
 

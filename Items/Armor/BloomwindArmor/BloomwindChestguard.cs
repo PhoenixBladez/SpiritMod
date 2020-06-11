@@ -11,13 +11,13 @@ namespace SpiritMod.Items.Armor.BloomwindArmor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Bloomwind Chestguard");
-            Tooltip.SetDefault("Increases maximum minions by 1 and increases minion damage by 15%");
+            Tooltip.SetDefault("Increases your max number of minions\n15% increased minion damage");
         }
 
         public override void SetDefaults() {
             item.width = 34;
             item.height = 30;
-            item.value = 60000;
+            item.value = Item.buyPrice(gold: 6);
             item.rare = 6;
 
             item.defense = 11;

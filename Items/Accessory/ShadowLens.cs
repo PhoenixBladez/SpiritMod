@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Animus Lens");
-            Tooltip.SetDefault("Summons a spirit and shadow guardian to protect you\nThe spirit guardian shoots out homing bolts at foes\nThe shadow guardian periodically shoots out a pulse of shadows\nSpirit and shadow guardians deal more damage and fire more frequently when under half health\nIncreases critical strike chance by 7%");
+            Tooltip.SetDefault("Summons guardians of spirit and shadow to protect you\nGuardians gain increased damage and attack speed when under half health\n7% increased critical strike chance");
         }
 
 

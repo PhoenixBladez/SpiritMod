@@ -10,13 +10,13 @@ namespace SpiritMod.Items.Armor.CryoliteArmor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Cryolite Helmet");
-            Tooltip.SetDefault("Increases melee speed by 13%");
+            Tooltip.SetDefault("13% increased melee speed");
         }
 
         public override void SetDefaults() {
             item.width = 38;
             item.height = 26;
-            item.value = 10000;
+            item.value = Item.buyPrice(gold: 1);
             item.rare = 3;
             item.defense = 6;
         }
@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Armor.CryoliteArmor
             return body.type == ModContent.ItemType<CryoliteBody>() && legs.type == ModContent.ItemType<CryoliteLegs>();
         }
         public override void UpdateArmorSet(Player player) {
-            player.setBonus = "Generates an icy aura that slows nearby enemies\nThis aura expands gradually, but resets if the player is hurt";
+            player.setBonus = "Generates an icy aura that slows nearby enemies\nThis aura expands gradually, but resets when injured";
             player.GetSpiritPlayer().cryoSet = true;
         }
 

@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Scrying Eye");
-            Tooltip.SetDefault("Magic critical strikes may deal extra damage to foes\nIncreases magic critical strike chance by 4%");
+            Tooltip.SetDefault("Magic critical strikes may deal extra damage to foes\n4% increased magic critical strike chance");
 
         }
 

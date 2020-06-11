@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Flame of the Magus");
-            Tooltip.SetDefault("Increases magic damage by 7%\nIncreases magic critical strike chance by 10% and reduces mana cost by 6%\nIncreases maximum mana by 50 and increases mana regeneration\nYou emit blue light at all times and magic critical hits may deal extra damage\nMagic attacks may spawn sparks that deal more damage the less mana you have \nMagic attacks may slow down enemies.");
+            Tooltip.SetDefault("7% increased magic damage\n10% increased magic critical strike chance\n6% reduced mana usage\nIncreases maximum mana by 50\nIncreases mana regeneration\nMagic critical hits may deal extra damage\nMagic attacks may spawn sparks that deal more damage the less mana you have\nMagic attacks may slow down enemies");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 5));
             ItemID.Sets.ItemNoGravity[item.type] = true;
         }
@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Accessory
             player.magicDamage += 0.07f;
             player.magicCrit += 10;
             player.manaRegenBonus += 2;
-            Lighting.AddLight(player.position, 0.0f, .75f, 1.25f);
+            if(!hideVisual) Lighting.AddLight(player.position, 0.0f, .75f, 1.25f);
             player.manaCost -= 0.06f;
         }
         public override void AddRecipes() {

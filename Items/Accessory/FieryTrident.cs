@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Infernal Flame");
-            Tooltip.SetDefault("Melee critical strikes may cause enemies to explode\nIncreases melee damage by 5%");
+            Tooltip.SetDefault("Melee critical strikes may cause enemies to explode\n5% increased melee damage");
             ItemID.Sets.ItemNoGravity[item.type] = true;
         }
 

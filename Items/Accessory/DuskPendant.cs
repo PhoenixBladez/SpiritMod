@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Dusk Pendant");
-            Tooltip.SetDefault("Increases magic and ranged damage by 13% at night");
+            Tooltip.SetDefault("13% increased magic and ranged critical strike chance at night");
             SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Accessory/DuskPendant_Glow");
         }
 
