@@ -28,7 +28,8 @@ namespace SpiritMod.Items.Armor.BloomwindArmor
         }
 
         public override void UpdateArmorSet(Player player) {
-            player.setBonus = "You are protected by a guardian of the wild";
+            player.setBonus = "Increases your max number of minions\nYou are protected by a guardian of the wild";
+			player.maxMinions += 1;
             player.GetSpiritPlayer().bloomwindSet = true;
         }
 
