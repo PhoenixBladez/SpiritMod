@@ -10,16 +10,14 @@ namespace SpiritMod.Items.Armor.ReachBoss
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Thornspeaker's Greaves");
-            Tooltip.SetDefault("Increases minion damage by 4%");
+            Tooltip.SetDefault("4% increased minion damage");
 
         }
 
-
-        int timer = 0;
         public override void SetDefaults() {
             item.width = 22;
             item.height = 20;
-            item.value = 30200;
+            item.value = Item.buyPrice(gold: 3, silver: 2);
             item.rare = 2;
             item.defense = 3;
         }

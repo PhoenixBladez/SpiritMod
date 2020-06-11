@@ -11,21 +11,20 @@ namespace SpiritMod.Items.Armor.SeraphArmor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Seraph's Breastplate");
-            Tooltip.SetDefault("Increases magic damage by 10%");
+            Tooltip.SetDefault("10% increased magic damage");
             SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/SeraphArmor/SeraphBody_Glow");
-
         }
 
         public override void SetDefaults() {
             item.width = 34;
             item.height = 24;
-            item.value = 60000;
+            item.value = Item.buyPrice(gold: 6);
             item.rare = 4;
             item.defense = 18;
         }
 
         public override void UpdateEquip(Player player) {
-            player.meleeDamage += .10f;
+            player.magicDamage += .10f;
         }
         public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor) {
             glowMaskColor = Color.White;

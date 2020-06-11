@@ -10,12 +10,12 @@ namespace SpiritMod.Items.Armor.ReaperArmor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Reaper's Greaves");
-            Tooltip.SetDefault("Increases movement speed by 25% and increases max life by 30");
+            Tooltip.SetDefault("25% increased movement speed\nIncreases max life by 30");
         }
         public override void SetDefaults() {
             item.width = 22;
             item.height = 16;
-            item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
+            item.value = Item.sellPrice(gold: 2);
             item.rare = 8;
             item.defense = 18;
         }

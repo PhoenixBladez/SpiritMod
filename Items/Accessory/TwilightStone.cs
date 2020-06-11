@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Twilight Stone");
-            Tooltip.SetDefault("8% increased melee and ranged damage\nIncreases melee and ranged critical strike chance as health wanes\nMelee attacks may inflict 'Solar Burn,' and ranged attacks may inflict 'Moon Burn'\n4% increased damage at daytime, and increases life regen at nighttime");
+            Tooltip.SetDefault("8% increased melee and ranged damage\nIncreases melee and ranged critical strike chance as health wanes\nMelee attacks may burn enemies with solar rays\nRanged attacks may burn enemies with lunar rays\n4% increased damage at daytime, and increases life regen at nighttime");
         }
 
 

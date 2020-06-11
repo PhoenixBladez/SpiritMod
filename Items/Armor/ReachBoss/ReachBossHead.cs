@@ -10,16 +10,13 @@ namespace SpiritMod.Items.Armor.ReachBoss
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Thornspeaker's Helmet");
-            Tooltip.SetDefault("Increases minion damage by 4%\nIncreases max minions by 1");
-
+            Tooltip.SetDefault("4% increased minion damage\nIncreases your max number of minions");
         }
 
-
-        int timer = 0;
         public override void SetDefaults() {
             item.width = 22;
             item.height = 20;
-            item.value = 3000;
+            item.value = Item.buyPrice(silver: 30);
             item.rare = 2;
             item.defense = 4;
         }
