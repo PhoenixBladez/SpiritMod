@@ -26,6 +26,7 @@ using SpiritMod.Tiles.Ambient.SpaceCrystals;
 using SpiritMod.Tiles.Block;
 using SpiritMod.Tiles.Furniture;
 using SpiritMod.Tiles.Furniture.Reach;
+using SpiritMod.Tiles.Furniture.SpaceJunk;
 using SpiritMod.Tiles.Piles;
 using SpiritMod.Tiles.Walls.Natural;
 using System;
@@ -91,7 +92,7 @@ namespace SpiritMod
 
         public static Dictionary<string, bool> droppedGlyphs = new Dictionary<string, bool>();
 
-        bool night = false;
+        //bool night = false;
         public bool txt = false;
 
         private int WillGenn = 0;
@@ -189,7 +190,7 @@ namespace SpiritMod
                 downedReachBoss = flags1[0];
                 downedSpiritCore = flags1[1];
             } else {
-                ErrorLogger.Log("Spirit Mod: Unknown loadVersion: " + loadVersion);
+                mod.Logger.Error("Unknown loadVersion: " + loadVersion);
             }
         }
 
@@ -289,34 +290,25 @@ namespace SpiritMod
             } else {
                 return glowstone;
             }
-            return 0;
         }
         public static ushort GetNonOre(ushort ore) {
             switch(ore) {
-                case 7: //copper ==> tin
-                    return 166;
-                    break;
-                case 166: //tin ==> copper
-                    return 7;
-                    break;
-                case 6: //iron ==> lead
-                    return 167;
-                    break;
-                case 167: //lead ==> iron
-                    return 6;
-                    break;
-                case 9: //silver ==> tungsten
-                    return 168;
-                    break;
-                case 168: //tungsten ==> silver
-                    return 9;
-                    break;
-                case 8: //gold ==> platinum
-                    return 169;
-                    break;
-                case 169: //platinum ==> gold
-                    return 8;
-                    break;
+                case TileID.Copper: //copper ==> tin
+                    return TileID.Tin;
+                case TileID.Tin: //tin ==> copper
+                    return TileID.Copper;
+                case TileID.Iron: //iron ==> lead
+                    return TileID.Lead;
+                case TileID.Lead: //lead ==> iron
+                    return TileID.Iron;
+                case TileID.Silver: //silver ==> tungsten
+                    return TileID.Tungsten;
+                case TileID.Tungsten: //tungsten ==> silver
+                    return TileID.Silver;
+                case TileID.Gold: //gold ==> platinum
+                    return TileID.Platinum;
+                case TileID.Platinum: //platinum ==> gold
+                    return TileID.Gold;
             }
             return 0;
         }
@@ -1356,9 +1348,7 @@ namespace SpiritMod
                                 WorldGen.PlaceObject(k, l, 376);  // Crate
                                 break;
                             case 5:
-                                if(Main.rand.NextFloat(1.32f) == 0) ; {
-                                    WorldGen.PlaceTile(k, l, 28);  // Pot
-                                }
+                                WorldGen.PlaceTile(k, l, 28);  // Pot
                                 tile.active(true);
                                 break;
                             case 6:
@@ -3673,14 +3663,14 @@ namespace SpiritMod
             int[] other1 = new int[] { 3093, 168 };
             int[] other2 = new int[] { 31, 8 };
             int[] moddedMaterials = new int[] { ModContent.ItemType<BismiteCrystal>(), ModContent.ItemType<OldLeather>() };
-            int stack = 1;
-            int itemsToPlaceInPagodaChestsChoice = 0;
+            int stack;
+            //int itemsToPlaceInPagodaChestsChoice = 0;
             for(int chestIndex = 0; chestIndex < 1000; chestIndex++) {
                 Chest chest = Main.chest[chestIndex];
                 // If you look at the sprite for Chests by extracting Tiles_21.xnb, you'll see that the 12th chest is the Ice Chest. Since we are counting from 0, this is where 11 comes from. 36 comes from the width of each tile including padding. 
                 if(chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 28 * 36) {
                     for(int inventoryIndex = 0; inventoryIndex < 5; inventoryIndex++) {
-                        if(chest.item[inventoryIndex].type == 0) {
+                        if(chest.item[inventoryIndex].type == ItemID.None) {
 
                             if(inventoryIndex == 0) {
                                 int[] itemsToPlaceInPagodaChests1 = { ItemType<JadeStaff>(), ItemType<JadeStaff>() };
@@ -3713,9 +3703,9 @@ namespace SpiritMod
                         }
                     }
                 }
-                if(chest != null && Main.tile[chest.x, chest.y].type == mod.TileType("AsteroidChest")) {
+                if(chest != null && Main.tile[chest.x, chest.y].type == TileType<AsteroidChest>()) {
                     for(int inventoryIndex = 0; inventoryIndex < 5; inventoryIndex++) {
-                        if(chest.item[inventoryIndex].type == 0) {
+                        if(chest.item[inventoryIndex].type == ItemID.None) {
 
                             if(inventoryIndex == 0) {
                                 int[] itemsToPlaceInPagodaChests1 = { ItemType<ZiplineGun>(), ItemType<HighGravityBoots>(), ItemType<MagnetHook>() };
@@ -3762,32 +3752,32 @@ namespace SpiritMod
                 }
             }
             Tile tile;
-            tile = Main.tile[1, 1];
+            //tile = Main.tile[1, 1];
             for(int trees = 0; trees < 18000; trees++) {
                 int E = Main.maxTilesX;
                 int F = (int)Main.worldSurface;
                 tile = Framing.GetTileSafely(E, F);
-                if(tile.type == ModContent.TileType<ReachGrassTile>()) {
+                if(tile.type == TileType<ReachGrassTile>()) {
                     WorldGen.GrowTree(E, F);
                 }
             }
-            for(int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * .2f) * 3E-05); k++) {
+            for(int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY * .2f) * 3E-05); k++) {
                 bool placeSuccessful = false;
                 int tileToPlace;
                 if(WorldGen.genRand.Next(3) == 0) {
-                    tileToPlace = TileType<Tiles.Ambient.SkullStick>();
+                    tileToPlace = TileType<SkullStick>();
                 } else if(WorldGen.genRand.Next(3) == 0) {
-                    tileToPlace = TileType<Tiles.Ambient.SkullStickFlip>();
+                    tileToPlace = TileType<SkullStickFlip>();
                 } else if(WorldGen.genRand.Next(4) == 0) {
-                    tileToPlace = TileType<Tiles.Ambient.SkullStick3>();
+                    tileToPlace = TileType<SkullStick3>();
                 } else {
-                    tileToPlace = TileType<Tiles.Ambient.SkullStick3Flip>();
+                    tileToPlace = TileType<SkullStick3Flip>();
                 }
                 while(!placeSuccessful) {
                     int x = WorldGen.genRand.Next(0, Main.maxTilesX);
                     int y = WorldGen.genRand.Next((int)Main.worldSurface - 100, Main.maxTilesY);
                     tile = Main.tile[x, y];
-                    if(tile.type == ModContent.TileType<ReachGrassTile>()) {
+                    if(tile.type == TileType<ReachGrassTile>()) {
                         {
                             WorldGen.PlaceTile(x, y, tileToPlace);
                         }
@@ -3799,7 +3789,7 @@ namespace SpiritMod
                 GenerateGemStash();
             }
             for(int i = 1; i < Main.rand.Next(4, 6); i++) {
-                int itemsToPlaceInGlassChestsSecondaryChoice = 0;
+                //int itemsToPlaceInGlassChestsSecondaryChoice = 0;
                 for(int chestIndex = 0; chestIndex < 1000; chestIndex++) {
                     Chest chest = Main.chest[chestIndex];
                     if(chest != null && Main.tile[chest.x, chest.y].frameX == 13 * 36 && Main.rand.Next(3) == 0) {
@@ -3821,7 +3811,7 @@ namespace SpiritMod
             for(int i = 1; i < Main.rand.Next(4, 6); i++) {
                 int[] itemsToPlacePrimary = new int[] { ItemType<SepulchreStaff>(), ItemType<SepulchrePendant>() };
                 int[] ammoToPlace = new int[] { ItemType<SepulchreArrow>(), ItemType<SepulchreBullet>() };
-                int itemsToPlaceInGlassChestsSecondaryChoice = 0;
+                //int itemsToPlaceInGlassChestsSecondaryChoice = 0;
                 for(int chestIndex = 0; chestIndex < 1000; chestIndex++) {
                     Chest chest = Main.chest[chestIndex];
                     if(chest != null && Main.tile[chest.x, chest.y].type == TileType<SepulchreChestTile>()) {
@@ -3887,7 +3877,7 @@ namespace SpiritMod
             }
             for(int i = 1; i < Main.rand.Next(4, 6); i++) {
                 int[] itemsToPlacePrimary = new int[] { ItemType<CleftHorn>(), ItemType<CactusStaff>() };
-                int itemsToPlaceInGlassChestsSecondaryChoice = 0;
+                //int itemsToPlaceInGlassChestsSecondaryChoice = 0;
                 for(int chestIndex = 0; chestIndex < 1000; chestIndex++) {
                     Chest chest = Main.chest[chestIndex];
                     if(chest != null && Main.tile[chest.x, chest.y].type == TileType<GoldScarabChest>()) {
@@ -3914,7 +3904,7 @@ namespace SpiritMod
             }
             for(int i = 1; i < Main.rand.Next(4, 6); i++) {
                 int[] itemsToPlacePrimary = new int[] { ModContent.ItemType<Glyph>(), ItemID.MagicMirror, ItemID.WandofSparking };
-                int itemsToPlaceInGlassChestsSecondaryChoice = 0;
+                //int itemsToPlaceInGlassChestsSecondaryChoice = 0;
                 for(int chestIndex = 0; chestIndex < 1000; chestIndex++) {
                     Chest chest = Main.chest[chestIndex];
                     if(chest != null && Main.tile[chest.x, chest.y].type == ModContent.TileType<GoblinChest>()) {
@@ -3967,7 +3957,7 @@ namespace SpiritMod
             }
             {
                 for(int i = 1; i < Main.rand.Next(4, 6); i++) {
-                    int itemsToPlaceInGlassChestsSecondaryChoice = 0;
+                    //int itemsToPlaceInGlassChestsSecondaryChoice = 0;
                     for(int chestIndex = 0; chestIndex < 1000; chestIndex++) {
                         Chest chest = Main.chest[chestIndex];
                         if(chest != null && Main.tile[chest.x, chest.y].type == ModContent.TileType<ReachChest>()) {

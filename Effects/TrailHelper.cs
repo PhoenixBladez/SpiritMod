@@ -33,7 +33,7 @@ namespace SpiritMod.Effects
             if(projectile.type == ModContent.ProjectileType<SleepingStar>()) {
                 CreateTrail(projectile, new StandardColorTrail(new Color(120, 217, 255)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 250f);
             }
-            if(projectile.type == mod.ProjectileType("SleepingStar1")) {
+            if(projectile.type == ModContent.ProjectileType<SleepingStar1>()) {
                 CreateTrail(projectile, new StandardColorTrail(new Color(218, 94, 255)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 250f);
             }
             if(projectile.type == ModContent.ProjectileType<LeafProjReachChest>()) {
@@ -87,7 +87,7 @@ namespace SpiritMod.Effects
                 CreateTrail(projectile, new StandardColorTrail(new Color(255, 68, 0)), new RoundCap(), new SleepingStarTrailPosition(), 18f, 330f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
                 CreateTrail(projectile, new StandardColorTrail(new Color(107, 211, 255) * 0.5f), new RoundCap(), new DefaultTrailPosition(), 12f, 80f, new DefaultShader());
             }
-            if(projectile.type == ModContent.ProjectileType<SandWall>() || projectile.type == mod.ProjectileType("SandWall2")) {
+            if(projectile.type == ModContent.ProjectileType<SandWall>() || projectile.type == ModContent.ProjectileType<SandWall2>()) {
                 CreateTrail(projectile, new StandardColorTrail(new Color(255, 236, 115, 200)), new RoundCap(), new DefaultTrailPosition(), 100f, 130f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
                 CreateTrail(projectile, new StandardColorTrail(Color.White * 0.2f), new RoundCap(), new DefaultTrailPosition(), 12f, 80f, new DefaultShader());
                 CreateTrail(projectile, new StandardColorTrail(Color.White * 0.2f), new RoundCap(), new DefaultTrailPosition(), 12f, 80f, new DefaultShader());
@@ -396,7 +396,7 @@ namespace SpiritMod.Effects
 
     public class ImageShader : ITrailShader
     {
-        public new string ShaderPass => "BasicImagePass";
+        public string ShaderPass => "BasicImagePass";
 
         protected Vector2 _coordMult;
         protected float _xOffset;
@@ -414,7 +414,7 @@ namespace SpiritMod.Effects
         public ImageShader(Texture2D image, float xCoordinateMultiplier, float yCoordinateMultiplier, float strength = 1f, float yAnimSpeed = 0f) : this(image, new Vector2(xCoordinateMultiplier, yCoordinateMultiplier), strength, yAnimSpeed) {
         }
 
-        public new void ApplyShader(Effect effect, Trail trail, List<Vector2> positions) {
+        public void ApplyShader(Effect effect, Trail trail, List<Vector2> positions) {
             _xOffset -= _coordMult.X;
             effect.Parameters["imageTexture"].SetValue(_texture);
             effect.Parameters["coordOffset"].SetValue(new Vector2(_xOffset, Main.GlobalTime * _yAnimSpeed));

@@ -3,6 +3,7 @@ using System;
 using Terraria;
 using Terraria.GameContent.Achievements;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod
 {
@@ -63,8 +64,8 @@ namespace SpiritMod
                             }
                             if(destroyTile) {
                                 WorldGen.KillTile(x, y, false, false, false);
-                                if(!Main.tile[x, y].active() && Main.netMode != 0) {
-                                    NetMessage.SendData(17, -1, -1, null, 0, (float)x, (float)y, 0f, 0, 0, 0);
+                                if(!Main.tile[x, y].active() && Main.netMode != NetmodeID.SinglePlayer) {
+                                    NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, (float)x, (float)y, 0f, 0, 0, 0);
                                 }
                             }
                         }
@@ -73,8 +74,8 @@ namespace SpiritMod
                                 for(int wallY = y - 1; wallY <= y + 1; wallY++) {
                                     if(Main.tile[wallX, wallY] != null && Main.tile[wallX, wallY].wall > 0) {
                                         WorldGen.KillWall(wallX, wallY, false);
-                                        if(Main.tile[wallX, wallY].wall == 0 && Main.netMode != 0) {
-                                            NetMessage.SendData(17, -1, -1, null, 2, (float)wallX, (float)wallY, 0f, 0, 0, 0);
+                                        if(Main.tile[wallX, wallY].wall == 0 && Main.netMode != NetmodeID.SinglePlayer) {
+                                            NetMessage.SendData(MessageID.TileChange, -1, -1, null, 2, (float)wallX, (float)wallY, 0f, 0, 0, 0);
                                         }
                                     }
                                 }

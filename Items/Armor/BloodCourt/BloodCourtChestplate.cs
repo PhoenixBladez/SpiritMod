@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Armor.BloodCourt
             player.magicDamage += 0.07f;
             player.meleeDamage += 0.07f;
             player.rangedDamage += 0.07f;
-            player.minionDamage += 0.07f;
+			player.minionDamage += 0.07f;
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
