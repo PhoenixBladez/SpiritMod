@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Heart of the Moon");
-            Tooltip.SetDefault("Increases damage dealt by 11%\nGetting hurt spawns six Moon Globules around the player\nAttacks have a chance to grant the player the 'Will of the Celestials,' increasing life regeneration and reducing damage taken");
+            Tooltip.SetDefault("11% increased damage\nGetting hurt spawns six Moon Globules around the player\nAttacks have a chance to grant the player the 'Will of the Celestials,' increasing life regeneration and reducing damage taken");
 
         }
 

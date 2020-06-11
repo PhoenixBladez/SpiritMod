@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Armor.BloodCourt
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Bloodcourt's Visage");
-            Tooltip.SetDefault("Increases damage dealt by 4%\nIncreases your maximum number of minions by 1");
+            Tooltip.SetDefault("4% increased damage\nIncreases your maximum number of minions by 1");
 
         }
 
