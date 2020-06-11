@@ -34,6 +34,7 @@ namespace SpiritMod.NPCs
             counter++;
             npc.spriteDirection = npc.direction;
             Player player = Main.player[npc.target];
+            npc.rotation *= npc.velocity.X *= .1f;
             if(npc.Center.X >= player.Center.X && moveSpeed >= -60) // flies to players x position
             {
                 moveSpeed--;

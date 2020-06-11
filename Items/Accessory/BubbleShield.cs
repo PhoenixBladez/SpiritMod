@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Bubble Shield");
-            Tooltip.SetDefault("Cloaks you in a bubble of invincibility upon taking fatal damage. Consumable");
+            Tooltip.SetDefault("Cloaks you in a bubble of invincibility upon taking fatal damage\nConsumable");
         }
 
 

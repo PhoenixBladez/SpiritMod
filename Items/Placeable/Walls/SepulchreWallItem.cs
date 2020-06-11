@@ -32,13 +32,13 @@ namespace SpiritMod.Items.Placeable.Walls
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<SepulchreBrickItem>());
-            recipe.AddTile(TileID.WorkBenches);
+            recipe.AddTile(TileID.HeavyWorkBench);
             recipe.SetResult(this, 4);
             recipe.AddRecipe();
 
             ModRecipe recipe1 = new ModRecipe(mod);
             recipe1.AddIngredient(this, 4);
-            recipe1.AddTile(TileID.WorkBenches);
+            recipe1.AddTile(TileID.HeavyWorkBench);
             recipe1.SetResult(ModContent.ItemType<SepulchreBrickItem>());
             recipe1.AddRecipe();
         }

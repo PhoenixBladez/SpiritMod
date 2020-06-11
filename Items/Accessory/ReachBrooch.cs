@@ -1,6 +1,7 @@
 
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace SpiritMod.Items.Accessory
 {
@@ -27,6 +28,10 @@ namespace SpiritMod.Items.Accessory
             player.magicCrit += 4;
             player.meleeCrit += 4;
             player.GetSpiritPlayer().reachBrooch = true;
+			if (player.GetSpiritPlayer().ZoneReach && !Main.dayTime)
+            {
+                player.AddBuff(BuffID.NightOwl, 30);
+            }
         }
     }
 }

@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Weapon.Bow
             SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Bow/GraniteBow_Glow");
         }
         public override void SetDefaults() {
-            item.damage = 23;
+            item.damage = 29;
             item.noMelee = true;
             item.ranged = true;
             item.width = 54;
@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Weapon.Bow
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.shoot = 3;
             item.useAmmo = AmmoID.Arrow;
-            item.knockBack = 3;
+            item.knockBack = 4.5f;
             item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
             item.rare = 2;
             item.UseSound = SoundID.Item5;

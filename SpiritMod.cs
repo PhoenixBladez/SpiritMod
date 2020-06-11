@@ -503,7 +503,10 @@ namespace SpiritMod
 
 		public override void MidUpdateProjectileItem()
 		{
-			TrailManager.UpdateTrails();
+            if (!Main.dedServ)
+            {
+                TrailManager.UpdateTrails();
+            }
 		}
 		
 		public override void AddRecipeGroups()

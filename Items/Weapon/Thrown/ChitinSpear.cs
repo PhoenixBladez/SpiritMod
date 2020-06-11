@@ -33,6 +33,7 @@ namespace SpiritMod.Items.Weapon.Thrown
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Chitin>(), 2);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 35);
             recipe.AddRecipe();
         }

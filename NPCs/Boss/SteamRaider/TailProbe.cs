@@ -174,6 +174,22 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
             }
             base.npc.spriteDirection = base.npc.direction;
             shoottimer++;
+            if (shoottimer >= 120 && shoottimer <= 180)
+            {
+                {
+                    int dust = Dust.NewDust(npc.Center, npc.width, npc.height, 226);
+                    Main.dust[dust].velocity *= -1f;
+                    Main.dust[dust].scale *= .8f;
+                    Main.dust[dust].noGravity = true;
+                    Vector2 vector2_1 = new Vector2((float)Main.rand.Next(-80, 81), (float)Main.rand.Next(-80, 81));
+                    vector2_1.Normalize();
+                    Vector2 vector2_2 = vector2_1 * ((float)Main.rand.Next(50, 100) * 0.04f);
+                    Main.dust[dust].velocity = vector2_2;
+                    vector2_2.Normalize();
+                    Vector2 vector2_3 = vector2_2 * 34f;
+                    Main.dust[dust].position = npc.Center - vector2_3;
+                }
+            }
             {
                 if(shoottimer >= 180) {
                     Main.PlaySound(2, (int)npc.Center.X, (int)npc.Center.Y, 12);

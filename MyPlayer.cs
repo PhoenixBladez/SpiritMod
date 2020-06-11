@@ -224,6 +224,7 @@ namespace SpiritMod
         public bool maskPet = false;
         public bool phantomPet = false;
         public bool lanternPet = false;
+        public bool leatherHood = false;
         public bool chitinSet = false;
         public bool thrallPet = false;
         public bool jellyfishPet = false;
@@ -534,6 +535,7 @@ namespace SpiritMod
             windEffect = false;
             windEffect2 = false;
             gremlinTooth = false;
+            leatherHood = false;
             floranSet = false;
             atmos = false;
             SoulStone = false;
@@ -959,6 +961,13 @@ namespace SpiritMod
                     flat += 1;
                 }
             }
+            if (leatherHood)
+            {
+                if (item.ranged)
+                {
+                    flat += 1;
+                }
+            }
         }
 
         public override void PostItemCheck() {
@@ -1309,7 +1318,7 @@ namespace SpiritMod
             }
 
             if(virulence <= 0f) {
-                Projectile.NewProjectile(target.position, Vector2.Zero, ModContent.ProjectileType<VirulenceExplosion>(), 35, 8, Main.myPlayer);
+                Projectile.NewProjectile(target.position, Vector2.Zero, ModContent.ProjectileType<VirulenceExplosion>(), 25, 8, Main.myPlayer);
                 virulence = 600f;
                 player.AddBuff(ModContent.BuffType<VirulenceCooldown>(), 140);
             }
@@ -1626,7 +1635,7 @@ namespace SpiritMod
                 virulence = 600f;
 
                 if(!player.HasBuff(ModContent.BuffType<VirulenceCooldown>())) {
-                    Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<VirulenceExplosion>(), 35, 5, Main.myPlayer);
+                    Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<VirulenceExplosion>(), 15, 5, Main.myPlayer);
                 }
 
                 player.AddBuff(ModContent.BuffType<VirulenceCooldown>(), 140);

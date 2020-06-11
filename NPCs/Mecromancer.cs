@@ -96,7 +96,7 @@ namespace SpiritMod.NPCs
             }
             if(timer > 420 && timer < 840) {
                 npc.noTileCollide = true;
-                if(Main.rand.Next(40) == 0) {
+                if(Main.rand.Next(60) == 0) {
                     int p = Terraria.Projectile.NewProjectile(npc.position.X, npc.position.Y + 40, 0, 1, ProjectileID.GreekFire1, (int)((npc.damage * .5)), 0);
                 }
                 Player player = Main.player[npc.target];

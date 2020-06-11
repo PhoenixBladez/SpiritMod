@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Armor
             return body.type == ModContent.ItemType<RoguePlate>() && legs.type == ModContent.ItemType<RoguePants>();
         }
         public override void UpdateArmorSet(Player player) {
-            player.setBonus = "Getting hit grants the player four seconds of invisibility\nWhile invisible this way, damage dealt is increased by 100%\n25 second cooldown";
+            player.setBonus = "Getting hit grants four seconds of invisibility and increases damage dealt by 100%\n25 second cooldown";
             player.GetSpiritPlayer().rogueSet = true;
 
             if(player.HasBuff(ModContent.BuffType<RogueCooldown>())) {

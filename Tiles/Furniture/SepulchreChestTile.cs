@@ -71,7 +71,7 @@ namespace SpiritMod.Tiles.Furniture
             Player player = Main.LocalPlayer;
             int distance = (int)Vector2.Distance(new Vector2(i * 16, j * 16), player.Center);
             if(distance < 360) {
-                Main.LocalPlayer.AddBuff(BuffID.Cursed, 600);
+                Main.LocalPlayer.AddBuff(BuffID.Cursed, 300);
                 Main.LocalPlayer.AddBuff(BuffID.Obstructed, 600);
             }
         }

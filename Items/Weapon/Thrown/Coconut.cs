@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Weapon.Thrown
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Hard Coconut");
-            Tooltip.SetDefault("Does more damage if dropped from high up");
+            Tooltip.SetDefault("Does more damage if dropped from high up\n'You're not brave enough to try eating it'");
         }
 
         public override void SetDefaults() {

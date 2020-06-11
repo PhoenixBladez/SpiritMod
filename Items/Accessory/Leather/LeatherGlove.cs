@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Accessory.Leather
     public class LeatherGlove : ModItem
     {
         public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Leather Strikers");
+            DisplayName.SetDefault("Leather Fistwraps");
             Tooltip.SetDefault("Slightly increases weapon speed");
         }
         public override void SetDefaults() {

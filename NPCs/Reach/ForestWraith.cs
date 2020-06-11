@@ -90,7 +90,7 @@ namespace SpiritMod.NPCs.Reach
                 npc.defense = 10;
                 Vector2 direction = Main.player[npc.target].Center - npc.Center;
                 direction.Normalize();
-                Main.PlaySound(SoundID.Roar, npc.Center);
+                Main.PlaySound(29, npc.Center, 7);
                 direction.X = direction.X * Main.rand.Next(6, 9);
                 direction.Y = direction.Y * Main.rand.Next(6, 9);
                 npc.velocity.X = direction.X;

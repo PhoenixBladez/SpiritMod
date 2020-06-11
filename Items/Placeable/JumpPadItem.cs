@@ -7,14 +7,14 @@ namespace SpiritMod.Items.Placeable
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Jump Pad");
-            Tooltip.SetDefault("Launches you");
+            Tooltip.SetDefault("'Take to the skies!'");
         }
 
 
         public override void SetDefaults() {
             item.width = 20;
             item.height = 20;
-            item.rare = 3;
+            item.rare = 2;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.createTile = mod.TileType("JumpPadTile");
             item.maxStack = 999;

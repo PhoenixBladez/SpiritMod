@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Fiery Pendant");
-            Tooltip.SetDefault("Increases melee damage by 6% \nMelee weapons have a 30% chance to inflict on fire");
+            Tooltip.SetDefault("Increases melee damage by 6% \nMelee weapons have a 30% chance to inflict 'On Fire!'");
         }
 
 

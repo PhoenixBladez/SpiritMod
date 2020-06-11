@@ -14,8 +14,8 @@ namespace SpiritMod.Projectiles.Thrown.Charge
         }
 
         public override void SetDefaults() {
-            projectile.width = 10;
-            projectile.height = 36;
+            projectile.width = 8;
+            projectile.height = 32;
             projectile.aiStyle = 113;
             projectile.friendly = true;
             projectile.thrown = true;

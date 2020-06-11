@@ -24,6 +24,7 @@ namespace SpiritMod.Items.Placeable
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 10;
             item.useAnimation = 15;
+            item.rare = 2;
 
             item.useTurn = true;
             item.autoReuse = true;
