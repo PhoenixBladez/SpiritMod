@@ -20,7 +20,7 @@ namespace SpiritMod.Projectiles
             projectile.width = 16;       //projectile width
             projectile.height = 16;  //projectile height
             projectile.friendly = false;      //make that the projectile will not damage you
-            projectile.hostile = true;        // 
+            projectile.hostile = false;        // 
             projectile.tileCollide = false;   //make that the projectile will be destroed if it hits the terrain
             projectile.penetrate = 1;      //how many npc will penetrate
             projectile.timeLeft = 200;   //how many time projectile projectile has before disepire

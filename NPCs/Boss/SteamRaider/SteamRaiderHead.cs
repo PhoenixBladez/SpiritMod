@@ -449,7 +449,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                 npc.aiStyle = -1;
                 atkCounter++;
                 shootCounter++;
-                if(atkCounter % 1500 > 0 && atkCounter % 1500 < 1000) //if it's in the teleport phase
+                if(atkCounter % 1800 > 0 && atkCounter % 1800 < 1000) //if it's in the teleport phase
                 {
                     {
                         int dust1 = Dust.NewDust(npc.Center, npc.width, npc.height, 226);
@@ -469,7 +469,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                     if(shootCounter % 201 == 0) //teleport and create laser boys
                     {
                         Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 94);
-                        for(int i = 0; i < 6; i++) {
+                        for(int i = 0; i < 5; i++) {
                             NPC.NewNPC((int)Main.player[npc.target].Center.X + Main.rand.Next(-700, 700), (int)Main.player[npc.target].Center.Y + Main.rand.Next(-700, 700), mod.NPCType("LaserBase"), npc.whoAmI);
                         }
                         bool outOfBlock = false;
@@ -484,10 +484,10 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                             }
                         }
                     }
-                    Vector2 direction9 = Main.player[npc.target].Center - npc.Center;
+                    direction9 = Main.player[npc.target].Center - npc.Center;
                     direction9.Normalize();
                     npc.rotation = direction9.ToRotation() + 1.57f;
-                } else {
+                } else if(atkCounter % 1800 > 1000 && atkCounter % 1800 < 1500) {
                     charge = true;
                     if(atkCounter % 251 == 0) {
                         distAbove = 425;
@@ -527,12 +527,42 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                     }
                     shootCounter = 180; //make sure he fires lasers immediately after ending this section
                 }
+                else if(atkCounter % 1800 > 1500 && atkCounter % 1800 < 1750) {
+                    npc.velocity = Vector2.Zero; //sets his velocity to 0 in the teleport phase
+                    if (atkCounter % 50 == 0)
+                    {
+                        bool outOfBlock = false;
+                        while(!outOfBlock) {
+                            int angle = Main.rand.Next(360);
+                            double anglex = Math.Sin(angle * (Math.PI / 180));
+                            double angley = Math.Cos(angle * (Math.PI / 180));
+                            npc.position.X = player.Center.X + (int)(480 * anglex);
+                            npc.position.Y = player.Center.Y + (int)(480 * angley);
+                            if(!Main.tile[(int)(npc.position.X / 16), (int)(npc.position.Y / 16)].active()) {
+                                outOfBlock = true;
+                            }
+                        }
+                        direction9 = Main.player[npc.target].Center - npc.Center;
+                        direction9.Normalize();
+                        npc.rotation = direction9.ToRotation() + 1.57f;
+                    }
+                     if(atkCounter % 50 < 30) 
+                     {
+                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 30, (float)direction9.Y * 30, ModContent.ProjectileType<StarLaserTrace>(), 27, 1, Main.myPlayer);
+                     }
+                     if(atkCounter % 50 == 30) //change to frame related later
+                    {
+                        Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 53);
+                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 40, (float)direction9.Y * 40, ModContent.ProjectileType<StarLaser>(), 55, 1, Main.myPlayer);
+                    }
+                }
             }
             #endregion
         }
         float alphaCounter;
         int atkCounter = 0;
         int distAbove = 500;
+        Vector2 direction9 = Vector2.Zero;
         int shootCounter = 150;
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor) {
             if(npc.life <= 1200) {

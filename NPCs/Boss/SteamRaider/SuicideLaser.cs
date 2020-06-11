@@ -15,14 +15,14 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
             NPCID.Sets.TrailCacheLength[npc.type] = 3;
             NPCID.Sets.TrailingMode[npc.type] = 0;
         }
-
+        int timer = 0;
         public override void SetDefaults() {
             npc.width = 56;
             npc.height = 46;
             npc.damage = 34;
             npc.defense = 4;
             npc.noGravity = true;
-            npc.lifeMax = 46;
+            npc.lifeMax = 15;
             npc.HitSound = SoundID.NPCHit4;
             npc.buffImmune[BuffID.Poisoned] = true;
             npc.buffImmune[BuffID.Venom] = true;
@@ -68,6 +68,24 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
         }
 
         public override void AI() {
+            timer++;
+            if(timer >= 90) {
+                Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 14);
+                Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 44);
+                Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 4);
+                for (int i = 0; i < 40; i++) {
+                int num = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, -2f, 117, new Color(0, 255, 142), .6f);
+                Main.dust[num].noGravity = true;
+                Dust expr_62_cp_0 = Main.dust[num];
+                expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
+                Dust expr_92_cp_0 = Main.dust[num];
+                expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
+                if(Main.dust[num].position != npc.Center) {
+                    Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
+                }
+            }
+            npc.active = false;
+            }
             npc.TargetClosest(true);
             float speed = 12f;
             float acceleration = 0.13f;
