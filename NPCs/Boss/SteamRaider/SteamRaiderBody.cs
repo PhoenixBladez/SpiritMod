@@ -103,7 +103,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                     }
                 }
             }
-            if(!Main.npc[(int)npc.ai[1]].active || Main.npc[(int)npc.ai[1]].life <= 1200) {
+            if(!Main.npc[(int)npc.ai[1]].active || Main.npc[(int)npc.ai[1]].life <= Main.npc[(int)npc.ai[1]].lifeMax * .4f) {
                 npc.life = 0;
                 npc.HitEffect(0, 10.0);
                 npc.active = false;

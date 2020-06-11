@@ -133,7 +133,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					}*/
             int parent = NPC.FindFirstNPC(ModContent.NPCType<SteamRaiderHead>());
             {
-                if(Main.npc[parent].life <= 1200) {
+                if(Main.npc[parent].life <= Main.npc[parent].lifeMax * .4f) {
                     npc.life = 0;
                     npc.HitEffect(0, 10.0);
                     npc.active = false;
@@ -177,7 +177,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
             if (shoottimer >= 120 && shoottimer <= 180)
             {
                 {
-                    int dust = Dust.NewDust(npc.Center, npc.width, npc.height, 226);
+                    int dust = Dust.NewDust(npc.Center, npc.width, npc.height, DustID.GoldCoin);
                     Main.dust[dust].velocity *= -1f;
                     Main.dust[dust].scale *= .8f;
                     Main.dust[dust].noGravity = true;
@@ -195,8 +195,8 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                     Main.PlaySound(2, (int)npc.Center.X, (int)npc.Center.Y, 12);
                     Vector2 direction = Main.player[npc.target].Center - npc.Center;
                     direction.Normalize();
-                    direction.X *= 4f;
-                    direction.Y *= 4f;
+                    direction.X *= 6f;
+                    direction.Y *= 6f;
 
                     int amountOfProjectiles = 1;
                     for(int i = 0; i < amountOfProjectiles; ++i) {

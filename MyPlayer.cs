@@ -1156,9 +1156,9 @@ namespace SpiritMod
                     player.HealEffect(lifeToHeal);
                 }
             }
-            if(frigidGloves && crit) {
+            if(frigidGloves && crit && item.melee) {
                 if(Main.rand.NextBool(2)) {
-                    player.AddBuff(BuffID.Frostburn, 180);
+                    target.AddBuff(BuffID.Frostburn, 180);
                 }
             }
             if(virulence <= 0f) {
@@ -2709,7 +2709,7 @@ namespace SpiritMod
                 for(int i = 0; i < 200; i++) {
                     if(Main.npc[i].active && !Main.npc[i].friendly && Main.npc[i].type != NPCID.TargetDummy) {
                         int distance = (int)Main.npc[i].Distance(player.Center);
-                        if(distance < 320) {
+                        if(distance < 480) {
                             clatterStacks++;
                         }
 
@@ -2777,8 +2777,8 @@ namespace SpiritMod
                     }
                 }
 
-                if(bismiteShieldStacks >= 3) {
-                    bismiteShieldStacks = 3;
+                if(bismiteShieldStacks >= 5) {
+                    bismiteShieldStacks = 5;
                 }
             }
 
@@ -2800,8 +2800,8 @@ namespace SpiritMod
                     }
                 }
 
-                if(frigidGloveStacks >= 5) {
-                    frigidGloveStacks = 5;
+                if(frigidGloveStacks >= 6) {
+                    frigidGloveStacks = 6;
                 }
             }
 
@@ -3570,6 +3570,10 @@ namespace SpiritMod
                     Rectangle textPos = new Rectangle((int)player.position.X, (int)player.position.Y - 20, player.width, player.height);
                     CombatText.NewText(textPos, new Color(95, 156, 111, 100), "Virulence Charged!");
                 }
+            }
+			else
+            {
+                virulence = 600;
             }
 
             if(daybloomSet) {

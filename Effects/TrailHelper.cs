@@ -40,7 +40,7 @@ namespace SpiritMod.Effects
                 CreateTrail(projectile, new StandardColorTrail(new Color(56, 194, 93)), new RoundCap(), new DefaultTrailPosition(), 4f, 100f, new ImageShader(mod.GetTexture("Textures/noise"), 0.2f, .4f, 1f));
             }
             if(projectile.type == ModContent.ProjectileType<StarLaser>()) {
-                CreateTrail(projectile, new StandardColorTrail(new Color(66, 239, 245)), new RoundCap(), new DefaultTrailPosition(), 10f, 1550f);
+                CreateTrail(projectile, new StandardColorTrail(new Color(66, 239, 245)), new RoundCap(), new DefaultTrailPosition(), 10f, 1950f);
             }
             if(projectile.type == ModContent.ProjectileType<GlitchLaser>()) {
                 CreateTrail(projectile, new StandardColorTrail(new Color(255, 232, 82)), new RoundCap(), new DefaultTrailPosition(), 10f, 1550f);

@@ -24,6 +24,10 @@ namespace SpiritMod.NPCs.Dungeon
             npc.defense = 16;
             npc.lifeMax = 140;
             npc.HitSound = SoundID.NPCHit2;
+            npc.buffImmune[BuffID.Poisoned] = true;
+            npc.buffImmune[BuffID.Venom] = true;
+            npc.buffImmune[BuffID.OnFire] = true;
+            npc.buffImmune[BuffID.CursedInferno] = true;
             npc.DeathSound = SoundID.NPCDeath2;
             npc.value = 1000f;
             npc.knockBackResist = .35f;

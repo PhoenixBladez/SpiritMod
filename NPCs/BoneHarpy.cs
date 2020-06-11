@@ -24,7 +24,7 @@ namespace SpiritMod.NPCs
             npc.height = 34;
             npc.damage = 16;
             npc.defense = 10;
-            npc.lifeMax = 117;
+            npc.lifeMax = 70;
             npc.noGravity = true;
             npc.value = 800f;
             npc.noTileCollide = false;
@@ -36,7 +36,8 @@ namespace SpiritMod.NPCs
             counter++;
             npc.spriteDirection = npc.direction;
             Player player = Main.player[npc.target];
-            if(npc.Center.X >= player.Center.X && moveSpeed >= -60) // flies to players x position
+            npc.rotation = npc.velocity.X * 0.1f;
+            if (npc.Center.X >= player.Center.X && moveSpeed >= -60) // flies to players x position
             {
                 moveSpeed--;
             }
@@ -45,7 +46,7 @@ namespace SpiritMod.NPCs
                 moveSpeed++;
             }
 
-            npc.velocity.X = moveSpeed * 0.08f;
+            npc.velocity.X = moveSpeed * 0.06f;
 
             if(npc.Center.Y >= player.Center.Y - HomeY && moveSpeedY >= -50) //Flies to players Y position
             {
@@ -57,7 +58,7 @@ namespace SpiritMod.NPCs
                 moveSpeedY++;
             }
 
-            npc.velocity.Y = moveSpeedY * 0.2f;
+            npc.velocity.Y = moveSpeedY * 0.16f;
             if(Main.rand.Next(220) == 8) {
                 HomeY = -25f;
             }
@@ -81,7 +82,7 @@ namespace SpiritMod.NPCs
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo) {
-            return spawnInfo.sky && !Main.LocalPlayer.GetSpiritPlayer().ZoneAsteroid ? 0.1f : 0f;
+            return spawnInfo.sky && !Main.LocalPlayer.GetSpiritPlayer().ZoneAsteroid ? 0.16f : 0f;
         }
 
         public override void NPCLoot() {

@@ -24,7 +24,9 @@ namespace SpiritMod.NPCs.Dungeon
 
             npc.HitSound = SoundID.NPCHit2;
             npc.DeathSound = SoundID.NPCDeath2;
-
+            npc.buffImmune[BuffID.Poisoned] = true;
+            npc.buffImmune[BuffID.Venom] = true;
+            npc.buffImmune[BuffID.Confused] = true;
             npc.value = 1200f;
             npc.knockBackResist = 0.75f;
 
@@ -130,7 +132,7 @@ namespace SpiritMod.NPCs.Dungeon
                         }
                     }
 
-                    if(npc.ai[0] >= 110 && npc.ai[0] <= 130 || npc.ai[0] >= 230 && npc.ai[0] <= 250 || npc.ai[0] >= 340 && npc.ai[0] <= 360) {
+                    if(npc.ai[0] >= 230 && npc.ai[0] <= 250 || npc.ai[0] >= 470 && npc.ai[0] <= 485 || npc.ai[0] >= 710 && npc.ai[0] <= 725) {
                         frame = 4;
                     }
                 }

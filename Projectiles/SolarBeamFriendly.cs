@@ -22,7 +22,7 @@ namespace SpiritMod.Projectiles
             projectile.magic = true;
             projectile.tileCollide = true;
             projectile.alpha = 255;
-            projectile.timeLeft = 500;
+            projectile.timeLeft = 180;
             projectile.light = 0;
             projectile.extraUpdates = 20;
         }

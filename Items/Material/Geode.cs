@@ -7,7 +7,7 @@ namespace SpiritMod.Items.Material
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Geode");
-            Tooltip.SetDefault("'Shinnnnnnnnnyyyyy'");
+            Tooltip.SetDefault("'It glimmers in multiple colors'");
         }
 
 

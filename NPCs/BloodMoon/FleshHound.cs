@@ -23,7 +23,7 @@ namespace SpiritMod.NPCs.BloodMoon
             npc.damage = 28;
             npc.defense = 7;
             npc.lifeMax = 85;
-            npc.HitSound = SoundID.NPCHit1;
+            npc.HitSound = SoundID.NPCHit6;
             npc.DeathSound = SoundID.NPCDeath5;
             npc.value = 180f;
             npc.knockBackResist = .2f;

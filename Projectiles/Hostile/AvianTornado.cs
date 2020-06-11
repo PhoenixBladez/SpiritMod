@@ -21,6 +21,8 @@ namespace SpiritMod.Projectiles.Hostile
             projectile.tileCollide = false;
             projectile.penetrate = -1;
         }
+        int target;
+
         public override void AI() {
             float num1178 = 900f;
             if(projectile.type == 657) {
@@ -31,7 +33,6 @@ namespace SpiritMod.Projectiles.Hostile
                 projectile.Kill();
             }
             if(projectile.type == 656 && projectile.localAI[0] >= 30f) {
-                projectile.damage = 0;
                 if(projectile.ai[0] < num1178 - 120f) {
                     float num1177 = projectile.ai[0] % 60f;
                     projectile.ai[0] = num1178 - 120f + num1177;

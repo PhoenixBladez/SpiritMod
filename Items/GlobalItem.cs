@@ -228,7 +228,7 @@ namespace SpiritMod.Items
             if(player.GetModPlayer<MyPlayer>().leatherGlove)
                 speed += .06f;
             if(player.GetModPlayer<MyPlayer>().frigidGloves)
-                speed += .03f * player.GetModPlayer<MyPlayer>().frigidGloveStacks;
+                speed += .04f * player.GetModPlayer<MyPlayer>().frigidGloveStacks;
             return speed;
         }
 

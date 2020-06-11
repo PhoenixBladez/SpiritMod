@@ -65,8 +65,22 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
             }
             npc.spriteDirection = npc.direction;
             timer++;
-            if(timer >= 170) {
-                npc.active = false;
+            if(timer >= Main.rand.Next(160, 190)) {
+                Main.PlaySound(4, npc.Center, 56);
+                for (int i = 0; i < 40; i++)
+                {
+                    int num = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, -2f, 117, new Color(0, 255, 142), .6f);
+                    Main.dust[num].noGravity = true;
+                    Dust expr_62_cp_0 = Main.dust[num];
+                    expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
+                    Dust expr_92_cp_0 = Main.dust[num];
+                    expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
+                    if (Main.dust[num].position != npc.Center)
+                    {
+                        Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 3f;
+                    }
+                }
+                npc.Transform(ModContent.NPCType<SuicideLaser>());
             } else {
                 npc.velocity.X = 0;
                 npc.velocity.Y = 0;
@@ -105,8 +119,8 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                 }
                 if(timer == 130) //change to frame related later
                 {
-                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 91);
-                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 30, (float)direction9.Y * 30, ModContent.ProjectileType<StarLaser>(), 90, 1, Main.myPlayer);
+                    Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 53);
+                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 40, (float)direction9.Y * 40, ModContent.ProjectileType<StarLaser>(), 55, 1, Main.myPlayer);
                 }
                 if(timer < 130 && timer > 75 && timer % 3 == 0) {
                     Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 30, (float)direction9.Y * 30, ModContent.ProjectileType<StarLaserTrace>(), 27, 1, Main.myPlayer);

@@ -64,7 +64,8 @@ namespace SpiritMod.NPCs
             }
         }
         public override bool CheckDead() {
-            for(int i = 0; i < 20; i++) {
+            Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 110));
+            for (int i = 0; i < 20; i++) {
                 int num = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, -2f, 0, default(Color), 2f);
                 Main.dust[num].noGravity = true;
                 Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;

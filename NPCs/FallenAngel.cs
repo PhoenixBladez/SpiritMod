@@ -23,6 +23,10 @@ namespace SpiritMod.NPCs
             npc.damage = 50;
             npc.defense = 31;
             npc.lifeMax = 3200;
+            npc.buffImmune[BuffID.Poisoned] = true;
+            npc.buffImmune[BuffID.Venom] = true;
+            npc.buffImmune[BuffID.OnFire] = true;
+            npc.buffImmune[BuffID.CursedInferno] = true;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath6;
             npc.value = 60f;

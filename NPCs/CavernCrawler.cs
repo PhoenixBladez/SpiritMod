@@ -23,17 +23,19 @@ namespace SpiritMod.NPCs
             npc.height = 28;
             npc.damage = 22;
             npc.defense = 9;
-            npc.lifeMax = 40;
+            npc.lifeMax = 55;
             npc.HitSound = SoundID.NPCHit2;
-            npc.DeathSound = SoundID.NPCDeath1;
-            npc.value = 860f;
+            npc.DeathSound = SoundID.NPCDeath16;
+            npc.value = 160f;
         }
 
-        public override float SpawnChance(NPCSpawnInfo spawnInfo) {
-            if(spawnInfo.playerSafe && !NPC.downedBoss1) {
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            if (spawnInfo.playerSafe || !NPC.downedBoss1)
+            {
                 return 0f;
             }
-            return SpawnCondition.Underground.Chance * 0.095f;
+            return SpawnCondition.Cavern.Chance * 0.095f;
         }
         public override void NPCLoot() {
             if(Main.rand.Next(100) <= 4) {
@@ -98,10 +100,11 @@ namespace SpiritMod.NPCs
             npc.frame.Y = frameHeight * frame;
         }
         public override void HitEffect(int hitDirection, double damage) {
-            for(int k = 0; k < 5; k++) {
+            for (int k = 0; k < 5; k++) {
                 Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), .61f);
             }
             if(npc.life <= 0) {
+                Main.PlaySound(SoundID.DD2_WitherBeastDeath, npc.Center);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crawler1"));
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crawler2"));
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crawler3"));

@@ -20,7 +20,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
             projectile.alpha = 255;
             projectile.timeLeft = 90;
             projectile.tileCollide = false;
-            projectile.extraUpdates = 1;
+            projectile.extraUpdates = 5;
         }
 
         public override bool PreAI() {

@@ -202,6 +202,7 @@ namespace SpiritMod.NPCs
         }
         public override void HitEffect(int hitDirection, double damage) {
             if(npc.life <= 0) {
+                Main.PlaySound(SoundID.DD2_WyvernScream, npc.Center);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Beholder1"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Beholder2"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Beholder3"), 1f);

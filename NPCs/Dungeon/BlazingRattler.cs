@@ -23,6 +23,9 @@ namespace SpiritMod.NPCs.Dungeon
             npc.damage = 30;
             npc.defense = 16;
             npc.lifeMax = 300;
+            npc.buffImmune[BuffID.Poisoned] = true;
+            npc.buffImmune[BuffID.Venom] = true;
+            npc.buffImmune[BuffID.OnFire] = true;
             npc.HitSound = SoundID.NPCHit2;
             npc.DeathSound = SoundID.NPCDeath2;
             npc.value = 1000f;
@@ -62,6 +65,7 @@ namespace SpiritMod.NPCs.Dungeon
                 dir.Y *= 4f;
                 bool expertMode = Main.expertMode;
                 for(int i = 0; i < 1; ++i) {
+                    Main.PlaySound(SoundID.Item20, npc.Center);
                     float A = (float)Main.rand.Next(-200, 200) * 0.01f;
                     float B = (float)Main.rand.Next(-200, 200) * 0.01f;
                     int damagenumber = expertMode ? 12 : 17;
@@ -71,6 +75,7 @@ namespace SpiritMod.NPCs.Dungeon
                 }
             }
             if(npc.life <= 0) {
+                Main.PlaySound(2, npc.Center, 74);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Rattler/Rattler1"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Rattler/Rattler5"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Rattler/Rattler6"), 1f);
@@ -81,8 +86,8 @@ namespace SpiritMod.NPCs.Dungeon
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Rattler/Rattler8"), 1f);
                 Vector2 dir = Main.player[npc.target].Center;
                 dir.Normalize();
-                dir.X *= Main.rand.NextFloat(-12f, 12f);
-                dir.Y *= Main.rand.NextFloat(-12f, 12f);
+                dir.X *= Main.rand.NextFloat(-6f, 6f);
+                dir.Y *= Main.rand.NextFloat(-6f, 6f);
                 bool expertMode = Main.expertMode;
                 for(int i = 0; i < 3; ++i) {
                     float A = (float)Main.rand.Next(-200, 200) * 0.01f;

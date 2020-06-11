@@ -2,6 +2,8 @@ using SpiritMod.Items.Armor;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.NPCs
 {
@@ -21,7 +23,7 @@ namespace SpiritMod.NPCs
             npc.HitSound = SoundID.NPCHit48;
             npc.DeathSound = SoundID.NPCDeath2;
             npc.value = 2060f;
-            npc.knockBackResist = .65f;
+            npc.knockBackResist = .25f;
             npc.aiStyle = 3;
             aiType = NPCID.AngryBones;
         }
@@ -49,16 +51,21 @@ namespace SpiritMod.NPCs
         public override void OnHitPlayer(Player target, int damage, bool crit) {
             target.AddBuff(BuffID.Confused, 60);
         }
-
         public override void HitEffect(int hitDirection, double damage) {
-            if(npc.life <= 0 && Main.rand.Next(3) == 0) {
+            if(npc.life <= 0 && Main.rand.Next(2) == 0) {
                 Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 6);
                 npc.Transform(ModContent.NPCType<CaptiveMask>());
             }
-            if(npc.life <= 0) {
-                Gore.NewGore(npc.position, npc.velocity, 13);
-                Gore.NewGore(npc.position, npc.velocity, 12);
-                Gore.NewGore(npc.position, npc.velocity, 11);
+            int d = 6;
+            for (int k = 0; k < 10; k++)
+            {
+                Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.27f);
+                Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.87f);
+            }
+            if (npc.life <= 0) {
+                Gore.NewGore(npc.position, npc.velocity, 9);
+                Gore.NewGore(npc.position, npc.velocity, 9);
+                Gore.NewGore(npc.position, npc.velocity, 9);
             }
         }
 

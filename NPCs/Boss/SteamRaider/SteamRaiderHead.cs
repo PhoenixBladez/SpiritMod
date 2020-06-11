@@ -139,7 +139,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
             if(timer == 700)
                 timer = 0;
             chargetimer++;
-            if(npc.life >= 1200) {
+            if(npc.life >= npc.lifeMax * .4f) {
                 npc.aiStyle = 6; //new
                 aiType = -1;
                 if(chargetimer == 700) {
@@ -594,18 +594,13 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                 Dust.NewDust(npc.position, npc.width, npc.height, 226, hitDirection, -1f, 0, default(Color), 1f);
             }
             if(npc.life <= 0) {
+                MyWorld.downedRaider = true;
                 NPC.NewNPC((int)npc.position.X + npc.width - 20, (int)npc.position.Y + npc.height, mod.NPCType("SteamRaiderHeadDeath"), npc.whoAmI);
                 npc.active = false;
             }
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale) {
             npc.lifeMax = (int)(npc.lifeMax * 0.6f * bossLifeScale);
-        }
-
-
-        public override bool PreNPCLoot() {
-            MyWorld.downedRaider = true;
-            return true;
         }
     }
 }

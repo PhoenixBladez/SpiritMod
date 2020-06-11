@@ -26,7 +26,7 @@ namespace SpiritMod.NPCs.Asteroid
             npc.noGravity = true;
             npc.value = 90f;
             npc.noTileCollide = true;
-            npc.HitSound = SoundID.NPCHit1;
+            npc.HitSound = SoundID.DD2_GoblinHurt;
             npc.DeathSound = SoundID.NPCDeath22;
         }
         public override void AI()
@@ -64,9 +64,9 @@ namespace SpiritMod.NPCs.Asteroid
             }
             if (npc.life <= 0)
             {
-                for (int k = 0; k < 15; k++)
+                for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 167, hitDirection, -1f, 0, default(Color), .81f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, 167, hitDirection, -1f, 0, default(Color), .91f);
                 }
             }
         }

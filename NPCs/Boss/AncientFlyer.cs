@@ -136,7 +136,7 @@ namespace SpiritMod.NPCs.Boss
                 Vector2 direction = Main.player[npc.target].Center - npc.Center;
                 direction.Normalize();
                 int damage = expertMode ? 15 : 19;
-                Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X * 12f, direction.Y * 12f, ModContent.ProjectileType<BoneWave>(), damage, 1, Main.myPlayer, 0, 0);
+                Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X * 14f, direction.Y * 14f, ModContent.ProjectileType<BoneWave>(), damage, 1, Main.myPlayer, 0, 0);
             }
             if(timer == 500 || timer == 700) {
                 HomeY = -35f;
@@ -145,7 +145,7 @@ namespace SpiritMod.NPCs.Boss
                 Main.PlaySound(SoundLoader.customSoundType, player.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/AvianScreech"));
             } else if(timer >= 900 && timer <= 1400) //Rains red comets
               {
-                npc.defense = 30;
+                npc.defense = 24;
                 if(expertMode) {
                     player.AddBuff(BuffID.WindPushed, 90);
                     modPlayer.windEffect = true;
@@ -154,13 +154,29 @@ namespace SpiritMod.NPCs.Boss
                 {
                     npc.velocity = Vector2.Zero;
                 }
-                if(Main.rand.Next(8) == 0) {
-                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
+                if (npc.life >= 1000)
+                {
+                    if (Main.rand.Next(8) == 0)
+                    {
+                        Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
 
-                    int A = Main.rand.Next(-200, 200) * 6;
-                    int B = Main.rand.Next(-200, 200) - 1000;
-                    int damage = expertMode ? 18 : 22;
-                    Projectile.NewProjectile(player.Center.X + A, player.Center.Y + B, 0f, 10f, ModContent.ProjectileType<RedComet>(), damage, 1, Main.myPlayer, 0, 0);
+                        int A = Main.rand.Next(-200, 200) * 6;
+                        int B = Main.rand.Next(-200, 200) - 1000;
+                        int damage = expertMode ? 18 : 22;
+                        Projectile.NewProjectile(player.Center.X + A, player.Center.Y + B, 0f, 10f, ModContent.ProjectileType<RedComet>(), damage, 1, Main.myPlayer, 0, 0);
+                    }
+                }
+				else
+                {
+                    if (Main.rand.Next(9) == 0)
+                    {
+                        Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
+
+                        int A = 1000 * (int)(Main.windSpeed / Main.windSpeed);
+                        int B = Main.rand.Next(-460, 460);
+                        int damage = expertMode ? 18 : 22;
+                        Projectile.NewProjectile(player.Center.X - A, player.Center.Y + B, 10f * (Main.windSpeed/Main.windSpeed), 0f, ModContent.ProjectileType<RedComet>(), damage, 1, Main.myPlayer, 0, 0);
+                    }
                 }
                 displaycircle = true;
             } else {
@@ -186,11 +202,11 @@ namespace SpiritMod.NPCs.Boss
                         Projectile.NewProjectile(player.Center.X + A, player.Center.Y + B, 0f, 10f, ModContent.ProjectileType<RedComet>(), damage, 1, Main.myPlayer, 0, 0);
                     }
                 }
-                if(timer == 100) {
+                if(timer == 60) {
                     tornadoX = (int)player.Center.X;
                     tornadoY = (int)player.Center.Y;
                 }
-                if(timer > 100 && timer < 260) {
+                if(timer > 60 && timer < 120) {
                     for(int k = 0; k < 3; k++) {
                         int dust = Dust.NewDust(new Vector2(tornadoX - 50, tornadoY + player.height - 10), 50, 10, DustID.SilverCoin, 0, -15);
                         Main.dust[dust].noGravity = true;
@@ -217,19 +233,19 @@ namespace SpiritMod.NPCs.Boss
                         }
                     }
                 }
-                if (timer == 220)
+                if (timer == 120)
                 {
                     Main.PlaySound(SoundID.Item82, new Vector2(tornadoX, tornadoY));
                     Main.PlaySound(SoundID.Item82, new Vector2(tornadoX - 260, tornadoY - 400));
                     Main.PlaySound(SoundID.Item82, new Vector2(tornadoX + 200, tornadoY - 400));
                     int damage = expertMode ? 16 : 20;
                     Projectile.NewProjectile(tornadoX, tornadoY, 0f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(tornadoX - 360, tornadoY - 400, 0f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(tornadoX + 300, tornadoY - 400, 0f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(tornadoX - 360, tornadoY - 400, -5f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(tornadoX + 300, tornadoY - 400, 5f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
                     if (npc.life <= 1000)
                     {
-                        Projectile.NewProjectile(tornadoX - 500, tornadoY, 0f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
-                        Projectile.NewProjectile(tornadoX + 500, tornadoY, 0f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
+                        Projectile.NewProjectile(tornadoX - 500, tornadoY, -5f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
+                        Projectile.NewProjectile(tornadoX + 500, tornadoY, 5f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
                     }
                 }
             }

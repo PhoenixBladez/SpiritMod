@@ -63,6 +63,7 @@ namespace SpiritMod.NPCs
             GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Mineroid_Glow"));
         }
         public override void HitEffect(int hitDirection, double damage) {
+            Main.PlaySound(SoundID.DD2_WitherBeastHurt, npc.Center);
             for(int k = 0; k < 11; k++) {
                 Dust.NewDust(npc.position, npc.width, npc.height, 24, hitDirection, -1f, 0, default(Color), .61f);
             }

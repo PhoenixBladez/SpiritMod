@@ -25,8 +25,8 @@ namespace SpiritMod.NPCs.BloodMoon
             npc.defense = 14;
             npc.damage = 30;
 
-            npc.HitSound = SoundID.NPCHit2;
-            npc.DeathSound = SoundID.NPCDeath2;
+            npc.HitSound = SoundID.DD2_SkeletonHurt;
+            npc.DeathSound = SoundID.DD2_SkeletonDeath;
 
             npc.value = 300f;
             npc.knockBackResist = 0.45f;
@@ -266,11 +266,13 @@ namespace SpiritMod.NPCs.BloodMoon
         public override void HitEffect(int hitDirection, double damage) {
             int d = 173;
             int d1 = 173;
+            Main.PlaySound(3, npc.Center, 2);
             for(int k = 0; k < 30; k++) {
                 Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);
                 Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
             }
             if(npc.life <= 0) {
+                Main.PlaySound(4, npc.Center, 2);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Occultist/Occultist1"));
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Occultist/Occultist2"));
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Occultist/Occultist3"));

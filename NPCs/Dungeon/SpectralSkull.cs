@@ -24,6 +24,8 @@ namespace SpiritMod.NPCs.Dungeon
             npc.noGravity = true;
             npc.lifeMax = 40;
             npc.HitSound = SoundID.NPCHit3;
+            npc.buffImmune[BuffID.Poisoned] = true;
+            npc.buffImmune[BuffID.Venom] = true;
             npc.DeathSound = SoundID.NPCDeath6;
             npc.value = 160f;
             npc.knockBackResist = .3f;

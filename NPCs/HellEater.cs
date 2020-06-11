@@ -53,6 +53,7 @@ namespace SpiritMod.NPCs
                         Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
                     }
                 }
+                Main.PlaySound(2, npc.Center, 14);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EaterGore1"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EaterGore2"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EaterGore2"), 1f);

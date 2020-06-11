@@ -600,18 +600,26 @@ namespace SpiritMod.NPCs
                 return "Here. I have some candy for you.";
         }
 
-        public override void SetupShop(int type, Chest shop, ref int nextSlot) {
-            if(type == NPCID.Merchant) {
-                if(Main.halloween && Main.halloween) {
+        public override void SetupShop(int type, Chest shop, ref int nextSlot)
+        {
+            if (type == NPCID.Merchant)
+            {
+                if (Main.halloween && Main.halloween)
+                {
                     shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Halloween.CandyBowl>(), false);
                     nextSlot++;
                 }
-            } else if(type == NPCID.Dryad) {
-                if(NPC.downedMoonlord && Main.halloween) {
+            }
+            else if (type == NPCID.Dryad)
+            {
+                if (NPC.downedMoonlord && Main.halloween)
+                {
                     shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Placeable.Tiles.HalloweenGrass>(), false);
                     nextSlot++;
                 }
-            } else if(type == NPCID.Clothier) {
+            }
+            else if (type == NPCID.Clothier)
+            {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<TheCouch>(), false);
                 nextSlot++;
                 shop.item[nextSlot].SetDefaults(410, false);
@@ -620,23 +628,36 @@ namespace SpiritMod.NPCs
                 shop.item[nextSlot].SetDefaults(411, false);
                 shop.item[nextSlot].shopCustomPrice = 200000;
                 nextSlot++;
-            } else if(type == NPCID.Steampunker) {
+            }
+            else if (type == NPCID.Steampunker)
+            {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Ammo.SpiritSolution>());
                 nextSlot++;
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Ammo.SoullessSolution>());
                 nextSlot++;
-            } else if(type == NPCID.PartyGirl) {
-                if(NPC.downedMechBossAny) {
+            }
+            else if (type == NPCID.PartyGirl)
+            {
+                if (NPC.downedMechBossAny)
+                {
                     shop.item[nextSlot].SetDefaults(ModContent.ItemType<PartyStarter>(), false);
                     nextSlot++;
                     shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Placeable.Furniture.SpiritPainting>(), false);
                     nextSlot++;
                 }
-            } else if(type == NPCID.WitchDoctor) {
-                if(NPC.downedPlantBoss) {
+            }
+            else if (type == NPCID.WitchDoctor)
+            {
+                if (NPC.downedPlantBoss)
+                {
                     //shop.item[nextSlot].SetDefaults(ModContent.ItemType<TikiArrow>());
                     //nextSlot++;
                 }
+            }
+            else if (type == NPCID.Painter)
+            {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Material.Canvas>());
+                nextSlot++;
             }
         }
 
@@ -1045,10 +1066,10 @@ namespace SpiritMod.NPCs
 
             #region Iriazul
             // Bubble Shield dropping.
-            if(martianMobs.Contains(npc.type)) {
+            /*if(martianMobs.Contains(npc.type)) {
                 if(Main.rand.Next(100) <= 2)
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BubbleShield>());
-            }
+            }*/
 
             // Essence Dropping
             if(Main.hardMode && NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3 && npc.lifeMax > 99) {

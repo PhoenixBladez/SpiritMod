@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Weapon.Summon
             item.width = 26;
             item.height = 28;
             item.value = Item.sellPrice(0, 3, 0, 0);
-            item.rare = 5;
+            item.rare = 2;
             item.mana = 11;
             item.damage = 13;
             item.knockBack = 3;
