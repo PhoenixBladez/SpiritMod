@@ -1,5 +1,6 @@
+using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ModLoader;
-
 namespace SpiritMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Legs)]
@@ -7,7 +8,7 @@ namespace SpiritMod.Items.Armor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Autonaut's Leggings");
-
+            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/CoiledLegs_Glow");
         }
 
         public override void SetDefaults() {
@@ -16,6 +17,10 @@ namespace SpiritMod.Items.Armor
             item.value = Terraria.Item.sellPrice(0, 0, 25, 0);
             item.rare = 2;
             item.vanity = true;
+        }
+        public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
+        {
+            glowMaskColor = Color.White;
         }
     }
 }

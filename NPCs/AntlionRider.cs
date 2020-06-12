@@ -10,12 +10,12 @@ namespace SpiritMod.NPCs
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Antlion Rider");
-            Main.npcFrameCount[npc.type] = 9;
+            Main.npcFrameCount[npc.type] = 3;
         }
 
         public override void SetDefaults() {
-            npc.width = 34;
-            npc.height = 44;
+            npc.width = 22;
+            npc.height = 32;
             npc.damage = 16;
             npc.defense = 8;
             npc.lifeMax = 59;
@@ -37,7 +37,7 @@ namespace SpiritMod.NPCs
         }
 
         public override void FindFrame(int frameHeight) {
-            npc.frameCounter += 0.25f;
+            npc.frameCounter += 0.20f;
             npc.frameCounter %= Main.npcFrameCount[npc.type];
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
@@ -77,6 +77,7 @@ namespace SpiritMod.NPCs
                 npc.gfxOffY = nPC7.gfxOffY;
                 npc.direction = nPC7.direction;
                 npc.spriteDirection = nPC7.spriteDirection;
+                npc.rotation = nPC7.velocity.X * .1f;
                 npc.timeLeft = nPC7.timeLeft;
                 npc.velocity = nPC7.velocity;
                 npc.target = nPC7.target;

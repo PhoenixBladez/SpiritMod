@@ -31,6 +31,7 @@ namespace SpiritMod.NPCs.Spirit
             npc.aiStyle = 44;
             aiType = NPCID.FlyingAntlion;
             npc.noGravity = true;
+            npc.noTileCollide = true;
         }
 
         public override void AI() {
@@ -91,15 +92,10 @@ namespace SpiritMod.NPCs.Spirit
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo) {
             Player player = spawnInfo.player;
-            if(!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.spawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.spawnTileY > Main.worldSurface || !Main.dayTime) && (SpawnCondition.GoblinArmy.Chance == 0)) {
-                int[] TileArray2 = { ModContent.TileType<Spiritsand>(), };
-                return TileArray2.Contains(Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].type) && NPC.downedMechBossAny ? 5f : 0f;
-            }
-            return 0f;
+            return player.position.Y / 16 >= Main.maxTilesY - 330 && player.GetSpiritPlayer().ZoneSpirit && !spawnInfo.playerSafe ? 2f : 0f;
         }
 
         public override void NPCLoot() {
-            if(Main.rand.Next(2) == 1)
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SpiritCrystal>(), Main.rand.Next(1) + 1);
 
             if(Main.rand.Next(25) == 1)

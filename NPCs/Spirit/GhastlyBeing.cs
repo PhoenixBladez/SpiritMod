@@ -61,13 +61,10 @@ namespace SpiritMod.NPCs.Spirit
             npc.frame.Y = frame * frameHeight;
         }
 
-        public override float SpawnChance(NPCSpawnInfo spawnInfo) {
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
             Player player = spawnInfo.player;
-            if(!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.spawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.spawnTileY > Main.worldSurface || !Main.dayTime) && (SpawnCondition.GoblinArmy.Chance == 0)) {
-                int[] TileArray2 = { ModContent.TileType<SpiritDirt>(), ModContent.TileType<SpiritStone>(), ModContent.TileType<Spiritsand>(), ModContent.TileType<SpiritGrass>(), ModContent.TileType<SpiritIce>(), };
-                return TileArray2.Contains(Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].type) && NPC.downedMechBossAny && spawnInfo.spawnTileY > (Main.rockLayer + 50) ? 3.08f : 0f;
-            }
-            return 0f;
+            return player.position.Y / 16 > (Main.rockLayer + Main.maxTilesY - 330) / 2f && player.GetSpiritPlayer().ZoneSpirit && !spawnInfo.playerSafe ? 3f : 0f;
         }
 
         public override void AI() {
