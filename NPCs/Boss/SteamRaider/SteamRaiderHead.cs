@@ -112,7 +112,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
             }*/
             bool expertMode = Main.expertMode;
             timer++;
-            if((timer == 100 || timer == 400) && npc.life > 1200) {
+            if((timer == 100 || timer == 400) && npc.life > npc.lifeMax * .4f) {
                 if(Main.expertMode) {
                     Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 91);
                     Vector2 direction = Main.player[npc.target].Center - npc.Center;
@@ -130,7 +130,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                 }
             }
             if(timer == 600) {
-                if(npc.life <= 5000 && npc.life > 1200) {
+                if(npc.life <= 5000 && npc.life > npc.lifeMax * .4f && npc.life < npc.lifeMax * .6f) {
                     for(int i = 0; i < 2; i++) {
                         NPC.NewNPC((int)Main.player[npc.target].Center.X + Main.rand.Next(-700, 700), (int)Main.player[npc.target].Center.Y + Main.rand.Next(-700, 700), mod.NPCType("LaserBase"), npc.whoAmI);
                     }
