@@ -19,10 +19,10 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
         public override void SetDefaults() {
             npc.width = 56;
             npc.height = 46;
-            npc.damage = 34;
+            npc.damage = 44;
             npc.defense = 4;
             npc.noGravity = true;
-            npc.lifeMax = 15;
+            npc.lifeMax = 5;
             npc.HitSound = SoundID.NPCHit4;
             npc.buffImmune[BuffID.Poisoned] = true;
             npc.buffImmune[BuffID.Venom] = true;
