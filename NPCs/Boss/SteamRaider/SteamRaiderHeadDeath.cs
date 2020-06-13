@@ -71,7 +71,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Starplate/Starplate2"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Starplate/Starplate3"), 1f);
                 Main.PlaySound(SoundID.DD2_EtherianPortalOpen, (int)npc.position.X, (int)npc.position.Y);
-                Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 14);
+              //  Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 14);
                 for(int i = 0; i < 90; i++) {
                     Dust.NewDust(npc.position, npc.width, npc.height, 226, Main.rand.Next(-25, 25), Main.rand.Next(-13, 13));
                 }

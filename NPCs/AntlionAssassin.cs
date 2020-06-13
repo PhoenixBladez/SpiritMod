@@ -9,21 +9,21 @@ namespace SpiritMod.NPCs
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Antlion Assassin");
-            Main.npcFrameCount[npc.type] = 15;
+            Main.npcFrameCount[npc.type] = 6;
         }
 
         public override void SetDefaults() {
-            npc.width = 24;
-            npc.height = 44;
+            npc.width = 22;
+            npc.height = 32;
             npc.damage = 21;
             npc.defense = 8;
             npc.lifeMax = 74;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath6;
             npc.value = 329f;
-            npc.knockBackResist = .65f;
+            npc.knockBackResist = .45f;
             npc.aiStyle = 3;
-            aiType = NPCID.AngryBones;
+            aiType = NPCID.SnowFlinx;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo) {
@@ -53,7 +53,7 @@ namespace SpiritMod.NPCs
         }
 
         public override void FindFrame(int frameHeight) {
-            npc.frameCounter += 0.25f;
+            npc.frameCounter += 0.15f;
             npc.frameCounter %= Main.npcFrameCount[npc.type];
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
@@ -85,11 +85,14 @@ namespace SpiritMod.NPCs
             }
             Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 6);
             int ing = Gore.NewGore(npc.position, npc.velocity, 825);
-            Main.gore[ing].timeLeft = 130;
+            Main.gore[ing].timeLeft = 50;
+            Main.gore[ing].scale = Main.rand.NextFloat(.5f, .9f);
             int ing1 = Gore.NewGore(npc.position, npc.velocity, 826);
-            Main.gore[ing1].timeLeft = 130;
+            Main.gore[ing1].timeLeft = 50;
+            Main.gore[ing].scale = Main.rand.NextFloat(.5f, .9f);
             int ing2 = Gore.NewGore(npc.position, npc.velocity, 827);
-            Main.gore[ing2].timeLeft = 130;
+            Main.gore[ing2].timeLeft = 50;
+            Main.gore[ing].scale = Main.rand.NextFloat(.5f, .9f);
             npc.alpha = 0;
             timer = 0;
             npc.alpha = 0;

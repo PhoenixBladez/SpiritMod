@@ -112,7 +112,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
             }*/
             bool expertMode = Main.expertMode;
             timer++;
-            if((timer == 100 || timer == 400) && npc.life > 1200) {
+            if((timer == 100 || timer == 400) && npc.life > npc.lifeMax * .4f) {
                 if(Main.expertMode) {
                     Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 91);
                     Vector2 direction = Main.player[npc.target].Center - npc.Center;
@@ -130,7 +130,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                 }
             }
             if(timer == 600) {
-                if(npc.life <= 5000 && npc.life > 1200) {
+                if(npc.life <= 5000 && npc.life > npc.lifeMax * .4f && npc.life < npc.lifeMax * .6f) {
                     for(int i = 0; i < 2; i++) {
                         NPC.NewNPC((int)Main.player[npc.target].Center.X + Main.rand.Next(-700, 700), (int)Main.player[npc.target].Center.Y + Main.rand.Next(-700, 700), mod.NPCType("LaserBase"), npc.whoAmI);
                     }
@@ -448,8 +448,8 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 
                 npc.aiStyle = -1;
                 atkCounter++;
-                shootCounter++;
-                if(atkCounter % 1800 > 0 && atkCounter % 1800 < 1000) //if it's in the teleport phase
+              //  shootCounter++;
+                if(atkCounter % 2000 > 0 && atkCounter % 2000 < 1000) //if it's in the teleport phase
                 {
                     {
                         int dust1 = Dust.NewDust(npc.Center, npc.width, npc.height, 226);
@@ -466,7 +466,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                         Main.dust[dust1].position = (npc.Center) - vector2_3;
                     }
                     npc.velocity = Vector2.Zero; //sets his velocity to 0 in the teleport phase
-                    if(shootCounter % 201 == 0) //teleport and create laser boys
+                    if(atkCounter % 200 == 1) //teleport and create laser boys
                     {
                         Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 94);
                         for(int i = 0; i < 5; i++) {
@@ -487,9 +487,9 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                     direction9 = Main.player[npc.target].Center - npc.Center;
                     direction9.Normalize();
                     npc.rotation = direction9.ToRotation() + 1.57f;
-                } else if(atkCounter % 1800 > 1000 && atkCounter % 1800 < 1500) {
+                } else if(atkCounter % 2000 >= 1000 && atkCounter % 2000 < 1500) {
                     charge = true;
-                    if(atkCounter % 251 == 0) {
+                    if(atkCounter % 250 == 0) {
                         distAbove = 425;
                         if(Main.rand.Next(2) == 0) {
                             npc.position.X = Main.player[npc.target].Center.X - 500;
@@ -527,7 +527,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                     }
                     shootCounter = 180; //make sure he fires lasers immediately after ending this section
                 }
-                else if(atkCounter % 1800 > 1500 && atkCounter % 1800 < 1750) {
+                else if(atkCounter % 2000 >= 1500 && atkCounter % 2000 < 1850) {
                     npc.velocity = Vector2.Zero; //sets his velocity to 0 in the teleport phase
                     if (atkCounter % 50 == 0)
                     {
@@ -554,6 +554,10 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                     {
                         Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 53);
                         Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 40, (float)direction9.Y * 40, ModContent.ProjectileType<StarLaser>(), 55, 1, Main.myPlayer);
+                    }
+                    if (atkCounter % 50 == 49)
+                    {
+                         NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, mod.NPCType("SuicideLaser"), npc.whoAmI);
                     }
                 }
             }

@@ -66,7 +66,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
             npc.spriteDirection = npc.direction;
             timer++;
             if(timer >= Main.rand.Next(160, 190)) {
-                Main.PlaySound(4, npc.Center, 56);
+                Main.PlaySound(2, npc.Center, 110);
                 for (int i = 0; i < 40; i++)
                 {
                     int num = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, -2f, 117, new Color(0, 255, 142), .6f);

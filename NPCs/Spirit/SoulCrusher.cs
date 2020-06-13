@@ -47,13 +47,10 @@ namespace SpiritMod.NPCs.Spirit
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor) {
             GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Spirit/SoulCrusher_Glow"));
         }
-        public override float SpawnChance(NPCSpawnInfo spawnInfo) {
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
             Player player = spawnInfo.player;
-            if(!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.spawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.spawnTileY > Main.worldSurface || !Main.dayTime) && (SpawnCondition.GoblinArmy.Chance == 0)) {
-                int[] TileArray2 = { ModContent.TileType<SpiritDirt>(), ModContent.TileType<SpiritStone>(), ModContent.TileType<Spiritsand>(), ModContent.TileType<SpiritGrass>(), ModContent.TileType<SpiritIce>(), };
-                return TileArray2.Contains(Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].type) && NPC.downedMechBossAny && spawnInfo.spawnTileY > (Main.rockLayer + 150) ? 3.09f : 0f;
-            }
-            return 0f;
+            return player.position.Y / 16 >= Main.maxTilesY - 330 && player.GetSpiritPlayer().ZoneSpirit && !spawnInfo.playerSafe ? 3f : 0f;
         }
 
         public override void HitEffect(int hitDirection, double damage) {

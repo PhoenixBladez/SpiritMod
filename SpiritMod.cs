@@ -307,8 +307,6 @@ namespace SpiritMod
 			LoadReferences();
 			AdventurerQuests = new AdventurerQuestHandler(this);
 			StructureLoader.Load(this);
-			TrailManager = new TrailManager(this);
-
 			On.Terraria.Main.DrawProjectiles += Main_DrawProjectiles;
 			On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile;
 
@@ -339,7 +337,8 @@ namespace SpiritMod
 			GlyphCurrencyID = CustomCurrencyManager.RegisterCurrency(new Currency(ModContent.ItemType<Items.Glyphs.Glyph>(), 999L));
 
 			if(!Main.dedServ) {
-				AddEquipTexture(null, EquipType.Legs, "TalonGarb_Legs", "SpiritMod/Items/Armor/TalonGarb_Legs");
+                TrailManager = new TrailManager(this);
+                AddEquipTexture(null, EquipType.Legs, "TalonGarb_Legs", "SpiritMod/Items/Armor/TalonGarb_Legs");
 				EmptyTexture = GetTexture("Empty");
 				auroraEffect = GetEffect("Effects/aurora");
 				noise = GetTexture("Textures/noise");

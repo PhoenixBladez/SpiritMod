@@ -19,10 +19,10 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
         public override void SetDefaults() {
             npc.width = 56;
             npc.height = 46;
-            npc.damage = 34;
+            npc.damage = 44;
             npc.defense = 4;
             npc.noGravity = true;
-            npc.lifeMax = 15;
+            npc.lifeMax = 5;
             npc.HitSound = SoundID.NPCHit4;
             npc.buffImmune[BuffID.Poisoned] = true;
             npc.buffImmune[BuffID.Venom] = true;
@@ -87,8 +87,8 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
             npc.active = false;
             }
             npc.TargetClosest(true);
-            float speed = 12f;
-            float acceleration = 0.13f;
+            float speed = 16f;
+            float acceleration = 0.16f;
             Vector2 vector2 = new Vector2(npc.position.X + npc.width * 0.5F, npc.position.Y + npc.height * 0.5F);
             float xDir = Main.player[npc.target].position.X + (Main.player[npc.target].width * 0.5F) - vector2.X;
             float yDir = Main.player[npc.target].position.Y + (Main.player[npc.target].height * 0.5F) - vector2.Y;
