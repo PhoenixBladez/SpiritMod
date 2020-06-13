@@ -312,11 +312,11 @@ namespace SpiritMod.NPCs
                     drain = true;
                     float def = 2 + (npc.lifeMax / (npc.life * 1.5f));
                     npc.lifeRegen -= (int)def;
-                    npc.damage = (int)def;
+                    damage = (int)def;
                 } else if(npc.boss || npc.type == NPCID.DungeonGuardian) {
                     drain = true;
                     npc.lifeRegen -= 6;
-                    npc.damage = 3;
+                    damage = 3;
                 }
             }
             if(Death) {
@@ -400,9 +400,9 @@ namespace SpiritMod.NPCs
             Player player = Main.player[Main.myPlayer];
             MyPlayer modPlayer = Main.player[Main.myPlayer].GetModPlayer<MyPlayer>();
             if(Main.halloween && !Main.dayTime && AllowTrickOrTreat(npc) && modPlayer.CanTrickOrTreat(npc)) {
-                if(npc.type == NPCID.Guide && !player.HasItem(ModContent.ItemType<CandyBag>())) {
+                if(npc.type == NPCID.Guide && !player.HasItem(ItemType<CandyBag>())) {
                     chat = "Take this bag; you can use it to store your Candy. \"How do I get candy?\", you ask? Try talking to the other villagers.";
-                    player.QuickSpawnItem(ModContent.ItemType<CandyBag>());
+                    player.QuickSpawnItem(ItemType<CandyBag>());
                 } else {
                     chat = TrickOrTeat(modPlayer, npc);
                     ItemUtils.DropCandy(player);
