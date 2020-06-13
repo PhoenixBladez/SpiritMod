@@ -1,4 +1,6 @@
+using SpiritMod.Items.Material;
 using SpiritMod.Items.Weapon.Gun;
+using SpiritMod.Items.Weapon.Thrown;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -32,26 +34,42 @@ namespace SpiritMod.Items.Consumable
         }
 
         public override void RightClick(Player player) {
-            string[] lootTable = { "PutridPiece", "FleshClump", "SpiritOre", "Rune", "StarPiece", "Geode" };
+            int[] lootTable = { 
+				ModContent.ItemType<PutridPiece>(), 
+				ModContent.ItemType<FleshClump>(), 
+				ModContent.ItemType<SpiritOre>(),
+				ModContent.ItemType<Rune>(),
+				ModContent.ItemType<StarPiece>(),
+				ModContent.ItemType<Geode>() 
+			};
             int loot = Main.rand.Next(lootTable.Length);
 
-            player.QuickSpawnItem(mod.ItemType(lootTable[loot]), Main.rand.Next(3, 5));
+            player.QuickSpawnItem(lootTable[loot], Main.rand.Next(3, 5));
             if(Main.rand.Next(4) == 1) {
-                string[] lootTable3 = { "PutridPiece", "FleshClump", "SpiritOre", "Rune", "StarPiece", "Geode" };
-                int loot3 = Main.rand.Next(lootTable3.Length);
+                int[] lootTable3 = {
+					ModContent.ItemType<PutridPiece>(),
+					ModContent.ItemType<FleshClump>(),
+					ModContent.ItemType<SpiritOre>(),
+					ModContent.ItemType<Rune>(),
+					ModContent.ItemType<StarPiece>(),
+					ModContent.ItemType<Geode>()
+				};
+				int loot3 = Main.rand.Next(lootTable3.Length);
 
-                player.QuickSpawnItem(mod.ItemType(lootTable3[loot3]), Main.rand.Next(3, 5));
+                player.QuickSpawnItem(lootTable3[loot3], Main.rand.Next(3, 5));
             }
             if(Main.rand.Next(7) == 0) {
-
                 player.QuickSpawnItem(ModContent.ItemType<SoulStinger>());
             }
 
             if(Main.rand.Next(6) == 0) {
-                string[] lootTable2 = { "StarCutter", "GhostJellyBomb" };
+                int[] lootTable2 = { 
+					ModContent.ItemType<StarCutter>(), 
+					ModContent.ItemType<GhostJellyBomb>() 
+				};
                 int loot2 = Main.rand.Next(lootTable2.Length);
 
-                player.QuickSpawnItem(mod.ItemType(lootTable2[loot2]), Main.rand.Next(30, 80));
+                player.QuickSpawnItem(lootTable2[loot2], Main.rand.Next(30, 80));
             }
         }
     }

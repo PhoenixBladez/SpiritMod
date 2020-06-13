@@ -33,6 +33,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using Terraria;
 using Terraria.GameContent.Generation;
 using Terraria.ID;
@@ -170,8 +171,6 @@ namespace SpiritMod
 
             gennedBandits = tag.GetBool("gennedBandits");
             gennedTower = tag.GetBool("gennedTower");
-
-
         }
 
         public override void LoadLegacy(BinaryReader reader) {
@@ -354,6 +353,48 @@ namespace SpiritMod
             }
         }
 
+		/// <summary>
+		/// Checks if the given area is more or less flattish.
+		/// Returns false if the average tile height variation is greater than the threshold.
+		/// Expects that the first tile is solid, and traverses from there.
+		/// Use the weight parameters to change the importance of up/down checks.
+		/// </summary>
+		/// <param name="startX"></param>
+		/// <param name="startY"></param>
+		/// <param name="width"></param>
+		/// <param name="threshold"></param>
+		/// <param name="goingDownWeight"></param>
+		/// <param name="goingUpWeight"></param>
+		/// <returns></returns>
+		public static bool CheckFlat(int startX, int startY, int width, float threshold, int goingDownWeight = 0, int goingUpWeight = 0)
+		{
+			// Fail if the tile at the other end of the check plane isn't also solid
+			if(!WorldGen.SolidTile(startX + width, startY)) return false;
+
+			float totalVariance = 0;
+			for(int i = 0; i < width; i++) {
+				if(startX + i >= Main.maxTilesX) return false;
+
+				// Fail if there is a tile very closely above the check area
+				for(int k = startY - 1; k > startY - 100; k--) {
+					if(WorldGen.SolidTile(startX + i, k)) return false;
+				}
+
+				// If the tile is solid, go up until we find air
+				// If the tile is not, go down until we find a floor
+				int offset = 0;
+				bool goingUp = WorldGen.SolidTile(startX + i, startY);
+				offset += goingUp ? goingUpWeight : goingDownWeight;
+				while((goingUp && WorldGen.SolidTile(startX + i, startY - offset))
+					|| (!goingUp && !WorldGen.SolidTile(startX + i, startY + offset))) {
+					offset++;
+				}
+				if(goingUp) offset--; // account for going up counting the first tile
+				totalVariance += offset;
+			}
+			return totalVariance / width <= threshold;
+		}
+
         public void PlaceAsteroids(int i, int j) {
             bool success = false;
             int attempts = 0;
@@ -464,7 +505,7 @@ namespace SpiritMod
         }
         #endregion
         #region MageTower
-        private void PlaceTower(int i, int j, int[,] ShrineArray, int[,] WallsArray, int[,] LootArray) {
+        private void PlaceTower(int i, int j, int[,] ShrineArray, int[,] HammerArray, int[,] WallsArray, int[,] LootArray) {
 
             for(int y = 0; y < WallsArray.GetLength(0); y++) { // This Loop Placzs Furnitures.(So that they have blocks to spawn on).
                 for(int x = 0; x < WallsArray.GetLength(1); x++) {
@@ -475,24 +516,24 @@ namespace SpiritMod
                         switch(WallsArray[y, x]) {
                             case 1:
                                 Framing.GetTileSafely(k, l).ClearTile();
-                                WorldGen.PlaceWall(k, l, 66); // Stone Slab
+                                WorldGen.PlaceWall(k, l, WallID.GrassUnsafe, mute: true); // Stone Slab
                                 break;
                             case 2:
                                 Framing.GetTileSafely(k, l).ClearTile();
-                                WorldGen.PlaceWall(k, l, 144); // Stone Slab
+                                WorldGen.PlaceWall(k, l, WallID.ArcaneRunes, mute: true); // Stone Slab
                                 break;
                             case 4:
                                 Framing.GetTileSafely(k, l).ClearTile();
-                                WorldGen.PlaceTile(k, l, 124); // Platforms
+                                WorldGen.PlaceTile(k, l, TileID.WoodenBeam, mute: true); // Platforms
                                 tile.active(true);
                                 break;
                             case 5:
                                 Framing.GetTileSafely(k, l).ClearTile();
-                                WorldGen.PlaceWall(k, l, 106); // Platforms
+                                WorldGen.PlaceWall(k, l, WallID.WoodenFence, mute: true); // Platforms
                                 break;
                             case 8:
                                 Framing.GetTileSafely(k, l).ClearTile();
-                                WorldGen.PlaceWall(k, l, 147); // Stone Slab
+                                WorldGen.PlaceWall(k, l, WallID.StoneSlab, mute: true); // Stone Slab
                                 break;
                         }
                     }
@@ -526,7 +567,7 @@ namespace SpiritMod
                                 Framing.GetTileSafely(k, l).ClearTile();
                                 break;
                             case 8:
-                                WorldGen.PlaceTile(k, l, 0);
+                                WorldGen.PlaceTile(k, l, 0, mute: true);
                                 tile.active(true);
                                 break;
                         }
@@ -534,6 +575,7 @@ namespace SpiritMod
                 }
             }
 
+			int shingleColor = WorldGen.genRand.NextBool() ? TileID.RedDynastyShingles : TileID.BlueDynastyShingles;
             for(int y = 0; y < ShrineArray.GetLength(0); y++) { // This Loop Placzs Furnitures.(So that they have blocks to spawn on).
                 for(int x = 0; x < ShrineArray.GetLength(1); x++) {
                     int k = i - 3 + x;
@@ -542,19 +584,19 @@ namespace SpiritMod
                         Tile tile = Framing.GetTileSafely(k, l);
                         switch(ShrineArray[y, x]) {
                             case 1:
-                                WorldGen.PlaceTile(k, l, 273); // Stone Slab
+                                WorldGen.PlaceTile(k, l, TileID.StoneSlab, mute: true); // Stone Slab
                                 tile.active(true);
                                 break;
                             case 2:
-                                WorldGen.PlaceTile(k, l, 19); // Platforms
+                                WorldGen.PlaceTile(k, l, TileID.Platforms, mute: true); // Platforms
                                 tile.active(true);
                                 break;
                             case 3:
-                                WorldGen.PlaceTile(k, l, 30); // Wood
+                                WorldGen.PlaceTile(k, l, TileID.WoodBlock, mute: true); // Wood
                                 tile.active(true);
                                 break;
                             case 6:
-                                WorldGen.PlaceTile(k, l, 312); // Roofing
+                                WorldGen.PlaceTile(k, l, shingleColor, mute: true); // Roofing
                                 tile.active(true);
                                 break;
                         }
@@ -569,36 +611,48 @@ namespace SpiritMod
                         Tile tile = Framing.GetTileSafely(k, l);
                         switch(LootArray[y, x]) {
                             case 1:
-                                WorldGen.PlaceTile(k, l, 28);  // Pot
+                                WorldGen.PlaceTile(k, l, TileID.Pots, mute: true);  // Pot
                                 tile.active(true);
                                 break;
                             case 2:
-                                WorldGen.PlaceObject(k, l, ModContent.TileType<GoblinStatueTile>());
+                                WorldGen.PlaceObject(k, l, TileType<GoblinStatueTile>(), mute: true);
                                 break;
                             case 4:
-                                WorldGen.PlaceObject(k, l - 1, ModContent.TileType<ShadowflameStone>());
+                                WorldGen.PlaceObject(k, l - 1, TileType<ShadowflameStone>(), mute: true);
                                 break;
                             case 5:
-                                WorldGen.PlaceObject(k, l, 50); // Book
+                                WorldGen.PlaceObject(k, l, TileID.Books, mute: true, style: Main.rand.Next(5)); // Book
                                 break;
                             case 6:
-                                WorldGen.PlaceObject(k, l, 376); // Crate
+                                WorldGen.PlaceObject(k, l, TileID.FishingCrate, mute: true); // Crate
                                 break;
                             case 7:
-                                WorldGen.PlaceChest(k, l, (ushort)ModContent.TileType<GoblinChest>(), false, 0); // Gold Chest
+                                WorldGen.PlaceChest(k, l, (ushort)TileType<GoblinChest>(), false, 0); // Gold Chest
                                 break;
                             case 8:
-                                WorldGen.PlaceObject(k, l, 13); // Crate
+                                WorldGen.PlaceObject(k, l, TileID.Bottles, mute: true); // Crate
                                 break;
                             case 9:
-                                WorldGen.PlaceObject(k, l - 1, ModContent.TileType<GoblinStandardTile>()); // Crate
+                                WorldGen.PlaceObject(k, l - 1, TileType<GoblinStandardTile>(), mute: true); // Crate
                                 break;
                         }
                     }
                 }
             }
+			for(int y = 0; y < HammerArray.GetLength(0); y++) {
+				for(int x = 0; x < HammerArray.GetLength(1); x++) {
+					int k = i - 3 + x;
+					int l = j - 6 + y;
+					if(WorldGen.InWorld(k, l, 30)) {
+						WorldGen.SlopeTile(k, l, HammerArray[y, x]);
+						if(TileID.Sets.Platforms[Main.tile[k,l].type]) {
+							WorldGen.SquareTileFrame(k, l);
+						}
+					}
+				}
+			}
         }
-        public void GenerateTower() {
+        public bool GenerateTower() {
             int[,] TowerShape = new int[,]
             {
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -643,13 +697,65 @@ namespace SpiritMod
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0},
                 {0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0},
+                {0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0},
                 {0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0},
-                {0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,7,7,7,7,0,0},
+                {0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},
 
             };
-            int[,] TowerWallsShape = new int[,]
+
+			// Hammer tiles for the tower
+			int[,] TowerHammered = new int[,]
+			{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0},
+				{0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+
+			};
+			int[,] TowerWallsShape = new int[,]
             {
 
 
@@ -671,13 +777,13 @@ namespace SpiritMod
                 {0,0,0,0,0,0,0,0,1,1,1,8,8,8,8,8,0,0,8,4,0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0,1,1,1,8,8,8,8,8,0,8,8,0,0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,1,4,8,1,8,8,8,8,2,2,8,8,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,4,8,1,8,0,8,0,2,2,8,8,4,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,4,8,1,8,0,8,0,2,2,8,8,1,0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0,4,8,1,8,8,8,8,8,8,8,8,4,1,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0,4,8,8,8,8,8,8,8,8,8,8,4,1,1,0,0,0,0,0,0},
                 {0,0,0,5,5,5,5,5,4,8,8,8,8,8,8,0,0,8,8,4,0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,5,4,8,8,8,8,8,8,8,8,8,8,4,0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,5,4,8,2,2,8,8,8,1,1,1,1,4,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,4,8,2,2,8,8,8,1,1,8,8,4,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,1,8,2,2,8,8,8,1,1,8,8,4,0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0,4,8,8,0,0,8,8,8,1,8,8,4,5,5,5,5,5,0,0,0},
                 {0,0,0,0,0,0,0,0,4,8,8,0,0,8,8,8,1,8,8,4,5,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0,4,8,8,8,0,8,8,8,1,8,8,4,5,0,0,0,0,0,0,0},
@@ -687,15 +793,15 @@ namespace SpiritMod
                 {0,0,0,0,0,0,0,0,4,8,8,8,8,8,8,8,8,8,8,4,0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0,4,8,8,8,8,8,8,8,8,8,8,0,0,0,0,0,0,0,0,0},
                 {0,0,0,5,5,5,5,5,4,8,2,2,8,8,8,8,1,1,1,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,1,4,2,8,2,8,8,8,8,1,8,8,4,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,1,4,2,8,2,8,8,8,8,1,8,8,1,0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,1,1,1,8,8,8,8,0,8,8,8,8,4,0,0,0,0,0,0,0,0},
                 {0,0,0,0,4,0,0,1,1,1,8,8,8,8,0,8,8,8,8,4,0,0,0,0,0,0,0,0},
                 {0,0,0,0,4,0,0,0,4,1,8,8,8,8,8,8,8,8,8,4,0,0,0,0,0,0,0,0},
                 {0,0,0,0,4,0,0,1,4,1,8,8,8,8,8,8,8,8,8,4,0,0,0,0,0,0,0,0},
                 {0,0,0,0,4,0,0,1,1,8,8,8,8,8,8,8,1,1,8,4,1,0,0,0,0,0,0,0},
                 {0,0,0,0,4,0,1,1,1,1,1,1,8,8,8,1,1,1,8,1,1,1,0,0,0,0,0,0},
-                {0,0,0,0,4,0,1,1,4,8,8,8,8,8,8,8,8,8,8,1,1,1,1,0,0,0,0,0},
-                {0,0,0,0,4,0,1,1,4,8,8,8,8,8,8,8,8,8,8,8,1,1,1,0,0,0,0,0},
+                {0,0,0,0,4,0,1,1,4,8,8,8,8,8,8,8,8,8,8,1,1,1,0,0,0,0,0,0},
+                {0,0,0,0,4,0,1,1,1,8,8,8,8,8,8,8,8,8,8,8,1,1,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0,8,8,8,8,8,8,8,8,8,8,8,8,0,0,0,0,0,0,0,0},
 
             };
@@ -749,36 +855,67 @@ namespace SpiritMod
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             };
             bool placed = false;
-            while(!placed) {
-                // Select a place in the first 6th of the world
-                int towerX = WorldGen.genRand.Next(50, Main.maxTilesX / 6); // from 50 since there's a unaccessible area at the world's borders
+			int attempts = 0;
+            while(!placed && attempts++ < 100000) {
+                // Select a place in the first 6th of the world, avoiding the oceans
+                int towerX = WorldGen.genRand.Next(300, Main.maxTilesX / 6); // from 50 since there's a unaccessible area at the world's borders
                                                                             // 50% of choosing the last 6th of the world
-                if(WorldGen.genRand.NextBool()) {
+                // Choose which side of the world to be on randomly
+				if(WorldGen.genRand.NextBool()) {
                     towerX = Main.maxTilesX - towerX;
                 }
-                int towerY = 0;
-                // We go down until we hit a solid tile or go under the world's surface
-                while(!WorldGen.SolidTile(towerX, towerY) && towerY <= Main.worldSurface) {
-                    towerY++;
-                }
+
+				//Start at 200 tiles above the surface instead of 0, to exclude floating islands
+                int towerY = (int)Main.worldSurface - 200;
+				
+				// We go down until we hit a solid tile or go under the world's surface
+				while(!WorldGen.SolidTile(towerX, towerY) && towerY <= Main.worldSurface) {
+					towerY++;
+				}
+                
                 // If we went under the world's surface, try again
                 if(towerY > Main.worldSurface) {
                     continue;
                 }
                 Tile tile = Main.tile[towerX, towerY];
                 // If the type of the tile we are placing the tower on doesn't match what we want, try again
-                if(tile.type != TileID.Dirt && tile.type != TileID.Grass && tile.type != TileID.Stone && tile.type != TileID.Mud) {
-                    continue;
-                }
+				if(!(tile.type == TileID.Dirt
+					|| tile.type == TileID.Grass
+					|| tile.type == TileID.Stone
+					|| tile.type == TileID.Mud
+					|| tile.type == TileID.FleshGrass
+					|| tile.type == TileID.CorruptGrass
+					|| tile.type == TileID.JungleGrass
+					|| tile.type == TileID.Sand
+					|| tile.type == TileID.Crimsand
+					|| tile.type == TileID.Ebonsand
+					|| tile.type == TileType<ReachGrassTile>())) {
+					continue;
+				}
+
+				// Don't place the tower if the area isn't flat
+				if(!CheckFlat(towerX, towerY, TowerShape.GetLength(1), 3))
+					continue;
+
                 // place the tower
-                PlaceTower(towerX, towerY - 37, TowerShape, TowerWallsShape, TowerLoot);
-                int num = NPC.NewNPC((towerX + 12) * 16, (towerY - 24) * 16, ModContent.NPCType<BoundRogue>(), 0, 0f, 0f, 0f, 0f, 255);
+                PlaceTower(towerX, towerY - 37, TowerShape, TowerHammered, TowerWallsShape, TowerLoot);
+				// extend the base a bit
+				for(int i = towerX - 2; i < towerX + TowerShape.GetLength(1) - 4; i++) {
+					for(int k = towerY + 3; k < towerY + 12; k++) {
+						WorldGen.PlaceTile(i, k, TileID.StoneSlab, mute: true, forced: true);
+						WorldGen.SlopeTile(i, k);
+					}
+				}
+				// place the Rogue
+                int num = NPC.NewNPC((towerX + 12) * 16, (towerY - 24) * 16, NPCType<BoundRogue>(), 0, 0f, 0f, 0f, 0f, 255);
                 Main.npc[num].homeTileX = -1;
                 Main.npc[num].homeTileY = -1;
                 Main.npc[num].direction = 1;
                 Main.npc[num].homeless = true;
                 placed = true;
             }
+			if(!placed) mod.Logger.Error("Worldgen: FAILED to place Goblin Tower, ground not flat enough?");
+			return placed;
         }
         #endregion
         #region ReachOutpost
@@ -1345,46 +1482,46 @@ namespace SpiritMod
                             case 0:
                                 break;
                             case 4:
-                                WorldGen.PlaceObject(k, l, 376);  // Crate
+                                WorldGen.PlaceObject(k, l, TileID.FishingCrate);  // Crate
                                 break;
                             case 5:
-                                WorldGen.PlaceTile(k, l, 28);  // Pot
+                                WorldGen.PlaceTile(k, l, TileID.Pots);  // Pot
                                 tile.active(true);
                                 break;
                             case 6:
                                 int objects;
-                                if(Main.rand.Next(3) == 0) {
-                                    objects = 105;
-                                } else if(Main.rand.Next(2) == 0) {
-                                    objects = 16;
-                                } else if(Main.rand.Next(4) == 0) {
-                                    objects = 87;
-                                } else if(Main.rand.Next(4) == 0) {
-                                    objects = 18;
+                                if(WorldGen.genRand.NextBool(3)) {
+                                    objects = TileID.Statues;
+                                } else if(WorldGen.genRand.NextBool(2)) {
+                                    objects = TileID.Anvils;
+                                } else if(WorldGen.genRand.NextBool(4)) {
+                                    objects = TileID.Pianos;
+                                } else if(WorldGen.genRand.NextBool(4)) {
+                                    objects = TileID.WorkBenches;
                                 } else {
-                                    objects = 28;
+                                    objects = TileID.Pots;
                                 }
                                 WorldGen.PlaceObject(k, l, (ushort)objects);  // Misc
                                 break;
                             case 7:
-                                WorldGen.PlaceObject(k, l - 1, ModContent.TileType<GemsPickaxeSapphire>());  // Special Pick		
+                                WorldGen.PlaceObject(k, l - 1, TileType<GemsPickaxeSapphire>());  // Special Pick		
                                 break;
                             case 8:
-                                if(Main.rand.Next(3) == 0) {
-                                    objects = 105;
-                                } else if(Main.rand.Next(2) == 0) {
-                                    objects = 16;
-                                } else if(Main.rand.Next(4) == 0) {
-                                    objects = 87;
-                                } else if(Main.rand.Next(4) == 0) {
-                                    objects = 18;
+                                if(WorldGen.genRand.NextBool(3)) {
+                                    objects = TileID.Statues;
+                                } else if(WorldGen.genRand.NextBool(2)) {
+                                    objects = TileID.Anvils;
+                                } else if(WorldGen.genRand.NextBool(4)) {
+                                    objects = TileID.Pianos;
+                                } else if(WorldGen.genRand.NextBool(4)) {
+                                    objects = TileID.WorkBenches;
                                 } else {
-                                    objects = 28;
+                                    objects = TileID.Pots;
                                 }
                                 WorldGen.PlaceObject(k, l, (ushort)objects);  // Another Misc Obj
                                 break;
                             case 9:
-                                WorldGen.PlaceObject(k, l - 1, ModContent.TileType<GemsPickaxeRuby>());  // Special Pick		
+                                WorldGen.PlaceObject(k, l - 1, TileType<GemsPickaxeRuby>());  // Special Pick		
                                 break;
                         }
                     }
@@ -3318,19 +3455,19 @@ namespace SpiritMod
         private void Vines(GenerationProgress progress) {
             progress.Message = "Spreading vines in the Briar...";
             Tile tile;
-            for(int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 1.2f) * 6E-05); k++) {
+            for(int k = 0; k < (int)(Main.maxTilesX * Main.maxTilesY * 1.2f * 6E-05); k++) {
                 bool placeSuccessful = false;
                 int tileToPlace;
                 if(WorldGen.genRand.Next(16) == 0) {
-                    tileToPlace = TileType<Tiles.Ambient.ReachMicros.Vine2>();
+                    tileToPlace = TileType<Vine2>();
                 } else {
-                    tileToPlace = TileType<Tiles.Ambient.ReachMicros.Vine1>();
+                    tileToPlace = TileType<Vine1>();
                 }
                 while(!placeSuccessful) {
                     int x = WorldGen.genRand.Next(0, Main.maxTilesX);
                     int y = WorldGen.genRand.Next((int)Main.worldSurface - 200, Main.maxTilesY);
                     tile = Main.tile[x, y];
-                    if(tile.type == ModContent.TileType<ReachGrassTile>()) {
+                    if(tile.type == TileType<ReachGrassTile>()) {
                         {
                             WorldGen.PlaceTile(x, y, tileToPlace);
                         }
@@ -3369,9 +3506,8 @@ namespace SpiritMod
                                 GenerateBanditHideout();
                                 gennedBandits = true;
                             } else {
-                                GenerateTower();
-                                gennedTower = true;
-                            }
+                                gennedTower = GenerateTower();
+							}
                             int num584 = 1;
                             if(Main.maxTilesX == 4200) {
                                 num584 = Main.rand.Next(7, 10);
@@ -3383,19 +3519,19 @@ namespace SpiritMod
                             for(int k = 0; k < num584 - 2; k++) {
                                 GenerateCrateStash();
                             }
-                            for(int k = 0; k < (int)(num584 / 2 + 1); k++) {
+                            for(int k = 0; k < (num584 / 2 + 1); k++) {
                                 GenerateCrateStashJungle();
                             }
-                            for(int k = 0; k < (int)(num584 / 3 * 2 + 2); k++) {
+                            for(int k = 0; k < (num584 / 3 * 2 + 2); k++) {
                                 GenerateBismiteCavern();
                             }
                             if(WorldGen.genRand.Next(2) == 0) {
-                                for(int k = 0; k < (int)(num584 / 4); k++) {
+                                for(int k = 0; k < (num584 / 4); k++) {
                                     GenerateStoneDungeon();
                                 }
                             }
                             if(WorldGen.genRand.Next(2) == 0) {
-                                for(int k = 0; k < (int)(num584 / 4); k++) {
+                                for(int k = 0; k < (num584 / 4); k++) {
                                     GeneratePurityShrine();
                                 }
                             }
@@ -3654,15 +3790,15 @@ namespace SpiritMod
             }));
         }
         public override void PostWorldGen() {
-            int[] commonItems1 = new int[] { 20, 22, 703, 704 };
-            int[] ammo1 = new int[] { 40, 42 };
-            int[] potions = new int[] { 290, 292, 298, 299, 303, 304 };
-            int[] recall = new int[] { 2350 };
-            int[] potionscorrupt = new int[] { 2349 };
-            int[] potionscrim = new int[] { 2347, 2323 };
-            int[] other1 = new int[] { 3093, 168 };
-            int[] other2 = new int[] { 31, 8 };
-            int[] moddedMaterials = new int[] { ModContent.ItemType<BismiteCrystal>(), ModContent.ItemType<OldLeather>() };
+            int[] commonItems1 = new int[] { ItemID.CopperBar, ItemID.IronBar, ItemID.TinBar, ItemID.LeadBar };
+            int[] ammo1 = new int[] { ItemID.WoodenArrow, ItemID.Shuriken };
+            int[] potions = new int[] { ItemID.SwiftnessPotion, ItemID.IronskinPotion, ItemID.ShinePotion, ItemID.NightOwlPotion, ItemID.ArcheryPotion, ItemID.HunterPotion };
+            int[] recall = new int[] { ItemID.RecallPotion };
+            int[] potionscorrupt = new int[] { ItemID.WrathPotion };
+            int[] potionscrim = new int[] { ItemID.RagePotion, ItemID.HeartreachPotion };
+            int[] other1 = new int[] { ItemID.HerbBag, ItemID.Grenade };
+            int[] other2 = new int[] { ItemID.Bottle, ItemID.Torch };
+            int[] moddedMaterials = new int[] { ItemType<BismiteCrystal>(), ItemType<OldLeather>() };
             int stack;
             //int itemsToPlaceInPagodaChestsChoice = 0;
             for(int chestIndex = 0; chestIndex < 1000; chestIndex++) {
