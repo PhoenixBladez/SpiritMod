@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Weapon.Magic
         int charger;
         private Vector2 newVect;
         public override void SetDefaults() {
-            item.damage = 24;
+            item.damage = 32;
             item.magic = true;
             item.mana = 9;
             item.width = 46;
@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Weapon.Magic
         }
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) {
-            if(Main.rand.Next(4) == 0) {
+            if(Main.rand.Next(3) == 0) {
                 Vector2 origVect = new Vector2(speedX, speedY);
                 for(int X = 0; X < 3; X++) {
                     if(Main.rand.Next(2) == 1) {

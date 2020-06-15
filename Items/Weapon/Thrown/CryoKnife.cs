@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Weapon.Thrown
         public static int _type;
 
         public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Cryolite Shuriken");
+            DisplayName.SetDefault("Cryolite Bomb");
             Tooltip.SetDefault("Occasionally inflicts 'Cryo Crush'\n'Cryo Crush' does more damage as enemy health wanes\nThis effect does not apply to bosses, and deals a flat amount of damage instead");
         }
 
@@ -19,9 +19,9 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.width = 30;
             item.height = 30;
             item.shoot = Projectiles.Thrown.CryoKnife._type;
-            item.useAnimation = 19;
-            item.useTime = 19;
-            item.shootSpeed = 9f;
+            item.useAnimation = 55;
+            item.useTime = 55;
+            item.shootSpeed = 10f;
             item.ranged = true;
             item.damage = 23;
             item.autoReuse = true;

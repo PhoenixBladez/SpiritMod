@@ -3,6 +3,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Buffs;
 
 namespace SpiritMod.Projectiles.Thrown
 {
@@ -25,10 +26,11 @@ namespace SpiritMod.Projectiles.Thrown
             foreach(var proj in list) {
                 if(proj.ranged && proj.active && !shot && proj.friendly && !proj.hostile && (proj.width <= 6 || proj.height <= 6)) {
                     Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
+                     for(int num424 = 0; num424 < 15; num424++) {
+                        Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 13, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 0, default(Color), 0.75f);
+                    }
                     shot = true;
-                    Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 2, projectile.velocity.Y, ModContent.ProjectileType<TargetShard>(), (int)MathHelper.Clamp(proj.damage * 2.5f, 0, 120), 0, Main.myPlayer);
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 1, projectile.velocity.Y, ModContent.ProjectileType<TargetShard>(), (int)MathHelper.Clamp(proj.damage * 2.5f, 0, 120), 0, Main.myPlayer);
-                    Projectile.NewProjectile(projectile.position.X + 25, projectile.position.Y - 10, -2, projectile.velocity.Y, ModContent.ProjectileType<TargetShard>(), (int)MathHelper.Clamp(proj.damage * 2.5f, 0, 120), 0, Main.myPlayer);
+                    Main.player[projectile.owner].AddBuff(ModContent.BuffType<TrueMarksman>(), 210);
                     projectile.active = false;
                     CombatText.NewText(new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height), new Color(255, 155, 0, 100),
                    "Bullseye!");

@@ -2,34 +2,36 @@ using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Thrown;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Projectiles.Thrown.Charge;
 namespace SpiritMod.Items.Weapon.Thrown
 {
     public class ClatterSpear : ModItem
     {
         public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Clatter Spear");
-            Tooltip.SetDefault("Attacks occasionally pierce through enemies, lowering their defense");
+            DisplayName.SetDefault("Clatter Javelin");
+            Tooltip.SetDefault("Hold and release to throw\nHold it longer for more velocity and damage \nAttacks occasionally pierce through enemies, lowering their defense");
         }
 
 
-        public override void SetDefaults() {
-            item.width = 10;
-            item.height = 22;
-            item.rare = 2;
-            item.maxStack = 999;
-            item.damage = 19;
-            item.value = Terraria.Item.sellPrice(0, 0, 0, 3);
-            item.knockBack = 6;
+       public override void SetDefaults() {
+            item.damage = 14;
+            item.noMelee = true;
+            item.channel = true; //Channel so that you can held the weapon [Important]
+            item.rare = 3;
+            item.width = 18;
+            item.height = 18;
+            item.useTime = 15;
+            item.useAnimation = 45;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = item.useAnimation = 44;
+            item.useTime = item.useAnimation = 24;
+            item.knockBack = 8;
             item.melee = true;
             item.noMelee = true;
-            item.autoReuse = true;
-            item.consumable = true;
+            //   item.UseSound = SoundID.Item20;
+            item.autoReuse = false;
             item.noUseGraphic = true;
-            item.shoot = ModContent.ProjectileType<ClatterSpearProj>();
-            item.shootSpeed = 7;
-            item.UseSound = SoundID.Item1;
+            item.shoot = ModContent.ProjectileType<ClatterJavelinProj>();
+            item.shootSpeed = 0f;
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);

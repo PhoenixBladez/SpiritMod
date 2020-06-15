@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Buffs;
 using SpiritMod.Items.Material;
+using SpiritMod.Projectiles.Sword;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,10 +12,10 @@ namespace SpiritMod.Items.Weapon.Swung
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Cryolite Sword");
-            Tooltip.SetDefault("Occasionally shoots out an icy blast that inflicts 'Cryo Crush'\nCryo Crush deals more damage the less life enemies have left\nThis does not affect bosses, and deals a flat rate of damage instead");
+            Tooltip.SetDefault("Right click after 5 swings to summon a pillar that inflicts 'Cryo Crush'\nCryo Crush deals more damage the less life enemies have left\nThis does not affect bosses, and deals a flat rate of damage instead");
         }
 
-        int charger;
+         int counter = 0;
         public override void SetDefaults() {
             item.damage = 25;
             item.melee = true;
@@ -28,22 +29,52 @@ namespace SpiritMod.Items.Weapon.Swung
             item.rare = 3;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.shoot = Projectiles.CryoliteBlast._type;
+            item.shoot = ModContent.ProjectileType<CryoPillar>();
             item.shootSpeed = 8;
+        }
+        public override bool AltFunctionUse(Player player) {
+            return true;
         }
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit) {
             if(Main.rand.Next(4) == 0)
                 target.AddBuff(ModContent.BuffType<CryoCrush>(), 300);
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) {
-            charger++;
-            if(charger >= 2) {
-                {
-                    Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 20);
-                    Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack / 2, player.whoAmI, 0f, 0f);
-
+         public override bool CanUseItem(Player player) {
+            if(player.altFunctionUse == 2) {
+                if(counter > 0) {
+                    return false;
+                } else {
+                    return true;
                 }
-                charger = 0;
+
+            }
+            return true;
+        }
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) {
+            if(player.altFunctionUse == 2) {
+                if(counter > 0) {
+                    return false;
+                } else {
+                    counter = 5;
+                    Projectile.NewProjectile(player.position.X, player.position.Y, 0, 0, type, damage, 7, player.whoAmI, 5, 0);
+                }
+
+            } else {
+                counter--;
+            }
+            if(counter == 0) {
+                Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 20));
+                {
+                    for(int i = 0; i < 7; i++) {
+                        int num = Dust.NewDust(player.position, player.width, player.height, 5, 0f, -2f, 0, default(Color), 2f);
+                        Main.dust[num].noGravity = true;
+                        Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+                        Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
+                        Main.dust[num].scale *= .25f;
+                        if(Main.dust[num].position != player.Center)
+                            Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
+                    }
+                }
             }
             return false;
         }

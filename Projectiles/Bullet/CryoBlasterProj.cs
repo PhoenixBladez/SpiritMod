@@ -2,13 +2,14 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using SpiritMod.Projectiles.Bullet;
 
-namespace SpiritMod.Projectiles.Magic
+namespace SpiritMod.Projectiles.Bullet
 {
-    public class StarMapProj : ModProjectile
+    public class CryoBlasterProj : ModProjectile
     {
         public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Star Map");
+            DisplayName.SetDefault("Cryo Blaster");
         }
 
         public override void SetDefaults() {
@@ -20,12 +21,12 @@ namespace SpiritMod.Projectiles.Magic
             projectile.friendly = false;
             projectile.penetrate = 1;
             projectile.tileCollide = false;
-            projectile.alpha = 0;
+           // projectile.alpha = 255;
             projectile.timeLeft = 999999;
         }
 
         int counter = 0;
-         Vector2 holdOffset = new Vector2(0, -15);
+         Vector2 holdOffset = new Vector2(-15, -15);
         public override bool PreAI() {
             DoDustEffect(projectile.Center, 14f);
              Player player = Main.player[projectile.owner];
@@ -34,11 +35,13 @@ namespace SpiritMod.Projectiles.Magic
             direction *= 12f;
             if(player.channel) {
                   if(direction.X > 0) {
-                    holdOffset.X = 5;
                     player.direction = 1;
+                    projectile.spriteDirection = 1;
+                    holdOffset.X = -15;
                 } else {
-                    holdOffset.X = -30;
                     player.direction = 0;
+                    projectile.spriteDirection = 0;
+                     holdOffset.X = -30;
                 }
                 
                 projectile.position = player.Center + holdOffset;
@@ -46,20 +49,25 @@ namespace SpiritMod.Projectiles.Magic
                 counter++;
                 if(counter > 160) {
                     DoDustEffect(projectile.Center, 54f);
-                     if (counter % 3 == 0)
-                    {
-                        Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, ModContent.ProjectileType<StarMapTrail>(), 0, 0, projectile.owner);
-                    }
                 }
             } else {
                 if(counter > 160) {
-                    Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, ModContent.ProjectileType<TeleportBolt>(), 0, 0, projectile.owner);
+                    Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, ModContent.ProjectileType<CryoliteBullet>(), projectile.damage, projectile.knockBack, projectile.owner);
                 }
                 projectile.active = false;
             }
             player.heldProj = projectile.whoAmI;
             player.itemTime = 2;
             player.itemAnimation = 2;
+            projectile.rotation = direction.ToRotation();
+            if (direction.ToRotation() > 3.14)
+            {
+                 projectile.spriteDirection = 1;
+            }
+            else
+            {
+                projectile.spriteDirection = 0;
+            }
             return true;
         }
         private void DoDustEffect(Vector2 position, float distance, float minSpeed = 2f, float maxSpeed = 3f, object follow = null) {

@@ -1,6 +1,6 @@
 ﻿
 using Microsoft.Xna.Framework;
-
+using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -13,16 +13,15 @@ namespace SpiritMod.Projectiles.Magic
         }
 
         public override void SetDefaults() {
-            //	projectile.CloneDefaults(ProjectileID.Shuriken);
-            projectile.width = 8;
-            projectile.height = 8;
-            projectile.alpha = 255;
+            projectile.width = 16;
+            projectile.height = 16;
+
+            projectile.aiStyle = 1;
+            aiType = ProjectileID.WoodenArrowFriendly;
+            projectile.friendly = true;
             projectile.penetrate = 2;
             projectile.damage = 0;
-            //projectile.thrown = false;
-            projectile.friendly = false;
-            projectile.hostile = false;
-            projectile.timeLeft = 90;
+            projectile.alpha = 255;
         }
 
         public override bool PreAI() {

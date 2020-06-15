@@ -7,7 +7,7 @@ namespace SpiritMod.Items.Weapon.Thrown
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Target Bottle");
-            Tooltip.SetDefault("Hit it with a bullet in the air to make extremely high damage shards\n'Take a crack at this bottle!'");
+            Tooltip.SetDefault("Hit it with a bullet in the air to do high bullet damage for a short time after\n'Take a crack at this bottle!'");
         }
         public override void SetDefaults() {
             item.useStyle = ItemUseStyleID.SwingThrow;
