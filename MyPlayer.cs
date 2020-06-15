@@ -37,15 +37,6 @@ namespace SpiritMod
 {
     public class MyPlayer : ModPlayer
     {
-        public int RedPinX = 0;
-        public int RedPinY = 0;
-        public int GreenPinX = 0;
-        public int GreenPinY = 0;
-        public int YellowPinX = 0;
-        public int YellowPinY = 0;
-        public int BluePinX = 0;
-        public int BluePinY = 0;
-
         public const int CAMO_DELAY = 100;
         public int Soldiers = 0;
         internal static bool swingingCheck;
@@ -464,15 +455,7 @@ namespace SpiritMod
             TagCompound tag = new TagCompound
             {
                 { "candyInBowl", candyInBowl },
-                { "candyFromTown", candyFromTown },
-                { "RedPinX", RedPinX },
-                { "RedPinY", RedPinY },
-                { "BluePinX", BluePinX },
-                { "BluePinY", BluePinY },
-                { "GreenPinX", GreenPinX },
-                { "GreenPinY", GreenPinY },
-                { "YellowPinX", YellowPinX },
-                { "YellowPinY", YellowPinY }
+                { "candyFromTown", candyFromTown }
             };
             return tag;
         }
@@ -480,14 +463,6 @@ namespace SpiritMod
         public override void Load(TagCompound tag) {
             candyInBowl = tag.GetInt("candyInBowl");
             candyFromTown = tag.GetList<string>("candyFromTown");
-            RedPinX = tag.GetInt("RedPinX");
-            RedPinY = tag.GetInt("RedPinY");
-            GreenPinX = tag.GetInt("GreenPinX");
-            GreenPinY = tag.GetInt("GreenPinY");
-            BluePinX = tag.GetInt("BluePinX");
-            BluePinY = tag.GetInt("BluePinY");
-            YellowPinX = tag.GetInt("YellowPinX");
-            YellowPinY = tag.GetInt("YellowPinY");
         }
 
 

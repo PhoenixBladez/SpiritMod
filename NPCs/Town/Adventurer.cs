@@ -127,9 +127,11 @@ namespace SpiritMod.NPCs.Town
             AddItem(ref shop, ref nextSlot, ItemType<Items.Placeable.Furniture.SkullStick>(), 1000, Main.LocalPlayer.GetSpiritPlayer().ZoneReach);
             AddItem(ref shop, ref nextSlot, ItemType<AncientBark>(), 200, Main.LocalPlayer.GetSpiritPlayer().ZoneReach);
             AddItem(ref shop, ref nextSlot, ItemType<PolymorphGun>(), check: NPC.downedMechBossAny);
-            AddItem(ref shop, ref nextSlot, ItemType<RedMapPin>(), 5000);
-            AddItem(ref shop, ref nextSlot, ItemType<BlueMapPin>(), 5000);
-        }
+            AddItem(ref shop, ref nextSlot, ItemType<PinRed>());
+            AddItem(ref shop, ref nextSlot, ItemType<PinBlue>());
+			AddItem(ref shop, ref nextSlot, ItemType<PinGreen>());
+			AddItem(ref shop, ref nextSlot, ItemType<PinYellow>());
+		}
 
         public override void TownNPCAttackStrength(ref int damage, ref float knockback) {
             damage = 13;

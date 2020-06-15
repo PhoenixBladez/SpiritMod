@@ -141,13 +141,13 @@ namespace SpiritMod.Items.Equipment
             if(!swinging) {
                 swinging = true;
 
-                deltaX = player.position.X + (float)(player.width / 2) - projectile.Center.X;
-                deltaY = player.position.Y + (float)(player.height / 2) - projectile.Center.Y;
+                deltaX = player.position.X + (player.width / 2) - projectile.Center.X;
+                deltaY = player.position.Y + (player.height / 2) - projectile.Center.Y;
                 angle = new Vector2(deltaX, deltaY);
                 angle.Normalize();
-                distance = (float)Math.Sqrt((double)deltaX * (double)deltaX + (double)deltaY * (double)deltaY);
+                distance = (float)Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
                 angle *= distance;
-                if(player.position.X + (float)(player.width / 2) > projectile.Center.X) {
+                if(player.position.X + (player.width / 2) > projectile.Center.X) {
                     leftswing = true;
                     //    momentum = 3.14f - angle.ToRotation;
                 } else {
@@ -159,7 +159,7 @@ namespace SpiritMod.Items.Equipment
             player.position = angle + projectile.Center;
             if(rightswing) {
                 angle = angle.RotatedBy(0 - momentum);
-                if(player.position.X + (float)(player.width / 2) > projectile.Center.X) {
+                if(player.position.X + (player.width / 2) > projectile.Center.X) {
                     momentum -= (momentumChange * 1.1f);
                 } else {
                     momentum += momentumChange;
@@ -172,7 +172,7 @@ namespace SpiritMod.Items.Equipment
             }
             if(leftswing) {
                 angle = angle.RotatedBy(momentum);
-                if(player.position.X + (float)(player.width / 2) > projectile.Center.X) {
+                if(player.position.X + (player.width / 2) > projectile.Center.X) {
                     momentum += momentumChange;
                 } else {
                     momentum -= (momentumChange * 1.1f);
@@ -191,10 +191,10 @@ namespace SpiritMod.Items.Equipment
             Vector2 vector = projectile.Center;
             Vector2 mountedCenter = Main.player[projectile.owner].MountedCenter;
             Rectangle? sourceRectangle = null;
-            Vector2 origin = new Vector2((float)texture.Width * 0.5f, (float)texture.Height * 0.5f);
-            float num = (float)texture.Height;
+            Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
+            float num = texture.Height;
             Vector2 vector2 = mountedCenter - vector;
-            float rotation = (float)Math.Atan2((double)vector2.Y, (double)vector2.X) - 1.57f;
+            float rotation = (float)Math.Atan2(vector2.Y, vector2.X) - 1.57f;
             bool flag = true;
             if(float.IsNaN(vector.X) && float.IsNaN(vector.Y)) {
                 flag = false;
@@ -203,14 +203,14 @@ namespace SpiritMod.Items.Equipment
                 flag = false;
             }
             while(flag) {
-                if((double)vector2.Length() < (double)num + 1.0) {
+                if(vector2.Length() < num + 1) {
                     flag = false;
                 } else {
                     Vector2 value = vector2;
                     value.Normalize();
                     vector += value * num;
                     vector2 = mountedCenter - vector;
-                    Color color = Lighting.GetColor((int)vector.X / 16, (int)((double)vector.Y / 16.0));
+                    Color color = Lighting.GetColor((int)vector.X / 16, (int)(vector.Y / 16.0));
                     color = projectile.GetAlpha(color);
                     Main.spriteBatch.Draw(texture, vector - Main.screenPosition, sourceRectangle, color, rotation, origin, 1f, SpriteEffects.None, 0f);
                 }
@@ -219,20 +219,20 @@ namespace SpiritMod.Items.Equipment
         public override void AI() {
             int num = 5;
             for(int k = 0; k < 1; k++) {
-                int index2 = Dust.NewDust(new Vector2(projectile.Center.X + 15, projectile.Center.Y), 1, 1, 180, 0.0f, 0.0f, 0, new Color(), 1f);
-                Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
-                Main.dust[index2].scale = .5f;
-                Main.dust[index2].velocity *= 0f;
-                Main.dust[index2].noGravity = true;
-                Main.dust[index2].noLight = false;
+                var dust = Dust.NewDustDirect(new Vector2(projectile.Center.X + 15, projectile.Center.Y), 1, 1, 180, 0.0f, 0.0f, 0, new Color(), 1f);
+                dust.position = projectile.Center - projectile.velocity / num * k;
+				dust.scale = .5f;
+				dust.velocity *= 0f;
+				dust.noGravity = true;
+				dust.noLight = false;
             }
             for(int j = 0; j < 1; j++) {
-                int index2 = Dust.NewDust(new Vector2(projectile.Center.X - 15, projectile.Center.Y), 1, 1, 130, 0.0f, 0.0f, 0, new Color(), 1f);
-                Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)j;
-                Main.dust[index2].scale = .5f;
-                Main.dust[index2].velocity *= 0f;
-                Main.dust[index2].noGravity = true;
-                Main.dust[index2].noLight = false;
+                var dust = Dust.NewDustDirect(new Vector2(projectile.Center.X - 15, projectile.Center.Y), 1, 1, 130, 0.0f, 0.0f, 0, new Color(), 1f);
+				dust.position = projectile.Center - projectile.velocity / num * j;
+				dust.scale = .5f;
+				dust.velocity *= 0f;
+				dust.noGravity = true;
+				dust.noLight = false;
             }
         }
     }

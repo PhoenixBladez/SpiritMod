@@ -4,6 +4,7 @@ using SpiritMod.Dusts;
 using SpiritMod.Effects;
 using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Material;
+using SpiritMod.Items.Pins;
 using SpiritMod.NPCs.Boss.Atlas;
 using SpiritMod.NPCs.Boss.Overseer;
 using SpiritMod.NPCs.Town;
@@ -838,12 +839,12 @@ namespace SpiritMod
 		#region pin stuff
 		public override void PostDrawFullscreenMap(ref string mouseText)
 		{
-			var myplayer = Main.LocalPlayer.GetModPlayer<MyPlayer>();
-
-			DrawMirrorOnFullscreenMap(myplayer.RedPinX, myplayer.RedPinY, true, GetTexture("Textures/Pins/RedPin"));
-			DrawMirrorOnFullscreenMap(myplayer.BluePinX, myplayer.BluePinY, true, GetTexture("Textures/Pins/BluePin"));
-			DrawMirrorOnFullscreenMap(myplayer.GreenPinX, myplayer.GreenPinY, true, GetTexture("Textures/Pins/GreenPin"));
-			DrawMirrorOnFullscreenMap(myplayer.YellowPinX, myplayer.YellowPinY, true, GetTexture("Textures/Pins/YellowPin"));
+			var pins = ModContent.GetInstance<PinWorld>().pins;
+			foreach(var pair in pins) {
+				var pos = pins.Get<Vector2>(pair.Key);
+				// No, I don't know why it draws one tile to the right, but that's how it is
+				DrawMirrorOnFullscreenMap((int)pos.X - 1, (int)pos.Y, true, GetTexture($"Items/Pins/Textures/Pin{pair.Key}Map"));
+			}
 		}
 		public void DrawMirrorOnFullscreenMap(int tileX, int tileY, bool isTarget, Texture2D tex)
 		{
