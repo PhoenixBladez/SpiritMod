@@ -1,5 +1,6 @@
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Placeable.Furniture.Reach;
 using Terraria;
 using Terraria.ID;
@@ -28,7 +29,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             // name.SetDefault("Example Clock"); // Automatic from .lang files
-            AddMapEntry(new Color(200, 200, 200), name);
+            AddMapEntry(new Color(179, 146, 107), name);
             dustType = 7;
             adjTiles = new int[] { TileID.GrandfatherClocks };
         }

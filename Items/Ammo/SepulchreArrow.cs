@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Ammo
             item.consumable = true;
 
             item.shoot = ModContent.ProjectileType<AccursedArrow>();
-            item.shootSpeed = 6f;
+            item.shootSpeed = 3.7f;
 
         }
     }

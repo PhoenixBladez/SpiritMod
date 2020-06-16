@@ -18,13 +18,13 @@ namespace SpiritMod.Items.Weapon.Swung
         int charger;
         public override void SetDefaults() {
             item.damage = 27;
-            item.useTime = 25;
-            item.useAnimation = 25;
+            item.useTime = 29;
+            item.useAnimation = 29;
             item.melee = true;
             item.width = 50;
             item.height = 50;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 6;
+            item.knockBack = 4;
             item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
             item.rare = 4;
             item.shootSpeed = 8;

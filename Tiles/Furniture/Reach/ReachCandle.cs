@@ -2,6 +2,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.Tiles.Furniture.Reach
 {
@@ -17,6 +19,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
             TileObjectData.addTile(Type);
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             adjTiles = new int[] { TileID.Torches };
+            AddMapEntry(new Color(179, 146, 107));
             drop = ModContent.TileType<ReachCandle>();
         }
 

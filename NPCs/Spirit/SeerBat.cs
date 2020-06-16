@@ -71,9 +71,6 @@ namespace SpiritMod.NPCs.Spirit
 
             if(Main.rand.Next(3) == 1)
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SoulShred>(), Main.rand.Next(1) + 1);
-
-            if(Main.rand.Next(2) == 1)
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SpiritCrystal>(), Main.rand.Next(1) + 1);
         }
 
     }

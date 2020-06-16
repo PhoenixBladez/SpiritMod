@@ -29,5 +29,14 @@ namespace SpiritMod.Items.Ammo
             item.shoot = ModContent.ProjectileType<PoisonArrowProj>();
             item.shootSpeed = 4f;
         }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.WoodenArrow, 25);
+            recipe.AddIngredient(ItemID.Stinger, 1);
+            recipe.AddTile(TileID.WorkBenches);
+            recipe.SetResult(this, 50);
+            recipe.AddRecipe();
+        }
     }
 }

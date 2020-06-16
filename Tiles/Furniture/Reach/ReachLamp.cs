@@ -4,6 +4,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.Tiles.Furniture.Reach
 {
@@ -27,7 +29,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Elderbark Lamp");
-            AddMapEntry(new Color(200, 200, 200), name);
+            AddMapEntry(new Color(179, 146, 107), name);
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b) {

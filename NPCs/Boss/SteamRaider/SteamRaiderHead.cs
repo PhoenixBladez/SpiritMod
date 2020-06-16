@@ -139,11 +139,18 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
             if(timer == 700)
                 timer = 0;
             chargetimer++;
+			if (npc.life == npc.lifeMax * .4f)
+            {
+                CombatText.NewText(new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height), new Color(255, 155, 0, 100),
+"Instability Detected");
+            }
             if(npc.life >= npc.lifeMax * .4f) {
                 npc.aiStyle = 6; //new
                 aiType = -1;
                 if(chargetimer == 700) {
                     Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
+                    CombatText.NewText(new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height), new Color(255, 155, 0, 100),
+"Target Engaged");
                 }
                 if(chargetimer >= 700 && chargetimer <= 1000) {
                     charge = true;
@@ -431,6 +438,12 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
             }
             #region Phase2
             else {
+                if (!player.active || player.dead) //despawns when player is ded
+                {
+                    npc.TargetClosest(false);
+                    npc.velocity.Y = -50;
+                    timer = 0;
+                }
                 npc.defense = 20;
                 alphaCounter += 0.08f;
                 npc.netUpdate = true;
@@ -483,6 +496,8 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                                 outOfBlock = true;
                             }
                         }
+                        CombatText.NewText(new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height), new Color(255, 155, 0, 100),
+"Initiating Laser Protocol");
                     }
                     direction9 = Main.player[npc.target].Center - npc.Center;
                     direction9.Normalize();
@@ -490,6 +505,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                 } else if(atkCounter % 2000 >= 1000 && atkCounter % 2000 < 1500) {
                     charge = true;
                     if(atkCounter % 250 == 0) {
+
                         distAbove = 425;
                         if(Main.rand.Next(2) == 0) {
                             npc.position.X = Main.player[npc.target].Center.X - 500;

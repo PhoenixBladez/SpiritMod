@@ -13,7 +13,7 @@ namespace SpiritMod.Tiles.Block
             Main.tileBlendAll[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileLighted[Type] = true;
-            AddMapEntry(new Color(120, 60, 60));
+            AddMapEntry(new Color(133, 104, 70));
             drop = ModContent.ItemType<AncientBark>();
         }
 

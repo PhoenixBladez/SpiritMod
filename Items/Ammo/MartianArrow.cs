@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Ammo
             item.consumable = true;
 
             item.shoot = ModContent.ProjectileType<ElectricArrow>();
-            item.shootSpeed = 1f;
+            item.shootSpeed = 4f;
         }
 
 

@@ -96,6 +96,7 @@ namespace SpiritMod.NPCs
         Vector2 targetLocation = Vector2.Zero;
         float chargeRotation = 0;
         public override void AI() {
+            Player player = Main.player[npc.target];
             float num395 = Main.mouseTextColor / 200f - 0.35f;
             num395 *= 0.14f;
             npc.scale = num395 + 0.95f;
@@ -196,6 +197,10 @@ namespace SpiritMod.NPCs
             if(chargetimer >= chargeTime + 20) {
                 chargetimer = 0;
                 charging = false;
+            }
+            if (!player.active || player.dead) //despawns when player is ded
+            {
+                npc.Transform(ModContent.NPCType<PagodaGhostPassive>());
             }
             npc.spriteDirection = npc.direction;
         }

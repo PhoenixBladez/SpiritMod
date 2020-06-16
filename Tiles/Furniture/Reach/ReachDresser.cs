@@ -7,6 +7,8 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.Tiles.Furniture.Reach
 {
@@ -33,7 +35,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Example Dresser");
-            AddMapEntry(new Color(200, 200, 200), name);
+            AddMapEntry(new Color(179, 146, 107), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Dressers };
             dresser = "Example Dresser";

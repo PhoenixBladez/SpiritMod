@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Placeable.Furniture.Reach;
 using Terraria;
 using Terraria.DataStructures;
@@ -59,7 +60,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
             TileID.Sets.HousingWalls[Type] = true; //needed for non-solid blocks to count as walls
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Reach Door");
-            AddMapEntry(new Color(80, 220, 50), name);
+            AddMapEntry(new Color(179, 146, 107), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.OpenDoor };
             closeDoorID = ModContent.TileType<ReachDoorClosed>();

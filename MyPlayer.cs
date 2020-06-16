@@ -170,7 +170,6 @@ namespace SpiritMod
         public bool CursedPendant = false;
         public bool IchorPendant = false;
         public bool KingRock = false;
-        public bool spiritNecklace = false;
         public bool starMap = false;
         private const int saveVersion = 0;
         public bool minionName = false;
@@ -667,7 +666,6 @@ namespace SpiritMod
             animusLens = false;
             deathRose = false;
             mythrilCharm = false;
-            spiritNecklace = false;
             KingSlayerFlask = false;
             DarkBough = false;
             Resolve = false;
@@ -1175,25 +1173,20 @@ namespace SpiritMod
                 player.AddBuff(ModContent.BuffType<BlizzardWrath>(), 240);
             }
 
-            if(meleeshadowSet && Main.rand.NextBool(10) && item.melee) {
+            if(meleeshadowSet && Main.rand.NextBool(14) && item.melee) {
                 Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, -12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
             }
 
-            if(magicshadowSet && Main.rand.NextBool(10) && item.magic) {
+            if(magicshadowSet && Main.rand.NextBool(14) && item.magic) {
                 Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, -12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
             }
 
-            if(magicshadowSet && Main.rand.NextBool(10) && item.summon) {
+            if(magicshadowSet && Main.rand.NextBool(14) && item.summon) {
                 Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, -12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
             }
 
-            if(rangedshadowSet && Main.rand.NextBool(10) && item.ranged) {
+            if(rangedshadowSet && Main.rand.NextBool(14) && item.ranged) {
                 Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, -12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
-            }
-
-            if(spiritNecklace && Main.rand.NextBool(10) && item.melee) {
-                target.AddBuff(ModContent.BuffType<EssenceTrap>(), 240);
-                damage += target.defense;
             }
 
             if(reaperSet && Main.rand.NextBool(15)) {
@@ -1471,12 +1464,6 @@ namespace SpiritMod
                 target.AddBuff(ModContent.BuffType<SoulBurn>(), 240);
             }
 
-
-            if(spiritNecklace && proj.melee && Main.rand.NextBool(10)) {
-                target.AddBuff(ModContent.BuffType<EssenceTrap>(), 180);
-                damage += target.defense >> 1;
-            }
-
             if(winterbornCharmMage && proj.magic && Main.rand.NextBool(7)) {
                 target.AddBuff(ModContent.BuffType<MageFreeze>(), 180);
             }
@@ -1488,19 +1475,15 @@ namespace SpiritMod
                 Rangedhits = 0;
             }
 
-            if(spiritNecklace && (proj.minion || proj.magic || proj.ranged) && Main.rand.NextBool(10)) {
-                target.AddBuff(ModContent.BuffType<EssenceTrap>(), 180);
-            }
-
-            if(magicshadowSet && Main.rand.NextBool(4) && proj.magic) {
+            if(magicshadowSet && Main.rand.NextBool(10) && proj.magic) {
                 Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, 12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
             }
 
-            if(meleeshadowSet && Main.rand.NextBool(4) && proj.melee) {
+            if(meleeshadowSet && Main.rand.NextBool(10) && proj.melee) {
                 Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, 12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
             }
 
-            if(rangedshadowSet && Main.rand.Next(4) == 2 && (proj.ranged)) {
+            if(rangedshadowSet && Main.rand.Next(10) == 2 && (proj.ranged)) {
                 Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, 12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
             }
 
@@ -1557,17 +1540,26 @@ namespace SpiritMod
         }
 
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource) {
-            if(Main.rand.NextBool(6) && sepulchreCharm) {
-                for(int k = 0; k < 5; k++) {
+            if (Main.rand.NextBool(5) && sepulchreCharm)
+            {
+                for (int k = 0; k < 5; k++)
+                {
                     int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 8, 75, 0f, 0f, 100, default, .84f);
                 }
-
-                player.longInvince = true;
-            } else {
-                player.longInvince = false;
+                for (int i = 0; i < 200; i++)
+                {
+                    if (Main.npc[i].active && !Main.npc[i].friendly && Main.npc[i].type != NPCID.TargetDummy)
+                    {
+                        int distance = (int)Main.npc[i].Distance(player.Center);
+                        if (distance < 320)
+                        {
+                            Main.npc[i].AddBuff(BuffID.CursedInferno, 120);
+                        }
+                    }
+                }
             }
 
-            if(ActiveDash == DashType.Shinigami) {
+            if (ActiveDash == DashType.Shinigami) {
                 return false;
             }
 

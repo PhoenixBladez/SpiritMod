@@ -1,6 +1,8 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.Tiles.Furniture.Reach
 {
@@ -13,6 +15,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
             Main.tileLavaDeath[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.addTile(Type);
+            AddMapEntry(new Color(179, 146, 107));
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num) {

@@ -76,10 +76,15 @@ namespace SpiritMod.Effects
                         break;
                 }
             }
+
             if(projectile.type == ModContent.ProjectileType<TrueHallowedStaffProj>()) {
                 CreateTrail(projectile, new RainbowTrail(5f, 0.002f, 1f, .75f), new RoundCap(), new SleepingStarTrailPosition(), 150f, 130f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
             }
-            if(projectile.type == ModContent.ProjectileType<TeleportBolt>()) {
+            if (projectile.type == ModContent.ProjectileType<StarSting>())
+            {
+                CreateTrail(projectile, new StandardColorTrail(new Color(255, 214, 99)), new RoundCap(), new DefaultTrailPosition(), 80f, 450f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
+            }
+            if (projectile.type == ModContent.ProjectileType<TeleportBolt>()) {
                 CreateTrail(projectile, new StandardColorTrail(new Color(122, 233, 255) * .6f), new RoundCap(), new SleepingStarTrailPosition(), 15f, 130f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
             }
             if(projectile.type == ModContent.ProjectileType<AquaFlareProj>()) {

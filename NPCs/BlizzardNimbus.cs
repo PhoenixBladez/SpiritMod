@@ -22,7 +22,7 @@ namespace SpiritMod.NPCs
             npc.lifeMax = 220;
             npc.knockBackResist = 0.3f;
             npc.noGravity = true;
-            npc.value = Item.buyPrice(0, 2, 0, 0);
+            npc.value = Item.buyPrice(0, 0, 4, 0);
             npc.HitSound = SoundID.NPCHit30;
             npc.DeathSound = SoundID.NPCDeath49;
         }

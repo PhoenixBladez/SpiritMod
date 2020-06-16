@@ -791,7 +791,7 @@ namespace SpiritMod.NPCs
 
             Player closest = Main.player[(int)Player.FindClosest(npc.position, npc.width, npc.height)];
             if(bloodInfusion) {
-                Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, ModContent.ProjectileType<FlayedExplosion>(), 20, 0, Main.myPlayer);
+                Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, ModContent.ProjectileType<FlayedExplosion>(), 25, 0, Main.myPlayer);
             }
             #region Glyph
             if(npc.boss && (npc.modNPC == null || npc.modNPC.bossBag > 0)) {
@@ -1121,9 +1121,6 @@ namespace SpiritMod.NPCs
             if(npc.type == NPCID.MartianSaucer && Main.rand.Next(2) == 0)
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Yoyo.Martian>());
 
-            if(npc.type == NPCID.AnglerFish && Main.rand.Next(30) == 0)
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Angelure>());
-
             if(npc.type == NPCID.ChaosElemental && Main.rand.Next(24) == 0)
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Accessory.Crystal>());
 
@@ -1228,11 +1225,6 @@ namespace SpiritMod.NPCs
             if(npc.type == NPCID.LihzahrdCrawler || npc.type == NPCID.Lihzahrd) {
                 if(Main.rand.Next(6) == 0) {
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SunShard>());
-                }
-            }
-            if(npc.type == NPCID.Eyezor) {
-                if(Main.rand.Next(6) == 0) {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Eyezor>());
                 }
             }
         }

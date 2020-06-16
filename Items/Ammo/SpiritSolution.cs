@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-
+using SpiritSolnAmmo = SpiritMod.Projectiles.Magic.SpiritSolution;
 namespace SpiritMod.Items.Ammo
 {
     class SpiritSolution : ModItem
@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Ammo
         }
 
         public override void SetDefaults() {
-            item.shoot = ModContent.ProjectileType<Projectiles.Magic.SpiritSolution>();
+            item.shoot = ModContent.ProjectileType<SpiritSolnAmmo>();
             item.ammo = AmmoID.Solution;
             item.width = 10;
             item.height = 12;

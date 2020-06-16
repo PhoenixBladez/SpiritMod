@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -22,7 +23,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Elderbark Tub");
-            AddMapEntry(new Color(60, 244, 55), name);
+            AddMapEntry(new Color(179, 146, 107), name);
             disableSmartCursor = true;
         }
 

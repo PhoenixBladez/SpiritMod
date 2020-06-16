@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Necrotic Pendant");
-            Tooltip.SetDefault("Getting hit occasionally lengthens immunity frames");
+            Tooltip.SetDefault("Getting hit occasionally sets nearby enemies ablaze with cursed flame");
 
         }
 

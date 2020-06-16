@@ -131,10 +131,5 @@ namespace SpiritMod.NPCs.Spirit
                 Gore.NewGore(npc.position, npc.velocity, 11);
             }
         }
-
-        public override void NPCLoot() {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SpiritOre>(), Main.rand.Next(3) + 2);
-        }
-
     }
 }

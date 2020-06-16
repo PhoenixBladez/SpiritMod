@@ -25,10 +25,6 @@ namespace SpiritMod.Items.Accessory
             item.accessory = true;
         }
         public override void UpdateAccessory(Player player, bool hideVisual) {
-            if(player.ZoneRockLayerHeight) {
-                player.meleeDamage += .12f;
-                player.meleeSpeed += .12f;
-            }
             player.GetSpiritPlayer().wheezeScale = true;
             player.meleeCrit += 5;
             player.armorPenetration += 6;
@@ -46,7 +42,6 @@ namespace SpiritMod.Items.Accessory
             recipe.AddIngredient(ModContent.ItemType<WheezerScale>(), 1);
             recipe.AddIngredient(ModContent.ItemType<FieryTrident>(), 1);
             recipe.AddIngredient(ModContent.ItemType<Atmos>(), 1);
-            recipe.AddIngredient(ModContent.ItemType<FossilFlower>(), 1);
             recipe.AddIngredient(ModContent.ItemType<SunShard>(), 5);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);

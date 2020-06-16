@@ -32,7 +32,7 @@ namespace SpiritMod.Projectiles.Thrown.Charge
             if(player.channel) {
                 projectile.position = player.position + holdOffset;
                 player.velocity.X *= 0.95f;
-                if(counter < 13) {
+                if(counter < 14) {
                     counter += 0.1f;
                 }
                 Vector2 direction = Main.MouseWorld - (projectile.position);

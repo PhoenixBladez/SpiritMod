@@ -19,7 +19,7 @@ namespace SpiritMod.Projectiles.Magic
             projectile.melee = true;         // 
             projectile.tileCollide = false;   //make that the projectile will be destroed if it hits the terrain
             projectile.penetrate = 2;      //how many npc will penetrate
-            projectile.timeLeft = 300;   //how many time projectile projectile has before disepire // projectile light
+            projectile.timeLeft = 180;   //how many time projectile projectile has before disepire // projectile light
             projectile.extraUpdates = 1;
             projectile.ignoreWater = true;
             projectile.alpha = 255;
@@ -56,13 +56,13 @@ namespace SpiritMod.Projectiles.Magic
                 projectile.velocity.Y = (projectile.velocity.Y * (float)(num8 - 1) + num7) / (float)num8;
             }
 
-            for(int index1 = 0; index1 < 5; ++index1) {
+            for(int index1 = 0; index1 < 3; ++index1) {
                 float num1 = projectile.velocity.X * 0.2f * (float)index1;
                 float num2 = (float)-((double)projectile.velocity.Y * 0.200000002980232) * (float)index1;
                 int index2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 206, 0.0f, 0.0f, 100, new Color(), 1.3f);
                 Main.dust[index2].noGravity = true;
                 Main.dust[index2].velocity *= 0.0f;
-                Main.dust[index2].scale = 2.0f;
+                Main.dust[index2].scale = 1.6f;
                 Main.dust[index2].position.X -= num1;
                 Main.dust[index2].position.Y -= num2;
             }
@@ -72,7 +72,7 @@ namespace SpiritMod.Projectiles.Magic
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
             ProjectileExtras.Explode(projectile.whoAmI, 120, 120,
                 delegate {
-                    for(int i = 0; i < 40; i++) {
+                    for(int i = 0; i < 20; i++) {
                         int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 206, 0f, -2f, 0, default(Color), 2f);
                         Main.dust[num].noGravity = true;
                         Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;

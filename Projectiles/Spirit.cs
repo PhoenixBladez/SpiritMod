@@ -41,7 +41,7 @@ namespace SpiritMod.Projectiles
             }
             timer++;
             int range = 40;   //How many tiles away the projectile targets NPCs
-            int animSpeed = 2;  //how many game frames per frame :P note: firing anims are twice as fast currently
+            int animSpeed = 6;  //how many game frames per frame :P note: firing anims are twice as fast currently
             int targetingMax = 15; //how many frames allowed to target nearest instead of shooting
             float shootVelocity = 2f; //magnitude of the shoot vector (speed of arrows shot)
 
@@ -62,12 +62,6 @@ namespace SpiritMod.Projectiles
                         }
                     }
                 }
-            }
-
-            timer--;
-            if(timer == 0) {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X + 2, projectile.velocity.Y, ModContent.ProjectileType<EnchantedShot>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                timer = 200;
             }
 
             int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 187, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);

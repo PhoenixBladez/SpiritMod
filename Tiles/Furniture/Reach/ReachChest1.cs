@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.DataStructures;
@@ -33,7 +34,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Briar Chest");
-            AddMapEntry(new Color(60, 150, 40), name, MapChestName);
+            AddMapEntry(new Color(179, 146, 107), name, MapChestName);
             dustType = 0;
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Containers };

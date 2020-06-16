@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Weapon.Gun
         private Vector2 newVect;
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Maelstrom");
-            Tooltip.SetDefault("Bullets shot are surrounded in angelic energy\nBullets shot inflict 'Angel's Light', a stacking debuff\nIf enemies receive three stacks, holy light rains down upon them\nStacks last for 1 second");
+            Tooltip.SetDefault("Bullets shot are surrounded in angelic energy\nBullets shot inflict Angel's Light, a stacking debuff\nIf enemies receive three stacks, holy light rains down upon them\nStacks last for 1 second");
         }
 
         public override void SetDefaults() {

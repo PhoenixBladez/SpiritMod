@@ -67,8 +67,8 @@ namespace SpiritMod.Items.Weapon.Swung
                 item.noUseGraphic = true;
                 item.shoot = ModContent.ProjectileType<GlowStingSpear>();
                 item.useStyle = ItemUseStyleID.HoldingOut;
-                item.useTime = 12;
-                item.useAnimation = 12;
+                item.useTime = 15;
+                item.useAnimation = 15;
                 item.knockBack = 2;
                 item.shootSpeed = 8f;
             } else {

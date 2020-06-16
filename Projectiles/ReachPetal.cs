@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 
 namespace SpiritMod.Projectiles
 {
@@ -24,10 +25,17 @@ namespace SpiritMod.Projectiles
         }
 
         public override void AI() {
+            Lighting.AddLight(projectile.position, 0.4f / 2, .12f / 2, .036f / 2);
             projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-            if(Main.rand.Next(6) == 0) {
-                int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 235);
-                Main.dust[dust].noGravity = true;
+            int num1222 = 5;
+            for (int k = 0; k < 2; k++)
+            {
+                int index2 = Dust.NewDust(projectile.position, 1, 1, 235, 0.0f, 0.0f, 0, new Color(), 1f);
+                Main.dust[index2].position = projectile.Center - projectile.velocity / num1222 * (float)k;
+                Main.dust[index2].scale = .95f;
+                Main.dust[index2].velocity *= 0f;
+                Main.dust[index2].noGravity = true;
+                Main.dust[index2].noLight = true;
             }
         }
 

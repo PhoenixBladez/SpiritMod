@@ -7,7 +7,7 @@ namespace SpiritMod.Buffs.Artifact
     public class MoonBurn : ModBuff
     {
         public override void SetDefaults() {
-            DisplayName.SetDefault("Moon Burn");
+            DisplayName.SetDefault("Moonfire");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = false;
             Main.buffNoTimeDisplay[Type] = false;

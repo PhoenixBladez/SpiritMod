@@ -28,7 +28,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Spirit Chair");
-            AddMapEntry(new Color(80, 230, 50), name);
+            AddMapEntry(new Color(179, 146, 107), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Chairs };
         }

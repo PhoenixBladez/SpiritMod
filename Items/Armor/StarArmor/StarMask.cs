@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.StarArmor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Astralite Visor");
-            Tooltip.SetDefault("Increases ranged damage by 5%\nLeave a trail of stars where you walk");
+            Tooltip.SetDefault("Reduces ammo consumption by 20%\nIncreases critical strike chance by 5%");
             SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/StarArmor/StarMask_Glow");
         }
         public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor) {
@@ -27,13 +27,10 @@ namespace SpiritMod.Items.Armor.StarArmor
             item.defense = 6;
         }
         public override void UpdateEquip(Player player) {
-            player.rangedDamage += .05f;
-            if(player.velocity.X != 0f) {
-                int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 0, 226);
-                Main.dust[dust].velocity *= 0f;
-                Main.dust[dust].scale *= .4f;
-                Main.dust[dust].noGravity = true;
-            }
+            player.ammoCost80 = true;
+            player.meleeCrit += 5;
+            player.rangedCrit += 5;
+            player.magicCrit += 5;
         }
 
         public override void UpdateArmorSet(Player player) {

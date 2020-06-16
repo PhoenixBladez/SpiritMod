@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Magic
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Bloodpetal Wand");
-            Tooltip.SetDefault("Shoots down multiple Blood petals from the sky at the cursor position");
+            Tooltip.SetDefault("Rains down multiple blood petals from the sky around the cursor position");
         }
 
 
@@ -53,7 +53,7 @@ namespace SpiritMod.Items.Weapon.Magic
                 spX *= length;
                 spY *= length;
                 spX = spX - (float)Main.rand.Next(-10, 11) * 0.02f;
-                spY = spY + (float)Main.rand.Next(-40, 41) * 0.14f;
+                spY = spY + (float)Main.rand.Next(-40, 41) * 0.2f;
                 spX *= (float)Main.rand.Next(-10, 10) * 0.006f;
                 pos.X += (float)Main.rand.Next(-10, 11);
                 Projectile.NewProjectile(pos.X, pos.Y, spX, spY, type, damage, 4, player.whoAmI);

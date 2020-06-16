@@ -142,19 +142,6 @@ namespace SpiritMod.Projectiles
                     return true;
                 }
             }
-
-            if(modPlayer.anglure) {
-                if(projectile.ranged) {
-                    if(projectile.owner == Main.myPlayer) {
-                        projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-                        int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244);
-                        Main.dust[dust].noGravity = true;
-                        Main.dust[dust].velocity *= 0f;
-                        Main.dust[dust].scale = 1.8f;
-                        return true;
-                    }
-                }
-            }
             if(projectile.minion && projectile.owner == Main.myPlayer && modPlayer.silkenSet) {
                 int dust = Dust.NewDust(projectile.Center, projectile.width, projectile.height, DustID.GoldCoin);
                 Main.dust[dust].velocity *= -1f;
@@ -378,11 +365,6 @@ namespace SpiritMod.Projectiles
 
             if(WitherLeaf == true) {
                 target.AddBuff(ModContent.BuffType<WitheringLeaf>(), 180);
-            }
-
-            if(modPlayer.anglure && projectile.ranged) {
-                if(Main.rand.Next(8) == 0)
-                    target.AddBuff(ModContent.BuffType<Marked>(), 180);
             }
             if(modPlayer.HealCloak && projectile.minion && Main.rand.Next(25) == 1) {
                 player.HealEffect(4);

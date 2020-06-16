@@ -18,9 +18,12 @@ namespace SpiritMod.Tiles.Block
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b) {
-            r = 0.08f;
-            g = 0.12f;
-            b = 0.28f;
+            if (!Framing.GetTileSafely(i, j - 1).active())
+            {
+                r = 0.08f;
+                g = 0.12f;
+                b = 0.28f;
+            }
         }
 
         public override bool CanExplode(int i, int j) {

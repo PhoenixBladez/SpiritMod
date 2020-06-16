@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.StarArmor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Astralite Chestguard");
-            Tooltip.SetDefault("Increases ranged damage by 6%");
+            Tooltip.SetDefault("Increases ranged damage by 5%");
             SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/StarArmor/StarPlate_Glow");
         }
         public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor) {
@@ -24,10 +24,10 @@ namespace SpiritMod.Items.Armor.StarArmor
             item.height = 20;
             item.value = Terraria.Item.sellPrice(0, 0, 38, 0);
             item.rare = 3;
-            item.defense = 7;
+            item.defense = 9;
         }
         public override void UpdateEquip(Player player) {
-            player.rangedDamage += .06f;
+            player.rangedDamage += .05f;
         }
         public override void ArmorSetShadows(Player player) {
             player.armorEffectDrawShadow = true;

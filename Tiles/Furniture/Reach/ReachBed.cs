@@ -18,7 +18,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Elderbark Bed");
-            AddMapEntry(new Color(60, 200, 40), name);
+            AddMapEntry(new Color(179, 146, 107), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Beds };
             bed = true;

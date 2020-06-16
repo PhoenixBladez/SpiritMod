@@ -93,15 +93,14 @@ namespace SpiritMod.NPCs
                 npc.alpha = 0;
                 Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 6);
             }
+            if (!player.active || player.dead) //despawns when player is ded
+            {
+                npc.Transform(ModContent.NPCType<PagodaGhostPassive>());
+            }
             npc.spriteDirection = npc.direction;
         }
         public override Color? GetAlpha(Color lightColor) {
             return new Color(100 + npc.alpha, 100 + npc.alpha, 100 + npc.alpha, 100 + npc.alpha);
-        }
-        public override void OnHitPlayer(Player target, int damage, bool crit) {
-            if(Main.rand.Next(4) == 0) {
-                target.AddBuff(BuffID.Cursed, 180);
-            }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) {
             Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height * 0.5f));

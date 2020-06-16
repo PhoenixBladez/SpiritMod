@@ -4,6 +4,8 @@ using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.Tiles.Furniture.Reach
 {
@@ -19,6 +21,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
             TileObjectData.newTile.AnchorBottom = default(AnchorData);
             TileObjectData.addTile(Type);
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
+            AddMapEntry(new Color(179, 146, 107));
             adjTiles = new int[] { TileID.Chandeliers };
         }
 

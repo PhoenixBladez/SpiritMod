@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Placeable.Furniture.Reach;
 using Terraria;
 using Terraria.ID;
@@ -28,7 +29,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
             TileObjectData.newTile.LavaDeath = true;
             TileObjectData.addTile(Type);
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
-            AddMapEntry(new Color(80, 200, 50));
+            AddMapEntry(new Color(179, 146, 107));
             dustType = 0;
             drop = ModContent.ItemType<ReachPlatformTile>();
             disableSmartCursor = true;

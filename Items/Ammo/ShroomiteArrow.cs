@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Ammo
             item.consumable = true;
 
             item.shoot = ModContent.ProjectileType<Projectiles.Arrow.ShroomiteArrow>();
-            item.shootSpeed = 4f;
+            item.shootSpeed = 6f;
         }
 
         public override void AddRecipes() {

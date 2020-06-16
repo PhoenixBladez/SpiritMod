@@ -41,7 +41,7 @@ namespace SpiritMod.NPCs.BlueMoon
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo) {
-            return MyWorld.BlueMoon ? 7f : 0f;
+            return MyWorld.BlueMoon ? 2f : 0f;
         }
 
         public override void HitEffect(int hitDirection, double damage) {

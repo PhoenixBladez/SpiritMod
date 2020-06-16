@@ -50,8 +50,7 @@ namespace SpiritMod.Items.Accessory
         }
         public override void AddRecipes() {
             ModRecipe modRecipe = new ModRecipe(mod);
-            modRecipe.AddIngredient(ItemID.CopperShortsword, 1);
-            modRecipe.AddIngredient(ItemID.TungstenBar, 5);
+            modRecipe.AddIngredient(ItemID.AdamantiteBar, 5);
             modRecipe.AddIngredient(ModContent.ItemType<Material.Material>(), 5);
             modRecipe.AddIngredient(ItemID.SoulofFlight, 20);
             modRecipe.AddTile(TileID.MythrilAnvil);
@@ -59,8 +58,7 @@ namespace SpiritMod.Items.Accessory
             modRecipe.AddRecipe();
 
             ModRecipe modRecipe1 = new ModRecipe(mod);
-            modRecipe1.AddIngredient(ItemID.CopperShortsword, 1);
-            modRecipe1.AddIngredient(ItemID.SilverBar, 5);
+            modRecipe1.AddIngredient(ItemID.TitaniumBar, 5);
             modRecipe.AddIngredient(ModContent.ItemType<Material.Material>(), 5);
             modRecipe1.AddIngredient(ItemID.SoulofFlight, 20);
             modRecipe1.AddTile(TileID.MythrilAnvil);

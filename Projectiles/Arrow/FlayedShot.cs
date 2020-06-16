@@ -31,7 +31,7 @@ namespace SpiritMod.Projectiles.Arrow
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
-            target.AddBuff(ModContent.BuffType<BloodInfusion>(), 900, true);
+            target.AddBuff(ModContent.BuffType<BloodInfusion>(), 1200, true);
         }
         public override void Kill(int timeLeft) {
             for(int i = 0; i < 5; i++) {

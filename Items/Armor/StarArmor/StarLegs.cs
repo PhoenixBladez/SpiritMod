@@ -1,6 +1,8 @@
 using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Armor.StarArmor
@@ -10,7 +12,7 @@ namespace SpiritMod.Items.Armor.StarArmor
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Astralite Leggings");
-            Tooltip.SetDefault("Increases ranged damage by 6% and movement speed by 8%");
+            Tooltip.SetDefault("Increases ranged damage by 5%\nLeave a trail of stars where you walk");
         }
         int timer = 0;
         public override void SetDefaults() {
@@ -18,13 +20,20 @@ namespace SpiritMod.Items.Armor.StarArmor
             item.height = 20;
             item.value = Terraria.Item.sellPrice(0, 0, 35, 0);
             item.rare = 3;
-            item.defense = 5;
+            item.defense = 7;
         }
-        public override void UpdateEquip(Player player) {
-            player.moveSpeed += 0.08f;
-            player.maxRunSpeed += 0.05f;
-            player.rangedDamage += .06f;
+        public override void UpdateEquip(Player player)
+        {
+            player.rangedDamage += .05f;
+            if (player.velocity.X != 0f)
+            {
+                int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 0, 226);
+                Main.dust[dust].velocity *= 0f;
+                Main.dust[dust].scale *= .4f;
+                Main.dust[dust].noGravity = true;
+            }
         }
+
         public override void ArmorSetShadows(Player player) {
             player.armorEffectDrawShadow = true;
         }

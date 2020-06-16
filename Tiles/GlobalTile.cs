@@ -98,7 +98,11 @@ namespace SpiritMod.Tiles
                     Main.dust[dust].noGravity = true;
                 }
             }
-            if((type == TileID.Grass
+            if (type == TileID.Sand && player.GetSpiritPlayer().scarabCharm)
+            {
+                player.jumpSpeedBoost += .15f;
+            }
+            if ((type == TileID.Grass
 				|| type == TileID.JungleGrass
 				|| type == TileID.MushroomGrass
 				|| type == TileID.HallowedGrass

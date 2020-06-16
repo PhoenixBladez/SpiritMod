@@ -21,25 +21,20 @@ namespace SpiritMod.Items.Material
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.FallenStar, 2);
+            recipe.AddIngredient(ItemID.BandofRegeneration, 1);
+            recipe.AddIngredient(ItemID.FallenStar, 3);
             recipe.AddIngredient(ItemID.TissueSample, 2);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this, 1);
+            recipe.SetResult(ItemID.BandofStarpower, 1);
             recipe.AddRecipe();
 
             ModRecipe recipe2 = new ModRecipe(mod);
-            recipe2.AddIngredient(ItemID.FallenStar, 2);
+            recipe2.AddIngredient(ItemID.BandofRegeneration, 1);
+            recipe2.AddIngredient(ItemID.FallenStar, 3);
             recipe2.AddIngredient(ItemID.ShadowScale, 2);
-            recipe2.AddTile(TileID.Anvils);
-            recipe2.SetResult(this, 1);
+            recipe.AddTile(TileID.Anvils);
+            recipe2.SetResult(ItemID.BandofStarpower, 1);
             recipe2.AddRecipe();
-
-
-            ModRecipe recipe1 = new ModRecipe(mod);
-            recipe1.AddIngredient(ModContent.ItemType<ManaShard>(), 3);
-            recipe1.AddTile(TileID.Anvils);
-            recipe1.SetResult(ItemID.BandofStarpower, 1);
-            recipe1.AddRecipe();
         }
     }
 }
