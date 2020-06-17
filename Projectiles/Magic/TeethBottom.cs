@@ -33,7 +33,7 @@ namespace SpiritMod.Projectiles.Magic
             if(counter >= 45) {
                 projectile.friendly = true;
             }
-            if(counter == 52) {
+            if(counter == 33) {
                 for(int i = 0; i < 10; i++) {
                     Dust.NewDust(projectile.position, projectile.width, projectile.height, 95, Main.rand.Next(-2, 3), -2);
                 }

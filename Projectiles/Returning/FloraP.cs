@@ -2,6 +2,8 @@ using SpiritMod.Buffs;
 using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using System;
+using SpiritMod.Dusts;
 namespace SpiritMod.Projectiles.Returning
 {
     public class FloraP : ModProjectile
@@ -57,6 +59,12 @@ namespace SpiritMod.Projectiles.Returning
             {
                 projectile.rotation += rotation / 25;
             }
+                for (float i = projectile.rotation; i < projectile.rotation + 6.28f; i+=1.57f)
+                {
+                    Dust dust = Dust.NewDustPerfect(projectile.Center + new Vector2((float)Math.Cos(i) * 20, (float)Math.Sin(i) * 20), ModContent.DustType<FloranDust>());
+                    dust.scale = 0.66f;
+                    dust.velocity = Vector2.Zero;
+                }
             return false;
         }
          public override bool OnTileCollide(Vector2 oldVelocity) {

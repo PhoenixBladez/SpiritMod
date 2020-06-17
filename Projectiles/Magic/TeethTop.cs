@@ -38,7 +38,7 @@ namespace SpiritMod.Projectiles.Magic
                 } else {
                     projectile.velocity.Y = 0;
                 }
-                if(counter == 42) {
+                if(counter == 33) {
                     Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 2);
                 }
             }
