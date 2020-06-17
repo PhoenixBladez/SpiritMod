@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Core of the Berserker");
-            Tooltip.SetDefault("Increases armor penetration by 6\n5% increased melee damage and critical strike chance\nHitting foes may cause them to release a cloud of gas\nMelee critical hits may cause foes to explode\n12% increased melee damage and speed when underground\n7% increased melee damage and speed when under half health\nReduces damage taken by 4%\nOccasionally nullifies hostile projectiles");
+            Tooltip.SetDefault("Increases armor penetration by 6\n5% increased melee damage and critical strike chance\nHitting foes may cause them to release a cloud of gas\n12% increased melee damage and speed when underground\n7% increased melee damage and speed when under half health\nReduces damage taken by 4%\nOccasionally nullifies hostile projectiles");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 4));
         }
 
@@ -28,7 +28,6 @@ namespace SpiritMod.Items.Accessory
             player.GetSpiritPlayer().wheezeScale = true;
             player.meleeCrit += 5;
             player.armorPenetration += 6;
-            player.GetSpiritPlayer().infernalFlame = true;
             player.meleeDamage += .05f;
             if(player.statLife <= player.statLifeMax2 / 2) {
                 player.meleeDamage += 0.07f;
@@ -40,7 +39,6 @@ namespace SpiritMod.Items.Accessory
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<WheezerScale>(), 1);
-            recipe.AddIngredient(ModContent.ItemType<FieryTrident>(), 1);
             recipe.AddIngredient(ModContent.ItemType<Atmos>(), 1);
             recipe.AddIngredient(ModContent.ItemType<SunShard>(), 5);
             recipe.AddTile(TileID.TinkerersWorkbench);

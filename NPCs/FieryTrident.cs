@@ -51,9 +51,6 @@ namespace SpiritMod.NPCs
             if(Main.rand.Next(30) == 1) {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<FieryPendant>());
             }
-            if(Main.rand.Next(25) == 1) {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Accessory.FieryTrident>());
-            }
         }
 
         public override void AI() {

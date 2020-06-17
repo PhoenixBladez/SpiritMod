@@ -48,26 +48,6 @@ namespace SpiritMod.NPCs.Boss
         bool displaycircle = false;
         private int Counter;
         float framenum = .2f;
-        public override bool PreAI() {
-            Counter++;
-            int npcType = mod.NPCType("BoneHarpy1");
-            bool harpySpawn = false;
-            for(int num569 = 0; num569 < 200; num569++) {
-                if((Main.npc[num569].active && Main.npc[num569].type == (npcType)))
-                    harpySpawn = true;
-            }
-
-            if(!harpySpawn) {
-                if(Counter > 1200) {
-                    Vector2 direction = Vector2.One.RotatedByRandom(MathHelper.ToRadians(100));
-                    int newNPC = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, mod.NPCType("BoneHarpy1"));
-                    Main.npc[newNPC].velocity = direction * (Main.rand.Next(-2, 2));
-                    Counter = 0;
-                }
-            }
-            return true;
-        }
-
         public override void AI() {
             npc.spriteDirection = -npc.direction;
             npc.rotation = npc.velocity.X * 0.07f;
