@@ -35,6 +35,7 @@ namespace SpiritMod.Items.Ammo
 		{
 			var recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<CryoliteBar>(), 1);
+			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this, 100);
 		}
 	}
