@@ -159,7 +159,7 @@ namespace SpiritMod.NPCs.BlueMoon
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            var effects = npc.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
                              drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
             return false;

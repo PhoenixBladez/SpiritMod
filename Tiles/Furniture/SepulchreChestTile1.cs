@@ -34,7 +34,7 @@ namespace SpiritMod.Tiles.Furniture
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Sepulchre Chest");
-            AddMapEntry(new Color(120, 82, 49), name, MapChestName);
+            AddMapEntry(new Color(120, 82, 49), name);
             dustType = 0;
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Containers };

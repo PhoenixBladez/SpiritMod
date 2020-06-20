@@ -7,7 +7,7 @@ namespace SpiritMod.Items.Material
     public class Canvas : ModItem
     {
         public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Blank Canas");
+            DisplayName.SetDefault("Blank Canvas");
         }
 
 

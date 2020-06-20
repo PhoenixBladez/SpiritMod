@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Material;
+using SpiritMod.Items.Consumable.Quest;
 using SpiritMod.Projectiles;
 using SpiritMod.Projectiles.Hostile;
 using Terraria;
@@ -157,11 +158,16 @@ namespace SpiritMod.NPCs.Reach
             GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Reach/ForestWraith_Glow"));
         }
         public override void NPCLoot() {
-            string[] lootTable = { "SacredVine", "OakHeart" };
+            string[] lootTable = { "OakHeart" };
             int loot = Main.rand.Next(lootTable.Length);
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType(lootTable[loot]));
 
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<AncientBark>(), 3);
+
+            if (!Main.LocalPlayer.HasItem(ModContent.ItemType<SacredVine>()))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SacredVine>());
+            }
         }
 
     }

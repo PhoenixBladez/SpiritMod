@@ -5,7 +5,7 @@ namespace SpiritMod.Items.Placeable.Furniture
     public class Shrine3 : ModItem
     {
         public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Ancient Shrine");
+            DisplayName.SetDefault("Ancient Shrine (Yasaka)");
         }
 
 

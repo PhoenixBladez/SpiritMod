@@ -14,13 +14,13 @@ namespace SpiritMod.Items.Weapon.Magic
 
 
         public override void SetDefaults() {
-            item.damage = 40;
+            item.damage = 35;
             item.magic = true;
             item.mana = 11;
             item.width = 40;
             item.height = 40;
-            item.useTime = 34;
-            item.useAnimation = 34;
+            item.useTime = 43;
+            item.useAnimation = 43;
             item.useStyle = ItemUseStyleID.HoldingOut;
             Item.staff[item.type] = true;
             item.noMelee = true;
@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Magic
             item.value = Terraria.Item.sellPrice(0, 3, 0, 0);
             item.rare = 5;
             item.UseSound = SoundID.Item20;
-            item.autoReuse = true;
+            item.autoReuse = false;
             item.shoot = ModContent.ProjectileType<OrichalcumStaffProj>();
             item.shootSpeed = 1f;
         }

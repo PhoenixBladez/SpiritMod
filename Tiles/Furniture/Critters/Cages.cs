@@ -284,4 +284,78 @@ namespace SpiritMod.Tiles.Furniture.Critters
             Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<GulperBowl>());
         }
     }
+    public class VibeshroomJarItem : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Quivershroom Jar");
+        }
+        public override void SetDefaults()
+        {
+            item.width = 22;
+            item.height = 22;
+            item.value = Item.buyPrice(0, 0, 30, 0);
+
+            item.maxStack = 999;
+
+            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.useTime = 15;
+            item.useAnimation = 15;
+
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.consumable = true;
+
+            item.createTile = ModContent.TileType<VibeshroomJar_Tile>();
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<BlossmoonItem>(), 1);
+            recipe.AddIngredient(ItemID.Terrarium, 1);
+            recipe.AddTile(TileID.WorkBenches);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+    }
+    public class VibeshroomJar_Tile : ModTile
+    {
+        public override void SetDefaults()
+        {
+            Main.tileLighted[Type] = true;
+            Main.tileFrameImportant[Type] = true;
+            Main.tileNoAttach[Type] = true;
+            Main.tileLavaDeath[Type] = true;
+            animationFrameHeight = 36;
+            TileObjectData.newTile.UsesCustomCanPlace = true;
+            TileObjectData.newTile.Width = 2;
+            TileObjectData.newTile.Height = 2;
+            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16 };
+            TileObjectData.newTile.CoordinateWidth = 16;
+            TileObjectData.newTile.CoordinatePadding = 2;
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.Table | AnchorType.SolidTile | AnchorType.SolidWithTop, TileObjectData.newTile.Width, 0);
+            TileObjectData.newTile.Origin = new Point16(0, 1);
+            TileObjectData.addTile(Type);
+            dustType = 13;
+        }
+        public override void AnimateTile(ref int frame, ref int frameCounter)
+        {
+            frameCounter++;
+            if (frameCounter >= 15) //replace 10 with duration of frame in ticks
+            {
+                frameCounter = 0;
+                frame++;
+                frame %= 14;
+            }
+        }
+        public override void NumDust(int i, int j, bool fail, ref int num)
+        {
+            num = fail ? 1 : 3;
+        }
+        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        {
+            Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<VibeshroomJarItem>());
+        }
+    }
 }

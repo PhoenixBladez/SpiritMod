@@ -96,5 +96,17 @@ namespace SpiritMod.NPCs.BloodMoon
                 Gore.NewGore(npc.position, npc.velocity * 1.11f, mod.GetGoreSlot("Gores/FeederGore3"), 1f);
             }
         }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+			if (!Main.bloodMoon)
+            {
+                return 0f;
+            }
+            if (Main.bloodMoon && spawnInfo.player.ZoneBeach)
+            {
+                return SpawnCondition.OceanMonster.Chance * 0.0261f;
+            }
+            return spawnInfo.water && Main.bloodMoon && !spawnInfo.playerSafe && spawnInfo.spawnTileY < Main.rockLayer ? .005f : 0f;
+        }
     }
 }

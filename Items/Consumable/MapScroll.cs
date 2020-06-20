@@ -7,7 +7,7 @@ namespace SpiritMod.Items.Consumable
     public class MapScroll : ModItem
     {
         public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Cartographer's Scroll");
+            DisplayName.SetDefault("Cartographer's Map");
             Tooltip.SetDefault("Reveals a nearby portion of the minimap");
         }
 

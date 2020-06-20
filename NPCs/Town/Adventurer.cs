@@ -1,6 +1,8 @@
 using SpiritMod.Items.Accessory;
+using SpiritMod.Items.Ammo;
 using SpiritMod.Items.Material;
 using SpiritMod.Items.Pins;
+using SpiritMod.Items.Placeable.Furniture;
 using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Utilities;
 using System.Collections.Generic;
@@ -127,10 +129,15 @@ namespace SpiritMod.NPCs.Town
             AddItem(ref shop, ref nextSlot, ItemType<Items.Placeable.Furniture.SkullStick>(), 1000, Main.LocalPlayer.GetSpiritPlayer().ZoneReach);
             AddItem(ref shop, ref nextSlot, ItemType<AncientBark>(), 200, Main.LocalPlayer.GetSpiritPlayer().ZoneReach);
             AddItem(ref shop, ref nextSlot, ItemType<PolymorphGun>(), check: NPC.downedMechBossAny);
-            AddItem(ref shop, ref nextSlot, ItemType<PinRed>());
-            AddItem(ref shop, ref nextSlot, ItemType<PinBlue>());
 			AddItem(ref shop, ref nextSlot, ItemType<PinGreen>());
 			AddItem(ref shop, ref nextSlot, ItemType<PinYellow>());
+
+			if (MyWorld.sepulchreComplete)
+            {
+                AddItem(ref shop, ref nextSlot, ItemType<SepulchreArrow>());
+                AddItem(ref shop, ref nextSlot, ItemType<SepulchreBannerItem>());
+                AddItem(ref shop, ref nextSlot, ItemType<SepulchreChest>());
+            }
 		}
 
         public override void TownNPCAttackStrength(ref int damage, ref float knockback) {

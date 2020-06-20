@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Placeable.Furniture
         public override void SetDefaults() {
             item.width = 32;
             item.height = 28;
-            item.value = 500;
+            item.value = Terraria.Item.buyPrice(0, 0, 40, 0);
 
             item.maxStack = 99;
             item.rare = 2;

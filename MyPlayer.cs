@@ -8,6 +8,7 @@ using SpiritMod.Buffs.Summon;
 using SpiritMod.Dusts;
 using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Consumable;
+using SpiritMod.Items.Consumable.Quest;
 using SpiritMod.Items.DonatorItems;
 using SpiritMod.Items.Material;
 using SpiritMod.Items.Weapon.Magic;
@@ -224,6 +225,13 @@ namespace SpiritMod
         public bool bookPet = false;
         public bool SwordPet = false;
         public bool shadowPet = false;
+
+		//Adventurer related
+        public int explorerTimer;
+        public bool emptyExplorerScroll = false;
+        public bool emptyWinterbornScroll = false;
+        public bool emptyBeholderScroll = false;
+        public bool emptyValkyrieScroll = false;
 
         public float SpeedMPH { get; private set; }
         public DashType ActiveDash { get; private set; }
@@ -608,6 +616,11 @@ namespace SpiritMod
             soulPotion = false;
             carnivorousPlantMinion = false;
 
+            emptyExplorerScroll = false;
+            emptyWinterbornScroll = false;
+            emptyBeholderScroll = false;
+            emptyValkyrieScroll = false;
+
             // Reset armor set booleans.
             duskSet = false;
             runicSet = false;
@@ -977,7 +990,7 @@ namespace SpiritMod
 
             MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
             int bobberIndex = -1;
-            if(Main.bloodMoon && Main.rand.Next(12) == 0) {
+            if(Main.bloodMoon && Main.rand.Next(20) == 0) {
                 for(int i = 0; i < 1000; i++) {
                     if(Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber) {
                         bobberIndex = i;
@@ -989,7 +1002,23 @@ namespace SpiritMod
                     caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<BottomFeeder>(), 0, 2, 1, 0, 0, Main.myPlayer);
                 }
             }
-            if(player.ZoneDungeon && power >= 30 && Main.rand.NextBool(25)) {
+            if (MyWorld.spawnHornetFish && Main.rand.Next(15) == 0 && player.ZoneJungle && player.ZoneOverworldHeight)
+            {
+                for (int i = 0; i < 1000; i++)
+                {
+                    if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber)
+                    {
+                        bobberIndex = i;
+                        Main.projectile[i].ai[0] = 2f;
+                    }
+                }
+                if (bobberIndex != -1)
+                {
+                    Vector2 bobberPos = Main.projectile[bobberIndex].Center;
+                    caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<Hornetfish>(), 0, 2, 1, 0, 0, Main.myPlayer);
+                }
+            }
+            if (player.ZoneDungeon && power >= 30 && Main.rand.NextBool(25)) {
                 caughtType = ModContent.ItemType<MysticalCage>();
             }
 
@@ -1954,7 +1983,83 @@ namespace SpiritMod
         int shroomtimer;
         int bloodTimer;
         public override void PreUpdate() {
-            if(zipline) {
+			if (emptyWinterbornScroll && MyWorld.numWinterbornKilled >= 10)
+            {
+                for (int index = 0; index < 58; ++index)
+                {
+                    if (player.inventory[index].type == ModContent.ItemType<WinterbornSlayerScrollEmpty>())
+                    {
+                        player.inventory[index].stack -= 1;
+                        player.QuickSpawnItem(ModContent.ItemType<WinterbornSlayerScrollFull>());
+                        emptyWinterbornScroll = false;
+                        CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
+                        "Contract Complete!");
+                        Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SlayerComplete"));
+                        break;
+                    }
+                }
+            }
+            if (emptyBeholderScroll && MyWorld.numBeholdersKilled > 0)
+            {
+                for (int index = 0; index < 58; ++index)
+                {
+                    if (player.inventory[index].type == ModContent.ItemType<BeholderSlayerScrollEmpty>())
+                    {
+                        player.inventory[index].stack -= 1;
+                        player.QuickSpawnItem(ModContent.ItemType<BeholderSlayerScrollFull>());
+                        emptyWinterbornScroll = false;
+                        CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
+                        "Contract Complete!");
+                        Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SlayerComplete"));
+                        break;
+                    }
+                }
+            }
+            if (emptyValkyrieScroll && MyWorld.numValkyriesKilled > 0)
+            {
+                for (int index = 0; index < 58; ++index)
+                {
+                    if (player.inventory[index].type == ModContent.ItemType<ValkyrieSlayerScrollEmpty>())
+                    {
+                        player.inventory[index].stack -= 1;
+                        player.QuickSpawnItem(ModContent.ItemType<ValkyrieSlayerScrollFull>());
+                        emptyWinterbornScroll = false;
+                        CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
+                        "Contract Complete!");
+                        Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SlayerComplete"));
+                        break;
+                    }
+                }
+            }
+            if (emptyExplorerScroll)
+            {
+                if (player.ZoneGlowshroom)
+                {
+                    explorerTimer++;
+                    if (explorerTimer >= 900)
+                    {
+                        for (int index = 0; index < 58; ++index)
+                        {
+                            if (player.inventory[index].type == ModContent.ItemType<ExplorerScrollMushroomEmpty>())
+                            {
+                                player.inventory[index].stack -= 1;
+                                player.QuickSpawnItem(ModContent.ItemType<ExplorerScrollMushroomFull>());
+                                emptyExplorerScroll = false;
+                                explorerTimer = 0;
+                                CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
+                                "Map Filled!");
+                                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MapComplete"));
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+			else
+            {
+                explorerTimer = 0;
+            }
+            if (zipline) {
                 if(!ziplineActive) {
                     ziplineCounter = 45;
                     ziplineActive = true;

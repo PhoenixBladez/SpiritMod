@@ -91,6 +91,14 @@ namespace SpiritMod
         public static bool downedIlluminantMaster = false;
         public static bool downedOverseer = false;
 
+        //Adventurer Bools
+        public static bool sepulchreComplete = false;
+        public static bool spawnHornetFish = false;
+        public static bool spawnVibeshrooms = false;
+        public static int numWinterbornKilled;
+        public static int numBeholdersKilled;
+        public static int numValkyriesKilled;
+
         public static Dictionary<string, bool> droppedGlyphs = new Dictionary<string, bool>();
 
         //bool night = false;
@@ -143,6 +151,12 @@ namespace SpiritMod
             data.Add("gennedBandits", gennedBandits);
             data.Add("gennedTower", gennedTower);
 
+            //Adventurer Bools
+            data.Add("sepulchreComplete", sepulchreComplete);
+            data.Add("spawnHornetFish", spawnHornetFish);
+            data.Add("spawnVibeshrooms", spawnVibeshrooms);
+            data.Add("numWinterbornKilled", numWinterbornKilled);
+
             SpiritMod.AdventurerQuests.WorldSave(data);
             return data;
         }
@@ -171,6 +185,11 @@ namespace SpiritMod
 
             gennedBandits = tag.GetBool("gennedBandits");
             gennedTower = tag.GetBool("gennedTower");
+
+			sepulchreComplete = tag.GetBool("sepulchreComplete");
+            spawnHornetFish = tag.GetBool("spawnHornetFish");
+            spawnVibeshrooms = tag.GetBool("spawnVibeshrooms");
+            numWinterbornKilled = tag.Get<int>("numWinterbornKilled");
         }
 
         public override void LoadLegacy(BinaryReader reader) {
@@ -178,6 +197,8 @@ namespace SpiritMod
             if(loadVersion == 0) {
                 BitsByte flags = reader.ReadByte();
                 BitsByte flags1 = reader.ReadByte();
+				BitsByte flags2 = reader.ReadByte();
+				BitsByte flags3 = reader.ReadByte();
                 downedScarabeus = flags[0];
                 downedAncientFlier = flags[1];
                 downedRaider = flags[2];
@@ -188,6 +209,13 @@ namespace SpiritMod
                 downedOverseer = flags[7];
                 downedReachBoss = flags1[0];
                 downedSpiritCore = flags1[1];
+
+                gennedBandits = flags2[0];
+                gennedTower = flags2[1];
+
+                sepulchreComplete = flags3[0];
+                spawnHornetFish = flags3[1];
+				spawnVibeshrooms = flags3[2];
             } else {
                 mod.Logger.Error("Unknown loadVersion: " + loadVersion);
             }
@@ -199,7 +227,12 @@ namespace SpiritMod
             writer.Write(bosses1);
             writer.Write(bosses2);
             BitsByte environment = new BitsByte(BlueMoon);
+            BitsByte worldgen = new BitsByte(gennedBandits, gennedTower);
+            BitsByte adventurerQuests = new BitsByte(sepulchreComplete, spawnHornetFish, spawnVibeshrooms);
             writer.Write(environment);
+            writer.Write(worldgen);
+            writer.Write(adventurerQuests);
+            writer.Write(numWinterbornKilled);
         }
 
         public override void NetReceive(BinaryReader reader) {
@@ -215,8 +248,19 @@ namespace SpiritMod
             downedOverseer = bosses1[7];
             downedReachBoss = bosses2[0];
             downedSpiritCore = bosses2[1];
+
             BitsByte environment = reader.ReadByte();
             BlueMoon = environment[0];
+
+			BitsByte worldgen = reader.ReadByte();
+            gennedBandits = worldgen[0];
+            gennedTower = worldgen[1];
+
+			BitsByte adventurerQuests = reader.ReadByte();
+            sepulchreComplete = adventurerQuests[0];
+            spawnHornetFish = adventurerQuests[1];
+			spawnVibeshrooms = adventurerQuests[2];
+            numWinterbornKilled = reader.ReadInt32();
         }
 
         public override void Initialize() {

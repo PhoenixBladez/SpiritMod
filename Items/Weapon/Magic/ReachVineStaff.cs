@@ -56,7 +56,7 @@ namespace SpiritMod.Items.Weapon.Magic
                 spY = spY + (float)Main.rand.Next(-40, 41) * 0.2f;
                 spX *= (float)Main.rand.Next(-10, 10) * 0.006f;
                 pos.X += (float)Main.rand.Next(-10, 11);
-                Projectile.NewProjectile(pos.X, pos.Y, spX, spY, type, damage, 4, player.whoAmI);
+                Projectile.NewProjectile(pos.X, pos.Y, spX, 12f, type, damage, 4, player.whoAmI);
             }
             return false;
         }

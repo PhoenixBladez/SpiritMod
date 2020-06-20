@@ -5,6 +5,7 @@ using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod;
 
 namespace SpiritMod.NPCs
 {
@@ -90,7 +91,7 @@ namespace SpiritMod.NPCs
 
         public override void OnHitPlayer(Player target, int damage, bool crit) {
             target.AddBuff(BuffID.Chilled, 300);
-            if(Main.rand.Next(5) == 0) {
+            if(Main.rand.Next(10) == 0) {
                 target.AddBuff(BuffID.Frozen, 120);
             }
         }
@@ -102,6 +103,10 @@ namespace SpiritMod.NPCs
         }
 
         public override void NPCLoot() {
+			if (Main.LocalPlayer.GetSpiritPlayer().emptyWinterbornScroll)
+            {
+                MyWorld.numWinterbornKilled++;
+            }
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CryoliteOre>(), 2 + Main.rand.Next(2, 4));
         }
     }

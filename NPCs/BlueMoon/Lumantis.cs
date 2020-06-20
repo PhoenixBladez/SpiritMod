@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
+using System;
 
 namespace SpiritMod.NPCs.BlueMoon
 {
@@ -14,8 +16,8 @@ namespace SpiritMod.NPCs.BlueMoon
         }
 
         public override void SetDefaults() {
-            npc.width = 22;
-            npc.height = 32;
+            npc.width = 40;
+            npc.height = 40;
             npc.damage = 62;
             npc.defense = 20;
             npc.lifeMax = 560;
@@ -34,7 +36,7 @@ namespace SpiritMod.NPCs.BlueMoon
         public override void HitEffect(int hitDirection, double damage) {
             for(int k = 0; k < 11; k++) {
                 Dust.NewDust(npc.position, npc.width, npc.height, 187, hitDirection, -1f, 1, default(Color), .81f);
-                Dust.NewDust(npc.position, npc.width, npc.height, 205, hitDirection, -1f, 1, default(Color), .71f);
+                Dust.NewDust(npc.position, npc.width, npc.height, 205, hitDirection, -1f, 1, default(Color), .51f);
             }
             if(npc.life <= 0) {
                 for(int k = 0; k < 11; k++) {
@@ -48,13 +50,16 @@ namespace SpiritMod.NPCs.BlueMoon
         public override void AI() {
             npc.spriteDirection = npc.direction;
             timer++;
-
-            ++npc.ai[0];
-			if (npc.ai[0] >= 600)
+            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), .196f *3, .092f * 3, 0.214f * 3);
+            ++npc.ai[1];
+			if (npc.ai[1] >= 600)
             {
                 npc.velocity.X *= .0001f;
                 reflectPhase = true;
                 npc.defense = 9999;
+                {
+                    DoDustEffect(npc.Center, 74f);
+                }
             }
 			else
             {
@@ -70,9 +75,9 @@ namespace SpiritMod.NPCs.BlueMoon
                     frame = 0;
                 }
             }
-			if (npc.ai[0] >= 780)
+			if (npc.ai[1] >= 840)
             {
-                npc.ai[0] = 0;
+                npc.ai[1] = 0;
             }
         }
         public override void FindFrame(int frameHeight)
@@ -91,7 +96,8 @@ namespace SpiritMod.NPCs.BlueMoon
 
             if (reflectPhase)
             {
-                player.statLife -= item.damage;
+                player.Hurt(PlayerDeathReason.LegacyEmpty(), item.damage, 0, true, false, false, -1);
+                Main.PlaySound(SoundID.DD2_LightningBugZap, npc.position);
             }
         }
         public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
@@ -100,9 +106,22 @@ namespace SpiritMod.NPCs.BlueMoon
             {
                 projectile.hostile = true;
                 projectile.friendly = false;
+                Main.PlaySound(SoundID.DD2_LightningBugZap, npc.position);
                 projectile.penetrate = 2;
                 projectile.velocity.X = projectile.velocity.X * -1f;
             }
+        }
+        private void DoDustEffect(Vector2 position, float distance, float minSpeed = 2f, float maxSpeed = 3f, object follow = null)
+        {
+            float angle = Main.rand.NextFloat(-MathHelper.Pi, MathHelper.Pi);
+            Vector2 vec = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
+            Vector2 vel = vec * Main.rand.NextFloat(minSpeed, maxSpeed);
+
+            int dust = Dust.NewDust(position - vec * distance, 0, 0, 205);
+            Main.dust[dust].noGravity = true;
+            Main.dust[dust].scale *= .6f;
+            Main.dust[dust].velocity = vel;
+            Main.dust[dust].customData = follow;
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
