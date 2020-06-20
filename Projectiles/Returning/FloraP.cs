@@ -61,7 +61,7 @@ namespace SpiritMod.Projectiles.Returning
             }
                 for (float i = projectile.rotation; i < projectile.rotation + 6.28f; i+=1.57f)
                 {
-                    Dust dust = Dust.NewDustPerfect(projectile.Center + new Vector2((float)Math.Cos(i) * 20, (float)Math.Sin(i) * 20), ModContent.DustType<FloranDust>());
+                    Dust dust = Dust.NewDustPerfect(projectile.Center + new Vector2((float)Math.Cos(i) * 24, (float)Math.Sin(i) * 24), ModContent.DustType<FloranDust>());
                     dust.scale = 0.66f;
                     dust.velocity = Vector2.Zero;
                 }
