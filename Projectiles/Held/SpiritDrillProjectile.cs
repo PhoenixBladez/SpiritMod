@@ -11,7 +11,7 @@ namespace SpiritMod.Projectiles.Held
 
         public override void SetDefaults() {
             projectile.width = 26;
-            projectile.height = 54;
+            projectile.height = 40;
             projectile.aiStyle = 20;
             projectile.friendly = true;
             projectile.penetrate = -1;
@@ -23,9 +23,9 @@ namespace SpiritMod.Projectiles.Held
 
         public override bool PreAI() {
             int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 187, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-            Main.dust[dust].scale = 1f;
+            Main.dust[dust].scale = .6f;
             Main.dust[dust].noGravity = true;
-            Main.dust[dust].noLight = true;
+            Main.dust[dust].noLight = false;
 
             return true;
         }

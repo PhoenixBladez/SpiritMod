@@ -38,9 +38,25 @@ namespace SpiritMod.NPCs
             return SpawnCondition.Cavern.Chance * 0.095f;
         }
         public override void NPCLoot() {
-            if(Main.rand.Next(100) <= 4) {
+            if (Main.LocalPlayer.GetSpiritPlayer().emptyWheezerScroll)
+            {
+                MyWorld.numWheezersKilled++;
+            }
+            if (Main.rand.Next(100) == 4) {
 
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, (ModContent.ItemType<CrawlerockStaff>()));
+            }
+			if (Main.rand.Next(10000) == 125)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DepthMeter);
+            }
+            if (Main.rand.Next(10000) == 125)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Compass);
+            }
+			if (Main.rand.Next(1000) == 39)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Rally);
             }
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, (ModContent.ItemType<Carapace>()), Main.rand.Next(2) + 1);
         }

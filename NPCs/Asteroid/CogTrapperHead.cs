@@ -300,7 +300,11 @@ namespace SpiritMod.NPCs.Asteroid
             npc.rotation = (float)System.Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) + 1.57f;
         }
         public override void NPCLoot() {
-            if(Main.rand.Next(2) == 0) {
+            if (Main.LocalPlayer.GetSpiritPlayer().emptyStardancerScroll)
+            {
+                MyWorld.numStardancersKilled++;
+            }
+            if (Main.rand.Next(2) == 0) {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<StarEnergy>());
             }
             string[] lootTable = { "AstronautLegs", "AstronautHelm", "AstronautBody" };

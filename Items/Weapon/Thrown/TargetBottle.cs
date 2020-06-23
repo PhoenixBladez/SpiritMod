@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Weapon.Thrown
             item.shoot = ModContent.ProjectileType<Projectiles.Thrown.TargetBottle>();
             item.useAnimation = 25;
             item.useTime = 25;
-            item.shootSpeed = 8.5f;
+            item.shootSpeed = 10.5f;
             item.damage = 0;
             item.knockBack = 1.5f;
             item.value = Terraria.Item.sellPrice(0, 0, 0, 20);

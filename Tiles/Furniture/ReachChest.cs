@@ -34,7 +34,7 @@ namespace SpiritMod.Tiles.Furniture
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Briar Chest");
-            AddMapEntry(new Color(60, 150, 40), name, MapChestName);
+            AddMapEntry(new Color(60, 150, 40), name);
             dustType = 0;
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Containers };

@@ -42,6 +42,12 @@ namespace SpiritMod.NPCs
 
         public override void NPCLoot() {
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BismiteCrystal>(), Main.rand.Next(2, 4) + 1);
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Gel, Main.rand.Next(1, 3) + 1);
+
+            if (Main.rand.Next(10000) == 0)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SlimeStaff);
+            }
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit) {

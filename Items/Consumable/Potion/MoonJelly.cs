@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Consumable.Potion
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Moon Jelly");
-            Tooltip.SetDefault("Gives high regeneration.");
+            Tooltip.SetDefault("Regenerates life rapidly");
         }
 
 

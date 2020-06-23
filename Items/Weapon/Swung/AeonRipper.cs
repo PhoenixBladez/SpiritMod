@@ -7,13 +7,15 @@ namespace SpiritMod.Items.Weapon.Swung
 {
     public class AeonRipper : ModItem
     {
-        public override void SetStaticDefaults() {
+        public override void SetStaticDefaults()
+        {
             DisplayName.SetDefault("Aeon Ripper");
             Tooltip.SetDefault("'Feel the wrath'");
         }
 
 
-        public override void SetDefaults() {
+        public override void SetDefaults()
+        {
             item.damage = 250;
             item.melee = true;
             item.width = 34;
@@ -28,7 +30,8 @@ namespace SpiritMod.Items.Weapon.Swung
             item.UseSound = SoundID.Item1;
             item.crit = 33;
         }
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit) {
+        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        {
             target.AddBuff(ModContent.BuffType<SoulFlare>(), 180);
         }
     }

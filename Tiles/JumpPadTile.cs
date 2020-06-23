@@ -41,7 +41,7 @@ namespace SpiritMod.Tiles
             int height = tile.frameY == 36 ? 18 : 16;
             Tile t = Main.tile[i, j];
             if(t.frameX % 54 == 0 && t.frameY == 0) {
-                Main.spriteBatch.Draw(Main.extraTexture[60], new Vector2(i * 16 - (int)Main.screenPosition.X - 44, j * 16 - (int)Main.screenPosition.Y - 48) + zero, null, new Color((int)(2.5f * sineAdd), (int)(5f * sineAdd), (int)(6f * sineAdd), 0), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(Main.extraTexture[60], new Vector2(i * 16 - (int)Main.screenPosition.X - 44, j * 16 - (int)Main.screenPosition.Y - 50) + zero, null, new Color((int)(2.5f * sineAdd), (int)(5f * sineAdd), (int)(6f * sineAdd), 0), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             }
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY) {

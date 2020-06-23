@@ -159,16 +159,16 @@ namespace SpiritMod.NPCs.Dungeon
             return spawnInfo.player.ZoneDungeon && NPC.CountNPCS(ModContent.NPCType<Illusionist>()) < 1 ? 0.05f : 0f;
         }
         public override void NPCLoot() {
-            if(Main.rand.Next(1) == 153) {
+            if(Main.rand.Next(153) == 1) {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GoldenKey);
             }
-            if(Main.rand.Next(1) == 75) {
+            if(Main.rand.Next(75) == 1) {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Nazar);
             }
-            if(Main.rand.Next(1) == 100) {
+            if(Main.rand.Next(100) == 1) {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.TallyCounter);
             }
-            if(Main.rand.Next(4) == 1000) {
+            if(Main.rand.Next(1000) == 4) {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BoneWand);
             }
             if(Main.rand.Next(20) == 1) {

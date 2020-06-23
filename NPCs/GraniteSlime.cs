@@ -81,6 +81,15 @@ namespace SpiritMod.NPCs
             if(Main.rand.Next(2) == 0) {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GraniteChunk>(), 1);
             }
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Gel, Main.rand.Next(1, 3) + 1);
+            if (Main.rand.Next(1000) == 33)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.NightVisionHelmet);
+            }
+            if (Main.rand.Next(10000) == 0)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SlimeStaff);
+            }
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo) {
             int x = spawnInfo.spawnTileX;

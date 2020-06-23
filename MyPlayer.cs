@@ -232,6 +232,10 @@ namespace SpiritMod
         public bool emptyWinterbornScroll = false;
         public bool emptyBeholderScroll = false;
         public bool emptyValkyrieScroll = false;
+        public bool emptyAntlionScroll = false;
+        public bool emptyDrBonesScroll = false;
+        public bool emptyWheezerScroll = false;
+        public bool emptyStardancerScroll = false;
 
         public float SpeedMPH { get; private set; }
         public DashType ActiveDash { get; private set; }
@@ -304,7 +308,12 @@ namespace SpiritMod
         public bool ichorSet2;
         public bool talonSet;
         public bool OverseerCharm = false;
+
         public bool ZoneAsteroid = false;
+        public bool ZoneMarble = false;
+        public bool ZoneGranite = false;
+        public bool ZoneHive = false;
+
         public bool Bauble = false;
 
         public bool marbleJustJumped;
@@ -421,33 +430,51 @@ namespace SpiritMod
         }
 
         public override void UpdateBiomes() {
-            ZoneSpirit = MyWorld.SpiritTiles > 100;
+            ZoneSpirit = MyWorld.SpiritTiles > 200;
             ZoneBlueMoon = MyWorld.BlueMoon;
-            ZoneReach = MyWorld.ReachTiles > 350;
+            ZoneReach = MyWorld.ReachTiles > 50;
+            ZoneMarble = MyWorld.MarbleTiles > 200;
+            ZoneGranite = MyWorld.GraniteTiles > 200;
             ZoneAsteroid = MyWorld.AsteroidTiles > 130;
+            ZoneHive = MyWorld.HiveTiles > 100;
         }
 
         public override bool CustomBiomesMatch(Player other) {
             MyPlayer modOther = other.GetSpiritPlayer();
-            return ZoneSpirit == modOther.ZoneSpirit && ZoneReach == modOther.ZoneReach;
+            return ZoneSpirit == modOther.ZoneSpirit && ZoneReach == modOther.ZoneReach && ZoneAsteroid == modOther.ZoneAsteroid && ZoneGranite == modOther.ZoneGranite && ZoneMarble == modOther.ZoneMarble && ZoneHive == modOther.ZoneHive;
         }
 
         public override void CopyCustomBiomesTo(Player other) {
             MyPlayer modOther = other.GetSpiritPlayer();
             modOther.ZoneSpirit = ZoneSpirit;
             modOther.ZoneReach = ZoneReach;
+            modOther.ZoneAsteroid = ZoneAsteroid;
+            modOther.ZoneGranite = ZoneGranite;
+            modOther.ZoneMarble = ZoneMarble;
+            modOther.ZoneHive = ZoneHive;
         }
 
         public override void SendCustomBiomes(BinaryWriter writer) {
             byte flags = 0;
-            if(ZoneSpirit) {
+            if (ZoneSpirit) {
                 flags |= 1;
             }
 
-            if(ZoneReach) {
+            if (ZoneReach) {
                 flags |= 2;
             }
-
+            if (ZoneAsteroid) {
+                flags |= 3;
+            }
+            if (ZoneMarble) {
+                flags |= 4;
+            }
+            if (ZoneGranite) {
+                flags |= 5;
+            }
+            if (ZoneHive) {
+                flags |= 6;
+            }
             writer.Write(flags);
         }
 
@@ -455,6 +482,10 @@ namespace SpiritMod
             byte flags = reader.ReadByte();
             ZoneSpirit = ((flags & 1) == 1);
             ZoneReach = ((flags & 2) == 2);
+			ZoneAsteroid = ((flags & 3) == 3);
+			ZoneMarble = ((flags & 4) == 4);
+			ZoneGranite = ((flags & 5) == 5);
+            ZoneHive = ((flags & 6) == 6);
         }
 
 
@@ -620,6 +651,9 @@ namespace SpiritMod
             emptyWinterbornScroll = false;
             emptyBeholderScroll = false;
             emptyValkyrieScroll = false;
+            emptyDrBonesScroll = false;
+            emptyWheezerScroll = false;
+            emptyStardancerScroll = false;
 
             // Reset armor set booleans.
             duskSet = false;
@@ -1999,6 +2033,38 @@ namespace SpiritMod
                     }
                 }
             }
+            if (emptyAntlionScroll && MyWorld.numAntlionsKilled >= 5)
+            {
+                for (int index = 0; index < 58; ++index)
+                {
+                    if (player.inventory[index].type == ModContent.ItemType<AntlionSlayerScrollEmpty>())
+                    {
+                        player.inventory[index].stack -= 1;
+                        player.QuickSpawnItem(ModContent.ItemType<AntlionSlayerScrollFull>());
+                        emptyAntlionScroll = false;
+                        CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
+                        "Contract Complete!");
+                        Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SlayerComplete"));
+                        break;
+                    }
+                }
+            }
+            if (emptyStardancerScroll && MyWorld.numStardancersKilled >= 3)
+            {
+                for (int index = 0; index < 58; ++index)
+                {
+                    if (player.inventory[index].type == ModContent.ItemType<StardancerSlayerScrollEmpty>())
+                    {
+                        player.inventory[index].stack -= 1;
+                        player.QuickSpawnItem(ModContent.ItemType<StardancerSlayerScrollFull>());
+                        emptyStardancerScroll = false;
+                        CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
+                        "Contract Complete!");
+                        Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SlayerComplete"));
+                        break;
+                    }
+                }
+            }
             if (emptyBeholderScroll && MyWorld.numBeholdersKilled > 0)
             {
                 for (int index = 0; index < 58; ++index)
@@ -2007,7 +2073,23 @@ namespace SpiritMod
                     {
                         player.inventory[index].stack -= 1;
                         player.QuickSpawnItem(ModContent.ItemType<BeholderSlayerScrollFull>());
-                        emptyWinterbornScroll = false;
+                        emptyBeholderScroll = false;
+                        CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
+                        "Contract Complete!");
+                        Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SlayerComplete"));
+                        break;
+                    }
+                }
+            }
+            if (emptyDrBonesScroll && MyWorld.numDrBonesKilled >= 1)
+            {
+                for (int index = 0; index < 58; ++index)
+                {
+                    if (player.inventory[index].type == ModContent.ItemType<DrBonesSlayerScrollEmpty>())
+                    {
+                        player.inventory[index].stack -= 1;
+                        player.QuickSpawnItem(ModContent.ItemType<DrBonesSlayerQuestFull>());
+                        emptyDrBonesScroll = false;
                         CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
                         "Contract Complete!");
                         Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SlayerComplete"));
@@ -2023,7 +2105,23 @@ namespace SpiritMod
                     {
                         player.inventory[index].stack -= 1;
                         player.QuickSpawnItem(ModContent.ItemType<ValkyrieSlayerScrollFull>());
-                        emptyWinterbornScroll = false;
+                        emptyValkyrieScroll = false;
+                        CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
+                        "Contract Complete!");
+                        Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SlayerComplete"));
+                        break;
+                    }
+                }
+            }
+            if (emptyWheezerScroll && MyWorld.numWheezersKilled >= 12)
+            {
+                for (int index = 0; index < 58; ++index)
+                {
+                    if (player.inventory[index].type == ModContent.ItemType<WheezerSlayerScrollEmpty>())
+                    {
+                        player.inventory[index].stack -= 1;
+                        player.QuickSpawnItem(ModContent.ItemType<WheezerSlayerScrollFull>());
+                        emptyWheezerScroll = false;
                         CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
                         "Contract Complete!");
                         Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SlayerComplete"));
@@ -2042,10 +2140,94 @@ namespace SpiritMod
                         {
                             if (player.inventory[index].type == ModContent.ItemType<ExplorerScrollMushroomEmpty>())
                             {
-                                player.inventory[index].stack -= 1;
-                                player.QuickSpawnItem(ModContent.ItemType<ExplorerScrollMushroomFull>());
                                 emptyExplorerScroll = false;
                                 explorerTimer = 0;
+                                player.inventory[index].stack -= 1;
+                                player.QuickSpawnItem(ModContent.ItemType<ExplorerScrollMushroomFull>());
+                                CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
+                                "Map Filled!");
+                                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MapComplete"));
+                                break;
+                            }
+                        }
+                    }
+                }
+				if (ZoneAsteroid)
+                {
+                    explorerTimer++;
+                    if (explorerTimer >= 900)
+                    {
+                        for (int index = 0; index < 58; ++index)
+                        {
+                            if (player.inventory[index].type == ModContent.ItemType<ExplorerScrollAsteroidEmpty>())
+                            {
+                                emptyExplorerScroll = false;
+                                explorerTimer = 0;
+                                player.inventory[index].stack -= 1;
+                                player.QuickSpawnItem(ModContent.ItemType<ExplorerScrollAsteroidFull>());
+                                CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
+                                "Map Filled!");
+                                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MapComplete"));
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (ZoneHive)
+                {
+                    explorerTimer++;
+                    if (explorerTimer >= 900)
+                    {
+                        for (int index = 0; index < 58; ++index)
+                        {
+                            if (player.inventory[index].type == ModContent.ItemType<ExplorerScrollHiveEmpty>())
+                            {
+                                emptyExplorerScroll = false;
+                                explorerTimer = 0;
+                                player.inventory[index].stack -= 1;
+                                player.QuickSpawnItem(ModContent.ItemType<ExplorerScrollHiveFull>());
+                                CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
+                                "Map Filled!");
+                                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MapComplete"));
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (ZoneGranite)
+                {
+                    explorerTimer++;
+                    if (explorerTimer >= 900)
+                    {
+                        for (int index = 0; index < 58; ++index)
+                        {
+                            if (player.inventory[index].type == ModContent.ItemType<ExplorerScrollGraniteEmpty>())
+                            {
+                                emptyExplorerScroll = false;
+                                explorerTimer = 0;
+                                player.inventory[index].stack -= 1;
+                                player.QuickSpawnItem(ModContent.ItemType<ExplorerScrollGraniteFull>());
+                                CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
+                                "Map Filled!");
+                                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MapComplete"));
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (ZoneMarble)
+                {
+                    explorerTimer++;
+                    if (explorerTimer >= 900)
+                    {
+                        for (int index = 0; index < 58; ++index)
+                        {
+                            if (player.inventory[index].type == ModContent.ItemType<ExplorerScrollMarbleEmpty>())
+                            {
+                                emptyExplorerScroll = false;
+                                explorerTimer = 0;
+                                player.inventory[index].stack -= 1;
+                                player.QuickSpawnItem(ModContent.ItemType<ExplorerScrollMarbleFull>());
                                 CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
                                 "Map Filled!");
                                 Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MapComplete"));
@@ -3603,7 +3785,7 @@ namespace SpiritMod
         }
 
         public override void PostUpdate() {
-            if(ZoneReach && !player.ZoneDesert) {
+            /*if(ZoneReach && !player.ZoneDesert) {
                 int off = 5; //Change this value depending on the strength of your light. Too big and it might cause lag, though. Never go above ~20 or so.
                 int x = (int)(Main.screenPosition.X / 16f) - off;
                 int y = (int)(Main.screenPosition.Y / 16f) - off;
@@ -3621,7 +3803,7 @@ namespace SpiritMod
                         }
                     }
                 }
-            }
+            }*/
             if(ZoneReach && player.wet && Main.expertMode) {
                 player.AddBuff(BuffID.Poisoned, 120);
             }

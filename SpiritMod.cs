@@ -12,6 +12,7 @@ using SpiritMod.Projectiles;
 using SpiritMod.Skies;
 using SpiritMod.Skies.Overlays;
 using SpiritMod.Tide;
+using SpiritMod.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -37,7 +38,8 @@ namespace SpiritMod
 		public static Effect auroraEffect;
 		public static TrailManager TrailManager;
 		public static Effect glitchEffect;
-		public static GlitchScreenShader glitchScreenShader;
+        public static PerlinNoise GlobalNoise;
+        public static GlitchScreenShader glitchScreenShader;
 		public static Texture2D noise;
 		//public static Texture2D MoonTexture;
 		public const string EMPTY_TEXTURE = "SpiritMod/Empty";
@@ -146,10 +148,10 @@ namespace SpiritMod
 
 			if(priority > MusicPriority.BiomeHigh)
 				return;
-			if(spirit.ZoneReach && Main.dayTime) {
+			if(spirit.ZoneReach && Main.dayTime && !player.ZoneRockLayerHeight) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/Reach");
 				priority = MusicPriority.BiomeHigh;
-			} else if(spirit.ZoneReach && !Main.dayTime) {
+			} else if(spirit.ZoneReach) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/ReachNighttime");
 				priority = MusicPriority.BiomeHigh;
 			}
@@ -258,7 +260,6 @@ namespace SpiritMod
 				case "Starplate Raider": return MyWorld.downedRaider;
 				case "Infernon": return MyWorld.downedInfernon;
 				case "Dusking": return MyWorld.downedDusking;
-				case "Ethereal Umbra": return MyWorld.downedSpiritCore;
 				case "Atlas": return MyWorld.downedAtlas;
 				case "Overseer": return MyWorld.downedOverseer;
 			}
@@ -310,8 +311,8 @@ namespace SpiritMod
 			StructureLoader.Load(this);
 			On.Terraria.Main.DrawProjectiles += Main_DrawProjectiles;
 			On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile;
-
-			instance = this;
+            GlobalNoise = new PerlinNoise(Main.rand.Next());
+            instance = this;
 			if(Main.rand == null)
 				Main.rand = new Terraria.Utilities.UnifiedRandom();
 			//Don't add any code before this point,
@@ -501,7 +502,8 @@ namespace SpiritMod
 			glitchEffect = null;
 			glitchScreenShader = null;
 			TrailManager = null;
-		}
+            GlobalNoise = null;
+        }
 
 		public override void MidUpdateProjectileItem()
 		{
@@ -555,8 +557,33 @@ namespace SpiritMod
 			});
 			RecipeGroup.RegisterGroup("SpiritMod:SilverBars", group);
 		}
+        public override void PostUpdateEverything()
+        {
+            if (Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.I) && Terraria.GameInput.PlayerInput.MouseInfo.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
+                Tile tile = Framing.GetTileSafely(Player.tileTargetX, Player.tileTargetY);
+                if (!tile.active())
+                {
+                    tile.active(true);
+                    tile.type = (ushort)ModContent.TileType<Tiles.Ambient.Briar.BriarFoliage>();
+                    tile.frameX = (short)(Main.rand.NextBool() ? 108 : 126);
+                    WorldGen.SquareTileFrame(Player.tileTargetX, Player.tileTargetY);
+                }
+            }
 
-		public override void PostSetupContent()
+            if (Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.I) && Terraria.GameInput.PlayerInput.MouseInfo.RightButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
+                Tile tile = Framing.GetTileSafely(Player.tileTargetX, Player.tileTargetY);
+                if (!tile.active())
+                {
+                    tile.active(true);
+                    tile.type = (ushort)ModContent.TileType<Tiles.Block.BriarGrass>();
+                    WorldGen.SquareTileFrame(Player.tileTargetX, Player.tileTargetY);
+                }
+            }
+            base.PostUpdateEverything();
+        }
+        public override void PostSetupContent()
 		{
 			Items.Glyphs.GlyphBase.InitializeGlyphLookup();
 
@@ -570,7 +597,6 @@ namespace SpiritMod
 				bossChecklist.Call("AddBossWithInfo", "Infernon", 6.5f, (Func<bool>)(() => MyWorld.downedInfernon), "Use [i:" + ItemType("CursedCloth") + "] in the underworld at any time");
 
 				bossChecklist.Call("AddBossWithInfo", "Dusking", 7.3f, (Func<bool>)(() => MyWorld.downedDusking), "Use a [i:" + ItemType("DuskCrown") + "] at nighttime");
-				bossChecklist.Call("AddBossWithInfo", "Ethereal Umbra", 7.8f, (Func<bool>)(() => MyWorld.downedSpiritCore), "Use a [i:" + ItemType("UmbraSummon") + "] in the Spirit Biome at nighttime");
 				bossChecklist.Call("AddBossWithInfo", "Atlas", 12.4f, (Func<bool>)(() => MyWorld.downedAtlas), "Use a [i:" + ItemType("StoneSkin") + "] at any time");
 				bossChecklist.Call("AddBossWithInfo", "Overseer", 14.2f, (Func<bool>)(() => MyWorld.downedOverseer), "Use a [i:" + ItemType("SpiritIdol") + "] at the Spirit Biome during nighttime");
 			}

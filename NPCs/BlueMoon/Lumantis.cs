@@ -5,17 +5,22 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 using System;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Items.Consumable.Potion;
 
 namespace SpiritMod.NPCs.BlueMoon
 {
     public class Lumantis : ModNPC
     {
-        public override void SetStaticDefaults() {
+        public override void SetStaticDefaults()
+        {
             DisplayName.SetDefault("Lumantis");
             Main.npcFrameCount[npc.type] = 5;
         }
 
-        public override void SetDefaults() {
+        public override void SetDefaults()
+        {
             npc.width = 40;
             npc.height = 40;
             npc.damage = 62;
@@ -33,26 +38,35 @@ namespace SpiritMod.NPCs.BlueMoon
         {
             return MyWorld.BlueMoon && NPC.CountNPCS(ModContent.NPCType<Lumantis>()) < 3 ? .6f : 0f;
         }
-        public override void HitEffect(int hitDirection, double damage) {
-            for(int k = 0; k < 11; k++) {
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            for (int k = 0; k < 11; k++)
+            {
                 Dust.NewDust(npc.position, npc.width, npc.height, 187, hitDirection, -1f, 1, default(Color), .81f);
                 Dust.NewDust(npc.position, npc.width, npc.height, 205, hitDirection, -1f, 1, default(Color), .51f);
             }
-            if(npc.life <= 0) {
-                for(int k = 0; k < 11; k++) {
+            if (npc.life <= 0)
+            {
+                for (int k = 0; k < 11; k++)
+                {
                     Dust.NewDust(npc.position, npc.width, npc.height, 187, hitDirection, -1f, 1, default(Color), .81f);
                     Dust.NewDust(npc.position, npc.width, npc.height, 205, hitDirection, -1f, 1, default(Color), .71f);
                 }
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Lumantis/Lumantis1"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Lumantis/Lumantis2"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Lumantis/Lumantis3"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Lumantis/Lumantis4"), 1f);
             }
         }
         int timer;
         int frame;
-        public override void AI() {
+        public override void AI()
+        {
             npc.spriteDirection = npc.direction;
             timer++;
-            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), .196f *3, .092f * 3, 0.214f * 3);
+            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), .196f * 3, .092f * 3, 0.214f * 3);
             ++npc.ai[1];
-			if (npc.ai[1] >= 600)
+            if (npc.ai[1] >= 600)
             {
                 npc.velocity.X *= .0001f;
                 reflectPhase = true;
@@ -61,7 +75,7 @@ namespace SpiritMod.NPCs.BlueMoon
                     DoDustEffect(npc.Center, 74f);
                 }
             }
-			else
+            else
             {
                 reflectPhase = false;
                 npc.defense = 20;
@@ -75,7 +89,7 @@ namespace SpiritMod.NPCs.BlueMoon
                     frame = 0;
                 }
             }
-			if (npc.ai[1] >= 840)
+            if (npc.ai[1] >= 840)
             {
                 npc.ai[1] = 0;
             }
@@ -86,13 +100,14 @@ namespace SpiritMod.NPCs.BlueMoon
             {
                 npc.frame.Y = frameHeight * frame;
             }
-			else
+            else
             {
                 npc.frame.Y = frameHeight * 4;
             }
         }
         bool reflectPhase;
-        public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit) {
+        public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
+        {
 
             if (reflectPhase)
             {
@@ -133,6 +148,15 @@ namespace SpiritMod.NPCs.BlueMoon
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/BlueMoon/Lumantis_Glow"));
+        }
+        public override void NPCLoot()
+        {
+            if (Main.rand.NextBool(5))
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MoonStone>());
+            if (Main.rand.NextBool(100))
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<StopWatch>());
+            if (Main.rand.NextBool(10))
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MoonJelly>());
         }
     }
 }

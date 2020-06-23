@@ -24,7 +24,7 @@ namespace SpiritMod.NPCs
             npc.lifeMax = 80;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath6;
-            npc.value = 320f;
+            npc.value = 220f;
             npc.knockBackResist = .40f;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -107,7 +107,17 @@ namespace SpiritMod.NPCs
         }
         public override void NPCLoot() {
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MarbleChunk>());
-        }
 
+			if (Main.rand.Next(120) == 2)
+            {
+                int[] lootTable = new int[] { 3187, 3188, 3189 };
+                {
+                    {
+                        npc.DropItem(lootTable[Main.rand.Next(3)]);
+                    }
+                }
+
+            }
+        }
     }
 }

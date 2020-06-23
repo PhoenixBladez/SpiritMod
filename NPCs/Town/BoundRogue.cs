@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 
 namespace SpiritMod.NPCs.Town
 {
@@ -21,13 +22,16 @@ namespace SpiritMod.NPCs.Town
             npc.aiStyle = 0;
             npc.damage = 0;
             npc.defense = 25;
-            npc.lifeMax = 250;
+            npc.lifeMax = 10000;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.knockBackResist = 0f;
             npc.rarity = 1;
         }
-
+        public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
+        {
+            return false;
+        }
         public override string GetChat() {
             npc.Transform(NPCType<Rogue>());
             npc.dontTakeDamage = false;

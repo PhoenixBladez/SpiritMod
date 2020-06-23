@@ -67,5 +67,25 @@ namespace SpiritMod
         public static bool Nearing(this Vector2 vec, Vector2 target) {
             return 0 < vec.X * target.X + vec.Y * target.Y;
         }
+        public static void Shuffle<T>(this Random random, ref T[] input)
+        {
+            for (int i = input.Length - 1; i > 0; i--)
+            {
+                int index = random.Next(i + 1);
+
+                T value = input[index];
+                input[index] = input[i];
+                input[i] = value;
+            }
+        }
+
+        public static Vector2 GetClockwise90(this Vector2 vector)
+        {
+            return new Vector2(vector.Y, -vector.X);
+        }
+        public static Vector2 GetAntiClockwise90(this Vector2 vector)
+        {
+            return new Vector2(-vector.Y, vector.X);
+        }
     }
 }

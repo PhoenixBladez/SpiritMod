@@ -25,7 +25,7 @@ namespace SpiritMod.NPCs
             npc.lifeMax = 90;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath53;
-            npc.value = 260f;
+            npc.value = 560f;
             npc.knockBackResist = .55f;
         }
 
@@ -61,6 +61,18 @@ namespace SpiritMod.NPCs
             }
             if(Main.rand.Next(15) == 1)
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<WheezerScale>());
+            if (Main.rand.Next(10000) == 125)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DepthMeter);
+            }
+            if (Main.rand.Next(10000) == 125)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Compass);
+            }
+            if (Main.rand.Next(1000) == 39)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Rally);
+            }
         }
 
         int frame = 0;

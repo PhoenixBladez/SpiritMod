@@ -49,12 +49,32 @@ namespace SpiritMod.NPCs
         }
 
         public override void NPCLoot() {
+            if (Main.LocalPlayer.GetSpiritPlayer().emptyWheezerScroll)
+            {
+                MyWorld.numWheezersKilled++;
+            }
             int Techs = Main.rand.Next(1, 4);
             for(int J = 0; J <= Techs; J++) {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Carapace>());
             }
-            if(Main.rand.Next(15) == 1)
+            if (Main.rand.Next(15) == 1)
+            {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<WheezerScale>());
+            }
+            if (Main.rand.Next(10000) == 125)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DepthMeter);
+            }
+            if (Main.rand.Next(10000) == 125)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Compass);
+            }
+            if (Main.rand.Next(1000) == 39)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Rally);
+            }
+            if (Main.rand.NextBool(100))
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Bezoar);
         }
 
         int frame = 0;

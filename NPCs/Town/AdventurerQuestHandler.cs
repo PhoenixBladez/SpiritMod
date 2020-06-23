@@ -6,12 +6,16 @@ using SpiritMod.Items.Material;
 using SpiritMod.Items.Consumable;
 using SpiritMod.Items.Consumable.Quest;
 using SpiritMod.Items.Pins;
+using SpiritMod.Items.Pets;
+using SpiritMod.Items.Placeable;
 using SpiritMod.Items.Placeable.Furniture;
+using SpiritMod.Items.Placeable.Tiles;
 using SpiritMod.Items.Placeable.IceSculpture;
 using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Thrown;
 using SpiritMod.Tiles.Furniture.Critters;
+using SpiritMod.Tiles.Furniture.SpaceJunk;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -46,7 +50,7 @@ namespace SpiritMod.NPCs.Town
 
             _quests = new List<Quest>();
 
-            //This is just a normal reward quest, uses default reward system
+            #region FetchQuests
             Quest shadowflameStaffQuest = RegisterQuest(ModContent.ItemType<ShadowflameStoneStaff>(),
 
                 "I've heard tell of an Arcane Goblin Tower near the far shores of this land." +
@@ -71,13 +75,15 @@ namespace SpiritMod.NPCs.Town
 
                 () => {
                     MyWorld.sepulchreComplete = true;
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SepulchrePotItem1>(), Main.rand.Next(6, 10));
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SepulchrePotItem2>(), Main.rand.Next(6, 10));
                     Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
                 });
 
             Quest jadeStaffQuest = RegisterQuest(ModContent.ItemType<JadeStaff>(),
 
                 "Hey, lad. I've got another proposition for ya." +
-                " You see, I've been looking at some old maps and I've learned about a cluster of Floating Pagodas at the far end of this world." +
+                " You see, I've been looking at some old maps and I've learned about a cluster of Floating Pagodas above the oceans of this world." +
                 " Trouble is, I can't make out whether it's to the left or right, so would ya go explorin' for me? I'm looking for an ornate staff, hundreds of years old. Happy hunting!",
 
                 "Undead samurai? Vengeful spirits? Sounds like a riot! Wish I could've been there." +
@@ -121,6 +127,7 @@ namespace SpiritMod.NPCs.Town
                      {
                          Main.LocalPlayer.QuickSpawnItem(ItemID.TigerSkin);
                      }
+                     Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<FishingPainting>());
                      Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
                  }
 
@@ -151,11 +158,12 @@ namespace SpiritMod.NPCs.Town
             mushroomQuest.OnQuestStart = () => {
                 MyWorld.spawnVibeshrooms = true;
             };
-
+            #endregion
+            #region ExplorerQuests
             Quest explorerQuestMushroom = RegisterQuest(ModContent.ItemType<ExplorerScrollMushroomFull>(),
 
 				"Up for a little explorin'? This world's massive, and even I haven't seen it all." +
-				" I'd like ya to head out there and map out the far reaches of this land. Specifically, I'm looking for info on any nearby Glowing Mushroom Caverns" +
+				" I'd like ya to head out there and map out the far reaches of this land. Specifically, I'm looking for info on any nearby Glowing Mushroom Caverns." +
 				" Take this blank map. After you stumble upon one of 'em caverns, wander around for a while and take some notes for me, alright? Return to me when the map's all filled out.",
 
 				"Found a Glowing Mushroom Cavern, did ya? Glad you made it back in one piece, lad. Those caves may seem all light and charming, but they aren't a jokin' matter." +
@@ -171,9 +179,97 @@ namespace SpiritMod.NPCs.Town
                 });
 
             explorerQuestMushroom.OnQuestStart = () => {
-                Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ExplorerScrollMushroomEmpty>());
-            };	
+                if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollMushroomEmpty>()))
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ExplorerScrollMushroomEmpty>());
+            };
 
+            Quest explorerQuestAsteroids = RegisterQuest(ModContent.ItemType<ExplorerScrollAsteroidFull>(),
+
+                "Up for a little explorin'? This world's massive, and even I haven't seen it all." +
+                " I'd like ya to head out there and map out the far reaches of this land. There's an asteroid field smack-dab above one of the oceans. Completely uncharted." +
+                " Take this blank map. After you stumble upon those asteroids, wander around for a while and take some notes for me, alright? Don't fall off, lad.",
+
+                "Did you stumble upon those asteroids? Must've been real scary up there, almost in orbit. Those Sky Islands are enough for me, phew. Did ya float?" +
+				" Sorry, I'm gettin' distracted. I'll use this info to look for any extraterrestrial loot that may be up in those floatin' rocks. Thanks for the journey as always, lad.", true,
+
+                () =>
+                {
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<PinRed>());
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MapScroll>(), Main.rand.Next(1, 3));
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<JumpPadItem>(), Main.rand.Next(1, 2));
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ScrapItem>(), Main.rand.Next(50, 70));
+                    Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
+
+                });
+
+            explorerQuestAsteroids.OnQuestStart = () => {
+                if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollAsteroidEmpty>()))
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ExplorerScrollAsteroidEmpty>());
+            };
+
+            Quest explorerQuestMarble = RegisterQuest(ModContent.ItemType<ExplorerScrollMarbleFull>(),
+
+                "Up for a little explorin'? This world's massive, and even I haven't seen it all." +
+                " I'd like ya to head out there and map out the lower reaches of this land. A few caverns are covered in marble and the ruins of some ancient civilization." +
+                " Take this blank map. After you stumble upon one of these Marble Caverns, wander around for a while and take some notes for me, alright? Hopefully, those ruins are desolate, eh?",
+
+                "I take it the caverns weren't too empty, then. Did ya manage to get a completed map, though? Great! These caverns are lookin' chock full of ancient loot." +
+                " Maybe I'll coordinate some digs with the Demolitionist. You're welcome to join us too, lad. You've more than earned it. ", true,
+
+                () =>
+                {
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MapScroll>(), Main.rand.Next(1, 3));
+                    Main.LocalPlayer.QuickSpawnItem(ItemID.Javelin, Main.rand.Next(50, 95));
+                    Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
+
+                });
+
+            explorerQuestMarble.OnQuestStart = () => {
+                if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollMarbleEmpty>()))
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ExplorerScrollMarbleEmpty>());
+            };
+
+            Quest explorerQuestGranite = RegisterQuest(ModContent.ItemType<ExplorerScrollGraniteFull>(),
+
+                 "Up for a little explorin'? This world's massive, and even I haven't seen it all." +
+                 " A couple of underground cave systems seem to be made almost entirely of dark granite." +
+                 " Some kinda energy source seems to be bringin' the rocks to life, too. I'd like ya to go and investigate. Take this blank map. After you stumble upon one of these Granite Caverns, wander around for a while and take some notes for me, alright?",
+                
+				 "You're alright! Phew. I was just hearin' rumors about big ol' granite golems and floating rocks. I can tell that they were true." +
+				 " Lookin' at this map, this place still seems real mysterious. Maybe there are some ore deposits we can extract some of that granite energy from?" +
+				 " I'll talk to the Merchant and Demolitionist. Mighty fine work as usual, lad.", true,
+                () =>
+                {
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MapScroll>(), Main.rand.Next(1, 4));
+                    Main.LocalPlayer.QuickSpawnItem(ItemID.NightVisionHelmet);
+                    Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
+                });
+            explorerQuestGranite.OnQuestStart = () => {
+                if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollGraniteEmpty>()))
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ExplorerScrollGraniteEmpty>());
+            };
+
+            Quest explorerQuestHive = RegisterQuest(ModContent.ItemType<ExplorerScrollHiveFull>(),
+
+                "Up for a little explorin'? This world's massive, and even I haven't seen it all." +
+				" Have you checked out the lower parts of the Jungle? I've recently heard about a series of massive hives around there." +
+				" I loathe bees... an' hornets... an' giant man eatin' plants, so would ya like to check one of these hives out for me? ",
+                
+				"You're covered in a lot of bee stings, lad. Maybe the Nurse has something for those. They look super painful. Did ya map the place out, though?" +
+				" Hmm, interesting. Lotta honey for the takin'. What's this? This giant larva in the middle. Can't be good, for sure. Tread lightly around there, alright?", true,
+                () =>
+                {
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MapScroll>(), Main.rand.Next(1, 4));
+                    Main.LocalPlayer.QuickSpawnItem(ItemID.BottledHoney, Main.rand.Next(8, 12));
+                    Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
+
+                });
+            explorerQuestHive.OnQuestStart = () => {
+                if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollHiveEmpty>()))
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ExplorerScrollHiveEmpty>());
+            };
+            #endregion
+            #region SlayerQuests
             Quest slayerQuestWinterborn = RegisterQuest(ModContent.ItemType<WinterbornSlayerScrollFull>(),
 
 				"A few of my associates have scouted a growing threat in the icy caverns." +
@@ -212,7 +308,8 @@ namespace SpiritMod.NPCs.Town
                     Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
                 });
             slayerQuestWinterborn.OnQuestStart = () => {
-                Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<WinterbornSlayerScrollEmpty>());
+                if (!Main.LocalPlayer.HasItem(ModContent.ItemType<WinterbornSlayerScrollEmpty>()))
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<WinterbornSlayerScrollEmpty>());
             };
             slayerQuestWinterborn.CanGiveQuest = () => {
                 return NPC.downedBoss3;
@@ -239,12 +336,12 @@ namespace SpiritMod.NPCs.Town
                     Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
                 });
             slayerQuestBeholder.OnQuestStart = () => {
-                Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<BeholderSlayerScrollEmpty>());
+                if (!Main.LocalPlayer.HasItem(ModContent.ItemType<BeholderSlayerScrollEmpty>()))
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<BeholderSlayerScrollEmpty>());
             };
             slayerQuestBeholder.CanGiveQuest = () => {
                 return NPC.downedBoss2;
             };
-
 
             Quest slayerQuestValkyrie = RegisterQuest(ModContent.ItemType<ValkyrieSlayerScrollFull>(),
 
@@ -271,28 +368,153 @@ namespace SpiritMod.NPCs.Town
                     Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
                 });
             slayerQuestValkyrie.OnQuestStart = () => {
-                Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ValkyrieSlayerScrollEmpty>());
+                if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ValkyrieSlayerScrollEmpty>()))
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ValkyrieSlayerScrollEmpty>());
+            };
+
+            Quest slayerQuestAntlion = RegisterQuest(ModContent.ItemType<AntlionSlayerScrollFull>(),
+
+				"Gear up, lad! You're going to assassinate some assassins today. Word on the wind is that a group of bandits have been roaming the desert recently." +
+				" They live in some kind of agreement with those freaky antlions. Even ride 'em sometimes, too. Could you go out there an' make the desert a safer place?" +
+                " Killing a few of those Antlion Assassins is sure to make travellin' a bit easier. This contract should help keep track of your mission.",
+
+				" Hope you didn't get caught up in one of those nasty sandstorms when you were explorin' the desert. Even without one, those assassins are tough to spot." +
+                " It's good to know that you made it home without a knife in your back, lad. Or in your stomach, your arms... you catch my drift. Thanks for makin' it just a little easier to traverse the world.", true,
+
+                 () =>
+                 {
+                     int[] lootTable1 = {
+                     ModContent.ItemType<TargetCan>(),
+                     ModContent.ItemType<TargetBottle>(),
+                     };
+                     int loot3 = Main.rand.Next(lootTable1.Length);
+                     Main.LocalPlayer.QuickSpawnItem(lootTable1[loot3], Main.rand.Next(18, 30));
+                     Main.LocalPlayer.QuickSpawnItem(848);
+                     Main.LocalPlayer.QuickSpawnItem(866);
+                     Main.LocalPlayer.QuickSpawnItem(934);
+                     Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
+                 });
+            slayerQuestAntlion.OnQuestStart = () => {
+                if (!Main.LocalPlayer.HasItem(ModContent.ItemType<AntlionSlayerScrollEmpty>()))
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<AntlionSlayerScrollEmpty>());
+            };
+
+            Quest slayerQuestDrBones = RegisterQuest(ModContent.ItemType<DrBonesSlayerQuestFull>(),
+
+				"The Jungle's a rough place, that's for sure. My colleague, an expert archaeologist, went roamin' the place for some ancient temple." +
+				" He didn't make it, though. Real shame, that lad was a riot. Reports have told me that he's still roamin' the Jungle surface as a zombie." +
+				" Mind going out there and puttin' him to rest for me? He's been exploring enough.",
+
+				"You've done a huge service for me, lad. It means a lot that my friend can finally rest easy after years of a cursed, undead life. I have some of his ol' gear for you." +
+				" Maybe it'll give you an edge while looking for artifacts? Either way, it's mighty stylish. Good explorin'!", true,
+				() =>
+                {
+                    int[] lootTable1 = {
+                     ModContent.ItemType<TargetCan>(),
+                     ModContent.ItemType<TargetBottle>(),
+                     };
+                    int loot3 = Main.rand.Next(lootTable1.Length);
+                    Main.LocalPlayer.QuickSpawnItem(lootTable1[loot3], Main.rand.Next(18, 30));
+                    Main.LocalPlayer.QuickSpawnItem(252);
+                    Main.LocalPlayer.QuickSpawnItem(253);
+                    Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
+                });
+            slayerQuestDrBones.OnQuestStart = () => {
+                if (!Main.LocalPlayer.HasItem(ModContent.ItemType<DrBonesSlayerScrollEmpty>()))
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<DrBonesSlayerScrollEmpty>());
+            };
+
+            Quest slayerQuestWheezers = RegisterQuest(ModContent.ItemType<WheezerSlayerScrollFull>(),
+
+                "Some new creepy crawlies have taken to calling the caverns their home. Disgustin' little fellas that belch poison gas and some spiny little buggers." +
+                " I've got a simple task for ya. Do us all a favor and exterminate those nasty things. Killing a dozen of 'em will surely make the underground a less nasty place." +
+                " This contract should help keep track of your mission.",
+
+                " I can't lie, lad. You smell like bug juice and it's not the prettiest thing in the world. But that just means you did it, right?" +
+				" We can all head down there with a little less fear. Appreciate it.", true,
+
+                () =>
+                {
+                    int[] lootTable1 = {
+                     ModContent.ItemType<TargetCan>(),
+                     ModContent.ItemType<TargetBottle>(),
+                     };
+                    int loot3 = Main.rand.Next(lootTable1.Length);
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<WheezerPainting>());
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<Carapace>(), Main.rand.Next(4, 10));
+                    Main.LocalPlayer.QuickSpawnItem(lootTable1[loot3], Main.rand.Next(18, 30));
+                    Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
+                });
+            slayerQuestWheezers.OnQuestStart = () => {
+                if (!Main.LocalPlayer.HasItem(ModContent.ItemType<WheezerSlayerScrollEmpty>()))
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<WheezerSlayerScrollEmpty>());
+
+            };
+            slayerQuestWheezers.CanGiveQuest = () => {
+                return NPC.downedBoss1;
+            };
+
+            Quest slayerQuestStardancers = RegisterQuest(ModContent.ItemType<StardancerSlayerScrollFull>(),
+                "You've checked out the Asteroid Fields near the far corner of the world, right? My sources have reported some increasin' mechanical activity around there." +
+				" Some kinda weird automatonic worms made of metal are streakin' through the sky there. Something has to be putting 'em on edge. Could you kill a couple and see what makes 'em tick?" +
+                " This contract should help keep track of your mission.",
+
+                "So, they seem to be powered by some kind of extraterrestrial energy source, huh? I can't make heads or tails of these things. Maybe the Guide can help ya out?" +
+				" What I do know is that my gut is tellin' me that the Asteroids are about to get a whole lot more dangerous. Stay strong, lad.", true,
+                () =>
+                {
+                    int[] lootTable1 = {
+                     ModContent.ItemType<TargetCan>(),
+                     ModContent.ItemType<TargetBottle>(),
+                     };
+                    int[] lootTable = {
+                     ModContent.ItemType<ScrapItem1>(),
+                     ModContent.ItemType<ScrapItem2>(),
+                     ModContent.ItemType<ScrapItem3>(),
+                     ModContent.ItemType<ScrapItem4>(),
+                     };
+                    int loot = Main.rand.Next(lootTable.Length);
+                    int loot2 = Main.rand.Next(lootTable1.Length);
+                    int loot3 = Main.rand.Next(lootTable1.Length);
+                    Main.LocalPlayer.QuickSpawnItem(lootTable[loot3]);
+                    Main.LocalPlayer.QuickSpawnItem(lootTable[loot2]);
+                    Main.LocalPlayer.QuickSpawnItem(lootTable1[loot3], Main.rand.Next(18, 30));
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<TechChip>());
+                    Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
+                });
+            slayerQuestStardancers.OnQuestStart = () => {
+                if (!Main.LocalPlayer.HasItem(ModContent.ItemType<StardancerSlayerScrollEmpty>()))
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<StardancerSlayerScrollEmpty>());
+
+            };
+            slayerQuestStardancers.CanGiveQuest = () => {
+                return NPC.downedBoss3;
             };
 
 
+
+            #endregion
+
+            #region ScriptedQuests
             //Scripted Quest 2
             Quest sacredVineQuest = RegisterQuest(ModContent.ItemType<SacredVine>(),
 
-				"Ever since I was captured by those savages from the Briar, I've been doin' some research on the place." +
-				" That altar you found me at is supposed to harbor a really venegeful nature spirit." +
-				" However, the vines that spirit's made of are said to possessive some mystical regenerative properties, or somethin'. Mind investigating? And kill some savages for me while you're at it.",
+        "Ever since I was captured by those savages from the Briar, I've been doin' some research on the place." +
+            " That altar you found me at is supposed to harbor a really venegeful nature spirit." +
+            " However, the vines that spirit's made of are said to possessive some mystical regenerative properties, or somethin'. Mind investigating? And kill some savages for me while you're at it.",
 
-				"Revenge is sweet! Now those feral beasts in the Briar are sure to think twice about capturin' innocent adventurers in the future! Hopefully." +
-				"I've whipped up some healin' potions with those vines you gave me. I'm sure it'll help out when you're in a tight spot, eh?", true,
+            "Revenge is sweet! Now those feral beasts in the Briar are sure to think twice about capturin' innocent adventurers in the future! Hopefully." +
+            "I've whipped up some healin' potions with those vines you gave me. I'm sure it'll help out when you're in a tight spot, eh?", true,
 
-				() => {
-					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<EnchantedLeaf>(), Main.rand.Next(5, 9));
-					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<AncientBark>(), Main.rand.Next(10, 25));
-					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<Items.Armor.Masks.GladeWraithMask>(), 1);
-					Main.LocalPlayer.QuickSpawnItem(ItemID.HealingPotion, 4);
+            () => {
+                Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<EnchantedLeaf>(), Main.rand.Next(5, 9));
+                Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<AncientBark>(), Main.rand.Next(10, 25));
+                Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<Items.Armor.Masks.GladeWraithMask>(), 1);
+                Main.LocalPlayer.QuickSpawnItem(ItemID.HealingPotion, 4);
 
-					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
-				});
+                Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
+            });
+
 
             sacredVineQuest.NthQuest = 2;
             //Scripted Quest 3
@@ -318,7 +540,7 @@ namespace SpiritMod.NPCs.Town
                 });
 
             scarabQuest.NthQuest = 3;
-
+            #endregion
 
 
             _completed = new bool[_quests.Count];
@@ -326,7 +548,6 @@ namespace SpiritMod.NPCs.Town
             _questsCompleted = 0;
             _currentQuest = -1;
             _previousQuest = -1;
-
         }
 
         private Quest RegisterQuest(int itemId, string description, string completeText, bool consumeQuest, Action customReward = null) {

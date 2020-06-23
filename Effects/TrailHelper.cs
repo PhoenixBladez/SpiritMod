@@ -76,8 +76,17 @@ namespace SpiritMod.Effects
                         break;
                 }
             }
-
-            if(projectile.type == ModContent.ProjectileType<TrueHallowedStaffProj>()) {
+			if (projectile.type == ModContent.ProjectileType<BloomshroomHostile>()) {
+                switch (Main.rand.Next(2)) {
+                    case 0:
+                        CreateTrail(projectile, new StandardColorTrail(new Color(120, 217, 255)), new RoundCap(), new SleepingStarTrailPosition(), 18f, 250f);
+                        break;
+                    case 1:
+                        CreateTrail(projectile, new StandardColorTrail(new Color(218, 94, 255)), new RoundCap(), new SleepingStarTrailPosition(), 18f, 250f);
+                        break;
+                }
+            }
+            if (projectile.type == ModContent.ProjectileType<TrueHallowedStaffProj>()) {
                 CreateTrail(projectile, new RainbowTrail(5f, 0.002f, 1f, .75f), new RoundCap(), new SleepingStarTrailPosition(), 150f, 130f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
             }
             if (projectile.type == ModContent.ProjectileType<StarSting>())

@@ -7,6 +7,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Items.Weapon.Summon;
 
 namespace SpiritMod.NPCs.BlueMoon
 {
@@ -26,7 +29,7 @@ namespace SpiritMod.NPCs.BlueMoon
             npc.defense = 14;
             npc.lifeMax = 380;
             npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
+            npc.DeathSound = SoundID.NPCDeath5;
             npc.value = 2000f;
             npc.knockBackResist = 0.5f;
             // npc.aiStyle = 26;
@@ -36,7 +39,14 @@ namespace SpiritMod.NPCs.BlueMoon
             Main.PlaySound(31, (int)npc.position.X, (int)npc.position.Y);
 
             for(int k = 0; k < 5; k++)
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, 180, hitDirection, -1f, 0, default(Color), 1f);
+            if (npc.life <= 0)
+            {
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GlowToad/GlowToad1"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GlowToad/GlowToad2"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GlowToad/GlowToad3"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GlowToad/GlowToad4"), 1f);
+            }
 
         }
         bool tongueOut = false;
@@ -60,6 +70,7 @@ namespace SpiritMod.NPCs.BlueMoon
             }
             cooldownTimer++;
             if(timer % 90 == 0 && !tongueOut) {
+
                 if (!jumping)
                 {
                     jumping = true;
@@ -121,10 +132,12 @@ namespace SpiritMod.NPCs.BlueMoon
                     npc.knockBackResist = 0f;
                     if (npc.spriteDirection == 0)
                     {
+                        Main.PlaySound(31, (int)npc.position.X, (int)npc.position.Y);
                         tongueproj = Projectile.NewProjectile(npc.Center + new Vector2(21, 8), new Vector2(11,0), ModContent.ProjectileType<GlowTongue>(), (int)(npc.damage / 1.7f), 1, player.whoAmI, 1);
                     }
                     else
                     {
+                        Main.PlaySound(31, (int)npc.position.X, (int)npc.position.Y);
                         tongueproj = Projectile.NewProjectile(npc.Center + new Vector2(-18, 8), new Vector2(-11,0), ModContent.ProjectileType<GlowTongue>(), (int)(npc.damage / 1.7f), 1, player.whoAmI, 0);
                     }
                 }
@@ -159,7 +172,7 @@ namespace SpiritMod.NPCs.BlueMoon
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            var effects = npc.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
                              drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
             return false;
@@ -174,8 +187,10 @@ namespace SpiritMod.NPCs.BlueMoon
         }
 
         public override void NPCLoot() {
-            if(Main.rand.Next(40) == 1)
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GloomgusStaff>());
+            if (Main.rand.NextBool(5))
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MoonStone>());
+            if (Main.rand.NextBool(100))
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<StopWatch>());
         }
 
     }

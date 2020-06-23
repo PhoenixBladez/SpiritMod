@@ -151,13 +151,13 @@ namespace SpiritMod.NPCs.Dungeon
         }
 
         public override void NPCLoot() {
-            if(Main.rand.Next(1) == 10) {
+            if(Main.rand.Next(10) == 1) {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GoldenKey);
             }
-            if(Main.rand.Next(1) == 75) {
+            if(Main.rand.Next(75) == 1) {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Nazar);
             }
-            if(Main.rand.Next(1) == 100) {
+            if(Main.rand.Next(100) == 1) {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.TallyCounter);
             }
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 134, Main.rand.Next(4));

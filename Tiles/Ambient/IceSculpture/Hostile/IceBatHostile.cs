@@ -26,7 +26,7 @@ namespace SpiritMod.Tiles.Ambient.IceSculpture.Hostile
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Frozen Ice Bats");
-            dustType = 67;
+            dustType = 51;
             AddMapEntry(new Color(200, 200, 200), name);
         }
         public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) {

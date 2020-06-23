@@ -670,8 +670,8 @@ namespace SpiritMod.NPCs
             }
 
             if(MyWorld.BlueMoon && surface) {
-                maxSpawns = (int)(maxSpawns * 2f);
-                spawnRate = (int)(spawnRate * 0.19f);
+                maxSpawns = (int)(maxSpawns * 1.1f);
+                spawnRate = (int)(spawnRate * 0.4f);
             }
             if(TideWorld.TheTide && player.ZoneBeach) {
                 maxSpawns = (int)(10 + 1.5f * activePlayers);
@@ -775,7 +775,7 @@ namespace SpiritMod.NPCs
                 return 5;
 
             if(boss.type == NPCID.TheDestroyer || boss.type == Boss.Infernon.Infernon._type || boss.type == Boss.Infernon.InfernoSkull._type ||
-                    boss.type == NPCID.SkeletronPrime || boss.type == Boss.Dusking.Dusking._type || boss.type == Boss.SpiritCore.SpiritCore._type)
+                    boss.type == NPCID.SkeletronPrime || boss.type == Boss.Dusking.Dusking._type)
                 return 4;
 
             if(boss.type == NPCID.Plantera || boss.type == NPCID.Golem || boss.type == NPCID.DukeFishron || boss.type == NPCID.CultistBoss || boss.type == Boss.Atlas.Atlas._type || boss.type == Boss.Overseer.Overseer._type)
@@ -789,6 +789,10 @@ namespace SpiritMod.NPCs
 
         public override void NPCLoot(NPC npc) {
 
+			if (Main.LocalPlayer.GetSpiritPlayer().emptyDrBonesScroll && npc.type == NPCID.DoctorBones)
+            {
+                MyWorld.numDrBonesKilled++;
+            }
             Player closest = Main.player[(int)Player.FindClosest(npc.position, npc.width, npc.height)];
             if(bloodInfusion) {
                 Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, ModContent.ProjectileType<FlayedExplosion>(), 25, 0, Main.myPlayer);
@@ -951,9 +955,6 @@ namespace SpiritMod.NPCs
             }
             if(closest.GetSpiritPlayer().ZoneAsteroid && Main.rand.Next(50) == 0) {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Blaster>());
-            }
-            if(npc.type == NPCID.DungeonSpirit && Main.rand.Next(20) == 0) {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DungeonSpirit>(), Main.rand.Next(2) + 1);
             }
             if(npc.type == 48 && Main.rand.Next(45) == 0) {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<StarlightBow>());

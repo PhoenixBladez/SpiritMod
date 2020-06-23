@@ -46,6 +46,10 @@ namespace SpiritMod.NPCs.Reach
             if(Main.rand.Next(2) == 0) {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<AncientBark>(), Main.rand.Next(1, 4));
             }
+            if (Main.rand.Next(10000) == 0)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SlimeStaff);
+            }
         }
         public override void OnHitPlayer(Player target, int damage, bool crit) {
             if(Main.rand.Next(3) == 0) {

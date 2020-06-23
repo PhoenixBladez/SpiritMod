@@ -139,6 +139,7 @@ namespace SpiritMod.NPCs
             }
         }
         public override void OnHitPlayer(Player target, int damage, bool crit) {
+			if (Main.rand.NextBool(4))
             target.AddBuff(BuffID.Obstructed, 60);
         }
         public override void NPCLoot() {

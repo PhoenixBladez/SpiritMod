@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using SpiritMod;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs
@@ -19,7 +20,7 @@ namespace SpiritMod.NPCs
             npc.defense = 8;
             npc.lifeMax = 74;
             npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath6;
+            npc.DeathSound = SoundID.NPCDeath2;
             npc.value = 329f;
             npc.knockBackResist = .45f;
             npc.aiStyle = 3;
@@ -31,7 +32,7 @@ namespace SpiritMod.NPCs
                 return 0;
 
             if(Main.tileSand[spawnInfo.spawnTileType])
-                return SpawnCondition.OverworldDayDesert.Chance * 0.04f;
+                return SpawnCondition.OverworldDayDesert.Chance * 0.06f;
             return 0;
         }
         int timer;
@@ -40,7 +41,13 @@ namespace SpiritMod.NPCs
                 Dust.NewDust(npc.position, npc.width, npc.height, 85, hitDirection, -1f, 1, default(Color), .61f);
             }
             if(npc.life <= 0) {
-                for(int k = 0; k < 11; k++) {
+                {
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AntlionAssassin/Assassin1"), 1f);
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AntlionAssassin/Assassin2"), 1f);
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AntlionAssassin/Assassin3"), 1f);
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AntlionAssassin/Assassin4"), 1f);
+                }
+                for (int k = 0; k < 11; k++) {
                     Dust.NewDust(npc.position, npc.width, npc.height, 85, hitDirection, -1f, 1, default(Color), .61f);
                 }
                 int ing = Gore.NewGore(npc.position, npc.velocity, 825);
@@ -111,6 +118,17 @@ namespace SpiritMod.NPCs
             npc.alpha = 0;
             timer = 0;
             npc.alpha = 0;
+        }
+        public override void NPCLoot()
+        {
+            if (Main.LocalPlayer.GetSpiritPlayer().emptyAntlionScroll)
+            {
+                MyWorld.numAntlionsKilled++;
+            }
+            if (Main.rand.NextBool(25))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 857);
+            }
         }
     }
 }

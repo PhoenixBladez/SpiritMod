@@ -148,10 +148,16 @@ namespace SpiritMod.NPCs.Dungeon
             }
             return 0f;
         }
-
         public override void NPCLoot() {
-
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 327);
+            if(Main.rand.Next(10) == 1) {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GoldenKey);
+            }
+            if(Main.rand.Next(75) == 1) {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Nazar);
+            }
+            if(Main.rand.Next(100) == 1) {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.TallyCounter);
+            }
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 137, Main.rand.Next(4));
         }
         public override void HitEffect(int hitDirection, double damage) {

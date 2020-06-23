@@ -34,6 +34,10 @@ namespace SpiritMod.NPCs.Reach
             if(!Main.dayTime) {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EnchantedLeaf>());
             }
+			if (Main.rand.NextBool(10))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Vine);
+            }
         }
 
         public override void AI() {
