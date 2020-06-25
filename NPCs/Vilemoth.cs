@@ -26,8 +26,8 @@ namespace SpiritMod.NPCs
             npc.damage = 32;
             npc.defense = 15;
             npc.lifeMax = 70;
-            npc.HitSound = SoundID.NPCHit7; //Dr Man Fly
-            npc.DeathSound = SoundID.NPCDeath6;
+            npc.HitSound = SoundID.NPCHit35; //Dr Man Fly
+            npc.DeathSound = SoundID.NPCDeath22;
             npc.value = 110f;
             npc.noGravity = true;
             npc.noTileCollide = false;
@@ -42,6 +42,15 @@ namespace SpiritMod.NPCs
             npc.frame.Y = frame * frameHeight;
         }
         public override void AI() {
+            if (Main.rand.NextFloat() < 0.431579f)
+            {
+                {
+                    Dust dust;
+                    Vector2 position = npc.Center;
+                    int d = Dust.NewDust(npc.position, npc.width, npc.height + 10, 184, 0, 1f, 0, new Color(), 0.7f);
+                    Main.dust[d].velocity *= .1f;
+                }
+            }
             Player player = Main.player[npc.target];
             npc.rotation = npc.velocity.X * 0.1f;
             if (npc.Center.X >= player.Center.X && moveSpeed >= -60) // flies to players x position
@@ -70,15 +79,24 @@ namespace SpiritMod.NPCs
             npc.velocity.Y = moveSpeedY * 0.06f;
             timer++;
             if(timer >= 120) {
-                bool expertMode = Main.expertMode;
-                int damage = expertMode ? 12 : 16;
                 Vector2 vector2_2 = Vector2.UnitY.RotatedByRandom(1.57079637050629f) * new Vector2(5f, 3f);
-                int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector2_2.X, vector2_2.Y, mod.ProjectileType("VileWaspProjectile"), damage, 0.0f, Main.myPlayer, 0.0f, (float)npc.whoAmI);
+                int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector2_2.X, vector2_2.Y, mod.ProjectileType("VileWaspProjectile"), 0, 0.0f, Main.myPlayer, 0.0f, (float)npc.whoAmI);
                 Main.projectile[p].hostile = true;
                 timer = 0;
             }
 
             npc.spriteDirection = npc.direction;
+        }
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            if (npc.life <= 0)
+            {
+                Main.PlaySound(4, npc.Center, 38);
+            }
+        }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return spawnInfo.player.ZoneCorrupt && spawnInfo.player.ZoneOverworldHeight && !NPC.AnyNPCs(ModContent.NPCType<Vilemoth>()) ? .1f : 0f;
         }
     }
 }

@@ -13,8 +13,6 @@ namespace SpiritMod.NPCs
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Putroma");
-            NPCID.Sets.TrailCacheLength[npc.type] = 4;
-            NPCID.Sets.TrailingMode[npc.type] = 0;
         }
 
 		public override void SetDefaults()
@@ -35,21 +33,16 @@ namespace SpiritMod.NPCs
         {
             npc.rotation += .06f * npc.velocity.X;
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-                             lightColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
-            {
-                Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height) * 0.5f);
-                for (int k = 0; k < npc.oldPos.Length; k++)
-                {
-                    Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
-                    Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
-                    spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
-                }
-            }
+                             drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
             return false;
+        }
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            GlowmaskUtils.DrawExtras(spriteBatch, npc, mod.GetTexture("NPCs/Teratoma_Eyes"));
         }
         public override void HitEffect(int hitDirection, double damage)
         {
@@ -68,7 +61,7 @@ namespace SpiritMod.NPCs
                 bool expertMode = Main.expertMode;
                 Main.PlaySound(SoundID.Item20, npc.Center);
                 int damagenumber = expertMode ? 12 : 17;
-                int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, Main.rand.Next(-8, 8), Main.rand.Next(-4, 0), tomaProj, damagenumber, 1, Main.myPlayer, 0, 0);
+                int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, Main.rand.Next(-4, 4), Main.rand.Next(-4, 0), tomaProj, damagenumber, 1, Main.myPlayer, 0, 0);
                 Main.projectile[p].friendly = false;
                 Main.projectile[p].hostile = true;
             }
@@ -83,6 +76,10 @@ namespace SpiritMod.NPCs
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Teratoma/Teratoma7"), Main.rand.NextFloat(.85f, 1.1f));
                 Main.PlaySound(29, npc.Center, 9);
             }
+        }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return spawnInfo.player.ZoneCorrupt && spawnInfo.player.ZoneOverworldHeight ? .2f : 0f;
         }
     }
 }

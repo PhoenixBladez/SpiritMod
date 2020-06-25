@@ -22,7 +22,21 @@ namespace SpiritMod
                 0
             );
         }
-
+        public static void DrawExtras(SpriteBatch spriteBatch, NPC npc, Texture2D texture)
+        {
+            var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(
+                texture,
+                npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY),
+                npc.frame,
+                new Color(200, 200, 200),
+                npc.velocity.X * .1f,
+                npc.frame.Size() / 2,
+                npc.scale,
+                effects,
+                0
+            ) ;
+        }
         public static void DrawArmorGlowMask(EquipType type, Texture2D texture, PlayerDrawInfo info) {
             switch(type) {
                 case EquipType.Head: {
