@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 using static SpiritMod.NPCUtils;
 using static Terraria.ModLoader.ModContent;
 using SpiritMod.Items.Consumable.GamblerChests;
+using SpiritMod.Items.Accessory;
 
 namespace SpiritMod.Npcs.Town
 {
@@ -165,6 +166,16 @@ namespace SpiritMod.Npcs.Town
 			 AddItem(ref shop, ref nextSlot, ItemType<SilverChest>());
 			 AddItem(ref shop, ref nextSlot, ItemType<GoldChest>());
 			 AddItem(ref shop, ref nextSlot, ItemType<PlatinumChest>());
+			 nextSlot++;
+			 nextSlot++;
+			 nextSlot++;
+			 nextSlot++;
+			 nextSlot++;
+			 nextSlot++;
+			 AddItem(ref shop, ref nextSlot, ItemType<AceOfSpades>());
+			 AddItem(ref shop, ref nextSlot, ItemType<AceOfHearts>());
+			 AddItem(ref shop, ref nextSlot, ItemType<AceOfClubs>());
+			// AddItem(ref shop, ref nextSlot, ItemType<AceOfDiamonds>());
 		}
 
 		public override void TownNPCAttackStrength(ref int damage, ref float knockback)

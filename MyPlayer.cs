@@ -76,6 +76,10 @@ namespace SpiritMod
         public int shieldsLeft = 2;
         public bool spawnedShield = false;
         public bool SoulStone = false;
+        public bool AceOfSpades = false;
+        public bool AceOfHearts = false;
+        public bool AceOfClubs = false;
+        public bool AceOfDiamonds = false;
         public bool geodeSet = false;
         public bool assassinMag = false;
         public bool shadowFang = false;
@@ -552,6 +556,10 @@ namespace SpiritMod
             floranSet = false;
             atmos = false;
             SoulStone = false;
+            AceOfSpades = false;
+            AceOfHearts = false;
+            AceOfClubs = false;
+            AceOfDiamonds = false;
             anglure = false;
             geodeSet = false;
             manaWings = false;
@@ -1161,7 +1169,20 @@ namespace SpiritMod
         }
 
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit) {
-
+            if (AceOfSpades && target.life < (damage * 2) - (target.defense / 2) )
+            {
+                crit = true;
+                damage = (int)(damage * 2f);
+            }
+            if(AceOfHearts && target.life < (damage * 2) - (target.defense / 2) && crit && !target.friendly && target.lifeMax > 5)
+            {
+                  NPC npc = target;
+               if(Main.halloween) {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 1734);
+                } else {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 58);
+                }
+            }
             if(astralSet) {
                 if(crit) {
                     damage = (int)(damage + (.1f * astralSetStacks));
