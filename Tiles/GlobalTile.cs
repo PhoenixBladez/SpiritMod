@@ -2,6 +2,8 @@
 using SpiritMod.Items.Material;
 using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Items.Weapon.Thrown;
+using System.Collections.Generic;
+using System.Linq;
 using SpiritMod.NPCs.Ocean;
 using Terraria;
 using Terraria.ID;
@@ -69,6 +71,34 @@ namespace SpiritMod.Tiles
                 return false;
             }
             return base.CanExplode(i, j, type);
+        }
+        int[] TileArray212 = { 0, 3, 185, 186, 187, 71, 28 };
+        public override void RandomUpdate(int i, int j, int type)
+        {
+            if (type == TileID.CorruptGrass || type == TileID.Ebonstone)
+            {
+                if (MyWorld.CorruptHazards < 30)
+                {
+                    if ((TileArray212.Contains(Framing.GetTileSafely(i, j - 1).type) && TileArray212.Contains(Framing.GetTileSafely(i, j - 2).type) && TileArray212.Contains(Framing.GetTileSafely(i, j - 3).type)) && (j > (int)Main.worldSurface - 100 && j < (int)Main.rockLayer - 20))
+                    {
+                        if (Main.rand.Next(300) == 0)
+                        {
+                            WorldGen.PlaceObject(i, j - 1, mod.TileType("Corpsebloom"));
+                            NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("Corpsebloom"), 0, 0, -1, -1);
+                        }
+                        if (Main.rand.Next(300) == 0)
+                        {
+                            WorldGen.PlaceObject(i, j - 1, mod.TileType("Corpsebloom1"));
+                            NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("Corpsebloom1"), 0, 0, -1, -1);
+                        }
+                        if (Main.rand.Next(300) == 0)
+                        {
+                            WorldGen.PlaceObject(i, j - 1, mod.TileType("Corpsebloom2"));
+                            NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("Corpsebloom2"), 0, 0, -1, -1);
+                        }
+                    }
+                }
+            }
         }
         public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem) {
             Player player = Main.LocalPlayer;

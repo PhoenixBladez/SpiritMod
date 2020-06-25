@@ -5,7 +5,7 @@ namespace SpiritMod.Backgrounds
 {
     public class SpiritUgBgStyle : ModUgBgStyle
     {
-        public override bool ChooseBgStyle() => NPC.downedMechBossAny && Main.LocalPlayer.GetSpiritPlayer().ZoneSpirit;
+        public override bool ChooseBgStyle() => NPC.downedMechBossAny && Main.LocalPlayer.GetSpiritPlayer().ZoneSpirit && Main.LocalPlayer.position.Y / 16 < (Main.rockLayer + Main.maxTilesY - 330) / 2f;
 
         public override void FillTextureArray(int[] textureSlots) {
             textureSlots[0] = mod.GetBackgroundSlot("Backgrounds/SpiritBiomeUG0");

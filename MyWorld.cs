@@ -72,6 +72,7 @@ namespace SpiritMod
         public static int GraniteTiles = 0;
         public static int ReachTiles = 0;
         public static int HiveTiles = 0;
+		public static int CorruptHazards = 0;
 
         public static bool Magicite = false;
         public static bool Thermite = false;
@@ -122,6 +123,7 @@ namespace SpiritMod
             //now you don't gotta have 6 separate things for tilecount
             ReachTiles = tileCounts[ModContent.TileType<BriarGrass>()];
             AsteroidTiles = tileCounts[ModContent.TileType<Asteroid>()] + tileCounts[ModContent.TileType<BigAsteroid>()] + tileCounts[ModContent.TileType<SpaceJunkTile>()] + tileCounts[ModContent.TileType<Glowstone>()];
+            CorruptHazards = tileCounts[ModContent.TileType<Corpsebloom>()] + tileCounts[ModContent.TileType<Corpsebloom1>()] + tileCounts[ModContent.TileType<Corpsebloom2>()];
             MarbleTiles = tileCounts[367];
             GraniteTiles = tileCounts[368];
             HiveTiles = tileCounts[225];
@@ -1491,7 +1493,7 @@ namespace SpiritMod
         public void GenerateCrateStash() {
             bool placed = false;
             while(!placed) {
-                int hideoutX = Main.rand.Next(50, Main.maxTilesX); // from 50 since there's a unaccessible area at the world's borders
+                int hideoutX = Main.rand.Next(300, Main.maxTilesX); // from 50 since there's a unaccessible area at the world's borders
                 int hideoutY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 450);
                 Tile tile = Main.tile[hideoutX, hideoutY];
                 if(!tile.active() || tile.type != TileID.Stone) {
@@ -1546,7 +1548,7 @@ namespace SpiritMod
         public void GenerateCrateStashJungle() {
             bool placed = false;
             while(!placed) {
-                int hideoutX = Main.rand.Next(50, Main.maxTilesX); // from 50 since there's a unaccessible area at the world's borders
+                int hideoutX = Main.rand.Next(300, Main.maxTilesX-200); // from 50 since there's a unaccessible area at the world's borders
                 int hideoutY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 450);
                 Tile tile = Main.tile[hideoutX, hideoutY];
                 if(!tile.active() || tile.type != 60) {
@@ -1561,7 +1563,7 @@ namespace SpiritMod
         public void GenerateStoneDungeon() {
             bool placed = false;
             while(!placed) {
-                int hideoutX = Main.rand.Next(50, Main.maxTilesX); // from 50 since there's a unaccessible area at the world's borders
+                int hideoutX = Main.rand.Next(50, Main.maxTilesX-200); // from 50 since there's a unaccessible area at the world's borders
                 int hideoutY = Main.rand.Next((int)Main.rockLayer, Main.maxTilesY);
                 Tile tile = Main.tile[hideoutX, hideoutY];
                 List<Point> location = new List<Point>(); //these are for ease of use if we ever want to add containers to these existing structures
@@ -1582,7 +1584,7 @@ namespace SpiritMod
         public void GenerateBismiteCavern() {
             bool placed = false;
             while(!placed) {
-                int hideoutX = Main.rand.Next(50, Main.maxTilesX); // from 50 since there's a unaccessible area at the world's borders
+                int hideoutX = Main.rand.Next(300, Main.maxTilesX-200); // from 50 since there's a unaccessible area at the world's borders
                 int hideoutY = Main.rand.Next((int)Main.rockLayer, Main.maxTilesY - 300);
                 Tile tile = Main.tile[hideoutX, hideoutY];
                 List<Point> location = new List<Point>(); //these are for ease of use if we ever want to add containers to these existing structures
@@ -1603,7 +1605,7 @@ namespace SpiritMod
         public void GeneratePurityShrine() {
             bool placed = false;
             while(!placed) {
-                int hideoutX = Main.rand.Next(50, Main.maxTilesX); // from 50 since there's a unaccessible area at the world's borders
+                int hideoutX = Main.rand.Next(300, Main.maxTilesX -200); // from 50 since there's a unaccessible area at the world's borders
                 int hideoutY = Main.rand.Next((int)Main.rockLayer, Main.maxTilesY);
                 Tile tile = Main.tile[hideoutX, hideoutY];
                 List<Point> location = new List<Point>(); //these are for ease of use if we ever want to add containers to these existing structures
@@ -2839,6 +2841,8 @@ namespace SpiritMod
                             success = true;
                             continue;
                         }
+
+                        progress.Message = "Spirit Mod: Adding Microstructures...";
                         {
                             if(Main.rand.Next(2) == 0) {
                                 if(WorldGen.genRand.Next(2) == 0) {
@@ -3014,9 +3018,10 @@ namespace SpiritMod
             }));
             tasks.Insert(ShiniesIndex + 1, new PassLegacy("Piles", delegate (GenerationProgress progress) {
 
-                progress.Message = "Piling Up Ores...";
+                progress.Message = "Spirit Mod: Adding Ambient Objects...";
                 {
-                    if(WorldGen.CopperTierOre == TileID.Copper) {
+                   
+                    if (WorldGen.CopperTierOre == TileID.Copper) {
                         for(int i = 0; i < Main.maxTilesX * 19.5; i++) {
                             int num3 = WorldGen.genRand.Next(0, Main.maxTilesX);
                             int num4 = WorldGen.genRand.Next((int)Main.worldSurface, Main.maxTilesY);

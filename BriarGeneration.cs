@@ -1684,7 +1684,7 @@ namespace SpiritMod
 			tasks.Insert(++index, new PassLegacy("Briar",
 				delegate (GenerationProgress progress)
 				{
-					progress.Message = "Creating Hostile Settlements...";
+					progress.Message = "Growing The Briar...";
 
 					int tilePer = 10;
 					int safeInARow = 0;
@@ -2247,7 +2247,7 @@ namespace SpiritMod
 
 			RadiusLine tree = new RadiusLine(0.15f, treePoints.ToArray());
 			//place initial trunk
-			tree.Place(_noise, (ushort)ModContent.TileType<BarkTileTile>());
+			tree.Place(_noise, (ushort)ModContent.TileType<LivingBriarWood>());
 
 			//place branches
 			bool branchLeft = true;

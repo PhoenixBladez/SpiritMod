@@ -1,0 +1,25 @@
+using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
+using Terraria;
+using Terraria.ModLoader;
+
+namespace SpiritMod.Tiles.Block
+{
+    public class LivingBriarWood : ModTile
+    {
+        public override void SetDefaults() {
+            Main.tileSolid[Type] = true;
+            Main.tileMergeDirt[Type] = true;
+            Main.tileBlendAll[Type] = true;
+            Main.tileBlockLight[Type] = true;
+            Main.tileLighted[Type] = true;
+            AddMapEntry(new Color(133, 104, 70));
+            drop = ModContent.ItemType<AncientBark>();
+        }
+
+        public override bool CanExplode(int i, int j) {
+            return true;
+        }
+    }
+}
+

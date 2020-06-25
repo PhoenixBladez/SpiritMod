@@ -48,12 +48,15 @@ namespace SpiritMod.NPCs.BlueMoon
                 Dust.NewDust(npc.position, npc.width, npc.height, d, 1.5f * hitDirection, -1.5f, 0, default(Color), 0.57f);
                 Dust.NewDust(npc.position, npc.width, npc.height, 159, 1.5f * hitDirection, -1.5f, 0, default(Color), 0.52f);
             }
-            Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Glitterfly/Glitterfly1"), 1f);
-            Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Glitterfly/Glitterfly2"), 1f);
-            Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Glitterfly/Glitterfly3"), 1f);
-            Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Glitterfly/Glitterfly4"), 1f);
-            Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Glitterfly/Glitterfly5"), 1f);
-            Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Glitterfly/Glitterfly6"), 1f);
+            if (npc.life <= 0)
+            {
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Glitterfly/Glitterfly1"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Glitterfly/Glitterfly2"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Glitterfly/Glitterfly3"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Glitterfly/Glitterfly4"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Glitterfly/Glitterfly5"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Glitterfly/Glitterfly6"), 1f);
+            }
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

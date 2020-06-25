@@ -32,6 +32,12 @@ namespace SpiritMod.Projectiles.Hostile
         bool typeChain = false;
         public override void AI()
         {
+            int num1 = ModContent.NPCType<CrimsonTrapper>();
+            if (!Main.npc[(int)projectile.ai[1]].active)
+            {
+                projectile.timeLeft = 0;
+                projectile.active = false;
+            }
             if (!stuck)
             {
                 projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
