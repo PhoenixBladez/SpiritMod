@@ -46,7 +46,7 @@ namespace SpiritMod.NPCs.Tides
             {
                 Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraIdle3"));
             }
-            if (Main.rand.NextBool(250) && !charging && timer > 50)
+            if (Main.rand.NextBool(150) && !charging && timer > 50)
             {
                 if (!throwing)
                 {
