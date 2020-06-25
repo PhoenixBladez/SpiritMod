@@ -89,7 +89,7 @@ namespace SpiritMod.Projectiles
                 crit = true;
                 damage = (int)(damage * 1.25f);
             }
-            if (modPlayer.AceOfHearts && target.life < (damage * 2) - (target.defense / 2) && crit && !target.friendly && target.lifeMax > 5)
+            if (modPlayer.AceOfHearts && target.life < (damage * 2) - (target.defense / 2) && crit && !target.friendly && target.lifeMax > 15)
             {
                NPC npc = target;
                if(Main.halloween) {
