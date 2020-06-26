@@ -49,7 +49,7 @@ namespace SpiritMod.NPCs
                 npc.localAI[1] = 1f;
                 npc.netUpdate = true;
             }
-            npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y + 0.009f * npc.localAI[1], -.5f, .5f);
+            npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y + 0.009f * npc.localAI[1], -.85f, .85f);
             if (!spawnedHooks)
             {
 				for (int i = 0; i < Main.rand.Next(2, 4); i++)
@@ -62,6 +62,7 @@ namespace SpiritMod.NPCs
                 }
                 spawnedHooks = true;
             }
+            npc.spriteDirection = -npc.direction;
             Player target = Main.player[npc.target];
             int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
 
@@ -118,19 +119,27 @@ namespace SpiritMod.NPCs
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
         }
-
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            int x = spawnInfo.spawnTileX;
+            int y = spawnInfo.spawnTileY;
+            int tile = (int)Main.tile[x, y].type;
+            return (tile == TileID.Crimstone) && spawnInfo.player.ZoneCrimson && spawnInfo.player.ZoneRockLayerHeight && !NPC.AnyNPCs(ModContent.NPCType<CrimsonTrapper>())? 2f : 0f;
+        }
         public override void HitEffect(int hitDirection, double damage) {
-            int d = 3;
-            int d1 = 3;
+            int d = 5;
+            int d1 = 5;
             for(int k = 0; k < 30; k++) {
                 Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.Purple, 0.3f);
                 Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
             }
-            if(npc.life <= 0) {
-                Main.PlaySound(4, npc.Center, 22);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LeafGreen"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LeafGreen"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LeafHead"), 1f);
+            if (npc.life <= 0)
+            {
+                {
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Grasper/Grasper1"), 1f);
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Grasper/Grasper2"), 1f);
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Grasper/Grasper3"), 1f);
+                }
             }
         }
     }

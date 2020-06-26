@@ -32,6 +32,12 @@ namespace SpiritMod.Projectiles.Hostile
         bool typeChain = false;
         public override void AI()
         {
+            int num1 = ModContent.NPCType<CrimsonTrapper>();
+            if (!Main.npc[(int)projectile.ai[1]].active)
+            {
+                projectile.timeLeft = 0;
+                projectile.active = false;
+            }
             if (!stuck)
             {
                 projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
@@ -49,7 +55,7 @@ namespace SpiritMod.Projectiles.Hostile
                 direction9.Normalize();
                 //	direction9 *= 6;
                 ProjectileExtras.DrawChain(projectile.whoAmI, parent.Center,
-                "SpiritMod/Projectiles/Hostile/TendonEffect_Chain", false, 0, true, direction9.X, direction9.Y);
+                "SpiritMod/Projectiles/Hostile/TendonEffect_Chain", false, 0, false, direction9.X, direction9.Y);
             }
             return false;
 

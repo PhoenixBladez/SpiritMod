@@ -1053,7 +1053,7 @@ namespace SpiritMod.NPCs
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DistortionSting>());
             }
             if(closest.GetSpiritPlayer().vitaStone) {
-                if(!npc.friendly && npc.lifeMax > 5 && Main.rand.Next(20) == 1 && closest.statLife < closest.statLifeMax) {
+                if(!npc.friendly && npc.lifeMax > 5 && Main.rand.Next(10) == 1 && closest.statLife < closest.statLifeMax) {
                     if(Main.halloween) {
                         Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 1734);
                     } else {

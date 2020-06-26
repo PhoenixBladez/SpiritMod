@@ -193,6 +193,11 @@ namespace SpiritMod
 					music = GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritOverworld");
 				}
 			}
+			if (spirit.ZoneGranite && !player.ZoneOverworldHeight)
+            {
+                music = GetSoundSlot(SoundType.Music, "Sounds/Music/GraniteBiome");
+                priority = MusicPriority.BiomeMedium;
+            }
 		}
 
 

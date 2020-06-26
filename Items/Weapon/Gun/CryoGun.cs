@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.useAnimation = 60;
 			item.useTime = 60;
 			item.knockBack = 2.5f;
-			item.UseSound = SoundID.Item95;
+			item.UseSound = SoundID.Item96;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.autoReuse = false;
 			item.shoot = ProjectileID.RocketI;

@@ -79,6 +79,29 @@ namespace SpiritMod.Projectiles
                 if(projectile.thrown && crit)
                     damage = (int)((double)damage * 2.25f);
             }
+            if (modPlayer.AceOfSpades && target.life < damage * 2)
+            {
+                crit = true;
+                damage = (int)(damage * 1.25f);
+            }
+            if (modPlayer.AceOfSpades && target.life < (damage * 2) - (target.defense / 2))
+            {
+                crit = true;
+                damage = (int)(damage * 1.25f);
+            }
+            if (modPlayer.AceOfHearts && target.life < (damage * 2) - (target.defense / 2) && crit && !target.friendly && target.lifeMax > 15)
+            {
+               NPC npc = target;
+               if(Main.halloween) {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 1734);
+                } else {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 58);
+                }
+            }
+            if (modPlayer.AceOfHearts && crit)
+            {
+                knockback *= 1.5f;
+            }
         }
 
         public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit) {

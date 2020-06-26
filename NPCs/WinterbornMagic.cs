@@ -184,10 +184,6 @@ namespace SpiritMod.NPCs
         public override void FindFrame(int frameHeight) {
             int currShootFrame = (int)npc.ai[1];
             if(currShootFrame >= 25)
-                npc.frame.Y = frameHeight;
-            else if(currShootFrame >= 20)
-                npc.frame.Y = frameHeight * 2;
-            else if(currShootFrame >= 15)
                 npc.frame.Y = frameHeight * 3;
             else if(currShootFrame >= 10)
                 npc.frame.Y = frameHeight * 2;
