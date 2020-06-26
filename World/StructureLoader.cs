@@ -4,7 +4,7 @@ using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace SpiritMod
+namespace SpiritMod.World
 {
     public static class StructureLoader
     {

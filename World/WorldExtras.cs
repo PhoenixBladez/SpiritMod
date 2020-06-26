@@ -5,7 +5,7 @@ using Terraria.GameContent.Achievements;
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace SpiritMod
+namespace SpiritMod.World
 {
     public static class WorldExtras
     {

@@ -29,6 +29,7 @@ using SpiritMod.Tiles.Furniture.Reach;
 using SpiritMod.Tiles.Furniture.SpaceJunk;
 using SpiritMod.Tiles.Piles;
 using SpiritMod.Tiles.Walls.Natural;
+using SpiritMod.World;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -2829,7 +2830,7 @@ namespace SpiritMod
                 // Guide pass removed by some other mod.
                 return;
             }
-            tasks.Insert(GuideIndex + 1, new PassLegacy("SpiritMicros",
+            tasks.Insert(GuideIndex, new PassLegacy("SpiritMicros",
                 delegate (GenerationProgress progress) {
                     bool success = false;
                     int attempts = 0;
@@ -2850,10 +2851,12 @@ namespace SpiritMod
                                 }
                             }
                             if(Main.rand.Next(2) == 0) {
-                                GenerateBanditHideout();
-                                gennedBandits = true;
+								gennedBandits = new BanditHideout().Generate();
+                                //GenerateBanditHideout();
+                                //gennedBandits = true;
                             } else {
-                                gennedTower = GenerateTower();
+								gennedTower = new GoblinTower().Generate();
+                                //gennedTower = GenerateTower();
 							}
                             int num584 = 1;
                             if(Main.maxTilesX == 4200) {
@@ -3222,7 +3225,7 @@ namespace SpiritMod
                     }
                 }
             }
-            Tile tile;
+            //Tile tile;
             for(int k = 0; k < Main.rand.Next(5, 7); k++) {
                 GenerateGemStash();
             }
