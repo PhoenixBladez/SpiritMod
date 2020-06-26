@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Returning
             item.shootSpeed = 5f;
             item.shoot = mod.ProjectileType("FloraP");
             item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
+            item.autoReuse = false;
         }
          public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) {
             if (speedX > 0)

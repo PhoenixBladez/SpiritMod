@@ -175,7 +175,7 @@ namespace SpiritMod.Npcs.Town
 			 AddItem(ref shop, ref nextSlot, ItemType<AceOfSpades>());
 			 AddItem(ref shop, ref nextSlot, ItemType<AceOfHearts>());
 			 AddItem(ref shop, ref nextSlot, ItemType<AceOfClubs>());
-			// AddItem(ref shop, ref nextSlot, ItemType<AceOfDiamonds>());
+			 AddItem(ref shop, ref nextSlot, ItemType<AceOfDiamonds>());
 		}
 
 		public override void TownNPCAttackStrength(ref int damage, ref float knockback)

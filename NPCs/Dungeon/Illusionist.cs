@@ -118,18 +118,8 @@ namespace SpiritMod.NPCs.Dungeon
                         if(Main.netMode != 1) {
                             NPC.NewNPC((int)npc.position.X + npc.width / 2, (int)npc.Center.Y - 16, ModContent.NPCType<IllusionistSpectre>(), 0, 0, 0, 0, 0, 255);
                         }
-                        for(int k = 0; k < 30; k++) {
-                            int dust = Dust.NewDust(npc.Center, npc.width, npc.height, 68);
-                            Main.dust[dust].velocity *= -1f;
-                            Main.dust[dust].noGravity = true;
-                            Vector2 vector2_1 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                            vector2_1.Normalize();
-                            Vector2 vector2_2 = vector2_1 * ((float)Main.rand.Next(50, 100) * 0.04f);
-                            Main.dust[dust].velocity = vector2_2;
-                            vector2_2.Normalize();
-                            Vector2 vector2_3 = vector2_2 * 74f;
-                            Main.dust[dust].position = npc.Center - vector2_3;
-                        }
+                        float ScaleMult = 2.33f;
+                        DustHelper.DrawStar(new Vector2(npc.Center.X, npc.Center.Y - 30), 180, pointAmount: 5, mainSize: 2.25f * ScaleMult, dustDensity: 2, pointDepthMult: 0.3f, noGravity : true);
                     }
 
                     if(npc.ai[0] >= 230 && npc.ai[0] <= 250 || npc.ai[0] >= 470 && npc.ai[0] <= 485 || npc.ai[0] >= 710 && npc.ai[0] <= 725) {

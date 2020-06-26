@@ -2,6 +2,7 @@
 using System.IO;
 using Terraria;
 using Terraria.ID;
+using SpiritMod.Dusts;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles
@@ -79,15 +80,14 @@ namespace SpiritMod.Projectiles
                 if(projectile.thrown && crit)
                     damage = (int)((double)damage * 2.25f);
             }
-            if (modPlayer.AceOfSpades && target.life < damage * 2)
+            if (modPlayer.AceOfSpades && target.life < (damage * 2) - (target.defense / 2) && !crit)
             {
                 crit = true;
                 damage = (int)(damage * 1.25f);
-            }
-            if (modPlayer.AceOfSpades && target.life < (damage * 2) - (target.defense / 2))
-            {
-                crit = true;
-                damage = (int)(damage * 1.25f);
+                 for (int i = 0; i < 3; i++)
+                {
+                    Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<SpadeDust>(), 0, -0.8f);
+                }
             }
             if (modPlayer.AceOfHearts && target.life < (damage * 2) - (target.defense / 2) && crit && !target.friendly && target.lifeMax > 15)
             {
@@ -97,10 +97,18 @@ namespace SpiritMod.Projectiles
                 } else {
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 58);
                 }
+                  for (int i = 0; i < 3; i++)
+                {
+                    Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<HeartDust>(), 0, -0.8f);
+                }
             }
-            if (modPlayer.AceOfHearts && crit)
+            if (modPlayer.AceOfClubs && crit)
             {
                 knockback *= 1.5f;
+                  for (int i = 0; i < 3; i++)
+                {
+                    Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<ClubDust>(), 0, -0.8f);
+                }
             }
         }
 
