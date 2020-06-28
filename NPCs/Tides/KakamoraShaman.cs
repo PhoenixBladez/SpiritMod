@@ -1,10 +1,12 @@
 ﻿
 using Microsoft.Xna.Framework;
 using System;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using SpiritMod.NPCs.Tides;
 using Terraria.ModLoader;
+using SpiritMod.Projectiles.Hostile;
 
 namespace SpiritMod.NPCs.Tides
 {
@@ -39,6 +41,7 @@ namespace SpiritMod.NPCs.Tides
             {
                 Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraThrow"));
                 npc.frameCounter = 0;
+                healed = false;
             }
             if (blockTimer > 200)
             {
@@ -75,9 +78,17 @@ namespace SpiritMod.NPCs.Tides
                 {
                     Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraIdle3"));
                 }
+                var list = Main.npc.Where(x => x.Hitbox.Intersects(npc.Hitbox));
+                 foreach(var npc2 in list) {
+                    if(npc2.type == ModContent.NPCType<LargeCrustecean>() && npc.Center.Y > npc2.Center.Y && npc2.active)
+                    {
+                        npc.velocity.X = npc2.direction * 7;
+                        npc.velocity.Y = -2;
+                        Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraHit"));
+                    }
+            }
             }
         }
-
         public override void FindFrame(int frameHeight) {
             if (npc.collideY && !blocking)
             {
@@ -89,11 +100,37 @@ namespace SpiritMod.NPCs.Tides
             if (blocking)
             {
                 npc.frameCounter += 0.05f;
+                if (npc.frameCounter > 2 && !healed)
+                {
+                    var list = Main.npc;
+                     foreach(var npc2 in list) {
+                        if(npc2.type == ModContent.NPCType<KakamoraRunner>() || npc2.type == ModContent.NPCType<KakamoraShielder>() || npc2.type == ModContent.NPCType<KakamoraShielderRare>() || npc2.type == ModContent.NPCType<SpearKakamora>() || npc2.type == ModContent.NPCType<SwordKakamora>())
+                        {
+                            if (Math.Abs(npc2.position.X - npc.position.X) < 500 && npc2.active) //500 is distance away he heals
+                            {
+                                int bolt = Terraria.Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-66,66), npc.Center.Y - Main.rand.Next(60,120), 0, 0, ModContent.ProjectileType<ShamanBolt>(), 0, 0);
+                                Projectile p = Main.projectile[bolt];
+                                Vector2 direction = npc2.Center - p.Center;
+                                direction.Normalize();
+                                direction*=4;
+                                p.velocity = direction;
+                                p.ai[0] = direction.X;
+                                p.ai[1] = direction.Y;
+                            }
+                        }
+                     }
+                     for (int j = 0; j < 25; j++)
+                     {
+                         Dust.NewDustPerfect(new Vector2(npc.Center.X + npc.direction * 22, npc.Center.Y), 173,  new Vector2(Main.rand.NextFloat(-6,6), Main.rand.NextFloat(-16, 0)));
+                     }
+                     healed = true;
+                }
                 npc.frameCounter = MathHelper.Clamp((float)npc.frameCounter, 0, 2.9f);
                 int frame = (int)npc.frameCounter;
                 npc.frame.Y = (frame + 4) * frameHeight;
             }
         }
+        bool healed = false;
         public override void HitEffect(int hitDirection, double damage) {
             if(npc.life <= 0) {
                  Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraDeath"));
