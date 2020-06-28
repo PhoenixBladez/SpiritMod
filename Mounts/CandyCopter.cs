@@ -10,8 +10,6 @@ namespace SpiritMod.Mounts
 {
 	class CandyCopter : ModMountData
 	{
-		public static ModMountData _ref;
-
 		private const float damage = 60f;
 		private const float knockback = 1.5f;
 		private const float velocity = 10f; //Changing this will also affect the accuracy. Higher velocity -> higher accuracy

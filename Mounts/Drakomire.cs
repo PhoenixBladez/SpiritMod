@@ -10,8 +10,7 @@ namespace SpiritMod.Mounts
 {
 	public class Drakomire : ModMountData
 	{
-		public static ModMountData _ref;
-
+		
 		public override void SetDefaults()
 		{
 			mountData.buff = ModContent.BuffType<DrakomireMountBuff>();

@@ -8,8 +8,7 @@ namespace SpiritMod.NPCs
 {
 	public class PagodaGhostPassive : ModNPC
 	{
-		public static int _type;
-
+		
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Yurei");

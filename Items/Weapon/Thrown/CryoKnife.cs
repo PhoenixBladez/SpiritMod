@@ -6,8 +6,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 {
 	public class CryoKnife : ModItem
 	{
-		public static int _type;
-
+		
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cryolite Bomb");
@@ -20,7 +19,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 			item.CloneDefaults(ItemID.Shuriken);
 			item.width = 30;
 			item.height = 30;
-			item.shoot = Projectiles.Thrown.CryoKnife._type;
+			item.shoot = ModContent.ProjectileType<Projectiles.Thrown.CryoKnife>();
 			item.useAnimation = 55;
 			item.useTime = 55;
 			item.shootSpeed = 10f;

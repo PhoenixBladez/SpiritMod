@@ -9,8 +9,7 @@ namespace SpiritMod.Items.Halloween
 {
 	public class MysteryCandy : CandyBase
 	{
-		public static int _type;
-
+		
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mystery Candy");

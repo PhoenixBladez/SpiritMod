@@ -9,8 +9,7 @@ namespace SpiritMod.Projectiles
 {
 	public class QuicksilverBolt : ModProjectile
 	{
-		public static int _type;
-
+		
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Quicksilver Droplet");

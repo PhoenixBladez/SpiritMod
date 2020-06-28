@@ -8,8 +8,7 @@ namespace SpiritMod.Projectiles
 {
 	public class VoidStar : ModProjectile
 	{
-		public static int _type;
-
+		
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Void Star");

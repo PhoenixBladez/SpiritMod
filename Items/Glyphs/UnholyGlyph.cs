@@ -1,13 +1,15 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Buffs.Glyph;
+using SpiritMod.Projectiles;
 using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Glyphs
 {
 	public class UnholyGlyph : GlyphBase, IGlowing
 	{
-		public static int _type;
 		public static Microsoft.Xna.Framework.Graphics.Texture2D[] _textures;
 
 		Microsoft.Xna.Framework.Graphics.Texture2D IGlowing.Glowmask(out float bias)
@@ -52,7 +54,7 @@ namespace SpiritMod.Items.Glyphs
 			if(!crit || !target.CanLeech())
 				return;
 			if(Main.rand.NextDouble() < 0.5) {
-				target.AddBuff(SpiritMod.instance.BuffType("WanderingPlague"), 360);
+				target.AddBuff(ModContent.BuffType<WanderingPlague>(), 360);
 				target.GetGlobalNPC<NPCs.GNPC>().unholySource = owner;
 			}
 		}
@@ -70,7 +72,7 @@ namespace SpiritMod.Items.Glyphs
 			for(int i = 0; i < max; i++) {
 				Vector2 vel = Vector2.UnitY.RotatedByRandom(Math.PI * 2);
 				vel *= Main.rand.Next(8, 40) * .125f;
-				int projectile = Projectile.NewProjectile(target.Center, vel, Projectiles.PoisonCloud._type, Main.hardMode ? 35 : 20, 0, owner, target.whoAmI);
+				int projectile = Projectile.NewProjectile(target.Center, vel, ModContent.ProjectileType<PoisonCloud>(), Main.hardMode ? 35 : 20, 0, owner, target.whoAmI);
 				if(Main.netMode == NetmodeID.Server) {
 					Main.projectile[projectile].ai[0] = target.whoAmI;
 					NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projectile);

@@ -6,8 +6,7 @@ namespace SpiritMod.Items.Armor.Masks
 	[AutoloadEquip(EquipType.Head)]
 	public class ReachMask : ModItem
 	{
-		public static int _type;
-
+		
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Vinewrath Bane Mask");

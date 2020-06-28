@@ -9,8 +9,7 @@ namespace SpiritMod.Projectiles.Bullet
 {
 	class SpectreBullet : ModProjectile
 	{
-		public static int _type;
-
+		
 		public override string Texture => SpiritMod.EMPTY_TEXTURE;
 
 		public const float MAX_ANGLE_CHANGE = (float)Math.PI / 12;

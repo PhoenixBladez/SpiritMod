@@ -6,8 +6,7 @@ namespace SpiritMod.Items.Armor.Masks
 	[AutoloadEquip(EquipType.Head)]
 	public class FlierMask : ModItem
 	{
-		public static int _type;
-
+		
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ancient Avian Mask");

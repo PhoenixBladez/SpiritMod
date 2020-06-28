@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using SpiritMod.Projectiles.DonatorItems;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -53,7 +54,7 @@ namespace SpiritMod.Items.DonatorItems
 		public override bool CanUseItem(Player player)
 		{
 			//Don't put this line into SetDefaults, or the item will break.
-			item.shoot = Projectiles.DonatorItems.DuskfeatherBlade._type;
+			item.shoot = ModContent.ProjectileType<DuskfeatherBlade>();
 			if(player.altFunctionUse == 2) {
 				if(item.useStyle == ItemUseStyleID.SwingThrow) {
 					item.useStyle = ItemUseStyleID.HoldingUp;
@@ -62,7 +63,7 @@ namespace SpiritMod.Items.DonatorItems
 				} else
 					return false;
 			} else {
-				if(player.ownedProjectileCounts[Projectiles.DonatorItems.DuskfeatherBlade._type] >= 8)
+				if(player.ownedProjectileCounts[ModContent.ProjectileType<DuskfeatherBlade>()] >= 8)
 					Projectiles.DonatorItems.DuskfeatherBlade.AttractOldestBlade(player);
 				item.useStyle = ItemUseStyleID.SwingThrow;
 				item.noUseGraphic = true;

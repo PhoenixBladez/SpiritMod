@@ -75,7 +75,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 				}
 			}
 			int parent = (int)npc.ai[0];
-			if(parent < 0 || parent >= Main.maxNPCs || !Main.npc[parent].active || Main.npc[parent].type != Atlas._type) {
+			if(parent < 0 || parent >= Main.maxNPCs || !Main.npc[parent].active || Main.npc[parent].type != ModContent.NPCType<Atlas>()) {
 				npc.active = false;
 				return false;
 			}

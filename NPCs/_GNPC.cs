@@ -748,8 +748,8 @@ namespace SpiritMod.NPCs
 		{
 			if(stormBurst && npc.knockBackResist > 0 && npc.velocity.LengthSquared() > 1) {
 				for(int i = 0; i < 8; i++) {
-					Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, ModContent.DustType<Wind>());
-					dust.customData = new Dusts.WindAnchor(npc.Center, npc.velocity, dust.position);
+					Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, DustType<Wind>());
+					dust.customData = new WindAnchor(npc.Center, npc.velocity, dust.position);
 				}
 			}
 		}
@@ -757,21 +757,32 @@ namespace SpiritMod.NPCs
 
 		private int GlyphsHeldBy(NPC boss)
 		{
-			if(boss.type == NPCID.KingSlime || boss.type == Boss.Scarabeus.Scarabeus._type)
+			if(boss.type == NPCID.KingSlime 
+				|| boss.type == NPCType<Scarabeus>())
 				return 1;
 
-			if(boss.type == NPCID.QueenBee || boss.type == NPCID.SkeletronHead ||
-					boss.type == Boss.AncientFlyer._type || boss.type == Boss.SteamRaider.SteamRaiderHead._type)
+			if(boss.type == NPCID.QueenBee 
+				|| boss.type == NPCID.SkeletronHead 
+				|| boss.type == NPCType<AncientFlyer>() 
+				|| boss.type == NPCType<SteamRaiderHead>())
 				return 3;
 
 			if(boss.type == NPCID.WallofFlesh)
 				return 5;
 
-			if(boss.type == NPCID.TheDestroyer || boss.type == Boss.Infernon.Infernon._type || boss.type == Boss.Infernon.InfernoSkull._type ||
-					boss.type == NPCID.SkeletronPrime || boss.type == Boss.Dusking.Dusking._type)
+			if(boss.type == NPCID.TheDestroyer 
+				|| boss.type == NPCType<Infernon>() 
+				|| boss.type == NPCType<InfernoSkull>() 
+				|| boss.type == NPCID.SkeletronPrime 
+				|| boss.type == NPCType<Dusking>())
 				return 4;
 
-			if(boss.type == NPCID.Plantera || boss.type == NPCID.Golem || boss.type == NPCID.DukeFishron || boss.type == NPCID.CultistBoss || boss.type == Boss.Atlas.Atlas._type || boss.type == Boss.Overseer.Overseer._type)
+			if(boss.type == NPCID.Plantera 
+				|| boss.type == NPCID.Golem 
+				|| boss.type == NPCID.DukeFishron 
+				|| boss.type == NPCID.CultistBoss 
+				|| boss.type == NPCType<Atlas>() 
+				|| boss.type == NPCType<Overseer>())
 				return 5;
 
 			if(boss.type == NPCID.MoonLordCore)
@@ -786,9 +797,9 @@ namespace SpiritMod.NPCs
 			if(Main.LocalPlayer.GetSpiritPlayer().emptyDrBonesScroll && npc.type == NPCID.DoctorBones) {
 				MyWorld.numDrBonesKilled++;
 			}
-			Player closest = Main.player[(int)Player.FindClosest(npc.position, npc.width, npc.height)];
+			Player closest = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)];
 			if(bloodInfusion) {
-				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, ModContent.ProjectileType<FlayedExplosion>(), 25, 0, Main.myPlayer);
+				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, ProjectileType<FlayedExplosion>(), 25, 0, Main.myPlayer);
 			}
 			#region Glyph
 			if(npc.boss && (npc.modNPC == null || npc.modNPC.bossBag > 0)) {

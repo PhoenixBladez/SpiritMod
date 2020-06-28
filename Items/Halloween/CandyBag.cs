@@ -12,21 +12,20 @@ namespace SpiritMod.Items.Halloween
 	{
 		public const ushort MaxCandy = 99;
 		public const int CandyTypes = 9;
-		public static int _type;
-
+		
 		private static int[] types;
 		internal static void Initialize()
 		{
 			types = new int[CandyTypes];
-			types[0] = Candy._type;
-			types[1] = Apple._type;
-			types[2] = ChocolateBar._type;
-			types[3] = Lollipop._type;
-			types[4] = Taffy._type;
-			types[5] = HealthCandy._type;
-			types[6] = ManaCandy._type;
-			types[7] = GoldCandy._type;
-			types[8] = MysteryCandy._type;
+			types[0] = ModContent.ItemType<Candy>();
+			types[1] = ModContent.ItemType<Apple>();
+			types[2] = ModContent.ItemType<ChocolateBar>();
+			types[3] = ModContent.ItemType<Lollipop>();
+			types[4] = ModContent.ItemType<Taffy>();
+			types[5] = ModContent.ItemType<HealthCandy>();
+			types[6] = ModContent.ItemType<ManaCandy>();
+			types[7] = ModContent.ItemType<GoldCandy>();
+			types[8] = ModContent.ItemType<MysteryCandy>();
 		}
 
 		public static int TypeToSlot(int type)
@@ -41,7 +40,7 @@ namespace SpiritMod.Items.Halloween
 		{
 			if(slot < types.Length)
 				return types[slot];
-			return Candy._type;
+			return ModContent.ItemType<Candy>();
 		}
 
 		public override void SetStaticDefaults()

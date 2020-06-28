@@ -7,8 +7,7 @@ namespace SpiritMod.Tiles.Ambient
 {
 	public class ReachFoliage : ModTile
 	{
-		public static int _type;
-
+		
 		public override void SetDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;

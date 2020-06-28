@@ -7,8 +7,6 @@ namespace SpiritMod.Items.Accessory
 	[AutoloadEquip(EquipType.Back)]
 	public class DesertSlab : ModItem
 	{
-		public static int _type;
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ancient Slab");

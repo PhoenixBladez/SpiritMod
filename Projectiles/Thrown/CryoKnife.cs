@@ -7,8 +7,7 @@ namespace SpiritMod.Projectiles.Thrown
 {
 	public class CryoKnife : ModProjectile
 	{
-		public static int _type;
-
+		
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cryolite Bomb");

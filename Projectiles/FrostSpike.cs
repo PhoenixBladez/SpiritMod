@@ -8,8 +8,7 @@ namespace SpiritMod.Projectiles
 {
 	class FrostSpike : ModProjectile
 	{
-		public static int _type;
-
+		
 
 		public override void SetStaticDefaults()
 		{

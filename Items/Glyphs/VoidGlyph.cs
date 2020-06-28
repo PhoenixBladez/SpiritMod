@@ -1,14 +1,16 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Buffs.Glyph;
 using SpiritMod.NPCs;
+using SpiritMod.Projectiles;
 using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Glyphs
 {
 	public class VoidGlyph : GlyphBase, IGlowing
 	{
-		public static int _type;
 		public static Microsoft.Xna.Framework.Graphics.Texture2D[] _textures;
 
 		public const int DELAY = 100;
@@ -66,7 +68,7 @@ namespace SpiritMod.Items.Glyphs
 				npcData.voidInfluence = true;
 				if(npcData.voidStacks < 4 * DELAY)
 					npcData.voidStacks++;
-				npc.AddBuff(SpiritMod.instance.BuffType("DevouringVoid"), 2, true);
+				npc.AddBuff(ModContent.BuffType<DevouringVoid>(), 2, true);
 			}
 		}
 
@@ -76,11 +78,11 @@ namespace SpiritMod.Items.Glyphs
 			if(player.whoAmI == Main.myPlayer && modPlayer.voidStacks > 1 && Main.rand.Next(14) == 0) {
 				Vector2 vel = Vector2.UnitY.RotatedByRandom(Math.PI * 2);
 				vel *= (float)Main.rand.NextDouble() * 3f;
-				Projectile.NewProjectile(target.Center, vel, Projectiles.VoidStar._type, damage >> 1, 0, Main.myPlayer);
+				Projectile.NewProjectile(target.Center, vel, ModContent.ProjectileType<VoidStar>(), damage >> 1, 0, Main.myPlayer);
 			}
 
 			if(Main.rand.Next(10) == 1)
-				player.AddBuff(SpiritMod.instance.BuffType("CollapsingVoid"), 299);
+				player.AddBuff(ModContent.BuffType<CollapsingVoid>(), 299);
 		}
 	}
 }

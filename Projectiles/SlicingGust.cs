@@ -9,8 +9,7 @@ namespace SpiritMod.Projectiles
 {
 	class SlicingGust : ModProjectile
 	{
-		public static int _type;
-
+		
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Slicing Gust");

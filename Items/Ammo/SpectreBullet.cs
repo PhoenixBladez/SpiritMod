@@ -11,24 +11,19 @@ namespace SpiritMod.Items.Ammo
 			Tooltip.SetDefault("A spectral bolt that homes on to enemies and occasionally saps their life");
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.width = 16;
 			item.height = 16;
 			item.value = 1000;
 			item.rare = ItemRarityID.Cyan;
-
 			item.maxStack = 999;
-
 			item.damage = 10;
 			item.knockBack = 1.5f;
 			item.ammo = AmmoID.Bullet;
-
 			item.ranged = true;
 			item.consumable = true;
-
-			item.shoot = Projectiles.Bullet.SpectreBullet._type;
+			item.shoot = ModContent.ProjectileType<Projectiles.Bullet.SpectreBullet>();
 			item.shootSpeed = 9f;
 		}
 

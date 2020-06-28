@@ -7,8 +7,7 @@ namespace SpiritMod.Projectiles
 {
 	public class PoisonCloud : ModProjectile
 	{
-		public static int _type;
-
+		
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Poison Cloud");

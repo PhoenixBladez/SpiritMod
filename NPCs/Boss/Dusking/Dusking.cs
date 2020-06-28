@@ -18,8 +18,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 	[AutoloadBossHead]
 	public class Dusking : ModNPC
 	{
-		public static int _type;
-		// npc.ai[0] = State Manager.
+				// npc.ai[0] = State Manager.
 		// npc.ai[1] = Additional timer (charge timer, state timer, etc).
 		// npc.localAI[0] = Outer Circle Opacity.
 		// npc.localAI[1] = Outer Circle Rotation.

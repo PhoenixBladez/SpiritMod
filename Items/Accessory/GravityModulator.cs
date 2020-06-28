@@ -7,8 +7,7 @@ namespace SpiritMod.Items.Accessory
 {
 	public class GravityModulator : ModItem
 	{
-		public static int _type;
-
+		
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gravity Modulator");

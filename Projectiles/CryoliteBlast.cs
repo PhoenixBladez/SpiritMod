@@ -7,8 +7,7 @@ namespace SpiritMod.Projectiles
 {
 	class CryoliteBlast : ModProjectile
 	{
-		public static int _type;
-
+		
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cryo Blast");

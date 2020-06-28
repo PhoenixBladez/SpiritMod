@@ -8,8 +8,7 @@ namespace SpiritMod.NPCs.Reach
 {
 	public class ReachmanPassive : ModNPC
 	{
-		public static int _type;
-
+		
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Feral Hunter");

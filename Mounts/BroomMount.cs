@@ -9,8 +9,7 @@ namespace SpiritMod.Mounts
 {
 	public class BroomMount : ModMountData
 	{
-		public static int _type;
-
+		
 		public const float groundSlowdown = 0.3f;
 
 		public int fatigue;

@@ -4410,7 +4410,7 @@ namespace SpiritMod
 			// Hide players wings, etc. when mounted
 			if(player.mount.Active) {
 				int mount = player.mount.Type;
-				if(mount == CandyCopter._ref.Type) {
+				if(mount == ModContent.MountType<CandyCopter>()) {
 					// Supposed to make players legs disappear, but only makes them skin-colored.
 					player.legs = -1;
 					player.wings = -1;
@@ -4418,7 +4418,7 @@ namespace SpiritMod
 					player.shield = -1;
 					// player.handoff = -1;
 					// player.handon = -1;
-				} else if(mount == Drakomire._ref.Type) {
+				} else if(mount == ModContent.MountType<Drakomire>()) {
 					player.wings = -1;
 				}
 			}

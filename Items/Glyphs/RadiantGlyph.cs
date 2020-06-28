@@ -6,8 +6,7 @@ namespace SpiritMod.Items.Glyphs
 {
 	public class RadiantGlyph : GlyphBase, IGlowing
 	{
-		public static int _type;
-		public static Microsoft.Xna.Framework.Graphics.Texture2D[] _textures;
+				public static Microsoft.Xna.Framework.Graphics.Texture2D[] _textures;
 
 		Microsoft.Xna.Framework.Graphics.Texture2D IGlowing.Glowmask(out float bias)
 		{

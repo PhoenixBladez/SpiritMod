@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,9 +11,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		{
 			DisplayName.SetDefault("Quicksilver Blade");
 			Tooltip.SetDefault("Melee hits on foes cause them to explode into a pool of Quicksilver, releasing multiple homing Quicksilver Droplets");
-
 		}
-
 
 		public override void SetDefaults()
 		{
@@ -46,7 +45,7 @@ namespace SpiritMod.Items.Weapon.Swung
 				NPC home = Projectiles.ProjectileExtras.FindRandomNPC(target.Center, 1600f, false);
 				target.friendly = false;
 				bool homing = home != null;
-				Projectile.NewProjectile(position.X, position.Y, vel.X, vel.Y, Projectiles.QuicksilverBolt._type, 45, 1, player.whoAmI, homing ? home.whoAmI : 0, homing ? 30 : 0);
+				Projectile.NewProjectile(position.X, position.Y, vel.X, vel.Y, ModContent.ProjectileType<QuicksilverBolt>(), 45, 1, player.whoAmI, homing ? home.whoAmI : 0, homing ? 30 : 0);
 
 			}
 			Main.PlaySound(SoundID.Item, (int)position.X, (int)position.Y, 14);

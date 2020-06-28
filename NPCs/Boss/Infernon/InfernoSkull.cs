@@ -13,8 +13,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 	[AutoloadBossHead]
 	public class InfernoSkull : ModNPC
 	{
-		public static int _type;
-
+		
 		//bool txt = false;
 
 		public override void SetStaticDefaults()

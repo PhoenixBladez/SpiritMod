@@ -1,12 +1,13 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Glyphs
 {
 	public class StormGlyph : GlyphBase, IGlowing
 	{
-		public static int _type;
 		public static Microsoft.Xna.Framework.Graphics.Texture2D[] _textures;
 
 		Microsoft.Xna.Framework.Graphics.Texture2D IGlowing.Glowmask(out float bias)
@@ -66,7 +67,7 @@ namespace SpiritMod.Items.Glyphs
 			else
 				velocity *= scale;
 			velocity *= 8f;
-			Projectile.NewProjectile(position, velocity, Projectiles.SlicingGust._type, damage, 8f, Main.myPlayer);
+			Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<SlicingGust>(), damage, 8f, Main.myPlayer);
 		}
 	}
 }

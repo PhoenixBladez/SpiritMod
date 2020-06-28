@@ -5,8 +5,7 @@ namespace SpiritMod.Items.Boss
 {
 	public class Trophy7 : ModItem
 	{
-		public static int _type;
-
+		
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Illuminant Master Trophy");

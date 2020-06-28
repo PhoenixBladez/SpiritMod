@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Halloween
 		{
 			Item[] inv = player.inventory;
 			for(int i = 0; i < 50; i++) {
-				if(inv[i].IsAir || inv[i].type != CandyBag._type)
+				if(inv[i].IsAir || inv[i].type != ModContent.ItemType<CandyBag>())
 					continue;
 				if(!((CandyBag)inv[i].modItem).Full)
 					return true;
@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Halloween
 		{
 			Item[] inv = player.inventory;
 			for(int i = 0; i < 50; i++) {
-				if(inv[i].IsAir || inv[i].type != CandyBag._type)
+				if(inv[i].IsAir || inv[i].type != ModContent.ItemType<CandyBag>())
 					continue;
 				if(((CandyBag)inv[i].modItem).TryAdd(this)) {
 					ItemText.NewText(item, 1);
@@ -49,7 +49,7 @@ namespace SpiritMod.Items.Halloween
 		{
 			Item[] inv = player.inventory;
 			for(int i = 0; i < 50; i++) {
-				if(inv[i].IsAir || inv[i].type != CandyBag._type)
+				if(inv[i].IsAir || inv[i].type != ModContent.ItemType<CandyBag>())
 					continue;
 				if(((CandyBag)inv[i].modItem).TryAdd(this)) {
 					Main.PlaySound(SoundID.Grab, (int)player.position.X, (int)player.position.Y);

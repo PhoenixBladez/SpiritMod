@@ -19,8 +19,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 	[AutoloadBossHead]
 	public class Scarabeus : ModNPC
 	{
-		public static int _type;
-		int moveSpeed = 0;
+				int moveSpeed = 0;
 		int moveSpeedY = 0;
 		float HomeY = 120f;
 		private float SpeedMax = 33f;

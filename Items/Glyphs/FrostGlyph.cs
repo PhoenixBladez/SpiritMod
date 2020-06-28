@@ -1,13 +1,14 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Projectiles;
 using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Glyphs
 {
 	public class FrostGlyph : GlyphBase, IGlowing
 	{
-		public static int _type;
 		public static Microsoft.Xna.Framework.Graphics.Texture2D[] _textures;
 
 		public const int LIMIT = 5;
@@ -72,7 +73,7 @@ namespace SpiritMod.Items.Glyphs
 				else
 					velocity *= length;
 				velocity *= 5;
-				Projectile.NewProjectileDirect(player.MountedCenter, velocity, Projectiles.FrostSpike._type,
+				Projectile.NewProjectileDirect(player.MountedCenter, velocity, ModContent.ProjectileType<FrostSpike>(),
 				damage, 2f, player.whoAmI, -1);
 				modPlayer.frostCooldown = 3 * COOLDOWN;
 				return;
@@ -80,7 +81,7 @@ namespace SpiritMod.Items.Glyphs
 
 			float sector = MathHelper.TwoPi / (spikes + 1);
 			float rotation = modPlayer.frostRotation + spikes * sector;
-			Projectile.NewProjectileDirect(player.Center, Vector2.Zero, Projectiles.FrostSpike._type,
+			Projectile.NewProjectileDirect(player.Center, Vector2.Zero, ModContent.ProjectileType<FrostSpike>(),
 				damage, 2f, player.whoAmI, spikes)
 				.rotation = rotation;
 
@@ -91,7 +92,7 @@ namespace SpiritMod.Items.Glyphs
 		public static void UpdateIceSpikes(Player player)
 		{
 			int owner = player.whoAmI;
-			int type = Projectiles.FrostSpike._type;
+			int type = ModContent.ProjectileType<FrostSpike>();
 			int tally = 0;
 			for(int i = 0; i < 1000; i++) {
 				Projectile projectile = Main.projectile[i];

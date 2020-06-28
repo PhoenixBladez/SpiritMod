@@ -8,8 +8,7 @@ namespace SpiritMod.Mounts
 {
 	public class TideMount : ModMountData
 	{
-		public static ModMountData _ref;
-		private const float damage = 15f;
+				private const float damage = 15f;
 		private const float knockback = 2f;
 
 		public override void SetDefaults()

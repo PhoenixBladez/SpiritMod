@@ -7,8 +7,7 @@ namespace SpiritMod.Projectiles
 {
 	class FreezeProj : ModProjectile
 	{
-		public static int _type;
-
+		
 		public override string Texture => SpiritMod.EMPTY_TEXTURE;
 
 		public override void SetStaticDefaults()

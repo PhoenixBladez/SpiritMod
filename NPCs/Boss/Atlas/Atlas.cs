@@ -21,8 +21,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 	[AutoloadBossHead]
 	public class Atlas : ModNPC
 	{
-		public static int _type;
-
+		
 		int[] arms = new int[2];
 		int timer = 0;
 		bool secondStage = false;

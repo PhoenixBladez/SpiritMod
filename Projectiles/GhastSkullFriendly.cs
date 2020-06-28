@@ -9,8 +9,7 @@ namespace SpiritMod.Projectiles
 {
 	public class GhastSkullFriendly : ModProjectile
 	{
-		public static int _type;
-
+		
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spectral Skull");

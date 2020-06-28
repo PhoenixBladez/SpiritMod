@@ -1,13 +1,13 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using SpiritMod.Tiles.Ambient;
 
 namespace SpiritMod.Tiles.Block
 {
 	public class HalloweenGrass : ModTile
 	{
-		public static int _type;
-
+		
 		public override void SetDefaults()
 		{
 			Main.tileSolid[Type] = true;
@@ -39,8 +39,8 @@ namespace SpiritMod.Tiles.Block
 		{
 			if(!Framing.GetTileSafely(i, j - 1).active() && Main.rand.Next(20) == 0) {
 				int style = Main.rand.Next(23);
-				if(PlaceObject(i, j - 1, Ambient.SpookyFoliage._type, false, style))
-					NetMessage.SendObjectPlacment(-1, i, j - 1, Ambient.SpookyFoliage._type, style, 0, -1, -1);
+				if(PlaceObject(i, j - 1, ModContent.TileType<SpookyFoliage>(), false, style))
+					NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<SpookyFoliage>(), style, 0, -1, -1);
 			}
 			//else if (Main.rand.Next(100) == 0)
 			//{

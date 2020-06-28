@@ -6,8 +6,7 @@ namespace SpiritMod.Items.Glyphs
 {
 	public class HauntedGlyph : GlyphBase, Glowing
 	{
-		public static int _type;
-		public static Microsoft.Xna.Framework.Graphics.Texture2D[] _textures;
+				public static Microsoft.Xna.Framework.Graphics.Texture2D[] _textures;
 
 		Microsoft.Xna.Framework.Graphics.Texture2D Glowing.Glowmask(out float bias)
 		{

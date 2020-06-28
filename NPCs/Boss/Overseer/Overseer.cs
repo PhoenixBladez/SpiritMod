@@ -1,7 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using SpiritMod.Buffs;
+using SpiritMod.Items.Armor.Masks;
+using SpiritMod.Items.Boss;
 using SpiritMod.Items.BossBags;
 using SpiritMod.Items.Material;
+using SpiritMod.Items.Weapon.Bow;
+using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Items.Weapon.Swung;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -12,8 +17,7 @@ namespace SpiritMod.NPCs.Boss.Overseer
 	[AutoloadBossHead]
 	public class Overseer : ModNPC
 	{
-		public static int _type;
-
+		
 		bool secondphase = false;
 		int movementCounter;
 
@@ -59,12 +63,17 @@ namespace SpiritMod.NPCs.Boss.Overseer
 
 			npc.DropItem(ModContent.ItemType<EternityEssence>(), Main.rand.Next(16, 28));
 
-			string[] lootTable = { "Eternity", "SoulExpulsor", "EssenseTearer", "AeonRipper", };
+			int[] lootTable = { 
+				ModContent.ItemType<Eternity>(),
+				ModContent.ItemType<SoulExpulsor>(), 
+				ModContent.ItemType<EssenseTearer>(), 
+				ModContent.ItemType<AeonRipper>(), 
+			};
 			int loot = Main.rand.Next(lootTable.Length);
-			npc.DropItem(mod.ItemType(lootTable[loot]));
+			npc.DropItem(lootTable[loot]);
 
-			npc.DropItem(Items.Armor.Masks.AtlasMask._type, 1f / 7);
-			npc.DropItem(Items.Boss.Trophy9._type, 1f / 10);
+			npc.DropItem(ModContent.ItemType<AtlasMask>(), 1f / 7);
+			npc.DropItem(ModContent.ItemType<Trophy9>(), 1f / 10);
 		}
 
 		public override void BossLoot(ref string name, ref int potionType)

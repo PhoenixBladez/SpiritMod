@@ -172,7 +172,7 @@ namespace SpiritMod
 				priority = MusicPriority.BiomeHigh;
 			}
 			if(spirit.ZoneAsteroid) {
-				music = this.GetSoundSlot(SoundType.Music, "Sounds/Music/Asteroids");
+				music = GetSoundSlot(SoundType.Music, "Sounds/Music/Asteroids");
 				priority = MusicPriority.Environment;
 			}
 			if(priority > MusicPriority.BiomeMedium)
@@ -381,7 +381,7 @@ namespace SpiritMod
 
 				SkyManager.Instance["SpiritMod:AshstormParticles"] = new AshstormSky();
 				Filters.Scene["SpiritMod:AshstormParticles"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
-				Terraria.Graphics.Effects.Overlays.Scene["SpiritMod:AshstormParticles"] = new AshstormOverlay(EffectPriority.VeryHigh);
+				Overlays.Scene["SpiritMod:AshstormParticles"] = new AshstormOverlay(EffectPriority.VeryHigh);
 
 				Filters.Scene["SpiritMod:Overseer"] = new Filter(new SeerScreenShaderData("FilterMiniTower").UseColor(0f, 0.3f, 1f).UseOpacity(0.75f), EffectPriority.VeryHigh);
 				SkyManager.Instance["SpiritMod:Overseer"] = new SeerSky();
@@ -397,9 +397,8 @@ namespace SpiritMod
 		}
 
 		/// <summary>
-		/// Scans all classes deriving from any Mod type
-		/// for a field called _ref
-		/// and populates it, if it exists.
+		/// Finds additional textures attached to things
+		/// Puts the textures in _textures array
 		/// </summary>
 		private void LoadReferences()
 		{
@@ -408,52 +407,16 @@ namespace SpiritMod
 					continue;
 				}
 
-				System.Reflection.FieldInfo _refField = type.GetField("_ref");
-				System.Reflection.FieldInfo _typeField = type.GetField("_type");
-				bool isDefR = _refField != null && _refField.IsStatic;
-				bool isDefT = _typeField != null && _typeField.IsStatic && _typeField.FieldType == typeof(int);
 				bool modType = true;
 
 				if(type.IsSubclassOf(typeof(ModItem))) {
-					if(isDefR && _refField.FieldType == typeof(ModItem))
-						_refField.SetValue(null, GetItem(type.Name));
-					if(isDefT)
-						_typeField.SetValue(null, ItemType(type.Name));
 				} else if(type.IsSubclassOf(typeof(ModNPC))) {
-					if(isDefR && _refField.FieldType == typeof(ModNPC))
-						_refField.SetValue(null, GetNPC(type.Name));
-					if(isDefT)
-						_typeField.SetValue(null, NPCType(type.Name));
 				} else if(type.IsSubclassOf(typeof(ModProjectile))) {
-					if(isDefR && _refField.FieldType == typeof(ModProjectile))
-						_refField.SetValue(null, GetProjectile(type.Name));
-					if(isDefT)
-						_typeField.SetValue(null, ProjectileType(type.Name));
 				} else if(type.IsSubclassOf(typeof(ModDust))) {
-					if(isDefR && _refField.FieldType == typeof(ModDust))
-						_refField.SetValue(null, GetDust(type.Name));
-					if(isDefT)
-						_typeField.SetValue(null, DustType(type.Name));
 				} else if(type.IsSubclassOf(typeof(ModTile))) {
-					if(isDefR && _refField.FieldType == typeof(ModTile))
-						_refField.SetValue(null, GetTile(type.Name));
-					if(isDefT)
-						_typeField.SetValue(null, TileType(type.Name));
 				} else if(type.IsSubclassOf(typeof(ModWall))) {
-					if(isDefR && _refField.FieldType == typeof(ModWall))
-						_refField.SetValue(null, GetWall(type.Name));
-					if(isDefT)
-						_typeField.SetValue(null, WallType(type.Name));
 				} else if(type.IsSubclassOf(typeof(ModBuff))) {
-					if(isDefR && _refField.FieldType == typeof(ModBuff))
-						_refField.SetValue(null, GetBuff(type.Name));
-					if(isDefT)
-						_typeField.SetValue(null, BuffType(type.Name));
 				} else if(type.IsSubclassOf(typeof(ModMountData))) {
-					if(isDefR && _refField.FieldType == typeof(ModMountData))
-						_refField.SetValue(null, GetMount(type.Name));
-					if(isDefT)
-						_typeField.SetValue(null, MountType(type.Name));
 				} else
 					modType = false;
 

@@ -33,7 +33,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			bool expertMode = Main.expertMode;
 			bool atlasAlive = false;
 			int attachedTo = (int)npc.ai[0];
-			if(attachedTo > -1 && attachedTo < Main.maxNPCs && Main.npc[attachedTo].active && Main.npc[attachedTo].type == Atlas._type)
+			if(attachedTo > -1 && attachedTo < Main.maxNPCs && Main.npc[attachedTo].active && Main.npc[attachedTo].type == ModContent.NPCType<Atlas>())
 				atlasAlive = true;
 			if(!atlasAlive)
 				npc.ai[1] = 5;

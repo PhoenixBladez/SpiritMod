@@ -10,8 +10,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 	[AutoloadBossHead]
 	public class SteamRaiderHead : ModNPC
 	{
-		public static int _type;
-
+		
 		int timer = 20;
 		public bool flies = true;
 		public bool directional = false;

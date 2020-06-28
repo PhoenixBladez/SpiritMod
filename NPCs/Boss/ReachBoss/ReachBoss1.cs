@@ -16,8 +16,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 	[AutoloadBossHead]
 	public class ReachBoss1 : ModNPC
 	{
-		public static int _type;
-
+		
 		int timer = 0;
 		int moveSpeed = 0;
 		int moveSpeedY = 0;

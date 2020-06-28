@@ -8,8 +8,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 {
 	class DuskfeatherBlade : ModProjectile
 	{
-		public static int _type;
-
+		
 		private const float Range = 25 * 16;
 		private const float Max_Dist = 100 * 16;
 		private const int Total_Updates = 3;
@@ -41,7 +40,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 				if(!projectile.active)
 					continue;
 				int state = (int)projectile.ai[0];
-				if(projectile.type == _type &&
+				if(projectile.type == ModContent.ProjectileType<DuskfeatherBlade>() &&
 					projectile.owner == player.whoAmI &&
 					state != (int)FadeOut &&
 					state != (int)FadeOutStuck) {
@@ -59,7 +58,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 				if(!projectile.active)
 					continue;
 				int state = (int)projectile.ai[0];
-				if(projectile.type == _type &&
+				if(projectile.type == ModContent.ProjectileType<DuskfeatherBlade>() &&
 					projectile.owner == player.whoAmI &&
 					state != (int)Return &&
 					state != (int)FadeOut &&

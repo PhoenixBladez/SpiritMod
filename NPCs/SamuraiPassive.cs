@@ -7,8 +7,7 @@ namespace SpiritMod.NPCs
 {
 	public class SamuraiPassive : ModNPC
 	{
-		public static int _type;
-
+		
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Phantom Samurai");

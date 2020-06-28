@@ -1,7 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Items.Armor.Masks;
+using SpiritMod.Items.Boss;
 using SpiritMod.Items.BossBags;
 using SpiritMod.Items.Material;
+using SpiritMod.Items.Weapon.Spear;
+using SpiritMod.Items.Weapon.Summon;
+using SpiritMod.Items.Weapon.Thrown;
 using SpiritMod.Projectiles.Boss;
 using SpiritMod.Projectiles.Hostile;
 using Terraria;
@@ -13,8 +18,7 @@ namespace SpiritMod.NPCs.Boss
 	[AutoloadBossHead]
 	public class AncientFlyer : ModNPC
 	{
-		public static int _type;
-
+		
 		int tornadoX = 0;
 		int tornadoY = 0;
 		int timer = 0;
@@ -255,7 +259,7 @@ namespace SpiritMod.NPCs.Boss
 				}
 			}
 			if(displaycircle) {
-				Microsoft.Xna.Framework.Color color1 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
+				Color color1 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
 
 				int r1 = (int)color1.R;
 				drawOrigin.Y += 30f;
@@ -275,17 +279,17 @@ namespace SpiritMod.NPCs.Boss
 					num14 = 1f - num13;
 				if((double)num14 < 0.0)
 					num14 = 0.0f;
-				Microsoft.Xna.Framework.Rectangle r2 = texture2D2.Frame(1, 1, 0, 0);
+				Rectangle r2 = texture2D2.Frame(1, 1, 0, 0);
 				drawOrigin = r2.Size() / 2f;
 				Vector2 position3 = position1 + new Vector2(0.0f, -40f);
-				Microsoft.Xna.Framework.Color color3 = new Microsoft.Xna.Framework.Color(252, 3, 50) * 1.6f;
-				Main.spriteBatch.Draw(texture2D2, position3, new Microsoft.Xna.Framework.Rectangle?(r2), color3, npc.rotation, drawOrigin, npc.scale * 0.75f, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
+				Color color3 = new Color(252, 3, 50) * 1.6f;
+				Main.spriteBatch.Draw(texture2D2, position3, new Rectangle?(r2), color3, npc.rotation, drawOrigin, npc.scale * 0.75f, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
 				float num15 = 1f + num11 * 0.75f;
-				Main.spriteBatch.Draw(texture2D2, position3, new Microsoft.Xna.Framework.Rectangle?(r2), color3 * num12, npc.rotation, drawOrigin, npc.scale * 0.75f * num15, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
+				Main.spriteBatch.Draw(texture2D2, position3, new Rectangle?(r2), color3 * num12, npc.rotation, drawOrigin, npc.scale * 0.75f * num15, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
 				float num16 = 1f + num13 * 0.75f;
-				Main.spriteBatch.Draw(texture2D2, position3, new Microsoft.Xna.Framework.Rectangle?(r2), color3 * num14, npc.rotation, drawOrigin, npc.scale * 0.75f * num16, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
+				Main.spriteBatch.Draw(texture2D2, position3, new Rectangle?(r2), color3 * num14, npc.rotation, drawOrigin, npc.scale * 0.75f * num16, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
 				Texture2D texture2D3 = Main.extraTexture[89];
-				Microsoft.Xna.Framework.Rectangle r3 = texture2D3.Frame(1, 1, 0, 0);
+				Rectangle r3 = texture2D3.Frame(1, 1, 0, 0);
 				drawOrigin = r3.Size() / 2f;
 				Vector2 scale = new Vector2(0.75f, 1f + num16) * 1.5f;
 				float num17 = 1f + num13 * 0.75f;
@@ -303,12 +307,16 @@ namespace SpiritMod.NPCs.Boss
 
 			npc.DropItem(ModContent.ItemType<FossilFeather>(), 3, 6);
 
-			string[] lootTable = { "SkeletalonStaff", "Talonginus", "SoaringScapula" };
+			int[] lootTable = { 
+				ModContent.ItemType<SkeletalonStaff>(), 
+				ModContent.ItemType<Talonginus>(), 
+				ModContent.ItemType<SoaringScapula>()
+			};
 			int loot = Main.rand.Next(lootTable.Length);
-			npc.DropItem(mod.ItemType(lootTable[loot]));
+			npc.DropItem(lootTable[loot]);
 
-			npc.DropItem(Items.Armor.Masks.FlierMask._type, 1f / 7);
-			npc.DropItem(Items.Boss.Trophy2._type, 1f / 10);
+			npc.DropItem(ModContent.ItemType<FlierMask>(), 1f / 7);
+			npc.DropItem(ModContent.ItemType<Trophy2>(), 1f / 10);
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
@@ -316,7 +324,7 @@ namespace SpiritMod.NPCs.Boss
 			int d1 = 1;
 			for(int k = 0; k < 30; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, Color.White, Main.rand.NextFloat(.2f, .8f));
-				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
+				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default, .34f);
 			}
 			if(npc.life <= 0) {
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(42, 39));

@@ -94,54 +94,54 @@ namespace SpiritMod.NPCs.Town
 		public override void SetupShop(Chest shop, ref int nextSlot)
 		{
 			Item item = shop.item[nextSlot++];
-			item.SetDefaults(NullGlyph._type);
+			item.SetDefaults(ItemType<NullGlyph>());
 
 			item = shop.item[nextSlot++];
-			CustomWare(item, FrostGlyph._type);
+			CustomWare(item, ItemType<FrostGlyph>());
 
 			item = shop.item[nextSlot++];
-			CustomWare(item, EfficiencyGlyph._type);
+			CustomWare(item, ItemType<EfficiencyGlyph>());
 
 			if(NPC.downedBoss1) {
 				item = shop.item[nextSlot++];
-				CustomWare(item, RadiantGlyph._type);
+				CustomWare(item, ItemType<RadiantGlyph>());
 				item = shop.item[nextSlot++];
-				CustomWare(item, SanguineGlyph._type, 3);
+				CustomWare(item, ItemType<SanguineGlyph>(), 3);
 			}
 
 			if(MyWorld.downedReachBoss) {
 				item = shop.item[nextSlot++];
-				CustomWare(item, StormGlyph._type, 2);
+				CustomWare(item, ItemType<StormGlyph>(), 2);
 			}
 
 			if(NPC.downedBoss2) {
 				item = shop.item[nextSlot++];
-				CustomWare(item, UnholyGlyph._type, 2);
+				CustomWare(item, ItemType<UnholyGlyph>(), 2);
 			}
 
 			if(NPC.downedBoss3) {
 				item = shop.item[nextSlot++];
-				CustomWare(item, VeilGlyph._type, 3);
+				CustomWare(item, ItemType<VeilGlyph>(), 3);
 			}
 
 			if(NPC.downedQueenBee) {
 				item = shop.item[nextSlot++];
-				CustomWare(item, BeeGlyph._type, 3);
+				CustomWare(item, ItemType<BeeGlyph>(), 3);
 			}
 
 			if(Main.hardMode) {
 				item = shop.item[nextSlot++];
-				CustomWare(item, BlazeGlyph._type, 3);
+				CustomWare(item, ItemType<BlazeGlyph>(), 3);
 			}
 
 			if(NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3) {
 				item = shop.item[nextSlot++];
-				CustomWare(item, VoidGlyph._type, 4);
+				CustomWare(item, ItemType<VoidGlyph>(), 4);
 			}
 
 			if(MyWorld.downedDusking) {
 				item = shop.item[nextSlot++];
-				CustomWare(item, PhaseGlyph._type, 4);
+				CustomWare(item, ItemType<PhaseGlyph>(), 4);
 			}
 		}
 

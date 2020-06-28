@@ -1,5 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Items.Armor.Masks;
+using SpiritMod.Items.Boss;
+using SpiritMod.Items.BossBags;
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -18,7 +22,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		{
 			npc.width = 64; //324
 			npc.height = 56; //216
-			bossBag = mod.ItemType("SteamRaiderBag");
+			bossBag = ModContent.ItemType<SteamRaiderBag>();
 			npc.boss = true;
 			npc.damage = 0;
 			npc.defense = 12;
@@ -60,7 +64,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					npc.DropBossBags();
 				}
 
-				npc.DropItem(mod.ItemType("SteamParts"), 19, 25);
+				npc.DropItem(ModContent.ItemType<SteamParts>(), 19, 25);
 				npc.DropItem(ItemID.Heart);
 				npc.DropItem(ItemID.Heart);
 				npc.DropItem(ItemID.Heart);
@@ -69,8 +73,8 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				npc.DropItem(ItemID.Heart);
 				npc.DropItem(ItemID.Heart);
 				npc.DropItem(ItemID.LesserHealingPotion, 10, 12);
-				npc.DropItem(Items.Armor.Masks.StarplateMask._type, 1f / 7);
-				npc.DropItem(Items.Boss.Trophy3._type, 1f / 10);
+				npc.DropItem(ModContent.ItemType<StarplateMask>(), 1f / 7);
+				npc.DropItem(ModContent.ItemType<Trophy3>(), 1f / 10);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Starplate/Starplate1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Starplate/Starplate2"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Starplate/Starplate3"), 1f);
@@ -79,12 +83,12 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				for(int i = 0; i < 90; i++) {
 					Dust.NewDust(npc.position, npc.width, npc.height, 226, Main.rand.Next(-25, 25), Main.rand.Next(-13, 13));
 				}
-				npc.position.X = npc.position.X + (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
+				npc.position.X = npc.position.X + (npc.width / 2);
+				npc.position.Y = npc.position.Y + (npc.height / 2);
 				npc.width = 30;
 				npc.height = 30;
-				npc.position.X = npc.position.X - (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+				npc.position.X = npc.position.X - (npc.width / 2);
+				npc.position.Y = npc.position.Y - (npc.height / 2);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
 				direction.X *= 4f;
