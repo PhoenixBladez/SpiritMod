@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 			item.knockBack = 8;
 			item.value = Item.sellPrice(0, 11, 0, 50);
 			item.shoot = mod.ProjectileType("DeathWind4Proj");
-			item.rare = 10;
+			item.rare = ItemRarityID.Red;
 			item.shootSpeed = 16f;
 			item.UseSound = SoundID.Item69;
 			item.autoReuse = true;

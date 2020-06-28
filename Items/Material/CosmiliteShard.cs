@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Material
 			item.width = 24;
 			item.height = 26;
 			item.value = 100;
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.maxStack = 999;
 			item.consumable = true;
 			item.autoReuse = true;

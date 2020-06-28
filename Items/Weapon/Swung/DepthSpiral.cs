@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 4;
 			item.value = Terraria.Item.sellPrice(0, 5, 0, 0);
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.UseSound = SoundID.Item1;
 			item.shoot = ModContent.ProjectileType<Projectiles.DepthSpiral>();
 			item.shootSpeed = 7f;

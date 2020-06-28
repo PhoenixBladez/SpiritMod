@@ -26,7 +26,7 @@ namespace SpiritMod.Items.DonatorItems
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 6;
 			item.value = item.value = Item.sellPrice(0, 2, 50, 0); ;
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.shoot = ModContent.ProjectileType<ElectricityBolt>();
 			item.shootSpeed = 25f;
 			item.UseSound = SoundID.Item1;
@@ -37,8 +37,8 @@ namespace SpiritMod.Items.DonatorItems
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<SunShard>(), 5);
-			recipe.AddIngredient(671, 1);
-			recipe.AddIngredient(1508, 1);
+			recipe.AddIngredient(ItemID.Keybrand, 1);
+			recipe.AddIngredient(ItemID.Ectoplasm, 1);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();

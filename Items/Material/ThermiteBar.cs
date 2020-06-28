@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Material
 			item.height = 24;
 			item.value = 10000;
 			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.consumable = true;
 			item.maxStack = 99;
 			item.createTile = ModContent.TileType<Tiles.Furniture.ThermiteBar>();

@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Consumable
 		{
 			item.width = 20;
 			item.height = 20;
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.createTile = ModContent.TileType<SpiritCrateTile>();
 			item.maxStack = 999;

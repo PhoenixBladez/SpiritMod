@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 4;
 			item.shoot = ModContent.ProjectileType<Moondrainer>();
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.value = Item.buyPrice(0, 12, 0, 0);

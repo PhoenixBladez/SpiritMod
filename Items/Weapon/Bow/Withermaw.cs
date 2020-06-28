@@ -27,11 +27,11 @@ namespace SpiritMod.Items.Weapon.Bow
 			item.useTime = 14;
 			item.useAnimation = 14;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = 3;
+			item.shoot = ProjectileID.Shuriken;
 			item.useAmmo = AmmoID.Arrow;
 			item.knockBack = 5;
 			item.value = Terraria.Item.sellPrice(0, 3, 0, 0);
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.UseSound = SoundID.Item5;
 			item.autoReuse = true;
 			item.shootSpeed = 13f;

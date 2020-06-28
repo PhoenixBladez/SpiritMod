@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.noMelee = true;
 			item.knockBack = 5;
 			item.value = Terraria.Item.sellPrice(0, 4, 0, 0);
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.UseSound = SoundID.Item92;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<Projectiles.Magic.CursedFire>();
@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			ModRecipe modRecipe = new ModRecipe(mod);
 			modRecipe.AddIngredient(ModContent.ItemType<BrokenStaff>(), 1);
 			modRecipe.AddIngredient(ModContent.ItemType<NightStaff>(), 1);
-			modRecipe.AddTile(134);
+			modRecipe.AddTile(TileID.MythrilAnvil);
 			modRecipe.SetResult(this, 1);
 			modRecipe.AddRecipe();
 		}

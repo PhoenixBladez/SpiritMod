@@ -26,10 +26,10 @@ namespace SpiritMod.Items.Weapon.Bow
 			item.useTime = 16;
 			item.useAnimation = 16;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = 3;
+			item.shoot = ProjectileID.Shuriken;
 			item.knockBack = 3;
 			item.value = Item.sellPrice(0, 8, 0, 0);
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.UseSound = SoundID.Item5;
 			item.autoReuse = true;
 			item.shootSpeed = 8.8f;

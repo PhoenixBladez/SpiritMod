@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 			item.knockBack = 6;
 			item.value = Item.sellPrice(0, 8, 0, 50);
 			item.shoot = mod.ProjectileType("Thanos3Proj");
-			item.rare = 7;
+			item.rare = ItemRarityID.Lime;
 			item.shootSpeed = 9f;
 			item.UseSound = SoundID.Item69;
 			item.autoReuse = true;

@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.noMelee = true;
 			item.knockBack = 1;
 			item.value = 20000;
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<HallowedStaffProj>();

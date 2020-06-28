@@ -23,7 +23,7 @@ namespace SpiritMod.Items.DonatorItems
 			item.width = 40;
 			item.height = 40;
 			item.value = Terraria.Item.sellPrice(0, 0, 70, 0);
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.knockBack = 3.5f;
 			item.UseSound = SoundID.Item25;
 			item.shoot = ModContent.ProjectileType<PhoenixMinion>();

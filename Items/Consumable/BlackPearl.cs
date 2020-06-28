@@ -18,16 +18,16 @@ namespace SpiritMod.Items.Consumable
 		public override void SetDefaults()
 		{
 			item.width = item.height = 16;
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.maxStack = 99;
-			item.useStyle = 4;
+			item.useStyle = ItemUseStyleID.HoldingUp;
 			item.useTime = 30;
 			item.useAnimation = 30;
 			item.reuseDelay = 10;
 			item.noMelee = true;
 			item.consumable = true;
 			item.autoReuse = false;
-			item.useStyle = 4;
+			item.useStyle = ItemUseStyleID.HoldingUp;
 			item.UseSound = SoundID.Item43;
 		}
 

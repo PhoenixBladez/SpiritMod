@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Spear
 			item.knockBack = 5.4f;
 			item.damage = 12;
 			item.value = Item.sellPrice(0, 0, 60, 0);
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.shoot = ModContent.ProjectileType<CorruptSpearProj>();
 		}
 	}

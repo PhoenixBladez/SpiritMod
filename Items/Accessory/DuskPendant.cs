@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Accessory
@@ -20,7 +21,7 @@ namespace SpiritMod.Items.Accessory
 		{
 			item.width = 24;
 			item.height = 28;
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.value = 80000;
 			item.expert = true;
 			item.melee = true;

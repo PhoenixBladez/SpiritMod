@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.knockBack = 0f;
 			item.useTurn = false;
 			item.value = Terraria.Item.sellPrice(0, 0, 50, 0);
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.UseSound = SoundID.Item21;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<MagicConchProj>();

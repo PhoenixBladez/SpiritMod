@@ -58,8 +58,8 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			}
 			if(npc.life <= 0) {
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 14);
-				Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 44);
-				Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 4);
+				Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 44);
+				Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 4);
 				for(int i = 0; i < 40; i++) {
 					int num = Dust.NewDust(npc.position, npc.width, npc.height, 156, 0f, -2f, 117, new Color(0, 255, 142), .6f);
 					Main.dust[num].noGravity = true;
@@ -80,8 +80,8 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			timer++;
 			if(timer >= 90) {
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 14);
-				Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 44);
-				Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 4);
+				Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 44);
+				Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 4);
 				for(int i = 0; i < 40; i++) {
 					int num = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, -2f, 117, new Color(0, 255, 142), .6f);
 					Main.dust[num].noGravity = true;
@@ -154,8 +154,8 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		{
 			npc.life = 0;
 			Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 14);
-			Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 44);
-			Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 4);
+			Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 44);
+			Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 4);
 			for(int i = 0; i < 40; i++) {
 				int num = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, -2f, 117, new Color(0, 255, 142), .6f);
 				Main.dust[num].noGravity = true;

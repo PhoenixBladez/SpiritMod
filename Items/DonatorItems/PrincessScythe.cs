@@ -25,7 +25,7 @@ namespace SpiritMod.Items.DonatorItems
 			item.useAnimation = 25;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 6;
-			item.rare = 7;
+			item.rare = ItemRarityID.Lime;
 			item.UseSound = SoundID.Item71;
 			item.autoReuse = true;
 

@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.rare = ItemRarityID.Green;
 			item.UseSound = SoundID.NPCHit18;
 			item.autoReuse = true;
-			item.shoot = 10;
+			item.shoot = ProjectileID.PurificationPowder;
 			item.shootSpeed = 5f;
 			item.useAmmo = AmmoID.Bullet;
 		}

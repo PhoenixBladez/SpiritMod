@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Material
@@ -21,7 +22,7 @@ namespace SpiritMod.Items.Material
 			item.width = 24;
 			item.height = 26;
 			item.value = 1000;
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.scale = .8f;
 			item.maxStack = 999;
 		}

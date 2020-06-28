@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Placeable.Furniture
 			item.width = 94;
 			item.height = 62;
 			item.value = item.value = Terraria.Item.buyPrice(0, 10, 1000, 10);
-			item.rare = 6;
+			item.rare = ItemRarityID.LightPurple;
 
 			item.maxStack = 99;
 

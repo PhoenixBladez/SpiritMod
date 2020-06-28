@@ -25,10 +25,10 @@ namespace SpiritMod.Items.Weapon.Bow
 			item.useTime = 28;
 			item.useAnimation = 28;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = 9;
+			item.shoot = ProjectileID.Starfury;
 			item.useAmmo = AmmoID.Arrow;
 			item.knockBack = 3;
-			item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
+			item.value = Item.sellPrice(0, 1, 0, 0);
 			item.rare = ItemRarityID.Green;
 			item.UseSound = SoundID.Item5;
 			item.autoReuse = false;
@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Weapon.Bow
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, 9, damage, knockBack, player.whoAmI);
+			int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.Starfury, damage, knockBack, player.whoAmI);
 			Projectile projectile = Main.projectile[proj];
 			for(int k = 0; k < 15; k++) {
 				Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;

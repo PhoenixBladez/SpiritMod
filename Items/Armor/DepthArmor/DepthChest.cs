@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Armor.DepthArmor
 			item.width = 30;
 			item.height = 20;
 			item.value = Item.buyPrice(silver: 60);
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.defense = 16;
 		}
 

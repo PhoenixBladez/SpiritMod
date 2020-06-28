@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.buffType = ModContent.BuffType<Buffs.Summon.Overgrowth>();
 			item.buffTime = 3600;
 			item.value = 10000;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<Projectiles.Summon.Overgrowth>();
 			item.shootSpeed = 10f;

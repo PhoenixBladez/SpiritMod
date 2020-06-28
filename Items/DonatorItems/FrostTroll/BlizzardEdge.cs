@@ -26,7 +26,7 @@ namespace SpiritMod.Items.DonatorItems.FrostTroll
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 5;
 			item.value = 96700;
-			item.rare = 6;
+			item.rare = ItemRarityID.LightPurple;
 			item.shootSpeed = 1.5f;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;

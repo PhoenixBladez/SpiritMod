@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Accessory
 		{
 			item.width = 30;
 			item.height = 28;
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.defense = 3;
 			item.value = Terraria.Item.sellPrice(0, 3, 0, 0);
 			item.accessory = true;

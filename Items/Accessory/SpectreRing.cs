@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Accessory
 			item.width = 18;
 			item.height = 18;
 			item.value = Item.buyPrice(0, 15, 0, 0);
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 
 			item.accessory = true;
 		}

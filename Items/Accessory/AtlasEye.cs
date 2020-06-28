@@ -1,5 +1,5 @@
-
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Accessory
@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Accessory
 		{
 			item.width = 30;
 			item.height = 28;
-			item.rare = 7;
+			item.rare = ItemRarityID.Lime;
 			item.expert = true;
 			item.value = Item.sellPrice(0, 1, 0, 0);
 			item.defense = 2;

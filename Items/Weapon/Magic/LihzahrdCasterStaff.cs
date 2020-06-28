@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.noMelee = true;
 			item.knockBack = 9;
 			item.value = Terraria.Item.sellPrice(0, 2, 50, 0);
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.UseSound = SoundID.Item69;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<SolarBlastFriendly>();

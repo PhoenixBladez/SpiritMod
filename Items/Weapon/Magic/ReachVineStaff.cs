@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			Main.PlaySound(6, (int)player.position.X, (int)player.position.Y);
+			Main.PlaySound(SoundID.Grass, (int)player.position.X, (int)player.position.Y);
 			Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
 			int amount = Main.rand.Next(1, 3);
 			for(int i = 0; i < amount; ++i) {

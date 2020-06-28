@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 7;
 			item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
-			item.rare = 6;
+			item.rare = ItemRarityID.LightPurple;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.useTurn = true;

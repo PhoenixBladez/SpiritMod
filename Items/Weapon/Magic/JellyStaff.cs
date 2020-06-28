@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.knockBack = 3;
 			item.useTurn = false;
 			item.value = Terraria.Item.sellPrice(0, 3, 0, 0);
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.UseSound = SoundID.Item72;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<JellyBeam>();

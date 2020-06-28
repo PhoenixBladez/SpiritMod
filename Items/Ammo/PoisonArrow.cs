@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Ammo
 		{
 			item.width = 10;
 			item.height = 28;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.value = Terraria.Item.buyPrice(0, 0, 0, 40);
 
 			item.maxStack = 999;

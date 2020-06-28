@@ -50,7 +50,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		}
 		public override void AI()
 		{
-			if(Main.netMode != 1) {
+			if(Main.netMode != NetmodeID.MultiplayerClient) {
 				npc.localAI[1] += 1;
 				if(npc.localAI[1] == (float)Main.rand.Next(100, 600)) {
 					if(!exposed) {
@@ -80,7 +80,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			Player player = Main.player[npc.target];
 			bool expertMode = Main.expertMode;
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.075f, 0.25f);
-			if(Main.netMode != 1) {
+			if(Main.netMode != NetmodeID.MultiplayerClient) {
 				npc.localAI[0] += Main.rand.Next(3);
 				if(npc.localAI[0] >= (float)Main.rand.Next(1000, 7500)) {
 					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 9);

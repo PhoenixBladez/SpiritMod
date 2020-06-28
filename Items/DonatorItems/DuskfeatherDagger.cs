@@ -25,7 +25,7 @@ namespace SpiritMod.Items.DonatorItems
 			item.useStyle = ItemUseStyleID.SwingThrow;
 
 			item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 
 			item.damage = 24;
 			item.crit = 16;
@@ -55,8 +55,8 @@ namespace SpiritMod.Items.DonatorItems
 			//Don't put this line into SetDefaults, or the item will break.
 			item.shoot = Projectiles.DonatorItems.DuskfeatherBlade._type;
 			if(player.altFunctionUse == 2) {
-				if(item.useStyle == 1) {
-					item.useStyle = 4;
+				if(item.useStyle == ItemUseStyleID.SwingThrow) {
+					item.useStyle = ItemUseStyleID.HoldingUp;
 					item.noUseGraphic = false;
 					item.UseSound = null;
 				} else

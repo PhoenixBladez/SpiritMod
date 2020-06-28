@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Items.Halloween.DevMasks;
 using SpiritMod.NPCs.Critters;
 using SpiritMod.Projectiles;
 using SpiritMod.Projectiles.Sword;
@@ -19,7 +20,7 @@ namespace SpiritMod.Items
 		public override bool InstancePerEntity => true;
 		public override bool CloneNewInstances => true;
 
-		bool CandyToolTip = false;
+		//bool CandyToolTip = false;
 
 		private GlyphType glyph = 0;
 		public GlyphType Glyph => glyph;
@@ -154,7 +155,7 @@ namespace SpiritMod.Items
 			item.mana += s * (int)Math.Round(norm.mana * mana);
 			item.knockBack += s * norm.knockBack * knockBack;
 			item.scale += s * norm.scale * size;
-			if(item.shoot >= 0 && !item.melee) //Don't change velocity for spears
+			if(item.shoot >= ProjectileID.None && !item.melee) //Don't change velocity for spears
 			{
 				item.shootSpeed += s * norm.shootSpeed * velocity;
 			}
@@ -224,9 +225,21 @@ namespace SpiritMod.Items
 				return;
 			ItemUtils.DropCandy(player);
 			if(Main.rand.Next(3) == 0) {
-				string[] lootTable = { "MaskSchmo", "MaskGraydee", "MaskLordCake", "MaskVladimier", "MaskKachow", "MaskHulk", "MaskBlaze", "MaskSvante", "MaskIggy", "MaskYuyutsu", "MaskLeemyy", };
+				int[] lootTable = {
+					ModContent.ItemType<MaskSchmo>(),
+					ModContent.ItemType<MaskGraydee>(),
+					ModContent.ItemType<MaskLordCake>(),
+					ModContent.ItemType<MaskVladimier>(),
+					ModContent.ItemType<MaskKachow>(),
+					ModContent.ItemType<MaskHulk>(),
+					ModContent.ItemType<MaskBlaze>(),
+					ModContent.ItemType<MaskSvante>(),
+					ModContent.ItemType<MaskIggy>(),
+					ModContent.ItemType<MaskYuyutsu>(),
+					ModContent.ItemType<MaskLeemyy>()
+				};
 				int loot = Main.rand.Next(lootTable.Length);
-				player.QuickSpawnItem(mod.ItemType(lootTable[loot]));
+				player.QuickSpawnItem(lootTable[loot]);
 			}
 		}
 
@@ -243,20 +256,19 @@ namespace SpiritMod.Items
 			return speed;
 		}
 
-		public override void GetWeaponDamage(Item item, Player player, ref int damage)
+		public override void ModifyWeaponDamage(Item item, Player player, ref float add, ref float mult, ref float flat)
 		{
 			MyPlayer spirit = player.GetModPlayer<MyPlayer>();
 			if(glyph == GlyphType.Phase) {
 				float boost = 0.005f * spirit.SpeedMPH;
 				if(boost > 0.5f)
 					boost = 0.5f;
-				damage += (int)(damage * boost);
+				mult *= boost;
 			}
 			if(item.summon && spirit.silkenSet) {
-				damage += 1;
+				flat += 1;
 			}
 		}
-
 
 		public override void ModifyHitNPC(Item item, Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
 		{
@@ -342,7 +354,7 @@ namespace SpiritMod.Items
 			}
 			if(modPlayer.thermalSet && item.melee && Main.rand.Next(6) == 0) {
 				for(int I = 0; I < 4; I++) {
-					int proj = Terraria.Projectile.NewProjectile(position.X, position.Y, speedX * (Main.rand.Next(300, 500) / 100), speedY * (Main.rand.Next(300, 500) / 100), 134, 65, 7f, player.whoAmI, 0f, 0f);
+					int proj = Projectile.NewProjectile(position.X, position.Y, speedX * (Main.rand.Next(300, 500) / 100), speedY * (Main.rand.Next(300, 500) / 100), ProjectileID.RocketI, 65, 7f, player.whoAmI, 0f, 0f);
 					Main.projectile[proj].friendly = true;
 					Main.projectile[proj].hostile = false;
 				}
@@ -557,35 +569,35 @@ namespace SpiritMod.Items
 		}
 		public override bool UseItem(Item item, Player player)
 		{
-			if(item.type == 2299) {
+			if(item.type == ItemID.AtlanticCod) {
 				NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<AtlanticCod>());
 				return true;
 			}
-			if(item.type == 2302) {
+			if(item.type == ItemID.NeonTetra) {
 				NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<NeonTetra>());
 				return true;
 			}
-			if(item.type == 2303) {
+			if(item.type == ItemID.ArmoredCavefish) {
 				NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<Cavefish>());
 				return true;
 			}
-			if(item.type == 2304) {
+			if(item.type == ItemID.Damselfish) {
 				NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<Damselfish>());
 				return true;
 			}
-			if(item.type == 2305) {
+			if(item.type == ItemID.CrimsonTigerfish) {
 				NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<CrismonTigerfish>());
 				return true;
 			}
-			if(item.type == 2308) {
+			if(item.type == ItemID.GoldenCarp) {
 				NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<GoldenCarp>());
 				return true;
 			}
-			if(item.type == 2309) {
+			if(item.type == ItemID.SpecularFish) {
 				NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<SpecularFish>());
 				return true;
 			}
-			if(item.type == 2310) {
+			if(item.type == ItemID.Prismite) {
 				NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<Prismite>());
 				return true;
 			}

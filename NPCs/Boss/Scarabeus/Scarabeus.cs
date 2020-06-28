@@ -82,7 +82,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				npc.active = false;
 			}
 			if(Main.rand.Next(500) == 0)
-				Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 44);
+				Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 44);
 
 			Counter++;
 			if(wormAI) {
@@ -181,7 +181,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 							if(num1 > 20.0)
 								num1 = 20f;
 							npc.soundDelay = (int)num1;
-							Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 1);
+							Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 1);
 						}
 						float absDirX = Math.Abs(dirX);
 						float absDirY = Math.Abs(dirY);
@@ -260,8 +260,8 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				{
 					npc.TargetClosest(true);
 					if(Counter == 60) {
-						Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
-						Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 44);
+						Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0);
+						Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 44);
 						npc.velocity.Y = 0f;
 						npc.velocity.X = 0f;
 						npc.ai[0] = -180f;
@@ -307,7 +307,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 						int dst = (int)Math.Abs((player.Center - npc.Center).Y);
 						if(dst >= 300 || dst <= -300) {
 							if(Counter == 600) {
-								Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
+								Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0);
 								npc.velocity.Y = 0f;
 								npc.velocity.X = 0f;
 								npc.ai[0] = -180f;
@@ -316,7 +316,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 							}
 						} else {
 							if(Counter == 600) {
-								Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
+								Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0);
 								npc.ai[0] = -30f;
 							}
 						}

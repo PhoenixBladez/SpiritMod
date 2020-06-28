@@ -21,7 +21,7 @@ namespace SpiritMod.Items.DonatorItems
 			item.shoot = ModContent.ProjectileType<SwordPet>();
 			item.buffType = ModContent.BuffType<SwordPetBuff>();
 			item.value = Terraria.Item.sellPrice(0, 0, 54, 0);
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 		}
 
 		public override void UseStyle(Player player)

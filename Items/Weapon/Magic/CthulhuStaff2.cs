@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.noMelee = true; //so the item's animation doesn't do damage
 			item.knockBack = 0;
 			item.value = Item.sellPrice(0, 7, 0, 0);
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<StarfallProjectile>();

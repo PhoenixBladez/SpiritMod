@@ -1,5 +1,5 @@
-
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Armor.VeinstoneArmor
@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Armor.VeinstoneArmor
 			item.width = 40;
 			item.height = 30;
 			item.value = Item.sellPrice(0, 3, 0, 0);
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 
 			item.vanity = true;
 		}

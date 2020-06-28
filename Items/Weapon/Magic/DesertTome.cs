@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.knockBack = 3;
 			item.value = 50000;
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.UseSound = SoundID.Item34;
 			item.autoReuse = true;
 			item.shootSpeed = 1;

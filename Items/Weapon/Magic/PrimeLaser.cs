@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.value = Item.buyPrice(0, 8, 0, 0);
 			item.useTurn = false;
 			item.value = Terraria.Item.sellPrice(0, 3, 0, 0);
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.crit += 8;
 			item.damage = 46;
 			item.useStyle = ItemUseStyleID.HoldingOut;
@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.channel = true;
 			item.noMelee = true;
 			item.autoReuse = true;
-			item.shoot = 389;
+			item.shoot = ProjectileID.MiniRetinaLaser;
 			item.shootSpeed = 16f;
 
 		}

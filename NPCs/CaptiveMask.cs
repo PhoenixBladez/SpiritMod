@@ -117,7 +117,7 @@ namespace SpiritMod.NPCs
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if(npc.life <= 0 || npc.life >= 0) {
-				Main.PlaySound(3, npc.Center, 3);
+				Main.PlaySound(SoundID.NPCHit, npc.Center, 3);
 				int d = 5;
 				for(int k = 0; k < 30; k++) {
 					Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.27f);
@@ -131,7 +131,7 @@ namespace SpiritMod.NPCs
 			}
 			if(npc.life <= 0) {
 				{
-					Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 7);
+					Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 7);
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mime/MaskGore1"), Main.rand.NextFloat(.3f, 1.1f));
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mime/MaskGore1"), Main.rand.NextFloat(.3f, 1.1f));
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mime/MaskGore1"), Main.rand.NextFloat(.3f, 1.1f));

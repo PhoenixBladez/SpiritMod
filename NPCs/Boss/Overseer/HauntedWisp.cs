@@ -1,7 +1,6 @@
-﻿
-using Microsoft.Xna.Framework;
-
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.Boss.Overseer
@@ -33,7 +32,7 @@ namespace SpiritMod.NPCs.Boss.Overseer
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57F;
 
-			if(projectile.ai[0] == 0 && Main.netMode != 1) {
+			if(projectile.ai[0] == 0 && Main.netMode != NetmodeID.MultiplayerClient) {
 				target = -1;
 				float distance = 2000f;
 				for(int k = 0; k < 255; k++) {

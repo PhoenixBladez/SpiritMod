@@ -49,7 +49,7 @@ namespace SpiritMod.Projectiles.Bullet
 		}
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(3, projectile.position, 3);
+			Main.PlaySound(SoundID.NPCHit, projectile.position, 3);
 		}
 	}
 }

@@ -57,12 +57,12 @@ namespace SpiritMod.Items.Weapon.Swung
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<EternityEssence>(), 20);
 			recipe.AddIngredient(ModContent.ItemType<SpiritStar>(), 1);
-			recipe.AddIngredient(3467, 10);
-			recipe.AddIngredient(3456, 4);
-			recipe.AddIngredient(3457, 4);
-			recipe.AddIngredient(3458, 4);
-			recipe.AddIngredient(3459, 4);
-			recipe.AddTile(412);
+			recipe.AddIngredient(ItemID.LunarBar, 10);
+			recipe.AddIngredient(ItemID.FragmentVortex, 4);
+			recipe.AddIngredient(ItemID.FragmentNebula, 4);
+			recipe.AddIngredient(ItemID.FragmentSolar, 4);
+			recipe.AddIngredient(ItemID.FragmentStardust, 4);
+			recipe.AddTile(TileID.LunarCraftingStation);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

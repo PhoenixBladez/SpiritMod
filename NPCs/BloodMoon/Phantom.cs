@@ -80,7 +80,7 @@ namespace SpiritMod.NPCs.BloodMoon
 						npc.velocity.Y = moveSpeedY * 0.16f;
 						int d = Dust.NewDust(npc.position, npc.width, npc.height, 173, 0f, -2.5f, 0, default(Color), 0.6f);
 						if(!noise) {
-							Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 7);
+							Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 7);
 							noise = true;
 						}
 						npc.rotation = npc.velocity.X * .1f;
@@ -95,7 +95,7 @@ namespace SpiritMod.NPCs.BloodMoon
 				}
 			}
 			if(Main.dayTime) {
-				Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 6);
+				Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 6);
 				Gore.NewGore(npc.position, npc.velocity, 99);
 				Gore.NewGore(npc.position, npc.velocity, 99);
 				Gore.NewGore(npc.position, npc.velocity, 99);

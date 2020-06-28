@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.knockBack = 5;
 			item.useTurn = false;
 			item.value = Terraria.Item.sellPrice(0, 3, 0, 0);
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.UseSound = SoundID.Item83;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<PalladiumStaffProj>();
@@ -53,7 +53,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(1184, 12);
+			recipe.AddIngredient(ItemID.PalladiumBar, 12);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();

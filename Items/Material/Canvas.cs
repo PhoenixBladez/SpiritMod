@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Material
 			item.value = Item.buyPrice(0, 0, 10, 0);
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.consumable = true;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.maxStack = 99;
 			item.createTile = ModContent.TileType<Tiles.Ambient.Canvas_Tile>();
 			item.autoReuse = true;

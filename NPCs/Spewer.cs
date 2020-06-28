@@ -73,8 +73,8 @@ namespace SpiritMod.NPCs
 				}
 			}
 			if(npc.ai[1] == 60 && distance < 240) {
-				Main.PlaySound(4, npc.Center, 13);
-				Main.PlaySound(29, npc.Center, 40);
+				Main.PlaySound(SoundID.NPCKilled, npc.Center, 13);
+				Main.PlaySound(SoundID.Zombie, npc.Center, 40);
 			}
 			if(npc.ai[1] > 60 && npc.ai[1] < 180) {
 				if(distance < 240) {
@@ -178,7 +178,7 @@ namespace SpiritMod.NPCs
 				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection * 1.5f, -1f, 0, default(Color), .91f);
 			}
 			if(npc.life <= 0) {
-				Main.PlaySound(4, npc.Center, 30);
+				Main.PlaySound(SoundID.NPCKilled, npc.Center, 30);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Spewer/Spewer1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Spewer/Spewer2"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Spewer/Spewer3"), 1f);

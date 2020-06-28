@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Armor.IMArmor
 			item.width = 22;
 			item.height = 16;
 			item.value = 90000;
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.vanity = true;
 		}
 		public override void AddRecipes()

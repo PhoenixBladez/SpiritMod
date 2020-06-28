@@ -1,7 +1,6 @@
-
 using Microsoft.Xna.Framework;
-
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Accessory
@@ -19,7 +18,7 @@ namespace SpiritMod.Items.Accessory
 			item.width = 28;
 			item.height = 20;
 			item.value = Item.buyPrice(0, 0, 4, 0);
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 
 			item.accessory = true;
 		}

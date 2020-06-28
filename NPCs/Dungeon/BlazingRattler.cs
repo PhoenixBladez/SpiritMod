@@ -77,7 +77,7 @@ namespace SpiritMod.NPCs.Dungeon
 					float A = (float)Main.rand.Next(-200, 200) * 0.01f;
 					float B = (float)Main.rand.Next(-200, 200) * 0.01f;
 					int damagenumber = expertMode ? 12 : 17;
-					int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, dir.X + A, dir.Y + B, 15, damagenumber, 1, Main.myPlayer, 0, 0);
+					int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, dir.X + A, dir.Y + B, ProjectileID.BallofFire, damagenumber, 1, Main.myPlayer, 0, 0);
 					Main.projectile[p].friendly = false;
 					Main.projectile[p].hostile = true;
 				}
@@ -101,15 +101,13 @@ namespace SpiritMod.NPCs.Dungeon
 					float A = (float)Main.rand.Next(-200, 200) * 0.01f;
 					float B = (float)Main.rand.Next(-200, 200) * 0.01f;
 					int damagenumber = expertMode ? 12 : 17;
-					int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, dir.X + A, dir.Y + B, 15, damagenumber, 1, Main.myPlayer, 0, 0);
+					int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, dir.X + A, dir.Y + B, ProjectileID.BallofFire, damagenumber, 1, Main.myPlayer, 0, 0);
 					Main.projectile[p].friendly = false;
 					Main.projectile[p].hostile = true;
 				}
 			}
 		}
-		int frame = 0;
-		int timer = 0;
-		//  int shootTimer = 0;
+
 		public override void AI()
 		{
 			npc.spriteDirection = npc.direction;

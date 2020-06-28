@@ -10,7 +10,7 @@ namespace SpiritMod
 	{
 		public static bool IsWeapon(this Item item)
 		{
-			return item.type != 0 && item.stack > 0 && item.useStyle > 0 && (item.damage > 0 || item.useAmmo > 0 && item.useAmmo != AmmoID.Solution);
+			return item.type != ItemID.None && item.stack > 0 && item.useStyle > 0 && (item.damage > 0 || item.useAmmo > 0 && item.useAmmo != AmmoID.Solution);
 		}
 
 		public static void DropItem(this Entity ent, int type, int stack = 1)
@@ -102,7 +102,7 @@ namespace SpiritMod
 					return new Color((byte)(255f * alpha), (byte)(40f * alpha), (byte)(100f * alpha), (byte)(alpha * 255));
 			}
 
-			if(item.rare >= 11) {
+			if(item.rare >= ItemRarityID.Purple) {
 				return new Color((byte)(180f * alpha), (byte)(40f * alpha), (byte)(255f * alpha), (byte)(alpha * 255));
 			}
 

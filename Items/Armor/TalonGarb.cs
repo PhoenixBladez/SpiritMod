@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Armor
 			item.width = 32;
 			item.height = 22;
 			item.value = 10000;
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.defense = 5;
 		}
 		public override void SetMatch(bool male, ref int equipSlot, ref bool robes)

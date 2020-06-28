@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Material
 			item.value = 100;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.consumable = true;
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.maxStack = 999;
 			item.createTile = ModContent.TileType<Tiles.Furniture.SpiritBar>();
 			item.autoReuse = true;

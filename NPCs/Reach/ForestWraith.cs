@@ -54,7 +54,7 @@ namespace SpiritMod.NPCs.Reach
 			bool expertMode = Main.expertMode;
 			timer++;
 			if(timer == 240 || timer == 280 || timer == 320) {
-				Main.PlaySound(6, (int)npc.position.X, (int)npc.position.Y, 0);
+				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y, 0);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
 				direction.X *= 10f;
@@ -95,7 +95,7 @@ namespace SpiritMod.NPCs.Reach
 				npc.defense = 10;
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
-				Main.PlaySound(29, npc.Center, 7);
+				Main.PlaySound(SoundID.Zombie, npc.Center, 7);
 				direction.X = direction.X * Main.rand.Next(6, 9);
 				direction.Y = direction.Y * Main.rand.Next(6, 9);
 				npc.velocity.X = direction.X;

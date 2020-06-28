@@ -28,17 +28,17 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.knockBack = 6;
 			item.useTurn = false;
 			item.value = Terraria.Item.sellPrice(0, 5, 0, 0);
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.UseSound = SoundID.Item36;
 			item.autoReuse = true;
-			item.shoot = 10;
+			item.shoot = ProjectileID.PurificationPowder;
 			item.shootSpeed = 6.8f;
 			item.useAmmo = AmmoID.Bullet;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, 162, damage, knockBack, player.whoAmI);
+			int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.CannonballFriendly, damage, knockBack, player.whoAmI);
 			Projectile newProj = Main.projectile[proj];
 			newProj.friendly = true;
 			newProj.hostile = false;

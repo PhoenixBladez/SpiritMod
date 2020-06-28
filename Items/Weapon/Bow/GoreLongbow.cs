@@ -26,20 +26,20 @@ namespace SpiritMod.Items.Weapon.Bow
 			item.useTime = 36;
 			item.useAnimation = 36;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = 3;
+			item.shoot = ProjectileID.Shuriken;
 			item.useAmmo = AmmoID.Arrow;
 			item.crit = 7;
 			item.knockBack = 1;
-			item.value = Terraria.Item.sellPrice(0, 0, 70, 0);
-			item.rare = 4;
+			item.value = Item.sellPrice(0, 0, 70, 0);
+			item.rare = ItemRarityID.LightRed;
 			item.UseSound = SoundID.Item5;
 			item.autoReuse = true;
 			item.shootSpeed = 8f;
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			Terraria.Projectile.NewProjectile(position.X, position.Y, speedX, speedY, 278, damage, knockBack, player.whoAmI, 0f, 0f);
-			Terraria.Projectile.NewProjectile(position.X, position.Y, speedX + (Main.rand.Next(200) / 100), speedY + (Main.rand.Next(200) / 100), 278, damage, knockBack, player.whoAmI, 0f, 0f);
+			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.IchorArrow, damage, knockBack, player.whoAmI, 0f, 0f);
+			Projectile.NewProjectile(position.X, position.Y, speedX + (Main.rand.Next(200) / 100), speedY + (Main.rand.Next(200) / 100), ProjectileID.IchorArrow, damage, knockBack, player.whoAmI, 0f, 0f);
 			return false;
 
 		}

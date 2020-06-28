@@ -26,11 +26,11 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.useTime = 10;
 			item.useAnimation = 10;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = 3;
+			item.shoot = ProjectileID.Shuriken;
 			item.useAmmo = 23;
 			item.knockBack = 2;
 			item.value = Item.sellPrice(0, 5, 0, 0);
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.UseSound = SoundID.Item34;
 			item.autoReuse = true;
 			item.shootSpeed = 30f;

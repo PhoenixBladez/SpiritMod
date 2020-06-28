@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Consumable.Potion
 			item.rare = ItemRarityID.Green;
 			item.maxStack = 30;
 
-			item.useStyle = 2;
+			item.useStyle = ItemUseStyleID.EatingUsing;
 			item.useTime = item.useAnimation = 20;
 
 			item.consumable = true;
@@ -45,7 +45,7 @@ namespace SpiritMod.Items.Consumable.Potion
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<Coconut>(), 5);
-			recipe.AddTile(94); //keg
+			recipe.AddTile(TileID.Kegs); //keg
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

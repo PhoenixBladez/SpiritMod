@@ -22,7 +22,7 @@ namespace SpiritMod.Items.DonatorItems
 			item.UseSound = SoundID.Item1;
 
 			item.value = Item.sellPrice(0, 11, 50, 0);
-			item.rare = 11;
+			item.rare = ItemRarityID.Purple;
 
 			item.damage = 180;
 			item.knockBack = 7f;
@@ -49,7 +49,7 @@ namespace SpiritMod.Items.DonatorItems
 				item.noUseGraphic = true;
 				item.noMelee = true;
 			} else {
-				item.shoot = 0;
+				item.shoot = ProjectileID.None;
 				item.noUseGraphic = false;
 				item.noMelee = false;
 			}

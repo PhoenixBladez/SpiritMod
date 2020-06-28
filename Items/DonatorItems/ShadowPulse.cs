@@ -24,11 +24,11 @@ namespace SpiritMod.Items.DonatorItems
 			item.useTime = 26;
 			item.useAnimation = 26;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = 495;
+			item.shoot = ProjectileID.ShadowFlameArrow;
 			item.useAmmo = AmmoID.Arrow;
 			item.knockBack = 4;
 			item.value = 521000;
-			item.rare = 11;
+			item.rare = ItemRarityID.Purple;
 			item.UseSound = SoundID.Item5;
 			item.autoReuse = true;
 			item.shootSpeed = 6.7f;
@@ -36,13 +36,13 @@ namespace SpiritMod.Items.DonatorItems
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 
-			int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, 357, damage, knockBack, player.whoAmI);
+			int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.PulseBolt, damage, knockBack, player.whoAmI);
 			Projectile newProj = Main.projectile[proj];
 			newProj.friendly = true;
 			newProj.hostile = false;
 
 			for(int I = 0; I < 5; I++) {
-				Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-180, 180) / 100), speedY + ((float)Main.rand.Next(-180, 180) / 100), 495, damage, knockBack, player.whoAmI, 0f, 0f);
+				Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-180, 180) / 100), speedY + ((float)Main.rand.Next(-180, 180) / 100), ProjectileID.ShadowFlameArrow, damage, knockBack, player.whoAmI, 0f, 0f);
 			}
 			return false;
 		}

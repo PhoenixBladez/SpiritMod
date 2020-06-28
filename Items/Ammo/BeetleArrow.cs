@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Ammo
 			item.width = 10;
 			item.height = 28;
 			item.value = 450;
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 
 			item.maxStack = 999;
 

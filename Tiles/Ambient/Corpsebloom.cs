@@ -15,7 +15,7 @@ namespace SpiritMod.Tiles.Ambient
 			Main.tileNoFail[Type] = true;
 
 			dustType = 14;
-			soundType = 6;
+			soundType = SoundID.Grass;
 			animationFrameHeight = 54;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
 			TileObjectData.newTile.Height = 3;

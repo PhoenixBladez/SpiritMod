@@ -24,7 +24,7 @@ namespace SpiritMod.Projectiles.Yoyo
 		{
 			projectile.frameCounter++;
 			if(projectile.frameCounter >= 60) {
-				Projectile.NewProjectile(projectile.position.X + (projectile.width * .5f), projectile.position.Y + (projectile.height * .5f), projectile.velocity.X, projectile.velocity.Y, 131, projectile.damage >> 1, 0f, projectile.owner, 0f, 0f);
+				Projectile.NewProjectile(projectile.position.X + (projectile.width * .5f), projectile.position.Y + (projectile.height * .5f), projectile.velocity.X, projectile.velocity.Y, ProjectileID.Mushroom, projectile.damage >> 1, 0f, projectile.owner, 0f, 0f);
 				projectile.frameCounter = 0;
 			}
 			return true;

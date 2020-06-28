@@ -27,10 +27,10 @@ namespace SpiritMod.Items.DonatorItems
 			item.noMelee = true;
 			item.knockBack = 4;
 			item.value = 10780;
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.UseSound = SoundID.Item36;
 			item.autoReuse = false;
-			item.shoot = 10;
+			item.shoot = ProjectileID.PurificationPowder;
 			item.shootSpeed = 12f;
 			item.useAmmo = AmmoID.Bullet;
 		}

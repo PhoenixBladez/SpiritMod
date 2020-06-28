@@ -25,7 +25,7 @@ namespace SpiritMod.Items.DonatorItems
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 7;
 			item.value = 25700;
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.crit = 5;
 			item.shootSpeed = 11f;
 			item.UseSound = SoundID.Item1;

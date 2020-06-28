@@ -37,7 +37,7 @@ namespace SpiritMod.Tide.NPCs
 		{
 			int otherNPC = -1;
 			Vector2 offsetFromOtherNPC = Vector2.Zero;
-			if(npc.localAI[0] == 0f && Main.netMode != 1) {
+			if(npc.localAI[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient) {
 				npc.localAI[0] = 1f;
 				int newNPC = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<GreenFinTrapper>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
 				npc.ai[0] = (float)newNPC;

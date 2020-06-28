@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod
@@ -94,7 +95,7 @@ namespace SpiritMod
 			Vector2 origin = Vector2.Zero;
 			float rotOffset = 0;
 
-			if(item.useStyle == 5) {
+			if(item.useStyle == ItemUseStyleID.HoldingOut) {
 				if(Item.staff[item.type]) {
 					rotOffset = 0.785f * info.drawPlayer.direction;
 					if(info.drawPlayer.gravDir == -1f) {

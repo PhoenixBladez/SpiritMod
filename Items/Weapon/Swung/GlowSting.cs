@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 6;
 			item.value = Item.sellPrice(0, 1, 20, 0);
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.UseSound = SoundID.Item1;
 			item.shoot = ModContent.ProjectileType<GlowStingSpear>();
 			item.shootSpeed = 10f;
@@ -81,7 +81,7 @@ namespace SpiritMod.Items.Weapon.Swung
 				item.noUseGraphic = false;
 				item.useTime = 25;
 				item.useAnimation = 25;
-				item.shoot = 0;
+				item.shoot = ProjectileID.None;
 				item.knockBack = 5;
 				item.useStyle = ItemUseStyleID.SwingThrow;
 				item.shootSpeed = 0f;
@@ -105,7 +105,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		{
 			if(player.altFunctionUse == 2) {
 				Vector2 origVect = new Vector2(speedX, speedY);
-				Vector2 newVect = Vector2.Zero;
+				Vector2 newVect;
 				if(Main.rand.Next(2) == 1) {
 					newVect = origVect.RotatedBy(System.Math.PI / (Main.rand.Next(82, 1800) / 10));
 				} else {

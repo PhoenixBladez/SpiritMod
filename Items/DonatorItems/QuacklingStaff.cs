@@ -20,7 +20,7 @@ namespace SpiritMod.Items.DonatorItems
 			item.width = 26;
 			item.height = 28;
 			item.value = Item.sellPrice(0, 1, 0, 0);
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.mana = 9;
 			item.damage = 21;
 			item.knockBack = 1;
@@ -37,17 +37,17 @@ namespace SpiritMod.Items.DonatorItems
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(2123, 1);
-			recipe.AddIngredient(320, 10);
-			recipe.AddIngredient(165, 1);
+			recipe.AddIngredient(ItemID.Duck, 1);
+			recipe.AddIngredient(ItemID.Feather, 10);
+			recipe.AddIngredient(ItemID.WaterBolt, 1);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();
 
 			ModRecipe recipe1 = new ModRecipe(mod);
-			recipe1.AddIngredient(2122, 1);
-			recipe1.AddIngredient(320, 10);
-			recipe1.AddIngredient(165, 1);
+			recipe1.AddIngredient(ItemID.MallardDuck, 1);
+			recipe1.AddIngredient(ItemID.Feather, 10);
+			recipe1.AddIngredient(ItemID.WaterBolt, 1);
 			recipe1.AddTile(TileID.Anvils);
 			recipe1.SetResult(this, 1);
 			recipe1.AddRecipe();

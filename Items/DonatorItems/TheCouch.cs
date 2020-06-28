@@ -21,7 +21,7 @@ namespace SpiritMod.Items.DonatorItems
 			item.value = 50000;
 
 			item.maxStack = 99;
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = 10;
 			item.useAnimation = 15;

@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 			item.damage = 14;
 			item.noMelee = true;
 			item.channel = true; //Channel so that you can held the weapon [Important]
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.width = 18;
 			item.height = 18;
 			item.useTime = 15;

@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Consumable
@@ -18,10 +19,10 @@ namespace SpiritMod.Items.Consumable
 			item.height = 40;
 			item.maxStack = 5;
 			item.value = 1000;
-			item.rare = 0;
+			item.rare = ItemRarityID.White;
 			item.useAnimation = 30;
 			item.useTime = 30;
-			item.useStyle = 4;
+			item.useStyle = ItemUseStyleID.HoldingUp;
 			item.consumable = true;
 		}
 

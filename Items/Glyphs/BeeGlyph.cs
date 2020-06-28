@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 
 namespace SpiritMod.Items.Glyphs
 {
@@ -36,7 +37,7 @@ namespace SpiritMod.Items.Glyphs
 			item.width = 28;
 			item.height = 28;
 			item.value = Item.sellPrice(0, 2, 0, 0);
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 
 			item.maxStack = 999;
 		}

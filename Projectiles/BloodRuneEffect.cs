@@ -49,7 +49,7 @@ namespace SpiritMod.Projectiles
 			}
 			aiTimer2++;
 			if(aiTimer2 >= 20) {
-				if(projectile.ai[0] == 0 && Main.netMode != 1) {
+				if(projectile.ai[0] == 0 && Main.netMode != NetmodeID.MultiplayerClient) {
 					target = -1;
 					float distance = 2000f;
 					for(int k = 0; k < 255; k++) {

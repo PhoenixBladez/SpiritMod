@@ -47,7 +47,7 @@ namespace SpiritMod.Projectiles.Arrow
 				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6);
 				Main.dust[dust].noGravity = true;
 			}
-			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
+			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 		}
 
 	}

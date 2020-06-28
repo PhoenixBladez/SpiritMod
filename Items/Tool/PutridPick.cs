@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Tool
 			item.width = 36;
 			item.height = 38;
 			item.value = Item.sellPrice(0, 0, 80, 0);
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 
 			item.pick = 150;
 

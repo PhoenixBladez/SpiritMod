@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Weapon.Bow
 			item.useTime = 18;
 			item.useAnimation = 22;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = 3;
+			item.shoot = ProjectileID.Shuriken;
 			item.useAmmo = AmmoID.Arrow;
 			item.knockBack = 3;
 			item.useTurn = false;

@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.knockBack = 9;
 			item.useTurn = true;
 			item.value = Item.sellPrice(0, 1, 0, 0);
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<CoconutSpurt>();
 			item.shootSpeed = 1f;

@@ -49,7 +49,7 @@ namespace SpiritMod.Tiles
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Main.PlaySound(3, i * 16, j * 16, 4);
+			Main.PlaySound(SoundID.NPCHit, i * 16, j * 16, 4);
 			{
 				//Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
 				Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<JumpPadItem>());

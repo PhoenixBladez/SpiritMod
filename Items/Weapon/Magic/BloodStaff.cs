@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.noMelee = true;
 			item.knockBack = 3;
 			item.value = Terraria.Item.sellPrice(0, 0, 50, 0);
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.crit += 10;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = true;
@@ -43,7 +43,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			modRecipe.AddIngredient(ModContent.ItemType<JungleStaff>(), 1);
 			modRecipe.AddIngredient(ModContent.ItemType<DungeonStaff>(), 1);
 			modRecipe.AddIngredient(ModContent.ItemType<HellStaff>(), 1);
-			modRecipe.AddTile(26);
+			modRecipe.AddTile(TileID.DemonAltar);
 			modRecipe.SetResult(this, 1);
 			modRecipe.AddRecipe();
 		}

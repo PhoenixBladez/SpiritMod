@@ -28,10 +28,10 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.knockBack = 4f;
 			item.useTurn = false;
 			item.value = Item.sellPrice(0, 3, 0, 0);
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.UseSound = SoundID.Item36;
 			item.autoReuse = true;
-			item.shoot = 89;
+			item.shoot = ProjectileID.CrystalBullet;
 			item.shootSpeed = 11f;
 			item.useAmmo = AmmoID.Bullet;
 		}

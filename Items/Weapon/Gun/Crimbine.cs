@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.useTurn = false;
 			item.shoot = ModContent.ProjectileType<CrimbineBone>();
 			item.value = Terraria.Item.sellPrice(0, 3, 0, 0);
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.shootSpeed = 10f;
 			item.autoReuse = true;
 			item.useAmmo = AmmoID.Bullet;
@@ -55,7 +55,7 @@ namespace SpiritMod.Items.Weapon.Gun
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if(modPlayer.shootDelay2 == 1) {
-				Main.PlaySound(25, -1, -1, 1, 1f, 0.0f);
+				Main.PlaySound(SoundID.MaxMana, -1, -1, 1, 1f, 0.0f);
 				for(int index1 = 0; index1 < 5; ++index1) {
 					int index2 = Dust.NewDust(player.position, player.width, player.height, 5, 0.0f, 0.0f, (int)byte.MaxValue, new Color(), (float)Main.rand.Next(20, 26) * 0.1f);
 					Main.dust[index2].noLight = false;

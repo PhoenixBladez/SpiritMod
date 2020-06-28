@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Bow
 			item.useTime = 25; //How long it takes to use the weapon. If this is shorter than the useAnimation it will fire twice in one click.
 			item.useAnimation = 25;  //The animations time length
 			item.useStyle = ItemUseStyleID.HoldingOut; //The style in which the item gets used. 5 for bows.
-			item.shoot = 3; //Makes the bow shoot arrows
+			item.shoot = ProjectileID.Shuriken; //Makes the bow shoot arrows
 			item.useAmmo = AmmoID.Arrow;//Makes the bow consume arrows
 			item.knockBack = 2; //The amount of knockback the item has
 			item.rare = ItemRarityID.Green; //The item's name color

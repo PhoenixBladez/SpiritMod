@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 
 namespace SpiritMod.Items.Glyphs
 {
@@ -40,14 +41,14 @@ namespace SpiritMod.Items.Glyphs
 			item.width = 28;
 			item.height = 28;
 			item.value = Item.sellPrice(0, 2, 0, 0);
-			item.rare = 6;
+			item.rare = ItemRarityID.LightPurple;
 
 			item.maxStack = 999;
 		}
 
 		public override bool CanApply(Item item)
 		{
-			return item.IsWeapon() || item.useStyle > 0 && item.mountType < 0 && item.shoot <= 0;
+			return item.IsWeapon() || item.useStyle > 0 && item.mountType < 0 && item.shoot <= ProjectileID.None;
 		}
 
 

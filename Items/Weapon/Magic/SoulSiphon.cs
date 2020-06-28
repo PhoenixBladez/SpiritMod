@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		{
 			item.width = 26;
 			item.height = 28;
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.mana = 9;
 			item.damage = 42;
 			item.knockBack = 2.5f;

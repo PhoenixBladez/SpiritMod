@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 			item.knockBack = 1.5f;
 			item.value = Terraria.Item.sellPrice(0, 0, 0, 20);
 			item.crit = 8;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.autoReuse = true;
 			item.maxStack = 999;
 			item.consumable = true;

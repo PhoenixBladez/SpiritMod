@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Placeable.Furniture
 			item.width = 94;
 			item.height = 62;
 			item.value = 15000;
-			item.rare = 6;
+			item.rare = ItemRarityID.LightPurple;
 
 			item.maxStack = 99;
 

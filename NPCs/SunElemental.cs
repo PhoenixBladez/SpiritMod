@@ -100,7 +100,7 @@ namespace SpiritMod.NPCs
 					expr_5C82_cp_0.velocity.X = expr_5C82_cp_0.velocity.X * 2f;
 				}
 			}
-			if(Main.netMode != 1 && npc.type == 120 && npc.ai[3] >= (float)num67) //npc allows for teleporting.  moves npc to new position
+			if(Main.netMode != NetmodeID.MultiplayerClient && npc.type == NPCID.ChaosElemental && npc.ai[3] >= (float)num67) //npc allows for teleporting.  moves npc to new position
 			{
 				int num214 = (int)Main.player[npc.target].position.X / 16;  //calculates player postition
 				int num215 = (int)Main.player[npc.target].position.Y / 16;
@@ -123,7 +123,7 @@ namespace SpiritMod.NPCs
 					for(int num222 = num221; num222 < num215 + num218; num222++) {
 						if((num222 < num215 - 4 || num222 > num215 + 4 || num220 < num214 - 4 || num220 > num214 + 4) && (num222 < num217 - 1 || num222 > num217 + 1 || num220 < num216 - 1 || num220 > num216 + 1) && Main.tile[num220, num222].nactive()) {
 							bool flag29 = true;
-							if(npc.type == 32 && Main.tile[num220, num222 - 1].wall == 0) {
+							if(npc.type == NPCID.DarkCaster && Main.tile[num220, num222 - 1].wall == 0) {
 								flag29 = false;
 							} else if(Main.tile[num220, num222 - 1].lava()) //avoids lava
 							  {

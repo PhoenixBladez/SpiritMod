@@ -39,7 +39,7 @@ namespace SpiritMod.Projectiles.Hostile
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			Main.PlaySound(0, projectile.Center);
+			Main.PlaySound(SoundID.Dig, projectile.Center);
 			int d = 184;
 			for(int k = 0; k < 6; k++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);

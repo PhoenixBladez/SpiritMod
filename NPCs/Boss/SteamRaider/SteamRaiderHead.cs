@@ -22,9 +22,9 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		public int midLength = 48;
 		public int maxLength = 49;
 		public bool spawnedProbes = false;
-		bool charging = true;
-		int crashY = 1000;
-		int musicTimer = 0;
+		//bool charging = true;
+		//int crashY = 1000;
+		//int musicTimer = 0;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starplate Voyager");
@@ -57,7 +57,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			}
 		}
 		int chargetimer;
-		int unstableprojtimer;
+		//int unstableprojtimer;
 		bool charge;
 		public override void AI()
 		{
@@ -150,7 +150,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				npc.aiStyle = 6; //new
 				aiType = -1;
 				if(chargetimer == 700) {
-					Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
+					Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0);
 					CombatText.NewText(new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height), new Color(255, 155, 0, 100),
 "Target Engaged");
 				}
@@ -179,7 +179,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				if(npc.alpha < 0)
 					npc.alpha = 0;
 
-				if(Main.netMode != 1) {
+				if(Main.netMode != NetmodeID.MultiplayerClient) {
 					if(!tail && npc.ai[0] == 0f) {
 
 						int current = npc.whoAmI;
@@ -202,7 +202,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 						tail = true;
 					}
 					if(!npc.active && Main.netMode == NetmodeID.Server)
-						NetMessage.SendData(28, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
+						NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
 				}
 
 				int num180 = (int)(npc.position.X / 16f) - 1;
@@ -543,7 +543,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 						}
 						Projectile.NewProjectile(npc.Center, new Vector2(0, 10), ModContent.ProjectileType<GlitchLaser>(), 25, 1, Main.myPlayer, 0, 0);
 					}
-					shootCounter = 180; //make sure he fires lasers immediately after ending this section
+					//shootCounter = 180; //make sure he fires lasers immediately after ending this section
 				} else if(atkCounter % 2000 >= 1500 && atkCounter % 2000 < 1850) {
 					npc.velocity = Vector2.Zero; //sets his velocity to 0 in the teleport phase
 					if(atkCounter % 50 == 0) {
@@ -567,7 +567,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					}
 					if(atkCounter % 50 == 30) //change to frame related later
 				   {
-						Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 53);
+						Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 53);
 						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 40, (float)direction9.Y * 40, ModContent.ProjectileType<StarLaser>(), 55, 1, Main.myPlayer);
 					}
 					if(atkCounter % 50 == 49) {
@@ -581,7 +581,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		int atkCounter = 0;
 		int distAbove = 500;
 		Vector2 direction9 = Vector2.Zero;
-		int shootCounter = 150;
+		//int shootCounter = 150;
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			if(npc.life <= 1200) {
@@ -601,7 +601,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		{
 
 			if(charge) {
-				Microsoft.Xna.Framework.Color color1 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
+				Color color1 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
 				Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, npc.height * 0.5f);
 				int r1 = (int)color1.R;
 				drawOrigin.Y += 30f;
@@ -624,14 +624,14 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				Microsoft.Xna.Framework.Rectangle r2 = texture2D2.Frame(1, 1, 0, 0);
 				drawOrigin = r2.Size() / 2f;
 				Vector2 position3 = position1 + new Vector2(0.0f, -20f);
-				Microsoft.Xna.Framework.Color color3 = new Microsoft.Xna.Framework.Color(255, 138, 36) * 1.6f;
+				Color color3 = new Microsoft.Xna.Framework.Color(255, 138, 36) * 1.6f;
 				Main.spriteBatch.Draw(texture2D2, position3, new Microsoft.Xna.Framework.Rectangle?(r2), color3, npc.rotation, drawOrigin, npc.scale * 0.5f, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
 				float num15 = 1f + num11 * 0.75f;
 				Main.spriteBatch.Draw(texture2D2, position3, new Microsoft.Xna.Framework.Rectangle?(r2), color3 * num12, npc.rotation, drawOrigin, npc.scale * 0.5f * num15, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
 				float num16 = 1f + num13 * 0.75f;
 				Main.spriteBatch.Draw(texture2D2, position3, new Microsoft.Xna.Framework.Rectangle?(r2), color3 * num14, npc.rotation, drawOrigin, npc.scale * 0.5f * num16, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
 				Texture2D texture2D3 = Main.extraTexture[89];
-				Microsoft.Xna.Framework.Rectangle r3 = texture2D3.Frame(1, 1, 0, 0);
+				Rectangle r3 = texture2D3.Frame(1, 1, 0, 0);
 				drawOrigin = r3.Size() / 2f;
 				Vector2 scale = new Vector2(0.75f, 1f + num16) * 1.5f;
 				float num17 = 1f + num13 * 0.75f;

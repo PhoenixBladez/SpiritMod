@@ -33,7 +33,7 @@ namespace SpiritMod.NPCs.Spirit
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			int lol = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 68, 0f, 0f, 100, default(Color), 2f);
-			if(Main.netMode != 1 && npc.life <= 0) {
+			if(Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, 13);
 				Gore.NewGore(npc.position, npc.velocity, 12);
 				Gore.NewGore(npc.position, npc.velocity, 11);

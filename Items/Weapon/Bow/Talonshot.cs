@@ -15,8 +15,6 @@ namespace SpiritMod.Items.Weapon.Bow
 			Tooltip.SetDefault("Shoots a burst feather");
 		}
 
-
-		int charger;
 		public override void SetDefaults()
 		{
 			item.damage = 25;
@@ -27,11 +25,11 @@ namespace SpiritMod.Items.Weapon.Bow
 			item.useTime = 29;
 			item.useAnimation = 29;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = 3;
+			item.shoot = ProjectileID.Shuriken;
 			item.useAmmo = AmmoID.Arrow;
 			item.knockBack = 3;
 			item.value = 1000;
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.UseSound = SoundID.Item5;
 			item.value = Item.buyPrice(0, 5, 0, 0);
 			item.value = Item.sellPrice(0, 1, 0, 0);

@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Tool
 			item.width = 38;
 			item.height = 30;
 			item.value = 1000;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.hammer = 40;
 			item.axe = 6;
 			item.damage = 6;

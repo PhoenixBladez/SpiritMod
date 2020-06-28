@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.height = 28;
 			item.useTurn = false;
 			item.value = Item.buyPrice(0, 6, 0, 0);
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.damage = 34;
 			item.mana = 9;
 			item.useStyle = ItemUseStyleID.HoldingOut;

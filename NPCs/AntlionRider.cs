@@ -56,14 +56,14 @@ namespace SpiritMod.NPCs
 		{
 			int otherNPC = -1;
 			Vector2 offsetFromOtherNPC = Vector2.Zero;
-			if(npc.localAI[0] == 0f && Main.netMode != 1) {
+			if(npc.localAI[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient) {
 				npc.localAI[0] = 1f;
 				int newNPC = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, 509, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
 				npc.ai[0] = (float)newNPC;
 				npc.netUpdate = true;
 			}
 			int otherNPCCheck = (int)npc.ai[0];
-			if(Main.npc[otherNPCCheck].active && Main.npc[otherNPCCheck].type == 509) {
+			if(Main.npc[otherNPCCheck].active && Main.npc[otherNPCCheck].type == NPCID.FlyingAntlion) {
 				if(npc.timeLeft < 60) {
 					npc.timeLeft = 60;
 				}

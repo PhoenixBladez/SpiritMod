@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Placeable.Tiles
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<Walls.SpiritWallItem>(), 4);
-			recipe.AddTile(18);
+			recipe.AddTile(TileID.WorkBenches);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

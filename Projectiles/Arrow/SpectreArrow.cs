@@ -66,7 +66,7 @@ namespace SpiritMod.Projectiles.Arrow
 				velocity /= (float)Math.Sqrt((double)(xVel * xVel + yVel * yVel));
 				xVel *= velocity;
 				yVel *= velocity;
-				Projectile.NewProjectile(target.position.X, target.position.Y, xVel, yVel, 356, dmg, 0f, projectile.owner, (float)npc, 0f);
+				Projectile.NewProjectile(target.position.X, target.position.Y, xVel, yVel, ProjectileID.SpectreWrath, dmg, 0f, projectile.owner, (float)npc, 0f);
 				projectile.Kill();
 			}
 		}
@@ -76,7 +76,7 @@ namespace SpiritMod.Projectiles.Arrow
 			for(int i = 0; i < 5; i++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 206);
 			}
-			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
+			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 		}
 
 	}

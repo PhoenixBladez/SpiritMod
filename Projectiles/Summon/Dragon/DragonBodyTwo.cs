@@ -53,7 +53,7 @@ namespace SpiritMod.Projectiles.Summon.Dragon
 			if(projectile.ai[0] > 0) {
 				projectile.spriteDirection = 0;
 			}
-			if(Main.netMode != 1) {
+			if(Main.netMode != NetmodeID.MultiplayerClient) {
 				if(!Main.projectile[(int)projectile.ai[1]].active) {
 					projectile.timeLeft = 0;
 					projectile.active = false;

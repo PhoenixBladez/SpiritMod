@@ -2,6 +2,7 @@
 using SpiritMod.Buffs;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Summon.Artifact
@@ -85,7 +86,7 @@ namespace SpiritMod.Projectiles.Summon.Artifact
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 6);
+			Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 6);
 			for(int i = 0; i < 40; i++) {
 				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 235, 0f, -2f, 0, default(Color), 2f);
 				Main.dust[num].noGravity = true;

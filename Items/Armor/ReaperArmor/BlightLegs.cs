@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Armor.ReaperArmor
 			item.width = 22;
 			item.height = 16;
 			item.value = Item.sellPrice(gold: 2);
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.defense = 18;
 		}
 		public override void UpdateEquip(Player player)

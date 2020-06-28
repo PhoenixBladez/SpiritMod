@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.knockBack = 2.5f;
 			item.useTurn = false;
 			item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.UseSound = SoundID.Item72;
 			item.autoReuse = true;
 			item.shoot = mod.ProjectileType("NovaBeam1");

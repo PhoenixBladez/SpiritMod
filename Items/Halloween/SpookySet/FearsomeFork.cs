@@ -28,15 +28,15 @@ namespace SpiritMod.Items.Halloween.SpookySet
 			item.knockBack = 8f;
 			item.damage = 67;
 			item.value = Item.sellPrice(0, 2, 0, 0);
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.shoot = ModContent.ProjectileType<Projectiles.Held.FearsomeFork>();
 		}
 
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(1729, 12);
-			recipe.AddTile(18);
+			recipe.AddIngredient(ItemID.SpookyWood, 12);
+			recipe.AddTile(TileID.WorkBenches);
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();
 		}

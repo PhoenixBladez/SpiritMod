@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.knockBack = 2;
 			item.useTurn = false;
 			item.value = Terraria.Item.sellPrice(0, 10, 0, 0);
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.UseSound = SoundID.Item12;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<TeslaSpikeProjectile>();

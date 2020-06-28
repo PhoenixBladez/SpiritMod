@@ -106,7 +106,7 @@ namespace SpiritMod.Projectiles.Summon
 			for(int i = 0; i < 10; i++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 5);
 			}
-			Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 6);
+			Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 6);
 		}
 		public override bool MinionContactDamage()
 		{

@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.noMelee = true;
 			item.knockBack = 5;
 			item.value = Item.buyPrice(gold: 5);
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = false;
 			item.shoot = ModContent.ProjectileType<EyeballBlue>();

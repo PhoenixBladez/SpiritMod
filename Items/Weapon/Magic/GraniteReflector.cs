@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.knockBack = 12;
 			item.useTurn = false;
 			item.value = Terraria.Item.sellPrice(0, 7, 0, 0);
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = false;
 			item.shoot = ModContent.ProjectileType<GraniteWall>();

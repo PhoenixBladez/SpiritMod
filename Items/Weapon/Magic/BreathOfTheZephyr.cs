@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.noMelee = true;
 			item.knockBack = 5;
 			item.value = Terraria.Item.sellPrice(0, 0, 40, 0);
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.shoot = ModContent.ProjectileType<Zephyr>();
 			item.autoReuse = false;
 		}

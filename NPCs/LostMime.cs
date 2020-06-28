@@ -58,7 +58,7 @@ namespace SpiritMod.NPCs
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if(npc.life <= 0 && Main.rand.Next(2) == 0) {
-				Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 6);
+				Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 6);
 				npc.Transform(ModContent.NPCType<CaptiveMask>());
 			}
 			int d = 6;

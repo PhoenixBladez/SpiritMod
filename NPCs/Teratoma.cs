@@ -51,7 +51,7 @@ namespace SpiritMod.NPCs
 				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, Color.White, .34f);
 			}
 			if(Main.rand.Next(2) == 0) {
-				Main.PlaySound(3, npc.Center, 19);
+				Main.PlaySound(SoundID.NPCHit, npc.Center, 19);
 				int tomaProj;
 				tomaProj = Main.rand.Next(new int[] { mod.ProjectileType("Teratoma1"), mod.ProjectileType("Teratoma2"), mod.ProjectileType("Teratoma3") });
 				bool expertMode = Main.expertMode;
@@ -69,7 +69,7 @@ namespace SpiritMod.NPCs
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Teratoma/Teratoma5"), Main.rand.NextFloat(.85f, 1.1f));
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Teratoma/Teratoma6"), Main.rand.NextFloat(.85f, 1.1f));
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Teratoma/Teratoma7"), Main.rand.NextFloat(.85f, 1.1f));
-				Main.PlaySound(29, npc.Center, 9);
+				Main.PlaySound(SoundID.Zombie, npc.Center, 9);
 			}
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

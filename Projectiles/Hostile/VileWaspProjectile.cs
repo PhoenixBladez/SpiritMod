@@ -70,8 +70,8 @@ namespace SpiritMod.Projectiles.Hostile
 			if(projectile.timeLeft <= 180) {
 				if(NPC.CountNPCS(ModContent.NPCType<VileWasp>()) < 3 && Main.npc[(int)projectile.ai[1]].active) {
 					projectile.Kill();
-					if(Main.netMode != 1) {
-						Main.PlaySound(29, projectile.Center, 51);
+					if(Main.netMode != NetmodeID.MultiplayerClient) {
+						Main.PlaySound(SoundID.Zombie, projectile.Center, 51);
 						for(int j = 0; j < 10; j++) {
 							Vector2 vector2 = Vector2.UnitX * -projectile.width / 2f;
 							vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(8f, 16f);

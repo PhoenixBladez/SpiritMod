@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.knockBack = 1;
 			item.useTurn = false;
 			item.value = Terraria.Item.sellPrice(0, 1, 08, 0);
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.UseSound = SoundID.Item36;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<SpiritBullet>();

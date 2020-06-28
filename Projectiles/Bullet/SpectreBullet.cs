@@ -68,7 +68,7 @@ namespace SpiritMod.Projectiles.Bullet
 				return;
 
 			if(Main.rand.Next(100) <= 35) {
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, 305, 0, 0f, projectile.owner, projectile.owner, 1);
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ProjectileID.VampireHeal, 0, 0f, projectile.owner, projectile.owner, 1);
 			}
 		}
 

@@ -44,7 +44,7 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.useTurn = false;
 			item.rare = ItemRarityID.Green;
 			item.autoReuse = true;
-			item.shoot = 10;
+			item.shoot = ProjectileID.PurificationPowder;
 			item.shootSpeed = 9f;
 			item.useAmmo = AmmoID.Bullet;
 

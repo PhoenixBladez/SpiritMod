@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Weapon.Bow
 			item.useTime = 25;
 			item.useAnimation = 25;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = 3;
+			item.shoot = ProjectileID.Shuriken;
 			item.useAmmo = AmmoID.Arrow;
 			item.knockBack = 4;
 			item.value = Item.buyPrice(0, 1, 0, 0);

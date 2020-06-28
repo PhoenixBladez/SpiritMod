@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Accessory
 		{
 			item.width = 30;
 			item.height = 28;
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.value = 100000;
 
 			item.defense = 4;
@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Accessory
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<GoldenApple>(), 1);
-			recipe.AddIngredient(156, 1);
+			recipe.AddIngredient(ItemID.CobaltShield, 1);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();

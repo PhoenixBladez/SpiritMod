@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Armor.SpiritWood
 			item.width = 22;
 			item.height = 20;
 			item.value = 0;
-			item.rare = 0;
+			item.rare = ItemRarityID.White;
 			item.defense = 5;
 		}
 		public override void AddRecipes()

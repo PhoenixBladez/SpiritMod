@@ -1,8 +1,7 @@
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Accessory
@@ -22,7 +21,7 @@ namespace SpiritMod.Items.Accessory
 			item.width = 28;
 			item.height = 30;
 			item.value = Item.buyPrice(0, 1, 0, 0);
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.accessory = true;
 		}
 		public override void UpdateAccessory(Player player, bool hideVisual)

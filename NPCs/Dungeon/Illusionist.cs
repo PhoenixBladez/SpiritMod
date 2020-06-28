@@ -53,7 +53,7 @@ namespace SpiritMod.NPCs.Dungeon
 			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
 			if(distance < 200) {
 				if(!aggroed) {
-					Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 53);
+					Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 53);
 				}
 				aggroed = true;
 			}
@@ -117,8 +117,8 @@ namespace SpiritMod.NPCs.Dungeon
 				if(NPC.CountNPCS(ModContent.NPCType<IllusionistSpectre>()) < 3) {
 					if(npc.ai[0] == 240 || npc.ai[0] == 480 || npc.ai[0] == 720) {
 						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
-						Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 53);
-						if(Main.netMode != 1) {
+						Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 53);
+						if(Main.netMode != NetmodeID.MultiplayerClient) {
 							NPC.NewNPC((int)npc.position.X + npc.width / 2, (int)npc.Center.Y - 16, ModContent.NPCType<IllusionistSpectre>(), 0, 0, 0, 0, 0, 255);
 						}
 						float ScaleMult = 2.33f;
@@ -143,7 +143,7 @@ namespace SpiritMod.NPCs.Dungeon
 		public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
 		{
 			if(!aggroed) {
-				Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 53);
+				Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 53);
 			}
 			aggroed = true;
 		}

@@ -1,3 +1,4 @@
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Armor
@@ -18,7 +19,7 @@ namespace SpiritMod.Items.Armor
 			item.width = 20;
 			item.height = 18;
 			item.value = 16000;
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.vanity = true;
 		}
 	}

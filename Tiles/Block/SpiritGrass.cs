@@ -30,7 +30,7 @@ namespace SpiritMod.Tiles.Block
 			toBePlaced.random = random;
 			if(TileObject.Place(toBePlaced) && !mute) {
 				WorldGen.SquareTileFrame(x, y, true);
-				//   Main.PlaySound(0, x * 16, y * 16, 1, 1f, 0f);
+				//   Main.PlaySound(SoundID.Dig, x * 16, y * 16, 1, 1f, 0f);
 			}
 			return false;
 		}

@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Consumable
 		{
 			item.width = 30;
 			item.height = 26;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.value = Item.sellPrice(0, 0, 1, 0);
 			item.maxStack = 99;
 			item.noUseGraphic = true;

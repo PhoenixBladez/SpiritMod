@@ -89,7 +89,7 @@ namespace SpiritMod.Projectiles
 
 			if(projectile.localAI[1] == 0f) {
 				projectile.localAI[1] = 1f;
-				Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 7, 1f, 0f);
+				Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 7, 1f, 0f);
 			}
 		}
 

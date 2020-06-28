@@ -51,7 +51,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			Player player = Main.player[npc.target];
 			bool expertMode = Main.expertMode;
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.075f, 0.25f);
-			if(Main.netMode != 1) {
+			if(Main.netMode != NetmodeID.MultiplayerClient) {
 				npc.localAI[0] += expertMode ? 2f : 1f;
 				if(npc.localAI[0] >= 200f) {
 					npc.localAI[0] = 0f;
@@ -93,7 +93,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				npc.HitEffect(0, 10.0);
 				npc.active = false;
 				NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<TailProbe>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-				Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
+				Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0);
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 4);
 				npc.position.X = npc.position.X + (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y + (float)(npc.height / 2);

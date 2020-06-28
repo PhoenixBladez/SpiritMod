@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Armor.WitherArmor
 			item.width = 24;
 			item.height = 24;
 			item.value = 120000;
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.defense = 23;
 		}
 

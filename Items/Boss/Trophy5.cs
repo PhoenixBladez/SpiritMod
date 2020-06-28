@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Boss
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.consumable = true;
 			item.value = 0;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.createTile = mod.TileType("Trophy5Tile");
 			item.placeStyle = 0;
 		}

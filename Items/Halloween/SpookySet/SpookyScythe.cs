@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Halloween.SpookySet
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 6;
 			item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.UseSound = SoundID.Item1;
 			//  item.shoot = ModContent.ProjectileType<PestilentSwordProjectile>();
 			//  item.shootSpeed = 4f;
@@ -50,8 +50,8 @@ namespace SpiritMod.Items.Halloween.SpookySet
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(1729, 12);
-			recipe.AddTile(18);
+			recipe.AddIngredient(ItemID.SpookyWood, 12);
+			recipe.AddTile(TileID.WorkBenches);
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();
 		}

@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.Xna.Framework;
-
+using SpiritMod.Items.Accessory;
+using SpiritMod.Items.DonatorItems.FrostTroll;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -82,7 +83,7 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
 				for(int i = 0; i < amountOfProjectiles; ++i) {
 					float A = (float)Main.rand.Next(-150, 150) * 0.03f;
 					float B = (float)Main.rand.Next(-150, 150) * 0.03f;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, 128, 29, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ProjectileID.FrostBlastHostile, 29, 1, Main.myPlayer, 0, 0);
 				}
 			} else if(timer == 300 || timer == 340 || timer == 380 || timer == 420 || timer == 460 || timer == 470 || timer == 480 || timer == 490) {
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
@@ -103,9 +104,14 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
 
 		public override void NPCLoot()
 		{
-			string[] lootTable = { "Bauble", "BlizzardEdge", "Chillrend", "ShiverWind" };
+			int[] lootTable = {
+				ModContent.ItemType<Bauble>(),
+				ModContent.ItemType<BlizzardEdge>(),
+				ModContent.ItemType<Chillrend>(),
+				ModContent.ItemType<ShiverWind>()
+			};
 			int loot = Main.rand.Next(lootTable.Length);
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType(lootTable[loot]));
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, lootTable[loot]);
 
 			for(int i = 0; i < 15; ++i) {
 				if(Main.rand.Next(8) == 0) {

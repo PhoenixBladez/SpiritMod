@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Armor
 			item.width = 32;
 			item.height = 30;
 			item.value = 12000;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.defense = 2;
 		}
 		public override void DrawHands(ref bool drawHands, ref bool drawArms)

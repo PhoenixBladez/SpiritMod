@@ -63,8 +63,8 @@ namespace SpiritMod.NPCs
 				target.AddBuff(BuffID.Darkness, 65);
 			}
 			if(distance > 640 && Main.rand.Next(6) == 1) {
-				if(Main.netMode != 1) {
-					Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 53);
+				if(Main.netMode != NetmodeID.MultiplayerClient) {
+					Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 53);
 					npc.position.X = target.position.X + Main.rand.Next(50, 100) * -target.direction;
 					npc.position.Y = target.position.Y - Main.rand.Next(30, 60);
 					npc.netUpdate = true;

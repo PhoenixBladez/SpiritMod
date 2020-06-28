@@ -57,7 +57,7 @@ namespace SpiritMod.Npcs.Town
 				Player player = Main.player[k];
 				if(player.active) {
 					for(int j = 0; j < player.inventory.Length; j++) {
-						if(player.inventory[j].type == 73) {
+						if(player.inventory[j].type == ItemID.GoldCoin) {
 							return true;
 						}
 					}

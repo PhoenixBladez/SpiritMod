@@ -28,8 +28,26 @@ namespace SpiritMod.NPCs.Dungeon
 			}
 			Player player = Main.LocalPlayer;
 			if(player.ZoneDungeon && !NPC.downedPlantBoss) {
-				if(npc.aiStyle != 7 && !(npc.catchItem > 0) && ((npc.aiStyle != 6 && npc.aiStyle != 37)) && npc.type != 401 && npc.type != 488 && npc.type != 371 && npc.lifeMax > 1 && !(npc.aiStyle == 0 && npc.value == 0 && npc.npcSlots == 1)) {
-					if(Main.rand.Next(0, Main.expertMode ? 44 : 50) == 0 && (npc.value != 0 || (npc.type >= 402 && npc.type <= 429)) && npc.type != 239 && npc.type != 240 && npc.type != 469 && npc.type != 238 && npc.type != 237 && npc.type != 236 && npc.type != 164 && npc.type != 165 && npc.type != 163) {
+				if(npc.aiStyle != 7
+					&& !(npc.catchItem > 0)
+					&& npc.aiStyle != 6
+					&& npc.aiStyle != 37
+					&& npc.type != NPCID.MoonLordLeechBlob
+					&& npc.type != NPCID.TargetDummy
+					&& npc.type != NPCID.DetonatingBubble
+					&& npc.lifeMax > 1
+					&& !(npc.aiStyle == 0 && npc.value == 0 && npc.npcSlots == 1)) {
+					if(Main.rand.Next(0, Main.expertMode ? 44 : 50) == 0
+						&& (npc.value != 0 || (npc.type >= NPCID.StardustWormHead && npc.type <= NPCID.VortexSoldier))
+						&& npc.type != NPCID.BloodCrawler
+						&& npc.type != NPCID.BloodCrawlerWall
+						&& npc.type != NPCID.ThePossessed
+						&& npc.type != NPCID.BlackRecluseWall
+						&& npc.type != NPCID.JungleCreeperWall
+						&& npc.type != NPCID.JungleCreeper
+						&& npc.type != NPCID.WallCreeper
+						&& npc.type != NPCID.WallCreeperWall
+						&& npc.type != NPCID.BlackRecluse) {
 						npc.GivenName = "Possessed " + npc.GivenName;
 						elementalType += "Possessed #";
 					}
@@ -43,9 +61,8 @@ namespace SpiritMod.NPCs.Dungeon
 					for(int k = 0; k < 4; k++) {
 						Dust dust;
 						Vector2 position = npc.position;
-						dust = Main.dust[Terraria.Dust.NewDust(position, npc.width, npc.height, 156, 0f, -3.421053f, 117, new Color(0, 255, 142), .6f)];
+						dust = Main.dust[Dust.NewDust(position, npc.width, npc.height, 156, 0f, -3.421053f, 117, new Color(0, 255, 142), .6f)];
 						dust.noGravity = true;
-
 					}
 				}
 			}
@@ -77,7 +94,7 @@ namespace SpiritMod.NPCs.Dungeon
 				MPSynced = true;
 				return true;
 			}
-			if(!nameConfirmed && (Main.netMode != 1 || readyForChecks))//block to ensure all enemies retain prefixes in their displayNames
+			if(!nameConfirmed && (Main.netMode != NetmodeID.MultiplayerClient || readyForChecks))//block to ensure all enemies retain prefixes in their displayNames
 			{
 				if(elementalType.Length > 1)//has prefixes
 				   {
@@ -97,10 +114,10 @@ namespace SpiritMod.NPCs.Dungeon
 		public override bool CheckDead(NPC npc)
 		{
 			if(elementalType.Contains("Possessed ")) {
-				Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 53);
-				int newNPC = NPC.NewNPC((int)npc.position.X + Main.rand.Next(-10, 10), (int)npc.position.Y + Main.rand.Next(-10, 10), ModContent.NPCType<SpectralSkull>());
-				int newNPC1 = NPC.NewNPC((int)npc.position.X + Main.rand.Next(-10, 10), (int)npc.position.Y + Main.rand.Next(-10, 10), ModContent.NPCType<SpectralSkull>());
-				int newNPC2 = NPC.NewNPC((int)npc.position.X + Main.rand.Next(-10, 10), (int)npc.position.Y + Main.rand.Next(-10, 10), ModContent.NPCType<SpectralSkull>());
+				Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 53);
+				NPC.NewNPC((int)npc.position.X + Main.rand.Next(-10, 10), (int)npc.position.Y + Main.rand.Next(-10, 10), ModContent.NPCType<SpectralSkull>());
+				NPC.NewNPC((int)npc.position.X + Main.rand.Next(-10, 10), (int)npc.position.Y + Main.rand.Next(-10, 10), ModContent.NPCType<SpectralSkull>());
+				NPC.NewNPC((int)npc.position.X + Main.rand.Next(-10, 10), (int)npc.position.Y + Main.rand.Next(-10, 10), ModContent.NPCType<SpectralSkull>());
 			}
 			return base.CheckDead(npc);
 		}

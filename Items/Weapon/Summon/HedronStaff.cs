@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.width = 40;
 			item.height = 40;
 			item.value = Terraria.Item.sellPrice(0, 8, 0, 0);
-			item.rare = 6;
+			item.rare = ItemRarityID.LightPurple;
 			item.knockBack = 2.5f;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			Item.staff[item.type] = true;

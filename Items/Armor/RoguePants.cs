@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Armor
@@ -18,7 +19,7 @@ namespace SpiritMod.Items.Armor
 			item.height = 18;
 			item.value = Terraria.Item.buyPrice(0, 0, 40, 0);
 			item.value = 500;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.defense = 3;
 		}
 

@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.knockBack = 12;
 			item.useTurn = false;
 			item.value = Terraria.Item.buyPrice(0, 19, 99, 0);
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.crit = 10;
 			item.UseSound = SoundID.Item40;
 			item.autoReuse = false;

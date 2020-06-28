@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Magic.Artifact
 			item.noMelee = true;
 			item.knockBack = 2;
 			item.value = Item.sellPrice(0, 5, 0, 50);
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.crit = 3;
 			item.UseSound = SoundID.Item74;
 			item.autoReuse = true;

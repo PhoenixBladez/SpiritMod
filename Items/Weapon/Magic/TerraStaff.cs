@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.noMelee = true;
 			item.knockBack = 6;
 			item.value = 200000;
-			item.rare = 9;
+			item.rare = ItemRarityID.Cyan;
 			item.crit = 20;
 			item.UseSound = SoundID.Item60;
 			item.autoReuse = true;
@@ -41,14 +41,14 @@ namespace SpiritMod.Items.Weapon.Magic
 			ModRecipe modRecipe = new ModRecipe(mod);
 			modRecipe.AddIngredient(ModContent.ItemType<TrueDarkStaff>(), 1);
 			modRecipe.AddIngredient(ModContent.ItemType<TrueHallowedStaff>(), 1);
-			modRecipe.AddTile(134);
+			modRecipe.AddTile(TileID.MythrilAnvil);
 			modRecipe.SetResult(this, 1);
 			modRecipe.AddRecipe();
 
 			modRecipe = new ModRecipe(mod);
 			modRecipe.AddIngredient(ModContent.ItemType<TrueBloodStaff>(), 1);
 			modRecipe.AddIngredient(ModContent.ItemType<TrueHallowedStaff>(), 1);
-			modRecipe.AddTile(134);
+			modRecipe.AddTile(TileID.MythrilAnvil);
 			modRecipe.SetResult(this, 1);
 			modRecipe.AddRecipe();
 		}

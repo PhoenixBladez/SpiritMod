@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Pets
 			item.height = 30;
 			item.useAnimation = 20;
 			item.useTime = 20;
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.noMelee = true;
 			item.value = Item.sellPrice(0, 3, 50, 0);
 			item.buffType = ModContent.BuffType<LanternBuff>();

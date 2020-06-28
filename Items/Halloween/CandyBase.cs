@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Halloween
@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Halloween
 					continue;
 				if(((CandyBag)inv[i].modItem).TryAdd(this)) {
 					ItemText.NewText(item, 1);
-					Main.PlaySound(7, (int)player.position.X, (int)player.position.Y);
+					Main.PlaySound(SoundID.Grab, (int)player.position.X, (int)player.position.Y);
 					return false;
 				}
 			}
@@ -52,7 +52,7 @@ namespace SpiritMod.Items.Halloween
 				if(inv[i].IsAir || inv[i].type != CandyBag._type)
 					continue;
 				if(((CandyBag)inv[i].modItem).TryAdd(this)) {
-					Main.PlaySound(7, (int)player.position.X, (int)player.position.Y);
+					Main.PlaySound(SoundID.Grab, (int)player.position.X, (int)player.position.Y);
 					return;
 				}
 			}

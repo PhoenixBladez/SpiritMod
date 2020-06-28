@@ -55,11 +55,11 @@ namespace SpiritMod.NPCs
 				if(Main.invasionSize < 0) {
 					Main.invasionSize = 0;
 				}
-				if(Main.netMode != 1) {
+				if(Main.netMode != NetmodeID.MultiplayerClient) {
 					Main.ReportInvasionProgress(Main.invasionSizeStart - Main.invasionSize, Main.invasionSizeStart, 4, 0);
 				}
 				if(Main.netMode == NetmodeID.Server) {
-					NetMessage.SendData(78, -1, -1, null, Main.invasionProgress, (float)Main.invasionProgressMax, (float)Main.invasionProgressIcon, 0f, 0, 0, 0);
+					NetMessage.SendData(MessageID.InvasionProgressReport, -1, -1, null, Main.invasionProgress, (float)Main.invasionProgressMax, (float)Main.invasionProgressIcon, 0f, 0, 0, 0);
 				}
 			}
 			if(Main.rand.Next(3) == 0) {
@@ -83,11 +83,11 @@ namespace SpiritMod.NPCs
 		public override void AI()
 		{
 			if(Main.rand.Next(250) == 2) {
-				Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 7);
+				Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 7);
 			}
 			timer++;
 			if(timer == 100 || timer == 300) {
-				Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 7);
+				Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 7);
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 92);
 				npc.TargetClosest();
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;

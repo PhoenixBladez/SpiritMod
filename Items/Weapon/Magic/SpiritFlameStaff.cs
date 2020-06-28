@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.knockBack = 0;
 			item.useTurn = false;
 			item.value = Terraria.Item.sellPrice(0, 4, 0, 0);
-			item.rare = 6;
+			item.rare = ItemRarityID.LightPurple;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<SpiritBolt>();

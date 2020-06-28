@@ -27,7 +27,7 @@ namespace SpiritMod.Projectiles.Magic
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 68);
 			}
 
-			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
+			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 
 			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 6, -2, ProjectileID.NorthPoleSnowflake, projectile.damage, projectile.knockBack, Main.myPlayer);
 			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -6, -2, ProjectileID.NorthPoleSnowflake, projectile.damage, projectile.knockBack, Main.myPlayer);

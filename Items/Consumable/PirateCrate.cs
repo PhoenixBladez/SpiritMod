@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Consumable
 		public override void SetDefaults()
 		{
 			item.width = item.height = 16;
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.consumable = true;
 			item.maxStack = 99;

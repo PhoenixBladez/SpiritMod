@@ -37,7 +37,7 @@ namespace SpiritMod.Projectiles.Magic
 			} else {
 				projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.03f * (float)projectile.direction;
 
-				if(projectile.ai[1] == 0 && Main.netMode != 1) {
+				if(projectile.ai[1] == 0 && Main.netMode != NetmodeID.MultiplayerClient) {
 					target = -1;
 					float distance = 320;
 					for(int k = 0; k < 200; k++) {

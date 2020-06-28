@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Armor.LeatherArmor
 			item.width = 22;
 			item.height = 12;
 			item.value = 100;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 
 			item.defense = 1;
 		}

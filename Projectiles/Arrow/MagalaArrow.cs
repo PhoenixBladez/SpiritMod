@@ -35,7 +35,7 @@ namespace SpiritMod.Projectiles.Arrow
 				Main.dust[dust].velocity = Vector2.Zero;
 				Main.dust[dust].scale = 1.2f;
 			}
-			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
+			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 		}
 
 		public override void AI()

@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Pets
 			item.shoot = ModContent.ProjectileType<HauntedBookPet>();
 			item.buffType = ModContent.BuffType<HauntedBookPetBuff>();
 			item.UseSound = SoundID.Item8;
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 		}
 
 		public override void UseStyle(Player player)

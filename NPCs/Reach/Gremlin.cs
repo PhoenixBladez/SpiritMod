@@ -41,7 +41,7 @@ namespace SpiritMod.NPCs.Reach
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(Main.netMode != 1 && npc.life <= 0) {
+			if(Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0) {
 				Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
 				NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<AngryGremlin>());
 			}

@@ -17,10 +17,10 @@ namespace SpiritMod.Items.Consumable.Food
 		public override void SetDefaults()
 		{
 			item.width = item.height = 22;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.maxStack = 99;
 			item.noUseGraphic = true;
-			item.useStyle = 2;
+			item.useStyle = ItemUseStyleID.EatingUsing;
 			item.useTime = item.useAnimation = 30;
 
 			item.buffType = BuffID.WellFed;

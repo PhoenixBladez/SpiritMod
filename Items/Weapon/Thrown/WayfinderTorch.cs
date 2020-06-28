@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 			item.damage = 43;
 			item.knockBack = 1f;
 			item.value = Terraria.Item.buyPrice(0, 0, 0, 50);
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.magic = true;
 			item.autoReuse = true;
 		}

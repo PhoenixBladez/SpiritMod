@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Spear
 			item.knockBack = 7f;
 			item.damage = 50;
 			item.value = Item.sellPrice(0, 0, 60, 0);
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.shoot = ModContent.ProjectileType<IchorImpalerProj>();
 		}
 

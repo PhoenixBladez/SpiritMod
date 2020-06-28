@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Material
 			item.width = 38;
 			item.height = 42;
 			item.value = 100;
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.maxStack = 999;
 			ItemID.Sets.ItemIconPulse[item.type] = true;
 			ItemID.Sets.ItemNoGravity[item.type] = true;

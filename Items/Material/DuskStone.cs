@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Material
@@ -19,7 +20,7 @@ namespace SpiritMod.Items.Material
 		{
 			item.width = item.height = 16;
 			item.maxStack = 999;
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 		}
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{

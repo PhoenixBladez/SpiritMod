@@ -30,7 +30,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
 			item.autoReuse = true;
 			item.knockBack = 7;
 			item.value = Item.sellPrice(0, 10, 0, 0);
-			item.rare = 7;
+			item.rare = ItemRarityID.Lime;
 			item.UseSound = SoundID.Item1;
 			item.crit = 12;
 		}

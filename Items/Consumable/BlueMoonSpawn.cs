@@ -17,11 +17,11 @@ namespace SpiritMod.Items.Consumable
 		public override void SetDefaults()
 		{
 			item.width = item.height = 16;
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 
 			item.maxStack = 99;
 
-			item.useStyle = 4;
+			item.useStyle = ItemUseStyleID.HoldingUp;
 			item.useTime = item.useAnimation = 20;
 
 			item.noMelee = true;
@@ -44,7 +44,7 @@ namespace SpiritMod.Items.Consumable
 		public override bool UseItem(Player player)
 		{
 			Main.NewText("The Blue Moon is Rising...", 0, 90, 220, true);
-			Main.PlaySound(15, (int)player.position.X, (int)player.position.Y, 0);
+			Main.PlaySound(SoundID.Roar, (int)player.position.X, (int)player.position.Y, 0);
 			if(!Main.dayTime) {
 				MyWorld.BlueMoon = true;
 			}

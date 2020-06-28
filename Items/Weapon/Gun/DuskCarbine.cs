@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Weapon.Gun
 		{
 			item.width = 54;
 			item.height = 28;
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.UseSound = SoundID.Item11;
 			item.crit = 4;
 			item.damage = 37;
@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.autoReuse = true;
 			item.useAmmo = AmmoID.Bullet;
 
-			item.shoot = 10;
+			item.shoot = ProjectileID.PurificationPowder;
 			item.shootSpeed = 8;
 		}
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

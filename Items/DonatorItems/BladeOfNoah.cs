@@ -25,7 +25,7 @@ namespace SpiritMod.Items.DonatorItems
 			item.damage = 45;
 			item.knockBack = 1.0f;
 			item.value = Terraria.Item.sellPrice(0, 0, 0, 5);
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.autoReuse = true;
 		}
 

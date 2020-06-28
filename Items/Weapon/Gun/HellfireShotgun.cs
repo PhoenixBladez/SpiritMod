@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.knockBack = 9;
 			item.useTurn = true;
 			item.value = Item.sellPrice(0, 8, 0, 0);
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<ReaperBlast>();
 			item.shootSpeed = 15f;

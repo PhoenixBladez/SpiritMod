@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.width = 22;
 			item.height = 42;
 			item.value = Item.buyPrice(0, 3, 0, 0);
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.damage = 22;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = 36;

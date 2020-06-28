@@ -20,11 +20,11 @@ namespace SpiritMod.Items.Consumable
 			item.width = 36;
 			item.height = 36;
 			item.maxStack = 999;
-			item.rare = 10;
+			item.rare = ItemRarityID.Red;
 			item.value = Item.buyPrice(3, 0, 0, 0);
 			item.useAnimation = 45;
 			item.useTime = 45;
-			item.useStyle = 4;
+			item.useStyle = ItemUseStyleID.HoldingUp;
 			item.UseSound = SoundID.Item44;
 			item.consumable = true;
 		}

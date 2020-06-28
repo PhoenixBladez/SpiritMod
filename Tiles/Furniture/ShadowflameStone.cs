@@ -50,7 +50,7 @@ namespace SpiritMod.Tiles.Furniture
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			Terraria.Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<ShadowflameStoneStaff>());
-			Main.PlaySound(29, (int)i * 16, (int)j * 16, 7);
+			Main.PlaySound(SoundID.Zombie, (int)i * 16, (int)j * 16, 7);
 			NPC.NewNPC((int)i * 16 + Main.rand.Next(-60, 60), (int)j * 16, 29, 0, 2, 1, 0, 0, Main.myPlayer);
 			NPC.NewNPC((int)i * 16 + Main.rand.Next(-60, 60), (int)j * 16, 29, 0, 2, 1, 0, 0, Main.myPlayer);
 		}

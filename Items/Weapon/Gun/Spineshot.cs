@@ -24,8 +24,8 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.useTime = 50;
 			item.width = 38;
 			item.height = 6;
-			item.shoot = 10;
-			item.rare = 1;
+			item.shoot = ProjectileID.PurificationPowder;
+			item.rare = ItemRarityID.Blue;
 			item.useAmmo = AmmoID.Dart;
 			item.UseSound = SoundID.Item63;
 			item.damage = 11;

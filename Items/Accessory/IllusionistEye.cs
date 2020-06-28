@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetDefaults()
 		{
 			item.width = item.height = 16;
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 
 			item.accessory = true;
 		}

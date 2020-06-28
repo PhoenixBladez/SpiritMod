@@ -21,7 +21,7 @@ namespace SpiritMod.Projectiles.Magic
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
+			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 			for(int i = 0; i < 5; i++) {
 				float goreScale = 0.01f * Main.rand.Next(20, 70);
 				int a = Gore.NewGore(projectile.position, projectile.velocity, 911, goreScale);
@@ -45,7 +45,7 @@ namespace SpiritMod.Projectiles.Magic
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
+			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 			for(int i = 0; i < 5; i++) {
 				float goreScale = 0.01f * Main.rand.Next(20, 70);
 				int a = Gore.NewGore(projectile.position, projectile.velocity, 911, goreScale);
@@ -73,7 +73,7 @@ namespace SpiritMod.Projectiles.Magic
 				int a = Gore.NewGore(projectile.position, projectile.velocity, 911, goreScale);
 				Main.gore[a].timeLeft = 15;
 			}
-			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
+			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 		}
 
 	}

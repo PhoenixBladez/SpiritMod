@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Weapon.Bow
 			item.useTime = 37;
 			item.useAnimation = 37;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = 1;
+			item.shoot = ProjectileID.WoodenArrowFriendly;
 			item.useAmmo = AmmoID.Arrow;
 			item.knockBack = 1;
 			item.value = Terraria.Item.sellPrice(0, 0, 50, 0);

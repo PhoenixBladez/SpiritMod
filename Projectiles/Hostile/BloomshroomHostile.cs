@@ -42,7 +42,7 @@ namespace SpiritMod.Projectiles.Hostile
 		public override void AI()
 		{
 			{
-				if(projectile.ai[0] == 0 && Main.netMode != 1) {
+				if(projectile.ai[0] == 0 && Main.netMode != NetmodeID.MultiplayerClient) {
 					target = -1;
 					float distance = 2000f;
 					for(int k = 0; k < 255; k++) {
@@ -83,7 +83,7 @@ namespace SpiritMod.Projectiles.Hostile
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 3);
+			Main.PlaySound(SoundID.NPCHit, (int)projectile.position.X, (int)projectile.position.Y, 3);
 			for(int i = 0; i < 5; i++) {
 				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 180, 0f, -2f, 0, default(Color), .6f);
 				Main.dust[num].noGravity = true;

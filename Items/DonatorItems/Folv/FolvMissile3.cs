@@ -28,7 +28,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
 			item.knockBack = 5;
 			item.value = 95400;
 			item.crit += 6;
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.UseSound = SoundID.Item8;
 			item.autoReuse = true;
 			item.shoot = mod.ProjectileType("FolvBolt3");

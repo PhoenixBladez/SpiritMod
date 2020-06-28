@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.knockBack = 6;
 			item.useTurn = true;
 			item.value = Terraria.Item.sellPrice(0, 1, 50, 0);
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.UseSound = SoundID.Item88;
 			item.autoReuse = false;
 			item.shoot = ModContent.ProjectileType<TitaniumStaffProj>();

@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Armor.BismiteArmor
 			item.width = 22;
 			item.height = 18;
 			item.value = Item.buyPrice(silver: 40);
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.defense = 2;
 		}
 		public override void UpdateEquip(Player player)

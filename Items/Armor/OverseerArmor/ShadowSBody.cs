@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Armor.OverseerArmor
 			item.width = 34;
 			item.height = 24;
 			item.value = Item.buyPrice(gold: 20);
-			item.rare = 11;
+			item.rare = ItemRarityID.Purple;
 			item.defense = 30;
 		}
 

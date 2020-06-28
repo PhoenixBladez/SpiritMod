@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.knockBack = 0.2f;
 			item.useTurn = false;
 			item.value = Terraria.Item.sellPrice(0, 3, 0, 0);
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.UseSound = SoundID.Item11;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<WitherBlast>();

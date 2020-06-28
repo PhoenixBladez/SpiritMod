@@ -196,7 +196,7 @@ namespace SpiritMod.Projectiles.Summon
 		public override void Kill(int timeLeft)
 		{
 			for(int i = 0; i < 10; i++) {
-				Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 2);
+				Main.PlaySound(SoundID.NPCHit, (int)projectile.position.X, (int)projectile.position.Y, 2);
 				int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 0, (float)(Main.rand.Next(5) - 2), (float)(Main.rand.Next(5) - 2), 133);
 			}
 		}

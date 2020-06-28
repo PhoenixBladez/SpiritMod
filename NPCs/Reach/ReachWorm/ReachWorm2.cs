@@ -56,7 +56,7 @@ namespace SpiritMod.NPCs.Reach.ReachWorm
 		{
 			if(Main.rand.Next(180) == 1) //Fires desert feathers like a shotgun
 			{
-				Main.PlaySound(6, (int)npc.position.X, (int)npc.position.Y);
+				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
 				direction.X *= 14f;
@@ -76,11 +76,11 @@ namespace SpiritMod.NPCs.Reach.ReachWorm
 			if(Main.player[npc.target].dead && npc.timeLeft > 300)
 				npc.timeLeft = 300;
 
-			if(Main.netMode != 1 && !Main.npc[(int)npc.ai[1]].active) {
+			if(Main.netMode != NetmodeID.MultiplayerClient && !Main.npc[(int)npc.ai[1]].active) {
 				npc.life = 0;
 				npc.HitEffect(0, 10.0);
 				npc.active = false;
-				NetMessage.SendData(28, -1, -1, null, npc.whoAmI, -1f, 0.0f, 0.0f, 0, 0, 0);
+				NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f, 0.0f, 0.0f, 0, 0, 0);
 			}
 
 			if(npc.ai[1] < (double)Main.npc.Length) {

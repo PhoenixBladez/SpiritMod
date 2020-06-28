@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Tool
 			item.width = 60;
 			item.height = 60;
 			item.value = Terraria.Item.sellPrice(0, 0, 82, 0);
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 
 			item.axe = 15;
 

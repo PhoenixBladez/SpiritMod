@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.noMelee = true;
 			item.knockBack = 1;
 			item.value = Item.buyPrice(0, 2, 0, 0);
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.UseSound = SoundID.Item44;
 			item.shoot = ModContent.ProjectileType<ProbeMinion>();
 			item.shootSpeed = 10f;

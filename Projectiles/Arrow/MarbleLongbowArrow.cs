@@ -46,7 +46,7 @@ namespace SpiritMod.Projectiles.Arrow
 		}
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
+			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 			int d = 236;
 			for(int k = 0; k < 6; k++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, default(Color), 0.27f);

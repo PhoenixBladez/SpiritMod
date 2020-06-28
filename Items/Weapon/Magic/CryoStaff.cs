@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.knockBack = 4.5f;
 			item.useTurn = false;
 			item.value = Terraria.Item.sellPrice(0, 1, 50, 0);
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<CryoliteMage>();

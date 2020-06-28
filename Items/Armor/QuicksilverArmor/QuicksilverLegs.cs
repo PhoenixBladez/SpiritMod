@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Armor.QuicksilverArmor
 			item.width = 26;
 			item.height = 12;
 			item.value = Item.buyPrice(gold: 1);
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.defense = 18;
 		}
 

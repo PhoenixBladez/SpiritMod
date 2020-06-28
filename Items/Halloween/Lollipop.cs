@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Halloween
 			item.rare = ItemRarityID.Green;
 			item.maxStack = 30;
 
-			item.useStyle = 2;
+			item.useStyle = ItemUseStyleID.EatingUsing;
 			item.useTime = item.useAnimation = 20;
 
 			item.consumable = true;

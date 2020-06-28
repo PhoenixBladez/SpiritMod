@@ -72,7 +72,7 @@ namespace SpiritMod.Projectiles.Hostile
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			Main.PlaySound(3, projectile.position, 25);
+			Main.PlaySound(SoundID.NPCHit, projectile.position, 25);
 			{
 				int d = 5;
 				for(int k = 0; k < 6; k++) {

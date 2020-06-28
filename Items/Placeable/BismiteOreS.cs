@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Placeable
         {
             item.width = 20;
             item.height = 20;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.createTile = ModContent.TileType<BismiteOre>();
             item.maxStack = 999;

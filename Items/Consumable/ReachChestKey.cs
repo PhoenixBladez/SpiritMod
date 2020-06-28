@@ -1,3 +1,4 @@
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Consumable
@@ -15,10 +16,10 @@ namespace SpiritMod.Items.Consumable
 		{
 			item.width = 16;
 			item.height = 28;
-			item.rare = 0;
+			item.rare = ItemRarityID.White;
 			item.maxStack = 99;
 			item.value = 0;
-			// item.useStyle = 4;
+			// item.useStyle = ItemUseStyleID.HoldingUp;
 			// item.useTime = item.useAnimation = 20;
 
 			item.noMelee = true;

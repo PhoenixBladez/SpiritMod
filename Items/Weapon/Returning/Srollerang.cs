@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Weapon.Returning
 			item.CloneDefaults(ItemID.WoodenBoomerang);
 			item.damage = 140;
 			item.value = Terraria.Item.sellPrice(0, 15, 0, 0);
-			item.rare = 9;
+			item.rare = ItemRarityID.Cyan;
 			item.shootSpeed = 14;
 			item.knockBack = 2;
 			item.height = 46;

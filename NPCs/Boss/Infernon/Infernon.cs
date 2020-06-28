@@ -108,7 +108,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 					if(npc.ai[3] > cooldown)
 						npc.ai[3] = -cooldown;
 
-					if(npc.ai[3] == 0 && Main.netMode != 1) {
+					if(npc.ai[3] == 0 && Main.netMode != NetmodeID.MultiplayerClient) {
 						Vector2 position = npc.Center;
 						position.X += npc.velocity.X * 7;
 
@@ -130,7 +130,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 				} else if(npc.ai[3] < 0)
 					npc.ai[3]++;
 
-				if(Main.netMode != 1) {
+				if(Main.netMode != NetmodeID.MultiplayerClient) {
 					npc.ai[1] += Main.rand.Next(1, 4);
 					if(npc.ai[1] > 800 && currentXDist < 600)
 						npc.ai[0] = -1;
@@ -163,7 +163,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 
 				npc.rotation = npc.velocity.X * 0.03f;
 
-				if(Main.netMode != 1) {
+				if(Main.netMode != NetmodeID.MultiplayerClient) {
 					npc.ai[3]++;
 					if(npc.ai[3] % 5 == 0 && npc.ai[3] <= 25) {
 						Vector2 pos = new Vector2(npc.Center.X, (npc.position.Y + npc.height - 14));
@@ -230,7 +230,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 					// Shoot mini skulls.
 				}
 
-				if(Main.netMode != 1) {
+				if(Main.netMode != NetmodeID.MultiplayerClient) {
 					npc.ai[1] += Main.rand.Next(1, 4);
 					if(npc.ai[1] > 500)
 						npc.ai[0] = -1f;
@@ -284,7 +284,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 				Dust.NewDust(npc.position, npc.width, npc.height, 6, hitDirection, -1f, 0, default(Color), 1f);
 			}
 			if(npc.life <= 0) {
-				if(Main.netMode != 1 && npc.life <= 0) {
+				if(Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0) {
 					if(Main.expertMode) {
 
 						Main.NewText("You have yet to defeat the true master of Hell...", 220, 100, 100, true);

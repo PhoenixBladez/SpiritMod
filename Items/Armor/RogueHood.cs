@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Armor
 			item.width = 20;
 			item.height = 18;
 			item.value = Terraria.Item.buyPrice(0, 0, 50, 0);
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.defense = 1;
 		}
 		public override void UpdateEquip(Player player)

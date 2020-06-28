@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Armor.ReaperArmor
 			item.width = 34;
 			item.height = 24;
 			item.value = Item.buyPrice(gold: 12);
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.defense = 22;
 		}
 

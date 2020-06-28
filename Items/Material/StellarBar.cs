@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Material
 			item.width = 30;
 			item.height = 24;
 			item.value = Item.sellPrice(0, 0, 2, 0);
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.createTile = ModContent.TileType<Tiles.Furniture.StellarBar>();
 			item.maxStack = 999;

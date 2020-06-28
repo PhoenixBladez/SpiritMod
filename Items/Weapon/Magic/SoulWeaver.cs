@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.autoReuse = true;
 			item.value = Terraria.Item.sellPrice(0, 1, 60, 0);
 			item.value = Item.buyPrice(0, 2, 0, 0);
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.damage = 38;
 			item.mana = 5;
 			item.useStyle = ItemUseStyleID.HoldingOut;

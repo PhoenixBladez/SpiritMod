@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Armor.WindArmor
 			item.width = 28;
 			item.height = 24;
 			item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.defense = 14;
 		}
 		public override void UpdateEquip(Player player)

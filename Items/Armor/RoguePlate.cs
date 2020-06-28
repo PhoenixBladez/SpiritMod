@@ -1,3 +1,4 @@
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Armor
@@ -14,7 +15,7 @@ namespace SpiritMod.Items.Armor
 			item.width = 30;
 			item.height = 18;
 			item.value = Terraria.Item.buyPrice(0, 0, 20, 0);
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.defense = 2;
 		}
 		public override void DrawHands(ref bool drawHands, ref bool drawArms)

@@ -19,11 +19,11 @@ namespace SpiritMod.Items.Consumable
 		{
 			item.width = 28;
 			item.height = 32;
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.maxStack = 1;
 			item.mana = 80;
 			item.consumable = false;
-			item.useStyle = 4;
+			item.useStyle = ItemUseStyleID.HoldingUp;
 			item.useTime = item.useAnimation = 20;
 
 			item.noMelee = true;
@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Consumable
 		{
 			int p = Main.rand.Next(1, 580);
 			int n = NPC.NewNPC((int)player.Center.X - 100, (int)player.Center.Y, p);
-			if(Main.npc[n].friendly == true || Main.npc[n].boss == true || Main.npc[n].lifeMax >= 2000 || Main.npc[n].type == 399) {
+			if(Main.npc[n].friendly == true || Main.npc[n].boss == true || Main.npc[n].lifeMax >= 2000 || Main.npc[n].type == NPCID.MartianProbe) {
 				Main.npc[n].active = false;
 			}
 			Main.PlaySound(SoundID.Roar, player.position, 0);

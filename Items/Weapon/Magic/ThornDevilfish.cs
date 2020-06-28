@@ -35,11 +35,11 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.autoReuse = false;
 			item.shootSpeed = 7;
 			item.UseSound = SoundID.Item111;
-			item.shoot = 523;
+			item.shoot = ProjectileID.ToxicBubble;
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, 523, damage, knockBack, player.whoAmI);
+			int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.ToxicBubble, damage, knockBack, player.whoAmI);
 			Main.projectile[p].timeLeft = 60;
 			Main.projectile[p].scale *= .6f;
 			Main.projectile[p].magic = true;

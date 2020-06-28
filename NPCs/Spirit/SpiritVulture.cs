@@ -54,7 +54,7 @@ namespace SpiritMod.NPCs.Spirit
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(Main.netMode != 1 && npc.life <= 0) {
+			if(Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, 13);
 				Gore.NewGore(npc.position, npc.velocity, 12);
 				Gore.NewGore(npc.position, npc.velocity, 11);

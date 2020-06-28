@@ -18,9 +18,9 @@ namespace SpiritMod.Items.Equipment
 			item.width = 22;
 			item.height = 20;
 			item.value = 10000;
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 
-			item.useStyle = 4;
+			item.useStyle = ItemUseStyleID.HoldingUp;
 			item.useTime = 20;
 			item.useAnimation = 20;
 

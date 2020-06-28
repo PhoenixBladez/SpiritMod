@@ -27,16 +27,14 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
 			for(int i = 0; i < 2; i++) {
 				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 76);
 			}
-			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
+			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 6, -2, 128, projectile.damage, projectile.knockBack, Main.myPlayer);
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -6, -2, 128, projectile.damage, projectile.knockBack, Main.myPlayer);
+			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 6, -2, ProjectileID.FrostBlastHostile, projectile.damage, projectile.knockBack, Main.myPlayer);
+			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -6, -2, ProjectileID.FrostBlastHostile, projectile.damage, projectile.knockBack, Main.myPlayer);
 		}
 
 		public override void AI()
 		{
-			int timer = 0;
-
 			projectile.rotation += 0.3f;
 
 

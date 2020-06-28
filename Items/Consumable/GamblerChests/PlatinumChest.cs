@@ -1,5 +1,5 @@
-
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Consumable.GamblerChests
@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Consumable.GamblerChests
 			item.width = 40;
 			item.height = 40;
 			item.value = 500000;
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.maxStack = 30;
 			item.autoReuse = true;
 		}

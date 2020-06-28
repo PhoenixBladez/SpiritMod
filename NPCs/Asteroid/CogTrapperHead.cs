@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Items.Armor.AstronautVanity;
 using SpiritMod.Items.Material;
 using System;
 using Terraria;
@@ -71,7 +72,7 @@ namespace SpiritMod.NPCs.Asteroid
 			if(npc.alpha < 0)
 				npc.alpha = 0;
 
-			if(Main.netMode != 1) {
+			if(Main.netMode != NetmodeID.MultiplayerClient) {
 				if(!tail && npc.ai[0] == 0f) {
 					int current = npc.whoAmI;
 					for(int num36 = 0; num36 < maxLength; num36++) {
@@ -91,7 +92,7 @@ namespace SpiritMod.NPCs.Asteroid
 				}
 
 				if(!npc.active && Main.netMode == NetmodeID.Server) {
-					NetMessage.SendData(28, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
+					NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
 				}
 			}
 
@@ -310,11 +311,15 @@ namespace SpiritMod.NPCs.Asteroid
 			if(Main.rand.Next(2) == 0) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<StarEnergy>());
 			}
-			string[] lootTable = { "AstronautLegs", "AstronautHelm", "AstronautBody" };
+			int[] lootTable = {
+				ModContent.ItemType<AstronautLegs>(),
+				ModContent.ItemType<AstronautHelm>(),
+				ModContent.ItemType<AstronautBody>()
+			};
 			if(Main.rand.Next(40) == 0) {
 				int loot = Main.rand.Next(lootTable.Length);
 				{
-					npc.DropItem(mod.ItemType(lootTable[loot]));
+					npc.DropItem(lootTable[loot]);
 				}
 			}
 		}

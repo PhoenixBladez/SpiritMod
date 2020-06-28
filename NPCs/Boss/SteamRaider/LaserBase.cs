@@ -122,7 +122,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				}
 				if(timer == 130) //change to frame related later
 				{
-					Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 53);
+					Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 53);
 					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 40, (float)direction9.Y * 40, ModContent.ProjectileType<StarLaser>(), 55, 1, Main.myPlayer);
 				}
 				if(timer < 130 && timer > 75 && timer % 3 == 0) {

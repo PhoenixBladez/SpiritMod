@@ -3,6 +3,7 @@ using SpiritMod.Buffs.Mount;
 using SpiritMod.Projectiles;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Mounts
@@ -60,7 +61,7 @@ namespace SpiritMod.Mounts
 			mountData.swimFrameCount = mountData.inAirFrameCount;
 			mountData.swimFrameDelay = mountData.inAirFrameDelay;
 			mountData.swimFrameStart = mountData.inAirFrameStart;
-			if(Main.netMode != 2) {
+			if(Main.netMode != NetmodeID.Server) {
 				mountData.textureWidth = mountData.backTexture.Width;
 				mountData.textureHeight = mountData.backTexture.Height;
 			}

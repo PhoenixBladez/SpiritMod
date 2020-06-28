@@ -77,14 +77,14 @@ namespace SpiritMod.NPCs.Reach
 				ref float reference = ref npc.ai[0];
 				reference -= 1f;
 			}
-			if((Main.netMode != 1 & flag223) && npc.ai[0] == 0f && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height)) {
+			if((Main.netMode != NetmodeID.MultiplayerClient & flag223) && npc.ai[0] == 0f && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height)) {
 				npc.ai[0] = 200f;
 				int num3205 = 10;
 				int num3204 = 276;
 				int num3203 = Projectile.NewProjectile(vector449.X, vector449.Y, num3211, num3210, num3204, num3205, 0f, Main.myPlayer, 0f, 0f);
 				Main.projectile[num3203].timeLeft = 300;
 				Main.projectile[num3203].friendly = false;
-				NetMessage.SendData(27, -1, -1, null, num3203, 0f, 0f, 0f, 0, 0, 0);
+				NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, num3203, 0f, 0f, 0f, 0, 0, 0);
 				npc.netUpdate = true;
 			}
 			try {

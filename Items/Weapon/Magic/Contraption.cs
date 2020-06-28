@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.knockBack = 10;
 			item.value = Item.buyPrice(gold: 20);
-			item.rare = 9;
+			item.rare = ItemRarityID.Cyan;
 			item.UseSound = SoundID.Item92;
 			item.autoReuse = true;
 			item.shootSpeed = 15;

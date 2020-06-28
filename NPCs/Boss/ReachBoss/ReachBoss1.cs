@@ -94,7 +94,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 
 			bool expertMode = Main.expertMode;
 			if(Main.rand.Next(170) == 2 && npc.life >= (npc.lifeMax / 9 * 4)) {
-				Main.PlaySound(6, (int)npc.position.X, (int)npc.position.Y);
+				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
 				direction.X *= 12f;
@@ -109,7 +109,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				}
 			}
 			if(Main.rand.Next(170) == 5 && npc.life >= (npc.lifeMax / 9 * 4)) {
-				Main.PlaySound(6, (int)npc.position.X, (int)npc.position.Y);
+				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
 				direction.X *= 14f;
@@ -127,7 +127,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				if(!txt) {
 					Main.NewText("The Bramble shall consume you...", 0, 200, 80, true);
 					npc.velocity *= 0;
-					Main.PlaySound(6, (int)npc.position.X, (int)npc.position.Y);
+					Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
 					direction.Normalize();
 					direction.X *= 18f;
@@ -200,7 +200,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(Main.netMode != 1 && npc.life <= 0) {
+			if(Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0) {
 				for(int num621 = 0; num621 < 20; num621++) {
 					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 2, 0f, 0f, 100, default(Color), 2f);
 					Main.dust[num622].velocity *= 3f;

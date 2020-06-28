@@ -1,5 +1,6 @@
 using SpiritMod.Items.Material;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -22,7 +23,7 @@ namespace SpiritMod.Tiles.Ambient
 			TileObjectData.addTile(Type);
 			drop = ModContent.ItemType<BismiteCrystal>();
 			dustType = 167;
-			soundType = 21;
+			soundType = SoundID.Tink;
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)

@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 			item.width = 18;
 			item.height = 20;
 			item.value = Item.sellPrice(0, 0, 3, 0);
-			item.rare = 6;
+			item.rare = ItemRarityID.LightPurple;
 			item.maxStack = 999;
 			item.crit = 4;
 			item.damage = 57;

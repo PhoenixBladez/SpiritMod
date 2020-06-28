@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.knockBack = 15;
 			item.value = Terraria.Item.sellPrice(0, 10, 0, 0);
 			item.shoot = ModContent.ProjectileType<ShadowBlast>();
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.shootSpeed = 15f;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
@@ -71,7 +71,7 @@ namespace SpiritMod.Items.Weapon.Swung
 				item.useTime = 60;
 				item.useAnimation = 60;
 				item.knockBack = 15;
-				item.shoot = 0;
+				item.shoot = ProjectileID.None;
 			}
 			return base.CanUseItem(player);
 		}

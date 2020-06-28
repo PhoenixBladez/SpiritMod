@@ -96,7 +96,7 @@ namespace SpiritMod.NPCs
 				npc.position.Y = player.position.Y + distY;
 				Gore.NewGore(npc.position, npc.velocity, 99);
 				npc.alpha = 0;
-				Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 6);
+				Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 6);
 			}
 			if(!player.active || player.dead) //despawns when player is ded
 			{

@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Tool
 			item.width = 36;
 			item.height = 36;
 			item.value = Item.sellPrice(0, 2, 0, 0);
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.pick = 85;
 			item.damage = 20;
 			item.knockBack = 2;

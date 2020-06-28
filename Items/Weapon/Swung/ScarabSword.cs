@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 3;
 			item.value = Item.sellPrice(0, 1, 0, 0);
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.UseSound = SoundID.Item1;
 			item.shoot = ModContent.ProjectileType<ScarabProjectile>();
 			item.shootSpeed = 7; ;

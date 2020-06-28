@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.noMelee = true;
 			item.knockBack = 5;
 			item.value = Item.sellPrice(0, 1, 0, 0);
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.UseSound = SoundID.Item8;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<EarthSpirit>();

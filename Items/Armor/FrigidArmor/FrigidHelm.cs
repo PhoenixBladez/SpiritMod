@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Armor.FrigidArmor
 			item.width = 28;
 			item.height = 24;
 			item.value = 1100;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.defense = 3;
 		}
 

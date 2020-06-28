@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Weapon.Bow
 		{
 			item.width = 26;
 			item.height = 32;
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.value = Terraria.Item.sellPrice(0, 7, 0, 0);
 
 			item.crit = 6;
@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Weapon.Bow
 			item.noMelee = true;
 			item.autoReuse = false;
 
-			item.shoot = 3;
+			item.shoot = ProjectileID.Shuriken;
 			item.shootSpeed = 5f;
 
 			item.UseSound = SoundID.Item5;

@@ -110,7 +110,7 @@ namespace SpiritMod.NPCs
 			if(npc.life <= npc.lifeMax / 2 && npc.ai[2] >= 140) {
 				Main.PlaySound(SoundID.Item, npc.Center, 97);
 				int distance = (int)Math.Sqrt((npc.Center.X - player.Center.X) * (npc.Center.X - player.Center.X) + (npc.Center.Y - player.Center.Y) * (npc.Center.Y - player.Center.Y));
-				int p = Terraria.Projectile.NewProjectile(npc.Center.X, npc.position.Y, -(npc.position.X - player.position.X) / distance * 8, -(npc.position.Y - player.position.Y) / distance * 8, 55, (int)((npc.damage / 2)), 0);
+				int p = Terraria.Projectile.NewProjectile(npc.Center.X, npc.position.Y, -(npc.position.X - player.position.X) / distance * 8, -(npc.position.Y - player.position.Y) / distance * 8, ProjectileID.Stinger, (int)((npc.damage / 2)), 0);
 				npc.ai[2] = 0;
 			}
 		}

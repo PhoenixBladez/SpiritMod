@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.noMelee = true;
 			item.knockBack = 5;
 			item.value = 20000;
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.UseSound = SoundID.Item20;
 			item.mana = 14;
 			item.autoReuse = false;
@@ -43,7 +43,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			modRecipe.AddIngredient(ModContent.ItemType<JungleStaff>(), 1);
 			modRecipe.AddIngredient(ModContent.ItemType<DungeonStaff>(), 1);
 			modRecipe.AddIngredient(ModContent.ItemType<HellStaff>(), 1);
-			modRecipe.AddTile(26);
+			modRecipe.AddTile(TileID.DemonAltar);
 			modRecipe.SetResult(this, 1);
 			modRecipe.AddRecipe();
 		}

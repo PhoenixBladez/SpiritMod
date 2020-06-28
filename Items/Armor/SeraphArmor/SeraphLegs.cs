@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Armor.SeraphArmor
 			item.width = 22;
 			item.height = 16;
 			item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.defense = 12;
 		}
 		public override void UpdateEquip(Player player)

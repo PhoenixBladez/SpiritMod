@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Armor.FrigidArmor
 			item.width = 28;
 			item.height = 24;
 			item.value = Item.buyPrice(silver: 11);
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.defense = 4;
 		}
 		public override void UpdateEquip(Player player)

@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Placeable.Tiles;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Tiles.Block
@@ -15,7 +16,7 @@ namespace SpiritMod.Tiles.Block
 			Main.tileBlendAll[this.Type] = true;
 			Main.tileLighted[Type] = true;
 			AddMapEntry(new Color(70, 130, 180));
-			soundType = 21;
+			soundType = SoundID.Tink;
 			drop = ModContent.ItemType<SpiritStoneItem>();
 		}
 

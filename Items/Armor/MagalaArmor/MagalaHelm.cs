@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Armor.MagalaArmor
 			item.width = 22;
 			item.height = 20;
 			item.value = 3000;
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.vanity = true;
 		}
 		public override void AddRecipes()

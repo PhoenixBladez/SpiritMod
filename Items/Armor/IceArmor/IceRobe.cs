@@ -1,5 +1,6 @@
 using SpiritMod.Items.Material;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Armor.IceArmor
@@ -18,7 +19,7 @@ namespace SpiritMod.Items.Armor.IceArmor
 			item.width = 20;
 			item.height = 18;
 			item.value = Item.buyPrice(gold: 8, silver: 60);
-			item.rare = 6;
+			item.rare = ItemRarityID.LightPurple;
 			item.defense = 10;
 		}
 

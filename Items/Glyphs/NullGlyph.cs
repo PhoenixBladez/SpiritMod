@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Glyphs
@@ -35,7 +36,7 @@ namespace SpiritMod.Items.Glyphs
 			item.width = 28;
 			item.height = 28;
 			item.value = Item.buyPrice(0, 5, 0, 0);
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 
 			item.maxStack = 999;
 		}

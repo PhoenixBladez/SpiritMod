@@ -51,7 +51,7 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.knockBack = 0;
 			item.useTurn = false;
 			item.value = Terraria.Item.sellPrice(0, 0, 42, 0);
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.UseSound = SoundID.Item41;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<OrionBullet>();

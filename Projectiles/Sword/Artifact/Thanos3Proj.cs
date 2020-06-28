@@ -90,7 +90,7 @@ namespace SpiritMod.Projectiles.Sword.Artifact
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 0);
+			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 0);
 			int newDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<Dusts.Crystal>(), 0f, 0f, 0, default(Color), 1f);
 			Main.dust[newDust].scale = 2f;
 			int newDust1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<Dusts.Crystal>(), 0f, 0f, 0, default(Color), 1f);

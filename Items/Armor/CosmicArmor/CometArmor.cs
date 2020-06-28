@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Armor.CosmicArmor
             item.width = 24;
             item.height = 24;
             item.value = 120000;
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.defense = 27;
         }
 

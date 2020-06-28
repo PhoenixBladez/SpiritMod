@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Flail
@@ -51,7 +52,7 @@ namespace SpiritMod.Projectiles.Flail
 				direction.Normalize();
 				direction.X *= 8f;
 				direction.Y *= 8f;
-				int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, direction.X, direction.Y, 85, projectile.damage, 1, projectile.owner, 0, 0);
+				int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, direction.X, direction.Y, ProjectileID.Flames, projectile.damage, 1, projectile.owner, 0, 0);
 				Projectile newProj2 = Main.projectile[proj2];
 				newProj2.friendly = true;
 				newProj2.hostile = false;

@@ -120,7 +120,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 
 			bool expertMode = Main.expertMode;
 			if(Main.rand.Next(180) == 1 && npc.life >= (npc.lifeMax / 3)) {
-				Main.PlaySound(6, (int)npc.position.X, (int)npc.position.Y);
+				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
 				direction.X *= 12f;
@@ -136,7 +136,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				}
 			} else if(Main.rand.Next(175) == 3 && npc.life <= (npc.lifeMax / 3)) {
 
-				Main.PlaySound(6, (int)npc.position.X, (int)npc.position.Y);
+				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
 				direction.X *= 12f;
@@ -154,7 +154,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 
 			if(Main.rand.Next(210) == 0 && npc.life >= (npc.lifeMax / 2)) {
 
-				Main.PlaySound(6, (int)npc.position.X, (int)npc.position.Y);
+				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
 				direction.X *= 14f;
@@ -169,7 +169,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				}
 			}
 			if(Main.rand.Next(180) == 0 && npc.life >= (npc.lifeMax / 3) && npc.life <= (npc.lifeMax / 2)) {
-				Main.PlaySound(6, (int)npc.position.X, (int)npc.position.Y);
+				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
 				direction.X *= 14f;
@@ -183,7 +183,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BossSpike>(), damage, 1, Main.myPlayer, 0, 0);
 				}
 			} else if(Main.rand.Next(22) == 1 && npc.life <= (npc.lifeMax / 3)) {
-				Main.PlaySound(6, (int)npc.position.X, (int)npc.position.Y);
+				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
 				direction.X *= 12f;
@@ -273,7 +273,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(Main.netMode != 1 && npc.life <= 0) {
+			if(Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0) {
 				if(!text) {
 					Main.NewText("You cannot stop the wrath of nature!", 0, 200, 80, true);
 					text = true;

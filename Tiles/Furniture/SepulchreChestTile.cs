@@ -71,7 +71,7 @@ namespace SpiritMod.Tiles.Furniture
 		{
 			Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<SepulchreChest>());
 			Chest.DestroyChest(i, j);
-			Main.PlaySound(4, (int)i * 16, (int)j * 16, 6);
+			Main.PlaySound(SoundID.NPCKilled, (int)i * 16, (int)j * 16, 6);
 			Player player = Main.LocalPlayer;
 			int distance = (int)Vector2.Distance(new Vector2(i * 16, j * 16), player.Center);
 			if(distance < 360) {
@@ -80,7 +80,7 @@ namespace SpiritMod.Tiles.Furniture
 			}
 		}
 
-		public override void RightClick(int i, int j)
+		public override bool NewRightClick(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
 			Tile tile = Main.tile[i, j];
@@ -105,7 +105,7 @@ namespace SpiritMod.Tiles.Furniture
 				Main.npcChatText = "";
 			}
 			if(player.editedChestName) {
-				NetMessage.SendData(33, -1, -1, NetworkText.FromLiteral(Main.chest[player.chest].name), player.chest, 1f, 0f, 0f, 0, 0, 0);
+				NetMessage.SendData(MessageID.SyncPlayerChest, -1, -1, NetworkText.FromLiteral(Main.chest[player.chest].name), player.chest, 1f, 0f, 0f, 0, 0, 0);
 				player.editedChestName = false;
 			}
 			if(Main.netMode == NetmodeID.Server) {
@@ -114,7 +114,7 @@ namespace SpiritMod.Tiles.Furniture
 					Recipe.FindRecipes();
 					Main.PlaySound(SoundID.MenuClose);
 				} else {
-					NetMessage.SendData(31, -1, -1, null, left, (float)top, 0f, 0f, 0, 0, 0);
+					NetMessage.SendData(MessageID.RequestChestOpen, -1, -1, null, left, (float)top, 0f, 0f, 0, 0, 0);
 					Main.stackSplit = 600;
 				}
 			} else {
@@ -135,6 +135,8 @@ namespace SpiritMod.Tiles.Furniture
 					Recipe.FindRecipes();
 				}
 			}
+
+			return true;
 		}
 		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
 		{

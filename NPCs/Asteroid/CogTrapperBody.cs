@@ -53,7 +53,7 @@ namespace SpiritMod.NPCs.Asteroid
 			Player player = Main.player[npc.target];
 			bool expertMode = Main.expertMode;
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.0375f * 2, 0.125f * 2);
-			if(Main.netMode != 1) {
+			if(Main.netMode != NetmodeID.MultiplayerClient) {
 				npc.localAI[0] += Main.rand.Next(4);
 				if(npc.localAI[0] >= (float)Main.rand.Next(700, 1000)) {
 					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 9);

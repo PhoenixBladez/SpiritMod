@@ -87,7 +87,7 @@ namespace SpiritMod.NPCs
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if(npc.life <= 0) {
-				Main.PlaySound(4, npc.Center, 38);
+				Main.PlaySound(SoundID.NPCKilled, npc.Center, 38);
 			}
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

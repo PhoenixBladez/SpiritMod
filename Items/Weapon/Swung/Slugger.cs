@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Projectiles.Returning;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -24,9 +25,9 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.useAnimation = 47;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 11;
-			item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
-			item.shoot = mod.ProjectileType("Slugger1");
-			item.rare = 3;
+			item.value = Item.sellPrice(0, 2, 0, 0);
+			item.shoot = ModContent.ProjectileType<Slugger1>();
+			item.rare = ItemRarityID.Orange;
 			item.shootSpeed = 12f;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
@@ -45,10 +46,10 @@ namespace SpiritMod.Items.Weapon.Swung
 			}
 			if(player.altFunctionUse == 2) {
 				item.noUseGraphic = true;
-				item.shoot = mod.ProjectileType("Slugger1");
+				item.shoot = ModContent.ProjectileType<Slugger1>();
 			} else {
 				item.noUseGraphic = false;
-				item.shoot = 0;
+				item.shoot = ProjectileID.None;
 			}
 			return base.CanUseItem(player);
 		}

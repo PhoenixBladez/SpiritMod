@@ -1,8 +1,8 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Projectiles.Bullet;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-
 
 namespace SpiritMod.Items.Weapon.Gun
 {
@@ -16,7 +16,6 @@ namespace SpiritMod.Items.Weapon.Gun
 
 
 		int charger;
-		private int memes;
 		public override void SetDefaults()
 		{
 			item.damage = 29;
@@ -29,11 +28,11 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.noMelee = true;
 			item.knockBack = 3;
 			item.useTurn = false;
-			item.value = Terraria.Item.sellPrice(0, 3, 38, 0);
-			item.rare = 5;
+			item.value = Item.sellPrice(0, 3, 38, 0);
+			item.rare = ItemRarityID.Pink;
 			item.UseSound = SoundID.Item95;
 			item.autoReuse = true;
-			item.shoot = 10;
+			item.shoot = ProjectileID.PurificationPowder;
 			item.shootSpeed = 8f;
 			item.useAmmo = AmmoID.Bullet;
 		}
@@ -41,22 +40,16 @@ namespace SpiritMod.Items.Weapon.Gun
 		{
 			charger++;
 			if(charger == 1) {
-				for(int I = 0; I < 1; I++) {
-					Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("PurpleBullet1"), damage, knockBack, player.whoAmI, 0f, 0f);
-					return false;
-				}
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PurpleBullet1>(), damage, knockBack, player.whoAmI, 0f, 0f);
+				return false;
 			}
 			if(charger == 2) {
-				for(int I = 0; I < 1; I++) {
-					Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("PurpleBullet2"), damage, knockBack, player.whoAmI, 0f, 0f);
-					return false;
-				}
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PurpleBullet2>(), damage, knockBack, player.whoAmI, 0f, 0f);
+				return false;
 			}
 			if(charger == 3) {
-				for(int I = 0; I < 1; I++) {
-					Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("PurpleBullet3"), damage / 5 * 6, 7, player.whoAmI, 0f, 0f);
-					charger = 0;
-				}
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PurpleBullet3>(), damage / 5 * 6, 7, player.whoAmI, 0f, 0f);
+				charger = 0;
 			}
 			return false;
 		}

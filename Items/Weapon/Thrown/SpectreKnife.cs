@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 			item.width = 16;
 			item.height = 24;
 			item.value = Terraria.Item.buyPrice(0, 30, 0, 0);
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.maxStack = 999;
 			item.damage = 65;
 			item.knockBack = 3.5f;

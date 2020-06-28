@@ -36,7 +36,7 @@ namespace SpiritMod.Projectiles.Arrow
 					vel = vel.RotatedBy(rand);
 					vel *= 3.5f;
 					Projectile.NewProjectile(projectile.Center, vel,
-						90, projectile.damage, projectile.knockBack, projectile.owner);
+						ProjectileID.CrystalShard, projectile.damage, projectile.knockBack, projectile.owner);
 				}
 			}
 		}

@@ -36,7 +36,7 @@ namespace SpiritMod.NPCs.BlueMoon
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			Main.PlaySound(31, (int)npc.position.X, (int)npc.position.Y);
+			Main.PlaySound(SoundID.Frog, (int)npc.position.X, (int)npc.position.Y);
 
 			for(int k = 0; k < 5; k++)
 				Dust.NewDust(npc.position, npc.width, npc.height, 180, hitDirection, -1f, 0, default(Color), 1f);
@@ -123,10 +123,10 @@ namespace SpiritMod.NPCs.BlueMoon
 					tongueActive = true;
 					npc.knockBackResist = 0f;
 					if(npc.spriteDirection == 0) {
-						Main.PlaySound(31, (int)npc.position.X, (int)npc.position.Y);
+						Main.PlaySound(SoundID.Frog, (int)npc.position.X, (int)npc.position.Y);
 						tongueproj = Projectile.NewProjectile(npc.Center + new Vector2(21, 8), new Vector2(11, 0), ModContent.ProjectileType<GlowTongue>(), (int)(npc.damage / 1.7f), 1, player.whoAmI, 1);
 					} else {
-						Main.PlaySound(31, (int)npc.position.X, (int)npc.position.Y);
+						Main.PlaySound(SoundID.Frog, (int)npc.position.X, (int)npc.position.Y);
 						tongueproj = Projectile.NewProjectile(npc.Center + new Vector2(-18, 8), new Vector2(-11, 0), ModContent.ProjectileType<GlowTongue>(), (int)(npc.damage / 1.7f), 1, player.whoAmI, 0);
 					}
 				}

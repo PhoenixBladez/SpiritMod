@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Armor.CosmicArmor
             item.width = 28;
             item.height = 24;
             item.value = 100000;
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.defense = 19;
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)

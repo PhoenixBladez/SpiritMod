@@ -18,7 +18,7 @@ namespace SpiritMod.Tiles.Ambient.Briar
 			Main.tileNoFail[Type] = true;
 			Main.tileNoAttach[Type] = true;
 			Main.tileLighted[Type] = false;
-			soundType = 6;
+			soundType = SoundID.Grass;
 			dustType = 167;
 
 			AddMapEntry(new Color(95, 143, 65));

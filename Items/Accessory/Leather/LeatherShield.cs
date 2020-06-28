@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Accessory.Leather
 		{
 			item.width = 24;
 			item.height = 28;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.value = 1900;
 			item.defense = 1;
 			item.accessory = true;

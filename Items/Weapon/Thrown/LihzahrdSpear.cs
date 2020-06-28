@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 			item.damage = 70;
 			item.knockBack = 9f;
 			item.value = Terraria.Item.sellPrice(0, 4, 0, 0);
-			item.rare = 7;
+			item.rare = ItemRarityID.Lime;
 			item.autoReuse = true;
 			item.maxStack = 999;
 			item.consumable = true;

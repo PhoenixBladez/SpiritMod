@@ -18,7 +18,7 @@ namespace SpiritMod.Items.DonatorItems
 		{
 			item.width = 30;
 			item.height = 28;
-			item.rare = 9;
+			item.rare = ItemRarityID.Cyan;
 			item.value = Terraria.Item.sellPrice(0, 7, 0, 0);
 			item.accessory = true;
 		}

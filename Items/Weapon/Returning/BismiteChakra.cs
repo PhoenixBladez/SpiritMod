@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Weapon.Returning
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 2;
 			item.value = Terraria.Item.sellPrice(0, 0, 12, 0);
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.shootSpeed = 11f;
 			item.shoot = mod.ProjectileType("BismiteCutter");
 			item.UseSound = SoundID.Item1;

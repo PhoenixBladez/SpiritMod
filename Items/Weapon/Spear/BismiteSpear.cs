@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Spear
 			item.knockBack = 4f;
 			item.damage = 11;
 			item.value = Item.sellPrice(0, 0, 10, 0);
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.shoot = ModContent.ProjectileType<BismiteSpearProj>();
 		}
 		public override void AddRecipes()

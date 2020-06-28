@@ -28,7 +28,7 @@ namespace SpiritMod.Items.DonatorItems.FrostTroll
 			item.noMelee = true;
 			item.knockBack = 4;
 			item.value = 80000;
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.UseSound = SoundID.Item34;
 			item.crit = 11;
 			item.autoReuse = false;

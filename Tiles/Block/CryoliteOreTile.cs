@@ -20,7 +20,7 @@ namespace SpiritMod.Tiles.Block
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Cryolite Ore");
 			AddMapEntry(new Color(40, 0, 205), name);
-			soundType = 21;
+			soundType = SoundID.Tink;
 			minPick = 100;
 			dustType = 68;
 

@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.knockBack = 2;
 			item.crit = 10;
 			item.value = Terraria.Item.sellPrice(0, 3, 0, 0);
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.UseSound = SoundID.Item93;
 			item.autoReuse = false;
 			item.shoot = ModContent.ProjectileType<ShadowOrb>();
@@ -44,7 +44,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			modRecipe.AddIngredient(ModContent.ItemType<DuskStone>(), 10);
 			modRecipe.AddIngredient(ModContent.ItemType<StellarBar>(), 6);
 			modRecipe.AddIngredient(ItemID.Ectoplasm, 6);
-			modRecipe.AddTile(134);
+			modRecipe.AddTile(TileID.MythrilAnvil);
 			modRecipe.SetResult(this, 1);
 			modRecipe.AddRecipe();
 		}

@@ -48,7 +48,7 @@ namespace SpiritMod.Projectiles
 				float rand = Main.rand.NextFloat() * 6.283f;
 				vel = vel.RotatedBy(rand);
 				vel *= 3.5f;
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vel.X, vel.Y, 90, projectile.damage, projectile.knockBack, projectile.owner);
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vel.X, vel.Y, ProjectileID.CrystalShard, projectile.damage, projectile.knockBack, projectile.owner);
 			}
 		}
 

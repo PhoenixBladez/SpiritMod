@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 		public override void SetDefaults()
 		{
 			item.width = item.height = 22;
-			item.rare = 11;
+			item.rare = ItemRarityID.Purple;
 			item.maxStack = 1;
 			item.crit = 15;
 			item.damage = 99;

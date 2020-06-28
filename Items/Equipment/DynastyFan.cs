@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Equipment
 			Item.staff[item.type] = true;
 			item.noMelee = true;
 			item.value = 20000;
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = false;
 			item.shoot = ModContent.ProjectileType<RightHopper>();

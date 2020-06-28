@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.noMelee = true; //so the item's animation doesn't do damage
 			item.knockBack = 5;
 			item.value = Item.sellPrice(0, 4, 0, 0);
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<RuneBook>();
@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<Material.Rune>(), 8);
 			recipe.AddIngredient(ModContent.ItemType<SoulShred>(), 4);
-			recipe.AddIngredient(531, 1);
+			recipe.AddIngredient(ItemID.SpellTome, 1);
 			recipe.AddTile(TileID.Bookcases);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

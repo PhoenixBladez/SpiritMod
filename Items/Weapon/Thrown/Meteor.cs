@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 			item.shootSpeed = 13.0f;
 			item.knockBack = 3f;
 			item.value = Terraria.Item.sellPrice(0, 0, 0, 90);
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.autoReuse = false;
 			item.maxStack = 999;
 			item.consumable = true;
@@ -41,7 +41,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(117, 1);
+			recipe.AddIngredient(ItemID.MeteoriteBar, 1);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this, 30);
 			recipe.AddRecipe();

@@ -2,6 +2,7 @@
 using SpiritMod.Tide.NPCs;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles
@@ -32,7 +33,7 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 6);
+			Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 6);
 			NPC parent = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<Rylheian>())];
 			Player player = Main.player[parent.target];
 			Vector2 direction8 = player.Center - projectile.Center;

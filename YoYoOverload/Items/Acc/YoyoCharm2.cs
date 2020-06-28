@@ -32,10 +32,10 @@ namespace SpiritMod.YoYoOverload.Items.Acc
 		public override void AddRecipes()
 		{
 			ModRecipe modRecipe = new ModRecipe(base.mod);
-			modRecipe.AddIngredient(331, 10);
+			modRecipe.AddIngredient(ItemID.JungleSpores, 10);
 			modRecipe.AddIngredient(ItemID.Stinger, 3);
-			modRecipe.AddIngredient(210, 2);
-			modRecipe.AddTile(16);
+			modRecipe.AddIngredient(ItemID.Vine, 2);
+			modRecipe.AddTile(TileID.Anvils);
 			modRecipe.SetResult(this, 1);
 			modRecipe.AddRecipe();
 		}

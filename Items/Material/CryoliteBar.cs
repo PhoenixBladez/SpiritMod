@@ -17,9 +17,9 @@ namespace SpiritMod.Items.Material
 			item.height = 24;
 			item.value = 100;
 			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.consumable = true;
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.maxStack = 999;
 			item.createTile = ModContent.TileType<Tiles.Furniture.CryoliteBar>();
 			item.autoReuse = true;

@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.noMelee = true;
 			item.knockBack = 2f;
 			item.value = 200;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.UseSound = new Terraria.Audio.LegacySoundStyle(2, 8);
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<CactusProj>();

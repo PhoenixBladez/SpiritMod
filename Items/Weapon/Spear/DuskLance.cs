@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Spear
 			item.knockBack = 6f;
 			item.damage = 38;
 			item.value = Item.sellPrice(0, 3, 60, 0);
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.shoot = ModContent.ProjectileType<DuskLanceProj>();
 		}
 		public override bool CanUseItem(Player player)

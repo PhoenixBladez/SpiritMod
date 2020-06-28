@@ -1,5 +1,5 @@
-
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.DonatorItems
@@ -16,8 +16,8 @@ namespace SpiritMod.Items.DonatorItems
 		{
 			item.width = 30;
 			item.height = 28;
-			item.rare = 6;
-			item.value = Terraria.Item.sellPrice(0, 4, 0, 0);
+			item.rare = ItemRarityID.LightPurple;
+			item.value = Item.sellPrice(0, 4, 0, 0);
 			item.accessory = true;
 		}
 
@@ -30,8 +30,8 @@ namespace SpiritMod.Items.DonatorItems
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<CloakOfSpirit>());
-			recipe.AddIngredient(1569, 1);
-			recipe.AddTile(114);
+			recipe.AddIngredient(ItemID.VampireKnives, 1);
+			recipe.AddTile(TileID.TinkerersWorkbench);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

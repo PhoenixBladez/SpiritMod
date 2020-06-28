@@ -30,10 +30,10 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.knockBack = 1f;
 			item.useTurn = false;
 			item.value = Terraria.Item.sellPrice(0, 5, 0, 0);
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.UseSound = SoundID.Item31;
 			item.autoReuse = false;
-			item.shoot = 89;
+			item.shoot = ProjectileID.CrystalBullet;
 			item.shootSpeed = 1f;
 			item.useAmmo = AmmoID.Bullet;
 		}

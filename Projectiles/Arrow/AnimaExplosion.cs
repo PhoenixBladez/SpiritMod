@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Buffs;
 using SpiritMod.Dusts;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Arrow
@@ -43,7 +44,7 @@ namespace SpiritMod.Projectiles.Arrow
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(target.type != 488) {
+			if(target.type != NPCID.TargetDummy) {
 				target.AddBuff(ModContent.BuffType<DrainLife>(), 150, true);
 			}
 		}

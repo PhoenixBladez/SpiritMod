@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Armor.WitherArmor
 			item.width = 28;
 			item.height = 24;
 			item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.defense = 17;
 		}
 		public override bool IsArmorSet(Item head, Item body, Item legs)

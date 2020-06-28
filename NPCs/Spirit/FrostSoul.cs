@@ -46,7 +46,7 @@ namespace SpiritMod.NPCs.Spirit
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(Main.netMode != 1 && npc.life <= 0) {
+			if(Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0) {
 				Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
 				NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<IceCore>());
 				Gore.NewGore(npc.position, npc.velocity, 13);
@@ -97,7 +97,7 @@ namespace SpiritMod.NPCs.Spirit
 				for(int i = 0; i < amountOfProjectiles; ++i) {
 					float A = (float)Main.rand.Next(-150, 150) * 0.03f;
 					float B = (float)Main.rand.Next(-150, 150) * 0.03f;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, 128, 19, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ProjectileID.FrostBlastHostile, 19, 1, Main.myPlayer, 0, 0);
 				}
 			}
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.675f, 2.50f);

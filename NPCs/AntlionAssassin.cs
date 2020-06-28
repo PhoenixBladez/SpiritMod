@@ -79,7 +79,7 @@ namespace SpiritMod.NPCs
 				for(int k = 0; k < 11; k++) {
 					Dust.NewDust(npc.position, npc.width, npc.height, 85, npc.direction, -1f, 1, default(Color), .61f);
 				}
-				Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 6);
+				Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 6);
 				int ing = Gore.NewGore(npc.position, npc.velocity, 825);
 				Main.gore[ing].timeLeft = 130;
 				int ing1 = Gore.NewGore(npc.position, npc.velocity, 826);
@@ -96,7 +96,7 @@ namespace SpiritMod.NPCs
 			for(int k = 0; k < 11; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, 85, npc.direction, -1f, 1, default(Color), .61f);
 			}
-			Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 6);
+			Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 6);
 			int ing = Gore.NewGore(npc.position, npc.velocity, 825);
 			Main.gore[ing].timeLeft = 50;
 			Main.gore[ing].scale = Main.rand.NextFloat(.5f, .9f);
@@ -115,7 +115,7 @@ namespace SpiritMod.NPCs
 			for(int k = 0; k < 11; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, 85, npc.direction, -1f, 1, default(Color), .61f);
 			}
-			Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 6);
+			Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 6);
 			int ing = Gore.NewGore(npc.position, npc.velocity, 825);
 			Main.gore[ing].timeLeft = 130;
 			int ing1 = Gore.NewGore(npc.position, npc.velocity, 826);

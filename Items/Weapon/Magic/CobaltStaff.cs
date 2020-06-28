@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.noMelee = true;
 			item.knockBack = 1;
 			item.value = Terraria.Item.sellPrice(0, 3, 0, 0);
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.UseSound = SoundID.Item43;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<CobaltStaffProj>();

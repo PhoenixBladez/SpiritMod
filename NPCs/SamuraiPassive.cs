@@ -61,7 +61,7 @@ namespace SpiritMod.NPCs
 			if(distance <= 540 || npc.life < npc.lifeMax) {
 				npc.Transform(ModContent.NPCType<SamuraiHostile>());
 			}
-			if(Main.netMode != 1) {
+			if(Main.netMode != NetmodeID.MultiplayerClient) {
 				npc.homeless = false;
 				npc.homeTileX = -1;
 				npc.homeTileY = -1;

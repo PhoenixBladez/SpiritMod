@@ -61,7 +61,7 @@ namespace SpiritMod.NPCs.Reach.ReachWorm
 			if(Main.player[npc.target].dead && npc.timeLeft > 300)
 				npc.timeLeft = 300;
 
-			if(Main.netMode != 1) {
+			if(Main.netMode != NetmodeID.MultiplayerClient) {
 				if(!Main.npc[(int)npc.ai[1]].active) {
 					npc.life = 0;
 					npc.HitEffect(0, 10.0);

@@ -28,10 +28,10 @@ namespace SpiritMod.Items.DonatorItems.FrostTroll
 			item.noMelee = true;
 			item.knockBack = 1;
 			item.value = 91950;
-			item.rare = 6;
+			item.rare = ItemRarityID.LightPurple;
 			item.UseSound = SoundID.Item31;
 			item.autoReuse = true;
-			item.shoot = 14;
+			item.shoot = ProjectileID.Bullet;
 			item.shootSpeed = 12f;
 			item.useAmmo = AmmoID.Bullet;
 			item.crit = 6;

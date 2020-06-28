@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Pets
 			item.shoot = ModContent.ProjectileType<SaucerPet>();
 			item.buffType = ModContent.BuffType<SaucerPetBuff>();
 			item.UseSound = SoundID.Item93;
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 		}
 
 		public override void UseStyle(Player player)

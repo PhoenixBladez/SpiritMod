@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.width = 26;
 			item.height = 28;
 			item.value = Item.buyPrice(gold: 10, silver: 50);
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.crit = 4;
 			item.mana = 7;
 			item.damage = 55;

@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Returning
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 3;
 			item.value = Terraria.Item.sellPrice(0, 1, 20, 0);
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.shootSpeed = 9f;
 			item.shoot = ModContent.ProjectileType<Projectiles.Returning.SpiritBoomerang>();
 			item.UseSound = SoundID.Item1;

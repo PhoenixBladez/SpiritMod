@@ -2,6 +2,7 @@
 using SpiritMod.Buffs;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles
@@ -80,7 +81,7 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(6, (int)projectile.position.X, (int)projectile.position.Y);
+			Main.PlaySound(SoundID.Grass, (int)projectile.position.X, (int)projectile.position.Y);
 		}
 
 		public override void OnHitPvp(Player target, int damage, bool crit)

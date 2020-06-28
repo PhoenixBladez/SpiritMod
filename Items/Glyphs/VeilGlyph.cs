@@ -40,14 +40,14 @@ namespace SpiritMod.Items.Glyphs
 			item.width = 28;
 			item.height = 28;
 			item.value = Item.sellPrice(0, 2, 0, 0);
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 
 			item.maxStack = 999;
 		}
 
 		public override bool CanApply(Item item)
 		{
-			return item.IsWeapon() || item.useStyle > 0 && item.mountType < 0 && item.shoot <= 0;
+			return item.IsWeapon() || item.useStyle > 0 && item.mountType < 0 && item.shoot <= ProjectileID.None;
 		}
 
 

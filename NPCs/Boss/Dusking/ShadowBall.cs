@@ -35,7 +35,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 			if(npc.ai[1] == 0f) {
 				npc.ai[1] = 1f;
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 34);
-			} else if(npc.ai[1] == 1f && Main.netMode != 1) {
+			} else if(npc.ai[1] == 1f && Main.netMode != NetmodeID.MultiplayerClient) {
 				int target = -1;
 				float distance = 2000f;
 				for(int k = 0; k < 255; k++) {

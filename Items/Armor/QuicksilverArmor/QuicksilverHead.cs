@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Armor.QuicksilverArmor
 			item.width = 28;
 			item.height = 24;
 			item.value = Item.sellPrice(gold: 3);
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.defense = 19;
 		}
 		public override bool IsArmorSet(Item head, Item body, Item legs)

@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Magic
@@ -28,7 +29,7 @@ namespace SpiritMod.Projectiles.Magic
 			}
 
 			if(Main.rand.Next(3) == 1) {
-				Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
+				Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 
 				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0, -5, mod.ProjectileType("StardropStaffProj2"), projectile.damage / 2, projectile.knockBack, Main.myPlayer);
 				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 6, -2, mod.ProjectileType("StardropStaffProj2"), projectile.damage / 2, projectile.knockBack, Main.myPlayer);

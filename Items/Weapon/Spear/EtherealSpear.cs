@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Weapon.Spear
 			item.value = Item.buyPrice(0, 0, 1, 0);
 			item.value = Item.sellPrice(0, 0, 0, 40);
 			item.crit = 6;
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.autoReuse = true;
 		}
 	}

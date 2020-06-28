@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Weapon.Summon.Artifact
 			item.width = 62;
 			item.height = 68;
 			item.value = Item.sellPrice(0, 3, 0, 0);
-			item.rare = 7;
+			item.rare = ItemRarityID.Lime;
 			item.mana = 11;
 			item.damage = 40;
 			item.knockBack = 2;

@@ -12,7 +12,7 @@ namespace SpiritMod.Tiles.Block
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[this.Type] = true;
-			soundType = 21;
+			soundType = SoundID.Tink;
 			Main.tileBlockLight[Type] = true;
 			AddMapEntry(new Color(130, 130, 130));
 			drop = ItemID.StoneBlock;

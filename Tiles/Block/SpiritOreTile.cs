@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Material;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Tiles.Block
@@ -19,7 +20,7 @@ namespace SpiritMod.Tiles.Block
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Spirit Ore");
 			AddMapEntry(new Color(30, 144, 255), name);
-			soundType = 21;
+			soundType = SoundID.Tink;
 			minPick = 180;
 
 		}

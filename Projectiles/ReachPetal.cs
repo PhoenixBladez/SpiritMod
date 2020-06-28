@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles
@@ -24,7 +25,7 @@ namespace SpiritMod.Projectiles
 		public override void Kill(int timeLeft)
 		{
 			Dust.NewDust(projectile.position, projectile.width, projectile.height, 235);
-			Main.PlaySound(6, (int)projectile.position.X, (int)projectile.position.Y);
+			Main.PlaySound(SoundID.Grass, (int)projectile.position.X, (int)projectile.position.Y);
 		}
 
 		public override void AI()

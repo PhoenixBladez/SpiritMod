@@ -52,7 +52,7 @@ namespace SpiritMod.Projectiles.Thrown.Artifact
 		public override void Kill(int timeLeft)
 		{
 
-			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1);
+			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1);
 			Vector2 vector9 = projectile.position;
 			Vector2 value19 = (projectile.rotation - 1.57079637f).ToRotationVector2();
 			vector9 += value19 * 16f;
@@ -70,7 +70,7 @@ namespace SpiritMod.Projectiles.Thrown.Artifact
 				Main.dust[newDust1].noGravity = true;
 				vector9 -= value19 * 8f;
 			}
-			Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 6);
+			Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 6);
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

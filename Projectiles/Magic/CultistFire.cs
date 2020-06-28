@@ -152,7 +152,7 @@ namespace SpiritMod.Projectiles.Magic
 			if(projectile.ai[1] == 0f) {
 				projectile.ai[1] = 1f;
 				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 34);
-			} else if(projectile.ai[1] == 1f && Main.netMode != 1) {
+			} else if(projectile.ai[1] == 1f && Main.netMode != NetmodeID.MultiplayerClient) {
 				int num = -1;
 				float num2 = 2000f;
 				for(int i = 0; i < 200; i++) {

@@ -47,7 +47,7 @@ namespace SpiritMod.Projectiles.Thrown
 				perturbedSpeed.Normalize();
 				perturbedSpeed.X *= Main.rand.NextFloat(1.5f, 3.5f);
 				perturbedSpeed.Y *= Main.rand.NextFloat(1.5f, 3.5f);
-				int p = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, 480, projectile.damage / 2, 2, projectile.owner);
+				int p = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ProjectileID.CursedDartFlame, projectile.damage / 2, 2, projectile.owner);
 				Main.projectile[p].hostile = false;
 				Main.projectile[p].friendly = true;
 			}

@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.YoYoOverload.Items
@@ -29,7 +30,7 @@ namespace SpiritMod.YoYoOverload.Items
 			if(base.projectile.frameCounter % 120 == 0) {
 				Main.rand.Next(0, 361);
 				Vector2 vector = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-				int num = Projectile.NewProjectile(base.projectile.Center.X, base.projectile.Center.Y, vector.X, vector.Y, 286, base.projectile.damage, (float)base.projectile.owner, 0, 0f, 0f);
+				int num = Projectile.NewProjectile(base.projectile.Center.X, base.projectile.Center.Y, vector.X, vector.Y, ProjectileID.ExplosiveBullet, base.projectile.damage, (float)base.projectile.owner, 0, 0f, 0f);
 				Main.projectile[num].friendly = true;
 				Main.projectile[num].hostile = false;
 				Main.projectile[num].velocity *= 18f;

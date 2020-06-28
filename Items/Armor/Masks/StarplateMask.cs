@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Armor.Masks
@@ -49,7 +50,7 @@ namespace SpiritMod.Items.Armor.Masks
 			item.height = 20;
 
 			item.value = 3000;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.vanity = true;
 		}
 	}

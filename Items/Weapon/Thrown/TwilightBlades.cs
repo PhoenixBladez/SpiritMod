@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 			item.knockBack = 0f;
 			item.value = Terraria.Item.buyPrice(0, 0, 2, 50);
 			item.crit = 8;
-			item.rare = 6;
+			item.rare = ItemRarityID.LightPurple;
 			item.ranged = true;
 			item.autoReuse = true;
 		}

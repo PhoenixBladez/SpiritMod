@@ -51,7 +51,7 @@ namespace SpiritMod.NPCs.Dungeon
 				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 117, new Color(0, 255, 142), .6f);
 			}
 			if(npc.life <= 0) {
-				Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 53);
+				Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 53);
 				for(int i = 0; i < 40; i++) {
 					int num = Dust.NewDust(npc.position, npc.width, npc.height, 156, 0f, -2f, 117, new Color(0, 255, 142), .6f);
 					Main.dust[num].noGravity = true;
@@ -78,7 +78,7 @@ namespace SpiritMod.NPCs.Dungeon
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
 			npc.life = 0;
-			Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 53);
+			Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 53);
 			for(int i = 0; i < 40; i++) {
 				int num = Dust.NewDust(npc.position, npc.width, npc.height, 156, 0f, -2f, 117, new Color(0, 255, 142), .6f);
 				Main.dust[num].noGravity = true;

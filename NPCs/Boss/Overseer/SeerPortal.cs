@@ -1,7 +1,6 @@
-﻿
-using Microsoft.Xna.Framework;
-
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.Boss.Overseer
@@ -36,7 +35,7 @@ namespace SpiritMod.NPCs.Boss.Overseer
 		public override void Kill(int timeLeft)
 		{
 			projectile.rotation += 0.2f;
-			Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 6);
+			Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 6);
 			NPC parent = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<Overseer>())];
 			for(int J = 0; J < 20; J++) {
 				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 206, 0f, 0f, 206, default(Color), 2f);

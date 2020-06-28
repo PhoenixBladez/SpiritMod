@@ -1,5 +1,6 @@
 using System.Linq;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 
@@ -32,7 +33,7 @@ namespace SpiritMod.Projectiles.Hostile
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 1);
+			Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 1);
 			for(int k = 0; k < 15; k++) {
 				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 42);
 				Main.dust[dust].scale = .61f;

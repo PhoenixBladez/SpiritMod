@@ -1,4 +1,5 @@
 using SpiritMod.Items.Material;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Armor
@@ -18,7 +19,7 @@ namespace SpiritMod.Items.Armor
 			item.width = 20;
 			item.height = 18;
 			item.value = 10000;
-			item.rare = 6;
+			item.rare = ItemRarityID.LightPurple;
 			item.vanity = true;
 		}
 		public override void AddRecipes()

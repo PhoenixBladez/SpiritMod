@@ -1,5 +1,5 @@
-
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Accessory
@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Accessory
 			item.width = 20;
 			item.height = 22;
 			item.value = Item.sellPrice(0, 1, 0, 0);
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.accessory = true;
 		}
 		public override void UpdateEquip(Player player)

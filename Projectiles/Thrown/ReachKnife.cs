@@ -42,7 +42,7 @@ namespace SpiritMod.Projectiles.Thrown
 					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ProjectileID.SporeCloud, 13, projectile.knockBack, projectile.owner);
 				}
 			}
-			Main.PlaySound(0, projectile.position, 1);
+			Main.PlaySound(SoundID.Dig, projectile.position, 1);
 			for(int i = 0; i < 5; i++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 167);
 			}

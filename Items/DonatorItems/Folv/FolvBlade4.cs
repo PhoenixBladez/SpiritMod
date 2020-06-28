@@ -30,7 +30,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
 			item.autoReuse = true;
 			item.knockBack = 8.3f;
 			item.value = Item.sellPrice(0, 40, 0, 0);
-			item.rare = 9;
+			item.rare = ItemRarityID.Cyan;
 			item.UseSound = SoundID.Item20;
 			item.shoot = ModContent.ProjectileType<ArcaneSword>();
 			item.shootSpeed = 12;

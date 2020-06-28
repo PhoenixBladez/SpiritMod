@@ -25,11 +25,11 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.useTime = 27;
 			item.mana = 17;
 			item.useAnimation = 27;
-			item.useStyle = 1;
+			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 7;
 			item.value = 90000;
 			item.channel = true;
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.UseSound = SoundID.Item34;
 			item.autoReuse = false;
 			item.shootSpeed = 16;

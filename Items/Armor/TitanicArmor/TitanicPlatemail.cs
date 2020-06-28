@@ -1,6 +1,7 @@
 using SpiritMod.Items.Material;
 using SpiritMod.Tiles.Furniture;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Armor.TitanicArmor
@@ -18,7 +19,7 @@ namespace SpiritMod.Items.Armor.TitanicArmor
 			item.width = 28;
 			item.height = 22;
 			item.value = 80000;
-			item.rare = 6;
+			item.rare = ItemRarityID.LightPurple;
 
 			item.defense = 16;
 		}

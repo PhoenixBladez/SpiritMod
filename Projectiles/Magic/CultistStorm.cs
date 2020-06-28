@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Magic
@@ -103,7 +104,7 @@ namespace SpiritMod.Projectiles.Magic
 				direction.Normalize();
 				direction.X *= shootVelocity;
 				direction.Y *= shootVelocity;
-				int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 25, direction.X, direction.Y, 580, projectile.damage, 0, Main.myPlayer);
+				int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 25, direction.X, direction.Y, ProjectileID.VortexLightning, projectile.damage, 0, Main.myPlayer);
 				Main.projectile[proj2].friendly = true;
 				Main.projectile[proj2].hostile = false;
 				Main.projectile[proj2].penetrate = 2;

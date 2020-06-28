@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Armor.PrimalstoneArmor
 			item.width = 34;
 			item.height = 30;
 			item.value = Item.buyPrice(gold: 1);
-			item.rare = 9;
+			item.rare = ItemRarityID.Cyan;
 			item.defense = 19;
 		}
 

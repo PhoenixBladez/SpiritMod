@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Armor
 			item.width = 40;
 			item.height = 34;
 			item.value = 30000;
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.defense = 12;
 		}
 

@@ -28,10 +28,10 @@ namespace SpiritMod.Items.Weapon.Bow
 			item.knockBack = 4;
 			item.useTurn = false;
 			item.value = Terraria.Item.sellPrice(0, 10, 0, 0);
-			item.rare = 7;
+			item.rare = ItemRarityID.Lime;
 			item.UseSound = SoundID.Item11;
 			item.autoReuse = true;
-			item.shoot = 1;
+			item.shoot = ProjectileID.WoodenArrowFriendly;
 			item.shootSpeed = 16f;
 			item.useAmmo = AmmoID.Arrow;
 		}

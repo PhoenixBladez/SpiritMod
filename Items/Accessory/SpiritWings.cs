@@ -19,11 +19,11 @@ namespace SpiritMod.Items.Accessory
 			item.width = 47;
 			item.height = 37;
 			item.value = 60000;
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 
 			item.accessory = true;
 
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
@@ -52,7 +52,7 @@ ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float const
 		{
 			ModRecipe modRecipe = new ModRecipe(mod);
 			modRecipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 14);
-			modRecipe.AddIngredient(575, 12);
+			modRecipe.AddIngredient(ItemID.SoulofFlight, 12);
 			modRecipe.AddTile(TileID.MythrilAnvil);
 			modRecipe.SetResult(this, 1);
 			modRecipe.AddRecipe();

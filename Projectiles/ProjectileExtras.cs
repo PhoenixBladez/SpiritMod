@@ -479,7 +479,7 @@ namespace SpiritMod.Projectiles
 			if(flag) {
 				projectile.netUpdate = true;
 				Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-				Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1);
+				Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1);
 			}
 			return false;
 		}
@@ -556,7 +556,7 @@ namespace SpiritMod.Projectiles
 			projectile.velocity.X = -oldVelocity.X;
 			projectile.velocity.Y = -oldVelocity.Y;
 			projectile.netUpdate = true;
-			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1);
+			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1);
 			return false;
 		}
 

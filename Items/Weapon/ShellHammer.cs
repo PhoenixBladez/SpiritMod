@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Weapon
 			item.width = 60;
 			item.height = 60;
 			item.value = Item.sellPrice(0, 12, 20, 0);
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.damage = 67;
 			item.knockBack = 9;
 			item.useStyle = ItemUseStyleID.SwingThrow;

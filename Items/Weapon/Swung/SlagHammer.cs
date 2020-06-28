@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.knockBack = 5f;
 			item.damage = 29;
 			item.value = Item.sellPrice(0, 0, 60, 0);
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.shoot = ModContent.ProjectileType<SlagHammerProj>();
 		}
 		public override bool UseItemFrame(Player player)

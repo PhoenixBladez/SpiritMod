@@ -21,7 +21,7 @@ namespace SpiritMod.Items.DonatorItems
 			item.useTurn = false;
 			item.value = Item.sellPrice(0, 4, 0, 0);
 			item.value = Item.buyPrice(0, 6, 0, 0);
-			item.rare = 7;
+			item.rare = ItemRarityID.Lime;
 			item.damage = 38;
 			item.mana = 12;
 			item.useStyle = ItemUseStyleID.HoldingOut;

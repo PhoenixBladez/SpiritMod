@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Armor.StarArmor
 			item.width = 22;
 			item.height = 20;
 			item.value = Terraria.Item.sellPrice(0, 0, 38, 0);
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.defense = 9;
 		}
 		public override void UpdateEquip(Player player)

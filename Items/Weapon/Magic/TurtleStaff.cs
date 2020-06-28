@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.knockBack = 8;
 			item.value = 90000;
-			item.rare = 7;
+			item.rare = ItemRarityID.Lime;
 			item.UseSound = SoundID.Item34;
 			item.autoReuse = true;
 			item.shootSpeed = 4;
@@ -43,7 +43,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			ModRecipe modRecipe = new ModRecipe(mod);
 			modRecipe.AddIngredient(ModContent.ItemType<ChloroStaff>(), 1);
 			modRecipe.AddIngredient(ItemID.TurtleShell, 3);
-			modRecipe.AddTile(134);
+			modRecipe.AddTile(TileID.MythrilAnvil);
 			modRecipe.SetResult(this, 1);
 			modRecipe.AddRecipe();
 		}

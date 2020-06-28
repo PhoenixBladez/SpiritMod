@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -16,7 +17,7 @@ namespace SpiritMod.Tiles.Ambient.Briar
 			Main.tileLighted[Type] = true;
 
 			dustType = 5;
-			soundType = 6;
+			soundType = SoundID.Grass;
 
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
 			TileObjectData.addTile(Type);

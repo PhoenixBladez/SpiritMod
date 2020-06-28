@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 			item.damage = 10;
 			item.knockBack = 3.5f;
 			item.value = Item.sellPrice(0, 0, 1, 0);
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.autoReuse = false;
 			item.maxStack = 999;
 			item.consumable = true;

@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Weapon.Returning
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 3;
 			item.value = Terraria.Item.buyPrice(0, 1, 50, 0);
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.shootSpeed = 13f;
 			item.shoot = mod.ProjectileType("CompassRose");
 			item.UseSound = SoundID.Item1;

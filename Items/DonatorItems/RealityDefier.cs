@@ -30,7 +30,7 @@ namespace SpiritMod.Items.DonatorItems
 			item.noMelee = true;
 			item.knockBack = 5;
 			item.value = 10780;
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<BlueFist>();

@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Armor.SpiritCrystal
 			item.width = 28;
 			item.height = 24;
 			item.value = Terraria.Item.sellPrice(0, 3, 0, 0);
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.defense = 9;
 		}
 		public override bool IsArmorSet(Item head, Item body, Item legs)

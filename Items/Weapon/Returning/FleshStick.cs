@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Weapon.Returning
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 5;
 			item.value = Terraria.Item.sellPrice(0, 0, 20, 0);
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.shootSpeed = 6f;
 			item.shoot = ModContent.ProjectileType<FleshStickProj>();
 			item.UseSound = SoundID.Item1;

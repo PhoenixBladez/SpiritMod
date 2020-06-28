@@ -1,3 +1,4 @@
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Weapon.Magic
@@ -16,7 +17,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.width = 54;
 			item.height = 54;
 			item.value = 40000;
-			item.rare = 7;
+			item.rare = ItemRarityID.Lime;
 
 			item.maxStack = 99;
 		}

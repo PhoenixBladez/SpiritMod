@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.knockBack = 7;
 			item.value = Terraria.Item.sellPrice(0, 12, 0, 0);
 			item.value = Terraria.Item.buyPrice(0, 85, 0, 0);
-			item.rare = 10;
+			item.rare = ItemRarityID.Red;
 			item.crit = 3;
 			item.UseSound = SoundID.Item123;
 			item.autoReuse = true;
@@ -68,7 +68,7 @@ namespace SpiritMod.Items.Weapon.Magic
 					Vector2 vector82 = -Main.player[Main.myPlayer].Center + Main.MouseWorld;
 					float ai = Main.rand.Next(100);
 					Vector2 vector83 = Vector2.Normalize(vector82) * item.shootSpeed;
-					Projectile.NewProjectile(player.Center.X, player.Center.Y, vector83.X, vector83.Y, 580, damage, .5f, player.whoAmI, vector82.ToRotation(), ai);
+					Projectile.NewProjectile(player.Center.X, player.Center.Y, vector83.X, vector83.Y, ProjectileID.VortexLightning, damage, .5f, player.whoAmI, vector82.ToRotation(), ai);
 					return false;
 				}
 			}
@@ -98,11 +98,11 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(531, 1);
-			recipe.AddIngredient(3456, 4);
-			recipe.AddIngredient(3457, 4);
-			recipe.AddIngredient(3458, 4);
-			recipe.AddIngredient(3459, 4);
+			recipe.AddIngredient(ItemID.SpellTome, 1);
+			recipe.AddIngredient(ItemID.FragmentVortex, 4);
+			recipe.AddIngredient(ItemID.FragmentNebula, 4);
+			recipe.AddIngredient(ItemID.FragmentSolar, 4);
+			recipe.AddIngredient(ItemID.FragmentStardust, 4);
 			recipe.AddTile(TileID.LunarCraftingStation);
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();

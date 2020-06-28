@@ -49,7 +49,7 @@ namespace SpiritMod.NPCs.Reach
 						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 4f;
 				}
 			}
-			if(Main.netMode != 1) {
+			if(Main.netMode != NetmodeID.MultiplayerClient) {
 				npc.homeless = false;
 				npc.homeTileX = -1;
 				npc.homeTileY = -1;

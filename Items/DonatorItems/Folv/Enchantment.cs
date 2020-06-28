@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.DonatorItems.Folv
@@ -17,7 +18,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
 			item.width = 28;
 			item.height = 30;
 			item.maxStack = 999;
-			item.rare = 6;
+			item.rare = ItemRarityID.LightPurple;
 		}
 		public override Color? GetAlpha(Color lightColor)
 		{

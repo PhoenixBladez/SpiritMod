@@ -7,7 +7,6 @@ namespace SpiritMod.Projectiles.Magic
 {
 	public class StarTrail1 : ModProjectile
 	{
-		int target;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starry Wisp");

@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Spear
 			item.knockBack = 4f;
 			item.damage = 25;
 			item.value = Item.sellPrice(0, 2, 60, 0);
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.shoot = mod.ProjectileType("GaleJavelinProj1");
 		}
 		public override bool AltFunctionUse(Player player)

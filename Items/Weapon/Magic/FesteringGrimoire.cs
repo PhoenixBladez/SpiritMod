@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.noMelee = true;
 			item.knockBack = 3;
 			item.value = Terraria.Item.sellPrice(0, 0, 90, 0);
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = false;
 			item.shoot = ModContent.ProjectileType<GrimoireScythe>();
@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<PutridPiece>(), 8);
-			recipe.AddIngredient(531, 1);
+			recipe.AddIngredient(ItemID.SpellTome, 1);
 			recipe.AddTile(TileID.Bookcases);
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();

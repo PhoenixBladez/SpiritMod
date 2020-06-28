@@ -1,5 +1,5 @@
-
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Accessory
@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Accessory
 			item.height = 32;
 			item.defense = 3;
 			item.value = Item.buyPrice(0, 5, 0, 0);
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.accessory = true;
 		}
 

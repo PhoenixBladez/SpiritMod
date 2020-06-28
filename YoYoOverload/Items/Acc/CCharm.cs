@@ -12,15 +12,14 @@ namespace SpiritMod.YoYoOverload.Items.Acc
 			Tooltip.SetDefault("Increases critical strike chance by 6%");
 		}
 
-
 		public override void SetDefaults()
 		{
-			base.item.width = 20;
-			base.item.height = 26;
-			base.item.rare = ItemRarityID.Green;
-			base.item.UseSound = SoundID.Item11;
-			base.item.accessory = true;
-			base.item.value = Item.sellPrice(0, 0, 30, 0);
+			item.width = 20;
+			item.height = 26;
+			item.rare = ItemRarityID.Green;
+			item.UseSound = SoundID.Item11;
+			item.accessory = true;
+			item.value = Item.sellPrice(0, 0, 30, 0);
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
@@ -33,11 +32,11 @@ namespace SpiritMod.YoYoOverload.Items.Acc
 
 		public override void AddRecipes()
 		{
-			ModRecipe modRecipe = new ModRecipe(base.mod);
-			modRecipe.AddIngredient(1330, 8);
-			modRecipe.AddIngredient(1329, 5);
-			modRecipe.AddIngredient(85, 3);
-			modRecipe.AddTile(16);
+			ModRecipe modRecipe = new ModRecipe(mod);
+			modRecipe.AddIngredient(ItemID.Vertebrae, 8);
+			modRecipe.AddIngredient(ItemID.TissueSample, 5);
+			modRecipe.AddIngredient(ItemID.Chain, 3);
+			modRecipe.AddTile(TileID.Anvils);
 			modRecipe.SetResult(this, 1);
 			modRecipe.AddRecipe();
 		}

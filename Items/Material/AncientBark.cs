@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Material
 			item.width = item.height = 16;
 			item.maxStack = 999;
 			item.value = 800;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = 7;
 			item.useAnimation = 15;

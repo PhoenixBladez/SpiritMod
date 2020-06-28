@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Accessory
 		{
 			item.width = 16;
 			item.height = 16;
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.value = Item.buyPrice(gold: 15);
 			item.defense = 3;
 			item.accessory = true;

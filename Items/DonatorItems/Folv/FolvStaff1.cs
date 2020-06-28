@@ -17,7 +17,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
 		{
 			item.width = 30;
 			item.height = 30;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.value = 5000;
 			item.accessory = true;
 		}

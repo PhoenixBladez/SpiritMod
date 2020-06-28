@@ -22,7 +22,7 @@ namespace SpiritMod.Items.DonatorItems.MoonMan
 			item.UseSound = SoundID.Item1;
 
 			item.value = 150000;
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.value = Item.sellPrice(0, 0, 50, 0);
 			item.damage = 28;
 			item.knockBack = 5.8f;

@@ -67,7 +67,7 @@ namespace SpiritMod.NPCs.Reach.ReachWorm
 
 		public override bool PreAI()
 		{
-			if(Main.netMode != 1) {
+			if(Main.netMode != NetmodeID.MultiplayerClient) {
 				if(npc.ai[0] == 0) {
 					npc.realLife = npc.whoAmI;
 					int latestNPC = npc.whoAmI;
@@ -176,7 +176,7 @@ namespace SpiritMod.NPCs.Reach.ReachWorm
 					if(num1 > 20.0)
 						num1 = 20f;
 					npc.soundDelay = (int)num1;
-					Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 1);
+					Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 1);
 				}
 				float absDirX = Math.Abs(dirX);
 				float absDirY = Math.Abs(dirY);

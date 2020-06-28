@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Equipment
 			item.damage = 0;
 			item.noMelee = true;
 			item.channel = true; //Channel so that you can held the weapon [Important]
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.width = 18;
 			item.height = 18;
 			item.useTime = 20;

@@ -1,7 +1,6 @@
-﻿
-using Microsoft.Xna.Framework;
-
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Boss
@@ -39,7 +38,7 @@ namespace SpiritMod.Projectiles.Boss
 			Main.dust[dust].noGravity = true;
 			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
-			if(projectile.ai[0] == 0 && Main.netMode != 1) {
+			if(projectile.ai[0] == 0 && Main.netMode != NetmodeID.MultiplayerClient) {
 				target = -1;
 				float distance = 2000f;
 				for(int k = 0; k < 255; k++) {

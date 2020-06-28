@@ -112,7 +112,7 @@ namespace SpiritMod.NPCs
 					Dust.NewDust(npc.position, npc.width, npc.height, 240, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.87f);
 				}
 			}
-			if(Main.netMode != 1 && npc.life <= 0 && Main.rand.Next(3) == 0) {
+			if(Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0 && Main.rand.Next(3) == 0) {
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
 				{
 					for(int i = 0; i < 20; i++) {

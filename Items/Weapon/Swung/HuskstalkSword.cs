@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.useAnimation = 20;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 4;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = false;
 			item.value = Item.sellPrice(0, 0, 12, 0);

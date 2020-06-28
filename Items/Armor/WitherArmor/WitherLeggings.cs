@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Armor.WitherArmor
 			item.width = 22;
 			item.height = 18;
 			item.value = 90000;
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.defense = 15;
 		}
 		public override void UpdateEquip(Player player)

@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Placeable.Furniture.Reach
 			item.value = 25500;
 
 			item.maxStack = 99;
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = 10;

@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Placeable.MusicBox
 			item.createTile = ModContent.TileType<ScarabBoxTile>();
 			item.width = 24;
 			item.height = 24;
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.value = 100000;
 			item.accessory = true;
 		}

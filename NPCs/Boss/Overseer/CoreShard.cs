@@ -1,5 +1,5 @@
-﻿
-using Terraria;
+﻿using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.Boss.Overseer
@@ -29,7 +29,7 @@ namespace SpiritMod.NPCs.Boss.Overseer
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 6);
+			Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 6);
 		}
 
 		public override bool PreAI()

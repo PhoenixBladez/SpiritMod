@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.knockBack = 5;
 			item.value = Terraria.Item.sellPrice(0, 5, 0, 0);
 			item.shoot = ModContent.ProjectileType<MagalaShield>();
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.shootSpeed = 5f;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
@@ -51,7 +51,7 @@ namespace SpiritMod.Items.Weapon.Swung
 				item.damage = 10;
 				item.noUseGraphic = true;
 				item.shoot = ModContent.ProjectileType<MagalaShield>();
-				item.useStyle = 3;
+				item.useStyle = ItemUseStyleID.Stabbing;
 				item.height = 2;
 				item.width = 2;
 				item.knockBack = 9;
@@ -64,7 +64,7 @@ namespace SpiritMod.Items.Weapon.Swung
 				item.width = 54;
 				item.height = 44;
 				item.useAnimation = 24;
-				item.shoot = 0;
+				item.shoot = ProjectileID.None;
 				item.knockBack = 5;
 				item.useStyle = ItemUseStyleID.SwingThrow;
 				item.autoReuse = true;

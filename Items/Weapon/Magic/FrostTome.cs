@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.magic = true;
 			item.useTurn = false;
 			item.value = Terraria.Item.sellPrice(0, 9, 0, 0);
-			item.rare = 6;
+			item.rare = ItemRarityID.LightPurple;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<FrostFlake>();
 			item.shootSpeed = 10;

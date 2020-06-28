@@ -25,8 +25,6 @@ namespace SpiritMod.Projectiles.DonatorItems
 			projectile.timeLeft = 6000;
 		}
 
-		int timer = 20;
-
 		public override void AI()
 		{
 			projectile.spriteDirection = projectile.direction;
@@ -78,10 +76,10 @@ namespace SpiritMod.Projectiles.DonatorItems
 		public override void Kill(int timeLeft)
 		{
 			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Fire>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.Center.X + 10, projectile.Center.Y, 0f, 0f, 15, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.Center.X - 10, projectile.Center.Y, 0f, 0f, 15, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.Center.X + 30, projectile.Center.Y - 10, 0f, 0f, 15, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.Center.X - 30, projectile.Center.Y + 10, 0f, 0f, 15, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.Center.X + 10, projectile.Center.Y, 0f, 0f, ProjectileID.BallofFire, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.Center.X - 10, projectile.Center.Y, 0f, 0f, ProjectileID.BallofFire, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.Center.X + 30, projectile.Center.Y - 10, 0f, 0f, ProjectileID.BallofFire, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.Center.X - 30, projectile.Center.Y + 10, 0f, 0f, ProjectileID.BallofFire, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);

@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.noMelee = true;
 			item.knockBack = 4;
 			item.value = Terraria.Item.buyPrice(0, 60, 0, 0);
-			item.rare = 6;
+			item.rare = ItemRarityID.LightPurple;
 			item.UseSound = SoundID.DD2_SonicBoomBladeSlash;
 			item.autoReuse = true;
 			item.shootSpeed = 15f;

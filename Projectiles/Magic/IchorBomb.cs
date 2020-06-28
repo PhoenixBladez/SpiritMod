@@ -50,7 +50,7 @@ namespace SpiritMod.Projectiles.Magic
 				vel = vel.RotatedBy(rand);
 				vel *= 5f;
 				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y,
-					vel.X, vel.Y, 280, projectile.damage, 0, Main.myPlayer);
+					vel.X, vel.Y, ProjectileID.GoldenShowerFriendly, projectile.damage, 0, Main.myPlayer);
 			}
 		}
 

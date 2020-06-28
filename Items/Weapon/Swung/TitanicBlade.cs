@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		{
 			item.width = 54;
 			item.height = 50;
-			item.rare = 6;
+			item.rare = ItemRarityID.LightPurple;
 
 			item.crit += 4;
 			item.damage = 57;

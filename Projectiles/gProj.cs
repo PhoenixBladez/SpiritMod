@@ -36,7 +36,7 @@ namespace SpiritMod.Projectiles
 			} else
 				glyph = 0;
 
-			if(send && glyph != 0 && Main.netMode != 0) {
+			if(send && glyph != 0 && Main.netMode != NetmodeID.SinglePlayer) {
 				ModPacket packet = SpiritMod.instance.GetPacket(MessageType.ProjectileData, 3);
 				packet.Write((short)projectile.type);
 				packet.Write((byte)glyph);
@@ -49,7 +49,7 @@ namespace SpiritMod.Projectiles
 			hasNext = true;
 			nextType = reader.ReadInt16();
 			nextGlyph = (GlyphType)reader.ReadByte();
-			if(Main.netMode != 2)
+			if(Main.netMode != NetmodeID.Server)
 				return;
 
 			ModPacket packet = SpiritMod.instance.GetPacket(MessageType.ProjectileData, 3);

@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Accessory
 		{
 			item.width = 28;
 			item.height = 36;
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.value = 100000;
 			item.accessory = true;
 			item.defense = 6;
@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Accessory
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<GoldShield>(), 1);
 			recipe.AddIngredient(ItemID.PocketMirror, 1);
-			recipe.AddTile(114);
+			recipe.AddTile(TileID.TinkerersWorkbench);
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();
 		}

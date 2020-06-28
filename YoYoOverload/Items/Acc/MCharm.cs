@@ -15,14 +15,14 @@ namespace SpiritMod.YoYoOverload.Items.Acc
 
 		public override void SetDefaults()
 		{
-			base.item.width = 18;
-			base.item.height = 24;
-			base.item.rare = ItemRarityID.Green;
+			item.width = 18;
+			item.height = 24;
+			item.rare = ItemRarityID.Green;
 			item.defense = 2;
-			base.item.UseSound = SoundID.Item11;
-			base.item.accessory = true;
-			base.item.value = Item.buyPrice(0, 0, 30, 0);
-			base.item.value = Item.sellPrice(0, 0, 6, 0);
+			item.UseSound = SoundID.Item11;
+			item.accessory = true;
+			item.value = Item.buyPrice(0, 0, 30, 0);
+			item.value = Item.sellPrice(0, 0, 6, 0);
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
@@ -32,10 +32,10 @@ namespace SpiritMod.YoYoOverload.Items.Acc
 
 		public override void AddRecipes()
 		{
-			ModRecipe modRecipe = new ModRecipe(base.mod);
-			modRecipe.AddIngredient(154, 25);
-			modRecipe.AddIngredient(85, 3);
-			modRecipe.AddTile(16);
+			ModRecipe modRecipe = new ModRecipe(mod);
+			modRecipe.AddIngredient(ItemID.Bone, 25);
+			modRecipe.AddIngredient(ItemID.Chain, 3);
+			modRecipe.AddTile(TileID.Anvils);
 			modRecipe.SetResult(this, 1);
 			modRecipe.AddRecipe();
 		}

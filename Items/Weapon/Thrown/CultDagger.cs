@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 			item.damage = 97;
 			item.knockBack = 1.5f;
 			item.value = Item.buyPrice(0, 45, 0, 0);
-			item.rare = 10;
+			item.rare = ItemRarityID.Red;
 			item.autoReuse = true;
 		}
 	}

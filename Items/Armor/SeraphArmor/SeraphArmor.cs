@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Armor.SeraphArmor
 			item.width = 34;
 			item.height = 24;
 			item.value = Item.buyPrice(gold: 6);
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.defense = 18;
 		}
 

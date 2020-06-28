@@ -14,7 +14,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 		public override void SetDefaults()
 		{
 			item.width = item.height = 46;
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.value = Terraria.Item.sellPrice(0, 3, 70, 0);
 			item.damage = 42;
 			item.knockBack = 6;

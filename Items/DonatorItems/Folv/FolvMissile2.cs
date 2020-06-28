@@ -27,7 +27,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
 			item.noMelee = true;
 			item.knockBack = 3;
 			item.value = Terraria.Item.sellPrice(0, 1, 10, 5);
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.UseSound = SoundID.Item8;
 			item.autoReuse = true;
 			item.shoot = mod.ProjectileType("FolvBolt2");

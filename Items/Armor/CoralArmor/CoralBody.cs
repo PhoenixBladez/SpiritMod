@@ -15,7 +15,7 @@ namespace SpiritMod.Items.Armor.CoralArmor
 			item.width = 34;
 			item.height = 30;
 			item.value = Terraria.Item.sellPrice(0, 0, 11, 0);
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.defense = 4;
 		}
 

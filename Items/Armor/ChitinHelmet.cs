@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Armor
 			item.width = 22;
 			item.height = 20;
 			item.value = 8000;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.defense = 3;
 		}
 		public override bool IsArmorSet(Item head, Item body, Item legs)

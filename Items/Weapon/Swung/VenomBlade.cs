@@ -21,12 +21,12 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 5;
 			item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.shootSpeed = 10;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.useTurn = true;
-			item.shoot = 355;
+			item.shoot = ProjectileID.VenomFang;
 		}
 
 		public override bool OnlyShootOnSwing => true;

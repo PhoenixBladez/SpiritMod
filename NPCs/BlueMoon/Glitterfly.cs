@@ -107,7 +107,7 @@ namespace SpiritMod.NPCs.BlueMoon
 			if(distance < 540) {
 				++npc.ai[0];
 				if(npc.ai[0] == 140 || npc.ai[0] == 280 || npc.ai[0] == 320) {
-					if(Main.netMode != 1) {
+					if(Main.netMode != NetmodeID.MultiplayerClient) {
 						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 43);
 						Vector2 dir = Main.player[npc.target].Center - npc.Center;
 						dir.Normalize();

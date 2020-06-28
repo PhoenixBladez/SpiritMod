@@ -31,7 +31,7 @@ namespace SpiritMod.Projectiles.Arrow.Artifact
 			}
 
 			if(Main.rand.Next(4) == 1) {
-				Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
+				Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 
 				Projectile.NewProjectile(projectile.position, new Vector2(0, -5), ModContent.ProjectileType<StarEnergyBolt>(), projectile.damage / 3, 0, Main.myPlayer);
 

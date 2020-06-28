@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
@@ -69,7 +69,7 @@ namespace SpiritMod.Items.Halloween
 		{
 			item.width = 20;
 			item.height = 30;
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.maxStack = 1;
 		}
 
@@ -171,8 +171,8 @@ namespace SpiritMod.Items.Halloween
 			item.velocity.X = 4 * player.direction + player.velocity.X;
 			item.velocity.Y = -2f;
 			item.noGrabDelay = 100;
-			if(Main.netMode != 0) {
-				NetMessage.SendData(21, -1, -1, null, slot, 1f);
+			if(Main.netMode != NetmodeID.SinglePlayer) {
+				NetMessage.SendData(MessageID.SyncItem, -1, -1, null, slot, 1f);
 			}
 		}
 

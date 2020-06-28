@@ -28,11 +28,11 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.noMelee = true;
 			item.knockBack = 2;
 			item.useTurn = false;
-			item.value = Terraria.Item.sellPrice(0, 0, 80, 0);
-			item.rare = 4;
+			item.value = Item.sellPrice(0, 0, 80, 0);
+			item.rare = ItemRarityID.LightRed;
 			item.UseSound = SoundID.Item36;
 			item.autoReuse = true;
-			item.shoot = 10;
+			item.shoot = ProjectileID.PurificationPowder;
 			item.shootSpeed = 17f;
 			item.useAmmo = AmmoID.Bullet;
 			item.reuseDelay = 30;
@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Weapon.Gun
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			Terraria.Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<BlightedBullet>(), damage, knockBack, player.whoAmI, 0f, 0f);
+			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<BlightedBullet>(), damage, knockBack, player.whoAmI, 0f, 0f);
 			return false;
 
 		}

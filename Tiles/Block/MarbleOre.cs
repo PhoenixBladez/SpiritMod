@@ -19,7 +19,7 @@ namespace SpiritMod.Tiles.Block
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Enchanted Marble Chunk");
 			AddMapEntry(new Color(227, 191, 75), name);
-			soundType = 21;
+			soundType = SoundID.Tink;
 			minPick = 65;
 			dustType = DustID.GoldCoin;
 

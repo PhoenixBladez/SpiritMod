@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Armor.CryoliteArmor
 			item.width = 38;
 			item.height = 26;
 			item.value = Item.buyPrice(gold: 1);
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.defense = 7;
 		}
 

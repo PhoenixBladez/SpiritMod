@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Armor.FieryArmor
 			item.width = 30;
 			item.height = 20;
 			item.value = Item.sellPrice(0, 0, 39, 0);
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.defense = 5;
 		}
 

@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Armor
@@ -13,14 +14,12 @@ namespace SpiritMod.Items.Armor
 
 		}
 
-
-		int timer = 0;
 		public override void SetDefaults()
 		{
 			item.width = 22;
 			item.height = 20;
 			item.value = 3000;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.defense = 3;
 		}
 		public override void UpdateEquip(Player player)

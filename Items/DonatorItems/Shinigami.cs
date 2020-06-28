@@ -22,7 +22,7 @@ namespace SpiritMod.Items.DonatorItems
 			item.UseSound = SoundID.Item1;
 
 			item.value = Item.sellPrice(0, 7, 50, 0);
-			item.rare = 11;
+			item.rare = ItemRarityID.Purple;
 
 			item.damage = 180;
 			item.knockBack = 3f;
@@ -41,7 +41,7 @@ namespace SpiritMod.Items.DonatorItems
 		{
 			var recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.LunarBar, 12);
-			recipe.AddTile(412);
+			recipe.AddTile(TileID.LunarCraftingStation);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}
@@ -49,7 +49,7 @@ namespace SpiritMod.Items.DonatorItems
 		{
 			if(player.altFunctionUse == 2) {
 				if(player.dashDelay == 0) {
-					item.useStyle = 3;
+					item.useStyle = ItemUseStyleID.Stabbing;
 					item.noMelee = true;
 					player.GetModPlayer<MyPlayer>().PerformDash(
 						DashType.Shinigami,

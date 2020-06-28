@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Armor.SpiritCrystal
 			item.width = 34;
 			item.height = 24;
 			item.value = 12000;
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.defense = 8;
 		}
 

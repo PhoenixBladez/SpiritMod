@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Material
 			item.width = 42;
 			item.height = 24;
 			item.value = 20;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 
 			item.maxStack = 999;
 		}
@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Material
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(this, 2);
 			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(259);
+			recipe.SetResult(ItemID.Leather);
 			recipe.AddRecipe();
 		}
 	}

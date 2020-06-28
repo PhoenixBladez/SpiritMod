@@ -1,3 +1,4 @@
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Material
@@ -16,7 +17,7 @@ namespace SpiritMod.Items.Material
 			item.width = item.height = 16;
 			item.maxStack = 999;
 			item.value = 500;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 		}
 	}
 }

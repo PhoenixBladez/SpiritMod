@@ -35,7 +35,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 			}
 			int g = Gore.NewGore(projectile.position, projectile.velocity, mod.GetGoreSlot("Gores/Dodgeball"), 1f);
 			Main.gore[g].timeLeft = 1;
-			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
+			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{

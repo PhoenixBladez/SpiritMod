@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.noMelee = true;
 			item.knockBack = 1.25f;
 			item.value = 20000;
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.UseSound = new Terraria.Audio.LegacySoundStyle(3, 56);
 			item.autoReuse = false;
 			item.shoot = ModContent.ProjectileType<DragonHeadOne>();

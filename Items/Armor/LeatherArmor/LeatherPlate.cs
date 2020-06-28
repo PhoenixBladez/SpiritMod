@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Armor.LeatherArmor
 			item.width = 30;
 			item.height = 18;
 			item.value = 100;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.defense = 2;
 		}
 		public override void DrawHands(ref bool drawHands, ref bool drawArms)

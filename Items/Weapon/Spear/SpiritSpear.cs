@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Spear
 			item.knockBack = 7f;
 			item.damage = 60;
 			item.value = Item.sellPrice(0, 1, 15, 0);
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.autoReuse = false;
 			item.shoot = ModContent.ProjectileType<SpiritSpearProjectile>();
 		}

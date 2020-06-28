@@ -83,11 +83,11 @@ namespace SpiritMod.NPCs
 						npc.velocity.Y = npc.velocity.Y - num1165 * .35f;
 					}
 				}
-				if(npc.position.X + (float)npc.width > Main.player[npc.target].position.X && npc.position.X < Main.player[npc.target].position.X + (float)Main.player[npc.target].width && npc.position.Y + (float)npc.height < Main.player[npc.target].position.Y && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height) && Main.netMode != 1) {
+				if(npc.position.X + (float)npc.width > Main.player[npc.target].position.X && npc.position.X < Main.player[npc.target].position.X + (float)Main.player[npc.target].width && npc.position.Y + (float)npc.height < Main.player[npc.target].position.Y && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height) && Main.netMode != NetmodeID.MultiplayerClient) {
 					npc.ai[0] += 1f;
 					if(npc.ai[0] > 90f) {
 						vomitPhase = true;
-						Main.PlaySound(4, npc.Center, 13);
+						Main.PlaySound(SoundID.NPCKilled, npc.Center, 13);
 					}
 				}
 			} else {
@@ -148,7 +148,7 @@ namespace SpiritMod.NPCs
 					}
 				}
 				if(npc.ai[3] == 210) {
-					Main.PlaySound(4, npc.Center, 13);
+					Main.PlaySound(SoundID.NPCKilled, npc.Center, 13);
 				}
 			}
 		}

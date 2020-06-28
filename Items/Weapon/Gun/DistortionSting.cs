@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.knockBack = 4;
 			item.useTurn = false;
 			item.value = Terraria.Item.sellPrice(0, 6, 0, 0);
-			item.rare = 9;
+			item.rare = ItemRarityID.Cyan;
 			item.UseSound = SoundID.Item11;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<AlienSpit>();

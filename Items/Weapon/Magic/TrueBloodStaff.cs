@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.knockBack = 2;
 			item.crit = 15;
 			item.value = 120000;
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = false;
 			item.shoot = mod.ProjectileType("TrueClot1");
@@ -43,7 +43,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			ModRecipe modRecipe = new ModRecipe(mod);
 			modRecipe.AddIngredient(ModContent.ItemType<BrokenStaff>(), 1);
 			modRecipe.AddIngredient(ModContent.ItemType<BloodStaff>(), 1);
-			modRecipe.AddTile(134);
+			modRecipe.AddTile(TileID.MythrilAnvil);
 			modRecipe.SetResult(this, 1);
 			modRecipe.AddRecipe();
 		}

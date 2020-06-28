@@ -28,8 +28,8 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.noMelee = true; //Whether the weapon should do melee damage or not
 			item.useStyle = ItemUseStyleID.HoldingOut; //How the weapon is held, 5 is the gun hold style
 			item.value = 1; //How much the item is worth
-			item.rare = 4; //The rarity of the item
-			item.shoot = 580; //What the item shoots, retains an int value | *
+			item.rare = ItemRarityID.LightRed; //The rarity of the item
+			item.shoot = ProjectileID.VortexLightning; //What the item shoots, retains an int value | *
 			item.shootSpeed = 7f; //How fast the projectile fires   
 			item.mana = 20;
 			item.autoReuse = true; //Whether it automatically uses the item again after its done being used/animated

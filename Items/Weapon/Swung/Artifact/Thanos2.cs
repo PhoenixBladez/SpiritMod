@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 			item.knockBack = 6;
 			item.value = Terraria.Item.sellPrice(0, 5, 0, 50);
 			item.shoot = mod.ProjectileType("Thanos2Proj");
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.shootSpeed = 9f;
 			item.UseSound = SoundID.Item69;
 			item.autoReuse = true;

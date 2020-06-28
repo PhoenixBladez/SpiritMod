@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Spear
 			item.knockBack = 8f;
 			item.damage = 48;
 			item.value = Item.sellPrice(0, 0, 70, 0);
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.shoot = ModContent.ProjectileType<Halberd>();
 		}
 		public override void AddRecipes()

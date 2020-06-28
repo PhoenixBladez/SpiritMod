@@ -1,3 +1,4 @@
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Halloween.DevMasks
@@ -18,7 +19,7 @@ namespace SpiritMod.Items.Halloween.DevMasks
 			item.width = 22;
 			item.height = 20;
 			item.value = 3000;
-			item.rare = 9;
+			item.rare = ItemRarityID.Cyan;
 		}
 	}
 }

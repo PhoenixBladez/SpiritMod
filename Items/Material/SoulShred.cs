@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Material
 		}
 		public override void SetDefaults()
 		{
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.width = 14;
 			item.maxStack = 99;
 			item.height = 36;

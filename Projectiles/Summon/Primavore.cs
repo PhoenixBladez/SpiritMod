@@ -104,7 +104,7 @@ namespace SpiritMod.Projectiles.Summon
 				direction.X *= shootVelocity;
 				direction.Y *= shootVelocity;
 
-				int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, direction.X, direction.Y, 483, projectile.damage, 0, Main.myPlayer);
+				int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, direction.X, direction.Y, ProjectileID.SeedlerNut, projectile.damage, 0, Main.myPlayer);
 				Main.PlaySound(SoundID.Item, projectile.Center, 5);
 			}
 		}

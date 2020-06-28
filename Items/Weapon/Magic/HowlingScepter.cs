@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.knockBack = 4;
 			item.value = Item.sellPrice(0, 0, 5, 0);
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.crit = 6;
 			item.autoReuse = false;
 			item.shootSpeed = 9;

@@ -1,7 +1,7 @@
-
 using SpiritMod.Items.Material;
 using SpiritMod.Tiles.Furniture;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Armor.BloomwindArmor
@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Armor.BloomwindArmor
 			item.width = 34;
 			item.height = 30;
 			item.value = Item.buyPrice(gold: 4);
-			item.rare = 6;
+			item.rare = ItemRarityID.LightPurple;
 
 			item.defense = 9;
 		}

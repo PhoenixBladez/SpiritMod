@@ -84,7 +84,7 @@ namespace SpiritMod.NPCs
 			}
 
 			// Teleport
-			if(npc.ai[0] >= 500 && Main.netMode != 1) {
+			if(npc.ai[0] >= 500 && Main.netMode != NetmodeID.MultiplayerClient) {
 				teleport = true;
 			}
 
@@ -95,7 +95,7 @@ namespace SpiritMod.NPCs
 				--npc.ai[1];
 				if(npc.ai[1] == 15) {
 					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
-					if(Main.netMode != 1) {
+					if(Main.netMode != NetmodeID.MultiplayerClient) {
 						NPC.NewNPC((int)npc.position.X + npc.width / 2, (int)npc.Center.Y - 16, ModContent.NPCType<WitherBall>(), 0, 0, 0, 0, 0, 255);
 					}
 				}

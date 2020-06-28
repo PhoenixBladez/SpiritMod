@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon
 			item.noMelee = true;
 			item.knockBack = 0;
 			item.value = Item.buyPrice(0, 50, 0, 0);
-			item.rare = 10;
+			item.rare = ItemRarityID.Red;
 			item.shootSpeed = 4;
 			item.shoot = ModContent.ProjectileType<Projectiles.Slow>();
 			item.UseSound = SoundID.Item20;

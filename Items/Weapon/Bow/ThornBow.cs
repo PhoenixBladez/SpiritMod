@@ -14,8 +14,6 @@ namespace SpiritMod.Items.Weapon.Bow
 			Tooltip.SetDefault("Arrows shot may split into multiple damaging thorns upon hitting an enemy\nThorns may poison foes");
 		}
 
-
-
 		public override void SetDefaults()
 		{
 			item.damage = 21;
@@ -26,7 +24,7 @@ namespace SpiritMod.Items.Weapon.Bow
 			item.useTime = 26;
 			item.useAnimation = 26;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = 3;
+			item.shoot = ProjectileID.Shuriken;
 			item.useAmmo = AmmoID.Arrow;
 			item.knockBack = 2;
 			item.rare = ItemRarityID.Green;

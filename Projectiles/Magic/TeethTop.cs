@@ -42,7 +42,7 @@ namespace SpiritMod.Projectiles.Magic
 					projectile.velocity.Y = 0;
 				}
 				if(counter == 33) {
-					Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 2);
+					Main.PlaySound(SoundID.NPCHit, (int)projectile.position.X, (int)projectile.position.Y, 2);
 				}
 			}
 		}
@@ -53,7 +53,7 @@ namespace SpiritMod.Projectiles.Magic
 			for(int i = 0; i < 5; i++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<NightmareDust>());
 			}
-			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
+			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

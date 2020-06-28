@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.width = 36;
 			item.height = 38;
 			item.value = Item.sellPrice(0, 3, 0, 0);
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.crit += 4;
 			item.damage = 44;
 			item.knockBack = 5f;

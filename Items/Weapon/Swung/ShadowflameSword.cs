@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void SetDefaults()
 		{
 			item.width = item.height = 42;
-			item.rare = 6;
+			item.rare = ItemRarityID.LightPurple;
 			item.damage = 44;
 			item.knockBack = 6;
 			item.useStyle = ItemUseStyleID.SwingThrow;

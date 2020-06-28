@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.width = 40;
 			item.height = 40;
 			item.value = Terraria.Item.sellPrice(0, 5, 0, 0);
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.knockBack = 2.5f;
 			item.UseSound = SoundID.Item25;
 			item.shoot = ModContent.ProjectileType<TeslaTurret>();

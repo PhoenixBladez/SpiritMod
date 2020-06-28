@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 			item.CloneDefaults(ItemID.Grenade);
 			item.shoot = ModContent.ProjectileType<Grenadeproj>();
 			item.useAnimation = 30;
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.ranged = true;
 			item.useTime = 34;
 			item.damage = 110;

@@ -15,12 +15,12 @@ namespace SpiritMod.Items.Weapon.Spear
 
 		public override void SetDefaults()
 		{
-			item.useStyle = 3;
+			item.useStyle = ItemUseStyleID.Stabbing;
 			item.useTurn = false;
 			item.useAnimation = 12;
 			item.useTime = 12;
 			item.width = 24;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.height = 28;
 			item.damage = 11;
 			item.knockBack = 4f;

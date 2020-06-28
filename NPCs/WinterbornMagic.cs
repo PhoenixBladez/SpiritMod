@@ -93,7 +93,7 @@ namespace SpiritMod.NPCs
 
 			bool teleport = false;
 			// Teleport
-			if(npc.ai[0] >= 500 && Main.netMode != 1) {
+			if(npc.ai[0] >= 500 && Main.netMode != NetmodeID.MultiplayerClient) {
 				teleport = true;
 			}
 
@@ -106,7 +106,7 @@ namespace SpiritMod.NPCs
 				--npc.ai[1];
 				if(npc.ai[1] == 15) {
 					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
-					if(Main.netMode != 1) {
+					if(Main.netMode != NetmodeID.MultiplayerClient) {
 						Vector2 direction = Main.player[npc.target].Center - npc.Center;
 						direction.Normalize();
 						direction.X *= 4.9f;
@@ -121,7 +121,7 @@ namespace SpiritMod.NPCs
 								Main.projectile[p].tileCollide = false;
 							} else {
 								int somedamage = expertMode ? 17 : 34;
-								int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, 118, somedamage, 1, Main.myPlayer, 0, 0);
+								int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, ProjectileID.IceBolt, somedamage, 1, Main.myPlayer, 0, 0);
 								Main.projectile[p].hostile = true;
 								Main.projectile[p].friendly = false;
 								Main.projectile[p].tileCollide = false;

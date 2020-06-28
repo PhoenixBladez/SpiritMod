@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles
@@ -42,7 +43,7 @@ namespace SpiritMod.Projectiles
 			timer--;
 
 			if(timer == 0) {
-				Main.PlaySound(6, (int)projectile.position.X, (int)projectile.position.Y);
+				Main.PlaySound(SoundID.Grass, (int)projectile.position.X, (int)projectile.position.Y);
 				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X + Main.rand.Next(-3, 5), projectile.velocity.Y + Main.rand.Next(-3, 5), ModContent.ProjectileType<HomingPlant>(), 15, 2, projectile.owner, 0f, 0f);
 				timer = 25;
 			}

@@ -78,7 +78,7 @@ namespace SpiritMod.NPCs.Boss
 			{
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 73);
 
-				Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 2);
+				Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 2);
 				Main.PlaySound(SoundID.DD2_LightningBugZap, npc.position);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
@@ -96,7 +96,7 @@ namespace SpiritMod.NPCs.Boss
 				if(Main.expertMode && npc.life >= (npc.lifeMax / 2)) {
 					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 
-					Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 2);
+					Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 2);
 					Main.PlaySound(SoundID.DD2_LightningBugZap, npc.position);
 
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;

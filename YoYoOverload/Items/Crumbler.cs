@@ -18,7 +18,7 @@ namespace SpiritMod.YoYoOverload.Items
 			item.CloneDefaults(ItemID.WoodYoyo);
 			item.damage = 123;
 			item.value = Item.buyPrice(gold: 45);
-			item.rare = 8;
+			item.rare = ItemRarityID.Yellow;
 			item.knockBack = 1f;
 			item.channel = true;
 			item.useStyle = ItemUseStyleID.HoldingOut;

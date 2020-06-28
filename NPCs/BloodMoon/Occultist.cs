@@ -88,7 +88,7 @@ namespace SpiritMod.NPCs.BloodMoon
 			bool teleport = false;
 
 			// Teleport
-			if(npc.ai[0] >= 600 && Main.netMode != 1) {
+			if(npc.ai[0] >= 600 && Main.netMode != NetmodeID.MultiplayerClient) {
 				teleport = true;
 			}
 
@@ -99,8 +99,8 @@ namespace SpiritMod.NPCs.BloodMoon
 				--npc.ai[1];
 				if(npc.ai[1] == 0) {
 					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
-					if(Main.netMode != 1) {
-						Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 53);
+					if(Main.netMode != NetmodeID.MultiplayerClient) {
+						Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 53);
 						if(Main.rand.Next(4) == 0) {
 							{
 								Vector2 direction = Main.player[npc.target].Center - npc.Center;
@@ -157,8 +157,8 @@ namespace SpiritMod.NPCs.BloodMoon
 							}
 						} else if(NPC.AnyNPCs(NPCID.BloodZombie)) {
 							int feast = NPC.FindFirstNPC(NPCID.BloodZombie);
-							Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 6);
-							Main.PlaySound(4, Main.npc[feast].position, 2);
+							Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 6);
+							Main.PlaySound(SoundID.NPCKilled, Main.npc[feast].position, 2);
 							Main.npc[feast].life = 0;
 							for(int i = 0; i < 40; i++) {
 								int num = Dust.NewDust(Main.npc[feast].position, Main.npc[feast].width, Main.npc[feast].height, 173, 0f, -2f, 0, default(Color), 2f);
@@ -277,13 +277,13 @@ namespace SpiritMod.NPCs.BloodMoon
 		{
 			int d = 173;
 			int d1 = 173;
-			Main.PlaySound(3, npc.Center, 2);
+			Main.PlaySound(SoundID.NPCHit, npc.Center, 2);
 			for(int k = 0; k < 30; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);
 				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
 			}
 			if(npc.life <= 0) {
-				Main.PlaySound(4, npc.Center, 2);
+				Main.PlaySound(SoundID.NPCKilled, npc.Center, 2);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Occultist/Occultist1"));
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Occultist/Occultist2"));
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Occultist/Occultist3"));

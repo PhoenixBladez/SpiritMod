@@ -89,11 +89,11 @@ namespace SpiritMod.NPCs.BloodMoon
 		{
 			npc.spriteDirection = npc.direction;
 			timer++;
-			if(timer == 400 && Main.netMode != 1) {
-				Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 7);
+			if(timer == 400 && Main.netMode != NetmodeID.MultiplayerClient) {
+				Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 7);
 				npc.netUpdate = true;
 			}
-			if(timer == 400 && Main.netMode != 1) {
+			if(timer == 400 && Main.netMode != NetmodeID.MultiplayerClient) {
 				num34616 = .95f;
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();

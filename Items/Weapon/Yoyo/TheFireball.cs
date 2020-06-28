@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Weapon.Yoyo
 			item.CloneDefaults(ItemID.WoodYoyo);
 			item.damage = 21;
 			item.value = Terraria.Item.sellPrice(0, 0, 90, 0);
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.knockBack = 1;
 			item.channel = true;
 			item.useStyle = ItemUseStyleID.HoldingOut;
