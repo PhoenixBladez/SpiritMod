@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Armor.ReachBoss
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Thornspeaker's Garb");
-            Tooltip.SetDefault("Increases max minions by 1");
+            Tooltip.SetDefault("Increases your max number of minions");
 
         }
 
