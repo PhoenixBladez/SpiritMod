@@ -8,8 +8,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 {
 	class HarpyPet : ModProjectile
 	{
-		public static readonly int _type;
-
+		
 		private const float FOV = (float)System.Math.PI / 2;
 		private const float Max_Range = 16 * 30;
 		private const float Spread = (float)System.Math.PI / 9;
@@ -46,14 +45,14 @@ namespace SpiritMod.Projectiles.DonatorItems
 		{
 			if(++animationCounter >= 5) {
 				animationCounter = 0;
-				if(++frame >= Main.projFrames[_type])
+				if(++frame >= Main.projFrames[ModContent.ProjectileType<HarpyPet>()])
 					frame = 0;
 			}
 			projectile.frameCounter = 0;
 			projectile.frame = frame;
 
 			var owner = Main.player[projectile.owner];
-			if(owner.active && owner.HasBuff(HarpyPetBuff._type))
+			if(owner.active && owner.HasBuff(ModContent.BuffType<HarpyPetBuff>()))
 				projectile.timeLeft = 2;
 
 			if(projectile.owner != Main.myPlayer)
@@ -94,9 +93,9 @@ namespace SpiritMod.Projectiles.DonatorItems
 			var direction = target - origin;
 			direction = direction.SafeNormalize(Vector2.UnitX);
 			direction *= 3f;
-			Projectile.NewProjectile(origin, direction.RotatedBy(Spread), HarpyPetFeather._type, Damage, 0, projectile.owner);
-			Projectile.NewProjectile(origin, direction.RotatedBy(-Spread), HarpyPetFeather._type, Damage, 0, projectile.owner);
-			Projectile.NewProjectile(origin, direction, HarpyPetFeather._type, Damage, 0, projectile.owner);
+			Projectile.NewProjectile(origin, direction.RotatedBy(Spread), ModContent.ProjectileType<HarpyPetFeather>(), Damage, 0, projectile.owner);
+			Projectile.NewProjectile(origin, direction.RotatedBy(-Spread), ModContent.ProjectileType<HarpyPetFeather>(), Damage, 0, projectile.owner);
+			Projectile.NewProjectile(origin, direction, ModContent.ProjectileType<HarpyPetFeather>(), Damage, 0, projectile.owner);
 		}
 	}
 }

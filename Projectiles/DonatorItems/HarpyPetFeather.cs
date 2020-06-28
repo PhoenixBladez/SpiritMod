@@ -5,8 +5,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 {
 	class HarpyPetFeather : ModProjectile
 	{
-		public static readonly int _type;
-
+		
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Tiny Feather");
@@ -22,7 +21,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 			projectile.penetrate = 1;
 			projectile.extraUpdates = 1;
 			projectile.timeLeft = 600;
-			projectile.frame = Main.rand.Next(Main.projFrames[_type]);
+			projectile.frame = Main.rand.Next(Main.projFrames[projectile.type]);
 		}
 
 		public override void AI()

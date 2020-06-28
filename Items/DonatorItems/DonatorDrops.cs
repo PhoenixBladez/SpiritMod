@@ -17,7 +17,7 @@ namespace SpiritMod.Items.DonatorItems
 
 		public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
 		{
-			if(player.HasBuff(LoomingPresence._type)) {
+			if(player.HasBuff(ModContent.BuffType<LoomingPresence>())) {
 				spawnRate = (int)(spawnRate * 0.8);
 				maxSpawns += 2;
 			}

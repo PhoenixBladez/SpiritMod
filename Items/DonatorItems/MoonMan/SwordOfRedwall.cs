@@ -7,8 +7,7 @@ namespace SpiritMod.Items.DonatorItems.MoonMan
 {
 	class SwordOfRedwall : ModItem
 	{
-		public static readonly int _type;
-
+		
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sword of Redwall");

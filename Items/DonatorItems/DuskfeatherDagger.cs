@@ -8,8 +8,6 @@ namespace SpiritMod.Items.DonatorItems
 {
 	class DuskfeatherDagger : ModItem
 	{
-		public static readonly int _type;
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Duskfeather Dagger");
@@ -25,7 +23,7 @@ namespace SpiritMod.Items.DonatorItems
 			item.height = 42;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 
-			item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
+			item.value = Item.sellPrice(0, 1, 0, 0);
 			item.rare = ItemRarityID.Orange;
 
 			item.damage = 24;
@@ -41,9 +39,9 @@ namespace SpiritMod.Items.DonatorItems
 			item.useTime = 18;
 			item.useAnimation = 18;
 
-			item.buffType = HarpyPetBuff._type;
+			item.buffType = ModContent.BuffType<HarpyPetBuff>();
 			//Don't change this line, or the item will break.
-			item.shoot = Projectiles.DonatorItems.HarpyPet._type;
+			item.shoot = ModContent.ProjectileType<HarpyPet>();
 		}
 
 		public override bool AltFunctionUse(Player player)
@@ -64,7 +62,7 @@ namespace SpiritMod.Items.DonatorItems
 					return false;
 			} else {
 				if(player.ownedProjectileCounts[ModContent.ProjectileType<DuskfeatherBlade>()] >= 8)
-					Projectiles.DonatorItems.DuskfeatherBlade.AttractOldestBlade(player);
+					DuskfeatherBlade.AttractOldestBlade(player);
 				item.useStyle = ItemUseStyleID.SwingThrow;
 				item.noUseGraphic = true;
 				item.UseSound = SoundID.Item1;
@@ -75,7 +73,7 @@ namespace SpiritMod.Items.DonatorItems
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			if(player.altFunctionUse == 2) {
-				Projectiles.DonatorItems.DuskfeatherBlade.AttractBlades(player);
+				DuskfeatherBlade.AttractBlades(player);
 				return false;
 			}
 			return true;

@@ -6,8 +6,7 @@ namespace SpiritMod.Items.DonatorItems
 {
 	class Shinigami : ModItem
 	{
-		public static readonly int _type;
-
+		
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Shinigami");

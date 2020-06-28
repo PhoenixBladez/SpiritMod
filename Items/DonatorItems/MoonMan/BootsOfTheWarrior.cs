@@ -7,8 +7,6 @@ namespace SpiritMod.Items.DonatorItems.MoonMan
 	[AutoloadEquip(EquipType.Legs)]
 	class BootsOfTheWarrior : ModItem
 	{
-		public static readonly int _type;
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Boots of the Warrior");

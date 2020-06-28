@@ -5,8 +5,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 {
 	class Omniwrench : ModProjectile
 	{
-		public static readonly int _type;
-
+		
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Omniwrench");

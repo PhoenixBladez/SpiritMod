@@ -6,8 +6,7 @@ namespace SpiritMod.Items.DonatorItems
 {
 	class Omniwrench : ModItem
 	{
-		public static readonly int _type;
-
+		
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Omniwrench");
@@ -45,7 +44,7 @@ namespace SpiritMod.Items.DonatorItems
 		public override bool CanUseItem(Player player)
 		{
 			if(player.altFunctionUse == 2) {
-				item.shoot = Projectiles.DonatorItems.Omniwrench._type;
+				item.shoot = ModContent.ProjectileType<Projectiles.DonatorItems.Omniwrench>();
 				item.noUseGraphic = true;
 				item.noMelee = true;
 			} else {
@@ -53,7 +52,7 @@ namespace SpiritMod.Items.DonatorItems
 				item.noUseGraphic = false;
 				item.noMelee = false;
 			}
-			return player.ownedProjectileCounts[Projectiles.DonatorItems.Omniwrench._type] == 0;
+			return player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.DonatorItems.Omniwrench>()] == 0;
 		}
 
 		public override void AddRecipes()

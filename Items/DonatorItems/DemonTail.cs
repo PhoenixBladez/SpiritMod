@@ -8,8 +8,7 @@ namespace SpiritMod.Items.DonatorItems
 {
 	class DemonTail : ModItem
 	{
-		public static readonly int _type;
-
+		
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Demon Tail");
@@ -30,7 +29,7 @@ namespace SpiritMod.Items.DonatorItems
 			item.rare = ItemRarityID.LightRed;
 			item.noMelee = true;
 
-			item.buffType = LoomingPresence._type;
+			item.buffType = ModContent.BuffType<LoomingPresence>();
 			item.shoot = ModContent.ProjectileType<DemonicBlob>();
 		}
 

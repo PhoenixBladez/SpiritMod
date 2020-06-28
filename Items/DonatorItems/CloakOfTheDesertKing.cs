@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using SpiritMod.Projectiles.DonatorItems;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -6,13 +7,12 @@ namespace SpiritMod.Items.DonatorItems
 {
 	class CloakOfTheDesertKing : ModItem
 	{
-		public static readonly int _type;
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cloak of the Desert King");
-			Tooltip.SetDefault("Summons a killer bunny ");
+			Tooltip.SetDefault("Summons a killer bunny");
 		}
+
 		public override void SetDefaults()
 		{
 			item.width = 26;
@@ -27,10 +27,11 @@ namespace SpiritMod.Items.DonatorItems
 			item.useAnimation = 30;
 			item.summon = true;
 			item.noMelee = true;
-			item.buffType = RabbitOfCaerbannogBuff._type;
-			item.shoot = Projectiles.DonatorItems.RabbitOfCaerbannog._type;
+			item.buffType = ModContent.BuffType<RabbitOfCaerbannogBuff>();
+			item.shoot = ModContent.ProjectileType<RabbitOfCaerbannog>();
 			item.UseSound = SoundID.Item44;
 		}
+
 		public override void AddRecipes()
 		{
 			var recipe = new ModRecipe(mod);

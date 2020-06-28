@@ -6,8 +6,6 @@ namespace SpiritMod.Items.DonatorItems.MoonMan
 	[AutoloadEquip(EquipType.Body)]
 	class ChestplateOfTheWarrior : ModItem
 	{
-		public static readonly int _type;
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Chestplate of the Warrior");

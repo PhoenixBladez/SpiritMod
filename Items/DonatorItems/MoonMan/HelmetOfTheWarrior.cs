@@ -7,8 +7,6 @@ namespace SpiritMod.Items.DonatorItems.MoonMan
 	[AutoloadEquip(EquipType.Head)]
 	class HelmetOfTheWarrior : ModItem
 	{
-		public static readonly int _type;
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Helmet of the Warrior");
@@ -26,9 +24,8 @@ namespace SpiritMod.Items.DonatorItems.MoonMan
 		}
 
 		public override bool IsArmorSet(Item head, Item body, Item legs)
-		{
-			return body.type == ChestplateOfTheWarrior._type && legs.type == BootsOfTheWarrior._type;
-		}
+			=> body.type == ModContent.ItemType<ChestplateOfTheWarrior>() 
+			&& legs.type == ModContent.ItemType<BootsOfTheWarrior>();
 
 		public override void UpdateArmorSet(Player player)
 		{
