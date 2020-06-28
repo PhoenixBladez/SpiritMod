@@ -59,7 +59,7 @@ namespace SpiritMod.NPCs.Tides
 				createdLaser = false;
 				npc.frameCounter = 0;
 			}
-			if(npc.ai[0] == 630) {
+			if(npc.ai[0] == 550) {
 				bloom = false;
 				bloomCounter = 1;
 				Vector2 vel = new Vector2(30f, 0).RotatedBy((float)(Main.rand.Next(90) * Math.PI / 180));
@@ -68,7 +68,7 @@ namespace SpiritMod.NPCs.Tides
 				Projectile.NewProjectile(npc.position + vel.RotatedBy(3.14) + new Vector2(xoffset, 6), Vector2.Zero, ModContent.ProjectileType<MangoLaser>(), npc.damage, 0, npc.target);
 				Projectile.NewProjectile(npc.position + vel.RotatedBy(4.71) + new Vector2(xoffset, 6), Vector2.Zero, ModContent.ProjectileType<MangoLaser>(), npc.damage, 0, npc.target);
 			}
-			if(npc.ai[0] >= 650) {
+			if(npc.ai[0] >= 570) {
 				shooting = false;
 				npc.ai[0] = 0;
 			}
@@ -88,7 +88,7 @@ namespace SpiritMod.NPCs.Tides
 					}
 					if(player.position.Y < npc.position.Y && npc.ai[0] % 30 == 0) {
 						jump = true;
-						npc.velocity.X = xoffset / 1.5f;
+						npc.velocity.X = xoffset / 1.25f;
 						npc.velocity.Y = -9;
 					}
 				}

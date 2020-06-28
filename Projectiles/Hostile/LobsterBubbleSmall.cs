@@ -17,7 +17,7 @@ namespace SpiritMod.Projectiles.Hostile
 			projectile.height = 16;
 			projectile.friendly = false;
 			projectile.tileCollide = true;
-			projectile.hostile = false;
+			projectile.hostile = true;
 			projectile.penetrate = 1;
 			projectile.timeLeft = 150;
 			projectile.alpha = 75;

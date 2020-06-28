@@ -17,7 +17,7 @@ namespace SpiritMod.NPCs.Tides
 
 		public override void SetDefaults()
 		{
-			npc.width = 106;
+			npc.width = 80;
 			npc.height = 82;
 			npc.damage = 24;
 			npc.defense = 4;
@@ -81,17 +81,20 @@ namespace SpiritMod.NPCs.Tides
 				int frame = (int)npc.frameCounter;
 				npc.frame.Y = (frame + 6) * frameHeight;
 				if(npc.frameCounter > 2 && blockTimer % 5 == 0) {
-					Projectile.NewProjectile(npc.Center.X + (npc.direction * 44), npc.Center.Y - 8, npc.direction * Main.rand.NextFloat(3, 6), 0 - Main.rand.NextFloat(1), ModContent.ProjectileType<LobsterBubbleSmall>(), npc.damage, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(npc.Center.X + (npc.direction * 34), npc.Center.Y - 8, npc.direction * Main.rand.NextFloat(3, 6), 0 - Main.rand.NextFloat(1), ModContent.ProjectileType<LobsterBubbleSmall>(), npc.damage, 1, Main.myPlayer, 0, 0);
 				}
 			}
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if(npc.life <= 0) {
-				Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraDeath"));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Kakamora_Gore1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Kakamora_Gore2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Kakamora_Gore3"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LargeCrustacean/lobster1"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LargeCrustacean/lobster2"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LargeCrustacean/lobster3"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LargeCrustacean/lobster4"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LargeCrustacean/lobster5"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LargeCrustacean/lobster6"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LargeCrustacean/lobster7"), 1f);
 			}
 		}
 	}

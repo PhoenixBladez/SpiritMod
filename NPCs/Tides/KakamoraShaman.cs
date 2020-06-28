@@ -43,6 +43,7 @@ namespace SpiritMod.NPCs.Tides
 				Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraThrow"));
 				npc.frameCounter = 0;
 				healed = false;
+				npc.velocity.X = 0;
 			}
 			if(blockTimer > 200) {
 				blocking = true;
@@ -54,8 +55,6 @@ namespace SpiritMod.NPCs.Tides
 			}
 			if(blocking) {
 				npc.aiStyle = 0;
-				npc.velocity.X = 0;
-				npc.defense = 999;
 				npc.HitSound = SoundID.NPCHit4;
 				if(player.position.X > npc.position.X) {
 					npc.spriteDirection = 1;
@@ -65,7 +64,6 @@ namespace SpiritMod.NPCs.Tides
 			} else {
 				npc.spriteDirection = npc.direction;
 				npc.aiStyle = 3;
-				npc.defense = 6;
 				npc.HitSound = SoundID.NPCHit2;
 				if(Main.rand.NextBool(1500)) {
 					Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraIdle3"));
@@ -125,7 +123,8 @@ namespace SpiritMod.NPCs.Tides
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Kakamora_Gore1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Kakamora_Gore2"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Kakamora_Gore3"), 1f);
-			} else if(!blocking) {
+			} else 
+			{
 				Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraHit"));
 			}
 		}

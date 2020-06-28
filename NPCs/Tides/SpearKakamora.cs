@@ -71,7 +71,7 @@ namespace SpiritMod.NPCs.Tides
 					npc.spriteDirection = -1;
 				}
 			}
-			if(timer == 200) {
+			if(timer == 170) {
 				charging = true;
 				npc.velocity.X = 0;
 				if(player.position.X > npc.position.X) {
@@ -84,25 +84,25 @@ namespace SpiritMod.NPCs.Tides
 				Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraIdle2"));
 			}
 			if(charging) {
-				if(timer == 260) {
+				if(timer == 230) {
 					npc.velocity.X = 4 * chargeDirection;
 					npc.velocity.Y = -7;
 					Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraIdle1"));
 				}
-				if(timer < 260) {
+				if(timer < 230) {
 					npc.aiStyle = -1;
 					npc.velocity.X = -0.6f * chargeDirection;
 				} else {
 					npc.aiStyle = 26;
 					npc.spriteDirection = npc.direction;
 				}
-				if(Math.Abs(npc.velocity.X) < 3 && timer > 260) {
+				if(Math.Abs(npc.velocity.X) < 3 && timer > 230) {
 					charging = false;
 					npc.aiStyle = 3;
 					npc.rotation = 0;
 					timer = 0;
 				}
-				if((chargeDirection == 1 && player.position.X < npc.position.X) || (chargeDirection == -1 && player.position.X > npc.position.X) && timer > 260) {
+				if((chargeDirection == 1 && player.position.X < npc.position.X) || (chargeDirection == -1 && player.position.X > npc.position.X) && timer > 230) {
 					npc.rotation += 0.1f * npc.velocity.X;
 					npc.velocity.Y = 5;
 				}
