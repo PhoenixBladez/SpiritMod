@@ -20,8 +20,8 @@ namespace SpiritMod.Items.Weapon.Gun
             item.ranged = true;
             item.width = 50;
             item.height = 38;
-            item.useTime = 17;
-            item.useAnimation = 17;
+            item.useTime = 12;
+            item.useAnimation = 12;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 2;
@@ -49,7 +49,7 @@ namespace SpiritMod.Items.Weapon.Gun
             }
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) {
-            Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 45f;
+            Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY-1)) * 45f;
             if(Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
                 position += muzzleOffset;
             }

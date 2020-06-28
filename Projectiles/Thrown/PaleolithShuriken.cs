@@ -20,9 +20,9 @@ namespace SpiritMod.Projectiles.Thrown
             projectile.penetrate = 4;
             projectile.friendly = true;
             projectile.ranged = true;
-            projectile.tileCollide = false;
+            projectile.tileCollide = true;
 
-            projectile.timeLeft = 120;
+            projectile.timeLeft = 180;
         }
 
         public override bool PreAI() {

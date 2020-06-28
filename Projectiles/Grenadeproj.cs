@@ -24,6 +24,7 @@ namespace SpiritMod.Projectiles
             int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0, 0, ProjectileID.Electrosphere, (int)(projectile.damage), 0, Main.myPlayer);
             Main.projectile[proj].friendly = true;
             Main.projectile[proj].hostile = false;
+            Main.projectile[proj].timeLeft = 180;
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 12);
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
         }

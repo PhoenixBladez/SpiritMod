@@ -44,6 +44,18 @@ namespace SpiritMod.Projectiles.Thrown
                     Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
                 }
             }
+			for (int i = 0; i < 3; i++)
+			{
+                Gore.NewGore(projectile.Center, projectile.velocity, mod.GetGoreSlot("Gores/CryoBomb/CryoShard1"), 1f);
+            }
+            for (int i = 0; i < 3; i++)
+            {
+                Gore.NewGore(projectile.Center, projectile.velocity, mod.GetGoreSlot("Gores/CryoBomb/CryoShard2"), 1f); 
+            }
+            for (int i = 0; i < 3; i++)
+            {
+                Gore.NewGore(projectile.Center, projectile.velocity, mod.GetGoreSlot("Gores/CryoBomb/CryoShard3"), 1f); 
+            }
         }
         public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
         {
@@ -51,7 +63,7 @@ namespace SpiritMod.Projectiles.Thrown
         }
         public override Color? GetAlpha(Color lightColor)
         {
-            return Color.White;
+            return new Color(220, 220, 220, 100);
         }
         public override bool PreAI()
         {
@@ -60,6 +72,7 @@ namespace SpiritMod.Projectiles.Thrown
              counter-=0.5f;
             }
             projectile.frame = (int)counter;
+            projectile.scale -= .0025f;
             return false;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {

@@ -1169,10 +1169,14 @@ namespace SpiritMod
         }
 
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit) {
-            if (AceOfSpades && target.life < (damage * 2) - (target.defense / 2) )
+            if (AceOfSpades && target.life < (damage * 2) - (target.defense / 2) && !crit)
             {
                 crit = true;
                 damage = (int)(damage * 2f);
+                for (int i = 0; i < 3; i++)
+                {
+                    Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<SpadeDust>(), 0, -0.8f);
+                }
             }
             if(AceOfHearts && target.life < (damage * 2) - (target.defense / 2) && crit && !target.friendly && target.lifeMax > 5)
             {
@@ -1181,6 +1185,18 @@ namespace SpiritMod
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 1734);
                 } else {
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 58);
+                }
+                  for (int i = 0; i < 3; i++)
+                {
+                    Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<HeartDust>(), 0, -0.8f);
+                }
+            }
+            if (AceOfClubs && crit)
+            {
+                knockback *= 1.5f;
+                  for (int i = 0; i < 3; i++)
+                {
+                    Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<ClubDust>(), 0, -0.8f);
                 }
             }
             if(astralSet) {

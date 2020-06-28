@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Weapon.Swung
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Clatterbone Longsword");
-            Tooltip.SetDefault("Attacks occasionally pierce through enemies, lowering their defense");
+            Tooltip.SetDefault("Attacks occasionally lowering enemy defense");
         }
 
 

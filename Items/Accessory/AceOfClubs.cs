@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Ace of Clubs");
-            Tooltip.SetDefault("Crits knock enemies back farther");
+            Tooltip.SetDefault("Critical hits knock enemies back farther");
         }
 
 

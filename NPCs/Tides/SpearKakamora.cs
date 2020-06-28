@@ -1,10 +1,11 @@
 ﻿
 using Microsoft.Xna.Framework;
 using System;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
-using SpiritMod.NPCs.Tides;
 using Terraria.ModLoader;
+using SpiritMod.NPCs.Tides;
 using SpiritMod.Projectiles.Hostile;
 
 namespace SpiritMod.NPCs.Tides
@@ -38,6 +39,15 @@ namespace SpiritMod.NPCs.Tides
         bool thrownCoconut = false;
         public override void AI() {
             Player player = Main.player[npc.target];
+            var list2 = Main.projectile.Where(x => x.Hitbox.Intersects(npc.Hitbox));
+                foreach(var proj in list2) {
+                    if(proj.type == ModContent.ProjectileType<ShamanBolt>() && proj.active)
+                    {
+                        npc.life += 30;
+                        npc.HealEffect(30, true);
+                        proj.active = false;
+                    }
+                }
             if (!throwing || charging)
             {
                  timer++;
@@ -120,6 +130,15 @@ namespace SpiritMod.NPCs.Tides
                npc.rotation = 0; 
                npc.aiStyle = 3; 
                npc.spriteDirection = npc.direction;
+               var list = Main.npc.Where(x => x.Hitbox.Intersects(npc.Hitbox));
+                 foreach(var npc2 in list) {
+                    if(npc2.type == ModContent.NPCType<LargeCrustecean>() && npc.Center.Y > npc2.Center.Y && npc2.active)
+                    {
+                        npc.velocity.X = npc2.direction * 7;
+                        npc.velocity.Y = -2;
+                        Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraHit"));
+                    }
+            }
             }
         }
 

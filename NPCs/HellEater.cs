@@ -25,7 +25,7 @@ namespace SpiritMod.NPCs
             npc.HitSound = SoundID.NPCHit2;
             npc.DeathSound = SoundID.NPCDeath6;
             npc.value = 300f;
-            npc.knockBackResist = .25f;
+            npc.knockBackResist = .29f;
             npc.aiStyle = 85;
             npc.noGravity = true;
             aiType = NPCID.StardustCellBig;
@@ -94,12 +94,18 @@ namespace SpiritMod.NPCs
                 target.AddBuff(BuffID.OnFire, 180);
             }
             target.AddBuff(BuffID.Bleeding, 180);
-            if(npc.life <= npc.lifeMax - 10) {
-                npc.life += 10;
-                npc.HealEffect(10, true);
-            } else if(npc.life < npc.lifeMax) {
-                npc.HealEffect(npc.lifeMax - npc.life, true);
-                npc.life += npc.lifeMax - npc.life;
+            if (Main.rand.Next(4) == 0)
+            {
+                if (npc.life <= npc.lifeMax - 10)
+                {
+                    npc.life += 10;
+                    npc.HealEffect(10, true);
+                }
+                else if (npc.life < npc.lifeMax)
+                {
+                    npc.HealEffect(npc.lifeMax - npc.life, true);
+                    npc.life += npc.lifeMax - npc.life;
+                }
             }
         }
 

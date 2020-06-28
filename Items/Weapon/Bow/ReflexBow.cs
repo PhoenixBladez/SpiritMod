@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Bow
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Clatter Bow");
-            Tooltip.SetDefault("Attacks occasionally pierce through enemies, lowering their defense");
+            Tooltip.SetDefault("Attacks occasionally lowering enemy defense");
         }
 
 

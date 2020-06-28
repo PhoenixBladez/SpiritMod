@@ -1,10 +1,12 @@
 ﻿
 using Microsoft.Xna.Framework;
 using System;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
-using SpiritMod.NPCs.Tides;
 using Terraria.ModLoader;
+using SpiritMod.NPCs.Tides;
+using SpiritMod.Projectiles.Hostile;
 
 namespace SpiritMod.NPCs.Tides
 {
@@ -35,6 +37,15 @@ namespace SpiritMod.NPCs.Tides
              npc.TargetClosest(true);
             Player player = Main.player[npc.target];
             blockTimer++;
+            var list2 = Main.projectile.Where(x => x.Hitbox.Intersects(npc.Hitbox));
+                foreach(var proj in list2) {
+                    if(proj.type == ModContent.ProjectileType<ShamanBolt>() && proj.active)
+                    {
+                        npc.life += 30;
+                        npc.HealEffect(30, true);
+                        proj.active = false;
+                    }
+                }
             if (blockTimer == 200)
             {
                 Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraThrow"));
@@ -73,6 +84,15 @@ namespace SpiritMod.NPCs.Tides
                 {
                     Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraIdle3"));
                 }
+                var list = Main.npc.Where(x => x.Hitbox.Intersects(npc.Hitbox));
+                 foreach(var npc2 in list) {
+                    if(npc2.type == ModContent.NPCType<LargeCrustecean>() && npc.Center.Y > npc2.Center.Y && npc2.active)
+                    {
+                        npc.velocity.X = npc2.direction * 7;
+                        npc.velocity.Y = -2;
+                        Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraHit"));
+                    }
+            }
             }
         }
 

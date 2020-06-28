@@ -41,8 +41,13 @@ namespace SpiritMod.Items.Weapon.Gun
         }
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) {
             charger++;
-            if(player.altFunctionUse == 2) {
-                Main.PlaySound(SoundLoader.customSoundType, player.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Soldier1"));
+            Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY-1)) * 45f;
+            if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
+            {
+                position += muzzleOffset;
+            }
+            if (player.altFunctionUse == 2) {
+                Main.PlaySound(2, player.position, 96);
 
                 Projectile.NewProjectile(position.X, position.Y - 14, speedX * 2, speedY * 2, ModContent.ProjectileType<HelixRocket>(), item.damage * 2 / 4 * 5 - 4, 11, player.whoAmI, 0f, 0f);
                 Projectile.NewProjectile(position.X + 10, position.Y, speedX * 2, speedY * 2, ModContent.ProjectileType<HelixRocket>(), item.damage * 2 / 4 * 5 - 4, 11, player.whoAmI, 0f, 0f);

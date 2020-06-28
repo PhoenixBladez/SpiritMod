@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Weapon.Bow
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Starcharger");
-            Tooltip.SetDefault("Shoots oppositely charged arrows that stick to enemies and tiles\nOppositely charged arrows explode upon touching each other");
+            Tooltip.SetDefault("Left-click to shoot Positive Arrows\nRight-click to shoot Negative Arrows\nOppositely charged arrows explode upon touching each other");
             SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Bow/SteamplateBow_Glow");
         }
 
