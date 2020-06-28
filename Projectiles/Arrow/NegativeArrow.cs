@@ -136,7 +136,7 @@ namespace SpiritMod.Projectiles.Arrow
 						Main.dust[num622].noGravity = true;
 						Main.dust[num622].scale = 0.5f;
 					}
-					Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+					Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 					projectile.damage = damage;
 					projectile.friendly = true;
 					//projectile.penetrate = 1;

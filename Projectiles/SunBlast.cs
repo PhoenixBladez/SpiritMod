@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles
@@ -42,7 +43,7 @@ namespace SpiritMod.Projectiles
 		public override void Kill(int timeLeft)
 		{
 			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<HostileWrath>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
 			projectile.width = 50;
@@ -112,7 +113,7 @@ namespace SpiritMod.Projectiles
 		{
 			projectile.Kill();
 			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<HostileWrath>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
 			projectile.width = 50;

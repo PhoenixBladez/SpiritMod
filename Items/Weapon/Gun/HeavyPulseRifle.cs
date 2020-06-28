@@ -50,7 +50,7 @@ namespace SpiritMod.Items.Weapon.Gun
 				position += muzzleOffset;
 			}
 			if(player.altFunctionUse == 2) {
-				Main.PlaySound(2, player.position, 96);
+				Main.PlaySound(SoundID.Item, player.position, 96);
 
 				Projectile.NewProjectile(position.X, position.Y - 14, speedX * 2, speedY * 2, ModContent.ProjectileType<HelixRocket>(), item.damage * 2 / 4 * 5 - 4, 11, player.whoAmI, 0f, 0f);
 				Projectile.NewProjectile(position.X + 10, position.Y, speedX * 2, speedY * 2, ModContent.ProjectileType<HelixRocket>(), item.damage * 2 / 4 * 5 - 4, 11, player.whoAmI, 0f, 0f);

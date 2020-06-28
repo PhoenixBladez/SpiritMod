@@ -5,6 +5,7 @@ using SpiritMod.Projectiles.Boss;
 using SpiritMod.Projectiles.Hostile;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.Boss.Infernon
@@ -110,7 +111,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			}
 			if(timer == 210 || timer == 220 || timer == 230 || timer == 240 || timer == 250 || timer == 260 || timer == 270 || timer == 280 || timer == 290 || timer == 300 || timer == 310 || timer == 320 || timer == 340 || timer == 350) {
 				if(npc.life >= (npc.lifeMax / 3)) {
-					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 33);
+					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 33);
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
 					direction.Normalize();
 					direction.X *= 6f;

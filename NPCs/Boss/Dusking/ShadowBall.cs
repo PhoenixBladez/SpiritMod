@@ -34,7 +34,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 		{
 			if(npc.ai[1] == 0f) {
 				npc.ai[1] = 1f;
-				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 34);
+				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 34);
 			} else if(npc.ai[1] == 1f && Main.netMode != 1) {
 				int target = -1;
 				float distance = 2000f;
@@ -156,7 +156,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 			int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, ModContent.ProjectileType<HostileWrath>(), dam, 1, Main.myPlayer, 0, 0);
 			Main.projectile[p].timeLeft = 30;
 
-			Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 14);
+			Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 14);
 			if(npc.life <= 0) {
 				npc.position.X = npc.position.X + (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y + (float)(npc.height / 2);

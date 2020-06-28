@@ -44,7 +44,7 @@ namespace SpiritMod.NPCs.BloodMoon
 			//"teleport away" at daylight
 			if(Main.dayTime) {
 				npc.alpha = 255;
-				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
+				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 				for(int index1 = 0; index1 < 50; ++index1) {
 					int newDust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0.0f, 0.0f, 100, new Color(), 1.5f);
 					Main.dust[newDust].velocity *= 3f;
@@ -55,7 +55,7 @@ namespace SpiritMod.NPCs.BloodMoon
 			}
 			if(npc.ai[2] != 0 && npc.ai[3] != 0) {
 				// Teleport effects: away.
-				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
+				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 				for(int index1 = 0; index1 < 50; ++index1) {
 					int newDust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0.0f, 0.0f, 100, new Color(), 1.5f);
 					Main.dust[newDust].velocity *= 3f;
@@ -68,7 +68,7 @@ namespace SpiritMod.NPCs.BloodMoon
 				npc.ai[2] = 0.0f;
 				npc.ai[3] = 0.0f;
 				// Teleport effects: arrived.
-				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
+				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 				for(int index1 = 0; index1 < 50; ++index1) {
 					int newDust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0.0f, 0.0f, 100, new Color(), 1.5f);
 					Main.dust[newDust].velocity *= 3f;
@@ -98,7 +98,7 @@ namespace SpiritMod.NPCs.BloodMoon
 			if(npc.ai[1] > 0) {
 				--npc.ai[1];
 				if(npc.ai[1] == 0) {
-					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
+					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 					if(Main.netMode != 1) {
 						Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 53);
 						if(Main.rand.Next(4) == 0) {
@@ -116,7 +116,7 @@ namespace SpiritMod.NPCs.BloodMoon
 									Main.projectile[p].velocity.Normalize();
 									Main.projectile[p].velocity.X *= 3;
 									Main.projectile[p].velocity.Y *= 3;
-									Main.PlaySound(2, (int)Main.projectile[p].position.X, (int)Main.projectile[p].position.Y, 8);
+									Main.PlaySound(SoundID.Item, (int)Main.projectile[p].position.X, (int)Main.projectile[p].position.Y, 8);
 									for(int i = 0; i < 10; i++) {
 										int num = Dust.NewDust(Main.projectile[p].position, Main.projectile[p].width, Main.projectile[p].height, 173, 0f, -2f, 0, default(Color), 2f);
 										Main.dust[num].noGravity = true;

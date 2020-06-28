@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Magic
@@ -86,7 +87,7 @@ namespace SpiritMod.Projectiles.Magic
 			for(int i = 0; i < 10; i++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 5);
 			}
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 103);
+			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 103);
 			int n = 4;
 			int deviation = Main.rand.Next(0, 300);
 			for(int i = 0; i < n; i++) {

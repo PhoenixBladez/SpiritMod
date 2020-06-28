@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.DonatorItems;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles
@@ -35,7 +36,7 @@ namespace SpiritMod.Projectiles
 				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, vel.X, vel.Y, ModContent.ProjectileType<QuicksilverBolt>(), 45, 1, projectile.owner, -20, 0f);
 
 			}
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Wrath>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 
 			for(int i = 0; i < 5; i++) {

@@ -59,7 +59,7 @@ namespace SpiritMod.Projectiles
 			if(counter >= 2) {
 				projectile.active = false;
 				((MyPlayer)player.GetModPlayer(mod, "MyPlayer")).shieldsLeft -= 1;
-				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
+				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 27);
 			}
 			Vector2 center = projectile.Center;
 			float num8 = (float)player.miscCounter / 60f;

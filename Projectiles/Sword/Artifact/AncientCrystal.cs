@@ -29,7 +29,7 @@ namespace SpiritMod.Projectiles.Sword.Artifact
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 50);
+			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 50);
 
 			if(Main.rand.Next(2) == 0) {
 				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<Dusts.Crystal>(), 0f, 0f, 100, default(Color), 2f);

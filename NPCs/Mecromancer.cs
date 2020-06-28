@@ -88,7 +88,7 @@ namespace SpiritMod.NPCs
 			timer++;
 			if(timer == 100 || timer == 300) {
 				Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 7);
-				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 92);
+				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 92);
 				npc.TargetClosest();
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				float ai = Main.rand.Next(100);

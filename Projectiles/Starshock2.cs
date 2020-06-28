@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles
@@ -49,7 +50,7 @@ namespace SpiritMod.Projectiles
 				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("StarTrail1"), 12, 2, projectile.owner);
 			}
 
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 9);
+			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 9);
 			for(int i = 0; i < 6; i++) {
 				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 226, 0f, -2f, 0, default(Color), 2f);
 				Main.dust[num].noGravity = true;

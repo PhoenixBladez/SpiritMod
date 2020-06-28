@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Summon
@@ -69,7 +70,7 @@ namespace SpiritMod.Projectiles.Summon
 				direction.X *= shootVelocity;
 				direction.Y *= shootVelocity;
 				int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 25, direction.X, direction.Y, ModContent.ProjectileType<TeslaSpikeProjectile>(), projectile.damage, 0, Main.myPlayer);
-				Main.PlaySound(2, projectile.Center, 12);  //make bow shooty sound
+				Main.PlaySound(SoundID.Item, projectile.Center, 12);  //make bow shooty sound
 			}
 		}
 

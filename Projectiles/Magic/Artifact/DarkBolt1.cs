@@ -97,8 +97,8 @@ namespace SpiritMod.Projectiles.Magic.Artifact
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 74);
+			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 74);
 			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Fire>(), projectile.damage / 3 * 4, projectile.knockBack, projectile.owner);
 
 			for(int i = 0; i < 40; i++) {

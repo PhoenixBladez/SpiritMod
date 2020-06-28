@@ -134,7 +134,7 @@ namespace SpiritMod.NPCs.Asteroid
 				} else {
 					timer = 0;
 					npc.alpha = 0;
-					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
+					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 					for(int i = 0; i < 15; i++) {
 						int num = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, -2f, 0, default(Color), 2f);
 						Main.dust[num].noGravity = true;
@@ -153,7 +153,7 @@ namespace SpiritMod.NPCs.Asteroid
 				npc.velocity.Y = 0;
 			}
 			if(timer == 100) {
-				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
+				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 				direction9 = player.Center - npc.Center;
 				direction9.Normalize();
 			}
@@ -187,7 +187,7 @@ namespace SpiritMod.NPCs.Asteroid
 				}
 				if(timer == 130) //change to frame related later
 				{
-					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 91);
+					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 91);
 					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 30, (float)direction9.Y * 30, ModContent.ProjectileType<HopperLaser>(), 19, 1, Main.myPlayer);
 				}
 			}

@@ -72,7 +72,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);
+			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 10);
 
 			for(int num623 = 0; num623 < 35; num623++) {
 				int dust = Dust.NewDust(projectile.position - projectile.velocity, projectile.width, projectile.height, 172, 0, 0);

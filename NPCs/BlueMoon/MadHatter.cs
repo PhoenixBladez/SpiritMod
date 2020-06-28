@@ -81,7 +81,7 @@ namespace SpiritMod.NPCs.BlueMoon
 			Player player = Main.player[npc.target];
 			timer++;
 			if(timer % 300 == 40 && hat == false) {
-				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 43);
+				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 43);
 
 				Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 15, 0, -7, ModContent.ProjectileType<Projectiles.Hostile.MadHat>(), 40, 1, Main.myPlayer, 0, 0);
 				hat = true;

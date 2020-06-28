@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Sword.Artifact
@@ -23,7 +24,7 @@ namespace SpiritMod.Projectiles.Sword.Artifact
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			ProjectileExtras.Explode(projectile.whoAmI, 60, 60,
 				delegate {
 					for(int num621 = 0; num621 < 40; num621++) {

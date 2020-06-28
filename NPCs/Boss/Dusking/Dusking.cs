@@ -201,7 +201,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 					}
 					if(npc.life >= (npc.lifeMax / 2)) {
 						if(Main.rand.Next(100) == 10) {
-							Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 21);
+							Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 21);
 							Vector2 direction = Main.player[npc.target].Center - npc.Center;
 							direction.Normalize();
 							direction.X *= 12f;
@@ -335,7 +335,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 
 			if(Main.expertMode) {
 				if(Main.rand.Next(100) == 2 && npc.life >= (npc.lifeMax / 2)) {
-					Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 33);
+					Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 33);
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
 					direction.Normalize();
 					direction.X *= 12f;

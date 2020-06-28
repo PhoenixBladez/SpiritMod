@@ -30,7 +30,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 		{
 			if(projectile.localAI[1] == 0f) {
 				projectile.localAI[1] = 1f;
-				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 8);
+				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 8);
 			}
 
 			if(projectile.ai[0] == 0f || projectile.ai[0] == 2f) {

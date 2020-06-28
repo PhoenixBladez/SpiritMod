@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Magic
@@ -25,7 +26,7 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			if(projectile.localAI[1] == 0f) {
 				projectile.localAI[1] = 1f;
-				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 8);
+				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 8);
 			} else if(projectile.ai[0] == 1f) {
 				projectile.scale -= 0.01f;
 				projectile.alpha += 50;

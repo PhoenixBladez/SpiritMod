@@ -72,7 +72,7 @@ namespace SpiritMod.NPCs
 					Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/HeartbeatFx"));
 				}
 				if(npc.ai[2] >= 60) {
-					Main.PlaySound(2, npc.Center, 95);
+					Main.PlaySound(SoundID.Item, npc.Center, 95);
 					npc.ai[2] = 0;
 					Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), .153f * 1, .028f * 1, 0.055f * 1);
 					Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/HeartbeatFx"));

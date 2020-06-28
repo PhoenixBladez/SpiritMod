@@ -28,7 +28,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override void Kill(int timeLeft)
 		{
 			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<SolarExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
 			projectile.width = 50;
@@ -151,7 +151,7 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			if(projectile.ai[1] == 0f) {
 				projectile.ai[1] = 1f;
-				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 34);
+				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 34);
 			} else if(projectile.ai[1] == 1f && Main.netMode != 1) {
 				int num = -1;
 				float num2 = 2000f;

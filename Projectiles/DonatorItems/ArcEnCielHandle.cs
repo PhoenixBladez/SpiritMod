@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.DonatorItems
@@ -78,7 +79,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 				projectile.soundDelay = num27;
 				projectile.soundDelay *= 2;
 				if(projectile.ai[0] != 1f)
-					Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 15);
+					Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 15);
 			}
 
 			if(flag10 && Main.myPlayer == projectile.owner) {

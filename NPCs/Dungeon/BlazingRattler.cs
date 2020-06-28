@@ -83,7 +83,7 @@ namespace SpiritMod.NPCs.Dungeon
 				}
 			}
 			if(npc.life <= 0) {
-				Main.PlaySound(2, npc.Center, 74);
+				Main.PlaySound(SoundID.Item, npc.Center, 74);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Rattler/Rattler1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Rattler/Rattler5"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Rattler/Rattler6"), 1f);

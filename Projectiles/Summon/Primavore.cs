@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Summon
@@ -104,7 +105,7 @@ namespace SpiritMod.Projectiles.Summon
 				direction.Y *= shootVelocity;
 
 				int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, direction.X, direction.Y, 483, projectile.damage, 0, Main.myPlayer);
-				Main.PlaySound(2, projectile.Center, 5);
+				Main.PlaySound(SoundID.Item, projectile.Center, 5);
 			}
 		}
 

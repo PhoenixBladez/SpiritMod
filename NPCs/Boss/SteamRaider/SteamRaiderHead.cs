@@ -77,9 +77,9 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                             Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 20f;
                         }
                     }
-					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 89);
-					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 27);
-					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 14);
+					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 89);
+					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 27);
+					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 14);
 					charging = false;
 			}
 			if (charging)
@@ -117,7 +117,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			timer++;
 			if((timer == 100 || timer == 400) && npc.life > npc.lifeMax * .4f) {
 				if(Main.expertMode) {
-					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 91);
+					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 91);
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
 					direction.Normalize();
 					direction.X *= 2.5f;
@@ -483,7 +483,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					npc.velocity = Vector2.Zero; //sets his velocity to 0 in the teleport phase
 					if(atkCounter % 200 == 1) //teleport and create laser boys
 					{
-						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 94);
+						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 94);
 						for(int i = 0; i < 5; i++) {
 							NPC.NewNPC((int)Main.player[npc.target].Center.X + Main.rand.Next(-700, 700), (int)Main.player[npc.target].Center.Y + Main.rand.Next(-700, 700), mod.NPCType("LaserBase"), npc.whoAmI);
 						}
@@ -519,14 +519,14 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 							npc.velocity.X = -4f;
 						}
 						npc.rotation = 3.14f;
-						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 94);
+						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 94);
 						for(int i = 0; i < 3; i++) {
 							NPC.NewNPC((int)Main.player[npc.target].Center.X + Main.rand.Next(-300, 300), (int)Main.player[npc.target].Center.Y + Main.rand.Next(-300, 300), ModContent.NPCType<ArcadeProbe>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
 						}
 					}
 					//npc.position.Y = Main.player[npc.target].Center.Y -  distAbove;
 					if(atkCounter % 20 == 0) {
-						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 91);
+						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 91);
 						for(int i = 0; i < 16; i++) {
 							int dust = Dust.NewDust(npc.Center, npc.width, npc.height, DustID.GoldCoin);
 

@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles
@@ -44,7 +45,7 @@ namespace SpiritMod.Projectiles
 
 			timer--;
 			if(timer == 0) {
-				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 8);
+				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 8);
 				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X + Main.rand.Next(-3, 5), projectile.velocity.Y + Main.rand.Next(-3, 5), ModContent.ProjectileType<VoidStar>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				timer = 21;
 			}

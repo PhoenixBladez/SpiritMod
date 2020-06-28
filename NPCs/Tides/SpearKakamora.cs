@@ -142,7 +142,7 @@ namespace SpiritMod.NPCs.Tides
 					thrownCoconut = false;
 				}
 				if(npc.frameCounter >= 1.3f && !thrownCoconut) {
-					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 1);
+					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 1);
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
 					direction.Normalize();
 					direction *= 7f;

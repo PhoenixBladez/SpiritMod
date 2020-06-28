@@ -72,7 +72,7 @@ namespace SpiritMod.Projectiles.Boss
 			timer++;
 			bool expertMode = Main.expertMode;
 			if(timer == 100 || timer == 300 || timer == 600) {
-				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 91);
+				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 91);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
 				direction.X *= 5f;

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.Asteroid
@@ -65,7 +66,7 @@ namespace SpiritMod.NPCs.Asteroid
 
 		public override void NPCLoot()
 		{
-			Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 14);
+			Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 14);
 		}
 
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)

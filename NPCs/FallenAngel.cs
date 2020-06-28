@@ -64,7 +64,7 @@ namespace SpiritMod.NPCs
 				npc.velocity *= 0.96f;
 			}
 			if(aiTimer >= 680) {
-				Main.PlaySound(2, npc.Center, 109);
+				Main.PlaySound(SoundID.Item, npc.Center, 109);
 				for(int i = 0; i < 5; i++) {
 					for(int k = 0; k < 2; k++) {
 						int dust = Dust.NewDust(npc.Center, npc.width, npc.height, DustID.GoldCoin);

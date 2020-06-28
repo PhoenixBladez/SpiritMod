@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Thrown.Charge
@@ -53,7 +54,7 @@ namespace SpiritMod.Projectiles.Thrown.Charge
 				if(trailcounter % 5 == 0)
 					Projectile.NewProjectile(projectile.Center + (direction * 4), direction, ModContent.ProjectileType<FrigidJavelinProj1>(), 0, 0, projectile.owner); //predictor trail, please pick a better dust Yuy
 			} else {
-				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 1);
+				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 1);
 				Vector2 direction = Main.MouseWorld - (projectile.position);
 				direction.Normalize();
 				direction *= counter;

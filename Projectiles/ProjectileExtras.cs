@@ -1,8 +1,8 @@
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles
@@ -493,7 +493,7 @@ namespace SpiritMod.Projectiles
 			}
 			if(projectile.soundDelay == 0) {
 				projectile.soundDelay = 8;
-				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 7);
+				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 7);
 			}
 
 			if(projectile.ai[0] == 0f) {

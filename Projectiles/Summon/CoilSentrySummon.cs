@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Summon
@@ -78,7 +79,7 @@ namespace SpiritMod.Projectiles.Summon
 				int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 13, direction.X, direction.Y, mod.ProjectileType("CoilBullet1"), projectile.damage, 0, Main.myPlayer);
 				Main.projectile[proj2].ranged = false;
 				Main.projectile[proj2].minion = true;
-				Main.PlaySound(2, projectile.Center, 12);  //make bow shooty sound
+				Main.PlaySound(SoundID.Item, projectile.Center, 12);  //make bow shooty sound
 			}
 			Vector2 globePos = new Vector2(projectile.Center.X + 2, projectile.position.Y + 6);
 			if(Main.rand.Next(11) == 1) {
@@ -106,7 +107,7 @@ namespace SpiritMod.Projectiles.Summon
 		}
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			for(int i = 0; i < 40; i++) {
 				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, -2f, 0, default(Color), 1.5f);
 				Main.dust[num].noGravity = true;

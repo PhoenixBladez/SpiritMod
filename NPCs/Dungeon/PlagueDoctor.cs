@@ -91,7 +91,7 @@ namespace SpiritMod.NPCs.Dungeon
 				npc.velocity.X = .008f * npc.direction;
 				//shootTimer++;
 				if(frame == 3 && timer == 0) {
-					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 106);
+					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 106);
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
 					direction.Normalize();
 					direction.X *= 7f;

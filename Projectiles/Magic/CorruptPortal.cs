@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Magic
@@ -49,7 +50,7 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			timer--;
 			if(timer <= 0) {
-				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 8);
+				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 8);
 				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X + Main.rand.Next(-3, 5), projectile.velocity.Y + Main.rand.Next(-3, 5), ModContent.ProjectileType<NightSpit>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				timer = 50;
 			}
@@ -98,7 +99,7 @@ namespace SpiritMod.Projectiles.Magic
 					perturbedSpeed.Y *= 2.5f;
 					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("CorruptPortal_Star"), projectile.damage / 5 * 4, 2, projectile.owner);
 				}
-				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 				ProjectileExtras.Explode(projectile.whoAmI, 120, 120,
 					delegate {
 						for(int i = 0; i < 40; i++) {

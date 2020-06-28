@@ -56,7 +56,7 @@ namespace SpiritMod.Projectiles.Bullet
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			Projectile.NewProjectile(projectile.Center, Vector2.Zero,
 				CryoFire._type, projectile.damage, projectile.knockBack, projectile.owner);
 

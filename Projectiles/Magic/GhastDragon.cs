@@ -47,7 +47,7 @@ namespace SpiritMod.Projectiles.Magic
 			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y,
 				0f, 0f, ModContent.ProjectileType<Wrath>(), projectile.damage, projectile.knockBack, projectile.owner);
 
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 69);
+			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 69);
 			int n = 1;
 			int deviation = Main.rand.Next(0, 180);
 

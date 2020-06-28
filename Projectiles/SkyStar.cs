@@ -46,7 +46,7 @@ namespace SpiritMod.Projectiles
 		}
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);
+			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 10);
 			for(int i = 0; i < 16; i++) {
 				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 68, 0f, -2f, 0, default(Color), .8f);
 				Main.dust[num].noGravity = true;

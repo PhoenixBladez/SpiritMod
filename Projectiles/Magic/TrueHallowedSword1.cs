@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Magic
@@ -55,7 +56,7 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 1);
+			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 1);
 			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 58, projectile.oldVelocity.X * 0.3f, projectile.oldVelocity.Y * 0.3f);
 		}
 

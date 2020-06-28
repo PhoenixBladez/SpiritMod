@@ -3,6 +3,7 @@ using SpiritMod.NPCs;
 using SpiritMod.Projectiles;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs
@@ -50,7 +51,7 @@ namespace SpiritMod.Buffs
 				lightnum = 3;
 			}
 			if(npc.buffTime[buffIndex] == 1) {
-				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 9);
+				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 9);
 				for(int k = 0; k < lightnum; k++) {
 					float num12 = Main.rand.Next(-10, 10);
 					float num13 = 100;

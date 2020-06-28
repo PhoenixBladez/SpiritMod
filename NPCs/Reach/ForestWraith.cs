@@ -79,7 +79,7 @@ namespace SpiritMod.NPCs.Reach
 					direction.Normalize();
 					direction.X *= 3f;
 					direction.Y *= 11f;
-					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
+					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 					int amountOfProjectiles = Main.rand.Next(1, 1);
 					for(int i = 0; i < amountOfProjectiles; ++i) {
 						float A = (float)Main.rand.Next(-120, 120) * 0.05f;

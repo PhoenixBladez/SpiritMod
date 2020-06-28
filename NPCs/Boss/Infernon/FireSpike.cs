@@ -63,7 +63,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 4);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 4);
 			projectile.width = 20;
@@ -109,7 +109,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 4);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 4);
 
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
+			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 27);
 			for(int num273 = 0; num273 < 3; num273++) {
 				int num274 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Fire, 0f, 0f, 0, default(Color), 1f);
 				Main.dust[num274].noGravity = true;

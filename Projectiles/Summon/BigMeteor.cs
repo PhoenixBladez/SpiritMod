@@ -171,7 +171,7 @@ namespace SpiritMod.Projectiles.Summon
 			projectile.height = 10;
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 		}
 
 		//public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

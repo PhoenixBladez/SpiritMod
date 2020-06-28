@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Magic
@@ -83,7 +84,7 @@ namespace SpiritMod.Projectiles.Magic
 				projectile.soundDelay = num27;
 				projectile.soundDelay *= 2;
 				if(projectile.ai[0] != 1f)
-					Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 15);
+					Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 15);
 
 			}
 

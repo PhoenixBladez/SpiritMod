@@ -82,7 +82,7 @@ namespace SpiritMod.Projectiles.Hostile
 				Gore expr_13B99_cp_0 = Main.gore[num626];
 				expr_13B99_cp_0.velocity.Y = expr_13B99_cp_0.velocity.Y + 1f;
 			}
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			for(int i = 0; i < 4; i++) {
 				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default(Color), 3f);
 				Main.dust[num624].velocity *= 0f;

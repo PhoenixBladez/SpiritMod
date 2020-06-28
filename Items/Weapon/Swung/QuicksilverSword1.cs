@@ -49,7 +49,7 @@ namespace SpiritMod.Items.Weapon.Swung
 				Projectile.NewProjectile(position.X, position.Y, vel.X, vel.Y, Projectiles.QuicksilverBolt._type, 45, 1, player.whoAmI, homing ? home.whoAmI : 0, homing ? 30 : 0);
 
 			}
-			Main.PlaySound(2, (int)position.X, (int)position.Y, 14);
+			Main.PlaySound(SoundID.Item, (int)position.X, (int)position.Y, 14);
 			//Projectile.NewProjectile(position.X, position.Y, 0f, 0f, ModContent.ProjectileType<Wrath>(), damage, knockback, player.whoAmI, 0f, 0f);
 
 			//Projectiles.ProjectileExtras.Explode()

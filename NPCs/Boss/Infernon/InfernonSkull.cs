@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Projectiles;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.Boss.Infernon
@@ -72,7 +73,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 					}
 					bool expertMode = Main.expertMode;
 					{
-						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 33);
+						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 33);
 						Vector2 direction = Main.player[npc.target].Center - npc.Center;
 						direction.Normalize();
 						direction.X *= 12f;

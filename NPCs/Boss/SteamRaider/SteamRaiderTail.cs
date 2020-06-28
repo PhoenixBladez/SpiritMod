@@ -58,7 +58,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					npc.TargetClosest(true);
 					if(Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height)) {
 
-						Main.PlaySound(2, (int)npc.Center.X, (int)npc.Center.Y, 12);
+						Main.PlaySound(SoundID.Item, (int)npc.Center.X, (int)npc.Center.Y, 12);
 						float num941 = 8f; //speed
 						Vector2 vector104 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
 						float num942 = player.position.X + (float)player.width * 0.5f - vector104.X + (float)Main.rand.Next(-20, 21);
@@ -88,13 +88,13 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				npc.active = false;
 			}
 			if((Main.npc[parent].life <= 6500)) {
-				Main.PlaySound(2, (int)npc.Center.X, (int)npc.Center.Y, 14);
+				Main.PlaySound(SoundID.Item, (int)npc.Center.X, (int)npc.Center.Y, 14);
 				npc.life = 0;
 				npc.HitEffect(0, 10.0);
 				npc.active = false;
 				NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<TailProbe>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
 				Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
-				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 4);
+				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 4);
 				npc.position.X = npc.position.X + (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
 				npc.width = 30;

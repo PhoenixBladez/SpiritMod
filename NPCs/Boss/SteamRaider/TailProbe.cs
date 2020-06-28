@@ -198,7 +198,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			}
 			{
 				if(shoottimer >= 180) {
-					Main.PlaySound(2, (int)npc.Center.X, (int)npc.Center.Y, 12);
+					Main.PlaySound(SoundID.Item, (int)npc.Center.X, (int)npc.Center.Y, 12);
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
 					direction.Normalize();
 					direction.X *= 6f;

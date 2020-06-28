@@ -362,7 +362,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 					if(npc.collideY && jump && npc.velocity.Y > 1) {
 						jump = false;
 						if(jumpstacks >= 3 && npc.life >= 1200 || jumpstacks >= 2 && npc.life < 1200) {
-							Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 34);
+							Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 34);
 							int damage = expertMode ? 9 : 17;
 							Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 20, 7, 0, ModContent.ProjectileType<DustTornado>(), damage, 1, Main.myPlayer, 0, 0);
 							Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 20, -7, 0, ModContent.ProjectileType<DustTornado>(), damage, 1, Main.myPlayer, 0, 0);

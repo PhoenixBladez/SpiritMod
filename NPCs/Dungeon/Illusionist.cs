@@ -116,7 +116,7 @@ namespace SpiritMod.NPCs.Dungeon
 				++npc.ai[0];
 				if(NPC.CountNPCS(ModContent.NPCType<IllusionistSpectre>()) < 3) {
 					if(npc.ai[0] == 240 || npc.ai[0] == 480 || npc.ai[0] == 720) {
-						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
+						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 						Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 53);
 						if(Main.netMode != 1) {
 							NPC.NewNPC((int)npc.position.X + npc.width / 2, (int)npc.Center.Y - 16, ModContent.NPCType<IllusionistSpectre>(), 0, 0, 0, 0, 0, 255);

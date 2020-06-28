@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Summon
@@ -96,7 +97,7 @@ namespace SpiritMod.Projectiles.Summon
 						projectile.frame = 1;
 					}
 
-					Main.PlaySound(2, projectile.Center, 5);  //make bow shooty sound
+					Main.PlaySound(SoundID.Item, projectile.Center, 5);  //make bow shooty sound
 
 					projectile.frame++;
 				}

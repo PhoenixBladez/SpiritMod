@@ -78,7 +78,7 @@ namespace SpiritMod.NPCs
 			if(npc.ai[3] == -120f) {
 				npc.velocity *= 0f;
 				npc.ai[3] = 0f;
-				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
+				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 				Vector2 vector14 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 				float num68 = npc.oldPos[2].X + (float)npc.width * 0.5f - vector14.X;
 				float num69 = npc.oldPos[2].Y + (float)npc.height * 0.5f - vector14.Y;

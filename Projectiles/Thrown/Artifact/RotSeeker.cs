@@ -114,7 +114,7 @@ namespace SpiritMod.Projectiles.Thrown.Artifact
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<RotExplosion>(), projectile.damage / 3 * 4, projectile.knockBack, projectile.owner, 0f, 0f);
 		}
 

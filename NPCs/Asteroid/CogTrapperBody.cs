@@ -56,7 +56,7 @@ namespace SpiritMod.NPCs.Asteroid
 			if(Main.netMode != 1) {
 				npc.localAI[0] += Main.rand.Next(4);
 				if(npc.localAI[0] >= (float)Main.rand.Next(700, 1000)) {
-					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 9);
+					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 9);
 					npc.localAI[0] = 0f;
 					npc.TargetClosest(true);
 					if(Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height)) {

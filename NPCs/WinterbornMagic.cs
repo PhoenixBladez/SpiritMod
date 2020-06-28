@@ -63,7 +63,7 @@ namespace SpiritMod.NPCs
 
 			if(npc.ai[2] != 0 && npc.ai[3] != 0) {
 				// Teleport effects: away.
-				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
+				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 				for(int index1 = 0; index1 < 50; ++index1) {
 					int newDust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 187, 0.0f, 0.0f, 100, new Color(), 1.5f);
 					Main.dust[newDust].velocity *= 3f;
@@ -76,7 +76,7 @@ namespace SpiritMod.NPCs
 				npc.ai[2] = 0.0f;
 				npc.ai[3] = 0.0f;
 				// Teleport effects: arrived.
-				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
+				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 				for(int index1 = 0; index1 < 50; ++index1) {
 					int newDust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 187, 0.0f, 0.0f, 100, new Color(), 1.5f);
 					Main.dust[newDust].velocity *= 3f;
@@ -105,7 +105,7 @@ namespace SpiritMod.NPCs
 			if(npc.ai[1] > 0) {
 				--npc.ai[1];
 				if(npc.ai[1] == 15) {
-					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
+					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 					if(Main.netMode != 1) {
 						Vector2 direction = Main.player[npc.target].Center - npc.Center;
 						direction.Normalize();

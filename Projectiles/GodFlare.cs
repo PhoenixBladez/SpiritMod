@@ -34,7 +34,7 @@ namespace SpiritMod.Projectiles
 				targetDir *= 7;
 				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, targetDir.X, targetDir.Y, ModContent.ProjectileType<GodHomingProj>(), projectile.damage, 0.5f, Main.myPlayer);
 			}
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 94);
+			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 94);
 		}
 
 		public override void AI()

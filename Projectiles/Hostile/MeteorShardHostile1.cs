@@ -89,7 +89,7 @@ namespace SpiritMod.Projectiles.Hostile
 					for(int i = 0; i < amountOfProjectiles; ++i) {
 						float A = (float)Main.rand.Next(-200, 200) * 0.05f;
 						float B = (float)Main.rand.Next(-200, 200) * 0.05f;
-						Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 89);
+						Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 89);
 						Projectile.NewProjectile(projectile.Center, direction, mod.ProjectileType("MeteorShardHostile2"), projectile.damage, 0, Main.myPlayer);
 					}
 				}

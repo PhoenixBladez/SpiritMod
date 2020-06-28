@@ -221,7 +221,7 @@ namespace SpiritMod.Projectiles.Summon.Artifact
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if(Main.rand.Next(25) == 0) {
-				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 
 				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<NightmareExplosion>(), 60, projectile.knockBack, projectile.owner, 0f, 0f);
 			}

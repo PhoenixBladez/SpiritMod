@@ -60,7 +60,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		{
 			charger++;
 			if(charger >= 4) {
-				Main.PlaySound(2, (int)target.position.X, (int)target.position.Y, 14);
+				Main.PlaySound(SoundID.Item, (int)target.position.X, (int)target.position.Y, 14);
 				Terraria.Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<CoiledExplosion>(), damage, knockBack, player.whoAmI);
 				charger = 0;
 			}

@@ -32,7 +32,7 @@ namespace SpiritMod.Projectiles.Yoyo
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if(Main.rand.Next(20) == 1) {
-				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 				ProjectileExtras.Explode(projectile.whoAmI, 120, 120,
 					delegate {
 						for(int i = 0; i < 40; i++) {

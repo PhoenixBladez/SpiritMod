@@ -67,7 +67,7 @@ namespace SpiritMod.NPCs.BlueMoon
 				npc.velocity.X = .008f * npc.direction;
 				//shootTimer++;
 				if(frame == 9 && timer == 0) {
-					Main.PlaySound(2, npc.Center, 95);
+					Main.PlaySound(SoundID.Item, npc.Center, 95);
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
 					float ai = Main.rand.Next(100);
 					direction.Normalize();

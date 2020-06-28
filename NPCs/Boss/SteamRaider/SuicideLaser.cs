@@ -57,7 +57,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 117, new Color(0, 255, 142), .6f);
 			}
 			if(npc.life <= 0) {
-				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 14);
+				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 14);
 				Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 44);
 				Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 4);
 				for(int i = 0; i < 40; i++) {
@@ -79,7 +79,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			alphaCounter += .08f;
 			timer++;
 			if(timer >= 90) {
-				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 14);
+				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 14);
 				Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 44);
 				Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 4);
 				for(int i = 0; i < 40; i++) {
@@ -153,7 +153,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
 			npc.life = 0;
-			Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 14);
+			Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 14);
 			Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 44);
 			Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 4);
 			for(int i = 0; i < 40; i++) {

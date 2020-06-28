@@ -3,6 +3,7 @@ using SpiritMod.Buffs;
 using SpiritMod.Projectiles.DonatorItems;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 
@@ -43,7 +44,7 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Wrath>(), projectile.damage / 3 * 2, projectile.knockBack, projectile.owner, 0f, 0f);
 
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			for(int num623 = 0; num623 < 70; num623++) {
 				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 133, 0f, 0f, 100, default(Color), 1f);
 				Main.dust[num624].noGravity = true;

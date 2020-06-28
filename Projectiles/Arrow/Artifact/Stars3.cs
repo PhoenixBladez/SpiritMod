@@ -31,7 +31,7 @@ namespace SpiritMod.Projectiles.Arrow.Artifact
 		{
 			Projectile.NewProjectile(projectile.Center, Vector2.Zero,
 				ModContent.ProjectileType<Fire>(), projectile.damage / 3 * 4, projectile.knockBack, projectile.owner);
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);

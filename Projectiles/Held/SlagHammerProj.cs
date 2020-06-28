@@ -46,7 +46,7 @@ namespace SpiritMod.Projectiles.Held
 			projectile.ownerHitCheck = true;
 			projectile.soundDelay--;
 			if(projectile.soundDelay <= 0) {
-				Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 1);
+				Main.PlaySound(SoundID.Item, (int)projectile.Center.X, (int)projectile.Center.Y, 1);
 				projectile.soundDelay = 60;
 			}
 			if(Main.myPlayer == projectile.owner) {
@@ -107,7 +107,7 @@ namespace SpiritMod.Projectiles.Held
 		public override void Kill(int timeLeft)
 		{
 			if(hits >= 4) {
-				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 				ProjectileExtras.Explode(projectile.whoAmI, 120, 120,
 					delegate {
 						for(int i = 0; i < 40; i++) {

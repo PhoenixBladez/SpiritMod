@@ -144,7 +144,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				}
 			}
 			if(Main.rand.Next(170) == 7 && npc.life <= (npc.lifeMax / 9 * 4)) {
-				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 42);
+				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 42);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
 				direction.X *= 12f;
@@ -160,7 +160,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				}
 			}
 			if(Main.rand.Next(170) == 1 && npc.life <= (npc.lifeMax / 9 * 4)) {
-				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 42);
+				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 42);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
 				direction.X *= 12f;

@@ -178,7 +178,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 						direction.Y *= 8f;
 						int amountOfProjectiles = Main.rand.Next(6, 8);
 						int damageAmount = expertMode ? 54 : 62; //always account for expert damage values
-						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 92);
+						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 92);
 						for(int num621 = 0; num621 < 30; num621++) {
 							int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default(Color), 2f);
 						}
@@ -193,7 +193,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 
 					if(aiChange) {
 						if(secondStage == false) {
-							Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 93);
+							Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 93);
 							float radius = 250;
 							float rot = MathHelper.TwoPi / 5;
 							for(int I = 0; I < 5; I++) {
@@ -206,7 +206,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 
 					if(aiChange2) {
 						if(thirdStage == false) {
-							Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 93);
+							Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 93);
 							float radius = 400;
 							float rot = MathHelper.TwoPi / 10;
 							for(int I = 0; I < 10; I++) {
@@ -219,7 +219,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 
 					if(aiChange3) {
 						if(lastStage == false) {
-							Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 93);
+							Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 93);
 							float radius = 1200;
 							float rot = MathHelper.TwoPi / 41;
 							for(int I = 0; I < 41; I++) {

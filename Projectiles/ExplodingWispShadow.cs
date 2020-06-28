@@ -51,7 +51,7 @@ namespace SpiritMod.Projectiles
 		{
 			if(Main.rand.Next(3) == 1) {
 				for(int i = 0; i < 6; ++i) {
-					Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 92);
+					Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 92);
 					Vector2 targetDir = ((((float)Math.PI * 2) / 6) * i).ToRotationVector2();
 					targetDir.Normalize();
 					targetDir *= 15;

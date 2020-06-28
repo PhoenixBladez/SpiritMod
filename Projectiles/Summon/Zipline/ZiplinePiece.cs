@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Summon.Zipline
@@ -44,7 +45,7 @@ namespace SpiritMod.Projectiles.Summon.Zipline
 				if(Main.rand.Next(4) == 1)
 					player.position.Y--;
 				if(Main.rand.Next(10) == 0) {
-					Main.PlaySound(2, player.position, 55);
+					Main.PlaySound(SoundID.Item, player.position, 55);
 				}
 			}
 		}

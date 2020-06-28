@@ -76,7 +76,7 @@ namespace SpiritMod.NPCs.Boss
 			timer++;
 			if(timer == 200 || timer == 400 && npc.life >= (npc.lifeMax / 2)) //Fires desert feathers like a shotgun
 			{
-				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 73);
+				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 73);
 
 				Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 2);
 				Main.PlaySound(SoundID.DD2_LightningBugZap, npc.position);
@@ -94,7 +94,7 @@ namespace SpiritMod.NPCs.Boss
 				}
 			} else if(timer == 300 || timer == 400 || timer == 500 || timer == 550) {
 				if(Main.expertMode && npc.life >= (npc.lifeMax / 2)) {
-					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
+					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 
 					Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 2);
 					Main.PlaySound(SoundID.DD2_LightningBugZap, npc.position);
@@ -114,7 +114,7 @@ namespace SpiritMod.NPCs.Boss
 				}
 			} else if(timer == 600 || timer == 650 || timer == 700 || timer == 800 || timer == 850 || timer == 880) // Fires bone waves
 			  {
-				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
+				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 				Main.PlayTrackedSound(SoundID.DD2_EtherianPortalSpawnEnemy, npc.Center);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
@@ -139,7 +139,7 @@ namespace SpiritMod.NPCs.Boss
 				}
 				if(npc.life >= 1000) {
 					if(Main.rand.Next(8) == 0) {
-						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
+						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 
 						int A = Main.rand.Next(-200, 200) * 6;
 						int B = Main.rand.Next(-200, 200) - 1000;
@@ -148,7 +148,7 @@ namespace SpiritMod.NPCs.Boss
 					}
 				} else {
 					if(Main.rand.Next(9) == 0) {
-						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
+						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 
 						int A = 1000 * (int)(Main.windSpeed / Main.windSpeed);
 						int B = Main.rand.Next(-460, 460);

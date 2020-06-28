@@ -97,7 +97,7 @@ namespace SpiritMod.NPCs
 				npc.scale = num395 + 0.95f;
 				shootTimer++;
 				if(shootTimer >= 90) {
-					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 95);
+					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 95);
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
 					direction.Normalize();
 					direction.X *= 5f;

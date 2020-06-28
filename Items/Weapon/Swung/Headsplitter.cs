@@ -58,7 +58,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if(modPlayer.shootDelay < 150 && player.altFunctionUse == 2) {
-				Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 20);
+				Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 20);
 				damage = 1 + (int)((damage * 1.35f) / (MathHelper.Clamp((float)Math.Sqrt(modPlayer.shootDelay), 1, 180)));
 				Projectile.NewProjectile(position.X, position.Y, 0, 0, ModContent.ProjectileType<FlayedExplosion>(), damage, knockBack, Main.myPlayer);
 				modPlayer.shootDelay = 180;

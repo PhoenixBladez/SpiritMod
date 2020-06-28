@@ -35,7 +35,7 @@ namespace SpiritMod.Projectiles.Hostile
 			if(projectile.velocity.Y != oldVelocity.Y)
 				projectile.velocity.Y = oldVelocity.Y * -.98f;
 
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);
+			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 10);
 			return false;
 		}
 

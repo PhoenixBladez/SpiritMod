@@ -60,7 +60,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			}
 			npc.velocity.Y = 0;
 			if(lifeSpan % fireRate == 0) {
-				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 91);
+				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 91);
 				for(int i = 0; i < 16; i++) {
 					int dust = Dust.NewDust(npc.Center, npc.width, npc.height, DustID.GoldCoin);
 

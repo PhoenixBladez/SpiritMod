@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.Hostile;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -62,7 +63,7 @@ namespace SpiritMod.Tiles.Ambient
 				}
 				cloudtimer++;
 				if(cloudtimer >= Main.rand.Next(300, 510)) {
-					Main.PlaySound(2, new Vector2(i * 16, j * 16), 95);
+					Main.PlaySound(SoundID.Item, new Vector2(i * 16, j * 16), 95);
 					cloudtimer = 0;
 					Projectile.NewProjectile(new Vector2(i * 16, j * 16), Vector2.Zero, ModContent.ProjectileType<CorpsebloomExplosion>(), 0, 0f);
 					int ing1 = Gore.NewGore(new Vector2(i * 16 + Main.rand.Next(-10, 10), j * 16 + Main.rand.Next(-20, -10)), new Vector2(Main.rand.Next(-2, 2), Main.rand.Next(-2, -1)), mod.GetGoreSlot("Gores/CorpseBloom/Belch1"), 1f);

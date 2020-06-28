@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Summon.Zipline
@@ -90,7 +91,7 @@ namespace SpiritMod.Projectiles.Summon.Zipline
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			if(!stuck) {
-				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 52);
+				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 52);
 			}
 			if(oldVelocity.X != projectile.velocity.X) //if its an X axis collision
 				{

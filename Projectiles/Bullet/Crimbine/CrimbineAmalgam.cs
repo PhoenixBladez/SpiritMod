@@ -37,7 +37,7 @@ namespace SpiritMod.Projectiles.Bullet.Crimbine
 			var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
 			foreach(var proj in list) {
 				if(projectile != proj && proj.type == ModContent.ProjectileType<CrimbineBone>()) {
-					Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 95);
+					Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 95);
 					proj.Kill();
 					projectile.Kill();
 					{

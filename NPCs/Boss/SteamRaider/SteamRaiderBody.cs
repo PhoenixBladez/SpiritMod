@@ -83,7 +83,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			if(Main.netMode != 1) {
 				npc.localAI[0] += Main.rand.Next(3);
 				if(npc.localAI[0] >= (float)Main.rand.Next(1400, 7500)) {
-					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 9);
+					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 9);
 					npc.localAI[0] = 0f;
 					npc.TargetClosest(true);
 					if(Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height)) {
@@ -191,7 +191,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				Dust.NewDust(npc.position, npc.width, npc.height, 226, hitDirection, -1f, 0, default(Color), 1f);
 			}
 			if(npc.life <= 0) {
-				Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 4);
+				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 4);
 				// Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Starplate/Starplate4"), 1f);
 				// Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Starplate/Starplate5"), 1f);
 				for(int num623 = 0; num623 < 20; num623++) {
