@@ -5,12 +5,13 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Tiles.Walls.Natural
 {
-    public class SpiritWall : ModWall
-    {
-        public override void SetDefaults() {
-            Main.wallHouse[Type] = true;
-            drop = ModContent.ItemType<SpiritWallItem>();
-            AddMapEntry(new Color(110, 110, 110));
-        }
-    }
+	public class SpiritWall : ModWall
+	{
+		public override void SetDefaults()
+		{
+			Main.wallHouse[Type] = true;
+			drop = ModContent.ItemType<SpiritWallItem>();
+			AddMapEntry(new Color(110, 110, 110));
+		}
+	}
 }

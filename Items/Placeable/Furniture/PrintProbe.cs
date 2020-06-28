@@ -4,31 +4,33 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Placeable.Furniture
 {
-    public class PrintProbe : ModItem
-    {
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Destroyer Blueprint");
-            Tooltip.SetDefault("WARNING: Release may cause seismic anomalies exceeding 10f.");
-        }
+	public class PrintProbe : ModItem
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Destroyer Blueprint");
+			Tooltip.SetDefault("WARNING: Release may cause seismic anomalies exceeding 10f.");
+		}
 
 
-        public override void SetDefaults() {
-            item.width = 94;
-            item.height = 62;
-            item.value = 15000;
-            item.rare = 6;
+		public override void SetDefaults()
+		{
+			item.width = 94;
+			item.height = 62;
+			item.value = 15000;
+			item.rare = 6;
 
-            item.maxStack = 99;
+			item.maxStack = 99;
 
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 10;
-            item.useAnimation = 15;
+			item.useStyle = ItemUseStyleID.SwingThrow;
+			item.useTime = 10;
+			item.useAnimation = 15;
 
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.consumable = true;
+			item.useTurn = true;
+			item.autoReuse = true;
+			item.consumable = true;
 
-            item.createTile = ModContent.TileType<ProbePrint>();
-        }
-    }
+			item.createTile = ModContent.TileType<ProbePrint>();
+		}
+	}
 }

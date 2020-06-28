@@ -1,14 +1,10 @@
-using Microsoft.Xna.Framework;
-using System;
-using System.Net.Mail;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace SpiritMod.World
 {
-    public abstract class AStructure
-    {
+	public abstract class AStructure
+	{
 		public virtual int OffsetX => 0;
 		public virtual int OffsetY => 0;
 		public virtual int[,] Tiles => new int[0, 0];
@@ -79,11 +75,11 @@ namespace SpiritMod.World
 					int wY = y + j + OffsetY;
 					var data = FurnitureMap(Furniture[j, i], i, j);
 					if(data != null) {
-						if(data is ObjectData @objData) 
+						if(data is ObjectData @objData)
 							WorldGen.PlaceObject(wX, wY, data.type, data.mute, data.style, objData.alternate, objData.random, objData.direction);
-						else if(data is ChestData @chestData) 
+						else if(data is ChestData @chestData)
 							WorldGen.PlaceChest(wX, wY, (ushort)data.type, chestData.notNearOtherChests, style: data.style);
-						else 
+						else
 							WorldGen.PlaceTile(wX, wY, data.type, data.mute, data.force, -1, data.style);
 					}
 				}
@@ -110,14 +106,14 @@ namespace SpiritMod.World
 		{
 			public readonly int type;
 			public readonly bool mute;
-			
+
 			public WallData(int type = 0, bool mute = true)
 			{
 				this.type = type;
 				this.mute = mute;
 			}
 		}
-    
+
 		protected class ObjectData : TileData
 		{
 			public readonly int alternate;

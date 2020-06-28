@@ -4,7 +4,8 @@ using Terraria.Graphics.Shaders;
 
 public class GlitchScreenShader : ScreenShaderData
 {
-    public GlitchScreenShader(Effect effect) : base(new Ref<Effect>(effect), "Pass1") {
+	public GlitchScreenShader(Effect effect) : base(new Ref<Effect>(effect), "Pass1")
+	{
 
-    }
+	}
 }

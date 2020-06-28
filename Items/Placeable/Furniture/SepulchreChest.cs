@@ -3,29 +3,31 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Placeable.Furniture
 {
-    public class SepulchreChest : ModItem
-    {
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Sepulchre Chest");
-        }
+	public class SepulchreChest : ModItem
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Sepulchre Chest");
+		}
 
 
-        public override void SetDefaults() {
-            item.width = 32;
-            item.height = 28;
-            item.value = Terraria.Item.buyPrice(0, 0, 40, 0);
+		public override void SetDefaults()
+		{
+			item.width = 32;
+			item.height = 28;
+			item.value = Terraria.Item.buyPrice(0, 0, 40, 0);
 
-            item.maxStack = 99;
-            item.rare = 2;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 10;
-            item.useAnimation = 15;
+			item.maxStack = 99;
+			item.rare = ItemRarityID.Green;
+			item.useStyle = ItemUseStyleID.SwingThrow;
+			item.useTime = 10;
+			item.useAnimation = 15;
 
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.consumable = true;
+			item.useTurn = true;
+			item.autoReuse = true;
+			item.consumable = true;
 
-            item.createTile = mod.TileType("SepulchreChestTile1");
-        }
-    }
+			item.createTile = mod.TileType("SepulchreChestTile1");
+		}
+	}
 }

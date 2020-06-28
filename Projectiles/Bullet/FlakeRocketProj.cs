@@ -1,28 +1,29 @@
 ﻿
 using Microsoft.Xna.Framework;
 using SpiritMod.Buffs;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Bullet
 {
-    public class FlakeRocketProj : ModProjectile
-    {
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Flake Rocket");
-        }
-		
-        public override void SetDefaults() {
+	public class FlakeRocketProj : ModProjectile
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Flake Rocket");
+		}
+
+		public override void SetDefaults()
+		{
 			projectile.CloneDefaults(ProjectileID.RocketI);
-            projectile.width = 26;
-            projectile.height = 14;
+			projectile.width = 26;
+			projectile.height = 14;
 			projectile.aiStyle = 0;
 			projectile.penetrate = 1;
 			projectile.ranged = true;
 			aiType = ProjectileID.Bullet;
-        }
+		}
 
 		public override void AI()
 		{

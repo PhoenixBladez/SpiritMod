@@ -5,47 +5,51 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles
 {
-    public class KingSlayerKnife : ModProjectile
-    {
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Venom Dagger");
-        }
+	public class KingSlayerKnife : ModProjectile
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Venom Dagger");
+		}
 
-        public override void SetDefaults() {
-            projectile.width = 16;
-            projectile.height = 22;
-            projectile.friendly = true;
-            projectile.thrown = true;
-            projectile.hostile = false;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 800;
-            projectile.tileCollide = true;
-            projectile.aiStyle = 1;
-            aiType = ProjectileID.Bullet;
-        }
+		public override void SetDefaults()
+		{
+			projectile.width = 16;
+			projectile.height = 22;
+			projectile.friendly = true;
+			projectile.thrown = true;
+			projectile.hostile = false;
+			projectile.penetrate = 1;
+			projectile.timeLeft = 800;
+			projectile.tileCollide = true;
+			projectile.aiStyle = 1;
+			aiType = ProjectileID.Bullet;
+		}
 
-        public override bool PreAI() {
-            projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+		public override bool PreAI()
+		{
+			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 
-            for(int i = 0; i < 10; i++) {
-                float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
-                float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
-                int num = Dust.NewDust(new Vector2(x, y), 26, 26, 110, 0f, 0f, 0, default(Color), 1f);
-                Main.dust[num].alpha = projectile.alpha;
-                Main.dust[num].position.X = x;
-                Main.dust[num].position.Y = y;
-                Main.dust[num].velocity *= 0f;
-                Main.dust[num].noGravity = true;
-            }
-            return true;
-        }
+			for(int i = 0; i < 10; i++) {
+				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
+				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
+				int num = Dust.NewDust(new Vector2(x, y), 26, 26, 110, 0f, 0f, 0, default(Color), 1f);
+				Main.dust[num].alpha = projectile.alpha;
+				Main.dust[num].position.X = x;
+				Main.dust[num].position.Y = y;
+				Main.dust[num].velocity *= 0f;
+				Main.dust[num].noGravity = true;
+			}
+			return true;
+		}
 
-        public override void Kill(int timeLeft) {
-            for(int i = 0; i < 10; i++) {
-                float x = projectile.Center.X - projectile.velocity.X / 1f * (float)i;
-                float y = projectile.Center.Y - projectile.velocity.Y / 1f * (float)i;
-                int num = Dust.NewDust(new Vector2(x, y), 26, 26, 110, 0f, 0f, 0, default(Color), 1f);
-            }
-        }
-    }
+		public override void Kill(int timeLeft)
+		{
+			for(int i = 0; i < 10; i++) {
+				float x = projectile.Center.X - projectile.velocity.X / 1f * (float)i;
+				float y = projectile.Center.Y - projectile.velocity.Y / 1f * (float)i;
+				int num = Dust.NewDust(new Vector2(x, y), 26, 26, 110, 0f, 0f, 0, default(Color), 1f);
+			}
+		}
+	}
 }

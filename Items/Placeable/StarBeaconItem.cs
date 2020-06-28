@@ -5,30 +5,32 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Placeable
 {
-    public class StarBeaconItem : ModItem
-    {
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Astralite Beacon");
-            Tooltip.SetDefault("'Powered by galactic energy'");
-        }
+	public class StarBeaconItem : ModItem
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Astralite Beacon");
+			Tooltip.SetDefault("'Powered by galactic energy'");
+		}
 
 
-        public override void SetDefaults() {
-            item.width = 28;
-            item.height = 22;
-            item.value = Item.sellPrice(0, 0, 10, 0);
+		public override void SetDefaults()
+		{
+			item.width = 28;
+			item.height = 22;
+			item.value = Item.sellPrice(0, 0, 10, 0);
 
-            item.maxStack = 99;
+			item.maxStack = 99;
 
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 10;
-            item.useAnimation = 15;
+			item.useStyle = ItemUseStyleID.SwingThrow;
+			item.useTime = 10;
+			item.useAnimation = 15;
 
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.consumable = true;
+			item.useTurn = true;
+			item.autoReuse = true;
+			item.consumable = true;
 
-            item.createTile = ModContent.TileType<StarBeacon>();
-        }
-    }
+			item.createTile = ModContent.TileType<StarBeacon>();
+		}
+	}
 }

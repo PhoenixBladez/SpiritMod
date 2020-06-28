@@ -5,15 +5,16 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Tiles.Walls.Natural
 {
-    public class ScrapWall : ModWall
-    {
-        public override void SetDefaults() {
-            Main.wallHouse[Type] = true;
-            AddMapEntry(new Color(100, 100, 100));
-            drop = ModContent.ItemType<ScrapWallItem>();
-        }
+	public class ScrapWall : ModWall
+	{
+		public override void SetDefaults()
+		{
+			Main.wallHouse[Type] = true;
+			AddMapEntry(new Color(100, 100, 100));
+			drop = ModContent.ItemType<ScrapWallItem>();
+		}
 
-        /*	public override void NumDust(int i, int j, bool fail, ref int num)
+		/*	public override void NumDust(int i, int j, bool fail, ref int num)
             {
                 num = fail ? 1 : 3;
             }
@@ -24,5 +25,5 @@ namespace SpiritMod.Tiles.Walls.Natural
                 g = 0f;
                 b = 2.5f; 
             } */
-    }
+	}
 }

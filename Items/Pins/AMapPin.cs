@@ -44,7 +44,7 @@ namespace SpiritMod.Items.Pins
 		}
 
 		public override bool AltFunctionUse(Player player) => true;
-		
+
 		public override bool UseItem(Player player)
 		{
 			Main.PlaySound(SoundID.Dig, (int)player.position.X, (int)player.position.Y);

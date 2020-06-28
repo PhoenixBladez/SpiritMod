@@ -6,42 +6,49 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Armor.FieryArmor
 {
-    [AutoloadEquip(EquipType.Head)]
-    public class ObsidiusHelm : ModItem
-    {
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Slag Tyrant's Helm");
-            Tooltip.SetDefault("6% increased minion damage\nIncreases your max number of sentries");
-            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/FieryArmor/ObsidiusHelm_Glow");
-        }
+	[AutoloadEquip(EquipType.Head)]
+	public class ObsidiusHelm : ModItem
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Slag Tyrant's Helm");
+			Tooltip.SetDefault("6% increased minion damage\nIncreases your max number of sentries");
+			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/FieryArmor/ObsidiusHelm_Glow");
+		}
 
-        public override void SetDefaults() {
-            item.width = 22;
-            item.height = 20;
-            item.value = Item.sellPrice(0, 0, 35, 0);
-            item.rare = 3;
-            item.defense = 5;
-        }
-        public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor) {
-            glowMaskColor = Color.White;
-        }
-        public override void UpdateEquip(Player player) {
-            player.maxTurrets += 1;
-            player.minionDamage += .06f;
-        }
-        public override bool IsArmorSet(Item head, Item body, Item legs) {
-            return body.type == ModContent.ItemType<ObsidiusPlate>() && legs.type == ModContent.ItemType<ObsidiusGreaves>();
-        }
-        public override void AddRecipes() {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CarvedRock>(), 14);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
-        }
-        public override void UpdateArmorSet(Player player) {
-            player.setBonus = "Press the 'Armor Bonus' hotkey to cause all sentries to release a burst of fireballs\n8 second cooldown";
-            player.GetSpiritPlayer().fierySet = true;
-        }
-    }
+		public override void SetDefaults()
+		{
+			item.width = 22;
+			item.height = 20;
+			item.value = Item.sellPrice(0, 0, 35, 0);
+			item.rare = 3;
+			item.defense = 5;
+		}
+		public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
+		{
+			glowMaskColor = Color.White;
+		}
+		public override void UpdateEquip(Player player)
+		{
+			player.maxTurrets += 1;
+			player.minionDamage += .06f;
+		}
+		public override bool IsArmorSet(Item head, Item body, Item legs)
+		{
+			return body.type == ModContent.ItemType<ObsidiusPlate>() && legs.type == ModContent.ItemType<ObsidiusGreaves>();
+		}
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<CarvedRock>(), 14);
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this, 1);
+			recipe.AddRecipe();
+		}
+		public override void UpdateArmorSet(Player player)
+		{
+			player.setBonus = "Press the 'Armor Bonus' hotkey to cause all sentries to release a burst of fireballs\n8 second cooldown";
+			player.GetSpiritPlayer().fierySet = true;
+		}
+	}
 }

@@ -7,38 +7,41 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Placeable.IceSculpture
 {
-    public class IceWheezerSculpture : ModItem
-    {
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Frozen Wheezer Sculpture");
-        }
+	public class IceWheezerSculpture : ModItem
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Frozen Wheezer Sculpture");
+		}
 
 
-        public override void SetDefaults() {
-            item.width = 30;
-            item.height = 40;
-            item.value = Item.sellPrice(0, 0, 15, 0);
+		public override void SetDefaults()
+		{
+			item.width = 30;
+			item.height = 40;
+			item.value = Item.sellPrice(0, 0, 15, 0);
 
-            item.maxStack = 99;
+			item.maxStack = 99;
 
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 10;
-            item.useAnimation = 15;
+			item.useStyle = ItemUseStyleID.SwingThrow;
+			item.useTime = 10;
+			item.useAnimation = 15;
 
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.consumable = true;
+			item.useTurn = true;
+			item.autoReuse = true;
+			item.consumable = true;
 
-            item.createTile = ModContent.TileType<IceWheezerDecor>();
-        }
+			item.createTile = ModContent.TileType<IceWheezerDecor>();
+		}
 
-        public override void AddRecipes() {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CreepingIce>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<CryoliteBar>(), 2);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
-    }
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<CreepingIce>(), 20);
+			recipe.AddIngredient(ModContent.ItemType<CryoliteBar>(), 2);
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
+	}
 }

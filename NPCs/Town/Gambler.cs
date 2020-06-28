@@ -1,13 +1,11 @@
+using SpiritMod.Items.Accessory;
+using SpiritMod.Items.Consumable.GamblerChests;
 using System.Collections.Generic;
-using System.Linq;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 using static SpiritMod.NPCUtils;
 using static Terraria.ModLoader.ModContent;
-using SpiritMod.Items.Consumable.GamblerChests;
-using SpiritMod.Items.Accessory;
 
 namespace SpiritMod.Npcs.Town
 {
@@ -51,19 +49,15 @@ namespace SpiritMod.Npcs.Town
 			animationType = NPCID.Guide;
 		}
 
-		
+
 
 		public override bool CanTownNPCSpawn(int numTownNPCs, int money)
 		{
-			for (int k = 0; k < 255; k++)
-			{
+			for(int k = 0; k < 255; k++) {
 				Player player = Main.player[k];
-				if (player.active)
-				{
-					for (int j = 0; j < player.inventory.Length; j++)
-					{
-						if (player.inventory[j].type == 73)
-						{
+				if(player.active) {
+					for(int j = 0; j < player.inventory.Length; j++) {
+						if(player.inventory[j].type == 73) {
 							return true;
 						}
 					}
@@ -72,12 +66,11 @@ namespace SpiritMod.Npcs.Town
 			return false;
 		}
 
-		
+
 
 		public override string TownNPCName()
 		{
-			switch (WorldGen.genRand.Next(7))
-			{
+			switch(WorldGen.genRand.Next(7)) {
 				case 0:
 					return "Jonesy";
 				case 1:
@@ -111,17 +104,17 @@ namespace SpiritMod.Npcs.Town
 		public override string GetChat()
 		{
 			List<string> dialogue = new List<string>
-            {
-                "Gambling is the sport of royals. Why don't you take a chance?",
+			{
+				"Gambling is the sport of royals. Why don't you take a chance?",
 				"I should warn you, my game isn't for the feint of heart.",
 				"Gambling's bad for you. Unless you win.",
 				"Win or lose, the thrill of the game is worth the money",
 				"You have the face of a winner. Step up!",
-            };
+			};
 			int merchant = NPC.FindFirstNPC(NPCID.Merchant);
-            if(merchant >= 0) {
-                  dialogue.Add($"Unlike {Main.npc[merchant].GivenName}, I don't hoard my wealth");
-            }
+			if(merchant >= 0) {
+				dialogue.Add($"Unlike {Main.npc[merchant].GivenName}, I don't hoard my wealth");
+			}
 
 			return Main.rand.Next(dialogue);
 		}
@@ -154,28 +147,27 @@ namespace SpiritMod.Npcs.Town
 
 		public override void OnChatButtonClicked(bool firstButton, ref bool shop)
 		{
-			if (firstButton)
-			{
+			if(firstButton) {
 				shop = true;
 			}
 		}
 
 		public override void SetupShop(Chest shop, ref int nextSlot)
 		{
-			 AddItem(ref shop, ref nextSlot, ItemType<CopperChest>());
-			 AddItem(ref shop, ref nextSlot, ItemType<SilverChest>());
-			 AddItem(ref shop, ref nextSlot, ItemType<GoldChest>());
-			 AddItem(ref shop, ref nextSlot, ItemType<PlatinumChest>());
-			 nextSlot++;
-			 nextSlot++;
-			 nextSlot++;
-			 nextSlot++;
-			 nextSlot++;
-			 nextSlot++;
-			 AddItem(ref shop, ref nextSlot, ItemType<AceOfSpades>());
-			 AddItem(ref shop, ref nextSlot, ItemType<AceOfHearts>());
-			 AddItem(ref shop, ref nextSlot, ItemType<AceOfClubs>());
-			 AddItem(ref shop, ref nextSlot, ItemType<AceOfDiamonds>());
+			AddItem(ref shop, ref nextSlot, ItemType<CopperChest>());
+			AddItem(ref shop, ref nextSlot, ItemType<SilverChest>());
+			AddItem(ref shop, ref nextSlot, ItemType<GoldChest>());
+			AddItem(ref shop, ref nextSlot, ItemType<PlatinumChest>());
+			nextSlot++;
+			nextSlot++;
+			nextSlot++;
+			nextSlot++;
+			nextSlot++;
+			nextSlot++;
+			AddItem(ref shop, ref nextSlot, ItemType<AceOfSpades>());
+			AddItem(ref shop, ref nextSlot, ItemType<AceOfHearts>());
+			AddItem(ref shop, ref nextSlot, ItemType<AceOfClubs>());
+			AddItem(ref shop, ref nextSlot, ItemType<AceOfDiamonds>());
 		}
 
 		public override void TownNPCAttackStrength(ref int damage, ref float knockback)

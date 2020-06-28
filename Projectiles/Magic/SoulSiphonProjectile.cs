@@ -4,28 +4,31 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Magic
 {
-    public class SoulSiphonProjectile : ModProjectile
-    {
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Soul Siphon");
-        }
+	public class SoulSiphonProjectile : ModProjectile
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Soul Siphon");
+		}
 
-        public override void SetDefaults() {
-            projectile.width = 200;
-            projectile.height = 200;
-            projectile.magic = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
+		public override void SetDefaults()
+		{
+			projectile.width = 200;
+			projectile.height = 200;
+			projectile.magic = true;
+			projectile.friendly = true;
+			projectile.ignoreWater = true;
+			projectile.tileCollide = false;
 
-            projectile.alpha = 255;
-            projectile.timeLeft = 3;
-            projectile.penetrate = -1;
-        }
+			projectile.alpha = 255;
+			projectile.timeLeft = 3;
+			projectile.penetrate = -1;
+		}
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
-            target.AddBuff(ModContent.BuffType<Buffs.SoulSiphon>(), 240, false);
-        }
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			target.AddBuff(ModContent.BuffType<Buffs.SoulSiphon>(), 240, false);
+		}
 
-    }
+	}
 }

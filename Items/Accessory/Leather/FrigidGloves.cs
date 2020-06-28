@@ -6,33 +6,37 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Accessory.Leather
 {
-    [AutoloadEquip(EquipType.HandsOn)]
-    public class FrigidGloves : ModItem
-    {
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Frigid Wraps");
-            Tooltip.SetDefault("Critical strikes may inflict Frostburn\n4% increased attack speed for every nearby enemy\nThis effect stacks up to six times");
-        }
-        public override void SetDefaults() {
-            item.width = 26;
-            item.height = 34;
-            item.rare = 1;
-            item.value = 1200;
-            item.accessory = true;
-        }
+	[AutoloadEquip(EquipType.HandsOn)]
+	public class FrigidGloves : ModItem
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Frigid Wraps");
+			Tooltip.SetDefault("Critical strikes may inflict Frostburn\n4% increased attack speed for every nearby enemy\nThis effect stacks up to six times");
+		}
+		public override void SetDefaults()
+		{
+			item.width = 26;
+			item.height = 34;
+			item.rare = 1;
+			item.value = 1200;
+			item.accessory = true;
+		}
 
-        public override void UpdateAccessory(Player player, bool hideVisual) {
-            player.GetSpiritPlayer().frigidGloves = true;
-        }
+		public override void UpdateAccessory(Player player, bool hideVisual)
+		{
+			player.GetSpiritPlayer().frigidGloves = true;
+		}
 
-        public override void AddRecipes() {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<LeatherGlove>(), 1);
-            recipe.AddIngredient(ModContent.ItemType<FrigidFragment>(), 6);
-            recipe.AddRecipeGroup("SpiritMod:EvilMaterial1", 4);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
-        }
-    }
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<LeatherGlove>(), 1);
+			recipe.AddIngredient(ModContent.ItemType<FrigidFragment>(), 6);
+			recipe.AddRecipeGroup("SpiritMod:EvilMaterial1", 4);
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this, 1);
+			recipe.AddRecipe();
+		}
+	}
 }

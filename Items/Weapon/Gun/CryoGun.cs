@@ -1,9 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Ammo;
 using SpiritMod.Items.Material;
-using SpiritMod.Projectiles.Bullet;
-using SpiritMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,13 +12,13 @@ namespace SpiritMod.Items.Weapon.Gun
 		{
 			DisplayName.SetDefault("Winter's Wake");
 			Tooltip.SetDefault("Fires rockets");
-            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Gun/CryoGun_Glow");
-        }
+			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Gun/CryoGun_Glow");
+		}
 
 		public override void SetDefaults()
 		{
 			item.damage = 30;
-            item.ranged = true;
+			item.ranged = true;
 			item.noMelee = true;
 			item.rare = ItemRarityID.Orange;
 			item.width = 50;
@@ -36,29 +33,29 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.shootSpeed = 10f;
 			item.useAmmo = AmmoID.Rocket;
 		}
-        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-        {
-            Lighting.AddLight(item.position, 0.06f, .16f, .22f);
-            Texture2D texture;
-            texture = Main.itemTexture[item.type];
-            spriteBatch.Draw
-            (
-                mod.GetTexture("Items/Weapon/Gun/CryoGun_Glow"),
-                new Vector2
-                (
-                    item.position.X - Main.screenPosition.X + item.width * 0.5f,
-                    item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
-                ),
-                new Rectangle(0, 0, texture.Width, texture.Height),
-                Color.White,
-                rotation,
-                texture.Size() * 0.5f,
-                scale,
-                SpriteEffects.None,
-                0f
-            );
-        }
-        public override Vector2? HoldoutOffset() => new Vector2(-8, 0);
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+		{
+			Lighting.AddLight(item.position, 0.06f, .16f, .22f);
+			Texture2D texture;
+			texture = Main.itemTexture[item.type];
+			spriteBatch.Draw
+			(
+				mod.GetTexture("Items/Weapon/Gun/CryoGun_Glow"),
+				new Vector2
+				(
+					item.position.X - Main.screenPosition.X + item.width * 0.5f,
+					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+				),
+				new Rectangle(0, 0, texture.Width, texture.Height),
+				Color.White,
+				rotation,
+				texture.Size() * 0.5f,
+				scale,
+				SpriteEffects.None,
+				0f
+			);
+		}
+		public override Vector2? HoldoutOffset() => new Vector2(-8, 0);
 
 		public override void AddRecipes()
 		{

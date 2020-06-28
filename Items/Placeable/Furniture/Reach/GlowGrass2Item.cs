@@ -3,29 +3,31 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Placeable.Furniture.Reach
 {
-    public class GlowGrass2Item : ModItem
-    {
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Glowing Flora");
-        }
+	public class GlowGrass2Item : ModItem
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Glowing Flora");
+		}
 
 
-        public override void SetDefaults() {
-            item.width = 32;
-            item.height = 28;
-            item.value = 200;
+		public override void SetDefaults()
+		{
+			item.width = 32;
+			item.height = 28;
+			item.value = 200;
 
-            item.maxStack = 99;
+			item.maxStack = 99;
 
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 10;
-            item.useAnimation = 15;
+			item.useStyle = ItemUseStyleID.SwingThrow;
+			item.useTime = 10;
+			item.useAnimation = 15;
 
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.consumable = true;
+			item.useTurn = true;
+			item.autoReuse = true;
+			item.consumable = true;
 
-            item.createTile = mod.TileType("GlowGrass2");
-        }
-    }
+			item.createTile = mod.TileType("GlowGrass2");
+		}
+	}
 }

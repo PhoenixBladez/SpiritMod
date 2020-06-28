@@ -4,15 +4,16 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Tiles.Walls.Natural
 {
-    public class AsteroidWall : ModWall
-    {
-        public override void SetDefaults() {
-            Main.wallHouse[Type] = true;
-            AddMapEntry(new Color(150, 150, 150));
-            drop = ModContent.ItemType<Items.Placeable.Walls.AsteroidWall>();
-        }
+	public class AsteroidWall : ModWall
+	{
+		public override void SetDefaults()
+		{
+			Main.wallHouse[Type] = true;
+			AddMapEntry(new Color(150, 150, 150));
+			drop = ModContent.ItemType<Items.Placeable.Walls.AsteroidWall>();
+		}
 
-        /*	public override void NumDust(int i, int j, bool fail, ref int num)
+		/*	public override void NumDust(int i, int j, bool fail, ref int num)
             {
                 num = fail ? 1 : 3;
             }
@@ -23,5 +24,5 @@ namespace SpiritMod.Tiles.Walls.Natural
                 g = 0f;
                 b = 2.5f; 
             } */
-    }
+	}
 }

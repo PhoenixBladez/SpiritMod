@@ -13,50 +13,54 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.BossBags
 {
-    public class DuskingBag : ModItem
-    {
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Treasure Bag");
-            Tooltip.SetDefault("Consumable\nRight Click to open");
-        }
+	public class DuskingBag : ModItem
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Treasure Bag");
+			Tooltip.SetDefault("Consumable\nRight Click to open");
+		}
 
 
-        public override void SetDefaults() {
-            item.width = 20;
-            item.height = 20;
-            item.rare = -2;
+		public override void SetDefaults()
+		{
+			item.width = 20;
+			item.height = 20;
+			item.rare = -2;
 
-            item.maxStack = 30;
+			item.maxStack = 30;
 
-            item.expert = true;
-        }
+			item.expert = true;
+		}
 
-        public override bool CanRightClick() {
-            return true;
-        }
+		public override bool CanRightClick()
+		{
+			return true;
+		}
 
-        public override void RightClick(Player player) {
-            player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(3, 7));
-            player.QuickSpawnItem(ModContent.ItemType<DuskPendant>());
-            player.QuickSpawnItem(ModContent.ItemType<DuskStone>(), Main.rand.Next(25, 36));
+		public override void RightClick(Player player)
+		{
+			player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(3, 7));
+			player.QuickSpawnItem(ModContent.ItemType<DuskPendant>());
+			player.QuickSpawnItem(ModContent.ItemType<DuskStone>(), Main.rand.Next(25, 36));
 
-            int[] lootTable = {
-                ModContent.ItemType<CrystalShadow>(),
-                ModContent.ItemType<ShadowflameSword>(),
-                ModContent.ItemType<UmbraStaff>(),
-                ModContent.ItemType<ShadowSphere>(),
-                ModContent.ItemType<DuskCarbine>()
-            };
-            int loot = Main.rand.Next(lootTable.Length);
-            if(loot == 0)
-                player.QuickSpawnItem(lootTable[0], Main.rand.Next(29, 49));
-            else
-                player.QuickSpawnItem(lootTable[loot]);
+			int[] lootTable = {
+				ModContent.ItemType<CrystalShadow>(),
+				ModContent.ItemType<ShadowflameSword>(),
+				ModContent.ItemType<UmbraStaff>(),
+				ModContent.ItemType<ShadowSphere>(),
+				ModContent.ItemType<DuskCarbine>()
+			};
+			int loot = Main.rand.Next(lootTable.Length);
+			if(loot == 0)
+				player.QuickSpawnItem(lootTable[0], Main.rand.Next(29, 49));
+			else
+				player.QuickSpawnItem(lootTable[loot]);
 
-            if(Main.rand.NextDouble() < 1d / 7)
-                player.QuickSpawnItem(ModContent.ItemType<DuskingMask>());
-            if(Main.rand.NextDouble() < 1d / 10)
-                player.QuickSpawnItem(ModContent.ItemType<Trophy6>());
-        }
-    }
+			if(Main.rand.NextDouble() < 1d / 7)
+				player.QuickSpawnItem(ModContent.ItemType<DuskingMask>());
+			if(Main.rand.NextDouble() < 1d / 10)
+				player.QuickSpawnItem(ModContent.ItemType<Trophy6>());
+		}
+	}
 }

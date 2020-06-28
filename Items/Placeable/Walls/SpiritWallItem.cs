@@ -5,35 +5,38 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Placeable.Walls
 {
-    public class SpiritWallItem : ModItem
-    {
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Dusk Wall");
-        }
+	public class SpiritWallItem : ModItem
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Dusk Wall");
+		}
 
 
-        public override void SetDefaults() {
-            item.width = 12;
-            item.height = 12;
+		public override void SetDefaults()
+		{
+			item.width = 12;
+			item.height = 12;
 
-            item.maxStack = 999;
+			item.maxStack = 999;
 
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 7;
-            item.useAnimation = 15;
+			item.useStyle = ItemUseStyleID.SwingThrow;
+			item.useTime = 7;
+			item.useAnimation = 15;
 
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.consumable = true;
+			item.useTurn = true;
+			item.autoReuse = true;
+			item.consumable = true;
 
-            item.createWall = ModContent.WallType<SpiritWall>();
-        }
+			item.createWall = ModContent.WallType<SpiritWall>();
+		}
 
-        public override void AddRecipes() {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SpiritWoodItem>());
-            recipe.SetResult(this, 4);
-            recipe.AddRecipe();
-        }
-    }
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<SpiritWoodItem>());
+			recipe.SetResult(this, 4);
+			recipe.AddRecipe();
+		}
+	}
 }

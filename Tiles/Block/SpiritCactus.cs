@@ -3,34 +3,35 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Tiles.Block
 {
-    public class SpiritCactus : ModCactus
-    {
-        private Mod mod {
-            get {
-                return ModLoader.GetMod("SpiritMod");
-            }
-        }
+	public class SpiritCactus : ModCactus
+	{
+		private Mod mod {
+			get {
+				return ModLoader.GetMod("SpiritMod");
+			}
+		}
 
-        /*	public override int CreateDust()
+		/*	public override int CreateDust()
             {
                 return 1;
             }*/
 
-        //public override int GrowthFXGore()
-        //{
-        //	return mod.GetGoreSlot("Gores/ExampleTreeFX");
-        //}
+		//public override int GrowthFXGore()
+		//{
+		//	return mod.GetGoreSlot("Gores/ExampleTreeFX");
+		//}
 
-        //public override int DropWood()
-        //{
-        //	return ModContent.ItemType<SpiritWoodItem>();
-        //}
+		//public override int DropWood()
+		//{
+		//	return ModContent.ItemType<SpiritWoodItem>();
+		//}
 
-        public override Texture2D GetTexture() {
-            return mod.GetTexture("Tiles/Block/SpiritCactus");
-        }
+		public override Texture2D GetTexture()
+		{
+			return mod.GetTexture("Tiles/Block/SpiritCactus");
+		}
 
-        /*  public override Texture2D GetTopTextures(int i, int j, ref int frame, ref int frameWidth, ref int frameHeight, ref int xOffsetLeft, ref int yOffset)
+		/*  public override Texture2D GetTopTextures(int i, int j, ref int frame, ref int frameWidth, ref int frameHeight, ref int xOffsetLeft, ref int yOffset)
            {
                frameWidth = 114;
                frameHeight = 96;
@@ -42,5 +43,5 @@ namespace SpiritMod.Tiles.Block
            {
                return mod.GetTexture("Tiles/Block/SpiritTree_Branches");
            }*/
-    }
+	}
 }

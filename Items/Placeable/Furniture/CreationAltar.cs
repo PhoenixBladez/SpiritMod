@@ -4,31 +4,33 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Placeable.Furniture
 {
-    public class CreationAltar : ModItem
-    {
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Altar of Creation");
-            Tooltip.SetDefault("'Where ancient energies converge'");
-        }
+	public class CreationAltar : ModItem
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Altar of Creation");
+			Tooltip.SetDefault("'Where ancient energies converge'");
+		}
 
 
-        public override void SetDefaults() {
-            item.width = 38;
-            item.height = 58;
-            item.maxStack = 1;
-            item.rare = 6;
+		public override void SetDefaults()
+		{
+			item.width = 38;
+			item.height = 58;
+			item.maxStack = 1;
+			item.rare = 6;
 
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = item.useAnimation = 25;
+			item.useStyle = ItemUseStyleID.SwingThrow;
+			item.useTime = item.useAnimation = 25;
 
-            item.autoReuse = true;
-            item.consumable = true;
+			item.autoReuse = true;
+			item.consumable = true;
 
 
-            item.createTile = ModContent.TileType<CreationAltarTile>();
-        }
+			item.createTile = ModContent.TileType<CreationAltarTile>();
+		}
 
-        /*public override void AddRecipes()
+		/*public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<OldLeather>(), 3);
@@ -46,5 +48,5 @@ namespace SpiritMod.Items.Placeable.Furniture
             recipe1.SetResult(this);
             recipe1.AddRecipe();
         }*/
-    }
+	}
 }

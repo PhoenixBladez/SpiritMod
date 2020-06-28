@@ -2,24 +2,26 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Armor.Masks
 {
-    [AutoloadEquip(EquipType.Head)]
-    public class DuskingMask : ModItem
-    {
-        public static int _type;
+	[AutoloadEquip(EquipType.Head)]
+	public class DuskingMask : ModItem
+	{
+		public static int _type;
 
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Dusking Mask");
-        }
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Dusking Mask");
+		}
 
 
-        int timer = 0;
-        public override void SetDefaults() {
-            item.width = 22;
-            item.height = 20;
+		int timer = 0;
+		public override void SetDefaults()
+		{
+			item.width = 22;
+			item.height = 20;
 
-            item.value = 3000;
-            item.rare = 1;
-            item.vanity = true;
-        }
-    }
+			item.value = 3000;
+			item.rare = 1;
+			item.vanity = true;
+		}
+	}
 }

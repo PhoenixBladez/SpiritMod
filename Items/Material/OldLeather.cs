@@ -3,28 +3,31 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Material
 {
-    public class OldLeather : ModItem
-    {
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Old Leather");
-            Tooltip.SetDefault("'Musty, but useful'");
-        }
+	public class OldLeather : ModItem
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Old Leather");
+			Tooltip.SetDefault("'Musty, but useful'");
+		}
 
 
-        public override void SetDefaults() {
-            item.width = 42;
-            item.height = 24;
-            item.value = 20;
-            item.rare = 1;
+		public override void SetDefaults()
+		{
+			item.width = 42;
+			item.height = 24;
+			item.value = 20;
+			item.rare = 1;
 
-            item.maxStack = 999;
-        }
-        public override void AddRecipes() {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(this, 2);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(259);
-            recipe.AddRecipe();
-        }
-    }
+			item.maxStack = 999;
+		}
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(this, 2);
+			recipe.AddTile(TileID.WorkBenches);
+			recipe.SetResult(259);
+			recipe.AddRecipe();
+		}
+	}
 }

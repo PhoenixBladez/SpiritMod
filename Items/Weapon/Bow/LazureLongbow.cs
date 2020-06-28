@@ -6,42 +6,45 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Weapon.Bow
 {
-    public class LazureLongbow : ModItem
-    {
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Lazure Longbow");
-            Tooltip.SetDefault("Turns arrows into granite arrows, which stick to enemies!");
-        }
+	public class LazureLongbow : ModItem
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Lazure Longbow");
+			Tooltip.SetDefault("Turns arrows into granite arrows, which stick to enemies!");
+		}
 
 
-        public override void SetDefaults() {
-            item.width = 26;
-            item.height = 32;
-            item.rare = 4;
-            item.value = Terraria.Item.sellPrice(0, 7, 0, 0);
+		public override void SetDefaults()
+		{
+			item.width = 26;
+			item.height = 32;
+			item.rare = 4;
+			item.value = Terraria.Item.sellPrice(0, 7, 0, 0);
 
-            item.crit = 6;
-            item.useAmmo = AmmoID.Arrow;
-            item.damage = 41;
-            item.knockBack = 5;
+			item.crit = 6;
+			item.useAmmo = AmmoID.Arrow;
+			item.damage = 41;
+			item.knockBack = 5;
 
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useTime = 28;
-            item.useAnimation = 28;
+			item.useStyle = ItemUseStyleID.HoldingOut;
+			item.useTime = 28;
+			item.useAnimation = 28;
 
-            item.ranged = true;
-            item.noMelee = true;
-            item.autoReuse = false;
+			item.ranged = true;
+			item.noMelee = true;
+			item.autoReuse = false;
 
-            item.shoot = 3;
-            item.shootSpeed = 5f;
+			item.shoot = 3;
+			item.shootSpeed = 5f;
 
-            item.UseSound = SoundID.Item5;
-        }
+			item.UseSound = SoundID.Item5;
+		}
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) {
-            type = ModContent.ProjectileType<GraniteArrow>();
-            return true;
-        }
-    }
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+			type = ModContent.ProjectileType<GraniteArrow>();
+			return true;
+		}
+	}
 }

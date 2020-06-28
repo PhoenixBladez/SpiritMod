@@ -1,14 +1,12 @@
 using SpiritMod.NPCs.Town;
-using SpiritMod.Tiles.Ambient;
-using SpiritMod.Tiles.Furniture;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.World
 {
-    public class BanditHideout : AStructure
-    {
+	public class BanditHideout : AStructure
+	{
 		public override int OffsetX => -3;
 		public override int OffsetY => -28;
 		public override int[,] Tiles => new int[,] {
@@ -252,7 +250,7 @@ namespace SpiritMod.World
 			}
 			return null;
 		}
-		
+
 		protected override WallData WallMap(int wall, int x, int y)
 		{
 			switch(wall) {
@@ -263,5 +261,5 @@ namespace SpiritMod.World
 			}
 			return new WallData(-1);
 		}
-    }
+	}
 }

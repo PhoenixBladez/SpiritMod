@@ -7,8 +7,8 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.World
 {
-    public class GoblinTower : AStructure
-    {
+	public class GoblinTower : AStructure
+	{
 		public override int OffsetX => -3;
 		public override int OffsetY => -43;
 		public override int[,] Tiles => new int[,] {
@@ -269,7 +269,8 @@ namespace SpiritMod.World
 			return placed;
 		}
 
-		protected override TileData TileMap(int tile, int x, int y) {
+		protected override TileData TileMap(int tile, int x, int y)
+		{
 			switch(tile) {
 				case 1:
 					return new TileData(TileID.StoneSlab);
@@ -307,7 +308,7 @@ namespace SpiritMod.World
 			}
 			return null;
 		}
-		
+
 		protected override WallData WallMap(int wall, int x, int y)
 		{
 			switch(wall) {
@@ -322,5 +323,5 @@ namespace SpiritMod.World
 			}
 			return new WallData(-1);
 		}
-    }
+	}
 }

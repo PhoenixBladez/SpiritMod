@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Dusts;
 using SpiritMod.Effects;
 using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Material;
@@ -39,8 +38,8 @@ namespace SpiritMod
 		public static Effect auroraEffect;
 		public static TrailManager TrailManager;
 		public static Effect glitchEffect;
-        public static PerlinNoise GlobalNoise;
-        public static GlitchScreenShader glitchScreenShader;
+		public static PerlinNoise GlobalNoise;
+		public static GlitchScreenShader glitchScreenShader;
 		public static Texture2D noise;
 		//public static Texture2D MoonTexture;
 		public const string EMPTY_TEXTURE = "SpiritMod/Empty";
@@ -193,11 +192,10 @@ namespace SpiritMod
 					music = GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritOverworld");
 				}
 			}
-			if (spirit.ZoneGranite && !player.ZoneOverworldHeight)
-            {
-                music = GetSoundSlot(SoundType.Music, "Sounds/Music/GraniteBiome");
-                priority = MusicPriority.BiomeMedium;
-            }
+			if(spirit.ZoneGranite && !player.ZoneOverworldHeight) {
+				music = GetSoundSlot(SoundType.Music, "Sounds/Music/GraniteBiome");
+				priority = MusicPriority.BiomeMedium;
+			}
 		}
 
 
@@ -317,8 +315,8 @@ namespace SpiritMod
 			StructureLoader.Load(this);
 			On.Terraria.Main.DrawProjectiles += Main_DrawProjectiles;
 			On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile;
-            GlobalNoise = new PerlinNoise(Main.rand.Next());
-            instance = this;
+			GlobalNoise = new PerlinNoise(Main.rand.Next());
+			instance = this;
 			if(Main.rand == null)
 				Main.rand = new Terraria.Utilities.UnifiedRandom();
 			//Don't add any code before this point,
@@ -345,8 +343,8 @@ namespace SpiritMod
 			GlyphCurrencyID = CustomCurrencyManager.RegisterCurrency(new Currency(ModContent.ItemType<Items.Glyphs.Glyph>(), 999L));
 
 			if(!Main.dedServ) {
-                TrailManager = new TrailManager(this);
-                AddEquipTexture(null, EquipType.Legs, "TalonGarb_Legs", "SpiritMod/Items/Armor/TalonGarb_Legs");
+				TrailManager = new TrailManager(this);
+				AddEquipTexture(null, EquipType.Legs, "TalonGarb_Legs", "SpiritMod/Items/Armor/TalonGarb_Legs");
 				EmptyTexture = GetTexture("Empty");
 				auroraEffect = GetEffect("Effects/aurora");
 				noise = GetTexture("Textures/noise");
@@ -395,7 +393,7 @@ namespace SpiritMod
 				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Starplate"), ItemType("StarplateBox"), TileType("StarplateBox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Scarabeus"), ItemType("ScarabBox"), TileType("ScarabBox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/BlueMoon"), ItemType("BlueMoonBox"), TileType("BlueMoonBox"));*/
-            }
+			}
 		}
 
 		/// <summary>
@@ -508,17 +506,16 @@ namespace SpiritMod
 			glitchEffect = null;
 			glitchScreenShader = null;
 			TrailManager = null;
-            GlobalNoise = null;
-        }
+			GlobalNoise = null;
+		}
 
 		public override void MidUpdateProjectileItem()
 		{
-            if (!Main.dedServ)
-            {
-                TrailManager.UpdateTrails();
-            }
+			if(!Main.dedServ) {
+				TrailManager.UpdateTrails();
+			}
 		}
-		
+
 		public override void AddRecipeGroups()
 		{
 			RecipeGroup group = new RecipeGroup(() => Language.GetTextValue("LegacyMisc.37") + " " + Lang.GetItemNameValue(ItemID.GoldBar), new int[]
@@ -563,33 +560,29 @@ namespace SpiritMod
 			});
 			RecipeGroup.RegisterGroup("SpiritMod:SilverBars", group);
 		}
-        public override void PostUpdateEverything()
-        {
-            if (Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.I) && Terraria.GameInput.PlayerInput.MouseInfo.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
-            {
-                Tile tile = Framing.GetTileSafely(Player.tileTargetX, Player.tileTargetY);
-                if (!tile.active())
-                {
-                    tile.active(true);
-                    tile.type = (ushort)ModContent.TileType<Tiles.Ambient.Briar.BriarFoliage>();
-                    tile.frameX = (short)(Main.rand.NextBool() ? 108 : 126);
-                    WorldGen.SquareTileFrame(Player.tileTargetX, Player.tileTargetY);
-                }
-            }
+		public override void PostUpdateEverything()
+		{
+			if(Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.I) && Terraria.GameInput.PlayerInput.MouseInfo.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed) {
+				Tile tile = Framing.GetTileSafely(Player.tileTargetX, Player.tileTargetY);
+				if(!tile.active()) {
+					tile.active(true);
+					tile.type = (ushort)ModContent.TileType<Tiles.Ambient.Briar.BriarFoliage>();
+					tile.frameX = (short)(Main.rand.NextBool() ? 108 : 126);
+					WorldGen.SquareTileFrame(Player.tileTargetX, Player.tileTargetY);
+				}
+			}
 
-            if (Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.I) && Terraria.GameInput.PlayerInput.MouseInfo.RightButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
-            {
-                Tile tile = Framing.GetTileSafely(Player.tileTargetX, Player.tileTargetY);
-                if (!tile.active())
-                {
-                    tile.active(true);
-                    tile.type = (ushort)ModContent.TileType<Tiles.Block.BriarGrass>();
-                    WorldGen.SquareTileFrame(Player.tileTargetX, Player.tileTargetY);
-                }
-            }
-            base.PostUpdateEverything();
-        }
-        public override void PostSetupContent()
+			if(Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.I) && Terraria.GameInput.PlayerInput.MouseInfo.RightButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed) {
+				Tile tile = Framing.GetTileSafely(Player.tileTargetX, Player.tileTargetY);
+				if(!tile.active()) {
+					tile.active(true);
+					tile.type = (ushort)ModContent.TileType<Tiles.Block.BriarGrass>();
+					WorldGen.SquareTileFrame(Player.tileTargetX, Player.tileTargetY);
+				}
+			}
+			base.PostUpdateEverything();
+		}
+		public override void PostSetupContent()
 		{
 			Items.Glyphs.GlyphBase.InitializeGlyphLookup();
 
@@ -790,7 +783,7 @@ namespace SpiritMod
 				white2.G = (byte)num159;
 				white2.B = (byte)num158;
 			}
-			
+
 			/*int num226 = 15;
 			int num227 = 0;
 			int num228 = 80;

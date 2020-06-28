@@ -1,9 +1,8 @@
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ObjectData;
 
 namespace SpiritMod.Tiles.Ambient.Briar
 {
@@ -59,8 +58,7 @@ namespace SpiritMod.Tiles.Ambient.Briar
 		public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
 		{
 			Tile tileBelow = Framing.GetTileSafely(i, j + 1);
-			if (!tileBelow.active() || tileBelow.halfBrick() || tileBelow.topSlope() || tileBelow.type != ModContent.TileType<Block.BriarGrass>())
-			{
+			if(!tileBelow.active() || tileBelow.halfBrick() || tileBelow.topSlope() || tileBelow.type != ModContent.TileType<Block.BriarGrass>()) {
 				WorldGen.KillTile(i, j);
 			}
 
@@ -71,8 +69,7 @@ namespace SpiritMod.Tiles.Ambient.Briar
 		{
 			Tile tile = Framing.GetTileSafely(i, j);
 
-			if (tile.frameX >= 108)
-			{
+			if(tile.frameX >= 108) {
 				Color colour = Color.White * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTime * 1.3f) + 1f) * 0.5f));
 
 				Texture2D glow = ModContent.GetTexture("SpiritMod/Tiles/Ambient/Briar/BriarFoliageGlow");

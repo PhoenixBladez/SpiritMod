@@ -5,21 +5,23 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Tiles.Block
 {
-    public class LivingBriarWood : ModTile
-    {
-        public override void SetDefaults() {
-            Main.tileSolid[Type] = true;
-            Main.tileMergeDirt[Type] = true;
-            Main.tileBlendAll[Type] = true;
-            Main.tileBlockLight[Type] = true;
-            Main.tileLighted[Type] = true;
-            AddMapEntry(new Color(133, 104, 70));
-            drop = ModContent.ItemType<AncientBark>();
-        }
+	public class LivingBriarWood : ModTile
+	{
+		public override void SetDefaults()
+		{
+			Main.tileSolid[Type] = true;
+			Main.tileMergeDirt[Type] = true;
+			Main.tileBlendAll[Type] = true;
+			Main.tileBlockLight[Type] = true;
+			Main.tileLighted[Type] = true;
+			AddMapEntry(new Color(133, 104, 70));
+			drop = ModContent.ItemType<AncientBark>();
+		}
 
-        public override bool CanExplode(int i, int j) {
-            return true;
-        }
-    }
+		public override bool CanExplode(int i, int j)
+		{
+			return true;
+		}
+	}
 }
 

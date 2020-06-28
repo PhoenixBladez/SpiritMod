@@ -4,36 +4,40 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Pet
 {
-    public class CogSpiderPet : ModProjectile
-    {
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Star Spider");
-            Main.projFrames[projectile.type] = 3;
-            Main.projPet[projectile.type] = true;
-        }
+	public class CogSpiderPet : ModProjectile
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Star Spider");
+			Main.projFrames[projectile.type] = 3;
+			Main.projPet[projectile.type] = true;
+		}
 
-        public override void SetDefaults() {
-            projectile.CloneDefaults(ProjectileID.Penguin);
-            aiType = ProjectileID.Penguin;
-            projectile.width = 22;
-            projectile.height = 20;
-        }
+		public override void SetDefaults()
+		{
+			projectile.CloneDefaults(ProjectileID.Penguin);
+			aiType = ProjectileID.Penguin;
+			projectile.width = 22;
+			projectile.height = 20;
+		}
 
-        public override bool PreAI() {
-            Player player = Main.player[projectile.owner];
-            player.penguin = false; // Relic from aiType
-            return true;
-        }
+		public override bool PreAI()
+		{
+			Player player = Main.player[projectile.owner];
+			player.penguin = false; // Relic from aiType
+			return true;
+		}
 
-        public override void AI() {
-            Player player = Main.player[projectile.owner];
-            MyPlayer modPlayer = player.GetSpiritPlayer();
-            if(player.dead)
-                modPlayer.starPet = false;
+		public override void AI()
+		{
+			Player player = Main.player[projectile.owner];
+			MyPlayer modPlayer = player.GetSpiritPlayer();
+			if(player.dead)
+				modPlayer.starPet = false;
 
-            if(modPlayer.starPet)
-                projectile.timeLeft = 2;
-        }
+			if(modPlayer.starPet)
+				projectile.timeLeft = 2;
+		}
 
-    }
+	}
 }

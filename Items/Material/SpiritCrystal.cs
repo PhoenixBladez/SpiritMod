@@ -2,21 +2,23 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Material
 {
-    public class SpiritCrystal : ModItem
-    {
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Spirit Crystal");
-            Tooltip.SetDefault("'Filled with ancient magic'");
-        }
+	public class SpiritCrystal : ModItem
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Spirit Crystal");
+			Tooltip.SetDefault("'Filled with ancient magic'");
+		}
 
 
-        public override void SetDefaults() {
-            item.width = 18;
-            item.height = 24;
-            item.value = 100;
-            item.rare = 5;
+		public override void SetDefaults()
+		{
+			item.width = 18;
+			item.height = 24;
+			item.value = 100;
+			item.rare = 5;
 
-            item.maxStack = 999;
-        }
-    }
+			item.maxStack = 999;
+		}
+	}
 }

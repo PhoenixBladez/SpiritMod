@@ -4,38 +4,42 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.YoYoOverload.Items.Acc
 {
-    public class CCharm : ModItem
-    {
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Grisly Totem");
-            Tooltip.SetDefault("Increases critical strike chance by 6%");
-        }
+	public class CCharm : ModItem
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Grisly Totem");
+			Tooltip.SetDefault("Increases critical strike chance by 6%");
+		}
 
 
-        public override void SetDefaults() {
-            base.item.width = 20;
-            base.item.height = 26;
-            base.item.rare = 2;
-            base.item.UseSound = SoundID.Item11;
-            base.item.accessory = true;
-            base.item.value = Item.sellPrice(0, 0, 30, 0);
-        }
+		public override void SetDefaults()
+		{
+			base.item.width = 20;
+			base.item.height = 26;
+			base.item.rare = ItemRarityID.Green;
+			base.item.UseSound = SoundID.Item11;
+			base.item.accessory = true;
+			base.item.value = Item.sellPrice(0, 0, 30, 0);
+		}
 
-        public override void UpdateAccessory(Player player, bool hideVisual) {
-            player.meleeCrit += 6;
-            player.rangedCrit += 6;
-            player.magicCrit += 6;
-            player.thrownCrit += 6;
-        }
+		public override void UpdateAccessory(Player player, bool hideVisual)
+		{
+			player.meleeCrit += 6;
+			player.rangedCrit += 6;
+			player.magicCrit += 6;
+			player.thrownCrit += 6;
+		}
 
-        public override void AddRecipes() {
-            ModRecipe modRecipe = new ModRecipe(base.mod);
-            modRecipe.AddIngredient(1330, 8);
-            modRecipe.AddIngredient(1329, 5);
-            modRecipe.AddIngredient(85, 3);
-            modRecipe.AddTile(16);
-            modRecipe.SetResult(this, 1);
-            modRecipe.AddRecipe();
-        }
-    }
+		public override void AddRecipes()
+		{
+			ModRecipe modRecipe = new ModRecipe(base.mod);
+			modRecipe.AddIngredient(1330, 8);
+			modRecipe.AddIngredient(1329, 5);
+			modRecipe.AddIngredient(85, 3);
+			modRecipe.AddTile(16);
+			modRecipe.SetResult(this, 1);
+			modRecipe.AddRecipe();
+		}
+	}
 }

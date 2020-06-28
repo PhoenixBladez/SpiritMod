@@ -11,45 +11,49 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.BossBags
 {
-    public class BagOScarabs : ModItem
-    {
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Treasure Bag");
-            Tooltip.SetDefault("Consumable\nRight Click to open");
-        }
+	public class BagOScarabs : ModItem
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Treasure Bag");
+			Tooltip.SetDefault("Consumable\nRight Click to open");
+		}
 
 
-        public override void SetDefaults() {
-            item.width = 20;
-            item.height = 20;
-            item.rare = -2;
+		public override void SetDefaults()
+		{
+			item.width = 20;
+			item.height = 20;
+			item.rare = -2;
 
-            item.maxStack = 30;
+			item.maxStack = 30;
 
-            item.expert = true;
-        }
+			item.expert = true;
+		}
 
-        public override bool CanRightClick() {
-            return true;
-        }
+		public override bool CanRightClick()
+		{
+			return true;
+		}
 
-        public override void RightClick(Player player) {
-            player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(2, 3));
-            player.QuickSpawnItem(ModContent.ItemType<ScarabCharm>());
-            player.QuickSpawnItem(ModContent.ItemType<Chitin>(), Main.rand.Next(25, 36));
+		public override void RightClick(Player player)
+		{
+			player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(2, 3));
+			player.QuickSpawnItem(ModContent.ItemType<ScarabCharm>());
+			player.QuickSpawnItem(ModContent.ItemType<Chitin>(), Main.rand.Next(25, 36));
 
-            int[] lootTable = {
-                ModContent.ItemType<ScarabBow>(),
-                ModContent.ItemType<OrnateStaff>(),
-                ModContent.ItemType<ScarabSword>()
-            };
-            int loot = Main.rand.Next(lootTable.Length);
-            player.QuickSpawnItem(lootTable[loot]);
+			int[] lootTable = {
+				ModContent.ItemType<ScarabBow>(),
+				ModContent.ItemType<OrnateStaff>(),
+				ModContent.ItemType<ScarabSword>()
+			};
+			int loot = Main.rand.Next(lootTable.Length);
+			player.QuickSpawnItem(lootTable[loot]);
 
-            if(Main.rand.NextDouble() < 1d / 7)
-                player.QuickSpawnItem(ModContent.ItemType<ScarabMask>());
-            if(Main.rand.NextDouble() < 1d / 10)
-                player.QuickSpawnItem(ModContent.ItemType<Trophy1>());
-        }
-    }
+			if(Main.rand.NextDouble() < 1d / 7)
+				player.QuickSpawnItem(ModContent.ItemType<ScarabMask>());
+			if(Main.rand.NextDouble() < 1d / 10)
+				player.QuickSpawnItem(ModContent.ItemType<Trophy1>());
+		}
+	}
 }

@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-using SpiritMod.Projectiles.Bullet;
 
 namespace SpiritMod.Projectiles.Bullet
 {
@@ -45,9 +44,9 @@ namespace SpiritMod.Projectiles.Bullet
 					player.direction = -1;
 					projectile.spriteDirection = -1;
 				}
-				
+
 				projectile.Center = player.MountedCenter;
-				if(player.direction == -1) { 
+				if(player.direction == -1) {
 					projectile.position.X -= 12;
 				}
 				player.velocity.X *= 0.97f;

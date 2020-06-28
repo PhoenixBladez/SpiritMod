@@ -1,59 +1,58 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Accessory;
-using SpiritMod.Items.Weapon.Summon;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs
 {
-    public class VileWasp : ModNPC
-    {
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Pesterfly");
-            Main.npcFrameCount[npc.type] = 2;
-            NPCID.Sets.TrailCacheLength[npc.type] = 2;
-            NPCID.Sets.TrailingMode[npc.type] = 0;
-        }
+	public class VileWasp : ModNPC
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Pesterfly");
+			Main.npcFrameCount[npc.type] = 2;
+			NPCID.Sets.TrailCacheLength[npc.type] = 2;
+			NPCID.Sets.TrailingMode[npc.type] = 0;
+		}
 
-        public override void SetDefaults() {
-            npc.width = 22;
-            npc.height = 20;
-            npc.damage = 20;
-            npc.defense = 0;
-            npc.lifeMax = 10;
-            npc.HitSound = SoundID.NPCHit1; //Dr Man Fly
-            npc.DeathSound = SoundID.NPCDeath16;
-            npc.value = 10f;
-            npc.noGravity = true;
-            npc.noTileCollide = false;
-            npc.knockBackResist = .65f;
-            npc.aiStyle = 44;
-            aiType = NPCID.FlyingAntlion;
-        }
-        public override void FindFrame(int frameHeight)
-        {
-            npc.frameCounter += 0.15f;
-            npc.frameCounter %= Main.npcFrameCount[npc.type];
-            int frame = (int)npc.frameCounter;
-            npc.frame.Y = frame * frameHeight;
-        }
+		public override void SetDefaults()
+		{
+			npc.width = 22;
+			npc.height = 20;
+			npc.damage = 20;
+			npc.defense = 0;
+			npc.lifeMax = 10;
+			npc.HitSound = SoundID.NPCHit1; //Dr Man Fly
+			npc.DeathSound = SoundID.NPCDeath16;
+			npc.value = 10f;
+			npc.noGravity = true;
+			npc.noTileCollide = false;
+			npc.knockBackResist = .65f;
+			npc.aiStyle = 44;
+			aiType = NPCID.FlyingAntlion;
+		}
+		public override void FindFrame(int frameHeight)
+		{
+			npc.frameCounter += 0.15f;
+			npc.frameCounter %= Main.npcFrameCount[npc.type];
+			int frame = (int)npc.frameCounter;
+			npc.frame.Y = frame * frameHeight;
+		}
 		public override void AI()
-        {
-            npc.spriteDirection = npc.direction;
-        }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height / Main.npcFrameCount[npc.type]) * 0.5f);
-            for (int k = 0; k < npc.oldPos.Length; k++)
-            {
-                var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-                Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
-                Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
-                spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
-            }
-            return true;
-        }
-    }
+		{
+			npc.spriteDirection = npc.direction;
+		}
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height / Main.npcFrameCount[npc.type]) * 0.5f);
+			for(int k = 0; k < npc.oldPos.Length; k++) {
+				var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+				Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
+				Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
+				spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
+			}
+			return true;
+		}
+	}
 }

@@ -2,8 +2,8 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Waters.Spirit
 {
-    public class SpiritWaterfallStyle : ModWaterfallStyle
-    {
+	public class SpiritWaterfallStyle : ModWaterfallStyle
+	{
 
-    }
+	}
 }

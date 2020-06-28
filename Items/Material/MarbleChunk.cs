@@ -4,27 +4,29 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Material
 {
-    public class MarbleChunk : ModItem
-    {
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Ancient Marble Chunk");
-            Tooltip.SetDefault("'Contains fragments of past civilizations'");
-        }
+	public class MarbleChunk : ModItem
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Ancient Marble Chunk");
+			Tooltip.SetDefault("'Contains fragments of past civilizations'");
+		}
 
 
-        public override void SetDefaults() {
-            item.width = 22;
-            item.height = 36;
-            item.maxStack = 999;
-            item.rare = 2;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 10;
-            item.useAnimation = 15;
+		public override void SetDefaults()
+		{
+			item.width = 22;
+			item.height = 36;
+			item.maxStack = 999;
+			item.rare = ItemRarityID.Green;
+			item.useStyle = ItemUseStyleID.SwingThrow;
+			item.useTime = 10;
+			item.useAnimation = 15;
 
-            item.autoReuse = true;
-            item.consumable = true;
+			item.autoReuse = true;
+			item.consumable = true;
 
-            item.createTile = ModContent.TileType<MarbleOre>();
-        }
-    }
+			item.createTile = ModContent.TileType<MarbleOre>();
+		}
+	}
 }

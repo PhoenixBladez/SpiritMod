@@ -4,28 +4,30 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs.Summon
 {
-    public class BeetleMinionBuff : ModBuff
-    {
-        public override void SetDefaults() {
-            DisplayName.SetDefault("Beetle Minion");
-            Description.SetDefault("A lively Beetle fights for you!");
-            Main.buffNoSave[Type] = true;
-            Main.buffNoTimeDisplay[Type] = true;
-        }
+	public class BeetleMinionBuff : ModBuff
+	{
+		public override void SetDefaults()
+		{
+			DisplayName.SetDefault("Beetle Minion");
+			Description.SetDefault("A lively Beetle fights for you!");
+			Main.buffNoSave[Type] = true;
+			Main.buffNoTimeDisplay[Type] = true;
+		}
 
-        public override void Update(Player player, ref int buffIndex) {
-            MyPlayer modPlayer = player.GetSpiritPlayer();
-            if(player.ownedProjectileCounts[ModContent.ProjectileType<BeetleMinion>()] > 0) {
-                modPlayer.beetleMinion = true;
-            }
+		public override void Update(Player player, ref int buffIndex)
+		{
+			MyPlayer modPlayer = player.GetSpiritPlayer();
+			if(player.ownedProjectileCounts[ModContent.ProjectileType<BeetleMinion>()] > 0) {
+				modPlayer.beetleMinion = true;
+			}
 
-            if(!modPlayer.beetleMinion) {
-                player.DelBuff(buffIndex);
-                buffIndex--;
-                return;
-            }
+			if(!modPlayer.beetleMinion) {
+				player.DelBuff(buffIndex);
+				buffIndex--;
+				return;
+			}
 
-            player.buffTime[buffIndex] = 18000;
-        }
-    }
+			player.buffTime[buffIndex] = 18000;
+		}
+	}
 }

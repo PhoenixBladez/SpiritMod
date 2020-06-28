@@ -1,6 +1,6 @@
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -37,11 +37,10 @@ namespace SpiritMod.Tiles.Ambient.Briar
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
 			Tile tile = Framing.GetTileSafely(i, j);
-			if (tile.frameY <= 18 && (tile.frameX <= 36 || tile.frameX >= 72))
-			{
-				r = 0.201f *1.5f;
-				g = 0.110f *1.5f;
-				b = 0.226f *1.5f;
+			if(tile.frameY <= 18 && (tile.frameX <= 36 || tile.frameX >= 72)) {
+				r = 0.201f * 1.5f;
+				g = 0.110f * 1.5f;
+				b = 0.226f * 1.5f;
 			}
 		}
 

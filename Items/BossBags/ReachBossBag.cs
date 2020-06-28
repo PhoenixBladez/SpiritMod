@@ -12,46 +12,50 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.BossBags
 {
-    public class ReachBossBag : ModItem
-    {
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Treasure Bag");
-            Tooltip.SetDefault("Consumable\nRight Click to open");
-        }
+	public class ReachBossBag : ModItem
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Treasure Bag");
+			Tooltip.SetDefault("Consumable\nRight Click to open");
+		}
 
-        public override void SetDefaults() {
-            item.width = 20;
-            item.height = 20;
-            item.rare = -2;
+		public override void SetDefaults()
+		{
+			item.width = 20;
+			item.height = 20;
+			item.rare = -2;
 
-            item.maxStack = 30;
+			item.maxStack = 30;
 
-            item.expert = true;
-        }
+			item.expert = true;
+		}
 
-        public override bool CanRightClick() {
-            return true;
-        }
+		public override bool CanRightClick()
+		{
+			return true;
+		}
 
-        public override void RightClick(Player player) {
-            player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(1, 3));
-            player.QuickSpawnItem(ModContent.ItemType<DeathRose>());
-            player.QuickSpawnItem(ModContent.ItemType<ReachFlowers>(), Main.rand.Next(14, 20));
+		public override void RightClick(Player player)
+		{
+			player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(1, 3));
+			player.QuickSpawnItem(ModContent.ItemType<DeathRose>());
+			player.QuickSpawnItem(ModContent.ItemType<ReachFlowers>(), Main.rand.Next(14, 20));
 
-            int[] lootTable = {
-                ModContent.ItemType<ThornBow>(),
-                ModContent.ItemType<SunbeamStaff>(),
-                ModContent.ItemType<ReachVineStaff>(),
-                ModContent.ItemType<ReachBossSword>(),
-                ModContent.ItemType<ReachKnife>()
-            };
-            int loot = Main.rand.Next(lootTable.Length);
-            player.QuickSpawnItem(lootTable[loot]);
+			int[] lootTable = {
+				ModContent.ItemType<ThornBow>(),
+				ModContent.ItemType<SunbeamStaff>(),
+				ModContent.ItemType<ReachVineStaff>(),
+				ModContent.ItemType<ReachBossSword>(),
+				ModContent.ItemType<ReachKnife>()
+			};
+			int loot = Main.rand.Next(lootTable.Length);
+			player.QuickSpawnItem(lootTable[loot]);
 
-            if(Main.rand.NextDouble() < 1d / 7)
-                player.QuickSpawnItem(ModContent.ItemType<ReachMask>());
-            if(Main.rand.NextDouble() < 1d / 10)
-                player.QuickSpawnItem(ModContent.ItemType<Trophy5>());
-        }
-    }
+			if(Main.rand.NextDouble() < 1d / 7)
+				player.QuickSpawnItem(ModContent.ItemType<ReachMask>());
+			if(Main.rand.NextDouble() < 1d / 10)
+				player.QuickSpawnItem(ModContent.ItemType<Trophy5>());
+		}
+	}
 }

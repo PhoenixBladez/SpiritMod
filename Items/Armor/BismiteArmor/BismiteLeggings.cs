@@ -5,30 +5,34 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Armor.BismiteArmor
 {
-    [AutoloadEquip(EquipType.Legs)]
-    public class BismiteLeggings : ModItem
-    {
-        public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Bismite Leggings");
-            Tooltip.SetDefault("6% increased movement speed");
+	[AutoloadEquip(EquipType.Legs)]
+	public class BismiteLeggings : ModItem
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Bismite Leggings");
+			Tooltip.SetDefault("6% increased movement speed");
 
-        }
-        public override void SetDefaults() {
-            item.width = 22;
-            item.height = 18;
-            item.value = Item.buyPrice(silver: 40);
-            item.rare = 1;
-            item.defense = 2;
-        }
-        public override void UpdateEquip(Player player) {
-            player.moveSpeed += .06f;
-        }
-        public override void AddRecipes() {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BismiteCrystal>(), 7);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
-        }
-    }
+		}
+		public override void SetDefaults()
+		{
+			item.width = 22;
+			item.height = 18;
+			item.value = Item.buyPrice(silver: 40);
+			item.rare = 1;
+			item.defense = 2;
+		}
+		public override void UpdateEquip(Player player)
+		{
+			player.moveSpeed += .06f;
+		}
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<BismiteCrystal>(), 7);
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this, 1);
+			recipe.AddRecipe();
+		}
+	}
 }
