@@ -18,7 +18,7 @@ namespace SpiritMod.NPCs.Mimic
         }
         public override void SetDefaults() {
             npc.width = 46;
-            npc.height = 36;
+            npc.height = 40;
             npc.damage = 22;
             npc.defense = 12;
             npc.lifeMax = 110;
@@ -47,8 +47,8 @@ namespace SpiritMod.NPCs.Mimic
                     frame++;
                     timer = 0;
                 }
-                if(frame == 5) {
-                    frame = 2;
+                if(frame >= 4) {
+                    frame = 1;
                 }
             } else {
                 frame = 0;

@@ -19,6 +19,7 @@ namespace SpiritMod.Tiles.Block
             name.SetDefault("Cosmilite");
             drop = ModContent.ItemType<CosmiliteShard>();
             soundType = SoundID.Tink;
+            dustType = 226;
         }
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem) {
             Player player = Main.LocalPlayer;

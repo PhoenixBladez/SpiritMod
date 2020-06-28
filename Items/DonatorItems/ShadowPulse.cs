@@ -32,6 +32,7 @@ namespace SpiritMod.Items.DonatorItems
             item.shootSpeed = 6.7f;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) {
+
             int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, 357, damage, knockBack, player.whoAmI);
             Projectile newProj = Main.projectile[proj];
             newProj.friendly = true;

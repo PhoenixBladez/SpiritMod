@@ -55,7 +55,7 @@ namespace SpiritMod.Items.Weapon.Bow
             return base.CanUseItem(player);
         }
         public override Vector2? HoldoutOffset() {
-            return new Vector2(-6, 0);
+            return new Vector2(-3, 0);
         }
         public override void AddRecipes() {
             ModRecipe modRecipe = new ModRecipe(base.mod);

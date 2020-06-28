@@ -27,7 +27,7 @@ namespace SpiritMod.NPCs.Critters
             npc.dontCountMe = true;
             npc.noGravity = true;
             npc.npcSlots = 0;
-            aiType = NPCID.Goldfish;
+            aiType = NPCID.CorruptGoldfish;
         }
 
         public override void FindFrame(int frameHeight) {

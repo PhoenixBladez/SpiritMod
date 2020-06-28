@@ -18,23 +18,23 @@ namespace SpiritMod.Items.Weapon.Gun
         }
 
         public override void SetDefaults() {
-            item.damage = 27;
+            item.damage = 24;
             item.ranged = true;
             item.width = 65;
             item.height = 21;
-            item.useTime = 36;
-            item.useAnimation = 36;
+            item.useTime = 46;
+            item.useAnimation = 46;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 9;
             item.useTurn = true;
-            item.value = Item.sellPrice(0, 8, 0, 0);
-            item.rare = 8;
+            item.value = Item.sellPrice(0, 1, 0, 0);
+            item.rare = 3;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<CoconutSpurt>();
             item.shootSpeed = 1f;
             item.crit = 14;
-            item.UseSound = SoundID.Item36;
+            item.UseSound = SoundID.Item61;
            // item.useAmmo = AmmoID.Bullet;
         }
 

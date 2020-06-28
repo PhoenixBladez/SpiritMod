@@ -14,13 +14,13 @@ namespace SpiritMod.NPCs
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Captive Mask");
             Main.npcFrameCount[npc.type] = 4;
-            NPCID.Sets.TrailCacheLength[npc.type] = 5;
+            NPCID.Sets.TrailCacheLength[npc.type] = 2;
             NPCID.Sets.TrailingMode[npc.type] = 0;
         }
 
         public override void SetDefaults() {
             npc.width = 34;
-            npc.height = 28;
+            npc.height = 32;
             npc.damage = 20;
             npc.defense = 7;
             npc.knockBackResist = 0.2f;
@@ -91,28 +91,26 @@ namespace SpiritMod.NPCs
                 npc.velocity.Y = npc.velocity.Y - acceleration;
             }
             if((double)velLimitX > 0.0) {
-                npc.spriteDirection = -1;
+                npc.spriteDirection = 1;
                 npc.rotation = (float)Math.Atan2((double)velLimitY, (double)velLimitX);
             }
             if((double)velLimitX < 0.0) {
-                npc.spriteDirection = 1;
+                npc.spriteDirection = -1;
                 npc.rotation = (float)Math.Atan2((double)velLimitY, (double)velLimitX) + 3.14f;
             }
             return false;
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) {
-            var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-                             lightColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height * 0.5f));
+            for (int k = 0; k < npc.oldPos.Length; k++)
             {
-                Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height / Main.npcFrameCount[npc.type]) * 0.5f);
-                for(int k = 0; k < npc.oldPos.Length; k++) {
-                    Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
-                    Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
-                    spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
-                }
+                var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+                Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
+                Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
+                spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
             }
-            return false;
+            return true;
         }
         public override void HitEffect(int hitDirection, double damage) {
             if(npc.life <= 0 || npc.life >= 0) {

@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Accessory
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Ace of Spades");
-            Tooltip.SetDefault("If a crit can kill an enemy, a crit is garunteed.");
+            Tooltip.SetDefault("Weapons will automatically crit if a critical hit can kill an enemy");
         }
 
 

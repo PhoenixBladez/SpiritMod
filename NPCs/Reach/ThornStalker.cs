@@ -31,10 +31,6 @@ namespace SpiritMod.NPCs.Reach
         int timer = 0;
           int shootTimer = 0;
         public override void AI() {
-            if (Main.rand.NextBool(600))
-            {
-                Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/StalkerIdle"));
-            }
             npc.spriteDirection = npc.direction;
             Player target = Main.player[npc.target];
             shootTimer++;
@@ -54,7 +50,8 @@ namespace SpiritMod.NPCs.Reach
                          direction.Normalize();
                          direction*=Main.rand.NextFloat(7,10);
                          p.velocity = direction;
-                         Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/StalkerShoot"));
+                        Main.PlaySound(2, new Vector2(npc.Center.X + Main.rand.Next(-50, 50), npc.Center.Y - Main.rand.Next(60)), 1);
+                        Main.PlaySound(2, new Vector2(npc.Center.X + Main.rand.Next(-50, 50), npc.Center.Y - Main.rand.Next(60)), 1);
 
                     }
                     timer++;
@@ -79,7 +76,7 @@ namespace SpiritMod.NPCs.Reach
             } else {
                 //shootTimer = 0;
                 npc.aiStyle = 3;
-                aiType = NPCID.Skeleton;
+                aiType = NPCID.WalkingAntlion;
                 timer++;
                 if(timer >= 7) {
                     frame++;

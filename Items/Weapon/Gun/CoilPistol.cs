@@ -56,6 +56,11 @@ namespace SpiritMod.Items.Weapon.Gun
         }
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) {
             type = mod.ProjectileType("CoilBullet1");
+            Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 45f;
+            if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
+            {
+                position += muzzleOffset;
+            }
             return true;
         }
         public override Vector2? HoldoutOffset() {

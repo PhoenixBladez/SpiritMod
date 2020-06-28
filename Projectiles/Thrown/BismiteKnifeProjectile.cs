@@ -3,6 +3,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Buffs;
 
 namespace SpiritMod.Projectiles.Thrown
 {
@@ -46,12 +47,11 @@ namespace SpiritMod.Projectiles.Thrown
                 Dust.NewDust(projectile.position, projectile.width, projectile.height, 167, projectile.velocity.X * 2f, projectile.velocity.Y * 2f);
             }
         }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
-            if(Main.rand.Next(5) == 0)
-                target.AddBuff(BuffID.Poisoned, 180);
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            if (Main.rand.Next(5) == 0)
+                target.AddBuff(ModContent.BuffType<FesteringWounds>(), 180);
         }
-
         //public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         //{
         //    Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);

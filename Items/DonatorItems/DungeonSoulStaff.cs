@@ -36,8 +36,7 @@ namespace SpiritMod.Items.DonatorItems
         }
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SpiritStaff>(), 1);
-            recipe.AddIngredient(ModContent.ItemType<Material.SpiritBar>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<Material.SpiritBar>(), 12);
             recipe.AddIngredient(ItemID.Ectoplasm, 8);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 1);
