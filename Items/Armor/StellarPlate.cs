@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Stellar Plate");
-			Tooltip.SetDefault("Increases minion damage by 10%\nIncreases your maximum number of minions by 1");
+			Tooltip.SetDefault("Increases minion damage by 10%\nIncreases your max number of minions");
 
 		}
 		public override void SetDefaults()

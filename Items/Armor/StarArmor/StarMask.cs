@@ -12,20 +12,20 @@ namespace SpiritMod.Items.Armor.StarArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Astralite Visor");
-			Tooltip.SetDefault("Reduces ammo consumption by 20%\nIncreases critical strike chance by 5%");
+			Tooltip.SetDefault("Reduces ammo consumption by 20%\n5% increased critical strike chance");
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/StarArmor/StarMask_Glow");
 		}
+
 		public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
 		{
 			glowMaskColor = Color.White;
 		}
-		int timer = 0;
 
 		public override void SetDefaults()
 		{
 			item.width = 22;
 			item.height = 20;
-			item.value = Terraria.Item.sellPrice(0, 0, 30, 0);
+			item.value = Item.sellPrice(0, 0, 30, 0);
 			item.rare = ItemRarityID.Orange;
 			item.defense = 6;
 		}

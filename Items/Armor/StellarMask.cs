@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Stellar Mask");
-			Tooltip.SetDefault("Increases ranged damage by 10% and ranged critical strike chance by 5%\nIncreases your maximum number of minions by 1");
+			Tooltip.SetDefault("Increases ranged damage by 10% and ranged critical strike chance by 5%\nIncreases your max number of minions");
 		}
 
 		public override void SetDefaults()

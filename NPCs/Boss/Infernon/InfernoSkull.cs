@@ -15,7 +15,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 	{
 		public static int _type;
 
-		bool txt = false;
+		//bool txt = false;
 
 		public override void SetStaticDefaults()
 		{
@@ -71,7 +71,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 				npc.DropBossBags();
 		}
 
-		int timer1 = 0;
+		//int timer1 = 0;
 		int timer = 0;
 		public override void AI()
 		{
@@ -91,7 +91,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			npc.ai[0] += 1f;
 			npc.netUpdate = true;
 
-			Player player = Main.player[npc.target];
+			//Player player = Main.player[npc.target];
 			bool expertMode = Main.expertMode;
 			int damage = expertMode ? 16 : 30;
 
@@ -104,8 +104,8 @@ namespace SpiritMod.NPCs.Boss.Infernon
 				int i;
 				for(i = 0; i < 4; i++) {
 					offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
-					Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<InfernalWave>(), 28, 0, Main.myPlayer);
-					Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<InfernalWave>(), 28, 0, Main.myPlayer);
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<InfernalWave>(), 28, 0, Main.myPlayer);
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<InfernalWave>(), 28, 0, Main.myPlayer);
 					npc.netUpdate = true;
 				}
 			}
@@ -119,8 +119,8 @@ namespace SpiritMod.NPCs.Boss.Infernon
 
 					int amountOfProjectiles = 1;
 					for(int z = 0; z < amountOfProjectiles; ++z) {
-						float A = (float)Main.rand.Next(-200, 200) * 0.03f;
-						float B = (float)Main.rand.Next(-200, 200) * 0.03f;
+						float A = Main.rand.Next(-200, 200) * 0.03f;
+						float B = Main.rand.Next(-200, 200) * 0.03f;
 						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<InfernalBlastHostile>(), damage, 1, Main.myPlayer, 0, 0);
 
 					}
@@ -152,28 +152,28 @@ namespace SpiritMod.NPCs.Boss.Infernon
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for(int k = 0; k < 5; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 6, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 6, hitDirection, -1f, 0, default, 1f);
 			}
 			if(npc.life <= 0) {
-				npc.position.X = npc.position.X + (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
+				npc.position.X = npc.position.X + (npc.width / 2);
+				npc.position.Y = npc.position.Y + (npc.height / 2);
 				npc.width = 80;
 				npc.height = 80;
-				npc.position.X = npc.position.X - (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+				npc.position.X = npc.position.X - (npc.width / 2);
+				npc.position.Y = npc.position.Y - (npc.height / 2);
 				for(int num621 = 0; num621 < 200; num621++) {
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
 					if(Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.5f;
-						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+						Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
 					}
 				}
 				for(int num623 = 0; num623 < 400; num623++) {
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default(Color), 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default(Color), 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default, 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 			}

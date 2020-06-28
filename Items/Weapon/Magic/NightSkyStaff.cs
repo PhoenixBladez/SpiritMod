@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Material;
+using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,7 +17,6 @@ namespace SpiritMod.Items.Weapon.Magic
 
 
 		int charger;
-		private Vector2 newVect;
 		public override void SetDefaults()
 		{
 			item.damage = 34;
@@ -31,19 +31,19 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.noMelee = true;
 			item.knockBack = 2.5f;
 			item.useTurn = false;
-			item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
+			item.value = Item.sellPrice(0, 2, 0, 0);
 			item.rare = ItemRarityID.LightRed;
 			item.UseSound = SoundID.Item72;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("NovaBeam1");
+			item.shoot = ModContent.ProjectileType<NovaBeam1>();
 			item.shootSpeed = 15f;
 		}
 
-		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			charger++;
 			if(charger >= 5) {
-				Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX, speedY, mod.ProjectileType("NovaBeam2"), damage / 2 * 3, knockBack, player.whoAmI, 0f, 0f);
+				Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX, speedY, ModContent.ProjectileType<NovaBeam2>(), damage / 2 * 3, knockBack, player.whoAmI, 0f, 0f);
 				charger = 0;
 				return false;
 			}

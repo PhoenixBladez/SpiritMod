@@ -91,7 +91,7 @@ namespace SpiritMod.NPCs.Asteroid
 			}
 			npc.rotation = npc.rotation + 3f;
 			//npc.rotation = npc.rotation + 3f;
-			float lowestDist = float.MaxValue;
+			//float lowestDist = float.MaxValue;
 			if(npc.ai[3] < (double)Main.npc.Length) {
 				NPC parent = Main.npc[(int)npc.ai[3]];
 				//Factors for calculations

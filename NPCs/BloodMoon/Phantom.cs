@@ -15,8 +15,8 @@ namespace SpiritMod.NPCs.BloodMoon
 		int moveSpeed = 0;
 		int moveSpeedY = 0;
 		float HomeY = 120f;
-		private float SpeedMax = 33f;
-		private float SpeedDistanceIncrease = 500f;
+		//private float SpeedMax = 33f;
+		//private float SpeedDistanceIncrease = 500f;
 
 		public override void SetStaticDefaults()
 		{

@@ -15,8 +15,6 @@ namespace SpiritMod.Items.Accessory
 			Tooltip.SetDefault("Reduces the player's gravity significantly");
 		}
 
-
-		int timer = 0;
 		public override void SetDefaults()
 		{
 			item.width = 30;

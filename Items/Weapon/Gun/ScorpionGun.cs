@@ -7,7 +7,6 @@ namespace SpiritMod.Items.Weapon.Gun
 {
 	public class ScorpionGun : ModItem
 	{
-		private Vector2 newVect;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("The Poacher");

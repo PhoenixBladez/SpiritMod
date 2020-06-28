@@ -15,8 +15,6 @@ namespace SpiritMod.Items.Accessory
 			Tooltip.SetDefault("Provides immunity to the 'Mighty Wind' debuff during Sandstorms");
 		}
 
-
-		int timer = 0;
 		public override void SetDefaults()
 		{
 			item.width = 30;

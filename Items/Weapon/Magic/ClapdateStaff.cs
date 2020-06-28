@@ -15,8 +15,6 @@ namespace SpiritMod.Items.Weapon.Magic
 			Tooltip.SetDefault("Shoots out a clump dust and dirt at foes\nAttacks occasionally reduce enemy defense");
 		}
 
-
-		private Vector2 newVect;
 		public override void SetDefaults()
 		{
 			item.damage = 17;

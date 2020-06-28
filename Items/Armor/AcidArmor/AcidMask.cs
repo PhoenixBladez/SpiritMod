@@ -13,8 +13,6 @@ namespace SpiritMod.Items.Armor.AcidArmor
 			DisplayName.SetDefault("Acid Mask");
 		}
 
-
-		int timer = 0;
 		public override void SetDefaults()
 		{
 			item.width = 20;

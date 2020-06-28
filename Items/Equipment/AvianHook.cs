@@ -130,8 +130,8 @@ namespace SpiritMod.Items.Equipment
 
 
 		bool swinging = false;
-		float xvel = 0;
-		float yvel = 0;
+		//float xvel = 0;
+		//float yvel = 0;
 		Vector2 position = Vector2.Zero;
 		float momentum = 0;
 		float momentumChange = 0f;
@@ -143,7 +143,7 @@ namespace SpiritMod.Items.Equipment
 		bool leftswing = false;
 		bool rightswing = false;
 
-		int xDist = 0;
+		//int xDist = 0;
 		public override void GrapplePullSpeed(Player player, ref float speed)
 		{
 			speed = 0f;

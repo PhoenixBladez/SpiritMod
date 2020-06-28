@@ -13,9 +13,6 @@ namespace SpiritMod.Items.Armor.FrigidArmor
 
 		}
 
-
-		int timer = 0;
-
 		public override void SetDefaults()
 		{
 			item.width = 28;

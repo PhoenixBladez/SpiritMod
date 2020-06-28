@@ -12,14 +12,14 @@ namespace SpiritMod.Items.Armor.StarArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Astralite Leggings");
-			Tooltip.SetDefault("Increases ranged damage by 5%\nLeave a trail of stars where you walk");
+			Tooltip.SetDefault("5% increased ranged damage\nLeave a trail of stars where you walk");
 		}
-		int timer = 0;
+
 		public override void SetDefaults()
 		{
 			item.width = 22;
 			item.height = 20;
-			item.value = Terraria.Item.sellPrice(0, 0, 35, 0);
+			item.value = Item.sellPrice(0, 0, 35, 0);
 			item.rare = ItemRarityID.Orange;
 			item.defense = 7;
 		}

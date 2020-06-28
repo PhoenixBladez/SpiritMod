@@ -17,8 +17,6 @@ namespace SpiritMod.Items.Weapon.Magic
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Magic/CryoStaff_Glow");
 		}
 
-
-		int charger;
 		private Vector2 newVect;
 		public override void SetDefaults()
 		{
@@ -34,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.noMelee = true;
 			item.knockBack = 4.5f;
 			item.useTurn = false;
-			item.value = Terraria.Item.sellPrice(0, 1, 50, 0);
+			item.value = Item.sellPrice(0, 1, 50, 0);
 			item.rare = ItemRarityID.Orange;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = true;
@@ -62,7 +60,7 @@ namespace SpiritMod.Items.Weapon.Magic
 				0f
 			);
 		}
-		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			if(Main.rand.Next(3) == 0) {
 				Vector2 origVect = new Vector2(speedX, speedY);
@@ -76,7 +74,6 @@ namespace SpiritMod.Items.Weapon.Magic
 					proj.friendly = true;
 					proj.hostile = false;
 					proj.netUpdate = true;
-
 				}
 			}
 			return true;

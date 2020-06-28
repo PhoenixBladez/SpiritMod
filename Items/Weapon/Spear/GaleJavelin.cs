@@ -13,8 +13,6 @@ namespace SpiritMod.Items.Weapon.Spear
 			Tooltip.SetDefault("Left-click to thrust at foes, Right-click to throw at enemies");
 		}
 
-
-		private Vector2 newVect;
 		public override void SetDefaults()
 		{
 			item.useStyle = ItemUseStyleID.HoldingOut;

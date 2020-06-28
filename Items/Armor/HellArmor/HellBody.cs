@@ -14,8 +14,6 @@ namespace SpiritMod.Items.Armor.HellArmor
 			Tooltip.SetDefault("15% increased movement speed\n8% increased ranged critical strike chance");
 		}
 
-
-		int timer = 0;
 		public override void SetDefaults()
 		{
 			item.width = 20;
