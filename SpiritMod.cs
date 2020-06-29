@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Effects;
 using SpiritMod.Items.Accessory;
+using SpiritMod.Items.Consumable;
 using SpiritMod.Items.Material;
 using SpiritMod.Items.Pins;
 using SpiritMod.NPCs.Boss.Atlas;
@@ -49,7 +50,6 @@ namespace SpiritMod
 			private set;
 		}
 		//public static int customEvent;
-		public static ModHotKey SpecialKey;
 		public static int GlyphCurrencyID;
 
 		internal static SpiritMod instance;
@@ -315,10 +315,11 @@ namespace SpiritMod
 			StructureLoader.Load(this);
 			On.Terraria.Main.DrawProjectiles += Main_DrawProjectiles;
 			On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile;
+			On.Terraria.Player.KeyDoubleTap += Player_KeyDoubleTap;
 			GlobalNoise = new PerlinNoise(Main.rand.Next());
 			instance = this;
 			if(Main.rand == null)
-				Main.rand = new Terraria.Utilities.UnifiedRandom();
+				Main.rand = new UnifiedRandom();
 			//Don't add any code before this point,
 			// unless you know what you're doing.
 			Items.Halloween.CandyBag.Initialize();
@@ -337,8 +338,6 @@ namespace SpiritMod
 
 			Filters.Scene["SpiritMod:WindEffect"] = new Filter((new BlizzardShaderData("FilterBlizzardForeground")).UseColor(0.4f, 0.4f, 0.4f).UseSecondaryColor(0.2f, 0.2f, 0.2f).UseImage("Images/Misc/noise", 0, null).UseOpacity(0.149f).UseImageScale(new Vector2(3f, 0.75f), 0), EffectPriority.High);
 			Filters.Scene["SpiritMod:WindEffect2"] = new Filter((new BlizzardShaderData("FilterBlizzardForeground")).UseColor(0.4f, 0.4f, 0.4f).UseSecondaryColor(0.2f, 0.2f, 0.2f).UseImage("Images/Misc/noise", 0, null).UseOpacity(0.549f).UseImageScale(new Vector2(3f, 0.75f), 0), EffectPriority.High);
-
-			SpecialKey = RegisterHotKey("Armor Bonus", "Q");
 
 			GlyphCurrencyID = CustomCurrencyManager.RegisterCurrency(new Currency(ModContent.ItemType<Items.Glyphs.Glyph>(), 999L));
 
@@ -458,6 +457,13 @@ namespace SpiritMod
 
 			return index;
 		}
+		
+		private void Player_KeyDoubleTap(On.Terraria.Player.orig_KeyDoubleTap orig, Player self, int keyDir)
+		{
+			orig(self, keyDir);
+			self.GetSpiritPlayer().DoubleTapEffects(keyDir);
+		}
+
 		public override void Unload()
 		{
 			spiritRNG = null;
@@ -552,15 +558,15 @@ namespace SpiritMod
 			Mod bossChecklist = ModLoader.GetMod("BossChecklist");
 			if(bossChecklist != null) {
 				// 14 is moolord, 12 is duke fishron
-				bossChecklist.Call("AddBossWithInfo", "Scarabeus", 0.8f, (Func<bool>)(() => MyWorld.downedScarabeus), "Use a [i:" + ItemType("ScarabIdol") + "] in the Desert biome at any time");
-				bossChecklist.Call("AddBossWithInfo", "Vinewrath Bane", 3.5f, (Func<bool>)(() => MyWorld.downedReachBoss), "Use a [i:" + ItemType("ReachBossSummon") + "] in the Reach at daytime");
-				bossChecklist.Call("AddBossWithInfo", "Ancient Avian", 4.2f, (Func<bool>)(() => MyWorld.downedAncientFlier), "Use a [i:" + ItemType("JewelCrown") + "] in the sky at any time");
-				bossChecklist.Call("AddBossWithInfo", "Starplate Raider", 5.2f, (Func<bool>)(() => MyWorld.downedRaider), "Use a [i:" + ItemType("StarWormSummon") + "] at nighttime");
-				bossChecklist.Call("AddBossWithInfo", "Infernon", 6.5f, (Func<bool>)(() => MyWorld.downedInfernon), "Use [i:" + ItemType("CursedCloth") + "] in the underworld at any time");
+				bossChecklist.Call("AddBossWithInfo", "Scarabeus", 0.8f, (Func<bool>)(() => MyWorld.downedScarabeus), "Use a [i:" + ModContent.ItemType<ScarabIdol>() + "] in the Desert biome at any time");
+				bossChecklist.Call("AddBossWithInfo", "Vinewrath Bane", 3.5f, (Func<bool>)(() => MyWorld.downedReachBoss), "Use a [i:" + ModContent.ItemType<ReachBossSummon>() + "] in the Reach at daytime");
+				bossChecklist.Call("AddBossWithInfo", "Ancient Avian", 4.2f, (Func<bool>)(() => MyWorld.downedAncientFlier), "Use a [i:" + ModContent.ItemType<JewelCrown>() + "] in the sky at any time");
+				bossChecklist.Call("AddBossWithInfo", "Starplate Raider", 5.2f, (Func<bool>)(() => MyWorld.downedRaider), "Use a [i:" + ModContent.ItemType<StarWormSummon>() + "] at nighttime");
+				bossChecklist.Call("AddBossWithInfo", "Infernon", 6.5f, (Func<bool>)(() => MyWorld.downedInfernon), "Use [i:" + ModContent.ItemType<CursedCloth>() + "] in the underworld at any time");
 
-				bossChecklist.Call("AddBossWithInfo", "Dusking", 7.3f, (Func<bool>)(() => MyWorld.downedDusking), "Use a [i:" + ItemType("DuskCrown") + "] at nighttime");
-				bossChecklist.Call("AddBossWithInfo", "Atlas", 12.4f, (Func<bool>)(() => MyWorld.downedAtlas), "Use a [i:" + ItemType("StoneSkin") + "] at any time");
-				bossChecklist.Call("AddBossWithInfo", "Overseer", 14.2f, (Func<bool>)(() => MyWorld.downedOverseer), "Use a [i:" + ItemType("SpiritIdol") + "] at the Spirit Biome during nighttime");
+				bossChecklist.Call("AddBossWithInfo", "Dusking", 7.3f, (Func<bool>)(() => MyWorld.downedDusking), "Use a [i:" + ModContent.ItemType<DuskCrown>() + "] at nighttime");
+				bossChecklist.Call("AddBossWithInfo", "Atlas", 12.4f, (Func<bool>)(() => MyWorld.downedAtlas), "Use a [i:" + ModContent.ItemType<StoneSkin>() + "] at any time");
+				bossChecklist.Call("AddBossWithInfo", "Overseer", 14.2f, (Func<bool>)(() => MyWorld.downedOverseer), "Use a [i:" + ModContent.ItemType<SpiritIdol>() + "] at the Spirit Biome during nighttime");
 			}
 
 		}

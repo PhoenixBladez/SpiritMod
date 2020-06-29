@@ -1,6 +1,7 @@
 using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Armor.DepthArmor
@@ -12,11 +13,7 @@ namespace SpiritMod.Items.Armor.DepthArmor
 		{
 			DisplayName.SetDefault("Depth Walker's Helmet");
 			Tooltip.SetDefault("10% increased melee critical strike chance\n10% increased minion damage\nIncreases your max number of minions");
-
 		}
-
-
-		int timer = 0;
 
 		public override void SetDefaults()
 		{
@@ -26,6 +23,7 @@ namespace SpiritMod.Items.Armor.DepthArmor
 			item.rare = ItemRarityID.Pink;
 			item.defense = 9;
 		}
+
 		public override void UpdateEquip(Player player)
 		{
 			player.meleeCrit += 10;
@@ -33,15 +31,16 @@ namespace SpiritMod.Items.Armor.DepthArmor
 			player.maxMinions += 1;
 		}
 
-		public override bool IsArmorSet(Item head, Item body, Item legs)
-		{
-			return body.type == ModContent.ItemType<DepthChest>() && legs.type == ModContent.ItemType<DepthGreaves>();
-		}
+		public override bool IsArmorSet(Item head, Item body, Item legs) 
+			=> body.type == ModContent.ItemType<DepthChest>() && legs.type == ModContent.ItemType<DepthGreaves>();
+
 		public override void UpdateArmorSet(Player player)
 		{
-			player.setBonus = "Press the 'Armor Bonus' to release multiple mechanical shark minions that home onto enemies\n30 second cooldown";
+			string tapDir = Language.GetTextValue(Main.ReversedUpDownArmorSetBonuses ? "Key.UP" : "Key.DOWN");
+			player.setBonus = $"Double tap {tapDir} to release multiple mechanical shark minions that home onto enemies\n30 second cooldown";
 			player.GetSpiritPlayer().depthSet = true;
 		}
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
