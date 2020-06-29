@@ -39,9 +39,9 @@ namespace SpiritMod.Projectiles
 			}
 			timer++;
 			int range = 15;   //How many tiles away the projectile targets NPCs
-			int animSpeed = 2;  //how many game frames per frame :P note: firing anims are twice as fast currently
-			int targetingMax = 15; //how many frames allowed to target nearest instead of shooting
-			float shootVelocity = 2f; //magnitude of the shoot vector (speed of arrows shot)
+			//int animSpeed = 2;  //how many game frames per frame :P note: firing anims are twice as fast currently
+			//int targetingMax = 15; //how many frames allowed to target nearest instead of shooting
+			//float shootVelocity = 2f; //magnitude of the shoot vector (speed of arrows shot)
 
 			//TARGET NEAREST NPC WITHIN RANGE
 			float lowestDist = float.MaxValue;

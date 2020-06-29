@@ -39,14 +39,14 @@ namespace SpiritMod.Projectiles.Magic
 			}
 		}
 
-		int counter = -720;
+		//int counter = -720;
 		bool boom = false;
 		private float distortStrength = 450f;
 
 		int minuteHand = -90;
 		int hourHand = -90;
 		int minuteLength = 168;
-		int hourLength = 125;
+		//int hourLength = 125;
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			if(projectile.timeLeft > 35) {
@@ -58,7 +58,6 @@ namespace SpiritMod.Projectiles.Magic
 		}
 		public override bool PreAI()
 		{
-			Player player = Main.player[projectile.owner];
 			if(projectile.timeLeft <= 35) {
 				if(!boom) {
 					if(Main.netMode != NetmodeID.Server && !Filters.Scene["Shockwave"].IsActive()) {

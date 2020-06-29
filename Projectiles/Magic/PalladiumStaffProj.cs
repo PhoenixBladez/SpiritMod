@@ -9,10 +9,8 @@ namespace SpiritMod.Projectiles.Magic
 {
 	public class PalladiumStaffProj : ModProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Rune Wall");
-		}
+		public override void SetStaticDefaults() 
+			=> DisplayName.SetDefault("Rune Wall");
 
 		public override void SetDefaults()
 		{
@@ -29,15 +27,7 @@ namespace SpiritMod.Projectiles.Magic
 		int timer;
 		int alphaCounter;
 		int effectTimer;
-		public virtual bool? CanHitNPC(NPC target)
-		{
-			if(!hitGround) {
-				return false;
-			} else {
-				return true;
-			}
-			return null;
-		}
+		public override bool? CanHitNPC(NPC target) => hitGround;
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			hitGround = true;
@@ -50,10 +40,8 @@ namespace SpiritMod.Projectiles.Magic
 			}
 			return false;
 		}
-		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
-		{
-			drawCacheProjsBehindNPCsAndTiles.Add(index);
-		}
+		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI) 
+			=> drawCacheProjsBehindNPCsAndTiles.Add(index);
 		public override void AI()
 		{
 			Lighting.AddLight(projectile.position, 0.5f, .5f, .4f);
@@ -84,18 +72,16 @@ namespace SpiritMod.Projectiles.Magic
 		}
 		public override void Kill(int timeLeft)
 		{
-			{
-				for(int i = 0; i < 10; i++) {
-					int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 158, 0f, -2f, 0, Color.White, 2f);
-					Main.dust[num].noLight = true;
-					Main.dust[num].noGravity = true;
-					Dust expr_62_cp_0 = Main.dust[num];
-					expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-40, 41) / 20) - 1.5f);
-					Dust expr_92_cp_0 = Main.dust[num];
-					expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-40, 41) / 20) - 1.5f);
-					if(Main.dust[num].position != projectile.Center) {
-						Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
-					}
+			for(int i = 0; i < 10; i++) {
+				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 158, 0f, -2f, 0, Color.White, 2f);
+				Main.dust[num].noLight = true;
+				Main.dust[num].noGravity = true;
+				Dust expr_62_cp_0 = Main.dust[num];
+				expr_62_cp_0.position.X += ((Main.rand.Next(-40, 41) / 20) - 1.5f);
+				Dust expr_92_cp_0 = Main.dust[num];
+				expr_92_cp_0.position.Y += ((Main.rand.Next(-40, 41) / 20) - 1.5f);
+				if(Main.dust[num].position != projectile.Center) {
+					Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
 				}
 			}
 		}

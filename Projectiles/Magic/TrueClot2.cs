@@ -77,8 +77,6 @@ namespace SpiritMod.Projectiles.Magic
 				vector *= 6f / magnitude;
 		}
 
-		int timer = 20;
-
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if(Main.rand.Next(10) <= 4)

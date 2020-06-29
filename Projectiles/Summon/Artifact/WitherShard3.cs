@@ -9,8 +9,6 @@ namespace SpiritMod.Projectiles.Summon.Artifact
 {
 	public class WitherShard3 : ModProjectile
 	{
-		int target;
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Wither Shard");
