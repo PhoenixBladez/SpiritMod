@@ -26,8 +26,6 @@ namespace SpiritMod.Projectiles.Hostile
 			projectile.height = 20;
 			projectile.width = 20;
 		}
-		float num;
-		int timer;
 		int target;
 		public override bool PreAI()
 		{
@@ -85,7 +83,7 @@ namespace SpiritMod.Projectiles.Hostile
 		{
 			Main.PlaySound(SoundID.NPCHit, (int)projectile.position.X, (int)projectile.position.Y, 3);
 			for(int i = 0; i < 5; i++) {
-				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 180, 0f, -2f, 0, default(Color), .6f);
+				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 180, 0f, -2f, 0, default, .6f);
 				Main.dust[num].noGravity = true;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -105,9 +103,6 @@ namespace SpiritMod.Projectiles.Hostile
 			}
 			return true;
 		}
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return new Color(255, 255, 255, 100);
-		}
+		public override Color? GetAlpha(Color lightColor) => new Color(255, 255, 255, 100);
 	}
 }

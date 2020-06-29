@@ -45,7 +45,7 @@ namespace SpiritMod.Items.Weapon.Bow
 		{
 			int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<FeatherArrow>(), damage, knockBack, player.whoAmI);
 			return false;
-			Projectile projectile = Main.projectile[proj];
+			/*Projectile projectile = Main.projectile[proj];
 			for(int k = 0; k < 15; k++) {
 				Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
 				Vector2 offset = mouse - player.position;
@@ -63,7 +63,7 @@ namespace SpiritMod.Items.Weapon.Bow
 				vector2_2.Normalize();
 				Vector2 vector2_3 = vector2_2 * 34f;
 				Main.dust[dust].position = (projectile.Center + offset) - vector2_3;
-			}
+			}*/
 		}
 
 		public override void AddRecipes()

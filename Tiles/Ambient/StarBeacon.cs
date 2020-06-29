@@ -84,11 +84,11 @@ namespace SpiritMod.Tiles.Ambient
 			Main.player[Main.myPlayer].showItemIcon2 = ModContent.ItemType<StarWormSummon>();
 		}
 
-		public override void RightClick(int i, int j)
+		public override bool NewRightClick(int i, int j)
 		{
 			//don't bother if there's already a Crystal King in the world
 			for(int x = 0; x < Main.npc.Length; x++) {
-				if(Main.npc[x].active && Main.npc[x].type == ModContent.NPCType<SteamRaiderHead>()) return;
+				if(Main.npc[x].active && Main.npc[x].type == ModContent.NPCType<SteamRaiderHead>()) return false;
 			}
 
 			//check if player has a Cryptic Crystal
@@ -104,10 +104,11 @@ namespace SpiritMod.Tiles.Ambient
 						//  Main.PlaySound(SoundID.Roar, (int)player.position.X, (int)player.position.Y, 0);
 						//	Main.NewText("Starplate Voyager has awoken!", 175, 75, 255, false);
 						//and don't spam crystal kings if the player didn't ask for it :P
-						return;
+						return true;
 					}
 				}
 			}
+			return false;
 		}
 
 		private void DoDustEffect(Vector2 position, float distance, float minSpeed = 2f, float maxSpeed = 3f, object follow = null)

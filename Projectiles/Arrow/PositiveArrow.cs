@@ -14,9 +14,7 @@ namespace SpiritMod.Projectiles.Arrow
 		float ai2 = 0;
 		int damage = 0;
 		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Positive Arrow");
-		}
+			=> DisplayName.SetDefault("Positive Arrow");
 
 		public override void SetDefaults()
 		{
@@ -51,7 +49,7 @@ namespace SpiritMod.Projectiles.Arrow
 		}
 		public override bool PreAI()
 		{
-			int num = 5;
+			//int num = 5;
 
 			if(projectile.damage != 0) {
 				damage = projectile.damage;
@@ -131,7 +129,7 @@ namespace SpiritMod.Projectiles.Arrow
 
 					Main.PlaySound(SoundID.Item93, projectile.position);
 					for(int num621 = 0; num621 < 40; num621++) {
-						int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 226, 0f, 0f, 100, default(Color), 2f);
+						int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 226, 0f, 0f, 100, default, 2f);
 						Main.dust[num622].velocity *= 3f;
 						Main.dust[num622].noGravity = true;
 						Main.dust[num622].scale = 0.5f;
@@ -144,12 +142,12 @@ namespace SpiritMod.Projectiles.Arrow
 					ProjectileExtras.Explode(projectile.whoAmI, 220, 220,
 					delegate {
 						for(int i = 0; i < 20; i++) {
-							int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 226, 0f, -2f, 0, default(Color), 1.1f);
+							int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 226, 0f, -2f, 0, default, 1.1f);
 							Main.dust[num].noGravity = true;
 							Dust expr_62_cp_0 = Main.dust[num];
-							expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-30, 31) / 20) - 1.5f);
+							expr_62_cp_0.position.X += ((Main.rand.Next(-30, 31) / 20) - 1.5f);
 							Dust expr_92_cp_0 = Main.dust[num];
-							expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-30, 31) / 20) - 1.5f);
+							expr_92_cp_0.position.Y += ((Main.rand.Next(-30, 31) / 20) - 1.5f);
 							if(Main.dust[num].position != projectile.Center) {
 								Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
 							}

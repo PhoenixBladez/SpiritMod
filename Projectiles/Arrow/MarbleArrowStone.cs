@@ -7,8 +7,6 @@ namespace SpiritMod.Projectiles.Arrow
 {
 	public class MarbleArrowStone : ModProjectile
 	{
-
-		private int DamageAdditive;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Marble Shard");

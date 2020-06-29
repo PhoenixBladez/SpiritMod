@@ -3267,7 +3267,7 @@ namespace SpiritMod
 					}
 				}
 			}
-			Tile tile;
+			//Tile tile;
 			for(int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 3.2f) * 15E-05); k++) {
 				int EEXX = WorldGen.genRand.Next(100, Main.maxTilesX - 100);
 				int WHHYY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 300);

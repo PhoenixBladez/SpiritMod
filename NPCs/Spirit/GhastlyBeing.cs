@@ -11,7 +11,7 @@ namespace SpiritMod.NPCs.Spirit
 	public class GhastlyBeing : ModNPC
 	{
 		private bool circling;
-		int startdist = 0;
+		//int startdist = 0;
 		Vector2 target = Vector2.Zero;
 
 		public override void SetStaticDefaults()

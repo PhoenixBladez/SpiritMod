@@ -128,7 +128,7 @@ namespace SpiritMod.NPCs
 				npc.spriteDirection = npc.direction;
 				npc.velocity.Y = moveSpeedY * 0.1f;
 				flying = true;
-				int type5 = 6;
+				//int type5 = 6;
 				float scale4 = 1.95f;
 				int alpha4 = 100;
 				int num222 = npc.height;

@@ -63,7 +63,7 @@ namespace SpiritMod.Projectiles.Summon
 				}
 			}
 			Lighting.AddLight(projectile.position, 0.4f, .12f, .036f);
-			int num = 5;
+			//int num = 5;
 			for(int k = 0; k < 3; k++) {
 				int index2 = Dust.NewDust(new Vector2(projectile.Center.X - 6, projectile.Center.Y + 3), 1, 1, 127, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].scale = .5f;

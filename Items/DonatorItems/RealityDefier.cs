@@ -16,8 +16,6 @@ namespace SpiritMod.Items.DonatorItems
 			Tooltip.SetDefault("'You thought this gun shot BULLETS? Hah!'\nLeft click to shoot out an exploding blue fist\nRight-click to throw the gun itself");
 		}
 
-
-		private Vector2 newVect;
 		public override void SetDefaults()
 		{
 			item.damage = 59;
@@ -36,14 +34,8 @@ namespace SpiritMod.Items.DonatorItems
 			item.shoot = ModContent.ProjectileType<BlueFist>();
 			item.shootSpeed = 12f;
 		}
-		public override bool AltFunctionUse(Player player)
-		{
-			return true;
-		}
-		public override Vector2? HoldoutOffset()
-		{
-			return new Vector2(-10, 0);
-		}
+		public override bool AltFunctionUse(Player player) => true;
+		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 		public override bool CanUseItem(Player player)
 		{
 			if(player.altFunctionUse == 2) {
@@ -62,13 +54,9 @@ namespace SpiritMod.Items.DonatorItems
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			if(player.altFunctionUse == 2) {
-
 				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<GunProj>(), (int)(damage * 2.5f), knockBack, player.whoAmI);
-				return false;
 			} else {
-				int proj2 = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
-
-				return false;
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
 			}
 			return false;
 		}

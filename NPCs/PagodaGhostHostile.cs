@@ -61,8 +61,6 @@ namespace SpiritMod.NPCs
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			int d1 = 66;
-
 			if(npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, 99);
 				Gore.NewGore(npc.position, npc.velocity, 99);

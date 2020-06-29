@@ -65,12 +65,8 @@ namespace SpiritMod.NPCs
 				}
 			}
 			if(Main.rand.NextFloat() < 0.131579f) {
-				{
-					Dust dust;
-					Vector2 position = npc.Center;
-					int d = Dust.NewDust(npc.position, npc.width, npc.height + 10, 5, 0, 1f, 0, new Color(), 0.7f);
-					Main.dust[d].velocity *= .1f;
-				}
+				int d = Dust.NewDust(npc.position, npc.width, npc.height + 10, 5, 0, 1f, 0, new Color(), 0.7f);
+				Main.dust[d].velocity *= .1f;
 			}
 			if(npc.ai[1] == 60 && distance < 240) {
 				Main.PlaySound(SoundID.NPCKilled, npc.Center, 13);

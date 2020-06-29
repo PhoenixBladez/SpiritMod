@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Projectiles.Hostile;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -12,7 +13,6 @@ namespace SpiritMod.Items.Weapon.Gun
 			DisplayName.SetDefault("Belcher");
 			Tooltip.SetDefault("Converts bullets into clumps of rotting flesh");
 		}
-		int charger;
 
 		public override void SetDefaults()
 		{
@@ -45,7 +45,11 @@ namespace SpiritMod.Items.Weapon.Gun
 				position += muzzleOffset;
 			}
 			int bloodproj;
-			bloodproj = Main.rand.Next(new int[] { mod.ProjectileType("Feeder1"), mod.ProjectileType("Feeder2"), mod.ProjectileType("Feeder3") });
+			bloodproj = Main.rand.Next(new int[] { 
+				ModContent.ProjectileType<Feeder1>(), 
+				ModContent.ProjectileType<Feeder2>(), 
+				ModContent.ProjectileType<Feeder3>() 
+			});
 			float spread = 30 * 0.0174f;//45 degrees converted to radians
 			float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
 			double baseAngle = Math.Atan2(speedX, speedY);

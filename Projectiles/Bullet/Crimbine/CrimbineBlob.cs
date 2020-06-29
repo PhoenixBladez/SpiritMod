@@ -9,9 +9,7 @@ namespace SpiritMod.Projectiles.Bullet.Crimbine
 	public class CrimbineBlob : ModProjectile
 	{
 		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Bloody Clump");
-		}
+			=> DisplayName.SetDefault("Bloody Clump");
 
 		public override void SetDefaults()
 		{
@@ -23,10 +21,8 @@ namespace SpiritMod.Projectiles.Bullet.Crimbine
 			projectile.timeLeft = 600;
 			projectile.height = 12;
 			projectile.width = 3;
-
 		}
 
-		int timer = 1;
 		public override void AI()
 		{
 			projectile.rotation += .1f;
@@ -80,24 +76,19 @@ namespace SpiritMod.Projectiles.Bullet.Crimbine
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			{
-				int d = 5;
-				for(int k = 0; k < 6; k++) {
-					Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
-					Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
-				}
-
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
+			int d = 5;
+			for(int k = 0; k < 6; k++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
 			}
+
+			Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
+			Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
+			Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
+			Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
 			return true;
 		}
 		public override void Kill(int timeLeft)
-		{
-			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
-
-		}
+			=>Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 	}
 }

@@ -25,19 +25,18 @@ namespace SpiritMod.Projectiles.Bullet
 			projectile.alpha = 255;
 			projectile.extraUpdates = 1;
 		}
-		int counter;
 		private int Mode {
-			get { return (int)projectile.ai[0]; }
-			set { projectile.ai[0] = value; }
+			get => (int)projectile.ai[0];
+			set => projectile.ai[0] = value;
 		}
 
 		private NPC Target {
-			get { return Main.npc[(int)projectile.ai[1]]; }
+			get => Main.npc[(int)projectile.ai[1]];
 			set { projectile.ai[1] = value.whoAmI; }
 		}
 
 		private Vector2 Origin {
-			get { return new Vector2(projectile.localAI[0], projectile.localAI[1]); }
+			get => new Vector2(projectile.localAI[0], projectile.localAI[1]);
 			set {
 				projectile.localAI[0] = value.X;
 				projectile.localAI[1] = value.Y;
@@ -64,7 +63,7 @@ namespace SpiritMod.Projectiles.Bullet
 			float distance = Vector2.Distance(from, to);
 			float step = 1 / distance;
 			for(float w = 0; w < distance; w += 4) {
-				int d = Dust.NewDust(Vector2.Lerp(from, to, w * step), projectile.width, projectile.height, 226, 0f, 0f, 0, default(Color), .3f * projectile.penetrate);
+				int d = Dust.NewDust(Vector2.Lerp(from, to, w * step), projectile.width, projectile.height, 226, 0f, 0f, 0, default, .3f * projectile.penetrate);
 				Main.dust[d].noGravity = true;
 				Main.dust[d].velocity = Vector2.Zero;
 				Main.dust[d].scale *= .7f;

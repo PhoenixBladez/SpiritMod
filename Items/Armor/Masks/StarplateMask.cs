@@ -37,12 +37,13 @@ namespace SpiritMod.Items.Armor.Masks
 				SpriteEffects.None,
 				0f
 			);
-		}////
+		}
+
 		public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
 		{
 			glowMaskColor = Color.White;
 		}
-		int timer = 0;
+		
 		public override void SetDefaults()
 		{
 			item.width = 22;

@@ -14,9 +14,6 @@ namespace SpiritMod.Items.Weapon.Magic
 			Tooltip.SetDefault("Shoots out a bolt of quicksilver that splits into smaller bouncing bolts of quicksilver energy");
 		}
 
-
-		int charger;
-		private Vector2 newVect;
 		public override void SetDefaults()
 		{
 			item.damage = 74;

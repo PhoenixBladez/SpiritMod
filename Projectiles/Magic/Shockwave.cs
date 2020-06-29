@@ -25,7 +25,7 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.tileCollide = false;
 		}
 
-		int counter = -720;
+		//int counter = -720;
 		bool boom = false;
 		private float distortStrength = 300f;
 		public override bool PreAI()

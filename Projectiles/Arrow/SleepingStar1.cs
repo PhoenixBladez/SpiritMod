@@ -10,8 +10,6 @@ namespace SpiritMod.Projectiles.Arrow
 {
 	public class SleepingStar1 : ModProjectile
 	{
-		private int lastFrame = 0;
-		int mode = 0; //1 = loops and changes, 2 = slower default change
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sleeping Star");
@@ -55,12 +53,12 @@ namespace SpiritMod.Projectiles.Arrow
 		}
 		bool looping = false;
 		int loopCounter = 0;
-		bool dustSpawn = true;
+		//bool dustSpawn = true;
 		int loopSize = 9;
 		public override void AI()
 		{
 			Lighting.AddLight((int)(projectile.position.X / 16f), (int)(projectile.position.Y / 16f), 0.396f, 0.170588235f, 0.564705882f);
-			dustSpawn = false;
+			//dustSpawn = false;
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 			if(!looping) //change direction slightly
 			{

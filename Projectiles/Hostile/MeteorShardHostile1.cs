@@ -10,8 +10,6 @@ namespace SpiritMod.Projectiles.Hostile
 {
 	public class MeteorShardHostile1 : ModProjectile
 	{
-
-		private int DamageAdditive;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Meteor Shard");
@@ -42,11 +40,7 @@ namespace SpiritMod.Projectiles.Hostile
 			float num2 = 60f;
 			float x = 0.5f;
 			float y = 0.25f;
-			int Damage = 0;
-			float num3 = 0.0f;
-			bool flag1 = true;
 			bool flag2 = false;
-			bool flag3 = false;
 			if((double)projectile.ai[0] < (double)num2) {
 				bool flag4 = true;
 				int index1 = (int)projectile.ai[1];
@@ -65,33 +59,29 @@ namespace SpiritMod.Projectiles.Hostile
 		}
 		public override void Kill(int timeLeft)
 		{
-			bool expertMode = Main.expertMode;
-			{
-				float maxDistance = 500f; // max distance to search for a player
-				int index = -1;
-				for(int i = 0; i < Main.maxPlayers; i++) {
-					Player target = Main.player[i];
-					if(!target.active || target.dead) {
-						continue;
-					}
-					float curDistance = projectile.Distance(target.Center);
-					if(curDistance < maxDistance) {
-						index = i;
-						maxDistance = curDistance;
-					}
+			float maxDistance = 500f; // max distance to search for a player
+			int index = -1;
+			for(int i = 0; i < Main.maxPlayers; i++) {
+				Player target = Main.player[i];
+				if(!target.active || target.dead) {
+					continue;
 				}
-				if(index != -1) {
-					Player player = Main.player[index];
-					Vector2 direction = Main.player[index].Center - projectile.Center;
-					direction.Normalize();
-					direction *= 5f;
-					int amountOfProjectiles = 1;
-					for(int i = 0; i < amountOfProjectiles; ++i) {
-						float A = (float)Main.rand.Next(-200, 200) * 0.05f;
-						float B = (float)Main.rand.Next(-200, 200) * 0.05f;
-						Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 89);
-						Projectile.NewProjectile(projectile.Center, direction, mod.ProjectileType("MeteorShardHostile2"), projectile.damage, 0, Main.myPlayer);
-					}
+				float curDistance = projectile.Distance(target.Center);
+				if(curDistance < maxDistance) {
+					index = i;
+					maxDistance = curDistance;
+				}
+			}
+			if(index != -1) {
+				Vector2 direction = Main.player[index].Center - projectile.Center;
+				direction.Normalize();
+				direction *= 5f;
+				int amountOfProjectiles = 1;
+				for(int i = 0; i < amountOfProjectiles; ++i) {
+					//float A = (float)Main.rand.Next(-200, 200) * 0.05f;
+					//float B = (float)Main.rand.Next(-200, 200) * 0.05f;
+					Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 89);
+					Projectile.NewProjectile(projectile.Center, direction, ModContent.ProjectileType<MeteorShardHostile2>(), projectile.damage, 0, Main.myPlayer);
 				}
 			}
 		}

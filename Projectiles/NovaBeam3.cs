@@ -7,8 +7,6 @@ namespace SpiritMod.Projectiles
 {
 	public class NovaBeam3 : ModProjectile
 	{
-		int target;
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Star Beam");

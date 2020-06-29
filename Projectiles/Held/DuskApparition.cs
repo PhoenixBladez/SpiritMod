@@ -30,7 +30,6 @@ namespace SpiritMod.Projectiles.Held
 			projectile.extraUpdates = 1;
 		}
 
-		int timer = 1;
 		public override void AI()
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
