@@ -36,7 +36,7 @@ namespace SpiritMod.Projectiles.Magic
 			player.itemTime = 5;
 			player.itemAnimation = 5;
 			player.velocity.X *= 0.97f;
-			if (counter == 0)
+			if (counter == 7)
 			{
 				 direction = Main.MouseWorld - (player.Center - new Vector2(4, 4));
 				direction.Normalize();
