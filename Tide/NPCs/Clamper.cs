@@ -8,9 +8,7 @@ namespace SpiritMod.Tide.NPCs
 	public class Clamper : ModNPC
 	{
 		int timer = 0;
-		int moveSpeed = 0;
-		int moveSpeedY = 0;
-
+		
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Clamper");
@@ -30,32 +28,20 @@ namespace SpiritMod.Tide.NPCs
 			npc.knockBackResist = 0f;
 			npc.aiStyle = 3;
 			aiType = NPCID.CyanBeetle;
-
 		}
 
 		public override void NPCLoot()
 		{
-
-			{
-				if(Main.rand.Next(2) == 0 && !NPC.downedMechBossAny) {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PearlFragment>(), 1);
-				}
-				{
-					if(Main.rand.Next(50) == 0) {
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Accessory.BabyClamper>(), 1);
-					}
-				}
+			if(Main.rand.Next(2) == 0 && !NPC.downedMechBossAny) {
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PearlFragment>(), 1);
 			}
-
+			if(Main.rand.Next(50) == 0) {
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Accessory.BabyClamper>(), 1);
+			}
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			if(TideWorld.TheTide && TideWorld.InBeach && !NPC.downedMechBossAny)
-				return 12f;
-
-			return 0;
-		}
+			=> TideWorld.TheTide && TideWorld.InBeach && !NPC.downedMechBossAny ? 12f : 0;
 
 		public override void FindFrame(int frameHeight)
 		{
@@ -70,11 +56,7 @@ namespace SpiritMod.Tide.NPCs
 			npc.spriteDirection = npc.direction;
 			{
 				timer++;
-				if(timer < 200) //Fires desert feathers like a shotgun
-				{
-					npc.defense = 1000;
-
-				}
+				if(timer < 200) npc.defense = 1000;
 
 				if(timer >= 200) //sets velocity to 0, creates dust
 				{
@@ -85,11 +67,8 @@ namespace SpiritMod.Tide.NPCs
 						int dust = Dust.NewDust(npc.position, npc.width, npc.height, 108);
 						Main.dust[dust].scale = 0.9f;
 					}
-
 				}
-				if(timer >= 400) {
-					timer = 0;
-				}
+				if(timer >= 400) timer = 0;
 			}
 		}
 
@@ -103,7 +82,6 @@ namespace SpiritMod.Tide.NPCs
 					TideWorld.TidePoints2 += 1;
 				}
 			}
-
 		}
 	}
 }

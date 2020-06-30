@@ -271,7 +271,8 @@ namespace SpiritMod
 		public bool runicSet;
 		public bool icySet;
 		public bool depthSet;
-		public bool primalSet;
+        public bool elderbarkWoodSet;
+        public bool primalSet;
 		public bool spiritSet;
 		public bool putridSet;
 		public bool duneSet;
@@ -528,7 +529,8 @@ namespace SpiritMod
 			hellCharm = false;
 			tumbleSoul = false;
 			bloodyBauble = false;
-			amazonCharm = false;
+            elderbarkWoodSet = false;
+            amazonCharm = false;
 			cleftHorn = false;
 			TormentLantern = false;
 			phantomPet = false;
@@ -809,6 +811,7 @@ namespace SpiritMod
 				moving = true;
 			}
 		}
+		
 		public bool flag8 = false;
 		public bool marbleJumpEffects = false;
 		public override void ProcessTriggers(TriggersSet triggersSet)
@@ -869,116 +872,6 @@ namespace SpiritMod
 					}
 				}
 			}
-			if(starSet && SpiritMod.SpecialKey.JustPressed && !player.HasBuff(ModContent.BuffType<StarCooldown>())) {
-				Main.PlaySound(SoundID.Item, player.position, 92);
-				Vector2 mouse = Main.MouseScreen + Main.screenPosition;
-				Projectile.NewProjectile(mouse, Vector2.Zero, ModContent.ProjectileType<EnergyFieldStarplate>(), 0, 0, player.whoAmI);
-				for(int i = 0; i < 8; i++) {
-					int num = Dust.NewDust(player.position, player.width, player.height, 226, 0f, -2f, 0, default(Color), .7f);
-					Main.dust[num].noGravity = true;
-					Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-					Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
-					Main.dust[num].scale *= .25f;
-					if(Main.dust[num].position != player.Center)
-						Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
-				}
-			}
-			if(fierySet && SpiritMod.SpecialKey.JustPressed && fierySetTimer <= 0) {
-				Main.PlaySound(SoundID.Item, player.position, 74);
-				for(int i = 0; i < 8; i++) {
-					int num = Dust.NewDust(player.position, player.width, player.height, 6, 0f, -2f, 0, default(Color), 2f);
-					Main.dust[num].noGravity = true;
-					Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-					Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
-					Main.dust[num].scale *= .25f;
-					if(Main.dust[num].position != player.Center)
-						Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
-				}
-				for(int projFinder = 0; projFinder < 300; ++projFinder) {
-					if(Main.projectile[projFinder].sentry == true) {
-						int p = Projectile.NewProjectile(Main.projectile[projFinder].Center.X, Main.projectile[projFinder].Center.Y - 20, 0f, 0f, ModContent.ProjectileType<FierySetExplosion>(), Main.projectile[projFinder].damage, Main.projectile[projFinder].knockBack, player.whoAmI);
-					}
-					fierySetTimer = 480;
-
-				}
-			}
-			if(SpiritMod.SpecialKey.JustPressed) {
-				if(daybloomSet && dazzleStacks >= 3600) {
-					Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<Dazzle>(), 0, 0, player.whoAmI);
-					Main.PlaySound(SoundID.Item, player.position, 9);
-					dazzleStacks = 0;
-				}
-
-				if(quickSilverSet && player.FindBuffIndex(ModContent.BuffType<SilverCooldown>()) < 0) {
-					player.AddBuff(ModContent.BuffType<SilverCooldown>(), 1800);
-
-					for(int h = 0; h < 12; h++) {
-						Vector2 vel = new Vector2(0, -1);
-						float rand = Main.rand.NextFloat() * (float)(Math.PI * 2);
-
-						vel = vel.RotatedBy(rand);
-						vel *= 7f;
-
-						Vector2 mouse = Main.MouseScreen + Main.screenPosition;
-						Projectile.NewProjectile(mouse, vel, ModContent.ProjectileType<QuicksilverDroplet>(), 62, 2, player.whoAmI);
-					}
-				}
-
-				if(cometSet && player.FindBuffIndex(ModContent.BuffType<StarCooldown>()) < 0) {
-					player.AddBuff(ModContent.BuffType<StarCooldown>(), 1800);
-
-					string[] projectileNames = new string[] { "Star1", "Star2", "Star3", "Star4", "Star5", "Star6" };
-					foreach(string name in projectileNames) {
-						Projectile.NewProjectile(player.position, Vector2.Zero, mod.ProjectileType(name), 75, 0, player.whoAmI);
-					}
-				}
-
-				if(reaperSet && player.FindBuffIndex(ModContent.BuffType<FelCooldown>()) < 0) {
-
-					player.AddBuff(ModContent.BuffType<FelCooldown>(), 2700);
-					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<FelProj>(), 0, 0, player.whoAmI);
-				}
-				if(bloodcourtSet && player.FindBuffIndex(ModContent.BuffType<CourtCooldown>()) < 0) {
-					player.AddBuff(ModContent.BuffType<CourtCooldown>(), 500);
-					Vector2 mouse = Main.MouseScreen + Main.screenPosition;
-					Vector2 dir = mouse - player.Center;
-					dir.Normalize();
-					dir *= 12;
-					player.statLife -= (int)(player.statLifeMax * .08f);
-					for(int i = 0; i < 18; i++) {
-						int num = Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<NightmareDust>(), 0f, -2f, 0, default(Color), 2f);
-						Main.dust[num].noGravity = true;
-						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-						Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
-						Main.dust[num].scale *= .85f;
-						if(Main.dust[num].position != player.Center)
-							Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
-					}
-					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
-					Projectile.NewProjectile(player.Center, dir, ModContent.ProjectileType<DarkAnima>(), 55, 0, player.whoAmI);
-				}
-
-				if(depthSet && player.FindBuffIndex(ModContent.BuffType<SharkAttackBuff>()) < 0) {
-					MyPlayer myPlayer = Main.player[Main.myPlayer].GetModPlayer<MyPlayer>();
-					Rectangle textPos = new Rectangle((int)myPlayer.player.position.X, (int)myPlayer.player.position.Y - 60, myPlayer.player.width, myPlayer.player.height);
-
-					CombatText.NewText(textPos, new Color(29, 240, 255, 100), "Shark Attack!");
-					player.AddBuff(ModContent.BuffType<SharkAttackBuff>(), 1800);
-					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<SharkBlast>(), 35, 0, player.whoAmI);
-				}
-
-				if(ichorSet1 && player.FindBuffIndex(ModContent.BuffType<GoreCooldown1>()) < 0) {
-					player.AddBuff(ModContent.BuffType<GoreCooldown1>(), 3600);
-					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<Projectiles.Gores>(), 4, 0, player.whoAmI);
-				}
-
-				if(ichorSet2 && player.FindBuffIndex(ModContent.BuffType<GoreCooldown2>()) < 0) {
-					player.AddBuff(ModContent.BuffType<GoreCooldown2>(), 3600);
-					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<Gore1>(), 21, 0, player.whoAmI);
-					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<Gore1>(), 21, 0, player.whoAmI);
-					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<Gore1>(), 21, 0, player.whoAmI);
-				}
-			}
 		}
 
 		public override bool PreItemCheck()
@@ -1006,6 +899,10 @@ namespace SpiritMod
 					flat += 1;
 				}
 			}
+			if (elderbarkWoodSet)
+            {
+                flat += 2;
+            }
 		}
 
 		public override void PostItemCheck()
@@ -2049,6 +1946,7 @@ namespace SpiritMod
 				reason = PlayerDeathReason.ByCustomReason(player.name + " was consumed by Rage.");
 			}
 		}
+		
 		public override bool Shoot(Item item, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			if(throwerGlove) {
@@ -2061,6 +1959,7 @@ namespace SpiritMod
 			}
 			return true;
 		}
+		
 		int shroomtimer;
 		int bloodTimer;
 		public override void PreUpdate()
@@ -2910,7 +2809,6 @@ namespace SpiritMod
 			return DashType.None;
 		}
 
-
 		public override void PostUpdateEquips()
 		{
 			int num323;
@@ -3118,14 +3016,6 @@ namespace SpiritMod
 						player.velocity.Y = -2f;
 				} else if((double)player.velocity.Y > 2.0)
 					player.velocity.Y = 2f;
-			}
-
-			if(frigidSet) {
-				if(SpiritMod.SpecialKey.JustPressed && !player.HasBuff(ModContent.BuffType<FrigidCooldown>())) {
-					Vector2 mouse = Main.MouseScreen + Main.screenPosition;
-					Projectile.NewProjectile(mouse, Vector2.Zero, ModContent.ProjectileType<FrigidWall>(), 14, 8, player.whoAmI);
-					player.AddBuff(ModContent.BuffType<FrigidCooldown>(), 500);
-				}
 			}
 
 			//if (glyph == GlyphType.Veil && Math.Abs(player.velocity.X) < 0.05 && Math.Abs(player.velocity.Y) < 0.05)
@@ -4209,6 +4099,7 @@ namespace SpiritMod
 				dust.shader = GameShaders.Armor.GetSecondaryShader(player.cYorai, player);
 			}
 		}
+		
 		public override void OnHitByNPC(NPC npc, int damage, bool crit)
 		{
 			if(chitinSet) {
@@ -4323,6 +4214,7 @@ namespace SpiritMod
 				}
 			}
 		}
+		
 		private Vector2 TestTeleport(ref bool canSpawn, int teleportStartX, int teleportRangeX, int teleportStartY, int teleportRangeY)
 		{
 			Player player = Main.player[Main.myPlayer];
@@ -4487,7 +4379,6 @@ namespace SpiritMod
 			}
 		}
 
-
 		public override void ModifyDrawInfo(ref PlayerDrawInfo drawInfo)
 		{
 			if(camoCounter > 0) {
@@ -4595,5 +4486,119 @@ namespace SpiritMod
 				Main.playerDrawData.Add(drawData);
 			}
 		});
+	
+		public void DoubleTapEffects(int keyDir)
+		{
+			if(keyDir != (Main.ReversedUpDownArmorSetBonuses ? 1 : 0))
+				return;
+
+			if(starSet && !player.HasBuff(ModContent.BuffType<StarCooldown>())) {
+				Main.PlaySound(SoundID.Item, player.position, 92);
+				Vector2 mouse = Main.MouseScreen + Main.screenPosition;
+				Projectile.NewProjectile(mouse, Vector2.Zero, ModContent.ProjectileType<EnergyFieldStarplate>(), 0, 0, player.whoAmI);
+				for(int i = 0; i < 8; i++) {
+					int num = Dust.NewDust(player.position, player.width, player.height, 226, 0f, -2f, 0, default(Color), .7f);
+					Main.dust[num].noGravity = true;
+					Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+					Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
+					Main.dust[num].scale *= .25f;
+					if(Main.dust[num].position != player.Center)
+						Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
+				}
+			}
+
+			if(fierySet && fierySetTimer <= 0) {
+				Main.PlaySound(SoundID.Item, player.position, 74);
+				for(int i = 0; i < 8; i++) {
+					int num = Dust.NewDust(player.position, player.width, player.height, 6, 0f, -2f, 0, default(Color), 2f);
+					Main.dust[num].noGravity = true;
+					Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+					Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
+					Main.dust[num].scale *= .25f;
+					if(Main.dust[num].position != player.Center)
+						Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
+				}
+				for(int projFinder = 0; projFinder < 300; ++projFinder) {
+					if(Main.projectile[projFinder].sentry == true) {
+						int p = Projectile.NewProjectile(Main.projectile[projFinder].Center.X, Main.projectile[projFinder].Center.Y - 20, 0f, 0f, ModContent.ProjectileType<FierySetExplosion>(), Main.projectile[projFinder].damage, Main.projectile[projFinder].knockBack, player.whoAmI);
+					}
+					fierySetTimer = 480;
+
+				}
+			}
+
+			if(daybloomSet && dazzleStacks >= 3600) {
+				Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<Dazzle>(), 0, 0, player.whoAmI);
+				Main.PlaySound(SoundID.Item, player.position, 9);
+				dazzleStacks = 0;
+			}
+
+			if(quickSilverSet && !player.HasBuff(ModContent.BuffType<SilverCooldown>())) {
+				player.AddBuff(ModContent.BuffType<SilverCooldown>(), 1800);
+
+				for(int h = 0; h < 12; h++) {
+					Vector2 vel = new Vector2(0, -1);
+					float rand = Main.rand.NextFloat() * (float)(Math.PI * 2);
+
+					vel = vel.RotatedBy(rand);
+					vel *= 7f;
+
+					Vector2 mouse = Main.MouseScreen + Main.screenPosition;
+					Projectile.NewProjectile(mouse, vel, ModContent.ProjectileType<QuicksilverDroplet>(), 62, 2, player.whoAmI);
+				}
+			}
+
+			if(reaperSet && !player.HasBuff(ModContent.BuffType<FelCooldown>())) {
+				player.AddBuff(ModContent.BuffType<FelCooldown>(), 2700);
+				Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<FelProj>(), 0, 0, player.whoAmI);
+			}
+
+			if(bloodcourtSet && !player.HasBuff(ModContent.BuffType<CourtCooldown>())) {
+				player.AddBuff(ModContent.BuffType<CourtCooldown>(), 500);
+				Vector2 mouse = Main.MouseScreen + Main.screenPosition;
+				Vector2 dir = mouse - player.Center;
+				dir.Normalize();
+				dir *= 12;
+				player.statLife -= (int)(player.statLifeMax * .08f);
+				for(int i = 0; i < 18; i++) {
+					int num = Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<NightmareDust>(), 0f, -2f, 0, default(Color), 2f);
+					Main.dust[num].noGravity = true;
+					Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+					Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
+					Main.dust[num].scale *= .85f;
+					if(Main.dust[num].position != player.Center)
+						Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
+				}
+				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
+				Projectile.NewProjectile(player.Center, dir, ModContent.ProjectileType<DarkAnima>(), 55, 0, player.whoAmI);
+			}
+
+			if(depthSet && !player.HasBuff(ModContent.BuffType<SharkAttackBuff>())) {
+				MyPlayer myPlayer = Main.player[Main.myPlayer].GetModPlayer<MyPlayer>();
+				Rectangle textPos = new Rectangle((int)myPlayer.player.position.X, (int)myPlayer.player.position.Y - 60, myPlayer.player.width, myPlayer.player.height);
+
+				CombatText.NewText(textPos, new Color(29, 240, 255, 100), "Shark Attack!");
+				player.AddBuff(ModContent.BuffType<SharkAttackBuff>(), 1800);
+				Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<SharkBlast>(), 35, 0, player.whoAmI);
+			}
+
+			if(ichorSet1 && !player.HasBuff(ModContent.BuffType<GoreCooldown1>())) {
+				player.AddBuff(ModContent.BuffType<GoreCooldown1>(), 3600);
+				Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<Projectiles.Gores>(), 4, 0, player.whoAmI);
+			}
+
+			if(ichorSet2 && !player.HasBuff(ModContent.BuffType<GoreCooldown2>())) {
+				player.AddBuff(ModContent.BuffType<GoreCooldown2>(), 3600);
+				Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<Gore1>(), 21, 0, player.whoAmI);
+				Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<Gore1>(), 21, 0, player.whoAmI);
+				Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<Gore1>(), 21, 0, player.whoAmI);
+			}
+
+			if(frigidSet && !player.HasBuff(ModContent.BuffType<FrigidCooldown>())) {
+				Vector2 mouse = Main.MouseScreen + Main.screenPosition;
+				Projectile.NewProjectile(mouse, Vector2.Zero, ModContent.ProjectileType<FrigidWall>(), 14, 8, player.whoAmI);
+				player.AddBuff(ModContent.BuffType<FrigidCooldown>(), 500);
+			}
+		}
 	}
 }

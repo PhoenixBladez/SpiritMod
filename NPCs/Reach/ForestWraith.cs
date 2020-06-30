@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Consumable.Quest;
 using SpiritMod.Items.Material;
+using SpiritMod.Items.Weapon.Thrown;
+using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Projectiles;
 using SpiritMod.Projectiles.Hostile;
 using Terraria;
@@ -46,12 +48,12 @@ namespace SpiritMod.NPCs.Reach
 			npc.frame.Y = frame * frameHeight;
 		}
 
-		bool rotationspawns1 = false;
+		//bool rotationspawns1 = false;
 		int timer = 0;
 		public override bool PreAI()
 		{
-			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.46f, 0.32f, .1f);
-			bool expertMode = Main.expertMode;
+			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.46f, 0.32f, .1f);
+			//bool expertMode = Main.expertMode;
 			timer++;
 			if(timer == 240 || timer == 280 || timer == 320) {
 				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y, 0);
@@ -62,8 +64,8 @@ namespace SpiritMod.NPCs.Reach
 
 				int amountOfProjectiles = Main.rand.Next(1, 1);
 				for(int i = 0; i < amountOfProjectiles; ++i) {
-					float A = (float)Main.rand.Next(-120, 120) * 0.01f;
-					float B = (float)Main.rand.Next(-120, 120) * 0.01f;
+					float A = Main.rand.Next(-120, 120) * 0.01f;
+					float B = Main.rand.Next(-120, 120) * 0.01f;
 					int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<OvergrowthLeaf>(), 6, 1, Main.myPlayer, 0, 0);
 					Main.projectile[p].hostile = true;
 					Main.projectile[p].friendly = false;
@@ -71,7 +73,7 @@ namespace SpiritMod.NPCs.Reach
 				npc.netUpdate = true;
 			}
 			if(timer >= 420 && timer <= 720) {
-				int d = Dust.NewDust(npc.position, npc.width, npc.height, 6, 0f, -2.5f, 0, default(Color), 0.6f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 6, 0f, -2.5f, 0, default, 0.6f);
 				npc.defense = 0;
 				npc.velocity = Vector2.Zero;
 				if(Main.rand.Next(52) == 0) {
@@ -82,8 +84,8 @@ namespace SpiritMod.NPCs.Reach
 					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 					int amountOfProjectiles = Main.rand.Next(1, 1);
 					for(int i = 0; i < amountOfProjectiles; ++i) {
-						float A = (float)Main.rand.Next(-120, 120) * 0.05f;
-						float B = (float)Main.rand.Next(-120, -10) * 0.05f;
+						float A = Main.rand.Next(-120, 120) * 0.05f;
+						float B = Main.rand.Next(-120, -10) * 0.05f;
 						int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, -direction.Y + B, ModContent.ProjectileType<LittleBouncingSpore>(), 8, 1, Main.myPlayer, 0, 0);
 						Main.projectile[p].hostile = true;
 						Main.projectile[p].friendly = false;
@@ -96,8 +98,8 @@ namespace SpiritMod.NPCs.Reach
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
 				Main.PlaySound(SoundID.Zombie, npc.Center, 7);
-				direction.X = direction.X * Main.rand.Next(6, 9);
-				direction.Y = direction.Y * Main.rand.Next(6, 9);
+				direction.X *= Main.rand.Next(6, 9);
+				direction.Y *= Main.rand.Next(6, 9);
 				npc.velocity.X = direction.X;
 				npc.velocity.Y = direction.Y;
 				npc.velocity *= 0.97f;
@@ -113,17 +115,15 @@ namespace SpiritMod.NPCs.Reach
 		}
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-		{
-			npc.lifeMax = (int)(npc.lifeMax * 0.55f * bossLifeScale);
-		}
+			=> npc.lifeMax = (int)(npc.lifeMax * 0.55f * bossLifeScale);
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			int d = 3;
 			int d1 = 7;
 			for(int k = 0; k < 30; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.3f);
-				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
+				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default, 0.3f);
+				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default, .34f);
 			}
 			if(npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GladeWraith/GladeWraith1"));
@@ -137,7 +137,7 @@ namespace SpiritMod.NPCs.Reach
 				npc.position.X = npc.position.X - (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
 				for(int num621 = 0; num621 < 20; num621++) {
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 167, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 167, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
 					if(Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.5f;
@@ -149,7 +149,10 @@ namespace SpiritMod.NPCs.Reach
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			Player player = spawnInfo.player;
-			if(!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.spawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.spawnTileY > Main.worldSurface || !Main.dayTime) && (SpawnCondition.GoblinArmy.Chance == 0)) {
+			if(!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) 
+				&& ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.spawnTileY > Main.worldSurface || Main.dayTime) 
+				&& (!Main.eclipse || spawnInfo.spawnTileY > Main.worldSurface || !Main.dayTime) 
+				&& (SpawnCondition.GoblinArmy.Chance == 0)) {
 				if(!NPC.AnyNPCs(ModContent.NPCType<ForestWraith>()))
 					return spawnInfo.player.GetSpiritPlayer().ZoneReach && NPC.downedBoss1 && !Main.dayTime ? .05f : 0f;
 			}
@@ -163,14 +166,12 @@ namespace SpiritMod.NPCs.Reach
 			return false;
 		}
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
-		{
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Reach/ForestWraith_Glow"));
-		}
+			=> GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Reach/ForestWraith_Glow"));
 		public override void NPCLoot()
 		{
-			string[] lootTable = { "OakHeart" };
+			int[] lootTable = { ModContent.ItemType<OakHeart>(), ModContent.ItemType<HuskstalkStaff>() };
 			int loot = Main.rand.Next(lootTable.Length);
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType(lootTable[loot]));
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, lootTable[loot]);
 
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<AncientBark>(), 3);
 

@@ -644,6 +644,10 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				Dust.NewDust(npc.position, npc.width, npc.height, 226, hitDirection, -1f, 0, default(Color), 1f);
 			}
 			if(npc.life <= 0) {
+				if (!MyWorld.downedRaider)
+                {
+                    Main.NewText("The Astralite in the Asteroids hums with energy.", 61, 255, 142, false);
+                }
 				MyWorld.downedRaider = true;
 				NPC.NewNPC((int)npc.position.X + npc.width - 20, (int)npc.position.Y + npc.height, mod.NPCType("SteamRaiderHeadDeath"), npc.whoAmI);
 				npc.active = false;

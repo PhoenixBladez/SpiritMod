@@ -68,7 +68,7 @@ namespace SpiritMod.Tiles.Ambient
 			}
 			int torchItem = Main.rand.Next(new int[] { 282, ItemID.CursedTorch });
 			int ammoItem = Main.rand.Next(new int[] { ModContent.ItemType<SepulchreArrow>(), ModContent.ItemType<SepulchreBullet>() });
-			int heals = 28;
+			//int heals = 28;
 			int item = 0;
 			int coins = ItemID.SilverCoin;
 			int num = 0;

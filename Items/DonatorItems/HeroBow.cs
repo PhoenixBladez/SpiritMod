@@ -15,8 +15,6 @@ namespace SpiritMod.Items.DonatorItems
 			Tooltip.SetDefault("Right-click to shoot either fiery, icy, and light arrows with different effects\n-Fiery arrows can inflict multiple different burns on foes\n-Icy Arrows can freeze an enemy in place and frostburn hit foes \n -Light Arrows have a 2% chance to instantly kill any non-boss enemy\n-Regular Arrows have powerful damage and knockback");
 		}
 
-
-		int charger;
 		public override void SetDefaults()
 		{
 			item.damage = 65;
@@ -30,21 +28,15 @@ namespace SpiritMod.Items.DonatorItems
 			item.shoot = ProjectileID.WoodenArrowFriendly;
 			item.useAmmo = AmmoID.Arrow;
 			item.knockBack = 7;
-			item.value = Terraria.Item.sellPrice(0, 10, 0, 0);
+			item.value = Item.sellPrice(0, 10, 0, 0);
 			item.rare = ItemRarityID.Yellow;
 			item.UseSound = SoundID.Item5;
 			item.autoReuse = true;
 			item.useTurn = false;
 			item.shootSpeed = 14.2f;
 		}
-		public override bool AltFunctionUse(Player player)
-		{
-			return true;
-		}
-		public override Vector2? HoldoutOffset()
-		{
-			return new Vector2(-10, 0);
-		}
+		public override bool AltFunctionUse(Player player) => true;
+		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			if(player.altFunctionUse == 2) {
@@ -52,23 +44,16 @@ namespace SpiritMod.Items.DonatorItems
 				if(Main.rand.Next(3) == 1) {
 					int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
 					Main.projectile[p].GetGlobalProjectile<SpiritGlobalProjectile>().HeroBow3 = true;
-
-					return false;
 				} else if(Main.rand.Next(2) == 1) {
 					int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
 					Main.projectile[p].GetGlobalProjectile<SpiritGlobalProjectile>().HeroBow2 = true;
-
-					return false;
 				} else {
 					int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
 					Main.projectile[p].GetGlobalProjectile<SpiritGlobalProjectile>().HeroBow1 = true;
-
-					return false;
 				}
 				return false;
 			} else {
-
-				int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
 			}
 			return false;
 		}

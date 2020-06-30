@@ -9,7 +9,6 @@ namespace SpiritMod.Projectiles.Magic
 {
 	public class FireSoul : ModProjectile
 	{
-		int target;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Fiery Soul");

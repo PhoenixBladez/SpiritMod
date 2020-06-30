@@ -9,12 +9,8 @@ namespace SpiritMod.Projectiles.Hostile
 {
 	public class FrostOrbiterHostile : ModProjectile
 	{
-
-		private int DamageAdditive;
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Frost Spirit");
-		}
+		public override void SetStaticDefaults() 
+			=> DisplayName.SetDefault("Frost Spirit");
 
 		public override void SetDefaults()
 		{
@@ -34,11 +30,7 @@ namespace SpiritMod.Projectiles.Hostile
 			float num2 = 60f;
 			float x = 0.08f;
 			float y = 0.1f;
-			int Damage = 0;
-			float num3 = 0.0f;
-			bool flag1 = true;
 			bool flag2 = false;
-			bool flag3 = false;
 			if((double)projectile.ai[0] < (double)num2) {
 				bool flag4 = true;
 				int index1 = (int)projectile.ai[1];
@@ -64,25 +56,21 @@ namespace SpiritMod.Projectiles.Hostile
 			}
 
 		}
-		public override void OnHitPlayer(Player target, int damage, bool crit)
-		{
-			target.AddBuff(BuffID.Frostburn, 120);
-		}
+		public override void OnHitPlayer(Player target, int damage, bool crit) 
+			=> target.AddBuff(BuffID.Frostburn, 120);
 		public override void Kill(int timeLeft)
 		{
-			{
-				int d = 51;
-				for(int k = 0; k < 6; k++) {
-					Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 1.5f * Main.rand.Next(-2, 2), -2.5f, 0, Color.White, 0.7f);
-					Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 1.5f * Main.rand.Next(-2, 2), -2.5f, 0, Color.White, 0.7f);
-				}
-
+			int d = 51;
+			for(int k = 0; k < 6; k++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 1.5f * Main.rand.Next(-2, 2), -2.5f, 0, Color.White, 0.7f);
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 1.5f * Main.rand.Next(-2, 2), -2.5f, 0, Color.White, 0.7f);
-				projectile.velocity *= 0f;
-				projectile.width = 40;
-				projectile.knockBack = 0;
 			}
+
+			Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 1.5f * Main.rand.Next(-2, 2), -2.5f, 0, Color.White, 0.7f);
+			Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 1.5f * Main.rand.Next(-2, 2), -2.5f, 0, Color.White, 0.7f);
+			projectile.velocity *= 0f;
+			projectile.width = 40;
+			projectile.knockBack = 0;
 		}
 	}
 }

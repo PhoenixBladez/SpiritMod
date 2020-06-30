@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.useAnimation = 22;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 7;
-			item.value = Terraria.Item.sellPrice(0, 8, 0, 0);
+			item.value = Item.sellPrice(0, 8, 0, 0);
 			item.rare = ItemRarityID.Cyan;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
@@ -36,41 +36,30 @@ namespace SpiritMod.Items.Weapon.Swung
 		}
 		public override bool UseItem(Player player)
 		{
-			{
-				player.AddBuff(5, 300);
-				return false;
-
-			}
+			player.AddBuff(BuffID.Ironskin, 300);
 			return false;
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			{
-				charger++;
-				if(charger >= 7) {
-					for(int I = 0; I < 4; I++) {
-						Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 300), speedY + ((float)Main.rand.Next(-230, 230) / 300), ModContent.ProjectileType<AtlasBolt>(), 50, knockBack, player.whoAmI, 0f, 0f);
-					}
-					charger = 0;
+			charger++;
+			if(charger >= 7) {
+				for(int I = 0; I < 4; I++) {
+					Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 300), speedY + ((float)Main.rand.Next(-230, 230) / 300), ModContent.ProjectileType<AtlasBolt>(), 50, knockBack, player.whoAmI, 0f, 0f);
 				}
-				return true;
+				charger = 0;
 			}
+			return true;
 
-			if(Main.rand.Next(12) == 0) {
+			/*if(Main.rand.Next(12) == 0) {
 				item.shoot = mod.ProjectileType("PrismBolt2");
 				return true;
 			} else {
 				item.shoot = ModContent.ProjectileType<PrismaticBolt>();
 				return true;
 			}
-			return true;
+			return true;*/
 		}
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
-		{
-			{
-				target.AddBuff(ModContent.BuffType<Afflicted>(), 180);
-			}
-		}
-
+			=> target.AddBuff(ModContent.BuffType<Afflicted>(), 180);
 	}
 }

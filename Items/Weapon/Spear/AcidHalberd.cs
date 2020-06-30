@@ -37,8 +37,7 @@ namespace SpiritMod.Items.Weapon.Spear
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<HuskstalkSpear>(), 1);
-			recipe.AddIngredient(ModContent.ItemType<Acid>(), 6);
+			recipe.AddIngredient(ModContent.ItemType<Acid>(), 10);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();

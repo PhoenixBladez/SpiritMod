@@ -9,7 +9,6 @@ namespace SpiritMod.NPCs.BloodMoon
 {
 	public class BloodGazer : ModNPC
 	{
-		int timer = 0;
 		int moveSpeed = 0;
 		int moveSpeedY = 0;
 
@@ -87,7 +86,11 @@ namespace SpiritMod.NPCs.BloodMoon
 				}
 				for(int i = 0; i < 16; i++) {
 					int bloodproj;
-					bloodproj = Main.rand.Next(new int[] { mod.ProjectileType("Feeder1"), mod.ProjectileType("Feeder2"), mod.ProjectileType("Feeder3") });
+					bloodproj = Main.rand.Next(new int[] {
+						ModContent.ProjectileType<Feeder1>(),
+						ModContent.ProjectileType<Feeder2>(),
+						ModContent.ProjectileType<Feeder3>()
+					});
 					float rotation = (float)(Main.rand.Next(0, 361) * (Math.PI / 180));
 					Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
 					int proj = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, velocity.X, velocity.Y, bloodproj, npc.damage / 2, 1, Main.myPlayer, 0, 0);

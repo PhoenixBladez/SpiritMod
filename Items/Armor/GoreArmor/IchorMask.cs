@@ -2,6 +2,7 @@
 using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Armor.GoreArmor
@@ -21,17 +22,16 @@ namespace SpiritMod.Items.Armor.GoreArmor
 			item.height = 30;
 			item.value = Item.sellPrice(0, 0, 80, 0);
 			item.rare = ItemRarityID.LightRed;
-
 			item.defense = 11;
 		}
 
-		public override bool IsArmorSet(Item head, Item body, Item legs)
-		{
-			return body.type == ModContent.ItemType<IchorPlate>() && legs.type == ModContent.ItemType<IchorLegs>();
-		}
+		public override bool IsArmorSet(Item head, Item body, Item legs) 
+			=> body.type == ModContent.ItemType<IchorPlate>() && legs.type == ModContent.ItemType<IchorLegs>();
+
 		public override void UpdateArmorSet(Player player)
 		{
-			player.setBonus = "Press the 'Armor Bonus' hotkey to cause damage all nearby enemies and suffer Ichor for a long period of time \n1 minute cooldown";
+			string tapDir = Language.GetTextValue(Main.ReversedUpDownArmorSetBonuses ? "Key.UP" : "Key.DOWN");
+			player.setBonus = $"Double tap {tapDir} to cause damage all nearby enemies and suffer Ichor for a long period of time\n1 minute cooldown";
 			player.GetSpiritPlayer().ichorSet1 = true;
 		}
 

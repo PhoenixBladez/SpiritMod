@@ -8,9 +8,6 @@ namespace SpiritMod.Projectiles.Summon
 {
 	public class Minior : ModProjectile
 	{
-
-		int timer;
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mini Meteor");

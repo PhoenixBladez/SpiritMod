@@ -178,7 +178,7 @@ namespace SpiritMod.Items.Weapon.Gun
 			recipe.AddIngredient(ItemID.Uzi, 1);
 			recipe.AddIngredient(ModContent.ItemType<SunShard>(), 2);
 			recipe.AddIngredient(ModContent.ItemType<TechDrive>(), 5);
-			recipe.AddIngredient(ModContent.ItemType<SteamParts>(), 6);
+			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 15);
 			recipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 10);
 			recipe.AddIngredient(ItemID.ChlorophyteBar, 12);
 			recipe.AddTile(TileID.MythrilAnvil);

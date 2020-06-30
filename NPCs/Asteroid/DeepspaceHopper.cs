@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Accessory;
+using SpiritMod.Items.Armor.AstronautVanity;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Projectiles.Hostile;
 using System;
@@ -13,11 +14,11 @@ namespace SpiritMod.NPCs.Asteroid
 	public class DeepspaceHopper : ModNPC
 	{
 		Vector2 direction9 = Vector2.Zero;
-		private bool shooting;
+		//private bool shooting;
 		private int timer = 300;
 		private int distance = 300;
-		private bool inblock = true;
-		Vector2 target = Vector2.Zero;
+		//private bool inblock = true;
+		//Vector2 target = Vector2.Zero;
 
 		public override void SetStaticDefaults()
 		{
@@ -45,7 +46,7 @@ namespace SpiritMod.NPCs.Asteroid
 		{
 			for(int k = 0; k < 12; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, 226, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 226, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 226, 2.5f * hitDirection, -2.5f, 0, default, .34f);
 			}
 			if(npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hopper/Hopper1"));
@@ -53,12 +54,12 @@ namespace SpiritMod.NPCs.Asteroid
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hopper/Hopper3"));
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hopper/Hopper4"));
 				for(int i = 0; i < 15; i++) {
-					int num = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, -2f, 0, default(Color), 2f);
+					int num = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, -2f, 0, default, 2f);
 					Main.dust[num].noGravity = true;
 					Dust expr_62_cp_0 = Main.dust[num];
-					expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
+					expr_62_cp_0.position.X += (Main.rand.Next(-50, 51) / 20) - 1.5f;
 					Dust expr_92_cp_0 = Main.dust[num];
-					expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
+					expr_92_cp_0.position.Y += (Main.rand.Next(-50, 51) / 20) - 1.5f;
 					Main.dust[num].scale = 0.4f;
 					if(Main.dust[num].position != npc.Center) {
 						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 3f;
@@ -83,27 +84,26 @@ namespace SpiritMod.NPCs.Asteroid
 		public override bool PreAI()
 		{
 			npc.TargetClosest(true);
-			Vector2 center = npc.Center;
 			Player player = Main.player[npc.target];
 
-			float num5 = npc.position.X + (float)(npc.width / 2) - player.position.X - (float)(player.width / 2);
-			float num6 = npc.position.Y + (float)npc.height - 59f - player.position.Y - (float)(player.height / 2);
-			float num7 = (float)Math.Atan2((double)num6, (double)num5) + 1.57f;
+			float num5 = npc.position.X + (npc.width / 2) - player.position.X - (player.width / 2);
+			float num6 = npc.position.Y + npc.height - 59f - player.position.Y - (player.height / 2);
+			float num7 = (float)Math.Atan2(num6, num5) + 1.57f;
 			if(!(timer >= 100 && timer <= 130)) {
 				if(num7 < 0f) {
 					num7 += 6.283f;
-				} else if((double)num7 > 6.283) {
+				} else if(num7 > 6.283) {
 					num7 -= 6.283f;
 				}
 				float num8 = 0.1f;
 				if(npc.rotation < num7) {
-					if((double)(num7 - npc.rotation) > 3.1415) {
+					if((num7 - npc.rotation) > 3.1415) {
 						npc.rotation -= num8;
 					} else {
 						npc.rotation += num8;
 					}
 				} else if(npc.rotation > num7) {
-					if((double)(npc.rotation - num7) > 3.1415) {
+					if((npc.rotation - num7) > 3.1415) {
 						npc.rotation += num8;
 					} else {
 						npc.rotation -= num8;
@@ -114,7 +114,7 @@ namespace SpiritMod.NPCs.Asteroid
 				}
 				if(npc.rotation < 0f) {
 					npc.rotation += 6.283f;
-				} else if((double)npc.rotation > 6.283) {
+				} else if(npc.rotation > 6.283) {
 					npc.rotation -= 6.283f;
 				}
 				if(npc.rotation > num7 - num8 && npc.rotation < num7 + num8) {
@@ -136,12 +136,12 @@ namespace SpiritMod.NPCs.Asteroid
 					npc.alpha = 0;
 					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 					for(int i = 0; i < 15; i++) {
-						int num = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, -2f, 0, default(Color), 2f);
+						int num = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, -2f, 0, default, 2f);
 						Main.dust[num].noGravity = true;
 						Dust expr_62_cp_0 = Main.dust[num];
-						expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
+						expr_62_cp_0.position.X += ((Main.rand.Next(-50, 51) / 20) - 1.5f);
 						Dust expr_92_cp_0 = Main.dust[num];
-						expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
+						expr_92_cp_0.position.Y += ((Main.rand.Next(-50, 51) / 20) - 1.5f);
 						Main.dust[num].scale = 0.4f;
 						if(Main.dust[num].position != npc.Center) {
 							Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 3f;
@@ -174,39 +174,39 @@ namespace SpiritMod.NPCs.Asteroid
 			}
 			if(npc.alpha != 255) {
 				if(Main.rand.NextFloat() < 0.5f) {
-					Dust dust;
 					// You need to set position depending on what you are doing. You may need to subtract width/2 and height/2 as well to center the spawn rectangle.
 					Vector2 position = new Vector2(npc.Center.X - 10, npc.Center.Y);
-					dust = Terraria.Dust.NewDustPerfect(position, 226, new Vector2(0f, -6.421053f).RotatedBy(npc.rotation), 0, new Color(255, 0, 0), 0.6578947f);
+					Dust.NewDustPerfect(position, 226, new Vector2(0f, -6.421053f).RotatedBy(npc.rotation), 0, new Color(255, 0, 0), 0.6578947f);
 				}
 				if(Main.rand.NextFloat() < 0.5f) {
-					Dust dust;
 					// You need to set position depending on what you are doing. You may need to subtract width/2 and height/2 as well to center the spawn rectangle.
 					Vector2 position = new Vector2(npc.Center.X + 10, npc.Center.Y);
-					dust = Terraria.Dust.NewDustPerfect(position, 226, new Vector2(0f, -6.421053f).RotatedBy(npc.rotation), 0, new Color(255, 0, 0), 0.6578947f);
+					Dust.NewDustPerfect(position, 226, new Vector2(0f, -6.421053f).RotatedBy(npc.rotation), 0, new Color(255, 0, 0), 0.6578947f);
 				}
 				if(timer == 130) //change to frame related later
 				{
 					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 91);
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 30, (float)direction9.Y * 30, ModContent.ProjectileType<HopperLaser>(), 19, 1, Main.myPlayer);
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction9.X * 30, direction9.Y * 30, ModContent.ProjectileType<HopperLaser>(), 19, 1, Main.myPlayer);
 				}
 			}
 			return false;
 		}
 		public override void NPCLoot()
 		{
-			if(Main.rand.Next(70) == 1) {
+			if(Main.rand.NextBool(70)) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GateStaff>(), 1);
 			}
-			if(Main.rand.Next(1) == 400) {
+			if(Main.rand.NextBool(400)) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GravityModulator>());
 			}
-			string[] lootTable = { "AstronautLegs", "AstronautHelm", "AstronautBody" };
-			if(Main.rand.Next(40) == 0) {
+			int[] lootTable = { 
+				ModContent.ItemType<AstronautLegs>(),
+				ModContent.ItemType<AstronautHelm>(),
+				ModContent.ItemType<AstronautBody>()
+			};
+			if(Main.rand.NextBool(40)) {
 				int loot = Main.rand.Next(lootTable.Length);
-				{
-					npc.DropItem(mod.ItemType(lootTable[loot]));
-				}
+				npc.DropItem(lootTable[loot]);
 			}
 		}
 	}

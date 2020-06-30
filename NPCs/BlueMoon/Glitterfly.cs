@@ -1,7 +1,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Buffs;
 using SpiritMod.Items.Material;
 using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Projectiles.Hostile;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -11,11 +13,11 @@ namespace SpiritMod.NPCs.BlueMoon
 {
 	public class Glitterfly : ModNPC
 	{
-		int timer = 0;
+		//int timer = 0;
 		int moveSpeed = 0;
 		int moveSpeedY = 0;
 		float HomeY = 150f;
-		bool hat = false;
+		//bool hat = false;
 
 		public override void SetStaticDefaults()
 		{
@@ -88,7 +90,7 @@ namespace SpiritMod.NPCs.BlueMoon
 			npc.velocity.Y = moveSpeedY * 0.1f;
 			++npc.ai[1];
 			if(npc.ai[1] >= 10) {
-				int proj = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, mod.ProjectileType("GlitterDust"), 0, 0, Main.myPlayer, 0, 0);
+				int proj = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, ModContent.ProjectileType<GlitterDust>(), 0, 0, Main.myPlayer, 0, 0);
 				npc.ai[1] = 0;
 			}
 			Vector2 center = npc.Center;
@@ -116,7 +118,7 @@ namespace SpiritMod.NPCs.BlueMoon
 						float A = (float)Main.rand.Next(-200, 200) * 0.01f;
 						float B = (float)Main.rand.Next(-200, 200) * 0.01f;
 						int damage = expertMode ? 19 : 27;
-						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, dir.X + A, dir.Y + B, mod.ProjectileType("StarSting"), damage, 1, Main.myPlayer, 0, 0);
+						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, dir.X + A, dir.Y + B, ModContent.ProjectileType<StarSting>(), damage, 1, Main.myPlayer, 0, 0);
 					}
 				}
 				if(npc.ai[0] >= 450) {
@@ -145,7 +147,7 @@ namespace SpiritMod.NPCs.BlueMoon
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
 			if(Main.rand.Next(5) == 0)
-				target.AddBuff(mod.BuffType("StarFlame"), 200);
+				target.AddBuff(ModContent.BuffType<StarFlame>(), 200);
 		}
 
 		public override void NPCLoot()

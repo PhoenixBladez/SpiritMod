@@ -12,9 +12,6 @@ namespace SpiritMod.Items.Armor
 			DisplayName.SetDefault("Manasilk Hood");
 		}
 
-
-		int timer = 0;
-
 		public override void SetDefaults()
 		{
 			item.width = 22;

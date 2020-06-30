@@ -39,7 +39,7 @@ namespace SpiritMod.NPCs.Tides
         {
             int otherNPC = -1;
             Vector2 offsetFromOtherNPC = new Vector2(-15, -8);
-            if (npc.localAI[0] == 0f && Main.netMode != 1)
+            if (npc.localAI[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 npc.localAI[0] = 1f;
                 int newNPC = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<Crocomount>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);

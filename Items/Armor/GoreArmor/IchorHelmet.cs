@@ -2,6 +2,7 @@
 using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Armor.GoreArmor
@@ -21,17 +22,16 @@ namespace SpiritMod.Items.Armor.GoreArmor
 			item.height = 30;
 			item.value = Item.sellPrice(0, 3, 0, 0);
 			item.rare = ItemRarityID.Pink;
-
 			item.defense = 15;
 		}
 
-		public override bool IsArmorSet(Item head, Item body, Item legs)
-		{
-			return body.type == ModContent.ItemType<IchorPlate>() && legs.type == ModContent.ItemType<IchorLegs>();
-		}
+		public override bool IsArmorSet(Item head, Item body, Item legs) 
+			=> body.type == ModContent.ItemType<IchorPlate>() && legs.type == ModContent.ItemType<IchorLegs>();
+
 		public override void UpdateArmorSet(Player player)
 		{
-			player.setBonus = "Press the 'Armor Bonus' hotkey to spawn six homing ichor clumps that sap enemy life";
+			string tapDir = Language.GetTextValue(Main.ReversedUpDownArmorSetBonuses ? "Key.UP" : "Key.DOWN");
+			player.setBonus = $"Double tap {tapDir} to spawn six homing ichor clumps that sap enemy life";
 			player.GetSpiritPlayer().ichorSet2 = true;
 		}
 

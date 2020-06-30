@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Armor.QuicksilverArmor
@@ -10,8 +11,9 @@ namespace SpiritMod.Items.Armor.QuicksilverArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Quicksilver Mask");
-			Tooltip.SetDefault("10% increased ranged damage\n6% increased critical strike chance");
+			Tooltip.SetDefault("10% increased ranged damage\n6% increased critical strike chance\nIncreases your max number of minions");
 		}
+		
 		public override void SetDefaults()
 		{
 			item.width = 28;
@@ -20,16 +22,18 @@ namespace SpiritMod.Items.Armor.QuicksilverArmor
 			item.rare = ItemRarityID.Yellow;
 			item.defense = 19;
 		}
-		public override bool IsArmorSet(Item head, Item body, Item legs)
-		{
-			return body.type == ModContent.ItemType<QuicksilverBody>() && legs.type == ModContent.ItemType<QuicksilverLegs>();
-		}
+
+		public override bool IsArmorSet(Item head, Item body, Item legs) 
+			=> body.type == ModContent.ItemType<QuicksilverBody>() && legs.type == ModContent.ItemType<QuicksilverLegs>();
+
 		public override void UpdateArmorSet(Player player)
 		{
-			player.setBonus = "12% increased damage\nPressing the 'Armor Bonus' hotkey will cause your cursor to release multiple damaging quicksilver droplets\nIf these droplets hit foes, they will regenerate some of the player's life\n30 second cooldown";
+			string tapDir = Language.GetTextValue(Main.ReversedUpDownArmorSetBonuses ? "Key.UP" : "Key.DOWN");
+			player.setBonus = $"12% increased damage\nDouble tap {tapDir} to cause your cursor to release multiple damaging quicksilver droplets\nIf these droplets hit foes, they will regenerate some of the player's life\n30 second cooldown";
 			player.allDamage += 0.12f;
 			player.GetSpiritPlayer().quickSilverSet = true;
 		}
+
 		public override void UpdateEquip(Player player)
 		{
 			player.rangedCrit += 6;
@@ -38,6 +42,7 @@ namespace SpiritMod.Items.Armor.QuicksilverArmor
 			player.rangedDamage += 0.1f;
 			player.maxMinions += 1;
 		}
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

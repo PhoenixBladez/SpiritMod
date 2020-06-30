@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Armor.FieryArmor
@@ -24,19 +25,19 @@ namespace SpiritMod.Items.Armor.FieryArmor
 			item.rare = ItemRarityID.Orange;
 			item.defense = 5;
 		}
-		public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
-		{
-			glowMaskColor = Color.White;
-		}
+
+		public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor) 
+			=> glowMaskColor = Color.White;
+
 		public override void UpdateEquip(Player player)
 		{
 			player.maxTurrets += 1;
 			player.minionDamage += .06f;
 		}
-		public override bool IsArmorSet(Item head, Item body, Item legs)
-		{
-			return body.type == ModContent.ItemType<ObsidiusPlate>() && legs.type == ModContent.ItemType<ObsidiusGreaves>();
-		}
+
+		public override bool IsArmorSet(Item head, Item body, Item legs) 
+			=> body.type == ModContent.ItemType<ObsidiusPlate>() && legs.type == ModContent.ItemType<ObsidiusGreaves>();
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
@@ -45,9 +46,11 @@ namespace SpiritMod.Items.Armor.FieryArmor
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();
 		}
+
 		public override void UpdateArmorSet(Player player)
 		{
-			player.setBonus = "Press the 'Armor Bonus' hotkey to cause all sentries to release a burst of fireballs\n8 second cooldown";
+			string tapDir = Language.GetTextValue(Main.ReversedUpDownArmorSetBonuses ? "Key.UP" : "Key.DOWN");
+			player.setBonus = $"Double tap {tapDir} to cause all sentries to release a burst of fireballs\n8 second cooldown";
 			player.GetSpiritPlayer().fierySet = true;
 		}
 	}

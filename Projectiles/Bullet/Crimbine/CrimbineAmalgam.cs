@@ -30,7 +30,6 @@ namespace SpiritMod.Projectiles.Bullet.Crimbine
 
 		}
 
-		int timer = 1;
 		public override void AI()
 		{
 			projectile.velocity *= .9994f;
@@ -95,7 +94,7 @@ namespace SpiritMod.Projectiles.Bullet.Crimbine
 					return;
 				}
 			}
-			int num = 5;
+			//int num = 5;
 			for(int k = 0; k < Main.rand.Next(6, 11); k++) {
 				int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 5, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].scale = Main.rand.NextFloat(.85f, 1.1f);

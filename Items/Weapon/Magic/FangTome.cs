@@ -21,8 +21,8 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.damage = 25;
 			item.magic = true;
 			item.mana = 12;
-			item.width = 38;
-			item.height = 38;
+			item.width = 20;
+			item.height = 20;
 			item.useTime = 35;
 			item.useAnimation = 35;
 			item.useStyle = ItemUseStyleID.HoldingOut;
@@ -44,8 +44,9 @@ namespace SpiritMod.Items.Weapon.Magic
 			Projectile.NewProjectile(position.X, (position.Y - offsetLength) - 12, 0, 0, ModContent.ProjectileType<TeethTop>(), damage, knockBack, Main.myPlayer, offsetLength);
 			Projectile.NewProjectile(position.X + 4, (position.Y + offsetLength) + 12, 0, 0, ModContent.ProjectileType<TeethBottom>(), damage, knockBack, Main.myPlayer, offsetLength);
 			return false;
-		}
-		public override void AddRecipes()
+
+        }
+        public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<BloodFire>(), 12);

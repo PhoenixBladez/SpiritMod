@@ -9,9 +9,7 @@ namespace SpiritMod.Projectiles
 	public class EnergyFieldStarplate : ModProjectile
 	{
 		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Energizer Field");
-		}
+			=> DisplayName.SetDefault("Energizer Field");
 
 		public override void SetDefaults()
 		{
@@ -51,8 +49,6 @@ namespace SpiritMod.Projectiles
 		}
 		public override void AI()
 		{
-			int timer = 0;
-
 			projectile.localAI[0] += 1f;
 			if(projectile.localAI[0] >= 10f) {
 				projectile.localAI[0] = 0f;
@@ -78,9 +74,6 @@ namespace SpiritMod.Projectiles
 			}
 
 			++projectile.localAI[1];
-			int minRadius = 1;
-			int minSpeed = 1;
-
 		}
 		public override void Kill(int timeLeft)
 		{

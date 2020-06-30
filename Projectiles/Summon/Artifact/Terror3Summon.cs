@@ -73,9 +73,9 @@ namespace SpiritMod.Projectiles.Summon.Artifact
 			float num528 = projectile.position.Y;
 			float num529 = 900f;
 			bool flag19 = false;
-			int num530 = 500;
-			if(projectile.ai[1] != 0f || projectile.friendly)
-				num530 = 1400;
+			//int num530 = 500;
+			//if(projectile.ai[1] != 0f || projectile.friendly)
+				//num530 = 1400;
 
 			//if (Math.Abs(Projectile.Center.X - Main.player[projectile.owner].Center.X) + Math.Abs(Projectile.Center.Y - Main.player[projectile.owner].Center.Y) > (float)num530)
 			//{

@@ -7,7 +7,6 @@ namespace SpiritMod.Projectiles
 {
 	class SharkBlast : ModProjectile
 	{
-		int timer = 0;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Shark Blast");

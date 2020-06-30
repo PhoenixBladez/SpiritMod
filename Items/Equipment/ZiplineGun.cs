@@ -10,7 +10,6 @@ namespace SpiritMod.Items.Equipment
 	public class ZiplineGun : ModItem
 	{
 		bool leftactive = false;
-		Vector2 direction9 = Vector2.Zero;
 		int distance = 500;
 		bool rightactive = false;
 		int right = 0;
@@ -84,11 +83,11 @@ namespace SpiritMod.Items.Equipment
 		public override ModItem Clone(Item item)
 		{
 			ZiplineGun staff = (ZiplineGun)base.Clone(item);
-			staff.left = this.left;
-			staff.right = this.right;
-			staff.distance = this.distance;
-			staff.rightactive = this.rightactive;
-			staff.leftactive = this.leftactive;
+			staff.left = left;
+			staff.right = right;
+			staff.distance = distance;
+			staff.rightactive = rightactive;
+			staff.leftactive = leftactive;
 			return staff;
 		}
 	}

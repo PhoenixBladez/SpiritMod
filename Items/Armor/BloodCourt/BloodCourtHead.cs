@@ -23,32 +23,32 @@ namespace SpiritMod.Items.Armor.BloodCourt
 			item.rare = ItemRarityID.Green;
 			item.defense = 1;
 		}
+
 		public override void UpdateEquip(Player player)
 		{
 			player.GetSpiritPlayer().bloodCourtHead = true;
-			player.magicDamage += 0.04f;
-			player.meleeDamage += 0.04f;
-			player.rangedDamage += 0.04f;
-			player.minionDamage += 0.04f;
+			player.allDamage += 0.04f;
 			player.maxMinions += 1;
 		}
-		public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
-		{
-			drawHair = true;
-		}
+
+		public override void DrawHair(ref bool drawHair, ref bool drawAltHair) 
+			=> drawHair = true;
+
 		public override void UpdateArmorSet(Player player)
 		{
+			var tapDir = Main.ReversedUpDownArmorSetBonuses ? "UP" : "DOWN";
 			player.GetSpiritPlayer().bloodcourtSet = true;
-			player.setBonus = "Press the 'Armor Bonus' hotkey to sacrifice 8% of your maximum health\nand launch a bolt of Dark Anima dealing high damage in a radius\nThis bolt siphons 10 additional health over 5 seconds back to the attacker";
+			player.setBonus = $"Double tap {tapDir} to sacrifice 8% of your maximum health\n" +
+							   "and launch a bolt of Dark Anima dealing high damage in a radius\n" + 
+							   "This bolt siphons 10 additional health over 5 seconds";
 		}
-		public override void ArmorSetShadows(Player player)
-		{
-			player.armorEffectDrawShadow = true;
-		}
-		public override bool IsArmorSet(Item head, Item body, Item legs)
-		{
-			return body.type == ModContent.ItemType<BloodCourtChestplate>() && legs.type == ModContent.ItemType<BloodCourtLeggings>();
-		}
+
+		public override void ArmorSetShadows(Player player) 
+			=> player.armorEffectDrawShadow = true;
+
+		public override bool IsArmorSet(Item head, Item body, Item legs) 
+			=> body.type == ModContent.ItemType<BloodCourtChestplate>() && legs.type == ModContent.ItemType<BloodCourtLeggings>();
+		
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

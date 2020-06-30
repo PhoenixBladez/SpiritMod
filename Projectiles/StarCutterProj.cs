@@ -30,19 +30,13 @@ namespace SpiritMod.Projectiles
 			else {
 				projectile.ignoreWater = true;
 				projectile.tileCollide = false;
-				int num996 = 15;
-				bool flag52 = false;
 				bool flag53 = false;
 				projectile.localAI[0] += 1f;
 				if(projectile.localAI[0] % 30f == 0f)
 					flag53 = true;
 
 				int num997 = (int)projectile.ai[1];
-				if(projectile.localAI[0] >= (float)(60 * num996))
-					flag52 = true;
-				else if(num997 < 0 || num997 >= 200)
-					flag52 = true;
-				else if(Main.npc[num997].active && !Main.npc[num997].dontTakeDamage) {
+				if(Main.npc[num997].active && !Main.npc[num997].dontTakeDamage) {
 					projectile.Center = Main.npc[num997].Center - projectile.velocity * 2f;
 					projectile.gfxOffY = Main.npc[num997].gfxOffY;
 					if(flag53) {

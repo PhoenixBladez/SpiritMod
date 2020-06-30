@@ -14,8 +14,8 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				int moveSpeed = 0;
 		int moveSpeedY = 0;
 		float HomeY = 120f;
-		private float SpeedMax = 33f;
-		private float SpeedDistanceIncrease = 500f;
+		//private float SpeedMax = 33f;
+		//private float SpeedDistanceIncrease = 500f;
 
 		public override void SetStaticDefaults()
 		{
@@ -40,7 +40,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			npc.DeathSound = SoundID.NPCDeath5;
 			bossBag = ModContent.ItemType<BagOScarabs>();
 		}
-		private int Counter;
+		/*private int Counter;
 		float frametimer = .25f;
 		bool trailbehind;
 		int frame = 0;
@@ -48,7 +48,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		bool charge;
 		bool jump;
 		int npcCounter;
-		int jumpstacks;
+		int jumpstacks;*/
 		int shoottimer;
 		public override bool PreAI()
 		{

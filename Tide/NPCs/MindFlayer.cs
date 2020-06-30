@@ -10,9 +10,7 @@ namespace SpiritMod.Tide.NPCs
 	public class MindFlayer : ModNPC
 	{
 		int timer = 0;
-		int moveSpeed = 0;
-		int moveSpeedY = 0;
-
+		
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mind Flayer");
@@ -32,30 +30,20 @@ namespace SpiritMod.Tide.NPCs
 			npc.knockBackResist = 0f;
 			npc.aiStyle = 3;
 			aiType = NPCID.CyanBeetle;
-
 		}
 
 		public override void NPCLoot()
 		{
-			{
-				if(Main.rand.Next(2) == 0 && !NPC.downedMechBossAny) {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PearlFragment>(), 1);
-				}
-				{
-					if(Main.rand.Next(33) == 0) {
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<FlayerStaff>(), 1);
-					}
-				}
+			if(Main.rand.Next(2) == 0 && !NPC.downedMechBossAny) {
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PearlFragment>(), 1);
+			}
+			if(Main.rand.Next(33) == 0) {
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<FlayerStaff>(), 1);
 			}
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			if(TideWorld.TheTide && TideWorld.InBeach)
-				return 3.4f;
-
-			return 0;
-		}
+			=> TideWorld.TheTide && TideWorld.InBeach ? 3.4f : 0;
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
@@ -83,34 +71,23 @@ namespace SpiritMod.Tide.NPCs
 		public override void AI()
 		{
 			npc.spriteDirection = npc.direction;
+			if(timer >= 300) //sets velocity to 0, creates dust
 			{
-				timer++;
-				if(timer == 100 || timer == 200) {
-
+				npc.velocity.X = 0f;
+				npc.velocity.Y = 0f;
+				npc.spriteDirection = npc.direction;
+				Counter++;
+				if(Counter > 33) {
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 14f, ModContent.ProjectileType<Flay>(), 16, 1, Main.myPlayer, 0, 0);
+					Counter = 0;
 				}
 
-				{
-					if(timer >= 300) //sets velocity to 0, creates dust
-					{
-						npc.velocity.X = 0f;
-						npc.velocity.Y = 0f;
-						npc.spriteDirection = npc.direction;
-						Counter++;
-						if(Counter > 33) {
-							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 14f, ModContent.ProjectileType<Flay>(), 16, 1, Main.myPlayer, 0, 0);
-							Counter = 0;
-						}
-
-						if(Main.rand.Next(2) == 0) {
-							int dust = Dust.NewDust(npc.position, npc.width, npc.height, 187);
-							Main.dust[dust].scale = 2f;
-						}
-					}
-					if(timer >= 350) {
-						timer = 0;
-					}
+				if(Main.rand.Next(2) == 0) {
+					int dust = Dust.NewDust(npc.position, npc.width, npc.height, 187);
+					Main.dust[dust].scale = 2f;
 				}
 			}
+			if(timer >= 350) timer = 0;
 		}
 	}
 }

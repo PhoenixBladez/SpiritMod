@@ -11,8 +11,6 @@ namespace SpiritMod.Items.Armor.Masks
 			DisplayName.SetDefault("Glade Wraith Mask");
 		}
 
-
-		int timer = 0;
 		public override void SetDefaults()
 		{
 			item.width = 22;

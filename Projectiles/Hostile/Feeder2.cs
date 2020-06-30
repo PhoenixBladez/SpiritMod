@@ -7,8 +7,6 @@ namespace SpiritMod.Projectiles.Hostile
 {
 	public class Feeder2 : ModProjectile
 	{
-
-		private int DamageAdditive;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Rotten Meat");

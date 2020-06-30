@@ -14,7 +14,6 @@ namespace SpiritMod.Projectiles.Held
 			DisplayName.SetDefault("Rot Scourge");
 		}
 
-		int timer = 10;
 		public override void SetDefaults()
 		{
 			projectile.CloneDefaults(ProjectileID.Trident);

@@ -8,12 +8,9 @@ namespace SpiritMod.Items.Armor.MarbleArmor
 	[AutoloadEquip(EquipType.Body)]
 	public class MarbleChest : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Gilded Robe");
-			Tooltip.SetDefault("");
+		public override void SetStaticDefaults() 
+			=> DisplayName.SetDefault("Gilded Robe");
 
-		}
 		public override void SetDefaults()
 		{
 			item.width = 28;
@@ -22,8 +19,11 @@ namespace SpiritMod.Items.Armor.MarbleArmor
 			item.rare = ItemRarityID.Green;
 			item.defense = 5;
 		}
-		public override void UpdateEquip(Player player)
+
+		public override void DrawHands(ref bool drawHands, ref bool drawArms)
 		{
+			drawHands = true;
+			drawArms = true;
 		}
 
 		public override void AddRecipes()

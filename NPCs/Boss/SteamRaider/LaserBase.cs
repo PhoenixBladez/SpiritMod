@@ -10,9 +10,9 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 	public class LaserBase : ModNPC
 	{
 		Vector2 direction9 = Vector2.Zero;
-		private bool shooting;
+		//private bool shooting;
 		private int timer = 0;
-		private bool inblock = true;
+		//private bool inblock = true;
 		Vector2 target = Vector2.Zero;
 
 		public override void SetStaticDefaults()

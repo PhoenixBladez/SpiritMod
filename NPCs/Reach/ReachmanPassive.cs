@@ -76,10 +76,10 @@ namespace SpiritMod.NPCs.Reach
 				0f
 			);
 			return true;
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			/*var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
 							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
-			return false;
+			return false;*/
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{

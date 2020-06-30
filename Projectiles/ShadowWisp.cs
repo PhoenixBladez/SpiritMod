@@ -27,7 +27,6 @@ namespace SpiritMod.Projectiles
 			aiType = ProjectileID.Bullet;
 		}
 
-		int timer = 1;
 		public override void AI()
 		{
 			Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, 0.3F, 0.06F, 0.05F);
