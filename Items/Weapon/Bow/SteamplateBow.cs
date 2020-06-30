@@ -79,8 +79,7 @@ namespace SpiritMod.Items.Weapon.Bow
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<SteamParts>(), 4);
-			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 8);
+			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 20);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

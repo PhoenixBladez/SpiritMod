@@ -81,7 +81,6 @@ namespace SpiritMod.Items.Weapon.Swung
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<HarpyBlade>(), 1);
 			recipe.AddIngredient(ModContent.ItemType<TalonBlade>(), 1);
-			recipe.AddIngredient(ModContent.ItemType<SteamParts>(), 1);
 			recipe.AddIngredient(ItemID.FallenStar, 5);
 			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 7);
 			recipe.AddTile(TileID.Anvils);

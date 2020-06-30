@@ -64,7 +64,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					npc.DropBossBags();
 				}
 
-				npc.DropItem(ModContent.ItemType<SteamParts>(), 19, 25);
+				npc.DropItem(ModContent.ItemType<CosmiliteShard>(), 6, 10);
 				npc.DropItem(ItemID.Heart);
 				npc.DropItem(ItemID.Heart);
 				npc.DropItem(ItemID.Heart);

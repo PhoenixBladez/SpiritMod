@@ -55,7 +55,7 @@ namespace SpiritMod.Items.Consumable
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<Geode>(), 8);
 			recipe.AddIngredient(ItemID.SoulofLight, 10);
-			recipe.AddIngredient(ModContent.ItemType<SteamParts>(), 10);
+			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 10);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

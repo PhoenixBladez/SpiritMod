@@ -56,7 +56,6 @@ namespace SpiritMod.Items.Weapon.Magic
 		{
 
 			ModRecipe modRecipe = new ModRecipe(mod);
-			modRecipe.AddIngredient(ModContent.ItemType<SteamParts>(), 10);
 			modRecipe.AddIngredient(ModContent.ItemType<TechDrive>(), 10);
 			modRecipe.AddIngredient(ModContent.ItemType<PrintPrime>(), 1);
 			modRecipe.AddIngredient(ModContent.ItemType<PrintProbe>(), 1);
