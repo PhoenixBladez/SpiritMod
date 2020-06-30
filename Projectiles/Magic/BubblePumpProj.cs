@@ -59,9 +59,17 @@ namespace SpiritMod.Projectiles.Magic
 				if (counter > 0)
 				{
 					counter -= 2;
-					if (counter % 7 == 0)
+					if (counter % 5 == 0)
 					{
-						Projectile.NewProjectile(player.Center, direction.RotatedBy(Main.rand.NextFloat(-0.3f, 0.3f)) * Main.rand.NextFloat(0.85f, 1.15f), ModContent.ProjectileType<GunBubble>(), projectile.damage, projectile.knockBack, projectile.owner);
+						int bubbleproj;
+						bubbleproj = Main.rand.Next(new int[] { 
+							ModContent.ProjectileType<GunBubble1>(), 
+							ModContent.ProjectileType<GunBubble2>(), 
+							ModContent.ProjectileType<GunBubble3>(), 
+							ModContent.ProjectileType<GunBubble4>(), 
+							ModContent.ProjectileType<GunBubble5>()
+						});
+						Projectile.NewProjectile(player.Center, direction.RotatedBy(Main.rand.NextFloat(-0.3f, 0.3f)) * Main.rand.NextFloat(0.85f, 1.15f), bubbleproj, projectile.damage, projectile.knockBack, projectile.owner);
 					}
 				}
 				else
