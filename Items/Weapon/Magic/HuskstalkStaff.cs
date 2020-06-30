@@ -16,13 +16,13 @@ namespace SpiritMod.Items.Weapon.Magic
 
 		public override void SetDefaults()
 		{
-			item.damage = 15;
+			item.damage = 11;
 			item.magic = true;
-			item.mana = 6;
+			item.mana = 10;
 			item.width = 40;
 			item.height = 40;
-			item.useTime = 8;
-			item.useAnimation = 24;
+			item.useTime = 10;
+			item.useAnimation = 30;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			Item.staff[item.type] = true;
 			item.noMelee = true;
@@ -34,17 +34,8 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.autoReuse = false;
 			item.shoot = ProjectileID.Leaf;
 			item.shootSpeed = 5.5f;
-			item.reuseDelay = 30;
+			item.reuseDelay = 45;
 		}
 
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<AncientBark>(), 4);
-			recipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 8);
-			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
-		}
 	}
 }

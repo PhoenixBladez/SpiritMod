@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Consumable.Quest;
 using SpiritMod.Items.Material;
 using SpiritMod.Items.Weapon.Thrown;
+using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Projectiles;
 using SpiritMod.Projectiles.Hostile;
 using Terraria;
@@ -168,7 +169,7 @@ namespace SpiritMod.NPCs.Reach
 			=> GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Reach/ForestWraith_Glow"));
 		public override void NPCLoot()
 		{
-			int[] lootTable = { ModContent.ItemType<OakHeart>() };
+			int[] lootTable = { ModContent.ItemType<OakHeart>(), ModContent.ItemType<HuskstalkStaff>() };
 			int loot = Main.rand.Next(lootTable.Length);
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, lootTable[loot]);
 

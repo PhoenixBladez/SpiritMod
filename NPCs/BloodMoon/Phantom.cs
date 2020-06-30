@@ -42,7 +42,7 @@ namespace SpiritMod.NPCs.BloodMoon
 		bool noise;
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.spawnTileY < Main.rockLayer && (Main.hardMode) && !Main.dayTime && !spawnInfo.player.ZoneSnow && !spawnInfo.player.ZoneCorrupt && !spawnInfo.player.ZoneCrimson && !spawnInfo.player.ZoneHoly ? 0.05f : 0f;
+			return spawnInfo.player.ZoneOverworldHeight && (Main.hardMode) && !Main.dayTime && !spawnInfo.player.ZoneSnow && !spawnInfo.player.ZoneCorrupt && !spawnInfo.player.ZoneCrimson && !spawnInfo.player.ZoneHoly ? 0.05f : 0f;
 		}
 		public override bool PreAI()
 		{

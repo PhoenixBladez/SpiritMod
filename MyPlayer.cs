@@ -271,7 +271,8 @@ namespace SpiritMod
 		public bool runicSet;
 		public bool icySet;
 		public bool depthSet;
-		public bool primalSet;
+        public bool elderbarkWoodSet;
+        public bool primalSet;
 		public bool spiritSet;
 		public bool putridSet;
 		public bool duneSet;
@@ -528,7 +529,8 @@ namespace SpiritMod
 			hellCharm = false;
 			tumbleSoul = false;
 			bloodyBauble = false;
-			amazonCharm = false;
+            elderbarkWoodSet = false;
+            amazonCharm = false;
 			cleftHorn = false;
 			TormentLantern = false;
 			phantomPet = false;
@@ -897,6 +899,10 @@ namespace SpiritMod
 					flat += 1;
 				}
 			}
+			if (elderbarkWoodSet)
+            {
+                flat += 2;
+            }
 		}
 
 		public override void PostItemCheck()
