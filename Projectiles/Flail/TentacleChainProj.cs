@@ -6,11 +6,11 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Flail
 {
-	public class CrimsonChainProj : ModProjectile
+	public class TentacleChainProj : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Crimson Chain");
+			DisplayName.SetDefault("Tentacle Chain");
 		}
 
 		public override void SetDefaults()
@@ -45,7 +45,7 @@ namespace SpiritMod.Projectiles.Flail
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			ProjectileExtras.DrawChain(projectile.whoAmI, Main.player[projectile.owner].MountedCenter,
-			"SpiritMod/Projectiles/Flail/CrimsonChain_Chain");
+			"SpiritMod/Projectiles/Flail/TentacleChain_Chain");
 			ProjectileExtras.DrawAroundOrigin(projectile.whoAmI, lightColor);
 			return false;
 		}

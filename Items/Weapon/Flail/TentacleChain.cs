@@ -6,11 +6,11 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Weapon.Flail
 {
-	public class CrimsonChain : ModItem
+	public class TentacleChain : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Crimson Chain");
+			DisplayName.SetDefault("Tentacler");
 			// Tooltip.SetDefault("Plugs into tiles, changing the chain into a shocking livewire");
 
 		}
@@ -27,9 +27,9 @@ namespace SpiritMod.Items.Weapon.Flail
 			item.useTime = 14;
 			item.knockBack = 6;
 			item.value = Item.sellPrice(0, 1, 20, 0);
-			item.damage = 12;
+			item.damage = 20;
 			item.noUseGraphic = true;
-			item.shoot = ModContent.ProjectileType<CrimsonChainProj>();
+			item.shoot = ModContent.ProjectileType<TentacleChainProj>();
 			item.shootSpeed = 18f;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;

@@ -17,8 +17,8 @@ namespace SpiritMod.Items.Weapon.Spear
 		{
 			item.useStyle = ItemUseStyleID.Stabbing;
 			item.useTurn = false;
-			item.useAnimation = 12;
-			item.useTime = 12;
+			item.useAnimation = 5;
+			item.useTime = 15;
 			item.width = 24;
 			item.rare = ItemRarityID.Blue;
 			item.height = 28;

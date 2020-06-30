@@ -19,8 +19,8 @@ namespace SpiritMod.NPCs.Tides
 
 		public override void SetDefaults()
 		{
-			npc.width = 52;
-			npc.height = 50;
+			npc.width = 62;
+			npc.height = 54;
 			npc.damage = 24;
 			npc.defense = 4;
 			aiType = NPCID.SnowFlinx;
