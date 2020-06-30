@@ -15,7 +15,7 @@ namespace SpiritMod.NPCs
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spore Wheezer");
-			Main.npcFrameCount[npc.type] = 7;
+			Main.npcFrameCount[npc.type] = 12;
 		}
 
 		public override void SetDefaults()
@@ -117,12 +117,21 @@ namespace SpiritMod.NPCs
 					}
 					shootTimer = 0;
 				}
-				frame = 0;
-			} else {
+                timer++;
+                if (timer == 4)
+                {
+                    frame++;
+                    timer = 0;
+                }
+                if (frame >= 11)
+                {
+                    frame = 7;
+                }
+            } else {
 				npc.scale = 1f;
 				shootTimer = 0;
 				npc.aiStyle = 3;
-				aiType = NPCID.Skeleton;
+				aiType = NPCID.SnowFlinx;
 				timer++;
 				if(timer == 4) {
 					frame++;

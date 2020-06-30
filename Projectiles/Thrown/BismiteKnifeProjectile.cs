@@ -44,9 +44,7 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override void Kill(int timeLeft)
 		{
-			if(Main.rand.Next(0, 4) == 0)
-				Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<BismiteKnife>(), 1, false, 0, false, false);
-
+			
 			for(int i = 0; i < 10; i++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 167, projectile.velocity.X * 2f, projectile.velocity.Y * 2f);
 			}

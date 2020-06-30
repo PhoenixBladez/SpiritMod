@@ -66,7 +66,6 @@ namespace SpiritMod.Items.Weapon.Gun
 			{
 				if(charger == 30) {
 					{
-						Main.PlaySound(SoundLoader.customSoundType, player.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SoldierUlt"));
 						Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<VisorBullet>(), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
 						return false;
 					}

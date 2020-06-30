@@ -3,6 +3,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Linq;
 
 namespace SpiritMod.Projectiles.Bullet
 {
@@ -28,7 +29,16 @@ namespace SpiritMod.Projectiles.Bullet
 
 		public override void AI()
 		{
-			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+            var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
+            foreach (var proj in list)
+            {
+                if (projectile != proj && proj.type == ModContent.ProjectileType<FreemanRocket>() && proj.active)
+                {
+                    proj.Kill();
+                    projectile.Kill();
+                }
+            }
+            projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 			projectile.localAI[0] += 1f;
 			if(projectile.localAI[0] == 16f) {
 				projectile.localAI[0] = 0f;

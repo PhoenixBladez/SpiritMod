@@ -50,8 +50,11 @@ namespace SpiritMod.Projectiles
 				}
 			});
 		}
-
-		public override void AI()
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return new Color(220, 220, 220, 100);
+        }
+        public override void AI()
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 			if(projectile.owner == Main.myPlayer && projectile.timeLeft <= 3) {

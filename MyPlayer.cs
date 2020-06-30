@@ -4519,7 +4519,7 @@ namespace SpiritMod
 						Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
 				}
 				for(int projFinder = 0; projFinder < 300; ++projFinder) {
-					if(Main.projectile[projFinder].sentry == true) {
+					if(Main.projectile[projFinder].sentry == true && Main.projectile[projFinder].active) {
 						int p = Projectile.NewProjectile(Main.projectile[projFinder].Center.X, Main.projectile[projFinder].Center.Y - 20, 0f, 0f, ModContent.ProjectileType<FierySetExplosion>(), Main.projectile[projFinder].damage, Main.projectile[projFinder].knockBack, player.whoAmI);
 					}
 					fierySetTimer = 480;

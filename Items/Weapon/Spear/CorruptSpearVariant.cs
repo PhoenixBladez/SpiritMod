@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Weapon.Spear
 			item.noMelee = true;
 			item.useAnimation = 27;
 			item.useTime = 27;
-			item.shootSpeed = 3f;
+			item.shootSpeed = 4f;
 			item.knockBack = 5.4f;
 			item.damage = 12;
 			item.value = Item.sellPrice(0, 0, 60, 0);

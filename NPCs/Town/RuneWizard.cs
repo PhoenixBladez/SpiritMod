@@ -25,7 +25,7 @@ namespace SpiritMod.NPCs.Town
 			NPCID.Sets.AttackFrameCount[npc.type] = 4;
 			NPCID.Sets.DangerDetectRange[npc.type] = 1500;
 			NPCID.Sets.AttackType[npc.type] = 0;
-			NPCID.Sets.AttackTime[npc.type] = 16;
+			NPCID.Sets.AttackTime[npc.type] = 25;
 			NPCID.Sets.AttackAverageChance[npc.type] = 30;
 		}
 
@@ -35,7 +35,7 @@ namespace SpiritMod.NPCs.Town
 			npc.townNPC = true;
 			npc.friendly = true;
 			npc.aiStyle = 7;
-			npc.damage = 30;
+			npc.damage = 14;
 			npc.defense = 30;
 			npc.lifeMax = 250;
 			npc.HitSound = SoundID.NPCHit1;
@@ -155,7 +155,7 @@ namespace SpiritMod.NPCs.Town
 
 		public override void TownNPCAttackStrength(ref int damage, ref float knockback)
 		{
-			damage = 40;
+			damage = 18;
 			knockback = 3f;
 		}
 
@@ -173,7 +173,7 @@ namespace SpiritMod.NPCs.Town
 
 		public override void TownNPCAttackProjSpeed(ref float multiplier, ref float gravityCorrection, ref float randomOffset)
 		{
-			multiplier = 20f;
+			multiplier = 14f;
 			randomOffset = 2f;
 		}
 	}
