@@ -3338,14 +3338,14 @@ namespace SpiritMod
 						}
 					}
 					{
-						Main.NewText("Energy seeps into marble and granite caverns...", 100, 220, 100);
+						Main.NewText("Energy seeps into marble and granite caverns...", 61, 255, 142);
 						gmOre = true;
 					}
 				}
 			}
 			if(NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3) {
 				if(!essenceMessage) {
-					Main.NewText("The Essences are bursting!", 66, 170, 100);
+					Main.NewText("The Essences are bursting!", 61, 255, 142);
 
 					essenceMessage = true;
 				}
@@ -3363,17 +3363,8 @@ namespace SpiritMod
 							}
 						}
 					}
-					Main.NewText("The Caverns have been flooded with lava!", 220, 40, 40);
+					Main.NewText("The Caverns have been flooded with lava!", 61, 255, 142);
 					Thermite = true;
-				}
-			}
-			if(NPC.downedBoss3) {
-				if(!starMessage) {
-					starMessage = true;
-					if(!txt) {
-						Main.NewText("Ancient Machinery spurs to life in the Asteroids", 66, 170, 244);
-						txt = true;
-					}
 				}
 			}
 

@@ -20,17 +20,7 @@ namespace SpiritMod.Items.DonatorItems.MoonMan
 			item.value = Item.sellPrice(0, 0, 50, 0);
 			item.rare = ItemRarityID.Orange;
 
-			item.defense = 8;
-		}
-
-		public override bool IsArmorSet(Item head, Item body, Item legs)
-			=> body.type == ModContent.ItemType<ChestplateOfTheWarrior>() 
-			&& legs.type == ModContent.ItemType<BootsOfTheWarrior>();
-
-		public override void UpdateArmorSet(Player player)
-		{
-			player.setBonus = "Warrior's Will\nslowly raises defense as health lowers";
-			player.statDefense += 10 - 10 * player.statLife / player.statLifeMax2;
+			item.vanity = true;
 		}
 
 		public override void AddRecipes()

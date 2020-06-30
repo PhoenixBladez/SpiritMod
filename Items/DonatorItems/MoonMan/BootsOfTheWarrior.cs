@@ -20,7 +20,7 @@ namespace SpiritMod.Items.DonatorItems.MoonMan
 			item.value = Item.sellPrice(0, 0, 50, 0);
 			item.rare = ItemRarityID.Green;
 
-			item.defense = 6;
+			item.vanity = true;
 		}
 
 		public override void AddRecipes()

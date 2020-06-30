@@ -43,7 +43,7 @@ namespace SpiritMod.Projectiles
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			hitDirection = 0;
-			knockback = 0.01f;
+			knockback = 0.12f;
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
