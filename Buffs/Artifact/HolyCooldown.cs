@@ -12,6 +12,7 @@ namespace SpiritMod.Buffs.Artifact
 			Main.debuff[Type] = true;
 			Main.pvpBuff[Type] = true;
 			Main.buffNoTimeDisplay[Type] = false;
-		}
+            longerExpertDebuff = false;
+        }
 	}
 }

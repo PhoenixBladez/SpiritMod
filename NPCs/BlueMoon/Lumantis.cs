@@ -64,7 +64,7 @@ namespace SpiritMod.NPCs.BlueMoon
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), .196f * 3, .092f * 3, 0.214f * 3);
 			++npc.ai[1];
 			if(npc.ai[1] >= 600) {
-				npc.velocity.X *= .0001f;
+				npc.velocity.X *= .002f;
 				reflectPhase = true;
 				npc.defense = 9999;
 				{

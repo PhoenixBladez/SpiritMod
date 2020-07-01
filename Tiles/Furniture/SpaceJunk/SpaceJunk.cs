@@ -3,6 +3,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using Microsoft.Xna.Framework;
 namespace SpiritMod.Tiles.Furniture.SpaceJunk
 {
 	public class ScrapItem1 : ModItem
@@ -40,7 +41,10 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 			Main.tileLavaDeath[Type] = true;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
 			TileObjectData.addTile(Type);
-		}
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Space Scrap");
+            AddMapEntry(new Color(150, 150, 150), name);
+        }
 		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
 		{
 			offsetY = 2;
@@ -91,7 +95,10 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 			Main.tileLavaDeath[Type] = true;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
 			TileObjectData.addTile(Type);
-		}
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Space Scrap");
+            AddMapEntry(new Color(150, 150, 150), name);
+        }
 
 		public override void NumDust(int i, int j, bool fail, ref int num)
 		{
@@ -148,7 +155,10 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 				16,
 				16
 			};
-			TileObjectData.newTile.AnchorBottom = default(AnchorData);
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Space Scrap");
+            AddMapEntry(new Color(150, 150, 150), name);
+            TileObjectData.newTile.AnchorBottom = default(AnchorData);
 			TileObjectData.newTile.AnchorTop = default(AnchorData);
 			TileObjectData.newTile.AnchorWall = true;
 			TileObjectData.addTile(Type);
@@ -209,7 +219,10 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 				16,
 				16
 			};
-			TileObjectData.newTile.AnchorBottom = default(AnchorData);
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Space Scrap");
+            AddMapEntry(new Color(150, 150, 150), name);
+            TileObjectData.newTile.AnchorBottom = default(AnchorData);
 			TileObjectData.newTile.AnchorTop = default(AnchorData);
 			TileObjectData.newTile.AnchorWall = true;
 			TileObjectData.addTile(Type);
@@ -262,7 +275,10 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
 			Main.tileLavaDeath[Type] = true;
-			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Space Scrap");
+            AddMapEntry(new Color(150, 150, 150), name);
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
 			TileObjectData.addTile(Type);
 		}
 
@@ -316,7 +332,10 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
 			TileObjectData.newTile.Height = 2;
 			TileObjectData.newTile.Width = 1;
-			TileObjectData.newTile.CoordinateHeights = new int[]
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Space Scrap");
+            AddMapEntry(new Color(150, 150, 150), name);
+            TileObjectData.newTile.CoordinateHeights = new int[]
 			{
 				16,
 				16

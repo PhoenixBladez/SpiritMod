@@ -43,11 +43,6 @@ namespace SpiritMod.Tiles.Furniture
 			g = .42f;
 			b = .48f;
 		}
-
-		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Terraria.Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<Items.Placeable.Furniture.CreationAltar>());
-		}
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{
 			Tile tile = Main.tile[i, j];

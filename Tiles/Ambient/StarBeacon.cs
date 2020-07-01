@@ -20,11 +20,10 @@ namespace SpiritMod.Tiles.Ambient
 			Main.tileNoAttach[Type] = true;
 			Main.tileLighted[Type] = true;
 			Main.tileLavaDeath[Type] = true;
-			animationFrameHeight = 36;
-			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
-			TileObjectData.newTile.Height = 3;
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
+            TileObjectData.newTile.Height = 3;
 			TileObjectData.newTile.Width = 2;
-			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
+            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.CoordinatePadding = 2;
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.Table | AnchorType.SolidTile | AnchorType.SolidWithTop, TileObjectData.newTile.Width, 0);

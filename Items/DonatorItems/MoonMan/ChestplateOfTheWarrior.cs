@@ -17,7 +17,7 @@ namespace SpiritMod.Items.DonatorItems.MoonMan
 			item.height = 24;
 
 			item.value = Item.sellPrice(0, 0, 50, 0);
-			item.rare = ItemRarityID.Orange;
+			item.rare = 2;
 
 			item.vanity = true;
 		}

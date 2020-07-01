@@ -14,7 +14,8 @@ namespace SpiritMod.Buffs.Armor
 			Main.debuff[Type] = true;
 			Main.pvpBuff[Type] = true;
 			Main.buffNoTimeDisplay[Type] = false;
-		}
+            longerExpertDebuff = false;
+        }
 
 		public override void Update(Player player, ref int buffIndex)
 		{

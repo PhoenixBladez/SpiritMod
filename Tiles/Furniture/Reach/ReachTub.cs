@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -22,9 +23,10 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			};
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Elderbark Tub");
+			name.SetDefault("Elderbark Bathtub");
 			AddMapEntry(new Color(179, 146, 107), name);
-			disableSmartCursor = true;
+            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
+            disableSmartCursor = true;
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)

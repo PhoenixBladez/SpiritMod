@@ -33,11 +33,11 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
 			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Example Dresser");
+			name.SetDefault("Elderbark Dresser");
 			AddMapEntry(new Color(179, 146, 107), name);
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.Dressers };
-			dresser = "Example Dresser";
+			dresser = "Elderbark Dresser";
 			dresserDrop = ModContent.ItemType<Items.Placeable.Furniture.Reach.ReachDresser>();
 		}
 

@@ -37,9 +37,6 @@ namespace SpiritMod.NPCs.Ocean
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Coconut>(), Main.rand.Next(3) + 6);
 			}
-			if(Main.rand.Next(20) == 1) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PinaColada>(), 1);
-			}
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

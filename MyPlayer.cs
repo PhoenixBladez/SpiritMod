@@ -2491,7 +2491,10 @@ namespace SpiritMod
 					player.AddBuff(ModContent.BuffType<DivineStrike>(), 2);
 				}
 			}
-
+			if (phaseStacks > 3)
+            {
+                phaseStacks = 3;
+            }
 			if(icytrail && player.velocity.X != 0) {
 				Projectile.NewProjectile(player.position.X, player.position.Y + 40, 0f, 0f, ModContent.ProjectileType<FrostTrail>(), 35, 0f, player.whoAmI);
 			}
@@ -3735,13 +3738,13 @@ namespace SpiritMod
 			}
 
 			if(daybloomSet) {
-				if(dazzleStacks == 3600) {
+				if(dazzleStacks == 1800) {
 					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(25, 1));
 					Rectangle textPos = new Rectangle((int)player.position.X, (int)player.position.Y - 20, player.width, player.height);
 					CombatText.NewText(textPos, new Color(245, 212, 69, 100), "Energy Charged!");
 				}
 
-				if(dazzleStacks >= 3600) {
+				if(dazzleStacks >= 1800) {
 					if(Main.rand.Next(6) == 0) {
 						int d = Dust.NewDust(player.position, player.width, player.height, 228, 0f, 0f, 0, default, .14f * bloodfireShieldStacks);
 					}
@@ -4320,8 +4323,8 @@ namespace SpiritMod
 		{
 			if(daybloomSet && dazzleStacks != 0) {
 				a = 255 - .0001180555f * dazzleStacks;
-				if(dazzleStacks >= 3600) {
-					a = 255 - .0001180555f * 3600;
+				if(dazzleStacks >= 1800) {
+					a = 255 - .0001180555f * 1800;
 				}
 			}
 
@@ -4527,7 +4530,7 @@ namespace SpiritMod
 				}
 			}
 
-			if(daybloomSet && dazzleStacks >= 3600) {
+			if(daybloomSet && dazzleStacks >= 1800) {
 				Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<Dazzle>(), 0, 0, player.whoAmI);
 				Main.PlaySound(SoundID.Item, player.position, 9);
 				dazzleStacks = 0;

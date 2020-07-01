@@ -95,20 +95,6 @@ namespace SpiritMod.Tide.NPCs
 			return true;
 		}
 
-		public override void NPCLoot()
-		{
-			int loot = 0;
-			switch(Main.rand.Next(2)) {
-				case 0:
-					loot = ModContent.ItemType<CthulhuStaff1>();
-					break;
-				case 1:
-					loot = ModContent.ItemType<CthulhuStaff2>();
-					break;
-			}
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, loot);
-		}
-
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			if(TideWorld.TheTide && TideWorld.InBeach && Main.hardMode && !NPC.AnyNPCs(ModContent.NPCType<Rylheian>()))

@@ -10,6 +10,7 @@ namespace SpiritMod.Buffs.Pet
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Cultfish");
+            Description.SetDefault("This little bugger lights the way!");
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.lightPet[Type] = true;
 		}

@@ -27,10 +27,10 @@ namespace SpiritMod.Tiles.Furniture.Reach
 				16
 			};
 			TileObjectData.addTile(Type);
-			ModTranslation name = CreateMapEntryName();
-			// name.SetDefault("Example Clock"); // Automatic from .lang files
-			AddMapEntry(new Color(179, 146, 107), name);
-			dustType = 7;
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Elderbark Clock");
+            AddMapEntry(new Color(179, 146, 107), name);
+            dustType = -1;
 			adjTiles = new int[] { TileID.GrandfatherClocks };
 		}
 

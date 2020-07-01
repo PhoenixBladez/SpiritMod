@@ -65,20 +65,13 @@ namespace SpiritMod.NPCs
 			}
 			if(aiTimer >= 680) {
 				Main.PlaySound(SoundID.Item, npc.Center, 109);
-				for(int i = 0; i < 5; i++) {
-					for(int k = 0; k < 2; k++) {
-						int dust = Dust.NewDust(npc.Center, npc.width, npc.height, DustID.GoldCoin);
-						Main.dust[dust].velocity *= -1f;
-						Main.dust[dust].noGravity = true;
-						Vector2 vector2_1 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-						vector2_1.Normalize();
-						Vector2 vector2_2 = vector2_1 * ((float)Main.rand.Next(50, 100) * 0.04f);
-						Main.dust[dust].velocity = vector2_2;
-						vector2_2.Normalize();
-						Vector2 vector2_3 = vector2_2 * 34f;
-						Main.dust[dust].position = npc.Center - vector2_3;
-					}
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, Main.rand.Next(-8, 8), Main.rand.Next(-8, 8), ModContent.ProjectileType<ShootingStarHostile>(), 30, 1, Main.myPlayer, 0, 0);
+                float ScaleMult = 2.33f;
+                DustHelper.DrawStar(new Vector2(npc.Center.X, npc.Center.Y - 30), DustID.GoldCoin, pointAmount: 5, mainSize: 2.25f * ScaleMult, dustDensity: 2, pointDepthMult: 0.3f, noGravity: true);
+
+                for (int i = 0; i < 5; i++)
+                {
+                    
+                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, Main.rand.Next(-8, 8), Main.rand.Next(-8, 8), ModContent.ProjectileType<ShootingStarHostile>(), 30, 1, Main.myPlayer, 0, 0);
 				}
 				aiTimer = 0;
 			}

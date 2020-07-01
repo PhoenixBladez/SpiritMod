@@ -231,7 +231,6 @@ namespace SpiritMod.Items
 					ModContent.ItemType<MaskLordCake>(),
 					ModContent.ItemType<MaskVladimier>(),
 					ModContent.ItemType<MaskKachow>(),
-					ModContent.ItemType<MaskHulk>(),
 					ModContent.ItemType<MaskBlaze>(),
 					ModContent.ItemType<MaskSvante>(),
 					ModContent.ItemType<MaskIggy>(),
@@ -263,7 +262,7 @@ namespace SpiritMod.Items
 				float boost = 0.005f * spirit.SpeedMPH;
 				if(boost > 0.5f)
 					boost = 0.5f;
-				mult *= boost;
+                mult = 1 + 1*boost;
 			}
 			if(item.summon && spirit.silkenSet) {
 				flat += 1;

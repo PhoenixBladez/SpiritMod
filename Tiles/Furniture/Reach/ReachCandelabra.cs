@@ -18,8 +18,10 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
 			TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
-			AddMapEntry(new Color(179, 146, 107));
-			adjTiles = new int[] { TileID.Torches };
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Elderbark Candelabra");
+            AddMapEntry(new Color(179, 146, 107), name);
+            adjTiles = new int[] { TileID.Torches };
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)

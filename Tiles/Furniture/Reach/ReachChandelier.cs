@@ -16,13 +16,22 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			Main.tileNoAttach[Type] = true;
 			Main.tileLavaDeath[Type] = true;
 			Main.tileLighted[Type] = true;
-			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
-			TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
-			TileObjectData.newTile.AnchorBottom = default(AnchorData);
-			TileObjectData.addTile(Type);
+			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
+            TileObjectData.newTile.Height = 3;
+            TileObjectData.newTile.Width = 3;
+            TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
+			TileObjectData.newTile.AnchorBottom = default(AnchorData); TileObjectData.newTile.CoordinateHeights = new[]
+			{
+                16,
+                16,
+                16
+            };
+            TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
-			AddMapEntry(new Color(179, 146, 107));
-			adjTiles = new int[] { TileID.Chandeliers };
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Elderbark Chandelier");
+            AddMapEntry(new Color(179, 146, 107), name);
+            adjTiles = new int[] { TileID.Chandeliers };
 		}
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)

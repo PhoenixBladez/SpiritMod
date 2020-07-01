@@ -28,10 +28,10 @@ namespace SpiritMod.Tiles.Ambient.IceSculpture
 			TileObjectData.addAlternate(1); //facing right will use the second texture style
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Frozen Wheezer");
-			dustType = 51;
+			name.SetDefault("Frozen Wheezer Sculpture");
 			AddMapEntry(new Color(200, 200, 200), name);
-		}
+            dustType = 51;
+        }
 		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
 		{
 			offsetY = 2;

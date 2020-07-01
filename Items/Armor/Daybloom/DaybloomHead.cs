@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Armor.Daybloom
 		public override void UpdateArmorSet(Player player)
 		{
 			var tapDir = Main.ReversedUpDownArmorSetBonuses ? "UP" : "DOWN";
-			player.setBonus = $"Being outside during daytime accumulates solar energy\nOnce energy is accumulated, double tap {tapDir} to Dazzle nearby foes\n1 minute warm-up";
+			player.setBonus = $"Being outside during daytime accumulates solar energy\nOnce energy is accumulated, double tap {tapDir} to Dazzle nearby foes\n30 second warm-up";
 			player.GetSpiritPlayer().daybloomSet = true;
 			if(Main.dayTime && player.ZoneOverworldHeight) {
 				player.GetSpiritPlayer().dazzleStacks++;

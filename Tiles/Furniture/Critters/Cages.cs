@@ -5,6 +5,7 @@ using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using Microsoft.Xna.Framework;
 
 namespace SpiritMod.Tiles.Furniture.Critters
 {
@@ -62,7 +63,10 @@ namespace SpiritMod.Tiles.Furniture.Critters
 			TileObjectData.newTile.Origin = new Point16(0, 1);
 			TileObjectData.addTile(Type);
 			dustType = 13;
-		}
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Critter Cage");
+            AddMapEntry(new Color(200, 200, 200), name);
+        }
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
 			r = .33f;
@@ -122,6 +126,7 @@ namespace SpiritMod.Tiles.Furniture.Critters
 			recipe.AddTile(TileID.WorkBenches);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
+
 		}
 	}
 
@@ -143,7 +148,10 @@ namespace SpiritMod.Tiles.Furniture.Critters
 			TileObjectData.newTile.Origin = new Point16(0, 1);
 			TileObjectData.addTile(Type);
 			dustType = 13;
-		}
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Critter Cage");
+            AddMapEntry(new Color(200, 200, 200), name);
+        }
 		public override void AnimateTile(ref int frame, ref int frameCounter)
 		{
 			frameCounter++;
@@ -218,7 +226,10 @@ namespace SpiritMod.Tiles.Furniture.Critters
 			TileObjectData.newTile.Origin = new Point16(0, 1);
 			TileObjectData.addTile(Type);
 			dustType = 13;
-		}
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Critter Cage");
+            AddMapEntry(new Color(200, 200, 200), name);
+        }
 		public override void AnimateTile(ref int frame, ref int frameCounter)
 		{
 			frameCounter++;
@@ -293,7 +304,10 @@ namespace SpiritMod.Tiles.Furniture.Critters
 			TileObjectData.newTile.Origin = new Point16(0, 1);
 			TileObjectData.addTile(Type);
 			dustType = 13;
-		}
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Critter Cage");
+            AddMapEntry(new Color(200, 200, 200), name);
+        }
 		public override void AnimateTile(ref int frame, ref int frameCounter)
 		{
 			frameCounter++;
@@ -367,7 +381,10 @@ namespace SpiritMod.Tiles.Furniture.Critters
 			TileObjectData.newTile.Origin = new Point16(0, 1);
 			TileObjectData.addTile(Type);
 			dustType = 13;
-		}
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Critter Cage");
+            AddMapEntry(new Color(200, 200, 200), name);
+        }
 		public override void AnimateTile(ref int frame, ref int frameCounter)
 		{
 			frameCounter++;

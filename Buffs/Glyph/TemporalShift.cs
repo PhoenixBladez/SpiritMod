@@ -34,9 +34,9 @@ namespace SpiritMod.Buffs.Glyph
 
 			if(player.whoAmI == Main.myPlayer && !Main.dedServ) {
 				if(modPlayer.phaseStacks == 0) {
-					Main.buffTexture[Type] = mod.GetTexture("TemporalShift");
+					Main.buffTexture[Type] = mod.GetTexture("Buffs/Glyph/TemporalShift");
 				} else {
-					Main.buffTexture[Type] = mod.GetTexture("TemporalShift_" + modPlayer.phaseStacks.ToString());
+					Main.buffTexture[Type] = mod.GetTexture("Buffs/Glyph/TemporalShift_" + modPlayer.phaseStacks.ToString());
 				}
 			}
 		}

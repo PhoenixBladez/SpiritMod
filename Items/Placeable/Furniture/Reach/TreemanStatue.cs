@@ -43,7 +43,7 @@ namespace SpiritMod.Items.Placeable.Furniture.Reach
 			recipe.AddIngredient(ItemID.GoldCoin, 10);
 			recipe.AddIngredient(ItemID.Book, 5);
 			recipe.AddIngredient(ItemID.Bone, 5);
-			recipe.AddTile(ModContent.TileType<CreationAltarTile>());
+			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();
 		}

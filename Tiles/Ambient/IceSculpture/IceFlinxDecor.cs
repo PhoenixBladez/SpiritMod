@@ -28,7 +28,7 @@ namespace SpiritMod.Tiles.Ambient.IceSculpture
 			TileObjectData.addAlternate(1); //facing right will use the second texture style
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Frozen Snow Flinx");
+			name.SetDefault("Frozen Snow Flinx Sculpture");
 			dustType = 51;
 			AddMapEntry(new Color(200, 200, 200), name);
 		}

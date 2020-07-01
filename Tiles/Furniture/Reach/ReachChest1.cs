@@ -33,7 +33,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Briar Chest");
+			name.SetDefault("Elderbark Chest");
 			AddMapEntry(new Color(179, 146, 107), name, MapChestName);
 			dustType = 0;
 			disableSmartCursor = true;
@@ -128,8 +128,11 @@ namespace SpiritMod.Tiles.Furniture.Reach
 				}
 			}
 		}
-
-		public override void MouseOver(int i, int j)
+        public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+        {
+            offsetY = 2;
+        }
+        public override void MouseOver(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
 			Tile tile = Main.tile[i, j];

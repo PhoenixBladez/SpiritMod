@@ -16,7 +16,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			Main.tileNoAttach[Type] = true;
 			Main.tileLavaDeath[Type] = true;
 			Main.tileLighted[Type] = true;
-			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
+			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
 			TileObjectData.newTile.Height = 2;
 			TileObjectData.newTile.Width = 1;
 			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16 };
@@ -25,8 +25,10 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
 			dustType = 0;//ModContent.DustType<Pixel>();
-			AddMapEntry(new Color(179, 146, 107));
-			adjTiles = new int[] { TileID.Torches };
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Elderbark Lantern");
+            AddMapEntry(new Color(179, 146, 107), name);
+            adjTiles = new int[] { TileID.Torches };
 		}
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)

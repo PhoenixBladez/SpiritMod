@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Consumable
 			{
 				player.statLife += 4;
 				player.HealEffect(4, true);
-				player.AddBuff(BuffID.WellFed, 300);
+				player.AddBuff(BuffID.WellFed, 540);
 			}
 			return false;
 		}

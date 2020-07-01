@@ -20,7 +20,6 @@ namespace SpiritMod.Tiles.Furniture
 			TileObjectData.newTile.Width = 3;
 			TileObjectData.newTile.Height = 2;
 			TileObjectData.newTile.Origin = new Point16(0, 1);
-			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
 			TileObjectData.newTile.UsesCustomCanPlace = true;
 			TileObjectData.newTile.LavaDeath = true;
 			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16 };

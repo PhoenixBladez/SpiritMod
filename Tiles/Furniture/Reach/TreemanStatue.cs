@@ -15,7 +15,6 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			Main.tileFrameImportant[Type] = true;
 			Main.tileSolid[Type] = false;
 			Main.tileMergeDirt[Type] = true;
-			Main.tileLighted[Type] = true;
 			this.minPick = 15;
 			TileObjectData.newTile.Height = 9;
 			TileObjectData.newTile.Width = 9;
@@ -31,8 +30,10 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			adjTiles = new int[] { TileID.WorkBenches };
 			adjTiles = new int[] { TileID.Bookcases };
 			adjTiles = new int[] { TileID.Bottles };
-
-		}
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Statue of the Old Gods");
+            AddMapEntry(new Color(179, 146, 107), name);
+        }
 
 		public override void NumDust(int i, int j, bool fail, ref int num)
 		{

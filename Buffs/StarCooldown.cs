@@ -13,7 +13,7 @@ namespace SpiritMod.Buffs
 			Main.pvpBuff[Type] = false;
 			Main.debuff[Type] = true;
 			Main.buffNoSave[Type] = true;
-			longerExpertDebuff = true;
+			longerExpertDebuff = false;
 		}
 	}
 }

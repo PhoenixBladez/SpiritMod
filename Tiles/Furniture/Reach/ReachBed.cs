@@ -20,7 +20,8 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Elderbark Bed");
 			AddMapEntry(new Color(179, 146, 107), name);
-			disableSmartCursor = true;
+            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
+            disableSmartCursor = true;
 			adjTiles = new int[] { TileID.Beds };
 			bed = true;
 		}

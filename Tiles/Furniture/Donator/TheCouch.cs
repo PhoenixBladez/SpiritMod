@@ -30,7 +30,10 @@ namespace SpiritMod.Tiles.Furniture.Donator
 		{
 			if(closer) {
 				Player player = Main.player[Main.myPlayer];
-				player.AddBuff(ModContent.BuffType<CouchPotato>(), 60, true);
+                if (!player.dead)
+                {
+                    player.AddBuff(ModContent.BuffType<CouchPotato>(), 60, true);
+                }
 			}
 		}
 

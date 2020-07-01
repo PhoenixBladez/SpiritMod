@@ -3615,23 +3615,28 @@ namespace SpiritMod
 											}
 										}
 									}
-								}
+                                    for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 3) * 15E-05); k++)
+                                    {
+                                        int x1232 = WorldGen.genRand.Next(0, Main.maxTilesX);
+                                        int y1232 = WorldGen.genRand.Next((int)((Main.rockLayer + Main.maxTilesY - 500) / 2f), Main.maxTilesY);
+                                        if (Main.tile[x1232, y1232] != null)
+                                        {
+                                            if (Main.tile[x1232, y1232].active())
+                                            {
+                                                if (Main.tile[x1232, y1232].type == ModContent.TileType<SpiritStone>() && Main.rand.Next(1500) == 4)
+                                                {
+                                                    WorldGen.TileRunner(x1232, y1232, (double)WorldGen.genRand.Next(5, 7), WorldGen.genRand.Next(5, 7), ModContent.TileType<SpiritOreTile>(), false, 0f, 0f, false, true);
+
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
 							}
 						}
 					}
-					for(int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 3) * 15E-05); k++) {
-						int x1232 = WorldGen.genRand.Next(0, Main.maxTilesX);
-						int y1232 = WorldGen.genRand.Next((int)((Main.rockLayer + Main.maxTilesY - 500) / 2f), Main.maxTilesY);
-						if(Main.tile[x1232, y1232] != null) {
-							if(Main.tile[x1232, y1232].active()) {
-								if(Main.tile[x1232, y1232].type == ModContent.TileType<SpiritStone>() && Main.rand.Next(1500) == 4) {
-									WorldGen.TileRunner(x1232, y1232, (double)WorldGen.genRand.Next(5, 7), WorldGen.genRand.Next(5, 7), ModContent.TileType<SpiritOreTile>(), false, 0f, 0f, false, true);
-
-
-								}
-							}
-						}
-					}
+				
 				}
 			}
 		}

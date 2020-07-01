@@ -15,8 +15,10 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			Main.tileLavaDeath[Type] = true;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
 			TileObjectData.addTile(Type);
-			AddMapEntry(new Color(179, 146, 107));
-		}
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Elderbark Sink");
+            AddMapEntry(new Color(179, 146, 107), name);
+        }
 
 		public override void NumDust(int i, int j, bool fail, ref int num)
 		{
