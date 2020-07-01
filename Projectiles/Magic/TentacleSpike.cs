@@ -35,17 +35,13 @@ namespace SpiritMod.Projectiles.Magic
 		}
 		public override void AI()
 		{
-			if (projectile.ai[0] == 0)
-			{
-				projectile.ai[0] = 25;
-			}
-			if (projectile.ai[0] > 100)
+			if (projectile.ai[0] > 7)
 			{
 				projectile.velocity = Vector2.Zero;
 			}
 			else
 			{
-				projectile.ai[0]+= 9.375f;
+				projectile.ai[0]++;
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 			}
 		}

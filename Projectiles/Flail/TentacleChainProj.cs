@@ -31,7 +31,7 @@ namespace SpiritMod.Projectiles.Flail
 			if(projectile.timeLeft < 869) {
 				Vector2 direction9 = Main.player[projectile.owner].Center - projectile.position;
 				projectile.velocity = projectile.velocity.RotatedBy(direction9.ToRotation() - projectile.velocity.ToRotation());
-				projectile.velocity *= 1.10113969f;
+				projectile.velocity *= 1.075f;
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 			} else {
 				projectile.velocity -= new Vector2(projectile.ai[0], projectile.ai[1]) / 30f;
