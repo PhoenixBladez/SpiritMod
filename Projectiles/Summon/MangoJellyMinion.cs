@@ -56,7 +56,7 @@ namespace SpiritMod.Projectiles.Summon
 				//if npc is a valid target (active, not friendly, and not a critter)
 				float dist = projectile.Distance(npc.Center);
 				if(dist / 16 < range) {
-					if(npc.active && npc.CanBeChasedBy(projectile)) {
+					if(npc.active && npc.CanBeChasedBy(projectile) && !npc.friendly) {
 						//if npc is closer than closest found npc
 						if(dist < lowestDist) {
 							lowestDist = dist;
@@ -69,7 +69,7 @@ namespace SpiritMod.Projectiles.Summon
 			}
 			NPC target = (Main.npc[(int)projectile.ai[1]] ?? new NPC()); //our target
 																		 //firing
-			if(target.active)
+			if(target.active && !target.friendly)
 			{
 				if(target.position.X > projectile.position.X) {
 					xoffset = Main.rand.Next(8,14);
@@ -85,7 +85,7 @@ namespace SpiritMod.Projectiles.Summon
 					if(target.position.Y < projectile.position.Y && projectile.ai[0] % 30 == 0) {
 						jump = true;
 						projectile.velocity.X = xoffset / 1.25f;
-						projectile.velocity.Y = -9;
+						projectile.velocity.Y = -6.5f;
 					}
 				}
 				if(jump) {
