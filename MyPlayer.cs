@@ -156,6 +156,7 @@ namespace SpiritMod
 		public bool cragboundMinion = false;
 		public bool crawlerockMinion = false;
 		public bool pigronMinion = false;
+		public bool mangoMinion = false;
 		public bool terror1Summon = false;
 		public bool terror2Summon = false;
 		public bool terror3Summon = false;
@@ -626,6 +627,7 @@ namespace SpiritMod
 			EnchantedPaladinsHammerMinion = false;
 			ProbeMinion = false;
 			crawlerockMinion = false;
+			mangoMinion = false;
 			pigronMinion = false;
 			skeletalonMinion = false;
 			cragboundMinion = false;
