@@ -28,7 +28,7 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			if (projectile.timeLeft == 150)
 			{
-				projectile.scale = Main.rand.NextFloat(0.6f,1.3f);
+				projectile.scale = Main.rand.NextFloat(0.7f,1.3f);
 			}
 			projectile.velocity.X *= 0.99f;
 			projectile.velocity.Y -= 0.015f;

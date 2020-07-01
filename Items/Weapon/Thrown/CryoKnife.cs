@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Material;
 
 namespace SpiritMod.Items.Weapon.Thrown
 {
@@ -29,6 +30,14 @@ namespace SpiritMod.Items.Weapon.Thrown
 			item.knockBack = 1f;
 			item.value = Item.buyPrice(0, 0, 0, 35);
 			item.rare = ItemRarityID.LightRed;
+		}
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<CryoliteBar>(), 1);
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this, 50);
+			recipe.AddRecipe();
 		}
 	}
 }

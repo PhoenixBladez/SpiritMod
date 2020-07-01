@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetDefaults()
 		{
 			item.channel = true;
-			item.damage = 24;
+			item.damage = 30;
 			item.magic = true;
 			item.width = 24;
 			item.height = 24;

@@ -69,6 +69,7 @@ namespace SpiritMod.Projectiles.Magic
 							ModContent.ProjectileType<GunBubble4>(), 
 							ModContent.ProjectileType<GunBubble5>()
 						});
+						Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 54);
 						Projectile.NewProjectile(player.Center, direction.RotatedBy(Main.rand.NextFloat(-0.3f, 0.3f)) * Main.rand.NextFloat(0.85f, 1.15f), bubbleproj, projectile.damage, projectile.knockBack, projectile.owner);
 					}
 				}

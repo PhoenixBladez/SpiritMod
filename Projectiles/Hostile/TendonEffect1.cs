@@ -54,7 +54,7 @@ namespace SpiritMod.Projectiles.Hostile
 				direction9.Normalize();
 				//	direction9 *= 6;
 				ProjectileExtras.DrawChain(projectile.whoAmI, parent.Center,
-				"SpiritMod/Projectiles/Hostile/TendonEffect1_Chain", false, 0, false, direction9.X, direction9.Y);
+				"SpiritMod/Projectiles/Hostile/TendonEffect1_Chain");
 			}
 			return false;
 

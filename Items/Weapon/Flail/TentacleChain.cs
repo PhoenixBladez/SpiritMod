@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Weapon.Flail
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Tentacler");
+			DisplayName.SetDefault("Brine Barrage");
 			// Tooltip.SetDefault("Plugs into tiles, changing the chain into a shocking livewire");
 
 		}

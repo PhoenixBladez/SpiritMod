@@ -3,6 +3,7 @@ using SpiritMod.Items.Weapon.Gun;
 using System;
 using Terraria;
 using Terraria.ID;
+using SpiritMod.Items.Material;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.BloodMoon
@@ -79,9 +80,10 @@ namespace SpiritMod.NPCs.BloodMoon
 		}
 		public override void NPCLoot()
 		{
-			if(Main.rand.Next(17) == 1) {
+			if(Main.rand.Next(3) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BottomFeederGun>());
 			}
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BloodFire>(), 2 + Main.rand.Next(2, 4));
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
