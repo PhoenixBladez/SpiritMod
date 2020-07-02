@@ -6,6 +6,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Tide;
 
 namespace SpiritMod.NPCs.Tides
 {
@@ -15,7 +16,9 @@ namespace SpiritMod.NPCs.Tides
 		{
 			DisplayName.SetDefault("Mango Jelly");
 			Main.npcFrameCount[npc.type] = 8;
-		}
+            NPCID.Sets.TrailCacheLength[npc.type] = 3;
+            NPCID.Sets.TrailingMode[npc.type] = 0;
+        }
 
 		public override void SetDefaults()
 		{
@@ -29,8 +32,8 @@ namespace SpiritMod.NPCs.Tides
 			npc.value = 200f;
 			npc.alpha = 35;
 			npc.noTileCollide = true;
-			npc.HitSound = SoundID.NPCHit2;
-			npc.DeathSound = SoundID.NPCDeath1;
+			npc.HitSound = SoundID.NPCHit25;
+			npc.DeathSound = SoundID.NPCDeath28;
 		}
 		bool shooting = false;
 		//npc.ai[0]: base timer
@@ -41,10 +44,34 @@ namespace SpiritMod.NPCs.Tides
 		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			if(bloom) {
-				Main.spriteBatch.Draw(SpiritMod.instance.GetTexture("Effects/Masks/Extra_49"), (npc.Center - Main.screenPosition + new Vector2(xoffset, 6)) - new Vector2(-2, 8), null, new Color((int)(22.5f * bloomCounter), (int)(13.8f * bloomCounter), (int)(21.6f * bloomCounter), 0), 0f, new Vector2(50, 50), 0.125f * (bloomCounter + 3), SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(SpiritMod.instance.GetTexture("Effects/Masks/Extra_49"), (npc.Center - Main.screenPosition) - new Vector2(-2, 8), null, new Color((int)(22.5f * bloomCounter), (int)(13.8f * bloomCounter), (int)(21.6f * bloomCounter), 0), 0f, new Vector2(50, 50), 0.125f * (bloomCounter + 3), SpriteEffects.None, 0f);
 			}
-		}
-		public override void AI()
+        }
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            int d = 173;
+            for (int k = 0; k < 20; k++)
+            {
+                Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
+            }
+            if (npc.life <= 0)
+            {
+                {
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/MangoJelly/MangoJelly1"), 1f);
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/MangoJelly/MangoJelly2"), 1f);
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/MangoJelly/MangoJelly3"), 1f);
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/MangoJelly/MangoJelly4"), 1f);
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/MangoJelly/MangoJelly5"), 1f);
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/MangoJelly/MangoJelly6"), 1f);
+                    if (TideWorld.TheTide)
+                    {
+                        TideWorld.TidePoints += 1;
+                    }
+                }
+            }
+        }
+
+        public override void AI()
 		{
 			npc.TargetClosest();
 			Player player = Main.player[npc.target];
@@ -63,6 +90,7 @@ namespace SpiritMod.NPCs.Tides
 				bloom = false;
 				bloomCounter = 1;
 				Vector2 vel = new Vector2(30f, 0).RotatedBy((float)(Main.rand.Next(90) * Math.PI / 180));
+                Main.PlaySound(2, npc.Center, 91);
 				Projectile.NewProjectile(npc.position + vel + new Vector2(xoffset, 6), vel, ModContent.ProjectileType<MangoLaser>(), npc.damage, 0, npc.target);
 				Projectile.NewProjectile(npc.position + vel.RotatedBy(1.57) + new Vector2(xoffset, 6), Vector2.Zero, ModContent.ProjectileType<MangoLaser>(), npc.damage, 0, npc.target);
 				Projectile.NewProjectile(npc.position + vel.RotatedBy(3.14) + new Vector2(xoffset, 6), Vector2.Zero, ModContent.ProjectileType<MangoLaser>(), npc.damage, 0, npc.target);
@@ -73,7 +101,10 @@ namespace SpiritMod.NPCs.Tides
 				npc.ai[0] = 0;
 			}
 			if(shooting) {
-				npc.knockBackResist = 0;
+                float num395 = Main.mouseTextColor / 200f - 0.35f;
+                num395 *= 0.2f;
+                npc.scale = num395 + 0.95f;
+                npc.knockBackResist = 0;
 				npc.velocity = Vector2.Zero;
 				bloomCounter += 0.02f;
 				jump = false;
@@ -89,7 +120,7 @@ namespace SpiritMod.NPCs.Tides
 					if(player.position.Y < npc.position.Y && npc.ai[0] % 30 == 0) {
 						jump = true;
 						npc.velocity.X = xoffset / 1.25f;
-						npc.velocity.Y = -9;
+						npc.velocity.Y = -6;
 					}
 				}
 				if(jump) {
@@ -102,7 +133,23 @@ namespace SpiritMod.NPCs.Tides
 				#endregion
 			}
 		}
-		bool jump = false;
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return new Color(255, 255, 255);
+        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height * 0.5f));
+            for (int k = 0; k < npc.oldPos.Length; k++)
+            {
+                var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+                Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
+                Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
+                spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
+            }
+            return true;
+        }
+        bool jump = false;
 		public override void FindFrame(int frameHeight)
 		{
 			Player player = Main.player[npc.target];

@@ -34,6 +34,7 @@ using SpiritMod.NPCs.Boss.Scarabeus;
 using SpiritMod.NPCs.Boss.SteamRaider;
 using SpiritMod.NPCs.Critters.Algae;
 using SpiritMod.NPCs.Town;
+using SpiritMod.NPCs.Tides;
 using SpiritMod.Projectiles.Arrow;
 using SpiritMod.Tide;
 using System;
@@ -677,10 +678,29 @@ namespace SpiritMod.NPCs
 			if(spawnInfo.spawnTileY <= Main.worldSurface) {
 				if(MyWorld.BlueMoon && !Main.dayTime)
 					pool.Remove(0);
-				if(TideWorld.TheTide && spawnInfo.player.ZoneBeach)
-                    pool.Clear();
             }
-			if(spawnInfo.player.GetSpiritPlayer().ZoneAsteroid) {
+            if (TideWorld.TheTide && spawnInfo.player.ZoneBeach)
+            {
+                pool.Clear();
+                pool.Add(NPCType<SpearKakamora>(), 7.35f);
+                pool.Add(NPCType<SwordKakamora>(), 7.35f);
+                pool.Add(NPCType<KakamoraShielder>(), 5.35f);
+                pool.Add(NPCType<KakamoraShielderRare>(), .235f);
+                if (!NPC.AnyNPCs(ModContent.NPCType<KakamoraShaman>()))
+                {
+                    pool.Add(NPCType<KakamoraShaman>(), 2.35f);
+                }
+                if (TideWorld.TidePoints >= 25)
+                {
+                    pool.Add(NPCType<MangoJelly>(), 3.35f);
+                }
+                if (TideWorld.TidePoints >= 50)
+                {
+                    pool.Add(NPCType<LargeCrustecean>(), 2.35f);
+                }
+                pool.Add(NPCType<KakamoraRider>(), 2.35f);
+            }
+            if (spawnInfo.player.GetSpiritPlayer().ZoneAsteroid) {
 				pool.Clear();
 				pool.Add(NPCType<DeepspaceHopper>(), .35f);
 				pool.Add(NPCType<AstralAmalgram>(), 0.16f);

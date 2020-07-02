@@ -1,9 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
 using System;
 using Terraria;
 using Terraria.ID;
 using SpiritMod;
 using Terraria.ModLoader;
+using SpiritMod.Tide;
 
 namespace SpiritMod.NPCs.Tides
 {
@@ -35,15 +38,18 @@ namespace SpiritMod.NPCs.Tides
         // ai1 = charge time for gun.
         // ai2 = used for frame??
         // ai3 = 
+        bool checkSpawn = false;
         public override void AI()
         {
             int otherNPC = -1;
-            Vector2 offsetFromOtherNPC = new Vector2(-15, -8);
-            if (npc.localAI[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
+            Vector2 offsetFromOtherNPC = new Vector2(-15, -18);
+            if (npc.localAI[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient && !checkSpawn)
             {
+				
                 npc.localAI[0] = 1f;
                 int newNPC = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<Crocomount>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                 npc.ai[0] = (float)newNPC;
+                checkSpawn = true;
                 npc.netUpdate = true;
             }
             int otherNPCCheck = (int)npc.ai[0];
@@ -68,9 +74,9 @@ namespace SpiritMod.NPCs.Tides
                 npc.position.Y += offsetFromOtherNPC.Y;
                 npc.position.X += offsetFromOtherNPC.X * nPC7.direction;
                 npc.gfxOffY = nPC7.gfxOffY;
+                npc.rotation = 0f;
                 npc.direction = nPC7.direction;
                 npc.spriteDirection = nPC7.spriteDirection;
-                npc.rotation = nPC7.velocity.X * .1f;
                 npc.timeLeft = nPC7.timeLeft;
                 npc.velocity = nPC7.velocity;
                 npc.target = nPC7.target;
@@ -173,21 +179,24 @@ namespace SpiritMod.NPCs.Tides
         }
         public override void NPCLoot()
         {
-            if (Main.LocalPlayer.GetSpiritPlayer().emptyAntlionScroll)
-            {
-                MyWorld.numAntlionsKilled++;
-            }
-            if (Main.rand.NextBool(25))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 857);
-            }
         }
          public override void HitEffect(int hitDirection, double damage) {
             if(npc.life <= 0) {
-                 Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraDeath"));
+                int d = 207;
+                int d1 = 207;
+                for (int k = 0; k < 10; k++)
+                {
+                    Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
+                }
+                Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraDeath"));
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Kakamora_Gore1"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Kakamora_Gore2"), 1f);
                  Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Kakamora_Gore3"), 1f);
+                if (TideWorld.TheTide)
+                {
+                    TideWorld.TidePoints += 1;
+                }
             }
             else
             {

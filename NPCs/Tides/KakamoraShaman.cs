@@ -6,6 +6,9 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Tide;
 
 namespace SpiritMod.NPCs.Tides
 {
@@ -26,7 +29,7 @@ namespace SpiritMod.NPCs.Tides
 			aiType = NPCID.SnowFlinx;
 			npc.aiStyle = 3;
 			npc.lifeMax = 120;
-			npc.knockBackResist = .70f;
+			npc.knockBackResist = 0f;
 			npc.value = 200f;
 			npc.noTileCollide = false;
 			npc.HitSound = SoundID.NPCHit2;
@@ -35,13 +38,13 @@ namespace SpiritMod.NPCs.Tides
 		bool blocking = false;
 		int blockTimer = 0;
 		public override void AI()
-		{
-			npc.TargetClosest(true);
+        {
+            npc.TargetClosest(true);
 			Player player = Main.player[npc.target];
 			blockTimer++;
 			if(blockTimer == 200) {
-				Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraThrow"));
-				npc.frameCounter = 0;
+                Main.PlaySound(SoundID.DD2_WitherBeastAuraPulse, npc.Center);
+                npc.frameCounter = 0;
 				healed = false;
 				npc.velocity.X = 0;
 			}
@@ -56,18 +59,25 @@ namespace SpiritMod.NPCs.Tides
 			if(blocking) {
 				npc.aiStyle = 0;
 				npc.HitSound = SoundID.NPCHit4;
+                npc.noGravity = false;
 				if(player.position.X > npc.position.X) {
 					npc.spriteDirection = 1;
 				} else {
 					npc.spriteDirection = -1;
 				}
 			} else {
-				npc.spriteDirection = npc.direction;
+                if (npc.wet)
+                {
+                    npc.noGravity = true;
+                    npc.velocity.Y -= .085f;
+                }
+                else
+                {
+                    npc.noGravity = false;
+                }
+                npc.spriteDirection = npc.direction;
 				npc.aiStyle = 3;
 				npc.HitSound = SoundID.NPCHit2;
-				if(Main.rand.NextBool(1500)) {
-					Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraIdle3"));
-				}
 				var list = Main.npc.Where(x => x.Hitbox.Intersects(npc.Hitbox));
 				foreach(var npc2 in list) {
 					if(npc2.type == ModContent.NPCType<LargeCrustecean>() && npc.Center.Y > npc2.Center.Y && npc2.active) {
@@ -117,13 +127,24 @@ namespace SpiritMod.NPCs.Tides
 		}
 		bool healed = false;
 		public override void HitEffect(int hitDirection, double damage)
-		{
-			if(npc.life <= 0) {
+        {
+            int d = 207;
+            int d1 = 207;
+            for (int k = 0; k < 10; k++)
+            {
+                Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
+                Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
+            }
+            if (npc.life <= 0) {
 				Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraDeath"));
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Kakamora_Gore1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Kakamora_Gore2"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Kakamora_Gore3"), 1f);
-			} else 
+                if (TideWorld.TheTide)
+                {
+                    TideWorld.TidePoints += 1;
+                }
+            } else 
 			{
 				Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraHit"));
 			}

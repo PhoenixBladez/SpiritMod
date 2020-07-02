@@ -1,9 +1,10 @@
-﻿
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Projectiles.Hostile;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Tide;
 
 namespace SpiritMod.NPCs.Tides
 {
@@ -11,7 +12,7 @@ namespace SpiritMod.NPCs.Tides
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Large Crustecean");
+			DisplayName.SetDefault("Lober Brute");
 			Main.npcFrameCount[npc.type] = 9;
 		}
 
@@ -21,14 +22,14 @@ namespace SpiritMod.NPCs.Tides
 			npc.height = 82;
 			npc.damage = 24;
 			npc.defense = 4;
-			aiType = NPCID.SnowFlinx;
+			aiType = NPCID.WalkingAntlion;
 			npc.aiStyle = 3;
-			npc.lifeMax = 1000;
-			npc.knockBackResist = .4f;
+			npc.lifeMax = 800;
+			npc.knockBackResist = .2f;
 			npc.value = 200f;
 			npc.noTileCollide = false;
-			npc.HitSound = SoundID.NPCHit2;
-			npc.DeathSound = SoundID.NPCDeath1;
+			npc.HitSound = SoundID.NPCHit18;
+			npc.DeathSound = SoundID.NPCDeath5;
 		}
 		bool blocking = false;
 		int blockTimer = 0;
@@ -58,11 +59,17 @@ namespace SpiritMod.NPCs.Tides
 					npc.spriteDirection = -1;
 				}
 			} else {
-				npc.spriteDirection = npc.direction;
+                if (npc.wet)
+                {
+                    npc.noGravity = true;
+                    npc.velocity.Y -= .085f;
+                }
+                else
+                {
+                    npc.noGravity = false;
+                }
+                npc.spriteDirection = npc.direction;
 				npc.aiStyle = 3;
-				if(Main.rand.NextBool(1500)) {
-					Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraIdle3"));
-				}
 			}
 
 		}
@@ -81,13 +88,21 @@ namespace SpiritMod.NPCs.Tides
 				int frame = (int)npc.frameCounter;
 				npc.frame.Y = (frame + 6) * frameHeight;
 				if(npc.frameCounter > 2 && blockTimer % 5 == 0) {
-					Projectile.NewProjectile(npc.Center.X + (npc.direction * 34), npc.Center.Y - 8, npc.direction * Main.rand.NextFloat(3, 6), 0 - Main.rand.NextFloat(1), ModContent.ProjectileType<LobsterBubbleSmall>(), npc.damage, 1, Main.myPlayer, 0, 0);
+                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 85);
+                    Projectile.NewProjectile(npc.Center.X + (npc.direction * 34), npc.Center.Y - 4, npc.direction * Main.rand.NextFloat(3, 6), 0 - Main.rand.NextFloat(1), ModContent.ProjectileType<LobsterBubbleSmall>(), npc.damage, 1, Main.myPlayer, 0, 0);
 				}
 			}
 		}
 		public override void HitEffect(int hitDirection, double damage)
-		{
-			if(npc.life <= 0) {
+        {
+            int d = 5;
+            int d1 = 5;
+            for (int k = 0; k < 30; k++)
+            {
+                Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
+                Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), 1.14f);
+            }
+            if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LargeCrustacean/lobster1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LargeCrustacean/lobster2"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LargeCrustacean/lobster3"), 1f);
@@ -95,7 +110,11 @@ namespace SpiritMod.NPCs.Tides
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LargeCrustacean/lobster5"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LargeCrustacean/lobster6"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LargeCrustacean/lobster7"), 1f);
-			}
+                if (TideWorld.TheTide)
+                {
+                    TideWorld.TidePoints += 1;
+                }
+            }
 		}
 	}
 }
