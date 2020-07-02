@@ -298,7 +298,7 @@ namespace SpiritMod.Projectiles
 						int newdamage = damage + (int)(damage * .15f);
 						damage = newdamage;
 					}
-					target.AddBuff(mod.BuffType("ElectrifiedV2"), Main.rand.Next(60, 120));
+					target.AddBuff(ModContent.BuffType<ElectrifiedV2>(), Main.rand.Next(60, 120));
 					int d = 226;
 					int d1 = 226;
 					for(int k = 0; k < 20; k++) {

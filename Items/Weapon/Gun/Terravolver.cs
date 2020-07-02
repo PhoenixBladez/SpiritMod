@@ -6,15 +6,16 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace SpiritMod.Items.Weapon.Gun
 {
-	public class Terravolver : ModItem
+	public class Terravolver : SpiritItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Terravolver");
-			Tooltip.SetDefault("'Nature goes out with a bang'\n33% chance not to consume ammo\nRapidly shoots out Elemental Bullets that inflict a multitude of debuffs on hit foes\nRarely shoots out an explosive Terra Bomb that hits multiple foes\nRight click to shoot out multiple homing bolts of energy");
-
-		}
-
+		public override string SetDisplayName => "Terravolver";
+		public override string SetTooltip => 
+			"Shoots elemental bullets and bombs that inflict powerful burns\n" +
+			"Right click while holding for a shotgun blast\n" +
+			"33% chance to not consume ammo\n" + 
+			"'Nature goes out with a bang'";
+		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
+		public override float DontConsumeAmmoChance => 1/3f;
 
 		private Vector2 newVect;
 		int charger;
@@ -30,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.noMelee = true;
 			item.knockBack = 0.3f;
 			item.useTurn = false;
-			item.value = Terraria.Item.sellPrice(0, 3, 0, 0);
+			item.value = Item.sellPrice(0, 3, 0, 0);
 			item.rare = ItemRarityID.Yellow;
 			item.UseSound = SoundID.Item92;
 			item.autoReuse = true;
@@ -38,52 +39,36 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.shootSpeed = 14f;
 			item.useAmmo = AmmoID.Bullet;
 		}
-		public override bool ConsumeAmmo(Player player)
-		{
-			if(Main.rand.Next(3) == 0) {
-				return false;
-			}
-			return true;
-		}
-		public override bool AltFunctionUse(Player player)
-		{
-			return true;
-		}
-		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			if(player.altFunctionUse == 2) {
-				item.damage = 64;
-				item.useTime = 29;
-				item.useAnimation = 29;
-				item.knockBack = 8;
 
+		public override bool AltFunctionUse(Player player) => true;
+
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+			if(player.IsUsingAlt()) {
+				player.itemTime = 29;
+				player.itemAnimation = 29;
 				Vector2 origVect = new Vector2(speedX, speedY);
 				for(int X = 0; X <= 3; X++) {
 					if(Main.rand.Next(2) == 1) {
-						newVect = origVect.RotatedBy(System.Math.PI / (Main.rand.Next(82, 1800) / 10));
+						newVect = origVect.RotatedBy(Math.PI / (Main.rand.Next(82, 1800) / 10));
 					} else {
-						newVect = origVect.RotatedBy(-System.Math.PI / (Main.rand.Next(82, 1800) / 10));
+						newVect = origVect.RotatedBy(-Math.PI / (Main.rand.Next(82, 1800) / 10));
 					}
-					int proj2 = Projectile.NewProjectile(position.X, position.Y, newVect.X, newVect.Y, mod.ProjectileType("TerraBullet1"), 45, knockBack, player.whoAmI);
-					Projectile newProj2 = Main.projectile[proj2];
+					if(type == ProjectileID.Bullet) type = ModContent.ProjectileType<TerraBullet1>();
+					Projectile.NewProjectile(position.X, position.Y, newVect.X, newVect.Y, type, damage, 8f, player.whoAmI);
 				}
 				return false;
-			} else
-				item.damage = 43;
-			item.useTime = 8;
-			item.useAnimation = 8;
-			item.knockBack = 0.3f;
-			{
+			} else {
 				charger++;
 				if(charger >= 7) {
-					for(int I = 0; I < 1; I++) {
-						Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<TerraBomb>(), 60, knockBack, player.whoAmI, 0f, 0f);
-					}
+					// Bombs do 33% more damage
+					int bombDamage = damage + (int)(damage * (1 / 3f));
+					Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<TerraBomb>(), bombDamage, knockBack, player.whoAmI, 0f, 0f);
 					charger = 0;
 				}
 
-				type = ModContent.ProjectileType<TerraBullet>();
-				float spread = 10 * 0.00774f;//45 degrees converted to radians
+				if(type == ProjectileID.Bullet) type = ModContent.ProjectileType<TerraBullet>();
+				float spread = MathHelper.PiOver4 / 10;
 				float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
 				double baseAngle = Math.Atan2(speedX, speedY);
 				double randomAngle = baseAngle + (Main.rand.NextFloat() - 0.5f) * spread;
@@ -92,6 +77,7 @@ namespace SpiritMod.Items.Weapon.Gun
 				return true;
 			}
 		}
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
@@ -107,10 +93,6 @@ namespace SpiritMod.Items.Weapon.Gun
 			recipe1.AddTile(TileID.MythrilAnvil);
 			recipe1.SetResult(this, 1);
 			recipe1.AddRecipe();
-		}
-		public override Vector2? HoldoutOffset()
-		{
-			return new Vector2(-10, 0);
 		}
 	}
 }

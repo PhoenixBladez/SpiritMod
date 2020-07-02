@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Material;
+using SpiritMod.Projectiles.Bullet;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -53,13 +54,13 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.rare = ItemRarityID.Green;
 			item.UseSound = SoundID.Item11;
 			item.autoReuse = false;
-			item.shoot = mod.ProjectileType("CoilBullet1");
+			item.shoot = ModContent.ProjectileType<CoilBullet1>();
 			item.shootSpeed = 16f;
 			item.useAmmo = AmmoID.Bullet;
 		}
-		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			type = mod.ProjectileType("CoilBullet1");
+			type = ModContent.ProjectileType<CoilBullet1>();
 			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 45f;
 			if(Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
 				position += muzzleOffset;
