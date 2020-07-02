@@ -46,10 +46,8 @@ namespace SpiritMod
 			return new Vector2((float)(x * cos - y * sin) * halfWidth, (float)(x * sin + y * cos) * halfHeight);
 		}
 
-		public static bool LeftOf(this Vector2 point, Vector2 check)
-		{
-			return check.X * point.Y - check.Y * point.X < 0;
-		}
+		public static bool LeftOf(this Vector2 point, Vector2 check) 
+			=> check.X * point.Y - check.Y * point.X < 0;
 
 		public static float SideOfNormalize(this Vector2 point, Vector2 check)
 		{
@@ -58,25 +56,15 @@ namespace SpiritMod
 			return float.IsNaN(length) ? 0f : length;
 		}
 
-		public static float SideOf(this Vector2 point, Vector2 checkNorm)
-		{
-			return checkNorm.X * point.Y - checkNorm.Y * point.X;
-		}
+		public static float SideOf(this Vector2 point, Vector2 checkNorm) 
+			=> checkNorm.X * point.Y - checkNorm.Y * point.X;
 
-		public static Vector2 TurnRight(this Vector2 vec)
-		{
-			return new Vector2(-vec.Y, vec.X);
-		}
+		public static Vector2 TurnRight(this Vector2 vec) => new Vector2(-vec.Y, vec.X);
 
-		public static Vector2 TurnLeft(this Vector2 vec)
-		{
-			return new Vector2(vec.Y, -vec.X);
-		}
+		public static Vector2 TurnLeft(this Vector2 vec) => new Vector2(vec.Y, -vec.X);
 
-		public static bool Nearing(this Vector2 vec, Vector2 target)
-		{
-			return 0 < vec.X * target.X + vec.Y * target.Y;
-		}
+		public static bool Nearing(this Vector2 vec, Vector2 target) 
+			=> 0 < vec.X * target.X + vec.Y * target.Y;
 		public static void Shuffle<T>(this Random random, ref T[] input)
 		{
 			for(int i = input.Length - 1; i > 0; i--) {
@@ -88,13 +76,7 @@ namespace SpiritMod
 			}
 		}
 
-		public static Vector2 GetClockwise90(this Vector2 vector)
-		{
-			return new Vector2(vector.Y, -vector.X);
-		}
-		public static Vector2 GetAntiClockwise90(this Vector2 vector)
-		{
-			return new Vector2(-vector.Y, vector.X);
-		}
+		public static Vector2 GetClockwise90(this Vector2 vector) => new Vector2(vector.Y, -vector.X);
+		public static Vector2 GetAntiClockwise90(this Vector2 vector) => new Vector2(-vector.Y, vector.X);
 	}
 }
