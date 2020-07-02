@@ -40,7 +40,7 @@ namespace SpiritMod
 				Dust.NewDustPerfect(position, dustType, new Vector2(x, y).RotatedBy(rot) * mainSize, 0, default, dustSize);
 			}
 		}
-		public static void DrawTriangle(Vector2 position, int dustType, int length, float dustDensity = 2f, float dustSize = 2f, float rotationAmount = -1, bool noGravity = true)
+		public static void DrawTriangle(Vector2 position, int dustType, int size, float dustDensity = 1f, float dustSize = 2f, float rotationAmount = -1, bool noGravity = true)
 		{
 			float rot;
 			if(rotationAmount < 0) { rot = Main.rand.NextFloat(0, (float)Math.PI * 2); } else { rot = rotationAmount; }
@@ -56,8 +56,38 @@ namespace SpiritMod
 				} 
 				Vector2 offsetVect = new Vector2(x,y);
 				offsetVect = offsetVect.RotatedBy(2.093333f);
-				offsetVect *= (((k % 2.093333f) / 2.093333f)) * 1.73f;
-				Dust.NewDustPerfect(position, dustType, (new Vector2(x, y) + offsetVect).RotatedBy(rot) * length, 0, default, dustSize).noGravity = noGravity;
+				offsetVect *= ((k % 2.093333f) / 2.093333f) * 2f;
+				Dust.NewDustPerfect(position, dustType, (new Vector2(x, y) + offsetVect).RotatedBy(rot) * size, 0, default, dustSize).noGravity = noGravity;
+				//not the cleanest, but im tired of trying, ive legit been at this for 2 hours. Maybe im missing something really obvious, but hardcode a fucking hoy
+				offsetVect = new Vector2(x,y);
+				offsetVect = offsetVect.RotatedBy(-1.046667);
+				offsetVect *= ((k % 2.093333f) / 2.093333f);
+				Dust.NewDustPerfect(position, dustType, (new Vector2(x, y) + offsetVect).RotatedBy(rot) * size, 0, default, dustSize).noGravity = noGravity;
+			}
+		}
+		public static void DrawDiamond(Vector2 position, int dustType, int size, float dustDensity = 1f, float dustSize = 2f, float rotationAmount = -1, bool noGravity = true)
+		{
+			float rot;
+			if(rotationAmount < 0) { rot = Main.rand.NextFloat(0, (float)Math.PI * 2); } else { rot = rotationAmount; }
+			float density = 1 / dustDensity * 0.1f;
+			float x = 1;
+			float y = 0;
+			for(float k = 0; k < 6.3f; k += density)
+			{ 
+				if (k % 1.57f <= density)
+				{
+					x = (float)Math.Cos(k);
+					y = (float)Math.Sin(k);
+				} 
+				Vector2 offsetVect = new Vector2(x,y);
+				offsetVect = offsetVect.RotatedBy(1.57f);
+				offsetVect *= ((k % 1.57f) / 1.57f);
+				Dust.NewDustPerfect(position, dustType, (new Vector2(x, y) + offsetVect).RotatedBy(rot) * size, 0, default, dustSize).noGravity = noGravity;
+				//not the cleanest, but im tired of trying, ive legit been at this for 2 hours. Maybe im missing something really obvious, but hardcode a fucking hoy
+				offsetVect = new Vector2(x,y);
+				offsetVect = offsetVect.RotatedBy(-1.57f);
+				offsetVect *= ((k % 1.57f) / 1.57f);
+				Dust.NewDustPerfect(position, dustType, (new Vector2(x, y) + offsetVect).RotatedBy(rot) * size, 0, default, dustSize).noGravity = noGravity;
 			}
 		}
 	}
