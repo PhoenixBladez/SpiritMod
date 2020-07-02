@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Consumable.Food
 			item.useStyle = ItemUseStyleID.EatingUsing;
 			item.useTime = item.useAnimation = 30;
 
-			item.buffType = ModContent.BuffType<IceBerryBuff>();;
+			item.buffType = ModContent.BuffType<IceBerryBuff>();
 			item.buffTime = 19600;
 			item.noMelee = true;
 			item.consumable = true;

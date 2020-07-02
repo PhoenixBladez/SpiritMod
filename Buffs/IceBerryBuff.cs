@@ -14,9 +14,5 @@ namespace SpiritMod.Buffs
 			Main.pvpBuff[Type] = true;
 			Main.buffNoTimeDisplay[Type] = false;
 		}
-		public override void Update(NPC npc, ref int buffIndex)
-		{
-	
-		}
 	}
 }

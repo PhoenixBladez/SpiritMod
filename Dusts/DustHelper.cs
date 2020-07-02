@@ -40,9 +40,11 @@ namespace SpiritMod
 				Dust.NewDustPerfect(position, dustType, new Vector2(x, y).RotatedBy(rot) * mainSize, 0, default, dustSize);
 			}
 		}
-		public static void DrawSquare(Vector2 position, int dustType, int widthFactor, int heightFactor, float dustDensity = 1, float dustSize = 1f)
+		public static void DrawTriangle(Vector2 position, int dustType, int length, float dustDensity = 1, float dustSize = 1f, float rotationAmount = 0)
 		{
-			
+			float rot;
+			if(rotationAmount < 0) { rot = Main.rand.NextFloat(0, (float)Math.PI * 2); } else { rot = rotationAmount; }
+			float density = 1 / dustDensity * 0.1f;
 		}
 	}
 
