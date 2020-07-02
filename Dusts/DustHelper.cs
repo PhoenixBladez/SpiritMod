@@ -40,12 +40,25 @@ namespace SpiritMod
 				Dust.NewDustPerfect(position, dustType, new Vector2(x, y).RotatedBy(rot) * mainSize, 0, default, dustSize);
 			}
 		}
-		public static void DrawTriangle(Vector2 position, int dustType, int length, float dustDensity = 1, float dustSize = 1f, float rotationAmount = 0)
+		public static void DrawTriangle(Vector2 position, int dustType, int length, float dustDensity = 2f, float dustSize = 2f, float rotationAmount = -1, bool noGravity = true)
 		{
 			float rot;
 			if(rotationAmount < 0) { rot = Main.rand.NextFloat(0, (float)Math.PI * 2); } else { rot = rotationAmount; }
 			float density = 1 / dustDensity * 0.1f;
+			float x = 1;
+			float y = 0;
+			for(float k = 0; k < 6.3f; k += density)
+			{ 
+				if (k % 2.093333f <= density)
+				{
+					x = (float)Math.Cos(k);
+					y = (float)Math.Sin(k);
+				} 
+				Vector2 offsetVect = new Vector2(x,y);
+				offsetVect = offsetVect.RotatedBy(2.093333f);
+				offsetVect *= (((k % 2.093333f) / 2.093333f)) * 1.73f;
+				Dust.NewDustPerfect(position, dustType, (new Vector2(x, y) + offsetVect).RotatedBy(rot) * length, 0, default, dustSize).noGravity = noGravity;
+			}
 		}
 	}
-
 }

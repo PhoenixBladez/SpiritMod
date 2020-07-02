@@ -39,6 +39,7 @@ namespace SpiritMod.NPCs.Tides
             {
                 npc.noGravity = true;
                 npc.velocity.Y -= .085f;
+				return;
             }
             else
             {
@@ -75,7 +76,7 @@ namespace SpiritMod.NPCs.Tides
 
 		public override void FindFrame(int frameHeight)
 		{
-			if(npc.collideY) {
+			if(npc.collideY || npc.wet) {
 				npc.frameCounter += 0.2f;
 				npc.frameCounter %= Main.npcFrameCount[npc.type];
 				int frame = (int)npc.frameCounter;

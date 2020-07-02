@@ -54,6 +54,16 @@ namespace SpiritMod.NPCs.Tides
                     proj.active = false;
                 }
             }
+			if (npc.wet)
+                {
+                    npc.noGravity = true;
+                    npc.velocity.Y -= .085f;
+					return;
+                }
+                else
+                {
+                    npc.noGravity = false;
+                }
 			blockTimer++;
 			if(blockTimer == 200) {
 				Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraHit"));
@@ -77,15 +87,6 @@ namespace SpiritMod.NPCs.Tides
 					npc.spriteDirection = -1;
 				}
 			} else {
-                if (npc.wet)
-                {
-                    npc.noGravity = true;
-                    npc.velocity.Y -= .085f;
-                }
-                else
-                {
-                    npc.noGravity = false;
-                }
                 npc.spriteDirection = npc.direction;
 				npc.aiStyle = 3;
 				npc.defense = 6;
@@ -103,7 +104,7 @@ namespace SpiritMod.NPCs.Tides
 
 		public override void FindFrame(int frameHeight)
 		{
-			if(npc.collideY && !blocking) {
+			if((npc.collideY || npc.wet)  && !blocking) {
 				npc.frameCounter += 0.2f;
 				npc.frameCounter %= 4;
 				int frame = (int)npc.frameCounter;

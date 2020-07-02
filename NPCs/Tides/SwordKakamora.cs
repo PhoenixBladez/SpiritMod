@@ -60,6 +60,7 @@ namespace SpiritMod.NPCs.Tides
             {
                 npc.noGravity = true;
                 npc.velocity.Y -= .085f;
+				return;
             }
 			else
             {

@@ -122,7 +122,8 @@ namespace SpiritMod.NPCs.Dungeon
 							NPC.NewNPC((int)npc.position.X + npc.width / 2, (int)npc.Center.Y - 16, ModContent.NPCType<IllusionistSpectre>(), 0, 0, 0, 0, 0, 255);
 						}
 						float ScaleMult = 2.33f;
-						DustHelper.DrawStar(new Vector2(npc.Center.X, npc.Center.Y - 30), 180, pointAmount: 5, mainSize: 2.25f * ScaleMult, dustDensity: 2, pointDepthMult: 0.3f, noGravity: true);
+					//	DustHelper.DrawStar(new Vector2(npc.Center.X, npc.Center.Y - 30), 180, pointAmount: 5, mainSize: 2.25f * ScaleMult, dustDensity: 2, pointDepthMult: 0.3f, noGravity: true);
+						DustHelper.DrawTriangle(new Vector2(npc.Center.X, npc.Center.Y - 30), 180, 6);
 					}
 
 					if(npc.ai[0] >= 230 && npc.ai[0] <= 250 || npc.ai[0] >= 470 && npc.ai[0] <= 485 || npc.ai[0] >= 710 && npc.ai[0] <= 725) {
