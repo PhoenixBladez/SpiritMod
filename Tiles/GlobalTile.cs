@@ -27,7 +27,10 @@ namespace SpiritMod.Tiles
 		{
 			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
 			ushort eggType = (ushort)ModContent.TileType<Ambient.AvianEgg>();
-			if(type != eggType && tileAbove.type == eggType) {
+			ushort flowerType = (ushort)ModContent.TileType<BloodBlossom>();
+			if(type == flowerType || tileAbove.type == flowerType) {
+				return false;
+			}else if(type != eggType && tileAbove.type == eggType) {
 				return false;
 			} else if(type != IceType1 && tileAbove.type == IceType1) {
 				return false;
@@ -52,7 +55,10 @@ namespace SpiritMod.Tiles
 		{
 			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
 			ushort eggType = (ushort)ModContent.TileType<Ambient.AvianEgg>();
-			if(type == eggType || tileAbove.type == eggType) {
+			ushort flowerType = (ushort)ModContent.TileType<BloodBlossom>();
+			if(type == flowerType || tileAbove.type == flowerType) {
+				return false;
+			}else if(type == eggType || tileAbove.type == eggType) {
 				return false;
 			} else if(type != IceType1 && tileAbove.type == IceType1) {
 				return false;

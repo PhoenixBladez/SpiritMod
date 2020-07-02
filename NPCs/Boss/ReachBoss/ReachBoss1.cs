@@ -123,7 +123,8 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			}
 			if(npc.life <= (npc.lifeMax / 9 * 4)) {
 				if(!txt) {
-					Main.NewText("The Bramble shall consume you...", 0, 200, 80, true);
+					CombatText.NewText(new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height), new Color(0, 200, 80, 100),
+					"The Bramble shall consume you...");
 					npc.velocity *= 0;
 					Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;

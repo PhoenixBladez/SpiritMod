@@ -119,7 +119,7 @@ namespace SpiritMod.Projectiles
 			if(WitherLeaf == true) {
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 				if(Main.rand.Next(2) == 0) {
-					int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 3);
+					int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 167);
 					return true;
 				}
 			}

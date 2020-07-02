@@ -50,7 +50,7 @@ namespace SpiritMod.Projectiles.Summon
 			Player player = Main.player[projectile.owner];
 			if (projectile.Distance(player.Center) > 1500)
 			{
-				projectile.position = player.position;
+				projectile.position = player.position + new Vector2(Main.rand.Next(-125,126), Main.rand.Next(-125,126));
 				for (int i = 0; i < 25; i++)
 				{
 					Dust.NewDust(projectile.position, projectile.width, projectile.height, 272);
@@ -65,7 +65,7 @@ namespace SpiritMod.Projectiles.Summon
 					projectile.timeLeft = 2;
 			}
 
-			int range = 50;   //How many tiles away the projectile targets NPCs
+			int range = 40;   //How many tiles away the projectile targets NPCs
 
 			float lowestDist = float.MaxValue;
 			for(int i = 0; i < 200; ++i) {
@@ -102,7 +102,14 @@ namespace SpiritMod.Projectiles.Summon
 					if(target.position.Y < projectile.position.Y && projectile.ai[0] % 10 == 0) {
 						jump = true;
 						projectile.velocity.X = xoffset / 1.15f;
-						projectile.velocity.Y = -1.5f;
+						if (target.position.Y < projectile.position.Y - 150)
+						{
+							projectile.velocity.Y = -9;
+						}
+						else
+						{
+							projectile.velocity.Y = -1.5f;
+						}
 					}
 				}
 				if(jump) {

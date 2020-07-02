@@ -599,6 +599,12 @@ namespace SpiritMod.NPCs
 					return "Behold! Enchanted candy! Enchantingly tasty, that is!";
 				else
 					return "Watch closely, for I shall channel the power of the spirits to summon... Candy!";
+
+			} else if(npc.type == mod.NPCType("Gambler")) {
+				if(dialogue == 0)
+					return "Reach into the bowl. You never know what you'll pull out";
+				else
+					return "I'll trade you any piece of candy for a random pie- no? Ok";
 			}
 			if(dialogue == 0)
 				return "Hello, " + player.player.name + ". Take some candy!";
@@ -676,7 +682,7 @@ namespace SpiritMod.NPCs
             }
 			if(spawnInfo.player.GetSpiritPlayer().ZoneAsteroid) {
 				pool.Clear();
-				pool.Add(NPCType<DeepspaceHopper>(), .55f);
+				pool.Add(NPCType<DeepspaceHopper>(), .35f);
 				pool.Add(NPCType<AstralAmalgram>(), 0.16f);
 				pool.Add(NPCType<Mineroid>(), 0.3f);
 				pool.Add(NPCType<GloopGloop>(), 0.24f);
