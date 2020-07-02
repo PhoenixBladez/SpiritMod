@@ -39,6 +39,14 @@ namespace SpiritMod.Projectiles.Summon
 		{
 			bool flag64 = projectile.type == ModContent.ProjectileType<MangoJellyMinion>();
 			Player player = Main.player[projectile.owner];
+			if (projectile.Distance(player.Center) > 1500)
+			{
+				projectile.position = player.position;
+				for (int i = 0; i < 25; i++)
+				{
+					Dust.NewDust(projectile.position, projectile.width, projectile.height, 272);
+				}
+			}
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if(flag64) {
 				if(player.dead)
@@ -79,10 +87,10 @@ namespace SpiritMod.Projectiles.Summon
 				projectile.ai[0]++;
 				projectile.velocity.X *= 0.99f;
 				if(!jump) {
-					if(projectile.velocity.Y < 5.5f) {
+					if(projectile.velocity.Y < 7.5f) {
 						projectile.velocity.Y += 0.05f;
 					}
-					if(target.position.Y < projectile.position.Y && projectile.ai[0] % 30 == 0) {
+					if(target.position.Y < projectile.position.Y && projectile.ai[0] % 20 == 0) {
 						jump = true;
 						projectile.velocity.X = xoffset / 1.25f;
 						projectile.velocity.Y = -6.5f;
@@ -90,7 +98,7 @@ namespace SpiritMod.Projectiles.Summon
 				}
 				if(jump) {
 					projectile.velocity *= 0.97f;
-					if(Math.Abs(projectile.velocity.X) < 0.125f) {
+					if(Math.Abs(projectile.velocity.X) < 0.3f) {
 						jump = false;
 					}
 					projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
@@ -106,10 +114,10 @@ namespace SpiritMod.Projectiles.Summon
 				projectile.ai[0]++;
 				projectile.velocity.X *= 0.99f;
 				if(!jump) {
-					if(projectile.velocity.Y < 5.5f) {
+					if(projectile.velocity.Y < 7.5f) {
 						projectile.velocity.Y += 0.05f;
 					}
-					if(player.position.Y < projectile.position.Y && projectile.ai[0] % 30 == 0) {
+					if(player.position.Y < projectile.position.Y && projectile.ai[0] % 20 == 0) {
 						jump = true;
 						projectile.velocity.X = xoffset / 1.25f;
 						projectile.velocity.Y = -9;
@@ -118,7 +126,7 @@ namespace SpiritMod.Projectiles.Summon
 				}
 				if(jump) {
 					projectile.velocity *= 0.97f;
-					if(Math.Abs(projectile.velocity.X) < 0.125f) {
+					if(Math.Abs(projectile.velocity.X) < 0.3f) {
 						jump = false;
 					}
 					projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
