@@ -31,9 +31,14 @@ namespace SpiritMod.NPCs.Tides
 			npc.HitSound = SoundID.NPCHit2;
 			npc.DeathSound = SoundID.NPCDeath1;
 		}
-
+		bool teleportedup = false;
 		public override void AI()
         {
+			if (!teleportedup)
+			{
+				teleportedup = true;
+				npc.position.Y -= Main.rand.Next(600, 1200);
+			}
             if (npc.wet)
             {
                 npc.noGravity = true;

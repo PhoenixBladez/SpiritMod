@@ -683,9 +683,11 @@ namespace SpiritMod.NPCs
             {
                 pool.Clear();
                 pool.Add(NPCType<SpearKakamora>(), 7.35f);
+				pool.Add(NPCType<KakamoraParachuter>(), 5.35f);
                 pool.Add(NPCType<SwordKakamora>(), 7.35f);
                 pool.Add(NPCType<KakamoraShielder>(), 5.35f);
                 pool.Add(NPCType<KakamoraShielderRare>(), .235f);
+				pool.Add(NPCType<KakamoraRunner>(), 2f);
                 if (!NPC.AnyNPCs(ModContent.NPCType<KakamoraShaman>()))
                 {
                     pool.Add(NPCType<KakamoraShaman>(), 2.35f);
