@@ -50,6 +50,8 @@ namespace SpiritMod.Projectiles.Flail
 				if(timeStuck < 0) {
 					stuck = false;
 				}
+				player.itemTime = 5;
+				player.itemAnimation = 5;
 				projectile.velocity.X = 0;
 				projectile.velocity.Y = 0;
 			}
