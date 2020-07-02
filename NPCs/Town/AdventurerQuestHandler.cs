@@ -58,7 +58,13 @@ namespace SpiritMod.NPCs.Town
 
 				"Hope those goblins didn't give you too much trouble, heh." +
 				" Wow, look at that craftwork! It's supposed to be real powerful, too." +
-				" So maybe you won't get killed while you're out there adventuring, yeah?", false);
+				" So maybe you won't get killed while you're out there adventuring, yeah?", false,
+				() => {
+                    MyWorld.sepulchreComplete = true;
+                    Main.LocalPlayer.QuickSpawnItem(ItemID.TatteredCloth, Main.rand.Next(5, 7));
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+                    Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
+                });
 			shadowflameStaffQuest.CanGiveQuest = () => {
 				return MyWorld.gennedTower && !MyWorld.gennedBandits;
 			};
@@ -76,7 +82,8 @@ namespace SpiritMod.NPCs.Town
 					MyWorld.sepulchreComplete = true;
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SepulchrePotItem1>(), Main.rand.Next(6, 10));
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SepulchrePotItem2>(), Main.rand.Next(6, 10));
-					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+                    Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
 				});
 
 			Quest jadeStaffQuest = RegisterQuest(ModContent.ItemType<JadeStaff>(),
@@ -103,7 +110,8 @@ namespace SpiritMod.NPCs.Town
 						Main.LocalPlayer.QuickSpawnItem(ItemID.Kimono);
 					}
 					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
-				});
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+                });
 			jadeStaffQuest.CanGiveQuest = () => {
 				return NPC.downedBoss1;
 			};
@@ -126,7 +134,8 @@ namespace SpiritMod.NPCs.Town
 					 }
 					 Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<FishingPainting>());
 					 Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
-				 }
+                     Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+                 }
 
 				);
 			hornetFishQuest.OnQuestStart = () => {
@@ -148,7 +157,8 @@ namespace SpiritMod.NPCs.Town
 					}
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<GlowRoot>(), Main.rand.Next(1, 4));
 					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
-				});
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+                });
 
 			mushroomQuest.OnQuestStart = () => {
 				MyWorld.spawnVibeshrooms = true;
@@ -168,7 +178,8 @@ namespace SpiritMod.NPCs.Town
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<PinBlue>());
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MapScroll>(), Main.rand.Next(1, 3));
 					Main.LocalPlayer.QuickSpawnItem(ItemID.MushroomGrassSeeds, Main.rand.Next(2, 3));
-					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+                    Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
 
 				});
 
@@ -189,7 +200,8 @@ namespace SpiritMod.NPCs.Town
 				() => {
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<PinRed>());
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MapScroll>(), Main.rand.Next(1, 3));
-					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<JumpPadItem>(), Main.rand.Next(1, 2));
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<JumpPadItem>(), Main.rand.Next(1, 2));
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ScrapItem>(), Main.rand.Next(50, 70));
 					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
 
@@ -211,7 +223,8 @@ namespace SpiritMod.NPCs.Town
 
 				() => {
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MapScroll>(), Main.rand.Next(1, 3));
-					Main.LocalPlayer.QuickSpawnItem(ItemID.Javelin, Main.rand.Next(50, 95));
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+                    Main.LocalPlayer.QuickSpawnItem(ItemID.Javelin, Main.rand.Next(50, 95));
 					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
 
 				});
@@ -233,7 +246,8 @@ namespace SpiritMod.NPCs.Town
 				() => {
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MapScroll>(), Main.rand.Next(1, 4));
 					Main.LocalPlayer.QuickSpawnItem(ItemID.NightVisionHelmet);
-					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+                    Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
 				});
 			explorerQuestGranite.OnQuestStart = () => {
 				if(!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollGraniteEmpty>()))
@@ -251,7 +265,8 @@ namespace SpiritMod.NPCs.Town
 				() => {
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MapScroll>(), Main.rand.Next(1, 4));
 					Main.LocalPlayer.QuickSpawnItem(ItemID.BottledHoney, Main.rand.Next(8, 12));
-					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+                    Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
 
 				});
 			explorerQuestHive.OnQuestStart = () => {
@@ -293,8 +308,9 @@ namespace SpiritMod.NPCs.Town
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SnowRangerHead>());
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SnowRangerBody>());
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SnowRangerLegs>());
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
 
-					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
+                    Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
 				});
 			slayerQuestWinterborn.OnQuestStart = () => {
 				if(!Main.LocalPlayer.HasItem(ModContent.ItemType<WinterbornSlayerScrollEmpty>()))
@@ -322,7 +338,8 @@ namespace SpiritMod.NPCs.Town
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<BeholderMask>());
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MarbleChunk>(), Main.rand.Next(6, 11));
 					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
-				});
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+                });
 			slayerQuestBeholder.OnQuestStart = () => {
 				if(!Main.LocalPlayer.HasItem(ModContent.ItemType<BeholderSlayerScrollEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<BeholderSlayerScrollEmpty>());
@@ -348,7 +365,8 @@ namespace SpiritMod.NPCs.Town
 					int loot3 = Main.rand.Next(lootTable1.Length);
 					Main.LocalPlayer.QuickSpawnItem(lootTable1[loot3], Main.rand.Next(18, 30));
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ChaosPearl>(), Main.rand.Next(5, 9));
-					if(Main.rand.Next(2) == 0) {
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+                    if (Main.rand.Next(2) == 0) {
 						Main.LocalPlayer.QuickSpawnItem(1987);
 					}
 					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
@@ -374,7 +392,8 @@ namespace SpiritMod.NPCs.Town
 					 };
 					 int loot3 = Main.rand.Next(lootTable1.Length);
 					 Main.LocalPlayer.QuickSpawnItem(lootTable1[loot3], Main.rand.Next(18, 30));
-					 Main.LocalPlayer.QuickSpawnItem(848);
+                     Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+                     Main.LocalPlayer.QuickSpawnItem(848);
 					 Main.LocalPlayer.QuickSpawnItem(866);
 					 Main.LocalPlayer.QuickSpawnItem(934);
 					 Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
@@ -399,7 +418,8 @@ namespace SpiritMod.NPCs.Town
 					 };
 					int loot3 = Main.rand.Next(lootTable1.Length);
 					Main.LocalPlayer.QuickSpawnItem(lootTable1[loot3], Main.rand.Next(18, 30));
-					Main.LocalPlayer.QuickSpawnItem(252);
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+                    Main.LocalPlayer.QuickSpawnItem(252);
 					Main.LocalPlayer.QuickSpawnItem(253);
 					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
 				});
@@ -424,7 +444,8 @@ namespace SpiritMod.NPCs.Town
 					 };
 					int loot3 = Main.rand.Next(lootTable1.Length);
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<WheezerPainting>());
-					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<Carapace>(), Main.rand.Next(4, 10));
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<Carapace>(), Main.rand.Next(4, 10));
 					Main.LocalPlayer.QuickSpawnItem(lootTable1[loot3], Main.rand.Next(18, 30));
 					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
 				});
@@ -455,7 +476,8 @@ namespace SpiritMod.NPCs.Town
 					 ModContent.ItemType<ScrapItem3>(),
 					 ModContent.ItemType<ScrapItem4>(),
 					 };
-					int loot = Main.rand.Next(lootTable.Length);
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+                    int loot = Main.rand.Next(lootTable.Length);
 					int loot2 = Main.rand.Next(lootTable1.Length);
 					int loot3 = Main.rand.Next(lootTable1.Length);
 					Main.LocalPlayer.QuickSpawnItem(lootTable[loot3]);

@@ -19,13 +19,12 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			projectile.hostile = false;
 			projectile.magic = true;
-			projectile.width = 24;
-			projectile.height = 24;
+			projectile.width = 16;
+			projectile.height = 30;
 			projectile.hide = true;
 			projectile.aiStyle = -1;
 			projectile.friendly = true;
 			projectile.penetrate = -1;
-			projectile.alpha = 100;
 			projectile.timeLeft = 40;
 			projectile.tileCollide = false;
 		}
@@ -35,6 +34,14 @@ namespace SpiritMod.Projectiles.Magic
 		}
 		public override void AI()
 		{
+			if (projectile.timeLeft >= 35)
+            {
+                projectile.alpha = 255;
+            }
+			else
+            {
+                projectile.alpha = 0 + (40 - projectile.timeLeft) * 6;
+            }
 			if (projectile.ai[0] > 7)
 			{
 				projectile.velocity = Vector2.Zero;
@@ -44,7 +51,20 @@ namespace SpiritMod.Projectiles.Magic
 				projectile.ai[0]++;
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 			}
-		}
+            if (projectile.velocity != Vector2.Zero)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height * 2, 199, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                    Main.dust[dust].scale = Main.rand.NextFloat(.9f, 1.75f);
+                    Main.dust[dust].noGravity = true;
+                    int dust1 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height * 2, 173, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                    Main.dust[dust1].scale = Main.rand.NextFloat(.9f, 1.75f);
+                    Main.dust[dust1].noGravity = true;
+                    Main.dust[dust1].noLight = true;
+                }
+            }
+        }
 	}
 }
 

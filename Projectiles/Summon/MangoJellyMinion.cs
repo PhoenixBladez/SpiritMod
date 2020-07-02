@@ -35,9 +35,18 @@ namespace SpiritMod.Projectiles.Summon
 		}
 		bool jump = false;
 		int xoffset = 0;
-		public override void AI()
-		{
-			bool flag64 = projectile.type == ModContent.ProjectileType<MangoJellyMinion>();
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return new Color(250, 210, 230);
+        }
+        public override void AI()
+        {
+            float num = 1f - (float)projectile.alpha / 255f;
+            num *= projectile.scale;
+            float num395 = Main.mouseTextColor / 155f - 0.35f;
+            num395 *= 0.34f;
+            projectile.scale = num395 + 0.55f;
+            bool flag64 = projectile.type == ModContent.ProjectileType<MangoJellyMinion>();
 			Player player = Main.player[projectile.owner];
 			if (projectile.Distance(player.Center) > 1500)
 			{
@@ -80,25 +89,25 @@ namespace SpiritMod.Projectiles.Summon
 			if(target.active && !target.friendly)
 			{
 				if(target.position.X > projectile.position.X) {
-					xoffset = Main.rand.Next(8,14);
+					xoffset = Main.rand.Next(24,28);
 				} else {
-					xoffset = Main.rand.Next(-14,-8);
+					xoffset = Main.rand.Next(-28,-24);
 				}
 				projectile.ai[0]++;
 				projectile.velocity.X *= 0.99f;
 				if(!jump) {
 					if(projectile.velocity.Y < 7.5f) {
-						projectile.velocity.Y += 0.05f;
+						projectile.velocity.Y += 0.085f;
 					}
-					if(target.position.Y < projectile.position.Y && projectile.ai[0] % 20 == 0) {
+					if(target.position.Y < projectile.position.Y && projectile.ai[0] % 10 == 0) {
 						jump = true;
-						projectile.velocity.X = xoffset / 1.25f;
-						projectile.velocity.Y = -6.5f;
+						projectile.velocity.X = xoffset / 1.15f;
+						projectile.velocity.Y = -1.5f;
 					}
 				}
 				if(jump) {
-					projectile.velocity *= 0.97f;
-					if(Math.Abs(projectile.velocity.X) < 0.3f) {
+					projectile.velocity *= 0.96f;
+					if(Math.Abs(projectile.velocity.X) < 0.4f) {
 						jump = false;
 					}
 					projectile.rotation = projectile.velocity.ToRotation() + 1.57f;

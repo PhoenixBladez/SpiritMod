@@ -644,9 +644,6 @@ namespace SpiritMod.NPCs
 					//shop.item[nextSlot].SetDefaults(ModContent.ItemType<TikiArrow>());
 					//nextSlot++;
 				}
-			} else if(type == NPCID.Painter) {
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Material.Canvas>());
-				nextSlot++;
 			}
 		}
 
@@ -675,8 +672,8 @@ namespace SpiritMod.NPCs
 				if(MyWorld.BlueMoon && !Main.dayTime)
 					pool.Remove(0);
 				if(TideWorld.TheTide && spawnInfo.player.ZoneBeach)
-					pool.Remove(0);
-			}
+                    pool.Clear();
+            }
 			if(spawnInfo.player.GetSpiritPlayer().ZoneAsteroid) {
 				pool.Clear();
 				pool.Add(NPCType<DeepspaceHopper>(), .55f);

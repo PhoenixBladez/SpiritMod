@@ -285,7 +285,7 @@ namespace SpiritMod.Tide.NPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if(TideWorld.TheTide && TideWorld.InBeach && NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3 && !NPC.AnyNPCs(ModContent.NPCType<SulfurElemental>()))
+			if(TideWorld.TheTide && spawnInfo.player.ZoneBeach && NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3 && !NPC.AnyNPCs(ModContent.NPCType<SulfurElemental>()))
 				return 0.3f;
 
 			return 0;
@@ -298,7 +298,7 @@ namespace SpiritMod.Tide.NPCs
 			}
 			if(npc.life <= 0) {
 				if(TideWorld.TheTide) {
-					TideWorld.TidePoints2 += 4;
+					TideWorld.TidePoints += 4;
 				}
 				npc.position.X = npc.position.X + (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y + (float)(npc.height / 2);

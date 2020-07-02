@@ -97,8 +97,8 @@ namespace SpiritMod.Tide.NPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if(TideWorld.TheTide && TideWorld.InBeach && Main.hardMode && !NPC.AnyNPCs(ModContent.NPCType<Rylheian>()))
-				return 0.6f;
+			if(TideWorld.TheTide && spawnInfo.player.ZoneBeach)
+				return 10.6f;
 
 			return 0;
 		}
@@ -122,7 +122,7 @@ namespace SpiritMod.Tide.NPCs
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Tentacle"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/TentacleHead"), 1f);
 				if(TideWorld.TheTide) {
-					TideWorld.TidePoints2 += 3;
+					TideWorld.TidePoints += 3;
 				}
 			}
 		}

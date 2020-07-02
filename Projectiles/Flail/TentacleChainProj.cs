@@ -15,8 +15,8 @@ namespace SpiritMod.Projectiles.Flail
 
 		public override void SetDefaults()
 		{
-			projectile.width = 8;
-			projectile.height = 8;
+            projectile.width = 10;
+			projectile.height = 10;
 			projectile.friendly = true;
 			projectile.penetrate = -1;
 			projectile.timeLeft = 900;
@@ -25,6 +25,7 @@ namespace SpiritMod.Projectiles.Flail
 		//  bool comingHome = false;
 		public override bool PreAI()
 		{
+            projectile.velocity.Y += .0625f;
 			if(projectile.Hitbox.Intersects(Main.player[projectile.owner].Hitbox) && projectile.timeLeft < 870) {
 				projectile.active = false;
 			}
@@ -39,15 +40,45 @@ namespace SpiritMod.Projectiles.Flail
 			}
 			return false;
 		}
-		//projectile.ai[0]: X speed initial
-		//projectile.ai[1]: y speed initial
-
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        //projectile.ai[0]: X speed initial
+        //projectile.ai[1]: y speed initial
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            for (int i = 0; i < 20; i++)
+            {
+                int num = Dust.NewDust(target.position, target.width, target.height, 199, 0f, -2f, 0, default(Color), 2f);
+                Main.dust[num].noGravity = true;
+                Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+                Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
+                Main.dust[num].scale *= .85f;
+                if (Main.dust[num].position != target.Center)
+                    Main.dust[num].velocity = target.DirectionTo(Main.dust[num].position) * 5f;
+            }
+        }
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            for (int i = 0; i < 20; i++)
+            {
+                int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 199, 0f, -2f, 0, default(Color), 2f);
+                Main.dust[num].noGravity = true;
+                Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+                Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
+                Main.dust[num].scale *= .825f;
+                if (Main.dust[num].position != projectile.Center)
+                    Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 5f;
+            }
+            return true;
+        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			ProjectileExtras.DrawChain(projectile.whoAmI, Main.player[projectile.owner].MountedCenter,
 			"SpiritMod/Projectiles/Flail/TentacleChain_Chain");
 			ProjectileExtras.DrawAroundOrigin(projectile.whoAmI, lightColor);
 			return false;
 		}
+		public override void Kill(int timeLeft)
+        {
+            Main.PlaySound(0, projectile.Center);
+        }
 	}
 }

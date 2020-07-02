@@ -13,7 +13,6 @@ namespace SpiritMod.Projectiles.Bullet
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 1);
 			//  Projectile.NewProjectile(projectile.Center, new Vector2(3,0), ModContent.ProjectileType<CoconutSpurtShard>(), projectile.damage, 0, Main.myPlayer);
 			//   Projectile.NewProjectile(projectile.Center, new Vector2(-3,0), ModContent.ProjectileType<CoconutSpurtShard>(), projectile.damage, 0, Main.myPlayer);
 			Vector2 GoreVel = projectile.velocity;

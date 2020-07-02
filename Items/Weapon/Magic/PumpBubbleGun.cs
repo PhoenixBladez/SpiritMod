@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bubble Pump Shotgun");
-			Tooltip.SetDefault("The longer you hold, the bigger the blast");
+			Tooltip.SetDefault("Hold for a longer blast\nConsumes 10 mana every second");
 
 		}
 
@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.useAnimation = 24;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.noMelee = true;
-			item.knockBack = 0;
+			item.knockBack = 3;
 			item.useTurn = false;
 			item.value = Terraria.Item.sellPrice(0, 0, 42, 0);
 			item.rare = ItemRarityID.Orange;

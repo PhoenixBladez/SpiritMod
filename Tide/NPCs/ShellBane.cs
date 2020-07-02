@@ -47,7 +47,7 @@ namespace SpiritMod.Tide.NPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if(TideWorld.TheTide && TideWorld.InBeach && NPC.downedMechBossAny)
+			if(TideWorld.TheTide && spawnInfo.player.ZoneBeach && NPC.downedMechBossAny)
 				return 6.2f;
 
 			return 0;
@@ -103,7 +103,7 @@ namespace SpiritMod.Tide.NPCs
 				int dust2 = Dust.NewDust(npc.position, npc.width, npc.height, 107);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Clampeye"), 1f);
 				if(TideWorld.TheTide) {
-					TideWorld.TidePoints2 += 1;
+					TideWorld.TidePoints += 1;
 				}
 			}
 		}

@@ -1,23 +1,25 @@
-using Microsoft.Xna.Framework;
-using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-
-namespace SpiritMod.Tiles.Ambient
+using Microsoft.Xna.Framework;
+namespace SpiritMod.Tiles.Furniture.AdvPaintings
 {
-	public class Canvas_Tile : ModTile
+	public class AdvPainting18Tile : ModTile
 	{
 		public override void SetDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
+			Main.tileNoAttach[Type] = true;
 			Main.tileLavaDeath[Type] = true;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
-			TileObjectData.newTile.Height = 2;
-			TileObjectData.newTile.Width = 2;
+			TileObjectData.newTile.Height = 5;
+			TileObjectData.newTile.Width = 5;
 			TileObjectData.newTile.CoordinateHeights = new int[]
 			{
+				16,
+				16,
+				16,
 				16,
 				16
 			};
@@ -26,16 +28,19 @@ namespace SpiritMod.Tiles.Ambient
 			TileObjectData.newTile.AnchorWall = true;
 			TileObjectData.addTile(Type);
 			dustType = -1;
-			disableSmartCursor = true;
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Canvas");
-			AddMapEntry(new Color(0, 80, 252), name);
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Painting");
+            AddMapEntry(new Color(150, 150, 150), name);
+        }
+
+		public override void NumDust(int i, int j, bool fail, ref int num)
+		{
+			num = fail ? 1 : 3;
 		}
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			int item = ModContent.ItemType<Canvas>();
-			Item.NewItem(i * 16, j * 16, 48, 48, item);
+			Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<Items.Placeable.Furniture.AdvPaintings.AdvPainting17>());
 		}
 	}
 }

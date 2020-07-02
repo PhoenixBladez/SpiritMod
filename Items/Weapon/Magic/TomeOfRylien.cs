@@ -14,27 +14,26 @@ namespace SpiritMod.Items.Weapon.Magic
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Tome Of Rylien");
+			DisplayName.SetDefault("Tome of R'lyeh");
 		}
 
 
 
 		public override void SetDefaults()
 		{
-			item.damage = 32;
+			item.damage = 29;
 			item.noMelee = true;
 			item.magic = true;
 			item.width = 28;
 			item.height = 28;
 			item.useTime = 10;
-			item.mana = 4;
+			item.mana = 5;
 			item.useAnimation = 10;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.knockBack = 7;
+			item.knockBack = 5;
 			item.value = Terraria.Item.buyPrice(0, 2, 0, 0);
-			item.rare = ItemRarityID.Red;
-			item.crit = 3;
-			item.UseSound = SoundID.Item123;
+			item.rare = 3;
+			item.UseSound = SoundID.Item103;
 			item.autoReuse = true;
 			item.shootSpeed = 11;
 			item.shoot = ModContent.ProjectileType<TentacleSpike>();

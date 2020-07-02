@@ -33,6 +33,19 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			Player player = Main.player[projectile.owner];
 			player.heldProj = projectile.whoAmI;
+            projectile.ai[1]++;
+            if (projectile.ai[1] >= 60)
+            {
+                projectile.ai[1] = 0;
+                if (player.statMana > 0)
+                {
+                    player.statMana-= 10;
+                }
+            }
+			if (player.statMana <= 0)
+            {
+                projectile.Kill();
+            }
 			player.itemTime = 5;
 			player.itemAnimation = 5;
 			player.velocity.X *= 0.97f;
@@ -45,12 +58,12 @@ namespace SpiritMod.Projectiles.Magic
 			if(player.channel && !firing)
 		 	{
 				projectile.position = player.Center;
-				if (counter < 150)
+				if (counter < 100)
 				{
 					counter++;
-					if (counter % 30 == 29)
+					if (counter % 20 == 19)
 					{
-						Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 2);
+						Main.PlaySound(25, (int)projectile.position.X, (int)projectile.position.Y);
 					}
 				}
 			} 
@@ -69,7 +82,7 @@ namespace SpiritMod.Projectiles.Magic
 							ModContent.ProjectileType<GunBubble4>(), 
 							ModContent.ProjectileType<GunBubble5>()
 						});
-						Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 54);
+						Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 85);
 						Projectile.NewProjectile(player.Center, direction.RotatedBy(Main.rand.NextFloat(-0.3f, 0.3f)) * Main.rand.NextFloat(0.85f, 1.15f), bubbleproj, projectile.damage, projectile.knockBack, projectile.owner);
 					}
 				}

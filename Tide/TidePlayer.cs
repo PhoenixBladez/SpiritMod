@@ -1,36 +1,39 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.DataStructures;
+using Terraria.Graphics.Shaders;
+using Terraria.ModLoader.IO;
+using Terraria.GameInput;
 namespace SpiritMod.Tide
 {
-	public class TidePlayer : ModPlayer
-	{
-		public override void PostUpdate()
-		{
+    public class TidePlayer : ModPlayer
+    {
+        public bool createdProjectiles;
+        public override void PostUpdate()
+        {
 
-			if(!TideWorld.TheTide) {
-				TideWorld.TidePoints2 = 0;
-			}
-			if(TideWorld.TheTide) {
-				if(player.ZoneBeach) {
-					TideWorld.InBeach = true;
-				} else {
-					TideWorld.InBeach = false;
-				}
-				//const int spawnOffsetX = 600;
-				//const int spawnOffsetY = 600;
-				//if (Main.rand.Next(1200) == 1 && !NPC.downedMechBossAny)
-				//NPC.NewNPC((int)player.Center.X + spawnOffsetX, (int)player.Center.Y, ModContent.NPCType<Clamper>());
-				//if (Main.rand.Next(1200) == 1 && !NPC.downedMechBossAny)
-				//NPC.NewNPC((int)player.Center.X - spawnOffsetX, (int)player.Center.Y, ModContent.NPCType<Clamper>());
-				//Stuff for manually spawning if spawning is broken
-			}
-			TideWorld.TidePoints = TideWorld.TidePoints2;
-			if(TideWorld.TidePoints2 >= 100) {
-				Main.NewText("The Tide has waned!", 39, 86, 134);
-				TideWorld.TidePoints2 = 0;
-				TideWorld.TheTide = false;
-			}
-		}
-	}
+            if (!TideWorld.TheTide)
+            {
+                TideWorld.TidePoints = 0;
+                TideWorld.EnemyKills = 0;
+                createdProjectiles = false;
+            }
+            else if (TideWorld.TidePoints >= 100)
+            {
+                TideWorld.TidePoints = 0;
+                TideWorld.EnemyKills = 0;
+                Main.NewText("The tide has ended.", 145, 0, 255);
+                TideWorld.TheTide = false;
+            }
+        }
+    }
 }

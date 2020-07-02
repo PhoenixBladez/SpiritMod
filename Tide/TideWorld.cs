@@ -3,29 +3,25 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Tide
 {
-	public class TideWorld : ModWorld
-	{
-		public static int TidePoints = 0;
-		public static int TidePoints2;
-		public static bool TheTide;
-		public static bool InBeach;
-
-		public override void Initialize()
-		{
-			InBeach = false;
-			TheTide = false;
-			TidePoints2 = 0;
-		}
-
-		public override void PostUpdate()
-		{
-			if(TidePoints2 >= 100 || TidePoints >= 100) {
-				Main.NewText("The Tide has waned!", 85, 172, 247);
-				TidePoints2 = 0;
-				TidePoints = 0;
-				TheTide = false;
-			}
-		}
-
-	}
+    public class TideWorld : ModWorld
+    {
+        public static int TidePoints = 0;
+        public static int EnemyKills = 0;
+        public static bool TheTide;
+        public override void Initialize()
+        {
+            TheTide = false;
+        }
+        public override void PostUpdate()
+        {
+            //TidePoints = EnemyKills / 2;
+            if (TidePoints >= 100)
+            {
+                Main.NewText("The tide has ended.", 145, 0, 255);
+                TidePoints = 0;
+                EnemyKills = 0;
+                TheTide = false;
+            }
+        }
+    }
 }
