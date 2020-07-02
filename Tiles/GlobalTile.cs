@@ -100,6 +100,24 @@ namespace SpiritMod.Tiles
 					}
 				}
 			}
+			if(type == TileID.SnowBlock && j < WorldGen.rockLayer) {
+				if(MyWorld.SnowBerries < 20) {
+					if((TileArray212.Contains(Framing.GetTileSafely(i, j - 1).type) && TileArray212.Contains(Framing.GetTileSafely(i, j - 2).type) && TileArray212.Contains(Framing.GetTileSafely(i, j - 3).type)) && (j > (int)Main.worldSurface - 100 && j < (int)Main.rockLayer - 20)) {
+						if(Main.rand.Next(3) == 0) {
+							WorldGen.PlaceObject(i, j - 1, mod.TileType("IceBerriesTile"));
+							NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("IceBerriesTile"), 0, 0, -1, -1);
+						}
+						if(Main.rand.Next(3) == 0) {
+							WorldGen.PlaceObject(i, j - 1, mod.TileType("IceBerriesTile"));
+							NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("IceBerriesTile"), 0, 0, -1, -1);
+						}
+						if(Main.rand.Next(3) == 0) {
+							WorldGen.PlaceObject(i, j - 1, mod.TileType("IceBerriesTile"));
+							NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("IceBerriesTile"), 0, 0, -1, -1);
+						}
+					}
+				}
+			}
 		}
 		public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
 		{

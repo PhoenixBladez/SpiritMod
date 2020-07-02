@@ -27,7 +27,7 @@ namespace SpiritMod.Tiles.Ambient
 			dustType = -3;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Ice Berries");
-			AddMapEntry(new Color(200, 200, 200), name);
+			AddMapEntry(new Color(200, 0, 100), name);
 		}
 		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
 		{

@@ -70,6 +70,7 @@ namespace SpiritMod
 		public static int ReachTiles = 0;
 		public static int HiveTiles = 0;
 		public static int CorruptHazards = 0;
+		public static int SnowBerries = 0;
 
 		public static bool Magicite = false;
 		public static bool Thermite = false;
@@ -122,6 +123,7 @@ namespace SpiritMod
 			ReachTiles = tileCounts[ModContent.TileType<BriarGrass>()];
 			AsteroidTiles = tileCounts[ModContent.TileType<Asteroid>()] + tileCounts[ModContent.TileType<BigAsteroid>()] + tileCounts[ModContent.TileType<SpaceJunkTile>()] + tileCounts[ModContent.TileType<Glowstone>()];
 			CorruptHazards = tileCounts[ModContent.TileType<Corpsebloom>()] + tileCounts[ModContent.TileType<Corpsebloom1>()] + tileCounts[ModContent.TileType<Corpsebloom2>()];
+			SnowBerries = tileCounts[ModContent.TileType<IceBerriesTile>()];
 			MarbleTiles = tileCounts[367];
 			GraniteTiles = tileCounts[368];
 			HiveTiles = tileCounts[225];
