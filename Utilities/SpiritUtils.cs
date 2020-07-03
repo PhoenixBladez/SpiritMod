@@ -12,6 +12,14 @@ namespace SpiritMod
 
 		public static bool IsUsingAlt(this Player player) => player.altFunctionUse == 2;
 
+		public static void AddAllCrit(this Player player, int crit)
+		{
+			player.meleeCrit += crit;
+			player.rangedCrit += crit;
+			player.magicCrit += crit;
+			player.thrownCrit += crit;
+		}
+
 		public static float GetDamageBoost(this Player player)
 		{
 			float[] damageTypes = new float[] { player.meleeDamage, player.magicDamage, player.rangedDamage, player.thrownDamage, player.minionDamage };

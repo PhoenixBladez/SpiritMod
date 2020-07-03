@@ -31,12 +31,7 @@ namespace SpiritMod.Tide.NPCs
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			if(TideWorld.TheTide && spawnInfo.player.ZoneBeach && NPC.downedMechBossAny)
-				return 3.7f;
-
-			return 0;
-		}
+			=> TideWorld.TheTide && spawnInfo.player.ZoneBeach && NPC.downedMechBossAny ? 3.7f : 0f;
 
 		public override bool PreAI()
 		{
@@ -46,7 +41,7 @@ namespace SpiritMod.Tide.NPCs
 				npc.ai[0]++;
 				if(npc.ai[0] >= 120) {
 					int type = ModContent.ProjectileType<PoisonGlob>();
-					int p = Terraria.Projectile.NewProjectile(npc.position.X, npc.position.Y, -(npc.position.X - target.position.X) / distance * 4, -(npc.position.Y - target.position.Y) / distance * 4, type, (int)((npc.damage * .5)), 0);
+					int p = Projectile.NewProjectile(npc.position.X, npc.position.Y, -(npc.position.X - target.position.X) / distance * 4, -(npc.position.Y - target.position.Y) / distance * 4, type, (int)(npc.damage * .5f), 0);
 					Main.projectile[p].friendly = false;
 					Main.projectile[p].hostile = true;
 					npc.ai[0] = 0;
@@ -57,21 +52,19 @@ namespace SpiritMod.Tide.NPCs
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			for(int i = 0; i < 10; i++)
-				;
 			if(npc.life <= 0) {
-				npc.position.X = npc.position.X + (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
+				npc.position.X = npc.position.X + (npc.width / 2);
+				npc.position.Y = npc.position.Y + (npc.height / 2);
 				npc.width = 30;
 				npc.height = 30;
-				npc.position.X = npc.position.X - (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+				npc.position.X = npc.position.X - (npc.width / 2);
+				npc.position.Y = npc.position.Y - (npc.height / 2);
 				for(int num621 = 0; num621 < 20; num621++) {
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 172, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 172, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
 					if(Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.5f;
-						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+						Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
 					}
 				}
 				if(TideWorld.TheTide) {
@@ -90,7 +83,7 @@ namespace SpiritMod.Tide.NPCs
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frameCounter += 0.10000000149011612;
-			npc.frameCounter %= (double)Main.npcFrameCount[npc.type];
+			npc.frameCounter %= Main.npcFrameCount[npc.type];
 			int num = (int)npc.frameCounter;
 			npc.frame.Y = num * frameHeight;
 			npc.spriteDirection = npc.direction;
