@@ -2364,7 +2364,7 @@ namespace SpiritMod
 							Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
 							{
 								for(int i = 0; i < 8 * num323; i++) {
-									int num = Dust.NewDust(player.position, player.width, player.height, 226, 0f, -2f, 0, default(Color), 2f);
+									int num = Dust.NewDust(player.position, player.width, player.height, 226, 0f, -2f, 0, default, 2f);
 									Main.dust[num].noGravity = true;
 									Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 									Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -2375,7 +2375,7 @@ namespace SpiritMod
 							}
 							int proj = Projectile.NewProjectile(player.position.X, player.position.Y,
 								0, 0, ModContent.ProjectileType<GraniteSpike1>(), num323 * 10, 0, player.whoAmI);
-							int proj1 = Projectile.NewProjectile(player.position.X, player.position.Y,
+							Projectile.NewProjectile(player.position.X, player.position.Y,
 							   0, 0, ModContent.ProjectileType<StompExplosion>(), num323 * 10, 6, player.whoAmI);
 							Main.projectile[proj].timeLeft = 0;
 							Main.projectile[proj].ranged = true;
@@ -2388,7 +2388,7 @@ namespace SpiritMod
 				if(stompCooldown == 0) {
 					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(25, 1));
 					for(int i = 0; i < 2; i++) {
-						int num = Dust.NewDust(player.position, player.width, player.height, 226, 0f, -2f, 0, default(Color), 2f);
+						int num = Dust.NewDust(player.position, player.width, player.height, 226, 0f, -2f, 0, default, 2f);
 						Main.dust[num].noGravity = true;
 						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 						Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -2820,7 +2820,7 @@ namespace SpiritMod
 							num323 = 16;
 						}
 						Vector2 vector2 = Vector2.UnitX;
-						vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(1f * num323, 16f);
+						vector2 += -Vector2.UnitY.RotatedBy(j * 3.141591734f / 6f, default) * new Vector2(1f * num323, 16f);
 						int num8 = Dust.NewDust(player.Center, 0, 0, 226, 0f, 0f, 160, new Color(), 1f);
 						Main.dust[num8].scale = .68f;
 						Main.dust[num8].noGravity = true;
@@ -2840,12 +2840,10 @@ namespace SpiritMod
 				if(concentratedCooldown == 0) {
 					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(25, 1));
 				}
-				{
-					if(player.velocity.X != 0f) {
-						concentratedCooldown--;
-					} else {
-						concentratedCooldown -= 2;
-					}
+				if(player.velocity.X != 0f) {
+					concentratedCooldown--;
+				} else {
+					concentratedCooldown -= 2;
 				}
 			} else {
 				concentrated = false;
@@ -2898,15 +2896,15 @@ namespace SpiritMod
 							astralSetStacks++;
 						}
 						Vector2 center = player.Center;
-						float num8 = (float)player.miscCounter / 40f;
+						float num8 = player.miscCounter / 40f;
 						float num7 = 1.0471975512f * 2;
 						for(int k = 0; k < astralSetStacks; k++) {
 							{
-								int num6 = Dust.NewDust(center, 0, 0, 206, 0f, 0f, 100, default(Color), 1.3f);
+								int num6 = Dust.NewDust(center, 0, 0, 206, 0f, 0f, 100, default, 1.3f);
 								Main.dust[num6].noGravity = true;
 								Main.dust[num6].velocity = Vector2.Zero;
 								Main.dust[num6].noLight = true;
-								Main.dust[num6].position = center + (num8 * 6.28318548f + num7 * (float)i).ToRotationVector2() * 12f;
+								Main.dust[num6].position = center + (num8 * 6.28318548f + num7 * i).ToRotationVector2() * 12f;
 							}
 						}
 					}
@@ -2991,7 +2989,7 @@ namespace SpiritMod
 						}
 						for(int k = 0; k < bloodfireShieldStacks; k++) {
 							if(Main.rand.NextBool(6)) {
-								int d = Dust.NewDust(player.position, player.width, player.height, 5, 0f, 0f, 0, default, .14f * bloodfireShieldStacks);
+								Dust.NewDust(player.position, player.width, player.height, 5, 0f, 0f, 0, default, .14f * bloodfireShieldStacks);
 							}
 						}
 					}
@@ -3001,12 +2999,12 @@ namespace SpiritMod
 			}
 
 			if(player.controlUp && scarabCharm) {
-				if((double)player.gravDir == -1.0) {
+				if(player.gravDir == -1.0f) {
 					player.itemRotation = -player.itemRotation;
-					player.itemLocation.Y = (float)((double)player.position.Y + (double)player.height + ((double)player.position.Y - (double)player.itemLocation.Y));
-					if((double)player.velocity.Y < -2.0)
+					player.itemLocation.Y = (float)(player.position.Y + player.height + (player.position.Y - player.itemLocation.Y));
+					if(player.velocity.Y < -2.0f)
 						player.velocity.Y = -2f;
-				} else if((double)player.velocity.Y > 2.0)
+				} else if(player.velocity.Y > 2.0f)
 					player.velocity.Y = 2f;
 			}
 
@@ -3068,8 +3066,8 @@ namespace SpiritMod
 
 			// Update armor sets.
 			if(infernalSet) {
-				int percentageLifeLeft = (int)(player.statLife / player.statLifeMax2 * 100);
-				if(percentageLifeLeft <= 25) {
+				float percentageLifeLeft = (float)player.statLife / player.statLifeMax2;
+				if(percentageLifeLeft <= 0.25f) {
 					player.statDefense -= 4;
 					player.manaCost += 0.25F;
 					player.magicDamage += 0.5F;
@@ -3085,7 +3083,7 @@ namespace SpiritMod
 					if(spawnProj) {
 						for(int i = 0; i < 3; ++i) {
 							int newProj = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<InfernalGuard>(), 0, 0, player.whoAmI, 90, 1);
-							Main.projectile[newProj].localAI[1] = 2f * (float)Math.PI / 3f * i;
+							Main.projectile[newProj].localAI[1] = 2f * MathHelper.Pi / 3f * i;
 						}
 					}
 
