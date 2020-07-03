@@ -22,19 +22,19 @@ namespace SpiritMod.NPCs.Tides
 
 		public override void SetDefaults()
 		{
-			npc.width = 48;
-			npc.height = 52;
-			npc.damage = 22;
-			npc.defense = 4;
-			aiType = NPCID.SnowFlinx;
-			npc.aiStyle = 3;
-			npc.lifeMax = 135;
-			npc.knockBackResist = .20f;
-			npc.value = 200f;
-			npc.noTileCollide = false;
-			npc.HitSound = SoundID.NPCHit2;
-			npc.DeathSound = SoundID.NPCDeath1;
-		}
+            npc.width = 48;
+            npc.height = 52;
+            npc.damage = 28;
+            npc.defense = 16;
+            aiType = NPCID.SnowFlinx;
+            npc.aiStyle = 3;
+            npc.lifeMax = 140;
+            npc.knockBackResist = .10f;
+            npc.value = 200f;
+            npc.noTileCollide = false;
+            npc.HitSound = SoundID.NPCHit2;
+            npc.DeathSound = SoundID.NPCDeath1;
+        }
 		bool blocking = false;
 		int blockTimer = 0;
 		public override void AI()

@@ -3,6 +3,7 @@ using SpiritMod.Items.Material;
 using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Items.Weapon.Thrown;
 using SpiritMod.NPCs.Ocean;
+using SpiritMod.Items.Consumable.Food;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
@@ -103,18 +104,6 @@ namespace SpiritMod.Tiles
 					}
 				}
 			}
-			if(type == TileID.SnowBlock) {
-				if(MyWorld.SnowBerries < 20) {
-					if((TileArray212.Contains(Framing.GetTileSafely(i, j - 1).type) && TileArray212.Contains(Framing.GetTileSafely(i, j - 2).type) && (j > (int)Main.worldSurface - 100 && j < (int)Main.rockLayer - 20))) {
-						if(Main.rand.Next(3) == 0) {
-							WorldGen.PlaceObject(i, j - 1, mod.TileType("IceBerriesTile"));
-							NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("IceBerriesTile"), 0, 0, -1, -1);
-                            MyWorld.SnowBerries++;
-
-                        }
-					}
-				}
-			}
 		}
 		public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
 		{
@@ -175,10 +164,18 @@ namespace SpiritMod.Tiles
 					NPC.NewNPC(i * 16, (j - 10) * 16, ModContent.NPCType<OceanSlime>(), 0, 0.0f, 0.0f, 0.0f, 0.0f, (int)byte.MaxValue);
 				}
 			}
+			
 			if(type == 72) {
 				Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<GlowRoot>(), Main.rand.Next(0, 2));
-			}
-			return base.Drop(i, j, type);
+            }
+            if (type == TileID.Trees && Main.rand.Next(25) == 0 && player.ZoneSnow)
+            {
+                if (Main.rand.Next(2) == 1)
+                {
+                    Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<IceBerries>(), Main.rand.Next(1, 3));
+                }
+            }
+            return base.Drop(i, j, type);
 		}
 	}
 }

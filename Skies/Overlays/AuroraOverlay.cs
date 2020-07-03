@@ -36,7 +36,7 @@ namespace SpiritMod.Skies.Overlays
 
 		public override bool IsVisible()
 		{
-			return Main.gameMenu;
+			return !Main.gameMenu;
 		}
 
 		public override void Update(GameTime gameTime)

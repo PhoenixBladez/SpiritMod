@@ -25,7 +25,7 @@ namespace SpiritMod.NPCs.Tides
 			npc.width = 42;
 			npc.height = 38;
 			npc.damage = 24;
-			npc.defense = 4;
+			npc.defense = 12;
 			aiType = NPCID.SnowFlinx;
 			npc.aiStyle = 3;
 			npc.lifeMax = 120;

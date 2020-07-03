@@ -59,19 +59,28 @@ namespace SpiritMod.NPCs.BlueMoon
 		int frame;
 		public override void AI()
 		{
-			npc.spriteDirection = npc.direction;
-			timer++;
+            Player player = Main.player[npc.target];
+            timer++;
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), .196f * 3, .092f * 3, 0.214f * 3);
 			++npc.ai[1];
 			if(npc.ai[1] >= 600) {
-				npc.velocity.X *= .002f;
-				reflectPhase = true;
+				npc.velocity.X *= .012f;
+                if (player.position.X > npc.position.X)
+                {
+                    npc.spriteDirection = 1;
+                }
+                else
+                {
+                    npc.spriteDirection = -1;
+                }
+                reflectPhase = true;
 				npc.defense = 9999;
 				{
 					DoDustEffect(npc.Center, 74f);
 				}
 			} else {
-				reflectPhase = false;
+                npc.spriteDirection = npc.direction;
+                reflectPhase = false;
 				npc.defense = 20;
 				if(timer >= 4) {
 					frame++;

@@ -63,16 +63,20 @@ namespace SpiritMod.NPCs.Tides
 				switch(Main.rand.Next(4)) {
 					case 0:
 						npc.Transform(ModContent.NPCType<KakamoraRunner>());
-						break;
+                        npc.life = npc.life;
+                        break;
 					case 1:
 						npc.Transform(ModContent.NPCType<SpearKakamora>());
-						break;
+                        npc.life = npc.life;
+                        break;
 					case 2:
 						npc.Transform(ModContent.NPCType<SwordKakamora>());
-						break;
+                        npc.life = npc.life;
+                        break;
 					case 3:
 						npc.Transform(ModContent.NPCType<KakamoraShielder>());
-						break;
+                        npc.life = npc.life;
+                        break;
 				}
 			}
 		}

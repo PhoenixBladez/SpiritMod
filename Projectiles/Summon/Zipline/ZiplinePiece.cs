@@ -16,7 +16,6 @@ namespace SpiritMod.Projectiles.Summon.Zipline
 		{
 			projectile.hostile = false;
 			projectile.width = 8;
-			projectile.melee = true;
 			projectile.height = 8;
 			projectile.aiStyle = -1;
 			projectile.friendly = false;

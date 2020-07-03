@@ -18,9 +18,10 @@ namespace SpiritMod.Projectiles.DonatorItems
 		public override void SetDefaults()
 		{
 			projectile.friendly = true;
-			projectile.magic = true;
+			projectile.minion = true;
 			projectile.width = 72;
 			projectile.height = 64;
+            projectile.sentry = true;
 			projectile.penetrate = -1;
 			projectile.timeLeft = 6000;
 		}

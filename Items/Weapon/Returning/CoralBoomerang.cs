@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Weapon.Returning
 		{
 			if(player.wet) {
 				item.damage = 13;
-				item.shootSpeed = 15f;
+				item.shootSpeed = 16f;
 			} else {
 				item.damage = 10;
 				item.shootSpeed = 11f;

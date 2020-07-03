@@ -26,8 +26,8 @@ namespace SpiritMod.NPCs.Tides
 		{
 			npc.width = 52;
 			npc.height = 38;
-			npc.damage = 24;
-			npc.defense = 4;
+			npc.damage = 28;
+			npc.defense = 14;
 			aiType = NPCID.SnowFlinx;
 			npc.aiStyle = 3;
 			npc.lifeMax = 120;
@@ -176,7 +176,7 @@ namespace SpiritMod.NPCs.Tides
 					direction *= 9f;
 					float A = (float)Main.rand.Next(-50, 50) * 0.02f;
 					float B = (float)Main.rand.Next(-50, 50) * 0.02f;
-					int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<CoconutHostile>(), npc.damage, 1, Main.myPlayer, 0, 0);
+					int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<CoconutHostile>(), npc.damage/2, 1, Main.myPlayer, 0, 0);
 					thrownCoconut = true;
 				}
 				npc.frameCounter %= 3;
