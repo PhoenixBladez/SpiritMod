@@ -73,6 +73,7 @@ namespace SpiritMod.Projectiles.Thrown
 			if(cracky) {
 				projectile.position.Y -= 20;
 				crit = true;
+				projectile.damage *= 3;
 				target.AddBuff(BuffID.Confused, 200);
 			}
 		}

@@ -74,7 +74,6 @@ namespace SpiritMod.NPCs.Tides
 			}
 			if(blocking) {
 				npc.aiStyle = 0;
-				npc.HitSound = SoundID.NPCHit4;
                 npc.noGravity = false;
 				if(player.position.X > npc.position.X) {
 					npc.spriteDirection = 1;
@@ -84,7 +83,6 @@ namespace SpiritMod.NPCs.Tides
 			} else {
                 npc.spriteDirection = npc.direction;
 				npc.aiStyle = 3;
-				npc.HitSound = SoundID.NPCHit2;
 				var list = Main.npc.Where(x => x.Hitbox.Intersects(npc.Hitbox));
 				foreach(var npc2 in list) {
 					if(npc2.type == ModContent.NPCType<LargeCrustecean>() && npc.Center.Y > npc2.Center.Y && npc2.active) {
@@ -128,7 +126,7 @@ namespace SpiritMod.NPCs.Tides
 					var list = Main.npc;
 					foreach(var npc2 in list) {
 						if(npc2.type == ModContent.NPCType<KakamoraRunner>() || npc2.type == ModContent.NPCType<KakamoraShielder>() || npc2.type == ModContent.NPCType<KakamoraShielderRare>() || npc2.type == ModContent.NPCType<SpearKakamora>() || npc2.type == ModContent.NPCType<SwordKakamora>()) {
-							if(Math.Abs(npc2.position.X - npc.position.X) < 500 && npc2.active) //500 is distance away he heals
+							if(Math.Abs(npc2.position.X - npc.position.X) < 500 && npc2.active && npc2.life < npc2.lifeMax) //500 is distance away he heals
 							{
 								int bolt = Terraria.Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-66, 66), npc.Center.Y - Main.rand.Next(60, 120), 0, 0, ModContent.ProjectileType<ShamanBolt>(), 0, 0);
 								Projectile p = Main.projectile[bolt];

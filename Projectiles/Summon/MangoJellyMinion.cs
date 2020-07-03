@@ -111,6 +111,7 @@ namespace SpiritMod.Projectiles.Summon
 							projectile.velocity.Y = -1.5f;
 						}
 					}
+					projectile.rotation = 0f;
 				}
 				if(jump) {
 					projectile.velocity *= 0.96f;

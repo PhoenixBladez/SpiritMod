@@ -34,6 +34,7 @@ namespace SpiritMod.Projectiles.Flail
 				projectile.velocity = projectile.velocity.RotatedBy(direction9.ToRotation() - projectile.velocity.ToRotation());
 				projectile.velocity *= 1.075f;
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+				projectile.tileCollide = false;
 			} else {
 				projectile.velocity -= new Vector2(projectile.ai[0], projectile.ai[1]) / 30f;
 				projectile.rotation = new Vector2(projectile.ai[0], projectile.ai[1]).ToRotation() - 1.57f;

@@ -1,5 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.Hostile;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Weapon.Flail;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -101,6 +103,21 @@ namespace SpiritMod.NPCs.Reach
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frame.Y = frameHeight * frame;
+		}
+		public override void NPCLoot()
+		{
+			if(Main.rand.Next(3) == 1) {
+				int Bark = Main.rand.Next(2) + 1;
+				for(int J = 0; J <= Bark; J++) {
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<AncientBark>());
+				}
+			}
+			if(!Main.dayTime) {
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EnchantedLeaf>());
+			}
+			if(Main.rand.Next(33) == 6) {
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<VineChain>());
+			}
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
