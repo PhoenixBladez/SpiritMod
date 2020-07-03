@@ -27,7 +27,7 @@ namespace SpiritMod.Projectiles.Hostile
 			projectile.timeLeft = 999;
 			projectile.tileCollide = true;
 			projectile.alpha = 255;
-			projectile.extraUpdates = 1;
+		//	projectile.extraUpdates = 1;
 		}
 		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
 		{
@@ -43,7 +43,7 @@ namespace SpiritMod.Projectiles.Hostile
 			 else
 			{
 				projectile.ai[0]++;
-				projectile.extraUpdates = 0;
+				//projectile.extraUpdates = 0;
 				if (projectile.ai[0] < 50)
 				{
 					projectile.timeLeft = 60;
@@ -53,19 +53,20 @@ namespace SpiritMod.Projectiles.Hostile
 					}
 					projectile.velocity = Vector2.Zero;
 				}
-				else if (projectile.ai[0] < 65)
+				else if (projectile.ai[0] < 60)
 				{
 					projectile.hostile = true;
-					projectile.velocity.Y = -8;
+					projectile.velocity.Y = -10;
 				}
 				else
 				{
 					projectile.velocity.Y = 3;
 					projectile.alpha += 10;
 				}
-				if (projectile.ai[0] == 60)
+				if (projectile.ai[0] == 50)
 				{
 					projectile.alpha = 0;
+					//put the sound effect here
 				}
 			}
 			return false;

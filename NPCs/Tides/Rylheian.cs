@@ -20,7 +20,7 @@ namespace SpiritMod.NPCs.Tides
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("R'lyehian");
-			Main.npcFrameCount[npc.type] = 6;
+			Main.npcFrameCount[npc.type] = 9;
 		}
 
 		public override void SetDefaults()
@@ -62,15 +62,16 @@ namespace SpiritMod.NPCs.Tides
 						teleported = true;
 						npc.alpha = 0;
 						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
+						DustHelper.DrawDiamond(npc.Center, 173, 12);
 					}
 				}
 			}
 			if (counter % 400 == 200)
 			{
-				phase = Main.rand.Next(2) + 1;
+				phase = Main.rand.Next(3) + 1;
 				angle = Main.rand.NextFloat(0.785f);
 			}
-			
+
 			#region phase 1
 			if (counter % 400 == 316 && phase == 1)
 			{
@@ -81,7 +82,7 @@ namespace SpiritMod.NPCs.Tides
 					Projectile p = Main.projectile[laser];
 					Vector2 direction = Main.player[npc.target].Center - p.Center;
 					direction.Normalize();
-					direction *= 15;
+					direction *= 19;
 					p.velocity = direction;
 				}
 				phase = 0;
@@ -109,13 +110,45 @@ namespace SpiritMod.NPCs.Tides
 				}
 			}
 			#endregion
+			#region phase 3
+			if (phase == 3)
+			{
+				if (counter % 25 == 10)
+				{
+					int angleS = Main.rand.Next(360);
+					double squidAnglex = Math.Sin(angleS * (Math.PI / 180));
+					double squidAngley = 0 - Math.Abs(Math.Cos(angleS * (Math.PI / 180)));
+					int squid = Projectile.NewProjectile(player.Center.X + (int)(500 * squidAnglex), player.Center.Y + (int)(500 * squidAngley), 0, 0, ModContent.ProjectileType<TentacleSquid>(), npc.damage, 0);
+					Projectile p = Main.projectile[squid];
+					Vector2 direction = Main.player[npc.target].Center - p.Center;
+					direction.Normalize();
+					direction *= 9f;
+					p.velocity = direction;
+					DustHelper.DrawTriangle(new Vector2(player.Center.X + (int)(500 * squidAnglex), player.Center.Y + (int)(500 * squidAngley)), 173, 3);
+				}
+				if (counter % 400 == 390)
+				{
+					phase = 0;
+				}
+			}
+			#endregion
 		}
 		public override void FindFrame(int frameHeight)
 		{
+			if (phase == 0)
+			{
 				npc.frameCounter += 0.2f;
-				npc.frameCounter %= Main.npcFrameCount[npc.type];
+				npc.frameCounter %= 6;
 				int frame = (int)npc.frameCounter;
 				npc.frame.Y = frame * frameHeight;
+			}
+			else
+			{
+				npc.frameCounter += 0.15f;
+				npc.frameCounter %= 3;
+				int frame = (int)npc.frameCounter + 6;
+				npc.frame.Y = frame * frameHeight;
+			}
 		}
 		public override void BossLoot(ref string name, ref int potionType)
 		{
