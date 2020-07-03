@@ -34,6 +34,10 @@ namespace SpiritMod.Projectiles
 				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
 				projectile.frameCounter = 0;
 			}
+			if (projectile.timeLeft < 65)
+            {
+                projectile.alpha+= 3;
+            }
 			return false;
 		}
 

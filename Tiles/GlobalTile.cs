@@ -3,6 +3,7 @@ using SpiritMod.Items.Material;
 using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Items.Weapon.Thrown;
 using SpiritMod.NPCs.Ocean;
+using SpiritMod.Items.Consumable.Food;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
@@ -27,7 +28,10 @@ namespace SpiritMod.Tiles
 		{
 			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
 			ushort eggType = (ushort)ModContent.TileType<Ambient.AvianEgg>();
-			if(type != eggType && tileAbove.type == eggType) {
+			ushort flowerType = (ushort)ModContent.TileType<BloodBlossom>();
+			if(type == flowerType || tileAbove.type == flowerType) {
+				return false;
+			}else if(type != eggType && tileAbove.type == eggType) {
 				return false;
 			} else if(type != IceType1 && tileAbove.type == IceType1) {
 				return false;
@@ -52,7 +56,10 @@ namespace SpiritMod.Tiles
 		{
 			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
 			ushort eggType = (ushort)ModContent.TileType<Ambient.AvianEgg>();
-			if(type == eggType || tileAbove.type == eggType) {
+			ushort flowerType = (ushort)ModContent.TileType<BloodBlossom>();
+			if(type == flowerType || tileAbove.type == flowerType) {
+				return false;
+			}else if(type == eggType || tileAbove.type == eggType) {
 				return false;
 			} else if(type != IceType1 && tileAbove.type == IceType1) {
 				return false;
@@ -82,15 +89,18 @@ namespace SpiritMod.Tiles
 						if(Main.rand.Next(300) == 0) {
 							WorldGen.PlaceObject(i, j - 1, mod.TileType("Corpsebloom"));
 							NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("Corpsebloom"), 0, 0, -1, -1);
+                            MyWorld.CorruptHazards++;
 						}
 						if(Main.rand.Next(300) == 0) {
 							WorldGen.PlaceObject(i, j - 1, mod.TileType("Corpsebloom1"));
 							NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("Corpsebloom1"), 0, 0, -1, -1);
-						}
+                            MyWorld.CorruptHazards++;
+                        }
 						if(Main.rand.Next(300) == 0) {
 							WorldGen.PlaceObject(i, j - 1, mod.TileType("Corpsebloom2"));
 							NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("Corpsebloom2"), 0, 0, -1, -1);
-						}
+                            MyWorld.CorruptHazards++;
+                        }
 					}
 				}
 			}
@@ -154,10 +164,18 @@ namespace SpiritMod.Tiles
 					NPC.NewNPC(i * 16, (j - 10) * 16, ModContent.NPCType<OceanSlime>(), 0, 0.0f, 0.0f, 0.0f, 0.0f, (int)byte.MaxValue);
 				}
 			}
+			
 			if(type == 72) {
 				Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<GlowRoot>(), Main.rand.Next(0, 2));
-			}
-			return base.Drop(i, j, type);
+            }
+            if (type == TileID.Trees && Main.rand.Next(25) == 0 && player.ZoneSnow)
+            {
+                if (Main.rand.Next(2) == 1)
+                {
+                    Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<IceBerries>(), Main.rand.Next(1, 3));
+                }
+            }
+            return base.Drop(i, j, type);
 		}
 	}
 }

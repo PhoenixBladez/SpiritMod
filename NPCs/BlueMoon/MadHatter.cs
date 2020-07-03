@@ -35,7 +35,7 @@ namespace SpiritMod.NPCs.BlueMoon
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for(int k = 0; k < 5; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 6, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
 			}
 			if(npc.life <= 0) {
 

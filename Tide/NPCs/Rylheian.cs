@@ -6,6 +6,8 @@ using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Weapon.Flail;
+using SpiritMod.Items.Weapon.Magic;
 
 namespace SpiritMod.Tide.NPCs
 {
@@ -111,10 +113,20 @@ namespace SpiritMod.Tide.NPCs
 
 		public override void BossLoot(ref string name, ref int potionType)
 		{
-			potionType = ItemID.GreaterHealingPotion;
+			potionType = ItemID.HealingPotion;
 		}
-
-		public override void HitEffect(int hitDirection, double damage)
+        public override void NPCLoot()
+        {
+            if (Main.rand.NextBool(3))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TomeOfRylien>());
+            }
+            if (Main.rand.NextBool(3))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TentacleChain>());
+            }
+        }
+        public override void HitEffect(int hitDirection, double damage)
 		{
 			for(int i = 0; i < 10; i++)
 				;
@@ -122,7 +134,7 @@ namespace SpiritMod.Tide.NPCs
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Tentacle"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/TentacleHead"), 1f);
 				if(TideWorld.TheTide) {
-					TideWorld.TidePoints += 3;
+					TideWorld.TidePoints += 10;
 				}
 			}
 		}

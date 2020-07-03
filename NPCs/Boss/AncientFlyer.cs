@@ -219,12 +219,12 @@ namespace SpiritMod.NPCs.Boss
 					Main.PlaySound(SoundID.Item82, new Vector2(tornadoX - 260, tornadoY - 400));
 					Main.PlaySound(SoundID.Item82, new Vector2(tornadoX + 200, tornadoY - 400));
 					int damage = expertMode ? 16 : 20;
-					Projectile.NewProjectile(tornadoX, tornadoY, 0f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(tornadoX, tornadoY - 32, 0f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
 					Projectile.NewProjectile(tornadoX - 360, tornadoY - 400, -5f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
 					Projectile.NewProjectile(tornadoX + 300, tornadoY - 400, 5f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
 					if(npc.life <= 1000) {
-						Projectile.NewProjectile(tornadoX - 500, tornadoY, -5f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
-						Projectile.NewProjectile(tornadoX + 500, tornadoY, 5f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
+						Projectile.NewProjectile(tornadoX - 500, tornadoY - 32, -5f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
+						Projectile.NewProjectile(tornadoX + 500, tornadoY - 32, 5f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
 					}
 				}
 			}

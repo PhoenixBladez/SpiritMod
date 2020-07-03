@@ -279,7 +279,7 @@ namespace SpiritMod.NPCs.Town
 
 				"A few of my associates have scouted a growing threat in the icy caverns." +
 				" Sometimes, they even get bold enough to roam the surface durin' heavy blizzards. We're calling 'em Winterborn, and I'd like for you to thin their numbers a bit." +
-				" They're a tough foe, so be safe, lad. This contract should help keep track of your kills. Oh, and I'd be cautious when roaming those caverns. Some of those Ice Scupltures look too lifelike...",
+				" They're a tough foe, so be safe, lad. This contract should help keep track of your kills. Oh, and I'd be cautious when roaming those caverns. Some of those Ice Sculptures look a little too lifelike...",
 
 				"You've grown into a top-notch warrior, lad. I'm not even sure I could've handled ten of those freaky cadavers. I'm sure the frozen tundra will be a little safer to explore, thanks to you." +
 				" I did some explorin', and managed to wrangle some of these Ice Sculptures. Please take 'em, they still freak me out. But I don't think they're dangerous. Maybe. Come back for more work any time.", true,

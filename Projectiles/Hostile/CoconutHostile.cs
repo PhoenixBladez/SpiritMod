@@ -18,7 +18,6 @@ namespace SpiritMod.Projectiles.Hostile
 			Vector2 GoreVel = projectile.velocity;
 			GoreVel.X = 2f;
 			GoreVel.Y *= -0.2f;
-			Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 1);
 			Gore.NewGore(projectile.position, GoreVel, mod.GetGoreSlot("Gores/Coconut/CoconutSpurtGore"), 1f);
 			GoreVel.X = -2f;
 			Gore.NewGore(projectile.position, GoreVel, mod.GetGoreSlot("Gores/Coconut/CoconutSpurtGore"), 1f);

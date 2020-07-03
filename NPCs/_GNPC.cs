@@ -34,6 +34,7 @@ using SpiritMod.NPCs.Boss.Scarabeus;
 using SpiritMod.NPCs.Boss.SteamRaider;
 using SpiritMod.NPCs.Critters.Algae;
 using SpiritMod.NPCs.Town;
+using SpiritMod.NPCs.Tides;
 using SpiritMod.Projectiles.Arrow;
 using SpiritMod.Tide;
 using System;
@@ -241,7 +242,7 @@ namespace SpiritMod.NPCs
 
 				drain = true;
 				npc.lifeRegen -= 6;
-				damage = Math.Max(damage, fireStacks * 2);
+				damage = Math.Max(damage, acidBurnStacks * 2);
 			}
 			if(nebulaFlameStacks > 0) {
 				if(npc.FindBuffIndex(ModContent.BuffType<NebulaFlame>()) < 0) {
@@ -599,6 +600,12 @@ namespace SpiritMod.NPCs
 					return "Behold! Enchanted candy! Enchantingly tasty, that is!";
 				else
 					return "Watch closely, for I shall channel the power of the spirits to summon... Candy!";
+
+			} else if(npc.type == mod.NPCType("Gambler")) {
+				if(dialogue == 0)
+					return "Reach into the bowl. You never know what you'll pull out";
+				else
+					return "I'll trade you any piece of candy for a random pie- no? Ok";
 			}
 			if(dialogue == 0)
 				return "Hello, " + player.player.name + ". Take some candy!";
@@ -671,12 +678,33 @@ namespace SpiritMod.NPCs
 			if(spawnInfo.spawnTileY <= Main.worldSurface) {
 				if(MyWorld.BlueMoon && !Main.dayTime)
 					pool.Remove(0);
-				if(TideWorld.TheTide && spawnInfo.player.ZoneBeach)
-                    pool.Clear();
             }
-			if(spawnInfo.player.GetSpiritPlayer().ZoneAsteroid) {
+            if (TideWorld.TheTide && spawnInfo.player.ZoneBeach)
+            {
+                pool.Clear();
+                pool.Add(NPCType<SpearKakamora>(), 7.35f);
+				pool.Add(NPCType<KakamoraParachuter>(), 5.35f);
+                pool.Add(NPCType<SwordKakamora>(), 7.35f);
+                pool.Add(NPCType<KakamoraShielder>(), 5.35f);
+                pool.Add(NPCType<KakamoraShielderRare>(), .235f);
+				pool.Add(NPCType<KakamoraRunner>(), 2f);
+                if (!NPC.AnyNPCs(ModContent.NPCType<KakamoraShaman>()))
+                {
+                    pool.Add(NPCType<KakamoraShaman>(), 2.35f);
+                }
+                if (TideWorld.TidePoints >= 25)
+                {
+                    pool.Add(NPCType<MangoJelly>(), 3.35f);
+                }
+                if (TideWorld.TidePoints >= 50)
+                {
+                    pool.Add(NPCType<LargeCrustecean>(), 2.35f);
+                }
+                pool.Add(NPCType<KakamoraRider>(), 2.35f);
+            }
+            if (spawnInfo.player.GetSpiritPlayer().ZoneAsteroid) {
 				pool.Clear();
-				pool.Add(NPCType<DeepspaceHopper>(), .55f);
+				pool.Add(NPCType<DeepspaceHopper>(), .35f);
 				pool.Add(NPCType<AstralAmalgram>(), 0.16f);
 				pool.Add(NPCType<Mineroid>(), 0.3f);
 				pool.Add(NPCType<GloopGloop>(), 0.24f);

@@ -97,8 +97,6 @@ namespace SpiritMod.Projectiles.Summon
 						projectile.frame = 1;
 					}
 
-					Main.PlaySound(SoundID.Item, projectile.Center, 5);  //make bow shooty sound
-
 					projectile.frame++;
 				}
 			}

@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Ammo;
 using SpiritMod.Items.Consumable;
+using SpiritMod.Items.Consumable.Food;
 using SpiritMod.Items.Equipment;
 using SpiritMod.Items.Glyphs;
 using SpiritMod.Items.Material;

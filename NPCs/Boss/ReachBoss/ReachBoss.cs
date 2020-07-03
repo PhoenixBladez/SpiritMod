@@ -275,7 +275,8 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		{
 			if(Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0) {
 				if(!text) {
-					Main.NewText("You cannot stop the wrath of nature!", 0, 200, 80, true);
+					CombatText.NewText(new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height), new Color(0, 200, 80, 100),
+					"You cannot stop the wrath of nature!");
 					text = true;
 				}
 				Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
