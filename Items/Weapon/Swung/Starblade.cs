@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Material;
+using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,7 +16,6 @@ namespace SpiritMod.Items.Weapon.Swung
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Swung/Starblade_Glow");
 		}
 
-
 		int charger;
 		public override void SetDefaults()
 		{
@@ -27,23 +27,22 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.height = 50;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 4;
-			item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
+			item.value = Item.sellPrice(0, 2, 0, 0);
 			item.rare = ItemRarityID.LightRed;
 			item.shootSpeed = 8;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.useTurn = true;
-			item.shoot = mod.ProjectileType("Starshock2");
+			item.shoot = ModContent.ProjectileType<Starshock2>();
 		}
+
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
-			{
-				int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 226);
-				Main.dust[dust].noGravity = true;
-				Main.dust[dust].velocity *= 0.1f;
-
-			}
+			int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 226);
+			Main.dust[dust].noGravity = true;
+			Main.dust[dust].velocity *= 0.1f;
 		}
+
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Texture2D texture;
@@ -65,21 +64,23 @@ namespace SpiritMod.Items.Weapon.Swung
 				0f
 			);
 		}
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			charger++;
 			if(charger >= 5) {
-				for(int I = 0; I < 3; I++) {
+				for(int i = 0; i < 3; i++) {
 					Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), mod.ProjectileType("Starshock2"), damage, knockBack, player.whoAmI, 0f, 0f);
 				}
 				charger = 0;
 			}
 			return false;
 		}
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<HarpyBlade>(), 1);
+			recipe.AddIngredient(ItemID.Starfury, 1);
 			recipe.AddIngredient(ModContent.ItemType<TalonBlade>(), 1);
 			recipe.AddIngredient(ItemID.FallenStar, 5);
 			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 7);

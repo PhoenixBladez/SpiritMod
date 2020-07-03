@@ -8,10 +8,12 @@ namespace SpiritMod.Tide
         public static int TidePoints = 0;
         public static int EnemyKills = 0;
         public static bool TheTide;
+
         public override void Initialize()
         {
             TheTide = false;
         }
+
         public override void PostUpdate()
         {
             //TidePoints = EnemyKills / 2;

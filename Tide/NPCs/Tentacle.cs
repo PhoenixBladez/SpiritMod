@@ -38,22 +38,19 @@ namespace SpiritMod.Tide.NPCs
 				npc.ai[0]++;
 				if(npc.ai[0] >= 120) {
 					int type = ModContent.ProjectileType<WitherBolt>();
-					int p = Projectile.NewProjectile(npc.position.X, npc.position.Y, -(npc.position.X - target.position.X) / distance * 4, -(npc.position.Y - target.position.Y) / distance * 4, type, (int)((npc.damage * .5)), 0);
+					int p = Projectile.NewProjectile(npc.position.X, npc.position.Y, -(npc.position.X - target.position.X) / distance * 4, -(npc.position.Y - target.position.Y) / distance * 4, type, (int)(npc.damage * .5), 0);
 					Main.projectile[p].friendly = false;
 					Main.projectile[p].hostile = true;
 					npc.ai[0] = 0;
 				}
 			}
-			{
-				int dust = Dust.NewDust(npc.position, npc.width, npc.height - 20, 173);
-				npc.spriteDirection = npc.direction;
-			}
+
+			Dust.NewDust(npc.position, npc.width, npc.height - 20, 173);
+			npc.spriteDirection = npc.direction;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			for(int i = 0; i < 10; i++)
-				;
 			if(npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Tentacle"), 1f);
 			}
