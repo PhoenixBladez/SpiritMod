@@ -16,8 +16,8 @@ namespace SpiritMod.Buffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.maxRunSpeed += 0.12f;
-			player.runAcceleration += 0.12f;
+			player.maxRunSpeed += 0.15f;
+			player.runAcceleration += 0.1f;
 
 			Dust.NewDust(player.position, player.width, player.height, 62);
 		}

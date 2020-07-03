@@ -11,7 +11,7 @@ namespace SpiritMod.NPCs
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Lost Mime");
-			Main.npcFrameCount[npc.type] = 17;
+			Main.npcFrameCount[npc.type] = 16;
 		}
 
 		public override void SetDefaults()
@@ -40,7 +40,7 @@ namespace SpiritMod.NPCs
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.15f;
+			npc.frameCounter += 0.25f;
 			npc.frameCounter %= Main.npcFrameCount[npc.type];
 			int frame = (int)npc.frameCounter;
 			npc.frame.Y = frame * frameHeight;
@@ -61,15 +61,15 @@ namespace SpiritMod.NPCs
 				Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 6);
 				npc.Transform(ModContent.NPCType<CaptiveMask>());
 			}
-			int d = 6;
+			int d = 5;
 			for(int k = 0; k < 10; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.27f);
 				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.87f);
 			}
 			if(npc.life <= 0) {
-				Gore.NewGore(npc.position, npc.velocity, 9);
-				Gore.NewGore(npc.position, npc.velocity, 9);
-				Gore.NewGore(npc.position, npc.velocity, 9);
+				Gore.NewGore(npc.position, npc.velocity, 99);
+				Gore.NewGore(npc.position, npc.velocity, 99);
+				Gore.NewGore(npc.position, npc.velocity, 99);
 			}
 		}
 

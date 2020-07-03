@@ -30,7 +30,7 @@ namespace SpiritMod.NPCs.Tides
 			npc.defense = 6;
 			npc.lifeMax = 225;
 			npc.noGravity = true;
-			npc.knockBackResist = .9f;
+			npc.knockBackResist = .03f;
 			npc.value = 200f;
 			npc.alpha = 35;
 			npc.noTileCollide = true;

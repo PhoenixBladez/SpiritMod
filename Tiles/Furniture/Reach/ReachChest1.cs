@@ -149,7 +149,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			if(chest < 0) {
 				player.showItemIconText = Lang.chestType[0].Value;
 			} else {
-				player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Briar Chest";
+				player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Elderbark Chest";
 				if(player.showItemIconText == "Elderbark Chest") {
 					player.showItemIcon2 = ModContent.ItemType<Items.Placeable.Furniture.Reach.ReachChest>();
 					player.showItemIconText = "";

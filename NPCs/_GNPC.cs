@@ -242,7 +242,7 @@ namespace SpiritMod.NPCs
 
 				drain = true;
 				npc.lifeRegen -= 6;
-				damage = Math.Max(damage, fireStacks * 2);
+				damage = Math.Max(damage, acidBurnStacks * 2);
 			}
 			if(nebulaFlameStacks > 0) {
 				if(npc.FindBuffIndex(ModContent.BuffType<NebulaFlame>()) < 0) {

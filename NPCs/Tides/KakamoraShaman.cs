@@ -25,15 +25,15 @@ namespace SpiritMod.NPCs.Tides
 
 		public override void SetDefaults()
 		{
-			npc.width = 62;
+			npc.width = 58;
 			npc.height = 54;
-			npc.damage = 18;
-			npc.defense = 10;
+			npc.damage = 24;
+			npc.defense = 14;
 			aiType = NPCID.SnowFlinx;
 			npc.aiStyle = 3;
-			npc.lifeMax = 160;
-			npc.knockBackResist = 0f;
-			npc.value = 200f;
+			npc.lifeMax = 180;
+			npc.knockBackResist = 0.1f;
+			npc.value = 400f;
 			npc.noTileCollide = false;
 			npc.HitSound = SoundID.NPCHit2;
 			npc.DeathSound = SoundID.NPCDeath1;

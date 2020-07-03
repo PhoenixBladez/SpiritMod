@@ -22,7 +22,7 @@ namespace SpiritMod.Projectiles.Thrown
 			projectile.friendly = true;
 			projectile.ranged = true;
 			projectile.hide = true;
-			projectile.penetrate = 5;
+			projectile.penetrate = 3;
 			projectile.timeLeft = 150;
 			projectile.alpha = 0;
 			//   aiType = ProjectileID.ThrowingKnife;

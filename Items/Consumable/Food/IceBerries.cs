@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Consumable.Food
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ice Berry");
-			Tooltip.SetDefault("Gives you immunity to being on fire");
+			Tooltip.SetDefault("Grants immunity to being on fire");
 		}
 
 

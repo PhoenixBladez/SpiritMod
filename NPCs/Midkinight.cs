@@ -98,7 +98,10 @@ namespace SpiritMod.NPCs
 			}
 			if(npc.life <= 0) {
 				for(int k = 0; k < 10; k++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, 173, hitDirection * 6f, -1f, 0, default(Color), 1f);
+                    Gore.NewGore(npc.position, npc.velocity, 99);
+                    Gore.NewGore(npc.position, npc.velocity, 99);
+                    Gore.NewGore(npc.position, npc.velocity, 99);
+                    Dust.NewDust(npc.position, npc.width, npc.height, 173, hitDirection * 6f, -1f, 0, default(Color), 1f);
 				}
 			}
 		}
