@@ -63,7 +63,10 @@ namespace SpiritMod.NPCs.Tides
             if (npc.wet)
             {
                 npc.noGravity = true;
-                npc.velocity.Y -= .085f;
+                if (npc.velocity.Y > -7)
+                {
+                    npc.velocity.Y -= .085f;
+                }
 				return;
             }
 			else

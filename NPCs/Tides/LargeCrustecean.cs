@@ -43,7 +43,10 @@ namespace SpiritMod.NPCs.Tides
 			if (npc.wet)
                 {
                     npc.noGravity = true;
+                   if (npc.velocity.Y > -7)
+                {
                     npc.velocity.Y -= .085f;
+                }
 					return;
                 }
                 else
@@ -78,7 +81,7 @@ namespace SpiritMod.NPCs.Tides
 		}
         public override void NPCLoot()
         {
-            if (Main.rand.NextBool(35))
+            if (Main.rand.NextBool(8))
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PumpBubbleGun>());
             }

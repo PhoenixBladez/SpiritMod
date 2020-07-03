@@ -155,7 +155,7 @@ namespace SpiritMod.NPCs
 			Player player = Main.player[Main.myPlayer];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			Vector2 dist = npc.position - player.position;
-			if(Main.netMode == NetmodeID.Server) {
+			if(Main.netMode != NetmodeID.Server) {
 				if(player.GetModPlayer<MyPlayer>().HellGaze == true && Math.Sqrt((dist.X * dist.X) + (dist.Y * dist.Y)) < 160 && Main.rand.Next(80) == 1 && !npc.friendly) {
 					npc.AddBuff(24, 130, false);
 				}
@@ -164,7 +164,7 @@ namespace SpiritMod.NPCs
 					npc.AddBuff(ModContent.BuffType<Stopped>(), 3);
 				}
 			}
-			if(Main.netMode == NetmodeID.Server) {
+			if(Main.netMode != NetmodeID.Server) {
 
 				if(Stopped) {
 					if(!npc.boss) {
@@ -685,8 +685,8 @@ namespace SpiritMod.NPCs
                 pool.Add(NPCType<SpearKakamora>(), 7.35f);
 				pool.Add(NPCType<KakamoraParachuter>(), 5.35f);
                 pool.Add(NPCType<SwordKakamora>(), 7.35f);
-                pool.Add(NPCType<KakamoraShielder>(), 5.35f);
-                pool.Add(NPCType<KakamoraShielderRare>(), .235f);
+                pool.Add(NPCType<KakamoraShielder>(), 1.73f);
+                pool.Add(NPCType<KakamoraShielderRare>(), .135f);
 				pool.Add(NPCType<KakamoraRunner>(), 2f);
                 if (!NPC.AnyNPCs(ModContent.NPCType<KakamoraShaman>()))
                 {

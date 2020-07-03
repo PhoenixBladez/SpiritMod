@@ -21,6 +21,7 @@ using SpiritMod.NPCs.Mimic;
 using SpiritMod.Projectiles;
 using SpiritMod.Tide;
 using SpiritMod.Tide.NPCs;
+using SpiritMod.NPCs.Tides;
 using SpiritMod.Projectiles.DonatorItems;
 using SpiritMod.Projectiles.Magic;
 using SpiritMod.Projectiles.Summon;

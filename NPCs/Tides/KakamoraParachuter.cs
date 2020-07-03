@@ -37,6 +37,23 @@ namespace SpiritMod.NPCs.Tides
 		bool teleportedup = false;
 		public override void AI()
         {
+			if (teleportedup && npc.velocity.Y == 0)
+			{
+				switch(Main.rand.Next(4)) {
+					case 0:
+						npc.Transform(ModContent.NPCType<KakamoraRunner>());
+						break;
+					case 1:
+						npc.Transform(ModContent.NPCType<SpearKakamora>());
+						break;
+					case 2:
+						npc.Transform(ModContent.NPCType<SwordKakamora>());
+						break;
+					case 3:
+						npc.Transform(ModContent.NPCType<KakamoraShielder>());
+						break;
+				}
+			}
 			if (!teleportedup)
 			{
 				teleportedup = true;

@@ -47,7 +47,10 @@ namespace SpiritMod.NPCs.Tides
 			if (npc.wet)
                 {
                     npc.noGravity = true;
+                    if (npc.velocity.Y > -7)
+                {
                     npc.velocity.Y -= .085f;
+                }
 					return;
                 }
                 else
@@ -102,7 +105,7 @@ namespace SpiritMod.NPCs.Tides
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TikiJavelin>());
             }
-            if (Main.rand.NextBool(33))
+            if (Main.rand.NextBool(15))
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MagicConch>());
             }

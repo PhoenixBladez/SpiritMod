@@ -137,11 +137,11 @@ namespace SpiritMod.NPCs.Tides
 		}
         public override void NPCLoot()
         {
-            if (Main.rand.NextBool(40))
+            if (Main.rand.NextBool(10))
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MagicConch>());
             }
-            if (Main.rand.NextBool(40))
+            if (Main.rand.NextBool(10))
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MangoJellyStaff>());
             }
