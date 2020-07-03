@@ -8,6 +8,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Tide;
+using SpiritMod.Items.Weapon.Gun;
+using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Items.Weapon.Thrown;
 
 namespace SpiritMod.NPCs.Tides
 {
@@ -135,8 +138,18 @@ namespace SpiritMod.NPCs.Tides
 				}
 			}
 		}
-
-		public override void FindFrame(int frameHeight)
+        public override void NPCLoot()
+        {
+            if (Main.rand.NextBool(50))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CoconutGun>());
+            }
+            if (Main.rand.NextBool(50))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TikiJavelin>());
+            }
+        }
+        public override void FindFrame(int frameHeight)
 		{
 			if(!throwing) {
 				if(npc.collideY) {

@@ -5,6 +5,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Tide;
+using SpiritMod.Items.Weapon.Summon;
+using SpiritMod.Items.Weapon.Magic;
 
 namespace SpiritMod.NPCs.Tides
 {
@@ -74,8 +76,14 @@ namespace SpiritMod.NPCs.Tides
 			}
 
 		}
-
-		public override void FindFrame(int frameHeight)
+        public override void NPCLoot()
+        {
+            if (Main.rand.NextBool(35))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PumpBubbleGun>());
+            }
+        }
+        public override void FindFrame(int frameHeight)
 		{
 			if((npc.collideY || npc.wet) && !blocking) {
 				npc.frameCounter += 0.2f;

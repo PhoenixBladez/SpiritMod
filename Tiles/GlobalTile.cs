@@ -88,33 +88,30 @@ namespace SpiritMod.Tiles
 						if(Main.rand.Next(300) == 0) {
 							WorldGen.PlaceObject(i, j - 1, mod.TileType("Corpsebloom"));
 							NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("Corpsebloom"), 0, 0, -1, -1);
+                            MyWorld.CorruptHazards++;
 						}
 						if(Main.rand.Next(300) == 0) {
 							WorldGen.PlaceObject(i, j - 1, mod.TileType("Corpsebloom1"));
 							NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("Corpsebloom1"), 0, 0, -1, -1);
-						}
+                            MyWorld.CorruptHazards++;
+                        }
 						if(Main.rand.Next(300) == 0) {
 							WorldGen.PlaceObject(i, j - 1, mod.TileType("Corpsebloom2"));
 							NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("Corpsebloom2"), 0, 0, -1, -1);
-						}
+                            MyWorld.CorruptHazards++;
+                        }
 					}
 				}
 			}
-			if(type == TileID.SnowBlock && j < WorldGen.rockLayer) {
+			if(type == TileID.SnowBlock) {
 				if(MyWorld.SnowBerries < 20) {
-					if((TileArray212.Contains(Framing.GetTileSafely(i, j - 1).type) && TileArray212.Contains(Framing.GetTileSafely(i, j - 2).type) && TileArray212.Contains(Framing.GetTileSafely(i, j - 3).type)) && (j > (int)Main.worldSurface - 100 && j < (int)Main.rockLayer - 20)) {
+					if((TileArray212.Contains(Framing.GetTileSafely(i, j - 1).type) && TileArray212.Contains(Framing.GetTileSafely(i, j - 2).type) && (j > (int)Main.worldSurface - 100 && j < (int)Main.rockLayer - 20))) {
 						if(Main.rand.Next(3) == 0) {
 							WorldGen.PlaceObject(i, j - 1, mod.TileType("IceBerriesTile"));
 							NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("IceBerriesTile"), 0, 0, -1, -1);
-						}
-						if(Main.rand.Next(3) == 0) {
-							WorldGen.PlaceObject(i, j - 1, mod.TileType("IceBerriesTile"));
-							NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("IceBerriesTile"), 0, 0, -1, -1);
-						}
-						if(Main.rand.Next(3) == 0) {
-							WorldGen.PlaceObject(i, j - 1, mod.TileType("IceBerriesTile"));
-							NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("IceBerriesTile"), 0, 0, -1, -1);
-						}
+                            MyWorld.SnowBerries++;
+
+                        }
 					}
 				}
 			}

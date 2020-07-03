@@ -125,8 +125,9 @@ namespace SpiritMod.NPCs.Dungeon
 						switch (Main.rand.Next(3))
 						{
 						case 0:
-							DustHelper.DrawStar(new Vector2(npc.Center.X, npc.Center.Y - 30), 180, pointAmount: 5, mainSize: 2.25f * ScaleMult, dustDensity: 2, pointDepthMult: 0.3f, noGravity: true);
-							break;
+                                //DustHelper.DrawStar(new Vector2(npc.Center.X, npc.Center.Y - 30), 180, pointAmount: 5, mainSize: 2.25f * ScaleMult, dustDensity: 2, pointDepthMult: 0.3f, noGravity: true);
+                                DustHelper.DrawTriangle(new Vector2(npc.Center.X, npc.Center.Y - 30), 180, 3);
+                                break;
 						case 1:
 							DustHelper.DrawTriangle(new Vector2(npc.Center.X, npc.Center.Y - 30), 180, 3);
 							break;

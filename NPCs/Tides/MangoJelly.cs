@@ -7,6 +7,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Tide;
+using SpiritMod.Items.Weapon.Summon;
+using SpiritMod.Items.Weapon.Magic;
 
 namespace SpiritMod.NPCs.Tides
 {
@@ -14,7 +16,7 @@ namespace SpiritMod.NPCs.Tides
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Mango Jelly");
+			DisplayName.SetDefault("Primsatic Jelly");
 			Main.npcFrameCount[npc.type] = 8;
             NPCID.Sets.TrailCacheLength[npc.type] = 3;
             NPCID.Sets.TrailingMode[npc.type] = 0;
@@ -133,6 +135,17 @@ namespace SpiritMod.NPCs.Tides
 				#endregion
 			}
 		}
+        public override void NPCLoot()
+        {
+            if (Main.rand.NextBool(40))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MagicConch>());
+            }
+            if (Main.rand.NextBool(40))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MangoJellyStaff>());
+            }
+        }
         public override Color? GetAlpha(Color lightColor)
         {
             return new Color(255, 255, 255);

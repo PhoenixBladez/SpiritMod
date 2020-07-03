@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Magic
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Bubble Pump Shotgun");
+			DisplayName.SetDefault("Bubble Blaster");
 			Tooltip.SetDefault("Hold for a longer blast\nConsumes 10 mana every second");
 
 		}

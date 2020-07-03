@@ -7,6 +7,10 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Tide;
+using SpiritMod.Items.Weapon.Gun;
+using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Items.Weapon.Thrown;
+
 namespace SpiritMod.NPCs.Tides
 {
 	public class SwordKakamora : ModNPC
@@ -115,8 +119,18 @@ namespace SpiritMod.NPCs.Tides
 				}
 			}
 		}
-
-		public override void FindFrame(int frameHeight)
+        public override void NPCLoot()
+        {
+            if (Main.rand.NextBool(50))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CoconutGun>());
+            }
+            if (Main.rand.NextBool(50))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TikiJavelin>());
+            }
+        }
+        public override void FindFrame(int frameHeight)
 		{
 			if(charging) {
 				npc.frameCounter += 0.1f;
