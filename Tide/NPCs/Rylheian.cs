@@ -119,7 +119,7 @@ namespace SpiritMod.Tide.NPCs
         {
             if (Main.rand.NextBool(3))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TomeofRylien>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TomeOfRylien>());
             }
             if (Main.rand.NextBool(3))
             {

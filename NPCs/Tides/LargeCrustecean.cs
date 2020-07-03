@@ -14,7 +14,7 @@ namespace SpiritMod.NPCs.Tides
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Lober Brute");
+			DisplayName.SetDefault("Bubble Brute");
 			Main.npcFrameCount[npc.type] = 9;
 		}
 
@@ -22,11 +22,11 @@ namespace SpiritMod.NPCs.Tides
 		{
 			npc.width = 80;
 			npc.height = 82;
-			npc.damage = 24;
+			npc.damage = 25;
 			npc.defense = 4;
 			aiType = NPCID.WalkingAntlion;
 			npc.aiStyle = 3;
-			npc.lifeMax = 800;
+			npc.lifeMax = 375;
 			npc.knockBackResist = .2f;
 			npc.value = 200f;
 			npc.noTileCollide = false;
@@ -102,7 +102,7 @@ namespace SpiritMod.NPCs.Tides
 				npc.frame.Y = (frame + 6) * frameHeight;
 				if(npc.frameCounter > 2 && blockTimer % 5 == 0) {
                     Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 85);
-                    Projectile.NewProjectile(npc.Center.X + (npc.direction * 34), npc.Center.Y - 4, npc.direction * Main.rand.NextFloat(3, 6), 0 - Main.rand.NextFloat(1), ModContent.ProjectileType<LobsterBubbleSmall>(), npc.damage, 1, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(npc.Center.X + (npc.direction * 34), npc.Center.Y - 4, npc.direction * Main.rand.NextFloat(3, 6), 0 - Main.rand.NextFloat(1), ModContent.ProjectileType<LobsterBubbleSmall>(), npc.damage/2, 1, Main.myPlayer, 0, 0);
 				}
 			}
 		}

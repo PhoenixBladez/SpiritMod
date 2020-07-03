@@ -16,7 +16,7 @@ namespace SpiritMod.NPCs.Tides
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Primsatic Jelly");
+			DisplayName.SetDefault("Mang-O War");
 			Main.npcFrameCount[npc.type] = 8;
             NPCID.Sets.TrailCacheLength[npc.type] = 3;
             NPCID.Sets.TrailingMode[npc.type] = 0;
@@ -26,9 +26,9 @@ namespace SpiritMod.NPCs.Tides
 		{
 			npc.width = 40;
 			npc.height = 50;
-			npc.damage = 24;
+			npc.damage = 30;
 			npc.defense = 6;
-			npc.lifeMax = 200;
+			npc.lifeMax = 225;
 			npc.noGravity = true;
 			npc.knockBackResist = .9f;
 			npc.value = 200f;
@@ -94,9 +94,9 @@ namespace SpiritMod.NPCs.Tides
 				Vector2 vel = new Vector2(30f, 0).RotatedBy((float)(Main.rand.Next(90) * Math.PI / 180));
                 Main.PlaySound(2, npc.Center, 91);
 				Projectile.NewProjectile(npc.position + vel + new Vector2(xoffset, 6), vel, ModContent.ProjectileType<MangoLaser>(), npc.damage, 0, npc.target);
-				Projectile.NewProjectile(npc.position + vel.RotatedBy(1.57) + new Vector2(xoffset, 6), Vector2.Zero, ModContent.ProjectileType<MangoLaser>(), npc.damage, 0, npc.target);
-				Projectile.NewProjectile(npc.position + vel.RotatedBy(3.14) + new Vector2(xoffset, 6), Vector2.Zero, ModContent.ProjectileType<MangoLaser>(), npc.damage, 0, npc.target);
-				Projectile.NewProjectile(npc.position + vel.RotatedBy(4.71) + new Vector2(xoffset, 6), Vector2.Zero, ModContent.ProjectileType<MangoLaser>(), npc.damage, 0, npc.target);
+				Projectile.NewProjectile(npc.position + vel.RotatedBy(1.57) + new Vector2(xoffset, 6), Vector2.Zero, ModContent.ProjectileType<MangoLaser>(), npc.damage/2, 0, npc.target);
+				Projectile.NewProjectile(npc.position + vel.RotatedBy(3.14) + new Vector2(xoffset, 6), Vector2.Zero, ModContent.ProjectileType<MangoLaser>(), npc.damage/2, 0, npc.target);
+				Projectile.NewProjectile(npc.position + vel.RotatedBy(4.71) + new Vector2(xoffset, 6), Vector2.Zero, ModContent.ProjectileType<MangoLaser>(), npc.damage/2, 0, npc.target);
 			}
 			if(npc.ai[0] >= 570) {
 				shooting = false;

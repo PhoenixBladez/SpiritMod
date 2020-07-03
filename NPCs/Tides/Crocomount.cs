@@ -27,7 +27,7 @@ namespace SpiritMod.NPCs.Tides
             npc.height = 70;
             npc.damage = 32;
             npc.defense = 16;
-            npc.lifeMax = 600;
+            npc.lifeMax = 350;
             npc.HitSound = SoundID.NPCHit6;
             npc.DeathSound = SoundID.NPCDeath5;
             npc.value = 500f;

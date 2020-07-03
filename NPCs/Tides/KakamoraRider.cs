@@ -21,11 +21,11 @@ namespace SpiritMod.NPCs.Tides
          public override void SetDefaults() {
             npc.width = 42;
             npc.height = 38;
-            npc.damage = 24;
+            npc.damage = 18;
             npc.defense = 4;
             aiType = NPCID.SnowFlinx;
             npc.aiStyle = 3;
-            npc.lifeMax = 120;
+            npc.lifeMax = 160;
             npc.knockBackResist = .70f;
             npc.value = 200f;
             npc.noTileCollide = false;
