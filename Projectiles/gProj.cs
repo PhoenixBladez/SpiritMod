@@ -1,6 +1,9 @@
 ﻿using SpiritMod.Dusts;
 using SpiritMod.Items;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -84,9 +87,8 @@ namespace SpiritMod.Projectiles
 				if(projectile.thrown && crit)
 					damage = (int)((double)damage * 2.25f);
 			}
-			if(modPlayer.AceOfSpades && target.life < (damage * 2) - (target.defense / 2) && !crit) {
-				crit = true;
-				damage = (int)(damage * 1.25f);
+			if(modPlayer.AceOfSpades && target.life < (damage * 2) - (target.defense / 2) && crit) {
+				damage = (int)(damage * 1.1f);
 				for(int i = 0; i < 3; i++) {
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<SpadeDust>(), 0, -0.8f);
 				}
@@ -102,10 +104,28 @@ namespace SpiritMod.Projectiles
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<HeartDust>(), 0, -0.8f);
 				}
 			}
-			if(modPlayer.AceOfClubs && crit) {
-				knockback *= 1.5f;
+			if(modPlayer.AceOfDiamonds && target.life < (damage * 2) - (target.defense / 2) && crit && !target.friendly && target.lifeMax > 15) {
+				NPC npc = target;
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DiamondAce>());
+				for(int i = 0; i < 3; i++) {
+					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<DiamondDust>(), 0, -0.8f);
+				}
+			}
+			if(modPlayer.AceOfClubs && crit && !target.friendly && target.lifeMax > 15) {
+				int money = 300 * (int)MathHelper.Clamp((damage / target.lifeMax), 0, 1);
+				NPC npc = target;
 				for(int i = 0; i < 3; i++) {
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<ClubDust>(), 0, -0.8f);
+				}
+				while (money >=100)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 72); //silver coins
+					money -= 100;
+				}
+				while (money >= 10)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 71, 10); //copper coins
+					money -= 10;
 				}
 			}
 		}

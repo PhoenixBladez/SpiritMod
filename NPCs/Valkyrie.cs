@@ -13,7 +13,7 @@ namespace SpiritMod.NPCs
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Valkyrie");
-			Main.npcFrameCount[npc.type] = Main.npcFrameCount[NPCID.Harpy];
+			Main.npcFrameCount[npc.type] = 8;
 			NPCID.Sets.TrailCacheLength[npc.type] = 3;
 			NPCID.Sets.TrailingMode[npc.type] = 0;
 		}
@@ -30,7 +30,6 @@ namespace SpiritMod.NPCs
 			npc.value = 360f;
 			npc.knockBackResist = .45f;
 			npc.aiStyle = 14;
-			animationType = NPCID.Harpy;
 		}
 		int aiTimer;
 		bool trailing;
@@ -96,6 +95,27 @@ namespace SpiritMod.NPCs
 			}
 			if(aiTimer >= 500) {
 				aiTimer = 0;
+			}
+		}
+		public override void FindFrame(int frameHeight)
+		{
+			if (aiTimer == 270)
+			{
+				npc.frameCounter = 0;
+			}
+			if (aiTimer < 270 || aiTimer > 330)
+			{
+				npc.frameCounter += 0.15f;
+				npc.frameCounter %= 4;
+				int frame = (int)npc.frameCounter;
+				npc.frame.Y = frame * frameHeight;
+			}
+			else
+			{
+				npc.frameCounter += 0.0666f;
+				npc.frameCounter %= 4;
+				int frame = (int)npc.frameCounter + 4;
+				npc.frame.Y = frame * frameHeight;
 			}
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

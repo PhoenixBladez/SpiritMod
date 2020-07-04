@@ -6,6 +6,7 @@ using SpiritMod.Buffs.Artifact;
 using SpiritMod.Buffs.Glyph;
 using SpiritMod.Buffs.Summon;
 using SpiritMod.Dusts;
+using SpiritMod.Items;
 using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Consumable;
 using SpiritMod.Items.Consumable.Quest;
@@ -1081,9 +1082,8 @@ namespace SpiritMod
 
 		public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
 		{
-			if(AceOfSpades && target.life < (damage * 2) - (target.defense / 2) && !crit) {
-				crit = true;
-				damage = (int)(damage * 2f);
+			if(AceOfSpades && target.life < (damage * 2) - (target.defense / 2) && crit) {
+				damage = (int)(damage * 1.1f);
 				for(int i = 0; i < 3; i++) {
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<SpadeDust>(), 0, -0.8f);
 				}
@@ -1099,10 +1099,28 @@ namespace SpiritMod
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<HeartDust>(), 0, -0.8f);
 				}
 			}
-			if(AceOfClubs && crit) {
-				knockback *= 1.5f;
+			if(AceOfDiamonds && target.life < (damage * 2) - (target.defense / 2) && crit && !target.friendly && target.lifeMax > 5) {
+				NPC npc = target;
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DiamondAce>());
+				for(int i = 0; i < 3; i++) {
+					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<DiamondDust>(), 0, -0.8f);
+				}
+			}
+			if(AceOfClubs && crit && target.lifeMax > 15 && !target.friendly) {
+				int money = 300 * (int)MathHelper.Clamp((damage / target.lifeMax), 0, 1);
+				NPC npc = target;
 				for(int i = 0; i < 3; i++) {
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<ClubDust>(), 0, -0.8f);
+				}
+				while (money >=100)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 72); //silver coins
+					money -= 100;
+				}
+				while (money >= 10)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 71, 10); //copper coins
+					money -= 10;
 				}
 			}
 			if(astralSet) {
@@ -3137,15 +3155,6 @@ namespace SpiritMod
 			if(atmos) {
 				if(player.ownedProjectileCounts[ModContent.ProjectileType<AtmosProj>()] <= 1) {
 					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<AtmosProj>(), 0, 0, player.whoAmI);
-				}
-			}
-
-			if(oceanSet) {
-				timerz++;
-				player.AddBuff(ModContent.BuffType<BabyClamperBuff>(), 3600);
-				if(player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Summon.BabyClamper>()] <= 0 && timerz > 30) {
-					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<Projectiles.Summon.BabyClamper>(), 19, 0, player.whoAmI);
-					timerz = 0;
 				}
 			}
 

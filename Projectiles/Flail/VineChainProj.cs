@@ -53,7 +53,7 @@ namespace SpiritMod.Projectiles.Flail
 			NPC npc = Main.npc[hookednpc];
 			if(hooked && npc.active && player.channel) {
 				int distance = (int)Math.Sqrt((npc.Center.X - player.Center.X) * (npc.Center.X - player.Center.X) + (npc.Center.Y - player.Center.Y) * (npc.Center.Y - player.Center.Y));
-				if(distance > 100) {
+				if(distance > 100 && projectile.Distance(npc.Center) < 50) {
 					npc.velocity = projectile.velocity;
 				} else {
 					hooked = false;
@@ -83,8 +83,28 @@ namespace SpiritMod.Projectiles.Flail
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
+			if (projectile.timeLeft >= 859)
+			{
 			projectile.timeLeft = 800;
 			projectile.friendly = false;
+			}
+			else if (hooked)
+			{
+				NPC npc = Main.npc[hookednpc];
+				if (npc.noTileCollide)
+				{
+					projectile.tileCollide = false;
+				}
+				else
+				{
+					hooked = false;
+					projectile.tileCollide = false;
+				}
+			}
+			else
+			{
+				projectile.tileCollide = false;
+			}
 			return false;
 		}
 	}
