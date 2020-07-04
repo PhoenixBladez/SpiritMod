@@ -19,9 +19,9 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.aiStyle = 27;
 			projectile.width = 120;
 			projectile.height = 120;
-			projectile.penetrate = 7;
+			projectile.penetrate = 10;
 			projectile.alpha = 255;
-			projectile.timeLeft = 450;
+			projectile.timeLeft = 150;
 		}
 		float swirlSize = 1.664f;
 		float degrees = 0;
@@ -39,7 +39,7 @@ namespace SpiritMod.Projectiles.Magic
 
 			float Closeness = 50f;
 			degrees += 2.5f;
-			for(float swirlDegrees = degrees; swirlDegrees < 160 + degrees; swirlDegrees += 5f) {
+			for(float swirlDegrees = degrees; swirlDegrees < 160 + degrees; swirlDegrees += 7f) {
 				Closeness -= swirlSize; //It closes in
 				double radians = swirlDegrees * (Math.PI / 180); //convert to radians
 
