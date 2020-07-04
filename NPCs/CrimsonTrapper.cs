@@ -60,18 +60,18 @@ namespace SpiritMod.NPCs
 			Player target = Main.player[npc.target];
 			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
 
-			if(distance < 480) {
+			if(distance < 560) {
 				float num395 = Main.mouseTextColor / 200f - 0.35f;
 				num395 *= 0.2f;
 				npc.scale = num395 + 0.95f;
 				attack = true;
 				npc.ai[2]++;
-				if(npc.ai[2] == 30) {
+				if(npc.ai[2] == 30 || npc.ai[2] == 60 || npc.ai[2] == 90 || npc.ai[2] == 120 || npc.ai[2] == 150) {
 
 					Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), .153f * 1, .028f * 1, 0.055f * 1);
 					Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/HeartbeatFx"));
 				}
-				if(npc.ai[2] >= 60) {
+				if(npc.ai[2] >= 180) {
 					Main.PlaySound(SoundID.Item, npc.Center, 95);
 					npc.ai[2] = 0;
 					Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), .153f * 1, .028f * 1, 0.055f * 1);
@@ -87,7 +87,7 @@ namespace SpiritMod.NPCs
 					}
 				}
 			}
-			if(distance > 490) {
+			if(distance > 580) {
 				float num395 = Main.mouseTextColor / 200f - 0.35f;
 				num395 *= 0.2f;
 				npc.scale = num395 + 0.95f;

@@ -17,7 +17,7 @@ namespace SpiritMod.NPCs.Tides
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Kakamora");
+			DisplayName.SetDefault("Kakamora Bruiser");
 			Main.npcFrameCount[npc.type] = 7;
 		}
 

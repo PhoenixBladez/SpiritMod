@@ -1,6 +1,8 @@
 using SpiritMod.Tiles.Furniture;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Material;
+
 namespace SpiritMod.Items.Placeable.Furniture
 {
 	public class ReachPainting : ModItem
@@ -30,6 +32,14 @@ namespace SpiritMod.Items.Placeable.Furniture
 
 			item.createTile = ModContent.TileType<ReachPaintingTile>();
 		}
-
-	}
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<Canvas>());
+            recipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 5);
+            recipe.AddTile(TileID.WorkBenches);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+    }
 }

@@ -2,6 +2,7 @@
 using SpiritMod.Items.Armor.HunterArmor;
 using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Items.Consumable;
+using SpiritMod.Items.Consumable.Food;
 using SpiritMod.Items.Consumable.Quest;
 using SpiritMod.Items.Material;
 using SpiritMod.Items.Pets;
@@ -309,6 +310,7 @@ namespace SpiritMod.NPCs.Town
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SnowRangerBody>());
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SnowRangerLegs>());
                     Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<IceBerries>(), Main.rand.Next(2, 6));
 
                     Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
 				});

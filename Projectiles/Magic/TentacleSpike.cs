@@ -19,8 +19,8 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			projectile.hostile = false;
 			projectile.magic = true;
-			projectile.width = 16;
-			projectile.height = 30;
+			projectile.width = 14;
+			projectile.height = 26;
 			projectile.hide = true;
 			projectile.aiStyle = -1;
 			projectile.friendly = true;

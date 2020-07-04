@@ -20,14 +20,13 @@ namespace SpiritMod.NPCs
 			npc.width = 40;
 			npc.height = 44;
 			npc.damage = 25;
-			npc.defense = 7;
+			npc.defense = 5;
 			npc.knockBackResist = 0.2f;
-			npc.lifeMax = 80;
+			npc.lifeMax = 45;
 			npc.HitSound = SoundID.NPCHit18;
 			npc.DeathSound = SoundID.NPCDeath21;
 			npc.noGravity = true;
 			npc.noTileCollide = false;
-			npc.npcSlots = 0.75f;
 		}
 		public override void FindFrame(int frameHeight)
 		{
@@ -35,7 +34,7 @@ namespace SpiritMod.NPCs
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.player.ZoneCrimson && spawnInfo.player.ZoneOverworldHeight ? .3f : 0f;
+			return spawnInfo.player.ZoneCrimson && spawnInfo.player.ZoneOverworldHeight ? .045f : 0f;
 		}
 		int frame = 0;
 		public override void AI()
@@ -52,8 +51,8 @@ namespace SpiritMod.NPCs
 			float distance = (float)Math.Sqrt((double)deltaX * (double)deltaX + (double)deltaY * (double)deltaY);
 			npc.ai[1] += 1f;
 			if(distance < 240) {
-				if(npc.ai[1] >= 60 && npc.ai[1] <= 180) {
-					if(Main.rand.NextBool(6)) {
+				if(npc.ai[1] >= 80 && npc.ai[1] <= 180) {
+					if(Main.rand.NextBool(10)) {
 						Main.PlaySound(SoundID.Item34, npc.Center);
 						Vector2 direction = Main.player[npc.target].Center - npc.Center;
 						direction.Normalize();
@@ -68,7 +67,7 @@ namespace SpiritMod.NPCs
 				int d = Dust.NewDust(npc.position, npc.width, npc.height + 10, 5, 0, 1f, 0, new Color(), 0.7f);
 				Main.dust[d].velocity *= .1f;
 			}
-			if(npc.ai[1] == 60 && distance < 240) {
+			if(npc.ai[1] == 80 && distance < 240) {
 				Main.PlaySound(SoundID.NPCKilled, npc.Center, 13);
 				Main.PlaySound(SoundID.Zombie, npc.Center, 40);
 			}
@@ -134,10 +133,10 @@ namespace SpiritMod.NPCs
 				}
 			}
 			if((double)distance > 350.0) {
-				velMax = 7f;
-				acceleration = 0.4f;
-			} else if((double)distance > 300.0) {
 				velMax = 5f;
+				acceleration = 0.2f;
+			} else if((double)distance > 300.0) {
+				velMax = 3f;
 				acceleration = 0.25f;
 			} else if((double)distance > 250.0) {
 				velMax = 2.5f;

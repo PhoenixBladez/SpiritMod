@@ -5,7 +5,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-
+using SpiritMod.Items.Armor.Masks;
 namespace SpiritMod.Tiles
 {
 	public class BloodBlossom : ModTile
@@ -41,7 +41,14 @@ namespace SpiritMod.Tiles
 				b = 0.126f * 1.5f;
 			}
 		}
-		public override void RightClick(int i, int j)
+        public override void MouseOver(int i, int j)
+        {
+            //shows the Cryptic Crystal icon while mousing over this tile
+            Main.player[Main.myPlayer].showItemIcon = true;
+            Main.player[Main.myPlayer].showItemIcon2 = ModContent.ItemType<ReachMask>();
+        }
+
+        public override void RightClick(int i, int j)
 		{
 			//don't bother if there's already a Crystal King in the world
 			for(int x = 0; x < Main.npc.Length; x++) {

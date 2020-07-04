@@ -92,7 +92,6 @@ namespace SpiritMod
 		public int dazzleStacks;
 		public bool ToxicExtract = false;
 		public bool vitaStone = false;
-		public bool tumbleSoul = false;
 		public bool throwerGlove = false;
 		public int throwerStacks;
 		public bool scarabCharm = false;
@@ -120,7 +119,6 @@ namespace SpiritMod
 		public bool shamanBand = false;
 		public bool ChaosCrystal = false;
 		public bool wheezeScale = false;
-		public bool briarHeart = false;
 		public bool winterbornCharmMage = false;
 		public bool sepulchreCharm = false;
 		public bool HellGaze = false;
@@ -531,7 +529,6 @@ namespace SpiritMod
 			briarSlimePet = false;
 			firewall = false;
 			hellCharm = false;
-			tumbleSoul = false;
 			bloodyBauble = false;
             elderbarkWoodSet = false;
             amazonCharm = false;
@@ -636,7 +633,6 @@ namespace SpiritMod
 			cragboundMinion = false;
 			beetleMinion = false;
 			shamanBand = false;
-			briarHeart = false;
 			lihzahrdMinion = false;
 			aeonMinion = false;
 			gasopodMinion = false;
@@ -1356,17 +1352,6 @@ namespace SpiritMod
 
 			if(shamanBand && proj.magic && Main.rand.NextBool(9)) {
 				target.AddBuff(BuffID.OnFire, 180);
-			}
-
-			if(briarHeart && proj.magic) {
-				if(Main.rand.NextBool(9)) {
-					target.AddBuff(BuffID.CursedInferno, 180);
-					target.AddBuff(BuffID.Ichor, 180);
-				}
-
-				if(Main.rand.NextBool(3)) {
-					player.AddBuff(ModContent.BuffType<ToothBuff>(), 300);
-				}
 			}
 
 			if(bloodfireSet && proj.magic) {
@@ -2942,8 +2927,8 @@ namespace SpiritMod
 						}
 					}
 				}
-
-				if(bismiteShieldStacks >= 5) {
+                player.statDefense += player.GetSpiritPlayer().bismiteShieldStacks;
+                if (bismiteShieldStacks >= 5) {
 					bismiteShieldStacks = 5;
 				}
 			}

@@ -47,26 +47,22 @@ namespace SpiritMod.Projectiles.Summon
 				Player player = Main.player[projectile.owner];
 				int lifeToHeal = 0;
 
-				if(player.statLife + 3 <= player.statLifeMax2)
-					lifeToHeal = 3;
-				else
-					lifeToHeal = player.statLifeMax2 - player.statLife;
-
-				player.statLife += lifeToHeal;
-				player.HealEffect(lifeToHeal);
+                if (player.statLife + 3 <= player.statLifeMax2)
+                    lifeToHeal = 3;
+                else
+                {
+                    lifeToHeal = player.statLifeMax2 - player.statLife;
+                }
+                if (player.statLife < player.statLifeMax2)
+                {
+                    player.statLife += lifeToHeal;
+                    player.HealEffect(lifeToHeal);
+                }
 			}
 		}
 		public override void AI()
 		{
 			projectile.spriteDirection = projectile.direction;
-			projectile.frameCounter++;
-			if(projectile.frameCounter > 6) {
-				projectile.frame++;
-				projectile.frameCounter = 0;
-			}
-			if(projectile.frame > 5) {
-				projectile.frame = 0;
-			}
 			projectile.ai[1] += 1f;
 			if(projectile.ai[1] >= 7200f) {
 				projectile.alpha += 5;

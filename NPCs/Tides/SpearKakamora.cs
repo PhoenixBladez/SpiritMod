@@ -18,7 +18,7 @@ namespace SpiritMod.NPCs.Tides
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Kakamora");
+			DisplayName.SetDefault("Kakamora Lobber");
 			Main.npcFrameCount[npc.type] = 7;
 		}
 

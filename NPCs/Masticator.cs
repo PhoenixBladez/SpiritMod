@@ -87,7 +87,6 @@ namespace SpiritMod.NPCs
 					npc.ai[0] += 1f;
 					if(npc.ai[0] > 90f) {
 						vomitPhase = true;
-						Main.PlaySound(SoundID.NPCKilled, npc.Center, 13);
 					}
 				}
 			} else {
@@ -107,7 +106,7 @@ namespace SpiritMod.NPCs
 					vomitPhase = false;
 				}
 
-				if(npc.ai[3] < 150) {
+				if(npc.ai[3] > 90 && npc.ai[3] < 180) {
 					++npc.ai[2];
 					if(npc.ai[2] >= 6) {
 						frame++;
@@ -121,7 +120,7 @@ namespace SpiritMod.NPCs
 					float num395 = Main.mouseTextColor / 200f - 0.25f;
 					num395 *= 0.2f;
 					npc.scale = num395 + 0.95f;
-					if(Main.rand.NextBool(8)) {
+					if(Main.rand.NextBool(12)) {
 						npc.velocity.Y -= .1f;
 						bool expertMode = Main.expertMode;
 						int damage = expertMode ? 12 : 15;
@@ -134,7 +133,7 @@ namespace SpiritMod.NPCs
 						bool expertMode = Main.expertMode;
 						Main.PlaySound(SoundID.Item20, npc.Center);
 						int damagenumber = expertMode ? 12 : 17;
-						int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 6, Main.rand.Next(-3, 3), Main.rand.NextFloat(2f, 4f), tomaProj, damagenumber, 1, Main.myPlayer, 0, 0);
+						int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 6, Main.rand.Next(-3, 3), Main.rand.NextFloat(1f, 3f), tomaProj, damagenumber, 1, Main.myPlayer, 0, 0);
 						Main.projectile[p].penetrate = 1;
 					}
 				} else {
@@ -147,7 +146,7 @@ namespace SpiritMod.NPCs
 						frame = 0;
 					}
 				}
-				if(npc.ai[3] == 210) {
+				if(npc.ai[3] == 180) {
 					Main.PlaySound(SoundID.NPCKilled, npc.Center, 13);
 				}
 			}

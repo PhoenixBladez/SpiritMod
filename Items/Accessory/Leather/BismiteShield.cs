@@ -28,8 +28,6 @@ namespace SpiritMod.Items.Accessory.Leather
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			player.GetSpiritPlayer().bismiteShield = true;
-
-			player.statDefense += 1 * player.GetSpiritPlayer().bismiteShieldStacks;
 		}
 		public override void AddRecipes()
 		{

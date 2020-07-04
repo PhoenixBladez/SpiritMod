@@ -21,17 +21,12 @@ namespace SpiritMod.Projectiles.Hostile
 			projectile.width = 16;
 			projectile.height = 30;
 			projectile.hide = true;
-			projectile.aiStyle = -1;
 			projectile.friendly = false;
 			projectile.penetrate = -1;
 			projectile.timeLeft = 999;
 			projectile.tileCollide = true;
 			projectile.alpha = 255;
 		//	projectile.extraUpdates = 1;
-		}
-		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
-		{
-			drawCacheProjsBehindNPCsAndTiles.Add(index);
 		}
 		bool activated = false;
 		public override bool PreAI()
@@ -42,9 +37,9 @@ namespace SpiritMod.Projectiles.Hostile
 			}
 			 else
 			{
-				projectile.ai[0]++;
+				projectile.ai[1]++;
 				//projectile.extraUpdates = 0;
-				if (projectile.ai[0] < 50)
+				if (projectile.ai[1] < 50)
 				{
 					projectile.timeLeft = 60;
 					for (float i = projectile.position.Y + 30; i > projectile.position.Y - 125; i -= 10)
@@ -53,7 +48,7 @@ namespace SpiritMod.Projectiles.Hostile
 					}
 					projectile.velocity = Vector2.Zero;
 				}
-				else if (projectile.ai[0] < 60)
+				else if (projectile.ai[1] < 60)
 				{
 					projectile.hostile = true;
 					projectile.velocity.Y = -10;
@@ -63,7 +58,7 @@ namespace SpiritMod.Projectiles.Hostile
 					projectile.velocity.Y = 3;
 					projectile.alpha += 10;
 				}
-				if (projectile.ai[0] == 50)
+				if (projectile.ai[1] == 50)
 				{
 					projectile.alpha = 0;
 					//put the sound effect here
@@ -71,7 +66,7 @@ namespace SpiritMod.Projectiles.Hostile
 			}
 			return false;
 		}
-		public override bool OnTileCollide(Vector2 oldVelocity)
+        public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			if(oldVelocity.Y != projectile.velocity.Y && !activated) {
 				activated = true;
@@ -79,6 +74,10 @@ namespace SpiritMod.Projectiles.Hostile
 			}
 			return false;
 		}
-	}
+        public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
+        {
+            drawCacheProjsBehindNPCsAndTiles.Add(index);
+        }
+    }
 }
 
