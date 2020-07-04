@@ -4,6 +4,7 @@ using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using SpiritMod.Buffs;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
@@ -24,6 +25,13 @@ namespace SpiritMod.Items
 			item.width = 24;
 			item.height = 24;
 			item.maxStack = 1;
+		}
+		public override bool ItemSpace(Player player) => true;
+		public override bool OnPickup(Player player)
+		{
+			player.AddBuff(ModContent.BuffType<AceOfDiamondsBuff>(), 180);
+			Main.PlaySound(7, (int)player.position.X, (int)player.position.Y);
+			return false;
 		}
 	}
 }
