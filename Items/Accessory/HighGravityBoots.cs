@@ -25,8 +25,9 @@ namespace SpiritMod.Items.Accessory
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
+			player.portalPhysicsFlag = true;
+			player._portalPhysicsTime = 2;
 			if(player.velocity.Y > 0 && !player.gravControl) {
-				player.velocity.Y = 7f;
 				Dust.NewDustPerfect(new Vector2(player.position.X + Main.rand.Next(player.width), player.position.Y + player.height - Main.rand.Next(7)), 206, Vector2.Zero);
 			}
 		}
