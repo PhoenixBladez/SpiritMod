@@ -104,7 +104,7 @@ namespace SpiritMod.NPCs.Tides
 					npc.rotation = 0;
 					timer = 0;
 				}
-				if((chargeDirection == 1 && player.position.X < npc.position.X) || (chargeDirection == -1 && player.position.X > npc.position.X) && timer > 230) {
+				if((chargeDirection == 1 && player.position.X < npc.position.X) || (chargeDirection == -1 && player.position.X > npc.position.X) && timer > 180) {
 					npc.rotation += 0.1f * npc.velocity.X;
 					npc.velocity.Y = 5;
 				}

@@ -48,7 +48,7 @@ namespace SpiritMod.Projectiles.Magic
 				Main.dust[d].scale *= .5f;
 			}
 			if(Main.myPlayer == projectile.owner && projectile.ai[0] <= 0f) {
-				if(Main.player[projectile.owner].channel) {
+				if(Main.player[projectile.owner].channel && channelable) {
 					float num2353 = 12f;
 					Vector2 vector329 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
 					float num2352 = (float)Main.mouseX + Main.screenPosition.X - vector329.X;
@@ -127,11 +127,12 @@ namespace SpiritMod.Projectiles.Magic
 							projectile.Kill();
 						}
 					}
+					channelable = false;
 					projectile.ai[0] = 1f;
 				}
 			}
 		}
-
+		bool channelable = true;
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			return true;

@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Clatterbone Longsword");
-			Tooltip.SetDefault("Attacks occasionally lowering enemy defense");
+			Tooltip.SetDefault("Has a chance to lower enemy defense on hit");
 		}
 
 

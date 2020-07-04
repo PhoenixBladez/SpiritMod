@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using System;
 
 namespace SpiritMod.Projectiles.Flail
 {
@@ -32,7 +33,10 @@ namespace SpiritMod.Projectiles.Flail
 			if(projectile.timeLeft < 869) {
 				Vector2 direction9 = Main.player[projectile.owner].Center - projectile.position;
 				projectile.velocity = projectile.velocity.RotatedBy(direction9.ToRotation() - projectile.velocity.ToRotation());
-				projectile.velocity *= 1.075f;
+				if (Math.Sqrt((projectile.velocity.X * projectile.velocity.X) + (projectile.velocity.Y * projectile.velocity.Y)) < 18)
+				{
+					projectile.velocity *= 1.075f;
+				}
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 				projectile.tileCollide = false;
 			} else {

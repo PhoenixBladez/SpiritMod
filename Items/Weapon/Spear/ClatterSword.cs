@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Spear
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Clatter Sword");
-			Tooltip.SetDefault("Attacks occasionally lowering enemy defense");
+			Tooltip.SetDefault("Has a chance to lower enemy defense on hit");
 		}
 
 

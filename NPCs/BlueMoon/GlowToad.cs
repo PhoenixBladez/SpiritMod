@@ -137,21 +137,19 @@ namespace SpiritMod.NPCs.BlueMoon
 						tongueOut = false;
 						timer = 80;
 						npc.knockBackResist = 0.5f;
-						if(player.position.X > npc.position.X) {
-							npc.spriteDirection = 0;
-						} else {
-							npc.spriteDirection = 1;
-						}
 					} else {
 						if(tongue.ai[0] == 0) {
-							npc.spriteDirection = 1;
+							npc.direction = -1;
+							npc.spriteDirection = -1;
 						} else {
-							npc.spriteDirection = 0;
+							npc.direction = 1;
+							npc.spriteDirection = 1;
 						}
 					}
 				}
 			}
 		}
+		//int tongueDirection = 0;
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			var effects = npc.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
