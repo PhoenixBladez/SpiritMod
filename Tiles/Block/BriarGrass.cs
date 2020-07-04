@@ -21,7 +21,7 @@ namespace SpiritMod.Tiles.Block
 			TileID.Sets.NeedsGrassFramingDirt[Type] = TileID.Dirt;
 			//Main.tileLighted[Type] = true;
 			AddMapEntry(new Color(104, 156, 70));
-			//drop = mod.ItemType("ReachGrass");
+			drop = ItemID.DirtBlock;
 		}
 
 		public static bool PlaceObject(int x, int y, int type, bool mute = false, int style = 0, int alternate = 0, int random = -1, int direction = -1)

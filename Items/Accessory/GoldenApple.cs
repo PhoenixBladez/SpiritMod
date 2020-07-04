@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Golden Apple");
-			Tooltip.SetDefault("Increases life regen as health decreases");
+			Tooltip.SetDefault("Increases defense as health decreases");
 		}
 
 

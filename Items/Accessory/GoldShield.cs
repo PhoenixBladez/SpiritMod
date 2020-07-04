@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gilded Shield");
-			Tooltip.SetDefault("Provides Immunity to Knockback. As your health goes down, your life regeneration increases.");
+			Tooltip.SetDefault("Provides immunity to Knockback\nAs health decreases, defense increases");
 		}
 		public override void SetDefaults()
 		{

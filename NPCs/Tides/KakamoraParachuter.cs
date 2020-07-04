@@ -16,7 +16,7 @@ namespace SpiritMod.NPCs.Tides
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Kakamora");
+			DisplayName.SetDefault("Kakamora Windglider");
 			Main.npcFrameCount[npc.type] = 3;
 		}
 

@@ -39,7 +39,7 @@ namespace SpiritMod.Projectiles.Magic
                 projectile.ai[1] = 0;
                 if (player.statMana > 0)
                 {
-                    player.statMana-= 10;
+                    player.statMana-= 15;
                 }
             }
 			if (player.statMana <= 0)

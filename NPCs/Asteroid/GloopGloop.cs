@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Accessory;
 
 namespace SpiritMod.NPCs.Asteroid
 {
@@ -54,7 +55,22 @@ namespace SpiritMod.NPCs.Asteroid
 				counter = 0;
 			}
 		}
-		public override void HitEffect(int hitDirection, double damage)
+        public override void NPCLoot()
+        {
+            if (Main.rand.Next(1) == 400)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GravityModulator>());
+            }
+            string[] lootTable = { "AstronautLegs", "AstronautHelm", "AstronautBody" };
+            if (Main.rand.Next(50) == 0)
+            {
+                int loot = Main.rand.Next(lootTable.Length);
+                {
+                    npc.DropItem(mod.ItemType(lootTable[loot]));
+                }
+            }
+        }
+        public override void HitEffect(int hitDirection, double damage)
 		{
 			for(int k = 0; k < 11; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, 167, hitDirection, -1f, 0, default(Color), .61f);

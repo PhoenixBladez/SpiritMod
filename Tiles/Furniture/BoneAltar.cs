@@ -70,7 +70,7 @@ namespace SpiritMod.Tiles.Furniture
 		{
 			for(int a = 0; a < 30; a++) {
 				Vector2 vector23 = Vector2.UnitY.RotatedByRandom(6.28318548202515) * new Vector2(40f, 40f);
-				int index1 = Dust.NewDust(new Vector2((int)i * 16, (int)j * 16) + vector23, 0, 0, 6, 0.0f, 0.0f, 0, new Color(), 1f);
+				int index1 = Dust.NewDust(new Vector2((int)i * 16, (int)j * 16 -30) + vector23, 0, 0, 6, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index1].velocity = Vector2.Zero;
 			}
 			if(!NPC.AnyNPCs(ModContent.NPCType<ForestWraith>())) {

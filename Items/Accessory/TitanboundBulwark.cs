@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Accessory
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			float manaBoost = (float)(player.statLifeMax2 - player.statLife) / (float)player.statLifeMax2 * 50f;
+			float manaBoost = (float)(player.statLifeMax2 - player.statLife) / (float)player.statLifeMax2 * 80f;
 			player.manaRegen += (int)manaBoost;
 			player.endurance += .1f;
 			player.lifeRegen += 3;
