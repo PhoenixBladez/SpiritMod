@@ -4,12 +4,12 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Tiles.Walls.Natural
 {
-	public class ReachStoneWall : ModWall
+	public class BarkWallUnsafe : ModWall
 	{
 		public override void SetDefaults()
 		{
 			Main.wallHouse[Type] = false;
-			AddMapEntry(new Color(70, 70, 70));
+			AddMapEntry(new Color(92, 77, 61));
 		}
 	}
 }
