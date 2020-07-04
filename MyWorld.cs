@@ -33,6 +33,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Terraria;
+using Terraria.GameContent.Biomes;
 using Terraria.GameContent.Generation;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -1887,8 +1888,30 @@ namespace SpiritMod
 				{0,0,1,0,0,5,0,5,0,5,0,9,0,0,5,0,0,0,5,0,0,0,0,5,0,0,5,1,0,0},
 				{0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},
 			};
-			int hideoutX = Main.rand.Next(Main.maxTilesX / 3, Main.maxTilesX / 3 * 2); // from 50 since there's a unaccessible area at the world's borders
-			int hideoutY = Main.spawnTileY + Main.rand.Next(200, Main.maxTilesY - 250);
+			int hideoutX = 0;
+			int hideoutY = 0;
+			bool validPos = false;
+			while(!validPos) {
+				hideoutX = Main.rand.Next(Main.maxTilesX / 3, Main.maxTilesX / 3 * 2); // from 50 since there's a unaccessible area at the world's borders
+				hideoutY = Main.rand.Next(Main.spawnTileY + 200, Main.maxTilesY - 250);
+				validPos = true;
+				for(int x = hideoutX - 8; x < SepulchreRoom1.GetLength(1) + 8; x++) {
+					for(int y = hideoutY; y < SepulchreRoom1.GetLength(0) * 2; y++) {
+						// Don't allow spawning in pyramids, dungeon, granite, marble, underground desert, other sepulchres...
+						if(Main.tile[x, y].active() 
+							&& (!CaveHouseBiome._blacklistedTiles[Main.tile[x, y].type]
+								|| Main.tile[x, y].type == TileID.Granite
+								|| Main.tile[x, y].type == TileID.Marble
+								|| Main.tile[x, y].type == TileID.HardenedSand
+								|| Main.tile[x, y].type == TileID.MushroomGrass
+								|| Main.tile[x, y].type == TileID.WoodBlock
+								|| Main.tile[x, y].type == TileID.Mud
+								|| Main.tile[x, y].type == TileType<SepulchreBrick>())) {
+							validPos = false;
+						}
+					}
+				}
+			}
 			if(Main.rand.Next(2) == 0) {
 				PlaceSepulchre(hideoutX, hideoutY + 9, SepulchreRoom3, SepulchreWalls3, SepulchreLoot3);
 
