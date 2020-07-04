@@ -37,10 +37,6 @@ namespace SpiritMod.Items.Consumable.GamblerChests
 			player.QuickSpawnItem(ItemID.SilverCoin, amount / 100);
 			amount %= 100;
 			player.QuickSpawnItem(ItemID.CopperCoin, amount);
-
-			if(Main.rand.Next(20) == 1) {
-				player.QuickSpawnItem(ItemID.DefenderMedal, Main.rand.Next(30));
-			}
 		}
 	}
 }
