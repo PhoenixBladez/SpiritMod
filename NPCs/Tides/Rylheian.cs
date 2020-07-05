@@ -1,5 +1,7 @@
 ﻿
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Projectiles.Hostile;
@@ -9,7 +11,6 @@ using Terraria.ModLoader;
 using SpiritMod.Items.Weapon.Flail;
 using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Tide;
-using System;
 
 namespace SpiritMod.NPCs.Tides
 {
@@ -28,6 +29,7 @@ namespace SpiritMod.NPCs.Tides
 			npc.width = 66;
 			npc.height = 88;
 			npc.damage = 42;
+			npc.defense = 14;
 			npc.lifeMax = 2800;
 			npc.knockBackResist = 0;
 			npc.noGravity = true;
@@ -38,8 +40,29 @@ namespace SpiritMod.NPCs.Tides
 		int counter;
 		int phase = 0; //0 = charging, 1 = special attack
 		float angle = 0;
+		float alphaCounter = 0;
+		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			if (phase != 0)
+			{
+				float sineAdd = (float)Math.Sin(alphaCounter) + 3;
+				Main.spriteBatch.Draw(SpiritMod.instance.GetTexture("Effects/Masks/Extra_49"), (npc.Center - Main.screenPosition), null, new Color((int)(16.9f * sineAdd), (int)(8.9f * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), 0.33f * (sineAdd + 1), SpriteEffects.None, 0f);
+			}
+		}
 		public override void AI()
 		{
+			if (phase != 0)
+			{
+				alphaCounter+= 0.04f;
+			}
+			else if (alphaCounter > 0)
+			{
+				alphaCounter -= 0.08f;
+			}
+			if (phase == 0 && npc.life < npc.lifeMax / 3 && counter % 2 == 0)
+			{
+				counter++;
+			}
 			npc.TargetClosest();
 			Player player = Main.player[npc.target];
 			counter++;
