@@ -109,7 +109,12 @@ namespace SpiritMod.Effects
 				CreateTrail(projectile, new StandardColorTrail(Color.Gold * 0.4f), new RoundCap(), new DefaultTrailPosition(), 20f, 250f, new DefaultShader());
 
 			}
-			if(projectile.type == ModContent.ProjectileType<PartyStarterBullet>()) {
+            if (projectile.type == ModContent.ProjectileType<RyBolt>())
+            {
+                CreateTrail(projectile, new StandardColorTrail(new Color(181, 120, 255)), new RoundCap(), new DefaultTrailPosition(), 28f, 430f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_3"), 0.08f, 1f, 1f));
+                CreateTrail(projectile, new StandardColorTrail(new Color(99, 64, 255, 100)), new RoundCap(), new DefaultTrailPosition(), 20f, 250f, new DefaultShader());
+            }
+            if (projectile.type == ModContent.ProjectileType<PartyStarterBullet>()) {
 				CreateTrail(projectile, new RainbowTrail(8f, 0.002f, 1f, .65f), new RoundCap(), new DefaultTrailPosition(), 9f, 150f);
 			}
 			if(projectile.type == ModContent.ProjectileType<PartyExplosives>()) {

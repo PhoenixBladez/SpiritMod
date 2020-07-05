@@ -65,7 +65,7 @@ namespace SpiritMod.NPCs.Tides
                     Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/MangoJelly/MangoJelly4"), 1f);
                     Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/MangoJelly/MangoJelly5"), 1f);
                     Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/MangoJelly/MangoJelly6"), 1f);
-                    if (TideWorld.TheTide)
+                    if (TideWorld.TheTide && TideWorld.TidePoints < 99)
                     {
                         TideWorld.TidePoints += 1;
                     }

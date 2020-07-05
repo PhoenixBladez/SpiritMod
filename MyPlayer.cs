@@ -1972,10 +1972,10 @@ namespace SpiritMod
 		int bloodTimer;
 		public override void PreUpdate()
 		{
-			if (TideWorld.TheTide && !NPC.AnyNPCs(ModContent.NPCType<Rylheian>()) && player.ZoneBeach && TideWorld.TidePoints >= 90)
+			if (TideWorld.TheTide && !NPC.AnyNPCs(ModContent.NPCType<Rylheian>()) && player.ZoneBeach && TideWorld.TidePoints >= 99)
             {
                 int n = NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 400, ModContent.NPCType<Rylheian>(), 0, 2, 1, 0, 0, Main.myPlayer);
-                Main.PlaySound(2, Main.npc[n].Center, 123);
+                Main.PlaySound(29, Main.npc[n].Center, 89);
                 DustHelper.DrawDiamond(new Vector2(Main.npc[n].Center.X, Main.npc[n].Center.Y), 173, 8);
                 DustHelper.DrawTriangle(new Vector2(Main.npc[n].Center.X, Main.npc[n].Center.Y), 173, 8);
             }

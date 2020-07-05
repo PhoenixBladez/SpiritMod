@@ -66,6 +66,17 @@ namespace SpiritMod.NPCs.Tides
 					}
 				}
 			}
+            float num395 = Main.mouseTextColor / 200f - 0.35f;
+            num395 *= 0.2f;
+            npc.scale = num395 + 0.95f;
+            if (!Main.raining)
+            {
+                Main.cloudAlpha += .005f;
+                if (Main.cloudAlpha >= .5f)
+                {
+                    Main.cloudAlpha = .5f;
+                }
+            }
 			if (counter % 400 == 200)
 			{
 				phase = Main.rand.Next(3) + 1;
@@ -74,8 +85,9 @@ namespace SpiritMod.NPCs.Tides
 
 			#region phase 1
 			if (counter % 400 == 316 && phase == 1)
-			{
-				for (angle = 0; angle < 6.29; angle+= 0.785f)
+            {
+                Main.PlaySound(2, npc.Center, 109);
+                for (angle = 0; angle < 6.29; angle+= 0.785f)
 				{
 					Vector2 offset = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)) * 90f;
 					int laser = Terraria.Projectile.NewProjectile(npc.Center.X+ offset.X, npc.Center.Y + offset.Y, 0, 0, ModContent.ProjectileType<RyBolt>(), npc.damage, 0);
@@ -91,6 +103,7 @@ namespace SpiritMod.NPCs.Tides
 			{
 				if (counter % 12 == 0 && counter % 400 < 300)
 				{
+                    Main.PlaySound(2, npc.Center, 8);
 					Vector2 offset = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)) * 90f;
 					DustHelper.DrawTriangle(npc.Center + offset, 173, 4);
 					angle += 0.785f;
@@ -119,9 +132,10 @@ namespace SpiritMod.NPCs.Tides
 					double squidAnglex = Math.Sin(angleS * (Math.PI / 180));
 					double squidAngley = 0 - Math.Abs(Math.Cos(angleS * (Math.PI / 180)));
 					int squid = Projectile.NewProjectile(player.Center.X + (int)(500 * squidAnglex), player.Center.Y + (int)(500 * squidAngley), 0, 0, ModContent.ProjectileType<TentacleSquid>(), npc.damage, 0);
-					Projectile p = Main.projectile[squid];
+                    Projectile p = Main.projectile[squid];
 					Vector2 direction = Main.player[npc.target].Center - p.Center;
-					direction.Normalize();
+                    Main.PlaySound(4, p.Center, 19);
+                    direction.Normalize();
 					direction *= 9f;
 					p.velocity = direction;
 					DustHelper.DrawTriangle(new Vector2(player.Center.X + (int)(500 * squidAnglex), player.Center.Y + (int)(500 * squidAngley)), 173, 3);
@@ -156,13 +170,12 @@ namespace SpiritMod.NPCs.Tides
 		}
         public override void NPCLoot()
         {
-            if (Main.rand.NextBool(3))
+            string[] lootTable = { "TomeOfRylien", "TentacleChain"};
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TomeOfRylien>());
-            }
-            if (Main.rand.NextBool(3))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TentacleChain>());
+                int loot = Main.rand.Next(lootTable.Length);
+                {
+                    npc.DropItem(mod.ItemType(lootTable[loot]));
+                }
             }
         }
         public override void HitEffect(int hitDirection, double damage)

@@ -157,7 +157,7 @@ namespace SpiritMod.NPCs.Tides
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Kakamora_Gore"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Kakamora_Gore1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Kakamora_GoreSword"), 1f);
-                if (TideWorld.TheTide)
+                if (TideWorld.TheTide && TideWorld.TidePoints < 99)
                 {
                     TideWorld.TidePoints += 1;
                 }
