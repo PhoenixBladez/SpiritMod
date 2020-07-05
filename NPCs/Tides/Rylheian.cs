@@ -34,7 +34,7 @@ namespace SpiritMod.NPCs.Tides
 			npc.knockBackResist = 0;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
-			npc.HitSound = SoundID.NPCHit7;
+			npc.HitSound = SoundID.NPCHit55;
 			npc.DeathSound = SoundID.NPCDeath5;
 		}
 		int counter;
