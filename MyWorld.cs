@@ -1895,8 +1895,8 @@ namespace SpiritMod
 				hideoutX = Main.rand.Next(Main.maxTilesX / 3, Main.maxTilesX / 3 * 2); // from 50 since there's a unaccessible area at the world's borders
 				hideoutY = Main.rand.Next(Main.spawnTileY + 200, Main.maxTilesY - 250);
 				validPos = true;
-				for(int x = hideoutX - 8; x < SepulchreRoom1.GetLength(1) + 8; x++) {
-					for(int y = hideoutY; y < SepulchreRoom1.GetLength(0) * 2; y++) {
+				for(int x = hideoutX - 8; x < hideoutX + SepulchreRoom1.GetLength(1) + 8; x++) {
+					for(int y = hideoutY - 10; y < hideoutY + SepulchreRoom1.GetLength(0) * 2 + 9; y++) {
 						// Don't allow spawning in pyramids, dungeon, granite, marble, underground desert, other sepulchres...
 						if(Main.tile[x, y].active() 
 							&& (!CaveHouseBiome._blacklistedTiles[Main.tile[x, y].type]
@@ -1906,10 +1906,15 @@ namespace SpiritMod
 								|| Main.tile[x, y].type == TileID.MushroomGrass
 								|| Main.tile[x, y].type == TileID.WoodBlock
 								|| Main.tile[x, y].type == TileID.Mud
-								|| Main.tile[x, y].type == TileType<SepulchreBrick>())) {
+								|| Main.tile[x, y].type == TileID.SnowBlock
+								|| Main.tile[x, y].type == TileID.IceBlock
+								|| Main.tile[x, y].type == TileType<SepulchreBrick>()
+								|| Main.tile[x, y].liquid > 0)) {
 							validPos = false;
+							break;
 						}
 					}
+					if(!validPos) break;
 				}
 			}
 			if(Main.rand.Next(2) == 0) {
