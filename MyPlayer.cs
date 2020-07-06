@@ -346,6 +346,7 @@ namespace SpiritMod
 		public bool MoonSongBlossom;
 		public bool HolyGrail;
 		public bool bismiteSet;
+		public bool surferSet;
 		public float virulence = 600f;
 		public int illusionistTimer;
 		public float cryoTimer = 0f;
@@ -360,6 +361,7 @@ namespace SpiritMod
 		public bool windEffect2;
 		public int infernalSetCooldown;
 		public int fierySetTimer = 480;
+		public int surferTimer = 330;
 		public int firewallHit;
 		public int bubbleTimer;
 		public float starplateGlitchIntensity;
@@ -553,6 +555,7 @@ namespace SpiritMod
 			gemPickaxe = false;
 			cultistScarf = false;
 			bismiteSet = false;
+			surferSet = false;
 			bloodCourtHead = false;
 			scarabCharm = false;
 			assassinMag = false;
@@ -2327,6 +2330,11 @@ namespace SpiritMod
 			} else {
 				fierySetTimer = 480;
 			}
+			if(surferSet) {
+				surferTimer--;
+			} else {
+				surferTimer = 330;
+			}
 			if(fierySetTimer == 0) {
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(25, 1));
 				for(int i = 0; i < 2; i++) {
@@ -3727,7 +3735,11 @@ namespace SpiritMod
 			} else {
 				virulence = 600;
 			}
-
+			if (surferSet && surferTimer == 0)
+			{
+				Rectangle textPos = new Rectangle((int)player.position.X, (int)player.position.Y - 20, player.width, player.height);
+				CombatText.NewText(textPos, new Color(95, 156, 111, 100), "Water Spout Charged");
+			}
 			if(daybloomSet) {
 				if(dazzleStacks == 1800) {
 					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(25, 1));
@@ -4528,7 +4540,12 @@ namespace SpiritMod
 							Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
 					}
 				}
-
+				if (surferSet && surferTimer <= 0)
+				{
+					surferTimer = 390;
+					Main.PlaySound(19, player.position, 0);
+					Projectile.NewProjectile(player.Center - new Vector2(0, 30), Vector2.Zero, ModContent.ProjectileType<WaterSpout>(), 30, 8, player.whoAmI);
+				}
 				if(fierySet && fierySetTimer <= 0) {
 					Main.PlaySound(SoundID.Item, player.position, 74);
 					for(int i = 0; i < 8; i++) {

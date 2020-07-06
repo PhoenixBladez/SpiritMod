@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<Carapace>(), 2);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 50);
+			recipe.SetResult(this, 1);
 			recipe.AddRecipe();
 		}
 	}

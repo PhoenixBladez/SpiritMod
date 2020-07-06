@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Tide;
+using SpiritMod.Items.Material;
 using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Items.Weapon.Thrown;
@@ -106,6 +107,10 @@ namespace SpiritMod.NPCs.Tides
             if (Main.rand.NextBool(15))
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MagicConch>());
+            }
+			 if (Main.rand.Next(3) != 0)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TribalScale>(), Main.rand.Next(2) + 1);
             }
         }
         public override void FindFrame(int frameHeight)
