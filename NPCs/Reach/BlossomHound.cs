@@ -22,13 +22,13 @@ namespace SpiritMod.NPCs.Reach
 		{
 			npc.width = 86;
 			npc.height = 54;
-			npc.damage = 28;
-			npc.defense = 7;
-			npc.lifeMax = 85;
+			npc.damage = 15;
+			npc.defense = 3;
+			npc.lifeMax = 75; 
 			npc.HitSound = SoundID.NPCHit6;
 			npc.DeathSound = SoundID.NPCDeath5;
 			npc.value = 180f;
-			npc.knockBackResist = .2f;
+			npc.knockBackResist = .5f;
 			npc.aiStyle = 3;
 			aiType = NPCID.WalkingAntlion;
 		}
@@ -97,8 +97,8 @@ namespace SpiritMod.NPCs.Reach
 				num34616 = .35f;
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
-				direction.X = direction.X * Main.rand.Next(5, 7);
-				direction.Y = direction.Y * Main.rand.Next(11, 15);
+				direction.X = direction.X * Main.rand.Next(8, 12);
+				direction.Y = 0 - Main.rand.Next(8, 11);
 				npc.velocity.X = direction.X;
 				npc.velocity.Y = direction.Y;
 				npc.velocity.X *= 0.995f;

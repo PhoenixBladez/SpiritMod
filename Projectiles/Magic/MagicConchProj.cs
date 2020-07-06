@@ -47,13 +47,13 @@ namespace SpiritMod.Projectiles.Magic
 				Vector2 westPosFar = projectile.Center - new Vector2(Closeness * (float)Math.Sin(radians), Closeness * (float)Math.Cos(radians));
 				Vector2 northPosFar = projectile.Center + new Vector2(Closeness * (float)Math.Sin(radians + 1.57), Closeness * (float)Math.Cos(radians + 1.57));
 				Vector2 southPosFar = projectile.Center - new Vector2(Closeness * (float)Math.Sin(radians + 1.57), Closeness * (float)Math.Cos(radians + 1.57));
-				int d4 = Dust.NewDust(eastPosFar, 2, 2, 180);
+				int d4 = Dust.NewDust(eastPosFar, 2, 2, 180, 0, 0);
 				Main.dust[d4].noGravity = true;
-				int d5 = Dust.NewDust(westPosFar, 2, 2, 180);
+				int d5 = Dust.NewDust(westPosFar, 2, 2, 180, 0, 0);
 				Main.dust[d5].noGravity = true;
-				int d6 = Dust.NewDust(northPosFar, 2, 2, 180);
+				int d6 = Dust.NewDust(northPosFar, 2, 2, 180, 0, 0);
 				Main.dust[d6].noGravity = true;
-				int d7 = Dust.NewDust(southPosFar, 2, 2, 180);
+				int d7 = Dust.NewDust(southPosFar, 2, 2, 180, 0, 0);
 				Main.dust[d7].noGravity = true;
 
 
@@ -61,13 +61,13 @@ namespace SpiritMod.Projectiles.Magic
 				Vector2 westPosClose = projectile.Center - new Vector2((Closeness - 30f) * (float)Math.Sin(radians), (Closeness - 30f) * (float)Math.Cos(radians));
 				Vector2 northPosClose = projectile.Center + new Vector2((Closeness - 30f) * (float)Math.Sin(radians + 1.57), (Closeness - 30f) * (float)Math.Cos(radians + 1.57));
 				Vector2 southPosClose = projectile.Center - new Vector2((Closeness - 30f) * (float)Math.Sin(radians + 1.57), (Closeness - 30f) * (float)Math.Cos(radians + 1.57));
-				int d = Dust.NewDust(eastPosClose, 2, 2, 180);
+				int d = Dust.NewDust(eastPosClose, 2, 2, 180, 0, 0);
 				Main.dust[d].noGravity = true;
-				int d1 = Dust.NewDust(westPosClose, 2, 2, 180);
+				int d1 = Dust.NewDust(westPosClose, 2, 2, 180, 0, 0);
 				Main.dust[d1].noGravity = true;
-				int d2 = Dust.NewDust(northPosClose, 2, 2, 180);
+				int d2 = Dust.NewDust(northPosClose, 2, 2, 180, 0, 0);
 				Main.dust[d2].noGravity = true;
-				int d3 = Dust.NewDust(southPosClose, 2, 2, 180);
+				int d3 = Dust.NewDust(southPosClose, 2, 2, 180, 0, 0);
 				Main.dust[d3].noGravity = true;
 			}
 
