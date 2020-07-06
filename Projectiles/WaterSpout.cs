@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using SpiritMod.Dusts;
 
 namespace SpiritMod.Projectiles
 {
@@ -19,10 +20,12 @@ namespace SpiritMod.Projectiles
 			projectile.penetrate = -1;
 			projectile.alpha = 255;
 			projectile.timeLeft = 150;
+			
 		}
 		public override bool PreAI()
 		{
 			Player player = Main.player[projectile.owner];
+			projectile.position.X = player.position.X + player.velocity.X;
 			if (projectile.Hitbox.Intersects(player.Hitbox) && player.velocity.Y > -4f)
 			{
 				player.velocity.Y -= 3f;
@@ -32,7 +35,7 @@ namespace SpiritMod.Projectiles
 			if((double)num2 < 1.0)
 				num1 *= num2;
 
-				for(int index3 = 0; index3 < 2; ++index3) {
+				for(int index3 = 0; index3 < 4; ++index3) {
 					Vector2 vector2 = new Vector2(0.0f, -num1);
 					vector2 = (vector2 * (float)(0.850000023841858 + Main.rand.NextDouble() * 0.200000002980232)).RotatedBy((Main.rand.NextDouble() - 0.5) * 0.785398185253143, new Vector2());
 					int index4 = Dust.NewDust(projectile.position, 4, projectile.height + 10, 33, 0.0f, 0.0f, 100, new Color(), 1f);

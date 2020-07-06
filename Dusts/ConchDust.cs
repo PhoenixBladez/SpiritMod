@@ -10,14 +10,14 @@ namespace SpiritMod.Dusts
 			dust.scale = 1f;
 			dust.alpha = 0;
 			dust.velocity = dust.velocity * 0.1f;
+			dust.noGravity = false;
 		}
 		public override bool Update(Dust dust)
 		{
-			Lighting.AddLight((int)(dust.position.X / 16f), (int)(dust.position.Y / 16f), 0.196f / 2, 0.870588235f / 2, 0.964705882f / 2);
-			dust.noGravity = true;
+			dust.velocity.X *= 0.99f;
+			dust.velocity.Y += 0.1f;
 			dust.position += dust.velocity;
-			dust.velocity *= 0.92f;
-			dust.alpha += 40;
+			dust.alpha += 1;
 			if(dust.alpha > 200) {
 				dust.active = false;
 			}
