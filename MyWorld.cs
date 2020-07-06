@@ -989,7 +989,7 @@ namespace SpiritMod
 					}
 				}
 				// place the Rogue
-				int num = NPC.NewNPC((towerX + 12) * 16, (towerY - 24) * 16, NPCType<BoundRogue>(), 0, 0f, 0f, 0f, 0f, 255);
+				int num = NPC.NewNPC((towerX + 12) * 16, (towerY - 24) * 16, NPCType<BoundGambler>(), 0, 0f, 0f, 0f, 0f, 255);
 				Main.npc[num].homeTileX = -1;
 				Main.npc[num].homeTileY = -1;
 				Main.npc[num].direction = 1;

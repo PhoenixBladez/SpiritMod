@@ -38,11 +38,9 @@ namespace SpiritMod.NPCs.Town
 		{
 			npc.Transform(NPCType<Rogue>());
 			npc.dontTakeDamage = false;
-			return MyWorld.gennedTower
-				? "Thanks for saving me from these goblins!"
-				: "Hey! Thanks for saving me- Now, mind getting us out of this pickle and killing these bandits? They duped me and took all my cash! Don't think it means I'll discount my wares for you, though. Just kidding! Not.";
-		}
-		public override void AI()
+			return "Hey! Thanks for saving me- Now, mind getting us out of this pickle? They duped me, took all my cash and left me for dead here! Don't think it means I'll discount my wares for you, though. Just kidding! Not.";
+        }
+        public override void AI()
 		{
 			if(Main.netMode != NetmodeID.MultiplayerClient) {
 				npc.homeless = false;

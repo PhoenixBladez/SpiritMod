@@ -45,5 +45,9 @@ namespace SpiritMod.Projectiles.Hostile
 				Dust.NewDustPerfect(projectile.Center, ModContent.DustType<FloranDust2>());
 			}
 		}
+		public override void Kill(int timeLeft)
+        {
+            Main.PlaySound(0, projectile.Center, 1);
+        }
 	}
 }

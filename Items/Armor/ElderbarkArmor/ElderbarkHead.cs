@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Armor.ElderbarkArmor
 		}
 		public override void UpdateArmorSet(Player player)
 		{
-			player.setBonus = $"Increases all item damage by 2";
+			player.setBonus = $"Increases all item damage by 1";
 			player.GetSpiritPlayer().elderbarkWoodSet = true;
 		}
         public override void AddRecipes()

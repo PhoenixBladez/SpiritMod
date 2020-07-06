@@ -6,7 +6,7 @@ using SpiritMod.Projectiles.Hostile;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-
+using System;
 
 namespace SpiritMod.NPCs.BlueMoon
 {
@@ -16,7 +16,7 @@ namespace SpiritMod.NPCs.BlueMoon
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Lunar Slime");
+			DisplayName.SetDefault("Stargazer Slime");
 			Main.npcFrameCount[npc.type] = Main.npcFrameCount[NPCID.BlueSlime];
 		}
 
@@ -25,8 +25,8 @@ namespace SpiritMod.NPCs.BlueMoon
 			npc.width = 32;
 			npc.height = 26;
 			npc.damage = 35;
-			npc.defense = 5;
-			npc.lifeMax = 120;
+			npc.defense = 12;
+			npc.lifeMax = 300;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath22;
 			npc.value = 600f;
@@ -40,18 +40,18 @@ namespace SpiritMod.NPCs.BlueMoon
 
 		public override Color? GetAlpha(Color lightColor)
 		{
-			return Color.White;
+			return new Color(200, 200, 200, 200);
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return MyWorld.BlueMoon ? 2f : 0f;
+			return MyWorld.BlueMoon ? 1.4f : 0f;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			for(int k = 0; k < 5; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 6, hitDirection, -1f, 0, default(Color), 1f);
+			for(int k = 0; k < 8; k++) {
+				Dust.NewDust(npc.position, npc.width, npc.height, 206, hitDirection, -1f, 0, default(Color), 1.4f);
 			}
 			if(npc.life <= 0) {
 				npc.position.X = npc.position.X + (float)(npc.width / 2);
@@ -60,31 +60,48 @@ namespace SpiritMod.NPCs.BlueMoon
 				npc.height = 30;
 				npc.position.X = npc.position.X - (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
-				for(int num621 = 0; num621 < 200; num621++) {
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 206, 0f, 0f, 100, default(Color), 2f);
+				for(int num621 = 0; num621 < 100; num621++) {
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 206, 0f, 0f, 100, default(Color), 1.1f);
 					Main.dust[num622].velocity *= 3f;
-					if(Main.rand.Next(2) == 0) {
-						Main.dust[num622].scale = 0.5f;
-						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-					}
 				}
-			}
-		}
+                float ScaleMult = 2.33f;
+                DustHelper.DrawStar(new Vector2(npc.Center.X, npc.Center.Y), 206, pointAmount: 5, mainSize: 5.25f * ScaleMult, dustDensity: 4, pointDepthMult: 0.3f, noGravity: true);
 
+            }
+        }
 		public override bool PreAI()
 		{
 			if(npc.collideY && jump && npc.velocity.Y > 0) {
-				if(Main.rand.Next(4) == 0)
-					Projectile.NewProjectile(npc.position.X, npc.position.Y - 500, 0, 4, ModContent.ProjectileType<LunarStar>(), 45, 1, Main.myPlayer, 0, 0);
-
+                npc.ai[3]++;
+                if (npc.ai[3] >= 2)
+                {
+                    npc.ai[3] = 0;
+                    Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 9);
+                    float ScaleMult = 2.33f;
+                    DustHelper.DrawStar(new Vector2(npc.Center.X, npc.Center.Y), 206, pointAmount: 5, mainSize: 4.25f * ScaleMult, dustDensity: 2, pointDepthMult: 0.3f, noGravity: true);
+					for (int i = 0; i < Main.rand.Next(1, 3); i++)
+                    {
+                        Vector2 vector2_1 = new Vector2((float)((double)npc.position.X + (double)npc.width * 0.5 + (double)(Main.rand.Next(201) * -npc.direction) + ((double)Main.mouseX + (double)Main.screenPosition.X - (double)npc.position.X)), (float)((double)npc.position.Y + (double)npc.height * 0.5 - 600.0));   //this defines the projectile width, direction and position
+                        vector2_1.X = (float)(((double)vector2_1.X + (double)npc.Center.X) / 2.0) + (float)Main.rand.Next(-200, 201);
+                        vector2_1.Y -= (float)(100);
+                        float num12 = Main.rand.Next(-30, 30);
+                        float num13 = 120;
+                        if ((double)num13 < 0.0) num13 *= -1f;
+                        if ((double)num13 < 20.0) num13 = 20f;
+                        float num14 = (float)Math.Sqrt((double)num12 * (double)num12 + (double)num13 * (double)num13);
+                        float num15 = 10 / num14;
+                        float num16 = num12 * num15;
+                        float num17 = num13 * num15;
+                        float SpeedX = num16 + (float)Main.rand.Next(-40, 41) * 0.02f;  //this defines the projectile X position speed and randomnes
+                        float SpeedY = num17 + (float)Main.rand.Next(-40, 41) * 0.02f;  //this defines the projectile Y position speed and randomnes
+                        int proj = Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-60, 60), npc.Center.Y + Main.rand.Next(-1200, -900), SpeedX, SpeedY, ModContent.ProjectileType<LunarStar>(), 20, 3, Main.myPlayer, 0.0f, 1);
+                    }
+                }
 				jump = false;
-				for(int i = 0; i < 10; i++) {
-					int dust = Dust.NewDust(npc.position + npc.velocity, npc.width, npc.height, 206, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f);
-					Main.dust[dust].noGravity = true;
-				}
 			}
 			if(!npc.collideY)
 				jump = true;
+
 
 			return true;
 		}
@@ -98,10 +115,10 @@ namespace SpiritMod.NPCs.BlueMoon
 
 		public override void NPCLoot()
 		{
-			if(Main.rand.Next(5) == 1)
+			if(Main.rand.Next(4) == 1)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MoonJelly>());
 
-			if(Main.rand.Next(2) == 1)
+			if(Main.rand.Next(5) == 1)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MoonStone>());
 		}
 

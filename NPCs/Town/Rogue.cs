@@ -125,7 +125,6 @@ namespace SpiritMod.NPCs.Town
 			AddItem(ref shop, ref nextSlot, ItemType<ShurikenLauncher>());
 			AddItem(ref shop, ref nextSlot, ItemType<SwiftRune>());
 			AddItem(ref shop, ref nextSlot, ItemType<AssassinMagazine>());
-			AddItem(ref shop, ref nextSlot, ItemType<Dartboard>());
 			AddItem(ref shop, ref nextSlot, ItemType<Items.Weapon.Thrown.TargetCan>());
 			AddItem(ref shop, ref nextSlot, ItemType<Items.Weapon.Thrown.TargetBottle>());
 		}

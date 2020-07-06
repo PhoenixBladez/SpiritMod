@@ -92,8 +92,15 @@ namespace SpiritMod.Items.Placeable
 				int loot4 = Main.rand.Next(lootTable4.Length);
 				player.QuickSpawnItem(lootTable4[loot4]);
 			}
-
-			if(Main.rand.Next(3) == 0) {
+            string[] lootTable2123 = { "DiverLegs", "DiverHead", "DiverBody" };
+            if (Main.rand.Next(14) == 0)
+            {
+                int loot443 = Main.rand.Next(lootTable2123.Length);
+                {
+                    player.QuickSpawnItem(mod.ItemType(lootTable2123[loot443]));
+                }
+            }
+            if (Main.rand.Next(3) == 0) {
 				int[] lootTable2 = {
 					ItemID.FrostDaggerfish,
 					ItemID.BombFish

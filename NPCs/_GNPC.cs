@@ -682,25 +682,28 @@ namespace SpiritMod.NPCs
             if (TideWorld.TheTide && spawnInfo.player.ZoneBeach)
             {
                 pool.Clear();
-                pool.Add(NPCType<SpearKakamora>(), 7.35f);
-				pool.Add(NPCType<KakamoraParachuter>(), 5.35f);
-                pool.Add(NPCType<SwordKakamora>(), 7.35f);
-                pool.Add(NPCType<KakamoraShielder>(), 1.73f);
-                pool.Add(NPCType<KakamoraShielderRare>(), .135f);
-				pool.Add(NPCType<KakamoraRunner>(), 2f);
-                if (!NPC.AnyNPCs(ModContent.NPCType<KakamoraShaman>()))
+                if (TideWorld.TidePoints < 99)
                 {
-                    pool.Add(NPCType<KakamoraShaman>(), 2.35f);
+                    pool.Add(NPCType<SpearKakamora>(), 7.35f);
+                    pool.Add(NPCType<KakamoraParachuter>(), 5.35f);
+                    pool.Add(NPCType<SwordKakamora>(), 7.35f);
+                    pool.Add(NPCType<KakamoraShielder>(), 1.73f);
+                    pool.Add(NPCType<KakamoraShielderRare>(), .135f);
+                    pool.Add(NPCType<KakamoraRunner>(), 2f);
+                    if (!NPC.AnyNPCs(ModContent.NPCType<KakamoraShaman>()))
+                    {
+                        pool.Add(NPCType<KakamoraShaman>(), 2.35f);
+                    }
+                    if (TideWorld.TidePoints >= 25)
+                    {
+                        pool.Add(NPCType<MangoJelly>(), 3.35f);
+                    }
+                    if (TideWorld.TidePoints >= 50)
+                    {
+                        pool.Add(NPCType<LargeCrustecean>(), 2.35f);
+                    }
+                    pool.Add(NPCType<KakamoraRider>(), 2.35f);
                 }
-                if (TideWorld.TidePoints >= 25)
-                {
-                    pool.Add(NPCType<MangoJelly>(), 3.35f);
-                }
-                if (TideWorld.TidePoints >= 50)
-                {
-                    pool.Add(NPCType<LargeCrustecean>(), 2.35f);
-                }
-                pool.Add(NPCType<KakamoraRider>(), 2.35f);
             }
             if (spawnInfo.player.GetSpiritPlayer().ZoneAsteroid) {
 				pool.Clear();

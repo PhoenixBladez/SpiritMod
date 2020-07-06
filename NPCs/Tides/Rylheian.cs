@@ -10,6 +10,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Weapon.Flail;
 using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Items.Armor.Masks;
+using SpiritMod.Items.Boss;
 using SpiritMod.Tide;
 
 namespace SpiritMod.NPCs.Tides
@@ -199,6 +201,14 @@ namespace SpiritMod.NPCs.Tides
                 {
                     npc.DropItem(mod.ItemType(lootTable[loot]));
                 }
+            }
+			if (Main.rand.NextBool(10))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<RlyehMask>());
+            }
+            if (Main.rand.NextBool(10))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Trophy10>());
             }
         }
         public override void HitEffect(int hitDirection, double damage)

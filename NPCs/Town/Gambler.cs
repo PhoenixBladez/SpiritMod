@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 using static SpiritMod.NPCUtils;
 using static Terraria.ModLoader.ModContent;
 
-namespace SpiritMod.Npcs.Town
+namespace SpiritMod.NPCs.Town
 {
 	[AutoloadHead]
 	public class Gambler : ModNPC
@@ -23,7 +23,7 @@ namespace SpiritMod.Npcs.Town
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gambler");
-			Main.npcFrameCount[npc.type] = 25;
+			Main.npcFrameCount[npc.type] = 26;
 			NPCID.Sets.ExtraFramesCount[npc.type] = 9;
 			NPCID.Sets.AttackFrameCount[npc.type] = 4;
 			NPCID.Sets.DangerDetectRange[npc.type] = 700;
@@ -72,7 +72,7 @@ namespace SpiritMod.Npcs.Town
 		{
 			switch(WorldGen.genRand.Next(7)) {
 				case 0:
-					return "Jonesy";
+					return "Yumeko";
 				case 1:
 					return "Vanessa";
 				case 2:
@@ -80,9 +80,9 @@ namespace SpiritMod.Npcs.Town
 				case 3:
 					return "Alexandra";
 				case 4:
-					return "Gray";
+					return "Sasha";
 				case 5:
-					return "Gray";
+					return "Celine";
 				default:
 					return "Aleksa";
 			}
@@ -106,9 +106,9 @@ namespace SpiritMod.Npcs.Town
 			List<string> dialogue = new List<string>
 			{
 				"Gambling is the sport of royals. Why don't you take a chance?",
-				"I should warn you, my game isn't for the feint of heart.",
+				"I should warn you, my game isn't for the faint of heart.",
 				"Gambling's bad for you. Unless you win.",
-				"Win or lose, the thrill of the game is worth the money",
+				"Win or lose, the thrill of the game is worth the money.",
 				"You have the face of a winner. Step up!",
 			};
 			int merchant = NPC.FindFirstNPC(NPCID.Merchant);
@@ -164,11 +164,35 @@ namespace SpiritMod.Npcs.Town
 			nextSlot++;
 			nextSlot++;
 			nextSlot++;
-			AddItem(ref shop, ref nextSlot, ItemType<AceOfSpades>());
-			AddItem(ref shop, ref nextSlot, ItemType<AceOfHearts>());
-			AddItem(ref shop, ref nextSlot, ItemType<AceOfClubs>());
-			AddItem(ref shop, ref nextSlot, ItemType<AceOfDiamonds>());
-		}
+            switch (Main.moonPhase)
+            {
+                case 0 when !Main.dayTime:
+                    AddItem(ref shop, ref nextSlot, ItemType<AceOfClubs>());
+                    break;
+                case 1 when !Main.dayTime:
+                    AddItem(ref shop, ref nextSlot, ItemType<AceOfClubs>());
+                    break;
+                case 2 when !Main.dayTime:
+                    AddItem(ref shop, ref nextSlot, ItemType<AceOfHearts>());
+                    break;
+                case 3 when !Main.dayTime:
+                    AddItem(ref shop, ref nextSlot, ItemType<AceOfHearts>());
+                    break;
+                case 4 when !Main.dayTime:
+                    AddItem(ref shop, ref nextSlot, ItemType<AceOfDiamonds>());
+                    break;
+                case 5 when !Main.dayTime:
+                    AddItem(ref shop, ref nextSlot, ItemType<AceOfDiamonds>());
+                    break;
+                case 6 when !Main.dayTime:
+                    AddItem(ref shop, ref nextSlot, ItemType<AceOfSpades>());
+                    break;
+                case 7 when !Main.dayTime:
+                    AddItem(ref shop, ref nextSlot, ItemType<AceOfSpades>());
+                    break;
+            }
+            AddItem(ref shop, ref nextSlot, ItemType<Dartboard>());
+        }
 
 		public override void TownNPCAttackStrength(ref int damage, ref float knockback)
 		{

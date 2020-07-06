@@ -74,6 +74,17 @@ namespace SpiritMod.NPCs.Ocean
 			}
 
 		}
+		public override void NPCLoot()
+        {
+            string[] lootTable = { "DiverLegs", "DiverHead", "DiverBody" };
+            if (Main.rand.Next(40) == 0)
+            {
+                int loot = Main.rand.Next(lootTable.Length);
+                {
+                    npc.DropItem(mod.ItemType(lootTable[loot]));
+                }
+            }
+        }
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frame.Y = frameHeight * frame;

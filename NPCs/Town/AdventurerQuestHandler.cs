@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using SpiritMod.Items.Armor.HunterArmor;
+using SpiritMod.Items.Armor.CowboySet;
 using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Items.Consumable;
 using SpiritMod.Items.Consumable.Food;
@@ -395,10 +396,11 @@ namespace SpiritMod.NPCs.Town
 					 int loot3 = Main.rand.Next(lootTable1.Length);
 					 Main.LocalPlayer.QuickSpawnItem(lootTable1[loot3], Main.rand.Next(18, 30));
                      Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
-                     Main.LocalPlayer.QuickSpawnItem(848);
-					 Main.LocalPlayer.QuickSpawnItem(866);
 					 Main.LocalPlayer.QuickSpawnItem(934);
-					 Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
+                     Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CowboyHead>());
+                     Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CowboyBody>());
+                     Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CowboyLegs>());
+                     Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
 				 });
 			slayerQuestAntlion.OnQuestStart = () => {
 				if(!Main.LocalPlayer.HasItem(ModContent.ItemType<AntlionSlayerScrollEmpty>()))
@@ -536,7 +538,9 @@ namespace SpiritMod.NPCs.Town
 
 				() => {
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<Items.Consumable.ScarabIdol>(), 1);
-					int[] lootTable = {
+                    Main.LocalPlayer.QuickSpawnItem(848);
+                    Main.LocalPlayer.QuickSpawnItem(866);
+                    int[] lootTable = {
 					ItemID.Topaz,
 					ItemID.Sapphire
 					};

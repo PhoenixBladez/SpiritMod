@@ -158,11 +158,16 @@ namespace SpiritMod
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/AuroraSnow");
 				priority = MusicPriority.BiomeHigh;
 			}
+			if(player.ZoneSnow && player.ZoneOverworldHeight && !player.ZoneCorrupt && !player.ZoneCrimson && Main.raining)
+            {
+                music = GetSoundSlot(SoundType.Music, "Sounds/Music/Blizzard");
+                priority = MusicPriority.BiomeHigh;
+            }
 			if(player.ZoneBeach && MyWorld.luminousOcean && !Main.dayTime) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/OceanNighttime");
 				priority = MusicPriority.BiomeHigh;
 			}
-			if(player.ZoneSnow && player.ZoneOverworldHeight && !Main.dayTime && !player.ZoneCorrupt && !player.ZoneCrimson && !MyWorld.aurora) {
+			if(player.ZoneSnow && player.ZoneOverworldHeight && !Main.dayTime && !player.ZoneCorrupt && !player.ZoneCrimson && !MyWorld.aurora && !Main.raining) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/SnowNighttime");
 				priority = MusicPriority.BiomeMedium;
 			}

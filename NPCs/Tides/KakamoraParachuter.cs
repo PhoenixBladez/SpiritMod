@@ -57,12 +57,12 @@ namespace SpiritMod.NPCs.Tides
 			if (!teleportedup)
 			{
 				teleportedup = true;
-				npc.position.Y -= Main.rand.Next(600, 1200);
+				npc.position.Y -= Main.rand.Next(1300, 1700);
 			}
             if (npc.wet)
             {
                 npc.noGravity = true;
-                npc.velocity.Y -= .085f;
+                npc.velocity.Y -= .0965f;
             }
             else
             {

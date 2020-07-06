@@ -903,7 +903,7 @@ namespace SpiritMod
 			}
 			if (elderbarkWoodSet)
             {
-                flat += 2;
+                flat += 1;
             }
 		}
 

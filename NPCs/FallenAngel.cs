@@ -66,7 +66,7 @@ namespace SpiritMod.NPCs
 			if(aiTimer >= 680) {
 				Main.PlaySound(SoundID.Item, npc.Center, 109);
                 float ScaleMult = 2.33f;
-                DustHelper.DrawStar(new Vector2(npc.Center.X, npc.Center.Y - 30), DustID.GoldCoin, pointAmount: 5, mainSize: 2.25f * ScaleMult, dustDensity: 2, pointDepthMult: 0.3f, noGravity: true);
+                DustHelper.DrawStar(new Vector2(npc.Center.X, npc.Center.Y), DustID.GoldCoin, pointAmount: 5, mainSize: 2.25f * ScaleMult, dustDensity: 2, pointDepthMult: 0.3f, noGravity: true);
 
                 for (int i = 0; i < 5; i++)
                 {
