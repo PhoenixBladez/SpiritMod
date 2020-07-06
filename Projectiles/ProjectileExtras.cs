@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
+using SpiritMod.Dusts;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles

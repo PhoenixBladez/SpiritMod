@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Ammo
 			item.height = 14;
 			item.value = Item.buyPrice(0, 0, 0, 40);
 			item.rare = ItemRarityID.Orange;
-			item.damage = 20;
+			item.damage = 24;
 			item.shoot = ModContent.ProjectileType<FlakeRocketProj>();
 		}
 

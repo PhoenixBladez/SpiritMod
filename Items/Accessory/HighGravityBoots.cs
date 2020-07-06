@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("High-Grav Boots");
-			Tooltip.SetDefault("Increases your gravity when falling");
+			Tooltip.SetDefault("Increases your gravity when falling \nNegates fall damage");
 		}
 		public override void SetDefaults()
 		{
@@ -25,6 +25,7 @@ namespace SpiritMod.Items.Accessory
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
+			player.noFallDmg = true;
 			player.portalPhysicsFlag = true;
 			player._portalPhysicsTime = 2;
 			if(player.velocity.Y > 0 && !player.gravControl) {

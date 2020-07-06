@@ -28,10 +28,14 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.alpha = 255;
 			projectile.timeLeft = 450;
 			projectile.extraUpdates = 2;
-			projectile.tileCollide = true; //Tells the game whether or not it can collide with a tile
+			projectile.tileCollide = false;
 		}
 		public override void AI()
 		{
+			if (projectile.timeLeft < 360)
+			{
+				projectile.tileCollide = true;
+			}
 			if(Main.rand.Next(3) == 1) {
 				Dust dust = Dust.NewDustPerfect(projectile.Center, DustID.GoldCoin);
 				dust.velocity = Vector2.Zero;

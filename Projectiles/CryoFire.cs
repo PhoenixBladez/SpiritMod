@@ -15,9 +15,9 @@ namespace SpiritMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.width = 80;
+			projectile.width = 60;
 			projectile.timeLeft = 20;
-			projectile.height = 80;
+			projectile.height = 60;
 			projectile.penetrate = 999;
 			projectile.ignoreWater = true;
 			projectile.alpha = 255;

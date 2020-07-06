@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Flarespark Staff");
-			Tooltip.SetDefault("Summons a geyser a flame from the player");
+			Tooltip.SetDefault("Summons a geyser of flame");
 		}
 
 

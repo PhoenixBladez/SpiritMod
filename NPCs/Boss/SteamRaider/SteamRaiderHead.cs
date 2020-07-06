@@ -141,11 +141,11 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			if(timer == 700)
 				timer = 0;
 			chargetimer++;
-			if(npc.life == npc.lifeMax * .4f) {
+			if(npc.life == npc.lifeMax * .3f) {
 				CombatText.NewText(new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height), new Color(255, 155, 0, 100),
 "Instability Detected");
 			}
-			if(npc.life >= npc.lifeMax * .4f) {
+			if(npc.life >= npc.lifeMax * .3f) {
 				npc.aiStyle = 6; //new
 				aiType = -1;
 				if(chargetimer == 700) {
