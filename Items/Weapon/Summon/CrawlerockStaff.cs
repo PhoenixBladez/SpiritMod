@@ -29,8 +29,6 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.useAnimation = 30;
 			item.summon = true;
 			item.noMelee = true;
-			item.shoot = ModContent.ProjectileType<Crawlerock>();
-			item.buffType = ModContent.BuffType<CrawlerockMinionBuff>();
 			item.buffTime = 3600;
 			item.UseSound = SoundID.Item44;
 		}
@@ -48,10 +46,10 @@ namespace SpiritMod.Items.Weapon.Summon
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			return player.altFunctionUse != 2;
+			player.AddBuff(ModContent.BuffType<CrawlerockMinionBuff>(),3600);
 			position = Main.MouseWorld;
 			speedX = speedY = 0;
-			return true;
+			return player.altFunctionUse != 2;
 		}
 
 	}

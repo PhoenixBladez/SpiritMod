@@ -29,15 +29,12 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.noMelee = true; //so the item's animation doesn't do damage
 			item.knockBack = 1.25f;
-			item.buffType = ModContent.BuffType<Buffs.Summon.Overgrowth>();
-			item.buffTime = 3600;
 			item.value = 10000;
 			item.rare = ItemRarityID.Blue;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<Projectiles.Summon.Overgrowth>();
 			item.shootSpeed = 10f;
 		}
-
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
@@ -50,6 +47,7 @@ namespace SpiritMod.Items.Weapon.Summon
 
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
+			player.AddBuff(ModContent.BuffType<Buffs.Summon.Overgrowth>(), 3600);
 			int i = Main.myPlayer;
 			float num72 = item.shootSpeed;
 			int num73 = item.damage;

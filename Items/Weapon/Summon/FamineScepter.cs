@@ -32,8 +32,6 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.summon = true;
 			item.noMelee = true;
 			item.shoot = ModContent.ProjectileType<HungryMinion>();
-			item.buffType = ModContent.BuffType<HungryMinionBuff>();
-			item.buffTime = 3600;
 			item.UseSound = SoundID.Item44;
 		}
 		public override bool AltFunctionUse(Player player)
@@ -43,6 +41,7 @@ namespace SpiritMod.Items.Weapon.Summon
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
+			player.AddBuff(ModContent.BuffType<HungryMinionBuff>(),3600);
 			return player.altFunctionUse != 2;
 		}
 

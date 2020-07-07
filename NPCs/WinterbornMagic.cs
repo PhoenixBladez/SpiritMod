@@ -4,6 +4,7 @@ using SpiritMod.Buffs;
 using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Hostile;
+using SpiritMod.Dusts;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -107,11 +108,8 @@ namespace SpiritMod.NPCs
 				if(npc.ai[1] == 15) {
 					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 					if(Main.netMode != NetmodeID.MultiplayerClient) {
-						Vector2 direction = Main.player[npc.target].Center - npc.Center;
-						direction.Normalize();
-						direction.X *= 4.9f;
-						direction.Y *= 4.9f;
 						int amountOfProjectiles = 1;
+						
 						for(int i = 0; i < amountOfProjectiles; ++i) {
 							if(Main.rand.Next(2) == 0) {
 								int somedamage = expertMode ? 15 : 30;
@@ -119,12 +117,18 @@ namespace SpiritMod.NPCs
 								Main.projectile[p].hostile = true;
 								Main.projectile[p].friendly = false;
 								Main.projectile[p].tileCollide = false;
+								DustHelper.DrawTriangle(new Vector2(npc.Center.X, npc.Center.Y - 30), 187, 2);
 							} else {
+								Vector2 direction = Main.player[npc.target].Center - (npc.Center - new Vector2(0,30));
+								direction.Normalize();
+								direction.X *= 4.9f;
+								direction.Y *= 4.9f;
 								int somedamage = expertMode ? 17 : 34;
-								int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, ProjectileID.IceBolt, somedamage, 1, Main.myPlayer, 0, 0);
+								int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 30, direction.X, direction.Y, ProjectileID.IceBolt, somedamage, 1, Main.myPlayer, 0, 0);
 								Main.projectile[p].hostile = true;
 								Main.projectile[p].friendly = false;
 								Main.projectile[p].tileCollide = false;
+								DustHelper.DrawDiamond(new Vector2(npc.Center.X, npc.Center.Y - 30), 187, 2);
 							}
 						}
 					}

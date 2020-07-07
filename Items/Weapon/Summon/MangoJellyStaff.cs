@@ -38,7 +38,6 @@ namespace SpiritMod.Items.Weapon.Summon
 
 		public override bool UseItem(Player player)
 		{
-			player.AddBuff(ModContent.BuffType<MangoJellyMinionBuff>(), 3600);
 			if(player.altFunctionUse == 2) {
 				player.MinionNPCTargetAim();
 			}
