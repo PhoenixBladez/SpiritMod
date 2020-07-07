@@ -37,7 +37,8 @@ namespace SpiritMod.Items.Armor.ElderbarkArmor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<AncientBark>(), 20);
-            recipe.AddTile(TileID.Anvils);
+			recipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 1);
+            recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

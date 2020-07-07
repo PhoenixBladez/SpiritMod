@@ -76,7 +76,6 @@ namespace SpiritMod.Projectiles
 				alphaCounter += .04f;
 			}
 			if(throwerGloveBoost) {
-				projectile.penetrate = 2;
 				projectile.scale = 1.1f;
 				ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
 				ProjectileID.Sets.TrailingMode[projectile.type] = 0;

@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Armor.LeatherArmor
 		{
 			item.width = 22;
 			item.height = 12;
-			item.value = 100;
+			item.value = 3200;
 			item.rare = ItemRarityID.Blue;
 
 			item.defense = 1;
@@ -41,7 +41,7 @@ namespace SpiritMod.Items.Armor.LeatherArmor
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<OldLeather>(), 5);
+			recipe.AddIngredient(ModContent.ItemType<OldLeather>(), 6);
 			recipe.AddTile(TileID.WorkBenches);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

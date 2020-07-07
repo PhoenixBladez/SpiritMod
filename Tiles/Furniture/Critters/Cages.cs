@@ -355,7 +355,7 @@ namespace SpiritMod.Tiles.Furniture.Critters
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<BlossmoonItem>(), 1);
+			recipe.AddIngredient(ModContent.ItemType<VibeshroomItem>(), 1);
 			recipe.AddIngredient(ItemID.Terrarium, 1);
 			recipe.AddTile(TileID.WorkBenches);
 			recipe.SetResult(this);

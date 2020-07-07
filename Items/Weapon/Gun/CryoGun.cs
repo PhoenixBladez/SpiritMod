@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Weapon.Gun
 
 		public override void SetDefaults()
 		{
-			item.damage = 30;
+			item.damage = 32;
 			item.ranged = true;
 			item.noMelee = true;
 			item.rare = ItemRarityID.Orange;
@@ -26,6 +26,7 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.useAnimation = 60;
 			item.useTime = 60;
 			item.knockBack = 2.5f;
+			item.crit = 8;
 			item.UseSound = SoundID.Item96;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.autoReuse = false;

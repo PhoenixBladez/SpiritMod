@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Material
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Floran Ingot");
+			DisplayName.SetDefault("Floran Bar");
 		}
 
 
