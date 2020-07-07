@@ -57,7 +57,7 @@ namespace SpiritMod.NPCs.Town
 				Player player = Main.player[k];
 				if(player.active) {
 					for(int j = 0; j < player.inventory.Length; j++) {
-						if(player.inventory[j].type == ItemID.GoldCoin) {
+						if(player.inventory[j].type == ItemID.GoldCoin && !NPC.AnyNPCs(ModContent.NPCType<BoundGambler>())) {
 							return true;
 						}
 					}
