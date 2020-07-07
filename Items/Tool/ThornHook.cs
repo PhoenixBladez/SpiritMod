@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Tool
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Thorn Hook");
+			DisplayName.SetDefault("Briar Hook");
 		}
 
 		public override void SetDefaults()

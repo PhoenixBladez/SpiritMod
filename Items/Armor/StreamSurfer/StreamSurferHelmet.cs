@@ -1,4 +1,5 @@
 using SpiritMod.Items.Material;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -32,9 +33,10 @@ namespace SpiritMod.Items.Armor.StreamSurfer
 			player.gills = true;
 		}
 		public override void UpdateArmorSet(Player player)
-		{
-			player.GetSpiritPlayer().surferSet = true;
-			player.setBonus = "Double tap down to create a ridable waterspout that damages enemies\n13 second cooldown";
+        {
+            var tapDir = Main.ReversedUpDownArmorSetBonuses ? "DOWN" : "UP";
+            player.GetSpiritPlayer().surferSet = true;
+			player.setBonus = $"Double tap {tapDir} to create a ridable waterspout that damages enemies\n7 second cooldown";
 		}
 		public override bool IsArmorSet(Item head, Item body, Item legs)
 		{

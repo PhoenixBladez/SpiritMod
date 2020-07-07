@@ -29,12 +29,12 @@ namespace SpiritMod.World
 			_structures["StoneDungeon1"] = new Structure(mod, "StoneDungeon1");
 			_structures["StoneDungeon2"] = new Structure(mod, "StoneDungeon2");
 			_structures["StoneDungeon3"] = new Structure(mod, "StoneDungeon3");
-			_structures["PurityShrine1"] = new Structure(mod, "PurityShrine1");
-			_structures["PurityShrine2"] = new Structure(mod, "PurityShrine2");
 			_structures["BismiteCavern1"] = new Structure(mod, "BismiteCavern1");
 			_structures["BismiteCavern2"] = new Structure(mod, "BismiteCavern2");
 			_structures["BismiteCavern3"] = new Structure(mod, "BismiteCavern3");
-			_structures["Pagoda"] = new Structure(mod, "Pagoda");
+            _structures["BoneIsland"] = new Structure(mod, "BoneIsland");
+            _structures["BoneIsland1"] = new Structure(mod, "BoneIsland1");
+            _structures["Pagoda"] = new Structure(mod, "Pagoda");
 			_structures["StarAltar"] = new Structure(mod, "StarAltar");
 		}
 

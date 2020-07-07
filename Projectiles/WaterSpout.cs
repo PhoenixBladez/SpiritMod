@@ -25,7 +25,8 @@ namespace SpiritMod.Projectiles
 		public override bool PreAI()
 		{
 			Player player = Main.player[projectile.owner];
-			projectile.position.X = player.position.X + player.velocity.X;
+            projectile.velocity.Y += .1f;
+			projectile.position.X = player.position.X + (player.velocity.X * 1.4f);
 			if (projectile.Hitbox.Intersects(player.Hitbox) && player.velocity.Y > -4f)
 			{
 				player.velocity.Y -= 3f;
@@ -71,8 +72,11 @@ namespace SpiritMod.Projectiles
 				}
 			return false;
 		}
-
-		public override void Kill(int timeLeft)
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            return false;
+        }
+        public override void Kill(int timeLeft)
 		{
 			Dust.NewDust(projectile.position + projectile.velocity,
 				projectile.width, projectile.height,

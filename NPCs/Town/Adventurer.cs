@@ -107,44 +107,54 @@ namespace SpiritMod.NPCs.Town
 			return Main.rand.Next(dialogue);
 		}
 
-		public override void SetupShop(Chest shop, ref int nextSlot)
-		{
-			int glowStick = Main.moonPhase == 4 && !Main.dayTime ? ItemID.SpelunkerGlowstick : ItemID.StickyGlowstick;
-			AddItem(ref shop, ref nextSlot, glowStick);
+        public override void SetupShop(Chest shop, ref int nextSlot)
+        {
+            int glowStick = Main.moonPhase == 4 && !Main.dayTime ? ItemID.SpelunkerGlowstick : ItemID.StickyGlowstick;
+            AddItem(ref shop, ref nextSlot, glowStick);
 
-			switch(Main.moonPhase) {
-				case 4 when !Main.dayTime:
-					AddItem(ref shop, ref nextSlot, ItemID.CursedTorch);
-					break;
+            switch (Main.moonPhase)
+            {
+                case 4 when !Main.dayTime:
+                    AddItem(ref shop, ref nextSlot, ItemID.CursedTorch);
+                    break;
 
-				case 7 when !Main.dayTime:
-					AddItem(ref shop, ref nextSlot, ItemID.UltrabrightTorch);
-					break;
-			}
+                case 7 when !Main.dayTime:
+                    AddItem(ref shop, ref nextSlot, ItemID.UltrabrightTorch);
+                    break;
+            }
 
-			AddItem(ref shop, ref nextSlot, ItemID.TrapsightPotion, 2000);
-			AddItem(ref shop, ref nextSlot, ItemID.DartTrap, 5000);
-			AddItem(ref shop, ref nextSlot, ItemID.TreasureMap, 50000);
-			AddItem(ref shop, ref nextSlot, ItemID.PinkJellyfish, 25000, NPC.FindFirstNPC(NPCID.Angler) >= 0);
-			AddItem(ref shop, ref nextSlot, ItemType<GoldSword>());
-			AddItem(ref shop, ref nextSlot, ItemType<PlatinumSword>());
-			AddItem(ref shop, ref nextSlot, ItemType<ManaFlame>());
-			AddItem(ref shop, ref nextSlot, ItemID.WhoopieCushion, 15000, NPC.downedBoss2);
-			AddItem(ref shop, ref nextSlot, ItemID.BottledHoney, 5000, NPC.downedQueenBee);
-			AddItem(ref shop, ref nextSlot, ItemID.Book, 20, NPC.downedBoss3);
-			AddItem(ref shop, ref nextSlot, ItemID.Skull, 100000, NPC.downedBoss3);
-			AddItem(ref shop, ref nextSlot, ItemType<Items.Placeable.Furniture.SkullStick>(), 1000, Main.LocalPlayer.GetSpiritPlayer().ZoneReach);
-			AddItem(ref shop, ref nextSlot, ItemType<AncientBark>(), 200, Main.LocalPlayer.GetSpiritPlayer().ZoneReach);
-			AddItem(ref shop, ref nextSlot, ItemType<PolymorphGun>(), check: NPC.downedMechBossAny);
-			AddItem(ref shop, ref nextSlot, ItemType<PinGreen>());
-			AddItem(ref shop, ref nextSlot, ItemType<PinYellow>());
+            AddItem(ref shop, ref nextSlot, ItemID.TrapsightPotion, 2000);
+            AddItem(ref shop, ref nextSlot, ItemID.DartTrap, 5000);
+            AddItem(ref shop, ref nextSlot, ItemID.TreasureMap, 50000);
+            AddItem(ref shop, ref nextSlot, ItemID.PinkJellyfish, 25000, NPC.FindFirstNPC(NPCID.Angler) >= 0);
+            AddItem(ref shop, ref nextSlot, ItemType<GoldSword>());
+            AddItem(ref shop, ref nextSlot, ItemType<PlatinumSword>());
+            AddItem(ref shop, ref nextSlot, ItemType<ManaFlame>());
+            AddItem(ref shop, ref nextSlot, ItemID.WhoopieCushion, 15000, NPC.downedBoss2);
+            AddItem(ref shop, ref nextSlot, ItemID.BottledHoney, 5000, NPC.downedQueenBee);
+            AddItem(ref shop, ref nextSlot, ItemID.Book, 20, NPC.downedBoss3);
+            AddItem(ref shop, ref nextSlot, ItemID.Skull, 100000, NPC.downedBoss3);
+            AddItem(ref shop, ref nextSlot, ItemType<Items.Placeable.Furniture.SkullStick>(), 1000, Main.LocalPlayer.GetSpiritPlayer().ZoneReach);
+            AddItem(ref shop, ref nextSlot, ItemType<AncientBark>(), 200, Main.LocalPlayer.GetSpiritPlayer().ZoneReach);
+            AddItem(ref shop, ref nextSlot, ItemType<PolymorphGun>(), check: NPC.downedMechBossAny);
+            AddItem(ref shop, ref nextSlot, ItemType<PinGreen>());
+            AddItem(ref shop, ref nextSlot, ItemType<PinYellow>());
 
-			if(MyWorld.sepulchreComplete) {
-				AddItem(ref shop, ref nextSlot, ItemType<SepulchreArrow>());
-				AddItem(ref shop, ref nextSlot, ItemType<SepulchreBannerItem>());
-				AddItem(ref shop, ref nextSlot, ItemType<SepulchreChest>());
-			}
-		}
+            if (MyWorld.sepulchreComplete)
+            {
+                AddItem(ref shop, ref nextSlot, ItemType<SepulchreArrow>());
+                AddItem(ref shop, ref nextSlot, ItemType<SepulchreBannerItem>());
+                AddItem(ref shop, ref nextSlot, ItemType<SepulchreChest>());
+            }
+            if (MyWorld.shadowflameComplete)
+            {
+                AddItem(ref shop, ref nextSlot, ItemType<PottedWillow>());
+            }
+			if (MyWorld.jadeStaffComplete)
+            {
+                AddItem(ref shop, ref nextSlot, ItemType<PottedSakura>());
+            }
+        }
 
 		public override void TownNPCAttackStrength(ref int damage, ref float knockback)
 		{

@@ -55,6 +55,7 @@ namespace SpiritMod.Items.Consumable
                 ModContent.ItemType<AdvPainting16>(),
                 ModContent.ItemType<AdvPainting17>(),
                 ModContent.ItemType<AdvPainting18>(),
+                ModContent.ItemType<AdvPainting19>(),
                 ModContent.ItemType<FishingPainting>(),
 
             };

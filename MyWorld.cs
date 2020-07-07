@@ -98,7 +98,9 @@ namespace SpiritMod
 
 		//Adventurer variables
 		public static bool sepulchreComplete = false;
-		public static bool spawnHornetFish = false;
+        public static bool jadeStaffComplete = false;
+        public static bool shadowflameComplete = false;
+        public static bool spawnHornetFish = false;
 		public static bool spawnVibeshrooms = false;
 		public static int numWinterbornKilled;
 		public static int numBeholdersKilled;
@@ -169,7 +171,9 @@ namespace SpiritMod
 
 			//Adventurer Bools
 			data.Add("sepulchreComplete", sepulchreComplete);
-			data.Add("spawnHornetFish", spawnHornetFish);
+            data.Add("jadeStaffComplete", jadeStaffComplete);
+            data.Add("shadowflameComplete", shadowflameComplete);
+            data.Add("spawnHornetFish", spawnHornetFish);
 			data.Add("spawnVibeshrooms", spawnVibeshrooms);
 			data.Add("numWinterbornKilled", numWinterbornKilled);
 			data.Add("numAntlionsKilled", numAntlionsKilled);
@@ -206,7 +210,9 @@ namespace SpiritMod
 			gennedTower = tag.GetBool("gennedTower");
 
 			sepulchreComplete = tag.GetBool("sepulchreComplete");
-			spawnHornetFish = tag.GetBool("spawnHornetFish");
+            jadeStaffComplete = tag.GetBool("jadeStaffComplete");
+            shadowflameComplete = tag.GetBool("shadowflameComplete");
+            spawnHornetFish = tag.GetBool("spawnHornetFish");
 			spawnVibeshrooms = tag.GetBool("spawnVibeshrooms");
 			numWinterbornKilled = tag.Get<int>("numWinterbornKilled");
 			numAntlionsKilled = tag.Get<int>("numAntlionsKilled");
@@ -239,7 +245,9 @@ namespace SpiritMod
 				sepulchreComplete = flags3[0];
 				spawnHornetFish = flags3[1];
 				spawnVibeshrooms = flags3[2];
-			} else {
+                jadeStaffComplete = flags3[3];
+                shadowflameComplete = flags3[4];
+            } else {
 				mod.Logger.Error("Unknown loadVersion: " + loadVersion);
 			}
 		}
@@ -252,7 +260,7 @@ namespace SpiritMod
 			writer.Write(bosses2);
 			BitsByte environment = new BitsByte(BlueMoon);
 			BitsByte worldgen = new BitsByte(gennedBandits, gennedTower);
-			BitsByte adventurerQuests = new BitsByte(sepulchreComplete, spawnHornetFish, spawnVibeshrooms);
+			BitsByte adventurerQuests = new BitsByte(sepulchreComplete, spawnHornetFish, spawnVibeshrooms, jadeStaffComplete, shadowflameComplete);
 			writer.Write(environment);
 			writer.Write(worldgen);
 			writer.Write(adventurerQuests);
@@ -288,7 +296,9 @@ namespace SpiritMod
 			sepulchreComplete = adventurerQuests[0];
 			spawnHornetFish = adventurerQuests[1];
 			spawnVibeshrooms = adventurerQuests[2];
-			numWinterbornKilled = reader.ReadInt32();
+            jadeStaffComplete = adventurerQuests[3];
+            shadowflameComplete = adventurerQuests[4];
+            numWinterbornKilled = reader.ReadInt32();
 			numAntlionsKilled = reader.ReadInt32();
 			numWheezersKilled = reader.ReadInt32();
 			numStardancersKilled = reader.ReadInt32();
@@ -1523,6 +1533,39 @@ namespace SpiritMod
 				placed = true;
 			}
 		}
+		public void GenerateBoneIsland()
+        {
+            bool placed = false;
+            while (!placed)
+            {
+                {
+                    // Select a place in the first 6th of the world
+                    int towerX = WorldGen.genRand.Next(Main.maxTilesX / 3, Main.maxTilesX / 3 * 2); // from 50 since there's a unaccessible area at the world's borders
+                                                                                                    // 50% of choosing the last 6th of the world
+                    if (WorldGen.genRand.NextBool())
+                    {
+                        towerX = Main.maxTilesX - towerX;
+                    }
+                    int towerY = WorldGen.genRand.Next(Main.maxTilesY / 10, Main.maxTilesY / 9);
+                    Tile tile = Main.tile[towerX, towerY];
+                    if (tile.active())
+                    {
+                        continue;
+                    }
+                    List<Point> location = new List<Point>(); //these are for ease of use if we ever want to add containers to these existing structures
+                    Point[] containers = location.ToArray();
+                    if (WorldGen.genRand.Next(2) == 0)
+                    {
+                        StructureLoader.GetStructure("BoneIsland").PlaceForce(towerX, towerY, out containers);
+                    }
+                    else
+                    {
+                        StructureLoader.GetStructure("BoneIsland1").PlaceForce(towerX, towerY, out containers);
+                    }
+                    placed = true;
+                }
+            }
+        }
 		public void GeneratePagoda()
 		{
 			bool placed = false;
@@ -1620,26 +1663,6 @@ namespace SpiritMod
 					StructureLoader.GetStructure("BismiteCavern2").PlaceForce(hideoutX, hideoutY, out containers);
 				} else {
 					StructureLoader.GetStructure("BismiteCavern3").PlaceForce(hideoutX, hideoutY, out containers);
-				}
-				placed = true;
-			}
-		}
-		public void GeneratePurityShrine()
-		{
-			bool placed = false;
-			while(!placed) {
-				int hideoutX = Main.rand.Next(300, Main.maxTilesX - 200); // from 50 since there's a unaccessible area at the world's borders
-				int hideoutY = Main.rand.Next((int)Main.rockLayer, Main.maxTilesY);
-				Tile tile = Main.tile[hideoutX, hideoutY];
-				List<Point> location = new List<Point>(); //these are for ease of use if we ever want to add containers to these existing structures
-				Point[] containers = location.ToArray();
-				if(!tile.active() || tile.type != TileID.Stone) {
-					continue;
-				}
-				if(WorldGen.genRand.Next(2) == 0) {
-					StructureLoader.GetStructure("PurityShrine1").PlaceForce(hideoutX, hideoutY, out containers);
-				} else {
-					StructureLoader.GetStructure("PurityShrine2").PlaceForce(hideoutX, hideoutY, out containers);
 				}
 				placed = true;
 			}
@@ -2642,12 +2665,6 @@ namespace SpiritMod
 									GenerateStoneDungeon();
 								}
 							}
-							if(WorldGen.genRand.Next(2) == 0) {
-								for(int k = 0; k < (num584 / 4); k++) {
-									GeneratePurityShrine();
-								}
-							}
-
 							int num67 = 1;
 							if(Main.maxTilesX == 4200) {
 								num67 = Main.rand.Next(12, 15);
@@ -2670,57 +2687,26 @@ namespace SpiritMod
 							} else if(Main.maxTilesX == 8400) {
 								num32 = Main.rand.Next(7, 12);
 							}
-							GeneratePagoda();
+                            int num8827 = 1;
+                            if (Main.maxTilesX == 4200)
+                            {
+                                num8827 = 2;
+                            }
+                            else if (Main.maxTilesX == 6400)
+                            {
+                                num8827 = 3;
+                            }
+                            else if (Main.maxTilesX == 8400)
+                            {
+                                num8827 = 4;
+                            }
+                            for (int i = 0; i < num8827; i++)
+                            {
+                                GenerateBoneIsland();
+                            }
+                            GeneratePagoda();
 							GenerateZiggurat();
-							int[,] BoneIslandShape = new int[,]
-							{
-							{0,0,0,0,0,0,3,0,0,3,0,0,4,0,0,0,0,5,0,0,0,4,0,4,0,0,0,3,0,0,0,0},
-							{0,0,2,2,2,2,2,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,2,2,2,0,0},
-							{0,0,0,0,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,0,0,0},
-							{0,0,0,0,0,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,0,0,0,0,0},
-							{0,0,0,0,0,2,2,2,2,2,2,1,7,7,1,1,1,1,1,7,7,1,2,2,2,2,2,0,0,0,0,0},
-							{0,0,0,0,0,0,0,2,2,2,2,2,2,7,1,1,1,1,1,2,2,2,2,2,2,0,2,0,0,0,0,0},
-							{0,0,0,0,0,0,0,2,0,0,2,2,2,7,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0},
-							{0,0,0,0,0,0,0,2,0,0,2,2,2,2,2,2,2,2,2,2,0,0,2,2,0,0,0,0,0,0,0,0},
-							{0,0,0,0,0,0,0,0,0,0,0,2,2,0,2,2,2,2,0,2,0,0,0,0,0,0,0,0,0,0,0,0},
-							{0,0,0,0,0,0,0,0,0,0,0,0,2,0,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0},
-							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-							};
-							int[,] BoneIslandWalls = new int[,]
-							{
-							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-							{0,0,0,0,0,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,0,0,0,0},
-							{0,0,0,0,0,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,0,0,0,0,0},
-							{0,0,0,0,0,0,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,2,2,2,0,2,0,0,0,0,0},
-							{0,0,0,0,0,0,2,0,2,2,2,2,2,2,1,1,1,1,1,2,2,2,2,2,0,0,0,0,0,0,0,0},
-							{0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0},
-							{0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,0,0,0,2,0,0,0,0,0,0,0,0},
-							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-							};
-							bool placed = false;
-							while(!placed) {
-								for(int i = 0; i < 3; i++) {
-									// Select a place in the first 6th of the world
-									int towerX = WorldGen.genRand.Next(Main.maxTilesX / 3, Main.maxTilesX / 3 * 2); // from 50 since there's a unaccessible area at the world's borders
-																													// 50% of choosing the last 6th of the world
-									if(WorldGen.genRand.NextBool()) {
-										towerX = Main.maxTilesX - towerX;
-									}
-									int towerY = WorldGen.genRand.Next(Main.maxTilesY / 10, Main.maxTilesY / 9);
-									Tile tile = Main.tile[towerX, towerY];
-									if(tile.active()) {
-										continue;
-									}
-									{
-										PlaceBoneIsland(towerX, towerY, BoneIslandShape);
-										PlaceBoneIslandWalls(towerX, towerY, BoneIslandWalls);
-									}
-									placed = true;
-								}
-							}
+				
 							success = true;
 						}
 					}
@@ -3153,7 +3139,7 @@ namespace SpiritMod
 					}
 				}
 			}
-			int[] itemsToPlaceInGlassChests = new int[] { ModContent.ItemType<ReachChestMagic>(), ModContent.ItemType<BriarRattle>(), ModContent.ItemType<ReachStaffChest>(), ModContent.ItemType<Items.Weapon.Returning.ReachBoomerang>(), ModContent.ItemType<ReachBrooch>() };
+			int[] itemsToPlaceInGlassChests = new int[] { ModContent.ItemType<ReachChestMagic>(), ModContent.ItemType<Items.Tool.ThornHook>(), ModContent.ItemType<ReachStaffChest>(), ModContent.ItemType<Items.Weapon.Returning.ReachBoomerang>(), ModContent.ItemType<ReachBrooch>() };
 			int itemsToPlaceInGlassChestsChoice = 0;
 			for(int chestIndex = 0; chestIndex < 1000; chestIndex++) {
 				Chest chest = Main.chest[chestIndex];
@@ -3442,23 +3428,6 @@ namespace SpiritMod
 					int xAxisMid = xAxis + 70;
 					int xAxisEdge = xAxis + 380;
 					int yAxis = 0;
-					for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 3) * 15E-05); k++)
-                                    {
-                                        int x1232 = WorldGen.genRand.Next(0, Main.maxTilesX);
-                                        int y1232 = WorldGen.genRand.Next((int)((Main.rockLayer + Main.maxTilesY - 500) / 2f), Main.maxTilesY);
-                                        if (Main.tile[x1232, y1232] != null)
-                                        {
-                                            if (Main.tile[x1232, y1232].active())
-                                            {
-                                                if (Main.tile[x1232, y1232].type == ModContent.TileType<SpiritStone>() && Main.rand.Next(1500) == 4)
-                                                {
-                                                    WorldGen.TileRunner(x1232, y1232, (double)WorldGen.genRand.Next(5, 7), WorldGen.genRand.Next(5, 7), ModContent.TileType<SpiritOreTile>(), false, 0f, 0f, false, true);
-
-
-                                                }
-                                            }
-                                        }
-                                    }
 					for(int y = 0; y < Main.maxTilesY; y++) {
 						yAxis++;
 						xAxis = XTILE;
@@ -3662,11 +3631,14 @@ namespace SpiritMod
 										}
 									}
                                 }
-							}
+                                if (Main.tile[xAxis, yAxis].type == mod.TileType("SpiritStone") && yAxis > (int)((Main.rockLayer + Main.maxTilesY - 500) / 2f) && Main.rand.Next(1500) == 5)
+                                {
+                                    WorldGen.TileRunner(xAxis, yAxis, (double)WorldGen.genRand.Next(5, 7), 1, mod.TileType("SpiritOreTile"), false, 0f, 0f, true, true);
+                                }
+                            }
 						}
 					}
-				
-				}
+                }
 			}
 		}
 	}

@@ -32,8 +32,25 @@ namespace SpiritMod.NPCs
 			npc.knockBackResist = .45f;
 		}
 
-
-		public override void FindFrame(int frameHeight)
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            int d = 167;
+            for (int k = 0; k < 30; k++)
+            {
+                Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.Purple, 0.3f);
+            }
+            if (npc.life <= 0)
+            {
+                Main.PlaySound(SoundID.NPCKilled, npc.Center, 38);
+                {
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pesterfly/Pesterfly1"), 1f);
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pesterfly/Pesterfly2"), 1f);
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pesterfly/Pesterfly3"), 1f);
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pesterfly/Pesterfly4"), 1f);
+                }
+            }
+        }
+        public override void FindFrame(int frameHeight)
 		{
 			npc.frameCounter += 0.15f;
 			npc.frameCounter %= Main.npcFrameCount[npc.type];
@@ -83,12 +100,6 @@ namespace SpiritMod.NPCs
 			}
 
 			npc.spriteDirection = npc.direction;
-		}
-		public override void HitEffect(int hitDirection, double damage)
-		{
-			if(npc.life <= 0) {
-				Main.PlaySound(SoundID.NPCKilled, npc.Center, 38);
-			}
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{

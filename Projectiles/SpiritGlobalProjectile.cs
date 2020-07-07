@@ -23,6 +23,7 @@ namespace SpiritMod.Projectiles
 		public bool shotFromCookieCutter = false;
 		public bool shotFromGaruda = false;
 		public bool shotFromClatterBow = false;
+        public bool shotFromBismiteBow = false;
 		public bool shotFromThornBow = false;
 		public bool shotFromNightSky = false;
 		public bool shotFromPalmSword = false;
@@ -173,78 +174,98 @@ namespace SpiritMod.Projectiles
 					Dust.NewDust(projectile.position, projectile.width, projectile.height, 133);
 				return false;
 			}
-			if(shotFromHolyBurst == true || shotFromTrueHolyBurst == true) {
-				counter++;
-				if(counter >= 1440) {
-					counter = -1440;
-				}
-				for(int i = 0; i < 6; i++) {
-					float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
-					float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
+            if (shotFromHolyBurst == true || shotFromTrueHolyBurst == true)
+            {
+                counter++;
+                if (counter >= 1440)
+                {
+                    counter = -1440;
+                }
+                for (int i = 0; i < 6; i++)
+                {
+                    float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
+                    float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 
-					int num = Dust.NewDust(projectile.Center + new Vector2(0, (float)Math.Cos(counter / 8.2f) * 9.2f).RotatedBy(projectile.rotation), 6, 6, 112, 0f, 0f, 0, default(Color), 1f);
-					Main.dust[num].velocity *= .1f;
-					Main.dust[num].scale *= .7f;
-					Main.dust[num].noGravity = true;
+                    int num = Dust.NewDust(projectile.Center + new Vector2(0, (float)Math.Cos(counter / 8.2f) * 9.2f).RotatedBy(projectile.rotation), 6, 6, 112, 0f, 0f, 0, default(Color), 1f);
+                    Main.dust[num].velocity *= .1f;
+                    Main.dust[num].scale *= .7f;
+                    Main.dust[num].noGravity = true;
 
-				}
-				for(int f = 0; f < 6; f++) {
-					float x = projectile.Center.X - projectile.velocity.X / 10f * (float)f;
-					float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)f;
+                }
+                for (int f = 0; f < 6; f++)
+                {
+                    float x = projectile.Center.X - projectile.velocity.X / 10f * (float)f;
+                    float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)f;
 
-					int num = Dust.NewDust(projectile.Center - new Vector2(0, (float)Math.Cos(counter / 8.2f) * 9.2f).RotatedBy(projectile.rotation), 6, 6, 112, 0f, 0f, 0, default(Color), 1f);
-					Main.dust[num].velocity *= .1f;
-					Main.dust[num].scale *= .7f;
-					Main.dust[num].noGravity = true;
+                    int num = Dust.NewDust(projectile.Center - new Vector2(0, (float)Math.Cos(counter / 8.2f) * 9.2f).RotatedBy(projectile.rotation), 6, 6, 112, 0f, 0f, 0, default(Color), 1f);
+                    Main.dust[num].velocity *= .1f;
+                    Main.dust[num].scale *= .7f;
+                    Main.dust[num].noGravity = true;
 
-				}
-				return false;
-			} else if(shotFromBloodshot == true) {
-				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				if(Main.rand.Next(2) == 0)
-					Dust.NewDust(projectile.position, projectile.width, projectile.height, 5);
-				return false;
-			} else if(shotFromGeodeBow == true) {
-				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6);
-				int dust1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 135);
-				int dust2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 75);
-				Main.dust[dust].noGravity = true;
-				Main.dust[dust].velocity *= 0f;
-				Main.dust[dust].scale = 1.2f;
-				Main.dust[dust1].noGravity = true;
-				Main.dust[dust1].velocity *= 0f;
-				Main.dust[dust1].scale = 1.2f;
-				Main.dust[dust2].noGravity = true;
-				Main.dust[dust2].velocity *= 0f;
-				Main.dust[dust2].scale = 1.2f;
-				return false;
-			} else if(shotFromClatterBow == true) {
-				projectile.magic = false;
-				projectile.ranged = true;
+                }
+                return false;
+            }
+            else if (shotFromBloodshot == true)
+            {
+                projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+                if (Main.rand.Next(2) == 0)
+                    Dust.NewDust(projectile.position, projectile.width, projectile.height, 5);
+                return false;
+            }
+            else if (shotFromGeodeBow == true)
+            {
+                projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+                int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6);
+                int dust1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 135);
+                int dust2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 75);
+                Main.dust[dust].noGravity = true;
+                Main.dust[dust].velocity *= 0f;
+                Main.dust[dust].scale = 1.2f;
+                Main.dust[dust1].noGravity = true;
+                Main.dust[dust1].velocity *= 0f;
+                Main.dust[dust1].scale = 1.2f;
+                Main.dust[dust2].noGravity = true;
+                Main.dust[dust2].velocity *= 0f;
+                Main.dust[dust2].scale = 1.2f;
+                return false;
+            }
+            else if (shotFromClatterBow == true)
+            {
+                projectile.magic = false;
+                projectile.ranged = true;
 
-				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				int num = 5;
-				for(int k = 0; k < 3; k++) {
-					int index2 = Dust.NewDust(projectile.position, 1, 1, 147, 0.0f, 0.0f, 0, new Color(), 1f);
-					Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
-					Main.dust[index2].scale = .5f;
-					Main.dust[index2].velocity *= 0f;
-					Main.dust[index2].noGravity = true;
-					Main.dust[index2].noLight = false;
-				}
-			} else if(shotFromMarbleBow == true) {
-				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height - 10, DustID.GoldCoin, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-				int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height - 10, 236, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-				Main.dust[dust].noGravity = true;
-				Main.dust[dust2].noGravity = true;
-				Main.dust[dust2].velocity *= 0f;
-				Main.dust[dust2].velocity *= 0f;
-				Main.dust[dust2].scale = .5f;
-				Main.dust[dust].scale = 2f;
-				return false;
-			}
+                projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+                int num = 5;
+                for (int k = 0; k < 3; k++)
+                {
+                    int index2 = Dust.NewDust(projectile.position, 1, 1, 147, 0.0f, 0.0f, 0, new Color(), 1f);
+                    Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
+                    Main.dust[index2].scale = .5f;
+                    Main.dust[index2].velocity *= 0f;
+                    Main.dust[index2].noGravity = true;
+                    Main.dust[index2].noLight = false;
+                }
+            }
+            else if (shotFromMarbleBow == true)
+            {
+                projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+                int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height - 10, DustID.GoldCoin, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height - 10, 236, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Main.dust[dust].noGravity = true;
+                Main.dust[dust2].noGravity = true;
+                Main.dust[dust2].velocity *= 0f;
+                Main.dust[dust2].velocity *= 0f;
+                Main.dust[dust2].scale = .5f;
+                Main.dust[dust].scale = 2f;
+                return false;
+            }
+            else if (shotFromBismiteBow == true)
+            {
+                if (Main.rand.Next(20) == 0)
+                {
+                    DustHelper.DrawTriangle(projectile.Center, 167, 1, .8f, 1.1f);
+                }
+            }
 			return base.PreAI(projectile);
 		}
 
@@ -405,7 +426,14 @@ namespace SpiritMod.Projectiles
 					target.AddBuff(ModContent.BuffType<Death>(), 240, true);
 				}
 			}
-		}
+            if (shotFromBismiteBow == true)
+            {
+                if (Main.rand.Next(5) == 0)
+                {
+                    target.AddBuff(ModContent.BuffType<FesteringWounds>(), 120, true);
+                }
+            }
+        }
 		public override void Kill(Projectile projectile, int timeLeft)
 		{
 			SpiritMod.TrailManager.TryTrailKill(projectile);

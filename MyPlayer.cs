@@ -3738,7 +3738,7 @@ namespace SpiritMod
 			if (surferSet && surferTimer == 0)
 			{
 				Rectangle textPos = new Rectangle((int)player.position.X, (int)player.position.Y - 20, player.width, player.height);
-				CombatText.NewText(textPos, new Color(95, 156, 111, 100), "Water Spout Charged");
+				CombatText.NewText(textPos, new Color(121, 195, 237, 100), "Water Spout Charged!");
 			}
 			if(daybloomSet) {
 				if(dazzleStacks == 1800) {
@@ -4542,9 +4542,10 @@ namespace SpiritMod
 				}
 				if (surferSet && surferTimer <= 0)
 				{
-					surferTimer = 390;
+					surferTimer = 420;
 					Main.PlaySound(19, player.position, 0);
-					Projectile.NewProjectile(player.Center - new Vector2(0, 30), Vector2.Zero, ModContent.ProjectileType<WaterSpout>(), 30, 8, player.whoAmI);
+                    Main.PlaySound(2, player.position, 20);
+                    Projectile.NewProjectile(player.Center - new Vector2(0, 30), Vector2.Zero, ModContent.ProjectileType<WaterSpout>(), 30, 8, player.whoAmI);
 				}
 				if(fierySet && fierySetTimer <= 0) {
 					Main.PlaySound(SoundID.Item, player.position, 74);

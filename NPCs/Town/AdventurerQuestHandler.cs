@@ -1,6 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using SpiritMod.Items.Armor.HunterArmor;
 using SpiritMod.Items.Armor.CowboySet;
+using SpiritMod.Items.Armor.BeekeeperSet;
+using SpiritMod.Items.Armor.CapacitorSet;
+using SpiritMod.Items.Armor.CenturionSet;
 using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Items.Consumable;
 using SpiritMod.Items.Consumable.Food;
@@ -62,7 +65,8 @@ namespace SpiritMod.NPCs.Town
 				" Wow, look at that craftwork! It's supposed to be real powerful, too." +
 				" So maybe you won't get killed while you're out there adventuring, yeah?", false,
 				() => {
-                    MyWorld.sepulchreComplete = true;
+                    MyWorld.shadowflameComplete = true;
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<PottedWillow>(), Main.rand.Next(1, 4));
                     Main.LocalPlayer.QuickSpawnItem(ItemID.TatteredCloth, Main.rand.Next(5, 7));
                     Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
                     Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
@@ -99,7 +103,9 @@ namespace SpiritMod.NPCs.Town
 				" Use it carefully, alright? That there is one of a kind.", false,
 
 				() => {
-					int[] lootTable = {
+                    MyWorld.jadeStaffComplete = true;
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<PottedSakura>(), Main.rand.Next(1, 4));
+                    int[] lootTable = {
 					ModContent.ItemType<Shrine1>(),
 					ModContent.ItemType<Shrine2>(),
 					ModContent.ItemType<Shrine3>(),
@@ -224,7 +230,10 @@ namespace SpiritMod.NPCs.Town
 				" Maybe I'll coordinate some digs with the Demolitionist. You're welcome to join us too, lad. You've more than earned it. ", true,
 
 				() => {
-					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MapScroll>(), Main.rand.Next(1, 3));
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CenturionHead>());
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CenturionBody>());
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CenturionLegs>());
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MapScroll>(), Main.rand.Next(1, 3));
                     Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
                     Main.LocalPlayer.QuickSpawnItem(ItemID.Javelin, Main.rand.Next(50, 95));
 					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
@@ -246,7 +255,10 @@ namespace SpiritMod.NPCs.Town
 				 " Lookin' at this map, this place still seems real mysterious. Maybe there are some ore deposits we can extract some of that granite energy from?" +
 				 " I'll talk to the Merchant and Demolitionist. Mighty fine work as usual, lad.", true,
 				() => {
-					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MapScroll>(), Main.rand.Next(1, 4));
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CapacitorHead>());
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CapacitorBody>());
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CapacitorLegs>());
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MapScroll>(), Main.rand.Next(1, 4));
 					Main.LocalPlayer.QuickSpawnItem(ItemID.NightVisionHelmet);
                     Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
                     Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
@@ -265,7 +277,10 @@ namespace SpiritMod.NPCs.Town
 				"You're covered in a lot of bee stings, lad. Maybe the Nurse has something for those. They look super painful. Did ya map the place out, though?" +
 				" Hmm, interesting. Lotta honey for the takin'. What's this? This giant larva in the middle. Can't be good, for sure. Tread lightly around there, alright?", true,
 				() => {
-					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MapScroll>(), Main.rand.Next(1, 4));
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<BeekeeperHead>());
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<BeekeeperBody>());
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<BeekeeperLegs>());
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MapScroll>(), Main.rand.Next(1, 4));
 					Main.LocalPlayer.QuickSpawnItem(ItemID.BottledHoney, Main.rand.Next(8, 12));
                     Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
                     Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));

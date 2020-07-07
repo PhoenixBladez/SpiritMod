@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Material;
+using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,7 +12,7 @@ namespace SpiritMod.Items.Weapon.Bow
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bismite Bow");
-			Tooltip.SetDefault("Shoots two arrows upon use");
+			Tooltip.SetDefault("Occasionally causes foes to receive 'Festering Wounds,' which deal more damage to enemies under half health");
 		}
 
 
@@ -24,7 +25,7 @@ namespace SpiritMod.Items.Weapon.Bow
 			item.width = 20;
 			item.height = 46;
 			item.useTime = 18;
-			item.useAnimation = 22;
+			item.useAnimation = 18;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shoot = ProjectileID.Shuriken;
 			item.useAmmo = AmmoID.Arrow;
@@ -49,7 +50,8 @@ namespace SpiritMod.Items.Weapon.Bow
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
-			Projectile projectile = Main.projectile[proj];
+            Main.projectile[proj].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromBismiteBow = true;
+            Projectile projectile = Main.projectile[proj];
 			for(int k = 0; k < 25; k++) {
 				Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
 				Vector2 offset = mouse - player.position;

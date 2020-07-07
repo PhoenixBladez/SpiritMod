@@ -1083,7 +1083,7 @@ namespace SpiritMod.NPCs
 			if(npc.type == NPCID.SpikedIceSlime || npc.type == NPCID.ArmedZombieEskimo) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<FrigidFragment>(), Main.rand.Next(1, 3));
 			}
-			if((npc.type == NPCID.ZombieEskimo || npc.type == NPCID.IceBat) && Main.rand.Next(33) == 1) {
+			if((npc.type == NPCID.ZombieEskimo || npc.type == NPCID.IceBat) && Main.rand.Next(100) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ThrallGate>());
 			}
 			if(npc.type == NPCID.VortexRifleman && Main.rand.Next(40) == 1) {

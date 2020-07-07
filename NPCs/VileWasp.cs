@@ -54,5 +54,20 @@ namespace SpiritMod.NPCs
 			}
 			return true;
 		}
-	}
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            int d = 167;
+            for (int k = 0; k < 30; k++)
+            {
+                Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.Purple, 0.3f);
+            }
+            if (npc.life <= 0)
+            {
+                {
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pesterfly/Pesterfly5"), 1f);
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pesterfly/Pesterfly6"), 1f);
+                }
+            }
+        }
+    }
 }

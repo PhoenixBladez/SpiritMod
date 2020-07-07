@@ -46,7 +46,17 @@ namespace SpiritMod.Tiles.Ambient
 				}
 			}
 		}
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        {
+            Gore.NewGore(new Vector2(i * 16 + Main.rand.Next(-10, 10), j * 16 + Main.rand.Next(-20, -10)), new Vector2(Main.rand.Next(-2, 2), Main.rand.Next(-2, -1)), mod.GetGoreSlot("Gores/CorpseBloom/CorpseBloom1"), 1f);
+            Gore.NewGore(new Vector2(i * 16 + Main.rand.Next(-10, 10), j * 16 + Main.rand.Next(-20, -10)), new Vector2(Main.rand.Next(-2, 2), Main.rand.Next(-2, -1)), mod.GetGoreSlot("Gores/CorpseBloom/CorpseBloom2"), 1f);
+            Gore.NewGore(new Vector2(i * 16 + Main.rand.Next(-10, 10), j * 16 + Main.rand.Next(-20, -10)), new Vector2(Main.rand.Next(-2, 2), Main.rand.Next(-2, -1)), mod.GetGoreSlot("Gores/CorpseBloom/CorpseBloom3"), 1f);
+            Gore.NewGore(new Vector2(i * 16 + Main.rand.Next(-10, 10), j * 16 + Main.rand.Next(-20, -10)), new Vector2(Main.rand.Next(-2, 2), Main.rand.Next(-2, -1)), mod.GetGoreSlot("Gores/CorpseBloom/CorpseBloom4"), 1f);
+            Gore.NewGore(new Vector2(i * 16 + Main.rand.Next(-10, 10), j * 16 + Main.rand.Next(-20, -10)), new Vector2(Main.rand.Next(-2, 2), Main.rand.Next(-2, -1)), mod.GetGoreSlot("Gores/CorpseBloom/CorpseBloom5"), 1f);
+            Gore.NewGore(new Vector2(i * 16 + Main.rand.Next(-10, 10), j * 16 + Main.rand.Next(-20, -10)), new Vector2(Main.rand.Next(-2, 2), Main.rand.Next(-2, -1)), mod.GetGoreSlot("Gores/CorpseBloom/CorpseBloom6"), 1f);
+
+        }
+        public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
 		{
 			offsetY = 2;
 		}
