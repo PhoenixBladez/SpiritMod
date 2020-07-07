@@ -1533,19 +1533,15 @@ namespace SpiritMod
 				placed = true;
 			}
 		}
-		public void GenerateBoneIsland()
+		public void GenerateBoneIsland(int islands, int section)
         {
             bool placed = false;
             while (!placed)
             {
                 {
                     // Select a place in the first 6th of the world
-                    int towerX = WorldGen.genRand.Next(Main.maxTilesX / 3, Main.maxTilesX / 3 * 2); // from 50 since there's a unaccessible area at the world's borders
-                                                                                                    // 50% of choosing the last 6th of the world
-                    if (WorldGen.genRand.NextBool())
-                    {
-                        towerX = Main.maxTilesX - towerX;
-                    }
+					int sectionSize = Main.maxTilesX / islands;
+                    int towerX = Main.rand.Next((sectionSize * section) + 50, (sectionSize * (section + 1)) - 50);
                     int towerY = WorldGen.genRand.Next(Main.maxTilesY / 10, Main.maxTilesY / 9);
                     Tile tile = Main.tile[towerX, towerY];
                     if (tile.active())
@@ -2703,7 +2699,7 @@ namespace SpiritMod
                             }
                             for (int i = 0; i < num8827; i++)
                             {
-                                GenerateBoneIsland();
+                                GenerateBoneIsland(num8827, i);
                             }
                             GeneratePagoda();
 							GenerateZiggurat();

@@ -140,7 +140,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					}*/
 			int parent = NPC.FindFirstNPC(ModContent.NPCType<SteamRaiderHead>());
 			{
-				if(Main.npc[parent].life <= Main.npc[parent].lifeMax * .4f) {
+				if(Main.npc[parent].life <= Main.npc[parent].lifeMax * .3f) {
 					npc.life = 0;
 					npc.HitEffect(0, 10.0);
 					npc.active = false;
