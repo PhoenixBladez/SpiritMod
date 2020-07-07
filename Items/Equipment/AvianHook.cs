@@ -36,7 +36,8 @@ namespace SpiritMod.Items.Equipment
 			*/
 			// Instead of copying these values, we can clone and modify the ones we want to copy
 			item.CloneDefaults(ItemID.AmethystHook);
-			item.shootSpeed = 12f; // how quickly the hook is shot.
+			item.shootSpeed = 14f; // how quickly the hook is shot.
+			item.expert = true;
 			item.shoot = ProjectileType<AvianHookProjectile>();
 		}
 	}
@@ -73,7 +74,7 @@ namespace SpiritMod.Items.Equipment
 					hooksOut++;
 				}
 			}
-			if(hooksOut > 1) // This hook can have 2 hooks out.
+			if(hooksOut > 3) // This hook can have 2 hooks out.
 			{
 				return false;
 			}
@@ -114,12 +115,12 @@ namespace SpiritMod.Items.Equipment
 		// Amethyst Hook is 300, Static Hook is 600
 		public override float GrappleRange()
 		{
-			return 400f;
+			return 600f;
 		}
 
 		public override void NumGrappleHooks(Player player, ref int numHooks)
 		{
-			numHooks = 1;
+			numHooks = 3;
 		}
 
 		// default is 11, Lunar is 24
@@ -128,71 +129,10 @@ namespace SpiritMod.Items.Equipment
 			speed = 13f;
 		}
 
-
-		bool swinging = false;
-		//float xvel = 0;
-		//float yvel = 0;
-		Vector2 position = Vector2.Zero;
-		float momentum = 0;
-		float momentumChange = 0f;
-		float distance = 0;
-		Vector2 angle = Vector2.Zero;
-		float deltaX = 0;
-		float deltaY = 0;
-
-		bool leftswing = false;
-		bool rightswing = false;
-
-		//int xDist = 0;
 		public override void GrapplePullSpeed(Player player, ref float speed)
 		{
-			speed = 0f;
-			if(!swinging) {
-				swinging = true;
-
-				deltaX = player.position.X + (player.width / 2) - projectile.Center.X;
-				deltaY = player.position.Y + (player.height / 2) - projectile.Center.Y;
-				angle = new Vector2(deltaX, deltaY);
-				angle.Normalize();
-				distance = (float)Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
-				angle *= distance;
-				if(player.position.X + (player.width / 2) > projectile.Center.X) {
-					leftswing = true;
-					//    momentum = 3.14f - angle.ToRotation;
-				} else {
-					rightswing = true;
-					//  momentum = angle.ToRotation - 3.14f;
-				}
-				momentumChange = 0.6f / distance;
-			}
-			player.position = angle + projectile.Center;
-			if(rightswing) {
-				angle = angle.RotatedBy(0 - momentum);
-				if(player.position.X + (player.width / 2) > projectile.Center.X) {
-					momentum -= (momentumChange * 1.1f);
-				} else {
-					momentum += momentumChange;
-				}
-
-				if(momentum < 0f) {
-					rightswing = false;
-					leftswing = true;
-				}
-			}
-			if(leftswing) {
-				angle = angle.RotatedBy(momentum);
-				if(player.position.X + (player.width / 2) > projectile.Center.X) {
-					momentum += momentumChange;
-				} else {
-					momentum -= (momentumChange * 1.1f);
-				}
-
-				if(momentum < 0f) {
-					rightswing = true;
-					leftswing = false;
-				}
-			}
-
+			player.AddBuff(BuffID.Featherfall, 120);
+			speed = 12;
 		}
 
 		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)

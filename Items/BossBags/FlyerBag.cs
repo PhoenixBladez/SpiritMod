@@ -1,6 +1,7 @@
 
 using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Items.Boss;
+using SpiritMod.Items.Equipment;
 using SpiritMod.Items.Material;
 using SpiritMod.Items.Weapon.Spear;
 using SpiritMod.Items.Weapon.Summon;
@@ -38,6 +39,7 @@ namespace SpiritMod.Items.BossBags
 
 		public override void RightClick(Player player)
 		{
+			player.QuickSpawnItem(ModContent.ItemType<AvianHook>());
 			player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(1, 3));
 			player.QuickSpawnItem(ModContent.ItemType<FossilFeather>(), Main.rand.Next(4, 7));
 
