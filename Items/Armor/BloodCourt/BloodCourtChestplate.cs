@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.BloodCourt
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bloodcourt's Vestments");
-			Tooltip.SetDefault("7% increased damage");
+			Tooltip.SetDefault("6% increased damage");
 
 		}
 		public override void SetDefaults()
@@ -25,10 +25,10 @@ namespace SpiritMod.Items.Armor.BloodCourt
 
 		public override void UpdateEquip(Player player)
 		{
-			player.magicDamage += 0.07f;
-			player.meleeDamage += 0.07f;
-			player.rangedDamage += 0.07f;
-			player.minionDamage += 0.07f;
+			player.magicDamage += 0.06f;
+			player.meleeDamage += 0.06f;
+			player.rangedDamage += 0.06f;
+			player.minionDamage += 0.06f;
 		}
 		public override void AddRecipes()
 		{

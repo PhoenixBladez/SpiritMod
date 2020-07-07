@@ -181,7 +181,7 @@ namespace SpiritMod.Items.Equipment
 				int tilepositiony = (int)(projectile.position.Y / 16);
 				int targetpositionx = 0;
 				int targetpositiony = 0;
-				int range = 5;
+				int range = 8;
 				for(int i = tilepositionx - 5; i < tilepositionx + 5; i++) {
 					for(int j = tilepositiony - 5; j < tilepositiony + 5; j++) {
 						Tile tile = Main.tile[i, j];

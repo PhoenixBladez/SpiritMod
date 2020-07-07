@@ -1110,7 +1110,7 @@ namespace SpiritMod
 				}
 			}
 			if(AceOfClubs && crit && target.lifeMax > 15 && !target.friendly) {
-				int money = 300 * (int)MathHelper.Clamp((damage / target.lifeMax), 0, 1);
+				int money = (int)(300 * MathHelper.Clamp((damage / target.lifeMax), 0, 1));
 				NPC npc = target;
 				for(int i = 0; i < 3; i++) {
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<ClubDust>(), 0, -0.8f);

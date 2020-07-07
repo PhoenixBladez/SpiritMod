@@ -112,7 +112,7 @@ namespace SpiritMod.Projectiles
 				}
 			}
 			if(modPlayer.AceOfClubs && crit && !target.friendly && target.lifeMax > 15) {
-				int money = 300 * (int)MathHelper.Clamp((damage / target.lifeMax), 0, 1);
+				int money = (int)(300 * MathHelper.Clamp((damage / target.lifeMax), 0, 1));
 				NPC npc = target;
 				for(int i = 0; i < 3; i++) {
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<ClubDust>(), 0, -0.8f);
@@ -126,6 +126,11 @@ namespace SpiritMod.Projectiles
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 71, 10); //copper coins
 					money -= 10;
+				}
+				while (money >= 0)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 71); //copper coin
+					money --;
 				}
 			}
 		}

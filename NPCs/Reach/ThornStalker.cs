@@ -62,10 +62,11 @@ namespace SpiritMod.NPCs.Reach
 				attack = true;
 			}
 			if(attack) {
+				npc.velocity.Y = 6;
 				npc.velocity.X = .008f * npc.direction;
 				//shootTimer++;
 				if(frame == 11 && timer == 0) {
-					// Main.PlaySound(SoundID.Item, npc.Center, 95);
+					 Main.PlaySound(SoundID.Item, npc.Center, 95);
 					for(int i = 0; i < 2; i++) {
 						int knife = Terraria.Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-50, 50), npc.Center.Y - Main.rand.Next(60), 0, 0, ModContent.ProjectileType<ThornKnife>(), npc.damage, 0);
 						Projectile p = Main.projectile[knife];
@@ -73,7 +74,6 @@ namespace SpiritMod.NPCs.Reach
 						direction.Normalize();
 						direction *= Main.rand.NextFloat(7, 10);
 						p.velocity = direction;
-						Main.PlaySound(2, p.Center, 5);
 					}
 					timer++;
 				}
@@ -105,6 +105,10 @@ namespace SpiritMod.NPCs.Reach
 				}
 				if(frame > 6) {
 					frame = 1;
+				}
+				if (Main.rand.Next(300) == 0)
+				{
+					Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/StalkerIdle"));
 				}
 			}
 			if(!attack && !npc.collideY && npc.velocity.Y > 0) {
