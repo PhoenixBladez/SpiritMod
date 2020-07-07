@@ -1914,7 +1914,8 @@ namespace SpiritMod
 			int hideoutX = 0;
 			int hideoutY = 0;
 			bool validPos = false;
-			while(!validPos) {
+			int attempts = 0;
+			while(!validPos && attempts++ < 100000) {
 				hideoutX = Main.rand.Next(Main.maxTilesX / 3, Main.maxTilesX / 3 * 2); // from 50 since there's a unaccessible area at the world's borders
 				hideoutY = Main.rand.Next(Main.spawnTileY + 200, Main.maxTilesY - 250);
 				validPos = true;
