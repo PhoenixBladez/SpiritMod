@@ -114,7 +114,8 @@ namespace SpiritMod
 		public bool infernalFlame = false;
 		public bool floranSet = false;
 		public bool silkenLegs = false;
-		public bool rogueSet = false;
+        public bool silkenHead = false;
+        public bool rogueSet = false;
 		public bool crystal = false;
 		public bool eyezorEye = false;
 		public bool shamanBand = false;
@@ -263,6 +264,7 @@ namespace SpiritMod
 		public bool frostUpdate;
 		public int frostTally;
 		public int frostCount;
+        public bool stoneHead;
 
 		public float shadowRotation;
 		public bool shadowUpdate;
@@ -524,6 +526,8 @@ namespace SpiritMod
 
 		public override void ResetEffects()
 		{
+            stoneHead = false;
+            silkenHead = false;
 			zipline = false;
 			clockActive = false;
 			bloodcourtSet = false;
@@ -894,7 +898,21 @@ namespace SpiritMod
 					flat += 1;
 				}
 			}
-			if(daybloomGarb) {
+            if (silkenHead)
+            {
+                if (item.summon)
+                {
+                    flat += 1;
+                }
+            }
+            if (stoneHead)
+            {
+                if (item.melee)
+                {
+                    flat += 1;
+                }
+            }
+            if (daybloomGarb) {
 				if(item.magic) {
 					flat += 1;
 				}
@@ -1110,7 +1128,7 @@ namespace SpiritMod
 				}
 			}
 			if(AceOfClubs && crit && target.lifeMax > 15 && !target.friendly) {
-				int money = (int)(300 * MathHelper.Clamp((damage / target.lifeMax), 0, 1));
+                int money = (int)(300 * MathHelper.Clamp((damage / target.lifeMax), 0, 1));
 				NPC npc = target;
 				for(int i = 0; i < 3; i++) {
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<ClubDust>(), 0, -0.8f);
@@ -2407,7 +2425,9 @@ namespace SpiritMod
 				}
 				stompCooldown--;
 				if(stompCooldown == 0) {
-					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(25, 1));
+                    Rectangle textPos = new Rectangle((int)player.position.X, (int)player.position.Y - 20, player.width, player.height);
+                    CombatText.NewText(textPos, new Color(82, 226, 255, 100), "Energy Stomp Ready!");
+                    Main.PlaySound(new Terraria.Audio.LegacySoundStyle(25, 1));
 					for(int i = 0; i < 2; i++) {
 						int num = Dust.NewDust(player.position, player.width, player.height, 226, 0f, -2f, 0, default, 2f);
 						Main.dust[num].noGravity = true;

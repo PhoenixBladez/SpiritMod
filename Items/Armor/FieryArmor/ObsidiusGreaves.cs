@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.FieryArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Slag Tyrant's Greaves");
-			Tooltip.SetDefault("6% increased minion damage\nIncreases your max number of minions");
+			Tooltip.SetDefault("5% increased minion damage\nIncreases your max number of minions");
 
 		}
 
@@ -21,12 +21,12 @@ namespace SpiritMod.Items.Armor.FieryArmor
 			item.height = 20;
 			item.value = Item.sellPrice(0, 0, 39, 0);
 			item.rare = ItemRarityID.Orange;
-			item.defense = 5;
+			item.defense = 6;
 		}
 
 		public override void UpdateEquip(Player player)
 		{
-			player.minionDamage += 0.06f;
+			player.minionDamage += 0.05f;
 			player.maxMinions += 1;
 		}
 		public override void AddRecipes()

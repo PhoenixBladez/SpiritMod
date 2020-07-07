@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using SpiritMod.Items.Armor.HunterArmor;
+using SpiritMod.Items.Armor.ReachBoss;
 using SpiritMod.Items.Armor.CowboySet;
 using SpiritMod.Items.Armor.BeekeeperSet;
 using SpiritMod.Items.Armor.CapacitorSet;
@@ -533,7 +534,10 @@ namespace SpiritMod.NPCs.Town
 				Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<EnchantedLeaf>(), Main.rand.Next(5, 9));
 				Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<AncientBark>(), Main.rand.Next(10, 25));
 				Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<Items.Armor.Masks.GladeWraithMask>(), 1);
-				Main.LocalPlayer.QuickSpawnItem(ItemID.HealingPotion, 4);
+                Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ReachBossHead>());
+                Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ReachBossBody>());
+                Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ReachBossLegs>());
+                Main.LocalPlayer.QuickSpawnItem(ItemID.HealingPotion, 4);
 
 				Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
 			});

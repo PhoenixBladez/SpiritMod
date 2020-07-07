@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.StreamSurfer
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Stream Surfer Chestplate");
-			Tooltip.SetDefault("6% increased damage\n +40 Mana");
+			Tooltip.SetDefault("6% increased damage\nIncreases maximum mana by 40");
 
 		}
 		public override void SetDefaults()

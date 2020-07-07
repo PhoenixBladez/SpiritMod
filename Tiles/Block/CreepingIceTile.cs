@@ -39,7 +39,11 @@ namespace SpiritMod.Tiles.Block
 
 			}
 		}
-		public override void FloorVisuals(Player player)
+        public override bool Dangersense(int i, int j, Player player)
+        {
+            return true;
+        }
+        public override void FloorVisuals(Player player)
 		{
 			player.AddBuff(BuffID.Chilled, 1200);
 		}
@@ -56,8 +60,14 @@ namespace SpiritMod.Tiles.Block
 						}
 					}
 				}
+                if (Main.rand.Next(20) == 0)
+                {
+                    int d = Dust.NewDust(new Vector2(i * 16, j * 16 - 10), Main.rand.Next(-2, 2), Main.rand.Next(-2, 2), 51, 0.0f, -1, 0, new Color(), 0.95f);//Leave this line how it is, it uses int division
 
-			}
+                    Main.dust[d].velocity *= .8f;
+                    Main.dust[d].noGravity = true;
+                }
+            }
 		}
 	}
 }

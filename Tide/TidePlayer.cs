@@ -14,7 +14,7 @@ namespace SpiritMod.Tide
 			} else if(TideWorld.TidePoints >= 100) {
 				TideWorld.TidePoints = 0;
 				TideWorld.EnemyKills = 0;
-				Main.NewText("The tide has ended.", 145, 0, 255);
+				Main.NewText("The Tide has waned!", 61, 255, 142);
 				TideWorld.TheTide = false;
 			}
 		}

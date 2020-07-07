@@ -10,7 +10,8 @@ namespace SpiritMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Manasilk Hood");
-		}
+            Tooltip.SetDefault("Increases minion damage by 1");
+        }
 
 		public override void SetDefaults()
 		{
@@ -20,8 +21,12 @@ namespace SpiritMod.Items.Armor
 			item.rare = ItemRarityID.Blue;
 			item.defense = 1;
 		}
+        public override void UpdateEquip(Player player)
+        {
+            player.GetSpiritPlayer().silkenHead = true;
+        }
 
-		public override bool IsArmorSet(Item head, Item body, Item legs)
+        public override bool IsArmorSet(Item head, Item body, Item legs)
 		{
 			return body.type == ModContent.ItemType<SilkRobe>() && legs.type == ModContent.ItemType<SilkLegs>();
 		}

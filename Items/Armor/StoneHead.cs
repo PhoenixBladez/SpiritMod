@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Stone Helmet");
-			Tooltip.SetDefault("Decreases movement speed by 6%");
+			Tooltip.SetDefault("Increases melee damage by 1");
 		}
 
 
@@ -19,14 +19,13 @@ namespace SpiritMod.Items.Armor
 		{
 			item.width = 18;
 			item.height = 22;
-			item.value = 800;
+			item.value = 0;
 			item.rare = ItemRarityID.Blue;
 			item.defense = 3;
 		}
 		public override void UpdateEquip(Player player)
 		{
-			player.moveSpeed -= 0.06f;
-			player.maxRunSpeed -= .03f;
+            player.GetSpiritPlayer().stoneHead = true;
 		}
 
 		public override bool IsArmorSet(Item head, Item body, Item legs)

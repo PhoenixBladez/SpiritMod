@@ -251,7 +251,6 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			int loot = Main.rand.Next(lootTable.Length);
 			npc.DropItem(lootTable[loot]);
 
-			npc.DropItem(ModContent.ItemType<ReachFlowers>(), Main.rand.Next(14, 20));
 			npc.DropItem(ModContent.ItemType<ReachMask>(), 1f / 7);
 			npc.DropItem(ModContent.ItemType<Trophy5>(), 1f / 10);
 		}

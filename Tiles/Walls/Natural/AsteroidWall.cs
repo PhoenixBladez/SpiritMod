@@ -9,7 +9,7 @@ namespace SpiritMod.Tiles.Walls.Natural
 		public override void SetDefaults()
 		{
 			Main.wallHouse[Type] = true;
-			AddMapEntry(new Color(150, 150, 150));
+			AddMapEntry(new Color(92, 76, 64));
 			drop = ModContent.ItemType<Items.Placeable.Walls.AsteroidWall>();
 		}
 

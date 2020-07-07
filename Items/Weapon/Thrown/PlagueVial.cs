@@ -25,8 +25,8 @@ namespace SpiritMod.Items.Weapon.Thrown
 			item.channel = true;
 			item.noMelee = true;
 			item.shoot = ModContent.ProjectileType<PlagueVialFriendly>();
-			item.useAnimation = 21;
-			item.useTime = 21;
+			item.useAnimation = 24;
+			item.useTime = 24;
 			item.consumable = true;
 			item.maxStack = 999;
 			item.shootSpeed = 10.0f;

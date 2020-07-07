@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.BloodCourt
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bloodcourt's Leggings");
-			Tooltip.SetDefault("5% increased damage\n12% increased minion knockback");
+			Tooltip.SetDefault("Increases movement speed by 10%\nIncreases maximum mana by 30");
 
 		}
 		public override void SetDefaults()
@@ -24,11 +24,9 @@ namespace SpiritMod.Items.Armor.BloodCourt
 		}
 		public override void UpdateEquip(Player player)
 		{
-			player.minionKB += 0.12f;
-			player.magicDamage += 0.05f;
-			player.meleeDamage += 0.05f;
-			player.rangedDamage += 0.05f;
-			player.minionDamage += 0.05f;
+            player.statManaMax2 += 30;
+            player.moveSpeed += .1f;
+            player.maxRunSpeed += .04f;
 		}
 		public override void AddRecipes()
 		{

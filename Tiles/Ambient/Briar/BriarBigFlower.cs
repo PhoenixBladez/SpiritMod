@@ -16,7 +16,7 @@ namespace SpiritMod.Tiles.Ambient.Briar
 			Main.tileNoFail[Type] = true;
 			Main.tileLighted[Type] = true;
 
-			dustType = 5;
+			dustType = 173;
 			soundType = SoundID.Grass;
 
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);

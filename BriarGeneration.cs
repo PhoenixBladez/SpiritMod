@@ -1750,8 +1750,8 @@ namespace SpiritMod
 						if(failed) continue;
 
 						GrowWigglyTree(wiggleTreeX, wiggleY, treesPlaced == 0 ? 5 : 2, treesPlaced == 0 ? 60 : 24);
-						treesPlaced += WorldGen.genRand.Next(1, 3);
-						if(treesPlaced >= 2) {
+						treesPlaced += 1;
+						if(treesPlaced >= 1) {
 							break;
 						}
 					}
