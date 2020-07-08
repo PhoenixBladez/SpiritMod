@@ -3720,9 +3720,10 @@ namespace SpiritMod
                 int y2 = y + (int)(Main.screenHeight / 16f) + off * 2;
 
                 for(int i = x; i <= x2; i++) {
-                    for(int j = y; j <= y2; j++) {
+                    for (int j = y; j <= y2; j++)
+                    {
                         Tile t = Main.tile[i, j];
-                        if(t == null) return;
+                        if (t == null) return;
                         if (!t.active() && t.liquid > 0 && t.liquidType() == 0 && Framing.GetTileSafely(i, j - 1).liquid == 0 && !Framing.GetTileSafely(i, j - 1).active())
                         {
                             if (Main.rand.Next(20) == 0)
@@ -3732,6 +3733,7 @@ namespace SpiritMod
                                 Main.dust[d].noGravity = true;
                             }
                         }
+                    }
                 }
             }
 			if(ZoneReach && player.wet && Main.expertMode) {
