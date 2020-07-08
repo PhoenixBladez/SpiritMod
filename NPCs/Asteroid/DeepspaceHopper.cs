@@ -40,7 +40,9 @@ namespace SpiritMod.NPCs.Asteroid
 			npc.aiStyle = -1;
 			npc.noGravity = true;
 			npc.noTileCollide = false;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.ShockhopperBanner>();
+        }
 
 		public override void HitEffect(int hitDirection, double damage)
 		{

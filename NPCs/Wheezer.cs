@@ -28,7 +28,9 @@ namespace SpiritMod.NPCs
 			npc.DeathSound = SoundID.NPCDeath53;
 			npc.value = 960f;
 			npc.knockBackResist = .35f;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.WheezerBanner>();
+        }
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{

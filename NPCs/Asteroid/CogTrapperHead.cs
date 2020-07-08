@@ -46,7 +46,9 @@ namespace SpiritMod.NPCs.Asteroid
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath14;
 			npc.netAlways = true;
-			for(int k = 0; k < npc.buffImmune.Length; k++) {
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.StardancerBanner>();
+            for (int k = 0; k < npc.buffImmune.Length; k++) {
 				npc.buffImmune[k] = true;
 			}
 		}

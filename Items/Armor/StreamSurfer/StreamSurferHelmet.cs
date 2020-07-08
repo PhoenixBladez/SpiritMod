@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Armor.StreamSurfer
 		}
 		public override void UpdateArmorSet(Player player)
         {
-            var tapDir = Main.ReversedUpDownArmorSetBonuses ? "DOWN" : "UP";
+            var tapDir = Main.ReversedUpDownArmorSetBonuses ? "UP" : "DOWN";
             player.GetSpiritPlayer().surferSet = true;
 			player.setBonus = $"Double tap {tapDir} to create a ridable waterspout that damages enemies\n7 second cooldown";
 		}

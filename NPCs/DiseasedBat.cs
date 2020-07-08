@@ -30,7 +30,9 @@ namespace SpiritMod.NPCs
 			npc.aiStyle = 14;
 			aiType = NPCID.CaveBat;
 			animationType = NPCID.CaveBat;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.DiseasedBatBanner>();
+        }
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{

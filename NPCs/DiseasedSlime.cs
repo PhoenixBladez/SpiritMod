@@ -33,7 +33,9 @@ namespace SpiritMod.NPCs
 			npc.aiStyle = 1;
 			aiType = NPCID.BlueSlime;
 			animationType = NPCID.BlueSlime;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.DiseasedSlimeBanner>();
+        }
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{

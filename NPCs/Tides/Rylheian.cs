@@ -38,7 +38,9 @@ namespace SpiritMod.NPCs.Tides
 			npc.noTileCollide = true;
 			npc.HitSound = SoundID.NPCHit55;
 			npc.DeathSound = SoundID.NPCDeath5;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.RlyehianBanner>();
+        }
 		int counter;
 		int phase = 0; //0 = charging, 1 = special attack
 		float angle = 0;

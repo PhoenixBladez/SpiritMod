@@ -31,7 +31,9 @@ namespace SpiritMod.NPCs
 			npc.aiStyle = 1;
 			aiType = NPCID.BlueSlime;
 			animationType = NPCID.BlueSlime;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.GraniteSlimeBanner>();
+        }
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;

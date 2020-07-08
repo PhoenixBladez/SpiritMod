@@ -38,7 +38,9 @@ namespace SpiritMod.NPCs.Reach
 			npc.noTileCollide = true;
 			npc.aiStyle = 44;
 			aiType = NPCID.FlyingAntlion;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.GladeWraithBanner>();
+        }
 
 		public override void FindFrame(int frameHeight)
 		{

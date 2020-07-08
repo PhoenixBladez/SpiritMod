@@ -1022,8 +1022,8 @@ namespace SpiritMod
 				polygonVertices.Add(p);
 			}
 
-			ushort boundaryTile = (ushort)ModContent.TileType<BarkTileTile>(); //TODO: CHANGE
-			ushort[] extras = new ushort[] { TileID.LivingMahoganyLeaves, (ushort)ModContent.TileType<BlastStone>() };
+			ushort boundaryTile = (ushort)ModContent.TileType<BlastStone>(); //TODO: CHANGE
+			ushort[] extras = new ushort[] { TileID.LivingMahoganyLeaves, (ushort)ModContent.TileType<BarkTileTile>() };
 			ushort[] wallTypes = new ushort[] { (ushort)ModContent.WallType<BarkWall>(), WallID.LivingLeaf, WallID.MudstoneBrick }; //TODO: CHANGE
 
 			//place shape

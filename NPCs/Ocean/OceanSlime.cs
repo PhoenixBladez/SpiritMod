@@ -31,7 +31,9 @@ namespace SpiritMod.NPCs.Ocean
 			npc.aiStyle = 1;
 			aiType = NPCID.BlueSlime;
 			animationType = NPCID.BlueSlime;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.CoconutSlimeBanner>();
+        }
 		public override void NPCLoot()
 		{
 			{

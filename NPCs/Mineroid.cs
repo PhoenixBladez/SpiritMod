@@ -31,7 +31,9 @@ namespace SpiritMod.NPCs
 			npc.knockBackResist = .45f;
 			npc.aiStyle = 44;
 			aiType = NPCID.FlyingAntlion;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.OrbititeBanner>();
+        }
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{

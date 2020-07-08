@@ -30,7 +30,9 @@ namespace SpiritMod.NPCs.Mimic
 			npc.knockBackResist = .15f;
 			npc.aiStyle = 41;
 			aiType = NPCID.Herpling;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.GoldCrateMimicBanner>();
+        }
 		int frame = 2;
 		int timer = 0;
 		int mimictimer = 0;

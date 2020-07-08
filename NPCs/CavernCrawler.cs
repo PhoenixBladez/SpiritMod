@@ -29,7 +29,9 @@ namespace SpiritMod.NPCs
 			npc.HitSound = SoundID.NPCHit2;
 			npc.DeathSound = SoundID.NPCDeath16;
 			npc.value = 160f;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.CavernCrawlerBanner>();
+        }
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{

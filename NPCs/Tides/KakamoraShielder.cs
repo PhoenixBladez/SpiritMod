@@ -34,6 +34,8 @@ namespace SpiritMod.NPCs.Tides
             npc.noTileCollide = false;
             npc.HitSound = SoundID.NPCHit2;
             npc.DeathSound = SoundID.NPCDeath1;
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.KakamoraShielderBanner>();
         }
 		bool blocking = false;
 		int blockTimer = 0;

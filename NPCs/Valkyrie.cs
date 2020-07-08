@@ -30,7 +30,9 @@ namespace SpiritMod.NPCs
 			npc.value = 360f;
 			npc.knockBackResist = .45f;
 			npc.aiStyle = 14;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.ValkyrieBanner>();
+        }
 		int aiTimer;
 		bool trailing;
 		public override void NPCLoot()

@@ -32,7 +32,9 @@ namespace SpiritMod.NPCs
 			npc.noTileCollide = false;
 			npc.HitSound = SoundID.NPCHit2;
 			npc.DeathSound = SoundID.NPCDeath6;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.AncientApostleBanner>();
+        }
 		int counter;
 		public override void AI()
 		{

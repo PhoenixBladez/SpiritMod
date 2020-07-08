@@ -39,7 +39,10 @@ namespace SpiritMod.NPCs.Dungeon
 			npc.netAlways = true;
 			npc.chaseable = true;
 			npc.lavaImmune = true;
-		}
+
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.BlueDungeonCubeBanner>();
+        }
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
 			target.AddBuff(BuffID.Cursed, 250, true);

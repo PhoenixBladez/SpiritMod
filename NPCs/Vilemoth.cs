@@ -30,7 +30,9 @@ namespace SpiritMod.NPCs
 			npc.noGravity = true;
 			npc.noTileCollide = false;
 			npc.knockBackResist = .45f;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.FesterflyBanner>();
+        }
 
         public override void HitEffect(int hitDirection, double damage)
         {

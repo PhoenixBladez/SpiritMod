@@ -49,7 +49,9 @@ namespace SpiritMod.NPCs
 			npc.noTileCollide = true;
 			npc.aiStyle = 44;
 			aiType = NPCID.FlyingAntlion;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.YureiBanner>();
+        }
 
 		public override void FindFrame(int frameHeight)
 		{

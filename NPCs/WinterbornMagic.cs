@@ -40,7 +40,9 @@ namespace SpiritMod.NPCs
 			npc.netAlways = true;
 			npc.chaseable = false;
 			npc.lavaImmune = true;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.WinterbornHeraldBanner>();
+        }
 
 		public override void NPCLoot()
 		{
