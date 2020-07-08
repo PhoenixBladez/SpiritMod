@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs;
 using SpiritMod.Buffs.Armor;
+using SpiritMod.Projectiles.Bullet;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -32,6 +33,7 @@ namespace SpiritMod.Projectiles
 		public bool shotFromCoralBow = false;
 		public bool shotFromHolyBurst = false;
 		public bool shotFromTrueHolyBurst = false;
+		public bool shotFromNightbane = false;
 		public bool HeroBow1 = false;
 		public bool HeroBow2 = false;
 		public bool HeroBow3 = false;
@@ -284,6 +286,16 @@ namespace SpiritMod.Projectiles
 						Dust.NewDust(target.position, target.width, target.height, d1, 2.5f, -2.5f, 0, Color.White, 0.27f);
 					}
 				}
+			}
+			if (shotFromNightbane)
+			{
+				Vector2 offset = new Vector2(Main.rand.Next(-100,100), Main.rand.Next(-100,0));
+				offset.Normalize();
+				offset *= 66;
+				Vector2 direction9 = target.Center - (player.Center + offset);
+				direction9.Normalize();
+				direction9*= 10;
+				Projectile.NewProjectile(player.Center + offset, direction9, ModContent.ProjectileType<BaneBullet>(), projectile.damage, 0, projectile.owner);
 			}
 			if(shotFromMaliwanFireCommon == true) {
 				if(Main.rand.Next(6) == 0) {
