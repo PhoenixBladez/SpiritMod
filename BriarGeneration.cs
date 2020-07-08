@@ -1494,7 +1494,7 @@ namespace SpiritMod
 				return;
 			}
 
-			List<ushort> BadSurfaceIDs = new List<ushort>() { TileID.SnowBlock, TileID.Ebonstone, TileID.Crimstone, TileID.FleshGrass, TileID.CorruptGrass, TileID.IceBlock, TileID.HardenedSand, TileID.Sandstone, TileID.HardenedSand, TileID.JungleGrass };
+			List<ushort> BadSurfaceIDs = new List<ushort>() { TileID.SnowBlock, TileID.Ebonstone, TileID.Crimstone, TileID.FleshGrass, TileID.CorruptGrass, TileID.IceBlock, TileID.HardenedSand, TileID.Sandstone, TileID.HardenedSand, TileID.JungleGrass, TileID.Sand };
 			List<ushort> BadUndergroundIDs = new List<ushort>() { TileID.Ebonstone, TileID.Crimstone, TileID.FleshGrass, TileID.CorruptGrass, TileID.IceBlock, TileID.HardenedSand, TileID.Sandstone, TileID.HardenedSand, TileID.JungleGrass };
 
 			int worldSizeBonus = (int)((Main.maxTilesX / 4200f) * 8f);
@@ -2019,7 +2019,7 @@ namespace SpiritMod
 				} else {
 					chanceToSwap += 0.1f;
 				}
-				GenericRunner(branchX, branchY, stepCount, (ushort)ModContent.TileType<BarkTileTile>(), false,
+				GenericRunner(branchX, branchY, stepCount, (ushort)ModContent.TileType<LivingBriarWood>(), false,
 					new RunnerSettings(velX, velX, 0f, 0f, 0.5f, Math.Max(0.6f, 2f * progress)), new RunnerSettings(0f, 0f, -0.1f, 0.1f, 0.8f, 1f),
 					(int bx, int by, int step) => BranchLeaves(bx, by, step, stepCount, progress));
 			}
@@ -2027,7 +2027,7 @@ namespace SpiritMod
 			//place roots
 			int roots = WorldGen.genRand.Next(12, 20);
 			for(int i = 0; i < roots; i++) {
-				GenericRunner(x + WorldGen.genRand.Next(-3, 4), y + WorldGen.genRand.Next(-2, 4), WorldGen.genRand.Next(7, 24), (ushort)ModContent.TileType<BarkTileTile>(), true,
+				GenericRunner(x + WorldGen.genRand.Next(-3, 4), y + WorldGen.genRand.Next(-2, 4), WorldGen.genRand.Next(7, 24), (ushort)ModContent.TileType<LivingBriarWood>(), true,
 					new RunnerSettings(-4f, 4f, 0.02f, 1f, 0.8f, 1f), new RunnerSettings(-0.3f, 0.3f, -0.16f, 0.8f, 0.8f, 1f));
 			}
 		}

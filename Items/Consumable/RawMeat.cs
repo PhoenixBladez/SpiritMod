@@ -34,8 +34,8 @@ namespace SpiritMod.Items.Consumable
 		{
 			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 2));
 			{
-				player.statLife += 4;
-				player.HealEffect(4, true);
+				player.statLife += 10;
+				player.HealEffect(10, true);
 				player.AddBuff(BuffID.WellFed, 540);
 			}
 			return false;

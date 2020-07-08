@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Projectiles;
 
 namespace SpiritMod.Items.Weapon.Gun
 {
@@ -12,14 +13,14 @@ namespace SpiritMod.Items.Weapon.Gun
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Nightbane");
-			Tooltip.SetDefault("Shoots out bouncing vile bullets\nRight-click to shoot out a tracker that sticks to enemies\nBullets will home in on tracked enemies\nThe tracker will regularly shoot out pulses of Cursed Flame that inflict 'Fel Brand'");
+			Tooltip.SetDefault("Shooting an enemy causes shadow bullets to appear");
 
 		}
 
 
 		public override void SetDefaults()
 		{
-			item.damage = 44;
+			item.damage = 43;
 			item.ranged = true;
 			item.width = 65;
 			item.height = 28;
@@ -37,45 +38,10 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.shootSpeed = 11f;
 			item.useAmmo = AmmoID.Bullet;
 		}
-		public override bool AltFunctionUse(Player player)
-		{
-			return true;
-		}
-		public override bool CanUseItem(Player player)
-		{
-			if(player.altFunctionUse == 2) {
-
-				MyPlayer modPlayer = player.GetSpiritPlayer();
-				if(modPlayer.shootDelay2 == 0)
-					return true;
-				return false;
-			} else {
-				return true;
-			}
-		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 45f;
-			if(Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
-				position += muzzleOffset;
-			}
-			if(player.altFunctionUse == 2) {
-				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 94));
-				MyPlayer modPlayer = player.GetSpiritPlayer();
-				modPlayer.shootDelay2 = 300;
-				//Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<TrueShadowShotTracker>(), item.damage / 3, knockBack, item.owner, 0, 0);
-			} else {
-				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 11));
-				float spread = 30f * 0.0174f;//45 degrees converted to radians
-				float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
-				double baseAngle = Math.Atan2(speedX, speedY);
-				{
-					double randomAngle = baseAngle + (Main.rand.NextFloat() - 0.5f) * spread;
-					speedX = baseSpeed * (float)Math.Sin(randomAngle);
-					speedY = baseSpeed * (float)Math.Cos(randomAngle);
-					//Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<TrueVileBullet>(), item.damage, knockBack, item.owner, 0, 0);
-				}
-			}
+			int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+			Main.projectile[p].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromNightbane = true;
 			return false;
 		}
 		public override void HoldItem(Player player)
