@@ -1,6 +1,7 @@
 using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Armor.BloodCourt
@@ -36,7 +37,7 @@ namespace SpiritMod.Items.Armor.BloodCourt
 
 		public override void UpdateArmorSet(Player player)
 		{
-			var tapDir = Main.ReversedUpDownArmorSetBonuses ? "UP" : "DOWN";
+			string tapDir = Language.GetTextValue(Main.ReversedUpDownArmorSetBonuses ? "Key.UP" : "Key.DOWN");
 			player.GetSpiritPlayer().bloodcourtSet = true;
 			player.setBonus = $"Double tap {tapDir} to sacrifice 8% of your maximum health\n" +
 							   "and launch a bolt of Dark Anima dealing high damage in a radius\n" + 

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Accessory
@@ -9,7 +10,7 @@ namespace SpiritMod.Items.Accessory
 	{
 		public override void SetStaticDefaults()
 		{
-			var tapDir = Main.ReversedUpDownArmorSetBonuses ? "DOWN" : "UP";
+			string tapDir = Language.GetTextValue(Main.ReversedUpDownArmorSetBonuses ? "Key.DOWN" : "Key.UP");
 			DisplayName.SetDefault("Assassin's Magazine");
 			Tooltip.SetDefault($"Double tap {tapDir} while holding a ranged weapon to swap ammo types");
 		}

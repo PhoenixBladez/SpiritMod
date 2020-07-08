@@ -32,7 +32,8 @@ namespace SpiritMod.Items.Armor.DepthArmor
 		}
 
 		public override bool IsArmorSet(Item head, Item body, Item legs) 
-			=> body.type == ModContent.ItemType<DepthChest>() && legs.type == ModContent.ItemType<DepthGreaves>();
+			=> body.type == ModContent.ItemType<DepthChest>() 
+			&& legs.type == ModContent.ItemType<DepthGreaves>();
 
 		public override void UpdateArmorSet(Player player)
 		{

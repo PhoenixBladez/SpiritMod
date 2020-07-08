@@ -4543,8 +4543,8 @@ namespace SpiritMod
 				if (surferSet && surferTimer <= 0)
 				{
 					surferTimer = 420;
-					Main.PlaySound(19, player.position, 0);
-                    Main.PlaySound(2, player.position, 20);
+					Main.PlaySound(SoundID.Splash, player.position, 0);
+                    Main.PlaySound(SoundID.Item, player.position, 20);
                     Projectile.NewProjectile(player.Center - new Vector2(0, 30), Vector2.Zero, ModContent.ProjectileType<WaterSpout>(), 30, 8, player.whoAmI);
 				}
 				if(fierySet && fierySetTimer <= 0) {

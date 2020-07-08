@@ -1919,8 +1919,8 @@ namespace SpiritMod
 				hideoutX = Main.rand.Next(Main.maxTilesX / 3, Main.maxTilesX / 3 * 2); // from 50 since there's a unaccessible area at the world's borders
 				hideoutY = Main.rand.Next(Main.spawnTileY + 200, Main.maxTilesY - 250);
 				validPos = true;
-				for(int x = hideoutX - 8; x < hideoutX + SepulchreRoom1.GetLength(1) + 8; x++) {
-					for(int y = hideoutY - 10; y < hideoutY + SepulchreRoom1.GetLength(0) * 2 + 9; y++) {
+				for(int x = hideoutX - 8 - 3; x < hideoutX - 3 + SepulchreRoom1.GetLength(1) + 8; x++) {
+					for(int y = hideoutY - 10 - 6; y < hideoutY - 6 + SepulchreRoom1.GetLength(0) * 2 + 9; y++) {
 						// Don't allow spawning in pyramids, dungeon, granite, marble, underground desert, other sepulchres...
 						if(Main.tile[x, y].active() 
 							&& (!CaveHouseBiome._blacklistedTiles[Main.tile[x, y].type]
