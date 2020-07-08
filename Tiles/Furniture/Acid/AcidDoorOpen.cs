@@ -65,8 +65,14 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			adjTiles = new int[] { TileID.OpenDoor };
 			closeDoorID = ModContent.TileType<AcidDoorClosed>();
 		}
-
-		public override void NumDust(int i, int j, bool fail, ref int num)
+        public override void MouseOver(int i, int j)
+        {
+            Player player = Main.LocalPlayer;
+            player.noThrow = 2;
+            player.showItemIcon = true;
+            player.showItemIcon2 = ModContent.ItemType<AcidDoor>();
+        }
+        public override void NumDust(int i, int j, bool fail, ref int num)
 		{
 			num = 1;
 		}

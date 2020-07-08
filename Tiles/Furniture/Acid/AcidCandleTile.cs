@@ -11,10 +11,10 @@ namespace SpiritMod.Tiles.Furniture.Acid
 	{
 		public override void SetDefaults()
 		{
-			Main.tileFrameImportant[Type] = true;
-			Main.tileNoAttach[Type] = true;
-			Main.tileLavaDeath[Type] = true;
-			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
+            Main.tileFrameImportant[Type] = true;
+            Main.tileNoAttach[Type] = true;
+            Main.tileLavaDeath[Type] = true;
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
 			TileObjectData.addTile(Type);
 			drop = ModContent.ItemType<Items.Placeable.Furniture.Acid.AcidCandle>();
             ModTranslation name = CreateMapEntryName();
