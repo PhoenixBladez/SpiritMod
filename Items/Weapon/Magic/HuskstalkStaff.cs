@@ -1,5 +1,6 @@
 using SpiritMod.Items.Material;
 using Terraria;
+using Microsoft.Xna.Framework;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -36,6 +37,14 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.shootSpeed = 5.5f;
 			item.reuseDelay = 45;
 		}
-
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+			Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
+			Vector2 offset = mouse - player.Center;
+			offset.Normalize();
+			offset *= 25;
+			position += offset;
+			return true;
+		}
 	}
 }

@@ -81,7 +81,8 @@ namespace SpiritMod.NPCs
 		public bool afflicted = false;
 		public bool sunBurn = false;
 		public bool starDestiny = false;
-		public bool bloodInfusion = false;
+		public int bloodInfusion = 0;
+		public bool bloodInfused = false;
 		public bool Death = false;
 		public bool iceCrush = false;
 		public bool pestilence = false;
@@ -121,6 +122,7 @@ namespace SpiritMod.NPCs
 			} else
 				voidInfluence = false;
 			sanguinePrev = sanguineBleed;
+			bloodInfused = false;
 			sanguineBleed = false;
 			unholyPlague = false;
 			frostChill = false;
@@ -147,11 +149,16 @@ namespace SpiritMod.NPCs
 			spectre = false;
 			holyBurn = false;
 			pestilence = false;
-			bloodInfusion = false;
+		//	bloodInfusion = false;
 		}
 
 		public override bool PreAI(NPC npc)
 		{
+			if (bloodInfusion > 150)
+			{
+				bloodInfusion = 0;
+				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, ProjectileType<FlayedExplosion>(), 25, 0, Main.myPlayer);
+			}
 			Player player = Main.player[Main.myPlayer];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			Vector2 dist = npc.position - player.position;
@@ -826,7 +833,7 @@ namespace SpiritMod.NPCs
 				MyWorld.numDrBonesKilled++;
 			}
 			Player closest = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)];
-			if(bloodInfusion) {
+			if(bloodInfused) {
 				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, ProjectileType<FlayedExplosion>(), 25, 0, Main.myPlayer);
 			}
 			#region Glyph

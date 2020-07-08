@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Buffs;
 using SpiritMod.Dusts;
+using SpiritMod.Projectiles.Arrow;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -35,7 +36,11 @@ namespace SpiritMod.Projectiles.Arrow
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			target.AddBuff(ModContent.BuffType<BloodInfusion>(), 1200, true);
+			target.AddBuff(ModContent.BuffType<BloodInfusion>(), 151, true);
+			if (target.life < damage - (target.defense / 2))
+			{
+				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0, 0, ModContent.ProjectileType<FlayedExplosion>(), 25, 0, Main.myPlayer);
+			}
 		}
 		public override void Kill(int timeLeft)
 		{

@@ -95,6 +95,7 @@ namespace SpiritMod
 		public static bool downedDusking = false;
 		public static bool downedIlluminantMaster = false;
 		public static bool downedOverseer = false;
+		public static bool downedBlueMoon = false;
 
 		//Adventurer variables
 		public static bool sepulchreComplete = false;
@@ -156,6 +157,8 @@ namespace SpiritMod
 				downed.Add("atlas");
 			if(downedOverseer)
 				downed.Add("overseer");
+			if(downedBlueMoon)
+				downed.Add("bluemoon");
 			data.Add("downed", downed);
 
 			TagCompound droppedGlyphTag = new TagCompound();
@@ -196,6 +199,7 @@ namespace SpiritMod
 			downedIlluminantMaster = downed.Contains("illuminantMaster");
 			downedAtlas = downed.Contains("atlas");
 			downedOverseer = downed.Contains("overseer");
+			downedBlueMoon = downed.Contains("bluemoon");
 
 			SpiritMod.AdventurerQuests.WorldLoad(tag);
 			TagCompound droppedGlyphTag = tag.GetCompound("droppedGlyphs");
@@ -236,6 +240,7 @@ namespace SpiritMod
 				downedIlluminantMaster = flags[5];
 				downedAtlas = flags[6];
 				downedOverseer = flags[7];
+				downedBlueMoon = flags[8];
 				downedReachBoss = flags1[0];
 				downedSpiritCore = flags1[1];
 
@@ -282,6 +287,7 @@ namespace SpiritMod
 			downedIlluminantMaster = bosses1[5];
 			downedAtlas = bosses1[6];
 			downedOverseer = bosses1[7];
+			downedBlueMoon = bosses1[8];
 			downedReachBoss = bosses2[0];
 			downedSpiritCore = bosses2[1];
 
@@ -354,6 +360,7 @@ namespace SpiritMod
 			downedSpiritCore = false;
 			downedIlluminantMaster = false;
 			downedOverseer = false;
+			downedBlueMoon = false;
 		}
 		#region Asteroid
 		public static ushort OreRoller(ushort glowstone, ushort none)
@@ -3333,9 +3340,10 @@ namespace SpiritMod
 					meteorShowerWeather = false;
 				}
 				if(!Main.dayTime && Main.hardMode) {
-					if(!Main.fastForwardTime && !Main.bloodMoon && WorldGen.spawnHardBoss == 0 && Main.rand.Next(27) == 0) {
+					if(!Main.fastForwardTime && !Main.bloodMoon && WorldGen.spawnHardBoss == 0 && ((Main.rand.Next(20) == 1 && !downedBlueMoon) || (Main.rand.Next(40) == 1 && !downedBlueMoon))) {
 						Main.NewText("A Blue Moon is rising...", 0, 90, 220);
 						BlueMoon = true;
+						downedBlueMoon = true;
 					}
 				} else {
 					BlueMoon = false;
