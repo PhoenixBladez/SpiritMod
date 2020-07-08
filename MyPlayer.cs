@@ -94,6 +94,7 @@ namespace SpiritMod
 		public bool ToxicExtract = false;
 		public bool vitaStone = false;
 		public bool throwerGlove = false;
+		public bool firedSharpshooter = false;
 		public int throwerStacks;
 		public bool scarabCharm = false;
 		public bool floranCharm = false;
@@ -1978,13 +1979,10 @@ namespace SpiritMod
 		
 		public override bool Shoot(Item item, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if(throwerGlove) {
-				if(throwerStacks >= 7) {
-					throwerStacks = 0;
-					int proj = Projectile.NewProjectile(position.X, position.Y, speedX * 2, speedY * 2, type, damage + (int)(damage / 4), knockBack + 2, player.whoAmI);
-					Main.projectile[proj].GetGlobalProjectile<SpiritGlobalProjectile>().throwerGloveBoost = true;
-					return false;
-				}
+			if(throwerGlove && throwerStacks >= 7) {
+				damage += (int)(damage / 4f + 0.5f);
+				knockBack += 2;
+				firedSharpshooter = true;
 			}
 			return true;
 		}
@@ -1996,7 +1994,7 @@ namespace SpiritMod
 			if (TideWorld.TheTide && !NPC.AnyNPCs(ModContent.NPCType<Rylheian>()) && player.ZoneBeach && TideWorld.TidePoints >= 99)
             {
                 int n = NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 400, ModContent.NPCType<Rylheian>(), 0, 2, 1, 0, 0, Main.myPlayer);
-                Main.PlaySound(29, Main.npc[n].Center, 89);
+                Main.PlaySound(SoundID.Zombie, Main.npc[n].Center, 89);
                 DustHelper.DrawDiamond(new Vector2(Main.npc[n].Center.X, Main.npc[n].Center.Y), 173, 8);
                 DustHelper.DrawTriangle(new Vector2(Main.npc[n].Center.X, Main.npc[n].Center.Y), 173, 8);
             }
@@ -2211,25 +2209,27 @@ namespace SpiritMod
 				}
 			}
 			if(MyWorld.meteorShowerWeather && Main.rand.Next(270) == 0 && ZoneAsteroid) {
-				Vector2 vector2_1 = new Vector2((float)((double)player.position.X + (double)player.width * 0.5 + (double)(Main.rand.Next(201) * -player.direction) + ((double)Main.mouseX + (double)Main.screenPosition.X - (double)player.position.X)), (float)((double)player.position.Y + (double)player.height * 0.5 - 600.0));   //this defines the projectile width, direction and position
-				vector2_1.X = (float)(((double)vector2_1.X + (double)player.Center.X) / 2.0) + (float)Main.rand.Next(-200, 201);
-				vector2_1.Y -= (float)(100);
+				Vector2 vector2_1 = new Vector2((float)(player.position.X + player.width * 0.5 + (Main.rand.Next(201) * -player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X)), (float)(player.position.Y + player.height * 0.5 - 600.0));   //this defines the projectile width, direction and position
+				vector2_1.X = (float)((vector2_1.X + player.Center.X) / 2.0) + Main.rand.Next(-200, 201);
+				vector2_1.Y -= 100;
 				float num12 = Main.rand.Next(-30, 30);
 				float num13 = 100;
-				if((double)num13 < 0.0) num13 *= -1f;
-				if((double)num13 < 20.0) num13 = 20f;
-				float num14 = (float)Math.Sqrt((double)num12 * (double)num12 + (double)num13 * (double)num13);
+				if(num13 < 0) num13 *= -1f;
+				if(num13 < 20) num13 = 20f;
+				float num14 = (float)Math.Sqrt(num12 * num12 + num13 * num13);
 				float num15 = 10 / num14;
 				float num16 = num12 * num15;
 				float num17 = num13 * num15;
-				float SpeedX = num16 + (float)Main.rand.Next(-40, 41) * 0.02f;  //this defines the projectile X position speed and randomnes
-				float SpeedY = num17 + (float)Main.rand.Next(-40, 41) * 0.02f;  //this defines the projectile Y position speed and randomnes
+				float SpeedX = num16 + Main.rand.Next(-40, 41) * 0.02f;  //this defines the projectile X position speed and randomnes
+				float SpeedY = num17 + Main.rand.Next(-40, 41) * 0.02f;  //this defines the projectile Y position speed and randomnes
 				int proj = Projectile.NewProjectile(player.Center.X + Main.rand.Next(-1000, 1000), player.Center.Y + Main.rand.Next(-1200, -900), SpeedX, SpeedY, ModContent.ProjectileType<Projectiles.Hostile.Meteor>(), 30, 3, Main.myPlayer, 0.0f, 1);
 				Main.projectile[proj].friendly = true;
 				Main.projectile[proj].hostile = true;
 			}
-			if(!throwerGlove) {
+
+			if(!throwerGlove || (throwerStacks >= 7 && firedSharpshooter)) {
 				throwerStacks = 0;
+				firedSharpshooter = false;
 			}
 
 			if(ShieldCore) {
@@ -2237,9 +2237,9 @@ namespace SpiritMod
 					//shootingCrystal = false;
 					Player player = Main.player[Main.myPlayer];
 					int num = shieldsLeft;
-					for(int I = 0; I < num; I++) {
-						int DegreeDifference = (int)(360 / num);
-						Projectile.NewProjectile((int)player.Center.X + (int)(Math.Sin(I * DegreeDifference) * 80), (int)player.Center.Y + (int)(Math.Sin(I * DegreeDifference) * 80), 0, 0, ModContent.ProjectileType<InterstellarShield>(), 1, 0, player.whoAmI, 0, I * DegreeDifference);
+					for(int i = 0; i < num; i++) {
+						int DegreeDifference = 360 / num;
+						Projectile.NewProjectile((int)player.Center.X + (int)(Math.Sin(i * DegreeDifference) * 80), (int)player.Center.Y + (int)(Math.Sin(i * DegreeDifference) * 80), 0, 0, ModContent.ProjectileType<InterstellarShield>(), 1, 0, player.whoAmI, 0, i * DegreeDifference);
 					}
 					spawnedShield = true;
 

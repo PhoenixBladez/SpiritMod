@@ -45,7 +45,16 @@ namespace SpiritMod.Projectiles
 		public bool shotFromMaliwanShockCommon = false;
 		public bool shotFromMaliwanFreezeCommon = false;
 
-
+		public override void SetDefaults(Projectile projectile)
+		{
+			if(projectile.friendly
+				&& projectile.owner != 255
+				&& Main.player[projectile.owner].GetSpiritPlayer().throwerGlove
+				&& Main.player[projectile.owner].GetSpiritPlayer().throwerStacks == 7) {
+				projectile.extraUpdates += 1;
+				throwerGloveBoost = true;
+			}
+		}
 
 		public override bool PreDraw(Projectile projectile, SpriteBatch spriteBatch, Color lightColor)
 		{
@@ -67,6 +76,7 @@ namespace SpiritMod.Projectiles
 			}
 			return base.PreDraw(projectile, spriteBatch, lightColor);
 		}
+		
 		float alphaCounter;
 		public override bool PreAI(Projectile projectile)
 		{
@@ -433,6 +443,7 @@ namespace SpiritMod.Projectiles
                 }
             }
         }
+		
 		public override void Kill(Projectile projectile, int timeLeft)
 		{
 			SpiritMod.TrailManager.TryTrailKill(projectile);
