@@ -1494,7 +1494,7 @@ namespace SpiritMod
 				return;
 			}
 
-			List<ushort> BadSurfaceIDs = new List<ushort>() { TileID.SnowBlock, TileID.Ebonstone, TileID.Crimstone, TileID.FleshGrass, TileID.CorruptGrass, TileID.IceBlock, TileID.HardenedSand, TileID.Sandstone, TileID.HardenedSand, TileID.JungleGrass };
+			List<ushort> BadSurfaceIDs = new List<ushort>() { TileID.SnowBlock, TileID.Ebonstone, TileID.Crimstone, TileID.FleshGrass, TileID.CorruptGrass, TileID.IceBlock, TileID.HardenedSand, TileID.Sandstone, TileID.HardenedSand, TileID.JungleGrass, TileID.Sand };
 			List<ushort> BadUndergroundIDs = new List<ushort>() { TileID.Ebonstone, TileID.Crimstone, TileID.FleshGrass, TileID.CorruptGrass, TileID.IceBlock, TileID.HardenedSand, TileID.Sandstone, TileID.HardenedSand, TileID.JungleGrass };
 
 			int worldSizeBonus = (int)((Main.maxTilesX / 4200f) * 8f);
