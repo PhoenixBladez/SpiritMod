@@ -26,7 +26,9 @@ namespace SpiritMod.NPCs.Mimic
 			npc.knockBackResist = 0.34f;
 			npc.aiStyle = 3;
 			aiType = 508;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.WoodCrateMimicBanner>();
+        }
 		int frame = 2;
 		int timer = 0;
 		int mimictimer = 0;

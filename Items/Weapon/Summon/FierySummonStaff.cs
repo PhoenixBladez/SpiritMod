@@ -29,8 +29,6 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.noMelee = true; //so the item's animation doesn't do damage
 			item.knockBack = 1.25f;
-			item.buffType = ModContent.BuffType<Buffs.Summon.LavaRockSummon>();
-			item.buffTime = 3600;
 			item.value = 10000;
 			item.UseSound = SoundID.Item73;
 			item.rare = ItemRarityID.Orange;
@@ -48,9 +46,9 @@ namespace SpiritMod.Items.Weapon.Summon
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}
-
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
+			player.AddBuff(ModContent.BuffType<Buffs.Summon.LavaRockSummon>(), 3600);
 			int i = Main.myPlayer;
 			float num72 = item.shootSpeed;
 			int num73 = item.damage;

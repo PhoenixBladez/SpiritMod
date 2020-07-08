@@ -32,7 +32,9 @@ namespace SpiritMod.NPCs
 			npc.DeathSound = SoundID.NPCDeath6;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.CaptiveMaskBanner>();
+        }
 
 		public override bool PreAI()
 		{

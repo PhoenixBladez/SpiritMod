@@ -29,7 +29,9 @@ namespace SpiritMod.NPCs
 			npc.value = 220f;
 			npc.knockBackResist = 0f;
 			npc.behindTiles = true;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.ArterialGrasperBanner>();
+        }
 		bool spawnedHooks = false;
 		bool attack = false;
 		public override void AI()

@@ -36,8 +36,10 @@ namespace SpiritMod.NPCs
 			npc.aiStyle = 14;
 			npc.noGravity = true;
 			aiType = NPCID.Slimer;
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.BeholderBanner>();
 
-			npc.noTileCollide = true;
+            npc.noTileCollide = true;
 		}
 		public int dashTimer;
 		int frame = 0;

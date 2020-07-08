@@ -36,7 +36,9 @@ namespace SpiritMod.NPCs.Tides
 			npc.noTileCollide = true;
 			npc.HitSound = SoundID.NPCHit25;
 			npc.DeathSound = SoundID.NPCDeath28;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.MangoWarBanner>();
+        }
 		bool shooting = false;
 		//npc.ai[0]: base timer
 		int xoffset = 0;

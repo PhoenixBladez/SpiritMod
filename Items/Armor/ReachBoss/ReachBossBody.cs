@@ -11,7 +11,6 @@ namespace SpiritMod.Items.Armor.ReachBoss
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Thornspeaker's Garb");
-			Tooltip.SetDefault("Increases your max number of minions");
 
 		}
 
@@ -23,19 +22,7 @@ namespace SpiritMod.Items.Armor.ReachBoss
 			item.height = 20;
 			item.value = 30200;
 			item.rare = ItemRarityID.Green;
-			item.defense = 5;
-		}
-		public override void UpdateEquip(Player player)
-		{
-			player.maxMinions += 1;
-		}
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<ReachFlowers>(), 10);
-			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			item.vanity = true;
 		}
 	}
 }

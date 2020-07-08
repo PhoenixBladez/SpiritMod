@@ -40,7 +40,6 @@ namespace SpiritMod.Items.BossBags
 		{
 			player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(1, 3));
 			player.QuickSpawnItem(ModContent.ItemType<DeathRose>());
-			player.QuickSpawnItem(ModContent.ItemType<ReachFlowers>(), Main.rand.Next(14, 20));
 
 			int[] lootTable = {
 				ModContent.ItemType<ThornBow>(),

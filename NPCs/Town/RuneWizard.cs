@@ -36,7 +36,8 @@ namespace SpiritMod.NPCs.Town
 			npc.friendly = true;
 			npc.aiStyle = 7;
 			npc.damage = 14;
-			npc.defense = 30;
+            drawOffsetY = -2;
+            npc.defense = 30;
 			npc.lifeMax = 250;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath6;

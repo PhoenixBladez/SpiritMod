@@ -30,7 +30,9 @@ namespace SpiritMod.NPCs.Reach
 			npc.value = 60f;
 			npc.knockBackResist = 0f;
 			npc.behindTiles = true;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.DroseranTrapperBanner>();
+        }
 
 		public override void NPCLoot()
 		{

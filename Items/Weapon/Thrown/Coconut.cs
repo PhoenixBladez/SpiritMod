@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 			item.height = 15;
 			item.noUseGraphic = true;
 			item.UseSound = SoundID.Item1;
-			item.melee = true;
+			item.ranged = true;
 			item.channel = true;
 			item.noMelee = true;
 			item.consumable = true;
@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 			item.useAnimation = 60;
 			item.useTime = 60;
 			item.shootSpeed = 4f;
-			item.damage = 16;
+			item.damage = 21;
 			item.knockBack = 3.5f;
 			item.value = Terraria.Item.sellPrice(0, 0, 3, 0);
 			item.crit = 8;

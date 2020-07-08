@@ -34,7 +34,9 @@ namespace SpiritMod.NPCs.BloodMoon
 			npc.knockBackResist = 0.45f;
 			npc.netAlways = true;
 			npc.lavaImmune = true;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.OccultistBanner>();
+        }
 		public override bool PreAI()
 		{
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.46f, 0.12f, .64f);

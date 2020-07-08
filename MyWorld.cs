@@ -1533,19 +1533,15 @@ namespace SpiritMod
 				placed = true;
 			}
 		}
-		public void GenerateBoneIsland()
+		public void GenerateBoneIsland(int islands, int section)
         {
             bool placed = false;
             while (!placed)
             {
                 {
                     // Select a place in the first 6th of the world
-                    int towerX = WorldGen.genRand.Next(Main.maxTilesX / 3, Main.maxTilesX / 3 * 2); // from 50 since there's a unaccessible area at the world's borders
-                                                                                                    // 50% of choosing the last 6th of the world
-                    if (WorldGen.genRand.NextBool())
-                    {
-                        towerX = Main.maxTilesX - towerX;
-                    }
+					int sectionSize = Main.maxTilesX / islands;
+                    int towerX = Main.rand.Next((sectionSize * section) + 50, (sectionSize * (section + 1)) - 50);
                     int towerY = WorldGen.genRand.Next(Main.maxTilesY / 10, Main.maxTilesY / 9);
                     Tile tile = Main.tile[towerX, towerY];
                     if (tile.active())
@@ -2703,7 +2699,7 @@ namespace SpiritMod
                             }
                             for (int i = 0; i < num8827; i++)
                             {
-                                GenerateBoneIsland();
+                                GenerateBoneIsland(num8827, i);
                             }
                             GeneratePagoda();
 							GenerateZiggurat();
@@ -3027,8 +3023,38 @@ namespace SpiritMod
 
 				}
 			}
-			
-			for(int i = 1; i < Main.rand.Next(4, 6); i++) {
+            for (int i = 1; i < Main.rand.Next(4, 6); i++)
+            {
+                int[] itemsToPlacePrimary = new int[] { ItemType<SepulchreStaff>(), ItemType<SepulchrePendant>() };
+                int[] ammoToPlace = new int[] { ItemType<SepulchreArrow>(), ItemType<SepulchreBullet>() };
+                //int itemsToPlaceInGlassChestsSecondaryChoice = 0;	
+                for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
+                {
+                    Chest chest = Main.chest[chestIndex];
+                    if (chest != null && Main.tile[chest.x, chest.y].type == TileType<SepulchreChestTile>())
+                    {
+                        chest.item[0].SetDefaults(itemsToPlacePrimary[Main.rand.Next(2)], false);
+                        chest.item[1].SetDefaults(commonItems1[Main.rand.Next(4)], false);
+                        chest.item[1].stack = WorldGen.genRand.Next(3, 10);
+                        chest.item[2].SetDefaults(ammo1[Main.rand.Next(2)], false);
+                        chest.item[2].stack = WorldGen.genRand.Next(20, 50);
+                        chest.item[3].SetDefaults(potions[Main.rand.Next(6)], false);
+                        chest.item[3].stack = WorldGen.genRand.Next(2, 3);
+                        chest.item[4].SetDefaults(recall[Main.rand.Next(1)], false);
+                        chest.item[4].stack = WorldGen.genRand.Next(2, 3);
+                        chest.item[5].SetDefaults(other1[Main.rand.Next(2)], false);
+                        chest.item[5].stack = WorldGen.genRand.Next(1, 4);
+                        chest.item[6].SetDefaults(other2[Main.rand.Next(2)], false);
+                        chest.item[6].stack = WorldGen.genRand.Next(1, 4);
+                        chest.item[7].SetDefaults(moddedMaterials[Main.rand.Next(2)], false);
+                        chest.item[7].stack = WorldGen.genRand.Next(2, 6);
+                        chest.item[8].SetDefaults(72, false);
+                        chest.item[8].stack = WorldGen.genRand.Next(12, 30);
+                    }
+
+                }
+            }
+            for (int i = 1; i < Main.rand.Next(4, 6); i++) {
 				int[] itemsToPlacePrimary = new int[] { ItemType<CleftHorn>(), ItemType<CactusStaff>() };
 				//int itemsToPlaceInGlassChestsSecondaryChoice = 0;
 				for(int chestIndex = 0; chestIndex < 1000; chestIndex++) {

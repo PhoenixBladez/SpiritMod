@@ -34,7 +34,9 @@ namespace SpiritMod.NPCs.Dungeon
 			npc.knockBackResist = .35f;
 			npc.aiStyle = 3;
 			aiType = 218;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.BlazingRattlerBanner>();
+        }
 		int hitCounter;
 		public override void NPCLoot()
 		{

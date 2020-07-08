@@ -33,7 +33,9 @@ namespace SpiritMod.NPCs
 			aiType = NPCID.StardustCellBig;
 			animationType = NPCID.Pixie;
 			npc.lavaImmune = true;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.GluttonousDevourerBanner>();
+        }
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{

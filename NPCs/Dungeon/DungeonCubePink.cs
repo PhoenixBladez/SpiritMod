@@ -38,7 +38,10 @@ namespace SpiritMod.NPCs.Dungeon
 			npc.netAlways = true;
 			npc.chaseable = true;
 			npc.lavaImmune = true;
-		}
+
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.PinkDungeonCubeBanner>();
+        }
 
 		public override bool PreAI()
 		{

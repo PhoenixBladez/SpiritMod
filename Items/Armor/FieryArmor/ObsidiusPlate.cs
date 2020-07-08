@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Armor.FieryArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Slag Tyrant's Platemail");
-			Tooltip.SetDefault("5% increased minion damage\nIncreases your max number of minions");
+			Tooltip.SetDefault("4% increased minion damage\nIncreases your max number of minions");
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/FieryArmor/ObsidiusPlate_Glow");
 
 		}
@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Armor.FieryArmor
 			item.height = 20;
 			item.value = Item.sellPrice(0, 0, 35, 0);
 			item.rare = ItemRarityID.Orange;
-			item.defense = 7;
+			item.defense = 8;
 		}
 		public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
 		{
@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Armor.FieryArmor
 		public override void UpdateEquip(Player player)
 		{
 			player.maxMinions += 1;
-			player.minionDamage += .05f;
+			player.minionDamage += .04f;
 		}
 		public override void AddRecipes()
 		{

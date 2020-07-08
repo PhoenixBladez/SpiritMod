@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Armor.FieryArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Slag Tyrant's Helm");
-			Tooltip.SetDefault("6% increased minion damage\nIncreases your max number of sentries");
+			Tooltip.SetDefault("5% increased minion damage\nIncreases your max number of sentries");
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/FieryArmor/ObsidiusHelm_Glow");
 		}
 
@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Armor.FieryArmor
 			item.height = 20;
 			item.value = Item.sellPrice(0, 0, 35, 0);
 			item.rare = ItemRarityID.Orange;
-			item.defense = 5;
+			item.defense = 6;
 		}
 
 		public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor) 
@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Armor.FieryArmor
 		public override void UpdateEquip(Player player)
 		{
 			player.maxTurrets += 1;
-			player.minionDamage += .06f;
+			player.minionDamage += .05f;
 		}
 
 		public override bool IsArmorSet(Item head, Item body, Item legs) 

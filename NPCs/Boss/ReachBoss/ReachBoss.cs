@@ -119,7 +119,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			}
 
 			bool expertMode = Main.expertMode;
-			if(Main.rand.Next(180) == 1 && npc.life >= (npc.lifeMax / 3)) {
+			if(Main.rand.Next(195) == 1 && npc.life >= (npc.lifeMax / 3)) {
 				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
@@ -134,7 +134,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BouncingSpore>(), damage, 1, Main.myPlayer, 0, 0);
 
 				}
-			} else if(Main.rand.Next(175) == 3 && npc.life <= (npc.lifeMax / 3)) {
+			} else if(Main.rand.Next(190) == 3 && npc.life <= (npc.lifeMax / 3)) {
 
 				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
@@ -152,7 +152,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				}
 			}
 
-			if(Main.rand.Next(210) == 0 && npc.life >= (npc.lifeMax / 2)) {
+			if(Main.rand.Next(225) == 0 && npc.life >= (npc.lifeMax / 2)) {
 
 				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;

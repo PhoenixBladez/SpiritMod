@@ -27,7 +27,9 @@ namespace SpiritMod.NPCs
 			npc.DeathSound = SoundID.NPCDeath21;
 			npc.noGravity = true;
 			npc.noTileCollide = false;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.BloaterBanner>();
+        }
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frame.Y = frameHeight * frame;

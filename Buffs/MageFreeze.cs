@@ -15,7 +15,7 @@ namespace SpiritMod.Buffs
 		public override void Update(NPC npc, ref int buffIndex)
 		{
 			if(npc.knockBackResist > 0f) {
-				npc.velocity.X *= .95f;
+				npc.velocity.X *= .94f;
 				Player player = Main.LocalPlayer;
 				if(player.GetSpiritPlayer().cryoSet) {
 					npc.velocity.X *= .90f;

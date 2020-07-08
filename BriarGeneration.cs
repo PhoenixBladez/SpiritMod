@@ -1022,8 +1022,8 @@ namespace SpiritMod
 				polygonVertices.Add(p);
 			}
 
-			ushort boundaryTile = (ushort)ModContent.TileType<BarkTileTile>(); //TODO: CHANGE
-			ushort[] extras = new ushort[] { TileID.LivingMahoganyLeaves, (ushort)ModContent.TileType<BlastStone>() };
+			ushort boundaryTile = (ushort)ModContent.TileType<BlastStone>(); //TODO: CHANGE
+			ushort[] extras = new ushort[] { TileID.LivingMahoganyLeaves, (ushort)ModContent.TileType<BarkTileTile>() };
 			ushort[] wallTypes = new ushort[] { (ushort)ModContent.WallType<BarkWall>(), WallID.LivingLeaf, WallID.MudstoneBrick }; //TODO: CHANGE
 
 			//place shape
@@ -1750,8 +1750,8 @@ namespace SpiritMod
 						if(failed) continue;
 
 						GrowWigglyTree(wiggleTreeX, wiggleY, treesPlaced == 0 ? 5 : 2, treesPlaced == 0 ? 60 : 24);
-						treesPlaced += WorldGen.genRand.Next(1, 3);
-						if(treesPlaced >= 2) {
+						treesPlaced += 1;
+						if(treesPlaced >= 1) {
 							break;
 						}
 					}

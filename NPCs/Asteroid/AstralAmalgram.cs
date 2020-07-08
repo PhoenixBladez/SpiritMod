@@ -31,8 +31,10 @@ namespace SpiritMod.NPCs.Asteroid
 			npc.knockBackResist = .40f;
 			npc.noTileCollide = true;
 			npc.noGravity = true;
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.AstralAmalgamBanner>();
 
-		}
+        }
 
 		private static int[] SpawnTiles = { };
 		int chargetimer = 0;

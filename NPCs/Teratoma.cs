@@ -26,7 +26,9 @@ namespace SpiritMod.NPCs
 			npc.knockBackResist = 0.45f;
 			npc.aiStyle = 3;
 			aiType = NPCID.WalkingAntlion;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.PutromaBanner>();
+        }
 		public override void AI()
 		{
 			npc.rotation += .06f * npc.velocity.X;

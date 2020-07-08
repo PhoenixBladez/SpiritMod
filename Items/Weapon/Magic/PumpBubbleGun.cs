@@ -38,15 +38,6 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override Vector2? HoldoutOffset()
 		{
 			return new Vector2(-10, 0);
-		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-				Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
-				Vector2 offset = mouse - player.Center;
-				offset.Normalize();
-				offset *= 30;
-				position -= offset;
-				return true;
-		}
+		}	
 	}
 }

@@ -37,7 +37,10 @@ namespace SpiritMod.NPCs.Dungeon
 			npc.chaseable = true;
 			npc.noTileCollide = true;
 			npc.lavaImmune = true;
-		}
+
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.GhastBanner>();
+        }
 
 		int frame = 5;
 		int timer = 0;

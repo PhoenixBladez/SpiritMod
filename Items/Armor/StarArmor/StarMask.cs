@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Armor.StarArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Astralite Visor");
-			Tooltip.SetDefault("20% chance to not consume ammo\n5% increased critical strike chance");
+			Tooltip.SetDefault("5% increased critical strike chance");
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/StarArmor/StarMask_Glow");
 		}
 
@@ -31,7 +31,6 @@ namespace SpiritMod.Items.Armor.StarArmor
 
 		public override void UpdateEquip(Player player)
 		{
-			player.ammoCost80 = true;
 			player.meleeCrit += 5;
 			player.rangedCrit += 5;
 			player.magicCrit += 5;

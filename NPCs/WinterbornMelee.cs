@@ -32,7 +32,9 @@ namespace SpiritMod.NPCs
 			npc.knockBackResist = .01f;
 			npc.aiStyle = 3;
 			aiType = NPCID.ArmoredViking;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.WinterbornBanner>();
+        }
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{

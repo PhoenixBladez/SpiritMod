@@ -29,7 +29,9 @@ namespace SpiritMod.NPCs.Ocean
 			npc.aiStyle = 16;
 			npc.noGravity = true;
 			aiType = NPCID.Shark;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.ElectricEelBanner>();
+        }
 
 		public override void FindFrame(int frameHeight)
 		{

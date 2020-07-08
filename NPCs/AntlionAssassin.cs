@@ -26,7 +26,9 @@ namespace SpiritMod.NPCs
 			npc.knockBackResist = .45f;
 			npc.aiStyle = 3;
 			aiType = NPCID.SnowFlinx;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.AntlionAssassinBanner>();
+        }
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{

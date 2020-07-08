@@ -33,7 +33,9 @@ namespace SpiritMod.NPCs
 			npc.aiStyle = 22;
 			aiType = NPCID.Wraith;
 			animationType = NPCID.Wraith;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.GladiatorSpiritBanner>();
+        }
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{

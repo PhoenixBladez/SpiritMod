@@ -39,7 +39,9 @@ namespace SpiritMod.NPCs
 			npc.noTileCollide = true;
 			npc.aiStyle = 22;
 			npc.aiStyle = -1;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.CrystalDrifterBanner>();
+        }
 		int timer = 0;
 		public override bool PreAI()
 		{

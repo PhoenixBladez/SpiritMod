@@ -38,7 +38,9 @@ namespace SpiritMod.NPCs.Tides
 			npc.noTileCollide = true;
 			npc.HitSound = SoundID.NPCHit55;
 			npc.DeathSound = SoundID.NPCDeath5;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.RlyehianBanner>();
+        }
 		int counter;
 		int phase = 0; //0 = charging, 1 = special attack
 		float angle = 0;
@@ -114,8 +116,8 @@ namespace SpiritMod.NPCs.Tides
                 Main.PlaySound(2, npc.Center, 109);
                 for (angle = 0; angle < 6.29; angle+= 0.785f)
 				{
-					Vector2 offset = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)) * 90f;
-					int laser = Terraria.Projectile.NewProjectile(npc.Center.X+ offset.X, npc.Center.Y + offset.Y, 0, 0, ModContent.ProjectileType<RyBolt>(), npc.damage, 0);
+                    Vector2 offset = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)) * 90f;
+					int laser = Terraria.Projectile.NewProjectile(npc.Center.X+ offset.X, npc.Center.Y + offset.Y, 0, 0, ModContent.ProjectileType<RyBolt>(), npc.damage/2, 0);
 					Projectile p = Main.projectile[laser];
 					Vector2 direction = Main.player[npc.target].Center - p.Center;
 					direction.Normalize();
@@ -140,7 +142,7 @@ namespace SpiritMod.NPCs.Tides
 			{
 				if (counter % 15 == 10)
 				{
-					int laser = Terraria.Projectile.NewProjectile(player.Center.X, player.Center.Y, 0, 10, ModContent.ProjectileType<RyTentacle>(), npc.damage, 0);
+					int laser = Terraria.Projectile.NewProjectile(player.Center.X, player.Center.Y, 0, 10, ModContent.ProjectileType<RyTentacle>(), npc.damage/2, 0);
 				}
 				if (counter % 400 == 390)
 				{
@@ -156,7 +158,7 @@ namespace SpiritMod.NPCs.Tides
 					int angleS = Main.rand.Next(360);
 					double squidAnglex = Math.Sin(angleS * (Math.PI / 180));
 					double squidAngley = 0 - Math.Abs(Math.Cos(angleS * (Math.PI / 180)));
-					int squid = Projectile.NewProjectile(player.Center.X + (int)(500 * squidAnglex), player.Center.Y + (int)(500 * squidAngley), 0, 0, ModContent.ProjectileType<TentacleSquid>(), npc.damage, 0);
+					int squid = Projectile.NewProjectile(player.Center.X + (int)(500 * squidAnglex), player.Center.Y + (int)(500 * squidAngley), 0, 0, ModContent.ProjectileType<TentacleSquid>(), npc.damage/2, 0);
                     Projectile p = Main.projectile[squid];
 					Vector2 direction = Main.player[npc.target].Center - p.Center;
                     Main.PlaySound(4, p.Center, 19);

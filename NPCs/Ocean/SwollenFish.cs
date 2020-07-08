@@ -27,7 +27,9 @@ namespace SpiritMod.NPCs.Ocean
 			npc.aiStyle = 16;
 			npc.noGravity = true;
 			aiType = NPCID.Goldfish;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.BloatfishBanner>();
+        }
 		int frame = 1;
 		int timer = 0;
 		int dashtimer = 0;

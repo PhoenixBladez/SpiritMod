@@ -31,7 +31,9 @@ namespace SpiritMod.NPCs.Reach
 			npc.aiStyle = 1;
 			aiType = NPCID.BlueSlime;
 			animationType = NPCID.BlueSlime;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.BriarthornSlimeBanner>();
+        }
 		public override void AI()
 		{
 			npc.spriteDirection = -npc.direction;

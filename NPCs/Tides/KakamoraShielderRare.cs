@@ -29,12 +29,14 @@ namespace SpiritMod.NPCs.Tides
 			aiType = NPCID.SnowFlinx;
 			npc.aiStyle = 3;
 			npc.lifeMax = 140;
-			npc.knockBackResist = .10f;
+			npc.knockBackResist = .15f;
 			npc.value = 200f;
 			npc.noTileCollide = false;
 			npc.HitSound = SoundID.NPCHit2;
 			npc.DeathSound = SoundID.NPCDeath1;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.KakamoraShielderBanner1>();
+        }
 		bool blocking = false;
 		int blockTimer = 0;
 		public override void AI()

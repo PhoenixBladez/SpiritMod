@@ -32,7 +32,9 @@ namespace SpiritMod.NPCs.Dungeon
 			npc.DeathSound = SoundID.NPCDeath2;
 			npc.value = 1000f;
 			npc.knockBackResist = .35f;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.DarkAlchemistBanner>();
+        }
 
 
 		public override void HitEffect(int hitDirection, double damage)

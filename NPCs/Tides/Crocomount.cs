@@ -32,6 +32,8 @@ namespace SpiritMod.NPCs.Tides
             npc.DeathSound = SoundID.NPCDeath5;
             npc.value = 500f;
             npc.knockBackResist = .1f;
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.CrocosaurBanner>();
         }
 
 

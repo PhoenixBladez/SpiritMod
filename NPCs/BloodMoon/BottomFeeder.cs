@@ -29,7 +29,9 @@ namespace SpiritMod.NPCs.BloodMoon
 			npc.aiStyle = 3;
 			npc.noGravity = false;
 			aiType = NPCID.WalkingAntlion;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.BottomFeederBanner>();
+        }
 		int frame = 1;
 		int timer = 0;
 		int shoottimer = 0;
