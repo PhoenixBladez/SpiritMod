@@ -39,5 +39,13 @@ namespace SpiritMod.Items.Weapon.Magic
 		{
 			return new Vector2(-10, 0);
 		}	
+		public override bool CanUseItem(Player player)
+		{
+			if (player.statMana >= 20)
+			{
+				return true;
+			}
+			return false;
+		}
 	}
 }

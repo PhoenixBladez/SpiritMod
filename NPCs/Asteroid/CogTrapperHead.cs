@@ -28,7 +28,7 @@ namespace SpiritMod.NPCs.Asteroid
 		public override void SetDefaults()
 		{
 			npc.damage = 32; //150
-			npc.npcSlots = 3f;
+			npc.npcSlots = 17f;
 			npc.width = 26; //324
 			npc.height = 26; //216
 			npc.defense = 0;

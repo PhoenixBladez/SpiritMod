@@ -66,7 +66,6 @@ namespace SpiritMod.Projectiles.Summon
 			}
 
 			int range = 40;   //How many tiles away the projectile targets NPCs
-
 			float lowestDist = float.MaxValue;
 			for(int i = 0; i < 200; ++i) {
 				NPC npc = Main.npc[i];
@@ -85,7 +84,6 @@ namespace SpiritMod.Projectiles.Summon
 				}
 			}
 			NPC target = (Main.npc[(int)projectile.ai[1]] ?? new NPC()); //our target
-																		 //firing
 			if(target.active && !target.friendly)
 			{
 				if(target.position.X > projectile.position.X) {
@@ -97,11 +95,11 @@ namespace SpiritMod.Projectiles.Summon
 				projectile.velocity.X *= 0.99f;
 				if(!jump) {
 					if(projectile.velocity.Y < 7.5f) {
-						projectile.velocity.Y += 0.085f;
+						projectile.velocity.Y += 0.095f;
 					}
-					if(target.position.Y < projectile.position.Y && projectile.ai[0] % 10 == 0) {
+					if(target.position.Y < projectile.position.Y && projectile.ai[0] % 8 == 0) {
 						jump = true;
-						projectile.velocity.X = xoffset / 1.15f;
+						projectile.velocity.X = xoffset / 1.75f;
 						if (target.position.Y < projectile.position.Y - 150)
 						{
 							projectile.velocity.Y = -9;
@@ -115,7 +113,7 @@ namespace SpiritMod.Projectiles.Summon
 				}
 				if(jump) {
 					projectile.velocity *= 0.96f;
-					if(Math.Abs(projectile.velocity.X) < 0.4f) {
+					if(Math.Abs(projectile.velocity.X) < 0.9f) {
 						jump = false;
 					}
 					projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
@@ -137,7 +135,14 @@ namespace SpiritMod.Projectiles.Summon
 					if(player.position.Y < projectile.position.Y && projectile.ai[0] % 20 == 0) {
 						jump = true;
 						projectile.velocity.X = xoffset / 1.25f;
-						projectile.velocity.Y = -9;
+						if (player.position.Y < projectile.position.Y - 150)
+						{
+							projectile.velocity.Y = -9;
+						}
+						else
+						{
+							projectile.velocity.Y = -1.5f;
+						}
 					}
 					projectile.rotation = 0f;
 				}

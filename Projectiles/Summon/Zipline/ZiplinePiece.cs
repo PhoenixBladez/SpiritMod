@@ -32,7 +32,7 @@ namespace SpiritMod.Projectiles.Summon.Zipline
 				projectile.ai[1] = 0 - projectile.ai[1];
 			}
 			Player player = Main.player[Main.myPlayer];
-			if(projectile.Hitbox.Intersects(player.Hitbox) && player.controlUp) {
+			if(projectile.Hitbox.Intersects(player.Hitbox) && player.controlUp && projectile.ai[1] < 0.7) {
 				if(player.GetSpiritPlayer().ziplineCounter <= 45) {
 					player.position = projectile.position - new Vector2(0, player.height);
 				}

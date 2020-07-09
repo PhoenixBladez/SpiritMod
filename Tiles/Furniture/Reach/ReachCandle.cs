@@ -10,13 +10,11 @@ namespace SpiritMod.Tiles.Furniture.Reach
 	{
 		public override void SetDefaults()
 		{
-			Main.tileTable[Type] = true;
-			Main.tileFrameImportant[Type] = true;
-			Main.tileLighted[Type] = true;
-			Main.tileNoAttach[Type] = true;
-			Main.tileLavaDeath[Type] = true;
-			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
-			TileObjectData.addTile(Type);
+            Main.tileFrameImportant[Type] = true;
+            Main.tileNoAttach[Type] = true;
+            Main.tileLavaDeath[Type] = true;
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
+            TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
 			adjTiles = new int[] { TileID.Torches };
             ModTranslation name = CreateMapEntryName();

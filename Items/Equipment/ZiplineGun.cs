@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Equipment
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Rail-gun");
-			Tooltip.SetDefault("Left and right click to shoot tethers that latch to tiles\nThese tethers are connected by a rail\nHold UP to slide down the rail");
+			Tooltip.SetDefault("Left and right click to shoot tethers that latch to tiles\nThese tethers are connected by a rail\nHold UP to slide down the rail \nDoes not work with steep rails");
 		}
 
 		public override void SetDefaults()

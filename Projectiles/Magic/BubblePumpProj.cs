@@ -33,15 +33,6 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			Player player = Main.player[projectile.owner];
 			player.heldProj = projectile.whoAmI;
-            projectile.ai[1]++;
-            if (projectile.ai[1] >= 60)
-            {
-                projectile.ai[1] = 0;
-                if (player.statMana > 0)
-                {
-                    player.statMana-= 15;
-                }
-            }
 			if (player.statMana <= 0)
             {
                 projectile.Kill();
@@ -54,6 +45,15 @@ namespace SpiritMod.Projectiles.Magic
 				 direction = Main.MouseWorld - (player.Center - new Vector2(4, 4));
 				direction.Normalize();
 				direction *= 7f;
+				if (player.statMana > 0)
+				{
+					player.statMana-= 25;
+					player.manaRegenDelay = 30;
+				}
+				else
+				{
+					firing = true;
+				}
 			}
 			if(player.channel && !firing)
 		 	{
@@ -65,6 +65,23 @@ namespace SpiritMod.Projectiles.Magic
 					{
 						Main.PlaySound(25, (int)projectile.position.X, (int)projectile.position.Y);
 					}
+					projectile.ai[1]++;
+					if (projectile.ai[1] % 20 == 19)
+					{
+						if (player.statMana > 0)
+						{
+							player.statMana-= 20;
+							player.manaRegenDelay = 90;
+						}
+						else
+						{
+							firing = true;
+						}
+					}
+				}
+				if (counter == 100)
+				{
+					counter = 130;
 				}
 			} 
 			else {

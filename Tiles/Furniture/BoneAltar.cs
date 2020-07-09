@@ -46,8 +46,11 @@ namespace SpiritMod.Tiles.Furniture
 			g = .32f;
 			b = .1f;
 		}
-
-		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        public override bool Dangersense(int i, int j, Player player)
+        {
+            return true;
+        }
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{
 			Tile tile = Main.tile[i, j];
 			Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);

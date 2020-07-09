@@ -3713,7 +3713,7 @@ namespace SpiritMod
 
 		public override void PostUpdate()
 		{
-			/*if(ZoneReach && !player.ZoneDesert) {
+			if(ZoneReach && Main.expertMode) {
                 int off = 5; //Change this value depending on the strength of your light. Too big and it might cause lag, though. Never go above ~20 or so.
                 int x = (int)(Main.screenPosition.X / 16f) - off;
                 int y = (int)(Main.screenPosition.Y / 16f) - off;
@@ -3721,18 +3721,22 @@ namespace SpiritMod
                 int y2 = y + (int)(Main.screenHeight / 16f) + off * 2;
 
                 for(int i = x; i <= x2; i++) {
-                    for(int j = y; j <= y2; j++) {
+                    for (int j = y; j <= y2; j++)
+                    {
                         Tile t = Main.tile[i, j];
-                        if(t == null) return;
-
-                        if(!t.active() && t.liquid > 0 && t.liquidType() == 0) {
-                            //Set your lighting colour here. Try and keep the values quite small, too strong a light will require you to increase the "off" value up there
-                            Lighting.AddLight(i, j, 0.135f, 0.3f, 0.34f);
+                        if (t == null) return;
+                        if (!t.active() && t.liquid > 0 && t.liquidType() == 0 && Framing.GetTileSafely(i, j - 1).liquid == 0 && !Framing.GetTileSafely(i, j - 1).active())
+                        {
+                            if (Main.rand.Next(20) == 0)
+                            {
+                                int d = Dust.NewDust(new Vector2(i * 16, j * 16), Main.rand.Next(-2, 2), Main.rand.Next(-2, 2), 256, 0.0f, -1, 0, new Color(), 0.95f);//Leave this line how it is, it uses int division
+                                Main.dust[d].velocity *= .8f;
+                                Main.dust[d].noGravity = true;
+                            }
                         }
                     }
                 }
-            }*/
-
+            }
 			if(ZoneReach && player.wet && Main.expertMode) {
 				player.AddBuff(BuffID.Poisoned, 120);
 			}
