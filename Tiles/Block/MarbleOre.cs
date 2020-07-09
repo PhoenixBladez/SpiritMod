@@ -3,6 +3,7 @@ using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Dusts;
 
 namespace SpiritMod.Tiles.Block
 {
@@ -14,7 +15,7 @@ namespace SpiritMod.Tiles.Block
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;  //true for block to emit light
-			Main.tileLighted[Type] = true;
+		//	Main.tileLighted[Type] = true;
 			drop = ModContent.ItemType<MarbleChunk>();   //put your CustomBlock name
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Enchanted Marble Chunk");
@@ -37,6 +38,14 @@ namespace SpiritMod.Tiles.Block
 				return false;
 			}
 			return true;
+		}
+		public override void NearbyEffects(int i, int j, bool closer)
+		{
+			if (Main.rand.Next(1500) == 1)
+			{
+				int glyphnum = Main.rand.Next(10);
+				DustHelper.DrawDustImage(new Vector2(i * 16, j * 16), ModContent.DustType<MarbleDust>(), 0.04f, "SpiritMod/Effects/Glyphs/Glyph" + glyphnum, 1f);
+			}
 		}
 	}
 }

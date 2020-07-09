@@ -3676,5 +3676,16 @@ namespace SpiritMod
                 }
 			}
 		}
+
+
+
+
+
+
+		#region Gray's stupid shenanagins with boffins godlike code
+
+
+		
+		#endregion
 	}
 }
