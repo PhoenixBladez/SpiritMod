@@ -26,7 +26,6 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.useTime = 28;
 			item.useAnimation = 28;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
 			item.noMelee = true;
 			item.knockBack = 1;
 			item.useTurn = false;
@@ -51,7 +50,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			{
 				if(Main.myPlayer == player.whoAmI) {
 					Vector2 mouse = Main.MouseWorld;
-					Projectile.NewProjectile(mouse.X, player.Center.Y - 500 + Main.rand.Next(-50, 50), 0, Main.rand.Next(18, 28), ModContent.ProjectileType<MarbleStalactite>(), damage, knockBack, player.whoAmI);
+					Projectile.NewProjectile(mouse.X, player.Center.Y - 700 + Main.rand.Next(-50, 50), 0, Main.rand.Next(18, 28), ModContent.ProjectileType<MarbleStalactite>(), damage, knockBack, player.whoAmI);
 				}
 			}
 			return false;

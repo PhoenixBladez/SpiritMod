@@ -35,14 +35,14 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.UseSound = SoundID.Item8;
 			item.autoReuse = true;
 			item.shoot = mod.ProjectileType("Starshock1");
-			item.shootSpeed = 46f;
+			item.shootSpeed = 63f;
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			for(int I = 0; I < 2; I++) {
-				Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-250, 250) / 30), speedY + ((float)Main.rand.Next(-250, 250) / 30), type, damage, knockBack, player.whoAmI, 0f, 0f);
+				Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-300, 300) / 30), speedY + ((float)Main.rand.Next(-300, 300) / 30), type, damage, knockBack, player.whoAmI, 0f, 0f);
 				if(Main.rand.Next(6) == 0) {
-					Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-250, 250) / 30), speedY + ((float)Main.rand.Next(-250, 250) / 30), type, damage, knockBack, player.whoAmI, 0f, 0f);
+					Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-300, 300) / 30), speedY + ((float)Main.rand.Next(-300, 300) / 30), type, damage, knockBack, player.whoAmI, 0f, 0f);
 				}
 			}
 			return false;

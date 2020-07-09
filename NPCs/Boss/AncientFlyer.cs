@@ -86,8 +86,8 @@ namespace SpiritMod.NPCs.Boss
 				Main.PlaySound(SoundID.DD2_LightningBugZap, npc.position);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
-				direction.X *= 11f;
-				direction.Y *= 11f;
+				direction.X *= 8.5f;
+				direction.Y *= 8.5f;
 
 				int amountOfProjectiles = Main.rand.Next(8, 11);
 				for(int i = 0; i < amountOfProjectiles; ++i) {
