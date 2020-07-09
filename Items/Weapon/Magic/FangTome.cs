@@ -21,12 +21,11 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.damage = 25;
 			item.magic = true;
 			item.mana = 12;
-			item.width = 20;
-			item.height = 20;
+			item.width = 28;
+			item.height = 32;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useTime = 35;
 			item.useAnimation = 35;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
 			item.noMelee = true;
 			item.knockBack = 0;
 			item.rare = ItemRarityID.Green;

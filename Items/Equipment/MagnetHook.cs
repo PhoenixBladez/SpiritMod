@@ -111,7 +111,8 @@ namespace SpiritMod.Items.Equipment
 		//}
 
 		// Amethyst Hook is 300, Static Hook is 600
-		public override float GrappleRange() => 350f;
+		int extendlength = 450;
+		public override float GrappleRange() => extendlength;
 
 		public override void NumGrappleHooks(Player player, ref int numHooks) => numHooks = 1;
 
@@ -158,6 +159,8 @@ namespace SpiritMod.Items.Equipment
 		}
 		int targetpositionx = 0;
 		int targetpositiony = 0;
+		bool homing = false;
+		float lowestDist = float.MaxValue;
 		public override void AI()
 		{
 			int num = 5;
@@ -178,34 +181,31 @@ namespace SpiritMod.Items.Equipment
 				Main.dust[index2].noLight = false;
 			}
 			{
-				float lowestDist = float.MaxValue;
 				int tilepositionx = (int)(projectile.position.X / 16);
 				int tilepositiony = (int)(projectile.position.Y / 16);
-				int range = 8;
-				if (targetpositionx == 0)
+				if (!homing)
 				{
+					lowestDist = float.MaxValue;
 					for(int i = tilepositionx - 5; i < tilepositionx + 5; i++) {
 						for(int j = tilepositiony - 5; j < tilepositiony + 5; j++) {
 							Tile tile = Main.tile[i, j];
 							if(tile.active() && Main.tileSolid[tile.type]) {
-								//if npc is within 50 blocks
 								float dist = projectile.Distance(new Vector2(i * 16, j * 16));
-								if(dist / 16 < range) {
-									//if npc is closer than closest found npc
-									if(dist < lowestDist + 32) {
-										lowestDist = dist;
-										targetpositionx = i * 16;
-										targetpositiony = j * 16;
-									}
+								if(dist < lowestDist + 32) {
+									lowestDist = dist;
+									targetpositionx = i * 16;
+									targetpositiony = j * 16;
 								}
 							}
 						}
 					}
 				}
-				if(lowestDist < 150 && projectile.timeLeft < 388 && !retracting && Main.tileSolid[Main.tile[targetpositionx / 16, targetpositiony / 16].type]) {
+				if(lowestDist < 113.137085 && projectile.timeLeft < 388 && !retracting && Main.tileSolid[Main.tile[targetpositionx / 16, targetpositiony / 16].type]) {
 					Vector2 direction = new Vector2(targetpositionx - projectile.position.X, targetpositiony - projectile.position.Y);
 					direction.Normalize();
 					projectile.velocity = direction * (int)Math.Sqrt((projectile.velocity.X * projectile.velocity.X) + (projectile.velocity.Y * projectile.velocity.Y));
+					homing = true;
+					extendlength++;
 				}
 			}
 		}

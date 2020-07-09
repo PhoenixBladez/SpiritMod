@@ -75,10 +75,10 @@ namespace SpiritMod.NPCs.BlueMoon
 				cooldownTimer++;
 				npc.velocity.Y = -7;
 				if(player.position.X > npc.position.X) {
-					npc.velocity.X = 14;
+					npc.velocity.X = 10;
 					npc.netUpdate = true;
 				} else {
-					npc.velocity.X = -14;
+					npc.velocity.X = -10;
 					npc.netUpdate = true;
 				}
 			} else {
