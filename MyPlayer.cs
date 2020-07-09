@@ -42,6 +42,7 @@ namespace SpiritMod
 {
 	public class MyPlayer : ModPlayer
 	{
+		public List<SpiritPlayerAffectingItem> accessories = new List<SpiritPlayerAffectingItem>();
 		public const int CAMO_DELAY = 100;
 		public int Soldiers = 0;
 		internal static bool swingingCheck;
@@ -178,7 +179,6 @@ namespace SpiritMod
 		public bool TiteRing = false;
 		public bool NebulaPearl = false;
 		public bool CursedPendant = false;
-		public bool IchorPendant = false;
 		public bool KingRock = false;
 		public bool starMap = false;
 		private const int saveVersion = 0;
@@ -527,6 +527,7 @@ namespace SpiritMod
 
 		public override void ResetEffects()
 		{
+			accessories.Clear();
             stoneHead = false;
             silkenHead = false;
 			zipline = false;
@@ -605,7 +606,6 @@ namespace SpiritMod
 			tankMinion = false;
 			babyClamper = false;
 			Phantom = false;
-			IchorPendant = false;
 			magnifyingGlass = false;
 			magazine = false;
 			daybloomSet = false;
@@ -1309,7 +1309,7 @@ namespace SpiritMod
 					player.statLife -= 3;
 				}
 			}
-			if(throwerGlove) {
+			if(throwerGlove && proj.ranged) {
 				throwerStacks++;
 			}
 
@@ -1979,11 +1979,12 @@ namespace SpiritMod
 		
 		public override bool Shoot(Item item, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if(throwerGlove && throwerStacks >= 7) {
+			/*if(throwerGlove && throwerStacks >= 7) {
 				damage += (int)(damage / 4f + 0.5f);
 				knockBack += 2;
 				firedSharpshooter = true;
-			}
+				Main.NewText("glove damage");
+			}*/
 			return true;
 		}
 		
@@ -3731,6 +3732,7 @@ namespace SpiritMod
                     }
                 }
             }*/
+
 			if(ZoneReach && player.wet && Main.expertMode) {
 				player.AddBuff(BuffID.Poisoned, 120);
 			}
@@ -3799,12 +3801,11 @@ namespace SpiritMod
 
 		public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
 		{
+			foreach(SpiritPlayerAffectingItem acc in accessories)
+				acc.PlayerModifyHitNPC(player, item, target, ref damage, ref knockback, ref crit);
+
 			if(CursedPendant && Main.rand.NextBool(5)) {
 				target.AddBuff(BuffID.CursedInferno, 180);
-			}
-
-			if(IchorPendant && Main.rand.NextBool(10)) {
-				target.AddBuff(BuffID.Ichor, 180);
 			}
 
 			if(shadowGauntlet && Main.rand.NextBool(2)) {
@@ -4515,7 +4516,7 @@ namespace SpiritMod
 	
 		public void DoubleTapEffects(int keyDir)
 		{
-			if(keyDir != (Main.ReversedUpDownArmorSetBonuses ? 1 : 0)) {
+			if(keyDir == (Main.ReversedUpDownArmorSetBonuses ? 0 : 1)) {
 				//Double tap up
 				if(assassinMag && player.HeldItem.useAmmo > AmmoID.None) {
 					var ammoItems = new List<Item>();
@@ -4544,7 +4545,7 @@ namespace SpiritMod
 						CombatText.NewText(textPos, ammoItems[0].RarityColor(), ammoItems[0].Name);
 					}
 				}
-			} else {
+			} else if(keyDir == (Main.ReversedUpDownArmorSetBonuses ? 1 : 0)) {
 				// Double tap down
 				if(starSet && !player.HasBuff(ModContent.BuffType<StarCooldown>())) {
 					Main.PlaySound(SoundID.Item, player.position, 92);

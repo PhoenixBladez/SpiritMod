@@ -41,22 +41,12 @@ namespace SpiritMod.Projectiles
 		public float counter = -1440;
 
 		public bool throwerGloveBoost = false;
+		public bool runOnce = false;
 
 		public bool shotFromMaliwanFireCommon = false;
 		public bool shotFromMaliwanAcidCommon = false;
 		public bool shotFromMaliwanShockCommon = false;
 		public bool shotFromMaliwanFreezeCommon = false;
-
-		public override void SetDefaults(Projectile projectile)
-		{
-			if(projectile.friendly
-				&& projectile.owner != 255
-				&& Main.player[projectile.owner].GetSpiritPlayer().throwerGlove
-				&& Main.player[projectile.owner].GetSpiritPlayer().throwerStacks == 7) {
-				projectile.extraUpdates += 1;
-				throwerGloveBoost = true;
-			}
-		}
 
 		public override bool PreDraw(Projectile projectile, SpriteBatch spriteBatch, Color lightColor)
 		{
@@ -84,13 +74,25 @@ namespace SpiritMod.Projectiles
 		{
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
+
+			if(projectile.friendly
+				&& projectile.owner != 255
+				&& projectile.ranged
+				&& modPlayer.throwerGlove
+				&& modPlayer.throwerStacks >= 7
+				&& !runOnce) {
+				modPlayer.firedSharpshooter = true;
+				projectile.extraUpdates += 1;
+				projectile.scale *= 1.1f;
+				projectile.damage += (int)(projectile.damage / 4f + 0.5f);
+				projectile.knockBack += 2;
+				throwerGloveBoost = true;
+			}
+
+			runOnce = true;
+
 			if(projectile.minion && projectile.owner == Main.myPlayer && modPlayer.stellarSet && player.HasBuff(ModContent.BuffType<StellarMinionBonus>())) {
 				alphaCounter += .04f;
-			}
-			if(throwerGloveBoost) {
-				projectile.scale = 1.1f;
-				ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
-				ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 			}
 			if(shotFromMaliwanFreezeCommon == true) {
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;

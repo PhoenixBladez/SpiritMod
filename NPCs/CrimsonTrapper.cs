@@ -32,8 +32,9 @@ namespace SpiritMod.NPCs
             banner = npc.type;
             bannerItem = ModContent.ItemType<Items.Banners.ArterialGrasperBanner>();
         }
+
 		bool spawnedHooks = false;
-		bool attack = false;
+		//bool attack = false;
 		public override void AI()
 		{
 			if(npc.localAI[0] == 0f) {
@@ -51,10 +52,10 @@ namespace SpiritMod.NPCs
 			npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y + 0.009f * npc.localAI[1], -.85f, .85f);
 			if(!spawnedHooks) {
 				for(int i = 0; i < Main.rand.Next(2, 4); i++) {
-					Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 10, Main.rand.Next(-10, 10), -6, ModContent.ProjectileType<TendonEffect>(), 0, 0);
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 10, Main.rand.Next(-10, 10), -6, ModContent.ProjectileType<TendonEffect>(), 0, 0);
 				}
 				for(int i = 0; i < Main.rand.Next(2, 3); i++) {
-					Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 10, Main.rand.Next(-10, 10), -6, ModContent.ProjectileType<TendonEffect1>(), 0, 0);
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 10, Main.rand.Next(-10, 10), -6, ModContent.ProjectileType<TendonEffect1>(), 0, 0);
 				}
 				spawnedHooks = true;
 			}
@@ -66,23 +67,22 @@ namespace SpiritMod.NPCs
 				float num395 = Main.mouseTextColor / 200f - 0.35f;
 				num395 *= 0.2f;
 				npc.scale = num395 + 0.95f;
-				attack = true;
+				//attack = true;
 				npc.ai[2]++;
 				if(npc.ai[2] == 30 || npc.ai[2] == 60 || npc.ai[2] == 90 || npc.ai[2] == 120 || npc.ai[2] == 150) {
-
-					Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), .153f * 1, .028f * 1, 0.055f * 1);
+					Lighting.AddLight((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f), .153f * 1, .028f * 1, 0.055f * 1);
 					Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/HeartbeatFx"));
 				}
 				if(npc.ai[2] >= 180) {
 					Main.PlaySound(SoundID.Item, npc.Center, 95);
 					npc.ai[2] = 0;
-					Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), .153f * 1, .028f * 1, 0.055f * 1);
+					Lighting.AddLight((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f), .153f * 1, .028f * 1, 0.055f * 1);
 					Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/HeartbeatFx"));
 					for(int i = 0; i < 5; i++) {
 						float rotation = (float)(Main.rand.Next(0, 361) * (Math.PI / 180));
 						Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
 						int proj = Projectile.NewProjectile(npc.Center.X, npc.Center.Y,
-							velocity.X, velocity.Y, mod.ProjectileType("ArterialBloodClump"), 12, 1, Main.myPlayer, 0, 0);
+							velocity.X, velocity.Y, ModContent.ProjectileType<ArterialBloodClump>(), 12, 1, Main.myPlayer, 0, 0);
 						Main.projectile[proj].friendly = false;
 						Main.projectile[proj].hostile = true;
 						Main.projectile[proj].velocity *= 5f;
@@ -93,11 +93,11 @@ namespace SpiritMod.NPCs
 				float num395 = Main.mouseTextColor / 200f - 0.35f;
 				num395 *= 0.2f;
 				npc.scale = num395 + 0.95f;
-				attack = false;
+				//attack = false;
 				npc.ai[2]++;
 				if(npc.ai[2] >= 90) {
 					npc.ai[2] = 0;
-					Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), .153f * .5f, .028f * .5f, 0.055f * .5f);
+					Lighting.AddLight((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f), .153f * .5f, .028f * .5f, 0.055f * .5f);
 					Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/HeartbeatFx"));
 				}
 			}
@@ -110,27 +110,26 @@ namespace SpiritMod.NPCs
 			int frame = (int)npc.frameCounter;
 			npc.frame.Y = frame * frameHeight;
 		}
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			int x = spawnInfo.spawnTileX;
-			int y = spawnInfo.spawnTileY;
-			int tile = (int)Main.tile[x, y].type;
-			return (tile == TileID.Crimstone) && spawnInfo.player.ZoneCrimson && spawnInfo.player.ZoneRockLayerHeight && !NPC.AnyNPCs(ModContent.NPCType<CrimsonTrapper>()) ? 2f : 0f;
-		}
+
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) 
+			=> Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].type == TileID.Crimstone 
+			&& spawnInfo.player.ZoneCrimson 
+			&& spawnInfo.player.ZoneRockLayerHeight 
+			&& !NPC.AnyNPCs(ModContent.NPCType<CrimsonTrapper>())
+			? 2f : 0f;
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			int d = 5;
 			int d1 = 5;
 			for(int k = 0; k < 30; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.Purple, 0.3f);
-				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
+				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default, .34f);
 			}
 			if(npc.life <= 0) {
-				{
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Grasper/Grasper1"), 1f);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Grasper/Grasper2"), 1f);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Grasper/Grasper3"), 1f);
-				}
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Grasper/Grasper1"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Grasper/Grasper2"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Grasper/Grasper3"), 1f);
 			}
 		}
 	}
