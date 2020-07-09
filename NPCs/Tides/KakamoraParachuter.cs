@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Tide;
+using SpiritMod.Projectiles.Hostile;
 using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Items.Weapon.Thrown;
@@ -41,6 +42,7 @@ namespace SpiritMod.NPCs.Tides
         {
 			if (teleportedup && npc.velocity.Y == 0)
 			{
+				Projectile.NewProjectile(npc.Center, new Vector2(npc.direction * -4, -0.5f), ModContent.ProjectileType<StrayGlider>(), 0, 0);
 				switch(Main.rand.Next(4)) {
 					case 0:
 						npc.Transform(ModContent.NPCType<KakamoraRunner>());
@@ -79,6 +81,7 @@ namespace SpiritMod.NPCs.Tides
 			}
 			npc.velocity.Y = 1;
 			if(npc.collideY) {
+				Projectile.NewProjectile(npc.Center, new Vector2(npc.direction * -4, -0.5f), ModContent.ProjectileType<StrayGlider>(), 0, 0);
 				switch(Main.rand.Next(4)) {
 					case 0:
 						npc.Transform(ModContent.NPCType<KakamoraRunner>());
