@@ -42,7 +42,7 @@ namespace SpiritMod
 {
 	public class MyPlayer : ModPlayer
 	{
-		public List<SpiritPlayerAffectingItem> accessories = new List<SpiritPlayerAffectingItem>();
+		public List<SpiritPlayerEffect> accessories = new List<SpiritPlayerEffect>();
 		public const int CAMO_DELAY = 100;
 		public int Soldiers = 0;
 		internal static bool swingingCheck;
@@ -1155,11 +1155,6 @@ namespace SpiritMod
 					Projectile.NewProjectile(target.position, Vector2.Zero, ModContent.ProjectileType<ShadowSingeProj>(), item.damage / 3 * 2, 4, Main.myPlayer);
 					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 6));
 					player.statLife -= 3;
-				}
-			}
-			if(cleftHorn) {
-				if(item.melee && Main.rand.Next(9) == 0) {
-					target.StrikeNPC(item.damage / 2, 0f, 0, crit);
 				}
 			}
 			if(bloodyBauble) {
@@ -3805,7 +3800,7 @@ namespace SpiritMod
 
 		public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
 		{
-			foreach(SpiritPlayerAffectingItem acc in accessories)
+			foreach(var acc in accessories)
 				acc.PlayerModifyHitNPC(player, item, target, ref damage, ref knockback, ref crit);
 
 			if(CursedPendant && Main.rand.NextBool(5)) {

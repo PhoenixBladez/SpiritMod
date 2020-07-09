@@ -5,9 +5,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items
 {
-	// Defines a variety of methods used to allow an item to affect the player.
-	// This does not work by itself; use the accessory class for this.
-	public abstract class SpiritPlayerAffectingItem : SpiritItem
+	public abstract class SpiritPlayerEffect
 	{
 		public virtual void PlayerProcessTriggers(Player player, TriggersSet triggersSet) { }
 		public virtual void PlayerModifyWeaponDamage(Player player, Item item, ref float add, ref float mult, ref float flat) { }
@@ -24,5 +22,9 @@ namespace SpiritMod.Items
 		public virtual void PlayerPostUpdateEquips(Player player) { }
 		public virtual void PlayerPostUpdate(Player player) { }
 		public virtual void PlayerModifyHitNPC(Player player, Item item, NPC target, ref int damage, ref float knockback, ref bool crit) { }
+		
+		public virtual void ItemUpdateAccessory(Player player, bool hideVisual) { }
+
+		public virtual void TileFloorVisuals(int type, Player player) { }
 	}
 }

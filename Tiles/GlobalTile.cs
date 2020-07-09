@@ -8,6 +8,8 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items;
+using SpiritMod.Tiles.Ambient;
 
 namespace SpiritMod.Tiles
 {
@@ -87,18 +89,18 @@ namespace SpiritMod.Tiles
 				if(MyWorld.CorruptHazards < 30) {
 					if((TileArray212.Contains(Framing.GetTileSafely(i, j - 1).type) && TileArray212.Contains(Framing.GetTileSafely(i, j - 2).type) && TileArray212.Contains(Framing.GetTileSafely(i, j - 3).type)) && (j > (int)Main.worldSurface - 100 && j < (int)Main.rockLayer - 20)) {
 						if(Main.rand.Next(300) == 0) {
-							WorldGen.PlaceObject(i, j - 1, mod.TileType("Corpsebloom"));
-							NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("Corpsebloom"), 0, 0, -1, -1);
+							WorldGen.PlaceObject(i, j - 1, ModContent.TileType<Corpsebloom>());
+							NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<Corpsebloom>(), 0, 0, -1, -1);
                             MyWorld.CorruptHazards++;
 						}
 						if(Main.rand.Next(300) == 0) {
-							WorldGen.PlaceObject(i, j - 1, mod.TileType("Corpsebloom1"));
-							NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("Corpsebloom1"), 0, 0, -1, -1);
+							WorldGen.PlaceObject(i, j - 1, ModContent.TileType<Corpsebloom1>());
+							NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<Corpsebloom1>(), 0, 0, -1, -1);
                             MyWorld.CorruptHazards++;
                         }
 						if(Main.rand.Next(300) == 0) {
-							WorldGen.PlaceObject(i, j - 1, mod.TileType("Corpsebloom2"));
-							NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("Corpsebloom2"), 0, 0, -1, -1);
+							WorldGen.PlaceObject(i, j - 1, ModContent.TileType<Corpsebloom2>());
+							NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<Corpsebloom2>(), 0, 0, -1, -1);
                             MyWorld.CorruptHazards++;
                         }
 					}
@@ -126,21 +128,11 @@ namespace SpiritMod.Tiles
 		}
 		public override void FloorVisuals(int type, Player player)
 		{
+			foreach(var acc in player.GetSpiritPlayer().accessories)
+				acc.TileFloorVisuals(type, player);
+
 			if(type == TileID.Sand && player.GetSpiritPlayer().scarabCharm) {
 				player.jumpSpeedBoost += .15f;
-			}
-			if((type == TileID.Grass
-				|| type == TileID.JungleGrass
-				|| type == TileID.MushroomGrass
-				|| type == TileID.HallowedGrass
-				|| type == TileID.FleshGrass
-				|| type == TileID.CorruptGrass
-				|| type == ModContent.TileType<Block.HalloweenGrass>()
-				|| type == ModContent.TileType<Block.ReachGrassTile>()
-				|| type == ModContent.TileType<Block.SpiritGrass>())
-				&& player.GetSpiritPlayer().floranCharm) {
-				player.lifeRegen += 3;
-				player.meleeSpeed += .5f;
 			}
 		}
 		public override bool Drop(int i, int j, int type)

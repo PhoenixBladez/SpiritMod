@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,6 +9,10 @@ namespace SpiritMod.Items.Accessory
 	{
 		public override string SetDisplayName => "Ichor Pendant";
 		public override string SetTooltip => "6% increased melee damage\nMelee hits occasionally inflict Ichor";
+		public override float MeleeDamage => 0.06f;
+		public override List<SpiritPlayerEffect> AccessoryEffects => new List<SpiritPlayerEffect>() {
+			new IchorPendantEffect()
+		};
 
 		public override void SetDefaults()
 		{
@@ -17,13 +22,10 @@ namespace SpiritMod.Items.Accessory
 			item.rare = ItemRarityID.LightRed;
 			item.accessory = true;
 		}
+	}
 
-		public override void UpdateAccessory(Player player, bool hideVisual)
-		{
-			base.UpdateAccessory(player, hideVisual);
-			player.meleeDamage += 0.06f;
-		}
-
+	public class IchorPendantEffect : SpiritPlayerEffect
+	{
 		public override void PlayerModifyHitNPC(Player player, Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
 		{
 			if(Main.rand.NextBool(10)) target.AddBuff(BuffID.Ichor, 180);

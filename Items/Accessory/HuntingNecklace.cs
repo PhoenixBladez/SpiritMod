@@ -1,4 +1,5 @@
 
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -6,15 +7,27 @@ using Terraria.ModLoader;
 namespace SpiritMod.Items.Accessory
 {
 	[AutoloadEquip(EquipType.Neck)]
-	public class HuntingNecklace : ModItem
+	public class HuntingNecklace : SpiritAccessory
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Briarhunt Charm");
-			Tooltip.SetDefault("Increases armor penetration by 3\nMelee attacks occasionally strike enemies twice\n5% increased melee speed and slightly increased life regeneration while standing on grass\n4% increased critical strike chance\nAllows for increased night vision in the Briar");
-
-		}
-
+		public override string SetDisplayName => "Briarhunt Charm";
+		public override string SetTooltip
+			=> "Increases armor penetration by 3\n"
+			+ "Melee attacks occasionally strike enemies twice\n"
+			+ "5% increased melee speed and slightly increased life regeneration while standing on grass\n"
+			+ "4% increased critical strike chance\n"
+			+ "Allows for increased night vision in the Briar";
+		public override int AllCrit => 4;
+		public override int ArmorPenetration => 3;
+		public override List<SpiritPlayerEffect> AccessoryEffects => new List<SpiritPlayerEffect>() {
+			new FloranCharmEffect(),
+			new CleftHornEffect(),
+			new ReachBroochEffect()
+		};
+		public override List<int> MutualExclusives => new List<int>() {
+			ModContent.ItemType<FloranCharm>(),
+			ModContent.ItemType<CleftHorn>(),
+			ModContent.ItemType<ReachBrooch>()
+		};
 
 		public override void SetDefaults()
 		{
@@ -23,20 +36,9 @@ namespace SpiritMod.Items.Accessory
 			item.value = Item.buyPrice(0, 1, 20, 0);
 			item.rare = ItemRarityID.LightRed;
 			item.defense = 3;
-
 			item.accessory = true;
 		}
 
-		public override void UpdateAccessory(Player player, bool hideVisual)
-		{
-			player.rangedCrit += 4;
-			player.magicCrit += 4;
-			player.meleeCrit += 4;
-			player.GetSpiritPlayer().floranCharm = true;
-			player.armorPenetration += 3;
-			player.GetSpiritPlayer().cleftHorn = true;
-			player.GetSpiritPlayer().reachBrooch = true;
-		}
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
