@@ -111,6 +111,7 @@ namespace SpiritMod.Items.Equipment
 		//}
 
 		// Amethyst Hook is 300, Static Hook is 600
+		int extendlength = 450;
 		public override float GrappleRange() => extendlength;
 
 		public override void NumGrappleHooks(Player player, ref int numHooks) => numHooks = 1;
@@ -160,7 +161,6 @@ namespace SpiritMod.Items.Equipment
 		int targetpositiony = 0;
 		bool homing = false;
 		float lowestDist = float.MaxValue;
-		int extendlength = 450;
 		public override void AI()
 		{
 			int num = 5;
@@ -205,7 +205,7 @@ namespace SpiritMod.Items.Equipment
 					direction.Normalize();
 					projectile.velocity = direction * (int)Math.Sqrt((projectile.velocity.X * projectile.velocity.X) + (projectile.velocity.Y * projectile.velocity.Y));
 					homing = true;
-					extendLength++;
+					extendlength++;
 				}
 			}
 		}
