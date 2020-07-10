@@ -23,7 +23,10 @@ namespace SpiritMod.Items
 		public virtual void PlayerPostUpdate(Player player) { }
 		public virtual void PlayerModifyHitNPC(Player player, Item item, NPC target, ref int damage, ref float knockback, ref bool crit) { }
 		
+		// Only runs if this is being used through an accessory
 		public virtual void ItemUpdateAccessory(Player player, bool hideVisual) { }
+		// Only runs if this is being used through an armor set
+		public virtual void ItemUpdateArmorSet(Player player) { }
 
 		public virtual void TileFloorVisuals(int type, Player player) { }
 	}

@@ -43,6 +43,7 @@ namespace SpiritMod
 	public class MyPlayer : ModPlayer
 	{
 		public List<SpiritPlayerEffect> accessories = new List<SpiritPlayerEffect>();
+		public SpiritPlayerEffect setbonus = null;
 		public const int CAMO_DELAY = 100;
 		public int Soldiers = 0;
 		internal static bool swingingCheck;
@@ -528,6 +529,7 @@ namespace SpiritMod
 		public override void ResetEffects()
 		{
 			accessories.Clear();
+			setbonus = null;
             stoneHead = false;
             silkenHead = false;
 			zipline = false;
@@ -722,7 +724,6 @@ namespace SpiritMod
 			magalaSet = false;
 			depthSet = false;
 			thermalSet = false;
-			acidSet = false;
 			infernalSet = false;
 			bloomwindSet = false;
 			veinstoneSet = false;
@@ -1713,10 +1714,6 @@ namespace SpiritMod
 					position.X += Main.rand.Next(-50, 51);
 					Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<VeinstoneBlood>(), 40, 1, player.whoAmI);
 				}
-			}
-
-			if(acidSet && Main.rand.NextBool(3)) {
-				Projectile.NewProjectile(player.position, new Vector2(0, -2), ModContent.ProjectileType<AcidBlast>(), 25, 0, Main.myPlayer);
 			}
 
 			if(infernalSet && Main.rand.NextBool(10)) {

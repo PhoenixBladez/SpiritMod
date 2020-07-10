@@ -31,9 +31,7 @@ namespace SpiritMod.Items.Armor.StarArmor
 
 		public override void UpdateEquip(Player player)
 		{
-			player.meleeCrit += 5;
-			player.rangedCrit += 5;
-			player.magicCrit += 5;
+			player.AddAllCrit(5);
 		}
 
 		public override void UpdateArmorSet(Player player)
