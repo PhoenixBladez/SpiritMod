@@ -38,6 +38,7 @@ namespace SpiritMod.Projectiles.Magic
 					projectile.velocity.Y -= 0.2f;
 				else if(projectile.velocity.Y < 0)
 					projectile.velocity.Y += 0.2f;
+			}
 				if(projectile.velocity.Length() <= 0.1f) {
 					projectile.velocity = Vector2.Zero;
 					stopped = true;
@@ -62,7 +63,6 @@ namespace SpiritMod.Projectiles.Magic
 					projectile.alpha += 3;
 				if(projectile.alpha >= 250)
 					projectile.Kill();
-			}
 		}
 
 		public override void Kill(int timeLeft)

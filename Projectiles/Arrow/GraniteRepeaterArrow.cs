@@ -119,7 +119,7 @@ namespace SpiritMod.Projectiles.Arrow
 				}
 				Main.projectile[array2[num33].X].Kill();
 			}
-		/*	if(target.life <= 0) {
+			if(target.life <= 0) {
 				if(projectile.friendly && !projectile.hostile) {
 					ProjectileExtras.Explode(projectile.whoAmI, 30, 30,
 					delegate {
@@ -141,7 +141,7 @@ namespace SpiritMod.Projectiles.Arrow
 				int proj = Projectile.NewProjectile(target.Center.X, target.Center.Y,
 					0, 0, mod.ProjectileType("GraniteSpike1"), projectile.damage / 2, projectile.knockBack, projectile.owner);
 				Main.projectile[proj].timeLeft = 2;
-			}*/
+			}
 		}
 		public override void Kill(int timeLeft)
 		{

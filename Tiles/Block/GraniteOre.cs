@@ -23,7 +23,7 @@ namespace SpiritMod.Tiles.Block
 			AddMapEntry(new Color(30, 144, 255), name);
 			soundType = SoundID.Tink;
 			minPick = 65;
-
+			dustType = 226;
 		}
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
@@ -31,6 +31,13 @@ namespace SpiritMod.Tiles.Block
 			r = 0.155f / 2;
 			g = 0.215f / 2;
 			b = .4375f / 2;
+		}
+		public override bool CanKillTile(int i, int j, ref bool blockDamaged)
+		{
+			if(!NPC.downedBoss2) {
+				return false;
+			}
+			return true;
 		}
 		public override void NearbyEffects(int i, int j, bool closer)
 		{
