@@ -1,7 +1,9 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Material;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Armor.GraniteArmor
@@ -39,7 +41,8 @@ namespace SpiritMod.Items.Armor.GraniteArmor
 		}
 		public override void UpdateArmorSet(Player player)
 		{
-			player.setBonus = "Press 'Down' while falling to stomp downward\nHitting the ground releases a shockwave that scales with height\n8 second cooldown";
+			string tapDir = Language.GetTextValue(Main.ReversedUpDownArmorSetBonuses ? "Key.UP" : "Key.DOWN");
+			player.setBonus = $"Double tap {tapDir} while falling to stomp downward\nHitting the ground releases a shockwave that scales with height\n8 second cooldown";
 			player.GetSpiritPlayer().graniteSet = true;
 		}
 		public override void ArmorSetShadows(Player player)
