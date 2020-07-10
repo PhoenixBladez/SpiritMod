@@ -1,7 +1,9 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Placeable.Tiles;
 using Terraria;
 using Terraria.ModLoader;
+using System;
 
 namespace SpiritMod.Tiles.Block
 {
@@ -66,18 +68,36 @@ namespace SpiritMod.Tiles.Block
 
 
 		}
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            Tile tile = Framing.GetTileSafely(i, j);
+            if (tile.slope() == 0 && !tile.halfBrick())
+            {
+                if (!Framing.GetTileSafely(i, j - 1).active())
+                {
+                    Color colour = Color.White * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTime * 1.3f) + 1f) * 0.5f));
 
-		public override int SaplingGrowthType(ref int style)
+                    Texture2D glow = ModContent.GetTexture("SpiritMod/Tiles/Block/SpiritGrass_Glow");
+                    Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
+
+                    spriteBatch.Draw(glow, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(tile.frameX, tile.frameY, 16, 16), colour);
+                }
+            }
+        }
+        public override int SaplingGrowthType(ref int style)
 		{
 			style = 0;
 			return ModContent.TileType<SpiritSapling>();
 		}
 
-		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
-		{
-			r = 0.4f;
-			g = 0.6f;
-			b = 1.4f;
+        public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
+        {
+            if (!Framing.GetTileSafely(i, j - 1).active())
+            {
+                r = 0.3f;
+                g = 0.45f;
+                b = 1.05f;
+            }
 		}
 
 	}

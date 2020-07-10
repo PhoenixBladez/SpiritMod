@@ -658,9 +658,14 @@ namespace SpiritMod.NPCs
 					//shop.item[nextSlot].SetDefaults(ModContent.ItemType<TikiArrow>());
 					//nextSlot++;
 				}
-			}
-		}
+            }
+            else if (type == NPCID.Painter)
+            {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Canvas>(), false);
+                nextSlot++;
 
+            }
+		}
 		public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
 		{
 			bool surface = player.position.Y <= Main.worldSurface * 16 + NPC.sHeight;

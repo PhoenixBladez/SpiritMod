@@ -1,7 +1,9 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
+using System;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Tiles.Block
@@ -12,7 +14,9 @@ namespace SpiritMod.Tiles.Block
 		{
 			Main.tileSpelunker[Type] = true;
 			Main.tileSolid[Type] = true;
-			Main.tileBlockLight[Type] = true;  //true for block to emit light
+            Main.tileBlendAll[Type] = true;
+            Main.tileBlendAll[Type] = true;
+            Main.tileBlockLight[Type] = true;  //true for block to emit light
 			Main.tileLighted[Type] = true;
 			drop = ModContent.ItemType<GraniteChunk>();   //put your CustomBlock name
 			ModTranslation name = CreateMapEntryName();
@@ -25,9 +29,9 @@ namespace SpiritMod.Tiles.Block
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
-			r = 0.155f;
-			g = 0.215f;
-			b = .4375f;
+			r = 0.155f/2.6f;
+			g = 0.215f/2.6f;
+			b = .4375f/2.6f;
 		}
-	}
+    }
 }

@@ -76,6 +76,7 @@ namespace SpiritMod.NPCs.Town
 				return MyWorld.gennedTower && !MyWorld.gennedBandits;
 			};
 
+
 			Quest sepulchreChestQuest = RegisterQuest(ModContent.ItemType<SepulchreChest>(),
 
 				"You ever wonder why there're so many skeletons underground?" +
@@ -150,8 +151,13 @@ namespace SpiritMod.NPCs.Town
 			hornetFishQuest.OnQuestStart = () => {
 				MyWorld.spawnHornetFish = true;
 			};
-
-			Quest mushroomQuest = RegisterQuest(ModContent.ItemType<VibeshroomItem>(),
+            hornetFishQuest.TrySkipQuest = () =>
+            {
+                MyWorld.spawnHornetFish = false;
+                //do multiplayer packet here to set it to false on all clients
+                return true;
+            };
+            Quest mushroomQuest = RegisterQuest(ModContent.ItemType<VibeshroomItem>(),
 
 				"I've been hearin' stories about some new flora that's cropped up around those strange Mushroom Forests recently." +
 				" These lil' buggers seem to just sway from side to side, as if they're dancin'." +
@@ -172,9 +178,15 @@ namespace SpiritMod.NPCs.Town
 			mushroomQuest.OnQuestStart = () => {
 				MyWorld.spawnVibeshrooms = true;
 			};
-			#endregion
-			#region ExplorerQuests
-			Quest explorerQuestMushroom = RegisterQuest(ModContent.ItemType<ExplorerScrollMushroomFull>(),
+            mushroomQuest.TrySkipQuest = () =>
+            {
+                MyWorld.spawnVibeshrooms = false;
+                //do multiplayer packet here to set it to false on all clients
+                return true;
+            };
+            #endregion
+            #region ExplorerQuests
+            Quest explorerQuestMushroom = RegisterQuest(ModContent.ItemType<ExplorerScrollMushroomFull>(),
 
 				"Up for a little explorin'? This world's massive, and even I haven't seen it all." +
 				" I'd like ya to head out there and map out the far reaches of this land. Specifically, I'm looking for info on any nearby Glowing Mushroom Caverns." +
@@ -196,8 +208,17 @@ namespace SpiritMod.NPCs.Town
 				if(!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollMushroomEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ExplorerScrollMushroomEmpty>());
 			};
+            explorerQuestMushroom.TrySkipQuest = () =>
+            {
+                int index = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollMushroomEmpty>());
+                int index2 = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollMushroomFull>());
+                if (index == -1 && index2 == -1) return false;
 
-			Quest explorerQuestAsteroids = RegisterQuest(ModContent.ItemType<ExplorerScrollAsteroidFull>(),
+                TryRemoveItem(index);
+                TryRemoveItem(index2);
+                return true;
+            };
+            Quest explorerQuestAsteroids = RegisterQuest(ModContent.ItemType<ExplorerScrollAsteroidFull>(),
 
 				"Up for a little explorin'? This world's massive, and even I haven't seen it all." +
 				" I'd like ya to head out there and map out the far reaches of this land. There's an asteroid field smack-dab above one of the oceans. Completely uncharted." +
@@ -220,8 +241,17 @@ namespace SpiritMod.NPCs.Town
 				if(!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollAsteroidEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ExplorerScrollAsteroidEmpty>());
 			};
+            explorerQuestAsteroids.TrySkipQuest = () =>
+            {
+                int index = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollAsteroidEmpty>());
+                int index2 = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollAsteroidFull>());
+                if (index == -1 && index2 == -1) return false;
 
-			Quest explorerQuestMarble = RegisterQuest(ModContent.ItemType<ExplorerScrollMarbleFull>(),
+                TryRemoveItem(index);
+                TryRemoveItem(index2);
+                return true;
+            };
+            Quest explorerQuestMarble = RegisterQuest(ModContent.ItemType<ExplorerScrollMarbleFull>(),
 
 				"Up for a little explorin'? This world's massive, and even I haven't seen it all." +
 				" I'd like ya to head out there and map out the lower reaches of this land. A few caverns are covered in marble and the ruins of some ancient civilization." +
@@ -245,8 +275,18 @@ namespace SpiritMod.NPCs.Town
 				if(!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollMarbleEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ExplorerScrollMarbleEmpty>());
 			};
+            explorerQuestMarble.TrySkipQuest = () =>
+            {
+                int index = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollMarbleFull>());
+                int index2 = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollMarbleEmpty>());
+                if (index == -1 && index2 == -1) return false;
 
-			Quest explorerQuestGranite = RegisterQuest(ModContent.ItemType<ExplorerScrollGraniteFull>(),
+                TryRemoveItem(index);
+                TryRemoveItem(index2);
+                return true;
+            };
+
+            Quest explorerQuestGranite = RegisterQuest(ModContent.ItemType<ExplorerScrollGraniteFull>(),
 
 				 "Up for a little explorin'? This world's massive, and even I haven't seen it all." +
 				 " A couple of underground cave systems seem to be made almost entirely of dark granite." +
@@ -268,8 +308,17 @@ namespace SpiritMod.NPCs.Town
 				if(!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollGraniteEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ExplorerScrollGraniteEmpty>());
 			};
+            explorerQuestMarble.TrySkipQuest = () =>
+            {
+                int index = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollGraniteEmpty>());
+                int index2 = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollGraniteFull>());
+                if (index == -1 && index2 == -1) return false;
 
-			Quest explorerQuestHive = RegisterQuest(ModContent.ItemType<ExplorerScrollHiveFull>(),
+                TryRemoveItem(index);
+                TryRemoveItem(index2);
+                return true;
+            };
+            Quest explorerQuestHive = RegisterQuest(ModContent.ItemType<ExplorerScrollHiveFull>(),
 
 				"Up for a little explorin'? This world's massive, and even I haven't seen it all." +
 				" Have you checked out the lower parts of the Jungle? I've recently heard about a series of massive hives around there." +
@@ -291,9 +340,19 @@ namespace SpiritMod.NPCs.Town
 				if(!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollHiveEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ExplorerScrollHiveEmpty>());
 			};
-			#endregion
-			#region SlayerQuests
-			Quest slayerQuestWinterborn = RegisterQuest(ModContent.ItemType<WinterbornSlayerScrollFull>(),
+            explorerQuestMarble.TrySkipQuest = () =>
+            {
+                int index = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollHiveEmpty>());
+                int index2 = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollHiveFull>());
+                if (index == -1 && index2 == -1) return false;
+
+                TryRemoveItem(index);
+                TryRemoveItem(index2);
+                return true;
+            };
+            #endregion
+            #region SlayerQuests
+            Quest slayerQuestWinterborn = RegisterQuest(ModContent.ItemType<WinterbornSlayerScrollFull>(),
 
 				"A few of my associates have scouted a growing threat in the icy caverns." +
 				" Sometimes, they even get bold enough to roam the surface durin' heavy blizzards. We're calling 'em Winterborn, and I'd like for you to thin their numbers a bit." +
@@ -578,8 +637,28 @@ namespace SpiritMod.NPCs.Town
 			_currentQuest = -1;
 			_previousQuest = -1;
 		}
+        private Func<bool> CreateSkipCheck<T1, T2>() where T1 : ModItem where T2 : ModItem
+        {
+            return () =>
+            {
+                int index = Main.LocalPlayer.FindItem(ModContent.ItemType<T1>());
+                int index2 = Main.LocalPlayer.FindItem(ModContent.ItemType<T2>());
+                if (index == -1 && index2 == -1) return false;
 
-		private Quest RegisterQuest(int itemId, string description, string completeText, bool consumeQuest, Action customReward = null)
+                TryRemoveItem(index);
+                TryRemoveItem(index2);
+                return true;
+            };
+        }
+        private void TryRemoveItem(int index)
+        {
+            if (index == -1) return;
+
+            Main.LocalPlayer.inventory[index].stack--;
+            if (Main.LocalPlayer.inventory[index].stack == 0)
+                Main.LocalPlayer.inventory[index].SetDefaults();
+        }
+        private Quest RegisterQuest(int itemId, string description, string completeText, bool consumeQuest, Action customReward = null)
 		{
 			Quest q = new Quest(itemId, description, completeText, consumeQuest);
 
@@ -669,18 +748,23 @@ namespace SpiritMod.NPCs.Town
 			return true;
 		}
 
-		public void SetNextQuest()
-		{
-			List<int> availableIndexes = AvailableQuests();
-			if(availableIndexes.Count == 0) {
-				_currentQuest = -2;
-				return;
-			}
-			_currentQuest = Main.rand.Next(availableIndexes);
-			_quests[_currentQuest].OnQuestStart?.Invoke();
-		}
+        public void SetNextQuest()
+        {
+            List<int> availableIndexes = AvailableQuests();
+            if (availableIndexes.Count == 0)
+            {
+                _currentQuest = -2;
+                return;
+            }
+            if (_currentQuest != -1 && !(_quests[_currentQuest].TrySkipQuest?.Invoke()).GetValueOrDefault())
+            {
+                return;
+            }
+            _currentQuest = Main.rand.Next(availableIndexes);
+            _quests[_currentQuest].OnQuestStart?.Invoke();
+        }
 
-		public string GetChatText()
+        public string GetChatText()
 		{
 			if(_previousQuest != -1) {
 				string text = _quests[_previousQuest].CompleteText;
@@ -711,29 +795,31 @@ namespace SpiritMod.NPCs.Town
 			return availableIndexes;
 		}
 
-		private class Quest
-		{
-			public int ItemID;
-			public string Description;
-			public string CompleteText;
-			public bool ConsumeItem;
-			public int NthQuest;
+        private class Quest
+        {
+            public int ItemID;
+            public string Description;
+            public string CompleteText;
+            public bool ConsumeItem;
+            public int NthQuest;
 
-			public Action OnComplete;
-			public Action OnQuestStart;
-			public Func<bool> CanGiveQuest;
+            public Action OnComplete;
+            public Action OnQuestStart;
+            public Func<bool> CanGiveQuest;
+            public Func<bool> TrySkipQuest;
 
-			public Quest(int item, string description, string completeText, bool consume)
-			{
-				ItemID = item;
-				Description = description;
-				CompleteText = completeText;
-				ConsumeItem = consume;
-				OnComplete = null;
-				NthQuest = -1;
-				CanGiveQuest = () => { return true; };
-			}
-		}
-	}
+            public Quest(int item, string description, string completeText, bool consume)
+            {
+                ItemID = item;
+                Description = description;
+                CompleteText = completeText;
+                ConsumeItem = consume;
+                OnComplete = null;
+                NthQuest = -1;
+                CanGiveQuest = () => { return true; };
+                TrySkipQuest = () => { return true; };
+            }
+        }
+    }
 }
 

@@ -156,6 +156,7 @@ namespace SpiritMod.Projectiles.Magic
 		}
 		public override void Kill(int timeLeft)
 		{
+            Main.PlaySound(3, projectile.Center, 3);
 			for(int k = 0; k < 3; k++) {
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 3, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
 			}

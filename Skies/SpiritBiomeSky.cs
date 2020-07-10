@@ -19,8 +19,8 @@ namespace SpiritMod.Skies
 		}
 
 		private LightPillar[] _pillars;
-
-		private UnifiedRandom _random = new UnifiedRandom();
+        private Texture2D _bgTexture;
+        private UnifiedRandom _random = new UnifiedRandom();
 
 		private Texture2D _beamTexture;
 
@@ -31,8 +31,9 @@ namespace SpiritMod.Skies
 		private float opacity;
 
 		public override void OnLoad()
-		{
-			Mod mod = SpiritMod.instance;
+        {
+            this._bgTexture = TextureManager.Load("Images/Misc/NebulaSky/Background");
+            Mod mod = SpiritMod.instance;
 			_beamTexture = TextureManager.Load("Images/Misc/NebulaSky/Beam");
 			_rockTextures = new Texture2D[3];
 			for(int i = 0; i < _rockTextures.Length; i++) {
@@ -56,7 +57,14 @@ namespace SpiritMod.Skies
 
 		public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
 		{
-			int num11 = -1;
+            if (maxDepth >= 3.40282347E+38f && minDepth < 3.40282347E+38f)
+            {
+                spriteBatch.Draw(this._bgTexture, new Rectangle(0, Math.Max(0, (int)((Main.worldSurface * 16.0 - (double)Main.screenPosition.Y - 1500.0) * 0.10000000149011612)), Main.screenWidth, Main.screenHeight), new Color(94, 255, 250, 240) * Math.Min(1f, (Main.screenPosition.Y - 800f) / 1000f * opacity));
+                Vector2 value = new Vector2((float)(Main.screenWidth >> 1), (float)(Main.screenHeight >> 1));
+                Vector2 value2 = 0.01f * (new Vector2((float)Main.maxTilesX * 8f, (float)Main.worldSurface / 2f) - Main.screenPosition);
+            }
+
+            int num11 = -1;
 			int num10 = 0;
 			for(int j = 0; j < _pillars.Length; j++) {
 				float depth = _pillars[j].Depth;
