@@ -174,6 +174,10 @@ namespace SpiritMod.NPCs
 				} else if(chargetimer > chargeTime - 40) {
 					npc.rotation = chargeRotation;
 				}
+				if (chargetimer == chargeTime - 40)
+                {
+                    Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SamuraiUnsheathe"));
+                }
 				if(chargetimer > chargeTime - 50 && chargetimer < chargeTime - 40) {
 					targetLocation = Main.player[npc.target].Center;
 					chargeRotation = npc.rotation;
@@ -181,7 +185,8 @@ namespace SpiritMod.NPCs
 			}
 			chargetimer++;
 			if(chargetimer == chargeTime) {
-				Vector2 direction = targetLocation - npc.Center;
+                Main.PlaySound(SoundID.DD2_WyvernDiveDown, npc.Center);
+                Vector2 direction = targetLocation - npc.Center;
 				direction.Normalize();
 				direction.X = direction.X * Main.rand.Next(15, 19);
 				direction.Y = direction.Y * Main.rand.Next(9, 10);

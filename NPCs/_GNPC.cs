@@ -192,7 +192,7 @@ namespace SpiritMod.NPCs
 					NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<Town.Martian>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
 				}
 			}
-			if(npc.type == NPCID.GraniteFlyer && NPC.downedBoss2 && Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0 && Main.rand.Next(2) == 0) {
+			if((npc.type == NPCID.GraniteFlyer || npc.type == NPCID.GraniteGolem) && NPC.downedBoss2 && Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0 && Main.rand.Next(3) == 0) {
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
 				{
 					for(int i = 0; i < 20; i++) {
@@ -969,9 +969,15 @@ namespace SpiritMod.NPCs
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ShadowAxe>());
 				}
 			}
-
-			//IceSculptures
-			if(npc.type == NPCID.UndeadViking) {
+            if (npc.type == NPCID.Plantera)
+            {
+                if (Main.rand.NextBool(4))
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.DonatorItems.Folv.Enchantment>());
+                }
+            }
+            //IceSculptures
+            if (npc.type == NPCID.UndeadViking) {
 				if(Main.rand.Next(150) == 1 && !npc.SpawnedFromStatue) {
 					npc.DropItem(ModContent.ItemType<IceVikingSculpture>());
 				}

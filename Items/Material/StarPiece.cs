@@ -12,7 +12,6 @@ namespace SpiritMod.Items.Material
 		{
 			DisplayName.SetDefault("Star Piece");
 			Tooltip.SetDefault("'A Cosmic Shard'");
-			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(4, 4));
 			ItemID.Sets.ItemNoGravity[item.type] = true;
 		}
 

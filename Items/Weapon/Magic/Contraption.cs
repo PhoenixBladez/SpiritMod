@@ -61,7 +61,6 @@ namespace SpiritMod.Items.Weapon.Magic
 			modRecipe.AddIngredient(ModContent.ItemType<PrintProbe>(), 1);
 			modRecipe.AddIngredient(ModContent.ItemType<BlueprintTwins>(), 1);
 			modRecipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 10);
-			modRecipe.AddIngredient(ModContent.ItemType<StellarBar>(), 10);
 			modRecipe.AddIngredient(ItemID.FragmentVortex, 2);
 			modRecipe.AddIngredient(ItemID.FragmentNebula, 2);
 			modRecipe.AddIngredient(ItemID.FragmentStardust, 2);

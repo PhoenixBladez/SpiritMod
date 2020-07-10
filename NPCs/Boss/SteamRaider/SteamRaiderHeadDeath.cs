@@ -63,8 +63,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				if(Main.expertMode) {
 					npc.DropBossBags();
 				}
-
-				npc.DropItem(ModContent.ItemType<CosmiliteShard>(), 6, 10);
+				
 				npc.DropItem(ItemID.Heart);
 				npc.DropItem(ItemID.Heart);
 				npc.DropItem(ItemID.Heart);
@@ -73,8 +72,12 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				npc.DropItem(ItemID.Heart);
 				npc.DropItem(ItemID.Heart);
 				npc.DropItem(ItemID.LesserHealingPotion, 10, 12);
-				npc.DropItem(ModContent.ItemType<StarplateMask>(), 1f / 7);
-				npc.DropItem(ModContent.ItemType<Trophy3>(), 1f / 10);
+                if (!Main.expertMode)
+                {
+                    npc.DropItem(ModContent.ItemType<CosmiliteShard>(), 6, 10);
+                    npc.DropItem(ModContent.ItemType<StarplateMask>(), 1f / 7);
+                    npc.DropItem(ModContent.ItemType<Trophy3>(), 1f / 10);
+                }
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Starplate/Starplate1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Starplate/Starplate2"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Starplate/Starplate3"), 1f);

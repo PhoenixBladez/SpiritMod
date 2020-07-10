@@ -38,7 +38,9 @@ namespace SpiritMod.NPCs
 			if(!flying) {
 				animationType = 471;
 			}
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.MechromancerBanner>();
+        }
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{

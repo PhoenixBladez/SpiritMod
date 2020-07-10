@@ -61,10 +61,6 @@ namespace SpiritMod.Items.Weapon.Gun
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			type = ModContent.ProjectileType<CoilBullet1>();
-			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 45f;
-			if(Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
-				position += muzzleOffset;
-			}
 			knockBack = 0;
 			return true;
 		}

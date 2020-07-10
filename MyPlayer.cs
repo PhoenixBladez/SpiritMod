@@ -4347,7 +4347,7 @@ namespace SpiritMod
 
 		public override void DrawEffects(PlayerDrawInfo drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
 		{
-			if(daybloomSet && dazzleStacks != 0) {
+			if(daybloomSet && dazzleStacks != 0 && !player.mount.Active) {
 				a = 255 - .0001180555f * dazzleStacks;
 				if(dazzleStacks >= 1800) {
 					a = 255 - .0001180555f * 1800;
