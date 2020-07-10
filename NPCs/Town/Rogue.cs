@@ -75,7 +75,7 @@ namespace SpiritMod.NPCs.Town
 				"The world is filled with opportunity! Now go kill some things.",
 				"This mask is getting musky...",
 				"Look at that handsome devil! Oh, it's just a mirror.",
-				"Here to satisfy all your throwing needs!",
+				"Here to satisfy all your murdering needs!",
 				"Nice day we're having here! Now, who do you want dead?",
 			};
 

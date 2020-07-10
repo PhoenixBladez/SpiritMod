@@ -9,7 +9,10 @@ namespace SpiritMod.Items.Armor.MarbleArmor
 	public class MarbleChest : ModItem
 	{
 		public override void SetStaticDefaults() 
-			=> DisplayName.SetDefault("Gilded Robe");
+		{
+			 DisplayName.SetDefault("Gilded Robe");
+			Tooltip.SetDefault("3% increased movement speed");
+		}
 
 		public override void SetDefaults()
 		{
@@ -19,7 +22,10 @@ namespace SpiritMod.Items.Armor.MarbleArmor
 			item.rare = ItemRarityID.Green;
 			item.defense = 5;
 		}
-
+		public override void UpdateEquip(Player player)
+		{
+			player.maxRunSpeed += 0.03f;
+		}
 		public override void DrawHands(ref bool drawHands, ref bool drawArms)
 		{
 			drawHands = true;

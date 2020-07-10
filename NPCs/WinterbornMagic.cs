@@ -111,7 +111,8 @@ namespace SpiritMod.NPCs
 					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 					if(Main.netMode != NetmodeID.MultiplayerClient) {
 						int amountOfProjectiles = 1;
-						
+						int flakenum = Main.rand.Next(3);
+						DustHelper.DrawDustImage(new Vector2(npc.Center.X, npc.Center.Y - 40), ModContent.DustType<WinterbornDust>(), 0.25f, "SpiritMod/Effects/Snowflakes/Flake" + flakenum, 1.33f);
 						for(int i = 0; i < amountOfProjectiles; ++i) {
 							if(Main.rand.Next(2) == 0) {
 								int somedamage = expertMode ? 15 : 30;
@@ -119,7 +120,6 @@ namespace SpiritMod.NPCs
 								Main.projectile[p].hostile = true;
 								Main.projectile[p].friendly = false;
 								Main.projectile[p].tileCollide = false;
-								DustHelper.DrawTriangle(new Vector2(npc.Center.X, npc.Center.Y - 30), 187, 2);
 							} else {
 								Vector2 direction = Main.player[npc.target].Center - (npc.Center - new Vector2(0,30));
 								direction.Normalize();
@@ -130,7 +130,6 @@ namespace SpiritMod.NPCs
 								Main.projectile[p].hostile = true;
 								Main.projectile[p].friendly = false;
 								Main.projectile[p].tileCollide = false;
-								DustHelper.DrawDiamond(new Vector2(npc.Center.X, npc.Center.Y - 30), 187, 2);
 							}
 						}
 					}

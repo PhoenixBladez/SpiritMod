@@ -42,7 +42,7 @@ namespace SpiritMod.NPCs
 			if(spawnInfo.playerSafe) {
 				return 0f;
 			}
-			return SpawnCondition.Underground.Chance * 0.0613f;
+			return SpawnCondition.Underground.Chance * 0.24f;
 		}
 
 		public override void NPCLoot()

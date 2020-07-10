@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Armor.GraniteArmor
 			item.height = 24;
 			item.value = 1100;
 			item.rare = ItemRarityID.Green;
-			item.defense = 10;
+			item.defense = 9;
 		}
 		public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
 		{

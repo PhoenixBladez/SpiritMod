@@ -37,7 +37,7 @@ namespace SpiritMod.NPCs
 			if(spawnInfo.playerSafe || !NPC.downedBoss1) {
 				return 0f;
 			}
-			return SpawnCondition.Cavern.Chance * 0.08f;
+			return SpawnCondition.Cavern.Chance * 0.2f;
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{

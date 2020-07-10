@@ -29,7 +29,7 @@ namespace SpiritMod.NPCs
 			npc.height = 48;
 			npc.damage = 20;
 			npc.defense = 8;
-			npc.lifeMax = 310;
+			npc.lifeMax = 520;
 			npc.HitSound = SoundID.NPCHit40;
 			npc.DeathSound = SoundID.NPCDeath2;
 			npc.value = 6760f;
@@ -42,10 +42,10 @@ namespace SpiritMod.NPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if(!NPC.downedBoss2 || NPC.AnyNPCs(ModContent.NPCType<Mecromancer>())) {
+			if(!NPC.downedBoss1 || NPC.AnyNPCs(ModContent.NPCType<Mecromancer>())) {
 				return 0f;
 			}
-			return SpawnCondition.GoblinArmy.Chance * 0.08666f;
+			return SpawnCondition.GoblinArmy.Chance * 0.01866f;
 		}
 
 		public override void NPCLoot()
@@ -73,7 +73,7 @@ namespace SpiritMod.NPCs
 			{
 				npc.DropItem(mod.ItemType(lootTable[loot]));
 			}
-			int Techs = Main.rand.Next(2, 5);
+			int Techs = Main.rand.Next(4, 9);
 			for(int J = 0; J <= Techs; J++) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TechDrive>());
 			}
@@ -190,7 +190,12 @@ namespace SpiritMod.NPCs
 			if(npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mech1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mech2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mech2"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mech3"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mech4"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mech5"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mech6"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mech7"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mech8"), 1f);
 			}
 		}
 		public override void FindFrame(int frameHeight)

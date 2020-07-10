@@ -2417,7 +2417,7 @@ namespace SpiritMod
 
 						}
 					}
-					stompCooldown = 600;
+					stompCooldown = 540;
 				}
 				stompCooldown--;
 				if(stompCooldown == 0) {

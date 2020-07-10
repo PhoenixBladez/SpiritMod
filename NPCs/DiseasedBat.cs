@@ -39,7 +39,7 @@ namespace SpiritMod.NPCs
 			if(spawnInfo.playerSafe) {
 				return 0f;
 			}
-			return SpawnCondition.Underground.Chance * 0.075f;
+			return SpawnCondition.Underground.Chance * 0.22f;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

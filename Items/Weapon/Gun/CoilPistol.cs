@@ -40,12 +40,12 @@ namespace SpiritMod.Items.Weapon.Gun
 
 		public override void SetDefaults()
 		{
-			item.damage = 14;
+			item.damage = 10;
 			item.ranged = true;
 			item.width = 24;
 			item.height = 24;
-			item.useTime = 13;
-			item.useAnimation = 13;
+			item.useTime = 10;
+			item.useAnimation = 10;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.noMelee = true;
 			item.knockBack = 1;
@@ -65,6 +65,7 @@ namespace SpiritMod.Items.Weapon.Gun
 			if(Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
 				position += muzzleOffset;
 			}
+			knockBack = 0;
 			return true;
 		}
 		public override Vector2? HoldoutOffset()

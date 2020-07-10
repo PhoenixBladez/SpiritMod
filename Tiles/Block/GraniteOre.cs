@@ -3,6 +3,7 @@ using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Dusts;
 
 namespace SpiritMod.Tiles.Block
 {
@@ -12,8 +13,8 @@ namespace SpiritMod.Tiles.Block
 		{
 			Main.tileSpelunker[Type] = true;
 			Main.tileSolid[Type] = true;
-			Main.tileBlockLight[Type] = true;  //true for block to emit light
-			Main.tileLighted[Type] = true;
+			Main.tileBlockLight[Type] = false;  //true for block to emit light
+			Main.tileLighted[Type] = false;
 			drop = ModContent.ItemType<GraniteChunk>();   //put your CustomBlock name
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Enchanted Granite Chunk");
@@ -25,9 +26,16 @@ namespace SpiritMod.Tiles.Block
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
-			r = 0.155f;
-			g = 0.215f;
-			b = .4375f;
+			r = 0.155f / 2;
+			g = 0.215f / 2;
+			b = .4375f / 2;
+		}
+		public override void NearbyEffects(int i, int j, bool closer)
+		{
+			if (Main.rand.Next(255) == 1)
+			{
+				Dust.NewDustPerfect(new Vector2(i * 16, j * 16), 226, new Vector2(Main.rand.NextFloat(-1.5f,1.5f), Main.rand.NextFloat(-1.5f,1.5f)), 0, default, 0.8f).noGravity = false;
+			}
 		}
 	}
 }

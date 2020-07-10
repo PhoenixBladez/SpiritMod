@@ -41,10 +41,10 @@ namespace SpiritMod.Tiles.Block
 		}
 		public override void NearbyEffects(int i, int j, bool closer)
 		{
-			if (Main.rand.Next(1500) == 1)
+			if (Main.rand.Next(1100) == 1)
 			{
 				int glyphnum = Main.rand.Next(10);
-				DustHelper.DrawDustImage(new Vector2(i * 16, j * 16), ModContent.DustType<MarbleDust>(), 0.04f, "SpiritMod/Effects/Glyphs/Glyph" + glyphnum, 1f);
+				DustHelper.DrawDustImage(new Vector2(i * 16, j * 16), ModContent.DustType<MarbleDust>(), 0.05f, "SpiritMod/Effects/Glyphs/Glyph" + glyphnum, 1f);
 			}
 		}
 	}

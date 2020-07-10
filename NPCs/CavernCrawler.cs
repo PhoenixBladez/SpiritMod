@@ -38,7 +38,7 @@ namespace SpiritMod.NPCs
 			if(spawnInfo.playerSafe || !NPC.downedBoss1) {
 				return 0f;
 			}
-			return SpawnCondition.Cavern.Chance * 0.095f;
+			return SpawnCondition.Cavern.Chance * 0.22f;
 		}
 		public override void NPCLoot()
 		{

@@ -20,16 +20,16 @@ namespace SpiritMod.Items.Armor.GraniteArmor
 			item.height = 24;
 			item.value = 1100;
 			item.rare = ItemRarityID.Green;
-			item.defense = 7;
+			item.defense = 6;
 		}
 		public override void UpdateEquip(Player player)
 		{
-			player.jumpSpeedBoost += .15f;
+			player.jumpSpeedBoost += 0.5f;
 		}
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<GraniteChunk>(), 10);
+			recipe.AddIngredient(ModContent.ItemType<GraniteChunk>(), 13);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
