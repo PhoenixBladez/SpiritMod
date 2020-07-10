@@ -305,6 +305,7 @@ namespace SpiritMod
 		public bool frigidSet;
 		public bool rangedshadowSet;
 		public bool graniteSet;
+		public bool graniteslam = false;
 		public bool meleeshadowSet;
 		public bool infernalSet;
 		public bool crystalSet;
@@ -2848,11 +2849,7 @@ namespace SpiritMod
 		{
 			int num323;
 			if(graniteSet) {
-				if(player.controlDown && player.releaseDown && !player.mount.Active) {
-					if(player.velocity.Y != 0 && stompCooldown <= 0) {
-						player.AddBuff(ModContent.BuffType<GraniteBonus>(), 300);
-					}
-				}
+				
 				if(player.velocity.Y > 0 && player.HasBuff(ModContent.BuffType<GraniteBonus>())) {
 					player.noFallDmg = true;
 					player.velocity.Y = 15.53f;
@@ -4572,6 +4569,11 @@ namespace SpiritMod
 					Main.PlaySound(SoundID.Splash, player.position, 0);
                     Main.PlaySound(SoundID.Item, player.position, 20);
                     Projectile.NewProjectile(player.Center - new Vector2(0, 30), Vector2.Zero, ModContent.ProjectileType<WaterSpout>(), 30, 8, player.whoAmI);
+				}
+				if(graniteSet && !player.mount.Active) {
+					if(player.velocity.Y != 0 && stompCooldown <= 0) {
+						player.AddBuff(ModContent.BuffType<GraniteBonus>(), 300);
+					}
 				}
 				if(fierySet && fierySetTimer <= 0) {
 					Main.PlaySound(SoundID.Item, player.position, 74);

@@ -38,9 +38,6 @@ namespace SpiritMod.Tiles.Block
 			{
 				Dust.NewDustPerfect(new Vector2(i * 16, j * 16), 226, new Vector2(Main.rand.NextFloat(-1.5f,1.5f), Main.rand.NextFloat(-1.5f,1.5f)), 0, default, 0.8f).noGravity = false;
 			}
-			r = 0.155f/2.6f;
-			g = 0.215f/2.6f;
-			b = .4375f/2.6f;
 		}
     }
 }
