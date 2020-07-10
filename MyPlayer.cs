@@ -1985,14 +1985,20 @@ namespace SpiritMod
 		
 		int shroomtimer;
 		int bloodTimer;
+        int spawnTimer;
 		public override void PreUpdate()
 		{
 			if (TideWorld.TheTide && !NPC.AnyNPCs(ModContent.NPCType<Rylheian>()) && player.ZoneBeach && TideWorld.TidePoints >= 99)
             {
-                int n = NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 400, ModContent.NPCType<Rylheian>(), 0, 2, 1, 0, 0, Main.myPlayer);
-                Main.PlaySound(SoundID.Zombie, Main.npc[n].Center, 89);
-                DustHelper.DrawDiamond(new Vector2(Main.npc[n].Center.X, Main.npc[n].Center.Y), 173, 8);
-                DustHelper.DrawTriangle(new Vector2(Main.npc[n].Center.X, Main.npc[n].Center.Y), 173, 8);
+                spawnTimer++;
+                if (spawnTimer > 30)
+                {
+                    spawnTimer = 0;
+                    int n = NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 400, ModContent.NPCType<Rylheian>(), 0, 2, 1, 0, 0, Main.myPlayer);
+                    Main.PlaySound(SoundID.Zombie, Main.npc[n].Center, 89);
+                    DustHelper.DrawDiamond(new Vector2(Main.npc[n].Center.X, Main.npc[n].Center.Y), 173, 8);
+                    DustHelper.DrawTriangle(new Vector2(Main.npc[n].Center.X, Main.npc[n].Center.Y), 173, 8);
+                }
             }
 			if(emptyWinterbornScroll && MyWorld.numWinterbornKilled >= 10) {
 				for(int index = 0; index < 58; ++index) {

@@ -48,8 +48,12 @@ namespace SpiritMod.Projectiles.Bullet
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 			=> target.AddBuff(ModContent.BuffType<CryoCrush>(), 300, true);
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            damage /= 2;
+        }
 
-		public override void Kill(int timeLeft)
+        public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<CryoFire>(), (int)(projectile.damage * 0.75f + 0.5f), projectile.knockBack, projectile.owner);

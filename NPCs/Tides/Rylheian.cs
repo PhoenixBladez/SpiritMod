@@ -69,7 +69,7 @@ namespace SpiritMod.NPCs.Tides
 			}
 			npc.TargetClosest();
 			Player player = Main.player[npc.target];
-			counter++;
+            counter++;
 			int dust = Dust.NewDust(npc.position, npc.width, npc.height, 173);
 			npc.spriteDirection = npc.direction;
 			if (counter % 400 == 100)

@@ -64,7 +64,8 @@ namespace SpiritMod.NPCs.BlueMoon
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), .196f * 3, .092f * 3, 0.214f * 3);
 			++npc.ai[1];
 			if(npc.ai[1] >= 600) {
-				npc.velocity.X *= .012f;
+                reflectPhase = true;
+                npc.aiStyle = 0;
                 if (player.position.X > npc.position.X)
                 {
                     npc.spriteDirection = 1;
@@ -73,12 +74,9 @@ namespace SpiritMod.NPCs.BlueMoon
                 {
                     npc.spriteDirection = -1;
                 }
-                reflectPhase = true;
-				npc.defense = 9999;
-				{
-					DoDustEffect(npc.Center, 74f);
-				}
-			} else {
+            } else {
+                npc.aiStyle = 3;
+                aiType = NPCID.WalkingAntlion;
                 npc.spriteDirection = npc.direction;
                 reflectPhase = false;
 				npc.defense = 20;
