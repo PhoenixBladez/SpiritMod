@@ -42,7 +42,9 @@ namespace SpiritMod
 {
 	public class MyPlayer : ModPlayer
 	{
-		public List<SpiritPlayerEffect> accessories = new List<SpiritPlayerEffect>();
+		public List<SpiritPlayerEffect> effects = new List<SpiritPlayerEffect>();
+		public List<SpiritPlayerEffect> removedEffects = new List<SpiritPlayerEffect>();
+		public SpiritPlayerEffect setbonus = null;
 		public const int CAMO_DELAY = 100;
 		public int Soldiers = 0;
 		internal static bool swingingCheck;
@@ -349,7 +351,6 @@ namespace SpiritMod
 		public bool twilightTalisman;
 		public bool MoonSongBlossom;
 		public bool HolyGrail;
-		public bool bismiteSet;
 		public bool surferSet;
 		public float virulence = 600f;
 		public int illusionistTimer;
@@ -528,7 +529,9 @@ namespace SpiritMod
 
 		public override void ResetEffects()
 		{
-			accessories.Clear();
+			removedEffects = effects;
+			effects = new List<SpiritPlayerEffect>();
+			setbonus = null;
             stoneHead = false;
             silkenHead = false;
 			zipline = false;
@@ -561,7 +564,6 @@ namespace SpiritMod
 			shadowFang = false;
 			gemPickaxe = false;
 			cultistScarf = false;
-			bismiteSet = false;
 			surferSet = false;
 			bloodCourtHead = false;
 			scarabCharm = false;
@@ -723,7 +725,6 @@ namespace SpiritMod
 			magalaSet = false;
 			depthSet = false;
 			thermalSet = false;
-			acidSet = false;
 			infernalSet = false;
 			bloomwindSet = false;
 			veinstoneSet = false;
@@ -1105,6 +1106,9 @@ namespace SpiritMod
 
 		public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
 		{
+			foreach(var effect in effects)
+				effect.PlayerOnHitNPC(player, item, target, damage, knockback, crit);
+
 			if(AceOfSpades && crit) {
 				damage = (int)(damage * 1.1f);
 				for(int i = 0; i < 3; i++) {
@@ -1175,11 +1179,6 @@ namespace SpiritMod
 				if(Main.rand.NextBool(2)) {
 					target.AddBuff(BuffID.Frostburn, 180);
 				}
-			}
-			if(virulence <= 0f) {
-				Projectile.NewProjectile(target.position, Vector2.Zero, ModContent.ProjectileType<VirulenceExplosion>(), 25, 8, Main.myPlayer);
-				virulence = 600f;
-				player.AddBuff(ModContent.BuffType<VirulenceCooldown>(), 140);
 			}
 
 			if(forbiddenTome) {
@@ -1287,6 +1286,9 @@ namespace SpiritMod
 		int Charger;
 		public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
 		{
+			foreach(var effect in effects)
+				effect.PlayerOnHitNPCWithProj(player, proj, target, damage, knockback, crit);
+
 			if(stellarSet) {
 				if(proj.minion) {
 					if(target.life <= 0) {
@@ -1326,12 +1328,6 @@ namespace SpiritMod
 				if(Main.rand.NextBool(20)) {
 					player.AddBuff(BuffID.Regeneration, 180);
 				}
-			}
-
-			if(virulence <= 0f) {
-				Projectile.NewProjectile(target.position, Vector2.Zero, ModContent.ProjectileType<VirulenceExplosion>(), 25, 8, Main.myPlayer);
-				virulence = 600f;
-				player.AddBuff(ModContent.BuffType<VirulenceCooldown>(), 140);
 			}
 			if(forbiddenTome) {
 				if(target.life <= 0 && !target.SpawnedFromStatue) {
@@ -1609,6 +1605,9 @@ namespace SpiritMod
 
 		public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
 		{
+			foreach(var effect in effects)
+				effect.PlayerHurt(player, pvp, quiet, damage, hitDirection, crit);
+
 			veilCounter = 0;
 
 			if(glyph == GlyphType.Daze && Main.rand.NextBool(2)) {
@@ -1626,15 +1625,6 @@ namespace SpiritMod
 			}
 			if(cryoSet) {
 				cryoTimer = 0;
-			}
-			if(bismiteSet) {
-				virulence = 600f;
-
-				if(!player.HasBuff(ModContent.BuffType<VirulenceCooldown>())) {
-					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<VirulenceExplosion>(), 15, 5, Main.myPlayer);
-				}
-
-				player.AddBuff(ModContent.BuffType<VirulenceCooldown>(), 140);
 			}
 
 			if(SRingOn) {
@@ -1714,10 +1704,6 @@ namespace SpiritMod
 					position.X += Main.rand.Next(-50, 51);
 					Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<VeinstoneBlood>(), 40, 1, player.whoAmI);
 				}
-			}
-
-			if(acidSet && Main.rand.NextBool(3)) {
-				Projectile.NewProjectile(player.position, new Vector2(0, -2), ModContent.ProjectileType<AcidBlast>(), 25, 0, Main.myPlayer);
 			}
 
 			if(infernalSet && Main.rand.NextBool(10)) {
@@ -3711,6 +3697,12 @@ namespace SpiritMod
 
 		public override void PostUpdate()
 		{
+			foreach(var effect in removedEffects)
+				if(!effects.Contains(effect)) effect.EffectRemoved(player);
+
+			foreach(var effect in effects)
+				effect.PlayerPostUpdate(player);
+
 			if(ZoneReach && Main.expertMode) {
                 int off = 5; //Change this value depending on the strength of your light. Too big and it might cause lag, though. Never go above ~20 or so.
                 int x = (int)(Main.screenPosition.X / 16f) - off;
@@ -3745,19 +3737,6 @@ namespace SpiritMod
 				}
 			} else {
 				cryoTimer = 0;
-			}
-			if(bismiteSet) {
-				if(player.HasBuff(ModContent.BuffType<VirulenceCooldown>()) || virulence >= 0) {
-					virulence--;
-				}
-
-				if(virulence == 0f) {
-					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(25, 1));
-					Rectangle textPos = new Rectangle((int)player.position.X, (int)player.position.Y - 20, player.width, player.height);
-					CombatText.NewText(textPos, new Color(95, 156, 111, 100), "Virulence Charged!");
-				}
-			} else {
-				virulence = 600;
 			}
 			if (surferSet && surferTimer == 0)
 			{
@@ -3803,8 +3782,8 @@ namespace SpiritMod
 
 		public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
 		{
-			foreach(var acc in accessories)
-				acc.PlayerModifyHitNPC(player, item, target, ref damage, ref knockback, ref crit);
+			foreach(var effect in effects)
+				effect.PlayerModifyHitNPC(player, item, target, ref damage, ref knockback, ref crit);
 
 			if(CursedPendant && Main.rand.NextBool(5)) {
 				target.AddBuff(BuffID.CursedInferno, 180);
@@ -4347,6 +4326,9 @@ namespace SpiritMod
 
 		public override void DrawEffects(PlayerDrawInfo drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
 		{
+			foreach(var effect in effects)
+				effect.PlayerDrawEffects(drawInfo, ref r, ref g, ref b, ref a, ref fullBright);
+
 			if(daybloomSet && dazzleStacks != 0 && !player.mount.Active) {
 				a = 255 - .0001180555f * dazzleStacks;
 				if(dazzleStacks >= 1800) {
@@ -4367,17 +4349,6 @@ namespace SpiritMod
 				g *= 1f;
 				b *= 0f;
 				fullBright = true;
-			}
-			if(virulence <= 0) {
-				if(Main.rand.NextBool(2)) {
-					for(int index1 = 0; index1 < 4; ++index1) {
-						int dust = Dust.NewDust(player.position, player.width, 30, 167, player.velocity.X, player.velocity.Y, 167, default, Main.rand.NextFloat(.4f, 1.2f));
-						Main.dust[dust].noGravity = true;
-						Main.dust[dust].velocity *= 1.8f;
-						Main.dust[dust].velocity.Y -= 0.5f;
-						Main.playerDrawDust.Add(dust);
-					}
-				}
 			}
 
 			if(BlueDust) {

@@ -22,9 +22,9 @@ namespace SpiritMod.Items
 		public virtual int LifeRegen => 0;
 		public virtual int ArmorPenetration => 0;
 		public virtual List<SpiritPlayerEffect> AccessoryEffects => new List<SpiritPlayerEffect>();
-		private List<SpiritPlayerEffect> _accEffects;
+		public readonly List<SpiritPlayerEffect> _accEffects;
 		public virtual List<int> MutualExclusives => new List<int>();
-		private List<int> _mutExclusives;
+		public readonly List<int> _mutExclusives;
 
 		public SpiritAccessory() : base()
 		{
@@ -35,7 +35,7 @@ namespace SpiritMod.Items
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			foreach(var acc in _accEffects) {
-				player.GetSpiritPlayer().accessories.Add(acc);
+				player.GetSpiritPlayer().effects.Add(acc);
 				acc.ItemUpdateAccessory(player, hideVisual);
 			}
 			player.allDamage += AllDamage;
