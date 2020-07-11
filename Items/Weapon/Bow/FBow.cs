@@ -42,7 +42,7 @@ namespace SpiritMod.Items.Weapon.Bow
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<FloranBar>(), 10);
-            modRecipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 4);
             recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();
