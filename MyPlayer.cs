@@ -509,8 +509,15 @@ namespace SpiritMod
 			ZoneHive = ((flags & 6) == 6);
 		}
 
-
-		public override TagCompound Save()
+        public override Texture2D GetMapBackgroundImage()
+        {
+            if (ZoneSpirit)
+            {
+                return mod.GetTexture("Backgrounds/SpiritMapBackground");
+            }
+            return null;
+        }
+        public override TagCompound Save()
 		{
 			TagCompound tag = new TagCompound
 			{
@@ -1026,7 +1033,7 @@ namespace SpiritMod
 					caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<IronCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
 				}
 			}
-			if(Main.rand.NextBool(player.cratePotion ? 70 : 95) && player.ZoneBeach && Main.raining) {
+			if(Main.rand.NextBool(player.cratePotion ? 70 : 95) && Main.raining) {
 				for(int i = 0; i < 1000; i++) {
 					if(Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber) {
 						bobberIndex = i;

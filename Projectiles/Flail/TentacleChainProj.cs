@@ -22,7 +22,8 @@ namespace SpiritMod.Projectiles.Flail
 			projectile.penetrate = -1;
 			projectile.timeLeft = 900;
 			projectile.melee = true;
-		}
+            projectile.ignoreWater = true;
+        }
 		//  bool comingHome = false;
 		public override bool PreAI()
 		{

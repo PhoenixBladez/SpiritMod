@@ -622,8 +622,8 @@ namespace SpiritMod
 			if(MyWorld.spiritLight < 0f) {
 				MyWorld.spiritLight = 0f;
 			}
-			if(MyWorld.spiritLight > 1f) {
-				MyWorld.spiritLight = 1f;
+			if(MyWorld.spiritLight > .9f) {
+				MyWorld.spiritLight = .9f;
 			}
 			if(MyWorld.spiritLight > 0f) {
 				float num161 = MyWorld.spiritLight;

@@ -56,7 +56,6 @@ namespace SpiritMod.Items.Consumable
                 ModContent.ItemType<AdvPainting17>(),
                 ModContent.ItemType<AdvPainting18>(),
                 ModContent.ItemType<AdvPainting19>(),
-                ModContent.ItemType<FishingPainting>(),
 
             };
 			int loot = Main.rand.Next(lootTable.Length);

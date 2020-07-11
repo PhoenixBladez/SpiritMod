@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Weapon.Swung
 
 		public override void SetDefaults()
 		{
-			item.damage = 19;
+			item.damage = 16;
 			item.melee = true;
 			item.width = 30;
 			item.height = 36;
@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 3;
 			item.value = Terraria.Item.sellPrice(0, 0, 10, 0);
-			item.rare = ItemRarityID.Green;
+			item.rare = 1;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<FloranVine>();
@@ -38,8 +38,9 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void AddRecipes()
 		{
 			ModRecipe modRecipe = new ModRecipe(mod);
-			modRecipe.AddIngredient(ModContent.ItemType<FloranBar>(), 15);
-			modRecipe.AddTile(TileID.Anvils);
+			modRecipe.AddIngredient(ModContent.ItemType<FloranBar>(), 13);
+            modRecipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 4);
+            modRecipe.AddTile(TileID.Anvils);
 			modRecipe.SetResult(this);
 			modRecipe.AddRecipe();
 		}

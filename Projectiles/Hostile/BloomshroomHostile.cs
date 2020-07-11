@@ -31,7 +31,7 @@ namespace SpiritMod.Projectiles.Hostile
 		{
 			var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
 			foreach(var proj in list) {
-				if(projectile != proj && proj.friendly && proj.damage > 0) {
+				if(projectile != proj && proj.friendly && proj.damage > 0 && proj.active) {
 					projectile.Kill();
 				}
 			}

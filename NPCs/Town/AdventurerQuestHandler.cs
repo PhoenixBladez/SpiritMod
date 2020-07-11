@@ -277,8 +277,8 @@ namespace SpiritMod.NPCs.Town
 			};
             explorerQuestMarble.TrySkipQuest = () =>
             {
-                int index = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollMarbleFull>());
-                int index2 = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollMarbleEmpty>());
+                int index = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollMarbleEmpty>());
+                int index2 = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollMarbleFull>());
                 if (index == -1 && index2 == -1) return false;
 
                 TryRemoveItem(index);

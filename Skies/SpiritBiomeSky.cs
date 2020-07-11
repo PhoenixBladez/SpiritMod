@@ -101,7 +101,7 @@ namespace SpiritMod.Skies
 			_pillars = new LightPillar[40];
 			for(int i = 0; i < _pillars.Length; i++) {
 				_pillars[i].Position.X = (float)i / _pillars.Length * (Main.maxTilesX * 16f + 20000f) + _random.NextFloat() * 40f - 20f - 20000f;
-				_pillars[i].Position.Y = _random.NextFloat() * 200f - 2000f;
+				_pillars[i].Position.Y = _random.NextFloat() * 200f - 800f;
 				_pillars[i].Depth = _random.NextFloat() * 8f + 7f;
 			}
 			Array.Sort(_pillars, SortMethod);

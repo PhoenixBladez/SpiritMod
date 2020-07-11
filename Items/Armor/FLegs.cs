@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Armor
 			item.height = 18;
 			item.value = Terraria.Item.sellPrice(0, 0, 10, 0);
 			item.rare = ItemRarityID.Green;
-			item.defense = 5;
+			item.defense = 4;
 		}
 
 		public override void UpdateEquip(Player player)
@@ -33,7 +33,8 @@ namespace SpiritMod.Items.Armor
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<FloranBar>(), 14);   //you need 10 Wood
-			recipe.AddTile(TileID.Anvils);   //at work bench
+            modRecipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 6);
+            recipe.AddTile(TileID.Anvils);   //at work bench
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

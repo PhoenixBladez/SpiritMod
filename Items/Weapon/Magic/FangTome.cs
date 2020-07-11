@@ -18,14 +18,14 @@ namespace SpiritMod.Items.Weapon.Magic
 		static int offsetLength = 23;
 		public override void SetDefaults()
 		{
-			item.damage = 25;
+			item.damage = 20;
 			item.magic = true;
 			item.mana = 12;
 			item.width = 28;
 			item.height = 32;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useTime = 35;
-			item.useAnimation = 35;
+			item.useTime = 28;
+			item.useAnimation = 28;
 			item.noMelee = true;
 			item.knockBack = 0;
 			item.rare = ItemRarityID.Green;

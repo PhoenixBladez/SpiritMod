@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Floran Helmet");
-			Tooltip.SetDefault("Increases melee speed by 4% and movement speed by 6%");
+			Tooltip.SetDefault("Increases movement speed by 6%");
 		}
 
 
@@ -22,11 +22,10 @@ namespace SpiritMod.Items.Armor
 			item.height = 22;
 			item.value = Item.sellPrice(0, 0, 12, 0);
 			item.rare = ItemRarityID.Green;
-			item.defense = 5;
+			item.defense = 4;
 		}
 		public override void UpdateEquip(Player player)
 		{
-			player.meleeSpeed += .04f;
 			player.moveSpeed += .06f;
 			player.maxRunSpeed += .03f;
 		}
@@ -52,7 +51,8 @@ namespace SpiritMod.Items.Armor
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<FloranBar>(), 12);
-			recipe.AddTile(TileID.Anvils);
+            modRecipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 7);
+            recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();
 		}
