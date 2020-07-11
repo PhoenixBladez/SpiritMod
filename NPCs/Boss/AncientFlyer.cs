@@ -145,7 +145,7 @@ namespace SpiritMod.NPCs.Boss
 					if(Main.rand.Next(8) == 0) {
 
 						int A = Main.rand.Next(-200, 200) * 6;
-						int B = Main.rand.Next(-200, 200) - 1000;
+						int B =  -1200;
 						int damage = expertMode ? 18 : 22;
 						Projectile.NewProjectile(player.Center.X + A, player.Center.Y + B, 0f, 10f, ModContent.ProjectileType<RedComet>(), damage, 1, Main.myPlayer, 0, 0);
 					}

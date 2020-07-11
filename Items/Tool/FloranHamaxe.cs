@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Tool
 			item.width = 44;
 			item.height = 40;
 			item.value = Item.buyPrice(0, 0, 16, 0);
-			item.rare = ItemRarityID.Green;
+			item.rare = 1;
 
 			item.axe = 12;
 			item.hammer = 50;
@@ -41,7 +41,8 @@ namespace SpiritMod.Items.Tool
 		{
 			ModRecipe modRecipe = new ModRecipe(mod);
 			modRecipe.AddIngredient(ModContent.ItemType<FloranBar>(), 15);
-			modRecipe.AddTile(TileID.Anvils);
+            modRecipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 5);
+            modRecipe.AddTile(TileID.Anvils);
 			modRecipe.SetResult(this);
 			modRecipe.AddRecipe();
 		}

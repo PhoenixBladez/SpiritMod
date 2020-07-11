@@ -19,12 +19,12 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.width = 30;
 			item.height = 46;
 			item.value = Item.buyPrice(0, 0, 20, 0);
-			item.rare = ItemRarityID.Green;
-			item.damage = 16;
+			item.rare = 1;
+			item.damage = 14;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			Item.staff[item.type] = true;
-			item.useTime = 25;
-			item.useAnimation = 25;
+			item.useTime = 28;
+			item.useAnimation = 28;
 			item.mana = 6;
 			item.knockBack = 3;
 			item.UseSound = SoundID.Item20;
@@ -37,8 +37,9 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void AddRecipes()
 		{
 			ModRecipe modRecipe = new ModRecipe(mod);
-			modRecipe.AddIngredient(ModContent.ItemType<FloranBar>(), 15);
-			modRecipe.AddTile(TileID.Anvils);
+			modRecipe.AddIngredient(ModContent.ItemType<FloranBar>(), 14);
+            modRecipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 5);
+            modRecipe.AddTile(TileID.Anvils);
 			modRecipe.SetResult(this);
 			modRecipe.AddRecipe();
 		}

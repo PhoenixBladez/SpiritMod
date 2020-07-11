@@ -76,7 +76,10 @@ namespace SpiritMod.NPCs
 
 		public override void NPCLoot()
 		{
+			if (Main.rand.NextBool(3))
+            { 
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MimeMask>(), 1);
+			}
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MimeBomb>(), Main.rand.Next(7, 17));
 		}
 

@@ -125,7 +125,7 @@ namespace SpiritMod.NPCs.Town
 
             AddItem(ref shop, ref nextSlot, ItemID.TrapsightPotion, 2000);
             AddItem(ref shop, ref nextSlot, ItemID.DartTrap, 5000);
-            AddItem(ref shop, ref nextSlot, ItemID.TreasureMap, 50000);
+            AddItem(ref shop, ref nextSlot, ItemType<AdventurerMap>(), 50000);
             AddItem(ref shop, ref nextSlot, ItemID.PinkJellyfish, 25000, NPC.FindFirstNPC(NPCID.Angler) >= 0);
             AddItem(ref shop, ref nextSlot, ItemType<GoldSword>());
             AddItem(ref shop, ref nextSlot, ItemType<PlatinumSword>());

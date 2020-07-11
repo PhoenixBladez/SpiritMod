@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Accessory
 			item.width = 24;
 			item.height = 24;
 			item.value = Item.buyPrice(silver: 20);
-			item.rare = ItemRarityID.Green;
+			item.rare = 1;
 			item.defense = 2;
 			item.accessory = true;
 		}
@@ -34,7 +34,8 @@ namespace SpiritMod.Items.Accessory
 		{
 			ModRecipe modRecipe = new ModRecipe(mod);
 			modRecipe.AddIngredient(ModContent.ItemType<FloranBar>(), 9);
-			modRecipe.AddTile(TileID.Anvils);
+            modRecipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 3);
+            modRecipe.AddTile(TileID.Anvils);
 			modRecipe.SetResult(this);
 			modRecipe.AddRecipe();
 		}

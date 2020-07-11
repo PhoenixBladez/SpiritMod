@@ -22,7 +22,7 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.height = 14;
 			projectile.friendly = false;
 			projectile.magic = true;
-			projectile.penetrate = -1;
+			projectile.penetrate = 4;
 			projectile.timeLeft = 90;
 			projectile.tileCollide = false;
 			projectile.ignoreWater = true;
@@ -53,7 +53,7 @@ namespace SpiritMod.Projectiles.Magic
 			for(int i = 0; i < 5; i++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<NightmareDust>());
 			}
-			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
+			Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 6);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

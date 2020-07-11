@@ -15,7 +15,7 @@ namespace SpiritMod.Tiles.Block
 			Main.tileMerge[Type][TileID.IceBlock] = true;
 			Main.tileMerge[Type][TileID.SnowBlock] = true;
 			Main.tileBlockLight[Type] = true;  //true for block to emit light
-			Main.tileLighted[Type] = false;
+			Main.tileLighted[Type] = true;
 			drop = ModContent.ItemType<CryoliteOre>();   //put your CustomBlock name
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Cryolite Ore");
@@ -25,6 +25,11 @@ namespace SpiritMod.Tiles.Block
 			dustType = 68;
 
 		}
-
-	}
+        public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
+        {
+            r = .064f*1.5f;
+            g = .112f*1.5f;
+            b = .128f*1.5f;
+        }
+    }
 }

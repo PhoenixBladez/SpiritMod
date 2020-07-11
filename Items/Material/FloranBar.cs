@@ -17,8 +17,8 @@ namespace SpiritMod.Items.Material
 			item.width = 30;
 			item.height = 24;
 			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.value = 4050;
-			item.rare = ItemRarityID.Green;
+			item.value = 550;
+			item.rare = 1;
 			item.createTile = ModContent.TileType<FloranBarTile>();
 			item.maxStack = 999;
 			item.autoReuse = true;

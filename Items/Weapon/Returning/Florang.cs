@@ -16,17 +16,17 @@ namespace SpiritMod.Items.Weapon.Returning
 
 		public override void SetDefaults()
 		{
-			item.damage = 23;
+			item.damage = 21;
 			item.melee = true;
 			item.width = 44;
 			item.height = 40;
-			item.useTime = 40;
-			item.useAnimation = 40;
+			item.useTime = 50;
+			item.useAnimation = 50;
 			item.noUseGraphic = true;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 0;
 			item.value = Terraria.Item.sellPrice(0, 0, 15, 0);
-			item.rare = ItemRarityID.Green;
+			item.rare = 1;
 			item.shootSpeed = 5f;
 			item.shoot = mod.ProjectileType("FloraP");
 			item.UseSound = SoundID.Item1;

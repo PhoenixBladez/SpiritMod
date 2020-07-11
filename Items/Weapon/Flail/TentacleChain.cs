@@ -38,7 +38,7 @@ namespace SpiritMod.Items.Weapon.Flail
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			Vector2 direction9 = new Vector2(speedX, speedY).RotatedBy(Main.rand.NextFloat(-0.3f, 0.3f));
+			Vector2 direction9 = new Vector2(speedX, speedY).RotatedBy(Main.rand.NextFloat(-0.22f, 0.22f));
 			Projectile.NewProjectile(position, direction9, type, damage, knockBack, player.whoAmI, direction9.X, direction9.Y);
 			return false;
 		}
