@@ -125,6 +125,8 @@ namespace SpiritMod
 
 		public override void UpdateMusic(ref int music, ref MusicPriority priority)
 		{
+			var config = ModContent.GetInstance<SpiritClientConfig>();
+
 			if(Main.gameMenu)
 				return;
 			if(priority > MusicPriority.Event)
@@ -154,24 +156,50 @@ namespace SpiritMod
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/ReachNighttime");
 				priority = MusicPriority.BiomeHigh;
 			}
-			if(MyWorld.aurora && player.ZoneSnow && player.ZoneOverworldHeight && !player.ZoneCorrupt && !player.ZoneCrimson && !Main.dayTime) {
+			if(config.AuroraMusic 
+				&& MyWorld.aurora 
+				&& player.ZoneSnow 
+				&& player.ZoneOverworldHeight 
+				&& !player.ZoneCorrupt 
+				&& !player.ZoneCrimson 
+				&& !Main.dayTime) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/AuroraSnow");
 				priority = MusicPriority.BiomeHigh;
 			}
-			if(player.ZoneSnow && player.ZoneOverworldHeight && !player.ZoneCorrupt && !player.ZoneCrimson && Main.raining)
-            {
+			if(config.BlizzardMusic 
+				&& player.ZoneSnow 
+				&& player.ZoneOverworldHeight 
+				&& !player.ZoneCorrupt 
+				&& !player.ZoneCrimson 
+				&& Main.raining) {
                 music = GetSoundSlot(SoundType.Music, "Sounds/Music/Blizzard");
                 priority = MusicPriority.BiomeHigh;
             }
-			if(player.ZoneBeach && MyWorld.luminousOcean && !Main.dayTime) {
+			if(config.LuminousMusic 
+				&& player.ZoneBeach 
+				&& MyWorld.luminousOcean 
+				&& !Main.dayTime) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/OceanNighttime");
 				priority = MusicPriority.BiomeHigh;
 			}
-			if(player.ZoneSnow && player.ZoneOverworldHeight && !Main.dayTime && !player.ZoneCorrupt && !player.ZoneCrimson && !MyWorld.aurora && !Main.raining) {
+			if(config.SnowNightMusic 
+				&& player.ZoneSnow 
+				&& player.ZoneOverworldHeight 
+				&& !Main.dayTime 
+				&& !player.ZoneCorrupt 
+				&& !player.ZoneCrimson 
+				&& !MyWorld.aurora 
+				&& !Main.raining) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/SnowNighttime");
 				priority = MusicPriority.BiomeMedium;
 			}
-			if(player.ZoneDesert && player.ZoneOverworldHeight && !Main.dayTime && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneBeach) {
+			if(config.DesertNightMusic 
+				&& player.ZoneDesert 
+				&& player.ZoneOverworldHeight 
+				&& !Main.dayTime 
+				&& !player.ZoneCorrupt 
+				&& !player.ZoneCrimson 
+				&& !player.ZoneBeach) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/DesertNighttime");
 				priority = MusicPriority.BiomeHigh;
 			}
@@ -196,7 +224,9 @@ namespace SpiritMod
 					music = GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritOverworld");
 				}
 			}
-			if(spirit.ZoneGranite && !player.ZoneOverworldHeight) {
+			if(config.GraniteMusic 
+				&& spirit.ZoneGranite 
+				&& !player.ZoneOverworldHeight) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/GraniteBiome");
 				priority = MusicPriority.BiomeMedium;
 			}
