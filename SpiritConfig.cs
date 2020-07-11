@@ -10,36 +10,36 @@ namespace SpiritMod
 		[Label("New Blizzard Music")]
 		[Tooltip("Adds a unique track for Blizzards")]
 		[DefaultValue(true)]
-		public bool BlizzardMusic;
+		public bool BlizzardMusic { get; set; }
 
 		[Label("New Snow Night Music")]
 		[Tooltip("Adds a unique track for the Snow biome at night")]
 		[DefaultValue(true)]
-		public bool SnowNightMusic;
+		public bool SnowNightMusic { get; set; }
 
 		[Label("New Desert Night Music")]
 		[Tooltip("Adds a unique track for the Desert biome at night")]
 		[DefaultValue(true)]
-		public bool DesertNightMusic;
+		public bool DesertNightMusic { get; set; }
 
 		[Label("New Granite Music")]
 		[Tooltip("Adds a unique track for the Granite biome")]
 		[DefaultValue(true)]
-		public bool GraniteMusic;
+		public bool GraniteMusic { get; set; }
 
 		[Label("New Marble Music")]
 		[Tooltip("Adds a unique track for the Marble biome")]
 		[DefaultValue(true)]
-		public bool MarbleMusic;
+		public bool MarbleMusic { get; set; }
 
 		[Label("Aurora Music")]
 		[Tooltip("Enables unique music for Auroras")]
 		[DefaultValue(true)]
-		public bool AuroraMusic;
+		public bool AuroraMusic { get; set; }
 
 		[Label("Luminous Ocean Music")]
 		[Tooltip("Enables unique music for Luminous Oceans")]
 		[DefaultValue(true)]
-		public bool LuminousMusic;
+		public bool LuminousMusic { get; set; }
 	}
 }
