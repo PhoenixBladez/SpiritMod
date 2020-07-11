@@ -307,6 +307,7 @@ namespace SpiritMod
 		public bool frigidSet;
 		public bool rangedshadowSet;
 		public bool graniteSet;
+		public bool graniteslam = false;
 		public bool meleeshadowSet;
 		public bool infernalSet;
 		public bool crystalSet;
@@ -1108,13 +1109,13 @@ namespace SpiritMod
 			foreach(var effect in effects)
 				effect.PlayerOnHitNPC(player, item, target, damage, knockback, crit);
 
-			if(AceOfSpades && target.life < (damage * 2) - (target.defense / 2) && crit) {
+			if(AceOfSpades && crit) {
 				damage = (int)(damage * 1.1f);
 				for(int i = 0; i < 3; i++) {
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<SpadeDust>(), 0, -0.8f);
 				}
 			}
-			if(AceOfHearts && target.life < (damage * 2) - (target.defense / 2) && crit && !target.friendly && target.lifeMax > 5) {
+			if(AceOfHearts && target.life <= 0 && crit && !target.friendly && target.lifeMax > 5) {
 				NPC npc = target;
 				if(Main.halloween) {
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 1734);
@@ -1125,7 +1126,7 @@ namespace SpiritMod
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<HeartDust>(), 0, -0.8f);
 				}
 			}
-			if(AceOfDiamonds && target.life < (damage * 2) - (target.defense / 2) && crit && !target.friendly && target.lifeMax > 5) {
+			if(AceOfDiamonds && target.life <=0 && crit && !target.friendly && target.lifeMax > 5) {
 				NPC npc = target;
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DiamondAce>());
 				for(int i = 0; i < 3; i++) {
@@ -2409,7 +2410,7 @@ namespace SpiritMod
 
 						}
 					}
-					stompCooldown = 600;
+					stompCooldown = 540;
 				}
 				stompCooldown--;
 				if(stompCooldown == 0) {
@@ -2834,11 +2835,7 @@ namespace SpiritMod
 		{
 			int num323;
 			if(graniteSet) {
-				if(player.controlDown && player.releaseDown && !player.mount.Active) {
-					if(player.velocity.Y != 0 && stompCooldown <= 0) {
-						player.AddBuff(ModContent.BuffType<GraniteBonus>(), 300);
-					}
-				}
+				
 				if(player.velocity.Y > 0 && player.HasBuff(ModContent.BuffType<GraniteBonus>())) {
 					player.noFallDmg = true;
 					player.velocity.Y = 15.53f;
@@ -4332,7 +4329,7 @@ namespace SpiritMod
 			foreach(var effect in effects)
 				effect.PlayerDrawEffects(drawInfo, ref r, ref g, ref b, ref a, ref fullBright);
 
-			if(daybloomSet && dazzleStacks != 0) {
+			if(daybloomSet && dazzleStacks != 0 && !player.mount.Active) {
 				a = 255 - .0001180555f * dazzleStacks;
 				if(dazzleStacks >= 1800) {
 					a = 255 - .0001180555f * 1800;
@@ -4543,6 +4540,11 @@ namespace SpiritMod
 					Main.PlaySound(SoundID.Splash, player.position, 0);
                     Main.PlaySound(SoundID.Item, player.position, 20);
                     Projectile.NewProjectile(player.Center - new Vector2(0, 30), Vector2.Zero, ModContent.ProjectileType<WaterSpout>(), 30, 8, player.whoAmI);
+				}
+				if(graniteSet && !player.mount.Active) {
+					if(player.velocity.Y != 0 && stompCooldown <= 0) {
+						player.AddBuff(ModContent.BuffType<GraniteBonus>(), 300);
+					}
 				}
 				if(fierySet && fierySetTimer <= 0) {
 					Main.PlaySound(SoundID.Item, player.position, 74);

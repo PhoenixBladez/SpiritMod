@@ -132,7 +132,7 @@ namespace SpiritMod.NPCs.Boss
 				Main.PlaySound(SoundLoader.customSoundType, player.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/AvianScreech"));
 			} else if(timer >= 900 && timer <= 1400) //Rains red comets
 			  {
-				npc.defense = 24;
+				npc.defense = 26;
 				if(expertMode) {
 					player.AddBuff(BuffID.WindPushed, 90);
 					modPlayer.windEffect = true;
@@ -143,7 +143,6 @@ namespace SpiritMod.NPCs.Boss
 				}
 				if(npc.life >= 1000) {
 					if(Main.rand.Next(8) == 0) {
-						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 
 						int A = Main.rand.Next(-200, 200) * 6;
 						int B = Main.rand.Next(-200, 200) - 1000;
@@ -152,7 +151,6 @@ namespace SpiritMod.NPCs.Boss
 					}
 				} else {
 					if(Main.rand.Next(9) == 0) {
-						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 
 						int A = 1000 * (int)(Main.windSpeed / Main.windSpeed);
 						int B = Main.rand.Next(-460, 460);

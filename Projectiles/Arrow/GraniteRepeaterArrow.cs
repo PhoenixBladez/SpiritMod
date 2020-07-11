@@ -45,8 +45,33 @@ namespace SpiritMod.Projectiles.Arrow
 				projectile.localAI[0] += 1f;
 				if(projectile.localAI[0] % 30f == 0f)
 					flag53 = true;
-
 				int num997 = (int)projectile.ai[1];
+
+				if (!Main.npc[num997].active)
+				{
+					NPC target = Main.npc[num997];
+						if(projectile.friendly && !projectile.hostile) {
+						ProjectileExtras.Explode(projectile.whoAmI, 30, 30,
+						delegate {
+						});
+
+					}
+					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
+					{
+						for(int i = 0; i < 20; i++) {
+							int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 226, 0f, -2f, 0, default(Color), 2f);
+							Main.dust[dust].noGravity = true;
+							Main.dust[dust].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+							Main.dust[dust].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
+							Main.dust[dust].scale *= .25f;
+							if(Main.dust[dust].position != projectile.Center)
+								Main.dust[dust].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
+						}
+					}
+					int proj = Projectile.NewProjectile(target.Center.X, target.Center.Y,
+						0, 0, mod.ProjectileType("GraniteSpike1"), projectile.damage / 2, projectile.knockBack, projectile.owner);
+					Main.projectile[proj].timeLeft = 2;
+				}
 				if(projectile.localAI[0] >= (float)(60 * num996))
 					flag52 = true;
 				else if(num997 < 0 || num997 >= 200)

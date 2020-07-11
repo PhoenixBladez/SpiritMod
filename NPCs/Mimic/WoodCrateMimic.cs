@@ -25,7 +25,7 @@ namespace SpiritMod.NPCs.Mimic
 			npc.value = 360f;
 			npc.knockBackResist = 0.34f;
 			npc.aiStyle = 3;
-			aiType = 508;
+			aiType = NPCID.SnowFlinx;
             banner = npc.type;
             bannerItem = ModContent.ItemType<Items.Banners.WoodCrateMimicBanner>();
         }

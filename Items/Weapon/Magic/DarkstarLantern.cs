@@ -42,8 +42,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		{
 			ModRecipe modRecipe = new ModRecipe(mod);
 			modRecipe.AddIngredient(ModContent.ItemType<DuskStone>(), 10);
-			modRecipe.AddIngredient(ModContent.ItemType<StellarBar>(), 6);
-			modRecipe.AddIngredient(ItemID.Ectoplasm, 6);
+			modRecipe.AddIngredient(ItemID.Ectoplasm, 14);
 			modRecipe.AddTile(TileID.MythrilAnvil);
 			modRecipe.SetResult(this, 1);
 			modRecipe.AddRecipe();

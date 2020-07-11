@@ -38,7 +38,7 @@ namespace SpiritMod.NPCs
 			if(spawnInfo.playerSafe || !NPC.downedBoss1) {
 				return 0f;
 			}
-			return SpawnCondition.Cavern.Chance * 0.095f;
+			return SpawnCondition.Cavern.Chance * 0.22f;
 		}
 		public override void NPCLoot()
 		{
@@ -63,45 +63,60 @@ namespace SpiritMod.NPCs
 		int frame = 0;
 		int timer = 0;
 		bool trailbehind;
-		public override void AI()
-		{
-			npc.spriteDirection = npc.direction;
-			Player target = Main.player[npc.target];
-			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
-			if(distance < 320) {
-				{
-					aiType = NPCID.Unicorn;
-					npc.aiStyle = 26;
-					npc.knockBackResist = 0.15f;
-					trailbehind = true;
-				}
-				timer++;
-				if(timer == 4) {
-					frame++;
-					timer = 0;
-				}
-				if(frame < 14) {
-					frame = 14;
-				}
-				if(frame >= 16) {
-					frame = 14;
-				}
-			} else {
-				trailbehind = false;
-				aiType = NPCID.Snail;
-				npc.aiStyle = 3;
-				npc.knockBackResist = 0.75f;
-				timer++;
-				if(timer == 4) {
-					frame++;
-					timer = 0;
-				}
-				if(frame >= 13) {
-					frame = 1;
-				}
-			}
-		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        bool playsound;
+        public override void AI()
+        {
+            npc.spriteDirection = npc.direction;
+            Player target = Main.player[npc.target];
+            int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
+            if (distance < 320)
+            {
+                {
+                    aiType = NPCID.Unicorn;
+                    npc.aiStyle = 26;
+                    npc.knockBackResist = 0.15f;
+                    trailbehind = true;
+                }
+                timer++;
+                if (timer == 4)
+                {
+                    frame++;
+                    timer = 0;
+                }
+                if (frame < 14)
+                {
+                    frame = 14;
+                }
+                if (frame >= 16)
+                {
+                    frame = 14;
+                }
+            }
+            else
+            {
+                trailbehind = false;
+                playsound = false;
+                aiType = NPCID.Snail;
+                npc.aiStyle = 3;
+                npc.knockBackResist = 0.75f;
+                timer++;
+                if (timer == 4)
+                {
+                    frame++;
+                    timer = 0;
+                }
+                if (frame >= 13)
+                {
+                    frame = 1;
+                }
+            }
+            if (trailbehind && !playsound)
+            {
+                Main.PlaySound(29, npc.Center, 74);
+                playsound = true;
+            }
+        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			if(trailbehind) {

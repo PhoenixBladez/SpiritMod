@@ -1,10 +1,12 @@
-
-using Microsoft.Xna.Framework;
 using SpiritMod.Items.Placeable.Furniture.Reach;
+using SpiritMod.Items.Consumable;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using Microsoft.Xna.Framework;
 using static Terraria.ModLoader.ModContent;
 
 namespace SpiritMod.Tiles.Furniture.Reach
@@ -26,6 +28,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 				16,
 				16
 			};
+			TileObjectData.newTile.Origin = new Point16(0, 4);
 			TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Elderbark Clock");

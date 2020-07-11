@@ -87,28 +87,10 @@ namespace SpiritMod.Projectiles
 				if(projectile.thrown && crit)
 					damage = (int)((double)damage * 2.25f);
 			}
-			if(modPlayer.AceOfSpades && target.life < (damage * 2) - (target.defense / 2) && crit) {
+			if(modPlayer.AceOfSpades && crit) {
 				damage = (int)(damage * 1.1f);
 				for(int i = 0; i < 3; i++) {
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<SpadeDust>(), 0, -0.8f);
-				}
-			}
-			if(modPlayer.AceOfHearts && target.life < (damage * 2) - (target.defense / 2) && crit && !target.friendly && target.lifeMax > 15) {
-				NPC npc = target;
-				if(Main.halloween) {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 1734);
-				} else {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 58);
-				}
-				for(int i = 0; i < 3; i++) {
-					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<HeartDust>(), 0, -0.8f);
-				}
-			}
-			if(modPlayer.AceOfDiamonds && target.life < (damage * 2) - (target.defense / 2) && crit && !target.friendly && target.lifeMax > 15) {
-				NPC npc = target;
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DiamondAce>());
-				for(int i = 0; i < 3; i++) {
-					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<DiamondDust>(), 0, -0.8f);
 				}
 			}
 			if(modPlayer.AceOfClubs && crit && !target.friendly && target.lifeMax > 15) {
@@ -138,7 +120,25 @@ namespace SpiritMod.Projectiles
 		public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
 		{
 			Player player = Main.player[projectile.owner];
-
+			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
+			if(modPlayer.AceOfHearts && target.life <= 0 && crit && !target.friendly && target.lifeMax > 15) {
+				NPC npc = target;
+				if(Main.halloween) {
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 1734);
+				} else {
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 58);
+				}
+				for(int i = 0; i < 3; i++) {
+					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<HeartDust>(), 0, -0.8f);
+				}
+			}
+			if(modPlayer.AceOfDiamonds && target.life <= 0 && crit && !target.friendly && target.lifeMax > 15) {
+				NPC npc = target;
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DiamondAce>());
+				for(int i = 0; i < 3; i++) {
+					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<DiamondDust>(), 0, -0.8f);
+				}
+			}
 			switch(glyph) {
 				case GlyphType.Frost:
 					Items.Glyphs.FrostGlyph.CreateIceSpikes(player, target, crit);

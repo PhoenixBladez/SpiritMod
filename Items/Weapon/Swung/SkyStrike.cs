@@ -65,7 +65,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.Starfury, 1);
 			recipe.AddIngredient(ItemID.FallenStar, 2);
-			recipe.AddIngredient(ModContent.ItemType<Material.StellarBar>(), 4);
+			recipe.AddIngredient(ModContent.ItemType<Material.StarPiece>(), 1);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

@@ -3,6 +3,7 @@ using SpiritMod.Items.Armor;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Weapon.Thrown;
 
 namespace SpiritMod.NPCs
 {
@@ -11,7 +12,7 @@ namespace SpiritMod.NPCs
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Lost Mime");
-			Main.npcFrameCount[npc.type] = 16;
+			Main.npcFrameCount[npc.type] = 14;
 		}
 
 		public override void SetDefaults()
@@ -21,9 +22,7 @@ namespace SpiritMod.NPCs
 			npc.damage = 30;
 			npc.defense = 10;
 			npc.lifeMax = 200;
-			npc.HitSound = SoundID.NPCHit48;
-			npc.DeathSound = SoundID.NPCDeath2;
-			npc.value = 2060f;
+			npc.value = 80f;
 			npc.knockBackResist = .25f;
 			npc.aiStyle = 3;
 			aiType = NPCID.AngryBones;
@@ -31,14 +30,14 @@ namespace SpiritMod.NPCs
             bannerItem = ModContent.ItemType<Items.Banners.LostMimeBanner>();
         }
 
-		/* public override float SpawnChance(NPCSpawnInfo spawnInfo)
+		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			if (spawnInfo.playerSafe)
 			{
 				return 0f;
 			}
-			return SpawnCondition.Cavern.Chance * 0.007f;
-		}*/
+			return SpawnCondition.Cavern.Chance * 0.08f;
+		}
 
 		public override void FindFrame(int frameHeight)
 		{
@@ -78,6 +77,7 @@ namespace SpiritMod.NPCs
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MimeMask>(), 1);
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MimeBomb>(), Main.rand.Next(7, 17));
 		}
 
 	}

@@ -91,9 +91,17 @@ namespace SpiritMod.NPCs
 			if(distance < 200) {
 				npc.velocity = Vector2.Zero;
 				if(npc.velocity == Vector2.Zero) {
-					npc.velocity.X = .008f * npc.direction;
-					npc.velocity.Y = 12f;
-				}
+                    npc.aiStyle = 0;
+                    if (target.position.X > npc.position.X)
+                    {
+                        npc.spriteDirection = 1;
+                    }
+                    else
+                    {
+                        npc.spriteDirection = -1;
+                    }
+                    npc.velocity.Y = 12f;
+                }
 				float num395 = Main.mouseTextColor / 200f - 0.35f;
 				num395 *= 0.2f;
 				npc.scale = num395 + 0.95f;

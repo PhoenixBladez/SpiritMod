@@ -78,6 +78,7 @@ namespace SpiritMod.NPCs.Tides
             timer++;
 			if(timer == 120) {
 				charging = true;
+                Main.PlaySound(3, npc.Center, 51);
 				npc.velocity.X = 0;
 				if(player.position.X > npc.position.X) {
 					chargeDirection = 1;
@@ -86,7 +87,6 @@ namespace SpiritMod.NPCs.Tides
 					chargeDirection = -1;
 					npc.spriteDirection = -1;
 				}
-				Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraDeath"));
 			}
 			if(charging) {
 				if(timer == 180) {

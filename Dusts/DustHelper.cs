@@ -108,12 +108,14 @@ namespace SpiritMod
 			}
 		}
 		
-		public static void DrawDustImage(Vector2 position, int dustType, float size, string imagePath, float dustSize = 1f)
+		public static void DrawDustImage(Vector2 position, int dustType, float size, string imagePath, float dustSize = 1f, bool noGravity = true, float rot = 0.34f)
 		{
-			float rot = Main.rand.NextFloat(-0.34f, 0.34f);
-			Texture2D glyphTexture = ModContent.GetTexture(imagePath);
-			Color[] data = new Color[glyphTexture.Width * glyphTexture.Height];
-			glyphTexture.GetData(data);
+			if (Main.netMode != NetmodeID.Server)
+			{
+				float rotation = Main.rand.NextFloat(0 - rot, rot);
+				Texture2D glyphTexture = ModContent.GetTexture(imagePath);
+				Color[] data = new Color[glyphTexture.Width * glyphTexture.Height];
+				glyphTexture.GetData(data);
 				for (int i = 0; i < glyphTexture.Width; i+=2)
 				{
 					for (int j = 0; j < glyphTexture.Height; j+=2)
@@ -125,10 +127,11 @@ namespace SpiritMod
 							double dustY = (j - (glyphTexture.Height / 2));
 							dustX *= size;
 							dustY *= size;
-							Dust.NewDustPerfect(position,dustType, new Vector2((float)dustX, (float)dustY).RotatedBy(rot)).noGravity = true;
+							Dust.NewDustPerfect(position,dustType, new Vector2((float)dustX, (float)dustY).RotatedBy(rotation)).noGravity = noGravity;
 						}
 					}
 				}
+			}
 		}
 	}
 }

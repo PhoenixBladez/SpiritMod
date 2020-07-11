@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<NightSkyStaff>(), 1);
-			recipe.AddIngredient(ModContent.ItemType<StellarBar>(), 5);
+			recipe.AddIngredient(ModContent.ItemType<StarPiece>(), 1);
 			recipe.AddIngredient(ItemID.Ectoplasm, 12);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);

@@ -40,16 +40,6 @@ namespace SpiritMod.Projectiles.Hostile
 				Main.dust[dust].noGravity = true;
 			}
 		}
-		public override bool PreAI()
-		{
-			var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
-			foreach(var proj in list) {
-				if(projectile != proj && proj.friendly) {
-					projectile.Kill();
-				}
-			}
-			return true;
-		}
 		public override void AI()
 		{
 			int range = 650;   //How many tiles away the projectile targets NPCs

@@ -26,6 +26,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
                 16,
                 16
             };
+			TileObjectData.newTile.Origin = new Point16(1, 0);
             TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             ModTranslation name = CreateMapEntryName();

@@ -95,7 +95,8 @@ namespace SpiritMod.NPCs.Tides
 			}
 			if(timer == 300) {
 				charging = true;
-				npc.velocity.X = 0;
+                Main.PlaySound(3, npc.Center, 51);
+                npc.velocity.X = 0;
 				if(player.position.X > npc.position.X) {
 					chargeDirection = 1;
 					npc.spriteDirection = 1;

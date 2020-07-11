@@ -63,7 +63,7 @@ namespace SpiritMod.Projectiles.Magic
 			if(projectile.frameCounter >= 4) {
 				projectile.frame++;
 				projectile.frameCounter = 0;
-				if(projectile.frame >= 2)
+				if(projectile.frame >= 4)
 					projectile.frame = 0;
 			}
 			return false;

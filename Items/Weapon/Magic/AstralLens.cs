@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.knockBack = 3;
 			item.value = Item.sellPrice(0, 01, 10, 0);
 			item.rare = ItemRarityID.Orange;
-			item.UseSound = SoundID.Item8;
+			item.UseSound = SoundID.NPCDeath7;
 			item.autoReuse = true;
 			item.shoot = mod.ProjectileType("Starshock1");
 			item.shootSpeed = 63f;

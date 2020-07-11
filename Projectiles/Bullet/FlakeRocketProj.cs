@@ -52,7 +52,14 @@ namespace SpiritMod.Projectiles.Bullet
         {
             damage /= 2;
         }
-
+		public override bool? CanHitNPC (NPC target)
+		{
+			if (target.townNPC)
+			{
+				return false;
+			}
+			return base.CanHitNPC(target);
+		}
         public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);

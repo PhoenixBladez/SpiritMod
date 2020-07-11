@@ -13,6 +13,7 @@ namespace SpiritMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mech Bat");
+			Main.projFrames[projectile.type] = 2;
 		}
 
 		public override void SetDefaults()
@@ -47,6 +48,13 @@ namespace SpiritMod.Projectiles
 				if(projectile != proj && proj.friendly) {
 					projectile.Kill();
 				}
+			}
+			projectile.frameCounter++;
+			if(projectile.frameCounter >= 4) {
+				projectile.frame++;
+				projectile.frameCounter = 0;
+				if(projectile.frame >= 2)
+					projectile.frame = 0;
 			}
 			return true;
 		}

@@ -31,13 +31,21 @@ namespace SpiritMod.Items.Armor
 			player.wingTimeMax += player.wingTimeMax + (int)(player.wingTimeMax * .15f);
 		}
 
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<StellarBar>(), 10);
-			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
-		}
-	}
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<StarPiece>(), 1);
+            recipe.AddIngredient(ItemID.TitaniumBar, 16);
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this, 1);
+            recipe.AddRecipe();
+
+            ModRecipe recipe1 = new ModRecipe(mod);
+            recipe1.AddIngredient(ModContent.ItemType<StarPiece>(), 1);
+            recipe1.AddIngredient(ItemID.AdamantiteBar, 16);
+            recipe1.AddTile(TileID.MythrilAnvil);
+            recipe1.SetResult(this, 1);
+            recipe1.AddRecipe();
+        }
+    }
 }

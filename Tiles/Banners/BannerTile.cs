@@ -201,6 +201,12 @@ namespace SpiritMod.Tiles.Banners
                 case 55:
                     item = "BloatfishBanner";
                     break;
+                case 56:
+                    item = "MechromancerBanner";
+                    break;
+                case 57:
+                    item = "KakamoraBanner";
+                    break;
                 default:
 					return;
 			}
@@ -380,6 +386,12 @@ namespace SpiritMod.Tiles.Banners
                         break;
                     case 55:
                         type = "SwollenFish";
+                        break;
+                    case 56:
+                        type = "Mecromancer";
+                        break;
+                    case 57:
+                        type = "KakamoraRunner";
                         break;
                     default:
 						return;
