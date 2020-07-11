@@ -10,7 +10,7 @@ namespace SpiritMod.Items
 	{
 		public virtual string SetbonusText => "";
 		public virtual SpiritPlayerEffect SetbonusEffect => null;
-		private SpiritPlayerEffect _setbonus;
+		public readonly SpiritPlayerEffect _setbonus;
 		public virtual bool SetBody(Item body) => false;
 		public virtual bool SetLegs(Item legs) => false;
 
@@ -26,6 +26,7 @@ namespace SpiritMod.Items
 		{
 			if(_setbonus != null) {
 				player.setBonus = SetbonusText;
+				player.GetSpiritPlayer().effects.Add(_setbonus);
 				player.GetSpiritPlayer().setbonus = _setbonus;
 				_setbonus.ItemUpdateArmorSet(player);
 			}

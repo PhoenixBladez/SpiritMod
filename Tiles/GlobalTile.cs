@@ -128,8 +128,8 @@ namespace SpiritMod.Tiles
 		}
 		public override void FloorVisuals(int type, Player player)
 		{
-			foreach(var acc in player.GetSpiritPlayer().accessories)
-				acc.TileFloorVisuals(type, player);
+			foreach(var effect in player.GetSpiritPlayer().effects)
+				effect.TileFloorVisuals(type, player);
 
 			if(type == TileID.Sand && player.GetSpiritPlayer().scarabCharm) {
 				player.jumpSpeedBoost += .15f;

@@ -7,6 +7,10 @@ namespace SpiritMod.Items
 {
 	public abstract class SpiritPlayerEffect
 	{
+		// Called in PostUpdate when the effect hasn't been refreshed
+		// Use this to reset stats, etc
+		public virtual void EffectRemoved(Player player) { }
+
 		public virtual void PlayerProcessTriggers(Player player, TriggersSet triggersSet) { }
 		public virtual void PlayerModifyWeaponDamage(Player player, Item item, ref float add, ref float mult, ref float flat) { }
 		public virtual void PlayerOnHitAnything(Player player, float x, float y, Entity victim) { }
@@ -22,7 +26,8 @@ namespace SpiritMod.Items
 		public virtual void PlayerPostUpdateEquips(Player player) { }
 		public virtual void PlayerPostUpdate(Player player) { }
 		public virtual void PlayerModifyHitNPC(Player player, Item item, NPC target, ref int damage, ref float knockback, ref bool crit) { }
-		
+		public virtual void PlayerDrawEffects(PlayerDrawInfo drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright) { }
+
 		// Only runs if this is being used through an accessory
 		public virtual void ItemUpdateAccessory(Player player, bool hideVisual) { }
 		// Only runs if this is being used through an armor set
