@@ -3,6 +3,7 @@ using SpiritMod.Items.Armor;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Weapon.Thrown;
 
 namespace SpiritMod.NPCs
 {
@@ -21,8 +22,6 @@ namespace SpiritMod.NPCs
 			npc.damage = 30;
 			npc.defense = 10;
 			npc.lifeMax = 200;
-			npc.HitSound = SoundID.NPCHit48;
-			npc.DeathSound = SoundID.NPCDeath2;
 			npc.value = 80f;
 			npc.knockBackResist = .25f;
 			npc.aiStyle = 3;
@@ -78,6 +77,7 @@ namespace SpiritMod.NPCs
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MimeMask>(), 1);
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MimeBomb>(), Main.rand.Next(7, 17));
 		}
 
 	}

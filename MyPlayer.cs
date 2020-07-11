@@ -1105,13 +1105,13 @@ namespace SpiritMod
 
 		public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
 		{
-			if(AceOfSpades && target.life < (damage * 2) - (target.defense / 2) && crit) {
+			if(AceOfSpades && crit) {
 				damage = (int)(damage * 1.1f);
 				for(int i = 0; i < 3; i++) {
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<SpadeDust>(), 0, -0.8f);
 				}
 			}
-			if(AceOfHearts && target.life < (damage * 2) - (target.defense / 2) && crit && !target.friendly && target.lifeMax > 5) {
+			if(AceOfHearts && target.life <= 0 && crit && !target.friendly && target.lifeMax > 5) {
 				NPC npc = target;
 				if(Main.halloween) {
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 1734);
@@ -1122,7 +1122,7 @@ namespace SpiritMod
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<HeartDust>(), 0, -0.8f);
 				}
 			}
-			if(AceOfDiamonds && target.life < (damage * 2) - (target.defense / 2) && crit && !target.friendly && target.lifeMax > 5) {
+			if(AceOfDiamonds && target.life <=0 && crit && !target.friendly && target.lifeMax > 5) {
 				NPC npc = target;
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DiamondAce>());
 				for(int i = 0; i < 3; i++) {

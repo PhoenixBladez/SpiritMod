@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Armor;
 using SpiritMod.Items.Pets;
+using SpiritMod.Items.Weapon.Thrown;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -153,6 +154,10 @@ namespace SpiritMod.NPCs
 
 			if(Main.rand.Next(2) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MimeMask>(), 1);
+			}
+			else
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MimeBomb>(), Main.rand.Next(7, 17));
 			}
 		}
 
