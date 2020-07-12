@@ -226,7 +226,8 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		public override bool PreNPCLoot()
 		{
 			MyWorld.downedReachBoss = true;
-			return true;
+            Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DeathSounds/VinewrathDeathSound"));
+            return true;
 		}
 
 		public override void BossLoot(ref string name, ref int potionType)

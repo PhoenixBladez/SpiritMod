@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Weapon.Thrown;
+using SpiritMod.Items.Equipment;
 using SpiritMod.Projectiles.Hostile;
 using SpiritMod.NPCs.Dungeon;
 using System;
@@ -56,7 +56,13 @@ namespace SpiritMod.NPCs.Tides
                 }
             }
         }
-
+        public override void NPCLoot()
+        {
+            if (Main.rand.NextBool(78))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CrocodrilloMountItem>());
+            }
+        }
 
         int frame = 0;
         int timer = 0;

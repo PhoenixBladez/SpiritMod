@@ -649,7 +649,8 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                     Main.NewText("The Astralite in the Asteroids hums with energy.", 61, 255, 142, false);
                 }
 				MyWorld.downedRaider = true;
-				NPC.NewNPC((int)npc.position.X + npc.width - 20, (int)npc.position.Y + npc.height, mod.NPCType("SteamRaiderHeadDeath"), npc.whoAmI);
+                Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DeathSounds/StarplateDeathSound"));
+                NPC.NewNPC((int)npc.position.X + npc.width - 20, (int)npc.position.Y + npc.height, mod.NPCType("SteamRaiderHeadDeath"), npc.whoAmI);
 				npc.active = false;
 			}
 		}

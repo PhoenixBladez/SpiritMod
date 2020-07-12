@@ -617,7 +617,8 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		public override bool PreNPCLoot()
 		{
 			MyWorld.downedScarabeus = true;
-			return true;
+            Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DeathSounds/ScarabDeathSound"));
+            return true;
 		}
 
 		public override void NPCLoot()

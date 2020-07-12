@@ -154,11 +154,14 @@ namespace SpiritMod.NPCs
 
 		public override bool PreAI(NPC npc)
 		{
-			if (bloodInfusion > 150)
-			{
-				bloodInfusion = 0;
-				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, ProjectileType<FlayedExplosion>(), 25, 0, Main.myPlayer);
-			}
+            if (Main.netMode != NetmodeID.Server)
+            {
+                if (bloodInfusion > 150)
+                {
+                    bloodInfusion = 0;
+                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, ProjectileType<FlayedExplosion>(), 25, 0, Main.myPlayer);
+                }
+            }
 			Player player = Main.player[Main.myPlayer];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			Vector2 dist = npc.position - player.position;

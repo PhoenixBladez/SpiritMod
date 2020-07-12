@@ -242,7 +242,8 @@ namespace SpiritMod.NPCs.Boss
 		public override bool PreNPCLoot()
 		{
 			MyWorld.downedAncientFlier = true;
-			return true;
+            Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DeathSounds/AvianDeathSound"));
+            return true;
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
