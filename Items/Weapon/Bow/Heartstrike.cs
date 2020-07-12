@@ -24,13 +24,13 @@ namespace SpiritMod.Items.Weapon.Bow
 			item.ranged = true;
 			item.width = 24;
 			item.height = 46;
-			item.useTime = 25;
-			item.useAnimation = 25;
+			item.useTime = 30;
+			item.useAnimation = 30;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shoot = ProjectileID.Shuriken;
 			item.useAmmo = AmmoID.Arrow;
-			item.knockBack = 4;
-			item.value = Item.buyPrice(0, 1, 0, 0);
+			item.knockBack = 1.5f;
+			item.value = 22500;
 			item.rare = ItemRarityID.Green;
 			item.UseSound = SoundID.Item5;
 			item.autoReuse = true;

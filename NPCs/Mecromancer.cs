@@ -29,7 +29,7 @@ namespace SpiritMod.NPCs
 			npc.height = 48;
 			npc.damage = 20;
 			npc.defense = 8;
-			npc.lifeMax = 520;
+			npc.lifeMax = 270;
 			npc.HitSound = SoundID.NPCHit40;
 			npc.DeathSound = SoundID.NPCDeath2;
 			npc.value = 6760f;
@@ -47,7 +47,7 @@ namespace SpiritMod.NPCs
 			if(!NPC.downedBoss1 || NPC.AnyNPCs(ModContent.NPCType<Mecromancer>())) {
 				return 0f;
 			}
-			return SpawnCondition.GoblinArmy.Chance * 0.01866f;
+			return SpawnCondition.GoblinArmy.Chance * 0.0466f;
 		}
 
 		public override void NPCLoot()
@@ -64,7 +64,7 @@ namespace SpiritMod.NPCs
 					NetMessage.SendData(MessageID.InvasionProgressReport, -1, -1, null, Main.invasionProgress, (float)Main.invasionProgressMax, (float)Main.invasionProgressIcon, 0f, 0, 0, 0);
 				}
 			}
-			if(Main.rand.Next(3) == 0) {
+			if(Main.rand.Next(2) == 0) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<KnocbackGun>());
 			}
 			if(Main.rand.Next(25) == 0) {
@@ -75,7 +75,7 @@ namespace SpiritMod.NPCs
 			{
 				npc.DropItem(mod.ItemType(lootTable[loot]));
 			}
-			int Techs = Main.rand.Next(4, 9);
+			int Techs = Main.rand.Next(2, 6);
 			for(int J = 0; J <= Techs; J++) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TechDrive>());
 			}

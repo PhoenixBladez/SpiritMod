@@ -46,6 +46,7 @@ namespace SpiritMod.Items.Weapon.Magic
 				item.knockBack = 5;
 				item.noMelee = false;
 				item.shootSpeed = 6f;
+				item.mana = 5;
 				item.noUseGraphic = true;
 			} else {
 				item.UseSound = SoundID.Item34;
@@ -54,6 +55,7 @@ namespace SpiritMod.Items.Weapon.Magic
 				item.noMelee = true;
 				item.noUseGraphic = false;
 				item.shootSpeed = 14f;
+				item.mana = 9;
 			}
 			return true;
 		}

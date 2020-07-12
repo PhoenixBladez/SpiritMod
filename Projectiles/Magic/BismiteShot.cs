@@ -20,7 +20,7 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.friendly = true;
 			projectile.ranged = true;
 			projectile.penetrate = 1;
-			projectile.timeLeft = 1000;
+			projectile.timeLeft = 100;
 			projectile.alpha = 255;
 			projectile.extraUpdates = 1;
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;

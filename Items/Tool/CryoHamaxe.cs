@@ -21,8 +21,8 @@ namespace SpiritMod.Items.Tool
 			item.value = Item.sellPrice(0, 2, 0, 0);
 			item.rare = ItemRarityID.Orange;
 
-			item.axe = 25;
-			item.hammer = 65;
+			item.axe = 30;
+			item.hammer = 70;
 
 			item.damage = 18;
 			item.knockBack = 5;

@@ -105,7 +105,7 @@ namespace SpiritMod.NPCs
 					for(int i = 0; i < amountOfProjectiles; ++i) {
 						float A = (float)Main.rand.Next(-50, 50) * 0.02f;
 						float B = (float)Main.rand.Next(-50, 50) * 0.02f;
-						int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 20), npc.Center.Y - 10, direction.X + A, direction.Y + B, ModContent.ProjectileType<WheezerCloud>(), npc.damage / 3 * 2, 1, Main.myPlayer, 0, 0);
+						int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 20), npc.Center.Y - 10, direction.X + A, direction.Y + B, ModContent.ProjectileType<WheezerCloud>(), npc.damage / 3, 1, Main.myPlayer, 0, 0);
 						for(int k = 0; k < 11; k++) {
 							Dust.NewDust(npc.position, npc.width, npc.height, 5, direction.X + A, direction.Y + B, 0, default(Color), .61f);
 						}
