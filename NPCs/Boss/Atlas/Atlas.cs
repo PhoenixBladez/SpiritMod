@@ -68,10 +68,10 @@ namespace SpiritMod.NPCs.Boss.Atlas
 		{
 			bool expertMode = Main.expertMode; //expert mode bool
 			Player player = Main.player[npc.target]; //player target
-			bool aiChange = (double)npc.life <= (double)npc.lifeMax * 0.75; //ai change to phase 2
-			bool aiChange2 = (double)npc.life <= (double)npc.lifeMax * 0.5; //ai change to phase 3
-			bool aiChange3 = (double)npc.life <= (double)npc.lifeMax * 0.25; //ai change to phase 4
-			bool phaseChange = (double)npc.life <= (double)npc.lifeMax * 0.1; //aggression increase
+			bool aiChange = npc.life <= npc.lifeMax * 0.75f; //ai change to phase 2
+			bool aiChange2 = npc.life <= npc.lifeMax * 0.5f; //ai change to phase 3
+			bool aiChange3 = npc.life <= npc.lifeMax * 0.25f; //ai change to phase 4
+			bool phaseChange = npc.life <= npc.lifeMax * 0.1f; //aggression increase
 			player.AddBuff(ModContent.BuffType<UnstableAffliction>(), 2); //buff that causes gravity shit
 			int defenseBuff = (int)(65f * (1f - npc.life / npc.lifeMax));
 			npc.defense = npc.defDefense + defenseBuff;
@@ -117,8 +117,8 @@ namespace SpiritMod.NPCs.Boss.Atlas
 
 						if(Math.Sqrt((npc.velocity.X * npc.velocity.X) + (npc.velocity.Y * npc.velocity.Y)) < 2f) {
 							if(Main.rand.Next(25) == 1) {
-								direction.X = direction.X * Main.rand.Next(19, 24);
-								direction.Y = direction.Y * Main.rand.Next(19, 24);
+								direction.X *= Main.rand.Next(19, 24);
+								direction.Y *= Main.rand.Next(19, 24);
 								npc.velocity.X = direction.X;
 								npc.velocity.Y = direction.Y;
 							}
@@ -130,8 +130,8 @@ namespace SpiritMod.NPCs.Boss.Atlas
 					if(Math.Sqrt((dist.X * dist.X) + (dist.Y * dist.Y)) < 325) {
 						float speed = expertMode ? 21f : 18f; //made more aggressive.  expert mode is more.  dusking base value is 7
 						float acceleration = expertMode ? 0.16f : 0.13f; //made more aggressive.  expert mode is more.  dusking base value is 0.09
-						Vector2 vector2 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-						float xDir = player.position.X + (float)(player.width / 2) - vector2.X;
+						Vector2 vector2 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+						float xDir = player.position.X + (player.width / 2) - vector2.X;
 						float yDir = (float)(player.position.Y + (player.height / 2) - 120) - vector2.Y;
 						float length = (float)Math.Sqrt(xDir * xDir + yDir * yDir);
 						if(length > 400f) {
@@ -147,8 +147,8 @@ namespace SpiritMod.NPCs.Boss.Atlas
 							}
 						}
 						float num10 = speed / length;
-						xDir = xDir * num10;
-						yDir = yDir * num10;
+						xDir *= num10;
+						yDir *= num10;
 						if(npc.velocity.X < xDir) {
 							npc.velocity.X = npc.velocity.X + acceleration;
 							if(npc.velocity.X < 0 && xDir > 0)
@@ -179,12 +179,12 @@ namespace SpiritMod.NPCs.Boss.Atlas
 						int damageAmount = expertMode ? 54 : 62; //always account for expert damage values
 						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 92);
 						for(int num621 = 0; num621 < 30; num621++) {
-							int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default(Color), 2f);
+							Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default, 2f);
 						}
 
 						for(int i = 0; i < amountOfProjectiles; ++i) {
-							float A = (float)Main.rand.Next(-250, 250) * 0.01f;
-							float B = (float)Main.rand.Next(-250, 250) * 0.01f;
+							float A = Main.rand.Next(-250, 250) * 0.01f;
+							float B = Main.rand.Next(-250, 250) * 0.01f;
 							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<PrismaticBoltHostile>(), damageAmount, 1, npc.target);
 							timer = 0;
 						}
@@ -210,7 +210,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 							float rot = MathHelper.TwoPi / 10;
 							for(int I = 0; I < 10; I++) {
 								Vector2 position = npc.Center + radius * (I * rot).ToRotationVector2();
-								NPC.NewNPC((int)(position.X), (int)(position.Y), mod.NPCType("CobbledEye2"), npc.whoAmI, npc.whoAmI, I * rot, radius);
+								NPC.NewNPC((int)(position.X), (int)(position.Y), ModContent.NPCType<CobbledEye2>(), npc.whoAmI, npc.whoAmI, I * rot, radius);
 							}
 							thirdStage = true;
 						}
@@ -223,7 +223,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 							float rot = MathHelper.TwoPi / 41;
 							for(int I = 0; I < 41; I++) {
 								Vector2 position = npc.Center + radius * (I * rot).ToRotationVector2();
-								NPC.NewNPC((int)(position.X), (int)(position.Y), mod.NPCType("CobbledEye3"), npc.whoAmI, npc.whoAmI, I * rot, radius);
+								NPC.NewNPC((int)(position.X), (int)(position.Y), ModContent.NPCType<CobbledEye3>(), npc.whoAmI, npc.whoAmI, I * rot, radius);
 							}
 							lastStage = true;
 						}
@@ -284,43 +284,36 @@ namespace SpiritMod.NPCs.Boss.Atlas
 				Dust.NewDust(npc.position, npc.width, npc.height, 1, hitDirection, -1f, 0, default(Color), 1f);
 			}
 			if(npc.life <= 0) {
-				npc.position.X = npc.position.X + (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
+				npc.position = npc.Center;
 				npc.width = 300;
 				npc.height = 500;
-				npc.position.X = npc.position.X - (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+				npc.position = npc.Center;
 				for(int num621 = 0; num621 < 200; num621++) {
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 1, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 1, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
 					if(Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.5f;
-						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+						Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
 					}
 				}
 				for(int num623 = 0; num623 < 400; num623++) {
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 1, 0f, 0f, 100, default(Color), 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 1, 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 1, 0f, 0f, 100, default(Color), 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 1, 0f, 0f, 100, default, 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 			}
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			{
-				var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-				spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-				 lightColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
-			}
+			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+			lightColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 			return false;
 		}
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
-		{
-
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Boss/Atlas/Atlas_Glow"));
-		}
+		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor) 
+			=> GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Boss/Atlas/Atlas_Glow"));
 
 		public override bool PreNPCLoot()
 		{
@@ -360,9 +353,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			return base.CanHitPlayer(target, ref cooldownSlot);
 		}
 
-		public override void BossLoot(ref string name, ref int potionType)
-		{
-			potionType = ItemID.GreaterHealingPotion;
-		}
+		public override void BossLoot(ref string name, ref int potionType) 
+			=> potionType = ItemID.GreaterHealingPotion;
 	}
 }

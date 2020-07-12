@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.ModLoader;
@@ -10,20 +11,11 @@ namespace SpiritMod.Items.Pins
 	// There's no data management here - please don't flood with unnecessary bloat
 	public class PinWorld : ModWorld
 	{
-		private bool needsPinSync = true;
 		public TagCompound pins = new TagCompound();
 
-		public void SetPin(string name, Vector2 pos)
-		{
-			pins[name] = pos;
-			needsPinSync = true;
-		}
+		public void SetPin(string name, Vector2 pos) => pins[name] = pos;
 
-		public void RemovePin(string name)
-		{
-			pins.Remove(name);
-			needsPinSync = true;
-		}
+		public void RemovePin(string name) => pins.Remove(name);
 
 		public override TagCompound Save() => pins;
 
@@ -31,13 +23,10 @@ namespace SpiritMod.Items.Pins
 
 		public override void NetSend(BinaryWriter writer)
 		{
-			if(needsPinSync) {
-				writer.Write(pins.Count);
-				foreach(var pair in pins) {
-					writer.Write(pair.Key);
-					writer.WriteVector2(pins.Get<Vector2>(pair.Key));
-				}
-				needsPinSync = false;
+			writer.Write(pins.Count);
+			foreach(var pair in pins) {
+				writer.Write(pair.Key);
+				writer.WriteVector2(pins.Get<Vector2>(pair.Key));
 			}
 		}
 
