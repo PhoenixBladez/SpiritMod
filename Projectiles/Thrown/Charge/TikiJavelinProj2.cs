@@ -16,14 +16,13 @@ namespace SpiritMod.Projectiles.Thrown.Charge
 
 		public override void SetDefaults()
 		{
-			projectile.width = 10;
+			projectile.width = 8;
 			projectile.height = 36;
-			projectile.aiStyle = 113;
+			projectile.aiStyle = 1;
 			projectile.friendly = true;
-			projectile.thrown = true;
+			projectile.melee = true;
 			projectile.penetrate = 3;
 			projectile.timeLeft = 600;
-			projectile.alpha = 255;
 			projectile.extraUpdates = 1;
 			projectile.light = 0;
 			aiType = ProjectileID.ThrowingKnife;

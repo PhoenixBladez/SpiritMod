@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Armor.ClatterboneArmor
 			item.value = 5000;
 			item.rare = ItemRarityID.Green;
 
-			item.defense = 6;
+			item.defense = 4;
 		}
 		public override void AddRecipes()
 		{

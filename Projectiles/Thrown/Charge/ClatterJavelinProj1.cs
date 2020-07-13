@@ -14,13 +14,12 @@ namespace SpiritMod.Projectiles.Thrown.Charge
 		public override void SetDefaults()
 		{
 			projectile.width = 8;
-			projectile.height = 39;
-			projectile.aiStyle = 113;
+			projectile.height = 36;
+			projectile.aiStyle = 1;
 			projectile.friendly = false;
 			projectile.thrown = true;
 			projectile.penetrate = -1;
 			projectile.timeLeft = 600;
-			projectile.alpha = 255;
 			projectile.extraUpdates = 16;
 			projectile.light = 0;
 			projectile.ignoreWater = true;

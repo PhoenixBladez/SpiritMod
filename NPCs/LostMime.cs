@@ -36,7 +36,7 @@ namespace SpiritMod.NPCs
 			{
 				return 0f;
 			}
-			return SpawnCondition.Cavern.Chance * 0.08f;
+			return SpawnCondition.Cavern.Chance * 0.015f;
 		}
 
 		public override void FindFrame(int frameHeight)
@@ -80,7 +80,7 @@ namespace SpiritMod.NPCs
             { 
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MimeMask>(), 1);
 			}
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MimeBomb>(), Main.rand.Next(7, 17));
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MimeBomb>(), Main.rand.Next(12, 23));
 		}
 
 	}

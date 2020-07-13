@@ -15,7 +15,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 
 		public override void SetDefaults()
 		{
-			item.damage = 14;
+			item.damage = 13;
 			item.noMelee = true;
 			item.channel = true; //Channel so that you can held the weapon [Important]
 			item.rare = ItemRarityID.Orange;

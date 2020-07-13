@@ -15,7 +15,7 @@ namespace SpiritMod.Projectiles.Thrown.Charge
 		{
 			projectile.width = 8;
 			projectile.height = 39;
-			projectile.aiStyle = 113;
+			projectile.aiStyle = 1;
 			projectile.friendly = false;
 			projectile.thrown = true;
 			projectile.penetrate = -1;

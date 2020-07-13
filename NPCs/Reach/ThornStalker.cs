@@ -68,7 +68,7 @@ namespace SpiritMod.NPCs.Reach
 				if(frame == 11 && timer == 0) {
 					 Main.PlaySound(SoundID.Item, npc.Center, 95);
 					for(int i = 0; i < 2; i++) {
-						int knife = Terraria.Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-50, 50), npc.Center.Y - Main.rand.Next(60), 0, 0, ModContent.ProjectileType<ThornKnife>(), npc.damage, 0);
+						int knife = Terraria.Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-50, 50), npc.Center.Y - Main.rand.Next(60), 0, 0, ModContent.ProjectileType<ThornKnife>(), npc.damage / 4, 0);
 						Projectile p = Main.projectile[knife];
 						Vector2 direction = Main.player[npc.target].Center - p.Center;
 						direction.Normalize();

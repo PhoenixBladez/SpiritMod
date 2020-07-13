@@ -12,7 +12,6 @@ namespace SpiritMod.Items.Armor.ClatterboneArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Clatterbone Breastplate");
-			Tooltip.SetDefault("4% increased melee damage");
 		}
 		public override void SetDefaults()
 		{
@@ -21,13 +20,9 @@ namespace SpiritMod.Items.Armor.ClatterboneArmor
 			item.value = Item.buyPrice(silver: 60);
 			item.rare = ItemRarityID.Green;
 
-			item.defense = 6;
+			item.defense = 4;
 		}
 
-		public override void UpdateEquip(Player player)
-		{
-			player.meleeDamage += 0.04F;
-		}
 
 		public override void AddRecipes()
 		{

@@ -18,12 +18,11 @@ namespace SpiritMod.Projectiles.Thrown.Charge
 		{
 			projectile.width = 8;
 			projectile.height = 32;
-			projectile.aiStyle = 113;
+			projectile.aiStyle = 1;
 			projectile.friendly = true;
-			projectile.thrown = true;
-			projectile.penetrate = 2;
+			projectile.melee = true;
+			projectile.penetrate = 1;
 			projectile.timeLeft = 600;
-			projectile.alpha = 255;
 			projectile.extraUpdates = 1;
 			projectile.light = 0;
 			aiType = ProjectileID.ThrowingKnife;
