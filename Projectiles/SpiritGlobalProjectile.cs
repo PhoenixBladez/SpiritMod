@@ -2,8 +2,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs;
 using SpiritMod.Buffs.Armor;
+using SpiritMod.Items;
 using SpiritMod.Projectiles.Bullet;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,6 +17,7 @@ namespace SpiritMod.Projectiles
 	{
 		public override bool InstancePerEntity => true;
 
+		public List<SpiritProjectileEffect> effects = new List<SpiritProjectileEffect>();
 		public bool stop = false;
 		public float xspeed;
 		public float yspeed;
@@ -34,9 +37,6 @@ namespace SpiritMod.Projectiles
 		public bool shotFromHolyBurst = false;
 		public bool shotFromTrueHolyBurst = false;
 		public bool shotFromNightbane = false;
-		public bool HeroBow1 = false;
-		public bool HeroBow2 = false;
-		public bool HeroBow3 = false;
 		public bool shotFromMarbleBow;
 		public float counter = -1440;
 
@@ -72,6 +72,11 @@ namespace SpiritMod.Projectiles
 		float alphaCounter;
 		public override bool PreAI(Projectile projectile)
 		{
+			foreach(var effect in effects) {
+				if(!effect.ProjectilePreAI(projectile))
+					return false;
+			}
+
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
 
@@ -137,27 +142,6 @@ namespace SpiritMod.Projectiles
 					return true;
 				}
 			}
-
-			if(HeroBow1 == true) {
-				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				{
-					int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6);
-					Main.dust[dust].noGravity = true;
-					Main.dust[dust].velocity *= 0f;
-					Main.dust[dust].scale = 1.5f;
-					return true;
-				}
-			}
-			if(HeroBow2 == true) {
-				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				if(Main.rand.Next(2) == 0) {
-					int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 135);
-					Main.dust[dust].noGravity = true;
-					Main.dust[dust].velocity *= 0f;
-					Main.dust[dust].scale = 1.5f;
-					return true;
-				}
-			}
 			if(projectile.minion && projectile.owner == Main.myPlayer && modPlayer.silkenSet) {
 				int dust = Dust.NewDust(projectile.Center, projectile.width, projectile.height, DustID.GoldCoin);
 				Main.dust[dust].velocity *= -1f;
@@ -169,17 +153,6 @@ namespace SpiritMod.Projectiles
 				vector2_2.Normalize();
 				Vector2 vector2_3 = vector2_2 * 34f;
 				Main.dust[dust].position = projectile.Center - vector2_3;
-			}
-
-			if(HeroBow3 == true) {
-				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				if(Main.rand.Next(2) == 0) {
-					int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.GoldCoin);
-					Main.dust[dust].noGravity = true;
-					Main.dust[dust].velocity *= 0f;
-					Main.dust[dust].scale = 1.8f;
-					return true;
-				}
 			}
 			if(shotFromStellarCrosbow == true) {
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
@@ -284,6 +257,9 @@ namespace SpiritMod.Projectiles
 
 		public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
 		{
+			foreach(var effect in effects)
+				effect.ProjectileOnHitNPC(projectile, target, damage, knockback, crit);
+
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if(shotFromMaliwanFreezeCommon == true) {
@@ -425,29 +401,6 @@ namespace SpiritMod.Projectiles
 			if(modPlayer.VampireCloak && projectile.minion && Main.rand.Next(100) < 30) {
 				player.HealEffect(3);
 				player.statLife += (3);
-			}
-
-			if(HeroBow1 == true) {
-				target.AddBuff(BuffID.OnFire, 240, true);
-
-				if(Main.rand.Next(4) == 0) {
-					target.AddBuff(BuffID.CursedInferno, 180, true);
-				}
-				if(Main.rand.Next(8) == 0) {
-					target.AddBuff(BuffID.ShadowFlame, 180, true);
-				}
-			}
-			if(HeroBow2 == true) {
-				target.AddBuff(BuffID.Frostburn, 120, true);
-
-				if(Main.rand.Next(15) == 0) {
-					target.AddBuff(ModContent.BuffType<MageFreeze>(), 180, true);
-				}
-			}
-			if(HeroBow3 == true) {
-				if(Main.rand.Next(100) == 2) {
-					target.AddBuff(ModContent.BuffType<Death>(), 240, true);
-				}
 			}
             if (shotFromBismiteBow == true)
             {
