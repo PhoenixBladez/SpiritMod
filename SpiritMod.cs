@@ -375,7 +375,7 @@ namespace SpiritMod
 
 			GlyphCurrencyID = CustomCurrencyManager.RegisterCurrency(new Currency(ModContent.ItemType<Items.Glyphs.Glyph>(), 999L));
 
-			if(!Main.dedServ) {
+			if(Main.netMode != NetmodeID.Server) {
 				TrailManager = new TrailManager(this);
 				AddEquipTexture(null, EquipType.Legs, "TalonGarb_Legs", "SpiritMod/Items/Armor/TalonGarb_Legs");
 				EmptyTexture = GetTexture("Empty");
@@ -390,7 +390,7 @@ namespace SpiritMod
 
 				SkyManager.Instance["SpiritMod:AuroraSky"] = new AuroraSky();
 				Filters.Scene["SpiritMod:AuroraSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
-				Terraria.Graphics.Effects.Overlays.Scene["SpiritMod:AuroraSky"] = new AuroraOverlay();
+				Overlays.Scene["SpiritMod:AuroraSky"] = new AuroraOverlay();
 
 				Filters.Scene["SpiritMod:BlueMoonSky"] = new Filter(new ScreenShaderData("FilterMiniTower").UseColor(0.1f, 0.2f, 0.5f).UseOpacity(0.53f), EffectPriority.High);
 				SkyManager.Instance["SpiritMod:BlueMoonSky"] = new BlueMoonSky();
@@ -487,7 +487,7 @@ namespace SpiritMod
 			int index = orig(X, Y, SpeedX, SpeedY, Type, Damage, KnockBack, Owner, ai0, ai1);
 			Projectile projectile = Main.projectile[index];
 
-			TrailManager.DoTrailCreation(projectile);
+			if(Main.netMode != NetmodeID.Server) TrailManager.DoTrailCreation(projectile);
 
 			return index;
 		}
@@ -514,7 +514,7 @@ namespace SpiritMod
 
 		public override void MidUpdateProjectileItem()
 		{
-			if(!Main.dedServ) {
+			if(Main.netMode != NetmodeID.Server) {
 				TrailManager.UpdateTrails();
 			}
 		}
