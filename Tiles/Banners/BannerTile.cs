@@ -181,7 +181,7 @@ namespace SpiritMod.Tiles.Banners
                     item = "KakamoraShielderBanner1";
                     break;
                 case 49:
-                    item = "KakmoraShamanBanner";
+                    item = "KakamoraShamanBanner";
                     break;
                 case 50:
                     item = "BriarthornSlimeBanner";

@@ -23,7 +23,7 @@ namespace SpiritMod.Mounts
 			mountData.dashSpeed = 3f;
 			mountData.flightTimeMax = 0;
 			mountData.fatigueMax = 0;
-			mountData.jumpHeight = 8;
+			mountData.jumpHeight = 12;
 			mountData.acceleration = 0.05f;
 			mountData.jumpSpeed = 5f;
 			mountData.blockExtraJumps = true;
@@ -41,7 +41,7 @@ namespace SpiritMod.Mounts
 			}
 			mountData.playerYOffsets = array;
 			mountData.yOffset = -4;
-			mountData.xOffset = +1;
+			mountData.xOffset = +15;
 			mountData.bodyFrame = 3;
 			mountData.playerHeadOffset = 22;
 			mountData.standingFrameCount = 1;

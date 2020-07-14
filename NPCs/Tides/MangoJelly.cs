@@ -69,7 +69,14 @@ namespace SpiritMod.NPCs.Tides
                     Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/MangoJelly/MangoJelly6"), 1f);
                     if (TideWorld.TheTide && TideWorld.TidePoints < 99)
                     {
-                        TideWorld.TidePoints += 1;
+                        if (TideWorld.TidePoints < 98)
+                        {
+                            TideWorld.TidePoints += 2;
+                        }
+                        else
+                        {
+                            TideWorld.TidePoints += 1;
+                        }
                     }
                 }
             }
@@ -96,9 +103,9 @@ namespace SpiritMod.NPCs.Tides
 				Vector2 vel = new Vector2(30f, 0).RotatedBy((float)(Main.rand.Next(90) * Math.PI / 180));
                 Main.PlaySound(2, npc.Center, 91);
 				Projectile.NewProjectile(npc.position + vel + new Vector2(xoffset, 6), vel, ModContent.ProjectileType<MangoLaser>(), npc.damage, 0, npc.target);
-				Projectile.NewProjectile(npc.position + vel.RotatedBy(1.57) + new Vector2(xoffset, 6), Vector2.Zero, ModContent.ProjectileType<MangoLaser>(), npc.damage/2, 0, npc.target);
-				Projectile.NewProjectile(npc.position + vel.RotatedBy(3.14) + new Vector2(xoffset, 6), Vector2.Zero, ModContent.ProjectileType<MangoLaser>(), npc.damage/2, 0, npc.target);
-				Projectile.NewProjectile(npc.position + vel.RotatedBy(4.71) + new Vector2(xoffset, 6), Vector2.Zero, ModContent.ProjectileType<MangoLaser>(), npc.damage/2, 0, npc.target);
+				Projectile.NewProjectile(npc.position + vel.RotatedBy(1.57) + new Vector2(xoffset, 6), Vector2.Zero, ModContent.ProjectileType<MangoLaser>(), npc.damage/3, 0, npc.target);
+				Projectile.NewProjectile(npc.position + vel.RotatedBy(3.14) + new Vector2(xoffset, 6), Vector2.Zero, ModContent.ProjectileType<MangoLaser>(), npc.damage/3, 0, npc.target);
+				Projectile.NewProjectile(npc.position + vel.RotatedBy(4.71) + new Vector2(xoffset, 6), Vector2.Zero, ModContent.ProjectileType<MangoLaser>(), npc.damage/3, 0, npc.target);
 			}
 			if(npc.ai[0] >= 570) {
 				shooting = false;
@@ -139,11 +146,11 @@ namespace SpiritMod.NPCs.Tides
 		}
         public override void NPCLoot()
         {
-            if (Main.rand.NextBool(10))
+            if (Main.rand.NextBool(25))
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MagicConch>());
             }
-            if (Main.rand.NextBool(10))
+            if (Main.rand.NextBool(25))
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MangoJellyStaff>());
             }

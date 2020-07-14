@@ -30,9 +30,9 @@ namespace SpiritMod.NPCs.Tides
 		{
 			npc.width = 66;
 			npc.height = 88;
-			npc.damage = 42;
+			npc.damage = 32;
 			npc.defense = 14;
-			npc.lifeMax = 2800;
+			npc.lifeMax = 1300;
 			npc.knockBackResist = 0;
 			npc.noGravity = true;
 			npc.noTileCollide = true;

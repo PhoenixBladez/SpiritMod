@@ -144,7 +144,7 @@ namespace SpiritMod.Tiles
 					Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<Coconut>(), Main.rand.Next(5, 8));
 				}
 				if(NPC.CountNPCS(ModContent.NPCType<OceanSlime>()) < 1) {
-					NPC.NewNPC(i * 16, (j - 10) * 16, ModContent.NPCType<OceanSlime>(), 0, 0.0f, 0.0f, 0.0f, 0.0f, (int)byte.MaxValue);
+					NPC.NewNPC(i * 16, (j - 10) * 16, ModContent.NPCType<OceanSlime>(), 0, 0.0f, -8.5f, 0.0f, 0.0f, (int)byte.MaxValue);
 				}
 			}
 			
@@ -153,7 +153,7 @@ namespace SpiritMod.Tiles
             }
             if (type == TileID.Trees && Main.rand.Next(25) == 0 && player.ZoneSnow)
             {
-                if (Main.rand.Next(2) == 1)
+                if (Main.rand.Next(4) == 1)
                 {
                     Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<IceBerries>(), Main.rand.Next(1, 3));
                 }

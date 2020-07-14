@@ -31,7 +31,7 @@ namespace SpiritMod.NPCs.Tides
 			aiType = NPCID.SnowFlinx;
 			npc.aiStyle = 3;
 			npc.lifeMax = 110;
-			npc.knockBackResist = .20f;
+			npc.knockBackResist = .3f;
 			npc.value = 200f;
 			npc.noTileCollide = false;
 			npc.HitSound = SoundID.NPCHit2;

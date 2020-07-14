@@ -16,7 +16,7 @@ namespace SpiritMod.NPCs.Tides
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Kakamora Shielder");
+			DisplayName.SetDefault("Kakamora Guard");
 			Main.npcFrameCount[npc.type] = 5;
 		}
 
@@ -29,7 +29,7 @@ namespace SpiritMod.NPCs.Tides
 			aiType = NPCID.SnowFlinx;
 			npc.aiStyle = 3;
 			npc.lifeMax = 140;
-			npc.knockBackResist = .15f;
+			npc.knockBackResist = .2f;
 			npc.value = 200f;
 			npc.noTileCollide = false;
 			npc.HitSound = SoundID.NPCHit2;

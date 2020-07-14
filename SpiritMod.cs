@@ -189,7 +189,8 @@ namespace SpiritMod
 				&& !player.ZoneCorrupt 
 				&& !player.ZoneCrimson 
 				&& !MyWorld.aurora 
-				&& !Main.raining) {
+				&& !Main.raining
+				&& !Main.bloodMoon) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/SnowNighttime");
 				priority = MusicPriority.BiomeMedium;
 			}
@@ -199,7 +200,8 @@ namespace SpiritMod
 				&& !Main.dayTime 
 				&& !player.ZoneCorrupt 
 				&& !player.ZoneCrimson 
-				&& !player.ZoneBeach) {
+				&& !player.ZoneBeach
+                && !Main.bloodMoon)	{
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/DesertNighttime");
 				priority = MusicPriority.BiomeHigh;
 			}
@@ -595,7 +597,7 @@ namespace SpiritMod
 			if(bossChecklist != null) {
 				// 14 is moolord, 12 is duke fishron
 				bossChecklist.Call("AddBossWithInfo", "Scarabeus", 0.8f, (Func<bool>)(() => MyWorld.downedScarabeus), "Use a [i:" + ModContent.ItemType<ScarabIdol>() + "] in the Desert biome at any time");
-				bossChecklist.Call("AddBossWithInfo", "Vinewrath Bane", 3.5f, (Func<bool>)(() => MyWorld.downedReachBoss), "Use a [i:" + ModContent.ItemType<ReachBossSummon>() + "] in the Reach at daytime");
+				bossChecklist.Call("AddBossWithInfo", "Vinewrath Bane", 3.5f, (Func<bool>)(() => MyWorld.downedReachBoss), "Right-click a Bloodblossom at the underground Briar at any time");
 				bossChecklist.Call("AddBossWithInfo", "Ancient Avian", 4.2f, (Func<bool>)(() => MyWorld.downedAncientFlier), "Use a [i:" + ModContent.ItemType<JewelCrown>() + "] in the sky at any time");
 				bossChecklist.Call("AddBossWithInfo", "Starplate Raider", 5.2f, (Func<bool>)(() => MyWorld.downedRaider), "Use a [i:" + ModContent.ItemType<StarWormSummon>() + "] at nighttime");
 				bossChecklist.Call("AddBossWithInfo", "Infernon", 6.5f, (Func<bool>)(() => MyWorld.downedInfernon), "Use [i:" + ModContent.ItemType<CursedCloth>() + "] in the underworld at any time");

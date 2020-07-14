@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.noMelee = true;
 			item.knockBack = 3;
 			item.useTurn = false;
-			item.value = Terraria.Item.sellPrice(0, 0, 42, 0);
+			item.value = Terraria.Item.sellPrice(0, 1, 42, 0);
 			item.rare = ItemRarityID.Orange;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<BubblePumpProj>();

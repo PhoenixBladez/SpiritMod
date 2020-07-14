@@ -30,7 +30,7 @@ namespace SpiritMod.NPCs.Dungeon
 			npc.buffImmune[BuffID.OnFire] = true;
 			npc.buffImmune[BuffID.CursedInferno] = true;
 			npc.DeathSound = SoundID.NPCDeath2;
-			npc.value = 1000f;
+			npc.value = 220f;
 			npc.knockBackResist = .35f;
             banner = npc.type;
             bannerItem = ModContent.ItemType<Items.Banners.DarkAlchemistBanner>();
@@ -73,7 +73,10 @@ namespace SpiritMod.NPCs.Dungeon
 					npc.DropItem(mod.ItemType(lootTable[loot]));
 				}
 			}
-		}
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Thrown.PlagueVial>(), Main.rand.Next(26, 43));
+            }
+        }
 
 		int frame = 0;
 		int timer = 0;

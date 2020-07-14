@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.NPCs.Boss.ReachBoss;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using SpiritMod.Items.Armor.Masks;
@@ -45,7 +46,8 @@ namespace SpiritMod.Tiles
         {
             //shows the Cryptic Crystal icon while mousing over this tile
             Main.player[Main.myPlayer].showItemIcon = true;
-            Main.player[Main.myPlayer].showItemIcon2 = ModContent.ItemType<ReachMask>();
+            //Main.player[Main.myPlayer].showItemIcon2 = mod.ItemType("");
+            Main.player[Main.myPlayer].showItemIconText = "Disturbing this flower surely isn't a good idea...";
         }
 
         public override void RightClick(int i, int j)

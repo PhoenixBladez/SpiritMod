@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Returning
 			item.shootSpeed = 11f;
 			item.shoot = mod.ProjectileType("CoralBoomerang");
 			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
+			item.autoReuse = false;
 		}
 
 		public override bool CanUseItem(Player player)

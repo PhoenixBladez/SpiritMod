@@ -870,6 +870,10 @@ namespace SpiritMod.Items.Banners
     }
     public class KakamoraThrowerBanner : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Kakamora Lobber Banner");
+        }
         public override void SetDefaults()
         {
             item.width = 10;
@@ -929,7 +933,7 @@ namespace SpiritMod.Items.Banners
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Kakamora Shielder Banner");
+            DisplayName.SetDefault("Kakamora Guard Banner");
         }
         public override void SetDefaults()
         {

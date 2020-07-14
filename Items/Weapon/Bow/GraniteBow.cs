@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Weapon.Bow
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 29;
+			item.damage = 26;
 			item.noMelee = true;
 			item.ranged = true;
 			item.width = 54;

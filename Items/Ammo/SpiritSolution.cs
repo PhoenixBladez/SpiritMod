@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Ammo
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Spirit Solution");
+			DisplayName.SetDefault("Cyan Solution");
 			Tooltip.SetDefault("Used by the Clentaminator\nSpreads the Spirit");
 		}
 

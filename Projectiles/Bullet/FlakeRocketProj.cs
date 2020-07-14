@@ -72,15 +72,6 @@ namespace SpiritMod.Projectiles.Bullet
 			projectile.position.X = projectile.position.X - (projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (projectile.height / 2);
 
-			for(int num621 = 0; num621 < 20; num621++) {
-				int num622 = Dust.NewDust(projectile.position, projectile.width, projectile.height,
-					68, 0f, 0f, 100, default, 1f);
-				Main.dust[num622].velocity *= 3f;
-				if(Main.rand.Next(2) == 0) {
-					Main.dust[num622].scale = 0.5f;
-					Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
-				}
-			}
 			for(int num623 = 0; num623 < 40; num623++) {
 				int num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height,
 					68, 0f, 0f, 100, default, 1f);

@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Weapon.Swung
 
 		public override void SetDefaults()
 		{
-			item.damage = 22;
+            item.damage = 20;
 			item.melee = true;
 			item.width = 34;
 			item.height = 40;
@@ -29,7 +29,8 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.axe = 9;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 6;
-			item.value = Terraria.Item.sellPrice(0, 0, 20, 0);
+            item.axe = 10;
+            item.value = Terraria.Item.sellPrice(0, 0, 20, 0);
 			item.rare = ItemRarityID.Green;
 			item.UseSound = SoundID.Item1;
 			item.shoot = ModContent.ProjectileType<FlayedExplosion>();
@@ -60,7 +61,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			if(modPlayer.shootDelay < 150 && player.altFunctionUse == 2) {
 				Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 20);
 				damage = 1 + (int)((damage * 1.35f) / (MathHelper.Clamp((float)Math.Sqrt(modPlayer.shootDelay), 1, 180)));
-				Projectile.NewProjectile(position.X, position.Y, 0, 0, ModContent.ProjectileType<FlayedExplosion>(), damage, knockBack, Main.myPlayer);
+				Projectile.NewProjectile(position.X, position.Y, 0, 0, ModContent.ProjectileType<FlayedExplosion>(), damage, 2.5f, Main.myPlayer);
 				modPlayer.shootDelay = 180;
 			}
 			return false;

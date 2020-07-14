@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.rare = ItemRarityID.Blue;
 			item.shootSpeed = 14f;
 			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
+			item.autoReuse = false;
 		}
 		public override bool CanUseItem(Player player)
 		{

@@ -26,8 +26,8 @@ namespace SpiritMod.NPCs.Tides
             npc.width = 60;
             npc.height = 70;
             npc.damage = 32;
-            npc.defense = 16;
-            npc.lifeMax = 350;
+            npc.defense = 14;
+            npc.lifeMax = 250;
             npc.HitSound = SoundID.NPCHit6;
             npc.DeathSound = SoundID.NPCDeath5;
             npc.value = 500f;
@@ -68,7 +68,19 @@ namespace SpiritMod.NPCs.Tides
         int timer = 0;
         //  int shootTimer = 0;
         public override void AI() {
-
+            if (npc.wet)
+            {
+                npc.noGravity = true;
+                if (npc.velocity.Y > -7)
+                {
+                    npc.velocity.Y -= .085f;
+                }
+                return;
+            }
+            else
+            {
+                npc.noGravity = false;
+            }
             npc.spriteDirection = npc.direction;
             Player target = Main.player[npc.target];
             int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
@@ -98,18 +110,10 @@ namespace SpiritMod.NPCs.Tides
                     npc.direction = -1;
                 }
             } else {
-                if (npc.wet)
-                {
-                    npc.aiStyle = 16;
-                    npc.noGravity = true;
-                    aiType = 157;
-                }
-                else
                 {
                     //shootTimer = 0;
                     npc.aiStyle = 26;
-                    npc.noGravity = false;
-                    aiType = NPCID.Skeleton;
+                    aiType = NPCID.Unicorn;
                 }
                 timer++;
                 if(timer >= 4) {

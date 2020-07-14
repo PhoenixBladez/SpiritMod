@@ -112,7 +112,7 @@ namespace SpiritMod.NPCs.Tides
             }
 			 if (Main.rand.Next(3) != 0)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TribalScale>(), Main.rand.Next(2) + 1);
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TribalScale>(), Main.rand.Next(2) + 2);
             }
         }
         public override void FindFrame(int frameHeight)
@@ -173,7 +173,14 @@ namespace SpiritMod.NPCs.Tides
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Kakamora_Gore3"), 1f);
                 if (TideWorld.TheTide && TideWorld.TidePoints < 99)
                 {
-                    TideWorld.TidePoints += 1;
+                    if (TideWorld.TidePoints < 98)
+                    {
+                        TideWorld.TidePoints += 2;
+                    }
+                    else
+                    {
+                        TideWorld.TidePoints += 1;
+                    }
                 }
             } else 
 			{

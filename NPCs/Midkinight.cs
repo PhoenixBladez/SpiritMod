@@ -31,10 +31,10 @@ namespace SpiritMod.NPCs
 			animationType = NPCID.AngryBones;
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
+		/*public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			return spawnInfo.spawnTileY < Main.rockLayer && (!Main.dayTime) && spawnInfo.player.ZoneOverworldHeight && Main.hardMode ? 0.01f : 0f;
-		}
+		}*/
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			{

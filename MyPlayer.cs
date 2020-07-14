@@ -1630,6 +1630,7 @@ namespace SpiritMod
 				concentratedCooldown = 360;
 				concentrated = false;
 			}
+
 			if(cryoSet) {
 				cryoTimer = 0;
 			}
@@ -2887,7 +2888,7 @@ namespace SpiritMod
 				concentrated = true;
 			}
 
-			if(concentrated) {
+			if(concentrated && leatherSet) {
 				Yoraiz0rEye();
 			}
 			if(bloodCourtHead) {

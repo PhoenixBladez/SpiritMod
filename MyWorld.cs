@@ -3341,7 +3341,7 @@ namespace SpiritMod
 				}
 				if(!Main.dayTime && Main.hardMode) {
 					if(!Main.fastForwardTime && !Main.bloodMoon && WorldGen.spawnHardBoss == 0 && ((Main.rand.Next(20) == 1 && !downedBlueMoon) || (Main.rand.Next(40) == 1 && !downedBlueMoon))) {
-						Main.NewText("A Blue Moon is rising...", 0, 90, 220);
+						Main.NewText("A Mystic Moon is rising...", 0, 90, 220);
 						BlueMoon = true;
 						downedBlueMoon = true;
 					}

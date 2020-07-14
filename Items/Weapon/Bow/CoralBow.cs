@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Bow
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shoot = ProjectileID.Shuriken;
 			item.useAmmo = AmmoID.Arrow;
-			item.knockBack = 2;
+			item.knockBack = .5f;
 			item.value = Item.buyPrice(0, 0, 18, 10);
 			item.rare = ItemRarityID.Blue;
 			item.UseSound = SoundID.Item5;

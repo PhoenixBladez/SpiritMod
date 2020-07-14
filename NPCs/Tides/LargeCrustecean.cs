@@ -84,7 +84,7 @@ namespace SpiritMod.NPCs.Tides
 		}
         public override void NPCLoot()
         {
-            if (Main.rand.NextBool(8))
+            if (Main.rand.NextBool(15))
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PumpBubbleGun>());
             }
@@ -135,7 +135,14 @@ namespace SpiritMod.NPCs.Tides
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LargeCrustacean/lobster7"), 1f);
                 if (TideWorld.TheTide && TideWorld.TidePoints < 99)
                 {
-                    TideWorld.TidePoints += 1;
+                    if (TideWorld.TidePoints < 97)
+                    {
+                        TideWorld.TidePoints += 3;
+                    }
+					else
+                    {
+                        TideWorld.TidePoints += 1;
+                    }
                 }
             }
 		}
