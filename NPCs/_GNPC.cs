@@ -630,6 +630,9 @@ namespace SpiritMod.NPCs
 					shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Halloween.CandyBowl>(), false);
 					nextSlot++;
 				}
+			 } else if(type == NPCID.ArmsDealer) {
+					shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Ammo.RubberBullet>(), false);
+					nextSlot++;
 			} else if(type == NPCID.Dryad) {
 				if(NPC.downedMoonlord && Main.halloween) {
 					shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Placeable.Tiles.HalloweenGrass>(), false);
