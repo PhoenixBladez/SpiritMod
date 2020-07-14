@@ -60,6 +60,7 @@ namespace SpiritMod.Projectiles.Arrow
 				projectile.velocity = Vector2.Zero;
 			}
 			if(ai0 != 0) {
+				projectile.friendly = false;
 				projectile.ignoreWater = true;
 				projectile.tileCollide = false;
 				int num996 = 15;
@@ -140,6 +141,7 @@ namespace SpiritMod.Projectiles.Arrow
 					projectile.friendly = true;
 					//projectile.penetrate = 1;
 					projectile.timeLeft = 8;
+					projectile.friendly = true;
 					ProjectileExtras.Explode(projectile.whoAmI, 150, 150,
 					delegate {
 						float ScaleMult = 3f;

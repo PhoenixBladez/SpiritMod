@@ -59,9 +59,11 @@ namespace SpiritMod.Projectiles.Arrow
 			}
 			if(stuck) {
 				//return false;
+				projectile.friendly = false;
 				projectile.velocity = Vector2.Zero;
 			}
 			if(ai0 != 0) {
+				projectile.friendly = false;
 				projectile.ignoreWater = true;
 				projectile.tileCollide = false;
 				int num996 = 15;
@@ -79,9 +81,9 @@ namespace SpiritMod.Projectiles.Arrow
 				else if(Main.npc[num997].active && !Main.npc[num997].dontTakeDamage) {
 					projectile.Center = Main.npc[num997].Center - projectile.velocity * 2f;
 					projectile.gfxOffY = Main.npc[num997].gfxOffY;
-					if(flag53) {
+				/*	if(flag53) {
 						Main.npc[num997].HitEffect(0, 1.0);
-					}
+					}*/
 				} else
 					flag52 = true;
 
@@ -92,7 +94,7 @@ namespace SpiritMod.Projectiles.Arrow
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(projectile.timeLeft > 10) {
+			if(projectile.timeLeft > 10 && !stuck) {
 				ai0 = 1f;
 				ai1 = (float)target.whoAmI;
 				projectile.velocity = (target.Center - projectile.Center) * 0.75f;
@@ -142,6 +144,7 @@ namespace SpiritMod.Projectiles.Arrow
 					projectile.friendly = true;
 					//projectile.penetrate = 1;
 					projectile.timeLeft = 8;
+					projectile.friendly = true;
 					ProjectileExtras.Explode(projectile.whoAmI, 150, 150,
 					delegate {
 						float ScaleMult = 3f;
