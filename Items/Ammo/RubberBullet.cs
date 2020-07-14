@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Ammo
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Rubber Bullet");
-			Tooltip.SetDefault("High knockback");
+			Tooltip.SetDefault("Knocks enemies back farther");
 		}
 
 
