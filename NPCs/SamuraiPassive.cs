@@ -57,7 +57,7 @@ namespace SpiritMod.NPCs
 			}
 			npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y + 0.009f * npc.localAI[1], -.5f, .5f);
 			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
-			if(distance <= 540 || npc.life < npc.lifeMax) {
+			if(distance <= 540 || npc.life < npc.lifeMax && !target.dead) {
 				npc.Transform(ModContent.NPCType<SamuraiHostile>());
 			}
 			if(Main.netMode != NetmodeID.MultiplayerClient) {

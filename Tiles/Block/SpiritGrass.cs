@@ -74,7 +74,7 @@ namespace SpiritMod.Tiles.Block
 			Tile tile2 = Framing.GetTileSafely(i, j-1);
             if (tile.slope() == 0 && !tile.halfBrick())
             {
-                if (!Main.tileSolid[tile2.type])
+                if (!Main.tileSolid[tile2.type] || !tile2.active())
                 {
                     Color colour = Color.White * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTime * 1.3f) + 1f) * 0.5f));
 
@@ -94,7 +94,7 @@ namespace SpiritMod.Tiles.Block
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
             Tile tile2 = Framing.GetTileSafely(i, j - 1);
-            if (!Main.tileSolid[tile2.type])
+            if (!Main.tileSolid[tile2.type] || !tile2.active())
             {
                 r = 0.3f;
                 g = 0.45f;

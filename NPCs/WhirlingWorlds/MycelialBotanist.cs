@@ -34,7 +34,7 @@ namespace SpiritMod.NPCs.WhirlingWorlds
 			npc.alpha = 0;
 			npc.dontTakeDamage = false;
 			npc.HitSound = new Terraria.Audio.LegacySoundStyle(3, 1);
-			npc.DeathSound = new Terraria.Audio.LegacySoundStyle(4, 1);
+			npc.DeathSound = new Terraria.Audio.LegacySoundStyle(29, 76);
 		}
 		public override bool PreAI()
 		{
@@ -68,7 +68,7 @@ namespace SpiritMod.NPCs.WhirlingWorlds
 			int x = spawnInfo.spawnTileX;
 			int y = spawnInfo.spawnTileY;
 			int tile = (int)Main.tile[x, y].type;
-			return (tile == TileID.MushroomGrass) && NPC.downedBoss1 && spawnInfo.spawnTileY > Main.rockLayer ? 3f : 0f;
+			return (tile == TileID.MushroomGrass) && spawnInfo.spawnTileY > Main.rockLayer ? 2f : 0f;
 
 		}
 		public override void HitEffect(int hitDirection, double damage)
@@ -77,8 +77,9 @@ namespace SpiritMod.NPCs.WhirlingWorlds
             for (int k = 0; k < 30; k++)
             {
                 Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, Color.White, Main.rand.NextFloat(.3f, 1.1f));
+                Dust.NewDust(npc.position, npc.width, npc.height, 42, 2.5f * hitDirection, -2.5f, 0, Color.White, Main.rand.NextFloat(.3f, 1.1f));
             }
-            Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 15, 1f, 0f);
+            //Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 45, 1f, 0f);
 			if (npc.life <= 0)
 			{
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/MycelialBotanistGore1"), 1f);
@@ -119,7 +120,7 @@ namespace SpiritMod.NPCs.WhirlingWorlds
 					}
 					if(frame == 10 && npc.frameCounter == 6) 
 					{
-						Main.PlaySound(1, (int)npc.position.X, (int)npc.position.Y, 106);
+						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 1);
 
 						Vector2 direction = Main.player[npc.target].Center - npc.Center;
 						float distance = MathHelper.Clamp(direction.Length(), -250, 250);
