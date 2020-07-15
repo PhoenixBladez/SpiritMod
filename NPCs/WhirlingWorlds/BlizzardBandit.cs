@@ -78,8 +78,13 @@ namespace SpiritMod.NPCs.WhirlingWorlds
 			}
 		}
 		public override void HitEffect(int hitDirection, double damage)
-		{		
-			Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 4, 1f, 0f);
+        {
+            int d1 = 129;
+            for (int k = 0; k < 30; k++)
+            {
+                Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, Color.White, Main.rand.NextFloat(.3f, 1.1f));
+            }
+            Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 15, 1f, 0f);
 			if (npc.life <= 0)
 			{
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/BlizzardBanditGore1"), 1f);
@@ -116,12 +121,12 @@ namespace SpiritMod.NPCs.WhirlingWorlds
 					}
 					if((frame == 11 || frame == 14) && npc.frameCounter == 4) 
 					{
-						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 106);
+						Main.PlaySound(1, (int)npc.position.X, (int)npc.position.Y, 106);
 
 						Vector2 direction = Main.player[npc.target].Center - npc.Center;
 						direction.Normalize();
-						direction.X *= 12f;
-						direction.Y *= 12f;
+						direction.X *= 8.5f;
+						direction.Y *= 8.5f;
 						float A = (float)Main.rand.Next(-50, 50) * 0.02f;
 						float B = (float)Main.rand.Next(-50, 50) * 0.02f;
 						int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y, direction.X + A, direction.Y + B, 166, npc.damage / 3, 1, Main.myPlayer, 0, 0);
@@ -141,7 +146,16 @@ namespace SpiritMod.NPCs.WhirlingWorlds
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.player.ZoneSnow && Main.raining && spawnInfo.player.ZoneOverworldHeight ? 0.035f : 0f;
+			return spawnInfo.player.ZoneSnow && Main.raining && spawnInfo.player.ZoneOverworldHeight ? 0.055f : 0f;
 		}
-	}
+        public override void NPCLoot()
+        {
+            if (Main.rand.Next(20) == 0)
+            {
+                npc.DropItem(ModContent.ItemType<Items.Armor.Masks.WinterHat>());
+            }
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Snowball, Main.rand.Next(8, 14));
+
+        }
+    }
 }

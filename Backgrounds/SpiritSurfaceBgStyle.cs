@@ -5,7 +5,7 @@ namespace SpiritMod.Backgrounds
 {
 	public class SpiritSurfaceBgStyle : ModSurfaceBgStyle
 	{
-		public override int ChooseFarTexture() => mod.GetBackgroundSlot("Backgrounds/SpiritBiomeSurfaceFar");
+		//public override int ChooseFarTexture() => mod.GetBackgroundSlot("Backgrounds/SpiritBiomeSurfaceFar");
 
 		public override int ChooseMiddleTexture() => mod.GetBackgroundSlot("Backgrounds/SpiritBiomeSurfaceMid");
 

@@ -101,6 +101,9 @@ namespace SpiritMod
 		public static bool sepulchreComplete = false;
         public static bool jadeStaffComplete = false;
         public static bool shadowflameComplete = false;
+        public static bool vibeShroomComplete = false;
+        public static bool winterbornComplete = false;
+        public static bool drBonesComplete = false;
         public static bool spawnHornetFish = false;
 		public static bool spawnVibeshrooms = false;
 		public static int numWinterbornKilled;
@@ -176,6 +179,9 @@ namespace SpiritMod
 			data.Add("sepulchreComplete", sepulchreComplete);
             data.Add("jadeStaffComplete", jadeStaffComplete);
             data.Add("shadowflameComplete", shadowflameComplete);
+            data.Add("vibeShroomComplete", vibeShroomComplete);
+            data.Add("winterbornComplete", winterbornComplete);
+            data.Add("drBonesComplete", drBonesComplete);
             data.Add("spawnHornetFish", spawnHornetFish);
 			data.Add("spawnVibeshrooms", spawnVibeshrooms);
 			data.Add("numWinterbornKilled", numWinterbornKilled);
@@ -183,7 +189,8 @@ namespace SpiritMod
 			data.Add("numWheezersKilled", numWheezersKilled);
 
 			SpiritMod.AdventurerQuests.WorldSave(data);
-			return data;
+            SaveSpecialNPCs(data);
+            return data;
 		}
 
 		public override void Load(TagCompound tag)
@@ -200,8 +207,8 @@ namespace SpiritMod
 			downedAtlas = downed.Contains("atlas");
 			downedOverseer = downed.Contains("overseer");
 			downedBlueMoon = downed.Contains("bluemoon");
-
-			SpiritMod.AdventurerQuests.WorldLoad(tag);
+            LoadSpecialNPCs(tag);
+            SpiritMod.AdventurerQuests.WorldLoad(tag);
 			TagCompound droppedGlyphTag = tag.GetCompound("droppedGlyphs");
 			droppedGlyphs.Clear();
 			foreach(KeyValuePair<string, object> entry in droppedGlyphTag) {
@@ -216,6 +223,9 @@ namespace SpiritMod
 			sepulchreComplete = tag.GetBool("sepulchreComplete");
             jadeStaffComplete = tag.GetBool("jadeStaffComplete");
             shadowflameComplete = tag.GetBool("shadowflameComplete");
+            vibeShroomComplete = tag.GetBool("vibeShroomComplete");
+            winterbornComplete = tag.GetBool("winterbornComplete");
+            drBonesComplete = tag.GetBool("drBonesComplete");
             spawnHornetFish = tag.GetBool("spawnHornetFish");
 			spawnVibeshrooms = tag.GetBool("spawnVibeshrooms");
 			numWinterbornKilled = tag.Get<int>("numWinterbornKilled");
@@ -252,6 +262,9 @@ namespace SpiritMod
 				spawnVibeshrooms = flags3[2];
                 jadeStaffComplete = flags3[3];
                 shadowflameComplete = flags3[4];
+                vibeShroomComplete = flags3[5];
+                winterbornComplete = flags3[6];
+                drBonesComplete = flags3[7];
             } else {
 				mod.Logger.Error("Unknown loadVersion: " + loadVersion);
 			}
@@ -264,8 +277,8 @@ namespace SpiritMod
 			writer.Write(bosses1);
 			writer.Write(bosses2);
 			BitsByte environment = new BitsByte(BlueMoon);
-			BitsByte worldgen = new BitsByte(gennedBandits, gennedTower);
-			BitsByte adventurerQuests = new BitsByte(sepulchreComplete, spawnHornetFish, spawnVibeshrooms, jadeStaffComplete, shadowflameComplete);
+            BitsByte worldgen = new BitsByte(gennedBandits, gennedTower);
+			BitsByte adventurerQuests = new BitsByte(sepulchreComplete, spawnHornetFish, spawnVibeshrooms, jadeStaffComplete, shadowflameComplete, vibeShroomComplete, winterbornComplete, drBonesComplete);
 			writer.Write(environment);
 			writer.Write(worldgen);
 			writer.Write(adventurerQuests);
@@ -304,6 +317,9 @@ namespace SpiritMod
 			spawnVibeshrooms = adventurerQuests[2];
             jadeStaffComplete = adventurerQuests[3];
             shadowflameComplete = adventurerQuests[4];
+            vibeShroomComplete = adventurerQuests[5];
+            winterbornComplete = adventurerQuests[6];
+            drBonesComplete = adventurerQuests[7];
             numWinterbornKilled = reader.ReadInt32();
 			numAntlionsKilled = reader.ReadInt32();
 			numWheezersKilled = reader.ReadInt32();
@@ -362,8 +378,36 @@ namespace SpiritMod
 			downedOverseer = false;
 			downedBlueMoon = false;
 		}
-		#region Asteroid
-		public static ushort OreRoller(ushort glowstone, ushort none)
+        private void LoadSpecialNPCs(TagCompound compound)
+        {
+            int npcTest = 0;
+            while (compound.ContainsKey($"SpiritSavedNPC{npcTest}"))
+            {
+                TagCompound npc = (TagCompound)compound[$"SpiritSavedNPC{npcTest++}"];
+
+                NPC.NewNPC((int)npc["x"], (int)npc["y"], (int)npc["type"]);
+            }
+        }
+
+        private void SaveSpecialNPCs(TagCompound compound)
+        {
+            int current = 0;
+            for (int i = 0; i < 200; i++)
+            {
+                NPC npc = Main.npc[i];
+
+                if (npc.type == ModContent.NPCType<NPCs.PagodaGhostPassive>() || npc.type == ModContent.NPCType<NPCs.SamuraiPassive>())
+                {
+                    TagCompound tag = new TagCompound();
+                    tag["type"] = npc.type;
+                    tag["x"] = (int)npc.position.X;
+                    tag["y"] = (int)npc.position.Y;
+                    compound.Add($"SpiritSavedNPC{current++}", tag);
+                }
+            }
+        }
+        #region Asteroid
+        public static ushort OreRoller(ushort glowstone, ushort none)
 		{
 			ushort iron = MyWorld.GetNonOre(WorldGen.IronTierOre);
 			ushort silver = MyWorld.GetNonOre(WorldGen.SilverTierOre);
@@ -1595,18 +1639,20 @@ namespace SpiritMod
 				}
 				for(int i = 0; i < Main.rand.Next(8, 10); i++) {
 					int num = NPC.NewNPC((pagodaX + Main.rand.Next(0, 100)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, ModContent.NPCType<PagodaGhostPassive>(), 0, 0f, 0f, 0f, 0f, 255);
-					Main.npc[num].homeTileX = -1;
-					Main.npc[num].homeTileY = -1;
-					Main.npc[num].direction = 1;
-					Main.npc[num].homeless = true;
-				}
+                    Main.npc[num].homeTileX = -1;
+                    Main.npc[num].homeTileY = -1;
+                    Main.npc[num].direction = 1;
+                    Main.npc[num].homeless = true;
+                    Main.npc[num].townNPC = true;
+                }
 				for(int i = 0; i < 3; i++) {
 					int num = NPC.NewNPC((pagodaX + Main.rand.Next(0, 100)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, ModContent.NPCType<SamuraiPassive>(), 0, 0f, 0f, 0f, 0f, 255);
-					Main.npc[num].homeTileX = -1;
-					Main.npc[num].homeTileY = -1;
-					Main.npc[num].direction = 1;
-					Main.npc[num].homeless = true;
-				}
+                    Main.npc[num].homeTileX = -1;
+                    Main.npc[num].homeTileY = -1;
+                    Main.npc[num].direction = 1;
+                    Main.npc[num].homeless = true;
+                    Main.npc[num].townNPC = true;
+                }
 				placed = true;
 			}
 		}

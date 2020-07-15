@@ -7,6 +7,8 @@
 		Dodge,
 		Dash,
 		PlayerGlyph,
-		AuroraData
-	}
+		AuroraData,
+        AdventurerQuestCompleted,
+        AdventurerNewQuest
+    }
 }

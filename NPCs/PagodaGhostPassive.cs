@@ -11,18 +11,18 @@ namespace SpiritMod.NPCs
 		
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Yurei");
+			DisplayName.SetDefault("Yuurei");
 			Main.npcFrameCount[npc.type] = 4;
-			NPCID.Sets.TownCritter[npc.type] = true;
-			NPCID.Sets.TrailCacheLength[npc.type] = 3;
+            NPCID.Sets.TownCritter[npc.type] = true;
+            NPCID.Sets.TrailCacheLength[npc.type] = 3;
 			NPCID.Sets.TrailingMode[npc.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
 			npc.friendly = false;
-			npc.townNPC = true;
-			npc.width = 32;
+            npc.townNPC = false;
+            npc.width = 32;
 			npc.height = 48;
 			npc.aiStyle = 0;
 			npc.damage = 12;
@@ -60,12 +60,6 @@ namespace SpiritMod.NPCs
 			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
 			if(distance <= 540 || npc.life < npc.lifeMax) {
 				npc.Transform(ModContent.NPCType<PagodaGhostHostile>());
-			}
-			if(Main.netMode != NetmodeID.MultiplayerClient) {
-				npc.homeless = false;
-				npc.homeTileX = -1;
-				npc.homeTileY = -1;
-				npc.netUpdate = true;
 			}
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

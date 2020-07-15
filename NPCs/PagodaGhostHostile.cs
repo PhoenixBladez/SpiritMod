@@ -11,7 +11,7 @@ namespace SpiritMod.NPCs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Disturbed Yurei");
+			DisplayName.SetDefault("Disturbed Yuurei");
 			Main.npcFrameCount[npc.type] = 4;
 			NPCID.Sets.TrailCacheLength[npc.type] = 3;
 			NPCID.Sets.TrailingMode[npc.type] = 0;
@@ -100,6 +100,7 @@ namespace SpiritMod.NPCs
 			}
 			if(!player.active || player.dead) //despawns when player is ded
 			{
+                npc.velocity = Vector2.Zero;
 				npc.Transform(ModContent.NPCType<PagodaGhostPassive>());
 			}
 			npc.spriteDirection = npc.direction;

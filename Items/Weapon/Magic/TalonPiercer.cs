@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<BoneFeatherFriendly>();
-			item.shootSpeed = 14f;
+			item.shootSpeed = 17f;
 		}
 
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

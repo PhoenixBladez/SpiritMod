@@ -116,7 +116,11 @@ namespace SpiritMod
 						break;
 					Main.player[player].GetModPlayer<MyPlayer>().glyph = glyph;
 					break;
-				default:
+                case MessageType.AdventurerNewQuest:
+                case MessageType.AdventurerQuestCompleted:
+                    AdventurerQuests.HandlePacket(id, reader);
+                    break;
+                default:
 					Logger.Error("Unknown message (" + id + ")");
 					break;
 			}

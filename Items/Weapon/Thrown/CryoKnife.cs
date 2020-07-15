@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 			item.damage = 16;
 			item.autoReuse = true;
 			item.knockBack = 1f;
-			item.value = Item.buyPrice(0, 0, 0, 35);
+			item.value = Item.buyPrice(0, 0, 1, 0);
 			item.rare = ItemRarityID.LightRed;
 		}
 		public override void AddRecipes()

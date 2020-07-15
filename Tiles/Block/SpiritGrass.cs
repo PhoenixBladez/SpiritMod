@@ -71,9 +71,10 @@ namespace SpiritMod.Tiles.Block
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Tile tile = Framing.GetTileSafely(i, j);
+			Tile tile2 = Framing.GetTileSafely(i, j-1);
             if (tile.slope() == 0 && !tile.halfBrick())
             {
-                if (!Framing.GetTileSafely(i, j - 1).active())
+                if (!Main.tileSolid[tile2.type])
                 {
                     Color colour = Color.White * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTime * 1.3f) + 1f) * 0.5f));
 
@@ -92,7 +93,8 @@ namespace SpiritMod.Tiles.Block
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            if (!Framing.GetTileSafely(i, j - 1).active())
+            Tile tile2 = Framing.GetTileSafely(i, j - 1);
+            if (!Main.tileSolid[tile2.type])
             {
                 r = 0.3f;
                 g = 0.45f;

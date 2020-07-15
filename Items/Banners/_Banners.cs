@@ -83,6 +83,10 @@ namespace SpiritMod.Items.Banners
     }
     public class YureiBanner : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Yuurei Banner");
+        }
         public override void SetDefaults()
         {
             item.width = 10;

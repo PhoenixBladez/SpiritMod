@@ -56,7 +56,11 @@ namespace SpiritMod.NPCs.Dungeon
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Skull);
 			}
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.LivingFireBlock, Main.rand.Next(10, 25));
-		}
+            if (Main.rand.Next(6) == 1)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Placeable.Furniture.SkullPile>());
+            }
+        }
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			npc.scale -= .02f;

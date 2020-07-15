@@ -127,7 +127,8 @@ namespace SpiritMod.NPCs.Town
 			AddItem(ref shop, ref nextSlot, ItemType<AssassinMagazine>());
 			AddItem(ref shop, ref nextSlot, ItemType<Items.Weapon.Thrown.TargetCan>());
 			AddItem(ref shop, ref nextSlot, ItemType<Items.Weapon.Thrown.TargetBottle>());
-		}
+            AddItem(ref shop, ref nextSlot, ItemType<Items.Placeable.Furniture.TreasureChest>());
+        }
 
 		public override void TownNPCAttackStrength(ref int damage, ref float knockback)
 		{

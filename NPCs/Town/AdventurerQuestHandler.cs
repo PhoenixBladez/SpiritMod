@@ -22,6 +22,7 @@ using SpiritMod.Items.Weapon.Thrown;
 using SpiritMod.Tiles.Furniture.Critters;
 using SpiritMod.Tiles.Furniture.SpaceJunk;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -138,7 +139,8 @@ namespace SpiritMod.NPCs.Town
 				 true,
 				 () => {
 					 MyWorld.spawnHornetFish = false;
-					 Main.LocalPlayer.QuickSpawnItem(ItemID.Vine, 2);
+                     Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<LeafPaddyHat>());
+                     Main.LocalPlayer.QuickSpawnItem(ItemID.Vine, 2);
 					 if(Main.rand.Next(3) == 0) {
 						 Main.LocalPlayer.QuickSpawnItem(ItemID.TigerSkin);
 					 }
@@ -151,12 +153,6 @@ namespace SpiritMod.NPCs.Town
 			hornetFishQuest.OnQuestStart = () => {
 				MyWorld.spawnHornetFish = true;
 			};
-            hornetFishQuest.TrySkipQuest = () =>
-            {
-                MyWorld.spawnHornetFish = false;
-                //do multiplayer packet here to set it to false on all clients
-                return true;
-            };
             Quest mushroomQuest = RegisterQuest(ModContent.ItemType<VibeshroomItem>(),
 
 				"I've been hearin' stories about some new flora that's cropped up around those strange Mushroom Forests recently." +
@@ -166,6 +162,7 @@ namespace SpiritMod.NPCs.Town
 				" It's a cutie for sure. I've put this critter into a little jar. I'm sure it could spice up my home." +
 				" We all could use a little more cute from time to time. If you find any more, don't hurt the little things!", true,
 				() => {
+                    MyWorld.vibeShroomComplete = true;
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<VibeshroomJarItem>(), 1);
 					if(Main.rand.Next(3) == 0) {
 						Main.LocalPlayer.QuickSpawnItem(868);
@@ -178,12 +175,6 @@ namespace SpiritMod.NPCs.Town
 			mushroomQuest.OnQuestStart = () => {
 				MyWorld.spawnVibeshrooms = true;
 			};
-            mushroomQuest.TrySkipQuest = () =>
-            {
-                MyWorld.spawnVibeshrooms = false;
-                //do multiplayer packet here to set it to false on all clients
-                return true;
-            };
             #endregion
             #region ExplorerQuests
             Quest explorerQuestMushroom = RegisterQuest(ModContent.ItemType<ExplorerScrollMushroomFull>(),
@@ -229,7 +220,8 @@ namespace SpiritMod.NPCs.Town
 
 				() => {
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<PinRed>());
-					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MapScroll>(), Main.rand.Next(1, 3));
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<OldTelescope>());
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MapScroll>(), Main.rand.Next(1, 3));
                     Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
                     Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<JumpPadItem>(), Main.rand.Next(1, 2));
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ScrapItem>(), Main.rand.Next(50, 70));
@@ -387,7 +379,7 @@ namespace SpiritMod.NPCs.Town
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SnowRangerLegs>());
                     Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
                     Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<IceBerries>(), Main.rand.Next(2, 6));
-
+                    MyWorld.winterbornComplete = true;
                     Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
 				});
 			slayerQuestWinterborn.OnQuestStart = () => {
@@ -495,6 +487,7 @@ namespace SpiritMod.NPCs.Town
 					 ModContent.ItemType<TargetCan>(),
 					 ModContent.ItemType<TargetBottle>(),
 					 };
+                    MyWorld.drBonesComplete = true;
 					int loot3 = Main.rand.Next(lootTable1.Length);
 					Main.LocalPlayer.QuickSpawnItem(lootTable1[loot3], Main.rand.Next(18, 30));
                     Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
@@ -693,8 +686,6 @@ namespace SpiritMod.NPCs.Town
 			tag.Add("spiritAdventurerCurrentQuest", _currentQuest);
 			tag.Add("spiritAdventurerTotal", _questsCompleted);
 
-			_questsCompleted = 0;
-			_currentQuest = -1;
 		}
 
 		private string GetItemName(int id)
@@ -740,8 +731,13 @@ namespace SpiritMod.NPCs.Town
 
 						current.OnComplete?.Invoke();
 						_questsCompleted++;
-
-						return false;
+                        if (Main.netMode != 0)
+                        {
+                            ModPacket packet = _mod.GetPacket();
+                            packet.Write((byte)MessageType.AdventurerQuestCompleted);
+                            packet.Send();
+                        }
+                        return false;
 					}
 				}
 			}
@@ -761,9 +757,30 @@ namespace SpiritMod.NPCs.Town
                 return;
             }
             _currentQuest = Main.rand.Next(availableIndexes);
+            if (Main.netMode != 0)
+            {
+                ModPacket packet = _mod.GetPacket();
+                packet.Write((byte)MessageType.AdventurerNewQuest);
+                packet.Write(_currentQuest);
+                packet.Send();
+            }
             _quests[_currentQuest].OnQuestStart?.Invoke();
         }
-
+        public void HandlePacket(MessageType type, BinaryReader reader)
+        {
+            switch (type)
+            {
+                case MessageType.AdventurerNewQuest:
+                    _currentQuest = reader.ReadInt32();
+                    break;
+                case MessageType.AdventurerQuestCompleted:
+                    _completed[_currentQuest] = true;
+                    _previousQuest = _currentQuest;
+                    _currentQuest = -1;
+                    _questsCompleted++;
+                    break;
+            }
+        }
         public string GetChatText()
 		{
 			if(_previousQuest != -1) {

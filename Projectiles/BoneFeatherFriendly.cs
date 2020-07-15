@@ -51,7 +51,7 @@ namespace SpiritMod.Projectiles
 		}
 		public override void AI()
 		{
-			if(projectile.timeLeft >= 880) {
+			if(projectile.timeLeft >= 890) {
 				projectile.tileCollide = false;
 			} else {
 				projectile.tileCollide = true;

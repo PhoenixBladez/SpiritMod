@@ -70,8 +70,11 @@ namespace SpiritMod.NPCs.Town
 			string[] names = { "Morgan", "Adam", "Aziz", "Temir", "Evan", "Senzen", "Johanovic", "Adrian" };
 			return Main.rand.Next(names);
 		}
-
-		public override string GetChat()
+        public override void NPCLoot()
+        {
+            npc.DropItem(ModContent.ItemType<AdventurerMap>());
+        }
+        public override string GetChat()
 		{
 			List<string> dialogue = new List<string>
 			{
@@ -125,7 +128,7 @@ namespace SpiritMod.NPCs.Town
 
             AddItem(ref shop, ref nextSlot, ItemID.TrapsightPotion, 2000);
             AddItem(ref shop, ref nextSlot, ItemID.DartTrap, 5000);
-            AddItem(ref shop, ref nextSlot, ItemType<AdventurerMap>(), 50000);
+            AddItem(ref shop, ref nextSlot, ItemID.TreasureMap, 50000);
             AddItem(ref shop, ref nextSlot, ItemID.PinkJellyfish, 25000, NPC.FindFirstNPC(NPCID.Angler) >= 0);
             AddItem(ref shop, ref nextSlot, ItemType<GoldSword>());
             AddItem(ref shop, ref nextSlot, ItemType<PlatinumSword>());
@@ -146,13 +149,22 @@ namespace SpiritMod.NPCs.Town
                 AddItem(ref shop, ref nextSlot, ItemType<SepulchreBannerItem>());
                 AddItem(ref shop, ref nextSlot, ItemType<SepulchreChest>());
             }
-            if (MyWorld.shadowflameComplete)
-            {
-                AddItem(ref shop, ref nextSlot, ItemType<PottedWillow>());
-            }
 			if (MyWorld.jadeStaffComplete)
             {
                 AddItem(ref shop, ref nextSlot, ItemType<PottedSakura>());
+                AddItem(ref shop, ref nextSlot, ItemType<PottedWillow>());
+            }
+			if (MyWorld.vibeShroomComplete)
+            {
+                AddItem(ref shop, ref nextSlot, ItemType<Tiles.Furniture.Critters.VibeshroomJarItem>());
+            }
+			if (MyWorld.drBonesComplete)
+            {
+                AddItem(ref shop, ref nextSlot, ItemType<Items.Consumable.SeedBag>());
+            }
+			if (MyWorld.winterbornComplete)
+            {
+                AddItem(ref shop, ref nextSlot, ItemType<Items.Weapon.Thrown.CryoKnife>());
             }
         }
 

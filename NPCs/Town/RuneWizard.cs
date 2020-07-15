@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using static SpiritMod.NPCUtils;
 using static Terraria.ModLoader.ModContent;
 
 namespace SpiritMod.NPCs.Town
@@ -144,7 +145,8 @@ namespace SpiritMod.NPCs.Town
 				item = shop.item[nextSlot++];
 				CustomWare(item, ItemType<PhaseGlyph>(), 4);
 			}
-		}
+            AddItem(ref shop, ref nextSlot, ItemType<Items.Placeable.Furniture.OccultistMap>(), 10000, !Main.dayTime);
+        }
 
 		private static void CustomWare(Item item, int type, int price = 1)
 		{

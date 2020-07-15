@@ -20,7 +20,7 @@ namespace SpiritMod.NPCs
 		public override void SetDefaults()
 		{
 			npc.friendly = false;
-			npc.townNPC = true;
+			npc.townNPC = false;
 			npc.width = 76;
 			npc.height = 76;
 			npc.aiStyle = 0;

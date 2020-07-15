@@ -209,8 +209,9 @@ namespace SpiritMod.NPCs
 				charging = false;
 			}
 			if(!player.active || player.dead) //despawns when player is ded
-			{
-				npc.Transform(ModContent.NPCType<PagodaGhostPassive>());
+            {
+                npc.velocity = Vector2.Zero;
+                npc.Transform(ModContent.NPCType<SamuraiPassive>());
 			}
 			npc.spriteDirection = npc.direction;
 		}
