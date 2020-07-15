@@ -64,7 +64,8 @@ namespace SpiritMod
 		public static float spiritLight = 0;
 
 		public static bool BlueMoon = false;
-
+		public static int pagodaX = 0;
+		public static int pagodaY = 0;
 		public static int SpiritTiles = 0;
 		public static int AsteroidTiles = 0;
 		public static int MarbleTiles = 0;
@@ -1616,14 +1617,14 @@ namespace SpiritMod
 		public void GeneratePagoda()
 		{
 			bool placed = false;
-			int pagodaX = 0;
+			pagodaX = 0;
 			while(!placed) {
 				if(asteroidSide == 0) {
 					pagodaX = Main.maxTilesX - Main.rand.Next(200, 350);
 				} else {
 					pagodaX = Main.rand.Next(200, 350);
 				}
-				int pagodaY = (int)(Main.worldSurface / 5.0);
+				pagodaY = (int)(Main.worldSurface / 5.0);
 				List<Point> location = new List<Point>(); //these are for ease of use if we ever want to add containers to these existing structures
 				Point[] containers = location.ToArray();
 				StructureLoader.GetStructure("Pagoda").PlaceForce(pagodaX, pagodaY, out containers);
@@ -1637,22 +1638,6 @@ namespace SpiritMod
 					}
 					WorldGen.PlaceChest(chestLocation.X, chestLocation.Y + 1, 21, true, 28);
 				}
-				for(int i = 0; i < Main.rand.Next(8, 10); i++) {
-					int num = NPC.NewNPC((pagodaX + Main.rand.Next(0, 100)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, ModContent.NPCType<PagodaGhostPassive>(), 0, 0f, 0f, 0f, 0f, 255);
-                    Main.npc[num].homeTileX = -1;
-                    Main.npc[num].homeTileY = -1;
-                    Main.npc[num].direction = 1;
-                    Main.npc[num].homeless = true;
-                    Main.npc[num].townNPC = true;
-                }
-				for(int i = 0; i < 3; i++) {
-					int num = NPC.NewNPC((pagodaX + Main.rand.Next(0, 100)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, ModContent.NPCType<SamuraiPassive>(), 0, 0f, 0f, 0f, 0f, 255);
-                    Main.npc[num].homeTileX = -1;
-                    Main.npc[num].homeTileY = -1;
-                    Main.npc[num].direction = 1;
-                    Main.npc[num].homeless = true;
-                    Main.npc[num].townNPC = true;
-                }
 				placed = true;
 			}
 		}
@@ -2936,6 +2921,24 @@ namespace SpiritMod
 			int[] other2 = new int[] { ItemID.Bottle, ItemID.Torch };
 			int[] moddedMaterials = new int[] { ItemType<BismiteCrystal>(), ItemType<OldLeather>() };
 			int stack;
+
+			for(int i = 0; i < Main.rand.Next(8, 10); i++) {
+					int num = NPC.NewNPC((pagodaX + Main.rand.Next(0, 100)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, ModContent.NPCType<PagodaGhostPassive>(), 0, 0f, 0f, 0f, 0f, 255);
+                    Main.npc[num].homeTileX = -1;
+                    Main.npc[num].homeTileY = -1;
+                    Main.npc[num].direction = 1;
+                    Main.npc[num].homeless = true;
+                    Main.npc[num].townNPC = true;
+                }
+				for(int i = 0; i < 3; i++) {
+					int num = NPC.NewNPC((pagodaX + Main.rand.Next(0, 100)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, ModContent.NPCType<SamuraiPassive>(), 0, 0f, 0f, 0f, 0f, 255);
+                    Main.npc[num].homeTileX = -1;
+                    Main.npc[num].homeTileY = -1;
+                    Main.npc[num].direction = 1;
+                    Main.npc[num].homeless = true;
+                    Main.npc[num].townNPC = true;
+                }
+				
 			//int itemsToPlaceInPagodaChestsChoice = 0;
 			for(int chestIndex = 0; chestIndex < 1000; chestIndex++) {
 				Chest chest = Main.chest[chestIndex];
