@@ -162,21 +162,6 @@ namespace SpiritMod.NPCs.WhirlingWorlds
 			}
 			npc.frame.Y = frameHeight * frame;
 		}
-		/*public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
-		{
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (npc.spriteDirection == 1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
-			Vector2 vector2_3 = new Vector2((float) (Main.npcTexture[npc.type].Width / 2), (float) (Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
-			Microsoft.Xna.Framework.Color color12 = Lighting.GetColor((int) ((double) npc.position.X + (double) npc.width * 0.5) / 16, (int) (((double) npc.position.Y + (double) npc.height * 0.5) / 16.0));
-			Texture2D texture2D = mod.GetTexture("NPCs/WhirlingWorlds/CavernLantern");		
-			Texture2D texture2DD = mod.GetTexture("Effects/Ripple");		
-			int num21 = (int) ((double) ((float) ((double) timer / 100.0 * 6.28318548202515)).ToRotationVector2().Y * 6.0);
-			(float) (int) ((double) npc.Center.Y + 360 - (double) Main.screenPosition.Y + (double) npc.height - (double) Main.npcTexture[npc.type].Height + 4.0)) + vector2_3 + new Vector2((float) (Main.npcTexture[npc.type].Width / 2), (float) (Main.npcTexture[npc.type].Height / 2)) + new Vector2((float) 0f, (float) (num21));
-			Main.spriteBatch.Draw(texture2DD, position, new Microsoft.Xna.Framework.Rectangle?(), Color.Yellow, npc.rotation, texture2DD.Size() / 2f, 1f, spriteEffects, 0);
-			Main.spriteBatch.Draw(texture2D, position, new Microsoft.Xna.Framework.Rectangle?(), color12, npc.rotation, texture2D.Size() / 2f, 1f, spriteEffects, 0);
-			return true;
-		}*/
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			SpriteEffects spriteEffects = SpriteEffects.None;
