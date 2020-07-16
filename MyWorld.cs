@@ -45,6 +45,8 @@ namespace SpiritMod
 {
 	public class MyWorld : ModWorld
 	{
+		List<Point> yureis = new List<Point>();
+		List<Point> samurais = new List<Point>();
 		private static bool dayTimeLast;
 		public static bool dayTimeSwitched;
 
@@ -1638,6 +1640,12 @@ namespace SpiritMod
 					}
 					WorldGen.PlaceChest(chestLocation.X, chestLocation.Y + 1, 21, true, 28);
 				}
+				for(int i = 0; i < Main.rand.Next(8, 10); i++) {
+					yureis.Add(new Point((pagodaX + Main.rand.Next(0, 100)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16));
+                }
+				for(int i = 0; i < 3; i++) {
+					samurais.Add(new Point((pagodaX + Main.rand.Next(0, 100)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16));
+                }
 				placed = true;
 			}
 		}
@@ -2921,24 +2929,25 @@ namespace SpiritMod
 			int[] other2 = new int[] { ItemID.Bottle, ItemID.Torch };
 			int[] moddedMaterials = new int[] { ItemType<BismiteCrystal>(), ItemType<OldLeather>() };
 			int stack;
-
-			for(int i = 0; i < Main.rand.Next(8, 10); i++) {
-					int num = NPC.NewNPC((pagodaX + Main.rand.Next(0, 100)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, ModContent.NPCType<PagodaGhostPassive>(), 0, 0f, 0f, 0f, 0f, 255);
-                    Main.npc[num].homeTileX = -1;
-                    Main.npc[num].homeTileY = -1;
-                    Main.npc[num].direction = 1;
-                    Main.npc[num].homeless = true;
-                    Main.npc[num].townNPC = true;
-                }
-				for(int i = 0; i < 3; i++) {
-					int num = NPC.NewNPC((pagodaX + Main.rand.Next(0, 100)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, ModContent.NPCType<SamuraiPassive>(), 0, 0f, 0f, 0f, 0f, 255);
-                    Main.npc[num].homeTileX = -1;
-                    Main.npc[num].homeTileY = -1;
-                    Main.npc[num].direction = 1;
-                    Main.npc[num].homeless = true;
-                    Main.npc[num].townNPC = true;
-                }
 				
+			foreach (Point spawn in yureis)
+			{
+				int num = NPC.NewNPC(spawn.X, spawn.Y, ModContent.NPCType<PagodaGhostPassive>(), 0, 0f, 0f, 0f, 0f, 255);
+				Main.npc[num].homeTileX = -1;
+                    Main.npc[num].homeTileY = -1;
+                    Main.npc[num].direction = 1;
+                    Main.npc[num].homeless = true;
+                    Main.npc[num].townNPC = true;
+			}
+			foreach (Point spawn in samurais)
+			{
+				int num = NPC.NewNPC(spawn.X, spawn.Y, ModContent.NPCType<SamuraiPassive>(), 0, 0f, 0f, 0f, 0f, 255);
+                    Main.npc[num].homeTileX = -1;
+                    Main.npc[num].homeTileY = -1;
+                    Main.npc[num].direction = 1;
+                    Main.npc[num].homeless = true;
+                    Main.npc[num].townNPC = true;
+			}
 			//int itemsToPlaceInPagodaChestsChoice = 0;
 			for(int chestIndex = 0; chestIndex < 1000; chestIndex++) {
 				Chest chest = Main.chest[chestIndex];
