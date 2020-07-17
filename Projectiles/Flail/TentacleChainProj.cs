@@ -41,7 +41,7 @@ namespace SpiritMod.Projectiles.Flail
 				if (projectile.velocity.Length() < 0.5f)
 				{
 					direction9.Normalize();
-					projectile.velocity = direction9 * 1;
+					projectile.velocity = direction9 * 2;
 				}
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 				projectile.tileCollide = false;
