@@ -14,8 +14,8 @@ namespace SpiritMod.NPCs.Tides
 {
 	public class LargeCrustecean : ModNPC
 	{
-		internal ref float blockTimer => ref npc.ai[0];
-		internal ref float blocking => ref npc.ai[1];
+		internal ref float blockTimer => ref npc.ai[2];
+		internal ref float blocking => ref npc.ai[3];
 
 		public override void SetStaticDefaults()
 		{
