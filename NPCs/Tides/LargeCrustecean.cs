@@ -38,7 +38,7 @@ namespace SpiritMod.NPCs.Tides
 			npc.HitSound = SoundID.NPCHit18;
 			npc.DeathSound = SoundID.NPCDeath5;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.BubbleBruteBanner>();
+            bannerItem = ItemType<Items.Banners.BubbleBruteBanner>();
         }
 
 		public override void AI()
