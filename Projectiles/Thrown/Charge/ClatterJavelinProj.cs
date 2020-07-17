@@ -56,7 +56,7 @@ namespace SpiritMod.Projectiles.Thrown.Charge
 				}
 
 				trailcounter++;
-				if(trailcounter % 5 == 0)
+				if(trailcounter % 5 == 0 && projectile.owner == Main.myPlayer)
 					Projectile.NewProjectile(projectile.Center + (direction * 6), direction, ProjectileType<ClatterJavelinProj1>(), 0, 0, projectile.owner); //predictor trail
 			}
 			else if (projectile.owner == Main.myPlayer){

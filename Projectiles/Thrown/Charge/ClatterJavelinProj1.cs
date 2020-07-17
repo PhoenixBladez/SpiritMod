@@ -24,6 +24,7 @@ namespace SpiritMod.Projectiles.Thrown.Charge
 
 		public override bool PreAI()
 		{
+			if (projectile.owner != Main.myPlayer) return true;
 			Dust d = Dust.NewDustPerfect(projectile.Center - projectile.velocity / 5, 6, Vector2.Zero, 0, default, 1.3f);
 			d.noGravity = true;
 			d.noLight = true;
