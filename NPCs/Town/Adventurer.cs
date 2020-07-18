@@ -67,7 +67,7 @@ namespace SpiritMod.NPCs.Town
 
 		public override string TownNPCName()
 		{
-			string[] names = { "Morgan", "Adam", "Aziz", "Temir", "Evan", "Senzen", "Johanovic", "Adrian" };
+			string[] names = { "Morgan", "Adam", "Aziz", "Temir", "Evan", "Senzen", "Johanovic", "Adrian", "Christopher" };
 			return Main.rand.Next(names);
 		}
         public override void NPCLoot()
@@ -76,17 +76,23 @@ namespace SpiritMod.NPCs.Town
         }
         public override string GetChat()
 		{
-			List<string> dialogue = new List<string>
-			{
-				"I've been all around this world, and I've got so many things for you to see.",
-				"Lovely house you've got here. It's much better lodging than when those savages from The Briar hung me over a spit.",
-				"Every dawn brings with it a new opportunity for a journey! You interested?",
-				"We're pretty similar, you and I. I sense our shared thirst for adventure.",
-				"Buy my stuff and go out there! See what the world has to offer, like I have.",
-				"From the depths of temples and the heights of space, peruse my wares.",
-			};
+            List<string> dialogue = new List<string>
+            {
+                "I've been all around this world, and I've got so many things for you to see.",
+                "Lovely house you've got here. It's much better lodging than when those savages from The Briar hung me over a spit.",
+                "Every dawn brings with it a new opportunity for a journey! You interested?",
+                "We're pretty similar, you and I. I sense our shared thirst for adventure.",
+                "Buy my stuff and go out there! See what the world has to offer, like I have.",
+                "From the depths of temples and the heights of space, peruse my wares.",
+            };
 
-			int travellingMerchant = NPC.FindFirstNPC(NPCID.TravellingMerchant);
+            int merchant = NPC.FindFirstNPC(NPCID.Merchant);
+            if (merchant >= 0)
+            {
+                dialogue.Add($"I swear I've got more goods for sale than {Main.npc[merchant].GivenName}.");
+            }
+
+            int travellingMerchant = NPC.FindFirstNPC(NPCID.TravellingMerchant);
 			if(travellingMerchant >= 0) {
 				dialogue.Add($"Ah! It's {Main.npc[travellingMerchant].GivenName}! We've often met on our journeys. I still haven't found all those exotic jungles he speaks of.");
 			}
@@ -96,18 +102,13 @@ namespace SpiritMod.NPCs.Town
 				dialogue.Add($"Got some great prices today! {Main.npc[armsDealer].GivenName}'s wares can't compete! They literally can't. I don't sell guns anymore.");
 			}
 
-			int merchant = NPC.FindFirstNPC(NPCID.Merchant);
-			if(merchant >= 0) {
-				dialogue.Add($"I swear I've got more goods for sale than {Main.npc[merchant].GivenName}.");
-			}
-
-			dialogue.AddWithCondition("A shimmering blue light's on the horizon. Wonder what that's about, huh?", NPC.downedMechBossAny);
 			dialogue.AddWithCondition("Like the moon, my merchandise is inconstant.", !Main.dayTime);
 			dialogue.AddWithCondition("Everyone seems to be so aggressive tonight. With the zombies knocking at our door, I think you should buy stuff and head underground as quick as you can. Can you take me with you?", Main.bloodMoon);
 			dialogue.AddWithCondition("The goblins are more organized than you'd think- I saw their mages build a huge tower over yonder. You should check it out sometime!", MyWorld.gennedTower && !NPC.AnyNPCs(ModContent.NPCType<Rogue>()) && NPC.AnyNPCs(ModContent.NPCType<BoundRogue>()));
 			dialogue.AddWithCondition("My old business partner turned to the bandit life a few years ago. I wonder if he's doing okay. I think his associates have set up a bandit camp somewhere near the seas.", !MyWorld.gennedTower && !NPC.AnyNPCs(ModContent.NPCType<Rogue>()) && NPC.AnyNPCs(ModContent.NPCType<BoundRogue>()));
+            dialogue.AddWithCondition("A shimmering blue light's on the horizon. Wonder what that's about, huh?", NPC.downedMechBossAny);
 
-			return Main.rand.Next(dialogue);
+            return Main.rand.Next(dialogue);
 		}
 
         public override void SetupShop(Chest shop, ref int nextSlot)
@@ -128,15 +129,11 @@ namespace SpiritMod.NPCs.Town
 
             AddItem(ref shop, ref nextSlot, ItemID.TrapsightPotion, 2000);
             AddItem(ref shop, ref nextSlot, ItemID.DartTrap, 5000);
-            AddItem(ref shop, ref nextSlot, ItemID.TreasureMap, 50000);
-            AddItem(ref shop, ref nextSlot, ItemID.PinkJellyfish, 25000, NPC.FindFirstNPC(NPCID.Angler) >= 0);
             AddItem(ref shop, ref nextSlot, ItemType<GoldSword>());
             AddItem(ref shop, ref nextSlot, ItemType<PlatinumSword>());
             AddItem(ref shop, ref nextSlot, ItemType<ManaFlame>());
             AddItem(ref shop, ref nextSlot, ItemID.WhoopieCushion, 15000, NPC.downedBoss2);
-            AddItem(ref shop, ref nextSlot, ItemID.BottledHoney, 5000, NPC.downedQueenBee);
             AddItem(ref shop, ref nextSlot, ItemID.Book, 20, NPC.downedBoss3);
-            AddItem(ref shop, ref nextSlot, ItemID.Skull, 100000, NPC.downedBoss3);
             AddItem(ref shop, ref nextSlot, ItemType<Items.Placeable.Furniture.SkullStick>(), 1000, Main.LocalPlayer.GetSpiritPlayer().ZoneReach);
             AddItem(ref shop, ref nextSlot, ItemType<AncientBark>(), 200, Main.LocalPlayer.GetSpiritPlayer().ZoneReach);
             AddItem(ref shop, ref nextSlot, ItemType<PolymorphGun>(), check: NPC.downedMechBossAny);

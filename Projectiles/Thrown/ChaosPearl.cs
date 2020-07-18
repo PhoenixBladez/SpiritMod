@@ -52,7 +52,7 @@ namespace SpiritMod.Projectiles.Thrown
 					//    player.KillMe(9999, 1, true, "'s head appeared where their legs should be.");
 				}
 			}
-			Main.player[projectile.owner].AddBuff(88, 180);
+			Main.player[projectile.owner].AddBuff(88, 240);
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -17,14 +17,14 @@ namespace SpiritMod.Items.Consumable
 		{
 			item.width = 16;
 			item.height = 16;
-			item.value = Item.sellPrice(0, 0, 3, 0);
+			item.value = Item.sellPrice(0, 0, 4, 0);
 			item.rare = ItemRarityID.Orange;
 			item.maxStack = 999;
 			//item.crit = 4;
 			item.damage = 0;
 			// item.knockBack = 3;
 			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = item.useAnimation = 18;
+			item.useTime = item.useAnimation = 40;
 			//  item.thrown = true;
 			item.noMelee = true;
 			item.autoReuse = false;

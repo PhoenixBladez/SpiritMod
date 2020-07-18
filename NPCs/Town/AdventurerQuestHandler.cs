@@ -167,7 +167,8 @@ namespace SpiritMod.NPCs.Town
 					if(Main.rand.Next(3) == 0) {
 						Main.LocalPlayer.QuickSpawnItem(868);
 					}
-					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<GlowRoot>(), Main.rand.Next(1, 4));
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<GlowRoot>(), Main.rand.Next(3, 6));
+                    Main.LocalPlayer.QuickSpawnItem(ItemID.GlowingMushroom, Main.rand.Next(8, 15));
 					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
                     Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
                 });
