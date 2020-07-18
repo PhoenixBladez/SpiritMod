@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Armor.LeatherArmor
 		}
 		public override void UpdateEquip(Player player)
 		{
-			player.GetSpiritPlayer().leatherHood = true;
+			player.rangedCrit += 4;
 		}
 
 		public override void AddRecipes()

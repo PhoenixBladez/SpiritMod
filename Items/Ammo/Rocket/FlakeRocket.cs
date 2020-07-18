@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Ammo
+namespace SpiritMod.Items.Ammo.Rocket
 {
 	class FlakeRocket : ModItem
 	{

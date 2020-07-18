@@ -11,14 +11,14 @@ namespace SpiritMod.Items.Armor.CryoliteArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cryolite Helmet");
-			Tooltip.SetDefault("13% increased melee speed");
+			Tooltip.SetDefault("12% increased melee speed");
 		}
 
 		public override void SetDefaults()
 		{
 			item.width = 38;
 			item.height = 26;
-			item.value = Item.buyPrice(gold: 1);
+			item.value = Terraria.Item.sellPrice(0, 0, 80, 0);
 			item.rare = ItemRarityID.Orange;
 			item.defense = 6;
 		}
@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Armor.CryoliteArmor
 
 		public override void UpdateEquip(Player player)
 		{
-			player.meleeSpeed += 0.13f;
+			player.meleeSpeed += 0.12f;
 		}
 		public override void AddRecipes()
 		{

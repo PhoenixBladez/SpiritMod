@@ -1,16 +1,16 @@
 
-using SpiritMod.Projectiles.Bullet;
+using SpiritMod.Projectiles.Arrow;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Ammo
+namespace SpiritMod.Items.Ammo.Arrow
 {
-	public class SepulchreBullet : ModItem
+	public class SepulchreArrow : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Accursed Round");
+			DisplayName.SetDefault("Accursed Arrow");
 			Tooltip.SetDefault("Pierces up to two enemies");
 		}
 
@@ -21,18 +21,18 @@ namespace SpiritMod.Items.Ammo
 			item.height = 16;
 			item.value = 80;
 			item.rare = ItemRarityID.Blue;
-			item.value = Item.buyPrice(0, 0, 0, 4);
+			item.value = Item.buyPrice(0, 0, 0, 30);
 			item.maxStack = 999;
 
-			item.damage = 8;
-			item.knockBack = 1f;
-			item.ammo = AmmoID.Bullet;
+			item.damage = 9;
+			item.knockBack = 2f;
+			item.ammo = AmmoID.Arrow;
 
 			item.ranged = true;
 			item.consumable = true;
 
-			item.shoot = ModContent.ProjectileType<AccursedBullet>();
-			item.shootSpeed = 8f;
+			item.shoot = ModContent.ProjectileType<AccursedArrow>();
+			item.shootSpeed = 3.7f;
 
 		}
 	}

@@ -15,9 +15,8 @@ namespace SpiritMod.Items.Material
 		{
 			item.width = 30;
 			item.height = 24;
-			item.value = 100;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.rare = ItemRarityID.LightRed;
+            item.value = Terraria.Item.sellPrice(0, 0, 25, 0);
+            item.useStyle = ItemUseStyleID.SwingThrow;
 			item.consumable = true;
 			item.rare = ItemRarityID.Orange;
 			item.maxStack = 999;

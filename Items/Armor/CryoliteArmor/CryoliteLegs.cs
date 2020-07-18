@@ -11,21 +11,21 @@ namespace SpiritMod.Items.Armor.CryoliteArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cryolite Greaves");
-			Tooltip.SetDefault("9% increased melee speed");
+			Tooltip.SetDefault("8% increased melee speed");
 		}
 
 		public override void SetDefaults()
 		{
 			item.width = 38;
 			item.height = 26;
-			item.value = Item.buyPrice(gold: 1);
+			item.value = Terraria.Item.sellPrice(0, 0, 80, 0);
 			item.rare = ItemRarityID.Orange;
-			item.defense = 7;
+			item.defense = 6;
 		}
 
 		public override void UpdateEquip(Player player)
 		{
-			player.meleeSpeed += .09f;
+			player.meleeSpeed += .08f;
 		}
 		public override void AddRecipes()
 		{
