@@ -3,7 +3,7 @@ using SpiritMod.Projectiles.Flail;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace SpiritMod.Items.Weapon.Swung
+namespace SpiritMod.Items.Weapon.Flail
 {
 	public class ClatterMace : ModItem
 	{

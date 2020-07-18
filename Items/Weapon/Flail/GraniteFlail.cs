@@ -6,7 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Weapon.Swung
+namespace SpiritMod.Items.Weapon.Flail
 {
 	public class GraniteFlail : ModItem
 	{
@@ -14,7 +14,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		{
 			DisplayName.SetDefault("Unstable Colonnade");
 			Tooltip.SetDefault("Killing enemies with this weapon causes them to explode into damaging energy wisps");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Swung/GraniteFlail_Glow");
+			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Flail/GraniteFlail_Glow");
 		}
 
 
@@ -43,7 +43,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			texture = Main.itemTexture[item.type];
 			spriteBatch.Draw
 			(
-				mod.GetTexture("Items/Weapon/Swung/GraniteFlail_Glow"),
+				mod.GetTexture("Items/Weapon/Flail/GraniteFlail_Glow"),
 				new Vector2
 				(
 					item.position.X - Main.screenPosition.X + item.width * 0.5f,

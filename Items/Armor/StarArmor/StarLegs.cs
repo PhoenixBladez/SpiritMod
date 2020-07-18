@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Armor.StarArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Astralite Leggings");
-			Tooltip.SetDefault("5% increased ranged damage\nLeave a trail of stars where you walk");
+			Tooltip.SetDefault("4% increased ranged damage\nLeave a trail of stars where you walk");
 		}
 
 		public override void SetDefaults()
@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Armor.StarArmor
 		}
 		public override void UpdateEquip(Player player)
 		{
-			player.rangedDamage += .05f;
+			player.rangedDamage += .04f;
 			if(player.velocity.X != 0f) {
 				int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 0, 226);
 				Main.dust[dust].velocity *= 0f;
@@ -41,7 +41,7 @@ namespace SpiritMod.Items.Armor.StarArmor
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 11);
+			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 15);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
