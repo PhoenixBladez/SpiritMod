@@ -39,6 +39,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.World.Generation;
+using Terraria.Utilities;
+using Terraria.Localization;
 using static Terraria.ModLoader.ModContent;
 
 namespace SpiritMod
@@ -3504,10 +3506,18 @@ namespace SpiritMod
 
 				}
 			}
-			if(NPC.downedMechBoss3 == true || NPC.downedMechBoss2 == true || NPC.downedMechBoss1 == true) {
+			if(NPC.downedMechBoss3 || NPC.downedMechBoss2 || NPC.downedMechBoss1) {
 				if(!spiritBiome) {
 					spiritBiome = true;
-					Main.NewText("The Spirits spread through the Land...", Color.Orange.R, Color.Orange.G, Color.Orange.B);
+					if (Main.netMode == NetmodeID.Server) {
+						NetMessage.SendData(MessageID.WorldData); 
+					}
+					if (Main.netMode == NetmodeID.SinglePlayer) {
+						Main.NewText("The Spirits spread through the Land...", Color.Orange.R, Color.Orange.G, Color.Orange.B);
+					}
+					else if (Main.netMode == NetmodeID.Server) {
+						NetMessage.BroadcastChatMessage(NetworkText.FromLiteral("The Spirits spread through the Land..."), Color.Orange, -1);
+					}
 					Random rand = new Random();
 					int XTILE;
 					if(Terraria.Main.dungeonX > Main.maxTilesX / 2) //rightside dungeon
