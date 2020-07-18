@@ -3,6 +3,7 @@ using SpiritMod.Buffs;
 using SpiritMod.Buffs.Glyph;
 using SpiritMod.Dusts;
 using SpiritMod.Items.Accessory;
+using SpiritMod.Items.Ammo.Bullet;
 using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Items.Consumable;
 using SpiritMod.Items.DonatorItems;
@@ -631,7 +632,7 @@ namespace SpiritMod.NPCs
 					nextSlot++;
 				}
 			 } else if(type == NPCID.ArmsDealer) {
-					shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Ammo.RubberBullet>(), false);
+					shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Ammo.Bullet.RubberBullet>(), false);
 					nextSlot++;
 			} else if(type == NPCID.Dryad) {
 				if(NPC.downedMoonlord && Main.halloween) {

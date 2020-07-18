@@ -1,7 +1,8 @@
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Ammo;
+using SpiritMod.Items.Ammo.Arrow;
+using SpiritMod.Items.Ammo.Bullet;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

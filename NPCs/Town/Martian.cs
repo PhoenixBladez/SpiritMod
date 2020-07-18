@@ -1,4 +1,5 @@
-using SpiritMod.Items.Ammo;
+using SpiritMod.Items.Ammo.Arrow;
+using SpiritMod.Items.Ammo.Bullet;
 using SpiritMod.Items.Consumable;
 using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Items.Weapon.Thrown;
