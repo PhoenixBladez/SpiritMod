@@ -126,7 +126,6 @@ namespace SpiritMod
 			}
 		}
 
-
 		public override void UpdateMusic(ref int music, ref MusicPriority priority)
 		{
 			var config = ModContent.GetInstance<SpiritClientConfig>();
@@ -238,7 +237,6 @@ namespace SpiritMod
 			}
 		}
 
-
 		public override object Call(params object[] args)
 		{
 			if(args.Length < 1) {
@@ -309,6 +307,7 @@ namespace SpiritMod
 			}
 			throw new ArgumentException("Invalid boss name:" + name);
 		}
+
 		public override void ModifyLightingBrightness(ref float scale)
 		{
 			Player player = Main.LocalPlayer;
@@ -317,6 +316,7 @@ namespace SpiritMod
 				scale *= .89f;
 			}
 		}
+
 		private static void SetGlyph(object[] args)
 		{
 			if(args.Length < 2)
@@ -346,16 +346,19 @@ namespace SpiritMod
 			return (int)item.GetGlobalItem<Items.GItem>().Glyph;
 		}
 
-
 		public override void Load()
 		{
 			//Always keep this call in the first line of Load!
 			LoadReferences();
 			AdventurerQuests = new AdventurerQuestHandler(this);
 			StructureLoader.Load(this);
+
 			On.Terraria.Main.DrawProjectiles += Main_DrawProjectiles;
 			On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile;
 			On.Terraria.Player.KeyDoubleTap += Player_KeyDoubleTap;
+			//Additive drawing
+			On.Terraria.Main.DrawDust += DrawAdditive;
+
 			GlobalNoise = new PerlinNoise(Main.rand.Next());
 			instance = this;
 			if(Main.rand == null)
@@ -433,6 +436,21 @@ namespace SpiritMod
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Scarabeus"), ItemType("ScarabBox"), TileType("ScarabBox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/BlueMoon"), ItemType("BlueMoonBox"), TileType("BlueMoonBox"));*/
 			}
+		}
+
+		//Additive drawing stuff. Optimize this later?
+		private void DrawAdditive(On.Terraria.Main.orig_DrawDust orig, Main self)
+		{
+			orig(self);
+			Main.spriteBatch.Begin(default, BlendState.Additive, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
+
+			for (int k = 0; k < Main.maxProjectiles; k++) //projectiles
+				if (Main.projectile[k].active && Main.projectile[k].modProjectile is IDrawAdditive) (Main.projectile[k].modProjectile as IDrawAdditive).DrawAdditive(Main.spriteBatch);
+
+			for (int k = 0; k < Main.maxNPCs; k++) //NPCs
+				if (Main.npc[k].active && Main.npc[k].modNPC is IDrawAdditive) (Main.npc[k].modNPC as IDrawAdditive).DrawAdditive(Main.spriteBatch);
+
+			Main.spriteBatch.End();
 		}
 
 		/// <summary>

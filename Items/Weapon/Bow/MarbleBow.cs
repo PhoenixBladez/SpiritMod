@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Arrow;
 using Terraria;
@@ -15,8 +16,6 @@ namespace SpiritMod.Items.Weapon.Bow
 			Tooltip.SetDefault("Shoots heavy arrows that shatter upon hitting enemies or tiles");
 		}
 
-
-
 		public override void SetDefaults()
 		{
 			item.damage = 21;
@@ -30,18 +29,20 @@ namespace SpiritMod.Items.Weapon.Bow
 			item.shoot = ProjectileID.WoodenArrowFriendly;
 			item.useAmmo = AmmoID.Arrow;
 			item.knockBack = 1;
-			item.value = Terraria.Item.sellPrice(0, 0, 50, 0);
+			item.value = Item.sellPrice(0, 0, 50, 0);
 			item.rare = ItemRarityID.Green;
 			item.UseSound = SoundID.Item5;
 			item.autoReuse = true;
 			item.useTurn = false;
 			item.shootSpeed = 6.2f;
 		}
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			type = ModContent.ProjectileType<MarbleLongbowArrow>();
 			return true;
 		}
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
