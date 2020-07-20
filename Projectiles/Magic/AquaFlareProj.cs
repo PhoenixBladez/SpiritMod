@@ -35,6 +35,10 @@ namespace SpiritMod.Projectiles.Magic
 		bool noChannel;
 		public override void AI()
 		{
+			if (Main.myPlayer == projectile.owner) 
+			{
+				projectile.netUpdate = true;
+			}
 			Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0.15f) / 255f, ((255 - projectile.alpha) * 0.05f) / 255f);
 			if(Main.rand.Next(8) == 0) {
 				int d = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 6, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);

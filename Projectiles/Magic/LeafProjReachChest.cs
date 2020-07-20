@@ -33,6 +33,10 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void AI()
 		{
+			if (Main.myPlayer == projectile.owner) 
+			{
+				projectile.netUpdate = true;
+			}
 			projectile.frameCounter++;
 			if(projectile.frameCounter > 8) {
 				projectile.frame++;
