@@ -68,8 +68,8 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			charger++;
-			if(charger >= 5) {
-				for(int i = 0; i < 3; i++) {
+			if (charger >= 5) {
+				for (int i = 0; i < 3; i++) {
 					Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), mod.ProjectileType("Starshock2"), damage, knockBack, player.whoAmI, 0f, 0f);
 				}
 				charger = 0;

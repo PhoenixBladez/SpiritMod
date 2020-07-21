@@ -35,8 +35,8 @@ namespace SpiritMod.Projectiles
 			projectile.Center = new Vector2(player.Center.X + (player.direction > 0 ? 0 : 0), player.position.Y + 0);   // I dont know why I had to set it to -60 so that it would look right   (change to -40 to 40 so that it's on the floor)
 
 			Rectangle rect = new Rectangle((int)projectile.Center.X, (int)projectile.position.Y, 2000, 2000);
-			for(int index1 = 0; index1 < 200; index1++) {
-				if(rect.Contains(Main.npc[index1].Center.ToPoint()))
+			for (int index1 = 0; index1 < 200; index1++) {
+				if (rect.Contains(Main.npc[index1].Center.ToPoint()))
 					Main.npc[index1].AddBuff(mod.BuffType("DeathWreathe2"), 300);
 			}
 		}

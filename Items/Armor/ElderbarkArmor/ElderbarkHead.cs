@@ -33,13 +33,13 @@ namespace SpiritMod.Items.Armor.ElderbarkArmor
 			player.setBonus = $"Increases all item damage by 1";
 			player.GetSpiritPlayer().elderbarkWoodSet = true;
 		}
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AncientBark>(), 20);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
-    }
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<AncientBark>(), 20);
+			recipe.AddTile(TileID.WorkBenches);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
+	}
 }

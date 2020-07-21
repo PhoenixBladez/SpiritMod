@@ -56,15 +56,15 @@ namespace SpiritMod.Projectiles.Summon
 
 			//TARGET NEAREST NPC WITHIN RANGE
 			float lowestDist = float.MaxValue;
-			for(int i = 0; i < 200; ++i) {
+			for (int i = 0; i < 200; ++i) {
 				NPC npc = Main.npc[i];
 				//if npc is a valid target (active, not friendly, and not a critter)
-				if(npc.active && npc.CanBeChasedBy(projectile)) {
+				if (npc.active && npc.CanBeChasedBy(projectile)) {
 					//if npc is within 50 blocks
 					float dist = projectile.Distance(npc.Center);
-					if(dist / 16 < range) {
+					if (dist / 16 < range) {
 						//if npc is closer than closest found npc
-						if(dist < lowestDist) {
+						if (dist < lowestDist) {
 							lowestDist = dist;
 
 							//target this npc
@@ -81,23 +81,23 @@ namespace SpiritMod.Projectiles.Summon
 			float actualangle = ((float)Math.Atan(direction2.X / direction2.Y) * (float)(180.0 / Math.PI)) + 90f;
 			// string SlopeText = actualangle.ToString();
 			//Main.NewText(SlopeText, Color.Orange.R, Color.Orange.G, Color.Orange.B);
-			if(actualangle < 11.5f)
+			if (actualangle < 11.5f)
 				projectile.frame = 0;
-			else if(actualangle < 22.5f)
+			else if (actualangle < 22.5f)
 				projectile.frame = 1;
-			else if(actualangle < 67.5f)
+			else if (actualangle < 67.5f)
 				projectile.frame = 2;
-			else if(actualangle < 112.5f)
+			else if (actualangle < 112.5f)
 				projectile.frame = 3;
-			else if(actualangle < 157.5f)
+			else if (actualangle < 157.5f)
 				projectile.frame = 4;
-			else if(actualangle < 168.5f)
+			else if (actualangle < 168.5f)
 				projectile.frame = 5;
 			else
 				projectile.frame = 6;
 			#endregion
 
-			if(projectile.ai[0] % shootSpeed == 4 && target.active && projectile.Distance(target.Center) / 16 < range) {
+			if (projectile.ai[0] % shootSpeed == 4 && target.active && projectile.Distance(target.Center) / 16 < range) {
 				Vector2 ShootArea = new Vector2(projectile.Center.X, projectile.Center.Y - 25);
 				Vector2 direction = target.Center - ShootArea;
 				direction.Normalize();

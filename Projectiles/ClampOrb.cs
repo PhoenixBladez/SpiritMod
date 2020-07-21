@@ -36,8 +36,8 @@ namespace SpiritMod.Projectiles
 		public override void AI()
 		{
 			var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
-			foreach(var proj in list) {
-				if(projectile != proj && proj.hostile)
+			foreach (var proj in list) {
+				if (projectile != proj && proj.hostile)
 					proj.Kill();
 
 				Player player = Main.player[projectile.owner];
@@ -53,14 +53,14 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 5; i++) {
+			for (int i = 0; i < 5; i++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 108);
 			}
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(5) == 2)
+			if (Main.rand.Next(5) == 2)
 				target.AddBuff(ModContent.BuffType<Brine>(), 180);
 		}
 

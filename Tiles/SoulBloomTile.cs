@@ -58,7 +58,7 @@ namespace SpiritMod.Tiles
 
 		public override void SetSpriteEffects(int i, int j, ref SpriteEffects spriteEffects)
 		{
-			if(i % 2 == 1) {
+			if (i % 2 == 1) {
 				spriteEffects = SpriteEffects.FlipHorizontally;
 			}
 		}
@@ -66,10 +66,10 @@ namespace SpiritMod.Tiles
 		public override bool Drop(int i, int j)
 		{
 			int stage = Main.tile[i, j].frameX / 18;
-			if(stage == 1) {
+			if (stage == 1) {
 				Item.NewItem(i * 16, j * 16, 64, 32, ItemType<SoulBloom>());
 			}
-			if(stage == 2) {
+			if (stage == 2) {
 				Item.NewItem(i * 16, j * 16, 64, 32, ItemType<SoulBloom>());
 				Item.NewItem(i * 16, j * 16, 0, 0, ItemType<Items.Placeable.SoulSeeds>());
 			}
@@ -78,9 +78,10 @@ namespace SpiritMod.Tiles
 
 		public override void RandomUpdate(int i, int j)
 		{
-			if(Main.tile[i, j].frameX == 0) {
+			if (Main.tile[i, j].frameX == 0) {
 				Main.tile[i, j].frameX += 18;
-			} else if(Main.tile[i, j].frameX == 18) {
+			}
+			else if (Main.tile[i, j].frameX == 18) {
 				Main.tile[i, j].frameX += 18;
 			}
 		}

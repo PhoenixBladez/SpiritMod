@@ -32,16 +32,16 @@ namespace SpiritMod.Projectiles.Thrown
 		{
 			target.StrikeNPC(projectile.damage, 0f, 0, crit);
 
-			if(Main.rand.Next(2) == 0)
+			if (Main.rand.Next(2) == 0)
 				target.AddBuff(BuffID.OnFire, 300, true);
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			if(Main.rand.Next(0, 4) == 0)
+			if (Main.rand.Next(0, 4) == 0)
 				Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<MechKnife>(), 1, false, 0, false, false);
 
-			for(int i = 0; i < 5; i++) {
+			for (int i = 0; i < 5; i++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 6);
 			}
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
@@ -49,12 +49,13 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override void AI()
 		{
-			if(projectile.ai[0] == 0) {
+			if (projectile.ai[0] == 0) {
 				projectile.ai[0] = 1;
 				projectile.rotation = (float)Math.Atan2(projectile.velocity.X, -projectile.velocity.Y);
-			} else if(lastFrame > 0) {
+			}
+			else if (lastFrame > 0) {
 				lastFrame++;
-				if(lastFrame > 4)
+				if (lastFrame > 4)
 					projectile.Kill();
 			}
 		}
@@ -68,7 +69,7 @@ namespace SpiritMod.Projectiles.Thrown
 			Vector2 drawOrigin = new Vector2(texture.Width * 0.5f, projectile.height * 0.5f);
 			drawOrigin += new Vector2(0f, projectile.gfxOffY);
 
-			for(int k = 0; k < projectile.oldPos.Length; k++) {
+			for (int k = 0; k < projectile.oldPos.Length; k++) {
 				Vector2 drawPos = projectile.oldPos[k] + drawOrigin;
 				drawPos -= Main.screenPosition;
 				Color color = preColor * (float)(projectile.oldPos.Length - k);

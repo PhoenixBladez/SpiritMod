@@ -40,23 +40,25 @@ namespace SpiritMod.NPCs.Boss.Dusking
 			float num10 = speed / length;
 			xDir = xDir * num10;
 			yDir = yDir * num10;
-			if(npc.velocity.X < xDir) {
+			if (npc.velocity.X < xDir) {
 				npc.velocity.X = npc.velocity.X + acceleration;
-				if(npc.velocity.X < 0 && xDir > 0)
+				if (npc.velocity.X < 0 && xDir > 0)
 					npc.velocity.X = npc.velocity.X + acceleration;
-			} else if(npc.velocity.X > xDir) {
+			}
+			else if (npc.velocity.X > xDir) {
 				npc.velocity.X = npc.velocity.X - acceleration;
-				if(npc.velocity.X > 0 && xDir < 0)
+				if (npc.velocity.X > 0 && xDir < 0)
 					npc.velocity.X = npc.velocity.X - acceleration;
 			}
 
-			if(npc.velocity.Y < yDir) {
+			if (npc.velocity.Y < yDir) {
 				npc.velocity.Y = npc.velocity.Y + acceleration;
-				if(npc.velocity.Y < 0 && yDir > 0)
+				if (npc.velocity.Y < 0 && yDir > 0)
 					npc.velocity.Y = npc.velocity.Y + acceleration;
-			} else if(npc.velocity.Y > yDir) {
+			}
+			else if (npc.velocity.Y > yDir) {
 				npc.velocity.Y = npc.velocity.Y - acceleration;
-				if(npc.velocity.Y > 0 && yDir < 0)
+				if (npc.velocity.Y > 0 && yDir < 0)
 					npc.velocity.Y = npc.velocity.Y - acceleration;
 			}
 			Player player = Main.player[base.npc.target];
@@ -64,34 +66,39 @@ namespace SpiritMod.NPCs.Boss.Dusking
 			float num5 = base.npc.position.X + (float)(base.npc.width / 2) - player.position.X - (float)(player.width / 2);
 			float num6 = base.npc.position.Y + (float)base.npc.height - 59f - player.position.Y - (float)(player.height / 2);
 			float num7 = (float)Math.Atan2((double)num6, (double)num5) + 1.57f;
-			if(num7 < 0f) {
+			if (num7 < 0f) {
 				num7 += 6.283f;
-			} else if((double)num7 > 6.283) {
+			}
+			else if ((double)num7 > 6.283) {
 				num7 -= 6.283f;
 			}
 			float num8 = 0.1f;
-			if(base.npc.rotation < num7) {
-				if((double)(num7 - base.npc.rotation) > 3.1415) {
+			if (base.npc.rotation < num7) {
+				if ((double)(num7 - base.npc.rotation) > 3.1415) {
 					base.npc.rotation -= num8;
-				} else {
+				}
+				else {
 					base.npc.rotation += num8;
 				}
-			} else if(base.npc.rotation > num7) {
-				if((double)(base.npc.rotation - num7) > 3.1415) {
+			}
+			else if (base.npc.rotation > num7) {
+				if ((double)(base.npc.rotation - num7) > 3.1415) {
 					base.npc.rotation += num8;
-				} else {
+				}
+				else {
 					base.npc.rotation -= num8;
 				}
 			}
-			if(base.npc.rotation > num7 - num8 && base.npc.rotation < num7 + num8) {
+			if (base.npc.rotation > num7 - num8 && base.npc.rotation < num7 + num8) {
 				base.npc.rotation = num7;
 			}
-			if(base.npc.rotation < 0f) {
+			if (base.npc.rotation < 0f) {
 				base.npc.rotation += 6.283f;
-			} else if((double)base.npc.rotation > 6.283) {
+			}
+			else if ((double)base.npc.rotation > 6.283) {
 				base.npc.rotation -= 6.283f;
 			}
-			if(base.npc.rotation > num7 - num8 && base.npc.rotation < num7 + num8) {
+			if (base.npc.rotation > num7 - num8 && base.npc.rotation < num7 + num8) {
 				base.npc.rotation = num7;
 			}
 			base.npc.spriteDirection = base.npc.direction;
@@ -106,7 +113,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frameCounter++;
-			if(npc.frameCounter >= 4) {
+			if (npc.frameCounter >= 4) {
 				npc.frame.Y = (npc.frame.Y + frameHeight) % (Main.npcFrameCount[npc.type] * frameHeight);
 				npc.frameCounter = 0;
 			}

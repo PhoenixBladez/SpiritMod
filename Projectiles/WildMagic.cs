@@ -50,16 +50,16 @@ namespace SpiritMod.Projectiles
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			projectile.penetrate--;
-			if(projectile.penetrate <= 0)
+			if (projectile.penetrate <= 0)
 				projectile.Kill();
 			else {
 				int dust4 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.GoldCoin, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 
 				projectile.ai[0] += 0.1f;
-				if(projectile.velocity.X != oldVelocity.X) {
+				if (projectile.velocity.X != oldVelocity.X) {
 					projectile.velocity.X = -oldVelocity.X;
 				}
-				if(projectile.velocity.Y != oldVelocity.Y) {
+				if (projectile.velocity.Y != oldVelocity.Y) {
 					projectile.velocity.Y = -oldVelocity.Y;
 				}
 				projectile.velocity *= 0.75f;

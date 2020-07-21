@@ -34,25 +34,25 @@ namespace SpiritMod.Projectiles
 		public override void AI()
 		{
 			Player player = Main.player[projectile.owner];
-			if(player.GetSpiritPlayer().SoulStone == true && player.active && !player.dead) {
+			if (player.GetSpiritPlayer().SoulStone == true && player.active && !player.dead) {
 				projectile.timeLeft = 2;
 			}
 			timer++;
 			int range = 15;   //How many tiles away the projectile targets NPCs
-			//int animSpeed = 2;  //how many game frames per frame :P note: firing anims are twice as fast currently
-			//int targetingMax = 15; //how many frames allowed to target nearest instead of shooting
-			//float shootVelocity = 2f; //magnitude of the shoot vector (speed of arrows shot)
+							  //int animSpeed = 2;  //how many game frames per frame :P note: firing anims are twice as fast currently
+							  //int targetingMax = 15; //how many frames allowed to target nearest instead of shooting
+							  //float shootVelocity = 2f; //magnitude of the shoot vector (speed of arrows shot)
 
 			//TARGET NEAREST NPC WITHIN RANGE
 			float lowestDist = float.MaxValue;
-			foreach(NPC npc in Main.npc) {
+			foreach (NPC npc in Main.npc) {
 				//if npc is a valid target (active, not friendly, and not a critter)
-				if(npc.active && !npc.friendly && npc.catchItem == 0) {
+				if (npc.active && !npc.friendly && npc.catchItem == 0) {
 					//if npc is within 50 blocks
 					float dist = projectile.Distance(npc.Center);
-					if(dist / 16 < range) {
+					if (dist / 16 < range) {
 						//if npc is closer than closest found npc
-						if(dist < lowestDist) {
+						if (dist < lowestDist) {
 							lowestDist = dist;
 
 							//target this npc
@@ -73,15 +73,16 @@ namespace SpiritMod.Projectiles
 			projectile.rotation = projectile.velocity.ToRotation() + (float)(Math.PI / 2);
 
 			NPC target = (Main.npc[(int)projectile.ai[1]] ?? new NPC()); //our target
-			if(target.active && !target.friendly && projectile.Distance(target.Center) / 16 < range && timer > 100) {
+			if (target.active && !target.friendly && projectile.Distance(target.Center) / 16 < range && timer > 100) {
 				Vector2 direction = target.Center - projectile.Center;
 				direction.Normalize();
 				direction *= 10f;
 				projectile.velocity = direction;
-			} else {
+			}
+			else {
 				var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
-				foreach(var proj in list) {
-					if(projectile != proj && proj.hostile)
+				foreach (var proj in list) {
+					if (projectile != proj && proj.hostile)
 						proj.Kill();
 					{
 
@@ -96,7 +97,7 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 5; i++) {
+			for (int i = 0; i < 5; i++) {
 				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 187);
 			}
 		}

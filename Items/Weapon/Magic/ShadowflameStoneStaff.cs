@@ -47,7 +47,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		{
 			counter++;
 			int spikes = player.GetSpiritPlayer().shadowCount;
-			if(counter >= 85 && !player.channel && spikes <= 4) {
+			if (counter >= 85 && !player.channel && spikes <= 4) {
 				player.GetSpiritPlayer().shadowCount++;
 				counter = 0;
 				int p = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameStoneBolt>(), item.damage, 2f, player.whoAmI, spikes);

@@ -36,19 +36,19 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
 			target.AddBuff(BuffID.OnFire, 180, true);
-			if(Main.rand.Next(4) == 0) {
+			if (Main.rand.Next(4) == 0) {
 				{
 					Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<ViashinoExplosion>(), damage, knockback, player.whoAmI, 0f, 0f);
 				}
 			}
-			if(Main.rand.Next(10) == 0) {
+			if (Main.rand.Next(10) == 0) {
 				target.defense = 5;
 			}
 		}
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
 			{
-				if(Main.rand.Next(2) == 0) {
+				if (Main.rand.Next(2) == 0) {
 					int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 244);
 					int dust1 = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 6);
 				}

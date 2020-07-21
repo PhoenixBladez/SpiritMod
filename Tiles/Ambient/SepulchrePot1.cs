@@ -47,7 +47,7 @@ namespace SpiritMod.Tiles.Ambient
 		{
 			Tile tile = Main.tile[i, j];
 			Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
-			if(Main.drawToScreen) {
+			if (Main.drawToScreen) {
 				zero = Vector2.Zero;
 			}
 			int height = tile.frameY == 36 ? 18 : 16;
@@ -57,13 +57,13 @@ namespace SpiritMod.Tiles.Ambient
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(13, 0));
-			for(int k = 0; k < 8; k++) {
+			for (int k = 0; k < 8; k++) {
 				int d = Dust.NewDust(new Vector2(i * 16, j * 16 - 10), 54, 16, 0, 0.0f, -1, 0, new Color(), 0.5f);//Leave this line how it is, it uses int division
 				int d1 = Dust.NewDust(new Vector2(i * 16, j * 16 - 10), 75, 16, 0, 0.0f, 0, 0, new Color(), 0.5f);//Leave this line how it is, it uses int division		
 				Gore.NewGore(new Vector2((int)i * 16 + Main.rand.Next(-10, 10), (int)j * 16 + Main.rand.Next(-10, 10)), new Vector2(-1, 1), mod.GetGoreSlot("Gores/Pot1"), 1f);
 			}
 			int potionitem = Main.rand.Next(new int[] { 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305 });
-			if(Main.rand.Next(10) == 0) {
+			if (Main.rand.Next(10) == 0) {
 				Item.NewItem(i * 16, j * 16, 32, 32, potionitem, Main.rand.Next(1, 3));
 			}
 			int torchItem = Main.rand.Next(new int[] { 282, ItemID.CursedTorch });
@@ -72,7 +72,7 @@ namespace SpiritMod.Tiles.Ambient
 			int item = 0;
 			int coins = ItemID.SilverCoin;
 			int num = 0;
-			switch(Main.rand.Next(5)) {
+			switch (Main.rand.Next(5)) {
 				case 0:
 					item = torchItem;
 					num = Main.rand.Next(2, 10);

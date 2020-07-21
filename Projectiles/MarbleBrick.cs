@@ -25,7 +25,7 @@ namespace SpiritMod.Projectiles
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 27);
-			for(int k = 0; k < 5; k++) {
+			for (int k = 0; k < 5; k++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 236);
 			}
 		}
@@ -40,13 +40,13 @@ namespace SpiritMod.Projectiles
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(9) == 0)
+			if (Main.rand.Next(9) == 0)
 				target.AddBuff(ModContent.BuffType<Marbled>(), 70, true);
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			if(oldVelocity.X != projectile.velocity.X) {
+			if (oldVelocity.X != projectile.velocity.X) {
 				projectile.velocity.X = 0;
 				projectile.timeLeft = 60;
 			}

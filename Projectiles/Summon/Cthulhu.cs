@@ -34,7 +34,7 @@ namespace SpiritMod.Projectiles.Summon
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			if(projectile.penetrate == 0)
+			if (projectile.penetrate == 0)
 				projectile.Kill();
 
 			return false;
@@ -45,11 +45,11 @@ namespace SpiritMod.Projectiles.Summon
 			bool flag64 = projectile.type == ModContent.ProjectileType<Cthulhu>();
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if(flag64) {
-				if(player.dead)
+			if (flag64) {
+				if (player.dead)
 					modPlayer.cthulhuMinion = false;
 
-				if(modPlayer.cthulhuMinion)
+				if (modPlayer.cthulhuMinion)
 					projectile.timeLeft = 2;
 
 			}

@@ -28,10 +28,10 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			for(int I = 0; I < 8; I++)
+			for (int I = 0; I < 8; I++)
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 93, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
 
-			for(int i = 0; i < 3; ++i) {
+			for (int i = 0; i < 3; ++i) {
 				int randFire = Main.rand.Next(1);
 				int newProj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y,
 					Main.rand.Next(0) / 100, Main.rand.Next(0, 0),
@@ -41,7 +41,7 @@ namespace SpiritMod.Projectiles
 
 		public override bool PreAI()
 		{
-			if(Main.rand.Next(4) == 1) {
+			if (Main.rand.Next(4) == 1) {
 				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 93, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			}
 			return true;
@@ -49,10 +49,10 @@ namespace SpiritMod.Projectiles
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(5) == 0)
+			if (Main.rand.Next(5) == 0)
 				target.AddBuff(ModContent.BuffType<Brine>(), 180);
 
-			for(int i = 0; i < 3; ++i) {
+			for (int i = 0; i < 3; ++i) {
 				int randFire = Main.rand.Next(1);
 				int newProj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y,
 					Main.rand.Next(0) / 100, Main.rand.Next(0, 0),

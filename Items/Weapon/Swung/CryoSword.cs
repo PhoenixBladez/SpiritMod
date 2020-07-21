@@ -64,15 +64,16 @@ namespace SpiritMod.Items.Weapon.Swung
 		}
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
 		{
-			if(Main.rand.Next(4) == 0)
+			if (Main.rand.Next(4) == 0)
 				target.AddBuff(ModContent.BuffType<CryoCrush>(), 300);
 		}
 		public override bool CanUseItem(Player player)
 		{
-			if(player.altFunctionUse == 2) {
-				if(counter > 0) {
+			if (player.altFunctionUse == 2) {
+				if (counter > 0) {
 					return false;
-				} else {
+				}
+				else {
 					return true;
 				}
 
@@ -81,28 +82,30 @@ namespace SpiritMod.Items.Weapon.Swung
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if(player.altFunctionUse == 2) {
-				if(counter > 0) {
+			if (player.altFunctionUse == 2) {
+				if (counter > 0) {
 					return false;
-				} else {
+				}
+				else {
 					counter = 5;
 					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 73));
 					Projectile.NewProjectile(player.position.X, player.position.Y, 0, 0, type, damage, 7, player.whoAmI, 5, 0);
 				}
 
-			} else {
+			}
+			else {
 				counter--;
 			}
-			if(counter == 0) {
+			if (counter == 0) {
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 20));
 				{
-					for(int i = 0; i < 7; i++) {
+					for (int i = 0; i < 7; i++) {
 						int num = Dust.NewDust(player.position, player.width, player.height, 68, 0f, -2f, 0, default(Color), 2f);
 						Main.dust[num].noGravity = true;
 						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 						Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
 						Main.dust[num].scale *= .25f;
-						if(Main.dust[num].position != player.Center)
+						if (Main.dust[num].position != player.Center)
 							Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
 					}
 				}
@@ -111,7 +114,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		}
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
-			if(Main.rand.Next(5) == 0) {
+			if (Main.rand.Next(5) == 0) {
 				int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 180);
 				Main.dust[dust].noGravity = true;
 			}

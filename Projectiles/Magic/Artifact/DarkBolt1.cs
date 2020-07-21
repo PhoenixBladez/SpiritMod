@@ -33,19 +33,19 @@ namespace SpiritMod.Projectiles.Magic.Artifact
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 			bool flag25 = false;
 			int jim = 1;
-			for(int index1 = 0; index1 < 200; index1++) {
-				if(Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1)) {
+			for (int index1 = 0; index1 < 200; index1++) {
+				if (Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1)) {
 					float num23 = Main.npc[index1].position.X + (float)(Main.npc[index1].width / 2);
 					float num24 = Main.npc[index1].position.Y + (float)(Main.npc[index1].height / 2);
 					float num25 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num23) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num24);
-					if(num25 < 500f) {
+					if (num25 < 500f) {
 						flag25 = true;
 						jim = index1;
 					}
 				}
 			}
 
-			if(flag25) {
+			if (flag25) {
 				float num1 = 6f;
 				Vector2 vector2 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
 				float num2 = Main.npc[jim].Center.X - vector2.X;
@@ -60,14 +60,14 @@ namespace SpiritMod.Projectiles.Magic.Artifact
 			}
 
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 5) {
+			if (projectile.frameCounter >= 5) {
 				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
 				projectile.frameCounter = 0;
 			}
 
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-			if(Main.rand.Next(4) == 0) {
-				for(int k = 0; k < 1; k++) {
+			if (Main.rand.Next(4) == 0) {
+				for (int k = 0; k < 1; k++) {
 					Vector2 value = -Utils.RotatedBy(Utils.RotatedByRandom(Vector2.UnitX, (Math.PI / 16)), (double)Utils.ToRotation(projectile.velocity));
 					int num9 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 173, 0f, 0f, 173);
 					Main.dust[num9].velocity *= 0.1f;
@@ -76,14 +76,14 @@ namespace SpiritMod.Projectiles.Magic.Artifact
 					Main.dust[num9].fadeIn = 0.9f;
 				}
 			}
-			if(Main.rand.Next(2) == 0) {
-				for(int m = 0; m < 2; m++) {
+			if (Main.rand.Next(2) == 0) {
+				for (int m = 0; m < 2; m++) {
 					Vector2 value3 = -Utils.RotatedBy(Utils.RotatedByRandom(Vector2.UnitX, (Math.PI / 4)), (double)Utils.ToRotation(projectile.velocity));
 					int num11 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Shadowflame, 0f, 0f, 0, default(Color), 1.2f);
 					Main.dust[num11].velocity *= 0.3f;
 					Main.dust[num11].noGravity = true;
 					Main.dust[num11].position = projectile.Center + value3 * (float)projectile.width / 2f;
-					if(Main.rand.Next(2) == 0)
+					if (Main.rand.Next(2) == 0)
 						Main.dust[num11].fadeIn = 1.4f;
 				}
 			}
@@ -91,7 +91,7 @@ namespace SpiritMod.Projectiles.Magic.Artifact
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(4) == 0)
+			if (Main.rand.Next(4) == 0)
 				target.AddBuff(mod.BuffType("ShadowBurn1"), 300);
 		}
 
@@ -101,12 +101,12 @@ namespace SpiritMod.Projectiles.Magic.Artifact
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 74);
 			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Fire>(), projectile.damage / 3 * 4, projectile.knockBack, projectile.owner);
 
-			for(int i = 0; i < 40; i++) {
+			for (int i = 0; i < 40; i++) {
 				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Shadowflame, 0f, -2f, 0, default(Color), 2f);
 				Main.dust[num].noGravity = true;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
-				if(Main.dust[num].position != projectile.Center)
+				if (Main.dust[num].position != projectile.Center)
 					Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
 			}
 		}

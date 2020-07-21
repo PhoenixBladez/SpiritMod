@@ -54,15 +54,15 @@ namespace SpiritMod.Items.Weapon.Swung
 
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
 		{
-			if(Main.rand.Next(5) == 0) {
+			if (Main.rand.Next(5) == 0) {
 				int dist = 80;
 				Vector2 targetExplosionPos = target.Center;
-				for(int i = 0; i < 200; ++i) {
-					if(Main.npc[i].active && (Main.npc[i].Center - targetExplosionPos).Length() < dist) {
+				for (int i = 0; i < 200; ++i) {
+					if (Main.npc[i].active && (Main.npc[i].Center - targetExplosionPos).Length() < dist) {
 						Main.npc[i].HitEffect(0, damage);
 					}
 				}
-				for(int i = 0; i < 15; ++i) {
+				for (int i = 0; i < 15; ++i) {
 					int newDust = Dust.NewDust(new Vector2(targetExplosionPos.X - (dist / 2), targetExplosionPos.Y - (dist / 2)), dist, dist, DustID.Shadowflame, 0f, 0f, 100, default(Color), 2.5f);
 					Main.dust[newDust].noGravity = true;
 					Main.dust[newDust].velocity *= 5f;
@@ -70,7 +70,7 @@ namespace SpiritMod.Items.Weapon.Swung
 					Main.dust[newDust].velocity *= 3f;
 				}
 			}
-			if(Main.rand.Next(4) == 0) {
+			if (Main.rand.Next(4) == 0) {
 				target.AddBuff(BuffID.ShadowFlame, 300, true);
 			}
 		}

@@ -58,7 +58,7 @@ namespace SpiritMod.NPCs.Ocean
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if(Main.rand.Next(6) == 0) {
+			if (Main.rand.Next(6) == 0) {
 				target.AddBuff(BuffID.Electrified, 180, true);
 			}
 		}

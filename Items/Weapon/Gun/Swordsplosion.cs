@@ -38,7 +38,7 @@ namespace SpiritMod.Items.Weapon.Gun
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			for(int i = 0; i < 3; i++) {
+			for (int i = 0; i < 3; i++) {
 				float spread = 35f * 0.0174f;//45 degrees converted to radians
 				float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
 				double baseAngle = Math.Atan2(speedX, speedY);

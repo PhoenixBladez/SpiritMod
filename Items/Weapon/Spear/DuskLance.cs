@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Weapon.Spear
 		}
 		public override bool CanUseItem(Player player)
 		{
-			if(player.ownedProjectileCounts[item.shoot] > 0)
+			if (player.ownedProjectileCounts[item.shoot] > 0)
 				return false;
 			return true;
 		}

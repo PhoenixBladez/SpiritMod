@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			int amountOfProjectiles = 2;
-			for(int i = 0; i < amountOfProjectiles; ++i) {
+			for (int i = 0; i < amountOfProjectiles; ++i) {
 				float sX = speedX;
 				float sY = speedY;
 				sX += (float)Main.rand.Next(-60, 61) * 0.05f;

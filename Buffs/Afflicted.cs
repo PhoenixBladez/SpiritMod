@@ -21,7 +21,7 @@ namespace SpiritMod.Buffs
 			npc.velocity.X *= 0.95f;
 			npc.velocity.Y *= 0.95f;
 
-			if(Main.rand.NextBool(4)) {
+			if (Main.rand.NextBool(4)) {
 				int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.BubbleBlock);
 				Main.dust[dust].noGravity = true;
 				Main.dust[dust].scale = 3f;

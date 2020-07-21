@@ -18,7 +18,7 @@ namespace SpiritMod.Buffs
 		public override bool ReApply(NPC npc, int time, int buffIndex)
 		{
 			GNPC info = npc.GetGlobalNPC<GNPC>();
-			if(info.angelLightStacks < 3) {
+			if (info.angelLightStacks < 3) {
 				info.angelLightStacks++;
 			}
 			return true;
@@ -41,13 +41,13 @@ namespace SpiritMod.Buffs
 				Vector2 vector2_3 = vector2_2 * 34f;
 				Main.dust[dust].position = npc.Center - vector2_3;
 			}
-			if(info.angelLightStacks == 2) {
+			if (info.angelLightStacks == 2) {
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 9);
-				for(int k = 0; k < Main.rand.Next(1, 3); k++) {
+				for (int k = 0; k < Main.rand.Next(1, 3); k++) {
 					float num12 = Main.rand.Next(-10, 10);
 					float num13 = 100;
-					if((double)num13 < 0.0) num13 *= -1f;
-					if((double)num13 < 20.0) num13 = 20f;
+					if ((double)num13 < 0.0) num13 *= -1f;
+					if ((double)num13 < 20.0) num13 = 20f;
 					float num14 = (float)Math.Sqrt((double)num12 * (double)num12 + (double)num13 * (double)num13);
 					float num15 = 10 / num14;
 					float num16 = num12 * num15;

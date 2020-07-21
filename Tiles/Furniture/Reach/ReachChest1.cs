@@ -47,16 +47,17 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			int left = i;
 			int top = j;
 			Tile tile = Main.tile[i, j];
-			if(tile.frameX % 36 != 0) {
+			if (tile.frameX % 36 != 0) {
 				left--;
 			}
-			if(tile.frameY != 0) {
+			if (tile.frameY != 0) {
 				top--;
 			}
 			int chest = Chest.FindChest(left, top);
-			if(Main.chest[chest].name == "") {
+			if (Main.chest[chest].name == "") {
 				return name;
-			} else {
+			}
+			else {
 				return name + ": " + Main.chest[chest].name;
 			}
 		}
@@ -133,28 +134,29 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			return true;
 		}
 		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
-        {
-            offsetY = 2;
-        }
-        public override void MouseOver(int i, int j)
+		{
+			offsetY = 2;
+		}
+		public override void MouseOver(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
 			Tile tile = Main.tile[i, j];
 			int left = i;
 			int top = j;
-			if(tile.frameX % 36 != 0) {
+			if (tile.frameX % 36 != 0) {
 				left--;
 			}
-			if(tile.frameY != 0) {
+			if (tile.frameY != 0) {
 				top--;
 			}
 			int chest = Chest.FindChest(left, top);
 			player.showItemIcon2 = -1;
-			if(chest < 0) {
+			if (chest < 0) {
 				player.showItemIconText = Lang.chestType[0].Value;
-			} else {
+			}
+			else {
 				player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Elderbark Chest";
-				if(player.showItemIconText == "Elderbark Chest") {
+				if (player.showItemIconText == "Elderbark Chest") {
 					player.showItemIcon2 = ModContent.ItemType<Items.Placeable.Furniture.Reach.ReachChest>();
 					player.showItemIconText = "";
 				}
@@ -167,7 +169,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 		{
 			MouseOver(i, j);
 			Player player = Main.LocalPlayer;
-			if(player.showItemIconText == "") {
+			if (player.showItemIconText == "") {
 				player.showItemIcon = false;
 				player.showItemIcon2 = 0;
 			}

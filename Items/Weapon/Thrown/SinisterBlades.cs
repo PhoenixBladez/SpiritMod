@@ -53,14 +53,14 @@ namespace SpiritMod.Items.Weapon.Thrown
 			float SdirY = (float)(Main.MouseWorld.Y - player.position.Y);
 			float angleup = (float)Math.Atan(SdirX / SdirY) + 25;
 			float angledown = (float)Math.Atan(SdirX / SdirY) - 25;
-			if(SdirY <= 0) {
+			if (SdirY <= 0) {
 				downX = (float)(0 - (Math.Sin(angledown) * 10.5));
 				downY = (float)(0 - (Math.Cos(angledown) * 10.5));
 				upX = (float)(0 - (Math.Sin(angleup) * 10.5));
 				upY = (float)(0 - (Math.Cos(angleup) * 10.5));
 			}
 
-			if(SdirY > 0) {
+			if (SdirY > 0) {
 				downX = (float)(Math.Sin(angledown) * 10.5);
 				downY = (float)(Math.Cos(angledown) * 10.5);
 				upX = (float)(Math.Sin(angleup) * 10.5);

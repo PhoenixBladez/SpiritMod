@@ -25,11 +25,10 @@ namespace SpiritMod.Dusts
 			dust.position += dust.velocity;
 			dust.noGravity = true;
 			dust.rotation += 0.05f;
-			dust.alpha-= 5;
+			dust.alpha -= 5;
 			dust.velocity *= 0.91f;
 			dust.scale *= 0.982f;
-			if (dust.scale < 0.03f)
-			{
+			if (dust.scale < 0.03f) {
 				dust.active = false;
 			}
 			return false;

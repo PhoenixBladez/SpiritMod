@@ -35,14 +35,14 @@ namespace SpiritMod.Projectiles.Sword.Artifact
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			projectile.penetrate--;
-			if(projectile.penetrate <= 0)
+			if (projectile.penetrate <= 0)
 				projectile.Kill();
 			else {
 				aiType = ProjectileID.Shuriken;
-				if(projectile.velocity.X != oldVelocity.X)
+				if (projectile.velocity.X != oldVelocity.X)
 					projectile.velocity.X = -oldVelocity.X;
 
-				if(projectile.velocity.Y != oldVelocity.Y)
+				if (projectile.velocity.Y != oldVelocity.Y)
 					projectile.velocity.Y = -oldVelocity.Y;
 
 				projectile.velocity *= 0.75f;
@@ -53,7 +53,7 @@ namespace SpiritMod.Projectiles.Sword.Artifact
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.25f, projectile.height * 0.25f);
-			for(int k = 0; k < projectile.oldPos.Length; k++) {
+			for (int k = 0; k < projectile.oldPos.Length; k++) {
 				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
 				Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
 				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
@@ -62,13 +62,13 @@ namespace SpiritMod.Projectiles.Sword.Artifact
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(10) == 0)
+			if (Main.rand.Next(10) == 0)
 				target.AddBuff(ModContent.BuffType<Crystallize>(), 240, true);
 
-			if(crit) {
+			if (crit) {
 				int n = 6;
 				int deviation = Main.rand.Next(0, 300);
-				for(int i = 0; i < n; i++) {
+				for (int i = 0; i < n; i++) {
 					float rotation = MathHelper.ToRadians(270 / n * i + deviation);
 					Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(rotation);
 					perturbedSpeed.Normalize();
@@ -94,18 +94,18 @@ namespace SpiritMod.Projectiles.Sword.Artifact
 
 		public override void Kill(int timeLeft)
 		{
-			if(Main.rand.Next(6) == 0) {
+			if (Main.rand.Next(6) == 0) {
 				Player player = Main.player[projectile.owner];
 				int amount = Main.rand.Next(1, 3);
-				for(int i = 0; i < amount; ++i) {
+				for (int i = 0; i < amount; ++i) {
 					Vector2 position = new Vector2(player.position.X + player.width * 0.5f + Main.rand.Next(-200, 201), player.Center.Y - 600f);
 					position.X = (position.X * 10f + player.position.X) / 11f + (float)Main.rand.Next(-100, 101);
 					position.Y -= 150;
 					float speedX = player.position.X + player.width * 0.5f + Main.rand.Next(-200, 201) - position.X;
 					float speedY = player.Center.Y - position.Y;
-					if(speedY < 0f)
+					if (speedY < 0f)
 						speedY *= -1f;
-					if(speedY < 20f)
+					if (speedY < 20f)
 						speedY = 20f;
 
 					float length = (float)Math.Sqrt((double)(speedX * speedX + speedY * speedY));

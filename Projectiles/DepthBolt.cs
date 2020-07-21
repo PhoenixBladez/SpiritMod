@@ -39,11 +39,12 @@ namespace SpiritMod.Projectiles
 			int num = (int)projectile.velocity.X * 10;
 			int num2 = (int)projectile.velocity.Y + 1;
 			projectile.frameCounter++;
-			if(projectile.frameCounter > 120) {
+			if (projectile.frameCounter > 120) {
 				projectile.frameCounter = 0;
-				if(projectile.frame == 5) {
+				if (projectile.frame == 5) {
 					projectile.frame = 0;
-				} else {
+				}
+				else {
 					projectile.frame++;
 				}
 			}
@@ -66,16 +67,16 @@ namespace SpiritMod.Projectiles
 			Vector2 vector = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
 			vector.Normalize();
 			Vector2 vector2 = vector * ((float)Main.rand.Next(10, 41) * 0.1f);
-			if(Main.rand.Next(3) == 0) {
+			if (Main.rand.Next(3) == 0) {
 				vector2 *= 2f;
 			}
 			Vector2 vector3 = velocity * 0.25f + vector2;
-			for(int i = 0; i < 200; i++) {
-				if(Main.npc[i].CanBeChasedBy(projectile, false)) {
+			for (int i = 0; i < 200; i++) {
+				if (Main.npc[i].CanBeChasedBy(projectile, false)) {
 					float num2 = Main.npc[i].position.X + (float)(Main.npc[i].width / 2);
 					float num3 = Main.npc[i].position.Y + (float)(Main.npc[i].height / 2);
 					float num4 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num2) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num3);
-					if((double)num4 < (double)num && Collision.CanHit(projectile.position, projectile.width, projectile.height, Main.npc[i].position, Main.npc[i].width, Main.npc[i].height)) {
+					if ((double)num4 < (double)num && Collision.CanHit(projectile.position, projectile.width, projectile.height, Main.npc[i].position, Main.npc[i].width, Main.npc[i].height)) {
 						num = num4;
 						vector3.X = num2;
 						vector3.Y = num3;

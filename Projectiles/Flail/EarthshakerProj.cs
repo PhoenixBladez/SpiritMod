@@ -25,16 +25,16 @@ namespace SpiritMod.Projectiles.Flail
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			projectile.penetrate--;
-			if(projectile.penetrate <= 0)
+			if (projectile.penetrate <= 0)
 				projectile.Kill();
 
-			if(projectile.velocity.X != oldVelocity.X)
+			if (projectile.velocity.X != oldVelocity.X)
 				projectile.velocity.X = -oldVelocity.X;
 
-			if(projectile.velocity.Y != oldVelocity.Y)
+			if (projectile.velocity.Y != oldVelocity.Y)
 				projectile.velocity.Y = -oldVelocity.Y * 1.3f;
 
-			for(int i = 0; i < 2; ++i) {
+			for (int i = 0; i < 2; ++i) {
 				Vector2 targetDir = ((((float)Math.PI * 2) / 8) * i).ToRotationVector2();
 				targetDir.Normalize();
 				targetDir *= 3;
@@ -47,7 +47,7 @@ namespace SpiritMod.Projectiles.Flail
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 5; i++) {
+			for (int i = 0; i < 5; i++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 8);
 			}
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);

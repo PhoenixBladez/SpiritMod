@@ -34,7 +34,7 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			Vector2 drawOrigin =
 				new Vector2(Main.projectileTexture[projectile.type].Width * 0.25f, projectile.height * 0.25f);
-			for(int k = 0; k < projectile.oldPos.Length; k++) {
+			for (int k = 0; k < projectile.oldPos.Length; k++) {
 				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
 				Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
 				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
@@ -51,7 +51,7 @@ namespace SpiritMod.Projectiles.Magic
 			int n = 1;
 			int deviation = Main.rand.Next(0, 180);
 
-			for(int i = 0; i < n; i++) {
+			for (int i = 0; i < n; i++) {
 				float rotation = MathHelper.ToRadians(270 / n * i + deviation);
 				Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(rotation);
 				perturbedSpeed.Normalize();
@@ -60,19 +60,19 @@ namespace SpiritMod.Projectiles.Magic
 				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<StarSoul>(), projectile.damage / 3 * 2, 2, projectile.owner);
 			}
 
-			for(int i = 0; i < 40; i++) {
+			for (int i = 0; i < 40; i++) {
 				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 187, 0f, -2f, 0, default(Color), 2f);
 				Main.dust[num].noGravity = true;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
-				if(Main.dust[num].position != projectile.Center)
+				if (Main.dust[num].position != projectile.Center)
 					Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
 			}
 		}
 
 		public override bool PreAI()
 		{
-			if(Main.rand.Next(4) == 1) {
+			if (Main.rand.Next(4) == 1) {
 				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 187, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 				Main.dust[dust].noGravity = true;
 			}
@@ -83,7 +83,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			projectile.Kill();
-			if(Main.rand.Next(5) == 0)
+			if (Main.rand.Next(5) == 0)
 				target.AddBuff(ModContent.BuffType<SpectreFury>(), 180);
 			target.StrikeNPC(projectile.damage / 5 * 4, 0f, 0, crit);
 			target.StrikeNPC(projectile.damage / 5 * 4, 0f, 0, crit);

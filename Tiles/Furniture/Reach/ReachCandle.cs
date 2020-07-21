@@ -10,17 +10,17 @@ namespace SpiritMod.Tiles.Furniture.Reach
 	{
 		public override void SetDefaults()
 		{
-            Main.tileFrameImportant[Type] = true;
-            Main.tileNoAttach[Type] = true;
-            Main.tileLavaDeath[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
-            TileObjectData.addTile(Type);
+			Main.tileFrameImportant[Type] = true;
+			Main.tileNoAttach[Type] = true;
+			Main.tileLavaDeath[Type] = true;
+			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
+			TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
 			adjTiles = new int[] { TileID.Torches };
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Elderbark Candle");
-            AddMapEntry(new Color(179, 146, 107), name);
-            drop = ModContent.TileType<ReachCandle>();
+			ModTranslation name = CreateMapEntryName();
+			name.SetDefault("Elderbark Candle");
+			AddMapEntry(new Color(179, 146, 107), name);
+			drop = ModContent.TileType<ReachCandle>();
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)

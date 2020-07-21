@@ -71,12 +71,12 @@ namespace SpiritMod.Items.Weapon.Magic
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if(player.wet) {
+			if (player.wet) {
 				return false;
 			}
 
 			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 15f;
-			if(Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
+			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
 				position += muzzleOffset;
 			}
 			Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);

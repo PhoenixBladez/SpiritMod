@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Weapon
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if(shellCooldown > 0 || Main.tile[Player.tileTargetX, Player.tileTargetY].active() || Main.tile[Player.tileTargetX, Player.tileTargetY].wall > 0)
+			if (shellCooldown > 0 || Main.tile[Player.tileTargetX, Player.tileTargetY].active() || Main.tile[Player.tileTargetX, Player.tileTargetY].wall > 0)
 				return false;
 			return true;
 		}

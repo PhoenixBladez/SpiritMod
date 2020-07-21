@@ -5,7 +5,7 @@ namespace SpiritMod.Items.Boss
 {
 	public class Trophy8 : ModItem
 	{
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Atlas Trophy");

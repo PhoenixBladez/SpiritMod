@@ -5,7 +5,7 @@ namespace SpiritMod.Items.DonatorItems
 {
 	public class TheCouch : ModItem
 	{
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("The Couch");

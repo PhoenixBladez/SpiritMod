@@ -32,31 +32,31 @@ namespace SpiritMod.Projectiles.Summon
 		public override void AI()
 		{
 			projectile.ai[1] += 1f;
-			if(projectile.ai[1] >= 7200f) {
+			if (projectile.ai[1] >= 7200f) {
 				projectile.alpha += 5;
-				if(projectile.alpha > 255) {
+				if (projectile.alpha > 255) {
 					projectile.alpha = 255;
 					projectile.Kill();
 				}
 			}
 
 			projectile.localAI[0] += 1f;
-			if(projectile.localAI[0] >= 10f) {
+			if (projectile.localAI[0] >= 10f) {
 				projectile.localAI[0] = 0f;
 				int num416 = 0;
 				int num417 = 0;
 				float num418 = 0f;
 				int num419 = projectile.type;
-				for(int num420 = 0; num420 < 1000; num420++) {
-					if(Main.projectile[num420].active && Main.projectile[num420].owner == projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f) {
+				for (int num420 = 0; num420 < 1000; num420++) {
+					if (Main.projectile[num420].active && Main.projectile[num420].owner == projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f) {
 						num416++;
-						if(Main.projectile[num420].ai[1] > num418) {
+						if (Main.projectile[num420].ai[1] > num418) {
 							num417 = num420;
 							num418 = Main.projectile[num420].ai[1];
 						}
 					}
 				}
-				if(num416 > 1) {
+				if (num416 > 1) {
 					Main.projectile[num417].netUpdate = true;
 					Main.projectile[num417].ai[1] = 36000f;
 					return;
@@ -64,7 +64,7 @@ namespace SpiritMod.Projectiles.Summon
 			}
 			Lighting.AddLight(projectile.position, 0.4f, .12f, .036f);
 			//int num = 5;
-			for(int k = 0; k < 3; k++) {
+			for (int k = 0; k < 3; k++) {
 				int index2 = Dust.NewDust(new Vector2(projectile.Center.X - 6, projectile.Center.Y + 3), 1, 1, 127, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].scale = .5f;
 				Main.dust[index2].noGravity = false;
@@ -72,7 +72,7 @@ namespace SpiritMod.Projectiles.Summon
 				Main.dust[index2].velocity.Y *= 1.7f;
 				Main.dust[index2].noLight = false;
 			}
-			for(int j = 0; j < 3; j++) {
+			for (int j = 0; j < 3; j++) {
 				int index2 = Dust.NewDust(new Vector2(projectile.Center.X - 12, projectile.Center.Y + 3), 1, 1, 127, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].scale = .5f;
 				Main.dust[index2].noGravity = false;
@@ -83,21 +83,22 @@ namespace SpiritMod.Projectiles.Summon
 			bool flag64 = projectile.type == ModContent.ProjectileType<LavaRockSummon>();
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if(flag64) {
-				if(player.dead)
+			if (flag64) {
+				if (player.dead)
 					modPlayer.OG = false;
 
-				if(modPlayer.lavaRock)
+				if (modPlayer.lavaRock)
 					projectile.timeLeft = 2;
 
 			}
 
 			projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
 			projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.height / 2) + Main.player[projectile.owner].gfxOffY - 60f;
-			if(Main.player[projectile.owner].gravDir == -1f) {
+			if (Main.player[projectile.owner].gravDir == -1f) {
 				projectile.position.Y = projectile.position.Y + 120f;
 				projectile.rotation = 3.14f;
-			} else {
+			}
+			else {
 				projectile.rotation = 0f;
 			}
 
@@ -106,8 +107,8 @@ namespace SpiritMod.Projectiles.Summon
 			float num395 = Main.mouseTextColor / 200f - 0.35f;
 			num395 *= 0.2f;
 			projectile.scale = num395 + 0.95f;
-			if(projectile.owner == Main.myPlayer) {
-				if(projectile.ai[0] != 0f) {
+			if (projectile.owner == Main.myPlayer) {
+				if (projectile.ai[0] != 0f) {
 					projectile.ai[0] -= 1f;
 					return;
 				}
@@ -115,12 +116,12 @@ namespace SpiritMod.Projectiles.Summon
 				float num397 = projectile.position.Y;
 				float num398 = 700f;
 				bool flag11 = false;
-				for(int num399 = 0; num399 < 200; num399++) {
-					if(Main.npc[num399].CanBeChasedBy(projectile, true)) {
+				for (int num399 = 0; num399 < 200; num399++) {
+					if (Main.npc[num399].CanBeChasedBy(projectile, true)) {
 						float num400 = Main.npc[num399].position.X + (float)(Main.npc[num399].width / 2);
 						float num401 = Main.npc[num399].position.Y + (float)(Main.npc[num399].height / 2);
 						float num402 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num400) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num401);
-						if(num402 < num398 && Collision.CanHit(projectile.position, projectile.width, projectile.height, Main.npc[num399].position, Main.npc[num399].width, Main.npc[num399].height)) {
+						if (num402 < num398 && Collision.CanHit(projectile.position, projectile.width, projectile.height, Main.npc[num399].position, Main.npc[num399].width, Main.npc[num399].height)) {
 							num398 = num402;
 							num396 = num400;
 							num397 = num401;
@@ -129,7 +130,7 @@ namespace SpiritMod.Projectiles.Summon
 					}
 				}
 
-				if(flag11) {
+				if (flag11) {
 					float num403 = 6f; //modify the speed the projectile are shot.  Lower number = slower projectile.
 					Vector2 vector29 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
 					float num404 = num396 - vector29.X;

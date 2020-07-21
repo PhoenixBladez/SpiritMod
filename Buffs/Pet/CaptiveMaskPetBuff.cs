@@ -21,7 +21,7 @@ namespace SpiritMod.Buffs.Pet
 			player.GetSpiritPlayer().maskPet = true;
 
 			bool petProjectileNotSpawned = player.ownedProjectileCounts[ModContent.ProjectileType<CaptiveMaskPet>()] <= 0;
-			if(petProjectileNotSpawned && player.whoAmI == Main.myPlayer) {
+			if (petProjectileNotSpawned && player.whoAmI == Main.myPlayer) {
 				Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<CaptiveMaskPet>(), 0, 0f, player.whoAmI);
 			}
 		}

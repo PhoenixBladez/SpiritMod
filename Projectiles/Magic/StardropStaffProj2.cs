@@ -25,7 +25,7 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 2; i++) {
+			for (int i = 0; i < 2; i++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 33);
 			}
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
@@ -37,7 +37,7 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.velocity *= 0.95f;
 			timer++;
 
-			for(int i = 1; i <= 2; i++) {
+			for (int i = 1; i <= 2; i++) {
 				int num1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 172, projectile.velocity.X, projectile.velocity.Y, 0, default(Color), 2f);
 				Main.dust[num1].noGravity = true;
 				Main.dust[num1].velocity *= 0.1f;

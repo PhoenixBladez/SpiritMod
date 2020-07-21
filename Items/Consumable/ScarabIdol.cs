@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Consumable
 
 		public override bool CanUseItem(Player player)
 		{
-			if(!NPC.AnyNPCs(ModContent.NPCType<Scarabeus>()))
+			if (!NPC.AnyNPCs(ModContent.NPCType<Scarabeus>()))
 				return true;
 			return false;
 		}

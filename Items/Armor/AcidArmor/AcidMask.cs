@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.AcidArmor
 	public class AcidMask : SpiritItem
 	{
 		public override string SetDisplayName => "Acid Mask";
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;

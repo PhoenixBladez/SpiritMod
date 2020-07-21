@@ -74,44 +74,45 @@ namespace SpiritMod.Items.Weapon.Gun
 		}
 		public override void HoldItem(Player player)
 		{
-			if(elementPrimary <= 1 && fireType == 1) {
+			if (elementPrimary <= 1 && fireType == 1) {
 				SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Gun/Blaster_FireGlow");
 				dustType = 6;
 			}
-			if(elementPrimary >= 2 && fireType == 1) {
+			if (elementPrimary >= 2 && fireType == 1) {
 				SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Gun/Blaster_CorrosiveGlow");
 				dustType = 163;
 			}
-			if(elementSecondary <= 4 && fireType == 2) {
+			if (elementSecondary <= 4 && fireType == 2) {
 				SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Gun/Blaster_ShockGlow");
 				dustType = 226;
 			}
-			if(elementSecondary >= 5 && fireType == 2) {
+			if (elementSecondary >= 5 && fireType == 2) {
 				SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Gun/Blaster_FreezeGlow");
 				dustType = 180;
 			}
 		}
 		public override void RightClick(Player player)
 		{
-			if(elementPrimary <= 1) {
+			if (elementPrimary <= 1) {
 				elementalType = "Fire";
 			}
-			if(elementPrimary >= 2) {
+			if (elementPrimary >= 2) {
 				elementalType = "Poison";
 			}
-			if(elementSecondary <= 4) {
+			if (elementSecondary <= 4) {
 				elementalType2 = "Shock";
 			}
-			if(elementSecondary >= 5) {
+			if (elementSecondary >= 5) {
 				elementalType2 = "Freeze";
 			}
 			{
-				if(fireType == 1) {
+				if (fireType == 1) {
 					item.useAnimation = elementPrimary;
 					CombatText.NewText(new Rectangle((int)player.position.X, (int)player.position.Y - 10, player.width, player.height), new Color(255, 255, 255, 100),
 				   elementalType2);
 					fireType++;
-				} else if(fireType == 2) {
+				}
+				else if (fireType == 2) {
 					item.useAnimation = item.useTime;
 					CombatText.NewText(new Rectangle((int)player.position.X, (int)player.position.Y - 10, player.width, player.height), new Color(255, 255, 255, 100),
 				   elementalType);
@@ -125,7 +126,7 @@ namespace SpiritMod.Items.Weapon.Gun
 			Main.PlaySound(SoundLoader.customSoundType, player.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MaliwanShot1"));
 			{
 				Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY - 1)) * 38f;
-				if(Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
+				if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
 					position += muzzleOffset;
 				}
 				float spread = MathHelper.ToRadians(4f); //45 degrees converted to radians
@@ -135,23 +136,23 @@ namespace SpiritMod.Items.Weapon.Gun
 				speedX = baseSpeed * (float)Math.Sin(randomAngle);
 				speedY = baseSpeed * (float)Math.Cos(randomAngle);
 			}
-			if(elementPrimary <= 1 && fireType == 1) {
+			if (elementPrimary <= 1 && fireType == 1) {
 				int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
 				Main.projectile[proj].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromMaliwanFireCommon = true;
 			}
-			if(elementPrimary >= 2 && fireType == 1) {
+			if (elementPrimary >= 2 && fireType == 1) {
 				int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
 				Main.projectile[proj].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromMaliwanAcidCommon = true;
 			}
-			if(elementSecondary <= 4 && fireType == 2) {
+			if (elementSecondary <= 4 && fireType == 2) {
 				int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
 				Main.projectile[proj].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromMaliwanShockCommon = true;
 			}
-			if(elementSecondary >= 5 && fireType == 2) {
+			if (elementSecondary >= 5 && fireType == 2) {
 				int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
 				Main.projectile[proj].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromMaliwanFreezeCommon = true;
 			}
-			for(int index1 = 0; index1 < 5; ++index1) {
+			for (int index1 = 0; index1 < 5; ++index1) {
 				int index2 = Dust.NewDust(new Vector2(position.X, position.Y), item.width - 64, item.height - 16, dustType, speedX, speedY, (int)byte.MaxValue, new Color(), (float)SpiritMod.instance.spiritRNG.Next(10, 17) * 0.1f);
 				Main.dust[index2].noLight = true;
 				Main.dust[index2].noGravity = true;
@@ -170,7 +171,7 @@ namespace SpiritMod.Items.Weapon.Gun
 		};
 		public override void Load(TagCompound tag)
 		{
-			if(!tag.ContainsKey(nameof(nameIndex))) {
+			if (!tag.ContainsKey(nameof(nameIndex))) {
 				return;
 			}
 
@@ -212,16 +213,16 @@ namespace SpiritMod.Items.Weapon.Gun
 		public string elementalType2;
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
-			if(elementPrimary <= 1) {
+			if (elementPrimary <= 1) {
 				elementalType = "Fire";
 			}
-			if(elementPrimary >= 2) {
+			if (elementPrimary >= 2) {
 				elementalType = "Poison";
 			}
-			if(elementSecondary <= 4) {
+			if (elementSecondary <= 4) {
 				elementalType2 = "Shock";
 			}
-			if(elementSecondary >= 5) {
+			if (elementSecondary >= 5) {
 				elementalType2 = "Freeze";
 			}
 			var line = new TooltipLine(mod, "", "Right-click in inventory to toggle between " + elementalType + " & " + elementalType2);

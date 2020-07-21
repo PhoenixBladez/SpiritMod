@@ -25,7 +25,7 @@ namespace SpiritMod.Projectiles
 		public override void AI()
 		{
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 8) {
+			if (projectile.frameCounter >= 8) {
 				projectile.frameCounter = 0;
 				projectile.frame = (projectile.frame + 1) % 3;
 			}

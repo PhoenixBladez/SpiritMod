@@ -37,21 +37,21 @@ namespace SpiritMod.Items.DonatorItems.FrostTroll
 
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
-			if(Main.rand.Next(1) == 0)
+			if (Main.rand.Next(1) == 0)
 				Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 187);
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			for(int I = 0; I < 5; I++)
-				if(Main.rand.Next(3) == 0)
+			for (int I = 0; I < 5; I++)
+				if (Main.rand.Next(3) == 0)
 					Projectile.NewProjectile(position.X, position.Y, speedX * (Main.rand.Next(500, 900) / 100), speedY * (Main.rand.Next(500, 900) / 100), ModContent.ProjectileType<FrostBolt>(), damage, knockBack, player.whoAmI);
 			return false;
 		}
 
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
 		{
-			if(Main.rand.Next(4) == 0)
+			if (Main.rand.Next(4) == 0)
 				target.AddBuff(BuffID.Frostburn, 400, true);
 		}
 

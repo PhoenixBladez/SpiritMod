@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Consumable.Quest
 		}
 		public override void UpdateInventory(Player player)
 		{
-			if(MyWorld.numWinterbornKilled > 0) {
+			if (MyWorld.numWinterbornKilled > 0) {
 				item.SetNameOverride("Incomplete Slayer's Contract: " + MyWorld.numWinterbornKilled + "/10 Complete");
 			}
 			player.GetSpiritPlayer().emptyWinterbornScroll = true;

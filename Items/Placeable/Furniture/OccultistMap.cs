@@ -32,5 +32,5 @@ namespace SpiritMod.Items.Placeable.Furniture
 
 			item.createTile = ModContent.TileType<OccultistMapTile>();
 		}
-    }
+	}
 }

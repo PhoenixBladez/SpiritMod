@@ -44,7 +44,7 @@ namespace SpiritMod.Items.Equipment
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			Main.PlaySound(SoundLoader.customSoundType, player.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MaliwanShot1"));
-			if((rightactive && Main.projectile[right].active == false) || (leftactive && Main.projectile[left].active == false)) //if the gates despawn, reset
+			if ((rightactive && Main.projectile[right].active == false) || (leftactive && Main.projectile[left].active == false)) //if the gates despawn, reset
 			{
 				Main.projectile[right].active = false;
 				Main.projectile[left].active = false;
@@ -57,23 +57,24 @@ namespace SpiritMod.Items.Equipment
               {
                   return false;
               }*/
-			if(player.altFunctionUse == 2) {
-				if(rightactive) {
+			if (player.altFunctionUse == 2) {
+				if (rightactive) {
 					Main.projectile[right].active = false;
 				}
 				right = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<RightZipline>(), item.damage, 1, Main.myPlayer);
 				rightactive = true;
-				if(leftactive) {
+				if (leftactive) {
 					Main.projectile[right].ai[1] = left;
 					Main.projectile[left].ai[1] = right;
 				}
-			} else {
-				if(leftactive) {
+			}
+			else {
+				if (leftactive) {
 					Main.projectile[left].active = false;
 				}
 				left = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<LeftZipline>(), item.damage, 1, Main.myPlayer);
 				leftactive = true;
-				if(rightactive) {
+				if (rightactive) {
 					Main.projectile[left].ai[1] = right;
 					Main.projectile[right].ai[1] = left;
 				}

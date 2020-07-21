@@ -20,5 +20,5 @@ namespace SpiritMod.Items.Armor.CenturionSet
 
 			item.vanity = true;
 		}
-    }
+	}
 }

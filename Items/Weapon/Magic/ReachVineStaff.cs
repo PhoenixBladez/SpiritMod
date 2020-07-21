@@ -40,15 +40,15 @@ namespace SpiritMod.Items.Weapon.Magic
 			Main.PlaySound(SoundID.Grass, (int)player.position.X, (int)player.position.Y);
 			Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
 			int amount = Main.rand.Next(1, 3);
-			for(int i = 0; i < amount; ++i) {
+			for (int i = 0; i < amount; ++i) {
 				Vector2 pos = new Vector2(mouse.X + player.width * 0.5f + Main.rand.Next(-20, 21), mouse.Y - 600f);
 				pos.X = (pos.X * 10f + mouse.X) / 11f + (float)Main.rand.Next(-10, 11);
 				pos.Y -= 150;
 				float spX = mouse.X + player.width * 0.5f + Main.rand.Next(-200, 201) - mouse.X;
 				float spY = mouse.Y - pos.Y;
-				if(spY < 0f)
+				if (spY < 0f)
 					spY *= -1f;
-				if(spY < 20f)
+				if (spY < 20f)
 					spY = 20f;
 
 				float length = (float)Math.Sqrt((double)(spX * spX + spY * spY));

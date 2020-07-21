@@ -27,9 +27,9 @@ namespace SpiritMod.Projectiles.Magic
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 6);
-			for(int I = 0; I < 8; I++)
+			for (int I = 0; I < 8; I++)
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 5, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
-			for(int i = 0; i < 3; ++i) {
+			for (int i = 0; i < 3; ++i) {
 				int randFire = Main.rand.Next(3);
 				int newProj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y,
 					Main.rand.Next(-400, 400) / 100, Main.rand.Next(-4, 4),
@@ -39,7 +39,7 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override bool PreAI()
 		{
-			if(Main.rand.Next(4) == 1)
+			if (Main.rand.Next(4) == 1)
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 5, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 
 			return true;
@@ -47,7 +47,7 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(5) == 0)
+			if (Main.rand.Next(5) == 0)
 				target.AddBuff(ModContent.BuffType<Wither>(), 180);
 		}
 

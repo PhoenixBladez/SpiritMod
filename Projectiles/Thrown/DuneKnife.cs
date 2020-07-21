@@ -36,10 +36,10 @@ namespace SpiritMod.Projectiles.Thrown
 
 			//loop through first 200 NPCs in Main.npc
 			//this loop finds the closest valid target NPC within the range of targetDist pixels
-			for(int i = 0; i < 200; i++) {
-				if(Main.npc[i].CanBeChasedBy(projectile) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1)) {
+			for (int i = 0; i < 200; i++) {
+				if (Main.npc[i].CanBeChasedBy(projectile) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1)) {
 					float dist = projectile.Distance(Main.npc[i].Center);
-					if(dist < targetDist) {
+					if (dist < targetDist) {
 						targetDist = dist;
 						targetPos = Main.npc[i].Center;
 						targetAcquired = true;
@@ -48,7 +48,7 @@ namespace SpiritMod.Projectiles.Thrown
 			}
 
 			//change trajectory to home in on target
-			if(targetAcquired) {
+			if (targetAcquired) {
 				float homingSpeedFactor = 6f;
 				Vector2 homingVect = targetPos - projectile.Center;
 				float dist = projectile.Distance(targetPos);
@@ -59,7 +59,7 @@ namespace SpiritMod.Projectiles.Thrown
 			}
 
 			//Spawn the dust
-			if(Main.rand.Next(11) == 0) {
+			if (Main.rand.Next(11) == 0) {
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 87, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			}
 			projectile.rotation = projectile.velocity.ToRotation() + (float)(Math.PI / 2);
@@ -67,7 +67,7 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 5; i++) {
+			for (int i = 0; i < 5; i++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 87);
 			}
 		}

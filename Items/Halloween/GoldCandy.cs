@@ -4,7 +4,7 @@ namespace SpiritMod.Items.Halloween
 {
 	public class GoldCandy : CandyBase
 	{
-		
+
 
 		public override void SetStaticDefaults()
 		{

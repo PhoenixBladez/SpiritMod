@@ -38,10 +38,10 @@ namespace SpiritMod.Projectiles.Pet
 		{
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if(player.dead)
+			if (player.dead)
 				modPlayer.lanternPet = false;
 
-			if(modPlayer.lanternPet)
+			if (modPlayer.lanternPet)
 				projectile.timeLeft = 2;
 		}
 

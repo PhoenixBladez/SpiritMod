@@ -2,7 +2,7 @@ namespace SpiritMod.Items.Halloween
 {
 	public class Apple : CandyBase
 	{
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Apple");

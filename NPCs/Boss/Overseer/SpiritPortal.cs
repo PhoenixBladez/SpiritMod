@@ -40,7 +40,7 @@ namespace SpiritMod.NPCs.Boss.Overseer
 			direction8.Y *= 22f;
 
 			int amountOfProjectiles = Main.rand.Next(5, 7);
-			for(int i = 0; i < amountOfProjectiles; ++i) {
+			for (int i = 0; i < amountOfProjectiles; ++i) {
 				float A = (float)Main.rand.Next(-250, 250) * 0.01f;
 				float B = (float)Main.rand.Next(-250, 250) * 0.01f;
 				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, direction8.X + A, direction8.Y + B, ModContent.ProjectileType<SpiritShard>(), 80, 1, Main.myPlayer, 0, 0);
@@ -49,8 +49,8 @@ namespace SpiritMod.NPCs.Boss.Overseer
 
 		public override bool PreAI()
 		{
-			if(start) {
-				for(int num621 = 0; num621 < 55; num621++) {
+			if (start) {
+				for (int num621 = 0; num621 < 55; num621++) {
 					int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 206, 0f, 0f, 206, default(Color), 2f);
 				}
 				projectile.ai[1] = projectile.ai[0];
@@ -66,7 +66,7 @@ namespace SpiritMod.NPCs.Boss.Overseer
 			float lowestDist = float.MaxValue;
 			NPC parent = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<Overseer>())];
 			Player player = Main.player[parent.target]; // 
-			if((projectile.ai[1] / 2) % 75 == 1) {
+			if ((projectile.ai[1] / 2) % 75 == 1) {
 				Vector2 dir = player.Center - projectile.Center;
 				dir.Normalize();
 				dir *= 14;

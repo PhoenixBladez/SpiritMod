@@ -44,8 +44,8 @@ namespace SpiritMod.NPCs.Town
 
 		public bool CurrentQuestSkippable {
 			get {
-				if(_currentQuest == -1) return true;
-				if(_currentQuest == -2) return false;
+				if (_currentQuest == -1) return true;
+				if (_currentQuest == -2) return false;
 				return _quests[_currentQuest].NthQuest == -1;
 			}
 		}
@@ -67,12 +67,12 @@ namespace SpiritMod.NPCs.Town
 				" Wow, look at that craftwork! It's supposed to be real powerful, too." +
 				" So maybe you won't get killed while you're out there adventuring, yeah?", false,
 				() => {
-                    MyWorld.shadowflameComplete = true;
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<PottedWillow>(), Main.rand.Next(1, 4));
-                    Main.LocalPlayer.QuickSpawnItem(ItemID.TatteredCloth, Main.rand.Next(5, 7));
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
-                    Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
-                });
+					MyWorld.shadowflameComplete = true;
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<PottedWillow>(), Main.rand.Next(1, 4));
+					Main.LocalPlayer.QuickSpawnItem(ItemID.TatteredCloth, Main.rand.Next(5, 7));
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
+				});
 			shadowflameStaffQuest.CanGiveQuest = () => {
 				return MyWorld.gennedTower && !MyWorld.gennedBandits;
 			};
@@ -91,8 +91,8 @@ namespace SpiritMod.NPCs.Town
 					MyWorld.sepulchreComplete = true;
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SepulchrePotItem1>(), Main.rand.Next(6, 10));
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SepulchrePotItem2>(), Main.rand.Next(6, 10));
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
-                    Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
 				});
 
 			Quest jadeStaffQuest = RegisterQuest(ModContent.ItemType<JadeStaff>(),
@@ -106,9 +106,9 @@ namespace SpiritMod.NPCs.Town
 				" Use it carefully, alright? That there is one of a kind.", false,
 
 				() => {
-                    MyWorld.jadeStaffComplete = true;
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<PottedSakura>(), Main.rand.Next(1, 4));
-                    int[] lootTable = {
+					MyWorld.jadeStaffComplete = true;
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<PottedSakura>(), Main.rand.Next(1, 4));
+					int[] lootTable = {
 					ModContent.ItemType<Shrine1>(),
 					ModContent.ItemType<Shrine2>(),
 					ModContent.ItemType<Shrine3>(),
@@ -117,12 +117,12 @@ namespace SpiritMod.NPCs.Town
 					int loot1 = Main.rand.Next(lootTable.Length);
 					Main.LocalPlayer.QuickSpawnItem(lootTable[loot]);
 					Main.LocalPlayer.QuickSpawnItem(lootTable[loot1]);
-					if(Main.rand.Next(4) == 0) {
+					if (Main.rand.Next(4) == 0) {
 						Main.LocalPlayer.QuickSpawnItem(ItemID.Kimono);
 					}
 					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
-                });
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+				});
 			jadeStaffQuest.CanGiveQuest = () => {
 				return NPC.downedBoss1;
 			};
@@ -139,21 +139,21 @@ namespace SpiritMod.NPCs.Town
 				 true,
 				 () => {
 					 MyWorld.spawnHornetFish = false;
-                     Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<LeafPaddyHat>());
-                     Main.LocalPlayer.QuickSpawnItem(ItemID.Vine, 2);
-					 if(Main.rand.Next(3) == 0) {
+					 Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<LeafPaddyHat>());
+					 Main.LocalPlayer.QuickSpawnItem(ItemID.Vine, 2);
+					 if (Main.rand.Next(3) == 0) {
 						 Main.LocalPlayer.QuickSpawnItem(ItemID.TigerSkin);
 					 }
 					 Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<FishingPainting>());
 					 Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
-                     Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
-                 }
+					 Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+				 }
 
 				);
 			hornetFishQuest.OnQuestStart = () => {
 				MyWorld.spawnHornetFish = true;
 			};
-            Quest mushroomQuest = RegisterQuest(ModContent.ItemType<VibeshroomItem>(),
+			Quest mushroomQuest = RegisterQuest(ModContent.ItemType<VibeshroomItem>(),
 
 				"I've been hearin' stories about some new flora that's cropped up around those strange Mushroom Forests recently." +
 				" These lil' buggers seem to just sway from side to side, as if they're dancin'." +
@@ -162,23 +162,23 @@ namespace SpiritMod.NPCs.Town
 				" It's a cutie for sure. I've put this critter into a little jar. I'm sure it could spice up my home." +
 				" We all could use a little more cute from time to time. If you find any more, don't hurt the little things!", true,
 				() => {
-                    MyWorld.vibeShroomComplete = true;
+					MyWorld.vibeShroomComplete = true;
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<VibeshroomJarItem>(), 1);
-					if(Main.rand.Next(3) == 0) {
+					if (Main.rand.Next(3) == 0) {
 						Main.LocalPlayer.QuickSpawnItem(868);
 					}
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<GlowRoot>(), Main.rand.Next(3, 6));
-                    Main.LocalPlayer.QuickSpawnItem(ItemID.GlowingMushroom, Main.rand.Next(8, 15));
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<GlowRoot>(), Main.rand.Next(3, 6));
+					Main.LocalPlayer.QuickSpawnItem(ItemID.GlowingMushroom, Main.rand.Next(8, 15));
 					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
-                });
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+				});
 
 			mushroomQuest.OnQuestStart = () => {
 				MyWorld.spawnVibeshrooms = true;
 			};
-            #endregion
-            #region ExplorerQuests
-            Quest explorerQuestMushroom = RegisterQuest(ModContent.ItemType<ExplorerScrollMushroomFull>(),
+			#endregion
+			#region ExplorerQuests
+			Quest explorerQuestMushroom = RegisterQuest(ModContent.ItemType<ExplorerScrollMushroomFull>(),
 
 				"Up for a little explorin'? This world's massive, and even I haven't seen it all." +
 				" I'd like ya to head out there and map out the far reaches of this land. Specifically, I'm looking for info on any nearby Glowing Mushroom Caverns." +
@@ -191,26 +191,25 @@ namespace SpiritMod.NPCs.Town
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<PinBlue>());
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MapScroll>(), Main.rand.Next(1, 3));
 					Main.LocalPlayer.QuickSpawnItem(ItemID.MushroomGrassSeeds, Main.rand.Next(2, 3));
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
-                    Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
 
 				});
 
 			explorerQuestMushroom.OnQuestStart = () => {
-				if(!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollMushroomEmpty>()))
+				if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollMushroomEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ExplorerScrollMushroomEmpty>());
 			};
-            explorerQuestMushroom.TrySkipQuest = () =>
-            {
-                int index = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollMushroomEmpty>());
-                int index2 = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollMushroomFull>());
-                if (index == -1 && index2 == -1) return false;
+			explorerQuestMushroom.TrySkipQuest = () => {
+				int index = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollMushroomEmpty>());
+				int index2 = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollMushroomFull>());
+				if (index == -1 && index2 == -1) return false;
 
-                TryRemoveItem(index);
-                TryRemoveItem(index2);
-                return true;
-            };
-            Quest explorerQuestAsteroids = RegisterQuest(ModContent.ItemType<ExplorerScrollAsteroidFull>(),
+				TryRemoveItem(index);
+				TryRemoveItem(index2);
+				return true;
+			};
+			Quest explorerQuestAsteroids = RegisterQuest(ModContent.ItemType<ExplorerScrollAsteroidFull>(),
 
 				"Up for a little explorin'? This world's massive, and even I haven't seen it all." +
 				" I'd like ya to head out there and map out the far reaches of this land. There's an asteroid field smack-dab above one of the oceans. Completely uncharted." +
@@ -221,30 +220,29 @@ namespace SpiritMod.NPCs.Town
 
 				() => {
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<PinRed>());
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<OldTelescope>());
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MapScroll>(), Main.rand.Next(1, 3));
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<JumpPadItem>(), Main.rand.Next(1, 2));
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<OldTelescope>());
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MapScroll>(), Main.rand.Next(1, 3));
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<JumpPadItem>(), Main.rand.Next(1, 2));
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ScrapItem>(), Main.rand.Next(50, 70));
 					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
 
 				});
 
 			explorerQuestAsteroids.OnQuestStart = () => {
-				if(!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollAsteroidEmpty>()))
+				if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollAsteroidEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ExplorerScrollAsteroidEmpty>());
 			};
-            explorerQuestAsteroids.TrySkipQuest = () =>
-            {
-                int index = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollAsteroidEmpty>());
-                int index2 = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollAsteroidFull>());
-                if (index == -1 && index2 == -1) return false;
+			explorerQuestAsteroids.TrySkipQuest = () => {
+				int index = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollAsteroidEmpty>());
+				int index2 = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollAsteroidFull>());
+				if (index == -1 && index2 == -1) return false;
 
-                TryRemoveItem(index);
-                TryRemoveItem(index2);
-                return true;
-            };
-            Quest explorerQuestMarble = RegisterQuest(ModContent.ItemType<ExplorerScrollMarbleFull>(),
+				TryRemoveItem(index);
+				TryRemoveItem(index2);
+				return true;
+			};
+			Quest explorerQuestMarble = RegisterQuest(ModContent.ItemType<ExplorerScrollMarbleFull>(),
 
 				"Up for a little explorin'? This world's massive, and even I haven't seen it all." +
 				" I'd like ya to head out there and map out the lower reaches of this land. A few caverns are covered in marble and the ruins of some ancient civilization." +
@@ -254,32 +252,31 @@ namespace SpiritMod.NPCs.Town
 				" Maybe I'll coordinate some digs with the Demolitionist. You're welcome to join us too, lad. You've more than earned it. ", true,
 
 				() => {
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CenturionHead>());
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CenturionBody>());
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CenturionLegs>());
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MapScroll>(), Main.rand.Next(1, 3));
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
-                    Main.LocalPlayer.QuickSpawnItem(ItemID.Javelin, Main.rand.Next(50, 95));
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CenturionHead>());
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CenturionBody>());
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CenturionLegs>());
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MapScroll>(), Main.rand.Next(1, 3));
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+					Main.LocalPlayer.QuickSpawnItem(ItemID.Javelin, Main.rand.Next(50, 95));
 					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
 
 				});
 
 			explorerQuestMarble.OnQuestStart = () => {
-				if(!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollMarbleEmpty>()))
+				if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollMarbleEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ExplorerScrollMarbleEmpty>());
 			};
-            explorerQuestMarble.TrySkipQuest = () =>
-            {
-                int index = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollMarbleEmpty>());
-                int index2 = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollMarbleFull>());
-                if (index == -1 && index2 == -1) return false;
+			explorerQuestMarble.TrySkipQuest = () => {
+				int index = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollMarbleEmpty>());
+				int index2 = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollMarbleFull>());
+				if (index == -1 && index2 == -1) return false;
 
-                TryRemoveItem(index);
-                TryRemoveItem(index2);
-                return true;
-            };
+				TryRemoveItem(index);
+				TryRemoveItem(index2);
+				return true;
+			};
 
-            Quest explorerQuestGranite = RegisterQuest(ModContent.ItemType<ExplorerScrollGraniteFull>(),
+			Quest explorerQuestGranite = RegisterQuest(ModContent.ItemType<ExplorerScrollGraniteFull>(),
 
 				 "Up for a little explorin'? This world's massive, and even I haven't seen it all." +
 				 " A couple of underground cave systems seem to be made almost entirely of dark granite." +
@@ -289,29 +286,28 @@ namespace SpiritMod.NPCs.Town
 				 " Lookin' at this map, this place still seems real mysterious. Maybe there are some ore deposits we can extract some of that granite energy from?" +
 				 " I'll talk to the Merchant and Demolitionist. Mighty fine work as usual, lad.", true,
 				() => {
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CapacitorHead>());
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CapacitorBody>());
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CapacitorLegs>());
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MapScroll>(), Main.rand.Next(1, 4));
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CapacitorHead>());
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CapacitorBody>());
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CapacitorLegs>());
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MapScroll>(), Main.rand.Next(1, 4));
 					Main.LocalPlayer.QuickSpawnItem(ItemID.NightVisionHelmet);
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
-                    Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
 				});
 			explorerQuestGranite.OnQuestStart = () => {
-				if(!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollGraniteEmpty>()))
+				if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollGraniteEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ExplorerScrollGraniteEmpty>());
 			};
-            explorerQuestMarble.TrySkipQuest = () =>
-            {
-                int index = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollGraniteEmpty>());
-                int index2 = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollGraniteFull>());
-                if (index == -1 && index2 == -1) return false;
+			explorerQuestMarble.TrySkipQuest = () => {
+				int index = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollGraniteEmpty>());
+				int index2 = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollGraniteFull>());
+				if (index == -1 && index2 == -1) return false;
 
-                TryRemoveItem(index);
-                TryRemoveItem(index2);
-                return true;
-            };
-            Quest explorerQuestHive = RegisterQuest(ModContent.ItemType<ExplorerScrollHiveFull>(),
+				TryRemoveItem(index);
+				TryRemoveItem(index2);
+				return true;
+			};
+			Quest explorerQuestHive = RegisterQuest(ModContent.ItemType<ExplorerScrollHiveFull>(),
 
 				"Up for a little explorin'? This world's massive, and even I haven't seen it all." +
 				" Have you checked out the lower parts of the Jungle? I've recently heard about a series of massive hives around there." +
@@ -320,32 +316,31 @@ namespace SpiritMod.NPCs.Town
 				"You're covered in a lot of bee stings, lad. Maybe the Nurse has something for those. They look super painful. Did ya map the place out, though?" +
 				" Hmm, interesting. Lotta honey for the takin'. What's this? This giant larva in the middle. Can't be good, for sure. Tread lightly around there, alright?", true,
 				() => {
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<BeekeeperHead>());
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<BeekeeperBody>());
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<BeekeeperLegs>());
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MapScroll>(), Main.rand.Next(1, 4));
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<BeekeeperHead>());
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<BeekeeperBody>());
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<BeekeeperLegs>());
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MapScroll>(), Main.rand.Next(1, 4));
 					Main.LocalPlayer.QuickSpawnItem(ItemID.BottledHoney, Main.rand.Next(8, 12));
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
-                    Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
 
 				});
 			explorerQuestHive.OnQuestStart = () => {
-				if(!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollHiveEmpty>()))
+				if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollHiveEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ExplorerScrollHiveEmpty>());
 			};
-            explorerQuestMarble.TrySkipQuest = () =>
-            {
-                int index = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollHiveEmpty>());
-                int index2 = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollHiveFull>());
-                if (index == -1 && index2 == -1) return false;
+			explorerQuestMarble.TrySkipQuest = () => {
+				int index = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollHiveEmpty>());
+				int index2 = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollHiveFull>());
+				if (index == -1 && index2 == -1) return false;
 
-                TryRemoveItem(index);
-                TryRemoveItem(index2);
-                return true;
-            };
-            #endregion
-            #region SlayerQuests
-            Quest slayerQuestWinterborn = RegisterQuest(ModContent.ItemType<WinterbornSlayerScrollFull>(),
+				TryRemoveItem(index);
+				TryRemoveItem(index2);
+				return true;
+			};
+			#endregion
+			#region SlayerQuests
+			Quest slayerQuestWinterborn = RegisterQuest(ModContent.ItemType<WinterbornSlayerScrollFull>(),
 
 				"A few of my associates have scouted a growing threat in the icy caverns." +
 				" Sometimes, they even get bold enough to roam the surface durin' heavy blizzards. We're calling 'em Winterborn, and I'd like for you to thin their numbers a bit." +
@@ -378,13 +373,13 @@ namespace SpiritMod.NPCs.Town
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SnowRangerHead>());
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SnowRangerBody>());
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SnowRangerLegs>());
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<IceBerries>(), Main.rand.Next(2, 6));
-                    MyWorld.winterbornComplete = true;
-                    Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<IceBerries>(), Main.rand.Next(2, 6));
+					MyWorld.winterbornComplete = true;
+					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
 				});
 			slayerQuestWinterborn.OnQuestStart = () => {
-				if(!Main.LocalPlayer.HasItem(ModContent.ItemType<WinterbornSlayerScrollEmpty>()))
+				if (!Main.LocalPlayer.HasItem(ModContent.ItemType<WinterbornSlayerScrollEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<WinterbornSlayerScrollEmpty>());
 			};
 			slayerQuestWinterborn.CanGiveQuest = () => {
@@ -409,10 +404,10 @@ namespace SpiritMod.NPCs.Town
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<BeholderMask>());
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MarbleChunk>(), Main.rand.Next(6, 11));
 					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
-                });
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+				});
 			slayerQuestBeholder.OnQuestStart = () => {
-				if(!Main.LocalPlayer.HasItem(ModContent.ItemType<BeholderSlayerScrollEmpty>()))
+				if (!Main.LocalPlayer.HasItem(ModContent.ItemType<BeholderSlayerScrollEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<BeholderSlayerScrollEmpty>());
 			};
 			slayerQuestBeholder.CanGiveQuest = () => {
@@ -436,14 +431,14 @@ namespace SpiritMod.NPCs.Town
 					int loot3 = Main.rand.Next(lootTable1.Length);
 					Main.LocalPlayer.QuickSpawnItem(lootTable1[loot3], Main.rand.Next(18, 30));
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ChaosPearl>(), Main.rand.Next(5, 9));
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
-                    if (Main.rand.Next(2) == 0) {
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+					if (Main.rand.Next(2) == 0) {
 						Main.LocalPlayer.QuickSpawnItem(1987);
 					}
 					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
 				});
 			slayerQuestValkyrie.OnQuestStart = () => {
-				if(!Main.LocalPlayer.HasItem(ModContent.ItemType<ValkyrieSlayerScrollEmpty>()))
+				if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ValkyrieSlayerScrollEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ValkyrieSlayerScrollEmpty>());
 			};
 
@@ -463,15 +458,15 @@ namespace SpiritMod.NPCs.Town
 					 };
 					 int loot3 = Main.rand.Next(lootTable1.Length);
 					 Main.LocalPlayer.QuickSpawnItem(lootTable1[loot3], Main.rand.Next(18, 30));
-                     Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+					 Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
 					 Main.LocalPlayer.QuickSpawnItem(934);
-                     Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CowboyHead>());
-                     Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CowboyBody>());
-                     Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CowboyLegs>());
-                     Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
+					 Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CowboyHead>());
+					 Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CowboyBody>());
+					 Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CowboyLegs>());
+					 Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
 				 });
 			slayerQuestAntlion.OnQuestStart = () => {
-				if(!Main.LocalPlayer.HasItem(ModContent.ItemType<AntlionSlayerScrollEmpty>()))
+				if (!Main.LocalPlayer.HasItem(ModContent.ItemType<AntlionSlayerScrollEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<AntlionSlayerScrollEmpty>());
 			};
 
@@ -488,16 +483,16 @@ namespace SpiritMod.NPCs.Town
 					 ModContent.ItemType<TargetCan>(),
 					 ModContent.ItemType<TargetBottle>(),
 					 };
-                    MyWorld.drBonesComplete = true;
+					MyWorld.drBonesComplete = true;
 					int loot3 = Main.rand.Next(lootTable1.Length);
 					Main.LocalPlayer.QuickSpawnItem(lootTable1[loot3], Main.rand.Next(18, 30));
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
-                    Main.LocalPlayer.QuickSpawnItem(252);
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+					Main.LocalPlayer.QuickSpawnItem(252);
 					Main.LocalPlayer.QuickSpawnItem(253);
 					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
 				});
 			slayerQuestDrBones.OnQuestStart = () => {
-				if(!Main.LocalPlayer.HasItem(ModContent.ItemType<DrBonesSlayerScrollEmpty>()))
+				if (!Main.LocalPlayer.HasItem(ModContent.ItemType<DrBonesSlayerScrollEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<DrBonesSlayerScrollEmpty>());
 			};
 
@@ -517,13 +512,13 @@ namespace SpiritMod.NPCs.Town
 					 };
 					int loot3 = Main.rand.Next(lootTable1.Length);
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<WheezerPainting>());
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<Carapace>(), Main.rand.Next(4, 10));
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<Carapace>(), Main.rand.Next(4, 10));
 					Main.LocalPlayer.QuickSpawnItem(lootTable1[loot3], Main.rand.Next(18, 30));
 					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
 				});
 			slayerQuestWheezers.OnQuestStart = () => {
-				if(!Main.LocalPlayer.HasItem(ModContent.ItemType<WheezerSlayerScrollEmpty>()))
+				if (!Main.LocalPlayer.HasItem(ModContent.ItemType<WheezerSlayerScrollEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<WheezerSlayerScrollEmpty>());
 
 			};
@@ -549,8 +544,8 @@ namespace SpiritMod.NPCs.Town
 					 ModContent.ItemType<ScrapItem3>(),
 					 ModContent.ItemType<ScrapItem4>(),
 					 };
-                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
-                    int loot = Main.rand.Next(lootTable.Length);
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+					int loot = Main.rand.Next(lootTable.Length);
 					int loot2 = Main.rand.Next(lootTable1.Length);
 					int loot3 = Main.rand.Next(lootTable1.Length);
 					Main.LocalPlayer.QuickSpawnItem(lootTable[loot3]);
@@ -560,7 +555,7 @@ namespace SpiritMod.NPCs.Town
 					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
 				});
 			slayerQuestStardancers.OnQuestStart = () => {
-				if(!Main.LocalPlayer.HasItem(ModContent.ItemType<StardancerSlayerScrollEmpty>()))
+				if (!Main.LocalPlayer.HasItem(ModContent.ItemType<StardancerSlayerScrollEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<StardancerSlayerScrollEmpty>());
 
 			};
@@ -587,10 +582,10 @@ namespace SpiritMod.NPCs.Town
 				Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<EnchantedLeaf>(), Main.rand.Next(5, 9));
 				Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<AncientBark>(), Main.rand.Next(10, 25));
 				Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<Items.Armor.Masks.GladeWraithMask>(), 1);
-                Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ReachBossHead>());
-                Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ReachBossBody>());
-                Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ReachBossLegs>());
-                Main.LocalPlayer.QuickSpawnItem(ItemID.HealingPotion, 4);
+				Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ReachBossHead>());
+				Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ReachBossBody>());
+				Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ReachBossLegs>());
+				Main.LocalPlayer.QuickSpawnItem(ItemID.HealingPotion, 4);
 
 				Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
 			});
@@ -610,9 +605,9 @@ namespace SpiritMod.NPCs.Town
 
 				() => {
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<Items.Consumable.ScarabIdol>(), 1);
-                    Main.LocalPlayer.QuickSpawnItem(848);
-                    Main.LocalPlayer.QuickSpawnItem(866);
-                    int[] lootTable = {
+					Main.LocalPlayer.QuickSpawnItem(848);
+					Main.LocalPlayer.QuickSpawnItem(866);
+					int[] lootTable = {
 					ItemID.Topaz,
 					ItemID.Sapphire
 					};
@@ -631,28 +626,27 @@ namespace SpiritMod.NPCs.Town
 			_currentQuest = -1;
 			_previousQuest = -1;
 		}
-        private Func<bool> CreateSkipCheck<T1, T2>() where T1 : ModItem where T2 : ModItem
-        {
-            return () =>
-            {
-                int index = Main.LocalPlayer.FindItem(ModContent.ItemType<T1>());
-                int index2 = Main.LocalPlayer.FindItem(ModContent.ItemType<T2>());
-                if (index == -1 && index2 == -1) return false;
+		private Func<bool> CreateSkipCheck<T1, T2>() where T1 : ModItem where T2 : ModItem
+		{
+			return () => {
+				int index = Main.LocalPlayer.FindItem(ModContent.ItemType<T1>());
+				int index2 = Main.LocalPlayer.FindItem(ModContent.ItemType<T2>());
+				if (index == -1 && index2 == -1) return false;
 
-                TryRemoveItem(index);
-                TryRemoveItem(index2);
-                return true;
-            };
-        }
-        private void TryRemoveItem(int index)
-        {
-            if (index == -1) return;
+				TryRemoveItem(index);
+				TryRemoveItem(index2);
+				return true;
+			};
+		}
+		private void TryRemoveItem(int index)
+		{
+			if (index == -1) return;
 
-            Main.LocalPlayer.inventory[index].stack--;
-            if (Main.LocalPlayer.inventory[index].stack == 0)
-                Main.LocalPlayer.inventory[index].SetDefaults();
-        }
-        private Quest RegisterQuest(int itemId, string description, string completeText, bool consumeQuest, Action customReward = null)
+			Main.LocalPlayer.inventory[index].stack--;
+			if (Main.LocalPlayer.inventory[index].stack == 0)
+				Main.LocalPlayer.inventory[index].SetDefaults();
+		}
+		private Quest RegisterQuest(int itemId, string description, string completeText, bool consumeQuest, Action customReward = null)
 		{
 			Quest q = new Quest(itemId, description, completeText, consumeQuest);
 
@@ -664,24 +658,26 @@ namespace SpiritMod.NPCs.Town
 
 		public void WorldLoad(TagCompound tag)
 		{
-			for(int i = 0; i < _quests.Count; i++) {
+			for (int i = 0; i < _quests.Count; i++) {
 				_completed[i] = tag.GetBool("spiritAdventurerQuest_" + GetItemName(_quests[i].ItemID));
 			}
-			if(tag.ContainsKey("spiritAdventurerCurrentQuest")) {
+			if (tag.ContainsKey("spiritAdventurerCurrentQuest")) {
 				_currentQuest = tag.GetInt("spiritAdventurerCurrentQuest");
-			} else {
+			}
+			else {
 				_currentQuest = -1;
 			}
-			if(tag.ContainsKey("spiritAdventurerTotal")) {
+			if (tag.ContainsKey("spiritAdventurerTotal")) {
 				_questsCompleted = tag.GetInt("spiritAdventurerTotal");
-			} else {
+			}
+			else {
 				_questsCompleted = 0;
 			}
 		}
 
 		public void WorldSave(TagCompound tag)
 		{
-			for(int i = 0; i < _quests.Count; i++) {
+			for (int i = 0; i < _quests.Count; i++) {
 				tag.Add("spiritAdventurerQuest_" + GetItemName(_quests[i].ItemID), _completed[i]);
 			}
 			tag.Add("spiritAdventurerCurrentQuest", _currentQuest);
@@ -703,24 +699,26 @@ namespace SpiritMod.NPCs.Town
 		public bool QuestCheck()
 		{
 			Mod mod = SpiritMod.instance;
-			if(_currentQuest == -1) {
+			if (_currentQuest == -1) {
 				//New Quest
 				SetNextQuest();
 				return true;
-			} else if(_currentQuest == -2) {
+			}
+			else if (_currentQuest == -2) {
 				return true;
-			} else {
+			}
+			else {
 				Quest current = _quests[_currentQuest];
-				for(int i = 0; i < Main.LocalPlayer.inventory.Length; i++) {
-					if(Main.LocalPlayer.inventory[i].type == current.ItemID) {
+				for (int i = 0; i < Main.LocalPlayer.inventory.Length; i++) {
+					if (Main.LocalPlayer.inventory[i].type == current.ItemID) {
 						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 30, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
 						"Quest Complete!");
 						Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/QuestCompleteEffect"));
 
 						//take the item if the quest says to
-						if(current.ConsumeItem) {
+						if (current.ConsumeItem) {
 							Main.LocalPlayer.inventory[i].stack--;
-							if(Main.LocalPlayer.inventory[i].stack <= 0) {
+							if (Main.LocalPlayer.inventory[i].stack <= 0) {
 								Main.LocalPlayer.inventory[i].SetDefaults();
 							}
 						}
@@ -732,65 +730,60 @@ namespace SpiritMod.NPCs.Town
 
 						current.OnComplete?.Invoke();
 						_questsCompleted++;
-                        if (Main.netMode != 0)
-                        {
-                            ModPacket packet = _mod.GetPacket();
-                            packet.Write((byte)MessageType.AdventurerQuestCompleted);
-                            packet.Send();
-                        }
-                        return false;
+						if (Main.netMode != 0) {
+							ModPacket packet = _mod.GetPacket();
+							packet.Write((byte)MessageType.AdventurerQuestCompleted);
+							packet.Send();
+						}
+						return false;
 					}
 				}
 			}
 			return true;
 		}
 
-        public void SetNextQuest()
-        {
-            List<int> availableIndexes = AvailableQuests();
-            if (availableIndexes.Count == 0)
-            {
-                _currentQuest = -2;
-                return;
-            }
-            if (_currentQuest != -1 && !(_quests[_currentQuest].TrySkipQuest?.Invoke()).GetValueOrDefault())
-            {
-                return;
-            }
-            _currentQuest = Main.rand.Next(availableIndexes);
-            if (Main.netMode != 0)
-            {
-                ModPacket packet = _mod.GetPacket();
-                packet.Write((byte)MessageType.AdventurerNewQuest);
-                packet.Write(_currentQuest);
-                packet.Send();
-            }
-            _quests[_currentQuest].OnQuestStart?.Invoke();
-        }
-        public void HandlePacket(MessageType type, BinaryReader reader)
-        {
-            switch (type)
-            {
-                case MessageType.AdventurerNewQuest:
-                    _currentQuest = reader.ReadInt32();
-                    break;
-                case MessageType.AdventurerQuestCompleted:
-                    _completed[_currentQuest] = true;
-                    _previousQuest = _currentQuest;
-                    _currentQuest = -1;
-                    _questsCompleted++;
-                    break;
-            }
-        }
-        public string GetChatText()
+		public void SetNextQuest()
 		{
-			if(_previousQuest != -1) {
+			List<int> availableIndexes = AvailableQuests();
+			if (availableIndexes.Count == 0) {
+				_currentQuest = -2;
+				return;
+			}
+			if (_currentQuest != -1 && !(_quests[_currentQuest].TrySkipQuest?.Invoke()).GetValueOrDefault()) {
+				return;
+			}
+			_currentQuest = Main.rand.Next(availableIndexes);
+			if (Main.netMode != 0) {
+				ModPacket packet = _mod.GetPacket();
+				packet.Write((byte)MessageType.AdventurerNewQuest);
+				packet.Write(_currentQuest);
+				packet.Send();
+			}
+			_quests[_currentQuest].OnQuestStart?.Invoke();
+		}
+		public void HandlePacket(MessageType type, BinaryReader reader)
+		{
+			switch (type) {
+				case MessageType.AdventurerNewQuest:
+					_currentQuest = reader.ReadInt32();
+					break;
+				case MessageType.AdventurerQuestCompleted:
+					_completed[_currentQuest] = true;
+					_previousQuest = _currentQuest;
+					_currentQuest = -1;
+					_questsCompleted++;
+					break;
+			}
+		}
+		public string GetChatText()
+		{
+			if (_previousQuest != -1) {
 				string text = _quests[_previousQuest].CompleteText;
 				_previousQuest = -1;
 				Main.npcChatCornerItem = 0;
 				return text;
 			}
-			if(_currentQuest < 0) return "";
+			if (_currentQuest < 0) return "";
 			Main.npcChatCornerItem = _quests[_currentQuest].ItemID;
 			return _quests[_currentQuest].Description;
 		}
@@ -800,44 +793,44 @@ namespace SpiritMod.NPCs.Town
 		private List<int> AvailableQuests()
 		{
 			List<int> availableIndexes = new List<int>();
-			for(int i = 0; i < _completed.Length; i++) {
+			for (int i = 0; i < _completed.Length; i++) {
 				//Main.NewText(GetItemName(_quests[i].ItemID) + ": " + _completed[i]);
-				if(_quests[i].NthQuest == _questsCompleted + 1) {
+				if (_quests[i].NthQuest == _questsCompleted + 1) {
 					availableIndexes.Clear();
 					availableIndexes.Add(i);
 					return availableIndexes;
 				}
 
-				if(!_completed[i] && _quests[i].CanGiveQuest() && _quests[i].NthQuest == -1) availableIndexes.Add(i);
+				if (!_completed[i] && _quests[i].CanGiveQuest() && _quests[i].NthQuest == -1) availableIndexes.Add(i);
 			}
 			return availableIndexes;
 		}
 
-        private class Quest
-        {
-            public int ItemID;
-            public string Description;
-            public string CompleteText;
-            public bool ConsumeItem;
-            public int NthQuest;
+		private class Quest
+		{
+			public int ItemID;
+			public string Description;
+			public string CompleteText;
+			public bool ConsumeItem;
+			public int NthQuest;
 
-            public Action OnComplete;
-            public Action OnQuestStart;
-            public Func<bool> CanGiveQuest;
-            public Func<bool> TrySkipQuest;
+			public Action OnComplete;
+			public Action OnQuestStart;
+			public Func<bool> CanGiveQuest;
+			public Func<bool> TrySkipQuest;
 
-            public Quest(int item, string description, string completeText, bool consume)
-            {
-                ItemID = item;
-                Description = description;
-                CompleteText = completeText;
-                ConsumeItem = consume;
-                OnComplete = null;
-                NthQuest = -1;
-                CanGiveQuest = () => { return true; };
-                TrySkipQuest = () => { return true; };
-            }
-        }
-    }
+			public Quest(int item, string description, string completeText, bool consume)
+			{
+				ItemID = item;
+				Description = description;
+				CompleteText = completeText;
+				ConsumeItem = consume;
+				OnComplete = null;
+				NthQuest = -1;
+				CanGiveQuest = () => { return true; };
+				TrySkipQuest = () => { return true; };
+			}
+		}
+	}
 }
 

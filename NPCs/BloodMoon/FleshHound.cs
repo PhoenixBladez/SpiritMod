@@ -40,16 +40,16 @@ namespace SpiritMod.NPCs.BloodMoon
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			for(int k = 0; k < 40; k++) {
+			for (int k = 0; k < 40; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection * 2.5f, -1f, 0, default(Color), Main.rand.NextFloat(.45f, 1.15f));
 			}
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hound1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hound2"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hound2"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hound2"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hound2"), 1f);
-				for(int k = 0; k < 40; k++) {
+				for (int k = 0; k < 40; k++) {
 					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection * 2.5f, -1f, 0, default(Color), Main.rand.NextFloat(.45f, 1.15f));
 				}
 			}
@@ -59,9 +59,9 @@ namespace SpiritMod.NPCs.BloodMoon
 			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
 							 lightColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
-			if(trailbehind) {
+			if (trailbehind) {
 				Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height / Main.npcFrameCount[npc.type]) * 0.5f);
-				for(int k = 0; k < npc.oldPos.Length; k++) {
+				for (int k = 0; k < npc.oldPos.Length; k++) {
 					Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
 					Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
 					spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
@@ -70,7 +70,7 @@ namespace SpiritMod.NPCs.BloodMoon
 		}
 		public override void NPCLoot()
 		{
-			if(Main.rand.Next(2) == 1) {
+			if (Main.rand.Next(2) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BloodFire>());
 			}
 		}
@@ -89,11 +89,11 @@ namespace SpiritMod.NPCs.BloodMoon
 		{
 			npc.spriteDirection = npc.direction;
 			timer++;
-			if(timer == 400 && Main.netMode != NetmodeID.MultiplayerClient) {
+			if (timer == 400 && Main.netMode != NetmodeID.MultiplayerClient) {
 				Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 7);
 				npc.netUpdate = true;
 			}
-			if(timer == 400 && Main.netMode != NetmodeID.MultiplayerClient) {
+			if (timer == 400 && Main.netMode != NetmodeID.MultiplayerClient) {
 				num34616 = .95f;
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
@@ -106,10 +106,11 @@ namespace SpiritMod.NPCs.BloodMoon
 				npc.netUpdate = true;
 				trailbehind = true;
 				npc.knockBackResist = 0f;
-			} else {
+			}
+			else {
 				num34616 = .55f;
 			}
-			if(timer >= 551) {
+			if (timer >= 551) {
 				timer = 0;
 				npc.netUpdate = true;
 				trailbehind = false;

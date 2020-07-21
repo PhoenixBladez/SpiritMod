@@ -46,10 +46,10 @@ namespace SpiritMod.Items.Weapon.Gun
 		{
 			charger++;
 			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY - 1)) * 45f;
-			if(Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
+			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
 				position += muzzleOffset;
 			}
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				Main.PlaySound(SoundID.Item, player.position, 96);
 
 				Projectile.NewProjectile(position.X, position.Y - 14, speedX * 2, speedY * 2, ModContent.ProjectileType<HelixRocket>(), item.damage * 2 / 4 * 5 - 4, 11, player.whoAmI, 0f, 0f);
@@ -61,88 +61,89 @@ namespace SpiritMod.Items.Weapon.Gun
 				modPlayer.shootDelay2 = 240;
 				charger = 0;
 				return false;
-			} else
+			}
+			else
 				Main.PlaySound(SoundLoader.customSoundType, player.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Soldier2"));
 			{
-				if(charger == 30) {
+				if (charger == 30) {
 					{
 						Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<VisorBullet>(), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
 						return false;
 					}
 				}
-				if(charger == 31) {
+				if (charger == 31) {
 					{
 						Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<VisorBullet>(), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
 						return false;
 					}
 				}
-				if(charger == 32) {
+				if (charger == 32) {
 					{
 						Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<VisorBullet>(), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
 						return false;
 					}
 				}
-				if(charger == 33) {
+				if (charger == 33) {
 					{
 						Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<VisorBullet>(), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
 						return false;
 					}
 				}
-				if(charger == 34) {
+				if (charger == 34) {
 					{
 						Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<VisorBullet>(), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
 						return false;
 					}
 				}
-				if(charger == 35) {
+				if (charger == 35) {
 					{
 						Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<VisorBullet>(), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
 						return false;
 					}
 				}
-				if(charger == 36) {
+				if (charger == 36) {
 					{
 						Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<VisorBullet>(), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
 						return false;
 					}
 				}
-				if(charger == 37) {
+				if (charger == 37) {
 					{
 						Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<VisorBullet>(), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
 						return false;
 					}
 				}
-				if(charger == 38) {
+				if (charger == 38) {
 					{
 						Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<VisorBullet>(), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
 						return false;
 					}
 				}
-				if(charger == 39) {
+				if (charger == 39) {
 					{
 						Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<VisorBullet>(), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
 						return false;
 					}
 				}
-				if(charger == 40) {
+				if (charger == 40) {
 					{
 						Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<VisorBullet>(), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
 						return false;
 					}
 				}
-				if(charger == 41) {
+				if (charger == 41) {
 					{
 						Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<VisorBullet>(), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
 						return false;
 					}
 				}
-				if(charger == 42) {
+				if (charger == 42) {
 					{
 						Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<VisorBullet>(), item.damage / 4 * 5, knockBack, player.whoAmI, 0f, 0f);
 						return false;
 					}
 				}
-				if(charger >= 42) {
+				if (charger >= 42) {
 					charger = 0;
 				}
 				type = ModContent.ProjectileType<PulseBullet>();
@@ -157,13 +158,14 @@ namespace SpiritMod.Items.Weapon.Gun
 		}
 		public override bool CanUseItem(Player player)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 
 				MyPlayer modPlayer = player.GetSpiritPlayer();
-				if(modPlayer.shootDelay2 == 0)
+				if (modPlayer.shootDelay2 == 0)
 					return true;
 				return false;
-			} else {
+			}
+			else {
 				return true;
 			}
 		}

@@ -40,56 +40,58 @@ namespace SpiritMod.Items.Weapon.Magic
 		{
 			int dimension = 24;
 			int dimension2 = 90;
-			for(int j = 0; j < 50; j++) {
+			for (int j = 0; j < 50; j++) {
 				int randValue = Main.rand.Next(200 - j * 2, 400 + j * 2);
 				Vector2 center = player.Center;
 				center.X += Main.rand.Next(-randValue, randValue + 1);
 				center.Y += Main.rand.Next(-randValue, randValue + 1);
 
-				if(!Collision.SolidCollision(center, dimension, dimension) && !Collision.WetCollision(center, dimension, dimension)) {
+				if (!Collision.SolidCollision(center, dimension, dimension) && !Collision.WetCollision(center, dimension, dimension)) {
 					center.X += dimension / 2;
 					center.Y += dimension / 2;
 
-					if(Collision.CanHit(new Vector2(player.Center.X, player.position.Y), 1, 1, center, 1, 1) || Collision.CanHit(new Vector2(player.Center.X, player.position.Y - 50f), 1, 1, center, 1, 1)) {
+					if (Collision.CanHit(new Vector2(player.Center.X, player.position.Y), 1, 1, center, 1, 1) || Collision.CanHit(new Vector2(player.Center.X, player.position.Y - 50f), 1, 1, center, 1, 1)) {
 						int x = (int)center.X / 16;
 						int y = (int)center.Y / 16;
 
 						bool flag = false;
-						if(Main.rand.Next(4) == 0 && Main.tile[x, y] != null && Main.tile[x, y].wall > 0) {
+						if (Main.rand.Next(4) == 0 && Main.tile[x, y] != null && Main.tile[x, y].wall > 0) {
 							flag = true;
-						} else {
+						}
+						else {
 							center.X -= dimension2 / 2;
 							center.Y -= dimension2 / 2;
 
-							if(Collision.SolidCollision(center, dimension2, dimension2)) {
+							if (Collision.SolidCollision(center, dimension2, dimension2)) {
 								center.X += dimension2 / 2;
 								center.Y += dimension2 / 2;
 								flag = true;
 							}
 						}
 
-						if(flag) {
-							for(int k = 0; k < 1000; k++) {
-								if(Main.projectile[k].active && Main.projectile[k].owner == player.whoAmI && Main.projectile[k].type == ModContent.ProjectileType<ShroomSummon>() && (center - Main.projectile[k].Center).Length() < 48f) {
+						if (flag) {
+							for (int k = 0; k < 1000; k++) {
+								if (Main.projectile[k].active && Main.projectile[k].owner == player.whoAmI && Main.projectile[k].type == ModContent.ProjectileType<ShroomSummon>() && (center - Main.projectile[k].Center).Length() < 48f) {
 									flag = false;
 									break;
 								}
 							}
 
-							if(flag && Main.myPlayer == player.whoAmI) {
+							if (flag && Main.myPlayer == player.whoAmI) {
 								Projectile.NewProjectile(center.X, center.Y, 0f, 0f, ModContent.ProjectileType<ShroomSummon>(), damage, knockBack, player.whoAmI, 0f, 0f);
 							}
 						}
 					}
 				}
 			}
-			for(int k = 0; k < 15; k++) {
+			for (int k = 0; k < 15; k++) {
 				Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
 				Vector2 offset = mouse - player.position;
 				offset.Normalize();
-				if(speedX > 0) {
+				if (speedX > 0) {
 					offset = offset.RotatedBy(-0.2f);
-				} else {
+				}
+				else {
 					offset = offset.RotatedBy(0.2f);
 				}
 				offset *= 58f;
@@ -105,9 +107,10 @@ namespace SpiritMod.Items.Weapon.Magic
 				vector2_2.Normalize();
 				Vector2 vector2_3 = vector2_2 * 5f;
 				Main.dust[dust].position = (player.Center + offset) + vector2_3;
-				if(speedX > 0) {
+				if (speedX > 0) {
 					Main.dust[dust].velocity = new Vector2(speedX / 3f, speedY / 3f).RotatedBy(Main.rand.Next(-220, 180) / 100);
-				} else {
+				}
+				else {
 					Main.dust[dust].velocity = new Vector2(speedX / 3f, speedY / 3f).RotatedBy(Main.rand.Next(-180, 220) / 100);
 				}
 			}

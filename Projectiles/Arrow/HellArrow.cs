@@ -27,7 +27,7 @@ namespace SpiritMod.Projectiles.Arrow
 		{
 			int n = 2;
 			int deviation = Main.rand.Next(0, 300);
-			for(int i = 0; i < n; i++) {
+			for (int i = 0; i < n; i++) {
 				float rotation = MathHelper.ToRadians(270 / n * i + deviation);
 				Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(rotation);
 				perturbedSpeed.Normalize();
@@ -43,7 +43,7 @@ namespace SpiritMod.Projectiles.Arrow
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 5; i++) {
+			for (int i = 0; i < 5; i++) {
 				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6);
 				Main.dust[dust].noGravity = true;
 			}

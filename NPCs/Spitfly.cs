@@ -32,7 +32,7 @@ namespace SpiritMod.NPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if(spawnInfo.playerSafe || !Main.hardMode) {
+			if (spawnInfo.playerSafe || !Main.hardMode) {
 				return 0f;
 			}
 			return SpawnCondition.Cavern.Chance * 0.0453f;
@@ -41,9 +41,9 @@ namespace SpiritMod.NPCs
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			int dust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 107, 0f, 0f, 100, default(Color), 2f);
-			for(int i = 0; i < 10; i++)
+			for (int i = 0; i < 10; i++)
 				;
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Spitfly_winga"));
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Spitfly_Body"));
 			}
@@ -59,7 +59,7 @@ namespace SpiritMod.NPCs
 
 		public override void NPCLoot()
 		{
-			if(Main.rand.Next(2) == 1)
+			if (Main.rand.Next(2) == 1)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Acid>());
 		}
 

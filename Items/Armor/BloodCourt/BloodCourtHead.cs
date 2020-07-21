@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Armor.BloodCourt
 			player.maxMinions += 1;
 		}
 
-		public override void DrawHair(ref bool drawHair, ref bool drawAltHair) 
+		public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
 			=> drawHair = true;
 
 		public override void UpdateArmorSet(Player player)
@@ -40,16 +40,16 @@ namespace SpiritMod.Items.Armor.BloodCourt
 			string tapDir = Language.GetTextValue(Main.ReversedUpDownArmorSetBonuses ? "Key.UP" : "Key.DOWN");
 			player.GetSpiritPlayer().bloodcourtSet = true;
 			player.setBonus = $"Double tap {tapDir} to sacrifice 8% of your maximum health\n" +
-							   "and launch a bolt of Dark Anima dealing high damage in a radius\n" + 
+							   "and launch a bolt of Dark Anima dealing high damage in a radius\n" +
 							   "This bolt siphons 10 additional health over 5 seconds";
 		}
 
-		public override void ArmorSetShadows(Player player) 
+		public override void ArmorSetShadows(Player player)
 			=> player.armorEffectDrawShadow = true;
 
-		public override bool IsArmorSet(Item head, Item body, Item legs) 
+		public override bool IsArmorSet(Item head, Item body, Item legs)
 			=> body.type == ModContent.ItemType<BloodCourtChestplate>() && legs.type == ModContent.ItemType<BloodCourtLeggings>();
-		
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

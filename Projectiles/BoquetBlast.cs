@@ -33,8 +33,8 @@ namespace SpiritMod.Projectiles
 		public override void AI()
 		{
 			var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
-			foreach(var proj in list) {
-				if(projectile != proj && proj.hostile)
+			foreach (var proj in list) {
+				if (projectile != proj && proj.hostile)
 					proj.Kill();
 
 				Player player = Main.player[projectile.owner];
@@ -57,30 +57,30 @@ namespace SpiritMod.Projectiles
 			projectile.rotation = projectile.velocity.ToRotation() + (float)(Math.PI / 2);
 
 			projectile.ai[1] += 1f;
-			if(projectile.ai[1] >= 7200f) {
+			if (projectile.ai[1] >= 7200f) {
 				projectile.alpha += 5;
-				if(projectile.alpha > 255) {
+				if (projectile.alpha > 255) {
 					projectile.alpha = 255;
 					projectile.Kill();
 				}
 			}
 
 			projectile.localAI[0] += 1f;
-			if(projectile.localAI[0] >= 10f) {
+			if (projectile.localAI[0] >= 10f) {
 				projectile.localAI[0] = 0f;
 				int num416 = 0;
 				int num417 = 0;
 				float num418 = 0f;
 				int num419 = projectile.type;
-				for(int num420 = 0; num420 < 1000; num420++) {
-					if(Main.projectile[num420].active && Main.projectile[num420].owner == projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f) {
+				for (int num420 = 0; num420 < 1000; num420++) {
+					if (Main.projectile[num420].active && Main.projectile[num420].owner == projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f) {
 						num416++;
-						if(Main.projectile[num420].ai[1] > num418) {
+						if (Main.projectile[num420].ai[1] > num418) {
 							num417 = num420;
 							num418 = Main.projectile[num420].ai[1];
 						}
 					}
-					if(num416 > 6) {
+					if (num416 > 6) {
 						Main.projectile[num417].netUpdate = true;
 						Main.projectile[num417].ai[1] = 36000f;
 						return;
@@ -100,15 +100,15 @@ namespace SpiritMod.Projectiles
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 
-			for(int num621 = 0; num621 < 20; num621++) {
+			for (int num621 = 0; num621 < 20; num621++) {
 				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default(Color), 2f);
 				Main.dust[num622].velocity *= 3f;
-				if(Main.rand.Next(2) == 0) {
+				if (Main.rand.Next(2) == 0) {
 					Main.dust[num622].scale = 0.5f;
 					Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 				}
 			}
-			for(int num623 = 0; num623 < 35; num623++) {
+			for (int num623 = 0; num623 < 35; num623++) {
 				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 187, 0f, 0f, 100, default(Color), 3f);
 				Main.dust[num624].noGravity = true;
 				Main.dust[num624].velocity *= 5f;
@@ -116,12 +116,12 @@ namespace SpiritMod.Projectiles
 				Main.dust[num624].velocity *= 2f;
 			}
 
-			for(int num625 = 0; num625 < 3; num625++) {
+			for (int num625 = 0; num625 < 3; num625++) {
 				float scaleFactor10 = 0.33f;
-				if(num625 == 1) {
+				if (num625 == 1) {
 					scaleFactor10 = 0.66f;
 				}
-				if(num625 == 2) {
+				if (num625 == 2) {
 					scaleFactor10 = 1f;
 				}
 				int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default(Vector2), Main.rand.Next(61, 64), 1f);
@@ -159,13 +159,13 @@ namespace SpiritMod.Projectiles
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(4) == 0)
+			if (Main.rand.Next(4) == 0)
 				target.AddBuff(BuffID.CursedInferno, 180);
-			if(Main.rand.Next(4) == 0)
+			if (Main.rand.Next(4) == 0)
 				target.AddBuff(BuffID.Frostburn, 180);
-			if(Main.rand.Next(4) == 0)
+			if (Main.rand.Next(4) == 0)
 				target.AddBuff(BuffID.OnFire, 180);
-			if(Main.rand.Next(4) == 0)
+			if (Main.rand.Next(4) == 0)
 				target.AddBuff(BuffID.Ichor, 180);
 		}
 

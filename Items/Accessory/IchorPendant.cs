@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Accessory
 	{
 		public override void PlayerModifyHitNPC(Player player, Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
 		{
-			if(Main.rand.NextBool(10)) target.AddBuff(BuffID.Ichor, 180);
+			if (Main.rand.NextBool(10)) target.AddBuff(BuffID.Ichor, 180);
 		}
 	}
 }

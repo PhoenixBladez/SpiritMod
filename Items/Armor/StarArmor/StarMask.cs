@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Armor.StarArmor
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/StarArmor/StarMask_Glow");
 		}
 
-		public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor) 
+		public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
 			=> glowMaskColor = Color.White;
 
 		public override void SetDefaults()
@@ -42,10 +42,10 @@ namespace SpiritMod.Items.Armor.StarArmor
 			player.endurance += 0.05f;
 		}
 
-		public override bool IsArmorSet(Item head, Item body, Item legs) 
+		public override bool IsArmorSet(Item head, Item body, Item legs)
 			=> body.type == ModContent.ItemType<StarPlate>() && legs.type == ModContent.ItemType<StarLegs>();
 
-		public override void ArmorSetShadows(Player player) 
+		public override void ArmorSetShadows(Player player)
 			=> player.armorEffectDrawShadow = true;
 
 		public override void AddRecipes()

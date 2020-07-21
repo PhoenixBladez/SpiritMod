@@ -38,10 +38,10 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			Vector2 targetPosition = new Vector2(Main.mouseX + Main.screenPosition.X, Main.mouseY + Main.screenPosition.Y);
-			while(Collision.CanHitLine(player.position, player.width, player.height, targetPosition, 1, 1)) {
+			while (Collision.CanHitLine(player.position, player.width, player.height, targetPosition, 1, 1)) {
 				position.X += speedX;
 				position.Y += speedY;
-				if((position - targetPosition).Length() < 20f + Math.Abs(speedX) + Math.Abs(speedY)) {
+				if ((position - targetPosition).Length() < 20f + Math.Abs(speedX) + Math.Abs(speedY)) {
 					position = targetPosition;
 					break;
 				}

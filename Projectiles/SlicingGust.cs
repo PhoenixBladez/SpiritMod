@@ -9,7 +9,7 @@ namespace SpiritMod.Projectiles
 {
 	class SlicingGust : ModProjectile
 	{
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Slicing Gust");
@@ -29,11 +29,11 @@ namespace SpiritMod.Projectiles
 
 		public override void AI()
 		{
-			if(projectile.localAI[0] == 0f) {
+			if (projectile.localAI[0] == 0f) {
 				ProjectileExtras.LookAlongVelocity(this);
 				projectile.localAI[0] = 1f;
 			}
-			if(Main.rand.NextDouble() < 0.5) {
+			if (Main.rand.NextDouble() < 0.5) {
 				Dust dust = Dust.NewDustDirect(projectile.position - new Vector2(4, 4), projectile.width + 8, projectile.height + 8, ModContent.DustType<Wind>());
 				dust.velocity = projectile.velocity * 0.2f;
 				dust.customData = new WindAnchor(projectile.Center, projectile.velocity, dust.position);
@@ -54,7 +54,7 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 6; i++) {
+			for (int i = 0; i < 6; i++) {
 				Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, ModContent.DustType<Wind>());
 				dust.customData = new WindAnchor(projectile.Center, projectile.velocity, dust.position);
 			}

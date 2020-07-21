@@ -37,26 +37,26 @@ namespace SpiritMod.NPCs.BloodMoon
 		{
 			npc.spriteDirection = npc.direction;
 			Player player = Main.player[npc.target];
-			if(npc.Center.X >= player.Center.X && moveSpeed >= -30) // flies to players x position
+			if (npc.Center.X >= player.Center.X && moveSpeed >= -30) // flies to players x position
 				moveSpeed--;
-			else if(npc.Center.X <= player.Center.X && moveSpeed <= 30)
+			else if (npc.Center.X <= player.Center.X && moveSpeed <= 30)
 				moveSpeed++;
 
 			npc.velocity.X = moveSpeed * 0.1f;
 
-			if(npc.Center.Y >= player.Center.Y - 50f && moveSpeedY >= -30) //Flies to players Y position
+			if (npc.Center.Y >= player.Center.Y - 50f && moveSpeedY >= -30) //Flies to players Y position
 				moveSpeedY--;
-			else if(npc.Center.Y <= player.Center.Y - 50f && moveSpeedY <= 30)
+			else if (npc.Center.Y <= player.Center.Y - 50f && moveSpeedY <= 30)
 				moveSpeedY++;
 
 			npc.velocity.Y = moveSpeedY * 0.1f;
 			npc.ai[0] += 4f;
-			if(npc.ai[0] > 96f) {
+			if (npc.ai[0] > 96f) {
 				npc.ai[0] = 0f;
 				int num1169 = (int)(npc.position.X + 10f + (float)Main.rand.Next(npc.width - 20));
 				int num1170 = (int)(npc.position.Y + (float)npc.height + 4f);
 				int num184 = 26;
-				if(Main.expertMode) {
+				if (Main.expertMode) {
 					num184 = 18;
 				}
 				int bloodproj;
@@ -67,24 +67,24 @@ namespace SpiritMod.NPCs.BloodMoon
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(npc.life <= 0 || npc.life >= 0) {
+			if (npc.life <= 0 || npc.life >= 0) {
 				int d = 5;
-				for(int k = 0; k < 25; k++) {
+				for (int k = 0; k < 25; k++) {
 					Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.47f);
 					Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, .97f);
 				}
 			}
 
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gazer/Gazer1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gazer/Gazer2"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gazer/Gazer3"), 1f);
 				int d = 5;
-				for(int k = 0; k < 25; k++) {
+				for (int k = 0; k < 25; k++) {
 					Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.97f);
 					Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 1.27f);
 				}
-				for(int i = 0; i < 16; i++) {
+				for (int i = 0; i < 16; i++) {
 					int bloodproj;
 					bloodproj = Main.rand.Next(new int[] {
 						ModContent.ProjectileType<Feeder1>(),

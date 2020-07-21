@@ -34,17 +34,16 @@ namespace SpiritMod.Tiles.Block
 		}
 		public override bool CanKillTile(int i, int j, ref bool blockDamaged)
 		{
-			if(!NPC.downedBoss2) {
+			if (!NPC.downedBoss2) {
 				return false;
 			}
 			return true;
 		}
 		public override void NearbyEffects(int i, int j, bool closer)
 		{
-			if (Main.rand.Next(255) == 1)
-			{
-				Dust.NewDustPerfect(new Vector2(i * 16, j * 16), 226, new Vector2(Main.rand.NextFloat(-1.5f,1.5f), Main.rand.NextFloat(-1.5f,1.5f)), 0, default, 0.8f).noGravity = false;
+			if (Main.rand.Next(255) == 1) {
+				Dust.NewDustPerfect(new Vector2(i * 16, j * 16), 226, new Vector2(Main.rand.NextFloat(-1.5f, 1.5f), Main.rand.NextFloat(-1.5f, 1.5f)), 0, default, 0.8f).noGravity = false;
 			}
 		}
-    }
+	}
 }

@@ -28,7 +28,7 @@ namespace SpiritMod.Projectiles.Arrow
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 2; i++) {
+			for (int i = 0; i < 2; i++) {
 				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 93);
 				Main.dust[dust].noGravity = true;
 			}
@@ -36,7 +36,7 @@ namespace SpiritMod.Projectiles.Arrow
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(5) == 0)
+			if (Main.rand.Next(5) == 0)
 				target.AddBuff(ModContent.BuffType<Brine>(), 180);
 		}
 

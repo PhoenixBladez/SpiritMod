@@ -34,9 +34,9 @@ namespace SpiritMod.NPCs.Dungeon
 			npc.noTileCollide = true;
 			npc.aiStyle = 44;
 			aiType = NPCID.FlyingAntlion;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.SpectralSkullBanner>();
-        }
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.SpectralSkullBanner>();
+		}
 
 		public override void FindFrame(int frameHeight)
 		{
@@ -49,19 +49,19 @@ namespace SpiritMod.NPCs.Dungeon
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			int d1 = 156;
-			for(int k = 0; k < 20; k++) {
+			for (int k = 0; k < 20; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 117, new Color(0, 255, 142), .6f);
 			}
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 53);
-				for(int i = 0; i < 40; i++) {
+				for (int i = 0; i < 40; i++) {
 					int num = Dust.NewDust(npc.position, npc.width, npc.height, 156, 0f, -2f, 117, new Color(0, 255, 142), .6f);
 					Main.dust[num].noGravity = true;
 					Dust expr_62_cp_0 = Main.dust[num];
 					expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
 					Dust expr_92_cp_0 = Main.dust[num];
 					expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
-					if(Main.dust[num].position != npc.Center) {
+					if (Main.dust[num].position != npc.Center) {
 						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
 					}
 				}
@@ -81,14 +81,14 @@ namespace SpiritMod.NPCs.Dungeon
 		{
 			npc.life = 0;
 			Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 53);
-			for(int i = 0; i < 40; i++) {
+			for (int i = 0; i < 40; i++) {
 				int num = Dust.NewDust(npc.position, npc.width, npc.height, 156, 0f, -2f, 117, new Color(0, 255, 142), .6f);
 				Main.dust[num].noGravity = true;
 				Dust expr_62_cp_0 = Main.dust[num];
 				expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
 				Dust expr_92_cp_0 = Main.dust[num];
 				expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
-				if(Main.dust[num].position != npc.Center) {
+				if (Main.dust[num].position != npc.Center) {
 					Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
 				}
 			}
@@ -99,14 +99,14 @@ namespace SpiritMod.NPCs.Dungeon
 		}
 		public override void NPCLoot()
 		{
-			if(Main.rand.Next(25) == 0) {
+			if (Main.rand.Next(25) == 0) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ForbiddenKnowledgeTome>());
 			}
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height * 0.5f));
-			for(int k = 0; k < npc.oldPos.Length; k++) {
+			for (int k = 0; k < npc.oldPos.Length; k++) {
 				var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 				Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
 				Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);

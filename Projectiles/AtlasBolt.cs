@@ -40,10 +40,10 @@ namespace SpiritMod.Projectiles
 
 			//loop through first 200 NPCs in Main.npc
 			//this loop finds the closest valid target NPC within the range of targetDist pixels
-			for(int i = 0; i < 200; i++) {
-				if(Main.npc[i].CanBeChasedBy(projectile) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1)) {
+			for (int i = 0; i < 200; i++) {
+				if (Main.npc[i].CanBeChasedBy(projectile) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1)) {
 					float dist = projectile.Distance(Main.npc[i].Center);
-					if(dist < targetDist) {
+					if (dist < targetDist) {
 						targetDist = dist;
 						targetPos = Main.npc[i].Center;
 						targetAcquired = true;
@@ -52,7 +52,7 @@ namespace SpiritMod.Projectiles
 			}
 
 			//change trajectory to home in on target
-			if(targetAcquired) {
+			if (targetAcquired) {
 				float homingSpeedFactor = 6f;
 				Vector2 homingVect = targetPos - projectile.Center;
 				float dist = projectile.Distance(targetPos);
@@ -79,15 +79,15 @@ namespace SpiritMod.Projectiles
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			ProjectileExtras.Explode(projectile.whoAmI, 120, 120,
 				delegate {
-					for(int num621 = 0; num621 < 40; num621++) {
+					for (int num621 = 0; num621 < 40; num621++) {
 						int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 206, 0f, 0f, 100, default(Color), 2f);
 						Main.dust[num622].velocity *= 3f;
-						if(Main.rand.Next(2) == 0) {
+						if (Main.rand.Next(2) == 0) {
 							Main.dust[num622].scale = 0.5f;
 							Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 						}
 					}
-					for(int num623 = 0; num623 < 70; num623++) {
+					for (int num623 = 0; num623 < 70; num623++) {
 						int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 257, 0f, 0f, 100, default(Color), 1f);
 						Main.dust[num624].noGravity = true;
 						Main.dust[num624].velocity *= 1.5f;
@@ -99,7 +99,7 @@ namespace SpiritMod.Projectiles
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(5) == 2)
+			if (Main.rand.Next(5) == 2)
 				target.AddBuff(ModContent.BuffType<SoulFlare>(), 180);
 		}
 

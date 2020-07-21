@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Armor.FieryArmor
 			item.defense = 6;
 		}
 
-		public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor) 
+		public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
 			=> glowMaskColor = Color.White;
 
 		public override void UpdateEquip(Player player)
@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Armor.FieryArmor
 			player.minionDamage += .05f;
 		}
 
-		public override bool IsArmorSet(Item head, Item body, Item legs) 
+		public override bool IsArmorSet(Item head, Item body, Item legs)
 			=> body.type == ModContent.ItemType<ObsidiusPlate>() && legs.type == ModContent.ItemType<ObsidiusGreaves>();
 
 		public override void AddRecipes()

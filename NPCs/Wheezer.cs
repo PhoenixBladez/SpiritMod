@@ -28,23 +28,23 @@ namespace SpiritMod.NPCs
 			npc.DeathSound = SoundID.NPCDeath53;
 			npc.value = 960f;
 			npc.knockBackResist = .35f;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.WheezerBanner>();
-        }
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.WheezerBanner>();
+		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if(spawnInfo.playerSafe || !NPC.downedBoss1) {
+			if (spawnInfo.playerSafe || !NPC.downedBoss1) {
 				return 0f;
 			}
 			return SpawnCondition.Cavern.Chance * 0.17f;
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			for(int k = 0; k < 11; k++) {
+			for (int k = 0; k < 11; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), .61f);
 			}
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Wheezer_Head"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Wheezer_legs"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Wheezer_legs"), 1f);
@@ -56,26 +56,26 @@ namespace SpiritMod.NPCs
 
 		public override void NPCLoot()
 		{
-			if(Main.LocalPlayer.GetSpiritPlayer().emptyWheezerScroll) {
+			if (Main.LocalPlayer.GetSpiritPlayer().emptyWheezerScroll) {
 				MyWorld.numWheezersKilled++;
 			}
 			int Techs = Main.rand.Next(1, 4);
-			for(int J = 0; J <= Techs; J++) {
+			for (int J = 0; J <= Techs; J++) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Carapace>());
 			}
-			if(Main.rand.Next(15) == 1) {
+			if (Main.rand.Next(15) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<WheezerScale>());
 			}
-			if(Main.rand.Next(10000) == 125) {
+			if (Main.rand.Next(10000) == 125) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DepthMeter);
 			}
-			if(Main.rand.Next(10000) == 125) {
+			if (Main.rand.Next(10000) == 125) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Compass);
 			}
-			if(Main.rand.Next(1000) == 39) {
+			if (Main.rand.Next(1000) == 39) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Rally);
 			}
-			if(Main.rand.NextBool(100))
+			if (Main.rand.NextBool(100))
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Bezoar);
 		}
 
@@ -87,14 +87,14 @@ namespace SpiritMod.NPCs
 			npc.spriteDirection = npc.direction;
 			Player target = Main.player[npc.target];
 			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
-			if(distance < 200) {
+			if (distance < 200) {
 				npc.velocity = Vector2.Zero;
-				if(npc.velocity == Vector2.Zero) {
+				if (npc.velocity == Vector2.Zero) {
 					npc.velocity.X = .008f * npc.direction;
 					npc.velocity.Y = 12f;
 				}
 				shootTimer++;
-				if(shootTimer >= 80) {
+				if (shootTimer >= 80) {
 					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 95);
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
 					direction.Normalize();
@@ -102,11 +102,11 @@ namespace SpiritMod.NPCs
 					direction.Y *= 5f;
 
 					int amountOfProjectiles = 1;
-					for(int i = 0; i < amountOfProjectiles; ++i) {
+					for (int i = 0; i < amountOfProjectiles; ++i) {
 						float A = (float)Main.rand.Next(-50, 50) * 0.02f;
 						float B = (float)Main.rand.Next(-50, 50) * 0.02f;
 						int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 20), npc.Center.Y - 10, direction.X + A, direction.Y + B, ModContent.ProjectileType<WheezerCloud>(), npc.damage / 3, 1, Main.myPlayer, 0, 0);
-						for(int k = 0; k < 11; k++) {
+						for (int k = 0; k < 11; k++) {
 							Dust.NewDust(npc.position, npc.width, npc.height, 5, direction.X + A, direction.Y + B, 0, default(Color), .61f);
 						}
 						Main.projectile[p].hostile = true;
@@ -114,30 +114,31 @@ namespace SpiritMod.NPCs
 					shootTimer = 0;
 				}
 				timer++;
-				if(timer == 4) {
+				if (timer == 4) {
 					frame++;
 					timer = 0;
 				}
-				if(frame >= 15) {
+				if (frame >= 15) {
 					frame = 11;
 				}
-			} else {
+			}
+			else {
 				shootTimer = 0;
 				npc.aiStyle = 3;
 				aiType = NPCID.Skeleton;
 				timer++;
-				if(timer == 4) {
+				if (timer == 4) {
 					frame++;
 					timer = 0;
 				}
-				if(frame >= 9) {
+				if (frame >= 9) {
 					frame = 1;
 				}
 			}
-			if(shootTimer > 120) {
+			if (shootTimer > 120) {
 				shootTimer = 120;
 			}
-			if(shootTimer < 0) {
+			if (shootTimer < 0) {
 				shootTimer = 0;
 			}
 		}

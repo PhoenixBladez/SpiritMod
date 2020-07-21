@@ -41,7 +41,7 @@ namespace SpiritMod.Items.Weapon.Magic.Artifact
 		public override void HoldItem(Player player)
 		{
 
-			if(player.GetSpiritPlayer().HolyGrail) {
+			if (player.GetSpiritPlayer().HolyGrail) {
 				player.AddBuff(ModContent.BuffType<Righteous>(), 2);
 			}
 		}
@@ -53,7 +53,7 @@ namespace SpiritMod.Items.Weapon.Magic.Artifact
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			for(int I = 0; I < 3; I++) {
+			for (int I = 0; I < 3; I++) {
 				Projectile.NewProjectile(position.X, position.Y, speedX * (Main.rand.Next(500, 900) / 100), speedY * (Main.rand.Next(500, 900) / 100), ModContent.ProjectileType<PhoenixBolt>(), damage, knockBack, player.whoAmI);
 			}
 			return false;

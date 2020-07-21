@@ -40,7 +40,7 @@ namespace SpiritMod.Tiles.Ambient
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			int item = 0;
-			switch(frameX / 54) {
+			switch (frameX / 54) {
 				case 0:
 				case 1:
 				case 2:
@@ -48,13 +48,13 @@ namespace SpiritMod.Tiles.Ambient
 					item = ModContent.ItemType<Items.Placeable.Furniture.SkullStick>();
 					break;
 			}
-			if(item > 0) {
+			if (item > 0) {
 				Item.NewItem(i * 16, j * 16, 48, 48, item);
 			}
 		}
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
-			if(!Main.dayTime) {
+			if (!Main.dayTime) {
 				r = .235f;
 				g = .174f;
 				b = .052f;
@@ -62,10 +62,10 @@ namespace SpiritMod.Tiles.Ambient
 		}
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{
-			if(!Main.dayTime) {
+			if (!Main.dayTime) {
 				Tile tile = Main.tile[i, j];
 				Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
-				if(Main.drawToScreen) {
+				if (Main.drawToScreen) {
 					zero = Vector2.Zero;
 				}
 				int height = tile.frameY == 36 ? 18 : 16;

@@ -25,21 +25,23 @@ namespace SpiritMod.Projectiles
 		public override void SetDefaults(Projectile projectile)
 		{
 			bool send = true;
-			if(MyPlayer.swingingCheck && MyPlayer.swingingItem != null)
+			if (MyPlayer.swingingCheck && MyPlayer.swingingItem != null)
 				glyph = MyPlayer.swingingItem.GetGlobalItem<GItem>().Glyph;
-			else if(Main.ProjectileUpdateLoopIndex >= 0) {
+			else if (Main.ProjectileUpdateLoopIndex >= 0) {
 				Projectile source = Main.projectile[Main.ProjectileUpdateLoopIndex];
-				if(source.active && source.owner == Main.myPlayer)
+				if (source.active && source.owner == Main.myPlayer)
 					glyph = source.GetGlobalProjectile<gProj>().glyph;
-			} else if(hasNext) {
+			}
+			else if (hasNext) {
 				send = false;
 				hasNext = false;
-				if(projectile.type == nextType)
+				if (projectile.type == nextType)
 					glyph = nextGlyph;
-			} else
+			}
+			else
 				glyph = 0;
 
-			if(send && glyph != 0 && Main.netMode != NetmodeID.SinglePlayer) {
+			if (send && glyph != 0 && Main.netMode != NetmodeID.SinglePlayer) {
 				ModPacket packet = SpiritMod.instance.GetPacket(MessageType.ProjectileData, 3);
 				packet.Write((short)projectile.type);
 				packet.Write((byte)glyph);
@@ -52,7 +54,7 @@ namespace SpiritMod.Projectiles
 			hasNext = true;
 			nextType = reader.ReadInt16();
 			nextGlyph = (GlyphType)reader.ReadByte();
-			if(Main.netMode != NetmodeID.Server)
+			if (Main.netMode != NetmodeID.Server)
 				return;
 
 			ModPacket packet = SpiritMod.instance.GetPacket(MessageType.ProjectileData, 3);
@@ -64,7 +66,7 @@ namespace SpiritMod.Projectiles
 
 		public override bool? CanHitNPC(Projectile projectile, NPC target)
 		{
-			if(projectile.aiStyle == 88 && ((projectile.knockBack == .5f || projectile.knockBack == .4f) || (projectile.knockBack >= .4f && projectile.knockBack < .5f)) && target.immune[projectile.owner] > 0) {
+			if (projectile.aiStyle == 88 && ((projectile.knockBack == .5f || projectile.knockBack == .4f) || (projectile.knockBack >= .4f && projectile.knockBack < .5f)) && target.immune[projectile.owner] > 0) {
 				return false;
 			}
 			return null;
@@ -74,45 +76,42 @@ namespace SpiritMod.Projectiles
 		{
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
-			if(glyph == GlyphType.Unholy)
+			if (glyph == GlyphType.Unholy)
 				Items.Glyphs.UnholyGlyph.PlagueEffects(target, projectile.owner, ref damage, crit);
-			else if(glyph == GlyphType.Phase)
+			else if (glyph == GlyphType.Phase)
 				Items.Glyphs.PhaseGlyph.PhaseEffects(player, ref damage, crit);
-			else if(glyph == GlyphType.Daze)
+			else if (glyph == GlyphType.Daze)
 				Items.Glyphs.DazeGlyph.Daze(target, ref damage);
-			else if(glyph == GlyphType.Radiant)
+			else if (glyph == GlyphType.Radiant)
 				Items.Glyphs.RadiantGlyph.DivineStrike(player, ref damage);
 
-			if(modPlayer.reachSet && target.life <= target.life / 2) {
-				if(projectile.thrown && crit)
+			if (modPlayer.reachSet && target.life <= target.life / 2) {
+				if (projectile.thrown && crit)
 					damage = (int)((double)damage * 2.25f);
 			}
-			if(modPlayer.AceOfSpades && crit) {
+			if (modPlayer.AceOfSpades && crit) {
 				damage = (int)(damage * 1.1f);
-				for(int i = 0; i < 3; i++) {
+				for (int i = 0; i < 3; i++) {
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<SpadeDust>(), 0, -0.8f);
 				}
 			}
-			if(modPlayer.AceOfClubs && crit && !target.friendly && target.lifeMax > 15) {
+			if (modPlayer.AceOfClubs && crit && !target.friendly && target.lifeMax > 15) {
 				int money = (int)(300 * MathHelper.Clamp((damage / target.lifeMax), 0, 1));
 				NPC npc = target;
-				for(int i = 0; i < 3; i++) {
+				for (int i = 0; i < 3; i++) {
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<ClubDust>(), 0, -0.8f);
 				}
-				while (money >=100)
-				{
+				while (money >= 100) {
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 72); //silver coins
 					money -= 100;
 				}
-				while (money >= 10)
-				{
+				while (money >= 10) {
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 71, 10); //copper coins
 					money -= 10;
 				}
-				while (money >= 0)
-				{
+				while (money >= 0) {
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 71); //copper coin
-					money --;
+					money--;
 				}
 			}
 		}
@@ -121,25 +120,26 @@ namespace SpiritMod.Projectiles
 		{
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
-			if(modPlayer.AceOfHearts && target.life <= 0 && crit && !target.friendly && target.lifeMax > 15) {
+			if (modPlayer.AceOfHearts && target.life <= 0 && crit && !target.friendly && target.lifeMax > 15) {
 				NPC npc = target;
-				if(Main.halloween) {
+				if (Main.halloween) {
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 1734);
-				} else {
+				}
+				else {
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 58);
 				}
-				for(int i = 0; i < 3; i++) {
+				for (int i = 0; i < 3; i++) {
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<HeartDust>(), 0, -0.8f);
 				}
 			}
-			if(modPlayer.AceOfDiamonds && target.life <= 0 && crit && !target.friendly && target.lifeMax > 15) {
+			if (modPlayer.AceOfDiamonds && target.life <= 0 && crit && !target.friendly && target.lifeMax > 15) {
 				NPC npc = target;
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DiamondAce>());
-				for(int i = 0; i < 3; i++) {
+				for (int i = 0; i < 3; i++) {
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<DiamondDust>(), 0, -0.8f);
 				}
 			}
-			switch(glyph) {
+			switch (glyph) {
 				case GlyphType.Frost:
 					Items.Glyphs.FrostGlyph.CreateIceSpikes(player, target, crit);
 					break;
@@ -150,18 +150,18 @@ namespace SpiritMod.Projectiles
 					Items.Glyphs.BlazeGlyph.Rage(player, target);
 					break;
 				case GlyphType.Bee:
-					if(projectile.type != ProjectileID.Bee && projectile.type != ProjectileID.GiantBee)
+					if (projectile.type != ProjectileID.Bee && projectile.type != ProjectileID.GiantBee)
 						Items.Glyphs.BeeGlyph.ReleaseBees(player, target, damage);
 					break;
 			}
 
-			if(projectile.aiStyle == 88 && (projectile.knockBack >= .2f && projectile.knockBack <= .5f)) {
+			if (projectile.aiStyle == 88 && (projectile.knockBack >= .2f && projectile.knockBack <= .5f)) {
 				target.immune[projectile.owner] = 6;
 			}
-			if(projectile.friendly && projectile.thrown && Main.rand.Next(8) == 1 && player.GetSpiritPlayer().geodeSet == true) {
+			if (projectile.friendly && projectile.thrown && Main.rand.Next(8) == 1 && player.GetSpiritPlayer().geodeSet == true) {
 				target.AddBuff(24, 150);
 			}
-			if(projectile.friendly && projectile.thrown && Main.rand.Next(8) == 1 && player.GetSpiritPlayer().geodeSet == true) {
+			if (projectile.friendly && projectile.thrown && Main.rand.Next(8) == 1 && player.GetSpiritPlayer().geodeSet == true) {
 				target.AddBuff(44, 150);
 			}
 		}
@@ -169,18 +169,18 @@ namespace SpiritMod.Projectiles
 		public override void ModifyHitPvp(Projectile projectile, Player target, ref int damage, ref bool crit)
 		{
 			Player player = Main.player[projectile.owner];
-			if(glyph == GlyphType.Phase)
+			if (glyph == GlyphType.Phase)
 				Items.Glyphs.PhaseGlyph.PhaseEffects(player, ref damage, crit);
-			else if(glyph == GlyphType.Daze)
+			else if (glyph == GlyphType.Daze)
 				Items.Glyphs.DazeGlyph.Daze(target, ref damage);
-			else if(glyph == GlyphType.Radiant)
+			else if (glyph == GlyphType.Radiant)
 				Items.Glyphs.RadiantGlyph.DivineStrike(player, ref damage);
 		}
 
 		public override void OnHitPvp(Projectile projectile, Player target, int damage, bool crit)
 		{
 			Player player = Main.player[projectile.owner];
-			switch(glyph) {
+			switch (glyph) {
 				case GlyphType.Sanguine:
 					Items.Glyphs.SanguineGlyph.BloodCorruption(Main.player[projectile.owner], target, damage);
 					break;
@@ -193,7 +193,7 @@ namespace SpiritMod.Projectiles
 
 		public override void AI(Projectile projectile)
 		{//todo - forking lightning in Kill(), kill projectile when far from player in AI(), homing in OnHitNPC()
-			if(projectile.aiStyle == 88 && projectile.knockBack == .5f || (projectile.knockBack >= .2f && projectile.knockBack < .5f)) {
+			if (projectile.aiStyle == 88 && projectile.knockBack == .5f || (projectile.knockBack >= .2f && projectile.knockBack < .5f)) {
 				projectile.hostile = false;
 				projectile.friendly = true;
 				projectile.magic = true;

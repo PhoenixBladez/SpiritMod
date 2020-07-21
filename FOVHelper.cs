@@ -29,15 +29,17 @@ namespace SpiritMod
 
 		public void AdjustCone(Vector2 center, float fov, float direction)
 		{
-			if(fov >= Math.PI) {
+			if (fov >= Math.PI) {
 				returnDefault = true;
 				defaultValue = true;
 				return;
-			} else if(fov <= 0d) {
+			}
+			else if (fov <= 0d) {
 				returnDefault = true;
 				defaultValue = false;
 				return;
-			} else {
+			}
+			else {
 				returnDefault = false;
 				overExtended = fov > MathHelper.PiOver2 ? true : false;
 			}
@@ -53,77 +55,87 @@ namespace SpiritMod
 			verticalLeft = float.IsNaN(slopeLeft);
 			verticalRight = float.IsNaN(slopeRight);
 
-			if(verticalLeft) {
+			if (verticalLeft) {
 				checkAboveLeft = left > 0f ? true : false;
-			} else {
+			}
+			else {
 				checkAboveLeft = Math.Abs(left) > MathHelper.PiOver2 ? true : false;
 			}
 
-			if(verticalRight) {
+			if (verticalRight) {
 				checkAboveRight = right > 0f ? false : true;
-			} else {
+			}
+			else {
 				checkAboveRight = Math.Abs(right) > MathHelper.PiOver2 ? false : true;
 			}
 		}
 
 		public bool IsInCone(Vector2 pos)
 		{
-			if(returnDefault) {
+			if (returnDefault) {
 				return defaultValue;
 			}
 
 			float x = pos.X - origin.X;
 			float y = pos.Y - origin.Y;
 
-			if(verticalLeft) {
-				if(checkAboveLeft) {
-					if(x >= 0f) {
-						if(overExtended) {
+			if (verticalLeft) {
+				if (checkAboveLeft) {
+					if (x >= 0f) {
+						if (overExtended) {
 							return true;
-						}
-					} else {
-						if(!overExtended) {
-							return false;
 						}
 					}
-				} else {
-					if(x <= 0f) {
-						if(overExtended) {
-							return true;
-						}
-					} else {
-						if(!overExtended) {
+					else {
+						if (!overExtended) {
 							return false;
 						}
 					}
 				}
-			} else {
-				if(checkAboveLeft) {
-					if(x * slopeLeft <= y) {
-						if(overExtended) {
+				else {
+					if (x <= 0f) {
+						if (overExtended) {
 							return true;
 						}
-					} else {
-						if(!overExtended) {
+					}
+					else {
+						if (!overExtended) {
 							return false;
 						}
 					}
-				} else {
-					if(x * slopeLeft >= y) {
-						if(overExtended) {
+				}
+			}
+			else {
+				if (checkAboveLeft) {
+					if (x * slopeLeft <= y) {
+						if (overExtended) {
 							return true;
 						}
-					} else {
-						if(!overExtended) {
+					}
+					else {
+						if (!overExtended) {
+							return false;
+						}
+					}
+				}
+				else {
+					if (x * slopeLeft >= y) {
+						if (overExtended) {
+							return true;
+						}
+					}
+					else {
+						if (!overExtended) {
 							return false;
 						}
 					}
 				}
 			}
 
-			if(verticalRight) {
+			if (verticalRight) {
 				return checkAboveRight ? x >= 0f : x <= 0f;
-			} else {
+			}
+			else {
 				return checkAboveRight ? x * slopeRight <= y : x * slopeRight >= y;
 			}
 		}

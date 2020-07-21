@@ -32,13 +32,13 @@ namespace SpiritMod.Projectiles.Thrown
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 6);
-			for(int I = 0; I < 8; I++)
+			for (int I = 0; I < 8; I++)
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 5, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(3) == 0)
+			if (Main.rand.Next(3) == 0)
 				target.AddBuff(ModContent.BuffType<Wither>(), 160);
 		}
 

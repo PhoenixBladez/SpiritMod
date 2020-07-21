@@ -16,13 +16,13 @@ namespace SpiritMod.Buffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			if(player.lifeRegen > 0) {
+			if (player.lifeRegen > 0) {
 				player.lifeRegen = 0;
 			}
 
 			player.lifeRegen -= 12;
 
-			if(Main.rand.NextBool(2)) {
+			if (Main.rand.NextBool(2)) {
 				Dust.NewDust(player.position, player.width, player.height, DustID.Shadowflame);
 			}
 		}

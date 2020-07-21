@@ -30,10 +30,10 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override void Kill(int timeLeft)
 		{
-			if(Main.rand.Next(5) == 1) {
+			if (Main.rand.Next(5) == 1) {
 				int n = Main.rand.Next(2, 3);
 				int deviation = Main.rand.Next(0, 300);
-				for(int i = 0; i < n; i++) {
+				for (int i = 0; i < n; i++) {
 					float rotation = MathHelper.ToRadians(270 / n * i + deviation);
 					Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(rotation);
 					perturbedSpeed.Normalize();
@@ -43,7 +43,7 @@ namespace SpiritMod.Projectiles.Thrown
 				}
 			}
 			Main.PlaySound(SoundID.Dig, projectile.position, 1);
-			for(int i = 0; i < 5; i++) {
+			for (int i = 0; i < 5; i++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 167);
 			}
 		}

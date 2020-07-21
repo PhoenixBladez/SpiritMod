@@ -69,12 +69,12 @@ namespace SpiritMod.Items.Equipment
 		public override bool? CanUseGrapple(Player player)
 		{
 			int hooksOut = 0;
-			for(int l = 0; l < 1000; l++) {
-				if(Main.projectile[l].active && Main.projectile[l].owner == Main.myPlayer && Main.projectile[l].type == projectile.type) {
+			for (int l = 0; l < 1000; l++) {
+				if (Main.projectile[l].active && Main.projectile[l].owner == Main.myPlayer && Main.projectile[l].type == projectile.type) {
 					hooksOut++;
 				}
 			}
-			if(hooksOut > 3) // This hook can have 2 hooks out.
+			if (hooksOut > 3) // This hook can have 2 hooks out.
 			{
 				return false;
 			}
@@ -146,16 +146,17 @@ namespace SpiritMod.Items.Equipment
 			Vector2 vector2 = mountedCenter - vector;
 			float rotation = (float)Math.Atan2(vector2.Y, vector2.X) - 1.57f;
 			bool flag = true;
-			if(float.IsNaN(vector.X) && float.IsNaN(vector.Y)) {
+			if (float.IsNaN(vector.X) && float.IsNaN(vector.Y)) {
 				flag = false;
 			}
-			if(float.IsNaN(vector2.X) && float.IsNaN(vector2.Y)) {
+			if (float.IsNaN(vector2.X) && float.IsNaN(vector2.Y)) {
 				flag = false;
 			}
-			while(flag) {
-				if(vector2.Length() < num + 1) {
+			while (flag) {
+				if (vector2.Length() < num + 1) {
 					flag = false;
-				} else {
+				}
+				else {
 					Vector2 value = vector2;
 					value.Normalize();
 					vector += value * num;
@@ -169,7 +170,7 @@ namespace SpiritMod.Items.Equipment
 		public override void AI()
 		{
 			int num = 5;
-			for(int k = 0; k < 1; k++) {
+			for (int k = 0; k < 1; k++) {
 				var dust = Dust.NewDustDirect(new Vector2(projectile.Center.X + 15, projectile.Center.Y), 1, 1, 180, 0.0f, 0.0f, 0, new Color(), 1f);
 				dust.position = projectile.Center - projectile.velocity / num * k;
 				dust.scale = .5f;
@@ -177,7 +178,7 @@ namespace SpiritMod.Items.Equipment
 				dust.noGravity = true;
 				dust.noLight = false;
 			}
-			for(int j = 0; j < 1; j++) {
+			for (int j = 0; j < 1; j++) {
 				var dust = Dust.NewDustDirect(new Vector2(projectile.Center.X - 15, projectile.Center.Y), 1, 1, 130, 0.0f, 0.0f, 0, new Color(), 1f);
 				dust.position = projectile.Center - projectile.velocity / num * j;
 				dust.scale = .5f;

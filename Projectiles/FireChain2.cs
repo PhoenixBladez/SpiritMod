@@ -41,20 +41,21 @@ namespace SpiritMod.Projectiles
 			projectile.localAI[1] += 1f;
 			int num = 1;
 			int num2 = 1;
-			if((double)projectile.localAI[1] <= 1.0) {
+			if ((double)projectile.localAI[1] <= 1.0) {
 				int num3 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)num, (float)num2, mod.ProjectileType("FireChain3"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				Main.projectile[num3].localAI[0] = (float)projectile.whoAmI;
 			}
 
 			int num4 = (int)projectile.localAI[1];
-			if(num4 <= 30) {
-				if(num4 == 30 || num4 == 10)
+			if (num4 <= 30) {
+				if (num4 == 30 || num4 == 10)
 					num2--;
-			} else if(num4 == 50 || num4 == 70) {
+			}
+			else if (num4 == 50 || num4 == 70) {
 				num2--;
 			}
 
-			if((int)projectile.localAI[1] == 20) {
+			if ((int)projectile.localAI[1] == 20) {
 				int num5 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num, num2, ModContent.ProjectileType<FireChain3>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				Main.projectile[num5].localAI[0] = projectile.whoAmI;
 			}
@@ -75,9 +76,9 @@ namespace SpiritMod.Projectiles
 			int num = (int)projectile.velocity.X * 10;
 			int num2 = (int)projectile.velocity.Y + 1;
 			projectile.frameCounter++;
-			if(projectile.frameCounter > 120) {
+			if (projectile.frameCounter > 120) {
 				projectile.frameCounter = 0;
-				if(projectile.frame == 5)
+				if (projectile.frame == 5)
 					projectile.frame = 0;
 				else
 					projectile.frame++;
@@ -102,16 +103,16 @@ namespace SpiritMod.Projectiles
 			Vector2 vector = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
 			vector.SafeNormalize(Vector2.UnitY);
 			vector *= Main.rand.Next(10, 41) * 0.1f;
-			if(Main.rand.Next(3) == 0)
+			if (Main.rand.Next(3) == 0)
 				vector *= 2f;
 
 			Vector2 vector3 = velocity * 0.25f + vector;
-			for(int i = 0; i < 200; i++) {
-				if(Main.npc[i].CanBeChasedBy(projectile, false)) {
+			for (int i = 0; i < 200; i++) {
+				if (Main.npc[i].CanBeChasedBy(projectile, false)) {
 					float num2 = Main.npc[i].position.X + (Main.npc[i].width / 2);
 					float num3 = Main.npc[i].position.Y + (Main.npc[i].height / 2);
 					float num4 = Math.Abs(projectile.position.X + (projectile.width / 2) - num2) + Math.Abs(projectile.position.Y + (projectile.height / 2) - num3);
-					if(num4 < num && Collision.CanHit(projectile.position, projectile.width, projectile.height, Main.npc[i].position, Main.npc[i].width, Main.npc[i].height)) {
+					if (num4 < num && Collision.CanHit(projectile.position, projectile.width, projectile.height, Main.npc[i].position, Main.npc[i].width, Main.npc[i].height)) {
 						num = num4;
 						vector3.X = num2;
 						vector3.Y = num3;

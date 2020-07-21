@@ -28,10 +28,10 @@ namespace SpiritMod.Projectiles.Boss
 		public override void AI()
 		{
 			counter++;
-			if(counter >= 1440) {
+			if (counter >= 1440) {
 				counter = -1440;
 			}
-			for(int i = 0; i < 10; i++) {
+			for (int i = 0; i < 10; i++) {
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 
@@ -41,7 +41,7 @@ namespace SpiritMod.Projectiles.Boss
 				Main.dust[num].noGravity = true;
 
 			}
-			for(int f = 0; f < 10; f++) {
+			for (int f = 0; f < 10; f++) {
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)f;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)f;
 
@@ -51,7 +51,7 @@ namespace SpiritMod.Projectiles.Boss
 				Main.dust[num].noGravity = true;
 
 			}
-			for(int j = 0; j < 6; j++) {
+			for (int j = 0; j < 6; j++) {
 
 				int num2 = Dust.NewDust(projectile.Center, 6, 6, 244, 0f, 0f, 0, default(Color), 1f);
 				Main.dust[num2].velocity *= 0f;

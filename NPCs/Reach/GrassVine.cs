@@ -30,16 +30,16 @@ namespace SpiritMod.NPCs.Reach
 			npc.value = 60f;
 			npc.knockBackResist = 0f;
 			npc.behindTiles = true;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.DroseranTrapperBanner>();
-        }
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.DroseranTrapperBanner>();
+		}
 
 		public override void NPCLoot()
 		{
-			if(!Main.dayTime) {
+			if (!Main.dayTime) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EnchantedLeaf>());
 			}
-			if(Main.rand.NextBool(10)) {
+			if (Main.rand.NextBool(10)) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Vine);
 			}
 		}
@@ -56,30 +56,31 @@ namespace SpiritMod.NPCs.Reach
 			num3211 *= num3209;
 			num3210 *= num3209;
 			bool flag223 = false;
-			if(npc.directionY < 0) {
+			if (npc.directionY < 0) {
 				npc.rotation = (float)(Math.Atan2((double)num3210, (double)num3211) + 1.57);
 				flag223 = ((double)npc.rotation >= -1.2 && (double)npc.rotation <= 1.2);
-				if((double)npc.rotation < -0.8) {
+				if ((double)npc.rotation < -0.8) {
 					npc.rotation = -0.8f;
-				} else if((double)npc.rotation > 0.8) {
+				}
+				else if ((double)npc.rotation > 0.8) {
 					npc.rotation = 0.8f;
 				}
-				if(npc.velocity.X != 0f) {
+				if (npc.velocity.X != 0f) {
 					npc.velocity.X = npc.velocity.X * 0.9f;
-					if((double)npc.velocity.X > -0.1 || (double)npc.velocity.X < 0.1) {
+					if ((double)npc.velocity.X > -0.1 || (double)npc.velocity.X < 0.1) {
 						npc.netUpdate = true;
 						npc.velocity.X = 0f;
 					}
 				}
 			}
-			if(npc.ai[0] > 0f) {
-				if(npc.ai[0] == 200f) {
+			if (npc.ai[0] > 0f) {
+				if (npc.ai[0] == 200f) {
 					Main.PlaySound(SoundID.Item5, npc.position);
 				}
 				ref float reference = ref npc.ai[0];
 				reference -= 1f;
 			}
-			if((Main.netMode != NetmodeID.MultiplayerClient & flag223) && npc.ai[0] == 0f && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height)) {
+			if ((Main.netMode != NetmodeID.MultiplayerClient & flag223) && npc.ai[0] == 0f && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height)) {
 				npc.ai[0] = 200f;
 				int num3205 = 10;
 				int num3204 = 276;
@@ -95,45 +96,46 @@ namespace SpiritMod.NPCs.Reach
 				int num3200 = (int)(npc.position.X + (float)npc.width) / 16;
 				int num3199 = (int)(npc.position.Y + (float)npc.height) / 16;
 				bool flag222 = false;
-				if(Main.tile[num3202, num3199] == null) {
+				if (Main.tile[num3202, num3199] == null) {
 					Tile[,] tile15 = Main.tile;
 					int num3564 = num3202;
 					int num3565 = num3199;
 					Tile tile16 = new Tile();
 					tile15[num3564, num3565] = tile16;
 				}
-				if(Main.tile[num3201, num3199] == null) {
+				if (Main.tile[num3201, num3199] == null) {
 					Tile[,] tile17 = Main.tile;
 					int num3566 = num3202;
 					int num3567 = num3199;
 					Tile tile18 = new Tile();
 					tile17[num3566, num3567] = tile18;
 				}
-				if(Main.tile[num3200, num3199] == null) {
+				if (Main.tile[num3200, num3199] == null) {
 					Tile[,] tile19 = Main.tile;
 					int num3568 = num3202;
 					int num3569 = num3199;
 					Tile tile20 = new Tile();
 					tile19[num3568, num3569] = tile20;
 				}
-				if(Main.tile[num3202, num3199].nactive() && Main.tileSolid[Main.tile[num3202, num3199].type]) {
+				if (Main.tile[num3202, num3199].nactive() && Main.tileSolid[Main.tile[num3202, num3199].type]) {
 					flag222 = true;
 				}
-				if(Main.tile[num3201, num3199].nactive() && Main.tileSolid[Main.tile[num3201, num3199].type]) {
+				if (Main.tile[num3201, num3199].nactive() && Main.tileSolid[Main.tile[num3201, num3199].type]) {
 					flag222 = true;
 				}
-				if(Main.tile[num3200, num3199].nactive() && Main.tileSolid[Main.tile[num3200, num3199].type]) {
+				if (Main.tile[num3200, num3199].nactive() && Main.tileSolid[Main.tile[num3200, num3199].type]) {
 					flag222 = true;
 				}
 
-				if(flag222) {
+				if (flag222) {
 					npc.noGravity = true;
 					npc.noTileCollide = true;
 					npc.velocity.Y = -0.2f;
-				} else {
+				}
+				else {
 					npc.noGravity = false;
 					npc.noTileCollide = false;
-					if(Main.rand.Next(2) == 0) {
+					if (Main.rand.Next(2) == 0) {
 						Vector2 position55 = new Vector2(npc.position.X - 4f, npc.position.Y + (float)npc.height - 8f);
 						int width36 = npc.width + 8;
 						float speedY16 = npc.velocity.Y / 2f;
@@ -143,14 +145,15 @@ namespace SpiritMod.NPCs.Reach
 						expr_D686_cp_0.velocity.X = expr_D686_cp_0.velocity.X * 0.4f;
 						Dust expr_D6A6_cp_0 = Main.dust[num3198];
 						expr_D6A6_cp_0.velocity.Y = expr_D6A6_cp_0.velocity.Y * -1f;
-						if(Main.rand.Next(2) == 0) {
+						if (Main.rand.Next(2) == 0) {
 							Main.dust[num3198].noGravity = true;
 							Dust dust46 = Main.dust[num3198];
 							dust46.scale += 0.2f;
 						}
 					}
 				}
-			} catch {
+			}
+			catch {
 			}
 		}
 
@@ -165,7 +168,7 @@ namespace SpiritMod.NPCs.Reach
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			Player player = spawnInfo.player;
-			if(!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.spawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.spawnTileY > Main.worldSurface || !Main.dayTime) && (SpawnCondition.GoblinArmy.Chance == 0)) {
+			if (!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.spawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.spawnTileY > Main.worldSurface || !Main.dayTime) && (SpawnCondition.GoblinArmy.Chance == 0)) {
 				return spawnInfo.player.GetSpiritPlayer().ZoneReach && player.ZoneOverworldHeight && NPC.downedBoss1 && Main.tile[(int)(spawnInfo.spawnTileX), (int)(spawnInfo.spawnTileY)].type == ModContent.TileType<ReachGrassTile>() ? 0.8f : 0f;
 			}
 			return 0f;
@@ -184,11 +187,11 @@ namespace SpiritMod.NPCs.Reach
 		{
 			int d = 3;
 			int d1 = 3;
-			for(int k = 0; k < 30; k++) {
+			for (int k = 0; k < 30; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.Purple, 0.3f);
 				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
 			}
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LeafGreen"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LeafGreen"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LeafHead"), 1f);
@@ -196,7 +199,7 @@ namespace SpiritMod.NPCs.Reach
 		}
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if(Main.rand.Next(10) == 0 && Main.expertMode) {
+			if (Main.rand.Next(10) == 0 && Main.expertMode) {
 				target.AddBuff(148, 2000);
 			}
 		}

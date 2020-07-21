@@ -35,10 +35,11 @@ namespace SpiritMod.Items.Weapon.Magic
 		}
 		public override bool CanUseItem(Player player)
 		{
-			if(player.wet) {
+			if (player.wet) {
 				item.damage = 10;
 				item.mana = 6;
-			} else {
+			}
+			else {
 				item.damage = 8;
 				item.mana = 8;
 			}

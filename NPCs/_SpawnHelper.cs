@@ -20,7 +20,7 @@ namespace SpiritMod.NPCs
 		private static void ProcessSpawnInfo(NPCSpawnInfo info)
 		{
 			Player player = info.player;
-			if(Main.time == currentTime &&
+			if (Main.time == currentTime &&
 				player.whoAmI == currentPlayer)
 				return;
 			currentTime = Main.time;

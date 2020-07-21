@@ -27,16 +27,16 @@ namespace SpiritMod.Projectiles.Flail
 		{
 			ProjectileExtras.FlailAI(projectile.whoAmI);
 			timer++;
-			if(timer >= 15) {
+			if (timer >= 15) {
 				float lowestDist = float.MaxValue;
-				for(int i = 0; i < 200; ++i) {
+				for (int i = 0; i < 200; ++i) {
 					NPC npc = Main.npc[i];
 					//if npc is a valid target (active, not friendly, and not a critter)
-					if(npc.active && npc.CanBeChasedBy(projectile)) {
+					if (npc.active && npc.CanBeChasedBy(projectile)) {
 						//if npc is within 50 blocks
 						float dist = projectile.Distance(npc.Center);
 						//if npc is closer than closest found npc
-						if(dist < lowestDist) {
+						if (dist < lowestDist) {
 							lowestDist = dist;
 
 							//target this npc

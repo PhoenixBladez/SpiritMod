@@ -70,7 +70,7 @@ namespace SpiritMod.Items.Tool
 		}
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
-			if(Main.rand.Next(5) == 0) {
+			if (Main.rand.Next(5) == 0) {
 				int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 187);
 			}
 		}

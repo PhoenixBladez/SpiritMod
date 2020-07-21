@@ -29,10 +29,10 @@ namespace SpiritMod.Projectiles.Hostile
 		public override bool PreAI()
 		{
 			var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
-			foreach(var proj in list) {
-				if(projectile != proj && proj.friendly) {
+			foreach (var proj in list) {
+				if (projectile != proj && proj.friendly) {
 					numHits++;
-					if(numHits >= 3) {
+					if (numHits >= 3) {
 						projectile.Kill();
 					}
 				}
@@ -43,9 +43,9 @@ namespace SpiritMod.Projectiles.Hostile
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 			projectile.localAI[0] += 1f;
-			if(projectile.localAI[0] == 16f) {
+			if (projectile.localAI[0] == 16f) {
 				projectile.localAI[0] = 0f;
-				for(int j = 0; j < 12; j++) {
+				for (int j = 0; j < 12; j++) {
 					Vector2 vector2 = Vector2.UnitX * -projectile.width / 2f;
 					vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(8f, 16f);
 					vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default(Vector2));
@@ -65,45 +65,46 @@ namespace SpiritMod.Projectiles.Hostile
 			float num3 = 16f;
 			num1 = 9f;
 			num2 = 5.5f;
-			if(projectile.timeLeft > 30 && projectile.alpha > 0)
+			if (projectile.timeLeft > 30 && projectile.alpha > 0)
 				projectile.alpha -= 25;
-			if(projectile.timeLeft > 30 && projectile.alpha < 128 && Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+			if (projectile.timeLeft > 30 && projectile.alpha < 128 && Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
 				projectile.alpha = 128;
-			if(projectile.alpha < 0)
+			if (projectile.alpha < 0)
 				projectile.alpha = 0;
 
-			if(++projectile.frameCounter > 4) {
+			if (++projectile.frameCounter > 4) {
 				projectile.frameCounter = 0;
-				if(++projectile.frame >= 4)
+				if (++projectile.frame >= 4)
 					projectile.frame = 0;
 			}
 			float num4 = 0.5f;
-			if(projectile.timeLeft < 120)
+			if (projectile.timeLeft < 120)
 				num4 = 1.1f;
-			if(projectile.timeLeft < 60)
+			if (projectile.timeLeft < 60)
 				num4 = 1.6f;
 
 			++projectile.ai[1];
 			double num5 = (double)projectile.ai[1] / 180.0;
 
 			int index1 = (int)projectile.ai[0];
-			if(index1 >= 0 && Main.player[index1].active && !Main.player[index1].dead) {
-				if(projectile.Distance(Main.player[index1].Center) <= num3)
+			if (index1 >= 0 && Main.player[index1].active && !Main.player[index1].dead) {
+				if (projectile.Distance(Main.player[index1].Center) <= num3)
 					return;
 				Vector2 unitY = projectile.DirectionTo(Main.player[index1].Center);
-				if(unitY.HasNaNs())
+				if (unitY.HasNaNs())
 					unitY = Vector2.UnitY;
 				projectile.velocity = (projectile.velocity * (num1 - 1f) + unitY * num2) / num1;
-			} else {
-				if(projectile.timeLeft > 30)
+			}
+			else {
+				if (projectile.timeLeft > 30)
 					projectile.timeLeft = 30;
-				if(projectile.ai[0] == -1f)
+				if (projectile.ai[0] == -1f)
 					return;
 				projectile.ai[0] = -1f;
 				projectile.netUpdate = true;
 			}
 			int num1222 = 5;
-			for(int k = 0; k < 3; k++) {
+			for (int k = 0; k < 3; k++) {
 				int index2 = Dust.NewDust(projectile.position, 1, 1, 6, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].position = projectile.Center - projectile.velocity / num1222 * (float)k;
 				Main.dust[index2].scale = .95f;
@@ -120,12 +121,12 @@ namespace SpiritMod.Projectiles.Hostile
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
-			for(int i = 0; i < 40; i++) {
+			for (int i = 0; i < 40; i++) {
 				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, -2f, 0, default(Color), 1.5f);
 				Main.dust[num].noGravity = true;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-				if(Main.dust[num].position != projectile.Center) {
+				if (Main.dust[num].position != projectile.Center) {
 					Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
 				}
 			}

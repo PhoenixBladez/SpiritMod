@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Accessory
 		}
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			if(!Main.dayTime) {
+			if (!Main.dayTime) {
 				Lighting.AddLight(player.position, 0.0f, .75f, 1.25f);
 				player.manaCost -= 0.05f;
 			}

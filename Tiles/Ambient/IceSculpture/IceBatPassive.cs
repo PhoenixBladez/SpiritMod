@@ -35,7 +35,7 @@ namespace SpiritMod.Tiles.Ambient.IceSculpture
 		}
 		public override bool CanKillTile(int i, int j, ref bool blockDamaged)
 		{
-			if(!NPC.downedBoss3) {
+			if (!NPC.downedBoss3) {
 				return false;
 			}
 			return true;

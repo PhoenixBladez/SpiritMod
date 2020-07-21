@@ -34,7 +34,7 @@ namespace SpiritMod.NPCs
 
 		public override bool PreAI()
 		{
-			if(npc.target == 255) {
+			if (npc.target == 255) {
 				npc.TargetClosest(true);
 				float num1 = 6f;
 				Vector2 vector2 = new Vector2(npc.position.X + (npc.width * 0.5f), npc.position.Y + (npc.height * 0.5f));
@@ -53,7 +53,7 @@ namespace SpiritMod.NPCs
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust2].noGravity = true;
 
-			if(npc.timeLeft > 100)
+			if (npc.timeLeft > 100)
 				npc.timeLeft = 100;
 
 			return false;

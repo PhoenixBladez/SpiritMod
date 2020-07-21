@@ -30,8 +30,8 @@ namespace SpiritMod.Tiles.Furniture
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Loot Chest");
 			AddMapEntry(new Color(196, 155, 18), name);
-            dustType = -1;
-        }
+			dustType = -1;
+		}
 		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
 		{
 			offsetY = 2;

@@ -26,7 +26,7 @@ namespace SpiritMod.Projectiles.Held
 		{
 			timer--;
 
-			if(timer == 0) {
+			if (timer == 0) {
 				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 8);
 				Projectile.NewProjectile(projectile.Center, projectile.velocity,
 					mod.ProjectileType("HellTridentProj1"), (int)(projectile.damage * 1.5f),

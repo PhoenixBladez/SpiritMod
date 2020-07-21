@@ -18,7 +18,7 @@ namespace SpiritMod.Buffs.Artifact
 		{
 			npc.GetGlobalNPC<GNPC>().moonBurn = true;
 
-			if(Main.rand.NextBool(2)) {
+			if (Main.rand.NextBool(2)) {
 				int dust = Dust.NewDust(npc.position, npc.width, npc.height, 173);
 				Main.dust[dust].scale = 1.9f;
 				Main.dust[dust].velocity *= 1f;

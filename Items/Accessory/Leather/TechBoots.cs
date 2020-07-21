@@ -29,10 +29,10 @@ namespace SpiritMod.Items.Accessory.Leather
 		{
 			player.moveSpeed += 0.09f;
 			player.runAcceleration += .05f;
-			if(player.statLife <= player.statLifeMax2 / 2) {
+			if (player.statLife <= player.statLifeMax2 / 2) {
 				player.moveSpeed += 0.09f;
 				player.runAcceleration += .05f;
-				if(player.velocity.X != 0f) {
+				if (player.velocity.X != 0f) {
 					int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 0, 226);
 					Main.dust[dust].velocity *= 0f;
 					Main.dust[dust].noGravity = true;

@@ -26,11 +26,11 @@ namespace SpiritMod.Projectiles.Arrow.Artifact
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 2; i++) {
+			for (int i = 0; i < 2; i++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 244);
 			}
 
-			if(Main.rand.Next(4) == 1) {
+			if (Main.rand.Next(4) == 1) {
 				Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 
 				Projectile.NewProjectile(projectile.position, new Vector2(0, -5), ModContent.ProjectileType<StarEnergyBolt>(), projectile.damage / 3, 0, Main.myPlayer);
@@ -48,7 +48,7 @@ namespace SpiritMod.Projectiles.Arrow.Artifact
 			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
 			MyPlayer mp = Main.player[projectile.owner].GetSpiritPlayer();
-			if(mp.MoonSongBlossom) {
+			if (mp.MoonSongBlossom) {
 				int dust1 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173);
 				int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173);
 				Main.dust[dust1].noGravity = true;
@@ -73,7 +73,7 @@ namespace SpiritMod.Projectiles.Arrow.Artifact
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(4) == 0)
+			if (Main.rand.Next(4) == 0)
 				target.AddBuff(BuffID.OnFire, 300);
 		}
 

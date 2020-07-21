@@ -19,7 +19,7 @@ namespace SpiritMod.Buffs.Glyph
 			player.GetModPlayer<MyPlayer>().blazeBurn = true;
 			player.allDamage += .17f;
 
-			if(Main.rand.NextDouble() < .5) {
+			if (Main.rand.NextDouble() < .5) {
 				int dust = Dust.NewDust(player.position, player.width, player.height, DustID.Fire);
 				Main.dust[dust].scale = Main.rand.NextFloat(1.4f, 2.4f);
 				Main.dust[dust].velocity.Y += Main.rand.NextFloat(0, -2f);

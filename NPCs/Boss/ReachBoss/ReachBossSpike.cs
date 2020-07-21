@@ -32,7 +32,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			projectile.height = 28;
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-			for(int num621 = 0; num621 < 20; num621++) {
+			for (int num621 = 0; num621 < 20; num621++) {
 				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 2, 0f, 0f, 100, default(Color), 1f);
 			}
 		}

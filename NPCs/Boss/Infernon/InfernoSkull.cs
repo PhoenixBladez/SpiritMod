@@ -13,7 +13,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 	[AutoloadBossHead]
 	public class InfernoSkull : ModNPC
 	{
-		
+
 		//bool txt = false;
 
 		public override void SetStaticDefaults()
@@ -66,7 +66,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 		}
 		public override void NPCLoot()
 		{
-			if(Main.expertMode)
+			if (Main.expertMode)
 				npc.DropBossBags();
 		}
 
@@ -74,15 +74,15 @@ namespace SpiritMod.NPCs.Boss.Infernon
 		int timer = 0;
 		public override void AI()
 		{
-			if(npc.localAI[0] == 0f) {
+			if (npc.localAI[0] == 0f) {
 				npc.localAI[0] = npc.Center.Y;
 				npc.netUpdate = true; //localAI probably isnt affected by this... buuuut might as well play it safe
 			}
-			if(npc.Center.Y >= npc.localAI[0]) {
+			if (npc.Center.Y >= npc.localAI[0]) {
 				npc.localAI[1] = -1f;
 				npc.netUpdate = true;
 			}
-			if(npc.Center.Y <= npc.localAI[0] - 10f) {
+			if (npc.Center.Y <= npc.localAI[0] - 10f) {
 				npc.localAI[1] = 1f;
 				npc.netUpdate = true;
 			}
@@ -95,21 +95,21 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			int damage = expertMode ? 16 : 30;
 
 			timer++;
-			if(timer == 0 || timer == 200) {
+			if (timer == 0 || timer == 200) {
 				float spread = 45f * 0.0174f;
 				double startAngle = Math.Atan2(1, 0) - spread / 2;
 				double deltaAngle = spread / 8f;
 				double offsetAngle;
 				int i;
-				for(i = 0; i < 4; i++) {
+				for (i = 0; i < 4; i++) {
 					offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
 					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<InfernalWave>(), 28, 0, Main.myPlayer);
 					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<InfernalWave>(), 28, 0, Main.myPlayer);
 					npc.netUpdate = true;
 				}
 			}
-			if(timer == 210 || timer == 220 || timer == 230 || timer == 240 || timer == 250 || timer == 260 || timer == 270 || timer == 280 || timer == 290 || timer == 300 || timer == 310 || timer == 320 || timer == 340 || timer == 350) {
-				if(npc.life >= (npc.lifeMax / 3)) {
+			if (timer == 210 || timer == 220 || timer == 230 || timer == 240 || timer == 250 || timer == 260 || timer == 270 || timer == 280 || timer == 290 || timer == 300 || timer == 310 || timer == 320 || timer == 340 || timer == 350) {
+				if (npc.life >= (npc.lifeMax / 3)) {
 					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 33);
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
 					direction.Normalize();
@@ -117,7 +117,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 					direction.Y *= 6f;
 
 					int amountOfProjectiles = 1;
-					for(int z = 0; z < amountOfProjectiles; ++z) {
+					for (int z = 0; z < amountOfProjectiles; ++z) {
 						float A = Main.rand.Next(-200, 200) * 0.03f;
 						float B = Main.rand.Next(-200, 200) * 0.03f;
 						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<InfernalBlastHostile>(), damage, 1, Main.myPlayer, 0, 0);
@@ -127,7 +127,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			}
 
 
-			if(timer == 400) {
+			if (timer == 400) {
 				Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 200, 0f, 0f, ModContent.ProjectileType<Fireball>(), damage, 1, Main.myPlayer, 0, 0);
 
 				Projectile.NewProjectile(npc.Center.X + 200, npc.Center.Y, 0f, 0f, ModContent.ProjectileType<Fireball>(), damage, 1, Main.myPlayer, 0, 0);
@@ -137,7 +137,8 @@ namespace SpiritMod.NPCs.Boss.Infernon
 				Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 200, 0f, 0f, ModContent.ProjectileType<Fireball>(), damage, 1, Main.myPlayer, 0, 0);
 
 				timer = 0;
-			} else if(Main.rand.Next(90) == 1 && npc.life <= (npc.lifeMax / 3)) {
+			}
+			else if (Main.rand.Next(90) == 1 && npc.life <= (npc.lifeMax / 3)) {
 				Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 500, 0f, 0f, ModContent.ProjectileType<Fireball>(), damage, 1, Main.myPlayer, 0, 0);
 
 				Projectile.NewProjectile(npc.Center.X + 500, npc.Center.Y, 0f, 0f, ModContent.ProjectileType<Fireball>(), damage, 1, Main.myPlayer, 0, 0);
@@ -150,25 +151,25 @@ namespace SpiritMod.NPCs.Boss.Infernon
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			for(int k = 0; k < 5; k++) {
+			for (int k = 0; k < 5; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, 6, hitDirection, -1f, 0, default, 1f);
 			}
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				npc.position.X = npc.position.X + (npc.width / 2);
 				npc.position.Y = npc.position.Y + (npc.height / 2);
 				npc.width = 80;
 				npc.height = 80;
 				npc.position.X = npc.position.X - (npc.width / 2);
 				npc.position.Y = npc.position.Y - (npc.height / 2);
-				for(int num621 = 0; num621 < 200; num621++) {
+				for (int num621 = 0; num621 < 200; num621++) {
 					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
-					if(Main.rand.Next(2) == 0) {
+					if (Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
 					}
 				}
-				for(int num623 = 0; num623 < 400; num623++) {
+				for (int num623 = 0; num623 < 400; num623++) {
 					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;

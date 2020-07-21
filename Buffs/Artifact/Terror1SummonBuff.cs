@@ -16,14 +16,15 @@ namespace SpiritMod.Buffs.Artifact
 		public override void Update(Player player, ref int buffIndex)
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if(player.ownedProjectileCounts[mod.ProjectileType("Terror1Summon")] > 0) {
+			if (player.ownedProjectileCounts[mod.ProjectileType("Terror1Summon")] > 0) {
 				modPlayer.terror1Summon = true;
 			}
 
-			if(!modPlayer.terror1Summon) {
+			if (!modPlayer.terror1Summon) {
 				player.DelBuff(buffIndex);
 				buffIndex--;
-			} else {
+			}
+			else {
 				player.buffTime[buffIndex] = 18000;
 			}
 		}

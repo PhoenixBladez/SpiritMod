@@ -6,7 +6,7 @@ namespace SpiritMod.Items.Glyphs
 {
 	public class RadiantGlyph : GlyphBase, IGlowing
 	{
-				public static Microsoft.Xna.Framework.Graphics.Texture2D[] _textures;
+		public static Microsoft.Xna.Framework.Graphics.Texture2D[] _textures;
 
 		Microsoft.Xna.Framework.Graphics.Texture2D IGlowing.Glowmask(out float bias)
 		{
@@ -48,7 +48,7 @@ namespace SpiritMod.Items.Glyphs
 			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
 			modPlayer.divineCounter = 0;
 			int index = player.FindBuffIndex(SpiritMod.instance.BuffType("DivineStrike"));
-			if(index < 0)
+			if (index < 0)
 				return;
 
 			damage += (int)(.11f * modPlayer.divineStacks * damage);

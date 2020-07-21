@@ -45,16 +45,16 @@ namespace SpiritMod.Tiles
 		{
 			Tile tile = Main.tile[i, j];
 			Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
-			if(Main.drawToScreen) {
+			if (Main.drawToScreen) {
 				zero = Vector2.Zero;
 			}
 			int height = tile.frameY == 36 ? 18 : 16;
 			Main.spriteBatch.Draw(mod.GetTexture("Tiles/CoilEnergizerTile_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			Tile t = Main.tile[i, j];
-			if(t.frameX % 54 == 0 && t.frameY == 0) {
+			if (t.frameX % 54 == 0 && t.frameY == 0) {
 				Main.spriteBatch.Draw(Main.extraTexture[60], new Vector2(i * 16 - (int)Main.screenPosition.X - 44, j * 16 - (int)Main.screenPosition.Y - 48) + zero, null, new Color(3, 169, 252, 0), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			}
-			if(tile.frameX == 18 && tile.frameY == 18) {
+			if (tile.frameX == 18 && tile.frameY == 18) {
 				DoDustEffect(new Vector2(i * 16f + 8, j * 16f + 8), 74f);
 			}
 		}
@@ -74,10 +74,10 @@ namespace SpiritMod.Tiles
 
 		public override void NearbyEffects(int i, int j, bool closer)
 		{
-			if(closer) {
+			if (closer) {
 				Player player = Main.LocalPlayer;
 				float speed = player.velocity.Length();
-				if(speed < 8f && Main.rand.Next(7) == 0) {
+				if (speed < 8f && Main.rand.Next(7) == 0) {
 					DoDustEffect(player.MountedCenter, 46f - speed * 4.5f, 1.08f - speed * 0.13f, 2.08f - speed * 0.24f, player);
 				}
 				player.AddBuff(ModContent.BuffType<OverDrive>(), 60);

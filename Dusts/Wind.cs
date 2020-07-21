@@ -14,15 +14,15 @@ namespace SpiritMod.Dusts
 
 		public override bool Update(Dust dust)
 		{
-			if(dust.customData is null) {
+			if (dust.customData is null) {
 				dust.active = false;
 			}
 
-			if(!(dust.customData is WindAnchor)) {
+			if (!(dust.customData is WindAnchor)) {
 				return true;
 			}
 
-			if(dust.alpha > 253) {
+			if (dust.alpha > 253) {
 				dust.active = false;
 				return false;
 			}
@@ -54,7 +54,7 @@ namespace SpiritMod.Dusts
 			float length = velocity.Length();
 
 			velocity = velocity * (1f / length);
-			if(velocity.HasNaNs()) {
+			if (velocity.HasNaNs()) {
 				velocity = new Vector2(0, -1);
 			}
 
@@ -62,10 +62,11 @@ namespace SpiritMod.Dusts
 			turnRate *= length > 4 ? length : 4;
 
 			bool left = (position - origin).LeftOf(velocity);
-			if(left) {
+			if (left) {
 				turnRate = -turnRate;
 				offsetDir = -velocity.TurnLeft();
-			} else {
+			}
+			else {
 				offsetDir = -velocity.TurnRight();
 			}
 
@@ -80,10 +81,11 @@ namespace SpiritMod.Dusts
 			turnRate *= 6;
 
 			bool left = position.X - origin.X < 0;
-			if(left) {
+			if (left) {
 				turnRate = -turnRate;
 				offsetDir = new Vector2(1, 0);
-			} else {
+			}
+			else {
 				offsetDir = new Vector2(-1, 0);
 			}
 

@@ -5,7 +5,7 @@ namespace SpiritMod.Items.Boss
 {
 	public class Trophy5 : ModItem
 	{
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Vinewrath Bane Trophy");

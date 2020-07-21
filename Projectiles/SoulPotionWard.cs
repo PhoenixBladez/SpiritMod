@@ -32,8 +32,8 @@ namespace SpiritMod.Projectiles
 		public override void AI()
 		{
 			Rectangle rect = new Rectangle((int)projectile.Center.X, (int)projectile.position.Y, 300, 300);
-			for(int index1 = 0; index1 < 200; index1++) {
-				if(rect.Contains(Main.npc[index1].Center.ToPoint()))
+			for (int index1 = 0; index1 < 200; index1++) {
+				if (rect.Contains(Main.npc[index1].Center.ToPoint()))
 					Main.npc[index1].AddBuff(ModContent.BuffType<SoulBurn>(), 240);
 			}
 		}

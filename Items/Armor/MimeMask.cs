@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Armor
 			player.minionDamage += 0.03f;
 			player.maxMinions += 1;
 		}
-		public override void DrawHair(ref bool drawHair, ref bool drawAltHair) 
+		public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
 			=> drawHair = true;
 	}
 }

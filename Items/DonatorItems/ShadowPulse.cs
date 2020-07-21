@@ -41,7 +41,7 @@ namespace SpiritMod.Items.DonatorItems
 			newProj.friendly = true;
 			newProj.hostile = false;
 
-			for(int I = 0; I < 5; I++) {
+			for (int I = 0; I < 5; I++) {
 				Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-180, 180) / 100), speedY + ((float)Main.rand.Next(-180, 180) / 100), ProjectileID.ShadowFlameArrow, damage, knockBack, player.whoAmI, 0f, 0f);
 			}
 			return false;

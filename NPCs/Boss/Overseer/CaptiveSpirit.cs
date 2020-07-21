@@ -37,8 +37,8 @@ namespace SpiritMod.NPCs.Boss.Overseer
 		public override bool PreAI()
 		{
 			npc.rotation = npc.velocity.ToRotation() + 1.57f;
-			if(start) {
-				for(int num621 = 0; num621 < 15; num621++) {
+			if (start) {
+				for (int num621 = 0; num621 < 15; num621++) {
 					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 206, 0f, 0f, 100, default(Color), 2f);
 				}
 				npc.velocity.X = npc.ai[0];
@@ -46,7 +46,7 @@ namespace SpiritMod.NPCs.Boss.Overseer
 				start = false;
 			}
 
-			if(Main.rand.Next(3) == 0)
+			if (Main.rand.Next(3) == 0)
 				Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 206, 0f, 0f, 100, default(Color), 2f);
 
 			npc.TargetClosest(true);
@@ -54,7 +54,7 @@ namespace SpiritMod.NPCs.Boss.Overseer
 			float currentRot = npc.velocity.ToRotation();
 			Vector2 direction = targetPlayer.Center - npc.Center;
 			float targetAngle = direction.ToRotation();
-			if(direction == Vector2.Zero)
+			if (direction == Vector2.Zero)
 				targetAngle = currentRot;
 
 			float desiredRot = currentRot.AngleLerp(targetAngle, 0.1f);
@@ -65,7 +65,7 @@ namespace SpiritMod.NPCs.Boss.Overseer
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frameCounter++;
-			if(npc.frameCounter >= 5) {
+			if (npc.frameCounter >= 5) {
 				npc.frame.Y = (npc.frame.Y + frameHeight) % (Main.npcFrameCount[npc.type] * frameHeight);
 				npc.frameCounter = 0;
 			}

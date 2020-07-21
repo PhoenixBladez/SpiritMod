@@ -38,12 +38,13 @@ namespace SpiritMod.Items.DonatorItems
 		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 		public override bool CanUseItem(Player player)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				item.useStyle = ItemUseStyleID.SwingThrow;
 				item.noUseGraphic = true;
 				item.UseSound = SoundID.Item1;
 				item.shootSpeed = 8f;
-			} else {
+			}
+			else {
 				item.noUseGraphic = false;
 				item.useStyle = ItemUseStyleID.HoldingOut;
 				item.UseSound = SoundID.Item92;
@@ -53,9 +54,10 @@ namespace SpiritMod.Items.DonatorItems
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<GunProj>(), (int)(damage * 2.5f), knockBack, player.whoAmI);
-			} else {
+			}
+			else {
 				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
 			}
 			return false;

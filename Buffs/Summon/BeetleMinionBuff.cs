@@ -17,11 +17,11 @@ namespace SpiritMod.Buffs.Summon
 		public override void Update(Player player, ref int buffIndex)
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if(player.ownedProjectileCounts[ModContent.ProjectileType<BeetleMinion>()] > 0) {
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<BeetleMinion>()] > 0) {
 				modPlayer.beetleMinion = true;
 			}
 
-			if(!modPlayer.beetleMinion) {
+			if (!modPlayer.beetleMinion) {
 				player.DelBuff(buffIndex);
 				buffIndex--;
 				return;

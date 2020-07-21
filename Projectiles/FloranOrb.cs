@@ -39,15 +39,15 @@ namespace SpiritMod.Projectiles
 		{
 			Player player = Main.player[projectile.owner];
 			var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
-			foreach(var proj in list) {
+			foreach (var proj in list) {
 				counter++;
-				if(counter == 0) {
+				if (counter == 0) {
 					counter = -1440;
 				}
 				projectile.rotation = projectile.velocity.ToRotation() + (float)(Math.PI / 2);
 			}
 			j = projectile.ai[1] - 60;
-			for(int i = 0; i < 100; i += 20) {
+			for (int i = 0; i < 100; i += 20) {
 				float xdist = (int)(Math.Sin((i + j) * (Math.PI / 180)) * 15);
 				float ydist = (int)(Math.Cos((i + j) * (Math.PI / 180)) * 15);
 				Vector2 offset = new Vector2(xdist, ydist);
@@ -73,13 +73,13 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 5; i++) {
+			for (int i = 0; i < 5; i++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<FloranDust>());
 			}
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(5) == 0)
+			if (Main.rand.Next(5) == 0)
 				target.AddBuff(ModContent.BuffType<VineTrap>(), 180);
 		}
 

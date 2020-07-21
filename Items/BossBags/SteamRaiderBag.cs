@@ -33,8 +33,8 @@ namespace SpiritMod.Items.BossBags
 			player.QuickSpawnItem(ModContent.ItemType<StarMap>());
 			player.QuickSpawnItem(ModContent.ItemType<CosmiliteShard>(), Main.rand.Next(6, 10));
 
-			if(Main.rand.NextBool(7)) player.QuickSpawnItem(ModContent.ItemType<StarplateMask>());
-			if(Main.rand.NextBool(10)) player.QuickSpawnItem(ModContent.ItemType<Trophy3>());
+			if (Main.rand.NextBool(7)) player.QuickSpawnItem(ModContent.ItemType<StarplateMask>());
+			if (Main.rand.NextBool(10)) player.QuickSpawnItem(ModContent.ItemType<Trophy3>());
 		}
 	}
 }

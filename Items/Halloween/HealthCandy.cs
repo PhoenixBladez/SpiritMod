@@ -6,7 +6,7 @@ namespace SpiritMod.Items.Halloween
 {
 	public class HealthCandy : CandyBase
 	{
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Health Candy");

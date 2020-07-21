@@ -8,7 +8,7 @@
 		Dash,
 		PlayerGlyph,
 		AuroraData,
-        AdventurerQuestCompleted,
-        AdventurerNewQuest
-    }
+		AdventurerQuestCompleted,
+		AdventurerNewQuest
+	}
 }

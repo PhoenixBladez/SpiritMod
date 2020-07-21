@@ -60,7 +60,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		}
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(3) == 0)
+			if (Main.rand.Next(3) == 0)
 				target.AddBuff(ModContent.BuffType<StarFlame>(), 180);
 		}
 		public override bool AltFunctionUse(Player player)
@@ -69,7 +69,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		}
 		public override bool CanUseItem(Player player)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				item.noUseGraphic = true;
 				item.shoot = ModContent.ProjectileType<GlowStingSpear>();
 				item.useStyle = ItemUseStyleID.HoldingOut;
@@ -78,7 +78,8 @@ namespace SpiritMod.Items.Weapon.Swung
 				item.damage = 34;
 				item.knockBack = 2;
 				item.shootSpeed = 8f;
-			} else {
+			}
+			else {
 				item.damage = 47;
 				item.noUseGraphic = false;
 				item.useTime = 25;
@@ -88,15 +89,15 @@ namespace SpiritMod.Items.Weapon.Swung
 				item.useStyle = ItemUseStyleID.SwingThrow;
 				item.shootSpeed = 0f;
 			}
-			if(player.ownedProjectileCounts[item.shoot] > 0)
+			if (player.ownedProjectileCounts[item.shoot] > 0)
 				return false;
 			return true;
 		}
 		public override void UseStyle(Player player)
 		{
-			if(player.altFunctionUse != 2) {
-				for(int projFinder = 0; projFinder < 300; ++projFinder) {
-					if(Main.projectile[projFinder].type == ModContent.ProjectileType<GlowStingSpear>()) {
+			if (player.altFunctionUse != 2) {
+				for (int projFinder = 0; projFinder < 300; ++projFinder) {
+					if (Main.projectile[projFinder].type == ModContent.ProjectileType<GlowStingSpear>()) {
 						Main.projectile[projFinder].Kill();
 						Main.projectile[projFinder].timeLeft = 2;
 					}
@@ -105,12 +106,13 @@ namespace SpiritMod.Items.Weapon.Swung
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				Vector2 origVect = new Vector2(speedX, speedY);
 				Vector2 newVect;
-				if(Main.rand.Next(2) == 1) {
+				if (Main.rand.Next(2) == 1) {
 					newVect = origVect.RotatedBy(System.Math.PI / (Main.rand.Next(82, 1800) / 10));
-				} else {
+				}
+				else {
 					newVect = origVect.RotatedBy(-System.Math.PI / (Main.rand.Next(82, 1800) / 10));
 				}
 				speedX = newVect.X;

@@ -16,12 +16,12 @@ namespace SpiritMod.NPCs.Boss.Overseer
 		private void UpdateSeerIndex()
 		{
 			int SeerType = ModLoader.GetMod("SpiritMod").NPCType("Overseer");
-			if(SeerIndex >= 0 && Main.npc[SeerIndex].active && Main.npc[SeerIndex].type == SeerType)
+			if (SeerIndex >= 0 && Main.npc[SeerIndex].active && Main.npc[SeerIndex].type == SeerType)
 				return;
 
 			SeerIndex = -1;
-			for(int i = 0; i < Main.npc.Length; i++) {
-				if(Main.npc[i].active && Main.npc[i].type == SeerType) {
+			for (int i = 0; i < Main.npc.Length; i++) {
+				if (Main.npc[i].active && Main.npc[i].type == SeerType) {
 					SeerIndex = i;
 					break;
 				}
@@ -31,7 +31,7 @@ namespace SpiritMod.NPCs.Boss.Overseer
 		public override void Apply()
 		{
 			UpdateSeerIndex();
-			if(SeerIndex != -1)
+			if (SeerIndex != -1)
 				UseTargetPosition(Main.npc[SeerIndex].Center);
 
 			base.Apply();

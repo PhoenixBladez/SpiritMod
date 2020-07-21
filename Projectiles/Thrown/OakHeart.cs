@@ -36,25 +36,25 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(6) == 0) {
-				for(int k = 0; k < 5; k++) {
+			if (Main.rand.Next(6) == 0) {
+				for (int k = 0; k < 5; k++) {
 					int p = Projectile.NewProjectile(target.position.X + Main.rand.Next(-20, 20), target.position.Y - 60, 0f, 8f, ModContent.ProjectileType<PoisonCloud>(), projectile.damage / 2, 0f, projectile.owner, 0f, 0f);
 					Main.projectile[p].penetrate = 2;
 
 				}
 			}
 			MyPlayer mp = Main.player[projectile.owner].GetSpiritPlayer();
-			if(mp.sacredVine && Main.rand.Next(2) == 0)
+			if (mp.sacredVine && Main.rand.Next(2) == 0)
 				target.AddBuff(ModContent.BuffType<PollinationPoison>(), 200, true);
 
 			else
-			if(Main.rand.Next(4) == 0)
+			if (Main.rand.Next(4) == 0)
 				target.AddBuff(BuffID.Poisoned, 200, true);
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 5; i++) {
+			for (int i = 0; i < 5; i++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 3);
 			}
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);

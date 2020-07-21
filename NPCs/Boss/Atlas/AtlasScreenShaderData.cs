@@ -16,12 +16,12 @@ namespace SpiritMod.NPCs.Boss.Atlas
 		private void UpdateAtlasIndex()
 		{
 			int AtlasType = ModLoader.GetMod("SpiritMod").NPCType("Atlas");
-			if(AtlasIndex >= 0 && Main.npc[AtlasIndex].active && Main.npc[AtlasIndex].type == AtlasType)
+			if (AtlasIndex >= 0 && Main.npc[AtlasIndex].active && Main.npc[AtlasIndex].type == AtlasType)
 				return;
 
 			AtlasIndex = -1;
-			for(int i = 0; i < Main.npc.Length; i++) {
-				if(Main.npc[i].active && Main.npc[i].type == AtlasType) {
+			for (int i = 0; i < Main.npc.Length; i++) {
+				if (Main.npc[i].active && Main.npc[i].type == AtlasType) {
 					AtlasIndex = i;
 					break;
 				}
@@ -31,7 +31,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 		public override void Apply()
 		{
 			UpdateAtlasIndex();
-			if(AtlasIndex != -1)
+			if (AtlasIndex != -1)
 				UseTargetPosition(Main.npc[AtlasIndex].Center);
 
 			base.Apply();

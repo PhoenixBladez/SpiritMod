@@ -26,12 +26,12 @@ namespace SpiritMod.Projectiles.Boss
 
 		public override void AI()
 		{
-			if(Main.rand.Next(10) == 0) {
+			if (Main.rand.Next(10) == 0) {
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height,
 					62, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			}
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 8) {
+			if (projectile.frameCounter >= 8) {
 				projectile.frameCounter = 0;
 				projectile.frame = (projectile.frame + 1) % 4;
 			}

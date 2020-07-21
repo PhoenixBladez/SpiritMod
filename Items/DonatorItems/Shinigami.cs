@@ -6,7 +6,7 @@ namespace SpiritMod.Items.DonatorItems
 {
 	class Shinigami : ModItem
 	{
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Shinigami");
@@ -46,16 +46,18 @@ namespace SpiritMod.Items.DonatorItems
 		}
 		public override bool CanUseItem(Player player)
 		{
-			if(player.altFunctionUse == 2) {
-				if(player.dashDelay == 0) {
+			if (player.altFunctionUse == 2) {
+				if (player.dashDelay == 0) {
 					item.useStyle = ItemUseStyleID.Stabbing;
 					item.noMelee = true;
 					player.GetModPlayer<MyPlayer>().PerformDash(
 						DashType.Shinigami,
 						(sbyte)player.direction);
-				} else
+				}
+				else
 					return false;
-			} else {
+			}
+			else {
 				item.useStyle = ItemUseStyleID.SwingThrow;
 				item.noMelee = false;
 			}

@@ -48,15 +48,15 @@ namespace SpiritMod.Projectiles.Summon
 
 			//TARGET NEAREST NPC WITHIN RANGE
 			float lowestDist = float.MaxValue;
-			for(int i = 0; i < 200; ++i) {
+			for (int i = 0; i < 200; ++i) {
 				NPC npc = Main.npc[i];
 				//if npc is a valid target (active, not friendly, and not a critter)
-				if(npc.active && npc.CanBeChasedBy(projectile) && !npc.friendly) {
+				if (npc.active && npc.CanBeChasedBy(projectile) && !npc.friendly) {
 					//if npc is within 50 blocks
 					float dist = projectile.Distance(npc.Center);
-					if(dist / 16 < range) {
+					if (dist / 16 < range) {
 						//if npc is closer than closest found npc
-						if(dist < lowestDist) {
+						if (dist < lowestDist) {
 							lowestDist = dist;
 
 							//target this npc
@@ -69,7 +69,7 @@ namespace SpiritMod.Projectiles.Summon
 			NPC target = (Main.npc[(int)projectile.ai[1]] ?? new NPC()); //our target
 																		 //firing
 			projectile.ai[0]++;
-			if(projectile.ai[0] >= 30 && target.active && !target.friendly && projectile.Distance(target.Center) / 16 < range) {
+			if (projectile.ai[0] >= 30 && target.active && !target.friendly && projectile.Distance(target.Center) / 16 < range) {
 				projectile.ai[0] = 0;
 				Vector2 ShootArea = new Vector2(projectile.Center.X, projectile.Center.Y - 13);
 				Vector2 direction = target.Center - ShootArea;
@@ -82,7 +82,7 @@ namespace SpiritMod.Projectiles.Summon
 				Main.PlaySound(SoundID.Item, projectile.Center, 12);  //make bow shooty sound
 			}
 			Vector2 globePos = new Vector2(projectile.Center.X + 2, projectile.position.Y + 6);
-			if(Main.rand.Next(11) == 1) {
+			if (Main.rand.Next(11) == 1) {
 				Vector2 vector2 = Vector2.UnitY.RotatedByRandom(6.28318548202515) * new Vector2(8f, 8f) * projectile.scale * 1.45f / 2f;
 				int index = Dust.NewDust(globePos + vector2, 0, 0, 226, 0.0f, 0.0f, 0, new Color(), .8f);
 				Main.dust[index].position = globePos + vector2;
@@ -108,12 +108,12 @@ namespace SpiritMod.Projectiles.Summon
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
-			for(int i = 0; i < 40; i++) {
+			for (int i = 0; i < 40; i++) {
 				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, -2f, 0, default(Color), 1.5f);
 				Main.dust[num].noGravity = true;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-				if(Main.dust[num].position != projectile.Center) {
+				if (Main.dust[num].position != projectile.Center) {
 					Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
 				}
 			}

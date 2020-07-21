@@ -32,7 +32,7 @@ namespace SpiritMod.Projectiles
 		{
 			Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, 0.3F, 0.06F, 0.05F);
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-			for(int i = 0; i < 2; i++) {
+			for (int i = 0; i < 2; i++) {
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 				int num = Dust.NewDust(new Vector2(x, y), 26, 26, 173, 0f, 0f, 0, default(Color), 1f);
@@ -58,7 +58,7 @@ namespace SpiritMod.Projectiles
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(8) == 1)
+			if (Main.rand.Next(8) == 1)
 				target.AddBuff(BuffID.ShadowFlame, 200);
 		}
 	}

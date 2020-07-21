@@ -62,25 +62,25 @@ namespace SpiritMod.Tide.NPCs
 				Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 2.4f, 1.07f, .66f);
 				//64 pixel radius
 
-				if(Math.Sqrt((delta.X * delta.X) + (delta.Y * delta.Y)) <= 250f && circling == false) //circle starting
+				if (Math.Sqrt((delta.X * delta.X) + (delta.Y * delta.Y)) <= 250f && circling == false) //circle starting
 				{
 					npc.ai[1] = 0; //reset rotation
 					npc.aiStyle = -1;
 					circling = true; //launch circle action into effect
 				}
-				if(Math.Sqrt((delta.X * delta.X) + (delta.Y * delta.Y)) > 250f && circling == false) //normal AI
+				if (Math.Sqrt((delta.X * delta.X) + (delta.Y * delta.Y)) > 250f && circling == false) //normal AI
 				{
 					npc.aiStyle = 22;
 					aiType = NPCID.Wraith;
 					Counter++;
-					if(Counter > 50) {
+					if (Counter > 50) {
 						Vector2 direction = Main.player[npc.target].Center - npc.Center;
 						direction.Normalize();
 						direction.X *= 5f;
 						direction.Y *= 5f;
 
 						int amountOfProjectiles = Main.rand.Next(1, 2);
-						for(int i = 0; i < amountOfProjectiles; ++i) {
+						for (int i = 0; i < amountOfProjectiles; ++i) {
 							float A = (float)Main.rand.Next(-150, 150) * 0.03f;
 							float B = (float)Main.rand.Next(-150, 150) * 0.03f;
 							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, ProjectileID.Fireball, 28, 1, Main.myPlayer, 0, 0);
@@ -88,8 +88,8 @@ namespace SpiritMod.Tide.NPCs
 						}
 					}
 					timer++;
-					if(timer == 200) {
-						for(int i = 0; i < 50; ++i) //Create dust before teleport
+					if (timer == 200) {
+						for (int i = 0; i < 50; ++i) //Create dust before teleport
 						{
 							int dust = Dust.NewDust(npc.position, npc.width, npc.height, 6);
 							Main.dust[dust].scale = 1.5f;
@@ -102,15 +102,15 @@ namespace SpiritMod.Tide.NPCs
 						npc.velocity.Y = direction.Y * 12f;
 						npc.velocity.X = direction.X * 12f;
 
-						for(int i = 0; i < 50; ++i) //Create dust after teleport
+						for (int i = 0; i < 50; ++i) //Create dust after teleport
 						{
 							int dust = Dust.NewDust(npc.position, npc.width, npc.height, 6);
 							Main.dust[dust].scale = 1.5f;
 						}
 					}
 
-					if(timer == 400) {
-						for(int i = 0; i < 50; ++i) //Create dust before teleport
+					if (timer == 400) {
+						for (int i = 0; i < 50; ++i) //Create dust before teleport
 						{
 							int dust = Dust.NewDust(npc.position, npc.width, npc.height, 6);
 							Main.dust[dust].scale = 1.5f;
@@ -123,14 +123,14 @@ namespace SpiritMod.Tide.NPCs
 						npc.velocity.Y = direction.Y * 12f;
 						npc.velocity.X = direction.X * 12f;
 
-						for(int i = 0; i < 50; ++i) //Create dust after teleport
+						for (int i = 0; i < 50; ++i) //Create dust after teleport
 						{
 							int dust = Dust.NewDust(npc.position, npc.width, npc.height, 6);
 							Main.dust[dust].scale = 1.5f;
 						}
 					}
-					if(timer == 600) {
-						for(int i = 0; i < 50; ++i) //Create dust before teleport
+					if (timer == 600) {
+						for (int i = 0; i < 50; ++i) //Create dust before teleport
 						{
 							int dust = Dust.NewDust(npc.position, npc.width, npc.height, 6);
 							Main.dust[dust].scale = 1.5f;
@@ -143,36 +143,36 @@ namespace SpiritMod.Tide.NPCs
 						npc.velocity.Y = direction.Y * 12f;
 						npc.velocity.X = direction.X * 12f;
 
-						for(int i = 0; i < 50; ++i) //Create dust after teleport
+						for (int i = 0; i < 50; ++i) //Create dust after teleport
 						{
 							int dust = Dust.NewDust(npc.position, npc.width, npc.height, 6);
 							Main.dust[dust].scale = 1.5f;
 						}
 					}
 
-					if(timer >= 600) {
+					if (timer >= 600) {
 						timer = 0;
 					}
 					return true;
 				}
-				if(Math.Sqrt((delta.X * delta.X) + (delta.Y * delta.Y)) > 500f && circling == true) //stop circling
+				if (Math.Sqrt((delta.X * delta.X) + (delta.Y * delta.Y)) > 500f && circling == true) //stop circling
 				{
 					circling = false;
 					npc.velocity = Vector2.Zero;
 				}
-				if(circling == true) {
+				if (circling == true) {
 					double deg = (double)npc.ai[1]; //The degrees, you can multiply npc.ai[1] to make it orbit faster, may be choppy depending on the value
 					double rad = deg * (Math.PI / 180); //Convert degrees to radians
 					double dist = 250; //Distance away from the player
 					Counter++;
-					if(Counter > 100) {
+					if (Counter > 100) {
 						Vector2 direction = Main.player[npc.target].Center - npc.Center;
 						direction.Normalize();
 						direction.X *= 5f;
 						direction.Y *= 5f;
 
 						int amountOfProjectiles = Main.rand.Next(1, 2);
-						for(int i = 0; i < amountOfProjectiles; ++i) {
+						for (int i = 0; i < amountOfProjectiles; ++i) {
 							float A = (float)Main.rand.Next(-150, 150) * 0.03f;
 							float B = (float)Main.rand.Next(-150, 150) * 0.03f;
 							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, ProjectileID.InfernoHostileBolt, 40, 1, Main.myPlayer, 0, 0);
@@ -193,8 +193,8 @@ namespace SpiritMod.Tide.NPCs
 					Vel *= 4f;
 					npc.velocity = Vel;
 					timer++;
-					if(timer == 200) {
-						for(int i = 0; i < 50; ++i) //Create dust before teleport
+					if (timer == 200) {
+						for (int i = 0; i < 50; ++i) //Create dust before teleport
 						{
 							int dust = Dust.NewDust(npc.position, npc.width, npc.height, 6);
 							Main.dust[dust].scale = 1.5f;
@@ -207,15 +207,15 @@ namespace SpiritMod.Tide.NPCs
 						npc.velocity.Y = direction.Y * 12f;
 						npc.velocity.X = direction.X * 12f;
 
-						for(int i = 0; i < 50; ++i) //Create dust after teleport
+						for (int i = 0; i < 50; ++i) //Create dust after teleport
 						{
 							int dust = Dust.NewDust(npc.position, npc.width, npc.height, 6);
 							Main.dust[dust].scale = 1.5f;
 						}
 					}
 
-					if(timer == 400) {
-						for(int i = 0; i < 50; ++i) //Create dust before teleport
+					if (timer == 400) {
+						for (int i = 0; i < 50; ++i) //Create dust before teleport
 						{
 							int dust = Dust.NewDust(npc.position, npc.width, npc.height, 6);
 							Main.dust[dust].scale = 1.5f;
@@ -228,14 +228,14 @@ namespace SpiritMod.Tide.NPCs
 						npc.velocity.Y = direction.Y * 12f;
 						npc.velocity.X = direction.X * 12f;
 
-						for(int i = 0; i < 50; ++i) //Create dust after teleport
+						for (int i = 0; i < 50; ++i) //Create dust after teleport
 						{
 							int dust = Dust.NewDust(npc.position, npc.width, npc.height, 6);
 							Main.dust[dust].scale = 1.5f;
 						}
 					}
-					if(timer == 600) {
-						for(int i = 0; i < 50; ++i) //Create dust before teleport
+					if (timer == 600) {
+						for (int i = 0; i < 50; ++i) //Create dust before teleport
 						{
 							int dust = Dust.NewDust(npc.position, npc.width, npc.height, 6);
 							Main.dust[dust].scale = 1.5f;
@@ -248,14 +248,14 @@ namespace SpiritMod.Tide.NPCs
 						npc.velocity.Y = direction.Y * 12f;
 						npc.velocity.X = direction.X * 12f;
 
-						for(int i = 0; i < 50; ++i) //Create dust after teleport
+						for (int i = 0; i < 50; ++i) //Create dust after teleport
 						{
 							int dust = Dust.NewDust(npc.position, npc.width, npc.height, 6);
 							Main.dust[dust].scale = 1.5f;
 						}
 					}
 
-					if(timer >= 600) {
+					if (timer >= 600) {
 						timer = 0;
 					}
 					return true;
@@ -269,7 +269,7 @@ namespace SpiritMod.Tide.NPCs
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthShard>(), 1);
 
 			int loot = 0;
-			switch(Main.rand.Next(3)) {
+			switch (Main.rand.Next(3)) {
 				case 0:
 					loot = ModContent.ItemType<FierySoul>();
 					break;
@@ -285,7 +285,7 @@ namespace SpiritMod.Tide.NPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if(TideWorld.TheTide && spawnInfo.player.ZoneBeach && NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3 && !NPC.AnyNPCs(ModContent.NPCType<SulfurElemental>()))
+			if (TideWorld.TheTide && spawnInfo.player.ZoneBeach && NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3 && !NPC.AnyNPCs(ModContent.NPCType<SulfurElemental>()))
 				return 0.3f;
 
 			return 0;
@@ -293,11 +293,11 @@ namespace SpiritMod.Tide.NPCs
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			for(int k = 0; k < 5; k++) {
+			for (int k = 0; k < 5; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, 6, hitDirection, -1f, 0, default(Color), 1f);
 			}
-			if(npc.life <= 0) {
-				if(TideWorld.TheTide) {
+			if (npc.life <= 0) {
+				if (TideWorld.TheTide) {
 					TideWorld.TidePoints += 4;
 				}
 				npc.position.X = npc.position.X + (float)(npc.width / 2);
@@ -306,15 +306,15 @@ namespace SpiritMod.Tide.NPCs
 				npc.height = 50;
 				npc.position.X = npc.position.X - (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
-				for(int num621 = 0; num621 < 20; num621++) {
+				for (int num621 = 0; num621 < 20; num621++) {
 					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default(Color), 2f);
 					Main.dust[num622].velocity *= 3f;
-					if(Main.rand.Next(2) == 0) {
+					if (Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 					}
 				}
-				for(int num623 = 0; num623 < 40; num623++) {
+				for (int num623 = 0; num623 < 40; num623++) {
 					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default(Color), 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;

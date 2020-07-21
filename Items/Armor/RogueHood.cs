@@ -38,8 +38,8 @@ namespace SpiritMod.Items.Armor
 			player.setBonus = "Getting hit grants four seconds of invisibility and 100% increased damage\n25 second cooldown";
 			player.GetSpiritPlayer().rogueSet = true;
 
-			if(player.HasBuff(ModContent.BuffType<RogueCooldown>())) {
-				if(player.HasBuff(BuffID.Invisibility)) {
+			if (player.HasBuff(ModContent.BuffType<RogueCooldown>())) {
+				if (player.HasBuff(BuffID.Invisibility)) {
 					player.rangedDamage += 1f;
 					player.meleeDamage += 1f;
 					player.magicDamage += 1f;

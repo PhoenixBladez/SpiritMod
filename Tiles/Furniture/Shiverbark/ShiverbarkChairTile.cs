@@ -29,9 +29,9 @@ namespace SpiritMod.Tiles.Furniture.Shiverbark
 			TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
 			ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Shiverbark Chair");
-            AddMapEntry(new Color(118, 155, 163), name);
-            disableSmartCursor = true;
+			name.SetDefault("Shiverbark Chair");
+			AddMapEntry(new Color(118, 155, 163), name);
+			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.Chairs };
 		}
 
@@ -42,7 +42,7 @@ namespace SpiritMod.Tiles.Furniture.Shiverbark
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-            Terraria.Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeable.Furniture.Shiverbark.ShiverbarkChair>());
+			Terraria.Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeable.Furniture.Shiverbark.ShiverbarkChair>());
 		}
 	}
 }

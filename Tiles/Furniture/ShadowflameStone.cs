@@ -58,13 +58,13 @@ namespace SpiritMod.Tiles.Furniture
 		{
 			Tile tile = Main.tile[i, j];
 			Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
-			if(Main.drawToScreen) {
+			if (Main.drawToScreen) {
 				zero = Vector2.Zero;
 			}
 			int height = tile.frameY == 36 ? 18 : 16;
 			Main.spriteBatch.Draw(mod.GetTexture("Tiles/Furniture/ShadowflameStone_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			Tile t = Main.tile[i, j];
-			if(t.frameX % 54 == 0 && t.frameY == 0) {
+			if (t.frameX % 54 == 0 && t.frameY == 0) {
 				Main.spriteBatch.Draw(Main.extraTexture[60], new Vector2(i * 16 - (int)Main.screenPosition.X - 44, j * 16 - (int)Main.screenPosition.Y - 32) + zero, null, new Color(169, 3, 252, 0), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			}
 		}

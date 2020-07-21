@@ -19,7 +19,7 @@ namespace SpiritMod.Buffs.Artifact
 			npc.lifeRegen = 0;
 			npc.lifeRegen -= 4;
 
-			if(Main.rand.NextBool(6)) {
+			if (Main.rand.NextBool(6)) {
 				int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Shadowflame);
 				Main.dust[dust].scale = 1.9f;
 				Main.dust[dust].velocity *= 1f;

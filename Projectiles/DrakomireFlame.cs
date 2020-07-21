@@ -26,21 +26,22 @@ namespace SpiritMod.Projectiles
 
 		public override bool PreAI()
 		{
-			if(projectile.velocity.Y < 8f)
+			if (projectile.velocity.Y < 8f)
 				projectile.velocity.Y += 0.1f;
 
 
 			Vector2 next = projectile.position + projectile.velocity;
 			Tile inside = Main.tile[((int)projectile.position.X + (projectile.width >> 1)) >> 4, ((int)projectile.position.Y + (projectile.height >> 1)) >> 4];
-			if(inside.active() && Main.tileSolid[inside.type]) {
+			if (inside.active() && Main.tileSolid[inside.type]) {
 				projectile.position.Y -= 16f;
 				return false;
 			}
 
-			if(Collision.WetCollision(next, projectile.width, projectile.height)) {
-				if(Main.player[projectile.owner].waterWalk) {
+			if (Collision.WetCollision(next, projectile.width, projectile.height)) {
+				if (Main.player[projectile.owner].waterWalk) {
 					projectile.velocity.Y = 0f;
-				} else {
+				}
+				else {
 					projectile.timeLeft = 0;
 				}
 			}

@@ -38,7 +38,7 @@ namespace SpiritMod.Items.Weapon.Bow
 		{
 			int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.Starfury, damage, knockBack, player.whoAmI);
 			Projectile projectile = Main.projectile[proj];
-			for(int k = 0; k < 15; k++) {
+			for (int k = 0; k < 15; k++) {
 				Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
 				Vector2 offset = mouse - player.position;
 				offset.Normalize();

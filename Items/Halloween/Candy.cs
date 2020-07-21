@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Halloween
 {
 	public class Candy : CandyBase
 	{
-		
+
 		public override bool CloneNewInstances => true;
 
 		public int Variant { get; internal set; }
@@ -88,7 +88,7 @@ namespace SpiritMod.Items.Halloween
 			base.ModifyTooltips(tooltips);
 
 			int index = tooltips.FindIndex(tooltip => tooltip.Name.Equals("ItemName"));
-			if(index >= 0) {
+			if (index >= 0) {
 				TooltipLine name = tooltips.ElementAt(index);
 				TooltipLine line = new TooltipLine(mod, "ItemNameSub", "'" + CandyNames[Variant] + "'");
 				tooltips.Insert(index + 1, line);

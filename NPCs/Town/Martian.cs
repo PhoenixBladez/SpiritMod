@@ -50,7 +50,7 @@ namespace SpiritMod.NPCs.Town
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			int dustAmount = npc.life > 0 ? 1 : 5;
-			for(int k = 0; k < dustAmount; k++) {
+			for (int k = 0; k < dustAmount; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, 206);
 			}
 		}
@@ -78,12 +78,12 @@ namespace SpiritMod.NPCs.Town
 			};
 
 			int armsDealer = NPC.FindFirstNPC(NPCID.ArmsDealer);
-			if(armsDealer >= 0) {
+			if (armsDealer >= 0) {
 				dialogue.Add($"The illudium Q-36 explosive space modulator! {Main.npc[armsDealer].GivenName} has stolen the space modulator!");
 			}
 
 			int tinkerer = NPC.FindFirstNPC(NPCID.GoblinTinkerer);
-			if(tinkerer >= 0) {
+			if (tinkerer >= 0) {
 				dialogue.Add($"I wonder why {Main.npc[tinkerer].GivenName} was so angry when I asked to 'borrow' his arm for science.");
 			}
 
@@ -97,7 +97,7 @@ namespace SpiritMod.NPCs.Town
 
 		public override void OnChatButtonClicked(bool firstButton, ref bool shop)
 		{
-			if(firstButton) {
+			if (firstButton) {
 				shop = true;
 			}
 		}

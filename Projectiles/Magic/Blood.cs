@@ -30,34 +30,35 @@ namespace SpiritMod.Projectiles.Magic
 		{
 
 			projectile.ai[0] += 0.5f * projectile.direction;
-			if(projectile.ai[0] > 20f || projectile.ai[0] < -20f) {
+			if (projectile.ai[0] > 20f || projectile.ai[0] < -20f) {
 				projectile.Kill();
 			}
-			for(int num1438 = 0; num1438 < 2; num1438 = num2475 + 1) {
+			for (int num1438 = 0; num1438 < 2; num1438 = num2475 + 1) {
 				Vector2 center22 = projectile.Center;
 				projectile.scale = 1f - projectile.localAI[0];
 				projectile.width = (int)(20f * projectile.scale);
 				projectile.height = projectile.width;
 				projectile.position.X = center22.X - (float)(projectile.width / 2);
 				projectile.position.Y = center22.Y - (float)(projectile.height / 2);
-				if((double)projectile.localAI[0] < 0.1) {
+				if ((double)projectile.localAI[0] < 0.1) {
 					projectile.localAI[0] += 0.01f;
-				} else {
+				}
+				else {
 					projectile.localAI[0] += 0.025f;
 				}
-				if(projectile.localAI[0] >= 0.95f) {
+				if (projectile.localAI[0] >= 0.95f) {
 					projectile.Kill();
 				}
 				projectile.velocity.X = projectile.velocity.X + projectile.ai[0] * 1.5f;
 				projectile.velocity.Y = projectile.velocity.Y + projectile.ai[1] * 1.5f * projectile.direction;
-				if(projectile.velocity.Length() > 16f) {
+				if (projectile.velocity.Length() > 16f) {
 					projectile.velocity.Normalize();
 					projectile.velocity *= 16f;
 				}
 				projectile.ai[0] *= 1.05f;
-				if(projectile.scale < 1f) {
+				if (projectile.scale < 1f) {
 					int num1448 = 0;
-					while((float)num1448 < projectile.scale * 10f) {
+					while ((float)num1448 < projectile.scale * 10f) {
 						Vector2 position177 = new Vector2(projectile.position.X, projectile.position.Y);
 						int width138 = projectile.width;
 						int height138 = projectile.height;
@@ -83,10 +84,10 @@ namespace SpiritMod.Projectiles.Magic
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			Player player = Main.player[projectile.owner];
-			if(crit && player.statLife != player.statLifeMax2) {
+			if (crit && player.statLife != player.statLifeMax2) {
 				int lifeToHeal = 0;
 
-				if(player.statLife + 3 <= player.statLifeMax2)
+				if (player.statLife + 3 <= player.statLifeMax2)
 					lifeToHeal = 3;
 				else
 					lifeToHeal = player.statLifeMax2 - player.statLife;
@@ -97,7 +98,7 @@ namespace SpiritMod.Projectiles.Magic
 		}
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 10; i++) {
+			for (int i = 0; i < 10; i++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 5);
 			}
 		}

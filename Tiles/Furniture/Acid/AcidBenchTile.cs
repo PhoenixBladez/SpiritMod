@@ -22,10 +22,10 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Corrosive Workbench");
-            AddMapEntry(new Color(100, 122, 111), name);
-            disableSmartCursor = true;
+			AddMapEntry(new Color(100, 122, 111), name);
+			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.WorkBenches };
-            dustType = -1;
+			dustType = -1;
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)

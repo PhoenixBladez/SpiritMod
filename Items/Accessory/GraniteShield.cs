@@ -26,11 +26,11 @@ namespace SpiritMod.Items.Accessory
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			if(player.statLife < 50 && Meme) {
+			if (player.statLife < 50 && Meme) {
 				Meme = false;
 				player.AddBuff(59, 220);
 			}
-			if(player.statLife > 150) {
+			if (player.statLife > 150) {
 				Meme = true;
 			}
 		}

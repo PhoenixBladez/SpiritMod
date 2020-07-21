@@ -20,10 +20,10 @@ namespace SpiritMod.Tiles.Ambient
 			Main.tileNoAttach[Type] = true;
 			Main.tileLighted[Type] = true;
 			Main.tileLavaDeath[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
-            TileObjectData.newTile.Height = 3;
+			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
+			TileObjectData.newTile.Height = 3;
 			TileObjectData.newTile.Width = 2;
-            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
+			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.CoordinatePadding = 2;
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.Table | AnchorType.SolidTile | AnchorType.SolidWithTop, TileObjectData.newTile.Width, 0);
@@ -50,7 +50,7 @@ namespace SpiritMod.Tiles.Ambient
 			float sineAdd = (float)Math.Sin(alphaCounter) + 3;
 			Tile tile = Main.tile[i, j];
 			Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
-			if(Main.drawToScreen) {
+			if (Main.drawToScreen) {
 				zero = Vector2.Zero;
 			}
 			int height = tile.frameY == 36 ? 18 : 16;
@@ -59,7 +59,7 @@ namespace SpiritMod.Tiles.Ambient
 		}
 		public override bool CanKillTile(int i, int j, ref bool blockDamaged)
 		{
-			if(!MyWorld.downedRaider) {
+			if (!MyWorld.downedRaider) {
 				return false;
 			}
 			return true;
@@ -87,17 +87,17 @@ namespace SpiritMod.Tiles.Ambient
 		public override bool NewRightClick(int i, int j)
 		{
 			//don't bother if there's already a Crystal King in the world
-			for(int x = 0; x < Main.npc.Length; x++) {
-				if(Main.npc[x].active && Main.npc[x].type == ModContent.NPCType<SteamRaiderHead>()) return false;
+			for (int x = 0; x < Main.npc.Length; x++) {
+				if (Main.npc[x].active && Main.npc[x].type == ModContent.NPCType<SteamRaiderHead>()) return false;
 			}
 
 			//check if player has a Cryptic Crystal
 			Player player = Main.player[Main.myPlayer];
-			if(player.HasItem(ModContent.ItemType<StarWormSummon>()) && !Main.dayTime) {
+			if (player.HasItem(ModContent.ItemType<StarWormSummon>()) && !Main.dayTime) {
 				//now to search for it
 				Item[] inventory = player.inventory;
-				for(int k = 0; k < inventory.Length; k++) {
-					if(inventory[k].type == ModContent.ItemType<StarWormSummon>()) {
+				for (int k = 0; k < inventory.Length; k++) {
+					if (inventory[k].type == ModContent.ItemType<StarWormSummon>()) {
 						//consume it, and summon the Crystal King!
 						inventory[k].stack--;
 						NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<SteamRaiderHead>());

@@ -45,12 +45,13 @@ namespace SpiritMod.Projectiles
 
 		public override void AI()
 		{
-			if(projectile.ai[0] == 0) {
+			if (projectile.ai[0] == 0) {
 				projectile.ai[0] = 1;
 				projectile.rotation = (float)Math.Atan2(projectile.velocity.X, -projectile.velocity.Y);
-			} else if(lastFrame > 0) {
+			}
+			else if (lastFrame > 0) {
 				lastFrame++;
-				if(lastFrame > 2)
+				if (lastFrame > 2)
 					projectile.Kill();
 			}
 		}

@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Armor.MarbleArmor
 		public override void UpdateEquip(Player player)
 		{
 			player.maxRunSpeed += 0.06f;
-			if(player.velocity.X != 0f) {
+			if (player.velocity.X != 0f) {
 				int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 0, DustID.GoldCoin);
 				Main.dust[dust].velocity *= 0f;
 				Main.dust[dust].noGravity = true;

@@ -35,7 +35,7 @@ namespace SpiritMod.Projectiles.Arrow
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 5; i++) {
+			for (int i = 0; i < 5; i++) {
 				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 229);
 				Main.dust[dust].noGravity = true;
 			}

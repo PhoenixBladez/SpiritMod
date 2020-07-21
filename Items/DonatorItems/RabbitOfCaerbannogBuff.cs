@@ -7,7 +7,7 @@ namespace SpiritMod.Items.DonatorItems
 {
 	class RabbitOfCaerbannogBuff : ModBuff
 	{
-		
+
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Rabbit of Caerbannog");
@@ -20,7 +20,7 @@ namespace SpiritMod.Items.DonatorItems
 		{
 			player.buffTime[buffIndex] = 10;
 			bool petNotSpawned = player.ownedProjectileCounts[ModContent.ProjectileType<RabbitOfCaerbannog>()] <= 0;
-			if(petNotSpawned && player.whoAmI == Main.myPlayer) {
+			if (petNotSpawned && player.whoAmI == Main.myPlayer) {
 				Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<RabbitOfCaerbannog>(), 0, 0f, player.whoAmI);
 			}
 		}

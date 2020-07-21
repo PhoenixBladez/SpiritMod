@@ -21,15 +21,15 @@ namespace SpiritMod.Tiles.Block
 		public override bool CanKillTile(int i, int j, ref bool blockDamaged)
 		{
 			Player player = Main.LocalPlayer;
-			if(player.inventory[player.selectedItem].type == ItemID.ReaverShark) {
+			if (player.inventory[player.selectedItem].type == ItemID.ReaverShark) {
 				return false;
 			}
 			return true;
 		}
 		public override void RandomUpdate(int i, int j)
 		{
-			if(!Framing.GetTileSafely(i, j - 1).active() && Main.rand.Next(400) == 0) {
-				switch(Main.rand.Next(9)) {
+			if (!Framing.GetTileSafely(i, j - 1).active() && Main.rand.Next(400) == 0) {
+				switch (Main.rand.Next(9)) {
 					case 0:
 						ReachGrassTile.PlaceObject(i, j - 1, mod.TileType("GlowShard1"));
 						NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("GlowShard1"), 0, 0, -1, -1);
@@ -48,8 +48,8 @@ namespace SpiritMod.Tiles.Block
 						break;
 				}
 			}
-			if(!Framing.GetTileSafely(i, j + 1).active() && Main.rand.Next(400) == 0) {
-				switch(Main.rand.Next(3)) {
+			if (!Framing.GetTileSafely(i, j + 1).active() && Main.rand.Next(400) == 0) {
+				switch (Main.rand.Next(3)) {
 					case 0:
 						ReachGrassTile.PlaceObject(i, j + 1, mod.TileType("GlowShard1"));
 						NetMessage.SendObjectPlacment(-1, i, j + 1, mod.TileType("GlowShard1"), 0, 0, -1, -1);
@@ -68,8 +68,8 @@ namespace SpiritMod.Tiles.Block
 						break;
 				}
 			}
-			if(!Framing.GetTileSafely(i - 1, j).active() && Main.rand.Next(4) == 0) {
-				switch(Main.rand.Next(3)) {
+			if (!Framing.GetTileSafely(i - 1, j).active() && Main.rand.Next(4) == 0) {
+				switch (Main.rand.Next(3)) {
 					case 0:
 						ReachGrassTile.PlaceObject(i - 1, j, mod.TileType("GlowShard1"));
 						NetMessage.SendObjectPlacment(-1, i - 1, j, mod.TileType("GlowShard1"), 0, 0, -1, -1);
@@ -88,8 +88,8 @@ namespace SpiritMod.Tiles.Block
 						break;
 				}
 			}
-			if(!Framing.GetTileSafely(i + 1, j).active() && Main.rand.Next(4) == 0) {
-				switch(Main.rand.Next(3)) {
+			if (!Framing.GetTileSafely(i + 1, j).active() && Main.rand.Next(4) == 0) {
+				switch (Main.rand.Next(3)) {
 					case 0:
 						ReachGrassTile.PlaceObject(i + 1, j, mod.TileType("GlowShard1"));
 						NetMessage.SendObjectPlacment(-1, i + 1, j, mod.TileType("GlowShard1"), 0, 0, -1, -1);

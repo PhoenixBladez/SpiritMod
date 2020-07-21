@@ -69,7 +69,7 @@ namespace SpiritMod
 		{
 			MessageType id = (MessageType)reader.ReadByte();
 			byte player;
-			switch(id) {
+			switch (id) {
 				case MessageType.AuroraData:
 					MyWorld.auroraType = reader.ReadInt32();
 					break;
@@ -79,13 +79,13 @@ namespace SpiritMod
 				case MessageType.Dodge:
 					player = reader.ReadByte();
 					byte type = reader.ReadByte();
-					if(Main.netMode == NetmodeID.Server) {
+					if (Main.netMode == NetmodeID.Server) {
 						ModPacket packet = GetPacket(MessageType.Dodge, 2);
 						packet.Write(player);
 						packet.Write(type);
 						packet.Send(-1, whoAmI);
 					}
-					if(type == 1)
+					if (type == 1)
 						Items.Glyphs.VeilGlyph.Block(Main.player[player]);
 					else
 						Logger.Error("Unknown message (2:" + type + ")");
@@ -94,7 +94,7 @@ namespace SpiritMod
 					player = reader.ReadByte();
 					DashType dash = (DashType)reader.ReadByte();
 					sbyte dir = reader.ReadSByte();
-					if(Main.netMode == NetmodeID.Server) {
+					if (Main.netMode == NetmodeID.Server) {
 						ModPacket packet = GetPacket(MessageType.Dash, 3);
 						packet.Write(player);
 						packet.Write((byte)dash);
@@ -106,21 +106,21 @@ namespace SpiritMod
 				case MessageType.PlayerGlyph:
 					player = reader.ReadByte();
 					GlyphType glyph = (GlyphType)reader.ReadByte();
-					if(Main.netMode == NetmodeID.Server) {
+					if (Main.netMode == NetmodeID.Server) {
 						ModPacket packet = GetPacket(MessageType.PlayerGlyph, 2);
 						packet.Write(player);
 						packet.Write((byte)glyph);
 						packet.Send(-1, whoAmI);
 					}
-					if(player == Main.myPlayer)
+					if (player == Main.myPlayer)
 						break;
 					Main.player[player].GetModPlayer<MyPlayer>().glyph = glyph;
 					break;
-                case MessageType.AdventurerNewQuest:
-                case MessageType.AdventurerQuestCompleted:
-                    AdventurerQuests.HandlePacket(id, reader);
-                    break;
-                default:
+				case MessageType.AdventurerNewQuest:
+				case MessageType.AdventurerQuestCompleted:
+					AdventurerQuests.HandlePacket(id, reader);
+					break;
+				default:
 					Logger.Error("Unknown message (" + id + ")");
 					break;
 			}
@@ -131,107 +131,108 @@ namespace SpiritMod
 		{
 			var config = ModContent.GetInstance<SpiritClientConfig>();
 
-			if(Main.gameMenu)
+			if (Main.gameMenu)
 				return;
-			if(priority > MusicPriority.Event)
+			if (priority > MusicPriority.Event)
 				return;
 			Player player = Main.LocalPlayer;
-			if(!player.active)
+			if (!player.active)
 				return;
 			MyPlayer spirit = player.GetModPlayer<MyPlayer>();
-			if(TideWorld.TheTide && player.ZoneBeach) {
+			if (TideWorld.TheTide && player.ZoneBeach) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/DepthInvasion");
 				priority = MusicPriority.Event;
 			}
 
-			if(priority > MusicPriority.Environment)
+			if (priority > MusicPriority.Environment)
 				return;
-			if(spirit.ZoneBlueMoon && !Main.dayTime && (player.ZoneOverworldHeight || player.ZoneSkyHeight)) {
+			if (spirit.ZoneBlueMoon && !Main.dayTime && (player.ZoneOverworldHeight || player.ZoneSkyHeight)) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/BlueMoon");
 				priority = MusicPriority.Environment;
 			}
 
-			if(priority > MusicPriority.BiomeHigh)
+			if (priority > MusicPriority.BiomeHigh)
 				return;
-			if(spirit.ZoneReach && Main.dayTime && !player.ZoneRockLayerHeight) {
+			if (spirit.ZoneReach && Main.dayTime && !player.ZoneRockLayerHeight) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/Reach");
 				priority = MusicPriority.BiomeHigh;
-			} else if(spirit.ZoneReach) {
+			}
+			else if (spirit.ZoneReach) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/ReachNighttime");
 				priority = MusicPriority.BiomeHigh;
 			}
-			if(config.AuroraMusic 
-				&& MyWorld.aurora 
-				&& player.ZoneSnow 
-				&& player.ZoneOverworldHeight 
-				&& !player.ZoneCorrupt 
-				&& !player.ZoneCrimson 
+			if (config.AuroraMusic
+				&& MyWorld.aurora
+				&& player.ZoneSnow
+				&& player.ZoneOverworldHeight
+				&& !player.ZoneCorrupt
+				&& !player.ZoneCrimson
 				&& !Main.dayTime) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/AuroraSnow");
 				priority = MusicPriority.BiomeHigh;
 			}
-			if(config.BlizzardMusic 
-				&& player.ZoneSnow 
-				&& player.ZoneOverworldHeight 
-				&& !player.ZoneCorrupt 
-				&& !player.ZoneCrimson 
+			if (config.BlizzardMusic
+				&& player.ZoneSnow
+				&& player.ZoneOverworldHeight
+				&& !player.ZoneCorrupt
+				&& !player.ZoneCrimson
 				&& Main.raining) {
-                music = GetSoundSlot(SoundType.Music, "Sounds/Music/Blizzard");
-                priority = MusicPriority.BiomeHigh;
-            }
-			if(config.LuminousMusic 
-				&& player.ZoneBeach 
-				&& MyWorld.luminousOcean 
+				music = GetSoundSlot(SoundType.Music, "Sounds/Music/Blizzard");
+				priority = MusicPriority.BiomeHigh;
+			}
+			if (config.LuminousMusic
+				&& player.ZoneBeach
+				&& MyWorld.luminousOcean
 				&& !Main.dayTime) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/OceanNighttime");
 				priority = MusicPriority.BiomeHigh;
 			}
-			if(config.SnowNightMusic 
-				&& player.ZoneSnow 
-				&& player.ZoneOverworldHeight 
-				&& !Main.dayTime 
-				&& !player.ZoneCorrupt 
-				&& !player.ZoneCrimson 
-				&& !MyWorld.aurora 
+			if (config.SnowNightMusic
+				&& player.ZoneSnow
+				&& player.ZoneOverworldHeight
+				&& !Main.dayTime
+				&& !player.ZoneCorrupt
+				&& !player.ZoneCrimson
+				&& !MyWorld.aurora
 				&& !Main.raining
 				&& !Main.bloodMoon) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/SnowNighttime");
 				priority = MusicPriority.BiomeMedium;
 			}
-			if(config.DesertNightMusic 
-				&& player.ZoneDesert 
-				&& player.ZoneOverworldHeight 
-				&& !Main.dayTime 
-				&& !player.ZoneCorrupt 
-				&& !player.ZoneCrimson 
+			if (config.DesertNightMusic
+				&& player.ZoneDesert
+				&& player.ZoneOverworldHeight
+				&& !Main.dayTime
+				&& !player.ZoneCorrupt
+				&& !player.ZoneCrimson
 				&& !player.ZoneBeach
-                && !Main.bloodMoon)	{
+				&& !Main.bloodMoon) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/DesertNighttime");
 				priority = MusicPriority.BiomeHigh;
 			}
-			if(spirit.ZoneAsteroid) {
+			if (spirit.ZoneAsteroid) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/Asteroids");
 				priority = MusicPriority.Environment;
 			}
-			if(priority > MusicPriority.BiomeMedium)
+			if (priority > MusicPriority.BiomeMedium)
 				return;
-			if(spirit.ZoneSpirit) {
+			if (spirit.ZoneSpirit) {
 				priority = MusicPriority.BiomeMedium;
-				if(player.ZoneRockLayerHeight && player.position.Y / 16 < (Main.rockLayer + Main.maxTilesY - 330) / 2f) {
+				if (player.ZoneRockLayerHeight && player.position.Y / 16 < (Main.rockLayer + Main.maxTilesY - 330) / 2f) {
 					music = GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer1");
 				}
-				if(player.ZoneRockLayerHeight && player.position.Y / 16 > (Main.rockLayer + Main.maxTilesY - 330) / 2f) {
+				if (player.ZoneRockLayerHeight && player.position.Y / 16 > (Main.rockLayer + Main.maxTilesY - 330) / 2f) {
 					music = GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer2");
 				}
-				if(player.position.Y / 16 >= Main.maxTilesY - 330) {
+				if (player.position.Y / 16 >= Main.maxTilesY - 330) {
 					music = GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer3");
 				}
-				if(!player.ZoneRockLayerHeight && player.position.Y / 16 < (Main.rockLayer + Main.maxTilesY - 330) / 2f) {
+				if (!player.ZoneRockLayerHeight && player.position.Y / 16 < (Main.rockLayer + Main.maxTilesY - 330) / 2f) {
 					music = GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritOverworld");
 				}
 			}
-			if(config.GraniteMusic 
-				&& spirit.ZoneGranite 
+			if (config.GraniteMusic
+				&& spirit.ZoneGranite
 				&& !player.ZoneOverworldHeight) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/GraniteBiome");
 				priority = MusicPriority.BiomeMedium;
@@ -241,37 +242,38 @@ namespace SpiritMod
 
 		public override object Call(params object[] args)
 		{
-			if(args.Length < 1) {
+			if (args.Length < 1) {
 				var stack = new System.Diagnostics.StackTrace(true);
 				Logger.Error("Call Error: No arguments given:\n" + stack.ToString());
 				return null;
 			}
 			CallContext context;
 			int? contextNum = args[0] as int?;
-			if(contextNum.HasValue)
+			if (contextNum.HasValue)
 				context = (CallContext)contextNum.Value;
 			else
 				context = ParseCallName(args[0] as string);
-			if(context == CallContext.Invalid && !contextNum.HasValue) {
+			if (context == CallContext.Invalid && !contextNum.HasValue) {
 				var stack = new System.Diagnostics.StackTrace(true);
 				Logger.Error("Call Error: Context invalid or null:\n" + stack.ToString());
 				return null;
 			}
-			if(context <= CallContext.Invalid || context >= CallContext.Limit) {
+			if (context <= CallContext.Invalid || context >= CallContext.Limit) {
 				var stack = new System.Diagnostics.StackTrace(true);
 				Logger.Error("Call Error: Context invalid:\n" + stack.ToString());
 				return null;
 			}
 			try {
-				if(context == CallContext.Downed)
+				if (context == CallContext.Downed)
 					return BossDowned(args);
-				if(context == CallContext.GlyphGet)
+				if (context == CallContext.GlyphGet)
 					return GetGlyph(args);
-				if(context == CallContext.GlyphSet) {
+				if (context == CallContext.GlyphSet) {
 					SetGlyph(args);
 					return null;
 				}
-			} catch(Exception e) {
+			}
+			catch (Exception e) {
 				Logger.Error("Call Error: " + e.Message + "\n" + e.StackTrace);
 			}
 			return null;
@@ -279,9 +281,9 @@ namespace SpiritMod
 
 		private static CallContext ParseCallName(string context)
 		{
-			if(context == null)
+			if (context == null)
 				return CallContext.Invalid;
-			switch(context) {
+			switch (context) {
 				case "downed":
 					return CallContext.Downed;
 				case "getGlyph":
@@ -294,10 +296,10 @@ namespace SpiritMod
 
 		private static bool BossDowned(object[] args)
 		{
-			if(args.Length < 2)
+			if (args.Length < 2)
 				throw new ArgumentException("No boss name specified");
 			string name = args[1] as string;
-			switch(name) {
+			switch (name) {
 				case "Scarabeus": return MyWorld.downedScarabeus;
 				case "Vinewrath Bane": return MyWorld.downedReachBoss;
 				case "Ancient Avian": return MyWorld.downedAncientFlier;
@@ -313,24 +315,24 @@ namespace SpiritMod
 		{
 			Player player = Main.LocalPlayer;
 			MyPlayer spirit = player.GetModPlayer<MyPlayer>();
-			if(spirit.ZoneReach && !Main.dayTime) {
+			if (spirit.ZoneReach && !Main.dayTime) {
 				scale *= .89f;
 			}
 		}
 		private static void SetGlyph(object[] args)
 		{
-			if(args.Length < 2)
+			if (args.Length < 2)
 				throw new ArgumentException("Missing argument: Item");
-			else if(args.Length < 3)
+			else if (args.Length < 3)
 				throw new ArgumentException("Missing argument: Glyph");
 			Item item = args[1] as Item;
-			if(item == null)
+			if (item == null)
 				throw new ArgumentException("First argument must be of type Item");
 			int? glyphID = args[2] as int?;
-			if(!glyphID.HasValue)
+			if (!glyphID.HasValue)
 				throw new ArgumentException("Second argument must be of type int");
 			GlyphType glyph = (GlyphType)glyphID;
-			if(glyph < GlyphType.None || glyph >= GlyphType.Count)
+			if (glyph < GlyphType.None || glyph >= GlyphType.Count)
 				throw new ArgumentException("Glyph must be in range [" +
 					(int)GlyphType.None + "," + (int)GlyphType.Count + ")");
 			item.GetGlobalItem<Items.GItem>().SetGlyph(item, glyph);
@@ -338,10 +340,10 @@ namespace SpiritMod
 
 		private static int GetGlyph(object[] args)
 		{
-			if(args.Length < 2)
+			if (args.Length < 2)
 				throw new ArgumentException("Missing argument: Item");
 			Item item = args[1] as Item;
-			if(item == null)
+			if (item == null)
 				throw new ArgumentException("First argument must be of type Item");
 			return (int)item.GetGlobalItem<Items.GItem>().Glyph;
 		}
@@ -358,13 +360,13 @@ namespace SpiritMod
 			On.Terraria.Player.KeyDoubleTap += Player_KeyDoubleTap;
 			GlobalNoise = new PerlinNoise(Main.rand.Next());
 			instance = this;
-			if(Main.rand == null)
+			if (Main.rand == null)
 				Main.rand = new UnifiedRandom();
 			//Don't add any code before this point,
 			// unless you know what you're doing.
 			Items.Halloween.CandyBag.Initialize();
 
-			if(Main.netMode != NetmodeID.Server) {
+			if (Main.netMode != NetmodeID.Server) {
 				Ref<Effect> screenRef = new Ref<Effect>(GetEffect("Effects/ShockwaveEffect")); // The path to the compiled shader file.
 				Filters.Scene["Shockwave"] = new Filter(new ScreenShaderData(screenRef, "Shockwave"), EffectPriority.VeryHigh);
 				Filters.Scene["Shockwave"].Load();
@@ -381,7 +383,7 @@ namespace SpiritMod
 
 			GlyphCurrencyID = CustomCurrencyManager.RegisterCurrency(new Currency(ModContent.ItemType<Items.Glyphs.Glyph>(), 999L));
 
-			if(Main.netMode != NetmodeID.Server) {
+			if (Main.netMode != NetmodeID.Server) {
 				TrailManager = new TrailManager(this);
 				AddEquipTexture(null, EquipType.Legs, "TalonGarb_Legs", "SpiritMod/Items/Armor/TalonGarb_Legs");
 				EmptyTexture = GetTexture("Empty");
@@ -441,40 +443,48 @@ namespace SpiritMod
 		/// </summary>
 		private void LoadReferences()
 		{
-			foreach(Type type in Code.GetTypes()) {
-				if(type.IsAbstract) {
+			foreach (Type type in Code.GetTypes()) {
+				if (type.IsAbstract) {
 					continue;
 				}
 
 				bool modType = true;
 
-				if(type.IsSubclassOf(typeof(ModItem))) {
-				} else if(type.IsSubclassOf(typeof(ModNPC))) {
-				} else if(type.IsSubclassOf(typeof(ModProjectile))) {
-				} else if(type.IsSubclassOf(typeof(ModDust))) {
-				} else if(type.IsSubclassOf(typeof(ModTile))) {
-				} else if(type.IsSubclassOf(typeof(ModWall))) {
-				} else if(type.IsSubclassOf(typeof(ModBuff))) {
-				} else if(type.IsSubclassOf(typeof(ModMountData))) {
-				} else
+				if (type.IsSubclassOf(typeof(ModItem))) {
+				}
+				else if (type.IsSubclassOf(typeof(ModNPC))) {
+				}
+				else if (type.IsSubclassOf(typeof(ModProjectile))) {
+				}
+				else if (type.IsSubclassOf(typeof(ModDust))) {
+				}
+				else if (type.IsSubclassOf(typeof(ModTile))) {
+				}
+				else if (type.IsSubclassOf(typeof(ModWall))) {
+				}
+				else if (type.IsSubclassOf(typeof(ModBuff))) {
+				}
+				else if (type.IsSubclassOf(typeof(ModMountData))) {
+				}
+				else
 					modType = false;
 
-				if(Main.dedServ || !modType)
+				if (Main.dedServ || !modType)
 					continue;
 
 				System.Reflection.FieldInfo _texField = type.GetField("_textures");
-				if(_texField == null || !_texField.IsStatic || _texField.FieldType != typeof(Texture2D[]))
+				if (_texField == null || !_texField.IsStatic || _texField.FieldType != typeof(Texture2D[]))
 					continue;
 
 				string path = type.FullName.Substring(10).Replace('.', '/'); //Substring(10) removes "SpiritMod."
 				int texCount = 0;
-				while(TextureExists(path + "_" + (texCount + 1))) {
+				while (TextureExists(path + "_" + (texCount + 1))) {
 					texCount++;
 				}
 				Texture2D[] textures = new Texture2D[texCount + 1];
-				if(TextureExists(path))
+				if (TextureExists(path))
 					textures[0] = GetTexture(path);
-				for(int i = 1; i <= texCount; i++) {
+				for (int i = 1; i <= texCount; i++) {
 					textures[i] = GetTexture(path + "_" + i);
 				}
 				_texField.SetValue(null, textures);
@@ -493,11 +503,11 @@ namespace SpiritMod
 			int index = orig(X, Y, SpeedX, SpeedY, Type, Damage, KnockBack, Owner, ai0, ai1);
 			Projectile projectile = Main.projectile[index];
 
-			if(Main.netMode != NetmodeID.Server) TrailManager.DoTrailCreation(projectile);
+			if (Main.netMode != NetmodeID.Server) TrailManager.DoTrailCreation(projectile);
 
 			return index;
 		}
-		
+
 		private void Player_KeyDoubleTap(On.Terraria.Player.orig_KeyDoubleTap orig, Player self, int keyDir)
 		{
 			orig(self, keyDir);
@@ -520,16 +530,16 @@ namespace SpiritMod
 
 		public override void MidUpdateProjectileItem()
 		{
-			if(Main.netMode != NetmodeID.Server) {
+			if (Main.netMode != NetmodeID.Server) {
 				TrailManager.UpdateTrails();
 			}
 		}
 
 		public override void AddRecipeGroups()
 		{
-            RecipeGroup woodGrp = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Wood"]];
-            woodGrp.ValidItems.Add(ModContent.ItemType<AncientBark>());
-            RecipeGroup group = new RecipeGroup(() => Language.GetTextValue("LegacyMisc.37") + " " + Lang.GetItemNameValue(ItemID.GoldBar), new int[]
+			RecipeGroup woodGrp = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Wood"]];
+			woodGrp.ValidItems.Add(ModContent.ItemType<AncientBark>());
+			RecipeGroup group = new RecipeGroup(() => Language.GetTextValue("LegacyMisc.37") + " " + Lang.GetItemNameValue(ItemID.GoldBar), new int[]
 			{
 				ItemID.GoldBar,
 				ItemID.PlatinumBar
@@ -573,9 +583,9 @@ namespace SpiritMod
 		}
 		public override void PostUpdateEverything()
 		{
-			if(Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.I) && Terraria.GameInput.PlayerInput.MouseInfo.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed) {
+			if (Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.I) && Terraria.GameInput.PlayerInput.MouseInfo.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed) {
 				Tile tile = Framing.GetTileSafely(Player.tileTargetX, Player.tileTargetY);
-				if(!tile.active()) {
+				if (!tile.active()) {
 					tile.active(true);
 					tile.type = (ushort)ModContent.TileType<Tiles.Ambient.Briar.BriarFoliage>();
 					tile.frameX = (short)(Main.rand.NextBool() ? 108 : 126);
@@ -583,9 +593,9 @@ namespace SpiritMod
 				}
 			}
 
-			if(Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.I) && Terraria.GameInput.PlayerInput.MouseInfo.RightButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed) {
+			if (Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.I) && Terraria.GameInput.PlayerInput.MouseInfo.RightButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed) {
 				Tile tile = Framing.GetTileSafely(Player.tileTargetX, Player.tileTargetY);
-				if(!tile.active()) {
+				if (!tile.active()) {
 					tile.active(true);
 					tile.type = (ushort)ModContent.TileType<Tiles.Block.BriarGrass>();
 					WorldGen.SquareTileFrame(Player.tileTargetX, Player.tileTargetY);
@@ -598,7 +608,7 @@ namespace SpiritMod
 			Items.Glyphs.GlyphBase.InitializeGlyphLookup();
 
 			Mod bossChecklist = ModLoader.GetMod("BossChecklist");
-			if(bossChecklist != null) {
+			if (bossChecklist != null) {
 				// 14 is moolord, 12 is duke fishron
 				bossChecklist.Call("AddBossWithInfo", "Scarabeus", 0.8f, (Func<bool>)(() => MyWorld.downedScarabeus), "Use a [i:" + ModContent.ItemType<ScarabIdol>() + "] in the Desert biome at any time");
 				bossChecklist.Call("AddBossWithInfo", "Vinewrath Bane", 3.5f, (Func<bool>)(() => MyWorld.downedReachBoss), "Right-click a Bloodblossom at the underground Briar at any time");
@@ -617,24 +627,23 @@ namespace SpiritMod
 		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
 		{
 			TidePlayer modPlayer1 = Main.player[Main.myPlayer].GetModPlayer<TidePlayer>();
-			if(TideWorld.TheTide) {
-                int index = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));
-                LegacyGameInterfaceLayer NewLayer = new LegacyGameInterfaceLayer("InstallFix2: NewLayer",
-                    delegate
-                    {
-                        DrawEventUi(Main.spriteBatch);
-                        return true;
-                    },
-                    InterfaceScaleType.UI);
-                layers.Insert(index, NewLayer);
-            }
+			if (TideWorld.TheTide) {
+				int index = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));
+				LegacyGameInterfaceLayer NewLayer = new LegacyGameInterfaceLayer("InstallFix2: NewLayer",
+					delegate {
+						DrawEventUi(Main.spriteBatch);
+						return true;
+					},
+					InterfaceScaleType.UI);
+				layers.Insert(index, NewLayer);
+			}
 		}
 
 		public override void HotKeyPressed(string name)
 		{
-			if(name == "Concentration_Hotkey") {
+			if (name == "Concentration_Hotkey") {
 				MyPlayer mp = Main.player[Main.myPlayer].GetModPlayer<MyPlayer>();
-				if(mp.leatherSet && !mp.concentrated && mp.concentratedCooldown <= 0) {
+				if (mp.leatherSet && !mp.concentrated && mp.concentratedCooldown <= 0) {
 					mp.concentrated = true;
 				}
 			}
@@ -644,24 +653,25 @@ namespace SpiritMod
 		{
 			Color white = Color.White;
 			Color white2 = Color.White;
-			if(MyWorld.SpiritTiles > 0) {
+			if (MyWorld.SpiritTiles > 0) {
 				float num255 = MyWorld.SpiritTiles / 160f;
-				if(num255 > MyWorld.spiritLight) {
+				if (num255 > MyWorld.spiritLight) {
 					MyWorld.spiritLight += 0.01f;
 				}
-				if(num255 < MyWorld.spiritLight) {
+				if (num255 < MyWorld.spiritLight) {
 					MyWorld.spiritLight -= 0.01f;
 				}
-			} else {
+			}
+			else {
 				MyWorld.spiritLight -= 0.02f;
 			}
-			if(MyWorld.spiritLight < 0f) {
+			if (MyWorld.spiritLight < 0f) {
 				MyWorld.spiritLight = 0f;
 			}
-			if(MyWorld.spiritLight > .9f) {
+			if (MyWorld.spiritLight > .9f) {
 				MyWorld.spiritLight = .9f;
 			}
-			if(MyWorld.spiritLight > 0f) {
+			if (MyWorld.spiritLight > 0f) {
 				float num161 = MyWorld.spiritLight;
 				int num160 = Main.bgColor.R;
 				int num159 = Main.bgColor.G;
@@ -669,13 +679,13 @@ namespace SpiritMod
 				num159 -= (int)(250f / 1.14f * num161 * (Main.bgColor.G / 255f));
 				num160 -= (int)(250f / 1.14f * num161 * (Main.bgColor.R / 255f));
 				num158 -= (int)(250f / 1.14f * num161 * (Main.bgColor.B / 255f));
-				if(num159 < 15) {
+				if (num159 < 15) {
 					num159 = 15;
 				}
-				if(num160 < 15) {
+				if (num160 < 15) {
 					num160 = 15;
 				}
-				if(num158 < 15) {
+				if (num158 < 15) {
 					num158 = 15;
 				}
 				Main.bgColor.R = (byte)num160;
@@ -687,13 +697,13 @@ namespace SpiritMod
 				num159 -= (int)(10f / 1.14f * num161 * (white.G / 255f));
 				num160 -= (int)(30f / 1.14f * num161 * (white.R / 255f));
 				num158 -= (int)(10f / 1.14f * num161 * (white.B / 255f));
-				if(num160 < 15) {
+				if (num160 < 15) {
 					num160 = 15;
 				}
-				if(num159 < 15) {
+				if (num159 < 15) {
 					num159 = 15;
 				}
-				if(num158 < 15) {
+				if (num158 < 15) {
 					num158 = 15;
 				}
 				white.R = (byte)num160;
@@ -705,13 +715,13 @@ namespace SpiritMod
 				num159 -= (int)(140f / 1.14f * num161 * (white2.R / 255f));
 				num160 -= (int)(170f / 1.14f * num161 * (white2.G / 255f));
 				num158 -= (int)(190f / 1.14f * num161 * (white2.B / 255f));
-				if(num160 < 15) {
+				if (num160 < 15) {
 					num160 = 15;
 				}
-				if(num159 < 15) {
+				if (num159 < 15) {
 					num159 = 15;
 				}
-				if(num158 < 15) {
+				if (num158 < 15) {
 					num158 = 15;
 				}
 				white2.R = (byte)num160;
@@ -719,24 +729,25 @@ namespace SpiritMod
 				white2.B = (byte)num158;
 			}
 
-			if(MyWorld.AsteroidTiles > 0) {
+			if (MyWorld.AsteroidTiles > 0) {
 				float num255 = MyWorld.AsteroidTiles / 160f;
-				if(num255 > MyWorld.asteroidLight) {
+				if (num255 > MyWorld.asteroidLight) {
 					MyWorld.asteroidLight += 0.01f;
 				}
-				if(num255 < MyWorld.asteroidLight) {
+				if (num255 < MyWorld.asteroidLight) {
 					MyWorld.asteroidLight -= 0.01f;
 				}
-			} else {
+			}
+			else {
 				MyWorld.asteroidLight -= 0.02f;
 			}
-			if(MyWorld.asteroidLight < 0f) {
+			if (MyWorld.asteroidLight < 0f) {
 				MyWorld.asteroidLight = 0f;
 			}
-			if(MyWorld.asteroidLight > 1f) {
+			if (MyWorld.asteroidLight > 1f) {
 				MyWorld.asteroidLight = 1f;
 			}
-			if(MyWorld.asteroidLight > 0f) {
+			if (MyWorld.asteroidLight > 0f) {
 				float num161 = MyWorld.asteroidLight;
 				int num160 = Main.bgColor.R;
 				int num159 = Main.bgColor.G;
@@ -744,13 +755,13 @@ namespace SpiritMod
 				num159 -= (int)(250f * num161 * (Main.bgColor.G / 255f));
 				num160 -= (int)(250f * num161 * (Main.bgColor.R / 255f));
 				num158 -= (int)(250f * num161 * (Main.bgColor.B / 255f));
-				if(num159 < 15) {
+				if (num159 < 15) {
 					num159 = 15;
 				}
-				if(num160 < 15) {
+				if (num160 < 15) {
 					num160 = 15;
 				}
-				if(num158 < 15) {
+				if (num158 < 15) {
 					num158 = 15;
 				}
 				Main.bgColor.R = (byte)num160;
@@ -762,13 +773,13 @@ namespace SpiritMod
 				num159 -= (int)(10f * num161 * (white.G / 255f));
 				num160 -= (int)(30f * num161 * (white.R / 255f));
 				num158 -= (int)(10f * num161 * (white.B / 255f));
-				if(num160 < 15) {
+				if (num160 < 15) {
 					num160 = 15;
 				}
-				if(num159 < 15) {
+				if (num159 < 15) {
 					num159 = 15;
 				}
-				if(num158 < 15) {
+				if (num158 < 15) {
 					num158 = 15;
 				}
 				white.R = (byte)num160;
@@ -780,13 +791,13 @@ namespace SpiritMod
 				num159 -= (int)(140f * num161 * (white2.R / 255f));
 				num160 -= (int)(170f * num161 * (white2.G / 255f));
 				num158 -= (int)(190f * num161 * (white2.B / 255f));
-				if(num160 < 15) {
+				if (num160 < 15) {
 					num160 = 15;
 				}
-				if(num159 < 15) {
+				if (num159 < 15) {
 					num159 = 15;
 				}
-				if(num158 < 15) {
+				if (num158 < 15) {
 					num158 = 15;
 				}
 				white2.R = (byte)num160;
@@ -816,68 +827,68 @@ namespace SpiritMod
 		public int screenshakeTimer = 0;
 		public override void ModifyTransformMatrix(ref SpriteViewMatrix Transform)
 		{
-			if(!Main.gameMenu) {
+			if (!Main.gameMenu) {
 				screenshakeTimer++;
-				if(tremorTime >= 0 && screenshakeTimer >= 20) // so it doesnt immediately decrease
+				if (tremorTime >= 0 && screenshakeTimer >= 20) // so it doesnt immediately decrease
 				{
 					tremorTime -= 0.5f;
 				}
-				if(tremorTime < 0) {
+				if (tremorTime < 0) {
 					tremorTime = 0;
 				}
 				Main.screenPosition += new Vector2(tremorTime * Main.rand.NextFloat(), tremorTime * Main.rand.NextFloat()); //NextFloat creates a random value between 0 and 1, multiply screenshake amount for a bit of variety
-			} else // dont shake on the menu
-			  {
+			}
+			else // dont shake on the menu
+			{
 				tremorTime = 0;
 				screenshakeTimer = 0;
 			}
 		}
 
-        public void DrawEventUi(SpriteBatch spriteBatch)
-        {
-            {
-                //TidePlayer modPlayer1 = Main.player[Main.myPlayer].GetModPlayer<TidePlayer>();
-                if (TideWorld.TheTide && Main.LocalPlayer.ZoneBeach)
-                {
+		public void DrawEventUi(SpriteBatch spriteBatch)
+		{
+			{
+				//TidePlayer modPlayer1 = Main.player[Main.myPlayer].GetModPlayer<TidePlayer>();
+				if (TideWorld.TheTide && Main.LocalPlayer.ZoneBeach) {
 
-                    float alpha = 0.5f;
-                    Texture2D backGround1 = Main.colorBarTexture;
-                    Texture2D progressColor = Main.colorBarTexture;
-                    Texture2D EventIcon = SpiritMod.instance.GetTexture("Effects/InvasionIcons/Depths_Icon");
-                    float scmp = 0.5f + 0.75f * 0.5f;
-                    Color descColor = new Color(77, 39, 135);
-                    Color waveColor = new Color(255, 241, 51);
-                    Color barrierColor = new Color(255, 241, 51);
-                    const int offsetX = 20;
-                    const int offsetY = 20;
-                    int width = (int)(200f * scmp);
-                    int height = (int)(46f * scmp);
-                    Rectangle waveBackground = Utils.CenteredRectangle(new Vector2(Main.screenWidth - offsetX - 100f, Main.screenHeight - offsetY - 23f), new Vector2(width, height));
-                    Utils.DrawInvBG(spriteBatch, waveBackground, new Color(63, 65, 151, 255) * 0.785f);
-                    string waveText = "Cleared " + TideWorld.TidePoints + "%";
-                    Utils.DrawBorderString(spriteBatch, waveText, new Vector2(waveBackground.X + waveBackground.Width / 2, waveBackground.Y + 5), Color.White, scmp * 0.8f, 0.5f, -0.1f);
-                    Rectangle waveProgressBar = Utils.CenteredRectangle(new Vector2(waveBackground.X + waveBackground.Width * 0.5f, waveBackground.Y + waveBackground.Height * 0.75f), new Vector2(progressColor.Width, progressColor.Height));
-                    Rectangle waveProgressAmount = new Rectangle(0, 0, (int)(progressColor.Width * 0.01f * MathHelper.Clamp(TideWorld.TidePoints, 0f, 100f)), progressColor.Height);
-                    Vector2 offset = new Vector2((waveProgressBar.Width - (int)(waveProgressBar.Width * scmp)) * 0.5f, (waveProgressBar.Height - (int)(waveProgressBar.Height * scmp)) * 0.5f);
-                    spriteBatch.Draw(backGround1, waveProgressBar.Location.ToVector2() + offset, null, Color.White * alpha, 0f, new Vector2(0f), scmp, SpriteEffects.None, 0f);
-                    spriteBatch.Draw(backGround1, waveProgressBar.Location.ToVector2() + offset, waveProgressAmount, waveColor, 0f, new Vector2(0f), scmp, SpriteEffects.None, 0f);
-                    const int internalOffset = 6;
-                    Vector2 descSize = new Vector2(154, 40) * scmp;
-                    Rectangle barrierBackground = Utils.CenteredRectangle(new Vector2(Main.screenWidth - offsetX - 100f, Main.screenHeight - offsetY - 19f), new Vector2(width, height));
-                    Rectangle descBackground = Utils.CenteredRectangle(new Vector2(barrierBackground.X + barrierBackground.Width * 0.5f, barrierBackground.Y - internalOffset - descSize.Y * 0.5f), descSize * 0.9f);
-                    Utils.DrawInvBG(spriteBatch, descBackground, descColor * alpha);
-                    int descOffset = (descBackground.Height - (int)(32f * scmp)) / 2;
-                    Rectangle icon = new Rectangle(descBackground.X + descOffset + 7, descBackground.Y + descOffset, (int)(32 * scmp), (int)(32 * scmp));
-                    spriteBatch.Draw(EventIcon, icon, Color.White);
-                    Utils.DrawBorderString(spriteBatch, "The Tide", new Vector2(barrierBackground.X + barrierBackground.Width * 0.5f, barrierBackground.Y - internalOffset - descSize.Y * 0.5f), Color.White, 0.8f, 0.3f, 0.4f);
-                }
-            }
-        }
+					float alpha = 0.5f;
+					Texture2D backGround1 = Main.colorBarTexture;
+					Texture2D progressColor = Main.colorBarTexture;
+					Texture2D EventIcon = SpiritMod.instance.GetTexture("Effects/InvasionIcons/Depths_Icon");
+					float scmp = 0.5f + 0.75f * 0.5f;
+					Color descColor = new Color(77, 39, 135);
+					Color waveColor = new Color(255, 241, 51);
+					Color barrierColor = new Color(255, 241, 51);
+					const int offsetX = 20;
+					const int offsetY = 20;
+					int width = (int)(200f * scmp);
+					int height = (int)(46f * scmp);
+					Rectangle waveBackground = Utils.CenteredRectangle(new Vector2(Main.screenWidth - offsetX - 100f, Main.screenHeight - offsetY - 23f), new Vector2(width, height));
+					Utils.DrawInvBG(spriteBatch, waveBackground, new Color(63, 65, 151, 255) * 0.785f);
+					string waveText = "Cleared " + TideWorld.TidePoints + "%";
+					Utils.DrawBorderString(spriteBatch, waveText, new Vector2(waveBackground.X + waveBackground.Width / 2, waveBackground.Y + 5), Color.White, scmp * 0.8f, 0.5f, -0.1f);
+					Rectangle waveProgressBar = Utils.CenteredRectangle(new Vector2(waveBackground.X + waveBackground.Width * 0.5f, waveBackground.Y + waveBackground.Height * 0.75f), new Vector2(progressColor.Width, progressColor.Height));
+					Rectangle waveProgressAmount = new Rectangle(0, 0, (int)(progressColor.Width * 0.01f * MathHelper.Clamp(TideWorld.TidePoints, 0f, 100f)), progressColor.Height);
+					Vector2 offset = new Vector2((waveProgressBar.Width - (int)(waveProgressBar.Width * scmp)) * 0.5f, (waveProgressBar.Height - (int)(waveProgressBar.Height * scmp)) * 0.5f);
+					spriteBatch.Draw(backGround1, waveProgressBar.Location.ToVector2() + offset, null, Color.White * alpha, 0f, new Vector2(0f), scmp, SpriteEffects.None, 0f);
+					spriteBatch.Draw(backGround1, waveProgressBar.Location.ToVector2() + offset, waveProgressAmount, waveColor, 0f, new Vector2(0f), scmp, SpriteEffects.None, 0f);
+					const int internalOffset = 6;
+					Vector2 descSize = new Vector2(154, 40) * scmp;
+					Rectangle barrierBackground = Utils.CenteredRectangle(new Vector2(Main.screenWidth - offsetX - 100f, Main.screenHeight - offsetY - 19f), new Vector2(width, height));
+					Rectangle descBackground = Utils.CenteredRectangle(new Vector2(barrierBackground.X + barrierBackground.Width * 0.5f, barrierBackground.Y - internalOffset - descSize.Y * 0.5f), descSize * 0.9f);
+					Utils.DrawInvBG(spriteBatch, descBackground, descColor * alpha);
+					int descOffset = (descBackground.Height - (int)(32f * scmp)) / 2;
+					Rectangle icon = new Rectangle(descBackground.X + descOffset + 7, descBackground.Y + descOffset, (int)(32 * scmp), (int)(32 * scmp));
+					spriteBatch.Draw(EventIcon, icon, Color.White);
+					Utils.DrawBorderString(spriteBatch, "The Tide", new Vector2(barrierBackground.X + barrierBackground.Width * 0.5f, barrierBackground.Y - internalOffset - descSize.Y * 0.5f), Color.White, 0.8f, 0.3f, 0.4f);
+				}
+			}
+		}
 		#region pin stuff
 		public override void PostDrawFullscreenMap(ref string mouseText)
 		{
 			var pins = ModContent.GetInstance<PinWorld>().pins;
-			foreach(var pair in pins) {
+			foreach (var pair in pins) {
 				var pos = pins.Get<Vector2>(pair.Key);
 				// No, I don't know why it draws one tile to the right, but that's how it is
 				DrawMirrorOnFullscreenMap((int)pos.X - 1, (int)pos.Y, true, GetTexture($"Items/Pins/Textures/Pin{pair.Key}Map"));
@@ -899,7 +910,7 @@ namespace SpiritMod
 			//	Vector2 scrPos = overMapData.ScreenPosition;
 			var overMapData = GetFullMapPositionAsScreenPosition(wldPos);
 
-			if(overMapData.IsOnScreen && tileX > 0 && tileY > 0) {
+			if (overMapData.IsOnScreen && tileX > 0 && tileY > 0) {
 				Vector2 scrPos = overMapData.ScreenPosition;
 				Main.spriteBatch.Draw(
 					texture: tex,

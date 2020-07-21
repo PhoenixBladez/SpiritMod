@@ -43,7 +43,7 @@ namespace SpiritMod.Items.Glyphs
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
 			int index = tooltips.FindIndex(x => x.Name == "Tooltip0");
-			if(index < 0)
+			if (index < 0)
 				return;
 
 			Player player = Main.player[Main.myPlayer];
@@ -57,16 +57,18 @@ namespace SpiritMod.Items.Glyphs
 			line.overrideColor = new Color(120, 190, 120);
 			tooltips.Insert(index, line);
 
-			if(item.shopCustomPrice.HasValue) {
+			if (item.shopCustomPrice.HasValue) {
 				line = new TooltipLine(mod, "GlyphHint",
 					"Can only be applied to " + ItemType + "s");
-			} else if(CanRightClick()) {
+			}
+			else if (CanRightClick()) {
 				Item held = player.HeldItem;
 				Color itemColor = held.RarityColor(Main.mouseTextColor / 255f);
 				line = new TooltipLine(mod, "GlyphHint", "Right-click to enchant [i:" + held.type + "] [c/" +
 					string.Format("{0:X2}{1:X2}{2:X2}:", itemColor.R, itemColor.G, itemColor.B) +
 					held.Name + "]");
-			} else
+			}
+			else
 				line = new TooltipLine(mod, "GlyphHint", "Hold the " + ItemType
 					+ " you want to enchant and right-click this glyph");
 			line.overrideColor = new Color(120, 190, 120);
@@ -75,7 +77,7 @@ namespace SpiritMod.Items.Glyphs
 
 		public Item EnchantmentTarget(Player player)
 		{
-			if(player.selectedItem == 58)
+			if (player.selectedItem == 58)
 				return Main.mouseItem;
 			else
 				return player.HeldItem;
@@ -85,10 +87,10 @@ namespace SpiritMod.Items.Glyphs
 		internal static void InitializeGlyphLookup()
 		{
 			Type glyphBase = typeof(GlyphBase);
-			foreach(Type type in SpiritMod.instance.Code.GetTypes()) {
-				if(type.IsAbstract)
+			foreach (Type type in SpiritMod.instance.Code.GetTypes()) {
+				if (type.IsAbstract)
 					continue;
-				if(!type.IsSubclassOf(glyphBase))
+				if (!type.IsSubclassOf(glyphBase))
 					continue;
 
 				Item item = new Item();
@@ -98,8 +100,8 @@ namespace SpiritMod.Items.Glyphs
 			}
 
 			GlyphBase zero = _lookup[0];
-			for(int i = 1; i < _lookup.Length; i++) {
-				if(_lookup[i] == null)
+			for (int i = 1; i < _lookup.Length; i++) {
+				if (_lookup[i] == null)
 					_lookup[i] = zero;
 			}
 		}

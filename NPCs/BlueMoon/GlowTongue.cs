@@ -30,23 +30,24 @@ namespace SpiritMod.NPCs.BlueMoon
 		public override void AI()
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-			if(originPos == Vector2.Zero) {
+			if (originPos == Vector2.Zero) {
 				originPos = projectile.position;
 			}
 			projectile.velocity.Y = 0;
-			if(projectile.ai[0] == 0) {
+			if (projectile.ai[0] == 0) {
 				projectile.velocity.X += 0.25f;
-			} else {
+			}
+			else {
 				projectile.velocity.X -= 0.25f;
 			}
-			if(Math.Abs(projectile.velocity.X) > 11) {
+			if (Math.Abs(projectile.velocity.X) > 11) {
 				projectile.active = false;
 			}
 
 		}
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if(Main.rand.Next(5) == 0)
+			if (Main.rand.Next(5) == 0)
 				target.AddBuff(ModContent.BuffType<StarFlame>(), 200);
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

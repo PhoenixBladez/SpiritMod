@@ -7,7 +7,7 @@ namespace SpiritMod.Projectiles
 {
 	class CryoliteBlast : ModProjectile
 	{
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cryo Blast");
@@ -41,7 +41,7 @@ namespace SpiritMod.Projectiles
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(5) == 2)
+			if (Main.rand.Next(5) == 2)
 				target.AddBuff(ModContent.BuffType<CryoCrush>(), 180);
 		}
 

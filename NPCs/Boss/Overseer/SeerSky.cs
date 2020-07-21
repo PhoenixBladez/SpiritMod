@@ -14,18 +14,19 @@ namespace SpiritMod.NPCs.Boss.Overseer
 
 		public override void Update(GameTime gameTime)
 		{
-			if(isActive && intensity < 1f) {
+			if (isActive && intensity < 1f) {
 				intensity += 0.01f;
-			} else if(!isActive && intensity > 0f) {
+			}
+			else if (!isActive && intensity > 0f) {
 				intensity -= 0.01f;
 			}
 		}
 
 		private float GetIntensity()
 		{
-			if(this.UpdateSeerIndex()) {
+			if (this.UpdateSeerIndex()) {
 				float x = 0f;
-				if(this.SeerIndex != -1) {
+				if (this.SeerIndex != -1) {
 					x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[this.SeerIndex].Center);
 				}
 				return 1f - Utils.SmoothStep(3000f, 6000f, x);
@@ -42,12 +43,12 @@ namespace SpiritMod.NPCs.Boss.Overseer
 		private bool UpdateSeerIndex()
 		{
 			int SeerType = ModLoader.GetMod("SpiritMod").NPCType("Overseer");
-			if(SeerIndex >= 0 && Main.npc[SeerIndex].active && Main.npc[SeerIndex].type == SeerType)
+			if (SeerIndex >= 0 && Main.npc[SeerIndex].active && Main.npc[SeerIndex].type == SeerType)
 				return true;
 
 			SeerIndex = -1;
-			for(int i = 0; i < Main.npc.Length; i++) {
-				if(Main.npc[i].active && Main.npc[i].type == SeerType) {
+			for (int i = 0; i < Main.npc.Length; i++) {
+				if (Main.npc[i].active && Main.npc[i].type == SeerType) {
 					SeerIndex = i;
 					break;
 				}
@@ -58,7 +59,7 @@ namespace SpiritMod.NPCs.Boss.Overseer
 
 		public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
 		{
-			if(maxDepth >= 0 && minDepth < 0) {
+			if (maxDepth >= 0 && minDepth < 0) {
 				float intensity = this.GetIntensity();
 				spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Black * intensity);
 			}

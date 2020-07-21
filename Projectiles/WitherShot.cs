@@ -32,39 +32,42 @@ namespace SpiritMod.Projectiles
 		{
 			projectile.ai[1] += 1f;
 			bool chasing = false;
-			if(projectile.ai[1] >= 30f) {
+			if (projectile.ai[1] >= 30f) {
 				chasing = true;
 
 				projectile.friendly = true;
 				NPC target = null;
-				if(projectile.ai[0] == -1f) {
+				if (projectile.ai[0] == -1f) {
 					target = ProjectileExtras.FindRandomNPC(projectile.Center, 960f, false);
-				} else {
+				}
+				else {
 					target = Main.npc[(int)projectile.ai[0]];
-					if(!target.active || !target.CanBeChasedBy()) {
+					if (!target.active || !target.CanBeChasedBy()) {
 						target = ProjectileExtras.FindRandomNPC(projectile.Center, 960f, false);
 					}
 				}
 
-				if(target == null) {
+				if (target == null) {
 					chasing = false;
 					projectile.ai[0] = -1f;
-				} else {
+				}
+				else {
 					projectile.ai[0] = (float)target.whoAmI;
 					ProjectileExtras.HomingAI(this, target, 10f, 5f);
 				}
 			}
 
 			ProjectileExtras.LookAlongVelocity(this);
-			if(!chasing) {
+			if (!chasing) {
 				Vector2 dir = projectile.velocity;
 				float vel = projectile.velocity.Length();
-				if(vel != 0f) {
-					if(vel < 4f) {
+				if (vel != 0f) {
+					if (vel < 4f) {
 						dir *= 1 / vel;
 						projectile.velocity += dir * 0.0625f;
 					}
-				} else {
+				}
+				else {
 					//Stops the projectiles from spazzing out
 					projectile.velocity.X += Main.rand.Next(2) == 0 ? 0.1f : -0.1f;
 				}
@@ -83,7 +86,7 @@ namespace SpiritMod.Projectiles
 		private void AdjustMagnitude(ref Vector2 vector)
 		{
 			float magnitude = (float)Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
-			if(magnitude > 6f) {
+			if (magnitude > 6f) {
 				vector *= 6f / magnitude;
 			}
 		}

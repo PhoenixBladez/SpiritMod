@@ -58,15 +58,15 @@ namespace SpiritMod.Items.Glyphs
 			float range = 22 * 16;
 			range *= range;
 			Vector2 pos = player.Center;
-			for(int i = 0; i < Main.maxNPCs; i++) {
+			for (int i = 0; i < Main.maxNPCs; i++) {
 				NPC npc = Main.npc[i];
-				if(!npc.active || npc.lifeMax <= 5 || npc.friendly || npc.dontTakeDamage)
+				if (!npc.active || npc.lifeMax <= 5 || npc.friendly || npc.dontTakeDamage)
 					continue;
-				if(Vector2.DistanceSquared(npc.Center, pos) > range)
+				if (Vector2.DistanceSquared(npc.Center, pos) > range)
 					continue;
 				GNPC npcData = npc.GetGlobalNPC<GNPC>();
 				npcData.voidInfluence = true;
-				if(npcData.voidStacks < 4 * DELAY)
+				if (npcData.voidStacks < 4 * DELAY)
 					npcData.voidStacks++;
 				npc.AddBuff(ModContent.BuffType<DevouringVoid>(), 2, true);
 			}
@@ -75,13 +75,13 @@ namespace SpiritMod.Items.Glyphs
 		public static void CollapsingVoid(Player player, Entity target, int damage)
 		{
 			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
-			if(player.whoAmI == Main.myPlayer && modPlayer.voidStacks > 1 && Main.rand.Next(14) == 0) {
+			if (player.whoAmI == Main.myPlayer && modPlayer.voidStacks > 1 && Main.rand.Next(14) == 0) {
 				Vector2 vel = Vector2.UnitY.RotatedByRandom(Math.PI * 2);
 				vel *= (float)Main.rand.NextDouble() * 3f;
 				Projectile.NewProjectile(target.Center, vel, ModContent.ProjectileType<VoidStar>(), damage >> 1, 0, Main.myPlayer);
 			}
 
-			if(Main.rand.Next(10) == 1)
+			if (Main.rand.Next(10) == 1)
 				player.AddBuff(ModContent.BuffType<CollapsingVoid>(), 299);
 		}
 	}

@@ -22,7 +22,7 @@ namespace SpiritMod.Buffs
 			npc.GetGlobalNPC<GNPC>().clatterPierce = true;
 			npc.defense -= 3;
 
-			for(int k = 0; k < 2; k++) {
+			for (int k = 0; k < 2; k++) {
 				int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.t_Honey);
 				Main.dust[dust].scale *= .52f;
 			}

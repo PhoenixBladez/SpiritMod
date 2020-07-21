@@ -44,14 +44,14 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override void Kill(int timeLeft)
 		{
-			
-			for(int i = 0; i < 10; i++) {
+
+			for (int i = 0; i < 10; i++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 167, projectile.velocity.X * 2f, projectile.velocity.Y * 2f);
 			}
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(5) == 0)
+			if (Main.rand.Next(5) == 0)
 				target.AddBuff(ModContent.BuffType<FesteringWounds>(), 180);
 		}
 		//public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

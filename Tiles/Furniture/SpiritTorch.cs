@@ -53,7 +53,7 @@ namespace SpiritMod.Tiles.Furniture
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
 			Tile tile = Main.tile[i, j];
-			if(tile.frameX < 66) {
+			if (tile.frameX < 66) {
 				r = 0.9f;
 				g = 0.9f;
 				b = 0.9f;
@@ -63,9 +63,9 @@ namespace SpiritMod.Tiles.Furniture
 		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
 		{
 			offsetY = 0;
-			if(WorldGen.SolidTile(i, j - 1)) {
+			if (WorldGen.SolidTile(i, j - 1)) {
 				offsetY = 2;
-				if(WorldGen.SolidTile(i - 1, j + 1) || WorldGen.SolidTile(i + 1, j + 1)) {
+				if (WorldGen.SolidTile(i - 1, j + 1) || WorldGen.SolidTile(i + 1, j + 1)) {
 					offsetY = 4;
 				}
 			}
@@ -80,17 +80,17 @@ namespace SpiritMod.Tiles.Furniture
 			int width = 20;
 			int offsetY = 0;
 			int height = 20;
-			if(WorldGen.SolidTile(i, j - 1)) {
+			if (WorldGen.SolidTile(i, j - 1)) {
 				offsetY = 2;
-				if(WorldGen.SolidTile(i - 1, j + 1) || WorldGen.SolidTile(i + 1, j + 1)) {
+				if (WorldGen.SolidTile(i - 1, j + 1) || WorldGen.SolidTile(i + 1, j + 1)) {
 					offsetY = 4;
 				}
 			}
 			Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
-			if(Main.drawToScreen) {
+			if (Main.drawToScreen) {
 				zero = Vector2.Zero;
 			}
-			for(int k = 0; k < 7; k++) {
+			for (int k = 0; k < 7; k++) {
 				float x = (float)Utils.RandomInt(ref randSeed, -10, 11) * 0.15f;
 				float y = (float)Utils.RandomInt(ref randSeed, -10, 1) * 0.35f;
 				Main.spriteBatch.Draw(mod.GetTexture("Tiles/Furniture/SpiritTorch_Flame"), new Vector2((float)(i * 16 - (int)Main.screenPosition.X) - (width - 16f) / 2f + x, (float)(j * 16 - (int)Main.screenPosition.Y + offsetY) + y) + zero, new Rectangle(frameX, frameY, width, height), color, 0f, default(Vector2), 1f, SpriteEffects.None, 0f);

@@ -19,10 +19,10 @@ namespace SpiritMod.Tiles.Furniture
 			TileObjectData.addTile(Type);
 			drop = ModContent.ItemType<Items.Material.SpiritBar>();
 			adjTiles = new int[] { TileID.MetalBars };
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Bar");
-            AddMapEntry(new Color(200, 200, 200), name);
-        }
+			ModTranslation name = CreateMapEntryName();
+			name.SetDefault("Bar");
+			AddMapEntry(new Color(200, 200, 200), name);
+		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)
 		{

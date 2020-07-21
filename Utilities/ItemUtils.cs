@@ -20,7 +20,7 @@ namespace SpiritMod
 
 		public static void DropItem(this Entity ent, int type, float chance)
 		{
-			if(Main.rand.NextDouble() < chance) {
+			if (Main.rand.NextDouble() < chance) {
 				Item.NewItem(ent.Hitbox, type);
 			}
 		}
@@ -35,36 +35,45 @@ namespace SpiritMod
 			Mod mod = SpiritMod.instance;
 
 			int effect = Main.rand.Next(100);
-			if(effect < 9) {
+			if (effect < 9) {
 				player.QuickSpawnItem(ModContent.ItemType<Taffy>());
-			} else if(effect < 29) {
+			}
+			else if (effect < 29) {
 				player.QuickSpawnItem(ModContent.ItemType<Candy>());
-			} else if(effect < 49) {
+			}
+			else if (effect < 49) {
 				player.QuickSpawnItem(ModContent.ItemType<ChocolateBar>());
-			} else if(effect < 59) {
+			}
+			else if (effect < 59) {
 				player.QuickSpawnItem(ModContent.ItemType<HealthCandy>());
-			} else if(effect < 69) {
+			}
+			else if (effect < 69) {
 				player.QuickSpawnItem(ModContent.ItemType<ManaCandy>());
-			} else if(effect < 79) {
+			}
+			else if (effect < 79) {
 				player.QuickSpawnItem(ModContent.ItemType<Lollipop>());
-			} else if(effect < 83) {
+			}
+			else if (effect < 83) {
 				player.QuickSpawnItem(ModContent.ItemType<Apple>());
-			} else if(effect < 95) {
+			}
+			else if (effect < 95) {
 				player.QuickSpawnItem(ModContent.ItemType<MysteryCandy>());
-			} else {
+			}
+			else {
 				player.QuickSpawnItem(ModContent.ItemType<GoldCandy>());
 			}
 		}
 
 		public static Color RarityColor(this Item item, float alpha = 1)
 		{
-			if(alpha > 1) {
+			if (alpha > 1) {
 				alpha = 1;
-			} else if(alpha <= 0) {
+			}
+			else if (alpha <= 0) {
 				return Color.Transparent;
 			}
 
-			switch(item.rare) {
+			switch (item.rare) {
 				case -11:
 					return new Color((byte)(255f * alpha), (byte)(175f * alpha), (byte)(0f * alpha), (byte)(alpha * 255));
 
@@ -102,11 +111,11 @@ namespace SpiritMod
 					return new Color((byte)(255f * alpha), (byte)(40f * alpha), (byte)(100f * alpha), (byte)(alpha * 255));
 			}
 
-			if(item.rare >= ItemRarityID.Purple) {
+			if (item.rare >= ItemRarityID.Purple) {
 				return new Color((byte)(180f * alpha), (byte)(40f * alpha), (byte)(255f * alpha), (byte)(alpha * 255));
 			}
 
-			if(item.expert || item.rare == -12) {
+			if (item.expert || item.rare == -12) {
 				return new Color((byte)(Main.DiscoR * alpha), (byte)(Main.DiscoG * alpha), (byte)(Main.DiscoB * alpha), (byte)(alpha * 255));
 			}
 

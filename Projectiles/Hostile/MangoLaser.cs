@@ -36,12 +36,12 @@ namespace SpiritMod.Projectiles.Hostile
 			bool targetAcquired = false;
 
 			float lowestDist = float.MaxValue;
-			foreach(Player player in Main.player) {
+			foreach (Player player in Main.player) {
 				//if npc is a valid target (active, not friendly, and not a critter)
-				if(player.active) {
+				if (player.active) {
 					//if npc is within 50 blocks
 					float dist = projectile.Distance(player.Center);
-					if(dist < lowestDist) {
+					if (dist < lowestDist) {
 						targetDist = dist;
 						targetPos = player.Center;
 						targetAcquired = true;
@@ -49,7 +49,7 @@ namespace SpiritMod.Projectiles.Hostile
 				}
 			}
 
-			for(int i = 0; i < 6; i++) {
+			for (int i = 0; i < 6; i++) {
 				Dust dust;
 				// You need to set position depending on what you are doing. You may need to subtract width/2 and height/2 as well to center the spawn rectangle.
 				Vector2 position = projectile.Center;
@@ -59,7 +59,7 @@ namespace SpiritMod.Projectiles.Hostile
 			}
 
 			//change trajectory to home in on target
-			if(targetAcquired && !fired) {
+			if (targetAcquired && !fired) {
 				Vector2 homingVect = targetPos - projectile.Center;
 				homingVect.Normalize();
 				homingVect *= 9f;

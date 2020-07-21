@@ -38,9 +38,9 @@ namespace SpiritMod.NPCs.BlueMoon
 		{
 			Main.PlaySound(SoundID.Frog, (int)npc.position.X, (int)npc.position.Y);
 
-			for(int k = 0; k < 5; k++)
+			for (int k = 0; k < 5; k++)
 				Dust.NewDust(npc.position, npc.width, npc.height, 180, hitDirection, -1f, 0, default(Color), 1f);
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GlowToad/GlowToad1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GlowToad/GlowToad2"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GlowToad/GlowToad3"), 1f);
@@ -56,38 +56,41 @@ namespace SpiritMod.NPCs.BlueMoon
 		{
 			npc.TargetClosest(true);
 			Player player = Main.player[npc.target];
-			if(Math.Abs(player.position.X - npc.position.X) < 190 && npc.collideY) {
+			if (Math.Abs(player.position.X - npc.position.X) < 190 && npc.collideY) {
 				tongueOut = true;
 			}
-			if(!tongueOut && cooldownTimer > 4) {
+			if (!tongueOut && cooldownTimer > 4) {
 				timer++;
 			}
-			if(!npc.collideY) {
+			if (!npc.collideY) {
 				npc.velocity.X *= 1.045f;
 			}
 			cooldownTimer++;
-			if(timer % 90 == 0 && !tongueOut) {
+			if (timer % 90 == 0 && !tongueOut) {
 
-				if(!jumping) {
+				if (!jumping) {
 					jumping = true;
 					cooldownTimer = 0;
 				}
 				cooldownTimer++;
 				npc.velocity.Y = -7;
-				if(player.position.X > npc.position.X) {
+				if (player.position.X > npc.position.X) {
 					npc.velocity.X = 10;
 					npc.netUpdate = true;
-				} else {
+				}
+				else {
 					npc.velocity.X = -10;
 					npc.netUpdate = true;
 				}
-			} else {
+			}
+			else {
 				jumping = false;
 			}
-			if(!tongueActive) {
-				if(player.position.X > npc.position.X) {
+			if (!tongueActive) {
+				if (player.position.X > npc.position.X) {
 					npc.spriteDirection = 0;
-				} else {
+				}
+				else {
 					npc.spriteDirection = 1;
 				}
 			}
@@ -102,46 +105,50 @@ namespace SpiritMod.NPCs.BlueMoon
 		public override void FindFrame(int frameHeight)
 		{
 			Player player = Main.player[npc.target];
-			if(!npc.collideY) {
+			if (!npc.collideY) {
 				//npc.frameCounter += 0.40f;
 				// npc.frameCounter %= 5;
 				// int frame = (int)npc.frameCounter;
 				npc.frame.Y = 0;
 				frameCounter = 0;
-			} else if(!tongueOut) {
+			}
+			else if (!tongueOut) {
 				npc.frame.Y = frameHeight;
 				frameCounter = 0f;
 			}
-			if(tongueOut) {
+			if (tongueOut) {
 				// timer = 100;
-				if(!tongueActive) {
+				if (!tongueActive) {
 					frameCounter += 0.11f;
 				}
 				npc.frame.Y = ((int)(frameCounter % 5) + 1) * frameHeight;
-				if(npc.frame.Y / frameHeight == 5 && !tongueActive) {
+				if (npc.frame.Y / frameHeight == 5 && !tongueActive) {
 					npc.TargetClosest(true);
 					tongueActive = true;
 					npc.knockBackResist = 0f;
-					if(npc.spriteDirection == 0) {
+					if (npc.spriteDirection == 0) {
 						Main.PlaySound(SoundID.Frog, (int)npc.position.X, (int)npc.position.Y);
 						tongueproj = Projectile.NewProjectile(npc.Center + new Vector2(21, 8), new Vector2(11, 0), ModContent.ProjectileType<GlowTongue>(), (int)(npc.damage / 1.7f), 1, player.whoAmI, 1);
-					} else {
+					}
+					else {
 						Main.PlaySound(SoundID.Frog, (int)npc.position.X, (int)npc.position.Y);
 						tongueproj = Projectile.NewProjectile(npc.Center + new Vector2(-18, 8), new Vector2(-11, 0), ModContent.ProjectileType<GlowTongue>(), (int)(npc.damage / 1.7f), 1, player.whoAmI, 0);
 					}
 				}
-				if(tongueActive) {
+				if (tongueActive) {
 					Projectile tongue = Main.projectile[tongueproj];
-					if(!tongue.active) {
+					if (!tongue.active) {
 						tongueActive = false;
 						tongueOut = false;
 						timer = 80;
 						npc.knockBackResist = 0.5f;
-					} else {
-						if(tongue.ai[0] == 0) {
+					}
+					else {
+						if (tongue.ai[0] == 0) {
 							npc.direction = -1;
 							npc.spriteDirection = -1;
-						} else {
+						}
+						else {
 							npc.direction = 1;
 							npc.spriteDirection = 1;
 						}
@@ -163,15 +170,15 @@ namespace SpiritMod.NPCs.BlueMoon
 		}
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if(Main.rand.Next(5) == 0)
+			if (Main.rand.Next(5) == 0)
 				target.AddBuff(ModContent.BuffType<StarFlame>(), 200);
 		}
 
 		public override void NPCLoot()
 		{
-			if(Main.rand.NextBool(5))
+			if (Main.rand.NextBool(5))
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MoonStone>());
-			if(Main.rand.NextBool(100))
+			if (Main.rand.NextBool(100))
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<StopWatch>());
 		}
 

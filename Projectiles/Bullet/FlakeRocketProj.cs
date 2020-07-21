@@ -48,19 +48,18 @@ namespace SpiritMod.Projectiles.Bullet
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 			=> target.AddBuff(ModContent.BuffType<CryoCrush>(), 300, true);
-        public override void OnHitPlayer(Player target, int damage, bool crit)
-        {
-            damage /= 2;
-        }
-		public override bool? CanHitNPC (NPC target)
+		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if (target.townNPC)
-			{
+			damage /= 2;
+		}
+		public override bool? CanHitNPC(NPC target)
+		{
+			if (target.townNPC) {
 				return false;
 			}
 			return base.CanHitNPC(target);
 		}
-        public override void Kill(int timeLeft)
+		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<CryoFire>(), (int)(projectile.damage * 0.75f + 0.5f), projectile.knockBack, projectile.owner);
@@ -72,7 +71,7 @@ namespace SpiritMod.Projectiles.Bullet
 			projectile.position.X = projectile.position.X - (projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (projectile.height / 2);
 
-			for(int num623 = 0; num623 < 40; num623++) {
+			for (int num623 = 0; num623 < 40; num623++) {
 				int num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height,
 					68, 0f, 0f, 100, default, 1f);
 				Main.dust[num624].noGravity = true;

@@ -53,31 +53,32 @@ namespace SpiritMod.Items.Weapon.Bow.Artifact
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 
 				MyPlayer modPlayer = player.GetSpiritPlayer();
 				modPlayer.shootDelay = 60;
 				charger++;
-				if(charger >= 1) {
+				if (charger >= 1) {
 					{
 						Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Stars1"), 40, 4, player.whoAmI, 0f, 0f);
 					}
 				}
-				if(charger >= 2) {
+				if (charger >= 2) {
 					{
 						Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Stars2"), 70, 5, player.whoAmI, 0f, 0f);
 					}
 				}
-				if(charger >= 3) {
+				if (charger >= 3) {
 					{
 						Projectile.NewProjectile(position.X, position.Y - 10, speedX, speedY, mod.ProjectileType("Stars3"), 130, 6, player.whoAmI, 0f, 0f);
 					}
 					charger = 0;
 				}
 				return false;
-			} else {
+			}
+			else {
 				charger = 0;
-				for(int I = 0; I < 2; I++) {
+				for (int I = 0; I < 2; I++) {
 					Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-102, 102) / 100), speedY + ((float)Main.rand.Next(-102, 102) / 100), ModContent.ProjectileType<StarPin>(), damage, knockBack, player.whoAmI, 0f, 0f);
 				};
 			}
@@ -85,14 +86,15 @@ namespace SpiritMod.Items.Weapon.Bow.Artifact
 		}
 		public override bool CanUseItem(Player player)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				item.useTime = 37;
 				item.useAnimation = 37;
 				MyPlayer modPlayer = player.GetSpiritPlayer();
-				if(modPlayer.shootDelay == 0)
+				if (modPlayer.shootDelay == 0)
 					return true;
 				return false;
-			} else {
+			}
+			else {
 				item.useTime = 23;
 				item.useAnimation = 23;
 				return true;

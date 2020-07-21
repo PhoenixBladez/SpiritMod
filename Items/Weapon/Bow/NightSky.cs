@@ -38,15 +38,15 @@ namespace SpiritMod.Items.Weapon.Bow
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			charger++;
-			if(charger >= 4) {
+			if (charger >= 4) {
 				int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
 				Main.projectile[p].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromNightSky = true;
-				for(int I = 0; I < 4; I++) {
+				for (int I = 0; I < 4; I++) {
 					Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ProjectileID.FallingStar, damage, knockBack, player.whoAmI, 0f, 0f);
 				}
 				charger = 0;
 				Projectile projectile = Main.projectile[p];
-				for(int k = 0; k < 30; k++) {
+				for (int k = 0; k < 30; k++) {
 					Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
 					Vector2 offset = mouse - player.position;
 					offset.Normalize();
@@ -65,7 +65,8 @@ namespace SpiritMod.Items.Weapon.Bow
 					Vector2 vector2_3 = vector2_2 * 45f;
 					Main.dust[dust].position = (projectile.Center + offset) - vector2_3;
 				}
-			} else {
+			}
+			else {
 				int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
 				Main.projectile[p].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromNightSky = true;
 			}

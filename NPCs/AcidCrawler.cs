@@ -32,7 +32,7 @@ namespace SpiritMod.NPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if(SpawnHelper.SupressSpawns(spawnInfo, SpawnFlags.Hardmode, SpawnZones.Underground))
+			if (SpawnHelper.SupressSpawns(spawnInfo, SpawnFlags.Hardmode, SpawnZones.Underground))
 				return 0;
 
 			return SpawnCondition.Cavern.Chance * 0.0438f;
@@ -42,7 +42,7 @@ namespace SpiritMod.NPCs
 		{
 			int dust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 107, 0f, 0f, 100, default(Color), 2f);
 
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Acid_Leg"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Acid_Leg"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Acid_Eye"), 1f);
@@ -51,14 +51,14 @@ namespace SpiritMod.NPCs
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if(Main.rand.Next(4) == 0) {
+			if (Main.rand.Next(4) == 0) {
 				target.AddBuff(BuffID.Poisoned, 240);
 			}
 		}
 
 		public override void NPCLoot()
 		{
-			if(Main.rand.Next(2) == 1)
+			if (Main.rand.Next(2) == 1)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Acid>());
 		}
 	}

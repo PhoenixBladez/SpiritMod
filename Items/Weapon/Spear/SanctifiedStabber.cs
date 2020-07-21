@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Spear
 		}
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(2) == 0) {
+			if (Main.rand.Next(2) == 0) {
 				target.AddBuff(ModContent.BuffType<WitheringLeaf>(), 180);
 			}
 		}

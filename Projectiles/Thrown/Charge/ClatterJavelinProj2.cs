@@ -49,7 +49,7 @@ namespace SpiritMod.Projectiles.Thrown.Charge
 		//}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(6) == 0)
+			if (Main.rand.Next(6) == 0)
 				target.AddBuff(ModContent.BuffType<ClatterPierce>(), 180);
 		}
 		public override void Kill(int timeLeft)
@@ -58,7 +58,7 @@ namespace SpiritMod.Projectiles.Thrown.Charge
 			Vector2 vector9 = projectile.position;
 			Vector2 value19 = (projectile.rotation - 1.57079637f).ToRotationVector2();
 			vector9 += value19 * 16f;
-			for(int num257 = 0; num257 < 20; num257++) {
+			for (int num257 = 0; num257 < 20; num257++) {
 				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, 6, 0f, 0f, 0, default(Color), 1f);
 				Main.dust[newDust].position = (Main.dust[newDust].position + projectile.Center) / 2f;
 				Main.dust[newDust].velocity += value19 * 2f;

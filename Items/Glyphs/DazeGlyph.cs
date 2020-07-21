@@ -6,7 +6,7 @@ namespace SpiritMod.Items.Glyphs
 {
 	public class DazeGlyph : GlyphBase, IGlowing
 	{
-				public static Microsoft.Xna.Framework.Graphics.Texture2D[] _textures;
+		public static Microsoft.Xna.Framework.Graphics.Texture2D[] _textures;
 
 		Microsoft.Xna.Framework.Graphics.Texture2D IGlowing.Glowmask(out float bias)
 		{
@@ -46,21 +46,21 @@ namespace SpiritMod.Items.Glyphs
 
 		public static void Daze(NPC target, ref int damage)
 		{
-			if(target.FindBuffIndex(BuffID.Confused) > -1) {
+			if (target.FindBuffIndex(BuffID.Confused) > -1) {
 				Main.NewText("Daze");
 				damage += 30;
 			}
 
-			if(Main.rand.Next(9) == 1)
+			if (Main.rand.Next(9) == 1)
 				target.AddBuff(BuffID.Confused, 240);
 		}
 
 		public static void Daze(Player target, ref int damage)
 		{
-			if(target.FindBuffIndex(BuffID.Confused) > -1)
+			if (target.FindBuffIndex(BuffID.Confused) > -1)
 				damage += 30;
 
-			if(Main.rand.Next(9) == 1)
+			if (Main.rand.Next(9) == 1)
 				target.AddBuff(BuffID.Confused, 240, false);
 		}
 	}

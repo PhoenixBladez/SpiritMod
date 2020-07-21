@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Armor.Masks
 	[AutoloadEquip(EquipType.Head)]
 	public class StarplateMask : ModItem
 	{
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starplate Voyager Mask");
@@ -43,7 +43,7 @@ namespace SpiritMod.Items.Armor.Masks
 		{
 			glowMaskColor = Color.White;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 22;

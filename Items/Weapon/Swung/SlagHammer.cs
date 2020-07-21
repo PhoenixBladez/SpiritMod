@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		}
 		public override bool UseItemFrame(Player player)
 		{
-			if(player.altFunctionUse != 2) {
+			if (player.altFunctionUse != 2) {
 				player.bodyFrame.Y = 3 * player.bodyFrame.Height;
 			}
 			return true;
@@ -53,15 +53,16 @@ namespace SpiritMod.Items.Weapon.Swung
 
 		public override bool CanUseItem(Player player)
 		{
-			for(int i = 0; i < 1000; ++i) {
-				if(Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot) {
+			for (int i = 0; i < 1000; ++i) {
+				if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot) {
 					return false;
 				}
 			}
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				item.useStyle = ItemUseStyleID.SwingThrow;
 				item.shoot = ModContent.ProjectileType<SlagHammerProjReturning>();
-			} else {
+			}
+			else {
 				item.useTime = 46;
 				item.useAnimation = 46;
 				item.shoot = ModContent.ProjectileType<SlagHammerProj>();

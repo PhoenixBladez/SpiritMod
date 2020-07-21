@@ -53,9 +53,9 @@ namespace SpiritMod.NPCs.Critters
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 
-				for(int num621 = 0; num621 < 20; num621++) {
+				for (int num621 = 0; num621 < 20; num621++) {
 					int dust = Dust.NewDust(npc.position, npc.width, npc.height, 5);
 					Main.dust[dust].noGravity = false;
 					Main.dust[dust].velocity *= 0.5f * hitDirection;
@@ -64,7 +64,7 @@ namespace SpiritMod.NPCs.Critters
 		}
 		public override void NPCLoot()
 		{
-			if(Main.rand.Next(2) == 1) {
+			if (Main.rand.Next(2) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<RawFish>(), 1);
 			}
 		}

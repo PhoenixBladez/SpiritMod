@@ -28,27 +28,27 @@ namespace SpiritMod.Projectiles.DonatorItems
 
 		public override void Kill(int timeLeft)
 		{
-			for(int I = 0; I < 8; I++)
+			for (int I = 0; I < 8; I++)
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 5, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
 
-			for(int i = 0; i < 3; ++i) {
+			for (int i = 0; i < 3; ++i) {
 				Projectile.NewProjectile(projectile.Center, Vector2.Zero,
 					ModContent.ProjectileType<FrostRune>(), projectile.damage, 0, projectile.owner);
 			}
 		}
 		public override bool PreAI()
 		{
-			if(Main.rand.Next(4) == 1)
+			if (Main.rand.Next(4) == 1)
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 187, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 
 			return true;
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(5) == 0)
+			if (Main.rand.Next(5) == 0)
 				target.AddBuff(BuffID.Frostburn, 200, true);
 
-			for(int i = 0; i < 3; ++i) {
+			for (int i = 0; i < 3; ++i) {
 				int randFire = Main.rand.Next(1);
 				int newProj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y,
 					Main.rand.Next(0) / 100, Main.rand.Next(0, 0),

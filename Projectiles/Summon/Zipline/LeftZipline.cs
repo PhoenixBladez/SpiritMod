@@ -37,36 +37,38 @@ namespace SpiritMod.Projectiles.Summon.Zipline
 		public override bool PreAI()
 		{
 			alphaCounter += 0.04f;
-			if(!stuck) {
+			if (!stuck) {
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 			}
 			projectile.timeLeft = 50;
 			rightValue = (int)projectile.ai[1];
-			if(rightValue < (double)Main.projectile.Length && rightValue != 0) {
+			if (rightValue < (double)Main.projectile.Length && rightValue != 0) {
 				Projectile other = Main.projectile[rightValue];
-				if(other.active) {
+				if (other.active) {
 					direction9 = other.Center - projectile.Center;
 					distance = (int)Math.Sqrt((direction9.X * direction9.X) + (direction9.Y * direction9.Y));
 					chain = true;
-				} else {
+				}
+				else {
 					chain = false;
 				}
-			} else {
+			}
+			else {
 				chain = false;
 			}
-			if(stuck) {
+			if (stuck) {
 				projectile.velocity = Vector2.Zero;
 			}
 			return true;
 		}
 		public override void AI()
 		{
-			if(stuck)
+			if (stuck)
 				DoDustEffect(projectile.Center, 18f);
 		}
 		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			if(chain && distance < 2000 && stuck) {
+			if (chain && distance < 2000 && stuck) {
 				Projectile other = Main.projectile[rightValue];
 				direction9 = other.Center - projectile.Center;
 				direction9.Normalize();
@@ -90,22 +92,24 @@ namespace SpiritMod.Projectiles.Summon.Zipline
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			if(!stuck) {
+			if (!stuck) {
 				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 52);
 			}
-			if(oldVelocity.X != projectile.velocity.X) //if its an X axis collision
+			if (oldVelocity.X != projectile.velocity.X) //if its an X axis collision
 				{
-				if(projectile.velocity.X > 0) {
+				if (projectile.velocity.X > 0) {
 					projectile.rotation = 1.57f;
-				} else {
+				}
+				else {
 					projectile.rotation = 4.71f;
 				}
 			}
-			if(oldVelocity.Y != projectile.velocity.Y) //if its a Y axis collision
+			if (oldVelocity.Y != projectile.velocity.Y) //if its a Y axis collision
 			{
-				if(projectile.velocity.Y > 0) {
+				if (projectile.velocity.Y > 0) {
 					projectile.rotation = 3.14f;
-				} else {
+				}
+				else {
 					projectile.rotation = 0f;
 				}
 			}

@@ -7,7 +7,7 @@ namespace SpiritMod.Items.Glyphs
 {
 	public class SanguineGlyph : GlyphBase, IGlowing
 	{
-				public static Microsoft.Xna.Framework.Graphics.Texture2D[] _textures;
+		public static Microsoft.Xna.Framework.Graphics.Texture2D[] _textures;
 
 		Microsoft.Xna.Framework.Graphics.Texture2D IGlowing.Glowmask(out float bias)
 		{
@@ -47,35 +47,35 @@ namespace SpiritMod.Items.Glyphs
 
 		public static void BloodCorruption(Player player, NPC target, int damage)
 		{
-			if(!target.CanLeech())
+			if (!target.CanLeech())
 				return;
 
-			if(target.FindBuffIndex(SpiritMod.instance.BuffType("SanguineBleed")) > -1
+			if (target.FindBuffIndex(SpiritMod.instance.BuffType("SanguineBleed")) > -1
 				&& Main.rand.NextDouble() < 0.2) {
 				Leech(player, target, damage);
 			}
 
-			if(Main.rand.Next(5) == 0)
+			if (Main.rand.Next(5) == 0)
 				target.AddBuff(SpiritMod.instance.BuffType("SanguineBleed"), 600);
 		}
 
 		public static void BloodCorruption(Player player, Player target, int damage)
 		{
-			if(target.FindBuffIndex(SpiritMod.instance.BuffType("SanguineBleed")) > -1
+			if (target.FindBuffIndex(SpiritMod.instance.BuffType("SanguineBleed")) > -1
 				&& Main.rand.NextDouble() < 0.2) {
 				Leech(player, target, damage);
 			}
 
-			if(Main.rand.Next(5) == 0)
+			if (Main.rand.Next(5) == 0)
 				target.AddBuff(SpiritMod.instance.BuffType("SanguineBleed"), 600, false);
 		}
 
 		private static void Leech(Player player, Entity target, int damage)
 		{
 			int leech = (int)Math.Sqrt(damage);
-			if(leech == 0)
+			if (leech == 0)
 				return;
-			if(player.lifeSteal <= 0f)
+			if (player.lifeSteal <= 0f)
 				return;
 
 			player.lifeSteal -= leech;

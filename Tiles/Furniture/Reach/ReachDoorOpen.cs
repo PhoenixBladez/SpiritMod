@@ -70,14 +70,14 @@ namespace SpiritMod.Tiles.Furniture.Reach
 		{
 			num = 1;
 		}
-        public override void MouseOver(int i, int j)
-        {
-            Player player = Main.LocalPlayer;
-            player.noThrow = 2;
-            player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<ReachDoorItem>();
-        }
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+		public override void MouseOver(int i, int j)
+		{
+			Player player = Main.LocalPlayer;
+			player.noThrow = 2;
+			player.showItemIcon = true;
+			player.showItemIcon2 = ModContent.ItemType<ReachDoorItem>();
+		}
+		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<ReachDoorItem>());
 		}

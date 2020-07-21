@@ -30,45 +30,46 @@ namespace SpiritMod.NPCs.Mimic
 			npc.knockBackResist = .15f;
 			npc.aiStyle = 41;
 			aiType = NPCID.Herpling;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.GoldCrateMimicBanner>();
-        }
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.GoldCrateMimicBanner>();
+		}
 		int frame = 2;
 		int timer = 0;
 		int mimictimer = 0;
 		public override void AI()
 		{
 			mimictimer++;
-			if(mimictimer <= 80) {
+			if (mimictimer <= 80) {
 				frame = 0;
 				mimictimer = 81;
 			}
 			Player target = Main.player[npc.target];
 			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
 			npc.spriteDirection = npc.direction;
-			if(distance < 720) {
+			if (distance < 720) {
 				timer++;
-				if(timer == 5) {
+				if (timer == 5) {
 					frame++;
 					timer = 0;
 				}
-				if(frame >= 4) {
+				if (frame >= 4) {
 					frame = 1;
 				}
-			} else {
+			}
+			else {
 				frame = 0;
 				npc.velocity = Vector2.Zero;
 			}
-			if(npc.collideY && jump && npc.velocity.Y > 0) {
-				if(Main.rand.Next(2) == 0) {
+			if (npc.collideY && jump && npc.velocity.Y > 0) {
+				if (Main.rand.Next(2) == 0) {
 					jump = false;
-					for(int i = 0; i < 20; i++) {
+					for (int i = 0; i < 20; i++) {
 						int dust = Dust.NewDust(npc.position + npc.velocity, npc.width, npc.height, 191, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f);
 						Main.dust[dust].noGravity = true;
 					}
 				}
 			}
-			if(!npc.collideY)
+			if (!npc.collideY)
 				jump = true;
 
 		}
@@ -81,9 +82,9 @@ namespace SpiritMod.NPCs.Mimic
 			Player target = Main.player[npc.target];
 			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
 
-			if(distance > 720) {
+			if (distance > 720) {
 				npc.dontTakeDamage = true;
-				if(!projectile.minion) {
+				if (!projectile.minion) {
 					projectile.hostile = true;
 					projectile.friendly = false;
 					projectile.penetrate = 2;
@@ -97,9 +98,9 @@ namespace SpiritMod.NPCs.Mimic
 		{
 			Player target = Main.player[npc.target];
 			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
-			if(distance < 720) {
+			if (distance < 720) {
 				Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height / Main.npcFrameCount[npc.type]) * 0.5f);
-				for(int k = 0; k < npc.oldPos.Length; k++) {
+				for (int k = 0; k < npc.oldPos.Length; k++) {
 					var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 					Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
 					Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
@@ -110,14 +111,14 @@ namespace SpiritMod.NPCs.Mimic
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				int a = Gore.NewGore(npc.position, npc.velocity / 6, 220);
 				int a1 = Gore.NewGore(npc.position, npc.velocity / 6, 221);
 				int a2 = Gore.NewGore(npc.position, npc.velocity / 6, 222);
 			}
-			if(npc.life <= 0 || npc.life >= 0) {
+			if (npc.life <= 0 || npc.life >= 0) {
 				int d = 19;
-				for(int k = 0; k < 10; k++) {
+				for (int k = 0; k < 10; k++) {
 					Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.47f);
 					Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, .57f);
 				}
@@ -130,15 +131,15 @@ namespace SpiritMod.NPCs.Mimic
 		}
 		public override void NPCLoot()
 		{
-			if(Main.rand.Next(10) == 1) {
+			if (Main.rand.Next(10) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 2491);
 			}
-			if(Main.rand.Next(2) == 0) {
+			if (Main.rand.Next(2) == 0) {
 				int bars;
 				bars = Main.rand.Next(new int[] { 21, 705, 19, 706 });
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, bars, Main.rand.Next(15, 30));
 			}
-			if(Main.rand.Next(2) == 0) {
+			if (Main.rand.Next(2) == 0) {
 				int potions;
 				potions = Main.rand.Next(new int[] { 288, 296, 305, 2322, 2323 });
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, potions, Main.rand.Next(2, 5));

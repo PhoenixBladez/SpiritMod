@@ -29,7 +29,7 @@ namespace SpiritMod.NPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if(!Main.hardMode) {
+			if (!Main.hardMode) {
 				return 0f;
 			}
 
@@ -38,7 +38,7 @@ namespace SpiritMod.NPCs
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, 13);
 				Gore.NewGore(npc.position, npc.velocity, 12);
 				Gore.NewGore(npc.position, npc.velocity, 11);
@@ -47,7 +47,7 @@ namespace SpiritMod.NPCs
 
 		public override void FindFrame(int frameHeight)
 		{
-			if(npc.velocity.X != 0f) {
+			if (npc.velocity.X != 0f) {
 				npc.frameCounter += 0.15f;
 				npc.frameCounter %= Main.npcFrameCount[npc.type];
 				int frame = (int)npc.frameCounter;
@@ -64,7 +64,7 @@ namespace SpiritMod.NPCs
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if(Main.rand.Next(3) == 0) {
+			if (Main.rand.Next(3) == 0) {
 				target.AddBuff(BuffID.Slow, 170, true);
 				target.AddBuff(BuffID.Cursed, 280, true);
 				target.AddBuff(BuffID.Blackout, 280, true);
@@ -73,7 +73,7 @@ namespace SpiritMod.NPCs
 
 		public override void NPCLoot()
 		{
-			if(Main.rand.Next(20) == 1) {
+			if (Main.rand.Next(20) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ShadowCollar>());
 
 			}

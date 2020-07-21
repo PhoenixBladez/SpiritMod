@@ -55,20 +55,20 @@ namespace SpiritMod.Items.Glyphs
 
 		public static void CreateIceSpikes(Player player, NPC target, bool crit)
 		{
-			if(!crit || player.whoAmI != Main.myPlayer || !target.CanLeech())
+			if (!crit || player.whoAmI != Main.myPlayer || !target.CanLeech())
 				return;
 
 			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
-			if(modPlayer.frostCooldown > 0)
+			if (modPlayer.frostCooldown > 0)
 				return;
 
 			int damage = (int)(25 * player.GetDamageBoost());
 			int spikes = modPlayer.frostCount;
-			if(spikes >= LIMIT) {
+			if (spikes >= LIMIT) {
 				Vector2 velocity = Main.MouseWorld - player.MountedCenter;
 				float length = velocity.Length();
 				length = 1 / length;
-				if(float.IsNaN(length))
+				if (float.IsNaN(length))
 					velocity = new Vector2(player.direction > 0 ? 1 : -1, 0);
 				else
 					velocity *= length;
@@ -94,16 +94,16 @@ namespace SpiritMod.Items.Glyphs
 			int owner = player.whoAmI;
 			int type = ModContent.ProjectileType<FrostSpike>();
 			int tally = 0;
-			for(int i = 0; i < 1000; i++) {
+			for (int i = 0; i < 1000; i++) {
 				Projectile projectile = Main.projectile[i];
-				if(!projectile.active || projectile.owner != owner)
+				if (!projectile.active || projectile.owner != owner)
 					continue;
-				if(projectile.type != type)
+				if (projectile.type != type)
 					continue;
-				if(projectile.ai[1] != 0)
+				if (projectile.ai[1] != 0)
 					continue;
 
-				if(tally == 0)
+				if (tally == 0)
 					player.GetModPlayer<MyPlayer>().frostRotation = projectile.rotation;
 				projectile.ai[0] = tally++;
 			}

@@ -41,7 +41,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
 				player.buffImmune[BuffID.Weak] = true;
 				player.buffImmune[BuffID.Chilled] = true;
 			}
-			if(player.statLife < player.statLifeMax2 / 2) {
+			if (player.statLife < player.statLifeMax2 / 2) {
 				player.endurance = 0.08f;
 				int dust = Dust.NewDust(player.position, player.width, player.height, 187);
 			}

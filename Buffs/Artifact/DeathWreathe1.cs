@@ -14,7 +14,7 @@ namespace SpiritMod.Buffs.Artifact
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			if(!npc.boss && !npc.friendly) {
+			if (!npc.boss && !npc.friendly) {
 				npc.lifeRegen -= 6;
 				npc.defense = npc.defDefense / 100 * 5;
 

@@ -33,7 +33,7 @@ namespace SpiritMod.Projectiles
 			Lighting.AddLight(projectile.position, 0.4f / 2, .12f / 2, .036f / 2);
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 			int num1222 = 5;
-			for(int k = 0; k < 2; k++) {
+			for (int k = 0; k < 2; k++) {
 				int index2 = Dust.NewDust(projectile.position, 1, 1, 235, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].position = projectile.Center - projectile.velocity / num1222 * (float)k;
 				Main.dust[index2].scale = .95f;

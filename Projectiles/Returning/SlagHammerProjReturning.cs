@@ -26,12 +26,12 @@ namespace SpiritMod.Projectiles.Returning
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(6) == 0)
+			if (Main.rand.Next(6) == 0)
 				target.AddBuff(BuffID.OnFire, 120, true);
 			{
 				int n = 4;
 				int deviation = Main.rand.Next(0, 300);
-				for(int i = 0; i < n; i++) {
+				for (int i = 0; i < n; i++) {
 					float rotation = MathHelper.ToRadians(270 / n * i + deviation);
 					Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(rotation);
 					perturbedSpeed.Normalize();

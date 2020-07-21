@@ -7,10 +7,9 @@ namespace SpiritMod.Buffs
 {
 	public class GBuff : GlobalBuff
 	{
-		public override void Update (int type, Player player, ref int buffIndex)
+		public override void Update(int type, Player player, ref int buffIndex)
 		{
-			if (type == BuffID.OnFire && player.HasBuff(ModContent.BuffType<IceBerryBuff>()))
-			{
+			if (type == BuffID.OnFire && player.HasBuff(ModContent.BuffType<IceBerryBuff>())) {
 				player.DelBuff(buffIndex);
 			}
 		}

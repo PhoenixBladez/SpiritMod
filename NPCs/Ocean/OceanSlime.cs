@@ -31,9 +31,9 @@ namespace SpiritMod.NPCs.Ocean
 			npc.aiStyle = 1;
 			aiType = NPCID.BlueSlime;
 			animationType = NPCID.BlueSlime;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.CoconutSlimeBanner>();
-        }
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.CoconutSlimeBanner>();
+		}
 		public override void NPCLoot()
 		{
 			{
@@ -45,11 +45,11 @@ namespace SpiritMod.NPCs.Ocean
 		{
 			int d = 207;
 			int d1 = 207;
-			for(int k = 0; k < 30; k++) {
+			for (int k = 0; k < 30; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
 				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
 			}
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/OceanSlime1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/OceanSlime2"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/OceanSlime3"), 1f);

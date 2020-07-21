@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 
 		public override void HoldItem(Player player)
 		{
-			if(player.GetSpiritPlayer().Resolve) {
+			if (player.GetSpiritPlayer().Resolve) {
 				player.AddBuff(ModContent.BuffType<Resolve>(), 2);
 			}
 		}
@@ -50,8 +50,8 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 			TooltipLine line = new TooltipLine(mod, "ItemName", "Artifact Weapon");
 			line.overrideColor = new Color(100, 0, 230);
 			tooltips.Add(line);
-			foreach(TooltipLine line2 in tooltips) {
-				if(line2.mod == "Terraria" && line2.Name == "ItemName") {
+			foreach (TooltipLine line2 in tooltips) {
+				if (line2.mod == "Terraria" && line2.Name == "ItemName") {
 					line2.overrideColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
 				}
 			}
@@ -70,11 +70,11 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
 		{
-			if(Main.rand.Next(12) == 1) {
+			if (Main.rand.Next(12) == 1) {
 				target.AddBuff(ModContent.BuffType<Crystallize>(), 180);
 			}
-			if(Main.rand.Next(6) == 1) {
-				for(int h = 0; h < 6; h++) {
+			if (Main.rand.Next(6) == 1) {
+				for (int h = 0; h < 6; h++) {
 					Vector2 vel = new Vector2(0, -1);
 					float rand = Main.rand.NextFloat() * 6.283f;
 					vel = vel.RotatedBy(rand);
@@ -87,7 +87,7 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				int dmg = (int)(damage * .28125f);
 				Projectile.NewProjectile(player.Center.X - 40, player.Center.Y, speedX, speedY, ModContent.ProjectileType<Thanos1Crystal>(), dmg, 0, player.whoAmI);
 				Projectile.NewProjectile(player.Center.X + 40, player.Center.Y, speedX, speedY, ModContent.ProjectileType<Thanos1Crystal>(), dmg, 0, player.whoAmI);

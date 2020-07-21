@@ -35,22 +35,24 @@ namespace SpiritMod.NPCs.Boss.Infernon
 
 		public override bool PreAI()
 		{
-			if(!Main.npc[(int)npc.ai[3]].active || Main.npc[(int)npc.ai[3]].type != ModContent.NPCType<Infernon>())
+			if (!Main.npc[(int)npc.ai[3]].active || Main.npc[(int)npc.ai[3]].type != ModContent.NPCType<Infernon>())
 				npc.ai[0] = -1;
 
-			if(npc.ai[0] == -1) {
+			if (npc.ai[0] == -1) {
 				npc.alpha += 3;
-				if(npc.alpha > 255)
+				if (npc.alpha > 255)
 					npc.active = false;
-			} else if(npc.ai[0] == 0) {
+			}
+			else if (npc.ai[0] == 0) {
 				npc.ai[1]++;
-				if(npc.ai[1] >= 60) {
+				if (npc.ai[1] >= 60) {
 					npc.ai[0] = 1;
 					npc.ai[1] = 0;
 					npc.ai[2] = 0;
 				}
-			} else if(npc.ai[0] == 1) {
-				if(npc.ai[1] == 0) {
+			}
+			else if (npc.ai[0] == 1) {
+				if (npc.ai[1] == 0) {
 					/* npc.TargetClosest(false);
                      Vector2 spinningpoint = Main.player[npc.target].Center - npc.Center;
                      spinningpoint.Normalize();
@@ -65,7 +67,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 					double deltaAngle = spread / 8f;
 					double offsetAngle;
 					int i;
-					for(i = 0; i < 4; i++) {
+					for (i = 0; i < 4; i++) {
 						offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
 						Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<InfernalWave>(), 28, 0, Main.myPlayer);
 						Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<InfernalWave>(), 28, 0, Main.myPlayer);
@@ -80,7 +82,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 						direction.Y *= 12f;
 
 						int amountOfProjectiles = 2;
-						for(int z = 0; z < amountOfProjectiles; ++z) {
+						for (int z = 0; z < amountOfProjectiles; ++z) {
 							float A = (float)Main.rand.Next(-200, 200) * 0.01f;
 							float B = (float)Main.rand.Next(-200, 200) * 0.01f;
 							int damage = expertMode ? 20 : 24;
@@ -92,15 +94,16 @@ namespace SpiritMod.NPCs.Boss.Infernon
 				}
 
 				npc.ai[1]++;
-				if(npc.ai[1] >= 120) {
+				if (npc.ai[1] >= 120) {
 					npc.ai[0] = 2;
 					npc.ai[1] = 0;
 					npc.ai[2] = 0;
 				}
-			} else if(npc.ai[0] == 2) {
-				if(npc.ai[1] == 0) {
+			}
+			else if (npc.ai[0] == 2) {
+				if (npc.ai[1] == 0) {
 					npc.alpha += 3;
-					if(npc.alpha > 255) {
+					if (npc.alpha > 255) {
 						// Teleport.
 						NPC target = Main.npc[(int)npc.ai[3]];
 						Vector2 newPos = target.Center + new Vector2(Main.rand.Next(-200, 201), Main.rand.Next(-200, 201));
@@ -108,10 +111,11 @@ namespace SpiritMod.NPCs.Boss.Infernon
 
 						npc.ai[1] = 1;
 					}
-				} else {
+				}
+				else {
 					npc.alpha -= 3;
 
-					if(npc.alpha <= 0) {
+					if (npc.alpha <= 0) {
 						npc.ai[0] = 0;
 						npc.ai[1] = 0;
 						npc.ai[2] = 0;
@@ -123,16 +127,16 @@ namespace SpiritMod.NPCs.Boss.Infernon
 
 		public override void FindFrame(int frameHeight)
 		{
-			if(npc.ai[0] == 0)
+			if (npc.ai[0] == 0)
 				npc.frame.Y = 0;
-			else if(npc.ai[0] == 1)
+			else if (npc.ai[0] == 1)
 				npc.frame.Y = frameHeight;
-			else if(npc.ai[0] == 2) {
-				if(npc.alpha >= 0 && npc.alpha < 100)
+			else if (npc.ai[0] == 2) {
+				if (npc.alpha >= 0 && npc.alpha < 100)
 					npc.frame.Y = 0;
-				else if(npc.alpha >= 100 && npc.alpha < 175)
+				else if (npc.alpha >= 100 && npc.alpha < 175)
 					npc.frame.Y = frameHeight * 2;
-				else if(npc.alpha >= 175 && npc.alpha < 255)
+				else if (npc.alpha >= 175 && npc.alpha < 255)
 					npc.frame.Y = frameHeight * 3;
 			}
 		}

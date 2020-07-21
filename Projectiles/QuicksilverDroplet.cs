@@ -25,7 +25,7 @@ namespace SpiritMod.Projectiles
 
 		public override bool PreAI()
 		{
-			if(Main.rand.Next(2) == 1) {
+			if (Main.rand.Next(2) == 1) {
 				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.SilverCoin, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 				Main.dust[dust].scale = 2f;
 				Main.dust[dust].noGravity = true;
@@ -36,7 +36,7 @@ namespace SpiritMod.Projectiles
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			Player player = Main.player[projectile.owner];
-			if(Main.rand.Next(2) == 1) {
+			if (Main.rand.Next(2) == 1) {
 				player.statLife += 4;
 				player.HealEffect(4);
 			}

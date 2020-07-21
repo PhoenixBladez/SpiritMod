@@ -52,17 +52,18 @@ namespace SpiritMod.Projectiles.Flail
 			Vector2 vector2 = to - vector;
 			float rotation = (float)Math.Atan2((double)vector2.Y, (double)vector2.X) - 1.57f;
 			bool flag = true;
-			if(float.IsNaN(vector.X) && float.IsNaN(vector.Y)) {
+			if (float.IsNaN(vector.X) && float.IsNaN(vector.Y)) {
 				flag = false;
 			}
-			if(float.IsNaN(vector2.X) && float.IsNaN(vector2.Y)) {
+			if (float.IsNaN(vector2.X) && float.IsNaN(vector2.Y)) {
 				flag = false;
 			}
 
-			while(flag) {
-				if((double)vector2.Length() < (double)num + 1.0) {
+			while (flag) {
+				if ((double)vector2.Length() < (double)num + 1.0) {
 					flag = false;
-				} else {
+				}
+				else {
 					Vector2 value = vector2;
 					value.Normalize();
 					vector += value * num;
@@ -88,8 +89,8 @@ namespace SpiritMod.Projectiles.Flail
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(target.life <= 0) {
-				if(projectile.friendly && !projectile.hostile) {
+			if (target.life <= 0) {
+				if (projectile.friendly && !projectile.hostile) {
 					ProjectileExtras.Explode(projectile.whoAmI, 30, 30,
 					delegate {
 					});
@@ -97,13 +98,13 @@ namespace SpiritMod.Projectiles.Flail
 				}
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
 				{
-					for(int i = 0; i < 20; i++) {
+					for (int i = 0; i < 20; i++) {
 						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 226, 0f, -2f, 0, default(Color), 2f);
 						Main.dust[num].noGravity = true;
 						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 						Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
 						Main.dust[num].scale *= .25f;
-						if(Main.dust[num].position != projectile.Center)
+						if (Main.dust[num].position != projectile.Center)
 							Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
 					}
 				}

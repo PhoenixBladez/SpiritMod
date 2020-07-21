@@ -11,7 +11,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 
 	public class ChildofScarabeus : ModNPC
 	{
-				int moveSpeed = 0;
+		int moveSpeed = 0;
 		int moveSpeedY = 0;
 		float HomeY = 120f;
 		//private float SpeedMax = 33f;
@@ -58,7 +58,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			bool expertMode = Main.expertMode;
 			shoottimer++;
 			{
-				if(shoottimer >= 180) {
+				if (shoottimer >= 180) {
 					Main.PlaySound(SoundID.Item, (int)npc.Center.X, (int)npc.Center.Y, 20);
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
 					direction.Normalize();
@@ -66,7 +66,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 					direction.Y *= 8f;
 
 					int amountOfProjectiles = 1;
-					for(int i = 0; i < amountOfProjectiles; ++i) {
+					for (int i = 0; i < amountOfProjectiles; ++i) {
 						int damage = expertMode ? 8 : 17;
 						float A = (float)Main.rand.Next(-50, 50) * 0.02f;
 						float B = (float)Main.rand.Next(-50, 50) * 0.02f;
@@ -78,24 +78,24 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			}
 			{
 				{
-					if(npc.Center.X >= player.Center.X && moveSpeed >= -30) // flies to players x position
+					if (npc.Center.X >= player.Center.X && moveSpeed >= -30) // flies to players x position
 					{
 						moveSpeed--;
 					}
 
-					if(npc.Center.X <= player.Center.X && moveSpeed <= 30) {
+					if (npc.Center.X <= player.Center.X && moveSpeed <= 30) {
 						moveSpeed++;
 					}
 
 					npc.velocity.X = moveSpeed * 0.1f;
 
-					if(npc.Center.Y >= player.Center.Y - HomeY && moveSpeedY >= -27) //Flies to players Y position
+					if (npc.Center.Y >= player.Center.Y - HomeY && moveSpeedY >= -27) //Flies to players Y position
 					{
 						moveSpeedY--;
 						HomeY = 160f;
 					}
 
-					if(npc.Center.Y <= player.Center.Y - HomeY && moveSpeedY <= 27) {
+					if (npc.Center.Y <= player.Center.Y - HomeY && moveSpeedY <= 27) {
 						moveSpeedY++;
 					}
 
@@ -111,7 +111,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 							 lightColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 			{
 				Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height / Main.npcFrameCount[npc.type]) * 0.5f);
-				for(int k = 0; k < npc.oldPos.Length; k++) {
+				for (int k = 0; k < npc.oldPos.Length; k++) {
 					Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
 					Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
 					spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
@@ -125,10 +125,10 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			for(int k = 0; k < 5; k++) {
+			for (int k = 0; k < 5; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
 			}
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Scarabeus/LittleScarab1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Scarabeus/LittleScarab5"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Scarabeus/LittleScarab2"), 1f);
@@ -140,26 +140,26 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				npc.height = 60;
 				npc.position.X = npc.position.X - (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
-				for(int num621 = 0; num621 < 30; num621++) {
+				for (int num621 = 0; num621 < 30; num621++) {
 					int randomDustType = Main.rand.Next(3);
-					if(randomDustType == 0)
+					if (randomDustType == 0)
 						randomDustType = 5;
-					else if(randomDustType == 1)
+					else if (randomDustType == 1)
 						randomDustType = 36;
 					else
 						randomDustType = 32;
 
 					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, randomDustType, 0f, 0f, 100, default(Color), .82f);
 					Main.dust[num622].velocity *= 3f;
-					if(Main.rand.Next(2) == 0) {
+					if (Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.5f;
 					}
 				}
-				for(int num623 = 0; num623 < 50; num623++) {
+				for (int num623 = 0; num623 < 50; num623++) {
 					int randomDustType = Main.rand.Next(3);
-					if(randomDustType == 0)
+					if (randomDustType == 0)
 						randomDustType = 5;
-					else if(randomDustType == 1)
+					else if (randomDustType == 1)
 						randomDustType = 36;
 					else
 						randomDustType = 32;

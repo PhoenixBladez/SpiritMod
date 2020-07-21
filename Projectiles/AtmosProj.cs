@@ -30,8 +30,8 @@ namespace SpiritMod.Projectiles
 			projectile.Center = new Vector2(player.Center.X + (player.direction > 0 ? 0 : 0), player.position.Y);   // I dont know why I had to set it to -60 so that it would look right   (change to -40 to 40 so that it's on the floor)
 
 			var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
-			foreach(var proj in list) {
-				if(projectile != proj && !proj.friendly && Main.rand.Next(60) == 1 && !proj.minion)
+			foreach (var proj in list) {
+				if (projectile != proj && !proj.friendly && Main.rand.Next(60) == 1 && !proj.minion)
 					proj.Kill();
 			}
 		}

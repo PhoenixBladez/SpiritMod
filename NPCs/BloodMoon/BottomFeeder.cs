@@ -29,9 +29,9 @@ namespace SpiritMod.NPCs.BloodMoon
 			npc.aiStyle = 3;
 			npc.noGravity = false;
 			aiType = NPCID.WalkingAntlion;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.BottomFeederBanner>();
-        }
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.BottomFeederBanner>();
+		}
 		int frame = 1;
 		int timer = 0;
 		int shoottimer = 0;
@@ -45,39 +45,38 @@ namespace SpiritMod.NPCs.BloodMoon
 				Player player = Main.player[npc.target];
 				int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
 
-				if(timer == 4) {
+				if (timer == 4) {
 					frame++;
 					timer = 0;
 				}
-				if(frame >= 8 && distance >= 180) {
+				if (frame >= 8 && distance >= 180) {
 					frame = 1;
-				} else if(frame == 11 && distance < 180) {
+				}
+				else if (frame == 11 && distance < 180) {
 					frame = 8;
 				}
-				if(distance < 178) {
+				if (distance < 178) {
 					shoottimer++;
-					if(!npc.wet) {
+					if (!npc.wet) {
 						npc.velocity = Vector2.Zero;
-						if(npc.velocity == Vector2.Zero) {
+						if (npc.velocity == Vector2.Zero) {
 							npc.velocity.X = .01f * npc.spriteDirection;
 							npc.spriteDirection = -npc.direction;
 							npc.velocity.Y = 10f;
 						}
 					}
-					if(shoottimer >= 8 && shoottimer < 48) {
-                        if (Main.rand.Next(3) == 0)
-                        {
-                            int bloodproj;
-                            bloodproj = Main.rand.Next(new int[] { mod.ProjectileType("Feeder1"), mod.ProjectileType("Feeder2"), mod.ProjectileType("Feeder3") });
-                            bool expertMode = Main.expertMode;
-                            int damage = expertMode ? 10 : 15;
-                            int p = Terraria.Projectile.NewProjectile(npc.Center.X + (7 * npc.direction), npc.Center.Y - 10, -(npc.position.X - target.position.X) / distance * 8, -(npc.position.Y - target.position.Y + Main.rand.Next(-50, 50)) / distance * 8, bloodproj, damage, 0);
-                        }
+					if (shoottimer >= 8 && shoottimer < 48) {
+						if (Main.rand.Next(3) == 0) {
+							int bloodproj;
+							bloodproj = Main.rand.Next(new int[] { mod.ProjectileType("Feeder1"), mod.ProjectileType("Feeder2"), mod.ProjectileType("Feeder3") });
+							bool expertMode = Main.expertMode;
+							int damage = expertMode ? 10 : 15;
+							int p = Terraria.Projectile.NewProjectile(npc.Center.X + (7 * npc.direction), npc.Center.Y - 10, -(npc.position.X - target.position.X) / distance * 8, -(npc.position.Y - target.position.Y + Main.rand.Next(-50, 50)) / distance * 8, bloodproj, damage, 0);
+						}
 					}
-					if (shoottimer >= 96)
-                    {
-                        shoottimer = 0;
-                    }
+					if (shoottimer >= 96) {
+						shoottimer = 0;
+					}
 				}
 
 			}
@@ -88,21 +87,21 @@ namespace SpiritMod.NPCs.BloodMoon
 		}
 		public override void NPCLoot()
 		{
-			if(Main.rand.Next(3) == 1) {
+			if (Main.rand.Next(3) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BottomFeederGun>());
 			}
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BloodFire>(), 2 + Main.rand.Next(2, 4));
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(npc.life <= 0 || npc.life >= 0) {
+			if (npc.life <= 0 || npc.life >= 0) {
 				int d = 5;
-				for(int k = 0; k < 25; k++) {
+				for (int k = 0; k < 25; k++) {
 					Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.47f);
 					Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, .97f);
 				}
 			}
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity * 1.11f, mod.GetGoreSlot("Gores/FeederGore"), 1f);
 				Gore.NewGore(npc.position, npc.velocity * 1.11f, mod.GetGoreSlot("Gores/FeederGore1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity * 1.11f, mod.GetGoreSlot("Gores/FeederGore1"), 1f);

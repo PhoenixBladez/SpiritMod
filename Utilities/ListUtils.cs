@@ -6,7 +6,7 @@ namespace SpiritMod.Utilities
 	{
 		public static void AddWithCondition<T>(this List<T> list, T item, bool condition)
 		{
-			if(condition) {
+			if (condition) {
 				list.Add(item);
 			}
 		}

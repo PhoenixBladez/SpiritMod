@@ -26,7 +26,7 @@ namespace SpiritMod.Projectiles
 
 		public override void AI()
 		{
-			for(int i = 0; i < 10; i++) {
+			for (int i = 0; i < 10; i++) {
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 				int num = Dust.NewDust(new Vector2(x, y), 26, 26, 244, 0f, 0f, 0, default(Color), 1f);

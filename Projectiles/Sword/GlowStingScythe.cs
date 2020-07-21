@@ -33,7 +33,7 @@ namespace SpiritMod.Projectiles.Sword
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(5) == 0)
+			if (Main.rand.Next(5) == 0)
 				target.AddBuff(ModContent.BuffType<StarFlame>(), 180);
 		}
 

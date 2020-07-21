@@ -23,7 +23,7 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 2; i++) {
+			for (int i = 0; i < 2; i++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 68);
 			}
 
@@ -40,15 +40,15 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.rotation += 0.3f;
 
 
-			for(int i = 1; i <= 3; i++) {
-				if(Main.rand.Next(4) == 0)
+			for (int i = 1; i <= 3; i++) {
+				if (Main.rand.Next(4) == 0)
 					Dust.NewDust(projectile.position, projectile.width, projectile.height, 68);
 			}
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(8) == 0)
+			if (Main.rand.Next(8) == 0)
 				target.AddBuff(BuffID.Frostburn, 300, true);
 		}
 

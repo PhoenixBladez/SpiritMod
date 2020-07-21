@@ -36,13 +36,13 @@ namespace SpiritMod.Projectiles.Magic.Artifact
 		public override void AI()
 		{
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 4) {
+			if (projectile.frameCounter >= 4) {
 				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
 				projectile.frameCounter = 0;
 			}
 
 			Player player = Main.player[projectile.owner];
-			if(player.GetSpiritPlayer().SoulStone == true && player.active && !player.dead)
+			if (player.GetSpiritPlayer().SoulStone == true && player.active && !player.dead)
 				projectile.timeLeft = 2;
 
 			timer++;
@@ -50,14 +50,14 @@ namespace SpiritMod.Projectiles.Magic.Artifact
 
 			//TARGET NEAREST NPC WITHIN RANGE
 			float lowestDist = float.MaxValue;
-			foreach(NPC npc in Main.npc) {
+			foreach (NPC npc in Main.npc) {
 				//if npc is a valid target (active, not friendly, and not a critter)
-				if(npc.active && !npc.friendly && npc.catchItem == 0) {
+				if (npc.active && !npc.friendly && npc.catchItem == 0) {
 					//if npc is within 50 blocks
 					float dist = projectile.Distance(npc.Center);
-					if(dist / 16 < range) {
+					if (dist / 16 < range) {
 						//if npc is closer than closest found npc
-						if(dist < lowestDist) {
+						if (dist < lowestDist) {
 							lowestDist = dist;
 
 							//target this npc
@@ -79,12 +79,12 @@ namespace SpiritMod.Projectiles.Magic.Artifact
 
 			bool flag25 = false;
 			int jim = 1;
-			for(int index1 = 0; index1 < 200; index1++) {
-				if(Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1)) {
+			for (int index1 = 0; index1 < 200; index1++) {
+				if (Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1)) {
 					float num23 = Main.npc[index1].position.X + (float)(Main.npc[index1].width / 2);
 					float num24 = Main.npc[index1].position.Y + (float)(Main.npc[index1].height / 2);
 					float num25 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num23) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num24);
-					if(num25 < 500f) {
+					if (num25 < 500f) {
 						flag25 = true;
 						jim = index1;
 					}
@@ -92,7 +92,7 @@ namespace SpiritMod.Projectiles.Magic.Artifact
 				}
 			}
 
-			if(flag25) {
+			if (flag25) {
 				float num1 = 10f;
 				Vector2 vector2 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
 				float num2 = Main.npc[jim].Center.X - vector2.X;
@@ -104,10 +104,11 @@ namespace SpiritMod.Projectiles.Magic.Artifact
 				int num8 = 10;
 				projectile.velocity.X = (projectile.velocity.X * (float)(num8 - 1) + num6) / (float)num8;
 				projectile.velocity.Y = (projectile.velocity.Y * (float)(num8 - 1) + num7) / (float)num8;
-			} else {
+			}
+			else {
 				var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
-				foreach(var proj in list) {
-					if(projectile != proj && proj.hostile)
+				foreach (var proj in list) {
+					if (projectile != proj && proj.hostile)
 						proj.Kill();
 
 					projectile.ai[0] += .02f;
@@ -118,20 +119,20 @@ namespace SpiritMod.Projectiles.Magic.Artifact
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(4) == 0)
+			if (Main.rand.Next(4) == 0)
 				target.AddBuff(mod.BuffType("ShadowBurn1"), 180);
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 10; i++) {
+			for (int i = 0; i < 10; i++) {
 				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, -2f, 0, default(Color), 2f);
 				Main.dust[num].noGravity = true;
 				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Fire>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
-				if(Main.dust[num].position != projectile.Center) {
+				if (Main.dust[num].position != projectile.Center) {
 					Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
 				}
 			}

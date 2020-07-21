@@ -138,12 +138,12 @@ namespace SpiritMod.World
 		{
 			bool placed = false;
 			int attempts = 0;
-			while(!placed && attempts++ < 100000) {
+			while (!placed && attempts++ < 100000) {
 				// Select a place in the first 4th of the world, avoiding the oceans
 				int towerX = WorldGen.genRand.Next(300, Main.maxTilesX / 4); // from 50 since there's a unaccessible area at the world's borders
 																			 // 50% of choosing the last 4th of the world
 																			 // Choose which side of the world to be on randomly
-				if(WorldGen.genRand.NextBool()) {
+				if (WorldGen.genRand.NextBool()) {
 					towerX = Main.maxTilesX - towerX;
 				}
 
@@ -151,17 +151,17 @@ namespace SpiritMod.World
 				int towerY = (int)Main.worldSurface - 200;
 
 				// We go down until we hit a solid tile or go under the world's surface
-				while(!WorldGen.SolidTile(towerX, towerY) && towerY <= Main.worldSurface) {
+				while (!WorldGen.SolidTile(towerX, towerY) && towerY <= Main.worldSurface) {
 					towerY++;
 				}
 
 				// If we went under the world's surface, try again
-				if(towerY > Main.worldSurface) {
+				if (towerY > Main.worldSurface) {
 					continue;
 				}
 				Tile tile = Main.tile[towerX, towerY];
 				// If the type of the tile we are placing the hideout on doesn't match what we want, try again
-				if(!(tile.type == TileID.Dirt
+				if (!(tile.type == TileID.Dirt
 					|| tile.type == TileID.Grass
 					|| tile.type == TileID.Stone
 					|| tile.type == TileID.Mud
@@ -176,7 +176,7 @@ namespace SpiritMod.World
 				}
 
 				// Don't place the hideout if the area isn't flat
-				if(!MyWorld.CheckFlat(towerX, towerY, Tiles.GetLength(1), 3))
+				if (!MyWorld.CheckFlat(towerX, towerY, Tiles.GetLength(1), 3))
 					continue;
 
 				Place(towerX, towerY);
@@ -188,13 +188,13 @@ namespace SpiritMod.World
 
 				placed = true;
 			}
-			if(!placed) SpiritMod.instance.Logger.Error("Worldgen: FAILED to place Bandit Hideout, ground not flat enough?");
+			if (!placed) SpiritMod.instance.Logger.Error("Worldgen: FAILED to place Bandit Hideout, ground not flat enough?");
 			return placed;
 		}
 
 		protected override TileData TileMap(int tile, int x, int y)
 		{
-			switch(tile) {
+			switch (tile) {
 				case 1:
 					return new TileData(TileID.WoodBlock);
 				case 2:
@@ -216,7 +216,7 @@ namespace SpiritMod.World
 
 		protected override TileData FurnitureMap(int tile, int x, int y)
 		{
-			switch(tile) {
+			switch (tile) {
 				case 4:
 					return new ObjectData(TileID.Furnaces);
 				case 5:
@@ -253,7 +253,7 @@ namespace SpiritMod.World
 
 		protected override WallData WallMap(int wall, int x, int y)
 		{
-			switch(wall) {
+			switch (wall) {
 				case 4:
 					return new WallData(WallID.Wood);
 				case 6:

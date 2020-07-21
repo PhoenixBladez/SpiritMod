@@ -45,15 +45,17 @@ namespace SpiritMod.Items.DonatorItems
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.GrenadeI, (int)(damage * 1.25), knockBack, player.whoAmI);
-			} else {
-				for(int i = 0; i < 5; i++) {
+			}
+			else {
+				for (int i = 0; i < 5; i++) {
 					Vector2 origVect = new Vector2(speedX, speedY);
 					Vector2 velocity;
-					if(Main.rand.Next(2) == 1) {
+					if (Main.rand.Next(2) == 1) {
 						velocity = origVect.RotatedBy(Math.PI * (Main.rand.NextDouble() * .09));
-					} else {
+					}
+					else {
 						velocity = origVect.RotatedBy(-Math.PI * (Main.rand.NextDouble() * .09));
 					}
 					velocity *= .75f + Main.rand.NextFloat(.5f);

@@ -25,10 +25,10 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
 			dustType = 0;//ModContent.DustType<Pixel>();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Elderbark Lantern");
-            AddMapEntry(new Color(179, 146, 107), name);
-            adjTiles = new int[] { TileID.Torches };
+			ModTranslation name = CreateMapEntryName();
+			name.SetDefault("Elderbark Lantern");
+			AddMapEntry(new Color(179, 146, 107), name);
+			adjTiles = new int[] { TileID.Torches };
 		}
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)

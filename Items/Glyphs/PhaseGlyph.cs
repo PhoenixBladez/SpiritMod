@@ -6,7 +6,7 @@ namespace SpiritMod.Items.Glyphs
 {
 	public class PhaseGlyph : GlyphBase, IGlowing
 	{
-				public static Microsoft.Xna.Framework.Graphics.Texture2D[] _textures;
+		public static Microsoft.Xna.Framework.Graphics.Texture2D[] _textures;
 
 		Microsoft.Xna.Framework.Graphics.Texture2D IGlowing.Glowmask(out float bias)
 		{
@@ -54,7 +54,7 @@ namespace SpiritMod.Items.Glyphs
 		public static void PhaseEffects(Player player, ref int damage, bool crit)
 		{
 			float scale = 1f;
-			if(crit)
+			if (crit)
 				scale += 0.07f;
 
 			damage = (int)(damage * scale);

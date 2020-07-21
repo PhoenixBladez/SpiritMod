@@ -17,7 +17,7 @@ namespace SpiritMod.Buffs
 		{
 			npc.GetGlobalNPC<GNPC>().Etrap = true;
 
-			if(Main.rand.NextBool(3)) {
+			if (Main.rand.NextBool(3)) {
 				int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Vortex);
 				Main.dust[dust].noGravity = true;
 			}

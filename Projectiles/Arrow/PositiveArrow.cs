@@ -32,13 +32,13 @@ namespace SpiritMod.Projectiles.Arrow
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 3; i++) {
+			for (int i = 0; i < 3; i++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 226);
 			}
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			if(!stuck) {
+			if (!stuck) {
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 				projectile.position += projectile.velocity * 2;
 				stuck = true;
@@ -52,14 +52,14 @@ namespace SpiritMod.Projectiles.Arrow
 		{
 			//int num = 5;
 
-			if(projectile.damage != 0) {
+			if (projectile.damage != 0) {
 				damage = projectile.damage;
 			}
-			if(stuck) {
+			if (stuck) {
 				//	return false;
 				projectile.velocity = Vector2.Zero;
 			}
-			if(ai0 != 0) {
+			if (ai0 != 0) {
 				projectile.friendly = false;
 				projectile.ignoreWater = true;
 				projectile.tileCollide = false;
@@ -67,31 +67,32 @@ namespace SpiritMod.Projectiles.Arrow
 				bool flag52 = false;
 				bool flag53 = false;
 				ai2 += 1f;
-				if(ai2 % 30f == 0f)
+				if (ai2 % 30f == 0f)
 					flag53 = true;
 
 				int num997 = (int)ai1;
-				if(ai2 >= (float)(60 * num996))
+				if (ai2 >= (float)(60 * num996))
 					flag52 = true;
-				else if(num997 < 0 || num997 >= 200)
+				else if (num997 < 0 || num997 >= 200)
 					flag52 = true;
-				else if(Main.npc[num997].active && !Main.npc[num997].dontTakeDamage) {
+				else if (Main.npc[num997].active && !Main.npc[num997].dontTakeDamage) {
 					projectile.Center = Main.npc[num997].Center - projectile.velocity * 2f;
 					projectile.gfxOffY = Main.npc[num997].gfxOffY;
-					if(flag53) {
+					if (flag53) {
 						Main.npc[num997].HitEffect(0, 1.0);
 					}
-				} else
+				}
+				else
 					flag52 = true;
 
-				if(flag52)
+				if (flag52)
 					projectile.Kill();
 			}
 			return base.PreAI();
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(projectile.timeLeft > 10) {
+			if (projectile.timeLeft > 10) {
 				ai0 = 1f;
 				ai1 = (float)target.whoAmI;
 				projectile.velocity = (target.Center - projectile.Center) * 0.75f;
@@ -102,18 +103,18 @@ namespace SpiritMod.Projectiles.Arrow
 				Point[] array2 = new Point[num31];
 				int num32 = 0;
 
-				for(int n = 0; n < 1000; n++) {
-					if(n != projectile.whoAmI && Main.projectile[n].active && Main.projectile[n].owner == Main.myPlayer && Main.projectile[n].type == projectile.type && Main.projectile[n].ai[0] == 1f && Main.projectile[n].ai[1] == target.whoAmI) {
+				for (int n = 0; n < 1000; n++) {
+					if (n != projectile.whoAmI && Main.projectile[n].active && Main.projectile[n].owner == Main.myPlayer && Main.projectile[n].type == projectile.type && Main.projectile[n].ai[0] == 1f && Main.projectile[n].ai[1] == target.whoAmI) {
 						array2[num32++] = new Point(n, Main.projectile[n].timeLeft);
-						if(num32 >= array2.Length)
+						if (num32 >= array2.Length)
 							break;
 					}
 				}
 
-				if(num32 >= array2.Length) {
+				if (num32 >= array2.Length) {
 					int num33 = 0;
-					for(int num34 = 1; num34 < array2.Length; num34++) {
-						if(array2[num34].Y < array2[num33].Y)
+					for (int num34 = 1; num34 < array2.Length; num34++) {
+						if (array2[num34].Y < array2[num33].Y)
 							num33 = num34;
 					}
 					Main.projectile[array2[num33].X].Kill();
@@ -123,14 +124,14 @@ namespace SpiritMod.Projectiles.Arrow
 		public override void AI()
 		{
 			var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
-			foreach(var proj in list) {
-				if(proj.type == ModContent.ProjectileType<NegativeArrow>() && proj.active) {
+			foreach (var proj in list) {
+				if (proj.type == ModContent.ProjectileType<NegativeArrow>() && proj.active) {
 					projectile.damage = damage;
 					proj.active = false;
 					proj.timeLeft = 2;
 
 					Main.PlaySound(SoundID.Item93, projectile.position);
-					for(int num621 = 0; num621 < 40; num621++) {
+					for (int num621 = 0; num621 < 40; num621++) {
 						int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 226, 0f, 0f, 100, default, 2f);
 						Main.dust[num622].velocity *= 3f;
 						Main.dust[num622].noGravity = true;

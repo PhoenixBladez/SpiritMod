@@ -26,19 +26,19 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			TileObjectData.addTile(Type);
 			disableSmartCursor = true;
 			dustType -= 1;
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Broken Air Conditioner");
-            AddMapEntry(new Color(100, 122, 111), name);
-        }
+			ModTranslation name = CreateMapEntryName();
+			name.SetDefault("Broken Air Conditioner");
+			AddMapEntry(new Color(100, 122, 111), name);
+		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)
 		{
 			num = fail ? 1 : 3;
 		}
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
-            Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<Items.Placeable.Furniture.Acid.AcidAC>());
-        }
-    }
+		public override void KillMultiTile(int i, int j, int frameX, int frameY)
+		{
+			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
+			Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<Items.Placeable.Furniture.Acid.AcidAC>());
+		}
+	}
 }

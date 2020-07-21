@@ -43,7 +43,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			float spread = 10f * 0.0174f;
 			double startAngle = Math.Atan2(speedX, speedY) - spread / 2;
 			double deltaAngle = spread / 8f;
-			for(int i = 0; i < 36; i++) {
+			for (int i = 0; i < 36; i++) {
 				double offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
 				Projectile.NewProjectile(position.X, position.Y, (float)(Math.Sin(offsetAngle) * 3f), (float)(Math.Cos(offsetAngle) * 3f), item.shoot, damage, knockBack, player.whoAmI);
 				Projectile.NewProjectile(position.X, position.Y, (float)(-Math.Sin(offsetAngle) * 3f), (float)(-Math.Cos(offsetAngle) * 3f), item.shoot, damage, knockBack, player.whoAmI);

@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Accessory
 		}
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			if(player.ZoneDesert) {
+			if (player.ZoneDesert) {
 				player.buffImmune[BuffID.WindPushed] = true;
 			}
 		}

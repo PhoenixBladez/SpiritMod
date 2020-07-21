@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Armor.StarArmor
 		public override void UpdateEquip(Player player)
 		{
 			player.rangedDamage += .05f;
-			if(player.velocity.X != 0f) {
+			if (player.velocity.X != 0f) {
 				int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 0, 226);
 				Main.dust[dust].velocity *= 0f;
 				Main.dust[dust].scale *= .4f;

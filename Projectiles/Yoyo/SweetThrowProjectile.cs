@@ -26,7 +26,7 @@ namespace SpiritMod.Projectiles.Yoyo
 		public override void AI()
 		{
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 100) {
+			if (projectile.frameCounter >= 100) {
 				projectile.frameCounter = 0;
 				float rotation = (float)(Main.rand.Next(0, 361) * (Math.PI / 180));
 				Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));

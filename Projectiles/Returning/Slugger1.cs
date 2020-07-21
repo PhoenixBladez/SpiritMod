@@ -28,7 +28,7 @@ namespace SpiritMod.Projectiles.Returning
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-			for(int k = 0; k < projectile.oldPos.Length; k++) {
+			for (int k = 0; k < projectile.oldPos.Length; k++) {
 				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
 				Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
 				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
@@ -38,7 +38,7 @@ namespace SpiritMod.Projectiles.Returning
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			int d = 173;
-			for(int k = 0; k < 6; k++) {
+			for (int k = 0; k < 6; k++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * projectile.direction, -2.5f, 0, Color.White, 0.7f);
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 2.5f * projectile.direction, -2.5f, 0, Color.White, 0.7f);
 			}

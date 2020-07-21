@@ -29,7 +29,7 @@ namespace SpiritMod.Projectiles.Thrown.Charge
 		}
 		public override void AI()
 		{
-			if(Main.rand.Next(8) == 0) {
+			if (Main.rand.Next(8) == 0) {
 				int d = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 6, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 				Main.dust[d].scale *= 1.85f;
 				Main.dust[d].noGravity = true;
@@ -52,7 +52,7 @@ namespace SpiritMod.Projectiles.Thrown.Charge
 			Vector2 vector9 = projectile.position;
 			Vector2 value19 = (projectile.rotation - 1.57079637f).ToRotationVector2();
 			vector9 += value19 * 16f;
-			for(int num257 = 0; num257 < 20; num257++) {
+			for (int num257 = 0; num257 < 20; num257++) {
 				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, 6, 0f, 0f, 0, default(Color), 1f);
 				Main.dust[newDust].position = (Main.dust[newDust].position + projectile.Center) / 2f;
 				Main.dust[newDust].velocity += value19 * 2f;

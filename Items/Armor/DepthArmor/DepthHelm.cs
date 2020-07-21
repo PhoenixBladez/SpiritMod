@@ -31,8 +31,8 @@ namespace SpiritMod.Items.Armor.DepthArmor
 			player.maxMinions += 1;
 		}
 
-		public override bool IsArmorSet(Item head, Item body, Item legs) 
-			=> body.type == ModContent.ItemType<DepthChest>() 
+		public override bool IsArmorSet(Item head, Item body, Item legs)
+			=> body.type == ModContent.ItemType<DepthChest>()
 			&& legs.type == ModContent.ItemType<DepthGreaves>();
 
 		public override void UpdateArmorSet(Player player)

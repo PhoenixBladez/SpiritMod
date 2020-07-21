@@ -40,11 +40,10 @@ namespace SpiritMod.Items.Weapon.Thrown
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if (player.HasBuff(mod.BuffType("CrimsonSkullBuff")))
-			{
+			if (player.HasBuff(mod.BuffType("CrimsonSkullBuff"))) {
 				damage *= 2;
 			}
-			return base.Shoot(player,ref position,ref speedX,ref speedY,ref type,ref damage,ref knockBack);
+			return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
 		}
 	}
 }

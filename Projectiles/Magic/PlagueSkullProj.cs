@@ -28,14 +28,14 @@ namespace SpiritMod.Projectiles.Magic
 		public override void AI()
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Pi;
-			if(Main.rand.Next(5) == 0) {
+			if (Main.rand.Next(5) == 0) {
 				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 61, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 				Main.dust[dust].noGravity = true;
 			}
 
 			projectile.rotation += 0.5f;
 
-			if(projectile.owner == Main.myPlayer && projectile.timeLeft <= 3) {
+			if (projectile.owner == Main.myPlayer && projectile.timeLeft <= 3) {
 				projectile.tileCollide = false;
 				projectile.ai[1] = 0f;
 				projectile.alpha = 255;
@@ -54,24 +54,24 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			{
-				for(int num621 = 0; num621 < 40; num621++) {
+				for (int num621 = 0; num621 < 40; num621++) {
 					int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 75, 0f, 0f, 100, default(Color), 2f);
 					Main.dust[num622].velocity *= 1.5f;
-					if(Main.rand.Next(2) == 0) {
+					if (Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 					}
 				}
 
 				Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 6);
-				for(int I = 0; I < 8; I++)
+				for (int I = 0; I < 8; I++)
 					Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 75, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
 			}
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(5) == 0)
+			if (Main.rand.Next(5) == 0)
 				target.AddBuff(ModContent.BuffType<FelBrand>(), 180);
 		}
 

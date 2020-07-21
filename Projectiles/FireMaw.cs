@@ -36,11 +36,11 @@ namespace SpiritMod.Projectiles
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 
-			for(int num625 = 0; num625 < 3; num625++) {
+			for (int num625 = 0; num625 < 3; num625++) {
 				float scaleFactor10 = 0.33f;
-				if(num625 == 1)
+				if (num625 == 1)
 					scaleFactor10 = 0.66f;
-				else if(num625 == 2)
+				else if (num625 == 2)
 					scaleFactor10 = 1f;
 
 				int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default(Vector2), Main.rand.Next(61, 64), 1f);
@@ -95,7 +95,7 @@ namespace SpiritMod.Projectiles
 			Vector2 center = projectile.Center;
 			float num8 = (float)player.miscCounter / 60f;
 			float num7 = 2.09439516f;
-			for(int i = 0; i < 3; i++) {
+			for (int i = 0; i < 3; i++) {
 				int num6 = Dust.NewDust(center, 0, 0, 6, 0f, 0f, 100, default(Color), 1f);
 				Main.dust[num6].noGravity = true;
 				Main.dust[num6].velocity = Vector2.Zero;

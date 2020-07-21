@@ -19,9 +19,9 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Corrosive Bed");
-            AddMapEntry(new Color(100, 122, 111), name);
-            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
-            disableSmartCursor = true;
+			AddMapEntry(new Color(100, 122, 111), name);
+			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
+			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.Beds };
 			bed = true;
 		}
@@ -32,9 +32,9 @@ namespace SpiritMod.Tiles.Furniture.Acid
 		}
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
-            Terraria.Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<AcidBed>());
+		{
+			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
+			Terraria.Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<AcidBed>());
 		}
 
 		public override void RightClick(int i, int j)
@@ -44,14 +44,15 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			int spawnX = i - tile.frameX / 18;
 			int spawnY = j + 2;
 			spawnX += tile.frameX >= 72 ? 5 : 2;
-			if(tile.frameY % 38 != 0) {
+			if (tile.frameY % 38 != 0) {
 				spawnY--;
 			}
 			player.FindSpawn();
-			if(player.SpawnX == spawnX && player.SpawnY == spawnY) {
+			if (player.SpawnX == spawnX && player.SpawnY == spawnY) {
 				player.RemoveSpawn();
 				Main.NewText("Spawn point removed!", 255, 240, 20, false);
-			} else if(Player.CheckSpawn(spawnX, spawnY)) {
+			}
+			else if (Player.CheckSpawn(spawnX, spawnY)) {
 				player.ChangeSpawn(spawnX, spawnY);
 				Main.NewText("Spawn point set!", 255, 240, 20, false);
 			}

@@ -34,8 +34,8 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Corrosive Chest");
-            AddMapEntry(new Color(100, 122, 111), name);
-            dustType = 0;
+			AddMapEntry(new Color(100, 122, 111), name);
+			dustType = 0;
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.Containers };
 			chestDrop = ModContent.ItemType<Items.Placeable.Furniture.Acid.AcidChest>();
@@ -47,16 +47,17 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			int left = i;
 			int top = j;
 			Tile tile = Main.tile[i, j];
-			if(tile.frameX % 36 != 0) {
+			if (tile.frameX % 36 != 0) {
 				left--;
 			}
-			if(tile.frameY != 0) {
+			if (tile.frameY != 0) {
 				top--;
 			}
 			int chest = Chest.FindChest(left, top);
-			if(Main.chest[chest].name == "") {
+			if (Main.chest[chest].name == "") {
 				return name;
-			} else {
+			}
+			else {
 				return name + ": " + Main.chest[chest].name;
 			}
 		}
@@ -67,9 +68,9 @@ namespace SpiritMod.Tiles.Furniture.Acid
 		}
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
-            Item.NewItem(i * 16, j * 16, 32, 32, chestDrop);
+		{
+			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
+			Item.NewItem(i * 16, j * 16, 32, 32, chestDrop);
 			Chest.DestroyChest(i, j);
 		}
 
@@ -134,28 +135,29 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			return true;
 		}
 		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
-        {
-            offsetY = 2;
-        }
-        public override void MouseOver(int i, int j)
+		{
+			offsetY = 2;
+		}
+		public override void MouseOver(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
 			Tile tile = Main.tile[i, j];
 			int left = i;
 			int top = j;
-			if(tile.frameX % 36 != 0) {
+			if (tile.frameX % 36 != 0) {
 				left--;
 			}
-			if(tile.frameY != 0) {
+			if (tile.frameY != 0) {
 				top--;
 			}
 			int chest = Chest.FindChest(left, top);
 			player.showItemIcon2 = -1;
-			if(chest < 0) {
+			if (chest < 0) {
 				player.showItemIconText = Lang.chestType[0].Value;
-			} else {
+			}
+			else {
 				player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Corrosive Chest";
-				if(player.showItemIconText == "Corrosive Chest") {
+				if (player.showItemIconText == "Corrosive Chest") {
 					player.showItemIcon2 = ModContent.ItemType<Items.Placeable.Furniture.Acid.AcidChest>();
 					player.showItemIconText = "";
 				}
@@ -168,7 +170,7 @@ namespace SpiritMod.Tiles.Furniture.Acid
 		{
 			MouseOver(i, j);
 			Player player = Main.LocalPlayer;
-			if(player.showItemIconText == "") {
+			if (player.showItemIconText == "") {
 				player.showItemIcon = false;
 				player.showItemIcon2 = 0;
 			}

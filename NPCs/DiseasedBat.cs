@@ -30,13 +30,13 @@ namespace SpiritMod.NPCs
 			npc.aiStyle = 14;
 			aiType = NPCID.CaveBat;
 			animationType = NPCID.CaveBat;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.DiseasedBatBanner>();
-        }
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.DiseasedBatBanner>();
+		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if(spawnInfo.playerSafe) {
+			if (spawnInfo.playerSafe) {
 				return 0f;
 			}
 			return SpawnCondition.Underground.Chance * 0.22f;
@@ -44,27 +44,27 @@ namespace SpiritMod.NPCs
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DBat1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Dbat2"), 1f);
 			}
 		}
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if(Main.rand.Next(3) == 0) {
+			if (Main.rand.Next(3) == 0) {
 				target.AddBuff(ModContent.BuffType<FesteringWounds>(), 180);
 			}
-			if(Main.rand.Next(10) == 0 && Main.expertMode) {
+			if (Main.rand.Next(10) == 0 && Main.expertMode) {
 				target.AddBuff(148, 2000);
 			}
 		}
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BismiteCrystal>(), Main.rand.Next(2, 4) + 1);
-			if(Main.rand.Next(1000) == 4) {
+			if (Main.rand.Next(1000) == 4) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DepthMeter);
 			}
-			if(Main.rand.Next(100) == 0) {
+			if (Main.rand.Next(100) == 0) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.ChainKnife);
 			}
 		}

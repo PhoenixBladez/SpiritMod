@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Weapon.Bow
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if(Main.rand.Next(3) == 2)
+			if (Main.rand.Next(3) == 2)
 				Projectile.NewProjectile(position.X, position.Y, speedX * 2f, speedY * 2f, ModContent.ProjectileType<BloodTear>(), damage * 3 / 2, knockBack, player.whoAmI, 0f, 0f);
 			return true;
 		}

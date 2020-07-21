@@ -34,23 +34,27 @@ namespace SpiritMod.Items.Placeable.Tiles
 		}
 		public override void ExtractinatorUse(ref int resultType, ref int resultStack)
 		{
-			if(Main.rand.Next(6) == 0) {
+			if (Main.rand.Next(6) == 0) {
 				string[] lootTable = { "ScarpItem2", "ScrapItem3", "ScrapItem5" };
 				int loot = Main.rand.Next(lootTable.Length);
 				resultType = mod.ItemType(lootTable[loot]);
 				resultStack = Main.rand.Next(1, 4);
-			} else if(Main.rand.Next(10) == 0) {
+			}
+			else if (Main.rand.Next(10) == 0) {
 				string[] lootTable1 = { "ScrapItem1", "ScrapItem4", "ScrapItem6" };
 				int loot2 = Main.rand.Next(lootTable1.Length);
 				resultType = mod.ItemType(lootTable1[loot2]);
 				resultStack = 1;
-			} else if(Main.rand.Next(9) == 0) {
+			}
+			else if (Main.rand.Next(9) == 0) {
 				resultType = Main.rand.Next(new int[] { 2337, 2339 });
 				resultStack = 1;
-			} else if(Main.rand.Next(40) == 0) {
+			}
+			else if (Main.rand.Next(40) == 0) {
 				//resultType = ModContent.ItemType<ScrapGunHarold>();
 				//resultStack = 1;
-			} else {
+			}
+			else {
 				resultType = Main.rand.Next(new int[] { 12, 699, 11, 700, 13, 173, 702, 701 });
 				resultStack = Main.rand.Next(2, 4);
 			}

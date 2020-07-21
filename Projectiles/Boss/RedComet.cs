@@ -27,15 +27,15 @@ namespace SpiritMod.Projectiles.Boss
 		public override bool PreAI()
 		{
 			projectile.alpha -= 40;
-			if(projectile.alpha < 0)
+			if (projectile.alpha < 0)
 				projectile.alpha = 0;
 
 			projectile.spriteDirection = projectile.direction;
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 4) {
+			if (projectile.frameCounter >= 4) {
 				projectile.frame++;
 				projectile.frameCounter = 0;
-				if(projectile.frame >= 5)
+				if (projectile.frame >= 5)
 					projectile.frame = 0;
 
 			}
@@ -43,7 +43,7 @@ namespace SpiritMod.Projectiles.Boss
 		}
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 20; i++) {
+			for (int i = 0; i < 20; i++) {
 				Dust.NewDust(projectile.Center, projectile.width, projectile.height,
 					0, 0, 60, 133);
 			}
@@ -56,9 +56,9 @@ namespace SpiritMod.Projectiles.Boss
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f + 3.14f;
 			projectile.localAI[0] += 1f;
-			if(projectile.localAI[0] == 16f) {
+			if (projectile.localAI[0] == 16f) {
 				projectile.localAI[0] = 0f;
-				for(int j = 0; j < 10; j++) {
+				for (int j = 0; j < 10; j++) {
 					Vector2 vector2 = Vector2.UnitX * -projectile.width / 2f;
 					vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(8f, 16f);
 					vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default(Vector2));
@@ -72,7 +72,7 @@ namespace SpiritMod.Projectiles.Boss
 				}
 			}
 			int num1222 = 5;
-			for(int k = 0; k < 2; k++) {
+			for (int k = 0; k < 2; k++) {
 				int index2 = Dust.NewDust(projectile.position, 1, 1, 60, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].position = projectile.Center - projectile.velocity / num1222 * (float)k;
 				Main.dust[index2].scale = .95f;

@@ -15,11 +15,11 @@ namespace SpiritMod.Buffs
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			if(!npc.boss) {
+			if (!npc.boss) {
 				npc.GetGlobalNPC<GNPC>().vineTrap = true;
 				npc.velocity.X *= .75f;
 
-				if(Main.rand.NextBool(2)) {
+				if (Main.rand.NextBool(2)) {
 					int dust = Dust.NewDust(npc.position, npc.width, npc.height, 39);
 					Main.dust[dust].scale *= Main.rand.NextFloat(.35f, 1.05f);
 				}

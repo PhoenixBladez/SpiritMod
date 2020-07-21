@@ -24,13 +24,14 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override bool PreAI()
 		{
-			if(projectile.localAI[1] == 0f) {
+			if (projectile.localAI[1] == 0f) {
 				projectile.localAI[1] = 1f;
 				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 8);
-			} else if(projectile.ai[0] == 1f) {
+			}
+			else if (projectile.ai[0] == 1f) {
 				projectile.scale -= 0.01f;
 				projectile.alpha += 50;
-				if(projectile.alpha >= 255) {
+				if (projectile.alpha >= 255) {
 					projectile.ai[0] = 2f;
 					projectile.alpha = 255;
 				}

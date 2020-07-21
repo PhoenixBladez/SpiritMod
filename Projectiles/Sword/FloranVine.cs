@@ -32,14 +32,14 @@ namespace SpiritMod.Projectiles.Sword
 		{
 			float distance = Vector2.Distance(from, to);
 			float step = 1 / distance;
-			for(float w = 0; w < distance; w += 4) {
+			for (float w = 0; w < distance; w += 4) {
 				Dust.NewDustPerfect(Vector2.Lerp(from, to, w * step), 39, Vector2.Zero).noGravity = true;
 			}
 		}
 		public override bool PreAI()
 		{
 			Trail(projectile.position, projectile.position + projectile.velocity);
-			switch(Main.rand.Next(4)) {
+			switch (Main.rand.Next(4)) {
 				case 0:
 					projectile.position.X += 3;
 					projectile.position.Y -= 3;
@@ -61,7 +61,7 @@ namespace SpiritMod.Projectiles.Sword
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(5) == 0)
+			if (Main.rand.Next(5) == 0)
 				target.AddBuff(ModContent.BuffType<VineTrap>(), 180);
 		}
 

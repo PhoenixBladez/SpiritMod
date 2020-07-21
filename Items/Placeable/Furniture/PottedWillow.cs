@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Placeable.Furniture
 			item.height = 28;
 			item.value = Terraria.Item.buyPrice(0, 0, 80, 0);
 
-            item.maxStack = 99;
+			item.maxStack = 99;
 
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = 10;

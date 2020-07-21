@@ -16,7 +16,7 @@ namespace SpiritMod.Buffs.Summon
 		public override void Update(Player player, ref int buffIndex)
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if(!modPlayer.bloomwindSet) {
+			if (!modPlayer.bloomwindSet) {
 				player.DelBuff(buffIndex);
 				buffIndex--;
 				return;

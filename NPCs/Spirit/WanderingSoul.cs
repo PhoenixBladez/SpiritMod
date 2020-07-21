@@ -49,7 +49,7 @@ namespace SpiritMod.NPCs.Spirit
 		private static int[] SpawnTiles = { };
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if(SpawnTiles.Length == 0) {
+			if (SpawnTiles.Length == 0) {
 				int[] Tiles = { ModContent.TileType<SpiritDirt>(), ModContent.TileType<SpiritStone>(), ModContent.TileType<SpiritGrass>(), ModContent.TileType<SpiritIce>() };
 				SpawnTiles = Tiles;
 			}
@@ -58,7 +58,7 @@ namespace SpiritMod.NPCs.Spirit
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, 13);
 				Gore.NewGore(npc.position, npc.velocity, 12);
 				Gore.NewGore(npc.position, npc.velocity, 11);
@@ -67,7 +67,7 @@ namespace SpiritMod.NPCs.Spirit
 
 		public override void NPCLoot()
 		{
-			if(Main.rand.Next(3) == 1)
+			if (Main.rand.Next(3) == 1)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Material.Rune>());
 		}
 

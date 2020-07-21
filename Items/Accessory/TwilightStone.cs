@@ -27,12 +27,13 @@ namespace SpiritMod.Items.Accessory
 		{
 			player.meleeDamage += 0.08f;
 			player.rangedDamage += .08f;
-			if(Main.dayTime) {
+			if (Main.dayTime) {
 				player.meleeDamage += 0.04f;
 				player.rangedDamage += .04f;
 				player.magicDamage += .04f;
 				player.minionDamage += .04f;
-			} else {
+			}
+			else {
 				player.lifeRegen += 1;
 			}
 			float defBoost = (float)(player.statLifeMax2 - player.statLife) / (float)player.statLifeMax2 * 7f;

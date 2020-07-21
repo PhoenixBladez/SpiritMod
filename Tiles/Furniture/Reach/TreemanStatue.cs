@@ -29,10 +29,10 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			adjTiles = new int[] { TileID.WorkBenches };
 			adjTiles = new int[] { TileID.Bookcases };
 			adjTiles = new int[] { TileID.Bottles };
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Statue of the Old Gods");
-            AddMapEntry(new Color(179, 146, 107), name);
-        }
+			ModTranslation name = CreateMapEntryName();
+			name.SetDefault("Statue of the Old Gods");
+			AddMapEntry(new Color(179, 146, 107), name);
+		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)
 		{

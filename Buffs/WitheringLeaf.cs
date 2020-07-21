@@ -15,7 +15,7 @@ namespace SpiritMod.Buffs
 		{
 			npc.defense -= 2;
 
-			if(Main.rand.NextBool(6)) {
+			if (Main.rand.NextBool(6)) {
 				int dust = Dust.NewDust(npc.position, npc.width, npc.height, 3);
 				Main.dust[dust].scale = 1f;
 			}

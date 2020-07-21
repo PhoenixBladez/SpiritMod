@@ -46,9 +46,9 @@ namespace SpiritMod.NPCs.Asteroid
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath14;
 			npc.netAlways = true;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.StardancerBanner>();
-            for (int k = 0; k < npc.buffImmune.Length; k++) {
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.StardancerBanner>();
+			for (int k = 0; k < npc.buffImmune.Length; k++) {
 				npc.buffImmune[k] = true;
 			}
 		}
@@ -58,29 +58,29 @@ namespace SpiritMod.NPCs.Asteroid
 			Player player = Main.player[npc.target];
 			bool expertMode = Main.expertMode;
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.0375f * 2, 0.125f * 2);
-			if(npc.ai[3] > 0f)
+			if (npc.ai[3] > 0f)
 				npc.realLife = (int)npc.ai[3];
 
-			if(npc.target < 0 || npc.target == 255 || player.dead)
+			if (npc.target < 0 || npc.target == 255 || player.dead)
 				npc.TargetClosest(true);
 
-			if(npc.alpha != 0) {
-				for(int num934 = 0; num934 < 2; num934++) {
+			if (npc.alpha != 0) {
+				for (int num934 = 0; num934 < 2; num934++) {
 					int num935 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default(Color), 1f);
 					Main.dust[num935].noGravity = true;
 					Main.dust[num935].noLight = true;
 				}
 			}
 			npc.alpha -= 12;
-			if(npc.alpha < 0)
+			if (npc.alpha < 0)
 				npc.alpha = 0;
 
-			if(Main.netMode != NetmodeID.MultiplayerClient) {
-				if(!tail && npc.ai[0] == 0f) {
+			if (Main.netMode != NetmodeID.MultiplayerClient) {
+				if (!tail && npc.ai[0] == 0f) {
 					int current = npc.whoAmI;
-					for(int num36 = 0; num36 < maxLength; num36++) {
+					for (int num36 = 0; num36 < maxLength; num36++) {
 						int trailing = 0;
-						if(num36 >= 0 && num36 < minLength)
+						if (num36 >= 0 && num36 < minLength)
 							trailing = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<CogTrapperBody>(), npc.whoAmI);
 						else
 							trailing = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<CogTrapperTail>(), npc.whoAmI);
@@ -94,7 +94,7 @@ namespace SpiritMod.NPCs.Asteroid
 					tail = true;
 				}
 
-				if(!npc.active && Main.netMode == NetmodeID.Server) {
+				if (!npc.active && Main.netMode == NetmodeID.Server) {
 					NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
 				}
 			}
@@ -104,33 +104,33 @@ namespace SpiritMod.NPCs.Asteroid
 			int num182 = (int)(npc.position.Y / 16f) - 1;
 			int num183 = (int)((npc.position.Y + (float)npc.height) / 16f) + 2;
 
-			if(num180 < 0)
+			if (num180 < 0)
 				num180 = 0;
-			if(num181 > Main.maxTilesX)
+			if (num181 > Main.maxTilesX)
 				num181 = Main.maxTilesX;
-			if(num182 < 0)
+			if (num182 < 0)
 				num182 = 0;
-			if(num183 > Main.maxTilesY)
+			if (num183 > Main.maxTilesY)
 				num183 = Main.maxTilesY;
 
 			bool flag94 = flies;
 			npc.localAI[1] = 0f;
-			if(directional) {
-				if(npc.velocity.X < 0f)
+			if (directional) {
+				if (npc.velocity.X < 0f)
 					npc.spriteDirection = 1;
-				else if(npc.velocity.X > 0f)
+				else if (npc.velocity.X > 0f)
 					npc.spriteDirection = -1;
 			}
 
-			if(player.dead) {
+			if (player.dead) {
 				npc.TargetClosest(false);
 				flag94 = false;
 				npc.velocity.Y = npc.velocity.Y + 10f;
-				if((double)npc.position.Y > Main.worldSurface * 16.0)
+				if ((double)npc.position.Y > Main.worldSurface * 16.0)
 					npc.velocity.Y = npc.velocity.Y + 10f;
-				if((double)npc.position.Y > Main.rockLayer * 16.0) {
-					for(int num957 = 0; num957 < 200; num957++) {
-						if(Main.npc[num957].aiStyle == npc.aiStyle)
+				if ((double)npc.position.Y > Main.rockLayer * 16.0) {
+					for (int num957 = 0; num957 < 200; num957++) {
+						if (Main.npc[num957].aiStyle == npc.aiStyle)
 							Main.npc[num957].active = false;
 					}
 				}
@@ -144,31 +144,32 @@ namespace SpiritMod.NPCs.Asteroid
 			int num42 = -1;
 			int num43 = (int)(player.Center.X / 16f);
 			int num44 = (int)(player.Center.Y / 16f);
-			for(int num45 = num43 - 2; num45 <= num43 + 2; num45++) {
-				for(int num46 = num44; num46 <= num44 + 15; num46++) {
-					if(WorldGen.SolidTile2(num45, num46)) {
+			for (int num45 = num43 - 2; num45 <= num43 + 2; num45++) {
+				for (int num46 = num44; num46 <= num44 + 15; num46++) {
+					if (WorldGen.SolidTile2(num45, num46)) {
 						num42 = num46;
 						break;
 					}
 				}
-				if(num42 > 0)
+				if (num42 > 0)
 					break;
 			}
-			if(num42 > 0) {
+			if (num42 > 0) {
 				npc.defense = 5;
 				num42 *= 16;
 				float num47 = (float)(num42 - 200); //was 800
-				if(player.position.Y > num47) {
+				if (player.position.Y > num47) {
 					num192 = num47;
-					if(Math.Abs(npc.Center.X - player.Center.X) < 125f) //was 500
+					if (Math.Abs(npc.Center.X - player.Center.X) < 125f) //was 500
 					{
-						if(npc.velocity.X > 0f)
+						if (npc.velocity.X > 0f)
 							num191 = player.Center.X + 150f; //was 600
 						else
 							num191 = player.Center.X - 150f; //was 600
 					}
 				}
-			} else {
+			}
+			else {
 				npc.defense = 0;
 				num188 = expertMode ? 10.83f : 8.66f; //added 2.5
 				num189 = expertMode ? 0.208f : 0.166f; //added 0.05
@@ -177,21 +178,22 @@ namespace SpiritMod.NPCs.Asteroid
 			float num48 = num188 * 1.5f;
 			float num49 = num188 * 0.8f;
 			float num50 = npc.velocity.Length();
-			if(num50 > 0f) {
-				if(num50 > num48) {
+			if (num50 > 0f) {
+				if (num50 > num48) {
 					npc.velocity.Normalize();
 					npc.velocity *= num48;
-				} else if(num50 < num49) {
+				}
+				else if (num50 < num49) {
 					npc.velocity.Normalize();
 					npc.velocity *= num49;
 				}
 			}
 
-			if(num42 > 0) {
-				for(int num51 = 0; num51 < 200; num51++) {
-					if(Main.npc[num51].active && Main.npc[num51].type == npc.type && num51 != npc.whoAmI) {
+			if (num42 > 0) {
+				for (int num51 = 0; num51 < 200; num51++) {
+					if (Main.npc[num51].active && Main.npc[num51].type == npc.type && num51 != npc.whoAmI) {
 						Vector2 vector3 = Main.npc[num51].Center - npc.Center;
-						if(vector3.Length() < 400f) {
+						if (vector3.Length() < 400f) {
 							vector3.Normalize();
 							vector3 *= 1000f;
 							num191 -= vector3.X;
@@ -199,11 +201,12 @@ namespace SpiritMod.NPCs.Asteroid
 						}
 					}
 				}
-			} else {
-				for(int num52 = 0; num52 < 200; num52++) {
-					if(Main.npc[num52].active && Main.npc[num52].type == npc.type && num52 != npc.whoAmI) {
+			}
+			else {
+				for (int num52 = 0; num52 < 200; num52++) {
+					if (Main.npc[num52].active && Main.npc[num52].type == npc.type && num52 != npc.whoAmI) {
 						Vector2 vector4 = Main.npc[num52].Center - npc.Center;
-						if(vector4.Length() < 60f) {
+						if (vector4.Length() < 60f) {
 							vector4.Normalize();
 							vector4 *= 200f;
 							num191 -= vector4.X;
@@ -220,12 +223,13 @@ namespace SpiritMod.NPCs.Asteroid
 			num191 -= vector18.X;
 			num192 -= vector18.Y;
 			float num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
-			if(npc.ai[1] > 0f && npc.ai[1] < (float)Main.npc.Length) {
+			if (npc.ai[1] > 0f && npc.ai[1] < (float)Main.npc.Length) {
 				try {
 					vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 					num191 = Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2) - vector18.X;
 					num192 = Main.npc[(int)npc.ai[1]].position.Y + (float)(Main.npc[(int)npc.ai[1]].height / 2) - vector18.Y;
-				} catch {
+				}
+				catch {
 				}
 				npc.rotation = (float)System.Math.Atan2((double)num192, (double)num191) + 1.57f;
 				num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
@@ -236,13 +240,14 @@ namespace SpiritMod.NPCs.Asteroid
 				npc.velocity = Vector2.Zero;
 				npc.position.X = npc.position.X + num191;
 				npc.position.Y = npc.position.Y + num192;
-				if(directional) {
-					if(num191 < 0f)
+				if (directional) {
+					if (num191 < 0f)
 						npc.spriteDirection = 1;
-					if(num191 > 0f)
+					if (num191 > 0f)
 						npc.spriteDirection = -1;
 				}
-			} else {
+			}
+			else {
 				num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
 				float num196 = System.Math.Abs(num191);
 				float num197 = System.Math.Abs(num192);
@@ -250,52 +255,54 @@ namespace SpiritMod.NPCs.Asteroid
 				num191 *= num198;
 				num192 *= num198;
 				bool flag21 = false;
-				if(!flag21) {
-					if((npc.velocity.X > 0f && num191 > 0f) || (npc.velocity.X < 0f && num191 < 0f) || (npc.velocity.Y > 0f && num192 > 0f) || (npc.velocity.Y < 0f && num192 < 0f)) {
-						if(npc.velocity.X < num191)
+				if (!flag21) {
+					if ((npc.velocity.X > 0f && num191 > 0f) || (npc.velocity.X < 0f && num191 < 0f) || (npc.velocity.Y > 0f && num192 > 0f) || (npc.velocity.Y < 0f && num192 < 0f)) {
+						if (npc.velocity.X < num191)
 							npc.velocity.X = npc.velocity.X + num189;
-						else if(npc.velocity.X > num191)
+						else if (npc.velocity.X > num191)
 							npc.velocity.X = npc.velocity.X - num189;
 
-						if(npc.velocity.Y < num192)
+						if (npc.velocity.Y < num192)
 							npc.velocity.Y = npc.velocity.Y + num189;
-						else if(npc.velocity.Y > num192)
+						else if (npc.velocity.Y > num192)
 							npc.velocity.Y = npc.velocity.Y - num189;
 
-						if((double)System.Math.Abs(num192) < (double)num188 * 0.2 && ((npc.velocity.X > 0f && num191 < 0f) || (npc.velocity.X < 0f && num191 > 0f))) {
-							if(npc.velocity.Y > 0f)
+						if ((double)System.Math.Abs(num192) < (double)num188 * 0.2 && ((npc.velocity.X > 0f && num191 < 0f) || (npc.velocity.X < 0f && num191 > 0f))) {
+							if (npc.velocity.Y > 0f)
 								npc.velocity.Y = npc.velocity.Y + num189 * 2f;
 							else
 								npc.velocity.Y = npc.velocity.Y - num189 * 2f;
 						}
 
-						if((double)System.Math.Abs(num191) < (double)num188 * 0.2 && ((npc.velocity.Y > 0f && num192 < 0f) || (npc.velocity.Y < 0f && num192 > 0f))) {
-							if(npc.velocity.X > 0f)
+						if ((double)System.Math.Abs(num191) < (double)num188 * 0.2 && ((npc.velocity.Y > 0f && num192 < 0f) || (npc.velocity.Y < 0f && num192 > 0f))) {
+							if (npc.velocity.X > 0f)
 								npc.velocity.X = npc.velocity.X + num189 * 2f; //changed from 2
 							else
 								npc.velocity.X = npc.velocity.X - num189 * 2f; //changed from 2
 						}
-					} else {
-						if(num196 > num197) {
-							if(npc.velocity.X < num191)
+					}
+					else {
+						if (num196 > num197) {
+							if (npc.velocity.X < num191)
 								npc.velocity.X = npc.velocity.X + num189 * 1.1f; //changed from 1.1
-							else if(npc.velocity.X > num191)
+							else if (npc.velocity.X > num191)
 								npc.velocity.X = npc.velocity.X - num189 * 1.1f; //changed from 1.1
 
-							if((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)num188 * 0.5) {
-								if(npc.velocity.Y > 0f)
+							if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)num188 * 0.5) {
+								if (npc.velocity.Y > 0f)
 									npc.velocity.Y = npc.velocity.Y + num189;
 								else
 									npc.velocity.Y = npc.velocity.Y - num189;
 							}
-						} else {
-							if(npc.velocity.Y < num192)
+						}
+						else {
+							if (npc.velocity.Y < num192)
 								npc.velocity.Y = npc.velocity.Y + num189 * 1.1f;
-							else if(npc.velocity.Y > num192)
+							else if (npc.velocity.Y > num192)
 								npc.velocity.Y = npc.velocity.Y - num189 * 1.1f;
 
-							if((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)num188 * 0.5) {
-								if(npc.velocity.X > 0f)
+							if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)num188 * 0.5) {
+								if (npc.velocity.X > 0f)
 									npc.velocity.X = npc.velocity.X + num189;
 								else
 									npc.velocity.X = npc.velocity.X - num189;
@@ -308,14 +315,13 @@ namespace SpiritMod.NPCs.Asteroid
 		}
 		public override void NPCLoot()
 		{
-			if(Main.LocalPlayer.GetSpiritPlayer().emptyStardancerScroll) {
+			if (Main.LocalPlayer.GetSpiritPlayer().emptyStardancerScroll) {
 				MyWorld.numStardancersKilled++;
 			}
-            if (Main.rand.Next(1) == 400)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GravityModulator>());
-            }
-            if (Main.rand.Next(2) == 0) {
+			if (Main.rand.Next(1) == 400) {
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GravityModulator>());
+			}
+			if (Main.rand.Next(2) == 0) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<StarEnergy>());
 			}
 			int[] lootTable = {
@@ -323,7 +329,7 @@ namespace SpiritMod.NPCs.Asteroid
 				ModContent.ItemType<AstronautHelm>(),
 				ModContent.ItemType<AstronautBody>()
 			};
-			if(Main.rand.Next(40) == 0) {
+			if (Main.rand.Next(40) == 0) {
 				int loot = Main.rand.Next(lootTable.Length);
 				{
 					npc.DropItem(lootTable[loot]);
@@ -332,10 +338,10 @@ namespace SpiritMod.NPCs.Asteroid
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			for(int k = 0; k < 5; k++) {
+			for (int k = 0; k < 5; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, 226, hitDirection, -1f, 0, default(Color), 1f);
 			}
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Stardancer/Stardancer1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Stardancer/Stardancer2"), 1f);
 				npc.position.X = npc.position.X + (float)(npc.width / 2);
@@ -344,11 +350,11 @@ namespace SpiritMod.NPCs.Asteroid
 				npc.height = 20;
 				npc.position.X = npc.position.X - (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
-				for(int num621 = 0; num621 < 5; num621++) {
+				for (int num621 = 0; num621 < 5; num621++) {
 					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default(Color), .5f);
 					Main.dust[num622].velocity *= 2f;
 				}
-				for(int num623 = 0; num623 < 10; num623++) {
+				for (int num623 = 0; num623 < 10; num623++) {
 					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default(Color), 1f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 4f;
@@ -378,15 +384,15 @@ namespace SpiritMod.NPCs.Asteroid
 				Texture2D texture2D2 = Main.glowMaskTexture[239];
 				float num11 = (float)((double)Main.GlobalTime % 1.0 / 1.0);
 				float num12 = num11;
-				if((double)num12 > 0.5)
+				if ((double)num12 > 0.5)
 					num12 = 1f - num11;
-				if((double)num12 < 0.0)
+				if ((double)num12 < 0.0)
 					num12 = 0.0f;
 				float num13 = (float)(((double)num11 + 0.5) % 1.0);
 				float num14 = num13;
-				if((double)num14 > 0.5)
+				if ((double)num14 > 0.5)
 					num14 = 1f - num13;
-				if((double)num14 < 0.0)
+				if ((double)num14 < 0.0)
 					num14 = 0.0f;
 				Microsoft.Xna.Framework.Rectangle r2 = texture2D2.Frame(1, 1, 0, 0);
 				drawOrigin = r2.Size() / 2f;

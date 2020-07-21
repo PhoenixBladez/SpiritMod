@@ -6,7 +6,7 @@ namespace SpiritMod.Items.Glyphs
 {
 	public class BlazeGlyph : GlyphBase, IGlowing
 	{
-				public static Microsoft.Xna.Framework.Graphics.Texture2D[] _textures;
+		public static Microsoft.Xna.Framework.Graphics.Texture2D[] _textures;
 
 		Microsoft.Xna.Framework.Graphics.Texture2D IGlowing.Glowmask(out float bias)
 		{
@@ -44,13 +44,13 @@ namespace SpiritMod.Items.Glyphs
 
 		public static void Rage(Player player, NPC target)
 		{
-			if(target.CanLeech())
+			if (target.CanLeech())
 				Rage(player);
 		}
 
 		public static void Rage(Player player)
 		{
-			if(Main.rand.NextDouble() < .075)
+			if (Main.rand.NextDouble() < .075)
 				player.AddBuff(SpiritMod.instance.BuffType("BurningRage"), 300);
 		}
 	}

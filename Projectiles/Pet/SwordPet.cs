@@ -33,10 +33,10 @@ namespace SpiritMod.Projectiles.Pet
 		{
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if(player.dead)
+			if (player.dead)
 				modPlayer.SwordPet = false;
 
-			if(modPlayer.SwordPet)
+			if (modPlayer.SwordPet)
 				projectile.timeLeft = 2;
 
 
@@ -44,15 +44,15 @@ namespace SpiritMod.Projectiles.Pet
 
 			//TARGET NEAREST NPC WITHIN RANGE
 			float lowestDist = float.MaxValue;
-			for(int i = 0; i < 200; ++i) {
+			for (int i = 0; i < 200; ++i) {
 				NPC npc = Main.npc[i];
 				//if npc is a valid target (active, not friendly, and not a critter)
-				if(npc.active && npc.CanBeChasedBy(projectile)) {
+				if (npc.active && npc.CanBeChasedBy(projectile)) {
 					//if npc is within 50 blocks
 					float dist = projectile.Distance(npc.Center);
-					if(dist / 16 < range) {
+					if (dist / 16 < range) {
 						//if npc is closer than closest found npc
-						if(dist < lowestDist) {
+						if (dist < lowestDist) {
 							lowestDist = dist;
 
 							//target this npc
@@ -65,7 +65,7 @@ namespace SpiritMod.Projectiles.Pet
 			NPC target = (Main.npc[(int)projectile.ai[1]] ?? new NPC()); //our target
 																		 //firing
 			projectile.ai[0]++;
-			if(target.active) {
+			if (target.active) {
 				Vector2 ShootArea = new Vector2(projectile.Center.X, projectile.Center.Y);
 				Vector2 direction = target.Center - ShootArea;
 				direction.Normalize();

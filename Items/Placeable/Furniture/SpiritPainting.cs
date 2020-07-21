@@ -37,8 +37,8 @@ namespace SpiritMod.Items.Placeable.Furniture
 			TooltipLine line = new TooltipLine(mod, "ItemName", "'Quite a milestone indeed!\nThings can only look up from here'");
 			line.overrideColor = new Color(50, 80, 200);
 			tooltips.Add(line);
-			foreach(TooltipLine line2 in tooltips) {
-				if(line2.mod == "Terraria" && line2.Name == "ItemName") {
+			foreach (TooltipLine line2 in tooltips) {
+				if (line2.mod == "Terraria" && line2.Name == "ItemName") {
 					line2.overrideColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
 				}
 			}

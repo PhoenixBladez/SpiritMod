@@ -35,17 +35,17 @@ namespace SpiritMod.World
 
 		protected virtual void PlaceTiles(int x, int y)
 		{
-			for(int i = 0; i < Tiles.GetLength(1); i++) {
-				for(int j = 0; j < Tiles.GetLength(0); j++) {
+			for (int i = 0; i < Tiles.GetLength(1); i++) {
+				for (int j = 0; j < Tiles.GetLength(0); j++) {
 					int wX = x + i + OffsetX;
 					int wY = y + j + OffsetY;
 					var data = TileMap(Tiles[j, i], i, j);
-					if(data != null) {
-						if(data.type == -1) Framing.GetTileSafely(wX, wY).ClearTile();
-						else if(data.type >= 0) {
+					if (data != null) {
+						if (data.type == -1) Framing.GetTileSafely(wX, wY).ClearTile();
+						else if (data.type >= 0) {
 							WorldGen.PlaceTile(wX, wY, data.type, data.mute, data.force, -1, data.style);
 							WorldGen.SlopeTile(wX, wY, Slopes[j, i]);
-							if(TileID.Sets.Platforms[data.type]) WorldGen.SquareTileFrame(wX, wY);
+							if (TileID.Sets.Platforms[data.type]) WorldGen.SquareTileFrame(wX, wY);
 						}
 					}
 				}
@@ -54,14 +54,14 @@ namespace SpiritMod.World
 
 		protected virtual void PlaceWalls(int x, int y)
 		{
-			for(int i = 0; i < Walls.GetLength(1); i++) {
-				for(int j = 0; j < Walls.GetLength(0); j++) {
+			for (int i = 0; i < Walls.GetLength(1); i++) {
+				for (int j = 0; j < Walls.GetLength(0); j++) {
 					int wX = x + i + OffsetX;
 					int wY = y + j + OffsetY;
 					var data = WallMap(Walls[j, i], i, j);
-					if(data != null) {
-						if(data.type == -1) WorldGen.KillWall(wX, wY);
-						else if(data.type >= 0) WorldGen.PlaceWall(wX, wY, data.type, data.mute);
+					if (data != null) {
+						if (data.type == -1) WorldGen.KillWall(wX, wY);
+						else if (data.type >= 0) WorldGen.PlaceWall(wX, wY, data.type, data.mute);
 					}
 				}
 			}
@@ -69,15 +69,15 @@ namespace SpiritMod.World
 
 		protected virtual void PlaceFurniture(int x, int y)
 		{
-			for(int i = 0; i < Furniture.GetLength(1); i++) {
-				for(int j = 0; j < Furniture.GetLength(0); j++) {
+			for (int i = 0; i < Furniture.GetLength(1); i++) {
+				for (int j = 0; j < Furniture.GetLength(0); j++) {
 					int wX = x + i + OffsetX;
 					int wY = y + j + OffsetY;
 					var data = FurnitureMap(Furniture[j, i], i, j);
-					if(data != null) {
-						if(data is ObjectData @objData)
+					if (data != null) {
+						if (data is ObjectData @objData)
 							WorldGen.PlaceObject(wX, wY, data.type, data.mute, data.style, objData.alternate, objData.random, objData.direction);
-						else if(data is ChestData @chestData)
+						else if (data is ChestData @chestData)
 							WorldGen.PlaceChest(wX, wY, (ushort)data.type, chestData.notNearOtherChests, style: data.style);
 						else
 							WorldGen.PlaceTile(wX, wY, data.type, data.mute, data.force, -1, data.style);

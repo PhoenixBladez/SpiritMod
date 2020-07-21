@@ -26,11 +26,11 @@ namespace SpiritMod.Tiles.Block
 		public static bool PlaceObject(int x, int y, int type, bool mute = false, int style = 0, int alternate = 0, int random = -1, int direction = -1)
 		{
 			TileObject toBePlaced;
-			if(!TileObject.CanPlace(x, y, type, style, direction, out toBePlaced, false)) {
+			if (!TileObject.CanPlace(x, y, type, style, direction, out toBePlaced, false)) {
 				return false;
 			}
 			toBePlaced.random = random;
-			if(TileObject.Place(toBePlaced) && !mute) {
+			if (TileObject.Place(toBePlaced) && !mute) {
 				WorldGen.SquareTileFrame(x, y, true);
 				//   Main.PlaySound(SoundID.Dig, x * 16, y * 16, 1, 1f, 0f);
 			}
@@ -39,8 +39,8 @@ namespace SpiritMod.Tiles.Block
 
 		public override void RandomUpdate(int i, int j)
 		{
-			if(!Framing.GetTileSafely(i, j - 1).active() && Main.rand.Next(40) == 0) {
-				switch(Main.rand.Next(5)) {
+			if (!Framing.GetTileSafely(i, j - 1).active() && Main.rand.Next(40) == 0) {
+				switch (Main.rand.Next(5)) {
 					case 0:
 						SpiritGrass.PlaceObject(i, j - 1, mod.TileType("SpiritGrassA1"));
 						NetMessage.SendObjectPlacment(-1, i, j - 1, mod.TileType("SpiritGrassA1"), 0, 0, -1, -1);
@@ -68,38 +68,35 @@ namespace SpiritMod.Tiles.Block
 
 
 		}
-        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
-        {
-            Tile tile = Framing.GetTileSafely(i, j);
-			Tile tile2 = Framing.GetTileSafely(i, j-1);
-            if (tile.slope() == 0 && !tile.halfBrick())
-            {
-                if (!Main.tileSolid[tile2.type] || !tile2.active())
-                {
-                    Color colour = Color.White * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTime * 1.3f) + 1f) * 0.5f));
+		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+		{
+			Tile tile = Framing.GetTileSafely(i, j);
+			Tile tile2 = Framing.GetTileSafely(i, j - 1);
+			if (tile.slope() == 0 && !tile.halfBrick()) {
+				if (!Main.tileSolid[tile2.type] || !tile2.active()) {
+					Color colour = Color.White * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTime * 1.3f) + 1f) * 0.5f));
 
-                    Texture2D glow = ModContent.GetTexture("SpiritMod/Tiles/Block/SpiritGrass_Glow");
-                    Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
+					Texture2D glow = ModContent.GetTexture("SpiritMod/Tiles/Block/SpiritGrass_Glow");
+					Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
 
-                    spriteBatch.Draw(glow, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(tile.frameX, tile.frameY, 16, 16), colour);
-                }
-            }
-        }
-        public override int SaplingGrowthType(ref int style)
+					spriteBatch.Draw(glow, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(tile.frameX, tile.frameY, 16, 16), colour);
+				}
+			}
+		}
+		public override int SaplingGrowthType(ref int style)
 		{
 			style = 0;
 			return ModContent.TileType<SpiritSapling>();
 		}
 
-        public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
-        {
-            Tile tile2 = Framing.GetTileSafely(i, j - 1);
-            if (!Main.tileSolid[tile2.type] || !tile2.active())
-            {
-                r = 0.3f;
-                g = 0.45f;
-                b = 1.05f;
-            }
+		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
+		{
+			Tile tile2 = Framing.GetTileSafely(i, j - 1);
+			if (!Main.tileSolid[tile2.type] || !tile2.active()) {
+				r = 0.3f;
+				g = 0.45f;
+				b = 1.05f;
+			}
 		}
 
 	}

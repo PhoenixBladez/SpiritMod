@@ -35,7 +35,7 @@ namespace SpiritMod.Projectiles
 		public override void AI()
 		{
 
-			for(int index1 = 0; index1 < 5; ++index1) {
+			for (int index1 = 0; index1 < 5; ++index1) {
 				float num1 = projectile.velocity.X * 0.2f * (float)index1;
 				float num2 = projectile.velocity.Y * -0.200000002980232f * index1;
 				int index2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 226, 0.0f, 0.0f, 100, new Color(), 1.3f);
@@ -49,7 +49,7 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 3; i++) {
+			for (int i = 0; i < 3; i++) {
 				int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 187);
 				Main.dust[index2].noGravity = true;
 			}

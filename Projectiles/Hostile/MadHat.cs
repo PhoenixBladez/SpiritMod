@@ -40,7 +40,7 @@ namespace SpiritMod.Projectiles.Hostile
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
-			for(int k = 0; k < 15; k++) {
+			for (int k = 0; k < 15; k++) {
 				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 206);
 				Main.dust[dust].scale = 2f;
 				Main.dust[dust].noGravity = true;
@@ -50,7 +50,7 @@ namespace SpiritMod.Projectiles.Hostile
 		public override void AI()
 		{
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 6) {
+			if (projectile.frameCounter >= 6) {
 				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
 				projectile.frameCounter = 0;
 			}
@@ -60,10 +60,10 @@ namespace SpiritMod.Projectiles.Hostile
 			float max = 2.25f;
 			float min = 1.0f;
 			RGB *= multiplier;
-			if(RGB.X > max) {
+			if (RGB.X > max) {
 				multiplier = 0.5f;
 			}
-			if(RGB.X < min) {
+			if (RGB.X < min) {
 				multiplier = 1.5f;
 			}
 			Lighting.AddLight(projectile.position, RGB.X, RGB.Y, RGB.Z);
@@ -73,14 +73,14 @@ namespace SpiritMod.Projectiles.Hostile
 
 			//TARGET NEAREST NPC WITHIN RANGE
 			float lowestDist = float.MaxValue;
-			foreach(Player player in Main.player) {
+			foreach (Player player in Main.player) {
 				//if npc is a valid target (active, not friendly, and not a critter)
-				if(player.active) {
+				if (player.active) {
 					//if npc is within 50 blocks
 					float dist = projectile.Distance(player.Center);
-					if(dist / 16 < range) {
+					if (dist / 16 < range) {
 						//if npc is closer than closest found npc
-						if(dist < lowestDist) {
+						if (dist < lowestDist) {
 							lowestDist = dist;
 
 							//target this npc
@@ -90,15 +90,15 @@ namespace SpiritMod.Projectiles.Hostile
 				}
 			}
 
-			if(timer < 125) {
+			if (timer < 125) {
 				projectile.velocity.Y *= 0.98f;
-				if(timer > 100) {
+				if (timer > 100) {
 					int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 206, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 					Main.dust[dust].noGravity = true;
 				}
 			}
 			int index = (int)projectile.ai[1];
-			if(timer == 125 && index >= 0 && index < Main.maxPlayers && Main.player[index].active) {
+			if (timer == 125 && index >= 0 && index < Main.maxPlayers && Main.player[index].active) {
 				Vector2 direction9 = Main.player[(int)projectile.ai[1]].Center - projectile.Center;
 				direction9.Normalize();
 				direction9.X *= 15f;

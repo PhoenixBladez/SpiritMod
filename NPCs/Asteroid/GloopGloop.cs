@@ -38,45 +38,43 @@ namespace SpiritMod.NPCs.Asteroid
 			float num395 = Main.mouseTextColor / 200f - 0.35f;
 			num395 *= 0.2f;
 			npc.scale = num395 + 0.95f;
-			if(counter > 65) {
+			if (counter > 65) {
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
 				direction *= 10;
 				npc.velocity = direction;
-				for(int i = 0; i < 10; i++) {
+				for (int i = 0; i < 10; i++) {
 					int num = Dust.NewDust(npc.position, npc.width, npc.height, 167, 0f, -2f, 0, default(Color), 2f);
 					Main.dust[num].noGravity = true;
 					Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 					Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
 					Main.dust[num].scale *= .25f;
-					if(Main.dust[num].position != npc.Center)
+					if (Main.dust[num].position != npc.Center)
 						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 4f;
 				}
 				counter = 0;
 			}
 		}
-        public override void NPCLoot()
-        {
-            if (Main.rand.Next(1) == 400)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GravityModulator>());
-            }
-            string[] lootTable = { "AstronautLegs", "AstronautHelm", "AstronautBody" };
-            if (Main.rand.Next(50) == 0)
-            {
-                int loot = Main.rand.Next(lootTable.Length);
-                {
-                    npc.DropItem(mod.ItemType(lootTable[loot]));
-                }
-            }
-        }
-        public override void HitEffect(int hitDirection, double damage)
+		public override void NPCLoot()
 		{
-			for(int k = 0; k < 11; k++) {
+			if (Main.rand.Next(1) == 400) {
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GravityModulator>());
+			}
+			string[] lootTable = { "AstronautLegs", "AstronautHelm", "AstronautBody" };
+			if (Main.rand.Next(50) == 0) {
+				int loot = Main.rand.Next(lootTable.Length);
+				{
+					npc.DropItem(mod.ItemType(lootTable[loot]));
+				}
+			}
+		}
+		public override void HitEffect(int hitDirection, double damage)
+		{
+			for (int k = 0; k < 11; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, 167, hitDirection, -1f, 0, default(Color), .61f);
 			}
-			if(npc.life <= 0) {
-				for(int k = 0; k < 20; k++) {
+			if (npc.life <= 0) {
+				for (int k = 0; k < 20; k++) {
 					Dust.NewDust(npc.position, npc.width, npc.height, 167, hitDirection, -1f, 0, default(Color), .91f);
 				}
 			}
@@ -90,7 +88,7 @@ namespace SpiritMod.NPCs.Asteroid
 		}
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if(Main.rand.Next(6) == 0) {
+			if (Main.rand.Next(6) == 0) {
 				target.AddBuff(BuffID.Poisoned, 180);
 			}
 		}

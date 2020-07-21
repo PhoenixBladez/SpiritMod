@@ -33,7 +33,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override void AI()
 		{
 
-			if(Main.rand.Next(3) == 1) {
+			if (Main.rand.Next(3) == 1) {
 				Dust dust = Dust.NewDustPerfect(projectile.Center, DustID.GoldCoin);
 				dust.velocity = Vector2.Zero;
 				dust.noGravity = true;
@@ -50,7 +50,7 @@ namespace SpiritMod.Projectiles.Magic
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(!target.boss && target.velocity != Vector2.Zero && target.knockBackResist != 0) {
+			if (!target.boss && target.velocity != Vector2.Zero && target.knockBackResist != 0) {
 				target.velocity.Y = -4f;
 			}
 		}

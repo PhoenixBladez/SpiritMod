@@ -26,33 +26,33 @@ namespace SpiritMod.NPCs
 			npc.knockBackResist = .45f;
 			npc.aiStyle = 3;
 			aiType = NPCID.SnowFlinx;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.AntlionAssassinBanner>();
-        }
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.AntlionAssassinBanner>();
+		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if(SpawnHelper.SupressSpawns(spawnInfo, SpawnFlags.Daytime, SpawnZones.Desert | SpawnZones.Overworld))
+			if (SpawnHelper.SupressSpawns(spawnInfo, SpawnFlags.Daytime, SpawnZones.Desert | SpawnZones.Overworld))
 				return 0;
 
-			if(Main.tileSand[spawnInfo.spawnTileType])
+			if (Main.tileSand[spawnInfo.spawnTileType])
 				return SpawnCondition.OverworldDayDesert.Chance * 0.1f;
 			return 0;
 		}
 		int timer;
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			for(int k = 0; k < 11; k++) {
+			for (int k = 0; k < 11; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, 85, hitDirection, -1f, 1, default(Color), .61f);
 			}
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				{
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AntlionAssassin/Assassin1"), 1f);
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AntlionAssassin/Assassin2"), 1f);
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AntlionAssassin/Assassin3"), 1f);
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AntlionAssassin/Assassin4"), 1f);
 				}
-				for(int k = 0; k < 11; k++) {
+				for (int k = 0; k < 11; k++) {
 					Dust.NewDust(npc.position, npc.width, npc.height, 85, hitDirection, -1f, 1, default(Color), .61f);
 				}
 				int ing = Gore.NewGore(npc.position, npc.velocity, 825);
@@ -77,8 +77,8 @@ namespace SpiritMod.NPCs
 			npc.spriteDirection = npc.direction;
 			npc.alpha++;
 			timer++;
-			if(timer >= 500) {
-				for(int k = 0; k < 11; k++) {
+			if (timer >= 500) {
+				for (int k = 0; k < 11; k++) {
 					Dust.NewDust(npc.position, npc.width, npc.height, 85, npc.direction, -1f, 1, default(Color), .61f);
 				}
 				Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 6);
@@ -95,7 +95,7 @@ namespace SpiritMod.NPCs
 
 		public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
 		{
-			for(int k = 0; k < 11; k++) {
+			for (int k = 0; k < 11; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, 85, npc.direction, -1f, 1, default(Color), .61f);
 			}
 			Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 6);
@@ -114,7 +114,7 @@ namespace SpiritMod.NPCs
 		}
 		public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
 		{
-			for(int k = 0; k < 11; k++) {
+			for (int k = 0; k < 11; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, 85, npc.direction, -1f, 1, default(Color), .61f);
 			}
 			Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 6);
@@ -130,10 +130,10 @@ namespace SpiritMod.NPCs
 		}
 		public override void NPCLoot()
 		{
-			if(Main.LocalPlayer.GetSpiritPlayer().emptyAntlionScroll) {
+			if (Main.LocalPlayer.GetSpiritPlayer().emptyAntlionScroll) {
 				MyWorld.numAntlionsKilled++;
 			}
-			if(Main.rand.NextBool(25)) {
+			if (Main.rand.NextBool(25)) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 857);
 			}
 		}

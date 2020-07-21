@@ -41,22 +41,23 @@ namespace SpiritMod.Items.Weapon.Gun
 		}
 		public override bool CanUseItem(Player player)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 
 				MyPlayer modPlayer = player.GetSpiritPlayer();
-				if(modPlayer.shootDelay2 == 0)
+				if (modPlayer.shootDelay2 == 0)
 					return true;
 				return false;
-			} else {
+			}
+			else {
 				return true;
 			}
 		}
 		public override void HoldItem(Player player)
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if(modPlayer.shootDelay2 == 1) {
+			if (modPlayer.shootDelay2 == 1) {
 				Main.PlaySound(SoundID.MaxMana, -1, -1, 1, 1f, 0.0f);
-				for(int index1 = 0; index1 < 5; ++index1) {
+				for (int index1 = 0; index1 < 5; ++index1) {
 					int index2 = Dust.NewDust(player.position, player.width, player.height, 5, 0.0f, 0.0f, (int)byte.MaxValue, new Color(), (float)Main.rand.Next(20, 26) * 0.1f);
 					Main.dust[index2].noLight = false;
 					Main.dust[index2].noGravity = true;
@@ -67,17 +68,18 @@ namespace SpiritMod.Items.Weapon.Gun
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 45f;
-			if(Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
+			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
 				position += muzzleOffset;
 			}
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 95));
 				MyPlayer modPlayer = player.GetSpiritPlayer();
 				modPlayer.shootDelay2 = 300;
 				type = ModContent.ProjectileType<CrimbineAmalgam>();
 				speedX /= 4;
 				speedY /= 4;
-			} else {
+			}
+			else {
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 11));
 				item.shootSpeed = 10f;
 				float spread = 8 * 0.0174f;//45 degrees converted to radians

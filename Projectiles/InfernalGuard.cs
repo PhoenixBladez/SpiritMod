@@ -26,7 +26,7 @@ namespace SpiritMod.Projectiles
 		public override bool PreAI()
 		{
 			Player player = Main.player[projectile.owner];
-			if(!player.active || player.dead || player.GetSpiritPlayer().infernalSetCooldown <= 0) {
+			if (!player.active || player.dead || player.GetSpiritPlayer().infernalSetCooldown <= 0) {
 				projectile.Kill();
 				return false;
 			}
@@ -43,9 +43,9 @@ namespace SpiritMod.Projectiles
 			projectile.Center = player.Center + radius * new Vector2((float)Math.Cos(projectile.localAI[1]), (float)Math.Sin(projectile.localAI[1]));
 
 			projectile.ai[0] += 0.4F * projectile.ai[1];
-			if(projectile.ai[0] >= 100)
+			if (projectile.ai[0] >= 100)
 				projectile.ai[1] = -1;
-			else if(projectile.ai[0] <= 40)
+			else if (projectile.ai[0] <= 40)
 				projectile.ai[1] = 1;
 
 			return false;

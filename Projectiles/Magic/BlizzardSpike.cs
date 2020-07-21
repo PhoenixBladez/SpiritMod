@@ -26,16 +26,16 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void AI()
 		{
-			if(Main.rand.Next(6) == 0) {
+			if (Main.rand.Next(6) == 0) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 67);
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 67);
 			}
 
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 6) {
+			if (projectile.frameCounter >= 6) {
 				projectile.frame++;
 				projectile.frameCounter = 0;
-				if(projectile.frame >= 5) {
+				if (projectile.frame >= 5) {
 					projectile.frame = 0;
 				}
 			}

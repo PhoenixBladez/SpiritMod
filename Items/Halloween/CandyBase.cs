@@ -10,10 +10,10 @@ namespace SpiritMod.Items.Halloween
 		public override bool ItemSpace(Player player)
 		{
 			Item[] inv = player.inventory;
-			for(int i = 0; i < 50; i++) {
-				if(inv[i].IsAir || inv[i].type != ModContent.ItemType<CandyBag>())
+			for (int i = 0; i < 50; i++) {
+				if (inv[i].IsAir || inv[i].type != ModContent.ItemType<CandyBag>())
 					continue;
-				if(!((CandyBag)inv[i].modItem).Full)
+				if (!((CandyBag)inv[i].modItem).Full)
 					return true;
 			}
 			return false;
@@ -22,10 +22,10 @@ namespace SpiritMod.Items.Halloween
 		public override bool OnPickup(Player player)
 		{
 			Item[] inv = player.inventory;
-			for(int i = 0; i < 50; i++) {
-				if(inv[i].IsAir || inv[i].type != ModContent.ItemType<CandyBag>())
+			for (int i = 0; i < 50; i++) {
+				if (inv[i].IsAir || inv[i].type != ModContent.ItemType<CandyBag>())
 					continue;
-				if(((CandyBag)inv[i].modItem).TryAdd(this)) {
+				if (((CandyBag)inv[i].modItem).TryAdd(this)) {
 					ItemText.NewText(item, 1);
 					Main.PlaySound(SoundID.Grab, (int)player.position.X, (int)player.position.Y);
 					return false;
@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Halloween
 
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
-			if(CanRightClick())
+			if (CanRightClick())
 				tooltips.Add(new TooltipLine(mod, "RightclickHint", "Right click to put into Candy Bag"));
 		}
 
@@ -48,10 +48,10 @@ namespace SpiritMod.Items.Halloween
 		public override void RightClick(Player player)
 		{
 			Item[] inv = player.inventory;
-			for(int i = 0; i < 50; i++) {
-				if(inv[i].IsAir || inv[i].type != ModContent.ItemType<CandyBag>())
+			for (int i = 0; i < 50; i++) {
+				if (inv[i].IsAir || inv[i].type != ModContent.ItemType<CandyBag>())
 					continue;
-				if(((CandyBag)inv[i].modItem).TryAdd(this)) {
+				if (((CandyBag)inv[i].modItem).TryAdd(this)) {
 					Main.PlaySound(SoundID.Grab, (int)player.position.X, (int)player.position.Y);
 					return;
 				}

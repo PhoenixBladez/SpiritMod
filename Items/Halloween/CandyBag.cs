@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Halloween
 	{
 		public const ushort MaxCandy = 99;
 		public const int CandyTypes = 9;
-		
+
 		private static int[] types;
 		internal static void Initialize()
 		{
@@ -30,15 +30,15 @@ namespace SpiritMod.Items.Halloween
 
 		public static int TypeToSlot(int type)
 		{
-			for(int i = types.Length - 1; i >= 0; i--) {
-				if(types[i] == type)
+			for (int i = types.Length - 1; i >= 0; i--) {
+				if (types[i] == type)
 					return i;
 			}
 			return -1;
 		}
 		public static int SlotToType(int slot)
 		{
-			if(slot < types.Length)
+			if (slot < types.Length)
 				return types[slot];
 			return ModContent.ItemType<Candy>();
 		}
@@ -98,13 +98,13 @@ namespace SpiritMod.Items.Halloween
 
 		public bool TryAdd(ModItem item)
 		{
-			if(Full)
+			if (Full)
 				return false;
 
 			int slot = TypeToSlot(item.item.type);
-			if(slot < 0)
+			if (slot < 0)
 				return false;
-			if(slot == 0)
+			if (slot == 0)
 				variants[((Candy)item).Variant]++;
 
 			candy[slot]++;
@@ -116,8 +116,8 @@ namespace SpiritMod.Items.Halloween
 		{
 			Main.NewText("Candy Bag [" + pieces + "]");
 			Main.NewText("Candy: " + candy[0]);
-			for(int i = variants.Length - 1; i >= 0; i--) {
-				if(variants[i] > 0)
+			for (int i = variants.Length - 1; i >= 0; i--) {
+				if (variants[i] > 0)
 					Main.NewText("[" + i + "]" + Candy.CandyNames[i] + ": " + variants[i]);
 			}
 		}
@@ -132,23 +132,23 @@ namespace SpiritMod.Items.Halloween
 			//Needed to counter the default consuption.
 			this.item.stack++;
 
-			if(!ContainsCandy)
+			if (!ContainsCandy)
 				return;
 			int remove = Main.rand.Next(pieces);
 			int i = 0;
-			for(; i < candy.Length; i++) {
-				if(remove < candy[i])
+			for (; i < candy.Length; i++) {
+				if (remove < candy[i])
 					break;
 
 				remove -= candy[i];
 			}
 			int slot = Item.NewItem((int)player.position.X, (int)player.position.Y, player.width, player.height, SlotToType(i), 1, true);
 			Item item = Main.item[slot];
-			if(i == 0) {
+			if (i == 0) {
 				remove = Main.rand.Next(candy[0]);
 				int v = variants.Length - 1;
-				for(; v >= 0; v--) {
-					if(remove < variants[v]) {
+				for (; v >= 0; v--) {
+					if (remove < variants[v]) {
 						variants[v]--;
 						((Candy)item.modItem).Variant = v;
 						break;
@@ -156,12 +156,12 @@ namespace SpiritMod.Items.Halloween
 					remove -= variants[v];
 				}
 			}
-			if(i < candy.Length)
+			if (i < candy.Length)
 				candy[i]--;
 			pieces--;
 			Item[] inv = player.inventory;
-			for(int j = 0; j < 50; j++) {
-				if(!inv[j].IsAir)
+			for (int j = 0; j < 50; j++) {
+				if (!inv[j].IsAir)
 					continue;
 				inv[j] = item;
 				Main.item[slot] = new Item();
@@ -170,14 +170,14 @@ namespace SpiritMod.Items.Halloween
 			item.velocity.X = 4 * player.direction + player.velocity.X;
 			item.velocity.Y = -2f;
 			item.noGrabDelay = 100;
-			if(Main.netMode != NetmodeID.SinglePlayer) {
+			if (Main.netMode != NetmodeID.SinglePlayer) {
 				NetMessage.SendData(MessageID.SyncItem, -1, -1, null, slot, 1f);
 			}
 		}
 
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
-			if(!ContainsCandy)
+			if (!ContainsCandy)
 				return;
 
 			TooltipLine line = new TooltipLine(mod, "BagContents", "Contains " + pieces + (pieces == 1 ? " piece" : " pieces") + " of Candy");
@@ -199,27 +199,27 @@ namespace SpiritMod.Items.Halloween
 		{
 			pieces = 0;
 			byte[] arr = tag.GetByteArray("candy");
-			for(int i = Math.Min(arr.Length, candy.Length) - 1; i >= 0; i--)
+			for (int i = Math.Min(arr.Length, candy.Length) - 1; i >= 0; i--)
 				pieces += (candy[i] = arr[i]);
 			arr = tag.GetByteArray("variants");
-			for(int i = Math.Min(arr.Length, variants.Length) - 1; i >= 0; i--)
+			for (int i = Math.Min(arr.Length, variants.Length) - 1; i >= 0; i--)
 				variants[i] = arr[i];
 		}
 
 		public override void NetSend(BinaryWriter writer)
 		{
-			for(int i = candy.Length - 1; i >= 0; i--)
+			for (int i = candy.Length - 1; i >= 0; i--)
 				writer.Write(candy[i]);
-			for(int i = variants.Length - 1; i >= 0; i--)
+			for (int i = variants.Length - 1; i >= 0; i--)
 				writer.Write(variants[i]);
 		}
 
 		public override void NetRecieve(BinaryReader reader)
 		{
 			pieces = 0;
-			for(int i = candy.Length - 1; i >= 0; i--)
+			for (int i = candy.Length - 1; i >= 0; i--)
 				pieces += (candy[i] = reader.ReadByte());
-			for(int i = variants.Length - 1; i >= 0; i--)
+			for (int i = variants.Length - 1; i >= 0; i--)
 				variants[i] = reader.ReadByte();
 		}
 

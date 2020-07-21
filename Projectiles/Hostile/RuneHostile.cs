@@ -33,7 +33,7 @@ namespace SpiritMod.Projectiles.Hostile
 			num *= projectile.scale;
 			Lighting.AddLight(projectile.Center, 0.5f * num, 0.5f * num, 0.9f * num);
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 8) {
+			if (projectile.frameCounter >= 8) {
 				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
 				projectile.frameCounter = 0;
 			}
@@ -43,28 +43,28 @@ namespace SpiritMod.Projectiles.Hostile
 			float num3 = 40f;
 			num1 = 10f;
 			num2 = 7.5f;
-			if(projectile.timeLeft > 30 && projectile.alpha > 0)
+			if (projectile.timeLeft > 30 && projectile.alpha > 0)
 				projectile.alpha -= 25;
-			if(projectile.timeLeft > 30 && projectile.alpha < 128 && Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+			if (projectile.timeLeft > 30 && projectile.alpha < 128 && Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
 				projectile.alpha = 128;
-			if(projectile.alpha < 0)
+			if (projectile.alpha < 0)
 				projectile.alpha = 0;
 
-			if(++projectile.frameCounter > 4) {
+			if (++projectile.frameCounter > 4) {
 				projectile.frameCounter = 0;
-				if(++projectile.frame >= 4)
+				if (++projectile.frame >= 4)
 					projectile.frame = 0;
 			}
 			float num4 = 0.5f;
-			if(projectile.timeLeft < 120)
+			if (projectile.timeLeft < 120)
 				num4 = 1.1f;
-			if(projectile.timeLeft < 60)
+			if (projectile.timeLeft < 60)
 				num4 = 1.6f;
 
 			++projectile.ai[1];
 			double num5 = (double)projectile.ai[1] / 180.0;
-			for(float num6 = 0.0f; (double)num6 < 3.0; ++num6) {
-				if(Main.rand.Next(3) != 0)
+			for (float num6 = 0.0f; (double)num6 < 3.0; ++num6) {
+				if (Main.rand.Next(3) != 0)
 					return;
 				Dust dust = Main.dust[Dust.NewDust(projectile.Center, 0, 0, 187, 0.0f, -2f)];
 				dust.position = projectile.Center + Vector2.UnitY.RotatedBy((double)num6 * (Math.PI / 1.5) + (double)projectile.ai[1]) * 10f;
@@ -76,17 +76,18 @@ namespace SpiritMod.Projectiles.Hostile
 			}
 
 			int index1 = (int)projectile.ai[0];
-			if(index1 >= 0 && Main.player[index1].active && !Main.player[index1].dead) {
-				if(projectile.Distance(Main.player[index1].Center) <= num3)
+			if (index1 >= 0 && Main.player[index1].active && !Main.player[index1].dead) {
+				if (projectile.Distance(Main.player[index1].Center) <= num3)
 					return;
 				Vector2 unitY = projectile.DirectionTo(Main.player[index1].Center);
-				if(unitY.HasNaNs())
+				if (unitY.HasNaNs())
 					unitY = Vector2.UnitY;
 				projectile.velocity = (projectile.velocity * (num1 - 1f) + unitY * num2) / num1;
-			} else {
-				if(projectile.timeLeft > 30)
+			}
+			else {
+				if (projectile.timeLeft > 30)
 					projectile.timeLeft = 30;
-				if(projectile.ai[0] == -1f)
+				if (projectile.ai[0] == -1f)
 					return;
 				projectile.ai[0] = -1f;
 				projectile.netUpdate = true;
@@ -95,12 +96,12 @@ namespace SpiritMod.Projectiles.Hostile
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 40; i++) {
+			for (int i = 0; i < 40; i++) {
 				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 68, 0f, -2f, 0, default(Color), 2f);
 				Main.dust[num].noGravity = true;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-				if(Main.dust[num].position != projectile.Center) {
+				if (Main.dust[num].position != projectile.Center) {
 					Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
 				}
 			}

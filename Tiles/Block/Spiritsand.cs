@@ -27,7 +27,7 @@ namespace SpiritMod.Tiles.Block
 		}
 		public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
 		{
-			if(j < Main.maxTilesY && !Main.tile[i, j + 1].active()) {
+			if (j < Main.maxTilesY && !Main.tile[i, j + 1].active()) {
 				Main.tile[i, j].active(false);
 				Projectile.NewProjectile(new Vector2(i * 16f + 8f, j * 16f + 8f), Vector2.Zero * 15f, ModContent.ProjectileType<SpiritSand>(), 15, 0f);
 				WorldGen.SquareTileFrame(i, j);

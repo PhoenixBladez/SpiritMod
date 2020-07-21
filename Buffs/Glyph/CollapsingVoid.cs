@@ -16,9 +16,9 @@ namespace SpiritMod.Buffs.Glyph
 
 		public override bool ReApply(Player player, int time, int buffIndex)
 		{
-			if(time >= 60) {
+			if (time >= 60) {
 				MyPlayer modPlayer = player.GetSpiritPlayer();
-				if(modPlayer.voidStacks < 3) {
+				if (modPlayer.voidStacks < 3) {
 					modPlayer.voidStacks++;
 				}
 
@@ -33,19 +33,20 @@ namespace SpiritMod.Buffs.Glyph
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			player.endurance += modPlayer.voidStacks * 0.05f;
 
-			if(modPlayer.voidStacks > 1 && player.buffTime[buffIndex] <= 2) {
+			if (modPlayer.voidStacks > 1 && player.buffTime[buffIndex] <= 2) {
 				modPlayer.voidStacks--;
 				player.buffTime[buffIndex] = 299;
 			}
 
-			if(modPlayer.voidStacks <= 1) {
+			if (modPlayer.voidStacks <= 1) {
 				Main.buffNoTimeDisplay[Type] = true;
 			}
 
-			if(player.whoAmI == Main.myPlayer && !Main.dedServ) {
-				if(modPlayer.voidStacks == 0) {
+			if (player.whoAmI == Main.myPlayer && !Main.dedServ) {
+				if (modPlayer.voidStacks == 0) {
 					Main.buffTexture[Type] = mod.GetTexture("CollapsingVoid");
-				} else {
+				}
+				else {
 					Main.buffTexture[Type] = mod.GetTexture("CollapsingVoid_" + modPlayer.voidStacks.ToString());
 				}
 			}

@@ -34,19 +34,19 @@ namespace SpiritMod.Projectiles
 		{
 			bool flag25 = false;
 			int jim = 1;
-			for(int index1 = 0; index1 < 200; index1++) {
-				if(Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1)) {
+			for (int index1 = 0; index1 < 200; index1++) {
+				if (Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1)) {
 					float num23 = Main.npc[index1].position.X + (float)(Main.npc[index1].width / 2);
 					float num24 = Main.npc[index1].position.Y + (float)(Main.npc[index1].height / 2);
 					float num25 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num23) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num24);
-					if(num25 < 500f) {
+					if (num25 < 500f) {
 						flag25 = true;
 						jim = index1;
 					}
 				}
 			}
 
-			if(flag25) {
+			if (flag25) {
 
 
 				float num1 = 10f;
@@ -63,8 +63,8 @@ namespace SpiritMod.Projectiles
 			}
 
 			projectile.localAI[0] += 1f;
-			if(projectile.localAI[0] > 9f) {
-				for(int num447 = 0; num447 < 2; num447++) {
+			if (projectile.localAI[0] > 9f) {
+				for (int num447 = 0; num447 < 2; num447++) {
 					Vector2 vector33 = projectile.position;
 					vector33 -= projectile.velocity * ((float)num447 * 0.25f);
 					projectile.alpha = 255;
@@ -77,10 +77,10 @@ namespace SpiritMod.Projectiles
 				return;
 			}
 			counter++;
-			if(counter >= 1440) {
+			if (counter >= 1440) {
 				counter = -1440;
 			}
-			for(int i = 0; i < 20; i++) {
+			for (int i = 0; i < 20; i++) {
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 
@@ -94,7 +94,7 @@ namespace SpiritMod.Projectiles
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			for(int i = 0; i < 4; ++i) {
+			for (int i = 0; i < 4; ++i) {
 				Projectile.NewProjectile(target.Center.X + Main.rand.Next(-80, 80), target.Center.Y - 1400 + Main.rand.Next(-50, 50), 0, Main.rand.Next(8, 18), mod.ProjectileType("NovaBeam3"), projectile.damage / 5 * 2, projectile.knockBack, projectile.owner, 0f, 0f);
 			}
 			{

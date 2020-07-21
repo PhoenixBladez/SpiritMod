@@ -17,7 +17,7 @@ namespace SpiritMod.Buffs
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			if(!npc.boss) {
+			if (!npc.boss) {
 				npc.velocity.X *= 0f;
 				npc.velocity.Y *= 0f;
 

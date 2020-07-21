@@ -33,7 +33,7 @@ namespace SpiritMod.Projectiles.Boss
 
 		public override bool PreAI()
 		{
-			for(int i = 0; i < 16; i++) {
+			for (int i = 0; i < 16; i++) {
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 				int num = Dust.NewDust(new Vector2(x, y), 26, 26, 6, 0f, 0f, 0, default(Color), 1f);
@@ -44,34 +44,36 @@ namespace SpiritMod.Projectiles.Boss
 				Main.dust[num].noGravity = true;
 			}
 
-			if(projectile.ai[0] == 0 && Main.netMode != NetmodeID.MultiplayerClient) {
+			if (projectile.ai[0] == 0 && Main.netMode != NetmodeID.MultiplayerClient) {
 				target = -1;
 				float distance = 2000f;
-				for(int k = 0; k < 255; k++) {
-					if(Main.player[k].active && !Main.player[k].dead) {
+				for (int k = 0; k < 255; k++) {
+					if (Main.player[k].active && !Main.player[k].dead) {
 						Vector2 center = Main.player[k].Center;
 						float currentDistance = Vector2.Distance(center, projectile.Center);
-						if(currentDistance < distance || target == -1) {
+						if (currentDistance < distance || target == -1) {
 							distance = currentDistance;
 							target = k;
 						}
 					}
 				}
-				if(target != -1) {
+				if (target != -1) {
 					projectile.ai[0] = 1;
 					projectile.netUpdate = true;
 				}
-			} else if(target >= 0 && target < Main.maxPlayers) {
+			}
+			else if (target >= 0 && target < Main.maxPlayers) {
 				Player targetPlayer = Main.player[target];
-				if(!targetPlayer.active || targetPlayer.dead) {
+				if (!targetPlayer.active || targetPlayer.dead) {
 					target = -1;
 					projectile.ai[0] = 0;
 					projectile.netUpdate = true;
-				} else {
+				}
+				else {
 					float currentRot = projectile.velocity.ToRotation();
 					Vector2 direction = targetPlayer.Center - projectile.Center;
 					float targetAngle = direction.ToRotation();
-					if(direction == Vector2.Zero) {
+					if (direction == Vector2.Zero) {
 						targetAngle = currentRot;
 					}
 
@@ -85,39 +87,39 @@ namespace SpiritMod.Projectiles.Boss
 		public override void AI()
 		{
 			projectile.frameCounter++;
-			if(projectile.frameCounter > 8) {
+			if (projectile.frameCounter > 8) {
 				projectile.frameCounter = 0;
 				projectile.frame++;
-				if(projectile.frame > 5)
+				if (projectile.frame > 5)
 					projectile.frame = 0;
 			}
 
 			projectile.ai[1] += 1f;
-			if(projectile.ai[1] >= 7200f) {
+			if (projectile.ai[1] >= 7200f) {
 				projectile.alpha += 5;
-				if(projectile.alpha > 255) {
+				if (projectile.alpha > 255) {
 					projectile.alpha = 255;
 					projectile.Kill();
 				}
 			}
 
 			projectile.localAI[0] += 1f;
-			if(projectile.localAI[0] >= 10f) {
+			if (projectile.localAI[0] >= 10f) {
 				projectile.localAI[0] = 0f;
 				int num416 = 0;
 				int num417 = 0;
 				float num418 = 0f;
 				int num419 = projectile.type;
-				for(int num420 = 0; num420 < 1000; num420++) {
-					if(Main.projectile[num420].active && Main.projectile[num420].owner == projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f) {
+				for (int num420 = 0; num420 < 1000; num420++) {
+					if (Main.projectile[num420].active && Main.projectile[num420].owner == projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f) {
 						num416++;
-						if(Main.projectile[num420].ai[1] > num418) {
+						if (Main.projectile[num420].ai[1] > num418) {
 							num417 = num420;
 							num418 = Main.projectile[num420].ai[1];
 						}
 					}
 				}
-				if(num416 > 8) {
+				if (num416 > 8) {
 					Main.projectile[num417].netUpdate = true;
 					Main.projectile[num417].ai[1] = 36000f;
 					return;
@@ -127,7 +129,7 @@ namespace SpiritMod.Projectiles.Boss
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 4; i < 31; i++) {
+			for (int i = 4; i < 31; i++) {
 				float x = projectile.oldVelocity.X * (30f / i);
 				float y = projectile.oldVelocity.Y * (30f / i);
 				int newDust = Dust.NewDust(new Vector2(projectile.oldPosition.X - x, projectile.oldPosition.Y - y), 8, 8,
@@ -139,7 +141,7 @@ namespace SpiritMod.Projectiles.Boss
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if(Main.rand.Next(4) == 0)
+			if (Main.rand.Next(4) == 0)
 				target.AddBuff(BuffID.OnFire, 180, true);
 
 			projectile.Kill();

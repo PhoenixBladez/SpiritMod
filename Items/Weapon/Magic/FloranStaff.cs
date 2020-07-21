@@ -40,17 +40,17 @@ namespace SpiritMod.Items.Weapon.Magic
 		{
 			ModRecipe modRecipe = new ModRecipe(mod);
 			modRecipe.AddIngredient(ModContent.ItemType<FloranBar>(), 12);
-            modRecipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 6);
-            modRecipe.AddTile(TileID.Anvils);
+			modRecipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 6);
+			modRecipe.AddTile(TileID.Anvils);
 			modRecipe.SetResult(this);
 			modRecipe.AddRecipe();
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			//Remove all previous Floran projectiles - creates "reset" behavior
-			for(int i = 0; i < Main.projectile.Length; i++) {
+			for (int i = 0; i < Main.projectile.Length; i++) {
 				Projectile p = Main.projectile[i];
-				if(p.active && p.type == item.shoot && p.owner == player.whoAmI) {
+				if (p.active && p.type == item.shoot && p.owner == player.whoAmI) {
 					p.active = false;
 				}
 			}

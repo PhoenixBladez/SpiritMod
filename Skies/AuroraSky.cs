@@ -38,9 +38,10 @@ namespace SpiritMod.Skies
 
 		public override void Update(GameTime gameTime)
 		{
-			if(skyActive && opacity < 1f) {
+			if (skyActive && opacity < 1f) {
 				opacity += 0.01f;
-			} else if(!skyActive && opacity > 0f) {
+			}
+			else if (!skyActive && opacity > 0f) {
 				opacity -= 0.005f;
 			}
 		}

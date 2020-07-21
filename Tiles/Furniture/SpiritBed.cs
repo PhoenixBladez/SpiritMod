@@ -42,14 +42,15 @@ namespace SpiritMod.Tiles.Furniture
 			int spawnX = i - tile.frameX / 18;
 			int spawnY = j + 2;
 			spawnX += tile.frameX >= 72 ? 5 : 2;
-			if(tile.frameY % 38 != 0) {
+			if (tile.frameY % 38 != 0) {
 				spawnY--;
 			}
 			player.FindSpawn();
-			if(player.SpawnX == spawnX && player.SpawnY == spawnY) {
+			if (player.SpawnX == spawnX && player.SpawnY == spawnY) {
 				player.RemoveSpawn();
 				Main.NewText("Spawn point removed!", 255, 240, 20, false);
-			} else if(Player.CheckSpawn(spawnX, spawnY)) {
+			}
+			else if (Player.CheckSpawn(spawnX, spawnY)) {
 				player.ChangeSpawn(spawnX, spawnY);
 				Main.NewText("Spawn point set!", 255, 240, 20, false);
 			}

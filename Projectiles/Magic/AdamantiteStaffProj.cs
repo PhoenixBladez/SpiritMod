@@ -28,7 +28,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override bool PreAI()
 		{
 			int num = 5;
-			for(int k = 0; k < 10; k++) {
+			for (int k = 0; k < 10; k++) {
 				int index2 = Dust.NewDust(projectile.position, 1, 1, 60, 0.0f, 0.0f, 0, new Color(), 1.3f);
 				Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
 				Main.dust[index2].scale = .5f;

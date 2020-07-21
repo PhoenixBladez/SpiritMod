@@ -51,9 +51,9 @@ namespace SpiritMod.Items.Glyphs
 		public static void PlagueEffects(NPC target, int owner, ref int damage, bool crit)
 		{
 			damage += target.checkArmorPenetration(6);
-			if(!crit || !target.CanLeech())
+			if (!crit || !target.CanLeech())
 				return;
-			if(Main.rand.NextDouble() < 0.5) {
+			if (Main.rand.NextDouble() < 0.5) {
 				target.AddBuff(ModContent.BuffType<WanderingPlague>(), 360);
 				target.GetGlobalNPC<NPCs.GNPC>().unholySource = owner;
 			}
@@ -61,19 +61,19 @@ namespace SpiritMod.Items.Glyphs
 
 		public static void ReleasePoisonClouds(NPC target, int time)
 		{
-			if(Main.netMode == NetmodeID.Server)
+			if (Main.netMode == NetmodeID.Server)
 				return;
-			if(time % 80 != 0)
+			if (time % 80 != 0)
 				return;
 			int owner = target.GetGlobalNPC<NPCs.GNPC>().unholySource;
-			if(!Main.player[owner].active)
+			if (!Main.player[owner].active)
 				return;
 			int max = time != 0 ? 1 : Main.hardMode ? 3 : 1;
-			for(int i = 0; i < max; i++) {
+			for (int i = 0; i < max; i++) {
 				Vector2 vel = Vector2.UnitY.RotatedByRandom(Math.PI * 2);
 				vel *= Main.rand.Next(8, 40) * .125f;
 				int projectile = Projectile.NewProjectile(target.Center, vel, ModContent.ProjectileType<PoisonCloud>(), Main.hardMode ? 35 : 20, 0, owner, target.whoAmI);
-				if(Main.netMode == NetmodeID.Server) {
+				if (Main.netMode == NetmodeID.Server) {
 					Main.projectile[projectile].ai[0] = target.whoAmI;
 					NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projectile);
 				}

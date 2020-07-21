@@ -62,12 +62,13 @@ namespace SpiritMod.Items.Weapon.Magic
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if(Main.rand.Next(3) == 0) {
+			if (Main.rand.Next(3) == 0) {
 				Vector2 origVect = new Vector2(speedX, speedY);
-				for(int X = 0; X < 3; X++) {
-					if(Main.rand.Next(2) == 1) {
+				for (int X = 0; X < 3; X++) {
+					if (Main.rand.Next(2) == 1) {
 						newVect = origVect.RotatedBy(System.Math.PI / (Main.rand.Next(300, 500) / 10));
-					} else {
+					}
+					else {
 						newVect = origVect.RotatedBy(-System.Math.PI / (Main.rand.Next(300, 500) / 10));
 					}
 					Projectile proj = Main.projectile[Projectile.NewProjectile(position.X, position.Y, newVect.X, newVect.Y, type, damage, knockBack, player.whoAmI)];

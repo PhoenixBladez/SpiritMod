@@ -45,7 +45,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-			for(int k = 0; k < projectile.oldPos.Length; k++) {
+			for (int k = 0; k < projectile.oldPos.Length; k++) {
 				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
 				Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
 				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
@@ -57,7 +57,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 			Vector2 vector9 = projectile.position;
 			Vector2 value19 = (projectile.rotation - 1.57079637f).ToRotationVector2();
 			vector9 += value19 * 16f;
-			for(int num257 = 0; num257 < 20; num257++) {
+			for (int num257 = 0; num257 < 20; num257++) {
 				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, 173, 0f, 0f, 0, default(Color), 1f);
 				Main.dust[newDust].position = (Main.dust[newDust].position + projectile.Center) / 2f;
 				Main.dust[newDust].velocity += value19 * 2f;
@@ -68,7 +68,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(4) == 2)
+			if (Main.rand.Next(4) == 2)
 				target.AddBuff(BuffID.CursedInferno, 180);
 		}
 

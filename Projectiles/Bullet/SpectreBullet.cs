@@ -9,7 +9,7 @@ namespace SpiritMod.Projectiles.Bullet
 {
 	class SpectreBullet : ModProjectile
 	{
-		
+
 		public override string Texture => SpiritMod.EMPTY_TEXTURE;
 
 		public const float MAX_ANGLE_CHANGE = (float)Math.PI / 12;
@@ -36,26 +36,28 @@ namespace SpiritMod.Projectiles.Bullet
 
 		public override void AI()
 		{
-			if(projectile.ai[1] == 0) {
+			if (projectile.ai[1] == 0) {
 				projectile.ai[0] = -1;
 				projectile.ai[1] = projectile.velocity.Length();
 			}
 
 			bool chasing = true;
 			NPC target = null;
-			if(projectile.ai[0] < 0 || projectile.ai[0] >= Main.maxNPCs) {
+			if (projectile.ai[0] < 0 || projectile.ai[0] >= Main.maxNPCs) {
 				target = ProjectileExtras.FindCheapestNPC(projectile.Center, projectile.velocity, ACCELERATION, MAX_ANGLE_CHANGE);
-			} else {
+			}
+			else {
 				target = Main.npc[(int)projectile.ai[0]];
-				if(!target.active || !target.CanBeChasedBy()) {
+				if (!target.active || !target.CanBeChasedBy()) {
 					target = ProjectileExtras.FindCheapestNPC(projectile.Center, projectile.velocity, ACCELERATION, MAX_ANGLE_CHANGE);
 				}
 			}
 
-			if(target == null) {
+			if (target == null) {
 				chasing = false;
 				projectile.ai[0] = -1f;
-			} else {
+			}
+			else {
 				projectile.ai[0] = (float)target.whoAmI;
 				ProjectileExtras.HomingAI(this, target, projectile.ai[1], ACCELERATION);
 			}
@@ -63,10 +65,10 @@ namespace SpiritMod.Projectiles.Bullet
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(!target.chaseable || target.lifeMax <= 5 || target.dontTakeDamage || target.friendly || target.immortal)
+			if (!target.chaseable || target.lifeMax <= 5 || target.dontTakeDamage || target.friendly || target.immortal)
 				return;
 
-			if(Main.rand.Next(100) <= 35) {
+			if (Main.rand.Next(100) <= 35) {
 				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ProjectileID.VampireHeal, 0, 0f, projectile.owner, projectile.owner, 1);
 			}
 		}
@@ -78,7 +80,7 @@ namespace SpiritMod.Projectiles.Bullet
 			float deviation = projectile.ai[1] * .125f;
 			float vX = projectile.velocity.X * (projectile.extraUpdates + 1);
 			float vY = projectile.velocity.Y * (projectile.extraUpdates + 1);
-			for(int i = 0; i < max; i++) {
+			for (int i = 0; i < max; i++) {
 				Vector2 position = projectile.Center - offset * i;
 				int dust = Dust.NewDust(position, 0, 0, 187, vX * .25f - vY * .08f, vY * .25f + vX * .08f);
 				Main.dust[dust].noGravity = true;

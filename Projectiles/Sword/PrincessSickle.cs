@@ -29,7 +29,7 @@ namespace SpiritMod.Projectiles.Sword
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 6);
-			for(int num623 = 0; num623 < 25; num623++) {
+			for (int num623 = 0; num623 < 25; num623++) {
 				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 168, 0f, 0f, 100, default(Color), 2f);
 				Main.dust[num622].noGravity = true;
 				Main.dust[num622].velocity *= 1.5f;
@@ -39,7 +39,7 @@ namespace SpiritMod.Projectiles.Sword
 
 		public override void AI()
 		{
-			if(timer < 150) {
+			if (timer < 150) {
 				projectile.velocity *= 0.97f;
 			}
 			timer++;
@@ -49,10 +49,10 @@ namespace SpiritMod.Projectiles.Sword
 
 			//loop through first 200 NPCs in Main.npc
 			//this loop finds the closest valid target NPC within the range of targetDist pixels
-			for(int i = 0; i < 200; i++) {
-				if(Main.npc[i].CanBeChasedBy(projectile) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1)) {
+			for (int i = 0; i < 200; i++) {
+				if (Main.npc[i].CanBeChasedBy(projectile) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1)) {
 					float dist = projectile.Distance(Main.npc[i].Center);
-					if(dist < targetDist) {
+					if (dist < targetDist) {
 						targetDist = dist;
 						targetPos = Main.npc[i].Center;
 						targetAcquired = true;
@@ -62,14 +62,14 @@ namespace SpiritMod.Projectiles.Sword
 
 			//change trajectory to home in on target
 			projectile.rotation += 0.2f;
-			if(timer > 100) {
+			if (timer > 100) {
 				projectile.rotation += 0.2f;
 				int num622 = Dust.NewDust(new Vector2(projectile.position.X - projectile.velocity.X, projectile.position.Y - projectile.velocity.Y), projectile.width, projectile.height, 168, 0f, 0f, 100, default(Color), 2f);
 				Main.dust[num622].noGravity = true;
 				Main.dust[num622].scale = 1.5f;
 
 			}
-			if(targetAcquired && timer > 150 && !launch) {
+			if (targetAcquired && timer > 150 && !launch) {
 				float homingSpeedFactor = 25f;
 				Vector2 homingVect = targetPos - projectile.Center;
 				homingVect.Normalize();
@@ -85,10 +85,10 @@ namespace SpiritMod.Projectiles.Sword
 			float max = 2.25f;
 			float min = 1.0f;
 			RGB *= multiplier;
-			if(RGB.X > max) {
+			if (RGB.X > max) {
 				multiplier = 0.5f;
 			}
-			if(RGB.X < min) {
+			if (RGB.X < min) {
 				multiplier = 1.5f;
 			}
 			Lighting.AddLight(projectile.position, RGB.X, RGB.Y, RGB.Z);

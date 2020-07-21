@@ -24,13 +24,13 @@ namespace SpiritMod.Projectiles.Boss
 
 		public override void AI()
 		{
-			if(projectile.localAI[0] == 0f) {
+			if (projectile.localAI[0] == 0f) {
 				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 33);
 				projectile.localAI[0] += 1f;
 			}
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 
-			for(int i = 0; i < 2; i++) {
+			for (int i = 0; i < 2; i++) {
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 				int num = Dust.NewDust(new Vector2(x, y), 2, 2, 206);
@@ -47,7 +47,7 @@ namespace SpiritMod.Projectiles.Boss
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 
-			for(int num621 = 0; num621 < 15; num621++) {
+			for (int num621 = 0; num621 < 15; num621++) {
 				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 206, 0f, 0f, 100, default(Color), 2f);
 			}
 		}

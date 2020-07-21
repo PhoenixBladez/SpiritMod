@@ -8,7 +8,7 @@ namespace SpiritMod.Items.DonatorItems
 {
 	class DemonTail : ModItem
 	{
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Demon Tail");

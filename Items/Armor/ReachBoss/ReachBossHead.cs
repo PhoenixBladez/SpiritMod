@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Armor.ReachBoss
 			item.height = 20;
 			item.value = Item.buyPrice(silver: 30);
 			item.rare = ItemRarityID.Green;
-            item.vanity = true;
-        }
+			item.vanity = true;
+		}
 	}
 }

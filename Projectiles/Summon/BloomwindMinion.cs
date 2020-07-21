@@ -35,7 +35,7 @@ namespace SpiritMod.Projectiles.Summon
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			if(projectile.penetrate == 0)
+			if (projectile.penetrate == 0)
 				projectile.Kill();
 
 			return false;
@@ -44,14 +44,14 @@ namespace SpiritMod.Projectiles.Summon
 		public override void AI()
 		{
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 2) {
+			if (projectile.frameCounter >= 2) {
 				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
 				projectile.frameCounter = 0;
 			}
 			Player player = Main.player[projectile.owner];
 
 			MyPlayer mp = Main.player[projectile.owner].GetSpiritPlayer();
-			if(mp.bloomwindSet && !mp.player.dead)
+			if (mp.bloomwindSet && !mp.player.dead)
 				projectile.timeLeft = 2;
 
 		}

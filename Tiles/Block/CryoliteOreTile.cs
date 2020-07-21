@@ -25,15 +25,15 @@ namespace SpiritMod.Tiles.Block
 			dustType = 68;
 
 		}
-        public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
-        {
-            r = .064f*1.5f;
-            g = .112f*1.5f;
-            b = .128f*1.5f;
-        }
-        public override bool CanExplode(int i, int j)
-        {
-            return false;
-        }
-    }
+		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
+		{
+			r = .064f * 1.5f;
+			g = .112f * 1.5f;
+			b = .128f * 1.5f;
+		}
+		public override bool CanExplode(int i, int j)
+		{
+			return false;
+		}
+	}
 }

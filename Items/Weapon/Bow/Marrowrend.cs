@@ -39,8 +39,8 @@ namespace SpiritMod.Items.Weapon.Bow
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			charger++;
-			if(charger >= 5) {
-				for(int I = 0; I < 5; I++) {
+			if (charger >= 5) {
+				for (int I = 0; I < 5; I++) {
 					Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<CursedBone>(), damage, knockBack, player.whoAmI, 0f, 0f);
 				}
 				charger = 0;

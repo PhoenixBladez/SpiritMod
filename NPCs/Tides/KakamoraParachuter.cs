@@ -34,16 +34,15 @@ namespace SpiritMod.NPCs.Tides
 			npc.noTileCollide = false;
 			npc.HitSound = SoundID.NPCHit2;
 			npc.DeathSound = SoundID.NPCDeath1;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.KakamoraGliderBanner>();
-        }
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.KakamoraGliderBanner>();
+		}
 		bool teleportedup = false;
 		public override void AI()
-        {
-			if (teleportedup && npc.velocity.Y == 0)
-			{
+		{
+			if (teleportedup && npc.velocity.Y == 0) {
 				Projectile.NewProjectile(npc.Center, new Vector2(npc.direction * -4, -0.5f), ModContent.ProjectileType<StrayGlider>(), 0, 0);
-				switch(Main.rand.Next(4)) {
+				switch (Main.rand.Next(4)) {
 					case 0:
 						npc.Transform(ModContent.NPCType<KakamoraRunner>());
 						break;
@@ -58,62 +57,58 @@ namespace SpiritMod.NPCs.Tides
 						break;
 				}
 			}
-			if (!teleportedup)
-			{
+			if (!teleportedup) {
 				teleportedup = true;
 				npc.position.Y -= Main.rand.Next(1300, 1700);
 			}
-            if (npc.wet)
-            {
-                npc.noGravity = true;
-                npc.velocity.Y -= .0965f;
-            }
-            else
-            {
-                npc.noGravity = false;
-            }
-            npc.spriteDirection = npc.direction;
+			if (npc.wet) {
+				npc.noGravity = true;
+				npc.velocity.Y -= .0965f;
+			}
+			else {
+				npc.noGravity = false;
+			}
+			npc.spriteDirection = npc.direction;
 			Player player = Main.player[npc.target];
-			if(player.position.X > npc.position.X) {
+			if (player.position.X > npc.position.X) {
 				npc.velocity.X = MathHelper.Clamp(npc.velocity.X + 0.2f, -4, 4);
-			} else {
+			}
+			else {
 				npc.velocity.X = MathHelper.Clamp(npc.velocity.X - 0.2f, -4, 4);
 			}
 			npc.velocity.Y = 1;
-			if(npc.collideY) {
+			if (npc.collideY) {
 				Projectile.NewProjectile(npc.Center, new Vector2(npc.direction * -4, -0.5f), ModContent.ProjectileType<StrayGlider>(), 0, 0);
-				switch(Main.rand.Next(4)) {
+				switch (Main.rand.Next(4)) {
 					case 0:
 						npc.Transform(ModContent.NPCType<KakamoraRunner>());
-                        npc.life = npc.life;
-                        break;
+						npc.life = npc.life;
+						break;
 					case 1:
 						npc.Transform(ModContent.NPCType<SpearKakamora>());
-                        npc.life = npc.life;
-                        break;
+						npc.life = npc.life;
+						break;
 					case 2:
 						npc.Transform(ModContent.NPCType<SwordKakamora>());
-                        npc.life = npc.life;
-                        break;
+						npc.life = npc.life;
+						break;
 					case 3:
 						npc.Transform(ModContent.NPCType<KakamoraShielder>());
-                        npc.life = npc.life;
-                        break;
+						npc.life = npc.life;
+						break;
 				}
 			}
 		}
-        public override void NPCLoot()
-        {
-            if (Main.rand.NextBool(50))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CoconutGun>());
-            }
-            if (Main.rand.NextBool(50))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TikiJavelin>());
-            }
-        }
-        public override void FindFrame(int frameHeight)
+		public override void NPCLoot()
+		{
+			if (Main.rand.NextBool(50)) {
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CoconutGun>());
+			}
+			if (Main.rand.NextBool(50)) {
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TikiJavelin>());
+			}
+		}
+		public override void FindFrame(int frameHeight)
 		{
 			npc.frameCounter += 0.25f;
 			npc.frameCounter %= Main.npcFrameCount[npc.type];
@@ -121,24 +116,23 @@ namespace SpiritMod.NPCs.Tides
 			npc.frame.Y = frame * frameHeight;
 		}
 		public override void HitEffect(int hitDirection, double damage)
-        {
-            int d = 207;
-            int d1 = 207;
-            for (int k = 0; k < 10; k++)
-            {
-                Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
-                Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
-            }
-            if (npc.life <= 0) {
+		{
+			int d = 207;
+			int d1 = 207;
+			for (int k = 0; k < 10; k++) {
+				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
+				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
+			}
+			if (npc.life <= 0) {
 				Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraDeath"));
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Kakamora_Gore"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Kakamora_Gore1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Kakamora_GoreGlider"), 1f);
-                if (TideWorld.TheTide && TideWorld.TidePoints < 99)
-                {
-                    TideWorld.TidePoints += 1;
-                }
-            } else {
+				if (TideWorld.TheTide && TideWorld.TidePoints < 99) {
+					TideWorld.TidePoints += 1;
+				}
+			}
+			else {
 				Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraHit"));
 			}
 		}

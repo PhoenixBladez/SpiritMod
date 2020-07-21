@@ -38,10 +38,10 @@ namespace SpiritMod.Projectiles.Held
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			{
-				if(Main.rand.Next(4) == 0 && !target.SpawnedFromStatue) {
+				if (Main.rand.Next(4) == 0 && !target.SpawnedFromStatue) {
 					target.AddBuff(BuffID.Midas, 180);
 				}
-				if(!target.SpawnedFromStatue && Main.rand.Next(4) == 0 && target.HasBuff(BuffID.Midas)) {
+				if (!target.SpawnedFromStatue && Main.rand.Next(4) == 0 && target.HasBuff(BuffID.Midas)) {
 					int proj = Projectile.NewProjectile(target.Center.X, target.Center.Y,
 					0, 0, ModContent.ProjectileType<GildedFountain>(), projectile.damage, projectile.knockBack, projectile.owner);
 				}

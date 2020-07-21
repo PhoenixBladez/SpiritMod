@@ -35,7 +35,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
 
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 4) {
+			if (projectile.frameCounter >= 4) {
 				projectile.frameCounter = 0;
 				projectile.frame = (projectile.frame + 1) % 2;
 			}
@@ -53,7 +53,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		{
 			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.GoldCoin, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
 
-			for(int i = 0; i < 1; i++) {
+			for (int i = 0; i < 1; i++) {
 				float rotation = (float)(Main.rand.Next(0, 361) * (Math.PI / 180));
 				Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
 				int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, velocity.X, velocity.Y, mod.ProjectileType("ScarabDust1"), 13, projectile.owner, 0, 0f);

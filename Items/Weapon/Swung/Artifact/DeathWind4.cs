@@ -39,8 +39,8 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 			TooltipLine line = new TooltipLine(mod, "ItemName", "Artifact Weapon");
 			line.overrideColor = new Color(100, 0, 230);
 			tooltips.Add(line);
-			foreach(TooltipLine line2 in tooltips) {
-				if(line2.mod == "Terraria" && line2.Name == "ItemName") {
+			foreach (TooltipLine line2 in tooltips) {
+				if (line2.mod == "Terraria" && line2.Name == "ItemName") {
 					line2.overrideColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
 					break;
 				}
@@ -54,10 +54,11 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 110);
 				Main.dust[dust].noGravity = true;
-			} else {
+			}
+			else {
 				int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 110);
 				Main.dust[dust].noGravity = true;
 			}
@@ -65,17 +66,17 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
 		{
-			if(Main.rand.Next(5) == 2)
+			if (Main.rand.Next(5) == 2)
 				target.AddBuff(mod.BuffType("DeathWreathe3"), 240);
-			if(Main.rand.Next(6) == 1)
+			if (Main.rand.Next(6) == 1)
 				damage = damage + (int)(target.defense);
-			if(Main.rand.Next(6) == 2)
+			if (Main.rand.Next(6) == 2)
 				player.AddBuff(ModContent.BuffType<SoulReap>(), 240);
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 
 				MyPlayer modPlayer = player.GetSpiritPlayer();
 				modPlayer.shootDelay1 = 360;
@@ -87,9 +88,9 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 
 		public override bool CanUseItem(Player player)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				MyPlayer modPlayer = player.GetSpiritPlayer();
-				if(modPlayer.shootDelay1 == 0)
+				if (modPlayer.shootDelay1 == 0)
 					return true;
 				return false;
 			}

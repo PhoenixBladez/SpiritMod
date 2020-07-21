@@ -17,8 +17,8 @@ namespace SpiritMod.Buffs
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			if(Main.rand.Next(2) == 0) {
-				for(int k = 0; k < 2; k++) {
+			if (Main.rand.Next(2) == 0) {
+				for (int k = 0; k < 2; k++) {
 					int dust = Dust.NewDust(npc.Center, npc.width, npc.height, 130);
 					Main.dust[dust].velocity *= -1f;
 					Main.dust[dust].noGravity = true;

@@ -15,7 +15,7 @@ namespace SpiritMod.Items.Armor.BismiteArmor
 		public override string SetTooltip => "4% increased movement speed";
 		public override bool SetBody(Item body) => body.type == ModContent.ItemType<BismiteChestplate>();
 		public override bool SetLegs(Item legs) => legs.type == ModContent.ItemType<BismiteLeggings>();
-		public override string SetbonusText 
+		public override string SetbonusText
 			=> "Not getting hit builds up stacks of Virulence\n"
 			+ "Virulence charges up every 10 seconds\n"
 			+ "Striking while Virulence is charged releases a toxic explosion\n"
@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Armor.BismiteArmor
 
 		public override void ArmorSetShadows(Player player)
 		{
-			if(player.GetSpiritPlayer().setbonus is BismiteSetbonusEffect setbonus && setbonus.virulence <= 0) {
+			if (player.GetSpiritPlayer().setbonus is BismiteSetbonusEffect setbonus && setbonus.virulence <= 0) {
 				player.armorEffectDrawShadow = true;
 			}
 		}
@@ -65,11 +65,11 @@ namespace SpiritMod.Items.Armor.BismiteArmor
 
 		public override void PlayerPostUpdate(Player player)
 		{
-			if(player.HasBuff(ModContent.BuffType<VirulenceCooldown>()) || virulence >= 0) {
+			if (player.HasBuff(ModContent.BuffType<VirulenceCooldown>()) || virulence >= 0) {
 				virulence--;
 			}
 
-			if(virulence == 0f) {
+			if (virulence == 0f) {
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(25, 1));
 				Rectangle textPos = new Rectangle((int)player.position.X, (int)player.position.Y - 20, player.width, player.height);
 				CombatText.NewText(textPos, new Color(95, 156, 111, 100), "Virulence Charged!");
@@ -80,7 +80,7 @@ namespace SpiritMod.Items.Armor.BismiteArmor
 		{
 			virulence = 600f;
 
-			if(!player.HasBuff(ModContent.BuffType<VirulenceCooldown>())) {
+			if (!player.HasBuff(ModContent.BuffType<VirulenceCooldown>())) {
 				Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<VirulenceExplosion>(), projDamage, 5, Main.myPlayer);
 			}
 
@@ -89,7 +89,7 @@ namespace SpiritMod.Items.Armor.BismiteArmor
 
 		public override void PlayerOnHitNPC(Player player, Item item, NPC target, int damage, float knockback, bool crit)
 		{
-			if(virulence <= 0f) {
+			if (virulence <= 0f) {
 				Projectile.NewProjectile(target.position, Vector2.Zero, ModContent.ProjectileType<VirulenceExplosion>(), 25, 8, Main.myPlayer);
 				virulence = 600f;
 				player.AddBuff(ModContent.BuffType<VirulenceCooldown>(), 140);
@@ -98,7 +98,7 @@ namespace SpiritMod.Items.Armor.BismiteArmor
 
 		public override void PlayerOnHitNPCWithProj(Player player, Projectile proj, NPC target, int damage, float knockback, bool crit)
 		{
-			if(virulence <= 0f) {
+			if (virulence <= 0f) {
 				Projectile.NewProjectile(target.position, Vector2.Zero, ModContent.ProjectileType<VirulenceExplosion>(), 25, 8, Main.myPlayer);
 				virulence = 600f;
 				player.AddBuff(ModContent.BuffType<VirulenceCooldown>(), 140);
@@ -108,8 +108,8 @@ namespace SpiritMod.Items.Armor.BismiteArmor
 		public override void PlayerDrawEffects(PlayerDrawInfo drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
 		{
 			var player = drawInfo.drawPlayer;
-			if(virulence <= 0 && Main.rand.NextBool(2)) {
-				for(int index1 = 0; index1 < 4; ++index1) {
+			if (virulence <= 0 && Main.rand.NextBool(2)) {
+				for (int index1 = 0; index1 < 4; ++index1) {
 					int dust = Dust.NewDust(player.position, player.width, player.height, 167, 0, 0, 167, default, Main.rand.NextFloat(.4f, 1.2f));
 					Main.dust[dust].noGravity = true;
 					Main.dust[dust].velocity *= 1.8f;

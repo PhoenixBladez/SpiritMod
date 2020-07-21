@@ -42,27 +42,29 @@ namespace SpiritMod.Items.Weapon.Bow
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				type = ModContent.ProjectileType<FlayedShot>();
-				if(counter > 0) {
+				if (counter > 0) {
 					return false;
-				} else {
+				}
+				else {
 					counter = 5;
 				}
 
-			} else {
+			}
+			else {
 				counter--;
 			}
-			if(counter == 0) {
+			if (counter == 0) {
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 20));
 				{
-					for(int i = 0; i < 7; i++) {
+					for (int i = 0; i < 7; i++) {
 						int num = Dust.NewDust(player.position, player.width, player.height, 5, 0f, -2f, 0, default(Color), 2f);
 						Main.dust[num].noGravity = true;
 						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 						Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
 						Main.dust[num].scale *= .25f;
-						if(Main.dust[num].position != player.Center)
+						if (Main.dust[num].position != player.Center)
 							Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
 					}
 				}
@@ -71,10 +73,11 @@ namespace SpiritMod.Items.Weapon.Bow
 		}
 		public override bool CanUseItem(Player player)
 		{
-			if(player.altFunctionUse == 2) {
-				if(counter > 0) {
+			if (player.altFunctionUse == 2) {
+				if (counter > 0) {
 					return false;
-				} else {
+				}
+				else {
 					return true;
 				}
 

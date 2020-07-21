@@ -23,7 +23,7 @@ namespace SpiritMod.Tiles.Furniture
 
 		public override void AnimateTile(ref int frame, ref int frameCounter)
 		{
-			if(Main.dayTime || Main.gameMenu) {
+			if (Main.dayTime || Main.gameMenu) {
 				frame = 0;
 				return;
 			}
@@ -33,11 +33,11 @@ namespace SpiritMod.Tiles.Furniture
 
 		public override void MouseOverFar(int i, int j)
 		{
-			if(Main.dayTime)
+			if (Main.dayTime)
 				return;
 
 			Player player = Main.player[Main.myPlayer];
-			if(player.GetModPlayer<MyPlayer>().candyInBowl <= 0)
+			if (player.GetModPlayer<MyPlayer>().candyInBowl <= 0)
 				return;
 
 			player.noThrow = 2;
@@ -47,12 +47,12 @@ namespace SpiritMod.Tiles.Furniture
 
 		public override void RightClick(int i, int j)
 		{
-			if(Main.dayTime)
+			if (Main.dayTime)
 				return;
 
 			Player player = Main.player[Main.myPlayer];
 			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
-			if(modPlayer.candyInBowl <= 0)
+			if (modPlayer.candyInBowl <= 0)
 				return;
 
 			ItemUtils.DropCandy(player);

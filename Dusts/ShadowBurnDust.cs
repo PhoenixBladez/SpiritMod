@@ -23,7 +23,7 @@ namespace SpiritMod.Dusts
 			Lighting.AddLight((int)(dust.position.X / 16f), (int)(dust.position.Y / 16f), 1.41f, 0.495f, 0.645f);
 
 			dust.scale -= 0.03f;
-			if(dust.scale < 0.5f) {
+			if (dust.scale < 0.5f) {
 				dust.active = false;
 			}
 

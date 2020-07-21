@@ -36,7 +36,7 @@ namespace SpiritMod.Projectiles.Summon
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			if(projectile.penetrate == 0)
+			if (projectile.penetrate == 0)
 				projectile.Kill();
 
 			return false;
@@ -46,10 +46,10 @@ namespace SpiritMod.Projectiles.Summon
 		{
 			projectile.spriteDirection = projectile.direction;
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 1) {
+			if (projectile.frameCounter >= 1) {
 				projectile.frame++;
 				projectile.frameCounter = 0;
-				if(projectile.frame >= 5)
+				if (projectile.frame >= 5)
 					projectile.frame = 0;
 
 			}
@@ -57,7 +57,7 @@ namespace SpiritMod.Projectiles.Summon
 		}
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 5; i++) {
+			for (int i = 0; i < 5; i++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 5);
 			}
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);

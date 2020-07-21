@@ -22,7 +22,7 @@ namespace SpiritMod.Buffs.Glyph
 		{
 			npc.GetGlobalNPC<GNPC>().unholyPlague = true;
 
-			if(Main.rand.NextDouble() < 0.25f) {
+			if (Main.rand.NextDouble() < 0.25f) {
 				Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<PlagueDust>(), npc.velocity.X, npc.velocity.Y);
 			}
 

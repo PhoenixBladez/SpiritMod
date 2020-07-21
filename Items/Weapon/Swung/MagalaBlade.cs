@@ -41,13 +41,13 @@ namespace SpiritMod.Items.Weapon.Swung
 		}
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				target.AddBuff(ModContent.BuffType<FrenzyVirus>(), 580);
 			}
 		}
 		public override bool CanUseItem(Player player)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				item.damage = 10;
 				item.noUseGraphic = true;
 				item.shoot = ModContent.ProjectileType<MagalaShield>();
@@ -57,7 +57,8 @@ namespace SpiritMod.Items.Weapon.Swung
 				item.knockBack = 9;
 				item.autoReuse = false;
 				item.shootSpeed = 2f;
-			} else {
+			}
+			else {
 				item.damage = 50;
 				item.noUseGraphic = false;
 				item.useTime = 24;
@@ -74,10 +75,11 @@ namespace SpiritMod.Items.Weapon.Swung
 		}
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 
-			} else {
-				if(Main.rand.Next(2) == 0) {
+			}
+			else {
+				if (Main.rand.Next(2) == 0) {
 					int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 173);
 				}
 			}

@@ -9,13 +9,13 @@ namespace SpiritMod.Items.Weapon.Gun
 	public class Terravolver : SpiritItem
 	{
 		public override string SetDisplayName => "Terravolver";
-		public override string SetTooltip => 
+		public override string SetTooltip =>
 			"Shoots elemental bullets and bombs that inflict powerful burns\n" +
 			"Right click while holding for a shotgun blast\n" +
-			"33% chance to not consume ammo\n" + 
+			"33% chance to not consume ammo\n" +
 			"'Nature goes out with a bang'";
 		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
-		public override float DontConsumeAmmoChance => 1/3f;
+		public override float DontConsumeAmmoChance => 1 / 3f;
 
 		private Vector2 newVect;
 		int charger;
@@ -44,30 +44,32 @@ namespace SpiritMod.Items.Weapon.Gun
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if(player.IsUsingAlt()) {
+			if (player.IsUsingAlt()) {
 				player.itemTime = 29;
 				player.itemAnimation = 29;
 				Vector2 origVect = new Vector2(speedX, speedY);
-				for(int X = 0; X <= 3; X++) {
-					if(Main.rand.Next(2) == 1) {
+				for (int X = 0; X <= 3; X++) {
+					if (Main.rand.Next(2) == 1) {
 						newVect = origVect.RotatedBy(Math.PI / (Main.rand.Next(82, 1800) / 10));
-					} else {
+					}
+					else {
 						newVect = origVect.RotatedBy(-Math.PI / (Main.rand.Next(82, 1800) / 10));
 					}
-					if(type == ProjectileID.Bullet) type = ModContent.ProjectileType<TerraBullet1>();
+					if (type == ProjectileID.Bullet) type = ModContent.ProjectileType<TerraBullet1>();
 					Projectile.NewProjectile(position.X, position.Y, newVect.X, newVect.Y, type, damage, 8f, player.whoAmI);
 				}
 				return false;
-			} else {
+			}
+			else {
 				charger++;
-				if(charger >= 7) {
+				if (charger >= 7) {
 					// Bombs do 33% more damage
 					int bombDamage = damage + (int)(damage * (1 / 3f));
 					Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<TerraBomb>(), bombDamage, knockBack, player.whoAmI, 0f, 0f);
 					charger = 0;
 				}
 
-				if(type == ProjectileID.Bullet) type = ModContent.ProjectileType<TerraBullet>();
+				if (type == ProjectileID.Bullet) type = ModContent.ProjectileType<TerraBullet>();
 				float spread = MathHelper.PiOver4 / 10;
 				float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
 				double baseAngle = Math.Atan2(speedX, speedY);

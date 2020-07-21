@@ -13,7 +13,7 @@ namespace SpiritMod.Dusts
 		public override bool Update(Dust dust)
 		{
 			dust.scale *= 0.95f;
-			if(dust.scale < 0.5f) {
+			if (dust.scale < 0.5f) {
 				dust.active = false;
 			}
 			return false;

@@ -31,16 +31,16 @@ namespace SpiritMod.Items.Armor.StreamSurfer
 			player.allDamage += 0.05f;
 			player.gills = true;
 		}
-		
+
 		public override void UpdateArmorSet(Player player)
-        {
+		{
 			string tapDir = Language.GetTextValue(Main.ReversedUpDownArmorSetBonuses ? "Key.UP" : "Key.DOWN");
 			player.GetSpiritPlayer().surferSet = true;
 			player.setBonus = $"Double tap {tapDir} to create a ridable waterspout that damages enemies\n7 second cooldown";
 		}
-		
-		public override bool IsArmorSet(Item head, Item body, Item legs) 
-			=> body.type == ModContent.ItemType<StreamSurferChestplate>() 
+
+		public override bool IsArmorSet(Item head, Item body, Item legs)
+			=> body.type == ModContent.ItemType<StreamSurferChestplate>()
 			&& legs.type == ModContent.ItemType<StreamSurferLeggings>();
 
 		public override void AddRecipes()

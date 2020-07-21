@@ -51,10 +51,11 @@ namespace SpiritMod.Items.Weapon.Bow
 			//Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.IchorArrow, damage, knockBack, player.whoAmI, 0f, 0f);
 
 			Vector2 origVect = new Vector2(speedX, speedY);
-			for(int X = 0; X <= 1; X++) {
-				if(Main.rand.Next(2) == 1) {
+			for (int X = 0; X <= 1; X++) {
+				if (Main.rand.Next(2) == 1) {
 					newVect = origVect.RotatedBy(System.Math.PI / (Main.rand.Next(112, 1800) / 10));
-				} else {
+				}
+				else {
 					newVect = origVect.RotatedBy(-System.Math.PI / (Main.rand.Next(112, 1800) / 10));
 				}
 				int proj = Projectile.NewProjectile(position.X, position.Y, newVect.X, newVect.Y, ModContent.ProjectileType<HellArrow>(), damage, knockBack, player.whoAmI);

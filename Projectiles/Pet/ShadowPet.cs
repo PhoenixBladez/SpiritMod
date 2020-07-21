@@ -32,9 +32,9 @@ namespace SpiritMod.Projectiles.Pet
 		{
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if(player.dead)
+			if (player.dead)
 				modPlayer.shadowPet = false;
-			if(modPlayer.shadowPet)
+			if (modPlayer.shadowPet)
 				projectile.timeLeft = 2;
 		}
 

@@ -26,7 +26,7 @@ namespace SpiritMod.Projectiles.Boss
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			projectile.penetrate--;
-			if(projectile.penetrate <= 0) {
+			if (projectile.penetrate <= 0) {
 				projectile.Kill();
 				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			}
@@ -34,7 +34,7 @@ namespace SpiritMod.Projectiles.Boss
 
 		public override void AI()
 		{
-			if(Main.rand.Next(10) == 0) {
+			if (Main.rand.Next(10) == 0) {
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height,
 					62, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			}

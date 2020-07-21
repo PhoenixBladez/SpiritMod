@@ -10,10 +10,10 @@ namespace SpiritMod.Buffs
 			DisplayName.SetDefault("Overdrive");
 			Description.SetDefault("Your movement speed and melee speed are charged up!");
 			Main.buffNoTimeDisplay[Type] = true;
-            Main.debuff[Type] = true;
-            Main.buffNoSave[Type] = true;
-            longerExpertDebuff = false;
-        }
+			Main.debuff[Type] = true;
+			Main.buffNoSave[Type] = true;
+			longerExpertDebuff = false;
+		}
 
 		public override void Update(Player player, ref int buffIndex)
 		{

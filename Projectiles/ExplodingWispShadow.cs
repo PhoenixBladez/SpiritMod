@@ -31,7 +31,7 @@ namespace SpiritMod.Projectiles
 
 		public override void AI()
 		{
-			for(int I = 0; I < 8; I++) {
+			for (int I = 0; I < 8; I++) {
 				int d = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
 				Main.dust[d].noGravity = true;
 				Main.dust[d].velocity *= 0f;
@@ -43,14 +43,14 @@ namespace SpiritMod.Projectiles
 			projectile.Kill();
 			target.StrikeNPC(projectile.damage, 0f, 0, crit);
 
-			if(Main.rand.Next(4) == 1)
+			if (Main.rand.Next(4) == 1)
 				target.AddBuff(BuffID.ShadowFlame, 200);
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			if(Main.rand.Next(3) == 1) {
-				for(int i = 0; i < 6; ++i) {
+			if (Main.rand.Next(3) == 1) {
+				for (int i = 0; i < 6; ++i) {
 					Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 92);
 					Vector2 targetDir = ((((float)Math.PI * 2) / 6) * i).ToRotationVector2();
 					targetDir.Normalize();

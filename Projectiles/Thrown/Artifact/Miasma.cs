@@ -38,7 +38,7 @@ namespace SpiritMod.Projectiles.Thrown.Artifact
 			return true;
 
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 8) {
+			if (projectile.frameCounter >= 8) {
 				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
 				projectile.frameCounter = 0;
 			}
@@ -47,7 +47,7 @@ namespace SpiritMod.Projectiles.Thrown.Artifact
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(6) == 0)
+			if (Main.rand.Next(6) == 0)
 				target.AddBuff(BuffID.Poisoned, 300);
 		}
 

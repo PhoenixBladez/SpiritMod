@@ -63,35 +63,36 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		{
 			Player player = Main.player[npc.target];
 			Counter++;
-			if(npc.life >= (npc.lifeMax / 9 * 4)) {
-				if(npc.Center.X >= player.Center.X && moveSpeed >= -50) // flies to players x position
+			if (npc.life >= (npc.lifeMax / 9 * 4)) {
+				if (npc.Center.X >= player.Center.X && moveSpeed >= -50) // flies to players x position
 					moveSpeed--;
-				else if(npc.Center.X <= player.Center.X && moveSpeed <= 50)
+				else if (npc.Center.X <= player.Center.X && moveSpeed <= 50)
 					moveSpeed++;
 
 				npc.velocity.X = moveSpeed * 0.1f;
 
-				if(npc.Center.Y >= player.Center.Y - 50f && moveSpeedY >= -40) //Flies to players Y position
+				if (npc.Center.Y >= player.Center.Y - 50f && moveSpeedY >= -40) //Flies to players Y position
 					moveSpeedY--;
-				else if(npc.Center.Y <= player.Center.Y - 50f && moveSpeedY <= 40)
+				else if (npc.Center.Y <= player.Center.Y - 50f && moveSpeedY <= 40)
 					moveSpeedY++;
-			} else {
-				if(npc.Center.X >= player.Center.X && moveSpeed >= -65) // flies to players x position
+			}
+			else {
+				if (npc.Center.X >= player.Center.X && moveSpeed >= -65) // flies to players x position
 					moveSpeed--;
-				else if(npc.Center.X <= player.Center.X && moveSpeed <= 65)
+				else if (npc.Center.X <= player.Center.X && moveSpeed <= 65)
 					moveSpeed++;
 
 				npc.velocity.X = moveSpeed * 0.1f;
 
-				if(npc.Center.Y >= player.Center.Y - 60f && moveSpeedY >= -65) //Flies to players Y position
+				if (npc.Center.Y >= player.Center.Y - 60f && moveSpeedY >= -65) //Flies to players Y position
 					moveSpeedY--;
-				else if(npc.Center.Y <= player.Center.Y - 60 && moveSpeedY <= 65)
+				else if (npc.Center.Y <= player.Center.Y - 60 && moveSpeedY <= 65)
 					moveSpeedY++;
 			}
 			npc.velocity.Y = moveSpeedY * 0.1f;
 
 			bool expertMode = Main.expertMode;
-			if(Main.rand.Next(170) == 2 && npc.life >= (npc.lifeMax / 9 * 4)) {
+			if (Main.rand.Next(170) == 2 && npc.life >= (npc.lifeMax / 9 * 4)) {
 				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
@@ -99,14 +100,14 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				direction.Y *= 12f;
 
 				int amountOfProjectiles = 1;
-				for(int i = 0; i < amountOfProjectiles; ++i) {
+				for (int i = 0; i < amountOfProjectiles; ++i) {
 					float A = (float)Main.rand.Next(-200, 200) * 0.01f;
 					float B = (float)Main.rand.Next(-200, 200) * 0.01f;
 					int damage = expertMode ? 15 : 17;
 					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BouncingSpore>(), damage, 1, Main.myPlayer, 0, 0);
 				}
 			}
-			if(Main.rand.Next(170) == 5 && npc.life >= (npc.lifeMax / 9 * 4)) {
+			if (Main.rand.Next(170) == 5 && npc.life >= (npc.lifeMax / 9 * 4)) {
 				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
@@ -114,15 +115,15 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				direction.Y *= 14f;
 
 				int amountOfProjectiles = 4;
-				for(int i = 0; i < amountOfProjectiles; ++i) {
+				for (int i = 0; i < amountOfProjectiles; ++i) {
 					float A = (float)Main.rand.Next(-200, 200) * 0.07f;
 					float B = (float)Main.rand.Next(-200, 200) * 0.07f;
 					int damage = expertMode ? 11 : 18;
 					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BoneBlast>(), damage, 1, Main.myPlayer, 0, 0);
 				}
 			}
-			if(npc.life <= (npc.lifeMax / 9 * 4)) {
-				if(!txt) {
+			if (npc.life <= (npc.lifeMax / 9 * 4)) {
+				if (!txt) {
 					CombatText.NewText(new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height), new Color(0, 200, 80, 100),
 					"The Bramble shall consume you...");
 					npc.velocity *= 0;
@@ -133,7 +134,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 					direction.Y *= 18f;
 
 					int amountOfProjectiles = Main.rand.Next(5, 6);
-					for(int i = 0; i < amountOfProjectiles; ++i) {
+					for (int i = 0; i < amountOfProjectiles; ++i) {
 						float A = (float)Main.rand.Next(-300, 300) * 0.01f;
 						float B = (float)Main.rand.Next(-300, 300) * 0.01f;
 						int damage = expertMode ? 13 : 20;
@@ -142,7 +143,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 					txt = true;
 				}
 			}
-			if(Main.rand.Next(170) == 7 && npc.life <= (npc.lifeMax / 9 * 4)) {
+			if (Main.rand.Next(170) == 7 && npc.life <= (npc.lifeMax / 9 * 4)) {
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 42);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
@@ -150,7 +151,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				direction.Y *= 12f;
 
 				int amountOfProjectiles = Main.rand.Next(4, 5);
-				for(int i = 0; i < amountOfProjectiles; ++i) {
+				for (int i = 0; i < amountOfProjectiles; ++i) {
 					float A = (float)Main.rand.Next(-200, 200) * 0.05f;
 					float B = (float)Main.rand.Next(-200, 200) * 0.05f;
 					int damage = expertMode ? 8 : 16;
@@ -158,7 +159,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 
 				}
 			}
-			if(Main.rand.Next(170) == 1 && npc.life <= (npc.lifeMax / 9 * 4)) {
+			if (Main.rand.Next(170) == 1 && npc.life <= (npc.lifeMax / 9 * 4)) {
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 42);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
@@ -166,7 +167,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				direction.Y *= 12f;
 
 				int amountOfProjectiles = 1;
-				for(int i = 0; i < amountOfProjectiles; ++i) {
+				for (int i = 0; i < amountOfProjectiles; ++i) {
 					float A = (float)Main.rand.Next(-200, 200) * 0.05f;
 					float B = (float)Main.rand.Next(-200, 200) * 0.05f;
 					int damage = expertMode ? 18 : 25;
@@ -181,7 +182,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		{
 			npc.spriteDirection = npc.direction;
 			Player player = Main.player[npc.target];
-			if(!player.active || player.dead) {
+			if (!player.active || player.dead) {
 				npc.TargetClosest(false);
 				npc.velocity.Y = -200;
 			}
@@ -199,16 +200,16 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0) {
-				for(int num621 = 0; num621 < 20; num621++) {
+			if (Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0) {
+				for (int num621 = 0; num621 < 20; num621++) {
 					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 2, 0f, 0f, 100, default(Color), 2f);
 					Main.dust[num622].velocity *= 3f;
-					if(Main.rand.Next(2) == 0)
+					if (Main.rand.Next(2) == 0)
 						Main.dust[num622].scale = 0.5f;
 
 					int num623 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 2, 0f, 0f, 100, default(Color), 2f);
 					Main.dust[num623].velocity *= 3f;
-					if(Main.rand.Next(2) == 0)
+					if (Main.rand.Next(2) == 0)
 						Main.dust[num623].scale = 0.5f;
 				}
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LeafGreen"), 1f);
@@ -226,8 +227,8 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		public override bool PreNPCLoot()
 		{
 			MyWorld.downedReachBoss = true;
-            Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DeathSounds/VinewrathDeathSound"));
-            return true;
+			Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DeathSounds/VinewrathDeathSound"));
+			return true;
 		}
 
 		public override void BossLoot(ref string name, ref int potionType)
@@ -237,7 +238,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 
 		public override void NPCLoot()
 		{
-			if(Main.expertMode) {
+			if (Main.expertMode) {
 				npc.DropBossBags();
 				return;
 			}

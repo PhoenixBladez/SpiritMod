@@ -24,13 +24,14 @@ namespace SpiritMod.Buffs.Glyph
 		{
 			GNPC npcData = npc.GetGlobalNPC<GNPC>();
 
-			if(Main.rand.NextDouble() < 0.06f + npcData.voidStacks * (0.072f / Items.Glyphs.VoidGlyph.DELAY)) {
+			if (Main.rand.NextDouble() < 0.06f + npcData.voidStacks * (0.072f / Items.Glyphs.VoidGlyph.DELAY)) {
 				Dust.NewDustDirect(npc.position - new Vector2(4), npc.width + 8, npc.height + 8, ModContent.DustType<VoidDust>()).customData = npc;
 			}
 
-			if(npcData.voidStacks > 0) {
+			if (npcData.voidStacks > 0) {
 				npc.buffTime[buffIndex] = 2;
-			} else {
+			}
+			else {
 				npc.DelBuff(buffIndex);
 			}
 		}

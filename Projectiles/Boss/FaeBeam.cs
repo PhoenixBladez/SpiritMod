@@ -33,20 +33,20 @@ namespace SpiritMod.Projectiles.Boss
 			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
 			projectile.ai[0] += 1f;
-			if(projectile.ai[0] > 5f) {
+			if (projectile.ai[0] > 5f) {
 				projectile.velocity.Y = projectile.velocity.Y + 0.01f;
 				projectile.velocity.X = projectile.velocity.X * 1.0f;
 				projectile.alpha -= 23;
 				projectile.scale = 0.8f * (255f - (float)projectile.alpha) / 255f;
-				if(projectile.alpha < 0)
+				if (projectile.alpha < 0)
 					projectile.alpha = 0;
 			}
-			if(projectile.alpha >= 255 && projectile.ai[0] > 5f) {
+			if (projectile.alpha >= 255 && projectile.ai[0] > 5f) {
 				projectile.Kill();
 				return;
 			}
 
-			if(Main.rand.Next(4) == 0) {
+			if (Main.rand.Next(4) == 0) {
 				int num193 = Dust.NewDust(projectile.position, projectile.width, projectile.height,
 					62, 0f, 0f, 100, default(Color), 1f);
 				Main.dust[num193].position = projectile.Center;
@@ -54,7 +54,7 @@ namespace SpiritMod.Projectiles.Boss
 				Main.dust[num193].noGravity = true;
 				Main.dust[num193].velocity.Y -= 2f;
 			}
-			if(Main.rand.Next(6) == 0) {
+			if (Main.rand.Next(6) == 0) {
 				int num194 = Dust.NewDust(projectile.position, projectile.width, projectile.height,
 					62, 0f, 0f, 100, default(Color), 1f);
 				Main.dust[num194].position = projectile.Center;
@@ -63,7 +63,7 @@ namespace SpiritMod.Projectiles.Boss
 				Main.dust[num194].velocity *= 0.1f;
 			}
 
-			if(projectile.localAI[1] == 0f) {
+			if (projectile.localAI[1] == 0f) {
 				projectile.localAI[1] = 1f;
 				Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 7, 1f, 0f);
 			}

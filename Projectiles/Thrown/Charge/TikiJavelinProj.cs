@@ -33,27 +33,29 @@ namespace SpiritMod.Projectiles.Thrown.Charge
 		public override bool PreAI()
 		{
 			Player player = Main.player[projectile.owner];
-			if(player.channel) {
+			if (player.channel) {
 				projectile.position = player.position + holdOffset;
 				player.velocity.X *= 0.95f;
-				if(counter < 10) {
+				if (counter < 10) {
 					counter += 0.075f;
 				}
 				Vector2 direction = Main.MouseWorld - (projectile.position);
 				direction.Normalize();
 				direction *= counter;
 				projectile.rotation = direction.ToRotation() - 1.57f;
-				if(direction.X > 0) {
+				if (direction.X > 0) {
 					holdOffset.X = -10;
 					player.direction = 1;
-				} else {
+				}
+				else {
 					holdOffset.X = 10;
 					player.direction = 0;
 				}
 				trailcounter++;
-				if(trailcounter % 5 == 0)
+				if (trailcounter % 5 == 0)
 					Projectile.NewProjectile(projectile.Center + (direction * 4), direction, ModContent.ProjectileType<TikiJavelinProj1>(), 0, 0, projectile.owner); //predictor trail, please pick a better dust Yuy
-			} else {
+			}
+			else {
 				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 1);
 				Vector2 direction = Main.MouseWorld - (projectile.position);
 				direction.Normalize();

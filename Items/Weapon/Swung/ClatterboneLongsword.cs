@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		}
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
 		{
-			if(Main.rand.Next(6) == 0) {
+			if (Main.rand.Next(6) == 0) {
 				target.AddBuff(ModContent.BuffType<ClatterPierce>(), 180);
 			}
 		}

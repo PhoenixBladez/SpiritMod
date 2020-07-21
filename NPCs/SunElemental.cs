@@ -33,7 +33,7 @@ namespace SpiritMod.NPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if(spawnInfo.playerSafe || !NPC.downedPlantBoss) {
+			if (spawnInfo.playerSafe || !NPC.downedPlantBoss) {
 				return 0f;
 			}
 			return SpawnCondition.JungleTemple.Chance * 0.3457f;
@@ -41,7 +41,7 @@ namespace SpiritMod.NPCs
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, 13);
 				Gore.NewGore(npc.position, npc.velocity, 12);
 				Gore.NewGore(npc.position, npc.velocity, 11);
@@ -63,9 +63,9 @@ namespace SpiritMod.NPCs
 			npc.spriteDirection = npc.direction;
 			Player target = Main.player[npc.target];
 			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
-			if(distance < 320) {
+			if (distance < 320) {
 				npc.ai[0]++;
-				if(npc.ai[0] >= 100) {
+				if (npc.ai[0] >= 100) {
 					int type = ProjectileID.EyeBeam;
 					int p = Terraria.Projectile.NewProjectile(npc.position.X, npc.position.Y, -(npc.position.X - target.position.X) / distance * 4, -(npc.position.Y - target.position.Y) / distance * 4, type, (int)((npc.damage * .5)), 0);
 					Main.projectile[p].friendly = false;
@@ -75,7 +75,7 @@ namespace SpiritMod.NPCs
 			}
 			int num67 = 10;
 			num67 = 5;
-			if(npc.ai[3] == -120f) {
+			if (npc.ai[3] == -120f) {
 				npc.velocity *= 0f;
 				npc.ai[3] = 0f;
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
@@ -86,21 +86,21 @@ namespace SpiritMod.NPCs
 				num70 = 2f / num70;
 				num68 *= num70;
 				num69 *= num70;
-				for(int num71 = 0; num71 < 20; num71++) //both loops spawn the pink dust.  simply change the id :P
+				for (int num71 = 0; num71 < 20; num71++) //both loops spawn the pink dust.  simply change the id :P
 				{
 					int num72 = Dust.NewDust(npc.position, npc.width, npc.height, DustID.GoldCoin, num68, num69, 200, default(Color), 2f);
 					Main.dust[num72].noGravity = true;
 					Dust expr_5C01_cp_0 = Main.dust[num72];
 					expr_5C01_cp_0.velocity.X = expr_5C01_cp_0.velocity.X * 2f;
 				}
-				for(int num73 = 0; num73 < 20; num73++) {
+				for (int num73 = 0; num73 < 20; num73++) {
 					int num74 = Dust.NewDust(npc.oldPos[2], npc.width, npc.height, DustID.GoldCoin, -num68, -num69, 200, default(Color), 2f);
 					Main.dust[num74].noGravity = true;
 					Dust expr_5C82_cp_0 = Main.dust[num74];
 					expr_5C82_cp_0.velocity.X = expr_5C82_cp_0.velocity.X * 2f;
 				}
 			}
-			if(Main.netMode != NetmodeID.MultiplayerClient && npc.type == NPCID.ChaosElemental && npc.ai[3] >= (float)num67) //npc allows for teleporting.  moves npc to new position
+			if (Main.netMode != NetmodeID.MultiplayerClient && npc.type == NPCID.ChaosElemental && npc.ai[3] >= (float)num67) //npc allows for teleporting.  moves npc to new position
 			{
 				int num214 = (int)Main.player[npc.target].position.X / 16;  //calculates player postition
 				int num215 = (int)Main.player[npc.target].position.Y / 16;
@@ -109,27 +109,28 @@ namespace SpiritMod.NPCs
 				int num218 = 20;
 				int num219 = 0;
 				bool flag28 = false;
-				if(Math.Abs(npc.position.X - Main.player[npc.target].position.X) + Math.Abs(npc.position.Y - Main.player[npc.target].position.Y) > 2000f) {
+				if (Math.Abs(npc.position.X - Main.player[npc.target].position.X) + Math.Abs(npc.position.Y - Main.player[npc.target].position.Y) > 2000f) {
 					num219 = 100;
 					flag28 = true;
 				}
-				while(!flag28) {
-					if(num219 >= 100) {
+				while (!flag28) {
+					if (num219 >= 100) {
 						return;
 					}
 					num219++;
 					int num220 = Main.rand.Next(num214 - num218, num214 + num218);
 					int num221 = Main.rand.Next(num215 - num218, num215 + num218);
-					for(int num222 = num221; num222 < num215 + num218; num222++) {
-						if((num222 < num215 - 4 || num222 > num215 + 4 || num220 < num214 - 4 || num220 > num214 + 4) && (num222 < num217 - 1 || num222 > num217 + 1 || num220 < num216 - 1 || num220 > num216 + 1) && Main.tile[num220, num222].nactive()) {
+					for (int num222 = num221; num222 < num215 + num218; num222++) {
+						if ((num222 < num215 - 4 || num222 > num215 + 4 || num220 < num214 - 4 || num220 > num214 + 4) && (num222 < num217 - 1 || num222 > num217 + 1 || num220 < num216 - 1 || num220 > num216 + 1) && Main.tile[num220, num222].nactive()) {
 							bool flag29 = true;
-							if(npc.type == NPCID.DarkCaster && Main.tile[num220, num222 - 1].wall == 0) {
-								flag29 = false;
-							} else if(Main.tile[num220, num222 - 1].lava()) //avoids lava
-							  {
+							if (npc.type == NPCID.DarkCaster && Main.tile[num220, num222 - 1].wall == 0) {
 								flag29 = false;
 							}
-							if(flag29 && Main.tileSolid[(int)Main.tile[num220, num222].type] && !Collision.SolidTiles(num220 - 1, num220 + 1, num222 - 4, num222 - 1)) //checks for a tile and if there is enough space
+							else if (Main.tile[num220, num222 - 1].lava()) //avoids lava
+							{
+								flag29 = false;
+							}
+							if (flag29 && Main.tileSolid[(int)Main.tile[num220, num222].type] && !Collision.SolidTiles(num220 - 1, num220 + 1, num222 - 4, num222 - 1)) //checks for a tile and if there is enough space
 							{
 								npc.position.X = (float)(num220 * 16 - npc.width / 2);
 								npc.position.Y = (float)(num222 * 16 - npc.height);
@@ -144,14 +145,14 @@ namespace SpiritMod.NPCs
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if(Main.rand.Next(8) == 0) {
+			if (Main.rand.Next(8) == 0) {
 				target.AddBuff(BuffID.OnFire, 170, true);
 			}
 		}
 
 		public override void NPCLoot()
 		{
-			if(Main.rand.Next(20) == 1) {
+			if (Main.rand.Next(20) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<LihzardShield>());
 			}
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SunShard>(), Main.rand.Next(1) + 1);

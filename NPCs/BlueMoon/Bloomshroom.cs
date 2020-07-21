@@ -38,11 +38,11 @@ namespace SpiritMod.NPCs.BlueMoon
 		{
 			int d = 37;
 			int d1 = 75;
-			for(int k = 0; k < 30; k++) {
+			for (int k = 0; k < 30; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
 				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
 			}
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Glumshroom/Glumshroom1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Glumshroom/Glumshroom2"), 1f);
 			}
@@ -57,53 +57,55 @@ namespace SpiritMod.NPCs.BlueMoon
 			npc.spriteDirection = npc.direction;
 			Player target = Main.player[npc.target];
 			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
-			if(distance < 360) {
+			if (distance < 360) {
 				attack = true;
 			}
-			if(distance > 380) {
+			if (distance > 380) {
 				attack = false;
 			}
-			if(attack) {
+			if (attack) {
 				npc.velocity.X = .008f * npc.direction;
 				//shootTimer++;
-				if(frame == 9 && timer == 0) {
+				if (frame == 9 && timer == 0) {
 					Main.PlaySound(SoundID.Item, npc.Center, 95);
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
 					float ai = Main.rand.Next(100);
 					direction.Normalize();
 					int MechBat = Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 10, 0, -4, ModContent.ProjectileType<BloomshroomHostile>(), 31, 0);
 					int MechBat1 = Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 10, 6f, -4, ModContent.ProjectileType<BloomshroomHostile>(), 31, 0);
-					if(Main.rand.Next(3) == 0) {
+					if (Main.rand.Next(3) == 0) {
 						int MechBat2 = Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 10, -6f, -4, ModContent.ProjectileType<BloomshroomHostile>(), 25, 0);
 					}
 					timer++;
 				}
 				timer++;
-				if(timer >= 12) {
+				if (timer >= 12) {
 					frame++;
 					timer = 0;
 				}
-				if(frame > 11) {
+				if (frame > 11) {
 					frame = 7;
 				}
-				if(frame < 7) {
+				if (frame < 7) {
 					frame = 7;
 				}
-				if(target.position.X > npc.position.X) {
+				if (target.position.X > npc.position.X) {
 					npc.direction = 1;
-				} else {
+				}
+				else {
 					npc.direction = -1;
 				}
-			} else {
+			}
+			else {
 				//shootTimer = 0;
 				npc.aiStyle = 26;
 				aiType = NPCID.Skeleton;
 				timer++;
-				if(timer >= 4) {
+				if (timer >= 4) {
 					frame++;
 					timer = 0;
 				}
-				if(frame > 6) {
+				if (frame > 6) {
 					frame = 0;
 				}
 			}
@@ -137,11 +139,11 @@ namespace SpiritMod.NPCs.BlueMoon
 		}
 		public override void NPCLoot()
 		{
-			if(Main.rand.NextBool(5))
+			if (Main.rand.NextBool(5))
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MoonStone>());
-			if(Main.rand.NextBool(100))
+			if (Main.rand.NextBool(100))
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<StopWatch>());
-			if(Main.rand.NextBool(20))
+			if (Main.rand.NextBool(20))
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GloomgusStaff>());
 		}
 	}

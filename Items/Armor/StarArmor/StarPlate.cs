@@ -30,9 +30,9 @@ namespace SpiritMod.Items.Armor.StarArmor
 			item.defense = 9;
 		}
 		public override void UpdateEquip(Player player)
-        {
-            player.ammoCost80 = true;
-            player.rangedDamage += .05f;
+		{
+			player.ammoCost80 = true;
+			player.rangedDamage += .05f;
 		}
 		public override void ArmorSetShadows(Player player)
 		{

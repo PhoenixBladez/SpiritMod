@@ -8,7 +8,7 @@ namespace SpiritMod.NPCs.Reach
 {
 	public class ReachmanPassive : ModNPC
 	{
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Feral Hunter");
@@ -36,19 +36,19 @@ namespace SpiritMod.NPCs.Reach
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.46f, 0.32f, .1f);
 
 			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
-			if(distance <= 160 || npc.life < npc.lifeMax) {
+			if (distance <= 160 || npc.life < npc.lifeMax) {
 				npc.Transform(ModContent.NPCType<Reachman>());
-				for(int i = 0; i < 10; i++) {
+				for (int i = 0; i < 10; i++) {
 					int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.GoldCoin, 0f, -2f, 0, default(Color), 2f);
 					Main.dust[num].noGravity = true;
 					Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 					Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
 					Main.dust[num].scale *= .25f;
-					if(Main.dust[num].position != npc.Center)
+					if (Main.dust[num].position != npc.Center)
 						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 4f;
 				}
 			}
-			if(Main.netMode != NetmodeID.MultiplayerClient) {
+			if (Main.netMode != NetmodeID.MultiplayerClient) {
 				npc.homeless = false;
 				npc.homeTileX = -1;
 				npc.homeTileY = -1;
@@ -85,12 +85,12 @@ namespace SpiritMod.NPCs.Reach
 		{
 			int d = 3;
 			int d1 = 7;
-			for(int k = 0; k < 30; k++) {
+			for (int k = 0; k < 30; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
 				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
 			}
 
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Reach1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Reach2"), 1f);
 			}

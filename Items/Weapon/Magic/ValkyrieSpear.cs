@@ -39,10 +39,10 @@ namespace SpiritMod.Items.Weapon.Magic
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			for(int I = 0; I < 2; I++) {
+			for (int I = 0; I < 2; I++) {
 				float angle = Main.rand.NextFloat(MathHelper.PiOver4, -MathHelper.Pi - MathHelper.PiOver4);
 				Vector2 spawnPlace = Vector2.Normalize(new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle))) * 20f;
-				if(Collision.CanHit(position, 0, 0, position + spawnPlace, 0, 0)) {
+				if (Collision.CanHit(position, 0, 0, position + spawnPlace, 0, 0)) {
 					position += spawnPlace;
 				}
 
@@ -52,7 +52,7 @@ namespace SpiritMod.Items.Weapon.Magic
 				Main.projectile[p].hostile = false;
 				Main.projectile[p].melee = true;
 				Main.projectile[p].magic = true;
-				for(float num2 = 0.0f; (double)num2 < 10; ++num2) {
+				for (float num2 = 0.0f; (double)num2 < 10; ++num2) {
 					int dustIndex = Dust.NewDust(position, 2, 2, 263, 0f, 0f, 0, default(Color), 1f);
 					Main.dust[dustIndex].noGravity = true;
 					Main.dust[dustIndex].velocity = Vector2.Normalize(spawnPlace.RotatedBy(Main.rand.NextFloat(MathHelper.TwoPi))) * 1.6f;

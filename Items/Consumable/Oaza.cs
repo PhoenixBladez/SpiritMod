@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Consumable
 		{
 			int p = Main.rand.Next(1, 580);
 			int n = NPC.NewNPC((int)player.Center.X - 100, (int)player.Center.Y, p);
-			if(Main.npc[n].friendly == true || Main.npc[n].boss == true || Main.npc[n].lifeMax >= 2000 || Main.npc[n].type == NPCID.MartianProbe) {
+			if (Main.npc[n].friendly == true || Main.npc[n].boss == true || Main.npc[n].lifeMax >= 2000 || Main.npc[n].type == NPCID.MartianProbe) {
 				Main.npc[n].active = false;
 			}
 			Main.PlaySound(SoundID.Roar, player.position, 0);

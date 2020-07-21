@@ -30,8 +30,8 @@ namespace SpiritMod.Skies.Overlays
 		public override void Draw(SpriteBatch spriteBatch)
 		{
 			Mod mod = ModLoader.GetMod("SpiritMod");
-			for(int i = 0; i < _ashes.Length; i++) {
-				if(_ashes[i].active) {
+			for (int i = 0; i < _ashes.Length; i++) {
+				if (_ashes[i].active) {
 					Ash ash = _ashes[i];
 					float alpha = ash.timeLeft < 1f ? ash.timeLeft : 1f;
 					float scale = 1.3f;
@@ -50,7 +50,7 @@ namespace SpiritMod.Skies.Overlays
 		public override bool IsVisible()
 		{
 			Player player = Main.LocalPlayer;
-			if(!player.ZoneUnderworldHeight) {
+			if (!player.ZoneUnderworldHeight) {
 				return false;
 			}
 			return true;
@@ -59,15 +59,15 @@ namespace SpiritMod.Skies.Overlays
 		public override void Update(GameTime gameTime)
 		{
 			Player player = Main.LocalPlayer;
-			if(!Main.gameMenu && player.ZoneUnderworldHeight) {
+			if (!Main.gameMenu && player.ZoneUnderworldHeight) {
 				int ashToSpawn = new UnifiedRandom().Next(10);
-				for(int i = 0; i < ashToSpawn; i++) {
+				for (int i = 0; i < ashToSpawn; i++) {
 					int index = 0;
-					while(index < _ashes.Length && _ashes[index].active) {
+					while (index < _ashes.Length && _ashes[index].active) {
 						index++;
 					}
 
-					if(index >= _ashes.Length) break;
+					if (index >= _ashes.Length) break;
 
 					float spawnX = Main.windSpeed < 0f ? Main.screenPosition.X + Main.screenWidth + 100f : Main.screenPosition.X - 100f;
 					float spawnY = new UnifiedRandom().NextFloat(Main.screenPosition.Y - 500f, Main.screenPosition.Y + Main.screenHeight);
@@ -79,18 +79,20 @@ namespace SpiritMod.Skies.Overlays
 					_ashes[index].cinder = new UnifiedRandom().Next(150) == 0;
 					_ashes[index].timeLeft = 6f;
 				}
-				for(int i = 0; i < _ashes.Length; i++) {
-					if(_ashes[i].active) {
+				for (int i = 0; i < _ashes.Length; i++) {
+					if (_ashes[i].active) {
 						_ashes[i].UpdatePosition(gameTime);
 						Point tilePos = _ashes[i].center.ToTileCoordinates();
-						if(_ashes[i].timeLeft <= 0f || (Main.tile[tilePos.X, tilePos.Y] != null && Main.tile[tilePos.X, tilePos.Y].active() && Main.tileSolid[Main.tile[tilePos.X, tilePos.Y].type])) {
+						if (_ashes[i].timeLeft <= 0f || (Main.tile[tilePos.X, tilePos.Y] != null && Main.tile[tilePos.X, tilePos.Y].active() && Main.tileSolid[Main.tile[tilePos.X, tilePos.Y].type])) {
 							_ashes[i].active = false;
-						} else if(Main.tile[tilePos.X, tilePos.Y].liquid > 230) {
+						}
+						else if (Main.tile[tilePos.X, tilePos.Y].liquid > 230) {
 							_ashes[i].velocity *= 0.9f;
 							_ashes[i].center.Y -= 0.3f;
 							_ashes[i].timeLeft -= 0.03f;
 							_ashes[i].cinder = false;
-						} else {
+						}
+						else {
 							_ashes[i].velocity.Y += new UnifiedRandom().NextFloat(0.005f, 0.02f);
 							_ashes[i].rotation += Main.windSpeed * 0.142f;
 						}

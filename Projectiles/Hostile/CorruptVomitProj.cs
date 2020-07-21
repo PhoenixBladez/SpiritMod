@@ -30,16 +30,17 @@ namespace SpiritMod.Projectiles.Hostile
 		public override void AI()
 		{
 			projectile.rotation += 0.1f;
-			for(int i = 0; i < 4; i++) {
+			for (int i = 0; i < 4; i++) {
 				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 184, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 				Main.dust[dust].scale = Main.rand.NextFloat(.4f, .9f);
 				Main.dust[dust].noGravity = true;
 
 			}
 			Vector2 currentSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y);
-			if(Main.rand.Next(2) == 0) {
+			if (Main.rand.Next(2) == 0) {
 				projectile.velocity = currentSpeed.RotatedBy(Main.rand.Next(-1, 2) * (Math.PI / 40));
-			} else {
+			}
+			else {
 				projectile.velocity = currentSpeed.RotatedBy(Main.rand.Next(-1, 2) * (Math.PI / -40));
 			}
 		}

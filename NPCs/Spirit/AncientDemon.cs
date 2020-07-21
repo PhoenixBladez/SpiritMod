@@ -38,12 +38,12 @@ namespace SpiritMod.NPCs.Spirit
 		{
 			timer++;
 
-			if(timer == 20) {
+			if (timer == 20) {
 				npc.noTileCollide = true;
 				timer = 0;
 			}
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.0675f, 0.250f);
-			if(Main.rand.Next(150) == 5) //Fires desert feathers like a shotgun
+			if (Main.rand.Next(150) == 5) //Fires desert feathers like a shotgun
 			{
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
@@ -51,7 +51,7 @@ namespace SpiritMod.NPCs.Spirit
 				direction.Y *= 6f;
 
 				int amountOfProjectiles = Main.rand.Next(1, 2);
-				for(int i = 0; i < amountOfProjectiles; ++i) {
+				for (int i = 0; i < amountOfProjectiles; ++i) {
 					float A = (float)Main.rand.Next(-1, 1) * 0.01f;
 					float B = (float)Main.rand.Next(-1, 1) * 0.01f;
 					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<SpiritScythe>(), 30, 1, Main.myPlayer, 0, 0);
@@ -64,7 +64,7 @@ namespace SpiritMod.NPCs.Spirit
 		{
 			Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 109, 0f, 0f, 100, default(Color), 1f);
 
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, 13);
 				Gore.NewGore(npc.position, npc.velocity, 12);
 				Gore.NewGore(npc.position, npc.velocity, 11);
@@ -74,15 +74,15 @@ namespace SpiritMod.NPCs.Spirit
 				npc.height = 30;
 				npc.position.X = npc.position.X - (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
-				for(int num621 = 0; num621 < 20; num621++) {
+				for (int num621 = 0; num621 < 20; num621++) {
 					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 109, 0f, 0f, 100, default(Color), 2f);
 					Main.dust[num622].velocity *= 3f;
-					if(Main.rand.Next(2) == 0) {
+					if (Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 					}
 				}
-				for(int num623 = 0; num623 < 40; num623++) {
+				for (int num623 = 0; num623 < 40; num623++) {
 					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 109, 0f, 0f, 100, default(Color), 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
@@ -102,7 +102,7 @@ namespace SpiritMod.NPCs.Spirit
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SpiritCrystal>(), Main.rand.Next(1) + 1);
 
-			if(Main.rand.Next(25) == 1)
+			if (Main.rand.Next(25) == 1)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SickleBlade>());
 		}
 

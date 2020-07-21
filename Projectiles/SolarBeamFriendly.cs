@@ -33,19 +33,19 @@ namespace SpiritMod.Projectiles
 		{
 			bool flag25 = false;
 			int jim = 1;
-			for(int index1 = 0; index1 < 200; index1++) {
-				if(Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1)) {
+			for (int index1 = 0; index1 < 200; index1++) {
+				if (Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1)) {
 					float num23 = Main.npc[index1].position.X + (float)(Main.npc[index1].width / 2);
 					float num24 = Main.npc[index1].position.Y + (float)(Main.npc[index1].height / 2);
 					float num25 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num23) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num24);
-					if(num25 < 500f) {
+					if (num25 < 500f) {
 						flag25 = true;
 						jim = index1;
 					}
 
 				}
 			}
-			if(flag25) {
+			if (flag25) {
 
 
 				float num1 = 10f;
@@ -62,8 +62,8 @@ namespace SpiritMod.Projectiles
 			}
 
 			projectile.localAI[0] += 1f;
-			if(projectile.localAI[0] > 9f) {
-				for(int num447 = 0; num447 < 2; num447++) {
+			if (projectile.localAI[0] > 9f) {
+				for (int num447 = 0; num447 < 2; num447++) {
 					Vector2 vector33 = projectile.position;
 					vector33 -= projectile.velocity * ((float)num447 * 0.25f);
 					projectile.alpha = 255;
@@ -79,7 +79,7 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			for(int num621 = 0; num621 < 5; num621++) {
+			for (int num621 = 0; num621 < 5; num621++) {
 				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default(Color), 2f);
 			}
 		}

@@ -32,9 +32,9 @@ namespace SpiritMod.World
 			_structures["BismiteCavern1"] = new Structure(mod, "BismiteCavern1");
 			_structures["BismiteCavern2"] = new Structure(mod, "BismiteCavern2");
 			_structures["BismiteCavern3"] = new Structure(mod, "BismiteCavern3");
-            _structures["BoneIsland"] = new Structure(mod, "BoneIsland");
-            _structures["BoneIsland1"] = new Structure(mod, "BoneIsland1");
-            _structures["Pagoda"] = new Structure(mod, "Pagoda");
+			_structures["BoneIsland"] = new Structure(mod, "BoneIsland");
+			_structures["BoneIsland1"] = new Structure(mod, "BoneIsland1");
+			_structures["Pagoda"] = new Structure(mod, "Pagoda");
 			_structures["StarAltar"] = new Structure(mod, "StarAltar");
 		}
 
@@ -60,18 +60,18 @@ namespace SpiritMod.World
 			{
 				_valid = true;
 
-				using(BinaryReader reader = new BinaryReader(mod.GetFileStream(INTERNAL_STRUCTURE_PATH + name + ".str"))) {
+				using (BinaryReader reader = new BinaryReader(mod.GetFileStream(INTERNAL_STRUCTURE_PATH + name + ".str"))) {
 					int version = reader.ReadInt32();
 
 					int typeCount = reader.ReadInt32();
 					TileWallType[] tileTypes = new TileWallType[typeCount];
-					for(int i = 0; i < typeCount; i++) {
+					for (int i = 0; i < typeCount; i++) {
 						tileTypes[i] = new TileWallType(reader);
 					}
 
 					typeCount = reader.ReadInt32();
 					TileWallType[] wallTypes = new TileWallType[typeCount];
-					for(int i = 0; i < typeCount; i++) {
+					for (int i = 0; i < typeCount; i++) {
 						wallTypes[i] = new TileWallType(reader);
 					}
 
@@ -80,18 +80,18 @@ namespace SpiritMod.World
 
 					tiles = new Tile[width, height];
 
-					for(int x = 0; x < width; x++) {
-						for(int y = 0; y < height; y++) {
-							if(reader.ReadBoolean()) {
+					for (int x = 0; x < width; x++) {
+						for (int y = 0; y < height; y++) {
+							if (reader.ReadBoolean()) {
 								Tile tile = new Tile();
 
 								int type = reader.ReadInt32();
-								if(type < 0 || type > tileTypes.Length) {
+								if (type < 0 || type > tileTypes.Length) {
 									_mod.Logger.Warn("Blueprint tile type incorrect? value: " + type);
 									return;
 								}
 								tile.type = tileTypes[type].type;
-								if(tileTypes[type].type == 9999) {
+								if (tileTypes[type].type == 9999) {
 									_valid = false;
 									tile.type = (ushort)invalidTileReplace;
 								}
@@ -102,19 +102,19 @@ namespace SpiritMod.World
 								tile.sTileHeader = reader.ReadUInt16();
 								tile.frameX = 0;
 								tile.frameY = 0;
-								if(reader.ReadBoolean()) {
+								if (reader.ReadBoolean()) {
 									tile.frameX = reader.ReadInt16();
 									tile.frameY = reader.ReadInt16();
 								}
 								tile.liquid = reader.ReadByte();
 
 								int wallType = reader.ReadInt32();
-								if(wallType < 0 || wallType > wallTypes.Length) {
+								if (wallType < 0 || wallType > wallTypes.Length) {
 									_mod.Logger.Warn("Blueprint wall type incorrect? value: " + wallType);
 									return;
 								}
 								tile.wall = wallTypes[wallType].type;
-								if(wallTypes[wallType].type == 9999) {
+								if (wallTypes[wallType].type == 9999) {
 									_valid = false;
 									tile.wall = 0;
 								}
@@ -131,15 +131,15 @@ namespace SpiritMod.World
 			/// </summary>
 			public void PlaceForce(int x, int y, out Point[] chestLocations)
 			{
-				if(!_valid) {
+				if (!_valid) {
 					chestLocations = null;
 					return;
 				}
 
 				List<Point> containers = new List<Point>();
-				for(int x1 = 0; x1 < width; x1++) {
-					for(int y1 = 0; y1 < height; y1++) {
-						if(tiles[x1, y1] != null) {
+				for (int x1 = 0; x1 < width; x1++) {
+					for (int y1 = 0; y1 < height; y1++) {
+						if (tiles[x1, y1] != null) {
 							Main.tile[x + x1, y + y1] = new Tile(tiles[x1, y1]);
 							DoContainerCheck(ref containers, x, y, x1, y1);
 						}
@@ -150,15 +150,15 @@ namespace SpiritMod.World
 
 			public void Place(int x, int y, out Point[] chestLocations, bool removeNonSolids = false)
 			{
-				if(!_valid) {
+				if (!_valid) {
 					chestLocations = null;
 					return;
 				}
 
 				List<Point> containers = new List<Point>();
-				for(int x1 = 0; x1 < width; x1++) {
-					for(int y1 = 0; y1 < height; y1++) {
-						if(tiles[x1, y1] != null && (!Main.tile[x + x1, y + y1].active() || (removeNonSolids && !Main.tileSolid[Main.tile[x + x1, y + y1].type]))) {
+				for (int x1 = 0; x1 < width; x1++) {
+					for (int y1 = 0; y1 < height; y1++) {
+						if (tiles[x1, y1] != null && (!Main.tile[x + x1, y + y1].active() || (removeNonSolids && !Main.tileSolid[Main.tile[x + x1, y + y1].type]))) {
 							Main.tile[x + x1, y + y1] = new Tile(tiles[x1, y1]);
 							DoContainerCheck(ref containers, x, y, x1, y1);
 						}
@@ -169,10 +169,10 @@ namespace SpiritMod.World
 
 			private void DoContainerCheck(ref List<Point> containers, int x, int y, int x1, int y1)
 			{
-				if(Main.tileContainer[tiles[x1, y1].type]) {
+				if (Main.tileContainer[tiles[x1, y1].type]) {
 					ushort type = tiles[x1, y1].type;
 					//if top left (could do frame check but on the rare chance it's not 2x2)
-					if(Framing.GetTileSafely(x + x1 - 1, y + y1).type != type &&
+					if (Framing.GetTileSafely(x + x1 - 1, y + y1).type != type &&
 						Framing.GetTileSafely(x + x1, y + y1 - 1).type != type) {
 						containers.Add(new Point(x + x1, y + y1));
 					}
@@ -208,9 +208,10 @@ namespace SpiritMod.World
 				{
 					writer.Write(tile);
 					writer.Write(modded);
-					if(modded) {
+					if (modded) {
 						writer.Write(modAndName);
-					} else {
+					}
+					else {
 						writer.Write(type);
 					}
 				}
@@ -219,25 +220,27 @@ namespace SpiritMod.World
 				{
 					tile = reader.ReadBoolean();
 					modded = reader.ReadBoolean();
-					if(modded) {
+					if (modded) {
 						type = 9999;
 						modAndName = reader.ReadString();
 						string[] args = modAndName.Split('#');
 						Mod mod = ModLoader.GetMod(args[0]);
-						if(mod != null) {
-							if(tile) {
+						if (mod != null) {
+							if (tile) {
 								ModTile mtile = mod.GetTile(args[1]);
-								if(mtile != null) {
+								if (mtile != null) {
 									type = mtile.Type;
 								}
-							} else {
+							}
+							else {
 								ModWall mwall = mod.GetWall(args[1]);
-								if(mwall != null) {
+								if (mwall != null) {
 									type = mwall.Type;
 								}
 							}
 						}
-					} else {
+					}
+					else {
 						type = reader.ReadUInt16();
 					}
 				}

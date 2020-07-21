@@ -15,7 +15,7 @@ namespace SpiritMod.Buffs
 		public override bool ReApply(NPC npc, int time, int buffIndex)
 		{
 			GNPC info = npc.GetGlobalNPC<GNPC>();
-			if(info.fireStacks < 3) {
+			if (info.fireStacks < 3) {
 				info.fireStacks++;
 			}
 
@@ -27,11 +27,11 @@ namespace SpiritMod.Buffs
 		public override void Update(NPC npc, ref int buffIndex)
 		{
 			GNPC info = npc.GetGlobalNPC<GNPC>();
-			if(info.fireStacks <= 0) {
+			if (info.fireStacks <= 0) {
 				info.fireStacks = 1;
 			}
 
-			if(Main.rand.NextBool(2)) {
+			if (Main.rand.NextBool(2)) {
 				int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire);
 			}
 		}

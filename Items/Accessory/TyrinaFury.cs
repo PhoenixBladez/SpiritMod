@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Accessory
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			if(player.statLife <= player.statLifeMax2 / 2) {
+			if (player.statLife <= player.statLifeMax2 / 2) {
 				player.meleeDamage += 0.18f;
 				player.meleeSpeed += .25f;
 			}

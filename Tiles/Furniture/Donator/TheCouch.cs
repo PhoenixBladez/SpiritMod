@@ -28,12 +28,11 @@ namespace SpiritMod.Tiles.Furniture.Donator
 
 		public override void NearbyEffects(int i, int j, bool closer)
 		{
-			if(closer) {
+			if (closer) {
 				Player player = Main.player[Main.myPlayer];
-                if (!player.dead)
-                {
-                    player.AddBuff(ModContent.BuffType<CouchPotato>(), 60, true);
-                }
+				if (!player.dead) {
+					player.AddBuff(ModContent.BuffType<CouchPotato>(), 60, true);
+				}
 			}
 		}
 

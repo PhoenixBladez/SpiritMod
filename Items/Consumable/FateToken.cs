@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Consumable
 		{
 			player.AddBuff(ModContent.BuffType<Buffs.FateToken>(), 3600);
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if(!modPlayer.fateToken) {
+			if (!modPlayer.fateToken) {
 				modPlayer.fateToken = true;
 			}
 			Main.NewText("Fate has blessed you");
@@ -44,7 +44,7 @@ namespace SpiritMod.Items.Consumable
 		public override bool CanUseItem(Player player)
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if(modPlayer.shootDelay3 == 0)
+			if (modPlayer.shootDelay3 == 0)
 				return true;
 			return false;
 		}

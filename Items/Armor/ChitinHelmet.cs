@@ -29,12 +29,12 @@ namespace SpiritMod.Items.Armor
 		public override void UpdateArmorSet(Player player)
 		{
 			player.setBonus = "Greatly increases running speed\nHitting an enemy while running kicks up damaging dust and knocks them back";
-			if(player.velocity.X != 0) {
+			if (player.velocity.X != 0) {
 				player.GetSpiritPlayer().chitinSet = true;
 			}
 			player.moveSpeed += .18f;
 			player.maxRunSpeed += .25f;
-			if(player.velocity.X != 0f) {
+			if (player.velocity.X != 0f) {
 				int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 0, 0);
 				Main.dust[dust].velocity *= 0f;
 				Main.dust[dust].noGravity = true;
@@ -43,7 +43,7 @@ namespace SpiritMod.Items.Armor
 		}
 		public override void ArmorSetShadows(Player player)
 		{
-			if(player.velocity.X != 0)
+			if (player.velocity.X != 0)
 				player.armorEffectDrawShadow = true;
 		}
 		public override void AddRecipes()

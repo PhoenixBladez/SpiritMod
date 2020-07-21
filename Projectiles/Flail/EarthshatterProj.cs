@@ -26,8 +26,8 @@ namespace SpiritMod.Projectiles.Flail
 		{
 			ProjectileExtras.FlailAI(projectile.whoAmI);
 			timer++;
-			if(timer >= 40) {
-				for(int i = 0; i < 1; ++i) {
+			if (timer >= 40) {
+				for (int i = 0; i < 1; ++i) {
 					Vector2 targetDir = ((((float)Math.PI * 2) / 8) * i).ToRotationVector2();
 					targetDir.Normalize();
 					targetDir *= 3;

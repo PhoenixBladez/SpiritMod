@@ -49,7 +49,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override bool CanUseItem(Player player)
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if(modPlayer.shootDelay == 0)
+			if (modPlayer.shootDelay == 0)
 				return true;
 			return false;
 		}

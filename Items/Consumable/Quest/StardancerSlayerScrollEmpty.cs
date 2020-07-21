@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Consumable.Quest
 		}
 		public override void UpdateInventory(Player player)
 		{
-			if(MyWorld.numStardancersKilled > 0) {
+			if (MyWorld.numStardancersKilled > 0) {
 				item.SetNameOverride("Incomplete Slayer's Contract: " + MyWorld.numStardancersKilled + "/3 Complete");
 			}
 			player.GetSpiritPlayer().emptyStardancerScroll = true;

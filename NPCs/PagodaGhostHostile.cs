@@ -19,7 +19,7 @@ namespace SpiritMod.NPCs
 
 		public override void SetDefaults()
 		{
-			if(NPC.downedBoss2) {
+			if (NPC.downedBoss2) {
 				npc.width = 30;
 				npc.height = 40;
 				npc.damage = 25;
@@ -27,14 +27,15 @@ namespace SpiritMod.NPCs
 				npc.defense = 8;
 				npc.lifeMax = 80;
 			}
-			if(NPC.downedBoss3) {
+			if (NPC.downedBoss3) {
 				npc.width = 30;
 				npc.height = 40;
 				npc.damage = 30;
 				npc.noGravity = true;
 				npc.defense = 11;
 				npc.lifeMax = 130;
-			} else {
+			}
+			else {
 				npc.width = 30;
 				npc.height = 40;
 				npc.damage = 23;
@@ -49,9 +50,9 @@ namespace SpiritMod.NPCs
 			npc.noTileCollide = true;
 			npc.aiStyle = 44;
 			aiType = NPCID.FlyingAntlion;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.YureiBanner>();
-        }
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.YureiBanner>();
+		}
 
 		public override void FindFrame(int frameHeight)
 		{
@@ -63,18 +64,18 @@ namespace SpiritMod.NPCs
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, 99);
 				Gore.NewGore(npc.position, npc.velocity, 99);
 				Gore.NewGore(npc.position, npc.velocity, 99);
-				for(int i = 0; i < 40; i++) {
+				for (int i = 0; i < 40; i++) {
 					int num = Dust.NewDust(npc.position, npc.width, npc.height, 66, 0f, -2f, 0, new Color(0, 255, 142), .6f);
 					Main.dust[num].noGravity = true;
 					Dust expr_62_cp_0 = Main.dust[num];
 					expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
 					Dust expr_92_cp_0 = Main.dust[num];
 					expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
-					if(Main.dust[num].position != npc.Center) {
+					if (Main.dust[num].position != npc.Center) {
 						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
 					}
 				}
@@ -85,7 +86,7 @@ namespace SpiritMod.NPCs
 		{
 			Player player = Main.player[npc.target];
 			npc.alpha += 1;
-			if(npc.alpha >= 180) {
+			if (npc.alpha >= 180) {
 
 				int angle = Main.rand.Next(360);
 				int distX = (int)(Math.Sin(angle * (Math.PI / 180)) * 90);
@@ -98,9 +99,9 @@ namespace SpiritMod.NPCs
 				npc.alpha = 0;
 				Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 6);
 			}
-			if(!player.active || player.dead) //despawns when player is ded
+			if (!player.active || player.dead) //despawns when player is ded
 			{
-                npc.velocity = Vector2.Zero;
+				npc.velocity = Vector2.Zero;
 				npc.Transform(ModContent.NPCType<PagodaGhostPassive>());
 			}
 			npc.spriteDirection = npc.direction;
@@ -112,7 +113,7 @@ namespace SpiritMod.NPCs
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height * 0.5f));
-			for(int k = 0; k < npc.oldPos.Length; k++) {
+			for (int k = 0; k < npc.oldPos.Length; k++) {
 				var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 				Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
 				Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);

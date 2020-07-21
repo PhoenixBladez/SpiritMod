@@ -67,16 +67,16 @@ namespace SpiritMod.Utilities
 
 		public void AddPoint(Vector2 vector, EaseFunction function)
 		{
-			if(vector.X > 1f || vector.X < 0f) throw new ArgumentException("X value of point is not in valid range!");
+			if (vector.X > 1f || vector.X < 0f) throw new ArgumentException("X value of point is not in valid range!");
 
 			EasePoint newPoint = new EasePoint(vector, function);
-			if(_points.Count == 0) {
+			if (_points.Count == 0) {
 				_points.Add(newPoint);
 				return;
 			}
 
 			EasePoint last = _points[_points.Count - 1];
-			if(last.Point.X > vector.X) throw new ArgumentException("New point has an x value less than the previous point when it should be greater or equal");
+			if (last.Point.X > vector.X) throw new ArgumentException("New point has an x value less than the previous point when it should be greater or equal");
 
 			_points.Add(newPoint);
 		}
@@ -85,9 +85,9 @@ namespace SpiritMod.Utilities
 		{
 			Vector2 prevPoint = Vector2.Zero;
 			EasePoint usePoint = _points[0];
-			for(int i = 0; i < _points.Count; i++) {
+			for (int i = 0; i < _points.Count; i++) {
 				usePoint = _points[i];
-				if(time <= usePoint.Point.X) {
+				if (time <= usePoint.Point.X) {
 					break;
 				}
 				prevPoint = usePoint.Point;

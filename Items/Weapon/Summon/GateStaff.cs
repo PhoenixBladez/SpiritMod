@@ -61,7 +61,7 @@ namespace SpiritMod.Items.Weapon.Summon
 		}
 		public override bool CanUseItem(Player player)
 		{
-			if((rightactive && Main.projectile[right].active == false) || (leftactive && Main.projectile[left].active == false)) //if the gates despawn, reset
+			if ((rightactive && Main.projectile[right].active == false) || (leftactive && Main.projectile[left].active == false)) //if the gates despawn, reset
 			{
 				Main.projectile[right].active = false;
 				Main.projectile[left].active = false;
@@ -70,36 +70,37 @@ namespace SpiritMod.Items.Weapon.Summon
 				right = 0;
 				left = 0;
 			}
-			if(player.statMana <= 12) {
+			if (player.statMana <= 12) {
 				return false;
 			}
-			if(player.altFunctionUse == 2) {
-				if(rightactive) {
+			if (player.altFunctionUse == 2) {
+				if (rightactive) {
 					Main.projectile[right].active = false;
 				}
 				right = Projectile.NewProjectile((int)(Main.screenPosition.X + Main.mouseX), (int)(Main.screenPosition.Y + Main.mouseY), 0, 0, ModContent.ProjectileType<RightHopper>(), item.damage, 1, Main.myPlayer);
 				rightactive = true;
-				if(leftactive) {
+				if (leftactive) {
 					Main.projectile[right].ai[1] = left;
 					Main.projectile[left].ai[1] = right;
 					direction9 = Main.projectile[right].Center - Main.projectile[left].Center;
 					distance = (int)Math.Sqrt((direction9.X * direction9.X) + (direction9.Y * direction9.Y));
-					if(distance < 500) {
+					if (distance < 500) {
 						Main.PlaySound(SoundID.Item93, player.position);
 					}
 				}
-			} else {
-				if(leftactive) {
+			}
+			else {
+				if (leftactive) {
 					Main.projectile[left].active = false;
 				}
 				left = Projectile.NewProjectile((int)(Main.screenPosition.X + Main.mouseX), (int)(Main.screenPosition.Y + Main.mouseY), 0, 0, ModContent.ProjectileType<LeftHopper>(), item.damage, 1, Main.myPlayer);
 				leftactive = true;
-				if(rightactive) {
+				if (rightactive) {
 					Main.projectile[left].ai[1] = right;
 					Main.projectile[right].ai[1] = left;
 					direction9 = Main.projectile[right].Center - Main.projectile[left].Center;
 					distance = (int)Math.Sqrt((direction9.X * direction9.X) + (direction9.Y * direction9.Y));
-					if(distance < 500) {
+					if (distance < 500) {
 						Main.PlaySound(SoundID.Item93, player.position);
 					}
 				}

@@ -31,12 +31,12 @@ namespace SpiritMod.Projectiles.Thrown
 		{
 			projectile.rotation += .2f;
 			projectile.velocity.X *= .98f;
-			if(projectile.velocity.Y < 0) {
+			if (projectile.velocity.Y < 0) {
 				projectile.velocity.Y *= 0.95f;
 			}
-			if(!cracky)
+			if (!cracky)
 				projectile.velocity.Y += 0.2f;
-			if(projectile.velocity.Y > 7f && !cracky) {
+			if (projectile.velocity.Y > 7f && !cracky) {
 				projectile.damage = (int)(projectile.damage * 2.85f);
 				cracky = true;
 			}
@@ -47,7 +47,7 @@ namespace SpiritMod.Projectiles.Thrown
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 2);
 			Main.PlaySound(SoundID.NPCHit, (int)projectile.position.X, (int)projectile.position.Y, 2);
-			if(cracky) {
+			if (cracky) {
 				Vector2 GoreVel = projectile.velocity;
 				GoreVel.X = 2f;
 				GoreVel.Y *= -0.2f;
@@ -55,11 +55,13 @@ namespace SpiritMod.Projectiles.Thrown
 				Gore.NewGore(projectile.position, GoreVel, mod.GetGoreSlot("Gores/Coconut/CoconutGore1"), 1f);
 				GoreVel.X = -2f;
 				Gore.NewGore(projectile.position, GoreVel, mod.GetGoreSlot("Gores/Coconut/CoconutGore2"), 1f);
-			} else {
+			}
+			else {
 				Vector2 GoreVel = projectile.velocity;
-				if(projectile.velocity.X > 0) {
+				if (projectile.velocity.X > 0) {
 					GoreVel.X = 2f;
-				} else {
+				}
+				else {
 					GoreVel.X = 0f;
 				}
 				GoreVel.Y *= -0.2f;
@@ -70,7 +72,7 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(cracky) {
+			if (cracky) {
 				projectile.position.Y -= 20;
 				crit = true;
 				projectile.damage *= 3;

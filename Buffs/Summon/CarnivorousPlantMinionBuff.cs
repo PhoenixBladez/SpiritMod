@@ -17,15 +17,16 @@ namespace SpiritMod.Buffs.Summon
 		public override void Update(Player player, ref int buffIndex)
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if(player.ownedProjectileCounts[ModContent.ProjectileType<CarnivorousPlantMinion>()] > 0) {
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<CarnivorousPlantMinion>()] > 0) {
 				modPlayer.carnivorousPlantMinion = true;
 			}
 
-			if(!modPlayer.carnivorousPlantMinion) {
+			if (!modPlayer.carnivorousPlantMinion) {
 				player.DelBuff(buffIndex);
 				buffIndex--;
 				return;
-			} else {
+			}
+			else {
 				player.buffTime[buffIndex] = 18000;
 			}
 		}

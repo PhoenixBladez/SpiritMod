@@ -7,7 +7,7 @@ namespace SpiritMod.Projectiles
 {
 	public class CryoFire : ModProjectile
 	{
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cryolite Explosion");
@@ -34,7 +34,7 @@ namespace SpiritMod.Projectiles
 
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
 		{
-			if(projectile.timeLeft > 17) return null;
+			if (projectile.timeLeft > 17) return null;
 			return false;
 		}
 

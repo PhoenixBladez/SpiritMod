@@ -39,20 +39,20 @@ namespace SpiritMod.NPCs.Boss.Overseer
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57F;
 
-			if(projectile.ai[0] == 0 && Main.netMode != NetmodeID.MultiplayerClient) {
+			if (projectile.ai[0] == 0 && Main.netMode != NetmodeID.MultiplayerClient) {
 				target = -1;
 				float distance = 2000f;
-				for(int k = 0; k < 255; k++) {
-					if(Main.player[k].active && !Main.player[k].dead) {
+				for (int k = 0; k < 255; k++) {
+					if (Main.player[k].active && !Main.player[k].dead) {
 						Vector2 center = Main.player[k].Center;
 						float currentDistance = Vector2.Distance(center, projectile.Center);
-						if(currentDistance < distance || target == -1) {
+						if (currentDistance < distance || target == -1) {
 							distance = currentDistance;
 							target = k;
 						}
 					}
 				}
-				if(target != -1) {
+				if (target != -1) {
 					projectile.ai[0] = 1;
 					projectile.netUpdate = true;
 				}
@@ -63,7 +63,7 @@ namespace SpiritMod.NPCs.Boss.Overseer
 			projectile.velocity *= 0.98f;
 			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 206, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			Main.dust[dust2].noGravity = true;
-			if(Math.Sqrt((projectile.velocity.X * projectile.velocity.X) + (projectile.velocity.Y * projectile.velocity.Y)) >= 7f) {
+			if (Math.Sqrt((projectile.velocity.X * projectile.velocity.X) + (projectile.velocity.Y * projectile.velocity.Y)) >= 7f) {
 				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 206, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 				Main.dust[dust].noGravity = true;
 				Main.dust[dust].scale = 2f;
@@ -71,8 +71,8 @@ namespace SpiritMod.NPCs.Boss.Overseer
 				Main.dust[dust].noGravity = true;
 				Main.dust[dust].scale = 2f;
 			}
-			if(Math.Sqrt((projectile.velocity.X * projectile.velocity.X) + (projectile.velocity.Y * projectile.velocity.Y)) < 14f) {
-				if(Main.rand.Next(24) == 1) {
+			if (Math.Sqrt((projectile.velocity.X * projectile.velocity.X) + (projectile.velocity.Y * projectile.velocity.Y)) < 14f) {
+				if (Main.rand.Next(24) == 1) {
 					direction.X = direction.X * Main.rand.Next(20, 24);
 					direction.Y = direction.Y * Main.rand.Next(20, 24);
 					projectile.velocity.X = direction.X;

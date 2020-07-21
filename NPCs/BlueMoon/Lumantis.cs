@@ -40,12 +40,12 @@ namespace SpiritMod.NPCs.BlueMoon
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			for(int k = 0; k < 11; k++) {
+			for (int k = 0; k < 11; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, 187, hitDirection, -1f, 1, default(Color), .81f);
 				Dust.NewDust(npc.position, npc.width, npc.height, 205, hitDirection, -1f, 1, default(Color), .51f);
 			}
-			if(npc.life <= 0) {
-				for(int k = 0; k < 11; k++) {
+			if (npc.life <= 0) {
+				for (int k = 0; k < 11; k++) {
 					Dust.NewDust(npc.position, npc.width, npc.height, 187, hitDirection, -1f, 1, default(Color), .81f);
 					Dust.NewDust(npc.position, npc.width, npc.height, 205, hitDirection, -1f, 1, default(Color), .71f);
 				}
@@ -59,44 +59,44 @@ namespace SpiritMod.NPCs.BlueMoon
 		int frame;
 		public override void AI()
 		{
-            Player player = Main.player[npc.target];
-            timer++;
+			Player player = Main.player[npc.target];
+			timer++;
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), .196f * 3, .092f * 3, 0.214f * 3);
 			++npc.ai[1];
-			if(npc.ai[1] >= 600) {
-                reflectPhase = true;
-                npc.aiStyle = 0;
-                if (player.position.X > npc.position.X)
-                {
-                    npc.spriteDirection = 1;
-                }
-                else
-                {
-                    npc.spriteDirection = -1;
-                }
-            } else {
-                npc.aiStyle = 3;
-                aiType = NPCID.WalkingAntlion;
-                npc.spriteDirection = npc.direction;
-                reflectPhase = false;
+			if (npc.ai[1] >= 600) {
+				reflectPhase = true;
+				npc.aiStyle = 0;
+				if (player.position.X > npc.position.X) {
+					npc.spriteDirection = 1;
+				}
+				else {
+					npc.spriteDirection = -1;
+				}
+			}
+			else {
+				npc.aiStyle = 3;
+				aiType = NPCID.WalkingAntlion;
+				npc.spriteDirection = npc.direction;
+				reflectPhase = false;
 				npc.defense = 20;
-				if(timer >= 4) {
+				if (timer >= 4) {
 					frame++;
 					timer = 0;
 				}
-				if(frame >= 3) {
+				if (frame >= 3) {
 					frame = 0;
 				}
 			}
-			if(npc.ai[1] >= 840) {
+			if (npc.ai[1] >= 840) {
 				npc.ai[1] = 0;
 			}
 		}
 		public override void FindFrame(int frameHeight)
 		{
-			if(!reflectPhase) {
+			if (!reflectPhase) {
 				npc.frame.Y = frameHeight * frame;
-			} else {
+			}
+			else {
 				npc.frame.Y = frameHeight * 4;
 			}
 		}
@@ -104,14 +104,14 @@ namespace SpiritMod.NPCs.BlueMoon
 		public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
 		{
 
-			if(reflectPhase) {
+			if (reflectPhase) {
 				player.Hurt(PlayerDeathReason.LegacyEmpty(), item.damage, 0, true, false, false, -1);
 				Main.PlaySound(SoundID.DD2_LightningBugZap, npc.position);
 			}
 		}
 		public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
 		{
-			if(reflectPhase) {
+			if (reflectPhase) {
 				projectile.hostile = true;
 				projectile.friendly = false;
 				Main.PlaySound(SoundID.DD2_LightningBugZap, npc.position);
@@ -144,11 +144,11 @@ namespace SpiritMod.NPCs.BlueMoon
 		}
 		public override void NPCLoot()
 		{
-			if(Main.rand.NextBool(5))
+			if (Main.rand.NextBool(5))
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MoonStone>());
-			if(Main.rand.NextBool(100))
+			if (Main.rand.NextBool(100))
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<StopWatch>());
-			if(Main.rand.NextBool(10))
+			if (Main.rand.NextBool(10))
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MoonJelly>());
 		}
 	}

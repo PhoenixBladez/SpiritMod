@@ -29,9 +29,9 @@ namespace SpiritMod.NPCs.Ocean
 			npc.aiStyle = 16;
 			npc.noGravity = true;
 			aiType = NPCID.Shark;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.ElectricEelBanner>();
-        }
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.ElectricEelBanner>();
+		}
 
 		public override void FindFrame(int frameHeight)
 		{
@@ -43,7 +43,7 @@ namespace SpiritMod.NPCs.Ocean
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if(spawnInfo.playerSafe) {
+			if (spawnInfo.playerSafe) {
 				return 0f;
 			}
 			return SpawnCondition.OceanMonster.Chance * 0.08f;
@@ -51,7 +51,7 @@ namespace SpiritMod.NPCs.Ocean
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Eel_Gore"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Eel_Gore_2"), 1f);
 			}
@@ -69,7 +69,7 @@ namespace SpiritMod.NPCs.Ocean
 		}
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if(Main.rand.Next(8) == 0) {
+			if (Main.rand.Next(8) == 0) {
 				target.AddBuff(BuffID.Electrified, 180, true);
 			}
 		}
@@ -82,7 +82,7 @@ namespace SpiritMod.NPCs.Ocean
 
 		public override void NPCLoot()
 		{
-			if(Main.rand.Next(20) == 1) {
+			if (Main.rand.Next(20) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EelRod>(), 1);
 			}
 		}

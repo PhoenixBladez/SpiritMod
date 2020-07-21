@@ -30,14 +30,14 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(!target.boss && target.velocity != Vector2.Zero && target.knockBackResist != 0) {
+			if (!target.boss && target.velocity != Vector2.Zero && target.knockBackResist != 0) {
 				target.velocity.Y = 6f;
 			}
 		}
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
-			for(int i = 0; i < 10; i++) {
+			for (int i = 0; i < 10; i++) {
 				int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 0, (float)(Main.rand.Next(5) - 2), (float)(Main.rand.Next(5) - 2), 133);
 			}
 		}

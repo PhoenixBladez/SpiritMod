@@ -17,7 +17,7 @@ namespace SpiritMod.Buffs
 		{
 			npc.GetGlobalNPC<GNPC>().Stopped = true;
 			//Main.NewText("yeet", 220, 100, 100, true);
-			if(!npc.boss) {
+			if (!npc.boss) {
 				npc.velocity *= 0;
 				npc.frame.Y = 0;
 			}

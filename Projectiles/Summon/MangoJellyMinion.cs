@@ -35,46 +35,44 @@ namespace SpiritMod.Projectiles.Summon
 		}
 		bool jump = false;
 		int xoffset = 0;
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(250, 210, 230);
-        }
-        public override void AI()
-        {
-            float num = 1f - (float)projectile.alpha / 255f;
-            num *= projectile.scale;
-            float num395 = Main.mouseTextColor / 155f - 0.35f;
-            num395 *= 0.34f;
-            projectile.scale = num395 + 0.55f;
-            bool flag64 = projectile.type == ModContent.ProjectileType<MangoJellyMinion>();
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(250, 210, 230);
+		}
+		public override void AI()
+		{
+			float num = 1f - (float)projectile.alpha / 255f;
+			num *= projectile.scale;
+			float num395 = Main.mouseTextColor / 155f - 0.35f;
+			num395 *= 0.34f;
+			projectile.scale = num395 + 0.55f;
+			bool flag64 = projectile.type == ModContent.ProjectileType<MangoJellyMinion>();
 			Player player = Main.player[projectile.owner];
-			if (projectile.Distance(player.Center) > 1500)
-			{
-				projectile.position = player.position + new Vector2(Main.rand.Next(-125,126), Main.rand.Next(-125,126));
-				for (int i = 0; i < 25; i++)
-				{
+			if (projectile.Distance(player.Center) > 1500) {
+				projectile.position = player.position + new Vector2(Main.rand.Next(-125, 126), Main.rand.Next(-125, 126));
+				for (int i = 0; i < 25; i++) {
 					Dust.NewDust(projectile.position, projectile.width, projectile.height, 272);
 				}
 			}
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if(flag64) {
-				if(player.dead)
+			if (flag64) {
+				if (player.dead)
 					modPlayer.mangoMinion = false;
 
-				if(modPlayer.mangoMinion)
+				if (modPlayer.mangoMinion)
 					projectile.timeLeft = 2;
 			}
 
 			int range = 40;   //How many tiles away the projectile targets NPCs
 			float lowestDist = float.MaxValue;
-			for(int i = 0; i < 200; ++i) {
+			for (int i = 0; i < 200; ++i) {
 				NPC npc = Main.npc[i];
 				//if npc is a valid target (active, not friendly, and not a critter)
 				float dist = projectile.Distance(npc.Center);
-				if(dist / 16 < range) {
-					if(npc.active && npc.CanBeChasedBy(projectile) && !npc.friendly) {
+				if (dist / 16 < range) {
+					if (npc.active && npc.CanBeChasedBy(projectile) && !npc.friendly) {
 						//if npc is closer than closest found npc
-						if(dist < lowestDist) {
+						if (dist < lowestDist) {
 							lowestDist = dist;
 
 							//target this npc
@@ -84,81 +82,77 @@ namespace SpiritMod.Projectiles.Summon
 				}
 			}
 			NPC target = (Main.npc[(int)projectile.ai[1]] ?? new NPC()); //our target
-			if(target.active && !target.friendly)
-			{
-				if(target.position.X > projectile.position.X) {
-					xoffset = Main.rand.Next(24,28);
-				} else {
-					xoffset = Main.rand.Next(-28,-24);
+			if (target.active && !target.friendly) {
+				if (target.position.X > projectile.position.X) {
+					xoffset = Main.rand.Next(24, 28);
+				}
+				else {
+					xoffset = Main.rand.Next(-28, -24);
 				}
 				projectile.ai[0]++;
 				projectile.velocity.X *= 0.99f;
-				if(!jump) {
-					if(projectile.velocity.Y < 7.5f) {
+				if (!jump) {
+					if (projectile.velocity.Y < 7.5f) {
 						projectile.velocity.Y += 0.095f;
 					}
-					if(target.position.Y < projectile.position.Y && projectile.ai[0] % 8 == 0) {
+					if (target.position.Y < projectile.position.Y && projectile.ai[0] % 8 == 0) {
 						jump = true;
 						projectile.velocity.X = xoffset / 1.75f;
-						if (target.position.Y < projectile.position.Y - 150)
-						{
+						if (target.position.Y < projectile.position.Y - 150) {
 							projectile.velocity.Y = -9;
 						}
-						else
-						{
+						else {
 							projectile.velocity.Y = -1.5f;
 						}
 					}
 					projectile.rotation = 0f;
 				}
-				if(jump) {
+				if (jump) {
 					projectile.velocity *= 0.96f;
-					if(Math.Abs(projectile.velocity.X) < 0.9f) {
+					if (Math.Abs(projectile.velocity.X) < 0.9f) {
 						jump = false;
 					}
 					projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 				}
 			}
-			else
-			{
-				if(player.position.X > projectile.position.X) {
-					xoffset = Main.rand.Next(16,24);
-				} else {
-					xoffset = Main.rand.Next(-24,-16);
+			else {
+				if (player.position.X > projectile.position.X) {
+					xoffset = Main.rand.Next(16, 24);
+				}
+				else {
+					xoffset = Main.rand.Next(-24, -16);
 				}
 				projectile.ai[0]++;
 				projectile.velocity.X *= 0.99f;
-				if(!jump) {
-					if(projectile.velocity.Y < 7.5f) {
+				if (!jump) {
+					if (projectile.velocity.Y < 7.5f) {
 						projectile.velocity.Y += 0.05f;
 					}
-					if(player.position.Y < projectile.position.Y && projectile.ai[0] % 20 == 0) {
+					if (player.position.Y < projectile.position.Y && projectile.ai[0] % 20 == 0) {
 						jump = true;
 						projectile.velocity.X = xoffset / 1.25f;
-						if (player.position.Y < projectile.position.Y - 150)
-						{
+						if (player.position.Y < projectile.position.Y - 150) {
 							projectile.velocity.Y = -9;
 						}
-						else
-						{
+						else {
 							projectile.velocity.Y = -1.5f;
 						}
 					}
 					projectile.rotation = 0f;
 				}
-				if(jump) {
+				if (jump) {
 					projectile.velocity *= 0.97f;
-					if(Math.Abs(projectile.velocity.X) < 0.3f) {
+					if (Math.Abs(projectile.velocity.X) < 0.3f) {
 						jump = false;
 					}
 					projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 				}
 			}
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 7) {
+			if (projectile.frameCounter >= 7) {
 				projectile.frame++;
 				projectile.frameCounter = 0;
-				if(projectile.frame >= 4)
+				if (projectile.frame >= 4)
 					projectile.frame = 0;
 			}
 		}

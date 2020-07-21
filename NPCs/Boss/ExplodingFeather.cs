@@ -27,10 +27,10 @@ namespace SpiritMod.NPCs.Boss
 		{
 			projectile.spriteDirection = projectile.direction;
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 3) {
+			if (projectile.frameCounter >= 3) {
 				projectile.frame++;
 				projectile.frameCounter = 0;
-				if(projectile.frame >= 4)
+				if (projectile.frame >= 4)
 					projectile.frame = 0;
 
 			}
@@ -42,7 +42,7 @@ namespace SpiritMod.NPCs.Boss
 		public override void AI()
 		{
 			int num = 5;
-			for(int k = 0; k < 3; k++) {
+			for (int k = 0; k < 3; k++) {
 				int index2 = Dust.NewDust(projectile.position, 1, 1, 60, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
 				Main.dust[index2].scale = .5f;
@@ -62,12 +62,12 @@ namespace SpiritMod.NPCs.Boss
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 4);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 4);
 
-			for(int num625 = 0; num625 < 2; num625++) {
+			for (int num625 = 0; num625 < 2; num625++) {
 				float scaleFactor10 = 0.2f;
-				if(num625 == 1) {
+				if (num625 == 1) {
 					scaleFactor10 = 0.5f;
 				}
-				if(num625 == 2) {
+				if (num625 == 2) {
 					scaleFactor10 = 1f;
 				}
 				int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default(Vector2), Main.rand.Next(61, 64), 1f);
@@ -91,7 +91,7 @@ namespace SpiritMod.NPCs.Boss
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 4);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 4);
 
-			for(int num273 = 0; num273 < 3; num273++) {
+			for (int num273 = 0; num273 < 3; num273++) {
 				int num274 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 187, 0f, 0f, 0, default(Color), 1f);
 				Main.dust[num274].noGravity = true;
 				Main.dust[num274].noLight = true;

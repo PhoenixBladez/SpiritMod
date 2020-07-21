@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Accessory
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			if(Math.Abs(player.velocity.Y) < 0.05 && Math.Abs(player.velocity.Y) < 0.05) {
+			if (Math.Abs(player.velocity.Y) < 0.05 && Math.Abs(player.velocity.Y) < 0.05) {
 				player.endurance += .30f;
 			}
 		}

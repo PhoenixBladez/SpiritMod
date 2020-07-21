@@ -31,14 +31,14 @@ namespace SpiritMod.Projectiles.Magic.Artifact
 		public override void AI()
 		{
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 5f) {
+			if (projectile.frameCounter >= 5f) {
 				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
 				projectile.frameCounter = 0;
 			}
 
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-			if(Main.rand.Next(4) == 0) {
-				for(int k = 0; k < 1; k++) {
+			if (Main.rand.Next(4) == 0) {
+				for (int k = 0; k < 1; k++) {
 					Vector2 value = -Utils.RotatedBy(Utils.RotatedByRandom(Vector2.UnitX, (Math.PI / 16)), (double)Utils.ToRotation(projectile.velocity));
 					int num9 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, 0f, 100, default(Color), 1f);
 					Main.dust[num9].velocity *= 0.1f;
@@ -51,7 +51,7 @@ namespace SpiritMod.Projectiles.Magic.Artifact
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(4) == 0)
+			if (Main.rand.Next(4) == 0)
 				target.AddBuff(ModContent.BuffType<Buffs.Artifact.Blaze>(), 300);
 		}
 
@@ -60,14 +60,14 @@ namespace SpiritMod.Projectiles.Magic.Artifact
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 74);
 			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Fire>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 
-			for(int i = 0; i < 40; i++) {
+			for (int i = 0; i < 40; i++) {
 				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, -2f, 0, default(Color), 2f);
 				Main.dust[num].noGravity = true;
 				Dust expr_62_cp_0 = Main.dust[num];
 				expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((Main.rand.Next(-50, 51) * .05f) - 1.5f);
 				Dust expr_92_cp_0 = Main.dust[num];
 				expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((Main.rand.Next(-50, 51) * .05f) - 1.5f);
-				if(Main.dust[num].position != projectile.Center) {
+				if (Main.dust[num].position != projectile.Center) {
 					Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
 				}
 			}

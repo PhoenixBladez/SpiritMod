@@ -33,7 +33,7 @@ namespace SpiritMod.Projectiles
 
 		public override void AI()
 		{
-			if(projectile.timeLeft == maxTravelTime) {
+			if (projectile.timeLeft == maxTravelTime) {
 				Main.PlaySound(SoundID.Item, projectile.position, 11); //41 /12
 			}
 			Point point = projectile.Center.ToTileCoordinates();

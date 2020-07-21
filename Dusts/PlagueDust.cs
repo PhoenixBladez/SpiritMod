@@ -20,12 +20,14 @@ namespace SpiritMod.Dusts
 		{
 			dust.position += dust.velocity;
 
-			if(dust.scale < 1.4f) {
+			if (dust.scale < 1.4f) {
 				dust.scale += growthRate;
 				dust.velocity.Y -= 0.6f * growthRate;
-			} else if(dust.alpha < 255) {
+			}
+			else if (dust.alpha < 255) {
 				dust.alpha += 2;
-			} else {
+			}
+			else {
 				dust.active = false;
 			}
 

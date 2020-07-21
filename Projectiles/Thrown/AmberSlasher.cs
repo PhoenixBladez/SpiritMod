@@ -27,17 +27,18 @@ namespace SpiritMod.Projectiles.Thrown
 		{
 			projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.03f * (float)projectile.direction;
 
-			if(projectile.ai[0] == 0)
+			if (projectile.ai[0] == 0)
 				projectile.localAI[1] += 1f;
 
-			if(projectile.localAI[1] >= 20f) {
+			if (projectile.localAI[1] >= 20f) {
 				projectile.velocity.Y = projectile.velocity.Y + 0.4f;
 				projectile.velocity.X = projectile.velocity.X * 0.98f;
-			} else {
+			}
+			else {
 				projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
 			}
 
-			if(projectile.velocity.Y > 16f)
+			if (projectile.velocity.Y > 16f)
 				projectile.velocity.Y = 16f;
 
 			return false;
@@ -45,7 +46,7 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(projectile.ai[0] == 0) {
+			if (projectile.ai[0] == 0) {
 				int randX = target.position.X > Main.player[projectile.owner].position.X ? 1 : -1;
 				int randY = Main.rand.Next(2) == 0 ? -1 : 1;
 
@@ -55,7 +56,8 @@ namespace SpiritMod.Projectiles.Thrown
 				dir *= 16;
 				int newProj = Projectile.NewProjectile(randPos.X, randPos.Y, dir.X, dir.Y, ModContent.ProjectileType<AmberSlasher>(), projectile.damage, projectile.knockBack, projectile.owner, 1);
 				Main.projectile[newProj].tileCollide = false;
-			} else
+			}
+			else
 				projectile.tileCollide = true;
 
 		}
@@ -63,10 +65,10 @@ namespace SpiritMod.Projectiles.Thrown
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1);
-			for(int num424 = 0; num424 < 10; num424++) {
+			for (int num424 = 0; num424 < 10; num424++) {
 				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 1, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 0, default(Color), 0.75f);
 			}
-			if(Main.rand.Next(0, 4) == 0)
+			if (Main.rand.Next(0, 4) == 0)
 				Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<Items.Weapon.Thrown.AmberSlasher>(), 1, false, 0, false, false);
 
 		}

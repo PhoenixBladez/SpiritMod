@@ -36,17 +36,17 @@ namespace SpiritMod.Projectiles.DonatorItems
 
 			//loop through first 200 NPCs in Main.npc
 			//this loop finds the closest valid target NPC within the range of targetDist pixels
-			for(int i = 0; i < 200; i++) {
-				if(Main.npc[i].CanBeChasedBy(projectile) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1)) {
+			for (int i = 0; i < 200; i++) {
+				if (Main.npc[i].CanBeChasedBy(projectile) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1)) {
 					float dist = projectile.Distance(Main.npc[i].Center);
-					if(dist < targetDist) {
+					if (dist < targetDist) {
 						targetDist = dist;
 						targetPos = Main.npc[i].Center;
 						targetAcquired = true;
 					}
 				}
 			}
-			for(int i = 0; i < 6; i++) {
+			for (int i = 0; i < 6; i++) {
 				Dust dust;
 				// You need to set position depending on what you are doing. You may need to subtract width/2 and height/2 as well to center the spawn rectangle.
 				Vector2 position = projectile.Center;
@@ -56,7 +56,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 			}
 
 			//change trajectory to home in on target
-			if(targetAcquired) {
+			if (targetAcquired) {
 				float homingSpeedFactor = 6f;
 				Vector2 homingVect = targetPos - projectile.Center;
 				float dist = projectile.Distance(targetPos);

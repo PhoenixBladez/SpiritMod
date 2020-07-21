@@ -18,10 +18,11 @@ namespace SpiritMod.Buffs.Potion
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			modPlayer.starBuff = true;
 
-			if(player.velocity.X != 0) {
+			if (player.velocity.X != 0) {
 				player.rangedDamage += 0.04f;
 				player.rangedCrit += 4;
-			} else if(player.velocity.Y != 0) {
+			}
+			else if (player.velocity.Y != 0) {
 				player.rangedDamage += 0.04f;
 				player.rangedCrit += 4;
 			}

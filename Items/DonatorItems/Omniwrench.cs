@@ -6,7 +6,7 @@ namespace SpiritMod.Items.DonatorItems
 {
 	class Omniwrench : ModItem
 	{
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Omniwrench");
@@ -43,11 +43,12 @@ namespace SpiritMod.Items.DonatorItems
 
 		public override bool CanUseItem(Player player)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				item.shoot = ModContent.ProjectileType<Projectiles.DonatorItems.Omniwrench>();
 				item.noUseGraphic = true;
 				item.noMelee = true;
-			} else {
+			}
+			else {
 				item.shoot = ProjectileID.None;
 				item.noUseGraphic = false;
 				item.noMelee = false;

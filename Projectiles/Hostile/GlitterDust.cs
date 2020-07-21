@@ -29,7 +29,7 @@ namespace SpiritMod.Projectiles.Hostile
 		{
 			Player player = Main.LocalPlayer;
 			int distance1 = (int)Vector2.Distance(projectile.Center, player.Center);
-			if(distance1 < 26) {
+			if (distance1 < 26) {
 				{
 					player.AddBuff(BuffID.Confused, 180);
 				}

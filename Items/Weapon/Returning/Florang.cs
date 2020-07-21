@@ -34,9 +34,10 @@ namespace SpiritMod.Items.Weapon.Returning
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if(speedX > 0) {
+			if (speedX > 0) {
 				speedX = 2;
-			} else {
+			}
+			else {
 				speedX = -2;
 			}
 			return true;

@@ -30,20 +30,19 @@ namespace SpiritMod.Projectiles
 			projectile.velocity.X = MathHelper.Clamp(projectile.velocity.X, -10, 10);
 
 			projectile.frameCounter++;
-			if(projectile.frameCounter > projectile.velocity.X * 1.5F) {
+			if (projectile.frameCounter > projectile.velocity.X * 1.5F) {
 				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
 				projectile.frameCounter = 0;
 			}
-			if (projectile.timeLeft < 65)
-            {
-                projectile.alpha+= 3;
-            }
+			if (projectile.timeLeft < 65) {
+				projectile.alpha += 3;
+			}
 			return false;
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			if(oldVelocity.X != projectile.velocity.X)
+			if (oldVelocity.X != projectile.velocity.X)
 				projectile.velocity.X = -oldVelocity.X;
 
 			return false;

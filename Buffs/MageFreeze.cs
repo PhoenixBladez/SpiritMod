@@ -14,14 +14,14 @@ namespace SpiritMod.Buffs
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			if(npc.knockBackResist > 0f) {
+			if (npc.knockBackResist > 0f) {
 				npc.velocity.X *= .94f;
 				Player player = Main.LocalPlayer;
-				if(player.GetSpiritPlayer().cryoSet) {
+				if (player.GetSpiritPlayer().cryoSet) {
 					npc.velocity.X *= .90f;
 				}
 
-				if(Main.rand.NextBool(5)) {
+				if (Main.rand.NextBool(5)) {
 					int dust = Dust.NewDust(npc.position, npc.width, npc.height, 172);
 					Main.dust[dust].noGravity = true;
 					Main.dust[dust].velocity *= 0f;

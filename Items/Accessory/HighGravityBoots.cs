@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Accessory
 			player.noFallDmg = true;
 			player.portalPhysicsFlag = true;
 			player._portalPhysicsTime = 2;
-			if(player.velocity.Y > 0 && !player.gravControl) {
+			if (player.velocity.Y > 0 && !player.gravControl) {
 				Dust.NewDustPerfect(new Vector2(player.position.X + Main.rand.Next(player.width), player.position.Y + player.height - Main.rand.Next(7)), 206, Vector2.Zero);
 			}
 		}

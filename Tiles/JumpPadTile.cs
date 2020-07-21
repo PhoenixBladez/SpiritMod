@@ -38,12 +38,12 @@ namespace SpiritMod.Tiles
 			float sineAdd = (float)Math.Sin(alphaCounter) + 3;
 			Tile tile = Main.tile[i, j];
 			Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
-			if(Main.drawToScreen) {
+			if (Main.drawToScreen) {
 				zero = Vector2.Zero;
 			}
 			int height = tile.frameY == 36 ? 18 : 16;
 			Tile t = Main.tile[i, j];
-			if(t.frameX % 54 == 0 && t.frameY == 0) {
+			if (t.frameX % 54 == 0 && t.frameY == 0) {
 				Main.spriteBatch.Draw(Main.extraTexture[60], new Vector2(i * 16 - (int)Main.screenPosition.X - 44, ((j - 1) * 16) - (int)Main.screenPosition.Y - 50) + zero, null, new Color((int)(2.5f * sineAdd), (int)(5f * sineAdd), (int)(6f * sineAdd), 0), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			}
 		}
@@ -73,7 +73,7 @@ namespace SpiritMod.Tiles
 			player.velocity.Y -= 14f;
 			Main.PlaySound(SoundID.DD2_WitherBeastAuraPulse, player.Center);
 			float speed = player.velocity.Length();
-			for(int i = 0; i < 12; i++) {
+			for (int i = 0; i < 12; i++) {
 				DoDustEffect(player.MountedCenter, 46f - speed * 4.5f, 1.08f - speed * 0.13f, 2.08f - speed * 0.24f, player);
 			}
 		}

@@ -30,7 +30,7 @@ namespace SpiritMod.Projectiles.Sword
 
 		public override void AI()
 		{
-			for(int i = 0; i < 10; i++) {
+			for (int i = 0; i < 10; i++) {
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 				int num = Dust.NewDust(new Vector2(x, y), 26, 26, 61, 0f, 0f, 0, default(Color), 1f);
@@ -44,12 +44,12 @@ namespace SpiritMod.Projectiles.Sword
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(2) == 0)
+			if (Main.rand.Next(2) == 0)
 				target.AddBuff(ModContent.BuffType<BlightedFlames>(), 260, false);
 
 			MyPlayer mp = Main.player[projectile.owner].GetSpiritPlayer();
 			mp.PutridHits++;
-			if(mp.putridSet && mp.PutridHits >= 4) {
+			if (mp.putridSet && mp.PutridHits >= 4) {
 				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, 0f, ModContent.ProjectileType<CursedFlame>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
 				mp.PutridHits = 0;
 			}

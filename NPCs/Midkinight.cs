@@ -59,16 +59,16 @@ namespace SpiritMod.NPCs
 			npc.spriteDirection = npc.direction;
 			Player target = Main.player[npc.target];
 			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
-			if(distance < 64) {
+			if (distance < 64) {
 				target.AddBuff(BuffID.Darkness, 65);
 			}
-			if(distance > 640 && Main.rand.Next(6) == 1) {
-				if(Main.netMode != NetmodeID.MultiplayerClient) {
+			if (distance > 640 && Main.rand.Next(6) == 1) {
+				if (Main.netMode != NetmodeID.MultiplayerClient) {
 					Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 53);
 					npc.position.X = target.position.X + Main.rand.Next(50, 100) * -target.direction;
 					npc.position.Y = target.position.Y - Main.rand.Next(30, 60);
 					npc.netUpdate = true;
-					for(int num73 = 0; num73 < 20; num73++) {
+					for (int num73 = 0; num73 < 20; num73++) {
 						int index = Dust.NewDust(npc.position, 128, 128, 70, 0.0f, 0.0f, 200, new Color(), 0.5f);
 						Main.dust[index].noGravity = true;
 						Main.dust[index].velocity *= 0.75f;
@@ -93,15 +93,15 @@ namespace SpiritMod.NPCs
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			for(int k = 0; k < 40; k++) {
+			for (int k = 0; k < 40; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, 173, hitDirection * 6f, -1f, 0, default(Color), .45f);
 			}
-			if(npc.life <= 0) {
-				for(int k = 0; k < 10; k++) {
-                    Gore.NewGore(npc.position, npc.velocity, 99);
-                    Gore.NewGore(npc.position, npc.velocity, 99);
-                    Gore.NewGore(npc.position, npc.velocity, 99);
-                    Dust.NewDust(npc.position, npc.width, npc.height, 173, hitDirection * 6f, -1f, 0, default(Color), 1f);
+			if (npc.life <= 0) {
+				for (int k = 0; k < 10; k++) {
+					Gore.NewGore(npc.position, npc.velocity, 99);
+					Gore.NewGore(npc.position, npc.velocity, 99);
+					Gore.NewGore(npc.position, npc.velocity, 99);
+					Dust.NewDust(npc.position, npc.width, npc.height, 173, hitDirection * 6f, -1f, 0, default(Color), 1f);
 				}
 			}
 		}

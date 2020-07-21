@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Glyphs
 {
 	public sealed class NullGlyph : GlyphBase, IGlowing
 	{
-				public static Microsoft.Xna.Framework.Graphics.Texture2D[] _textures;
+		public static Microsoft.Xna.Framework.Graphics.Texture2D[] _textures;
 
 		Microsoft.Xna.Framework.Graphics.Texture2D IGlowing.Glowmask(out float bias)
 		{
@@ -49,12 +49,12 @@ namespace SpiritMod.Items.Glyphs
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
 			int index = tooltips.FindIndex(x => x.Name == "Tooltip0");
-			if(index < 0)
+			if (index < 0)
 				return;
 
 			Player player = Main.player[Main.myPlayer];
 			TooltipLine line;
-			if(CanRightClick()) {
+			if (CanRightClick()) {
 				Item held = player.HeldItem;
 				GlyphBase glyph = FromType(held.GetGlobalItem<GItem>().Glyph);
 				Color color = glyph.Color;
@@ -65,7 +65,8 @@ namespace SpiritMod.Items.Glyphs
 					glyph.item.Name + "] of [i:" + player.HeldItem.type + "] [c/" +
 					string.Format("{0:X2}{1:X2}{2:X2}:", itemColor.R, itemColor.G, itemColor.B) +
 					held.Name + "]");
-			} else
+			}
+			else
 				line = new TooltipLine(mod, "GlyphHint", "Equip the item whose glyph you want to remove, then right-click on this glyph");
 			line.overrideColor = new Color(120, 190, 120);
 			tooltips.Insert(index + 1, line);

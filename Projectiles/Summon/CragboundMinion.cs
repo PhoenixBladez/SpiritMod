@@ -35,20 +35,20 @@ namespace SpiritMod.Projectiles.Summon
 			bool flag64 = projectile.type == ModContent.ProjectileType<CragboundMinion>();
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if(flag64) {
-				if(player.dead)
+			if (flag64) {
+				if (player.dead)
 					modPlayer.cragboundMinion = false;
 
-				if(modPlayer.cragboundMinion)
+				if (modPlayer.cragboundMinion)
 					projectile.timeLeft = 2;
 
 			}
 
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 8) {
+			if (projectile.frameCounter >= 8) {
 				projectile.frame++;
 				projectile.frameCounter = 0;
-				if(projectile.frame >= 8)
+				if (projectile.frame >= 8)
 					projectile.frame = 0;
 
 			}
@@ -61,15 +61,15 @@ namespace SpiritMod.Projectiles.Summon
 
 			//TARGET NEAREST NPC WITHIN RANGE
 			float lowestDist = float.MaxValue;
-			for(int i = 0; i < 200; ++i) {
+			for (int i = 0; i < 200; ++i) {
 				NPC npc = Main.npc[i];
 				//if npc is a valid target (active, not friendly, and not a critter)
-				if(npc.active && npc.CanBeChasedBy(projectile)) {
+				if (npc.active && npc.CanBeChasedBy(projectile)) {
 					//if npc is within 50 blocks
 					float dist = projectile.Distance(npc.Center);
-					if(dist / 16 < range) {
+					if (dist / 16 < range) {
 						//if npc is closer than closest found npc
-						if(dist < lowestDist) {
+						if (dist < lowestDist) {
 							lowestDist = dist;
 
 							//target this npc
@@ -80,10 +80,10 @@ namespace SpiritMod.Projectiles.Summon
 			}
 
 			projectile.ai[0]++;
-			if(projectile.ai[0] >= 60) {
-				if(projectile.ai[0] % 5 == 0) {
-					for(int i = 0; i < 200; ++i) {
-						if(Main.npc[i].active && (projectile.position - Main.npc[i].position).Length() < 180 && Main.npc[i].CanBeChasedBy(projectile)) {
+			if (projectile.ai[0] >= 60) {
+				if (projectile.ai[0] % 5 == 0) {
+					for (int i = 0; i < 200; ++i) {
+						if (Main.npc[i].active && (projectile.position - Main.npc[i].position).Length() < 180 && Main.npc[i].CanBeChasedBy(projectile)) {
 							projectile.direction = Main.npc[i].position.X < projectile.position.X ? -1 : 1;
 
 							Vector2 position = new Vector2(projectile.position.X + projectile.width * 0.5f + Main.rand.Next(201) * -projectile.direction + (Main.npc[i].position.X - projectile.position.X), projectile.Center.Y - 600f);
@@ -91,9 +91,9 @@ namespace SpiritMod.Projectiles.Summon
 							position.Y -= 150;
 							float speedX = (float)Main.npc[i].position.X - position.X;
 							float speedY = (float)Main.npc[i].position.Y - position.Y;
-							if(speedY < 0f)
+							if (speedY < 0f)
 								speedY *= -1f;
-							if(speedY < 20f)
+							if (speedY < 20f)
 								speedY = 20f;
 
 							float length = (float)Math.Sqrt((double)(speedX * speedX + speedY * speedY));
@@ -110,7 +110,7 @@ namespace SpiritMod.Projectiles.Summon
 					}
 				}
 
-				if(projectile.ai[0] >= 90)
+				if (projectile.ai[0] >= 90)
 					projectile.ai[0] = 0;
 
 			}

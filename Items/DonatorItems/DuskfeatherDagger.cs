@@ -50,15 +50,17 @@ namespace SpiritMod.Items.DonatorItems
 		{
 			//Don't put this line into SetDefaults, or the item will break.
 			item.shoot = ModContent.ProjectileType<DuskfeatherBlade>();
-			if(player.altFunctionUse == 2) {
-				if(item.useStyle == ItemUseStyleID.SwingThrow) {
+			if (player.altFunctionUse == 2) {
+				if (item.useStyle == ItemUseStyleID.SwingThrow) {
 					item.useStyle = ItemUseStyleID.HoldingUp;
 					item.noUseGraphic = false;
 					item.UseSound = null;
-				} else
+				}
+				else
 					return false;
-			} else {
-				if(player.ownedProjectileCounts[ModContent.ProjectileType<DuskfeatherBlade>()] >= 8)
+			}
+			else {
+				if (player.ownedProjectileCounts[ModContent.ProjectileType<DuskfeatherBlade>()] >= 8)
 					DuskfeatherBlade.AttractOldestBlade(player);
 				item.useStyle = ItemUseStyleID.SwingThrow;
 				item.noUseGraphic = true;
@@ -69,7 +71,7 @@ namespace SpiritMod.Items.DonatorItems
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				DuskfeatherBlade.AttractBlades(player);
 				return false;
 			}

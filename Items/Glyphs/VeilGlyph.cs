@@ -54,20 +54,20 @@ namespace SpiritMod.Items.Glyphs
 		{
 			player.immune = true;
 			player.immuneTime = 80;
-			if(player.longInvince)
+			if (player.longInvince)
 				player.immuneTime += 40;
-			for(int i = 0; i < player.hurtCooldowns.Length; i++) {
+			for (int i = 0; i < player.hurtCooldowns.Length; i++) {
 				player.hurtCooldowns[i] = player.immuneTime;
 			}
 			Vector2 center = player.Center;
 			Vector2 scale = new Vector2((player.width >> 1) + 4f, (player.height >> 1) + 4f);
-			for(int i = 0; i < 50; i++) {
+			for (int i = 0; i < 50; i++) {
 				Vector2 offset = Main.rand.NextVec2CircularEven(1, 1);
 				Dust dust = Dust.NewDustPerfect(center + scale * offset, 110, 3 * offset, 100);
 				dust.scale *= 2.5f;
 				dust.noGravity = true;
 			}
-			if(player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.Server) {
+			if (player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.Server) {
 				ModPacket packet = SpiritMod.instance.GetPacket(MessageType.Dodge, 2);
 				packet.Write((byte)player.whoAmI);
 				packet.Write((byte)1);

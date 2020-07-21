@@ -33,9 +33,9 @@ namespace SpiritMod.Items.Consumable
 
 		public override bool CanUseItem(Player player)
 		{
-			if((player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && (!Main.pumpkinMoon && !Main.snowMoon))
+			if ((player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && (!Main.pumpkinMoon && !Main.snowMoon))
 				return false;
-			if(!player.ZoneBeach || TideWorld.TheTide) {
+			if (!player.ZoneBeach || TideWorld.TheTide) {
 				Main.NewText("The Tide only ebbs by the calm of the sea.", 85, 172, 247);
 				return false;
 			}

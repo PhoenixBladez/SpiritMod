@@ -33,7 +33,7 @@ namespace SpiritMod.Skies
 				float num3 = (float)Meteor.Random.NextDouble() * .4f;
 				double num2 = Meteor.Random.NextDouble() * 0.60000002384185791 - 0.30000001192092896;
 				Meteor.Rotation = (float)num2;
-				if(Meteor.Random.Next(2) == 0) {
+				if (Meteor.Random.Next(2) == 0) {
 					num2 += 3.1415927410125732 * 1.5;
 				}
 				this._speed = new Vector2((float)Math.Cos(num2) * num3, 0f);
@@ -46,19 +46,21 @@ namespace SpiritMod.Skies
 
 			public override bool Update(ref Meteor Meteor)
 			{
-				if(this._ticks < 10) {
+				if (this._ticks < 10) {
 					Meteor.Opacity += 0.1f;
-				} else if(this._ticks > this._maxTicks - 10) {
+				}
+				else if (this._ticks > this._maxTicks - 10) {
 					Meteor.Opacity -= 0.1f;
 				}
 				ref Vector2 position = ref Meteor.Position;
 				position += this._speed;
-				if(this._ticks >= this._maxTicks) {
+				if (this._ticks >= this._maxTicks) {
 					return false;
 				}
-				if(!Main.LocalPlayer.GetSpiritPlayer().ZoneAsteroid) {
+				if (!Main.LocalPlayer.GetSpiritPlayer().ZoneAsteroid) {
 					this._ticks += 300;
-				} else {
+				}
+				else {
 					this._ticks++;
 				}
 				return true;
@@ -83,12 +85,13 @@ namespace SpiritMod.Skies
 
 			public override bool Update(ref Meteor Meteor)
 			{
-				if(this._ticks < 10) {
+				if (this._ticks < 10) {
 					Meteor.Opacity += 0.1f;
-				} else if(this._ticks > this._maxTicks - 10) {
+				}
+				else if (this._ticks > this._maxTicks - 10) {
 					Meteor.Opacity -= 0.1f;
 				}
-				if(this._ticks == this._maxTicks) {
+				if (this._ticks == this._maxTicks) {
 					return false;
 				}
 				this._ticks++;
@@ -177,7 +180,7 @@ namespace SpiritMod.Skies
 
 			public void AssignNewBehavior()
 			{
-				switch(Meteor.Random.Next(2)) {
+				switch (Meteor.Random.Next(2)) {
 					case 0:
 						this.Controller = new ZipBehavior();
 						break;
@@ -202,15 +205,16 @@ namespace SpiritMod.Skies
 
 		public override void Update(GameTime gameTime)
 		{
-			if(!Main.gamePaused && Main.hasFocus) {
+			if (!Main.gamePaused && Main.hasFocus) {
 				int num = this._activeMeteors;
-				for(int i = 0; i < this._Meteors.Length; i++) {
+				for (int i = 0; i < this._Meteors.Length; i++) {
 					Meteor Meteor = this._Meteors[i];
-					if(Meteor.IsActive) {
-						if(!Meteor.Update()) {
-							if(!this._leaving) {
+					if (Meteor.IsActive) {
+						if (!Meteor.Update()) {
+							if (!this._leaving) {
 								Meteor.AssignNewBehavior();
-							} else {
+							}
+							else {
 								Meteor.IsActive = false;
 								num--;
 							}
@@ -218,7 +222,7 @@ namespace SpiritMod.Skies
 					}
 					this._Meteors[i] = Meteor;
 				}
-				if(!this._leaving && num != this._maxMeteors) {
+				if (!this._leaving && num != this._maxMeteors) {
 					this._Meteors[num].IsActive = true;
 					this._Meteors[num++].AssignNewBehavior();
 				}
@@ -233,30 +237,30 @@ namespace SpiritMod.Skies
 		}
 		public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
 		{
-			if(!(Main.screenPosition.Y > 10000f)) {
+			if (!(Main.screenPosition.Y > 10000f)) {
 				int num3 = -1;
 				int num2 = 0;
-				for(int j = 0; j < this._Meteors.Length; j++) {
+				for (int j = 0; j < this._Meteors.Length; j++) {
 					float depth = this._Meteors[j].Depth;
-					if(num3 == -1 && depth < maxDepth) {
+					if (num3 == -1 && depth < maxDepth) {
 						num3 = j;
 					}
-					if(depth <= minDepth) {
+					if (depth <= minDepth) {
 						break;
 					}
 					num2 = j;
 				}
-				if(num3 != -1) {
+				if (num3 != -1) {
 					Color value5 = new Color(Main.bgColor.ToVector4() * 0.9f + new Vector4(0.1f));
 					Vector2 value4 = Main.screenPosition + new Vector2((float)(Main.screenWidth >> 1), (float)(Main.screenHeight >> 1));
 					Rectangle rectangle = new Rectangle(-1000, -1000, 4000, 4000);
-					for(int i = num3; i < num2; i++) {
+					for (int i = num3; i < num2; i++) {
 						Vector2 value3 = new Vector2(1f / this._Meteors[i].Depth, 0.9f / this._Meteors[i].Depth);
 						Vector2 vector2 = this._Meteors[i].Position;
 						vector2 = (vector2 - value4) * value3 + value4 - Main.screenPosition;
-						if(this._Meteors[i].IsActive && rectangle.Contains((int)vector2.X, (int)vector2.Y)) {
+						if (this._Meteors[i].IsActive && rectangle.Contains((int)vector2.X, (int)vector2.Y)) {
 							Mod mod = SpiritMod.instance;
-							if(this._Meteors[i].GlowTexture != null) {
+							if (this._Meteors[i].GlowTexture != null) {
 								spriteBatch.Draw(this._Meteors[i].GlowTexture, vector2, this._Meteors[i].GetSourceRectangle(), new Color(130, 130, 130, 60) * this._Meteors[i].Opacity, this._Meteors[i].Rotation, Vector2.Zero, value3.X * 5f * this._Meteors[i].Scale, SpriteEffects.None, 0f);
 							}
 						}
@@ -272,52 +276,61 @@ namespace SpiritMod.Skies
 			this._maxMeteors = (int)(256f * num3);
 			this._Meteors = new Meteor[this._maxMeteors];
 			int num2 = this._maxMeteors >> 4;
-			for(int j = 0; j < num2; j++) {
+			for (int j = 0; j < num2; j++) {
 				float num4 = (float)j / (float)num2;
-				if(Main.rand.Next(2) == 0) {
+				if (Main.rand.Next(2) == 0) {
 					this._Meteors[j] = new Meteor(mod.GetTexture("Textures/MeteorBG2"), (float)Main.rand.NextDouble() * 4f + 6.6f);
 					this._Meteors[j].GlowTexture = mod.GetTexture("Textures/MeteorBG2");
-				} else if(Main.rand.Next(2) == 0) {
+				}
+				else if (Main.rand.Next(2) == 0) {
 					this._Meteors[j] = new Meteor(mod.GetTexture("Textures/MeteorBG3"), (float)Main.rand.NextDouble() * 4f + 6.6f);
 					this._Meteors[j].GlowTexture = mod.GetTexture("Textures/MeteorBG3");
-				} else if(Main.rand.Next(3) == 0) {
+				}
+				else if (Main.rand.Next(3) == 0) {
 					this._Meteors[j] = new Meteor(mod.GetTexture("Textures/MeteorBG5"), (float)Main.rand.NextDouble() * 4f + 6.6f);
 					this._Meteors[j].GlowTexture = mod.GetTexture("Textures/MeteorBG5");
-				} else if(Main.rand.Next(2) == 0) {
+				}
+				else if (Main.rand.Next(2) == 0) {
 					this._Meteors[j] = new Meteor(mod.GetTexture("Textures/MeteorBG4"), (float)Main.rand.NextDouble() * 4f + 6.6f);
 					this._Meteors[j].GlowTexture = mod.GetTexture("Textures/MeteorBG4");
-				} else if(Main.rand.Next(3) == 0) {
+				}
+				else if (Main.rand.Next(3) == 0) {
 					this._Meteors[j] = new Meteor(mod.GetTexture("Textures/MeteorBG6"), (float)Main.rand.NextDouble() * 4f + 6.6f);
 					this._Meteors[j].GlowTexture = mod.GetTexture("Textures/MeteorBG6");
-				} else {
+				}
+				else {
 					this._Meteors[j] = new Meteor(mod.GetTexture("Textures/MeteorBG"), (float)Main.rand.NextDouble() * 4f + 6.6f);
 					this._Meteors[j].GlowTexture = mod.GetTexture("Textures/MeteorBG");
 				}
 			}
-			for(int i = num2; i < this._Meteors.Length; i++) {
+			for (int i = num2; i < this._Meteors.Length; i++) {
 				float num5 = (float)(i - num2) / (float)(this._Meteors.Length - num2);
-				if(Main.rand.Next(3) == 0) {
+				if (Main.rand.Next(3) == 0) {
 					this._Meteors[i] = new Meteor(mod.GetTexture("Textures/MeteorBG"), (float)Main.rand.NextDouble() * 5f + 1.6f);
 					this._Meteors[i].Scale = 0.5f;
 					this._Meteors[i].GlowTexture = mod.GetTexture("Textures/MeteorBG");
-				} else if(Main.rand.Next(2) == 0) {
+				}
+				else if (Main.rand.Next(2) == 0) {
 					this._Meteors[i] = new Meteor(mod.GetTexture("Textures/MeteorBG1"), (float)Main.rand.NextDouble() * 5f + 1.6f);
 					this._Meteors[i].Scale = 0.5f;
 					this._Meteors[i].GlowTexture = mod.GetTexture("Textures/MeteorBG1");
-				} else if(Main.rand.Next(2) == 0) {
+				}
+				else if (Main.rand.Next(2) == 0) {
 					this._Meteors[i] = new Meteor(mod.GetTexture("Textures/MeteorBG4"), (float)Main.rand.NextDouble() * 5f + 1.6f);
 					this._Meteors[i].Scale = 0.5f;
 					this._Meteors[i].GlowTexture = mod.GetTexture("Textures/MeteorBG4");
 				}
-				if(Main.rand.Next(3) == 0) {
+				if (Main.rand.Next(3) == 0) {
 					this._Meteors[i] = new Meteor(mod.GetTexture("Textures/MeteorBG3"), (float)Main.rand.NextDouble() * 5f + 1.6f);
 					this._Meteors[i].Scale = 0.5f;
 					this._Meteors[i].GlowTexture = mod.GetTexture("Textures/MeteorBG3");
-				} else if(Main.rand.Next(2) == 0) {
+				}
+				else if (Main.rand.Next(2) == 0) {
 					this._Meteors[i] = new Meteor(mod.GetTexture("Textures/MeteorBG4"), (float)Main.rand.NextDouble() * 5f + 1.6f);
 					this._Meteors[i].Scale = 0.5f;
 					this._Meteors[i].GlowTexture = mod.GetTexture("Textures/MeteorBG4");
-				} else {
+				}
+				else {
 					this._Meteors[i] = new Meteor(mod.GetTexture("Textures/MeteorBG1"), (float)Main.rand.NextDouble() * 5f + 1.6f);
 					this._Meteors[i].Scale = 0.5f;
 					this._Meteors[i].GlowTexture = mod.GetTexture("Textures/MeteorBG1");

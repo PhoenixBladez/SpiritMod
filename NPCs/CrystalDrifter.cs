@@ -39,9 +39,9 @@ namespace SpiritMod.NPCs
 			npc.noTileCollide = true;
 			npc.aiStyle = 22;
 			npc.aiStyle = -1;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.CrystalDrifterBanner>();
-        }
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.CrystalDrifterBanner>();
+		}
 		int timer = 0;
 		public override bool PreAI()
 		{
@@ -49,7 +49,7 @@ namespace SpiritMod.NPCs
 			Player target = Main.player[npc.target];
 			MyPlayer modPlayer = target.GetSpiritPlayer();
 			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
-			if(distance < 500) {
+			if (distance < 500) {
 				{
 					target.AddBuff(BuffID.WindPushed, 90);
 					modPlayer.windEffect2 = true;
@@ -64,21 +64,23 @@ namespace SpiritMod.NPCs
 			Vector2 vector2_1 = Main.player[npc.target].Center - npc.Center + new Vector2(0.0f, Main.rand.NextFloat(-200f, -150f));
 			float num2 = vector2_1.Length();
 			Vector2 desiredVelocity;
-			if((double)num2 < 20.0)
+			if ((double)num2 < 20.0)
 				desiredVelocity = npc.velocity;
-			else if((double)num2 < 40.0) {
+			else if ((double)num2 < 40.0) {
 				vector2_1.Normalize();
 				desiredVelocity = vector2_1 * (num1 * 0.35f);
-			} else if((double)num2 < 80.0) {
+			}
+			else if ((double)num2 < 80.0) {
 				vector2_1.Normalize();
 				desiredVelocity = vector2_1 * (num1 * 0.65f);
-			} else {
+			}
+			else {
 				vector2_1.Normalize();
 				desiredVelocity = vector2_1 * num1;
 			}
 			npc.SimpleFlyMovement(desiredVelocity, moveSpeed);
 			npc.rotation = npc.velocity.X * 0.1f;
-			if(timer >= 90) {
+			if (timer >= 90) {
 				Vector2 vector2_2 = Vector2.UnitY.RotatedByRandom(1.57079637050629f) * new Vector2(5f, 3f);
 				bool expertMode = Main.expertMode;
 				int damage = expertMode ? 12 : 18;
@@ -91,7 +93,7 @@ namespace SpiritMod.NPCs
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height * 0.5f));
-			for(int k = 0; k < npc.oldPos.Length; k++) {
+			for (int k = 0; k < npc.oldPos.Length; k++) {
 				var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 				Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
 				Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
@@ -108,11 +110,11 @@ namespace SpiritMod.NPCs
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 51);
-			for(int k = 0; k < 20; k++) {
+			for (int k = 0; k < 20; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, 68, hitDirection * 2f, -1f, 0, default(Color), 1f);
 			}
 
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Drifter/Drifter1"), .5f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Drifter/Drifter2"), .5f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Drifter/Drifter3"), .5f);
@@ -125,15 +127,15 @@ namespace SpiritMod.NPCs
 				npc.height = 30;
 				npc.position.X = npc.position.X - (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
-				for(int num621 = 0; num621 < 20; num621++) {
+				for (int num621 = 0; num621 < 20; num621++) {
 					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 68, 0f, 0f, 100, default(Color), 1f);
 					Main.dust[num622].velocity *= 3f;
-					if(Main.rand.Next(2) == 0) {
+					if (Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 					}
 				}
-				for(int num623 = 0; num623 < 40; num623++) {
+				for (int num623 = 0; num623 < 40; num623++) {
 					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 68, 0f, 0f, 100, default(Color), 1f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
@@ -145,7 +147,7 @@ namespace SpiritMod.NPCs
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if(Main.rand.Next(2) == 1)
+			if (Main.rand.Next(2) == 1)
 				target.AddBuff(BuffID.Frostburn, 150);
 		}
 

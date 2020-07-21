@@ -49,10 +49,11 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 110);
 				Main.dust[dust].noGravity = true;
-			} else {
+			}
+			else {
 				int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 110);
 				Main.dust[dust].noGravity = true;
 			}
@@ -60,13 +61,13 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
 		{
-			if(Main.rand.Next(9) == 2)
+			if (Main.rand.Next(9) == 2)
 				target.AddBuff(ModContent.BuffType<DeathWreathe>(), 180);
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				MyPlayer modPlayer = player.GetSpiritPlayer();
 				modPlayer.shootDelay1 = 420;
 				Projectile.NewProjectile(player.Center.X, player.Center.Y, 0, 0, ModContent.ProjectileType<SoulNet>(), 0, 0, player.whoAmI);
@@ -77,9 +78,9 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 
 		public override bool CanUseItem(Player player)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				MyPlayer modPlayer = player.GetSpiritPlayer();
-				if(modPlayer.shootDelay1 == 0)
+				if (modPlayer.shootDelay1 == 0)
 					return true;
 				return false;
 			}
