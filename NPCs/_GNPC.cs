@@ -640,7 +640,7 @@ namespace SpiritMod.NPCs
 				}
 			}
 			else if (type == NPCID.ArmsDealer) {
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Ammo.RubberBullet>(), false);
+				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Ammo.Bullet.RubberBullet>(), false);
 				nextSlot++;
 			}
 			else if (type == NPCID.Dryad) {
