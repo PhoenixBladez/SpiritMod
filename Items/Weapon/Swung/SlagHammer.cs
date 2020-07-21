@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Slag Breaker");
-			Tooltip.SetDefault("Hold 'down' to keep swinging\nThis hammer explodes after hitting 4 targets\nHitting enemies releases damaging sparks\nRight click to throw the Hammer like a boomerang");
+			Tooltip.SetDefault("Hold down to keep swinging\nThis hammer explodes after hitting 4 targets\nHitting enemies releases damaging sparks\nRight click to throw the Hammer like a boomerang");
 		}
 
 

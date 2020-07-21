@@ -25,7 +25,7 @@ namespace SpiritMod.NPCs
 			npc.width = 30;
 			npc.height = 44;
 
-			npc.lifeMax = 91;
+			npc.lifeMax = 400;
 			npc.defense = 6;
 			npc.damage = 34;
 

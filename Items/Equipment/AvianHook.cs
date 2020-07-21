@@ -115,24 +115,24 @@ namespace SpiritMod.Items.Equipment
 		// Amethyst Hook is 300, Static Hook is 600
 		public override float GrappleRange()
 		{
-			return 600f;
+			return 300f;
 		}
 
 		public override void NumGrappleHooks(Player player, ref int numHooks)
 		{
-			numHooks = 3;
+			numHooks = 2;
 		}
 
 		// default is 11, Lunar is 24
 		public override void GrappleRetreatSpeed(Player player, ref float speed)
 		{
-			speed = 13f;
+			speed = 12f;
 		}
 
 		public override void GrapplePullSpeed(Player player, ref float speed)
 		{
 			player.AddBuff(BuffID.Featherfall, 120);
-			speed = 12;
+			speed = 10;
 		}
 
 		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)

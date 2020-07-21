@@ -99,6 +99,12 @@ namespace SpiritMod.NPCs.WhirlingWorlds
 				}
 			}
 			else {
+				if (Main.player[npc.target].Center.X < npc.Center.X) {
+					npc.spriteDirection = -1;
+				}
+				else {
+					npc.spriteDirection = 1;
+				}
 				if (npc.frameCounter >= 7) {
 					frame++;
 					npc.frameCounter = 0;
@@ -107,7 +113,7 @@ namespace SpiritMod.NPCs.WhirlingWorlds
 					gettingballs = false;
 				}
 				if ((frame == 11 || frame == 14) && npc.frameCounter == 4) {
-					Main.PlaySound(1, (int)npc.position.X, (int)npc.position.Y, 106);
+					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 19, 1f, 0f);
 
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
 					direction.Normalize();

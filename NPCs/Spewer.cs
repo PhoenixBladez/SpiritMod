@@ -61,7 +61,7 @@ namespace SpiritMod.NPCs
 						direction.Normalize();
 						direction.X *= 11;
 						direction.Y *= 6;
-						int damage = expertMode ? 15 : 17;
+						int damage = expertMode ? 11 : 13;
 						Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 4, direction.X, direction.Y + Main.rand.NextFloat(-.5f, .5f), ModContent.ProjectileType<VomitProj>(), damage, 1, Main.myPlayer, 0, 0);
 					}
 				}

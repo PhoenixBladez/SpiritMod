@@ -738,7 +738,7 @@ namespace SpiritMod.NPCs
 				pool.Add(NPCType<Mineroid>(), 0.3f);
 				pool.Add(NPCType<GloopGloop>(), 0.24f);
 				if (NPC.downedBoss3) {
-					pool.Add(NPCType<CogTrapperHead>(), 0.25f);
+					pool.Add(NPCType<CogTrapperHead>(), 0.4f);
 				}
 			}
 			for (int k = 0; k < 255; k++) {

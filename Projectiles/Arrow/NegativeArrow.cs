@@ -44,7 +44,7 @@ namespace SpiritMod.Projectiles.Arrow
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 				projectile.position += projectile.velocity * 2;
 				stuck = true;
-				projectile.timeLeft = 270;
+				projectile.timeLeft = 370;
 				projectile.velocity = Vector2.Zero;
 				projectile.aiStyle = -1;
 			}
@@ -146,6 +146,7 @@ namespace SpiritMod.Projectiles.Arrow
 					//projectile.penetrate = 1;
 					projectile.timeLeft = 8;
 					projectile.friendly = true;
+					projectile.damage = (int)(projectile.damage * 1.5);
 					ProjectileExtras.Explode(projectile.whoAmI, 150, 150,
 					delegate {
 						float ScaleMult = 3f;

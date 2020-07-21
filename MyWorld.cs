@@ -420,20 +420,17 @@ namespace SpiritMod
 			ushort gold = MyWorld.GetNonOre(WorldGen.GoldTierOre);
 
 			int OreRoll = Main.rand.Next(1120);
-			if (OreRoll < 300) {
+			if (OreRoll < 250) {
 				return GetNonOre(iron);
 			}
-			else if (OreRoll < 500) {
+			else if (OreRoll < 400) {
 				return GetNonOre(silver);
 			}
-			else if (OreRoll < 800) {
+			else if (OreRoll < 600) {
 				return GetNonOre(gold);
 			}
-			else if (OreRoll < 850) {
+			else if (OreRoll < 650) {
 				return 37; //meteorite
-			}
-			else if (OreRoll < 1100) {
-				return glowstone;
 			}
 			else {
 				return glowstone;
@@ -3069,7 +3066,7 @@ namespace SpiritMod
 				}
 			}
 			//Tile tile;
-			for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 3.2f) * 15E-05); k++) {
+			for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY) * 15E-05); k++) {
 				int EEXX = WorldGen.genRand.Next(100, Main.maxTilesX - 100);
 				int WHHYY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 300);
 				if (Main.tile[EEXX, WHHYY] != null) {

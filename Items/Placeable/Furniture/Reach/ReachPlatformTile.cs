@@ -30,7 +30,6 @@ namespace SpiritMod.Items.Placeable.Furniture.Reach
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<AncientBark>());
 			recipe.SetResult(this, 2);
-			recipe.AddTile(TileID.WorkBenches);
 			recipe.AddRecipe();
 		}
 	}

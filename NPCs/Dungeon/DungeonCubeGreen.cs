@@ -44,7 +44,7 @@ namespace SpiritMod.NPCs.Dungeon
 		}
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			target.AddBuff(BuffID.Cursed, 250, true);
+			target.AddBuff(BuffID.Cursed, 60, true);
 		}
 		public override bool PreAI()
 		{

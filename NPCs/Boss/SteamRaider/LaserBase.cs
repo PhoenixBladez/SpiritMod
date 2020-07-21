@@ -94,7 +94,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				direction9 = player.Center - npc.Center;
 				direction9.Normalize();
 			}
-			if (timer >= 60 && timer <= 130 & timer % 2 == 0) {
+			if (timer >= 60 && timer <= 110 & timer % 2 == 0) {
 				{
 					int dust = Dust.NewDust(npc.Center, npc.width, npc.height, 226);
 					Main.dust[dust].velocity *= -1f;
@@ -122,12 +122,12 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					Vector2 position = new Vector2(npc.Center.X + 10, npc.Center.Y);
 					dust = Terraria.Dust.NewDustPerfect(position, 226, new Vector2(0f, -6.421053f).RotatedBy(npc.rotation), 0, new Color(255, 0, 0), 0.6578947f);
 				}
-				if (timer == 130) //change to frame related later
+				if (timer == 110) //change to frame related later
 				{
 					Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 53);
 					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 40, (float)direction9.Y * 40, ModContent.ProjectileType<StarLaser>(), 55, 1, Main.myPlayer);
 				}
-				if (timer < 130 && timer > 75 && timer % 3 == 0) {
+				if (timer < 110 && timer > 75 && timer % 3 == 0) {
 					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 30, (float)direction9.Y * 30, ModContent.ProjectileType<StarLaserTrace>(), 27, 1, Main.myPlayer);
 				}
 				npc.rotation = direction9.ToRotation() - 1.57f;
