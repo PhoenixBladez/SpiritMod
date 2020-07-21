@@ -51,12 +51,6 @@ namespace SpiritMod.NPCs.Tides
 				Main.spriteBatch.Draw(SpiritMod.instance.GetTexture("Effects/Masks/Extra_49"), (npc.Center - Main.screenPosition), null, new Color((int)(16.9f * sineAdd), (int)(8.9f * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), 0.33f * (sineAdd + 1), SpriteEffects.None, 0f);
 			}
 		}
-		public override void SendExtraAI(BinaryWriter writer)
-		{
-		}
-		public override void ReceiveExtraAI(BinaryReader reader)
-		{
-		}
 
 		public override void AI()
 		{
@@ -84,7 +78,8 @@ namespace SpiritMod.NPCs.Tides
 						double angley = Math.Cos(npc.ai[3] * (Math.PI / 180));
 						npc.position.X = player.Center.X + (int)(distance * anglex);
 						npc.position.Y = player.Center.Y + (int)(distance * angley);
-						if (Main.tile[(int)(npc.position.X / 16), (int)(npc.position.Y / 16)].active()) {
+					}
+					if (Main.tile[(int)(npc.position.X / 16), (int)(npc.position.Y / 16)].active()) {
 							npc.alpha = 255;
 						}
 						else {
@@ -92,12 +87,13 @@ namespace SpiritMod.NPCs.Tides
 							teleported = true;
 							npc.alpha = 0;
 						}
-					}
 				}
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
+			}
+			if (npc.ai[0] % 400 == 101) {
 				DustHelper.DrawDiamond(npc.Center, 173, 12);
 			}
-			float num395 = Main.mouseTextColor / 200f - 0.35f;
+				float num395 = Main.mouseTextColor / 200f - 0.35f;
 			num395 *= 0.2f;
 			npc.scale = num395 + 0.95f;
 			if (!Main.raining) {
@@ -118,10 +114,11 @@ namespace SpiritMod.NPCs.Tides
 				for (npc.ai[2] = 0; npc.ai[2] < 6.29; npc.ai[2] += 0.785f) {
 					Vector2 offset = new Vector2((float)Math.Cos(npc.ai[2]), (float)Math.Sin(npc.ai[2])) * 90f;
 					if (Main.netMode != 1) {
-						Vector2 direction = player.Center - npc.Center;
+						Vector2 direction = player.Center - (npc.Center + offset);
 						direction.Normalize();
 						direction *= 19;
 						int laser = Projectile.NewProjectile(npc.Center.X + offset.X, npc.Center.Y + offset.Y, direction.X, direction.Y, ModContent.ProjectileType<RyBolt>(), npc.damage / 2, 0);
+						Main.projectile[laser].netUpdate = true;
 						NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, laser);
 					}
 
@@ -156,15 +153,17 @@ namespace SpiritMod.NPCs.Tides
 						npc.ai[3] = Main.rand.Next(360);
 						double squidAnglex = Math.Sin(npc.ai[3] * (Math.PI / 180));
 						double squidAngley = 0 - Math.Abs(Math.Cos(npc.ai[3] * (Math.PI / 180)));
-						Vector2 direction = player.Center - npc.Center;
+						Vector2 direction = player.Center - new Vector2(player.Center.X + (int)(500 * squidAnglex), player.Center.Y + (int)(500 * squidAngley));
 						direction.Normalize();
 						direction *= 19;
 						int squid = Projectile.NewProjectile(player.Center.X + (int)(500 * squidAnglex), player.Center.Y + (int)(500 * squidAngley), direction.X, direction.Y, ModContent.ProjectileType<TentacleSquid>(), npc.damage / 2, 0);
 						NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, squid);
 						Main.projectile[squid].netUpdate = true;
+						npc.netUpdate = true;
 					}
+				}
+				if(npc.ai[0] % 25 == 11) {
 					DustHelper.DrawTriangle(new Vector2(player.Center.X + (int)(500 * Math.Sin(npc.ai[3] * (Math.PI / 180))), player.Center.Y + (int)(500 * (0 - Math.Abs(Math.Cos(npc.ai[3] * (Math.PI / 180)))))), 173, 3);
-					npc.netUpdate = true;
 				}
 				if (npc.ai[0] % 400 == 390) {
 					npc.ai[1] = 0;
