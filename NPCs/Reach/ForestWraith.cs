@@ -57,24 +57,26 @@ namespace SpiritMod.NPCs.Reach
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.46f, 0.32f, .1f);
 			//bool expertMode = Main.expertMode;
 			timer++;
-			if ((timer == 240 || timer == 280 || timer == 320) && Main.netMode != NetmodeID.MultiplayerClient) {
+			if ((timer == 240 || timer == 280 || timer == 320)) {
 				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y, 0);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
 				direction.X *= 10f;
 				direction.Y *= 10f;
-
-				int amountOfProjectiles = Main.rand.Next(1, 1);
-				for (int i = 0; i < amountOfProjectiles; ++i) {
-					float A = Main.rand.Next(-120, 120) * 0.01f;
-					float B = Main.rand.Next(-120, 120) * 0.01f;
-					int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<OvergrowthLeaf>(), 6, 1, Main.myPlayer, 0, 0);
-					Main.projectile[p].hostile = true;
-					Main.projectile[p].friendly = false;
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					int amountOfProjectiles = 1;
+					for (int i = 0; i < amountOfProjectiles; ++i) {
+						float A = Main.rand.Next(-120, 120) * 0.01f;
+						float B = Main.rand.Next(-120, 120) * 0.01f;
+						int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<OvergrowthLeaf>(), 6, 1, Main.myPlayer, 0, 0);
+						Main.projectile[p].hostile = true;
+						Main.projectile[p].friendly = false;
+					}
 				}
 				npc.netUpdate = true;
 			}
-			if ((timer >= 420 && timer <= 720) && Main.netMode != NetmodeID.MultiplayerClient) {
+			if ((timer >= 420 && timer <= 720)) {
 				Dust.NewDust(npc.position, npc.width, npc.height, 6, 0f, -2.5f, 0, default, 0.6f);
 				npc.defense = 0;
 				npc.velocity = Vector2.Zero;
@@ -84,13 +86,16 @@ namespace SpiritMod.NPCs.Reach
 					direction.X *= 3f;
 					direction.Y *= 11f;
 					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
-					int amountOfProjectiles = Main.rand.Next(1, 1);
-					for (int i = 0; i < amountOfProjectiles; ++i) {
-						float A = Main.rand.Next(-120, 120) * 0.05f;
-						float B = Main.rand.Next(-120, -10) * 0.05f;
-						int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, -direction.Y + B, ModContent.ProjectileType<LittleBouncingSpore>(), 8, 1, Main.myPlayer, 0, 0);
-						Main.projectile[p].hostile = true;
-						Main.projectile[p].friendly = false;
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						int amountOfProjectiles = Main.rand.Next(1, 1);
+						for (int i = 0; i < amountOfProjectiles; ++i) {
+							float A = Main.rand.Next(-120, 120) * 0.05f;
+							float B = Main.rand.Next(-120, -10) * 0.05f;
+							int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, -direction.Y + B, ModContent.ProjectileType<LittleBouncingSpore>(), 8, 1, Main.myPlayer, 0, 0);
+							Main.projectile[p].hostile = true;
+							Main.projectile[p].friendly = false;
+						}
 					}
 				}
 				npc.netUpdate = true;

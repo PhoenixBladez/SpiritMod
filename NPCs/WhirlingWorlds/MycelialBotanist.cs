@@ -107,14 +107,16 @@ namespace SpiritMod.NPCs.WhirlingWorlds
 					frame++;
 					npc.frameCounter = 0;
 				}
-				if (frame == 10 && npc.frameCounter == 6 && Main.netMode != NetmodeID.MultiplayerClient) {
+				if (frame == 10 && npc.frameCounter == 6) {
 					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 1);
-
-					Vector2 direction = Main.player[npc.target].Center - npc.Center;
-					float distance = MathHelper.Clamp(direction.Length(), -250, 250);
-					direction.Normalize();
-					direction *= distance / 20;
-					int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<MyceliumHat>(), 15, 1, Main.myPlayer, npc.whoAmI);
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						Vector2 direction = Main.player[npc.target].Center - npc.Center;
+						float distance = MathHelper.Clamp(direction.Length(), -250, 250);
+						direction.Normalize();
+						direction *= distance / 20;
+						int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<MyceliumHat>(), 15, 1, Main.myPlayer, npc.whoAmI);
+					}
 				}
 				if (frame >= 11) {
 					shooting = false;

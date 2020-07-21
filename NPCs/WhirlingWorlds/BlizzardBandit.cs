@@ -112,18 +112,20 @@ namespace SpiritMod.NPCs.WhirlingWorlds
 				if (frame == 10) {
 					gettingballs = false;
 				}
-				if ((frame == 11 || frame == 14) && npc.frameCounter == 4 && Main.netMode != NetmodeID.MultiplayerClient) {
+				if ((frame == 11 || frame == 14) && npc.frameCounter == 4) {
 					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 19, 1f, 0f);
-
-					Vector2 direction = Main.player[npc.target].Center - npc.Center;
-					direction.Normalize();
-					direction.X *= 8.5f;
-					direction.Y *= 8.5f;
-					float A = (float)Main.rand.Next(-50, 50) * 0.02f;
-					float B = (float)Main.rand.Next(-50, 50) * 0.02f;
-					int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y, direction.X + A, direction.Y + B, 166, npc.damage / 3, 1, Main.myPlayer, 0, 0);
-					Main.projectile[p].hostile = true;
-					Main.projectile[p].friendly = false;
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						Vector2 direction = Main.player[npc.target].Center - npc.Center;
+						direction.Normalize();
+						direction.X *= 8.5f;
+						direction.Y *= 8.5f;
+						float A = (float)Main.rand.Next(-50, 50) * 0.02f;
+						float B = (float)Main.rand.Next(-50, 50) * 0.02f;
+						int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y, direction.X + A, direction.Y + B, 166, npc.damage / 3, 1, Main.myPlayer, 0, 0);
+						Main.projectile[p].hostile = true;
+						Main.projectile[p].friendly = false;
+					}
 
 				}
 				if (frame >= 16) {

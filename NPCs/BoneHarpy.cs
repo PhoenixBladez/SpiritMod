@@ -67,22 +67,25 @@ namespace SpiritMod.NPCs
 			if (Main.rand.Next(220) == 8) {
 				HomeY = -25f;
 			}
-			if (counter >= 240 && Main.netMode != NetmodeID.MultiplayerClient) //Fires desert feathers like a shotgun
+			if (counter >= 240) //Fires desert feathers like a shotgun
 			{
 				counter = 0;
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 73);
-				Vector2 direction = Main.player[npc.target].Center - npc.Center;
-				direction.Normalize();
-				direction.X *= 11f;
-				direction.Y *= 11f;
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					Vector2 direction = Main.player[npc.target].Center - npc.Center;
+					direction.Normalize();
+					direction.X *= 11f;
+					direction.Y *= 11f;
 
-				int amountOfProjectiles = 3;
-				for (int i = 0; i < amountOfProjectiles; ++i) {
-					float A = (float)Main.rand.Next(-150, 150) * 0.01f;
-					float B = (float)Main.rand.Next(-150, 150) * 0.01f;
-					int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<DesertFeather>(), 11, 1, Main.myPlayer, 0, 0);
-					Main.projectile[p].scale = .6f;
-				}
+					int amountOfProjectiles = 3;
+					for (int i = 0; i < amountOfProjectiles; ++i) {
+						float A = (float)Main.rand.Next(-150, 150) * 0.01f;
+						float B = (float)Main.rand.Next(-150, 150) * 0.01f;
+						int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<DesertFeather>(), 11, 1, Main.myPlayer, 0, 0);
+						Main.projectile[p].scale = .6f;
+					}
+				}	
 			}
 		}
 

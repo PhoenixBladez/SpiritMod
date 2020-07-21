@@ -95,20 +95,23 @@ namespace SpiritMod.NPCs.Dungeon
 			if (attack) {
 				npc.velocity.X = .008f * npc.direction;
 				//shootTimer++;
-				if (frame == 3 && timer == 0 && Main.netMode != NetmodeID.MultiplayerClient) {
+				if (frame == 3 && timer == 0) {
 					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 106);
-					Vector2 direction = Main.player[npc.target].Center - npc.Center;
-					direction.Normalize();
-					direction.X *= 7f;
-					direction.Y *= 7f;
-					float A = (float)Main.rand.Next(-50, 50) * 0.02f;
-					float B = (float)Main.rand.Next(-50, 50) * 0.02f;
-					int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y - 10, direction.X + A, direction.Y + B, ModContent.ProjectileType<ToxicFlaskHostile>(), 13, 1, Main.myPlayer, 0, 0);
-					for (int k = 0; k < 11; k++) {
-						Dust.NewDust(npc.position, npc.width, npc.height, 75, (float)direction.X + A, (float)direction.Y + B, 0, default(Color), .61f);
-					}
-					Main.projectile[p].hostile = true;
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						Vector2 direction = Main.player[npc.target].Center - npc.Center;
+						direction.Normalize();
+						direction.X *= 7f;
+						direction.Y *= 7f;
+						float A = (float)Main.rand.Next(-50, 50) * 0.02f;
+						float B = (float)Main.rand.Next(-50, 50) * 0.02f;
+						int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y - 10, direction.X + A, direction.Y + B, ModContent.ProjectileType<ToxicFlaskHostile>(), 13, 1, Main.myPlayer, 0, 0);
+						for (int k = 0; k < 11; k++) {
+							Dust.NewDust(npc.position, npc.width, npc.height, 75, (float)direction.X + A, (float)direction.Y + B, 0, default(Color), .61f);
+						}
+						Main.projectile[p].hostile = true;
 					//  shootTimer = 0;
+					}
 					timer++;
 				}
 				timer++;

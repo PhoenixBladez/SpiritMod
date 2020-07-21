@@ -81,19 +81,22 @@ namespace SpiritMod.NPCs
 				Vector2 vector2_3 = vector2_2 * 34f;
 				Main.dust[dust].position = npc.Center - vector2_3;
 			}
-			if (aiTimer == 300 && Main.netMode != NetmodeID.MultiplayerClient) {
+			if (aiTimer == 300) {
 				Main.PlaySound(SoundID.DD2_WyvernDiveDown, npc.Center);
-				Vector2 direction = Main.player[npc.target].Center - npc.Center;
-				direction.Normalize();
-				direction.X *= 9f;
-				direction.Y *= 9f;
-				bool expertMode = Main.expertMode;
-				int damage = expertMode ? 9 : 15;
-				int amountOfProjectiles = Main.rand.Next(2, 4);
-				for (int i = 0; i < amountOfProjectiles; ++i) {
-					float A = (float)Main.rand.Next(-150, 150) * 0.01f;
-					float B = (float)Main.rand.Next(-150, 150) * 0.01f;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<ValkyrieSpearHostile>(), damage, 1, Main.myPlayer, 0, 0);
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					Vector2 direction = Main.player[npc.target].Center - npc.Center;
+					direction.Normalize();
+					direction.X *= 9f;
+					direction.Y *= 9f;
+					bool expertMode = Main.expertMode;
+					int damage = expertMode ? 9 : 15;
+					int amountOfProjectiles = Main.rand.Next(2, 4);
+					for (int i = 0; i < amountOfProjectiles; ++i) {
+						float A = (float)Main.rand.Next(-150, 150) * 0.01f;
+						float B = (float)Main.rand.Next(-150, 150) * 0.01f;
+						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<ValkyrieSpearHostile>(), damage, 1, Main.myPlayer, 0, 0);
+					}
 				}
 			}
 			if (aiTimer >= 500) {

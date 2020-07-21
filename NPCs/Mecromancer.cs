@@ -88,10 +88,12 @@ namespace SpiritMod.NPCs
 				Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 7);
 			}
 			timer++;
-			if ((timer == 100 || timer == 300) && Main.netMode != NetmodeID.MultiplayerClient) {
+			if ((timer == 100 || timer == 300)) {
 				Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 7);
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 92);
 				npc.TargetClosest();
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				float ai = Main.rand.Next(100);
 				direction.Normalize();
@@ -99,6 +101,7 @@ namespace SpiritMod.NPCs
 				int MechBat1 = Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 3, -6, ModContent.ProjectileType<MechBat>(), 11, 0);
 				if (Main.rand.Next(3) == 0) {
 					int MechBat2 = Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -3, -6, ModContent.ProjectileType<MechBat>(), 11, 0);
+				}
 				}
 			}
 			if (timer > 420 && timer < 840) {

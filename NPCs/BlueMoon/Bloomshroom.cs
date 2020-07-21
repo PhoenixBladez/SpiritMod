@@ -66,17 +66,20 @@ namespace SpiritMod.NPCs.BlueMoon
 			if (attack) {
 				npc.velocity.X = .008f * npc.direction;
 				//shootTimer++;
-				if (frame == 9 && timer == 0 && Main.netMode != NetmodeID.MultiplayerClient) {
+				if (frame == 9 && timer == 0) {
 					Main.PlaySound(SoundID.Item, npc.Center, 95);
-					Vector2 direction = Main.player[npc.target].Center - npc.Center;
-					float ai = Main.rand.Next(100);
-					direction.Normalize();
-					int MechBat = Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 10, 0, -4, ModContent.ProjectileType<BloomshroomHostile>(), 31, 0);
-					int MechBat1 = Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 10, 6f, -4, ModContent.ProjectileType<BloomshroomHostile>(), 31, 0);
-					if (Main.rand.Next(3) == 0) {
-						int MechBat2 = Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 10, -6f, -4, ModContent.ProjectileType<BloomshroomHostile>(), 25, 0);
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						Vector2 direction = Main.player[npc.target].Center - npc.Center;
+						float ai = Main.rand.Next(100);
+						direction.Normalize();
+						int MechBat = Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 10, 0, -4, ModContent.ProjectileType<BloomshroomHostile>(), 31, 0);
+						int MechBat1 = Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 10, 6f, -4, ModContent.ProjectileType<BloomshroomHostile>(), 31, 0);
+						if (Main.rand.Next(3) == 0) {
+							int MechBat2 = Terraria.Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 10, -6f, -4, ModContent.ProjectileType<BloomshroomHostile>(), 25, 0);
+						}
+						timer++;
 					}
-					timer++;
 				}
 				timer++;
 				if (timer >= 12) {
