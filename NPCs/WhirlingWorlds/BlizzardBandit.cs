@@ -100,10 +100,10 @@ namespace SpiritMod.NPCs.WhirlingWorlds
 			}
 			else {
 				if (Main.player[npc.target].Center.X < npc.Center.X) {
-					npc.spriteDirection = -1;
+					npc.spriteDirection = 1;
 				}
 				else {
-					npc.spriteDirection = 1;
+					npc.spriteDirection = -1;
 				}
 				if (npc.frameCounter >= 7) {
 					frame++;
