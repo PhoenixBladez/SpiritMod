@@ -1,16 +1,17 @@
 
+using SpiritMod.Projectiles.Bullet;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Ammo
+namespace SpiritMod.Items.Ammo.Bullet
 {
-	public class MagicBullet : ModItem
+	public class MarsBullet : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Magic Bullet");
-			Tooltip.SetDefault("'What can't it do?'");
+			DisplayName.SetDefault("Electrified Bullet");
+			Tooltip.SetDefault("Zaps foes with powerful energy!");
 		}
 
 
@@ -20,17 +21,18 @@ namespace SpiritMod.Items.Ammo
 			item.height = 16;
 			item.value = 1000;
 			item.rare = ItemRarityID.Red;
-			item.value = Item.buyPrice(0, 0, 8, 0);
+			item.value = Item.buyPrice(0, 0, 3, 0);
+
 			item.maxStack = 999;
 
-			item.damage = 25;
-			item.knockBack = 2.5f;
+			item.damage = 15;
+			item.knockBack = 1.5f;
 			item.ammo = AmmoID.Bullet;
 
 			item.ranged = true;
 			item.consumable = true;
 
-			item.shoot = ModContent.ProjectileType<Projectiles.Bullet.MagicBullet>();
+			item.shoot = ModContent.ProjectileType<Projectiles.Bullet.MarsBulletProj>();
 			item.shootSpeed = 9f;
 
 		}

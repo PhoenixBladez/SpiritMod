@@ -22,8 +22,9 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.noMelee = true;
 			item.rare = ItemRarityID.Orange;
 			item.width = 50;
-			item.height = 26;
-			item.useAnimation = 60;
+            item.height = 26;
+            item.value = Item.sellPrice(0, 0, 70, 0);
+            item.useAnimation = 60;
 			item.useTime = 60;
 			item.knockBack = 2.5f;
 			item.crit = 8;

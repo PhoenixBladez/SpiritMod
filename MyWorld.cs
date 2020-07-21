@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Ammo;
+using SpiritMod.Items.Ammo.Arrow;
+using SpiritMod.Items.Ammo.Bullet;
 using SpiritMod.Items.Consumable;
 using SpiritMod.Items.Consumable.Food;
 using SpiritMod.Items.Equipment;

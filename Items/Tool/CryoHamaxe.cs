@@ -20,10 +20,10 @@ namespace SpiritMod.Items.Tool
 		{
 			item.width = 44;
 			item.height = 40;
-			item.value = Item.sellPrice(0, 2, 0, 0);
+			item.value = Item.sellPrice(0, 0, 40, 0);
 			item.rare = ItemRarityID.Orange;
 
-			item.axe = 12;
+			item.axe = 30;
 			item.hammer = 70;
 
 			item.damage = 18;

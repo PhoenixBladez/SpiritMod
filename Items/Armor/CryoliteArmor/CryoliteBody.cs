@@ -18,9 +18,9 @@ namespace SpiritMod.Items.Armor.CryoliteArmor
 		{
 			item.width = 38;
 			item.height = 26;
-			item.value = Item.buyPrice(gold: 1);
+			item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
 			item.rare = ItemRarityID.Orange;
-			item.defense = 6;
+			item.defense = 7;
 		}
 
 		public override void UpdateEquip(Player player)

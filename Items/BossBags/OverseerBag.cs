@@ -5,6 +5,7 @@ using SpiritMod.Items.Material;
 using SpiritMod.Items.Weapon.Bow;
 using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Items.Weapon.Swung;
+using SpiritMod.Items.Weapon.Flail;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

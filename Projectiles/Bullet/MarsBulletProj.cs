@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Projectiles.Arrow
+namespace SpiritMod.Projectiles.Bullet
 {
 	public class MarsBulletProj : ModProjectile
 	{

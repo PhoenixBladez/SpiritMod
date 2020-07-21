@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Armor.StarArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Astralite Visor");
-			Tooltip.SetDefault("5% increased critical strike chance");
+			Tooltip.SetDefault("6% increased ranged critical strike chance");
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/StarArmor/StarMask_Glow");
 		}
 
@@ -31,16 +31,17 @@ namespace SpiritMod.Items.Armor.StarArmor
 
 		public override void UpdateEquip(Player player)
 		{
-			player.AddAllCrit(5);
+			player.rangedCrit +=(6);
 		}
 
 		public override void UpdateArmorSet(Player player)
 		{
 			string tapDir = Language.GetTextValue(Main.ReversedUpDownArmorSetBonuses ? "Key.UP" : "Key.DOWN");
-			player.setBonus = $"Double tap {tapDir} to deploy an energy field at the cursor position\nThis field lasts for five seconds and supercharges all ranged projectiles that pass through it\n12 second cooldown";
+			player.setBonus = $"20% chance to not consume ammo\nDouble tap {tapDir} to deploy an energy field at the cursor position\nThis field lasts for five seconds and supercharges all ranged projectiles that pass through it\n12 second cooldown";
 			player.GetSpiritPlayer().starSet = true;
-			player.endurance += 0.05f;
-		}
+            player.endurance += 0.05f;
+            player.ammoCost80 = true;
+        }
 
 		public override bool IsArmorSet(Item head, Item body, Item legs)
 			=> body.type == ModContent.ItemType<StarPlate>() && legs.type == ModContent.ItemType<StarLegs>();
@@ -51,7 +52,7 @@ namespace SpiritMod.Items.Armor.StarArmor
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 21);
+			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 12);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

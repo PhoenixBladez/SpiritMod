@@ -1,42 +1,43 @@
 ﻿using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Ammo
+namespace SpiritMod.Items.Ammo.Arrow
 {
-	class SpectreArrow : ModItem
+	class BeetleArrow : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Ghast Arrow");
-			Tooltip.SetDefault("Hitting enemies occasionally releases damaging spectre bolts");
+			DisplayName.SetDefault("Beetle Arrow");
+			Tooltip.SetDefault("Successful hits on enemies reduces damage taken by 1%, maxing out at 15%");
 		}
 
 		public override void SetDefaults()
 		{
+
 			item.width = 10;
 			item.height = 28;
+			item.value = 450;
 			item.rare = ItemRarityID.Yellow;
-			item.value = 1000;
 
 			item.maxStack = 999;
 
-			item.damage = 14;
+			item.damage = 16;
 			item.knockBack = 2f;
 			item.ammo = AmmoID.Arrow;
 
 			item.ranged = true;
 			item.consumable = true;
 
-			item.shoot = ModContent.ProjectileType<Projectiles.Arrow.SpectreArrow>();
-			item.shootSpeed = 5f;
+			item.shoot = ModContent.ProjectileType<Projectiles.Arrow.BeetleArrow>();
+			item.shootSpeed = 2.5f;
 		}
 
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.SpectreBar);
+			recipe.AddIngredient(ItemID.BeetleHusk, 2);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 50);
+			recipe.SetResult(this, 111);
 			recipe.AddRecipe();
 		}
 	}

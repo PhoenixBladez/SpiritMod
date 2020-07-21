@@ -13,14 +13,14 @@ namespace SpiritMod.Items.Armor.StreamSurfer
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Stream Surfer Mask");
-			Tooltip.SetDefault("5% increased critical strike chance and damage \nYou can breathe underwater");
+			Tooltip.SetDefault("5% increased critical strike chance\nYou can breathe underwater");
 		}
 
 		public override void SetDefaults()
 		{
 			item.width = 22;
 			item.height = 20;
-			item.value = Item.buyPrice(silver: 30);
+			item.value = Terraria.Item.sellPrice(0, 0, 60, 0);
 			item.rare = ItemRarityID.Blue;
 			item.defense = 4;
 		}
@@ -28,7 +28,6 @@ namespace SpiritMod.Items.Armor.StreamSurfer
 		public override void UpdateEquip(Player player)
 		{
 			player.AddAllCrit(5);
-			player.allDamage += 0.05f;
 			player.gills = true;
 		}
 
