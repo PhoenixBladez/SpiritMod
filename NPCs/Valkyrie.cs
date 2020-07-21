@@ -81,7 +81,7 @@ namespace SpiritMod.NPCs
 				Vector2 vector2_3 = vector2_2 * 34f;
 				Main.dust[dust].position = npc.Center - vector2_3;
 			}
-			if (aiTimer == 300) {
+			if (aiTimer == 300 && Main.netMode != NetmodeID.MultiplayerClient) {
 				Main.PlaySound(SoundID.DD2_WyvernDiveDown, npc.Center);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();

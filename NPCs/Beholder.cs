@@ -139,7 +139,7 @@ namespace SpiritMod.NPCs
 				npc.velocity.X *= .008f * npc.direction;
 				npc.velocity.Y *= 0f;
 				shootTimer++;
-				if (shootTimer >= 40) {
+				if (shootTimer >= 40 && Main.netMode != NetmodeID.MultiplayerClient) {
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
 					direction.Normalize();
 					direction.X *= 5f;

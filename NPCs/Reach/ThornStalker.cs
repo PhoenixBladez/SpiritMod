@@ -63,7 +63,7 @@ namespace SpiritMod.NPCs.Reach
 				npc.velocity.Y = 6;
 				npc.velocity.X = .008f * npc.direction;
 				//shootTimer++;
-				if (frame == 11 && timer == 0) {
+				if (frame == 11 && timer == 0 && Main.netMode != NetmodeID.MultiplayerClient) {
 					Main.PlaySound(SoundID.Item, npc.Center, 95);
 					for (int i = 0; i < 2; i++) {
 						int knife = Terraria.Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-50, 50), npc.Center.Y - Main.rand.Next(60), 0, 0, ModContent.ProjectileType<ThornKnife>(), npc.damage / 4, 0);

@@ -66,7 +66,7 @@ namespace SpiritMod.NPCs.BloodMoon
 						}
 					}
 					if (shoottimer >= 8 && shoottimer < 48) {
-						if (Main.rand.Next(3) == 0) {
+						if (Main.rand.Next(3) == 0 && Main.netMode != NetmodeID.MultiplayerClient) {
 							int bloodproj;
 							bloodproj = Main.rand.Next(new int[] { mod.ProjectileType("Feeder1"), mod.ProjectileType("Feeder2"), mod.ProjectileType("Feeder3") });
 							bool expertMode = Main.expertMode;

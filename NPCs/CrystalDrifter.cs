@@ -80,7 +80,7 @@ namespace SpiritMod.NPCs
 			}
 			npc.SimpleFlyMovement(desiredVelocity, moveSpeed);
 			npc.rotation = npc.velocity.X * 0.1f;
-			if (timer >= 90) {
+			if (timer >= 90 && Main.netMode != NetmodeID.MultiplayerClient) {
 				Vector2 vector2_2 = Vector2.UnitY.RotatedByRandom(1.57079637050629f) * new Vector2(5f, 3f);
 				bool expertMode = Main.expertMode;
 				int damage = expertMode ? 12 : 18;

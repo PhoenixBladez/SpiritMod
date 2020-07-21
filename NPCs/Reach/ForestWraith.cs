@@ -57,7 +57,7 @@ namespace SpiritMod.NPCs.Reach
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.46f, 0.32f, .1f);
 			//bool expertMode = Main.expertMode;
 			timer++;
-			if (timer == 240 || timer == 280 || timer == 320) {
+			if ((timer == 240 || timer == 280 || timer == 320) && Main.netMode != NetmodeID.MultiplayerClient) {
 				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y, 0);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
@@ -74,7 +74,7 @@ namespace SpiritMod.NPCs.Reach
 				}
 				npc.netUpdate = true;
 			}
-			if (timer >= 420 && timer <= 720) {
+			if ((timer >= 420 && timer <= 720) && Main.netMode != NetmodeID.MultiplayerClient) {
 				Dust.NewDust(npc.position, npc.width, npc.height, 6, 0f, -2.5f, 0, default, 0.6f);
 				npc.defense = 0;
 				npc.velocity = Vector2.Zero;

@@ -66,7 +66,7 @@ namespace SpiritMod.NPCs.BlueMoon
 			if (attack) {
 				npc.velocity.X = .008f * npc.direction;
 				//shootTimer++;
-				if (frame == 9 && timer == 0) {
+				if (frame == 9 && timer == 0 && Main.netMode != NetmodeID.MultiplayerClient) {
 					Main.PlaySound(SoundID.Item, npc.Center, 95);
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
 					float ai = Main.rand.Next(100);

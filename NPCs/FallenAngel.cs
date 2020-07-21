@@ -69,8 +69,8 @@ namespace SpiritMod.NPCs
 				DustHelper.DrawStar(new Vector2(npc.Center.X, npc.Center.Y), DustID.GoldCoin, pointAmount: 5, mainSize: 2.25f * ScaleMult, dustDensity: 2, pointDepthMult: 0.3f, noGravity: true);
 
 				for (int i = 0; i < 5; i++) {
-
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, Main.rand.Next(-8, 8), Main.rand.Next(-8, 8), ModContent.ProjectileType<ShootingStarHostile>(), 30, 1, Main.myPlayer, 0, 0);
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, Main.rand.Next(-8, 8), Main.rand.Next(-8, 8), ModContent.ProjectileType<ShootingStarHostile>(), 30, 1, Main.myPlayer, 0, 0);
 				}
 				aiTimer = 0;
 			}

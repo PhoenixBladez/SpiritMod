@@ -79,7 +79,7 @@ namespace SpiritMod.NPCs.Boss
 			npc.velocity.Y = moveSpeedY * 0.13f;
 
 			timer++;
-			if (timer == 200 || timer == 400 && npc.life >= (npc.lifeMax / 2)) //Fires desert feathers like a shotgun
+			if ((timer == 200 || timer == 400 && npc.life >= (npc.lifeMax / 2))) //Fires desert feathers like a shotgun
 			{
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 73);
 
@@ -95,10 +95,11 @@ namespace SpiritMod.NPCs.Boss
 					float A = (float)Main.rand.Next(-200, 200) * 0.01f;
 					float B = (float)Main.rand.Next(-200, 200) * 0.01f;
 					int damage = expertMode ? 15 : 17;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<DesertFeather>(), damage, 1, Main.myPlayer, 0, 0);
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<DesertFeather>(), damage, 1, Main.myPlayer, 0, 0);
 				}
 			}
-			else if (timer == 300 || timer == 400 || timer == 500 || timer == 550) {
+			else if ((timer == 300 || timer == 400 || timer == 500 || timer == 550)) {
 				if (Main.expertMode && npc.life >= (npc.lifeMax / 2)) {
 					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 
@@ -115,18 +116,22 @@ namespace SpiritMod.NPCs.Boss
 						float A = (float)Main.rand.Next(-300, 300) * 0.01f;
 						float B = (float)Main.rand.Next(-300, 300) * 0.01f;
 						int damage = expertMode ? 18 : 20;
-						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<ExplodingFeather>(), damage, 1, Main.myPlayer, 0, 0);
+						if (Main.netMode != NetmodeID.MultiplayerClient)
+							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<ExplodingFeather>(), damage, 1, Main.myPlayer, 0, 0);
 					}
 				}
 			}
-			else if (timer == 600 || timer == 650 || timer == 700 || timer == 800 || timer == 850 || timer == 880) // Fires bone waves
+			else if ((timer == 600 || timer == 650 || timer == 700 || timer == 800 || timer == 850 || timer == 880)) // Fires bone waves
 			{
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 				Main.PlayTrackedSound(SoundID.DD2_EtherianPortalSpawnEnemy, npc.Center);
-				Vector2 direction = Main.player[npc.target].Center - npc.Center;
-				direction.Normalize();
-				int damage = expertMode ? 15 : 19;
-				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X * 14f, direction.Y * 14f, ModContent.ProjectileType<BoneWave>(), damage, 1, Main.myPlayer, 0, 0);
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					Vector2 direction = Main.player[npc.target].Center - npc.Center;
+					direction.Normalize();
+					int damage = expertMode ? 15 : 19;
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X * 14f, direction.Y * 14f, ModContent.ProjectileType<BoneWave>(), damage, 1, Main.myPlayer, 0, 0);
+				}
 			}
 			if (timer == 500 || timer == 700) {
 				HomeY = -35f;
@@ -134,7 +139,7 @@ namespace SpiritMod.NPCs.Boss
 			if (timer == 900) {
 				Main.PlaySound(SoundLoader.customSoundType, player.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/AvianScreech"));
 			}
-			else if (timer >= 900 && timer <= 1400) //Rains red comets
+			else if ((timer >= 900 && timer <= 1400)) //Rains red comets
 			{
 				npc.defense = 26;
 				if (expertMode) {
@@ -146,7 +151,7 @@ namespace SpiritMod.NPCs.Boss
 					npc.velocity = Vector2.Zero;
 				}
 				if (npc.life >= 1000) {
-					if (Main.rand.Next(8) == 0) {
+					if (Main.rand.Next(8) == 0 && Main.netMode != NetmodeID.MultiplayerClient) {
 
 						int A = Main.rand.Next(-200, 200) * 6;
 						int B = -1200;
@@ -155,7 +160,7 @@ namespace SpiritMod.NPCs.Boss
 					}
 				}
 				else {
-					if (Main.rand.Next(9) == 0) {
+					if (Main.rand.Next(9) == 0 && Main.netMode != NetmodeID.MultiplayerClient) {
 
 						int A = 1000 * (int)(Main.windSpeed / Main.windSpeed);
 						int B = Main.rand.Next(-460, 460);
@@ -181,7 +186,7 @@ namespace SpiritMod.NPCs.Boss
 			{
 				if (Main.expertMode) {
 					modPlayer.windEffect = true;
-					if (Main.rand.Next(22) == 0) {
+					if (Main.rand.Next(22) == 0 && Main.netMode != NetmodeID.MultiplayerClient) {
 						int A = Main.rand.Next(-2500, 2500) * 2;
 						int B = Main.rand.Next(-1000, 1000) - 700;
 						int damage = expertMode ? 15 : 17;
@@ -222,13 +227,16 @@ namespace SpiritMod.NPCs.Boss
 					Main.PlaySound(SoundID.Item82, new Vector2(tornadoX, tornadoY));
 					Main.PlaySound(SoundID.Item82, new Vector2(tornadoX - 260, tornadoY - 400));
 					Main.PlaySound(SoundID.Item82, new Vector2(tornadoX + 200, tornadoY - 400));
-					int damage = expertMode ? 16 : 20;
-					Projectile.NewProjectile(tornadoX, tornadoY - 32, 0f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
-					Projectile.NewProjectile(tornadoX - 360, tornadoY - 400, -5f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
-					Projectile.NewProjectile(tornadoX + 300, tornadoY - 400, 5f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
-					if (npc.life <= 1000) {
-						Projectile.NewProjectile(tornadoX - 500, tornadoY - 32, -5f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
-						Projectile.NewProjectile(tornadoX + 500, tornadoY - 32, 5f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						int damage = expertMode ? 16 : 20;
+						Projectile.NewProjectile(tornadoX, tornadoY - 32, 0f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
+						Projectile.NewProjectile(tornadoX - 360, tornadoY - 400, -5f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
+						Projectile.NewProjectile(tornadoX + 300, tornadoY - 400, 5f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
+						if (npc.life <= 1000) {
+							Projectile.NewProjectile(tornadoX - 500, tornadoY - 32, -5f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
+							Projectile.NewProjectile(tornadoX + 500, tornadoY - 32, 5f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
+						}
 					}
 				}
 			}

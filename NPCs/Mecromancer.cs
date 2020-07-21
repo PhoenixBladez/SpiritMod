@@ -88,7 +88,7 @@ namespace SpiritMod.NPCs
 				Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 7);
 			}
 			timer++;
-			if (timer == 100 || timer == 300) {
+			if ((timer == 100 || timer == 300) && Main.netMode != NetmodeID.MultiplayerClient) {
 				Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 7);
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 92);
 				npc.TargetClosest();
@@ -103,7 +103,7 @@ namespace SpiritMod.NPCs
 			}
 			if (timer > 420 && timer < 840) {
 				npc.noTileCollide = true;
-				if (Main.rand.Next(60) == 0) {
+				if (Main.rand.Next(60) == 0 && Main.netMode != NetmodeID.MultiplayerClient) {
 					int p = Terraria.Projectile.NewProjectile(npc.position.X, npc.position.Y + 40, 0, 1, ProjectileID.GreekFire1, (int)((npc.damage * .5)), 0);
 				}
 				Player player = Main.player[npc.target];
@@ -156,6 +156,8 @@ namespace SpiritMod.NPCs
 				int damage = expertMode ? 13 : 22;
 				timer = 0;
 				Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/CoilRocket"));
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
 				for (int f = 0; f < 4; f++) {
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
 					direction.Normalize();
@@ -169,6 +171,7 @@ namespace SpiritMod.NPCs
 						Projectile.NewProjectile(npc.Center.X + (Main.rand.Next(-50, 50)), npc.Center.Y + (Main.rand.Next(-50, 50)), direction.X + A, direction.Y + B, ModContent.ProjectileType<CoilRocket>(), damage, 1, Main.myPlayer, 0, 0);
 
 					}
+				}
 				}
 			}
 		}

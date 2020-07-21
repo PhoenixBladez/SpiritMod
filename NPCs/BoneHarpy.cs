@@ -67,7 +67,7 @@ namespace SpiritMod.NPCs
 			if (Main.rand.Next(220) == 8) {
 				HomeY = -25f;
 			}
-			if (counter >= 240) //Fires desert feathers like a shotgun
+			if (counter >= 240 && Main.netMode != NetmodeID.MultiplayerClient) //Fires desert feathers like a shotgun
 			{
 				counter = 0;
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 73);

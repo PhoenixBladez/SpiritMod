@@ -95,6 +95,8 @@ namespace SpiritMod.NPCs
 				}
 				shootTimer++;
 				if (shootTimer >= 80) {
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
 					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 95);
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
 					direction.Normalize();
@@ -110,6 +112,7 @@ namespace SpiritMod.NPCs
 							Dust.NewDust(npc.position, npc.width, npc.height, 5, direction.X + A, direction.Y + B, 0, default(Color), .61f);
 						}
 						Main.projectile[p].hostile = true;
+					}
 					}
 					shootTimer = 0;
 				}

@@ -107,7 +107,7 @@ namespace SpiritMod.NPCs.WhirlingWorlds
 					frame++;
 					npc.frameCounter = 0;
 				}
-				if (frame == 10 && npc.frameCounter == 6) {
+				if (frame == 10 && npc.frameCounter == 6 && Main.netMode != NetmodeID.MultiplayerClient) {
 					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 1);
 
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
