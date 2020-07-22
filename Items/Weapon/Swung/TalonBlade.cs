@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.value = Item.sellPrice(0, 1, 0, 0);
 			item.rare = ItemRarityID.Orange;
 			item.UseSound = SoundID.Item1;
-			item.shoot = ModContent.ProjectileType<BoneFeatherFriendly>();
+			item.shoot = ModContent.ProjectileType<BoneFeatherSwordProj>();
 			item.shootSpeed = 10f;
 			item.crit = 8;
 			item.autoReuse = true;
