@@ -56,6 +56,7 @@ namespace SpiritMod.Projectiles.Flail
 				int distance = (int)Math.Sqrt((npc.Center.X - player.Center.X) * (npc.Center.X - player.Center.X) + (npc.Center.Y - player.Center.Y) * (npc.Center.Y - player.Center.Y));
 				if (distance > 100 && projectile.Distance(npc.Center) < 50) {
 					npc.velocity = projectile.velocity;
+					npc.netUpdate = true;
 				}
 				else {
 					hooked = false;

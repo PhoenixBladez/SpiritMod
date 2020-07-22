@@ -40,10 +40,6 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void AI()
 		{
-			if (Main.myPlayer == projectile.owner) 
-			{
-				projectile.netUpdate = true;
-			}
 			Player player = Main.player[projectile.owner];
 			if (Main.player[projectile.owner].channel) {
 				projectile.penetrate = 1;
@@ -58,59 +54,62 @@ namespace SpiritMod.Projectiles.Magic
 				projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
 				float num2353 = 16f;
 				Vector2 vector329 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-				float num2352 = (float)Main.mouseX + Main.screenPosition.X - vector329.X;
-				float num2351 = (float)Main.mouseY + Main.screenPosition.Y - vector329.Y;
-				if (Main.player[projectile.owner].gravDir == -1f) {
-					num2351 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector329.Y;
-				}
-				float num2350 = (float)Math.Sqrt((double)(num2352 * num2352 + num2351 * num2351));
-				num2350 = (float)Math.Sqrt((double)(num2352 * num2352 + num2351 * num2351));
-				if (projectile.ai[0] < 0f) {
-					projectile.ai[0] += 1f;
-				}
-				if (projectile.type == 491 && num2350 < 100f) {
-					if (projectile.velocity.Length() < num2353) {
-						projectile.velocity *= 1.1f;
-						if (projectile.velocity.Length() > num2353) {
-							projectile.velocity.Normalize();
-							projectile.velocity *= num2353;
+				if(Main.myPlayer == projectile.owner) {
+					float num2352 = (float)Main.mouseX + Main.screenPosition.X - vector329.X;
+					float num2351 = (float)Main.mouseY + Main.screenPosition.Y - vector329.Y;
+					if (Main.player[projectile.owner].gravDir == -1f) {
+						num2351 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector329.Y;
+					}
+					float num2350 = (float)Math.Sqrt((double)(num2352 * num2352 + num2351 * num2351));
+					num2350 = (float)Math.Sqrt((double)(num2352 * num2352 + num2351 * num2351));
+					if (projectile.ai[0] < 0f) {
+						projectile.ai[0] += 1f;
+					}
+					if (projectile.type == 491 && num2350 < 100f) {
+						if (projectile.velocity.Length() < num2353) {
+							projectile.velocity *= 1.1f;
+							if (projectile.velocity.Length() > num2353) {
+								projectile.velocity.Normalize();
+								projectile.velocity *= num2353;
+							}
+						}
+						if (projectile.ai[0] == 0f) {
+							projectile.ai[0] = -10f;
 						}
 					}
-					if (projectile.ai[0] == 0f) {
-						projectile.ai[0] = -10f;
-					}
-				}
-				else if (num2350 > num2353) {
-					num2350 = num2353 / num2350;
-					num2352 *= num2350;
-					num2351 *= num2350;
-					int num2345 = (int)(num2352 * 1000f);
-					int num2344 = (int)(projectile.velocity.X * 1000f);
-					int num2343 = (int)(num2351 * 1000f);
-					int num2342 = (int)(projectile.velocity.Y * 1000f);
-					if (num2345 != num2344 || num2343 != num2342) {
-						projectile.netUpdate = true;
-					}
-					if (projectile.type == 491) {
-						Vector2 value167 = new Vector2(num2352, num2351);
-						projectile.velocity = (projectile.velocity * 4f + value167) / 5f;
+					else if (num2350 > num2353) {
+						num2350 = num2353 / num2350;
+						num2352 *= num2350;
+						num2351 *= num2350;
+						int num2345 = (int)(num2352 * 1000f);
+						int num2344 = (int)(projectile.velocity.X * 1000f);
+						int num2343 = (int)(num2351 * 1000f);
+						int num2342 = (int)(projectile.velocity.Y * 1000f);
+						if (num2345 != num2344 || num2343 != num2342) {
+							projectile.netUpdate = true;
+						}
+						if (projectile.type == 491) {
+							Vector2 value167 = new Vector2(num2352, num2351);
+							projectile.velocity = (projectile.velocity * 4f + value167) / 5f;
+						}
+						else {
+							projectile.velocity.X = num2352;
+							projectile.velocity.Y = num2351;
+						}
 					}
 					else {
+						int num2341 = (int)(num2352 * 1000f);
+						int num2340 = (int)(projectile.velocity.X * 1000f);
+						int num2339 = (int)(num2351 * 1000f);
+						int num2338 = (int)(projectile.velocity.Y * 1000f);
+						if (num2341 != num2340 || num2339 != num2338) {
+							projectile.netUpdate = true;
+						}
 						projectile.velocity.X = num2352;
 						projectile.velocity.Y = num2351;
 					}
 				}
-				else {
-					int num2341 = (int)(num2352 * 1000f);
-					int num2340 = (int)(projectile.velocity.X * 1000f);
-					int num2339 = (int)(num2351 * 1000f);
-					int num2338 = (int)(projectile.velocity.Y * 1000f);
-					if (num2341 != num2340 || num2339 != num2338) {
-						projectile.netUpdate = true;
-					}
-					projectile.velocity.X = num2352;
-					projectile.velocity.Y = num2351;
-				}
+				
 			}
 			else if (projectile.ai[0] <= 0f) {
 				projectile.netUpdate = true;
