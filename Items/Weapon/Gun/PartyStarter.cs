@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Gun
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Partystarter");
-			Tooltip.SetDefault("'Let's get this party started!'\nConverts bullets into VIP party bullets");
+			Tooltip.SetDefault("'Let's get this party started!'\nConverts regular bullets into VIP party bullets");
 		}
 
 
@@ -38,7 +38,9 @@ namespace SpiritMod.Items.Weapon.Gun
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			type = ModContent.ProjectileType<PartyStarterBullet>();
+			if (type == ProjectileID.Bullet) {
+				type = ModContent.ProjectileType<PartyStarterBullet>();
+			}
 			return true;
 		}
 		public override Vector2? HoldoutOffset()

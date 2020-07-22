@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Bow
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Tattered Shotbow");
-			Tooltip.SetDefault("Shoots 2 arrows with high armor penetration");
+			Tooltip.SetDefault("Converts wooden arrows into bolts with high armor pierce");
 		}
 
 
@@ -40,8 +40,10 @@ namespace SpiritMod.Items.Weapon.Bow
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-
-			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<MarbleArrow>(), damage, knockBack, player.whoAmI, 0f, 0f);
+			if (type == ProjectileID.WoodenArrowFriendly) {
+				type = ModContent.ProjectileType<MarbleArrow>();
+			}
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
 			return false;
 		}
 	}

@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Weapon.Gun
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Shadeblaster");
-			Tooltip.SetDefault("Converts bullets into vile bullets\nRight-click to shoot out a cursed tracker that sticks to enemies\nVile bullets home onto tracked enemies");
+			Tooltip.SetDefault("Converts regular bullets into vile bullets\nRight-click to shoot out a cursed tracker that sticks to enemies\nVile bullets home onto tracked enemies");
 		}
 
 
@@ -74,7 +74,10 @@ namespace SpiritMod.Items.Weapon.Gun
 					double randomAngle = baseAngle + (Main.rand.NextFloat() - 0.5f) * spread;
 					speedX = baseSpeed * (float)Math.Sin(randomAngle);
 					speedY = baseSpeed * (float)Math.Cos(randomAngle);
-					Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<VileBullet>(), item.damage, knockBack, item.owner, 0, 0);
+					if (type == ProjectileID.Bullet) {
+						type = ModContent.ProjectileType<VileBullet>();
+					}
+						Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, item.damage, knockBack, item.owner, 0, 0);
 				}
 			}
 			return false;

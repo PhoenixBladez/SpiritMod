@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Weapon.Bow
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Unstable Boltcaster");
-			Tooltip.SetDefault("Converts arrows into Unstable Bolts which stick to hit enemies\nKilling stuck enemies causes them to explode into damaging energy wisps");
+			Tooltip.SetDefault("Converts wooden arrows into Unstable Bolts which stick to hit enemies\nKilling stuck enemies causes them to explode into damaging energy wisps");
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Bow/GraniteBow_Glow");
 		}
 		public override void SetDefaults()
@@ -64,7 +64,9 @@ namespace SpiritMod.Items.Weapon.Bow
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			type = ModContent.ProjectileType<GraniteRepeaterArrow>();
+			if (type == ProjectileID.WoodenArrowFriendly) {
+				type = ModContent.ProjectileType<GraniteRepeaterArrow>();
+			}
 			return true;
 		}
 		public override void AddRecipes()

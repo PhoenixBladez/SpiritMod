@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Weapon.Gun
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("True Crimbine");
-			Tooltip.SetDefault("Rapidly shoots out wither blasts that inflict 'Wither' on hit foes!\nOccasionally shoots out a giant clump of blood that steals a large amount of life");
+			Tooltip.SetDefault("Rapidly shoots out wither blasts that inflict 'Wither' on hit foes\nOccasionally shoots out a giant clump of blood that steals a large amount of life");
 
 		}
 
@@ -49,8 +49,9 @@ namespace SpiritMod.Items.Weapon.Gun
 				}
 				charger = 0;
 			}
-
-			type = ModContent.ProjectileType<WitherBlast>();
+			if (type == ProjectileID.Bullet) {
+				type = ModContent.ProjectileType<WitherBlast>();
+			}
 			float spread = 6 * 0.0174f;//45 degrees converted to radians
 			float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
 			double baseAngle = Math.Atan2(speedX, speedY);

@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Gun
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Harvester");
-			Tooltip.SetDefault("Converts bullets into bones\nRight-click to shoot a slow-moving bloody amalgam\nShooting the bloody amalgam creates an explosion of organs with different effects\n5 second cooldown");
+			Tooltip.SetDefault("Converts regular bullets into bones\nRight-click to shoot a slow-moving bloody amalgam\nShooting the bloody amalgam creates an explosion of organs with different effects\n5 second cooldown");
 		}
 
 
@@ -88,7 +88,9 @@ namespace SpiritMod.Items.Weapon.Gun
 				double randomAngle = baseAngle + (Main.rand.NextFloat() - 0.5f) * spread;
 				speedX = baseSpeed * (float)Math.Sin(randomAngle);
 				speedY = baseSpeed * (float)Math.Cos(randomAngle);
-				type = ModContent.ProjectileType<CrimbineBone>();
+				if (type == ProjectileID.Bullet) {
+					type = ModContent.ProjectileType<CrimbineBone>();
+				}
 			}
 			return true;
 		}

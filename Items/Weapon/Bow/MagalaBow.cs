@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Weapon.Bow
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Entbehrung");
-			Tooltip.SetDefault("Converts arrows into spiny Magala Arrows\n'You actually use a bow?`");
+			Tooltip.SetDefault("Converts wooden arrows into spiny Magala Arrows\n'You actually use a bow?`");
 		}
 
 
@@ -40,8 +40,10 @@ namespace SpiritMod.Items.Weapon.Bow
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-
-			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<MagalaArrow>(), damage, knockBack, player.whoAmI, 0f, 0f);
+			if (type == ProjectileID.WoodenArrowFriendly) {
+				type = ModContent.ProjectileType<MagalaArrow>();
+			}
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
 			return false;
 		}
 		public override void AddRecipes()

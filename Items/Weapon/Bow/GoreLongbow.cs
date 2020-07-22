@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Bow
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gore Longbow");
-			Tooltip.SetDefault("Arrows shot turn into Ichor arrows");
+			Tooltip.SetDefault("Wooden arrows shot turn into Ichor arrows");
 		}
 
 
@@ -38,8 +38,11 @@ namespace SpiritMod.Items.Weapon.Bow
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.IchorArrow, damage, knockBack, player.whoAmI, 0f, 0f);
-			Projectile.NewProjectile(position.X, position.Y, speedX + (Main.rand.Next(200) / 100), speedY + (Main.rand.Next(200) / 100), ProjectileID.IchorArrow, damage, knockBack, player.whoAmI, 0f, 0f);
+			if (type == ProjectileID.WoodenArrowFriendly) {
+				type = ProjectileID.IchorArrow;
+			}
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+			Projectile.NewProjectile(position.X, position.Y, speedX + (Main.rand.Next(200) / 100), speedY + (Main.rand.Next(200) / 100), type, damage, knockBack, player.whoAmI, 0f, 0f);
 			return false;
 
 		}

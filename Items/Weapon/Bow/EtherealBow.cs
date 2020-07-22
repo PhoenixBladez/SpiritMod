@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Bow
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ethereal Bow");
-			Tooltip.SetDefault("Transforms arrows in to Ethereal Arrows");
+			Tooltip.SetDefault("Transforms wooden arrows in to Ethereal Arrows");
 		}
 
 
@@ -42,7 +42,10 @@ namespace SpiritMod.Items.Weapon.Bow
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			Terraria.Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<EtherealArrow>(), damage, knockBack, player.whoAmI, 0f, 0f);
+			if (type == ProjectileID.WoodenArrowFriendly) {
+				type = ModContent.ProjectileType<EtherealArrow>();
+			}
+				Terraria.Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
 			return false;
 		}
 	}

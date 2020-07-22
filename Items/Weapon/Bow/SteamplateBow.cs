@@ -73,7 +73,10 @@ namespace SpiritMod.Items.Weapon.Bow
 				int positive = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<NegativeArrow>(), damage, knockBack, player.whoAmI);
 			}
 			else {
-				int negative = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PositiveArrow>(), damage, knockBack, player.whoAmI);
+				if (type == ProjectileID.WoodenArrowFriendly) {
+					type = ModContent.ProjectileType<PositiveArrow>();
+				}
+				int negative = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
 			}
 			return false;
 		}

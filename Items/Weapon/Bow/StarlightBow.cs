@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Weapon.Bow
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Star Spray");
-			Tooltip.SetDefault("Let it rain Stars!");
+			Tooltip.SetDefault("Converts wooden arrows into stars");
 		}
 
 
@@ -36,7 +36,10 @@ namespace SpiritMod.Items.Weapon.Bow
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.Starfury, damage, knockBack, player.whoAmI);
+			if (type == ProjectileID.WoodenArrowFriendly) {
+				type = ProjectileID.Starfury;
+			}
+				int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
 			Projectile projectile = Main.projectile[proj];
 			for (int k = 0; k < 15; k++) {
 				Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;

@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Bow
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Lazure Longbow");
-			Tooltip.SetDefault("Turns arrows into granite arrows, which stick to enemies!");
+			Tooltip.SetDefault("Turns wooden arrows into granite arrows, which stick to enemies!");
 		}
 
 
@@ -43,7 +43,9 @@ namespace SpiritMod.Items.Weapon.Bow
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			type = ModContent.ProjectileType<GraniteArrow>();
+			if (type == ProjectileID.WoodenArrowFriendly) {
+				type = ModContent.ProjectileType<GraniteArrow>();
+			}
 			return true;
 		}
 	}

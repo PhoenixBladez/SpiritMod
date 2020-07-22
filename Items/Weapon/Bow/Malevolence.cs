@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Weapon.Bow
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Malevolence");
-			Tooltip.SetDefault("Transforms arrows into ghastly arrows\nShoots 2 arrows at once");
+			Tooltip.SetDefault("Transforms wooden arrows into ghastly arrows\nShoots 2 arrows at once");
 		}
 
 
@@ -49,8 +49,10 @@ namespace SpiritMod.Items.Weapon.Bow
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			//Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.IchorArrow, damage, knockBack, player.whoAmI, 0f, 0f);
-
-			Vector2 origVect = new Vector2(speedX, speedY);
+			if (type == ProjectileID.WoodenArrowFriendly) {
+				type = ModContent.ProjectileType<HellArrow>();
+			}
+				Vector2 origVect = new Vector2(speedX, speedY);
 			for (int X = 0; X <= 1; X++) {
 				if (Main.rand.Next(2) == 1) {
 					newVect = origVect.RotatedBy(System.Math.PI / (Main.rand.Next(112, 1800) / 10));
@@ -58,7 +60,7 @@ namespace SpiritMod.Items.Weapon.Bow
 				else {
 					newVect = origVect.RotatedBy(-System.Math.PI / (Main.rand.Next(112, 1800) / 10));
 				}
-				int proj = Projectile.NewProjectile(position.X, position.Y, newVect.X, newVect.Y, ModContent.ProjectileType<HellArrow>(), damage, knockBack, player.whoAmI);
+				int proj = Projectile.NewProjectile(position.X, position.Y, newVect.X, newVect.Y, type, damage, knockBack, player.whoAmI);
 				Projectile newProj1 = Main.projectile[proj];
 				newProj1.timeLeft = 120;
 
