@@ -3,9 +3,11 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Items.Boss;
 using SpiritMod.Items.BossBags;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Armor;
+using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Items.Weapon.Spear;
 using SpiritMod.Items.Weapon.Summon;
+using SpiritMod.Items.Weapon.Swung;
 using SpiritMod.Items.Weapon.Thrown;
 using SpiritMod.Projectiles.Boss;
 using SpiritMod.Projectiles.Hostile;
@@ -311,28 +313,37 @@ namespace SpiritMod.NPCs.Boss
 			}
 			return true;
 		}
-		public override void NPCLoot()
-		{
-			if (Main.expertMode) {
-				npc.DropBossBags();
-				return;
-			}
+        public override void NPCLoot()
+        {
+            {
+                if (Main.expertMode) {
+                    npc.DropBossBags();
+                    return;
+                }
 
-			npc.DropItem(ModContent.ItemType<FossilFeather>(), 3, 6);
+                int[] lootTable = {
+                    ModContent.ItemType<TalonBlade>(),
+                    ModContent.ItemType<Talonginus>(),
+                    ModContent.ItemType<SoaringScapula>(),
+                    ModContent.ItemType<TalonPiercer>(),
+                    ModContent.ItemType<SkeletalonStaff>()
+                };
+                int loot = Main.rand.Next(lootTable.Length);
+                int[] lootTable1 = {
+                    ModContent.ItemType<TalonHeaddress>(),
+                    ModContent.ItemType<TalonGarb>()
+                };
+                int loot1 = Main.rand.Next(lootTable1.Length);
+                npc.DropItem(lootTable[loot]);
+                npc.DropItem(lootTable1[loot1]);
 
-			int[] lootTable = {
-				ModContent.ItemType<SkeletalonStaff>(),
-				ModContent.ItemType<Talonginus>(),
-				ModContent.ItemType<SoaringScapula>()
-			};
-			int loot = Main.rand.Next(lootTable.Length);
-			npc.DropItem(lootTable[loot]);
+                npc.DropItem(ModContent.ItemType<FlierMask>(), 1f / 7);
+                npc.DropItem(ModContent.ItemType<Trophy2>(), 1f / 10);
+            }
+        }
 
-			npc.DropItem(ModContent.ItemType<FlierMask>(), 1f / 7);
-			npc.DropItem(ModContent.ItemType<Trophy2>(), 1f / 10);
-		}
 
-		public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(int hitDirection, double damage)
 		{
 			int d1 = 1;
 			for (int k = 0; k < 30; k++) {

@@ -47,14 +47,5 @@ namespace SpiritMod.Items.Weapon.Magic
 			speedY += (Main.rand.Next(-3, 4) / 5f);
 			return true;
 		}
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<Talon>(), 14);
-			recipe.AddIngredient(ModContent.ItemType<FossilFeather>(), 1);
-			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
 	}
 }

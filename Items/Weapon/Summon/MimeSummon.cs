@@ -19,9 +19,9 @@ namespace SpiritMod.Items.Weapon.Summon
 
 		public override void SetDefaults()
 		{
-			item.damage = 24;
+			item.damage = 21;
 			item.summon = true;
-			item.mana = 12;
+			item.mana = 10;
 			item.width = 44;
 			item.height = 48;
 			item.useTime = 35;
@@ -66,7 +66,6 @@ namespace SpiritMod.Items.Weapon.Summon
 			ModRecipe modRecipe = new ModRecipe(mod);
 			modRecipe.AddIngredient(ModContent.ItemType<MimeMask>(), 1);
 			modRecipe.AddIngredient(ModContent.ItemType<BloodFire>(), 5);
-			modRecipe.AddIngredient(ModContent.ItemType<FossilFeather>(), 1);
 			modRecipe.AddTile(TileID.Anvils);
 			modRecipe.SetResult(this, 1);
 			modRecipe.AddRecipe();
