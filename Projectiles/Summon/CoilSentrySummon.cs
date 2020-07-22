@@ -61,6 +61,7 @@ namespace SpiritMod.Projectiles.Summon
 
 							//target this npc
 							projectile.ai[1] = npc.whoAmI;
+							projectile.netUpdate = true;
 						}
 					}
 				}
@@ -76,9 +77,12 @@ namespace SpiritMod.Projectiles.Summon
 				direction.Normalize();
 				direction.X *= shootVelocity;
 				direction.Y *= shootVelocity;
-				int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 13, direction.X, direction.Y, mod.ProjectileType("CoilBullet1"), projectile.damage, 0, Main.myPlayer);
-				Main.projectile[proj2].ranged = false;
-				Main.projectile[proj2].minion = true;
+				if(Main.netMode != NetmodeID.MultiplayerClient) {
+					int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 13, direction.X, direction.Y, mod.ProjectileType("CoilBullet1"), projectile.damage, 0, Main.myPlayer);
+					Main.projectile[proj2].ranged = false;
+					Main.projectile[proj2].minion = true;
+				}
+				
 				Main.PlaySound(SoundID.Item, projectile.Center, 12);  //make bow shooty sound
 			}
 			Vector2 globePos = new Vector2(projectile.Center.X + 2, projectile.position.Y + 6);
