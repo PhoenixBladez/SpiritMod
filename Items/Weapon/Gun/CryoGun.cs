@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Weapon.Gun
             item.useAnimation = 60;
 			item.useTime = 60;
 			item.knockBack = 2.5f;
-			item.crit = 8;
+			item.crit = 6;
 			item.UseSound = SoundID.Item96;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.autoReuse = false;
@@ -63,7 +63,7 @@ namespace SpiritMod.Items.Weapon.Gun
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.Handgun);
-			recipe.AddIngredient(ModContent.ItemType<CryoliteBar>(), 10);
+			recipe.AddIngredient(ModContent.ItemType<CryoliteBar>(), 15);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

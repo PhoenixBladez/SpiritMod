@@ -14,19 +14,19 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Rimehowl");
-			Tooltip.SetDefault("Right click after 5 swings to summon a pillar that inflicts 'Cryo Crush'\nCryo Crush deals more damage the less life enemies have left\nThis does not affect bosses, and deals a flat rate of damage instead");
+			Tooltip.SetDefault("Right click after 5 swings to summon a cryonic wave that inflicts 'Cryo Crush'\nCryo Crush deals more damage the less life enemies have left\nThis does not affect bosses, and deals a flat rate of damage instead");
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Swung/CryoSword_Glow");
 		}
 
 		int counter = 0;
 		public override void SetDefaults()
 		{
-			item.damage = 25;
+			item.damage = 28;
 			item.melee = true;
 			item.width = 40;
 			item.height = 40;
-			item.useTime = 24;
-			item.useAnimation = 24;
+			item.useTime = 30;
+			item.useAnimation = 30;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 5.5f;
 			item.value = Terraria.Item.sellPrice(0, 0, 70, 0);

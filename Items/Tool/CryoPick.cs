@@ -64,7 +64,7 @@ namespace SpiritMod.Items.Tool
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<CryoliteBar>(), 14);
+			recipe.AddIngredient(ModContent.ItemType<CryoliteBar>(), 12);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
