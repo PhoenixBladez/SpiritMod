@@ -111,6 +111,8 @@ namespace SpiritMod.Projectiles.Bullet
 				projectile.Center = target.Center;
 			else
 				projectile.Kill();
+
+			projectile.netUpdate = true;
 		}
 
 	}

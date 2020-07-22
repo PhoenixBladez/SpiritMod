@@ -58,6 +58,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					npc.velocity.X = -3f;
 				}
 				npc.rotation = 0f;
+				npc.netUpdate = true;
 			}
 			npc.velocity.Y = 0;
 			if (lifeSpan % fireRate == 0) {

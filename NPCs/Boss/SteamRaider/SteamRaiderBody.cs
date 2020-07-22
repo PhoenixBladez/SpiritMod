@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Projectiles;
 using SpiritMod.Projectiles.Boss;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -18,24 +19,22 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 
 		public override void SetDefaults()
 		{
-			npc.damage = 35; //70
-			npc.npcSlots = 5f;
-			npc.width = 36; //324
-			npc.height = 28; //216
-			npc.defense = 19;
-			npc.lifeMax = 6500; //250000
-			npc.aiStyle = 6; //new
-			Main.npcFrameCount[npc.type] = 1; //new
-			aiType = -1; //new
-			animationType = 10; //new
-			npc.knockBackResist = 0f;
-			npc.alpha = 255;
-			npc.behindTiles = true;
-			npc.noGravity = true;
-			npc.noTileCollide = true;
-			npc.HitSound = SoundID.NPCHit4;
-			npc.DeathSound = SoundID.NPCDeath14;
-			npc.netAlways = true;
+			npc.width = 36;              
+            npc.height = 36;             
+            npc.damage = 35;
+            npc.defense = 10;
+            npc.lifeMax = 1;
+            npc.knockBackResist = 0.0f;
+            npc.behindTiles = true;
+            npc.noTileCollide = true;
+            npc.netAlways = true;
+            npc.noGravity = true;
+            npc.dontCountMe = true;
+            npc.HitSound = SoundID.NPCHit1;
+            npc.npcSlots = 1f;
+            npc.boss = true;
+			npc.aiStyle = -1;
+            npc.alpha = 200;
 			for (int k = 0; k < npc.buffImmune.Length; k++) {
 				npc.buffImmune[k] = true;
 			}
@@ -44,26 +43,35 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		}
 		bool exposed;
 		//int timer;
-
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(exposed);
+		}
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			exposed = reader.ReadBoolean();
+		}
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
 			=> false;
 
-		public override void AI()
+		public override bool PreAI()
 		{
 			if (Main.netMode != NetmodeID.MultiplayerClient) {
 				npc.localAI[1] += 1;
-				if (npc.localAI[1] == (float)Main.rand.Next(100, 500)) {
+				if (npc.localAI[1] == Main.rand.Next(100, 500)) {
 					if (!exposed) {
 						exposed = true;
+						npc.netUpdate = true;
 					}
 				}
 				if (npc.localAI[1] >= 651) {
 					npc.localAI[1] = 0f;
 				}
 				npc.localAI[2] += 1;
-				if (npc.localAI[2] == (float)Main.rand.Next(200, 600)) {
+				if (npc.localAI[2] == Main.rand.Next(200, 600)) {
 					if (exposed) {
 						exposed = false;
+						npc.netUpdate = true;
 					}
 				}
 				if (npc.localAI[2] >= 601) {
@@ -82,10 +90,10 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			bool expertMode = Main.expertMode;
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.075f, 0.25f);
 			if (Main.netMode != NetmodeID.MultiplayerClient) {
-				npc.localAI[0] += Main.rand.Next(3);
-				if (npc.localAI[0] >= (float)Main.rand.Next(1400, 7500)) {
+				npc.ai[3]++;
+				if (npc.ai[3] >= (float)Main.rand.Next(1400, 7500)) {
 					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 9);
-					npc.localAI[0] = 0f;
+					npc.ai[3] = 0f;
 					npc.TargetClosest(true);
 					if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height)) {
 						float num941 = 1f; //speed
@@ -126,6 +134,37 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					npc.alpha = 0;
 				}
 			}
+			if (npc.ai[2] > 0) {
+				npc.realLife = (int)npc.ai[2];
+			}
+
+			if (npc.target < 0 || npc.target == byte.MaxValue || Main.player[npc.target].dead) {
+				npc.TargetClosest(true);
+			}
+
+			if (Main.player[npc.target].dead && npc.timeLeft > 300) {
+				npc.timeLeft = 300;
+			}
+
+			if (npc.ai[1] < (double)Main.npc.Length) {
+				Vector2 npcCenter = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+
+				float dirX = Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2) - npcCenter.X;
+				float dirY = Main.npc[(int)npc.ai[1]].position.Y + (float)(Main.npc[(int)npc.ai[1]].height / 2) - npcCenter.Y;
+
+				npc.rotation = (float)Math.Atan2(dirY, dirX) + 1.57f;
+
+				float length = (float)Math.Sqrt(dirX * dirX + dirY * dirY);
+
+				float dist = (length - (float)npc.width) / length;
+				float posX = dirX * dist;
+				float posY = dirY * dist;
+
+				npc.velocity = Vector2.Zero;
+				npc.position.X = npc.position.X + posX;
+				npc.position.Y = npc.position.Y + posY;
+			}
+			return true;
 		}
 
 		public override bool CheckActive() => false;

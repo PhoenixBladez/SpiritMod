@@ -29,7 +29,7 @@ namespace SpiritMod.Projectiles.Summon
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
-			if (Main.rand.Next(2) == 1) {
+			if (projectile.ai[0] == 1) {
 				ProjectileExtras.Explode(projectile.whoAmI, 120, 120,
 					delegate {
 						for (int i = 0; i < 80; i++) {
@@ -67,7 +67,11 @@ namespace SpiritMod.Projectiles.Summon
 
 		public override void AI()
 		{
-			projectile.ai[1] += 1f;
+			projectile.ai[1]++;
+			if(projectile.ai[1] == 1 && Main.netMode != NetmodeID.MultiplayerClient) {
+				projectile.ai[0] = Main.rand.Next(2);
+				projectile.netUpdate = true;
+			}
 			if (projectile.ai[1] >= 7200f) {
 				projectile.alpha += 5;
 				if (projectile.alpha > 255) {

@@ -21,7 +21,7 @@ namespace SpiritMod.Projectiles.Summon.Dragon
 			projectile.tileCollide = false;
 			projectile.hostile = false;
 			projectile.friendly = true;
-			projectile.timeLeft = 225;
+			projectile.timeLeft = 100;
 			projectile.damage = 13;
 			//projectile.extraUpdates = 1;
 			projectile.width = projectile.height = 32;
@@ -51,13 +51,6 @@ namespace SpiritMod.Projectiles.Summon.Dragon
 			projectile.spriteDirection = 1;
 			if (projectile.ai[0] > 0) {
 				projectile.spriteDirection = 0;
-			}
-			if (Main.netMode != NetmodeID.MultiplayerClient) {
-				if (!Main.projectile[(int)projectile.ai[1]].active) {
-					projectile.timeLeft = 0;
-					projectile.active = false;
-					// NetMessage.SendData(28, -1, -1, "", projectile.whoAmI, -1f, 0.0f, 0.0f, 0, 0, 0);
-				}
 			}
 
 			if (projectile.ai[1] < (double)Main.projectile.Length) {

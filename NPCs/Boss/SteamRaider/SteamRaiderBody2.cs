@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Projectiles;
 using SpiritMod.Projectiles.Boss;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -18,24 +19,22 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 
 		public override void SetDefaults()
 		{
-			npc.damage = 35; //70
-			npc.npcSlots = 5f;
-			npc.width = 24; //324
-			npc.height = 24; //216
-			npc.defense = 19;
-			npc.lifeMax = 6500; //250000
-			npc.aiStyle = 6; //new
-			Main.npcFrameCount[npc.type] = 1; //new
-			aiType = -1; //new
-			animationType = 10; //new
-			npc.knockBackResist = 0f;
-			npc.alpha = 255;
+			npc.width = 36;
+			npc.height = 16;
+			npc.damage = 36;
+			npc.defense = 10;
+			npc.lifeMax = 1;
+			npc.knockBackResist = 0.0f;
 			npc.behindTiles = true;
-			npc.noGravity = true;
 			npc.noTileCollide = true;
-			npc.HitSound = SoundID.NPCHit4;
-			npc.DeathSound = SoundID.NPCDeath14;
 			npc.netAlways = true;
+			npc.noGravity = true;
+			npc.dontCountMe = true;
+			npc.HitSound = SoundID.NPCHit1;
+			npc.npcSlots = 1f;
+			npc.boss = true;
+			npc.aiStyle = -1;
+			npc.alpha = 200;
 			for (int k = 0; k < npc.buffImmune.Length; k++) {
 				npc.buffImmune[k] = true;
 			}
@@ -48,13 +47,22 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		{
 			return false;
 		}
-		public override void AI()
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(exposed);
+		}
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			exposed = reader.ReadBoolean();
+		}
+		public override bool PreAI()
 		{
 			if (Main.netMode != NetmodeID.MultiplayerClient) {
 				npc.localAI[1] += 1;
 				if (npc.localAI[1] == (float)Main.rand.Next(100, 600)) {
 					if (!exposed) {
 						exposed = true;
+						npc.netUpdate = true;
 					}
 				}
 				if (npc.localAI[1] >= 601) {
@@ -64,6 +72,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				if (npc.localAI[2] == (float)Main.rand.Next(100, 600)) {
 					if (exposed) {
 						exposed = false;
+						npc.netUpdate = true;
 					}
 				}
 				if (npc.localAI[2] >= 601) {
@@ -82,10 +91,10 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			bool expertMode = Main.expertMode;
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.075f, 0.25f);
 			if (Main.netMode != NetmodeID.MultiplayerClient) {
-				npc.localAI[0] += Main.rand.Next(3);
-				if (npc.localAI[0] >= (float)Main.rand.Next(1000, 7500)) {
+				npc.ai[3]++;
+				if (npc.ai[3] >= (float)Main.rand.Next(1000, 7500)) {
 					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 9);
-					npc.localAI[0] = 0f;
+					npc.ai[3] = 0f;
 					npc.TargetClosest(true);
 					if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height)) {
 						float num941 = 1f; //speed
@@ -126,6 +135,40 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					npc.alpha = 0;
 				}
 			}
+			if (npc.ai[2] > 0) {
+				npc.realLife = (int)npc.ai[2];
+			}
+
+			if (npc.target < 0 || npc.target == byte.MaxValue || Main.player[npc.target].dead) {
+				npc.TargetClosest(true);
+			}
+
+			if (Main.player[npc.target].dead && npc.timeLeft > 300) {
+				npc.timeLeft = 300;
+			}
+
+			if (npc.ai[1] < (double)Main.npc.Length) {
+				// We're getting the center of this NPC.
+				Vector2 npcCenter = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+				// Then using that center, we calculate the direction towards the 'parent NPC' of this NPC.
+				float dirX = Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2) - npcCenter.X;
+				float dirY = Main.npc[(int)npc.ai[1]].position.Y + (float)(Main.npc[(int)npc.ai[1]].height / 2) - npcCenter.Y;
+				// We then use Atan2 to get a correct rotation towards that parent NPC.
+				npc.rotation = (float)Math.Atan2(dirY, dirX) + 1.57f;
+				// We also get the length of the direction vector.
+				float length = (float)Math.Sqrt(dirX * dirX + dirY * dirY);
+				// We calculate a new, correct distance.
+				float dist = (length - (float)npc.width) / length;
+				float posX = dirX * dist;
+				float posY = dirY * dist;
+
+				// Reset the velocity of this NPC, because we don't want it to move on its own
+				npc.velocity = Vector2.Zero;
+				// And set this NPCs position accordingly to that of this NPCs parent NPC.
+				npc.position.X = npc.position.X + posX;
+				npc.position.Y = npc.position.Y + posY;
+			}
+			return true;
 		}
 
 		public override bool CheckActive()
@@ -219,6 +262,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					float A = (float)Main.rand.Next(-150, 150) * 0.01f;
 					float B = (float)Main.rand.Next(-80, 0) * 0.0f;
 					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<SteamBodyFallingProj>(), 15, 1, Main.myPlayer, 0, 0);
+					npc.netUpdate = true;
 				}
 			}
 		}

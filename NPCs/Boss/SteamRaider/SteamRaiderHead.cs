@@ -182,22 +182,22 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				if (Main.netMode != NetmodeID.MultiplayerClient) {
 					if (!tail && npc.ai[0] == 0f) {
 
-						int current = npc.whoAmI;
+						int after = npc.whoAmI;
 						for (int num36 = 0; num36 < maxLength; num36++) {
-							int trailing = 0;
+							int before;
 							if (num36 >= 0 && num36 < minLength)
-								trailing = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("SteamRaiderBody"), npc.whoAmI);
+								before = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("SteamRaiderBody"), npc.whoAmI);
 							else if (num36 >= minLength && num36 < midLength)
-								trailing = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("SteamRaiderBody2"), npc.whoAmI);
+								before = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("SteamRaiderBody2"), npc.whoAmI);
 							else
-								trailing = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("SteamRaiderTail"), npc.whoAmI);
+								before = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("SteamRaiderTail"), npc.whoAmI);
 
-							Main.npc[trailing].realLife = npc.whoAmI;
-							Main.npc[trailing].ai[2] = (float)npc.whoAmI;
-							Main.npc[trailing].ai[1] = (float)current;
-							Main.npc[current].ai[0] = (float)trailing;
+							Main.npc[before].realLife = npc.whoAmI;
+							Main.npc[before].ai[2] = npc.whoAmI;
+							Main.npc[before].ai[1] = after;
+							Main.npc[after].ai[0] = before;
 							npc.netUpdate = true;
-							current = trailing;
+							after = before;
 						}
 						tail = true;
 					}
@@ -494,17 +494,23 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					{
 						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 94);
 						for (int i = 0; i < 5; i++) {
-							NPC.NewNPC((int)Main.player[npc.target].Center.X + Main.rand.Next(-700, 700), (int)Main.player[npc.target].Center.Y + Main.rand.Next(-700, 700), mod.NPCType("LaserBase"), npc.whoAmI);
+							if(Main.netMode != 1) {
+								int LaserBase = NPC.NewNPC((int)Main.player[npc.target].Center.X + Main.rand.Next(-700, 700), (int)Main.player[npc.target].Center.Y + Main.rand.Next(-700, 700), mod.NPCType("LaserBase"), npc.whoAmI);
+								Main.npc[LaserBase].netUpdate = true;
+							}
 						}
 						bool outOfBlock = false;
 						while (!outOfBlock) {
-							int angle = Main.rand.Next(360);
-							double anglex = Math.Sin(angle * (Math.PI / 180));
-							double angley = Math.Cos(angle * (Math.PI / 180));
-							npc.position.X = player.Center.X + (int)(480 * anglex);
-							npc.position.Y = player.Center.Y + (int)(480 * angley);
+							if(Main.netMode != 1) {
+								int angle = Main.rand.Next(360);
+								double anglex = Math.Sin(angle * (Math.PI / 180));
+								double angley = Math.Cos(angle * (Math.PI / 180));
+								npc.position.X = player.Center.X + (int)(480 * anglex);
+								npc.position.Y = player.Center.Y + (int)(480 * angley);
+							}
 							if (!Main.tile[(int)(npc.position.X / 16), (int)(npc.position.Y / 16)].active()) {
 								outOfBlock = true;
+								npc.netUpdate = true;
 							}
 						}
 						CombatText.NewText(new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height), new Color(255, 155, 0, 100),
@@ -517,7 +523,6 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				else if (atkCounter % 2000 >= 1000 && atkCounter % 2000 < 1500) {
 					charge = true;
 					if (atkCounter % 250 == 0) {
-
 						distAbove = 425;
 						if (Main.rand.Next(2) == 0) {
 							npc.position.X = Main.player[npc.target].Center.X - 500;
@@ -531,9 +536,12 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 						}
 						npc.rotation = 3.14f;
 						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 94);
-						for (int i = 0; i < 3; i++) {
-							NPC.NewNPC((int)Main.player[npc.target].Center.X + Main.rand.Next(-300, 300), (int)Main.player[npc.target].Center.Y + Main.rand.Next(-300, 300), ModContent.NPCType<ArcadeProbe>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+						if (Main.netMode != 1) {
+							for (int i = 0; i < 3; i++) {
+								NPC.NewNPC((int)Main.player[npc.target].Center.X + Main.rand.Next(-300, 300), (int)Main.player[npc.target].Center.Y + Main.rand.Next(-300, 300), ModContent.NPCType<ArcadeProbe>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+							}
 						}
+						npc.netUpdate = true;
 					}
 					//npc.position.Y = Main.player[npc.target].Center.Y -  distAbove;
 					if (atkCounter % 20 == 0) {
@@ -552,7 +560,10 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 							Vector2 vector2_3 = vector2_2 * 34f;
 							Main.dust[dust].position = (npc.Center) - vector2_3;
 						}
-						Projectile.NewProjectile(npc.Center, new Vector2(0, 10), ModContent.ProjectileType<GlitchLaser>(), 25, 1, Main.myPlayer, 0, 0);
+						if (Main.netMode != 1) {
+							int gLaser = Projectile.NewProjectile(npc.Center, new Vector2(0, 10), ModContent.ProjectileType<GlitchLaser>(), 25, 1, Main.myPlayer, 0, 0);
+							NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, gLaser);
+						}
 					}
 					//shootCounter = 180; //make sure he fires lasers immediately after ending this section
 				}
@@ -561,30 +572,33 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					if (atkCounter % 50 == 0) {
 						bool outOfBlock = false;
 						while (!outOfBlock) {
-							int angle = Main.rand.Next(360);
-							double anglex = Math.Sin(angle * (Math.PI / 180));
-							double angley = Math.Cos(angle * (Math.PI / 180));
-							npc.position.X = player.Center.X + (int)(480 * anglex);
-							npc.position.Y = player.Center.Y + (int)(480 * angley);
+							if (Main.netMode != 1) {
+								int angle = Main.rand.Next(360);
+								double anglex = Math.Sin(angle * (Math.PI / 180));
+								double angley = Math.Cos(angle * (Math.PI / 180));
+								npc.position.X = player.Center.X + (int)(480 * anglex);
+								npc.position.Y = player.Center.Y + (int)(480 * angley);
+							}
 							if (!Main.tile[(int)(npc.position.X / 16), (int)(npc.position.Y / 16)].active()) {
 								outOfBlock = true;
+								npc.netUpdate = true;
 							}
 						}
 						direction9 = Main.player[npc.target].Center - npc.Center;
 						direction9.Normalize();
 						npc.rotation = direction9.ToRotation() + 1.57f;
 					}
-					if (atkCounter % 50 < 30) {
-						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 30, (float)direction9.Y * 30, ModContent.ProjectileType<StarLaserTrace>(), 27, 1, Main.myPlayer);
-					}
-					if (atkCounter % 50 == 30) //change to frame related later
-				   {
-						Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 53);
-						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 40, (float)direction9.Y * 40, ModContent.ProjectileType<StarLaser>(), 55, 1, Main.myPlayer);
-					}
-					if (atkCounter % 50 == 49) {
-						NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, mod.NPCType("SuicideLaser"), npc.whoAmI);
-					}
+						if (atkCounter % 50 < 30) {
+							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 30, (float)direction9.Y * 30, ModContent.ProjectileType<StarLaserTrace>(), 27, 1, Main.myPlayer);
+						}
+						if (atkCounter % 50 == 30) //change to frame related later
+					   {
+							Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 53);
+							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 40, (float)direction9.Y * 40, ModContent.ProjectileType<StarLaser>(), 55, 1, Main.myPlayer);
+						}
+						if (atkCounter % 50 == 49) {
+							NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, mod.NPCType("SuicideLaser"), npc.whoAmI);
+						}
 				}
 			}
 			#endregion
