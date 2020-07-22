@@ -1,5 +1,5 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Projectiles.Hostile;
+using SpiritMod.Projectiles.Bullet;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -46,9 +46,9 @@ namespace SpiritMod.Items.Weapon.Gun
 			}
 			int bloodproj;
 			bloodproj = Main.rand.Next(new int[] {
-				ModContent.ProjectileType<Feeder1>(),
-				ModContent.ProjectileType<Feeder2>(),
-				ModContent.ProjectileType<Feeder3>()
+				ModContent.ProjectileType<FriendlyFeeder1>(),
+				ModContent.ProjectileType<FriendlyFeeder2>(),
+				ModContent.ProjectileType<FriendlyFeeder3>()
 			});
 			float spread = 30 * 0.0174f;//45 degrees converted to radians
 			float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
@@ -60,12 +60,7 @@ namespace SpiritMod.Items.Weapon.Gun
 			{
 				type = bloodproj;
 			}
-			int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-			Main.projectile[p].hostile = false;
-			Main.projectile[p].friendly = true;
-			Main.projectile[p].ranged = true;
-			Main.projectile[p].penetrate = 1;
-			return false;
+			return base.Shoot(player,ref position,ref speedX,ref speedY,ref type,ref damage,ref knockBack);
 		}
 	}
 }

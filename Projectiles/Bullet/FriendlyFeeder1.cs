@@ -3,10 +3,12 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Projectiles.Hostile
+namespace SpiritMod.Projectiles.Bullet
 {
-	public class Feeder2 : ModProjectile
+	public class FriendlyFeeder1 : ModProjectile
 	{
+
+		private int DamageAdditive;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Rotten Meat");
@@ -17,9 +19,10 @@ namespace SpiritMod.Projectiles.Hostile
 			projectile.CloneDefaults(ProjectileID.WoodenArrowFriendly);
 			projectile.width = 10;
 			projectile.height = 10;
-			projectile.friendly = false;
-			projectile.hostile = true;
-			projectile.penetrate = 3;
+			projectile.friendly = true;
+			projectile.hostile = false;
+			projectile.penetrate = 1;
+			projectile.ranged = true;
 		}
 
 		public override void AI()

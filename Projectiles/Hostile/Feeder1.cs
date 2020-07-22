@@ -16,7 +16,7 @@ namespace SpiritMod.Projectiles.Hostile
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.WoodenArrowHostile);
+			projectile.CloneDefaults(ProjectileID.WoodenArrowFriendly);
 			projectile.width = 10;
 			projectile.height = 10;
 			projectile.friendly = false;
