@@ -10,8 +10,8 @@ namespace SpiritMod.Projectiles.Summon.Dragon
 	public class DragonHeadOne : ModProjectile
 	{
 		int counter = -180;
-		float distance = 4;
-		int rotationalSpeed = 2;
+		float distance = 8;
+		int rotationalSpeed = 4;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Jade Dragon");
@@ -24,10 +24,10 @@ namespace SpiritMod.Projectiles.Summon.Dragon
 			projectile.tileCollide = false;
 			projectile.hostile = false;
 			projectile.friendly = true;
-			projectile.timeLeft = 190;
+			projectile.timeLeft = 95;
 			projectile.damage = 13;
 			projectile.minionSlots = .5f;
-			projectile.extraUpdates = 1;
+			//projectile.extraUpdates = 1;
 			projectile.width = projectile.height = 32;
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
@@ -54,14 +54,14 @@ namespace SpiritMod.Projectiles.Summon.Dragon
 		int num;
 		public override void AI()
 		{
-			num += 2;
-			projectile.alpha += 6;
+			num += 4;
+			projectile.alpha += 12;
 			projectile.spriteDirection = 1;
 			if (projectile.ai[0] > 0) {
 				projectile.spriteDirection = 0;
 			}
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-			distance += 0.015f;
+			distance += 0.03f;
 			counter += rotationalSpeed;
 			Vector2 initialSpeed = new Vector2(projectile.ai[0], projectile.ai[1]);
 			Vector2 offset = initialSpeed.RotatedBy(Math.PI / 2);

@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.UseSound = new Terraria.Audio.LegacySoundStyle(3, 56);
 			item.autoReuse = false;
 			item.shoot = ModContent.ProjectileType<DragonHeadOne>();
-			item.shootSpeed = 3f;
+			item.shootSpeed = 6f;
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
