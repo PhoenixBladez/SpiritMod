@@ -5,6 +5,7 @@ using SpiritMod.Items.Armor.AstronautVanity;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Projectiles.Hostile;
 using System;
+using System.Security.Cryptography.X509Certificates;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,12 +14,39 @@ namespace SpiritMod.NPCs.Asteroid
 {
 	public class DeepspaceHopper : ModNPC
 	{
-		Vector2 direction9 = Vector2.Zero;
-		//private bool shooting;
-		private int timer = 300;
-		private int distance = 300;
-		//private bool inblock = true;
-		//Vector2 target = Vector2.Zero;
+		private const int TELEPORT_DISTANCE = 300;
+
+		private int Timer {
+			get => (int)npc.ai[1];
+			set => npc.ai[1] = value;
+		}
+
+		private Vector2 AngleToPlayer {
+			get => new Vector2(npc.localAI[0], npc.localAI[1]);
+			set {
+				npc.localAI[0] = value.X;
+				npc.localAI[1] = value.Y;
+			}
+		}
+
+		private AIState State {
+			get => (AIState)(int)npc.ai[0];
+			set {
+				npc.ai[0] = (int)value;
+				if(Main.netMode != NetmodeID.MultiplayerClient) {
+					npc.netUpdate = true;
+				}
+			}
+		}
+
+		private enum AIState
+		{
+			STANDBY,
+			AIMING,
+			SHOOTING,
+			TELEPORT_FAIL,
+			TELEPORT_SUCCESS
+		}
 
 		public override void SetStaticDefaults()
 		{
@@ -28,7 +56,7 @@ namespace SpiritMod.NPCs.Asteroid
 
 		public override void SetDefaults()
 		{
-			npc.width = 54;
+			npc.width = 24;
 			npc.height = 24;
 			npc.damage = 15;
 			npc.defense = 9;
@@ -36,12 +64,15 @@ namespace SpiritMod.NPCs.Asteroid
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath14;
 			npc.value = 130f;
-			npc.knockBackResist = .45f;
+			npc.knockBackResist = 1f;
 			npc.aiStyle = -1;
 			npc.noGravity = true;
 			npc.noTileCollide = false;
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.ShockhopperBanner>();
+
+			// start with 5 seconds to the first teleport
+			Timer = 300;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
@@ -56,19 +87,17 @@ namespace SpiritMod.NPCs.Asteroid
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hopper/Hopper3"));
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hopper/Hopper4"));
 				for (int i = 0; i < 15; i++) {
-					int num = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, -2f, 0, default, 2f);
-					Main.dust[num].noGravity = true;
-					Dust expr_62_cp_0 = Main.dust[num];
-					expr_62_cp_0.position.X += (Main.rand.Next(-50, 51) / 20) - 1.5f;
-					Dust expr_92_cp_0 = Main.dust[num];
-					expr_92_cp_0.position.Y += (Main.rand.Next(-50, 51) / 20) - 1.5f;
-					Main.dust[num].scale = 0.4f;
-					if (Main.dust[num].position != npc.Center) {
-						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 3f;
+					Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, 226, 0f, -2f, 0, default, 0.4f);
+					dust.noGravity = true;
+					dust.position.X += (Main.rand.Next(-50, 51) / 20) - 1.5f;
+					dust.position.Y += (Main.rand.Next(-50, 51) / 20) - 1.5f;
+					if (dust.position != npc.Center) {
+						dust.velocity = npc.DirectionTo(dust.position) * 3f;
 					}
 				}
 			}
 		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
@@ -76,6 +105,7 @@ namespace SpiritMod.NPCs.Asteroid
 							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 			return false;
 		}
+
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			if (npc.alpha != 255) {
@@ -85,119 +115,111 @@ namespace SpiritMod.NPCs.Asteroid
 
 		public override bool PreAI()
 		{
+			npc.velocity.X = 0;
+			npc.velocity.Y = 0;
 			npc.TargetClosest(true);
 			Player player = Main.player[npc.target];
 
-			float num5 = npc.position.X + (npc.width / 2) - player.position.X - (player.width / 2);
-			float num6 = npc.position.Y + npc.height - 59f - player.position.Y - (player.height / 2);
-			float num7 = (float)Math.Atan2(num6, num5) + 1.57f;
-			if (!(timer >= 100 && timer <= 130)) {
-				if (num7 < 0f) {
-					num7 += 6.283f;
-				}
-				else if (num7 > 6.283) {
-					num7 -= 6.283f;
-				}
-				float num8 = 0.1f;
-				if (npc.rotation < num7) {
-					if ((num7 - npc.rotation) > 3.1415) {
-						npc.rotation -= num8;
+			Timer++;
+			// Update NPC state
+			// Standby mode; doing nothing, just looking at player
+			if(Timer < 100) State = AIState.STANDBY;
+			// Aiming mode; preparing to shoot, look angle locked
+			else if(Timer == 100) State = AIState.AIMING;
+			// Shooting mode; shoots the laser
+			else if(Timer == 130) State = AIState.SHOOTING;
+			// Teleport mode; performs a teleport
+			else if(Timer >= 280) {
+				if(Main.netMode != NetmodeID.MultiplayerClient) {
+					Vector2 angle = Vector2.UnitX.RotateRandom(Math.PI * 2);
+					npc.position.X = player.Center.X + (int)(TELEPORT_DISTANCE * angle.X);
+					npc.position.Y = player.Center.Y + (int)(TELEPORT_DISTANCE * angle.Y);
+					npc.netUpdate = true;
+					if(Main.tile[(int)(npc.position.X / 16), (int)(npc.position.Y / 16)].active()) {
+						State = AIState.TELEPORT_FAIL;
+					} else {
+						State = AIState.TELEPORT_SUCCESS;
 					}
-					else {
-						npc.rotation += num8;
-					}
-				}
-				else if (npc.rotation > num7) {
-					if ((npc.rotation - num7) > 3.1415) {
-						npc.rotation += num8;
-					}
-					else {
-						npc.rotation -= num8;
-					}
-				}
-				if (npc.rotation > num7 - num8 && npc.rotation < num7 + num8) {
-					npc.rotation = num7;
-				}
-				if (npc.rotation < 0f) {
-					npc.rotation += 6.283f;
-				}
-				else if (npc.rotation > 6.283) {
-					npc.rotation -= 6.283f;
-				}
-				if (npc.rotation > num7 - num8 && npc.rotation < num7 + num8) {
-					npc.rotation = num7;
 				}
 			}
-			npc.spriteDirection = npc.direction;
-			timer++;
-			if (timer >= 280) {
-				int angle = Main.rand.Next(360);
-				double anglex = Math.Sin(angle * (Math.PI / 180));
-				double angley = Math.Cos(angle * (Math.PI / 180));
-				npc.position.X = player.Center.X + (int)(distance * anglex);
-				npc.position.Y = player.Center.Y + (int)(distance * angley);
-				if (Main.tile[(int)(npc.position.X / 16), (int)(npc.position.Y / 16)].active()) {
-					npc.alpha = 255;
-				}
-				else {
-					timer = 0;
-					npc.alpha = 0;
+
+			// Look at the player
+			if(State == AIState.STANDBY) {
+				npc.rotation = npc.DirectionTo(player.Center).ToRotation() - MathHelper.PiOver2;
+			}
+
+			if(State == AIState.TELEPORT_FAIL) {
+				npc.alpha = 255;
+			}
+
+			// When we succeed at performing the teleport
+			if(State == AIState.TELEPORT_SUCCESS) {
+				Timer = 0;
+				npc.alpha = 0;
+				if(Main.netMode != NetmodeID.Server) {
 					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
-					for (int i = 0; i < 15; i++) {
-						int num = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, -2f, 0, default, 2f);
-						Main.dust[num].noGravity = true;
-						Dust expr_62_cp_0 = Main.dust[num];
-						expr_62_cp_0.position.X += ((Main.rand.Next(-50, 51) / 20) - 1.5f);
-						Dust expr_92_cp_0 = Main.dust[num];
-						expr_92_cp_0.position.Y += ((Main.rand.Next(-50, 51) / 20) - 1.5f);
-						Main.dust[num].scale = 0.4f;
-						if (Main.dust[num].position != npc.Center) {
-							Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 3f;
+					for(int i = 0; i < 50; i++) {
+						Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, 226, 0f, -2f, 0, default, 0.4f);
+						dust.noGravity = true;
+						dust.position.X += (Main.rand.Next(-50, 51) / 20) - 1.5f;
+						dust.position.Y += (Main.rand.Next(-50, 51) / 20) - 1.5f;
+						if(dust.position != npc.Center) {
+							dust.velocity = npc.DirectionTo(dust.position) * 3f;
 						}
 					}
 				}
+				State = AIState.STANDBY;
 			}
-			else {
-				npc.velocity.X = 0;
-				npc.velocity.Y = 0;
-			}
-			if (timer == 100) {
+
+			// Lock in the targeting angle
+			if (State == AIState.AIMING && Timer == 100) {
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
-				direction9 = player.Center - npc.Center;
-				direction9.Normalize();
+				var offset = player.Center - npc.Center;
+				offset.Normalize();
+				AngleToPlayer = offset;
 			}
-			if (timer >= 100 && timer <= 130) {
-				{
-					int dust = Dust.NewDust(npc.Center, npc.width, npc.height, 226);
-					Main.dust[dust].velocity *= -1f;
-					Main.dust[dust].scale *= .8f;
-					Main.dust[dust].noGravity = true;
-					Vector2 vector2_1 = new Vector2((float)Main.rand.Next(-80, 81), (float)Main.rand.Next(-80, 81));
-					vector2_1.Normalize();
-					Vector2 vector2_2 = vector2_1 * ((float)Main.rand.Next(50, 100) * 0.04f);
-					Main.dust[dust].velocity = vector2_2;
-					vector2_2.Normalize();
-					Vector2 vector2_3 = vector2_2 * 34f;
-					Main.dust[dust].position = npc.Center - vector2_3;
+
+			// Spawn dust while waiting to shoot
+			if (Main.netMode != NetmodeID.Server && State == AIState.AIMING) {
+				Dust dust = Dust.NewDustDirect(npc.Center, npc.width, npc.height, 226);
+				dust.velocity *= -1f;
+				dust.scale *= .8f;
+				dust.noGravity = true;
+				Vector2 vector2_1 = new Vector2(Main.rand.Next(-80, 81), Main.rand.Next(-80, 81));
+				vector2_1.Normalize();
+				Vector2 vector2_2 = vector2_1 * (Main.rand.Next(50, 100) * 0.04f);
+				dust.velocity = vector2_2;
+				vector2_2.Normalize();
+				Vector2 vector2_3 = vector2_2 * 34f;
+				dust.position = npc.Center - vector2_3;
+			}
+
+			// Fire the laser
+			if(State == AIState.SHOOTING) {
+				// Play sound on client, fire projectile on server
+				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 91);
+				if(Main.netMode != NetmodeID.MultiplayerClient) {
+					Projectile.NewProjectile(npc.Center, AngleToPlayer * 30, ModContent.ProjectileType<HopperLaser>(), 19, 1, Main.myPlayer);
 				}
+				State = AIState.STANDBY;
 			}
-			if (npc.alpha != 255) {
-				if (Main.rand.NextFloat() < 0.5f) {
+
+			// Idle dusts while we're not failing a teleport
+			if(Main.netMode != NetmodeID.Server && State != AIState.TELEPORT_FAIL) {
+				if(Main.rand.NextBool()) {
 					// You need to set position depending on what you are doing. You may need to subtract width/2 and height/2 as well to center the spawn rectangle.
-					Vector2 position = new Vector2(npc.Center.X - 10, npc.Center.Y);
-					Dust.NewDustPerfect(position, 226, new Vector2(0f, -6.421053f).RotatedBy(npc.rotation), 0, new Color(255, 0, 0), 0.6578947f);
+					Vector2 position = new Vector2(npc.Center.X - 10, npc.Center.Y).RotatedBy(npc.rotation, npc.Center);
+					var dust = Dust.NewDustPerfect(position, 226, new Vector2(0f, -6.421053f).RotatedBy(npc.rotation), 0, new Color(255, 0, 0), 0.6578947f);
+					dust.noGravity = true;
 				}
-				if (Main.rand.NextFloat() < 0.5f) {
+				if(Main.rand.NextBool()) {
 					// You need to set position depending on what you are doing. You may need to subtract width/2 and height/2 as well to center the spawn rectangle.
-					Vector2 position = new Vector2(npc.Center.X + 10, npc.Center.Y);
-					Dust.NewDustPerfect(position, 226, new Vector2(0f, -6.421053f).RotatedBy(npc.rotation), 0, new Color(255, 0, 0), 0.6578947f);
-				}
-				if (timer == 130) //change to frame related later
-				{
-					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 91);
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction9.X * 30, direction9.Y * 30, ModContent.ProjectileType<HopperLaser>(), 19, 1, Main.myPlayer);
+					Vector2 position = new Vector2(npc.Center.X + 10, npc.Center.Y).RotatedBy(npc.rotation, npc.Center);
+					var dust = Dust.NewDustPerfect(position, 226, new Vector2(0f, -6.421053f).RotatedBy(npc.rotation), 0, new Color(255, 0, 0), 0.6578947f);
+					dust.noGravity = true;
 				}
 			}
+
 			return false;
 		}
 		public override void NPCLoot()

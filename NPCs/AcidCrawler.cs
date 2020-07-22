@@ -40,9 +40,9 @@ namespace SpiritMod.NPCs
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			int dust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 107, 0f, 0f, 100, default(Color), 2f);
+			Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 107, 0f, 0f, 100, default(Color), 2f);
 
-			if (npc.life <= 0) {
+			if(npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Acid_Leg"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Acid_Leg"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Acid_Eye"), 1f);
@@ -51,14 +51,14 @@ namespace SpiritMod.NPCs
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if (Main.rand.Next(4) == 0) {
+			if(Main.rand.NextBool(4)) {
 				target.AddBuff(BuffID.Poisoned, 240);
 			}
 		}
 
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(2) == 1)
+			if(Main.rand.NextBool())
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Acid>());
 		}
 	}
