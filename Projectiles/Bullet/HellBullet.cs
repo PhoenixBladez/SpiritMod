@@ -48,7 +48,13 @@ namespace SpiritMod.Projectiles.Bullet
 				}
 			}
 		}
-
+		public override bool? CanHitNPC(NPC target)
+		{
+			if (target.townNPC) {
+				return false;
+			}
+			return base.CanHitNPC(target);
+		}
 		public override void Kill(int timeLeft)
 		{
 			int n = 2;

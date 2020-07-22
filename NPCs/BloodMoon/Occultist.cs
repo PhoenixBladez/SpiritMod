@@ -99,7 +99,17 @@ namespace SpiritMod.NPCs.BloodMoon
 
 			if (npc.ai[1] > 0) {
 				--npc.ai[1];
-				if (npc.ai[1] == 0) {
+				int numZombies = 0;
+				foreach(NPC zombie in Main.npc)
+				{
+					if ((zombie.type == NPCID.BloodZombie || zombie.type == NPCID.Zombie) && zombie.active && zombie.life > 0) 
+					{
+						numZombies++;
+					}
+
+				}
+
+				if (npc.ai[1] == 0 && numZombies < 10) {
 					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 					if (Main.netMode != NetmodeID.MultiplayerClient) {
 						Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 53);
