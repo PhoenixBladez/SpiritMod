@@ -31,8 +31,7 @@ namespace SpiritMod.Projectiles.Thrown
 		int sync;
 		public override void AI()
 		{
-			if(Main.npc.Length > 0)
-			Main.npc[sync].netUpdate = true;
+
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{

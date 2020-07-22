@@ -80,7 +80,8 @@ namespace SpiritMod.Projectiles.Flail
 			if (!target.boss && target.knockBackResist != 0) {
 				hooked = true;
 				hookednpc = target.whoAmI;
-				target.position = projectile.position - new Vector2((target.width / 2), (target.height / 2)); ;
+				target.position = projectile.position - new Vector2((target.width / 2), (target.height / 2));
+				target.netUpdate = true;
 				//  target.velocity = projectile.velocity;
 			}
 		}
