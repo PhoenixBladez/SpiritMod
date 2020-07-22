@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Accessory;
+using System;
 
 namespace SpiritMod.NPCs.Asteroid
 {
@@ -22,38 +23,45 @@ namespace SpiritMod.NPCs.Asteroid
 			npc.width = 32;
 			npc.height = 48;
 			npc.damage = 18;
-			npc.defense = 10;
+			npc.defense = 6;
 			npc.lifeMax = 106;
 			npc.noGravity = true;
 			npc.value = 90f;
 			npc.noTileCollide = true;
 			npc.HitSound = SoundID.DD2_GoblinHurt;
 			npc.DeathSound = SoundID.NPCDeath22;
+			npc.noGravity = true;
 		}
+		int xoffset = 0;
 		public override void AI()
 		{
-			npc.rotation = npc.velocity.ToRotation() + 1.57f;
-			counter++;
-			npc.velocity *= 0.995f;
-			float num395 = Main.mouseTextColor / 200f - 0.35f;
-			num395 *= 0.2f;
-			npc.scale = num395 + 0.95f;
-			if (counter > 65) {
-				Vector2 direction = Main.player[npc.target].Center - npc.Center;
-				direction.Normalize();
-				direction *= 10;
-				npc.velocity = direction;
-				for (int i = 0; i < 10; i++) {
-					int num = Dust.NewDust(npc.position, npc.width, npc.height, 167, 0f, -2f, 0, default(Color), 2f);
-					Main.dust[num].noGravity = true;
-					Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-					Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
-					Main.dust[num].scale *= .25f;
-					if (Main.dust[num].position != npc.Center)
-						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 4f;
-				}
-				counter = 0;
+			Player player = Main.player[npc.target];
+			npc.ai[0]++;
+			if(player.position.X > npc.position.X) {
+				xoffset = 16;
+			} else {
+				xoffset = -16;
 			}
+			npc.velocity.X *= 0.99f;
+				if(npc.ai[1] == 0) {
+					if(npc.velocity.Y < 2.5f) {
+						npc.velocity.Y += 0.1f;
+					}
+					if(player.position.Y < npc.position.Y && npc.ai[0] % 30 == 0) {
+						npc.ai[1] = 1;
+						npc.netUpdate = true;
+						npc.velocity.X = xoffset / 1.25f;
+						npc.velocity.Y = -6;
+					}
+				}
+				if(npc.ai[1] == 1) {
+					npc.velocity *= 0.97f;
+					if(Math.Abs(npc.velocity.X) < 0.125f) {
+						npc.ai[1] = 0;
+						npc.netUpdate = true;
+					}
+					npc.rotation = npc.velocity.ToRotation() + 1.57f;
+				}
 		}
 		public override void NPCLoot()
 		{

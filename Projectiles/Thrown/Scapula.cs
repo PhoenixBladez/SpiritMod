@@ -26,12 +26,18 @@ namespace SpiritMod.Projectiles.Thrown
 			projectile.friendly = true;
 			projectile.ranged = true;
 			projectile.tileCollide = true;
+			projectile.hostile = false;
 		}
+		int sync;
+		public override void AI()
+		{
 
+		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (!target.boss && target.velocity != Vector2.Zero && target.knockBackResist != 0) {
-				target.velocity.Y = 6f;
+				Main.npc[target.whoAmI].velocity.Y = 6f;
+				sync = target.whoAmI;
 			}
 		}
 		public override void Kill(int timeLeft)
