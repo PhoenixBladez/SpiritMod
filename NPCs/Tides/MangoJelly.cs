@@ -39,7 +39,6 @@ namespace SpiritMod.NPCs.Tides
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.MangoWarBanner>();
 		}
-		bool shooting = false;
 		//npc.ai[0]: base timer
 		int xoffset = 0;
 		bool createdLaser = false;
@@ -89,9 +88,10 @@ namespace SpiritMod.NPCs.Tides
 				xoffset = -24;
 			}
 			if (npc.ai[0] == 400) {
-				shooting = true;
+				npc.ai[2] = 1;
 				createdLaser = false;
 				npc.frameCounter = 0;
+				npc.netUpdate = true;
 			}
 			if (npc.ai[0] == 550) {
 				bloom = false;
@@ -102,12 +102,14 @@ namespace SpiritMod.NPCs.Tides
 				Projectile.NewProjectile(npc.position + vel.RotatedBy(1.57) + new Vector2(xoffset, 6), Vector2.Zero, ModContent.ProjectileType<MangoLaser>(), npc.damage / 3, 0, npc.target);
 				Projectile.NewProjectile(npc.position + vel.RotatedBy(3.14) + new Vector2(xoffset, 6), Vector2.Zero, ModContent.ProjectileType<MangoLaser>(), npc.damage / 3, 0, npc.target);
 				Projectile.NewProjectile(npc.position + vel.RotatedBy(4.71) + new Vector2(xoffset, 6), Vector2.Zero, ModContent.ProjectileType<MangoLaser>(), npc.damage / 3, 0, npc.target);
+				npc.netUpdate = true;
 			}
 			if (npc.ai[0] >= 570) {
-				shooting = false;
+				npc.ai[2] = 0;
 				npc.ai[0] = 0;
+				npc.netUpdate = true;
 			}
-			if (shooting) {
+			if (npc.ai[2] == 1) { //shooting
 				float num395 = Main.mouseTextColor / 200f - 0.35f;
 				num395 *= 0.2f;
 				npc.scale = num395 + 0.95f;
@@ -121,20 +123,22 @@ namespace SpiritMod.NPCs.Tides
 				npc.knockBackResist = .9f;
 				#region regular movement
 				npc.velocity.X *= 0.99f;
-				if (!jump) {
+				if (npc.ai[1] == 0) { //not jumping
 					if (npc.velocity.Y < 2.5f) {
 						npc.velocity.Y += 0.1f;
 					}
 					if (player.position.Y < npc.position.Y && npc.ai[0] % 30 == 0) {
-						jump = true;
+						npc.ai[1] = 1;
 						npc.velocity.X = xoffset / 1.25f;
 						npc.velocity.Y = -6;
+						npc.netUpdate = true;
 					}
 				}
-				if (jump) {
+				if (npc.ai[1] == 1) { //jumping
 					npc.velocity *= 0.97f;
 					if (Math.Abs(npc.velocity.X) < 0.125f) {
-						jump = false;
+						npc.ai[1] = 0;
+						npc.netUpdate = true;
 					}
 					npc.rotation = npc.velocity.ToRotation() + 1.57f;
 				}
@@ -169,7 +173,7 @@ namespace SpiritMod.NPCs.Tides
 		public override void FindFrame(int frameHeight)
 		{
 			Player player = Main.player[npc.target];
-			if (!shooting) {
+			if (npc.ai[2] == 0) {
 				if (player.position.Y < npc.position.Y) {
 					npc.frameCounter += 0.10f;
 				}

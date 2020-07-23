@@ -56,13 +56,13 @@ namespace SpiritMod.NPCs
 		{
 			frameCounter += 0.15f;
 			frameCounter %= 3f;
-			if (chargetimer == chargeTime) {
+			if (npc.ai[2] == chargeTime) {
 				frameCounter = 0;
 			}
 			if (charging) {
 				npc.frameCounter = frameCounter + 6;
 			}
-			else if (chargetimer > chargeTime - 50) {
+			else if (npc.ai[2] > chargeTime - 50) {
 				npc.frameCounter = frameCounter + 3;
 			}
 			else {
@@ -110,7 +110,6 @@ namespace SpiritMod.NPCs
             }
         }
         private static int[] SpawnTiles = { };
-		int chargetimer = 0;
 		bool charging = false;
 		Vector2 targetLocation = Vector2.Zero;
 		float chargeRotation = 0;
@@ -191,22 +190,22 @@ namespace SpiritMod.NPCs
 				if ((double)velLimitX < 0.0) {
 					npc.rotation = (float)Math.Atan2((double)velLimitY, (double)velLimitX) + 3.14f;
 				}
-				if (chargetimer < chargeTime - 50) {
+				if (npc.ai[2] < chargeTime - 50) {
 					npc.rotation = 0;
 				}
-				else if (chargetimer > chargeTime - 40) {
+				else if (npc.ai[2] > chargeTime - 40) {
 					npc.rotation = chargeRotation;
 				}
-				if (chargetimer == chargeTime - 40) {
+				if (npc.ai[2] == chargeTime - 40) {
 					Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SamuraiUnsheathe"));
 				}
-				if (chargetimer > chargeTime - 50 && chargetimer < chargeTime - 40) {
+				if (npc.ai[2] > chargeTime - 50 && npc.ai[2] < chargeTime - 40) {
 					targetLocation = Main.player[npc.target].Center;
 					chargeRotation = npc.rotation;
 				}
 			}
-			chargetimer++;
-			if (chargetimer == chargeTime) {
+			npc.ai[2]++;
+			if (npc.ai[2] == chargeTime) {
 				Main.PlaySound(SoundID.DD2_WyvernDiveDown, npc.Center);
 				Vector2 direction = targetLocation - npc.Center;
 				direction.Normalize();
@@ -225,10 +224,12 @@ namespace SpiritMod.NPCs
 						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
 				}
 				charging = true;
+				npc.netUpdate = true;
 			}
-			if (chargetimer >= chargeTime + 20) {
-				chargetimer = 0;
+			if (npc.ai[2] >= chargeTime + 20) {
+				npc.ai[2] = 0;
 				charging = false;
+				npc.netUpdate = true;
 			}
 			if (!player.active || player.dead) //despawns when player is ded
 			{

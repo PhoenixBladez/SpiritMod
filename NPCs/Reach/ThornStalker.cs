@@ -68,12 +68,11 @@ namespace SpiritMod.NPCs.Reach
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						for (int i = 0; i < 2; i++) {
-							int knife = Terraria.Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-50, 50), npc.Center.Y - Main.rand.Next(60), 0, 0, ModContent.ProjectileType<ThornKnife>(), npc.damage / 4, 0);
-							Projectile p = Main.projectile[knife];
-							Vector2 direction = Main.player[npc.target].Center - p.Center;
+							Vector2 knifePos = new Vector2(npc.Center.X + Main.rand.Next(-50, 50), npc.Center.Y - Main.rand.Next(60));
+							Vector2 direction = Main.player[npc.target].Center - knifePos;
 							direction.Normalize();
 							direction *= Main.rand.NextFloat(7, 10);
-							p.velocity = direction;
+							int knife = Terraria.Projectile.NewProjectile(knifePos, direction, ModContent.ProjectileType<ThornKnife>(), npc.damage / 4, 0);
 						}
 					}
 					timer++;

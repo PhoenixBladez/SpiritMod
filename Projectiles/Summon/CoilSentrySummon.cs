@@ -43,7 +43,7 @@ namespace SpiritMod.Projectiles.Summon
 			projectile.velocity.Y = 5;
 			//CONFIG INFO
 			int range = 15;   //How many tiles away the projectile targets NPCs
-			float shootVelocity = 18f; //magnitude of the shoot vector (speed of arrows shot)
+			float shootVelocity = 20f; //magnitude of the shoot vector (speed of arrows shot)
 			int shootSpeed = 20;
 
 			//TARGET NEAREST NPC WITHIN RANGE

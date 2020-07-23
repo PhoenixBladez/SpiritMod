@@ -1113,6 +1113,7 @@ namespace SpiritMod
 
 		public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
 		{
+			int itemAce = 0;
 			foreach (var effect in effects)
 				effect.PlayerOnHitNPC(player, item, target, damage, knockback, crit);
 
@@ -1125,18 +1126,26 @@ namespace SpiritMod
 			if (AceOfHearts && target.life <= 0 && crit && !target.friendly && target.lifeMax > 5) {
 				NPC npc = target;
 				if (Main.halloween) {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 1734);
+					itemAce = Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 1734);
 				}
 				else {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 58);
+					itemAce = Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 58);
 				}
+				if (Main.netMode == NetmodeID.MultiplayerClient)
+					{
+						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, itemAce, 1f);
+					}
 				for (int i = 0; i < 3; i++) {
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<HeartDust>(), 0, -0.8f);
 				}
 			}
 			if (AceOfDiamonds && target.life <= 0 && crit && !target.friendly && target.lifeMax > 5) {
 				NPC npc = target;
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DiamondAce>());
+				itemAce = Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DiamondAce>());
+				if (Main.netMode == NetmodeID.MultiplayerClient)
+					{
+						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, itemAce, 1f);
+					}
 				for (int i = 0; i < 3; i++) {
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<DiamondDust>(), 0, -0.8f);
 				}
@@ -1148,12 +1157,28 @@ namespace SpiritMod
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<ClubDust>(), 0, -0.8f);
 				}
 				while (money >= 100) {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 72); //silver coins
+					itemAce = Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 72); //silver coins
 					money -= 100;
+					if (Main.netMode == NetmodeID.MultiplayerClient)
+					{
+						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, itemAce, 1f);
+					}
 				}
 				while (money >= 10) {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 71, 10); //copper coins
+					itemAce = Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 71, 10); //copper coins
 					money -= 10;
+					if (Main.netMode == NetmodeID.MultiplayerClient)
+					{
+						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, itemAce, 1f);
+					}
+				}
+				while (money >= 0) {
+					itemAce = Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 71); //copper coin
+					money--;
+					if (Main.netMode == NetmodeID.MultiplayerClient)
+					{
+						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, itemAce, 1f);
+					}
 				}
 			}
 			if (astralSet) {
@@ -4557,8 +4582,7 @@ namespace SpiritMod
 				{
 					player.AddBuff(ModContent.BuffType<DeathRoseCooldown>(), 1200);
 					Vector2 mouse = Main.MouseScreen + Main.screenPosition;
-					Projectile.NewProjectile(mouse - new Vector2(25, 0), Vector2.Zero, ModContent.ProjectileType<BrambleTrap>(), 30, 0, Main.myPlayer, mouse.X, mouse.Y);
-					Projectile.NewProjectile(mouse + new Vector2(25, 0), Vector2.Zero, ModContent.ProjectileType<BrambleTrap>(), 30, 0, Main.myPlayer, mouse.X, mouse.Y);
+					Projectile.NewProjectile(mouse, Vector2.Zero, ModContent.ProjectileType<BrambleTrap>(), 30, 0, Main.myPlayer, mouse.X, mouse.Y);
 				}
 
 				if (assassinMag && player.HeldItem.useAmmo > AmmoID.None) {

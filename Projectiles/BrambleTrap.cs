@@ -33,6 +33,13 @@ namespace SpiritMod.Projectiles
 		bool stuck = false;
 		public override bool PreAI()
 		{
+			if (projectile.timeLeft == 1 && !stuck)
+			{
+				projectile.position += projectile.velocity * 8;
+				projectile.velocity = Vector2.Zero;
+				stuck = true;
+				projectile.timeLeft = 580;
+			}
 			if (!activated && projectile.timeLeft > 60)
 			{
 				activated = true;
@@ -83,7 +90,9 @@ namespace SpiritMod.Projectiles
 		{
 			if (activated)
 			{
-				ProjectileExtras.DrawChain(projectile.whoAmI, groundpos,
+				ProjectileExtras.DrawChain(projectile.whoAmI, groundpos - new Vector2(30, 0),
+				"SpiritMod/Projectiles/BrambleTrap_Chain");
+				ProjectileExtras.DrawChain(projectile.whoAmI, groundpos + new Vector2(30, 0),
 				"SpiritMod/Projectiles/BrambleTrap_Chain");
 			}
 			return false;

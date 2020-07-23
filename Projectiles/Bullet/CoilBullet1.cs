@@ -23,7 +23,6 @@ namespace SpiritMod.Projectiles.Bullet
 			projectile.height = 7;
 			projectile.width = 7;
 			projectile.alpha = 255;
-			projectile.extraUpdates = 1;
 		}
 		private int Mode {
 			get => (int)projectile.ai[0];
@@ -65,7 +64,7 @@ namespace SpiritMod.Projectiles.Bullet
 		{
 			float distance = Vector2.Distance(from, to);
 			float step = 1 / distance;
-			for (float w = 0; w < distance; w += 4) {
+			for (float w = 0; w < distance; w += 2) {
 				int d = Dust.NewDust(Vector2.Lerp(from, to, w * step), projectile.width, projectile.height, 226, 0f, 0f, 0, default, .3f * projectile.penetrate);
 				Main.dust[d].noGravity = true;
 				Main.dust[d].velocity = Vector2.Zero;

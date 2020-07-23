@@ -55,7 +55,7 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.UseSound = SoundID.Item11;
 			item.autoReuse = false;
 			item.shoot = ModContent.ProjectileType<CoilBullet1>();
-			item.shootSpeed = 16f;
+			item.shootSpeed = 25f;
 			item.useAmmo = AmmoID.Bullet;
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
