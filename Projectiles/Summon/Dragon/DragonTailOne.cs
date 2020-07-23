@@ -21,7 +21,7 @@ namespace SpiritMod.Projectiles.Summon.Dragon
 			projectile.tileCollide = false;
 			projectile.hostile = false;
 			projectile.friendly = true;
-			projectile.timeLeft = 225;
+			projectile.timeLeft = 95;
 			projectile.damage = 13;
 			// projectile.extraUpdates = 1;
 			projectile.width = projectile.height = 32;
