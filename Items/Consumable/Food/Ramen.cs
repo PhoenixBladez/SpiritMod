@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Consumable.Fish
+namespace SpiritMod.Items.Consumable.Food
 {
 	public class Ramen : ModItem
 	{

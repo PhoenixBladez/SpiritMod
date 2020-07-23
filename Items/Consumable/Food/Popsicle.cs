@@ -6,7 +6,7 @@ using SpiritMod.Buffs;
 
 namespace SpiritMod.Items.Consumable.Food
 {
-	public class CrystalFish : ModItem
+	public class Popsicle : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Consumable.Food
 		}
 		public override bool CanUseItem(Player player)
 		{
-			player.AddBuff(ModContent.BuffType<IceBerryBuff>, 7200);
+			player.AddBuff(ModContent.BuffType<IceBerryBuff>(), 7200);
 			return true;
 		}
 	}
