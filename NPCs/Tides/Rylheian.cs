@@ -79,7 +79,7 @@ namespace SpiritMod.NPCs.Tides
 						npc.position.X = player.Center.X + (int)(distance * anglex);
 						npc.position.Y = player.Center.Y + (int)(distance * angley);
 					}
-					if (Main.tile[(int)(npc.position.X / 16), (int)(npc.position.Y / 16)].active()) {
+					if (Main.tile[(int)(npc.position.X / 16), (int)(npc.position.Y / 16)].active() || Main.tile[(int)(npc.Center.X / 16), (int)(npc.Center.Y / 16)].active()) {
 							npc.alpha = 255;
 						}
 						else {
