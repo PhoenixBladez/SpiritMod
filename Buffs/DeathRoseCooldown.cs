@@ -8,7 +8,7 @@ namespace SpiritMod.Buffs
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Death Rose Cooldown");
-			Description.SetDefault("You can only cheat death for so long");
+			Description.SetDefault("The bramble needs time to regrow...");
 			Main.buffNoTimeDisplay[Type] = false;
 			Main.debuff[Type] = true;
 			Main.pvpBuff[Type] = true;

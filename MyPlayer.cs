@@ -4553,6 +4553,14 @@ namespace SpiritMod
 		{
 			if (keyDir == (Main.ReversedUpDownArmorSetBonuses ? 0 : 1)) {
 				//Double tap up
+				if (deathRose && !player.HasBuff(ModContent.BuffType<DeathRoseCooldown>()))
+				{
+					player.AddBuff(ModContent.BuffType<DeathRoseCooldown>(), 1200);
+					Vector2 mouse = Main.MouseScreen + Main.screenPosition;
+					Projectile.NewProjectile(mouse - new Vector2(25, 0), Vector2.Zero, ModContent.ProjectileType<BrambleTrap>(), 30, 0, Main.myPlayer, mouse.X, mouse.Y);
+					Projectile.NewProjectile(mouse + new Vector2(25, 0), Vector2.Zero, ModContent.ProjectileType<BrambleTrap>(), 30, 0, Main.myPlayer, mouse.X, mouse.Y);
+				}
+
 				if (assassinMag && player.HeldItem.useAmmo > AmmoID.None) {
 					var ammoItems = new List<Item>();
 					var ammoPos = new List<int>();
