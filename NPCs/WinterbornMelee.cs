@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs;
 using SpiritMod.Items.Material;
+using SpiritMod.Items.Consumable.Food;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -118,6 +119,10 @@ namespace SpiritMod.NPCs
 				MyWorld.numWinterbornKilled++;
 			}
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CryoliteOre>(), 2 + Main.rand.Next(2, 4));
+			if (Main.rand.NextBool(16))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Popsicle>());
+            }
 		}
 	}
 }

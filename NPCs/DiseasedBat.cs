@@ -1,5 +1,6 @@
 using SpiritMod.Buffs;
 using SpiritMod.Items.Material;
+using SpiritMod.Items.Consumable.Food;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -67,7 +68,11 @@ namespace SpiritMod.NPCs
 			if (Main.rand.Next(100) == 0) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.ChainKnife);
 			}
-		}
+            if (Main.rand.NextBool(16))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Cake>());
+            }
+        }
 
 	}
 }

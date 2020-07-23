@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Buffs;
 using SpiritMod.Items.Material;
+using SpiritMod.Items.Consumable.Food;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -53,7 +54,11 @@ namespace SpiritMod.NPCs
 			if (Main.rand.Next(10000) == 0) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SlimeStaff);
 			}
-		}
+            if (Main.rand.NextBool(16))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Cake>());
+            }
+        }
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{

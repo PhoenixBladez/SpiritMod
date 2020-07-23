@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Consumable.Food;
 
 namespace SpiritMod.NPCs.Ocean
 {
@@ -86,7 +87,11 @@ namespace SpiritMod.NPCs.Ocean
 					npc.DropItem(mod.ItemType(lootTable[loot]));
 				}
 			}
-		}
+            if (Main.rand.NextBool(16))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Sushi>());
+            }
+        }
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frame.Y = frameHeight * frame;

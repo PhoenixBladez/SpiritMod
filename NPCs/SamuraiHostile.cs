@@ -3,6 +3,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Consumable.Food;
 
 namespace SpiritMod.NPCs
 {
@@ -97,8 +98,18 @@ namespace SpiritMod.NPCs
 				}
 			}
 		}
-
-		private static int[] SpawnTiles = { };
+        public override void NPCLoot()
+        {
+            if (Main.rand.NextBool(16))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Ramen>());
+            }
+            if (Main.rand.NextBool(16))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Sushi>());
+            }
+        }
+        private static int[] SpawnTiles = { };
 		int chargetimer = 0;
 		bool charging = false;
 		Vector2 targetLocation = Vector2.Zero;

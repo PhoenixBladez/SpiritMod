@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using SpiritMod.Items.Consumable.Food;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -81,8 +82,18 @@ namespace SpiritMod.NPCs
 				}
 			}
 		}
-
-		public override void AI()
+        public override void NPCLoot()
+        {
+            if (Main.rand.NextBool(16))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Ramen>());
+            }
+            if (Main.rand.NextBool(16))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Sushi>());
+            }
+        }
+        public override void AI()
 		{
 			Player player = Main.player[npc.target];
 			npc.alpha += 1;
