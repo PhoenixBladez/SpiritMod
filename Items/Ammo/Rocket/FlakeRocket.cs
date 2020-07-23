@@ -31,11 +31,12 @@ namespace SpiritMod.Items.Ammo.Rocket
 		}
 
 		public override void AddRecipes()
-		{
-			var recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<CryoliteBar>(), 1);
-			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 100);
-		}
-	}
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<CryoliteBar>(), 1);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this, 100);
+            recipe.AddRecipe();
+        }
+    }
 }
