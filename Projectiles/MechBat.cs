@@ -40,7 +40,9 @@ namespace SpiritMod.Projectiles
 				Main.dust[dust].scale = 2f;
 				Main.dust[dust].noGravity = true;
 			}
-		}
+            Gore.NewGore(projectile.position, projectile.velocity, mod.GetGoreSlot("Gores/Mech7"), 1f);
+            Gore.NewGore(projectile.position, projectile.velocity, mod.GetGoreSlot("Gores/Mech8"), 1f);
+        }
 		public override bool PreAI()
 		{
 			var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));

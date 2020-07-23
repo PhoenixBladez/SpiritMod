@@ -18,10 +18,10 @@ namespace SpiritMod.Items.Weapon.Flail
 		{
 			item.width = 30;
 			item.height = 10;
-			item.value = Item.sellPrice(0, 1, 43, 0);
+			item.value = Item.sellPrice(0, 0, 60, 0);
 			item.rare = ItemRarityID.Green;
-			item.damage = 19;
-			item.knockBack = 8;
+			item.damage = 17;
+			item.knockBack = 6;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useTime = item.useAnimation = 35;
 			item.scale = 1.1F;
@@ -32,14 +32,6 @@ namespace SpiritMod.Items.Weapon.Flail
 			item.shoot = ModContent.ProjectileType<ClatterMaceProj>();
 			item.shootSpeed = 12.5F;
 			item.UseSound = SoundID.Item1;
-		}
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<Carapace>(), 14);
-			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
 		}
 	}
 }

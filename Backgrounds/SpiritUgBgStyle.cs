@@ -13,8 +13,8 @@ namespace SpiritMod.Backgrounds
 			textureSlots[1] = mod.GetBackgroundSlot("Backgrounds/SpiritBiomeUG1");
 			textureSlots[2] = mod.GetBackgroundSlot("Backgrounds/SpiritBiomeUG2");
 			textureSlots[3] = mod.GetBackgroundSlot("Backgrounds/SpiritBiomeUG3");
-			textureSlots[4] = mod.GetBackgroundSlot("Backgrounds/SpiritBiomeUG5");
-			textureSlots[5] = mod.GetBackgroundSlot("Backgrounds/SpiritBiomeUG4");
+			textureSlots[4] = mod.GetBackgroundSlot("Backgrounds/SpiritBiomeUG4");
+			textureSlots[5] = mod.GetBackgroundSlot("Backgrounds/SpiritBiomeUG5");
 		}
 	}
 }

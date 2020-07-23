@@ -115,7 +115,7 @@ namespace SpiritMod.Items.Equipment
 		// Amethyst Hook is 300, Static Hook is 600
 		public override float GrappleRange()
 		{
-			return 300f;
+			return 250f;
 		}
 
 		public override void NumGrappleHooks(Player player, ref int numHooks)
@@ -126,13 +126,13 @@ namespace SpiritMod.Items.Equipment
 		// default is 11, Lunar is 24
 		public override void GrappleRetreatSpeed(Player player, ref float speed)
 		{
-			speed = 12f;
+			speed = 14f;
 		}
 
 		public override void GrapplePullSpeed(Player player, ref float speed)
 		{
 			player.AddBuff(BuffID.Featherfall, 120);
-			speed = 10;
+			speed = 13;
 		}
 
 		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -165,26 +165,6 @@ namespace SpiritMod.Items.Equipment
 					color = projectile.GetAlpha(color);
 					Main.spriteBatch.Draw(texture, vector - Main.screenPosition, sourceRectangle, color, rotation, origin, 1f, SpriteEffects.None, 0f);
 				}
-			}
-		}
-		public override void AI()
-		{
-			int num = 5;
-			for (int k = 0; k < 1; k++) {
-				var dust = Dust.NewDustDirect(new Vector2(projectile.Center.X + 15, projectile.Center.Y), 1, 1, 180, 0.0f, 0.0f, 0, new Color(), 1f);
-				dust.position = projectile.Center - projectile.velocity / num * k;
-				dust.scale = .5f;
-				dust.velocity *= 0f;
-				dust.noGravity = true;
-				dust.noLight = false;
-			}
-			for (int j = 0; j < 1; j++) {
-				var dust = Dust.NewDustDirect(new Vector2(projectile.Center.X - 15, projectile.Center.Y), 1, 1, 130, 0.0f, 0.0f, 0, new Color(), 1f);
-				dust.position = projectile.Center - projectile.velocity / num * j;
-				dust.scale = .5f;
-				dust.velocity *= 0f;
-				dust.noGravity = true;
-				dust.noLight = false;
 			}
 		}
 	}

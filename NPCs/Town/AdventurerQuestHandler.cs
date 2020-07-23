@@ -513,7 +513,7 @@ namespace SpiritMod.NPCs.Town
 					int loot3 = Main.rand.Next(lootTable1.Length);
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<WheezerPainting>());
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
-					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<Carapace>(), Main.rand.Next(4, 10));
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ClatterSpear>(), Main.rand.Next(4, 10));
 					Main.LocalPlayer.QuickSpawnItem(lootTable1[loot3], Main.rand.Next(18, 30));
 					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
 				});

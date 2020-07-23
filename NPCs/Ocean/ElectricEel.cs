@@ -54,7 +54,8 @@ namespace SpiritMod.NPCs.Ocean
 			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Eel_Gore"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Eel_Gore_2"), 1f);
-			}
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Eel_Gore_1"), 1f);
+            }
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{

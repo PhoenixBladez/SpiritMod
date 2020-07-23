@@ -237,7 +237,14 @@ namespace SpiritMod
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/GraniteBiome");
 				priority = MusicPriority.BiomeMedium;
 			}
-		}
+            if (config.MarbleMusic
+                && spirit.ZoneMarble
+                && !player.ZoneOverworldHeight)
+            {
+                music = GetSoundSlot(SoundType.Music, "Sounds/Music/MarbleBiome");
+                priority = MusicPriority.BiomeMedium;
+            }
+        }
 
 
 		public override object Call(params object[] args)

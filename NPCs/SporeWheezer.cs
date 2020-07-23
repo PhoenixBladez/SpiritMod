@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Material;
+using SpiritMod.Items.Weapon.Flail;
 using SpiritMod.Projectiles.Hostile;
 using System;
 using Terraria;
@@ -38,7 +39,7 @@ namespace SpiritMod.NPCs
 			int x = spawnInfo.spawnTileX;
 			int y = spawnInfo.spawnTileY;
 			int tile = (int)Main.tile[x, y].type;
-			return (tile == TileID.MushroomGrass) && NPC.downedBoss1 && spawnInfo.spawnTileY > Main.rockLayer ? 3f : 0f;
+			return (tile == TileID.MushroomGrass) && spawnInfo.spawnTileY > Main.rockLayer ? 3f : 0f;
 
 		}
 		public override void HitEffect(int hitDirection, double damage)
@@ -58,11 +59,11 @@ namespace SpiritMod.NPCs
 
 		public override void NPCLoot()
 		{
-			int lootcount = Main.rand.Next(1, 3);
-			for (int J = 0; J <= lootcount; J++) {
+            /*int Techs = Main.rand.Next(1, 4);
+			for (int J = 0; J <= Techs; J++) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Carapace>());
-			}
-			int lootcount1 = Main.rand.Next(3, 6);
+			}*/
+            int lootcount1 = Main.rand.Next(3, 6);
 			for (int J = 0; J <= lootcount1; J++) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GlowingMushroom);
 			}
@@ -70,14 +71,26 @@ namespace SpiritMod.NPCs
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<WheezerScale>());
 			if (Main.rand.Next(10000) == 125) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DepthMeter);
-			}
-			if (Main.rand.Next(10000) == 125) {
+            }
+            if (Main.rand.NextBool(60))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ClatterMace>());
+            }
+            if (Main.rand.Next(10000) == 125) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Compass);
 			}
 			if (Main.rand.Next(1000) == 39) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Rally);
-			}
-		}
+            }
+            string[] lootTable = { "ClatterboneBreastplate", "ClatterboneFaceplate", "ClatterboenLeggings" };
+            if (Main.rand.Next(55) == 0)
+            {
+                int loot = Main.rand.Next(lootTable.Length);
+                {
+                    npc.DropItem(mod.ItemType(lootTable[loot]));
+                }
+            }
+        }
 
 		int frame = 0;
 		int timer = 0;

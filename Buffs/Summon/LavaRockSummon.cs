@@ -7,8 +7,8 @@ namespace SpiritMod.Buffs.Summon
 	{
 		public override void SetDefaults()
 		{
-			DisplayName.SetDefault("Magmarock");
-			Description.SetDefault("The power of magma flows through you");
+			DisplayName.SetDefault("Slagtern");
+			Description.SetDefault("The power of magma flows through this lantern");
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.buffNoSave[Type] = true;
 		}

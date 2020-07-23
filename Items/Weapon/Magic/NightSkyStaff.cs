@@ -54,7 +54,6 @@ namespace SpiritMod.Items.Weapon.Magic
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<BreathOfTheZephyr>(), 1);
-			recipe.AddIngredient(ModContent.ItemType<ClapdateStaff>(), 1);
 			recipe.AddIngredient(ModContent.ItemType<HowlingScepter>(), 1);
 			recipe.AddIngredient(ModContent.ItemType<GraniteWand>(), 1);
 			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 8);

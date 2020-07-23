@@ -32,7 +32,9 @@ namespace SpiritMod.NPCs.Tides
 			npc.noTileCollide = false;
 			npc.HitSound = SoundID.NPCHit2;
 			npc.DeathSound = SoundID.NPCDeath1;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.KakamoraBanner>();
+        }
 
 		// localai0 : 0 when spawned, 1 when otherNPC spawned. 
 		// ai0 = npc number of other NPC

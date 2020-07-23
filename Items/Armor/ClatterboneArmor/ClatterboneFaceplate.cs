@@ -33,15 +33,5 @@ namespace SpiritMod.Items.Armor.ClatterboneArmor
 			player.setBonus = "Taking fatal damage will instead return you to the amount of health you had before death\n6 minute cooldown";
 			player.GetSpiritPlayer().clatterboneSet = true;
 		}
-
-
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<Carapace>(), 7);
-			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
 	}
 }

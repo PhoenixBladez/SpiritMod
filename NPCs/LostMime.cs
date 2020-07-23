@@ -25,7 +25,7 @@ namespace SpiritMod.NPCs
 			npc.value = 80f;
 			npc.knockBackResist = .25f;
 			npc.aiStyle = 3;
-			aiType = NPCID.AngryBones;
+			aiType = NPCID.SnowFlinx;
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.LostMimeBanner>();
 		}

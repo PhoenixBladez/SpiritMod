@@ -70,28 +70,35 @@ namespace SpiritMod.NPCs.BlueMoon
 
 			Player player = Main.player[npc.target];
 
-			if (npc.Center.X >= player.Center.X && moveSpeed >= Main.rand.Next(-60, -40)) // flies to players x position
-				moveSpeed--;
-
-			if (npc.Center.X <= player.Center.X && moveSpeed <= Main.rand.Next(40, 60))
-				moveSpeed++;
-
+            if (npc.Center.X >= player.Center.X && moveSpeed >= Main.rand.Next(-60, -40)) // flies to players x position
+            {
+                npc.netUpdate = true;
+                moveSpeed--;
+            }
+            if (npc.Center.X <= player.Center.X && moveSpeed <= Main.rand.Next(40, 60))
+            {
+                npc.netUpdate = true;
+                moveSpeed++;
+            }
 			npc.velocity.X = moveSpeed * 0.13f;
 
 			if (npc.Center.Y >= player.Center.Y - HomeY && moveSpeedY >= Main.rand.Next(-40, -30)) //Flies to players Y position
 			{
 				moveSpeedY--;
 				HomeY = Main.rand.NextFloat(160f, 180f);
-			}
+                npc.netUpdate = true;
+            }
 
-			if (npc.Center.Y <= player.Center.Y - HomeY && moveSpeedY <= Main.rand.Next(30, 40))
-				moveSpeedY++;
-
+            if (npc.Center.Y <= player.Center.Y - HomeY && moveSpeedY <= Main.rand.Next(30, 40))
+            {
+                npc.netUpdate = true;
+                moveSpeedY++;
+            }
 			npc.velocity.Y = moveSpeedY * 0.1f;
 			++npc.ai[1];
-			if (npc.ai[1] >= 10) {
+			if (npc.ai[1] >= 10 && Main.netMode != NetmodeID.MultiplayerClient) {
 				int proj = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, ModContent.ProjectileType<GlitterDust>(), 0, 0, Main.myPlayer, 0, 0);
-				npc.ai[1] = 0;
+                npc.ai[1] = 0;
 			}
 			Vector2 center = npc.Center;
 			float num8 = (float)player.miscCounter / 40f;
@@ -109,8 +116,8 @@ namespace SpiritMod.NPCs.BlueMoon
 			if (distance < 540) {
 				++npc.ai[0];
 				if (npc.ai[0] == 140 || npc.ai[0] == 280 || npc.ai[0] == 320) {
-					if (Main.netMode != NetmodeID.MultiplayerClient) {
-						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 43);
+                    Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 43);
+                    if (Main.netMode != NetmodeID.MultiplayerClient) {
 						Vector2 dir = Main.player[npc.target].Center - npc.Center;
 						dir.Normalize();
 						dir.X *= 9f;
@@ -122,15 +129,18 @@ namespace SpiritMod.NPCs.BlueMoon
 					}
 				}
 				if (npc.ai[0] >= 450) {
-					HomeY -= 100f;
+                    npc.netUpdate = true;
+                    HomeY -= 100f;
 				}
 				if (npc.ai[0] >= 456) {
-					HomeY = 160f;
+                    npc.netUpdate = true;
+                    HomeY = 160f;
 					npc.ai[0] = 0;
 				}
 			}
 			else {
-				npc.ai[0] = 0;
+                npc.netUpdate = true;
+                npc.ai[0] = 0;
 			}
 			return true;
 		}

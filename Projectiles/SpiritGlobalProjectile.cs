@@ -26,7 +26,6 @@ namespace SpiritMod.Projectiles
 		public bool shotFromBloodshot = false;
 		public bool shotFromCookieCutter = false;
 		public bool shotFromGaruda = false;
-		public bool shotFromClatterBow = false;
 		public bool shotFromBismiteBow = false;
 		public bool shotFromThornBow = false;
 		public bool shotFromNightSky = false;
@@ -209,21 +208,6 @@ namespace SpiritMod.Projectiles
 				Main.dust[dust2].scale = 1.2f;
 				return false;
 			}
-			else if (shotFromClatterBow == true) {
-				projectile.magic = false;
-				projectile.ranged = true;
-
-				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				int num = 5;
-				for (int k = 0; k < 3; k++) {
-					int index2 = Dust.NewDust(projectile.position, 1, 1, 147, 0.0f, 0.0f, 0, new Color(), 1f);
-					Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
-					Main.dust[index2].scale = .5f;
-					Main.dust[index2].velocity *= 0f;
-					Main.dust[index2].noGravity = true;
-					Main.dust[index2].noLight = false;
-				}
-			}
 			else if (shotFromMarbleBow == true) {
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height - 10, DustID.GoldCoin, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
@@ -341,9 +325,6 @@ namespace SpiritMod.Projectiles
 			}
 			else if (shotFromBloodshot == true) {
 				target.AddBuff(ModContent.BuffType<BCorrupt>(), 120);
-			}
-			else if (shotFromClatterBow == true && Main.rand.Next(6) == 0) {
-				target.AddBuff(ModContent.BuffType<ClatterPierce>(), 120);
 			}
 			else if (shotFromCookieCutter == true) {
 				player.AddBuff(ModContent.BuffType<CrimsonRegen>(), 179);

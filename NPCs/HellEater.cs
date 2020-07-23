@@ -62,9 +62,8 @@ namespace SpiritMod.NPCs
 				Main.PlaySound(SoundID.Item, npc.Center, 14);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EaterGore1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EaterGore2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EaterGore2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EaterGore2"), 1f);
-			}
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EaterGore3"), 1f);
+            }
 		}
 		int dashtimer;
 		public override void AI()

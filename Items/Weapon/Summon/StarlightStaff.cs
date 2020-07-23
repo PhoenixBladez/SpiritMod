@@ -42,5 +42,14 @@ namespace SpiritMod.Items.Weapon.Summon
 			position = value18;
 			return true;
 		}
-	}
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.FragmentStardust, 12);
+            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.SetResult(this, 1);
+            recipe.AddRecipe();
+        }
+    }
 }

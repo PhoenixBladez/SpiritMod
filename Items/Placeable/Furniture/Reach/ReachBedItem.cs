@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Placeable.Furniture.Reach
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<AncientBark>(), 15);
 			recipe.AddIngredient(ItemID.Silk, 5);
-			recipe.AddTile(TileID.WorkBenches);
+			recipe.AddTile(TileID.Sawmill);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 

@@ -38,7 +38,7 @@ namespace SpiritMod.Items.BossBags
 
 		public override void RightClick(Player player)
 		{
-			player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(1, 3));
+			player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(4, 8));
 			player.QuickSpawnItem(ModContent.ItemType<DeathRose>());
 
 			int[] lootTable = {

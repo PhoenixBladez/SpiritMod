@@ -41,7 +41,7 @@ namespace SpiritMod.Items.BossBags
         public override void RightClick(Player player)
         {
             player.QuickSpawnItem(ModContent.ItemType<AvianHook>());
-            player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(1, 3));
+            player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(5, 9));
 
             int[] lootTable = {
                 ModContent.ItemType<TalonBlade>(),

@@ -1063,9 +1063,6 @@ namespace SpiritMod.NPCs
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HeartofMoon>());
 				}
 			}
-			if (npc.type == NPCID.StardustSpiderBig && Main.rand.Next(40) == 1) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<StarlightStaff>());
-			}
 			if (npc.type == NPCID.MartianOfficer && Main.rand.Next(23) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SaucerBeacon>());
 			}
@@ -1119,12 +1116,6 @@ namespace SpiritMod.NPCs
 			if ((npc.type == NPCID.ZombieEskimo || npc.type == NPCID.IceBat) && Main.rand.Next(100) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ThrallGate>());
 			}
-			if (npc.type == NPCID.VortexRifleman && Main.rand.Next(40) == 1) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<StormPhaser>());
-			}
-			if (npc.type == NPCID.VortexHornetQueen && Main.rand.Next(40) == 1) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DistortionSting>());
-			}
 			if (closest.GetSpiritPlayer().vitaStone) {
 				if (!npc.friendly && npc.lifeMax > 5 && Main.rand.Next(10) == 1 && closest.statLife < closest.statLifeMax) {
 					if (Main.halloween) {
@@ -1134,9 +1125,6 @@ namespace SpiritMod.NPCs
 						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 58);
 					}
 				}
-			}
-			if (npc.type == NPCID.VortexRifleman && Main.rand.Next(40) == 1) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<StormPhaser>());
 			}
 
 			#region Iriazul
@@ -1225,9 +1213,6 @@ namespace SpiritMod.NPCs
 				}
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, item);
 			}
-			if (npc.type == NPCID.SolarSroller && Main.rand.Next(40) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Srollerang>());
-
 			if (npc.type == NPCID.IchorSticker && Main.rand.Next(50) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<IchorPendant>());
 

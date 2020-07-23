@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Material;
 using SpiritMod.Items.Weapon.Summon;
+using SpiritMod.Items.Accessory.Leather;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -23,9 +24,9 @@ namespace SpiritMod.NPCs
 		{
 			npc.width = 46;
 			npc.height = 28;
-			npc.damage = 22;
+			npc.damage = 17;
 			npc.defense = 9;
-			npc.lifeMax = 55;
+			npc.lifeMax = 45;
 			npc.HitSound = SoundID.NPCHit2;
 			npc.DeathSound = SoundID.NPCDeath16;
 			npc.value = 160f;
@@ -35,7 +36,7 @@ namespace SpiritMod.NPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.playerSafe || !NPC.downedBoss1) {
+			if (spawnInfo.playerSafe) {
 				return 0f;
 			}
 			return SpawnCondition.Cavern.Chance * 0.15f;
@@ -48,8 +49,12 @@ namespace SpiritMod.NPCs
 			if (Main.rand.Next(100) == 4) {
 
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, (ModContent.ItemType<CrawlerockStaff>()));
-			}
-			if (Main.rand.Next(10000) == 125) {
+            }
+            if (Main.rand.NextBool(60))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ClatterboneShield>());
+            }
+            if (Main.rand.Next(10000) == 125) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DepthMeter);
 			}
 			if (Main.rand.Next(10000) == 125) {
@@ -58,9 +63,20 @@ namespace SpiritMod.NPCs
 			if (Main.rand.Next(1000) == 39) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Rally);
 			}
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, (ModContent.ItemType<Carapace>()), Main.rand.Next(2) + 1);
-		}
-		int frame = 0;
+            string[] lootTable = { "ClatterboneBreastplate", "ClatterboneFaceplate", "ClatterboenLeggings" };
+            if (Main.rand.Next(55) == 0)
+            {
+                int loot = Main.rand.Next(lootTable.Length);
+                {
+                    npc.DropItem(mod.ItemType(lootTable[loot]));
+                }
+            }
+            /*int Techs = Main.rand.Next(1, 4);
+			for (int J = 0; J <= Techs; J++) {
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Carapace>());
+			}*/
+        }
+        int frame = 0;
 		int timer = 0;
 		bool trailbehind;
 		bool playsound;

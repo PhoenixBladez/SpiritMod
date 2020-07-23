@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Material;
+using SpiritMod.Items.Weapon.Flail;
 using SpiritMod.Projectiles.Hostile;
 using System;
 using Terraria;
@@ -23,7 +24,7 @@ namespace SpiritMod.NPCs
 			npc.height = 36;
 			npc.damage = 18;
 			npc.defense = 9;
-			npc.lifeMax = 60;
+			npc.lifeMax = 50;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath53;
 			npc.value = 960f;
@@ -59,14 +60,18 @@ namespace SpiritMod.NPCs
 			if (Main.LocalPlayer.GetSpiritPlayer().emptyWheezerScroll) {
 				MyWorld.numWheezersKilled++;
 			}
-			int Techs = Main.rand.Next(1, 4);
+			/*int Techs = Main.rand.Next(1, 4);
 			for (int J = 0; J <= Techs; J++) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Carapace>());
-			}
+			}*/
 			if (Main.rand.Next(15) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<WheezerScale>());
 			}
-			if (Main.rand.Next(10000) == 125) {
+            if (Main.rand.NextBool(60))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ClatterMace>());
+            }
+            if (Main.rand.Next(10000) == 125) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DepthMeter);
 			}
 			if (Main.rand.Next(10000) == 125) {
@@ -77,7 +82,16 @@ namespace SpiritMod.NPCs
 			}
 			if (Main.rand.NextBool(100))
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Bezoar);
-		}
+
+            string[] lootTable = { "ClatterboneBreastplate", "ClatterboneFaceplate", "ClatterboenLeggings" };
+            if (Main.rand.Next(55) == 0)
+            {
+                int loot = Main.rand.Next(lootTable.Length);
+                {
+                    npc.DropItem(mod.ItemType(lootTable[loot]));
+                }
+            }
+        }
 
 		int frame = 0;
 		int timer = 0;
