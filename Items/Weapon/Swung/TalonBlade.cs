@@ -19,12 +19,12 @@ namespace SpiritMod.Items.Weapon.Swung
 		int charger;
 		public override void SetDefaults()
 		{
-			item.damage = 25;
+			item.damage = 19;
 			item.melee = true;
 			item.width = 34;
 			item.height = 40;
-			item.useTime = 22;
-			item.useAnimation = 22;
+			item.useTime = 24;
+			item.useAnimation = 24;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 5;
 			item.value = Item.sellPrice(0, 1, 0, 0);
