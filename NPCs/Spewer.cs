@@ -170,17 +170,26 @@ namespace SpiritMod.NPCs
 			npc.spriteDirection = -npc.direction;
 
 		}
-		public override void HitEffect(int hitDirection, double damage)
-		{
-			for(int k = 0; k < 23; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection * 1.5f, -1f, 0, default(Color), .91f);
-			}
-			if(npc.life <= 0) {
-				Main.PlaySound(SoundID.NPCKilled, npc.Center, 30);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Spewer/Spewer1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Spewer/Spewer2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Spewer/Spewer3"), 1f);
-			}
-		}
-	}
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            for (int k = 0; k < 23; k++)
+            {
+                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection * 1.5f, -1f, 0, default(Color), .91f);
+            }
+            if (npc.life <= 0)
+            {
+                Main.PlaySound(SoundID.NPCKilled, npc.Center, 30);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Spewer/Spewer1"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Spewer/Spewer2"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Spewer/Spewer3"), 1f);
+            }
+        }
+        public override void NPCLoot()
+        {
+            if (Main.rand.Next(3) == 0)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Vertebrae);
+            }
+        }
+    }
 }
