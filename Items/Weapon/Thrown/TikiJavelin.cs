@@ -34,6 +34,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 			item.shoot = ModContent.ProjectileType<TikiJavelinProj>();
 			item.shootSpeed = 0f;
 		}
+
 		/*   public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
            {
                Lighting.AddLight(item.position, 0.08f, .28f, .38f);
