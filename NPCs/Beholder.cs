@@ -116,10 +116,15 @@ namespace SpiritMod.NPCs
 			if (frame >= 7) {
 				frame = 0;
 			}
-			if (dashTimer == 770) {
+			if (dashTimer == 770 && Main.netMode != NetmodeID.MultiplayerClient) {
 				Main.PlaySound(SoundID.DD2_WitherBeastAuraPulse, npc.Center);
 				npc.position.X = player.position.X + Main.rand.NextFloat(-200f, 200f);
 				npc.position.Y = player.position.Y + Main.rand.NextFloat(-100f, -200f);
+				
+				npc.netUpdate = true;
+			}
+			if (dashTimer == 771)
+			{
 				for (int i = 0; i < 30; i++) {
 					Vector2 vector23 = Vector2.UnitY.RotatedByRandom(6.28318548202515) * new Vector2(100f, 20f) * npc.scale * 1.85f / 2f;
 					int index1 = Dust.NewDust(npc.Center + vector23, 0, 0, 246, 0.0f, 0.0f, 0, new Color(), 1f);
