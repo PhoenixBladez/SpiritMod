@@ -36,7 +36,7 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			for(int j = 0; j < 20; j++) {
+			for (int j = 0; j < 20; j++) {
 				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 206, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 				Main.dust[dust].scale = 1.5f;
 			}

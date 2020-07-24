@@ -16,7 +16,7 @@ namespace SpiritMod.Buffs
 			npc.lifeRegen -= 15;
 			npc.defense -= 3;
 
-			if(Main.rand.NextBool(2)) {
+			if (Main.rand.NextBool(2)) {
 				int dust = Dust.NewDust(npc.position, npc.width, npc.height, 61);
 				Main.dust[dust].scale = 3f;
 				Main.dust[dust].noGravity = true;

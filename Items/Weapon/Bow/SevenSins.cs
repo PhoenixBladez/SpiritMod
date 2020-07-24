@@ -41,8 +41,8 @@ namespace SpiritMod.Items.Weapon.Bow
 			{
 				{
 					charger++;
-					if(charger >= 5) {
-						for(int I = 0; I < 1; I++) {
+					if (charger >= 5) {
+						for (int I = 0; I < 1; I++) {
 							//Projectile.NewProjectile(position.X, position.Y, speedX * 4, speedY * 4, ModContent.ProjectileType<FireSin>(), 50, knockBack, player.whoAmI, 0f, 0f);
 						}
 						charger = 0;

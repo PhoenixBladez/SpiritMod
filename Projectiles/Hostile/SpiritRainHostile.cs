@@ -28,7 +28,7 @@ namespace SpiritMod.Projectiles.Hostile
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 
-			for(int i = 0; i < 29; i++) {
+			for (int i = 0; i < 29; i++) {
 				float x = projectile.Center.X - projectile.velocity.X / 2f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 2f * (float)i;
 				int num = Dust.NewDust(new Vector2(x, y), 26, 26, 187, 0f, 0f, 0, default(Color), 1f);

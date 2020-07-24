@@ -42,7 +42,7 @@ namespace SpiritMod.NPCs
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			int d = 226;
-			for(int k = 0; k < 20; k++) {
+			for (int k = 0; k < 20; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.27f);
 				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.87f);
 			}
@@ -53,9 +53,9 @@ namespace SpiritMod.NPCs
 			npc.spriteDirection = npc.direction;
 			Player target = Main.player[npc.target];
 			npc.localAI[0] += 1f;
-			if(npc.localAI[0] == 12f) {
+			if (npc.localAI[0] == 12f) {
 				npc.localAI[0] = 0f;
-				for(int j = 0; j < 12; j++) {
+				for (int j = 0; j < 12; j++) {
 					Vector2 vector2 = Vector2.UnitX * -npc.width / 2f;
 					vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(8f, 16f);
 					vector2 = Utils.RotatedBy(vector2, (npc.rotation - 1.57079637f), default(Vector2));
@@ -71,16 +71,16 @@ namespace SpiritMod.NPCs
 		public override bool CheckDead()
 		{
 			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 110));
-			for(int i = 0; i < 20; i++) {
+			for (int i = 0; i < 20; i++) {
 				int num = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, -2f, 0, default(Color), 2f);
 				Main.dust[num].noGravity = true;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].scale *= .25f;
-				if(Main.dust[num].position != npc.Center)
+				if (Main.dust[num].position != npc.Center)
 					Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
 			}
-			for(int i = 0; i < 4; i++) {
+			for (int i = 0; i < 4; i++) {
 				float rotation = (float)(Main.rand.Next(0, 361) * (Math.PI / 180));
 				Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
 				int proj = Projectile.NewProjectile(npc.Center.X, npc.Center.Y,

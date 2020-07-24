@@ -26,7 +26,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 6);
-			for(int i = 0; i < 2; i++) {
+			for (int i = 0; i < 2; i++) {
 				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 187);
 				Main.dust[d].noGravity = true;
 			}
@@ -43,12 +43,12 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			projectile.alpha += 3;
 			projectile.scale += .011f;
-			if(projectile.alpha >= 160) {
+			if (projectile.alpha >= 160) {
 				projectile.Kill();
 			}
 
 
-			for(int i = 0; i < 5; i++) {
+			for (int i = 0; i < 5; i++) {
 				Vector2 vector2 = Vector2.UnitY.RotatedByRandom(6.28318548202515) * new Vector2((float)projectile.height, (float)projectile.height) * projectile.scale * 1.45f / 2f;
 				int index = Dust.NewDust(projectile.Center + vector2, 0, 0, 187, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index].position = projectile.Center + vector2;

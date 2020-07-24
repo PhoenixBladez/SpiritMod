@@ -27,18 +27,16 @@ namespace SpiritMod.Projectiles.Thrown
 			projectile.alpha = 0;
 			projectile.penetrate = 494;
 		}
-		public override bool? CanHitNPC (NPC target)
+		public override bool? CanHitNPC(NPC target)
 		{
-			if (target.townNPC)
-			{
+			if (target.townNPC) {
 				return false;
 			}
 			return base.CanHitNPC(target);
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (!projectile.hostile)
-			{
+			if (!projectile.hostile) {
 				projectile.Kill();
 			}
 		}
@@ -47,7 +45,7 @@ namespace SpiritMod.Projectiles.Thrown
 			projectile.velocity.X *= 1.015f;
 			return base.PreAI();
 		}
-		public override bool OnTileCollide(Vector2 oldVelocity) 
+		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			if (projectile.velocity.X != oldVelocity.X && Math.Abs(oldVelocity.X) > 1f) {
 				projectile.velocity.X = oldVelocity.X * -0.45f;

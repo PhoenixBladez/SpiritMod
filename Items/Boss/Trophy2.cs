@@ -5,7 +5,7 @@ namespace SpiritMod.Items.Boss
 {
 	public class Trophy2 : ModItem
 	{
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ancient Avian Trophy");

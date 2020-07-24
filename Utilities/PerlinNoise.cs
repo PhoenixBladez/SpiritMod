@@ -17,12 +17,12 @@ namespace SpiritMod.Utilities
 
 			//shuffle to create permutation
 			int[] p = new int[256];
-			for(int i = 0; i < 256; i++) p[i] = i;
+			for (int i = 0; i < 256; i++) p[i] = i;
 			_random.Shuffle(ref p);
 
 			//append itself to double array and remove any overflow errors
 			_permutation = new int[512];
-			for(int i = 0; i < 512; i++) _permutation[i] = p[i % 256];
+			for (int i = 0; i < 512; i++) _permutation[i] = p[i % 256];
 		}
 
 		/// <returns>A value between -1 and 1</returns>
@@ -53,7 +53,7 @@ namespace SpiritMod.Utilities
 			//initiate values
 			float value = 0f, mult = 0.5f;
 
-			for(int i = 0; i < octaves; i++) {
+			for (int i = 0; i < octaves; i++) {
 				value += Noise(x, y) * mult;
 				//multiply the values to move them and get different data
 				x *= 2f;

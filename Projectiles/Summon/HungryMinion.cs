@@ -37,22 +37,22 @@ namespace SpiritMod.Projectiles.Summon
 			bool flag64 = projectile.type == ModContent.ProjectileType<HungryMinion>();
 			Player player = Main.player[projectile.owner];
 			MyPlayer mp = Main.player[projectile.owner].GetSpiritPlayer();
-			if(mp.player.dead)
+			if (mp.player.dead)
 				mp.hungryMinion = false;
 
-			if(mp.hungryMinion)
+			if (mp.hungryMinion)
 				projectile.timeLeft = 2;
 
 
 			// Has a target
-			if(projectile.ai[0] >= 0) {
+			if (projectile.ai[0] >= 0) {
 				NPC target = Main.npc[(int)projectile.ai[0]];
 
-				if(target.active && (target.position - mp.player.position).Length() <= 220) {
+				if (target.active && (target.position - mp.player.position).Length() <= 220) {
 					projectile.frameCounter++;
-					if(projectile.frameCounter >= 6) {
+					if (projectile.frameCounter >= 6) {
 						projectile.frame++;
-						if(projectile.frame >= Main.projFrames[projectile.type])
+						if (projectile.frame >= Main.projFrames[projectile.type])
 							projectile.frame = 1;
 						projectile.frameCounter = 0;
 					}
@@ -64,13 +64,14 @@ namespace SpiritMod.Projectiles.Summon
 					float yDir = target.position.Y + (target.height * 0.5F) - projCenter.Y;
 					float length = (float)Math.Sqrt(xDir * xDir + yDir * yDir);
 
-					if(length < speed) {
+					if (length < speed) {
 						projectile.velocity.X = xDir;
 						projectile.velocity.Y = yDir;
 
-						if(length > speed / 2)
+						if (length > speed / 2)
 							projectile.rotation = (mp.player.Center - projectile.Center).ToRotation();
-					} else {
+					}
+					else {
 						length = speed / length;
 						xDir *= length;
 						yDir *= length;
@@ -79,13 +80,15 @@ namespace SpiritMod.Projectiles.Summon
 
 						projectile.rotation = (mp.player.Center - projectile.Center).ToRotation();
 					}
-				} else {
+				}
+				else {
 					projectile.ai[0] = -1;
 				}
-			} else // Does not have a target.
-			  {
-				for(int i = 0; i < 200; ++i) {
-					if(Main.npc[i].active && Main.npc[i].CanBeChasedBy(projectile) && (Main.npc[i].position - mp.player.position).Length() <= 320) {
+			}
+			else // Does not have a target.
+			{
+				for (int i = 0; i < 200; ++i) {
+					if (Main.npc[i].active && Main.npc[i].CanBeChasedBy(projectile) && (Main.npc[i].position - mp.player.position).Length() <= 320) {
 						projectile.ai[0] = i;
 						break;
 					}
@@ -95,26 +98,27 @@ namespace SpiritMod.Projectiles.Summon
 
 				float acceleration = 0.2f;
 				Vector2 direction = mp.player.Center - projectile.Center;
-				if(direction.Length() < 200f)
+				if (direction.Length() < 200f)
 					acceleration = 0.12f;
-				if(direction.Length() < 140f)
+				if (direction.Length() < 140f)
 					acceleration = 0.06f;
-				if(direction.Length() > 100f) {
-					if(Math.Abs(mp.player.Center.X - projectile.Center.X) > 20f)
+				if (direction.Length() > 100f) {
+					if (Math.Abs(mp.player.Center.X - projectile.Center.X) > 20f)
 						projectile.velocity.X = projectile.velocity.X + acceleration * (float)Math.Sign(mp.player.Center.X - projectile.Center.X);
 
-					if(Math.Abs(mp.player.Center.Y - projectile.Center.Y) > 10f)
+					if (Math.Abs(mp.player.Center.Y - projectile.Center.Y) > 10f)
 						projectile.velocity.Y = projectile.velocity.Y + acceleration * (float)Math.Sign(mp.player.Center.Y - projectile.Center.Y);
 
-				} else if(projectile.velocity.Length() > 2f) {
+				}
+				else if (projectile.velocity.Length() > 2f) {
 					projectile.velocity *= 0.96f;
 				}
 
-				if(Math.Abs(projectile.velocity.Y) < 1f)
+				if (Math.Abs(projectile.velocity.Y) < 1f)
 					projectile.velocity.Y -= 0.1f;
 
 				float maxSpeed = 15f;
-				if(projectile.velocity.Length() > maxSpeed)
+				if (projectile.velocity.Length() > maxSpeed)
 					projectile.velocity = projectile.velocity.SafeNormalize(Vector2.UnitY) * maxSpeed;
 
 				projectile.rotation = (mp.player.Center - projectile.Center).ToRotation();
@@ -135,17 +139,18 @@ namespace SpiritMod.Projectiles.Summon
 			float targetDirY = targetY - vector2.Y;
 			float rotation = (float)Math.Atan2(targetDirY, targetDirX) - 1.57f;
 			bool flag3 = true;
-			while(flag3) {
+			while (flag3) {
 				SpriteEffects effects = SpriteEffects.None;
-				if(flag2) {
+				if (flag2) {
 					effects = SpriteEffects.FlipHorizontally;
 					flag2 = false;
-				} else
+				}
+				else
 					flag2 = true;
 
 				int height = 28;
 				float num11 = (float)Math.Sqrt(targetDirX * targetDirX + targetDirY * targetDirY);
-				if(num11 < 24) {
+				if (num11 < 24) {
 					height = (int)num11 - 24 + 28;
 					flag3 = false;
 				}

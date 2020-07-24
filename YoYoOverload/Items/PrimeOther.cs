@@ -27,7 +27,7 @@ namespace SpiritMod.YoYoOverload.Items
 		public override void AI()
 		{
 			base.projectile.frameCounter++;
-			if(base.projectile.frameCounter % 120 == 0) {
+			if (base.projectile.frameCounter % 120 == 0) {
 				Main.rand.Next(0, 361);
 				Vector2 vector = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
 				int num = Projectile.NewProjectile(base.projectile.Center.X, base.projectile.Center.Y, vector.X, vector.Y, ProjectileID.ExplosiveBullet, base.projectile.damage, (float)base.projectile.owner, 0, 0f, 0f);
@@ -35,7 +35,7 @@ namespace SpiritMod.YoYoOverload.Items
 				Main.projectile[num].hostile = false;
 				Main.projectile[num].velocity *= 18f;
 			}
-			if(!Main.projectile[(int)base.projectile.localAI[0]].active) {
+			if (!Main.projectile[(int)base.projectile.localAI[0]].active) {
 				base.projectile.Kill();
 			}
 			int num2 = (int)base.projectile.velocity.X * 10;
@@ -58,16 +58,16 @@ namespace SpiritMod.YoYoOverload.Items
 			Vector2 vector = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
 			vector.Normalize();
 			Vector2 vector2 = vector * ((float)Main.rand.Next(10, 41) * 0.1f);
-			if(Main.rand.Next(3) == 0) {
+			if (Main.rand.Next(3) == 0) {
 				vector2 *= 2f;
 			}
 			Vector2 vector3 = velocity * 0.25f + vector2;
-			for(int i = 0; i < 200; i++) {
-				if(Main.npc[i].CanBeChasedBy(projectile, false)) {
+			for (int i = 0; i < 200; i++) {
+				if (Main.npc[i].CanBeChasedBy(projectile, false)) {
 					float num2 = Main.npc[i].position.X + (float)(Main.npc[i].width / 2);
 					float num3 = Main.npc[i].position.Y + (float)(Main.npc[i].height / 2);
 					float num4 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num2) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num3);
-					if((double)num4 < (double)num && Collision.CanHit(projectile.position, projectile.width, projectile.height, Main.npc[i].position, Main.npc[i].width, Main.npc[i].height)) {
+					if ((double)num4 < (double)num && Collision.CanHit(projectile.position, projectile.width, projectile.height, Main.npc[i].position, Main.npc[i].width, Main.npc[i].height)) {
 						num = num4;
 						vector3.X = num2;
 						vector3.Y = num3;

@@ -33,17 +33,17 @@ namespace SpiritMod.Items.Armor
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<StarPiece>(), 1);
-            recipe.AddIngredient(ItemID.TitaniumBar, 20);
-            recipe.AddTile(TileID.MythrilAnvil);
+			recipe.AddIngredient(ItemID.TitaniumBar, 20);
+			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();
 
-            ModRecipe recipe1 = new ModRecipe(mod);
-            recipe1.AddIngredient(ModContent.ItemType<StarPiece>(), 1);
-            recipe1.AddIngredient(ItemID.AdamantiteBar, 20);
-            recipe1.AddTile(TileID.MythrilAnvil);
-            recipe1.SetResult(this, 1);
-            recipe1.AddRecipe();
-        }
+			ModRecipe recipe1 = new ModRecipe(mod);
+			recipe1.AddIngredient(ModContent.ItemType<StarPiece>(), 1);
+			recipe1.AddIngredient(ItemID.AdamantiteBar, 20);
+			recipe1.AddTile(TileID.MythrilAnvil);
+			recipe1.SetResult(this, 1);
+			recipe1.AddRecipe();
+		}
 	}
 }

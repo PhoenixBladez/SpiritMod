@@ -27,28 +27,31 @@ namespace SpiritMod.Projectiles.Yoyo
 			projectile.localAI[1] += 1f;
 			int num = 1;
 			int num2 = 1;
-			if(projectile.localAI[1] <= 1.0) {
+			if (projectile.localAI[1] <= 1.0) {
 				return;
 			}
 
 			int num4 = (int)projectile.localAI[1];
-			if(num4 <= 30) {
-				if(num4 != 10) {
-					if(num4 == 30) {
+			if (num4 <= 30) {
+				if (num4 != 10) {
+					if (num4 == 30) {
 						num2--;
 					}
-				} else {
+				}
+				else {
 					num2--;
 				}
-			} else if(num4 != 50) {
-				if(num4 == 70) {
+			}
+			else if (num4 != 50) {
+				if (num4 == 70) {
 					num2--;
 				}
-			} else {
+			}
+			else {
 				num2--;
 			}
 
-			if((int)projectile.localAI[1] == 20) {
+			if ((int)projectile.localAI[1] == 20) {
 				int num5 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num, num2, ModContent.ProjectileType<SpikeBall>(), 50, projectile.knockBack, projectile.owner, 0f, 0f);
 				Main.projectile[num5].localAI[0] = projectile.whoAmI;
 			}

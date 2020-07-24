@@ -19,7 +19,7 @@ namespace SpiritMod.Buffs
 		{
 			npc.GetGlobalNPC<GNPC>().bloodInfusion++;
 			npc.GetGlobalNPC<GNPC>().bloodInfused = true;
-			if(Main.rand.NextBool(2)) {
+			if (Main.rand.NextBool(2)) {
 				int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<NightmareDust>());
 				Main.dust[dust].scale = 1.2f;
 				Main.dust[dust].noGravity = true;

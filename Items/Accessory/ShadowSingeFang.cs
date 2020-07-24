@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Accessory
 			player.magicCrit += 4;
 			player.meleeCrit += 4;
 			player.rangedCrit += 4;
-			if(player.ZoneRockLayerHeight || player.ZoneUnderworldHeight || !Main.dayTime) {
+			if (player.ZoneRockLayerHeight || player.ZoneUnderworldHeight || !Main.dayTime) {
 				player.magicCrit += 4;
 				player.meleeCrit += 4;
 				player.rangedCrit += 4;

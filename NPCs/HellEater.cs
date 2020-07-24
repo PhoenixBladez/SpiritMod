@@ -33,38 +33,37 @@ namespace SpiritMod.NPCs
 			aiType = NPCID.StardustCellBig;
 			animationType = NPCID.Pixie;
 			npc.lavaImmune = true;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.GluttonousDevourerBanner>();
-        }
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.GluttonousDevourerBanner>();
+		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.player.ZoneUnderworldHeight && NPC.downedBoss3 ? 0.1f : 0f;
+			return spawnInfo.player.ZoneUnderworldHeight && NPC.downedBoss3 ? 0.04f : 0f;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			for(int k = 0; k < 20; k++) {
+			for (int k = 0; k < 20; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, 6, 2.5f * hitDirection, -2.5f, 117, default(Color), .6f);
 			}
-			if(npc.life <= 0) {
-				for(int i = 0; i < 20; i++) {
+			if (npc.life <= 0) {
+				for (int i = 0; i < 20; i++) {
 					int num = Dust.NewDust(npc.position, npc.width, npc.height, 6, 0f, -2f, 117, default(Color), .6f);
 					Main.dust[num].noGravity = true;
 					Dust expr_62_cp_0 = Main.dust[num];
 					expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
 					Dust expr_92_cp_0 = Main.dust[num];
 					expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
-					if(Main.dust[num].position != npc.Center) {
+					if (Main.dust[num].position != npc.Center) {
 						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
 					}
 				}
 				Main.PlaySound(SoundID.Item, npc.Center, 14);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EaterGore1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EaterGore2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EaterGore2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EaterGore2"), 1f);
-			}
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EaterGore3"), 1f);
+            }
 		}
 		int dashtimer;
 		public override void AI()
@@ -78,7 +77,7 @@ namespace SpiritMod.NPCs
 			direction.Normalize();
 			npc.velocity *= 0.98f;
 			dashtimer++;
-			if(dashtimer >= 180) {
+			if (dashtimer >= 180) {
 				dashtimer = 0;
 				direction.X = direction.X * Main.rand.Next(8, 11);
 				direction.Y = direction.Y * Main.rand.Next(8, 11);
@@ -89,7 +88,7 @@ namespace SpiritMod.NPCs
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height * 0.5f));
-			for(int k = 0; k < npc.oldPos.Length; k++) {
+			for (int k = 0; k < npc.oldPos.Length; k++) {
 				var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 				Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
 				Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
@@ -99,15 +98,16 @@ namespace SpiritMod.NPCs
 		}
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if(Main.rand.Next(3) == 0) {
+			if (Main.rand.Next(3) == 0) {
 				target.AddBuff(BuffID.OnFire, 180);
 			}
 			target.AddBuff(BuffID.Bleeding, 180);
-			if(Main.rand.Next(4) == 0) {
-				if(npc.life <= npc.lifeMax - 10) {
+			if (Main.rand.Next(4) == 0) {
+				if (npc.life <= npc.lifeMax - 10) {
 					npc.life += 10;
 					npc.HealEffect(10, true);
-				} else if(npc.life < npc.lifeMax) {
+				}
+				else if (npc.life < npc.lifeMax) {
 					npc.HealEffect(npc.lifeMax - npc.life, true);
 					npc.life += npc.lifeMax - npc.life;
 				}
@@ -118,7 +118,7 @@ namespace SpiritMod.NPCs
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CarvedRock>(), Main.rand.Next(2) + 2);
 
-			if(Main.rand.Next(20) == 0) {
+			if (Main.rand.Next(20) == 0) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Accessory.HellEater>());
 			}
 		}

@@ -18,8 +18,8 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		{
 			npc.damage = 25;
 			npc.npcSlots = 10f;
-			npc.width = 34; //324
-			npc.height = 34; //216
+			npc.width = 38; 
+			npc.height = 16; 
 			npc.defense = 15;
 			npc.lifeMax = 6500; //250000
 			npc.aiStyle = 6; //new
@@ -34,7 +34,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath14;
 			npc.netAlways = true;
-			for(int k = 0; k < npc.buffImmune.Length; k++) {
+			for (int k = 0; k < npc.buffImmune.Length; k++) {
 				npc.buffImmune[k] = true;
 			}
 			music = MusicID.Boss3;
@@ -51,12 +51,12 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			Player player = Main.player[npc.target];
 			bool expertMode = Main.expertMode;
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.075f, 0.25f);
-			if(Main.netMode != NetmodeID.MultiplayerClient) {
+			if (Main.netMode != NetmodeID.MultiplayerClient) {
 				npc.localAI[0] += expertMode ? 2f : 1f;
-				if(npc.localAI[0] >= 200f) {
+				if (npc.localAI[0] >= 200f) {
 					npc.localAI[0] = 0f;
 					npc.TargetClosest(true);
-					if(Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height)) {
+					if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height)) {
 
 						Main.PlaySound(SoundID.Item, (int)npc.Center.X, (int)npc.Center.Y, 12);
 						float num941 = 8f; //speed
@@ -82,12 +82,12 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				}
 			}
 			int parent = NPC.FindFirstNPC(ModContent.NPCType<SteamRaiderHead>());
-			if(!Main.npc[(int)npc.ai[1]].active) {
+			if (!Main.npc[(int)npc.ai[1]].active) {
 				npc.life = 0;
 				npc.HitEffect(0, 10.0);
 				npc.active = false;
 			}
-			if((Main.npc[parent].life <= 6500)) {
+			if ((Main.npc[parent].life <= 6500)) {
 				Main.PlaySound(SoundID.Item, (int)npc.Center.X, (int)npc.Center.Y, 14);
 				npc.life = 0;
 				npc.HitEffect(0, 10.0);
@@ -101,15 +101,15 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				npc.height = 30;
 				npc.position.X = npc.position.X - (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
-				for(int num621 = 0; num621 < 20; num621++) {
+				for (int num621 = 0; num621 < 20; num621++) {
 					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default(Color), 2f);
 					Main.dust[num622].velocity *= 3f;
-					if(Main.rand.Next(2) == 0) {
+					if (Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 					}
 				}
-				for(int num623 = 0; num623 < 40; num623++) {
+				for (int num623 = 0; num623 < 40; num623++) {
 					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default(Color), 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
@@ -117,23 +117,52 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					Main.dust[num624].velocity *= 2f;
 				}
 			}
-			if(Main.npc[(int)npc.ai[1]].alpha < 128) {
-				if(npc.alpha != 0) {
-					for(int num934 = 0; num934 < 2; num934++) {
+			if (Main.npc[(int)npc.ai[1]].alpha < 128) {
+				if (npc.alpha != 0) {
+					for (int num934 = 0; num934 < 2; num934++) {
 						int num935 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default(Color), 2f);
 						Main.dust[num935].noGravity = true;
 						Main.dust[num935].noLight = true;
 					}
 				}
 				npc.alpha -= 42;
-				if(npc.alpha < 0)
+				if (npc.alpha < 0)
 					npc.alpha = 0;
+			}
+			if (npc.ai[2] > 0) {
+				npc.realLife = (int)npc.ai[2];
+			}
+
+			if (npc.target < 0 || npc.target == byte.MaxValue || Main.player[npc.target].dead) {
+				npc.TargetClosest(true);
+			}
+
+			if (npc.ai[1] < (double)Main.npc.Length) {
+				// We're getting the center of this NPC.
+				Vector2 npcCenter = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+				// Then using that center, we calculate the direction towards the 'parent NPC' of this NPC.
+				float dirX = Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2) - npcCenter.X;
+				float dirY = Main.npc[(int)npc.ai[1]].position.Y + (float)(Main.npc[(int)npc.ai[1]].height / 2) - npcCenter.Y;
+				// We then use Atan2 to get a correct rotation towards that parent NPC.
+				npc.rotation = (float)Math.Atan2(dirY, dirX) + 1.57f;
+				// We also get the length of the direction vector.
+				float length = (float)Math.Sqrt(dirX * dirX + dirY * dirY);
+				// We calculate a new, correct distance.
+				float dist = (length - (float)npc.width) / length;
+				float posX = dirX * dist;
+				float posY = dirY * dist;
+
+				// Reset the velocity of this NPC, because we don't want it to move on its own
+				npc.velocity = Vector2.Zero;
+				// And set this NPCs position accordingly to that of this NPCs parent NPC.
+				npc.position.X = npc.position.X + posX;
+				npc.position.Y = npc.position.Y + posY;
 			}
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			for(int k = 0; k < 5; k++) {
+			for (int k = 0; k < 5; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, 226, hitDirection, -1f, 0, default(Color), 1f);
 			}
 		}

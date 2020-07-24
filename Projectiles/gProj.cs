@@ -88,32 +88,23 @@ namespace SpiritMod.Projectiles
 					damage = (int)((double)damage * 2.25f);
 			}
 			if(modPlayer.AceOfSpades && crit) {
-				damage = (int)(damage * 1.1f);
+				damage = (int)(damage * 1.1f + 0.5f);
 				for(int i = 0; i < 3; i++) {
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<SpadeDust>(), 0, -0.8f);
 				}
 			}
-			if(modPlayer.AceOfClubs && crit && !target.friendly && target.lifeMax > 15) {
-				int money = (int)(300 * MathHelper.Clamp((damage / target.lifeMax), 0, 1));
-				NPC npc = target;
+			if(modPlayer.AceOfClubs && crit && !target.friendly && target.lifeMax > 15 && !target.SpawnedFromStatue && target.type != 488) {
+				int money = (int)(300 * MathHelper.Clamp((float)damage / target.lifeMax, 1 / 300f, 1f));
 				for(int i = 0; i < 3; i++) {
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<ClubDust>(), 0, -0.8f);
 				}
-				while (money >=100)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 72); //silver coins
-					money -= 100;
-				}
-				while (money >= 10)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 71, 10); //copper coins
-					money -= 10;
-				}
-				while (money >= 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 71); //copper coin
-					money --;
-				}
+				if(money / 1000000 > 0) ItemUtils.NewItemWithSync(projectile.owner, (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.PlatinumCoin, money / 1000000);
+				money %= 1000000;
+				if(money / 10000 > 0) ItemUtils.NewItemWithSync(projectile.owner, (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.GoldCoin, money / 10000);
+				money %= 10000;
+				if(money / 100 > 0) ItemUtils.NewItemWithSync(projectile.owner, (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.SilverCoin, money / 100);
+				money %= 100;
+				if(money > 0) ItemUtils.NewItemWithSync(projectile.owner, (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.CopperCoin, money);
 			}
 		}
 
@@ -121,20 +112,14 @@ namespace SpiritMod.Projectiles
 		{
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
-			if(modPlayer.AceOfHearts && target.life <= 0 && crit && !target.friendly && target.lifeMax > 15) {
-				NPC npc = target;
-				if(Main.halloween) {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 1734);
-				} else {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 58);
-				}
+			if(modPlayer.AceOfHearts && target.life <= 0 && crit && !target.friendly && target.lifeMax > 15 && !target.SpawnedFromStatue) {
+				ItemUtils.NewItemWithSync(projectile.owner, (int)target.position.X, (int)target.position.Y, target.width, target.height, Main.halloween ? ItemID.CandyApple : ItemID.Heart);
 				for(int i = 0; i < 3; i++) {
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<HeartDust>(), 0, -0.8f);
 				}
 			}
-			if(modPlayer.AceOfDiamonds && target.life <= 0 && crit && !target.friendly && target.lifeMax > 15) {
-				NPC npc = target;
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DiamondAce>());
+			if(modPlayer.AceOfDiamonds && target.life <= 0 && crit && !target.friendly && target.lifeMax > 15 && !target.SpawnedFromStatue) {
+				ItemUtils.NewItemWithSync(projectile.owner, (int)target.position.X, (int)target.position.Y, target.width, target.height, ModContent.ItemType<DiamondAce>());
 				for(int i = 0; i < 3; i++) {
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<DiamondDust>(), 0, -0.8f);
 				}
@@ -155,13 +140,13 @@ namespace SpiritMod.Projectiles
 					break;
 			}
 
-			if(projectile.aiStyle == 88 && (projectile.knockBack >= .2f && projectile.knockBack <= .5f)) {
+			if(projectile.aiStyle == 88 && projectile.knockBack >= .2f && projectile.knockBack <= .5f) {
 				target.immune[projectile.owner] = 6;
 			}
-			if(projectile.friendly && projectile.thrown && Main.rand.Next(8) == 1 && player.GetSpiritPlayer().geodeSet == true) {
+			if(projectile.friendly && projectile.thrown && Main.rand.NextBool(8) && player.GetSpiritPlayer().geodeSet == true) {
 				target.AddBuff(24, 150);
 			}
-			if(projectile.friendly && projectile.thrown && Main.rand.Next(8) == 1 && player.GetSpiritPlayer().geodeSet == true) {
+			if(projectile.friendly && projectile.thrown && Main.rand.NextBool(8) && player.GetSpiritPlayer().geodeSet == true) {
 				target.AddBuff(44, 150);
 			}
 		}

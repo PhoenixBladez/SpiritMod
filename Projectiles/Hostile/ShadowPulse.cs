@@ -30,7 +30,7 @@ namespace SpiritMod.Projectiles.Hostile
 			Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, 0.3F, 0.06F, 0.05F);
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 
-			for(int i = 0; i < 2; i++) {
+			for (int i = 0; i < 2; i++) {
 				float x = projectile.Center.X - projectile.velocity.X / 10f * i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * i;
 				int num = Dust.NewDust(new Vector2(x, y), 26, 26, 173, 0f, 0f, 0, default, 1f);
@@ -56,7 +56,7 @@ namespace SpiritMod.Projectiles.Hostile
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if(Main.rand.Next(8) == 1)
+			if (Main.rand.Next(8) == 1)
 				target.AddBuff(ModContent.BuffType<Shadowflame>(), 200);
 		}
 

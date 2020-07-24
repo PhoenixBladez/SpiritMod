@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Bow
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Retinranger");
-			Tooltip.SetDefault("Turns Arrows into Lasers!");
+			Tooltip.SetDefault("Turns Wooden Arrows into Lasers!");
 		}
 
 
@@ -37,7 +37,10 @@ namespace SpiritMod.Items.Weapon.Bow
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			int projectileFired = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.DeathLaser, item.damage, item.knockBack, player.whoAmI);
+			if (type == ProjectileID.WoodenArrowFriendly) {
+				type = ProjectileID.DeathLaser;
+			}
+				int projectileFired = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, item.damage, item.knockBack, player.whoAmI);
 			Main.projectile[projectileFired].friendly = true;
 			Main.projectile[projectileFired].hostile = false;
 			return false;

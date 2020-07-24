@@ -34,15 +34,5 @@ namespace SpiritMod.Items.Accessory.Leather
 			player.maxRunSpeed -= .04f * player.GetSpiritPlayer().clatterStacks;
 			player.runAcceleration -= .005f * player.GetSpiritPlayer().clatterStacks;
 		}
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<LeatherShield>(), 1);
-			recipe.AddIngredient(ModContent.ItemType<Carapace>(), 6);
-			recipe.AddRecipeGroup("SpiritMod:EvilMaterial1", 4);
-			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
-		}
 	}
 }

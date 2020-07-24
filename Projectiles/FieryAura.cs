@@ -40,30 +40,31 @@ namespace SpiritMod.Projectiles
 			projectile.localAI[1] += 1f;
 			int num = 1;
 			int num2 = 1;
-			if(projectile.localAI[1] <= 1.0) {
+			if (projectile.localAI[1] <= 1.0) {
 				int num3 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num, num2, ModContent.ProjectileType<DuskAura>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				Main.projectile[num3].localAI[0] = projectile.whoAmI;
 				return;
 			}
 
 			int num4 = (int)projectile.localAI[1];
-			if(num4 <= 30) {
-				if(num4 == 10 || num4 == 30) {
+			if (num4 <= 30) {
+				if (num4 == 10 || num4 == 30) {
 					num2--;
 				}
-			} else if(num4 == 50 || num4 == 70) {
+			}
+			else if (num4 == 50 || num4 == 70) {
 				num2--;
 			}
 
-			if((int)projectile.localAI[1] == 20) {
+			if ((int)projectile.localAI[1] == 20) {
 				int num5 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)num, (float)num2, ModContent.ProjectileType<DuskAura>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				Main.projectile[num5].localAI[0] = (float)projectile.whoAmI;
 			}
-			if((int)projectile.localAI[1] == 30) {
+			if ((int)projectile.localAI[1] == 30) {
 				int num6 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)num, (float)num2, ModContent.ProjectileType<DuskAura>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				Main.projectile[num6].localAI[0] = (float)projectile.whoAmI;
 			}
-			if((int)projectile.localAI[1] == 40) {
+			if ((int)projectile.localAI[1] == 40) {
 				int num7 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)num, (float)num2, ModContent.ProjectileType<DuskAura>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				Main.projectile[num7].localAI[0] = (float)projectile.whoAmI;
 			}

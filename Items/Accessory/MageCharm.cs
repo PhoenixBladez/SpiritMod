@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Accessory
 			player.magicDamage += 0.07f;
 			player.magicCrit += 10;
 			player.manaRegenBonus += 2;
-			if(!hideVisual) Lighting.AddLight(player.position, 0.0f, .75f, 1.25f);
+			if (!hideVisual) Lighting.AddLight(player.position, 0.0f, .75f, 1.25f);
 			player.manaCost -= 0.06f;
 		}
 		public override void AddRecipes()

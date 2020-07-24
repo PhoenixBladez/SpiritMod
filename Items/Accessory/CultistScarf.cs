@@ -27,9 +27,10 @@ namespace SpiritMod.Items.Accessory
 		{
 			player.magicCrit += 9;
 			player.GetSpiritPlayer().cultistScarf = true;
-			if(player.statLife < player.statLifeMax2 / 2) {
+			if (player.statLife < player.statLifeMax2 / 2) {
 				player.manaCost -= 0.20f;
-			} else if(player.statLife > player.statLifeMax2 / 2) {
+			}
+			else if (player.statLife > player.statLifeMax2 / 2) {
 				player.statManaMax2 += 120;
 			}
 		}

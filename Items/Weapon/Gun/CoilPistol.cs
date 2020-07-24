@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Weapon.Gun
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Coil Pistol");
-			Tooltip.SetDefault("Shoots out electrified bullets that chain from enemy to enemy");
+			Tooltip.SetDefault("Converts regular bullets into electrified bullets that chain from enemy to enemy");
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Gun/CoilPistol_Glow");
 		}
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
@@ -55,13 +55,16 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.UseSound = SoundID.Item11;
 			item.autoReuse = false;
 			item.shoot = ModContent.ProjectileType<CoilBullet1>();
-			item.shootSpeed = 16f;
+			item.shootSpeed = 25f;
 			item.useAmmo = AmmoID.Bullet;
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			type = ModContent.ProjectileType<CoilBullet1>();
-			knockBack = 0;
+			if (type == ProjectileID.Bullet)
+			{
+				type = ModContent.ProjectileType<CoilBullet1>();
+				knockBack = 0;
+			}
 			return true;
 		}
 		public override Vector2? HoldoutOffset()

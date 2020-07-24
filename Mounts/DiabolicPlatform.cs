@@ -35,7 +35,7 @@ namespace SpiritMod.Mounts
 			this.fatigue = maxFatigue;
 
 			int[] offsets = new int[mountData.totalFrames];
-			for(int i = 0; i < offsets.Length; i++) {
+			for (int i = 0; i < offsets.Length; i++) {
 				offsets[i] = 0;
 			}
 			mountData.playerYOffsets = offsets;
@@ -68,7 +68,7 @@ namespace SpiritMod.Mounts
 			mountData.swimFrameDelay = 12;
 			mountData.swimFrameStart = 0;
 
-			if(Main.netMode != NetmodeID.Server) {
+			if (Main.netMode != NetmodeID.Server) {
 				mountData.textureWidth = mountData.backTexture.Width;
 				mountData.textureHeight = mountData.backTexture.Height;
 			}
@@ -76,9 +76,9 @@ namespace SpiritMod.Mounts
 
 		public override void UpdateEffects(Player player)
 		{
-			if(Main.rand.Next(10) == 0) {
+			if (Main.rand.Next(10) == 0) {
 				Vector2 vector2 = player.Center + new Vector2((float)(-0f * player.direction), 3f * player.gravDir);
-				if(player.direction == -1) {
+				if (player.direction == -1) {
 					vector2.X -= 0f;
 				}
 				int d = Dust.NewDust(vector2, 0, 20, 6, 0f, 0f, 0, default(Color), 1f);
@@ -92,18 +92,19 @@ namespace SpiritMod.Mounts
 			float tilt = player.fullRotation;
 
 			// Do not allow the mount to be ridden in water, honey or lava.
-			if(player.wet || player.honeyWet || player.lavaWet) {
+			if (player.wet || player.honeyWet || player.lavaWet) {
 				player.mount.Dismount(player);
 				return;
 			}
 
 			// Only keep flying, when the player is holding up
-			if((player.controlUp || player.controlJump) && this.fatigue > 0) {
+			if ((player.controlUp || player.controlJump) && this.fatigue > 0) {
 				player.mount._abilityCharging = true;
 				player.mount._flyTime = 0;
 				player.mount._fatigue = -verticalSpeed;
 				--this.fatigue;
-			} else {
+			}
+			else {
 				player.mount._abilityCharging = false;
 			}
 
@@ -113,13 +114,13 @@ namespace SpiritMod.Mounts
 			player.fullRotationOrigin = new Vector2(10f, 14f);
 
 			// If the player is on the ground, regain fatigue.
-			if(modPlayer.onGround) {
-				if(player.controlUp || player.controlJump) {
+			if (modPlayer.onGround) {
+				if (player.controlUp || player.controlJump) {
 					player.position.Y -= mountData.acceleration;
 				}
 
 				this.fatigue += 6;
-				if(this.fatigue > maxFatigue)
+				if (this.fatigue > maxFatigue)
 					this.fatigue = maxFatigue;
 			}
 
@@ -132,55 +133,62 @@ namespace SpiritMod.Mounts
 			Mount mount = mountedPlayer.mount;
 			// Part of vanilla code, mount will glitch out
 			// if this is not executed.
-			if(mount._frameState != state) {
+			if (mount._frameState != state) {
 				mount._frameState = state;
 			}
 			//End of required vanilla code
 
 			// Idle animation
-			if(state == 0) {
-				if(this.fatigue != 0f) {
-					if(mount._idleTime == 0) {
+			if (state == 0) {
+				if (this.fatigue != 0f) {
+					if (mount._idleTime == 0) {
 						mount._idleTimeNext = mount._idleTime + 1;
 					}
-				} else {
+				}
+				else {
 					mount._idleTime = 0;
 					mount._idleTimeNext = 2;
 				}
 
 				mount._frameCounter += 1f;
-				if(mount._data.idleFrameCount != 0 && mount._idleTime >= mount._idleTimeNext) {
+				if (mount._data.idleFrameCount != 0 && mount._idleTime >= mount._idleTimeNext) {
 					float num11 = mount._data.idleFrameDelay;
 					num11 *= 2f - 1f * mount._fatigue / mount._fatigueMax;
 					int num12 = (int)((mount._idleTime - mount._idleTimeNext) / num11);
-					if(num12 >= mount._data.idleFrameCount) {
-						if(mount._data.idleFrameLoop) {
+					if (num12 >= mount._data.idleFrameCount) {
+						if (mount._data.idleFrameLoop) {
 							mount._idleTime = mount._idleTimeNext;
 							mount._frame = mount._data.idleFrameStart;
-						} else {
+						}
+						else {
 							mount._frameCounter = 0f;
 							mount._frame = mount._data.standingFrameStart;
 							mount._idleTime = 0;
 						}
-					} else {
+					}
+					else {
 						mount._frame = mount._data.idleFrameStart + num12;
 					}
 					mount._frameExtra = mount._frame;
-				} else {
-					if(mount._frameCounter > mount._data.standingFrameDelay) {
+				}
+				else {
+					if (mount._frameCounter > mount._data.standingFrameDelay) {
 						mount._frameCounter -= mount._data.standingFrameDelay;
 						mount._frame++;
 					}
-					if(mount._frame < mount._data.standingFrameStart || mount._frame >= mount._data.standingFrameStart + mount._data.standingFrameCount) {
+					if (mount._frame < mount._data.standingFrameStart || mount._frame >= mount._data.standingFrameStart + mount._data.standingFrameCount) {
 						mount._frame = mount._data.standingFrameStart;
 					}
 				}
-			} else if(state == 1) // Running
-			  {
+			}
+			else if (state == 1) // Running
+			{
 
-			} else if(state == 2) {
+			}
+			else if (state == 2) {
 
-			} else if(state == 3) {
+			}
+			else if (state == 3) {
 
 			}
 			// State 4 is for when the player is wet, so we don't need to update any frames for that.

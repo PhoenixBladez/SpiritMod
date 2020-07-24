@@ -38,7 +38,7 @@ namespace SpiritMod.Items.Weapon.Spear
 		}
 		public override bool CanUseItem(Player player)
 		{
-			if(player.ownedProjectileCounts[item.shoot] > 0)
+			if (player.ownedProjectileCounts[item.shoot] > 0)
 				return false;
 			return true;
 		}
@@ -47,9 +47,10 @@ namespace SpiritMod.Items.Weapon.Spear
 			//create velocity vectors for the two angled projectiles (outwards at PI/15 radians)
 			Vector2 origVect = new Vector2(speedX, speedY);
 			Vector2 newVect = Vector2.Zero;
-			if(Main.rand.Next(2) == 1) {
+			if (Main.rand.Next(2) == 1) {
 				newVect = origVect.RotatedBy(System.Math.PI / (Main.rand.Next(82, 1800) / 10));
-			} else {
+			}
+			else {
 				newVect = origVect.RotatedBy(-System.Math.PI / (Main.rand.Next(82, 1800) / 10));
 			}
 			speedX = newVect.X;

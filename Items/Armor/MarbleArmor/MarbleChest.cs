@@ -8,9 +8,9 @@ namespace SpiritMod.Items.Armor.MarbleArmor
 	[AutoloadEquip(EquipType.Body)]
 	public class MarbleChest : ModItem
 	{
-		public override void SetStaticDefaults() 
+		public override void SetStaticDefaults()
 		{
-			 DisplayName.SetDefault("Gilded Robe");
+			DisplayName.SetDefault("Gilded Robe");
 			Tooltip.SetDefault("3% increased movement speed");
 		}
 

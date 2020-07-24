@@ -17,11 +17,11 @@ namespace SpiritMod.Buffs.Summon
 		public override void Update(Player player, ref int buffIndex)
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if(player.ownedProjectileCounts[ModContent.ProjectileType<ReachSummon>()] > 0) {
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<ReachSummon>()] > 0) {
 				modPlayer.ReachSummon = true;
 			}
 
-			if(!modPlayer.ReachSummon) {
+			if (!modPlayer.ReachSummon) {
 				player.DelBuff(buffIndex);
 				buffIndex--;
 				return;

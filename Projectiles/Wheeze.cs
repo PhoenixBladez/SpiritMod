@@ -42,10 +42,10 @@ namespace SpiritMod.Projectiles
 			projectile.velocity *= 0.92f;
 			projectile.spriteDirection = projectile.direction;
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 6) {
+			if (projectile.frameCounter >= 6) {
 				projectile.frame++;
 				projectile.frameCounter = 0;
-				if(projectile.frame >= 8)
+				if (projectile.frame >= 8)
 					projectile.frame = 0;
 			}
 		}

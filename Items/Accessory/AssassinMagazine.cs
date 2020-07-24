@@ -26,10 +26,10 @@ namespace SpiritMod.Items.Accessory
 
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
-			
+
 		}
 
-		public override void UpdateAccessory(Player player, bool hideVisual) 
+		public override void UpdateAccessory(Player player, bool hideVisual)
 			=> player.GetSpiritPlayer().assassinMag = true;
 	}
 }

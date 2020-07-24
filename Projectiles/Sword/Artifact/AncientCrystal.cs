@@ -31,7 +31,7 @@ namespace SpiritMod.Projectiles.Sword.Artifact
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 50);
 
-			if(Main.rand.Next(2) == 0) {
+			if (Main.rand.Next(2) == 0) {
 				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<Dusts.Crystal>(), 0f, 0f, 100, default(Color), 2f);
 				Main.dust[num622].velocity *= 0f;
 				Main.dust[num622].scale = 0.5f;
@@ -41,7 +41,7 @@ namespace SpiritMod.Projectiles.Sword.Artifact
 		public override void AI()
 		{
 			projectile.velocity *= 0.9995f;
-			if(Main.rand.Next(4) == 0) {
+			if (Main.rand.Next(4) == 0) {
 				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, ModContent.DustType<Dusts.Crystal>(), projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 				Main.dust[dust].noGravity = true;
 				Main.dust[dust].velocity *= 0f;

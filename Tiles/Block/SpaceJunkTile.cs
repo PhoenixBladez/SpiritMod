@@ -30,19 +30,20 @@ namespace SpiritMod.Tiles.Block
 		{
 			Player player = Main.LocalPlayer;
 			int distance = (int)Vector2.Distance(new Vector2(i * 16, j * 16), player.Center);
-			if(distance < 54) {
+			if (distance < 54) {
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
 				int debuffsWeak = Main.rand.Next(new int[] { 30, 33 });
 				int debuffStrong = Main.rand.Next(new int[] { 144, 80, 36, 196, 164 });
 				int buffs = Main.rand.Next(new int[] { 5, 8, 18, 114, 11 });
-				if(Main.rand.Next(6) == 0) {
-					if(Main.rand.Next(4) == 0) {
+				if (Main.rand.Next(6) == 0) {
+					if (Main.rand.Next(4) == 0) {
 						player.AddBuff(debuffStrong, 70);
-					} else {
+					}
+					else {
 						player.AddBuff(debuffsWeak, 300);
 					}
 				}
-				if(Main.rand.Next(3) == 0) {
+				if (Main.rand.Next(3) == 0) {
 					player.AddBuff(buffs, 540);
 				}
 			}
@@ -54,8 +55,8 @@ namespace SpiritMod.Tiles.Block
         }*/
 		public override void NearbyEffects(int i, int j, bool closer)
 		{
-			if(closer) {
-				if(Main.rand.Next(20) == 0) {
+			if (closer) {
+				if (Main.rand.Next(20) == 0) {
 					int d = Dust.NewDust(new Vector2(i * 16, j * 16 - 10), Main.rand.Next(-2, 2), Main.rand.Next(-2, 2), 54, 0.0f, -1, 0, new Color(), 0.5f);//Leave this line how it is, it uses int division
 
 					Main.dust[d].velocity *= .8f;

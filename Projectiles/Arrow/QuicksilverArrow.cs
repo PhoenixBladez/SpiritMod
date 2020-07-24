@@ -30,14 +30,14 @@ namespace SpiritMod.Projectiles.Arrow
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 2; i++) {
+			for (int i = 0; i < 2; i++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.SilverCoin);
 			}
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			for(int h = 0; h < 2; h++) {
+			for (int h = 0; h < 2; h++) {
 				Vector2 vel = new Vector2(0, -1);
 				float rand = Main.rand.NextFloat() * (2 * MathHelper.Pi);
 				vel = vel.RotatedBy(rand);

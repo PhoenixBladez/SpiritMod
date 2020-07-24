@@ -26,7 +26,7 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override void AI()
 		{
-			for(int num623 = 0; num623 < 11; num623++) {
+			for (int num623 = 0; num623 < 11; num623++) {
 				int num622 = Dust.NewDust(new Vector2(projectile.position.X - projectile.velocity.X, projectile.position.Y - projectile.velocity.Y), projectile.width, projectile.height, 189, 0f, 0f, 100, default(Color), 2f);
 				Main.dust[num622].noGravity = true;
 				Main.dust[num622].scale = 1.4f;
@@ -36,10 +36,10 @@ namespace SpiritMod.Projectiles.Thrown
 			float max = 2.25f;
 			float min = 1.0f;
 			RGB *= multiplier;
-			if(RGB.X > max) {
+			if (RGB.X > max) {
 				multiplier = 0.5f;
 			}
-			if(RGB.X < min) {
+			if (RGB.X < min) {
 				multiplier = 1.5f;
 			}
 			Lighting.AddLight(projectile.position, RGB.X, RGB.Y, RGB.Z);

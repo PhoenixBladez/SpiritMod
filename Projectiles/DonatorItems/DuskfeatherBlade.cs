@@ -8,7 +8,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 {
 	class DuskfeatherBlade : ModProjectile
 	{
-		
+
 		private const float Range = 25 * 16;
 		private const float Max_Dist = 100 * 16;
 		private const int Total_Updates = 3;
@@ -35,12 +35,12 @@ namespace SpiritMod.Projectiles.DonatorItems
 
 		internal static void AttractBlades(Player player)
 		{
-			for(int i = 0; i < Main.maxProjectiles; ++i) {
+			for (int i = 0; i < Main.maxProjectiles; ++i) {
 				var projectile = Main.projectile[i];
-				if(!projectile.active)
+				if (!projectile.active)
 					continue;
 				int state = (int)projectile.ai[0];
-				if(projectile.type == ModContent.ProjectileType<DuskfeatherBlade>() &&
+				if (projectile.type == ModContent.ProjectileType<DuskfeatherBlade>() &&
 					projectile.owner == player.whoAmI &&
 					state != (int)FadeOut &&
 					state != (int)FadeOutStuck) {
@@ -53,12 +53,12 @@ namespace SpiritMod.Projectiles.DonatorItems
 		{
 			Projectile oldest = null;
 			int timeLeft = int.MaxValue;
-			for(int i = 0; i < Main.maxProjectiles; ++i) {
+			for (int i = 0; i < Main.maxProjectiles; ++i) {
 				var projectile = Main.projectile[i];
-				if(!projectile.active)
+				if (!projectile.active)
 					continue;
 				int state = (int)projectile.ai[0];
-				if(projectile.type == ModContent.ProjectileType<DuskfeatherBlade>() &&
+				if (projectile.type == ModContent.ProjectileType<DuskfeatherBlade>() &&
 					projectile.owner == player.whoAmI &&
 					state != (int)Return &&
 					state != (int)FadeOut &&
@@ -68,7 +68,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 					oldest = projectile;
 				}
 			}
-			if(oldest != null)
+			if (oldest != null)
 				Retract(oldest);
 		}
 
@@ -81,7 +81,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 
 		public override void Kill(int timeLeft)
 		{
-			if(projectile.alpha == 255)
+			if (projectile.alpha == 255)
 				return;
 		}
 
@@ -106,15 +106,15 @@ namespace SpiritMod.Projectiles.DonatorItems
 		}
 		public override void AI()
 		{
-			if(State < Return) {
-				if(projectile.alpha > 25)
+			if (State < Return) {
+				if (projectile.alpha > 25)
 					projectile.alpha -= 25;
 				else
 					projectile.alpha = 0;
 			}
 			int minFrame = 7;
 			int maxFrame = 12;
-			switch(State) {
+			switch (State) {
 				case Moving:
 					AIMove();
 					break;
@@ -140,28 +140,28 @@ namespace SpiritMod.Projectiles.DonatorItems
 					AIFade();
 					break;
 			}
-			if(projectile.numUpdates == 0) {
-				if(State == Moving || State == Return)
+			if (projectile.numUpdates == 0) {
+				if (State == Moving || State == Return)
 					++projectile.frameCounter;
-				if(++projectile.frameCounter >= 5) {
+				if (++projectile.frameCounter >= 5) {
 					projectile.frameCounter = 0;
 					++projectile.frame;
 				}
-				if(projectile.frame < minFrame || projectile.frame > maxFrame)
+				if (projectile.frame < minFrame || projectile.frame > maxFrame)
 					projectile.frame = minFrame;
 			}
 		}
 
 		private void AIMove()
 		{
-			if(Origin == Vector2.Zero) {
+			if (Origin == Vector2.Zero) {
 				projectile.rotation = (float)System.Math.Atan2(projectile.velocity.X, -projectile.velocity.Y);
 				Origin = projectile.position;
 				projectile.velocity *= 1f / Total_Updates;
 				FiringVelocity = projectile.velocity.Length();
 			}
 			float distanceFromStart = Vector2.DistanceSquared(projectile.position, Origin);
-			if(Range * Range < distanceFromStart) {
+			if (Range * Range < distanceFromStart) {
 				Stop();
 			}
 		}
@@ -169,7 +169,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 		private void AIStopped()
 		{
 			float distanceFromOwner = Vector2.DistanceSquared(projectile.position, Main.player[projectile.owner].position);
-			if(Max_Dist * Max_Dist < distanceFromOwner)
+			if (Max_Dist * Max_Dist < distanceFromOwner)
 				State = State == DuskfeatherState.Stopped ? FadeOut : FadeOutStuck;
 		}
 
@@ -177,18 +177,18 @@ namespace SpiritMod.Projectiles.DonatorItems
 		{
 			projectile.tileCollide = false;
 			projectile.penetrate = -1;
-			if(Poof == 0) {
+			if (Poof == 0) {
 				Poof = 1;
 				//Utils.PoofOfSmoke(projectile.position);
 			}
 			Vector2 velocity = Main.player[projectile.owner].MountedCenter - projectile.position;
 			float distance = velocity.Length();
-			if(distance < FiringVelocity) {
+			if (distance < FiringVelocity) {
 				projectile.Kill();
 				return;
 			}
 			float startFade = 10 * Total_Updates * FiringVelocity;
-			if(distance < startFade)
+			if (distance < startFade)
 				projectile.alpha = 255 - (int)(distance / startFade * 255);
 
 			velocity /= distance;
@@ -202,9 +202,9 @@ namespace SpiritMod.Projectiles.DonatorItems
 
 		private void AIFade()
 		{
-			if(projectile.numUpdates == 0) {
+			if (projectile.numUpdates == 0) {
 				projectile.alpha += 5;
-				if(projectile.alpha >= 255)
+				if (projectile.alpha >= 255)
 					projectile.Kill();
 			}
 		}
@@ -226,7 +226,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			if(State != 0)
+			if (State != 0)
 				return false;
 			projectile.position += projectile.velocity *= Total_Updates;
 			Stop();
@@ -236,7 +236,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(State == Moving)
+			if (State == Moving)
 				Stop();
 		}
 

@@ -27,10 +27,10 @@ namespace SpiritMod.NPCs.Boss.Dusking
 		public override void AI()
 		{
 			counter++;
-			if(counter >= 1440) {
+			if (counter >= 1440) {
 				counter = -1440;
 			}
-			for(int i = 0; i < 10; i++) {
+			for (int i = 0; i < 10; i++) {
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 
@@ -41,12 +41,13 @@ namespace SpiritMod.NPCs.Boss.Dusking
 				Main.dust[num].noGravity = true;
 
 			}
-			if(projectile.ai[0] == 0) {
+			if (projectile.ai[0] == 0) {
 				projectile.frame = Main.rand.Next(5);
 				projectile.ai[0] = 1;
-			} else if(projectile.ai[0] == 1) {
+			}
+			else if (projectile.ai[0] == 1) {
 				projectile.ai[1]++;
-				if(projectile.ai[1] >= 60) {
+				if (projectile.ai[1] >= 60) {
 					projectile.velocity *= 5;
 					projectile.ai[0] = 2;
 				}

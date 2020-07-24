@@ -34,8 +34,8 @@ namespace SpiritMod.Items.Accessory
 		{
 			ModRecipe modRecipe = new ModRecipe(mod);
 			modRecipe.AddIngredient(ModContent.ItemType<FloranBar>(), 9);
-            modRecipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 3);
-            modRecipe.AddTile(TileID.Anvils);
+			modRecipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 3);
+			modRecipe.AddTile(TileID.Anvils);
 			modRecipe.SetResult(this);
 			modRecipe.AddRecipe();
 		}
@@ -51,8 +51,8 @@ namespace SpiritMod.Items.Accessory
 		public override void ItemUpdateAccessory(Player player, bool hideVisual)
 		{
 			grassTimer--;
-			if(grassTimer < 0) standingOnGrass = false;
-			if(standingOnGrass) {
+			if (grassTimer < 0) standingOnGrass = false;
+			if (standingOnGrass) {
 				player.meleeSpeed += meleeSpeed;
 				player.lifeRegen += lifeRegen;
 			}
@@ -69,7 +69,7 @@ namespace SpiritMod.Items.Accessory
 				|| type == ModContent.TileType<HalloweenGrass>()
 				|| type == ModContent.TileType<ReachGrassTile>()
 				|| type == ModContent.TileType<SpiritGrass>();
-			if(standingOnGrass) grassTimer = 2;
+			if (standingOnGrass) grassTimer = 2;
 		}
 	}
 }

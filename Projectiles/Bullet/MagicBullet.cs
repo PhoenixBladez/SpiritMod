@@ -33,7 +33,7 @@ namespace SpiritMod.Projectiles.Bullet
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 
-			for(int i = 0; i < 10; i++) {
+			for (int i = 0; i < 10; i++) {
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 				int num = Dust.NewDust(new Vector2(x, y), 2, 2, DustID.GoldCoin);
@@ -44,19 +44,19 @@ namespace SpiritMod.Projectiles.Bullet
 
 			bool flag25 = false;
 			int jim = 1;
-			for(int index1 = 0; index1 < 200; index1++) {
-				if(Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1)) {
+			for (int index1 = 0; index1 < 200; index1++) {
+				if (Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1)) {
 					float num23 = Main.npc[index1].position.X + (float)(Main.npc[index1].width / 2);
 					float num24 = Main.npc[index1].position.Y + (float)(Main.npc[index1].height / 2);
 					float num25 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num23) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num24);
-					if(num25 < 500f) {
+					if (num25 < 500f) {
 						flag25 = true;
 						jim = index1;
 					}
 				}
 			}
 
-			if(flag25) {
+			if (flag25) {
 				float num1 = 10f;
 				Vector2 vector2 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
 				float num2 = Main.npc[jim].Center.X - vector2.X;
@@ -68,7 +68,8 @@ namespace SpiritMod.Projectiles.Bullet
 				int num8 = 10;
 				projectile.velocity.X = (projectile.velocity.X * (float)(num8 - 1) + num6) / (float)num8;
 				projectile.velocity.Y = (projectile.velocity.Y * (float)(num8 - 1) + num7) / (float)num8;
-			} else {
+			}
+			else {
 				projectile.velocity *= 0.95f;
 			}
 		}
@@ -78,13 +79,13 @@ namespace SpiritMod.Projectiles.Bullet
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			ProjectileExtras.Explode(projectile.whoAmI, 120, 120,
 				delegate {
-					for(int i = 0; i < 40; i++) {
+					for (int i = 0; i < 40; i++) {
 						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height,
 							DustID.GoldCoin, 0f, -2f, 0, default(Color), 2f);
 						Main.dust[num].noGravity = true;
 						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 						Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
-						if(Main.dust[num].position != projectile.Center)
+						if (Main.dust[num].position != projectile.Center)
 							Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
 					}
 				});

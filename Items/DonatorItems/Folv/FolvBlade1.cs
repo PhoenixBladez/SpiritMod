@@ -37,7 +37,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
 		{
 			float cosRot = (float)Math.Cos(player.itemRotation - 0.78f * player.direction * player.gravDir);
 			float sinRot = (float)Math.Sin(player.itemRotation - 0.78f * player.direction * player.gravDir);
-			for(int i = 0; i < 12; i++) {
+			for (int i = 0; i < 12; i++) {
 				float length = (item.width * 1.2f - i * item.width / 9) * item.scale + 2 + i; //length to base + arm displacement
 				int dust = Dust.NewDust(new Vector2((float)(player.itemLocation.X + length * cosRot * player.direction), (float)(player.itemLocation.Y + length * sinRot * player.direction)), 0, 0, 187, player.velocity.X * 0.9f, player.velocity.Y * 0.9f, 100, Color.Transparent, .8f);
 				Main.dust[dust].velocity *= 0f;

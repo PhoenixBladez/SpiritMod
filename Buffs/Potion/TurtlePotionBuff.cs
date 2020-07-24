@@ -15,13 +15,16 @@ namespace SpiritMod.Buffs.Potion
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			if(player.statLife < 100) {
+			if (player.statLife < 100) {
 				player.statDefense += 17;
-			} else if(player.statLife < 200) {
+			}
+			else if (player.statLife < 200) {
 				player.statDefense += 12;
-			} else if(player.statLife < 300) {
+			}
+			else if (player.statLife < 300) {
 				player.statDefense += 7;
-			} else if(player.statLife < 500) {
+			}
+			else if (player.statLife < 500) {
 				player.statDefense += 3;
 			}
 

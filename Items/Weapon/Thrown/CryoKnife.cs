@@ -7,7 +7,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 {
 	public class CryoKnife : ModItem
 	{
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cryolite Bomb");

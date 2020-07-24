@@ -43,13 +43,13 @@ namespace SpiritMod.Projectiles.Magic
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			projectile.penetrate--;
-			if(projectile.penetrate <= 0)
+			if (projectile.penetrate <= 0)
 				projectile.Kill();
 			else {
-				if(projectile.velocity.X != oldVelocity.X)
+				if (projectile.velocity.X != oldVelocity.X)
 					projectile.velocity.X = -oldVelocity.X;
 
-				if(projectile.velocity.Y != oldVelocity.Y)
+				if (projectile.velocity.Y != oldVelocity.Y)
 					projectile.velocity.Y = -oldVelocity.Y;
 
 				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 10);
@@ -59,7 +59,7 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 5; i++) {
+			for (int i = 0; i < 5; i++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 167);
 			}
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
@@ -67,7 +67,7 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(5) == 0)
+			if (Main.rand.Next(5) == 0)
 				target.AddBuff(ModContent.BuffType<FesteringWounds>(), 180);
 		}
 

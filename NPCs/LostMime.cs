@@ -25,15 +25,14 @@ namespace SpiritMod.NPCs
 			npc.value = 80f;
 			npc.knockBackResist = .25f;
 			npc.aiStyle = 3;
-			aiType = NPCID.AngryBones;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.LostMimeBanner>();
-        }
+			aiType = NPCID.SnowFlinx;
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.LostMimeBanner>();
+		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.playerSafe)
-			{
+			if (spawnInfo.playerSafe) {
 				return 0f;
 			}
 			return SpawnCondition.Cavern.Chance * 0.015f;
@@ -58,16 +57,16 @@ namespace SpiritMod.NPCs
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(npc.life <= 0 && Main.rand.Next(2) == 0) {
+			if (npc.life <= 0 && Main.rand.Next(2) == 0) {
 				Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 6);
 				npc.Transform(ModContent.NPCType<CaptiveMask>());
 			}
 			int d = 5;
-			for(int k = 0; k < 10; k++) {
+			for (int k = 0; k < 10; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.27f);
 				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.87f);
 			}
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, 99);
 				Gore.NewGore(npc.position, npc.velocity, 99);
 				Gore.NewGore(npc.position, npc.velocity, 99);
@@ -76,9 +75,8 @@ namespace SpiritMod.NPCs
 
 		public override void NPCLoot()
 		{
-			if (Main.rand.NextBool(3))
-            { 
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MimeMask>(), 1);
+			if (Main.rand.NextBool(3)) {
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MimeMask>(), 1);
 			}
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MimeBomb>(), Main.rand.Next(12, 23));
 		}

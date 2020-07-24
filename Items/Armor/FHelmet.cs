@@ -38,7 +38,7 @@ namespace SpiritMod.Items.Armor
 		{
 			timer++;
 
-			if(timer == 20) {
+			if (timer == 20) {
 				int d = Dust.NewDust(player.position, player.width, player.height, 39);
 				Main.dust[d].velocity *= 0f;
 				timer = 0;
@@ -51,8 +51,8 @@ namespace SpiritMod.Items.Armor
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<FloranBar>(), 12);
-            recipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 7);
-            recipe.AddTile(TileID.Anvils);
+			recipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 7);
+			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();
 		}

@@ -24,7 +24,7 @@ namespace SpiritMod.Projectiles
 
 		public override bool PreAI()
 		{
-			for(int i = 0; i < 50; ++i) {
+			for (int i = 0; i < 50; ++i) {
 				projectile.tileCollide = false;
 				int dust;
 				dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 61, 0f, 0f);

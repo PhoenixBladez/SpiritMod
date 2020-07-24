@@ -58,16 +58,17 @@ namespace SpiritMod.Items.Weapon.Summon
 			Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
 			float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
 			float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
-			if(player.gravDir == -1f) {
+			if (player.gravDir == -1f) {
 				num79 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector2.Y;
 			}
 			float num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
 			float num81 = num80;
-			if((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f)) {
+			if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f)) {
 				num78 = (float)player.direction;
 				num79 = 0f;
 				num80 = num72;
-			} else {
+			}
+			else {
 				num80 = num72 / num80;
 			}
 			num78 = 0f;

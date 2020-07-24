@@ -44,7 +44,7 @@ namespace SpiritMod.Projectiles
 		{
 			Player player = Main.player[base.projectile.owner];
 
-			if(Main.rand.Next(7) == 1) {
+			if (Main.rand.Next(7) == 1) {
 				player.statLife += Main.rand.Next(2, 3);
 				player.HealEffect(Main.rand.Next(2, 3));
 			}

@@ -34,12 +34,12 @@ namespace SpiritMod.Projectiles.Thrown
 
 			bool flag25 = false;
 			int jim = 1;
-			for(int index1 = 0; index1 < 200; index1++) {
-				if(Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1)) {
+			for (int index1 = 0; index1 < 200; index1++) {
+				if (Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1)) {
 					float num23 = Main.npc[index1].position.X + (float)(Main.npc[index1].width / 2);
 					float num24 = Main.npc[index1].position.Y + (float)(Main.npc[index1].height / 2);
 					float num25 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num23) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num24);
-					if(num25 < 500f) {
+					if (num25 < 500f) {
 						flag25 = true;
 						jim = index1;
 					}
@@ -47,7 +47,7 @@ namespace SpiritMod.Projectiles.Thrown
 				}
 			}
 
-			if(flag25) {
+			if (flag25) {
 				float num1 = 10f;
 				Vector2 vector2 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
 				float num2 = Main.npc[jim].Center.X - vector2.X;
@@ -65,11 +65,11 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override void Kill(int timeLeft)
 		{
-			if(Main.rand.Next(0, 4) == 0)
+			if (Main.rand.Next(0, 4) == 0)
 				Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<Items.Weapon.Thrown.PaleolithShuriken>(), 1, false, 0, false, false);
 
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1);
-			for(int num424 = 0; num424 < 10; num424++) {
+			for (int num424 = 0; num424 < 10; num424++) {
 				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 1, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 0, default(Color), 0.75f);
 			}
 		}

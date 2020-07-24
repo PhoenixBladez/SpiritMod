@@ -61,7 +61,7 @@ namespace SpiritMod.Items.DonatorItems
 		}
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
 		{
-			if(Main.rand.Next(8) == 1) {
+			if (Main.rand.Next(8) == 1) {
 				Vector2 velocity = new Vector2(player.direction, 0) * 4f;
 				int proj = Terraria.Projectile.NewProjectile(player.Center.X, player.position.Y + player.height + -35, velocity.X, velocity.Y, ModContent.ProjectileType<JadeScarab>(), item.damage / 2, item.owner, 0, 0f);
 				Main.projectile[proj].friendly = true;
@@ -73,7 +73,7 @@ namespace SpiritMod.Items.DonatorItems
 		{
 			float cosRot = (float)Math.Cos(player.itemRotation - 0.78f * player.direction * player.gravDir);
 			float sinRot = (float)Math.Sin(player.itemRotation - 0.78f * player.direction * player.gravDir);
-			for(int i = 0; i < 1; i++) {
+			for (int i = 0; i < 1; i++) {
 				float length = (item.width * 1.2f - i * item.width / 9) * item.scale - 4; //length to base + arm displacement
 				int dust = Dust.NewDust(new Vector2((float)(player.itemLocation.X + length * cosRot * player.direction), (float)(player.itemLocation.Y + length * sinRot * player.direction)), 0, 0, 107, player.velocity.X * 0.9f, player.velocity.Y * 0.9f, 100, Color.Transparent, .8f);
 				Main.dust[dust].velocity *= 0f;

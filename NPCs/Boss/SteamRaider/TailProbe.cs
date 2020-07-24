@@ -61,15 +61,15 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			Texture2D texture2D2 = Main.glowMaskTexture[239];
 			float num11 = (float)((double)Main.GlobalTime % 1.0 / 1.0);
 			float num12 = num11;
-			if((double)num12 > 0.5)
+			if ((double)num12 > 0.5)
 				num12 = 1f - num11;
-			if((double)num12 < 0.0)
+			if ((double)num12 < 0.0)
 				num12 = 0.0f;
 			float num13 = (float)(((double)num11 + 0.5) % 1.0);
 			float num14 = num13;
-			if((double)num14 > 0.5)
+			if ((double)num14 > 0.5)
 				num14 = 1f - num13;
-			if((double)num14 < 0.0)
+			if ((double)num14 < 0.0)
 				num14 = 0.0f;
 			Microsoft.Xna.Framework.Rectangle r2 = texture2D2.Frame(1, 1, 0, 0);
 			drawOrigin = r2.Size() / 2f;
@@ -90,17 +90,17 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				npc.position.X = npc.position.X + (npc.width / 2.0f);
 				npc.position.Y = npc.position.Y + (npc.height / 2.0f);
 				npc.width = 30;
 				npc.height = 30;
 				npc.position.X = npc.position.X - (npc.width / 2.0f);
 				npc.position.Y = npc.position.Y - (npc.height / 2.0f);
-				for(int num621 = 0; num621 < 10; num621++) {
+				for (int num621 = 0; num621 < 10; num621++) {
 					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default(Color), 2f);
 					Main.dust[num622].velocity *= 1f;
-					if(Main.rand.Next(2) == 0) {
+					if (Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 					}
@@ -110,7 +110,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		int shoottimer;
 		public override void AI()
 		{
-			if(!NPC.AnyNPCs(ModContent.NPCType<SteamRaiderHead>())) {
+			if (!NPC.AnyNPCs(ModContent.NPCType<SteamRaiderHead>())) {
 				npc.active = false;
 				npc.position.X = npc.position.X + (npc.width / 2.0f);
 				npc.position.Y = npc.position.Y + (npc.height / 2.0f);
@@ -118,10 +118,10 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				npc.height = 30;
 				npc.position.X = npc.position.X - (npc.width / 2.0f);
 				npc.position.Y = npc.position.Y - (npc.height / 2.0f);
-				for(int num621 = 0; num621 < 10; num621++) {
+				for (int num621 = 0; num621 < 10; num621++) {
 					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default(Color), .8f);
 					Main.dust[num622].velocity *= 1f;
-					if(Main.rand.Next(2) == 0) {
+					if (Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.5f;
 					}
 				}
@@ -140,7 +140,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					}*/
 			int parent = NPC.FindFirstNPC(ModContent.NPCType<SteamRaiderHead>());
 			{
-				if(Main.npc[parent].life <= Main.npc[parent].lifeMax * .3f) {
+				if (Main.npc[parent].life <= Main.npc[parent].lifeMax * .3f) {
 					npc.life = 0;
 					npc.HitEffect(0, 10.0);
 					npc.active = false;
@@ -149,39 +149,44 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			float num5 = base.npc.position.X + (float)(base.npc.width / 2) - player.position.X - (float)(player.width / 2);
 			float num6 = base.npc.position.Y + (float)base.npc.height - 59f - player.position.Y - (float)(player.height / 2);
 			float num7 = (float)Math.Atan2((double)num6, (double)num5) + 1.57f;
-			if(num7 < 0f) {
+			if (num7 < 0f) {
 				num7 += 6.283f;
-			} else if((double)num7 > 6.283) {
+			}
+			else if ((double)num7 > 6.283) {
 				num7 -= 6.283f;
 			}
 			float num8 = 0.1f;
-			if(base.npc.rotation < num7) {
-				if((double)(num7 - base.npc.rotation) > 3.1415) {
+			if (base.npc.rotation < num7) {
+				if ((double)(num7 - base.npc.rotation) > 3.1415) {
 					base.npc.rotation -= num8;
-				} else {
+				}
+				else {
 					base.npc.rotation += num8;
 				}
-			} else if(base.npc.rotation > num7) {
-				if((double)(base.npc.rotation - num7) > 3.1415) {
+			}
+			else if (base.npc.rotation > num7) {
+				if ((double)(base.npc.rotation - num7) > 3.1415) {
 					base.npc.rotation += num8;
-				} else {
+				}
+				else {
 					base.npc.rotation -= num8;
 				}
 			}
-			if(base.npc.rotation > num7 - num8 && base.npc.rotation < num7 + num8) {
+			if (base.npc.rotation > num7 - num8 && base.npc.rotation < num7 + num8) {
 				base.npc.rotation = num7;
 			}
-			if(base.npc.rotation < 0f) {
+			if (base.npc.rotation < 0f) {
 				base.npc.rotation += 6.283f;
-			} else if((double)base.npc.rotation > 6.283) {
+			}
+			else if ((double)base.npc.rotation > 6.283) {
 				base.npc.rotation -= 6.283f;
 			}
-			if(base.npc.rotation > num7 - num8 && base.npc.rotation < num7 + num8) {
+			if (base.npc.rotation > num7 - num8 && base.npc.rotation < num7 + num8) {
 				base.npc.rotation = num7;
 			}
 			base.npc.spriteDirection = base.npc.direction;
 			shoottimer++;
-			if(shoottimer >= 120 && shoottimer <= 180) {
+			if (shoottimer >= 120 && shoottimer <= 180) {
 				{
 					int dust = Dust.NewDust(npc.Center, npc.width, npc.height, DustID.GoldCoin);
 					Main.dust[dust].velocity *= -1f;
@@ -197,7 +202,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				}
 			}
 			{
-				if(shoottimer >= 180) {
+				if (shoottimer >= 180) {
 					Main.PlaySound(SoundID.Item, (int)npc.Center.X, (int)npc.Center.Y, 12);
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
 					direction.Normalize();
@@ -205,7 +210,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					direction.Y *= 6f;
 
 					int amountOfProjectiles = 1;
-					for(int i = 0; i < amountOfProjectiles; ++i) {
+					for (int i = 0; i < amountOfProjectiles; ++i) {
 						float A = (float)Main.rand.Next(-50, 50) * 0.02f;
 						float B = (float)Main.rand.Next(-50, 50) * 0.02f;
 						int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<GlitchLaser>(), 17, 1, Main.myPlayer, 0, 0);
@@ -216,39 +221,39 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			}
 
 			npc.TargetClosest(true);
-			if(npc.direction == -1) {
+			if (npc.direction == -1) {
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
 				direction *= 12f;
 			}
-			if(npc.direction == 1) {
+			if (npc.direction == 1) {
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
 				direction *= -12f;
 			}
-			if(npc.Center.X >= player.Center.X && moveSpeed >= -80) // flies to players x position
+			if (npc.Center.X >= player.Center.X && moveSpeed >= -80) // flies to players x position
 			{
 				moveSpeed--;
 			}
 
-			if(npc.Center.X <= player.Center.X && moveSpeed <= 80) {
+			if (npc.Center.X <= player.Center.X && moveSpeed <= 80) {
 				moveSpeed++;
 			}
 
 			npc.velocity.X = moveSpeed * 0.09f;
 
-			if(npc.Center.Y >= player.Center.Y - HomeY && moveSpeedY >= -27) //Flies to players Y position
+			if (npc.Center.Y >= player.Center.Y - HomeY && moveSpeedY >= -27) //Flies to players Y position
 			{
 				moveSpeedY--;
 				HomeY = 120f;
 			}
 
-			if(npc.Center.Y <= player.Center.Y - HomeY && moveSpeedY <= 27) {
+			if (npc.Center.Y <= player.Center.Y - HomeY && moveSpeedY <= 27) {
 				moveSpeedY++;
 			}
 
 			npc.velocity.Y = moveSpeedY * 0.1f;
-			if(Main.rand.Next(220) == 33) {
+			if (Main.rand.Next(220) == 33) {
 				HomeY = -35f;
 			}
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), .25f, .57f, .85f);

@@ -25,7 +25,7 @@ namespace SpiritMod.Items.DonatorItems
 
 		public override void UseStyle(Player player)
 		{
-			if(player.whoAmI == Main.myPlayer && player.itemTime == 0) {
+			if (player.whoAmI == Main.myPlayer && player.itemTime == 0) {
 				player.AddBuff(item.buffType, 3600, true);
 			}
 		}

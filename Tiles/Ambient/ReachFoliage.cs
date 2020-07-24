@@ -7,7 +7,7 @@ namespace SpiritMod.Tiles.Ambient
 {
 	public class ReachFoliage : ModTile
 	{
-		
+
 		public override void SetDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
@@ -35,7 +35,7 @@ namespace SpiritMod.Tiles.Ambient
 			TileObjectData.newTile.StyleHorizontal = true;
 			TileObjectData.newTile.UsesCustomCanPlace = true;
 
-			for(int i = 0; i < 8; i++) {
+			for (int i = 0; i < 8; i++) {
 				TileObjectData.newSubTile.CopyFrom(TileObjectData.newTile);
 				TileObjectData.addSubTile(TileObjectData.newSubTile.Style);
 			}

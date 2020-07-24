@@ -7,7 +7,7 @@ namespace SpiritMod.Projectiles
 {
 	public class PoisonCloud : ModProjectile
 	{
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Poison Cloud");
@@ -27,7 +27,7 @@ namespace SpiritMod.Projectiles
 
 		public override bool? CanHitNPC(NPC target)
 		{
-			if(target.whoAmI == projectile.ai[0])
+			if (target.whoAmI == projectile.ai[0])
 				return false;
 
 			return null;
@@ -35,7 +35,7 @@ namespace SpiritMod.Projectiles
 
 		public override void AI()
 		{
-			if(projectile.localAI[0] == 0f) {
+			if (projectile.localAI[0] == 0f) {
 				projectile.localAI[0] = 1f;
 				projectile.rotation = Main.rand.NextFloat(MathHelper.TwoPi);
 			}
@@ -47,8 +47,8 @@ namespace SpiritMod.Projectiles
 			Main.dust[dust].noGravity = true;
 
 			projectile.frameCounter++;
-			if((float)projectile.frameCounter >= 12f) {
-				if(++projectile.frame >= Main.projFrames[projectile.type])
+			if ((float)projectile.frameCounter >= 12f) {
+				if (++projectile.frame >= Main.projFrames[projectile.type])
 					projectile.frame = 0;
 				projectile.frameCounter = 0;
 			}
@@ -61,7 +61,7 @@ namespace SpiritMod.Projectiles
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(6) == 0)
+			if (Main.rand.Next(6) == 0)
 				target.AddBuff(BuffID.Poisoned, 300);
 		}
 	}

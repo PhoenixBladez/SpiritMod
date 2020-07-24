@@ -47,9 +47,9 @@ namespace SpiritMod.Items.Weapon.Gun
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			Vector2 origVect = new Vector2(speedX, speedY);
-			for(int X = 0; X <= 6; X++) {
+			for (int X = 0; X <= 6; X++) {
 				Vector2 vel;
-				if(Main.rand.Next(2) == 1)
+				if (Main.rand.Next(2) == 1)
 					vel = origVect.RotatedBy(System.Math.PI / (Main.rand.Next(200, 3000) / 12));
 				else
 					vel = origVect.RotatedBy(-System.Math.PI / (Main.rand.Next(200, 3000) / 12));
@@ -64,8 +64,8 @@ namespace SpiritMod.Items.Weapon.Gun
 			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ReaperBlast>(), damage, knockBack, player.whoAmI);
 
 			charger++;
-			if(charger == 20) {
-				for(int I = 0; I < 1; I++) {
+			if (charger == 20) {
+				for (int I = 0; I < 1; I++) {
 					int dust = Dust.NewDust(player.position + player.velocity, player.width + 40, player.height + 40, 109, player.velocity.X * 0.5f, player.velocity.Y * 0.5f);
 					Main.PlaySound(SoundLoader.customSoundType, player.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Reaper2"));
 					float spread = 10f * 0.0174f;
@@ -73,35 +73,37 @@ namespace SpiritMod.Items.Weapon.Gun
 					double deltaAngle = spread / 8f;
 					double offsetAngle;
 					int i;
-					for(i = 0; i < 20; i++) {
+					for (i = 0; i < 20; i++) {
 						offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
 						Projectile.NewProjectile(position.X, position.Y, (float)(Math.Sin(offsetAngle) * 3f), (float)(Math.Cos(offsetAngle) * 3f), item.shoot, damage, knockBack, player.whoAmI);
 						Projectile.NewProjectile(position.X, position.Y, (float)(-Math.Sin(offsetAngle) * 3f), (float)(-Math.Cos(offsetAngle) * 3f), item.shoot, damage, knockBack, player.whoAmI);
 					}
 				}
-			} else if(charger == 21) {
-				for(int I = 0; I < 1; I++) {
+			}
+			else if (charger == 21) {
+				for (int I = 0; I < 1; I++) {
 					int dust = Dust.NewDust(player.position + player.velocity, player.width + 40, player.height + 40, 109, player.velocity.X * 0.5f, player.velocity.Y * 0.5f);
 					float spread = 10f * 0.0174f;
 					double startAngle = Math.Atan2(speedX, speedY) - spread / 2;
 					double deltaAngle = spread / 8f;
 					double offsetAngle;
 					int i;
-					for(i = 0; i < 20; i++) {
+					for (i = 0; i < 20; i++) {
 						offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
 						Projectile.NewProjectile(position.X, position.Y, (float)(Math.Sin(offsetAngle) * 3f), (float)(Math.Cos(offsetAngle) * 3f), item.shoot, damage, knockBack, player.whoAmI);
 						Projectile.NewProjectile(position.X, position.Y, (float)(-Math.Sin(offsetAngle) * 3f), (float)(-Math.Cos(offsetAngle) * 3f), item.shoot, damage, knockBack, player.whoAmI);
 					}
 				}
-			} else if(charger == 22) {
-				for(int I = 0; I < 1; I++) {
+			}
+			else if (charger == 22) {
+				for (int I = 0; I < 1; I++) {
 					int dust = Dust.NewDust(player.position + player.velocity, player.width + 40, player.height + 40, 109, player.velocity.X * 0.5f, player.velocity.Y * 0.5f);
 					float spread = 10f * 0.0174f;
 					double startAngle = Math.Atan2(speedX, speedY) - spread / 2;
 					double deltaAngle = spread / 8f;
 					double offsetAngle;
 					int i;
-					for(i = 0; i < 20; i++) {
+					for (i = 0; i < 20; i++) {
 						offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
 						Projectile.NewProjectile(position.X, position.Y, (float)(Math.Sin(offsetAngle) * 3f), (float)(Math.Cos(offsetAngle) * 3f), item.shoot, damage, knockBack, player.whoAmI);
 						Projectile.NewProjectile(position.X, position.Y, (float)(-Math.Sin(offsetAngle) * 3f), (float)(-Math.Cos(offsetAngle) * 3f), item.shoot, damage, knockBack, player.whoAmI);
@@ -109,7 +111,7 @@ namespace SpiritMod.Items.Weapon.Gun
 				}
 
 			}
-			if(charger >= 23)
+			if (charger >= 23)
 				charger = 0;
 
 			return false;

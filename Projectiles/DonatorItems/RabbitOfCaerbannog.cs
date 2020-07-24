@@ -7,7 +7,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 {
 	class RabbitOfCaerbannog : ModProjectile
 	{
-				int frame2 = 1;
+		int frame2 = 1;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Rabbit of Caerbannog");
@@ -35,19 +35,20 @@ namespace SpiritMod.Projectiles.DonatorItems
 		public override void AI()
 		{
 			var owner = Main.player[projectile.owner];
-			if(owner.active && owner.HasBuff(ModContent.BuffType<RabbitOfCaerbannogBuff>()))
+			if (owner.active && owner.HasBuff(ModContent.BuffType<RabbitOfCaerbannogBuff>()))
 				projectile.timeLeft = 2;
 
 
 
-			if(projectile.velocity.X != 0) {
+			if (projectile.velocity.X != 0) {
 				projectile.frame = frame2;
 				projectile.frameCounter++;
-				if(projectile.frameCounter >= 7) {
+				if (projectile.frameCounter >= 7) {
 					frame2 = (frame2 + 1) % Main.projFrames[projectile.type];
 					projectile.frameCounter = 0;
 				}
-			} else {
+			}
+			else {
 				projectile.frame = 0;
 			}
 		}

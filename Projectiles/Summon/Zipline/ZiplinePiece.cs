@@ -27,13 +27,13 @@ namespace SpiritMod.Projectiles.Summon.Zipline
 		}
 		public override void AI()
 		{
-			if(projectile.ai[1] < 0) {
+			if (projectile.ai[1] < 0) {
 				projectile.ai[0] = 0 - projectile.ai[0];
 				projectile.ai[1] = 0 - projectile.ai[1];
 			}
 			Player player = Main.player[Main.myPlayer];
-			if(projectile.Hitbox.Intersects(player.Hitbox) && player.controlUp && projectile.ai[1] < 0.7) {
-				if(player.GetSpiritPlayer().ziplineCounter <= 45) {
+			if (projectile.Hitbox.Intersects(player.Hitbox) && player.controlUp && projectile.ai[1] < 0.7) {
+				if (player.GetSpiritPlayer().ziplineCounter <= 45) {
 					player.position = projectile.position - new Vector2(0, player.height);
 				}
 				player.GetSpiritPlayer().zipline = true;
@@ -41,9 +41,9 @@ namespace SpiritMod.Projectiles.Summon.Zipline
 				player.GetSpiritPlayer().ziplineY = projectile.ai[1];
 				//player.velocity.X = projectile.ai[0];
 				//player.velocity.Y = projectile.ai[1];
-				if(Main.rand.Next(4) == 1)
+				if (Main.rand.Next(4) == 1)
 					player.position.Y--;
-				if(Main.rand.Next(10) == 0) {
+				if (Main.rand.Next(10) == 0) {
 					Main.PlaySound(SoundID.Item, player.position, 55);
 				}
 			}

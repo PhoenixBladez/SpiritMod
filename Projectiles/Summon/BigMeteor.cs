@@ -37,13 +37,13 @@ namespace SpiritMod.Projectiles.Summon
 		public override void AI()
 		{
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 7) {
+			if (projectile.frameCounter >= 7) {
 				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
 				projectile.frameCounter = 0;
 			}
 
 			Player player = Main.player[projectile.owner];
-			if(player.GetSpiritPlayer().SoulStone == true && player.active && !player.dead)
+			if (player.GetSpiritPlayer().SoulStone == true && player.active && !player.dead)
 				projectile.timeLeft = 2;
 
 			timer++;
@@ -54,14 +54,14 @@ namespace SpiritMod.Projectiles.Summon
 
 			//TARGET NEAREST NPC WITHIN RANGE
 			float lowestDist = float.MaxValue;
-			foreach(NPC npc in Main.npc) {
+			foreach (NPC npc in Main.npc) {
 				//if npc is a valid target (active, not friendly, and not a critter)
-				if(npc.active && !npc.friendly && npc.catchItem == 0) {
+				if (npc.active && !npc.friendly && npc.catchItem == 0) {
 					//if npc is within 50 blocks
 					float dist = projectile.Distance(npc.Center);
-					if(dist / 16 < range) {
+					if (dist / 16 < range) {
 						//if npc is closer than closest found npc
-						if(dist < lowestDist) {
+						if (dist < lowestDist) {
 							lowestDist = dist;
 
 							//target this npc
@@ -74,19 +74,19 @@ namespace SpiritMod.Projectiles.Summon
 
 			bool flag25 = false;
 			int jim = 1;
-			for(int index1 = 0; index1 < 200; index1++) {
-				if(Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1)) {
+			for (int index1 = 0; index1 < 200; index1++) {
+				if (Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1)) {
 					float num23 = Main.npc[index1].position.X + (float)(Main.npc[index1].width / 2);
 					float num24 = Main.npc[index1].position.Y + (float)(Main.npc[index1].height / 2);
 					float num25 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num23) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num24);
-					if(num25 < 500f) {
+					if (num25 < 500f) {
 						flag25 = true;
 						jim = index1;
 					}
 				}
 			}
 
-			if(flag25) {
+			if (flag25) {
 				float num1 = 10f;
 				Vector2 vector2 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
 				float num2 = Main.npc[jim].Center.X - vector2.X;
@@ -98,9 +98,10 @@ namespace SpiritMod.Projectiles.Summon
 				int num8 = 10;
 				projectile.velocity.X = (projectile.velocity.X * (float)(num8 - 1) + num6) / (float)num8;
 				projectile.velocity.Y = (projectile.velocity.Y * (float)(num8 - 1) + num7) / (float)num8;
-			} else {
+			}
+			else {
 				var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
-				foreach(var proj in list) {
+				foreach (var proj in list) {
 					projectile.ai[0] += .02f;
 					projectile.Center = player.Center - offset.RotatedBy(projectile.ai[0] + projectile.ai[1] * (Math.PI * 10 / 1));
 					projectile.rotation = projectile.velocity.ToRotation() + (float)(Math.PI / 2);
@@ -116,15 +117,15 @@ namespace SpiritMod.Projectiles.Summon
 			projectile.height = 50;
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-			for(int num621 = 0; num621 < 20; num621++) {
+			for (int num621 = 0; num621 < 20; num621++) {
 				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 187, 0f, 0f, 100, default(Color), 2f);
 				Main.dust[num622].velocity *= 3f;
-				if(Main.rand.Next(2) == 0) {
+				if (Main.rand.Next(2) == 0) {
 					Main.dust[num622].scale = 0.5f;
 					Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 				}
 			}
-			for(int num623 = 0; num623 < 35; num623++) {
+			for (int num623 = 0; num623 < 35; num623++) {
 				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 187, 0f, 0f, 100, default(Color), 3f);
 				Main.dust[num624].noGravity = true;
 				Main.dust[num624].velocity *= 5f;
@@ -132,11 +133,11 @@ namespace SpiritMod.Projectiles.Summon
 				Main.dust[num624].velocity *= 2f;
 			}
 
-			for(int num625 = 0; num625 < 3; num625++) {
+			for (int num625 = 0; num625 < 3; num625++) {
 				float scaleFactor10 = 0.33f;
-				if(num625 == 1)
+				if (num625 == 1)
 					scaleFactor10 = 0.66f;
-				else if(num625 == 2)
+				else if (num625 == 2)
 					scaleFactor10 = 1f;
 
 				int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default(Vector2), Main.rand.Next(61, 64), 1f);

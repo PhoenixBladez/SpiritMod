@@ -26,13 +26,13 @@ namespace SpiritMod.Projectiles.Sword
 		public override bool PreAI()
 		{
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 3) {
+			if (projectile.frameCounter >= 3) {
 				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
 				projectile.frameCounter = 0;
 			}
 			projectile.rotation = projectile.velocity.ToRotation();
 
-			if(projectile.owner == Main.myPlayer && projectile.timeLeft <= 3) {
+			if (projectile.owner == Main.myPlayer && projectile.timeLeft <= 3) {
 				projectile.tileCollide = false;
 				projectile.ai[1] = 0f;
 				projectile.alpha = 255;
@@ -54,7 +54,7 @@ namespace SpiritMod.Projectiles.Sword
 		{
 			target.AddBuff(ModContent.BuffType<TidalWrath>(), 300);
 
-			if(Main.rand.Next(6) == 0 && projectile.timeLeft > 3) {
+			if (Main.rand.Next(6) == 0 && projectile.timeLeft > 3) {
 				projectile.velocity *= 0f;
 				projectile.alpha = 255;
 				projectile.timeLeft = 3;
@@ -63,7 +63,7 @@ namespace SpiritMod.Projectiles.Sword
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			if(Main.rand.Next(6) == 0) {
+			if (Main.rand.Next(6) == 0) {
 				projectile.velocity *= 0f;
 				projectile.alpha = 255;
 				projectile.timeLeft = 3;
@@ -74,11 +74,11 @@ namespace SpiritMod.Projectiles.Sword
 
 		public override void Kill(int timeLeft)
 		{
-			if(!projectile.active)
+			if (!projectile.active)
 				return;
 
-			if(projectile.ai[0] != 1) {
-				for(int i = 0; i < 15; ++i) {
+			if (projectile.ai[0] != 1) {
+				for (int i = 0; i < 15; ++i) {
 					int newDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 172, 0f, 0f, 100, default(Color), 2.5f);
 					Main.dust[newDust].noGravity = true;
 					Main.dust[newDust].velocity *= 3F;
@@ -94,7 +94,7 @@ namespace SpiritMod.Projectiles.Sword
 			projectile.height = 22;
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-			for(int num617 = 0; num617 < 20; num617++) {
+			for (int num617 = 0; num617 < 20; num617++) {
 				int num618 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 172, 0f, 0f, 100, default(Color), 3.5f);
 				Main.dust[num618].noGravity = true;
 				Main.dust[num618].velocity *= 7f;

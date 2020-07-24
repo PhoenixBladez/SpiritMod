@@ -15,15 +15,15 @@ namespace SpiritMod.Dusts
 			dust2.scale += 0.007f;
 
 			int index = (int)dust.fadeIn - 1;
-			if(index >= 0 && index <= Main.maxPlayers) {
+			if (index >= 0 && index <= Main.maxPlayers) {
 				Vector2 vector = dust.position - Main.player[index].Center;
 				float vectorLength = vector.Length();
-				if(vectorLength <= 16) {
+				if (vectorLength <= 16) {
 					dust.active = false;
 				}
 
 				vectorLength = 100f - vectorLength;
-				if(vectorLength > 0f) {
+				if (vectorLength > 0f) {
 					dust2 = dust;
 					dust2.scale -= vectorLength * 0.0015f;
 				}

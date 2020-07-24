@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Placeable.Furniture.Shiverbark
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.Wood, 20);
 			recipe.AddIngredient(ModContent.ItemType<CreepingIce>(), 8);
-            recipe.AddTile(TileID.WorkBenches);
+			recipe.AddTile(TileID.WorkBenches);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

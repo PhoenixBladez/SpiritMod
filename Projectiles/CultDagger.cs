@@ -29,7 +29,7 @@ namespace SpiritMod.Projectiles
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 
-			for(int i = 0; i < 10; i++) {
+			for (int i = 0; i < 10; i++) {
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 				int num = Dust.NewDust(new Vector2(x, y), 26, 26, 206, 0f, 0f, 0, default(Color), 1f);
@@ -44,7 +44,7 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 10; i++) {
+			for (int i = 0; i < 10; i++) {
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 				int num = Dust.NewDust(new Vector2(x, y), 26, 26, 206, 0f, 0f, 0, default(Color), 1f);
@@ -54,7 +54,7 @@ namespace SpiritMod.Projectiles
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			Player player = Main.player[projectile.owner];
-			if(Main.rand.Next(2) == 0) {
+			if (Main.rand.Next(2) == 0) {
 				player.statMana += 3;
 				player.ManaEffect(3);
 			}

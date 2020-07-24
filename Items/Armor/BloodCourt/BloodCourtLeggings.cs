@@ -24,9 +24,9 @@ namespace SpiritMod.Items.Armor.BloodCourt
 		}
 		public override void UpdateEquip(Player player)
 		{
-            player.statManaMax2 += 30;
-            player.moveSpeed += .1f;
-            player.maxRunSpeed += .04f;
+			player.statManaMax2 += 30;
+			player.moveSpeed += .1f;
+			player.maxRunSpeed += .04f;
 		}
 		public override void AddRecipes()
 		{

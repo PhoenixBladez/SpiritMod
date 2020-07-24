@@ -48,7 +48,7 @@ namespace SpiritMod.NPCs.Town
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Bandit/Bandit1"));
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Bandit/Bandit2"));
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Bandit/Bandit3"));
@@ -80,17 +80,17 @@ namespace SpiritMod.NPCs.Town
 			};
 
 			int wizard = NPC.FindFirstNPC(NPCID.Wizard);
-			if(wizard >= 0) {
+			if (wizard >= 0) {
 				dialogue.Add($"Tell {Main.npc[wizard].GivenName} to stop asking me where I got the charms. He doesn't need to know that. He would die of shock.");
 			}
 
 			int merchant = NPC.FindFirstNPC(NPCID.Merchant);
-			if(merchant >= 0) {
+			if (merchant >= 0) {
 				dialogue.Add($"Why is {Main.npc[merchant].GivenName} so intent on selling shurikens? That's totally my thing.");
 			}
 
 			int armsDealer = NPC.FindFirstNPC(NPCID.ArmsDealer);
-			if(armsDealer >= 0) {
+			if (armsDealer >= 0) {
 				dialogue.Add($"You just missed the thrilling battle I had with {Main.npc[armsDealer].GivenName}! I won, of course");
 			}
 
@@ -104,7 +104,7 @@ namespace SpiritMod.NPCs.Town
 
 		public override void OnChatButtonClicked(bool firstButton, ref bool shop)
 		{
-			if(firstButton) {
+			if (firstButton) {
 				shop = true;
 			}
 		}
@@ -127,8 +127,8 @@ namespace SpiritMod.NPCs.Town
 			AddItem(ref shop, ref nextSlot, ItemType<AssassinMagazine>());
 			AddItem(ref shop, ref nextSlot, ItemType<Items.Weapon.Thrown.TargetCan>());
 			AddItem(ref shop, ref nextSlot, ItemType<Items.Weapon.Thrown.TargetBottle>());
-            AddItem(ref shop, ref nextSlot, ItemType<Items.Placeable.Furniture.TreasureChest>());
-        }
+			AddItem(ref shop, ref nextSlot, ItemType<Items.Placeable.Furniture.TreasureChest>());
+		}
 
 		public override void TownNPCAttackStrength(ref int damage, ref float knockback)
 		{

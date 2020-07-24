@@ -118,8 +118,8 @@ namespace SpiritMod
 		public bool infernalFlame = false;
 		public bool floranSet = false;
 		public bool silkenLegs = false;
-        public bool silkenHead = false;
-        public bool rogueSet = false;
+		public bool silkenHead = false;
+		public bool rogueSet = false;
 		public bool crystal = false;
 		public bool eyezorEye = false;
 		public bool shamanBand = false;
@@ -267,7 +267,7 @@ namespace SpiritMod
 		public bool frostUpdate;
 		public int frostTally;
 		public int frostCount;
-        public bool stoneHead;
+		public bool stoneHead;
 
 		public float shadowRotation;
 		public bool shadowUpdate;
@@ -279,8 +279,8 @@ namespace SpiritMod
 		public bool runicSet;
 		public bool icySet;
 		public bool depthSet;
-        public bool elderbarkWoodSet;
-        public bool primalSet;
+		public bool elderbarkWoodSet;
+		public bool primalSet;
 		public bool spiritSet;
 		public bool putridSet;
 		public bool duneSet;
@@ -509,15 +509,14 @@ namespace SpiritMod
 			ZoneHive = ((flags & 6) == 6);
 		}
 
-        public override Texture2D GetMapBackgroundImage()
-        {
-            if (ZoneSpirit)
-            {
-                return mod.GetTexture("Backgrounds/SpiritMapBackground");
-            }
-            return null;
-        }
-        public override TagCompound Save()
+		public override Texture2D GetMapBackgroundImage()
+		{
+			if(ZoneSpirit) {
+				return mod.GetTexture("Backgrounds/SpiritMapBackground");
+			}
+			return null;
+		}
+		public override TagCompound Save()
 		{
 			TagCompound tag = new TagCompound
 			{
@@ -539,8 +538,8 @@ namespace SpiritMod
 			removedEffects = effects;
 			effects = new List<SpiritPlayerEffect>();
 			setbonus = null;
-            stoneHead = false;
-            silkenHead = false;
+			stoneHead = false;
+			silkenHead = false;
 			zipline = false;
 			clockActive = false;
 			bloodcourtSet = false;
@@ -550,8 +549,8 @@ namespace SpiritMod
 			firewall = false;
 			hellCharm = false;
 			bloodyBauble = false;
-            elderbarkWoodSet = false;
-            amazonCharm = false;
+			elderbarkWoodSet = false;
+			amazonCharm = false;
 			cleftHorn = false;
 			TormentLantern = false;
 			phantomPet = false;
@@ -830,7 +829,7 @@ namespace SpiritMod
 				moving = true;
 			}
 		}
-		
+
 		public bool flag8 = false;
 		public bool marbleJumpEffects = false;
 		public override void ProcessTriggers(TriggersSet triggersSet)
@@ -908,21 +907,17 @@ namespace SpiritMod
 					flat += 1;
 				}
 			}
-            if (silkenHead)
-            {
-                if (item.summon)
-                {
-                    flat += 1;
-                }
-            }
-            if (stoneHead)
-            {
-                if (item.melee)
-                {
-                    flat += 1;
-                }
-            }
-            if (daybloomGarb) {
+			if(silkenHead) {
+				if(item.summon) {
+					flat += 1;
+				}
+			}
+			if(stoneHead) {
+				if(item.melee) {
+					flat += 1;
+				}
+			}
+			if(daybloomGarb) {
 				if(item.magic) {
 					flat += 1;
 				}
@@ -932,10 +927,9 @@ namespace SpiritMod
 					flat += 1;
 				}
 			}
-			if (elderbarkWoodSet)
-            {
-                flat += 1;
-            }
+			if(elderbarkWoodSet) {
+				flat += 1;
+			}
 		}
 
 		public override void PostItemCheck()
@@ -1116,46 +1110,30 @@ namespace SpiritMod
 			foreach(var effect in effects)
 				effect.PlayerOnHitNPC(player, item, target, damage, knockback, crit);
 
-			if(AceOfSpades && crit) {
-				damage = (int)(damage * 1.1f);
-				for(int i = 0; i < 3; i++) {
-					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<SpadeDust>(), 0, -0.8f);
-				}
-			}
-			if(AceOfHearts && target.life <= 0 && crit && !target.friendly && target.lifeMax > 5) {
-				NPC npc = target;
-				if(Main.halloween) {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 1734);
-				} else {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 58);
-				}
+			if(AceOfHearts && target.life <= 0 && crit && !target.friendly && target.lifeMax > 15 && !target.SpawnedFromStatue) {
+				ItemUtils.NewItemWithSync(player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, Main.halloween ? ItemID.CandyApple : ItemID.Heart);
 				for(int i = 0; i < 3; i++) {
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<HeartDust>(), 0, -0.8f);
 				}
 			}
-			if(AceOfDiamonds && target.life <=0 && crit && !target.friendly && target.lifeMax > 5) {
-				NPC npc = target;
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DiamondAce>());
+			if(AceOfDiamonds && target.life <= 0 && crit && !target.friendly && target.lifeMax > 15 && !target.SpawnedFromStatue) {
+				ItemUtils.NewItemWithSync(player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, ModContent.ItemType<DiamondAce>());
 				for(int i = 0; i < 3; i++) {
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<DiamondDust>(), 0, -0.8f);
 				}
 			}
-			if(AceOfClubs && crit && target.lifeMax > 15 && !target.friendly) {
-                int money = (int)(300 * MathHelper.Clamp((damage / target.lifeMax), 0, 1));
-				NPC npc = target;
+			if(AceOfClubs && crit && target.lifeMax > 15 && !target.friendly && !target.SpawnedFromStatue && target.type != 488) {
+				int money = (int)(300 * MathHelper.Clamp((float)damage / target.lifeMax, 1/300f, 1f));
 				for(int i = 0; i < 3; i++) {
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<ClubDust>(), 0, -0.8f);
 				}
-				while (money >=100)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 72); //silver coins
-					money -= 100;
-				}
-				while (money >= 10)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 71, 10); //copper coins
-					money -= 10;
-				}
+				if(money / 1000000 > 0) ItemUtils.NewItemWithSync(player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.PlatinumCoin, money / 1000000);
+				money %= 1000000;
+				if(money / 10000 > 0) ItemUtils.NewItemWithSync(player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.GoldCoin, money / 10000);
+				money %= 10000;
+				if(money / 100 > 0) ItemUtils.NewItemWithSync(player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.SilverCoin, money / 100);
+				money %= 100;
+				if(money > 0) ItemUtils.NewItemWithSync(player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.CopperCoin, money);
 			}
 			if(astralSet) {
 				if(crit) {
@@ -1578,7 +1556,7 @@ namespace SpiritMod
 		{
 			if(Main.rand.NextBool(5) && sepulchreCharm) {
 				for(int k = 0; k < 5; k++) {
-					int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 8, 75, 0f, 0f, 100, default, .84f);
+					Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 8, 75, 0f, 0f, 100, default, .84f);
 				}
 				for(int i = 0; i < 200; i++) {
 					if(Main.npc[i].active && !Main.npc[i].friendly && Main.npc[i].type != NPCID.TargetDummy) {
@@ -1966,7 +1944,7 @@ namespace SpiritMod
 				reason = PlayerDeathReason.ByCustomReason(player.name + " was consumed by Rage.");
 			}
 		}
-		
+
 		public override bool Shoot(Item item, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			/*if(throwerGlove && throwerStacks >= 7) {
@@ -1977,24 +1955,22 @@ namespace SpiritMod
 			}*/
 			return true;
 		}
-		
+
 		int shroomtimer;
 		int bloodTimer;
-        int spawnTimer;
+		int spawnTimer;
 		public override void PreUpdate()
 		{
-			if (TideWorld.TheTide && !NPC.AnyNPCs(ModContent.NPCType<Rylheian>()) && player.ZoneBeach && TideWorld.TidePoints >= 99)
-            {
-                spawnTimer++;
-                if (spawnTimer > 30)
-                {
-                    spawnTimer = 0;
-                    int n = NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 400, ModContent.NPCType<Rylheian>(), 0, 2, 1, 0, 0, Main.myPlayer);
-                    Main.PlaySound(SoundID.Zombie, Main.npc[n].Center, 89);
-                    DustHelper.DrawDiamond(new Vector2(Main.npc[n].Center.X, Main.npc[n].Center.Y), 173, 8);
-                    DustHelper.DrawTriangle(new Vector2(Main.npc[n].Center.X, Main.npc[n].Center.Y), 173, 8);
-                }
-            }
+			if(TideWorld.TheTide && !NPC.AnyNPCs(ModContent.NPCType<Rylheian>()) && player.ZoneBeach && TideWorld.TidePoints >= 99) {
+				spawnTimer++;
+				if(spawnTimer > 30) {
+					spawnTimer = 0;
+					int n = NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 400, ModContent.NPCType<Rylheian>(), 0, 2, 1, 0, 0, Main.myPlayer);
+					Main.PlaySound(SoundID.Zombie, Main.npc[n].Center, 89);
+					DustHelper.DrawDiamond(new Vector2(Main.npc[n].Center.X, Main.npc[n].Center.Y), 173, 8);
+					DustHelper.DrawTriangle(new Vector2(Main.npc[n].Center.X, Main.npc[n].Center.Y), 173, 8);
+				}
+			}
 			if(emptyWinterbornScroll && MyWorld.numWinterbornKilled >= 10) {
 				for(int index = 0; index < 58; ++index) {
 					if(player.inventory[index].type == ModContent.ItemType<WinterbornSlayerScrollEmpty>()) {
@@ -2422,9 +2398,9 @@ namespace SpiritMod
 				}
 				stompCooldown--;
 				if(stompCooldown == 0) {
-                    Rectangle textPos = new Rectangle((int)player.position.X, (int)player.position.Y - 20, player.width, player.height);
-                    CombatText.NewText(textPos, new Color(82, 226, 255, 100), "Energy Stomp Ready!");
-                    Main.PlaySound(new Terraria.Audio.LegacySoundStyle(25, 1));
+					Rectangle textPos = new Rectangle((int)player.position.X, (int)player.position.Y - 20, player.width, player.height);
+					CombatText.NewText(textPos, new Color(82, 226, 255, 100), "Energy Stomp Ready!");
+					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(25, 1));
 					for(int i = 0; i < 2; i++) {
 						int num = Dust.NewDust(player.position, player.width, player.height, 226, 0f, -2f, 0, default, 2f);
 						Main.dust[num].noGravity = true;
@@ -2518,10 +2494,9 @@ namespace SpiritMod
 					player.AddBuff(ModContent.BuffType<DivineStrike>(), 2);
 				}
 			}
-			if (phaseStacks > 3)
-            {
-                phaseStacks = 3;
-            }
+			if(phaseStacks > 3) {
+				phaseStacks = 3;
+			}
 			if(icytrail && player.velocity.X != 0) {
 				Projectile.NewProjectile(player.position.X, player.position.Y + 40, 0f, 0f, ModContent.ProjectileType<FrostTrail>(), 35, 0f, player.whoAmI);
 			}
@@ -2843,7 +2818,7 @@ namespace SpiritMod
 		{
 			int num323;
 			if(graniteSet) {
-				
+
 				if(player.velocity.Y > 0 && player.HasBuff(ModContent.BuffType<GraniteBonus>())) {
 					player.noFallDmg = true;
 					player.velocity.Y = 15.53f;
@@ -2966,8 +2941,8 @@ namespace SpiritMod
 						}
 					}
 				}
-                player.statDefense += player.GetSpiritPlayer().bismiteShieldStacks;
-                if (bismiteShieldStacks >= 5) {
+				player.statDefense += player.GetSpiritPlayer().bismiteShieldStacks;
+				if(bismiteShieldStacks >= 5) {
 					bismiteShieldStacks = 5;
 				}
 			}
@@ -3712,29 +3687,26 @@ namespace SpiritMod
 				effect.PlayerPostUpdate(player);
 
 			if(ZoneReach && Main.expertMode) {
-                int off = 5; //Change this value depending on the strength of your light. Too big and it might cause lag, though. Never go above ~20 or so.
-                int x = (int)(Main.screenPosition.X / 16f) - off;
-                int y = (int)(Main.screenPosition.Y / 16f) - off;
-                int x2 = x + (int)(Main.screenWidth / 16f) + off * 2;
-                int y2 = y + (int)(Main.screenHeight / 16f) + off * 2;
+				int off = 5; //Change this value depending on the strength of your light. Too big and it might cause lag, though. Never go above ~20 or so.
+				int x = (int)(Main.screenPosition.X / 16f) - off;
+				int y = (int)(Main.screenPosition.Y / 16f) - off;
+				int x2 = x + (int)(Main.screenWidth / 16f) + off * 2;
+				int y2 = y + (int)(Main.screenHeight / 16f) + off * 2;
 
-                for(int i = x; i <= x2; i++) {
-                    for (int j = y; j <= y2; j++)
-                    {
-                        Tile t = Main.tile[i, j];
-                        if (t == null) return;
-                        if (!t.active() && t.liquid > 0 && t.liquidType() == 0 && Framing.GetTileSafely(i, j - 1).liquid == 0 && !Framing.GetTileSafely(i, j - 1).active())
-                        {
-                            if (Main.rand.Next(20) == 0)
-                            {
-                                int d = Dust.NewDust(new Vector2(i * 16, j * 16), Main.rand.Next(-2, 2), Main.rand.Next(-2, 2), 256, 0.0f, -1, 0, new Color(), 0.95f);//Leave this line how it is, it uses int division
-                                Main.dust[d].velocity *= .8f;
-                                Main.dust[d].noGravity = true;
-                            }
-                        }
-                    }
-                }
-            }
+				for(int i = x; i <= x2; i++) {
+					for(int j = y; j <= y2; j++) {
+						Tile t = Main.tile[i, j];
+						if(t == null) return;
+						if(!t.active() && t.liquid > 0 && t.liquidType() == 0 && Framing.GetTileSafely(i, j - 1).liquid == 0 && !Framing.GetTileSafely(i, j - 1).active()) {
+							if(Main.rand.Next(20) == 0) {
+								int d = Dust.NewDust(new Vector2(i * 16, j * 16), Main.rand.Next(-2, 2), Main.rand.Next(-2, 2), 256, 0.0f, -1, 0, new Color(), 0.95f);//Leave this line how it is, it uses int division
+								Main.dust[d].velocity *= .8f;
+								Main.dust[d].noGravity = true;
+							}
+						}
+					}
+				}
+			}
 			if(ZoneReach && player.wet && Main.expertMode) {
 				player.AddBuff(BuffID.Poisoned, 120);
 			}
@@ -3746,8 +3718,7 @@ namespace SpiritMod
 			} else {
 				cryoTimer = 0;
 			}
-			if (surferSet && surferTimer == 0)
-			{
+			if(surferSet && surferTimer == 0) {
 				Rectangle textPos = new Rectangle((int)player.position.X, (int)player.position.Y - 20, player.width, player.height);
 				CombatText.NewText(textPos, new Color(121, 195, 237, 100), "Water Spout Charged!");
 			}
@@ -3857,7 +3828,7 @@ namespace SpiritMod
 				if(Main.rand.NextBool(10)) {
 					for(int h = 0; h < 3; h++) {
 						Vector2 vel = new Vector2(0, -1);
-						float rand = Main.rand.NextFloat() * 6.283f;
+						float rand = Main.rand.NextFloat() * MathHelper.TwoPi;
 						vel = vel.RotatedBy(rand);
 						vel *= 8f;
 						Projectile.NewProjectile(target.Center - new Vector2(10f, 10f), vel, ModContent.ProjectileType<Projectiles.Magic.Rune>(), 27, 1, player.whoAmI);
@@ -3888,10 +3859,17 @@ namespace SpiritMod
 					Main.dust[dust].position = target.Center - vector2_3;
 				}
 
-				damage = (int)(damage * 1.2F);
+				damage = (int)(damage * 1.2f);
 				crit = true;
 				concentrated = false;
 				concentratedCooldown = 300;
+			}
+
+			if(AceOfSpades && crit) {
+				damage = (int)(damage * 1.1f + 0.5f);
+				for(int i = 0; i < 3; i++) {
+					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<SpadeDust>(), 0, -0.8f);
+				}
 			}
 		}
 
@@ -4115,7 +4093,7 @@ namespace SpiritMod
 				dust.shader = GameShaders.Armor.GetSecondaryShader(player.cYorai, player);
 			}
 		}
-		
+
 		public override void OnHitByNPC(NPC npc, int damage, bool crit)
 		{
 			if(chitinSet) {
@@ -4230,7 +4208,7 @@ namespace SpiritMod
 				}
 			}
 		}
-		
+
 		private Vector2 TestTeleport(ref bool canSpawn, int teleportStartX, int teleportRangeX, int teleportStartY, int teleportRangeY)
 		{
 			Player player = Main.player[Main.myPlayer];
@@ -4494,11 +4472,17 @@ namespace SpiritMod
 				Main.playerDrawData.Add(drawData);
 			}
 		});
-	
+
 		public void DoubleTapEffects(int keyDir)
 		{
 			if(keyDir == (Main.ReversedUpDownArmorSetBonuses ? 0 : 1)) {
 				//Double tap up
+				if(deathRose && !player.HasBuff(ModContent.BuffType<DeathRoseCooldown>())) {
+					player.AddBuff(ModContent.BuffType<DeathRoseCooldown>(), 1200);
+					Vector2 mouse = Main.MouseScreen + Main.screenPosition;
+					Projectile.NewProjectile(mouse, Vector2.Zero, ModContent.ProjectileType<BrambleTrap>(), 30, 0, Main.myPlayer, mouse.X, mouse.Y);
+				}
+
 				if(assassinMag && player.HeldItem.useAmmo > AmmoID.None) {
 					var ammoItems = new List<Item>();
 					var ammoPos = new List<int>();
@@ -4542,12 +4526,11 @@ namespace SpiritMod
 							Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
 					}
 				}
-				if (surferSet && surferTimer <= 0)
-				{
+				if(surferSet && surferTimer <= 0) {
 					surferTimer = 420;
 					Main.PlaySound(SoundID.Splash, player.position, 0);
-                    Main.PlaySound(SoundID.Item, player.position, 20);
-                    Projectile.NewProjectile(player.Center - new Vector2(0, 30), Vector2.Zero, ModContent.ProjectileType<WaterSpout>(), 30, 8, player.whoAmI);
+					Main.PlaySound(SoundID.Item, player.position, 20);
+					Projectile.NewProjectile(player.Center - new Vector2(0, 30), Vector2.Zero, ModContent.ProjectileType<WaterSpout>(), 30, 8, player.whoAmI);
 				}
 				if(graniteSet && !player.mount.Active) {
 					if(player.velocity.Y != 0 && stompCooldown <= 0) {

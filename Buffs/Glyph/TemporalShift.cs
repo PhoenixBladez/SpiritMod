@@ -18,24 +18,27 @@ namespace SpiritMod.Buffs.Glyph
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 
-			if(player.whoAmI != Main.myPlayer && player.buffTime[buffIndex] > 1) {
+			if (player.whoAmI != Main.myPlayer && player.buffTime[buffIndex] > 1) {
 				player.buffTime[buffIndex]--;
 			}
 
-			if(player.buffTime[buffIndex] > 1) {
+			if (player.buffTime[buffIndex] > 1) {
 				modPlayer.phaseShift = true;
 				Main.buffNoTimeDisplay[Type] = false;
-			} else if(modPlayer.phaseStacks > 0) {
+			}
+			else if (modPlayer.phaseStacks > 0) {
 				player.buffTime[buffIndex] = 2;
 				Main.buffNoTimeDisplay[Type] = true;
-			} else if(player.whoAmI == Main.myPlayer) {
+			}
+			else if (player.whoAmI == Main.myPlayer) {
 				player.DelBuff(buffIndex--);
 			}
 
-			if(player.whoAmI == Main.myPlayer && !Main.dedServ) {
-				if(modPlayer.phaseStacks == 0) {
+			if (player.whoAmI == Main.myPlayer && !Main.dedServ) {
+				if (modPlayer.phaseStacks == 0) {
 					Main.buffTexture[Type] = mod.GetTexture("Buffs/Glyph/TemporalShift");
-				} else {
+				}
+				else {
 					Main.buffTexture[Type] = mod.GetTexture("Buffs/Glyph/TemporalShift_" + modPlayer.phaseStacks.ToString());
 				}
 			}
@@ -44,7 +47,7 @@ namespace SpiritMod.Buffs.Glyph
 		public override void ModifyBuffTip(ref string tip, ref int rare)
 		{
 			MyPlayer modPlayer = Main.LocalPlayer.GetSpiritPlayer();
-			if(modPlayer.phaseShift) {
+			if (modPlayer.phaseShift) {
 				tip = "High speed and immunity to all movement impairment";
 			}
 		}

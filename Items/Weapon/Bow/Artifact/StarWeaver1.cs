@@ -52,30 +52,31 @@ namespace SpiritMod.Items.Weapon.Bow.Artifact
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 
 				MyPlayer modPlayer = player.GetSpiritPlayer();
 				modPlayer.shootDelay = 120;
 				charger++;
-				if(charger >= 1) {
-					for(int I = 0; I < 1; I++) {
+				if (charger >= 1) {
+					for (int I = 0; I < 1; I++) {
 						Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Stars1"), 25, 4, player.whoAmI, 0f, 0f);
 					}
 				}
-				if(charger >= 2) {
-					for(int I = 0; I < 1; I++) {
+				if (charger >= 2) {
+					for (int I = 0; I < 1; I++) {
 						Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Stars2"), 50, 5, player.whoAmI, 0f, 0f);
 					}
 				}
-				if(charger >= 3) {
-					for(int I = 0; I < 1; I++) {
+				if (charger >= 3) {
+					for (int I = 0; I < 1; I++) {
 						Projectile.NewProjectile(position.X, position.Y - 10, speedX, speedY, mod.ProjectileType("Stars3"), 60, 6, player.whoAmI, 0f, 0f);
 					}
 					charger = 0;
 				}
 				return false;
-			} else {
-				for(int I = 0; I < 2; I++) {
+			}
+			else {
+				for (int I = 0; I < 2; I++) {
 					Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-102, 102) / 100), speedY + ((float)Main.rand.Next(-102, 102) / 100), type, damage, knockBack, player.whoAmI, 0f, 0f);
 				};
 			}
@@ -83,14 +84,15 @@ namespace SpiritMod.Items.Weapon.Bow.Artifact
 		}
 		public override bool CanUseItem(Player player)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				item.useTime = 35;
 				item.useAnimation = 35;
 				MyPlayer modPlayer = player.GetSpiritPlayer();
-				if(modPlayer.shootDelay == 0)
+				if (modPlayer.shootDelay == 0)
 					return true;
 				return false;
-			} else {
+			}
+			else {
 				item.useTime = 22;
 				item.useAnimation = 22;
 				return true;

@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bubble Blaster");
-			Tooltip.SetDefault("Hold for a longer blast\nConsumes 15 mana each second");
+			Tooltip.SetDefault("Hold for a longer blast\nConsumes 50 mana each second");
 
 		}
 
@@ -38,11 +38,10 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override Vector2? HoldoutOffset()
 		{
 			return new Vector2(-10, 0);
-		}	
+		}
 		public override bool CanUseItem(Player player)
 		{
-			if (player.statMana >= 20)
-			{
+			if (player.statMana >= 20) {
 				return true;
 			}
 			return false;

@@ -26,15 +26,15 @@ namespace SpiritMod.Projectiles.Thrown.Artifact
 
 		public override bool PreAI()
 		{
-			if(projectile.ai[0] == 0f) {
+			if (projectile.ai[0] == 0f) {
 				projectile.Damage();
 				projectile.ai[0] = 1f;
 			}
 			projectile.frameCounter++;
-			if(projectile.frameCounter > 3) {
+			if (projectile.frameCounter > 3) {
 				projectile.frameCounter = 0;
 				projectile.frame++;
-				if(projectile.frame > Main.projFrames[projectile.type])
+				if (projectile.frame > Main.projFrames[projectile.type])
 					projectile.Kill();
 			}
 			return false;
@@ -48,7 +48,7 @@ namespace SpiritMod.Projectiles.Thrown.Artifact
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(2) == 0) {
+			if (Main.rand.Next(2) == 0) {
 				target.AddBuff(ModContent.BuffType<Necrosis>(), 120);
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 75, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, ModContent.DustType<Dusts.Pestilence>(), projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);

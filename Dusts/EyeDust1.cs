@@ -16,7 +16,7 @@ namespace SpiritMod.Dusts
 		{
 			float distance = Vector2.Distance(from, to);
 			float step = 1 / distance;
-			for(float w = 0; w < distance; w += 2) {
+			for (float w = 0; w < distance; w += 2) {
 				Dust.NewDustPerfect(Vector2.Lerp(from, to, w * step), 95, Vector2.Zero);
 			}
 		}
@@ -26,7 +26,7 @@ namespace SpiritMod.Dusts
 			dust.velocity = currentSpeed.RotatedBy(Main.rand.Next(-1, 2) * (Math.PI / 20));
 			dust.position += dust.velocity;
 			dust.scale *= 0.95f;
-			if(dust.scale < 0.5f) {
+			if (dust.scale < 0.5f) {
 				dust.active = false;
 			}
 			return false;

@@ -26,9 +26,9 @@ namespace SpiritMod.Projectiles
 
 		public override void AI()
 		{
-			for(int i = 0; i < 10; i++) {
+			for (int i = 0; i < 10; i++) {
 				int num = 5;
-				for(int k = 0; k < 6; k++) {
+				for (int k = 0; k < 6; k++) {
 					int index2 = Dust.NewDust(projectile.position, 4, 4, 110, 0.0f, 0.0f, 0, new Color(), 1f);
 					Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
 					Main.dust[index2].scale = .48f;
@@ -38,9 +38,9 @@ namespace SpiritMod.Projectiles
 				}
 			}
 			projectile.localAI[0] += 1f;
-			if(projectile.localAI[0] == 4f) {
+			if (projectile.localAI[0] == 4f) {
 				projectile.localAI[0] = 0f;
-				for(int j = 0; j < 12; j++) {
+				for (int j = 0; j < 12; j++) {
 					Vector2 vector2 = Vector2.UnitX * -projectile.width / 2f;
 					vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(8f, 16f);
 					vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default(Vector2));
@@ -58,7 +58,7 @@ namespace SpiritMod.Projectiles
 		{
 			int n = 2;
 			int deviation = Main.rand.Next(0, 180);
-			for(int i = 0; i < n; i++) {
+			for (int i = 0; i < n; i++) {
 				float rotation = MathHelper.ToRadians(270 / n * i + deviation);
 				Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(rotation);
 				perturbedSpeed.Normalize();
@@ -74,7 +74,7 @@ namespace SpiritMod.Projectiles
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 
-			for(int num623 = 0; num623 < 25; num623++) {
+			for (int num623 = 0; num623 < 25; num623++) {
 				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 226, 0f, 0f, 100, default(Color), .8f);
 				Main.dust[num624].noGravity = true;
 				Main.dust[num624].velocity *= 1f;
@@ -83,7 +83,7 @@ namespace SpiritMod.Projectiles
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(2) == 0)
+			if (Main.rand.Next(2) == 0)
 				target.AddBuff(ModContent.BuffType<StarFracture>(), 200, true);
 
 			projectile.Kill();

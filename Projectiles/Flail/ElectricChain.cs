@@ -27,7 +27,7 @@ namespace SpiritMod.Projectiles.Flail
 		}
 		public override bool PreAI()
 		{
-			if(Main.rand.Next(10) == 1) {
+			if (Main.rand.Next(10) == 1) {
 				float x = projectile.Center.X - projectile.velocity.X / 10f;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f;
 				int num = Dust.NewDust(new Vector2(x, y), 26, 26, 226, 0f, 0f, 0, default(Color));

@@ -36,7 +36,7 @@ namespace SpiritMod.NPCs.Spirit
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SpiritOre>(), Main.rand.Next(2) + 1);
 
-			if(Main.rand.Next(3) == 1)
+			if (Main.rand.Next(3) == 1)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SoulShred>(), Main.rand.Next(1) + 1);
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
@@ -58,7 +58,7 @@ namespace SpiritMod.NPCs.Spirit
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, 13);
 				Gore.NewGore(npc.position, npc.velocity, 12);
 				Gore.NewGore(npc.position, npc.velocity, 11);
@@ -84,7 +84,7 @@ namespace SpiritMod.NPCs.Spirit
 			int dust2 = Dust.NewDust(npc.position + npc.velocity, npc.width, npc.height, 206, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f);
 			Main.dust[dust2].noGravity = true;
 
-			if(frame == 0) {
+			if (frame == 0) {
 				direction.X = direction.X * Main.rand.Next(10, 15);
 				direction.Y = direction.Y * Main.rand.Next(10, 15);
 				npc.velocity.X = direction.X;

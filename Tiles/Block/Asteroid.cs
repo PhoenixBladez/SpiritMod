@@ -20,7 +20,7 @@ namespace SpiritMod.Tiles.Block
 		public override bool CanKillTile(int i, int j, ref bool blockDamaged)
 		{
 			Player player = Main.LocalPlayer;
-			if(player.inventory[player.selectedItem].type == ItemID.ReaverShark) {
+			if (player.inventory[player.selectedItem].type == ItemID.ReaverShark) {
 				return false;
 			}
 			return true;

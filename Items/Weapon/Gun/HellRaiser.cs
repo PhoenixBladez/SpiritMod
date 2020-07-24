@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Weapon.Gun
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Hell Raiser");
-			Tooltip.SetDefault("Shoots out a high velocity, fiery bullet");
+			Tooltip.SetDefault("Converts regular bullets into high velocity, fiery bullets");
 		}
 
 
@@ -39,7 +39,9 @@ namespace SpiritMod.Items.Weapon.Gun
 		}
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			type = ModContent.ProjectileType<HellBullet>();
+			if (type == ProjectileID.Bullet) {
+				type = ModContent.ProjectileType<HellBullet>();
+			}
 			return true;
 		}
 		public override void AddRecipes()

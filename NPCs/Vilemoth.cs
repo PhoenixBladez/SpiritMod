@@ -30,29 +30,27 @@ namespace SpiritMod.NPCs
 			npc.noGravity = true;
 			npc.noTileCollide = false;
 			npc.knockBackResist = .45f;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.FesterflyBanner>();
-        }
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.FesterflyBanner>();
+		}
 
-        public override void HitEffect(int hitDirection, double damage)
-        {
-            int d = 167;
-            for (int k = 0; k < 30; k++)
-            {
-                Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.Purple, 0.3f);
-            }
-            if (npc.life <= 0)
-            {
-                Main.PlaySound(SoundID.NPCKilled, npc.Center, 38);
-                {
-                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pesterfly/Pesterfly1"), 1f);
-                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pesterfly/Pesterfly2"), 1f);
-                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pesterfly/Pesterfly3"), 1f);
-                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pesterfly/Pesterfly4"), 1f);
-                }
-            }
-        }
-        public override void FindFrame(int frameHeight)
+		public override void HitEffect(int hitDirection, double damage)
+		{
+			int d = 167;
+			for (int k = 0; k < 30; k++) {
+				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.Purple, 0.3f);
+			}
+			if (npc.life <= 0) {
+				Main.PlaySound(SoundID.NPCKilled, npc.Center, 38);
+				{
+					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pesterfly/Pesterfly1"), 1f);
+					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pesterfly/Pesterfly2"), 1f);
+					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pesterfly/Pesterfly3"), 1f);
+					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pesterfly/Pesterfly4"), 1f);
+				}
+			}
+		}
+		public override void FindFrame(int frameHeight)
 		{
 			npc.frameCounter += 0.15f;
 			npc.frameCounter %= Main.npcFrameCount[npc.type];
@@ -61,7 +59,7 @@ namespace SpiritMod.NPCs
 		}
 		public override void AI()
 		{
-			if(Main.rand.NextFloat() < 0.431579f) {
+			if (Main.rand.NextFloat() < 0.431579f) {
 				{
 					Dust dust;
 					Vector2 position = npc.Center;
@@ -71,30 +69,30 @@ namespace SpiritMod.NPCs
 			}
 			Player player = Main.player[npc.target];
 			npc.rotation = npc.velocity.X * 0.1f;
-			if(npc.Center.X >= player.Center.X && moveSpeed >= -60) // flies to players x position
+			if (npc.Center.X >= player.Center.X && moveSpeed >= -60) // flies to players x position
 			{
 				moveSpeed--;
 			}
 
-			if(npc.Center.X <= player.Center.X && moveSpeed <= 60) {
+			if (npc.Center.X <= player.Center.X && moveSpeed <= 60) {
 				moveSpeed++;
 			}
 
 			npc.velocity.X = moveSpeed * 0.06f;
 
-			if(npc.Center.Y >= player.Center.Y - HomeY && moveSpeedY >= -50) //Flies to players Y position
+			if (npc.Center.Y >= player.Center.Y - HomeY && moveSpeedY >= -50) //Flies to players Y position
 			{
 				moveSpeedY--;
 				HomeY = 120f;
 			}
 
-			if(npc.Center.Y <= player.Center.Y - HomeY && moveSpeedY <= 50) {
+			if (npc.Center.Y <= player.Center.Y - HomeY && moveSpeedY <= 50) {
 				moveSpeedY++;
 			}
 
 			npc.velocity.Y = moveSpeedY * 0.06f;
 			timer++;
-			if(timer >= 100) {
+			if (timer >= 100 && Main.netMode != NetmodeID.MultiplayerClient) {
 				Vector2 vector2_2 = Vector2.UnitY.RotatedByRandom(1.57079637050629f) * new Vector2(5f, 3f);
 				int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector2_2.X, vector2_2.Y, mod.ProjectileType("VileWaspProjectile"), 0, 0.0f, Main.myPlayer, 0.0f, (float)npc.whoAmI);
 				Main.projectile[p].hostile = true;

@@ -10,7 +10,7 @@ namespace SpiritMod.Buffs.Pet
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Cultfish");
-            Description.SetDefault("This little bugger lights the way!");
+			Description.SetDefault("This little bugger lights the way!");
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.lightPet[Type] = true;
 		}
@@ -21,7 +21,7 @@ namespace SpiritMod.Buffs.Pet
 			player.GetSpiritPlayer().caltfist = true;
 
 			bool petProjectileNotSpawned = player.ownedProjectileCounts[ModContent.ProjectileType<Caltfist>()] <= 0;
-			if(petProjectileNotSpawned && player.whoAmI == Main.myPlayer) {
+			if (petProjectileNotSpawned && player.whoAmI == Main.myPlayer) {
 				Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<Caltfist>(), 0, 0f, player.whoAmI);
 			}
 		}

@@ -53,7 +53,7 @@ namespace SpiritMod.Mounts
 			mountData.playerHeadOffset = 16;
 			mountData.totalFrames = 12;
 			int[] offsets = new int[mountData.totalFrames];
-			for(int i = 0; i < offsets.Length; i++) {
+			for (int i = 0; i < offsets.Length; i++) {
 				offsets[i] = 0;
 			}
 			mountData.playerYOffsets = offsets;
@@ -79,7 +79,7 @@ namespace SpiritMod.Mounts
 			mountData.swimFrameCount = 0;
 			mountData.swimFrameDelay = 12;
 			mountData.swimFrameStart = 0;
-			if(Main.netMode != NetmodeID.Server) {
+			if (Main.netMode != NetmodeID.Server) {
 				mountData.textureWidth = mountData.backTexture.Width + 20;
 				mountData.textureHeight = mountData.backTexture.Height;
 			}
@@ -91,25 +91,27 @@ namespace SpiritMod.Mounts
 			modPlayer.copterBrake = false;
 			float tilt = player.fullRotation;
 
-			if(player.wet || player.honeyWet || player.lavaWet) {
+			if (player.wet || player.honeyWet || player.lavaWet) {
 				player.mount.Dismount(player);
 				return;
 			}
 
 			//Only keep flying, when the player is holding up
-			if(player.controlUp || player.controlJump) {
+			if (player.controlUp || player.controlJump) {
 				player.mount._abilityCharging = true;
 				player.mount._flyTime = 0;
 				player.mount._fatigue = -verticalSpeed;
-			} else {
+			}
+			else {
 				player.mount._abilityCharging = false;
 			}
 
 			//Slow down the helicopter, if it's on the ground
-			if(modPlayer.onGround) {
-				if(player.controlUp || player.controlJump) {
+			if (modPlayer.onGround) {
+				if (player.controlUp || player.controlJump) {
 					player.position.Y -= mountData.acceleration;
-				} else {
+				}
+				else {
 					modPlayer.copterBrake = true;
 				}
 			}
@@ -122,7 +124,7 @@ namespace SpiritMod.Mounts
 
 
 			//Scan for enemies and fire at them
-			if(player.mount._abilityCooldown == 0) {
+			if (player.mount._abilityCooldown == 0) {
 				//Don't change these values, unless you want to adjust the nozzle position.
 				float x = 20f * player.direction;
 				float y = 12f;
@@ -133,9 +135,10 @@ namespace SpiritMod.Mounts
 
 				//Readjust the scanning cone to the current position.
 				float direction;
-				if(player.direction == 1) {
+				if (player.direction == 1) {
 					direction = FOVHelper.POS_X_DIR + tilt;
-				} else {
+				}
+				else {
 					direction = FOVHelper.NEG_X_DIR - tilt;
 				}
 				helper.AdjustCone(muzzle, fov, direction);
@@ -143,21 +146,21 @@ namespace SpiritMod.Mounts
 				//Look for the nearest, unobscured enemy inside the cone
 				NPC nearest = null;
 				float distNearest = rangeSquare;
-				for(int i = 0; i < 200; i++) {
+				for (int i = 0; i < 200; i++) {
 					NPC npc = Main.npc[i];
 					Vector2 npcCenter = npc.Center;
-					if(npc.CanBeChasedBy() && helper.IsInCone(npcCenter)) //first param of canBeChasedBy has no effect
+					if (npc.CanBeChasedBy() && helper.IsInCone(npcCenter)) //first param of canBeChasedBy has no effect
 					{
 						float distCurrent = Vector2.DistanceSquared(muzzle, npcCenter);
-						if(distCurrent < distNearest && Collision.CanHitLine(muzzle, 0, 0, npc.position, npc.width, npc.height)) {
+						if (distCurrent < distNearest && Collision.CanHitLine(muzzle, 0, 0, npc.position, npc.width, npc.height)) {
 							nearest = npc;
 							distNearest = distCurrent;
 						}
 					}
 				}
 				//Shoot 'em dead
-				if(nearest != null) {
-					if(player.whoAmI == Main.myPlayer) {
+				if (nearest != null) {
+					if (player.whoAmI == Main.myPlayer) {
 						Vector2 aim = nearest.Center - muzzle;
 						aim.Normalize();
 						aim *= velocity;
@@ -169,7 +172,7 @@ namespace SpiritMod.Mounts
 						vY += Main.rand.Next(-50, 51) * 0.03f;
 						vX += Main.rand.Next(-40, 41) * 0.05f;
 						vY += Main.rand.Next(-40, 41) * 0.05f;
-						if(Main.rand.Next(3) == 0) {
+						if (Main.rand.Next(3) == 0) {
 							vX += Main.rand.Next(-30, 31) * 0.02f;
 							vY += Main.rand.Next(-30, 31) * 0.02f;
 						}
@@ -180,11 +183,13 @@ namespace SpiritMod.Mounts
 					modPlayer.copterFiring = true;
 					modPlayer.copterFireFrame = 0;
 					player.mount._abilityCooldown = cooldown - 1;
-				} else {
+				}
+				else {
 					modPlayer.copterFiring = false;
 				}
 				return;
-			} else if(player.mount._abilityCooldown > cooldown) {
+			}
+			else if (player.mount._abilityCooldown > cooldown) {
 				player.mount._abilityCooldown = cooldown;
 			}
 		}
@@ -195,42 +200,45 @@ namespace SpiritMod.Mounts
 			Terraria.Mount mount = mountedPlayer.mount;
 			//Part of vanilla code, mount will glitch out
 			// if this is not executed.
-			if(mount._frameState != state) {
+			if (mount._frameState != state) {
 				mount._frameState = state;
 			}
 			//End of required vanilla code
 
 			//Adjust animation speed after landing/takeoff
-			if(state == 0) {
-				if(mount._idleTime > 0) {
+			if (state == 0) {
+				if (mount._idleTime > 0) {
 					mount._idleTime--;
 				}
-			} else {
-				if(mount._idleTime < revUpFrames) {
+			}
+			else {
+				if (mount._idleTime < revUpFrames) {
 					mount._idleTime += 4;
 				}
 			}
 			float throttle = 1;
-			if(mount._idleTime < revUpFrames) {
+			if (mount._idleTime < revUpFrames) {
 				throttle = (mount._idleTime) / (float)revUpFrames;
 			}
 
 			//Choose next frame
 			mount._frameCounter += throttle;
-			if((int)mount._frameCounter >= mountData.inAirFrameDelay) {
+			if ((int)mount._frameCounter >= mountData.inAirFrameDelay) {
 				mount._frameCounter -= mountData.inAirFrameDelay;
 				mount._frameExtra++;
-				if(mount._frameExtra >= mountData.inAirFrameCount) {
+				if (mount._frameExtra >= mountData.inAirFrameCount) {
 					mount._frameExtra = 0;
 				}
 			}
 
 			mount._frame = mount._frameExtra;
-			if(modPlayer.copterFireFrame >= muzzleFrames) {
+			if (modPlayer.copterFireFrame >= muzzleFrames) {
 				mount._frame = mount._frameExtra;
-			} else if(modPlayer.copterFireFrame >= muzzleFrames >> 1) {
+			}
+			else if (modPlayer.copterFireFrame >= muzzleFrames >> 1) {
 				mount._frame = mount._frameExtra + mountData.inAirFrameCount;
-			} else {
+			}
+			else {
 				mount._frame = mount._frameExtra + 2 * mountData.inAirFrameCount;
 			}
 

@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace SpiritMod.Items.Accessory
 {
@@ -8,8 +9,9 @@ namespace SpiritMod.Items.Accessory
 	{
 		public override void SetStaticDefaults()
 		{
+			string tapDir = Language.GetTextValue(Main.ReversedUpDownArmorSetBonuses ? "Key.DOWN" : "Key.UP");
 			DisplayName.SetDefault("Briar Blossom");
-			Tooltip.SetDefault("Hitting enemies may grant 5% increased damage and movement speed\n6% increased minion damage\nPress a hotkey to rapidly grow homing nature energy around the cursor position\n1 minute cooldown");
+			Tooltip.SetDefault($"Double tap {tapDir} to ensnare an enemy at the cursor position\n20 second cooldown");
 		}
 
 
@@ -26,7 +28,6 @@ namespace SpiritMod.Items.Accessory
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			player.GetSpiritPlayer().deathRose = true;
-			player.minionDamage += 0.06f;
 		}
 	}
 }

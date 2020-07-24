@@ -35,14 +35,14 @@ namespace SpiritMod.Projectiles.DonatorItems
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 20; i++) {
+			for (int i = 0; i < 20; i++) {
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 187, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			}
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(4) == 0)
+			if (Main.rand.Next(4) == 0)
 				target.AddBuff(BuffID.Frostburn, 200, true);
 		}
 

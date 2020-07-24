@@ -41,17 +41,17 @@ namespace SpiritMod.Projectiles
 			}
 
 			timer++;
-			if(timer == 100)
+			if (timer == 100)
 				projectile.velocity *= 1.1f;
-			else if(timer == 200)
+			else if (timer == 200)
 				projectile.velocity *= 0.50f;
-			else if(timer >= 300)
+			else if (timer >= 300)
 				timer = 0;
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(4) == 0)
+			if (Main.rand.Next(4) == 0)
 				target.AddBuff(ModContent.BuffType<TidalEbb>(), 240);
 		}
 	}

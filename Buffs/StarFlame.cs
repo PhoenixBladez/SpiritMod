@@ -18,7 +18,7 @@ namespace SpiritMod.Buffs
 		{
 			npc.lifeRegen -= 8;
 
-			if(Main.rand.NextBool(2)) {
+			if (Main.rand.NextBool(2)) {
 				int dust = Dust.NewDust(npc.position, npc.width, npc.height, 206);
 				Main.dust[dust].scale = .85f;
 				Main.dust[dust].noGravity = true;
@@ -30,7 +30,7 @@ namespace SpiritMod.Buffs
 		{
 			player.lifeRegen -= 8;
 
-			if(Main.rand.NextBool(4)) {
+			if (Main.rand.NextBool(4)) {
 				int dust = Dust.NewDust(player.position, player.width, player.height, 187);
 				Main.dust[dust].scale = 1.25f;
 				Main.dust[dust].noGravity = true;

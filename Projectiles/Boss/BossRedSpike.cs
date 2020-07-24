@@ -26,7 +26,7 @@ namespace SpiritMod.Projectiles.Boss
 		public override void AI()
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-			if(Main.rand.Next(15) == 1) {
+			if (Main.rand.Next(15) == 1) {
 				int d = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 235, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 				Main.dust[d].noGravity = true;
 				Main.dust[d].velocity *= 0f;
@@ -41,7 +41,7 @@ namespace SpiritMod.Projectiles.Boss
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if(Main.rand.Next(15) == 1)
+			if (Main.rand.Next(15) == 1)
 				target.AddBuff(BuffID.Bleeding, 200);
 		}
 

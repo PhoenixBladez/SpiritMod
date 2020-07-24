@@ -50,7 +50,7 @@ namespace SpiritMod.Items.Weapon
 
 		public override bool ConsumeAmmo(Player player)
 		{
-			if(Main.rand.Next(4) == 0)
+			if (Main.rand.Next(4) == 0)
 				return false;
 
 			return true;

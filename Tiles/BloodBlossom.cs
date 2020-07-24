@@ -28,7 +28,7 @@ namespace SpiritMod.Tiles
 
 		public override bool CanKillTile(int i, int j, ref bool blockDamaged)
 		{
-			if(!MyWorld.downedReachBoss) {
+			if (!MyWorld.downedReachBoss) {
 				return false;
 			}
 			return true;
@@ -36,25 +36,25 @@ namespace SpiritMod.Tiles
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
 			Tile tile = Framing.GetTileSafely(i, j);
-			if(tile.frameY <= 18 && (tile.frameX <= 36 || tile.frameX >= 72)) {
+			if (tile.frameY <= 18 && (tile.frameX <= 36 || tile.frameX >= 72)) {
 				r = 0.301f * 1.5f;
 				g = 0.110f * 1.5f;
 				b = 0.126f * 1.5f;
 			}
 		}
-        public override void MouseOver(int i, int j)
-        {
-            //shows the Cryptic Crystal icon while mousing over this tile
-            Main.player[Main.myPlayer].showItemIcon = true;
-            //Main.player[Main.myPlayer].showItemIcon2 = mod.ItemType("");
-            Main.player[Main.myPlayer].showItemIconText = "Disturbing this flower surely isn't a good idea...";
-        }
+		public override void MouseOver(int i, int j)
+		{
+			//shows the Cryptic Crystal icon while mousing over this tile
+			Main.player[Main.myPlayer].showItemIcon = true;
+			//Main.player[Main.myPlayer].showItemIcon2 = mod.ItemType("");
+			Main.player[Main.myPlayer].showItemIconText = "Disturbing this flower surely isn't a good idea...";
+		}
 
-        public override void RightClick(int i, int j)
+		public override void RightClick(int i, int j)
 		{
 			//don't bother if there's already a Crystal King in the world
-			for(int x = 0; x < Main.npc.Length; x++) {
-				if(Main.npc[x].active && Main.npc[x].type == ModContent.NPCType<ReachBoss>()) return;
+			for (int x = 0; x < Main.npc.Length; x++) {
+				if (Main.npc[x].active && Main.npc[x].type == ModContent.NPCType<ReachBoss>()) return;
 			}
 			Player player = Main.player[Main.myPlayer];
 			NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<ReachBoss>());

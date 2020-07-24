@@ -1,5 +1,5 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Projectiles.Hostile;
+using SpiritMod.Projectiles.Bullet;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Gun
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Belcher");
-			Tooltip.SetDefault("Converts bullets into clumps of rotting flesh");
+			Tooltip.SetDefault("Converts regular bullets into clumps of rotting flesh");
 		}
 
 		public override void SetDefaults()
@@ -41,14 +41,14 @@ namespace SpiritMod.Items.Weapon.Gun
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 37f;
-			if(Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
+			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
 				position += muzzleOffset;
 			}
 			int bloodproj;
-			bloodproj = Main.rand.Next(new int[] { 
-				ModContent.ProjectileType<Feeder1>(), 
-				ModContent.ProjectileType<Feeder2>(), 
-				ModContent.ProjectileType<Feeder3>() 
+			bloodproj = Main.rand.Next(new int[] {
+				ModContent.ProjectileType<FriendlyFeeder1>(),
+				ModContent.ProjectileType<FriendlyFeeder2>(),
+				ModContent.ProjectileType<FriendlyFeeder3>()
 			});
 			float spread = 30 * 0.0174f;//45 degrees converted to radians
 			float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
@@ -56,12 +56,11 @@ namespace SpiritMod.Items.Weapon.Gun
 			double randomAngle = baseAngle + (Main.rand.NextFloat() - 0.5f) * spread;
 			speedX = baseSpeed * (float)Math.Sin(randomAngle);
 			speedY = baseSpeed * (float)Math.Cos(randomAngle);
-			int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, bloodproj, damage, knockBack, player.whoAmI, 0f, 0f);
-			Main.projectile[p].hostile = false;
-			Main.projectile[p].friendly = true;
-			Main.projectile[p].ranged = true;
-			Main.projectile[p].penetrate = 1;
-			return false;
+			if (type == ProjectileID.Bullet)
+			{
+				type = bloodproj;
+			}
+			return base.Shoot(player,ref position,ref speedX,ref speedY,ref type,ref damage,ref knockBack);
 		}
 	}
 }

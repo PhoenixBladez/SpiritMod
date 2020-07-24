@@ -49,10 +49,11 @@ namespace SpiritMod.Items.Pins
 		{
 			Main.PlaySound(SoundID.Dig, (int)player.position.X, (int)player.position.Y);
 			string text;
-			if(player.altFunctionUse != 2) {
+			if (player.altFunctionUse != 2) {
 				text = "Location Pinned";
 				ModContent.GetInstance<PinWorld>().SetPin(PinName, player.Center / 16);
-			} else {
+			}
+			else {
 				text = "Pin Removed";
 				ModContent.GetInstance<PinWorld>().RemovePin(PinName);
 			}

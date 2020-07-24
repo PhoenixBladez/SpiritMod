@@ -39,14 +39,14 @@ namespace SpiritMod.Items.Weapon.Summon
 
 		public override bool UseItem(Player player)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				player.MinionNPCTargetAim();
 			}
 			return base.UseItem(player);
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			player.AddBuff(ModContent.BuffType<CrawlerockMinionBuff>(),3600);
+			player.AddBuff(ModContent.BuffType<CrawlerockMinionBuff>(), 3600);
 			position = Main.MouseWorld;
 			speedX = speedY = 0;
 			return player.altFunctionUse != 2;

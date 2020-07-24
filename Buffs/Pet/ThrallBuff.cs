@@ -21,7 +21,7 @@ namespace SpiritMod.Buffs.Pet
 			player.GetSpiritPlayer().thrallPet = true;
 
 			bool petProjectileNotSpawned = player.ownedProjectileCounts[ModContent.ProjectileType<ThrallPet>()] <= 0;
-			if(petProjectileNotSpawned && player.whoAmI == Main.myPlayer) {
+			if (petProjectileNotSpawned && player.whoAmI == Main.myPlayer) {
 				Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<ThrallPet>(), 0, 0f, player.whoAmI);
 			}
 		}

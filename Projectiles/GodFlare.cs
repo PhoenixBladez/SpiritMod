@@ -28,7 +28,7 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 6; ++i) {
+			for (int i = 0; i < 6; ++i) {
 				Vector2 targetDir = ((((float)Math.PI * 2) / 6) * i).ToRotationVector2();
 				targetDir.Normalize();
 				targetDir *= 7;

@@ -27,11 +27,11 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			float num1 = 6f;
 			float num2 = (float)projectile.timeLeft / 60f;
-			if((double)num2 < 1.0)
+			if ((double)num2 < 1.0)
 				num1 *= num2;
 
-			if(hitGround) {
-				for(int index3 = 0; index3 < 2; ++index3) {
+			if (hitGround) {
+				for (int index3 = 0; index3 < 2; ++index3) {
 					Vector2 vector2 = new Vector2(0.0f, -num1);
 					vector2 = (vector2 * (float)(0.850000023841858 + Main.rand.NextDouble() * 0.200000002980232)).RotatedBy((Main.rand.NextDouble() - 0.5) * 0.785398185253143, new Vector2());
 					int index4 = Dust.NewDust(projectile.position, 4, projectile.height + 10, 221, 0.0f, 0.0f, 100, new Color(), 1f);
@@ -46,9 +46,9 @@ namespace SpiritMod.Projectiles.Magic
 					dust1.scale = 0.6f;
 					dust1.fadeIn = dust1.scale + 0.2f;
 				}
-				if(projectile.timeLeft % 10 == 0) {
+				if (projectile.timeLeft % 10 == 0) {
 					float num3 = (float)(0.850000023841858 + Main.rand.NextDouble() * 0.200000002980232);
-					for(int index3 = 0; index3 < 9; ++index3) {
+					for (int index3 = 0; index3 < 9; ++index3) {
 						Vector2 vector2 = new Vector2((float)(index3 - 4) / 5f, -num1 * num3);
 						int index4 = Dust.NewDust(projectile.position, 4, projectile.height + 10, 226, 0.0f, 0.0f, 100, new Color(), 1f);
 						Dust dust1 = Main.dust[index4];
@@ -71,7 +71,11 @@ namespace SpiritMod.Projectiles.Magic
 			hitGround = true;
 			return false;
 		}
-
+		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+		{
+			fallThrough = false;
+			return true;
+		}
 		public override void Kill(int timeLeft)
 		{
 			Dust.NewDust(projectile.position + projectile.velocity,
@@ -81,8 +85,8 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(target.life <= 0) {
-				if(projectile.friendly && !projectile.hostile) {
+			if (target.life <= 0) {
+				if (projectile.friendly && !projectile.hostile) {
 					ProjectileExtras.Explode(projectile.whoAmI, 30, 30,
 					delegate {
 					});
@@ -90,13 +94,13 @@ namespace SpiritMod.Projectiles.Magic
 				}
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
 				{
-					for(int i = 0; i < 20; i++) {
+					for (int i = 0; i < 20; i++) {
 						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 226, 0f, -2f, 0, default(Color), 2f);
 						Main.dust[num].noGravity = true;
 						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 						Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
 						Main.dust[num].scale *= .25f;
-						if(Main.dust[num].position != projectile.Center)
+						if (Main.dust[num].position != projectile.Center)
 							Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
 					}
 				}

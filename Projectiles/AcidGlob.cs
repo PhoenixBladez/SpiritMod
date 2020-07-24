@@ -26,7 +26,7 @@ namespace SpiritMod.Projectiles
 		public override void AI()
 		{
 			DamageAdditive++;
-			if(DamageAdditive % 10 == 0)
+			if (DamageAdditive % 10 == 0)
 				projectile.damage++;
 		}
 

@@ -30,7 +30,7 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 5; i++) {
+			for (int i = 0; i < 5; i++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 54);
 			}
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);

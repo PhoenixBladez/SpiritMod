@@ -28,15 +28,15 @@ namespace SpiritMod.Projectiles.Hostile
 		public override bool PreAI()
 		{
 			projectile.alpha -= 40;
-			if(projectile.alpha < 0)
+			if (projectile.alpha < 0)
 				projectile.alpha = 0;
 
 			projectile.spriteDirection = projectile.direction;
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 3) {
+			if (projectile.frameCounter >= 3) {
 				projectile.frame++;
 				projectile.frameCounter = 0;
-				if(projectile.frame >= 6)
+				if (projectile.frame >= 6)
 					projectile.frame = 0;
 			}
 
@@ -45,7 +45,7 @@ namespace SpiritMod.Projectiles.Hostile
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 20; i++) {
+			for (int i = 0; i < 20; i++) {
 				Dust.NewDust(projectile.Center, projectile.width, projectile.height, 68, (float)(Main.rand.Next(8) - 4), (float)(Main.rand.Next(8) - 4), 68);
 			}
 		}

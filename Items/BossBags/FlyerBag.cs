@@ -1,10 +1,11 @@
-
 using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Items.Boss;
 using SpiritMod.Items.Equipment;
-using SpiritMod.Items.Material;
+using SpiritMod.Items.Armor;
+using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Items.Weapon.Spear;
 using SpiritMod.Items.Weapon.Summon;
+using SpiritMod.Items.Weapon.Swung;
 using SpiritMod.Items.Weapon.Thrown;
 using Terraria;
 using Terraria.ID;
@@ -37,24 +38,31 @@ namespace SpiritMod.Items.BossBags
 			return true;
 		}
 
-		public override void RightClick(Player player)
-		{
-			player.QuickSpawnItem(ModContent.ItemType<AvianHook>());
-			player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(1, 3));
-			player.QuickSpawnItem(ModContent.ItemType<FossilFeather>(), Main.rand.Next(4, 7));
+        public override void RightClick(Player player)
+        {
+            player.QuickSpawnItem(ModContent.ItemType<AvianHook>());
+            player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(5, 9));
 
-			int[] lootTable = {
-				ModContent.ItemType<SkeletalonStaff>(),
-				ModContent.ItemType<Talonginus>(),
-				ModContent.ItemType<SoaringScapula>()
-			};
-			int loot = Main.rand.Next(lootTable.Length);
-			player.QuickSpawnItem(lootTable[loot]);
+            int[] lootTable = {
+                ModContent.ItemType<TalonBlade>(),
+                ModContent.ItemType<Talonginus>(),
+                ModContent.ItemType<SoaringScapula>(),
+                ModContent.ItemType<TalonPiercer>(),
+                ModContent.ItemType<SkeletalonStaff>()
+            };
+            int loot = Main.rand.Next(lootTable.Length);
+            int[] lootTable1 = {
+                ModContent.ItemType<TalonHeaddress>(),
+                ModContent.ItemType<TalonGarb>()
+            };
+            int loot1 = Main.rand.Next(lootTable1.Length);
+            player.QuickSpawnItem(lootTable[loot]);
+            player.QuickSpawnItem(lootTable1[loot1]);
 
-			if(Main.rand.NextDouble() < 1d / 7)
-				player.QuickSpawnItem(ModContent.ItemType<FlierMask>());
-			if(Main.rand.NextDouble() < 1d / 10)
-				player.QuickSpawnItem(ModContent.ItemType<Trophy2>());
-		}
-	}
+            if (Main.rand.NextDouble() < 1d / 7)
+                player.QuickSpawnItem(ModContent.ItemType<FlierMask>());
+            if (Main.rand.NextDouble() < 1d / 10)
+                player.QuickSpawnItem(ModContent.ItemType<Trophy2>());
+        }
+    }
 }

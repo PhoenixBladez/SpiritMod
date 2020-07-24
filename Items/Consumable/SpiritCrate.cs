@@ -49,7 +49,7 @@ namespace SpiritMod.Items.Consumable
 			int loot = Main.rand.Next(lootTable.Length);
 
 			player.QuickSpawnItem(lootTable[loot], Main.rand.Next(3, 5));
-			if(Main.rand.Next(4) == 1) {
+			if (Main.rand.Next(4) == 1) {
 				int[] lootTable3 = {
 					ModContent.ItemType<PutridPiece>(),
 					ModContent.ItemType<FleshClump>(),
@@ -62,11 +62,11 @@ namespace SpiritMod.Items.Consumable
 
 				player.QuickSpawnItem(lootTable3[loot3], Main.rand.Next(3, 5));
 			}
-			if(Main.rand.Next(7) == 0) {
+			if (Main.rand.Next(7) == 0) {
 				player.QuickSpawnItem(ModContent.ItemType<SoulStinger>());
 			}
 
-			if(Main.rand.Next(6) == 0) {
+			if (Main.rand.Next(6) == 0) {
 				int[] lootTable2 = {
 					ModContent.ItemType<StarCutter>(),
 					ModContent.ItemType<GhostJellyBomb>()

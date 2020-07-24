@@ -6,7 +6,7 @@ namespace SpiritMod.Items.Halloween
 {
 	public class Taffy : CandyBase
 	{
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Taffy");

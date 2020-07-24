@@ -24,11 +24,11 @@ namespace SpiritMod.Projectiles
 		public override bool PreAI()
 		{
 			projectile.frameCounter++;
-			if(projectile.frameCounter > 4) {
+			if (projectile.frameCounter > 4) {
 				projectile.frame++;
 				projectile.frameCounter = 0;
 			}
-			if(projectile.frame > 6) {
+			if (projectile.frame > 6) {
 				projectile.frame = 0;
 			}
 			projectile.alpha += 3;

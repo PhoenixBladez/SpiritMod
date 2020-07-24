@@ -18,7 +18,7 @@ namespace SpiritMod.Buffs.Artifact
 		{
 			npc.GetGlobalNPC<GNPC>().necrosis = true;
 
-			if(Main.rand.NextBool(6)) {
+			if (Main.rand.NextBool(6)) {
 				int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<Dusts.Pestilence>());
 				Main.dust[dust].scale = 1.9f;
 				Main.dust[dust].velocity *= 1f;

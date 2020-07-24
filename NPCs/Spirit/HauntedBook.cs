@@ -57,7 +57,7 @@ namespace SpiritMod.NPCs.Spirit
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			Player player = spawnInfo.player;
-			if(!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.spawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.spawnTileY > Main.worldSurface || !Main.dayTime) && (SpawnCondition.GoblinArmy.Chance == 0)) {
+			if (!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.spawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.spawnTileY > Main.worldSurface || !Main.dayTime) && (SpawnCondition.GoblinArmy.Chance == 0)) {
 				int[] TileArray2 = { ModContent.TileType<SpiritDirt>(), ModContent.TileType<SpiritStone>(), ModContent.TileType<Spiritsand>(), ModContent.TileType<SpiritGrass>(), ModContent.TileType<SpiritIce>(), };
 				return TileArray2.Contains(Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].type) && NPC.downedMechBossAny && player.ZoneOverworldHeight ? 2.09f : 0f;
 			}
@@ -66,7 +66,7 @@ namespace SpiritMod.NPCs.Spirit
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, 13);
 				Gore.NewGore(npc.position, npc.velocity, 12);
 				Gore.NewGore(npc.position, npc.velocity, 11);
@@ -75,14 +75,14 @@ namespace SpiritMod.NPCs.Spirit
 
 		public override void AI()
 		{
-			if(Main.rand.Next(150) == 8) {
+			if (Main.rand.Next(150) == 8) {
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
 				direction.X *= 2f;
 				direction.Y *= 2f;
 
 				int amountOfProjectiles = Main.rand.Next(1, 2);
-				for(int i = 0; i < amountOfProjectiles; ++i) {
+				for (int i = 0; i < amountOfProjectiles; ++i) {
 					float A = (float)Main.rand.Next(-1, 1) * 0.03f;
 					float B = (float)Main.rand.Next(-1, 1) * 0.03f;
 					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<RuneHostile>(), 38, 1, Main.myPlayer, 0, 0);
@@ -93,14 +93,14 @@ namespace SpiritMod.NPCs.Spirit
 			timer++;
 			npc.TargetClosest(true);
 			Player player = Main.player[npc.target];
-			if(timer == 25) {
+			if (timer == 25) {
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
 				npc.velocity.Y = direction.Y * 3f;
 				npc.velocity.X = direction.X * 3f;
 				timer = 0;
 			}
-			if(timer == 32) {
+			if (timer == 32) {
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
 				npc.velocity.Y = direction.Y * 3f;
@@ -110,10 +110,10 @@ namespace SpiritMod.NPCs.Spirit
 
 		public override void NPCLoot()
 		{
-			if(Main.rand.Next(2) == 1)
+			if (Main.rand.Next(2) == 1)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Material.Rune>(), Main.rand.Next(1) + 2);
 
-			if(Main.rand.Next(20) == 1)
+			if (Main.rand.Next(20) == 1)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PossessedBook>());
 		}
 

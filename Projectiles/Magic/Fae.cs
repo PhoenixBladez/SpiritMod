@@ -42,7 +42,7 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 			Lighting.AddLight((int)(projectile.Center.X / 16f), (int)(projectile.Center.Y / 16f), 0.5f, 0.5f, 0.9f);
 
-			for(int i = 0; i < 10; i++) {
+			for (int i = 0; i < 10; i++) {
 				float x = projectile.Center.X - projectile.velocity.X * .1f * i;
 				float y = projectile.Center.Y - projectile.velocity.Y * .1f * i;
 				int num = Dust.NewDust(new Vector2(x, y), 1, 1, 242);
@@ -63,7 +63,7 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 
-			for(int i = 0; i < 40; i++) {
+			for (int i = 0; i < 40; i++) {
 				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height,
 					242, 0f, -2f, 0, default(Color), 2f);
 				Main.dust[num].noGravity = true;
@@ -72,7 +72,7 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(6) == 0)
+			if (Main.rand.Next(6) == 0)
 				target.AddBuff(ModContent.BuffType<HolyLight>(), 120, true);
 		}
 

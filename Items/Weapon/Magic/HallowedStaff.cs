@@ -38,12 +38,12 @@ namespace SpiritMod.Items.Weapon.Magic
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if(Main.myPlayer == player.whoAmI) {
+			if (Main.myPlayer == player.whoAmI) {
 				Vector2 mouse = Main.MouseWorld;
 
-				for(int i = 0; i < 1; ++i) {
+				for (int i = 0; i < 1; ++i) {
 					int p = Projectile.NewProjectile(mouse.X + Main.rand.Next(-80, 80), mouse.Y - 50 + Main.rand.Next(-10, 10), 0, Main.rand.Next(3, 6), type, damage, knockBack, player.whoAmI);
-					if(Main.rand.Next(2) == 0) {
+					if (Main.rand.Next(2) == 0) {
 						int p1 = Projectile.NewProjectile(mouse.X + Main.rand.Next(-80, 80), mouse.Y - 50 + Main.rand.Next(-10, 10), 0, Main.rand.Next(3, 6), type, damage, knockBack, player.whoAmI);
 					}
 				}

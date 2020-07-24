@@ -48,7 +48,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			float baseSpeed = (float)System.Math.Sqrt(speedX * speedX + speedY * speedY);
 			double baseAngle = System.Math.Atan2(speedX, speedY);
 			double randomAngle;
-			for(int i = 0; i < num; ++i) {
+			for (int i = 0; i < num; ++i) {
 				randomAngle = baseAngle + (Main.rand.NextFloat() - 0.4f) * spread;
 				posArray[i] = new Vector2(baseSpeed * (float)System.Math.Sin(randomAngle), baseSpeed * (float)System.Math.Cos(randomAngle));
 			}
@@ -56,13 +56,13 @@ namespace SpiritMod.Items.Weapon.Magic
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if(Main.rand.Next(7) == 0) {
+			if (Main.rand.Next(7) == 0) {
 				int pl = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<CultistIce>(), damage, knockBack, player.whoAmI, 0f, 0f);
 				Main.projectile[pl].friendly = true;
 				Main.projectile[pl].hostile = false;
 				return false;
 			}
-			if(Main.rand.Next(5) == 0) {
+			if (Main.rand.Next(5) == 0) {
 				Main.PlaySound(SoundLoader.customSoundType, player.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Thunder"));
 				Vector2 vector82 = -Main.player[Main.myPlayer].Center + Main.MouseWorld;
 				float ai = Main.rand.Next(100);
@@ -70,8 +70,8 @@ namespace SpiritMod.Items.Weapon.Magic
 				Projectile.NewProjectile(player.Center.X, player.Center.Y, vector83.X, vector83.Y, ProjectileID.VortexLightning, damage, .5f, player.whoAmI, vector82.ToRotation(), ai);
 				return false;
 			}
-			if(Main.rand.Next(3) == 0) {
-				for(int i = 0; i < 3; i++) {
+			if (Main.rand.Next(3) == 0) {
+				for (int i = 0; i < 3; i++) {
 					float spread = 30f * 0.0174f;//45 degrees converted to radians
 					float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
 					double baseAngle = Math.Atan2(speedX, speedY);
@@ -80,8 +80,9 @@ namespace SpiritMod.Items.Weapon.Magic
 					speedY = baseSpeed * (float)Math.Cos(randomAngle);
 					Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<CultistFire>(), item.damage, knockBack, item.owner, 0, 0);
 				}
-			} else {
-				for(int i = 0; i < 5; i++) {
+			}
+			else {
+				for (int i = 0; i < 5; i++) {
 					float spread = 30f * 0.0174f;//45 degrees converted to radians
 					float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
 					double baseAngle = Math.Atan2(speedX, speedY);

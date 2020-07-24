@@ -25,9 +25,9 @@ namespace SpiritMod.Projectiles.Flail
 		{
 			ProjectileExtras.FlailAI(projectile.whoAmI);
 
-			for(int i = 0; i < 200; ++i) {
-				if(Main.npc[i].active && !Main.npc[i].boss) {
-					if((Main.npc[i].Center - projectile.Center).Length() < 128)
+			for (int i = 0; i < 200; ++i) {
+				if (Main.npc[i].active && !Main.npc[i].boss) {
+					if ((Main.npc[i].Center - projectile.Center).Length() < 128)
 						Main.npc[i].AddBuff(ModContent.BuffType<TidalWrath>(), 120);
 				}
 			}

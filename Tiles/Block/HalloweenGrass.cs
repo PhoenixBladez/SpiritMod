@@ -7,7 +7,7 @@ namespace SpiritMod.Tiles.Block
 {
 	public class HalloweenGrass : ModTile
 	{
-		
+
 		public override void SetDefaults()
 		{
 			Main.tileSolid[Type] = true;
@@ -24,11 +24,11 @@ namespace SpiritMod.Tiles.Block
 		public static bool PlaceObject(int x, int y, int type, bool mute = false, int style = 0, int alternate = 0, int random = -1, int direction = -1)
 		{
 			TileObject toBePlaced;
-			if(!TileObject.CanPlace(x, y, type, style, direction, out toBePlaced, false)) {
+			if (!TileObject.CanPlace(x, y, type, style, direction, out toBePlaced, false)) {
 				return false;
 			}
 			toBePlaced.random = random;
-			if(TileObject.Place(toBePlaced) && !mute) {
+			if (TileObject.Place(toBePlaced) && !mute) {
 				WorldGen.SquareTileFrame(x, y, true);
 				//   Main.PlaySound(SoundID.Dig, x * 16, y * 16, 1, 1f, 0f);
 			}
@@ -37,9 +37,9 @@ namespace SpiritMod.Tiles.Block
 
 		public override void RandomUpdate(int i, int j)
 		{
-			if(!Framing.GetTileSafely(i, j - 1).active() && Main.rand.Next(20) == 0) {
+			if (!Framing.GetTileSafely(i, j - 1).active() && Main.rand.Next(20) == 0) {
 				int style = Main.rand.Next(23);
-				if(PlaceObject(i, j - 1, ModContent.TileType<SpookyFoliage>(), false, style))
+				if (PlaceObject(i, j - 1, ModContent.TileType<SpookyFoliage>(), false, style))
 					NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<SpookyFoliage>(), style, 0, -1, -1);
 			}
 			//else if (Main.rand.Next(100) == 0)

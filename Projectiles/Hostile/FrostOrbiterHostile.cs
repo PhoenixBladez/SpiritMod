@@ -9,7 +9,7 @@ namespace SpiritMod.Projectiles.Hostile
 {
 	public class FrostOrbiterHostile : ModProjectile
 	{
-		public override void SetStaticDefaults() 
+		public override void SetStaticDefaults()
 			=> DisplayName.SetDefault("Frost Spirit");
 
 		public override void SetDefaults()
@@ -31,22 +31,23 @@ namespace SpiritMod.Projectiles.Hostile
 			float x = 0.08f;
 			float y = 0.1f;
 			bool flag2 = false;
-			if((double)projectile.ai[0] < (double)num2) {
+			if ((double)projectile.ai[0] < (double)num2) {
 				bool flag4 = true;
 				int index1 = (int)projectile.ai[1];
-				if(Main.npc[index1].active && Main.npc[index1].type == num1) {
-					if(!flag2 && Main.npc[index1].oldPos[1] != Vector2.Zero)
+				if (Main.npc[index1].active && Main.npc[index1].type == num1) {
+					if (!flag2 && Main.npc[index1].oldPos[1] != Vector2.Zero)
 						projectile.position = projectile.position + Main.npc[index1].position - Main.npc[index1].oldPos[1];
-				} else {
+				}
+				else {
 					projectile.ai[0] = num2;
 					flag4 = false;
 				}
-				if(flag4 && !flag2) {
+				if (flag4 && !flag2) {
 					projectile.velocity = projectile.velocity + new Vector2((float)Math.Sign(Main.npc[index1].Center.X - projectile.Center.X), (float)Math.Sign(Main.npc[index1].Center.Y - projectile.Center.Y)) * new Vector2(x, y);
 				}
 			}
-			for(int i = 0; i < 5; i++) {
-				if(projectile.width == 8) {
+			for (int i = 0; i < 5; i++) {
+				if (projectile.width == 8) {
 					float x1 = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 					float y1 = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 					int num = Dust.NewDust(new Vector2(x1, y1), 2, 2, 76);
@@ -56,12 +57,12 @@ namespace SpiritMod.Projectiles.Hostile
 			}
 
 		}
-		public override void OnHitPlayer(Player target, int damage, bool crit) 
+		public override void OnHitPlayer(Player target, int damage, bool crit)
 			=> target.AddBuff(BuffID.Frostburn, 120);
 		public override void Kill(int timeLeft)
 		{
 			int d = 51;
-			for(int k = 0; k < 6; k++) {
+			for (int k = 0; k < 6; k++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 1.5f * Main.rand.Next(-2, 2), -2.5f, 0, Color.White, 0.7f);
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, d, 1.5f * Main.rand.Next(-2, 2), -2.5f, 0, Color.White, 0.7f);
 			}

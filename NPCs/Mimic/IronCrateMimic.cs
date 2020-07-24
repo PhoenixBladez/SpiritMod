@@ -30,40 +30,40 @@ namespace SpiritMod.NPCs.Mimic
 			npc.knockBackResist = 0f;
 			npc.aiStyle = 25;
 			aiType = 85;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.IronCrateMimicBanner>();
-        }
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.IronCrateMimicBanner>();
+		}
 		int frame = 2;
 		int timer = 0;
 		int mimictimer = 0;
 		public override void AI()
 		{
 			mimictimer++;
-			if(mimictimer <= 80) {
+			if (mimictimer <= 80) {
 				frame = 0;
 				mimictimer = 81;
 			}
 			Player target = Main.player[npc.target];
 			{
 				timer++;
-				if(timer == 4) {
+				if (timer == 4) {
 					frame++;
 					timer = 0;
 				}
-				if(frame == 4) {
+				if (frame == 4) {
 					frame = 1;
 				}
 			}
-			if(npc.collideY && jump && npc.velocity.Y > 0) {
-				if(Main.rand.Next(4) == 0) {
+			if (npc.collideY && jump && npc.velocity.Y > 0) {
+				if (Main.rand.Next(4) == 0) {
 					jump = false;
-					for(int i = 0; i < 20; i++) {
+					for (int i = 0; i < 20; i++) {
 						int dust = Dust.NewDust(npc.position + npc.velocity, npc.width, npc.height, 191, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f);
 						Main.dust[dust].noGravity = true;
 					}
 				}
 			}
-			if(!npc.collideY)
+			if (!npc.collideY)
 				jump = true;
 
 		}
@@ -76,9 +76,9 @@ namespace SpiritMod.NPCs.Mimic
 		{
 			Player target = Main.player[npc.target];
 			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
-			if(distance < 720) {
+			if (distance < 720) {
 				Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height / Main.npcFrameCount[npc.type]) * 0.5f);
-				for(int k = 0; k < npc.oldPos.Length; k++) {
+				for (int k = 0; k < npc.oldPos.Length; k++) {
 					var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 					Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
 					Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
@@ -89,14 +89,14 @@ namespace SpiritMod.NPCs.Mimic
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				int a = Gore.NewGore(npc.position, npc.velocity / 6, 220);
 				int a1 = Gore.NewGore(npc.position, npc.velocity / 6, 221);
 				int a2 = Gore.NewGore(npc.position, npc.velocity / 6, 222);
 			}
-			if(npc.life <= 0 || npc.life >= 0) {
+			if (npc.life <= 0 || npc.life >= 0) {
 				int d = 8;
-				for(int k = 0; k < 10; k++) {
+				for (int k = 0; k < 10; k++) {
 					Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.47f);
 					Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, .57f);
 				}
@@ -109,16 +109,16 @@ namespace SpiritMod.NPCs.Mimic
 		}
 		public override void NPCLoot()
 		{
-			if(Main.rand.Next(13) == 1) {
+			if (Main.rand.Next(13) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 3200);
 			}
-			if(Main.rand.Next(13) == 1) {
+			if (Main.rand.Next(13) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 3201);
 			}
-			if(Main.rand.Next(15) == 1) {
+			if (Main.rand.Next(15) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 2501);
 			}
-			if(Main.rand.Next(10) == 1) {
+			if (Main.rand.Next(10) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 2608);
 			}
 			{
@@ -136,7 +136,7 @@ namespace SpiritMod.NPCs.Mimic
 				Gpotions = Main.rand.Next(new int[] { 188, 189 });
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, Gpotions, Main.rand.Next(5, 15));
 			}
-			if(Main.rand.Next(3) == 2) {
+			if (Main.rand.Next(3) == 2) {
 
 				int bait;
 				bait = Main.rand.Next(new int[] { 2675 });
@@ -148,7 +148,7 @@ namespace SpiritMod.NPCs.Mimic
 				bait = Main.rand.Next(new int[] { 2676 });
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, bait, Main.rand.Next(3, 7));
 			}
-			if(Main.rand.Next(5) == 2) {
+			if (Main.rand.Next(5) == 2) {
 				int coins;
 				coins = Main.rand.Next(new int[] { 73 });
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, coins, Main.rand.Next(3, 7));

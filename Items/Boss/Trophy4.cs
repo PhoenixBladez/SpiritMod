@@ -5,7 +5,7 @@ namespace SpiritMod.Items.Boss
 {
 	public class Trophy4 : ModItem
 	{
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Infernon Trophy");

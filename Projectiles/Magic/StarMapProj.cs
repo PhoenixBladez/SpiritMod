@@ -35,11 +35,12 @@ namespace SpiritMod.Projectiles.Magic
 			Vector2 direction = Main.MouseWorld - (player.Center - new Vector2(4, 4));
 			direction.Normalize();
 			direction *= 12f;
-			if(player.channel) {
-				if(direction.X > 0) {
+			if (player.channel) {
+				if (direction.X > 0) {
 					holdOffset.X = 5;
 					player.direction = 1;
-				} else {
+				}
+				else {
 					holdOffset.X = -30;
 					player.direction = 0;
 				}
@@ -47,14 +48,15 @@ namespace SpiritMod.Projectiles.Magic
 				projectile.position = player.Center + holdOffset;
 				player.velocity.X *= 0.97f;
 				counter++;
-				if(counter > 160) {
+				if (counter > 160) {
 					DoDustEffect(projectile.Center, 54f);
-					if(counter % 3 == 0) {
+					if (counter % 3 == 0) {
 						Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, ModContent.ProjectileType<StarMapTrail>(), 0, 0, projectile.owner);
 					}
 				}
-			} else {
-				if(counter > 160) {
+			}
+			else {
+				if (counter > 160) {
 					Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, ModContent.ProjectileType<TeleportBolt>(), 0, 0, projectile.owner);
 				}
 				projectile.active = false;

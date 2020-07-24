@@ -18,7 +18,7 @@ namespace SpiritMod.Dusts
 			dust.velocity.Y += 0.1f;
 			dust.position += dust.velocity;
 			dust.alpha += 1;
-			if(dust.alpha > 200) {
+			if (dust.alpha > 200) {
 				dust.active = false;
 			}
 			return false;

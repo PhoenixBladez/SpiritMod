@@ -69,10 +69,14 @@ namespace SpiritMod.Items.Weapon.Bow
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				int positive = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<NegativeArrow>(), damage, knockBack, player.whoAmI);
-			} else {
-				int negative = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PositiveArrow>(), damage, knockBack, player.whoAmI);
+			}
+			else {
+				if (type == ProjectileID.WoodenArrowFriendly) {
+					type = ModContent.ProjectileType<PositiveArrow>();
+				}
+				int negative = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
 			}
 			return false;
 		}

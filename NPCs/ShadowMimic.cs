@@ -43,14 +43,14 @@ namespace SpiritMod.NPCs
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				int dust = Dust.NewDust(npc.position, npc.width, npc.height, 187);
 			}
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if(Main.rand.Next(8) == 0) {
+			if (Main.rand.Next(8) == 0) {
 				target.AddBuff(BuffID.Cursed, 180, true);
 			}
 		}

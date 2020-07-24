@@ -17,8 +17,8 @@ namespace SpiritMod.Dusts
 
 		public override bool Update(Dust dust)
 		{
-			if(dust.customData != null) {
-				if(dust.customData is NPC npc) {
+			if (dust.customData != null) {
+				if (dust.customData is NPC npc) {
 					dust.customData = new BloodAnchor {
 						anchor = npc,
 						oldRotation = npc.rotation,
@@ -29,16 +29,17 @@ namespace SpiritMod.Dusts
 					dust.velocity = Vector2.Zero;
 				}
 
-				if(dust.customData is BloodAnchor) {
-					if(Follow(dust, (BloodAnchor)dust.customData)) {
+				if (dust.customData is BloodAnchor) {
+					if (Follow(dust, (BloodAnchor)dust.customData)) {
 						return false;
 					}
 				}
 			}
 
-			if(Collision.SolidCollision(dust.position - Vector2.One * 5f, 10, 6) && dust.fadeIn == 0f) {
+			if (Collision.SolidCollision(dust.position - Vector2.One * 5f, 10, 6) && dust.fadeIn == 0f) {
 				dust.velocity = Vector2.Zero;
-			} else {
+			}
+			else {
 				dust.scale += 0.009f;
 			}
 
@@ -48,8 +49,8 @@ namespace SpiritMod.Dusts
 		private bool Follow(Dust dust, BloodAnchor follow)
 		{
 			NPC npc = follow.anchor;
-			if(follow.counter++ >= stickTime || !npc.active) {
-				if(npc.active) {
+			if (follow.counter++ >= stickTime || !npc.active) {
+				if (npc.active) {
 					dust.velocity = npc.velocity + 0.5f * (follow.offset.RotatedBy(npc.rotation) - follow.offset.RotatedBy(follow.oldRotation));
 				}
 

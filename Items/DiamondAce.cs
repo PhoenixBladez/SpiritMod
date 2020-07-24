@@ -33,9 +33,9 @@ namespace SpiritMod.Items
 			Main.PlaySound(7, (int)player.position.X, (int)player.position.Y);
 			return false;
 		}
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(200, 200, 200, 100);
-        }
-    }
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(200, 200, 200, 100);
+		}
+	}
 }

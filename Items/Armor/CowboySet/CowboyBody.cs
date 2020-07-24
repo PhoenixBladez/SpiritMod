@@ -20,9 +20,9 @@ namespace SpiritMod.Items.Armor.CowboySet
 
 			item.vanity = true;
 		}
-        public override void DrawHands(ref bool drawHands, ref bool drawArms)
-        {
-            drawHands = true;
-        }
-    }
+		public override void DrawHands(ref bool drawHands, ref bool drawArms)
+		{
+			drawHands = true;
+		}
+	}
 }

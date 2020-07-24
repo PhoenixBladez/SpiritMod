@@ -14,7 +14,7 @@ namespace SpiritMod.Buffs.Artifact
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			if(!npc.boss) {
+			if (!npc.boss) {
 				npc.lifeRegen -= 5;
 
 				int dust = Dust.NewDust(npc.position, npc.width, npc.height, 110);

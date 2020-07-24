@@ -56,7 +56,7 @@ namespace SpiritMod.Items.Consumable
 			};
 			int loot = Main.rand.Next(lootTable.Length);
 			player.QuickSpawnItem(lootTable[loot]);
-			if(Main.rand.Next(4) > 0) {
+			if (Main.rand.Next(4) > 0) {
 				int[] lootTable2 = {
 					ItemID.GoldBar,
 					ItemID.SilverBar,
@@ -65,14 +65,14 @@ namespace SpiritMod.Items.Consumable
 				};
 				int loot2 = Main.rand.Next(lootTable2.Length);
 				int Booty = Main.rand.Next(15, 30);
-				for(int j = 0; j < Booty; j++) {
+				for (int j = 0; j < Booty; j++) {
 					player.QuickSpawnItem(lootTable2[loot2]);
 				}
 
 			}
-			if(Main.rand.Next(2) == 1) {
+			if (Main.rand.Next(2) == 1) {
 				int Gems = Main.rand.Next(15, 30);
-				for(int I = 0; I < Gems; I++) {
+				for (int I = 0; I < Gems; I++) {
 					int[] lootTable3 = {
 						ItemID.Ruby,
 						ItemID.Emerald,
@@ -87,7 +87,7 @@ namespace SpiritMod.Items.Consumable
 				}
 			}
 			int Coins = Main.rand.Next(10, 25);
-			for(int K = 0; K < Coins; K++)
+			for (int K = 0; K < Coins; K++)
 				player.QuickSpawnItem(ItemID.GoldCoin);
 		}
 	}

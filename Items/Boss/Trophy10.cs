@@ -5,7 +5,7 @@ namespace SpiritMod.Items.Boss
 {
 	public class Trophy10 : ModItem
 	{
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("R'lyehian Trophy");

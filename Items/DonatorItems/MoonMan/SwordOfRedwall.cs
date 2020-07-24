@@ -7,7 +7,7 @@ namespace SpiritMod.Items.DonatorItems.MoonMan
 {
 	class SwordOfRedwall : ModItem
 	{
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sword of Redwall");

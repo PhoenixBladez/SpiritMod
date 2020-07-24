@@ -61,7 +61,7 @@ namespace SpiritMod.Items.DonatorItems
 		{
 			float cosRot = (float)Math.Cos(player.itemRotation - 0.98f * player.direction * player.gravDir * 90f);
 			float sinRot = (float)Math.Sin(player.itemRotation - 0.98f * player.direction * player.gravDir * 90f);
-			for(int i = 0; i < 5; i++) {
+			for (int i = 0; i < 5; i++) {
 
 				float length = (item.width * 1.2f - i * item.width / 9) * item.scale + 8 + i; //length to base + arm displacement
 				int dust = Dust.NewDust(new Vector2((float)(player.itemLocation.X + length * cosRot * player.direction), (float)(player.itemLocation.Y + length * sinRot * player.direction)), 0, 0, 133, player.velocity.X * 0.9f, player.velocity.Y * 0.9f, 100, Color.White, .8f);

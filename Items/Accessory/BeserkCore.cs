@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Accessory
 			player.meleeCrit += 5;
 			player.armorPenetration += 6;
 			player.meleeDamage += .05f;
-			if(player.statLife <= player.statLifeMax2 / 2) {
+			if (player.statLife <= player.statLifeMax2 / 2) {
 				player.meleeDamage += 0.07f;
 				player.meleeSpeed += 0.07f;
 			}

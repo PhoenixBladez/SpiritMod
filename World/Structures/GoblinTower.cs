@@ -208,12 +208,12 @@ namespace SpiritMod.World
 			shingleColor = WorldGen.genRand.NextBool() ? TileID.RedDynastyShingles : TileID.BlueDynastyShingles;
 			bool placed = false;
 			int attempts = 0;
-			while(!placed && attempts++ < 100000) {
+			while (!placed && attempts++ < 100000) {
 				// Select a place in the first 6th of the world, avoiding the oceans
 				int towerX = WorldGen.genRand.Next(300, Main.maxTilesX / 6); // from 50 since there's a unaccessible area at the world's borders
 																			 // 50% of choosing the last 6th of the world
 																			 // Choose which side of the world to be on randomly
-				if(WorldGen.genRand.NextBool()) {
+				if (WorldGen.genRand.NextBool()) {
 					towerX = Main.maxTilesX - towerX;
 				}
 
@@ -221,17 +221,17 @@ namespace SpiritMod.World
 				int towerY = (int)Main.worldSurface - 200;
 
 				// We go down until we hit a solid tile or go under the world's surface
-				while(!WorldGen.SolidTile(towerX, towerY) && towerY <= Main.worldSurface) {
+				while (!WorldGen.SolidTile(towerX, towerY) && towerY <= Main.worldSurface) {
 					towerY++;
 				}
 
 				// If we went under the world's surface, try again
-				if(towerY > Main.worldSurface) {
+				if (towerY > Main.worldSurface) {
 					continue;
 				}
 				Tile tile = Main.tile[towerX, towerY];
 				// If the type of the tile we are placing the tower on doesn't match what we want, try again
-				if(!(tile.type == TileID.Dirt
+				if (!(tile.type == TileID.Dirt
 					|| tile.type == TileID.Grass
 					|| tile.type == TileID.Stone
 					|| tile.type == TileID.Mud
@@ -245,14 +245,14 @@ namespace SpiritMod.World
 				}
 
 				// Don't place the tower if the area isn't flat
-				if(!MyWorld.CheckFlat(towerX, towerY, Tiles.GetLength(1), 3))
+				if (!MyWorld.CheckFlat(towerX, towerY, Tiles.GetLength(1), 3))
 					continue;
 
 				// place the tower
 				Place(towerX, towerY);
 				// extend the base a bit
-				for(int i = towerX - 2; i < towerX + Tiles.GetLength(1) - 4; i++) {
-					for(int k = towerY + 3; k < towerY + 12; k++) {
+				for (int i = towerX - 2; i < towerX + Tiles.GetLength(1) - 4; i++) {
+					for (int k = towerY + 3; k < towerY + 12; k++) {
 						WorldGen.PlaceTile(i, k, TileID.StoneSlab, mute: true, forced: true);
 						WorldGen.SlopeTile(i, k);
 					}
@@ -265,13 +265,13 @@ namespace SpiritMod.World
 				Main.npc[num].homeless = true;
 				placed = true;
 			}
-			if(!placed) SpiritMod.instance.Logger.Error("Worldgen: FAILED to place Goblin Tower, ground not flat enough?");
+			if (!placed) SpiritMod.instance.Logger.Error("Worldgen: FAILED to place Goblin Tower, ground not flat enough?");
 			return placed;
 		}
 
 		protected override TileData TileMap(int tile, int x, int y)
 		{
-			switch(tile) {
+			switch (tile) {
 				case 1:
 					return new TileData(TileID.StoneSlab);
 				case 2:
@@ -288,7 +288,7 @@ namespace SpiritMod.World
 
 		protected override TileData FurnitureMap(int tile, int x, int y)
 		{
-			switch(tile) {
+			switch (tile) {
 				case 1:
 					return new TileData(TileID.Pots);
 				case 2:
@@ -311,7 +311,7 @@ namespace SpiritMod.World
 
 		protected override WallData WallMap(int wall, int x, int y)
 		{
-			switch(wall) {
+			switch (wall) {
 				case 1:
 					return new WallData(WallID.GrassUnsafe);
 				case 2:

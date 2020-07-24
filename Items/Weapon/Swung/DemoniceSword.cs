@@ -37,14 +37,14 @@ namespace SpiritMod.Items.Weapon.Swung
 
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(4) == 0) {
+			if (Main.rand.Next(4) == 0) {
 				target.AddBuff(BuffID.Frostburn, 180);
 			}
 		}
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
 			{
-				if(Main.rand.Next(5) == 0) {
+				if (Main.rand.Next(5) == 0) {
 					int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 206);
 					Main.dust[dust].noGravity = true;
 				}

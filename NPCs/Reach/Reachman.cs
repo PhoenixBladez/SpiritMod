@@ -41,7 +41,7 @@ namespace SpiritMod.NPCs.Reach
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			Player player = spawnInfo.player;
-			if(!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.spawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.spawnTileY > Main.worldSurface || !Main.dayTime) && (SpawnCondition.GoblinArmy.Chance == 0 && !Main.dayTime)) {
+			if (!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.spawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.spawnTileY > Main.worldSurface || !Main.dayTime) && (SpawnCondition.GoblinArmy.Chance == 0 && !Main.dayTime)) {
 				return spawnInfo.player.GetSpiritPlayer().ZoneReach ? 2.7f : 0f;
 			}
 			return 0f;
@@ -52,24 +52,24 @@ namespace SpiritMod.NPCs.Reach
 		}
 		public override void NPCLoot()
 		{
-			if(Main.rand.Next(15) == 1) {
+			if (Main.rand.Next(15) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SanctifiedStabber>());
 			}
 
-			if(Main.rand.Next(3) == 1) {
+			if (Main.rand.Next(3) == 1) {
 				int Bark = Main.rand.Next(2) + 1;
-				for(int J = 0; J <= Bark; J++) {
+				for (int J = 0; J <= Bark; J++) {
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<AncientBark>());
 				}
 			}
-			if(!Main.dayTime) {
+			if (!Main.dayTime) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EnchantedLeaf>());
 			}
 
 		}
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if(Main.rand.Next(10) == 0 && Main.expertMode) {
+			if (Main.rand.Next(10) == 0 && Main.expertMode) {
 				target.AddBuff(148, 2000);
 			}
 		}
@@ -88,12 +88,12 @@ namespace SpiritMod.NPCs.Reach
 		{
 			int d = 3;
 			int d1 = 7;
-			for(int k = 0; k < 30; k++) {
+			for (int k = 0; k < 30; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
 				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
 			}
 
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Reach1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Reach2"), 1f);
 			}

@@ -41,8 +41,8 @@ namespace SpiritMod.Items.Weapon.Bow.Artifact
 			TooltipLine line = new TooltipLine(mod, "ItemName", "Artifact Weapon");
 			line.overrideColor = new Color(100, 0, 230);
 			tooltips.Add(line);
-			foreach(TooltipLine line2 in tooltips) {
-				if(line2.mod == "Terraria" && line2.Name == "ItemName") {
+			foreach (TooltipLine line2 in tooltips) {
+				if (line2.mod == "Terraria" && line2.Name == "ItemName") {
 					line2.overrideColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
 				}
 			}
@@ -57,27 +57,28 @@ namespace SpiritMod.Items.Weapon.Bow.Artifact
 		}
 		public override bool ConsumeAmmo(Player player)
 		{
-			if(Main.rand.Next(25) == 0) {
+			if (Main.rand.Next(25) == 0) {
 				return false;
 			}
 			return true;
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 
 				charger++;
-				if(charger >= 1) {
+				if (charger >= 1) {
 					{
-						for(int I = 0; I < 2; I++) {
+						for (int I = 0; I < 2; I++) {
 							Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-102, 102) / 100), speedY + ((float)Main.rand.Next(-102, 102) / 100), mod.ProjectileType("Stars4"), 175, knockBack, player.whoAmI, 0f, 0f);
 						};
 					}
 				}
 				return false;
-			} else {
+			}
+			else {
 				charger = 0;
-				for(int I = 0; I < 3; I++) {
+				for (int I = 0; I < 3; I++) {
 					Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-102, 102) / 100), speedY + ((float)Main.rand.Next(-102, 102) / 100), mod.ProjectileType("StarPin1"), damage, knockBack, player.whoAmI, 0f, 0f);
 				};
 			}
@@ -85,11 +86,12 @@ namespace SpiritMod.Items.Weapon.Bow.Artifact
 		}
 		public override bool CanUseItem(Player player)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				item.useTime = 40;
 				item.useAnimation = 40;
 				return true;
-			} else {
+			}
+			else {
 				item.useTime = 18;
 				item.useAnimation = 18;
 				return true;

@@ -6,7 +6,7 @@ namespace SpiritMod.Items.Halloween
 {
 	public class Lollipop : CandyBase
 	{
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Lollipop");

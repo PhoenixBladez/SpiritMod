@@ -35,7 +35,7 @@ namespace SpiritMod.Projectiles.Arrow
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 5; i++) {
+			for (int i = 0; i < 5; i++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 224);
 			}
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
@@ -43,12 +43,13 @@ namespace SpiritMod.Projectiles.Arrow
 
 		public override void AI()
 		{
-			if(projectile.ai[0] == 0) {
+			if (projectile.ai[0] == 0) {
 				projectile.ai[0] = 1;
 				ProjectileExtras.LookAlongVelocity(this);
-			} else if(lastFrame > 0) {
+			}
+			else if (lastFrame > 0) {
 				lastFrame++;
-				if(lastFrame > 2) {
+				if (lastFrame > 2) {
 					projectile.Kill();
 				}
 			}
@@ -63,7 +64,7 @@ namespace SpiritMod.Projectiles.Arrow
 			Vector2 drawOrigin = new Vector2(texture.Width * 0.5f, projectile.height * 0.5f);
 			drawOrigin += new Vector2(0f, projectile.gfxOffY);
 
-			for(int k = 0; k < projectile.oldPos.Length; k++) {
+			for (int k = 0; k < projectile.oldPos.Length; k++) {
 				Vector2 drawPos = projectile.oldPos[k] + drawOrigin;
 				drawPos -= Main.screenPosition;
 				Color color = preColor * (float)(projectile.oldPos.Length - k);

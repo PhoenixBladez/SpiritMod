@@ -38,22 +38,22 @@ namespace SpiritMod.Projectiles
 			float num3 = 20f;
 			num1 = 6f;
 			num2 = 3.5f;
-			if(projectile.timeLeft > 30 && projectile.alpha > 0)
+			if (projectile.timeLeft > 30 && projectile.alpha > 0)
 				projectile.alpha -= 25;
-			if(projectile.timeLeft > 30 && projectile.alpha < 128 && Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+			if (projectile.timeLeft > 30 && projectile.alpha < 128 && Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
 				projectile.alpha = 128;
-			if(projectile.alpha < 0)
+			if (projectile.alpha < 0)
 				projectile.alpha = 0;
 
-			if(++projectile.frameCounter > 4) {
+			if (++projectile.frameCounter > 4) {
 				projectile.frameCounter = 0;
-				if(++projectile.frame >= 4)
+				if (++projectile.frame >= 4)
 					projectile.frame = 0;
 			}
 			float num4 = 0.5f;
-			if(projectile.timeLeft < 120)
+			if (projectile.timeLeft < 120)
 				num4 = 1.1f;
-			if(projectile.timeLeft < 60)
+			if (projectile.timeLeft < 60)
 				num4 = 1.6f;
 
 			++projectile.ai[1];
@@ -61,17 +61,18 @@ namespace SpiritMod.Projectiles
 
 
 			int index1 = (int)projectile.ai[0];
-			if(index1 >= 0 && Main.player[index1].active && !Main.player[index1].dead) {
-				if(projectile.Distance(Main.player[index1].Center) <= num3)
+			if (index1 >= 0 && Main.player[index1].active && !Main.player[index1].dead) {
+				if (projectile.Distance(Main.player[index1].Center) <= num3)
 					return;
 				Vector2 unitY = projectile.DirectionTo(Main.player[index1].Center);
-				if(unitY.HasNaNs())
+				if (unitY.HasNaNs())
 					unitY = Vector2.UnitY;
 				projectile.velocity = (projectile.velocity * (num1 - 1f) + unitY * num2) / num1;
-			} else {
-				if(projectile.timeLeft > 30)
+			}
+			else {
+				if (projectile.timeLeft > 30)
 					projectile.timeLeft = 30;
-				if(projectile.ai[0] == -1f)
+				if (projectile.ai[0] == -1f)
 					return;
 				projectile.ai[0] = -1f;
 				projectile.netUpdate = true;
@@ -91,7 +92,7 @@ namespace SpiritMod.Projectiles
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.25f, projectile.height * 0.25f);
-			for(int k = 0; k < projectile.oldPos.Length; k++) {
+			for (int k = 0; k < projectile.oldPos.Length; k++) {
 				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
 				//Vector2 drawPos1 = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY - 4);
 				Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
@@ -117,13 +118,13 @@ namespace SpiritMod.Projectiles
 			projectile.height = 5;
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-			for(int num621 = 0; num621 < 10; num621++) {
+			for (int num621 = 0; num621 < 10; num621++) {
 				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 226, 0f, 0f, 100, default(Color), 1f);
 				Main.dust[num622].velocity *= 1f;
 				Main.dust[num622].noGravity = true;
 
 			}
-			for(int num623 = 0; num623 < 15; num623++) {
+			for (int num623 = 0; num623 < 15; num623++) {
 				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 226, 0f, 0f, 100, default(Color), .31f);
 				Main.dust[num624].velocity *= .5f;
 			}

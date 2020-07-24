@@ -38,8 +38,8 @@ namespace SpiritMod.Items.Weapon.Magic
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			for(int i = 0; i < 5; ++i) {
-				if(Main.myPlayer == player.whoAmI) {
+			for (int i = 0; i < 5; ++i) {
+				if (Main.myPlayer == player.whoAmI) {
 					Vector2 mouse = Main.MouseWorld;
 					Projectile.NewProjectile(mouse.X + Main.rand.Next(-80, 80), player.Center.Y - 470 + Main.rand.Next(-50, 50), 0, Main.rand.Next(15, 25), ModContent.ProjectileType<BlizzardSpike>(), damage, knockBack, player.whoAmI);
 				}

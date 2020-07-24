@@ -43,21 +43,24 @@ namespace SpiritMod.Items.DonatorItems
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 25f;
-			if(Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
+			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
 				position += muzzleOffset;
 			}
 
-			if(type == ProjectileID.WoodenArrowFriendly) {
+			if (type == ProjectileID.WoodenArrowFriendly) {
 				var p = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-				if(Main.rand.Next(3) == 1) {
+				if (Main.rand.Next(3) == 1) {
 					p.GetGlobalProjectile<SpiritGlobalProjectile>().effects.Add(new HeroBowFireEffect());
-				} else if(Main.rand.Next(2) == 1) {
+				}
+				else if (Main.rand.Next(2) == 1) {
 					p.GetGlobalProjectile<SpiritGlobalProjectile>().effects.Add(new HeroBowIceEffect());
-				} else {
+				}
+				else {
 					p.GetGlobalProjectile<SpiritGlobalProjectile>().effects.Add(new HeroBowLightEffect());
 				}
 				return false;
-			} else {
+			}
+			else {
 				return true;
 			}
 		}
@@ -90,10 +93,10 @@ namespace SpiritMod.Items.DonatorItems
 		{
 			target.AddBuff(BuffID.OnFire, 240, true);
 
-			if(Main.rand.NextBool(4)) {
+			if (Main.rand.NextBool(4)) {
 				target.AddBuff(BuffID.CursedInferno, 180, true);
 			}
-			if(Main.rand.NextBool(8)) {
+			if (Main.rand.NextBool(8)) {
 				target.AddBuff(BuffID.ShadowFlame, 180, true);
 			}
 		}
@@ -103,7 +106,7 @@ namespace SpiritMod.Items.DonatorItems
 	{
 		public override bool ProjectilePreAI(Projectile projectile)
 		{
-			if(Main.rand.NextBool()) {
+			if (Main.rand.NextBool()) {
 				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 135);
 				Main.dust[dust].noGravity = true;
 				Main.dust[dust].velocity *= 0f;
@@ -116,7 +119,7 @@ namespace SpiritMod.Items.DonatorItems
 		{
 			target.AddBuff(BuffID.Frostburn, 120, true);
 
-			if(Main.rand.NextBool(15)) {
+			if (Main.rand.NextBool(15)) {
 				target.AddBuff(ModContent.BuffType<MageFreeze>(), 180, true);
 			}
 		}
@@ -126,7 +129,7 @@ namespace SpiritMod.Items.DonatorItems
 	{
 		public override bool ProjectilePreAI(Projectile projectile)
 		{
-			if(Main.rand.NextBool()) {
+			if (Main.rand.NextBool()) {
 				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.GoldCoin);
 				Main.dust[dust].noGravity = true;
 				Main.dust[dust].velocity *= 0f;
@@ -137,7 +140,7 @@ namespace SpiritMod.Items.DonatorItems
 
 		public override void ProjectileOnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
 		{
-			if(!target.boss && Main.rand.NextBool(50)) {
+			if (!target.boss && Main.rand.NextBool(50)) {
 				target.AddBuff(ModContent.BuffType<Death>(), 240, true);
 			}
 		}

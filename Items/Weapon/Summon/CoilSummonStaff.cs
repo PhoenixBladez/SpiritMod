@@ -56,9 +56,9 @@ namespace SpiritMod.Items.Weapon.Summon
 
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			for(int i = 0; i < Main.projectile.Length; i++) {
+			for (int i = 0; i < Main.projectile.Length; i++) {
 				Projectile p = Main.projectile[i];
-				if(p.active && p.type == item.shoot && p.owner == player.whoAmI) {
+				if (p.active && p.type == item.shoot && p.owner == player.whoAmI) {
 					p.active = false;
 				}
 			}

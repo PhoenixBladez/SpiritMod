@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Consumable.Food;
 
 namespace SpiritMod.NPCs.Ocean
 {
@@ -27,29 +28,29 @@ namespace SpiritMod.NPCs.Ocean
 			npc.aiStyle = 16;
 			npc.noGravity = true;
 			aiType = NPCID.Goldfish;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.BloatfishBanner>();
-        }
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.BloatfishBanner>();
+		}
 		int frame = 1;
 		int timer = 0;
 		int dashtimer = 0;
 		public override void AI()
 		{
 			Player target = Main.player[npc.target];
-			if(target.wet) {
+			if (target.wet) {
 				npc.noGravity = false;
 				npc.spriteDirection = -npc.direction;
 
 				timer++;
 				dashtimer++;
-				if(timer == 3) {
+				if (timer == 3) {
 					frame++;
 					timer = 0;
 				}
-				if(frame >= 5) {
+				if (frame >= 5) {
 					frame = 1;
 				}
-				if(dashtimer >= 60 && Main.tile[(int)(npc.position.X / 16), (int)(npc.position.Y / 16 - 2)].liquid == 255) {
+				if (dashtimer >= 60 && Main.tile[(int)(npc.position.X / 16), (int)(npc.position.Y / 16 - 2)].liquid == 255) {
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
 					direction.Normalize();
 					npc.spriteDirection = (int)(1 * npc.velocity.X);
@@ -59,32 +60,36 @@ namespace SpiritMod.NPCs.Ocean
 					npc.rotation = npc.velocity.X * 0.2f;
 					dashtimer = 0;
 				}
-			} else {
+			}
+			else {
 				npc.spriteDirection = -npc.direction;
 				npc.aiStyle = 16;
 				npc.noGravity = true;
 				aiType = NPCID.Goldfish;
 				timer++;
 				dashtimer++;
-				if(timer == 3) {
+				if (timer == 3) {
 					frame++;
 					timer = 0;
 				}
-				if(frame >= 5) {
+				if (frame >= 5) {
 					frame = 1;
 				}
 			}
 
 		}
 		public override void NPCLoot()
-        {
-            string[] lootTable = { "DiverLegs", "DiverHead", "DiverBody" };
-            if (Main.rand.Next(40) == 0)
+		{
+			string[] lootTable = { "DiverLegs", "DiverHead", "DiverBody" };
+			if (Main.rand.Next(40) == 0) {
+				int loot = Main.rand.Next(lootTable.Length);
+				{
+					npc.DropItem(mod.ItemType(lootTable[loot]));
+				}
+			}
+            if (Main.rand.NextBool(16))
             {
-                int loot = Main.rand.Next(lootTable.Length);
-                {
-                    npc.DropItem(mod.ItemType(lootTable[loot]));
-                }
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Sushi>());
             }
         }
 		public override void FindFrame(int frameHeight)
@@ -93,9 +98,9 @@ namespace SpiritMod.NPCs.Ocean
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(npc.life <= 0 || npc.life >= 0) {
+			if (npc.life <= 0 || npc.life >= 0) {
 				int d = 138;
-				for(int k = 0; k < 20; k++) {
+				for (int k = 0; k < 20; k++) {
 					Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.47f);
 					Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, .67f);
 				}
@@ -108,7 +113,7 @@ namespace SpiritMod.NPCs.Ocean
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if(spawnInfo.playerSafe) {
+			if (spawnInfo.playerSafe) {
 				return 0f;
 			}
 			return SpawnCondition.OceanMonster.Chance * 0.06f;

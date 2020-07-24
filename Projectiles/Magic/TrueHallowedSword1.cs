@@ -29,7 +29,7 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			projectile.tileCollide = false;
 
-			if(Main.rand.Next(4) == 0) {
+			if (Main.rand.Next(4) == 0) {
 				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 58, 0f, 0f);
 				Main.dust[dust].scale = 1.5f;
 				Main.dust[dust].noGravity = true;
@@ -40,7 +40,7 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
 
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 4) {
+			if (projectile.frameCounter >= 4) {
 				projectile.frameCounter = 0;
 				projectile.frame = (projectile.frame + 1) % 2;
 			}

@@ -15,13 +15,13 @@ namespace SpiritMod.Buffs
 		public override void Update(NPC npc, ref int buffIndex)
 		{
 			int distToNPC = 1100;
-			for(int i = 0; i < Main.maxPlayers; ++i) {
-				if(Main.player[i].active && !Main.player[i].dead && (npc.Center - Main.player[i].position).Length() < distToNPC && Main.player[i].inventory[Main.player[i].selectedItem].type == ModContent.ItemType<Items.Weapon.Magic.SoulSiphon>() && Main.player[i].itemAnimation > 0) {
-					if(i == Main.myPlayer) {
+			for (int i = 0; i < Main.maxPlayers; ++i) {
+				if (Main.player[i].active && !Main.player[i].dead && (npc.Center - Main.player[i].position).Length() < distToNPC && Main.player[i].inventory[Main.player[i].selectedItem].type == ModContent.ItemType<Items.Weapon.Magic.SoulSiphon>() && Main.player[i].itemAnimation > 0) {
+					if (i == Main.myPlayer) {
 						++Main.player[i].GetSpiritPlayer().soulSiphon;
 					}
 
-					if(Main.rand.NextBool(2)) {
+					if (Main.rand.NextBool(2)) {
 						Vector2 center = npc.Center;
 						center.X += Main.rand.Next(-100, 100) * 0.05F;
 						center.Y += Main.rand.Next(-100, 100) * 0.05F;

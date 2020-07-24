@@ -32,10 +32,10 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			Player player = Main.player[projectile.owner];
 
-			if(projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
+			if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
 				projectile.velocity = -Vector2.UnitY;
 
-			if(player.active && !player.dead && player.channel && !player.CCed && !player.noItems) {
+			if (player.active && !player.dead && player.channel && !player.CCed && !player.noItems) {
 				projectile.Center = player.Center;
 				projectile.velocity = Vector2.Normalize(Main.MouseWorld - player.Center);
 				projectile.timeLeft = 2;
@@ -47,19 +47,20 @@ namespace SpiritMod.Projectiles.Magic
 				player.itemRotation = (float)Math.Atan2((projectile.velocity.Y * projectile.direction), (projectile.velocity.X * projectile.direction));
 
 				projectile.ai[0]++;
-				if(projectile.ai[0] >= 10) {
-					if(!player.CheckMana(player.inventory[player.selectedItem].mana, true, false)) {
+				if (projectile.ai[0] >= 10) {
+					if (!player.CheckMana(player.inventory[player.selectedItem].mana, true, false)) {
 						projectile.Kill();
 						return false;
 					}
 					projectile.ai[0] = 0;
 				}
-			} else {
+			}
+			else {
 				projectile.Kill();
 				return false;
 			}
 
-			if(projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
+			if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
 				projectile.velocity = -Vector2.UnitY;
 
 			float rot = projectile.velocity.ToRotation();
@@ -71,7 +72,7 @@ namespace SpiritMod.Projectiles.Magic
 
 			float[] array3 = new float[num811];
 			int num812 = 0;
-			while((float)num812 < num811) {
+			while ((float)num812 < num811) {
 				float num813 = (float)num812 / (num811 - 1);
 				Vector2 value38 = value37 + projectile.velocity.RotatedBy(Math.PI / 2, default(Vector2)) * (num813 - 0.5f) * scaleFactor7 * projectile.scale;
 				int num814 = (int)value38.X / 16;
@@ -81,11 +82,13 @@ namespace SpiritMod.Projectiles.Magic
 				int num817 = (int)vector69.Y / 16;
 				Tuple<int, int> tuple;
 				float num818;
-				if(!Collision.TupleHitLine(num814, num815, num816, num817, 0, 0, new List<Tuple<int, int>>(), out tuple)) {
+				if (!Collision.TupleHitLine(num814, num815, num816, num817, 0, 0, new List<Tuple<int, int>>(), out tuple)) {
 					num818 = new Vector2((float)Math.Abs(num814 - tuple.Item1), (float)Math.Abs(num815 - tuple.Item2)).Length() * 16f;
-				} else if(tuple.Item1 == num816 && tuple.Item2 == num817) {
+				}
+				else if (tuple.Item1 == num816 && tuple.Item2 == num817) {
 					num818 = 2400f;
-				} else {
+				}
+				else {
 					num818 = new Vector2((float)Math.Abs(num814 - tuple.Item1), (float)Math.Abs(num815 - tuple.Item2)).Length() * 16f;
 				}
 				array3[num812] = num818;
@@ -93,7 +96,7 @@ namespace SpiritMod.Projectiles.Magic
 			}
 
 			float num819 = 0f;
-			for(int num820 = 0; num820 < array3.Length; num820++) {
+			for (int num820 = 0; num820 < array3.Length; num820++) {
 				num819 += array3[num820];
 			}
 			num819 /= num811;
@@ -125,7 +128,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
 		{
 			float tmp = 0f;
-			if(Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], 30f * projectile.scale, ref tmp)) {
+			if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], 30f * projectile.scale, ref tmp)) {
 				return true;
 			}
 			return false;
@@ -139,7 +142,7 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override bool PreDraw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, Color lightColor)
 		{
-			if(projectile.velocity == Vector2.Zero)
+			if (projectile.velocity == Vector2.Zero)
 				return false;
 
 			Texture2D tex2 = Main.projectileTexture[projectile.type];

@@ -40,17 +40,17 @@ namespace SpiritMod.NPCs.Town
 			npc.Transform(NPCType<Gambler>());
 			npc.dontTakeDamage = false;
 			return "Must be my lucky day to see a friendly face around here!\nThese goblins didn't take too kindly to me offering a, uh, rigged deal.\nAnyway, d'you have a place to stay? Let's flip for it.";
-        }
-        public override void AI()
+		}
+		public override void AI()
 		{
-			if(Main.netMode != NetmodeID.MultiplayerClient) {
+			if (Main.netMode != NetmodeID.MultiplayerClient) {
 				npc.homeless = false;
 				npc.homeTileX = -1;
 				npc.homeTileY = -1;
 				npc.netUpdate = true;
 			}
 
-			if(npc.wet) {
+			if (npc.wet) {
 				npc.life = 250;
 			}
 		}

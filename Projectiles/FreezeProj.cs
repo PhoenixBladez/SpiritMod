@@ -7,7 +7,7 @@ namespace SpiritMod.Projectiles
 {
 	class FreezeProj : ModProjectile
 	{
-		
+
 		public override string Texture => SpiritMod.EMPTY_TEXTURE;
 
 		public override void SetStaticDefaults()
@@ -38,12 +38,12 @@ namespace SpiritMod.Projectiles
 			projectile.Center = player.Center;
 
 			Rectangle hitbox = projectile.Hitbox;
-			for(int i = 0; i < 200; i++) {
+			for (int i = 0; i < 200; i++) {
 				NPC target = Main.npc[i];
-				if(!target.friendly && target.catchItem == 0 && hitbox.Contains(target.Center.ToPoint()))
+				if (!target.friendly && target.catchItem == 0 && hitbox.Contains(target.Center.ToPoint()))
 					target.AddBuff(ModContent.BuffType<MageFreeze>(), 240);
 			}
-			if(Main.rand.Next(9) == 1) {
+			if (Main.rand.Next(9) == 1) {
 				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 187);
 				Main.dust[dust].noGravity = true;
 				Main.dust[dust].scale = 0.9f;

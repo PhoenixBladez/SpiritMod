@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Material;
+using SpiritMod.Items.Weapon.Flail;
 using SpiritMod.Projectiles.Hostile;
 using System;
 using Terraria;
@@ -29,24 +30,24 @@ namespace SpiritMod.NPCs
 			npc.DeathSound = SoundID.NPCDeath53;
 			npc.value = 560f;
 			npc.knockBackResist = .55f;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.SporeWheezerBanner>();
-        }
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.SporeWheezerBanner>();
+		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			int x = spawnInfo.spawnTileX;
 			int y = spawnInfo.spawnTileY;
 			int tile = (int)Main.tile[x, y].type;
-			return (tile == TileID.MushroomGrass) && NPC.downedBoss1 && spawnInfo.spawnTileY > Main.rockLayer ? 3f : 0f;
+			return (tile == TileID.MushroomGrass) && spawnInfo.spawnTileY > Main.rockLayer ? 3f : 0f;
 
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			for(int k = 0; k < 11; k++) {
+			for (int k = 0; k < 11; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, 42, hitDirection, -1f, 0, default(Color), .61f);
 			}
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SporeWheezer1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SporeWheezer2"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SporeWheezer3"), 1f);
@@ -58,26 +59,38 @@ namespace SpiritMod.NPCs
 
 		public override void NPCLoot()
 		{
-			int lootcount = Main.rand.Next(1, 3);
-			for(int J = 0; J <= lootcount; J++) {
+            /*int Techs = Main.rand.Next(1, 4);
+			for (int J = 0; J <= Techs; J++) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Carapace>());
-			}
-			int lootcount1 = Main.rand.Next(3, 6);
-			for(int J = 0; J <= lootcount1; J++) {
+			}*/
+            int lootcount1 = Main.rand.Next(3, 6);
+			for (int J = 0; J <= lootcount1; J++) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GlowingMushroom);
 			}
-			if(Main.rand.Next(15) == 1)
+			if (Main.rand.Next(15) == 1)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<WheezerScale>());
-			if(Main.rand.Next(10000) == 125) {
+			if (Main.rand.Next(10000) == 125) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DepthMeter);
-			}
-			if(Main.rand.Next(10000) == 125) {
+            }
+            if (Main.rand.NextBool(60))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ClatterMace>());
+            }
+            if (Main.rand.Next(10000) == 125) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Compass);
 			}
-			if(Main.rand.Next(1000) == 39) {
+			if (Main.rand.Next(1000) == 39) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Rally);
-			}
-		}
+            }
+            string[] lootTable = { "ClatterboneBreastplate", "ClatterboneFaceplate", "ClatterboenLeggings" };
+            if (Main.rand.Next(55) == 0)
+            {
+                int loot = Main.rand.Next(lootTable.Length);
+                {
+                    npc.DropItem(mod.ItemType(lootTable[loot]));
+                }
+            }
+        }
 
 		int frame = 0;
 		int timer = 0;
@@ -88,26 +101,26 @@ namespace SpiritMod.NPCs
 			npc.spriteDirection = npc.direction;
 			Player target = Main.player[npc.target];
 			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
-			if(distance < 200) {
+			if (distance < 200) {
 				npc.velocity = Vector2.Zero;
-				if(npc.velocity == Vector2.Zero) {
-                    npc.aiStyle = 0;
-                    if (target.position.X > npc.position.X)
-                    {
-                        npc.spriteDirection = 1;
-                    }
-                    else
-                    {
-                        npc.spriteDirection = -1;
-                    }
-                    npc.velocity.Y = 12f;
-                }
+				if (npc.velocity == Vector2.Zero) {
+					npc.aiStyle = 0;
+					if (target.position.X > npc.position.X) {
+						npc.spriteDirection = 1;
+					}
+					else {
+						npc.spriteDirection = -1;
+					}
+					npc.velocity.Y = 12f;
+				}
 				float num395 = Main.mouseTextColor / 200f - 0.35f;
 				num395 *= 0.2f;
 				npc.scale = num395 + 0.95f;
 				shootTimer++;
-				if(shootTimer >= 90) {
+				if (shootTimer >= 90) {
 					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 95);
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
 					direction.Normalize();
 					direction.X *= 5f;
@@ -116,45 +129,45 @@ namespace SpiritMod.NPCs
 					int amountOfProjectiles = Main.rand.Next(2, 4);
 					bool expertMode = Main.expertMode;
 					int damage = expertMode ? 8 : 13;
-					for(int i = 0; i < amountOfProjectiles; ++i) {
+					for (int i = 0; i < amountOfProjectiles; ++i) {
 						float A = (float)Main.rand.Next(-50, 50) * 0.02f;
 						float B = (float)Main.rand.Next(-60, -40) * 0.1f;
 						int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y - 10, direction.X + A, direction.Y + B, ModContent.ProjectileType<WheezerSporeHostile>(), damage, 1, Main.myPlayer, 0, 0);
-						for(int k = 0; k < 11; k++) {
+						for (int k = 0; k < 11; k++) {
 							Dust.NewDust(npc.position, npc.width, npc.height, 42, direction.X + A, direction.Y + B, 0, default(Color), .61f);
 						}
 						Main.projectile[p].hostile = true;
 					}
+					}
 					shootTimer = 0;
 				}
-                timer++;
-                if (timer == 4)
-                {
-                    frame++;
-                    timer = 0;
-                }
-                if (frame >= 11)
-                {
-                    frame = 7;
-                }
-            } else {
+				timer++;
+				if (timer == 4) {
+					frame++;
+					timer = 0;
+				}
+				if (frame >= 11) {
+					frame = 7;
+				}
+			}
+			else {
 				npc.scale = 1f;
 				shootTimer = 0;
 				npc.aiStyle = 3;
 				aiType = NPCID.SnowFlinx;
 				timer++;
-				if(timer == 4) {
+				if (timer == 4) {
 					frame++;
 					timer = 0;
 				}
-				if(frame >= 6) {
+				if (frame >= 6) {
 					frame = 0;
 				}
 			}
-			if(shootTimer > 120) {
+			if (shootTimer > 120) {
 				shootTimer = 120;
 			}
-			if(shootTimer < 0) {
+			if (shootTimer < 0) {
 				shootTimer = 0;
 			}
 		}

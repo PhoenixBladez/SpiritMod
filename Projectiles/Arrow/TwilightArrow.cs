@@ -27,7 +27,7 @@ namespace SpiritMod.Projectiles.Arrow
 
 		public override void AI()
 		{
-			if(Main.rand.Next(2) == 0) {
+			if (Main.rand.Next(2) == 0) {
 				int d1 = Dust.NewDust(projectile.position, projectile.width, projectile.height,
 					6, 0f, -2f, 0, default(Color), 2f);
 				Main.dust[d1].scale *= 0.25f;
@@ -36,7 +36,7 @@ namespace SpiritMod.Projectiles.Arrow
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(4) == 0) {
+			if (Main.rand.Next(4) == 0) {
 				target.AddBuff(BuffID.ShadowFlame, 180, false);
 				target.AddBuff(ModContent.BuffType<StackingFireBuff>(), 180, false);
 				target.AddBuff(ModContent.BuffType<HolyLight>(), 180, false);
@@ -52,17 +52,17 @@ namespace SpiritMod.Projectiles.Arrow
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 
-			for(int num621 = 0; num621 < 20; num621++) {
+			for (int num621 = 0; num621 < 20; num621++) {
 				int num622 = Dust.NewDust(projectile.position, projectile.width, projectile.height,
 					244, 0f, 0f, 100, default(Color), 2f);
 				Main.dust[num622].velocity *= 3f;
-				if(Main.rand.Next(2) == 0) {
+				if (Main.rand.Next(2) == 0) {
 					Main.dust[num622].scale = 0.5f;
 					Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
 				}
 			}
 
-			for(int num623 = 0; num623 < 35; num623++) {
+			for (int num623 = 0; num623 < 35; num623++) {
 				int num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height,
 					244, 0f, 0f, 100, default(Color), 3f);
 				Main.dust[num624].noGravity = true;
@@ -72,11 +72,11 @@ namespace SpiritMod.Projectiles.Arrow
 				Main.dust[num624].velocity *= 2f;
 			}
 
-			for(int num625 = 0; num625 < 3; num625++) {
+			for (int num625 = 0; num625 < 3; num625++) {
 				float scaleFactor10 = 0.33f;
-				if(num625 == 1)
+				if (num625 == 1)
 					scaleFactor10 = 0.66f;
-				else if(num625 == 2)
+				else if (num625 == 2)
 					scaleFactor10 = 1f;
 
 				int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default(Vector2), Main.rand.Next(61, 64), 1f);
@@ -106,13 +106,13 @@ namespace SpiritMod.Projectiles.Arrow
 
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 
-			for(int i = 0; i < 40; i++) {
+			for (int i = 0; i < 40; i++) {
 				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height,
 					DustID.Shadowflame, 0f, -2f, 0, default(Color), 2f);
 				Main.dust[num].noGravity = true;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
-				if(Main.dust[num].position != projectile.Center)
+				if (Main.dust[num].position != projectile.Center)
 					Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
 			}
 		}

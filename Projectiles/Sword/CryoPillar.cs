@@ -32,7 +32,7 @@ namespace SpiritMod.Projectiles.Sword
 		{
 			float distance = Vector2.Distance(from, to);
 			float step = 1 / distance;
-			for(float w = 0; w < distance; w += 4) {
+			for (float w = 0; w < distance; w += 4) {
 				Dust.NewDustPerfect(Vector2.Lerp(from, to, w * step), 39, Vector2.Zero).noGravity = true;
 			}
 		}
@@ -42,24 +42,25 @@ namespace SpiritMod.Projectiles.Sword
 		float startposY = 0;
 		public override bool PreAI()
 		{
-			if(startposY == 0) {
+			if (startposY == 0) {
 				startposY = projectile.position.Y;
 			}
 			projectile.velocity.X = 0;
-			if(!activated) {
+			if (!activated) {
 				projectile.velocity.Y = 24;
-			} else {
+			}
+			else {
 				projectile.velocity.Y = -6;
-				for(int i = 0; i < 10; i++) {
+				for (int i = 0; i < 10; i++) {
 					int dust = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 68);
 					Main.dust[dust].velocity = Vector2.Zero;
 					Main.dust[dust].noGravity = true;
 				}
-				if(projectile.timeLeft == 10 && projectile.ai[0] > 0) {
-					if(projectile.ai[1] == 1 || projectile.ai[1] == 0) {
+				if (projectile.timeLeft == 10 && projectile.ai[0] > 0) {
+					if (projectile.ai[1] == 1 || projectile.ai[1] == 0) {
 						Projectile.NewProjectile(projectile.Center.X - projectile.width, startposY, 0, 0, ModContent.ProjectileType<CryoPillar>(), projectile.damage, projectile.knockBack, projectile.owner, projectile.ai[0] - 1, 1);
 					}
-					if(projectile.ai[1] == 2 || projectile.ai[1] == 0) {
+					if (projectile.ai[1] == 2 || projectile.ai[1] == 0) {
 						Projectile.NewProjectile(projectile.Center.X + projectile.width, startposY, 0, 0, ModContent.ProjectileType<CryoPillar>(), projectile.damage, projectile.knockBack, projectile.owner, projectile.ai[0] - 1, 2);
 					}
 				}
@@ -68,12 +69,12 @@ namespace SpiritMod.Projectiles.Sword
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(5) == 0)
+			if (Main.rand.Next(5) == 0)
 				target.AddBuff(ModContent.BuffType<CryoCrush>(), 180);
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			if(oldVelocity.Y != projectile.velocity.Y && !activated) {
+			if (oldVelocity.Y != projectile.velocity.Y && !activated) {
 				startposY = projectile.position.Y;
 				projectile.velocity.Y = -6;
 				activated = true;

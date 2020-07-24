@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Weapon.Gun
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spirit Burst");
-			Tooltip.SetDefault("Turns bullets into Spirit Bullets");
+			Tooltip.SetDefault("Turns regular bullets into Spirit Bullets");
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Gun/SpiritGun_Glow");
 		}
 
@@ -63,7 +63,9 @@ namespace SpiritMod.Items.Weapon.Gun
 		}
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			type = ModContent.ProjectileType<SpiritBullet>();
+			if (type == ProjectileID.Bullet) {
+				type = ModContent.ProjectileType<SpiritBullet>();
+			}
 			float spread = 15 * 0.0174f;//45 degrees converted to radians
 			float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
 			double baseAngle = Math.Atan2(speedX, speedY);

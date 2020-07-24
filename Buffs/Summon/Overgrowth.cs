@@ -16,14 +16,15 @@ namespace SpiritMod.Buffs.Summon
 		public override void Update(Player player, ref int buffIndex)
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if(player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Summon.Overgrowth>()] > 0) {
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Summon.Overgrowth>()] > 0) {
 				modPlayer.OG = true;
 			}
 
-			if(!modPlayer.OG) {
+			if (!modPlayer.OG) {
 				player.DelBuff(buffIndex);
 				buffIndex--;
-			} else {
+			}
+			else {
 				player.buffTime[buffIndex] = 18000;
 			}
 		}

@@ -36,10 +36,10 @@ namespace SpiritMod.Projectiles.Flail
 
 			//loop through first 200 NPCs in Main.npc
 			//this loop finds the closest valid target NPC within the range of targetDist pixels
-			for(int i = 0; i < 200; i++) {
-				if(Main.npc[i].CanBeChasedBy(projectile) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1)) {
+			for (int i = 0; i < 200; i++) {
+				if (Main.npc[i].CanBeChasedBy(projectile) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1)) {
 					float dist = projectile.Distance(Main.npc[i].Center);
-					if(dist < targetDist) {
+					if (dist < targetDist) {
 						targetDist = dist;
 						targetPos = Main.npc[i].Center;
 						targetAcquired = true;
@@ -57,7 +57,7 @@ namespace SpiritMod.Projectiles.Flail
 			Main.dust[dust].scale = 0.9f;
 
 			//change trajectory to home in on target
-			if(targetAcquired) {
+			if (targetAcquired) {
 				float homingSpeedFactor = 6f;
 				Vector2 homingVect = targetPos - projectile.Center;
 				float dist = projectile.Distance(targetPos);
@@ -83,7 +83,7 @@ namespace SpiritMod.Projectiles.Flail
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(4) == 0)
+			if (Main.rand.Next(4) == 0)
 				target.AddBuff(ModContent.BuffType<BCorrupt>(), 180);
 		}
 

@@ -4,7 +4,7 @@ using SpiritMod.Buffs;
 
 namespace SpiritMod.Items.Consumable.Food
 {
-	public class IceBerries: ModItem
+	public class IceBerries : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

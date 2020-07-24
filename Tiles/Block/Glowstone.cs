@@ -26,7 +26,7 @@ namespace SpiritMod.Tiles.Block
 		{
 			Player player = Main.LocalPlayer;
 			int distance = (int)Vector2.Distance(new Vector2(i * 16, j * 16), player.Center);
-			if(distance < 54) {
+			if (distance < 54) {
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
 			}
 		}
@@ -40,7 +40,7 @@ namespace SpiritMod.Tiles.Block
 		{
 			Tile tile = Main.tile[i, j];
 			Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
-			if(Main.drawToScreen) {
+			if (Main.drawToScreen) {
 				zero = Vector2.Zero;
 			}
 			int height = tile.frameY == 36 ? 18 : 16;
@@ -48,7 +48,7 @@ namespace SpiritMod.Tiles.Block
 		}
 		public override bool CanKillTile(int i, int j, ref bool blockDamaged)
 		{
-			if(!MyWorld.downedRaider) {
+			if (!MyWorld.downedRaider) {
 				return false;
 			}
 			return true;

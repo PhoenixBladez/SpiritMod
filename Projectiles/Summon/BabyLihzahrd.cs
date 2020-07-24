@@ -33,7 +33,7 @@ namespace SpiritMod.Projectiles.Summon
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			if(projectile.penetrate == 0)
+			if (projectile.penetrate == 0)
 				projectile.Kill();
 
 			return false;
@@ -41,7 +41,7 @@ namespace SpiritMod.Projectiles.Summon
 
 		public override bool PreAI()
 		{
-			if(Main.rand.Next(4) == 1) {
+			if (Main.rand.Next(4) == 1) {
 				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 				Main.dust[dust].noGravity = true;
 			}
@@ -55,7 +55,7 @@ namespace SpiritMod.Projectiles.Summon
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 20; i++) {
+			for (int i = 0; i < 20; i++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			}
 		}

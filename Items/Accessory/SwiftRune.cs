@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Accessory
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			if(player.velocity.Y != 0 && player.wings <= 0 && !player.mount.Active) {
+			if (player.velocity.Y != 0 && player.wings <= 0 && !player.mount.Active) {
 				player.runAcceleration *= 2f;
 				player.maxRunSpeed *= 1.5f;
 			}

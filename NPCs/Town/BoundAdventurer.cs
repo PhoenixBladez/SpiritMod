@@ -43,14 +43,14 @@ namespace SpiritMod.NPCs.Town
 
 		public override void AI()
 		{
-			if(Main.netMode != NetmodeID.MultiplayerClient) {
+			if (Main.netMode != NetmodeID.MultiplayerClient) {
 				npc.homeless = false;
 				npc.homeTileX = -1;
 				npc.homeTileY = -1;
 				npc.netUpdate = true;
 			}
 
-			if(npc.wet) {
+			if (npc.wet) {
 				npc.life = 250;
 			}
 		}

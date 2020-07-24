@@ -36,8 +36,8 @@ namespace SpiritMod.Items.Weapon.Swung
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			for(int I = 0; I < 1; I++) {
-				if(Main.rand.Next(3) == 0) {
+			for (int I = 0; I < 1; I++) {
+				if (Main.rand.Next(3) == 0) {
 					Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SpiritAura>(), 30, knockBack, player.whoAmI);
 				}
 			}

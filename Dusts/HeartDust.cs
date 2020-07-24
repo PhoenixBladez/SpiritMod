@@ -18,7 +18,7 @@ namespace SpiritMod.Dusts
 		{
 			dust.velocity = new Vector2(0, -1);
 			dust.alpha += Main.rand.Next(8);
-			if(dust.alpha >= 255) {
+			if (dust.alpha >= 255) {
 				dust.active = false;
 			}
 			dust.position.Y -= 1;

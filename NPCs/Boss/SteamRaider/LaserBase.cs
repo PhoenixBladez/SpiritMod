@@ -47,7 +47,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		}
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			if(npc.alpha != 255) {
+			if (npc.alpha != 255) {
 				GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Boss/SteamRaider/LaserBase_Glow"));
 			}
 		}
@@ -55,44 +55,50 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		public override bool PreAI()
 		{
 			npc.TargetClosest(true);
-			Vector2 center = npc.Center;
 			Player player = Main.player[npc.target];
 
 			float num5 = npc.position.X + (float)(npc.width / 2) - player.position.X - (float)(player.width / 2);
 			float num6 = npc.position.Y + (float)npc.height - 59f - player.position.Y - (float)(player.height / 2);
 			float num7 = (float)Math.Atan2((double)num6, (double)num5) + 1.57f;
-			if(!(timer >= 100 && timer <= 130)) {
-				if(num7 < 0f) {
+			if (!(npc.ai[0] >= 100 && npc.ai[0] <= 130)) {
+				if (num7 < 0f) {
 					num7 += 6.283f;
-				} else if((double)num7 > 6.283) {
+				}
+				else if ((double)num7 > 6.283) {
 					num7 -= 6.283f;
 				}
 			}
 			npc.spriteDirection = npc.direction;
-			timer++;
-			if(timer >= Main.rand.Next(160, 190)) {
+			if(npc.ai[0] == 0) {
+				npc.ai[1] = Main.rand.Next(160, 190);
+				npc.netUpdate = true;
+			}
+			npc.ai[0]++;
+			if (npc.ai[0] >= npc.ai[1]) {
 				Main.PlaySound(SoundID.Item, npc.Center, 110);
-				for(int i = 0; i < 40; i++) {
+				for (int i = 0; i < 40; i++) {
 					int num = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, -2f, 117, new Color(0, 255, 142), .6f);
 					Main.dust[num].noGravity = true;
 					Dust expr_62_cp_0 = Main.dust[num];
 					expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
 					Dust expr_92_cp_0 = Main.dust[num];
 					expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
-					if(Main.dust[num].position != npc.Center) {
+					if (Main.dust[num].position != npc.Center) {
 						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 3f;
 					}
 				}
 				npc.Transform(ModContent.NPCType<SuicideLaser>());
-			} else {
+				npc.netUpdate = true;
+			}
+			else {
 				npc.velocity.X = 0;
 				npc.velocity.Y = 0;
 			}
-			if(timer <= 75) {
+			if (npc.ai[0] <= 75) {
 				direction9 = player.Center - npc.Center;
 				direction9.Normalize();
 			}
-			if(timer >= 60 && timer <= 130 & timer % 2 == 0) {
+			if (npc.ai[0] >= 60 && npc.ai[0] <= 110 & npc.ai[0] % 2 == 0) {
 				{
 					int dust = Dust.NewDust(npc.Center, npc.width, npc.height, 226);
 					Main.dust[dust].velocity *= -1f;
@@ -107,27 +113,28 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					Main.dust[dust].position = npc.Center - vector2_3;
 				}
 			}
-			if(npc.alpha != 255) {
-				if(Main.rand.NextFloat() < 0.5f) {
+			if (npc.alpha != 255) {
+				if (Main.rand.NextFloat() < 0.5f) {
 					Dust dust;
 					// You need to set position depending on what you are doing. You may need to subtract width/2 and height/2 as well to center the spawn rectangle.
 					Vector2 position = new Vector2(npc.Center.X - 10, npc.Center.Y);
 					dust = Terraria.Dust.NewDustPerfect(position, 226, new Vector2(0f, -6.421053f).RotatedBy(npc.rotation), 0, new Color(255, 0, 0), 0.6578947f);
 				}
-				if(Main.rand.NextFloat() < 0.5f) {
+				if (Main.rand.NextFloat() < 0.5f) {
 					Dust dust;
 					// You need to set position depending on what you are doing. You may need to subtract width/2 and height/2 as well to center the spawn rectangle.
 					Vector2 position = new Vector2(npc.Center.X + 10, npc.Center.Y);
 					dust = Terraria.Dust.NewDustPerfect(position, 226, new Vector2(0f, -6.421053f).RotatedBy(npc.rotation), 0, new Color(255, 0, 0), 0.6578947f);
 				}
-				if(timer == 130) //change to frame related later
-				{
-					Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 53);
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 40, (float)direction9.Y * 40, ModContent.ProjectileType<StarLaser>(), 55, 1, Main.myPlayer);
-				}
-				if(timer < 130 && timer > 75 && timer % 3 == 0) {
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 30, (float)direction9.Y * 30, ModContent.ProjectileType<StarLaserTrace>(), 27, 1, Main.myPlayer);
-				}
+
+					if (npc.ai[0] == 110) //change to frame related later
+					{
+						Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 53);
+						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 40, (float)direction9.Y * 40, ModContent.ProjectileType<StarLaser>(), 55, 1, Main.myPlayer);
+					}
+					if (npc.ai[0] < 110 && npc.ai[0] > 75 && npc.ai[0] % 3 == 0) {
+						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 30, (float)direction9.Y * 30, ModContent.ProjectileType<StarLaserTrace>(), 27, 1, Main.myPlayer);
+					}
 				npc.rotation = direction9.ToRotation() - 1.57f;
 			}
 			return false;

@@ -19,7 +19,7 @@ namespace SpiritMod.Buffs
 		{
 			npc.lifeRegen -= (int)counter;
 
-			if(Main.rand.NextBool(2)) {
+			if (Main.rand.NextBool(2)) {
 				int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<NightmareDust>());
 				Main.dust[dust].noGravity = true;
 				Main.dust[dust].noLight = true;

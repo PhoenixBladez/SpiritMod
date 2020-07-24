@@ -43,13 +43,13 @@ namespace SpiritMod.Projectiles.Bullet
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			ProjectileExtras.Explode(projectile.whoAmI, 120, 120,
 				delegate {
-					for(int i = 0; i < 40; i++) {
+					for (int i = 0; i < 40; i++) {
 						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height,
 							172, 0f, -2f, 0, default(Color), 2f);
 						Main.dust[num].noGravity = true;
 						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 						Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
-						if(Main.dust[num].position != projectile.Center) {
+						if (Main.dust[num].position != projectile.Center) {
 							Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
 						}
 					}

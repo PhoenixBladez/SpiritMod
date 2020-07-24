@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Accessory
 		public override void ItemUpdateAccessory(Player player, bool hideVisual)
 		{
 			player.GetSpiritPlayer().reachBrooch = true;
-			if(player.GetSpiritPlayer().ZoneReach && !Main.dayTime) {
+			if (player.GetSpiritPlayer().ZoneReach && !Main.dayTime) {
 				player.nightVision = true;
 			}
 		}

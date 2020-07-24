@@ -26,14 +26,14 @@ namespace SpiritMod.Projectiles.Boss
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			projectile.penetrate--;
-			if(projectile.penetrate <= 0)
+			if (projectile.penetrate <= 0)
 				projectile.Kill();
 
 
-			if(projectile.velocity.X != oldVelocity.X)
+			if (projectile.velocity.X != oldVelocity.X)
 				projectile.velocity.X = oldVelocity.X * .5f;
 
-			if(projectile.velocity.Y != oldVelocity.Y)
+			if (projectile.velocity.Y != oldVelocity.Y)
 				projectile.velocity.Y = oldVelocity.Y * -1.3f;
 
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 10);
@@ -49,11 +49,11 @@ namespace SpiritMod.Projectiles.Boss
 		{
 			projectile.velocity *= 0.97f;
 			counter++;
-			if(counter == 0) {
+			if (counter == 0) {
 				counter = -1440;
 			}
-			for(int i = 0; i < 6; i++) {
-				if(projectile.velocity.X != 0) {
+			for (int i = 0; i < 6; i++) {
+				if (projectile.velocity.X != 0) {
 					float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 					float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 

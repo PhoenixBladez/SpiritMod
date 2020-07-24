@@ -32,7 +32,7 @@ namespace SpiritMod.Projectiles.Returning
 			Main.dust[num622].scale = 0.5f;
 			projectile.rotation += 0.1f;
 			Counter++;
-			if(Counter % 15 == 1) {
+			if (Counter % 15 == 1) {
 				int randFire = Main.rand.Next(3);
 				int newProj = Projectile.NewProjectile(projectile.Center, new Vector2(0, 0), ModContent.ProjectileType<Pumpkin>(), projectile.damage, 0, projectile.owner);
 				Main.projectile[newProj].magic = false;

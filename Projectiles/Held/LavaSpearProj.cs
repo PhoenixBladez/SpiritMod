@@ -25,7 +25,7 @@ namespace SpiritMod.Projectiles.Held
 		{
 			timer--;
 
-			if(timer == 0) {
+			if (timer == 0) {
 				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, ProjectileID.MolotovFire2, 30, projectile.knockBack, projectile.owner, 0f, 0f);
 				timer = 10;
 			}

@@ -15,11 +15,11 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			Main.tileLavaDeath[Type] = true;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
 			TileObjectData.addTile(Type);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Corrosive Sink");
-            dustType = -1;
-            AddMapEntry(new Color(100, 122, 111), name);
-        }
+			ModTranslation name = CreateMapEntryName();
+			name.SetDefault("Corrosive Sink");
+			dustType = -1;
+			AddMapEntry(new Color(100, 122, 111), name);
+		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)
 		{
@@ -27,9 +27,9 @@ namespace SpiritMod.Tiles.Furniture.Acid
 		}
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
-            Terraria.Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<Items.Placeable.Furniture.Acid.AcidSink>());
+		{
+			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
+			Terraria.Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<Items.Placeable.Furniture.Acid.AcidSink>());
 		}
 	}
 }

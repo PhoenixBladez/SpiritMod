@@ -21,7 +21,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 			projectile.minion = true;
 			projectile.width = 72;
 			projectile.height = 64;
-            projectile.sentry = true;
+			projectile.sentry = true;
 			projectile.penetrate = -1;
 			projectile.timeLeft = 6000;
 		}
@@ -30,25 +30,25 @@ namespace SpiritMod.Projectiles.DonatorItems
 		{
 			projectile.spriteDirection = projectile.direction;
 			counter++;
-			if(counter >= 60) {
+			if (counter >= 60) {
 				counter = 0;
 				float num = 8000f;
 				int num2 = -1;
-				for(int i = 0; i < 200; i++) {
+				for (int i = 0; i < 200; i++) {
 					float num3 = Vector2.Distance(projectile.Center, Main.npc[i].Center);
-					if(num3 < num && num3 < 640f && Main.npc[i].CanBeChasedBy(projectile, false)) {
+					if (num3 < num && num3 < 640f && Main.npc[i].CanBeChasedBy(projectile, false)) {
 						num2 = i;
 						num = num3;
 					}
 				}
 
-				if(num2 != -1) {
+				if (num2 != -1) {
 					bool flag = Collision.CanHit(projectile.position, projectile.width, projectile.height, Main.npc[num2].position, Main.npc[num2].width, Main.npc[num2].height);
-					if(flag) {
+					if (flag) {
 						Vector2 value = Main.npc[num2].Center - projectile.Center;
 						float num4 = 9f;
 						float num5 = (float)Math.Sqrt((double)(value.X * value.X + value.Y * value.Y));
-						if(num5 > num4)
+						if (num5 > num4)
 							num5 = num4 / num5;
 
 						value *= num5;
@@ -62,7 +62,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 			projectile.tileCollide = true;
 			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 6, 0f, 0f);
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 4) {
+			if (projectile.frameCounter >= 4) {
 				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
 				projectile.frameCounter = 0;
 			}
@@ -70,7 +70,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(2) == 0)
+			if (Main.rand.Next(2) == 0)
 				target.AddBuff(BuffID.OnFire, 180);
 		}
 
@@ -90,15 +90,15 @@ namespace SpiritMod.Projectiles.DonatorItems
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 
-			for(int num621 = 0; num621 < 20; num621++) {
+			for (int num621 = 0; num621 < 20; num621++) {
 				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default(Color), 2f);
 				Main.dust[num622].velocity *= 3f;
-				if(Main.rand.Next(2) == 0) {
+				if (Main.rand.Next(2) == 0) {
 					Main.dust[num622].scale = 0.5f;
 					Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 				}
 			}
-			for(int num623 = 0; num623 < 35; num623++) {
+			for (int num623 = 0; num623 < 35; num623++) {
 				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default(Color), 3f);
 				Main.dust[num624].noGravity = true;
 				Main.dust[num624].velocity *= 5f;
@@ -106,11 +106,11 @@ namespace SpiritMod.Projectiles.DonatorItems
 				Main.dust[num624].velocity *= 2f;
 			}
 
-			for(int num625 = 0; num625 < 3; num625++) {
+			for (int num625 = 0; num625 < 3; num625++) {
 				float scaleFactor10 = 0.33f;
-				if(num625 == 1)
+				if (num625 == 1)
 					scaleFactor10 = 0.66f;
-				else if(num625 == 2)
+				else if (num625 == 2)
 					scaleFactor10 = 1f;
 
 				int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default(Vector2), Main.rand.Next(61, 64), 1f);

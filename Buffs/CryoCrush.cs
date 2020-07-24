@@ -18,7 +18,7 @@ namespace SpiritMod.Buffs
 		{
 			npc.GetGlobalNPC<GNPC>().iceCrush = true;
 
-			if(Main.rand.NextBool(3)) {
+			if (Main.rand.NextBool(3)) {
 				int dust = Dust.NewDust(npc.position, npc.width, npc.height, 180);
 				Main.dust[dust].scale = 1.3f;
 				Main.dust[dust].noGravity = true;

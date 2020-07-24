@@ -24,7 +24,7 @@ namespace SpiritMod.Projectiles.Hostile
 		public override void AI()
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-			if(dust1 == 0)
+			if (dust1 == 0)
 				dust1 = Main.rand.Next(new int[] { 172, 68 });
 			Vector2 position = projectile.Center + Vector2.Normalize(projectile.velocity) * 10;
 
@@ -41,7 +41,7 @@ namespace SpiritMod.Projectiles.Hostile
 			newDust.fadeIn = 0.5F;
 			newDust.noGravity = true;
 
-			for(int i = 0; i < 1; i++) {
+			for (int i = 0; i < 1; i++) {
 				newDust = Main.dust[Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dust1, 0f, 0f, 0, default(Color), 1f)];
 				newDust.velocity *= 0.5F;
 				newDust.scale *= .5F;
@@ -53,15 +53,15 @@ namespace SpiritMod.Projectiles.Hostile
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 
-			if(Main.rand.Next(0, 4) == 0)
+			if (Main.rand.Next(0, 4) == 0)
 				Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, 116, 1, false, 0, false, false);
 
-			for(int num625 = 0; num625 < 2; num625++) {
+			for (int num625 = 0; num625 < 2; num625++) {
 				float scaleFactor10 = 0.33f;
-				if(num625 == 1) {
+				if (num625 == 1) {
 					scaleFactor10 = 0.66f;
 				}
-				if(num625 == 2) {
+				if (num625 == 2) {
 					scaleFactor10 = 1f;
 				}
 

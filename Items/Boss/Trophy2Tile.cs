@@ -25,12 +25,12 @@ namespace SpiritMod.Items.Boss
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			int item = 0;
-			switch(frameX / 54) {
+			switch (frameX / 54) {
 				case 0:
 					item = mod.ItemType("Trophy2");
 					break;
 			}
-			if(item > 0) {
+			if (item > 0) {
 				Item.NewItem(i * 16, j * 16, 48, 48, item);
 			}
 		}

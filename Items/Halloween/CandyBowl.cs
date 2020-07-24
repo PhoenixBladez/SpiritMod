@@ -5,7 +5,7 @@ namespace SpiritMod.Items.Halloween
 {
 	public class CandyBowl : ModItem
 	{
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Candy Bowl");

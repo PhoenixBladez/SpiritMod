@@ -37,15 +37,15 @@ namespace SpiritMod.Items.Weapon.Swung
 			Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 9);
 			Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
 			int amount = 1;
-			for(int i = 0; i < amount; ++i) {
+			for (int i = 0; i < amount; ++i) {
 				Vector2 pos = new Vector2(mouse.X + player.width * 0.5f + Main.rand.Next(-35, 36), mouse.Y - 600f);
 				pos.X = (pos.X * 10f + mouse.X) / 11f + (float)Main.rand.Next(-60, 61);
 				pos.Y -= 150;
 				float spX = mouse.X + player.width * 0.5f + Main.rand.Next(-100, 101) - mouse.X;
 				float spY = mouse.Y - pos.Y;
-				if(spY < 0f)
+				if (spY < 0f)
 					spY *= -1f;
-				if(spY < 20f)
+				if (spY < 20f)
 					spY = 20f;
 
 				float length = (float)Math.Sqrt((double)(spX * spX + spY * spY));

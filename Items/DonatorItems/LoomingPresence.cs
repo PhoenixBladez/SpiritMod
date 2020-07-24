@@ -20,7 +20,7 @@ namespace SpiritMod.Items.DonatorItems
 		{
 			player.buffTime[buffIndex] = 10;
 			bool petNotSpawned = player.ownedProjectileCounts[ModContent.ProjectileType<DemonicBlob>()] <= 0;
-			if(petNotSpawned && player.whoAmI == Main.myPlayer) {
+			if (petNotSpawned && player.whoAmI == Main.myPlayer) {
 				Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<DemonicBlob>(), 0, 0f, player.whoAmI);
 			}
 		}

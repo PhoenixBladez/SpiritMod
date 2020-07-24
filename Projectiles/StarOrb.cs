@@ -34,7 +34,7 @@ namespace SpiritMod.Projectiles
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 
-			for(int i = 0; i < 10; i++) {
+			for (int i = 0; i < 10; i++) {
 				float x = projectile.Center.X - projectile.velocity.X / 5f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 5f * (float)i;
 				int num = Dust.NewDust(new Vector2(x, y), 26, 26, 187, 0f, 0f, 0, default(Color), 1f);
@@ -46,7 +46,7 @@ namespace SpiritMod.Projectiles
 			}
 
 			timer++;
-			if(timer == 50) {
+			if (timer == 50) {
 				projectile.velocity *= 0.01f;
 				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 14f, 0f, mod.ProjectileType("StarTrail2"), 22, 0f, projectile.owner, 0f, 0f);
 				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -14f, 0f, mod.ProjectileType("StarTrail2"), 22, 0f, projectile.owner, 0f, 0f);
@@ -56,7 +56,8 @@ namespace SpiritMod.Projectiles
 				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 9.8f, -9.8f, mod.ProjectileType("StarTrail2"), 22, 0f, projectile.owner, 0f, 0f);
 				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -9.8f, 9.8f, mod.ProjectileType("StarTrail2"), 22, 0f, projectile.owner, 0f, 0f);
 				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 9.8f, 9.8f, mod.ProjectileType("StarTrail2"), 22, 0f, projectile.owner, 0f, 0f);
-			} else if(timer == 100) {
+			}
+			else if (timer == 100) {
 				projectile.velocity *= 80f;
 				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 14f, 0f, mod.ProjectileType("StarTrail2"), 22, 0f, projectile.owner, 0f, 0f);
 				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -14f, 0f, mod.ProjectileType("StarTrail2"), 22, 0f, projectile.owner, 0f, 0f);
@@ -66,14 +67,15 @@ namespace SpiritMod.Projectiles
 				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 9.8f, -9.8f, mod.ProjectileType("StarTrail2"), 22, 0f, projectile.owner, 0f, 0f);
 				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -9.8f, 9.8f, mod.ProjectileType("StarTrail2"), 22, 0f, projectile.owner, 0f, 0f);
 				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 9.8f, 9.8f, mod.ProjectileType("StarTrail2"), 22, 0f, projectile.owner, 0f, 0f);
-			} else if(timer >= 110) {
+			}
+			else if (timer >= 110) {
 				timer = 0;
 			}
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(10) == 0)
+			if (Main.rand.Next(10) == 0)
 				target.AddBuff(mod.BuffType("ElectrifiedV2"), 240, true);
 		}
 	}

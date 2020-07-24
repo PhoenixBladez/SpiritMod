@@ -28,8 +28,8 @@ namespace SpiritMod.Projectiles.Magic
 		public override bool PreAI()
 		{
 			projectile.tileCollide = false;
-			if(projectile.timeLeft == 450) {
-				for(int i = 0; i < 110; i++) {
+			if (projectile.timeLeft == 450) {
+				for (int i = 0; i < 110; i++) {
 					int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 180, 0f, 0f);
 					Main.dust[dust].scale = 1.5f;
 					Main.dust[dust].noGravity = true;
@@ -39,7 +39,7 @@ namespace SpiritMod.Projectiles.Magic
 
 			float Closeness = 50f;
 			degrees += 2.5f;
-			for(float swirlDegrees = degrees; swirlDegrees < 160 + degrees; swirlDegrees += 7f) {
+			for (float swirlDegrees = degrees; swirlDegrees < 160 + degrees; swirlDegrees += 7f) {
 				Closeness -= swirlSize; //It closes in
 				double radians = swirlDegrees * (Math.PI / 180); //convert to radians
 
@@ -72,30 +72,30 @@ namespace SpiritMod.Projectiles.Magic
 			}
 
 			projectile.ai[1] += 1f;
-			if(projectile.ai[1] >= 7200f) {
+			if (projectile.ai[1] >= 7200f) {
 				projectile.alpha += 5;
-				if(projectile.alpha > 255) {
+				if (projectile.alpha > 255) {
 					projectile.alpha = 255;
 					projectile.Kill();
 				}
 			}
 			projectile.localAI[0] += 1f;
-			if(projectile.localAI[0] >= 10f) {
+			if (projectile.localAI[0] >= 10f) {
 				projectile.localAI[0] = 0f;
 				int num416 = 0;
 				int num417 = 0;
 				float num418 = 0f;
 				int num419 = projectile.type;
-				for(int num420 = 0; num420 < 1000; num420++) {
-					if(Main.projectile[num420].active && Main.projectile[num420].owner == projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f) {
+				for (int num420 = 0; num420 < 1000; num420++) {
+					if (Main.projectile[num420].active && Main.projectile[num420].owner == projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f) {
 						num416++;
-						if(Main.projectile[num420].ai[1] > num418) {
+						if (Main.projectile[num420].ai[1] > num418) {
 							num417 = num420;
 							num418 = Main.projectile[num420].ai[1];
 						}
 					}
 
-					if(num416 > 1) {
+					if (num416 > 1) {
 						Main.projectile[num417].netUpdate = true;
 						Main.projectile[num417].ai[1] = 36000f;
 						return false;

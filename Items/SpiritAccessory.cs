@@ -34,7 +34,7 @@ namespace SpiritMod.Items
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			foreach(var acc in _accEffects) {
+			foreach (var acc in _accEffects) {
 				player.GetSpiritPlayer().effects.Add(acc);
 				acc.ItemUpdateAccessory(player, hideVisual);
 			}
@@ -55,11 +55,11 @@ namespace SpiritMod.Items
 
 		public override bool CanEquipAccessory(Player player, int slot)
 		{
-			if(slot < 10) {
+			if (slot < 10) {
 				int maxAccessoryIndex = 5 + player.extraAccessorySlots;
-				for(int i = 3; i < 3 + maxAccessoryIndex; i++) {
+				for (int i = 3; i < 3 + maxAccessoryIndex; i++) {
 					// We need "slot != i" because we don't care what is currently in the slot we will be replacing.
-					if(slot != i && _mutExclusives.Contains(player.armor[i].type)) {
+					if (slot != i && _mutExclusives.Contains(player.armor[i].type)) {
 						return false;
 					}
 				}

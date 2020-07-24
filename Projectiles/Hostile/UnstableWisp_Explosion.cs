@@ -24,16 +24,16 @@ namespace SpiritMod.Projectiles.Hostile
 
 		public override bool PreAI()
 		{
-			if(projectile.ai[0] == 0f) {
+			if (projectile.ai[0] == 0f) {
 				projectile.Damage();
 				projectile.ai[0] = 1f;
 			}
 
 			projectile.frameCounter++;
-			if(projectile.frameCounter > 3) {
+			if (projectile.frameCounter > 3) {
 				projectile.frameCounter = 0;
 				projectile.frame++;
-				if(projectile.frame > Main.projFrames[projectile.type]) {
+				if (projectile.frame > Main.projFrames[projectile.type]) {
 					projectile.Kill();
 				}
 			}

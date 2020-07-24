@@ -27,14 +27,14 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			for(int I = 0; I < 8; I++)
+			for (int I = 0; I < 8; I++)
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 60, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
 		}
 		public override bool PreAI()
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 
-			if(Main.rand.Next(4) == 1) {
+			if (Main.rand.Next(4) == 1) {
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 60, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 				int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 60, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
@@ -51,7 +51,7 @@ namespace SpiritMod.Projectiles
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(5) == 0)
+			if (Main.rand.Next(5) == 0)
 				target.AddBuff(ModContent.BuffType<BCorrupt>(), 180);
 		}
 	}

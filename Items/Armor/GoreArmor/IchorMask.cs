@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Armor.GoreArmor
 			item.defense = 11;
 		}
 
-		public override bool IsArmorSet(Item head, Item body, Item legs) 
+		public override bool IsArmorSet(Item head, Item body, Item legs)
 			=> body.type == ModContent.ItemType<IchorPlate>() && legs.type == ModContent.ItemType<IchorLegs>();
 
 		public override void UpdateArmorSet(Player player)

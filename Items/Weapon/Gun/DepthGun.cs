@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Weapon.Gun
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Depth Pistol");
-			Tooltip.SetDefault("Converts bullets into Depth Rounds\nDepth bullets occasionally explode into seawater, damaging nearby enemies");
+			Tooltip.SetDefault("Converts regtular bullets into Depth Rounds\nDepth bullets occasionally explode into seawater, damaging nearby enemies");
 
 		}
 
@@ -43,7 +43,10 @@ namespace SpiritMod.Items.Weapon.Gun
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<DepthBullet>(), damage, knockBack, player.whoAmI);
+			if (type == ProjectileID.Bullet) {
+				type = ModContent.ProjectileType<DepthBullet>();
+			}
+			int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
 			return false;
 		}
 		public override void AddRecipes()

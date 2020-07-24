@@ -34,12 +34,12 @@ namespace SpiritMod.Projectiles.Magic
 
 			bool flag25 = false;
 			int jim = 1;
-			for(int index1 = 0; index1 < 200; index1++) {
-				if(Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1)) {
+			for (int index1 = 0; index1 < 200; index1++) {
+				if (Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1)) {
 					float num23 = Main.npc[index1].position.X + (float)(Main.npc[index1].width / 2);
 					float num24 = Main.npc[index1].position.Y + (float)(Main.npc[index1].height / 2);
 					float num25 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num23) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num24);
-					if(num25 < 300f) {
+					if (num25 < 300f) {
 						flag25 = true;
 						jim = index1;
 					}
@@ -47,7 +47,7 @@ namespace SpiritMod.Projectiles.Magic
 				}
 			}
 
-			if(flag25) {
+			if (flag25) {
 				float num1 = 4f;
 				Vector2 vector2 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
 				float num2 = Main.npc[jim].Center.X - vector2.X;
@@ -61,7 +61,7 @@ namespace SpiritMod.Projectiles.Magic
 				projectile.velocity.Y = (projectile.velocity.Y * (float)(num8 - 1) + num7) / (float)num8;
 			}
 
-			for(int index1 = 0; index1 < 5; ++index1) {
+			for (int index1 = 0; index1 < 5; ++index1) {
 				float num1 = projectile.velocity.X * 0.2f * (float)index1;
 				float num2 = (float)-((double)projectile.velocity.Y * 0.200000002980232) * (float)index1;
 				int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height,
@@ -91,17 +91,17 @@ namespace SpiritMod.Projectiles.Magic
 					projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 					projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 
-					for(int num621 = 0; num621 < 20; num621++) {
+					for (int num621 = 0; num621 < 20; num621++) {
 						int num622 = Dust.NewDust(projectile.position, projectile.width, projectile.height,
 							244, 0f, 0f, 100, default(Color), 2f);
 						Main.dust[num622].velocity *= 3f;
-						if(Main.rand.Next(2) == 0) {
+						if (Main.rand.Next(2) == 0) {
 							Main.dust[num622].scale = 0.5f;
 							Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 						}
 					}
 
-					for(int num623 = 0; num623 < 35; num623++) {
+					for (int num623 = 0; num623 < 35; num623++) {
 						int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default(Color), 3f);
 						Main.dust[num624].noGravity = true;
 						Main.dust[num624].velocity *= 5f;
@@ -110,11 +110,11 @@ namespace SpiritMod.Projectiles.Magic
 						Main.dust[num624].velocity *= 2f;
 					}
 
-					for(int num625 = 0; num625 < 3; num625++) {
+					for (int num625 = 0; num625 < 3; num625++) {
 						float scaleFactor10 = 0.33f;
-						if(num625 == 1)
+						if (num625 == 1)
 							scaleFactor10 = 0.66f;
-						else if(num625 == 2)
+						else if (num625 == 2)
 							scaleFactor10 = 1f;
 
 						int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default(Vector2), Main.rand.Next(61, 64), 1f);

@@ -60,7 +60,7 @@ namespace SpiritMod.Tiles.Ambient
 		{
 			Tile t = Main.tile[i, j];
 			Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
-			if(t.frameX % 72 == 0 && t.frameY == 0) {
+			if (t.frameX % 72 == 0 && t.frameY == 0) {
 				Main.spriteBatch.Draw(Main.extraTexture[89], new Vector2(i * 16 - (int)Main.screenPosition.X - 6, j * 16 - (int)Main.screenPosition.Y - 9) + zero, null, new Color(245, 179, 66, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			}
 			return true;

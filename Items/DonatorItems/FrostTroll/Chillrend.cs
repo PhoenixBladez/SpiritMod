@@ -40,8 +40,8 @@ namespace SpiritMod.Items.DonatorItems.FrostTroll
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			charger++;
-			if(charger >= 4) {
-				for(int I = 0; I < 1; I++) {
+			if (charger >= 4) {
+				for (int I = 0; I < 1; I++) {
 					Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<FrostBolt>(), 64, knockBack, player.whoAmI, 0f, 0f);
 				}
 				charger = 0;

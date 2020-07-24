@@ -39,8 +39,8 @@ namespace SpiritMod.Items.Weapon.Swung
 		{
 			ModRecipe modRecipe = new ModRecipe(mod);
 			modRecipe.AddIngredient(ModContent.ItemType<FloranBar>(), 13);
-            modRecipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 4);
-            modRecipe.AddTile(TileID.Anvils);
+			modRecipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 4);
+			modRecipe.AddTile(TileID.Anvils);
 			modRecipe.SetResult(this);
 			modRecipe.AddRecipe();
 		}
@@ -48,7 +48,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		{
 			Main.PlaySound(SoundID.Item20, player.position);
 			Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
-			for(int i = 0; i < 2; i++) {
+			for (int i = 0; i < 2; i++) {
 				float xnew = position.X + Main.rand.Next(-15, 15);
 				float ynew = position.Y + Main.rand.Next(-25, 15);
 				Vector2 newpos = new Vector2(xnew, ynew);
@@ -65,7 +65,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
 		{
 			{
-				if(Main.rand.Next(5) == 0) target.AddBuff(ModContent.BuffType<VineTrap>(), 180);
+				if (Main.rand.Next(5) == 0) target.AddBuff(ModContent.BuffType<VineTrap>(), 180);
 			}
 		}
 		public override void UseStyle(Player player)

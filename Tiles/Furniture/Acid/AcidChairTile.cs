@@ -28,9 +28,9 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
 			ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Corrosive Chair");
-            AddMapEntry(new Color(100, 122, 111), name); 
-            disableSmartCursor = true;
+			name.SetDefault("Corrosive Chair");
+			AddMapEntry(new Color(100, 122, 111), name);
+			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.Chairs };
 		}
 
@@ -41,8 +41,8 @@ namespace SpiritMod.Tiles.Furniture.Acid
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-            Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
-            Terraria.Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeable.Furniture.Acid.AcidChair>());
+			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
+			Terraria.Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeable.Furniture.Acid.AcidChair>());
 		}
 	}
 }

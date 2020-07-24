@@ -7,7 +7,7 @@ namespace SpiritMod.Projectiles.Thrown
 {
 	public class CryoKnife : ModProjectile
 	{
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cryolite Bomb");
@@ -33,7 +33,7 @@ namespace SpiritMod.Projectiles.Thrown
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 69);
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 27);
 			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0, 0, ModContent.ProjectileType<CryoExplosion>(), projectile.damage, projectile.knockBack, projectile.owner);
-			for(int i = 0; i < 5; i++) {
+			for (int i = 0; i < 5; i++) {
 				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 180);
 				Main.dust[d].scale = .5f;
 			}
@@ -41,7 +41,7 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(4) == 0)
+			if (Main.rand.Next(4) == 0)
 				target.AddBuff(ModContent.BuffType<CryoCrush>(), 240);
 		}
 		public override bool PreAI()

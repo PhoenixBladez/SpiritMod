@@ -44,8 +44,8 @@ namespace SpiritMod.Items.Weapon.Magic
 			Projectile.NewProjectile(position.X + 4, (position.Y + offsetLength) + 12, 0, 0, ModContent.ProjectileType<TeethBottom>(), damage, knockBack, Main.myPlayer, offsetLength);
 			return false;
 
-        }
-        public override void AddRecipes()
+		}
+		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<BloodFire>(), 12);

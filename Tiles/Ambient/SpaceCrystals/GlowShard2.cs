@@ -88,7 +88,7 @@ namespace SpiritMod.Tiles.Ambient.SpaceCrystals
 		{
 			Tile tile = Main.tile[i, j];
 			Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
-			if(Main.drawToScreen) {
+			if (Main.drawToScreen) {
 				zero = Vector2.Zero;
 			}
 			int height = tile.frameY == 36 ? 18 : 16;

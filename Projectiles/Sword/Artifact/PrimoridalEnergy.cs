@@ -28,16 +28,16 @@ namespace SpiritMod.Projectiles.Sword.Artifact
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			ProjectileExtras.Explode(projectile.whoAmI, 60, 60,
 				delegate {
-					for(int num621 = 0; num621 < 40; num621++) {
+					for (int num621 = 0; num621 < 40; num621++) {
 						int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 187, 0f, 0f, 100, default(Color), 2f);
 						Main.dust[num622].velocity *= 3f;
 						Main.dust[num622].noGravity = true;
-						if(Main.rand.Next(2) == 0) {
+						if (Main.rand.Next(2) == 0) {
 							Main.dust[num622].scale = 0.5f;
 							Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 						}
 					}
-					for(int num623 = 0; num623 < 70; num623++) {
+					for (int num623 = 0; num623 < 70; num623++) {
 						int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 226, 0f, 0f, 100, default(Color), 1f);
 						Main.dust[num624].noGravity = true;
 						Main.dust[num624].velocity *= 1.5f;
@@ -50,13 +50,13 @@ namespace SpiritMod.Projectiles.Sword.Artifact
 		public override void AI()
 		{
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 4) {
+			if (projectile.frameCounter >= 4) {
 				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
 				projectile.frameCounter = 0;
 			}
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 
-			if(projectile.owner == Main.myPlayer && projectile.timeLeft <= 3) {
+			if (projectile.owner == Main.myPlayer && projectile.timeLeft <= 3) {
 				projectile.tileCollide = false;
 				projectile.ai[1] = 0f;
 				projectile.alpha = 255;

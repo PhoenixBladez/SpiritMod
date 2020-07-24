@@ -21,7 +21,7 @@ namespace SpiritMod.Buffs
 		public override bool ReApply(Player player, int time, int buffIndex)
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if(modPlayer.beetleStacks < 15) {
+			if (modPlayer.beetleStacks < 15) {
 				modPlayer.beetleStacks++;
 			}
 

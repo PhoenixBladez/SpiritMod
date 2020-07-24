@@ -59,7 +59,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
 		{
 			charger++;
-			if(charger >= 4) {
+			if (charger >= 4) {
 				Main.PlaySound(SoundID.Item, (int)target.position.X, (int)target.position.Y, 14);
 				Terraria.Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<CoiledExplosion>(), damage, knockBack, player.whoAmI);
 				charger = 0;

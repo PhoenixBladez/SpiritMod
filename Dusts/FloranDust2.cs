@@ -26,7 +26,7 @@ namespace SpiritMod.Dusts
 			dust.rotation += 0.05f;
 			dust.alpha += 5;
 			dust.scale *= 0.9f;
-			if(dust.alpha > 220) {
+			if (dust.alpha > 220) {
 				dust.active = false;
 			}
 			return false;

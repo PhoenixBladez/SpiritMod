@@ -28,7 +28,7 @@ namespace SpiritMod.Projectiles.Bullet
 
 		public override void AI()
 		{
-			for(int i = 0; i < 10; i++) {
+			for (int i = 0; i < 10; i++) {
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 				int num = Dust.NewDust(new Vector2(x, y), 2, 2, 6);
@@ -38,8 +38,8 @@ namespace SpiritMod.Projectiles.Bullet
 			}
 
 			Counter++;
-			if(Counter % 35 == 1) {
-				for(int i = 0; i < 2; ++i) {
+			if (Counter % 35 == 1) {
+				for (int i = 0; i < 2; ++i) {
 					int randFire = Main.rand.Next(3);
 					int newProj = Projectile.NewProjectile(projectile.Center, new Vector2(0, -4),
 						ProjectileID.GreekFire1 + randFire, projectile.damage / 2, 0, projectile.owner);
@@ -48,12 +48,18 @@ namespace SpiritMod.Projectiles.Bullet
 				}
 			}
 		}
-
+		public override bool? CanHitNPC(NPC target)
+		{
+			if (target.townNPC) {
+				return false;
+			}
+			return base.CanHitNPC(target);
+		}
 		public override void Kill(int timeLeft)
 		{
 			int n = 2;
 			int deviation = Main.rand.Next(0, 300);
-			for(int z = 0; z < n; z++) {
+			for (int z = 0; z < n; z++) {
 				float rotation = MathHelper.ToRadians(270 / n * z + deviation);
 				Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(rotation);
 				perturbedSpeed.Normalize();
@@ -63,7 +69,7 @@ namespace SpiritMod.Projectiles.Bullet
 
 				Main.projectile[newProj].hostile = false;
 				Main.projectile[newProj].friendly = true;
-				for(int i = 0; i < 5; i++) {
+				for (int i = 0; i < 5; i++) {
 					int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6);
 					Main.dust[dust].noGravity = true;
 				}

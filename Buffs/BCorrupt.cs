@@ -19,8 +19,8 @@ namespace SpiritMod.Buffs
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			if(!npc.friendly) {
-				if(npc.lifeRegen > 0) {
+			if (!npc.friendly) {
+				if (npc.lifeRegen > 0) {
 					npc.lifeRegen = 0;
 				}
 
@@ -32,7 +32,7 @@ namespace SpiritMod.Buffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			if(player.lifeRegen > 0) {
+			if (player.lifeRegen > 0) {
 				player.lifeRegen = 0;
 			}
 

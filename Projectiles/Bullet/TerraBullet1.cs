@@ -7,7 +7,7 @@ namespace SpiritMod.Projectiles.Bullet
 {
 	public class TerraBullet1 : ModProjectile
 	{
-		public override void SetStaticDefaults() 
+		public override void SetStaticDefaults()
 			=> DisplayName.SetDefault("Energy Bolt");
 
 		public override void SetDefaults()
@@ -29,8 +29,8 @@ namespace SpiritMod.Projectiles.Bullet
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
-			if(projectile.alpha < 170) {
-				for(int i = 0; i < 10; i++) {
+			if (projectile.alpha < 170) {
+				for (int i = 0; i < 10; i++) {
 					float x = projectile.position.X - 3 - projectile.velocity.X / 10f * i;
 					float y = projectile.position.Y - 3 - projectile.velocity.Y / 10f * i;
 					int num = Dust.NewDust(new Vector2(x, y), 2, 2, 68);
@@ -43,16 +43,16 @@ namespace SpiritMod.Projectiles.Bullet
 
 			bool flag25 = false;
 			int jim = 1;
-			for(int index1 = 0; index1 < 200; index1++) {
-				if(Main.npc[index1].CanBeChasedBy(projectile, false) 
-					&& projectile.Distance(Main.npc[index1].Center) < 500 
+			for (int index1 = 0; index1 < 200; index1++) {
+				if (Main.npc[index1].CanBeChasedBy(projectile, false)
+					&& projectile.Distance(Main.npc[index1].Center) < 500
 					&& Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1)) {
 					flag25 = true;
 					jim = index1;
 				}
 			}
 
-			if(flag25) {
+			if (flag25) {
 				float num1 = 6f;
 				Vector2 vector2 = new Vector2(projectile.position.X + projectile.width * 0.5f, projectile.position.Y + projectile.height * 0.5f);
 				float num2 = Main.npc[jim].Center.X - vector2.X;

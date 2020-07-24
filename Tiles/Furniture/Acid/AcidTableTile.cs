@@ -21,15 +21,15 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
 			ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Corrosive Table");
-            AddMapEntry(new Color(100, 122, 111), name);
-            disableSmartCursor = true;
-            dustType = -1;
+			name.SetDefault("Corrosive Table");
+			AddMapEntry(new Color(100, 122, 111), name);
+			disableSmartCursor = true;
+			dustType = -1;
 		}
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
-            Terraria.Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeable.Furniture.Acid.AcidTable>());
-        }
-    }
+		public override void KillMultiTile(int i, int j, int frameX, int frameY)
+		{
+			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
+			Terraria.Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeable.Furniture.Acid.AcidTable>());
+		}
+	}
 }

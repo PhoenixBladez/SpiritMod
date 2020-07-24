@@ -44,8 +44,8 @@ namespace SpiritMod.Items.Weapon.Swung
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			for(int i = 0; i < 3; ++i) {
-				if(Main.myPlayer == player.whoAmI) {
+			for (int i = 0; i < 3; ++i) {
+				if (Main.myPlayer == player.whoAmI) {
 					Vector2 mouse = Main.MouseWorld;
 					Projectile.NewProjectile(mouse.X + Main.rand.Next(-60, 60), player.Center.Y + 1000 + Main.rand.Next(-50, 50), 0, Main.rand.Next(-28, -18), ModContent.ProjectileType<QuicksilverWave>(), damage, knockBack, player.whoAmI);
 				}

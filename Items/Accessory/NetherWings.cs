@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Accessory
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			player.wingTimeMax = 190;
-			if(Main.rand.Next(4) == 0) {
+			if (Main.rand.Next(4) == 0) {
 
 				Dust.NewDust(player.position, player.width, player.height, 206);
 			}

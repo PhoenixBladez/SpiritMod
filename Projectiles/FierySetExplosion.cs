@@ -33,7 +33,7 @@ namespace SpiritMod.Projectiles
 		{
 			int n = 8;
 			int deviation = Main.rand.Next(0, 300);
-			for(int i = 0; i < n; i++) {
+			for (int i = 0; i < n; i++) {
 				float rotation = MathHelper.ToRadians(270 / n * i + deviation);
 				Vector2 perturbedSpeed = new Vector2(projectile.velocity.X + 1, projectile.velocity.Y).RotatedBy(rotation);
 				perturbedSpeed.Normalize();

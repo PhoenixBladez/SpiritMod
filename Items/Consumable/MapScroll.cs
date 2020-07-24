@@ -36,15 +36,15 @@ namespace SpiritMod.Items.Consumable
 
 				int range = 180;
 
-				for(int i = center.X - range / 2; i < center.X + range / 2; i++) {
-					for(int j = center.Y - range / 2; j < center.Y + range / 2; j++) {
-						if(WorldGen.InWorld(i, j))
+				for (int i = center.X - range / 2; i < center.X + range / 2; i++) {
+					for (int j = center.Y - range / 2; j < center.Y + range / 2; j++) {
+						if (WorldGen.InWorld(i, j))
 							Main.Map.Update(i, j, 255);
 					}
 				}
 				Main.refreshMap = true;
 			}
-			for(int k = 0; k < 10; k++) {
+			for (int k = 0; k < 10; k++) {
 				int dust = Dust.NewDust(player.Center, player.width, player.height, 263);
 				Main.dust[dust].velocity *= -1f;
 				Main.dust[dust].noGravity = true;

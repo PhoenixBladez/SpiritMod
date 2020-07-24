@@ -39,15 +39,16 @@ namespace SpiritMod.Items.Weapon.Swung
 
 		public override bool CanUseItem(Player player)
 		{
-			for(int i = 0; i < 1000; ++i) {
-				if(Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot) {
+			for (int i = 0; i < 1000; ++i) {
+				if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot) {
 					return false;
 				}
 			}
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				item.noUseGraphic = true;
 				item.shoot = ModContent.ProjectileType<Slugger1>();
-			} else {
+			}
+			else {
 				item.noUseGraphic = false;
 				item.shoot = ProjectileID.None;
 			}
@@ -55,9 +56,9 @@ namespace SpiritMod.Items.Weapon.Swung
 		}
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
-			if(Main.rand.Next(7) == 0) {
+			if (Main.rand.Next(7) == 0) {
 				int num780 = Dust.NewDust(new Vector2(player.itemLocation.X - 16f, player.itemLocation.Y - 14f * player.gravDir), 16, 16, 173, 0f, 0f, 100, default(Color), 1f);
-				if(Main.rand.Next(3) != 0) {
+				if (Main.rand.Next(3) != 0) {
 					Main.dust[num780].noGravity = true;
 				}
 				Dust obj23 = Main.dust[num780];

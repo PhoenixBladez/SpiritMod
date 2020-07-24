@@ -21,7 +21,7 @@ namespace SpiritMod.Projectiles.Summon.Dragon
 			projectile.tileCollide = false;
 			projectile.hostile = false;
 			projectile.friendly = true;
-			projectile.timeLeft = 225;
+			projectile.timeLeft = 95;
 			projectile.damage = 13;
 			// projectile.extraUpdates = 1;
 			projectile.width = projectile.height = 32;
@@ -37,7 +37,7 @@ namespace SpiritMod.Projectiles.Summon.Dragon
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-			for(int k = 0; k < projectile.oldPos.Length; k++) {
+			for (int k = 0; k < projectile.oldPos.Length; k++) {
 				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
 				Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
 				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
@@ -49,18 +49,18 @@ namespace SpiritMod.Projectiles.Summon.Dragon
 			num += 4;
 			projectile.alpha += 6;
 			projectile.spriteDirection = 1;
-			if(projectile.ai[0] > 0) {
+			if (projectile.ai[0] > 0) {
 				projectile.spriteDirection = 0;
 			}
-			if(Main.netMode != NetmodeID.MultiplayerClient) {
-				if(!Main.projectile[(int)projectile.ai[1]].active) {
+			if (Main.netMode != NetmodeID.MultiplayerClient) {
+				if (!Main.projectile[(int)projectile.ai[1]].active) {
 					projectile.timeLeft = 0;
 					projectile.active = false;
 					// NetMessage.SendData(28, -1, -1, "", projectile.whoAmI, -1f, 0.0f, 0.0f, 0, 0, 0);
 				}
 			}
 
-			if(projectile.ai[1] < (double)Main.projectile.Length) {
+			if (projectile.ai[1] < (double)Main.projectile.Length) {
 				// We're getting the center of this projectile.
 				Vector2 projectileCenter = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
 				// Then using that center, we calculate the direction towards the 'parent projectile' of this projectile.

@@ -52,14 +52,14 @@ namespace SpiritMod.Items.BossBags
 				ModContent.ItemType<DuskCarbine>()
 			};
 			int loot = Main.rand.Next(lootTable.Length);
-			if(loot == 0)
+			if (loot == 0)
 				player.QuickSpawnItem(lootTable[0], Main.rand.Next(29, 49));
 			else
 				player.QuickSpawnItem(lootTable[loot]);
 
-			if(Main.rand.NextDouble() < 1d / 7)
+			if (Main.rand.NextDouble() < 1d / 7)
 				player.QuickSpawnItem(ModContent.ItemType<DuskingMask>());
-			if(Main.rand.NextDouble() < 1d / 10)
+			if (Main.rand.NextDouble() < 1d / 10)
 				player.QuickSpawnItem(ModContent.ItemType<Trophy6>());
 		}
 	}

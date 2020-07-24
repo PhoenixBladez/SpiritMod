@@ -38,17 +38,17 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
 		{
 			numTicks++;
-			if(numTicks >= 5) {
+			if (numTicks >= 5) {
 				numTicks = 0;
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
 				{
-					for(int i = 0; i < 20; i++) {
+					for (int i = 0; i < 20; i++) {
 						int num = Dust.NewDust(target.position, target.width, target.height, 226, 0f, -2f, 0, default(Color), 2f);
 						Main.dust[num].noGravity = true;
 						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 						Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
 						Main.dust[num].scale *= .25f;
-						if(Main.dust[num].position != target.Center)
+						if (Main.dust[num].position != target.Center)
 							Main.dust[num].velocity = target.DirectionTo(Main.dust[num].position) * 6f;
 					}
 				}
@@ -84,7 +84,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		{
 			float cosRot = (float)Math.Cos(player.itemRotation - 0.78f * player.direction * player.gravDir);
 			float sinRot = (float)Math.Sin(player.itemRotation - 0.78f * player.direction * player.gravDir);
-			for(int i = 0; i < 1; i++) {
+			for (int i = 0; i < 1; i++) {
 				float length = (item.width * 1.2f - i * item.width / 9) * item.scale + 16; //length to base + arm displacement
 				int dust = Dust.NewDust(new Vector2((float)(player.itemLocation.X + length * cosRot * player.direction), (float)(player.itemLocation.Y + length * sinRot * player.direction)), 0, 0, 226, player.velocity.X * 0.9f, player.velocity.Y * 0.9f, 100, Color.Transparent, .8f);
 				Main.dust[dust].velocity *= 0f;

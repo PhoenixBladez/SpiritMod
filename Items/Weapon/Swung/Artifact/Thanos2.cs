@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 
 		public override void HoldItem(Player player)
 		{
-			if(player.GetSpiritPlayer().Resolve) {
+			if (player.GetSpiritPlayer().Resolve) {
 				player.AddBuff(ModContent.BuffType<Resolve>(), 2);
 			}
 		}
@@ -61,14 +61,14 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
 		{
-			if(Main.rand.Next(8) == 1) {
+			if (Main.rand.Next(8) == 1) {
 				target.AddBuff(ModContent.BuffType<Crystallize>(), 180);
 			}
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				float kb = knockBack * .2f;
 				int shield = (int)(damage * .375f);
 				Projectile.NewProjectile(player.Center.X - 40, player.Center.Y, speedX, speedY, mod.ProjectileType("Thanos1Crystal"), shield, kb, player.whoAmI);

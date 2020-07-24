@@ -35,7 +35,7 @@ namespace SpiritMod.Tiles.Ambient.IceSculpture.Hostile
 		}
 		public override bool CanKillTile(int i, int j, ref bool blockDamaged)
 		{
-			if(!NPC.downedBoss3) {
+			if (!NPC.downedBoss3) {
 				return false;
 			}
 			return true;
@@ -51,9 +51,9 @@ namespace SpiritMod.Tiles.Ambient.IceSculpture.Hostile
 		{
 
 			Player player = Main.LocalPlayer;
-			if(closer && NPC.downedBoss3) {
+			if (closer && NPC.downedBoss3) {
 				int distance1 = (int)Vector2.Distance(new Vector2(i * 16, j * 16), player.Center);
-				if(distance1 < 56) {
+				if (distance1 < 56) {
 					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
 					int n = NPC.NewNPC((int)i * 16, (int)j * 16, NPCID.SnowFlinx, 0, 2, 1, 0, 0, Main.myPlayer);
 					Main.npc[n].GivenName = "Icy Snow Flinx";

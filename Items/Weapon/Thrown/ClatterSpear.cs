@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Clatter Javelin");
-			Tooltip.SetDefault("Hold and release to throw\nHold it longer for more velocity and damage \nHas a chance to lower enemy defense on hit");
+			Tooltip.SetDefault("Hold and release to throw\nHold it longer for more velocity and damage");
 		}
 
 
@@ -18,11 +18,12 @@ namespace SpiritMod.Items.Weapon.Thrown
 			item.damage = 13;
 			item.noMelee = true;
 			item.channel = true; //Channel so that you can held the weapon [Important]
-			item.rare = ItemRarityID.Orange;
+			item.rare = 1;
 			item.width = 18;
 			item.height = 18;
 			item.useTime = 15;
 			item.useAnimation = 45;
+            item.value = 22000;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = item.useAnimation = 24;
 			item.knockBack = 8;
@@ -33,14 +34,6 @@ namespace SpiritMod.Items.Weapon.Thrown
 			item.noUseGraphic = true;
 			item.shoot = ModContent.ProjectileType<ClatterJavelinProj>();
 			item.shootSpeed = 0f;
-		}
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<Carapace>(), 2);
-			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
 		}
 	}
 }

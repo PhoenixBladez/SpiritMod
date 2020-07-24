@@ -30,7 +30,7 @@ namespace SpiritMod.Projectiles
 
 		public override void AI()
 		{
-			for(int num447 = 0; num447 < 2; num447++) {
+			for (int num447 = 0; num447 < 2; num447++) {
 				Vector2 vector33 = projectile.position;
 				vector33 -= projectile.velocity * ((float)num447 * 0.25f);
 				projectile.alpha = 255;
@@ -51,7 +51,7 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			for(int num621 = 0; num621 < 5; num621++) {
+			for (int num621 = 0; num621 < 5; num621++) {
 				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 242, 0f, 0f, 100, default(Color), 2f);
 			}
 		}
@@ -61,7 +61,7 @@ namespace SpiritMod.Projectiles
 			target.StrikeNPC(projectile.damage, 0f, 0, crit);
 			target.StrikeNPC(projectile.damage, 0f, 0, crit);
 
-			if(Main.rand.Next(5) == 2)
+			if (Main.rand.Next(5) == 2)
 				target.AddBuff(BuffID.ShadowFlame, 180);
 		}
 

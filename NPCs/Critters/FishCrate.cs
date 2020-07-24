@@ -32,14 +32,15 @@ namespace SpiritMod.NPCs.Critters
 		public override void AI()
 		{
 			npc.spriteDirection = -npc.direction;
-			if(npc.wet) {
+			if (npc.wet) {
 				npc.aiStyle = 1;
 				npc.npcSlots = 0;
 				npc.noGravity = false;
 				aiType = NPCID.Grasshopper;
 				npc.velocity.X *= 0f;
 				npc.velocity.Y *= .9f;
-			} else {
+			}
+			else {
 				npc.aiStyle = 0;
 				npc.npcSlots = 0;
 				npc.noGravity = false;

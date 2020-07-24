@@ -22,15 +22,5 @@ namespace SpiritMod.Items.Armor.ClatterboneArmor
 
 			item.defense = 4;
 		}
-
-
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<Carapace>(), 10);
-			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
 	}
 }

@@ -17,14 +17,15 @@ namespace SpiritMod.Buffs.Summon
 		public override void Update(Player player, ref int buffIndex)
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if(player.ownedProjectileCounts[ModContent.ProjectileType<CragboundMinion>()] > 0) {
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<CragboundMinion>()] > 0) {
 				modPlayer.cragboundMinion = true;
 			}
 
-			if(!modPlayer.cragboundMinion) {
+			if (!modPlayer.cragboundMinion) {
 				player.DelBuff(buffIndex);
 				buffIndex--;
-			} else {
+			}
+			else {
 				player.buffTime[buffIndex] = 18000;
 			}
 		}

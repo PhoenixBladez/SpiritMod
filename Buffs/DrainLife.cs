@@ -24,7 +24,7 @@ namespace SpiritMod.Buffs
 			npc.lifeRegen -= 2;
 			Player player = Main.player[npc.target];
 			counter++;
-			if(counter % 12 == 0) {
+			if (counter % 12 == 0) {
 				player.HealEffect(1);
 				player.statLife += 1;
 			}

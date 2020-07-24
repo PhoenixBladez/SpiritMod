@@ -23,16 +23,16 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			};
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Corrosive Bathtub");
-            AddMapEntry(new Color(100, 122, 111), name);
-            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
-            disableSmartCursor = true;
-            dustType = -1;
+			name.SetDefault("Corrosive Bathtub");
+			AddMapEntry(new Color(100, 122, 111), name);
+			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
+			disableSmartCursor = true;
+			dustType = -1;
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
-            Terraria.Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeable.Furniture.Acid.AcidBathtub>());
+		{
+			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
+			Terraria.Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeable.Furniture.Acid.AcidBathtub>());
 		}
 	}
 }

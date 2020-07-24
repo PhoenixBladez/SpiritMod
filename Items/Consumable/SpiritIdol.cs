@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Consumable
 
 		public override bool CanUseItem(Player player)
 		{
-			if(!NPC.AnyNPCs(ModContent.NPCType<Overseer>()) && player.GetSpiritPlayer().ZoneSpirit && !Main.dayTime)
+			if (!NPC.AnyNPCs(ModContent.NPCType<Overseer>()) && player.GetSpiritPlayer().ZoneSpirit && !Main.dayTime)
 				return true;
 			return false;
 		}

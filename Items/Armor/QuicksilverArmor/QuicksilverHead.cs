@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Armor.QuicksilverArmor
 			DisplayName.SetDefault("Quicksilver Mask");
 			Tooltip.SetDefault("10% increased ranged damage\n6% increased critical strike chance\nIncreases your max number of minions");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 28;
@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Armor.QuicksilverArmor
 			item.defense = 19;
 		}
 
-		public override bool IsArmorSet(Item head, Item body, Item legs) 
+		public override bool IsArmorSet(Item head, Item body, Item legs)
 			=> body.type == ModContent.ItemType<QuicksilverBody>() && legs.type == ModContent.ItemType<QuicksilverLegs>();
 
 		public override void UpdateArmorSet(Player player)

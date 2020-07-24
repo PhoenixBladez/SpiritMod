@@ -32,8 +32,8 @@ namespace SpiritMod.Projectiles
 		public override void AI()
 		{
 			Rectangle rect = new Rectangle((int)projectile.Center.X, (int)projectile.position.Y, 200, 200);
-			for(int index1 = 0; index1 < 200; index1++) {
-				if(rect.Contains(Main.npc[index1].Center.ToPoint()))
+			for (int index1 = 0; index1 < 200; index1++) {
+				if (rect.Contains(Main.npc[index1].Center.ToPoint()))
 					Main.npc[index1].AddBuff(ModContent.BuffType<Buffs.Slow>(), 240);
 			}
 		}
@@ -45,10 +45,10 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			for(int num621 = 0; num621 < 40; num621++) {
+			for (int num621 = 0; num621 < 40; num621++) {
 				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.GoldCoin, 0f, 0f, 100, default(Color), 2f);
 				Main.dust[num622].velocity *= 3f;
-				if(Main.rand.Next(2) == 0) {
+				if (Main.rand.Next(2) == 0) {
 					Main.dust[num622].scale = 0.5f;
 					Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 				}

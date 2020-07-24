@@ -35,25 +35,27 @@ namespace SpiritMod.Projectiles
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
-			for(int k = 0; k < 15; k++) {
+			for (int k = 0; k < 15; k++) {
 				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6);
 				Main.dust[dust].scale = 2f;
 				Main.dust[dust].noGravity = true;
 			}
-		}
+            Gore.NewGore(projectile.position, projectile.velocity, mod.GetGoreSlot("Gores/Mech7"), 1f);
+            Gore.NewGore(projectile.position, projectile.velocity, mod.GetGoreSlot("Gores/Mech8"), 1f);
+        }
 		public override bool PreAI()
 		{
 			var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
-			foreach(var proj in list) {
-				if(projectile != proj && proj.friendly) {
+			foreach (var proj in list) {
+				if (projectile != proj && proj.friendly) {
 					projectile.Kill();
 				}
 			}
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 4) {
+			if (projectile.frameCounter >= 4) {
 				projectile.frame++;
 				projectile.frameCounter = 0;
-				if(projectile.frame >= 2)
+				if (projectile.frame >= 2)
 					projectile.frame = 0;
 			}
 			return true;
@@ -77,14 +79,14 @@ namespace SpiritMod.Projectiles
 
 			//TARGET NEAREST NPC WITHIN RANGE
 			float lowestDist = float.MaxValue;
-			foreach(Player player in Main.player) {
+			foreach (Player player in Main.player) {
 				//if npc is a valid target (active, not friendly, and not a critter)
-				if(player.active) {
+				if (player.active) {
 					//if npc is within 50 blocks
 					float dist = projectile.Distance(player.Center);
-					if(dist / 16 < range) {
+					if (dist / 16 < range) {
 						//if npc is closer than closest found npc
-						if(dist < lowestDist) {
+						if (dist < lowestDist) {
 							lowestDist = dist;
 
 							//target this npc
@@ -95,13 +97,13 @@ namespace SpiritMod.Projectiles
 			}
 
 			Player target = (Main.player[(int)projectile.ai[1]] ?? new Player());
-			if(target.active && projectile.Distance(target.Center) / 16 < range && projectile.timeLeft < 945) {
-				if(projectile.Center.X >= target.Center.X && moveSpeed >= -30) // flies to players x position
+			if (target.active && projectile.Distance(target.Center) / 16 < range && projectile.timeLeft < 945) {
+				if (projectile.Center.X >= target.Center.X && moveSpeed >= -30) // flies to players x position
 				{
 					moveSpeed--;
 				}
 
-				if(projectile.Center.X <= target.Center.X && moveSpeed <= 30) {
+				if (projectile.Center.X <= target.Center.X && moveSpeed <= 30) {
 					moveSpeed++;
 				}
 

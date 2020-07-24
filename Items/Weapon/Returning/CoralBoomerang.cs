@@ -34,15 +34,16 @@ namespace SpiritMod.Items.Weapon.Returning
 
 		public override bool CanUseItem(Player player)
 		{
-			if(player.wet) {
+			if (player.wet) {
 				item.damage = 13;
 				item.shootSpeed = 16f;
-			} else {
+			}
+			else {
 				item.damage = 10;
 				item.shootSpeed = 11f;
 			}
-			for(int i = 0; i < 1000; ++i) {
-				if(Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot) {
+			for (int i = 0; i < 1000; ++i) {
+				if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot) {
 					return false;
 				}
 			}

@@ -32,7 +32,7 @@ namespace SpiritMod.NPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if(spawnInfo.playerSafe || !Main.hardMode) {
+			if (spawnInfo.playerSafe || !Main.hardMode) {
 				return 0f;
 			}
 			return SpawnCondition.Cavern.Chance * 0.0228f;
@@ -40,7 +40,7 @@ namespace SpiritMod.NPCs
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, 61);
 				Gore.NewGore(npc.position, npc.velocity, 62);
 				Gore.NewGore(npc.position, npc.velocity, 63);
@@ -65,7 +65,7 @@ namespace SpiritMod.NPCs
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Geode>(), Main.rand.Next(1) + 2);
-			if(Main.rand.Next(22) == 1) {
+			if (Main.rand.Next(22) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Accessory.JeweledSlime>(), 1);
 			}
 		}

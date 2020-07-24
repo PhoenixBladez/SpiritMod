@@ -49,10 +49,10 @@ namespace SpiritMod.Items.Glyphs
 
 		public static void WindBurst(MyPlayer player, Item item)
 		{
-			if(player.player.whoAmI != Main.myPlayer)
+			if (player.player.whoAmI != Main.myPlayer)
 				return;
 
-			if(player.stormStacks < 2) {
+			if (player.stormStacks < 2) {
 				player.stormStacks++;
 				return;
 			}
@@ -62,7 +62,7 @@ namespace SpiritMod.Items.Glyphs
 			Vector2 position = player.player.MountedCenter;
 			Vector2 velocity = Main.MouseWorld - position;
 			float scale = 1 / velocity.Length();
-			if(float.IsNaN(scale))
+			if (float.IsNaN(scale))
 				velocity = new Vector2(player.player.direction, 0);
 			else
 				velocity *= scale;

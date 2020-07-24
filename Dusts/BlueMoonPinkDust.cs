@@ -19,7 +19,7 @@ namespace SpiritMod.Dusts
 			dust.velocity *= 0.92f;
 			dust.scale *= 0.98f;
 			dust.alpha += 12;
-			if(dust.scale < 0.5f) {
+			if (dust.scale < 0.5f) {
 				dust.active = false;
 			}
 			return false;

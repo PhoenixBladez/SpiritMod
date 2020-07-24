@@ -15,10 +15,10 @@ namespace SpiritMod.Tiles.Furniture
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
 			Main.tileLavaDeath[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
-            TileObjectData.newTile.Height = 2;
+			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
+			TileObjectData.newTile.Height = 2;
 			TileObjectData.newTile.Width = 4;
-            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16 };
+			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16 };
 			TileObjectData.newTile.Direction = TileObjectDirection.PlaceLeft;
 			TileObjectData.newTile.StyleWrapLimit = 2; //not really necessary but allows me to add more subtypes of chairs below the example chair texture
 			TileObjectData.newTile.StyleMultiplier = 2; //same as above
@@ -30,8 +30,8 @@ namespace SpiritMod.Tiles.Furniture
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Skull Pile");
 			AddMapEntry(new Color(150, 150, 150), name);
-            dustType = 0;
-        }
+			dustType = 0;
+		}
 		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
 		{
 			offsetY = 2;

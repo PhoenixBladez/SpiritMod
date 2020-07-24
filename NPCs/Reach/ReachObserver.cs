@@ -36,7 +36,7 @@ namespace SpiritMod.NPCs.Reach
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			Player player = spawnInfo.player;
-			if(!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.spawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.spawnTileY > Main.worldSurface || !Main.dayTime) && (SpawnCondition.GoblinArmy.Chance == 0)) {
+			if (!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.spawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.spawnTileY > Main.worldSurface || !Main.dayTime) && (SpawnCondition.GoblinArmy.Chance == 0)) {
 				return spawnInfo.player.GetSpiritPlayer().ZoneReach ? 1.25f : 0f;
 			}
 			return 0f;
@@ -46,20 +46,20 @@ namespace SpiritMod.NPCs.Reach
 		{
 			int d = 3;
 			int d1 = 7;
-			for(int k = 0; k < 30; k++) {
+			for (int k = 0; k < 30; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
 				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
 			}
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Reach3"));
 			}
 		}
 
 		public override void NPCLoot()
 		{
-			if(Main.rand.Next(2) == 1) {
+			if (Main.rand.Next(2) == 1) {
 				int Bark = Main.rand.Next(1) + 1;
-				for(int J = 0; J <= Bark; J++) {
+				for (int J = 0; J <= Bark; J++) {
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<AncientBark>());
 				}
 			}
@@ -75,7 +75,7 @@ namespace SpiritMod.NPCs.Reach
 		{
 
 			{
-				if(Main.rand.NextFloat() < 0.131579f) {
+				if (Main.rand.NextFloat() < 0.131579f) {
 					{
 						Dust dust;
 						Vector2 position = npc.Center;
@@ -89,7 +89,7 @@ namespace SpiritMod.NPCs.Reach
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, npc.height * 0.5f);
-			for(int k = 0; k < npc.oldPos.Length; k++) {
+			for (int k = 0; k < npc.oldPos.Length; k++) {
 				Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
 				Color color = npc.GetAlpha(lightColor) * ((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length);
 				spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, null, color, npc.rotation, drawOrigin, npc.scale, SpriteEffects.None, 0f);

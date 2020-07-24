@@ -37,8 +37,8 @@ namespace SpiritMod.NPCs.Critters
 		bool txt = false;
 		public override bool PreAI()
 		{
-			if(!txt) {
-				for(int i = 0; i < 8; ++i) {
+			if (!txt) {
+				for (int i = 0; i < 8; ++i) {
 					Vector2 dir = Main.player[npc.target].Center - npc.Center;
 					dir.Normalize();
 					dir *= 1;
@@ -63,7 +63,7 @@ namespace SpiritMod.NPCs.Critters
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if(spawnInfo.playerSafe || Main.dayTime) {
+			if (spawnInfo.playerSafe || Main.dayTime) {
 				return 0f;
 			}
 			return SpawnCondition.OceanMonster.Chance * 0.173f;
@@ -83,14 +83,14 @@ namespace SpiritMod.NPCs.Critters
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			int d1 = 242;
-			for(int k = 0; k < 30; k++) {
+			for (int k = 0; k < 30; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, Color.White, Main.rand.NextFloat(.2f, .8f));
 			}
 		}
 
 		public override void NPCLoot()
 		{
-			if(Main.rand.Next(2) == 1) {
+			if (Main.rand.Next(2) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<RawFish>(), 1);
 			}
 		}

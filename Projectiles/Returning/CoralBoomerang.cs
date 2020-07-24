@@ -27,7 +27,7 @@ namespace SpiritMod.Projectiles.Returning
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			target.StrikeNPC(projectile.damage / 4, 0f, 0, crit);
-			for(int k = 0; k < 20; k++) {
+			for (int k = 0; k < 20; k++) {
 				Dust.NewDust(target.position, target.width, target.height, 225, 2.5f, -2.5f, 0, Color.White, 0.7f);
 				Dust.NewDust(target.position, target.width, target.height, 225, 2.5f, -2.5f, 0, default(Color), .34f);
 			}

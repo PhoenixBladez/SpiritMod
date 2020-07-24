@@ -31,12 +31,12 @@ namespace SpiritMod.Projectiles.Returning
 			projectile.rotation = 0;
 
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 2) {
+			if (projectile.frameCounter >= 2) {
 				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
 				projectile.frameCounter = 0;
 			}
 
-			if(Main.rand.Next(5) == 1) {
+			if (Main.rand.Next(5) == 1) {
 				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 206, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 				Main.dust[dust].noGravity = true;
 			}
@@ -44,7 +44,7 @@ namespace SpiritMod.Projectiles.Returning
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(5) == 0)
+			if (Main.rand.Next(5) == 0)
 				target.AddBuff(ModContent.BuffType<StarFlame>(), 180);
 		}
 

@@ -20,26 +20,27 @@ namespace SpiritMod.Dusts
 
 		public override bool Update(Dust dust)
 		{
-			if(!dust.noLight) {
+			if (!dust.noLight) {
 				Lighting.AddLight((int)dust.position.X >> 4, (int)dust.position.Y >> 4, lightColor.X, lightColor.Y, lightColor.Z);
 			}
 
-			if(dust.customData is null) {
+			if (dust.customData is null) {
 				return true;
 			}
 
-			if(dust.customData is Entity e) {
+			if (dust.customData is Entity e) {
 				dust.customData = new VoidDustAnchor {
 					anchor = e,
 					offset = dust.position - e.Center
 				};
 			}
 
-			if(dust.customData is VoidDustAnchor follow) {
-				if(follow.counter >= animationTime) {
+			if (dust.customData is VoidDustAnchor follow) {
+				if (follow.counter >= animationTime) {
 					dust.active = false;
 					return false;
-				} else if(!follow.anchor.active) {
+				}
+				else if (!follow.anchor.active) {
 					dust.customData = null;
 					return true;
 				}

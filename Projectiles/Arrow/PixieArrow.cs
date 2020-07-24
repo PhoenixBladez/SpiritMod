@@ -27,8 +27,8 @@ namespace SpiritMod.Projectiles.Arrow
 
 		public override void Kill(int timeLeft)
 		{
-			if(Main.rand.Next(3) == 0) {
-				for(int i = 0; i < 1; i++) {
+			if (Main.rand.Next(3) == 0) {
+				for (int i = 0; i < 1; i++) {
 					Dust.NewDust(projectile.position, projectile.width, projectile.height, 67);
 
 					Vector2 vel = new Vector2(0, -1);
@@ -45,7 +45,7 @@ namespace SpiritMod.Projectiles.Arrow
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 
-			for(int i = 0; i < 10; i++) {
+			for (int i = 0; i < 10; i++) {
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 				int num = Dust.NewDust(new Vector2(x, y), 2, 2, 242);
@@ -57,7 +57,7 @@ namespace SpiritMod.Projectiles.Arrow
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(5) == 0) {
+			if (Main.rand.Next(5) == 0) {
 				target.AddBuff(31, 120);
 				target.AddBuff(ModContent.BuffType<HolyLight>(), 120);
 			}

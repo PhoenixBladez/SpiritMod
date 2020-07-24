@@ -5,13 +5,13 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Armor
 {
-	[AutoloadEquip(EquipType.Body)]
+	[AutoloadEquip(EquipType.Legs)]
 	public class TalonGarb : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Apostle's Garb");
-			Tooltip.SetDefault("Increases magic and ranged damage by 8%\nIncreases movement speed by 9%");
+			Tooltip.SetDefault("Increases magic and ranged damage by 7%\nIncreases movement speed by 10%");
 
 		}
 
@@ -36,18 +36,9 @@ namespace SpiritMod.Items.Armor
 		}
 		public override void UpdateEquip(Player player)
 		{
-			player.magicDamage += .08f;
-			player.rangedDamage += .08f;
-			player.moveSpeed += 0.09f;
-		}
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<Talon>(), 16);
-			recipe.AddIngredient(ModContent.ItemType<FossilFeather>(), 1);
-			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			player.magicDamage += .07f;
+			player.rangedDamage += .07f;
+			player.moveSpeed += 0.10f;
 		}
 	}
 }

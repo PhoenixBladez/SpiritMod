@@ -7,44 +7,35 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Accessory
 {
-	[AutoloadEquip(EquipType.Neck)]
-	public class CleftHorn : SpiritAccessory
-	{
-		public override string SetDisplayName => "Cleft Horn";
-		public override string SetTooltip => "Increases armor penetration by 3\nMelee attacks occasionally strike enemies twice";
-		public override int ArmorPenetration => 3;
-		public override List<SpiritPlayerEffect> AccessoryEffects => new List<SpiritPlayerEffect>() {
-			new CleftHornEffect()
-		};
-		public override List<int> MutualExclusives => new List<int>() {
-			ModContent.ItemType<HuntingNecklace>()
-		};
+    [AutoloadEquip(EquipType.Neck)]
+    public class CleftHorn : SpiritAccessory
+    {
+        public override string SetDisplayName => "Cleft Horn";
+        public override string SetTooltip => "Increases armor penetration by 3\nMelee attacks occasionally strike enemies twice";
+        public override int ArmorPenetration => 3;
+        public override List<SpiritPlayerEffect> AccessoryEffects => new List<SpiritPlayerEffect>() {
+            new CleftHornEffect()
+        };
+        public override List<int> MutualExclusives => new List<int>() {
+            ModContent.ItemType<HuntingNecklace>()
+        };
 
-		public override void SetDefaults()
-		{
-			item.width = 18;
-			item.height = 18;
-			item.value = Item.buyPrice(silver: 50);
-			item.rare = ItemRarityID.Green;
-			item.accessory = true;
-			item.defense = 1;
-		}
-
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<Carapace>(), 5);
-			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
-	}
+        public override void SetDefaults()
+        {
+            item.width = 18;
+            item.height = 18;
+            item.value = Item.buyPrice(silver: 50);
+            item.rare = ItemRarityID.Green;
+            item.accessory = true;
+            item.defense = 1;
+        }
+    }
 
 	public class CleftHornEffect : SpiritPlayerEffect
 	{
 		public override void PlayerOnHitNPC(Player player, Item item, NPC target, int damage, float knockback, bool crit)
 		{
-			if(item.melee && Main.rand.NextBool(9)) {
+			if (item.melee && Main.rand.NextBool(9)) {
 				target.StrikeNPC(item.damage / 2, 0f, 0, crit);
 			}
 		}

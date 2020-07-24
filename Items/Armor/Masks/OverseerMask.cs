@@ -6,7 +6,7 @@ namespace SpiritMod.Items.Armor.Masks
 	[AutoloadEquip(EquipType.Head)]
 	public class OverseerMask : ModItem
 	{
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Overseer Mask");

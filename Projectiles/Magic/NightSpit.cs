@@ -27,7 +27,7 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void AI()
 		{
-			for(int i = 0; i < 10; i++) {
+			for (int i = 0; i < 10; i++) {
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 				int num = Dust.NewDust(new Vector2(x, y), 26, 26, 70, 0f, 0f, 0, default(Color), 1f);
@@ -40,19 +40,19 @@ namespace SpiritMod.Projectiles.Magic
 
 			bool flag25 = false;
 			int jim = 1;
-			for(int index1 = 0; index1 < 200; index1++) {
-				if(Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1)) {
+			for (int index1 = 0; index1 < 200; index1++) {
+				if (Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1)) {
 					float num23 = Main.npc[index1].position.X + (float)(Main.npc[index1].width / 2);
 					float num24 = Main.npc[index1].position.Y + (float)(Main.npc[index1].height / 2);
 					float num25 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num23) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num24);
-					if(num25 < 500f) {
+					if (num25 < 500f) {
 						flag25 = true;
 						jim = index1;
 					}
 
 				}
 			}
-			if(flag25) {
+			if (flag25) {
 
 
 				float num1 = 10f;
@@ -66,21 +66,22 @@ namespace SpiritMod.Projectiles.Magic
 				int num8 = 10;
 				projectile.velocity.X = (projectile.velocity.X * (float)(num8 - 1) + num6) / (float)num8;
 				projectile.velocity.Y = (projectile.velocity.Y * (float)(num8 - 1) + num7) / (float)num8;
-			} else {
+			}
+			else {
 				projectile.velocity *= 0.95f;
 			}
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			projectile.penetrate--;
-			if(projectile.penetrate <= 0)
+			if (projectile.penetrate <= 0)
 				projectile.Kill();
 			else {
 				aiType = ProjectileID.Shuriken;
-				if(projectile.velocity.X != oldVelocity.X) {
+				if (projectile.velocity.X != oldVelocity.X) {
 					projectile.velocity.X = -oldVelocity.X;
 				}
-				if(projectile.velocity.Y != oldVelocity.Y) {
+				if (projectile.velocity.Y != oldVelocity.Y) {
 					projectile.velocity.Y = -oldVelocity.Y;
 				}
 				projectile.velocity *= 0.75f;
@@ -91,7 +92,7 @@ namespace SpiritMod.Projectiles.Magic
 		private void AdjustMagnitude(ref Vector2 vector)
 		{
 			float magnitude = (float)Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
-			if(magnitude > 6f)
+			if (magnitude > 6f)
 				vector *= 6f / magnitude;
 		}
 

@@ -41,7 +41,7 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.velocity.Y += projectile.ai[0];
 			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
 
-			if(projectile.velocity.X > 0)
+			if (projectile.velocity.X > 0)
 				projectile.frame = 0;
 			else
 				projectile.frame = 1;

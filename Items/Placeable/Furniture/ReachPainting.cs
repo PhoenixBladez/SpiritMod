@@ -32,14 +32,14 @@ namespace SpiritMod.Items.Placeable.Furniture
 
 			item.createTile = ModContent.TileType<ReachPaintingTile>();
 		}
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Canvas>());
-            recipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 5);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
-    }
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<Canvas>());
+			recipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 5);
+			recipe.AddTile(TileID.WorkBenches);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
+	}
 }

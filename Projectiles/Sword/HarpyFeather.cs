@@ -30,7 +30,7 @@ namespace SpiritMod.Projectiles.Sword
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 
 			int num = 5;
-			for(int k = 0; k < 6; k++) {
+			for (int k = 0; k < 6; k++) {
 				int index2 = Dust.NewDust(projectile.position, 4, 4, 187, 0.0f, 0.0f, 0, new Color(), .6f);
 				Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
 				Main.dust[index2].scale = .8f;
@@ -42,7 +42,7 @@ namespace SpiritMod.Projectiles.Sword
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 10; i++) {
+			for (int i = 0; i < 10; i++) {
 				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 187);
 				Main.dust[d].noGravity = true;
 			}

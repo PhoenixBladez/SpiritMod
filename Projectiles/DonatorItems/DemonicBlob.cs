@@ -7,7 +7,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 {
 	class DemonicBlob : ModProjectile
 	{
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Wishbone");
@@ -35,10 +35,10 @@ namespace SpiritMod.Projectiles.DonatorItems
 		private int frame;
 		public override void AI()
 		{
-			if(++animationCounter >= 6) {
+			if (++animationCounter >= 6) {
 				animationCounter = 0;
-				if(++frame >= Main.projFrames[projectile.type]) {
-					if(Main.rand.Next(2) == 0)
+				if (++frame >= Main.projFrames[projectile.type]) {
+					if (Main.rand.Next(2) == 0)
 						frame = 0;
 					else
 						frame = 9;
@@ -47,7 +47,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 			projectile.frameCounter = 2;
 			projectile.frame = frame;
 			var owner = Main.player[projectile.owner];
-			if(owner.active && owner.HasBuff(ModContent.BuffType<LoomingPresence>()))
+			if (owner.active && owner.HasBuff(ModContent.BuffType<LoomingPresence>()))
 				projectile.timeLeft = 2;
 		}
 	}

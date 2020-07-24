@@ -33,78 +33,64 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			Player player = Main.player[projectile.owner];
 			player.heldProj = projectile.whoAmI;
-			if (player.statMana <= 0)
-            {
-                projectile.Kill();
-            }
+			if (player.statMana <= 0) {
+				projectile.Kill();
+			}
 			player.itemTime = 5;
 			player.itemAnimation = 5;
 			player.velocity.X *= 0.97f;
-			if (counter == 7)
-			{
-				 direction = Main.MouseWorld - (player.Center - new Vector2(4, 4));
+			if (counter == 7) {
+				direction = Main.MouseWorld - (player.Center - new Vector2(4, 4));
 				direction.Normalize();
 				direction *= 7f;
-				if (player.statMana > 0)
-				{
-					player.statMana-= 25;
+				if (player.statMana > 0) {
+					player.statMana -= 25;
 					player.manaRegenDelay = 30;
 				}
-				else
-				{
+				else {
 					firing = true;
 				}
 			}
-			if(player.channel && !firing)
-		 	{
+			if (player.channel && !firing) {
 				projectile.position = player.Center;
-				if (counter < 100)
-				{
+				if (counter < 100) {
 					counter++;
-					if (counter % 20 == 19)
-					{
+					if (counter % 20 == 19) {
 						Main.PlaySound(25, (int)projectile.position.X, (int)projectile.position.Y);
 					}
 					projectile.ai[1]++;
-					if (projectile.ai[1] % 20 == 19)
-					{
-						if (player.statMana > 0)
-						{
-							player.statMana-= 20;
+					if (projectile.ai[1] % 20 == 19) {
+						if (player.statMana > 0) {
+							player.statMana -= 20;
 							player.manaRegenDelay = 90;
 						}
-						else
-						{
+						else {
 							firing = true;
 						}
 					}
 				}
-				if (counter == 100)
-				{
+				if (counter == 100) {
 					counter = 130;
 				}
-			} 
+			}
 			else {
 				firing = true;
-				if (counter > 0)
-				{
+				if (counter > 0) {
 					counter -= 2;
-					if (counter % 5 == 0)
-					{
+					if (counter % 5 == 0) {
 						int bubbleproj;
-						bubbleproj = Main.rand.Next(new int[] { 
-							ModContent.ProjectileType<GunBubble1>(), 
-							ModContent.ProjectileType<GunBubble2>(), 
-							ModContent.ProjectileType<GunBubble3>(), 
-							ModContent.ProjectileType<GunBubble4>(), 
+						bubbleproj = Main.rand.Next(new int[] {
+							ModContent.ProjectileType<GunBubble1>(),
+							ModContent.ProjectileType<GunBubble2>(),
+							ModContent.ProjectileType<GunBubble3>(),
+							ModContent.ProjectileType<GunBubble4>(),
 							ModContent.ProjectileType<GunBubble5>()
 						});
 						Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 85);
 						Projectile.NewProjectile(player.Center + (direction * 5), direction.RotatedBy(Main.rand.NextFloat(-0.3f, 0.3f)) * Main.rand.NextFloat(0.85f, 1.15f), bubbleproj, projectile.damage, projectile.knockBack, projectile.owner);
 					}
 				}
-				else
-				{
+				else {
 					projectile.active = false;
 				}
 			}

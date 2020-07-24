@@ -28,13 +28,13 @@ namespace SpiritMod.Projectiles.Arrow
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 2; i++) {
+			for (int i = 0; i < 2; i++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 1);
 			}
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(5) == 0)
+			if (Main.rand.Next(5) == 0)
 				target.AddBuff(BuffID.Slimed, 180);
 		}
 

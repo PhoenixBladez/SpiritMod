@@ -21,7 +21,7 @@ namespace SpiritMod.Buffs.Pet
 			player.GetSpiritPlayer().bookPet = true;
 
 			bool petProjectileNotSpawned = player.ownedProjectileCounts[ModContent.ProjectileType<HauntedBookPet>()] <= 0;
-			if(petProjectileNotSpawned && player.whoAmI == Main.myPlayer) {
+			if (petProjectileNotSpawned && player.whoAmI == Main.myPlayer) {
 				Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HauntedBookPet>(), 0, 0f, player.whoAmI);
 			}
 		}

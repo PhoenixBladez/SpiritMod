@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Weapon.Gun
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("The Poacher");
-			Tooltip.SetDefault("Converts bullets into venomous bullets");
+			Tooltip.SetDefault("Converts regular bullets into venomous bullets");
 		}
 		public override void SetDefaults()
 		{
@@ -40,9 +40,10 @@ namespace SpiritMod.Items.Weapon.Gun
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			{
-				int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.VenomBullet, damage, knockBack, player.whoAmI);
+			if (type == ProjectileID.Bullet) {
+				type = ProjectileID.VenomBullet;
 			}
+			int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
 			return false;
 		}
 

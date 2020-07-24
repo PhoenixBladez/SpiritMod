@@ -41,13 +41,13 @@ namespace SpiritMod.Projectiles.Hostile
 			Main.dust[dust].scale = 1.2f;
 
 			timer++;
-			if(timer == 10)
+			if (timer == 10)
 				projectile.velocity *= 0.1f;
-			else if(timer == 20)
+			else if (timer == 20)
 				projectile.velocity *= 5f;
-			else if(timer == 40)
+			else if (timer == 40)
 				projectile.velocity *= 5f;
-			else if(timer == 300)
+			else if (timer == 300)
 				timer = 0;
 
 		}

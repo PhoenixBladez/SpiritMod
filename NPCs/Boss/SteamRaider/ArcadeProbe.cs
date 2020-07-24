@@ -29,7 +29,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		}
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			if(npc.alpha != 255) {
+			if (npc.alpha != 255) {
 				GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Boss/SteamRaider/LaserBase_Glow"));
 			}
 		}
@@ -40,28 +40,30 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		{
 
 			npc.TargetClosest(true);
-			if(lifeSpan <= 0) {
+			if (lifeSpan <= 0) {
 				npc.life = 0;
 				npc.active = false;
 			}
 			Player player = Main.player[npc.target];
-			if(lifeSpan % 250 == 0) {
+			if (lifeSpan % 250 == 0) {
 				distAbove = 375;
-				if(Main.rand.Next(2) == 0) {
+				if (Main.rand.Next(2) == 0) {
 					npc.position.X = player.Center.X - Main.rand.Next(300, 500);
 					npc.position.Y = player.Center.Y - distAbove;
 					npc.velocity.X = 3f;
-				} else {
+				}
+				else {
 					npc.position.X = player.Center.X + Main.rand.Next(300, 500);
 					npc.position.Y = player.Center.Y - distAbove;
 					npc.velocity.X = -3f;
 				}
 				npc.rotation = 0f;
+				npc.netUpdate = true;
 			}
 			npc.velocity.Y = 0;
-			if(lifeSpan % fireRate == 0) {
+			if (lifeSpan % fireRate == 0) {
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 91);
-				for(int i = 0; i < 16; i++) {
+				for (int i = 0; i < 16; i++) {
 					int dust = Dust.NewDust(npc.Center, npc.width, npc.height, DustID.GoldCoin);
 
 					Main.dust[dust].velocity *= -1f;

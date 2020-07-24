@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Weapon.Summon
 
 		public override bool UseItem(Player player)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				player.MinionNPCTargetAim();
 			}
 			return base.UseItem(player);
@@ -51,10 +51,10 @@ namespace SpiritMod.Items.Weapon.Summon
 			//projectile spawns at mouse cursor
 			Vector2 value18 = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY);
 			position = value18;
-			for(int i = 0; i <= Main.rand.Next(1, 2); i++) {
+			for (int i = 0; i <= Main.rand.Next(1, 2); i++) {
 				int proj = Terraria.Projectile.NewProjectile(position.X + Main.rand.Next(-30, 30), position.Y, 0f, 0f, type, damage, knockBack, player.whoAmI);
 				Projectile projectile = Main.projectile[proj];
-				for(int j = 0; j < 10; j++) {
+				for (int j = 0; j < 10; j++) {
 					int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 0, (float)(Main.rand.Next(5) - 2), (float)(Main.rand.Next(5) - 2), 133);
 					Main.dust[d].scale *= .75f;
 				}

@@ -38,16 +38,16 @@ namespace SpiritMod.Items.Weapon.Magic
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			for(int i = 0; i < Main.projectile.Length; i++) {
+			for (int i = 0; i < Main.projectile.Length; i++) {
 				Projectile p = Main.projectile[i];
-				if(p.active && p.type == item.shoot && p.owner == player.whoAmI) {
+				if (p.active && p.type == item.shoot && p.owner == player.whoAmI) {
 					p.active = false;
 				}
 			}
-			if(speedX > 0) {
+			if (speedX > 0) {
 				position.X = position.X + 108;
 			}
-			if(speedX <= 0) {
+			if (speedX <= 0) {
 				position.X = position.X - 108;
 			}
 			position.Y = position.Y - 30;

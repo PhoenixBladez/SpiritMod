@@ -44,7 +44,7 @@ namespace SpiritMod.Items.Equipment
 
 	internal class MagnetHookProjectile : ModProjectile
 	{
-		public override void SetStaticDefaults() 
+		public override void SetStaticDefaults()
 			=> DisplayName.SetDefault("${ProjectileName.GemHookAmethyst}");
 
 		public override void SetDefaults()
@@ -67,12 +67,12 @@ namespace SpiritMod.Items.Equipment
 		public override bool? CanUseGrapple(Player player)
 		{
 			int hooksOut = 0;
-			for(int l = 0; l < 1000; l++) {
-				if(Main.projectile[l].active && Main.projectile[l].owner == Main.myPlayer && Main.projectile[l].type == projectile.type) {
+			for (int l = 0; l < 1000; l++) {
+				if (Main.projectile[l].active && Main.projectile[l].owner == Main.myPlayer && Main.projectile[l].type == projectile.type) {
 					hooksOut++;
 				}
 			}
-			if(hooksOut > 0) // This hook can have 1 hooks out.
+			if (hooksOut > 0) // This hook can have 1 hooks out.
 			{
 				return false;
 			}
@@ -137,16 +137,17 @@ namespace SpiritMod.Items.Equipment
 			Vector2 vector2 = mountedCenter - vector;
 			float rotation = (float)Math.Atan2(vector2.Y, vector2.X) - 1.57f;
 			bool flag = true;
-			if(float.IsNaN(vector.X) && float.IsNaN(vector.Y)) {
+			if (float.IsNaN(vector.X) && float.IsNaN(vector.Y)) {
 				flag = false;
 			}
-			if(float.IsNaN(vector2.X) && float.IsNaN(vector2.Y)) {
+			if (float.IsNaN(vector2.X) && float.IsNaN(vector2.Y)) {
 				flag = false;
 			}
-			while(flag) {
-				if(vector2.Length() < num + 1.0) {
+			while (flag) {
+				if (vector2.Length() < num + 1.0) {
 					flag = false;
-				} else {
+				}
+				else {
 					Vector2 value = vector2;
 					value.Normalize();
 					vector += value * num;
@@ -164,7 +165,7 @@ namespace SpiritMod.Items.Equipment
 		public override void AI()
 		{
 			int num = 5;
-			for(int k = 0; k < 1; k++) {
+			for (int k = 0; k < 1; k++) {
 				int index2 = Dust.NewDust(new Vector2(projectile.Center.X + 15, projectile.Center.Y), 1, 1, 180, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].position = projectile.Center - projectile.velocity / num * k;
 				Main.dust[index2].scale = .5f;
@@ -172,7 +173,7 @@ namespace SpiritMod.Items.Equipment
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].noLight = false;
 			}
-			for(int j = 0; j < 1; j++) {
+			for (int j = 0; j < 1; j++) {
 				int index2 = Dust.NewDust(new Vector2(projectile.Center.X - 15, projectile.Center.Y), 1, 1, 130, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].position = projectile.Center - projectile.velocity / num * j;
 				Main.dust[index2].scale = .5f;
@@ -183,15 +184,14 @@ namespace SpiritMod.Items.Equipment
 			{
 				int tilepositionx = (int)(projectile.position.X / 16);
 				int tilepositiony = (int)(projectile.position.Y / 16);
-				if (!homing)
-				{
+				if (!homing) {
 					lowestDist = float.MaxValue;
-					for(int i = tilepositionx - 5; i < tilepositionx + 5; i++) {
-						for(int j = tilepositiony - 5; j < tilepositiony + 5; j++) {
+					for (int i = tilepositionx - 5; i < tilepositionx + 5; i++) {
+						for (int j = tilepositiony - 5; j < tilepositiony + 5; j++) {
 							Tile tile = Main.tile[i, j];
-							if(tile.active() && Main.tileSolid[tile.type]) {
+							if (tile.active() && Main.tileSolid[tile.type]) {
 								float dist = projectile.Distance(new Vector2(i * 16, j * 16));
-								if(dist < lowestDist + 32) {
+								if (dist < lowestDist + 32) {
 									lowestDist = dist;
 									targetpositionx = i * 16;
 									targetpositiony = j * 16;
@@ -200,7 +200,7 @@ namespace SpiritMod.Items.Equipment
 						}
 					}
 				}
-				if(lowestDist < 113.137085 && projectile.timeLeft < 9888 && !retracting && Main.tileSolid[Main.tile[targetpositionx / 16, targetpositiony / 16].type]) {
+				if (lowestDist < 113.137085 && projectile.timeLeft < 9888 && !retracting && Main.tileSolid[Main.tile[targetpositionx / 16, targetpositiony / 16].type]) {
 					Vector2 direction = new Vector2(targetpositionx - projectile.position.X, targetpositiony - projectile.position.Y);
 					direction.Normalize();
 					projectile.velocity = direction * (int)Math.Sqrt((projectile.velocity.X * projectile.velocity.X) + (projectile.velocity.Y * projectile.velocity.Y));

@@ -40,8 +40,8 @@ namespace SpiritMod.Projectiles.Hostile
 			offset *= (float)(Math.Cos(counter * (Math.PI / 180)) * (distance / 3));
 			projectile.velocity = initialSpeed + offset;
 
-			if(!summoned) {
-				for(int j = 0; j < 12; j++) {
+			if (!summoned) {
+				for (int j = 0; j < 12; j++) {
 					Vector2 vector2 = Vector2.UnitX * -projectile.width / 2f;
 					vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(8f, 16f);
 					vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default(Vector2));
@@ -54,7 +54,7 @@ namespace SpiritMod.Projectiles.Hostile
 				}
 				summoned = true;
 			}
-			for(int i = 0; i < 6; i++) {
+			for (int i = 0; i < 6; i++) {
 				Dust dust;
 				// You need to set position depending on what you are doing. You may need to subtract width/2 and height/2 as well to center the spawn rectangle.
 				Vector2 position = projectile.Center;

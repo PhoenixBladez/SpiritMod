@@ -31,7 +31,7 @@ namespace SpiritMod.NPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if(spawnInfo.playerSafe || !Main.hardMode) {
+			if (spawnInfo.playerSafe || !Main.hardMode) {
 				return 0f;
 			}
 			return SpawnCondition.Cavern.Chance * 0.0512f;
@@ -39,7 +39,7 @@ namespace SpiritMod.NPCs
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GBat1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GBat2"), 1f);
 			}

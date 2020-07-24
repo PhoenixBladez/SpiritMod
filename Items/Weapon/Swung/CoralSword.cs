@@ -32,11 +32,12 @@ namespace SpiritMod.Items.Weapon.Swung
 		}
 		public override bool CanUseItem(Player player)
 		{
-			if(player.wet) {
+			if (player.wet) {
 				item.damage = 12;
 				item.useTime = 20;
 				item.useAnimation = 20;
-			} else {
+			}
+			else {
 				item.useTime = 26;
 				item.useAnimation = 26;
 				item.damage = 9;
@@ -45,9 +46,9 @@ namespace SpiritMod.Items.Weapon.Swung
 		}
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(3) == 0) {
+			if (Main.rand.Next(3) == 0) {
 				target.StrikeNPC(item.damage / 4, 0f, 0, crit);
-				for(int k = 0; k < 20; k++) {
+				for (int k = 0; k < 20; k++) {
 					Dust.NewDust(target.position, target.width, target.height, 225, 2.5f, -2.5f, 0, Color.White, 0.7f);
 					Dust.NewDust(target.position, target.width, target.height, 225, 2.5f, -2.5f, 0, default(Color), .34f);
 				}

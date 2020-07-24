@@ -38,7 +38,7 @@ namespace SpiritMod.Projectiles.Summon
 
 		public override bool MinionContactDamage()
 		{
-			if(projectile.frame == 6)
+			if (projectile.frame == 6)
 				return true;
 
 			return false;
@@ -48,10 +48,10 @@ namespace SpiritMod.Projectiles.Summon
 		{
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = (MyPlayer)player.GetModPlayer(mod, "MyPlayer");
-			if(player.dead)
+			if (player.dead)
 				modPlayer.Phantom = false;
 
-			if(modPlayer.Phantom)
+			if (modPlayer.Phantom)
 				projectile.timeLeft = 2;
 
 		}
@@ -64,7 +64,7 @@ namespace SpiritMod.Projectiles.Summon
 		public override void SelectFrame()
 		{
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 12) {
+			if (projectile.frameCounter >= 12) {
 				projectile.frameCounter = 0;
 				projectile.frame = (projectile.frame + 1) % 12;
 			}

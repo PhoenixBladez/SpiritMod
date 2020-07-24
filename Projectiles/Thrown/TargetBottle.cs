@@ -26,10 +26,10 @@ namespace SpiritMod.Projectiles.Thrown
 		public override void AI()
 		{
 			var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
-			foreach(var proj in list) {
-				if(proj.ranged && proj.active && !shot && proj.friendly && !proj.hostile && (proj.width <= 6 || proj.height <= 6)) {
+			foreach (var proj in list) {
+				if (proj.ranged && proj.active && !shot && proj.friendly && !proj.hostile && (proj.width <= 6 || proj.height <= 6)) {
 					Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 27);
-					for(int num424 = 0; num424 < 15; num424++) {
+					for (int num424 = 0; num424 < 15; num424++) {
 						Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 13, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 0, default(Color), 0.75f);
 					}
 					shot = true;
@@ -43,7 +43,7 @@ namespace SpiritMod.Projectiles.Thrown
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 27);
-			for(int num424 = 0; num424 < 15; num424++) {
+			for (int num424 = 0; num424 < 15; num424++) {
 				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 13, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 0, default(Color), 0.75f);
 			}
 		}

@@ -47,9 +47,9 @@ namespace SpiritMod.Items.Weapon.Gun
 		public override void HoldItem(Player player)
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if(modPlayer.shootDelay2 == 1) {
+			if (modPlayer.shootDelay2 == 1) {
 				Main.PlaySound(SoundID.MaxMana, -1, -1, 1, 1f, 0.0f);
-				for(int index1 = 0; index1 < 5; ++index1) {
+				for (int index1 = 0; index1 < 5; ++index1) {
 					int index2 = Dust.NewDust(player.position, player.width, player.height, 75, 0.0f, 0.0f, (int)byte.MaxValue, new Color(), (float)Main.rand.Next(20, 26) * 0.1f);
 					Main.dust[index2].noLight = false;
 					Main.dust[index2].noGravity = true;

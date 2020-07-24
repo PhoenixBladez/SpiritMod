@@ -13,11 +13,11 @@ namespace SpiritMod.Projectiles.Hostile
 		{
 			DisplayName.SetDefault("Stray Glider");
 			Main.projFrames[base.projectile.type] = 3;
-        }
+		}
 
 		public override void SetDefaults()
 		{
-            projectile.width = 46;
+			projectile.width = 46;
 			projectile.height = 32;
 			projectile.friendly = false;
 			projectile.hostile = false;
@@ -27,10 +27,9 @@ namespace SpiritMod.Projectiles.Hostile
 		public override void AI()
 		{
 			projectile.alpha += 5;
-            if (projectile.alpha > 240)
-            {
-                projectile.active = false;
-            }
-        }
-    }
+			if (projectile.alpha > 240) {
+				projectile.active = false;
+			}
+		}
+	}
 }

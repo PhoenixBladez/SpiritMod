@@ -33,9 +33,9 @@ namespace SpiritMod.NPCs
 			npc.aiStyle = 22;
 			aiType = NPCID.Wraith;
 			animationType = NPCID.Wraith;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.GladiatorSpiritBanner>();
-        }
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.GladiatorSpiritBanner>();
+		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
@@ -48,10 +48,10 @@ namespace SpiritMod.NPCs
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			int d = 54;
-			for(int k = 0; k < 10; k++) {
+			for (int k = 0; k < 10; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.27f);
 			}
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, 99);
 				Gore.NewGore(npc.position, npc.velocity, 99);
 				Gore.NewGore(npc.position, npc.velocity, 99);
@@ -67,25 +67,27 @@ namespace SpiritMod.NPCs
 		{
 
 			reflectTimer++;
-			if(reflectTimer == 720) {
+			if (reflectTimer == 720) {
 				Main.PlaySound(SoundID.DD2_WitherBeastAuraPulse, npc.Center);
 			}
-			if(reflectTimer > 720) {
+			if (reflectTimer > 720) {
 				reflectPhase = true;
-			} else {
+			}
+			else {
 				reflectPhase = false;
 			}
-			if(reflectTimer >= 1000) {
+			if (reflectTimer >= 1000) {
 				reflectTimer = 0;
 			}
-			if(reflectPhase) {
+			if (reflectPhase) {
 				npc.velocity = Vector2.Zero;
 				npc.defense = 9999;
 				Vector2 vector2 = Vector2.UnitY.RotatedByRandom(6.28318548202515) * new Vector2((float)npc.height, (float)npc.height) * npc.scale * 1.85f / 2f;
 				int index = Dust.NewDust(npc.Center + vector2, 0, 0, 246, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index].position = npc.Center + vector2;
 				Main.dust[index].velocity = Vector2.Zero;
-			} else {
+			}
+			else {
 				npc.defense = 9;
 			}
 		}
@@ -97,7 +99,7 @@ namespace SpiritMod.NPCs
 								 lightColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 				{
 					Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height / Main.npcFrameCount[npc.type]) * 0.5f);
-					for(int k = 0; k < npc.oldPos.Length; k++) {
+					for (int k = 0; k < npc.oldPos.Length; k++) {
 						Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
 						Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
 						spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
@@ -107,7 +109,7 @@ namespace SpiritMod.NPCs
 		}
 		public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
 		{
-			if(reflectPhase) {
+			if (reflectPhase) {
 				projectile.hostile = true;
 				projectile.friendly = false;
 				projectile.penetrate = 2;
@@ -118,7 +120,7 @@ namespace SpiritMod.NPCs
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MarbleChunk>());
 
-			if(Main.rand.Next(120) == 2) {
+			if (Main.rand.Next(120) == 2) {
 				int[] lootTable = new int[] { 3187, 3188, 3189 };
 				{
 					{

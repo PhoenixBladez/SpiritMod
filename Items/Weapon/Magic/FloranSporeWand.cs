@@ -38,8 +38,8 @@ namespace SpiritMod.Items.Weapon.Magic
 		{
 			ModRecipe modRecipe = new ModRecipe(mod);
 			modRecipe.AddIngredient(ModContent.ItemType<FloranBar>(), 14);
-            modRecipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 5);
-            modRecipe.AddTile(TileID.Anvils);
+			modRecipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 5);
+			modRecipe.AddTile(TileID.Anvils);
 			modRecipe.SetResult(this);
 			modRecipe.AddRecipe();
 		}

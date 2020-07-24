@@ -15,26 +15,26 @@ namespace SpiritMod.World
 			int xEnd = (int)(posX / 16f + radius);
 			int yBegin = (int)(posY / 16f - radius);
 			int yEnd = (int)(posY / 16f + radius);
-			if(xBegin < 0) {
+			if (xBegin < 0) {
 				xBegin = 0;
 			}
-			if(xEnd > Main.maxTilesX) {
+			if (xEnd > Main.maxTilesX) {
 				xEnd = Main.maxTilesX;
 			}
-			if(yBegin < 0) {
+			if (yBegin < 0) {
 				yBegin = 0;
 			}
-			if(yEnd > Main.maxTilesY) {
+			if (yEnd > Main.maxTilesY) {
 				yEnd = Main.maxTilesY;
 			}
 			bool breakWall = false;
-			if(wallDamage) {
-				for(int x = xBegin; x <= xEnd; x++) {
-					for(int y = yBegin; y <= yEnd; y++) {
+			if (wallDamage) {
+				for (int x = xBegin; x <= xEnd; x++) {
+					for (int y = yBegin; y <= yEnd; y++) {
 						float deltaX = Math.Abs((float)x - posX / 16f);
 						float deltaY = Math.Abs((float)y - posY / 16f);
 						double dist = Math.Sqrt((double)(deltaX * deltaX + deltaY * deltaY));
-						if(dist < (double)radius && Main.tile[x, y] != null && Main.tile[x, y].wall == 0) {
+						if (dist < (double)radius && Main.tile[x, y] != null && Main.tile[x, y].wall == 0) {
 							breakWall = true;
 							break;
 						}
@@ -42,40 +42,40 @@ namespace SpiritMod.World
 				}
 			}
 			AchievementsHelper.CurrentlyMining = true;
-			for(int x = xBegin; x <= xEnd; x++) {
-				for(int y = yBegin; y <= yEnd; y++) {
+			for (int x = xBegin; x <= xEnd; x++) {
+				for (int y = yBegin; y <= yEnd; y++) {
 					float deltaX = Math.Abs((float)x - posX / 16f);
 					float deltaY = Math.Abs((float)y - posY / 16f);
 					double dist = Math.Sqrt((double)(deltaX * deltaX + deltaY * deltaY));
-					if(dist < (double)radius) {
+					if (dist < (double)radius) {
 						bool destroyTile = true;
-						if(Main.tile[x, y] != null && Main.tile[x, y].active()) {
+						if (Main.tile[x, y] != null && Main.tile[x, y].active()) {
 							destroyTile = true;
 							ushort tile = Main.tile[x, y].type;
-							if(Main.tileDungeon[(int)tile] || tile == 88 || tile == 21 || tile == 26 || tile == 107 || tile == 108 || tile == 111 || tile == 226 || tile == 237 || tile == 221 || tile == 222 || tile == 223 || tile == 211 || tile == 404) {
+							if (Main.tileDungeon[(int)tile] || tile == 88 || tile == 21 || tile == 26 || tile == 107 || tile == 108 || tile == 111 || tile == 226 || tile == 237 || tile == 221 || tile == 222 || tile == 223 || tile == 211 || tile == 404) {
 								destroyTile = false;
 							}
 							//patch file: x, y
-							if(!Main.hardMode && tile == 58) {
+							if (!Main.hardMode && tile == 58) {
 								destroyTile = false;
 								//patch file: x, y
 							}
-							if(!TileLoader.CanExplode(x, y)) {
+							if (!TileLoader.CanExplode(x, y)) {
 								destroyTile = false;
 							}
-							if(destroyTile) {
+							if (destroyTile) {
 								WorldGen.KillTile(x, y, false, false, false);
-								if(!Main.tile[x, y].active() && Main.netMode != NetmodeID.SinglePlayer) {
+								if (!Main.tile[x, y].active() && Main.netMode != NetmodeID.SinglePlayer) {
 									NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, (float)x, (float)y, 0f, 0, 0, 0);
 								}
 							}
 						}
-						if(destroyTile && breakWall) {
-							for(int wallX = x - 1; wallX <= x + 1; wallX++) {
-								for(int wallY = y - 1; wallY <= y + 1; wallY++) {
-									if(Main.tile[wallX, wallY] != null && Main.tile[wallX, wallY].wall > 0) {
+						if (destroyTile && breakWall) {
+							for (int wallX = x - 1; wallX <= x + 1; wallX++) {
+								for (int wallY = y - 1; wallY <= y + 1; wallY++) {
+									if (Main.tile[wallX, wallY] != null && Main.tile[wallX, wallY].wall > 0) {
 										WorldGen.KillWall(wallX, wallY, false);
-										if(Main.tile[wallX, wallY].wall == 0 && Main.netMode != NetmodeID.SinglePlayer) {
+										if (Main.tile[wallX, wallY].wall == 0 && Main.netMode != NetmodeID.SinglePlayer) {
 											NetMessage.SendData(MessageID.TileChange, -1, -1, null, 2, (float)wallX, (float)wallY, 0f, 0, 0, 0);
 										}
 									}
@@ -92,7 +92,7 @@ namespace SpiritMod.World
 		{
 			float xDiv = 16f / vel.X;
 			float yDiv = 16f / vel.Y;
-			if(float.IsInfinity(xDiv) && float.IsInfinity(yDiv)) {
+			if (float.IsInfinity(xDiv) && float.IsInfinity(yDiv)) {
 				return null;
 			}
 			bool movX = vel.X >= 0f;
@@ -101,12 +101,12 @@ namespace SpiritMod.World
 			Vector2 pos = new Vector2(start.X * (1f / 16f), start.Y * (1f / 16f));
 			Main.NewText("pos:  ( " + (int)pos.X + " | " + (int)pos.Y + ")");
 			width *= 1f / 16f;
-			if(movX) {
+			if (movX) {
 				pos.X += width;
 				width *= -1f;
 			}
 			height = 1f / 16f;
-			if(movY) {
+			if (movY) {
 				pos.Y += height;
 				height *= -1f;
 			}
@@ -124,11 +124,11 @@ namespace SpiritMod.World
 			float yNext = movY ? (float)Math.Ceiling(pos.Y) : (float)Math.Floor(pos.Y);
 			float xRate = (xNext - pos.X) * xDiv;
 			float yRate = (yNext - pos.Y) * yDiv;
-			for(int i = cascades; i > 0; i--) {
-				if(yRate > xRate) { //X is next
+			for (int i = cascades; i > 0; i--) {
+				if (yRate > xRate) { //X is next
 					int x = (int)(movX ? xNext : xNext - 1);
 					//Skip, if x is out of bounds.
-					if(InvalidTileX(x)) {
+					if (InvalidTileX(x)) {
 						xNext += movX ? 1f : -1f;
 						xRate = (xNext - pos.X) * xDiv;
 						continue;
@@ -137,23 +137,24 @@ namespace SpiritMod.World
 					int y = (int)scanStart;
 					int target = (int)(scanStart + height);
 
-					if(movY) {
-						for(; y >= target; y--) {
-							if(InvalidTileY(y)) {
+					if (movY) {
+						for (; y >= target; y--) {
+							if (InvalidTileY(y)) {
 								continue;
 							}
 							Tile tile = Main.tile[x, y];
-							if(tile != null && tile.active() && (evenActuated || !tile.inActive()) && Main.tileSolid[tile.type]) {
+							if (tile != null && tile.active() && (evenActuated || !tile.inActive()) && Main.tileSolid[tile.type]) {
 								return (xNext - start.X) * xDiv;
 							}
 						}
-					} else {
-						for(; y <= target; y++) {
-							if(InvalidTileY(y)) {
+					}
+					else {
+						for (; y <= target; y++) {
+							if (InvalidTileY(y)) {
 								continue;
 							}
 							Tile tile = Main.tile[x, y];
-							if(tile != null && tile.active() && (evenActuated || !tile.inActive()) && Main.tileSolid[tile.type]) {
+							if (tile != null && tile.active() && (evenActuated || !tile.inActive()) && Main.tileSolid[tile.type]) {
 								return (xNext - start.X) * xDiv;
 							}
 						}
@@ -161,10 +162,11 @@ namespace SpiritMod.World
 
 					xNext += movX ? 1f : -1f;
 					xRate = (xNext - pos.X) * xDiv;
-				} else { //Y is next
+				}
+				else { //Y is next
 					int y = (int)(movY ? yNext : yNext - 1);
 					//Skip, if y is out of bounds.
-					if(InvalidTileY(y)) {
+					if (InvalidTileY(y)) {
 						yNext += movY ? 1f : -1f;
 						yRate = (yNext - pos.Y) * yDiv;
 						continue;
@@ -173,23 +175,24 @@ namespace SpiritMod.World
 					int x = (int)scanStart;
 					int target = (int)(scanStart + width);
 
-					if(movX) {
-						for(; x >= target; x--) {
-							if(InvalidTileX(x)) {
+					if (movX) {
+						for (; x >= target; x--) {
+							if (InvalidTileX(x)) {
 								continue;
 							}
 							Tile tile = Main.tile[x, y];
-							if(tile != null && tile.active() && (evenActuated || !tile.inActive()) && (Main.tileSolid[tile.type] || movY && Main.tileSolidTop[tile.type])) {
+							if (tile != null && tile.active() && (evenActuated || !tile.inActive()) && (Main.tileSolid[tile.type] || movY && Main.tileSolidTop[tile.type])) {
 								return (yNext - start.Y) * yDiv;
 							}
 						}
-					} else {
-						for(; x <= target; x++) {
-							if(InvalidTileX(x)) {
+					}
+					else {
+						for (; x <= target; x++) {
+							if (InvalidTileX(x)) {
 								continue;
 							}
 							Tile tile = Main.tile[x, y];
-							if(tile != null && tile.active() && (evenActuated || !tile.inActive()) && (Main.tileSolid[tile.type] || movY && Main.tileSolidTop[tile.type])) {
+							if (tile != null && tile.active() && (evenActuated || !tile.inActive()) && (Main.tileSolid[tile.type] || movY && Main.tileSolidTop[tile.type])) {
 								return (yNext - start.Y) * yDiv;
 							}
 						}

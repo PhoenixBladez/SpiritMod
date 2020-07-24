@@ -77,12 +77,12 @@ namespace SpiritMod.Items.Tool
 		public override bool? CanUseGrapple(Player player)
 		{
 			int hooksOut = 0;
-			for(int l = 0; l < 1000; l++) {
-				if(Main.projectile[l].active && Main.projectile[l].owner == Main.myPlayer && Main.projectile[l].type == projectile.type) {
+			for (int l = 0; l < 1000; l++) {
+				if (Main.projectile[l].active && Main.projectile[l].owner == Main.myPlayer && Main.projectile[l].type == projectile.type) {
 					hooksOut++;
 				}
 			}
-			if(hooksOut > 2) // This hook can have 2 hooks out.
+			if (hooksOut > 2) // This hook can have 2 hooks out.
 			{
 				return false;
 			}
@@ -153,16 +153,17 @@ namespace SpiritMod.Items.Tool
 			Vector2 vector2 = mountedCenter - vector;
 			float rotation = (float)Math.Atan2((double)vector2.Y, (double)vector2.X) - 1.57f;
 			bool flag = true;
-			if(float.IsNaN(vector.X) && float.IsNaN(vector.Y)) {
+			if (float.IsNaN(vector.X) && float.IsNaN(vector.Y)) {
 				flag = false;
 			}
-			if(float.IsNaN(vector2.X) && float.IsNaN(vector2.Y)) {
+			if (float.IsNaN(vector2.X) && float.IsNaN(vector2.Y)) {
 				flag = false;
 			}
-			while(flag) {
-				if((double)vector2.Length() < (double)num + 1.0) {
+			while (flag) {
+				if ((double)vector2.Length() < (double)num + 1.0) {
 					flag = false;
-				} else {
+				}
+				else {
 					Vector2 value = vector2;
 					value.Normalize();
 					vector += value * num;
@@ -176,7 +177,7 @@ namespace SpiritMod.Items.Tool
 		public override void AI()
 		{
 			int num = 5;
-			for(int k = 0; k < 3; k++) {
+			for (int k = 0; k < 3; k++) {
 				int index2 = Dust.NewDust(projectile.position, 1, 1, 226, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
 				Main.dust[index2].scale = .5f;

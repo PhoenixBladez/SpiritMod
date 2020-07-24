@@ -26,9 +26,9 @@ namespace SpiritMod.NPCs
 			npc.knockBackResist = 0.45f;
 			npc.aiStyle = 3;
 			aiType = NPCID.WalkingAntlion;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.PutromaBanner>();
-        }
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.PutromaBanner>();
+		}
 		public override void AI()
 		{
 			npc.rotation += .06f * npc.velocity.X;
@@ -48,11 +48,11 @@ namespace SpiritMod.NPCs
 		{
 			int d = 22;
 			int d1 = 184;
-			for(int k = 0; k < 30; k++) {
+			for (int k = 0; k < 30; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
 				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, Color.White, .34f);
 			}
-			if(Main.rand.Next(2) == 0) {
+			if (Main.rand.Next(2) == 0) {
 				Main.PlaySound(SoundID.NPCHit, npc.Center, 19);
 				int tomaProj;
 				tomaProj = Main.rand.Next(new int[] { mod.ProjectileType("Teratoma1"), mod.ProjectileType("Teratoma2"), mod.ProjectileType("Teratoma3") });
@@ -63,7 +63,7 @@ namespace SpiritMod.NPCs
 				Main.projectile[p].friendly = false;
 				Main.projectile[p].hostile = true;
 			}
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Teratoma/Teratoma1"), Main.rand.NextFloat(.85f, 1.1f));
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Teratoma/Teratoma2"), Main.rand.NextFloat(.85f, 1.1f));
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Teratoma/Teratoma3"), Main.rand.NextFloat(.85f, 1.1f));

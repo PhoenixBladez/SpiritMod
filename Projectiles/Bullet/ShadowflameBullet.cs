@@ -38,7 +38,7 @@ namespace SpiritMod.Projectiles.Bullet
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(2) == 0)
+			if (Main.rand.Next(2) == 0)
 				target.AddBuff(BuffID.ShadowFlame, 180);
 		}
 
@@ -46,7 +46,7 @@ namespace SpiritMod.Projectiles.Bullet
 		{
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1);
 
-			for(int num383 = 0; num383 < 5; num383++) {
+			for (int num383 = 0; num383 < 5; num383++) {
 				int num384 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Shadowflame);
 				Main.dust[num384].noGravity = true;
 				Main.dust[num384].velocity *= 1.5f;

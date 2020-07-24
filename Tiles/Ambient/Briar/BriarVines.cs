@@ -27,7 +27,7 @@ namespace SpiritMod.Tiles.Ambient.Briar
 		public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
 		{
 			Tile tile = Framing.GetTileSafely(i, j + 1);
-			if(tile.active() && tile.type == Type) {
+			if (tile.active() && tile.type == Type) {
 				WorldGen.KillTile(i, j + 1);
 			}
 		}
@@ -36,11 +36,11 @@ namespace SpiritMod.Tiles.Ambient.Briar
 		{
 			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
 			int type = -1;
-			if(tileAbove.active() && !tileAbove.bottomSlope()) {
+			if (tileAbove.active() && !tileAbove.bottomSlope()) {
 				type = tileAbove.type;
 			}
 
-			if(type == ModContent.TileType<BriarGrass>() || type == Type) {
+			if (type == ModContent.TileType<BriarGrass>() || type == Type) {
 				return true;
 			}
 
@@ -51,25 +51,26 @@ namespace SpiritMod.Tiles.Ambient.Briar
 		public override void RandomUpdate(int i, int j)
 		{
 			Tile tileBelow = Framing.GetTileSafely(i, j + 1);
-			if(WorldGen.genRand.NextBool(15) && !tileBelow.active() && !tileBelow.lava()) {
+			if (WorldGen.genRand.NextBool(15) && !tileBelow.active() && !tileBelow.lava()) {
 				bool placeVine = false;
 				int yTest = j;
-				while(yTest > j - 10) {
+				while (yTest > j - 10) {
 					Tile testTile = Framing.GetTileSafely(i, yTest);
-					if(testTile.bottomSlope()) {
+					if (testTile.bottomSlope()) {
 						break;
-					} else if(!testTile.active() || testTile.type != ModContent.TileType<BriarGrass>()) {
+					}
+					else if (!testTile.active() || testTile.type != ModContent.TileType<BriarGrass>()) {
 						yTest--;
 						continue;
 					}
 					placeVine = true;
 					break;
 				}
-				if(placeVine) {
+				if (placeVine) {
 					tileBelow.type = Type;
 					tileBelow.active(true);
 					WorldGen.SquareTileFrame(i, j + 1, true);
-					if(Main.netMode == NetmodeID.Server) {
+					if (Main.netMode == NetmodeID.Server) {
 						NetMessage.SendTileSquare(-1, i, j + 1, 3, TileChangeType.None);
 					}
 				}

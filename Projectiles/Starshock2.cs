@@ -27,7 +27,7 @@ namespace SpiritMod.Projectiles
 		public override void AI()
 		{
 			int num = 5;
-			for(int k = 0; k < 6; k++) {
+			for (int k = 0; k < 6; k++) {
 				int index2 = Dust.NewDust(projectile.position, 4, 4, 226, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
 				Main.dust[index2].scale = .8f;
@@ -41,7 +41,7 @@ namespace SpiritMod.Projectiles
 		{
 			int n = 2;
 			int deviation = Main.rand.Next(0, 300);
-			for(int i = 0; i < n; i++) {
+			for (int i = 0; i < n; i++) {
 				float rotation = MathHelper.ToRadians(270 / n * i + deviation);
 				Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(rotation);
 				perturbedSpeed.Normalize();
@@ -51,13 +51,13 @@ namespace SpiritMod.Projectiles
 			}
 
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 9);
-			for(int i = 0; i < 6; i++) {
+			for (int i = 0; i < 6; i++) {
 				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 226, 0f, -2f, 0, default(Color), 2f);
 				Main.dust[num].noGravity = true;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].scale *= .25f;
-				if(Main.dust[num].position != projectile.Center)
+				if (Main.dust[num].position != projectile.Center)
 					Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
 			}
 		}

@@ -16,24 +16,25 @@ namespace SpiritMod.Dusts
 
 		public override bool Update(Dust dust)
 		{
-			if(!dust.noLight) {
+			if (!dust.noLight) {
 				Lighting.AddLight((int)(dust.position.X) >> 4, (int)(dust.position.Y) >> 4, lightColor.X, lightColor.Y, lightColor.Z);
 			}
 
 			dust.position += dust.velocity;
 
-			if(dust.customData is int counter) {
-				if(counter > 20) {
+			if (dust.customData is int counter) {
+				if (counter > 20) {
 					dust.scale *= 0.98f;
 					dust.alpha++;
 				}
 
-				if(dust.alpha > 250) {
+				if (dust.alpha > 250) {
 					dust.active = false;
 				}
 
 				dust.customData = counter + 1;
-			} else {
+			}
+			else {
 				dust.active = false;
 			}
 

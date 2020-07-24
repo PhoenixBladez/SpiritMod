@@ -49,11 +49,12 @@ namespace SpiritMod.Projectiles.DonatorItems
 
 		public override void AI()
 		{
-			if(Mode == 0) {
+			if (Mode == 0) {
 				Origin = projectile.position;
 				Mode = 1;
-			} else {
-				if(Mode == 2) {
+			}
+			else {
+				if (Mode == 2) {
 					projectile.extraUpdates = 0;
 					projectile.numUpdates = 0;
 				}
@@ -66,15 +67,15 @@ namespace SpiritMod.Projectiles.DonatorItems
 		{
 			float distance = Vector2.Distance(from, to);
 			float step = 1 / distance;
-			for(float w = 0; w < distance; w += 4) {
+			for (float w = 0; w < distance; w += 4) {
 				Dust.NewDustPerfect(Vector2.Lerp(from, to, w * step), 226, Vector2.Zero).noGravity = true;
 			}
 		}
 
 		private bool CanTarget(NPC target)
 		{
-			foreach(var npc in hit)
-				if(target == npc)
+			foreach (var npc in hit)
+				if (target == npc)
 					return false;
 			return true;
 		}
@@ -85,12 +86,12 @@ namespace SpiritMod.Projectiles.DonatorItems
 			range *= range;
 			NPC target = null;
 			var center = projectile.Center;
-			for(int i = 0; i < 200; ++i) {
+			for (int i = 0; i < 200; ++i) {
 				NPC npc = Main.npc[i];
 				//if npc is a valid target (active, not friendly, and not a critter)
-				if(npc != current && npc.active && npc.CanBeChasedBy(null) && CanTarget(npc)) {
+				if (npc != current && npc.active && npc.CanBeChasedBy(null) && CanTarget(npc)) {
 					float dist = Vector2.DistanceSquared(center, npc.Center);
-					if(dist < range) {
+					if (dist < range) {
 						range = dist;
 						target = npc;
 					}
@@ -105,7 +106,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 			hit[projectile.penetrate - 1] = target;
 
 			target = TargetNext(target);
-			if(target != null)
+			if (target != null)
 				projectile.Center = target.Center;
 			else
 				projectile.Kill();

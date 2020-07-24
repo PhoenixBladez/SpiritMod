@@ -14,18 +14,19 @@ namespace SpiritMod.NPCs.Boss.Atlas
 
 		public override void Update(GameTime gameTime)
 		{
-			if(isActive && intensity < 1f) {
+			if (isActive && intensity < 1f) {
 				intensity += 0.02f;
-			} else if(!isActive && intensity > 0f) {
+			}
+			else if (!isActive && intensity > 0f) {
 				intensity -= 0.02f;
 			}
 		}
 
 		private float GetIntensity()
 		{
-			if(this.UpdateAtlasIndex()) {
+			if (this.UpdateAtlasIndex()) {
 				float x = 0f;
-				if(this.AtlasIndex != -1)
+				if (this.AtlasIndex != -1)
 					x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[this.AtlasIndex].Center);
 
 				return 1f - Utils.SmoothStep(3000f, 6000f, x);
@@ -44,12 +45,12 @@ namespace SpiritMod.NPCs.Boss.Atlas
 		private bool UpdateAtlasIndex()
 		{
 			int AtlasType = ModLoader.GetMod("SpiritMod").NPCType("Atlas");
-			if(AtlasIndex >= 0 && Main.npc[AtlasIndex].active && Main.npc[AtlasIndex].type == AtlasType)
+			if (AtlasIndex >= 0 && Main.npc[AtlasIndex].active && Main.npc[AtlasIndex].type == AtlasType)
 				return true;
 
 			AtlasIndex = -1;
-			for(int i = 0; i < Main.npc.Length; i++) {
-				if(Main.npc[i].active && Main.npc[i].type == AtlasType) {
+			for (int i = 0; i < Main.npc.Length; i++) {
+				if (Main.npc[i].active && Main.npc[i].type == AtlasType) {
 					AtlasIndex = i;
 					break;
 				}
@@ -60,11 +61,11 @@ namespace SpiritMod.NPCs.Boss.Atlas
 
 		public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
 		{
-			if(maxDepth >= 3.40282347E+38f && minDepth < 3.40282347E+38f) {
+			if (maxDepth >= 3.40282347E+38f && minDepth < 3.40282347E+38f) {
 				spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(0.13f, 0.13f, 0.13f) * intensity);
 			}
 			//front of bg
-			if(maxDepth >= 0 && minDepth < 0) {
+			if (maxDepth >= 0 && minDepth < 0) {
 				spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(0.3f, 0.3f, 0.3f) * 0.5f);
 			}
 		}

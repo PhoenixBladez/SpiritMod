@@ -37,7 +37,7 @@ namespace SpiritMod.NPCs
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, 61);
 				Gore.NewGore(npc.position, npc.velocity, 62);
 				Gore.NewGore(npc.position, npc.velocity, 63);
@@ -54,7 +54,7 @@ namespace SpiritMod.NPCs
 
 		public override void NPCLoot()
 		{
-			if(Main.rand.Next(30) == 1) {
+			if (Main.rand.Next(30) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<FieryPendant>());
 			}
 		}

@@ -35,7 +35,7 @@ namespace SpiritMod.Projectiles.Summon
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			if(projectile.penetrate == 0)
+			if (projectile.penetrate == 0)
 				projectile.Kill();
 
 			return false;
@@ -44,21 +44,21 @@ namespace SpiritMod.Projectiles.Summon
 		public override void AI()
 		{
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 6) {
+			if (projectile.frameCounter >= 6) {
 				projectile.frame++;
 				projectile.frameCounter = 0;
-				if(projectile.frame >= 11)
+				if (projectile.frame >= 11)
 					projectile.frame = 0;
 
 			}
 			bool flag64 = projectile.type == ModContent.ProjectileType<LihzahrdMinion>();
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if(flag64) {
-				if(player.dead)
+			if (flag64) {
+				if (player.dead)
 					modPlayer.lihzahrdMinion = false;
 
-				if(modPlayer.lihzahrdMinion)
+				if (modPlayer.lihzahrdMinion)
 					projectile.timeLeft = 2;
 
 			}

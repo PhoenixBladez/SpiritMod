@@ -53,11 +53,11 @@ namespace SpiritMod.NPCs.Town
 
 		public override bool CanTownNPCSpawn(int numTownNPCs, int money)
 		{
-			for(int k = 0; k < 255; k++) {
+			for (int k = 0; k < 255; k++) {
 				Player player = Main.player[k];
-				if(player.active) {
-					for(int j = 0; j < player.inventory.Length; j++) {
-						if(player.inventory[j].type == ItemID.GoldCoin && !NPC.AnyNPCs(ModContent.NPCType<BoundGambler>())) {
+				if (player.active) {
+					for (int j = 0; j < player.inventory.Length; j++) {
+						if (player.inventory[j].type == ItemID.GoldCoin && !NPC.AnyNPCs(ModContent.NPCType<BoundGambler>())) {
 							return true;
 						}
 					}
@@ -70,7 +70,7 @@ namespace SpiritMod.NPCs.Town
 
 		public override string TownNPCName()
 		{
-			switch(WorldGen.genRand.Next(7)) {
+			switch (WorldGen.genRand.Next(7)) {
 				case 0:
 					return "Yumeko";
 				case 1:
@@ -112,7 +112,7 @@ namespace SpiritMod.NPCs.Town
 				"You have the face of a winner. Step up!",
 			};
 			int merchant = NPC.FindFirstNPC(NPCID.Merchant);
-			if(merchant >= 0) {
+			if (merchant >= 0) {
 				dialogue.Add($"Unlike {Main.npc[merchant].GivenName}, I don't hoard my wealth");
 			}
 
@@ -147,7 +147,7 @@ namespace SpiritMod.NPCs.Town
 
 		public override void OnChatButtonClicked(bool firstButton, ref bool shop)
 		{
-			if(firstButton) {
+			if (firstButton) {
 				shop = true;
 			}
 		}
@@ -164,35 +164,34 @@ namespace SpiritMod.NPCs.Town
 			nextSlot++;
 			nextSlot++;
 			nextSlot++;
-            switch (Main.moonPhase)
-            {
-                case 0 when !Main.dayTime:
-                    AddItem(ref shop, ref nextSlot, ItemType<AceOfClubs>());
-                    break;
-                case 1 when !Main.dayTime:
-                    AddItem(ref shop, ref nextSlot, ItemType<AceOfClubs>());
-                    break;
-                case 2 when !Main.dayTime:
-                    AddItem(ref shop, ref nextSlot, ItemType<AceOfHearts>());
-                    break;
-                case 3 when !Main.dayTime:
-                    AddItem(ref shop, ref nextSlot, ItemType<AceOfHearts>());
-                    break;
-                case 4 when !Main.dayTime:
-                    AddItem(ref shop, ref nextSlot, ItemType<AceOfDiamonds>());
-                    break;
-                case 5 when !Main.dayTime:
-                    AddItem(ref shop, ref nextSlot, ItemType<AceOfDiamonds>());
-                    break;
-                case 6 when !Main.dayTime:
-                    AddItem(ref shop, ref nextSlot, ItemType<AceOfSpades>());
-                    break;
-                case 7 when !Main.dayTime:
-                    AddItem(ref shop, ref nextSlot, ItemType<AceOfSpades>());
-                    break;
-            }
-            AddItem(ref shop, ref nextSlot, ItemType<Dartboard>());
-        }
+			switch (Main.moonPhase) {
+				case 0 when !Main.dayTime:
+					AddItem(ref shop, ref nextSlot, ItemType<AceOfClubs>());
+					break;
+				case 1 when !Main.dayTime:
+					AddItem(ref shop, ref nextSlot, ItemType<AceOfClubs>());
+					break;
+				case 2 when !Main.dayTime:
+					AddItem(ref shop, ref nextSlot, ItemType<AceOfHearts>());
+					break;
+				case 3 when !Main.dayTime:
+					AddItem(ref shop, ref nextSlot, ItemType<AceOfHearts>());
+					break;
+				case 4 when !Main.dayTime:
+					AddItem(ref shop, ref nextSlot, ItemType<AceOfDiamonds>());
+					break;
+				case 5 when !Main.dayTime:
+					AddItem(ref shop, ref nextSlot, ItemType<AceOfDiamonds>());
+					break;
+				case 6 when !Main.dayTime:
+					AddItem(ref shop, ref nextSlot, ItemType<AceOfSpades>());
+					break;
+				case 7 when !Main.dayTime:
+					AddItem(ref shop, ref nextSlot, ItemType<AceOfSpades>());
+					break;
+			}
+			AddItem(ref shop, ref nextSlot, ItemType<Dartboard>());
+		}
 
 		public override void TownNPCAttackStrength(ref int damage, ref float knockback)
 		{

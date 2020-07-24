@@ -23,7 +23,7 @@ namespace SpiritMod.Projectiles.Hostile
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 
-			for(int num621 = 0; num621 < 15; num621++) {
+			for (int num621 = 0; num621 < 15; num621++) {
 				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 109, 0f, 0f, 100, default(Color), 2f);
 			}
 		}
@@ -34,7 +34,7 @@ namespace SpiritMod.Projectiles.Hostile
 			projectile.velocity.Y *= 1.01f;
 			projectile.velocity.X *= 1.01f;
 
-			if(projectile.owner == Main.myPlayer && projectile.timeLeft <= 3) {
+			if (projectile.owner == Main.myPlayer && projectile.timeLeft <= 3) {
 				projectile.tileCollide = false;
 				projectile.ai[1] = 0f;
 				projectile.alpha = 255;

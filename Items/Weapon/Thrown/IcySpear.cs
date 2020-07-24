@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 			item.useAnimation = 45;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = item.useAnimation = 24;
-			item.knockBack = 8;
+			item.knockBack = 2.5f;
 			item.melee = true;
 			item.noMelee = true;
 			//   item.UseSound = SoundID.Item20;

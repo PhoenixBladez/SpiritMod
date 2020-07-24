@@ -12,7 +12,7 @@ namespace SpiritMod.Backgrounds
 		public override int ChooseCloseTexture(ref float scale, ref double parallax, ref float a, ref float b)
 		{
 			scale *= .76f;
-            b += 100;
+			b += 100;
 			return mod.GetBackgroundSlot("Backgrounds/SpiritBiomeSurfaceClose");
 		}
 
@@ -21,15 +21,16 @@ namespace SpiritMod.Backgrounds
 		// Use this to keep far Backgrounds like the mountains.
 		public override void ModifyFarFades(float[] fades, float transitionSpeed)
 		{
-			for(int i = 0; i < fades.Length; i++) {
-				if(i == Slot) {
+			for (int i = 0; i < fades.Length; i++) {
+				if (i == Slot) {
 					fades[i] += transitionSpeed;
-					if(fades[i] > 1f) {
+					if (fades[i] > 1f) {
 						fades[i] = 1f;
 					}
-				} else {
+				}
+				else {
 					fades[i] -= transitionSpeed;
-					if(fades[i] < 0f) {
+					if (fades[i] < 0f) {
 						fades[i] = 0f;
 					}
 				}

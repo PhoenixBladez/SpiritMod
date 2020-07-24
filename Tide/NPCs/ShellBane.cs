@@ -40,14 +40,14 @@ namespace SpiritMod.Tide.NPCs
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthShard>(), 1);
-			if(Main.rand.Next(50) == 0) {
+			if (Main.rand.Next(50) == 0) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Clauncher>(), 1);
 			}
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if(TideWorld.TheTide && spawnInfo.player.ZoneBeach && NPC.downedMechBossAny)
+			if (TideWorld.TheTide && spawnInfo.player.ZoneBeach && NPC.downedMechBossAny)
 				return 6.2f;
 
 			return 0;
@@ -66,26 +66,26 @@ namespace SpiritMod.Tide.NPCs
 			npc.spriteDirection = npc.direction;
 			{
 				timer++;
-				if(timer < 200) //Fires desert feathers like a shotgun
+				if (timer < 200) //Fires desert feathers like a shotgun
 				{
 					npc.defense = 1000;
 
 				}
 
-				if(timer >= 200) //sets velocity to 0, creates dust
+				if (timer >= 200) //sets velocity to 0, creates dust
 				{
 					npc.velocity.X = 0f;
 					npc.defense = 0;
 
-					if(Main.rand.Next(2) == 0) {
+					if (Main.rand.Next(2) == 0) {
 						int dust = Dust.NewDust(npc.position, npc.width, npc.height, 107);
 						Main.dust[dust].scale = 0.9f;
 					}
 
 				}
-				if(timer >= 400) {
+				if (timer >= 400) {
 
-					for(int i = 0; i < 8; ++i) {
+					for (int i = 0; i < 8; ++i) {
 						Vector2 targetDir = ((((float)Math.PI * 2) / 8) * i).ToRotationVector2();
 						targetDir.Normalize();
 						targetDir *= 3;
@@ -99,10 +99,10 @@ namespace SpiritMod.Tide.NPCs
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			int dust1 = Dust.NewDust(npc.position, npc.width, npc.height, 107);
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				int dust2 = Dust.NewDust(npc.position, npc.width, npc.height, 107);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Clampeye"), 1f);
-				if(TideWorld.TheTide) {
+				if (TideWorld.TheTide) {
 					TideWorld.TidePoints += 1;
 				}
 			}

@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Armor.FrigidArmor
 	[AutoloadEquip(EquipType.Head)]
 	public class FrigidHelm : ModItem
 	{
-		public override void SetStaticDefaults() 
+		public override void SetStaticDefaults()
 			=> DisplayName.SetDefault("Frigid Faceplate");
 
 		public override void SetDefaults()
@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Armor.FrigidArmor
 			item.defense = 3;
 		}
 
-		public override bool IsArmorSet(Item head, Item body, Item legs) 
+		public override bool IsArmorSet(Item head, Item body, Item legs)
 			=> body.type == ModContent.ItemType<FrigidChestplate>() && legs.type == ModContent.ItemType<FrigidLegs>();
 
 		public override void UpdateArmorSet(Player player)
@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Armor.FrigidArmor
 			player.setBonus = $"Double tap {tapDir} to create an icy wall at the cursor position\n8 second cooldown";
 			player.GetSpiritPlayer().frigidSet = true;
 
-			if(Main.rand.Next(6) == 0) {
+			if (Main.rand.Next(6) == 0) {
 				int dust = Dust.NewDust(player.position, player.width, player.height, 187);
 				Main.dust[dust].noGravity = true;
 			}

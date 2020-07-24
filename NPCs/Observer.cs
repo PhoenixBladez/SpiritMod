@@ -38,9 +38,9 @@ namespace SpiritMod.NPCs
 			npc.spriteDirection = npc.direction;
 			Player target = Main.player[npc.target];
 			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
-			if(distance < 320) {
+			if (distance < 320) {
 				npc.ai[3]++;
-				if(npc.ai[3] >= 100) {
+				if (npc.ai[3] >= 100) {
 					int type = ModContent.ProjectileType<PoisonGlob>();
 					int p = Terraria.Projectile.NewProjectile(npc.position.X + 5, npc.position.Y + 8, -(npc.position.X - target.position.X) / distance * 4, -(npc.position.Y - target.position.Y) / distance * 4, type, (int)((npc.damage * .5)), 0);
 					Main.projectile[p].friendly = false;
@@ -56,28 +56,28 @@ namespace SpiritMod.NPCs
 		{
 			int dust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 107, 0f, 0f, 100, default(Color), 2f);
 
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Observer_gore"));
 			}
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if(spawnInfo.playerSafe || !Main.hardMode) {
+			if (spawnInfo.playerSafe || !Main.hardMode) {
 				return 0f;
 			}
 			return SpawnCondition.Cavern.Chance * 0.024478f;
 		}
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if(Main.rand.Next(4) == 0) {
+			if (Main.rand.Next(4) == 0) {
 				target.AddBuff(BuffID.Poisoned, 160);
 			}
 		}
 
 		public override void NPCLoot()
 		{
-			if(Main.rand.Next(2) == 1)
+			if (Main.rand.Next(2) == 1)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Acid>());
 		}
 	}

@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Consumable.Quest
 		}
 		public override void UpdateInventory(Player player)
 		{
-			if(MyWorld.numWheezersKilled > 0) {
+			if (MyWorld.numWheezersKilled > 0) {
 				item.SetNameOverride("Incomplete Slayer's Contract: " + MyWorld.numWheezersKilled + "/12 Complete");
 			}
 			player.GetSpiritPlayer().emptyWheezerScroll = true;

@@ -29,11 +29,12 @@ namespace SpiritMod.Projectiles.Flail
 
 		public override bool PreAI()
 		{
-			if(!stuck) {
+			if (!stuck) {
 				ProjectileExtras.FlailAI(projectile.whoAmI);
-			} else {
+			}
+			else {
 				Player player = Main.player[projectile.owner];
-				for(int k = 0; k < 2; k++) {
+				for (int k = 0; k < 2; k++) {
 					int dust = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 226);
 					Main.dust[dust].velocity *= -1f;
 					Main.dust[dust].noGravity = true;
@@ -47,7 +48,7 @@ namespace SpiritMod.Projectiles.Flail
 					Main.dust[dust].position = projectile.Center - vector2_3;
 				}
 				timeStuck--;
-				if(timeStuck < 0) {
+				if (timeStuck < 0) {
 					stuck = false;
 				}
 				player.itemTime = 5;
@@ -60,25 +61,28 @@ namespace SpiritMod.Projectiles.Flail
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			if(!readytostick) {
+			if (!readytostick) {
 				return ProjectileExtras.FlailTileCollide(projectile.whoAmI, oldVelocity);
-			} else {
+			}
+			else {
 				Main.PlaySound(SoundID.Item93, projectile.position);
 				readytostick = false;
 				stuck = true;
-				if(oldVelocity.X != projectile.velocity.X) //if its an X axis collision
+				if (oldVelocity.X != projectile.velocity.X) //if its an X axis collision
 				{
-					if(projectile.velocity.X > 0) {
+					if (projectile.velocity.X > 0) {
 						projectile.rotation = 1.57f;
-					} else {
+					}
+					else {
 						projectile.rotation = 4.71f;
 					}
 				}
-				if(oldVelocity.Y != projectile.velocity.Y) //if its a Y axis collision
+				if (oldVelocity.Y != projectile.velocity.Y) //if its a Y axis collision
 				{
-					if(projectile.velocity.Y > 0) {
+					if (projectile.velocity.Y > 0) {
 						projectile.rotation = 3.14f;
-					} else {
+					}
+					else {
 						projectile.rotation = 0f;
 					}
 				}
@@ -88,10 +92,11 @@ namespace SpiritMod.Projectiles.Flail
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			if(stuck) {
+			if (stuck) {
 				ProjectileExtras.DrawChain(projectile.whoAmI, Main.player[projectile.owner].MountedCenter,
 				"SpiritMod/Projectiles/Flail/MagnetFlail_ElectricChain", true, projectile.damage / 2);
-			} else {
+			}
+			else {
 				ProjectileExtras.DrawChain(projectile.whoAmI, Main.player[projectile.owner].MountedCenter,
 				"SpiritMod/Projectiles/Flail/MagnetFlail_Chain");
 			}

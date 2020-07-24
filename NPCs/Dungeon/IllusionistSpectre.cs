@@ -54,34 +54,34 @@ namespace SpiritMod.NPCs.Dungeon
 
 				Player player = Main.player[npc.target];
 
-				if(npc.Center.X >= player.Center.X && moveSpeed >= -30) // flies to players x position
+				if (npc.Center.X >= player.Center.X && moveSpeed >= -30) // flies to players x position
 					moveSpeed--;
 
-				if(npc.Center.X <= player.Center.X && moveSpeed <= 30)
+				if (npc.Center.X <= player.Center.X && moveSpeed <= 30)
 					moveSpeed++;
 
 				npc.velocity.X = moveSpeed * 0.15f;
 
-				if(npc.Center.Y >= player.Center.Y - HomeY && moveSpeedY >= -20) //Flies to players Y position
+				if (npc.Center.Y >= player.Center.Y - HomeY && moveSpeedY >= -20) //Flies to players Y position
 				{
 					moveSpeedY--;
 					HomeY = 125f;
 				}
 
-				if(npc.Center.Y <= player.Center.Y - HomeY && moveSpeedY <= 20)
+				if (npc.Center.Y <= player.Center.Y - HomeY && moveSpeedY <= 20)
 					moveSpeedY++;
 
 				npc.velocity.Y = moveSpeedY * 0.1f;
-				if(Main.rand.Next(180) == 1) {
+				if (Main.rand.Next(180) == 1) {
 					HomeY = -25f;
 				}
 
 				timer++;
-				if(timer == 4) {
+				if (timer == 4) {
 					frame++;
 					timer = 0;
 				}
-				if(frame >= 4) {
+				if (frame >= 4) {
 					frame = 1;
 				}
 			}
@@ -91,7 +91,7 @@ namespace SpiritMod.NPCs.Dungeon
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height * 0.5f));
-			for(int k = 0; k < npc.oldPos.Length; k++) {
+			for (int k = 0; k < npc.oldPos.Length; k++) {
 				var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 				Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
 				Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
@@ -110,11 +110,11 @@ namespace SpiritMod.NPCs.Dungeon
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			int d1 = 180;
-			for(int k = 0; k < 30; k++) {
+			for (int k = 0; k < 30; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .74f);
 			}
-			if(npc.life <= 0) {
-				for(int k = 0; k < 30; k++) {
+			if (npc.life <= 0) {
+				for (int k = 0; k < 30; k++) {
 					int d = Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -4.5f, 0, default(Color), .74f);
 					Main.dust[d].noGravity = true;
 				}

@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if(Main.rand.Next(5) == 0) {
+			if (Main.rand.Next(5) == 0) {
 				return true;
 			}
 			return false;

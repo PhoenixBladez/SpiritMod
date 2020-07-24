@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Bow
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Adorned Bow");
-			Tooltip.SetDefault("Converts arrows into 'Topaz Shafts'\nTopaz Bolts move fast and illuminate hit foes");
+			Tooltip.SetDefault("Converts wooden arrows into 'Topaz Shafts'\nTopaz Bolts move fast and illuminate hit foes");
 		}
 
 
@@ -38,7 +38,10 @@ namespace SpiritMod.Items.Weapon.Bow
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ScarabArrow>(), damage, knockBack, player.whoAmI);
+			if (type == ProjectileID.WoodenArrowFriendly) {
+				type = ModContent.ProjectileType<ScarabArrow>();
+			}
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
 			return false;
 		}
 	}

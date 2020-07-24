@@ -35,19 +35,22 @@ namespace SpiritMod.Items.Weapon.Swung
 		}
 		public override bool CanUseItem(Player player)
 		{
-			if(player.statLife <= player.statLifeMax2 / 2) {
+			if (player.statLife <= player.statLifeMax2 / 2) {
 				item.damage = 27;
 				item.useTime = 22;
 				item.useAnimation = 22;
-			} else if(player.statLife <= player.statLifeMax2 / 3) {
+			}
+			else if (player.statLife <= player.statLifeMax2 / 3) {
 				item.damage = 26;
 				item.useTime = 27;
 				item.useAnimation = 27;
-			} else if(player.statLife <= player.statLifeMax2 / 4) {
+			}
+			else if (player.statLife <= player.statLifeMax2 / 4) {
 				item.damage = 24;
 				item.useTime = 29;
 				item.useAnimation = 29;
-			} else {
+			}
+			else {
 				item.damage = 22;
 				item.useTime = 32;
 				item.useAnimation = 32;
@@ -56,11 +59,12 @@ namespace SpiritMod.Items.Weapon.Swung
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if(Main.rand.Next(4) == 1 && player.statLife >= player.statLifeMax2 / 2) {
+			if (Main.rand.Next(4) == 1 && player.statLife >= player.statLifeMax2 / 2) {
 				Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 20);
 				int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, 0, player.whoAmI);
 				return false;
-			} else if(Main.rand.Next(2) == 1) {
+			}
+			else if (Main.rand.Next(2) == 1) {
 				Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 20);
 				int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, 0, player.whoAmI);
 				return false;
@@ -70,7 +74,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		}
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
-			if(crit) {
+			if (crit) {
 				target.AddBuff(BuffID.Poisoned, 240);
 				target.AddBuff(ModContent.BuffType<WitheringLeaf>(), 120, true);
 			}

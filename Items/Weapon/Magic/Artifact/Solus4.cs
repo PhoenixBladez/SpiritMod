@@ -44,8 +44,8 @@ namespace SpiritMod.Items.Weapon.Magic.Artifact
 			TooltipLine line = new TooltipLine(mod, "ItemName", "Artifact Weapon");
 			line.overrideColor = new Color(100, 0, 230);
 			tooltips.Add(line);
-			foreach(TooltipLine line2 in tooltips) {
-				if(line2.mod == "Terraria" && line2.Name == "ItemName") {
+			foreach (TooltipLine line2 in tooltips) {
+				if (line2.mod == "Terraria" && line2.Name == "ItemName") {
 					line2.overrideColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
 					break;
 				}
@@ -54,11 +54,12 @@ namespace SpiritMod.Items.Weapon.Magic.Artifact
 
 		public override void HoldItem(Player player)
 		{
-			if(player.GetSpiritPlayer().HolyGrail) {
+			if (player.GetSpiritPlayer().HolyGrail) {
 				player.AddBuff(ModContent.BuffType<Righteous>(), 2);
 				item.crit = 10;
 				item.mana = 10;
-			} else {
+			}
+			else {
 				item.crit = 6;
 				item.mana = 13;
 			}
@@ -67,11 +68,11 @@ namespace SpiritMod.Items.Weapon.Magic.Artifact
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			int choice = Main.rand.Next(6);
-			if(choice == 0)
+			if (choice == 0)
 				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Ember1>(), damage, 1, player.whoAmI);
-			else if(choice == 1)
+			else if (choice == 1)
 				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Ember2>(), damage, 1, player.whoAmI);
-			else if(choice == 2)
+			else if (choice == 2)
 				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Ember3>(), damage, 1, player.whoAmI);
 
 			Projectile.NewProjectile(position.X, position.Y, speedX * (Main.rand.Next(500, 900) / 100), speedY * (Main.rand.Next(500, 900) / 100), ModContent.ProjectileType<PhoenixBolt1>(), damage, knockBack, player.whoAmI);

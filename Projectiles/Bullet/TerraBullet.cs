@@ -9,7 +9,7 @@ namespace SpiritMod.Projectiles.Bullet
 {
 	public class TerraBullet : ModProjectile
 	{
-		public override void SetStaticDefaults() 
+		public override void SetStaticDefaults()
 			=> DisplayName.SetDefault("Terra Bullet");
 
 		public override void SetDefaults()
@@ -29,8 +29,8 @@ namespace SpiritMod.Projectiles.Bullet
 			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
 			// Don't emit dust until we've finished fading in
-			if(projectile.alpha < 170) {
-				for(int i = 0; i < 10; i++) {
+			if (projectile.alpha < 170) {
+				for (int i = 0; i < 10; i++) {
 					float x = projectile.position.X - 3 - projectile.velocity.X / 10f * i;
 					float y = projectile.position.Y - 3 - projectile.velocity.Y / 10f * i;
 					int num = Dust.NewDust(new Vector2(x, y), 2, 2, 107);
@@ -44,13 +44,13 @@ namespace SpiritMod.Projectiles.Bullet
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(3) == 0)
+			if (Main.rand.Next(3) == 0)
 				target.AddBuff(BuffID.OnFire, 300, true);
 
-			if(Main.rand.Next(3) == 0)
+			if (Main.rand.Next(3) == 0)
 				target.AddBuff(BuffID.Frostburn, 300, true);
 
-			if(Main.rand.Next(3) == 0)
+			if (Main.rand.Next(3) == 0)
 				target.AddBuff(BuffID.CursedInferno, 300, true);
 
 		}

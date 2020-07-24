@@ -40,8 +40,8 @@ namespace SpiritMod.Items.Weapon
 
 		public override bool UseItem(Player player)
 		{
-			for(int npcFinder = 0; npcFinder < 200; ++npcFinder) {
-				if(!Main.npc[npcFinder].boss && !Main.npc[npcFinder].townNPC && Main.npc[npcFinder].lifeMax <= 3000) {
+			for (int npcFinder = 0; npcFinder < 200; ++npcFinder) {
+				if (!Main.npc[npcFinder].boss && !Main.npc[npcFinder].townNPC && Main.npc[npcFinder].lifeMax <= 3000) {
 					Main.npc[npcFinder].life = 0;
 				}
 

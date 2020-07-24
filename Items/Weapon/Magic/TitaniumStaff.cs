@@ -47,10 +47,10 @@ namespace SpiritMod.Items.Weapon.Magic
 		{
 			counter++;
 			int spikes = player.GetSpiritPlayer().shadowCount;
-			if(counter >= 85 && !player.channel && spikes <= 3) {
+			if (counter >= 85 && !player.channel && spikes <= 3) {
 				counter = 0;
 				int num = 4 - spikes;
-				for(int I = 0; I < num; I++) {
+				for (int I = 0; I < num; I++) {
 					int DegreeDifference = (int)(360 / num);
 					Projectile.NewProjectile((int)player.Center.X + (int)(Math.Sin(I * DegreeDifference) * 80), (int)player.Center.Y + (int)(Math.Sin(I * DegreeDifference) * 80), 0, 0, ModContent.ProjectileType<TitaniumStaffProj>(), item.damage, item.knockBack, player.whoAmI, 0, I * DegreeDifference);
 					player.GetSpiritPlayer().shadowCount++;

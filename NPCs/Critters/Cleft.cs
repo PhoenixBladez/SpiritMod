@@ -34,7 +34,7 @@ namespace SpiritMod.NPCs.Critters
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Cleft/Cleft1"));
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Cleft/Cleft2"));
 			}

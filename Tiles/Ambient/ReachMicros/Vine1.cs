@@ -36,9 +36,9 @@ namespace SpiritMod.Tiles.Ambient.ReachMicros
 		}
 		public override void RandomUpdate(int i, int j)
 		{
-			if(WorldGen.genRand.Next(40) == 0) {
+			if (WorldGen.genRand.Next(40) == 0) {
 				bool isPlayerNear = WorldGen.PlayerLOS(i, j);
-				if(isPlayerNear) {
+				if (isPlayerNear) {
 					Framing.GetTileSafely(i, j).ClearTile();
 					WorldGen.PlaceTile(i, j, mod.TileType("Vine2"));
 				}

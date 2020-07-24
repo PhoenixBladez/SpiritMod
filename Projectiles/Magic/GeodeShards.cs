@@ -43,7 +43,7 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void Kill(int timeLeft)
 		{
-			if(Main.rand.Next(2) == 0) {
+			if (Main.rand.Next(2) == 0) {
 				float rotation = (float)(Main.rand.Next(0, 0) * (Math.PI / 180));
 				Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
 				int proj = Projectile.NewProjectile(projectile.Center, velocity,
@@ -52,7 +52,7 @@ namespace SpiritMod.Projectiles.Magic
 				Main.projectile[proj].hostile = false;
 				Main.projectile[proj].velocity *= 4f;
 			}
-			if(Main.rand.Next(2) == 0) {
+			if (Main.rand.Next(2) == 0) {
 				float rotation = (float)(Main.rand.Next(0, 0) * (Math.PI / 180));
 				Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
 				int proj = Projectile.NewProjectile(projectile.Center, velocity,
@@ -61,7 +61,7 @@ namespace SpiritMod.Projectiles.Magic
 				Main.projectile[proj].hostile = false;
 				Main.projectile[proj].velocity *= 4f;
 			}
-			if(Main.rand.Next(2) == 0) {
+			if (Main.rand.Next(2) == 0) {
 				float rotation = (float)(Main.rand.Next(0, 0) * (Math.PI / 180));
 				Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
 				int proj = Projectile.NewProjectile(projectile.Center, velocity,
@@ -71,7 +71,7 @@ namespace SpiritMod.Projectiles.Magic
 				Main.projectile[proj].velocity *= 4f;
 			}
 
-			for(int i = 0; i < 5; i++) {
+			for (int i = 0; i < 5; i++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 6);
 			}
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
@@ -79,7 +79,7 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(8) == 0) {
+			if (Main.rand.Next(8) == 0) {
 				target.AddBuff(BuffID.CursedInferno, 200, true);
 				target.AddBuff(BuffID.OnFire, 200, true);
 				target.AddBuff(BuffID.Frostburn, 200, true);

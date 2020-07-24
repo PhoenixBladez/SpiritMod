@@ -37,10 +37,10 @@ namespace SpiritMod.Projectiles.DonatorItems
 
 			//loop through first 200 NPCs in Main.npc
 			//this loop finds the closest valid target NPC within the range of targetDist pixels
-			for(int i = 0; i < 200; i++) {
-				if(Main.npc[i].CanBeChasedBy(projectile) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1)) {
+			for (int i = 0; i < 200; i++) {
+				if (Main.npc[i].CanBeChasedBy(projectile) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1)) {
 					float dist = projectile.Distance(Main.npc[i].Center);
-					if(dist < targetDist) {
+					if (dist < targetDist) {
 						targetDist = dist;
 						targetPos = Main.npc[i].Center;
 						targetAcquired = true;
@@ -50,7 +50,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 
 			//projectile.velocity = projectile.velocity.RotatedBy(Math.PI / 40);
 
-			for(int i = 0; i < 10; i++) {
+			for (int i = 0; i < 10; i++) {
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 				int num = Dust.NewDust(new Vector2(x, y), 2, 2, 172);
@@ -59,7 +59,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 			}
 
 			//change trajectory to home in on target
-			if(targetAcquired) {
+			if (targetAcquired) {
 				float homingSpeedFactor = 8f;
 				Vector2 homingVect = targetPos - projectile.Center;
 				float dist = projectile.Distance(targetPos);
@@ -74,7 +74,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 10);
 
-			for(int num623 = 0; num623 < 35; num623++) {
+			for (int num623 = 0; num623 < 35; num623++) {
 				int dust = Dust.NewDust(projectile.position - projectile.velocity, projectile.width, projectile.height, 172, 0, 0);
 				Main.dust[dust].noGravity = true;
 			}

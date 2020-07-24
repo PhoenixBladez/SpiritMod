@@ -79,23 +79,23 @@ namespace SpiritMod.NPCs.Spirit
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.12f, 0.12f, 1f);
 			//64 pixel radius
 
-			if(Math.Sqrt((delta.X * delta.X) + (delta.Y * delta.Y)) <= 250f && circling == false) //circle starting
+			if (Math.Sqrt((delta.X * delta.X) + (delta.Y * delta.Y)) <= 250f && circling == false) //circle starting
 			{
 				npc.ai[1] = 0; //reset rotation
 				npc.aiStyle = -1;
 				circling = true; //launch circle action into effect
 			}
-			if(Math.Sqrt((delta.X * delta.X) + (delta.Y * delta.Y)) > 250f && circling == false) //normal AI
+			if (Math.Sqrt((delta.X * delta.X) + (delta.Y * delta.Y)) > 250f && circling == false) //normal AI
 			{
 				npc.aiStyle = 22;
 				aiType = NPCID.Wraith;
 			}
-			if(Math.Sqrt((delta.X * delta.X) + (delta.Y * delta.Y)) > 500f && circling == true) //stop circling
+			if (Math.Sqrt((delta.X * delta.X) + (delta.Y * delta.Y)) > 500f && circling == true) //stop circling
 			{
 				circling = false;
 				npc.velocity = Vector2.Zero;
 			}
-			if(circling == true) {
+			if (circling == true) {
 				double deg = (double)npc.ai[1]; //The degrees, you can multiply npc.ai[1] to make it orbit faster, may be choppy depending on the value
 				double rad = deg * (Math.PI / 180); //Convert degrees to radians
 				double dist = 250; //Distance away from the player
@@ -117,7 +117,7 @@ namespace SpiritMod.NPCs.Spirit
 
 		public override void NPCLoot()
 		{
-			if(Main.rand.Next(5) == 1)
+			if (Main.rand.Next(5) == 1)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SoulShred>(), Main.rand.Next(1) + 1);
 		}
 	}

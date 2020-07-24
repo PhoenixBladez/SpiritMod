@@ -50,20 +50,20 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		{
 			alphaCounter += 0.025f;
 			npc.alpha = 255 - timeLeft;
-			if(timeLeft == 200) {
+			if (timeLeft == 200) {
 				npc.rotation = 3.14f;
 			}
 			npc.rotation += Main.rand.Next(-20, 20) / 100f;
 			Dust.NewDustPerfect(npc.Center, 226, new Vector2(Main.rand.Next(-10, 10), Main.rand.Next(-10, 10)));
-			if(timeLeft < 50) {
+			if (timeLeft < 50) {
 				Dust.NewDustPerfect(npc.Center, 226, new Vector2(Main.rand.Next(-10, 10), Main.rand.Next(-10, 10)));
 			}
 			timeLeft--;
-			if(timeLeft <= 0) {
-				if(Main.expertMode) {
+			if (timeLeft <= 0) {
+				if (Main.expertMode) {
 					npc.DropBossBags();
 				}
-				
+
 				npc.DropItem(ItemID.Heart);
 				npc.DropItem(ItemID.Heart);
 				npc.DropItem(ItemID.Heart);
@@ -72,18 +72,17 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				npc.DropItem(ItemID.Heart);
 				npc.DropItem(ItemID.Heart);
 				npc.DropItem(ItemID.LesserHealingPotion, 10, 12);
-                if (!Main.expertMode)
-                {
-                    npc.DropItem(ModContent.ItemType<CosmiliteShard>(), 6, 10);
-                    npc.DropItem(ModContent.ItemType<StarplateMask>(), 1f / 7);
-                    npc.DropItem(ModContent.ItemType<Trophy3>(), 1f / 10);
-                }
+				if (!Main.expertMode) {
+					npc.DropItem(ModContent.ItemType<CosmiliteShard>(), 6, 10);
+					npc.DropItem(ModContent.ItemType<StarplateMask>(), 1f / 7);
+					npc.DropItem(ModContent.ItemType<Trophy3>(), 1f / 10);
+				}
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Starplate/Starplate1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Starplate/Starplate2"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Starplate/Starplate3"), 1f);
 				Main.PlaySound(SoundID.DD2_EtherianPortalOpen, (int)npc.position.X, (int)npc.position.Y);
 				//  Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 14);
-				for(int i = 0; i < 90; i++) {
+				for (int i = 0; i < 90; i++) {
 					Dust.NewDust(npc.position, npc.width, npc.height, 226, Main.rand.Next(-25, 25), Main.rand.Next(-13, 13));
 				}
 				npc.position.X = npc.position.X + (npc.width / 2);

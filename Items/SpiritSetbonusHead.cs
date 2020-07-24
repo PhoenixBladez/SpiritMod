@@ -24,7 +24,7 @@ namespace SpiritMod.Items
 
 		public override void UpdateArmorSet(Player player)
 		{
-			if(_setbonus != null) {
+			if (_setbonus != null) {
 				player.setBonus = SetbonusText;
 				player.GetSpiritPlayer().effects.Add(_setbonus);
 				player.GetSpiritPlayer().setbonus = _setbonus;

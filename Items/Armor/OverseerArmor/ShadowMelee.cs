@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Armor.OverseerArmor
 			player.GetSpiritPlayer().meleeshadowSet = true;
 			player.GetSpiritPlayer().shadowSet = true;
 
-			if(Main.rand.Next(4) == 1) {
+			if (Main.rand.Next(4) == 1) {
 
 				Dust.NewDust(player.position, player.width, player.height, 187);
 			}

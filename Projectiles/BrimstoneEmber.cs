@@ -26,13 +26,13 @@ namespace SpiritMod.Projectiles
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(8) == 0)
+			if (Main.rand.Next(8) == 0)
 				target.AddBuff(ModContent.BuffType<StackingFireBuff>(), 120, true);
 		}
 
 		public override bool PreAI()
 		{
-			if(Main.rand.Next(2) == 1) {
+			if (Main.rand.Next(2) == 1) {
 				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 235, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 				Main.dust[dust].scale = 2f;
 				Main.dust[dust].noGravity = true;

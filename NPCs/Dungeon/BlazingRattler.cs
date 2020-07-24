@@ -34,51 +34,50 @@ namespace SpiritMod.NPCs.Dungeon
 			npc.knockBackResist = .35f;
 			npc.aiStyle = 3;
 			aiType = 218;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.BlazingRattlerBanner>();
-        }
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.BlazingRattlerBanner>();
+		}
 		int hitCounter;
 		public override void NPCLoot()
 		{
-			if(Main.rand.Next(153) == 1) {
+			if (Main.rand.Next(153) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GoldenKey);
 			}
-			if(Main.rand.Next(75) == 1) {
+			if (Main.rand.Next(75) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Nazar);
 			}
-			if(Main.rand.Next(100) == 1) {
+			if (Main.rand.Next(100) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.TallyCounter);
 			}
-			if(Main.rand.Next(1000) == 4) {
+			if (Main.rand.Next(1000) == 4) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BoneWand);
 			}
-			if(Main.rand.Next(1000) == 2) {
+			if (Main.rand.Next(1000) == 2) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Skull);
 			}
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.LivingFireBlock, Main.rand.Next(10, 25));
-            if (Main.rand.Next(6) == 1)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Placeable.Furniture.SkullPile>());
-            }
-        }
+			if (Main.rand.Next(6) == 1) {
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Placeable.Furniture.SkullPile>());
+			}
+		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			npc.scale -= .02f;
 			int d = 0;
 			int d1 = 6;
-			for(int k = 0; k < 30; k++) {
+			for (int k = 0; k < 30; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
 				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
 			}
 			hitCounter++;
-			if(hitCounter >= 3) {
+			if (hitCounter >= 3) {
 				hitCounter = 0;
 				Vector2 dir = Main.player[npc.target].Center - npc.Center;
 				dir.Normalize();
 				dir.X *= 4f;
 				dir.Y *= 4f;
 				bool expertMode = Main.expertMode;
-				for(int i = 0; i < 1; ++i) {
+				for (int i = 0; i < 1; ++i) {
 					Main.PlaySound(SoundID.Item20, npc.Center);
 					float A = (float)Main.rand.Next(-200, 200) * 0.01f;
 					float B = (float)Main.rand.Next(-200, 200) * 0.01f;
@@ -88,7 +87,7 @@ namespace SpiritMod.NPCs.Dungeon
 					Main.projectile[p].hostile = true;
 				}
 			}
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Main.PlaySound(SoundID.Item, npc.Center, 74);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Rattler/Rattler1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Rattler/Rattler5"), 1f);
@@ -103,7 +102,7 @@ namespace SpiritMod.NPCs.Dungeon
 				dir.X *= Main.rand.NextFloat(-6f, 6f);
 				dir.Y *= Main.rand.NextFloat(-6f, 6f);
 				bool expertMode = Main.expertMode;
-				for(int i = 0; i < 3; ++i) {
+				for (int i = 0; i < 3; ++i) {
 					float A = (float)Main.rand.Next(-200, 200) * 0.01f;
 					float B = (float)Main.rand.Next(-200, 200) * 0.01f;
 					int damagenumber = expertMode ? 12 : 17;
@@ -117,7 +116,7 @@ namespace SpiritMod.NPCs.Dungeon
 		public override void AI()
 		{
 			npc.spriteDirection = npc.direction;
-			if(npc.scale <= .85f) {
+			if (npc.scale <= .85f) {
 				npc.scale = .85f;
 			}
 		}

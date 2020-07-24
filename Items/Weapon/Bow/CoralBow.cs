@@ -45,12 +45,13 @@ namespace SpiritMod.Items.Weapon.Bow
 		}
 		public override bool CanUseItem(Player player)
 		{
-			if(player.wet) {
+			if (player.wet) {
 				item.damage = 11;
 				item.useTime = 21;
 				item.useAnimation = 21;
 				item.shootSpeed = 11.8f;
-			} else {
+			}
+			else {
 				item.useTime = 25;
 				item.useAnimation = 25;
 				item.damage = 9;

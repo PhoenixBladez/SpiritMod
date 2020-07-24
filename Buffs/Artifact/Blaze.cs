@@ -19,7 +19,7 @@ namespace SpiritMod.Buffs.Artifact
 		{
 			npc.GetGlobalNPC<GNPC>().blaze = true;
 
-			if(Main.rand.NextBool(4)) {
+			if (Main.rand.NextBool(4)) {
 				int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.CopperCoin);
 				Main.dust[dust].scale = 1.9f;
 				Main.dust[dust].velocity *= 1f;

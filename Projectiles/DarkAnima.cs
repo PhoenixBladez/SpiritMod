@@ -35,9 +35,9 @@ namespace SpiritMod.Projectiles
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 			projectile.localAI[0] += 1f;
-			if(projectile.localAI[0] == 16f) {
+			if (projectile.localAI[0] == 16f) {
 				projectile.localAI[0] = 0f;
-				for(int j = 0; j < 12; j++) {
+				for (int j = 0; j < 12; j++) {
 					Vector2 vector2 = Vector2.UnitX * -projectile.width / 2f;
 					vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(8f, 16f);
 					vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default(Vector2));

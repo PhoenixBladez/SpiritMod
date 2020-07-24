@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Accessory
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			if(Main.rand.Next(10) > 3) {
+			if (Main.rand.Next(10) > 3) {
 				player.magmaStone = true;
 			}
 			player.meleeDamage *= 1.06f;

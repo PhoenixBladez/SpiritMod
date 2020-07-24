@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Consumable
 
 		public override bool CanUseItem(Player player)
 		{
-			if(Main.dayTime) {
+			if (Main.dayTime) {
 				Main.NewText("The moon isn't powerful in daylight.", 80, 80, 150, true);
 				return false;
 			}
@@ -45,7 +45,7 @@ namespace SpiritMod.Items.Consumable
 		{
 			Main.NewText("The Blue Moon is Rising...", 0, 90, 220, true);
 			Main.PlaySound(SoundID.Roar, (int)player.position.X, (int)player.position.Y, 0);
-			if(!Main.dayTime) {
+			if (!Main.dayTime) {
 				MyWorld.BlueMoon = true;
 			}
 			return true;

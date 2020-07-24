@@ -28,22 +28,22 @@ namespace SpiritMod.Projectiles.Summon
 		public override void AI()
 		{
 			projectile.frameCounter++;
-			if(projectile.frameCounter % 20 == 0) {
+			if (projectile.frameCounter % 20 == 0) {
 				bool hasTarget = false;
 				float maxRange = 1000f;
 				NPC target = projectile.OwnerMinionAttackTargetNPC;
-				if(target != null && target.CanBeChasedBy(projectile)) {
+				if (target != null && target.CanBeChasedBy(projectile)) {
 					float dist = projectile.Distance(target.Center);
-					if(dist < maxRange && Collision.CanHit(projectile.position, projectile.width, projectile.height, target.position, target.width, target.height)) {
+					if (dist < maxRange && Collision.CanHit(projectile.position, projectile.width, projectile.height, target.position, target.width, target.height)) {
 						maxRange = dist;
 						hasTarget = true;
 					}
 				}
-				if(!hasTarget) {
-					for(int i = 0; i < 200; i++) {
-						if(Main.npc[i].CanBeChasedBy(this)) {
+				if (!hasTarget) {
+					for (int i = 0; i < 200; i++) {
+						if (Main.npc[i].CanBeChasedBy(this)) {
 							float dist = projectile.Distance(Main.npc[i].Center);
-							if(dist < maxRange && Collision.CanHit(projectile.position, projectile.width, projectile.height, Main.npc[i].position, Main.npc[i].width, Main.npc[i].height)) {
+							if (dist < maxRange && Collision.CanHit(projectile.position, projectile.width, projectile.height, Main.npc[i].position, Main.npc[i].width, Main.npc[i].height)) {
 								maxRange = dist;
 								target = Main.npc[i];
 								hasTarget = true;
@@ -51,8 +51,8 @@ namespace SpiritMod.Projectiles.Summon
 						}
 					}
 				}
-				if(hasTarget) {
-					for(int i = 0; i < 8; i++)
+				if (hasTarget) {
+					for (int i = 0; i < 8; i++)
 						Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 91);
 					int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 187);
 					Main.dust[dust].noGravity = true;
@@ -65,7 +65,7 @@ namespace SpiritMod.Projectiles.Summon
 					Main.projectile[p].hostile = false;
 				}
 			}
-			for(int i = 0; i < 2; i++) {
+			for (int i = 0; i < 2; i++) {
 				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 187);
 				Main.dust[dust].noGravity = true;
 				Main.dust[dust].velocity *= 0f;

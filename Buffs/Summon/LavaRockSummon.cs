@@ -7,8 +7,8 @@ namespace SpiritMod.Buffs.Summon
 	{
 		public override void SetDefaults()
 		{
-			DisplayName.SetDefault("Magmarock");
-			Description.SetDefault("The power of magma flows through you");
+			DisplayName.SetDefault("Slagtern");
+			Description.SetDefault("The power of magma flows through this lantern");
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.buffNoSave[Type] = true;
 		}
@@ -16,14 +16,15 @@ namespace SpiritMod.Buffs.Summon
 		public override void Update(Player player, ref int buffIndex)
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if(player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Summon.LavaRockSummon>()] > 0) {
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Summon.LavaRockSummon>()] > 0) {
 				modPlayer.lavaRock = true;
 			}
 
-			if(!modPlayer.lavaRock) {
+			if (!modPlayer.lavaRock) {
 				player.DelBuff(buffIndex);
 				buffIndex--;
-			} else {
+			}
+			else {
 				player.buffTime[buffIndex] = 18000;
 			}
 		}

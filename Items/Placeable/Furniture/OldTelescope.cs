@@ -9,8 +9,8 @@ namespace SpiritMod.Items.Placeable.Furniture
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Old Telescope");
-            Tooltip.SetDefault("'Look toward the stars'");
-        }
+			Tooltip.SetDefault("'Look toward the stars'");
+		}
 
 
 		public override void SetDefaults()
@@ -31,17 +31,17 @@ namespace SpiritMod.Items.Placeable.Furniture
 
 			item.createTile = ModContent.TileType<OldTelescopeTile>();
 		}
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Wood, 20);
-            recipe.anyWood = true;
-            recipe.AddIngredient(ItemID.IronBar, 3);
-            recipe.anyIronBar = true;
-            recipe.AddIngredient(ItemID.BlackLens, 1);
-            recipe.AddTile(TileID.Sawmill);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
-    }
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.Wood, 20);
+			recipe.anyWood = true;
+			recipe.AddIngredient(ItemID.IronBar, 3);
+			recipe.anyIronBar = true;
+			recipe.AddIngredient(ItemID.BlackLens, 1);
+			recipe.AddTile(TileID.Sawmill);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
+	}
 }

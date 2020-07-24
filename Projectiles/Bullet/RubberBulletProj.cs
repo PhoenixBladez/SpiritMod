@@ -33,9 +33,9 @@ namespace SpiritMod.Projectiles.Bullet
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-		//	knockback *= 1.8f;
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height,
-					ModContent.DustType<RubberBulletDust>(), Main.rand.NextFloat(-3,3), Main.rand.NextFloat(-3,3));
+			//	knockback *= 1.8f;
+			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height,
+				ModContent.DustType<RubberBulletDust>(), Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-3, 3));
 		}
 		public override Color? GetAlpha(Color lightColor)
 		{

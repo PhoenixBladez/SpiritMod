@@ -37,9 +37,9 @@ namespace SpiritMod.Tide.NPCs
 		{
 			Player target = Main.player[npc.target];
 			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
-			if(distance < 700) {
+			if (distance < 700) {
 				npc.ai[0]++;
-				if(npc.ai[0] >= 120) {
+				if (npc.ai[0] >= 120) {
 					int type = ModContent.ProjectileType<PoisonGlob>();
 					int p = Projectile.NewProjectile(npc.position.X, npc.position.Y, -(npc.position.X - target.position.X) / distance * 4, -(npc.position.Y - target.position.Y) / distance * 4, type, (int)(npc.damage * .5f), 0);
 					Main.projectile[p].friendly = false;
@@ -52,22 +52,22 @@ namespace SpiritMod.Tide.NPCs
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				npc.position.X = npc.position.X + (npc.width / 2);
 				npc.position.Y = npc.position.Y + (npc.height / 2);
 				npc.width = 30;
 				npc.height = 30;
 				npc.position.X = npc.position.X - (npc.width / 2);
 				npc.position.Y = npc.position.Y - (npc.height / 2);
-				for(int num621 = 0; num621 < 20; num621++) {
+				for (int num621 = 0; num621 < 20; num621++) {
 					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 172, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
-					if(Main.rand.Next(2) == 0) {
+					if (Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
 					}
 				}
-				if(TideWorld.TheTide) {
+				if (TideWorld.TheTide) {
 					TideWorld.TidePoints += 1;
 				}
 			}
@@ -76,7 +76,7 @@ namespace SpiritMod.Tide.NPCs
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthShard>(), 1);
-			if(Main.rand.Next(2) == 1)
+			if (Main.rand.Next(2) == 1)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Acid>());
 		}
 

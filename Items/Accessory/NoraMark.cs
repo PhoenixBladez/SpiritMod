@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Accessory
 		{
 			player.minionDamage += 0.18f;
 			player.maxMinions += 1;
-			if(player.statLife < player.statLifeMax2 / 2) {
+			if (player.statLife < player.statLifeMax2 / 2) {
 				player.endurance += 0.15f;
 			}
 		}

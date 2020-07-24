@@ -32,27 +32,28 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.UseSound = new Terraria.Audio.LegacySoundStyle(3, 56);
 			item.autoReuse = false;
 			item.shoot = ModContent.ProjectileType<DragonHeadOne>();
-			item.shootSpeed = 3f;
+			item.shootSpeed = 6f;
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			// Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 124));
 			int dragonLength = 8;
 			int offset = 0;
-			if(speedX > 0) {
+			if (speedX > 0) {
 				offset = -32;
-			} else {
+			}
+			else {
 				offset = 32;
 			}
 
 			int latestprojectile = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<DragonHeadOne>(), damage, knockBack, player.whoAmI, speedX, speedY); //bottom
-			for(int i = 0; i < dragonLength; ++i) {
+			for (int i = 0; i < dragonLength; ++i) {
 				latestprojectile = Projectile.NewProjectile(position.X + (i * offset), position.Y, 0, 0, ModContent.ProjectileType<DragonBodyOne>(), damage, 0, player.whoAmI, 0, latestprojectile);
 			}
 			latestprojectile = Projectile.NewProjectile(position.X + (dragonLength * offset), position.Y, 0, 0, ModContent.ProjectileType<DragonTailOne>(), damage, 0, player.whoAmI, 0, latestprojectile);
 
 			latestprojectile = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<DragonHeadTwo>(), damage, knockBack, player.whoAmI, speedX, speedY); //bottom
-			for(int j = 0; j < dragonLength; ++j) {
+			for (int j = 0; j < dragonLength; ++j) {
 				latestprojectile = Projectile.NewProjectile(position.X + (j * offset), position.Y, 0, 0, ModContent.ProjectileType<DragonBodyTwo>(), damage, 0, player.whoAmI, 0, latestprojectile);
 			}
 			latestprojectile = Projectile.NewProjectile(position.X + (dragonLength * offset), position.Y, 0, 0, ModContent.ProjectileType<DragonTailTwo>(), damage, 0, player.whoAmI, 0, latestprojectile);

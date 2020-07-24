@@ -30,7 +30,7 @@ namespace SpiritMod.YoYoOverload.Items
 		public override void AI()
 		{
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 160) {
+			if (projectile.frameCounter >= 160) {
 				projectile.frameCounter = 0;
 				float num = (float)(Main.rand.Next(0, 361) * 0.017453292519943295);
 				Vector2 vector = new Vector2((float)Math.Cos(num), (float)Math.Sin(num));

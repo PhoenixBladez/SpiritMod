@@ -40,38 +40,39 @@ namespace SpiritMod.Projectiles.Boss
 			float num801 = npc.position.X + (float)(npc.width / 2) - player.position.X - (float)(player.width / 2);
 			float num802 = npc.position.Y + (float)npc.height - 59f - player.position.Y - (float)(player.height / 2);
 			float num803 = (float)Math.Atan2((double)num802, (double)num801) + MathHelper.PiOver2;
-			if(num803 < 0f)
+			if (num803 < 0f)
 				num803 += (2 * MathHelper.Pi);
-			else if(num803 > (2 * MathHelper.Pi))
+			else if (num803 > (2 * MathHelper.Pi))
 				num803 -= (2 * MathHelper.Pi);
 
 			float num804 = 0.1f;
-			if(npc.rotation < num803) {
-				if(num803 - npc.rotation > MathHelper.Pi)
+			if (npc.rotation < num803) {
+				if (num803 - npc.rotation > MathHelper.Pi)
 					npc.rotation -= num804;
 				else
 					npc.rotation += num804;
-			} else if(npc.rotation > num803) {
-				if(npc.rotation - num803 > MathHelper.Pi)
+			}
+			else if (npc.rotation > num803) {
+				if (npc.rotation - num803 > MathHelper.Pi)
 					npc.rotation += num804;
 				else
 					npc.rotation -= num804;
 			}
 
-			if(npc.rotation > num803 - num804 && npc.rotation < num803 + num804)
+			if (npc.rotation > num803 - num804 && npc.rotation < num803 + num804)
 				npc.rotation = num803;
 
-			if(npc.rotation < 0f)
+			if (npc.rotation < 0f)
 				npc.rotation += 2 * MathHelper.Pi;
-			else if(npc.rotation > 2 * MathHelper.Pi)
+			else if (npc.rotation > 2 * MathHelper.Pi)
 				npc.rotation -= 6.283f;
 
-			if(npc.rotation > num803 - num804 && npc.rotation < num803 + num804)
+			if (npc.rotation > num803 - num804 && npc.rotation < num803 + num804)
 				npc.rotation = num803;
 
 			timer++;
 			bool expertMode = Main.expertMode;
-			if(timer == 100 || timer == 300 || timer == 600) {
+			if (timer == 100 || timer == 300 || timer == 600) {
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 91);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
@@ -79,31 +80,32 @@ namespace SpiritMod.Projectiles.Boss
 				direction.Y *= 5f;
 
 				int amountOfProjectiles = 1;
-				for(int i = 0; i < amountOfProjectiles; ++i) {
+				for (int i = 0; i < amountOfProjectiles; ++i) {
 					float A = (float)Main.rand.Next(-200, 200) * 0.05f;
 					float B = (float)Main.rand.Next(-200, 200) * 0.05f;
 					int damage = expertMode ? 6 : 12;
 					Projectile.NewProjectile(npc.Center, direction,
 						ModContent.ProjectileType<SolarBeamHostile>(), damage, 0, Main.myPlayer);
 				}
-			} else if(timer == 700)
+			}
+			else if (timer == 700)
 				timer = 0;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				npc.position.X = npc.position.X + (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
 				npc.width = 30;
 				npc.height = 30;
 				npc.position.X = npc.position.X - (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
-				for(int num621 = 0; num621 < 20; num621++) {
+				for (int num621 = 0; num621 < 20; num621++) {
 					int num622 = Dust.NewDust(npc.position, npc.width, npc.height,
 						3, 0f, 0f, 100, default(Color), 2f);
 					Main.dust[num622].velocity *= 3f;
-					if(Main.rand.Next(2) == 0) {
+					if (Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 					}

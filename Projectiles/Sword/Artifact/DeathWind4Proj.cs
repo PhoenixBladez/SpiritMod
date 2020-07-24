@@ -32,7 +32,7 @@ namespace SpiritMod.Projectiles.Sword.Artifact
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.25f, projectile.height * 0.25f);
-			for(int k = 0; k < projectile.oldPos.Length; k++) {
+			for (int k = 0; k < projectile.oldPos.Length; k++) {
 				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
 				Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
 				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
@@ -43,7 +43,7 @@ namespace SpiritMod.Projectiles.Sword.Artifact
 		public override void AI()
 		{
 			MyPlayer mp = Main.player[projectile.owner].GetSpiritPlayer();
-			if(mp.DarkBough) {
+			if (mp.DarkBough) {
 				int dust1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 60);
 				Main.dust[dust1].noGravity = true;
 			}
@@ -53,12 +53,12 @@ namespace SpiritMod.Projectiles.Sword.Artifact
 
 			bool flag25 = false;
 			int jim = 1;
-			for(int index1 = 0; index1 < 200; index1++) {
-				if(Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1)) {
+			for (int index1 = 0; index1 < 200; index1++) {
+				if (Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1)) {
 					float num23 = Main.npc[index1].position.X + (float)(Main.npc[index1].width / 2);
 					float num24 = Main.npc[index1].position.Y + (float)(Main.npc[index1].height / 2);
 					float num25 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num23) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num24);
-					if(num25 < 500f) {
+					if (num25 < 500f) {
 						flag25 = true;
 						jim = index1;
 					}
@@ -66,7 +66,7 @@ namespace SpiritMod.Projectiles.Sword.Artifact
 				}
 			}
 
-			if(flag25) {
+			if (flag25) {
 
 				projectile.rotation += .3f;
 				float num1 = 10f;
@@ -80,7 +80,8 @@ namespace SpiritMod.Projectiles.Sword.Artifact
 				int num8 = 10;
 				projectile.velocity.X = (projectile.velocity.X * (float)(num8 - 1) + num6) / (float)num8;
 				projectile.velocity.Y = (projectile.velocity.Y * (float)(num8 - 1) + num7) / (float)num8;
-			} else {
+			}
+			else {
 				projectile.aiStyle = 3;
 				aiType = ProjectileID.WoodenBoomerang;
 			}
@@ -89,20 +90,20 @@ namespace SpiritMod.Projectiles.Sword.Artifact
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			MyPlayer mp = Main.player[projectile.owner].GetSpiritPlayer();
-			if(mp.DarkBough && Main.rand.Next(10) == 0) {
+			if (mp.DarkBough && Main.rand.Next(10) == 0) {
 				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BoughSeed>(), projectile.damage / 3 * 2, 4, projectile.owner);
 			}
 			Player player = Main.player[base.projectile.owner];
-			if(Main.rand.Next(6) == 1)
+			if (Main.rand.Next(6) == 1)
 				damage = damage + target.defense;
 
-			if(Main.rand.Next(19) == 2)
+			if (Main.rand.Next(19) == 2)
 				player.AddBuff(ModContent.BuffType<SoulReap>(), 240);
 
-			if(Main.rand.Next(3) == 0)
+			if (Main.rand.Next(3) == 0)
 				target.AddBuff(ModContent.BuffType<DeathWreathe3>(), 240);
 
-			if(Main.rand.Next(3) == 0 && target.life <= 0)
+			if (Main.rand.Next(3) == 0 && target.life <= 0)
 				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0, 0, ModContent.ProjectileType<Necromancer>(), 60, 0, Main.myPlayer, 0, 0);
 
 		}

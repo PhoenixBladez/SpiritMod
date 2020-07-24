@@ -53,10 +53,10 @@ namespace SpiritMod.Items.Weapon.Magic
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				{
-					for(int projFinder = 0; projFinder < 300; ++projFinder) {
-						if(Main.projectile[projFinder].type == type) {
+					for (int projFinder = 0; projFinder < 300; ++projFinder) {
+						if (Main.projectile[projFinder].type == type) {
 							Main.projectile[projFinder].aiStyle = -3;
 							Main.projectile[projFinder].Kill();
 						}
@@ -64,7 +64,8 @@ namespace SpiritMod.Items.Weapon.Magic
 					}
 				}
 				return false;
-			} else {
+			}
+			else {
 				Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
 				Terraria.Projectile.NewProjectile(mouse.X, mouse.Y, 0f, 0f, type, damage, knockBack, player.whoAmI);
 			}

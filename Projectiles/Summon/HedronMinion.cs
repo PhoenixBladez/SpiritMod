@@ -36,7 +36,7 @@ namespace SpiritMod.Projectiles.Summon
 			ProjectileExtras.Explode(projectile.whoAmI, 120, 120,
 				delegate {
 					int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0, 0, ModContent.ProjectileType<SpiritBoom>(), (int)(projectile.damage), 0, Main.myPlayer);
-					for(int i = 0; i < 15; i++) {
+					for (int i = 0; i < 15; i++) {
 						Dust.NewDust(projectile.position, projectile.width, projectile.height, 187);
 					}
 				});
@@ -50,22 +50,22 @@ namespace SpiritMod.Projectiles.Summon
 		public override void AI()
 		{
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 4) {
+			if (projectile.frameCounter >= 4) {
 				projectile.frame++;
 				projectile.frameCounter = 0;
-				if(projectile.frame >= 4)
+				if (projectile.frame >= 4)
 					projectile.frame = 0;
 			}
 
-			if(localaizero == 0f) {
+			if (localaizero == 0f) {
 				localaizero = projectile.Center.Y;
 				projectile.netUpdate = true; //localAI probably isnt affected by this... buuuut might as well play it safe
 			}
-			if(projectile.Center.Y >= localaizero) {
+			if (projectile.Center.Y >= localaizero) {
 				localaione = -1f;
 				projectile.netUpdate = true;
 			}
-			if(projectile.Center.Y <= localaizero - 25f) {
+			if (projectile.Center.Y <= localaizero - 25f) {
 				localaione = 1f;
 				projectile.netUpdate = true;
 			}

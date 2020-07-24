@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Halloween
 {
 	public class MysteryCandy : CandyBase
 	{
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mystery Candy");
@@ -37,9 +37,9 @@ namespace SpiritMod.Items.Halloween
 		{
 			string line = "";
 			Color color = new Color(127, 255, 127);
-			if(Main.rand.Next(100) < 66) {
+			if (Main.rand.Next(100) < 66) {
 				//Positive effect
-				switch(Main.rand.Next(14)) {
+				switch (Main.rand.Next(14)) {
 					case 0:
 						line = "Sweet and filling. You feel restored.";
 						player.AddBuff(Lifeforce, 36000);
@@ -86,7 +86,7 @@ namespace SpiritMod.Items.Halloween
 						break;
 					case 8:
 						line = "That was delicious.";
-						if(player.statLife < player.statLifeMax) {
+						if (player.statLife < player.statLifeMax) {
 							player.HealEffect(Math.Min(200, player.statLifeMax - player.statLife));
 							player.statLife += 200;
 						}
@@ -122,12 +122,13 @@ namespace SpiritMod.Items.Halloween
 						player.AddBuff(Crate, 54000);
 						break;
 				}
-			} else {
+			}
+			else {
 				color = new Color(255, 127, 127);
-				switch(Main.rand.Next(11)) {
+				switch (Main.rand.Next(11)) {
 					case 0:
 						player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " bit on a razorblade."), (int)(player.statLifeMax * .25f), 0);
-						if(player.statLife > 0)
+						if (player.statLife > 0)
 							line = "Ouch, there was a razorblade in there!";
 						player.AddBuff(Bleeding, 3600);
 						break;
@@ -190,7 +191,7 @@ namespace SpiritMod.Items.Halloween
 						break;
 				}
 			}
-			if(line != "")
+			if (line != "")
 				Main.NewText(line, color.R, color.G, color.B);
 
 			return true;

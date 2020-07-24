@@ -43,7 +43,7 @@ namespace SpiritMod.Items.Armor
 		}
 		public virtual void OnHitByNPC(NPC npc, int damage, bool crit)
 		{
-			if(Main.rand.Next(4) == 0) {
+			if (Main.rand.Next(4) == 0) {
 				npc.AddBuff(BuffID.ShadowFlame, 200, true);
 			}
 		}

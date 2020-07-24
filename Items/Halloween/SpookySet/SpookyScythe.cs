@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Halloween.SpookySet
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
 			counter++;
-			if(counter % 10 == 1) {
+			if (counter % 10 == 1) {
 				int newProj = Projectile.NewProjectile(new Vector2(hitbox.X, hitbox.Y), new Vector2(0, 0), ModContent.ProjectileType<Pumpkin>(), item.damage, 0, player.whoAmI);
 				Main.projectile[newProj].magic = false;
 				Main.projectile[newProj].melee = true;

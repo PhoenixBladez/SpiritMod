@@ -39,19 +39,20 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
-			for(int k = 0; k < 15; k++) {
+			for (int k = 0; k < 15; k++) {
 				Vector2 offset = mouse - player.Center;
 				offset.Normalize();
-				if(speedX > 0) {
+				if (speedX > 0) {
 					offset = offset.RotatedBy(-0.1f);
-				} else {
+				}
+				else {
 					offset = offset.RotatedBy(0.1f);
 				}
 				offset *= 58f;
 				int dust = Dust.NewDust(player.Center + offset, 1, 1, 39);
 				Main.dust[dust].noGravity = true;
 				float dustSpeed = Main.rand.Next(9) / 5;
-				switch(Main.rand.Next(2)) {
+				switch (Main.rand.Next(2)) {
 					case 0:
 						Main.dust[dust].velocity = new Vector2(speedX * dustSpeed, speedY * dustSpeed).RotatedBy(1.57f);
 						break;

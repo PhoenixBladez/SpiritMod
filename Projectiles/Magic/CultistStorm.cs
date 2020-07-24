@@ -31,39 +31,39 @@ namespace SpiritMod.Projectiles.Magic
 			Lighting.AddLight(projectile.position, 0.0f, 0.3f, 0.8f);
 			projectile.spriteDirection = projectile.direction;
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 6) {
+			if (projectile.frameCounter >= 6) {
 				projectile.frame++;
 				projectile.frameCounter = 0;
-				if(projectile.frame >= 4)
+				if (projectile.frame >= 4)
 					projectile.frame = 0;
 			}
 
 			projectile.ai[1] += 1f;
-			if(projectile.ai[1] >= 7200f) {
+			if (projectile.ai[1] >= 7200f) {
 				projectile.alpha += 5;
-				if(projectile.alpha > 255) {
+				if (projectile.alpha > 255) {
 					projectile.alpha = 255;
 					projectile.Kill();
 				}
 			}
 
 			projectile.localAI[0] += 1f;
-			if(projectile.localAI[0] >= 10f) {
+			if (projectile.localAI[0] >= 10f) {
 				projectile.localAI[0] = 0f;
 				int num416 = 0;
 				int num417 = 0;
 				float num418 = 0f;
 				int num419 = projectile.type;
-				for(int num420 = 0; num420 < 1000; num420++) {
-					if(Main.projectile[num420].active && Main.projectile[num420].owner == projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f) {
+				for (int num420 = 0; num420 < 1000; num420++) {
+					if (Main.projectile[num420].active && Main.projectile[num420].owner == projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f) {
 						num416++;
-						if(Main.projectile[num420].ai[1] > num418) {
+						if (Main.projectile[num420].ai[1] > num418) {
 							num417 = num420;
 							num418 = Main.projectile[num420].ai[1];
 						}
 					}
 				}
-				if(num416 > 2) {
+				if (num416 > 2) {
 					Main.projectile[num417].netUpdate = true;
 					Main.projectile[num417].ai[1] = 36000f;
 					return;
@@ -77,15 +77,15 @@ namespace SpiritMod.Projectiles.Magic
 
 			//TARGET NEAREST NPC WITHIN RANGE
 			float lowestDist = float.MaxValue;
-			for(int i = 0; i < 200; ++i) {
+			for (int i = 0; i < 200; ++i) {
 				NPC npc = Main.npc[i];
 				//if npc is a valid target (active, not friendly, and not a critter)
-				if(npc.active && npc.CanBeChasedBy(projectile)) {
+				if (npc.active && npc.CanBeChasedBy(projectile)) {
 					//if npc is within 50 blocks
 					float dist = projectile.Distance(npc.Center);
-					if(dist / 16 < range) {
+					if (dist / 16 < range) {
 						//if npc is closer than closest found npc
-						if(dist < lowestDist) {
+						if (dist < lowestDist) {
 							lowestDist = dist;
 
 							//target this npc
@@ -98,7 +98,7 @@ namespace SpiritMod.Projectiles.Magic
 			NPC target = (Main.npc[(int)projectile.ai[1]] ?? new NPC()); //our target
 																		 //firing
 			projectile.ai[0]++;
-			if(projectile.ai[0] % shootSpeed == 3 && target.active && projectile.Distance(target.Center) / 10 < range) {
+			if (projectile.ai[0] % shootSpeed == 3 && target.active && projectile.Distance(target.Center) / 10 < range) {
 				Vector2 ShootArea = new Vector2(projectile.Center.X, projectile.Center.Y - 25);
 				Vector2 direction = target.Center - ShootArea;
 				direction.Normalize();

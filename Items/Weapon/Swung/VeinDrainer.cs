@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Weapon.Swung
 
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
 		{
-			if(Main.rand.Next(3) == 1) {
+			if (Main.rand.Next(3) == 1) {
 				player.HealEffect(4);
 				player.statLife += 4;
 			}

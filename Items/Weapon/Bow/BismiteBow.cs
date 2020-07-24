@@ -50,9 +50,9 @@ namespace SpiritMod.Items.Weapon.Bow
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
-            Main.projectile[proj].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromBismiteBow = true;
-            Projectile projectile = Main.projectile[proj];
-			for(int k = 0; k < 25; k++) {
+			Main.projectile[proj].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromBismiteBow = true;
+			Projectile projectile = Main.projectile[proj];
+			for (int k = 0; k < 25; k++) {
 				Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
 				Vector2 offset = mouse - player.position;
 				offset.Normalize();

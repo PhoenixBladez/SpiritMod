@@ -61,13 +61,13 @@ namespace SpiritMod.Items.DonatorItems.Folv
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY - 3)) * 45f;
-			if(Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
+			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
 				position += muzzleOffset;
 			}
-			for(int I = 0; I < 3; I++) {
+			for (int I = 0; I < 3; I++) {
 				Projectile.NewProjectile(position.X, position.Y + 6, speedX + ((float)Main.rand.Next(-250, 250) / 100), speedY + ((float)Main.rand.Next(-250, 250) / 100), type, damage, knockBack, player.whoAmI, 0f, 0f);
 			}
-			for(float num2 = 0.0f; (double)num2 < 10; ++num2) {
+			for (float num2 = 0.0f; (double)num2 < 10; ++num2) {
 				int dustIndex = Dust.NewDust(position, 2, 2, 272, 0f, 0f, 0, default(Color), 1f);
 				Main.dust[dustIndex].noGravity = true;
 				Main.dust[dustIndex].velocity = Vector2.Normalize(position.RotatedBy(Main.rand.NextFloat(MathHelper.TwoPi))) * 1.6f;

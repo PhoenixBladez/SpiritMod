@@ -32,7 +32,7 @@ namespace SpiritMod.Projectiles
 		}
 		public override void AI()
 		{
-			if(Main.rand.Next(8) == 0)
+			if (Main.rand.Next(8) == 0)
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 226);
 		}
 	}

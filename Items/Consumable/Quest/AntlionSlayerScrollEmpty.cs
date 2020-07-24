@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Consumable.Quest
 		}
 		public override void UpdateInventory(Player player)
 		{
-			if(MyWorld.numAntlionsKilled > 0) {
+			if (MyWorld.numAntlionsKilled > 0) {
 				item.SetNameOverride("Incomplete Slayer's Contract: " + MyWorld.numAntlionsKilled + "/5 Complete");
 			}
 			player.GetSpiritPlayer().emptyAntlionScroll = true;

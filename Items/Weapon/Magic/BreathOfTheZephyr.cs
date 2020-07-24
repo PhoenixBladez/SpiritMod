@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		}
 		public override bool CanUseItem(Player player)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				item.UseSound = SoundID.Item1;
 				item.shoot = ModContent.ProjectileType<ZephyrSpearProj>();
 				item.knockBack = 5;
@@ -48,7 +48,8 @@ namespace SpiritMod.Items.Weapon.Magic
 				item.shootSpeed = 6f;
 				item.mana = 5;
 				item.noUseGraphic = true;
-			} else {
+			}
+			else {
 				item.UseSound = SoundID.Item34;
 				item.shoot = ModContent.ProjectileType<Zephyr>();
 				item.knockBack = 10;

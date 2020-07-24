@@ -13,7 +13,7 @@ namespace SpiritMod.Buffs
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			if(npc.lifeRegen > 0) {
+			if (npc.lifeRegen > 0) {
 				npc.lifeRegen = 0;
 			}
 

@@ -34,14 +34,14 @@ namespace SpiritMod.Projectiles.Hostile
 		public override void AI()
 		{
 			int num1 = ModContent.NPCType<CrimsonTrapper>();
-			if(!Main.npc[(int)projectile.ai[1]].active) {
+			if (!Main.npc[(int)projectile.ai[1]].active) {
 				projectile.timeLeft = 0;
 				projectile.active = false;
 			}
-			if(!stuck) {
+			if (!stuck) {
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 			}
-			if(stuck) {
+			if (stuck) {
 				projectile.velocity = Vector2.Zero;
 			}
 		}
@@ -67,19 +67,21 @@ namespace SpiritMod.Projectiles.Hostile
 		{
 			return false;
 			stuck = true;
-			if(oldVelocity.X != projectile.velocity.X) //if its an X axis collision
+			if (oldVelocity.X != projectile.velocity.X) //if its an X axis collision
 			{
-				if(projectile.velocity.X > 0) {
+				if (projectile.velocity.X > 0) {
 					projectile.rotation = 1.57f;
-				} else {
+				}
+				else {
 					projectile.rotation = 4.71f;
 				}
 			}
-			if(oldVelocity.Y != projectile.velocity.Y) //if its a Y axis collision
+			if (oldVelocity.Y != projectile.velocity.Y) //if its a Y axis collision
 			{
-				if(projectile.velocity.Y > 0) {
+				if (projectile.velocity.Y > 0) {
 					projectile.rotation = 3.14f;
-				} else {
+				}
+				else {
 					projectile.rotation = 0f;
 				}
 			}

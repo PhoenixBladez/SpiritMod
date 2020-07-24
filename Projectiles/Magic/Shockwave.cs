@@ -30,13 +30,13 @@ namespace SpiritMod.Projectiles.Magic
 		private float distortStrength = 300f;
 		public override bool PreAI()
 		{
-			if(!boom) {
-				if(Main.netMode != NetmodeID.Server && !Filters.Scene["Shockwave"].IsActive()) {
+			if (!boom) {
+				if (Main.netMode != NetmodeID.Server && !Filters.Scene["Shockwave"].IsActive()) {
 					Filters.Scene.Activate("Shockwave", projectile.Center).GetShader().UseColor(10, 5, 15).UseTargetPosition(projectile.Center);
 				}
 				boom = true;
 			}
-			if(Main.netMode != NetmodeID.Server && Filters.Scene["Shockwave"].IsActive()) {
+			if (Main.netMode != NetmodeID.Server && Filters.Scene["Shockwave"].IsActive()) {
 				float progress = (35f - projectile.timeLeft) / 60f; // Will range from -3 to 3, 0 being the point where the bomb explodes.
 				Filters.Scene["Shockwave"].GetShader().UseProgress(progress).UseOpacity(distortStrength * (1 - progress / 3f));
 			}
@@ -44,7 +44,7 @@ namespace SpiritMod.Projectiles.Magic
 		}
 		public override void Kill(int timeLeft)
 		{
-			if(Main.netMode != NetmodeID.Server && Filters.Scene["Shockwave"].IsActive()) {
+			if (Main.netMode != NetmodeID.Server && Filters.Scene["Shockwave"].IsActive()) {
 				Filters.Scene["Shockwave"].Deactivate();
 			}
 		}

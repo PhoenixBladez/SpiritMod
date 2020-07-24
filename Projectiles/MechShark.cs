@@ -32,19 +32,19 @@ namespace SpiritMod.Projectiles
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 4) {
+			if (projectile.frameCounter >= 4) {
 				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
 				projectile.frameCounter = 0;
 			}
 
 			bool flag25 = false;
 			int jim = 1;
-			for(int index1 = 0; index1 < 200; index1++) {
-				if(Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1)) {
+			for (int index1 = 0; index1 < 200; index1++) {
+				if (Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1)) {
 					float num23 = Main.npc[index1].position.X + (float)(Main.npc[index1].width / 2);
 					float num24 = Main.npc[index1].position.Y + (float)(Main.npc[index1].height / 2);
 					float num25 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num23) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num24);
-					if(num25 < 300f) {
+					if (num25 < 300f) {
 						flag25 = true;
 						jim = index1;
 					}
@@ -52,7 +52,7 @@ namespace SpiritMod.Projectiles
 				}
 			}
 
-			if(flag25) {
+			if (flag25) {
 
 
 				float num1 = 4f;
@@ -68,7 +68,7 @@ namespace SpiritMod.Projectiles
 				projectile.velocity.Y = (projectile.velocity.Y * (float)(num8 - 1) + num7) / (float)num8;
 			}
 
-			for(int index1 = 0; index1 < 5; ++index1) {
+			for (int index1 = 0; index1 < 5; ++index1) {
 				float num1 = projectile.velocity.X * 0.2f * (float)index1;
 				float num2 = (float)-((double)projectile.velocity.Y * 0.200000002980232) * (float)index1;
 				int index2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 15, 0.0f, 0.0f, 100, new Color(), 1.3f);
@@ -82,7 +82,7 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 20; i++) {
+			for (int i = 0; i < 20; i++) {
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 15, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			}
 		}

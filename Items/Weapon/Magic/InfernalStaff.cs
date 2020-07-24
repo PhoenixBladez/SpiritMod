@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			float baseSpeed = (float)System.Math.Sqrt(speedX * speedX + speedY * speedY);
 			double baseAngle = System.Math.Atan2(speedX, speedY);
 			double randomAngle;
-			for(int i = 0; i < num; ++i) {
+			for (int i = 0; i < num; ++i) {
 				randomAngle = baseAngle + (Main.rand.NextFloat() - 0.5f) * spread;
 				posArray[i] = new Vector2(baseSpeed * (float)System.Math.Sin(randomAngle), baseSpeed * (float)System.Math.Cos(randomAngle));
 			}
@@ -50,7 +50,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			modPlayer.shootDelay = 180;
 			Vector2[] speeds = randomSpread(speedX, speedY, 8, 3);
-			for(int i = 0; i < 2; ++i) {
+			for (int i = 0; i < 2; ++i) {
 				Projectile.NewProjectile(position.X, position.Y, speeds[i].X, speeds[i].Y, type, damage, knockBack, player.whoAmI);
 			}
 			return true;
@@ -58,7 +58,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override bool CanUseItem(Player player)
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if(modPlayer.shootDelay == 0)
+			if (modPlayer.shootDelay == 0)
 				return true;
 			return false;
 		}

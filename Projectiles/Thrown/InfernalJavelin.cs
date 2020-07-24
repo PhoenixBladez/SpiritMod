@@ -25,21 +25,21 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override bool PreAI()
 		{
-			if(Main.rand.Next(2) == 0) {
+			if (Main.rand.Next(2) == 0) {
 				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 6, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 				Main.dust[dust].scale *= 1.5f;
 				Main.dust[dust].noGravity = true;
 			}
 
-			if(projectile.alpha > 0)
+			if (projectile.alpha > 0)
 				projectile.alpha -= 25;
 
-			if(projectile.alpha < 0)
+			if (projectile.alpha < 0)
 				projectile.alpha = 0;
 
 
 			projectile.ai[1] += 1f;
-			if(projectile.ai[1] >= 45f) {
+			if (projectile.ai[1] >= 45f) {
 				projectile.ai[1] = 45f;
 				projectile.velocity.X = projectile.velocity.X * 0.98F;
 				projectile.velocity.Y = projectile.velocity.Y + 0.35F;
@@ -56,7 +56,7 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
 		{
-			if(targetHitbox.Width > 8 && targetHitbox.Height > 8)
+			if (targetHitbox.Width > 8 && targetHitbox.Height > 8)
 				targetHitbox.Inflate(-targetHitbox.Width / 8, -targetHitbox.Height / 8);
 
 			return projHitbox.Intersects(targetHitbox);
@@ -69,7 +69,7 @@ namespace SpiritMod.Projectiles.Thrown
 			Vector2 value19 = (projectile.rotation - 1.57079637f).ToRotationVector2();
 			vector9 += value19 * 16f;
 
-			for(int num257 = 0; num257 < 20; num257++) {
+			for (int num257 = 0; num257 < 20; num257++) {
 				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, 6, 0f, 0f, 0, default(Color), 1f);
 				Main.dust[newDust].position = (Main.dust[newDust].position + projectile.Center) / 2f;
 				Main.dust[newDust].velocity += value19 * 2f;
@@ -77,7 +77,7 @@ namespace SpiritMod.Projectiles.Thrown
 				Main.dust[newDust].noGravity = true;
 				vector9 -= value19 * 8f;
 			}
-			for(int i = 0; i < 2; ++i) {
+			for (int i = 0; i < 2; ++i) {
 				int randFire = Main.rand.Next(3);
 				int newProj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y,
 					Main.rand.Next(-1000, 1000) / 100, Main.rand.Next(-8, 8),

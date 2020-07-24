@@ -28,8 +28,8 @@ namespace SpiritMod.Projectiles.Bullet
 		{
 			Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, 0.3F, 0.0F, 0.5F);
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-			if(!summoned) {
-			for(int j = 0; j < 24; j++) {
+			if (!summoned) {
+				for (int j = 0; j < 24; j++) {
 					Vector2 vector2 = Vector2.UnitX * -projectile.width / 2f;
 					vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(8f, 16f);
 					vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default(Vector2)) * 1.3f;
@@ -48,7 +48,7 @@ namespace SpiritMod.Projectiles.Bullet
 		{
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1);
 
-			for(int num383 = 0; num383 < 5; num383++) {
+			for (int num383 = 0; num383 < 5; num383++) {
 				int num384 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 75);
 				Main.dust[num384].noGravity = true;
 				Main.dust[num384].velocity *= 1.5f;

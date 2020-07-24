@@ -30,7 +30,7 @@ namespace SpiritMod.Projectiles.Hostile
 		{
 			float distance = Vector2.Distance(from, to);
 			float step = 1 / distance;
-			for(float w = 0; w < distance; w += 4) {
+			for (float w = 0; w < distance; w += 4) {
 				Dust.NewDustPerfect(Vector2.Lerp(from, to, w * step), 226, Vector2.Zero).noGravity = true;
 			}
 		}

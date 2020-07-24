@@ -19,14 +19,15 @@ namespace SpiritMod.Buffs.Artifact
 			player.minionKB += 0.05f;
 
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if(player.ownedProjectileCounts[mod.ProjectileType("Terror4Summon")] > 0) {
+			if (player.ownedProjectileCounts[mod.ProjectileType("Terror4Summon")] > 0) {
 				modPlayer.terror4Summon = true;
 			}
 
-			if(!modPlayer.terror4Summon) {
+			if (!modPlayer.terror4Summon) {
 				player.DelBuff(buffIndex);
 				buffIndex--;
-			} else {
+			}
+			else {
 				player.buffTime[buffIndex] = 18000;
 			}
 		}

@@ -10,8 +10,8 @@ namespace SpiritMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Manasilk Hood");
-            Tooltip.SetDefault("Increases minion damage by 1");
-        }
+			Tooltip.SetDefault("Increases minion damage by 1");
+		}
 
 		public override void SetDefaults()
 		{
@@ -21,12 +21,12 @@ namespace SpiritMod.Items.Armor
 			item.rare = ItemRarityID.Blue;
 			item.defense = 1;
 		}
-        public override void UpdateEquip(Player player)
-        {
-            player.GetSpiritPlayer().silkenHead = true;
-        }
+		public override void UpdateEquip(Player player)
+		{
+			player.GetSpiritPlayer().silkenHead = true;
+		}
 
-        public override bool IsArmorSet(Item head, Item body, Item legs)
+		public override bool IsArmorSet(Item head, Item body, Item legs)
 		{
 			return body.type == ModContent.ItemType<SilkRobe>() && legs.type == ModContent.ItemType<SilkLegs>();
 		}
@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Armor
 		{
 
 			player.setBonus = "While above 70% health, your minions are 'Mana Infused'\nMana Infused minions deal 1 additional damage and glow";
-			if(player.statLife >= player.statLifeMax2 * .7f) {
+			if (player.statLife >= player.statLifeMax2 * .7f) {
 				player.GetSpiritPlayer().silkenSet = true;
 			}
 

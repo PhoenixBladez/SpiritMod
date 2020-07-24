@@ -33,13 +33,13 @@ namespace SpiritMod.Items.Weapon.Swung
 		}
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
 		{
-			if(Main.rand.Next(6) == 0) {
+			if (Main.rand.Next(6) == 0) {
 				target.AddBuff(BuffID.Ichor, 240);
 			}
-			if(target.life <= 0) {
+			if (target.life <= 0) {
 				int healNumber = Main.rand.Next(5, 8);
 				player.HealEffect(healNumber);
-				if(player.statLife <= player.statLifeMax - healNumber)
+				if (player.statLife <= player.statLifeMax - healNumber)
 					player.statLife += healNumber;
 				else
 					player.statLife += player.statLifeMax - healNumber;
@@ -48,7 +48,7 @@ namespace SpiritMod.Items.Weapon.Swung
 
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
-			if(Main.rand.Next(5) == 0) {
+			if (Main.rand.Next(5) == 0) {
 				int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 5);
 				Main.dust[dust].noGravity = true;
 			}
@@ -57,7 +57,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		{
 			float cosRot = (float)Math.Cos(player.itemRotation - 0.78f * player.direction * player.gravDir);
 			float sinRot = (float)Math.Sin(player.itemRotation - 0.78f * player.direction * player.gravDir);
-			for(int i = 0; i < 1; i++) {
+			for (int i = 0; i < 1; i++) {
 				float length = (item.width * 1.2f - i * item.width / 9) * item.scale + 16; //length to base + arm displacement
 				int dust = Dust.NewDust(new Vector2((float)(player.itemLocation.X + length * cosRot * player.direction), (float)(player.itemLocation.Y + length * sinRot * player.direction)), 0, 0, 5, player.velocity.X * 0.9f, player.velocity.Y * 0.9f, 100, Color.Transparent, 1.8f);
 				Main.dust[dust].velocity *= 0f;

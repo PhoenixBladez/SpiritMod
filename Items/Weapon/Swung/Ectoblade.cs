@@ -41,32 +41,35 @@ namespace SpiritMod.Items.Weapon.Swung
 		}
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 62);
 
-			} else {
+			}
+			else {
 				int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 60);
 
 			}
 		}
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				player.AddBuff(ModContent.BuffType<ShadowTread>(), 180);
-			} else {
+			}
+			else {
 				player.statLife += 7;
 				player.HealEffect(7);
 			}
 		}
 		public override bool CanUseItem(Player player)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				item.damage = 75;
 				item.useTime = 20;
 				item.useAnimation = 20;
 				item.shoot = ModContent.ProjectileType<ShadowBlast>();
 				item.knockBack = 3;
-			} else {
+			}
+			else {
 				item.damage = 150;
 				item.useTime = 60;
 				item.useAnimation = 60;

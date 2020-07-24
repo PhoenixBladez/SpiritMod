@@ -44,54 +44,58 @@ namespace SpiritMod.Tiles.Furniture.Reach
 		public override bool NewRightClick(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
-			if(Main.tile[Player.tileTargetX, Player.tileTargetY].frameY == 0) {
+			if (Main.tile[Player.tileTargetX, Player.tileTargetY].frameY == 0) {
 				Main.CancelClothesWindow(true);
 				Main.mouseRightRelease = false;
 				int left = (int)(Main.tile[Player.tileTargetX, Player.tileTargetY].frameX / 18);
 				left %= 3;
 				left = Player.tileTargetX - left;
 				int top = Player.tileTargetY - (int)(Main.tile[Player.tileTargetX, Player.tileTargetY].frameY / 18);
-				if(player.sign > -1) {
+				if (player.sign > -1) {
 					Main.PlaySound(SoundID.MenuClose);
 					player.sign = -1;
 					Main.editSign = false;
 					Main.npcChatText = string.Empty;
 				}
-				if(Main.editChest) {
+				if (Main.editChest) {
 					Main.PlaySound(SoundID.MenuTick);
 					Main.editChest = false;
 					Main.npcChatText = string.Empty;
 				}
-				if(player.editedChestName) {
+				if (player.editedChestName) {
 					NetMessage.SendData(MessageID.SyncPlayerChest, -1, -1, NetworkText.FromLiteral(Main.chest[player.chest].name), player.chest, 1f, 0f, 0f, 0, 0, 0);
 					player.editedChestName = false;
 				}
-				if(Main.netMode == NetmodeID.Server) {
-					if(left == player.chestX && top == player.chestY && player.chest != -1) {
+				if (Main.netMode == NetmodeID.Server) {
+					if (left == player.chestX && top == player.chestY && player.chest != -1) {
 						player.chest = -1;
 						Recipe.FindRecipes();
 						Main.PlaySound(SoundID.MenuClose);
-					} else {
+					}
+					else {
 						NetMessage.SendData(MessageID.RequestChestOpen, -1, -1, null, left, (float)top, 0f, 0f, 0, 0, 0);
 						Main.stackSplit = 600;
 					}
-				} else {
+				}
+				else {
 					player.flyingPigChest = -1;
 					int num213 = Chest.FindChest(left, top);
-					if(num213 != -1) {
+					if (num213 != -1) {
 						Main.stackSplit = 600;
-						if(num213 == player.chest) {
+						if (num213 == player.chest) {
 							player.chest = -1;
 							Recipe.FindRecipes();
 							Main.PlaySound(SoundID.MenuClose);
-						} else if(num213 != player.chest && player.chest == -1) {
+						}
+						else if (num213 != player.chest && player.chest == -1) {
 							player.chest = num213;
 							Main.playerInventory = true;
 							Main.recBigList = false;
 							Main.PlaySound(SoundID.MenuOpen);
 							player.chestX = left;
 							player.chestY = top;
-						} else {
+						}
+						else {
 							player.chest = num213;
 							Main.playerInventory = true;
 							Main.recBigList = false;
@@ -102,7 +106,8 @@ namespace SpiritMod.Tiles.Furniture.Reach
 						Recipe.FindRecipes();
 					}
 				}
-			} else {
+			}
+			else {
 				Main.playerInventory = false;
 				player.chest = -1;
 				Recipe.FindRecipes();
@@ -121,27 +126,29 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			int left = Player.tileTargetX;
 			int top = Player.tileTargetY;
 			left -= (int)(tile.frameX % 54 / 18);
-			if(tile.frameY % 36 != 0) {
+			if (tile.frameY % 36 != 0) {
 				top--;
 			}
 			int chestIndex = Chest.FindChest(left, top);
 			player.showItemIcon2 = -1;
-			if(chestIndex < 0) {
+			if (chestIndex < 0) {
 				player.showItemIconText = Lang.dresserType[0].Value;
-			} else {
-				if(Main.chest[chestIndex].name != "") {
+			}
+			else {
+				if (Main.chest[chestIndex].name != "") {
 					player.showItemIconText = Main.chest[chestIndex].name;
-				} else {
+				}
+				else {
 					player.showItemIconText = chest;
 				}
-				if(player.showItemIconText == chest) {
+				if (player.showItemIconText == chest) {
 					player.showItemIcon2 = ModContent.ItemType<Items.Placeable.Furniture.Reach.ReachDresser>();
 					player.showItemIconText = "";
 				}
 			}
 			player.noThrow = 2;
 			player.showItemIcon = true;
-			if(player.showItemIconText == "") {
+			if (player.showItemIconText == "") {
 				player.showItemIcon = false;
 				player.showItemIcon2 = 0;
 			}
@@ -154,27 +161,29 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			int left = Player.tileTargetX;
 			int top = Player.tileTargetY;
 			left -= (int)(tile.frameX % 54 / 18);
-			if(tile.frameY % 36 != 0) {
+			if (tile.frameY % 36 != 0) {
 				top--;
 			}
 			int num138 = Chest.FindChest(left, top);
 			player.showItemIcon2 = -1;
-			if(num138 < 0) {
+			if (num138 < 0) {
 				player.showItemIconText = Lang.dresserType[0].Value;
-			} else {
-				if(Main.chest[num138].name != "") {
+			}
+			else {
+				if (Main.chest[num138].name != "") {
 					player.showItemIconText = Main.chest[num138].name;
-				} else {
+				}
+				else {
 					player.showItemIconText = chest;
 				}
-				if(player.showItemIconText == chest) {
+				if (player.showItemIconText == chest) {
 					player.showItemIcon2 = ModContent.ItemType<Items.Placeable.Furniture.Reach.ReachDresser>();
 					player.showItemIconText = "";
 				}
 			}
 			player.noThrow = 2;
 			player.showItemIcon = true;
-			if(Main.tile[Player.tileTargetX, Player.tileTargetY].frameY > 0) {
+			if (Main.tile[Player.tileTargetX, Player.tileTargetY].frameY > 0) {
 				player.showItemIcon2 = ItemID.FamiliarShirt;
 			}
 		}

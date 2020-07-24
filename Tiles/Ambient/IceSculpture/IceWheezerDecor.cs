@@ -30,8 +30,8 @@ namespace SpiritMod.Tiles.Ambient.IceSculpture
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Frozen Wheezer Sculpture");
 			AddMapEntry(new Color(200, 200, 200), name);
-            dustType = 51;
-        }
+			dustType = 51;
+		}
 		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
 		{
 			offsetY = 2;
@@ -40,7 +40,7 @@ namespace SpiritMod.Tiles.Ambient.IceSculpture
 		{
 			Player player = Main.LocalPlayer;
 			int distance1 = (int)Vector2.Distance(new Vector2(i * 16, j * 16), player.Center);
-			if(distance1 < 56) {
+			if (distance1 < 56) {
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
 			}
 			Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<IceWheezerSculpture>());

@@ -39,12 +39,13 @@ namespace SpiritMod.Items.Weapon.Magic
 		{
 			Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
 			Terraria.Projectile.NewProjectile(mouse.X, mouse.Y, 0f, 0f, ModContent.ProjectileType<OrichalcumStaffProj>(), (int)(damage * 1), knockBack, player.whoAmI);
-			for(int k = 0; k < 30; k++) {
+			for (int k = 0; k < 30; k++) {
 				Vector2 offset = mouse - player.Center;
 				offset.Normalize();
-				if(speedX > 0) {
+				if (speedX > 0) {
 					offset = offset.RotatedBy(-0.1f);
-				} else {
+				}
+				else {
 					offset = offset.RotatedBy(0.1f);
 				}
 				offset *= 58f;
@@ -52,7 +53,7 @@ namespace SpiritMod.Items.Weapon.Magic
 				Main.dust[dust].noGravity = true;
 				Main.dust[dust].scale = 1.5f;
 				float dustSpeed = Main.rand.Next(23) / 5;
-				switch(Main.rand.Next(3)) {
+				switch (Main.rand.Next(3)) {
 					case 0:
 						Main.dust[dust].velocity = new Vector2(speedX * dustSpeed, speedY * dustSpeed).RotatedBy(1.57f);
 						break;

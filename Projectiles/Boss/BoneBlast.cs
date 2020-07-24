@@ -24,14 +24,14 @@ namespace SpiritMod.Projectiles.Boss
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			projectile.penetrate--;
-			if(projectile.penetrate <= 0)
+			if (projectile.penetrate <= 0)
 				projectile.Kill();
 
 
-			if(projectile.velocity.X != oldVelocity.X)
+			if (projectile.velocity.X != oldVelocity.X)
 				projectile.velocity.X = oldVelocity.X * .5f;
 
-			if(projectile.velocity.Y != oldVelocity.Y)
+			if (projectile.velocity.Y != oldVelocity.Y)
 				projectile.velocity.Y = oldVelocity.Y * -1.3f;
 
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 10);

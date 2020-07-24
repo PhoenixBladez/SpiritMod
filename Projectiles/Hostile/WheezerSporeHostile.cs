@@ -34,7 +34,7 @@ namespace SpiritMod.Projectiles.Hostile
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 1);
-			for(int k = 0; k < 15; k++) {
+			for (int k = 0; k < 15; k++) {
 				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 42);
 				Main.dust[dust].scale = .61f;
 				Main.dust[dust].noGravity = true;
@@ -48,14 +48,14 @@ namespace SpiritMod.Projectiles.Hostile
 
 			//TARGET NEAREST NPC WITHIN RANGE
 			float lowestDist = float.MaxValue;
-			foreach(Player player in Main.player) {
+			foreach (Player player in Main.player) {
 				//if npc is a valid target (active, not friendly, and not a critter)
-				if(player.active) {
+				if (player.active) {
 					//if npc is within 50 blocks
 					float dist = projectile.Distance(player.Center);
-					if(dist / 16 < range) {
+					if (dist / 16 < range) {
 						//if npc is closer than closest found npc
-						if(dist < lowestDist) {
+						if (dist < lowestDist) {
 							lowestDist = dist;
 
 							//target this npc
@@ -66,13 +66,13 @@ namespace SpiritMod.Projectiles.Hostile
 			}
 
 			Player target = (Main.player[(int)projectile.ai[1]] ?? new Player());
-			if(target.active && projectile.Distance(target.Center) / 16 < range && projectile.timeLeft < 945) {
-				if(projectile.Center.X >= target.Center.X && moveSpeed >= -30) // flies to players x position
+			if (target.active && projectile.Distance(target.Center) / 16 < range && projectile.timeLeft < 945) {
+				if (projectile.Center.X >= target.Center.X && moveSpeed >= -30) // flies to players x position
 				{
 					moveSpeed--;
 				}
 
-				if(projectile.Center.X <= target.Center.X && moveSpeed <= 30) {
+				if (projectile.Center.X <= target.Center.X && moveSpeed <= 30) {
 					moveSpeed++;
 				}
 

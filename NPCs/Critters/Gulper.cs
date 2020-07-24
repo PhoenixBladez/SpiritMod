@@ -41,7 +41,7 @@ namespace SpiritMod.NPCs.Critters
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gulper/Gulper1"));
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gulper/Gulper2"));
 			}
@@ -51,17 +51,17 @@ namespace SpiritMod.NPCs.Critters
 		{
 			npc.spriteDirection = -npc.direction;
 			Counter++;
-			if(Counter == 100) {
+			if (Counter == 100) {
 				npc.velocity.Y *= 10.0f;
 				npc.velocity.X *= 4.0f;
 			}
-			if(Counter >= 200) {
+			if (Counter >= 200) {
 				Counter = 0;
 			}
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if(spawnInfo.playerSafe) {
+			if (spawnInfo.playerSafe) {
 				return 0f;
 			}
 			return SpawnCondition.OceanMonster.Chance * 0.31f;
@@ -69,7 +69,7 @@ namespace SpiritMod.NPCs.Critters
 
 		public override void NPCLoot()
 		{
-			if(Main.rand.Next(2) == 1) {
+			if (Main.rand.Next(2) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<RawFish>(), 1);
 			}
 		}

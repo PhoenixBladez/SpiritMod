@@ -41,21 +41,21 @@ namespace SpiritMod.Items.Armor
 			player.maxMinions += 1;
 		}
 
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<StarPiece>(), 1);
-            recipe.AddIngredient(ItemID.TitaniumBar, 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<StarPiece>(), 1);
+			recipe.AddIngredient(ItemID.TitaniumBar, 10);
+			recipe.AddTile(TileID.MythrilAnvil);
+			recipe.SetResult(this, 1);
+			recipe.AddRecipe();
 
-            ModRecipe recipe1 = new ModRecipe(mod);
-            recipe1.AddIngredient(ModContent.ItemType<StarPiece>(), 1);
-            recipe1.AddIngredient(ItemID.AdamantiteBar, 10);
-            recipe1.AddTile(TileID.MythrilAnvil);
-            recipe1.SetResult(this, 1);
-            recipe1.AddRecipe();
-        }
-    }
+			ModRecipe recipe1 = new ModRecipe(mod);
+			recipe1.AddIngredient(ModContent.ItemType<StarPiece>(), 1);
+			recipe1.AddIngredient(ItemID.AdamantiteBar, 10);
+			recipe1.AddTile(TileID.MythrilAnvil);
+			recipe1.SetResult(this, 1);
+			recipe1.AddRecipe();
+		}
+	}
 }

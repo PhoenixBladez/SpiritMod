@@ -27,13 +27,13 @@ namespace SpiritMod.Projectiles
 		public override bool PreAI()
 		{
 			var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
-			foreach(var proj in list) {
-				if(projectile != proj && proj.friendly && proj.ranged && !proj.GetGlobalProjectile<SpiritGlobalProjectile>().shotFromMaliwanShockCommon) {
+			foreach (var proj in list) {
+				if (projectile != proj && proj.friendly && proj.ranged && !proj.GetGlobalProjectile<SpiritGlobalProjectile>().shotFromMaliwanShockCommon) {
 					proj.GetGlobalProjectile<SpiritGlobalProjectile>().shotFromMaliwanShockCommon = true;
 					proj.damage += (int)(proj.damage * 0.15);
 				}
 			}
-			for(int k = 0; k < 4; k++) {
+			for (int k = 0; k < 4; k++) {
 				int dust = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 226);
 				Main.dust[dust].velocity *= -1f;
 				Main.dust[dust].noGravity = true;
@@ -50,23 +50,23 @@ namespace SpiritMod.Projectiles
 		public override void AI()
 		{
 			projectile.localAI[0] += 1f;
-			if(projectile.localAI[0] >= 10f) {
+			if (projectile.localAI[0] >= 10f) {
 				projectile.localAI[0] = 0f;
 				int num416 = 0;
 				int num417 = 0;
 				float num418 = 0f;
 				int num419 = projectile.type;
-				for(int num420 = 0; num420 < 1000; num420++) {
-					if(Main.projectile[num420].active && Main.projectile[num420].owner == projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f) {
+				for (int num420 = 0; num420 < 1000; num420++) {
+					if (Main.projectile[num420].active && Main.projectile[num420].owner == projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f) {
 						num416++;
-						if(Main.projectile[num420].ai[1] > num418) {
+						if (Main.projectile[num420].ai[1] > num418) {
 							num417 = num420;
 							num418 = Main.projectile[num420].ai[1];
 						}
 					}
 				}
 
-				if(num416 > 1) {
+				if (num416 > 1) {
 					Main.projectile[num417].netUpdate = true;
 					Main.projectile[num417].ai[1] = 36000f;
 					return;

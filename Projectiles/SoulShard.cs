@@ -26,7 +26,7 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 20; i++) {
+			for (int i = 0; i < 20; i++) {
 				Dust.NewDust(projectile.Center, projectile.width, projectile.height, 187, (float)(Main.rand.Next(8) - 4), (float)(Main.rand.Next(8) - 4), 187);
 			}
 		}

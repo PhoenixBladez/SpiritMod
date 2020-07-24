@@ -35,17 +35,17 @@ namespace SpiritMod.NPCs.Reach.ReachWorm
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				npc.position.X = npc.position.X + (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
 				npc.width = 30;
 				npc.height = 30;
 				npc.position.X = npc.position.X - (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
-				for(int num621 = 0; num621 < 20; num621++) {
+				for (int num621 = 0; num621 < 20; num621++) {
 					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 3, 0f, 0f, 100, default(Color), 2f);
 					Main.dust[num622].velocity *= 3f;
-					if(Main.rand.Next(2) == 0) {
+					if (Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 					}
@@ -54,15 +54,15 @@ namespace SpiritMod.NPCs.Reach.ReachWorm
 		}
 		public override bool PreAI()
 		{
-			if(npc.ai[3] > 0)
+			if (npc.ai[3] > 0)
 				npc.realLife = (int)npc.ai[3];
-			if(npc.target < 0 || npc.target == byte.MaxValue || Main.player[npc.target].dead)
+			if (npc.target < 0 || npc.target == byte.MaxValue || Main.player[npc.target].dead)
 				npc.TargetClosest(true);
-			if(Main.player[npc.target].dead && npc.timeLeft > 300)
+			if (Main.player[npc.target].dead && npc.timeLeft > 300)
 				npc.timeLeft = 300;
 
-			if(Main.netMode != NetmodeID.MultiplayerClient) {
-				if(!Main.npc[(int)npc.ai[1]].active) {
+			if (Main.netMode != NetmodeID.MultiplayerClient) {
+				if (!Main.npc[(int)npc.ai[1]].active) {
 					npc.life = 0;
 					npc.HitEffect(0, 10.0);
 					npc.active = false;
@@ -70,7 +70,7 @@ namespace SpiritMod.NPCs.Reach.ReachWorm
 				}
 			}
 
-			if(npc.ai[1] < (double)Main.npc.Length) {
+			if (npc.ai[1] < (double)Main.npc.Length) {
 				Vector2 npcCenter = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 
 				float dirX = Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2) - npcCenter.X;

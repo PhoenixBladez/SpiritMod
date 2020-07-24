@@ -29,16 +29,17 @@ namespace SpiritMod.Projectiles.Flail
 		float returnSpeed = 7;
 		public override bool PreAI()
 		{
-			if(projectile.Hitbox.Intersects(Main.player[projectile.owner].Hitbox) && projectile.timeLeft < 870) {
+			if (projectile.Hitbox.Intersects(Main.player[projectile.owner].Hitbox) && projectile.timeLeft < 870) {
 				projectile.active = false;
 			}
-			if(projectile.timeLeft < 859) {
+			if (projectile.timeLeft < 859) {
 				Vector2 direction9 = Main.player[projectile.owner].Center - projectile.position;
 				direction9.Normalize();
 				projectile.velocity = direction9 * returnSpeed;
 				returnSpeed += 0.2f;
 				projectile.rotation = projectile.velocity.ToRotation() - 1.57f;
-			} else {
+			}
+			else {
 				projectile.velocity -= new Vector2(projectile.ai[0], projectile.ai[1]) / 40f;
 				projectile.rotation = new Vector2(projectile.ai[0], projectile.ai[1]).ToRotation() + 1.57f;
 			}
@@ -46,16 +47,18 @@ namespace SpiritMod.Projectiles.Flail
 			player.heldProj = projectile.whoAmI;
 			player.itemTime = 2;
 			player.itemAnimation = 2;
-			if(!player.channel || hooked) {
+			if (!player.channel || hooked) {
 				projectile.timeLeft = 858;
 				projectile.friendly = false;
 			}
 			NPC npc = Main.npc[hookednpc];
-			if(hooked && npc.active && player.channel) {
+			if (hooked && npc.active && player.channel) {
 				int distance = (int)Math.Sqrt((npc.Center.X - player.Center.X) * (npc.Center.X - player.Center.X) + (npc.Center.Y - player.Center.Y) * (npc.Center.Y - player.Center.Y));
-				if(distance > 100 && projectile.Distance(npc.Center) < 50) {
+				if (distance > 100 && projectile.Distance(npc.Center) < 50) {
 					npc.velocity = projectile.velocity;
-				} else {
+					npc.netUpdate = true;
+				}
+				else {
 					hooked = false;
 				}
 			}
@@ -74,35 +77,31 @@ namespace SpiritMod.Projectiles.Flail
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(!target.boss && target.knockBackResist != 0) {
+			if (!target.boss && target.knockBackResist != 0) {
 				hooked = true;
 				hookednpc = target.whoAmI;
-				target.position = projectile.position - new Vector2((target.width / 2), (target.height / 2)); ;
+				target.position = projectile.position - new Vector2((target.width / 2), (target.height / 2));
+				target.netUpdate = true;
 				//  target.velocity = projectile.velocity;
 			}
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			if (projectile.timeLeft >= 859)
-			{
-			projectile.timeLeft = 800;
-			projectile.friendly = false;
+			if (projectile.timeLeft >= 859) {
+				projectile.timeLeft = 800;
+				projectile.friendly = false;
 			}
-			else if (hooked)
-			{
+			else if (hooked) {
 				NPC npc = Main.npc[hookednpc];
-				if (npc.noTileCollide)
-				{
+				if (npc.noTileCollide) {
 					projectile.tileCollide = false;
 				}
-				else
-				{
+				else {
 					hooked = false;
 					projectile.tileCollide = false;
 				}
 			}
-			else
-			{
+			else {
 				projectile.tileCollide = false;
 			}
 			return false;

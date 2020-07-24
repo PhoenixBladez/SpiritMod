@@ -32,20 +32,20 @@ namespace SpiritMod.NPCs.Dungeon
 			npc.DeathSound = SoundID.NPCDeath2;
 			npc.value = 220f;
 			npc.knockBackResist = .35f;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.DarkAlchemistBanner>();
-        }
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.DarkAlchemistBanner>();
+		}
 
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			int d = 37;
 			int d1 = 75;
-			for(int k = 0; k < 30; k++) {
+			for (int k = 0; k < 30; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
 				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
 			}
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/PDoctor1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/PDoctor2"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/PDoctor3"), 1f);
@@ -54,29 +54,29 @@ namespace SpiritMod.NPCs.Dungeon
 
 		public override void NPCLoot()
 		{
-			if(Main.rand.Next(153) == 1) {
+			if (Main.rand.Next(153) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GoldenKey);
 			}
-			if(Main.rand.Next(75) == 1) {
+			if (Main.rand.Next(75) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Nazar);
 			}
-			if(Main.rand.Next(100) == 1) {
+			if (Main.rand.Next(100) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.TallyCounter);
 			}
-			if(Main.rand.Next(1000) == 4) {
+			if (Main.rand.Next(1000) == 4) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BoneWand);
 			}
 			string[] lootTable = { "PlagueDoctorCowl", "PlagueDoctorRobe", "PlagueDoctorLegs" };
-			if(Main.rand.Next(6) == 0) {
+			if (Main.rand.Next(6) == 0) {
 				int loot = Main.rand.Next(lootTable.Length);
 				{
 					npc.DropItem(mod.ItemType(lootTable[loot]));
 				}
 			}
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Thrown.PlagueVial>(), Main.rand.Next(26, 43));
-            }
-        }
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Thrown.PlagueVial>(), Main.rand.Next(26, 43));
+			}
+		}
 
 		int frame = 0;
 		int timer = 0;
@@ -86,57 +86,62 @@ namespace SpiritMod.NPCs.Dungeon
 			npc.spriteDirection = npc.direction;
 			Player target = Main.player[npc.target];
 			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
-			if(distance < 200) {
+			if (distance < 200) {
 				attack = true;
 			}
-			if(distance > 250) {
+			if (distance > 250) {
 				attack = false;
 			}
-			if(attack) {
+			if (attack) {
 				npc.velocity.X = .008f * npc.direction;
 				//shootTimer++;
-				if(frame == 3 && timer == 0) {
+				if (frame == 3 && timer == 0) {
 					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 106);
-					Vector2 direction = Main.player[npc.target].Center - npc.Center;
-					direction.Normalize();
-					direction.X *= 7f;
-					direction.Y *= 7f;
-					float A = (float)Main.rand.Next(-50, 50) * 0.02f;
-					float B = (float)Main.rand.Next(-50, 50) * 0.02f;
-					int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y - 10, direction.X + A, direction.Y + B, ModContent.ProjectileType<ToxicFlaskHostile>(), 13, 1, Main.myPlayer, 0, 0);
-					for(int k = 0; k < 11; k++) {
-						Dust.NewDust(npc.position, npc.width, npc.height, 75, (float)direction.X + A, (float)direction.Y + B, 0, default(Color), .61f);
-					}
-					Main.projectile[p].hostile = true;
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						Vector2 direction = Main.player[npc.target].Center - npc.Center;
+						direction.Normalize();
+						direction.X *= 7f;
+						direction.Y *= 7f;
+						float A = (float)Main.rand.Next(-50, 50) * 0.02f;
+						float B = (float)Main.rand.Next(-50, 50) * 0.02f;
+						int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y - 10, direction.X + A, direction.Y + B, ModContent.ProjectileType<ToxicFlaskHostile>(), 13, 1, Main.myPlayer, 0, 0);
+						for (int k = 0; k < 11; k++) {
+							Dust.NewDust(npc.position, npc.width, npc.height, 75, (float)direction.X + A, (float)direction.Y + B, 0, default(Color), .61f);
+						}
+						Main.projectile[p].hostile = true;
 					//  shootTimer = 0;
+					}
 					timer++;
 				}
 				timer++;
-				if(timer >= 12) {
+				if (timer >= 12) {
 					frame++;
 					timer = 0;
 				}
-				if(frame >= 5) {
+				if (frame >= 5) {
 					frame = 0;
 				}
-				if(target.position.X > npc.position.X) {
+				if (target.position.X > npc.position.X) {
 					npc.direction = 1;
-				} else {
+				}
+				else {
 					npc.direction = -1;
 				}
-			} else {
+			}
+			else {
 				//shootTimer = 0;
 				npc.aiStyle = 3;
 				aiType = NPCID.Skeleton;
 				timer++;
-				if(timer >= 4) {
+				if (timer >= 4) {
 					frame++;
 					timer = 0;
 				}
-				if(frame >= 11) {
+				if (frame >= 11) {
 					frame = 5;
 				}
-				if(frame < 5) {
+				if (frame < 5) {
 					frame = 5;
 				}
 			}

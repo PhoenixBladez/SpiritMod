@@ -33,7 +33,7 @@ namespace SpiritMod.Projectiles.Summon.Artifact
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(2) == 0)
+			if (Main.rand.Next(2) == 0)
 				target.AddBuff(ModContent.BuffType<BCorrupt>(), 300, true);
 		}
 
@@ -41,7 +41,7 @@ namespace SpiritMod.Projectiles.Summon.Artifact
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 
-			for(int i = 0; i < 10; i++) {
+			for (int i = 0; i < 10; i++) {
 				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
 				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
 				int num = Dust.NewDust(new Vector2(x, y), 26, 26, 235, 0f, 0f, 0, default(Color), 1f);
@@ -54,12 +54,12 @@ namespace SpiritMod.Projectiles.Summon.Artifact
 
 			bool flag25 = false;
 			int jim = 1;
-			for(int index1 = 0; index1 < 200; index1++) {
-				if(Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1)) {
+			for (int index1 = 0; index1 < 200; index1++) {
+				if (Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1)) {
 					float num23 = Main.npc[index1].position.X + (float)(Main.npc[index1].width / 2);
 					float num24 = Main.npc[index1].position.Y + (float)(Main.npc[index1].height / 2);
 					float num25 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num23) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num24);
-					if(num25 < 500f) {
+					if (num25 < 500f) {
 						flag25 = true;
 						jim = index1;
 					}
@@ -67,7 +67,7 @@ namespace SpiritMod.Projectiles.Summon.Artifact
 				}
 			}
 
-			if(flag25) {
+			if (flag25) {
 				float num1 = 10f;
 				Vector2 vector2 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
 				float num2 = Main.npc[jim].Center.X - vector2.X;
@@ -79,7 +79,8 @@ namespace SpiritMod.Projectiles.Summon.Artifact
 				int num8 = 10;
 				projectile.velocity.X = (projectile.velocity.X * (float)(num8 - 1) + num6) / (float)num8;
 				projectile.velocity.Y = (projectile.velocity.Y * (float)(num8 - 1) + num7) / (float)num8;
-			} else {
+			}
+			else {
 				projectile.velocity *= 0.95f;
 			}
 		}
@@ -87,14 +88,14 @@ namespace SpiritMod.Projectiles.Summon.Artifact
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 6);
-			for(int i = 0; i < 40; i++) {
+			for (int i = 0; i < 40; i++) {
 				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 235, 0f, -2f, 0, default(Color), 2f);
 				Main.dust[num].noGravity = true;
 				Dust expr_62_cp_0 = Main.dust[num];
 				expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
 				Dust expr_92_cp_0 = Main.dust[num];
 				expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
-				if(Main.dust[num].position != projectile.Center)
+				if (Main.dust[num].position != projectile.Center)
 					Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
 
 			}

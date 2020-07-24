@@ -18,7 +18,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 	[AutoloadBossHead]
 	public class Dusking : ModNPC
 	{
-				// npc.ai[0] = State Manager.
+		// npc.ai[0] = State Manager.
 		// npc.ai[1] = Additional timer (charge timer, state timer, etc).
 		// npc.localAI[0] = Outer Circle Opacity.
 		// npc.localAI[1] = Outer Circle Rotation.
@@ -53,11 +53,11 @@ namespace SpiritMod.NPCs.Boss.Dusking
 			npc.TargetClosest(true);
 			Lighting.AddLight(npc.Center, 0.7F, 0.3F, 0.7F);
 			Player player = Main.player[npc.target];
-			if(!player.active || player.dead || Main.dayTime) {
+			if (!player.active || player.dead || Main.dayTime) {
 				npc.TargetClosest(false);
 				npc.velocity.Y = -100;
 			}
-			if(npc.ai[0] == 0) // Flying around and shooting projectiles
+			if (npc.ai[0] == 0) // Flying around and shooting projectiles
 			{
 				#region Flying Movement
 				float speed = 7f;
@@ -66,13 +66,13 @@ namespace SpiritMod.NPCs.Boss.Dusking
 				float xDir = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector2.X;
 				float yDir = (float)(Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - 120) - vector2.Y;
 				float length = (float)Math.Sqrt(xDir * xDir + yDir * yDir);
-				if(length > 400 && Main.expertMode) {
+				if (length > 400 && Main.expertMode) {
 					++speed;
 					acceleration += 0.05F;
-					if(length > 600) {
+					if (length > 600) {
 						++speed;
 						acceleration += 0.05F;
-						if(length > 800) {
+						if (length > 800) {
 							++speed;
 							acceleration += 0.05F;
 						}
@@ -81,27 +81,29 @@ namespace SpiritMod.NPCs.Boss.Dusking
 				float num10 = speed / length;
 				xDir = xDir * num10;
 				yDir = yDir * num10;
-				if(npc.velocity.X < xDir) {
+				if (npc.velocity.X < xDir) {
 					npc.velocity.X = npc.velocity.X + acceleration;
-					if(npc.velocity.X < 0 && xDir > 0)
+					if (npc.velocity.X < 0 && xDir > 0)
 						npc.velocity.X = npc.velocity.X + acceleration;
-				} else if(npc.velocity.X > xDir) {
+				}
+				else if (npc.velocity.X > xDir) {
 					npc.velocity.X = npc.velocity.X - acceleration;
-					if(npc.velocity.X > 0 && xDir < 0)
+					if (npc.velocity.X > 0 && xDir < 0)
 						npc.velocity.X = npc.velocity.X - acceleration;
 				}
-				if(npc.velocity.Y < yDir) {
+				if (npc.velocity.Y < yDir) {
 					npc.velocity.Y = npc.velocity.Y + acceleration;
-					if(npc.velocity.Y < 0 && yDir > 0)
+					if (npc.velocity.Y < 0 && yDir > 0)
 						npc.velocity.Y = npc.velocity.Y + acceleration;
-				} else if(npc.velocity.Y > yDir) {
+				}
+				else if (npc.velocity.Y > yDir) {
 					npc.velocity.Y = npc.velocity.Y - acceleration;
-					if(npc.velocity.Y > 0 && yDir < 0)
+					if (npc.velocity.Y > 0 && yDir < 0)
 						npc.velocity.Y = npc.velocity.Y - acceleration;
 				}
 				#endregion
 				// Shadow Ball Shoot
-				if(npc.ai[1] % 45 == 0) {
+				if (npc.ai[1] % 45 == 0) {
 					Vector2 dir = Main.player[npc.target].Center - npc.Center;
 					dir.Normalize();
 					dir *= 14;
@@ -109,8 +111,8 @@ namespace SpiritMod.NPCs.Boss.Dusking
 					Main.npc[newNPC].velocity = dir;
 				}
 				// Crystal Shadow Shoot.
-				if(npc.ai[1] == 150) {
-					for(int i = 0; i < 8; ++i) {
+				if (npc.ai[1] == 150) {
+					for (int i = 0; i < 8; ++i) {
 						bool expertMode = Main.expertMode;
 						Vector2 targetDir = ((((float)Math.PI * 2) / 8) * i).ToRotationVector2();
 						targetDir.Normalize();
@@ -120,7 +122,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 					}
 				}
 				// Shadowflamer Shoot
-				if(npc.ai[1] % 110 == 0) {
+				if (npc.ai[1] % 110 == 0) {
 					Vector2 dir = Main.player[npc.target].Center - npc.Center;
 					dir += new Vector2(Main.rand.Next(-40, 41), Main.rand.Next(-40, 41));
 					dir.Normalize();
@@ -129,23 +131,24 @@ namespace SpiritMod.NPCs.Boss.Dusking
 					Main.npc[newNPC].velocity = dir;
 				}
 				npc.ai[1]++;
-				if(npc.ai[1] >= 300) {
+				if (npc.ai[1] >= 300) {
 					npc.ai[0] = 1;
 					npc.ai[1] = 60;
 					npc.ai[2] = 0;
 					npc.ai[3] = 0;
 				}
 				// Rage Phase Switch
-				if(npc.life <= 9000) {
+				if (npc.life <= 9000) {
 					npc.ai[0] = 2;
 					npc.ai[1] = 0;
 					npc.ai[2] = 0;
 					npc.ai[3] = 0;
 				}
-			} else if(npc.ai[0] == 1) // Charging.
-			  {
+			}
+			else if (npc.ai[0] == 1) // Charging.
+			{
 				npc.ai[1]++;
-				if(npc.ai[1] % 45 == 0) {
+				if (npc.ai[1] % 45 == 0) {
 					npc.TargetClosest(true);
 					float speed = 10 + (2 * (int)(npc.life / 5000));
 					Vector2 vector2_1 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
@@ -154,9 +157,9 @@ namespace SpiritMod.NPCs.Boss.Dusking
 					float targetVel = Math.Abs(Main.player[npc.target].velocity.X) + Math.Abs(Main.player[npc.target].velocity.Y) / 4f;
 
 					float speedMultiplier = targetVel + (10f - targetVel);
-					if(speedMultiplier < 6.0)
+					if (speedMultiplier < 6.0)
 						speedMultiplier = 6f;
-					if(speedMultiplier > 16.0)
+					if (speedMultiplier > 16.0)
 						speedMultiplier = 16f;
 					float speedX = dirX - Main.player[npc.target].velocity.X * speedMultiplier;
 					float speedY = dirY - (Main.player[npc.target].velocity.Y * speedMultiplier / 4);
@@ -169,19 +172,20 @@ namespace SpiritMod.NPCs.Boss.Dusking
 					npc.velocity.X = npc.velocity.X + Main.rand.Next(-40, 41) * 0.1f;
 					npc.velocity.Y = npc.velocity.Y + Main.rand.Next(-40, 41) * 0.1f;
 				}
-				if(npc.ai[1] >= 270) {
+				if (npc.ai[1] >= 270) {
 					npc.ai[0] = 0;
 					npc.ai[1] = 0;
 					npc.ai[2] = 0;
 					npc.ai[3] = 0;
 					npc.velocity *= 0.3F;
 				}
-			} else if(npc.ai[0] == 2) // Continuous Charging.
-			  {
+			}
+			else if (npc.ai[0] == 2) // Continuous Charging.
+			{
 				{
 					npc.defense = 40;
 				}
-				if(npc.ai[1] == 0) // Flying Movement
+				if (npc.ai[1] == 0) // Flying Movement
 				{
 					bool expertMode = Main.expertMode;
 					float speed = 38f;
@@ -190,16 +194,16 @@ namespace SpiritMod.NPCs.Boss.Dusking
 					float num7 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector2.X;
 					float num8 = (float)(Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - 120) - vector2.Y;
 					float num9 = (float)Math.Sqrt(num7 * num7 + num8 * num8);
-					if(Main.rand.Next(100) == 6) {
-						for(int i = 0; i < 8; ++i) {
+					if (Main.rand.Next(100) == 6) {
+						for (int i = 0; i < 8; ++i) {
 							Vector2 targetDir = ((((float)Math.PI * 2) / 8) * i).ToRotationVector2();
 							targetDir.Normalize();
 							targetDir *= 3;
 							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, targetDir.X, targetDir.Y, ModContent.ProjectileType<CrystalShadow>(), 26, 0.5F, Main.myPlayer);
 						}
 					}
-					if(npc.life >= (npc.lifeMax / 2)) {
-						if(Main.rand.Next(100) == 10) {
+					if (npc.life >= (npc.lifeMax / 2)) {
+						if (Main.rand.Next(100) == 10) {
 							Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 21);
 							Vector2 direction = Main.player[npc.target].Center - npc.Center;
 							direction.Normalize();
@@ -207,7 +211,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 							direction.Y *= 12f;
 
 							int amountOfProjectiles = 1;
-							for(int i = 0; i < amountOfProjectiles; ++i) {
+							for (int i = 0; i < amountOfProjectiles; ++i) {
 								float A = (float)Main.rand.Next(-200, 200) * 0.01f;
 								float B = (float)Main.rand.Next(-200, 200) * 0.01f;
 								int damage = expertMode ? 23 : 37;
@@ -216,13 +220,13 @@ namespace SpiritMod.NPCs.Boss.Dusking
 						}
 
 					}
-					if(num9 > 400 && Main.expertMode) {
+					if (num9 > 400 && Main.expertMode) {
 						++speed;
 						acceleration += 0.25F;
-						if(num9 > 600) {
+						if (num9 > 600) {
 							++speed;
 							acceleration += 0.25F;
-							if(num9 > 800) {
+							if (num9 > 800) {
 								++speed;
 								acceleration += 0.25F;
 							}
@@ -231,32 +235,35 @@ namespace SpiritMod.NPCs.Boss.Dusking
 					float num10 = speed / num9;
 					float num11 = num7 * num10;
 					float num12 = num8 * num10;
-					if(npc.velocity.X < num11) {
+					if (npc.velocity.X < num11) {
 						npc.velocity.X = npc.velocity.X + acceleration;
-						if(npc.velocity.X < 0 && num11 > 0)
+						if (npc.velocity.X < 0 && num11 > 0)
 							npc.velocity.X = npc.velocity.X + acceleration;
-					} else if(npc.velocity.X > num11) {
+					}
+					else if (npc.velocity.X > num11) {
 						npc.velocity.X = npc.velocity.X - acceleration;
-						if(npc.velocity.X > 0 && num11 < 0)
+						if (npc.velocity.X > 0 && num11 < 0)
 							npc.velocity.X = npc.velocity.X - acceleration;
 					}
-					if(npc.velocity.Y < num12) {
+					if (npc.velocity.Y < num12) {
 						npc.velocity.Y = npc.velocity.Y + acceleration;
-						if(npc.velocity.Y < 0 && num12 > 0)
+						if (npc.velocity.Y < 0 && num12 > 0)
 							npc.velocity.Y = npc.velocity.Y + acceleration;
-					} else if(npc.velocity.Y > num12) {
+					}
+					else if (npc.velocity.Y > num12) {
 						npc.velocity.Y = npc.velocity.Y - acceleration;
-						if(npc.velocity.Y > 0 && num12 < 0)
+						if (npc.velocity.Y > 0 && num12 < 0)
 							npc.velocity.Y = npc.velocity.Y - acceleration;
 					}
 					npc.ai[2]++;
-					if(npc.ai[2] >= 120) {
+					if (npc.ai[2] >= 120) {
 						npc.ai[1] = 1;
 						npc.ai[2] = 0;
 					}
-				} else if(npc.ai[1] == 1) {
+				}
+				else if (npc.ai[1] == 1) {
 					npc.ai[2]++;
-					if(npc.ai[2] % 45 == 0) {
+					if (npc.ai[2] % 45 == 0) {
 						npc.TargetClosest(true);
 						float speed = 15 + (2 * (int)(npc.life / 10000));
 						Vector2 vector2_1 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
@@ -264,9 +271,9 @@ namespace SpiritMod.NPCs.Boss.Dusking
 						float dirY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector2_1.Y;
 						float targetVel = Math.Abs(Main.player[npc.target].velocity.X) + Math.Abs(Main.player[npc.target].velocity.Y) / 4f;
 						float speedMultiplier = targetVel + (10f - targetVel);
-						if(speedMultiplier < 35.0)
+						if (speedMultiplier < 35.0)
 							speedMultiplier = 35f;
-						if(speedMultiplier > 25.0)
+						if (speedMultiplier > 25.0)
 							speedMultiplier = 25f;
 						float speedX = dirX - Main.player[npc.target].velocity.X * speedMultiplier;
 						float speedY = dirY - (Main.player[npc.target].velocity.Y * speedMultiplier / 4);
@@ -279,29 +286,29 @@ namespace SpiritMod.NPCs.Boss.Dusking
 						npc.velocity.X = npc.velocity.X + Main.rand.Next(-20, 21) * 0.5f;
 						npc.velocity.Y = npc.velocity.Y + Main.rand.Next(-20, 21) * 0.5f;
 					}
-					if(Main.rand.Next(100) == 6) {
-						for(int i = 0; i < 8; ++i) {
+					if (Main.rand.Next(100) == 6) {
+						for (int i = 0; i < 8; ++i) {
 							Vector2 targetDir = ((((float)Math.PI * 2) / 8) * i).ToRotationVector2();
 							targetDir.Normalize();
 							targetDir *= 3;
 							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, targetDir.X, targetDir.Y, ModContent.ProjectileType<CrystalShadow>(), 26, 0.5F, Main.myPlayer);
 						}
 					}
-					if(npc.ai[2] >= 270) {
+					if (npc.ai[2] >= 270) {
 						npc.ai[1] = 0;
 						npc.ai[2] = 0;
 						npc.velocity *= 0.3F;
 					}
 				}
 				// Circle code.
-				if(npc.localAI[0] < 1)
+				if (npc.localAI[0] < 1)
 					npc.localAI[0] += 0.01F;
 				npc.localAI[1] += 0.03F;
 				npc.ai[3]++;
-				if(npc.ai[3] >= 6) {
-					for(int i = 0; i < 255; ++i) {
-						if(Main.player[i].active && !Main.player[i].dead) {
-							if((Main.player[i].Center - npc.Center).Length() <= 200) {
+				if (npc.ai[3] >= 6) {
+					for (int i = 0; i < 255; ++i) {
+						if (Main.player[i].active && !Main.player[i].dead) {
+							if ((Main.player[i].Center - npc.Center).Length() <= 200) {
 								//Main.player[i].Hurt(1, 0, false, false, " was evaporated...", false, 1); commed out because this needs work
 								Main.player[i].AddBuff(BuffID.Darkness, 330);
 							}
@@ -309,16 +316,17 @@ namespace SpiritMod.NPCs.Boss.Dusking
 					}
 					npc.ai[3] = 0;
 				}
-			} else if(npc.ai[0] == 3) {
+			}
+			else if (npc.ai[0] == 3) {
 				npc.velocity *= 0.97F;
 				npc.alpha += 3;
-				if(npc.alpha >= 255) {
+				if (npc.alpha >= 255) {
 					npc.active = false;
 				}
 			}
-			if(!Main.player[npc.target].active || Main.player[npc.target].dead) {
+			if (!Main.player[npc.target].active || Main.player[npc.target].dead) {
 				npc.TargetClosest(true);
-				if(!Main.player[npc.target].active || Main.player[npc.target].dead) {
+				if (!Main.player[npc.target].active || Main.player[npc.target].dead) {
 					npc.ai[0] = 3;
 				}
 			}
@@ -332,8 +340,8 @@ namespace SpiritMod.NPCs.Boss.Dusking
 			Lighting.AddLight(npc.Center, 0.7F, 0.3F, 0.7F);
 			Player player = Main.player[npc.target];
 
-			if(Main.expertMode) {
-				if(Main.rand.Next(100) == 2 && npc.life >= (npc.lifeMax / 2)) {
+			if (Main.expertMode) {
+				if (Main.rand.Next(100) == 2 && npc.life >= (npc.lifeMax / 2)) {
 					Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 33);
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
 					direction.Normalize();
@@ -341,7 +349,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 					direction.Y *= 12f;
 					bool expertMode = Main.expertMode;
 					int amountOfProjectiles = 1;
-					for(int i = 0; i < amountOfProjectiles; ++i) {
+					for (int i = 0; i < amountOfProjectiles; ++i) {
 						float A = (float)Main.rand.Next(-80, 80) * 0.01f;
 						float B = (float)Main.rand.Next(-80, 80) * 0.01f;
 						int damage = expertMode ? 23 : 37;
@@ -354,7 +362,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frameCounter++;
-			if(npc.frameCounter >= (npc.ai[0] == 2 ? 3 : 6)) {
+			if (npc.frameCounter >= (npc.ai[0] == 2 ? 3 : 6)) {
 				npc.frameCounter = 0;
 				npc.frame.Y = (npc.frame.Y + frameHeight) % (Main.npcFrameCount[npc.type] * frameHeight);
 			}
@@ -365,7 +373,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 		public override bool PreNPCLoot()
 		{
 			MyWorld.downedDusking = true;
-			for(int i = 0; i < 15; ++i) {
+			for (int i = 0; i < 15; ++i) {
 				int newDust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Shadowflame, 0f, 0f, 100, default(Color), 2.5f);
 				Main.dust[newDust].noGravity = true;
 				Main.dust[newDust].velocity *= 5f;
@@ -381,7 +389,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 
 		public override void NPCLoot()
 		{
-			if(Main.expertMode) {
+			if (Main.expertMode) {
 				npc.DropBossBags();
 				return;
 			}
@@ -396,7 +404,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 				ModContent.ItemType<DuskCarbine>(),
 			};
 			int loot = Main.rand.Next(lootTable.Length);
-			if(loot == 0)
+			if (loot == 0)
 				npc.DropItem(lootTable[0], Main.rand.Next(74, 121));
 			else
 				npc.DropItem(lootTable[loot]);
@@ -412,7 +420,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			if(npc.localAI[0] > 0) {
+			if (npc.localAI[0] > 0) {
 				Texture2D ring = mod.GetTexture("Effects/Glowmasks/Dusking_Circle");
 				Vector2 origin = new Vector2(ring.Width * 0.5F, ring.Height * 0.5F);
 				spriteBatch.Draw(ring, (npc.Center) - Main.screenPosition, null, Color.White * npc.localAI[0], npc.localAI[1], origin, 1, SpriteEffects.None, 0);

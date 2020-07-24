@@ -40,15 +40,15 @@ namespace SpiritMod.Projectiles.Summon
 
 			//TARGET NEAREST NPC WITHIN RANGE
 			float lowestDist = float.MaxValue;
-			for(int i = 0; i < 200; ++i) {
+			for (int i = 0; i < 200; ++i) {
 				NPC npc = Main.npc[i];
 				//if npc is a valid target (active, not friendly, and not a critter)
-				if(npc.active && npc.CanBeChasedBy(projectile)) {
+				if (npc.active && npc.CanBeChasedBy(projectile)) {
 					//if npc is within 50 blocks
 					float dist = projectile.Distance(npc.Center);
-					if(dist / 16 < range) {
+					if (dist / 16 < range) {
 						//if npc is closer than closest found npc
-						if(dist < lowestDist) {
+						if (dist < lowestDist) {
 							lowestDist = dist;
 
 							//target this npc
@@ -61,9 +61,9 @@ namespace SpiritMod.Projectiles.Summon
 			NPC target = (Main.npc[(int)projectile.ai[1]] ?? new NPC()); //our target
 																		 //firing
 			projectile.ai[0]++;
-			if(projectile.ai[0] % shootSpeed == 10 && target.active && projectile.Distance(target.Center) / 16 < range) {
+			if (projectile.ai[0] % shootSpeed == 10 && target.active && projectile.Distance(target.Center) / 16 < range) {
 
-				for(int I = 0; I < 2; I++) {
+				for (int I = 0; I < 2; I++) {
 					Vector2 ShootArea = new Vector2(projectile.Center.X, projectile.Center.Y - 25);
 					Vector2 direction = target.Center - ShootArea;
 					direction.Normalize();

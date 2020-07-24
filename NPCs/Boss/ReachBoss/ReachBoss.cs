@@ -54,55 +54,57 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		public override bool PreAI()
 		{
 			Player player = Main.player[npc.target];
-			if(player.GetSpiritPlayer().ZoneReach) {
+			if (player.GetSpiritPlayer().ZoneReach) {
 				npc.defense = 25;
 				npc.damage = 45;
-			} else {
+			}
+			else {
 				npc.defense = 11;
 				npc.damage = 25;
 			}
 			Counter++;
-			if(npc.life >= (npc.lifeMax / 3)) {
-				if(npc.Center.X >= player.Center.X && moveSpeed >= -30) // flies to players x position
+			if (npc.life >= (npc.lifeMax / 3)) {
+				if (npc.Center.X >= player.Center.X && moveSpeed >= -30) // flies to players x position
 					moveSpeed--;
-				else if(npc.Center.X <= player.Center.X && moveSpeed <= 30)
+				else if (npc.Center.X <= player.Center.X && moveSpeed <= 30)
 					moveSpeed++;
 
 				npc.velocity.X = moveSpeed * 0.1f;
 
-				if(npc.Center.Y >= player.Center.Y - 30f && moveSpeedY >= -20) //Flies to players Y position
+				if (npc.Center.Y >= player.Center.Y - 30f && moveSpeedY >= -20) //Flies to players Y position
 					moveSpeedY--;
-				else if(npc.Center.Y <= player.Center.Y - 30f && moveSpeedY <= 20)
+				else if (npc.Center.Y <= player.Center.Y - 30f && moveSpeedY <= 20)
 					moveSpeedY++;
-			} else {
+			}
+			else {
 				int num621 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default(Color), 2f);
 				Main.dust[num621].noGravity = true;
-				if(npc.Center.X >= player.Center.X && moveSpeed >= -50) // flies to players x position
+				if (npc.Center.X >= player.Center.X && moveSpeed >= -50) // flies to players x position
 					moveSpeed--;
-				else if(npc.Center.X <= player.Center.X && moveSpeed <= 50)
+				else if (npc.Center.X <= player.Center.X && moveSpeed <= 50)
 					moveSpeed++;
 
 				npc.velocity.X = moveSpeed * 0.1f;
 
-				if(npc.Center.Y >= player.Center.Y - 50f && moveSpeedY >= -30) //Flies to players Y position
+				if (npc.Center.Y >= player.Center.Y - 50f && moveSpeedY >= -30) //Flies to players Y position
 					moveSpeedY--;
-				else if(npc.Center.Y <= player.Center.Y - 50f && moveSpeedY <= 30)
+				else if (npc.Center.Y <= player.Center.Y - 50f && moveSpeedY <= 30)
 					moveSpeedY++;
 			}
 			aitimer++;
 			npc.velocity.Y = moveSpeedY * 0.1f;
-			if(aitimer >= 540 && aitimer < 560) {
+			if (aitimer >= 540 && aitimer < 560) {
 				npc.SimpleFlyMovement(npc.DirectionTo(player.Center + new Vector2((float)((double)npc.direction * 1000), player.Center.Y + .001f)) * 25.5f, 1.8f);
 				npc.direction = npc.spriteDirection = (double)npc.Center.X < (double)player.Center.X ? 1 : -1;
 			}
 			int npcType = ModContent.NPCType<SunFlower>();
 			bool plantAlive = false;
-			for(int num569 = 0; num569 < 200; num569++) {
-				if((Main.npc[num569].active && Main.npc[num569].type == (npcType)))
+			for (int num569 = 0; num569 < 200; num569++) {
+				if ((Main.npc[num569].active && Main.npc[num569].type == (npcType)))
 					plantAlive = true;
 			}
-			if(!plantAlive) {
-				if(Counter > 2000) {
+			if (!plantAlive) {
+				if (Counter > 2000) {
 					Vector2 direction = Vector2.One.RotatedByRandom(MathHelper.ToRadians(100));
 					int newNPC = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, ModContent.NPCType<SunFlower>());
 					int newNPC1 = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, ModContent.NPCType<SunFlower>());
@@ -119,7 +121,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			}
 
 			bool expertMode = Main.expertMode;
-			if(Main.rand.Next(195) == 1 && npc.life >= (npc.lifeMax / 3)) {
+			if (Main.rand.Next(195) == 1 && npc.life >= (npc.lifeMax / 3)) {
 				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
@@ -127,14 +129,15 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				direction.Y *= 12f;
 
 				int amountOfProjectiles = 1;
-				for(int i = 0; i < amountOfProjectiles; ++i) {
+				for (int i = 0; i < amountOfProjectiles; ++i) {
 					float A = (float)Main.rand.Next(-200, 200) * 0.01f;
 					float B = (float)Main.rand.Next(-200, 200) * 0.01f;
 					int damage = expertMode ? 13 : 17;
 					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BouncingSpore>(), damage, 1, Main.myPlayer, 0, 0);
 
 				}
-			} else if(Main.rand.Next(190) == 3 && npc.life <= (npc.lifeMax / 3)) {
+			}
+			else if (Main.rand.Next(210) == 3 && npc.life <= (npc.lifeMax / 3)) {
 
 				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
@@ -143,7 +146,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				direction.Y *= 12f;
 
 				int amountOfProjectiles = 1;
-				for(int i = 0; i < amountOfProjectiles; ++i) {
+				for (int i = 0; i < amountOfProjectiles; ++i) {
 					float A = (float)Main.rand.Next(-200, 200) * 0.01f;
 					float B = (float)Main.rand.Next(-200, 200) * 0.01f;
 					int damage = expertMode ? 14 : 20;
@@ -152,7 +155,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				}
 			}
 
-			if(Main.rand.Next(225) == 0 && npc.life >= (npc.lifeMax / 2)) {
+			if (Main.rand.Next(240) == 0 && npc.life >= (npc.lifeMax / 2)) {
 
 				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
@@ -161,14 +164,14 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				direction.Y *= 14f;
 
 				int amountOfProjectiles = Main.rand.Next(3, 5);
-				for(int i = 0; i < amountOfProjectiles; ++i) {
+				for (int i = 0; i < amountOfProjectiles; ++i) {
 					float A = (float)Main.rand.Next(-200, 200) * 0.05f;
 					float B = (float)Main.rand.Next(-200, 200) * 0.05f;
 					int damage = expertMode ? 11 : 16;
 					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BossSpike>(), damage, 1, Main.myPlayer, 0, 0);
 				}
 			}
-			if(Main.rand.Next(180) == 0 && npc.life >= (npc.lifeMax / 3) && npc.life <= (npc.lifeMax / 2)) {
+			if (Main.rand.Next(190) == 0 && npc.life >= (npc.lifeMax / 3) && npc.life <= (npc.lifeMax / 2)) {
 				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
@@ -176,13 +179,14 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				direction.Y *= 14f;
 
 				int amountOfProjectiles = Main.rand.Next(3, 5);
-				for(int i = 0; i < amountOfProjectiles; ++i) {
+				for (int i = 0; i < amountOfProjectiles; ++i) {
 					float A = (float)Main.rand.Next(-200, 200) * 0.05f;
 					float B = (float)Main.rand.Next(-200, 200) * 0.05f;
 					int damage = expertMode ? 11 : 16;
 					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BossSpike>(), damage, 1, Main.myPlayer, 0, 0);
 				}
-			} else if(Main.rand.Next(22) == 1 && npc.life <= (npc.lifeMax / 3)) {
+			}
+			else if (Main.rand.Next(28) == 1 && npc.life <= (npc.lifeMax / 3)) {
 				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
@@ -190,13 +194,14 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				direction.Y *= 12f;
 
 				int amountOfProjectiles = 1;
-				for(int i = 0; i < amountOfProjectiles; ++i) {
+				for (int i = 0; i < amountOfProjectiles; ++i) {
 					float A = (float)Main.rand.Next(-100, 100) * 0.01f;
 					float B = (float)Main.rand.Next(-100, 100) * 0.01f;
 					int damage = expertMode ? 12 : 20;
 					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BossRedSpike>(), damage, 1, Main.myPlayer, 0, 0);
 				}
-			} else {
+			}
+			else {
 
 			}
 			return true;
@@ -215,29 +220,29 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		public override void AI()
 		{
 			Player player = Main.player[npc.target];
-			if(!player.active || player.dead) {
+			if (!player.active || player.dead) {
 				npc.TargetClosest(false);
 				npc.velocity.Y = -2000;
 			}
 			npc.spriteDirection = npc.direction;
 			npc.ai[1]++;
-			if(npc.ai[1] >= 300) {
+			if (npc.ai[1] >= 300) {
 				npc.ai[0] = 1;
 				npc.ai[1] = 60;
 				npc.ai[2] = 0;
 				npc.ai[3] = 0;
 			}
 			// Rage Phase Switch
-			if(npc.life <= 9000) {
+			if (npc.life <= 9000) {
 				npc.ai[0] = 2;
 				npc.ai[1] = 0;
 				npc.ai[2] = 0;
 				npc.ai[3] = 0;
 			}
-			if(npc.ai[0] == 1) // Charging.
+			if (npc.ai[0] == 1) // Charging.
 			{
 				npc.ai[1]++;
-				if(npc.ai[1] % 45 == 0) {
+				if (npc.ai[1] % 45 == 0) {
 					npc.TargetClosest(true);
 					float speed = 10 + (2 * (int)(npc.life / 5000));
 					Vector2 vector2_1 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
@@ -246,9 +251,9 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 					float targetVel = Math.Abs(Main.player[npc.target].velocity.X) + Math.Abs(Main.player[npc.target].velocity.Y) / 4f;
 
 					float speedMultiplier = targetVel + (10f - targetVel);
-					if(speedMultiplier < 6.0)
+					if (speedMultiplier < 6.0)
 						speedMultiplier = 6f;
-					if(speedMultiplier > 16.0)
+					if (speedMultiplier > 16.0)
 						speedMultiplier = 16f;
 					float speedX = dirX - Main.player[npc.target].velocity.X * speedMultiplier;
 					float speedY = dirY - (Main.player[npc.target].velocity.Y * speedMultiplier / 4);
@@ -261,7 +266,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 					npc.velocity.X = npc.velocity.X + Main.rand.Next(-40, 41) * 0.1f;
 					npc.velocity.Y = npc.velocity.Y + Main.rand.Next(-40, 41) * 0.1f;
 				}
-				if(npc.ai[1] >= 270) {
+				if (npc.ai[1] >= 270) {
 					npc.ai[0] = 0;
 					npc.ai[1] = 0;
 					npc.ai[2] = 0;
@@ -273,8 +278,8 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0) {
-				if(!text) {
+			if (Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0) {
+				if (!text) {
 					CombatText.NewText(new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height), new Color(0, 200, 80, 100),
 					"You cannot stop the wrath of nature!");
 					text = true;
@@ -292,10 +297,10 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ReachBoss1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ReachBoss1"), 1f);
-				for(int num621 = 0; num621 < 20; num621++) {
+				for (int num621 = 0; num621 < 20; num621++) {
 					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 2, 0f, 0f, 100, default(Color), 2f);
 					Main.dust[num622].velocity *= 3f;
-					if(Main.rand.Next(2) == 0) {
+					if (Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 					}

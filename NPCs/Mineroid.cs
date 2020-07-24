@@ -31,9 +31,9 @@ namespace SpiritMod.NPCs
 			npc.knockBackResist = .45f;
 			npc.aiStyle = 44;
 			aiType = NPCID.FlyingAntlion;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.OrbititeBanner>();
-        }
+			banner = npc.type;
+			bannerItem = ModContent.ItemType<Items.Banners.OrbititeBanner>();
+		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
@@ -42,17 +42,16 @@ namespace SpiritMod.NPCs
 
 		public override void NPCLoot()
 		{
-			if(NPC.downedBoss2) {
-				if(Main.rand.Next(20) == 0) {
+			if (NPC.downedBoss2) {
+				if (Main.rand.Next(20) == 0) {
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<OrbiterStaff>());
 				}
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Meteorite, Main.rand.Next(1, 2));
 			}
-			if(Main.rand.Next(1) == 400) {
+			if (Main.rand.Next(1) == 400) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GravityModulator>());
 			}
 			string[] lootTable = { "AstronautLegs", "AstronautHelm", "AstronautBody" };
-			if(Main.rand.Next(40) == 0) {
+			if (Main.rand.Next(40) == 0) {
 				int loot = Main.rand.Next(lootTable.Length);
 				{
 					npc.DropItem(mod.ItemType(lootTable[loot]));
@@ -73,10 +72,10 @@ namespace SpiritMod.NPCs
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			Main.PlaySound(SoundID.DD2_WitherBeastHurt, npc.Center);
-			for(int k = 0; k < 11; k++) {
+			for (int k = 0; k < 11; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, 24, hitDirection, -1f, 0, default(Color), .61f);
 			}
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mineroid/Mineroid1"));
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mineroid/Mineroid2"));
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mineroid/Mineroid3"));
@@ -89,10 +88,10 @@ namespace SpiritMod.NPCs
 				npc.height = 30;
 				npc.position.X = npc.position.X - (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
-				for(int num621 = 0; num621 < 20; num621++) {
+				for (int num621 = 0; num621 < 20; num621++) {
 					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 24, 0f, 0f, 100, default(Color), 1f);
 					Main.dust[num622].velocity *= 3f;
-					if(Main.rand.Next(2) == 0) {
+					if (Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.5f;
 					}
 				}
@@ -110,13 +109,14 @@ namespace SpiritMod.NPCs
 		public override void AI()
 		{
 			timer++;
-			if(timer >= 90) {
+			if (timer >= 90 && Main.netMode != NetmodeID.MultiplayerClient) {
 				bool expertMode = Main.expertMode;
 				int damage = expertMode ? 10 : 16;
 				Vector2 vector2_2 = Vector2.UnitY.RotatedByRandom(1.57079637050629f) * new Vector2(5f, 3f);
 				int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector2_2.X, vector2_2.Y, mod.ProjectileType("MeteorShardHostile1"), damage, 0.0f, Main.myPlayer, 0.0f, (float)npc.whoAmI);
 				Main.projectile[p].hostile = true;
 				timer = 0;
+				npc.netUpdate = true;
 			}
 
 			npc.spriteDirection = npc.direction;

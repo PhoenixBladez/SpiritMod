@@ -19,8 +19,8 @@ namespace SpiritMod.Utilities
 		/// <returns></returns>
 		public Vector2 Evaluate(float T)
 		{
-			if(T < 0f) T = 0f;
-			if(T > 1f) T = 1f;
+			if (T < 0f) T = 0f;
+			if (T > 1f) T = 1f;
 
 			return PrivateEvaluate(_controlPoints, T);
 		}
@@ -32,7 +32,7 @@ namespace SpiritMod.Utilities
 		/// <returns>A list of Vector2s representing the points.</returns>
 		public List<Vector2> GetPoints(int amount)
 		{
-			if(amount < 2) {
+			if (amount < 2) {
 				//throw new ArgumentException("How am I supposed to get one (or, heck, less) point on a bezier curve? You need to have more than two points specified for the number!");
 				amount = 2;
 			}
@@ -41,7 +41,7 @@ namespace SpiritMod.Utilities
 
 			List<Vector2> points = new List<Vector2>();
 
-			for(int i = 0; i < amount; i++) {
+			for (int i = 0; i < amount; i++) {
 				points.Add(Evaluate(perStep * i));
 			}
 
@@ -50,13 +50,14 @@ namespace SpiritMod.Utilities
 
 		private Vector2 PrivateEvaluate(Vector2[] points, float T)
 		{
-			if(points.Length > 2) {
+			if (points.Length > 2) {
 				Vector2[] nextPoints = new Vector2[points.Length - 1];
-				for(int k = 0; k < points.Length - 1; k++) {
+				for (int k = 0; k < points.Length - 1; k++) {
 					nextPoints[k] = Vector2.Lerp(points[k], points[k + 1], T);
 				}
 				return PrivateEvaluate(nextPoints, T);
-			} else {
+			}
+			else {
 				return Vector2.Lerp(points[0], points[1], T);
 			}
 		}

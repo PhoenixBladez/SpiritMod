@@ -43,7 +43,7 @@ namespace SpiritMod.Items.Armor
 		{
 			timer++;
 
-			if(timer == 20) {
+			if (timer == 20) {
 				int dust = Dust.NewDust(player.position, player.width, player.height, 6);
 				timer = 0;
 			}

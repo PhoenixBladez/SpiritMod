@@ -1,4 +1,5 @@
 using SpiritMod.Projectiles.Thrown.Charge;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -33,6 +34,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 			item.noUseGraphic = true;
 			item.shoot = ModContent.ProjectileType<TikiJavelinProj>();
 			item.shootSpeed = 0f;
+			item.value = Item.sellPrice(0, 0, 60, 0);
 		}
 
 		/*   public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

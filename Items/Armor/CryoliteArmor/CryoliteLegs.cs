@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Armor.CryoliteArmor
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<CryoliteBar>(), 11);
+			recipe.AddIngredient(ModContent.ItemType<CryoliteBar>(), 18);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

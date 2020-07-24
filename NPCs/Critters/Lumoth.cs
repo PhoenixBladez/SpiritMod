@@ -50,7 +50,7 @@ namespace SpiritMod.NPCs.Critters
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Lumoth/Lumoth1"));
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Lumoth/Lumoth2"));
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Lumoth/Lumoth3"));
@@ -61,10 +61,10 @@ namespace SpiritMod.NPCs.Critters
 				npc.height = 32;
 				npc.position.X = npc.position.X - (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
-				for(int num621 = 0; num621 < 20; num621++) {
+				for (int num621 = 0; num621 < 20; num621++) {
 					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.GoldCoin, 0f, 0f, 100, default(Color), 1f);
 					Main.dust[num622].velocity *= .1f;
-					if(Main.rand.Next(2) == 0) {
+					if (Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.9f;
 					}
 				}
@@ -72,7 +72,7 @@ namespace SpiritMod.NPCs.Critters
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if(spawnInfo.playerSafe) {
+			if (spawnInfo.playerSafe) {
 				return 0f;
 			}
 			return SpawnCondition.Cavern.Chance * 0.0763f;
@@ -92,7 +92,7 @@ namespace SpiritMod.NPCs.Critters
 		}
 		public override void NPCLoot()
 		{
-			if(Main.rand.Next(3) == 1) {
+			if (Main.rand.Next(3) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Brightbulb>(), 1);
 			}
 		}

@@ -26,7 +26,7 @@ namespace SpiritMod.Projectiles
 
 		public override bool PreAI()
 		{
-			for(int i = 0; i < 3; ++i) {
+			for (int i = 0; i < 3; ++i) {
 				Vector2 speed = -projectile.velocity + new Vector2(Main.rand.Next(-5, 5), Main.rand.Next(-5, 5));
 				speed *= 0.4F;
 				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 257);

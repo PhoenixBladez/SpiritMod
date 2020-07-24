@@ -46,28 +46,28 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		}
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			if(npc.alpha != 255) {
+			if (npc.alpha != 255) {
 				GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Boss/SteamRaider/LaserBase_Glow"));
 			}
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			int d1 = 226;
-			for(int k = 0; k < 20; k++) {
+			for (int k = 0; k < 20; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 117, new Color(0, 255, 142), .6f);
 			}
-			if(npc.life <= 0) {
+			if (npc.life <= 0) {
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 14);
 				Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 44);
 				Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 4);
-				for(int i = 0; i < 40; i++) {
+				for (int i = 0; i < 40; i++) {
 					int num = Dust.NewDust(npc.position, npc.width, npc.height, 156, 0f, -2f, 117, new Color(0, 255, 142), .6f);
 					Main.dust[num].noGravity = true;
 					Dust expr_62_cp_0 = Main.dust[num];
 					expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
 					Dust expr_92_cp_0 = Main.dust[num];
 					expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
-					if(Main.dust[num].position != npc.Center) {
+					if (Main.dust[num].position != npc.Center) {
 						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
 					}
 				}
@@ -78,18 +78,18 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		{
 			alphaCounter += .08f;
 			timer++;
-			if(timer >= 90) {
+			if (timer >= 90) {
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 14);
 				Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 44);
 				Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 4);
-				for(int i = 0; i < 40; i++) {
+				for (int i = 0; i < 40; i++) {
 					int num = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, -2f, 117, new Color(0, 255, 142), .6f);
 					Main.dust[num].noGravity = true;
 					Dust expr_62_cp_0 = Main.dust[num];
 					expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
 					Dust expr_92_cp_0 = Main.dust[num];
 					expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
-					if(Main.dust[num].position != npc.Center) {
+					if (Main.dust[num].position != npc.Center) {
 						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
 					}
 				}
@@ -106,30 +106,32 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			float num10 = speed / length;
 			xDir = xDir * num10;
 			yDir = yDir * num10;
-			if(npc.velocity.X < xDir) {
+			if (npc.velocity.X < xDir) {
 				npc.velocity.X = npc.velocity.X + acceleration;
-				if(npc.velocity.X < 0 && xDir > 0)
+				if (npc.velocity.X < 0 && xDir > 0)
 					npc.velocity.X = npc.velocity.X + acceleration;
-			} else if(npc.velocity.X > xDir) {
+			}
+			else if (npc.velocity.X > xDir) {
 				npc.velocity.X = npc.velocity.X - acceleration;
-				if(npc.velocity.X > 0 && xDir < 0)
+				if (npc.velocity.X > 0 && xDir < 0)
 					npc.velocity.X = npc.velocity.X - acceleration;
 			}
 
-			if(npc.velocity.Y < yDir) {
+			if (npc.velocity.Y < yDir) {
 				npc.velocity.Y = npc.velocity.Y + acceleration;
-				if(npc.velocity.Y < 0 && yDir > 0)
+				if (npc.velocity.Y < 0 && yDir > 0)
 					npc.velocity.Y = npc.velocity.Y + acceleration;
-			} else if(npc.velocity.Y > yDir) {
+			}
+			else if (npc.velocity.Y > yDir) {
 				npc.velocity.Y = npc.velocity.Y - acceleration;
-				if(npc.velocity.Y > 0 && yDir < 0)
+				if (npc.velocity.Y > 0 && yDir < 0)
 					npc.velocity.Y = npc.velocity.Y - acceleration;
 			}
 			npc.noTileCollide = true;
 			npc.localAI[0] += 1f;
-			if(npc.localAI[0] == 12f) {
+			if (npc.localAI[0] == 12f) {
 				npc.localAI[0] = 0f;
-				for(int j = 0; j < 12; j++) {
+				for (int j = 0; j < 12; j++) {
 					Vector2 vector21 = Vector2.UnitX * -npc.width / 2f;
 					vector21 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(8f, 16f);
 					vector21 = Utils.RotatedBy(vector21, (npc.rotation - 1.57079637f), default(Vector2));
@@ -156,14 +158,14 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 14);
 			Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 44);
 			Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 4);
-			for(int i = 0; i < 40; i++) {
+			for (int i = 0; i < 40; i++) {
 				int num = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, -2f, 117, new Color(0, 255, 142), .6f);
 				Main.dust[num].noGravity = true;
 				Dust expr_62_cp_0 = Main.dust[num];
 				expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
 				Dust expr_92_cp_0 = Main.dust[num];
 				expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
-				if(Main.dust[num].position != npc.Center) {
+				if (Main.dust[num].position != npc.Center) {
 					Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
 				}
 			}

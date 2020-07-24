@@ -38,7 +38,7 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 
 		public override void HoldItem(Player player)
 		{
-			if(player.GetSpiritPlayer().Resolve) {
+			if (player.GetSpiritPlayer().Resolve) {
 				player.AddBuff(ModContent.BuffType<Resolve>(), 2);
 			}
 		}
@@ -62,7 +62,7 @@ namespace SpiritMod.Items.Weapon.Swung.Artifact
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				float kb = knockBack * .2f;
 				Projectile.NewProjectile(player.Center.X - 100, player.Center.Y, speedX, speedY, ModContent.ProjectileType<Thanos1Crystal>(), damage, kb, player.whoAmI);
 				Projectile.NewProjectile(player.Center.X + 100, player.Center.Y, speedX, speedY, ModContent.ProjectileType<Thanos1Crystal>(), damage, kb, player.whoAmI);

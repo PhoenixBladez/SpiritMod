@@ -43,10 +43,11 @@ namespace SpiritMod.Items.Weapon.Bow
 			newProj.friendly = true;
 			newProj.hostile = false;
 			Vector2 origVect = new Vector2(speedX, speedY);
-			for(int X = 0; X <= 2; X++) {
-				if(Main.rand.Next(2) == 1) {
+			for (int X = 0; X <= 2; X++) {
+				if (Main.rand.Next(2) == 1) {
 					newVect = origVect.RotatedBy(System.Math.PI / (Main.rand.Next(82, 1800) / 10));
-				} else {
+				}
+				else {
 					newVect = origVect.RotatedBy(-System.Math.PI / (Main.rand.Next(82, 1800) / 10));
 				}
 				int proj2 = Projectile.NewProjectile(position.X, position.Y, newVect.X, newVect.Y, type, damage, knockBack, player.whoAmI);

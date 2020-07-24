@@ -35,7 +35,7 @@ namespace SpiritMod.Projectiles
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 27);
-			for(int k = 0; k < 15; k++) {
+			for (int k = 0; k < 15; k++) {
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 180, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
 			}
 		}
@@ -44,19 +44,20 @@ namespace SpiritMod.Projectiles
 			Player player = Main.player[projectile.owner];
 			//Factors for calculations
 			var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
-			foreach(var proj in list) {
-				if(proj.hostile && proj.active && proj.timeLeft > 2) {
-					if(proj.damage < 65) {
+			foreach (var proj in list) {
+				if (proj.hostile && proj.active && proj.timeLeft > 2) {
+					if (proj.damage < 65) {
 						counter++;
 						proj.timeLeft = 2;
 						Main.PlaySound(SoundID.Item93, projectile.position);
 						proj.active = false;
-					} else {
+					}
+					else {
 						counter += 5;
 					}
 				}
 			}
-			if(counter >= 2) {
+			if (counter >= 2) {
 				projectile.active = false;
 				((MyPlayer)player.GetModPlayer(mod, "MyPlayer")).shieldsLeft -= 1;
 				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 27);
@@ -64,7 +65,7 @@ namespace SpiritMod.Projectiles
 			Vector2 center = projectile.Center;
 			float num8 = (float)player.miscCounter / 60f;
 			float num7 = 1.0471975512f * 2;
-			for(int i = 0; i < 3; i++) {
+			for (int i = 0; i < 3; i++) {
 				int num6 = Dust.NewDust(center, 0, 0, 180, 0f, 0f, 100, default(Color), 1.3f);
 				Main.dust[num6].noGravity = true;
 				Main.dust[num6].velocity = Vector2.Zero;
@@ -81,7 +82,7 @@ namespace SpiritMod.Projectiles
 
 			//Increase the counter/angle in degrees by 1 point, you can change the rate here too, but the orbit may look choppy depending on the value
 			projectile.ai[1] += .38f;
-			if(((MyPlayer)player.GetModPlayer(mod, "MyPlayer")).ShieldCore) {
+			if (((MyPlayer)player.GetModPlayer(mod, "MyPlayer")).ShieldCore) {
 				projectile.timeLeft = 2;
 			}
 			projectile.position.X = player.Center.X - (int)(Math.Cos(rad) * dist) - projectile.width / 2;

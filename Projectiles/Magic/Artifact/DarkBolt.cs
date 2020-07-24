@@ -32,14 +32,14 @@ namespace SpiritMod.Projectiles.Magic.Artifact
 		public override void AI()
 		{
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 5) {
+			if (projectile.frameCounter >= 5) {
 				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
 				projectile.frameCounter = 0;
 			}
 
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-			if(Main.rand.Next(4) == 0) {
-				for(int k = 0; k < 1; k++) {
+			if (Main.rand.Next(4) == 0) {
+				for (int k = 0; k < 1; k++) {
 					Vector2 value = -Utils.RotatedBy(Utils.RotatedByRandom(Vector2.UnitX, (Math.PI / 16)), (double)Utils.ToRotation(projectile.velocity));
 					int num9 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 173, 0f, 0f, 173);
 					Main.dust[num9].velocity *= 0.1f;
@@ -48,14 +48,14 @@ namespace SpiritMod.Projectiles.Magic.Artifact
 					Main.dust[num9].fadeIn = 0.9f;
 				}
 			}
-			if(Main.rand.Next(2) == 0) {
-				for(int m = 0; m < 2; m++) {
+			if (Main.rand.Next(2) == 0) {
+				for (int m = 0; m < 2; m++) {
 					Vector2 value3 = -Utils.RotatedBy(Utils.RotatedByRandom(Vector2.UnitX, (Math.PI / 4)), (double)Utils.ToRotation(projectile.velocity));
 					int num11 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Shadowflame, 0f, 0f, 0, default(Color), 1.2f);
 					Main.dust[num11].velocity *= 0.3f;
 					Main.dust[num11].noGravity = true;
 					Main.dust[num11].position = projectile.Center + value3 * (float)projectile.width * .5f;
-					if(Main.rand.Next(2) == 0) {
+					if (Main.rand.Next(2) == 0) {
 						Main.dust[num11].fadeIn = 1.4f;
 					}
 				}
@@ -64,18 +64,18 @@ namespace SpiritMod.Projectiles.Magic.Artifact
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(4) == 0)
+			if (Main.rand.Next(4) == 0)
 				target.AddBuff(ModContent.BuffType<ShadowBurn>(), 300);
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			for(int i = 0; i < 40; i++) {
+			for (int i = 0; i < 40; i++) {
 				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Shadowflame, 0f, -2f, 0, default(Color), 2f);
 				Main.dust[num].noGravity = true;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
-				if(Main.dust[num].position != projectile.Center)
+				if (Main.dust[num].position != projectile.Center)
 					Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
 			}
 		}

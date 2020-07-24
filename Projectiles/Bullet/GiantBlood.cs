@@ -27,7 +27,7 @@ namespace SpiritMod.Projectiles.Bullet
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(target.lifeMax <= 5 || target.dontTakeDamage || target.friendly || target.immortal)
+			if (target.lifeMax <= 5 || target.dontTakeDamage || target.friendly || target.immortal)
 				return;
 			Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ProjectileID.VampireHeal, 0, 0f, projectile.owner, projectile.owner, (int)(damage * .2f));
 		}

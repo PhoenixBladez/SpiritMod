@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.value = Item.sellPrice(0, 1, 0, 0);
 			item.rare = ItemRarityID.Orange;
 			item.UseSound = SoundID.Item1;
-			item.shoot = ModContent.ProjectileType<BoneFeatherFriendly>();
+			item.shoot = ModContent.ProjectileType<BoneFeatherSwordProj>();
 			item.shootSpeed = 10f;
 			item.crit = 8;
 			item.autoReuse = true;
@@ -41,9 +41,9 @@ namespace SpiritMod.Items.Weapon.Swung
 			Main.PlaySound(SoundID.Item, (int)position.X, (int)position.Y, 8);
 			{
 				charger++;
-				if(charger >= 5) {
+				if (charger >= 5) {
 					Main.PlaySound(SoundID.Item, (int)position.X, (int)position.Y, 20);
-					for(int I = 0; I < 1; I++) {
+					for (int I = 0; I < 1; I++) {
 						int p = Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<GiantFeather>(), damage, knockBack, player.whoAmI, 0f, 0f);
 						Main.projectile[p].ranged = false;
 						Main.projectile[p].melee = true;
@@ -52,15 +52,6 @@ namespace SpiritMod.Items.Weapon.Swung
 				}
 				return true;
 			}
-		}
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<Talon>(), 14);
-			recipe.AddIngredient(ModContent.ItemType<FossilFeather>(), 1);
-			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
 		}
 	}
 }

@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Consumable.Quest
 		}
 		public override void UpdateInventory(Player player)
 		{
-			if(player.GetSpiritPlayer().explorerTimer > 0 && player.GetSpiritPlayer().ZoneHive) {
+			if (player.GetSpiritPlayer().explorerTimer > 0 && player.GetSpiritPlayer().ZoneHive) {
 				item.SetNameOverride("Empty Surveyor's Scroll: " + (int)(player.GetSpiritPlayer().explorerTimer / 900f * 100) + "% Charted");
 			}
 			player.GetSpiritPlayer().emptyExplorerScroll = true;

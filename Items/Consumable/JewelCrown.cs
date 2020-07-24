@@ -38,7 +38,7 @@ namespace SpiritMod.Items.Consumable
 
 		public override bool UseItem(Player player)
 		{
-			if(player.ZoneSkyHeight) {
+			if (player.ZoneSkyHeight) {
 				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<AncientFlyer>());
 				Main.PlaySound(SoundID.Roar, player.position, 0);
 				return true;

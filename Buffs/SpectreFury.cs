@@ -19,7 +19,7 @@ namespace SpiritMod.Buffs
 		{
 			npc.GetGlobalNPC<GNPC>().spectre = true;
 
-			if(Main.rand.NextBool(2)) {
+			if (Main.rand.NextBool(2)) {
 				int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Rainbow);
 				Main.dust[dust].scale = 2f;
 				Main.dust[dust].noGravity = true;

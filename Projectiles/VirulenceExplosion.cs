@@ -30,24 +30,24 @@ namespace SpiritMod.Projectiles
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			ProjectileExtras.Explode(projectile.whoAmI, 120, 120,
 				delegate {
-					for(int i = 0; i < 40; i++) {
+					for (int i = 0; i < 40; i++) {
 						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 167, 0f, -2f, 0, default(Color), 2f);
 						Main.dust[num].noGravity = true;
 						Dust expr_62_cp_0 = Main.dust[num];
 						expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
 						Dust expr_92_cp_0 = Main.dust[num];
 						expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
-						if(Main.dust[num].position != projectile.Center) {
+						if (Main.dust[num].position != projectile.Center) {
 							Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
 						}
 					}
 				});
-			for(int num625 = 0; num625 < 3; num625++) {
+			for (int num625 = 0; num625 < 3; num625++) {
 				float scaleFactor10 = 0.33f;
-				if(num625 == 1)
+				if (num625 == 1)
 					scaleFactor10 = 0.66f;
 
-				if(num625 == 2)
+				if (num625 == 2)
 					scaleFactor10 = 1f;
 
 				int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default(Vector2), Main.rand.Next(61, 64), 1f);
@@ -80,10 +80,10 @@ namespace SpiritMod.Projectiles
 		{
 			projectile.alpha += 3;
 			projectile.frameCounter++;
-			if(projectile.frameCounter >= 6) {
+			if (projectile.frameCounter >= 6) {
 				projectile.frame++;
 				projectile.frameCounter = 0;
-				if(projectile.frame >= 8)
+				if (projectile.frame >= 8)
 					projectile.frame = 0;
 			}
 		}

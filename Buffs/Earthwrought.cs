@@ -18,7 +18,7 @@ namespace SpiritMod.Buffs
 		{
 			player.lifeRegen += 3;
 
-			if(Main.rand.NextBool(4)) {
+			if (Main.rand.NextBool(4)) {
 				Dust.NewDust(player.position, player.width, player.height, 44);
 			}
 		}

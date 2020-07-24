@@ -33,10 +33,10 @@ namespace SpiritMod.Projectiles.Thrown.Artifact
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if(Main.rand.Next(6) == 0)
+			if (Main.rand.Next(6) == 0)
 				target.AddBuff(ModContent.BuffType<Necrosis>(), 500);
 
-			if(crit)
+			if (crit)
 				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<RotExplosion1>(), projectile.damage / 3 * 4, projectile.knockBack, projectile.owner, 0f, 0f);
 		}
 
@@ -60,7 +60,7 @@ namespace SpiritMod.Projectiles.Thrown.Artifact
 			Vector2 value19 = (projectile.rotation - 1.57079637f).ToRotationVector2();
 			vector9 += value19 * 16f;
 
-			for(int num257 = 0; num257 < 20; num257++) {
+			for (int num257 = 0; num257 < 20; num257++) {
 				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, ModContent.DustType<Dusts.Pestilence>(), 0f, 0f, 0, default(Color), 1f);
 				Main.dust[newDust].position = (Main.dust[newDust].position + projectile.Center) / 2f;
 				Main.dust[newDust].velocity += value19 * 2f;
@@ -80,7 +80,7 @@ namespace SpiritMod.Projectiles.Thrown.Artifact
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-			for(int k = 0; k < projectile.oldPos.Length; k++) {
+			for (int k = 0; k < projectile.oldPos.Length; k++) {
 				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
 				Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
 				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);

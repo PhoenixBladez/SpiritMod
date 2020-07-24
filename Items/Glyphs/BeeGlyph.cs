@@ -6,7 +6,7 @@ namespace SpiritMod.Items.Glyphs
 {
 	public class BeeGlyph : GlyphBase, IGlowing
 	{
-				public static Microsoft.Xna.Framework.Graphics.Texture2D[] _textures;
+		public static Microsoft.Xna.Framework.Graphics.Texture2D[] _textures;
 
 		Microsoft.Xna.Framework.Graphics.Texture2D IGlowing.Glowmask(out float bias)
 		{
@@ -44,13 +44,13 @@ namespace SpiritMod.Items.Glyphs
 
 		public static void ReleaseBees(Player owner, NPC target, int damage)
 		{
-			if(owner.whoAmI != Main.myPlayer || !target.CanLeech())
+			if (owner.whoAmI != Main.myPlayer || !target.CanLeech())
 				return;
 			damage = owner.beeDamage((int)(damage * .4f));
-			if(damage < 1)
+			if (damage < 1)
 				return;
 			int count = Main.rand.Next(1, 2);
-			for(int i = 0; i < count; i++) {
+			for (int i = 0; i < count; i++) {
 				Vector2 velocity = target.velocity;
 				velocity.X += (float)Main.rand.Next(-35, 36) * 0.02f;
 				velocity.Y += (float)Main.rand.Next(-35, 36) * 0.02f;

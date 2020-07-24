@@ -59,28 +59,28 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
 			TileID.Sets.HousingWalls[Type] = true; //needed for non-solid blocks to count as walls
 			ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Corrosive Door");
-            AddMapEntry(new Color(100, 122, 111), name);
-            disableSmartCursor = true;
+			name.SetDefault("Corrosive Door");
+			AddMapEntry(new Color(100, 122, 111), name);
+			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.OpenDoor };
 			closeDoorID = ModContent.TileType<AcidDoorClosed>();
 		}
-        public override void MouseOver(int i, int j)
-        {
-            Player player = Main.LocalPlayer;
-            player.noThrow = 2;
-            player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<AcidDoor>();
-        }
-        public override void NumDust(int i, int j, bool fail, ref int num)
+		public override void MouseOver(int i, int j)
+		{
+			Player player = Main.LocalPlayer;
+			player.noThrow = 2;
+			player.showItemIcon = true;
+			player.showItemIcon2 = ModContent.ItemType<AcidDoor>();
+		}
+		public override void NumDust(int i, int j, bool fail, ref int num)
 		{
 			num = 1;
 		}
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
-            Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<AcidDoor>());
+		{
+			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
+			Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<AcidDoor>());
 		}
 	}
 }

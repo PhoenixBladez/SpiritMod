@@ -52,7 +52,7 @@ namespace SpiritMod.Items.Accessory
 		}
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			if(!Main.dayTime) {
+			if (!Main.dayTime) {
 				player.rangedCrit += 13;
 				player.magicCrit += 13;
 			}

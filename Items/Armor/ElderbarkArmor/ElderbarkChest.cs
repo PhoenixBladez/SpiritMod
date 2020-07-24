@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Armor.ElderbarkArmor
 	[AutoloadEquip(EquipType.Body)]
 	public class ElderbarkChest : ModItem
 	{
-		public override void SetStaticDefaults() 
+		public override void SetStaticDefaults()
 			=> DisplayName.SetDefault("Elderbark Breastplate");
 
 		public override void SetDefaults()
@@ -19,12 +19,12 @@ namespace SpiritMod.Items.Armor.ElderbarkArmor
 			item.rare = 0;
 			item.defense = 2;
 		}
-        public override void DrawHands(ref bool drawHands, ref bool drawArms)
-        {
-            drawHands = true;
-        }
+		public override void DrawHands(ref bool drawHands, ref bool drawArms)
+		{
+			drawHands = true;
+		}
 
-        public override void AddRecipes()
+		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<AncientBark>(), 30);
