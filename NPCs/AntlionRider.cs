@@ -31,8 +31,6 @@ namespace SpiritMod.NPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (SpawnHelper.SupressSpawns(spawnInfo, SpawnFlags.Daytime, SpawnZones.Desert | SpawnZones.Overworld))
-				return 0;
 
 			if (Main.tileSand[spawnInfo.spawnTileType])
 				return SpawnCondition.OverworldDayDesert.Chance * 0.1f;
