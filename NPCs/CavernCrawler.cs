@@ -43,9 +43,6 @@ namespace SpiritMod.NPCs
 		}
 		public override void NPCLoot()
 		{
-			if (Main.LocalPlayer.GetSpiritPlayer().emptyWheezerScroll) {
-				MyWorld.numWheezersKilled++;
-			}
 			if (Main.rand.Next(100) == 4) {
 
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, (ModContent.ItemType<CrawlerockStaff>()));
@@ -147,6 +144,9 @@ namespace SpiritMod.NPCs
 				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), .61f);
 			}
 			if (npc.life <= 0) {
+				if (Main.LocalPlayer.GetSpiritPlayer().emptyWheezerScroll) {
+					MyWorld.numWheezersKilled++;
+				}
 				Main.PlaySound(SoundID.DD2_WitherBeastDeath, npc.Center);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crawler1"));
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crawler2"));

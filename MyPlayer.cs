@@ -1975,6 +1975,7 @@ namespace SpiritMod
 				for(int index = 0; index < 58; ++index) {
 					if(player.inventory[index].type == ModContent.ItemType<WinterbornSlayerScrollEmpty>()) {
 						player.inventory[index].stack -= 1;
+						MyWorld.numWinterbornKilled = 0;
 						player.QuickSpawnItem(ModContent.ItemType<WinterbornSlayerScrollFull>());
 						emptyWinterbornScroll = false;
 						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
@@ -1988,6 +1989,7 @@ namespace SpiritMod
 				for(int index = 0; index < 58; ++index) {
 					if(player.inventory[index].type == ModContent.ItemType<AntlionSlayerScrollEmpty>()) {
 						player.inventory[index].stack -= 1;
+						MyWorld.numAntlionsKilled = 0;
 						player.QuickSpawnItem(ModContent.ItemType<AntlionSlayerScrollFull>());
 						emptyAntlionScroll = false;
 						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
@@ -2001,6 +2003,7 @@ namespace SpiritMod
 				for(int index = 0; index < 58; ++index) {
 					if(player.inventory[index].type == ModContent.ItemType<StardancerSlayerScrollEmpty>()) {
 						player.inventory[index].stack -= 1;
+						MyWorld.numStardancersKilled = 0;
 						player.QuickSpawnItem(ModContent.ItemType<StardancerSlayerScrollFull>());
 						emptyStardancerScroll = false;
 						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
@@ -2014,6 +2017,7 @@ namespace SpiritMod
 				for(int index = 0; index < 58; ++index) {
 					if(player.inventory[index].type == ModContent.ItemType<BeholderSlayerScrollEmpty>()) {
 						player.inventory[index].stack -= 1;
+						MyWorld.numBeholdersKilled = 0;
 						player.QuickSpawnItem(ModContent.ItemType<BeholderSlayerScrollFull>());
 						emptyBeholderScroll = false;
 						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
@@ -2027,6 +2031,7 @@ namespace SpiritMod
 				for(int index = 0; index < 58; ++index) {
 					if(player.inventory[index].type == ModContent.ItemType<DrBonesSlayerScrollEmpty>()) {
 						player.inventory[index].stack -= 1;
+						MyWorld.numDrBonesKilled = 0;
 						player.QuickSpawnItem(ModContent.ItemType<DrBonesSlayerQuestFull>());
 						emptyDrBonesScroll = false;
 						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
@@ -2040,6 +2045,7 @@ namespace SpiritMod
 				for(int index = 0; index < 58; ++index) {
 					if(player.inventory[index].type == ModContent.ItemType<ValkyrieSlayerScrollEmpty>()) {
 						player.inventory[index].stack -= 1;
+						MyWorld.numValkyriesKilled = 0;
 						player.QuickSpawnItem(ModContent.ItemType<ValkyrieSlayerScrollFull>());
 						emptyValkyrieScroll = false;
 						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
@@ -2053,6 +2059,7 @@ namespace SpiritMod
 				for(int index = 0; index < 58; ++index) {
 					if(player.inventory[index].type == ModContent.ItemType<WheezerSlayerScrollEmpty>()) {
 						player.inventory[index].stack -= 1;
+						MyWorld.numWheezersKilled = 0;
 						player.QuickSpawnItem(ModContent.ItemType<WheezerSlayerScrollFull>());
 						emptyWheezerScroll = false;
 						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),

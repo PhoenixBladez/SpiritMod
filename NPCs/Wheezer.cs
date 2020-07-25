@@ -46,6 +46,9 @@ namespace SpiritMod.NPCs
 				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), .61f);
 			}
 			if (npc.life <= 0) {
+				if (Main.LocalPlayer.GetSpiritPlayer().emptyWheezerScroll) {
+					MyWorld.numWheezersKilled++;
+				}
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Wheezer_Head"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Wheezer_legs"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Wheezer_legs"), 1f);
@@ -57,9 +60,6 @@ namespace SpiritMod.NPCs
 
 		public override void NPCLoot()
 		{
-			if (Main.LocalPlayer.GetSpiritPlayer().emptyWheezerScroll) {
-				MyWorld.numWheezersKilled++;
-			}
 			/*int Techs = Main.rand.Next(1, 4);
 			for (int J = 0; J <= Techs; J++) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Carapace>());
