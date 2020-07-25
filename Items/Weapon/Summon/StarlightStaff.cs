@@ -28,19 +28,21 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.shoot = ModContent.ProjectileType<TwinklePopperMinion>();
 			item.shootSpeed = 0f;
 		}
-		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool CanUseItem(Player player)
 		{
-			//remove any other owned SpiritBow projectiles, just like any other sentry minion
-			for (int i = 0; i < Main.projectile.Length; i++) {
-				Projectile p = Main.projectile[i];
-				if (p.active && p.type == item.shoot && p.owner == player.whoAmI) {
-					p.active = false;
-				}
-			}
-			//projectile spawns at mouse cursor
-			Vector2 value18 = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY);
-			position = value18;
-			return true;
+			player.FindSentryRestingSpot(item.shoot, out int worldX, out int worldY, out _);
+			worldX /= 16;
+			worldY /= 16;
+			worldY--;
+			return !WorldGen.SolidTile(worldX, worldY);
+		}
+
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+			player.FindSentryRestingSpot(type, out int worldX, out int worldY, out int pushYUp);
+			Projectile.NewProjectile(worldX, worldY - pushYUp, speedX, speedY, type, damage, knockBack, player.whoAmI);
+			player.UpdateMaxTurrets();
+			return false;
 		}
 
         public override void AddRecipes()

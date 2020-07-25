@@ -72,7 +72,9 @@ namespace SpiritMod.NPCs.Reach
 							Vector2 direction = Main.player[npc.target].Center - knifePos;
 							direction.Normalize();
 							direction *= Main.rand.NextFloat(7, 10);
-							int knife = Terraria.Projectile.NewProjectile(knifePos, direction, ModContent.ProjectileType<ThornKnife>(), npc.damage / 4, 0);
+							bool expertMode = Main.expertMode;
+							int damage = expertMode ? 9 : 13;
+							int knife = Terraria.Projectile.NewProjectile(knifePos, direction, ModContent.ProjectileType<ThornKnife>(), damage, 0);
 						}
 					}
 					timer++;
