@@ -37,12 +37,13 @@ namespace SpiritMod.NPCs
 		{
 			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+				drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 			return false;
 		}
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			GlowmaskUtils.DrawExtras(spriteBatch, npc, mod.GetTexture("NPCs/Teratoma_Eyes"));
+			spriteBatch.Draw(mod.GetTexture("NPCs/Teratoma_Eyes"), npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+				drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, SpriteEffects.None, 0);
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{

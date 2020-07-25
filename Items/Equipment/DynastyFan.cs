@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Equipment
 			item.rare = ItemRarityID.Orange;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = false;
-			item.shoot = ModContent.ProjectileType<RightHopper>();
+			item.shoot = 1;
 			item.shootSpeed = 12f;
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

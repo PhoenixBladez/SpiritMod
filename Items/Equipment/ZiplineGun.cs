@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Equipment
 			item.rare = ItemRarityID.Green;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = false;
-			item.shoot = ModContent.ProjectileType<RightHopper>();
+			item.shoot = ModContent.ProjectileType<RightZipline>();
 			item.shootSpeed = 13f;
 		}
 		public override bool AltFunctionUse(Player player)
