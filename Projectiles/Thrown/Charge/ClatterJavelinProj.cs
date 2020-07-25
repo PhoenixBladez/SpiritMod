@@ -33,15 +33,22 @@ namespace SpiritMod.Projectiles.Thrown.Charge
 		public override bool PreAI()
 		{
 			Player player = Main.player[projectile.owner];
+				if (projectile.owner == Main.myPlayer)
+				{
+					Vector2 direction2 = Main.MouseWorld - (projectile.position);
+					direction2.Normalize();
+					direction2 *= counter;
+					projectile.ai[0] = direction2.X;
+					projectile.ai[1] = direction2.Y;
+					projectile.netUpdate = true;
+				}
+			Vector2 direction = new Vector2(projectile.ai[0], projectile.ai[1]);
 			if (player.channel) {
 				projectile.position = player.position + holdOffset;
 				player.velocity.X *= 0.95f;
 				if (counter < 9) {
 					counter += 0.05f;
 				}
-				Vector2 direction = Main.MouseWorld - (projectile.position);
-				direction.Normalize();
-				direction *= counter;
 				projectile.rotation = direction.ToRotation() - 1.57f;
 				if (direction.X > 0) {
 					holdOffset.X = -10;
@@ -52,15 +59,15 @@ namespace SpiritMod.Projectiles.Thrown.Charge
 					player.direction = 0;
 				}
 				trailcounter++;
-				if (trailcounter % 5 == 0)
+				if (trailcounter % 5 == 0 && projectile.owner == Main.myPlayer)
 					Projectile.NewProjectile(projectile.Center + (direction * 6), direction, ModContent.ProjectileType<ClatterJavelinProj1>(), 0, 0, projectile.owner); //predictor trail, please pick a better dust Yuy
 			}
 			else {
 				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 1);
-				Vector2 direction = Main.MouseWorld - (projectile.position);
-				direction.Normalize();
-				direction *= counter;
-				Projectile.NewProjectile(projectile.Center + (direction * 6), direction, ModContent.ProjectileType<ClatterJavelinProj2>(), (int)(projectile.damage * Math.Sqrt(counter)), projectile.knockBack, projectile.owner);
+				if (projectile.owner == Main.myPlayer)
+				{
+					Projectile.NewProjectile(projectile.Center + (direction * 6), direction, ModContent.ProjectileType<ClatterJavelinProj2>(), (int)(projectile.damage * Math.Sqrt(counter)), projectile.knockBack, projectile.owner);
+				}
 				projectile.active = false;
 			}
 			player.heldProj = projectile.whoAmI;
