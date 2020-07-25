@@ -65,18 +65,28 @@ namespace SpiritMod.Projectiles.Summon
 
 			int range = 40;   //How many tiles away the projectile targets NPCs
 			float lowestDist = float.MaxValue;
-			for (int i = 0; i < 200; ++i) {
-				NPC npc = Main.npc[i];
-				//if npc is a valid target (active, not friendly, and not a critter)
+			if (player.HasMinionAttackTargetNPC) {
+				NPC npc = Main.npc[player.MinionAttackTargetNPC];
 				float dist = projectile.Distance(npc.Center);
 				if (dist / 16 < range) {
-					if (npc.active && npc.CanBeChasedBy(projectile) && !npc.friendly) {
-						//if npc is closer than closest found npc
-						if (dist < lowestDist) {
-							lowestDist = dist;
+					projectile.ai[1] = npc.whoAmI;
+				}
+			}
+			else
+			{
+				foreach (NPC npc in Main.npc) {
+					//if npc is a valid target (active, not friendly, and not a critter)
+					if (npc.active && !npc.friendly && npc.catchItem == 0) {
+						//if npc is within 50 blocks
+						float dist = projectile.Distance(npc.Center);
+						if (dist / 16 < range) {
+							//if npc is closer than closest found npc
+							if (dist < lowestDist) {
+								lowestDist = dist;
 
-							//target this npc
-							projectile.ai[1] = npc.whoAmI;
+								//target this npc
+								projectile.ai[1] = npc.whoAmI;
+							}
 						}
 					}
 				}
