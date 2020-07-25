@@ -20,6 +20,7 @@ namespace SpiritMod.Tiles.Ambient.GraniteSpike
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
 			TileObjectData.newTile.Height = 2;
 			TileObjectData.newTile.Width = 2;
+			TileObjectData.newTile.Origin = new Point16(0, 1);
 			TileObjectData.newTile.CoordinateHeights = new int[]
 			{
 				16,

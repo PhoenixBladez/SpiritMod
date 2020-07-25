@@ -20,6 +20,7 @@ namespace SpiritMod.Tiles.Ambient.Pillars
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
 			TileObjectData.newTile.Height = 3;
 			TileObjectData.newTile.Width = 2;
+			TileObjectData.newTile.Origin = new Point16(0, 2);
 			TileObjectData.newTile.CoordinateHeights = new int[]
 			{
 				16,
