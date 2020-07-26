@@ -53,7 +53,7 @@ namespace SpiritMod.Projectiles.Bullet
 					projectile.extraUpdates = 0;
 					projectile.numUpdates = 0;
 				}
-				if (projectile.timeLeft < 298) {
+				if (projectile.timeLeft < 300) {
 					Trail(Origin, projectile.position);
 				}
 				Origin = projectile.position;
