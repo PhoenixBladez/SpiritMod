@@ -3122,7 +3122,9 @@ namespace SpiritMod
 							chest.item[1].SetDefaults(ItemType<Slugger>(), false);
 						}
 					}
-
+					if (chest != null && Main.tile[chest.x, chest.y].frameX == 1 * 36 && Main.rand.Next(40) == 0) {
+						chest.item[1].SetDefaults(ItemType<Items.Accessory.MetalBand>(), false);
+					}
 				}
 			}
 			for (int i = 1; i < Main.rand.Next(4, 6); i++) {

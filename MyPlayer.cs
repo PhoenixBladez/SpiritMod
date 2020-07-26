@@ -60,6 +60,8 @@ namespace SpiritMod
 		public float ziplineCounter = 0f;
 		public int shieldCounter = 0;
 		public int bismiteShieldStacks;
+		public bool MetalBand = false;
+		public bool KoiTotem = false;
 		public bool VampireCloak = false;
 		public bool starplateGlitchEffect = false;
 		public bool HealCloak = false;
@@ -537,6 +539,8 @@ namespace SpiritMod
 		{
 			removedEffects = effects;
 			effects = new List<SpiritPlayerEffect>();
+			MetalBand = false;
+			KoiTotem = false;
 			setbonus = null;
 			stoneHead = false;
 			silkenHead = false;
@@ -969,7 +973,17 @@ namespace SpiritMod
 			if(junk) {
 				return;
 			}
-
+			if (KoiTotem && Main.rand.Next(10) == 0)
+			{
+				for (int j = 0; j < player.inventory.Length; ++j)
+                {
+                    if (player.inventory[j].stack > 0 && player.inventory[j].bait > 0)
+                    {
+						Item.NewItem((int) player.position.X, (int) player.position.Y, player.width, player.height, player.inventory[j].type, 1, false, 0, false, false);
+						break;
+					}			
+                }
+			}
 			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
 			int bobberIndex = -1;
 			if(Main.bloodMoon && Main.rand.Next(20) == 0) {

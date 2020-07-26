@@ -1,8 +1,10 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs;
 using SpiritMod.Dusts;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace SpiritMod.Projectiles.Returning
 {
@@ -11,6 +13,9 @@ namespace SpiritMod.Projectiles.Returning
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Floran Rollar");
+			Main.projFrames[base.projectile.type] = 3;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
 		public override void SetDefaults()
@@ -65,6 +70,15 @@ namespace SpiritMod.Projectiles.Returning
 				dust.scale = 0.66f;
 				dust.velocity = Vector2.Zero;
 			}
+			if (Math.Abs(projectile.velocity.X) > 5)
+			{
+				projectile.frame = 2;
+			}
+			else if (Math.Abs(projectile.velocity.X) > 3)
+			{
+				projectile.frame = 1;
+			}
+			projectile.spriteDirection = projectile.direction;
 			return false;
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
@@ -82,6 +96,20 @@ namespace SpiritMod.Projectiles.Returning
 				}
 			}
 			return false;
+		}
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			if (Math.Abs(projectile.velocity.X) > 5)
+			{
+				Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
+				for (float k = 0; k < projectile.oldPos.Length; k+= (projectile.oldPos.Length / 3)) {
+					Vector2 drawPos = projectile.oldPos[(int)k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
+					Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
+					spriteBatch.Draw(SpiritMod.instance.GetTexture("Projectiles/Returning/FloraSpin"), drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+				}
+				return false;
+			}
+			return true;
 		}
 		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
 		{
