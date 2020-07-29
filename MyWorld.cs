@@ -1731,13 +1731,13 @@ namespace SpiritMod
 					continue;
 				}
 				if (WorldGen.genRand.Next(2) == 0) {
-					StructureLoader.GetStructure("BismiteCavern1").PlaceForce(hideoutX, hideoutY, out containers);
+					StructureLoader.GetStructure("BismiteCavern2").PlaceForce(hideoutX, hideoutY, out containers);
 				}
 				else if (WorldGen.genRand.Next(2) == 0) {
 					StructureLoader.GetStructure("BismiteCavern2").PlaceForce(hideoutX, hideoutY, out containers);
 				}
 				else {
-					StructureLoader.GetStructure("BismiteCavern3").PlaceForce(hideoutX, hideoutY, out containers);
+					StructureLoader.GetStructure("BismiteCavern2").PlaceForce(hideoutX, hideoutY, out containers);
 				}
 				placed = true;
 			}

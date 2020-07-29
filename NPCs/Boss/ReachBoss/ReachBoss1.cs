@@ -94,33 +94,41 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			bool expertMode = Main.expertMode;
 			if (Main.rand.Next(170) == 2 && npc.life >= (npc.lifeMax / 9 * 4)) {
 				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
-				Vector2 direction = Main.player[npc.target].Center - npc.Center;
-				direction.Normalize();
-				direction.X *= 12f;
-				direction.Y *= 12f;
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    Vector2 direction = Main.player[npc.target].Center - npc.Center;
+                    direction.Normalize();
+                    direction.X *= 12f;
+                    direction.Y *= 12f;
 
-				int amountOfProjectiles = 1;
-				for (int i = 0; i < amountOfProjectiles; ++i) {
-					float A = (float)Main.rand.Next(-200, 200) * 0.01f;
-					float B = (float)Main.rand.Next(-200, 200) * 0.01f;
-					int damage = expertMode ? 15 : 17;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BouncingSpore>(), damage, 1, Main.myPlayer, 0, 0);
-				}
+                    int amountOfProjectiles = 1;
+                    for (int i = 0; i < amountOfProjectiles; ++i)
+                    {
+                        float A = (float)Main.rand.Next(-200, 200) * 0.01f;
+                        float B = (float)Main.rand.Next(-200, 200) * 0.01f;
+                        int damage = expertMode ? 15 : 17;
+                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BouncingSpore>(), damage, 1, Main.myPlayer, 0, 0);
+                    }
+                }
 			}
 			if (Main.rand.Next(170) == 5 && npc.life >= (npc.lifeMax / 9 * 4)) {
 				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
-				Vector2 direction = Main.player[npc.target].Center - npc.Center;
-				direction.Normalize();
-				direction.X *= 14f;
-				direction.Y *= 14f;
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    Vector2 direction = Main.player[npc.target].Center - npc.Center;
+                    direction.Normalize();
+                    direction.X *= 14f;
+                    direction.Y *= 14f;
 
-				int amountOfProjectiles = 4;
-				for (int i = 0; i < amountOfProjectiles; ++i) {
-					float A = (float)Main.rand.Next(-200, 200) * 0.07f;
-					float B = (float)Main.rand.Next(-200, 200) * 0.07f;
-					int damage = expertMode ? 11 : 18;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BoneBlast>(), damage, 1, Main.myPlayer, 0, 0);
-				}
+                    int amountOfProjectiles = 4;
+                    for (int i = 0; i < amountOfProjectiles; ++i)
+                    {
+                        float A = (float)Main.rand.Next(-200, 200) * 0.07f;
+                        float B = (float)Main.rand.Next(-200, 200) * 0.07f;
+                        int damage = expertMode ? 11 : 18;
+                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BoneBlast>(), damage, 1, Main.myPlayer, 0, 0);
+                    }
+                }
 			}
 			if (npc.life <= (npc.lifeMax / 9 * 4)) {
 				if (!txt) {
@@ -128,52 +136,64 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 					"The Bramble shall consume you...");
 					npc.velocity *= 0;
 					Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
-					Vector2 direction = Main.player[npc.target].Center - npc.Center;
-					direction.Normalize();
-					direction.X *= 18f;
-					direction.Y *= 18f;
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        Vector2 direction = Main.player[npc.target].Center - npc.Center;
+                        direction.Normalize();
+                        direction.X *= 18f;
+                        direction.Y *= 18f;
 
-					int amountOfProjectiles = Main.rand.Next(5, 6);
-					for (int i = 0; i < amountOfProjectiles; ++i) {
-						float A = (float)Main.rand.Next(-300, 300) * 0.01f;
-						float B = (float)Main.rand.Next(-300, 300) * 0.01f;
-						int damage = expertMode ? 13 : 20;
-						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BouncingSpore>(), damage, 1, Main.myPlayer, 0, 0);
-					}
-					txt = true;
-				}
+                        int amountOfProjectiles = Main.rand.Next(5, 6);
+                        for (int i = 0; i < amountOfProjectiles; ++i)
+                        {
+                            float A = (float)Main.rand.Next(-300, 300) * 0.01f;
+                            float B = (float)Main.rand.Next(-300, 300) * 0.01f;
+                            int damage = expertMode ? 13 : 20;
+                            Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BouncingSpore>(), damage, 1, Main.myPlayer, 0, 0);
+                        }
+                    }
+                    txt = true;
+                }
 			}
 			if (Main.rand.Next(170) == 7 && npc.life <= (npc.lifeMax / 9 * 4)) {
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 42);
-				Vector2 direction = Main.player[npc.target].Center - npc.Center;
-				direction.Normalize();
-				direction.X *= 12f;
-				direction.Y *= 12f;
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    Vector2 direction = Main.player[npc.target].Center - npc.Center;
+                    direction.Normalize();
+                    direction.X *= 12f;
+                    direction.Y *= 12f;
 
-				int amountOfProjectiles = Main.rand.Next(4, 5);
-				for (int i = 0; i < amountOfProjectiles; ++i) {
-					float A = (float)Main.rand.Next(-200, 200) * 0.05f;
-					float B = (float)Main.rand.Next(-200, 200) * 0.05f;
-					int damage = expertMode ? 8 : 16;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<Yikes>(), damage, 1, Main.myPlayer, 0, 0);
+                    int amountOfProjectiles = Main.rand.Next(4, 5);
+                    for (int i = 0; i < amountOfProjectiles; ++i)
+                    {
+                        float A = (float)Main.rand.Next(-200, 200) * 0.05f;
+                        float B = (float)Main.rand.Next(-200, 200) * 0.05f;
+                        int damage = expertMode ? 8 : 16;
+                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<Yikes>(), damage, 1, Main.myPlayer, 0, 0);
 
-				}
+                    }
+                }
 			}
 			if (Main.rand.Next(170) == 1 && npc.life <= (npc.lifeMax / 9 * 4)) {
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 42);
-				Vector2 direction = Main.player[npc.target].Center - npc.Center;
-				direction.Normalize();
-				direction.X *= 12f;
-				direction.Y *= 12f;
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    Vector2 direction = Main.player[npc.target].Center - npc.Center;
+                    direction.Normalize();
+                    direction.X *= 12f;
+                    direction.Y *= 12f;
 
-				int amountOfProjectiles = 1;
-				for (int i = 0; i < amountOfProjectiles; ++i) {
-					float A = (float)Main.rand.Next(-200, 200) * 0.05f;
-					float B = (float)Main.rand.Next(-200, 200) * 0.05f;
-					int damage = expertMode ? 18 : 25;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 3, 3, ModContent.ProjectileType<HomingYikes>(), damage, 1, Main.myPlayer, 0, 0);
+                    int amountOfProjectiles = 1;
+                    for (int i = 0; i < amountOfProjectiles; ++i)
+                    {
+                        float A = (float)Main.rand.Next(-200, 200) * 0.05f;
+                        float B = (float)Main.rand.Next(-200, 200) * 0.05f;
+                        int damage = expertMode ? 18 : 25;
+                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 3, 3, ModContent.ProjectileType<HomingYikes>(), damage, 1, Main.myPlayer, 0, 0);
 
-				}
+                    }
+                }
 			}
 			return true;
 		}
