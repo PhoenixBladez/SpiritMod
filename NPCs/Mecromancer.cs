@@ -211,5 +211,10 @@ namespace SpiritMod.NPCs
 				npc.frame.Y = frameHeight * 10;
 			}
 		}
+        public override bool PreNPCLoot()
+        {
+            MyWorld.downedMechromancer = true;
+            return true;
+        }
 	}
 }

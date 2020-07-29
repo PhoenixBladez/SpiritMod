@@ -255,8 +255,12 @@ namespace SpiritMod.NPCs.BloodMoon
 			}
 			npc.netUpdate = true;
 		}
-
-		public override void FindFrame(int frameHeight)
+        public override bool PreNPCLoot()
+        {
+            MyWorld.downedOccultist = true;
+            return true;
+        }
+        public override void FindFrame(int frameHeight)
 		{
 			int currShootFrame = (int)npc.ai[1];
 			if (currShootFrame >= 25)

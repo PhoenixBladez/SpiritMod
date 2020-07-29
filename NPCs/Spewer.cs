@@ -193,5 +193,16 @@ namespace SpiritMod.NPCs
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Spewer/Spewer3"), 1f);
 			}
 		}
-	}
+        public override void NPCLoot()
+        {
+            if (Main.rand.NextBool(3))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Vertebrae);
+            }
+            if (Main.rand.NextBool(33))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Gun.Spineshot>());
+            }
+        }
+    }
 }

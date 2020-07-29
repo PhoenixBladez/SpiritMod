@@ -30,7 +30,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
             npc.netAlways = true;
             npc.noGravity = true;
             npc.dontCountMe = true;
-            npc.HitSound = SoundID.NPCHit1;
+            npc.HitSound = SoundID.NPCHit4;
             npc.npcSlots = 1f;
             npc.boss = true;
 			npc.aiStyle = -1;

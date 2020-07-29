@@ -105,101 +105,125 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			}
 			if (!plantAlive) {
 				if (Counter > 2000) {
-					Vector2 direction = Vector2.One.RotatedByRandom(MathHelper.ToRadians(100));
-					int newNPC = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, ModContent.NPCType<SunFlower>());
-					int newNPC1 = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, ModContent.NPCType<SunFlower>());
-					int newNPC2 = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, ModContent.NPCType<SunFlower>());
-					int newNPC3 = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, ModContent.NPCType<SunFlower>());
-					int newNPC4 = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, ModContent.NPCType<SunFlower>());
-					Main.npc[newNPC].velocity = direction * (Main.rand.Next(4, 6));
-					Main.npc[newNPC1].velocity = direction * (Main.rand.Next(-7, 11));
-					Main.npc[newNPC2].velocity = direction * (Main.rand.Next(12, 15));
-					Main.npc[newNPC3].velocity = direction * (Main.rand.Next(3, 7));
-					Main.npc[newNPC4].velocity = direction * (Main.rand.Next(-5, 8));
-					Counter = 0;
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        Vector2 direction = Vector2.One.RotatedByRandom(MathHelper.ToRadians(100));
+                        int newNPC = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, ModContent.NPCType<SunFlower>());
+                        int newNPC1 = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, ModContent.NPCType<SunFlower>());
+                        int newNPC2 = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, ModContent.NPCType<SunFlower>());
+                        int newNPC3 = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, ModContent.NPCType<SunFlower>());
+                        int newNPC4 = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, ModContent.NPCType<SunFlower>());
+                        Main.npc[newNPC].velocity = direction * (Main.rand.Next(4, 6));
+                        Main.npc[newNPC1].velocity = direction * (Main.rand.Next(-7, 11));
+                        Main.npc[newNPC2].velocity = direction * (Main.rand.Next(12, 15));
+                        Main.npc[newNPC3].velocity = direction * (Main.rand.Next(3, 7));
+                        Main.npc[newNPC4].velocity = direction * (Main.rand.Next(-5, 8));
+                        Counter = 0;
+                    }
 				}
 			}
 
 			bool expertMode = Main.expertMode;
 			if (Main.rand.Next(195) == 1 && npc.life >= (npc.lifeMax / 3)) {
 				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
-				Vector2 direction = Main.player[npc.target].Center - npc.Center;
-				direction.Normalize();
-				direction.X *= 12f;
-				direction.Y *= 12f;
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    Vector2 direction = Main.player[npc.target].Center - npc.Center;
+                    direction.Normalize();
+                    direction.X *= 12f;
+                    direction.Y *= 12f;
 
-				int amountOfProjectiles = 1;
-				for (int i = 0; i < amountOfProjectiles; ++i) {
-					float A = (float)Main.rand.Next(-200, 200) * 0.01f;
-					float B = (float)Main.rand.Next(-200, 200) * 0.01f;
-					int damage = expertMode ? 13 : 17;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BouncingSpore>(), damage, 1, Main.myPlayer, 0, 0);
+                    int amountOfProjectiles = 1;
+                    for (int i = 0; i < amountOfProjectiles; ++i)
+                    {
+                        float A = (float)Main.rand.Next(-200, 200) * 0.01f;
+                        float B = (float)Main.rand.Next(-200, 200) * 0.01f;
+                        int damage = expertMode ? 13 : 17;
+                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BouncingSpore>(), damage, 1, Main.myPlayer, 0, 0);
 
-				}
+                    }
+                }
 			}
 			else if (Main.rand.Next(210) == 3 && npc.life <= (npc.lifeMax / 3)) {
 
 				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
-				Vector2 direction = Main.player[npc.target].Center - npc.Center;
-				direction.Normalize();
-				direction.X *= 12f;
-				direction.Y *= 12f;
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    Vector2 direction = Main.player[npc.target].Center - npc.Center;
+                    direction.Normalize();
+                    direction.X *= 12f;
+                    direction.Y *= 12f;
 
-				int amountOfProjectiles = 1;
-				for (int i = 0; i < amountOfProjectiles; ++i) {
-					float A = (float)Main.rand.Next(-200, 200) * 0.01f;
-					float B = (float)Main.rand.Next(-200, 200) * 0.01f;
-					int damage = expertMode ? 14 : 20;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BouncingSpore>(), damage, 1, Main.myPlayer, 0, 0);
+                    int amountOfProjectiles = 1;
+                    for (int i = 0; i < amountOfProjectiles; ++i)
+                    {
+                        float A = (float)Main.rand.Next(-200, 200) * 0.01f;
+                        float B = (float)Main.rand.Next(-200, 200) * 0.01f;
+                        int damage = expertMode ? 14 : 20;
+                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BouncingSpore>(), damage, 1, Main.myPlayer, 0, 0);
 
-				}
+                    }
+                }
 			}
 
 			if (Main.rand.Next(240) == 0 && npc.life >= (npc.lifeMax / 2)) {
 
 				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
-				Vector2 direction = Main.player[npc.target].Center - npc.Center;
-				direction.Normalize();
-				direction.X *= 14f;
-				direction.Y *= 14f;
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    Vector2 direction = Main.player[npc.target].Center - npc.Center;
+                    direction.Normalize();
+                    direction.X *= 14f;
+                    direction.Y *= 14f;
 
-				int amountOfProjectiles = Main.rand.Next(3, 5);
-				for (int i = 0; i < amountOfProjectiles; ++i) {
-					float A = (float)Main.rand.Next(-200, 200) * 0.05f;
-					float B = (float)Main.rand.Next(-200, 200) * 0.05f;
-					int damage = expertMode ? 11 : 16;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BossSpike>(), damage, 1, Main.myPlayer, 0, 0);
-				}
+                    int amountOfProjectiles = Main.rand.Next(3, 5);
+                    for (int i = 0; i < amountOfProjectiles; ++i)
+                    {
+                        float A = (float)Main.rand.Next(-200, 200) * 0.05f;
+                        float B = (float)Main.rand.Next(-200, 200) * 0.05f;
+                        int damage = expertMode ? 11 : 16;
+                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BossSpike>(), damage, 1, Main.myPlayer, 0, 0);
+                    }
+                }
 			}
 			if (Main.rand.Next(190) == 0 && npc.life >= (npc.lifeMax / 3) && npc.life <= (npc.lifeMax / 2)) {
 				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
-				Vector2 direction = Main.player[npc.target].Center - npc.Center;
-				direction.Normalize();
-				direction.X *= 14f;
-				direction.Y *= 14f;
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    Vector2 direction = Main.player[npc.target].Center - npc.Center;
+                    direction.Normalize();
+                    direction.X *= 14f;
+                    direction.Y *= 14f;
 
-				int amountOfProjectiles = Main.rand.Next(3, 5);
-				for (int i = 0; i < amountOfProjectiles; ++i) {
-					float A = (float)Main.rand.Next(-200, 200) * 0.05f;
-					float B = (float)Main.rand.Next(-200, 200) * 0.05f;
-					int damage = expertMode ? 11 : 16;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BossSpike>(), damage, 1, Main.myPlayer, 0, 0);
-				}
+                    int amountOfProjectiles = Main.rand.Next(3, 5);
+                    for (int i = 0; i < amountOfProjectiles; ++i)
+                    {
+                        float A = (float)Main.rand.Next(-200, 200) * 0.05f;
+                        float B = (float)Main.rand.Next(-200, 200) * 0.05f;
+                        int damage = expertMode ? 11 : 16;
+                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BossSpike>(), damage, 1, Main.myPlayer, 0, 0);
+                    }
+                }
+
 			}
 			else if (Main.rand.Next(28) == 1 && npc.life <= (npc.lifeMax / 3)) {
 				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
-				Vector2 direction = Main.player[npc.target].Center - npc.Center;
-				direction.Normalize();
-				direction.X *= 12f;
-				direction.Y *= 12f;
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    Vector2 direction = Main.player[npc.target].Center - npc.Center;
+                    direction.Normalize();
+                    direction.X *= 12f;
+                    direction.Y *= 12f;
 
-				int amountOfProjectiles = 1;
-				for (int i = 0; i < amountOfProjectiles; ++i) {
-					float A = (float)Main.rand.Next(-100, 100) * 0.01f;
-					float B = (float)Main.rand.Next(-100, 100) * 0.01f;
-					int damage = expertMode ? 12 : 20;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BossRedSpike>(), damage, 1, Main.myPlayer, 0, 0);
-				}
+                    int amountOfProjectiles = 1;
+                    for (int i = 0; i < amountOfProjectiles; ++i)
+                    {
+                        float A = (float)Main.rand.Next(-100, 100) * 0.01f;
+                        float B = (float)Main.rand.Next(-100, 100) * 0.01f;
+                        int damage = expertMode ? 12 : 20;
+                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BossRedSpike>(), damage, 1, Main.myPlayer, 0, 0);
+                    }
+                }
 			}
 			else {
 

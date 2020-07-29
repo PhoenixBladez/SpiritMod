@@ -6,6 +6,7 @@ using SpiritMod.Items.Armor.BeekeeperSet;
 using SpiritMod.Items.Armor.CapacitorSet;
 using SpiritMod.Items.Armor.CenturionSet;
 using SpiritMod.Items.Armor.Masks;
+using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Consumable;
 using SpiritMod.Items.Consumable.Food;
 using SpiritMod.Items.Consumable.Quest;
@@ -139,7 +140,7 @@ namespace SpiritMod.NPCs.Town
 				 true,
 				 () => {
 					 MyWorld.spawnHornetFish = false;
-					 Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<LeafPaddyHat>());
+					 Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<KoiTotem>());
 					 Main.LocalPlayer.QuickSpawnItem(ItemID.Vine, 2);
 					 if (Main.rand.Next(3) == 0) {
 						 Main.LocalPlayer.QuickSpawnItem(ItemID.TigerSkin);

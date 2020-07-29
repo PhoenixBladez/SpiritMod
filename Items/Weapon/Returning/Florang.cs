@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Weapon.Returning
 			item.melee = true;
 			item.width = 44;
 			item.height = 40;
-			item.useTime = 50;
+			item.useTime = 5;
 			item.useAnimation = 50;
 			item.noUseGraphic = true;
 			item.useStyle = ItemUseStyleID.SwingThrow;

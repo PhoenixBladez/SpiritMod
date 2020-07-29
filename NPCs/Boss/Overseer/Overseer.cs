@@ -73,7 +73,7 @@ namespace SpiritMod.NPCs.Boss.Overseer
 			int loot = Main.rand.Next(lootTable.Length);
 			npc.DropItem(lootTable[loot]);
 
-			npc.DropItem(ModContent.ItemType<AtlasMask>(), 1f / 7);
+			npc.DropItem(ModContent.ItemType<OverseerMask>(), 1f / 7);
 			npc.DropItem(ModContent.ItemType<Trophy9>(), 1f / 10);
 		}
 
