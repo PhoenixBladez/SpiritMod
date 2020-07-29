@@ -49,8 +49,6 @@ namespace SpiritMod
 {
 	public class MyWorld : ModWorld
 	{
-		List<Point> yureis = new List<Point>();
-		List<Point> samurais = new List<Point>();
 		private static bool dayTimeLast;
 		public static bool dayTimeSwitched;
 
@@ -70,8 +68,6 @@ namespace SpiritMod
 		public static float spiritLight = 0;
 
 		public static bool BlueMoon = false;
-		public static int pagodaX = 0;
-		public static int pagodaY = 0;
 		public static int SpiritTiles = 0;
 		public static int AsteroidTiles = 0;
 		public static int MarbleTiles = 0;
@@ -126,6 +122,11 @@ namespace SpiritMod
 		public static int numDrBonesKilled;
 		public static int numWheezersKilled;
 		public static int numStardancersKilled;
+
+		//pagoda enemy spawn variables
+		public static int pagodaX = 0;
+		public static int pagodaY = 0;
+		public static bool spawnedPagodaEnemies = false;
 
 		public static Dictionary<string, bool> droppedGlyphs = new Dictionary<string, bool>();
 
@@ -211,8 +212,12 @@ namespace SpiritMod
 			data.Add("numAntlionsKilled", numAntlionsKilled);
 			data.Add("numWheezersKilled", numWheezersKilled);
 
+			data.Add("pagodaX", pagodaX);
+			data.Add("pagodaY", pagodaY);
+			data.Add("spawnedPagodaEnemies", spawnedPagodaEnemies);
+
 			SpiritMod.AdventurerQuests.WorldSave(data);
-			SaveSpecialNPCs(data);
+			//SaveSpecialNPCs(data);
 			return data;
 		}
 
@@ -234,7 +239,7 @@ namespace SpiritMod
             downedOccultist = downed.Contains("occultist");
             downedGladeWraith = downed.Contains("gladeWraith");
             downedBeholder = downed.Contains("beholder");
-            LoadSpecialNPCs(tag);
+            //LoadSpecialNPCs(tag);
 			SpiritMod.AdventurerQuests.WorldLoad(tag);
 			TagCompound droppedGlyphTag = tag.GetCompound("droppedGlyphs");
 			droppedGlyphs.Clear();
@@ -259,6 +264,10 @@ namespace SpiritMod
 			numAntlionsKilled = tag.Get<int>("numAntlionsKilled");
 			numWheezersKilled = tag.Get<int>("numWheezersKilled");
 			numStardancersKilled = tag.Get<int>("numStardancersKilled");
+
+			pagodaX = tag.Get<int>("pagodaX");
+			pagodaY = tag.Get<int>("pagodaY");
+			spawnedPagodaEnemies = tag.Get<bool>("spawnedPagodaEnemies");
 		}
 
 		public override void LoadLegacy(BinaryReader reader)
@@ -423,31 +432,6 @@ namespace SpiritMod
             downedBeholder = false;
 
         }
-		private void LoadSpecialNPCs(TagCompound compound)
-		{
-			int npcTest = 0;
-			while (compound.ContainsKey($"SpiritSavedNPC{npcTest}")) {
-				TagCompound npc = (TagCompound)compound[$"SpiritSavedNPC{npcTest++}"];
-
-				NPC.NewNPC((int)npc["x"], (int)npc["y"], (int)npc["type"]);
-			}
-		}
-
-		private void SaveSpecialNPCs(TagCompound compound)
-		{
-			int current = 0;
-			for (int i = 0; i < 200; i++) {
-				NPC npc = Main.npc[i];
-
-				if (npc.type == ModContent.NPCType<NPCs.PagodaGhostPassive>() || npc.type == ModContent.NPCType<NPCs.SamuraiPassive>()) {
-					TagCompound tag = new TagCompound();
-					tag["type"] = npc.type;
-					tag["x"] = (int)npc.position.X;
-					tag["y"] = (int)npc.position.Y;
-					compound.Add($"SpiritSavedNPC{current++}", tag);
-				}
-			}
-		}
 		#region Asteroid
 		public static ushort OreRoller(ushort glowstone, ushort none)
 		{
@@ -531,7 +515,9 @@ namespace SpiritMod
 			for (float i = 0; i < distance; i += (float)0.1) {
 				int tilePlaceX = xpoint1 + (int)(xDistRelative * i);
 				int tilePlaceY = ypoint1 + (int)(yDistRelative * i);
-				Tile tile = Main.tile[tilePlaceX, tilePlaceY];
+				//Tile tile = Main.tile[tilePlaceX, tilePlaceY];
+				if (!WorldGen.InWorld(tilePlaceX, tilePlaceY)) continue;
+				Tile tile = Framing.GetTileSafely(tilePlaceX, tilePlaceY);
 				tile.active(true);
 				tile.type = (ushort)type;
 				if (i < distance - 1 && placewall) {
@@ -1688,12 +1674,6 @@ namespace SpiritMod
 						}
 					}
 					WorldGen.PlaceChest(chestLocation.X, chestLocation.Y + 1, 21, true, 28);
-				}
-				for (int i = 0; i < Main.rand.Next(8, 10); i++) {
-					yureis.Add(new Point((pagodaX + Main.rand.Next(0, 100)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16));
-				}
-				for (int i = 0; i < 3; i++) {
-					samurais.Add(new Point((pagodaX + Main.rand.Next(0, 100)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16));
 				}
 				placed = true;
 			}
@@ -2996,22 +2976,6 @@ namespace SpiritMod
 			int[] moddedMaterials = new int[] { ItemType<BismiteCrystal>(), ItemType<OldLeather>() };
 			int stack;
 
-			foreach (Point spawn in yureis) {
-				int num = NPC.NewNPC(spawn.X, spawn.Y, ModContent.NPCType<PagodaGhostPassive>(), 0, 0f, 0f, 0f, 0f, 255);
-				Main.npc[num].homeTileX = -1;
-				Main.npc[num].homeTileY = -1;
-				Main.npc[num].direction = 1;
-				Main.npc[num].homeless = true;
-				Main.npc[num].townNPC = true;
-			}
-			foreach (Point spawn in samurais) {
-				int num = NPC.NewNPC(spawn.X, spawn.Y, ModContent.NPCType<SamuraiPassive>(), 0, 0f, 0f, 0f, 0f, 255);
-				Main.npc[num].homeTileX = -1;
-				Main.npc[num].homeTileY = -1;
-				Main.npc[num].direction = 1;
-				Main.npc[num].homeless = true;
-				Main.npc[num].townNPC = true;
-			}
 			//int itemsToPlaceInPagodaChestsChoice = 0;
 			for (int chestIndex = 0; chestIndex < 1000; chestIndex++) {
 				Chest chest = Main.chest[chestIndex];
@@ -3499,6 +3463,35 @@ namespace SpiritMod
 					luminousOcean = false;
 				}
 			}
+
+			//pagoda enemy spawning
+			if (!spawnedPagodaEnemies && Main.netMode != NetmodeID.MultiplayerClient) {
+				Rectangle pagodaSpawnArea = new Rectangle(pagodaX - 65, pagodaY - 37, 256, 140);
+				bool shouldSpawn = false;
+				if (Main.netMode == NetmodeID.SinglePlayer && pagodaSpawnArea.Contains(player.Center.ToTileCoordinates())) {
+					shouldSpawn = true;
+				}
+				else if (Main.netMode == NetmodeID.Server) {
+					for (int i = 0; i < 200; i++) {
+						if (Main.player[i].active) {
+							if (pagodaSpawnArea.Contains(Main.player[i].Center.ToTileCoordinates())) {
+								shouldSpawn = true;
+								break;
+							}
+						}
+					}
+				}
+				if (shouldSpawn) {
+					spawnedPagodaEnemies = true;
+					for (int i = 0; i < Main.rand.Next(8, 10); i++) {
+						NPC.NewNPC((pagodaX + Main.rand.Next(0, 126)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, ModContent.NPCType<PagodaGhostPassive>());
+					}
+					for (int i = 0; i < 3; i++) {
+						NPC.NewNPC((pagodaX + Main.rand.Next(0, 126)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, ModContent.NPCType<SamuraiPassive>());
+					}
+				}
+			}
+
 			if (NPC.downedBoss2) {
 				if (!gmOre) {
 					for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 76) * 15E-05); k++) {
