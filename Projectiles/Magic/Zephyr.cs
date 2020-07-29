@@ -1,3 +1,4 @@
+using static Terraria.ModLoader.ModContent;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -7,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Magic
 {
-	public class Zephyr : ModProjectile
+	public class Zephyr : ModProjectile, IDrawAdditive
 	{
 		public override void SetStaticDefaults()
 		{
@@ -58,7 +59,10 @@ namespace SpiritMod.Projectiles.Magic
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
-			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 16, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
+			for (int i = 0; i < 20; i++)
+			{
+				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 16, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
+			}
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
@@ -69,6 +73,17 @@ namespace SpiritMod.Projectiles.Magic
 				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
 			}
 			return false;
+		}
+		public void DrawAdditive(SpriteBatch spriteBatch)
+		{
+			for (int k = 0; k < projectile.oldPos.Length; k++) {
+				Color color = new Color(255, 255, 200) * 0.75f * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
+
+				float scale = projectile.scale;
+				Texture2D tex = GetTexture("SpiritMod/Projectiles/Magic/ZephyrGlow");
+
+				spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color, projectile.rotation, tex.Size() / 2, scale, default, default);
+			}
 		}
 	}
 }
