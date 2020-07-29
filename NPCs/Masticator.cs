@@ -69,30 +69,31 @@ namespace SpiritMod.NPCs
 					if (npc.velocity.X < 0f && num1166 > 0f) {
 						npc.velocity.X = npc.velocity.X + num1165 * .35f;
 					}
-				}
+                }
 				else if (npc.velocity.X > num1166) {
 					npc.velocity.X = npc.velocity.X - num1165;
 					if (npc.velocity.X > 0f && num1166 < 0f) {
 						npc.velocity.X = npc.velocity.X - num1165 * .35f;
 					}
-				}
+                }
 				if (npc.velocity.Y < num1167) {
 					npc.velocity.Y = npc.velocity.Y + num1165;
 					if (npc.velocity.Y < 0f && num1167 > 0f) {
 						npc.velocity.Y = npc.velocity.Y + num1165 * .35f;
 					}
-				}
+                }
 				else if (npc.velocity.Y > num1167) {
 					npc.velocity.Y = npc.velocity.Y - num1165;
 					if (npc.velocity.Y > 0f && num1167 < 0f) {
 						npc.velocity.Y = npc.velocity.Y - num1165 * .35f;
 					}
-				}
+                }
 				if (npc.position.X + (float)npc.width > Main.player[npc.target].position.X && npc.position.X < Main.player[npc.target].position.X + (float)Main.player[npc.target].width && npc.position.Y + (float)npc.height < Main.player[npc.target].position.Y && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height) && Main.netMode != NetmodeID.MultiplayerClient) {
 					npc.ai[0] += 1f;
 					if (npc.ai[0] > 90f) {
 						vomitPhase = true;
-					}
+                        npc.netUpdate = true;
+                    }
 				}
 			}
 			else {
@@ -109,6 +110,7 @@ namespace SpiritMod.NPCs
 				++npc.ai[3];
 				if (npc.ai[3] >= 210) {
 					npc.ai[3] = 0;
+                    npc.netUpdate = true;
 					vomitPhase = false;
 				}
 
@@ -132,15 +134,18 @@ namespace SpiritMod.NPCs
 						int damage = expertMode ? 12 : 15;
 						Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 4, Main.rand.NextFloat(-.85f, .85f), Main.rand.NextFloat(4f, 6f), ModContent.ProjectileType<CorruptVomitProj>(), damage, 1, Main.myPlayer, 0, 0);
 					}
-					if (Main.rand.NextBool(16)) {
+                    if (Main.rand.NextBool(16)) {
 
-						int tomaProj;
-						tomaProj = Main.rand.Next(new int[] { mod.ProjectileType("Teratoma1"), mod.ProjectileType("Teratoma2"), mod.ProjectileType("Teratoma3") });
-						bool expertMode = Main.expertMode;
-						Main.PlaySound(SoundID.Item20, npc.Center);
-						int damagenumber = expertMode ? 12 : 17;
-						int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 6, Main.rand.Next(-3, 3), Main.rand.NextFloat(1f, 3f), tomaProj, damagenumber, 1, Main.myPlayer, 0, 0);
-						Main.projectile[p].penetrate = 1;
+                        int tomaProj;
+                        tomaProj = Main.rand.Next(new int[] { mod.ProjectileType("Teratoma1"), mod.ProjectileType("Teratoma2"), mod.ProjectileType("Teratoma3") });
+                        bool expertMode = Main.expertMode;
+                        Main.PlaySound(SoundID.Item20, npc.Center);
+                        int damagenumber = expertMode ? 12 : 17;
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 6, Main.rand.Next(-3, 3), Main.rand.NextFloat(1f, 3f), tomaProj, damagenumber, 1, Main.myPlayer, 0, 0);
+                            Main.projectile[p].penetrate = 1;
+                        }
 					}
 				}
 				else {
