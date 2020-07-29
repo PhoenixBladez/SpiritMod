@@ -231,11 +231,6 @@ namespace SpiritMod.NPCs
 				charging = false;
 				npc.netUpdate = true;
 			}
-			if (!player.active || player.dead) //despawns when player is ded
-			{
-				npc.velocity = Vector2.Zero;
-				npc.Transform(ModContent.NPCType<SamuraiPassive>());
-			}
 			npc.spriteDirection = npc.direction;
 		}
 	}

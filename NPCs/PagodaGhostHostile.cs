@@ -110,11 +110,6 @@ namespace SpiritMod.NPCs
 				npc.alpha = 0;
 				Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 6);
 			}
-			if (!player.active || player.dead) //despawns when player is ded
-			{
-				npc.velocity = Vector2.Zero;
-				npc.Transform(ModContent.NPCType<PagodaGhostPassive>());
-			}
 			npc.spriteDirection = npc.direction;
 		}
 		public override Color? GetAlpha(Color lightColor)
