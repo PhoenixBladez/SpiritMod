@@ -39,7 +39,7 @@ namespace SpiritMod.Effects
 				CreateTrail(projectile, new StandardColorTrail(new Color(218, 94, 255)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 250f);
 			}
 			if (projectile.type == ModContent.ProjectileType<LeafProjReachChest>()) {
-				CreateTrail(projectile, new StandardColorTrail(new Color(56, 194, 93)), new RoundCap(), new DefaultTrailPosition(), 4f, 100f, new ImageShader(mod.GetTexture("Textures/noise"), 0.2f, .4f, 1f));
+				CreateTrail(projectile, new StandardColorTrail(new Color(56, 194, 93)), new RoundCap(), new DefaultTrailPosition(), 6f, 210f, new ImageShader(mod.GetTexture("Textures/noise"), 0.2f, .4f, 1f));
 			}
 			if (projectile.type == ModContent.ProjectileType<StarLaser>()) {
 				CreateTrail(projectile, new StandardColorTrail(new Color(66, 239, 245)), new RoundCap(), new DefaultTrailPosition(), 10f, 1950f);

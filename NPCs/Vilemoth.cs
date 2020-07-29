@@ -103,14 +103,6 @@ namespace SpiritMod.NPCs
 		}
         public override void NPCLoot()
         {
-            if (Main.rand.NextBool(3))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.RottenChunk);
-            }
-            if (Main.rand.NextBool(5))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.WormTooth);
-            }
             if (Main.rand.NextBool(33))
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Spear.CorruptSpearVariant>());
