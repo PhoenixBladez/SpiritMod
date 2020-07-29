@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bubble Blaster");
-			Tooltip.SetDefault("Hold for a longer blast\nConsumes 50 mana each second");
+			Tooltip.SetDefault("Hold for a longer blast\nConsumes 20 mana each second");
 
 		}
 
