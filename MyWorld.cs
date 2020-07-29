@@ -102,6 +102,12 @@ namespace SpiritMod
 		public static bool downedDusking = false;
 		public static bool downedIlluminantMaster = false;
 		public static bool downedOverseer = false;
+
+        public static bool downedMechromancer = false;
+        public static bool downedOccultist = false;
+        public static bool downedGladeWraith = false;
+        public static bool downedBeholder = false;
+        public static bool downedTide = false;
 		public static bool downedBlueMoon = false;
 
 		//Adventurer variables
@@ -169,7 +175,17 @@ namespace SpiritMod
 				downed.Add("overseer");
 			if (downedBlueMoon)
 				downed.Add("bluemoon");
-			data.Add("downed", downed);
+            if (downedTide)
+                downed.Add("tide");
+            if (downedMechromancer)
+                downed.Add("mechromancer");
+            if (downedOccultist)
+                downed.Add("occultist");
+            if (downedGladeWraith)
+                downed.Add("gladeWraith");
+            if (downedBeholder)
+                downed.Add("beholder");
+            data.Add("downed", downed);
 
 			TagCompound droppedGlyphTag = new TagCompound();
 			foreach (KeyValuePair<string, bool> entry in droppedGlyphs) {
@@ -213,8 +229,12 @@ namespace SpiritMod
 			downedIlluminantMaster = downed.Contains("illuminantMaster");
 			downedAtlas = downed.Contains("atlas");
 			downedOverseer = downed.Contains("overseer");
-			downedBlueMoon = downed.Contains("bluemoon");
-			LoadSpecialNPCs(tag);
+            downedTide = downed.Contains("tide");
+            downedMechromancer = downed.Contains("mechromancer");
+            downedOccultist = downed.Contains("occultist");
+            downedGladeWraith = downed.Contains("gladeWraith");
+            downedBeholder = downed.Contains("beholder");
+            LoadSpecialNPCs(tag);
 			SpiritMod.AdventurerQuests.WorldLoad(tag);
 			TagCompound droppedGlyphTag = tag.GetCompound("droppedGlyphs");
 			droppedGlyphs.Clear();
@@ -260,8 +280,13 @@ namespace SpiritMod
 				downedBlueMoon = flags[8];
 				downedReachBoss = flags1[0];
 				downedSpiritCore = flags1[1];
+                downedTide = flags1[2];
+                downedMechromancer = flags1[3];
+                downedOccultist = flags2[4];
+                downedGladeWraith = flags2[5];
+                downedBeholder = flags2[6];
 
-				gennedBandits = flags2[0];
+                gennedBandits = flags2[0];
 				gennedTower = flags2[1];
 
 				sepulchreComplete = flags3[0];
@@ -281,7 +306,7 @@ namespace SpiritMod
 		public override void NetSend(BinaryWriter writer)
 		{
 			BitsByte bosses1 = new BitsByte(downedScarabeus, downedAncientFlier, downedRaider, downedInfernon, downedDusking, downedIlluminantMaster, downedAtlas, downedOverseer);
-			BitsByte bosses2 = new BitsByte(downedReachBoss, downedSpiritCore);
+			BitsByte bosses2 = new BitsByte(downedReachBoss, downedSpiritCore, downedTide, downedMechromancer, downedOccultist, downedGladeWraith, downedBeholder);
 			writer.Write(bosses1);
 			writer.Write(bosses2);
 			BitsByte environment = new BitsByte(BlueMoon);
@@ -311,8 +336,13 @@ namespace SpiritMod
 			downedBlueMoon = bosses1[8];
 			downedReachBoss = bosses2[0];
 			downedSpiritCore = bosses2[1];
+            downedTide = bosses2[2];
+            downedMechromancer = bosses2[3];
+            downedOccultist = bosses2[4];
+            downedGladeWraith = bosses2[5];
+            downedBeholder = bosses2[6];
 
-			BitsByte environment = reader.ReadByte();
+            BitsByte environment = reader.ReadByte();
 			BlueMoon = environment[0];
 
 			BitsByte worldgen = reader.ReadByte();
@@ -386,7 +416,13 @@ namespace SpiritMod
 			downedIlluminantMaster = false;
 			downedOverseer = false;
 			downedBlueMoon = false;
-		}
+            downedTide = false;
+            downedMechromancer = false;
+            downedOccultist = false;
+            downedGladeWraith = false;
+            downedBeholder = false;
+
+        }
 		private void LoadSpecialNPCs(TagCompound compound)
 		{
 			int npcTest = 0;

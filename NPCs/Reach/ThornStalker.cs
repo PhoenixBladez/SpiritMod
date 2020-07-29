@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Projectiles.Hostile;
 using SpiritMod.Items.Material;
+using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Items.Weapon.Flail;
 using Terraria;
 using Terraria.ID;
@@ -159,7 +160,11 @@ namespace SpiritMod.NPCs.Reach
 			if (Main.rand.Next(33) == 3) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<VineChain>());
 			}
-		}
+            if (Main.rand.Next(20) == 1)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<LeafPaddyHat>());
+            }
+        }
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			Player player = spawnInfo.player;

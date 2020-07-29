@@ -221,7 +221,12 @@ namespace SpiritMod.NPCs
 			}
 			return true;
 		}
-		public override void HitEffect(int hitDirection, double damage)
+        public override bool PreNPCLoot()
+        {
+            MyWorld.downedBeholder = true;
+            return true;
+        }
+        public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0) {
 				if (Main.LocalPlayer.GetSpiritPlayer().emptyBeholderScroll) {
