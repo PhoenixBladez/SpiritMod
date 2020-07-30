@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Bow
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Thornshot");
-			Tooltip.SetDefault("Arrows shot may split into multiple damaging thorns upon hitting an enemy\nThorns may poison foes");
+			Tooltip.SetDefault("Wooden arrows split into poisonous thorns");
 		}
 
 		public override void SetDefaults()
@@ -29,16 +29,44 @@ namespace SpiritMod.Items.Weapon.Bow
 			item.knockBack = 2;
 			item.rare = ItemRarityID.Green;
 			item.UseSound = SoundID.Item5;
-			item.value = Item.buyPrice(0, 5, 0, 0);
-			item.value = Item.sellPrice(0, 2, 30, 0);
+			item.value = Item.sellPrice(gold: 2, silver: 30);
 			item.autoReuse = true;
 			item.shootSpeed = 14f;
 		}
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
-			Main.projectile[p].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromThornBow = true;
-			return false;
+			if(type == ProjectileID.WoodenArrowFriendly) type = ModContent.ProjectileType<ThornArrow>();
+			return true;
+		}
+
+		public class ThornArrow : ModProjectile
+		{
+			public override string Texture => "Terraria/Projectile_" + ProjectileID.WoodenArrowFriendly;
+
+			public override void SetStaticDefaults() => DisplayName.SetDefault("Thorn Arrow");
+
+			public override void SetDefaults()
+			{
+				projectile.CloneDefaults(ProjectileID.WoodenArrowFriendly);
+				aiType = ProjectileID.WoodenArrowFriendly;
+			}
+
+			public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+			{
+				if(Main.rand.NextBool(4)) {
+					int n = Main.rand.Next(5, 6);
+					int deviation = Main.rand.Next(0, 300);
+					for(int i = 0; i < n; i++) {
+						float rotation = MathHelper.ToRadians(270 / n * i + deviation);
+						Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(rotation);
+						perturbedSpeed.Normalize();
+						perturbedSpeed.X *= 3.5f;
+						perturbedSpeed.Y *= 3.5f;
+						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<ThornBowThorn>(), projectile.damage / 5 * 3, projectile.knockBack, projectile.owner);
+					}
+				}
+			}
 		}
 	}
 }

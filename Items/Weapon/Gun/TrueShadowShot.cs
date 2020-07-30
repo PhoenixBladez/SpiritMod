@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Projectiles;
+using SpiritMod.Projectiles.Bullet;
 
 namespace SpiritMod.Items.Weapon.Gun
 {
@@ -13,10 +14,8 @@ namespace SpiritMod.Items.Weapon.Gun
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Nightbane");
-			Tooltip.SetDefault("Shooting an enemy causes shadow bullets to appear");
-
+			Tooltip.SetDefault("Summons extra shadow bullets");
 		}
-
 
 		public override void SetDefaults()
 		{
@@ -30,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.noMelee = true;
 			item.knockBack = 8;
 			item.useTurn = false;
-			item.value = Terraria.Item.sellPrice(0, 5, 0, 0);
+			item.value = Item.sellPrice(gold: 5);
 			item.rare = ItemRarityID.Yellow;
 			item.UseSound = SoundID.Item36;
 			item.autoReuse = true;
@@ -38,29 +37,14 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.shootSpeed = 11f;
 			item.useAmmo = AmmoID.Bullet;
 		}
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
-			Main.projectile[p].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromNightbane = true;
-			return false;
+			if(type == ProjectileID.Bullet) type = ModContent.ProjectileType<NightBullet>();
+			return true;
 		}
-		public override void HoldItem(Player player)
-		{
-			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if (modPlayer.shootDelay2 == 1) {
-				Main.PlaySound(SoundID.MaxMana, -1, -1, 1, 1f, 0.0f);
-				for (int index1 = 0; index1 < 5; ++index1) {
-					int index2 = Dust.NewDust(player.position, player.width, player.height, 75, 0.0f, 0.0f, (int)byte.MaxValue, new Color(), (float)Main.rand.Next(20, 26) * 0.1f);
-					Main.dust[index2].noLight = false;
-					Main.dust[index2].noGravity = true;
-					Main.dust[index2].velocity *= 0.5f;
-				}
-			}
-		}
-		public override Vector2? HoldoutOffset()
-		{
-			return new Vector2(-10, 0);
-		}
+
+		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
 		public override void AddRecipes()
 		{
@@ -72,5 +56,47 @@ namespace SpiritMod.Items.Weapon.Gun
 			recipe.AddRecipe();
 		}
 
+		public class NightBullet : ModProjectile
+		{
+			public override string Texture => "SpiritMod/Projectiles/Bullet/BaneBullet";
+
+			public override void SetStaticDefaults()
+			{
+				DisplayName.SetDefault("Night Bullet");
+				ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
+				ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			}
+
+			public override void SetDefaults()
+			{
+				projectile.CloneDefaults(ProjectileID.Bullet);
+				projectile.light = 0f;
+				aiType = ProjectileID.Bullet;
+			}
+
+			public override void AI()
+			{
+				float brightness = 0.5f;
+				Lighting.AddLight(projectile.Center, new Vector3(0.6f, 0.2f, 1f) * brightness);
+			}
+
+			public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+			{
+				var player = Main.player[projectile.owner];
+				Vector2 offset = new Vector2(Main.rand.Next(-100, 100), Main.rand.Next(-100, 0));
+				offset.Normalize();
+				offset *= 66;
+				Vector2 direction9 = target.Center - (player.Center + offset);
+				direction9.Normalize();
+				direction9 *= 10;
+				Projectile.NewProjectile(player.Center + offset, direction9, ModContent.ProjectileType<BaneBullet>(), projectile.damage, 0, projectile.owner);
+			}
+
+			public override void Kill(int timeLeft)
+			{
+				Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
+				Main.PlaySound(SoundID.Item10, projectile.position);
+			}
+		}
 	}
 }
