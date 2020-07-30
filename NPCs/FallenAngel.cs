@@ -43,7 +43,7 @@ namespace SpiritMod.NPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.sky && Main.hardMode && NPC.AnyNPCs(ModContent.NPCType<FallenAngel>()) ? 0.013f : 0f;
+			return spawnInfo.sky && Main.hardMode && !NPC.AnyNPCs(ModContent.NPCType<FallenAngel>()) ? 0.013f : 0f;
 		}
 		int aiTimer;
 		float alphaCounter;
