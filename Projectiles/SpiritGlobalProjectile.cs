@@ -51,16 +51,15 @@ namespace SpiritMod.Projectiles
 		{
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
-			if (projectile.minion && projectile.owner == Main.myPlayer && modPlayer.stellarSet && player.HasBuff(ModContent.BuffType<StellarMinionBonus>())) {
+			if(projectile.minion && modPlayer.stellarSet && player.HasBuff(ModContent.BuffType<StellarMinionBonus>())) {
 				float sineAdd = (float)Math.Sin(alphaCounter) + 3;
-				Main.spriteBatch.Draw(SpiritMod.instance.GetTexture("Effects/Masks/Extra_49"), (projectile.Center - Main.screenPosition), null, new Color((int)(20f * sineAdd), (int)(16f * sineAdd), (int)(4f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + .25f), SpriteEffects.None, 0f);
-
+				Main.spriteBatch.Draw(SpiritMod.instance.GetTexture("Effects/Masks/Extra_49"), projectile.Center - Main.screenPosition, null, new Color((int)(20f * sineAdd), (int)(16f * sineAdd), (int)(4f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + .25f), SpriteEffects.None, 0f);
 			}
-			if (throwerGloveBoost && projectile.thrown) {
+			if(throwerGloveBoost && projectile.thrown) {
 				Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-				for (int k = 0; k < projectile.oldPos.Length; k++) {
+				for(int k = 0; k < projectile.oldPos.Length; k++) {
 					Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-					Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
+					Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / projectile.oldPos.Length);
 					spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
 				}
 				return true;
@@ -71,15 +70,15 @@ namespace SpiritMod.Projectiles
 		float alphaCounter;
 		public override bool PreAI(Projectile projectile)
 		{
-			foreach (var effect in effects) {
-				if (!effect.ProjectilePreAI(projectile))
+			foreach(var effect in effects) {
+				if(!effect.ProjectilePreAI(projectile))
 					return false;
 			}
 
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
 
-			if (projectile.friendly
+			if(projectile.friendly
 				&& projectile.owner != 255
 				&& projectile.ranged
 				&& modPlayer.throwerGlove
@@ -95,120 +94,103 @@ namespace SpiritMod.Projectiles
 
 			runOnce = true;
 
-			if (projectile.minion && projectile.owner == Main.myPlayer && modPlayer.stellarSet && player.HasBuff(ModContent.BuffType<StellarMinionBonus>())) {
+			if(projectile.minion && modPlayer.stellarSet && player.HasBuff(ModContent.BuffType<StellarMinionBonus>())) {
 				alphaCounter += .04f;
 			}
-			if (shotFromMaliwanFreezeCommon == true) {
+			if(shotFromMaliwanFreezeCommon == true) {
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				for (int k = 0; k < 3; k++) {
+				for(int k = 0; k < 3; k++) {
 					int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 180);
 					Main.dust[dust].noGravity = true;
 					Main.dust[dust].velocity *= 0f;
 					Main.dust[dust].scale = .78f;
 				}
 			}
-			if (shotFromMaliwanFireCommon == true) {
+			if(shotFromMaliwanFireCommon == true) {
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				for (int k = 0; k < 3; k++) {
+				for(int k = 0; k < 3; k++) {
 					int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 127);
 					Main.dust[dust].noGravity = true;
 					Main.dust[dust].velocity *= 0f;
 					Main.dust[dust].scale = .78f;
 				}
 			}
-			if (shotFromMaliwanAcidCommon == true) {
+			if(shotFromMaliwanAcidCommon == true) {
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				for (int k = 0; k < 3; k++) {
+				for(int k = 0; k < 3; k++) {
 					int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 163);
 					Main.dust[dust].noGravity = true;
 					Main.dust[dust].velocity *= 0f;
 					Main.dust[dust].scale = .78f;
 				}
 			}
-			if (shotFromMaliwanShockCommon == true) {
+			if(shotFromMaliwanShockCommon == true) {
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				for (int k = 0; k < 3; k++) {
+				for(int k = 0; k < 3; k++) {
 					int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 226);
 					Main.dust[dust].noGravity = true;
 					Main.dust[dust].velocity *= 0f;
 					Main.dust[dust].scale = .58f;
 				}
 			}
-			if (WitherLeaf == true) {
+			if(WitherLeaf) {
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				if (Main.rand.Next(2) == 0) {
-					int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 167);
+				if(Main.rand.NextBool()) {
+					Dust.NewDust(projectile.position, projectile.width, projectile.height, 167);
 					return true;
 				}
 			}
-			if (projectile.minion && projectile.owner == Main.myPlayer && modPlayer.silkenSet) {
+			if(projectile.minion && modPlayer.silkenSet) {
 				int dust = Dust.NewDust(projectile.Center, projectile.width, projectile.height, DustID.GoldCoin);
 				Main.dust[dust].velocity *= -1f;
 				Main.dust[dust].noGravity = true;
-				Vector2 vector2_1 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-				vector2_1.Normalize();
-				Vector2 vector2_2 = vector2_1 * ((float)Main.rand.Next(50, 100) * 0.04f);
-				Main.dust[dust].velocity = vector2_2;
-				vector2_2.Normalize();
-				Vector2 vector2_3 = vector2_2 * 34f;
-				Main.dust[dust].position = projectile.Center - vector2_3;
+				Vector2 vel = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
+				vel.Normalize();
+				Main.dust[dust].velocity = vel * Main.rand.Next(50, 100) * 0.04f;
+				Main.dust[dust].position = projectile.Center - vel * 34f;
 			}
-			if (shotFromStellarCrosbow == true) {
+			if(shotFromStellarCrosbow) {
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				if (Main.rand.Next(2) == 0)
+				if(Main.rand.Next(2) == 0)
 					Dust.NewDust(projectile.position, projectile.width, projectile.height, 133);
 				return false;
 			}
-			if (shotFromHolyBurst == true || shotFromTrueHolyBurst == true) {
+			if(shotFromHolyBurst || shotFromTrueHolyBurst) {
 				counter++;
-				if (counter >= 1440) {
+				if(counter >= 1440) {
 					counter = -1440;
 				}
-				for (int i = 0; i < 6; i++) {
-					float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
-					float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
-
-					int num = Dust.NewDust(projectile.Center + new Vector2(0, (float)Math.Cos(counter / 8.2f) * 9.2f).RotatedBy(projectile.rotation), 6, 6, 112, 0f, 0f, 0, default(Color), 1f);
+				for(int i = 0; i < 6; i++) {
+					int num = Dust.NewDust(projectile.Center + new Vector2(0, (float)Math.Cos(counter / 8.2f) * 9.2f).RotatedBy(projectile.rotation), 6, 6, 112, 0f, 0f, 0, default, 1f);
 					Main.dust[num].velocity *= .1f;
 					Main.dust[num].scale *= .7f;
 					Main.dust[num].noGravity = true;
-
 				}
-				for (int f = 0; f < 6; f++) {
-					float x = projectile.Center.X - projectile.velocity.X / 10f * (float)f;
-					float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)f;
-
-					int num = Dust.NewDust(projectile.Center - new Vector2(0, (float)Math.Cos(counter / 8.2f) * 9.2f).RotatedBy(projectile.rotation), 6, 6, 112, 0f, 0f, 0, default(Color), 1f);
+				for(int i = 0; i < 6; i++) {
+					int num = Dust.NewDust(projectile.Center - new Vector2(0, (float)Math.Cos(counter / 8.2f) * 9.2f).RotatedBy(projectile.rotation), 6, 6, 112, 0f, 0f, 0, default, 1f);
 					Main.dust[num].velocity *= .1f;
 					Main.dust[num].scale *= .7f;
 					Main.dust[num].noGravity = true;
-
 				}
 				return false;
-			}
-			else if (shotFromBloodshot == true) {
-				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				if (Main.rand.Next(2) == 0)
+			} else if(shotFromBloodshot) {
+				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+				if(Main.rand.Next(2) == 0)
 					Dust.NewDust(projectile.position, projectile.width, projectile.height, 5);
 				return false;
-			}
-			else if (shotFromGeodeBow == true) {
-				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6);
-				int dust1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 135);
-				int dust2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 75);
+			} else if(shotFromGeodeBow) {
+				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, Scale: 1.2f);
+				int dust1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 135, Scale: 1.2f);
+				int dust2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 75, Scale: 1.2f);
 				Main.dust[dust].noGravity = true;
 				Main.dust[dust].velocity *= 0f;
-				Main.dust[dust].scale = 1.2f;
 				Main.dust[dust1].noGravity = true;
 				Main.dust[dust1].velocity *= 0f;
-				Main.dust[dust1].scale = 1.2f;
 				Main.dust[dust2].noGravity = true;
 				Main.dust[dust2].velocity *= 0f;
-				Main.dust[dust2].scale = 1.2f;
 				return false;
-			}
-			else if (shotFromMarbleBow == true) {
+			} else if(shotFromMarbleBow) {
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height - 10, DustID.GoldCoin, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 				int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height - 10, 236, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
@@ -219,9 +201,8 @@ namespace SpiritMod.Projectiles
 				Main.dust[dust2].scale = .5f;
 				Main.dust[dust].scale = 2f;
 				return false;
-			}
-			else if (shotFromBismiteBow == true) {
-				if (Main.rand.Next(20) == 0) {
+			} else if(shotFromBismiteBow) {
+				if(Main.rand.Next(20) == 0) {
 					DustHelper.DrawTriangle(projectile.Center, 167, 1, .8f, 1.1f);
 				}
 			}
@@ -230,17 +211,17 @@ namespace SpiritMod.Projectiles
 
 		public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
 		{
-			foreach (var effect in effects)
+			foreach(var effect in effects)
 				effect.ProjectileOnHitNPC(projectile, target, damage, knockback, crit);
 
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if (shotFromMaliwanFreezeCommon == true) {
-				if (Main.rand.Next(6) == 0) {
+			if(shotFromMaliwanFreezeCommon) {
+				if(Main.rand.Next(6) == 0) {
 					target.AddBuff(ModContent.BuffType<MageFreeze>(), 120);
 					int d = 180;
 					int d1 = 180;
-					for (int k = 0; k < 20; k++) {
+					for(int k = 0; k < 20; k++) {
 						Dust.NewDust(target.position, target.width, target.height, d, 2.5f, -2.5f, 0, Color.White, .7f);
 						Dust.NewDust(target.position, target.width, target.height, d, 2.5f, -2.5f, 0, Color.White, 0.27f);
 						Dust.NewDust(target.position, target.width, target.height, d1, 2.5f, -2.5f, 0, Color.White, .9f);
@@ -248,21 +229,12 @@ namespace SpiritMod.Projectiles
 					}
 				}
 			}
-			if (shotFromNightbane) {
-				Vector2 offset = new Vector2(Main.rand.Next(-100, 100), Main.rand.Next(-100, 0));
-				offset.Normalize();
-				offset *= 66;
-				Vector2 direction9 = target.Center - (player.Center + offset);
-				direction9.Normalize();
-				direction9 *= 10;
-				Projectile.NewProjectile(player.Center + offset, direction9, ModContent.ProjectileType<BaneBullet>(), projectile.damage, 0, projectile.owner);
-			}
-			if (shotFromMaliwanFireCommon == true) {
-				if (Main.rand.Next(6) == 0) {
+			if(shotFromMaliwanFireCommon) {
+				if(Main.rand.Next(6) == 0) {
 					target.AddBuff(BuffID.OnFire, Main.rand.Next(120, 180));
 					int d = 6;
 					int d1 = 6;
-					for (int k = 0; k < 20; k++) {
+					for(int k = 0; k < 20; k++) {
 						Dust.NewDust(target.position, target.width, target.height, d, 2.5f, -2.5f, 0, Color.White, .7f);
 						Dust.NewDust(target.position, target.width, target.height, d, 2.5f, -2.5f, 0, Color.White, 0.27f);
 						Dust.NewDust(target.position, target.width, target.height, d1, 2.5f, -2.5f, 0, Color.White, .9f);
@@ -271,12 +243,12 @@ namespace SpiritMod.Projectiles
 				}
 
 			}
-			if (shotFromMaliwanAcidCommon == true) {
-				if (Main.rand.Next(6) == 0) {
+			if(shotFromMaliwanAcidCommon) {
+				if(Main.rand.Next(6) == 0) {
 					target.AddBuff(BuffID.Poisoned, Main.rand.Next(120, 180));
 					int d = 163;
 					int d1 = 163;
-					for (int k = 0; k < 20; k++) {
+					for(int k = 0; k < 20; k++) {
 						Dust.NewDust(target.position, target.width, target.height, d, 2.5f, -2.5f, 0, Color.White, .7f);
 						Dust.NewDust(target.position, target.width, target.height, d, 2.5f, -2.5f, 0, Color.White, 0.27f);
 						Dust.NewDust(target.position, target.width, target.height, d1, 2.5f, -2.5f, 0, Color.White, .9f);
@@ -284,16 +256,16 @@ namespace SpiritMod.Projectiles
 					}
 				}
 			}
-			if (shotFromMaliwanShockCommon == true) {
-				if (Main.rand.Next(12) == 0 || player.GetSpiritPlayer().starSet && Main.rand.Next(8) == 0) {
-					if (player.GetSpiritPlayer().starSet) {
+			if(shotFromMaliwanShockCommon) {
+				if(Main.rand.Next(12) == 0 || player.GetSpiritPlayer().starSet && Main.rand.Next(8) == 0) {
+					if(player.GetSpiritPlayer().starSet) {
 						int newdamage = damage + (int)(damage * .15f);
 						damage = newdamage;
 					}
 					target.AddBuff(ModContent.BuffType<ElectrifiedV2>(), Main.rand.Next(60, 120));
 					int d = 226;
 					int d1 = 226;
-					for (int k = 0; k < 20; k++) {
+					for(int k = 0; k < 20; k++) {
 						Dust.NewDust(target.position, target.width, target.height, d, 2.5f, -2.5f, 0, Color.White, .7f);
 						Dust.NewDust(target.position, target.width, target.height, d, 2.5f, -2.5f, 0, Color.White, 0.27f);
 						Dust.NewDust(target.position, target.width, target.height, d1, 2.5f, -2.5f, 0, Color.White, .9f);
@@ -301,53 +273,35 @@ namespace SpiritMod.Projectiles
 					}
 				}
 			}
-			if (shotFromCoralBow && Main.rand.Next(2) == 0) {
+			if(shotFromCoralBow && Main.rand.NextBool()) {
 				target.StrikeNPC(projectile.damage / 4, 0f, 0, crit);
-				for (int k = 0; k < 20; k++) {
+				for(int k = 0; k < 20; k++) {
 					Dust.NewDust(target.position, target.width, target.height, 225, 2.5f * projectile.direction, -2.5f, 0, Color.White, 0.7f);
-					Dust.NewDust(target.position, target.width, target.height, 225, 2.5f * projectile.direction, -2.5f, 0, default(Color), .34f);
+					Dust.NewDust(target.position, target.width, target.height, 225, 2.5f * projectile.direction, -2.5f, 0, default, 0.34f);
 				}
 			}
-			if (shotFromStellarCrosbow == true) {
+			if(shotFromStellarCrosbow) {
 				target.AddBuff(ModContent.BuffType<StarFracture>(), 300);
 			}
-			if (shotFromHolyBurst == true) {
+			if(shotFromHolyBurst) {
 				target.AddBuff(ModContent.BuffType<AngelLight>(), 60);
 			}
-			if (shotFromTrueHolyBurst == true) {
+			if(shotFromTrueHolyBurst) {
 				target.AddBuff(ModContent.BuffType<AngelWrath>(), 60);
-			}
-			else if (shotFromPalmSword == true) {
+			} else if(shotFromPalmSword) {
 				target.AddBuff(BuffID.Poisoned, 300);
-			}
-			else if (shotFromSpazLung == true) {
+			} else if(shotFromSpazLung) {
 				target.AddBuff(BuffID.CursedInferno, 120);
-			}
-			else if (shotFromBloodshot == true) {
+			} else if(shotFromBloodshot) {
 				target.AddBuff(ModContent.BuffType<BCorrupt>(), 120);
-			}
-			else if (shotFromCookieCutter == true) {
+			} else if(shotFromCookieCutter) {
 				player.AddBuff(ModContent.BuffType<CrimsonRegen>(), 179);
-			}
-			else if (shotFromNightSky == true && Main.rand.Next(8) == 0) {
+			} else if(shotFromNightSky && Main.rand.NextBool(8)) {
 				target.AddBuff(ModContent.BuffType<StarFlame>(), 179);
-			}
-			else if (shotFromThornBow == true && Main.rand.Next(4) == 0) {
-				int n = Main.rand.Next(5, 6);
-				int deviation = Main.rand.Next(0, 300);
-				for (int i = 0; i < n; i++) {
-					float rotation = MathHelper.ToRadians(270 / n * i + deviation);
-					Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(rotation);
-					perturbedSpeed.Normalize();
-					perturbedSpeed.X *= 3.5f;
-					perturbedSpeed.Y *= 3.5f;
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<ThornBowThorn>(), projectile.damage / 5 * 3, projectile.knockBack, projectile.owner);
-				}
-			}
-			else if (shotFromGaruda == true && Main.rand.Next(2) == 0) {
+			} else if(shotFromGaruda && Main.rand.NextBool()) {
 				int n = Main.rand.Next(1, 2);
 				int deviation = Main.rand.Next(0, 300);
-				for (int i = 0; i < n; i++) {
+				for(int i = 0; i < n; i++) {
 					float rotation = MathHelper.ToRadians(270 / n * i + deviation);
 					Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(rotation);
 					perturbedSpeed.Normalize();
@@ -355,33 +309,32 @@ namespace SpiritMod.Projectiles
 					perturbedSpeed.Y *= 7.5f;
 					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 200, 0, 12, ModContent.ProjectileType<GodHomingProj>(), projectile.damage / 2 * 3, projectile.knockBack, projectile.owner);
 				}
-			}
-			else if (shotFromGeodeBow == true) {
-				if (crit) {
+			} else if(shotFromGeodeBow) {
+				if(crit) {
 					target.AddBuff(BuffID.CursedInferno, 240, true);
 					target.AddBuff(BuffID.Frostburn, 240, true);
 					target.AddBuff(BuffID.OnFire, 240, true);
 				}
 			}
 
-			if (WitherLeaf == true) {
+			if(WitherLeaf) {
 				target.AddBuff(ModContent.BuffType<WitheringLeaf>(), 180);
 			}
-			if (modPlayer.HealCloak && projectile.minion && Main.rand.Next(25) == 1) {
+			if(modPlayer.HealCloak && projectile.minion && Main.rand.NextBool(25)) {
 				player.HealEffect(4);
-				player.statLife += (4);
+				player.statLife += 4;
 			}
-			if (modPlayer.SpiritCloak && projectile.minion && Main.rand.Next(15) == 1) {
+			if(modPlayer.SpiritCloak && projectile.minion && Main.rand.NextBool(15)) {
 				player.HealEffect(9);
-				player.statLife += (9);
+				player.statLife += 9;
 			}
 
-			if (modPlayer.VampireCloak && projectile.minion && Main.rand.Next(100) < 30) {
+			if(modPlayer.VampireCloak && projectile.minion && Main.rand.Next(100) < 30) {
 				player.HealEffect(3);
-				player.statLife += (3);
+				player.statLife += 3;
 			}
-			if (shotFromBismiteBow == true) {
-				if (Main.rand.Next(5) == 0) {
+			if(shotFromBismiteBow) {
+				if(Main.rand.NextBool(5)) {
 					target.AddBuff(ModContent.BuffType<FesteringWounds>(), 120, true);
 				}
 			}
@@ -389,7 +342,7 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(Projectile projectile, int timeLeft)
 		{
-			if (Main.netMode != NetmodeID.Server) SpiritMod.TrailManager.TryTrailKill(projectile);
+			if(Main.netMode != NetmodeID.Server) SpiritMod.TrailManager.TryTrailKill(projectile);
 		}
 	}
 }
