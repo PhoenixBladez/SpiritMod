@@ -452,8 +452,8 @@ namespace SpiritMod
 			ZoneSpirit = MyWorld.SpiritTiles > 200;
 			ZoneBlueMoon = MyWorld.BlueMoon;
 			ZoneReach = MyWorld.ReachTiles > 50;
-			ZoneMarble = MyWorld.MarbleTiles > 200;
-			ZoneGranite = MyWorld.GraniteTiles > 350;
+			ZoneMarble = MyWorld.MarbleTiles > 310;
+			ZoneGranite = MyWorld.GraniteTiles > 400;
 			ZoneAsteroid = MyWorld.AsteroidTiles > 130;
 			ZoneHive = MyWorld.HiveTiles > 100;
 		}
