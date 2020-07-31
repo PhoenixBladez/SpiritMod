@@ -1,25 +1,26 @@
+Spirit's 1.4 Update is here! Here are some highlights from this long-awaited Pre-Hardmode Overhaul:
+- 200+ new items
+- 51 new enemies
+- 19 new soundtracks for bosses, events, and biomes (including vanilla ones!)
+- Hundreds of overhauled weapons and equipment
+- Revamped enemy and boss AIs
+- A new NPC, the Gambler
+- A new Quest System, used by the Adventurer
+- Hundreds of resprites
+- New mini-events, the Aurora and the Luminous Ocean
+- Countless fixed bugs and balancing issues
+
 
 The Spirit Mod is a huge Terraria mod, with plenty of content to explore, new enemies to fight, and new weapons to wield.
 Current content:
-- 1117 Items
-- 133 NPCs, including boss minions, enemies, and town NPCs
-- 10 New bosses with interesting AIs
+- 1200+ Items
+- 210 NPCs, including boss minions, enemies, and town NPCs
+- 8 New bosses with interesting AIs
 - 6 New Minibosses to be fought in different events
-- 2 New Events, The Tide and the Blue Moon, to take on!
-- 2 Biomes, the Reach and the Spirit Biome!
+- 2 New Events, The Tide and the Mystic Moon, to take on!
+- 2 Biomes, the Briar and the Spirit Biome!
 - And many secrets for you to find!
-Check out the mod's forum page for more information! We hope you enjoy the mod, and please report any issues you encounter :)
+Check out the mod's discord for more information! We hope you enjoy the mod, and please report any issues you encounter :)
 
-
-Changes from latest version on Mod Browser:
-v1.3.5.0:
--Unofficial compability update for tmod 0.11. 
-
-Please let me know, if there are any compability issues. 
-MadeOfPixel
-
-v1.3.5.1:
--Updated some code that caused issues with tMod 0.11 update
--Fixed knockback on melee + projectiles
 
 
