@@ -1213,6 +1213,7 @@ namespace SpiritMod
 							tile.type = data.Item1;
 							tile.frameX = fX;
 							tile.frameY = fY;
+							tile.slope(0);
 							fY += 18;
 						}
 						fX += 18;
