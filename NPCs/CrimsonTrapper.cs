@@ -27,6 +27,7 @@ namespace SpiritMod.NPCs
 			npc.HitSound = SoundID.NPCHit19;
 			npc.DeathSound = new Terraria.Audio.LegacySoundStyle(42, 39);
 			npc.value = 220f;
+            npc.aiStyle = -1;
 			npc.knockBackResist = 0f;
 			npc.behindTiles = true;
 			banner = npc.type;
@@ -36,8 +37,9 @@ namespace SpiritMod.NPCs
 		bool spawnedHooks = false;
 		//bool attack = false;
 		public override void AI()
-		{
-			if (npc.localAI[0] == 0f) {
+        {
+            npc.TargetClosest(false);
+            if (npc.localAI[0] == 0f) {
 				npc.localAI[0] = npc.Center.Y;
 				npc.netUpdate = true; //localAI probably isnt affected by this... buuuut might as well play it safe
 			}
@@ -51,13 +53,19 @@ namespace SpiritMod.NPCs
 			}
 			npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y + 0.009f * npc.localAI[1], -.85f, .85f);
 			if (!spawnedHooks) {
-				for (int i = 0; i < Main.rand.Next(2, 4); i++) {
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 10, Main.rand.Next(-10, 10), -6, ModContent.ProjectileType<TendonEffect>(), 0, 0);
-				}
-				for (int i = 0; i < Main.rand.Next(2, 3); i++) {
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 10, Main.rand.Next(-10, 10), -6, ModContent.ProjectileType<TendonEffect1>(), 0, 0);
-				}
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    for (int i = 0; i < Main.rand.Next(2, 4); i++)
+                    {
+                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 10, Main.rand.Next(-10, 10), -6, ModContent.ProjectileType<TendonEffect>(), 0, 0);
+                    }
+                    for (int i = 0; i < Main.rand.Next(2, 3); i++)
+                    {
+                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 10, Main.rand.Next(-10, 10), -6, ModContent.ProjectileType<TendonEffect1>(), 0, 0);
+                    }
+                }
 				spawnedHooks = true;
+                npc.netUpdate = true;
 			}
 			npc.spriteDirection = -npc.direction;
 			Player target = Main.player[npc.target];
@@ -78,17 +86,25 @@ namespace SpiritMod.NPCs
 					npc.ai[2] = 0;
 					Lighting.AddLight((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f), .153f * 1, .028f * 1, 0.055f * 1);
 					Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/HeartbeatFx"));
-					for (int i = 0; i < 5; i++) {
-						float rotation = (float)(Main.rand.Next(0, 361) * (Math.PI / 180));
-						Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
-						int proj = Projectile.NewProjectile(npc.Center.X, npc.Center.Y,
-							velocity.X, velocity.Y, ModContent.ProjectileType<ArterialBloodClump>(), 12, 1, Main.myPlayer, 0, 0);
-						Main.projectile[proj].friendly = false;
-						Main.projectile[proj].hostile = true;
-						Main.projectile[proj].velocity *= 5f;
-					}
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        for (int i = 0; i < 5; i++)
+                        {
+                            float rotation = (float)(Main.rand.Next(0, 361) * (Math.PI / 180));
+                            Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
+                            int proj = Projectile.NewProjectile(npc.Center.X, npc.Center.Y,
+                                velocity.X, velocity.Y, ModContent.ProjectileType<ArterialBloodClump>(), 12, 1, Main.myPlayer, 0, 0);
+                            Main.projectile[proj].friendly = false;
+                            Main.projectile[proj].hostile = true;
+                            Main.projectile[proj].velocity *= 5f;
+                        }
+                    }
 				}
 			}
+			if (distance == 580)
+            {
+                npc.netUpdate = true;
+            }
 			if (distance > 580) {
 				float num395 = Main.mouseTextColor / 200f - 0.35f;
 				num395 *= 0.2f;
@@ -97,6 +113,7 @@ namespace SpiritMod.NPCs
 				npc.ai[2]++;
 				if (npc.ai[2] >= 90) {
 					npc.ai[2] = 0;
+                    npc.netUpdate = true;
 					Lighting.AddLight((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f), .153f * .5f, .028f * .5f, 0.055f * .5f);
 					Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/HeartbeatFx"));
 				}

@@ -1,4 +1,4 @@
-﻿
+﻿using static Terraria.ModLoader.ModContent;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Projectiles.DonatorItems;
@@ -9,7 +9,8 @@ using Terraria.ModLoader;
 namespace SpiritMod.Projectiles
 {
 	public class Starshock1 : ModProjectile
-	{
+
+    {
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starshock");
@@ -19,8 +20,8 @@ namespace SpiritMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.width = 16;
-			projectile.height = 16;
+			projectile.width = 26;
+			projectile.height = 26;
 			projectile.hostile = false;
 			projectile.friendly = true;
 			projectile.magic = true;
@@ -32,7 +33,6 @@ namespace SpiritMod.Projectiles
 
 		public override void AI()
 		{
-			projectile.rotation += 0.05f;
 			float num1 = 5f;
 			float num2 = 3f;
 			float num3 = 20f;
@@ -106,8 +106,7 @@ namespace SpiritMod.Projectiles
 		{
 			return Color.White;
 		}
-
-		public override void Kill(int timeLeft)
+        public override void Kill(int timeLeft)
 		{
 			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Wrath>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 
