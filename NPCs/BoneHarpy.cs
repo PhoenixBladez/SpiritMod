@@ -12,7 +12,6 @@ namespace SpiritMod.NPCs
 	{
 		int moveSpeed = 0;
 		int moveSpeedY = 0;
-		float HomeY = 150f;
 
 		public override void SetStaticDefaults()
 		{
@@ -38,6 +37,9 @@ namespace SpiritMod.NPCs
 		int counter;
 		public override void AI()
 		{
+			if(counter == 0) {
+				npc.ai[0] = 150;
+			}
 			counter++;
 			npc.spriteDirection = npc.direction;
 			Player player = Main.player[npc.target];
@@ -53,19 +55,20 @@ namespace SpiritMod.NPCs
 
 			npc.velocity.X = moveSpeed * 0.06f;
 
-			if (npc.Center.Y >= player.Center.Y - HomeY && moveSpeedY >= -50) //Flies to players Y position
+			if (npc.Center.Y >= player.Center.Y - npc.ai[0] && moveSpeedY >= -50) //Flies to players Y position
 			{
 				moveSpeedY--;
-				HomeY = 150f;
+				npc.ai[0] = 150f;
 			}
 
-			if (npc.Center.Y <= player.Center.Y - HomeY && moveSpeedY <= 50) {
+			if (npc.Center.Y <= player.Center.Y - npc.ai[0] && moveSpeedY <= 50) {
 				moveSpeedY++;
 			}
 
 			npc.velocity.Y = moveSpeedY * 0.16f;
-			if (Main.rand.Next(220) == 8) {
-				HomeY = -25f;
+			if (Main.rand.Next(220) == 8 && Main.netMode != NetmodeID.MultiplayerClient) {
+				npc.ai[0] = -25f;
+				npc.netUpdate = true;
 			}
 			if (counter >= 240) //Fires desert feathers like a shotgun
 			{
