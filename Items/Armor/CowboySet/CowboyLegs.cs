@@ -20,5 +20,5 @@ namespace SpiritMod.Items.Armor.CowboySet
 
 			item.vanity = true;
 		}
-	}
+    }
 }

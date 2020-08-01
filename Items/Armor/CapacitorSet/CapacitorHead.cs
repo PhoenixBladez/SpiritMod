@@ -12,8 +12,8 @@ namespace SpiritMod.Items.Armor.CapacitorSet
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Capacitor's Hood");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/CapacitorSet/CapacitorHead_Glow");
-		}
+            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/CapacitorSet/CapacitorHead_Glow");
+        }
 		public override void SetDefaults()
 		{
 			item.width = 30;
@@ -23,9 +23,9 @@ namespace SpiritMod.Items.Armor.CapacitorSet
 
 			item.vanity = true;
 		}
-		public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
-		{
-			glowMaskColor = Color.White;
-		}
-	}
+        public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
+        {
+            glowMaskColor = Color.White;
+        }
+    }
 }

@@ -20,5 +20,5 @@ namespace SpiritMod.Items.Armor.DiverSet
 
 			item.vanity = true;
 		}
-	}
+    }
 }

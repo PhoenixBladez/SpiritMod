@@ -20,5 +20,5 @@ namespace SpiritMod.Items.Armor.BeekeeperSet
 
 			item.vanity = true;
 		}
-	}
+    }
 }
