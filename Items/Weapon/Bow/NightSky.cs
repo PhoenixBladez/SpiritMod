@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles;
+using SpiritMod.Projectiles.Arrow;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -42,7 +43,7 @@ namespace SpiritMod.Items.Weapon.Bow
 				int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
 				Main.projectile[p].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromNightSky = true;
 				for (int I = 0; I < 4; I++) {
-					Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ProjectileID.FallingStar, damage, knockBack, player.whoAmI, 0f, 0f);
+					Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<NightStar>(), damage, knockBack, player.whoAmI, 0f, 0f);
 				}
 				charger = 0;
 				Projectile projectile = Main.projectile[p];

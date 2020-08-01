@@ -18,14 +18,13 @@ namespace SpiritMod.Projectiles.Summon
 		{
 			projectile.width = 32;
 			projectile.height = 28;
-			projectile.timeLeft = 3600;
+			projectile.timeLeft = Projectile.SentryLifeTime;
 			projectile.friendly = false;
 			projectile.hostile = false;
 			projectile.penetrate = -1;
 			projectile.sentry = true;
 			projectile.ignoreWater = true;
-			projectile.minion = true;
-			projectile.minionSlots = 0;
+			projectile.sentry = true;
 		}
 		float alphaCounter = 0;
 		public override bool OnTileCollide(Vector2 oldVelocity)

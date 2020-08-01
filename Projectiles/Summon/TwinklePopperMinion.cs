@@ -18,20 +18,22 @@ namespace SpiritMod.Projectiles.Summon
 			projectile.width = 48;
 			projectile.height = 48;
 			projectile.sentry = true;
-			projectile.timeLeft = 3000;
+			projectile.timeLeft = Projectile.SentryLifeTime;
 			projectile.friendly = false;
 			projectile.hostile = false;
 			projectile.penetrate = -1;
 			projectile.ignoreWater = true;
-			projectile.minion = true;
-			projectile.minionSlots = 0;
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			return false;
 		}
-
+		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+		{
+			fallThrough = false;
+			return true;
+		}
 		public override void AI()
 		{
 			projectile.velocity.Y = 5;

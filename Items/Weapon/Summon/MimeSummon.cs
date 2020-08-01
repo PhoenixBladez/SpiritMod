@@ -49,17 +49,11 @@ namespace SpiritMod.Items.Weapon.Summon
 			else {
 				type = ModContent.ProjectileType<HappySoul>();
 			}
-			//remove any other owned SpiritBow projectiles, just like any other sentry minion
-			for (int i = 0; i < Main.projectile.Length; i++) {
-				Projectile p = Main.projectile[i];
-				if (p.active && (p.type == item.shoot || p.type == ModContent.ProjectileType<SadSoul>()) && p.owner == player.whoAmI) {
-					p.active = false;
-				}
-			}
-			//projectile spawns at mouse cursor
 			Vector2 value18 = Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY);
 			position = value18;
-			return true;
+			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+			player.UpdateMaxTurrets();
+			return false;
 		}
 		public override void AddRecipes()
 		{

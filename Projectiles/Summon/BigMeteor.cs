@@ -54,24 +54,33 @@ namespace SpiritMod.Projectiles.Summon
 
 			//TARGET NEAREST NPC WITHIN RANGE
 			float lowestDist = float.MaxValue;
-			foreach (NPC npc in Main.npc) {
-				//if npc is a valid target (active, not friendly, and not a critter)
-				if (npc.active && !npc.friendly && npc.catchItem == 0) {
-					//if npc is within 50 blocks
-					float dist = projectile.Distance(npc.Center);
-					if (dist / 16 < range) {
-						//if npc is closer than closest found npc
-						if (dist < lowestDist) {
-							lowestDist = dist;
+			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+			if (player.HasMinionAttackTargetNPC) {
+				NPC npc = Main.npc[player.MinionAttackTargetNPC];
+				float dist = projectile.Distance(npc.Center);
+				if (dist / 16 < range) {
+					projectile.ai[1] = npc.whoAmI;
+				}
+			}
+			else
+			{
+				foreach (NPC npc in Main.npc) {
+					//if npc is a valid target (active, not friendly, and not a critter)
+					if (npc.active && !npc.friendly && npc.catchItem == 0) {
+						//if npc is within 50 blocks
+						float dist = projectile.Distance(npc.Center);
+						if (dist / 16 < range) {
+							//if npc is closer than closest found npc
+							if (dist < lowestDist) {
+								lowestDist = dist;
 
-							//target this npc
-							projectile.ai[1] = npc.whoAmI;
+								//target this npc
+								projectile.ai[1] = npc.whoAmI;
+							}
 						}
 					}
 				}
 			}
-			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-
 			bool flag25 = false;
 			int jim = 1;
 			for (int index1 = 0; index1 < 200; index1++) {

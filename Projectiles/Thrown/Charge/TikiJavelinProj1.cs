@@ -28,6 +28,7 @@ namespace SpiritMod.Projectiles.Thrown.Charge
 		}
 		public override bool PreAI()
 		{
+			if (projectile.owner != Main.myPlayer) return true;
 			int num = 5;
 			int index2 = Dust.NewDust(projectile.position, 1, 1, 6, 0.0f, 0.0f, 0, new Color(), 1.3f);
 			Main.dust[index2].position = projectile.Center - projectile.velocity / num;

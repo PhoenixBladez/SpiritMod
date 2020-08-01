@@ -37,12 +37,13 @@ namespace SpiritMod.NPCs
 		{
 			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+				drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 			return false;
 		}
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			GlowmaskUtils.DrawExtras(spriteBatch, npc, mod.GetTexture("NPCs/Teratoma_Eyes"));
+			spriteBatch.Draw(mod.GetTexture("NPCs/Teratoma_Eyes"), npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+				drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, SpriteEffects.None, 0);
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
@@ -78,5 +79,20 @@ namespace SpiritMod.NPCs
 		{
 			return spawnInfo.player.ZoneCorrupt && spawnInfo.player.ZoneOverworldHeight ? .2f : 0f;
 		}
-	}
+        public override void NPCLoot()
+        {
+            if (Main.rand.NextBool(3))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.RottenChunk);
+            }
+            if (Main.rand.NextBool(5))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.WormTooth);
+            }
+            if (Main.rand.NextBool(33))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Spear.CorruptSpearVariant>());
+            }
+        }
+    }
 }

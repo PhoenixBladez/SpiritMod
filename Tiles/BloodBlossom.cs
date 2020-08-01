@@ -46,7 +46,7 @@ namespace SpiritMod.Tiles
 		{
 			//shows the Cryptic Crystal icon while mousing over this tile
 			Main.player[Main.myPlayer].showItemIcon = true;
-			//Main.player[Main.myPlayer].showItemIcon2 = mod.ItemType("");
+			Main.player[Main.myPlayer].showItemIcon2 = mod.ItemType("VinewrathBox");
 			Main.player[Main.myPlayer].showItemIconText = "Disturbing this flower surely isn't a good idea...";
 		}
 

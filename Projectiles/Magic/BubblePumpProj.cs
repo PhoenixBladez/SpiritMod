@@ -44,8 +44,8 @@ namespace SpiritMod.Projectiles.Magic
 				direction.Normalize();
 				direction *= 7f;
 				if (player.statMana > 0) {
-					player.statMana -= 25;
-					player.manaRegenDelay = 30;
+                    player.statMana -= 20;
+					player.manaRegenDelay = 60;
 				}
 				else {
 					firing = true;

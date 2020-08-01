@@ -115,7 +115,7 @@ namespace SpiritMod.Items.Equipment
 		// Amethyst Hook is 300, Static Hook is 600
 		public override float GrappleRange()
 		{
-			return 250f;
+			return 380f;
 		}
 
 		public override void NumGrappleHooks(Player player, ref int numHooks)

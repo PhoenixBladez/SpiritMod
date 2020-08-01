@@ -60,6 +60,9 @@ namespace SpiritMod.NPCs
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore3"), 1f);
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore3"), 1f);
 				}
+				if (Main.LocalPlayer.GetSpiritPlayer().emptyWinterbornScroll) {
+					MyWorld.numWinterbornKilled++;
+				}
 				npc.position.X = npc.position.X + (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
 				npc.width = 30;
@@ -115,9 +118,6 @@ namespace SpiritMod.NPCs
 
 		public override void NPCLoot()
 		{
-			if (Main.LocalPlayer.GetSpiritPlayer().emptyWinterbornScroll) {
-				MyWorld.numWinterbornKilled++;
-			}
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CryoliteOre>(), 2 + Main.rand.Next(2, 4));
 			if (Main.rand.NextBool(16))
             {

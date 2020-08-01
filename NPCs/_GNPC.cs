@@ -188,7 +188,11 @@ namespace SpiritMod.NPCs
 		}
 		public override void HitEffect(NPC npc, int hitDirection, double damage)
 		{
-
+			if (npc.type == NPCID.DoctorBones) {
+				if (Main.LocalPlayer.GetSpiritPlayer().emptyDrBonesScroll && npc.type == NPCID.DoctorBones) {
+					MyWorld.numDrBonesKilled++;
+				}
+			}
 			if (npc.type == NPCID.MartianSaucer) {
 				if (Main.netMode != NetmodeID.MultiplayerClient && npc.life < 0 && !NPC.AnyNPCs(ModContent.NPCType<Town.Martian>())) {
 					NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<Town.Martian>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
@@ -849,10 +853,6 @@ namespace SpiritMod.NPCs
 
 		public override void NPCLoot(NPC npc)
 		{
-
-			if (Main.LocalPlayer.GetSpiritPlayer().emptyDrBonesScroll && npc.type == NPCID.DoctorBones) {
-				MyWorld.numDrBonesKilled++;
-			}
 			Player closest = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)];
 			if (bloodInfused) {
 				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, ProjectileType<FlayedExplosion>(), 25, 0, Main.myPlayer);

@@ -73,17 +73,20 @@ namespace SpiritMod.Projectiles.Hostile
 					maxDistance = curDistance;
 				}
 			}
-			if (index != -1) {
-				Vector2 direction = Main.player[index].Center - projectile.Center;
-				direction.Normalize();
-				direction *= 5f;
-				int amountOfProjectiles = 1;
-				for (int i = 0; i < amountOfProjectiles; ++i) {
-					//float A = (float)Main.rand.Next(-200, 200) * 0.05f;
-					//float B = (float)Main.rand.Next(-200, 200) * 0.05f;
-					Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 89);
-					Projectile.NewProjectile(projectile.Center, direction, ModContent.ProjectileType<MeteorShardHostile2>(), projectile.damage, 0, Main.myPlayer);
+			if (index != -1)  {
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					Vector2 direction = Main.player[index].Center - projectile.Center;
+					direction.Normalize();
+					direction *= 5f;
+					int amountOfProjectiles = 1;
+					for (int i = 0; i < amountOfProjectiles; ++i) {
+						//float A = (float)Main.rand.Next(-200, 200) * 0.05f;
+						//float B = (float)Main.rand.Next(-200, 200) * 0.05f;
+						Projectile.NewProjectile(projectile.Center, direction, ModContent.ProjectileType<MeteorShardHostile2>(), projectile.damage, 0, Main.myPlayer);
+					}
 				}
+				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 89);
 			}
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

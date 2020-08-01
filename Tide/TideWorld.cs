@@ -1,6 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
-
+using SpiritMod;
 namespace SpiritMod.Tide
 {
 	public class TideWorld : ModWorld
@@ -22,6 +22,10 @@ namespace SpiritMod.Tide
 				TidePoints = 0;
 				EnemyKills = 0;
 				TheTide = false;
+				if (!MyWorld.downedTide)
+                {
+                    MyWorld.downedTide = true;
+                }
 			}
 		}
 	}

@@ -39,7 +39,7 @@ namespace SpiritMod.Effects
 				CreateTrail(projectile, new StandardColorTrail(new Color(218, 94, 255)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 250f);
 			}
 			if (projectile.type == ModContent.ProjectileType<LeafProjReachChest>()) {
-				CreateTrail(projectile, new StandardColorTrail(new Color(56, 194, 93)), new RoundCap(), new DefaultTrailPosition(), 4f, 100f, new ImageShader(mod.GetTexture("Textures/noise"), 0.2f, .4f, 1f));
+				CreateTrail(projectile, new StandardColorTrail(new Color(56, 194, 93)), new RoundCap(), new DefaultTrailPosition(), 6f, 210f, new ImageShader(mod.GetTexture("Textures/noise"), 0.2f, .4f, 1f));
 			}
 			if (projectile.type == ModContent.ProjectileType<StarLaser>()) {
 				CreateTrail(projectile, new StandardColorTrail(new Color(66, 239, 245)), new RoundCap(), new DefaultTrailPosition(), 10f, 1950f);
@@ -62,7 +62,13 @@ namespace SpiritMod.Effects
 				CreateTrail(projectile, new StandardColorTrail(Color.White * 0.2f), new RoundCap(), new SleepingStarTrailPosition(), 56f, 30f, new DefaultShader());
 
 			}
-			if (projectile.type == ModContent.ProjectileType<DarkAnima>()) {
+            if (projectile.type == ModContent.ProjectileType<Starshock1>())
+            {
+                CreateTrail(projectile, new GradientTrail(new Color(108, 215, 245), new Color(105, 213, 255)), new RoundCap(), new DefaultTrailPosition(), 8f, 150f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
+                CreateTrail(projectile, new GradientTrail(new Color(255, 255, 255) * .25f, new Color(255, 255, 255) * .25f), new RoundCap(), new DefaultTrailPosition(), 26f, 250f, new DefaultShader());
+
+            }
+            if (projectile.type == ModContent.ProjectileType<DarkAnima>()) {
 				CreateTrail(projectile, new GradientTrail(new Color(207, 25, 25), new Color(0, 0, 0)), new RoundCap(), new DefaultTrailPosition(), 12f, 150f);
 			}
 			if (projectile.type == ModContent.ProjectileType<HallowedStaffProj>()) {
@@ -113,7 +119,7 @@ namespace SpiritMod.Effects
 				CreateTrail(projectile, new StandardColorTrail(new Color(181, 120, 255)), new RoundCap(), new DefaultTrailPosition(), 28f, 430f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_3"), 0.08f, 1f, 1f));
 				CreateTrail(projectile, new StandardColorTrail(new Color(99, 64, 255, 100)), new RoundCap(), new DefaultTrailPosition(), 20f, 250f, new DefaultShader());
 			}
-			if (projectile.type == ModContent.ProjectileType<PartyStarterBullet>()) {
+            if (projectile.type == ModContent.ProjectileType<PartyStarterBullet>()) {
 				CreateTrail(projectile, new RainbowTrail(8f, 0.002f, 1f, .65f), new RoundCap(), new DefaultTrailPosition(), 9f, 150f);
 			}
 			if (projectile.type == ModContent.ProjectileType<PartyExplosives>()) {
@@ -147,10 +153,14 @@ namespace SpiritMod.Effects
 			if (projectile.type == ModContent.ProjectileType<OrichHoming>() || projectile.type == ModContent.ProjectileType<DarkAnima>()) {
 				SpiritMod.TrailManager.TryEndTrail(projectile, Math.Max(2f, projectile.velocity.Length() * 1f));
 			}
-			//This is where it tries to kill a trail (assuming said projectile is linked to a trail)
-			//here you can specify dissolve speed. however, I recommend you just keep using the same case
-			//like so:
-			/*
+            if (projectile.type == ModContent.ProjectileType<Starshock1>())
+            {
+                SpiritMod.TrailManager.TryEndTrail(projectile, Math.Max(1f, projectile.velocity.Length() * .6f));
+            }
+            //This is where it tries to kill a trail (assuming said projectile is linked to a trail)
+            //here you can specify dissolve speed. however, I recommend you just keep using the same case
+            //like so:
+            /*
             switch (projectile.type)
             {
                 case ProjectileID.WoodenArrowFriendly:
@@ -162,7 +172,7 @@ namespace SpiritMod.Effects
                     break;
             } 
             */
-			switch (projectile.type) {
+            switch (projectile.type) {
 				case ProjectileID.WoodenArrowFriendly:
 					SpiritMod.TrailManager.TryEndTrail(projectile, Math.Max(15f, projectile.velocity.Length() * 3f));
 					break;

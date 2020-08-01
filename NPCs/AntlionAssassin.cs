@@ -32,8 +32,6 @@ namespace SpiritMod.NPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (SpawnHelper.SupressSpawns(spawnInfo, SpawnFlags.Daytime, SpawnZones.Desert | SpawnZones.Overworld))
-				return 0;
 
 			if (Main.tileSand[spawnInfo.spawnTileType])
 				return SpawnCondition.OverworldDayDesert.Chance * 0.1f;
@@ -51,6 +49,9 @@ namespace SpiritMod.NPCs
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AntlionAssassin/Assassin2"), 1f);
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AntlionAssassin/Assassin3"), 1f);
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AntlionAssassin/Assassin4"), 1f);
+				}
+				if (Main.LocalPlayer.GetSpiritPlayer().emptyAntlionScroll) {
+					MyWorld.numAntlionsKilled++;
 				}
 				for (int k = 0; k < 11; k++) {
 					Dust.NewDust(npc.position, npc.width, npc.height, 85, hitDirection, -1f, 1, default(Color), .61f);
@@ -130,9 +131,6 @@ namespace SpiritMod.NPCs
 		}
 		public override void NPCLoot()
 		{
-			if (Main.LocalPlayer.GetSpiritPlayer().emptyAntlionScroll) {
-				MyWorld.numAntlionsKilled++;
-			}
 			if (Main.rand.NextBool(25)) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 857);
 			}

@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Dusts;
 
 namespace SpiritMod.Projectiles.Flail
 {
@@ -34,7 +35,6 @@ namespace SpiritMod.Projectiles.Flail
 			}
 			else {
 				Player player = Main.player[projectile.owner];
-				for (int k = 0; k < 2; k++) {
 					int dust = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 226);
 					Main.dust[dust].velocity *= -1f;
 					Main.dust[dust].noGravity = true;
@@ -46,7 +46,6 @@ namespace SpiritMod.Projectiles.Flail
 					vector2_2.Normalize();
 					Vector2 vector2_3 = vector2_2 * 34f;
 					Main.dust[dust].position = projectile.Center - vector2_3;
-				}
 				timeStuck--;
 				if (timeStuck < 0) {
 					stuck = false;
@@ -95,6 +94,10 @@ namespace SpiritMod.Projectiles.Flail
 			if (stuck) {
 				ProjectileExtras.DrawChain(projectile.whoAmI, Main.player[projectile.owner].MountedCenter,
 				"SpiritMod/Projectiles/Flail/MagnetFlail_ElectricChain", true, projectile.damage / 2);
+				if (timeStuck % 3 == 0)
+				{
+					DustHelper.DrawElectricity(projectile.Center, Main.player[projectile.owner].MountedCenter, 226, 0.3f);
+				}
 			}
 			else {
 				ProjectileExtras.DrawChain(projectile.whoAmI, Main.player[projectile.owner].MountedCenter,

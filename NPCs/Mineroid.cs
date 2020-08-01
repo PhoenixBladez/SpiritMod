@@ -109,13 +109,14 @@ namespace SpiritMod.NPCs
 		public override void AI()
 		{
 			timer++;
-			if (timer >= 90) {
+			if (timer >= 90 && Main.netMode != NetmodeID.MultiplayerClient) {
 				bool expertMode = Main.expertMode;
 				int damage = expertMode ? 10 : 16;
 				Vector2 vector2_2 = Vector2.UnitY.RotatedByRandom(1.57079637050629f) * new Vector2(5f, 3f);
 				int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector2_2.X, vector2_2.Y, mod.ProjectileType("MeteorShardHostile1"), damage, 0.0f, Main.myPlayer, 0.0f, (float)npc.whoAmI);
 				Main.projectile[p].hostile = true;
 				timer = 0;
+				npc.netUpdate = true;
 			}
 
 			npc.spriteDirection = npc.direction;

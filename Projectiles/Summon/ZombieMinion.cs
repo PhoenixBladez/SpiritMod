@@ -11,7 +11,7 @@ namespace SpiritMod.Projectiles.Summon
 		{
 			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
 			DisplayName.SetDefault("Blood Zombie");
-			Main.projFrames[projectile.type] = 15;
+			Main.projFrames[projectile.type] = 20;
 			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
 			ProjectileID.Sets.Homing[projectile.type] = true;
 		}

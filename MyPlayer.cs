@@ -60,6 +60,8 @@ namespace SpiritMod
 		public float ziplineCounter = 0f;
 		public int shieldCounter = 0;
 		public int bismiteShieldStacks;
+		public bool MetalBand = false;
+		public bool KoiTotem = false;
 		public bool VampireCloak = false;
 		public bool starplateGlitchEffect = false;
 		public bool HealCloak = false;
@@ -450,8 +452,8 @@ namespace SpiritMod
 			ZoneSpirit = MyWorld.SpiritTiles > 200;
 			ZoneBlueMoon = MyWorld.BlueMoon;
 			ZoneReach = MyWorld.ReachTiles > 50;
-			ZoneMarble = MyWorld.MarbleTiles > 200;
-			ZoneGranite = MyWorld.GraniteTiles > 350;
+			ZoneMarble = MyWorld.MarbleTiles > 310;
+			ZoneGranite = MyWorld.GraniteTiles > 400;
 			ZoneAsteroid = MyWorld.AsteroidTiles > 130;
 			ZoneHive = MyWorld.HiveTiles > 100;
 		}
@@ -537,6 +539,8 @@ namespace SpiritMod
 		{
 			removedEffects = effects;
 			effects = new List<SpiritPlayerEffect>();
+			MetalBand = false;
+			KoiTotem = false;
 			setbonus = null;
 			stoneHead = false;
 			silkenHead = false;
@@ -969,7 +973,17 @@ namespace SpiritMod
 			if(junk) {
 				return;
 			}
-
+			if (KoiTotem && Main.rand.Next(10) == 0)
+			{
+				for (int j = 0; j < player.inventory.Length; ++j)
+                {
+                    if (player.inventory[j].stack > 0 && player.inventory[j].bait > 0)
+                    {
+						Item.NewItem((int) player.position.X, (int) player.position.Y, player.width, player.height, player.inventory[j].type, 1, false, 0, false, false);
+						break;
+					}			
+                }
+			}
 			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
 			int bobberIndex = -1;
 			if(Main.bloodMoon && Main.rand.Next(20) == 0) {
@@ -1110,19 +1124,19 @@ namespace SpiritMod
 			foreach(var effect in effects)
 				effect.PlayerOnHitNPC(player, item, target, damage, knockback, crit);
 
-			if(AceOfHearts && target.life <= 0 && crit && !target.friendly && target.lifeMax > 15 && !target.SpawnedFromStatue && target.CanBeChasedBy(player)) {
+			if(AceOfHearts && target.life <= 0 && crit && !target.friendly && target.lifeMax > 15 && !target.SpawnedFromStatue) {
 				ItemUtils.NewItemWithSync(player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, Main.halloween ? ItemID.CandyApple : ItemID.Heart);
 				for(int i = 0; i < 3; i++) {
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<HeartDust>(), 0, -0.8f);
 				}
 			}
-			if(AceOfDiamonds && target.life <= 0 && crit && !target.friendly && target.lifeMax > 15 && !target.SpawnedFromStatue && target.CanBeChasedBy(player)) {
+			if(AceOfDiamonds && target.life <= 0 && crit && !target.friendly && target.lifeMax > 15 && !target.SpawnedFromStatue) {
 				ItemUtils.NewItemWithSync(player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, ModContent.ItemType<DiamondAce>());
 				for(int i = 0; i < 3; i++) {
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<DiamondDust>(), 0, -0.8f);
 				}
 			}
-			if(AceOfClubs && crit && target.lifeMax > 15 && !target.friendly && !target.SpawnedFromStatue && target.CanBeChasedBy(player)) {
+			if(AceOfClubs && crit && target.lifeMax > 15 && !target.friendly && !target.SpawnedFromStatue && target.type != 488) {
 				int money = (int)(300 * MathHelper.Clamp((float)damage / target.lifeMax, 1/300f, 1f));
 				for(int i = 0; i < 3; i++) {
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<ClubDust>(), 0, -0.8f);
@@ -1975,6 +1989,7 @@ namespace SpiritMod
 				for(int index = 0; index < 58; ++index) {
 					if(player.inventory[index].type == ModContent.ItemType<WinterbornSlayerScrollEmpty>()) {
 						player.inventory[index].stack -= 1;
+						MyWorld.numWinterbornKilled = 0;
 						player.QuickSpawnItem(ModContent.ItemType<WinterbornSlayerScrollFull>());
 						emptyWinterbornScroll = false;
 						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
@@ -1988,6 +2003,7 @@ namespace SpiritMod
 				for(int index = 0; index < 58; ++index) {
 					if(player.inventory[index].type == ModContent.ItemType<AntlionSlayerScrollEmpty>()) {
 						player.inventory[index].stack -= 1;
+						MyWorld.numAntlionsKilled = 0;
 						player.QuickSpawnItem(ModContent.ItemType<AntlionSlayerScrollFull>());
 						emptyAntlionScroll = false;
 						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
@@ -2001,6 +2017,7 @@ namespace SpiritMod
 				for(int index = 0; index < 58; ++index) {
 					if(player.inventory[index].type == ModContent.ItemType<StardancerSlayerScrollEmpty>()) {
 						player.inventory[index].stack -= 1;
+						MyWorld.numStardancersKilled = 0;
 						player.QuickSpawnItem(ModContent.ItemType<StardancerSlayerScrollFull>());
 						emptyStardancerScroll = false;
 						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
@@ -2014,6 +2031,7 @@ namespace SpiritMod
 				for(int index = 0; index < 58; ++index) {
 					if(player.inventory[index].type == ModContent.ItemType<BeholderSlayerScrollEmpty>()) {
 						player.inventory[index].stack -= 1;
+						MyWorld.numBeholdersKilled = 0;
 						player.QuickSpawnItem(ModContent.ItemType<BeholderSlayerScrollFull>());
 						emptyBeholderScroll = false;
 						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
@@ -2027,6 +2045,7 @@ namespace SpiritMod
 				for(int index = 0; index < 58; ++index) {
 					if(player.inventory[index].type == ModContent.ItemType<DrBonesSlayerScrollEmpty>()) {
 						player.inventory[index].stack -= 1;
+						MyWorld.numDrBonesKilled = 0;
 						player.QuickSpawnItem(ModContent.ItemType<DrBonesSlayerQuestFull>());
 						emptyDrBonesScroll = false;
 						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
@@ -2040,6 +2059,7 @@ namespace SpiritMod
 				for(int index = 0; index < 58; ++index) {
 					if(player.inventory[index].type == ModContent.ItemType<ValkyrieSlayerScrollEmpty>()) {
 						player.inventory[index].stack -= 1;
+						MyWorld.numValkyriesKilled = 0;
 						player.QuickSpawnItem(ModContent.ItemType<ValkyrieSlayerScrollFull>());
 						emptyValkyrieScroll = false;
 						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
@@ -2053,6 +2073,7 @@ namespace SpiritMod
 				for(int index = 0; index < 58; ++index) {
 					if(player.inventory[index].type == ModContent.ItemType<WheezerSlayerScrollEmpty>()) {
 						player.inventory[index].stack -= 1;
+						MyWorld.numWheezersKilled = 0;
 						player.QuickSpawnItem(ModContent.ItemType<WheezerSlayerScrollFull>());
 						emptyWheezerScroll = false;
 						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),

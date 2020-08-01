@@ -21,7 +21,8 @@ namespace SpiritMod.Tiles.MusicBox
 			disableSmartCursor = true;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Music Box");
-			AddMapEntry(new Color(200, 200, 200), name);
+            dustType = -1;
+            AddMapEntry(new Color(200, 200, 200), name);
 		}
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)

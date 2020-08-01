@@ -40,7 +40,7 @@ namespace SpiritMod.NPCs.Tides
 		bool teleportedup = false;
 		public override void AI()
 		{
-			if (teleportedup && npc.velocity.Y == 0) {
+			if (npc.ai[3] == 1 && npc.velocity.Y == 0) {
 				Projectile.NewProjectile(npc.Center, new Vector2(npc.direction * -4, -0.5f), ModContent.ProjectileType<StrayGlider>(), 0, 0);
 				switch (Main.rand.Next(4)) {
 					case 0:
@@ -56,10 +56,12 @@ namespace SpiritMod.NPCs.Tides
 						npc.Transform(ModContent.NPCType<KakamoraShielder>());
 						break;
 				}
+				npc.netUpdate = true;
 			}
-			if (!teleportedup) {
-				teleportedup = true;
+			if (npc.ai[3] == 0) {
+				npc.ai[3] = 1;
 				npc.position.Y -= Main.rand.Next(1300, 1700);
+				npc.netUpdate = true;
 			}
 			if (npc.wet) {
 				npc.noGravity = true;
@@ -97,6 +99,7 @@ namespace SpiritMod.NPCs.Tides
 						npc.life = npc.life;
 						break;
 				}
+				npc.netUpdate = true;
 			}
 		}
 		public override void NPCLoot()

@@ -93,7 +93,7 @@ namespace SpiritMod.Projectiles
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<SpadeDust>(), 0, -0.8f);
 				}
 			}
-			if(modPlayer.AceOfClubs && crit && !target.friendly && target.lifeMax > 15 && !target.SpawnedFromStatue && target.CanBeChasedBy(projectile)) {
+			if(modPlayer.AceOfClubs && crit && !target.friendly && target.lifeMax > 15 && !target.SpawnedFromStatue && target.type != 488) {
 				int money = (int)(300 * MathHelper.Clamp((float)damage / target.lifeMax, 1 / 300f, 1f));
 				for(int i = 0; i < 3; i++) {
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<ClubDust>(), 0, -0.8f);
@@ -112,13 +112,13 @@ namespace SpiritMod.Projectiles
 		{
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
-			if(modPlayer.AceOfHearts && target.life <= 0 && crit && !target.friendly && target.lifeMax > 15 && !target.SpawnedFromStatue && target.CanBeChasedBy(projectile)) {
+			if(modPlayer.AceOfHearts && target.life <= 0 && crit && !target.friendly && target.lifeMax > 15 && !target.SpawnedFromStatue) {
 				ItemUtils.NewItemWithSync(projectile.owner, (int)target.position.X, (int)target.position.Y, target.width, target.height, Main.halloween ? ItemID.CandyApple : ItemID.Heart);
 				for(int i = 0; i < 3; i++) {
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<HeartDust>(), 0, -0.8f);
 				}
 			}
-			if(modPlayer.AceOfDiamonds && target.life <= 0 && crit && !target.friendly && target.lifeMax > 15 && !target.SpawnedFromStatue && target.CanBeChasedBy(projectile)) {
+			if(modPlayer.AceOfDiamonds && target.life <= 0 && crit && !target.friendly && target.lifeMax > 15 && !target.SpawnedFromStatue) {
 				ItemUtils.NewItemWithSync(projectile.owner, (int)target.position.X, (int)target.position.Y, target.width, target.height, ModContent.ItemType<DiamondAce>());
 				for(int i = 0; i < 3; i++) {
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<DiamondDust>(), 0, -0.8f);

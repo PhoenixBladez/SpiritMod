@@ -22,7 +22,7 @@ namespace SpiritMod.NPCs.Reach
 		{
 			npc.width = 86;
 			npc.height = 54;
-			npc.damage = 15;
+			npc.damage = 11;
 			npc.defense = 3;
 			npc.lifeMax = 75;
 			npc.HitSound = SoundID.NPCHit6;
@@ -108,7 +108,7 @@ namespace SpiritMod.NPCs.Reach
 				Vector2 direction = Main.player[npc.target].Center - npc.Center;
 				direction.Normalize();
 				direction.X = direction.X * Main.rand.Next(8, 12);
-				direction.Y = 0 - Main.rand.Next(8, 11);
+				direction.Y = 0 - Main.rand.Next(6, 9);
 				npc.velocity.X = direction.X;
 				npc.velocity.Y = direction.Y;
 				npc.velocity.X *= 0.995f;

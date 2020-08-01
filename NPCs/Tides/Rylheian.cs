@@ -68,7 +68,7 @@ namespace SpiritMod.NPCs.Tides
 			npc.ai[0]++;
 			int dust = Dust.NewDust(npc.position, npc.width, npc.height, 173);
 			npc.spriteDirection = npc.direction;
-			if (npc.ai[0] % 400 == 100) {
+			if (npc.ai[0] % 400 == 100 && Main.netMode != NetmodeID.MultiplayerClient) {
 				int distance = 500;
 				bool teleported = false;
 				while (!teleported) {
@@ -83,14 +83,14 @@ namespace SpiritMod.NPCs.Tides
 							npc.alpha = 255;
 						}
 						else {
-							npc.netUpdate = true;
 							teleported = true;
 							npc.alpha = 0;
 						}
 				}
-				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
+				npc.netUpdate = true;
 			}
-			if (npc.ai[0] % 400 == 101) {
+			if (npc.ai[0] % 400 == 104) {
+				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 				DustHelper.DrawDiamond(npc.Center, 173, 12);
 			}
 				float num395 = Main.mouseTextColor / 200f - 0.35f;

@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Consumable
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Pearl of the Tide");
+			DisplayName.SetDefault("Seabreak Pearl");
 			Tooltip.SetDefault("'Coveted by ancient horrors...'\nSummons The Tide\nCan only be used near the ocean");
 		}
 

@@ -22,7 +22,7 @@ namespace SpiritMod.Projectiles.Hostile
 			projectile.alpha = 255;
 			projectile.timeLeft = 16;
 			projectile.tileCollide = false;
-			projectile.extraUpdates = 7;
+			projectile.extraUpdates = 2;
 		}
 
 

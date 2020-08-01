@@ -19,9 +19,9 @@ namespace SpiritMod.Projectiles.Summon
 		public override void SetDefaults()
 		{
 			projectile.hostile = false;
-			projectile.minion = true;
+			projectile.sentry = true;
 			projectile.width = 20;
-			projectile.timeLeft = 3600;
+			projectile.timeLeft = Projectile.SentryLifeTime;
 			projectile.friendly = false;
 			projectile.penetrate = -1;
 			projectile.height = 20;
