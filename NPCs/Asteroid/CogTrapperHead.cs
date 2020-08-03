@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Armor.AstronautVanity;
 using SpiritMod.Items.Accessory;
+using SpiritMod.Items.Weapon.Yoyo;
 using SpiritMod.Items.Material;
 using System;
 using Terraria;
@@ -318,7 +319,7 @@ namespace SpiritMod.NPCs.Asteroid
 			if (Main.rand.Next(1) == 400) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GravityModulator>());
 			}
-			if (Main.rand.Next(2) == 0) {
+            if (Main.rand.Next(2) == 0) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<StarEnergy>());
 			}
 			int[] lootTable = {

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Consumable.Quest
@@ -15,10 +16,18 @@ namespace SpiritMod.Items.Consumable.Quest
 
 
 		public override void SetDefaults()
-		{
-			item.width = 30;
+        {
+            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.useTime = 10;
+            item.useAnimation = 15;
+
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.consumable = true;
+            item.width = 30;
 			item.height = 20;
-			item.value = Item.sellPrice(0, 2, 0, 0);
+            item.createTile = ModContent.TileType<Tiles.Furniture.AdvPaintings.MarbleMap>();
+            item.value = Item.sellPrice(0, 2, 0, 0);
 			item.rare = -11;
 		}
 		public override void ModifyTooltips(List<TooltipLine> tooltips)

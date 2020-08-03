@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.Boss.Atlas
@@ -13,12 +14,14 @@ namespace SpiritMod.NPCs.Boss.Atlas
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Atlas Arm");
-		}
+            NPCID.Sets.TrailCacheLength[npc.type] = 5;
+            NPCID.Sets.TrailingMode[npc.type] = 0;
+        }
 
 		public override void SetDefaults()
 		{
-			npc.width = 120;
-			npc.height = 300;
+			npc.width = 154;
+			npc.height = 324;
 			npc.damage = 110;
 			npc.lifeMax = 10;
 			npc.boss = true;
@@ -98,8 +101,8 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			else if (npc.ai[1] == 4f) {
 				npc.ai[2] += 1f;
 				if (npc.ai[2] >= 25f) {
-					npc.velocity.X = npc.velocity.X * 0.96f;
-					npc.velocity.Y = npc.velocity.Y * 0.96f;
+					npc.velocity.X = npc.velocity.X * 0.98f;
+					npc.velocity.Y = npc.velocity.Y * 0.98f;
 					if (npc.velocity.X > -0.1 && npc.velocity.X < 0.1)
 						npc.velocity.X = 0f;
 					if (npc.velocity.Y > -0.1 && npc.velocity.Y < 0.1)
@@ -148,20 +151,16 @@ namespace SpiritMod.NPCs.Boss.Atlas
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			if (npc.velocity != Vector2.Zero) {
-				Texture2D texture = Main.npcTexture[npc.type];
-				Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
-				for (int i = 1; i < npc.oldPos.Length; ++i) {
-					Vector2 vector2_2 = npc.oldPos[i];
-					Microsoft.Xna.Framework.Color color2 = Color.White * npc.Opacity;
-					color2.R = (byte)(0.5 * (double)color2.R * (double)(10 - i) / 20.0);
-					color2.G = (byte)(0.5 * (double)color2.G * (double)(10 - i) / 20.0);
-					color2.B = (byte)(0.5 * (double)color2.B * (double)(10 - i) / 20.0);
-					color2.A = (byte)(0.5 * (double)color2.A * (double)(10 - i) / 20.0);
-					Main.spriteBatch.Draw(Main.npcTexture[npc.type], new Vector2(npc.oldPos[i].X - Main.screenPosition.X + (npc.width / 2),
-						npc.oldPos[i].Y - Main.screenPosition.Y + npc.height / 2), new Rectangle?(npc.frame), color2, npc.oldRot[i], origin, npc.scale, SpriteEffects.None, 0.0f);
-				}
-			}
-			return true;
+                Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height * 0.5f));
+                for (int k = 0; k < npc.oldPos.Length; k++)
+                {
+                    var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+                    Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
+                    Color color = npc.GetAlpha(drawColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
+                    spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
+                }
+            }
+            return true;
 		}
 	}
 }

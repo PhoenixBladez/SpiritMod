@@ -23,6 +23,7 @@ using SpiritMod.NPCs.Town;
 using SpiritMod.Tiles.Ambient;
 using SpiritMod.Tiles.Ambient.IceSculpture;
 using SpiritMod.Tiles.Ambient.IceSculpture.Hostile;
+using SpiritMod.Tiles.Ambient.SurfaceIce;
 using SpiritMod.Tiles.Ambient.SpaceCrystals;
 using SpiritMod.Tiles.Block;
 using SpiritMod.Tiles.Furniture;
@@ -2960,7 +2961,63 @@ namespace SpiritMod
 							}
 						}
 					}
-				}
+                    if (WorldGen.genRand.NextBool(2))
+                    {
+                        for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 7.2f) * 6E-03); k++)
+                        {
+                            {
+                                int X = WorldGen.genRand.Next(0, Main.maxTilesX);
+                                int Y = WorldGen.genRand.Next((int)Main.worldSurface - 100, (int)Main.worldSurface + 30);
+                                if ((Main.tile[X, Y].type == TileID.SnowBlock || Main.tile[X, Y].type == TileID.IceBlock))
+                                {
+                                    if (Main.rand.Next(3) == 0)
+                                    {
+                                        WorldGen.PlaceObject(X, Y, (ushort)ModContent.TileType<SnowBush3>());
+                                        NetMessage.SendObjectPlacment(-1, X, Y, (ushort)ModContent.TileType<SnowBush3>(), 0, 0, -1, -1);
+                                    }
+                                    else if (Main.rand.Next(2) == 0)
+                                    {
+                                        WorldGen.PlaceObject(X, Y, (ushort)ModContent.TileType<SnowBush2>());
+                                        NetMessage.SendObjectPlacment(-1, X, Y, (ushort)ModContent.TileType<SnowBush2>(), 0, 0, -1, -1);
+                                    }
+                                    else
+                                    {
+                                        WorldGen.PlaceObject(X, Y, (ushort)ModContent.TileType<SnowBush1>());
+                                        NetMessage.SendObjectPlacment(-1, X, Y, (ushort)ModContent.TileType<SnowBush1>(), 0, 0, -1, -1);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 7.2f) * 6E-03); k++)
+                        {
+                            {
+                                int X = WorldGen.genRand.Next(0, Main.maxTilesX);
+                                int Y = WorldGen.genRand.Next((int)Main.worldSurface - 100, (int)Main.worldSurface + 30);
+                                if ((Main.tile[X, Y].type == TileID.SnowBlock || Main.tile[X, Y].type == TileID.IceBlock))
+                                {
+                                    if (Main.rand.Next(2) == 0)
+                                    {
+                                        WorldGen.PlaceObject(X, Y, (ushort)ModContent.TileType<IceCube3>());
+                                        NetMessage.SendObjectPlacment(-1, X, Y, (ushort)ModContent.TileType<IceCube3>(), 0, 0, -1, -1);
+                                    }
+                                    else if (Main.rand.Next(2) == 0)
+                                    {
+                                        WorldGen.PlaceObject(X, Y, (ushort)ModContent.TileType<IceCube2>());
+                                        NetMessage.SendObjectPlacment(-1, X, Y, (ushort)ModContent.TileType<IceCube2>(), 0, 0, -1, -1);
+                                    }
+                                    else
+                                    {
+                                        WorldGen.PlaceObject(X, Y, (ushort)ModContent.TileType<IceCube1>());
+                                        NetMessage.SendObjectPlacment(-1, X, Y, (ushort)ModContent.TileType<IceCube1>(), 0, 0, -1, -1);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
 			}));
 		}
 		public override void PostWorldGen()
@@ -3129,7 +3186,7 @@ namespace SpiritMod
 			}
 			for (int i = 1; i < Main.rand.Next(4, 6); i++) {
 				int[] itemsToPlacePrimary = new int[] { ItemType<SepulchreStaff>(), ItemType<SepulchrePendant>() };
-				int[] ammoToPlace = new int[] { ItemType<SepulchreArrow>(), ItemType<SepulchreBullet>() };
+				int[] ammoToPlace = new int[] { ItemType<SepulchreArrow>() };
 				//int itemsToPlaceInGlassChestsSecondaryChoice = 0;	
 				for (int chestIndex = 0; chestIndex < 1000; chestIndex++) {
 					Chest chest = Main.chest[chestIndex];

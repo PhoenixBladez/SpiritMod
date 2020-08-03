@@ -186,7 +186,7 @@ namespace SpiritMod.NPCs.Town
 				" Take this blank map. After you stumble upon one of 'em caverns, wander around for a while and take some notes for me, alright? Return to me when the map's all filled out.",
 
 				"Found a Glowing Mushroom Cavern, did ya? Glad you made it back in one piece, lad. Those caves may seem all light and charming, but they aren't a jokin' matter." +
-				" This should help me study the local environment more. Maybe I'll plan a few raids in the future? Thanks for the intel.", true,
+				" This should help me study the local environment more. Maybe I'll plan a few raids in the future? Thanks for the intel.", false,
 
 				() => {
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<PinBlue>());
@@ -217,7 +217,7 @@ namespace SpiritMod.NPCs.Town
 				" Take this blank map. After you stumble upon those asteroids, wander around for a while and take some notes for me, alright? Don't fall off, lad.",
 
 				"Did you stumble upon those asteroids? Must've been real scary up there, almost in orbit. Those Sky Islands are enough for me, phew. Did ya float?" +
-				" Sorry, I'm gettin' distracted. I'll use this info to look for any extraterrestrial loot that may be up in those floatin' rocks. Thanks for the journey as always, lad.", true,
+				" Sorry, I'm gettin' distracted. I'll use this info to look for any extraterrestrial loot that may be up in those floatin' rocks. Thanks for the journey as always, lad.", false,
 
 				() => {
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<PinRed>());
@@ -250,7 +250,7 @@ namespace SpiritMod.NPCs.Town
 				" Take this blank map. After you stumble upon one of these Marble Caverns, wander around for a while and take some notes for me, alright? Hopefully, those ruins are desolate, eh?",
 
 				"I take it the caverns weren't too empty, then. Did ya manage to get a completed map, though? Great! These caverns are lookin' chock full of ancient loot." +
-				" Maybe I'll coordinate some digs with the Demolitionist. You're welcome to join us too, lad. You've more than earned it. ", true,
+				" Maybe I'll coordinate some digs with the Demolitionist. You're welcome to join us too, lad. You've more than earned it. ", false,
 
 				() => {
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CenturionHead>());
@@ -285,7 +285,7 @@ namespace SpiritMod.NPCs.Town
 
 				 "You're alright! Phew. I was just hearin' rumors about big ol' granite golems and floating rocks. I can tell that they were true." +
 				 " Lookin' at this map, this place still seems real mysterious. Maybe there are some ore deposits we can extract some of that granite energy from?" +
-				 " I'll talk to the Merchant and Demolitionist. Mighty fine work as usual, lad.", true,
+				 " I'll talk to the Merchant and Demolitionist. Mighty fine work as usual, lad.", false,
 				() => {
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CapacitorHead>());
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CapacitorBody>());
@@ -315,7 +315,7 @@ namespace SpiritMod.NPCs.Town
 				" I loathe bees... an' hornets... an' giant man eatin' plants, so would ya like to check one of these hives out for me? ",
 
 				"You're covered in a lot of bee stings, lad. Maybe the Nurse has something for those. They look super painful. Did ya map the place out, though?" +
-				" Hmm, interesting. Lotta honey for the takin'. What's this? This giant larva in the middle. Can't be good, for sure. Tread lightly around there, alright?", true,
+				" Hmm, interesting. Lotta honey for the takin'. What's this? This giant larva in the middle. Can't be good, for sure. Tread lightly around there, alright?", false,
 				() => {
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<BeekeeperHead>());
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<BeekeeperBody>());

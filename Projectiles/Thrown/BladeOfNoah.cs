@@ -20,7 +20,7 @@ namespace SpiritMod.Projectiles.Thrown
 			projectile.height = 9;
 			projectile.penetrate = 5;
 			projectile.friendly = true;
-			projectile.thrown = true;
+			projectile.ranged = true;
 		}
 
 		public override void Kill(int timeLeft)

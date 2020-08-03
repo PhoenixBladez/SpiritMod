@@ -39,9 +39,8 @@ namespace SpiritMod.NPCs.Boss.Atlas
 
 		public override void SetDefaults()
 		{
-			npc.width = 147;
-			npc.height = 233;
-			npc.scale = 2.0f;
+			npc.width = 290;
+			npc.height = 450;
 			bossBag = ModContent.ItemType<AtlasBag>();
 			npc.damage = 100;
 			npc.lifeMax = 41000;
@@ -73,14 +72,17 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			bool aiChange3 = npc.life <= npc.lifeMax * 0.25f; //ai change to phase 4
 			bool phaseChange = npc.life <= npc.lifeMax * 0.1f; //aggression increase
 			player.AddBuff(ModContent.BuffType<UnstableAffliction>(), 2); //buff that causes gravity shit
-			int defenseBuff = (int)(65f * (1f - npc.life / npc.lifeMax));
+			int defenseBuff = (int)(35f * (1f - npc.life / npc.lifeMax));
 			npc.defense = npc.defDefense + defenseBuff;
 
 			if (npc.ai[0] == 0f) {
 				arms[0] = NPC.NewNPC((int)npc.Center.X - 80 - Main.rand.Next(80, 160), (int)npc.position.Y, ModContent.NPCType<AtlasArmLeft>(), npc.whoAmI, npc.whoAmI);
 				arms[1] = NPC.NewNPC((int)npc.Center.X + 80 + Main.rand.Next(80, 160), (int)npc.position.Y, ModContent.NPCType<AtlasArmRight>(), npc.whoAmI, npc.whoAmI);
 				npc.ai[0] = 1f;
-			}
+                npc.netUpdate = true;
+                Main.npc[arms[0]].netUpdate = true;
+                Main.npc[arms[1]].netUpdate = true;
+            }
 			else if (npc.ai[0] == 1f) {
 				npc.ai[1] += 1f;
 				if (npc.ai[1] >= 210f) {

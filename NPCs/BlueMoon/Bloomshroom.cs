@@ -130,7 +130,7 @@ namespace SpiritMod.NPCs.BlueMoon
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return MyWorld.BlueMoon && NPC.CountNPCS(ModContent.NPCType<Bloomshroom>()) < 2 ? 1f : 0f;
+			return MyWorld.BlueMoon && NPC.CountNPCS(ModContent.NPCType<Bloomshroom>()) < 2 && spawnInfo.player.ZoneOverworldHeight ? 1f : 0f;
 		}
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{

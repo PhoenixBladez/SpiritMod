@@ -1,7 +1,5 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Placeable.Tiles;
-using SpiritMod.Tiles.Ambient.ReachGrass;
-using SpiritMod.Tiles.Ambient.ReachMicros;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -36,7 +34,7 @@ namespace SpiritMod.Tiles.Block
 			return false;
 		}
 
-		public override void RandomUpdate(int i, int j)
+		/*public override void RandomUpdate(int i, int j)
 		{
 			if (!Framing.GetTileSafely(i, j - 1).active() && Main.rand.Next(4) == 0) {
 				switch (Main.rand.Next(7)) {
@@ -82,7 +80,7 @@ namespace SpiritMod.Tiles.Block
 					NetMessage.SendObjectPlacment(-1, i, j + 1, ModContent.TileType<Vine2>(), 0, 0, -1, -1);
 				}
 			}
-		}
+		}*/
 
 		public override int SaplingGrowthType(ref int style)
 		{
