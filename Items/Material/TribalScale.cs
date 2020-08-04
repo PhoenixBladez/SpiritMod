@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Material
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Tribal Scale");
+			DisplayName.SetDefault("Stream Scale");
 			Tooltip.SetDefault("'Scales of old sea creatures'");
 		}
 
