@@ -4,6 +4,7 @@ using SpiritMod.Buffs;
 using SpiritMod.Items.Material;
 using SpiritMod.Items.Weapon.Magic;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -48,10 +49,17 @@ namespace SpiritMod.NPCs.BlueMoon
 			}
 
 		}
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(tongueOut);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			tongueOut = reader.ReadBoolean();
+		}
 		bool tongueOut = false;
-		bool tongueActive = false;
-		int cooldownTimer = 5;
-		bool jumping = false;
+		
 		public override void AI()
 		{
 			npc.TargetClosest(true);
@@ -59,34 +67,32 @@ namespace SpiritMod.NPCs.BlueMoon
 			if (Math.Abs(player.position.X - npc.position.X) < 190 && npc.collideY) {
 				tongueOut = true;
 			}
-			if (!tongueOut && cooldownTimer > 4) {
-				timer++;
+			if (!tongueOut && npc.ai[2] > 4) {
+				npc.ai[0]++;
 			}
 			if (!npc.collideY) {
 				npc.velocity.X *= 1.045f;
 			}
-			cooldownTimer++;
-			if (timer % 90 == 0 && !tongueOut) {
+			npc.ai[2]++;
+			if (npc.ai[0] % 90 == 0 && !tongueOut) {
 
-				if (!jumping) {
-					jumping = true;
-					cooldownTimer = 0;
+				if (npc.ai[1] == 0) {
+					npc.ai[1] = 1;
+					npc.ai[2] = 0;
 				}
-				cooldownTimer++;
+				npc.ai[2]++;
 				npc.velocity.Y = -7;
 				if (player.position.X > npc.position.X) {
 					npc.velocity.X = 10;
-					npc.netUpdate = true;
 				}
 				else {
 					npc.velocity.X = -10;
-					npc.netUpdate = true;
 				}
 			}
 			else {
-				jumping = false;
+				npc.ai[1] = 0;
 			}
-			if (!tongueActive) {
+			if (npc.ai[3] == 0) {
 				if (player.position.X > npc.position.X) {
 					npc.spriteDirection = 0;
 				}
@@ -118,29 +124,32 @@ namespace SpiritMod.NPCs.BlueMoon
 			}
 			if (tongueOut) {
 				// timer = 100;
-				if (!tongueActive) {
+				if (npc.ai[3] == 0) {
 					frameCounter += 0.11f;
 				}
 				npc.frame.Y = ((int)(frameCounter % 5) + 1) * frameHeight;
-				if (npc.frame.Y / frameHeight == 5 && !tongueActive) {
+				if (npc.frame.Y / frameHeight == 5 && npc.ai[3] == 0) {
 					npc.TargetClosest(true);
-					tongueActive = true;
+					npc.ai[3] = 1;
 					npc.knockBackResist = 0f;
-					if (npc.spriteDirection == 0) {
-						Main.PlaySound(SoundID.Frog, (int)npc.position.X, (int)npc.position.Y);
-						tongueproj = Projectile.NewProjectile(npc.Center + new Vector2(21, 8), new Vector2(11, 0), ModContent.ProjectileType<GlowTongue>(), (int)(npc.damage / 1.7f), 1, player.whoAmI, 1);
+					if (Main.netMode != NetmodeID.MultiplayerClient) {
+						if (npc.spriteDirection == 0) {
+							Main.PlaySound(SoundID.Frog, (int)npc.position.X, (int)npc.position.Y);
+							tongueproj = Projectile.NewProjectile(npc.Center + new Vector2(21, 8), new Vector2(11, 0), ModContent.ProjectileType<GlowTongue>(), (int)(npc.damage / 1.7f), 1, Main.myPlayer, 1);
+						}
+						else {
+							Main.PlaySound(SoundID.Frog, (int)npc.position.X, (int)npc.position.Y);
+							tongueproj = Projectile.NewProjectile(npc.Center + new Vector2(-18, 8), new Vector2(-11, 0), ModContent.ProjectileType<GlowTongue>(), (int)(npc.damage / 1.7f), 1, Main.myPlayer, 0);
+						}
 					}
-					else {
-						Main.PlaySound(SoundID.Frog, (int)npc.position.X, (int)npc.position.Y);
-						tongueproj = Projectile.NewProjectile(npc.Center + new Vector2(-18, 8), new Vector2(-11, 0), ModContent.ProjectileType<GlowTongue>(), (int)(npc.damage / 1.7f), 1, player.whoAmI, 0);
-					}
+					npc.netUpdate = true;
 				}
-				if (tongueActive) {
+				if (npc.ai[3] == 1) {
 					Projectile tongue = Main.projectile[tongueproj];
 					if (!tongue.active) {
-						tongueActive = false;
+						npc.ai[3] = 0;
 						tongueOut = false;
-						timer = 80;
+						npc.ai[0] = 80;
 						npc.knockBackResist = 0.5f;
 					}
 					else {
@@ -152,6 +161,7 @@ namespace SpiritMod.NPCs.BlueMoon
 							npc.direction = 1;
 							npc.spriteDirection = 1;
 						}
+						tongue.netUpdate = true;
 					}
 				}
 			}

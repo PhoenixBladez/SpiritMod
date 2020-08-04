@@ -40,10 +40,6 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void AI()
 		{
-			if (Main.myPlayer == projectile.owner) 
-			{
-				projectile.netUpdate = true;
-			}
 			Player player = Main.player[projectile.owner];
 			if (Main.player[projectile.owner].channel) {
 				projectile.timeLeft -= 2;

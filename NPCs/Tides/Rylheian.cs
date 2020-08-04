@@ -113,15 +113,10 @@ namespace SpiritMod.NPCs.Tides
 				Main.PlaySound(2, npc.Center, 109);
 				for (npc.ai[2] = 0; npc.ai[2] < 6.29; npc.ai[2] += 0.785f) {
 					Vector2 offset = new Vector2((float)Math.Cos(npc.ai[2]), (float)Math.Sin(npc.ai[2])) * 90f;
-					if (Main.netMode != 1) {
 						Vector2 direction = player.Center - (npc.Center + offset);
 						direction.Normalize();
 						direction *= 19;
-						int laser = Projectile.NewProjectile(npc.Center.X + offset.X, npc.Center.Y + offset.Y, direction.X, direction.Y, ModContent.ProjectileType<RyBolt>(), npc.damage / 2, 0);
-						Main.projectile[laser].netUpdate = true;
-						NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, laser);
-					}
-
+						Projectile.NewProjectile(npc.Center.X + offset.X, npc.Center.Y + offset.Y, direction.X, direction.Y, ModContent.ProjectileType<RyBolt>(), npc.damage / 2, 0,Main.myPlayer);
 				}
 				npc.ai[1] = 0;
 			}
@@ -157,7 +152,6 @@ namespace SpiritMod.NPCs.Tides
 						direction.Normalize();
 						direction *= 19;
 						int squid = Projectile.NewProjectile(player.Center.X + (int)(500 * squidAnglex), player.Center.Y + (int)(500 * squidAngley), direction.X, direction.Y, ModContent.ProjectileType<TentacleSquid>(), npc.damage / 2, 0);
-						NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, squid);
 						Main.projectile[squid].netUpdate = true;
 						npc.netUpdate = true;
 					}

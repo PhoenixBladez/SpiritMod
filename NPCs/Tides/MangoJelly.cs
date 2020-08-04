@@ -43,10 +43,9 @@ namespace SpiritMod.NPCs.Tides
 		int xoffset = 0;
 		bool createdLaser = false;
 		float bloomCounter = 1;
-		bool bloom = false;
 		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			if (bloom) {
+			if (npc.ai[3] == 1) {
 				Main.spriteBatch.Draw(SpiritMod.instance.GetTexture("Effects/Masks/Extra_49"), (npc.Center - Main.screenPosition) - new Vector2(-2, 8), null, new Color((int)(22.5f * bloomCounter), (int)(13.8f * bloomCounter), (int)(21.6f * bloomCounter), 0), 0f, new Vector2(50, 50), 0.125f * (bloomCounter + 3), SpriteEffects.None, 0f);
 			}
 		}
@@ -87,24 +86,26 @@ namespace SpiritMod.NPCs.Tides
 			else {
 				xoffset = -24;
 			}
-			if (npc.ai[0] == 400) {
+			if (npc.ai[0] == 400 && Main.netMode != NetmodeID.MultiplayerClient) {
 				npc.ai[2] = 1;
 				createdLaser = false;
 				npc.frameCounter = 0;
 				npc.netUpdate = true;
 			}
 			if (npc.ai[0] == 550) {
-				bloom = false;
 				bloomCounter = 1;
-				Vector2 vel = new Vector2(30f, 0).RotatedBy((float)(Main.rand.Next(90) * Math.PI / 180));
-				Main.PlaySound(2, npc.Center, 91);
-				Projectile.NewProjectile(npc.position + vel + new Vector2(xoffset, 6), vel, ModContent.ProjectileType<MangoLaser>(), npc.damage, 0, npc.target);
-				Projectile.NewProjectile(npc.position + vel.RotatedBy(1.57) + new Vector2(xoffset, 6), Vector2.Zero, ModContent.ProjectileType<MangoLaser>(), npc.damage / 3, 0, npc.target);
-				Projectile.NewProjectile(npc.position + vel.RotatedBy(3.14) + new Vector2(xoffset, 6), Vector2.Zero, ModContent.ProjectileType<MangoLaser>(), npc.damage / 3, 0, npc.target);
-				Projectile.NewProjectile(npc.position + vel.RotatedBy(4.71) + new Vector2(xoffset, 6), Vector2.Zero, ModContent.ProjectileType<MangoLaser>(), npc.damage / 3, 0, npc.target);
-				npc.netUpdate = true;
+				if (Main.netMode != NetmodeID.MultiplayerClient) {
+					npc.ai[3] = 0;
+					Vector2 vel = new Vector2(30f, 0).RotatedBy((float)(Main.rand.Next(90) * Math.PI / 180));
+					Main.PlaySound(2, npc.Center, 91);
+					for (int i = 0; i < 4; i++) {
+						int lozar = Projectile.NewProjectile(npc.position + vel.RotatedBy(i * 1.57f) + new Vector2(xoffset, 6), Vector2.Zero, ModContent.ProjectileType<MangoLaser>(), npc.damage / 3, 0, Main.myPlayer);
+						Main.projectile[lozar].netUpdate = true;
+					}
+					npc.netUpdate = true;
+				}
 			}
-			if (npc.ai[0] >= 570) {
+			if (npc.ai[0] >= 570 && Main.netMode != NetmodeID.MultiplayerClient) {
 				npc.ai[2] = 0;
 				npc.ai[0] = 0;
 				npc.netUpdate = true;
@@ -131,14 +132,12 @@ namespace SpiritMod.NPCs.Tides
 						npc.ai[1] = 1;
 						npc.velocity.X = xoffset / 1.25f;
 						npc.velocity.Y = -6;
-						npc.netUpdate = true;
 					}
 				}
 				if (npc.ai[1] == 1) { //jumping
 					npc.velocity *= 0.97f;
 					if (Math.Abs(npc.velocity.X) < 0.125f) {
 						npc.ai[1] = 0;
-						npc.netUpdate = true;
 					}
 					npc.rotation = npc.velocity.ToRotation() + 1.57f;
 				}
@@ -186,12 +185,14 @@ namespace SpiritMod.NPCs.Tides
 				if (npc.frameCounter < 2.8f) {
 					npc.frameCounter += 0.1f;
 				}
-				else if (!bloom && npc.frameCounter < 3.8f) {
+				else if (npc.ai[3] == 0 && npc.frameCounter < 3.8f) {
 					npc.frameCounter += 0.08f;
 				}
 				if (npc.frameCounter >= 2.8f && !createdLaser) {
-					bloom = true;
+					if(Main.netMode != NetmodeID.MultiplayerClient)
+					npc.ai[3] = 1;
 					createdLaser = true;
+					npc.netUpdate = true;
 				}
 				npc.frameCounter %= 4;
 				int frame = (int)npc.frameCounter + 4;

@@ -55,14 +55,16 @@ namespace SpiritMod.NPCs
 			npc.ai[1] += 1f;
 			if (distance < 240) {
 				if (npc.ai[1] >= 80 && npc.ai[1] <= 180) {
-					if (Main.rand.NextBool(10)) {
+					if (Main.rand.NextBool(10) && Main.netMode != NetmodeID.MultiplayerClient) {
 						Main.PlaySound(SoundID.Item34, npc.Center);
 						Vector2 direction = Main.player[npc.target].Center - npc.Center;
 						direction.Normalize();
 						direction.X *= 11;
 						direction.Y *= 6;
 						int damage = expertMode ? 11 : 13;
-						Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 4, direction.X, direction.Y + Main.rand.NextFloat(-.5f, .5f), ModContent.ProjectileType<VomitProj>(), damage, 1, Main.myPlayer, 0, 0);
+						int vomit = Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 4, direction.X, direction.Y + Main.rand.NextFloat(-.5f, .5f), ModContent.ProjectileType<VomitProj>(), damage, 1, Main.myPlayer, 0, 0);
+						Main.projectile[vomit].netUpdate = true;
+						npc.netUpdate = true;
 					}
 				}
 			}
@@ -133,13 +135,14 @@ namespace SpiritMod.NPCs
 					npc.ai[0] = -200f;
 				}
 			}
-			if (Main.rand.Next(30) == 0) {
+			if (Main.rand.Next(30) == 0 && Main.netMode != NetmodeID.MultiplayerClient) {
 				if (Main.rand.NextBool(2)) {
 					npc.velocity.Y = npc.velocity.Y + 0.439f;
 				}
 				else {
 					npc.velocity.Y = npc.velocity.Y - 0.419f;
 				}
+				npc.netUpdate = true;
 			}
 			if ((double)distance > 350.0) {
 				velMax = 5f;

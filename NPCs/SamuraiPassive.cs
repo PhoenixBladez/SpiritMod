@@ -41,22 +41,20 @@ namespace SpiritMod.NPCs
 		}
 		public override void AI()
 		{
+			npc.TargetClosest(true);
 			Player target = Main.player[npc.target];
 
 			if (npc.localAI[0] == 0f) {
 				npc.localAI[0] = npc.Center.Y;
-				npc.netUpdate = true; //localAI probably isnt affected by this... buuuut might as well play it safe
 			}
 			if (npc.Center.Y >= npc.localAI[0]) {
 				npc.localAI[1] = -1f;
-				npc.netUpdate = true;
 			}
 			if (npc.Center.Y <= npc.localAI[0] - 2f) {
 				npc.localAI[1] = 1f;
-				npc.netUpdate = true;
 			}
 			npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y + 0.009f * npc.localAI[1], -.5f, .5f);
-			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
+			int distance = (int)(npc.Center - target.Center).Length();
 			if (distance <= 540 || npc.life < npc.lifeMax && !target.dead) {
 				npc.Transform(ModContent.NPCType<SamuraiHostile>());
 			}

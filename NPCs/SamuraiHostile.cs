@@ -59,7 +59,7 @@ namespace SpiritMod.NPCs
 			if (npc.ai[2] == chargeTime) {
 				frameCounter = 0;
 			}
-			if (charging) {
+			if (npc.ai[3] == 1) {
 				npc.frameCounter = frameCounter + 6;
 			}
 			else if (npc.ai[2] > chargeTime - 50) {
@@ -69,7 +69,7 @@ namespace SpiritMod.NPCs
 				npc.frameCounter = frameCounter;
 			}
 			if (npc.frameCounter == 8) {
-				charging = false;
+				npc.ai[3] = 0;
 			}
 			int frame = (int)npc.frameCounter;
 			npc.frame.Y = frame * frameHeight;
@@ -110,32 +110,31 @@ namespace SpiritMod.NPCs
             }
         }
         private static int[] SpawnTiles = { };
-		bool charging = false;
 		Vector2 targetLocation = Vector2.Zero;
 		float chargeRotation = 0;
 		public override void AI()
 		{
+			npc.TargetClosest(true);
 			Player player = Main.player[npc.target];
 			float num395 = Main.mouseTextColor / 200f - 0.35f;
 			num395 *= 0.14f;
 			npc.scale = num395 + 0.95f;
 			float velMax = 1f;
 			float acceleration = 0.011f;
-			npc.TargetClosest(true);
 			Vector2 center = npc.Center;
-			float deltaX = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - center.X;
-			float deltaY = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - center.Y;
-			float distance = (float)Math.Sqrt((double)deltaX * (double)deltaX + (double)deltaY * (double)deltaY);
-			npc.ai[1] += 1f;
-			if (!charging) {
-				if ((double)npc.ai[1] > 600.0) {
+			float deltaX = player.position.X + (player.width / 2) - center.X;
+			float deltaY = player.position.Y + (player.height / 2) - center.Y;
+			float distance = (float)Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
+			npc.ai[1]++;
+			if (npc.ai[3] == 0) {
+				if (npc.ai[1] > 600.0) {
 					acceleration *= 8f;
 					velMax = 4f;
-					if ((double)npc.ai[1] > 650.0) {
+					if (npc.ai[1] > 650.0) {
 						npc.ai[1] = 0f;
 					}
 				}
-				else if ((double)distance < 250.0) {
+				else if (distance < 250.0) {
 					npc.ai[0] += 0.9f;
 					if (npc.ai[0] > 0f) {
 						npc.velocity.Y = npc.velocity.Y + 0.019f;
@@ -151,17 +150,18 @@ namespace SpiritMod.NPCs
 					}
 					if (npc.ai[0] > 200f) {
 						npc.ai[0] = -200f;
+						npc.netUpdate = true;
 					}
 				}
-				if ((double)distance > 350.0) {
+				if (distance > 350.0) {
 					velMax = 5f;
 					acceleration = 0.3f;
 				}
-				else if ((double)distance > 300.0) {
+				else if (distance > 300.0) {
 					velMax = 3f;
 					acceleration = 0.2f;
 				}
-				else if ((double)distance > 250.0) {
+				else if (distance > 250.0) {
 					velMax = 1.5f;
 					acceleration = 0.1f;
 				}
@@ -169,8 +169,8 @@ namespace SpiritMod.NPCs
 				float velLimitX = deltaX * stepRatio;
 				float velLimitY = deltaY * stepRatio;
 				if (Main.player[npc.target].dead) {
-					velLimitX = (float)((double)((float)npc.direction * velMax) / 2.0);
-					velLimitY = (float)((double)(-(double)velMax) / 2.0);
+					velLimitX = (float)(npc.direction * velMax / 2.0);
+					velLimitY = (float)((-velMax) / 2.0);
 				}
 				if (npc.velocity.X < velLimitX) {
 					npc.velocity.X = npc.velocity.X + acceleration;
@@ -184,11 +184,11 @@ namespace SpiritMod.NPCs
 				else if (npc.velocity.Y > velLimitY) {
 					npc.velocity.Y = npc.velocity.Y - acceleration;
 				}
-				if ((double)velLimitX > 0.0) {
-					npc.rotation = (float)Math.Atan2((double)velLimitY, (double)velLimitX);
+				if (velLimitX > 0.0) {
+					npc.rotation = (float)Math.Atan2(velLimitY, velLimitX);
 				}
-				if ((double)velLimitX < 0.0) {
-					npc.rotation = (float)Math.Atan2((double)velLimitY, (double)velLimitX) + 3.14f;
+				if (velLimitX < 0.0) {
+					npc.rotation = (float)Math.Atan2(velLimitY, velLimitX) + 3.14f;
 				}
 				if (npc.ai[2] < chargeTime - 50) {
 					npc.rotation = 0;
@@ -200,21 +200,23 @@ namespace SpiritMod.NPCs
 					Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SamuraiUnsheathe"));
 				}
 				if (npc.ai[2] > chargeTime - 50 && npc.ai[2] < chargeTime - 40) {
-					targetLocation = Main.player[npc.target].Center;
 					chargeRotation = npc.rotation;
 				}
 			}
 			npc.ai[2]++;
-			if (npc.ai[2] == chargeTime) {
+			if (npc.ai[2] == chargeTime)  {
+				if(Main.netMode != NetmodeID.MultiplayerClient) {
+					Vector2 direction = Main.player[npc.target].Center - npc.Center;
+					direction.Normalize();
+					direction.X *= 17;
+					direction.Y *= 9;
+					npc.velocity.X = direction.X;
+					npc.velocity.Y = direction.Y;
+					npc.ai[3] = 1;
+					npc.netUpdate = true;
+				}
 				Main.PlaySound(SoundID.DD2_WyvernDiveDown, npc.Center);
-				Vector2 direction = targetLocation - npc.Center;
-				direction.Normalize();
-				direction.X = direction.X * Main.rand.Next(15, 19);
-				direction.Y = direction.Y * Main.rand.Next(9, 10);
-				npc.velocity.X = direction.X;
-				npc.velocity.Y = direction.Y;
-				npc.velocity.Y *= 0.95f;
-				npc.velocity.X *= 0.95f;
+
 				for (int i = 0; i < 20; i++) {
 					int num = Dust.NewDust(npc.position, npc.width, npc.height, 14, 0f, -2f, 0, default(Color), .8f);
 					Main.dust[num].noGravity = true;
@@ -223,12 +225,10 @@ namespace SpiritMod.NPCs
 					if (Main.dust[num].position != npc.Center)
 						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
 				}
-				charging = true;
-				npc.netUpdate = true;
 			}
-			if (npc.ai[2] >= chargeTime + 20) {
+			if (npc.ai[2] >= chargeTime + 20 && Main.netMode != NetmodeID.MultiplayerClient) {
 				npc.ai[2] = 0;
-				charging = false;
+				npc.ai[3] = 0;
 				npc.netUpdate = true;
 			}
 			npc.spriteDirection = npc.direction;

@@ -11,7 +11,6 @@ namespace SpiritMod.NPCs.Asteroid
 {
 	public class GloopGloop : ModNPC
 	{
-		int counter = 0;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gloop");
