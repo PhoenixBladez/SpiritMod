@@ -146,7 +146,7 @@ namespace SpiritMod.Projectiles.Hostile
 		}
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			target.velocity.Y -= 8f;
+			target.velocity.Y -= 16f;
 		}
 	}
 }

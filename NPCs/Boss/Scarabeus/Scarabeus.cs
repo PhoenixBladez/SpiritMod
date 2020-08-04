@@ -496,7 +496,6 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			}
 			else if (npc.life < 800) {
 				wormAI = false;
-                trailBehind = true;
                 npc.aiStyle = 44;
                 npc.noGravity = true;
                 npc.noTileCollide = true;

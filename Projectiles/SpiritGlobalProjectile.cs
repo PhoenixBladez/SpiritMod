@@ -160,13 +160,13 @@ namespace SpiritMod.Projectiles
 				if(counter >= 1440) {
 					counter = -1440;
 				}
-				for(int i = 0; i < 6; i++) {
+				for(int i = 0; i < 2; i++) {
 					int num = Dust.NewDust(projectile.Center + new Vector2(0, (float)Math.Cos(counter / 8.2f) * 9.2f).RotatedBy(projectile.rotation), 6, 6, 112, 0f, 0f, 0, default, 1f);
 					Main.dust[num].velocity *= .1f;
 					Main.dust[num].scale *= .7f;
 					Main.dust[num].noGravity = true;
 				}
-				for(int i = 0; i < 6; i++) {
+				for(int i = 0; i < 2; i++) {
 					int num = Dust.NewDust(projectile.Center - new Vector2(0, (float)Math.Cos(counter / 8.2f) * 9.2f).RotatedBy(projectile.rotation), 6, 6, 112, 0f, 0f, 0, default, 1f);
 					Main.dust[num].velocity *= .1f;
 					Main.dust[num].scale *= .7f;
