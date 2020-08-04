@@ -29,7 +29,8 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.useAnimation = 30;
 			item.summon = true;
 			item.noMelee = true;
-			item.buffTime = 3600;
+            item.shoot = ModContent.ProjectileType<Crawlerock>();
+            item.buffTime = 3600;
 			item.UseSound = SoundID.Item44;
 		}
 		public override bool AltFunctionUse(Player player)

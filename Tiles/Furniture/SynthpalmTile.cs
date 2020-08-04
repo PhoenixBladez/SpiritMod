@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Microsoft.Xna.Framework;
@@ -7,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 namespace SpiritMod.Tiles.Furniture
 {
-	public class VaporwaveTile : ModTile
+	public class SynthpalmTile : ModTile
 	{
 		public override void SetDefaults()
 		{
@@ -16,7 +17,7 @@ namespace SpiritMod.Tiles.Furniture
 			Main.tileLavaDeath[Type] = true;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
 			TileObjectData.newTile.Height = 5;
-			TileObjectData.newTile.Width = 7;
+			TileObjectData.newTile.Width = 3;
             Main.tileLighted[Type] = true;
             TileObjectData.newTile.CoordinateHeights = new int[]
 			{
@@ -29,17 +30,24 @@ namespace SpiritMod.Tiles.Furniture
 			TileObjectData.newTile.AnchorBottom = default(AnchorData);
 			TileObjectData.newTile.AnchorTop = default(AnchorData);
 			TileObjectData.newTile.AnchorWall = true;
-			TileObjectData.addTile(Type);
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Retrofuturist Panel");
-			AddMapEntry(new Color(150, 150, 150), name);
+            TileObjectData.newTile.Direction = TileObjectDirection.PlaceLeft;
+            TileObjectData.newTile.StyleWrapLimit = 2; //not really necessary but allows me to add more subtypes of chairs below the example chair texture
+            TileObjectData.newTile.StyleMultiplier = 2; //same as above
+            TileObjectData.newTile.StyleHorizontal = true;
+            TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
+            TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight; //allows me to place example chairs facing the same way as the player
+            TileObjectData.addAlternate(1); //facing right will use the second texture style
+            TileObjectData.addTile(Type);
+            ModTranslation name = CreateMapEntryName();
+			name.SetDefault("Synthpalm Panel");
+			AddMapEntry(new Color(100, 100, 100), name);
 			dustType = -1;
 		}
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            r = .048f*5;
-            g = .099f*5;
-            b = .122f*5;
+            r = .252f*1.5f;
+            g = .003f*1.5f;
+            b = .24f*1.5f;
         }
         public override void NumDust(int i, int j, bool fail, ref int num)
 		{
@@ -52,7 +60,7 @@ namespace SpiritMod.Tiles.Furniture
             {
                 Color colour = Color.White * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTime * 1.3f) + 1f) * 0.5f));
 
-                Texture2D glow = ModContent.GetTexture("SpiritMod/Tiles/Furniture/VaporwaveTile_Glow");
+                Texture2D glow = ModContent.GetTexture("SpiritMod/Tiles/Furniture/SynthpalmTile_Glow");
                 Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
 
                 spriteBatch.Draw(glow, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(tile.frameX, tile.frameY, 16, 16), colour);
@@ -60,7 +68,7 @@ namespace SpiritMod.Tiles.Furniture
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<Items.Placeable.Furniture.Neon.VaporwaveItem>());
+			Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<Items.Placeable.Furniture.Neon.Synthpalm>());
 		}
 	}
 }

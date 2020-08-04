@@ -26,6 +26,7 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.penetrate = -1;
 			projectile.aiStyle = -1;
 			projectile.timeLeft = 3600;
+            projectile.minionSlots = 1;
 			projectile.sentry = true;
 		}
 

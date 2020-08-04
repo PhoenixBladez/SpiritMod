@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Material;
 
-namespace SpiritMod.Items.Placeable.Furniture
+namespace SpiritMod.Items.Placeable.Furniture.Neon
 {
 	public class VaporwaveItem : ModItem
 	{
@@ -17,8 +17,8 @@ namespace SpiritMod.Items.Placeable.Furniture
 		{
 			item.width = 36;
 			item.height = 28;
-			item.value = item.value = Terraria.Item.buyPrice(0, 10, 0, 0);
-			item.rare = ItemRarityID.White;
+			item.value = item.value = Terraria.Item.buyPrice(0, 0, 10, 0);
+			item.rare = 1;
 
 			item.maxStack = 99;
 
@@ -32,5 +32,13 @@ namespace SpiritMod.Items.Placeable.Furniture
 
 			item.createTile = ModContent.TileType<VaporwaveTile>();
 		}
-	}
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<Items.Material.SynthMaterial>(), 2);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+    }
 }

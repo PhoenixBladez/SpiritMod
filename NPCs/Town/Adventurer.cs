@@ -157,7 +157,6 @@ namespace SpiritMod.NPCs.Town
 			if (MyWorld.winterbornComplete) {
 				AddItem(ref shop, ref nextSlot, ItemType<Items.Weapon.Thrown.CryoKnife>());
 			}
-            AddItem(ref shop, ref nextSlot, ItemType<VaporwaveItem>(), check: MyWorld.downedRaider);
         }
 
 		public override void TownNPCAttackStrength(ref int damage, ref float knockback)

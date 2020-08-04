@@ -75,7 +75,7 @@ namespace SpiritMod.NPCs
 			{
 				npc.DropItem(mod.ItemType(lootTable[loot]));
 			}
-			int Techs = Main.rand.Next(2, 6);
+			int Techs = Main.rand.Next(7, 12);
 			for (int J = 0; J <= Techs; J++) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TechDrive>());
 			}
