@@ -75,7 +75,7 @@ namespace SpiritMod.NPCs.Critters
 			if (spawnInfo.playerSafe) {
 				return 0f;
 			}
-			return SpawnCondition.Cavern.Chance * 0.0763f;
+			return SpawnCondition.Cavern.Chance * 0.0563f;
 		}
 
 		public override void FindFrame(int frameHeight)

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Armor.AstronautVanity;
+using SpiritMod.Items.Armor.ProtectorateSet;
 using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Weapon.Yoyo;
 using SpiritMod.Items.Material;
@@ -323,11 +323,10 @@ namespace SpiritMod.NPCs.Asteroid
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<StarEnergy>());
 			}
 			int[] lootTable = {
-				ModContent.ItemType<AstronautLegs>(),
-				ModContent.ItemType<AstronautHelm>(),
-				ModContent.ItemType<AstronautBody>()
+				ModContent.ItemType<ProtectorateBody>(),
+				ModContent.ItemType<ProtectorateLegs>()
 			};
-			if (Main.rand.Next(40) == 0) {
+			if (Main.rand.Next(30) == 0) {
 				int loot = Main.rand.Next(lootTable.Length);
 				{
 					npc.DropItem(lootTable[loot]);

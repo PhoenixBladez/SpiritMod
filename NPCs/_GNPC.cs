@@ -647,7 +647,16 @@ namespace SpiritMod.NPCs
 				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Ammo.Bullet.RubberBullet>(), false);
 				nextSlot++;
 			}
-			else if (type == NPCID.Dryad) {
+            else if (type == NPCID.Cyborg)
+            {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Armor.FreemanSet.FreemanHead>(), false);
+                nextSlot++;
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Armor.FreemanSet.FreemanBody>(), false);
+                nextSlot++;
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Armor.FreemanSet.FreemanLegs>(), false);
+                nextSlot++;
+            }
+            else if (type == NPCID.Dryad) {
 				if (NPC.downedMoonlord && Main.halloween) {
 					shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Placeable.Tiles.HalloweenGrass>(), false);
 					nextSlot++;
