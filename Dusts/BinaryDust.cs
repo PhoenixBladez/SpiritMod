@@ -20,12 +20,12 @@ namespace SpiritMod.Dusts
 			float light = 1 - dust.alpha / 255f;
 			Lighting.AddLight((int)(dust.position.X / 16f), (int)(dust.position.Y / 16f), light * 0.2f, light * 0.5f, light * 0.1f);
 
-			dust.alpha += 4;
+			dust.alpha += 6;
 			if (dust.alpha >= 255) {
 				dust.active = false;
 			}
 
 			return false;
-		}
-	}
+        }
+    }
 }

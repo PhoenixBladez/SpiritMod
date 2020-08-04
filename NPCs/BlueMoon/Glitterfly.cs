@@ -60,7 +60,7 @@ namespace SpiritMod.NPCs.BlueMoon
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return MyWorld.BlueMoon && NPC.CountNPCS(ModContent.NPCType<Glitterfly>()) < 3 ? 1f : 0f;
+			return MyWorld.BlueMoon && NPC.CountNPCS(ModContent.NPCType<Glitterfly>()) < 3 && spawnInfo.player.ZoneOverworldHeight ? 1f : 0f;
 		}
 
 		public override bool PreAI()

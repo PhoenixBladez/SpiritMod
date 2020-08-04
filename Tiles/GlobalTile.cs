@@ -104,22 +104,19 @@ namespace SpiritMod.Tiles
 		public override void RandomUpdate(int i, int j, int type)
 		{
 			if (type == TileID.CorruptGrass || type == TileID.Ebonstone) {
-				if (MyWorld.CorruptHazards < 30) {
+				if (MyWorld.CorruptHazards < 20) {
 					if ((TileArray212.Contains(Framing.GetTileSafely(i, j - 1).type) && TileArray212.Contains(Framing.GetTileSafely(i, j - 2).type) && TileArray212.Contains(Framing.GetTileSafely(i, j - 3).type)) && (j > (int)Main.worldSurface - 100 && j < (int)Main.rockLayer - 20)) {
-						if (Main.rand.Next(300) == 0) {
+						if (Main.rand.Next(450) == 0) {
 							WorldGen.PlaceObject(i, j - 1, ModContent.TileType<Corpsebloom>());
 							NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<Corpsebloom>(), 0, 0, -1, -1);
-							MyWorld.CorruptHazards++;
 						}
-						if (Main.rand.Next(300) == 0) {
+						if (Main.rand.Next(450) == 0) {
 							WorldGen.PlaceObject(i, j - 1, ModContent.TileType<Corpsebloom1>());
 							NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<Corpsebloom1>(), 0, 0, -1, -1);
-							MyWorld.CorruptHazards++;
 						}
-						if (Main.rand.Next(300) == 0) {
+						if (Main.rand.Next(450) == 0) {
 							WorldGen.PlaceObject(i, j - 1, ModContent.TileType<Corpsebloom2>());
 							NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<Corpsebloom2>(), 0, 0, -1, -1);
-							MyWorld.CorruptHazards++;
 						}
 					}
 				}

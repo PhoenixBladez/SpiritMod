@@ -45,9 +45,6 @@ namespace SpiritMod.YoyoOverload
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CBall>(), 1, false, 0, false, false);
 			}*/
-			if (npc.type == NPCID.Creeper && Main.rand.Next(25) == 0) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Creep>(), 1, false, 0, false, false);
-			}
 
 			/*if (npc.type == NPCID.BloodZombie && Main.rand.Next(25) == 0)
 			{
@@ -57,9 +54,6 @@ namespace SpiritMod.YoyoOverload
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Plague>(), 1, false, 0, false, false);
 			}*/
-			if (npc.type == NPCID.SkeletronHead) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Bone>(), 1, false, 0, false, false);
-			}
 			/*if (npc.type == NPCID.RuneWizard)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Rune>(), 1, false, 0, false, false);

@@ -132,13 +132,14 @@ namespace SpiritMod.NPCs.Town
 			AddItem(ref shop, ref nextSlot, ItemType<ManaFlame>());
 			AddItem(ref shop, ref nextSlot, ItemID.WhoopieCushion, 15000, NPC.downedBoss2);
 			AddItem(ref shop, ref nextSlot, ItemID.Book, 20, NPC.downedBoss3);
-			AddItem(ref shop, ref nextSlot, ItemType<Items.Placeable.Furniture.SkullStick>(), 1000, Main.LocalPlayer.GetSpiritPlayer().ZoneReach);
+            AddItem(ref shop, ref nextSlot, ItemType<WWPainting>());
+            AddItem(ref shop, ref nextSlot, ItemType<Items.Placeable.Furniture.SkullStick>(), 1000, Main.LocalPlayer.GetSpiritPlayer().ZoneReach);
 			AddItem(ref shop, ref nextSlot, ItemType<AncientBark>(), 200, Main.LocalPlayer.GetSpiritPlayer().ZoneReach);
 			AddItem(ref shop, ref nextSlot, ItemType<PolymorphGun>(), check: NPC.downedMechBossAny);
-			AddItem(ref shop, ref nextSlot, ItemType<PinGreen>());
+            AddItem(ref shop, ref nextSlot, ItemType<PinGreen>());
 			AddItem(ref shop, ref nextSlot, ItemType<PinYellow>());
-
-			if (MyWorld.sepulchreComplete) {
+          
+            if (MyWorld.sepulchreComplete) {
 				AddItem(ref shop, ref nextSlot, ItemType<SepulchreArrow>());
 				AddItem(ref shop, ref nextSlot, ItemType<SepulchreBannerItem>());
 				AddItem(ref shop, ref nextSlot, ItemType<SepulchreChest>());
@@ -156,7 +157,7 @@ namespace SpiritMod.NPCs.Town
 			if (MyWorld.winterbornComplete) {
 				AddItem(ref shop, ref nextSlot, ItemType<Items.Weapon.Thrown.CryoKnife>());
 			}
-		}
+        }
 
 		public override void TownNPCAttackStrength(ref int damage, ref float knockback)
 		{

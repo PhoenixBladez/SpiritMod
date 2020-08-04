@@ -104,7 +104,7 @@ namespace SpiritMod.NPCs.BlueMoon
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return MyWorld.BlueMoon ? 7f : 0f;
+			return MyWorld.BlueMoon && spawnInfo.player.ZoneOverworldHeight ? 7f : 0f;
 		}
 		float frameCounter = 0;
 		int tongueproj = 0;

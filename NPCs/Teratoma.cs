@@ -89,10 +89,6 @@ namespace SpiritMod.NPCs
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.WormTooth);
             }
-            if (Main.rand.NextBool(33))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Spear.CorruptSpearVariant>());
-            }
         }
     }
 }

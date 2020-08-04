@@ -1786,12 +1786,14 @@ namespace SpiritMod
 
 					TryPopulate(2000, (ushort)ModContent.TileType<Tiles.Ambient.SkullStick>(), 0, 0, 2, 4, 10000, DefaultPopulateTest);
 
-					//both directions of big flower
 					TryPopulate(4000, (ushort)ModContent.TileType<Tiles.Ambient.Briar.BriarBigFlower>(), 0, 0, 3, 3, briarGrass, DefaultPopulateTest);
 					TryPopulate(4000, (ushort)ModContent.TileType<Tiles.Ambient.Briar.BriarBigFlower>(), 54, 0, 3, 3, briarGrass, DefaultPopulateTest);
 
-					//Vines and foliage
-					ushort vineType = (ushort)ModContent.TileType<Tiles.Ambient.Briar.BriarVines>();
+                    TryPopulate(3000, (ushort)ModContent.TileType<Tiles.Ambient.Briar.Blaststone_Grave>(), 0, 0, 2, 2, briarGrass, DefaultPopulateTest);
+                    TryPopulate(3000, (ushort)ModContent.TileType<Tiles.Ambient.Briar.SkullGrave>(), 0, 0, 2, 4, briarGrass, DefaultPopulateTest);
+
+                    //Vines and foliage
+                    ushort vineType = (ushort)ModContent.TileType<Tiles.Ambient.Briar.BriarVines>();
 					ushort foliageType = (ushort)ModContent.TileType<Tiles.Ambient.Briar.BriarFoliage>();
 					for (int tileX = _x - _halfSize.X; tileX <= _x + _halfSize.X; tileX++) {
 						int vineLeft = 0;
