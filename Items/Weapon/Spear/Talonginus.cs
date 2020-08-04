@@ -22,17 +22,17 @@ namespace SpiritMod.Items.Weapon.Spear
 			item.value = Item.sellPrice(0, 1, 30, 0);
 			item.rare = ItemRarityID.Green;
 			item.crit = 6;
-			item.damage = 22;
+			item.damage = 26;
 			item.knockBack = 6f;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useTime = 7;
-			item.useAnimation = 7;
+			item.useTime = 9;
+			item.useAnimation = 9;
 			item.melee = true;
 			item.noMelee = true;
 			item.autoReuse = true;
 			item.noUseGraphic = true;
 			item.shoot = ModContent.ProjectileType<TalonginusProj>();
-			item.shootSpeed = 10f;
+			item.shootSpeed = 9f;
 			item.UseSound = SoundID.Item1;
 			this.currentHit = 0;
 		}

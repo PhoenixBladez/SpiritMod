@@ -24,11 +24,11 @@ namespace SpiritMod.Items.Weapon.Spear
 			item.UseSound = SoundID.Item1;
 			item.melee = true;
 			item.noMelee = true;
-			item.useAnimation = 35;
-			item.useTime = 35;
+			item.useAnimation = 28;
+			item.useTime = 28;
 			item.shootSpeed = 4f;
 			item.knockBack = 8f;
-			item.damage = 17;
+			item.damage = 18;
 			item.value = Item.sellPrice(0, 0, 60, 0);
 			item.rare = ItemRarityID.Green;
 			item.shoot = ModContent.ProjectileType<MarbleBidentProj>();
