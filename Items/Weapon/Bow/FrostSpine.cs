@@ -18,22 +18,23 @@ namespace SpiritMod.Items.Weapon.Bow
 
 		public override void SetDefaults()
 		{
-			item.damage = 9;
+			item.damage = 11;
 			item.noMelee = true;
 			item.ranged = true;
 			item.width = 24;
 			item.height = 38;
-			item.useTime = 29;
-			item.useAnimation = 29;
+			item.useTime = 31;
+			item.useAnimation = 31;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shoot = ProjectileID.Shuriken;
 			item.useAmmo = AmmoID.Arrow;
-			item.knockBack = 3;
+			item.knockBack = 1;
 			item.value = Terraria.Item.sellPrice(0, 0, 10, 0);
 			item.rare = ItemRarityID.Blue;
 			item.UseSound = SoundID.Item5;
 			item.autoReuse = false;
-			item.shootSpeed = 7.5f;
+            item.shootSpeed = 7.8f;
+            item.crit = 6;
 
 		}
 		public override Vector2? HoldoutOffset()

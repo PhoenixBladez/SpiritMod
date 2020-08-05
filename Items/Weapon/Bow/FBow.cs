@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Weapon.Bow
 
 		public override void SetDefaults()
 		{
-			item.damage = 14; //This is the amount of damage the item does
+			item.damage = 13; //This is the amount of damage the item does
 			item.noMelee = true; //This makes sure the bow doesn't do melee damage
 			item.ranged = true; //This causes your bow to do ranged damage
 			item.width = 24; //Hitbox width
@@ -32,8 +32,8 @@ namespace SpiritMod.Items.Weapon.Bow
 			item.rare = 1; //The item's name color
 			item.UseSound = SoundID.Item5; //Sound that gets played on use
 			item.autoReuse = true; //if the Bow autoreuses or not
-			item.shootSpeed = 10f; //The arrows speed when shot
-			item.value = Terraria.Item.sellPrice(0, 0, 10, 0);
+			item.shootSpeed = 8f; //The arrows speed when shot
+			item.value = Terraria.Item.sellPrice(0, 0, 20, 0);
 		}
 		public override Vector2? HoldoutOffset()
 		{

@@ -18,13 +18,13 @@ namespace SpiritMod.Items.Weapon.Bow
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 26;
+			item.damage = 33;
 			item.noMelee = true;
 			item.ranged = true;
 			item.width = 54;
 			item.height = 20;
-			item.useTime = 35;
-			item.useAnimation = 35;
+			item.useTime = 39;
+			item.useAnimation = 39;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shoot = ProjectileID.Shuriken;
 			item.useAmmo = AmmoID.Arrow;

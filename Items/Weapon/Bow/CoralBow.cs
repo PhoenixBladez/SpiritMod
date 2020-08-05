@@ -18,17 +18,17 @@ namespace SpiritMod.Items.Weapon.Bow
 		int charger;
 		public override void SetDefaults()
 		{
-			item.damage = 9;
+			item.damage = 10;
 			item.noMelee = true;
 			item.ranged = true;
 			item.width = 28;
 			item.height = 44;
-			item.useTime = 25;
-			item.useAnimation = 25;
+			item.useTime = 26;
+			item.useAnimation = 26;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shoot = ProjectileID.Shuriken;
 			item.useAmmo = AmmoID.Arrow;
-			item.knockBack = .5f;
+			item.knockBack = 0.5f;
 			item.value = Item.buyPrice(0, 0, 18, 10);
 			item.rare = ItemRarityID.Blue;
 			item.UseSound = SoundID.Item5;
