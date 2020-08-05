@@ -18,7 +18,7 @@ namespace SpiritMod.Tiles.Block
 			Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = false;
 			AddMapEntry(new Color(53, 59, 74));
-			dustType = 187;
+			dustType = -1;
             soundType = SoundID.Tink;
 			drop = ModContent.ItemType<TechBlockItem>();
 		}

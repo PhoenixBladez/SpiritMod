@@ -656,6 +656,18 @@ namespace SpiritMod.NPCs
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Armor.FreemanSet.FreemanLegs>(), false);
                 nextSlot++;
             }
+            else if (type == NPCID.Clothier)
+            {
+                if (MyWorld.downedRaider)
+                {
+                    shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Armor.CommandoSet.CommandoHead>(), false);
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Armor.CommandoSet.CommandoBody>(), false);
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Armor.CommandoSet.CommandoLegs>(), false);
+                    nextSlot++;
+                }
+            }
             else if (type == NPCID.Dryad) {
 				if (NPC.downedMoonlord && Main.halloween) {
 					shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Placeable.Tiles.HalloweenGrass>(), false);
