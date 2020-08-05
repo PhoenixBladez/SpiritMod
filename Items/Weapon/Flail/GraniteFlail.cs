@@ -22,18 +22,18 @@ namespace SpiritMod.Items.Weapon.Flail
 		{
 			item.width = 30;
 			item.height = 30;
-			item.value = Item.sellPrice(0, 1, 43, 0);
+			item.value = Item.sellPrice(0, 0, 80, 0);
 			item.rare = ItemRarityID.Green;
-			item.damage = 25;
-			item.knockBack = 8;
+			item.damage = 28;
+			item.knockBack = 7;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useTime = item.useAnimation = 38;
+			item.useTime = item.useAnimation = 41;
 			item.melee = true;
 			item.noMelee = true;
 			item.channel = true;
 			item.noUseGraphic = true;
 			item.shoot = ModContent.ProjectileType<GraniteMaceProj>();
-			item.shootSpeed = 10.25f;
+			item.shootSpeed = 11.5f;
 			item.UseSound = SoundID.Item1;
 		}
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

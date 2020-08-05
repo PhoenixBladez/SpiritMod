@@ -23,11 +23,11 @@ namespace SpiritMod.Items.Weapon.Flail
 			item.rare = ItemRarityID.Orange;
 			item.noMelee = true;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useAnimation = 15;
-			item.useTime = 15;
+			item.useAnimation = 16;
+			item.useTime = 16;
 			item.knockBack = 0;
 			item.value = Item.sellPrice(0, 1, 20, 0);
-			item.damage = 19;
+			item.damage = 23;
 			item.noUseGraphic = true;
 			item.shoot = ModContent.ProjectileType<TentacleChainProj>();
 			item.shootSpeed = 22f;

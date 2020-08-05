@@ -20,10 +20,10 @@ namespace SpiritMod.Items.Weapon.Flail
 			item.height = 10;
 			item.value = Item.sellPrice(0, 0, 60, 0);
 			item.rare = ItemRarityID.Green;
-			item.damage = 17;
-			item.knockBack = 6;
+			item.damage = 16;
+			item.knockBack = 5.4f;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useTime = item.useAnimation = 35;
+			item.useTime = item.useAnimation = 30;
 			item.scale = 1.1F;
 			item.melee = true;
 			item.noMelee = true;
