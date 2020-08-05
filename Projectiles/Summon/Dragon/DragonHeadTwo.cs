@@ -26,7 +26,6 @@ namespace SpiritMod.Projectiles.Summon.Dragon
 			projectile.friendly = true;
 			projectile.timeLeft = 95;
 			projectile.damage = 13;
-			projectile.minionSlots = 0.5f;
 			//projectile.extraUpdates = 1;
 			projectile.width = projectile.height = 32;
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;

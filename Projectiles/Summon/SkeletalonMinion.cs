@@ -30,7 +30,6 @@ namespace SpiritMod.Projectiles.Summon
 			projectile.tileCollide = false;
 			projectile.ignoreWater = true;
 			projectile.penetrate = 3;
-			projectile.minionSlots = 0.25f;
 			projectile.timeLeft = 180;
 			aiType = ProjectileID.Raven;
 		}

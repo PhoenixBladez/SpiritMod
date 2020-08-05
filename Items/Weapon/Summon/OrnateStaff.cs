@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Weapon.Summon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Staff of the Insect Brood");
-			Tooltip.SetDefault("Summons swarms of tiny beetles to fight for you\nBeetles consume 1/4 of a minion slot and dissipate quickly");
+			Tooltip.SetDefault("Summons swarms of tiny beetles to fight for you\nBeetles dissipate quickly");
 		}
 
 

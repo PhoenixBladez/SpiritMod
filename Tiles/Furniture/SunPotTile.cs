@@ -50,7 +50,7 @@ namespace SpiritMod.Tiles.Furniture
                 Player player = Main.player[Main.myPlayer];
                 if (!player.dead && Main.dayTime)
                 {
-                    player.AddBuff(BuffID.Regeneration, 120, true);
+                    player.AddBuff(BuffID.Regeneration, 90, true);
                 }
             }
         }

@@ -25,9 +25,9 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.magic = true;
 			item.width = 32;
 			item.height = 32;
-			item.useTime = 22;
-			item.mana = 6;
-			item.useAnimation = 22;
+			item.useTime = 27;
+			item.mana = 10;
+			item.useAnimation = 27;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.knockBack = 3;
 			item.value = Terraria.Item.sellPrice(0, 0, 15, 0);
@@ -38,12 +38,15 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.shoot = ProjectileID.ToxicBubble;
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.ToxicBubble, damage, knockBack, player.whoAmI);
-			Main.projectile[p].timeLeft = 60;
-			Main.projectile[p].scale *= .6f;
-			Main.projectile[p].magic = true;
-			Main.projectile[p].ranged = false;
+        {
+            for (int I = 0; I < 3; I++)
+            {
+                int p = Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-180, 180) / 100), speedY + ((float)Main.rand.Next(-180, 180) / 100), ProjectileID.ToxicBubble, damage, knockBack, player.whoAmI, 0f, 0f);
+                Main.projectile[p].timeLeft = 60;
+                Main.projectile[p].scale *= .6f;
+                Main.projectile[p].magic = true;
+                Main.projectile[p].ranged = false;
+            }
 			return false;
 		}
 	}
