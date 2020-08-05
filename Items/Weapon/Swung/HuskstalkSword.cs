@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.rare = 0;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
-			item.value = Item.sellPrice(0, 0, 0, 0);
+			item.value = Item.sellPrice(0, 0, 0, 20);
 		}
 		public override void AddRecipes()
 		{

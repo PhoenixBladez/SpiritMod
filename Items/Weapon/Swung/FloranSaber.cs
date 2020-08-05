@@ -20,20 +20,20 @@ namespace SpiritMod.Items.Weapon.Swung
 
 		public override void SetDefaults()
 		{
-			item.damage = 16;
+			item.damage = 14;
 			item.melee = true;
 			item.width = 30;
 			item.height = 36;
-			item.useTime = 60;
-			item.useAnimation = 25;
+			item.useTime = 106;
+			item.useAnimation = 31;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 3;
-			item.value = Terraria.Item.sellPrice(0, 0, 10, 0);
+			item.value = Terraria.Item.sellPrice(0, 0, 20, 0);
 			item.rare = 1;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<FloranVine>();
-			item.shootSpeed = 8f;
+			item.shootSpeed = 6.5f;
 		}
 		public override void AddRecipes()
 		{

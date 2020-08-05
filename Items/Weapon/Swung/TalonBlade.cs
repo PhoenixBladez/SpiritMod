@@ -19,20 +19,20 @@ namespace SpiritMod.Items.Weapon.Swung
 		int charger;
 		public override void SetDefaults()
 		{
-			item.damage = 25;
+			item.damage = 26;
 			item.melee = true;
 			item.width = 34;
 			item.height = 40;
-			item.useTime = 22;
-			item.useAnimation = 22;
+			item.useTime = 55;
+			item.useAnimation = 29;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 5;
 			item.value = Item.sellPrice(0, 1, 0, 0);
 			item.rare = ItemRarityID.Orange;
 			item.UseSound = SoundID.Item1;
 			item.shoot = ModContent.ProjectileType<BoneFeatherSwordProj>();
-			item.shootSpeed = 10f;
-			item.crit = 8;
+			item.shootSpeed = 9f;
+			item.crit = 6;
 			item.autoReuse = true;
 		}
 		public override bool OnlyShootOnSwing => true;

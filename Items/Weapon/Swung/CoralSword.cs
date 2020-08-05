@@ -16,14 +16,14 @@ namespace SpiritMod.Items.Weapon.Swung
 
 		public override void SetDefaults()
 		{
-			item.damage = 9;
+			item.damage = 11;
 			item.melee = true;
 			item.width = 36;
 			item.height = 44;
 			item.useTime = 26;
 			item.useAnimation = 26;
 			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.knockBack = 3;
+			item.knockBack = 4.5f;
 			item.value = Terraria.Item.sellPrice(0, 0, 10, 0);
 			item.rare = ItemRarityID.Blue;
 			item.shootSpeed = 14f;
@@ -33,14 +33,14 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override bool CanUseItem(Player player)
 		{
 			if (player.wet) {
-				item.damage = 12;
-				item.useTime = 20;
-				item.useAnimation = 20;
+				item.damage = 14;
+				item.useTime = 21;
+				item.useAnimation = 21;
 			}
 			else {
 				item.useTime = 26;
 				item.useAnimation = 26;
-				item.damage = 9;
+				item.damage = 11;
 			}
 			return base.CanUseItem(player);
 		}
