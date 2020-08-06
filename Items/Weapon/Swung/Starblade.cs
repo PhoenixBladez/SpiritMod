@@ -12,16 +12,16 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starblade");
-			Tooltip.SetDefault("'Harness the night sky'\nEvery fifth swing causes the blade to release multiple bright stars\nEach star explodes into homing star wisps");
+			Tooltip.SetDefault("'Harness the night sky'\nEvery seventh swing causes the blade to release multiple bright stars\nEach star explodes into homing star wisps");
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Swung/Starblade_Glow");
 		}
 
 		int charger;
 		public override void SetDefaults()
 		{
-			item.damage = 27;
-			item.useTime = 29;
-			item.useAnimation = 29;
+			item.damage = 29;
+			item.useTime = 33;
+			item.useAnimation = 33;
 			item.melee = true;
 			item.width = 50;
 			item.height = 50;
@@ -68,7 +68,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			charger++;
-			if (charger >= 5) {
+			if (charger >= 7) {
 				for (int i = 0; i < 3; i++) {
 					Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), mod.ProjectileType("Starshock2"), damage, knockBack, player.whoAmI, 0f, 0f);
 				}

@@ -16,21 +16,20 @@ namespace SpiritMod.Items.Weapon.Swung
 
 		public override void SetDefaults()
 		{
-			item.damage = 14;
+			item.damage = 12;
 			item.melee = true;
 			item.width = 50;
 			item.autoReuse = true;
 			item.height = 50;
-			item.useTime = 32;
-			item.useAnimation = 32;
+			item.useTime = 109;
+			item.useAnimation = 37;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 3;
-			item.value = Item.sellPrice(0, 1, 0, 0);
+			item.value = Item.sellPrice(0, 0, 80, 0);
 			item.rare = ItemRarityID.Blue;
 			item.UseSound = SoundID.Item1;
 			item.shoot = ModContent.ProjectileType<ScarabProjectile>();
-			item.shootSpeed = 7; ;
-			item.crit = 8;
+			item.shootSpeed = 6; ;
 		}
 	}
 }

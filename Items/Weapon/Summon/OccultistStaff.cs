@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Summon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Occultist's Swarm");
-			Tooltip.SetDefault("Summons hordes of Blood Zombies\nBlood Zombies may restore health upon hitting enemies\nUp to 4 zombies may exist at once\nZombies take up 1/3 of a minion slot");
+			Tooltip.SetDefault("Summons hordes of Blood Zombies\nBlood Zombies may restore health upon hitting enemies");
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Summon/OccultistStaff_Glow");
 		}
 

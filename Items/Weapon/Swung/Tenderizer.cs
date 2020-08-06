@@ -17,14 +17,14 @@ namespace SpiritMod.Items.Weapon.Swung
 
 		public override void SetDefaults()
 		{
-			item.damage = 26;
+			item.damage = 27;
 			item.melee = true;
 			item.width = 40;
 			item.height = 40;
-			item.useTime = 19;
-			item.useAnimation = 19;
+			item.useTime = 23;
+			item.useAnimation = 23;
 			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.knockBack = 3;
+			item.knockBack = 3.5f;
 			item.rare = ItemRarityID.Orange;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
 		{
 			if (Main.rand.Next(6) == 0) {
-				target.AddBuff(BuffID.Ichor, 240);
+				target.AddBuff(BuffID.Ichor, 180);
 			}
 			if (target.life <= 0) {
 				int healNumber = Main.rand.Next(5, 8);

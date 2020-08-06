@@ -16,17 +16,17 @@ namespace SpiritMod.Items.Weapon.Bow
 
 		public override void SetDefaults()
 		{
-			item.damage = 21;
+			item.damage = 19;
 			item.noMelee = true;
 			item.ranged = true;
 			item.width = 22;
 			item.height = 56;
-			item.useTime = 26;
-			item.useAnimation = 26;
+			item.useTime = 28;
+			item.useAnimation = 28;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shoot = ProjectileID.Shuriken;
 			item.useAmmo = AmmoID.Arrow;
-			item.knockBack = 2;
+			item.knockBack = 1.5f;
 			item.rare = ItemRarityID.Green;
 			item.UseSound = SoundID.Item5;
 			item.value = Item.sellPrice(gold: 2, silver: 30);

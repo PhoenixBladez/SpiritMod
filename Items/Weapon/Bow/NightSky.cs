@@ -19,13 +19,13 @@ namespace SpiritMod.Items.Weapon.Bow
 		int charger;
 		public override void SetDefaults()
 		{
-			item.damage = 35;
+			item.damage = 28;
 			item.noMelee = true;
 			item.ranged = true;
 			item.width = 24;
 			item.height = 46;
-			item.useTime = 25;
-			item.useAnimation = 25;
+			item.useTime = 34;
+			item.useAnimation = 34;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shoot = ProjectileID.Shuriken;
 			item.useAmmo = AmmoID.Arrow;

@@ -11,6 +11,7 @@ namespace SpiritMod.Items.DonatorItems.MoonMan
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sword of Redwall");
+            Tooltip.SetDefault("Eulalia!");
 		}
 
 		public override void SetDefaults()

@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Placeable.Tiles
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Electrotube Block");
+			DisplayName.SetDefault("Glowplate Block");
 		}
 
 

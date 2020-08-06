@@ -503,45 +503,38 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			}
 			else if (npc.life < 800) {
 				wormAI = false;
-				npc.noGravity = true;
-				npcCounter++;
+                npc.aiStyle = 44;
+                npc.noGravity = true;
+                npc.noTileCollide = true;
+                aiType = NPCID.FlyingFish;
+                npcCounter++;
 
 				if (npcCounter == 300 || npcCounter == 400 || npcCounter == 500 || npcCounter == 600) {
 					Vector2 vector2_2 = Vector2.UnitY.RotatedByRandom(1.57079637050629f) * new Vector2(5f, 3f);
 					NPC.NewNPC((int)npc.Center.X + Main.rand.Next(-20, 20), (int)npc.Center.Y + Main.rand.Next(-20, 20), ModContent.NPCType<ChildofScarabeus>());
 				}
-				else {
-					if (npc.Center.X >= player.Center.X && moveSpeed >= -30) // flies to players x position
-					{
-						moveSpeed--;
-					}
-
-					if (npc.Center.X <= player.Center.X && moveSpeed <= 30) {
-						moveSpeed++;
-					}
-
-					npc.velocity.X = moveSpeed * 0.1f;
-
-					if (npc.Center.Y >= player.Center.Y - HomeY && moveSpeedY >= -27) //Flies to players Y position
-					{
-						moveSpeedY--;
-						HomeY = 160f;
-					}
-
-					if (npc.Center.Y <= player.Center.Y - HomeY && moveSpeedY <= 27) {
-						moveSpeedY++;
-					}
-				}
-				if (npcCounter >= 2240) {
+				if (npcCounter == 900 || npcCounter == 1200 || npcCounter == 1400 || npcCounter == 1500)
+                {
+                    Vector2 direction = Main.player[npc.target].Center - npc.Center;
+                    direction.Normalize();
+                    Main.PlaySound(15, npc.Center, 0);
+                    direction.X = direction.X * Main.rand.Next(9, 12);
+                    direction.Y = direction.Y * Main.rand.Next(9, 12);
+                    npc.velocity.X = direction.X;
+                    npc.velocity.Y = direction.Y;
+                    npc.velocity *= 0.98f;
+                }
+				if (npcCounter > 1500) {
 					npcCounter = 0;
 				}
-				npc.noTileCollide = true;
+                npc.aiStyle = 14;
+
+                npc.noTileCollide = true;
 				if (!Main.gameMenu) {
 					Sandstorm.Happening = true;
 					Sandstorm.TimeLeft = 25200;
 					Sandstorm.Severity = .8f;
 				}
-				trailbehind = true;
 				timer++;
 				if (timer >= 4) {
 					frame++;
@@ -550,7 +543,6 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				if (frame >= 10) {
 					frame = 5;
 				}
-				npc.velocity.Y = moveSpeedY * 0.12f;
 			}
 			return true;
 		}

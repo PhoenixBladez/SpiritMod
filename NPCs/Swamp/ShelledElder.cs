@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+/*using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Projectiles.Hostile;
 using SpiritMod.Items.Material;
@@ -117,7 +117,7 @@ namespace SpiritMod.NPCs.Swamp
             if (shootTimer < 0)
             {
                 shootTimer = 0;
-            }*/
+            }
 		}
 		public override void FindFrame(int frameHeight)
 		{
@@ -139,4 +139,4 @@ namespace SpiritMod.NPCs.Swamp
 			}
 		}
 	}
-}
+}*/

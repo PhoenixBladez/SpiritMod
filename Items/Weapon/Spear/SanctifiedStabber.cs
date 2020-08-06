@@ -17,13 +17,13 @@ namespace SpiritMod.Items.Weapon.Spear
 		{
 			item.useStyle = ItemUseStyleID.Stabbing;
 			item.useTurn = false;
-			item.useAnimation = 5;
-			item.useTime = 15;
+			item.useAnimation = 6;
+			item.useTime = 18;
 			item.width = 24;
 			item.rare = ItemRarityID.Blue;
 			item.height = 28;
 			item.damage = 11;
-			item.knockBack = 4f;
+			item.knockBack = 3f;
 			item.scale = 0.9f;
 			item.UseSound = SoundID.Item1;
 			item.useTurn = true;

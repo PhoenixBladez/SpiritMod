@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Summon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Staff of the Jade Dragon");
-			Tooltip.SetDefault("Summons two revolving ethereal dragons\nEach dragon takes up 1/2 a minion slot");
+			Tooltip.SetDefault("Summons two revolving ethereal dragons");
 		}
 
 		public override void SetDefaults()

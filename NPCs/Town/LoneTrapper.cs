@@ -96,7 +96,6 @@ namespace SpiritMod.NPCs.Town
 			AddItem(ref shop, ref nextSlot, ItemType<EtherealSword>());
 			AddItem(ref shop, ref nextSlot, ItemType<EtherealBow>());
 			AddItem(ref shop, ref nextSlot, ItemType<EtherealStaff>());
-			AddItem(ref shop, ref nextSlot, ItemType<EtherealSpear>());
 			AddItem(ref shop, ref nextSlot, ItemType<SoulSeeds>());
 		}
 

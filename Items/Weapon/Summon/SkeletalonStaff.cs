@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Weapon.Summon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Skeletalon Staff");
-			Tooltip.SetDefault("Summons an army of fossilized birds to fight for you\nEach Skeletalon takes up 1/4 of a minion slot");
+			Tooltip.SetDefault("Summons an army of fossilized birds to fight for you");
 		}
 
 

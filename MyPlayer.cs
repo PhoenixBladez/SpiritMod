@@ -239,6 +239,10 @@ namespace SpiritMod
 		public bool SwordPet = false;
 		public bool shadowPet = false;
 
+        public bool arcaneNecklace = false;
+        public bool manaShield = false;
+        public bool seraphimBulwark = false;
+
 		//Adventurer related
 		public int explorerTimer;
 		public bool emptyExplorerScroll = false;
@@ -578,6 +582,11 @@ namespace SpiritMod
 			bloodCourtHead = false;
 			scarabCharm = false;
 			assassinMag = false;
+
+            arcaneNecklace = false;
+            manaShield = false;
+            seraphimBulwark = false;
+
 			moonHeart = false;
 			chitinSet = false;
 			starplateGlitchEffect = false;
@@ -1612,8 +1621,23 @@ namespace SpiritMod
 			if(glyph == GlyphType.Daze && Main.rand.NextBool(2)) {
 				player.AddBuff(BuffID.Confused, 180);
 			}
-
-			if(rogueSet && !player.HasBuff(ModContent.BuffType<RogueCooldown>())) {
+			if (manaShield)
+            {
+                damage = damage - (int)damage / 10;
+                if (player.statMana > 0)
+                {
+                    player.statMana -= (int)damage/10 * 4;
+                }
+            }
+            if (seraphimBulwark)
+            {
+                damage = damage - (int)damage/10;
+                if (player.statMana > 0)
+                {
+                    player.statMana -= (int)damage / 10;
+                }
+            }
+            if (rogueSet && !player.HasBuff(ModContent.BuffType<RogueCooldown>())) {
 				player.AddBuff(BuffID.Invisibility, 260);
 				player.AddBuff(ModContent.BuffType<RogueCooldown>(), 1520);
 			}

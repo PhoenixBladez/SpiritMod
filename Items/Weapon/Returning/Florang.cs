@@ -16,12 +16,12 @@ namespace SpiritMod.Items.Weapon.Returning
 
 		public override void SetDefaults()
 		{
-			item.damage = 21;
+			item.damage = 24;
 			item.melee = true;
 			item.width = 44;
 			item.height = 40;
-			item.useTime = 55;
-			item.useAnimation = 55;
+			item.useTime = 61;
+			item.useAnimation = 61;
 			item.noUseGraphic = true;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 0;

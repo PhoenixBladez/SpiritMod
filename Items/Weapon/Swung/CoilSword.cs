@@ -13,22 +13,22 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Coiled Blade");
-			Tooltip.SetDefault("Every four successful hits on an enemy releases an electrical explosion");
+			Tooltip.SetDefault("Every six successful hits on an enemy releases an electrical explosion");
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Swung/CoilSword_Glow");
 		}
 
 
 		public override void SetDefaults()
 		{
-			item.damage = 18;
+			item.damage = 22;
 			item.melee = true;
 			item.width = 40;
 			item.height = 40;
-			item.useTime = 22;
-			item.useAnimation = 22;
+			item.useTime = 23;
+			item.useAnimation = 23;
 			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.knockBack = 6;
-			item.value = Terraria.Item.sellPrice(0, 0, 20, 0);
+			item.knockBack = 5;
+			item.value = Terraria.Item.sellPrice(0, 0, 40, 0);
 			item.rare = ItemRarityID.Green;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
@@ -59,7 +59,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
 		{
 			charger++;
-			if (charger >= 4) {
+			if (charger >= 6) {
 				Main.PlaySound(SoundID.Item, (int)target.position.X, (int)target.position.Y, 14);
 				Terraria.Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<CoiledExplosion>(), damage, knockBack, player.whoAmI);
 				charger = 0;

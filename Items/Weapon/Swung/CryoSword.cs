@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		int counter = 0;
 		public override void SetDefaults()
 		{
-			item.damage = 28;
+			item.damage = 33;
 			item.melee = true;
 			item.width = 40;
 			item.height = 40;

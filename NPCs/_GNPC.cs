@@ -647,7 +647,28 @@ namespace SpiritMod.NPCs
 				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Ammo.Bullet.RubberBullet>(), false);
 				nextSlot++;
 			}
-			else if (type == NPCID.Dryad) {
+            else if (type == NPCID.Cyborg)
+            {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Armor.FreemanSet.FreemanHead>(), false);
+                nextSlot++;
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Armor.FreemanSet.FreemanBody>(), false);
+                nextSlot++;
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Armor.FreemanSet.FreemanLegs>(), false);
+                nextSlot++;
+            }
+            else if (type == NPCID.Clothier)
+            {
+                if (MyWorld.downedRaider)
+                {
+                    shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Armor.CommandoSet.CommandoHead>(), false);
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Armor.CommandoSet.CommandoBody>(), false);
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Armor.CommandoSet.CommandoLegs>(), false);
+                    nextSlot++;
+                }
+            }
+            else if (type == NPCID.Dryad) {
 				if (NPC.downedMoonlord && Main.halloween) {
 					shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Placeable.Tiles.HalloweenGrass>(), false);
 					nextSlot++;
@@ -854,7 +875,8 @@ namespace SpiritMod.NPCs
 		public override void NPCLoot(NPC npc)
 		{
 			Player closest = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)];
-			if (bloodInfused) {
+            Player player = Main.LocalPlayer;
+            if (bloodInfused) {
 				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, ProjectileType<FlayedExplosion>(), 25, 0, Main.myPlayer);
 			}
 			#region Glyph
@@ -875,8 +897,9 @@ namespace SpiritMod.NPCs
 			else if (!npc.SpawnedFromStatue && npc.CanDamage() && Main.rand.Next(750) == 0) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Glyph>());
 			}
-			#endregion
-			/* 
+
+            #endregion
+            /* 
 			if (Main.rand.Next(40) == 1 && !npc.SpawnedFromStatue)
 			{
 				npc.DropItem(ModContent.ItemType<PrimordialMagic>());
@@ -981,7 +1004,11 @@ namespace SpiritMod.NPCs
 			}
 			#endregion
 			*/
-			if (npc.type == NPCID.PossessedArmor) {
+            if (player.GetSpiritPlayer().arcaneNecklace && Main.rand.Next(5) == 0 && !npc.friendly && player.HeldItem.magic && player.statMana < player.statManaMax2)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 184);
+            }
+            if (npc.type == NPCID.PossessedArmor) {
 				if (Main.rand.Next(100) <= 2) {
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ShadowAxe>());
 				}

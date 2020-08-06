@@ -120,7 +120,7 @@ namespace SpiritMod.Items.Equipment
 
 		public override void NumGrappleHooks(Player player, ref int numHooks)
 		{
-			numHooks = 2;
+			numHooks = 3;
 		}
 
 		// default is 11, Lunar is 24

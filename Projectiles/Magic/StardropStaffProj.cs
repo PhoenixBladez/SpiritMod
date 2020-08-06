@@ -28,7 +28,6 @@ namespace SpiritMod.Projectiles.Magic
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 33);
 			}
 
-			if (Main.rand.Next(3) == 1) {
 				Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
 
 				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0, -5, mod.ProjectileType("StardropStaffProj2"), projectile.damage / 2, projectile.knockBack, Main.myPlayer);
@@ -36,7 +35,7 @@ namespace SpiritMod.Projectiles.Magic
 				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -6, -2, mod.ProjectileType("StardropStaffProj2"), projectile.damage / 2, projectile.knockBack, Main.myPlayer);
 				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 3, 5, mod.ProjectileType("StardropStaffProj2"), projectile.damage / 2, projectile.knockBack, Main.myPlayer);
 				Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -3, 5, mod.ProjectileType("StardropStaffProj2"), projectile.damage / 2, projectile.knockBack, Main.myPlayer);
-			}
+			
 		}
 
 		public override void AI()
