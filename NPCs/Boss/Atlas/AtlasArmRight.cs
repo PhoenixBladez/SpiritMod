@@ -77,7 +77,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 				npc.velocity.X = MathHelper.Clamp(npc.velocity.X, -10f, 10f);
 				npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y, -10f, 10f);
 				npc.rotation = npc.velocity.X / 20f;
-				npc.ai[3] += (float)Main.rand.Next(4);
+				npc.ai[3] += 2;
 				if (npc.ai[3] >= 120f) {
 					npc.ai[1] = 3f;
 					npc.ai[2] = 0f;
