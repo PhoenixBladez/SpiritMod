@@ -319,6 +319,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 								npc.ai[0] = -180f;
 								npc.ai[3] = 0f;
 								npc.ai[1] = 1f;
+								npc.netUpdate = true;
 							}
 						}
 						else {
@@ -401,14 +402,20 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 								npc.ai[0] += expertMode ? 3f : 2f;
 							npc.noGravity = false;
 							npc.noTileCollide = false;
-
-							if (Main.rand.Next(2) > 0)
-								npc.velocity.X = npc.ai[2] * 0.1f;
-
-							npc.velocity.Y = npc.ai[0] * 0.26f;
-							if (npc.velocity.X == 0f && Main.rand.Next(3) == 0 && npc.collideY) {
-								npc.ai[0] = -40f;
-								npc.noTileCollide = true;
+							if (Main.netMode != NetmodeID.MultiplayerClient) {
+								if (Main.rand.Next(2) > 0) {
+									npc.velocity.X = npc.ai[2] * 0.1f;
+									npc.netUpdate = true;
+								}
+							}
+							
+							if (Main.netMode != NetmodeID.MultiplayerClient) {
+								if (npc.velocity.X == 0f && Main.rand.Next(3) == 0 && npc.collideY) {
+									npc.ai[0] = -40f;
+									npc.noTileCollide = true;
+									npc.netUpdate = true;
+									npc.velocity.Y = npc.ai[0] * 0.26f;
+								}
 							}
 						}
 						else if (npc.ai[1] == 1f) {
