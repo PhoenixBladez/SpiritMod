@@ -49,7 +49,7 @@ namespace SpiritMod.NPCs.Critters
 		}
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.player.ZoneCrimson && spawnInfo.player.ZoneOverworldHeight ? .03f : 0f;
+            return spawnInfo.player.ZoneCrimson && spawnInfo.player.ZoneOverworldHeight ? .06f : 0f;
         }
 		public override void AI()
         {

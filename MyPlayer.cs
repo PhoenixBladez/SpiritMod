@@ -2341,9 +2341,9 @@ namespace SpiritMod
 				}
 			}
 			if(ZoneReach && !Main.raining) {
-				Main.cloudAlpha += .005f;
-				if(Main.cloudAlpha >= .5f) {
-					Main.cloudAlpha = .5f;
+				Main.cloudAlpha += .007f;
+				if(Main.cloudAlpha >= .65f) {
+					Main.cloudAlpha = .65f;
 				}
 			}
 			if(illusionistEye) {

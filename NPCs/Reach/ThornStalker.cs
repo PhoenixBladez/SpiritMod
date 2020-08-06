@@ -111,9 +111,6 @@ namespace SpiritMod.NPCs.Reach
 				if (frame > 6) {
 					frame = 1;
 				}
-				if (Main.rand.Next(300) == 0) {
-					Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/StalkerIdle"));
-				}
 			}
 			if (!attack && !npc.collideY && npc.velocity.Y > 0) {
 				frame = 0;
@@ -169,7 +166,7 @@ namespace SpiritMod.NPCs.Reach
 		{
 			Player player = spawnInfo.player;
 			if (!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon)) && (!Main.eclipse) && (SpawnCondition.GoblinArmy.Chance == 0)) {
-				return spawnInfo.player.GetSpiritPlayer().ZoneReach ? 0.4f : 0f;
+				return spawnInfo.player.GetSpiritPlayer().ZoneReach ? 0.48f : 0f;
 			}
 			return 0f;
 		}

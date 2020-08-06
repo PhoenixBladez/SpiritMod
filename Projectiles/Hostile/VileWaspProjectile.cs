@@ -29,7 +29,7 @@ namespace SpiritMod.Projectiles.Hostile
 			projectile.tileCollide = false;
 			projectile.hostile = false;
 			projectile.penetrate = 2;
-			projectile.timeLeft = 900;
+			projectile.timeLeft = 600;
 		}
 
 		public override void AI()
@@ -66,27 +66,6 @@ namespace SpiritMod.Projectiles.Hostile
 				}
 				if (flag4 && !flag2) {
 					projectile.velocity = projectile.velocity + new Vector2((float)Math.Sign(Main.npc[index1].Center.X - projectile.Center.X), (float)Math.Sign(Main.npc[index1].Center.Y - projectile.Center.Y)) * new Vector2(x, y);
-				}
-			}
-			if (projectile.timeLeft <= 180) {
-				if (NPC.CountNPCS(ModContent.NPCType<VileWasp>()) < 2 && Main.npc[(int)projectile.ai[1]].active) {
-					projectile.Kill();
-					if (Main.netMode != NetmodeID.MultiplayerClient) {
-						Main.PlaySound(SoundID.Zombie, projectile.Center, 51);
-						for (int j = 0; j < 10; j++) {
-							Vector2 vector2 = Vector2.UnitX * -projectile.width / 2f;
-							vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(8f, 16f);
-							vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default(Vector2));
-							int num8 = Dust.NewDust(projectile.Center, 0, 0, 184, 0f, 0f, 160, new Color(), 1f);
-							Main.dust[num8].scale = 1.3f;
-							Main.dust[num8].noGravity = true;
-							Main.dust[num8].position = projectile.Center + vector2;
-							Main.dust[num8].velocity = projectile.velocity * 0.1f;
-							Main.dust[num8].noLight = true;
-							Main.dust[num8].velocity = Vector2.Normalize(projectile.Center - projectile.velocity * 3f - Main.dust[num8].position) * 1.25f;
-						}
-						NPC.NewNPC((int)projectile.position.X, (int)projectile.position.Y, ModContent.NPCType<VileWasp>());
-					}
 				}
 			}
 		}

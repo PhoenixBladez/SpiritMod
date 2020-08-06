@@ -18,7 +18,7 @@ namespace SpiritMod.Projectiles.Hostile
 			projectile.height = 6;
 			aiType = ProjectileID.Flames;
 			projectile.alpha = 255;
-			projectile.timeLeft = 18;
+			projectile.timeLeft = 22;
 			projectile.penetrate = 4;
 			projectile.hostile = true;
 			projectile.friendly = false;

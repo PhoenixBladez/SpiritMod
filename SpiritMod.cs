@@ -465,6 +465,8 @@ namespace SpiritMod
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer3"), ItemType("SpiritBox4"), TileType("SpiritBox4"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/AncientAvian"), ItemType("AvianBox"), TileType("AvianBox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Reach"), ItemType("ReachBox"), TileType("ReachBox"));
+                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/ReachNighttime"), ItemType("BriarNightBox"), TileType("BriarNightBox"));
+                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/OceanNighttime"), ItemType("LuminousNightBox"), TileType("LuminousNightBox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Asteroids"), ItemType("AsteroidBox"), TileType("AsteroidBox"));
 				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Starplate"), ItemType("StarplateBox"), TileType("StarplateBox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Scarabeus"), ItemType("ScarabBox"), TileType("ScarabBox"));

@@ -30,9 +30,11 @@ namespace SpiritMod.NPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (NPC.downedMechBossAny && Main.eclipse)
-				return 0.07f;
-			return 0;
+            if (NPC.downedMechBossAny && Main.eclipse && spawnInfo.player.ZoneOverworldHeight)
+            {
+                return 0.07f;
+            }
+			return 0f;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

@@ -65,7 +65,7 @@ namespace SpiritMod.NPCs.Reach
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.player.GetSpiritPlayer().ZoneReach && spawnInfo.water ? 0.11f : 0f;
+			return spawnInfo.player.GetSpiritPlayer().ZoneReach && spawnInfo.water ? 0.511f : 0f;
 		}
 
 	}

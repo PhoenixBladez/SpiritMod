@@ -1029,7 +1029,7 @@ namespace SpiritMod
 
 			ushort boundaryTile = (ushort)ModContent.TileType<BlastStone>(); //TODO: CHANGE
 			ushort[] extras = new ushort[] { TileID.LivingMahoganyLeaves, (ushort)ModContent.TileType<BarkTileTile>() };
-			ushort[] wallTypes = new ushort[] { (ushort)ModContent.WallType<BarkWall>(), WallID.LivingLeaf, WallID.MudstoneBrick }; //TODO: CHANGE
+			ushort[] wallTypes = new ushort[] { (ushort)ModContent.WallType<BarkWall>(), (ushort)ModContent.WallType<ReachWallNatural>(), WallID.MudstoneBrick }; //TODO: CHANGE
 
 			//place shape
 			for (int i = 0; i < polygonVertices.Count; i++) {
@@ -1786,11 +1786,35 @@ namespace SpiritMod
 
 					TryPopulate(2000, (ushort)ModContent.TileType<Tiles.Ambient.SkullStick>(), 0, 0, 2, 4, 10000, DefaultPopulateTest);
 
-					TryPopulate(4000, (ushort)ModContent.TileType<Tiles.Ambient.Briar.BriarBigFlower>(), 0, 0, 3, 3, briarGrass, DefaultPopulateTest);
-					TryPopulate(4000, (ushort)ModContent.TileType<Tiles.Ambient.Briar.BriarBigFlower>(), 54, 0, 3, 3, briarGrass, DefaultPopulateTest);
+					TryPopulate(3500, (ushort)ModContent.TileType<Tiles.Ambient.Briar.BriarBigFlower>(), 0, 0, 3, 3, briarGrass, DefaultPopulateTest);
+					TryPopulate(3500, (ushort)ModContent.TileType<Tiles.Ambient.Briar.BriarBigFlower>(), 54, 0, 3, 3, briarGrass, DefaultPopulateTest);
 
-                    TryPopulate(3000, (ushort)ModContent.TileType<Tiles.Ambient.Briar.Blaststone_Grave>(), 0, 0, 2, 2, briarGrass, DefaultPopulateTest);
-                    TryPopulate(3000, (ushort)ModContent.TileType<Tiles.Ambient.Briar.SkullGrave>(), 0, 0, 2, 4, briarGrass, DefaultPopulateTest);
+                    TryPopulate(3500, (ushort)ModContent.TileType<Tiles.Ambient.Briar.BriarStump>(), 0, 0, 3, 2, briarGrass, DefaultPopulateTest);
+                    TryPopulate(3500, (ushort)ModContent.TileType<Tiles.Ambient.Briar.BriarStump>(), 54, 0, 3, 2, briarGrass, DefaultPopulateTest);
+
+                    TryPopulate(800, (ushort)ModContent.TileType<Tiles.Ambient.Briar.SmallBriarObjects>(), 0, 0, 1, 1, 10000, DefaultPopulateTest);
+                    TryPopulate(800, (ushort)ModContent.TileType<Tiles.Ambient.Briar.SmallBriarObjects>(), 18 * 1, 0, 1, 1, 10000, DefaultPopulateTest);
+                    TryPopulate(800, (ushort)ModContent.TileType<Tiles.Ambient.Briar.SmallBriarObjects>(), 18 * 2, 0, 1, 1, 10000, DefaultPopulateTest);
+                    TryPopulate(800, (ushort)ModContent.TileType<Tiles.Ambient.Briar.SmallBriarObjects>(), 18 * 3, 0, 1, 1, 10000, DefaultPopulateTest);
+                    TryPopulate(800, (ushort)ModContent.TileType<Tiles.Ambient.Briar.SmallBriarObjects>(), 18 * 4, 0, 1, 1, 10000, DefaultPopulateTest);
+                    TryPopulate(800, (ushort)ModContent.TileType<Tiles.Ambient.Briar.SmallBriarObjects>(), 18 * 5, 0, 1, 1, 10000, DefaultPopulateTest);
+                    TryPopulate(800, (ushort)ModContent.TileType<Tiles.Ambient.Briar.SmallBriarObjects>(), 18 * 6, 0, 1, 1, 10000, DefaultPopulateTest);
+                    TryPopulate(800, (ushort)ModContent.TileType<Tiles.Ambient.Briar.SmallBriarObjects>(), 18 * 7, 0, 1, 1, 10000, DefaultPopulateTest);
+                    TryPopulate(800, (ushort)ModContent.TileType<Tiles.Ambient.Briar.SmallBriarObjects>(), 18 * 8, 0, 1, 1, 10000, DefaultPopulateTest);
+                    TryPopulate(800, (ushort)ModContent.TileType<Tiles.Ambient.Briar.SmallBriarObjects>(), 18 * 9, 0, 1, 1, 10000, DefaultPopulateTest);
+
+                    TryPopulate(2500, (ushort)ModContent.TileType<Tiles.Ambient.Briar.BriarFoliage1>(), 0, 0, 1, 2, briarGrass, DefaultPopulateTest);
+                    TryPopulate(2500, (ushort)ModContent.TileType<Tiles.Ambient.Briar.BriarFoliage1>(), 18 * 1, 0, 1, 2, briarGrass, DefaultPopulateTest);
+                    TryPopulate(2500, (ushort)ModContent.TileType<Tiles.Ambient.Briar.BriarFoliage1>(), 18 * 2, 0, 1, 2, briarGrass, DefaultPopulateTest);
+                    TryPopulate(2500, (ushort)ModContent.TileType<Tiles.Ambient.Briar.BriarFoliage1>(), 18 * 3, 0, 1, 2, briarGrass, DefaultPopulateTest);
+                    TryPopulate(2500, (ushort)ModContent.TileType<Tiles.Ambient.Briar.BriarFoliage1>(), 18 * 4, 0, 1, 2, briarGrass, DefaultPopulateTest);
+                    TryPopulate(2500, (ushort)ModContent.TileType<Tiles.Ambient.Briar.BriarFoliage1>(), 18 * 5, 0, 1, 2, briarGrass, DefaultPopulateTest);
+                    TryPopulate(2500, (ushort)ModContent.TileType<Tiles.Ambient.Briar.BriarFoliage1>(), 18 * 6, 0, 1, 2, briarGrass, DefaultPopulateTest);
+                    TryPopulate(2500, (ushort)ModContent.TileType<Tiles.Ambient.Briar.BriarFoliage1>(), 18 * 7, 0, 1, 2, briarGrass, DefaultPopulateTest);
+                    TryPopulate(2500, (ushort)ModContent.TileType<Tiles.Ambient.Briar.BriarFoliage1>(), 18 * 8, 0, 1, 2, briarGrass, DefaultPopulateTest);
+                  
+                    TryPopulate(3500, (ushort)ModContent.TileType<Tiles.Ambient.Briar.Blaststone_Grave>(), 0, 0, 2, 2, briarGrass, DefaultPopulateTest);
+                    TryPopulate(3500, (ushort)ModContent.TileType<Tiles.Ambient.Briar.SkullGrave>(), 0, 0, 2, 4, briarGrass, DefaultPopulateTest);
 
                     //Vines and foliage
                     ushort vineType = (ushort)ModContent.TileType<Tiles.Ambient.Briar.BriarVines>();

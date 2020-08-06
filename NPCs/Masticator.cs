@@ -125,7 +125,7 @@ namespace SpiritMod.NPCs
 					npc.netUpdate = true;
 				}
 
-				if (npc.ai[3] > 90 && npc.ai[3] < 180) {
+				if (npc.ai[3] > 50 && npc.ai[3] < 180) {
 					++npc.ai[2];
 					if (npc.ai[2] >= 6) {
 						frame++;

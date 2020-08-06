@@ -1614,7 +1614,7 @@ namespace SpiritMod
 		{
 			bool placed = false;
 			while (!placed) {
-				int hideoutX = Main.rand.Next(300, Main.maxTilesX); // from 50 since there's a unaccessible area at the world's borders
+				int hideoutX = Main.rand.Next(300, Main.maxTilesX - 300); // from 50 since there's a unaccessible area at the world's borders
 				int hideoutY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 450);
 				Tile tile = Main.tile[hideoutX, hideoutY];
 				if (!tile.active() || tile.type != TileID.Stone) {
@@ -1683,7 +1683,7 @@ namespace SpiritMod
 		{
 			bool placed = false;
 			while (!placed) {
-				int hideoutX = Main.rand.Next(300, Main.maxTilesX - 200); // from 50 since there's a unaccessible area at the world's borders
+				int hideoutX = Main.rand.Next(300, Main.maxTilesX - 300); // from 50 since there's a unaccessible area at the world's borders
 				int hideoutY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 450);
 				Tile tile = Main.tile[hideoutX, hideoutY];
 				if (!tile.active() || tile.type != 60) {
@@ -2833,6 +2833,7 @@ namespace SpiritMod
 
 						if (Main.rand.Next(2) == 0) //change to check for dungeon later, idk how rn.
 						{
+                            asteroidSide = 0;
 							x = width + 80;
 						}
 						else {
@@ -2854,7 +2855,7 @@ namespace SpiritMod
 
 					if (WorldGen.CopperTierOre == TileID.Copper) {
 						for (int i = 0; i < Main.maxTilesX * 19.5; i++) {
-							int num3 = WorldGen.genRand.Next(0, Main.maxTilesX);
+							int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 							int num4 = WorldGen.genRand.Next((int)Main.worldSurface, Main.maxTilesY);
 							Tile tile = Main.tile[num3, num4];
 							if (tile.type == TileID.Stone && tile.active()) {
@@ -2865,7 +2866,7 @@ namespace SpiritMod
 					}
 					else if (WorldGen.CopperTierOre == TileID.Tin) {
 						for (int i = 0; i < Main.maxTilesX * 19.5; i++) {
-							int num3 = WorldGen.genRand.Next(0, Main.maxTilesX);
+							int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 							int num4 = WorldGen.genRand.Next((int)Main.worldSurface, Main.maxTilesY);
 							Tile tile = Main.tile[num3, num4];
 							if (tile.type == TileID.Stone && tile.active()) {
@@ -2876,7 +2877,7 @@ namespace SpiritMod
 					}
 					if (WorldGen.IronTierOre == TileID.Iron) {
 						for (int i = 0; i < Main.maxTilesX * 12; i++) {
-							int num3 = WorldGen.genRand.Next(0, Main.maxTilesX);
+							int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 							int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 							Tile tile = Main.tile[num3, num4];
 							if (tile.type == TileID.Stone && tile.active()) {
@@ -2887,8 +2888,8 @@ namespace SpiritMod
 					}
 					else if (WorldGen.IronTierOre == TileID.Lead) {
 						for (int i = 0; i < Main.maxTilesX * 12; i++) {
-							int num3 = WorldGen.genRand.Next(0, Main.maxTilesX);
-							int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
+                            int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
+                            int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 							Tile tile = Main.tile[num3, num4];
 							if (tile.type == TileID.Stone && tile.active()) {
 								WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<LeadPile>());
@@ -2898,8 +2899,8 @@ namespace SpiritMod
 					}
 					if (WorldGen.SilverTierOre == TileID.Silver) {
 						for (int i = 0; i < Main.maxTilesX * 9.75f; i++) {
-							int num3 = WorldGen.genRand.Next(0, Main.maxTilesX);
-							int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
+                            int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
+                            int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 							Tile tile = Main.tile[num3, num4];
 							if (tile.type == TileID.Stone && tile.active()) {
 								WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<SilverPile>());
@@ -2909,8 +2910,8 @@ namespace SpiritMod
 					}
 					else if (WorldGen.SilverTierOre == TileID.Tungsten) {
 						for (int i = 0; i < Main.maxTilesX * 9.75f; i++) {
-							int num3 = WorldGen.genRand.Next(0, Main.maxTilesX);
-							int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
+                            int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
+                            int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 							Tile tile = Main.tile[num3, num4];
 							if (tile.type == TileID.Stone && tile.active()) {
 								WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<TungstenPile>());
@@ -2920,8 +2921,8 @@ namespace SpiritMod
 					}
 					if (WorldGen.GoldTierOre == TileID.Gold) {
 						for (int i = 0; i < Main.maxTilesX * 6f; i++) {
-							int num3 = WorldGen.genRand.Next(0, Main.maxTilesX);
-							int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
+                            int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
+                            int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 							Tile tile = Main.tile[num3, num4];
 							if (tile.type == TileID.Stone && tile.active()) {
 								WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<GoldPile>());
@@ -2931,8 +2932,8 @@ namespace SpiritMod
 					}
 					else if (WorldGen.GoldTierOre == TileID.Platinum) {
 						for (int i = 0; i < Main.maxTilesX * 6f; i++) {
-							int num3 = WorldGen.genRand.Next(0, Main.maxTilesX);
-							int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
+                            int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
+                            int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 							Tile tile = Main.tile[num3, num4];
 							if (tile.type == TileID.Stone && tile.active()) {
 								WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<PlatinumPile>());
@@ -2943,8 +2944,8 @@ namespace SpiritMod
 					for (int C = 0; C < Main.maxTilesX * 45; C++) {
 						int[] sculptures = new int[] { ModContent.TileType<IceWheezerPassive>(), ModContent.TileType<IceFlinxPassive>(), ModContent.TileType<IceBatPassive>(), ModContent.TileType<IceVikingPassive>(), ModContent.TileType<IceWheezerHostile>(), ModContent.TileType<IceFlinxHostile>(), ModContent.TileType<IceBatHostile>(), ModContent.TileType<IceVikingHostile>() };
 						{
-							int X = WorldGen.genRand.Next(0, Main.maxTilesX);
-							int Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
+                            int X = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
+                            int Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 							if ((Main.tile[X, Y].type == TileID.IceBlock || Main.tile[X, Y].type == TileID.SnowBlock) && Main.tile[X, Y + 1].type != 162) {
 								WorldGen.PlaceObject(X, Y, (ushort)sculptures[Main.rand.Next(8)]);
 								NetMessage.SendObjectPlacment(-1, X, Y, (ushort)sculptures[Main.rand.Next(4)], 0, 0, -1, -1);
@@ -2953,8 +2954,8 @@ namespace SpiritMod
 					}
 					for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 18.2f) * 6E-03); k++) {
 						{
-							int X = WorldGen.genRand.Next(0, Main.maxTilesX);
-							int Y = WorldGen.genRand.Next(0, Main.maxTilesY);
+                            int X = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
+                            int Y = WorldGen.genRand.Next(0, Main.maxTilesY);
 							if ((Main.tile[X, Y].type == ModContent.TileType<Asteroid>() || Main.tile[X, Y].type == ModContent.TileType<BigAsteroid>())) {
 								WorldGen.PlaceObject(X, Y, (ushort)ModContent.TileType<BlueShardBig>());
 								NetMessage.SendObjectPlacment(-1, X, Y, (ushort)ModContent.TileType<BlueShardBig>(), 0, 0, -1, -1);
@@ -2966,7 +2967,8 @@ namespace SpiritMod
                         for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 7.2f) * 6E-03); k++)
                         {
                             {
-                                int X = WorldGen.genRand.Next(0, Main.maxTilesX);
+                                int X = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
+
                                 int Y = WorldGen.genRand.Next((int)Main.worldSurface - 100, (int)Main.worldSurface + 30);
                                 if ((Main.tile[X, Y].type == TileID.SnowBlock || Main.tile[X, Y].type == TileID.IceBlock))
                                 {
@@ -2994,7 +2996,7 @@ namespace SpiritMod
                         for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 7.2f) * 6E-03); k++)
                         {
                             {
-                                int X = WorldGen.genRand.Next(0, Main.maxTilesX);
+                                int X = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
                                 int Y = WorldGen.genRand.Next((int)Main.worldSurface - 100, (int)Main.worldSurface + 30);
                                 if ((Main.tile[X, Y].type == TileID.SnowBlock || Main.tile[X, Y].type == TileID.IceBlock))
                                 {
@@ -3512,7 +3514,7 @@ namespace SpiritMod
 						aurora = false;
 					}
 				}
-				if (!Main.dayTime && Main.rand.Next(22) == 0) {
+				if (!Main.dayTime && Main.rand.Next(7) == 0) {
 					luminousType = Main.rand.Next(new int[] { 1, 2, 3 });
 					luminousOcean = true;
 				}
