@@ -19,13 +19,13 @@ namespace SpiritMod.NPCs.Reach
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Glade Wraith");
-			Main.npcFrameCount[npc.type] = 4;
+			Main.npcFrameCount[npc.type] = 12;
 		}
 
 		public override void SetDefaults()
 		{
 			npc.width = 44;
-			npc.height = 60;
+			npc.height = 82;
 			npc.damage = 28;
 			npc.defense = 10;
 			npc.buffImmune[BuffID.Poisoned] = true;
@@ -41,17 +41,28 @@ namespace SpiritMod.NPCs.Reach
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.GladeWraithBanner>();
 		}
-
+		bool throwing = false;
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.15f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
+			if (!throwing)
+			{
+				npc.frameCounter += 0.15f;
+				npc.frameCounter %= 4;
+				int frame = (int)npc.frameCounter;
+				npc.frame.Y = frame * frameHeight;
+			}
+			else
+			{
+				npc.frameCounter += 0.15f;
+				npc.frameCounter %= 8;
+				int frame = (int)npc.frameCounter;
+				npc.frame.Y = (frame + 4) * frameHeight;
+			}
 		}
 
 		//bool rotationspawns1 = false;
 		int timer = 0;
+		bool thrown = false;
 		public override bool PreAI()
 		{
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.46f, 0.32f, .1f);
@@ -77,10 +88,13 @@ namespace SpiritMod.NPCs.Reach
 				npc.netUpdate = true;
 			}
 			if ((timer >= 420 && timer <= 720)) {
+				throwing = true;
 				Dust.NewDust(npc.position, npc.width, npc.height, 6, 0f, -2.5f, 0, default, 0.6f);
 				npc.defense = 0;
 				npc.velocity = Vector2.Zero;
-				if (Main.rand.Next(52) == 0) {
+				if ((int)npc.frameCounter == 4 && !thrown)
+				{
+					thrown = true;
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
 					direction.Normalize();
 					direction.X *= 3f;
@@ -98,7 +112,15 @@ namespace SpiritMod.NPCs.Reach
 						}
 					}
 				}
+				if ((int)npc.frameCounter != 4)
+				{
+					thrown = false;
+				}
 				npc.netUpdate = true;
+			}
+			else
+			{
+				throwing = false;
 			}
 			if (timer >= 730) {
 				npc.defense = 10;
