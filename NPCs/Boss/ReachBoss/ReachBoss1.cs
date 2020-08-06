@@ -32,8 +32,8 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		{
 			npc.width = 132;
 			npc.height = 222;
-			npc.damage = 35;
-			npc.lifeMax = 2100;
+			npc.damage = 32;
+			npc.lifeMax = 1400;
 			npc.knockBackResist = 0;
 			npc.boss = true;
 			npc.noGravity = true;
@@ -210,7 +210,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
-			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
+			npc.lifeMax = (int)(npc.lifeMax * 0.25f * bossLifeScale);
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)

@@ -26,8 +26,8 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		{
 			npc.width = 132;
 			npc.height = 222;
-			npc.damage = 25;
-			npc.lifeMax = 2700;
+			npc.damage = 24;
+			npc.lifeMax = 2500;
 			npc.knockBackResist = 0;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
@@ -233,8 +233,8 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
-			npc.lifeMax = (int)(npc.lifeMax * 0.85f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.75f);
+			npc.lifeMax = (int)(npc.lifeMax * 0.4f * bossLifeScale);
+			npc.damage = (int)(npc.damage * 0.6f);
 		}
 
 		public override void BossLoot(ref string name, ref int potionType)
