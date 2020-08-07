@@ -723,7 +723,12 @@ namespace SpiritMod.NPCs
 				maxSpawns = (int)(maxSpawns * 1.1f);
 				spawnRate = (int)(spawnRate * 0.4f);
 			}
-			if (TideWorld.TheTide && player.ZoneBeach) {
+            if (MyWorld.BlueMoon && surface)
+            {
+                maxSpawns = (int)(maxSpawns * 1.08f);
+                spawnRate = (int)(spawnRate * 0.87f);
+            }
+            if (TideWorld.TheTide && player.ZoneBeach) {
 				maxSpawns = (int)(10 + 1.5f * activePlayers);
 				spawnRate = 20;
 			}

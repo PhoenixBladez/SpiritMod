@@ -148,29 +148,32 @@ namespace SpiritMod.NPCs.Boss.Dusking
 			else if (npc.ai[0] == 1) // Charging.
 			{
 				npc.ai[1]++;
-				if (npc.ai[1] % 45 == 0) {
-					npc.TargetClosest(true);
-					float speed = 10 + (2 * (int)(npc.life / 5000));
-					Vector2 vector2_1 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-					float dirX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector2_1.X;
-					float dirY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector2_1.Y;
-					float targetVel = Math.Abs(Main.player[npc.target].velocity.X) + Math.Abs(Main.player[npc.target].velocity.Y) / 4f;
+				if (Main.netMode != NetmodeID.MultiplayerClient) {
+					if (npc.ai[1] % 45 == 0) {
+						npc.TargetClosest(true);
+						float speed = 10 + (2 * (int)(npc.life / 5000));
+						Vector2 vector2_1 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+						float dirX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector2_1.X;
+						float dirY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector2_1.Y;
+						float targetVel = Math.Abs(Main.player[npc.target].velocity.X) + Math.Abs(Main.player[npc.target].velocity.Y) / 4f;
 
-					float speedMultiplier = targetVel + (10f - targetVel);
-					if (speedMultiplier < 6.0)
-						speedMultiplier = 6f;
-					if (speedMultiplier > 16.0)
-						speedMultiplier = 16f;
-					float speedX = dirX - Main.player[npc.target].velocity.X * speedMultiplier;
-					float speedY = dirY - (Main.player[npc.target].velocity.Y * speedMultiplier / 4);
-					speedX = speedX * (float)(1 + Main.rand.Next(-10, 11) * 0.00999999977648258);
-					speedY = speedY * (float)(1 + Main.rand.Next(-10, 11) * 0.00999999977648258);
-					float speedLength = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
-					float actualSpeed = speed / speedLength;
-					npc.velocity.X = speedX * actualSpeed;
-					npc.velocity.Y = speedY * actualSpeed;
-					npc.velocity.X = npc.velocity.X + Main.rand.Next(-40, 41) * 0.1f;
-					npc.velocity.Y = npc.velocity.Y + Main.rand.Next(-40, 41) * 0.1f;
+						float speedMultiplier = targetVel + (10f - targetVel);
+						if (speedMultiplier < 6.0)
+							speedMultiplier = 6f;
+						if (speedMultiplier > 16.0)
+							speedMultiplier = 16f;
+						float speedX = dirX - Main.player[npc.target].velocity.X * speedMultiplier;
+						float speedY = dirY - (Main.player[npc.target].velocity.Y * speedMultiplier / 4);
+						speedX = speedX * (float)(1 + Main.rand.Next(-10, 11) * 0.01);
+						speedY = speedY * (float)(1 + Main.rand.Next(-10, 11) * 0.01);
+						float speedLength = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
+						float actualSpeed = speed / speedLength;
+						npc.velocity.X = speedX * actualSpeed;
+						npc.velocity.Y = speedY * actualSpeed;
+						npc.velocity.X = npc.velocity.X + Main.rand.Next(-40, 41) * 0.1f;
+						npc.velocity.Y = npc.velocity.Y + Main.rand.Next(-40, 41) * 0.1f;
+						npc.netUpdate = true;
+					}
 				}
 				if (npc.ai[1] >= 270) {
 					npc.ai[0] = 0;

@@ -27,7 +27,7 @@ namespace SpiritMod.Projectiles
 			projectile.penetrate = 4;
 			projectile.tileCollide = false;
 			projectile.alpha = 255;
-			projectile.timeLeft = 300;
+			projectile.timeLeft = 900;
 			projectile.light = 0;
 			projectile.extraUpdates = 1;
 		}
@@ -47,7 +47,7 @@ namespace SpiritMod.Projectiles
 				projectile.rotation = projectile.velocity.ToRotation() + (float)(Math.PI / 2);
 			}
 			j = projectile.ai[1] - 60;
-			for (int i = 0; i < 100; i += 20) {
+			for (int i = 0; i < 300; i += 20) {
 				float xdist = (int)(Math.Sin((i + j) * (Math.PI / 180)) * 15);
 				float ydist = (int)(Math.Cos((i + j) * (Math.PI / 180)) * 15);
 				Vector2 offset = new Vector2(xdist, ydist);

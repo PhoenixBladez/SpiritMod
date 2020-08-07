@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Weapon.Summon
 
 		public override void SetDefaults()
 		{
-			item.damage = 18;
+			item.damage = 14;
 			item.summon = true;
 			item.mana = 16;
 			item.width = 44;
@@ -84,7 +84,7 @@ namespace SpiritMod.Items.Weapon.Summon
 					Main.projectile[left].ai[1] = right;
 					direction9 = Main.projectile[right].Center - Main.projectile[left].Center;
 					distance = (int)Math.Sqrt((direction9.X * direction9.X) + (direction9.Y * direction9.Y));
-					if (distance < 500) {
+					if (distance < 200) {
 						Main.PlaySound(SoundID.Item93, player.position);
 					}
 				}
@@ -100,7 +100,7 @@ namespace SpiritMod.Items.Weapon.Summon
 					Main.projectile[right].ai[1] = left;
 					direction9 = Main.projectile[right].Center - Main.projectile[left].Center;
 					distance = (int)Math.Sqrt((direction9.X * direction9.X) + (direction9.Y * direction9.Y));
-					if (distance < 500) {
+					if (distance < 200) {
 						Main.PlaySound(SoundID.Item93, player.position);
 					}
 				}

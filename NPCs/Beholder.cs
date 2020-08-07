@@ -223,6 +223,7 @@ namespace SpiritMod.NPCs
 		}
         public override bool PreNPCLoot()
         {
+            Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DownedMiniboss"));
             MyWorld.downedBeholder = true;
             return true;
         }

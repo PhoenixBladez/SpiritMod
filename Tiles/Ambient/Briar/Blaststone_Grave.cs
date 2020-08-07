@@ -33,5 +33,15 @@ namespace SpiritMod.Tiles.Ambient.Briar
 		{
 			offsetY = 2;
 		}
-	}
+        public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
+        {
+            Tile tileBelow = Framing.GetTileSafely(i, j + 2);
+            if (!tileBelow.active() || tileBelow.halfBrick() || tileBelow.topSlope())
+            {
+                WorldGen.KillTile(i, j);
+            }
+
+            return true;
+        }
+    }
 }

@@ -72,13 +72,11 @@ namespace SpiritMod.NPCs.Tides
 				int distance = 500;
 				bool teleported = false;
 				while (!teleported) {
-					if (Main.netMode != 1) {
 						npc.ai[3] = Main.rand.Next(360);
 						double anglex = Math.Sin(npc.ai[3] * (Math.PI / 180));
 						double angley = Math.Cos(npc.ai[3] * (Math.PI / 180));
 						npc.position.X = player.Center.X + (int)(distance * anglex);
 						npc.position.Y = player.Center.Y + (int)(distance * angley);
-					}
 					if (Main.tile[(int)(npc.position.X / 16), (int)(npc.position.Y / 16)].active() || Main.tile[(int)(npc.Center.X / 16), (int)(npc.Center.Y / 16)].active()) {
 							npc.alpha = 255;
 						}
@@ -92,6 +90,7 @@ namespace SpiritMod.NPCs.Tides
 			if (npc.ai[0] % 400 == 104) {
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 				DustHelper.DrawDiamond(npc.Center, 173, 12);
+				npc.netUpdate = true;
 			}
 				float num395 = Main.mouseTextColor / 200f - 0.35f;
 			num395 *= 0.2f;
@@ -200,7 +199,13 @@ namespace SpiritMod.NPCs.Tides
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Trophy10>());
 			}
 		}
-		public override void HitEffect(int hitDirection, double damage)
+        public override bool PreNPCLoot()
+        {
+            Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DownedMiniboss"));
+            return true;
+        }
+
+        public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int i = 0; i < 10; i++)
 				;

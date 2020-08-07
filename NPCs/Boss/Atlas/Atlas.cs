@@ -120,11 +120,14 @@ namespace SpiritMod.NPCs.Boss.Atlas
 						}
 
 						if (Math.Sqrt((npc.velocity.X * npc.velocity.X) + (npc.velocity.Y * npc.velocity.Y)) < 2f) {
-							if (Main.rand.Next(25) == 1) {
-								direction.X *= Main.rand.Next(19, 24);
-								direction.Y *= Main.rand.Next(19, 24);
-								npc.velocity.X = direction.X;
-								npc.velocity.Y = direction.Y;
+							if (Main.netMode != NetmodeID.MultiplayerClient) {
+								if (Main.rand.Next(25) == 1) {
+									direction.X *= Main.rand.Next(19, 24);
+									direction.Y *= Main.rand.Next(19, 24);
+									npc.velocity.X = direction.X;
+									npc.velocity.Y = direction.Y;
+									npc.netUpdate = true;
+								}
 							}
 						}
 					}
@@ -187,12 +190,13 @@ namespace SpiritMod.NPCs.Boss.Atlas
 						for (int num621 = 0; num621 < 30; num621++) {
 							Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 226, 0f, 0f, 100, default, 2f);
 						}
-
-						for (int i = 0; i < amountOfProjectiles; ++i) {
-							float A = Main.rand.Next(-250, 250) * 0.01f;
-							float B = Main.rand.Next(-250, 250) * 0.01f;
-							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<PrismaticBoltHostile>(), damageAmount, 1, npc.target);
-							timer = 0;
+						if (Main.netMode != NetmodeID.MultiplayerClient) {
+							for (int i = 0; i < amountOfProjectiles; ++i) {
+								float A = Main.rand.Next(-250, 250) * 0.01f;
+								float B = Main.rand.Next(-250, 250) * 0.01f;
+								Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<PrismaticBoltHostile>(), damageAmount, 1, Main.myPlayer);
+								timer = 0;
+							}
 						}
 					}
 

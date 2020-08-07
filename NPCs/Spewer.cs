@@ -37,7 +37,7 @@ namespace SpiritMod.NPCs
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.player.ZoneCrimson && spawnInfo.player.ZoneOverworldHeight ? .045f : 0f;
+			return spawnInfo.player.ZoneCrimson && spawnInfo.player.ZoneOverworldHeight ? .075f : 0f;
 		}
 		int frame = 0;
 		public override void AI()
@@ -59,8 +59,8 @@ namespace SpiritMod.NPCs
 						Main.PlaySound(SoundID.Item34, npc.Center);
 						Vector2 direction = Main.player[npc.target].Center - npc.Center;
 						direction.Normalize();
-						direction.X *= 11;
-						direction.Y *= 6;
+						direction.X *= 11.5f;
+						direction.Y *= 8;
 						int damage = expertMode ? 11 : 13;
 						int vomit = Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 4, direction.X, direction.Y + Main.rand.NextFloat(-.5f, .5f), ModContent.ProjectileType<VomitProj>(), damage, 1, Main.myPlayer, 0, 0);
 						Main.projectile[vomit].netUpdate = true;

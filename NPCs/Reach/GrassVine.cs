@@ -165,14 +165,15 @@ namespace SpiritMod.NPCs.Reach
 			npc.frame.Y = frame * frameHeight;
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			Player player = spawnInfo.player;
-			if (!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.spawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.spawnTileY > Main.worldSurface || !Main.dayTime) && (SpawnCondition.GoblinArmy.Chance == 0)) {
-				return spawnInfo.player.GetSpiritPlayer().ZoneReach && player.ZoneOverworldHeight && NPC.downedBoss1 && Main.tile[(int)(spawnInfo.spawnTileX), (int)(spawnInfo.spawnTileY)].type == ModContent.TileType<ReachGrassTile>() ? 0.8f : 0f;
-			}
-			return 0f;
-		}
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            Player player = spawnInfo.player;
+            if (!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon)) && !Main.eclipse && (SpawnCondition.GoblinArmy.Chance == 0))
+            {
+                return spawnInfo.player.GetSpiritPlayer().ZoneReach && Main.tile[(int)(spawnInfo.spawnTileX), (int)(spawnInfo.spawnTileY)].type == ModContent.TileType<ReachGrassTile>() ? .9f : 0f;
+            }
+            return 0f;
+        }
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			Texture2D ring = mod.GetTexture("NPCs/Reach/GrassVine_Texture");

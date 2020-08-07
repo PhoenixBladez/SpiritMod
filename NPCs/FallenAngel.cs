@@ -97,7 +97,13 @@ namespace SpiritMod.NPCs
 			}
 			return false;
 		}
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreNPCLoot()
+        {
+            Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DownedMiniboss"));
+            return true;
+        }
+
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/FallenAngel_Glow"));
 		}

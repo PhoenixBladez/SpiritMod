@@ -28,8 +28,12 @@ namespace SpiritMod.Tiles.Block
 		}
 
 		public override Texture2D GetTopTextures(int i, int j, ref int frame, ref int frameWidth, ref int frameHeight, ref int xOffsetLeft, ref int yOffset)
-		{
-			return mod.GetTexture("Tiles/Block/ReachTree_Tops");
+        {
+            frameWidth = 144;
+            frameHeight = 116;
+            xOffsetLeft = 62;
+            yOffset = 2;
+            return mod.GetTexture("Tiles/Block/ReachTree_Tops");
 		}
 
 		public override Texture2D GetBranchTextures(int i, int j, int trunkOffset, ref int frame)

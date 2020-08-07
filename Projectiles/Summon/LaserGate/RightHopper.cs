@@ -42,9 +42,9 @@ namespace SpiritMod.Projectiles.Summon.LaserGate
 					other.ai[1] = projectile.whoAmI;
 					//shoot to other guy
 					timer++;
-					if (timer > 4 && distance < 500) {
+					if (timer > 4 && distance < 200) {
 						timer = 0;
-						int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)direction9.X * 15, (float)direction9.Y * 15, ModContent.ProjectileType<GateLaser>(), 27, 0, Main.myPlayer);
+						int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)direction9.X * 15, (float)direction9.Y * 15, ModContent.ProjectileType<GateLaser>(), 14, 0, Main.myPlayer);
 						Main.projectile[proj].timeLeft = (int)(distance / 15) - 1;
 						DustHelper.DrawElectricity(projectile.Center, other.Center, 226, 0.3f);
 					}

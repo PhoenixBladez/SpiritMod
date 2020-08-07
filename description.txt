@@ -1,7 +1,7 @@
 Spirit's 1.4 Update is here! Here are some highlights from this long-awaited Pre-Hardmode Overhaul:
-- 200+ new items
-- 51 new enemies
-- 19 new soundtracks for bosses, events, and biomes (including vanilla ones!)
+- 250+ new items
+- 52 new enemies
+- 20 new soundtracks for bosses, events, and biomes (including vanilla ones!)
 - Hundreds of overhauled weapons and equipment
 - Revamped enemy and boss AIs
 - A new NPC, the Gambler

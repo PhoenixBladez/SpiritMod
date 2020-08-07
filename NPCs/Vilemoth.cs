@@ -96,8 +96,33 @@ namespace SpiritMod.NPCs
 				Vector2 vector2_2 = Vector2.UnitY.RotatedByRandom(1.57079637050629f) * new Vector2(5f, 3f);
 				int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector2_2.X, vector2_2.Y, mod.ProjectileType("VileWaspProjectile"), 0, 0.0f, Main.myPlayer, 0.0f, (float)npc.whoAmI);
 				Main.projectile[p].hostile = true;
-				timer = 0;
+                timer = 0;
 			}
+            npc.ai[3]++;
+            {
+				if (npc.ai[3] >= 300 && NPC.CountNPCS(ModContent.NPCType<VileWasp>()) < 2)
+                {
+                    npc.ai[3] = 0;
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        Main.PlaySound(SoundID.Zombie, npc.Center, 51);
+                        for (int j = 0; j < 10; j++)
+                        {
+                            Vector2 vector2 = Vector2.UnitX * -npc.width / 2f;
+                            vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default(Vector2)) * new Vector2(8f, 16f);
+                            vector2 = Utils.RotatedBy(vector2, (npc.rotation - 1.57079637f), default(Vector2));
+                            int num8 = Dust.NewDust(npc.Center, 0, 0, 184, 0f, 0f, 160, new Color(), 1f);
+                            Main.dust[num8].scale = 1.3f;
+                            Main.dust[num8].noGravity = true;
+                            Main.dust[num8].position = npc.Center + vector2;
+                            Main.dust[num8].velocity = npc.velocity * 0.1f;
+                            Main.dust[num8].noLight = true;
+                            Main.dust[num8].velocity = Vector2.Normalize(npc.Center - npc.velocity * 3f - Main.dust[num8].position) * 1.25f;
+                        }
+                        NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, ModContent.NPCType<VileWasp>());
+                    }
+                }
+            }
 
 			npc.spriteDirection = npc.direction;
 		}
