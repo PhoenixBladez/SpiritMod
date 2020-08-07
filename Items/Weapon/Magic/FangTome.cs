@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		static int offsetLength = 23;
 		public override void SetDefaults()
 		{
-			item.damage = 20;
+			item.damage = 26;
 			item.magic = true;
 			item.mana = 12;
 			item.width = 28;

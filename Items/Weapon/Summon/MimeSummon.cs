@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Weapon.Summon
 
 		public override void SetDefaults()
 		{
-			item.damage = 21;
+			item.damage = 17;
 			item.summon = true;
 			item.mana = 10;
 			item.width = 44;

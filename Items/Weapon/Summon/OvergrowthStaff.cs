@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Weapon.Summon
 
 		public override void SetDefaults()
 		{
-			item.damage = 6;
+			item.damage = 7;
 			item.summon = true;
 			item.mana = 10;
 			item.UseSound = SoundID.Item44;
@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.noMelee = true; //so the item's animation doesn't do damage
 			item.knockBack = 1.25f;
-			item.value = 10000;
+			item.value = 1000;
 			item.rare = ItemRarityID.Blue;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<Projectiles.Summon.Overgrowth>();

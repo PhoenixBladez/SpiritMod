@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Weapon.Magic
 
 		public override void SetDefaults()
 		{
-			item.damage = 10;
+			item.damage = 12;
 			Item.staff[item.type] = true;
 			item.noMelee = true;
 			item.summon = true;
