@@ -37,7 +37,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			npc.width = 64; //324
 			npc.height = 56; //216
 			npc.defense = 0;
-			npc.lifeMax = 8300; //250000 //new
+			npc.lifeMax = 10000; //250000 //new
 			Main.npcFrameCount[npc.type] = 1; //new //new
 			animationType = 10; //new
 			npc.knockBackResist = 0f;
@@ -114,7 +114,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
             }*/
 			bool expertMode = Main.expertMode;
 			timer++;
-			if ((timer == 100 || timer == 400) && npc.life > npc.lifeMax * .3f) {
+			if ((timer == 100 || timer == 400) && npc.life > npc.lifeMax * .2f) {
 				if (Main.expertMode) {
 					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 91);
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
@@ -132,7 +132,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				}
 			}
 			if (timer == 600) {
-				if (npc.life <= 5000 && npc.life > npc.lifeMax * .3f && npc.life < npc.lifeMax * .6f) {
+				if (npc.life <= 5000 && npc.life > npc.lifeMax * .2f && npc.life < npc.lifeMax * .7f) {
 					for (int i = 0; i < 2; i++) {
 						NPC.NewNPC((int)Main.player[npc.target].Center.X + Main.rand.Next(-700, 700), (int)Main.player[npc.target].Center.Y + Main.rand.Next(-700, 700), mod.NPCType("LaserBase"), npc.whoAmI);
 					}
@@ -141,11 +141,11 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			if (timer == 700)
 				timer = 0;
 			chargetimer++;
-			if (npc.life == npc.lifeMax * .3f) {
+			if (npc.life == npc.lifeMax * .2f) {
 				CombatText.NewText(new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height), new Color(255, 155, 0, 100),
 "Instability Detected");
 			}
-			if (npc.life >= npc.lifeMax * .3f) {
+			if (npc.life >= npc.lifeMax * .2f) {
 				npc.aiStyle = 6; //new
 				aiType = -1;
 				if (chargetimer == 700) {

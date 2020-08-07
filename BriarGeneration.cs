@@ -398,19 +398,20 @@ namespace SpiritMod
 			return new Vector2(ellipseCenter.X - x, ellipseCenter.Y - y);
 		}
 
-		private float GetArcEllipse(float angle, List<float> estimates)
-		{
-			int count = estimates.Count;
-			float anglePer = MathHelper.TwoPi / count;
-			angle += MathHelper.Pi;
-			int point = (int)Math.Floor(angle / anglePer);
-			float remainder = angle % anglePer;
-			float remProgress = remainder / anglePer;
-			float next = point + 1 >= count ? estimates[0] : estimates[point + 1];
-			return MathHelper.Lerp(estimates[point], next, remProgress);
-		}
+        private float GetArcEllipse(float angle, List<float> estimates)
+        {
+            int count = estimates.Count;
+            float anglePer = MathHelper.TwoPi / count;
+            angle += MathHelper.Pi;
+            int point = (int)Math.Floor(angle / anglePer);
+            float remainder = angle % anglePer;
+            float remProgress = remainder / anglePer;
+            float next = point + 1 >= count ? estimates[0] : estimates[point + 1];
+            float current = point >= count ? estimates[estimates.Count - 1] : estimates[point];
+            return MathHelper.Lerp(current, next, remProgress);
+        }
 
-		private bool ActiveSolid(int x, int y)
+        private bool ActiveSolid(int x, int y)
 		{
 			Tile tile = Framing.GetTileSafely(x, y);
 			return tile.active() && Main.tileSolid[tile.type];

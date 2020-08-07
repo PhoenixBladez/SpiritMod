@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Accessory
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Granite shield");
+			DisplayName.SetDefault("Granite Shield");
 			Tooltip.SetDefault("Grants you Shadow Dodge when under 50 health\nRecharges when above 150 health");
 		}
 

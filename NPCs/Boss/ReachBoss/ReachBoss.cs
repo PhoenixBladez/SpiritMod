@@ -233,7 +233,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
-			npc.lifeMax = (int)(npc.lifeMax * 0.4f * bossLifeScale);
+			npc.lifeMax = (int)(npc.lifeMax * 0.6f * bossLifeScale);
 			npc.damage = (int)(npc.damage * 0.6f);
 		}
 

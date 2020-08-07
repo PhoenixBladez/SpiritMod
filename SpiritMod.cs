@@ -827,7 +827,7 @@ namespace SpiritMod
                     ModContent.ItemType<CursedCloth>(),
                     new List<int> { ModContent.ItemType<Items.Boss.Trophy4>(), ModContent.ItemType<Items.Armor.Masks.InfernonMask>() /*, ModContent.ItemType<Items.Placeable.MusicBox.ScarabBox>()*/ },
                     new List<int> { ModContent.ItemType<Items.BossBags.InfernonBag>(), ModContent.ItemType<InfernalAppendage>(), ModContent.ItemType<Items.Weapon.Thrown.InfernalJavelin>(), ModContent.ItemType<InfernalSword>(), ModContent.ItemType<DiabolicHorn>(), ModContent.ItemType<SevenSins>(), ModContent.ItemType<InfernalStaff>(), ModContent.ItemType<EyeOfTheInferno>(), ModContent.ItemType<InfernalShield>() },
-                     "Use a [i: " + ModContent.ItemType<StarWormSummon>() + "] in the Underworld at any time.",
+                     "Use a [i: " + ModContent.ItemType<CursedCloth>() + "] in the Underworld at any time.",
                     null,
                     "SpiritMod/Textures/BossChecklist/InfernonTexture",
                     "SpiritMod/NPCs/Boss/Infernon/Infernon_Head_Boss",

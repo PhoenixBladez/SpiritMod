@@ -45,8 +45,8 @@ namespace SpiritMod.Tiles.Ambient
 		{
 			{
 				Main.NewText("The Ancient Avian has awoken!", 175, 75, 255, true);
-				NPC.NewNPC((int)i * 16 + Main.rand.Next(-60, 60), (int)j * 16 - 120, ModContent.NPCType<AncientFlyer>(), 0, 2, 1, 0, 0, Main.myPlayer);
-
+				int n = NPC.NewNPC((int)i * 16 + Main.rand.Next(-60, 60), (int)j * 16 - 120, ModContent.NPCType<AncientFlyer>(), 0, 2, 1, 0, 0, Main.myPlayer);
+                Main.npc[n].netUpdate = true;
 
 				for (int num625 = 0; num625 < 2; num625++) {
 					float scaleFactor10 = 0.2f;

@@ -59,7 +59,7 @@ namespace SpiritMod.NPCs
 				tomaProj = Main.rand.Next(new int[] { mod.ProjectileType("Teratoma1"), mod.ProjectileType("Teratoma2"), mod.ProjectileType("Teratoma3") });
 				bool expertMode = Main.expertMode;
 				Main.PlaySound(SoundID.Item20, npc.Center);
-				int damagenumber = expertMode ? 12 : 17;
+				int damagenumber = expertMode ? 9 : 12;
 				int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, Main.rand.Next(-4, 4), Main.rand.Next(-4, 0), tomaProj, damagenumber, 1, Main.myPlayer, 0, 0);
 				Main.projectile[p].friendly = false;
 				Main.projectile[p].hostile = true;
