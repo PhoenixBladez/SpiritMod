@@ -460,6 +460,7 @@ namespace SpiritMod
 				SkyManager.Instance["SpiritMod:Atlas"] = new AtlasSky();
 
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritOverworld"), ItemType("SpiritBox1"), TileType("SpiritBox1"));
+                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/NeonTech"), ItemType("NeonMusicBox"), TileType("NeonMusicBox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer1"), ItemType("SpiritBox2"), TileType("SpiritBox2"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer2"), ItemType("SpiritBox3"), TileType("SpiritBox3"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer3"), ItemType("SpiritBox4"), TileType("SpiritBox4"));

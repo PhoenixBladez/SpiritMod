@@ -214,6 +214,7 @@ namespace SpiritMod.NPCs
         public override bool PreNPCLoot()
         {
             MyWorld.downedMechromancer = true;
+            Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DownedMiniboss"));
             return true;
         }
 	}

@@ -569,7 +569,7 @@ namespace SpiritMod.NPCs.Town
 			#endregion
 
 			#region ScriptedQuests
-			//Scripted Quest 2
+			//Scripted Quest 1
 			Quest sacredVineQuest = RegisterQuest(ModContent.ItemType<SacredVine>(),
 
 		"Ever since I was captured by those savages from the Briar, I've been doin' some research on the place." +
@@ -590,9 +590,11 @@ namespace SpiritMod.NPCs.Town
 
 				Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
 			});
+            sacredVineQuest.OnQuestStart = () => {
+                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MainQuestComplete"));
+            };
 
-
-			sacredVineQuest.NthQuest = 2;
+            sacredVineQuest.NthQuest = 1;
 			//Scripted Quest 3
 			Quest scarabQuest = RegisterQuest(ModContent.ItemType<ScarabIdolQuest>(),
 
@@ -618,10 +620,13 @@ namespace SpiritMod.NPCs.Town
 				});
 
 			scarabQuest.NthQuest = 3;
-			#endregion
+            scarabQuest.OnQuestStart = () => {
+                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MainQuestComplete"));
+            };
+            #endregion
 
 
-			_completed = new bool[_quests.Count];
+            _completed = new bool[_quests.Count];
 
 			_questsCompleted = 0;
 			_currentQuest = -1;

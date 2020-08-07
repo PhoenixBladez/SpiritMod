@@ -37,7 +37,7 @@ namespace SpiritMod.NPCs.Reach
 		{
 			Player player = spawnInfo.player;
 			if (!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && (!Main.pumpkinMoon && !Main.snowMoon) && (!Main.eclipse) && (SpawnCondition.GoblinArmy.Chance == 0)) {
-				return spawnInfo.player.GetSpiritPlayer().ZoneReach && player.ZoneOverworldHeight ? 0.4f : 0f;
+				return spawnInfo.player.GetSpiritPlayer().ZoneReach && player.ZoneOverworldHeight ? 0.35f : 0f;
 			}
 			return 0f;
 		}

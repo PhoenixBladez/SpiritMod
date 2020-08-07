@@ -199,7 +199,13 @@ namespace SpiritMod.NPCs.Tides
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Trophy10>());
 			}
 		}
-		public override void HitEffect(int hitDirection, double damage)
+        public override bool PreNPCLoot()
+        {
+            Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DownedMiniboss"));
+            return true;
+        }
+
+        public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int i = 0; i < 10; i++)
 				;
