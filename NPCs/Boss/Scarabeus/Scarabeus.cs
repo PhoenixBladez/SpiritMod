@@ -60,6 +60,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		bool jump;
 		int npcCounter;
 		int jumpstacks;
+        bool changedToBat;
 
 		public override bool PreAI()
 		{
@@ -502,18 +503,33 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				}
 			}
 			else if (npc.life < 800) {
-				wormAI = false;
+                trailbehind = true; 
+                npc.FaceTarget();
+                if (!changedToBat)
+                {
+                    npc.collideX = false;
+                    npc.collideY = false;
+                    changedToBat = true;
+                    for (int i = 0; i < NPC.maxAI; i++)
+                    {
+                        npc.localAI[i] = 0f;
+                        npc.ai[i] = 0f;
+                    }
+                    npc.netUpdate = true;
+                }
+                npc.rotation = npc.velocity.X * .1f;
+                wormAI = false;
+                Counter = 0;
                 npc.aiStyle = 44;
-                npc.noGravity = true;
+                npc.noGravity = false;
                 npc.noTileCollide = true;
-                aiType = NPCID.FlyingFish;
                 npcCounter++;
 
 				if (npcCounter == 300 || npcCounter == 400 || npcCounter == 500 || npcCounter == 600) {
 					Vector2 vector2_2 = Vector2.UnitY.RotatedByRandom(1.57079637050629f) * new Vector2(5f, 3f);
 					NPC.NewNPC((int)npc.Center.X + Main.rand.Next(-20, 20), (int)npc.Center.Y + Main.rand.Next(-20, 20), ModContent.NPCType<ChildofScarabeus>());
 				}
-				if (npcCounter == 900 || npcCounter == 1200 || npcCounter == 1400 || npcCounter == 1500)
+				if (npcCounter == 200 || npcCounter == 900 || npcCounter == 1050 || npcCounter == 1200 || npcCounter == 1350|| npcCounter == 1500)
                 {
                     Vector2 direction = Main.player[npc.target].Center - npc.Center;
                     direction.Normalize();
@@ -527,7 +543,6 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				if (npcCounter > 1500) {
 					npcCounter = 0;
 				}
-                npc.aiStyle = 14;
 
                 npc.noTileCollide = true;
 				if (!Main.gameMenu) {

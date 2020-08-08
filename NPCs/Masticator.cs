@@ -100,7 +100,8 @@ namespace SpiritMod.NPCs
                 }
 				if (npc.position.X + (float)npc.width > Main.player[npc.target].position.X && npc.position.X < Main.player[npc.target].position.X + (float)Main.player[npc.target].width && npc.position.Y + (float)npc.height < Main.player[npc.target].position.Y && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height) && Main.netMode != NetmodeID.MultiplayerClient) {
 					npc.ai[0] += 1f;
-					if (npc.ai[0] > 90f) {
+                    npc.rotation = 0f;
+                    if (npc.ai[0] > 90f) {
 						vomitPhase = true;
                         npc.netUpdate = true;
                     }
@@ -115,6 +116,7 @@ namespace SpiritMod.NPCs
 						Main.dust[d].velocity *= .1f;
 					}
 				}
+                npc.rotation = 0f;
 				npc.velocity.X = .001f * npc.direction;
 				npc.velocity.Y = 0f;
 				++npc.ai[3];

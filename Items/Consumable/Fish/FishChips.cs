@@ -40,7 +40,6 @@ namespace SpiritMod.Items.Consumable.Fish
 		{
 			ModRecipe recipe1 = new ModRecipe(mod);
 			recipe1.AddIngredient(ModContent.ItemType<RawFish>(), 3);
-			recipe1.AddIngredient(ItemID.CrystalShard, 1);
 			recipe1.AddTile(TileID.CookingPots);
 			recipe1.SetResult(this, 1);
 			recipe1.AddRecipe();

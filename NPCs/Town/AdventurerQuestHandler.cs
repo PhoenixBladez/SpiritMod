@@ -77,9 +77,12 @@ namespace SpiritMod.NPCs.Town
 			shadowflameStaffQuest.CanGiveQuest = () => {
 				return MyWorld.gennedTower && !MyWorld.gennedBandits;
 			};
+            shadowflameStaffQuest.OnQuestStart = () => {
+                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MainQuestComplete"));
+            };
 
 
-			Quest sepulchreChestQuest = RegisterQuest(ModContent.ItemType<SepulchreChest>(),
+            Quest sepulchreChestQuest = RegisterQuest(ModContent.ItemType<SepulchreChest>(),
 
 				"You ever wonder why there're so many skeletons underground?" +
 				" Turns out that there was a band of necromancers that holed up in the caverns all across the world and performed all kinds of experiments." +
@@ -95,8 +98,11 @@ namespace SpiritMod.NPCs.Town
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
 					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
 				});
+            sepulchreChestQuest.OnQuestStart = () => {
+                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MainQuestComplete"));
+            };
 
-			Quest jadeStaffQuest = RegisterQuest(ModContent.ItemType<JadeStaff>(),
+            Quest jadeStaffQuest = RegisterQuest(ModContent.ItemType<JadeStaff>(),
 
 				"Hey, lad. I've got another proposition for ya." +
 				" You see, I've been looking at some old maps and I've learned about a cluster of Floating Pagodas above the oceans of this world." +
@@ -127,8 +133,11 @@ namespace SpiritMod.NPCs.Town
 			jadeStaffQuest.CanGiveQuest = () => {
 				return NPC.downedBoss1;
 			};
+            jadeStaffQuest.OnQuestStart = () => {
+                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MainQuestComplete"));
+            };
 
-			Quest hornetFishQuest = RegisterQuest(ModContent.ItemType<HornetfishQuest>(),
+            Quest hornetFishQuest = RegisterQuest(ModContent.ItemType<HornetfishQuest>(),
 
 				"I've got a, uh, perfectly normal quest for ya. Why don't you go ahead and head to the Jungle to fish up a Hornetfish for me?" +
 				" It's supposed to be a real delicacy, but I'm still on vacation mode. Be careful, though. I've heard it can be a... tough catch." +
@@ -152,7 +161,8 @@ namespace SpiritMod.NPCs.Town
 
 				);
 			hornetFishQuest.OnQuestStart = () => {
-				MyWorld.spawnHornetFish = true;
+                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MainQuestComplete"));
+                MyWorld.spawnHornetFish = true;
 			};
 			Quest mushroomQuest = RegisterQuest(ModContent.ItemType<VibeshroomItem>(),
 
@@ -175,7 +185,8 @@ namespace SpiritMod.NPCs.Town
 				});
 
 			mushroomQuest.OnQuestStart = () => {
-				MyWorld.spawnVibeshrooms = true;
+                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MainQuestComplete"));
+                MyWorld.spawnVibeshrooms = true;
 			};
 			#endregion
 			#region ExplorerQuests
@@ -198,7 +209,8 @@ namespace SpiritMod.NPCs.Town
 				});
 
 			explorerQuestMushroom.OnQuestStart = () => {
-				if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollMushroomEmpty>()))
+                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MainQuestComplete"));
+                if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollMushroomEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ExplorerScrollMushroomEmpty>());
 			};
 			explorerQuestMushroom.TrySkipQuest = () => {
@@ -231,7 +243,8 @@ namespace SpiritMod.NPCs.Town
 				});
 
 			explorerQuestAsteroids.OnQuestStart = () => {
-				if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollAsteroidEmpty>()))
+                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MainQuestComplete"));
+                if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollAsteroidEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ExplorerScrollAsteroidEmpty>());
 			};
 			explorerQuestAsteroids.TrySkipQuest = () => {
@@ -264,7 +277,8 @@ namespace SpiritMod.NPCs.Town
 				});
 
 			explorerQuestMarble.OnQuestStart = () => {
-				if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollMarbleEmpty>()))
+                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MainQuestComplete"));
+                if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollMarbleEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ExplorerScrollMarbleEmpty>());
 			};
 			explorerQuestMarble.TrySkipQuest = () => {
@@ -296,7 +310,8 @@ namespace SpiritMod.NPCs.Town
 					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
 				});
 			explorerQuestGranite.OnQuestStart = () => {
-				if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollGraniteEmpty>()))
+                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MainQuestComplete"));
+                if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollGraniteEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ExplorerScrollGraniteEmpty>());
 			};
 			explorerQuestMarble.TrySkipQuest = () => {
@@ -327,7 +342,8 @@ namespace SpiritMod.NPCs.Town
 
 				});
 			explorerQuestHive.OnQuestStart = () => {
-				if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollHiveEmpty>()))
+                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MainQuestComplete"));
+                if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollHiveEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ExplorerScrollHiveEmpty>());
 			};
 			explorerQuestMarble.TrySkipQuest = () => {
@@ -619,10 +635,10 @@ namespace SpiritMod.NPCs.Town
 					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
 				});
 
-			scarabQuest.NthQuest = 3;
             scarabQuest.OnQuestStart = () => {
                 Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MainQuestComplete"));
             };
+            scarabQuest.NthQuest = 3;
             #endregion
 
 

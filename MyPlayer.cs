@@ -3053,7 +3053,8 @@ namespace SpiritMod
 			}
 
 			if(player.controlUp && scarabCharm) {
-				if(player.gravDir == -1.0f) {
+                player.noFallDmg = true;
+                if (player.gravDir == -1.0f) {
 					player.itemRotation = -player.itemRotation;
 					player.itemLocation.Y = (float)(player.position.Y + player.height + (player.position.Y - player.itemLocation.Y));
 					if(player.velocity.Y < -2.0f)

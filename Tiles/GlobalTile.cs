@@ -132,7 +132,7 @@ namespace SpiritMod.Tiles
 					if (Main.hardMode) {
 						tremorItem = Main.rand.Next(new int[] { 11, 12, 13, 14, 699, 700, 701, 702, 999, 182, 178, 179, 177, 180, 181, 364, 365, 366, 1104, 1105, 1106 });
 					}
-					Item.NewItem(i * 16, j * 16, 64, 48, tremorItem, Main.rand.Next(0, 2));
+					Item.NewItem(i * 16, j * 16, 64, 48, tremorItem, Main.rand.Next(1, 3));
 				}
 			}
 			if (player.HasItem(ModContent.ItemType<Spineshot>())) {

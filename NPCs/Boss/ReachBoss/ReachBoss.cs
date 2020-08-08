@@ -27,6 +27,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			npc.width = 132;
 			npc.height = 222;
 			npc.damage = 24;
+            npc.boss = true;
 			npc.lifeMax = 2500;
 			npc.knockBackResist = 0;
 			npc.noGravity = true;

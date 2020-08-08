@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Accessory
 		}
 		public override void UpdateVanity(Player player, EquipType type)
 		{
-			Lighting.AddLight(player.position, .35f, .35f, .35f);
+			Lighting.AddLight(player.position, .65f, .65f, .65f);
 		}
 		public override void AddRecipes()
 		{

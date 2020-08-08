@@ -27,5 +27,13 @@ namespace SpiritMod.Items.Material
 
 			item.createTile = ModContent.TileType<BarkTileTile>();
 		}
-	}
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<Items.Placeable.Furniture.Reach.ReachPlatformTile>(), 2);
+            recipe.SetResult(this, 1);
+            recipe.AddRecipe();
+        }
+    }
 }

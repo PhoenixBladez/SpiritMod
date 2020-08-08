@@ -31,7 +31,6 @@ namespace SpiritMod.NPCs.Critters
 			npc.knockBackResist = .45f;
 			npc.aiStyle = 7;
 			npc.npcSlots = 0;
-            npc.alpha = 80;
             npc.noGravity = false; ;
 			aiType = NPCID.Bunny;
 			Main.npcFrameCount[npc.type] = 7;

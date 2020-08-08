@@ -37,10 +37,9 @@ namespace SpiritMod.Items.Armor.StarArmor
 		public override void UpdateArmorSet(Player player)
 		{
 			string tapDir = Language.GetTextValue(Main.ReversedUpDownArmorSetBonuses ? "Key.UP" : "Key.DOWN");
-			player.setBonus = $"20% chance to not consume ammo\nDouble tap {tapDir} to deploy an energy field at the cursor position\nThis field lasts for five seconds and supercharges all ranged projectiles that pass through it\n12 second cooldown";
+			player.setBonus = $"Double tap {tapDir} to deploy an energy field at the cursor position\nThis field lasts for five seconds and supercharges all ranged projectiles that pass through it\n12 second cooldown";
 			player.GetSpiritPlayer().starSet = true;
             player.endurance += 0.05f;
-            player.ammoCost80 = true;
         }
 
 		public override bool IsArmorSet(Item head, Item body, Item legs)

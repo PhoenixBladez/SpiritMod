@@ -178,7 +178,8 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
                     player.showItemIconText = "";
                 }
                 player.noThrow = 2;
-            player.showItemIcon = true;
+                player.showItemIcon = true;
+            }
         }
 
         public override void MouseOverFar(int i, int j)

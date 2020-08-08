@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Armor
 		}
 		public override void UpdateArmorSet(Player player)
 		{
-			player.setBonus = "Wind Spirits guide you, granting you double jumps\nMagic and ranged attacks ocassionally spawn feathers to attack foes.";
+			player.setBonus = "Wind Spirits guide you, granting you double jumps\nMagic and ranged attacks occasionally spawn feathers to attack foes.";
 			player.doubleJumpCloud = true;
 			player.GetSpiritPlayer().talonSet = true;
 		}

@@ -36,24 +36,38 @@ namespace SpiritMod.NPCs.Town
 		}
 		public override string GetChat()
 		{
-			npc.Transform(NPCType<Adventurer>());
-			npc.dontTakeDamage = false;
 			return "I thought I was a real goner there! If you didn't butt in, I probably would've been fed to whatever those monsters were trying to conjure up over there. I wouldn't touch it if I were you... Look, you have my thanks; but just between you and me, it's been a long few months, and all I want is a vacation from adventuring for a while. Life is short, and I'd rather not make it shorter. I'll see you around sometime.";
 		}
 
-		public override void AI()
-		{
-			if (Main.netMode != NetmodeID.MultiplayerClient) {
-				npc.homeless = false;
-				npc.homeTileX = -1;
-				npc.homeTileY = -1;
-				npc.netUpdate = true;
-			}
+        public override void AI()
+        {
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                npc.homeless = false;
+                npc.homeTileX = -1;
+                npc.homeTileY = -1;
+                npc.netUpdate = true;
+            }
 
-			if (npc.wet) {
-				npc.life = 250;
-			}
-		}
+            if (npc.wet)
+            {
+                npc.life = 250;
+            }
+            foreach (var player in Main.player)
+            {
+                if (!player.active) continue;
+                if (player.talkNPC == npc.whoAmI)
+                {
+                    Rescue();
+                    return;
+                }
+            }
+        }
+		public void Rescue()
+        {
+            npc.Transform(NPCType<Adventurer>());
+            npc.dontTakeDamage = false;
+        }
 	}
 }
 

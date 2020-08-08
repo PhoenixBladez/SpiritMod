@@ -58,14 +58,11 @@ namespace SpiritMod.NPCs.BloodMoon
 				if (distance < 178) {
 					shoottimer++;
 					if (!npc.wet) {
-						npc.velocity = Vector2.Zero;
-						if (npc.velocity == Vector2.Zero) {
-							npc.velocity.X = .01f * npc.spriteDirection;
-							npc.spriteDirection = -npc.direction;
-							npc.velocity.Y = 10f;
-						}
-					}
-					if (shoottimer >= 8 && shoottimer < 48) {
+                        npc.velocity.X = .01f * npc.spriteDirection;
+                        npc.spriteDirection = -npc.direction;
+                        npc.velocity.Y = 10f;
+                    }
+					if (shoottimer >= 40 && shoottimer < 96) {
 						if (Main.rand.Next(3) == 0 && Main.netMode != NetmodeID.MultiplayerClient) {
 							int bloodproj;
 							bloodproj = Main.rand.Next(new int[] { mod.ProjectileType("Feeder1"), mod.ProjectileType("Feeder2"), mod.ProjectileType("Feeder3") });

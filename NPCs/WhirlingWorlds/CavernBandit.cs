@@ -90,7 +90,7 @@ namespace SpiritMod.NPCs.WhirlingWorlds
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return SpawnCondition.Cavern.Chance * 0.12f;
+			return SpawnCondition.Cavern.Chance * 0.0312f;
 		}
 		int frame = 0;
 		public override void FindFrame(int frameHeight)

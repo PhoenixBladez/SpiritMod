@@ -53,7 +53,21 @@ namespace SpiritMod.NPCs.Town
 			if (npc.wet) {
 				npc.life = 250;
 			}
-		}
-	}
+            foreach (var player in Main.player)
+            {
+                if (!player.active) continue;
+                if (player.talkNPC == npc.whoAmI)
+                {
+                    Rescue();
+                    return;
+                }
+            }
+        }
+        public void Rescue()
+        {
+            npc.Transform(NPCType<Adventurer>());
+            npc.dontTakeDamage = false;
+        }
+    }
 }
 

@@ -35,10 +35,11 @@ namespace SpiritMod.NPCs.Reach
 			npc.value = 541f;
 			npc.knockBackResist = 0.05f;
 			npc.noGravity = true;
-			npc.noTileCollide = true;
+            npc.chaseable = true;
+            npc.noTileCollide = true;
 			npc.aiStyle = 44;
-			aiType = NPCID.FlyingAntlion;
-			banner = npc.type;
+            aiType = NPCID.FlyingFish;
+            banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.GladeWraithBanner>();
 		}
 		bool throwing = false;
@@ -65,6 +66,8 @@ namespace SpiritMod.NPCs.Reach
 		bool thrown = false;
 		public override bool PreAI()
 		{
+            npc.collideX = false;
+            npc.collideY = false;
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.46f, 0.32f, .1f);
 			//bool expertMode = Main.expertMode;
 			timer++;
@@ -189,6 +192,7 @@ namespace SpiritMod.NPCs.Reach
 		}
         public override bool PreNPCLoot()
         {
+            Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DownedMiniboss"));
             MyWorld.downedGladeWraith = true;
             return true;
         }
