@@ -137,7 +137,6 @@ namespace SpiritMod
 		public bool leatherGlove = false;
 		public bool forbiddenTome = false;
 		public bool moonHeart = false;
-		public bool babyClampers = false;
 		public bool Phantom = false;
 		public bool gremlinTooth = false;
 		public bool illusionistEye = false;
@@ -210,7 +209,6 @@ namespace SpiritMod
 		public bool CrystalShield = false;
 		public bool carnivorousPlantMinion = false;
 		public bool skeletalonMinion = false;
-		public bool babyClamper = false;
 		public bool beetleMinion = false;
 		public bool steamMinion = false;
 		public bool aeonMinion = false;
@@ -626,7 +624,6 @@ namespace SpiritMod
 			CrystalShield = false;
 			bloodfireShield = false;
 			tankMinion = false;
-			babyClamper = false;
 			Phantom = false;
 			magnifyingGlass = false;
 			magazine = false;
@@ -1815,11 +1812,6 @@ namespace SpiritMod
 					vel *= 4f;
 					int proj = Projectile.NewProjectile(Main.player[Main.myPlayer].Center, vel, ModContent.ProjectileType<SpiritShardFriendly>(), 250, 0, Main.myPlayer);
 				}
-			}
-
-			if(babyClamper == true && Main.rand.NextBool(6)) {
-				Projectile.NewProjectile(player.position.X + 20, player.position.Y, 0, -2, ModContent.ProjectileType<ClampOrb>(), 0, 0, Main.myPlayer);
-				player.endurance += 0.1F;
 			}
 
 			if(mythrilCharm && Main.rand.NextBool(2)) {
@@ -3053,8 +3045,8 @@ namespace SpiritMod
 			}
 
 			if(player.controlUp && scarabCharm) {
-                player.noFallDmg = true;
-                if (player.gravDir == -1.0f) {
+								player.noFallDmg = true;
+				if(player.gravDir == -1.0f) {
 					player.itemRotation = -player.itemRotation;
 					player.itemLocation.Y = (float)(player.position.Y + player.height + (player.position.Y - player.itemLocation.Y));
 					if(player.velocity.Y < -2.0f)

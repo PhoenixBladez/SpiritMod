@@ -90,7 +90,7 @@ namespace SpiritMod.NPCs.Reach
 				}
 				npc.netUpdate = true;
 			}
-			if ((timer >= 420 && timer <= 720)) {
+			if ((timer >= 500 && timer <= 720)) {
 				throwing = true;
 				Dust.NewDust(npc.position, npc.width, npc.height, 6, 0f, -2.5f, 0, default, 0.6f);
 				npc.defense = 0;

@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		{
 			item.damage = 11;
 			item.magic = true;
-			item.mana = 10;
+			item.mana = 11;
 			item.width = 40;
 			item.height = 40;
 			item.useTime = 10;
@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.autoReuse = false;
 			item.shoot = ProjectileID.Leaf;
 			item.shootSpeed = 5.5f;
-			item.reuseDelay = 45;
+			item.reuseDelay = 30;
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{

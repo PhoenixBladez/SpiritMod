@@ -36,7 +36,7 @@ namespace SpiritMod.Tiles.Ambient
                 if (Main.rand.Next(100) == 1)
                 {
                     int glyphnum = Main.rand.Next(10);
-                    DustHelper.DrawDustImage(new Vector2(i * 16, j * 16), ModContent.DustType<MarbleDust>(), 0.05f, "SpiritMod/Effects/Glyphs/Glyph" + glyphnum, 1f);
+                    DustHelper.DrawDustImage(new Vector2(i * 16 + Main.rand.Next(-25, 25), j * 16 + Main.rand.Next(-25, 0)), ModContent.DustType<MarbleDust>(), 0.05f, "SpiritMod/Effects/Glyphs/Glyph" + glyphnum, 1f);
                 }
             }
 		}

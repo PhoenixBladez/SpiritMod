@@ -84,7 +84,7 @@ namespace SpiritMod.NPCs.Reach
 				npc.ai[0] = 200f;
 				int num3205 = 10;
 				int num3204 = 276;
-				int num3203 = Projectile.NewProjectile(vector449.X, vector449.Y, num3211, num3210, num3204, num3205, 0f, Main.myPlayer, 0f, 0f);
+				int num3203 = Projectile.NewProjectile(vector449.X, vector449.Y, num3211/2, num3210/2, num3204, num3205, 0f, Main.myPlayer, 0f, 0f);
 				Main.projectile[num3203].timeLeft = 300;
 				Main.projectile[num3203].friendly = false;
 				NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, num3203, 0f, 0f, 0f, 0, 0, 0);
