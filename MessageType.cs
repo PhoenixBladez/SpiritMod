@@ -9,6 +9,7 @@
 		PlayerGlyph,
 		AuroraData,
 		AdventurerQuestCompleted,
-		AdventurerNewQuest
+		AdventurerNewQuest,
+		BossSpawnFromClient
 	}
 }

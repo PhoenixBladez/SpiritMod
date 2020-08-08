@@ -83,6 +83,22 @@ namespace SpiritMod
 			packet.Write((byte)type);
 			return packet;
 		}
+		public static ModPacket WriteToPacket(ModPacket packet, byte msg, params object[] param)
+		{
+			packet.Write(msg);
+
+			for (int m = 0; m < param.Length; m++) {
+				object obj = param[m];
+				if (obj is bool) packet.Write((bool)obj);
+				else
+				if (obj is byte) packet.Write((byte)obj);
+				else
+				if (obj is int) packet.Write((int)obj);
+				else
+				if (obj is float) packet.Write((float)obj);
+			}
+			return packet;
+		}
 
 		public override void HandlePacket(BinaryReader reader, int whoAmI)
 		{
@@ -138,6 +154,22 @@ namespace SpiritMod
 				case MessageType.AdventurerNewQuest:
 				case MessageType.AdventurerQuestCompleted:
 					AdventurerQuests.HandlePacket(id, reader);
+					break;
+				case MessageType.BossSpawnFromClient:
+					if (Main.netMode == NetmodeID.Server) {
+						player = reader.ReadByte();
+						int bossType = reader.ReadInt32();
+						int npcCenterX = reader.ReadInt32();
+						int npcCenterY = reader.ReadInt32();
+
+						if (NPC.AnyNPCs(bossType)) {
+							return;
+						}
+
+						int npcID = NPC.NewNPC(npcCenterX, npcCenterY, bossType);
+						Main.npc[npcID].Center = new Vector2(npcCenterX, npcCenterY);
+						Main.npc[npcID].netUpdate2 = true;
+					}
 					break;
 				default:
 					Logger.Error("Unknown message (" + id + ")");

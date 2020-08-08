@@ -49,15 +49,26 @@ namespace SpiritMod.Tiles
 			Main.player[Main.myPlayer].showItemIcon2 = mod.ItemType("VinewrathBox");
 			Main.player[Main.myPlayer].showItemIconText = "Disturbing this flower surely isn't a good idea...";
 		}
-
-		public override void RightClick(int i, int j)
+		
+		public override bool NewRightClick(int i, int j)
 		{
 			//don't bother if there's already a Crystal King in the world
 			for (int x = 0; x < Main.npc.Length; x++) {
-				if (Main.npc[x].active && Main.npc[x].type == ModContent.NPCType<ReachBoss>()) return;
+				if (Main.npc[x].active && Main.npc[x].type == ModContent.NPCType<ReachBoss>()) return false;
 			}
-			Player player = Main.player[Main.myPlayer];
-			NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<ReachBoss>());
+				Player player = Main.LocalPlayer;
+			if (Main.netMode != NetmodeID.MultiplayerClient) {
+				int npcID = NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<ReachBoss>());
+				Main.npc[npcID].Center = player.Center + new Vector2(600, 600);
+				Main.npc[npcID].netUpdate2 = true;
+			}
+			else {
+				if (Main.netMode == NetmodeID.SinglePlayer) {
+					return false;
+				}
+				SpiritMod.WriteToPacket(SpiritMod.instance.GetPacket(), (byte)MessageType.BossSpawnFromClient, (byte)player.whoAmI, (int)ModContent.NPCType<ReachBoss>(), "Vinewrath Bane Has Been Summoned!", (int)player.Center.X + 600, (int)player.Center.Y + 600).Send(-1);
+			}
+			return true;
 		}
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{

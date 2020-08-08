@@ -7,6 +7,7 @@ using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -100,7 +101,17 @@ namespace SpiritMod.Tiles.Ambient
 					if (inventory[k].type == ModContent.ItemType<StarWormSummon>()) {
 						//consume it, and summon the Crystal King!
 						inventory[k].stack--;
-						NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<SteamRaiderHead>());
+						if (Main.netMode != NetmodeID.MultiplayerClient) {
+							int npcID = NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<SteamRaiderHead>());
+							Main.npc[npcID].Center = player.Center - new Vector2(600, 600);
+							Main.npc[npcID].netUpdate2 = true;
+						}
+						else {
+							if (Main.netMode == NetmodeID.SinglePlayer) {
+								return false;
+							}
+							SpiritMod.WriteToPacket(SpiritMod.instance.GetPacket(), (byte)MessageType.BossSpawnFromClient, (byte)player.whoAmI, (int)ModContent.NPCType<SteamRaiderHead>(), "Steam Raider Head Has Been Summoned!", (int)player.Center.X - 600, (int)player.Center.Y - 600).Send(-1);
+						}
 						//  Main.PlaySound(SoundID.Roar, (int)player.position.X, (int)player.position.Y, 0);
 						//	Main.NewText("Starplate Voyager has awoken!", 175, 75, 255, false);
 						//and don't spam crystal kings if the player didn't ask for it :P
