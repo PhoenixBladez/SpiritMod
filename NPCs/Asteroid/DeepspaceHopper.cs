@@ -224,7 +224,7 @@ namespace SpiritMod.NPCs.Asteroid
 		}
 		public override void NPCLoot()
 		{
-			if (Main.rand.NextBool(70)) {
+			if (Main.rand.NextBool(40)) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GateStaff>(), 1);
 			}
 			if (Main.rand.NextBool(400)) {
