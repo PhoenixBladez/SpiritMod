@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Weapon.Swung
 
 		public override void SetDefaults()
 		{
-			item.damage = 11;
+			item.damage = 13;
 			item.melee = true;
 			item.width = 36;
 			item.height = 44;
@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override bool CanUseItem(Player player)
 		{
 			if (player.wet) {
-				item.damage = 14;
+				item.damage = 16;
 				item.useTime = 21;
 				item.useAnimation = 21;
 			}

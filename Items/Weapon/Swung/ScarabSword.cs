@@ -16,13 +16,13 @@ namespace SpiritMod.Items.Weapon.Swung
 
 		public override void SetDefaults()
 		{
-			item.damage = 12;
+			item.damage = 17;
 			item.melee = true;
 			item.width = 50;
 			item.autoReuse = true;
 			item.height = 50;
 			item.useTime = 109;
-			item.useAnimation = 37;
+			item.useAnimation = 25;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 3;
 			item.value = Item.sellPrice(0, 0, 80, 0);

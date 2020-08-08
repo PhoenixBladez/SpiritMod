@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Placeable.Furniture.StreamScale
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Stream Scale Workbench");
+			DisplayName.SetDefault("Stream Scale Work Bench");
 		}
 
 

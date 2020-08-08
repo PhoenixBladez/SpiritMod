@@ -21,7 +21,7 @@ namespace SpiritMod.Tiles.Furniture.StreamScale
 			TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
 			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Stream Workbench");
+			name.SetDefault("Stream Work Bench");
 			AddMapEntry(new Color(56, 181, 203), name);
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.WorkBenches };

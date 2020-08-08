@@ -21,7 +21,7 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
 			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Corrosive Workbench");
+			name.SetDefault("Corrosive Work Bench");
 			AddMapEntry(new Color(100, 122, 111), name);
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.WorkBenches };
