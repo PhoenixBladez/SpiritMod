@@ -29,7 +29,7 @@ namespace SpiritMod.NPCs.Reach
 			npc.damage = 28;
 			npc.defense = 10;
 			npc.buffImmune[BuffID.Poisoned] = true;
-			npc.lifeMax = 400;
+			npc.lifeMax = 300;
 			npc.HitSound = SoundID.NPCHit7;
 			npc.DeathSound = SoundID.NPCDeath6;
 			npc.value = 541f;
@@ -145,9 +145,6 @@ namespace SpiritMod.NPCs.Reach
 			npc.spriteDirection = npc.direction;
 			return true;
 		}
-
-		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-			=> npc.lifeMax = (int)(npc.lifeMax * 0.55f * bossLifeScale);
 
 		public override void HitEffect(int hitDirection, double damage)
 		{

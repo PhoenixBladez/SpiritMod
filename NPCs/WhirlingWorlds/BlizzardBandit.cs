@@ -21,7 +21,7 @@ namespace SpiritMod.NPCs.WhirlingWorlds
         public override void SetDefaults()
         {
             npc.aiStyle = 3;
-            npc.lifeMax = 120;
+            npc.lifeMax = 55;
             npc.defense = 6;
             aiType = NPCID.SnowFlinx;
             npc.value = 65f;

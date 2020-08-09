@@ -21,10 +21,10 @@ namespace SpiritMod.NPCs.BloodMoon
 			npc.height = 68;
 			npc.damage = 24;
 			npc.defense = 9;
-			npc.lifeMax = 275;
+			npc.lifeMax = 175;
 			npc.HitSound = SoundID.NPCHit18;
 			npc.DeathSound = SoundID.NPCDeath5;
-			npc.value = 160f;
+			npc.value = 800f;
 			npc.knockBackResist = 0.34f;
 			npc.aiStyle = 3;
 			npc.noGravity = false;

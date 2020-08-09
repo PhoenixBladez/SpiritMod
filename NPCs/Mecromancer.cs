@@ -47,7 +47,7 @@ namespace SpiritMod.NPCs
 			if (!NPC.downedBoss1 || NPC.AnyNPCs(ModContent.NPCType<Mecromancer>())) {
 				return 0f;
 			}
-			return SpawnCondition.GoblinArmy.Chance * 0.0466f;
+			return SpawnCondition.GoblinArmy.Chance * 0.0366f;
 		}
 
 		public override void NPCLoot()

@@ -3561,7 +3561,7 @@ namespace SpiritMod
 
 			if (NPC.downedBoss2) {
 				if (!gmOre) {
-					for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 76) * 15E-05); k++) {
+					for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 78) * 15E-05); k++) {
 						int EEXX = WorldGen.genRand.Next(0, Main.maxTilesX);
 						int WHHYY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 130);
 						if (Main.tile[EEXX, WHHYY] != null) {
@@ -3569,18 +3569,11 @@ namespace SpiritMod
 								if (Main.tile[EEXX, WHHYY].type == 368) {
 									WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(4, 8), WorldGen.genRand.Next(4, 8), (ushort)ModContent.TileType<GraniteOre>());
 								}
-							}
-						}
-					}
-					for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 200) * 15E-05); k++) {
-						int EEXX = WorldGen.genRand.Next(0, Main.maxTilesX);
-						int WHHYY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 130);
-						if (Main.tile[EEXX, WHHYY] != null) {
-							if (Main.tile[EEXX, WHHYY].active()) {
-								if (Main.tile[EEXX, WHHYY].type == 367) {
-									WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 8), WorldGen.genRand.Next(4, 9), (ushort)ModContent.TileType<MarbleOre>());
-								}
-							}
+                                if (Main.tile[EEXX, WHHYY].type == 367)
+                                {
+                                    WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 8), WorldGen.genRand.Next(4, 9), (ushort)ModContent.TileType<MarbleOre>());
+                                }
+                            }
 						}
 					}
 					{
