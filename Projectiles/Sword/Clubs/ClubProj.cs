@@ -53,19 +53,21 @@ namespace SpiritMod.Projectiles.Sword.Clubs
         float angularMomentum = 1;
         double radians = 0;
         int lingerTimer = 0;
-		int flickerTime = 8;
+		int flickerTime = 0;
         public sealed override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
 			Color color = lightColor;
-			if (projectile.ai[0] >= chargeTime && !released && flickerTime > 0) {
-				projectile.frame = 1;
-				flickerTime--;
+			Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, 0, Size, Size), color, (float)radians + 3.9f, new Vector2(0, Size), projectile.scale, SpriteEffects.None, 0);
+			if (projectile.ai[0] >= chargeTime && !released && flickerTime < 16) {
+				flickerTime++;
 				color = Color.White;
+				float flickerTime2 = (float)(flickerTime / 20f);
+				float alpha = 1.5f - (((flickerTime2 * flickerTime2) / 2) + (2f * flickerTime2));
+				if (alpha < 0) {
+					alpha = 0;
+				}
+				Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, Size, Size, Size), color * alpha, (float)radians + 3.9f, new Vector2(0, Size), projectile.scale, SpriteEffects.None, 1);
 			}
-			else {
-				projectile.frame = 0;
-			}
-            Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, projectile.frame * Size, Size, Size), color, (float)radians + 3.9f, new Vector2(0, Size), projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 		public virtual void Smash(Vector2 position)
@@ -167,7 +169,7 @@ namespace SpiritMod.Projectiles.Sword.Clubs
                         this.Smash(projectile.Center);
 
                     }
-                    projectile.damage = (int)projectile.damage / 3;
+					projectile.friendly = false;
                     Main.PlaySound(SoundID.Item70, projectile.Center);
                     Main.PlaySound(SoundID.NPCHit42, projectile.Center);
                 }
@@ -181,10 +183,6 @@ namespace SpiritMod.Projectiles.Sword.Clubs
                     player.itemTime = 2;
                     player.itemAnimation = 2;
                 }
-				if (lingerTimer == 15) 
-				{
-					projectile.friendly = false;
-				}
                 player.itemTime++;
                 player.itemAnimation++;
             }
