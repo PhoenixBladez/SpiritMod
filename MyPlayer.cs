@@ -42,6 +42,7 @@ namespace SpiritMod
 {
 	public class MyPlayer : ModPlayer
 	{
+		 public int Shake = 0;
 		public List<SpiritPlayerEffect> effects = new List<SpiritPlayerEffect>();
 		public List<SpiritPlayerEffect> removedEffects = new List<SpiritPlayerEffect>();
 		public SpiritPlayerEffect setbonus = null;
@@ -1607,7 +1608,12 @@ namespace SpiritMod
 
 			return true;
 		}
-
+		public override void ModifyScreenPosition()
+        {
+            Main.screenPosition.Y += Main.rand.Next(-Shake, Shake);
+            Main.screenPosition.X += Main.rand.Next(-Shake, Shake);
+            if (Shake > 0) { Shake--; }
+        }
 		public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
 		{
 			foreach(var effect in effects)

@@ -50,6 +50,7 @@ namespace SpiritMod
 {
 	public class MyWorld : ModWorld
 	{
+		public static float rottime = 0;
 		private static bool dayTimeLast;
 		public static bool dayTimeSwitched;
 
@@ -373,7 +374,11 @@ namespace SpiritMod
 			numWheezersKilled = reader.ReadInt32();
 			numStardancersKilled = reader.ReadInt32();
 		}
-
+		public override void PreUpdate()
+		{
+			rottime += (float)Math.PI / 60;
+			if (rottime >= Math.PI * 2) rottime = 0;
+		}
 		public override void Initialize()
 		{
 			BlueMoon = false;
@@ -3183,6 +3188,9 @@ namespace SpiritMod
 					}
 					if (chest != null && Main.tile[chest.x, chest.y].frameX == 1 * 36 && Main.rand.Next(40) == 0) {
 						chest.item[1].SetDefaults(ItemType<Items.Accessory.MetalBand>(), false);
+					}
+					if (chest != null && Main.tile[chest.x, chest.y].frameX == 15 * 36 && Main.rand.Next(10) == 0) {
+						chest.item[1].SetDefaults(ItemType<Items.Weapon.Swung.HollowNail>(), false);
 					}
 				}
 			}
