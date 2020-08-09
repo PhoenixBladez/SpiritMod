@@ -1023,7 +1023,7 @@ namespace SpiritMod
 			if(modPlayer.ZoneSpirit && NPC.downedMechBossAny && Main.rand.NextBool(player.cratePotion ? 35 : 65)) {
 				caughtType = ModContent.ItemType<SpiritCrate>();
 			}
-			if(Main.rand.NextBool(player.cratePotion ? 60 : 75)) {
+			if(Main.rand.NextBool(player.cratePotion ? 80 : 95)) {
 				for(int i = 0; i < 1000; i++) {
 					if(Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber) {
 						bobberIndex = i;
@@ -1035,7 +1035,7 @@ namespace SpiritMod
 					caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<WoodCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
 				}
 			}
-			if(Main.rand.NextBool(player.cratePotion ? 90 : 125)) {
+			if(Main.rand.NextBool(player.cratePotion ? 100 : 125)) {
 				for(int i = 0; i < 1000; i++) {
 					if(Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber) {
 						bobberIndex = i;
@@ -1047,7 +1047,7 @@ namespace SpiritMod
 					caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<IronCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
 				}
 			}
-			if(Main.rand.NextBool(player.cratePotion ? 70 : 95) && Main.raining) {
+			if(Main.rand.NextBool(player.cratePotion ? 100 : 125) && Main.raining) {
 				for(int i = 0; i < 1000; i++) {
 					if(Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber) {
 						bobberIndex = i;
@@ -1621,18 +1621,33 @@ namespace SpiritMod
 			if (manaShield)
             {
                 damage = damage - (int)damage / 10;
-                if (player.statMana > 0)
+                if (player.statMana > (int)damage / 10 * 4)
                 {
-                    player.statMana -= (int)damage/10 * 4;
+                    if ((player.statMana - (int)damage / 10 * 4) > 0)
+                    {
+                        player.statMana -= (int)damage / 10 * 4;
+                    }
+					else
+                    {
+                        player.statMana = 0;
+                    }
                 }
             }
             if (seraphimBulwark)
             {
                 damage = damage - (int)damage/10;
-                if (player.statMana > 0)
+                if (player.statMana > (int)damage / 10)
                 {
-                    player.statMana -= (int)damage / 10;
+                    if ((player.statMana - (int)damage / 10 * 4) > 0)
+                    {
+                        player.statMana -= (int)damage / 10;
+                    }
+                    else
+                    {
+                        player.statMana = 0;
+                    }
                 }
+
             }
             if (rogueSet && !player.HasBuff(ModContent.BuffType<RogueCooldown>())) {
 				player.AddBuff(BuffID.Invisibility, 260);

@@ -20,6 +20,7 @@ namespace SpiritMod.Tiles
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
 			TileObjectData.newTile.Height = 1;
 			TileObjectData.newTile.Width = 3;
+			Main.tileHammer[Type] = false; 
 			TileObjectData.newTile.CoordinateHeights = new int[] { 16 };
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
@@ -31,7 +32,11 @@ namespace SpiritMod.Tiles
 		{
 			offsetY = 2;
 		}
-		float alphaCounter;
+        public override bool Slope(int i, int j)
+        {
+            return false;
+        }
+        float alphaCounter;
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{
 			alphaCounter += 0.04f;

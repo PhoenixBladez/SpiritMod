@@ -30,7 +30,9 @@ namespace SpiritMod.NPCs.Asteroid
 			npc.HitSound = SoundID.DD2_GoblinHurt;
 			npc.DeathSound = SoundID.NPCDeath22;
 			npc.noGravity = true;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.GloopBanner>();
+        }
 		int xoffset = 0;
 		public override void AI()
 		{

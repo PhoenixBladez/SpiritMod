@@ -33,7 +33,7 @@ namespace SpiritMod.NPCs.Asteroid
 			npc.width = 26; //324
 			npc.height = 26; //216
 			npc.defense = 0;
-			npc.lifeMax = 200; //250000
+			npc.lifeMax = 225; //250000
 			npc.aiStyle = 6; //new
 			Main.npcFrameCount[npc.type] = 1; //new
 			aiType = -1; //new
@@ -411,10 +411,6 @@ namespace SpiritMod.NPCs.Asteroid
 				GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Asteroid/CogTrapperHead_Glow"));
 
 			}
-		}
-		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-		{
-			npc.lifeMax = (int)(npc.lifeMax * 0.6f * bossLifeScale);
 		}
 	}
 }
