@@ -23,7 +23,7 @@ namespace SpiritMod.NPCs.WhirlingWorlds
 		public override void SetDefaults()
 		{
 			npc.aiStyle = 3;
-			npc.lifeMax = 40;
+			npc.lifeMax = 45;
 			npc.defense = 6;
 			npc.value = 65f;
 			aiType = NPCID.Skeleton;
