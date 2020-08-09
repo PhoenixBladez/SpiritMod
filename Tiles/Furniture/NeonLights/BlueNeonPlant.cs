@@ -29,7 +29,6 @@ namespace SpiritMod.Tiles.Furniture.NeonLights
             TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight; //allows me to place example chairs facing the same way as the player
             TileObjectData.addAlternate(1);
             TileObjectData.addTile(Type);
-            drop = ModContent.ItemType<Items.Placeable.Furniture.Neon.NeonPlantBlue>();
 			ModTranslation name = CreateMapEntryName();
 			Main.tileLighted[Type] = true;
 			name.SetDefault("Fluorescent Plant");
@@ -38,7 +37,10 @@ namespace SpiritMod.Tiles.Furniture.NeonLights
             dustType = -1;
             //TODO	Main.highlightMaskTexture[Type] = mod.GetTexture("Tiles/ScoreBoard_Outline");
         }
-
+        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        {
+            Terraria.Item.NewItem(i * 16, j * 16, 32, 16, ModContent.ItemType<Items.Placeable.Furniture.Neon.NeonPlantBlue>());
+        }
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
             r = 0.082f * 1.75f;

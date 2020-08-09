@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("True Vessel Drainer");
-			Tooltip.SetDefault("Shoots a clot that gathers power over time.");
+			Tooltip.SetDefault("Shoots a clot that gathers power over time");
 		}
 
 

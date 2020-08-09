@@ -26,14 +26,14 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		{
 			npc.width = 132;
 			npc.height = 222;
-			npc.damage = 24;
+			npc.damage = 28;
             npc.boss = true;
 			npc.lifeMax = 2500;
 			npc.knockBackResist = 0;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.npcSlots = 10;
-			npc.defense = 11;
+			npc.defense = 15;
 			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/ReachBoss");
 			npc.buffImmune[20] = true;
 			npc.buffImmune[31] = true;
@@ -60,8 +60,8 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				npc.damage = 45;
 			}
 			else {
-				npc.defense = 11;
-				npc.damage = 25;
+				npc.defense = 14;
+				npc.damage = 28;
 			}
 			Counter++;
 			if (npc.life >= (npc.lifeMax / 3)) {
@@ -234,7 +234,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
-			npc.lifeMax = (int)(npc.lifeMax * 0.6f * bossLifeScale);
+			npc.lifeMax = (int)(npc.lifeMax * 0.66f * bossLifeScale);
 			npc.damage = (int)(npc.damage * 0.6f);
 		}
 

@@ -24,7 +24,8 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			name.SetDefault("Elderbark Table");
 			AddMapEntry(new Color(179, 146, 107), name);
 			disableSmartCursor = true;
-		}
+            adjTiles = new int[] { TileID.Tables };
+        }
 
 		public override void NumDust(int i, int j, bool fail, ref int num)
 		{

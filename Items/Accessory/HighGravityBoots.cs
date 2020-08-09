@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("High-Grav Boots");
-			Tooltip.SetDefault("Increases your gravity when falling \nNegates fall damage");
+			Tooltip.SetDefault("Increases your gravity when falling\nBoosts horizontal momentum\nNegates fall damage");
 		}
 		public override void SetDefaults()
 		{

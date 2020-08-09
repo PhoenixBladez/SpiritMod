@@ -2209,7 +2209,6 @@ namespace SpiritMod
 					ziplineActive = true;
 				}
 				player.justJumped = true;
-				player.noFallDmg = true;
 				float g = 0.18f;
 				if(ziplineCounter * g * ziplineY < 20 && ziplineCounter < 400)
 					ziplineCounter += 2;

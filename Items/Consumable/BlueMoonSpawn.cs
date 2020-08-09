@@ -37,7 +37,10 @@ namespace SpiritMod.Items.Consumable
 				Main.NewText("The moon isn't powerful in daylight.", 80, 80, 150, true);
 				return false;
 			}
-
+			if (MyWorld.BlueMoon)
+            {
+                return false;
+            }
 			return true;
 		}
 

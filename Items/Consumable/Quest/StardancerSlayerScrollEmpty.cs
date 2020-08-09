@@ -23,9 +23,6 @@ namespace SpiritMod.Items.Consumable.Quest
 		}
 		public override void UpdateInventory(Player player)
 		{
-			if (MyWorld.numStardancersKilled > 0) {
-				item.SetNameOverride("Incomplete Slayer's Contract: " + MyWorld.numStardancersKilled + "/3 Complete");
-			}
 			player.GetSpiritPlayer().emptyStardancerScroll = true;
 		}
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
@@ -33,7 +30,7 @@ namespace SpiritMod.Items.Consumable.Quest
 			TooltipLine line = new TooltipLine(mod, "ItemName", "Quest Item");
 			line.overrideColor = new Color(100, 222, 122);
 			tooltips.Add(line);
-			TooltipLine line1 = new TooltipLine(mod, "FavoriteDesc", "Kill 3 of the following enemy:");
+			TooltipLine line1 = new TooltipLine(mod, "FavoriteDesc", "Kill 1 of the following enemy:");
 			line1.overrideColor = new Color(255, 255, 255);
 			tooltips.Add(line1);
 			TooltipLine line2 = new TooltipLine(mod, "SocialDesc", "Stardancer");

@@ -13,7 +13,7 @@ namespace SpiritMod.Tiles.Furniture.Shiverbark
 	{
 		public override void SetDefaults()
 		{
-			Main.tileSolidTop[Type] = true;
+            Main.tileSolidTop[Type] = false;
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
 			Main.tileLavaDeath[Type] = true;

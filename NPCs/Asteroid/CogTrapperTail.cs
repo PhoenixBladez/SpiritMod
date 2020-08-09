@@ -91,6 +91,13 @@ namespace SpiritMod.NPCs.Asteroid
 					Main.dust[num624].velocity *= 1f;
 				}
 			}
+            if (npc.life <= 0)
+            {
+                if (Main.LocalPlayer.GetSpiritPlayer().emptyStardancerScroll)
+                {
+                    MyWorld.numStardancersKilled++;
+                }
+            }
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{

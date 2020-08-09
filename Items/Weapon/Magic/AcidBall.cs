@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Acid Globs");
-			Tooltip.SetDefault("Throws out multiple balls of acid that inflict 'Acid Burn'\nAcid Burn increases in potency as you continue htting foes");
+			Tooltip.SetDefault("Throws out multiple balls of acid that inflict 'Acid Burn'\nAcid Burn increases in potency as you continue hitting foes");
 
 		}
 

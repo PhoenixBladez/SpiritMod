@@ -129,11 +129,7 @@ namespace SpiritMod.NPCs.Tides
 		public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
 		{
 			if (blocking) {
-				projectile.hostile = true;
-				projectile.friendly = false;
 				Main.PlaySound(3, npc.position, 4);
-				projectile.penetrate = 2;
-				projectile.velocity.X = projectile.velocity.X * -1f;
 			}
 		}
 		public override void HitEffect(int hitDirection, double damage)

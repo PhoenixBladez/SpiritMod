@@ -203,7 +203,7 @@ namespace SpiritMod.NPCs
 			int x = spawnInfo.spawnTileX;
 			int y = spawnInfo.spawnTileY;
 			int tile = (int)Main.tile[x, y].type;
-			return (tile == 367) && NPC.downedBoss2 && NPC.AnyNPCs(ModContent.NPCType<Beholder>()) && spawnInfo.spawnTileY > Main.rockLayer ? 0.06f : 0f;
+            return spawnInfo.player.GetSpiritPlayer().ZoneMarble && NPC.downedBoss2 && !NPC.AnyNPCs(ModContent.NPCType<Beholder>()) && spawnInfo.spawnTileY > Main.rockLayer ? 0.04f : 0f;
 
 		}
 		public override void FindFrame(int frameHeight)
