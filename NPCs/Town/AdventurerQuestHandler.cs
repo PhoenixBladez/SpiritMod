@@ -209,7 +209,7 @@ namespace SpiritMod.NPCs.Town
 				});
 
 			explorerQuestMushroom.OnQuestStart = () => {
-                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MainQuestComplete"));
+                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/ExplorerStart"));
                 if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollMushroomEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ExplorerScrollMushroomEmpty>());
 			};
@@ -243,7 +243,7 @@ namespace SpiritMod.NPCs.Town
 				});
 
 			explorerQuestAsteroids.OnQuestStart = () => {
-                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MainQuestComplete"));
+                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/ExplorerStart"));
                 if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollAsteroidEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ExplorerScrollAsteroidEmpty>());
 			};
@@ -277,7 +277,7 @@ namespace SpiritMod.NPCs.Town
 				});
 
 			explorerQuestMarble.OnQuestStart = () => {
-                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MainQuestComplete"));
+                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/ExplorerStart"));
                 if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollMarbleEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ExplorerScrollMarbleEmpty>());
 			};
@@ -310,7 +310,7 @@ namespace SpiritMod.NPCs.Town
 					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
 				});
 			explorerQuestGranite.OnQuestStart = () => {
-                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MainQuestComplete"));
+                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/ExplorerStart"));
                 if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollGraniteEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ExplorerScrollGraniteEmpty>());
 			};
@@ -342,7 +342,7 @@ namespace SpiritMod.NPCs.Town
 
 				});
 			explorerQuestHive.OnQuestStart = () => {
-                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MainQuestComplete"));
+                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/ExplorerStart"));
                 if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollHiveEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ExplorerScrollHiveEmpty>());
 			};
@@ -396,7 +396,9 @@ namespace SpiritMod.NPCs.Town
 					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
 				});
 			slayerQuestWinterborn.OnQuestStart = () => {
-				if (!Main.LocalPlayer.HasItem(ModContent.ItemType<WinterbornSlayerScrollEmpty>()))
+                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SlayerStart"));
+
+                if (!Main.LocalPlayer.HasItem(ModContent.ItemType<WinterbornSlayerScrollEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<WinterbornSlayerScrollEmpty>());
 			};
 			slayerQuestWinterborn.CanGiveQuest = () => {
@@ -424,7 +426,9 @@ namespace SpiritMod.NPCs.Town
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
 				});
 			slayerQuestBeholder.OnQuestStart = () => {
-				if (!Main.LocalPlayer.HasItem(ModContent.ItemType<BeholderSlayerScrollEmpty>()))
+                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SlayerStart"));
+
+                if (!Main.LocalPlayer.HasItem(ModContent.ItemType<BeholderSlayerScrollEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<BeholderSlayerScrollEmpty>());
 			};
 			slayerQuestBeholder.CanGiveQuest = () => {
@@ -455,7 +459,9 @@ namespace SpiritMod.NPCs.Town
 					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
 				});
 			slayerQuestValkyrie.OnQuestStart = () => {
-				if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ValkyrieSlayerScrollEmpty>()))
+                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SlayerStart"));
+
+                if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ValkyrieSlayerScrollEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ValkyrieSlayerScrollEmpty>());
 			};
 
@@ -483,7 +489,9 @@ namespace SpiritMod.NPCs.Town
 					 Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
 				 });
 			slayerQuestAntlion.OnQuestStart = () => {
-				if (!Main.LocalPlayer.HasItem(ModContent.ItemType<AntlionSlayerScrollEmpty>()))
+                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SlayerStart"));
+
+                if (!Main.LocalPlayer.HasItem(ModContent.ItemType<AntlionSlayerScrollEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<AntlionSlayerScrollEmpty>());
 			};
 
@@ -509,7 +517,9 @@ namespace SpiritMod.NPCs.Town
 					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
 				});
 			slayerQuestDrBones.OnQuestStart = () => {
-				if (!Main.LocalPlayer.HasItem(ModContent.ItemType<DrBonesSlayerScrollEmpty>()))
+                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SlayerStart"));
+
+                if (!Main.LocalPlayer.HasItem(ModContent.ItemType<DrBonesSlayerScrollEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<DrBonesSlayerScrollEmpty>());
 			};
 
@@ -535,7 +545,9 @@ namespace SpiritMod.NPCs.Town
 					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
 				});
 			slayerQuestWheezers.OnQuestStart = () => {
-				if (!Main.LocalPlayer.HasItem(ModContent.ItemType<WheezerSlayerScrollEmpty>()))
+                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SlayerStart"));
+
+                if (!Main.LocalPlayer.HasItem(ModContent.ItemType<WheezerSlayerScrollEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<WheezerSlayerScrollEmpty>());
 
 			};
@@ -572,7 +584,9 @@ namespace SpiritMod.NPCs.Town
 					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
 				});
 			slayerQuestStardancers.OnQuestStart = () => {
-				if (!Main.LocalPlayer.HasItem(ModContent.ItemType<StardancerSlayerScrollEmpty>()))
+                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SlayerStart"));
+
+                if (!Main.LocalPlayer.HasItem(ModContent.ItemType<StardancerSlayerScrollEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<StardancerSlayerScrollEmpty>());
 
 			};

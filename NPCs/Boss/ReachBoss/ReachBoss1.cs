@@ -248,7 +248,8 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		{
 			MyWorld.downedReachBoss = true;
 			Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DeathSounds/VinewrathDeathSound"));
-			return true;
+            Main.NewText("The torrential downpour in the Briar has lifted!", 61, 255, 142, false);
+            return true;
 		}
 
 		public override void BossLoot(ref string name, ref int potionType)

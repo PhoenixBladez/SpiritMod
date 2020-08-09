@@ -400,7 +400,7 @@ namespace SpiritMod
 		public override void UpdateBiomeVisuals()
 		{
 			bool showAurora = (player.ZoneSnow || ZoneSpirit || player.ZoneSkyHeight) && !Main.dayTime && !Main.raining && !player.ZoneCorrupt && !player.ZoneCrimson && MyWorld.aurora;
-			bool reach = !Main.dayTime && ZoneReach && !reachBrooch;
+			bool reach = (!Main.dayTime && ZoneReach && !reachBrooch && player.ZoneOverworldHeight) || (ZoneReach && player.ZoneOverworldHeight && MyWorld.downedReachBoss && Main.dayTime);
 			bool spirit = (player.ZoneOverworldHeight && ZoneSpirit);
 
 			bool region1 = ZoneSpirit && player.ZoneRockLayerHeight && player.position.Y / 16 > (Main.rockLayer + Main.maxTilesY - 330) / 2f;
@@ -2346,7 +2346,7 @@ namespace SpiritMod
 					int proj1 = Projectile.NewProjectile(player.Center.X + Main.rand.Next(-1000, 1000), player.Center.Y + Main.rand.Next(-1200, -900), SpeedX, SpeedY, mod.ProjectileType(smallDebris[small]), 7, 3, Main.myPlayer, 0.0f, 1);
 				}
 			}
-			if(ZoneReach && !Main.raining) {
+			if(ZoneReach && !Main.raining && !MyWorld.downedReachBoss) {
 				Main.cloudAlpha += .007f;
 				if(Main.cloudAlpha >= .65f) {
 					Main.cloudAlpha = .65f;
@@ -2471,14 +2471,14 @@ namespace SpiritMod
 			if(ZoneAsteroid) {
 				Main.numCloudsTemp = 0;
 			}
-			if(Main.rand.NextBool(12) && ZoneReach && player.ZoneOverworldHeight && !player.ZoneBeach && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneJungle && !player.ZoneHoly) {
+			if(Main.rand.NextBool(6) && ZoneReach && player.ZoneOverworldHeight && !player.ZoneBeach && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneJungle && !player.ZoneHoly) {
 				float goreScale = 0.01f * Main.rand.Next(20, 70);
 				int a = Gore.NewGore(new Vector2(player.Center.X + Main.rand.Next(-1000, 1000), player.Center.Y + (Main.rand.Next(-1000, -100))), new Vector2(Main.windSpeed * 3f, 0f), 911, goreScale);
 				Main.gore[a].timeLeft = 15;
 				Main.gore[a].rotation = 0f;
 				Main.gore[a].velocity = new Vector2(Main.windSpeed * 40f, Main.rand.NextFloat(0.2f, 2f));
 			}
-			if(Main.rand.Next(10) == 0 && ZoneReach && player.ZoneOverworldHeight && !player.ZoneBeach && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneJungle && !player.ZoneHoly) {
+			if(Main.rand.Next(9) == 0 && ZoneReach && player.ZoneOverworldHeight && !player.ZoneBeach && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneJungle && !player.ZoneHoly) {
 				float goreScale = Main.rand.NextFloat(0.5f, 0.9f);
 				int x = (int)(Main.windSpeed > 0 ? Main.screenPosition.X - 100 : Main.screenPosition.X + Main.screenWidth + 100);
 				int y = (int)Main.screenPosition.Y + Main.rand.Next(-100, Main.screenHeight);

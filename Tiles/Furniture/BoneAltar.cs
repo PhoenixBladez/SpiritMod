@@ -78,7 +78,7 @@ namespace SpiritMod.Tiles.Furniture
 			}
 			if (!NPC.AnyNPCs(ModContent.NPCType<ForestWraith>())) {
 				Main.NewText("You have disturbed the ancient Nature Spirits!", 0, 170, 60);
-				NPC.NewNPC((int)i * 16, (int)j * 16 - 30, ModContent.NPCType<ForestWraith>(), 0, 2, 1, 0, 0, Main.myPlayer);
+				NPC.NewNPC((int)i * 16, (int)j * 16 - 300, ModContent.NPCType<ForestWraith>(), 0, 2, 1, 0, 0, Main.myPlayer);
 			}
 		}
 	}
