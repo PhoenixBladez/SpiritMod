@@ -10,7 +10,7 @@ namespace SpiritMod.YoYoOverload.Items.Acc
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Hellstone Charm");
-			Tooltip.SetDefault("Increases attack damage by 5%\nAttacks may burn enemies");
+			Tooltip.SetDefault("5% increased attack damage\nAttacks may burn enemies");
 		}
 
 

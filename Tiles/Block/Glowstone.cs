@@ -53,5 +53,13 @@ namespace SpiritMod.Tiles.Block
 			}
 			return true;
 		}
-	}
+        public override bool CanExplode(int i, int j)
+        {
+            if (!MyWorld.downedRaider)
+            {
+                return false;
+            }
+            return true;
+        }
+    }
 }

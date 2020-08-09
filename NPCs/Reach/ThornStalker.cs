@@ -32,7 +32,9 @@ namespace SpiritMod.NPCs.Reach
 			npc.DeathSound = SoundID.NPCDeath6;
 			npc.value = 90f;
 			npc.knockBackResist = .35f;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.ThornStalkerBanner>();
+        }
 		int frame = 0;
 		int timer = 0;
 		int shootTimer = 0;

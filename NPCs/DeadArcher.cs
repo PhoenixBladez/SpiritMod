@@ -29,7 +29,9 @@ namespace SpiritMod.NPCs
 			npc.aiStyle = 3;
 			aiType = NPCID.GoblinArcher;
 			animationType = NPCID.GoblinArcher;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.DeadeyeMarksmanBanner>();
+        }
 
 		public override void NPCLoot()
 		{

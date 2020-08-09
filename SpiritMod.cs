@@ -843,7 +843,7 @@ namespace SpiritMod
                     ModContent.ItemType<StarWormSummon>(),
                     new List<int> { ModContent.ItemType<Items.Boss.Trophy3>(), ModContent.ItemType<Items.Armor.Masks.StarplateMask>() /*, ModContent.ItemType<Items.Placeable.MusicBox.ScarabBox>()*/ },
                     new List<int> { ModContent.ItemType<Items.BossBags.SteamRaiderBag>(), ModContent.ItemType<Items.Material.CosmiliteShard>() },
-                     "Use a [i: " + ModContent.ItemType<StarWormSummon>() + "] at an Astralite Beacon, located in the Asteroids.",
+                     "Use a [i: " + ModContent.ItemType<StarWormSummon>() + "] at an Astralite Beacon, located in the Asteroids, at nighttime.",
                     null,
                     "SpiritMod/Textures/BossChecklist/StarplateTexture",
                     "SpiritMod/NPCs/Boss/SteamRaider/SteamRaiderHead_Head_Boss",

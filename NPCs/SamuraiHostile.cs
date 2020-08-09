@@ -50,7 +50,9 @@ namespace SpiritMod.NPCs
 			npc.value = 120f;
 			npc.knockBackResist = .1f;
 			npc.noTileCollide = true;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.PhantomSamuraiBanner>();
+        }
 		float frameCounter = 0;
 		public override void FindFrame(int frameHeight)
 		{

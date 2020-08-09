@@ -112,6 +112,7 @@ namespace SpiritMod.NPCs.Asteroid
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
+
 			for (int k = 0; k < 5; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, 226, hitDirection, -1f, 0, default(Color), 1f);
 			}
@@ -136,7 +137,14 @@ namespace SpiritMod.NPCs.Asteroid
 					Main.dust[num624].velocity *= 1f;
 				}
 			}
-		}
+            if (npc.life <= 0)
+            {
+                if (Main.LocalPlayer.GetSpiritPlayer().emptyStardancerScroll)
+                {
+                    MyWorld.numStardancersKilled++;
+                }
+            }
+         }
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 

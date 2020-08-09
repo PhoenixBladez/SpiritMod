@@ -29,7 +29,9 @@ namespace SpiritMod.NPCs
 			npc.knockBackResist = .3f;
 			npc.aiStyle = 44;
 			aiType = NPCID.FlyingAntlion;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.CracklingCoreBanner>();
+        }
 
 		public override void FindFrame(int frameHeight)
 		{

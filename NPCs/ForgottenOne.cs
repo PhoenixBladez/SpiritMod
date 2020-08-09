@@ -36,7 +36,9 @@ namespace SpiritMod.NPCs
 			npc.buffImmune[BuffID.CursedInferno] = true;
 			npc.buffImmune[BuffID.ShadowFlame] = true;
 			npc.buffImmune[BuffID.Confused] = true;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.ForgottenOneBanner>();
+        }
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{

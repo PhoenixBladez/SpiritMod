@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pendant of the Warm Winds");
-			Tooltip.SetDefault("Press and hold 'up' to reduce falling speed\nProvides immunity to the 'Chilled' debuff");
+			Tooltip.SetDefault("Press and hold 'up' to reduce falling speed\nImmunity to chilled");
 		}
 
 

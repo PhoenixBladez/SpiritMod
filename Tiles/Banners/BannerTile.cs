@@ -209,7 +209,28 @@ namespace SpiritMod.Tiles.Banners
 				case 57:
 					item = "KakamoraBanner";
 					break;
-				default:
+                case 58:
+                    item = "GloopBanner";
+                    break;
+                case 59:
+                    item = "ThornStalkerBanner";
+                    break;
+                case 60:
+                    item = "ForgottenOneBanner";
+                    break;
+                case 61:
+                    item = "DeadeyeMarksmanBanner";
+                    break;
+                case 62:
+                    item = "PhantomSamuraiBanner";
+                    break;
+                case 63:
+                    item = "FleshHoundBanner";
+                    break;
+                case 64:
+                    item = "CracklingCoreBanner";
+                    break;
+                default:
 					return;
 			}
 			Item.NewItem(i * 16, j * 16, 16, 48, mod.ItemType(item));
@@ -396,7 +417,28 @@ namespace SpiritMod.Tiles.Banners
 					case 57:
 						type = "KakamoraRunner";
 						break;
-					default:
+                    case 58:
+                        type = "GloopGloop";
+                        break;
+                    case 59:
+                        type = "ThornStalker";
+                        break;
+                    case 60:
+                        type = "ForgottenOne";
+                        break;
+                    case 61:
+                        type = "DeadArcher";
+                        break;
+                    case 62:
+                        type = "SamuraiHostile";
+                        break;
+                    case 63:
+                        type = "FleshHound";
+                        break;
+                    case 64:
+                        type = "GraniteCore";
+                        break;
+                    default:
 						return;
 				}
 				player.NPCBannerBuff[mod.NPCType(type)] = true;

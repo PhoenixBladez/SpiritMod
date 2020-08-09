@@ -46,6 +46,7 @@ namespace SpiritMod.Projectiles.Summon.Zipline
 				if (Main.rand.Next(10) == 0) {
 					Main.PlaySound(SoundID.Item, player.position, 55);
 				}
+                player.AddBuff(ModContent.BuffType<Buffs.RailBuff>(), 90);
 			}
 		}
 	}
