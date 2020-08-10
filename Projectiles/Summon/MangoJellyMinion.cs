@@ -92,7 +92,7 @@ namespace SpiritMod.Projectiles.Summon
 				}
 			}
 			NPC target = (Main.npc[(int)projectile.ai[1]] ?? new NPC()); //our target
-			if (target.active && !target.friendly) {
+			if (target.active && !target.friendly && target.type != NPCID.TargetDummy) {
 				if (target.position.X > projectile.position.X) {
 					xoffset = Main.rand.Next(24, 28);
 				}

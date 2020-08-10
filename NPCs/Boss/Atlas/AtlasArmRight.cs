@@ -88,7 +88,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			}
 			else if (npc.ai[1] == 3f) {
 				npc.rotation = num803;
-				float num383 = expertMode ? 15f : 13f;
+				float num383 = expertMode ? 25f : 20f;
 				Vector2 vector37 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 				float num384 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector37.X;
 				float num385 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector37.Y;
@@ -101,8 +101,8 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			else if (npc.ai[1] == 4f) {
 				npc.ai[2] += 1f;
 				if (npc.ai[2] >= 25f) {
-					npc.velocity.X = npc.velocity.X * 0.98f;
-					npc.velocity.Y = npc.velocity.Y * 0.98f;
+					npc.velocity.X = npc.velocity.X * 0.99f;
+					npc.velocity.Y = npc.velocity.Y * 0.99f;
 					if (npc.velocity.X > -0.1 && npc.velocity.X < 0.1)
 						npc.velocity.X = 0f;
 					if (npc.velocity.Y > -0.1 && npc.velocity.Y < 0.1)

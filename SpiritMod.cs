@@ -482,10 +482,7 @@ namespace SpiritMod
 				SkyManager.Instance["SpiritMod:BlueAlgaeSky"] = new BlueAlgaeSky();
 				Filters.Scene["SpiritMod:BlueAlgaeSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
 
-				SkyManager.Instance["SpiritMod:AshstormParticles"] = new AshstormSky();
-				Filters.Scene["SpiritMod:AshstormParticles"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
-				Overlays.Scene["SpiritMod:AshstormParticles"] = new AshstormOverlay(EffectPriority.VeryHigh);
-
+			
 				Filters.Scene["SpiritMod:Overseer"] = new Filter(new SeerScreenShaderData("FilterMiniTower").UseColor(0f, 0.3f, 1f).UseOpacity(0.75f), EffectPriority.VeryHigh);
 				SkyManager.Instance["SpiritMod:Overseer"] = new SeerSky();
 
@@ -875,7 +872,7 @@ namespace SpiritMod
                     (Func<bool>)(() => MyWorld.downedDusking),
                     ModContent.ItemType<DuskCrown>(),
                     new List<int> { ModContent.ItemType<Items.Boss.Trophy6>(), ModContent.ItemType<Items.Armor.Masks.DuskingMask>() /*, ModContent.ItemType<Items.Placeable.MusicBox.ScarabBox>()*/ },
-                    new List<int> { ModContent.ItemType<Items.BossBags.DuskingBag>(), ModContent.ItemType<Items.Weapon.Thrown.CrystalShadow>(), ModContent.ItemType<ShadowflameSword>(), ModContent.ItemType<UmbraStaff>(), ModContent.ItemType<ShadowSphere>(), ModContent.ItemType<DuskCarbine>(), ModContent.ItemType<DuskStone>() },
+                    new List<int> { ModContent.ItemType<Items.BossBags.DuskingBag>(), ModContent.ItemType<Items.Weapon.Thrown.CrystalShadow>(), ModContent.ItemType<ShadowflameSword>(), ModContent.ItemType<UmbraStaff>(), ModContent.ItemType<ShadowSphere>(), ModContent.ItemType<Shadowmoor>(), ModContent.ItemType<DuskStone>() },
                      "Use a [i: " + ModContent.ItemType<DuskCrown>() + "] anywhere at nighttime.",
                     null,
                     "SpiritMod/Textures/BossChecklist/DuskingTexture",

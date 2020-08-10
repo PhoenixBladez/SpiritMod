@@ -429,7 +429,6 @@ namespace SpiritMod
 				player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);
 			}
 
-			player.ManageSpecialBiomeVisuals("SpiritMod:AshstormParticles", true);
 			player.ManageSpecialBiomeVisuals("SpiritMod:AuroraSky", showAurora);
 			player.ManageSpecialBiomeVisuals("SpiritMod:SpiritBiomeSky", spirit);
 			player.ManageSpecialBiomeVisuals("SpiritMod:AsteroidSky2", ZoneAsteroid);

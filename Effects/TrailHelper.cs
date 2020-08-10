@@ -84,7 +84,25 @@ namespace SpiritMod.Effects
 						break;
 				}
 			}
-			if (projectile.type == ModContent.ProjectileType<BloomshroomHostile>()) {
+            if (projectile.type == ModContent.ProjectileType<ShadowmoorProjectile>())
+            {
+                switch (Main.rand.Next(3))
+                {
+                    case 0:
+                        CreateTrail(projectile, new GradientTrail(new Color(142, 8, 255), new Color(91, 21, 150)), new RoundCap(), new SleepingStarTrailPosition(), 110f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
+                        CreateTrail(projectile, new StandardColorTrail(Color.White * 0.3f), new RoundCap(), new SleepingStarTrailPosition(), 12f, 80f, new DefaultShader());
+                        break;
+                    case 1:
+                        CreateTrail(projectile, new GradientTrail(new Color(222, 84, 128), new Color(190, 72, 194)), new RoundCap(), new SleepingStarTrailPosition(), 110f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
+                        CreateTrail(projectile, new StandardColorTrail(Color.White * 0.3f), new RoundCap(), new SleepingStarTrailPosition(), 12f, 80f, new DefaultShader());
+                        break;
+                    case 2:
+                        CreateTrail(projectile, new GradientTrail(new Color(126, 55, 250), new Color(173, 50, 230)), new RoundCap(), new SleepingStarTrailPosition(), 110f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
+                        CreateTrail(projectile, new StandardColorTrail(Color.White * 0.3f), new RoundCap(), new SleepingStarTrailPosition(), 12f, 80f, new DefaultShader());
+                        break;
+                }
+            }
+            if (projectile.type == ModContent.ProjectileType<BloomshroomHostile>()) {
 				switch (Main.rand.Next(2)) {
 					case 0:
 						CreateTrail(projectile, new StandardColorTrail(new Color(120, 217, 255)), new RoundCap(), new SleepingStarTrailPosition(), 18f, 250f);

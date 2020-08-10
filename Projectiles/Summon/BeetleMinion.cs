@@ -27,6 +27,7 @@ namespace SpiritMod.Projectiles.Summon
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = true;
+            projectile.minionSlots = 0;
 			projectile.netImportant = true;
 			projectile.alpha = 0;
 			projectile.timeLeft = 120;

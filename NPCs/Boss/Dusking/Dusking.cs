@@ -5,7 +5,7 @@ using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Items.Boss;
 using SpiritMod.Items.BossBags;
 using SpiritMod.Items.Material;
-using SpiritMod.Items.Weapon.Gun;
+using SpiritMod.Items.Weapon.Bow;
 using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Items.Weapon.Swung;
 using SpiritMod.Projectiles.Hostile;
@@ -404,7 +404,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 				ModContent.ItemType<ShadowflameSword>(),
 				ModContent.ItemType<UmbraStaff>(),
 				ModContent.ItemType<ShadowSphere>(),
-				ModContent.ItemType<DuskCarbine>(),
+				ModContent.ItemType<Shadowmoor>(),
 			};
 			int loot = Main.rand.Next(lootTable.Length);
 			if (loot == 0)
