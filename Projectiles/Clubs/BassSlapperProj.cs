@@ -7,23 +7,22 @@ using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using SpiritMod.Dusts;
 
-namespace SpiritMod.Projectiles.Sword.Clubs
+namespace SpiritMod.Projectiles.Clubs
 {
-	class WoodClubProj : ClubProj
+	class BassSlapperProj : ClubProj
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Wooden Club");
+			DisplayName.SetDefault("Bass Slapper");
 			Main.projFrames[projectile.type] = 2;
 		}
 		public override void Smash(Vector2 position)
 		{
 			Player player = Main.player[projectile.owner];
-			player.GetModPlayer<MyPlayer>().Shake += (int)(projectile.ai[0] * 0.2f);
 			for (int k = 0; k <= 100; k++) {
 				Dust.NewDustPerfect(projectile.oldPosition + new Vector2(projectile.width / 2, projectile.height / 2), DustType<Dusts.EarthDust>(), new Vector2(0, 1).RotatedByRandom(1) * Main.rand.NextFloat(-1, 1) * projectile.ai[0] / 10f);
 			}
 		}
-		public WoodClubProj() : base(60, 8, 20, -1, 58, 5, 9, 1.7f, 12f){}
+		public BassSlapperProj() : base(80, 8, 20, -1, 58, 9, 22, 1.7f, 12f){}
 	}
 }

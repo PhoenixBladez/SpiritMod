@@ -49,7 +49,7 @@ namespace SpiritMod.Projectiles.Sword
 			Vector2 angle = new Vector2(projectile.ai[0], projectile.ai[1]);
 			angle *= 0.105f;
 			Player player = Main.player[projectile.owner];
-			if (angle.Y > 0) {
+			if (angle.Y > 0 && player.velocity.Y != 0) {
 				angle *= 2.5f;
 				player.velocity.Y = -angle.Y;
 			}

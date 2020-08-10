@@ -7,11 +7,11 @@ using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using SpiritMod.Dusts;
 
-namespace SpiritMod.Projectiles.Sword.Clubs
+namespace SpiritMod.Projectiles.Clubs
 {
 	public abstract class ClubProj : ModProjectile
 	{
-        private readonly int chargeTime;
+        public readonly int chargeTime;
         private readonly int minDamage;
         private readonly int maxDamage;
         private readonly int dustType;
@@ -34,9 +34,10 @@ namespace SpiritMod.Projectiles.Sword.Clubs
 			MaxSpeed = maxspeed;
         }
 
-         public virtual void SafeAI() { }
+		public virtual void SafeAI() { }
+		public virtual void SafeDraw(SpriteBatch spriteBatch, Color lightColor) { }
 
-          public virtual void SafeSetDefaults() { }
+		public virtual void SafeSetDefaults() { }
 		public sealed override void SetDefaults()
 		{
 			projectile.hostile = false;
@@ -49,15 +50,16 @@ namespace SpiritMod.Projectiles.Sword.Clubs
             projectile.alpha = 255;
             SafeSetDefaults();
 		}
-        bool released = false;
+        public bool released = false;
         float angularMomentum = 1;
-        double radians = 0;
+        public double radians = 0;
         int lingerTimer = 0;
 		int flickerTime = 0;
         public sealed override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
 			Color color = lightColor;
 			Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, 0, Size, Size), color, (float)radians + 3.9f, new Vector2(0, Size), projectile.scale, SpriteEffects.None, 0);
+			SafeDraw(spriteBatch, lightColor);
 			if (projectile.ai[0] >= chargeTime && !released && flickerTime < 16) {
 				flickerTime++;
 				color = Color.White;
@@ -169,6 +171,10 @@ namespace SpiritMod.Projectiles.Sword.Clubs
                         this.Smash(projectile.Center);
 
                     }
+					if (Main.tile[(int)projectile.Center.X / 16, (int)((projectile.Center.Y + 24) / 16)].collisionType == 1)
+					{
+						player.GetModPlayer<MyPlayer>().Shake += (int)(projectile.ai[0] * 0.2f);
+					}
 					projectile.friendly = false;
                     Main.PlaySound(SoundID.Item70, projectile.Center);
                     Main.PlaySound(SoundID.NPCHit42, projectile.Center);
