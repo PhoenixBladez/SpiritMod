@@ -22,6 +22,10 @@ namespace SpiritMod.NPCs
 			npc.damage = 0;
 			npc.defense = 9;
 			npc.lifeMax = 47;
+			if (Main.expertMode)
+            {
+                npc.lifeMax = 94;
+            }
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath6;
 			npc.value = 120f;
@@ -52,9 +56,13 @@ namespace SpiritMod.NPCs
 			else {
 				return spawnInfo.spawnTileY < Main.rockLayer && (!Main.dayTime) && spawnInfo.player.ZoneOverworldHeight && !spawnInfo.player.ZoneDesert && !spawnInfo.player.ZoneCorrupt && !spawnInfo.player.ZoneCrimson && !spawnInfo.player.ZoneBeach && !spawnInfo.player.ZoneJungle ? 0.04f : 0f;
 			}
-		}
+        }
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+            npc.lifeMax = (int)(npc.lifeMax * bossLifeScale);
+        }
 
-		public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 40; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), .45f);

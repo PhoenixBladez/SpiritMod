@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Armor
 		}
 		public override void UpdateArmorSet(Player player)
 		{
-			player.setBonus = "Increases falling speed greatly\nIncreases defense by 5 when falling";
+			player.setBonus = "Increases falling speed greatly\nIncreases defense by 5 when falling\nHold UP to revert falling speed to normal";
 			
 			if (player.velocity.Y > 0 && player.ropeCount <= 0 && !player.gravControl && !player.controlUp) {
 				player.velocity.Y = 10.53f;

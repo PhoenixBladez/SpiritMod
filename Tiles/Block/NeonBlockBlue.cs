@@ -20,7 +20,7 @@ namespace SpiritMod.Tiles.Block
 			AddMapEntry(new Color(53, 59, 74));
 			dustType = -1;
         //    TileID.Sets.Grass[Type] = true;
-//            TileID.Sets.NeedsGrassFraming[Type] = true;
+            TileID.Sets.NeedsGrassFraming[Type] = true;
             soundType = SoundID.Tink;
 			drop = ModContent.ItemType<NeonBlockBlueItem>();
 		}

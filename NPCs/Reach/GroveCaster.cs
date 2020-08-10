@@ -33,7 +33,7 @@ namespace SpiritMod.NPCs.Reach
 			npc.knockBackResist = 0.75f;
 			npc.noGravity = true;
 			npc.netAlways = true;
-			npc.chaseable = false;
+			npc.chaseable = true;
 			npc.lavaImmune = true;
 		}
 

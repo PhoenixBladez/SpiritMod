@@ -65,7 +65,7 @@ namespace SpiritMod.Items.Accessory
 
 			ModRecipe modRecipe1 = new ModRecipe(mod);
 			modRecipe1.AddIngredient(ItemID.TitaniumBar, 5);
-			modRecipe.AddIngredient(ModContent.ItemType<Material.Material>(), 5);
+			modRecipe1.AddIngredient(ModContent.ItemType<Material.Material>(), 5);
 			modRecipe1.AddIngredient(ItemID.SoulofFlight, 20);
 			modRecipe1.AddTile(TileID.MythrilAnvil);
 			modRecipe1.SetResult(this, 1);

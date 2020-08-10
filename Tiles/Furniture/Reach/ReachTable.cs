@@ -31,10 +31,6 @@ namespace SpiritMod.Tiles.Furniture.Reach
 		{
 			num = fail ? 1 : 3;
 		}
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
-		{
-			offsetY = -2;
-		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			Item.NewItem(i * 16, j * 16, 32, 16, ModContent.ItemType<Items.Placeable.Furniture.Reach.ReachTable>());

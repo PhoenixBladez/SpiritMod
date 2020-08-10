@@ -26,7 +26,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			npc.boss = true;
 			npc.damage = 0;
 			npc.defense = 12;
-			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Starplate");
+			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/null");
 			npc.noTileCollide = true;
 			npc.dontTakeDamage = true;
 			npc.lifeMax = 65;

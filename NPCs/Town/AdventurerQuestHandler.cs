@@ -604,7 +604,7 @@ namespace SpiritMod.NPCs.Town
 
 		"Ever since I was captured by those savages from the Briar, I've been doin' some research on the place." +
 			" That altar you found me at is supposed to harbor a really venegeful nature spirit." +
-			" However, the vines that spirit's made of are said to possessive some mystical regenerative properties, or somethin'. Mind investigating? And kill some savages for me while you're at it.",
+			" However, the vines that spirit's made of are said to possess some mystical regenerative properties, or somethin'. Mind investigating? And kill some savages for me while you're at it.",
 
 			"Revenge is sweet! Now those feral beasts in the Briar are sure to think twice about capturin' innocent adventurers in the future! Hopefully." +
 			"I've whipped up some healin' potions with those vines you gave me. I'm sure it'll help out when you're in a tight spot, eh?", true,

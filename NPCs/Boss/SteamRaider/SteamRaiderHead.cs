@@ -231,6 +231,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 						npc.spriteDirection = -1;
 				}
 				if (player.dead) {
+
 					npc.TargetClosest(false);
 					flag94 = false;
 					npc.velocity.Y = npc.velocity.Y + 10f;
@@ -451,7 +452,8 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				if (!player.active || player.dead) //despawns when player is ded
 				{
 					npc.TargetClosest(false);
-					npc.velocity.Y = -50;
+                    npc.active = false;
+                    npc.netUpdate = true;
 					timer = 0;
 				}
 				npc.defense = 20;

@@ -1,4 +1,4 @@
-﻿using Terraria;
+﻿/*using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -46,4 +46,4 @@ namespace SpiritMod.Items.Weapon.Swung.Club
             return new Vector2(-10, 0);
         }
     }
-}
+}*/

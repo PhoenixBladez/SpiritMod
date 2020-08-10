@@ -217,6 +217,7 @@ namespace SpiritMod
 				&& player.ZoneOverworldHeight
 				&& !player.ZoneCorrupt
 				&& !player.ZoneCrimson
+				&& !Main.bloodMoon
 				&& !Main.dayTime) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/AuroraSnow");
 				priority = MusicPriority.BiomeHigh;

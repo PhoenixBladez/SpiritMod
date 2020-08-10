@@ -29,6 +29,7 @@ using SpiritMod.NPCs.Boss;
 using SpiritMod.NPCs.Boss.Atlas;
 using SpiritMod.NPCs.Boss.Dusking;
 using SpiritMod.NPCs.Boss.Infernon;
+using SpiritMod.NPCs.Boss.ReachBoss;
 using SpiritMod.NPCs.Boss.Overseer;
 using SpiritMod.NPCs.Boss.Scarabeus;
 using SpiritMod.NPCs.Boss.SteamRaider;
@@ -694,7 +695,10 @@ namespace SpiritMod.NPCs
 				if (NPC.downedMechBossAny) {
 					shop.item[nextSlot].SetDefaults(ModContent.ItemType<PartyStarter>(), false);
 					nextSlot++;
-					shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Placeable.Furniture.SpiritPainting>(), false);
+                    shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Placeable.MusicBox.NeonMusicBox>(), false);
+                    shop.item[nextSlot].shopCustomPrice = 50000;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Placeable.Furniture.SpiritPainting>(), false);
 					nextSlot++;
 				}
 			}
@@ -844,10 +848,12 @@ namespace SpiritMod.NPCs
 		private int GlyphsHeldBy(NPC boss)
 		{
 			if (boss.type == NPCID.KingSlime
-				|| boss.type == NPCType<Scarabeus>())
-				return 1;
+				|| boss.type == NPCType<Scarabeus>() ||
+                boss.type == NPCID.EyeofCthulhu)
+				return 2;
 
-			if (boss.type == NPCID.QueenBee
+			if (boss.type == NPCType<ReachBoss1>() ||
+				boss.type == NPCID.QueenBee
 				|| boss.type == NPCID.SkeletronHead
 				|| boss.type == NPCType<AncientFlyer>()
 				|| boss.type == NPCType<SteamRaiderHead>())

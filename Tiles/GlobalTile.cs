@@ -63,7 +63,46 @@ namespace SpiritMod.Tiles
 			}
 			return base.CanKillTile(i, j, type, ref blockDamaged);
 		}
-		public override bool CanExplode(int i, int j, int type)
+        public virtual bool Slope(int i, int j, int type)
+        {
+            Tile tileAbove = Framing.GetTileSafely(i, j - 1);
+            Tile tileRight = Framing.GetTileSafely(i + 1, j - 1);
+            Tile tileLeft = Framing.GetTileSafely(i - 1, j - 1);
+            ushort eggType = (ushort)ModContent.TileType<Ambient.AvianEgg>();
+			ushort flowerType = (ushort)ModContent.TileType<BloodBlossom>();
+			if (type == flowerType || tileAbove.type == flowerType) {
+				return false;
+			}
+			else if (type == eggType || tileAbove.type == eggType) {
+				return false;
+			}
+			else if (type != IceType1 && tileAbove.type == IceType1) {
+				return false;
+			}
+			else if (type != IceType2 && tileAbove.type == IceType2) {
+				return false;
+			}
+			else if (type != IceType3 && tileAbove.type == IceType3) {
+				return false;
+			}
+			else if (type != IceType4 && tileAbove.type == IceType4) {
+				return false;
+			}
+			else if (type != IceType5 && tileAbove.type == IceType5) {
+				return false;
+			}
+			else if (type != IceType6 && tileAbove.type == IceType6) {
+				return false;
+			}
+			else if (type != IceType7 && tileAbove.type == IceType7) {
+				return false;
+			}
+			else if (type != IceType8 && tileAbove.type == IceType8) {
+				return false;
+			}
+            return base.Slope(i, j, type);
+        }
+        public override bool CanExplode(int i, int j, int type)
 		{
 			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
 			ushort eggType = (ushort)ModContent.TileType<Ambient.AvianEgg>();

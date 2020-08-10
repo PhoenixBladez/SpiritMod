@@ -20,7 +20,8 @@ namespace SpiritMod.Tiles.Block
 			AddMapEntry(new Color(53, 59, 74));
 			dustType = -1;
             soundType = SoundID.Tink;
-			drop = ModContent.ItemType<NeonBlockRedItem>();
+            TileID.Sets.NeedsGrassFraming[Type] = true;
+            drop = ModContent.ItemType<NeonBlockRedItem>();
 		}
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {

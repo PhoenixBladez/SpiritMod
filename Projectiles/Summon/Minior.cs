@@ -25,7 +25,7 @@ namespace SpiritMod.Projectiles.Summon
 			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
-			projectile.tileCollide = true;
+			projectile.tileCollide = false;
 			projectile.scale = .9f;
 			projectile.netImportant = true;
 			aiType = ProjectileID.Spazmamini;

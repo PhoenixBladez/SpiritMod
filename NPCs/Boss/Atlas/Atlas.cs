@@ -351,8 +351,13 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			};
 			int loot = Main.rand.Next(lootTable.Length);
 			npc.DropItem(lootTable[loot]);
-
-			npc.DropItem(ModContent.ItemType<AtlasMask>(), 1f / 7);
+            string[] lootTable1 = { "JackHead", "JackBody", "JackLegs" };
+            int loot1 = Main.rand.Next(lootTable1.Length);
+			if (Main.rand.NextBool(12))
+            {
+                npc.DropItem(mod.ItemType(lootTable1[loot1]));
+            }
+            npc.DropItem(ModContent.ItemType<AtlasMask>(), 1f / 7);
 			npc.DropItem(ModContent.ItemType<Trophy8>(), 1f / 10);
 		}
 
