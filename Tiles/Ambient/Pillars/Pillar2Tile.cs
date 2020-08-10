@@ -17,10 +17,11 @@ namespace SpiritMod.Tiles.Ambient.Pillars
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
 			Main.tileLavaDeath[Type] = true;
-			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
+			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
 			TileObjectData.newTile.Height = 4;
 			TileObjectData.newTile.Width = 2;
 			TileObjectData.newTile.Origin = new Point16(0, 3);
+			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, 2, 0);
 			TileObjectData.newTile.CoordinateHeights = new int[]
 			{
 				16,
