@@ -1,4 +1,4 @@
-﻿/*
+﻿
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -348,4 +348,4 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 		}
 		#endregion
 	}
-}*/
+}
