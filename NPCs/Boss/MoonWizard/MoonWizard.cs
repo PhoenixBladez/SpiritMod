@@ -75,7 +75,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				UpdateFrame(0.15f, 0, 3);
 				if (attackCounter > timeBetweenAttacks) {
 					attackCounter = 0;
-					npc.ai[0] = Main.rand.Next(6) + 1;
+					npc.ai[0] = Main.rand.Next(7) + 1;
 				}
 			}
 			else 
@@ -98,6 +98,9 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 						break;
 					case 6:
 						SineAttack();
+						break;
+					case 7:
+						CreateNodes();
 						break;
 
 				}
@@ -144,6 +147,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 		Vector2 dashDirection = Vector2.Zero;
 		float dashDistance = 0f;
 		int numMoves = -1;
+		int node = 0;
 		#region attacks
 		void SineAttack()
 		{
@@ -152,13 +156,13 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			attackCounter++;
 			if (attackCounter >= 80) 
 			{
-				if (attackCounter % 40 == 0) 
+				if (attackCounter % 80 == 3) 
 				{
 					Vector2 direction = player.Center - (npc.Center - new Vector2(0, 60));
 					direction.Normalize();
 					direction *= 5;
-					Projectile.NewProjectile(npc.Center - new Vector2(0, 60), direction, mod.ProjectileType("SineBall"), npc.damage / 2, 3, npc.target, 180);
-					Projectile.NewProjectile(npc.Center - new Vector2(0, 60), direction, mod.ProjectileType("SineBall"), npc.damage / 2, 3, npc.target, 0);
+					int proj = Projectile.NewProjectile(npc.Center - new Vector2(0, 60), direction, mod.ProjectileType("SineBall"), npc.damage / 2, 3, npc.target, 180);
+					Projectile.NewProjectile(npc.Center - new Vector2(0, 60), direction, mod.ProjectileType("SineBall"), npc.damage / 2, 3, npc.target, 0, proj + 1);
 				}
 				if (attackCounter > 270) 
 				{
@@ -211,11 +215,36 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				dashDirection.Normalize();
 				dashDirection *= speed;
 				npc.velocity = dashDirection;
+				node = Projectile.NewProjectile(npc.position, Vector2.Zero, mod.ProjectileType("LightningNode"), npc.damage / 3, 0, Main.myPlayer, npc.whoAmI + 1);
 			}
 			attackCounter++;
 			npc.rotation = npc.velocity.ToRotation() + 1.57f;
-			if (attackCounter > Math.Abs(dashDistance / speed)) {
+			if (attackCounter > Math.Abs(dashDistance / speed) + 15) {
+				Main.projectile[node].active = false;
 				Teleport();
+				npc.ai[0] = 0;
+				timeBetweenAttacks = 50;
+				attackCounter = 0;
+			}
+		}
+		void CreateNodes()
+		{
+			UpdateFrame(0.15f, 10, 13);
+			Player player = Main.player[npc.target];
+			if (attackCounter == 30) 
+			{
+				for (int i = 0; i < 4; i++) 
+				{
+					npc.ai[3] = Main.rand.Next(360);
+					double anglex = Math.Sin(npc.ai[3] * (Math.PI / 180));
+					double angley = Math.Abs(Math.Cos(npc.ai[3] * (Math.PI / 180)));
+					Vector2 angle = new Vector2((float)anglex, (float)angley);
+					Projectile.NewProjectile(player.position - (angle * Main.rand.Next(100, 400)), Vector2.Zero, mod.ProjectileType("MoonBlocker"), npc.damage / 2, 0, player.whoAmI);
+				}
+			}
+			attackCounter++;
+			if (attackCounter > 200) 
+			{
 				npc.ai[0] = 0;
 				timeBetweenAttacks = 50;
 				attackCounter = 0;
@@ -237,10 +266,12 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				dashDirection.Normalize();
 				dashDirection *= speed;
 				npc.velocity = dashDirection;
+				node = Projectile.NewProjectile(npc.position, Vector2.Zero, mod.ProjectileType("LightningNode"), npc.damage / 3, 0, Main.myPlayer, npc.whoAmI + 1);
 			}
 			attackCounter++;
 			npc.rotation = npc.velocity.ToRotation() + 1.57f;
 			if (attackCounter > Math.Abs(dashDistance / speed)) {
+				Main.projectile[node].active = false;
 				npc.ai[0] = 0;
 				timeBetweenAttacks = 50;
 				attackCounter = 0;
@@ -275,7 +306,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 		{
 			UpdateFrame(0.15f, 10, 13);
 			if (numMoves == -1) {
-				numMoves = 5;
+				numMoves = 3;
 			}
 			if (attackCounter == 0) 
 			{

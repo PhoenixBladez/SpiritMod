@@ -7,13 +7,11 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 {
-	public class SineBall : ModProjectile
+	public class LightningNode : ModProjectile
 	{
-		float distance = 8;
-		int rotationalSpeed = 4;
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Focus Ball");
+			DisplayName.SetDefault("Lightning Node");
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
@@ -31,41 +29,20 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 
 		}
-		bool initialized = false;
-		Vector2 initialSpeed = Vector2.Zero;
 		public override void AI()
 		{
-			int rightValue = (int)projectile.ai[1] - 1;
-			if (rightValue < (double)Main.projectile.Length && rightValue != -1) {
-				Projectile other = Main.projectile[rightValue];
+			int rightValue = (int)projectile.ai[0] - 1;
+			if (rightValue < (double)Main.npc.Length && rightValue != -1) {
+				NPC other = Main.npc[rightValue];
 				Vector2 direction9 = other.Center - projectile.Center;
 				int distance = (int)Math.Sqrt((direction9.X * direction9.X) + (direction9.Y * direction9.Y));
 				direction9.Normalize();
 				if (projectile.timeLeft % 4 == 0 && distance < 600 && other.active) {
 					int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)direction9.X * 15, (float)direction9.Y * 15, mod.ProjectileType("MoonLightning"), 30, 0);
 					Main.projectile[proj].timeLeft = (int)(distance / 15);
-					Main.projectile[proj].hostile = true;
-					Main.projectile[proj].friendly = false;
-					DustHelper.DrawElectricity(projectile.Center + (projectile.velocity * 4), other.Center + (other.velocity * 4), 226, 0.3f);
+					DustHelper.DrawElectricity(projectile.Center + (projectile.velocity * 4), other.Center + (other.velocity * 4), 226, 0.3f, 60);
 				}
 			}
-				if (!initialized) 
-			{
-				initialSpeed = projectile.velocity;
-				initialized = true;
-			}
-			projectile.spriteDirection = 1;
-			if (projectile.ai[0] > 0) {
-				projectile.spriteDirection = 0;
-			}
-			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-			distance += 0.1f;
-			projectile.ai[0] += rotationalSpeed;
-			
-			Vector2 offset = initialSpeed.RotatedBy(Math.PI / 2);
-			offset.Normalize();
-			offset *= (float)(Math.Cos(projectile.ai[0] * (Math.PI / 180)) * (distance / 3));
-			projectile.velocity = initialSpeed + offset;
 		}
 	}
 }
