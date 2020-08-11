@@ -147,7 +147,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 		{
 			Player player = Main.player[npc.target];
 			npc.rotation = 3.14f;
-			if (attackCounter == 0) 
+			if (attackCounter < 20) 
 			{
 				npc.position.X = player.position.X;
 				npc.position.Y = player.position.Y - 300; 
@@ -166,6 +166,9 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			}
 			if (Main.tile[(int)(npc.Center.X / 16), (int)(npc.Center.Y / 16)].collisionType == 1 || attackCounter > 120) 
 			{
+				for (int i = 0; i < Main.rand.Next(5, 7); i++) {
+					Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(-4, 4), Main.rand.NextFloat(3)), mod.ProjectileType("MoonBubble"), npc.damage / 2, 3);
+				}
 				Teleport();
 				npc.ai[0] = 0;
 				timeBetweenAttacks = 50;
@@ -252,6 +255,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			if (attackCounter == 0) 
 			{
 				numMoves--;
+				NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, mod.NPCType("MoonJellyMedium"));
 				Teleport();
 			}
 			attackCounter++;
