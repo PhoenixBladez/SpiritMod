@@ -68,6 +68,9 @@ namespace SpiritMod.Items.Weapon.Bow
 			if (type == ProjectileID.WoodenArrowFriendly) {
 				type = ModContent.ProjectileType<ShadowmoorProjectile>();
                 damage = (int)(damage * .75f);
+            }
+			else
+            {
                 float angle = Main.rand.NextFloat(MathHelper.PiOver4, -MathHelper.Pi - MathHelper.PiOver4);
                 Vector2 spawnPlace = Vector2.Normalize(new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle))) * 20f;
                 if (Collision.CanHit(position, 0, 0, position + spawnPlace, 0, 0))
@@ -78,6 +81,7 @@ namespace SpiritMod.Items.Weapon.Bow
                 Vector2 velocity = Vector2.Normalize(Main.MouseWorld - position) * item.shootSpeed;
                 DustHelper.DrawDiamond(new Vector2(position.X, position.Y), 173, 2, .8f, .75f);
                 int p1 = Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<ShadowmoorProjectile>(), damage, knockBack, 0, 0.0f, 0.0f);
+
             }
             for (int I = 0; I < 4; I++)
             {
