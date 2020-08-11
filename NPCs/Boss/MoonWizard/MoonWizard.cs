@@ -29,7 +29,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 
 		public override void SetDefaults()
 		{
-			npc.lifeMax = 150;
+			npc.lifeMax = 1400;
 			npc.defense = 10;
 			npc.value = 400f;
 			npc.aiStyle = -1;
@@ -42,6 +42,8 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			npc.noTileCollide = true;
 			npc.HitSound = SoundID.NPCHit2;
 			npc.DeathSound = SoundID.NPCDeath2;
+			npc.boss = true;
+			music = MusicID.Boss4;
 		}
 
 		float alphaCounter = 0;
@@ -76,6 +78,19 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				if (attackCounter > timeBetweenAttacks) {
 					attackCounter = 0;
 					npc.ai[0] = Main.rand.Next(7) + 1;
+					if (npc.ai[0] == 3) {
+						int numJellies = 0;
+						for (int j = 0; j < Main.npc.Length; j++) 
+						{
+							if (Main.npc[j].type == mod.NPCType("MoonJellyMedium") && Main.npc[j].active)
+							{
+								numJellies++;
+							}
+						}
+						if (numJellies > 5) {
+							npc.ai[0] = 2;
+						}
+					}
 				}
 			}
 			else 
@@ -182,25 +197,25 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				npc.position.Y = player.position.Y - 300; 
 			}
 			attackCounter++;
-			if (attackCounter < 40) 
+			if (attackCounter < 30) 
 			{
 				UpdateFrame(0.2f, 4, 9);
 			}
 			else 
 			{
 				UpdateFrame(0.4f, 4, 9);
-				if (attackCounter > 60) {
+				if (attackCounter > 45) {
 					npc.velocity.Y = 25;
 				}
 			}
 			if (Main.tile[(int)(npc.Center.X / 16), (int)(npc.Center.Y / 16)].collisionType == 1 || attackCounter > 120) 
 			{
 				for (int i = 0; i < Main.rand.Next(5, 7); i++) {
-					Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(-4, 4), Main.rand.NextFloat(3)), mod.ProjectileType("MoonBubble"), npc.damage / 2, 3);
+					Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(-10, 10), Main.rand.NextFloat(3)), mod.ProjectileType("MoonBubble"), npc.damage / 2, 3);
 				}
 				Teleport();
 				npc.ai[0] = 0;
-				timeBetweenAttacks = 50;
+				timeBetweenAttacks = 35;
 				attackCounter = 0;
 			}
 		}
@@ -208,7 +223,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 		{
 			Player player = Main.player[npc.target];
 			UpdateFrame(0.15f, 4, 9);
-			float speed = 10f;
+			float speed = 15f;
 			if (attackCounter == 0) {
 				dashDirection = player.Center - npc.Center;
 				dashDistance = dashDirection.Length();
@@ -223,7 +238,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				Main.projectile[node].active = false;
 				Teleport();
 				npc.ai[0] = 0;
-				timeBetweenAttacks = 50;
+				timeBetweenAttacks = 35;
 				attackCounter = 0;
 			}
 		}
@@ -246,7 +261,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			if (attackCounter > 200) 
 			{
 				npc.ai[0] = 0;
-				timeBetweenAttacks = 50;
+				timeBetweenAttacks = 25;
 				attackCounter = 0;
 			}
 		}
@@ -273,7 +288,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			if (attackCounter > Math.Abs(dashDistance / speed)) {
 				Main.projectile[node].active = false;
 				npc.ai[0] = 0;
-				timeBetweenAttacks = 50;
+				timeBetweenAttacks = 10;
 				attackCounter = 0;
 			}
 		}
@@ -293,7 +308,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			}
 			if (attackCounter > 200) {
 				npc.ai[0] = 0;
-				timeBetweenAttacks = 120;
+				timeBetweenAttacks = 60;
 				attackCounter = 0;
 			}
 			if (attackCounter == 20) {
@@ -319,7 +334,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				attackCounter = 0;
 				if (numMoves == 0) {
 					npc.ai[0] = 0;
-					timeBetweenAttacks = 50;
+					timeBetweenAttacks = 35;
 					attackCounter = 0;
 					numMoves = -1;
 				}

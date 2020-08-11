@@ -41,12 +41,12 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 				Vector2 direction9 = other.Center - projectile.Center;
 				int distance = (int)Math.Sqrt((direction9.X * direction9.X) + (direction9.Y * direction9.Y));
 				direction9.Normalize();
-				if (projectile.timeLeft % 4 == 0 && distance < 600 && other.active) {
-					int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)direction9.X * 15, (float)direction9.Y * 15, mod.ProjectileType("MoonLightning"), 30, 0);
-					Main.projectile[proj].timeLeft = (int)(distance / 15);
+				if (projectile.timeLeft % 4 == 0 && distance < 1000 && other.active) {
+					int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)direction9.X * 30, (float)direction9.Y * 30, mod.ProjectileType("MoonLightning"), 30, 0);
+					Main.projectile[proj].timeLeft = (int)(distance / 30);
 					Main.projectile[proj].hostile = true;
 					Main.projectile[proj].friendly = false;
-					DustHelper.DrawElectricity(projectile.Center + (projectile.velocity * 4), other.Center + (other.velocity * 4), 226, 0.3f);
+					DustHelper.DrawElectricity(projectile.Center + (projectile.velocity * 4), other.Center + (other.velocity * 4), 226, 0.3f, 30, default, 0.12f);
 				}
 			}
 				if (!initialized) 
@@ -59,7 +59,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 				projectile.spriteDirection = 0;
 			}
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-			distance += 0.1f;
+			distance += 0.3f;
 			projectile.ai[0] += rotationalSpeed;
 			
 			Vector2 offset = initialSpeed.RotatedBy(Math.PI / 2);
