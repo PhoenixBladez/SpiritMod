@@ -113,7 +113,7 @@ namespace SpiritMod.NPCs.Town
 			};
 			int merchant = NPC.FindFirstNPC(NPCID.Merchant);
 			if (merchant >= 0) {
-				dialogue.Add($"Unlike {Main.npc[merchant].GivenName}, I don't hoard my wealth");
+				dialogue.Add($"Unlike {Main.npc[merchant].GivenName}, I don't hoard my wealth.");
 			}
 
 			return Main.rand.Next(dialogue);

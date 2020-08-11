@@ -23,13 +23,6 @@ namespace SpiritMod.Items.Armor.GeodeArmor
 			item.vanity = true;
 		}
 
-		public override void UpdateEquip(Player player)
-		{
-			player.moveSpeed += 0.15f;
-			player.maxRunSpeed += 1;
-
-		}
-
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

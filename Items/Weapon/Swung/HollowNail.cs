@@ -49,14 +49,5 @@ namespace SpiritMod.Items.Weapon.Swung
 			}
 			return false;
 		}
-
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<AncientBark>(), 7);
-			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
-		}
 	}
 }

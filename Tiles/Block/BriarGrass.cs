@@ -58,7 +58,8 @@ namespace SpiritMod.Tiles.Block
 
 			//try place foliage
 			if (WorldGen.genRand.NextBool(25) && !tileAbove.active() && !tileBelow.lava()) {
-				if (!tile.bottomSlope() && !tile.topSlope()) {
+				if (!tile.bottomSlope() && !tile.topSlope() && !tile.halfBrick() && !tile.topSlope())
+                {
 					tileAbove.type = (ushort)ModContent.TileType<BriarFoliage>();
 					tileAbove.active(true);
 					tileAbove.frameY = 0;

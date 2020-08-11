@@ -65,7 +65,7 @@ namespace SpiritMod.NPCs.Town
         }
         public void Rescue()
         {
-            npc.Transform(NPCType<Adventurer>());
+            npc.Transform(NPCType<Gambler>());
             npc.dontTakeDamage = false;
         }
     }

@@ -2668,7 +2668,7 @@ namespace SpiritMod
 			} else if(player.dashDelay < 0) {
 				// Powered phase
 				// Manage dash abilities here
-				float speedCap = 12f;
+				float speedCap = 20f;
 				float decayCapped = 0.992f;
 				float speedMax = Math.Max(player.accRunSpeed, player.maxRunSpeed);
 				float decayMax = 0.96f;

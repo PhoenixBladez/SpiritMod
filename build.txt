@@ -1,5 +1,5 @@
 author = Yuyutsu and the Unpaid Interns
-version = 1.4.0.3
+version = 1.4.0.4
 displayName = Spirit Mod
 homepage = https://discord.gg/FUNqtZQ
 hideCode = true

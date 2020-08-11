@@ -13,11 +13,10 @@ namespace SpiritMod.Tiles.Furniture.NeonLights
 	{
 		public override void SetDefaults()
 		{
-            Main.tileTable[Type] = true;
             Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
 			Main.tileLavaDeath[Type] = true;
-			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
+            TileObjectData.newTile.CopyFrom(TileObjectData.StyleOnTable1x1);
             TileObjectData.newTile.Height = 2;
             TileObjectData.newTile.Width = 1;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16 };

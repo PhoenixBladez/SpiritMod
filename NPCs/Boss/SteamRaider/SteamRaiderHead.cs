@@ -449,13 +449,14 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			}
 			#region Phase2
 			else {
-				if (!player.active || player.dead) //despawns when player is ded
-				{
-					npc.TargetClosest(false);
+                npc.TargetClosest(true);
+                if (npc.target < 0 || npc.target == 255 || player.dead)
+                {
+                    npc.TargetClosest(false);
                     npc.active = false;
                     npc.netUpdate = true;
-					timer = 0;
-				}
+                    timer = 0;
+                }
 				npc.defense = 20;
 				alphaCounter += 0.08f;
 				npc.netUpdate = true;

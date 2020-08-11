@@ -7,6 +7,7 @@ using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Items.Boss;
 using SpiritMod.Items.BossBags;
 using SpiritMod.Items.Armor;
+using SpiritMod.Items.Consumable.Potion;
 using SpiritMod.Items.Weapon.Bow;
 using SpiritMod.Items.Equipment;
 using SpiritMod.Items.Weapon.Magic;
@@ -23,6 +24,7 @@ using SpiritMod.Items.Consumable.Quest;
 using SpiritMod.Items.Material;
 using SpiritMod.Items.Pins;
 
+using SpiritMod.NPCs.BlueMoon;
 using SpiritMod.NPCs.Boss.Atlas;
 using SpiritMod.NPCs.Boss.Overseer;
 using SpiritMod.NPCs.Town;
@@ -451,7 +453,6 @@ namespace SpiritMod
 				EmptyTexture = GetTexture("Empty");
 				auroraEffect = GetEffect("Effects/aurora");
 				noise = GetTexture("Textures/noise");
-				noise = GetTexture("Textures/BlueMoonTexture");
 
 				glitchEffect = GetEffect("Effects/glitch");
 				glitchScreenShader = new GlitchScreenShader(glitchEffect);
@@ -848,8 +849,24 @@ namespace SpiritMod
                     null);
 
                 bossChecklist.Call(
-                    "AddBoss",
+                    "AddEvent",
                     6.5f,
+                    new List<int> { ModContent.NPCType<Bloomshroom>(), ModContent.NPCType<Glitterfly>(), ModContent.NPCType<GlowToad>(), ModContent.NPCType<Lumantis>(), ModContent.NPCType<LunarSlime>(), ModContent.NPCType<MadHatter>() },
+                    this, // Mod
+                    "Mystic Moon",
+                    (Func<bool>)(() => MyWorld.downedBlueMoon),
+                    ModContent.ItemType<BlueMoonSpawn>(),
+                    null,
+                    new List<int> { ModContent.ItemType<MoonStone>(), ModContent.ItemType<StopWatch>(), ModContent.ItemType<MagicConch>(), ModContent.ItemType<GloomgusStaff>(), ModContent.ItemType<MoonJelly>(), ModContent.ItemType<MadHat>()},
+                     "Use a [i: " + ModContent.ItemType<BlueMoonSpawn>() + "] at nighttime.",
+                    null,
+                    "SpiritMod/Textures/BossChecklist/MysticMoonTexture",
+                    "SpiritMod/Textures/BossChecklist/BlueMoonIcon",
+                    null);
+
+                bossChecklist.Call(
+                    "AddBoss",
+                    6.8f,
                     ModContent.NPCType<NPCs.Boss.Infernon.Infernon>(),
                     this, // Mod
                     "Infernon",
