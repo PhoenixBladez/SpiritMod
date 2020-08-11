@@ -75,7 +75,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				UpdateFrame(0.15f, 0, 3);
 				if (attackCounter > timeBetweenAttacks) {
 					attackCounter = 0;
-					npc.ai[0] = Main.rand.Next(5) + 1;
+					npc.ai[0] = Main.rand.Next(6) + 1;
 				}
 			}
 			else 
@@ -95,6 +95,9 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 						break;
 					case 5:
 						SmashAttack();
+						break;
+					case 6:
+						SineAttack();
 						break;
 
 				}
@@ -142,7 +145,29 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 		float dashDistance = 0f;
 		int numMoves = -1;
 		#region attacks
-
+		void SineAttack()
+		{
+			Player player = Main.player[npc.target];
+			UpdateFrame(0.15f, 10, 13);
+			attackCounter++;
+			if (attackCounter >= 80) 
+			{
+				if (attackCounter % 40 == 0) 
+				{
+					Vector2 direction = player.Center - (npc.Center - new Vector2(0, 60));
+					direction.Normalize();
+					direction *= 5;
+					Projectile.NewProjectile(npc.Center - new Vector2(0, 60), direction, mod.ProjectileType("SineBall"), npc.damage / 2, 3, npc.target, 180);
+					Projectile.NewProjectile(npc.Center - new Vector2(0, 60), direction, mod.ProjectileType("SineBall"), npc.damage / 2, 3, npc.target, 0);
+				}
+				if (attackCounter > 270) 
+				{
+					npc.ai[0] = 0;
+					timeBetweenAttacks = 0;
+					attackCounter = 0;
+				}
+			}
+		}
 		void SmashAttack()
 		{
 			Player player = Main.player[npc.target];
