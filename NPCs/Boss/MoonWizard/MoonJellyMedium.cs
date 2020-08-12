@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 using Terraria;
 using Terraria.ID;
@@ -33,6 +34,24 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
         }
 		int xoffset = 0;
 		Vector2 direction = Vector2.Zero;
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			if (npc.ai[2] != 0) {
+				drawAfterimage(spriteBatch, drawColor);
+			}
+			return base.PreDraw(spriteBatch,drawColor);
+		}
+		public void drawAfterimage(SpriteBatch spriteBatch, Color drawColor) //we have access to this method already
+		{
+			Texture2D texture = Main.npcTexture[npc.type];
+			Microsoft.Xna.Framework.Color AfterimageColor = new Microsoft.Xna.Framework.Color((int)sbyte.MaxValue, (int)sbyte.MaxValue, (int)sbyte.MaxValue, 0).MultiplyRGBA(new Color(75, 231, 255, 150)) * 2f;
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (npc.spriteDirection == 1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+			for (int index = 1; index < 10; ++index) {
+				Main.spriteBatch.Draw(texture, new Vector2(npc.Center.X, npc.Center.Y - 18) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity * (float)index * 0.5f, npc.frame, AfterimageColor, npc.rotation, npc.frame.Size() / 2, MathHelper.Lerp(npc.scale * 1.5f, 0.8f, (float)index / 10), spriteEffects, 0.0f);
+			}
+		}
 		public override void AI()
 		{
 

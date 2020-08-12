@@ -56,7 +56,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			}
 			return false;
 		}
-		public void drawAfterimage(SpriteBatch spriteBatch, Color drawColor) //this is so tiny I don't think it matters. East ripped it from v
+		public void drawAfterimage(SpriteBatch spriteBatch, Color drawColor) //we have access to this method already
 		{
 			Texture2D texture = Main.npcTexture[npc.type];
 			Microsoft.Xna.Framework.Color AfterimageColor = new Microsoft.Xna.Framework.Color((int)sbyte.MaxValue, (int)sbyte.MaxValue, (int)sbyte.MaxValue, 0).MultiplyRGBA(new Color(75, 231, 255, 150)) * 2f;
