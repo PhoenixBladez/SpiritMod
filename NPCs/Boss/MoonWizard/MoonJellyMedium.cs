@@ -13,7 +13,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Moon Wizard");
+			DisplayName.SetDefault("Moon Jelly");
 			Main.npcFrameCount[npc.type] = 7;
 		}
 
@@ -23,7 +23,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			npc.height = 72;
 			npc.damage = 18;
 			npc.defense = 6;
-			npc.lifeMax = 50;
+			npc.lifeMax = 100;
 			npc.noGravity = true;
 			npc.value = 90f;
 			npc.noTileCollide = true;
@@ -32,35 +32,77 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			npc.noGravity = true;
         }
 		int xoffset = 0;
+		Vector2 direction = Vector2.Zero;
 		public override void AI()
 		{
+
 			Player player = Main.player[npc.target];
-			npc.ai[0]++;
-			if(player.position.X > npc.position.X) {
-				xoffset = 16;
-			} else {
-				xoffset = -16;
-			}
-			npc.velocity.X *= 0.99f;
-				if(npc.ai[1] == 0) {
-					if(npc.velocity.Y < 2.5f) {
+			if (npc.ai[2] == 0) {
+
+				npc.ai[0]++;
+				if (player.position.X > npc.position.X) {
+					xoffset = 16;
+				}
+				else {
+					xoffset = -16;
+				}
+				npc.velocity.X *= 0.99f;
+				if (npc.ai[1] == 0) {
+					if (npc.velocity.Y < 2.5f) {
 						npc.velocity.Y += 0.1f;
 					}
-					if(player.position.Y < npc.position.Y && npc.ai[0] % 30 == 0) {
+					if (player.position.Y < npc.position.Y && npc.ai[0] % 30 == 0) {
 						npc.ai[1] = 1;
 						npc.netUpdate = true;
-						npc.velocity.X = xoffset / 1.25f;
-						npc.velocity.Y = -6;
+						npc.velocity.X = xoffset / 0.75f;
+						npc.velocity.Y = -10;
 					}
 				}
-				if(npc.ai[1] == 1) {
+				if (npc.ai[1] == 1) {
 					npc.velocity *= 0.97f;
-					if(Math.Abs(npc.velocity.X) < 0.125f) {
+					if (Math.Abs(npc.velocity.X) < 0.125f) {
 						npc.ai[1] = 0;
 						npc.netUpdate = true;
 					}
 					npc.rotation = npc.velocity.ToRotation() + 1.57f;
 				}
+			}
+			else 
+			{
+				npc.ai[3]++;
+				if (npc.ai[3] < 30) 
+				{
+					npc.velocity = Vector2.Zero;
+				}
+				else 
+				{
+					npc.frameCounter += 0.15f;
+				}
+				if (npc.ai[3] < 60) 
+				{
+					direction = player.position - npc.position;
+					direction.Normalize();
+					direction *= 15;
+				}
+				if (npc.ai[3] == 60) 
+				{
+					npc.noGravity = true;
+				}
+				if (npc.ai[3] > 60) 
+				{
+					npc.velocity = direction;
+					if (npc.position.Y > player.position.Y - 50) 
+					{
+						npc.noTileCollide = false;
+					}
+					if ((npc.collideX || npc.collideY) || npc.ai[3] > 120) {
+						npc.active = false;
+						int proj = Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("BarrelExplosionLarge"), 20, 0);
+					}
+						
+				}
+				npc.rotation = direction.ToRotation() + 1.57f;
+			}
 		}
 		public override void FindFrame(int frameHeight)
 		{

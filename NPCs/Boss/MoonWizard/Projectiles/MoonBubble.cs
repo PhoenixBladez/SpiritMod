@@ -24,7 +24,6 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 			projectile.hostile = true;
 			projectile.penetrate = 1;
 			projectile.timeLeft = 150;
-			projectile.alpha = 110;
 		}
 
 		public override void AI()

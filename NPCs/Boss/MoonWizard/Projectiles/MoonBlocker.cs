@@ -21,7 +21,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 		{
 			projectile.penetrate = 1;
 			projectile.tileCollide = false;
-			projectile.hostile = true;
+			projectile.hostile = false;
 			projectile.friendly = false;
 			projectile.timeLeft = 600;
 			projectile.damage = 13;
@@ -44,7 +44,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 				initialized = true;
 				throwLine = Vector2.One.RotatedBy(Main.rand.NextFloat(6.28f));
 			}
-			if (projectile.timeLeft < 570 && projectile.timeLeft % 3 == 0 && projectile.timeLeft > 500) 
+			if (projectile.timeLeft < 585 && projectile.timeLeft % 3 == 0 && projectile.timeLeft > 500) 
 			{
 				Projectile.NewProjectile(projectile.Center, throwLine * (dist / 20), mod.ProjectileType("MoonPredictorTrail"), 0, 0);
 			}
@@ -54,6 +54,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 			}
 			if (projectile.timeLeft <= 500) 
 			{
+				projectile.hostile = true;
 				Vector2 distance = initialPos - projectile.Center;
 				float electricDist = distance.Length();
 				distance.Normalize();
