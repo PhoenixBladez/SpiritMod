@@ -89,18 +89,31 @@ namespace SpiritMod.Effects
                 switch (Main.rand.Next(3))
                 {
                     case 0:
-                        CreateTrail(projectile, new GradientTrail(new Color(142, 8, 255), new Color(91, 21, 150)), new RoundCap(), new SleepingStarTrailPosition(), 110f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
+                        CreateTrail(projectile, new GradientTrail(new Color(142, 8, 255), new Color(91, 21, 150)), new RoundCap(), new SleepingStarTrailPosition(), 90f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
                         CreateTrail(projectile, new StandardColorTrail(Color.White * 0.3f), new RoundCap(), new SleepingStarTrailPosition(), 12f, 80f, new DefaultShader());
                         break;
                     case 1:
-                        CreateTrail(projectile, new GradientTrail(new Color(222, 84, 128), new Color(190, 72, 194)), new RoundCap(), new SleepingStarTrailPosition(), 110f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
+                        CreateTrail(projectile, new GradientTrail(new Color(222, 84, 128), new Color(190, 72, 194)), new RoundCap(), new SleepingStarTrailPosition(), 90f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
                         CreateTrail(projectile, new StandardColorTrail(Color.White * 0.3f), new RoundCap(), new SleepingStarTrailPosition(), 12f, 80f, new DefaultShader());
                         break;
                     case 2:
-                        CreateTrail(projectile, new GradientTrail(new Color(126, 55, 250), new Color(173, 50, 230)), new RoundCap(), new SleepingStarTrailPosition(), 110f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
+                        CreateTrail(projectile, new GradientTrail(new Color(126, 55, 250), new Color(230, 117, 255)), new RoundCap(), new SleepingStarTrailPosition(), 90f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
                         CreateTrail(projectile, new StandardColorTrail(Color.White * 0.3f), new RoundCap(), new SleepingStarTrailPosition(), 12f, 80f, new DefaultShader());
                         break;
                 }
+            }
+            if (projectile.type == ModContent.ProjectileType<MorningtideProjectile>())
+            {
+                CreateTrail(projectile, new GradientTrail(new Color(255, 225, 117), new Color(91, 21, 150)), new RoundCap(), new SleepingStarTrailPosition(), 100f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
+                CreateTrail(projectile, new GradientTrail(new Color(255, 225, 117), new Color(91, 21, 150)), new RoundCap(), new SleepingStarTrailPosition(), 90f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
+                CreateTrail(projectile, new StandardColorTrail(Color.White * 0.3f), new RoundCap(), new SleepingStarTrailPosition(), 12f, 80f, new DefaultShader());
+
+            }
+            if (projectile.type == ModContent.ProjectileType<MorningtideProjectile2>())
+            {
+                CreateTrail(projectile, new GradientTrail(new Color(255, 225, 117), new Color(91, 21, 150)), new RoundCap(), new SleepingStarTrailPosition(), 80f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
+                CreateTrail(projectile, new GradientTrail(new Color(255, 225, 117), new Color(91, 21, 150)), new RoundCap(), new SleepingStarTrailPosition(), 60f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
+
             }
             if (projectile.type == ModContent.ProjectileType<BloomshroomHostile>()) {
 				switch (Main.rand.Next(2)) {

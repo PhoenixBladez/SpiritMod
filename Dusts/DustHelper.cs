@@ -54,7 +54,14 @@ namespace SpiritMod
 
 				float x = (float)Math.Cos(k + rand) * RatioX;
 				float y = (float)Math.Sin(k + rand) * RatioY;
-				Dust.NewDustPerfect(position, dustType, new Vector2(x, y).RotatedBy(rot) * mainSize, 0, default, dustSize);
+                if (dustType == 222)
+                {
+                    Dust.NewDustPerfect(position, dustType, new Vector2(x, y).RotatedBy(rot) * mainSize, 0, default, dustSize).noGravity = true;
+                }
+                else
+                {
+                    Dust.NewDustPerfect(position, dustType, new Vector2(x, y).RotatedBy(rot) * mainSize, 0, default, dustSize);
+                }
 			}
 		}
 		public static void DrawTriangle(Vector2 position, int dustType, float size, float dustDensity = 1f, float dustSize = 2f, float rotationAmount = -1, bool noGravity = true)
