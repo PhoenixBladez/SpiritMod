@@ -60,7 +60,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 				distance.Normalize();
 				if (projectile.timeLeft % 4 == 0) 
 				{
-					DustHelper.DrawElectricity(projectile.Center, initialPos, 226, 0.3f, 30, default, 0.15f);
+					DustHelper.DrawElectricity(projectile.Center, initialPos, 226, 0.6f, 30, default, 0.3f);
 					int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)distance.X * 30, (float)distance.Y * 30, mod.ProjectileType("MoonLightning"), 30, 0);
 					Main.projectile[proj].timeLeft = (int)(electricDist / 30);
 				}

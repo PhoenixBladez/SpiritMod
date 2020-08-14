@@ -49,7 +49,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			if (npc.spriteDirection == 1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
 			for (int index = 1; index < 10; ++index) {
-				Main.spriteBatch.Draw(texture, new Vector2(npc.Center.X, npc.Center.Y - 18) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity * (float)index * 0.5f, npc.frame, AfterimageColor, npc.rotation, npc.frame.Size() / 2, MathHelper.Lerp(npc.scale * 1.5f, 0.8f, (float)index / 10), spriteEffects, 0.0f);
+				Main.spriteBatch.Draw(texture, new Vector2(npc.Center.X, npc.Center.Y) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity * (float)index * 0.5f, npc.frame, AfterimageColor, npc.rotation, npc.frame.Size() / 2, MathHelper.Lerp(npc.scale * 1.3f, 0.9f, (float)index / 10), spriteEffects, 0.0f);
 			}
 		}
 		public override void AI()
@@ -101,7 +101,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				{
 					direction = player.position - npc.position;
 					direction.Normalize();
-					direction *= 15;
+					direction *= 21;
 				}
 				if (npc.ai[3] == 60) 
 				{

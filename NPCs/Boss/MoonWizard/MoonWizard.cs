@@ -91,6 +91,8 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 		}
 		int attackCounter;
 		int timeBetweenAttacks = 150;
+
+		int expertTimer = 0;
 		//0-3: idle
 		//4-9 propelling
 		//10-13 skirt up
@@ -106,27 +108,15 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				UpdateFrame(0.15f, 0, 3);
 				if (attackCounter > timeBetweenAttacks) {
 					attackCounter = 0;
-					npc.ai[0] = Main.rand.Next(9) + 1;
+					npc.ai[0] = Main.rand.Next(8) + 1;
 
-					int numJellies = 0;
-					if (npc.ai[0] == 3 || npc.ai[0] == 8) { //attack regulations - hardcoded!
-						for (int j = 0; j < Main.npc.Length; j++) 
-						{
-							if (Main.npc[j].type == mod.NPCType("MoonJellyMedium") && Main.npc[j].active)
-							{
-								numJellies++;
-							}
-						}
-						if (numJellies > 3) {
-							npc.ai[0] = 8;
-						}
-						if (numJellies == 0) {
-							npc.ai[0] = 3;
-						}
+					if (npc.ai[0] == 8 && Main.player[npc.target].velocity.Y > 0) {
+						npc.ai[0] = 9;
 					}
+
 					Player player = Main.player[npc.target];
 					Vector2 dist = player.Center - npc.Center;
-					if (dist.Length() > 600) 
+					if (dist.Length() > 1000) 
 					{
 						switch (Main.rand.Next(2)) {
 							case 0:
@@ -163,13 +153,13 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 						SineAttack();
 						break;
 					case 7:
-						CreateNodes();
+						SpazAttack();
 						break;
 					case 8:
-						ZapJellies();
+						SkyStrikeLeft();
 						break;
 					case 9:
-						SpazAttack();
+						SkyStrikeRight();
 						break;
 
 				}
@@ -229,7 +219,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 		Vector2 dashFrom = Vector2.Zero;
 		void SpazAttack() //if you are debugging, please have mercy on me. I really didn't know any other way to code this. I know it's extreme spagetti code, and I'm sorry.
 		{
-			int speed = 25;
+			int speed = 30;
 			if (attackCounter == 0) {
 				dash1 = Vector2.One * 999;
 				dash2 = Vector2.One * 999;
@@ -242,7 +232,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			}
 			Player player = Main.player[npc.target];
 			attackCounter++;
-			if (attackCounter == 30 && dash1 == Vector2.One * 999) 
+			if (attackCounter == 15 && dash1 == Vector2.One * 999) 
 			{
 				dashCounter = attackCounter;
 				SpazPredictor(ref dash1, dashFrom);
@@ -335,7 +325,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			}
 			if (attackCounter == dashCounter + (int)dash5.Length() && actualDashCounter == 5) {
 				npc.ai[0] = 0;
-				timeBetweenAttacks =15;
+				timeBetweenAttacks = 25;
 				attackCounter = 0;
 			}
 			if (actualDashCounter != 0) 
@@ -350,7 +340,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 		}
 		void SpazPredictor(ref Vector2 dash, Vector2 Position)
 		{
-			int speed = 25;
+			int speed = 30;
 			Player player = Main.player[npc.target];
 			int distance = Main.rand.Next(50,250);
 			npc.ai[3] = Main.rand.Next(360);
@@ -358,6 +348,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			double angley = Math.Cos(npc.ai[3] * (Math.PI / 180));
 			Vector2 angle = new Vector2((float)anglex, (float)angley);
 			angle.Normalize();
+			angle.X *= 2;
 			angle *= distance;
 			dash = (player.Center + angle) - Position;
 			Vector2 dashNormal = dash;
@@ -366,14 +357,57 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			Main.projectile[proj].timeLeft = (int)(dash.Length() / speed);
 			dash /= speed;
 		}
+		int SkyPos = 0;
+		int SkyPosY = 0;
+		void SkyStrikeLeft()
+		{
+			UpdateFrame(0.15f, 1, 3);
+			Player player = Main.player[npc.target];
+
+			if (attackCounter == 0) {
+				SkyPos = (int)(player.position.X - 1000);
+				SkyPosY = (int)(player.position.Y - 500);
+			}
+			if (attackCounter % 4 == 0) {
+				Vector2 strikePos = new Vector2(SkyPos, SkyPosY);
+				Projectile.NewProjectile(strikePos, new Vector2(0, 0), mod.ProjectileType("SkyMoonZapper"), npc.damage / 3, 0, npc.target);
+				SkyPos += 150;
+			}
+			if (attackCounter == 60) {
+				npc.ai[0] = 1;
+				timeBetweenAttacks = 0;
+				attackCounter = 0;
+			}
+			attackCounter++;
+		}
+		void SkyStrikeRight()
+		{
+			UpdateFrame(0.15f, 1, 3);
+			Player player = Main.player[npc.target];
+			if (attackCounter == 0) {
+				SkyPos = (int)(player.position.X + 1000);
+				SkyPosY = (int)(player.position.Y - 500);
+			}
+			if (attackCounter % 4 == 0 ) {
+				Vector2 strikePos = new Vector2(SkyPos, SkyPosY);
+				Projectile.NewProjectile(strikePos, new Vector2(0, 0), mod.ProjectileType("SkyMoonZapper"), npc.damage / 3, 0, npc.target);
+				SkyPos -= 150;
+			}
+			if (attackCounter == 60) {
+				npc.ai[0] = 1;
+				timeBetweenAttacks = 0;
+				attackCounter = 0;
+			}
+			attackCounter++;
+		}
 		void SineAttack()
 		{
 			Player player = Main.player[npc.target];
 			UpdateFrame(0.15f, 10, 13);
 			attackCounter++;
-			if (attackCounter >= 80) 
+			if (attackCounter >= 40) 
 			{
-				if (attackCounter % 80 == 3) 
+				if (attackCounter % 80 == 40) 
 				{
 					Vector2 direction = player.Center - (npc.Center - new Vector2(0, 60));
 					direction.Normalize();
@@ -381,10 +415,10 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 					int proj = Projectile.NewProjectile(npc.Center - new Vector2(0, 60), direction, mod.ProjectileType("SineBall"), npc.damage / 2, 3, npc.target, 180);
 					Projectile.NewProjectile(npc.Center - new Vector2(0, 60), direction, mod.ProjectileType("SineBall"), npc.damage / 2, 3, npc.target, 0, proj + 1);
 				}
-				if (attackCounter > 270) 
+				if (attackCounter > 230) 
 				{
 					npc.ai[0] = 0;
-					timeBetweenAttacks = 0;
+					timeBetweenAttacks = 30;
 					attackCounter = 0;
 				}
 			}
@@ -406,18 +440,18 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			else 
 			{
 				UpdateFrame(0.4f, 4, 9);
-				if (attackCounter > 45) {
+				if (attackCounter > 55) {
 					npc.velocity.Y = 25;
 				}
 			}
-			if (Main.tile[(int)(npc.Center.X / 16), (int)(npc.Center.Y / 16)].collisionType == 1 || attackCounter > 60) 
+			if (Main.tile[(int)(npc.Center.X / 16), (int)(npc.Center.Y / 16)].collisionType == 1 || attackCounter > 70) 
 			{
 				for (int i = 0; i < Main.rand.Next(9, 15); i++) {
 					Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(-10, 10), Main.rand.NextFloat(3)), mod.ProjectileType("MoonBubble"), npc.damage / 2, 3);
 				}
 				Teleport();
 				npc.ai[0] = 0;
-				timeBetweenAttacks = 35;
+				timeBetweenAttacks = 15;
 				attackCounter = 0;
 			}
 		}
@@ -431,7 +465,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 						Vector2 direction9 = other.Center - npc.Center;
 						int distance = (int)Math.Sqrt((direction9.X * direction9.X) + (direction9.Y * direction9.Y));
 						direction9.Normalize();
-						if (distance < 800) 
+						if (distance < 1000) 
 						{
 							if (attackCounter < 60) {
 								int proj = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 15, (float)direction9.Y * 15, mod.ProjectileType("MoonPredictorTrail"), 0, 0);
@@ -499,10 +533,10 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				}
 			}
 			attackCounter++;
-			if (attackCounter > 100) 
+			if (attackCounter > 55) 
 			{
 				npc.ai[0] = 0;
-				timeBetweenAttacks = 25;
+				timeBetweenAttacks = 0;
 				attackCounter = 0;
 			}
 		}
@@ -547,9 +581,9 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			{
 				UpdateFrame(0.15f, 0, 3);
 			}
-			if (attackCounter > 200) {
-				npc.ai[0] = 0;
-				timeBetweenAttacks = 60;
+			if (attackCounter > 230) {
+				npc.ai[0] = 2;
+				timeBetweenAttacks = 0;
 				attackCounter = 0;
 			}
 			if (attackCounter == 20) {
@@ -558,24 +592,34 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				Main.projectile[Ball].ai[1] = Main.rand.Next(7,9);
 			}
 		}
+		Vector2 TeleportPos = Vector2.Zero;
 		void TeleportMove()
 		{
-			UpdateFrame(0.15f, 10, 13);
+			UpdateFrame(0.15f, 0, 3);
+			Player player = Main.player[npc.target];
 			if (numMoves == -1) {
 				numMoves = 3;
 			}
 			if (attackCounter == 0) 
 			{
-				numMoves--;
-				NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, mod.NPCType("MoonJellyMedium"));
-				Teleport();
+				int distance = Main.rand.Next(100, 200);
+				double anglex = Math.Sin(npc.ai[3] * (Math.PI / 180));
+				double angley = Math.Cos(npc.ai[3] * (Math.PI / 180));
+				TeleportPos = player.Center + new Vector2((float)anglex * distance, (float)angley * distance);
 			}
 			attackCounter++;
-			if (attackCounter > 40) {
+			Dust.NewDustPerfect(TeleportPos, 226, new Vector2(Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-6, 0)));
+
+			if (attackCounter > 60) {
 				attackCounter = 0;
+				npc.position = TeleportPos - new Vector2(npc.width / 2, npc.height / 2);
+				numMoves--;
+				for (int i = 0; i < 20; i++) {
+					Projectile.NewProjectile(npc.Center, Vector2.One.RotatedBy(0.314 * i) * 3.5f, mod.ProjectileType("MoonBubble"), npc.damage / 2, 0, npc.target, 1);
+				}
 				if (numMoves == 0) {
 					npc.ai[0] = 0;
-					timeBetweenAttacks = 35;
+					timeBetweenAttacks = 60;
 					attackCounter = 0;
 					numMoves = -1;
 				}
