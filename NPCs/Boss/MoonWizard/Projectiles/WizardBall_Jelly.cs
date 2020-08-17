@@ -116,7 +116,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 			}
 			Player player = Main.player[Main.npc[(int)projectile.ai[0]].target];
 			int a = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("WizardBall_Projectile"), 15, 6f, 0, 0.0f, 0.0f);
-			Main.PlaySound(2, (int)Main.projectile[a].position.X, (int)Main.projectile[a].position.Y, 9, 1f, 0f);
+			Main.PlaySound(SoundID.DD2_SkyDragonsFuryShot, projectile.position);
 			Vector2 vector2_1 = Main.projectile[a].velocity * 0.98f;
 			Main.projectile[a].velocity = vector2_1;
 			float num3 = 12.5f;
