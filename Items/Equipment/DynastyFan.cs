@@ -33,8 +33,8 @@ namespace SpiritMod.Items.Equipment
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			if (!player.HasBuff(BuffID.Featherfall)) {
-                player.justJumped = true;
-				player.velocity.X = 0 - speedX;
+                player.AddBuff(ModContent.BuffType<Buffs.DynastyFanBuff>(), 60);
+                player.velocity.X = 0 - speedX;
 				player.velocity.Y = 0 - speedY;
 				int ing = Gore.NewGore(player.Center, player.velocity * 4, 825);
 				Main.gore[ing].timeLeft = Main.rand.Next(30, 90);

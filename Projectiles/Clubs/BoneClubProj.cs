@@ -20,10 +20,20 @@ namespace SpiritMod.Projectiles.Clubs
 		{
 			Player player = Main.player[projectile.owner];
 			for (int k = 0; k <= 100; k++) {
-				Dust.NewDustPerfect(projectile.oldPosition + new Vector2(projectile.width / 2, projectile.height / 2), DustType<Dusts.EarthDust>(), new Vector2(0, 1).RotatedByRandom(1) * Main.rand.NextFloat(-1, 1) * projectile.ai[0] / 10f);
+				Dust.NewDustPerfect(projectile.oldPosition + new Vector2(projectile.width / 2, projectile.height / 2), DustType<Dusts.BoneDust>(), new Vector2(0, 1).RotatedByRandom(1) * Main.rand.NextFloat(-1, 1) * projectile.ai[0] / 10f);
 			}
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 32, 0, 0, ModContent.ProjectileType<BoneShockwave>(), projectile.damage / 3, projectile.knockBack / 2, projectile.owner, 8, player.direction);
-		}
+            for (int i = 0; i < 6; i++)
+            {
+                float rotation = (float)(Main.rand.Next(180, 361) * (Math.PI / 180));
+                float rotation1 = (float)(Main.rand.Next(180, 270) * (Math.PI / 180));
+                Vector2 velocity = new Vector2((float)Math.Cos(rotation1), (float)Math.Sin(rotation));
+                int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 32,
+                    velocity.X * -player.direction, velocity.Y, mod.ProjectileType("BoneShard"), projectile.damage/2, projectile.knockBack, projectile.owner);
+                Main.projectile[proj].friendly = true;
+                Main.projectile[proj].hostile = false;
+                Main.projectile[proj].velocity *= 4f;
+            }
+        }
 		public override void SafeDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			int size = 62;

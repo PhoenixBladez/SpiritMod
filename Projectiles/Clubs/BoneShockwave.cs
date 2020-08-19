@@ -52,7 +52,7 @@ namespace SpiritMod.Projectiles.Clubs
 				projectile.velocity.Y = -3;
 				for (int i = 0; i < 5; i++)
 				{
-					int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height * 2, DustType<Dusts.BoneDust>());
+					int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height * 2, DustType<Dusts.FloranClubDust>());
 					//Main.dust[dust].velocity = Vector2.Zero;
 					//Main.dust[dust].noGravity = true;
 				}

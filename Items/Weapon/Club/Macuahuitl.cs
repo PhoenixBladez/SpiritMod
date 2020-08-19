@@ -5,31 +5,32 @@ using Microsoft.Xna.Framework;
 
 namespace SpiritMod.Items.Weapon.Club
 {
-    public class WoodenClub : ModItem
+    public class Macuahuitl : ModItem
     {
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Wooden Club");
+            DisplayName.SetDefault("Macuahuitl");
+            Tooltip.SetDefault("Greatly increases armor penetration based on charge time");
         }
 
         public override void SetDefaults()
         {
             item.channel = true;
-            item.damage = 8;
-            item.width = 60;
-            item.height = 60;
+            item.damage = 18;
+            item.width = 66;
+            item.height = 66;
             item.useTime = 320;
             item.useAnimation = 320;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.melee = true;
             item.noMelee = true;
-            item.knockBack = 12;
+            item.knockBack = 10;
             item.useTurn = false;
-            item.value = Terraria.Item.sellPrice(0, 1, 42, 0);
-            item.rare = 0;
+            item.value = Terraria.Item.buyPrice(0, 8, 0, 0);
+            item.rare = 2;
             item.autoReuse = false;
-            item.shoot = mod.ProjectileType("WoodClubProj");
+            item.shoot = mod.ProjectileType("MacuahuitlProj");
             item.shootSpeed = 6f;
             item.noUseGraphic = true;
         }
@@ -44,14 +45,6 @@ namespace SpiritMod.Items.Weapon.Club
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-10, 0);
-        }
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Wood, 25);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
         }
     }
 }

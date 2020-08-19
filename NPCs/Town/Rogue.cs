@@ -133,6 +133,9 @@ namespace SpiritMod.NPCs.Town
                 AddItem(ref shop, ref nextSlot, ItemType<Items.Accessory.DuskStone1>(), check: !Main.dayTime);
             }
             AddItem(ref shop, ref nextSlot, ItemType<Items.DonatorItems.BladeOfNoah>(), check: Main.hardMode);
+            AddItem(ref shop, ref nextSlot, ItemType<Items.Armor.OperativeSet.OperativeHead>(), check: Main.hardMode);
+            AddItem(ref shop, ref nextSlot, ItemType<Items.Armor.OperativeSet.OperativeBody>(), check: Main.hardMode);
+            AddItem(ref shop, ref nextSlot, ItemType<Items.Armor.OperativeSet.OperativeLegs>(), check: Main.hardMode);
         }
 
 		public override void TownNPCAttackStrength(ref int damage, ref float knockback)
