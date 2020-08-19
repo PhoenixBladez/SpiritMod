@@ -20,5 +20,8 @@ namespace SpiritMod.Items.Armor.Masks
 			item.rare = ItemRarityID.Blue;
 			item.vanity = true;
 		}
-	}
+        public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
+            => drawAltHair = true;
+
+    }
 }

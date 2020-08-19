@@ -41,7 +41,7 @@ namespace SpiritMod.Items.Armor.StarArmor
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 19);
+			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 14);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

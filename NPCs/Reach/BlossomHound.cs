@@ -31,7 +31,9 @@ namespace SpiritMod.NPCs.Reach
 			npc.knockBackResist = .5f;
 			npc.aiStyle = 3;
 			aiType = NPCID.WalkingAntlion;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.BlossomHoundBanner>();
+        }
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{

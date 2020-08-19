@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Placeable.Furniture
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Reach Chest");
+			DisplayName.SetDefault("Briar Chest");
 		}
 
 
@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Placeable.Furniture
 			item.value = 500;
 
 			item.maxStack = 99;
-			item.rare = ItemRarityID.Green;
+			item.rare = 0;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = 10;
 			item.useAnimation = 15;

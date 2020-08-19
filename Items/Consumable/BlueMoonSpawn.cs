@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Consumable
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Turquoise Lens");
-			Tooltip.SetDefault("Summons the Blue Moon");
+			Tooltip.SetDefault("Summons the Mystic Moon");
 		}
 
 
@@ -46,7 +46,7 @@ namespace SpiritMod.Items.Consumable
 
 		public override bool UseItem(Player player)
 		{
-			Main.NewText("The Blue Moon is Rising...", 0, 90, 220, true);
+			Main.NewText("The Mystic Moon is Rising...", 0, 90, 220, true);
 			Main.PlaySound(SoundID.Roar, (int)player.position.X, (int)player.position.Y, 0);
 			if (!Main.dayTime) {
 				MyWorld.BlueMoon = true;
@@ -58,7 +58,7 @@ namespace SpiritMod.Items.Consumable
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<Geode>(), 8);
 			recipe.AddIngredient(ItemID.SoulofLight, 10);
-			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 10);
+			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 4);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

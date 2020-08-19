@@ -79,7 +79,7 @@ namespace SpiritMod.Items.Weapon.Gun
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.FlintlockPistol, 1);
-			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 25);
+			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 16);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

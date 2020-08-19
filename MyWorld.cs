@@ -1691,6 +1691,7 @@ namespace SpiritMod
 				int hideoutX = Main.rand.Next(300, Main.maxTilesX - 300); // from 50 since there's a unaccessible area at the world's borders
 				int hideoutY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 450);
 				Tile tile = Main.tile[hideoutX, hideoutY];
+
 				if (!tile.active() || tile.type != 60) {
 					continue;
 				}
@@ -1999,8 +2000,8 @@ namespace SpiritMod
 			bool validPos = false;
 			int attempts = 0;
 			while (!validPos && attempts++ < 100000) {
-				hideoutX = Main.rand.Next(Main.maxTilesX / 3, Main.maxTilesX / 3 * 2); // from 50 since there's a unaccessible area at the world's borders
-				hideoutY = Main.rand.Next(Main.spawnTileY + 200, Main.maxTilesY - 250);
+				hideoutX = Main.rand.Next(350, Main.maxTilesX - 350); // from 50 since there's a unaccessible area at the world's borders
+				hideoutY = Main.rand.Next(Main.spawnTileY + 400, Main.maxTilesY - 250);
 				validPos = true;
 				for (int x = hideoutX - 8 - 3; x < hideoutX - 3 + SepulchreRoom1.GetLength(1) + 8; x++) {
 					for (int y = hideoutY - 10 - 6; y < hideoutY - 6 + SepulchreRoom1.GetLength(0) * 2 + 9; y++) {
@@ -2763,7 +2764,7 @@ namespace SpiritMod
 								num67 = Main.rand.Next(15, 19);
 							}
 							else if (Main.maxTilesX == 8400) {
-								num67 = Main.rand.Next(21, 24);
+								num67 = Main.rand.Next(19, 24);
 							}
 							for (int j = 0; j < num67; j++) {
 								GenerateSepulchre();
@@ -3256,31 +3257,6 @@ namespace SpiritMod
 					Chest chest = Main.chest[chestIndex];
 					if (chest != null && Main.tile[chest.x, chest.y].type == ModContent.TileType<GoblinChest>()) {
 						chest.item[0].SetDefaults(itemsToPlacePrimary[Main.rand.Next(2)], false);
-						chest.item[0].stack = WorldGen.genRand.Next(1, 1);
-						chest.item[1].SetDefaults(commonItems1[Main.rand.Next(4)], false);
-						chest.item[1].stack = WorldGen.genRand.Next(3, 10);
-						chest.item[2].SetDefaults(ammo1[Main.rand.Next(2)], false);
-						chest.item[2].stack = WorldGen.genRand.Next(20, 50);
-						chest.item[3].SetDefaults(potions[Main.rand.Next(6)], false);
-						chest.item[3].stack = WorldGen.genRand.Next(2, 3);
-						chest.item[4].SetDefaults(recall[Main.rand.Next(1)], false);
-						chest.item[4].stack = WorldGen.genRand.Next(2, 3);
-						chest.item[5].SetDefaults(other1[Main.rand.Next(2)], false);
-						chest.item[5].stack = WorldGen.genRand.Next(1, 4);
-						chest.item[6].SetDefaults(other2[Main.rand.Next(2)], false);
-						chest.item[6].stack = WorldGen.genRand.Next(1, 4);
-						chest.item[7].SetDefaults(moddedMaterials[Main.rand.Next(2)], false);
-						chest.item[7].stack = WorldGen.genRand.Next(2, 6);
-						chest.item[8].SetDefaults(72, false);
-						chest.item[8].stack = WorldGen.genRand.Next(12, 30);
-						break;
-					}
-				}
-				int[] itemsToPlacePrimary1 = new int[] { ModContent.ItemType<Glyph>(), ItemID.Radar, ItemID.Blowpipe, ItemID.WandofSparking };
-				for (int chestIndex = 0; chestIndex < 1000; chestIndex++) {
-					Chest chest = Main.chest[chestIndex];
-					if (chest != null && Main.tile[chest.x, chest.y].type == ModContent.TileType<ReachHideoutWoodChest>()) {
-						chest.item[0].SetDefaults(itemsToPlacePrimary1[Main.rand.Next(2)], false);
 						chest.item[0].stack = WorldGen.genRand.Next(1, 1);
 						chest.item[1].SetDefaults(commonItems1[Main.rand.Next(4)], false);
 						chest.item[1].stack = WorldGen.genRand.Next(3, 10);

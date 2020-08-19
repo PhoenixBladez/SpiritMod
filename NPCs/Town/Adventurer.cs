@@ -157,6 +157,10 @@ namespace SpiritMod.NPCs.Town
 			if (MyWorld.winterbornComplete) {
 				AddItem(ref shop, ref nextSlot, ItemType<Items.Weapon.Thrown.CryoKnife>());
 			}
+            if (NPC.downedBoss3)
+            {
+                AddItem(ref shop, ref nextSlot, ItemType<Items.Accessory.DawnStone>(), check: Main.dayTime);
+            }
         }
 
 		public override void TownNPCAttackStrength(ref int damage, ref float knockback)

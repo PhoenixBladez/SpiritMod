@@ -20,8 +20,8 @@ namespace SpiritMod.Items.Armor.GoreArmor
 		{
 			item.width = 40;
 			item.height = 30;
-			item.value = Item.sellPrice(0, 3, 0, 0);
-			item.rare = ItemRarityID.Pink;
+			item.value = Item.sellPrice(0, 0, 70, 0);
+			item.rare = ItemRarityID.LightRed;
 			item.defense = 15;
 		}
 

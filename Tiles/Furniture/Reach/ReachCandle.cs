@@ -13,14 +13,15 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
 			Main.tileLavaDeath[Type] = true;
-			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
+            Main.tileLighted[Type] = true;
+            TileObjectData.newTile.CopyFrom(TileObjectData.StyleOnTable1x1);
 			TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
 			adjTiles = new int[] { TileID.Torches };
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Elderbark Candle");
 			AddMapEntry(new Color(179, 146, 107), name);
-			drop = ModContent.TileType<ReachCandle>();
+			drop = ModContent.ItemType<Items.Placeable.Furniture.Reach.ReachCandle>();
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)

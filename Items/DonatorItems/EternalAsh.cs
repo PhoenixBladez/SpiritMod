@@ -55,7 +55,7 @@ namespace SpiritMod.Items.DonatorItems
 
 			ModRecipe modRecipe2 = new ModRecipe(mod);
 			modRecipe2.AddIngredient(ItemID.FireFeather, 1);
-			modRecipe.AddIngredient(ModContent.ItemType<PutridPiece>(), 3);
+			modRecipe2.AddIngredient(ModContent.ItemType<PutridPiece>(), 3);
 			modRecipe2.AddIngredient(ItemID.PixieDust, 20);
 			modRecipe2.AddTile(TileID.MythrilAnvil);
 			modRecipe2.SetResult(this, 1);

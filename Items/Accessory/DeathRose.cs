@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Accessory
 		{
 			string tapDir = Language.GetTextValue(Main.ReversedUpDownArmorSetBonuses ? "Key.DOWN" : "Key.UP");
 			DisplayName.SetDefault("Briar Blossom");
-			Tooltip.SetDefault($"Double tap {tapDir} to ensnare an enemy at the cursor position\n20 second cooldown");
+			Tooltip.SetDefault($"Double tap {tapDir} to ensnare an enemy at the cursor position\n4 second cooldown");
 		}
 
 

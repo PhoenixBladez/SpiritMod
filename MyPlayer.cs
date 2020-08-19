@@ -996,7 +996,6 @@ namespace SpiritMod
 				for(int i = 0; i < 1000; i++) {
 					if(Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber) {
 						bobberIndex = i;
-						Main.projectile[i].ai[0] = 2f;
 					}
 				}
 				if(bobberIndex != -1) {
@@ -1004,11 +1003,10 @@ namespace SpiritMod
 					caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<BottomFeeder>(), 0, 2, 1, 0, 0, Main.myPlayer);
 				}
 			}
-			if(MyWorld.spawnHornetFish && Main.rand.Next(15) == 0 && player.ZoneJungle && player.ZoneOverworldHeight) {
+			if(MyWorld.spawnHornetFish && Main.rand.Next(15) == 0 && player.ZoneJungle) {
 				for(int i = 0; i < 1000; i++) {
 					if(Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber) {
 						bobberIndex = i;
-						Main.projectile[i].ai[0] = 2f;
 					}
 				}
 				if(bobberIndex != -1) {
@@ -1027,7 +1025,6 @@ namespace SpiritMod
 				for(int i = 0; i < 1000; i++) {
 					if(Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber) {
 						bobberIndex = i;
-						Main.projectile[i].ai[0] = 2f;
 					}
 				}
 				if(bobberIndex != -1) {
@@ -1039,7 +1036,6 @@ namespace SpiritMod
 				for(int i = 0; i < 1000; i++) {
 					if(Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber) {
 						bobberIndex = i;
-						Main.projectile[i].ai[0] = 2f;
 					}
 				}
 				if(bobberIndex != -1) {
@@ -1051,7 +1047,6 @@ namespace SpiritMod
 				for(int i = 0; i < 1000; i++) {
 					if(Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber) {
 						bobberIndex = i;
-						Main.projectile[i].ai[0] = 2f;
 					}
 				}
 				if(bobberIndex != -1) {
@@ -2013,7 +2008,7 @@ namespace SpiritMod
 		{
 			if(TideWorld.TheTide && !NPC.AnyNPCs(ModContent.NPCType<Rylheian>()) && player.ZoneBeach && TideWorld.TidePoints >= 99) {
 				spawnTimer++;
-				if(spawnTimer > 30) {
+				if(spawnTimer >= 30) {
 					spawnTimer = 0;
 					int n = NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 400, ModContent.NPCType<Rylheian>(), 0, 2, 1, 0, 0, Main.myPlayer);
 					Main.PlaySound(SoundID.Zombie, Main.npc[n].Center, 89);
@@ -4535,7 +4530,7 @@ namespace SpiritMod
 			if(keyDir == (Main.ReversedUpDownArmorSetBonuses ? 0 : 1)) {
 				//Double tap up
 				if(deathRose && !player.HasBuff(ModContent.BuffType<DeathRoseCooldown>())) {
-					player.AddBuff(ModContent.BuffType<DeathRoseCooldown>(), 1200);
+					player.AddBuff(ModContent.BuffType<DeathRoseCooldown>(), 240);
 					Vector2 mouse = Main.MouseScreen + Main.screenPosition;
 					Projectile.NewProjectile(mouse, Vector2.Zero, ModContent.ProjectileType<BrambleTrap>(), 30, 0, Main.myPlayer, mouse.X, mouse.Y);
 				}
@@ -4570,7 +4565,8 @@ namespace SpiritMod
 			} else if(keyDir == (Main.ReversedUpDownArmorSetBonuses ? 1 : 0)) {
 				// Double tap down
 				if(starSet && !player.HasBuff(ModContent.BuffType<StarCooldown>())) {
-					Main.PlaySound(SoundID.Item, player.position, 92);
+                    player.AddBuff(ModContent.BuffType<StarCooldown>(), 1020);
+                    Main.PlaySound(SoundID.Item, player.position, 92);
 					Vector2 mouse = Main.MouseScreen + Main.screenPosition;
 					Projectile.NewProjectile(mouse, Vector2.Zero, ModContent.ProjectileType<EnergyFieldStarplate>(), 0, 0, player.whoAmI);
 					for(int i = 0; i < 8; i++) {

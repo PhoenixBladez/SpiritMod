@@ -47,7 +47,7 @@ namespace SpiritMod.NPCs.Boss
 			npc.noGravity = true;
 			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/AncientAvian");
 			npc.noTileCollide = true;
-			npc.npcSlots = 5;
+			npc.npcSlots = 15;
 			bossBag = ModContent.ItemType<FlyerBag>();
 			npc.HitSound = SoundID.NPCHit2;
 			npc.DeathSound = SoundID.NPCDeath5;

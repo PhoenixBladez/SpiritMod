@@ -37,6 +37,7 @@ namespace SpiritMod.NPCs.BlueMoon
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
+            Main.projectile[tongueproj].active = false;
 			Main.PlaySound(SoundID.Frog, (int)npc.position.X, (int)npc.position.Y);
 
 			for (int k = 0; k < 5; k++)

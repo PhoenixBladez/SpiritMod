@@ -20,5 +20,8 @@ namespace SpiritMod.Items.Armor.CowboySet
 
 			item.vanity = true;
 		}
+        public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
+            => drawAltHair = true;
+
     }
 }

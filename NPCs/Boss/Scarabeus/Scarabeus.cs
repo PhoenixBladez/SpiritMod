@@ -44,7 +44,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			npc.knockBackResist = 0f;
 			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Scarabeus");
 			npc.boss = true;
-			npc.npcSlots = 10f;
+			npc.npcSlots = 15f;
 			npc.HitSound = SoundID.NPCHit31;
 			npc.DeathSound = SoundID.NPCDeath5;
 			bossBag = ModContent.ItemType<BagOScarabs>();

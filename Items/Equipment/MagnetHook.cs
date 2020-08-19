@@ -60,7 +60,7 @@ namespace SpiritMod.Items.Equipment
 				this.timeLeft *= 10;
 			*/
 			projectile.CloneDefaults(ProjectileID.GemHookAmethyst);
-			projectile.timeLeft = 9900;
+			projectile.timeLeft = 1200;
 		}
 
 		// Use this hook for hooks that can have multiple hooks mid-flight: Dual Hook, Web Slinger, Fish Hook, Static Hook, Lunar Hook
@@ -200,7 +200,7 @@ namespace SpiritMod.Items.Equipment
 						}
 					}
 				}
-				if (lowestDist < 113.137085 && projectile.timeLeft < 9888 && !retracting && Main.tileSolid[Main.tile[targetpositionx / 16, targetpositiony / 16].type]) {
+				if (lowestDist < 113.137085 && projectile.timeLeft < 9888 && !retracting && Main.tileSolid[Main.tile[targetpositionx / 16, targetpositiony / 16].type] && Main.tile[targetpositionx / 16, targetpositiony / 16].active()) {
 					Vector2 direction = new Vector2(targetpositionx - projectile.position.X, targetpositiony - projectile.position.Y);
 					direction.Normalize();
 					projectile.velocity = direction * (int)Math.Sqrt((projectile.velocity.X * projectile.velocity.X) + (projectile.velocity.Y * projectile.velocity.Y));

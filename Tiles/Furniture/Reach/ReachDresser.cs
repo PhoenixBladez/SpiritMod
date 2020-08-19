@@ -39,9 +39,11 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			adjTiles = new int[] { TileID.Dressers };
 			dresser = "Elderbark Dresser";
 			dresserDrop = ModContent.ItemType<Items.Placeable.Furniture.Reach.ReachDresser>();
-		}
+            TileID.Sets.HasOutlines[Type] = true;
+        }
+        public override bool HasSmartInteract() => true;
 
-		public override bool NewRightClick(int i, int j)
+        public override bool NewRightClick(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
 			if (Main.tile[Player.tileTargetX, Player.tileTargetY].frameY == 0) {

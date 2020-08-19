@@ -47,7 +47,7 @@ namespace SpiritMod.Items.Weapon.Flail
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 25);
+			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 18);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

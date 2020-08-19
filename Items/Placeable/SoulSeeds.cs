@@ -14,12 +14,12 @@ namespace SpiritMod.Items.Placeable
 
 		public override void SetDefaults()
 		{
-			item.autoReuse = true;
+			item.autoReuse = false;
 			item.useTurn = true;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useAnimation = 15;
 			item.rare = ItemRarityID.Pink;
-			item.useTime = 10;
+			item.useTime = 15;
 			item.maxStack = 99;
 			item.consumable = true;
 			item.placeStyle = 0;

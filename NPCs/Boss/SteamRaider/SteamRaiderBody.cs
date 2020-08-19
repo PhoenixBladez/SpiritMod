@@ -260,11 +260,11 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
         {
             if (projectile.penetrate <= -1)
             {
-                damage /= 4;
+                damage /= 3;
             }
             else if (projectile.penetrate >= 3)
             {
-                damage /= 4;
+                damage /= 3;
             }
         }
 

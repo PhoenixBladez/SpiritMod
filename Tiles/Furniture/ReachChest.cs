@@ -22,7 +22,8 @@ namespace SpiritMod.Tiles.Furniture
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
 			Main.tileValue[Type] = 500;
-			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
+            TileID.Sets.HasOutlines[Type] = true;
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
 			TileObjectData.newTile.Origin = new Point16(0, 1);
 			TileObjectData.newTile.Height = 2;
 			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
@@ -43,7 +44,9 @@ namespace SpiritMod.Tiles.Furniture
 			chest = "Briar Chest";
 		}
 
-		public string MapChestName(string name, int i, int j)
+        public override bool HasSmartInteract() => true;
+
+        public string MapChestName(string name, int i, int j)
 		{
 			int left = i;
 			int top = j;

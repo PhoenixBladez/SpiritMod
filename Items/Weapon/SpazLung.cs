@@ -40,8 +40,9 @@ namespace SpiritMod.Items.Weapon
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			int projectileFired = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.EyeFire, item.damage, item.knockBack, player.whoAmI);
-			Main.projectile[projectileFired].friendly = true;
-			Main.projectile[projectileFired].friendly = true;
+			Main.projectile[projectileFired].ranged = true;
+            Main.projectile[projectileFired].magic = false;
+            Main.projectile[projectileFired].friendly = true;
 			Main.projectile[projectileFired].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromSpazLung = true;
 			Main.projectile[projectileFired].hostile = false;
 			Main.projectile[projectileFired].netUpdate = true;

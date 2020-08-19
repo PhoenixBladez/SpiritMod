@@ -41,8 +41,9 @@ namespace SpiritMod.Tiles.Furniture
 			adjTiles = new int[] { TileID.Containers };
 			chestDrop = ModContent.ItemType<SepulchreChest>();
 			chest = "Sepulchre Chest";
-		}
-
+            TileID.Sets.HasOutlines[Type] = true;
+        }
+        public override bool HasSmartInteract() => true;
 
         public string MapChestName(string name, int i, int j)
         {

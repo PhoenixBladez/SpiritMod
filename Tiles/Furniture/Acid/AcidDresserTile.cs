@@ -40,9 +40,11 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			dresser = "Corrosive Dresser";
 			dustType = -1;
 			dresserDrop = ModContent.ItemType<Items.Placeable.Furniture.Acid.AcidDresser>();
-		}
+            TileID.Sets.HasOutlines[Type] = true;
+        }
+        public override bool HasSmartInteract() => true;
 
-		public override bool NewRightClick(int i, int j)
+        public override bool NewRightClick(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
 			if (Main.tile[Player.tileTargetX, Player.tileTargetY].frameY == 0) {

@@ -258,8 +258,7 @@ namespace SpiritMod
 				&& !Main.dayTime
 				&& !player.ZoneCorrupt
 				&& !player.ZoneCrimson
-				&& !player.ZoneBeach
-				&& !Main.bloodMoon) {
+				&& !player.ZoneBeach) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/DesertNighttime");
 				priority = MusicPriority.BiomeHigh;
 			}
@@ -286,13 +285,13 @@ namespace SpiritMod
 			}
 			if (config.GraniteMusic
 				&& spirit.ZoneGranite
-				&& !player.ZoneOverworldHeight) {
+				&& !player.ZoneOverworldHeight && !spirit.ZoneSpirit) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/GraniteBiome");
 				priority = MusicPriority.BiomeMedium;
 			}
             if (config.MarbleMusic
                 && spirit.ZoneMarble
-                && !player.ZoneOverworldHeight)
+                && !player.ZoneOverworldHeight && !spirit.ZoneSpirit)
             {
                 music = GetSoundSlot(SoundType.Music, "Sounds/Music/MarbleBiome");
                 priority = MusicPriority.BiomeMedium;
@@ -708,10 +707,10 @@ namespace SpiritMod
                    this, // Mod
                    "Glade Wraith",
                    (Func<bool>)(() => MyWorld.downedGladeWraith),
-                   null,
+                    ModContent.ItemType<GladeWreath>(),
                    null,
                    new List<int> { ModContent.ItemType<HuskstalkStaff>(), ModContent.ItemType<AncientBark>(), ModContent.ItemType<SacredVine>() },
-                   "Destroy a Bone Altar in the Underground Briar. The Glade Wraith also spawns naturally at nighttime after defeating the Eye of Cthulhu.",
+                   "Destroy a Bone Altar in the Underground Briar. The Glade Wraith also spawns naturally at nighttime after defeating the Eye of Cthulhu. Alternatively, find a Glade Wreath in Briar Chests and use it in the Briar at any time.",
                    null,
                    "SpiritMod/Textures/BossChecklist/GladeWraithTexture",
                    "SpiritMod/NPCs/Reach/ForestWraith_Head_Boss",
@@ -790,10 +789,10 @@ namespace SpiritMod
                     this, // Mod
                     "Vinewrath Bane",
                     (Func<bool>)(() => MyWorld.downedReachBoss),
-                    null,
+                    ModContent.ItemType<ReachBossSummon>(),
                     new List<int> { ModContent.ItemType<Items.Boss.Trophy5>(), ModContent.ItemType<Items.Armor.Masks.ReachMask>() /*, ModContent.ItemType<Items.Placeable.MusicBox.ScarabBox>()*/ },
                     new List<int> { ModContent.ItemType<Items.BossBags.ReachBossBag>(), ModContent.ItemType<Items.Weapon.Magic.SunbeamStaff>(), ModContent.ItemType<Items.Weapon.Bow.ThornBow>(), ModContent.ItemType<Items.Weapon.Magic.ReachVineStaff>(), ModContent.ItemType<Items.Weapon.Swung.ReachBossSword>(), ModContent.ItemType<Items.Weapon.Thrown.ReachKnife>() },
-                    "Right-click the Bloodblossom, a glowing flower found at the bottom of the Briar. The Vinewrath Bane can be fought at any time and any place in progression.",
+                    "Right-click the Bloodblossom, a glowing flower found at the bottom of the Briar. The Vinewrath Bane can be fought at any time and any place in progression. If a Bloodblossom is not present, use a [i: " + ModContent.ItemType<ReachBossSummon>() + "] in the Briar below the surface at any time.",
                     null,
                     "SpiritMod/Textures/BossChecklist/ReachBossTexture",
                     "SpiritMod/NPCs/Boss/ReachBoss/ReachBoss/ReachBoss_Head_Boss",

@@ -72,7 +72,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 24);
+			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 17);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

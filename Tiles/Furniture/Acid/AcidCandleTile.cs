@@ -14,8 +14,8 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
 			Main.tileLavaDeath[Type] = true;
-			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
-			TileObjectData.addTile(Type);
+            TileObjectData.newTile.CopyFrom(TileObjectData.StyleOnTable1x1);
+            TileObjectData.addTile(Type);
 			drop = ModContent.ItemType<Items.Placeable.Furniture.Acid.AcidCandle>();
 			ModTranslation name = CreateMapEntryName();
 			Main.tileLighted[Type] = true;

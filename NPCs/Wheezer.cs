@@ -83,7 +83,7 @@ namespace SpiritMod.NPCs
 			if (Main.rand.NextBool(100))
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Bezoar);
 
-            string[] lootTable = { "ClatterboneBreastplate", "ClatterboneFaceplate", "ClatterboenLeggings" };
+            string[] lootTable = { "ClatterboneBreastplate", "ClatterboneFaceplate", "ClatterboneLeggings" };
             if (Main.rand.Next(55) == 0)
             {
                 int loot = Main.rand.Next(lootTable.Length);

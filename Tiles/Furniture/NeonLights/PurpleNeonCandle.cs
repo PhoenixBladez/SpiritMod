@@ -37,9 +37,9 @@ namespace SpiritMod.Tiles.Furniture.NeonLights
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            r = 0.139f * 1.75f;
-            g = 0.077f * 1.75f;
-            b = 0.255f * 1.75f;
+            r = 0.139f * 2.175f;
+            g = 0.077f * 2.175f;
+            b = 0.255f * 2.175f;
         }
         public override void NumDust(int i, int j, bool fail, ref int num)
 		{

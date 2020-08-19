@@ -67,7 +67,7 @@ namespace SpiritMod.NPCs
 						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
 				}
 				jump = false;
-				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 110));
+				Main.PlaySound(2, npc.Center, 110);
 				int damage = expertMode ? 11 : 21;
 				if (distance < 92) {
 					target.AddBuff(BuffID.Confused, 180);

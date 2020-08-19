@@ -56,8 +56,11 @@ namespace SpiritMod.NPCs.Reach
 			if (Main.rand.Next(10000) == 0) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SlimeStaff);
 			}
-		}
-		public override void OnHitPlayer(Player target, int damage, bool crit)
+            if (Main.rand.NextBool(90))
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Bezoar);
+
+        }
+        public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
 			if (Main.rand.Next(3) == 0) {
 				target.AddBuff(BuffID.Poisoned, 180);

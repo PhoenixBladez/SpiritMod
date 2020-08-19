@@ -83,7 +83,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			recipe.AddIngredient(ItemID.Starfury, 1);
 			recipe.AddIngredient(ModContent.ItemType<TalonBlade>(), 1);
 			recipe.AddIngredient(ItemID.FallenStar, 5);
-			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 7);
+			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 6);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

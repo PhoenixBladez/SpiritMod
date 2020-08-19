@@ -40,9 +40,11 @@ namespace SpiritMod.Tiles.Furniture
 			adjTiles = new int[] { TileID.Containers };
 			chestDrop = ItemID.GoldChest;
 			chest = "Gold Chest";
-		}
+            TileID.Sets.HasOutlines[Type] = true;
+        }
+        public override bool HasSmartInteract() => true;
 
-		public string MapChestName(string name, int i, int j)
+        public string MapChestName(string name, int i, int j)
 		{
 			int left = i;
 			int top = j;

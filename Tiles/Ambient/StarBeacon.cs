@@ -94,7 +94,7 @@ namespace SpiritMod.Tiles.Ambient
 
 			//check if player has a Cryptic Crystal
 			Player player = Main.player[Main.myPlayer];
-			if (player.HasItem(ModContent.ItemType<StarWormSummon>()) && !Main.dayTime) {
+			if (player.HasItem(ModContent.ItemType<StarWormSummon>())) {
 				//now to search for it
 				Item[] inventory = player.inventory;
 				for (int k = 0; k < inventory.Length; k++) {

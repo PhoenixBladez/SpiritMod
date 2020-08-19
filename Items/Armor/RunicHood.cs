@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Runic Hood");
-			Tooltip.SetDefault("Increases magic damage by 15% and movement speed by 5%");
+			Tooltip.SetDefault("Increases magic damage by 12% and movement speed by 5%");
 		}
 
 		public override void SetDefaults()
@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Armor
 
 		public override void UpdateEquip(Player player)
 		{
-			player.magicDamage += 1.12f;
+			player.magicDamage *= 1.12f;
 			player.moveSpeed += 1.05f;
 		}
 		public override void AddRecipes()

@@ -38,7 +38,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			npc.boss = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
-			npc.npcSlots = 10;
+			npc.npcSlots = 20;
 			npc.defense = 24;
 			bossBag = ModContent.ItemType<ReachBossBag>();
 			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/ReachBoss");
@@ -248,7 +248,10 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		{
 			MyWorld.downedReachBoss = true;
 			Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DeathSounds/VinewrathDeathSound"));
-            Main.NewText("The torrential downpour in the Briar has lifted!", 61, 255, 142, false);
+            if (!MyWorld.downedReachBoss)
+            {
+                Main.NewText("The torrential downpour in the Briar has lifted!", 61, 255, 142, false);
+            }
             return true;
 		}
 

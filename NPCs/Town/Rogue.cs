@@ -121,7 +121,6 @@ namespace SpiritMod.NPCs.Town
 			AddItem(ref shop, ref nextSlot, ItemType<TwilightBlades>(), check: NPC.downedMechBossAny);
 			AddItem(ref shop, ref nextSlot, ItemType<MechKnife>(), check: NPC.downedMechBossAny);
 			AddItem(ref shop, ref nextSlot, ItemType<PlagueVial>(), check: Main.hardMode);
-			AddItem(ref shop, ref nextSlot, ItemType<Items.DonatorItems.BladeOfNoah>(), check: Main.hardMode);
 			AddItem(ref shop, ref nextSlot, ItemType<ShurikenLauncher>());
 			AddItem(ref shop, ref nextSlot, ItemType<SwiftRune>());
 			AddItem(ref shop, ref nextSlot, ItemType<AssassinMagazine>());
@@ -129,6 +128,11 @@ namespace SpiritMod.NPCs.Town
 			AddItem(ref shop, ref nextSlot, ItemType<Items.Weapon.Thrown.TargetBottle>());
 			AddItem(ref shop, ref nextSlot, ItemType<Items.Placeable.Furniture.TreasureChest>());
             AddItem(ref shop, ref nextSlot, ItemType<Items.Armor.Masks.PsychoMask>());
+            if (NPC.downedBoss3)
+            {
+                AddItem(ref shop, ref nextSlot, ItemType<Items.Accessory.DuskStone1>(), check: !Main.dayTime);
+            }
+            AddItem(ref shop, ref nextSlot, ItemType<Items.DonatorItems.BladeOfNoah>(), check: Main.hardMode);
         }
 
 		public override void TownNPCAttackStrength(ref int damage, ref float knockback)

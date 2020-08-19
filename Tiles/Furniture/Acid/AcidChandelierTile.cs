@@ -55,7 +55,7 @@ namespace SpiritMod.Tiles.Furniture.Acid
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
-			Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<Items.Placeable.Furniture.Reach.ReachChandelier>());
+			Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<Items.Placeable.Furniture.Acid.AcidChandelier>());
 		}
 	}
 }

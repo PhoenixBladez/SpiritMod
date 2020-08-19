@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Magic
@@ -104,6 +105,10 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
+			if (Main.rand.NextBool(5))
+            {
+                target.AddBuff(BuffID.CursedInferno, 120);
+            }
 			projectile.velocity = Vector2.Zero;
 			hit[projectile.penetrate - 1] = target;
 

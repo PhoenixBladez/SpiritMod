@@ -64,8 +64,11 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.OpenDoor };
 			closeDoorID = ModContent.TileType<AcidDoorClosed>();
-		}
-		public override void MouseOver(int i, int j)
+            TileID.Sets.HasOutlines[Type] = true;
+        }
+        public override bool HasSmartInteract() => true;
+
+        public override void MouseOver(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
 			player.noThrow = 2;

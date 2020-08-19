@@ -75,10 +75,5 @@ namespace SpiritMod.Projectiles
 
 			++projectile.localAI[1];
 		}
-		public override void Kill(int timeLeft)
-		{
-			Player player = Main.player[projectile.owner];
-			player.AddBuff(ModContent.BuffType<StarCooldown>(), 720);
-		}
 	}
 }

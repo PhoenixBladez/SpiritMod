@@ -32,7 +32,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			npc.knockBackResist = 0;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
-			npc.npcSlots = 10;
+			npc.npcSlots = 20;
 			npc.defense = 15;
 			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/ReachBoss");
 			npc.buffImmune[20] = true;

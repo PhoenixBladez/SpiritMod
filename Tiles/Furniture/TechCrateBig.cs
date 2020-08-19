@@ -20,7 +20,7 @@ namespace SpiritMod.Tiles.Furniture
 			Main.tileNoAttach[Type] = true;
             Main.tileLighted[Type] = true;
             Main.tileLavaDeath[Type] = true;
-			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
+			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
 			TileObjectData.newTile.Height = 2;
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
             TileObjectData.newTile.Width = 3;

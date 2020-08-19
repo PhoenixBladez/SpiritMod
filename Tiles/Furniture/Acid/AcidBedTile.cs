@@ -20,13 +20,15 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Corrosive Bed");
 			AddMapEntry(new Color(100, 122, 111), name);
-			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
-			disableSmartCursor = true;
+            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
+            disableSmartCursor = true;
 			adjTiles = new int[] { TileID.Beds };
 			bed = true;
-		}
+            TileID.Sets.HasOutlines[Type] = true;
+        }
+        public override bool HasSmartInteract() => true;
 
-		public override void NumDust(int i, int j, bool fail, ref int num)
+        public override void NumDust(int i, int j, bool fail, ref int num)
 		{
 			num = 1;
 		}

@@ -44,8 +44,10 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.ClosedDoor };
 			openDoorID = ModContent.TileType<ReachDoorOpen>();
-		}
-		public override void NumDust(int i, int j, bool fail, ref int num)
+            TileID.Sets.HasOutlines[Type] = true;
+        }
+        public override bool HasSmartInteract() => true;
+        public override void NumDust(int i, int j, bool fail, ref int num)
 		{
 			num = 1;
 		}

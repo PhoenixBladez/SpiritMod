@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Boss
 			item.useTime = 10;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.consumable = true;
-			item.value = 0;
+						item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
 			item.rare = ItemRarityID.Blue;
 			item.createTile = mod.TileType("Trophy4Tile");
 			item.placeStyle = 0;

@@ -67,7 +67,7 @@ namespace SpiritMod.Projectiles
 			{
 				projectile.timeLeft = (int)(580 * target.knockBackResist);
 			}
-			target.AddBuff(ModContent.BuffType<Stopped>(), (int)(240 * target.knockBackResist));
+			target.AddBuff(ModContent.BuffType<Stopped>(), (int)(240 * target.knockBackResist * 1.5f));
 			projectile.position += projectile.velocity * 8;
 			projectile.velocity = Vector2.Zero;
 			stuck = true;

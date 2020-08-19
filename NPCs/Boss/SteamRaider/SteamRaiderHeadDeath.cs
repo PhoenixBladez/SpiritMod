@@ -61,7 +61,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			timeLeft--;
 			if (timeLeft <= 0) {
 				if (Main.expertMode) {
-					npc.DropBossBags();
+					DropBags();
 				}
 
 				npc.DropItem(ItemID.Heart);
@@ -100,5 +100,12 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				npc.active = false;
 			}
 		}
+		public void DropBags()
+        {
+            if (Main.expertMode)
+            {
+                npc.DropBossBags();
+            }
+        }
 	}
 }

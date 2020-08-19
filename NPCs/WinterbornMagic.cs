@@ -38,7 +38,7 @@ namespace SpiritMod.NPCs
 			npc.knockBackResist = 0.15f;
 			npc.noGravity = false;
 			npc.netAlways = true;
-			npc.chaseable = false;
+			npc.chaseable = true;
 			npc.lavaImmune = true;
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.WinterbornHeraldBanner>();

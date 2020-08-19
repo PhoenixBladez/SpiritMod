@@ -173,7 +173,7 @@ namespace SpiritMod.NPCs
 			if (manaSteal) {
 				manaStealTimer++;
 				int distance = (int)Math.Sqrt((npc.Center.X - player.Center.X) * (npc.Center.X - player.Center.X) + (npc.Center.Y - player.Center.Y) * (npc.Center.Y - player.Center.Y));
-				if (distance < 300) {
+				if (distance < 300 && player.statMana > 0) {
 					player.statMana--;
 					for (int i = 0; i < 2; i++) {
 						int dust = Dust.NewDust(npc.Center, npc.width, npc.height, 20);
