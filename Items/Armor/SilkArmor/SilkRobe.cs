@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Armor
+namespace SpiritMod.Items.Armor.SilkArmor
 {
 	[AutoloadEquip(EquipType.Body)]
 	public class SilkRobe : ModItem
@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Manasilk Robe");
-			Tooltip.SetDefault("Increases max number of minions by 1");
+			Tooltip.SetDefault("Increases minion damage by 1");
 
 		}
 
@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Armor
 		{
 			item.width = 32;
 			item.height = 30;
-			item.value = 12000;
+			item.value = 12500;
 			item.rare = ItemRarityID.Blue;
 			item.defense = 2;
 		}
@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Armor
 		}
 		public override void UpdateEquip(Player player)
 		{
-			player.maxMinions += 1;
+            player.GetSpiritPlayer().silkenRobe = true;
 		}
 		public override void AddRecipes()
 		{

@@ -121,7 +121,7 @@ namespace SpiritMod
 		public bool infernalFlame = false;
 		public bool floranSet = false;
 		public bool silkenLegs = false;
-		public bool silkenHead = false;
+		public bool silkenRobe = false;
 		public bool rogueSet = false;
 		public bool crystal = false;
 		public bool eyezorEye = false;
@@ -545,7 +545,7 @@ namespace SpiritMod
 			KoiTotem = false;
 			setbonus = null;
 			stoneHead = false;
-			silkenHead = false;
+			silkenRobe = false;
 			zipline = false;
 			clockActive = false;
 			bloodcourtSet = false;
@@ -917,7 +917,7 @@ namespace SpiritMod
 					flat += 1;
 				}
 			}
-			if(silkenHead) {
+			if(silkenRobe) {
 				if(item.summon) {
 					flat += 1;
 				}

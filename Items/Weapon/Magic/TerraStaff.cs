@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Weapon.Magic
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Terra Staff");
+			DisplayName.SetDefault("Terra Scepter");
 			Tooltip.SetDefault("'May the Wrath of the Elements consume your foes.'");
 		}
 

@@ -2,28 +2,28 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Armor
+namespace SpiritMod.Items.Armor.SilkArmor
 {
 	[AutoloadEquip(EquipType.Head)]
-	public class SilkHood : ModItem
+	public class SilkScarf : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Manasilk Hood");
-			Tooltip.SetDefault("Increases minion damage by 1");
+			DisplayName.SetDefault("Manasilk Scarf");
+			Tooltip.SetDefault("Increases your max number of sentries");
 		}
 
 		public override void SetDefaults()
 		{
 			item.width = 22;
 			item.height = 22;
-			item.value = 2000;
+			item.value = 7500;
 			item.rare = ItemRarityID.Blue;
 			item.defense = 1;
 		}
 		public override void UpdateEquip(Player player)
 		{
-			player.GetSpiritPlayer().silkenHead = true;
+			player.maxTurrets += 1;
 		}
 
 		public override bool IsArmorSet(Item head, Item body, Item legs)
