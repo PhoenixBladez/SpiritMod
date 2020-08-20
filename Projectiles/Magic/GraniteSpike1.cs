@@ -58,10 +58,10 @@ namespace SpiritMod.Projectiles.Magic
 				187, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
 
 			for (int i = 0; i < 4; i++) {
-				float rotation = (float)(Main.rand.Next(0, 361) * (Math.PI / 180));
+				float rotation = (float)(Main.rand.Next(180, 361) * (Math.PI / 180));
 				Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
 				int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y,
-					velocity.X, velocity.Y, mod.ProjectileType("GraniteShard1"), 13, projectile.knockBack, projectile.owner);
+					velocity.X, velocity.Y, mod.ProjectileType("GraniteShard1"), projectile.damage/2, projectile.knockBack, projectile.owner);
 				Main.projectile[proj].friendly = true;
 				Main.projectile[proj].hostile = false;
 				Main.projectile[proj].velocity *= 4f;

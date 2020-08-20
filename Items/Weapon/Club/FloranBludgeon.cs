@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Weapon.Club
             item.knockBack = 8;
             item.useTurn = false;
             item.value = Terraria.Item.sellPrice(0, 0, 22, 0);
-            item.rare = 0;
+            item.rare = 1;
             item.autoReuse = false;
             item.shoot = mod.ProjectileType("FloranBludgeonProj");
             item.shootSpeed = 6f;

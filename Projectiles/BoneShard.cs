@@ -37,7 +37,7 @@ namespace SpiritMod.Projectiles
 		public override void AI()
 		{
             projectile.rotation += .3f;
-			if (Main.rand.NextBool(2)){
+			if (Main.rand.NextBool(3)){
 				float num1 = projectile.velocity.X * 0.2f * (float)1;
 				float num2 = projectile.velocity.Y * -0.200000002980232f * 1;
 				int index2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<Dusts.BoneDust>(), 0.0f, 0.0f, 100, new Color(), 1.3f);

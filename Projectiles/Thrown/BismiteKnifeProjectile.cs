@@ -46,7 +46,7 @@ namespace SpiritMod.Projectiles.Thrown
 		{
 
 			for (int i = 0; i < 10; i++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 167, projectile.velocity.X * 2f, projectile.velocity.Y * 2f);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, 167, projectile.velocity.X * 1.2f, projectile.velocity.Y * 1.2f);
 			}
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

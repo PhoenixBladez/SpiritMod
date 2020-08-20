@@ -84,10 +84,14 @@ namespace SpiritMod.NPCs.BloodMoon
 		}
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(3) == 1) {
+			if (Main.rand.Next(30) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BottomFeederGun>());
 			}
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BloodFire>(), 2 + Main.rand.Next(2, 4));
+            if (Main.rand.Next(30) == 1)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Consumable.Food.FishFingers>());
+            }
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BloodFire>(), 2 + Main.rand.Next(2, 4));
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{

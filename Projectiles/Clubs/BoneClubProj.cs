@@ -29,9 +29,8 @@ namespace SpiritMod.Projectiles.Clubs
                 Vector2 velocity = new Vector2((float)Math.Cos(rotation1), (float)Math.Sin(rotation));
                 int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 32,
                     velocity.X * -player.direction, velocity.Y, mod.ProjectileType("BoneShard"), projectile.damage/2, projectile.knockBack, projectile.owner);
-                Main.projectile[proj].friendly = true;
-                Main.projectile[proj].hostile = false;
                 Main.projectile[proj].velocity *= 4f;
+                Main.projectile[proj].scale *= Main.rand.NextFloat(.6f, 1f);
             }
         }
 		public override void SafeDraw(SpriteBatch spriteBatch, Color lightColor)

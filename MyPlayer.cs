@@ -1069,7 +1069,11 @@ namespace SpiritMod
 			if(player.ZoneGlowshroom && Main.rand.NextBool(27)) {
 				caughtType = ModContent.ItemType<ShroomFishSummon>();
 			}
-		}
+            if (player.ZoneBeach && Main.rand.NextBool(125))
+            {
+                caughtType = ModContent.ItemType<Items.Weapon.Club.BassSlapper>();
+            }
+        }
 
 		public override void OnHitAnything(float x, float y, Entity victim)
 		{

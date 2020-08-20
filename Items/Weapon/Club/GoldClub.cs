@@ -5,31 +5,31 @@ using Microsoft.Xna.Framework;
 
 namespace SpiritMod.Items.Weapon.Club
 {
-    public class BassSlapper : ModItem
+    public class GoldClub : ModItem
     {
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bass Slapper");
+            DisplayName.SetDefault("Golden Greathammer");
         }
 
         public override void SetDefaults()
         {
             item.channel = true;
-            item.damage = 12;
-            item.width = 60;
-            item.height = 60;
+            item.damage = 13;
+            item.width = 58;
+            item.height = 58;
             item.useTime = 320;
             item.useAnimation = 320;
-            item.useStyle = 2;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.melee = true;
             item.noMelee = true;
-            item.knockBack = 12;
+            item.knockBack = 8;
             item.useTurn = false;
-            item.value = Terraria.Item.sellPrice(0, 1, 42, 0);
-            item.rare = ItemRarityID.Orange;
+            item.value = Terraria.Item.sellPrice(0, 0, 22, 0);
+            item.rare = 1;
             item.autoReuse = false;
-            item.shoot = mod.ProjectileType("BassSlapperProj");
+            item.shoot = mod.ProjectileType("GoldClubProj");
             item.shootSpeed = 6f;
             item.noUseGraphic = true;
         }
@@ -44,6 +44,14 @@ namespace SpiritMod.Items.Weapon.Club
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-10, 0);
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.GoldBar, 15);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
     }
 }

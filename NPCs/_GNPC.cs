@@ -1055,7 +1055,14 @@ namespace SpiritMod.NPCs
 					npc.DropItem(ModContent.ItemType<IceWheezerSculpture>());
 				}
 			}
-			if (closest.GetSpiritPlayer().ZoneAsteroid && Main.rand.Next(50) == 0) {
+            if (npc.type == NPCID.AngryBones || npc.type == NPCID.AngryBonesBig || npc.type == NPCID.AngryBonesBigMuscle)
+            {
+                if (Main.rand.Next(Main.expertMode ? 95 : 110) < 1)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Club.BoneClub>());
+                }
+            }
+            if (closest.GetSpiritPlayer().ZoneAsteroid && Main.rand.Next(50) == 0) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Blaster>());
 			}
 			if (npc.type == NPCID.Harpy && Main.rand.Next(45) == 0) {
@@ -1126,7 +1133,7 @@ namespace SpiritMod.NPCs
 			if (npc.type == NPCID.DarkCaster && Main.rand.Next(42) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DungeonStaff>());
 			}
-			if (Main.rand.NextBool(100) &&
+			if (Main.rand.NextBool(200) &&
 				(npc.type == NPCID.RustyArmoredBonesAxe
 				|| npc.type == NPCID.RustyArmoredBonesFlail
 				|| npc.type == NPCID.RustyArmoredBonesSword
@@ -1141,7 +1148,15 @@ namespace SpiritMod.NPCs
 				|| npc.type == NPCID.HellArmoredBonesSword)) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Swordsplosion>());
 			}
-			if (npc.type == NPCID.ZombieEskimo
+            if (Main.rand.NextBool(175) &&
+                ( npc.type == NPCID.HellArmoredBones
+                || npc.type == NPCID.HellArmoredBonesSpikeShield
+                || npc.type == NPCID.HellArmoredBonesMace
+                || npc.type == NPCID.HellArmoredBonesSword))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Morningtide>());
+            }
+            if (npc.type == NPCID.ZombieEskimo
 				|| npc.type == NPCID.IceSlime
 				|| npc.type == NPCID.IceBat
 				|| npc.type == NPCID.ArmoredViking) {

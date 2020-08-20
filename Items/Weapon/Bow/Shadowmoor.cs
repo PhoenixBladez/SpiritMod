@@ -13,6 +13,7 @@ namespace SpiritMod.Items.Weapon.Bow
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Shadowmoor");
+            Tooltip.SetDefault("Converts wooden arrows into Shadow Wisps");
             SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Bow/Shadowmoor_Glow");
         }
 
