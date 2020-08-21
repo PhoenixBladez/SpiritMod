@@ -13,7 +13,7 @@ namespace SpiritMod.Projectiles.Clubs
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Energized Axe");
+			DisplayName.SetDefault("Unstable Adze");
 			Main.projFrames[projectile.type] = 3;
 		}
 		public override void Smash(Vector2 position)
@@ -53,10 +53,10 @@ namespace SpiritMod.Projectiles.Clubs
                     }
                 }
                 int proj = Projectile.NewProjectile(target.Center.X, target.Center.Y,
-                    0, 0, mod.ProjectileType("GraniteSpike1"), projectile.damage, projectile.knockBack, Main.myPlayer, 0f, 0f);
+                    0, 0, mod.ProjectileType("GraniteSpike1"), projectile.damage, projectile.knockBack/2, Main.myPlayer, 0f, 0f);
                 Main.projectile[proj].timeLeft = 2;
             }
         }
-       public EnergizedAxeProj() : base(30, 36, 87, -1, 60, 6, 10, 4f, 19f){}
+       public EnergizedAxeProj() : base(30, 18, 51, -1, 60, 6, 10, 4f, 19f){}
 	}
 }
