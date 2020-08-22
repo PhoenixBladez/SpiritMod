@@ -95,10 +95,9 @@ namespace SpiritMod.NPCs.Town
 
 		public override void SetupShop(Chest shop, ref int nextSlot)
 		{
-			Item item = shop.item[nextSlot++];
-			item.SetDefaults(ItemType<NullGlyph>());
+            AddItem(ref shop, ref nextSlot, ItemType<NullGlyph>());
 
-			item = shop.item[nextSlot++];
+            Item item = shop.item[nextSlot++];
 			CustomWare(item, ItemType<FrostGlyph>());
 
 			item = shop.item[nextSlot++];

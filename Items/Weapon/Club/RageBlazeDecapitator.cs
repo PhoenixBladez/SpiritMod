@@ -14,7 +14,7 @@ namespace SpiritMod.Items.Weapon.Club
         {
             DisplayName.SetDefault("Unstable Adze");
             Tooltip.SetDefault("Charges rapidly\nCharged strikes release multiple shards upon damaging enemies");
-            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Swung/RageBlazeDecapitator_Glow");
+            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Club/RageBlazeDecapitator_Glow");
         }
 
 
@@ -65,7 +65,7 @@ namespace SpiritMod.Items.Weapon.Club
             texture = Main.itemTexture[item.type];
             spriteBatch.Draw
             (
-                mod.GetTexture("Items/Weapon/Swung/RageBlazeDecapitator_Glow"),
+                mod.GetTexture("Items/Weapon/Club/RageBlazeDecapitator_Glow"),
                 new Vector2
                 (
                     item.position.X - Main.screenPosition.X + item.width * 0.5f,
@@ -81,5 +81,4 @@ namespace SpiritMod.Items.Weapon.Club
             );
         }
     }
-}
 }

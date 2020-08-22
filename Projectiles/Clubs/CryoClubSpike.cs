@@ -76,8 +76,8 @@ namespace SpiritMod.Projectiles.Clubs
                     projectile.timeLeft = 25;
                     projectile.velocity = Vector2.Zero;
 				}
-				else if (projectile.ai[1] < 14) {
-					projectile.velocity.Y -= .64525f;
+				else if (projectile.ai[1] < 12) {
+					projectile.velocity.Y -= .564525f;
 				}
 				else if (projectile.ai[1] > 14 && projectile.ai[1] < 20)
                 {

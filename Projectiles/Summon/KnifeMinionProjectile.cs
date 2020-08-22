@@ -7,25 +7,26 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Summon
 {
-	public class UnboundSoul : Minion
+	public class KnifeMinionProjectile : Minion
 	{
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Unbound Soul");
-			Main.projFrames[projectile.type] = 3;
+			Main.projFrames[projectile.type] = 1;
 			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
 			ProjectileID.Sets.Homing[projectile.type] = true;
 			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
-		}
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+        }
 
 		public override void SetDefaults()
 		{
 			projectile.width = 24;
 			projectile.height = 32;
-			Main.projPet[projectile.type] = true;
 			projectile.friendly = true;
 			projectile.minion = true;
-			projectile.minionSlots = 1f;
+			projectile.minionSlots = 0f;
 			projectile.penetrate = -1;
 			projectile.timeLeft = 18000;
 			projectile.tileCollide = false;
@@ -36,16 +37,19 @@ namespace SpiritMod.Projectiles.Summon
 		public override void CheckActive()
 		{
 			MyPlayer mp = Main.player[projectile.owner].GetModPlayer<MyPlayer>();
-			if (mp.player.dead)
-				mp.unboundSoulMinion = false;
+			if (mp.player.dead || !mp.rogueCrest)
+				projectile.active = false;
 
-			if (mp.unboundSoulMinion)
+			if (mp.rogueCrest)
 				projectile.timeLeft = 2;
 
 		}
-
-		public override void Behavior()
-		{
+        bool trailing = false;
+        public override void Behavior()
+        {
+            projectile.rotation = projectile.velocity.X * 0.25f;
+            trailing = false;
+            projectile.tileCollide = false;
 			Player player = Main.player[projectile.owner];
 			float num = projectile.width * 1.1f;
 			for (int i = 0; i < 1000; i++) {
@@ -65,15 +69,15 @@ namespace SpiritMod.Projectiles.Summon
 			}
 
 			Vector2 value = projectile.position;
-			float num2 = 500f;
+			float num21 = 500f;
 			bool flag = false;
-			projectile.tileCollide = true;
+			projectile.tileCollide = false;
 			for (int j = 0; j < 200; j++) {
 				NPC nPC = Main.npc[j];
 				if (nPC.CanBeChasedBy(this, false)) {
 					float num3 = Vector2.Distance(nPC.Center, projectile.Center);
-					if ((num3 < num2 || !flag) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, nPC.position, nPC.width, nPC.height)) {
-						num2 = num3;
+					if ((num3 < num21 || !flag) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, nPC.position, nPC.width, nPC.height)) {
+						num21 = num3;
 						value = nPC.Center;
 						flag = true;
 					}
@@ -97,7 +101,48 @@ namespace SpiritMod.Projectiles.Summon
 				else {
 					projectile.velocity *= (float)Math.Pow(0.97, 2.0);
 				}
-			}
+                trailing = true;
+                projectile.tileCollide = false;
+                projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
+                bool flag25 = false;
+                int jim = 1;
+                for (int index1 = 0; index1 < 200; index1++)
+                {
+                    if (Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1))
+                    {
+                        float num23 = Main.npc[index1].position.X + (float)(Main.npc[index1].width / 2);
+                        float num24 = Main.npc[index1].position.Y + (float)(Main.npc[index1].height / 2);
+                        float num25 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num23) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num24);
+                        if (num25 < 500f)
+                        {
+                            flag25 = true;
+                            jim = index1;
+                        }
+
+                    }
+                }
+                if (flag25)
+                {
+                    float num1 = 68.5f;
+                    Vector2 vector2 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
+                    float num2 = Main.npc[jim].Center.X - vector2.X;
+                    float num3 = Main.npc[jim].Center.Y - vector2.Y;
+                    Vector2 direction5 = Main.npc[jim].Center - projectile.Center;
+                    direction5.Normalize();
+                    projectile.rotation = projectile.DirectionTo(Main.npc[jim].Center).ToRotation() + 1.57f;
+                    float num4 = (float)Math.Sqrt((double)num2 * (double)num2 + (double)num3 * (double)num3);
+                    float num5 = num1 / num4;
+                    float num6 = num2 * num5;
+                    float num7 = num3 * num5;
+                    int num8 = 10;
+                    if (Main.rand.Next(15) == 0)
+                    {
+                        projectile.velocity.X = (projectile.velocity.X * (float)(num8 - 1) + num6) / (float)num8;
+                        projectile.velocity.Y = (projectile.velocity.Y * (float)(num8 - 1) + num7) / (float)num8;
+                        projectile.netUpdate = true;
+                    }
+                }
+            }
 			else {
 				if (!Collision.CanHitLine(projectile.Center, 1, 1, player.Center, 1, 1))
 					projectile.ai[0] = 1f;
@@ -139,8 +184,6 @@ namespace SpiritMod.Projectiles.Summon
 					projectile.velocity *= (float)Math.Pow(0.9, 2.0);
 				}
 			}
-
-			projectile.rotation = projectile.velocity.X * 0.05f;
 			if (projectile.velocity.X > 0f)
 				projectile.spriteDirection = (projectile.direction = -1);
 			else if (projectile.velocity.X < 0f)
@@ -153,66 +196,30 @@ namespace SpiritMod.Projectiles.Summon
 				projectile.ai[1] = 0f;
 				projectile.netUpdate = true;
 			}
-
-			if (projectile.ai[0] == 0f && flag) {
-				if ((value - projectile.Center).X > 0f) {
-					projectile.spriteDirection = (projectile.direction = -1);
-				}
-				else if ((value - projectile.Center).X < 0f) {
-					projectile.spriteDirection = (projectile.direction = 1);
-				}
-				if (projectile.ai[1] == 0f) {
-					projectile.ai[1] = 1f;
-					if (Main.myPlayer == projectile.owner) {
-						Vector2 vector2 = value - projectile.Center;
-						if (vector2 == Vector2.Zero) {
-							vector2 = new Vector2(0f, 1f);
-						}
-						vector2.Normalize();
-						vector2 *= 9f;
-						int num8 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector2.X, vector2.Y, ModContent.ProjectileType<SoulRune>(), 34, projectile.knockBack, Main.myPlayer, 0f, 0f);
-						Main.projectile[num8].timeLeft = 300;
-						Main.projectile[num8].netUpdate = true;
-						projectile.netUpdate = true;
-					}
-				}
-			}
-
-			if (projectile.ai[0] == 0f) {
-				if (Main.rand.Next(5) == 0) {
-					int num9 = Dust.NewDust(projectile.position, projectile.width, projectile.height / 2, 187, 0f, 0f, 0, default, 1f);
-					Main.dust[num9].velocity.Y -= 1.2f;
-				}
-			}
-			else if (Main.rand.Next(3) == 0) {
-				Vector2 velocity = projectile.velocity;
-				if (velocity != Vector2.Zero)
-					velocity.Normalize();
-
-				int num10 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 187, 0f, 0f, 0, default(Color), 1f);
-				Main.dust[num10].velocity -= 1.2f * velocity;
-			}
-			Lighting.AddLight((int)(projectile.Center.X / 16f), (int)(projectile.Center.Y / 16f), 0.2f, 0.2f, 0.9f);
 		}
 
 		public override void SelectFrame()
 		{
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 10) {
-				projectile.frameCounter = 0;
-				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
-			}
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D texture2D = Main.projectileTexture[projectile.type];
-			Vector2 origin = new Vector2((float)texture2D.Width * 0.5f, (float)(texture2D.Height / Main.projFrames[projectile.type]) * 0.5f);
-			SpriteEffects effects = (projectile.direction == -1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-			Vector2 value = new Vector2(projectile.Center.X - 4f, projectile.Center.Y - 8f);
-			Main.spriteBatch.Draw(texture2D, value - Main.screenPosition, new Rectangle?(Utils.Frame(texture2D, 1, Main.projFrames[projectile.type], 0, projectile.frame)), lightColor, projectile.rotation, origin, projectile.scale, effects, 0f);
-			return false;
-		}
+            if (trailing)
+            {
+                Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
+                for (int k = 0; k < projectile.oldPos.Length; k++)
+                {
+                    Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
+                    Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
+                    spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color * .6f, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f); ;
+                }
+            }
+			if (!trailing)
+            {
+				return true;
+            }
+            return false;
+        }
 
 	}
 }

@@ -216,9 +216,12 @@ namespace SpiritMod
 		public bool lihzahrdMinion = false;
 		public bool SnakeMinion = false;
 		public bool Ghast = false;
+        public bool jellyfishMinion = false;
 		public bool DungeonSummon = false;
 		public bool ReachSummon = false;
 		public bool gasopodMinion = false;
+        public bool rogueCrest = false;
+        public bool spellswordCrest = false;
 		public bool tankMinion = false;
 		public bool OG = false;
 		public bool lavaRock = false;
@@ -544,6 +547,8 @@ namespace SpiritMod
 			MetalBand = false;
 			KoiTotem = false;
 			setbonus = null;
+            rogueCrest = false;
+            spellswordCrest = false;
 			stoneHead = false;
 			silkenRobe = false;
 			zipline = false;
@@ -676,6 +681,7 @@ namespace SpiritMod
 			lanternPet = false;
 			jellyfishPet = false;
 			thrallPet = false;
+            jellyfishMinion = false;
 			shadowPet = false;
 			saucerPet = false;
 			terror1Summon = false;
@@ -3128,9 +3134,23 @@ namespace SpiritMod
 			if(clatterboneSet) {
 				clatterboneTimer--;
 			}
-
-			// Update armor sets.
-			if(infernalSet) {
+            bool spawnedProj = true;
+            if (rogueCrest)
+            {
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<KnifeMinionProjectile>()] < 1)
+                { 
+                    int newProj = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<KnifeMinionProjectile>(), (int)(5 * player.minionDamage), .5f, player.whoAmI, 90, 1);
+                }
+            }
+            if (spellswordCrest)
+            {
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<HolyKnifeMinion>()] < 1)
+                {
+                    int newProj = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HolyKnifeMinion>(), (int)(27 * player.minionDamage), 1.25f, player.whoAmI, 90, 1);
+                }
+            }
+            // Update armor sets.
+            if (infernalSet) {
 				float percentageLifeLeft = (float)player.statLife / player.statLifeMax2;
 				if(percentageLifeLeft <= 0.25f) {
 					player.statDefense -= 4;

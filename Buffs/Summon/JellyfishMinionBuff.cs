@@ -4,12 +4,12 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs.Summon
 {
-	public class CthulhuBuff : ModBuff
+	public class JellyfishMinionBuff : ModBuff
 	{
 		public override void SetDefaults()
 		{
-			DisplayName.SetDefault("Mini R'lyehian");
-			Description.SetDefault("It speaks in a strange, arcane language");
+			DisplayName.SetDefault("Jellyfish Minion");
+			Description.SetDefault("A cute, bouncy Jellyfish fights for you!");
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}
@@ -17,11 +17,11 @@ namespace SpiritMod.Buffs.Summon
 		public override void Update(Player player, ref int buffIndex)
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if (player.ownedProjectileCounts[ModContent.ProjectileType<Cthulhu>()] > 0) {
-				modPlayer.cthulhuMinion = true;
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<JellyfishMinion>()] > 0) {
+				modPlayer.jellyfishMinion = true;
 			}
 
-			if (!modPlayer.cthulhuMinion) {
+			if (!modPlayer.jellyfishMinion) {
 				player.DelBuff(buffIndex);
 				buffIndex--;
 				return;
