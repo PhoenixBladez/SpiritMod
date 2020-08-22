@@ -19,11 +19,11 @@ namespace SpiritMod.Items.Weapon.Summon
 		public override void SetDefaults()
 		{
 			item.CloneDefaults(ItemID.QueenSpiderStaff);
-			item.damage = 9;
-			item.mana = 13;
+			item.damage = 12;
+			item.mana = 10;
 			item.width = 50;
 			item.height = 50;
-			item.value = Terraria.Item.sellPrice(0, 0, 80, 0);
+			item.value = Terraria.Item.sellPrice(0, 0, 20, 0);
 			item.rare = ItemRarityID.Green;
 			item.knockBack = 2.5f;
 			item.UseSound = SoundID.Item20;

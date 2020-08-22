@@ -42,10 +42,10 @@ namespace SpiritMod.Items.Weapon.Summon
 		{
 			item.width = 34;
 			item.height = 34;
-			item.value = Item.sellPrice(0, 0, 30, 0);
+			item.value = Item.sellPrice(0, 0, 25, 0);
 			item.rare = 1;
-			item.mana = 12;
-			item.damage = 11;
+			item.mana = 10;
+			item.damage = 16;
 			item.knockBack = 2.5f;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = 30;

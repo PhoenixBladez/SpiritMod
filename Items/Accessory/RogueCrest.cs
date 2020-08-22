@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Accessory
 
 		public override void SetDefaults()
 		{
-            item.damage = 5;
+            item.damage = 7;
             item.summon = true;
             item.knockBack = .5f;
             item.width = 48;

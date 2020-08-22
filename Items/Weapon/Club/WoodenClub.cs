@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Weapon.Club
         public override void SetDefaults()
         {
             item.channel = true;
-            item.damage = 8;
+            item.damage = 11;
             item.width = 60;
             item.height = 60;
             item.useTime = 320;
@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Weapon.Club
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.melee = true;
             item.noMelee = true;
-            item.knockBack = 12;
+            item.knockBack = 8;
             item.useTurn = false;
             item.value = Terraria.Item.sellPrice(0, 1, 42, 0);
             item.rare = 0;
