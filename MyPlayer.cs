@@ -221,6 +221,7 @@ namespace SpiritMod
 		public bool ReachSummon = false;
 		public bool gasopodMinion = false;
         public bool rogueCrest = false;
+        public bool cimmerianScepter = false;
         public bool spellswordCrest = false;
 		public bool tankMinion = false;
 		public bool OG = false;
@@ -548,6 +549,7 @@ namespace SpiritMod
 			KoiTotem = false;
 			setbonus = null;
             rogueCrest = false;
+            cimmerianScepter = false;
             spellswordCrest = false;
 			stoneHead = false;
 			silkenRobe = false;
@@ -3134,19 +3136,25 @@ namespace SpiritMod
 			if(clatterboneSet) {
 				clatterboneTimer--;
 			}
-            bool spawnedProj = true;
             if (rogueCrest)
             {
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<KnifeMinionProjectile>()] < 1)
                 { 
-                    int newProj = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<KnifeMinionProjectile>(), (int)(5 * player.minionDamage), .5f, player.whoAmI, 90, 1);
+                    int newProj = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<KnifeMinionProjectile>(), (int)(5 * player.minionDamage), .5f, player.whoAmI);
+                }
+            }
+            if (cimmerianScepter)
+            {
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Summon.CimmerianStaff.CimmerianScepterProjectile>()] < 1)
+                {
+                    int newProj = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.Summon.CimmerianStaff.CimmerianScepterProjectile>(), (int)(22 * player.minionDamage), 1.5f, player.whoAmI);
                 }
             }
             if (spellswordCrest)
             {
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<HolyKnifeMinion>()] < 1)
                 {
-                    int newProj = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HolyKnifeMinion>(), (int)(27 * player.minionDamage), 1.25f, player.whoAmI, 90, 1);
+                    int newProj = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HolyKnifeMinion>(), (int)(27 * player.minionDamage), 1.25f, player.whoAmI);
                 }
             }
             // Update armor sets.

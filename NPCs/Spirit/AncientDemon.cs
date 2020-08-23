@@ -4,6 +4,8 @@ using SpiritMod.Items.Weapon.Swung;
 using SpiritMod.Projectiles.Hostile;
 using Terraria;
 using Terraria.ID;
+using SpiritMod.Tiles.Block;
+using System.Linq;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.Spirit
@@ -91,11 +93,20 @@ namespace SpiritMod.NPCs.Spirit
 				}
 			}
 		}
-
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        private static int[] SpawnTiles = { };
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			Player player = spawnInfo.player;
-			return player.position.Y / 16 >= Main.maxTilesY - 330 && player.GetSpiritPlayer().ZoneSpirit && !spawnInfo.playerSafe ? 2f : 0f;
+            if (!player.GetSpiritPlayer().ZoneSpirit)
+            {
+                return 0f;
+            }
+            if (SpawnTiles.Length == 0)
+            {
+                int[] Tiles = { ModContent.TileType<SpiritDirt>(), ModContent.TileType<SpiritStone>(), ModContent.TileType<SpiritGrass>(), ModContent.TileType<SpiritIce>() };
+                SpawnTiles = Tiles;
+            }
+            return SpawnTiles.Contains(Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].type) && player.position.Y / 16 >= Main.maxTilesY - 330 && player.GetSpiritPlayer().ZoneSpirit && !spawnInfo.playerSafe ? 2f : 0f;
 		}
 
 		public override void NPCLoot()

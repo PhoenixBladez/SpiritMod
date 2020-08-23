@@ -64,6 +64,8 @@ namespace SpiritMod.Projectiles.Summon
             }
         }
         bool trailing = false;
+        bool flag25 = false;
+        int jim = 1;
         public override void Behavior()
         {
             projectile.rotation = projectile.velocity.X * 0.25f;
@@ -123,8 +125,6 @@ namespace SpiritMod.Projectiles.Summon
                 trailing = true;
                 projectile.tileCollide = false;
                 projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
-                bool flag25 = false;
-                int jim = 1;
                 for (int index1 = 0; index1 < 200; index1++)
                 {
                     if (Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1))

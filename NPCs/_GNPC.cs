@@ -71,6 +71,7 @@ namespace SpiritMod.NPCs
 		public int unholySource;
 		public bool frostChill;
 		public bool stormBurst;
+        public bool summonTag3;
 
 		public bool amberFracture;
 
@@ -147,6 +148,7 @@ namespace SpiritMod.NPCs
 			tracked = false;
 			iceCrush = false;
 			blaze1 = false;
+            summonTag3 = false;
 			felBrand = false;
 			spectre = false;
 			holyBurn = false;
@@ -703,12 +705,10 @@ namespace SpiritMod.NPCs
 				}
 			}
 			else if (type == NPCID.WitchDoctor) {
-				if (NPC.downedPlantBoss) {
-					//shop.item[nextSlot].SetDefaults(ModContent.ItemType<TikiArrow>());
-					//nextSlot++;
-				}
-			}
-			else if (type == NPCID.Painter) {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapon.Club.Macuahuitl>());
+                nextSlot++;
+            }
+            else if (type == NPCID.Painter) {
 				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Canvas>(), false);
 				nextSlot++;
 
@@ -832,7 +832,11 @@ namespace SpiritMod.NPCs
 				else if (knockback > 8f)
 					knockback = before > 8 ? before : 8;
 			}
-		}
+            if (summonTag3 && projectile.minion)
+            {
+                damage += 3;
+            }
+        }
 
 		public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit)
 		{
@@ -840,7 +844,8 @@ namespace SpiritMod.NPCs
 				for (int i = 0; i < 8; i++) {
 					Dust dust = Dust.NewDustDirect(npc.position, npc.width, npc.height, DustType<Wind>());
 					dust.customData = new WindAnchor(npc.Center, npc.velocity, dust.position);
-				}
+
+                }
 			}
 		}
 
@@ -1020,11 +1025,18 @@ namespace SpiritMod.NPCs
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 184);
             }
             if (npc.type == NPCID.PossessedArmor) {
-				if (Main.rand.Next(100) <= 2) {
+				if (Main.rand.Next(100) <= 1) {
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ShadowAxe>());
 				}
 			}
-			if (npc.type == NPCID.Plantera) {
+            if (npc.type == NPCID.GoblinSorcerer)
+            {
+                if (Main.rand.Next(Main.expertMode ? 75 : 90) < 1)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Magic.GoblinSorcererStaff>());
+                }
+            }
+            if (npc.type == NPCID.Plantera) {
 				if (Main.rand.NextBool(4)) {
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.DonatorItems.Folv.Enchantment>());
 				}

@@ -49,7 +49,11 @@ namespace SpiritMod.NPCs.Spirit
 		private static int[] SpawnTiles = { };
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (SpawnTiles.Length == 0) {
+            if (!spawnInfo.player.GetSpiritPlayer().ZoneSpirit)
+            {
+                return 0f;
+            }
+            if (SpawnTiles.Length == 0) {
 				int[] Tiles = { ModContent.TileType<SpiritDirt>(), ModContent.TileType<SpiritStone>(), ModContent.TileType<SpiritGrass>(), ModContent.TileType<SpiritIce>() };
 				SpawnTiles = Tiles;
 			}

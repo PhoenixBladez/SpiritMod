@@ -3179,13 +3179,20 @@ namespace SpiritMod
 						chest.item[6].SetDefaults(ItemType<Items.Consumable.ChaosPearl>(), false);
 						chest.item[6].stack = WorldGen.genRand.Next(20, 30);
 					}
-					if (chest != null && Main.tile[chest.x, chest.y].frameX == 2 * 36 && Main.rand.Next(10) == 0) {
-						if (WorldGen.crimson) {
-							chest.item[1].SetDefaults(ItemType<Tenderizer>(), false);
+					if (chest != null && Main.tile[chest.x, chest.y].frameX == 2 * 36) {
+						if (Main.rand.Next(10) == 0)
+                        { 
+							if (WorldGen.crimson) {
+								chest.item[1].SetDefaults(ItemType<Tenderizer>(), false);
+							}
+							else {
+								chest.item[1].SetDefaults(ItemType<Slugger>(), false);
+							}
 						}
-						else {
-							chest.item[1].SetDefaults(ItemType<Slugger>(), false);
-						}
+						if (Main.rand.Next(10) == 0)
+                        {
+                            chest.item[1].SetDefaults(ItemType<CimmerianScepter>(), false);
+                        }
 					}
 					if (chest != null && Main.tile[chest.x, chest.y].frameX == 1 * 36 && Main.rand.Next(40) == 0) {
 						chest.item[1].SetDefaults(ItemType<Items.Accessory.MetalBand>(), false);
@@ -3310,7 +3317,7 @@ namespace SpiritMod
 					}
 				}
 			}
-			int[] itemsToPlaceInGlassChests = new int[] { ModContent.ItemType<ReachChestMagic>(), ModContent.ItemType<Items.Tool.ThornHook>(), ModContent.ItemType<ReachStaffChest>(), ModContent.ItemType<Items.Weapon.Returning.ReachBoomerang>(), ModContent.ItemType<ReachBrooch>() };
+			int[] itemsToPlaceInGlassChests = new int[] { ModContent.ItemType<ReachChestMagic>(), ModContent.ItemType<TwigStaff>(), ModContent.ItemType<Items.Tool.ThornHook>(), ModContent.ItemType<ReachStaffChest>(), ModContent.ItemType<Items.Weapon.Returning.ReachBoomerang>(), ModContent.ItemType<ReachBrooch>() };
 			int itemsToPlaceInGlassChestsChoice = 0;
 			for (int chestIndex = 0; chestIndex < 1000; chestIndex++) {
 				Chest chest = Main.chest[chestIndex];

@@ -54,7 +54,7 @@ namespace SpiritMod
 
 				float x = (float)Math.Cos(k + rand) * RatioX;
 				float y = (float)Math.Sin(k + rand) * RatioY;
-                if (dustType == 222)
+                if (dustType == 222 || dustType == 130)
                 {
                     Dust.NewDustPerfect(position, dustType, new Vector2(x, y).RotatedBy(rot) * mainSize, 0, default, dustSize).noGravity = true;
                 }

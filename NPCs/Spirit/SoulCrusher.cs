@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
+using SpiritMod.Tiles.Block;
+using System.Linq;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.Spirit
@@ -50,10 +52,20 @@ namespace SpiritMod.NPCs.Spirit
 		{
 			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Spirit/SoulCrusher_Glow"));
 		}
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        private static int[] SpawnTiles = { };
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			Player player = spawnInfo.player;
-			return player.position.Y / 16 >= Main.maxTilesY - 330 && player.GetSpiritPlayer().ZoneSpirit && !spawnInfo.playerSafe ? 3f : 0f;
+            if (!player.GetSpiritPlayer().ZoneSpirit)
+            {
+                return 0f;
+            }
+            if (SpawnTiles.Length == 0)
+            {
+                int[] Tiles = { ModContent.TileType<SpiritDirt>(), ModContent.TileType<SpiritStone>(), ModContent.TileType<SpiritGrass>(), ModContent.TileType<SpiritIce>() };
+                SpawnTiles = Tiles;
+            }
+            return SpawnTiles.Contains(Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].type) && player.position.Y / 16 >= Main.maxTilesY - 330 && player.GetSpiritPlayer().ZoneSpirit && !spawnInfo.playerSafe ? 3f : 0f;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
