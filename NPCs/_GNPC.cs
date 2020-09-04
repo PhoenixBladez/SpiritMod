@@ -71,9 +71,12 @@ namespace SpiritMod.NPCs
 		public int unholySource;
 		public bool frostChill;
 		public bool stormBurst;
-        public bool summonTag3;
 
-		public bool amberFracture;
+        public bool summonTag3;
+        public bool sacrificialDaggerBuff;
+
+
+        public bool amberFracture;
 
 		public bool felBrand = false;
 		public bool spectre = false;
@@ -148,8 +151,11 @@ namespace SpiritMod.NPCs
 			tracked = false;
 			iceCrush = false;
 			blaze1 = false;
+
             summonTag3 = false;
-			felBrand = false;
+            sacrificialDaggerBuff = false;
+
+            felBrand = false;
 			spectre = false;
 			holyBurn = false;
 			pestilence = false;
@@ -257,7 +263,7 @@ namespace SpiritMod.NPCs
 				}
 
 				drain = true;
-				npc.lifeRegen -= 6;
+				npc.lifeRegen -= 3 * acidBurnStacks;
 				damage = Math.Max(damage, acidBurnStacks * 2);
 			}
 			if (nebulaFlameStacks > 0) {
@@ -820,7 +826,7 @@ namespace SpiritMod.NPCs
 			}
 		}
 
-		public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		public override void ModifyHitByProjectile(NPC target, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 
 			if (stormBurst) {
@@ -835,6 +841,14 @@ namespace SpiritMod.NPCs
             if (summonTag3 && projectile.minion)
             {
                 damage += 3;
+            }
+            if (sacrificialDaggerBuff && projectile.minion)
+            {
+                if (Main.rand.NextBool(4))
+                {
+                    target.StrikeNPC((int)projectile.damage/5 * 3, projectile.knockBack, 0, false);
+                    DustHelper.DrawTriangle(target.Center, 173, 5, 1.5f, 1f);
+                }
             }
         }
 
@@ -892,6 +906,11 @@ namespace SpiritMod.NPCs
 		{
 			Player closest = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)];
             Player player = Main.LocalPlayer;
+            int num160 = Item.NPCtoBanner(npc.BannerID());
+			if (NPC.killCount[num160] == 50)
+            {
+                Main.PlaySound(SoundLoader.customSoundType, player.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/BannerSfx"));
+            }
             if (bloodInfused) {
 				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, ProjectileType<FlayedExplosion>(), 25, 0, Main.myPlayer);
 			}
@@ -1259,7 +1278,7 @@ namespace SpiritMod.NPCs
 
 			if (npc.type == NPCID.CultistBoss) {
 				int item = 0;
-				switch (Main.rand.Next(5)) {
+				switch (Main.rand.Next(4)) {
 					case 0:
 						item = ModContent.ItemType<Ancient>();
 						break;
@@ -1271,9 +1290,6 @@ namespace SpiritMod.NPCs
 						break;
 					case 3:
 						item = ModContent.ItemType<Tesseract>();
-						break;
-					case 4:
-						item = ModContent.ItemType<Items.Weapon.Thrown.CultDagger>();
 						break;
 				}
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, item);

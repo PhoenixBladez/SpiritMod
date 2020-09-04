@@ -13,28 +13,11 @@ namespace SpiritMod.Items.Equipment
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Avian Hook");
+            Tooltip.SetDefault("Striking tiles allows the player to float briefly");
 		}
 
 		public override void SetDefaults()
 		{
-			/*
-				this.noUseGraphic = true;
-				this.damage = 0;
-				this.knockBack = 7f;
-				this.useStyle = 5;
-				this.name = "Amethyst Hook";
-				this.shootSpeed = 10f;
-				this.shoot = 230;
-				this.width = 18;
-				this.height = 28;
-				this.useSound = 1;
-				this.useAnimation = 20;
-				this.useTime = 20;
-				this.rare = 1;
-				this.noMelee = true;
-				this.value = 20000;
-			*/
-			// Instead of copying these values, we can clone and modify the ones we want to copy
 			item.CloneDefaults(ItemID.AmethystHook);
 			item.shootSpeed = 14f; // how quickly the hook is shot.
 			item.expert = true;
@@ -51,16 +34,6 @@ namespace SpiritMod.Items.Equipment
 
 		public override void SetDefaults()
 		{
-			/*	this.netImportant = true;
-				this.name = "Gem Hook";
-				this.width = 18;
-				this.height = 18;
-				this.aiStyle = 7;
-				this.friendly = true;
-				this.penetrate = -1;
-				this.tileCollide = false;
-				this.timeLeft *= 10;
-			*/
 			projectile.CloneDefaults(ProjectileID.GemHookAmethyst);
 			//projectile.timeLeft = 400;
 		}

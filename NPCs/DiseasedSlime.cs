@@ -28,7 +28,7 @@ namespace SpiritMod.NPCs
 			npc.buffImmune[BuffID.Poisoned] = true;
 			npc.buffImmune[ModContent.BuffType<FesteringWounds>()] = true;
 			npc.buffImmune[BuffID.Venom] = true;
-			npc.value = 60f;
+			npc.value = 20f;
 			npc.alpha = 60;
 			npc.knockBackResist = .6f;
 			npc.aiStyle = 1;

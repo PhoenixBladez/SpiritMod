@@ -54,19 +54,20 @@ namespace SpiritMod.NPCs.Dungeon
 
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(153) == 1) {
+			if (Main.rand.Next(153) == 0) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GoldenKey);
 			}
-			if (Main.rand.Next(75) == 1) {
+			if (Main.rand.Next(75) == 0) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Nazar);
 			}
-			if (Main.rand.Next(100) == 1) {
+			if (Main.rand.Next(100) == 0) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.TallyCounter);
 			}
-			if (Main.rand.Next(1000) == 4) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BoneWand);
-			}
-			string[] lootTable = { "PlagueDoctorCowl", "PlagueDoctorRobe", "PlagueDoctorLegs" };
+            if (Main.rand.Next(250) == 0)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BoneWand);
+            }
+            string[] lootTable = { "PlagueDoctorCowl", "PlagueDoctorRobe", "PlagueDoctorLegs" };
 			if (Main.rand.Next(6) == 0) {
 				int loot = Main.rand.Next(lootTable.Length);
 				{

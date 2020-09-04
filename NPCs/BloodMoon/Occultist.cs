@@ -21,7 +21,7 @@ namespace SpiritMod.NPCs.BloodMoon
 		public override void SetDefaults()
 		{
 			npc.width = 32;
-			npc.height = 60;
+			npc.height = 50;
 
 			npc.lifeMax = 431;
 			npc.defense = 14;
@@ -48,7 +48,7 @@ namespace SpiritMod.NPCs.BloodMoon
 				npc.alpha = 255;
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 				for (int index1 = 0; index1 < 50; ++index1) {
-					int newDust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0.0f, 0.0f, 100, new Color(), 1.5f);
+					int newDust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 231, 0.0f, 0.0f, 100, new Color(), .95f);
 					Main.dust[newDust].velocity *= 3f;
 					Main.dust[newDust].noGravity = true;
 				}
@@ -59,7 +59,7 @@ namespace SpiritMod.NPCs.BloodMoon
 				// Teleport effects: away.
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 				for (int index1 = 0; index1 < 50; ++index1) {
-					int newDust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0.0f, 0.0f, 100, new Color(), 1.5f);
+					int newDust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 231, 0.0f, 0.0f, 100, new Color(), .95f);
 					Main.dust[newDust].velocity *= 3f;
 					Main.dust[newDust].noGravity = true;
 				}
@@ -72,7 +72,7 @@ namespace SpiritMod.NPCs.BloodMoon
 				// Teleport effects: arrived.
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 				for (int index1 = 0; index1 < 50; ++index1) {
-					int newDust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0.0f, 0.0f, 100, new Color(), 1.5f);
+					int newDust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 231, 0.0f, 0.0f, 100, new Color(), .95f);
 					Main.dust[newDust].velocity *= 3f;
 					Main.dust[newDust].noGravity = true;
 				}
@@ -130,7 +130,7 @@ namespace SpiritMod.NPCs.BloodMoon
 									Main.projectile[p].velocity.Y *= 3;
 									Main.PlaySound(SoundID.Item, (int)Main.projectile[p].position.X, (int)Main.projectile[p].position.Y, 8);
 									for (int i = 0; i < 10; i++) {
-										int num = Dust.NewDust(Main.projectile[p].position, Main.projectile[p].width, Main.projectile[p].height, 173, 0f, -2f, 0, default(Color), 2f);
+										int num = Dust.NewDust(Main.projectile[p].position, Main.projectile[p].width, Main.projectile[p].height, 231, 0f, -2f, 0, default(Color), 1.2f);
 										Main.dust[num].noGravity = true;
 										Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 										Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -146,7 +146,7 @@ namespace SpiritMod.NPCs.BloodMoon
 								if (Main.rand.Next(4) == 0) {
 									int p = NPC.NewNPC((int)Main.player[npc.target].position.X + Main.rand.Next(-200, 200), (int)Main.player[npc.target].position.Y + Main.rand.Next(-200, -100), NPCID.BloodZombie, 0, 0, 0, 0, 0, 255);
 									for (int i = 0; i < 10; i++) {
-										int num = Dust.NewDust(Main.npc[p].position, Main.npc[p].width, Main.npc[p].height, 173, 0f, -2f, 0, default(Color), 2f);
+										int num = Dust.NewDust(Main.npc[p].position, Main.npc[p].width, Main.npc[p].height, 231, 0f, -2f, 0, default(Color), 1.2f);
 										Main.dust[num].noGravity = true;
 										Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 										Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -158,7 +158,7 @@ namespace SpiritMod.NPCs.BloodMoon
 								else {
 									int p = NPC.NewNPC((int)Main.player[npc.target].position.X + Main.rand.Next(-200, 200), (int)Main.player[npc.target].position.Y + Main.rand.Next(-200, -100), NPCID.Zombie, 0, 0, 0, 0, 0, 255);
 									for (int i = 0; i < 10; i++) {
-										int num = Dust.NewDust(Main.npc[p].position, Main.npc[p].width, Main.npc[p].height, 173, 0f, -2f, 0, default(Color), 2f);
+										int num = Dust.NewDust(Main.npc[p].position, Main.npc[p].width, Main.npc[p].height, 231, 0f, -2f, 0, default(Color), 1.2f);
 										Main.dust[num].noGravity = true;
 										Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 										Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -175,7 +175,7 @@ namespace SpiritMod.NPCs.BloodMoon
 							Main.PlaySound(SoundID.NPCKilled, Main.npc[feast].position, 2);
 							Main.npc[feast].life = 0;
 							for (int i = 0; i < 40; i++) {
-								int num = Dust.NewDust(Main.npc[feast].position, Main.npc[feast].width, Main.npc[feast].height, 173, 0f, -2f, 0, default(Color), 2f);
+								int num = Dust.NewDust(Main.npc[feast].position, Main.npc[feast].width, Main.npc[feast].height, 231, 0f, -2f, 0, default(Color), 1.2f);
 								Main.dust[num].noGravity = true;
 								Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 								Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -198,7 +198,7 @@ namespace SpiritMod.NPCs.BloodMoon
 
 			if (Main.rand.Next(3) == 0)
 				return false;
-			Dust dust = Main.dust[Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + 2f), npc.width, npc.height, 173, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 100, new Color(), 0.9f)];
+			Dust dust = Main.dust[Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + 2f), npc.width, npc.height, 231, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 100, new Color(), 0.9f)];
 			dust.noGravity = true;
 			dust.velocity.X = dust.velocity.X * 0.3f;
 			dust.velocity.Y = (dust.velocity.Y * 0.2f) - 1;
@@ -286,7 +286,7 @@ namespace SpiritMod.NPCs.BloodMoon
 		}
 		public override void NPCLoot()
 		{
-			string[] lootTable = { "Handball", "OccultistStaff" };
+			string[] lootTable = { "Handball", "SacrificialDagger" };
 			int loot = Main.rand.Next(lootTable.Length);
 			{
 				npc.DropItem(mod.ItemType(lootTable[loot]));
@@ -295,8 +295,8 @@ namespace SpiritMod.NPCs.BloodMoon
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			int d = 173;
-			int d1 = 173;
+			int d = 231;
+			int d1 = 231;
 			Main.PlaySound(SoundID.NPCHit, npc.Center, 2);
 			for (int k = 0; k < 30; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);

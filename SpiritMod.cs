@@ -741,7 +741,7 @@ namespace SpiritMod
                     (Func<bool>)(() => MyWorld.downedOccultist),
                     null,
                     null,
-                    new List<int> { ModContent.ItemType<Handball>(), ModContent.ItemType<OccultistStaff>(), ModContent.ItemType<BloodFire>() },
+                    new List<int> { ModContent.ItemType<Handball>(), ModContent.ItemType<Items.Weapon.Summon.SacrificialDagger.SacrificialDagger>(), ModContent.ItemType<BloodFire>() },
                     "The Occultist spawns rarely during a Blood Moon after the Eye of Cthulhu has been defeated.",
                     null,
                     "SpiritMod/Textures/BossChecklist/OccultistTexture",
@@ -764,7 +764,21 @@ namespace SpiritMod
                     "SpiritMod/NPCs/Mecromancer_Head_Boss",
 
                     null);
-
+                bossChecklist.Call(
+                    "AddMiniBoss",
+                    3.1f,
+                    ModContent.NPCType<NPCs.Snaptrapper>(),
+                    this, // Mod
+                    "Snaptrapper",
+                    (Func<bool>)(() => MyWorld.downedSnaptrapper),
+                    null,
+                    null,
+                    new List<int> { ModContent.ItemType<SnapsporeStaff>(), ModContent.ItemType<Items.Weapon.Club.SporeClub>() },
+                    "The Snaptrapper spawns rarely on the Jungle surface after the Eater of Worlds or Brain of Cthulhu has been defeated.",
+                    null,
+                    "SpiritMod/Textures/BossChecklist/SnaptrapperTexture",
+                    "SpiritMod/NPCs/Snaptrapper_Head_Boss",
+                    null);
                 bossChecklist.Call(
                     "AddMiniBoss",
                     3.2f,

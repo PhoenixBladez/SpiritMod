@@ -8,13 +8,13 @@ namespace SpiritMod.Buffs
 	{
 		public override void SetDefaults()
 		{
-			DisplayName.SetDefault("Acid Burn");
+			DisplayName.SetDefault("Toxic Grasp");
 		}
 
 		public override bool ReApply(NPC npc, int time, int buffIndex)
 		{
 			GNPC info = npc.GetGlobalNPC<GNPC>();
-			if (info.acidBurnStacks < 2) {
+			if (info.acidBurnStacks < 4) {
 				info.acidBurnStacks++;
 			}
 
@@ -30,11 +30,17 @@ namespace SpiritMod.Buffs
 				info.acidBurnStacks = 1;
 			}
 
-			npc.defense -= 2;
-
 			if (Main.rand.NextBool(2)) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 107, 0, 1);
-			}
+				int a = Dust.NewDust(npc.position, npc.width, npc.height, 184, 0, 1);
+                int ab = Dust.NewDust(npc.position, npc.width, npc.height, 184, 0, 1);
+                int ac = Dust.NewDust(npc.position, npc.width, npc.height, 184, 0, 1);
+                Main.dust[a].alpha = 100;
+                Main.dust[ab].alpha = 100;
+                Main.dust[ac].alpha = 100;
+                Main.dust[a].scale = Main.rand.NextFloat(.3f, .9f);
+                Main.dust[ab].scale = Main.rand.NextFloat(.3f, .9f);
+                Main.dust[ac].scale = Main.rand.NextFloat(.3f, .9f);
+            }
 		}
 	}
 }

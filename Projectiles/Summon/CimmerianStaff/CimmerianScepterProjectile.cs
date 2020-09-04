@@ -13,7 +13,7 @@ namespace SpiritMod.Projectiles.Summon.CimmerianStaff
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Little Jellyfish");
+			DisplayName.SetDefault("Cimmerian Scepter");
 			Main.projFrames[base.projectile.type] = 1;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 1;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
@@ -30,7 +30,7 @@ namespace SpiritMod.Projectiles.Summon.CimmerianStaff
 			projectile.friendly = true;
 			Main.projPet[projectile.type] = true;
 			projectile.minion = true;
-			projectile.minionSlots = 1;
+			projectile.minionSlots = 0;
 			projectile.penetrate = -1;
 			projectile.timeLeft = 18000;
 			projectile.tileCollide = false;
@@ -144,11 +144,18 @@ namespace SpiritMod.Projectiles.Summon.CimmerianStaff
             else
             {
                 timer++;
-                for (int num531 = 0; num531 < 200; num531++)
+				if (timer > 130 && timer < 170)
                 {
-                    if (Main.npc[num531].CanBeChasedBy(projectile, false))
+                    projectile.rotation += .3f;
+                }
+				else
+                {
+                    for (int num531 = 0; num531 < 200; num531++)
                     {
-                        projectile.rotation = projectile.DirectionTo(Main.npc[num531].Center).ToRotation() + 1.57f;
+                        if (Main.npc[num531].CanBeChasedBy(projectile, false))
+                        {
+                            projectile.rotation = projectile.DirectionTo(Main.npc[num531].Center).ToRotation() + 1.57f;
+                        }
                     }
                 }
                 if (timer >= Main.rand.Next(180, 210))
@@ -182,7 +189,6 @@ namespace SpiritMod.Projectiles.Summon.CimmerianStaff
                         }
                     }
                     NPC target = (Main.npc[(int)projectile.ai[1]] ?? new NPC());
-                    Main.PlaySound(2, projectile.Center, 12);
                     int dustType;
                     timer = 0;
                     Vector2 ShootArea = new Vector2(projectile.Center.X, projectile.Center.Y - 13);
@@ -194,6 +200,7 @@ namespace SpiritMod.Projectiles.Summon.CimmerianStaff
                     {
                         case 0: //star attack
                             colorVer = new Color(126, 61, 255);
+                            Main.PlaySound(2, projectile.Center, 9);
                             for (int z = 0; z < 4; z++)
                             {
                                 Vector2 pos = new Vector2(projectile.Center.X + Main.rand.Next(-30, 30), projectile.Center.Y + Main.rand.Next(-30, 30));
@@ -204,12 +211,14 @@ namespace SpiritMod.Projectiles.Summon.CimmerianStaff
                             break;
                         case 1: //explosion attack
                             colorVer = new Color(255, 20, 52);
+                            Main.PlaySound(SoundID.DD2_GhastlyGlaiveImpactGhost, projectile.Center);
                             DustHelper.DrawCircle(projectile.Center, 130, 1, 1f, 1f, .85f, .85f);
                             int proj23 = Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("CimmerianRedGlyph"), projectile.damage, 0, Main.myPlayer);
 
                             break;
                         case 2: //lightning attack
                             colorVer = new Color(61, 184, 255);
+                            Main.PlaySound(2, projectile.Center, 12);
                             for (int k = 0; k < 15; k++)
                             {
                                 Dust d = Dust.NewDustPerfect(projectile.Center, 226, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(3), 0, default, Main.rand.NextFloat(.4f, .8f));
@@ -219,7 +228,7 @@ namespace SpiritMod.Projectiles.Summon.CimmerianStaff
                             {
                                 DustHelper.DrawElectricity(projectile.Center, target.Center, 226, 0.3f);
                             }
-                            target.StrikeNPC(projectile.damage, 0f, 0, false);
+                            target.StrikeNPC((int)(projectile.damage * 1.5f), 1f, 0, false);
                             for (int k = 0; k < 10; k++)
                             {
                                 Dust d = Dust.NewDustPerfect(target.Center, 226, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(2), 0, default, Main.rand.NextFloat(.2f, .4f));

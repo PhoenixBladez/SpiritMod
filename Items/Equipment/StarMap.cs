@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Equipment
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Astral Map");
-			Tooltip.SetDefault("Hold for three seconds, then release to teleport");
+			Tooltip.SetDefault("Hold for a second, then release to teleport");
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Equipment/StarMap_Glow");
 		}
 

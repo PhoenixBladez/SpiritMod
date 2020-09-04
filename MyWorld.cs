@@ -104,6 +104,7 @@ namespace SpiritMod
         public static bool downedMechromancer = false;
         public static bool downedOccultist = false;
         public static bool downedGladeWraith = false;
+        public static bool downedSnaptrapper = false;
         public static bool downedBeholder = false;
         public static bool downedTide = false;
 		public static bool downedBlueMoon = false;
@@ -188,6 +189,8 @@ namespace SpiritMod
                 downed.Add("gladeWraith");
             if (downedBeholder)
                 downed.Add("beholder");
+            if (downedSnaptrapper)
+                downed.Add("snaptrapper");
             data.Add("downed", downed);
 
 			TagCompound droppedGlyphTag = new TagCompound();
@@ -241,8 +244,9 @@ namespace SpiritMod
             downedOccultist = downed.Contains("occultist");
             downedGladeWraith = downed.Contains("gladeWraith");
             downedBeholder = downed.Contains("beholder");
+            downedSnaptrapper = downed.Contains("snaptrapper");
             //LoadSpecialNPCs(tag);
-			SpiritMod.AdventurerQuests.WorldLoad(tag);
+            SpiritMod.AdventurerQuests.WorldLoad(tag);
 			TagCompound droppedGlyphTag = tag.GetCompound("droppedGlyphs");
 			droppedGlyphs.Clear();
 			foreach (KeyValuePair<string, object> entry in droppedGlyphTag) {
@@ -296,6 +300,7 @@ namespace SpiritMod
                 downedOccultist = flags2[4];
                 downedGladeWraith = flags2[5];
                 downedBeholder = flags2[6];
+                downedSnaptrapper = flags2[7];
 
                 gennedBandits = flags2[0];
 				gennedTower = flags2[1];
@@ -317,7 +322,7 @@ namespace SpiritMod
 		public override void NetSend(BinaryWriter writer)
 		{
 			BitsByte bosses1 = new BitsByte(downedScarabeus, downedAncientFlier, downedRaider, downedInfernon, downedDusking, downedIlluminantMaster, downedAtlas, downedOverseer);
-			BitsByte bosses2 = new BitsByte(downedReachBoss, downedSpiritCore, downedTide, downedMechromancer, downedOccultist, downedGladeWraith, downedBeholder);
+			BitsByte bosses2 = new BitsByte(downedReachBoss, downedSpiritCore, downedTide, downedMechromancer, downedOccultist, downedGladeWraith, downedBeholder, downedSnaptrapper);
 			writer.Write(bosses1);
 			writer.Write(bosses2);
 			BitsByte environment = new BitsByte(BlueMoon);
@@ -352,6 +357,7 @@ namespace SpiritMod
             downedOccultist = bosses2[4];
             downedGladeWraith = bosses2[5];
             downedBeholder = bosses2[6];
+            downedSnaptrapper = bosses2[7];
 
             BitsByte environment = reader.ReadByte();
 			BlueMoon = environment[0];
@@ -436,6 +442,7 @@ namespace SpiritMod
             downedOccultist = false;
             downedGladeWraith = false;
             downedBeholder = false;
+            downedSnaptrapper = false;
 
         }
 		#region Asteroid
@@ -1639,7 +1646,7 @@ namespace SpiritMod
 					// Select a place in the first 6th of the world
 					int sectionSize = Main.maxTilesX / islands;
 					int towerX = Main.rand.Next((sectionSize * section) + 50, (sectionSize * (section + 1)) - 50);
-					int towerY = WorldGen.genRand.Next(Main.maxTilesY / 10, Main.maxTilesY / 9);
+					int towerY = WorldGen.genRand.Next(Main.maxTilesY / 9, Main.maxTilesY / 8);
 					Tile tile = Main.tile[towerX, towerY];
 					if (tile.active()) {
 						continue;
@@ -3466,7 +3473,10 @@ namespace SpiritMod
 			else
 				dayTimeSwitched = false;
 			dayTimeLast = Main.dayTime;
-
+			if (BlueMoon && dayTimeSwitched && !downedBlueMoon)
+            {
+                downedBlueMoon = true;
+            }
 			if (dayTimeSwitched) {
 				if (Main.rand.Next(2) == 0 && !spaceJunkWeather) {
 					stardustWeather = true;

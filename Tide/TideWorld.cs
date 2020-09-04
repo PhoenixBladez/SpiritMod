@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 using SpiritMod;
 namespace SpiritMod.Tide
 {
@@ -24,6 +25,7 @@ namespace SpiritMod.Tide
 				TheTide = false;
 				if (!MyWorld.downedTide)
                 {
+                    Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DeathSounds/TideComplete"));
                     MyWorld.downedTide = true;
                 }
 			}

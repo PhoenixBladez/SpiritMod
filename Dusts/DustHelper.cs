@@ -66,7 +66,7 @@ namespace SpiritMod
 		}
 		public static void DrawTriangle(Vector2 position, int dustType, float size, float dustDensity = 1f, float dustSize = 2f, float rotationAmount = -1, bool noGravity = true)
 		{
-			float rot;
+            float rot;
 			if (rotationAmount < 0) { rot = Main.rand.NextFloat(0, (float)Math.PI * 2); } else { rot = rotationAmount; }
 			float density = 1 / dustDensity * 0.1f;
 			float x = 1;

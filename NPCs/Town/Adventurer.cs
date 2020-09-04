@@ -112,18 +112,6 @@ namespace SpiritMod.NPCs.Town
 
 		public override void SetupShop(Chest shop, ref int nextSlot)
 		{
-			int glowStick = Main.moonPhase == 4 && !Main.dayTime ? ItemID.SpelunkerGlowstick : ItemID.StickyGlowstick;
-			AddItem(ref shop, ref nextSlot, glowStick);
-
-			switch (Main.moonPhase) {
-				case 4 when !Main.dayTime:
-					AddItem(ref shop, ref nextSlot, ItemID.CursedTorch);
-					break;
-
-				case 7 when !Main.dayTime:
-					AddItem(ref shop, ref nextSlot, ItemID.UltrabrightTorch);
-					break;
-			}
 
 			AddItem(ref shop, ref nextSlot, ItemID.TrapsightPotion, 2000);
 			AddItem(ref shop, ref nextSlot, ItemID.DartTrap, 5000);
@@ -160,6 +148,19 @@ namespace SpiritMod.NPCs.Town
             if (NPC.downedBoss3)
             {
                 AddItem(ref shop, ref nextSlot, ItemType<Items.Accessory.DawnStone>(), check: Main.dayTime);
+            }
+            int glowStick = Main.moonPhase == 4 && !Main.dayTime ? ItemID.SpelunkerGlowstick : ItemID.StickyGlowstick;
+            AddItem(ref shop, ref nextSlot, glowStick);
+
+            switch (Main.moonPhase)
+            {
+                case 4 when !Main.dayTime:
+                    AddItem(ref shop, ref nextSlot, ItemID.CursedTorch);
+                    break;
+
+                case 7 when !Main.dayTime:
+                    AddItem(ref shop, ref nextSlot, ItemID.UltrabrightTorch);
+                    break;
             }
         }
 

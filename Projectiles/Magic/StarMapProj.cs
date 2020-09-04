@@ -48,7 +48,7 @@ namespace SpiritMod.Projectiles.Magic
 				projectile.position = player.Center + holdOffset;
 				player.velocity.X *= 0.97f;
 				counter++;
-				if (counter > 160) {
+				if (counter > 80) {
 					DoDustEffect(projectile.Center, 54f);
 					if (counter % 3 == 0) {
 						Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, ModContent.ProjectileType<StarMapTrail>(), 0, 0, projectile.owner);
@@ -56,7 +56,7 @@ namespace SpiritMod.Projectiles.Magic
 				}
 			}
 			else {
-				if (counter > 160) {
+				if (counter > 80) {
 					Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, ModContent.ProjectileType<TeleportBolt>(), 0, 0, projectile.owner);
 				}
 				projectile.active = false;

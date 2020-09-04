@@ -210,6 +210,7 @@ namespace SpiritMod
 		public bool CrystalShield = false;
 		public bool carnivorousPlantMinion = false;
 		public bool skeletalonMinion = false;
+        public bool snapsporeMinion = false;
 		public bool beetleMinion = false;
 		public bool steamMinion = false;
 		public bool aeonMinion = false;
@@ -245,6 +246,8 @@ namespace SpiritMod
         public bool arcaneNecklace = false;
         public bool manaShield = false;
         public bool seraphimBulwark = false;
+
+        public bool strikeshield = false;
 
 		//Adventurer related
 		public int explorerTimer;
@@ -546,6 +549,7 @@ namespace SpiritMod
 			removedEffects = effects;
 			effects = new List<SpiritPlayerEffect>();
 			MetalBand = false;
+            strikeshield = false;
 			KoiTotem = false;
 			setbonus = null;
             rogueCrest = false;
@@ -626,6 +630,7 @@ namespace SpiritMod
 			ReachSummon = false;
 			hungryMinion = false;
 			silkenSet = false;
+            snapsporeMinion = false;
 			EaterSummon = false;
 			CreeperSummon = false;
 			CrystalShield = false;
@@ -3154,7 +3159,7 @@ namespace SpiritMod
             {
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<HolyKnifeMinion>()] < 1)
                 {
-                    int newProj = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HolyKnifeMinion>(), (int)(27 * player.minionDamage), 1.25f, player.whoAmI);
+                    int newProj = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HolyKnifeMinion>(), (int)(32 * player.minionDamage), 1.25f, player.whoAmI);
                 }
             }
             // Update armor sets.
@@ -4180,6 +4185,30 @@ namespace SpiritMod
 
 		public override void OnHitByNPC(NPC npc, int damage, bool crit)
 		{
+			if (strikeshield)
+            {
+                npc.AddBuff(mod.BuffType("SummonTag3"), 240, true);
+                int num = -1;
+                for (int i = 0; i < 200; i++)
+                {
+                    if (Main.npc[i].CanBeChasedBy(player, false) && Main.npc[i] == npc)
+                    {
+                        num = i;
+                    }
+                }
+                {
+                    player.MinionAttackTargetNPC = num;
+                }
+                if (Main.rand.NextBool(5))
+                {
+					for (int i = 0; i < 10; i++)
+                    {
+                        Dust.NewDust(npc.position, npc.width, npc.height, 0, 2.5f, -2.5f, 0, Color.Gray, 0.7f);
+                    }
+                    npc.StrikeNPCNoInteraction(7, 4f, 0, false, false, false);
+                }
+            }
+
 			if(chitinSet) {
 				if(player.velocity.X != 0) {
 					int knockBack = 9;

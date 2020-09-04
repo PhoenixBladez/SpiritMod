@@ -84,10 +84,10 @@ namespace SpiritMod.NPCs.BloodMoon
 		}
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(30) == 1) {
+			if (Main.rand.Next(20) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BottomFeederGun>());
 			}
-            if (Main.rand.Next(30) == 1)
+            if (Main.rand.Next(20) == 1)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Consumable.Food.FishFingers>());
             }

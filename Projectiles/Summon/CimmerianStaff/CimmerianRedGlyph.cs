@@ -39,6 +39,12 @@ namespace SpiritMod.Projectiles.Summon.CimmerianStaff
 		{
             projectile.rotation = 0f;
             alphaCounter += .095f;
+			if (Main.rand.NextBool(15))
+            {
+                int glyphnum = Main.rand.Next(4);
+                DustHelper.DrawDustImage(new Vector2(projectile.Center.X + Main.rand.Next(-30, 30), projectile.Center.Y + Main.rand.Next(-30, 30)), 130, 0.05f, "SpiritMod/Effects/DustImages/CimmerianGlyph" + glyphnum, 1f);
+            }
+            DoDustEffect(projectile.Center, 34f);
             sineAdd = (float)Math.Sin(alphaCounter) + 2;
 			if (!chooseFrame)
             {
@@ -62,6 +68,18 @@ namespace SpiritMod.Projectiles.Summon.CimmerianStaff
                 int glyphnum = Main.rand.Next(4);
                 DustHelper.DrawDustImage(new Vector2(projectile.Center.X + Main.rand.Next(-30, 30), projectile.Center.Y + Main.rand.Next(-30, 30)), 130, 0.05f, "SpiritMod/Effects/DustImages/CimmerianGlyph" + glyphnum, 1f);
             }
+        }
+        private void DoDustEffect(Vector2 position, float distance, float minSpeed = 2f, float maxSpeed = 3f, object follow = null)
+        {
+            float angle = Main.rand.NextFloat(-MathHelper.Pi, MathHelper.Pi);
+            Vector2 vec = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
+            Vector2 vel = vec * Main.rand.NextFloat(minSpeed, maxSpeed);
+
+            int dust = Dust.NewDust(position - vec * distance, 0, 0, 130);
+            Main.dust[dust].noGravity = true;
+            Main.dust[dust].scale *= .5f;
+            Main.dust[dust].velocity = vel;
+            Main.dust[dust].customData = follow;
         }
         public override Color? GetAlpha(Color lightColor)
         {

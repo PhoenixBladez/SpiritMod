@@ -1,6 +1,8 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.Projectiles.Thrown.Artifact
 {
@@ -17,39 +19,45 @@ namespace SpiritMod.Projectiles.Thrown.Artifact
 			projectile.hostile = false;
 			projectile.width = 22;
 			projectile.height = 22;
-			projectile.aiStyle = 1;
-			projectile.thrown = true;
-			aiType = ProjectileID.Bullet;
+			projectile.aiStyle = -1;
+			projectile.minion = true;
+            projectile.alpha = 100;
 			projectile.friendly = true;
-			projectile.penetrate = 5;
-			projectile.timeLeft = 180;
+			projectile.penetrate = 3;
+            projectile.scale = .9f;
+			projectile.timeLeft = 120;
 		}
 
-		public override bool PreAI()
-		{
-			projectile.velocity *= 0.95f;
-			projectile.tileCollide = true;
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 75, 0f, 0f);
-			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, ModContent.DustType<Dusts.Pestilence>(), 0f, 0f);
-			Main.dust[dust].scale = 0.8f;
-			Main.dust[dust].noGravity = true;
-			Main.dust[dust2].scale = 0.8f;
-			Main.dust[dust2].noGravity = true;
-			return true;
-
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 8) {
-				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
-				projectile.frameCounter = 0;
-			}
-			return true;
-		}
-
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			if (Main.rand.Next(6) == 0)
-				target.AddBuff(BuffID.Poisoned, 300);
-		}
-
-	}
+        public override void AI()
+        {
+            projectile.velocity *= .98f;
+            projectile.alpha++;
+            projectile.spriteDirection = projectile.direction;
+            projectile.frameCounter++;
+            if (projectile.frameCounter >= 6)
+            {
+                projectile.frame++;
+                projectile.frameCounter = 0;
+                if (projectile.frame >= 4)
+                    projectile.frame = 0;
+            }
+        }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            if (Main.rand.Next(5) == 1)
+                target.AddBuff(BuffID.Poisoned, 120);
+        }
+        public override void Kill(int timeLeft)
+        {
+            for (int num621 = 0; num621 < 2; num621++)
+            {
+                Dust.NewDust(projectile.position, projectile.width, projectile.height,
+                    2, 0f, 0f, 100, default(Color), .7f);
+                Dust dust = Main.dust[Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 2f), projectile.width, projectile.height, ModContent.DustType<Dusts.PoisonGas>(), projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, new Color(), 4f)];
+                dust.noGravity = true;
+                dust.velocity.X = dust.velocity.X * 0.3f;
+                dust.velocity.Y = (dust.velocity.Y * 0.2f) - 1;
+            }
+        }
+    }
 }

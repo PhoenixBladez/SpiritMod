@@ -67,19 +67,19 @@ namespace SpiritMod.NPCs
 			for (int J = 0; J <= lootcount1; J++) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GlowingMushroom);
 			}
-			if (Main.rand.Next(15) == 1)
+			if (Main.rand.Next(15) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<WheezerScale>());
-			if (Main.rand.Next(10000) == 125) {
+			if (Main.rand.Next(80) == 0) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DepthMeter);
             }
             if (Main.rand.NextBool(60))
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ClatterMace>());
             }
-            if (Main.rand.Next(10000) == 125) {
+            if (Main.rand.Next(80) == 0) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Compass);
 			}
-			if (Main.rand.Next(1000) == 39) {
+			if (Main.rand.Next(200) == 0) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Rally);
             }
             string[] lootTable = { "ClatterboneBreastplate", "ClatterboneFaceplate", "ClatterboenLeggings" };

@@ -199,13 +199,17 @@ namespace SpiritMod.NPCs
 			}
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			int x = spawnInfo.spawnTileX;
-			int y = spawnInfo.spawnTileY;
-			int tile = (int)Main.tile[x, y].type;
-            return spawnInfo.player.GetSpiritPlayer().ZoneMarble && NPC.downedBoss2 && !NPC.AnyNPCs(ModContent.NPCType<Beholder>()) && spawnInfo.spawnTileY > Main.rockLayer ? 0.04f : 0f;
+        {
+            int x = spawnInfo.spawnTileX;
+            int y = spawnInfo.spawnTileY;
+            int tile = (int)Main.tile[x, y].type;
+            if (!MyWorld.downedBeholder)
+            {
+                return spawnInfo.player.GetSpiritPlayer().ZoneMarble && NPC.downedBoss2 && !NPC.AnyNPCs(ModContent.NPCType<Beholder>()) && spawnInfo.spawnTileY > Main.rockLayer ? 0.04f : 0f;
+            }
+            return spawnInfo.player.GetSpiritPlayer().ZoneMarble && NPC.downedBoss2 && !NPC.AnyNPCs(ModContent.NPCType<Beholder>()) && spawnInfo.spawnTileY > Main.rockLayer ? 0.0165f : 0f;
 
-		}
+        }
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frame.Y = frameHeight * frame;

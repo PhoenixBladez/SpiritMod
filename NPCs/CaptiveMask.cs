@@ -156,14 +156,14 @@ namespace SpiritMod.NPCs
 		}
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(10) == 1)
+			if (Main.rand.Next(20) == 1)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TatteredScript>());
 
-			if (Main.rand.Next(2) == 1) {
+			if (Main.rand.Next(10) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MimeMask>(), 1);
 			}
 			else {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MimeBomb>(), Main.rand.Next(12, 23));
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MimeBomb>(), Main.rand.Next(10, 18));
 			}
 		}
 
@@ -173,7 +173,7 @@ namespace SpiritMod.NPCs
 			if (spawnInfo.playerSafe) {
 				return 0f;
 			}
-			return SpawnCondition.Cavern.Chance * 0.01f;
+			return SpawnCondition.Cavern.Chance * 0.008f;
 		}
 
 		public override void FindFrame(int frameHeight)

@@ -51,15 +51,18 @@ namespace SpiritMod.NPCs
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ClatterboneShield>());
             }
-            if (Main.rand.Next(10000) == 125) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DepthMeter);
-			}
-			if (Main.rand.Next(10000) == 125) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Compass);
-			}
-			if (Main.rand.Next(1000) == 39) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Rally);
-			}
+            if (Main.rand.Next(80) == 0)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DepthMeter);
+            }
+            if (Main.rand.Next(80) == 0)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Compass);
+            }
+            if (Main.rand.Next(200) == 0)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Rally);
+            }
             string[] lootTable = { "ClatterboneBreastplate", "ClatterboneFaceplate", "ClatterboneLeggings" };
             if (Main.rand.Next(55) == 0)
             {
