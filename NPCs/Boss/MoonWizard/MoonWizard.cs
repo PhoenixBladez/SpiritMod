@@ -51,7 +51,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 		float trueFrame = 0;
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			if (npc.velocity != Vector2.Zero) {
+			if (npc.velocity != Vector2.Zero || phaseTwo) {
 				drawAfterimage(spriteBatch, drawColor);
 			}
 			return false;
@@ -93,6 +93,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 		int timeBetweenAttacks = 150;
 
 		int expertTimer = 0;
+		bool phaseTwo = false;
 		//0-3: idle
 		//4-9 propelling
 		//10-13 skirt up
@@ -106,9 +107,20 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				npc.velocity = Vector2.Zero;
 				npc.rotation = 0;
 				UpdateFrame(0.15f, 0, 3);
+				if (!phaseTwo && npc.life < npc.lifeMax / 4) {
+					phaseTwo = true;
+					timeBetweenAttacks = 100;
+				}
 				if (attackCounter > timeBetweenAttacks) {
 					attackCounter = 0;
-					npc.ai[0] = Main.rand.Next(8) + 1;
+					if (phaseTwo) 
+					{
+						npc.ai[0] = Main.rand.Next(4) + 1;
+					}
+					else 
+				    {
+						npc.ai[0] = Main.rand.Next(8) + 1;
+					}
 
 					if (npc.ai[0] == 8 && Main.player[npc.target].velocity.Y > 0) {
 						npc.ai[0] = 9;
@@ -141,19 +153,19 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 						Dash();
 						break;
 					case 3:
-						TeleportMove();
+						SmashAttack();
 						break;
 					case 4:
-						KickAttack();
+						SpazAttack();
 						break;
 					case 5:
-						SmashAttack();
+						TeleportMove();
 						break;
 					case 6:
 						SineAttack();
 						break;
 					case 7:
-						SpazAttack();
+						KickAttack();
 						break;
 					case 8:
 						SkyStrikeLeft();
@@ -220,6 +232,9 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 		void SpazAttack() //if you are debugging, please have mercy on me. I really didn't know any other way to code this. I know it's extreme spagetti code, and I'm sorry.
 		{
 			int speed = 30;
+			if (phaseTwo) {
+				speed = 45;
+			}
 			if (attackCounter == 0) {
 				dash1 = Vector2.One * 999;
 				dash2 = Vector2.One * 999;
@@ -331,6 +346,9 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			if (attackCounter == dashCounter + (int)dash5.Length() && actualDashCounter == 5) {
 				npc.ai[0] = 0;
 				timeBetweenAttacks = 25;
+				if (phaseTwo) {
+					timeBetweenAttacks = 0;
+				}
 				attackCounter = 0;
 			}
 			if (actualDashCounter != 0) 
@@ -345,7 +363,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 		}
 		void SpazPredictor(ref Vector2 dash, Vector2 Position)
 		{
-			int speed = 30;
+			int speed = 60;
 			Player player = Main.player[npc.target];
 			int distance = Main.rand.Next(50,250);
 			npc.ai[3] = Main.rand.Next(360);
@@ -450,6 +468,10 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				UpdateFrame(0.4f, 4, 9);
 				if (attackCounter == 55) {
 					npc.velocity.Y = 25;
+					if (phaseTwo) {
+						npc.velocity.Y = 50;
+						attackCounter++;
+					}
 					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 81);
 				}
 			}
@@ -503,6 +525,9 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			Player player = Main.player[npc.target];
 			UpdateFrame(0.15f, 4, 9);
 			float speed = 15f;
+			if (phaseTwo) {
+				speed = 30;
+			}
 			if (attackCounter == 20) {
 				dashDirection = player.Center - npc.Center;
 				dashDistance = dashDirection.Length();
@@ -524,6 +549,9 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				Teleport();
 				npc.ai[0] = 0;
 				timeBetweenAttacks = 35;
+				if (phaseTwo) {
+					timeBetweenAttacks = 10;
+				}
 				attackCounter = 0;
 			}
 		}
@@ -555,6 +583,9 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			Player player = Main.player[npc.target];
 			UpdateFrame(0.15f, 4, 9);
 			float speed = 10f;
+			if (phaseTwo) {
+				speed = 40;
+			}
 			if (attackCounter == 0) {
 				Main.PlaySound(SoundID.DD2_MonkStaffSwing, npc.position);
 				int distance = Main.rand.Next(300, 500);
@@ -575,6 +606,9 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				Main.projectile[node].active = false;
 				npc.ai[0] = 0;
 				timeBetweenAttacks = 10;
+				if (phaseTwo) {
+					timeBetweenAttacks = 0;
+				}
 				attackCounter = 0;
 			}
 		}
