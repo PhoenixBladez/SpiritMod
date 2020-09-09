@@ -101,8 +101,8 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			else if (npc.ai[1] == 4f) {
 				npc.ai[2] += 1f;
 				if (npc.ai[2] >= 25f) {
-					npc.velocity.X = npc.velocity.X * 0.99f;
-					npc.velocity.Y = npc.velocity.Y * 0.99f;
+					npc.velocity.X = npc.velocity.X * 0.985f;
+					npc.velocity.Y = npc.velocity.Y * 0.985f;
 					if (npc.velocity.X > -0.1 && npc.velocity.X < 0.1)
 						npc.velocity.X = 0f;
 					if (npc.velocity.Y > -0.1 && npc.velocity.Y < 0.1)

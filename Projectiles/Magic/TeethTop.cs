@@ -33,7 +33,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override void AI()
 		{
 			counter++;
-			if (counter >= 30) {
+			if (counter >= 20) {
 				projectile.friendly = true;
 				if (counter2 < projectile.ai[0]) {
 					projectile.velocity.Y = closeSpeed * 2;
@@ -42,7 +42,7 @@ namespace SpiritMod.Projectiles.Magic
 				else {
 					projectile.velocity.Y = 0;
 				}
-				if (counter == 33) {
+				if (counter == 23) {
 					Main.PlaySound(SoundID.NPCHit, (int)projectile.position.X, (int)projectile.position.Y, 2);
 				}
 			}

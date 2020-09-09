@@ -46,9 +46,11 @@ namespace SpiritMod.Items.Weapon.Swung
 			}
 			if (player.altFunctionUse == 2) {
 				item.noUseGraphic = true;
+                item.noMelee = true;
 				item.shoot = ModContent.ProjectileType<Slugger1>();
 			}
 			else {
+                item.noMelee = false;
 				item.noUseGraphic = false;
 				item.shoot = ProjectileID.None;
 			}

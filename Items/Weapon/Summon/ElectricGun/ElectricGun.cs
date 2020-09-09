@@ -2,6 +2,7 @@ using SpiritMod.Projectiles.Summon;
 using Terraria;
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,26 +13,48 @@ namespace SpiritMod.Items.Weapon.Summon.ElectricGun
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Arcbolter");
-			Tooltip.SetDefault("Shoots a wave of nature energy\n3 summon tag damage");
-		}
+			Tooltip.SetDefault("4 summon tag damage\nYour summons will focus struck enemies\nHit enemies may create static links between each other, dealing additional damage");
 
+            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Summon/ElectricGun/ElectricGun_Glow");
+        }
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            Lighting.AddLight(item.position, 0.08f, .4f, .28f);
+            Texture2D texture;
+            texture = Main.itemTexture[item.type];
+            spriteBatch.Draw
+            (
+                mod.GetTexture("Items/Weapon/Summon/ElectricGun/ElectricGun_Glow"),
+                new Vector2
+                (
+                    item.position.X - Main.screenPosition.X + item.width * 0.5f,
+                    item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+                ),
+                new Rectangle(0, 0, texture.Width, texture.Height),
+                Color.White,
+                rotation,
+                texture.Size() * 0.5f,
+                scale,
+                SpriteEffects.None,
+                0f
+            );
+        }////
 
-		public override void SetDefaults()
+        public override void SetDefaults()
 		{
-			item.damage = 5;
+			item.damage = 12;
 			item.summon = true;
-			item.mana = 5;
 			item.width = 32;
 			item.height = 32;
-			item.useTime = 12;
-			item.useAnimation = 12;
+			item.useTime = 25;
+			item.useAnimation = 25;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.noMelee = true;
-			item.knockBack = 1;
-			item.value = Terraria.Item.sellPrice(0, 0, 20, 0);
-			item.rare = 1;
-			item.UseSound = SoundID.Item20;
-			item.autoReuse = true;
+			item.knockBack = 2;
+			item.value = Terraria.Item.sellPrice(0, 0, 80, 0);
+			item.rare = 2;
+			item.UseSound = SoundID.Item12;
+			item.autoReuse = false;
 			item.shoot = ModContent.ProjectileType<ElectricGunProjectile>();
 			item.shootSpeed = 6f;
 		}
@@ -53,7 +76,23 @@ namespace SpiritMod.Items.Weapon.Summon.ElectricGun
                     Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, item.damage, knockBack, item.owner, 0, 0);
                 }
             }
+            for (int index1 = 0; index1 < 5; ++index1)
+            {
+                int index2 = Dust.NewDust(new Vector2(position.X, position.Y), item.width - 60, item.height - 28, 226, speedX, speedY, (int)byte.MaxValue, new Color(), (float)Main.rand.Next(6, 10) * 0.1f);
+                Main.dust[index2].noGravity = true;
+                Main.dust[index2].velocity *= 0.5f;
+                Main.dust[index2].scale *= .6f;
+            }
             return false;
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<Items.Material.TechDrive>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<Items.Placeable.Tiles.SpaceJunkItem>(), 25);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this, 1);
+            recipe.AddRecipe();
         }
         public override Vector2? HoldoutOffset()
         {

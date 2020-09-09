@@ -64,28 +64,28 @@ namespace SpiritMod.Skies.Overlays
             //--THIS IS WHERE YOU EDIT!
             if (MyWorld.auroraType == 0)
             {
-                DrawSingularAurora(spriteBatch, basePoint, 0, 400, new Color(137, 48, 255), new Color(125, 0, 255), 0.0028f, 0.8f, 0.2f);
-                DrawSingularAurora(spriteBatch, basePoint, 20, 400, new Color(0, 143, 233), new Color(0, 255, 255), 0.0023f, 1f, 0.32f);
+                DrawSingularAurora(spriteBatch, basePoint, 0, 400, new Color(137, 48, 255), new Color(125, 0, 255), 0.0031f, 0.8f, 0.2f);
+                DrawSingularAurora(spriteBatch, basePoint, 20, 400, new Color(0, 143, 233), new Color(0, 255, 255), 0.0031f, 1f, 0.32f);
             }
             if (MyWorld.auroraType == 1) {
-				DrawSingularAurora(spriteBatch, basePoint, 20, 400, new Color(0, 143, 233), new Color(0, 255, 255), 0.0023f, 1f, 0.1f);
-				DrawSingularAurora(spriteBatch, basePoint, 0, 400, new Color(60, 200, 183), new Color(0, 255, 100), 0.0028f, 1f, 0.4f);
+				DrawSingularAurora(spriteBatch, basePoint, 20, 400, new Color(0, 143, 233), new Color(0, 255, 255), 0.0031f, 1f, 0.1f);
+				DrawSingularAurora(spriteBatch, basePoint, 0, 400, new Color(60, 200, 183), new Color(0, 255, 100), 0.0031f, 1f, 0.4f);
 			}
 			if (MyWorld.auroraType == 2) {
-				DrawSingularAurora(spriteBatch, basePoint, 20, 400, new Color(0, 143, 233), new Color(0, 255, 255), 0.0023f, 1f, 0.1f);
-				DrawSingularAurora(spriteBatch, basePoint, 0, 400, new Color(60, 200, 183), new Color(0, 255, 100), 0.0028f, 1f, 0.4f);
+				DrawSingularAurora(spriteBatch, basePoint, 20, 400, new Color(0, 143, 233), new Color(0, 255, 255), 0.0031f, 1f, 0.1f);
+				DrawSingularAurora(spriteBatch, basePoint, 0, 400, new Color(60, 200, 183), new Color(0, 255, 100), 0.0031f, 1f, 0.4f);
 			}
 			if (MyWorld.auroraType == 3) {
-				DrawSingularAurora(spriteBatch, basePoint, 20, 400, new Color(0, 143, 233), new Color(0, 255, 255), 0.0023f, 1f, 0.1f);
-				DrawSingularAurora(spriteBatch, basePoint, 0, 400, new Color(60, 200, 183), new Color(0, 255, 100), 0.0028f, 1f, 0.43f);
+				DrawSingularAurora(spriteBatch, basePoint, 20, 400, new Color(0, 143, 233), new Color(0, 255, 255), 0.0031f, 1f, 0.1f);
+				DrawSingularAurora(spriteBatch, basePoint, 0, 400, new Color(60, 200, 183), new Color(0, 255, 100), 0.0031f, 1f, 0.43f);
 			}
 			else if (MyWorld.auroraType == 5) {
-				DrawSingularAurora(spriteBatch, basePoint, 0, 400, new Color(137, 48, 255), new Color(125, 0, 255), 0.0028f, 0.8f, 0.2f);
-				DrawSingularAurora(spriteBatch, basePoint, 20, 400, new Color(0, 143, 233), new Color(0, 255, 255), 0.0023f, 1f, 0.32f);
+				DrawSingularAurora(spriteBatch, basePoint, 0, 400, new Color(137, 48, 255), new Color(125, 0, 255), 0.0031f, 0.8f, 0.2f);
+				DrawSingularAurora(spriteBatch, basePoint, 20, 400, new Color(0, 143, 233), new Color(0, 255, 255), 0.0031f, 1f, 0.32f);
 			}
 			else if (MyWorld.auroraType == 6) {
-				DrawSingularAurora(spriteBatch, basePoint, 0, 400, new Color(247, 39, 67), new Color(206, 51, 72), 0.0028f, 0.8f, 0.1f);
-				DrawSingularAurora(spriteBatch, basePoint, 20, 400, new Color(252, 42, 186), new Color(143, 15, 155), 0.0023f, 1f, 0.32f);
+				DrawSingularAurora(spriteBatch, basePoint, 0, 400, new Color(247, 39, 67), new Color(206, 51, 72), 0.0031f, 0.8f, 0.1f);
+				DrawSingularAurora(spriteBatch, basePoint, 20, 400, new Color(252, 42, 186), new Color(143, 15, 155), 0.0031f, 1f, 0.32f);
 			}
 			else if (MyWorld.auroraType == 7) {
 				DrawSingularAurora(spriteBatch, basePoint, 20, 400, new Color(255, 170, 114), new Color(255, 170, 114), 0.0028f, 0.8f, 0.2f);

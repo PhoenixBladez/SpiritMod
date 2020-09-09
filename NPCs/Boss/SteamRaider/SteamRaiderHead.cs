@@ -60,7 +60,8 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		bool charge;
 		public override void AI()
 		{
-			Player player = Main.player[npc.target];
+            npc.TargetClosest(true);
+            Player player = Main.player[npc.target];
 			/*if (crashY < npc.position.Y && charging)
 			{
 				 for (int i = 0; i < 40; i++)
@@ -449,10 +450,8 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			}
 			#region Phase2
 			else {
-                npc.TargetClosest(true);
                 if (npc.target < 0 || npc.target == 255 || player.dead)
                 {
-                    npc.TargetClosest(false);
                     npc.active = false;
                     npc.netUpdate = true;
                     timer = 0;

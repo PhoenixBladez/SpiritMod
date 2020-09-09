@@ -73,6 +73,7 @@ namespace SpiritMod.NPCs
 		public bool stormBurst;
 
         public bool summonTag3;
+        public bool summonTag4;
         public bool sacrificialDaggerBuff;
 
 
@@ -153,6 +154,7 @@ namespace SpiritMod.NPCs
 			blaze1 = false;
 
             summonTag3 = false;
+            summonTag4 = false;
             sacrificialDaggerBuff = false;
 
             felBrand = false;
@@ -678,7 +680,9 @@ namespace SpiritMod.NPCs
                 }
             }
             else if (type == NPCID.Dryad) {
-				if (NPC.downedMoonlord && Main.halloween) {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Placeable.MusicBox.TranquilWindsBox>(), false);
+                nextSlot++;
+                if (NPC.downedMoonlord && Main.halloween) {
 					shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Placeable.Tiles.HalloweenGrass>(), false);
 					nextSlot++;
 				}
@@ -696,7 +700,9 @@ namespace SpiritMod.NPCs
 			else if (type == NPCID.Steampunker) {
 				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Ammo.SpiritSolution>());
 				nextSlot++;
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Ammo.SoullessSolution>());
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Ammo.OliveSolution>());
+                nextSlot++;
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Ammo.SoullessSolution>());
 				nextSlot++;
 			}
 			else if (type == NPCID.PartyGirl) {
@@ -838,9 +844,13 @@ namespace SpiritMod.NPCs
 				else if (knockback > 8f)
 					knockback = before > 8 ? before : 8;
 			}
-            if (summonTag3 && projectile.minion)
+            if (summonTag3 && !summonTag4 && projectile.minion)
             {
                 damage += 3;
+            }
+			if (summonTag4 && projectile.minion)
+            {
+                damage += 4;
             }
             if (sacrificialDaggerBuff && projectile.minion)
             {

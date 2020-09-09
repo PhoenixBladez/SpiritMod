@@ -78,7 +78,6 @@ namespace SpiritMod.Items.Weapon.Swung
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<Starblade>(), 1);
 			recipe.AddIngredient(ModContent.ItemType<SpiritSaber>(), 1);
-			recipe.AddIngredient(ModContent.ItemType<SpiritSword>(), 1);
 			recipe.AddIngredient(ModContent.ItemType<EtherealSword>(), 1);
 			recipe.AddIngredient(ItemID.Ectoplasm, 15);
 			recipe.AddIngredient(ItemID.FragmentSolar, 4);

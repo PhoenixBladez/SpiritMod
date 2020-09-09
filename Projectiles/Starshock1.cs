@@ -60,11 +60,10 @@ namespace SpiritMod.Projectiles
 			double num5 = (double)projectile.ai[1] / 180.0;
 
 
-			int index1 = (int)projectile.ai[0];
-			if (index1 >= 0 && Main.player[index1].active && !Main.player[index1].dead) {
-				if (projectile.Distance(Main.player[index1].Center) <= num3)
+			if (Main.player[projectile.owner].active && !Main.player[projectile.owner].dead) {
+				if (projectile.Distance(Main.player[projectile.owner].Center) <= num3)
 					return;
-				Vector2 unitY = projectile.DirectionTo(Main.player[index1].Center);
+				Vector2 unitY = projectile.DirectionTo(Main.player[projectile.owner].Center);
 				if (unitY.HasNaNs())
 					unitY = Vector2.UnitY;
 				projectile.velocity = (projectile.velocity * (num1 - 1f) + unitY * num2) / num1;

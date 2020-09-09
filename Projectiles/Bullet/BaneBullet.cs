@@ -42,7 +42,16 @@ namespace SpiritMod.Projectiles.Bullet
 				}
 				summoned = true;
 			}
-		}
+            for (int i = 0; i < 10; i++)
+            {
+                float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
+                float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
+                int num = Dust.NewDust(new Vector2(x, y), 2, 2, 27);
+                Main.dust[num].alpha = projectile.alpha;
+                Main.dust[num].velocity = Vector2.Zero;
+                Main.dust[num].noGravity = true;
+            }
+        }
 
 		public override void Kill(int timeLeft)
 		{

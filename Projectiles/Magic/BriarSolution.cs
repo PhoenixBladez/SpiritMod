@@ -3,15 +3,17 @@ using SpiritMod.Tiles.Block;
 using SpiritMod.Tiles.Walls.Natural;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Magic
 {
-	public class SoullessSolution : ModProjectile
+	public class BriarSolution : ModProjectile
 	{
+
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Soulless Spray");
+			DisplayName.SetDefault("Briar Spray");
 		}
 
 		public override void SetDefaults()
@@ -28,7 +30,7 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void AI()
 		{
-			int dustType = 4;
+			int dustType = 163;
 			if (projectile.owner == Main.myPlayer)
 				Convert((int)(projectile.position.X + (float)(projectile.width / 2)) / 16, (int)(projectile.position.Y + (float)(projectile.height / 2)) / 16, 2);
 
@@ -60,7 +62,7 @@ namespace SpiritMod.Projectiles.Magic
 			else {
 				projectile.ai[0] += 1f;
 			}
-			projectile.rotation += 0.3f * (float)projectile.direction;
+			projectile.rotation += 0.3f * projectile.direction;
 		}
 
 		public void Convert(int i, int j, int size = 4)
@@ -70,37 +72,18 @@ namespace SpiritMod.Projectiles.Magic
 					if (WorldGen.InWorld(k, l, 1) && Math.Abs(k - i) + Math.Abs(l - j) < Math.Sqrt(size * size + size * size)) {
 						int type = (int)Main.tile[k, l].type;
 						int wall = (int)Main.tile[k, l].wall;
-						if (type == (int)ModContent.WallType<SpiritWall>() || type == (int)ModContent.WallType<ReachWallNatural>()) {
-							Main.tile[k, l].wall = (ushort)2;
-							WorldGen.SquareWallFrame(k, l, true);
-							NetMessage.SendTileSquare(-1, k, l, 1);
+						if (wall != 0) {
+							if (wall >= 63 && wall <= 70 || wall == 81) {
+								Main.tile[k, l].wall = (ushort)ModContent.WallType<ReachWallNatural>();
+								WorldGen.SquareWallFrame(k, l, true);
+								NetMessage.SendTileSquare(-1, k, l, 1);
+							}
 						}
-						if (type == ModContent.TileType<SpiritStone>()) {
-							Main.tile[k, l].type = (ushort)1;
+						else if (type == 2 || type == 23 || type == 109 || type == 199) {
+							Main.tile[k, l].type = (ushort)ModContent.TileType<BriarGrass>();
 							WorldGen.SquareTileFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
-						else if (type == ModContent.TileType<SpiritDirt>()) {
-							Main.tile[k, l].type = 0;
-							WorldGen.SquareTileFrame(k, l, true);
-							NetMessage.SendTileSquare(-1, k, l, 1);
-						}
-						else if (type == ModContent.TileType<SpiritGrass>() || type == ModContent.TileType<BriarGrass>()) {
-							Main.tile[k, l].type = (ushort)2;
-							WorldGen.SquareTileFrame(k, l, true);
-							NetMessage.SendTileSquare(-1, k, l, 1);
-						}
-						else if (type == ModContent.TileType<Spiritsand>()) {
-							Main.tile[k, l].type = (ushort)53;
-							WorldGen.SquareTileFrame(k, l, true);
-							NetMessage.SendTileSquare(-1, k, l, 1);
-						}
-						else if (type == ModContent.TileType<SpiritIce>()) {
-							Main.tile[k, l].type = (ushort)161;
-							WorldGen.SquareTileFrame(k, l, true);
-							NetMessage.SendTileSquare(-1, k, l, 1);
-						}
-
 					}
 				}
 			}

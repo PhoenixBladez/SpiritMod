@@ -149,6 +149,7 @@ namespace SpiritMod.NPCs.Town
             {
                 AddItem(ref shop, ref nextSlot, ItemType<Items.Accessory.DawnStone>(), check: Main.dayTime);
             }
+            AddItem(ref shop, ref nextSlot, ItemType<Items.Accessory.VitalityStone>(), check: Main.bloodMoon);
             int glowStick = Main.moonPhase == 4 && !Main.dayTime ? ItemID.SpelunkerGlowstick : ItemID.StickyGlowstick;
             AddItem(ref shop, ref nextSlot, glowStick);
 

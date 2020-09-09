@@ -46,7 +46,9 @@ namespace SpiritMod.Projectiles.Summon
 		{
 			Player player = Main.player[projectile.owner];
 			bool flag64 = projectile.type == ModContent.ProjectileType<CarnivorousPlantMinion>();
-			MyPlayer mp = Main.player[projectile.owner].GetSpiritPlayer();
+            projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+
+            MyPlayer mp = Main.player[projectile.owner].GetSpiritPlayer();
 			if (flag64) {
 				if (mp.player.dead)
 					mp.carnivorousPlantMinion = false;

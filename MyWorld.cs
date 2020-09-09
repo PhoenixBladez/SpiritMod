@@ -1644,7 +1644,7 @@ namespace SpiritMod
 			while (!placed) {
 				{
 					// Select a place in the first 6th of the world
-					int sectionSize = Main.maxTilesX / islands;
+					int sectionSize = Main.maxTilesX / 3 * 2 / islands;
 					int towerX = Main.rand.Next((sectionSize * section) + 50, (sectionSize * (section + 1)) - 50);
 					int towerY = WorldGen.genRand.Next(Main.maxTilesY / 9, Main.maxTilesY / 8);
 					Tile tile = Main.tile[towerX, towerY];
@@ -2765,13 +2765,13 @@ namespace SpiritMod
 							}
 							int num67 = 1;
 							if (Main.maxTilesX == 4200) {
-								num67 = Main.rand.Next(12, 15);
+								num67 = Main.rand.Next(11, 13);
 							}
 							else if (Main.maxTilesX == 6400) {
-								num67 = Main.rand.Next(15, 19);
+								num67 = Main.rand.Next(14, 19);
 							}
 							else if (Main.maxTilesX == 8400) {
-								num67 = Main.rand.Next(19, 24);
+								num67 = Main.rand.Next(17, 21);
 							}
 							for (int j = 0; j < num67; j++) {
 								GenerateSepulchre();

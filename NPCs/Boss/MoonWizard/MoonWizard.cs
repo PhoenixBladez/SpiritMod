@@ -1,4 +1,4 @@
-﻿
+﻿/*
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -231,9 +231,9 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 		Vector2 dashFrom = Vector2.Zero;
 		void SpazAttack() //if you are debugging, please have mercy on me. I really didn't know any other way to code this. I know it's extreme spagetti code, and I'm sorry.
 		{
-			int speed = 30;
+			int speed = 22;
 			if (phaseTwo) {
-				speed = 45;
+				speed = 32;
 			}
 			if (attackCounter == 0) {
 				dash1 = Vector2.One * 999;
@@ -705,4 +705,4 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 		}
 		#endregion
 	}
-}
+}*/

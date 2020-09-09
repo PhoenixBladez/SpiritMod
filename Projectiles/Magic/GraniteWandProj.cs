@@ -22,7 +22,7 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.timeLeft = 240;
 		}
 		bool hitGround = false;
-		public override bool? CanHitNPC(NPC target) => hitGround;
+		public override bool? CanHitNPC(NPC target) => hitGround && !target.friendly;
 		public override bool PreAI()
 		{
 			float num1 = 6f;

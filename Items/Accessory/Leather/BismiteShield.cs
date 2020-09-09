@@ -22,7 +22,8 @@ namespace SpiritMod.Items.Accessory.Leather
 			item.rare = ItemRarityID.Green;
 			item.defense = 2;
 			item.melee = true;
-			item.accessory = true;
+            item.value = Terraria.Item.sellPrice(0, 0, 60, 0);
+            item.accessory = true;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)

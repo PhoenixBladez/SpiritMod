@@ -286,7 +286,7 @@ namespace SpiritMod.NPCs.BloodMoon
 		}
 		public override void NPCLoot()
 		{
-			string[] lootTable = { "Handball", "SacrificialDagger" };
+			string[] lootTable = { "Handball", "SacrificialDagger", "BloodWard" };
 			int loot = Main.rand.Next(lootTable.Length);
 			{
 				npc.DropItem(mod.ItemType(lootTable[loot]));

@@ -16,8 +16,8 @@ namespace SpiritMod.Projectiles.Bullet
 
 		public override void SetDefaults()
 		{
-			projectile.width = 6;
-			projectile.height = 22;
+			projectile.width = 8;
+			projectile.height = 8;
 			projectile.aiStyle = 1;
 			projectile.friendly = true;
 			projectile.ranged = true;

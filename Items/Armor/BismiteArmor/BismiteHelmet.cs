@@ -81,7 +81,7 @@ namespace SpiritMod.Items.Armor.BismiteArmor
 			virulence = 600f;
 
 			if (!player.HasBuff(ModContent.BuffType<VirulenceCooldown>())) {
-				Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<VirulenceExplosion>(), projDamage, 5, Main.myPlayer);
+				Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<VirulenceExplosion>(), projDamage, 5, Main.myPlayer);
 			}
 
 			player.AddBuff(ModContent.BuffType<VirulenceCooldown>(), 140);
@@ -90,7 +90,7 @@ namespace SpiritMod.Items.Armor.BismiteArmor
 		public override void PlayerOnHitNPC(Player player, Item item, NPC target, int damage, float knockback, bool crit)
 		{
 			if (virulence <= 0f) {
-				Projectile.NewProjectile(target.position, Vector2.Zero, ModContent.ProjectileType<VirulenceExplosion>(), 25, 8, Main.myPlayer);
+				Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<VirulenceExplosion>(), 25, 8, Main.myPlayer);
 				virulence = 600f;
 				player.AddBuff(ModContent.BuffType<VirulenceCooldown>(), 140);
 			}

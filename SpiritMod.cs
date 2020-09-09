@@ -488,7 +488,7 @@ namespace SpiritMod
 
 				Filters.Scene["SpiritMod:Atlas"] = new Filter(new AtlasScreenShaderData("FilterMiniTower").UseColor(0.5f, 0.5f, 0.5f).UseOpacity(0.6f), EffectPriority.VeryHigh);
 				SkyManager.Instance["SpiritMod:Atlas"] = new AtlasSky();
-
+                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/TranquilWinds"), ItemType("TranquilWindsBox"), TileType("TranquilWindsBox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritOverworld"), ItemType("SpiritBox1"), TileType("SpiritBox1"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/NeonTech"), ItemType("NeonMusicBox"), TileType("NeonMusicBox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer1"), ItemType("SpiritBox2"), TileType("SpiritBox2"));
@@ -643,13 +643,6 @@ namespace SpiritMod
 				ItemID.Ichor
 			});
 			RecipeGroup.RegisterGroup("SpiritMod:EvilMaterial", group);
-
-			group = new RecipeGroup(() => Language.GetTextValue("LegacyMisc.37") + " " + Lang.GetItemNameValue(ModContent.ItemType<CursedPendant>()), new int[]
-			{
-				ModContent.ItemType<CursedPendant>(),
-				ModContent.ItemType<IchorPendant>()
-			});
-			RecipeGroup.RegisterGroup("SpiritMod:EvilNecklace", group);
 
 			group = new RecipeGroup(() => Language.GetTextValue("LegacyMisc.37") + " " + Lang.GetItemNameValue(ItemID.ShadowScale), new int[]
 			{

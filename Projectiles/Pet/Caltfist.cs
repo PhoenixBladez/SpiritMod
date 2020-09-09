@@ -32,7 +32,11 @@ namespace SpiritMod.Projectiles.Pet
 		{
 			Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.75f) / 255f, ((255 - projectile.alpha) * 0.75f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
 			Player player = Main.player[projectile.owner];
-			MyPlayer modPlayer = player.GetSpiritPlayer();
+            if (projectile.Distance(player.Center) > 1500)
+            {
+                projectile.position = player.position + new Vector2(Main.rand.Next(-125, 126), Main.rand.Next(-125, 126));
+            }
+            MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (player.dead)
 				modPlayer.caltfist = false;
 

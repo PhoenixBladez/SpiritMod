@@ -53,7 +53,7 @@ namespace SpiritMod.Items.BossBags
 			player.QuickSpawnItem(lootTable[loot]);
 
 			if (Main.rand.NextDouble() < 1d / 7)
-				player.QuickSpawnItem(ModContent.ItemType<AtlasMask>());
+				player.QuickSpawnItem(ModContent.ItemType<OverseerMask>());
 			if (Main.rand.NextDouble() < 1d / 10)
 				player.QuickSpawnItem(ModContent.ItemType<Trophy9>());
 		}

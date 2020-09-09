@@ -18,10 +18,10 @@ namespace SpiritMod.Tiles.Furniture
 			Main.tileNoAttach[Type] = true;
             Main.tileLighted[Type] = true;
             Main.tileLavaDeath[Type] = true;
-			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
-			TileObjectData.newTile.Height = 3;
-            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style4x2);
+            TileObjectData.newTile.Height = 3;
             TileObjectData.newTile.Width = 5;
+            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
 			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
 			TileObjectData.newTile.Direction = TileObjectDirection.PlaceLeft;
 			TileObjectData.newTile.StyleWrapLimit = 2; //not really necessary but allows me to add more subtypes of chairs below the example chair texture

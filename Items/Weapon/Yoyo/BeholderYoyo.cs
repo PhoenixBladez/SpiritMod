@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Weapon.Yoyo
 			item.channel = true;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useAnimation = 25;
-			item.mana = 1;
+			item.mana = 5;
 			item.useTime = 25;
 			item.shoot = ModContent.ProjectileType<BeholderYoyoProj>();
 			item.magic = true;

@@ -31,7 +31,12 @@ namespace SpiritMod.NPCs.Spirit
 			npc.noTileCollide = true;
 			npc.npcSlots = 0.75f;
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void NPCLoot()
+        {
+              if (Main.rand.NextBool(90))
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Magic.SpiritFlameStaff>());
+        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			var effects = npc.direction == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,

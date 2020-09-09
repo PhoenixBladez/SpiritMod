@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.UseSound = SoundID.Item60;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<Projectiles.Magic.TerraProj>();
-			item.shootSpeed = 16f;
+			item.shootSpeed = 8f;
 		}
 
 		public override void AddRecipes()

@@ -73,7 +73,9 @@ namespace SpiritMod.NPCs.Spirit
 		{
 			if (Main.rand.Next(3) == 1)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Material.Rune>());
-		}
+			if (Main.rand.NextBool(100))
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Accessory.StoneOfSpiritsPast>());
+        }
 
 	}
 }

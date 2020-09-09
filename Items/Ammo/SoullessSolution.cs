@@ -7,8 +7,8 @@ namespace SpiritMod.Items.Ammo
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Soulless Solution");
-			Tooltip.SetDefault("Used by the Clentaminator\nDestroys the Spirit");
+			DisplayName.SetDefault("Grey Solution");
+			Tooltip.SetDefault("Used by the Clentaminator\nPurifies The Spirit and The Briar");
 		}
 
 		public override void SetDefaults()

@@ -73,7 +73,12 @@ namespace SpiritMod.NPCs.WhirlingWorlds
 			}
 			return base.PreAI();
 		}
-		public override void HitEffect(int hitDirection, double damage)
+        public override void NPCLoot()
+        {
+            if (Main.rand.NextBool(24))
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.MagicLantern);
+        }
+        public override void HitEffect(int hitDirection, double damage)
 		{
 			Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 4, 1f, 0f);
 			if (npc.life <= 0) {
@@ -90,7 +95,7 @@ namespace SpiritMod.NPCs.WhirlingWorlds
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return SpawnCondition.Cavern.Chance * 0.0312f;
+			return SpawnCondition.Cavern.Chance * 0.0234f;
 		}
 		int frame = 0;
 		public override void FindFrame(int frameHeight)

@@ -43,7 +43,7 @@ namespace SpiritMod.NPCs.Critters
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.spawnTileY < Main.rockLayer && !Main.dayTime && !spawnInfo.playerSafe && !spawnInfo.invasion && !spawnInfo.sky && !Main.eclipse ? 0.0509f : 0f;
+			return spawnInfo.spawnTileY < Main.rockLayer && !Main.dayTime && !spawnInfo.playerSafe && !spawnInfo.invasion && !spawnInfo.sky && !Main.eclipse ? 0.0309f : 0f;
 		}
 
 		public override void FindFrame(int frameHeight)
