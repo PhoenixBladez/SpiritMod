@@ -617,6 +617,7 @@ namespace SpiritMod
 			glitchScreenShader = null;
 			TrailManager = null;
 			GlobalNoise = null;
+			Items.Glyphs.GlyphBase.UninitGlyphLookup();
 		}
 
 		public override void MidUpdateProjectileItem()

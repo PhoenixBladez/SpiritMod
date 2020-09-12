@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Glyphs
 	{
 		public const float GLOW_BIAS = 0.225f;
 
-		private static GlyphBase[] _lookup = new GlyphBase[(byte)GlyphType.Count];
+		private static GlyphBase[] _lookup;
 		public static GlyphBase FromType(GlyphType type) => _lookup[(byte)type];
 
 
@@ -86,6 +86,8 @@ namespace SpiritMod.Items.Glyphs
 
 		internal static void InitializeGlyphLookup()
 		{
+			_lookup = new GlyphBase[(byte)GlyphType.Count];
+
 			Type glyphBase = typeof(GlyphBase);
 			foreach (Type type in SpiritMod.instance.Code.GetTypes()) {
 				if (type.IsAbstract)
@@ -104,6 +106,11 @@ namespace SpiritMod.Items.Glyphs
 				if (_lookup[i] == null)
 					_lookup[i] = zero;
 			}
+		}
+
+		internal static void UninitGlyphLookup()
+		{
+			_lookup = null;
 		}
 	}
 }
