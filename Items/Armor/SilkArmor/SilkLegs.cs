@@ -10,7 +10,6 @@ namespace SpiritMod.Items.Armor.SilkArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Manasilk Leggings");
-			Tooltip.SetDefault("Increases minion damage by 1");
 
 		}
 		public override void SetDefaults()

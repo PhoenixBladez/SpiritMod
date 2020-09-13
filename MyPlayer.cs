@@ -925,11 +925,6 @@ namespace SpiritMod
 		{
 			BeginShotDetection(item);
 
-			if(silkenLegs) {
-				if(item.summon) {
-					flat += 1;
-				}
-			}
 			if(silkenRobe) {
 				if(item.summon) {
 					flat += 1;
