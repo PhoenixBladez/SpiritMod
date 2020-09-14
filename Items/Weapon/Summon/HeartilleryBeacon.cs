@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Weapon.Summon
 		public override void SetDefaults()
 		{
 			item.CloneDefaults(ItemID.QueenSpiderStaff);
-			item.damage = 14;
+			item.damage = 17;
 			item.mana = 11;
 			item.width = 20;
 			item.height = 30;

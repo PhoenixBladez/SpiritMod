@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Weapon.Club
         public override void SetDefaults()
         {
             item.channel = true;
-            item.damage = 22;
+            item.damage = 24;
             item.width = 54;
             item.height = 62;
             item.useTime = 320;
