@@ -17,6 +17,7 @@ namespace SpiritMod.Projectiles.Bullet
 			projectile.width = 2;
 			projectile.height = 6;
 			projectile.ranged = true;
+            projectile.hide = true;
 			projectile.friendly = true;
 			projectile.penetrate = 1;
 			projectile.timeLeft = 10000;

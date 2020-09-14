@@ -34,7 +34,7 @@ namespace SpiritMod.NPCs
 		{
 
 			if (Main.tileSand[spawnInfo.spawnTileType])
-				return SpawnCondition.OverworldDayDesert.Chance * 2.345f;
+				return SpawnCondition.OverworldDayDesert.Chance * 1.845f;
 			return 0;
 		}
 		int timer;

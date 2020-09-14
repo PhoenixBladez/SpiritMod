@@ -30,7 +30,7 @@ namespace SpiritMod.NPCs
 			npc.buffImmune[BuffID.OnFire] = true;
 			npc.buffImmune[BuffID.Frostburn] = true;
 			npc.buffImmune[ModContent.BuffType<CryoCrush>()] = true;
-			npc.knockBackResist = .01f;
+			npc.knockBackResist = .07f;
 			npc.aiStyle = 3;
 			aiType = NPCID.ArmoredViking;
 			banner = npc.type;

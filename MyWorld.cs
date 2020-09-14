@@ -118,13 +118,17 @@ namespace SpiritMod
 		public static bool drBonesComplete = false;
 		public static bool spawnHornetFish = false;
 		public static bool spawnVibeshrooms = false;
-		public static int numWinterbornKilled;
+        public static bool spawnDarkfeather = false;
+        public static bool spawnHookbats = false;
+
+        public static int numWinterbornKilled;
 		public static int numBeholdersKilled;
 		public static int numValkyriesKilled;
 		public static int numAntlionsKilled;
 		public static int numDrBonesKilled;
 		public static int numWheezersKilled;
 		public static int numStardancersKilled;
+        public static int numBriarMobsKilled;
 
 		//pagoda enemy spawn variables
 		public static int pagodaX = 0;
@@ -212,12 +216,15 @@ namespace SpiritMod
 			data.Add("winterbornComplete", winterbornComplete);
 			data.Add("drBonesComplete", drBonesComplete);
 			data.Add("spawnHornetFish", spawnHornetFish);
-			data.Add("spawnVibeshrooms", spawnVibeshrooms);
-			data.Add("numWinterbornKilled", numWinterbornKilled);
+            data.Add("spawnDarkfeather", spawnDarkfeather);
+            data.Add("spawnVibeshrooms", spawnVibeshrooms);
+            data.Add("spawnHookbats", spawnHookbats);
+            data.Add("numWinterbornKilled", numWinterbornKilled);
 			data.Add("numAntlionsKilled", numAntlionsKilled);
 			data.Add("numWheezersKilled", numWheezersKilled);
+            data.Add("numBriarMobsKilled", numBriarMobsKilled);
 
-			data.Add("pagodaX", pagodaX);
+            data.Add("pagodaX", pagodaX);
 			data.Add("pagodaY", pagodaY);
 			data.Add("spawnedPagodaEnemies", spawnedPagodaEnemies);
 
@@ -266,12 +273,15 @@ namespace SpiritMod
 			drBonesComplete = tag.GetBool("drBonesComplete");
 			spawnHornetFish = tag.GetBool("spawnHornetFish");
 			spawnVibeshrooms = tag.GetBool("spawnVibeshrooms");
-			numWinterbornKilled = tag.Get<int>("numWinterbornKilled");
+            spawnDarkfeather = tag.GetBool("spawnDarkfeather");
+            spawnHookbats = tag.GetBool("spawnHookbats");
+            numWinterbornKilled = tag.Get<int>("numWinterbornKilled");
 			numAntlionsKilled = tag.Get<int>("numAntlionsKilled");
 			numWheezersKilled = tag.Get<int>("numWheezersKilled");
 			numStardancersKilled = tag.Get<int>("numStardancersKilled");
+            numBriarMobsKilled = tag.Get<int>("numBriarMobsKilled");
 
-			pagodaX = tag.Get<int>("pagodaX");
+            pagodaX = tag.Get<int>("pagodaX");
 			pagodaY = tag.Get<int>("pagodaY");
 			spawnedPagodaEnemies = tag.Get<bool>("spawnedPagodaEnemies");
 		}
@@ -284,7 +294,9 @@ namespace SpiritMod
 				BitsByte flags1 = reader.ReadByte();
 				BitsByte flags2 = reader.ReadByte();
 				BitsByte flags3 = reader.ReadByte();
-				downedScarabeus = flags[0];
+                BitsByte flags4 = reader.ReadByte();
+
+                downedScarabeus = flags[0];
 				downedAncientFlier = flags[1];
 				downedRaider = flags[2];
 				downedInfernon = flags[3];
@@ -293,6 +305,7 @@ namespace SpiritMod
 				downedAtlas = flags[6];
 				downedOverseer = flags[7];
 				downedBlueMoon = flags[8];
+
 				downedReachBoss = flags1[0];
 				downedSpiritCore = flags1[1];
                 downedTide = flags1[2];
@@ -304,8 +317,10 @@ namespace SpiritMod
 
                 gennedBandits = flags2[0];
 				gennedTower = flags2[1];
+                spawnDarkfeather = flags2[2];
+                spawnHookbats = flags2[3];
 
-				sepulchreComplete = flags3[0];
+                sepulchreComplete = flags3[0];
 				spawnHornetFish = flags3[1];
 				spawnVibeshrooms = flags3[2];
 				jadeStaffComplete = flags3[3];
@@ -326,7 +341,7 @@ namespace SpiritMod
 			writer.Write(bosses1);
 			writer.Write(bosses2);
 			BitsByte environment = new BitsByte(BlueMoon);
-			BitsByte worldgen = new BitsByte(gennedBandits, gennedTower);
+			BitsByte worldgen = new BitsByte(gennedBandits, gennedTower, spawnDarkfeather, spawnHookbats);
 			BitsByte adventurerQuests = new BitsByte(sepulchreComplete, spawnHornetFish, spawnVibeshrooms, jadeStaffComplete, shadowflameComplete, vibeShroomComplete, winterbornComplete, drBonesComplete);
 			writer.Write(environment);
 			writer.Write(worldgen);
@@ -335,7 +350,8 @@ namespace SpiritMod
 			writer.Write(numAntlionsKilled);
 			writer.Write(numWheezersKilled);
 			writer.Write(numStardancersKilled);
-		}
+            writer.Write(numBriarMobsKilled);
+        }
 
 		public override void NetReceive(BinaryReader reader)
 		{
@@ -350,6 +366,7 @@ namespace SpiritMod
 			downedAtlas = bosses1[6];
 			downedOverseer = bosses1[7];
 			downedBlueMoon = bosses1[8];
+
 			downedReachBoss = bosses2[0];
 			downedSpiritCore = bosses2[1];
             downedTide = bosses2[2];
@@ -365,8 +382,11 @@ namespace SpiritMod
 			BitsByte worldgen = reader.ReadByte();
 			gennedBandits = worldgen[0];
 			gennedTower = worldgen[1];
+            spawnDarkfeather = worldgen[2];
+            spawnHookbats = worldgen[3];
 
-			BitsByte adventurerQuests = reader.ReadByte();
+
+            BitsByte adventurerQuests = reader.ReadByte();
 			sepulchreComplete = adventurerQuests[0];
 			spawnHornetFish = adventurerQuests[1];
 			spawnVibeshrooms = adventurerQuests[2];
@@ -379,6 +399,7 @@ namespace SpiritMod
 			numAntlionsKilled = reader.ReadInt32();
 			numWheezersKilled = reader.ReadInt32();
 			numStardancersKilled = reader.ReadInt32();
+            numBriarMobsKilled = reader.ReadInt32();
 		}
 		public override void PreUpdate()
 		{
@@ -3602,10 +3623,9 @@ namespace SpiritMod
 
 			if (Main.hardMode && !rockCandy) {
 				rockCandy = true;
-				//Main.NewText("ROCK CANDAYYYYYYYYYYY", Color.Orange.R, Color.Orange.G, Color.Orange.B);
 				for (int C = 0; C < Main.maxTilesX * 9; C++) {
 					{
-						int X = WorldGen.genRand.Next(0, Main.maxTilesX);
+						int X = WorldGen.genRand.Next(300, Main.maxTilesX - 300);
 						int Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 						if (Main.tile[X, Y].type == TileID.Stone) {
 							WorldGen.PlaceObject(X, Y, ModContent.TileType<GreenShardBig>());
@@ -3617,7 +3637,7 @@ namespace SpiritMod
 				}
 				for (int C = 0; C < Main.maxTilesX * 9; C++) {
 					{
-						int X = WorldGen.genRand.Next(0, Main.maxTilesX);
+						int X = WorldGen.genRand.Next(300, Main.maxTilesX - 300);
 						int Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 						if (Main.tile[X, Y].type == TileID.Stone) {
 							WorldGen.PlaceObject(X, Y, ModContent.TileType<PurpleShardBig>());

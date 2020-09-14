@@ -155,6 +155,11 @@ namespace SpiritMod
 		public int copterFireFrame = 1000;
 
 		public int beetleStacks = 1;
+
+        public int miningStacks = 1;
+        public int damageStacks = 1;
+        public int movementStacks = 1;
+
 		public int shootDelay = 0;
 		public bool bloodfireShield;
 		public int bloodfireShieldStacks;
@@ -259,8 +264,9 @@ namespace SpiritMod
 		public bool emptyDrBonesScroll = false;
 		public bool emptyWheezerScroll = false;
 		public bool emptyStardancerScroll = false;
+        public bool emptyBriarMobsScroll = false;
 
-		public float SpeedMPH { get; private set; }
+        public float SpeedMPH { get; private set; }
 		public DashType ActiveDash { get; private set; }
 		public GlyphType glyph;
 		public int voidStacks = 1;
@@ -289,6 +295,7 @@ namespace SpiritMod
 		// Armor set booleans.
 		public bool duskSet;
 		public bool runicSet;
+        public bool darkfeatherVisage;
 		public bool icySet;
 		public bool depthSet;
 		public bool elderbarkWoodSet;
@@ -306,6 +313,7 @@ namespace SpiritMod
 		public bool reaperSet;
 		public bool shadowSet;
 		public bool oceanSet;
+        public bool wayfarerSet;
 		public bool marbleSet;
 		public bool windSet;
 		public bool cometSet;
@@ -486,39 +494,26 @@ namespace SpiritMod
 
 		public override void SendCustomBiomes(BinaryWriter writer)
 		{
-			byte flags = 0;
-			if(ZoneSpirit) {
-				flags |= 1;
-			}
-
-			if(ZoneReach) {
-				flags |= 2;
-			}
-			if(ZoneAsteroid) {
-				flags |= 3;
-			}
-			if(ZoneMarble) {
-				flags |= 4;
-			}
-			if(ZoneGranite) {
-				flags |= 5;
-			}
-			if(ZoneHive) {
-				flags |= 6;
-			}
-			writer.Write(flags);
-		}
+            BitsByte flags = new BitsByte();
+            flags[0] = ZoneSpirit;
+            flags[1] = ZoneReach;
+            flags[2] = ZoneAsteroid;
+            flags[3] = ZoneGranite;
+            flags[4] = ZoneMarble;
+            flags[5] = ZoneHive;
+            writer.Write(flags);
+        }
 
 		public override void ReceiveCustomBiomes(BinaryReader reader)
 		{
-			byte flags = reader.ReadByte();
-			ZoneSpirit = ((flags & 1) == 1);
-			ZoneReach = ((flags & 2) == 2);
-			ZoneAsteroid = ((flags & 3) == 3);
-			ZoneMarble = ((flags & 4) == 4);
-			ZoneGranite = ((flags & 5) == 5);
-			ZoneHive = ((flags & 6) == 6);
-		}
+            BitsByte flags = reader.ReadByte();
+            ZoneSpirit = flags[0];
+            ZoneReach = flags[1];
+            ZoneAsteroid = flags[2];
+            ZoneGranite = flags[3];
+            ZoneMarble = flags[4];
+            ZoneHive = flags[5];
+        }
 
 		public override Texture2D GetMapBackgroundImage()
 		{
@@ -719,8 +714,10 @@ namespace SpiritMod
 			// Reset armor set booleans.
 			duskSet = false;
 			runicSet = false;
+            darkfeatherVisage = false;
 			primalSet = false;
 			shadowSet = false;
+            wayfarerSet = false;
 			cometSet = false;
 			meleeshadowSet = false;
 			rangedshadowSet = false;
@@ -788,7 +785,22 @@ namespace SpiritMod
 				beetleStacks = 1;
 			}
 
-			if(player.FindBuffIndex(ModContent.BuffType<CollapsingVoid>()) < 0) {
+            if (player.FindBuffIndex(ModContent.BuffType<ExplorerFight>()) < 0)
+            {
+                damageStacks = 1;
+            }
+
+            if (player.FindBuffIndex(ModContent.BuffType<ExplorerPot>()) < 0)
+            {
+                movementStacks = 1;
+            }
+
+            if (player.FindBuffIndex(ModContent.BuffType<ExplorerMine>()) < 0)
+            {
+                miningStacks = 1;
+            }
+
+            if (player.FindBuffIndex(ModContent.BuffType<CollapsingVoid>()) < 0) {
 				voidStacks = 1;
 			}
 
@@ -2028,7 +2040,8 @@ namespace SpiritMod
 				if(spawnTimer >= 30) {
 					spawnTimer = 0;
 					int n = NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 400, ModContent.NPCType<Rylheian>(), 0, 2, 1, 0, 0, Main.myPlayer);
-					Main.PlaySound(SoundID.Zombie, Main.npc[n].Center, 89);
+                    Main.npc[n].netUpdate = true;
+                    Main.PlaySound(SoundID.Zombie, Main.npc[n].Center, 89);
 					DustHelper.DrawDiamond(new Vector2(Main.npc[n].Center.X, Main.npc[n].Center.Y), 173, 8);
 					DustHelper.DrawTriangle(new Vector2(Main.npc[n].Center.X, Main.npc[n].Center.Y), 173, 8);
 				}
@@ -2131,7 +2144,24 @@ namespace SpiritMod
 					}
 				}
 			}
-			if(emptyExplorerScroll) {
+            if (emptyBriarMobsScroll && MyWorld.numBriarMobsKilled >= 10)
+            {
+                for (int index = 0; index < 58; ++index)
+                {
+                    if (player.inventory[index].type == ModContent.ItemType<BriarSlayerScrollEmpty>())
+                    {
+                        player.inventory[index].stack -= 1;
+                        MyWorld.numWheezersKilled = 0;
+                        player.QuickSpawnItem(ModContent.ItemType<BriarSlayerScrollFull>());
+                        emptyBriarMobsScroll = false;
+                        CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
+                        "Contract Complete!");
+                        Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SlayerComplete"));
+                        break;
+                    }
+                }
+            }
+            if (emptyExplorerScroll) {
 				if(player.ZoneGlowshroom) {
 					explorerTimer++;
 					if(explorerTimer >= 900) {
@@ -3197,7 +3227,10 @@ namespace SpiritMod
 			if(runicSet) {
 				SpawnRunicRunes();
 			}
-
+			if (darkfeatherVisage)
+            {
+                SpawnDarkfeatherBombs();
+            }
 			if(spiritSet) {
 				if(Main.rand.NextBool(5)) {
 					int num = Dust.NewDust(player.position, player.width, player.height, 261, 0f, 0f, 0, default, 1f);
@@ -3961,8 +3994,7 @@ namespace SpiritMod
 				}
 			}
 		}
-
-		public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			if(icySoul && Main.rand.NextBool(6)) {
 				if(proj.magic) {
@@ -4322,7 +4354,97 @@ namespace SpiritMod
 			}
 		}
 
-		private Vector2 TestTeleport(ref bool canSpawn, int teleportStartX, int teleportRangeX, int teleportStartY, int teleportRangeY)
+        private void SpawnDarkfeatherBombs()
+        {
+            if (Main.rand.Next(80) == 0)
+            {
+                int bombAmt = 0;
+                for (int i = 0; i < 1000; i++)
+                {
+                    if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<RunicRune>())
+                    {
+                        bombAmt++;
+                    }
+                }
+
+                if (Main.rand.Next(100) >= bombAmt && bombAmt < 4)
+                {
+                    int dimension = 24;
+                    int dimension2 = 90;
+                    for (int j = 0; j < 50; j++)
+                    {
+                        int randValue = Main.rand.Next(200 - j * 2, 350 + j * 2);
+                        Vector2 center = player.Center;
+                        center.X += Main.rand.Next(-randValue, randValue + 1);
+                        center.Y += Main.rand.Next(-randValue, randValue + 1);
+
+                        if (!Collision.SolidCollision(center, dimension, dimension) && !Collision.WetCollision(center, dimension, dimension))
+                        {
+                            center.X += dimension / 2;
+                            center.Y += dimension / 2;
+
+                            if (Collision.CanHit(new Vector2(player.Center.X, player.position.Y), 1, 1, center, 1, 1) || Collision.CanHit(new Vector2(player.Center.X, player.position.Y - 50f), 1, 1, center, 1, 1))
+                            {
+                                int x = (int)center.X / 16;
+                                int y = (int)center.Y / 16;
+
+                                bool flag = false;
+                                if (Main.rand.Next(4) == 0 && Main.tile[x, y] != null && Main.tile[x, y].wall > 0)
+                                {
+                                    flag = true;
+                                }
+                                else
+                                {
+                                    center.X -= dimension2 / 2;
+                                    center.Y -= dimension2 / 2;
+
+                                    if (Collision.SolidCollision(center, dimension2, dimension2))
+                                    {
+                                        center.X += dimension2 / 2;
+                                        center.Y += dimension2 / 2;
+                                        flag = true;
+                                    }
+                                }
+
+                                if (flag)
+                                {
+                                    for (int k = 0; k < 1000; k++)
+                                    {
+                                        if (Main.projectile[k].active && Main.projectile[k].owner == player.whoAmI && Main.projectile[k].type == ModContent.ProjectileType<RunicRune>() && (center - Main.projectile[k].Center).Length() < 48f)
+                                        {
+                                            flag = false;
+                                            break;
+                                        }
+                                    }
+
+                                    if (flag && Main.myPlayer == player.whoAmI)
+                                    {
+                                        int p = Projectile.NewProjectile(center.X, center.Y - Main.rand.Next(40, 90), 0f, 0f, ModContent.ProjectileType<NPCs.DarkfeatherMage.Projectiles.DarkfeatherBomb>(), 23, 1.5f, player.whoAmI, 0f, 0f);
+                                        for (int jk = 0; jk < 24; jk++)
+                                        {
+                                            Vector2 vector2 = Vector2.UnitX * -Main.projectile[p].width / 2f;
+                                            vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)jk * 3.141591734f / 6f), default(Vector2)) * new Vector2(16f, 16f);
+                                            vector2 = Utils.RotatedBy(vector2, (Main.projectile[p].rotation - 1.57079637f), default(Vector2)) * 1.3f;
+                                            int num8 = Dust.NewDust(new Vector2(Main.projectile[p].Center.X + 21 * Main.projectile[p].spriteDirection, Main.projectile[p].Center.Y + 12), 0, 0, 157, 0f, 0f, 160, new Color(209, 255, 0), .86f);
+                                            Main.dust[num8].shader = GameShaders.Armor.GetSecondaryShader(69, Main.LocalPlayer);
+                                            Main.dust[num8].position = new Vector2(Main.projectile[p].Center.X + 21 * Main.projectile[p].spriteDirection, Main.projectile[p].Center.Y + 12) + vector2;
+                                            Main.dust[num8].velocity = Main.projectile[p].velocity * 0.1f;
+                                            Main.dust[num8].noGravity = true;
+                                            Main.dust[num8].velocity = Vector2.Normalize(Main.projectile[p].Center - Main.projectile[p].velocity * 3f - Main.dust[num8].position) * 1.25f;
+                                        }
+                                        Main.projectile[p].hostile = false;
+                                        Main.projectile[p].friendly = true;
+                                        Main.projectile[p].magic = true;
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        private Vector2 TestTeleport(ref bool canSpawn, int teleportStartX, int teleportRangeX, int teleportStartY, int teleportRangeY)
 		{
 			Player player = Main.player[Main.myPlayer];
 

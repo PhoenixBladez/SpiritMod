@@ -13,7 +13,7 @@ namespace SpiritMod.NPCs.Asteroid
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Astral Amalgam");
-			Main.npcFrameCount[npc.type] = 1;
+			Main.npcFrameCount[npc.type] = 4;
 			NPCID.Sets.TrailCacheLength[npc.type] = 3;
 			NPCID.Sets.TrailingMode[npc.type] = 0;
 		}
@@ -148,7 +148,14 @@ namespace SpiritMod.NPCs.Asteroid
 				hasSpawnedBoys = true;
 			}
 		}
-		public override void NPCLoot()
+        public override void FindFrame(int frameHeight)
+        {
+            npc.frameCounter += 0.12f;
+            npc.frameCounter %= Main.npcFrameCount[npc.type];
+            int frame = (int)npc.frameCounter;
+            npc.frame.Y = frame * frameHeight;
+        }
+        public override void NPCLoot()
 		{
 			if (Main.rand.Next(1) == 400) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GravityModulator>());

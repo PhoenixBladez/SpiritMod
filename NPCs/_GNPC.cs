@@ -924,6 +924,10 @@ namespace SpiritMod.NPCs
             if (bloodInfused) {
 				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, ProjectileType<FlayedExplosion>(), 25, 0, Main.myPlayer);
 			}
+			if (player.GetSpiritPlayer().wayfarerSet)
+            {
+                player.AddBuff(ModContent.BuffType<Buffs.Armor.ExplorerFight>(), 240);
+            }
 			#region Glyph
 			if (npc.boss && (npc.modNPC == null || npc.modNPC.bossBag > 0)) {
 				string name;

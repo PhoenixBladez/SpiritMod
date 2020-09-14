@@ -174,7 +174,16 @@ namespace SpiritMod.Tiles
 					Item.NewItem(i * 16, j * 16, 64, 48, tremorItem, Main.rand.Next(1, 3));
 				}
 			}
-			if (player.HasItem(ModContent.ItemType<Spineshot>())) {
+			if (player.GetSpiritPlayer().wayfarerSet && type == 28)
+            {
+                player.AddBuff(ModContent.BuffType<Buffs.Armor.ExplorerPot>(), 360);
+            }
+            if (player.GetSpiritPlayer().wayfarerSet && Main.tileSpelunker[type] && Main.tileSolid[type])
+            {
+                player.AddBuff(ModContent.BuffType<Buffs.Armor.ExplorerMine>(), 600);
+            }
+
+            if (player.HasItem(ModContent.ItemType<Spineshot>())) {
 				if (type == 3 || type == 24 || type == 61 || type == 71 || type == 110 || type == 201) {
 					Item.NewItem(i * 16, j * 16, 64, 48, ItemID.Seed, Main.rand.Next(1, 3));
 				}

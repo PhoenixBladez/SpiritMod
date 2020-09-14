@@ -55,14 +55,14 @@ namespace SpiritMod.Items.DonatorItems
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<GoldSword>(), 1);
+			recipe.AddIngredient(ModContent.ItemType<WornSword>(), 1);
 			recipe.AddIngredient(ItemID.PlatinumBroadsword, 1);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();
 
 			ModRecipe recipe1 = new ModRecipe(mod);
-			recipe1.AddIngredient(ModContent.ItemType<PlatinumSword>(), 1);
+			recipe1.AddIngredient(ModContent.ItemType<WornSword>(), 1);
 			recipe1.AddIngredient(ItemID.GoldBroadsword, 1);
 			recipe1.AddTile(TileID.Anvils);
 			recipe1.SetResult(this, 1);

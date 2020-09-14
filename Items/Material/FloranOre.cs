@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Material
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Floran Ore");
-			Tooltip.SetDefault("'From another star's Earth'");
+			Tooltip.SetDefault("'A strange mixture of plant cells and metal'");
 		}
 
 

@@ -5,6 +5,7 @@ using SpiritMod.Items.Armor.CowboySet;
 using SpiritMod.Items.Armor.BeekeeperSet;
 using SpiritMod.Items.Armor.CapacitorSet;
 using SpiritMod.Items.Armor.CenturionSet;
+using SpiritMod.Items.Armor.WayfarerSet;
 using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Consumable;
@@ -188,9 +189,37 @@ namespace SpiritMod.NPCs.Town
                 Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MainQuestComplete"));
                 MyWorld.spawnVibeshrooms = true;
 			};
-			#endregion
-			#region ExplorerQuests
-			Quest explorerQuestMushroom = RegisterQuest(ModContent.ItemType<ExplorerScrollMushroomFull>(),
+
+			Quest darkfeatherQuest = RegisterQuest(ModContent.ItemType<Items.Accessory.DarkfeatherVisage.DarkfeatherVisage>(),
+
+			"Scouts near the far ends of the world have reported somethin' mighty interesting, lad. A witch seems to be terrorizin' the area." +
+			" Apparently, it's some type of harpy with a real dangerous staff. Mission's real simple this time. Bring me its head!" +
+			" Er... I promise I'm not unhinged. I mean, bring me its hat! Yeah. Safe travels.", 
+			
+			"Just got back, eh? I'm sure it was a tough battle, but you only seem mildly burned. Hmm, looks like that hat you've got there has some magical qualities." +
+			" Hang onto it for me. And take this staff, too. A buddy recovered it from the wreckage of your battle. But don't go terrorizing the land with it, ya hear?", false,
+
+			() => {
+                Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<AkaviriStaff>());
+                Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+                Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(90, 105));
+            });
+            darkfeatherQuest.OnQuestStart = () => {
+                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MainQuestComplete"));
+                MyWorld.spawnDarkfeather = true;
+            };
+            darkfeatherQuest.TrySkipQuest = () =>
+            {
+                MyWorld.spawnDarkfeather = false;
+                return true;
+            };
+           darkfeatherQuest.CanGiveQuest = () => {
+                return NPC.downedBoss2;
+            };
+
+            #endregion
+            #region ExplorerQuests
+            Quest explorerQuestMushroom = RegisterQuest(ModContent.ItemType<ExplorerScrollMushroomFull>(),
 
 				"Up for a little explorin'? This world's massive, and even I haven't seen it all." +
 				" I'd like ya to head out there and map out the far reaches of this land. Specifically, I'm looking for info on any nearby Glowing Mushroom Caverns." +
@@ -355,6 +384,8 @@ namespace SpiritMod.NPCs.Town
 				TryRemoveItem(index2);
 				return true;
 			};
+
+
 			#endregion
 			#region SlayerQuests
 			Quest slayerQuestWinterborn = RegisterQuest(ModContent.ItemType<WinterbornSlayerScrollFull>(),
@@ -435,7 +466,37 @@ namespace SpiritMod.NPCs.Town
 				return NPC.downedBoss2;
 			};
 
-			Quest slayerQuestValkyrie = RegisterQuest(ModContent.ItemType<ValkyrieSlayerScrollFull>(),
+            Quest slayerQuestBriar = RegisterQuest(ModContent.ItemType<BriarSlayerScrollFull>(),
+
+                "My disdain for those vined beasts in the Briar may border on, erm, unhealthy. Either way, I need ya to go down there and show them who's boss." +
+				" Kill some of those big hounds an' those Thorn Stalkers. They're mighty dangerous, and very stealthy. Maybe we can make the Briar a safer place..."+
+                " Ah, who am I kiddin'? That place is bound to stay a hellhole. Just do it for me. This contract should help keep track of your mission.",
+
+                "Wow, you're still kickin'? And with no noticeable bite marks or holes? Color me impressed, lad. I've whipped up somethin' that should make your travels easier." +
+				" Keep on keepin' on. And come back to me if you want somewhere new to explore.", true,
+
+                () => {
+                    int[] lootTable1 = {
+                    ModContent.ItemType<TargetCan>(),
+                    ModContent.ItemType<TargetBottle>(),
+                    };
+                    int loot3 = Main.rand.Next(lootTable1.Length);
+                    Main.LocalPlayer.QuickSpawnItem(lootTable1[loot3], Main.rand.Next(18, 30));
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<FeralConcoction>());
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ReachBossHead>());
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ReachBossBody>());
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ReachBossLegs>());
+                    Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+                });
+            slayerQuestBriar.OnQuestStart = () => {
+                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SlayerStart"));
+
+                if (!Main.LocalPlayer.HasItem(ModContent.ItemType<BriarSlayerScrollEmpty>()))
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<BriarSlayerScrollEmpty>());
+            };
+
+            Quest slayerQuestValkyrie = RegisterQuest(ModContent.ItemType<ValkyrieSlayerScrollFull>(),
 
 				"Just who I've been meanin' to talk to! You ever been high enough where those infuriatin' harpies can shoot at ya?" +
 				" Well, to make things worse, I've heard tales of a harpy clad in armor and weapons!" +
@@ -600,9 +661,31 @@ namespace SpiritMod.NPCs.Town
 
 			#region ScriptedQuests
 			//Scripted Quest 1
+			Quest hookbatQuest = RegisterQuest(ModContent.ItemType<DurasilkSheaf>(),
+
+			"So you wanna be an adventurer, eh? Well, you're going to need to gear up if you want to explore the world!" + 
+			" As thanks for savin' me from the Briar, I'd actually planned to craft you a set of special armor, perfect for explorin'." +
+			" Unfortunately, some mangy Hookbats stole the sheaf of Durasilk I was usin'! They're still nearby, but they only come out at night. Mind retrievin' that silk for me so I can thank you properly?",
+
+			"Durasilk's mighty strong stuff, it doesn't even look scratched! I picked it up from a travelling merchant in a far-off land. But, I figure you'll need it more now" +
+			" Thanks again for savin' me back there. This isn't much, but hopefully this armor'll save ya from turning into a monster's snack. You're 'officially' an adventurer now, lad. Welcome!", true,
+
+			() => {
+                Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<WayfarerHead>());
+                Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<WayfarerBody>());
+                Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<WayfarerLegs>());
+                Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+				Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
+			});
+            hookbatQuest.OnQuestStart = () => {
+                MyWorld.spawnHookbats = true;
+                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MainQuestComplete"));
+            };
+            hookbatQuest.NthQuest = 1;
+			//Scripted Quest 2
 			Quest sacredVineQuest = RegisterQuest(ModContent.ItemType<SacredVine>(),
 
-		"Ever since I was captured by those savages from the Briar, I've been doin' some research on the place." +
+			"Ever since I was captured by those savages from the Briar, I've been doin' some research on the place." +
 			" That altar you found me at is supposed to harbor a really venegeful nature spirit." +
 			" However, the vines that spirit's made of are said to possess some mystical regenerative properties, or somethin'. Mind investigating? And kill some savages for me while you're at it.",
 
@@ -613,18 +696,15 @@ namespace SpiritMod.NPCs.Town
 				Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<EnchantedLeaf>(), Main.rand.Next(5, 9));
 				Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<AncientBark>(), Main.rand.Next(10, 25));
 				Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<Items.Armor.Masks.GladeWraithMask>(), 1);
-				Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ReachBossHead>());
-				Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ReachBossBody>());
-				Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ReachBossLegs>());
-				Main.LocalPlayer.QuickSpawnItem(ItemID.HealingPotion, 4);
+                Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+                Main.LocalPlayer.QuickSpawnItem(ItemID.HealingPotion, 4);
 
 				Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
 			});
             sacredVineQuest.OnQuestStart = () => {
                 Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MainQuestComplete"));
             };
-
-            sacredVineQuest.NthQuest = 1;
+            sacredVineQuest.NthQuest = 2;
 			//Scripted Quest 3
 			Quest scarabQuest = RegisterQuest(ModContent.ItemType<ScarabIdolQuest>(),
 
@@ -647,16 +727,17 @@ namespace SpiritMod.NPCs.Town
 					int loot = Main.rand.Next(lootTable.Length);
 					Main.LocalPlayer.QuickSpawnItem(lootTable[loot], Main.rand.Next(2, 5));
 					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(40, 75));
-				});
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+                });
 
             scarabQuest.OnQuestStart = () => {
                 Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MainQuestComplete"));
             };
             scarabQuest.NthQuest = 3;
-            #endregion
+                #endregion
 
 
-            _completed = new bool[_quests.Count];
+                _completed = new bool[_quests.Count];
 
 			_questsCompleted = 0;
 			_currentQuest = -1;

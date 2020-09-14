@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Brimstone Blaze");
-			Tooltip.SetDefault("'Fire and Brimstone, the heralds of Calamity'\nShoots a brimstone laser that explodes into brimstone flames on htting foes\nHit enemies can combust, with additional hits dealing more damage over time");
+			Tooltip.SetDefault("Shoots a brimstone laser that explodes into brimstone flames on htting foes\nHit enemies can combust, with additional hits dealing more damage over time");
 
 		}
 
@@ -43,8 +43,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		{
 
 			ModRecipe modRecipe = new ModRecipe(mod);
-			modRecipe.AddIngredient(ModContent.ItemType<ViashinoStaff>(), 1);
-			modRecipe.AddIngredient(ModContent.ItemType<InfernalAppendage>(), 3);
+			modRecipe.AddIngredient(ModContent.ItemType<InfernalAppendage>(), 5);
 			modRecipe.AddIngredient(ModContent.ItemType<CarvedRock>(), 5);
 			modRecipe.AddIngredient(ItemID.SoulofSight, 5);
 			modRecipe.AddIngredient(ItemID.SoulofNight, 5);

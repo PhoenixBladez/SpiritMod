@@ -23,8 +23,8 @@ namespace SpiritMod.Projectiles.DonatorItems
 			projectile.height = 64;
 			projectile.sentry = true;
 			projectile.penetrate = -1;
-			projectile.timeLeft = 6000;
-		}
+            projectile.timeLeft = Projectile.SentryLifeTime;
+        }
 
 		public override void AI()
 		{

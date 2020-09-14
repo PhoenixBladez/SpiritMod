@@ -44,8 +44,12 @@ namespace SpiritMod.NPCs.Reach
 			for (int k = 0; k < 11; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, 167, hitDirection, -1f, 0, Color.Green, .61f);
 			}
-			if (npc.life <= 0) {
-				Main.PlaySound(SoundID.Zombie, npc.Center, 7);
+            if (npc.life <= 0) {
+                if (Main.LocalPlayer.GetSpiritPlayer().emptyBriarMobsScroll)
+                {
+                    MyWorld.numBriarMobsKilled++;
+                }
+                Main.PlaySound(SoundID.Zombie, npc.Center, 7);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ThornStalker/ThornStalker1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ThornStalker/ThornStalker2"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ThornStalker/ThornStalker3"), 1f);

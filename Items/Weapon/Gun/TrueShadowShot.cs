@@ -71,6 +71,7 @@ namespace SpiritMod.Items.Weapon.Gun
 			{
 				projectile.CloneDefaults(ProjectileID.Bullet);
 				projectile.light = 0f;
+                projectile.hide = true;
 				aiType = ProjectileID.Bullet;
 			}
 

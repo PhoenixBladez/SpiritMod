@@ -26,9 +26,29 @@ namespace SpiritMod.NPCs
 			npc.knockBackResist = .30f;
 			npc.aiStyle = 25;
 			aiType = NPCID.Mimic;
-			animationType = NPCID.Mimic;
 		}
-
+        int frame;
+        int timer;
+        public override void AI()
+        {
+            if (npc.velocity != Vector2.Zero)
+            {
+                timer++;
+                if (timer >= 12)
+                {
+                    frame++;
+                    timer = 0;
+                }
+                if (frame > 4)
+                {
+                    frame = 2;
+                }
+            }
+			else
+            {
+                frame = 0;
+            }
+        }
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			int d1 = 240;
@@ -44,8 +64,11 @@ namespace SpiritMod.NPCs
 				Gore.NewGore(npc.position, npc.velocity, 99);
 			}
 		}
-
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        public override void FindFrame(int frameHeight)
+        {
+            npc.frame.Y = frameHeight * frame;
+        }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			int x = spawnInfo.spawnTileX;
 			int y = spawnInfo.spawnTileY;

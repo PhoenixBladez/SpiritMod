@@ -38,7 +38,7 @@ namespace SpiritMod.Projectiles.Magic
                 dust = Main.dust[Terraria.Dust.NewDust(position, 0, 0, 173, 0f, 0f, 0, new Color(255, 255, 255), 0.64947368f)];
                 dust.noLight = true;
                 dust.noGravity = true;
-                dust.velocity = Vector2.Zero;
+                dust.velocity = projectile.velocity;
             }
 			if (Main.rand.NextBool(3))
             {
@@ -48,7 +48,7 @@ namespace SpiritMod.Projectiles.Magic
                 dust = Main.dust[Terraria.Dust.NewDust(position, 0, 0, 173, 0f, 0f, 0, new Color(255, 255, 255), 0.64947368f)];
                 dust.noLight = true;
                 dust.noGravity = true;
-                dust.velocity *= .6f;
+                dust.velocity = projectile.velocity;
             }
         }
 
