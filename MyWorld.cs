@@ -151,9 +151,9 @@ namespace SpiritMod
 			ReachTiles = tileCounts[ModContent.TileType<BriarGrass>()];
 			AsteroidTiles = tileCounts[ModContent.TileType<Asteroid>()] + tileCounts[ModContent.TileType<BigAsteroid>()] + tileCounts[ModContent.TileType<SpaceJunkTile>()] + tileCounts[ModContent.TileType<Glowstone>()];
 			CorruptHazards = tileCounts[ModContent.TileType<Corpsebloom>()] + tileCounts[ModContent.TileType<Corpsebloom1>()] + tileCounts[ModContent.TileType<Corpsebloom2>()];
-			MarbleTiles = tileCounts[367];
-			GraniteTiles = tileCounts[368];
-			HiveTiles = tileCounts[225];
+			MarbleTiles = tileCounts[TileID.Marble];
+			GraniteTiles = tileCounts[TileID.Granite];
+			HiveTiles = tileCounts[TileID.Hive];
 		}
 
 
