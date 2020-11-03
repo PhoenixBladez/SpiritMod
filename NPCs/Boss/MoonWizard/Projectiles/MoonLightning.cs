@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
@@ -20,10 +21,16 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 			projectile.friendly = false;
 			projectile.damage = 1;
 			projectile.penetrate = 8;
-			projectile.alpha = 200;
+            projectile.hide = true;
 			projectile.timeLeft = 1;
 			projectile.tileCollide = false;
 		}
-
-	}
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            if (Main.rand.Next(8) == 0)
+            {
+                target.AddBuff(BuffID.Electrified, 180, true);
+            }
+        }
+    }
 }

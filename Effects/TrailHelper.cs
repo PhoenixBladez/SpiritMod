@@ -49,8 +49,8 @@ namespace SpiritMod.Effects
 			}
 			if (projectile.type == ModContent.ProjectileType<StarLaserTrace>()) {
 				CreateTrail(projectile, new StandardColorTrail(new Color(40, 111, 153) * .3f), new RoundCap(), new DefaultTrailPosition(), 10f, 1550f);
-			}
-			if (projectile.type == ModContent.ProjectileType<OrichHoming>()) {
+            }
+            if (projectile.type == ModContent.ProjectileType<OrichHoming>()) {
 				CreateTrail(projectile, new GradientTrail(new Color(241, 173, 255), new Color(105, 42, 168)), new RoundCap(), new DefaultTrailPosition(), 6f, 150f);
 
 			}

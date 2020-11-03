@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Material
 		{
 			DisplayName.SetDefault("Ethereal Ember");
 			Tooltip.SetDefault("'A part of the everburning Soul'");
-			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 4));
+			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(7, 6));
 			ItemID.Sets.ItemNoGravity[item.type] = true;
 		}
 		public override void SetDefaults()

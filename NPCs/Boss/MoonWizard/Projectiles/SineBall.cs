@@ -19,7 +19,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.penetrate = 1;
+			projectile.penetrate = -1;
 			projectile.tileCollide = false;
 			projectile.hostile = true;
 			projectile.friendly = false;
@@ -32,10 +32,12 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 
 		}
 		bool initialized = false;
+        float alphaCounter;
 		Vector2 initialSpeed = Vector2.Zero;
 		public override void AI()
 		{
-			int rightValue = (int)projectile.ai[1] - 1;
+            alphaCounter += 0.04f;
+            int rightValue = (int)projectile.ai[1] - 1;
 			if (rightValue < (double)Main.projectile.Length && rightValue != -1) {
 				Projectile other = Main.projectile[rightValue];
 				Vector2 direction9 = other.Center - projectile.Center;
@@ -46,7 +48,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 					Main.projectile[proj].timeLeft = (int)(distance / 30);
 					Main.projectile[proj].hostile = true;
 					Main.projectile[proj].friendly = false;
-					DustHelper.DrawElectricity(projectile.Center + (projectile.velocity * 4), other.Center + (other.velocity * 4), 226, 0.3f, 30, default, 0.12f);
+					DustHelper.DrawElectricity(projectile.Center + (projectile.velocity * 4), other.Center + (other.velocity * 4), 226, 0.35f, 30, default, 0.12f);
 				}
 			}
 				if (!initialized) 
@@ -67,5 +69,15 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 			offset *= (float)(Math.Cos(projectile.ai[0] * (Math.PI / 180)) * (distance / 3));
 			projectile.velocity = initialSpeed + offset;
 		}
-	}
+
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return Color.White;
+        }
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            float sineAdd = (float)Math.Sin(alphaCounter) + 3;
+            Main.spriteBatch.Draw(SpiritMod.instance.GetTexture("Effects/Masks/Extra_49"), (projectile.Center - Main.screenPosition), null, new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + .6f), SpriteEffects.None, 0f);
+        }
+    }
 }

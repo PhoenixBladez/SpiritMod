@@ -496,6 +496,34 @@ namespace SpiritMod.NPCs.Town
                     Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<BriarSlayerScrollEmpty>());
             };
 
+            Quest slayerQuestOwl = RegisterQuest(ModContent.ItemType<ScreechOwlScrollFull>(),
+
+                "I'd like to think I'm an animal lover, y'know? I promise I love dogs, an' cats, and all kinds of furry creatures. Except for that horrifying beast..." +
+				" You guessed it, I'm talkin' about Screech Owls, lad. Whaddya mean, that isn't what you thought I'd say? Those things are horrifyin'!" +
+				" Every night, I hear their screeches echoin' from the snowy tundra. It ruins my sleep! Could ya get rid of one for me, just so that I can have peace of mind? This contract should help keep track of your mission.",
+
+                "Well, I know there's more than one Screech Owl out there. Tricky pests. But maybe you've allowed me to sleep a bit sounder at night." +
+				" Speaking of, I've been workin' on a new contraption that'll maybe help us all sleep better at night. It plays music! Buy it from me any time, lad.", true,
+
+                () => {
+                    MyWorld.owlComplete = true;
+                    int[] lootTable1 = {
+                    ModContent.ItemType<TargetCan>(),
+                    ModContent.ItemType<TargetBottle>(),
+                    };
+                    int loot3 = Main.rand.Next(lootTable1.Length);
+                    Main.LocalPlayer.QuickSpawnItem(lootTable1[loot3], Main.rand.Next(18, 30));
+                    Main.LocalPlayer.QuickSpawnItem(ItemID.MusicBox);
+                    Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
+                });
+            slayerQuestOwl.OnQuestStart = () => {
+                Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SlayerStart"));
+
+                if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ScreechOwlScrollEmpty>()))
+                    Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ScreechOwlScrollEmpty>());
+            };
+
             Quest slayerQuestValkyrie = RegisterQuest(ModContent.ItemType<ValkyrieSlayerScrollFull>(),
 
 				"Just who I've been meanin' to talk to! You ever been high enough where those infuriatin' harpies can shoot at ya?" +

@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Equipment
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = false;
 			item.shoot = ModContent.ProjectileType<RightZipline>();
-			item.shootSpeed = 13f;
+			item.shootSpeed = 16.7f;
 		}
 		public override bool AltFunctionUse(Player player)
 		{

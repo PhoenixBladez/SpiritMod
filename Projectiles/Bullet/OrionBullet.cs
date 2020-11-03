@@ -41,9 +41,10 @@ namespace SpiritMod.Projectiles.Bullet
 				Main.dust[num].noGravity = true;
 			}
 			if (timer == 0) {
-				Projectile.NewProjectile(projectile.Center, projectile.velocity,
+				int p = Projectile.NewProjectile(projectile.Center, projectile.velocity,
 					ModContent.ProjectileType<StarTrail>(), projectile.damage / 2, projectile.knockBack, projectile.owner);
-				timer = 30;
+                Main.projectile[p].ranged = true;
+                timer = 30;
 			}
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 		}

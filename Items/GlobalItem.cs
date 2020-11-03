@@ -107,7 +107,15 @@ namespace SpiritMod.Items
 				item.consumable = true;
 				item.autoReuse = true;
 			}
-		}
+            if (item.type == ItemID.VariegatedLardfish)
+            {
+                item.useStyle = ItemUseStyleID.SwingThrow;
+                item.useTime = item.useAnimation = 20;
+                item.noMelee = true;
+                item.consumable = true;
+                item.autoReuse = true;
+            }
+        }
 		public void SetGlyph(Item item, GlyphType glyph)
 		{
 			if (this.glyph == glyph)
@@ -626,6 +634,10 @@ namespace SpiritMod.Items
 			}
 			if (item.type == ItemID.RedSnapper) {
 				NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<RedSnapper>());
+				return true;
+			}
+			if (item.type == ItemID.VariegatedLardfish) {
+				NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<Lardfish>());
 				return true;
 			}
 			else {

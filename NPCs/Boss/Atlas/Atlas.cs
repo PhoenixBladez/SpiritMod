@@ -52,8 +52,8 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			npc.alpha = 255;
 			npc.HitSound = SoundID.NPCHit7;
 			npc.DeathSound = SoundID.NPCDeath5;
-			music = MusicID.Boss4;
-		}
+            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Atlas");
+        }
 
 		private int Counter;
 		public override void FindFrame(int frameHeight)

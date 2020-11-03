@@ -18,6 +18,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 			projectile.friendly = true;
 			projectile.hostile = false;
 			projectile.penetrate = 1;
+            projectile.ranged = true;
 			projectile.timeLeft = 360;
 			projectile.height = 28;
 			projectile.width = 12;

@@ -27,7 +27,7 @@ namespace SpiritMod.NPCs
 			npc.lifeMax = 50;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath53;
-			npc.value = 960f;
+			npc.value = 120f;
 			npc.knockBackResist = .35f;
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.WheezerBanner>();

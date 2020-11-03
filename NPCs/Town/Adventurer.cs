@@ -162,6 +162,10 @@ namespace SpiritMod.NPCs.Town
                     AddItem(ref shop, ref nextSlot, ItemID.UltrabrightTorch);
                     break;
             }
+            if (MyWorld.owlComplete)
+            {
+                AddItem(ref shop, ref nextSlot, ItemID.MusicBox);
+            }
         }
 
 		public override void TownNPCAttackStrength(ref int damage, ref float knockback)

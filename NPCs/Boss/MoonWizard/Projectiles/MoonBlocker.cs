@@ -36,9 +36,9 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 		Vector2 throwLine = Vector2.Zero;
 		int dist = 500;
 		float radians = 0f;
-		public override void AI()
-		{
-			if (!initialized) 
+        public override void AI()
+        {
+            if (!initialized) 
 			{
 				initialPos = projectile.Center;
 				initialized = true;
@@ -66,5 +66,9 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 				}
 			}
 		}
-	}
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return Color.White;
+        }
+    }
 }

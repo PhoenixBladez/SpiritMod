@@ -21,8 +21,8 @@ namespace SpiritMod.Projectiles
 			projectile.hostile = false;
 			projectile.penetrate = 4;
 			projectile.timeLeft = 500;
-			projectile.height = 130;
-			projectile.width = 130;
+			projectile.height = 180;
+			projectile.width = 180;
 			projectile.alpha = 255;
 			projectile.extraUpdates = 1;
 		}
@@ -42,7 +42,7 @@ namespace SpiritMod.Projectiles
 				}
 				if (_npcAliveLast[npc.whoAmI] && npc.life <= 0 && !npc.friendly) //if the npc was alive last frame and is now dead
 				{
-					int healNumber = Main.rand.Next(1, 2);
+					int healNumber = Main.rand.Next(4, 7);
 					player.HealEffect(healNumber);
 					if (player.statLife <= player.statLifeMax - healNumber)
 						player.statLife += healNumber;

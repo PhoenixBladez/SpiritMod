@@ -24,6 +24,6 @@ namespace SpiritMod.Projectiles.Clubs
 			}
             Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 32, 0, 0, ModContent.ProjectileType<BoneShockwave>(), projectile.damage / 3, projectile.knockBack / 2, projectile.owner, 8, player.direction);
 		}
-		public FloranBludgeonProj() : base(55, 16, 40, -1, 58, 4, 8, 2.1f, 18f){}
+		public FloranBludgeonProj() : base(52, 16, 40, -1, 58, 4, 8, 2.1f, 18f){}
 	}
 }

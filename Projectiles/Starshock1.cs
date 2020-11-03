@@ -107,8 +107,8 @@ namespace SpiritMod.Projectiles
 		}
         public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Wrath>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-
+			int z = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Wrath>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+            Main.projectile[z].magic = true;
 			Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 3);
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);

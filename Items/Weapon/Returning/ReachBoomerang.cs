@@ -27,12 +27,23 @@ namespace SpiritMod.Items.Weapon.Returning
 			item.knockBack = 3;
 			item.value = Terraria.Item.sellPrice(0, 0, 4, 0);
 			item.rare = ItemRarityID.Green;
-			item.shootSpeed = 12f;
+			item.shootSpeed = 8f;
 			item.shoot = ModContent.ProjectileType<Projectiles.Returning.ReachBoomerang>();
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = false;
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool CanUseItem(Player player)
+        {
+            for (int i = 0; i < 1000; ++i)
+            {
+                if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			{
 				Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-200, 200) / 100), speedY + ((float)Main.rand.Next(-200, 200) / 100), type, damage, knockBack, player.whoAmI, 0f, 0f);

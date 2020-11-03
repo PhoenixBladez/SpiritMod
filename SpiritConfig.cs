@@ -22,7 +22,12 @@ namespace SpiritMod
 		[DefaultValue(true)]
 		public bool DesertNightMusic { get; set; }
 
-		[Label("New Granite Music")]
+        [Label("New Hallow Night Music")]
+        [Tooltip("Adds a unique track for The Hallow at night")]
+        [DefaultValue(true)]
+        public bool HallowNightMusic { get; set; }
+
+        [Label("New Granite Music")]
 		[Tooltip("Adds a unique track for the Granite biome")]
 		[DefaultValue(true)]
 		public bool GraniteMusic { get; set; }
@@ -41,5 +46,11 @@ namespace SpiritMod
 		[Tooltip("Enables unique music for Luminous Oceans")]
 		[DefaultValue(true)]
 		public bool LuminousMusic { get; set; }
-	}
+
+        [Label("Calm Night Music")]
+        [Tooltip("Enables unique music for Calm Nights")]
+        [DefaultValue(true)]
+        public bool CalmNightMusic { get; set; }
+
+    }
 }

@@ -29,9 +29,11 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 
 		}
-		public override void AI()
-		{
-			int rightValue = (int)projectile.ai[0] - 1;
+        float alphaCounter;
+        public override void AI()
+        {
+            alphaCounter += 0.04f;
+            int rightValue = (int)projectile.ai[0] - 1;
 			if (rightValue < (double)Main.npc.Length && rightValue != -1) {
 				NPC other = Main.npc[rightValue];
 				Vector2 direction9 = other.Center - projectile.Center;
@@ -40,9 +42,18 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 				if (projectile.timeLeft % 4 == 0 && distance < 1000 && other.active) {
 					int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)direction9.X * 30, (float)direction9.Y * 30, mod.ProjectileType("MoonLightning"), 30, 0);
 					Main.projectile[proj].timeLeft = (int)(distance / 30);
-					DustHelper.DrawElectricity(projectile.Center + (projectile.velocity * 4), other.Center + (other.velocity * 4), 226, 0.3f, 60);
+					DustHelper.DrawElectricity(projectile.Center + (projectile.velocity * 4), other.Center + (other.velocity * 4), 226, 0.6f, 60);
 				}
 			}
 		}
-	}
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return Color.White;
+        }
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            float sineAdd = (float)Math.Sin(alphaCounter) + 3;
+            Main.spriteBatch.Draw(SpiritMod.instance.GetTexture("Effects/Masks/Extra_49"), (projectile.Center - Main.screenPosition), null, new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + .6f), SpriteEffects.None, 0f);
+        }
+    }
 }

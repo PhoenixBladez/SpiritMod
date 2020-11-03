@@ -29,6 +29,7 @@ namespace SpiritMod.Projectiles.Clubs
             projectile.timeLeft = 3;
 			projectile.tileCollide = true;
             projectile.ignoreWater = true;
+            projectile.melee = true;
 		}
 
 		//projectile.ai[0]: how many more pillars. Each one is one less

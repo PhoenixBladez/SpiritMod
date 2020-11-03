@@ -21,7 +21,8 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.friendly = true;
 			projectile.tileCollide = true;
 			projectile.hostile = false;
-			projectile.penetrate = 1;
+            projectile.magic = true;
+            projectile.penetrate = 1;
 			projectile.timeLeft = 150;
 			projectile.alpha = 110;
 		}

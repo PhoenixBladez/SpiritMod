@@ -34,6 +34,7 @@ using SpiritMod.NPCs.Boss.Overseer;
 using SpiritMod.NPCs.Boss.Scarabeus;
 using SpiritMod.NPCs.Boss.SteamRaider;
 using SpiritMod.NPCs.Critters.Algae;
+using SpiritMod.NPCs.Dungeon;
 using SpiritMod.NPCs.Town;
 using SpiritMod.NPCs.Tides;
 using SpiritMod.Projectiles.Arrow;
@@ -200,7 +201,7 @@ namespace SpiritMod.NPCs
 		public override void HitEffect(NPC npc, int hitDirection, double damage)
 		{
 			if (npc.type == NPCID.DoctorBones) {
-				if (Main.LocalPlayer.GetSpiritPlayer().emptyDrBonesScroll && npc.type == NPCID.DoctorBones) {
+				if (Main.LocalPlayer.GetSpiritPlayer().emptyDrBonesScroll && npc.life <= 0) {
 					MyWorld.numDrBonesKilled++;
 				}
 			}
@@ -296,7 +297,7 @@ namespace SpiritMod.NPCs
 			}
 			if (sanguineBleed) {
 				damage += 4;
-				npc.lifeRegen -= 32;
+				npc.lifeRegen -= 16;
 			}
 			if (unholyPlague) {
 				damage += 5;
@@ -1106,6 +1107,13 @@ namespace SpiritMod.NPCs
                 {
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Club.BoneClub>());
                 }
+                if (Main.rand.Next(Main.expertMode ? 130 : 150) < 1 && Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 53);
+                    NPC.NewNPC((int)npc.position.X + Main.rand.Next(-10, 10), (int)npc.position.Y + Main.rand.Next(-10, 10), ModContent.NPCType<SpectralSkull>());
+                    NPC.NewNPC((int)npc.position.X + Main.rand.Next(-10, 10), (int)npc.position.Y + Main.rand.Next(-10, 10), ModContent.NPCType<SpectralSkull>());
+                    NPC.NewNPC((int)npc.position.X + Main.rand.Next(-10, 10), (int)npc.position.Y + Main.rand.Next(-10, 10), ModContent.NPCType<SpectralSkull>());
+                }
             }
             if (closest.GetSpiritPlayer().ZoneAsteroid && Main.rand.Next(50) == 0) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Blaster>());
@@ -1215,7 +1223,7 @@ namespace SpiritMod.NPCs
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ThrallGate>());
 			}
 			if (closest.GetSpiritPlayer().vitaStone) {
-				if (!npc.friendly && npc.lifeMax > 5 && Main.rand.Next(10) == 1 && closest.statLife < closest.statLifeMax) {
+				if (!npc.friendly && npc.lifeMax > 5 && Main.rand.Next(9) == 1 && closest.statLife < closest.statLifeMax) {
 					if (Main.halloween) {
 						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 1734);
 					}

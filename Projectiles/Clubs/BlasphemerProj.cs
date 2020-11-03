@@ -29,6 +29,7 @@ namespace SpiritMod.Projectiles.Clubs
                 Dust.NewDustPerfect(projectile.oldPosition + new Vector2(projectile.width / 2, projectile.height / 2), DustType<Dusts.FireClubDust>(), new Vector2(0, 1).RotatedByRandom(1) * Main.rand.NextFloat(-1, 1) * projectile.ai[0] / 10f);
             }
 			int a = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0, -12, ModContent.ProjectileType<Projectiles.Magic.Firespike>(), projectile.damage/3*2, projectile.knockBack / 2, projectile.owner, 0, player.direction);
+            Main.projectile[a].melee = true;
             Main.PlaySound(2, projectile.Center, 20);
         }
         public override void SafeDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -52,6 +53,6 @@ namespace SpiritMod.Projectiles.Clubs
             if (Main.rand.NextBool(3))
                 target.AddBuff(BuffID.OnFire, 180);
         }
-        public BlasphemerProj() : base(80, 25, 88, -1, 84, 6, 12, 1.7f, 12f){}
+        public BlasphemerProj() : base(72, 25, 88, -1, 84, 6, 12, 1.7f, 12f){}
 	}
 }

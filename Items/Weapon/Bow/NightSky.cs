@@ -42,9 +42,10 @@ namespace SpiritMod.Items.Weapon.Bow
 			if (charger >= 4) {
 				int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
 				Main.projectile[p].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromNightSky = true;
-				for (int I = 0; I < 4; I++) {
-					Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<NightStar>(), damage, knockBack, player.whoAmI, 0f, 0f);
-				}
+                for (int I = 0; I < 4; I++) {
+					int z = Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<NightStar>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                    Main.projectile[z].ranged = true;
+                }
 				charger = 0;
 				Projectile projectile = Main.projectile[p];
 				for (int k = 0; k < 30; k++) {

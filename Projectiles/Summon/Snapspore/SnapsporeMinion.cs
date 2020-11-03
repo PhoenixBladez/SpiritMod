@@ -189,7 +189,7 @@ namespace SpiritMod.Projectiles.Summon.Snapspore
                         }
                     }
                 }
-				if (counter > Main.rand.Next(260, 290))
+				if (counter > Main.rand.Next(300, 320))
                 {
 
                     for (int z = 0; z < 2; z++)
@@ -203,7 +203,7 @@ namespace SpiritMod.Projectiles.Summon.Snapspore
             }
             else
             {
-				if (Main.rand.NextBool(250))
+				if (Main.rand.NextBool(320))
                 {
                     projectile.velocity.Y -= 4.95f;
                     for (int z = 0; z < 2; z++)

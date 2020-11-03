@@ -240,13 +240,44 @@ namespace SpiritMod
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/OceanNighttime");
 				priority = MusicPriority.BiomeHigh;
 			}
-			if (config.SnowNightMusic
+            if (config.HallowNightMusic
+                && player.ZoneHoly
+                && player.ZoneOverworldHeight
+                && !Main.dayTime
+                && !player.ZoneCorrupt
+                && !player.ZoneCrimson
+                && !player.ZoneJungle
+                && !player.ZoneBeach
+                && !Main.raining
+                && !Main.bloodMoon) {
+				music = GetSoundSlot(SoundType.Music, "Sounds/Music/HallowNight");
+				priority = MusicPriority.BiomeHigh;
+			}
+            if (config.CalmNightMusic
+                && MyWorld.calmNight
+                && !player.ZoneSnow
+                && player.ZoneOverworldHeight
+                && !Main.dayTime
+                && !player.ZoneCorrupt
+                && !player.ZoneCrimson
+                && !player.ZoneJungle
+                && !player.ZoneBeach
+                && !player.ZoneHoly
+                && !player.ZoneDesert
+                && !Main.raining
+                && !Main.bloodMoon)
+            {
+                music = GetSoundSlot(SoundType.Music, "Sounds/Music/CalmNight");
+                priority = MusicPriority.BiomeHigh;
+            }
+            if (config.SnowNightMusic
 				&& player.ZoneSnow
 				&& player.ZoneOverworldHeight
 				&& !Main.dayTime
 				&& !player.ZoneCorrupt
 				&& !player.ZoneCrimson
-				&& !MyWorld.aurora
+                && !player.ZoneHoly
+                && !MyWorld.aurora
 				&& !Main.raining
 				&& !Main.bloodMoon) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/SnowNighttime");
@@ -258,7 +289,8 @@ namespace SpiritMod
 				&& !Main.dayTime
 				&& !player.ZoneCorrupt
 				&& !player.ZoneCrimson
-				&& !player.ZoneBeach) {
+				&& !player.ZoneHoly
+                && !player.ZoneBeach) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/DesertNighttime");
 				priority = MusicPriority.BiomeHigh;
 			}
@@ -359,7 +391,8 @@ namespace SpiritMod
 			string name = args[1] as string;
 			switch (name) {
 				case "Scarabeus": return MyWorld.downedScarabeus;
-				case "Vinewrath Bane": return MyWorld.downedReachBoss;
+                case "Moon Jelly Wizard": return MyWorld.downedMoonWizard;
+                case "Vinewrath Bane": return MyWorld.downedReachBoss;
 				case "Ancient Avian": return MyWorld.downedAncientFlier;
 				case "Starplate Raider": return MyWorld.downedRaider;
 				case "Infernon": return MyWorld.downedInfernon;
@@ -978,7 +1011,8 @@ namespace SpiritMod
 
 		public override void ModifySunLightColor(ref Color tileColor, ref Color backgroundColor)
 		{
-			Color white = Color.White;
+
+            Color white = Color.White;
 			Color white2 = Color.White;
 			if (MyWorld.SpiritTiles > 0) {
 				float num255 = MyWorld.SpiritTiles / 160f;

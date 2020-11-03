@@ -211,7 +211,7 @@ namespace SpiritMod.NPCs.DarkfeatherMage
                 Vel.Normalize();
                 Vel *= 6f;
                 npc.velocity = Vel;
-                if (npc.ai[0] % 30 == 0 && npc.ai[0] != 180)
+                if (npc.ai[0] % 30 == 0 && npc.ai[0] != 180 && Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     Main.PlaySound(SoundID.DD2_LightningBugZap, new Vector2(npc.Center.X + 18 * npc.spriteDirection, npc.Center.Y + 12));
                     for (int j = 0; j < 24; j++)
@@ -295,11 +295,14 @@ namespace SpiritMod.NPCs.DarkfeatherMage
                     bool expertMode = Main.expertMode;
                     int damage = expertMode ? 11 : 18;
                     int amountOfProjectiles = Main.rand.Next(2, 4);
-                    for (int i = 0; i < amountOfProjectiles; ++i)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        float A = (float)Main.rand.Next(-150, 150) * 0.01f;
-                        float B = (float)Main.rand.Next(-150, 150) * 0.01f;
-                        Projectile.NewProjectile(npc.Center.X + 21 * npc.direction, npc.Center.Y + 12, direction.X + A, direction.Y + B, ModContent.ProjectileType<DarkfeatherBoltRegular>(), damage, 1, Main.myPlayer, 0, 0);
+                        for (int i = 0; i < amountOfProjectiles; ++i)
+                        {
+                            float A = (float)Main.rand.Next(-150, 150) * 0.01f;
+                            float B = (float)Main.rand.Next(-150, 150) * 0.01f;
+                            Projectile.NewProjectile(npc.Center.X + 21 * npc.direction, npc.Center.Y + 12, direction.X + A, direction.Y + B, ModContent.ProjectileType<DarkfeatherBoltRegular>(), damage, 1, Main.myPlayer, 0, 0);
+                        }
                     }
                 }
 				if (npc.ai[0] > 300)
@@ -364,6 +367,7 @@ namespace SpiritMod.NPCs.DarkfeatherMage
             Player player = Main.player[npc.target];
             npc.position.X = player.position.X + Main.rand.Next(-150, 150);
             npc.position.Y = player.position.Y - 300f;
+            npc.netUpdate = true;
             float Closeness = 50f;
             degrees += 2.5f;
             for (float swirlDegrees = degrees; swirlDegrees < 160 + degrees; swirlDegrees += 7f)

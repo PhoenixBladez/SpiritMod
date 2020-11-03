@@ -56,8 +56,12 @@ namespace SpiritMod.Items.Consumable
 				ModContent.ItemType<AdvPainting17>(),
 				ModContent.ItemType<AdvPainting18>(),
 				ModContent.ItemType<AdvPainting19>(),
+                ModContent.ItemType<AdvPainting20>(),
+                ModContent.ItemType<AdvPainting21>(),
+                ModContent.ItemType<AdvPainting22>(),
+                ModContent.ItemType<AdvPainting23>(),
 
-			};
+            };
 			int loot = Main.rand.Next(lootTable.Length);
 			int loot1 = Main.rand.Next(lootTable.Length);
 

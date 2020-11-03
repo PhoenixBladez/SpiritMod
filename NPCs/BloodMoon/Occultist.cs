@@ -298,7 +298,7 @@ namespace SpiritMod.NPCs.BloodMoon
 			int d = 231;
 			int d1 = 231;
 			Main.PlaySound(SoundID.NPCHit, npc.Center, 2);
-			for (int k = 0; k < 30; k++) {
+			for (int k = 0; k < 15; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);
 				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
 			}

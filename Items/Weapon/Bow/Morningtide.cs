@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Bow
 			item.shoot = ProjectileID.Shuriken;
 			item.useAmmo = AmmoID.Arrow;
 			item.knockBack = 5;
-			item.rare = ItemRarityID.LightRed;
+			item.rare = 8;
 			item.UseSound = SoundID.DD2_GhastlyGlaiveImpactGhost;
 			item.value = Item.buyPrice(0, 5, 0, 0);
 			item.value = Item.sellPrice(0, 5, 0, 0);

@@ -14,7 +14,7 @@ namespace SpiritMod.NPCs
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Crystal Drifter");
-			Main.npcFrameCount[npc.type] = 1;
+			Main.npcFrameCount[npc.type] = 12;
 			NPCID.Sets.TrailCacheLength[npc.type] = 3;
 			NPCID.Sets.TrailingMode[npc.type] = 0;
 		}
@@ -42,10 +42,17 @@ namespace SpiritMod.NPCs
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.CrystalDrifterBanner>();
 		}
-		int timer = 0;
+        public override void FindFrame(int frameHeight)
+        {
+            npc.frameCounter += 0.08f;
+            npc.frameCounter %= Main.npcFrameCount[npc.type];
+            int frame = (int)npc.frameCounter;
+            npc.frame.Y = frame * frameHeight;
+        }
+        int timer = 0;
 		public override bool PreAI()
 		{
-			npc.spriteDirection = npc.direction;
+			npc.spriteDirection = -npc.direction;
 			Player target = Main.player[npc.target];
 			MyPlayer modPlayer = target.GetSpiritPlayer();
 			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));

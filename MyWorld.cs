@@ -60,6 +60,7 @@ namespace SpiritMod
 		public static int auroraChance = 4;
 
 		public static bool luminousOcean = false;
+        public static bool calmNight = false;
 		public static int luminousType = 1;
 
 		public static bool stardustWeather = false;
@@ -95,7 +96,7 @@ namespace SpiritMod
 		public static bool downedRaider = false;
 		public static bool downedAtlas = false;
 		public static bool downedInfernon = false;
-		public static bool downedSpiritCore = false;
+		public static bool downedMoonWizard = false;
 		public static bool downedReachBoss = false;
 		public static bool downedDusking = false;
 		public static bool downedIlluminantMaster = false;
@@ -120,6 +121,7 @@ namespace SpiritMod
 		public static bool spawnVibeshrooms = false;
         public static bool spawnDarkfeather = false;
         public static bool spawnHookbats = false;
+        public static bool owlComplete = false;
 
         public static int numWinterbornKilled;
 		public static int numBeholdersKilled;
@@ -129,6 +131,7 @@ namespace SpiritMod
 		public static int numWheezersKilled;
 		public static int numStardancersKilled;
         public static int numBriarMobsKilled;
+        public static int numOwlsKilled;
 
 		//pagoda enemy spawn variables
 		public static int pagodaX = 0;
@@ -171,8 +174,8 @@ namespace SpiritMod
 				downed.Add("infernon");
 			if (downedReachBoss)
 				downed.Add("vinewrathBane");
-			if (downedSpiritCore)
-				downed.Add("etherealUmbra");
+			if (downedMoonWizard)
+				downed.Add("moonWizard");
 			if (downedDusking)
 				downed.Add("dusking");
 			if (downedIlluminantMaster)
@@ -219,6 +222,8 @@ namespace SpiritMod
             data.Add("spawnDarkfeather", spawnDarkfeather);
             data.Add("spawnVibeshrooms", spawnVibeshrooms);
             data.Add("spawnHookbats", spawnHookbats);
+            data.Add("owlComplete", owlComplete);
+
             data.Add("numWinterbornKilled", numWinterbornKilled);
 			data.Add("numAntlionsKilled", numAntlionsKilled);
 			data.Add("numWheezersKilled", numWheezersKilled);
@@ -242,7 +247,7 @@ namespace SpiritMod
 			downedInfernon = downed.Contains("infernon");
 			downedReachBoss = downed.Contains("vinewrathBane");
 			downedDusking = downed.Contains("dusking");
-			downedSpiritCore = downed.Contains("etherealUmbra");
+			downedMoonWizard = downed.Contains("moonWizard");
 			downedIlluminantMaster = downed.Contains("illuminantMaster");
 			downedAtlas = downed.Contains("atlas");
 			downedOverseer = downed.Contains("overseer");
@@ -275,6 +280,8 @@ namespace SpiritMod
 			spawnVibeshrooms = tag.GetBool("spawnVibeshrooms");
             spawnDarkfeather = tag.GetBool("spawnDarkfeather");
             spawnHookbats = tag.GetBool("spawnHookbats");
+            owlComplete = tag.GetBool("owlComplete");
+
             numWinterbornKilled = tag.Get<int>("numWinterbornKilled");
 			numAntlionsKilled = tag.Get<int>("numAntlionsKilled");
 			numWheezersKilled = tag.Get<int>("numWheezersKilled");
@@ -307,7 +314,7 @@ namespace SpiritMod
 				downedBlueMoon = flags[8];
 
 				downedReachBoss = flags1[0];
-				downedSpiritCore = flags1[1];
+				downedMoonWizard = flags1[1];
                 downedTide = flags1[2];
                 downedMechromancer = flags1[3];
                 downedOccultist = flags2[4];
@@ -319,6 +326,7 @@ namespace SpiritMod
 				gennedTower = flags2[1];
                 spawnDarkfeather = flags2[2];
                 spawnHookbats = flags2[3];
+                owlComplete = flags2[4];
 
                 sepulchreComplete = flags3[0];
 				spawnHornetFish = flags3[1];
@@ -337,11 +345,11 @@ namespace SpiritMod
 		public override void NetSend(BinaryWriter writer)
 		{
 			BitsByte bosses1 = new BitsByte(downedScarabeus, downedAncientFlier, downedRaider, downedInfernon, downedDusking, downedIlluminantMaster, downedAtlas, downedOverseer);
-			BitsByte bosses2 = new BitsByte(downedReachBoss, downedSpiritCore, downedTide, downedMechromancer, downedOccultist, downedGladeWraith, downedBeholder, downedSnaptrapper);
+			BitsByte bosses2 = new BitsByte(downedReachBoss, downedMoonWizard, downedTide, downedMechromancer, downedOccultist, downedGladeWraith, downedBeholder, downedSnaptrapper);
 			writer.Write(bosses1);
 			writer.Write(bosses2);
-			BitsByte environment = new BitsByte(BlueMoon);
-			BitsByte worldgen = new BitsByte(gennedBandits, gennedTower, spawnDarkfeather, spawnHookbats);
+			BitsByte environment = new BitsByte(BlueMoon, downedBlueMoon);
+			BitsByte worldgen = new BitsByte(gennedBandits, gennedTower, spawnDarkfeather, spawnHookbats, owlComplete);
 			BitsByte adventurerQuests = new BitsByte(sepulchreComplete, spawnHornetFish, spawnVibeshrooms, jadeStaffComplete, shadowflameComplete, vibeShroomComplete, winterbornComplete, drBonesComplete);
 			writer.Write(environment);
 			writer.Write(worldgen);
@@ -357,6 +365,7 @@ namespace SpiritMod
 		{
 			BitsByte bosses1 = reader.ReadByte();
 			BitsByte bosses2 = reader.ReadByte();
+
 			downedScarabeus = bosses1[0];
 			downedAncientFlier = bosses1[1];
 			downedRaider = bosses1[2];
@@ -365,10 +374,9 @@ namespace SpiritMod
 			downedIlluminantMaster = bosses1[5];
 			downedAtlas = bosses1[6];
 			downedOverseer = bosses1[7];
-			downedBlueMoon = bosses1[8];
 
 			downedReachBoss = bosses2[0];
-			downedSpiritCore = bosses2[1];
+			downedMoonWizard = bosses2[1];
             downedTide = bosses2[2];
             downedMechromancer = bosses2[3];
             downedOccultist = bosses2[4];
@@ -378,15 +386,17 @@ namespace SpiritMod
 
             BitsByte environment = reader.ReadByte();
 			BlueMoon = environment[0];
+            downedBlueMoon = environment[1];
 
-			BitsByte worldgen = reader.ReadByte();
+            BitsByte worldgen = reader.ReadByte();
 			gennedBandits = worldgen[0];
 			gennedTower = worldgen[1];
             spawnDarkfeather = worldgen[2];
             spawnHookbats = worldgen[3];
-
+            owlComplete = worldgen[4];
 
             BitsByte adventurerQuests = reader.ReadByte();
+
 			sepulchreComplete = adventurerQuests[0];
 			spawnHornetFish = adventurerQuests[1];
 			spawnVibeshrooms = adventurerQuests[2];
@@ -395,6 +405,7 @@ namespace SpiritMod
 			vibeShroomComplete = adventurerQuests[5];
 			winterbornComplete = adventurerQuests[6];
 			drBonesComplete = adventurerQuests[7];
+
 			numWinterbornKilled = reader.ReadInt32();
 			numAntlionsKilled = reader.ReadInt32();
 			numWheezersKilled = reader.ReadInt32();
@@ -454,7 +465,7 @@ namespace SpiritMod
 			downedReachBoss = false;
 			downedDusking = false;
 			downedAtlas = false;
-			downedSpiritCore = false;
+			downedMoonWizard = false;
 			downedIlluminantMaster = false;
 			downedOverseer = false;
 			downedBlueMoon = false;
@@ -3543,7 +3554,15 @@ namespace SpiritMod
 				else {
 					luminousOcean = false;
 				}
-			}
+                if (!Main.dayTime && (Main.moonPhase == 2 || Main.moonPhase == 5) && Main.rand.Next(2) == 0)
+                {
+                    calmNight = true;
+                }
+				else
+                {
+                    calmNight = false;
+                }
+            }
 
 			//pagoda enemy spawning
 			if (!spawnedPagodaEnemies && Main.netMode != NetmodeID.MultiplayerClient) {

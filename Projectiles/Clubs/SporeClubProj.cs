@@ -25,6 +25,6 @@ namespace SpiritMod.Projectiles.Clubs
             Projectile.NewProjectile(projectile.Center.X + (20 * player.direction), projectile.Center.Y - 40, 0, 0, ModContent.ProjectileType<ToxinField>(), projectile.damage / 4, 0, projectile.owner, 8, player.direction);
 
         }
-        public SporeClubProj() : base(65, 22, 48, -1, 62, 6, 10, 1.9f, 16f){}
+        public SporeClubProj() : base(58, 22, 48, -1, 62, 6, 10, 1.9f, 16f){}
 	}
 }

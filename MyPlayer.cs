@@ -259,6 +259,7 @@ namespace SpiritMod
 		public bool emptyExplorerScroll = false;
 		public bool emptyWinterbornScroll = false;
 		public bool emptyBeholderScroll = false;
+        public bool emptyOwlScroll = false;
 		public bool emptyValkyrieScroll = false;
 		public bool emptyAntlionScroll = false;
 		public bool emptyDrBonesScroll = false;
@@ -2034,8 +2035,8 @@ namespace SpiritMod
 		int bloodTimer;
 		int spawnTimer;
 		public override void PreUpdate()
-		{
-			if(TideWorld.TheTide && !NPC.AnyNPCs(ModContent.NPCType<Rylheian>()) && player.ZoneBeach && TideWorld.TidePoints >= 99) {
+        {
+            if (TideWorld.TheTide && !NPC.AnyNPCs(ModContent.NPCType<Rylheian>()) && player.ZoneBeach && TideWorld.TidePoints >= 99) {
 				spawnTimer++;
 				if(spawnTimer >= 30) {
 					spawnTimer = 0;
@@ -2095,6 +2096,20 @@ namespace SpiritMod
 						MyWorld.numBeholdersKilled = 0;
 						player.QuickSpawnItem(ModContent.ItemType<BeholderSlayerScrollFull>());
 						emptyBeholderScroll = false;
+						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
+						"Contract Complete!");
+						Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SlayerComplete"));
+						break;
+					}
+				}
+			}
+			if(emptyOwlScroll && MyWorld.numOwlsKilled > 0) {
+				for(int index = 0; index < 58; ++index) {
+					if(player.inventory[index].type == ModContent.ItemType<ScreechOwlScrollEmpty>()) {
+						player.inventory[index].stack -= 1;
+						MyWorld.numOwlsKilled = 0;
+						player.QuickSpawnItem(ModContent.ItemType<ScreechOwlScrollFull>());
+                        emptyOwlScroll = false;
 						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
 						"Contract Complete!");
 						Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SlayerComplete"));
