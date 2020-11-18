@@ -185,9 +185,6 @@ namespace SpiritMod.NPCs.Boss.Dusking
 			}
 			else if (npc.ai[0] == 2) // Continuous Charging.
 			{
-				{
-					npc.defense = 20;
-				}
 				if (npc.ai[1] == 0) // Flying Movement
 				{
 					bool expertMode = Main.expertMode;

@@ -1,15 +1,15 @@
-using SpiritMod.Projectiles;
+using SpiritMod.Projectiles.Summon.MoonjellySummon;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs.Summon
 {
-	public class GhastBuff : ModBuff
+	public class MoonjellySummonBuff : ModBuff
 	{
 		public override void SetDefaults()
 		{
-			DisplayName.SetDefault("Ghast Wisp");
-			Description.SetDefault("'An ethereal power'");
+			DisplayName.SetDefault("Moonlight Preserver");
+			Description.SetDefault("This moonlight preserver summons tiny Lunazoa to fight for you!");
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}
@@ -17,11 +17,11 @@ namespace SpiritMod.Buffs.Summon
 		public override void Update(Player player, ref int buffIndex)
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if (player.ownedProjectileCounts[ModContent.ProjectileType<Ghast>()] > 0) {
-				modPlayer.Ghast = true;
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<MoonjellySummon>()] > 0) {
+				modPlayer.lunazoa = true;
 			}
 
-			if (!modPlayer.Ghast) {
+			if (!modPlayer.lunazoa) {
 				player.DelBuff(buffIndex);
 				buffIndex--;
 				return;

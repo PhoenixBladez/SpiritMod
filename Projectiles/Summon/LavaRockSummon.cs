@@ -22,7 +22,7 @@ namespace SpiritMod.Projectiles.Summon
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.minionSlots = 1f;
-			projectile.timeLeft = 54000;
+			projectile.timeLeft = 999999;
 			projectile.penetrate = -1;
 			projectile.tileCollide = false;
 			projectile.timeLeft *= 5;

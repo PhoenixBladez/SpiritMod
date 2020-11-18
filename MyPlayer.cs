@@ -226,6 +226,7 @@ namespace SpiritMod
 		public bool DungeonSummon = false;
 		public bool ReachSummon = false;
 		public bool gasopodMinion = false;
+        public bool lunazoa = false;
         public bool rogueCrest = false;
         public bool cimmerianScepter = false;
         public bool spellswordCrest = false;
@@ -273,6 +274,7 @@ namespace SpiritMod
 		public int voidStacks = 1;
 		public int camoCounter;
 		public int veilCounter;
+        public int jellynautStacks;
 		public bool blazeBurn;
 		public int phaseCounter;
 		public int phaseStacks;
@@ -287,6 +289,7 @@ namespace SpiritMod
 		public int frostTally;
 		public int frostCount;
 		public bool stoneHead;
+        public bool jellynautHelm;
 
 		public float shadowRotation;
 		public bool shadowUpdate;
@@ -347,6 +350,7 @@ namespace SpiritMod
 		public bool ZoneAsteroid = false;
 		public bool ZoneMarble = false;
 		public bool ZoneGranite = false;
+        public bool ZoneSpider = false;
 		public bool ZoneHive = false;
 
 		public bool Bauble = false;
@@ -479,10 +483,10 @@ namespace SpiritMod
 		public override bool CustomBiomesMatch(Player other)
 		{
 			MyPlayer modOther = other.GetSpiritPlayer();
-			return ZoneSpirit == modOther.ZoneSpirit 
-				&& ZoneReach == modOther.ZoneReach 
-				&& ZoneAsteroid == modOther.ZoneAsteroid 
-				&& ZoneGranite == modOther.ZoneGranite 
+            return ZoneSpirit == modOther.ZoneSpirit
+                && ZoneReach == modOther.ZoneReach
+                && ZoneAsteroid == modOther.ZoneAsteroid
+                && ZoneGranite == modOther.ZoneGranite
 				&& ZoneMarble == modOther.ZoneMarble 
 				&& ZoneHive == modOther.ZoneHive;
 		}
@@ -597,6 +601,7 @@ namespace SpiritMod
             manaShield = false;
             seraphimBulwark = false;
 
+            jellynautHelm = false;
 			moonHeart = false;
 			chitinSet = false;
 			starplateGlitchEffect = false;
@@ -680,6 +685,7 @@ namespace SpiritMod
 			Flayer = false;
 			steamMinion = false;
 			DungeonSummon = false;
+            lunazoa = false;
 			OG = false;
 			lavaRock = false;
 			maskPet = false;
@@ -2036,6 +2042,19 @@ namespace SpiritMod
 		int spawnTimer;
 		public override void PreUpdate()
         {
+            if (!player.ZoneOverworldHeight)
+            {
+                int x1 = (int)player.Center.X / 16;
+                int y1 = (int)player.Center.Y / 16;
+                if (Main.tile[x1, y1 + 1].wall == 62 && Main.tile[x1, y1].wall == 62)
+                {
+                    ZoneSpider = true;
+                }
+				else
+                {
+                    ZoneSpider = false;
+                }
+            }
             if (TideWorld.TheTide && !NPC.AnyNPCs(ModContent.NPCType<Rylheian>()) && player.ZoneBeach && TideWorld.TidePoints >= 99) {
 				spawnTimer++;
 				if(spawnTimer >= 30) {
@@ -2533,14 +2552,14 @@ namespace SpiritMod
 			if(ZoneAsteroid) {
 				Main.numCloudsTemp = 0;
 			}
-			if(Main.rand.NextBool(6) && ZoneReach && player.ZoneOverworldHeight && !player.ZoneBeach && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneJungle && !player.ZoneHoly) {
+			if(Main.rand.NextBool(6) && (ZoneReach || MyWorld.calmNight) && player.ZoneOverworldHeight && !player.ZoneBeach && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneJungle && !player.ZoneHoly) {
 				float goreScale = 0.01f * Main.rand.Next(20, 70);
 				int a = Gore.NewGore(new Vector2(player.Center.X + Main.rand.Next(-1000, 1000), player.Center.Y + (Main.rand.Next(-1000, -100))), new Vector2(Main.windSpeed * 3f, 0f), 911, goreScale);
 				Main.gore[a].timeLeft = 15;
 				Main.gore[a].rotation = 0f;
 				Main.gore[a].velocity = new Vector2(Main.windSpeed * 40f, Main.rand.NextFloat(0.2f, 2f));
 			}
-			if(Main.rand.Next(9) == 0 && ZoneReach && player.ZoneOverworldHeight && !player.ZoneBeach && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneJungle && !player.ZoneHoly) {
+			if(Main.rand.Next(9) == 0 && (ZoneReach || MyWorld.calmNight) && player.ZoneOverworldHeight && !player.ZoneBeach && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneJungle && !player.ZoneHoly) {
 				float goreScale = Main.rand.NextFloat(0.5f, 0.9f);
 				int x = (int)(Main.windSpeed > 0 ? Main.screenPosition.X - 100 : Main.screenPosition.X + Main.screenWidth + 100);
 				int y = (int)Main.screenPosition.Y + Main.rand.Next(-100, Main.screenHeight);
@@ -4761,6 +4780,27 @@ namespace SpiritMod
 					}
 				}
 			} else if(keyDir == (Main.ReversedUpDownArmorSetBonuses ? 1 : 0)) {
+				if (jellynautHelm)
+                {
+                    for (int projFinder = 0; projFinder < 300; ++projFinder)
+                    {
+                        if (Main.projectile[projFinder].type == ModContent.ProjectileType<Projectiles.Magic.JellynautOrbiter>())
+                        {
+                            Main.projectile[projFinder].timeLeft = Main.rand.Next(10, 30);
+                        }
+                    }
+                    jellynautStacks = 0;
+                    for (int i = 0; i < 12; i++)
+                    {
+                        int num = Dust.NewDust(player.Center, player.width, player.height, 226, 0f, -2f, 0, default(Color), 1f);
+                        Main.dust[num].noGravity = true;
+                        Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+                        Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
+                        Main.dust[num].scale *= .25f;
+                        if (Main.dust[num].position != player.Center)
+                            Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
+                    }
+                }
 				// Double tap down
 				if(starSet && !player.HasBuff(ModContent.BuffType<StarCooldown>())) {
                     player.AddBuff(ModContent.BuffType<StarCooldown>(), 1020);

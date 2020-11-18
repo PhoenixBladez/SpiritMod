@@ -24,7 +24,10 @@ namespace SpiritMod.Items.Armor.WayfarerSet
             item.rare = 1;
             item.defense = 2;
         }
-
+        public override void DrawHands(ref bool drawHands, ref bool drawArms)
+        {
+            drawHands = true;
+        }
         public override void UpdateEquip(Player player)
         {
             player.moveSpeed += 0.06f;

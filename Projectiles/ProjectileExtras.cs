@@ -609,7 +609,7 @@ namespace SpiritMod.Projectiles
 				action();
 		}
 
-		public static void Explode(int index, int sizeX, int sizeY, ExtraAction visualAction = null)
+        public static void Explode(int index, int sizeX, int sizeY, ExtraAction visualAction = null, bool weakerExplosion = false)
 		{
 			Projectile projectile = Main.projectile[index];
 			if (!projectile.active)
@@ -623,8 +623,12 @@ namespace SpiritMod.Projectiles
 			projectile.height = sizeY;
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-			projectile.Damage();
-			Main.projectileIdentity[projectile.owner, projectile.identity] = -1;
+            if (weakerExplosion)
+            {
+                projectile.damage = (int)(projectile.damage * .75f);	
+            }
+            projectile.Damage();
+            Main.projectileIdentity[projectile.owner, projectile.identity] = -1;
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
 			projectile.width = (int)((float)sizeX / 5.8f);

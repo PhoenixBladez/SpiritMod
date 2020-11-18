@@ -17,8 +17,9 @@ namespace SpiritMod.Items.Equipment
 		}
 
 		public override void SetDefaults()
-		{
-			item.CloneDefaults(ItemID.AmethystHook);
+        {
+            item.expert = true;
+            item.CloneDefaults(ItemID.AmethystHook);
 			item.shootSpeed = 14f; // how quickly the hook is shot.
 			item.expert = true;
 			item.shoot = ProjectileType<AvianHookProjectile>();

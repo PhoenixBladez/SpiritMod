@@ -17,6 +17,7 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.height = 12;
 			projectile.hide = true;
 			projectile.friendly = true;
+            projectile.magic = true;
 			projectile.penetrate = 2;
 			projectile.timeLeft = 90;
 			projectile.tileCollide = false;

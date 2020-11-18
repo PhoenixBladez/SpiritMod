@@ -52,5 +52,10 @@ namespace SpiritMod
         [DefaultValue(true)]
         public bool CalmNightMusic { get; set; }
 
+        [Label("Spider Cavern Music")]
+        [Tooltip("Adds a unique track for Spider caverns")]
+        [DefaultValue(true)]
+        public bool SpiderCaveMusic { get; set; }
+
     }
 }

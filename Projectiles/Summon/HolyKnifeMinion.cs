@@ -90,7 +90,7 @@ namespace SpiritMod.Projectiles.Summon
 			}
 
 			Vector2 value = projectile.position;
-			float num21 = 800f;
+			float num21 = 920f;
 			bool flag = false;
 			projectile.tileCollide = false;
 			for (int j = 0; j < 200; j++) {
@@ -127,7 +127,7 @@ namespace SpiritMod.Projectiles.Summon
                 projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
                 for (int index1 = 0; index1 < 200; index1++)
                 {
-                    if (Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1))
+                    if (Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1) && Main.npc[index1].active)
                     {
                         float num23 = Main.npc[index1].position.X + (float)(Main.npc[index1].width / 2);
                         float num24 = Main.npc[index1].position.Y + (float)(Main.npc[index1].height / 2);

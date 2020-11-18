@@ -9,11 +9,12 @@ using Terraria;
 using SpiritMod.Buffs;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Items.Weapon.Flail;
-using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Items.Weapon.Gun;
+using SpiritMod.Items.Weapon.Yoyo;
 using SpiritMod.Items.Armor.Masks;
+using SpiritMod.Items.Armor.JellynautHelmet;
 using SpiritMod.Items.Boss;
-using SpiritMod.Tide;
+using SpiritMod.Items.BossBags;
 using System.IO;
 
 namespace SpiritMod.NPCs.Boss.MoonWizard
@@ -32,11 +33,12 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 
 		public override void SetDefaults()
 		{
-			npc.lifeMax = 2100;
+			npc.lifeMax = 1600;
 			npc.defense = 10;
-			npc.value = 13000;
+			npc.value = 43000;
 			npc.aiStyle = -1;
-			npc.knockBackResist = 0f;
+            bossBag = ModContent.ItemType<MJWBag>();
+            npc.knockBackResist = 0f;
 			npc.width = 17;
 			npc.height = 35;
 			npc.damage = 30;
@@ -271,10 +273,37 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 		{
 			potionType = ItemID.HealingPotion;
 		}
-		public override void NPCLoot()
-		{
-			
-		}
+        public override void NPCLoot()
+        {
+            {
+                if (Main.expertMode)
+                {
+                    npc.DropBossBags();
+                    return;
+                }
+
+                /*int[] lootTable = {
+                    ModContent.ItemType<TalonBlade>(),
+                    ModContent.ItemType<Talonginus>(),
+                    ModContent.ItemType<SoaringScapula>(),
+                    ModContent.ItemType<TalonPiercer>(),
+                    ModContent.ItemType<SkeletalonStaff>()
+                };
+                int loot = Main.rand.Next(lootTable.Length);
+                npc.DropItem(lootTable[loot]);*/
+
+                npc.DropItem(ModContent.ItemType<MJWMask>(), 1f / 7);
+                npc.DropItem(ModContent.ItemType<MJWTrophy>(), 1f / 10);
+                int[] lootTable = {
+                ModContent.ItemType<Moonshot>(),
+                ModContent.ItemType<Moonburst>(),
+                ModContent.ItemType<JellynautBubble>(),
+                ModContent.ItemType<MoonjellySummonStaff>()
+				};
+                int loot = Main.rand.Next(lootTable.Length);
+                npc.DropItem(lootTable[loot]);
+            }
+        }
 
         public override void HitEffect(int hitDirection, double damage)
 		{
@@ -295,6 +324,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
             }
 			if (npc.life <= 0)
             {
+                int a = Gore.NewGore(new Vector2(npc.Center.X, npc.Center.Y - 50), new Vector2(0, 3), mod.GetGoreSlot("Gores/WizardHat_Gore"));
                 for (int i = 0; i < Main.rand.Next(9, 15); i++)
                 {
                     int p = Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(-2, 2), Main.rand.NextFloat(2.2f)), mod.ProjectileType("MoonBubble"), 0, 3);
@@ -312,6 +342,10 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
         {
             jellyRapidFire = true;
             attackCounter++;
+			if (attackCounter == 1)
+            {
+                Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/BossSFX/MoonWizard_Laugh2"));
+            }
             if (attackCounter % 20 == 0)
             {
                 Vector2 vector2_2 = Vector2.UnitY.RotatedByRandom(1.57079637050629f) * new Vector2(5f, 3f);
@@ -337,7 +371,8 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 		int SkyPos = 0;
 		int SkyPosY = 0;
 		void SkyStrikeLeft()
-		{
+        {
+
             if (npc.life > 250)
             {
                 UpdateFrame(0.15f, 1, 3);
@@ -349,13 +384,14 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			Player player = Main.player[npc.target];
 
 			if (attackCounter == 0) {
-				SkyPos = (int)(player.position.X - 1000);
+                Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/BossSFX/MoonWizard_Laugh1"));
+                SkyPos = (int)(player.position.X - 1000);
 				SkyPosY = (int)(player.position.Y - 500);
 			}
 			if (attackCounter % 4 == 0 && Main.netMode != NetmodeID.MultiplayerClient) {
 				Vector2 strikePos = new Vector2(SkyPos, SkyPosY);
 				Projectile.NewProjectile(strikePos, new Vector2(0, 0), mod.ProjectileType("SkyMoonZapper"), npc.damage / 3, 0, npc.target);
-				SkyPos += 150;
+				SkyPos += 170;
 			}
 			if (attackCounter == 60) {
 				npc.ai[0] = 1;
@@ -383,7 +419,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			if (attackCounter % 4 == 0 && Main.netMode != NetmodeID.MultiplayerClient) {
 				Vector2 strikePos = new Vector2(SkyPos, SkyPosY);
 				Projectile.NewProjectile(strikePos, new Vector2(0, 0), mod.ProjectileType("SkyMoonZapper"), npc.damage / 3, 0, npc.target);
-				SkyPos -= 150;
+				SkyPos -= 170;
 			}
 			if (attackCounter == 60) {
 				npc.ai[0] = 1;
@@ -397,6 +433,10 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 		{
 			Player player = Main.player[npc.target];
 			UpdateFrame(0.15f, 10, 13);
+			if (attackCounter == 10)
+            {
+                Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/BossSFX/MoonWizard_Laugh1"));
+            }
 			attackCounter++;
 			if (attackCounter % 30 == 0) {
 				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 15);
@@ -409,8 +449,12 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 					direction.Normalize();
 					direction *= 5;
 					int proj = Projectile.NewProjectile(npc.Center - new Vector2(0, 60), direction, mod.ProjectileType("SineBall"), npc.damage / 2, 3, npc.target, 180);
-					Projectile.NewProjectile(npc.Center - new Vector2(0, 60), direction, mod.ProjectileType("SineBall"), npc.damage / 2, 3, npc.target, 0, proj + 1);
-				}
+					int p1 =Projectile.NewProjectile(npc.Center - new Vector2(0, 60), direction, mod.ProjectileType("SineBall"), npc.damage / 2, 3, npc.target, 0, proj + 1);
+                    Main.projectile[proj].hostile = true;
+                    Main.projectile[p1].hostile = true;
+                    Main.projectile[proj].friendly = false;
+                    Main.projectile[p1].friendly = false;
+                }
 				if (attackCounter > 250) 
 				{
 					npc.ai[0] = 1;
@@ -438,7 +482,8 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			{
 				UpdateFrame(0.4f, 4, 9);
 				if (attackCounter == 55) {
-					npc.velocity.Y = 18;
+                    Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/BossSFX/MoonWizard_Attack"));
+                    npc.velocity.Y = 18;
                     npc.velocity.Y += .6f;
 					if (phaseTwo) {
 						npc.velocity.Y = 30;
@@ -685,7 +730,9 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 
 			if (attackCounter > 82) {
 				attackCounter = 0;
-				npc.position = TeleportPos - new Vector2(npc.width / 2, npc.height / 2);
+                int a = Gore.NewGore(new Vector2(npc.Center.X, npc.Center.Y - 50), new Vector2(0, 3), mod.GetGoreSlot("Gores/WizardHat_Gore"));
+                Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/BossSFX/MoonWizard_Taunt"));
+                npc.position = TeleportPos - new Vector2(npc.width / 2, npc.height / 2);
 				Main.PlaySound(SoundID.Item, npc.position, 94);
 				numMoves--;
 				for (int i = 0; i < 20; i++) {
@@ -733,7 +780,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
         public override bool PreNPCLoot()
         {
             MyWorld.downedMoonWizard = true;
-            Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DeathSounds/MoonWizardDeathSound"));
+            Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DeathSounds/MJWDeathSound"));
             return true;
         }
 

@@ -112,6 +112,15 @@ namespace SpiritMod.Projectiles
 		{
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
+			if (modPlayer.jellynautHelm && modPlayer.jellynautStacks < 4 && projectile.magic && target.life <= 0 && projectile.type != ModContent.ProjectileType<NPCs.Boss.MoonWizard.Projectiles.JellyfishOrbiter_Projectile>() && !target.friendly && !target.SpawnedFromStatue)
+            {
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    int p = Projectile.NewProjectile(player.position.X + Main.rand.Next(-20, 20), player.position.Y + Main.rand.Next(-20, 0), 1, -1, ModContent.ProjectileType<Projectiles.Magic.JellynautOrbiter>(), 0, 0, Main.myPlayer);
+                    Main.projectile[p].scale = Main.rand.NextFloat(.5f, 1f);
+                    modPlayer.jellynautStacks++;
+                }
+            }
 			if(modPlayer.AceOfHearts && target.life <= 0 && crit && !target.friendly && target.lifeMax > 15 && !target.SpawnedFromStatue) {
 				ItemUtils.NewItemWithSync(projectile.owner, (int)target.position.X, (int)target.position.Y, target.width, target.height, Main.halloween ? ItemID.CandyApple : ItemID.Heart);
 				for(int i = 0; i < 3; i++) {

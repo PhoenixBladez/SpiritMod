@@ -60,9 +60,6 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			}
 			timeLeft--;
 			if (timeLeft <= 0) {
-				if (Main.expertMode) {
-					DropBags();
-				}
 
 				npc.DropItem(ItemID.Heart);
 				npc.DropItem(ItemID.Heart);
@@ -97,10 +94,10 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				direction.Y *= -4f;
 
 				Main.NewText("Starplate Voyager has been defeated!", 175, 75, 255, false);
-				npc.active = false;
+				npc.life = 0;
 			}
 		}
-		public void DropBags()
+		public override void NPCLoot()
         {
             if (Main.expertMode)
             {

@@ -679,7 +679,6 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				MyWorld.downedRaider = true;
 				Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DeathSounds/StarplateDeathSound"));
 				NPC.NewNPC((int)npc.position.X + npc.width - 20, (int)npc.position.Y + npc.height, mod.NPCType("SteamRaiderHeadDeath"), npc.whoAmI);
-				npc.active = false;
 			}
 		}
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

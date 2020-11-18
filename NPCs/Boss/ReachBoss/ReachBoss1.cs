@@ -246,12 +246,12 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 
 		public override bool PreNPCLoot()
 		{
-			MyWorld.downedReachBoss = true;
-			Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DeathSounds/VinewrathDeathSound"));
             if (!MyWorld.downedReachBoss)
             {
                 Main.NewText("The torrential downpour in the Briar has lifted!", 61, 255, 142, false);
             }
+            MyWorld.downedReachBoss = true;
+			Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DeathSounds/VinewrathDeathSound"));
             return true;
 		}
 

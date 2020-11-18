@@ -316,16 +316,24 @@ namespace SpiritMod
 				}
 			}
 			if (config.GraniteMusic
-				&& spirit.ZoneGranite
-				&& !player.ZoneOverworldHeight && !spirit.ZoneSpirit) {
+				&& spirit.ZoneGranite && !player.ZoneHoly && !player.ZoneCorrupt && !player.ZoneCrimson
+                && !player.ZoneOverworldHeight && !spirit.ZoneSpirit) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/GraniteBiome");
 				priority = MusicPriority.BiomeMedium;
 			}
+
             if (config.MarbleMusic
-                && spirit.ZoneMarble
+                && spirit.ZoneMarble && !player.ZoneHoly && !player.ZoneCorrupt && !player.ZoneCrimson
                 && !player.ZoneOverworldHeight && !spirit.ZoneSpirit)
             {
                 music = GetSoundSlot(SoundType.Music, "Sounds/Music/MarbleBiome");
+                priority = MusicPriority.BiomeMedium;
+            }
+            if (config.SpiderCaveMusic
+                && spirit.ZoneSpider && !player.ZoneHoly && !player.ZoneCorrupt && !player.ZoneCrimson
+                && !player.ZoneOverworldHeight && !spirit.ZoneSpirit)
+            {
+                music = GetSoundSlot(SoundType.Music, "Sounds/Music/SpiderCave");
                 priority = MusicPriority.BiomeMedium;
             }
         }

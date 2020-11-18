@@ -74,7 +74,7 @@ namespace SpiritMod
 		public static int SpiritTiles = 0;
 		public static int AsteroidTiles = 0;
 		public static int MarbleTiles = 0;
-		public static int GraniteTiles = 0;
+        public static int GraniteTiles = 0;
 		public static int ReachTiles = 0;
 		public static int HiveTiles = 0;
 		public static int CorruptHazards = 0;
@@ -3547,7 +3547,7 @@ namespace SpiritMod
 						aurora = false;
 					}
 				}
-				if (!Main.dayTime && Main.rand.Next(7) == 0) {
+				if (!Main.dayTime && Main.rand.Next(6) == 0) {
 					luminousType = Main.rand.Next(new int[] { 1, 2, 3 });
 					luminousOcean = true;
 				}
