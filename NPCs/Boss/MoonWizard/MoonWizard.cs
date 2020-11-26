@@ -346,7 +346,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
             {
                 Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/BossSFX/MoonWizard_Laugh2"));
             }
-            if (attackCounter % 20 == 0)
+            if (attackCounter % 20 == 0 && attackCounter < 180)
             {
                 Vector2 vector2_2 = Vector2.UnitY.RotatedByRandom(1.57079637050629f) * new Vector2(5f, 3f);
                 bool expertMode = Main.expertMode;
@@ -358,7 +358,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
                 }
             }
             UpdateFrame(0.15f, 54, 61);
-            if (attackCounter > 200)
+            if (attackCounter > 220)
             {
                 jellyRapidFire = false;
                 npc.ai[0] = 1;

@@ -7,7 +7,12 @@ namespace SpiritMod
 	{
 		public override ConfigScope Mode => ConfigScope.ClientSide;
 
-		[Label("New Blizzard Music")]
+        [Label("Ambient Sounds")]
+        [Tooltip("Enables ambient sound effects for some biomes")]
+        [DefaultValue(true)]
+        public bool AmbientSounds { get; set; }
+
+        [Label("New Blizzard Music")]
 		[Tooltip("Adds a unique track for Blizzards")]
 		[DefaultValue(true)]
 		public bool BlizzardMusic { get; set; }

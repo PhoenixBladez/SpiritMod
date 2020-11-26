@@ -112,7 +112,7 @@ namespace SpiritMod.Projectiles
 		{
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
-			if (modPlayer.jellynautHelm && modPlayer.jellynautStacks < 4 && projectile.magic && target.life <= 0 && projectile.type != ModContent.ProjectileType<NPCs.Boss.MoonWizard.Projectiles.JellyfishOrbiter_Projectile>() && !target.friendly && !target.SpawnedFromStatue)
+			if (modPlayer.jellynautHelm && modPlayer.jellynautStacks < 4 && projectile.magic && target.life <= 0 && !target.friendly && !target.SpawnedFromStatue)
             {
 				if (Main.netMode != NetmodeID.MultiplayerClient)
                 {

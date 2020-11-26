@@ -71,6 +71,7 @@ namespace SpiritMod
 		public static float spiritLight = 0;
 
 		public static bool BlueMoon = false;
+        public static bool jellySky = false;
 		public static int SpiritTiles = 0;
 		public static int AsteroidTiles = 0;
 		public static int MarbleTiles = 0;
@@ -207,6 +208,7 @@ namespace SpiritMod
 			data.Add("droppedGlyphs", droppedGlyphTag);
 
 			data.Add("blueMoon", BlueMoon);
+            data.Add("jellySky", jellySky);
 
 			data.Add("gennedBandits", gennedBandits);
 			data.Add("gennedTower", gennedTower);
@@ -266,6 +268,7 @@ namespace SpiritMod
 			}
 
 			BlueMoon = tag.GetBool("blueMoon");
+            jellySky = tag.GetBool("jellySky");
 
 			gennedBandits = tag.GetBool("gennedBandits");
 			gennedTower = tag.GetBool("gennedTower");
@@ -348,7 +351,7 @@ namespace SpiritMod
 			BitsByte bosses2 = new BitsByte(downedReachBoss, downedMoonWizard, downedTide, downedMechromancer, downedOccultist, downedGladeWraith, downedBeholder, downedSnaptrapper);
 			writer.Write(bosses1);
 			writer.Write(bosses2);
-			BitsByte environment = new BitsByte(BlueMoon, downedBlueMoon);
+			BitsByte environment = new BitsByte(BlueMoon, jellySky, downedBlueMoon);
 			BitsByte worldgen = new BitsByte(gennedBandits, gennedTower, spawnDarkfeather, spawnHookbats, owlComplete);
 			BitsByte adventurerQuests = new BitsByte(sepulchreComplete, spawnHornetFish, spawnVibeshrooms, jadeStaffComplete, shadowflameComplete, vibeShroomComplete, winterbornComplete, drBonesComplete);
 			writer.Write(environment);
@@ -387,6 +390,7 @@ namespace SpiritMod
             BitsByte environment = reader.ReadByte();
 			BlueMoon = environment[0];
             downedBlueMoon = environment[1];
+            jellySky = environment[2];
 
             BitsByte worldgen = reader.ReadByte();
 			gennedBandits = worldgen[0];
@@ -3530,7 +3534,7 @@ namespace SpiritMod
 				}
 				if (!Main.dayTime && Main.hardMode) {
 					if (!Main.fastForwardTime && !Main.bloodMoon && WorldGen.spawnHardBoss == 0 && ((Main.rand.Next(20) == 1 && !downedBlueMoon) || (Main.rand.Next(40) == 1 && !downedBlueMoon))) {
-						Main.NewText("A Mystic Moon is rising...", 0, 90, 220);
+						Main.NewText("A Mystic Moon is rising...", 61, 255, 142);
 						BlueMoon = true;
 						downedBlueMoon = true;
 					}
@@ -3561,6 +3565,15 @@ namespace SpiritMod
 				else
                 {
                     calmNight = false;
+                }
+                if (!Main.dayTime && (!downedMoonWizard && Main.rand.Next(6) == 0 || downedMoonWizard && Main.rand.Next(36) == 0))
+                {
+                    Main.NewText("Strange jellyfish are pouring out of the sky!", 61, 255, 142);
+                    jellySky = true;
+                }
+                else
+                {
+                    jellySky = false;
                 }
             }
 

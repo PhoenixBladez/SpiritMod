@@ -71,6 +71,7 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
 
                 int p = Projectile.NewProjectile(projectile.Center.X + Main.rand.Next(-50, 50), projectile.Center.Y + Main.rand.Next(-50, 50), vector2_2.X, vector2_2.Y, ModContent.ProjectileType<LunazoaOrbiter>(), projectile.damage, projectile.knockBack, Main.myPlayer, 0.0f, (float)projectile.whoAmI);
                 Main.projectile[p].scale = Main.rand.NextFloat(.4f, 1f);
+                Main.projectile[p].timeLeft = (int)(62 / (.33f * projectile.minionSlots));
                 counter = 0;
             }
             Lighting.AddLight(new Vector2(projectile.Center.X, projectile.Center.Y), 0.075f * 2, 0.231f * 2, 0.255f * 2);

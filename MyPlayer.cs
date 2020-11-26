@@ -34,6 +34,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameInput;
 using Terraria.Graphics.Shaders;
+using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
@@ -350,6 +351,8 @@ namespace SpiritMod
 		public bool ZoneAsteroid = false;
 		public bool ZoneMarble = false;
 		public bool ZoneGranite = false;
+        public bool inGranite = false;
+        public bool inMarble = false;
         public bool ZoneSpider = false;
 		public bool ZoneHive = false;
 
@@ -427,7 +430,9 @@ namespace SpiritMod
 			bool region1 = ZoneSpirit && player.ZoneRockLayerHeight && player.position.Y / 16 > (Main.rockLayer + Main.maxTilesY - 330) / 2f;
 			bool region2 = ZoneSpirit && player.position.Y / 16 >= Main.maxTilesY - 300;
 
-			bool greenOcean = player.ZoneBeach && MyWorld.luminousType == 1 && MyWorld.luminousOcean;
+            bool showJellies = player.ZoneSkyHeight && MyWorld.jellySky;
+
+            bool greenOcean = player.ZoneBeach && MyWorld.luminousType == 1 && MyWorld.luminousOcean;
 			bool blueOcean = player.ZoneBeach && MyWorld.luminousType == 2 && MyWorld.luminousOcean;
 			bool purpleOcean = player.ZoneBeach && MyWorld.luminousType == 3 && MyWorld.luminousOcean;
 
@@ -457,7 +462,9 @@ namespace SpiritMod
 			player.ManageSpecialBiomeVisuals("SpiritMod:BlueAlgaeSky", blueOcean);
 			player.ManageSpecialBiomeVisuals("SpiritMod:PurpleAlgaeSky", purpleOcean);
 
-			player.ManageSpecialBiomeVisuals("SpiritMod:SpiritUG1", region1);
+            player.ManageSpecialBiomeVisuals("SpiritMod:JellySky", showJellies);
+
+            player.ManageSpecialBiomeVisuals("SpiritMod:SpiritUG1", region1);
 			player.ManageSpecialBiomeVisuals("SpiritMod:SpiritUG2", region2);
 
 			player.ManageSpecialBiomeVisuals("SpiritMod:ReachSky", reach, player.Center);
@@ -527,9 +534,18 @@ namespace SpiritMod
 
 		public override Texture2D GetMapBackgroundImage()
 		{
-			if(ZoneSpirit) {
+			if(ZoneSpirit)
+            {
 				return mod.GetTexture("Backgrounds/SpiritMapBackground");
 			}
+			if (ZoneReach)
+            {
+                return mod.GetTexture("Backgrounds/BriarMapBG");
+            }
+			if (ZoneAsteroid)
+            {
+                return mod.GetTexture("Backgrounds/AsteroidMapBG");
+            }
 			return null;
 		}
 		public override TagCompound Save()
@@ -1033,7 +1049,11 @@ namespace SpiritMod
 				if(bobberIndex != -1) {
 					Vector2 bobberPos = Main.projectile[bobberIndex].Center;
 					caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<BottomFeeder>(), 0, 2, 1, 0, 0, Main.myPlayer);
-				}
+                    if (Main.netMode == 1)
+                    {
+                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, ModContent.NPCType<BottomFeeder>());
+                    }
+                }
 			}
 			if(MyWorld.spawnHornetFish && Main.rand.Next(15) == 0 && player.ZoneJungle) {
 				for(int i = 0; i < 1000; i++) {
@@ -1044,7 +1064,11 @@ namespace SpiritMod
 				if(bobberIndex != -1) {
 					Vector2 bobberPos = Main.projectile[bobberIndex].Center;
 					caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<Hornetfish>(), 0, 2, 1, 0, 0, Main.myPlayer);
-				}
+                    if (Main.netMode == 1)
+                    {
+                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, ModContent.NPCType<Hornetfish>());
+                    }
+                }
 			}
 			if(player.ZoneDungeon && power >= 30 && Main.rand.NextBool(25)) {
 				caughtType = ModContent.ItemType<MysticalCage>();
@@ -1053,7 +1077,7 @@ namespace SpiritMod
 			if(modPlayer.ZoneSpirit && NPC.downedMechBossAny && Main.rand.NextBool(player.cratePotion ? 35 : 65)) {
 				caughtType = ModContent.ItemType<SpiritCrate>();
 			}
-			if(Main.rand.NextBool(player.cratePotion ? 80 : 95)) {
+			if(Main.rand.NextBool(player.cratePotion ? 2 : 95)) {
 				for(int i = 0; i < 1000; i++) {
 					if(Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber) {
 						bobberIndex = i;
@@ -1062,7 +1086,11 @@ namespace SpiritMod
 				if(bobberIndex != -1) {
 					Vector2 bobberPos = Main.projectile[bobberIndex].Center;
 					caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<WoodCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
-				}
+                    if (Main.netMode == 1)
+                    {
+                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, caughtType);
+                    }
+                }
 			}
 			if(Main.rand.NextBool(player.cratePotion ? 100 : 125)) {
 				for(int i = 0; i < 1000; i++) {
@@ -1073,7 +1101,11 @@ namespace SpiritMod
 				if(bobberIndex != -1) {
 					Vector2 bobberPos = Main.projectile[bobberIndex].Center;
 					caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<IronCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
-				}
+                    if (Main.netMode == 1)
+                    {
+                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, ModContent.NPCType<IronCrateMimic>());
+                    }
+                }
 			}
 			if(Main.rand.NextBool(player.cratePotion ? 100 : 125) && Main.raining) {
 				for(int i = 0; i < 1000; i++) {
@@ -1084,7 +1116,11 @@ namespace SpiritMod
 				if(bobberIndex != -1) {
 					Vector2 bobberPos = Main.projectile[bobberIndex].Center;
 					caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<GoldCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
-				}
+                    if (Main.netMode == 1)
+                    {
+                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, ModContent.NPCType<GoldCrateMimic>());
+                    }
+                }
 			}
 			if(modPlayer.ZoneSpirit && NPC.downedMechBossAny && Main.rand.NextBool(5)) {
 				caughtType = ModContent.ItemType<SpiritKoi>();
@@ -2040,12 +2076,87 @@ namespace SpiritMod
 		int shroomtimer;
 		int bloodTimer;
 		int spawnTimer;
-		public override void PreUpdate()
+        public override void PreUpdate()
         {
+            int x1 = (int)player.Center.X / 16;
+            int y1 = (int)player.Center.Y / 16;
+            var config = ModContent.GetInstance<SpiritClientConfig>();
+			if (config.AmbientSounds)
+            { 
+				if (!Main.dayTime && !player.ZoneSnow
+					&& player.ZoneOverworldHeight
+					&& !Main.dayTime
+					&& !player.ZoneCorrupt
+					&& !player.ZoneCrimson
+					&& !player.ZoneJungle
+					&& !player.ZoneBeach
+					&& !player.ZoneHoly
+					&& !player.ZoneDesert
+					&& !Main.raining
+					&& !Main.bloodMoon && !ZoneReach && !ZoneSpirit)
+                {
+                    if (Main.tile[x1, y1 + 1].wall == 0 && Main.tile[x1, y1].wall == 0)
+                    {
+                        SpiritMod.nighttimeAmbience.SetTo(Main.ambientVolume);
+                    }
+					else
+                    {
+                        SpiritMod.nighttimeAmbience.Stop();
+                    }
+				}
+				else
+				{
+					SpiritMod.nighttimeAmbience.Stop();
+				}
+				if (player.ZoneBeach && player.ZoneDesert && player.ZoneOverworldHeight)
+				{
+                    SpiritMod.wavesAmbience.SetTo(Main.ambientVolume);
+                }
+                else
+                {
+                    SpiritMod.wavesAmbience.Stop();
+                }
+                if (player.ZoneDesert && player.ZoneOverworldHeight && !Sandstorm.Happening && !Main.raining && !player.ZoneBeach)
+                {
+                    if (Main.tile[x1, y1 + 1].wall == 0 && Main.tile[x1, y1].wall == 0)
+                    {
+                        SpiritMod.desertWind.SetTo(Main.ambientVolume);
+                    }
+                    else
+                    {
+                        SpiritMod.desertWind.Stop();
+                    }
+                }
+                else
+                {
+                    SpiritMod.desertWind.Stop();
+                }
+                if ((ZoneReach || player.ZoneJungle) && player.ZoneOverworldHeight && !Main.raining)
+                {
+                    if (Main.tile[x1, y1 + 1].wall == 0 && Main.tile[x1, y1].wall == 0)
+                    {
+                        SpiritMod.lightWind.SetTo(Main.ambientVolume);
+                    }
+					else
+                    {
+                        SpiritMod.lightWind.Stop();
+                    }
+                }
+                else
+                {
+                    SpiritMod.lightWind.Stop();
+                }
+				if (player.ZoneRockLayerHeight)
+                {
+                    SpiritMod.caveAmbience.SetTo(Main.ambientVolume);
+                }
+                else
+                {
+                    SpiritMod.caveAmbience.Stop();
+                }
+            }
             if (!player.ZoneOverworldHeight)
             {
-                int x1 = (int)player.Center.X / 16;
-                int y1 = (int)player.Center.Y / 16;
                 if (Main.tile[x1, y1 + 1].wall == 62 && Main.tile[x1, y1].wall == 62)
                 {
                     ZoneSpider = true;
@@ -2053,6 +2164,22 @@ namespace SpiritMod
 				else
                 {
                     ZoneSpider = false;
+                }
+                if (Main.tile[x1, y1 + 1].wall == 178 && Main.tile[x1, y1].wall == 178)
+                {
+                    inMarble = true;
+                }
+                else
+                {
+                    inMarble = false;
+                }
+                if (Main.tile[x1, y1 + 1].wall == 180 && Main.tile[x1, y1].wall == 180)
+                {
+                    inGranite = true;
+                }
+                else
+                {
+                    inGranite = false;
                 }
             }
             if (TideWorld.TheTide && !NPC.AnyNPCs(ModContent.NPCType<Rylheian>()) && player.ZoneBeach && TideWorld.TidePoints >= 99) {

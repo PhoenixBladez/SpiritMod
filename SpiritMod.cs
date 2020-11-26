@@ -35,6 +35,7 @@ using SpiritMod.Skies.Overlays;
 using SpiritMod.Tide;
 using SpiritMod.Utilities;
 using SpiritMod.World;
+using SpiritMod.Sounds;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -45,6 +46,7 @@ using Terraria.Graphics;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
+using Terraria.UI;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
@@ -53,8 +55,10 @@ using Terraria.Utilities;
 namespace SpiritMod
 {
 	class SpiritMod : Mod
-	{
-		public static SpiritMod Instance;
+    {
+        internal UserInterface BookUserInterface;
+
+        public static SpiritMod Instance;
 		public UnifiedRandom spiritRNG;
 		public static AdventurerQuestHandler AdventurerQuests;
 		public static Effect auroraEffect;
@@ -63,8 +67,15 @@ namespace SpiritMod
 		public static PerlinNoise GlobalNoise;
 		public static GlitchScreenShader glitchScreenShader;
 		public static Texture2D noise;
-		//public static Texture2D MoonTexture;
-		public const string EMPTY_TEXTURE = "SpiritMod/Empty";
+
+        public static SoundLooper nighttimeAmbience;
+        public static SoundLooper wavesAmbience;
+        public static SoundLooper lightWind;
+        public static SoundLooper desertWind;
+        public static SoundLooper caveAmbience;
+
+        //public static Texture2D MoonTexture;
+        public const string EMPTY_TEXTURE = "SpiritMod/Empty";
 		public static Texture2D EmptyTexture {
 			get;
 			private set;
@@ -202,8 +213,13 @@ namespace SpiritMod
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/BlueMoon");
 				priority = MusicPriority.Environment;
 			}
+            if (MyWorld.jellySky && !Main.dayTime && player.ZoneSkyHeight)
+            {
+                music = GetSoundSlot(SoundType.Music, "Sounds/Music/JellySky");
+                priority = MusicPriority.Environment;
+            }
 
-			if (priority > MusicPriority.BiomeHigh)
+            if (priority > MusicPriority.BiomeHigh)
 				return;
 			if (spirit.ZoneReach && Main.dayTime && !player.ZoneRockLayerHeight) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/Reach");
@@ -317,14 +333,14 @@ namespace SpiritMod
 			}
 			if (config.GraniteMusic
 				&& spirit.ZoneGranite && !player.ZoneHoly && !player.ZoneCorrupt && !player.ZoneCrimson
-                && !player.ZoneOverworldHeight && !spirit.ZoneSpirit) {
+                && !player.ZoneOverworldHeight && !spirit.ZoneSpirit && spirit.inGranite) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/GraniteBiome");
 				priority = MusicPriority.BiomeMedium;
 			}
 
             if (config.MarbleMusic
                 && spirit.ZoneMarble && !player.ZoneHoly && !player.ZoneCorrupt && !player.ZoneCrimson
-                && !player.ZoneOverworldHeight && !spirit.ZoneSpirit)
+                && !player.ZoneOverworldHeight && !spirit.ZoneSpirit && spirit.inMarble)
             {
                 music = GetSoundSlot(SoundType.Music, "Sounds/Music/MarbleBiome");
                 priority = MusicPriority.BiomeMedium;
@@ -455,8 +471,11 @@ namespace SpiritMod
 			LoadReferences();
 			AdventurerQuests = new AdventurerQuestHandler(this);
 			StructureLoader.Load(this);
-
-			On.Terraria.Main.DrawProjectiles += Main_DrawProjectiles;
+            if (!Main.dedServ)
+            {
+                BookUserInterface = new UserInterface();
+            }
+            On.Terraria.Main.DrawProjectiles += Main_DrawProjectiles;
 			On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile;
 			On.Terraria.Player.KeyDoubleTap += Player_KeyDoubleTap;
 			//Additive drawing
@@ -514,7 +533,10 @@ namespace SpiritMod
 				SkyManager.Instance["SpiritMod:SpiritBiomeSky"] = new SpiritBiomeSky();
 				Filters.Scene["SpiritMod:SpiritBiomeSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
 
-				SkyManager.Instance["SpiritMod:PurpleAlgaeSky"] = new PurpleAlgaeSky();
+                SkyManager.Instance["SpiritMod:JellySky"] = new JellySky();
+                Filters.Scene["SpiritMod:JellySky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
+
+                SkyManager.Instance["SpiritMod:PurpleAlgaeSky"] = new PurpleAlgaeSky();
 				Filters.Scene["SpiritMod:PurpleAlgaeSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
 
 				SkyManager.Instance["SpiritMod:GreenAlgaeSky"] = new GreenAlgaeSky();
@@ -647,8 +669,13 @@ namespace SpiritMod
 		}
 
 		public override void Unload()
-		{
-			spiritRNG = null;
+        {
+            nighttimeAmbience = null;
+            wavesAmbience = null;
+            desertWind = null;
+            caveAmbience = null;
+            lightWind = null;
+            spiritRNG = null;
 			auroraEffect = null;
 			noise = null;
 			instance = null;
@@ -667,8 +694,11 @@ namespace SpiritMod
 				TrailManager.UpdateTrails();
 			}
 		}
-
-		public override void AddRecipeGroups()
+        public override void UpdateUI(GameTime gameTime)
+        {
+            BookUserInterface?.Update(gameTime);
+        }
+        public override void AddRecipeGroups()
 		{
 			RecipeGroup woodGrp = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Wood"]];
 			woodGrp.ValidItems.Add(ModContent.ItemType<AncientBark>());
@@ -706,8 +736,17 @@ namespace SpiritMod
 				ItemID.TungstenBar
 			});
 			RecipeGroup.RegisterGroup("SpiritMod:SilverBars", group);
-		}
-		public override void PostUpdateEverything()
+        }
+        public override void PostUpdateInput()
+        {
+            nighttimeAmbience?.Update();
+            wavesAmbience?.Update();
+            lightWind?.Update();
+            desertWind?.Update();
+            caveAmbience?.Update();
+        }
+
+        public override void PostUpdateEverything()
 		{
 			if (Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.I) && Terraria.GameInput.PlayerInput.MouseInfo.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed) {
 				Tile tile = Framing.GetTileSafely(Player.tileTargetX, Player.tileTargetY);
@@ -731,6 +770,11 @@ namespace SpiritMod
 		}
         public override void PostSetupContent()
         {
+            nighttimeAmbience = new SoundLooper(this, "Sounds/NighttimeAmbience");
+            wavesAmbience = new SoundLooper(this, "Sounds/WavesAmbience");
+            lightWind = new SoundLooper(this, "Sounds/LightWind");
+            desertWind = new SoundLooper(this, "Sounds/DesertWind");
+            caveAmbience = new SoundLooper(this, "Sounds/CaveAmbience");
             Items.Glyphs.GlyphBase.InitializeGlyphLookup();
             Mod bossChecklist = ModLoader.GetMod("BossChecklist");
             if (bossChecklist != null)
@@ -782,6 +826,22 @@ namespace SpiritMod
                     "SpiritMod/Textures/BossChecklist/OccultistTexture",
                     "SpiritMod/NPCs/BloodMoon/Occultist_Head_Boss",
                     null);
+
+                /*bossChecklist.Call(
+                  "AddBoss",
+                  2.5f,
+                  ModContent.NPCType<NPCs.Boss.MoonWizard.MoonWizard>(),
+                  this, // Mod
+                  "Moon Jelly Wizard",
+                  (Func<bool>)(() => MyWorld.downedMoonWizard),
+                  //ModContent.ItemType<ScarabIdol>(),
+                  new List<int> { ModContent.ItemType<Items.Boss.MJWTrophy>(), ModContent.ItemType<Items.Armor.Masks.MJWMark>(), ModContent.ItemType<Items.Placeable.MusicBox.ScarabBox>() },
+                  new List<int> { ModContent.ItemType<Items.BossBags.BagOScarabs>(), ModContent.ItemType<Items.Material.Chitin>(), ModContent.ItemType<Items.Weapon.Bow.ScarabBow>(), ModContent.ItemType<Items.Weapon.Summon.OrnateStaff>(), ModContent.ItemType<Items.Weapon.Swung.ScarabSword>() },
+                  "Use a [i: " + ModContent.ItemType<ScarabIdol>() + "] in the Desert during daytime",
+                  null,
+                  "SpiritMod/Textures/BossChecklist/ScarabeusTexture",
+                  "SpiritMod/NPCs/Boss/Scarabeus/Scarabeus_Head_Boss",
+                  null);*/
 
                 bossChecklist.Call(
                     "AddMiniBoss",
@@ -994,6 +1054,17 @@ namespace SpiritMod
 
 		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
 		{
+            int inventoryIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));
+			if (inventoryIndex != -1) {
+				layers.Insert(inventoryIndex, new LegacyGameInterfaceLayer(
+					"SpiritMod: BookUI",
+					delegate {
+						BookUserInterface.Draw(Main.spriteBatch, new GameTime());
+						return true;
+					},
+					InterfaceScaleType.UI)
+				);
+			}
 			TidePlayer modPlayer1 = Main.player[Main.myPlayer].GetModPlayer<TidePlayer>();
 			if (TideWorld.TheTide) {
 				int index = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));

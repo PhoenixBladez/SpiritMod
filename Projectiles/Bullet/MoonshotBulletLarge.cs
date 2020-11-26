@@ -20,14 +20,14 @@ namespace SpiritMod.Projectiles.Bullet
 		}
 		public override void SetDefaults()
 		{
-			projectile.penetrate = 1;
+			projectile.penetrate = 2;
             projectile.ranged = true;
             projectile.friendly = true;
 			projectile.tileCollide = true;
 			projectile.timeLeft = 300;
 			projectile.damage = 13;
 			//projectile.extraUpdates = 1;
-			projectile.width = projectile.height = 22;
+			projectile.width = projectile.height = 32;
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 
@@ -49,7 +49,7 @@ namespace SpiritMod.Projectiles.Bullet
                     Main.dust[num6].noGravity = true;
                     Main.dust[num6].velocity = Vector2.Zero;
                     Main.dust[num6].noLight = true;
-                    Main.dust[num6].position = center - projectile.velocity / 5 * (float)j + (num8 * 6.28318548f + num7 * (float)i).ToRotationVector2() * 9f;
+                    Main.dust[num6].position = center + (num8 * 6.28318548f + num7 * (float)i).ToRotationVector2() * 9f;
                 }
             }
         }

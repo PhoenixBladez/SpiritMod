@@ -41,6 +41,7 @@ namespace SpiritMod.NPCs.Boss
 			npc.height = 120;
 			npc.damage = 23;
 			npc.defense = 14;
+            npc.value = 33000;
 			npc.lifeMax = 3100;
 			npc.knockBackResist = 0;
 			npc.boss = true;

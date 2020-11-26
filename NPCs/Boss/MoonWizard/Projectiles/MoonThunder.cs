@@ -95,7 +95,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
                 endTile.Y++;
                 tile = Main.tile[endTile.X, endTile.Y];
             }
-            while (tile == null || (Main.tileSolid[tile.type] && !Main.tile[endTile.X, endTile.Y].active()));
+            while (tile == null || (Main.tileSolid[tile.type] && !Main.tile[endTile.X, endTile.Y].active()) || TileID.Sets.Platforms[tile.type]);
 
             Vector2 end = endTile.ToVector2() * 16f + Vector2.UnitX * 8f;
             Line line = new Line(start, end);

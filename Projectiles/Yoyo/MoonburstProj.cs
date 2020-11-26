@@ -28,7 +28,7 @@ namespace SpiritMod.Projectiles.Yoyo
         {
             Lighting.AddLight(new Vector2(projectile.Center.X, projectile.Center.Y), 0.075f * .75f, 0.231f * .75f, 0.255f * .75f);
             alphaCounter += .04f;
-            if (projectile.frameCounter >= 6)
+            if (projectile.frameCounter >= 8)
             {
                 projectile.Kill();
             }
@@ -45,7 +45,7 @@ namespace SpiritMod.Projectiles.Yoyo
                 {
                     Color color = new Color(255, 255, 255) * 0.95f * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
 
-                    float scale = (projectile.frameCounter * .16f) + .13f;
+                    float scale = (projectile.frameCounter * .13f) + .13f;
                     Texture2D tex = ModContent.GetTexture("SpiritMod/Projectiles/Yoyo/MoonburstBubble");
                     Texture2D tex1 = ModContent.GetTexture("SpiritMod/Projectiles/Yoyo/MoonburstBubble_Glow");
 
@@ -71,11 +71,11 @@ namespace SpiritMod.Projectiles.Yoyo
         {
             ProjectileExtras.Explode(projectile.whoAmI, 120, 120, delegate
             {
-                if (projectile.frameCounter >= 6)
+                if (projectile.frameCounter >= 8)
                 {
                     Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
                     {
-                        for (int i = 0; i < 10; i++)
+                        for (int i = 0; i < 15; i++)
                         {
                             int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 226, 0f, -2f, 0, default(Color), 2f);
                             Main.dust[num].noGravity = true;
@@ -88,7 +88,7 @@ namespace SpiritMod.Projectiles.Yoyo
                     }
                     DustHelper.DrawDustImage(projectile.Center, 226, 0.25f, "SpiritMod/Effects/DustImages/MoonSigil", 1f);
                 }
-            }, true);
+            });
         }
     }
 }

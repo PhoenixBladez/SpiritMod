@@ -37,11 +37,15 @@ namespace SpiritMod.Projectiles.Bullet
             Player player = Main.player[projectile.owner];
             if (player.channel)
             {
-				if (counter == 1)
+				if (counter % 10 == 0 )
                 {
                     direction = Main.MouseWorld - (player.Center - new Vector2(4, 4));
                     direction.Normalize();
                     direction *= 5f;
+                }
+				if (counter == 45 || counter == 140)
+                {
+                    Main.PlaySound(25, (int)projectile.position.X, (int)projectile.position.Y);
                 }
                 player.itemTime = 5;
                 player.itemAnimation = 5;

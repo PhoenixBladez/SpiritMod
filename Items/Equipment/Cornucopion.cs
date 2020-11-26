@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Equipment
 
         public override void SetDefaults()
         {
-            item.damage = 20;
+            item.damage = 24;
             item.knockBack = 8;
             item.noMelee = true;
             item.useTurn = true;

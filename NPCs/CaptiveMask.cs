@@ -159,7 +159,7 @@ namespace SpiritMod.NPCs
 			if (Main.rand.Next(20) == 1)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TatteredScript>());
 
-			if (Main.rand.Next(10) == 1) {
+			if (Main.rand.Next(20) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MimeMask>(), 1);
 			}
 			else {
