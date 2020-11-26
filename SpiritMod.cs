@@ -1,3 +1,5 @@
+using SpiritMod.Prim;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Effects;
@@ -574,10 +576,9 @@ namespace SpiritMod
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SnowNighttime"), ItemType("SnowNightBox"), TileType("SnowNightBox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/DesertNighttime"), ItemType("DesertNightBox"), TileType("DesertNightBox"));
             }
-			//primitives = new PrimTrailManager();
-			// LoadDetours();
+			primitives = new PrimTrailManager();
         }
-		//public static PrimTrailManager primitives;
+		public static PrimTrailManager primitives;
 		//Additive drawing stuff. Optimize this later?
 		private void DrawAdditive(On.Terraria.Main.orig_DrawDust orig, Main self)
 		{
@@ -650,6 +651,7 @@ namespace SpiritMod
 		private void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
 		{
 			TrailManager.DrawTrails(Main.spriteBatch);
+			primitives.DrawTrails(Main.spriteBatch);
 			orig(self);
 		}
 
@@ -688,14 +690,13 @@ namespace SpiritMod
 			TrailManager = null;
 			GlobalNoise = null;
 			Items.Glyphs.GlyphBase.UninitGlyphLookup();
-			//UnloadDetours();
 		}
 
 		public override void MidUpdateProjectileItem()
 		{
 			if (Main.netMode != NetmodeID.Server) {
 				TrailManager.UpdateTrails();
-				//primitives.UpdateTrails();
+				primitives.UpdateTrails();
 			}
 
 		}

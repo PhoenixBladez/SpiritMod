@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Prim;
 
 namespace SpiritMod.Items.Weapon.Returning
 {
@@ -46,9 +47,15 @@ namespace SpiritMod.Items.Weapon.Returning
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			{
-				Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-200, 200) / 100), speedY + ((float)Main.rand.Next(-200, 200) / 100), type, damage, knockBack, player.whoAmI, 0f, 0f);
+				int proj1 = Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-200, 200) / 100), speedY + ((float)Main.rand.Next(-200, 200) / 100), type, damage, knockBack, player.whoAmI, 0f, 0f);
+				int proj2 = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+				if (Main.netMode != NetmodeID.Server)
+				{
+					SpiritMod.primitives.CreateTrail(new BriarBoomerangPrimTrail(Main.projectile[proj1]));
+					SpiritMod.primitives.CreateTrail(new BriarBoomerangPrimTrail(Main.projectile[proj2]));
+				}
 			}
-			return true;
+			return false;
 		}
 	}
 }
