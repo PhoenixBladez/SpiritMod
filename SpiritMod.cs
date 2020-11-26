@@ -54,7 +54,7 @@ using Terraria.Utilities;
 
 namespace SpiritMod
 {
-	class SpiritMod : Mod
+	partial class SpiritMod : Mod
     {
         internal UserInterface BookUserInterface;
 
