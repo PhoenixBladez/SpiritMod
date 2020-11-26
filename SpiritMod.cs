@@ -574,8 +574,10 @@ namespace SpiritMod
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SnowNighttime"), ItemType("SnowNightBox"), TileType("SnowNightBox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/DesertNighttime"), ItemType("DesertNightBox"), TileType("DesertNightBox"));
             }
+			//primitives = new PrimTrailManager();
+			// LoadDetours();
         }
-
+		//public static PrimTrailManager primitives;
 		//Additive drawing stuff. Optimize this later?
 		private void DrawAdditive(On.Terraria.Main.orig_DrawDust orig, Main self)
 		{
@@ -686,13 +688,16 @@ namespace SpiritMod
 			TrailManager = null;
 			GlobalNoise = null;
 			Items.Glyphs.GlyphBase.UninitGlyphLookup();
+			//UnloadDetours();
 		}
 
 		public override void MidUpdateProjectileItem()
 		{
 			if (Main.netMode != NetmodeID.Server) {
 				TrailManager.UpdateTrails();
+				//primitives.UpdateTrails();
 			}
+
 		}
         public override void UpdateUI(GameTime gameTime)
         {
