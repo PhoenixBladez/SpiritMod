@@ -745,6 +745,11 @@ namespace SpiritMod.NPCs
                 maxSpawns = (int)(maxSpawns * 1.08f);
                 spawnRate = (int)(spawnRate * 0.87f);
             }
+            if (MyWorld.jellySky && player.ZoneSkyHeight)
+            {
+                maxSpawns = (int)(maxSpawns * 1.18f);
+                spawnRate = 2;
+            }
             if (TideWorld.TheTide && player.ZoneBeach) {
 				maxSpawns = (int)(10 + 1.5f * activePlayers);
 				spawnRate = 20;
@@ -757,6 +762,21 @@ namespace SpiritMod.NPCs
 				if (MyWorld.BlueMoon && !Main.dayTime)
 					pool.Remove(0);
 			}
+			if (MyWorld.jellySky && spawnInfo.player.ZoneSkyHeight)
+            {
+                pool.Clear();
+                pool.Add(NPCType<NPCs.MoonjellyEvent.TinyLunazoa>(), 9.35f);
+                pool.Add(NPCType<NPCs.MoonjellyEvent.ExplodingMoonjelly>(), 8.35f);
+                pool.Add(NPCType<NPCs.MoonjellyEvent.MoonlightPreserver>(), 3.25f);
+                if (!NPC.AnyNPCs(ModContent.NPCType<NPCs.MoonjellyEvent.MoonjellyGiant>()))
+                {
+                    pool.Add(NPCType<NPCs.MoonjellyEvent.MoonjellyGiant>(), .85f);
+                }
+                if (!NPC.AnyNPCs(ModContent.NPCType<NPCs.MoonjellyEvent.DreamlightJelly>()))
+                {
+                    pool.Add(NPCType<NPCs.MoonjellyEvent.DreamlightJelly>(), .85f);
+                }
+            }
 			if (TideWorld.TheTide && spawnInfo.player.ZoneBeach) {
 				pool.Clear();
 				if (TideWorld.TidePoints < 99) {

@@ -125,7 +125,7 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
             if (projectile.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
             int xpos = (int)((projectile.Center.X + 10) - Main.screenPosition.X) - (int)(Main.projectileTexture[projectile.type].Width / 2);
-            int ypos = (int)((projectile.Center.Y + 14) - Main.screenPosition.Y) - (int)(Main.projectileTexture[projectile.type].Width / 2);
+            int ypos = (int)((projectile.Center.Y) - Main.screenPosition.Y) - (int)(Main.projectileTexture[projectile.type].Width / 2);
             Texture2D ripple = mod.GetTexture("Effects/Masks/Extra_49");
             Main.spriteBatch.Draw(ripple, new Vector2(xpos, ypos), new Microsoft.Xna.Framework.Rectangle?(), new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), projectile.rotation, ripple.Size() / 2f, .5f * projectile.scale, spriteEffects, 0);
             return false;

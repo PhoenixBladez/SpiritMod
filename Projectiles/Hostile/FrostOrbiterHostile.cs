@@ -28,8 +28,8 @@ namespace SpiritMod.Projectiles.Hostile
 		{
 			int num1 = ModContent.NPCType<CrystalDrifter>();
 			float num2 = 60f;
-			float x = 0.08f;
-			float y = 0.1f;
+			float x = 0.2f;
+			float y = 0.4f;
 			bool flag2 = false;
 			if ((double)projectile.ai[0] < (double)num2) {
 				bool flag4 = true;
