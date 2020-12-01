@@ -35,7 +35,7 @@ namespace SpiritMod.Projectiles.Bullet
         public override bool PreAI()
 		{
             Player player = Main.player[projectile.owner];
-            if (player.channel)
+            if (player.channel && player.HasAmmo(player.inventory[player.selectedItem], true))
             {
 				if (counter % 10 == 0 )
                 {
@@ -63,34 +63,41 @@ namespace SpiritMod.Projectiles.Bullet
             }
             else
             {
-                if (counter < 45)
-                {
-                    Main.PlaySound(2, projectile.Center, 41);
-                    direction *= 2.5f;
-                    int proj = Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, 14, projectile.damage, projectile.knockBack/2, 0, projectile.owner);
-                    Main.projectile[proj].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromMaliwanShockCommon = true;
-                }
-				else if (counter >= 45 && counter < 140)
-                {
-                    Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
-                    direction *= 2.25f;
-                    Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, ModContent.ProjectileType<MoonshotBulletLarge>(), (int)(projectile.damage * 1.65f), 5, projectile.owner);
-                }
-				else if (counter > 140)
-                {
-                    direction *= .8f;
-                    Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
-                    int proj = Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, mod.ProjectileType("SineBall"), projectile.damage, projectile.knockBack * 2.5f, projectile.owner, 180);
-                    int p1 = Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, mod.ProjectileType("SineBall"), projectile.damage, projectile.knockBack * 2.5f, projectile.owner, 0, proj + 1);
-                    Main.projectile[proj].hostile = false;
-                    Main.projectile[p1].hostile = false;
-                    Main.projectile[proj].friendly = true;
-                    Main.projectile[p1].friendly = true;
-                    Main.projectile[proj].scale *= .65f;
-                    Main.projectile[p1].scale *= .65f;
-                    Main.projectile[proj].timeLeft = 120;
-                    Main.projectile[p1].timeLeft = 120;
-                }
+				if (player.HasAmmo(player.inventory[player.selectedItem], true))
+				{
+					int shoot = 0;
+					float speed = 0;
+					bool canshoot = true;
+					player.PickAmmo(player.inventory[player.selectedItem], ref shoot, ref speed, ref canshoot, ref projectile.damage, ref projectile.knockBack, false);
+					if (counter < 45)
+					{
+						Main.PlaySound(2, projectile.Center, 41);
+						direction /= 2f;
+						int proj = Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction * speed, shoot, projectile.damage, projectile.knockBack / 2, 0, projectile.owner);
+						Main.projectile[proj].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromMaliwanShockCommon = true;
+					}
+					else if (counter >= 45 && counter < 140)
+					{
+						Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
+						direction *= 2.25f;
+						Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, ModContent.ProjectileType<MoonshotBulletLarge>(), (int)(projectile.damage * 1.65f), 5, projectile.owner);
+					}
+					else if (counter > 140)
+					{
+						direction *= .8f;
+						Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
+						int proj = Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, mod.ProjectileType("SineBall"), projectile.damage, projectile.knockBack * 2.5f, projectile.owner, 180);
+						int p1 = Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, mod.ProjectileType("SineBall"), projectile.damage, projectile.knockBack * 2.5f, projectile.owner, 0, proj + 1);
+						Main.projectile[proj].hostile = false;
+						Main.projectile[p1].hostile = false;
+						Main.projectile[proj].friendly = true;
+						Main.projectile[p1].friendly = true;
+						Main.projectile[proj].scale *= .65f;
+						Main.projectile[p1].scale *= .65f;
+						Main.projectile[proj].timeLeft = 120;
+						Main.projectile[p1].timeLeft = 120;
+					}
+				}
                 projectile.active = false;
             }
             player.heldProj = projectile.whoAmI;

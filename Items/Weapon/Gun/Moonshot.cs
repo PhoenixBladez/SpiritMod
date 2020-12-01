@@ -30,6 +30,7 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.noMelee = true;
 			item.knockBack = 3;
 			item.useTurn = false;
+			item.useAmmo = AmmoID.Bullet;
 			item.value = Terraria.Item.sellPrice(0, 1, 42, 0);
 			item.rare = 2;
 			item.autoReuse = true;
@@ -58,7 +59,15 @@ namespace SpiritMod.Items.Weapon.Gun
                 0f
             );
         }
-        public override Vector2? HoldoutOffset()
+
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+			type = ModContent.ProjectileType<MoonshotProj>();
+			return true;
+		}
+
+		public override bool ConsumeAmmo(Player player) => (player.ownedProjectileCounts[ModContent.ProjectileType<MoonshotProj>()] > 0); //dont consume ammo on initial use, but let it consume ammo for player.pickammo
+		public override Vector2? HoldoutOffset()
 		{
 			return new Vector2(-10, 0);
 		}
