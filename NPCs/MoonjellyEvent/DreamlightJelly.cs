@@ -52,6 +52,8 @@ namespace SpiritMod.NPCs.MoonjellyEvent
         float alphaCounter;
         public override void AI()
         {
+            npc.rotation = npc.velocity.X * .15f;
+            npc.spriteDirection = npc.direction;
             alphaCounter += .04f;
                Lighting.AddLight(new Vector2(npc.Center.X, npc.Center.Y), 0.075f * 2, 0.231f * 2, 0.255f * 2);
         }
@@ -73,7 +75,7 @@ namespace SpiritMod.NPCs.MoonjellyEvent
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (npc.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
-            int xpos = (int)((npc.Center.X) - Main.screenPosition.X + 10) - (int)(Main.npcTexture[npc.type].Width / 2);
+            int xpos = (int)((npc.Center.X) - Main.screenPosition.X + 16) - (int)(Main.npcTexture[npc.type].Width / 2);
             int ypos = (int)((npc.Center.Y) - Main.screenPosition.Y + 10) - (int)(Main.npcTexture[npc.type].Width / 2);
             Texture2D ripple = mod.GetTexture("Effects/Masks/Extra_49");
             Main.spriteBatch.Draw(ripple, new Vector2(xpos, ypos), new Microsoft.Xna.Framework.Rectangle?(), new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), npc.rotation, ripple.Size() / 2f, .5f, spriteEffects, 0);

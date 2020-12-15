@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Summon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mango Jelly Staff");
-			Tooltip.SetDefault("Summons a mini mango jelly");
+			Tooltip.SetDefault("Summons a mini Mango Jelly");
 		}
 
 		public override void SetDefaults()

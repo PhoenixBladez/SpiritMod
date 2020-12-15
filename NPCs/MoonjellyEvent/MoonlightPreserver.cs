@@ -47,11 +47,11 @@ namespace SpiritMod.NPCs.MoonjellyEvent
                 d.noGravity = true;
             }
             if (npc.life <= 0) {
-                for (int i = 0; i < 6; i++)
+                for (int i = 0; i < 5; i++)
                 {
                     int p = Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-10, 10), npc.Center.Y + Main.rand.Next(-10, 10), Main.rand.NextFloat(-1.1f, 1.1f), Main.rand.NextFloat(-1.1f, 1.1f), ModContent.ProjectileType<JellyfishOrbiter>(), 11, 0.0f, Main.myPlayer, 0.0f, (float)npc.whoAmI);
                     Main.projectile[p].scale = Main.rand.NextFloat(.5f, .8f);
-                    Main.projectile[p].timeLeft = Main.rand.Next(55, 75);
+                    Main.projectile[p].timeLeft = Main.rand.Next(75, 95);
                 }
                 for (int k = 0; k < 50; k++)
                 {
@@ -76,7 +76,14 @@ namespace SpiritMod.NPCs.MoonjellyEvent
             {
                 if (Main.rand.NextBool(3))
                 {
-                    tremorItem = Main.rand.Next(new int[] { 19, 20, 21, 22, ModContent.ItemType<Items.Placeable.Tiles.SpaceJunkItem>(), 286, ModContent.ItemType<Items.Placeable.Tiles.AsteroidBlock>() });
+                    if (Main.rand.NextBool(9))
+                    {
+                        tremorItem = ModContent.ItemType<Items.Weapon.Summon.ElectricGun.ElectricGun>();
+                    }
+					else
+                    {
+                        tremorItem = Main.rand.Next(new int[] { 19, 20, 21, 22, ModContent.ItemType<Items.Placeable.Tiles.SpaceJunkItem>(), 286, ModContent.ItemType<Items.Placeable.Tiles.AsteroidBlock>() });
+                    }
                 }
                 chosen = true;
                 npc.netUpdate = true;

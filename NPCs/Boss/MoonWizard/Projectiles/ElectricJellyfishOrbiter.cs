@@ -44,7 +44,6 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
                 }
             }
             alphaCounter += .04f;
-            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
             Lighting.AddLight(new Vector2(projectile.Center.X, projectile.Center.Y), 0.075f * 2, 0.231f * 2, 0.255f * 2);
             projectile.frameCounter++;
             projectile.spriteDirection = -projectile.direction;
@@ -55,10 +54,10 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
                 projectile.frameCounter = 0;
             }
             num1 = ModContent.NPCType<MoonjellyGiant>();
-
+            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
             float num2 = 60f;
-            float x = 0.08f * projectile.scale;
-            float y = 0.08f * projectile.scale;
+            float x = 0.8f * projectile.scale;
+            float y = 0.5f * projectile.scale;
             bool flag2 = false;
 
             if ((double)projectile.ai[0] < (double)num2)
@@ -69,7 +68,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
                 {
                     if (!flag2 && Main.npc[index1].oldPos[1] != Vector2.Zero)
                         projectile.position = projectile.position + Main.npc[index1].position - Main.npc[index1].oldPos[1];
-                    if (Main.rand.NextBool(6))
+                    if (projectile.timeLeft % 3 == 0)
                     {
                         DustHelper.DrawElectricity(projectile.Center + (projectile.velocity * 4), Main.npc[index1].Center + (Main.npc[index1].velocity * 4), 226, 0.35f, 30, default, 0.12f);
                     }
@@ -92,11 +91,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
                 }
                 if (flag4 && !flag2)
                 {
-                    projectile.velocity = projectile.velocity + new Vector2((float)Math.Sign(Main.npc[index1].Center.X - projectile.Center.X), (float)Math.Sign(Main.npc[index1].Center.Y - projectile.Center.Y)) * new Vector2(x, y);
-                    if (projectile.velocity.Length() > 2f)
-                    {
-                        projectile.velocity *= 2f / projectile.velocity.Length();
-                    }
+                    projectile.velocity = projectile.velocity + new Vector2((float)Math.Sign(Main.npc[index1].Center.X - projectile.Center.X), (float)Math.Sign(Main.npc[index1].Center.Y - projectile.Center.Y)) * new Vector2(x *.5f, y);
                 }
             }
         }

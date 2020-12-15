@@ -38,8 +38,8 @@ namespace SpiritMod.Items.Weapon.Summon
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Wood, 50);
-			recipe.AddIngredient(ItemID.Acorn, 20);
+			recipe.AddIngredient(ItemID.Wood, 40);
+			recipe.AddIngredient(ItemID.Acorn, 16);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

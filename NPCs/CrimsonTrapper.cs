@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Consumable.Food;
 
 namespace SpiritMod.NPCs
 {
@@ -157,6 +158,10 @@ namespace SpiritMod.NPCs
             if (Main.rand.NextBool(33))
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Summon.HeartilleryBeacon>());
+            }
+            if (Main.rand.NextBool(16))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Meatballs>());
             }
         }
 	}

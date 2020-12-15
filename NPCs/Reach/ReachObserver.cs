@@ -4,6 +4,7 @@ using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Consumable.Food;
 
 namespace SpiritMod.NPCs.Reach
 {
@@ -62,8 +63,12 @@ namespace SpiritMod.NPCs.Reach
 				for (int J = 0; J <= Bark; J++) {
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<AncientBark>());
 				}
-			}
-		}
+            }
+            if (Main.rand.NextBool(42))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CaesarSalad>());
+            }
+        }
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frameCounter += 0.15f;

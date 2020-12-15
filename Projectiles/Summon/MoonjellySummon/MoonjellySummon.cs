@@ -22,8 +22,8 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
 
 		public override void SetDefaults()
 		{
-			projectile.width = 18;
-			projectile.height = 42;
+			projectile.width = 40;
+			projectile.height = 50;
 			projectile.friendly = true;
 			projectile.minion = true;
 			projectile.minionSlots = 1f;
@@ -44,8 +44,10 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
         bool flag25 = false;
         int jim = 1;
         int counter;
+        float alphaCounter;
         public override void Behavior()
         {
+            alphaCounter += .04f;
             bool flag64 = projectile.type == ModContent.ProjectileType<MoonjellySummon>();
             Player player = Main.player[projectile.owner];
             MyPlayer modPlayer = player.GetSpiritPlayer();
@@ -85,7 +87,7 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
                     projectile.frame = 0;
                 }
             }
-            projectile.rotation = projectile.velocity.X * 0.05f;
+            projectile.rotation = projectile.velocity.X * 0.025f;
             trailing = false;
             projectile.tileCollide = false;
 			float num = projectile.width * 1.1f;
@@ -185,7 +187,20 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
 
 		public override void SelectFrame()
 		{
-		}
+		}        public void DrawAdditive(SpriteBatch spriteBatch)
+        {
+            {
+                for (int k = 0; k < projectile.oldPos.Length; k++)
+                {
+                    Color color = new Color(44, 168, 67) * 0.75f * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
+
+                    float scale = projectile.scale;
+                    Texture2D tex = ModContent.GetTexture("SpiritMod/Projectiles/Summon/Zones/StaminaZone");
+
+                    spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color, projectile.rotation, tex.Size() / 2, scale, default, default);
+                }
+            }
+        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
@@ -206,19 +221,29 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
                 SpriteEffects spriteEffects3 = (projectile.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
                 Vector2 vector33 = new Vector2(projectile.Center.X, projectile.Center.Y - 18) - Main.screenPosition + new Vector2(0, projectile.gfxOffY) - projectile.velocity;
                 Microsoft.Xna.Framework.Color color29 = new Microsoft.Xna.Framework.Color(127 - projectile.alpha, 127 - projectile.alpha, 127 - projectile.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightBlue);
-                for (int num103 = 0; num103 < 4; num103++)
+               /* for (int num103 = 0; num103 < 4; num103++)
                 {
                     Microsoft.Xna.Framework.Color color28 = color29;
                     color28 = projectile.GetAlpha(color28);
                     color28 *= 1f - num107;
                     Vector2 vector29 = new Vector2(projectile.Center.X - 8, projectile.Center.Y - 20) + drawOrigin + ((float)num103 / (float)num108 * 6.28318548f + projectile.rotation + num106).ToRotationVector2() * (4f * num107 + 2f) - Main.screenPosition + new Vector2(0, projectile.gfxOffY) - projectile.velocity * (float)num103;
                     Main.spriteBatch.Draw(mod.GetTexture("Projectiles/Summon/MoonjellySummon/MoonjellySummon_Glow"), vector29, new Microsoft.Xna.Framework.Rectangle?(Main.projectileTexture[projectile.type].Frame(1, Main.projFrames[projectile.type], 0, projectile.frame)), color28, projectile.rotation, drawOrigin, projectile.scale, spriteEffects3, 0f);
-                }
+                }*/
                 spriteBatch.Draw(mod.GetTexture("Projectiles/Summon/MoonjellySummon/MoonjellySummon_Glow"), drawPos, new Microsoft.Xna.Framework.Rectangle?(Main.projectileTexture[projectile.type].Frame(1, Main.projFrames[projectile.type], 0, projectile.frame)), color1, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
 
 
                 spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(Main.projectileTexture[projectile.type].Frame(1, Main.projFrames[projectile.type], 0, projectile.frame)), color, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
-        
+                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(Main.projectileTexture[projectile.type].Frame(1, Main.projFrames[projectile.type], 0, projectile.frame)), color, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
+
+                float sineAdd = (float)Math.Sin(alphaCounter) + 3;
+                SpriteEffects spriteEffects = SpriteEffects.None;
+                if (projectile.spriteDirection == 1)
+                    spriteEffects = SpriteEffects.FlipHorizontally;
+                int xpos = (int)((projectile.Center.X + 38) - Main.screenPosition.X) - (int)(Main.projectileTexture[projectile.type].Width / 2);
+                int ypos = (int)((projectile.Center.Y + 30) - Main.screenPosition.Y) - (int)(Main.projectileTexture[projectile.type].Width / 2);
+                Texture2D ripple = mod.GetTexture("Effects/Masks/Extra_49");
+                Main.spriteBatch.Draw(ripple, new Vector2(xpos, ypos), new Microsoft.Xna.Framework.Rectangle?(), new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), projectile.rotation, ripple.Size() / 2f, projectile.scale * .8f, spriteEffects, 0);
+
             }
             return false;
         }

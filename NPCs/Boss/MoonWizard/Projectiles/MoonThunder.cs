@@ -105,7 +105,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
             lines.Add(new List<Line>());
             lines[0].Add(line);
 
-            for (int steps = 0; steps < 6; steps++)
+            for (int steps = 0; steps < 4; steps++)
             {
                 for (int index = 0; index < lines[0].Count; index += 2)
                 {

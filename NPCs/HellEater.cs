@@ -4,6 +4,7 @@ using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Consumable.Food;
 
 namespace SpiritMod.NPCs
 {
@@ -120,7 +121,11 @@ namespace SpiritMod.NPCs
 
 			if (Main.rand.Next(20) == 0) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Accessory.HellEater>());
-			}
-		}
+            }
+            if (Main.rand.NextBool(16))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GhostPepper>());
+            }
+        }
 	}
 }

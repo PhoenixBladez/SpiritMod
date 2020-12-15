@@ -56,7 +56,7 @@ namespace SpiritMod.NPCs.MoonjellyEvent
 			float num1 = 5f;
 			float moveSpeed = 0.05f;
 			npc.TargetClosest(true);
-			Vector2 vector2_1 = Main.player[npc.target].Center - npc.Center + new Vector2(Main.rand.NextFloat(-200f, 200f), Main.rand.NextFloat(-200f, -50f));
+			Vector2 vector2_1 = Main.player[npc.target].Center - npc.Center + new Vector2(0, -100f);
 			float num2 = vector2_1.Length();
 			Vector2 desiredVelocity;
 			if ((double)num2 < 20.0)

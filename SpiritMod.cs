@@ -14,7 +14,9 @@ using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Items.Weapon.Flail;
 using SpiritMod.Items.Weapon.Spear;
+using SpiritMod.Items.Weapon.Club;
 using SpiritMod.Items.Weapon.Summon;
+using SpiritMod.Items.Weapon.Summon.ElectricGun;
 using SpiritMod.Items.Weapon.Swung;
 using SpiritMod.Items.Weapon.Thrown;
 using SpiritMod.Items.Weapon.Yoyo;
@@ -25,6 +27,7 @@ using SpiritMod.Items.Material;
 using SpiritMod.Items.Pins;
 
 using SpiritMod.NPCs.BlueMoon;
+using SpiritMod.NPCs.MoonjellyEvent;
 using SpiritMod.NPCs.Boss.Atlas;
 using SpiritMod.NPCs.Boss.Overseer;
 using SpiritMod.NPCs.Town;
@@ -551,28 +554,43 @@ namespace SpiritMod
 
 				Filters.Scene["SpiritMod:Atlas"] = new Filter(new AtlasScreenShaderData("FilterMiniTower").UseColor(0.5f, 0.5f, 0.5f).UseOpacity(0.6f), EffectPriority.VeryHigh);
 				SkyManager.Instance["SpiritMod:Atlas"] = new AtlasSky();
+
+				//Music Boxes
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/TranquilWinds"), ItemType("TranquilWindsBox"), TileType("TranquilWindsBox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritOverworld"), ItemType("SpiritBox1"), TileType("SpiritBox1"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/NeonTech"), ItemType("NeonMusicBox"), TileType("NeonMusicBox"));
+
+                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritOverworld"), ItemType("SpiritBox1"), TileType("SpiritBox1"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer1"), ItemType("SpiritBox2"), TileType("SpiritBox2"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer2"), ItemType("SpiritBox3"), TileType("SpiritBox3"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer3"), ItemType("SpiritBox4"), TileType("SpiritBox4"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/AncientAvian"), ItemType("AvianBox"), TileType("AvianBox"));
+
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Reach"), ItemType("ReachBox"), TileType("ReachBox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/ReachNighttime"), ItemType("BriarNightBox"), TileType("BriarNightBox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/OceanNighttime"), ItemType("LuminousNightBox"), TileType("LuminousNightBox"));
+              
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Asteroids"), ItemType("AsteroidBox"), TileType("AsteroidBox"));
+
 				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Starplate"), ItemType("StarplateBox"), TileType("StarplateBox"));
+                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/MoonJelly"), ItemType("MJWBox"), TileType("MJWBox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Scarabeus"), ItemType("ScarabBox"), TileType("ScarabBox"));
+                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Atlas"), ItemType("AtlasBox"), TileType("AtlasBox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/ReachBoss"), ItemType("VinewrathBox"), TileType("VinewrathBox"));
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/MarbleBiome"), ItemType("MarbleBox"), TileType("MarbleBox"));
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/GraniteBiome"), ItemType("GraniteBox"), TileType("GraniteBox"));
+                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/AncientAvian"), ItemType("AvianBox"), TileType("AvianBox"));
+
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Blizzard"), ItemType("BlizzardBox"), TileType("BlizzardBox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/AuroraSnow"), ItemType("AuroraBox"), TileType("AuroraBox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/BlueMoon"), ItemType("BlueMoonBox"), TileType("BlueMoonBox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/DepthInvasion"), ItemType("TideBox"), TileType("TideBox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SnowNighttime"), ItemType("SnowNightBox"), TileType("SnowNightBox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/DesertNighttime"), ItemType("DesertNightBox"), TileType("DesertNightBox"));
+                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/OceanNighttime"), ItemType("LuminousNightBox"), TileType("LuminousNightBox"));
+                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/HallowNight"), ItemType("HallowNightBox"), TileType("HallowNightBox"));
+                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/CalmNight"), ItemType("CalmNightBox"), TileType("CalmNightBox"));
+
+                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/MarbleBiome"), ItemType("MarbleBox"), TileType("MarbleBox"));
+                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/GraniteBiome"), ItemType("GraniteBox"), TileType("GraniteBox"));
+                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiderCave"), ItemType("SpiderCaveBox"), TileType("SpiderCaveBox"));
+
+                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/BlueMoon"), ItemType("BlueMoonBox"), TileType("BlueMoonBox"));
+                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/DepthInvasion"), ItemType("TideBox"), TileType("TideBox"));
+                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/JellySky"), ItemType("JellyDelugeBox"), TileType("JellyDelugeBox"));
             }
 			//primitives = new PrimTrailManager();
 			// LoadDetours();
@@ -810,7 +828,7 @@ namespace SpiritMod
                     ModContent.ItemType<ScarabIdol>(),
                     new List<int> { ModContent.ItemType<Items.Boss.Trophy1>(), ModContent.ItemType<Items.Armor.Masks.ScarabMask>(), ModContent.ItemType<Items.Placeable.MusicBox.ScarabBox>() },
                     new List<int> { ModContent.ItemType<Items.BossBags.BagOScarabs>(), ModContent.ItemType<Items.Material.Chitin>(), ModContent.ItemType<Items.Weapon.Bow.ScarabBow>(), ModContent.ItemType<Items.Weapon.Summon.OrnateStaff>(), ModContent.ItemType<Items.Weapon.Swung.ScarabSword>() },
-                    "Use a [i: " + ModContent.ItemType<ScarabIdol>() + "] in the Desert during daytime",
+                    "Use a [i: " + ModContent.ItemType<ScarabIdol>() + "] in the Desert during daytime.",
                     null,
                     "SpiritMod/Textures/BossChecklist/ScarabeusTexture",
                     "SpiritMod/NPCs/Boss/Scarabeus/Scarabeus_Head_Boss",
@@ -832,21 +850,37 @@ namespace SpiritMod
                     "SpiritMod/NPCs/BloodMoon/Occultist_Head_Boss",
                     null);
 
-                /*bossChecklist.Call(
+                bossChecklist.Call(
+                    "AddEvent",
+                    2.4f,
+                    new List<int> { ModContent.NPCType<DreamlightJelly>(), ModContent.NPCType<ExplodingMoonjelly>(), ModContent.NPCType<MoonjellyGiant>(), ModContent.NPCType<MoonlightPreserver>(), ModContent.NPCType<TinyLunazoa>() },
+                    this, // Mod
+                    "Jelly Deluge",
+                    (Func<bool>)(() => MyWorld.downedMoonWizard),
+                    null,
+                    null,
+                    new List<int> { ModContent.ItemType<NautilusClub>(), ModContent.ItemType<ElectricGun>(), ModContent.ItemType<DreamlightJellyItem>(), ModContent.ItemType<TinyLunazoaItem>() },
+                     "Naturally occurs in space after any boss has been defeated. Occurs less frequently after the Moon Jelly Wizard has been defeated.",
+                    null,
+                    "SpiritMod/Textures/BossChecklist/JellyDeluge",
+                    "SpiritMod/Textures/BossChecklist/JellyDelugeIcon",
+                    null);
+
+                bossChecklist.Call(
                   "AddBoss",
                   2.5f,
                   ModContent.NPCType<NPCs.Boss.MoonWizard.MoonWizard>(),
                   this, // Mod
                   "Moon Jelly Wizard",
                   (Func<bool>)(() => MyWorld.downedMoonWizard),
-                  //ModContent.ItemType<ScarabIdol>(),
-                  new List<int> { ModContent.ItemType<Items.Boss.MJWTrophy>(), ModContent.ItemType<Items.Armor.Masks.MJWMark>(), ModContent.ItemType<Items.Placeable.MusicBox.ScarabBox>() },
-                  new List<int> { ModContent.ItemType<Items.BossBags.BagOScarabs>(), ModContent.ItemType<Items.Material.Chitin>(), ModContent.ItemType<Items.Weapon.Bow.ScarabBow>(), ModContent.ItemType<Items.Weapon.Summon.OrnateStaff>(), ModContent.ItemType<Items.Weapon.Swung.ScarabSword>() },
-                  "Use a [i: " + ModContent.ItemType<ScarabIdol>() + "] in the Desert during daytime",
+                  ModContent.ItemType<DreamlightJellyItem>(),
+                  new List<int> { ModContent.ItemType<Items.Boss.MJWTrophy>(), ModContent.ItemType<Items.Armor.Masks.MJWMask>(), ModContent.ItemType<Items.Placeable.MusicBox.MJWBox>() },
+                  new List<int> { ModContent.ItemType<Items.BossBags.MJWBag>(), ModContent.ItemType<Items.Weapon.Summon.MoonjellySummonStaff>(), ModContent.ItemType<Items.Weapon.Yoyo.Moonburst>(), ModContent.ItemType<Items.Armor.JellynautHelmet.JellynautBubble>(), ModContent.ItemType<Items.Weapon.Gun.Moonshot>() },
+                  "Use a [i: " + ModContent.ItemType<DreamlightJellyItem>() + "] anywhere at nighttime.",
                   null,
-                  "SpiritMod/Textures/BossChecklist/ScarabeusTexture",
-                  "SpiritMod/NPCs/Boss/Scarabeus/Scarabeus_Head_Boss",
-                  null);*/
+                  "SpiritMod/Textures/BossChecklist/MoonWizardTexture",
+                  "SpiritMod/NPCs/Boss/MoonWizard/MoonWizard_Head_Boss",
+                  null);
 
                 bossChecklist.Call(
                     "AddMiniBoss",
@@ -862,8 +896,8 @@ namespace SpiritMod
                     null,
                     "SpiritMod/Textures/BossChecklist/MechromancerTexture",
                     "SpiritMod/NPCs/Mecromancer_Head_Boss",
-
                     null);
+
                 bossChecklist.Call(
                     "AddMiniBoss",
                     3.1f,
@@ -879,6 +913,7 @@ namespace SpiritMod
                     "SpiritMod/Textures/BossChecklist/SnaptrapperTexture",
                     "SpiritMod/NPCs/Snaptrapper_Head_Boss",
                     null);
+
                 bossChecklist.Call(
                     "AddMiniBoss",
                     3.2f,

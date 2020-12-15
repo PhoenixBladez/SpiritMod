@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
+using SpiritMod.NPCs.Reach;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -17,7 +18,7 @@ namespace SpiritMod.Tiles.Ambient.Briar
 			Main.tileNoFail[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 
-			dustType = 5;
+			dustType = 167;
 			soundType = SoundID.Grass;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1xX);
             TileObjectData.newTile.Height = 2;
@@ -68,9 +69,20 @@ namespace SpiritMod.Tiles.Ambient.Briar
 			}
 
 			return true;
-		}
+        }
+        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        {
+            if (Main.rand.NextBool(8))
+            {
+                int n = NPC.NewNPC((int)i * 16 + 8, (int)j * 16 + 16, ModContent.NPCType<Blubby>(), 0, 2, 1, 0, 0, Main.myPlayer);
+            }
+            if (Main.rand.NextBool(5))
+            {
+                int n = NPC.NewNPC((int)i * 16 + 8, (int)j * 16 + 16, ModContent.NPCType<BriarInchworm>(), 0, 2, 1, 0, 0, Main.myPlayer);
+            }
+        }
 
-		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{
 			Tile tile = Framing.GetTileSafely(i, j);
 

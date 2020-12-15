@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Consumable.Food;
 
 namespace SpiritMod.NPCs.Asteroid
 {
@@ -169,8 +170,12 @@ namespace SpiritMod.NPCs.Asteroid
 				{
 					npc.DropItem(mod.ItemType(lootTable[loot]));
 				}
-			}
-		}
+            }
+            if (Main.rand.NextBool(16))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PopRocks>());
+            }
+        }
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			int d = 1;

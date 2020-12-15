@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Weapon.Yoyo
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Moonburst");
-			Tooltip.SetDefault("Hitting enemies builds up an unstable bubble\nThe bubble explodes after eight successful strikes");
+			Tooltip.SetDefault("Hitting enemies builds up an unstable bubble\nThe bubble explodes after ten successful strikes");
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Yoyo/Moonburst_Glow");
 		}
 

@@ -8,6 +8,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Weapon.Club;
 
 namespace SpiritMod.NPCs.MoonjellyEvent
 {
@@ -146,6 +147,10 @@ namespace SpiritMod.NPCs.MoonjellyEvent
         public override void NPCLoot()
         {
             npc.DropItem(ItemID.Gel, Main.rand.Next(1, 4));
+			if (Main.rand.NextBool(25))
+            {
+                npc.DropItem(ModContent.ItemType<NautilusClub>());
+            }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {

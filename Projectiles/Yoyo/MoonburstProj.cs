@@ -22,13 +22,15 @@ namespace SpiritMod.Projectiles.Yoyo
 		{
 			projectile.CloneDefaults(ProjectileID.Valor);
 			aiType = ProjectileID.Code1;
+            projectile.width = projectile.height = 14;
+
         }
         float alphaCounter;
         public override void AI()
         {
             Lighting.AddLight(new Vector2(projectile.Center.X, projectile.Center.Y), 0.075f * .75f, 0.231f * .75f, 0.255f * .75f);
             alphaCounter += .04f;
-            if (projectile.frameCounter >= 8)
+            if (projectile.frameCounter >= 10)
             {
                 projectile.Kill();
             }
@@ -45,7 +47,7 @@ namespace SpiritMod.Projectiles.Yoyo
                 {
                     Color color = new Color(255, 255, 255) * 0.95f * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
 
-                    float scale = (projectile.frameCounter * .13f) + .13f;
+                    float scale = (projectile.frameCounter * .13f) + .09f;
                     Texture2D tex = ModContent.GetTexture("SpiritMod/Projectiles/Yoyo/MoonburstBubble");
                     Texture2D tex1 = ModContent.GetTexture("SpiritMod/Projectiles/Yoyo/MoonburstBubble_Glow");
 
@@ -63,17 +65,18 @@ namespace SpiritMod.Projectiles.Yoyo
                 if (projectile.spriteDirection == 1)
                     spriteEffects = SpriteEffects.FlipHorizontally;
                 Texture2D ripple = mod.GetTexture("Effects/Masks/Extra_49");
-                Main.spriteBatch.Draw(ripple, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(), new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), projectile.rotation, ripple.Size() / 2f, projectile.frameCounter * .15f, spriteEffects, 0);
+                Main.spriteBatch.Draw(ripple, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(), new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0) * .65f, projectile.rotation, ripple.Size() / 2f, projectile.frameCounter * .15f, spriteEffects, 0);
             }
             return true;
         }
 		public override void Kill(int timeLeft)
         {
-            ProjectileExtras.Explode(projectile.whoAmI, 120, 120, delegate
+            ProjectileExtras.Explode(projectile.whoAmI, 130, 130, delegate
             {
                 if (projectile.frameCounter >= 8)
                 {
-                    Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
+                    Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 54));
+                    Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 118));
                     {
                         for (int i = 0; i < 15; i++)
                         {
@@ -86,7 +89,7 @@ namespace SpiritMod.Projectiles.Yoyo
                                 Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
                         }
                     }
-                    DustHelper.DrawDustImage(projectile.Center, 226, 0.25f, "SpiritMod/Effects/DustImages/MoonSigil", 1f);
+                    DustHelper.DrawDustImage(projectile.Center, 226, 0.29f, "SpiritMod/Effects/DustImages/MoonSigil", 1f);
                 }
             });
         }

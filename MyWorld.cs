@@ -17,6 +17,7 @@ using SpiritMod.Items.Weapon.Returning;
 using SpiritMod.Items.Weapon.Spear;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Swung;
+using SpiritMod.Items.Books;
 using SpiritMod.Items.Weapon.Thrown;
 using SpiritMod.NPCs;
 using SpiritMod.NPCs.Town;
@@ -108,6 +109,7 @@ namespace SpiritMod
         public static bool downedGladeWraith = false;
         public static bool downedSnaptrapper = false;
         public static bool downedBeholder = false;
+        public static bool downedJellyDeluge = false;
         public static bool downedTide = false;
 		public static bool downedBlueMoon = false;
 
@@ -187,6 +189,8 @@ namespace SpiritMod
 				downed.Add("overseer");
 			if (downedBlueMoon)
 				downed.Add("bluemoon");
+            if (downedJellyDeluge)
+                downed.Add("jellyDeluge");
             if (downedTide)
                 downed.Add("tide");
             if (downedMechromancer)
@@ -259,6 +263,8 @@ namespace SpiritMod
             downedGladeWraith = downed.Contains("gladeWraith");
             downedBeholder = downed.Contains("beholder");
             downedSnaptrapper = downed.Contains("snaptrapper");
+            downedBlueMoon = downed.Contains("bluemoon");
+            downedJellyDeluge = downed.Contains("jellyDeluge");
             //LoadSpecialNPCs(tag);
             SpiritMod.AdventurerQuests.WorldLoad(tag);
 			TagCompound droppedGlyphTag = tag.GetCompound("droppedGlyphs");
@@ -324,6 +330,7 @@ namespace SpiritMod
                 downedGladeWraith = flags2[5];
                 downedBeholder = flags2[6];
                 downedSnaptrapper = flags2[7];
+                downedJellyDeluge = flags2[8];
 
                 gennedBandits = flags2[0];
 				gennedTower = flags2[1];
@@ -351,7 +358,7 @@ namespace SpiritMod
 			BitsByte bosses2 = new BitsByte(downedReachBoss, downedMoonWizard, downedTide, downedMechromancer, downedOccultist, downedGladeWraith, downedBeholder, downedSnaptrapper);
 			writer.Write(bosses1);
 			writer.Write(bosses2);
-			BitsByte environment = new BitsByte(BlueMoon, jellySky, downedBlueMoon);
+			BitsByte environment = new BitsByte(BlueMoon, jellySky, downedBlueMoon, downedJellyDeluge);
 			BitsByte worldgen = new BitsByte(gennedBandits, gennedTower, spawnDarkfeather, spawnHookbats, owlComplete);
 			BitsByte adventurerQuests = new BitsByte(sepulchreComplete, spawnHornetFish, spawnVibeshrooms, jadeStaffComplete, shadowflameComplete, vibeShroomComplete, winterbornComplete, drBonesComplete);
 			writer.Write(environment);
@@ -391,6 +398,7 @@ namespace SpiritMod
 			BlueMoon = environment[0];
             downedBlueMoon = environment[1];
             jellySky = environment[2];
+            downedJellyDeluge = environment[3];
 
             BitsByte worldgen = reader.ReadByte();
 			gennedBandits = worldgen[0];
@@ -472,7 +480,6 @@ namespace SpiritMod
 			downedMoonWizard = false;
 			downedIlluminantMaster = false;
 			downedOverseer = false;
-			downedBlueMoon = false;
             downedTide = false;
             downedMechromancer = false;
             downedOccultist = false;
@@ -2990,7 +2997,16 @@ namespace SpiritMod
 							}
 						}
 					}
-					for (int C = 0; C < Main.maxTilesX * 45; C++) {
+                    for (int C = 0; C < Main.maxTilesX * 10; C++) {
+                        int X = WorldGen.genRand.Next(300, Main.maxTilesX - 300);
+                        int Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
+                        if (Main.tile[X, Y].type == TileID.Stone)
+                        {
+                            WorldGen.PlaceObject(X, Y, ModContent.TileType<ExplosiveBarrelTile>());
+                            NetMessage.SendObjectPlacment(-1, X, Y, ModContent.TileType<ExplosiveBarrelTile>(), 0, 0, -1, -1) ;
+                        }
+                    }
+                    for (int C = 0; C < Main.maxTilesX * 45; C++) {
 						int[] sculptures = new int[] { ModContent.TileType<IceWheezerPassive>(), ModContent.TileType<IceFlinxPassive>(), ModContent.TileType<IceBatPassive>(), ModContent.TileType<IceVikingPassive>(), ModContent.TileType<IceWheezerHostile>(), ModContent.TileType<IceFlinxHostile>(), ModContent.TileType<IceBatHostile>(), ModContent.TileType<IceVikingHostile>() };
 						{
                             int X = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
@@ -3001,7 +3017,8 @@ namespace SpiritMod
 							}
 						}
 					}
-					for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 18.2f) * 6E-03); k++) {
+
+					for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 16.2f) * 6E-03); k++) {
 						{
                             int X = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
                             int Y = WorldGen.genRand.Next(0, Main.maxTilesY);
@@ -3328,7 +3345,32 @@ namespace SpiritMod
 					}
 				}
 			}
-			{
+            for (int i = 1; i < Main.rand.Next(4, 6); i++)
+            {
+                int[] itemsToPlacePrimary = new int[] { ModContent.ItemType<Book_AccessoryGuide>(), ModContent.ItemType<Book_Alchemist1>(), ModContent.ItemType<Book_ArmorGuide>(), ModContent.ItemType<Book_FoodGuide>(), ModContent.ItemType<Book_WeaponGuide>() };	                //int itemsToPlaceInGlassChestsSecondaryChoice = 0;
+                for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
+                {
+                    Chest chest = Main.chest[chestIndex];
+                    if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 0 * 36 && Main.rand.NextBool(7))
+                    {
+                        chest.item[1].SetDefaults(itemsToPlacePrimary[Main.rand.Next(5)], false);
+                    }
+                }
+            }
+            for (int i = 1; i < Main.rand.Next(4, 6); i++)
+            {
+                int[] itemsToPlacePrimaryGold = new int[] { ModContent.ItemType<Book_Amea>(), ModContent.ItemType<Book_Slime>(), ModContent.ItemType<Book_Lava>(), ModContent.ItemType<Book_MJW>(), ModContent.ItemType<Book_Yeremy>(), ModContent.ItemType<Book_Mushroom>(), ModContent.ItemType<Book_Jellyfish>(), ModContent.ItemType<Book_Gunslinger>() };
+                //int itemsToPlaceInGlassChestsSecondaryChoice = 0;
+                for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
+                {
+                    Chest chest = Main.chest[chestIndex];
+                    if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 1 * 36 && Main.rand.NextBool(10))
+                    {
+                        chest.item[2].SetDefaults(itemsToPlacePrimaryGold[Main.rand.Next(8)], false);
+                    }
+                }
+            }
+            {
 				for (int i = 1; i < Main.rand.Next(4, 6); i++) {
 					//int itemsToPlaceInGlassChestsSecondaryChoice = 0;
 					for (int chestIndex = 0; chestIndex < 1000; chestIndex++) {
@@ -3351,11 +3393,23 @@ namespace SpiritMod
 								chest.item[7].stack = WorldGen.genRand.Next(2, 6);
 								chest.item[8].SetDefaults(72, false);
 								chest.item[8].stack = WorldGen.genRand.Next(12, 30);
-								if (Main.rand.Next(4) == 0) {
-									chest.item[9].SetDefaults(ModContent.ItemType<GladeWreath>(), false);
-								}
+                                if (Main.rand.NextBool(4))
+                                {
+                                    switch (Main.rand.Next(3))
+                                    {
+                                        case 0:
+                                            chest.item[9].SetDefaults(ModContent.ItemType<Book_Briar>(), false);
+                                            break;
+                                        case 1:
+                                            chest.item[9].SetDefaults(ModContent.ItemType<Book_BriarArt>(), false);
+                                            break;
+                                        case 3:
+                                            chest.item[9].SetDefaults(ModContent.ItemType<GladeWreath>(), false);
+                                            break;
+                                    }
+                                }
 
-							}
+                            }
 						}
 					}
 				}
@@ -3369,114 +3423,6 @@ namespace SpiritMod
 						itemsToPlaceInGlassChestsChoice = Main.rand.Next(itemsToPlaceInGlassChests.Length);
 						chest.item[0].SetDefaults(itemsToPlaceInGlassChests[itemsToPlaceInGlassChestsChoice]);
 
-					}
-				}
-			}
-		}
-		private void PlaceBoneIsland(int i, int j, int[,] BoneIslandArray)
-		{
-
-			for (int y = 0; y < BoneIslandArray.GetLength(0); y++) { // This loops clears the area (makes the proper hemicircle) and placed dirt in the bottom if there are no blocks (so that the chest and fireplace can be placed).
-				for (int x = 0; x < BoneIslandArray.GetLength(1); x++) {
-					int k = i - 3 + x;
-					int l = j - 6 + y;
-					if (WorldGen.InWorld(k, l, 30)) {
-						Tile tile = Framing.GetTileSafely(k, l);
-						switch (BoneIslandArray[y, x]) {
-							case 0:
-								break; // no changes
-							case 1:
-								WorldGen.PlaceTile(k, l, 0); // Dirt
-								tile.active(true);
-								break;
-							case 2:
-								WorldGen.PlaceTile(k, l, 189);
-								break;
-							case 3:
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;
-							case 4:
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;
-							case 5:
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;
-							case 6:
-								WorldGen.PlaceTile(k, l, TileID.Grass); // Dirt
-								tile.active(true);
-								break;
-							case 7:
-								WorldGen.PlaceTile(k, l, 194); // Dirt
-								tile.active(true);
-								break;
-						}
-					}
-				}
-			}
-			for (int y = 0; y < BoneIslandArray.GetLength(0); y++) { // This Loop Placzs Furnitures.(So that they have blocks to spawn on).
-				for (int x = 0; x < BoneIslandArray.GetLength(1); x++) {
-					int k = i - 3 + x;
-					int l = j - 6 + y;
-					if (WorldGen.InWorld(k, l, 30)) {
-						Tile tile = Framing.GetTileSafely(k, l);
-						switch (BoneIslandArray[y, x]) {
-							case 3:
-								WorldGen.PlaceTile(k, l, (ushort)mod.TileType("SkullPile1")); // Gold Chest
-								break;
-							case 4:
-								WorldGen.PlaceTile(k, l, (ushort)mod.TileType("SkullPile2")); // Gold Chest
-								break;
-							case 5:
-								WorldGen.PlaceTile(k, l - 1, (ushort)ModContent.TileType<AvianEgg>()); // Gold Chest
-								break;
-						}
-					}
-				}
-			}
-		}
-		private void PlaceBoneIslandWalls(int i, int j, int[,] BoneIslandArray)
-		{
-
-			for (int y = 0; y < BoneIslandArray.GetLength(0); y++) { // This loops clears the area (makes the proper hemicircle) and placed dirt in the bottom if there are no blocks (so that the chest and fireplace can be placed).
-				for (int x = 0; x < BoneIslandArray.GetLength(1); x++) {
-					int k = i - 3 + x;
-					int l = j - 6 + y;
-					if (WorldGen.InWorld(k, l, 30)) {
-						Tile tile = Framing.GetTileSafely(k, l);
-						switch (BoneIslandArray[y, x]) {
-							case 0:
-								break; // no changes
-							case 1:
-								WorldGen.PlaceTile(k, l, 0); // Dirt
-								tile.active(true);
-								break;
-							case 2:
-								WorldGen.PlaceTile(k, l, 189);
-								break;
-							case 3:
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;
-							case 4:
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;
-						}
-					}
-				}
-			}
-			for (int y = 0; y < BoneIslandArray.GetLength(0); y++) { // This Loop Placzs Furnitures.(So that they have blocks to spawn on).
-				for (int x = 0; x < BoneIslandArray.GetLength(1); x++) {
-					int k = i - 3 + x;
-					int l = j - 6 + y;
-					if (WorldGen.InWorld(k, l, 30)) {
-						Tile tile = Framing.GetTileSafely(k, l);
-						switch (BoneIslandArray[y, x]) {
-							case 1:
-								WorldGen.PlaceWall(k, l, 73);
-								break;
-							case 2:
-								WorldGen.PlaceWall(k, l, 73);
-								break;
-						}
 					}
 				}
 			}
@@ -3512,6 +3458,10 @@ namespace SpiritMod
 			if (BlueMoon && dayTimeSwitched && !downedBlueMoon)
             {
                 downedBlueMoon = true;
+            }
+			if (jellySky && dayTimeSwitched && !downedJellyDeluge)
+            {
+                downedJellyDeluge = true;
             }
 			if (dayTimeSwitched) {
 				if (Main.rand.Next(2) == 0 && !spaceJunkWeather) {
@@ -3566,7 +3516,7 @@ namespace SpiritMod
                 {
                     calmNight = false;
                 }
-                if (!Main.dayTime && (!downedMoonWizard && Main.rand.Next(6) == 0 || downedMoonWizard && Main.rand.Next(36) == 0))
+                if (!Main.dayTime && (NPC.downedBoss1 || NPC.downedBoss2 || NPC.downedBoss3) && (!downedMoonWizard && Main.rand.Next(6) == 0 || downedMoonWizard && Main.rand.Next(36) == 0))
                 {
                     Main.NewText("Strange jellyfish are pouring out of the sky!", 61, 255, 142);
                     jellySky = true;
@@ -3664,8 +3614,6 @@ namespace SpiritMod
 							NetMessage.SendObjectPlacment(-1, X, Y, ModContent.TileType<GreenShardBig>(), 0, 0, -1, -1);
 						}
 					}
-
-
 				}
 				for (int C = 0; C < Main.maxTilesX * 9; C++) {
 					{
@@ -3676,8 +3624,6 @@ namespace SpiritMod
 							NetMessage.SendObjectPlacment(-1, X, Y, ModContent.TileType<PurpleShardBig>(), 0, 0, -1, -1);
 						}
 					}
-
-
 				}
 			}
 			if (NPC.downedMechBoss3 || NPC.downedMechBoss2 || NPC.downedMechBoss1) {

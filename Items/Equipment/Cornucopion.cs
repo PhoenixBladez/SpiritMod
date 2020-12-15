@@ -57,6 +57,10 @@ namespace SpiritMod.Items.Equipment
                 0f
             );
         }
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(0, -1);
+        }
         public override bool CanUseItem(Player player)
         {
             if (!player.ZoneOverworldHeight && !player.ZoneSkyHeight)

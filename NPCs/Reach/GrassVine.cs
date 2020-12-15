@@ -6,6 +6,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Consumable.Food;
 
 namespace SpiritMod.NPCs.Reach
 {
@@ -42,9 +43,12 @@ namespace SpiritMod.NPCs.Reach
 			if (Main.rand.NextBool(10)) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Vine);
 			}
-		}
-
-		public override void AI()
+            if (Main.rand.NextBool(33))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CaesarSalad>());
+            }
+        }
+        public override void AI()
 		{
 			npc.TargetClosest(true);
 			float num3212 = 12f;

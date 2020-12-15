@@ -5,6 +5,8 @@ using SpiritMod.Items.Weapon.Spear;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Consumable.Food;
+
 namespace SpiritMod.NPCs.Reach
 {
 	public class Reachman : ModNPC
@@ -52,7 +54,7 @@ namespace SpiritMod.NPCs.Reach
 		}
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(15) == 1) {
+			if (Main.rand.Next(20) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SanctifiedStabber>());
 			}
 
@@ -61,8 +63,12 @@ namespace SpiritMod.NPCs.Reach
 				for (int J = 0; J <= Bark; J++) {
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<AncientBark>());
 				}
-			}
-			if (!Main.dayTime) {
+            }
+            if (Main.rand.NextBool(33))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CaesarSalad>());
+            }
+            if (!Main.dayTime) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EnchantedLeaf>());
 			}
 

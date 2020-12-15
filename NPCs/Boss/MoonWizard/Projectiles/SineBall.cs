@@ -60,7 +60,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 				projectile.spriteDirection = 0;
 			}
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-			distance += 0.22f;
+			distance += 0.19f;
 			projectile.ai[0] += rotationalSpeed;
 			
 			Vector2 offset = initialSpeed.RotatedBy(Math.PI / 2);

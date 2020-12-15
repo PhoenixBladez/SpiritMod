@@ -59,13 +59,15 @@ namespace SpiritMod.Items.Weapon.Summon
             }
             return false;
 		}
-		public override void AddRecipes()
-		{
-			ModRecipe modRecipe = new ModRecipe(mod);
-			modRecipe.AddIngredient(ModContent.ItemType<Items.Material.BismiteCrystal>(), 14);
-			modRecipe.AddTile(TileID.Anvils);
-			modRecipe.SetResult(this);
-			modRecipe.AddRecipe();
-		}
-	}
+        public override void AddRecipes()  
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddRecipeGroup("Wood", 12);
+            recipe.AddRecipeGroup("Butterflies", 1);
+            recipe.AddIngredient(ItemID.FallenStar, 3);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+    }
 }

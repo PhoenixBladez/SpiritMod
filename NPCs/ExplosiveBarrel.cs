@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Consumable;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -18,38 +19,62 @@ namespace SpiritMod.NPCs
 		public override void SetDefaults()
 		{
 			npc.width = 50;
-			npc.height = 70;
+			npc.height = 60;
 			npc.damage = 0;
 			npc.dontCountMe = true;
 			npc.defense = 0;
 			npc.lifeMax = 200;
-			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
-			npc.knockBackResist = .45f;
+			npc.knockBackResist = .095f;
 			npc.aiStyle = 0;
 			npc.npcSlots = 0;
 			npc.noGravity = false;
-			npc.HitSound = SoundID.NPCHit4;
+            npc.chaseable = false;
+            npc.HitSound = SoundID.NPCHit4;
 			npc.friendly = false;
 		}
 		public override void AI()
 		{
-			if (Main.rand.Next(10) == 1) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 6, 0, -5, 0, default(Color), 1.5f);
-			}
-			npc.spriteDirection = (int)npc.ai[0];
-			npc.life--;
-			if (npc.life <= 0) 
-			{
-				Explode();
-			}
+			npc.spriteDirection = -1;
+            Player target = Main.player[npc.target];
+            int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
 
-		}
-		public void Explode()
+			if (distance < 100 || npc.ai[1] == 1800)
+            {
+                npc.ai[0] = 1;
+                npc.netUpdate = true;
+            }
+            npc.ai[1]++;
+            if (npc.ai[0] == 1)
+            {
+                npc.life--;
+                if (Main.rand.Next(10) == 1)
+                {
+                    Dust.NewDust(npc.position, npc.width, npc.height, 6, 0, -5, 0, default(Color), 1.5f);
+                }
+                if (npc.life <= 0)
+                {
+                    Explode();
+                }
+            }
+            Lighting.AddLight(new Vector2(npc.Center.X, npc.Center.Y), 0.242f/4*3, 0.132f/4*3, 0.068f/4*3);
+        }
+        public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
+        {
+            npc.ai[0] = 1;
+            npc.netUpdate = true;
+        }
+        public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
+        {
+            npc.ai[0] = 1;
+            npc.netUpdate = true;
+        }
+        public void Explode()
 		{
-			Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<BarrelExplosionLarge>(), 100, 8, Main.myPlayer);
-			npc.active = false;
-		}
+            Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<BarrelExplosionLarge>(), 100, 8, Main.myPlayer);
+            npc.active = false;
+   
+        }
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0) {

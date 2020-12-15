@@ -85,15 +85,6 @@ namespace SpiritMod.Items.Weapon.Summon.ElectricGun
             }
             return false;
         }
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Material.TechDrive>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<Items.Placeable.Tiles.SpaceJunkItem>(), 25);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
-        }
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-7, 0);

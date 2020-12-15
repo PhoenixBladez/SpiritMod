@@ -96,6 +96,7 @@ namespace SpiritMod
 		public bool shadowFang = false;
 		public bool reachBrooch = false;
 		public bool cleftHorn = false;
+        public bool mimicRepellent = false;
 		public bool daybloomSet = false;
 		public int dazzleStacks;
 		public bool ToxicExtract = false;
@@ -217,6 +218,7 @@ namespace SpiritMod
 		public bool carnivorousPlantMinion = false;
 		public bool skeletalonMinion = false;
         public bool snapsporeMinion = false;
+        public bool butterflyMinion = false;
 		public bool beetleMinion = false;
 		public bool steamMinion = false;
 		public bool aeonMinion = false;
@@ -712,6 +714,7 @@ namespace SpiritMod
 			jellyfishPet = false;
 			thrallPet = false;
             jellyfishMinion = false;
+            butterflyMinion = false;
 			shadowPet = false;
 			saucerPet = false;
 			terror1Summon = false;
@@ -792,6 +795,7 @@ namespace SpiritMod
 			OriRing = false;
 			SRingOn = false;
 			goldenApple = false;
+            mimicRepellent = false;
 			hpRegenRing = false;
 			forbiddenTome = false;
 			bubbleShield = false;
@@ -1077,50 +1081,53 @@ namespace SpiritMod
 			if(modPlayer.ZoneSpirit && NPC.downedMechBossAny && Main.rand.NextBool(player.cratePotion ? 35 : 65)) {
 				caughtType = ModContent.ItemType<SpiritCrate>();
 			}
-			if(Main.rand.NextBool(player.cratePotion ? 2 : 95)) {
-				for(int i = 0; i < 1000; i++) {
-					if(Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber) {
-						bobberIndex = i;
+			if (!mimicRepellent)
+            { 
+				if(Main.rand.NextBool(player.cratePotion ? 2 : 95)) {
+					for(int i = 0; i < 1000; i++) {
+						if(Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber) {
+							bobberIndex = i;
+						}
+					}
+					if(bobberIndex != -1) {
+						Vector2 bobberPos = Main.projectile[bobberIndex].Center;
+						caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<WoodCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
+						if (Main.netMode == 1)
+						{
+							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, caughtType);
+						}
 					}
 				}
-				if(bobberIndex != -1) {
-					Vector2 bobberPos = Main.projectile[bobberIndex].Center;
-					caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<WoodCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
-                    if (Main.netMode == 1)
-                    {
-                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, caughtType);
-                    }
-                }
-			}
-			if(Main.rand.NextBool(player.cratePotion ? 100 : 125)) {
-				for(int i = 0; i < 1000; i++) {
-					if(Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber) {
-						bobberIndex = i;
+				if(Main.rand.NextBool(player.cratePotion ? 100 : 125)) {
+					for(int i = 0; i < 1000; i++) {
+						if(Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber) {
+							bobberIndex = i;
+						}
+					}
+					if(bobberIndex != -1) {
+						Vector2 bobberPos = Main.projectile[bobberIndex].Center;
+						caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<IronCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
+						if (Main.netMode == 1)
+						{
+							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, ModContent.NPCType<IronCrateMimic>());
+						}
 					}
 				}
-				if(bobberIndex != -1) {
-					Vector2 bobberPos = Main.projectile[bobberIndex].Center;
-					caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<IronCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
-                    if (Main.netMode == 1)
-                    {
-                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, ModContent.NPCType<IronCrateMimic>());
-                    }
-                }
-			}
-			if(Main.rand.NextBool(player.cratePotion ? 100 : 125) && Main.raining) {
-				for(int i = 0; i < 1000; i++) {
-					if(Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber) {
-						bobberIndex = i;
+				if(Main.rand.NextBool(player.cratePotion ? 100 : 125) && Main.raining) {
+					for(int i = 0; i < 1000; i++) {
+						if(Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber) {
+							bobberIndex = i;
+						}
+					}
+					if(bobberIndex != -1) {
+						Vector2 bobberPos = Main.projectile[bobberIndex].Center;
+						caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<GoldCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
+						if (Main.netMode == 1)
+						{
+							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, ModContent.NPCType<GoldCrateMimic>());
+						}
 					}
 				}
-				if(bobberIndex != -1) {
-					Vector2 bobberPos = Main.projectile[bobberIndex].Center;
-					caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<GoldCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
-                    if (Main.netMode == 1)
-                    {
-                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, ModContent.NPCType<GoldCrateMimic>());
-                    }
-                }
 			}
 			if(modPlayer.ZoneSpirit && NPC.downedMechBossAny && Main.rand.NextBool(5)) {
 				caughtType = ModContent.ItemType<SpiritKoi>();
@@ -1142,8 +1149,17 @@ namespace SpiritMod
                 caughtType = ModContent.ItemType<Items.Weapon.Club.BassSlapper>();
             }
         }
-
-		public override void OnHitAnything(float x, float y, Entity victim)
+        public override void AnglerQuestReward(float quality, List<Item> rewardItems)
+        {
+            if (Main.rand.NextBool(10))
+            {
+                Item repel = new Item();
+                repel.SetDefaults(ModContent.ItemType<Items.Accessory.MimicRepellent>());
+                //repel.stack = 1;
+                rewardItems.Add(repel);
+            }
+        }
+        public override void OnHitAnything(float x, float y, Entity victim)
 		{
 			if(TiteRing && LastEnemyHit == victim && Main.rand.NextBool(10)) {
 				player.AddBuff(BuffID.ShadowDodge, 145);
@@ -4102,8 +4118,8 @@ namespace SpiritMod
 			}
 
 			if(poisonPotion && crit) {
-				if(Main.rand.NextBool(10)) {
-					target.AddBuff(BuffID.Poisoned, 180);
+				if(Main.rand.NextBool(2)) {
+					target.AddBuff(BuffID.Poisoned, 150);
 				}
 			}
 

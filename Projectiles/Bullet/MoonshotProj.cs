@@ -18,8 +18,8 @@ namespace SpiritMod.Projectiles.Bullet
 		{
 			projectile.hostile = false;
 			projectile.ranged = true;
-			projectile.width = 16;
-			projectile.height = 16;
+			projectile.width = 12;
+			projectile.height = 12;
 			projectile.aiStyle = -1;
 			projectile.friendly = false;
 			projectile.penetrate = 1;
@@ -47,19 +47,19 @@ namespace SpiritMod.Projectiles.Bullet
                 {
                     Main.PlaySound(25, (int)projectile.position.X, (int)projectile.position.Y);
                 }
+				if (counter == 45)
+                {
+                    DustHelper.DrawDustImage(player.Center, 226, 0.11f, "SpiritMod/Effects/DustImages/MoonSigil", 1f);
+                }
+				if (counter == 140)
+                {
+                    DustHelper.DrawDustImage(player.Center, 226, 0.18f, "SpiritMod/Effects/DustImages/MoonSigil", 1f);
+                }
                 player.itemTime = 5;
                 player.itemAnimation = 5;
                 projectile.position = player.Center + holdOffset;
                 player.velocity.X *= 0.97f;
                 counter++;
-                if (counter > 45)
-                {
-                    DoDustEffect(player.Center + holdOffset, 8f);
-                }
-                if (counter > 140)
-                {
-                    DoDustEffect(player.Center + holdOffset, 26f);
-                }
             }
             else
             {
@@ -71,23 +71,23 @@ namespace SpiritMod.Projectiles.Bullet
 					player.PickAmmo(player.inventory[player.selectedItem], ref shoot, ref speed, ref canshoot, ref projectile.damage, ref projectile.knockBack, false);
 					if (counter < 45)
 					{
-						Main.PlaySound(2, projectile.Center, 41);
+						Main.PlaySound(2, projectile.Center, 96);
 						direction /= 2f;
-						int proj = Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction * speed, shoot, projectile.damage, projectile.knockBack / 2, 0, projectile.owner);
+						int proj = Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction * speed, shoot, 12, projectile.knockBack / 4, 0, projectile.owner);
 						Main.projectile[proj].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromMaliwanShockCommon = true;
 					}
 					else if (counter >= 45 && counter < 140)
 					{
 						Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
 						direction *= 2.25f;
-						Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, ModContent.ProjectileType<MoonshotBulletLarge>(), (int)(projectile.damage * 1.65f), 5, projectile.owner);
+						Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, ModContent.ProjectileType<MoonshotBulletLarge>(), (int)(projectile.damage/2), 5, projectile.owner);
 					}
 					else if (counter > 140)
 					{
 						direction *= .8f;
 						Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
-						int proj = Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, mod.ProjectileType("SineBall"), projectile.damage, projectile.knockBack * 2.5f, projectile.owner, 180);
-						int p1 = Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, mod.ProjectileType("SineBall"), projectile.damage, projectile.knockBack * 2.5f, projectile.owner, 0, proj + 1);
+						int proj = Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, mod.ProjectileType("SineBall"), projectile.damage/3, projectile.knockBack * 0.25f, projectile.owner, 180);
+						int p1 = Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, mod.ProjectileType("SineBall"), projectile.damage/3, projectile.knockBack * 0.25f, projectile.owner, 0, proj + 1);
 						Main.projectile[proj].hostile = false;
 						Main.projectile[p1].hostile = false;
 						Main.projectile[proj].friendly = true;

@@ -63,7 +63,8 @@ namespace SpiritMod.Tiles.Ambient.IceSculpture.Hostile
 						Main.npc[n].life = Main.npc[n].lifeMax;
 						Main.npc[n].damage = (int)(Main.npc[n].damage * 1.5f);
 						Main.npc[n].knockBackResist = 0.25f;
-						WorldGen.KillTile(i, j);
+                        Main.npc[n].netUpdate = true;
+                        WorldGen.KillTile(i, j);
 					}
 				}
 			}

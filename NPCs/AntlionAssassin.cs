@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Consumable.Food;
 
 namespace SpiritMod.NPCs
 {
@@ -131,9 +132,13 @@ namespace SpiritMod.NPCs
 		}
 		public override void NPCLoot()
 		{
-			if (Main.rand.NextBool(25)) {
+			if (Main.rand.NextBool(53)) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 857);
-			}
-		}
+            }
+            if (Main.rand.NextBool(16))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Hummus>());
+            }
+        }
 	}
 }

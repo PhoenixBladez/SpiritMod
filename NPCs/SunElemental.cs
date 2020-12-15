@@ -152,10 +152,14 @@ namespace SpiritMod.NPCs
 
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(20) == 1) {
+			if (Main.rand.Next(38) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<LihzardShield>());
 			}
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SunShard>(), Main.rand.Next(1) + 1);
+            if (Main.rand.Next(16) == 1)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.LihzahrdPowerCell);
+            }
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SunShard>(), Main.rand.Next(1) + 1);
 		}
 	}
 }

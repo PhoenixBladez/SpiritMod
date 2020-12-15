@@ -192,7 +192,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
                     }
 					else
 				    {
-						npc.ai[0] = Main.rand.Next(8) + 1;
+						npc.ai[0] = Main.rand.Next(7) + 1;
                     }
 
 					if (npc.ai[0] == 7 && Main.player[npc.target].velocity.Y > 0) {
@@ -443,7 +443,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			}
 			if (attackCounter >= 30) 
 			{
-				if (attackCounter % 60 == 30 && Main.netMode != NetmodeID.MultiplayerClient) 
+				if (attackCounter % 80 == 40 && Main.netMode != NetmodeID.MultiplayerClient) 
 				{
 					Vector2 direction = player.Center - (npc.Center - new Vector2(0, 60));
 					direction.Normalize();
@@ -455,7 +455,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
                     Main.projectile[proj].friendly = false;
                     Main.projectile[p1].friendly = false;
                 }
-				if (attackCounter > 250) 
+				if (attackCounter > 260) 
 				{
 					npc.ai[0] = 1;
                     npc.netUpdate = true; 
@@ -468,7 +468,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 		{
 			Player player = Main.player[npc.target];
 			npc.rotation = 3.14f;
-			if (attackCounter < 30) 
+			if (attackCounter < 30 || attackCounter > 10) 
 			{
 				npc.position.X = player.position.X;
 				npc.position.Y = player.position.Y - 300; 
@@ -483,7 +483,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				UpdateFrame(0.4f, 4, 9);
 				if (attackCounter == 55) {
                     Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/BossSFX/MoonWizard_Attack"));
-                    npc.velocity.Y = 18;
+                    npc.velocity.Y = 15;
                     npc.velocity.Y += .6f;
 					if (phaseTwo) {
 						npc.velocity.Y = 30;
@@ -496,7 +496,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			if (Main.netMode != NetmodeID.MultiplayerClient && (Main.tile[(int)(npc.Center.X / 16), (int)(npc.Center.Y / 16)].collisionType == 1 || attackCounter > 70))
 			{
 				for (int i = 0; i < Main.rand.Next(9, 15); i++) {
-					Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(-13, 13), Main.rand.NextFloat(3.2f)), mod.ProjectileType("MoonBubble"), npc.damage / 2, 3);
+					Projectile.NewProjectile(npc.Center, new Vector2(Main.rand.NextFloat(-10, 10), Main.rand.NextFloat(3.2f)), mod.ProjectileType("MoonBubble"), npc.damage / 2, 3);
 				}
 				Teleport();
 				npc.ai[0] = 0;

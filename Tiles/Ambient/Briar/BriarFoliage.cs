@@ -16,7 +16,7 @@ namespace SpiritMod.Tiles.Ambient.Briar
 			Main.tileNoFail[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 
-			dustType = 5;
+			dustType = 167;
 			soundType = SoundID.Grass;
 
 			/*

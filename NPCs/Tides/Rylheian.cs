@@ -36,6 +36,7 @@ namespace SpiritMod.NPCs.Tides
 			npc.lifeMax = 1300;
 			npc.knockBackResist = 0;
 			npc.noGravity = true;
+            npc.netAlways = true;
 			npc.noTileCollide = true;
 			npc.HitSound = SoundID.NPCHit55;
 			npc.DeathSound = SoundID.NPCDeath5;
@@ -118,6 +119,7 @@ namespace SpiritMod.NPCs.Tides
 						Projectile.NewProjectile(npc.Center.X + offset.X, npc.Center.Y + offset.Y, direction.X, direction.Y, ModContent.ProjectileType<RyBolt>(), npc.damage / 2, 0,Main.myPlayer);
 				}
 				npc.ai[1] = 0;
+                npc.netUpdate = true;
 			}
 			if (npc.ai[1] == 1) {
 				if (npc.ai[0] % 12 == 0 && npc.ai[0] % 400 < 300) {
@@ -125,6 +127,7 @@ namespace SpiritMod.NPCs.Tides
 					Vector2 offset = new Vector2((float)Math.Cos(npc.ai[2]), (float)Math.Sin(npc.ai[2])) * 90f;
 					DustHelper.DrawTriangle(npc.Center + offset, 173, 4);
 					npc.ai[2] += 0.785f;
+                    npc.netUpdate = true;
 				}
 			}
 			#endregion
@@ -137,6 +140,7 @@ namespace SpiritMod.NPCs.Tides
 				}
 				if (npc.ai[0] % 400 == 390) {
 					npc.ai[1] = 0;
+                    npc.netUpdate = true;
 				}
 			}
 			#endregion
@@ -160,6 +164,7 @@ namespace SpiritMod.NPCs.Tides
 				}
 				if (npc.ai[0] % 400 == 390) {
 					npc.ai[1] = 0;
+                    npc.netUpdate = true;
 				}
 			}
 			#endregion
@@ -207,8 +212,6 @@ namespace SpiritMod.NPCs.Tides
 
         public override void HitEffect(int hitDirection, double damage)
 		{
-			for (int i = 0; i < 10; i++)
-				;
 			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Tentacle"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/TentacleHead"), 1f);

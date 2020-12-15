@@ -43,7 +43,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
             int num623 = Dust.NewDust(projectile.Center - projectile.velocity / 5, 4, 4, 180, 0f, 0f, 0, default(Color), 1.8f);
             Main.dust[num623].velocity = projectile.velocity;
             Main.dust[num623].noGravity = true;
-			if (projectile.timeLeft < 60)
+			if (projectile.timeLeft < 55)
             {
                 projectile.tileCollide = true;
             }
