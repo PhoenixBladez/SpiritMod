@@ -22,6 +22,7 @@ namespace SpiritMod.Items.Weapon.Club
             item.height = 66;
             item.useTime = 320;
             item.useAnimation = 320;
+            item.crit = 8;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.melee = true;
             item.noMelee = true;

@@ -21,9 +21,9 @@ namespace SpiritMod.Items.Weapon.Spear
 			item.height = 24;
 			item.value = Item.sellPrice(0, 1, 30, 0);
 			item.rare = ItemRarityID.Green;
-			item.crit = 6;
-			item.damage = 26;
-			item.knockBack = 6f;
+			item.crit = 3;
+			item.damage = 21;
+			item.knockBack = 2.5f;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useTime = 9;
 			item.useAnimation = 9;

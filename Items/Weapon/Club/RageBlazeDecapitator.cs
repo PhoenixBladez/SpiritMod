@@ -26,6 +26,7 @@ namespace SpiritMod.Items.Weapon.Club
             item.height = 60;
             item.useTime = 320;
             item.useAnimation = 320;
+            item.crit = 8;
             item.useStyle = 4;
             item.melee = true;
             item.noMelee = true;

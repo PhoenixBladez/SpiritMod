@@ -22,14 +22,12 @@ namespace SpiritMod.Items.Weapon.Bow
 		//private Vector2 newVect;
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.damage = 40;
-
-			item.height = 40;
+			item.damage = 28;
+            item.width = 22;
+            item.height = 40;
 			item.value = Terraria.Item.sellPrice(0, 2, 50, 0);
 			item.rare = ItemRarityID.LightRed;
 			item.knockBack = 4;
-
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useTime = 13;
 			item.useAnimation = 13;
