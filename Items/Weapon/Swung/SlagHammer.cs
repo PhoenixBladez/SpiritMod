@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Slag Breaker");
-			Tooltip.SetDefault("Hold down to keep swinging\nThis hammer explodes after hitting 4 targets\nHitting enemies releases damaging sparks\nRight click to throw the Hammer like a boomerang");
+			Tooltip.SetDefault("Hold down and release to throw the Hammer like a boomerang");
 		}
 
 
@@ -28,44 +28,23 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.melee = true;
 			item.channel = true;
 			item.noMelee = true;
-			item.useAnimation = 44;
-			item.useTime = 44;
+			item.useAnimation = 320;
+			item.useTime = 320;
 			item.shootSpeed = 8f;
 			item.knockBack = 5f;
 			item.damage = 29;
 			item.value = Item.sellPrice(0, 0, 60, 0);
 			item.rare = ItemRarityID.Orange;
+			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.shoot = ModContent.ProjectileType<SlagHammerProj>();
 		}
-		public override bool UseItemFrame(Player player)
-		{
-			if (player.altFunctionUse != 2) {
-				player.bodyFrame.Y = 3 * player.bodyFrame.Height;
-			}
-			return true;
-
-		}
-		public override bool AltFunctionUse(Player player)
-		{
-			return true;
-		}
-
 
 		public override bool CanUseItem(Player player)
 		{
 			for (int i = 0; i < 1000; ++i) {
-				if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot) {
+				if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == ModContent.ProjectileType<SlagHammerProjReturning>()) {
 					return false;
 				}
-			}
-			if (player.altFunctionUse == 2) {
-				item.useStyle = ItemUseStyleID.SwingThrow;
-				item.shoot = ModContent.ProjectileType<SlagHammerProjReturning>();
-			}
-			else {
-				item.useTime = 46;
-				item.useAnimation = 46;
-				item.shoot = ModContent.ProjectileType<SlagHammerProj>();
 			}
 			return base.CanUseItem(player);
 		}

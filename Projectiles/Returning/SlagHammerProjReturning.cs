@@ -1,4 +1,6 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,18 +16,23 @@ namespace SpiritMod.Projectiles.Returning
 
 		public override void SetDefaults()
 		{
-			projectile.width = 34;
-			projectile.height = 34;
+			projectile.width = 45;
+			projectile.height = 45;
 			projectile.aiStyle = 3;
 			projectile.friendly = true;
 			projectile.melee = true;
 			projectile.magic = false;
-			projectile.penetrate = 2;
+			projectile.penetrate = -1;
 			projectile.timeLeft = 700;
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
+			Player player = Main.player[projectile.owner];
+			if (projectile.tileCollide)
+			{
+				player.GetModPlayer<MyPlayer>().Shake += 8;
+			}
 			if (Main.rand.Next(6) == 0)
 				target.AddBuff(BuffID.OnFire, 120, true);
 			{
@@ -41,9 +48,21 @@ namespace SpiritMod.Projectiles.Returning
 				}
 			}
 		}
-
+		public override bool OnTileCollide(Vector2 oldVelocity)
+		{
+			Player player = Main.player[projectile.owner];
+			player.GetModPlayer<MyPlayer>().Shake += 8;
+			return base.OnTileCollide(oldVelocity);
+		}
+		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            float sineAdd = (float)Math.Sin(alphaCounter) + 2.5f;
+            Main.spriteBatch.Draw(SpiritMod.instance.GetTexture("Effects/Masks/Extra_49"), projectile.Center - Main.screenPosition, null, new Color((int)(16.5f * sineAdd), (int)(5.5f * sineAdd), (int)(0 * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + 1), SpriteEffects.None, 0f);
+		}
+		float alphaCounter = 0;
 		public override void AI()
 		{
+			alphaCounter += 0.08f;
 			int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 127);
 			Main.dust[d].noGravity = true;
 		}

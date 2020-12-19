@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System;
+using SpiritMod.Projectiles.Returning;
 
 namespace SpiritMod.Projectiles.Held
 {
@@ -27,11 +29,15 @@ namespace SpiritMod.Projectiles.Held
 			projectile.ownerHitCheck = true;
 		}
 
-
+		int height = 62;
+        int width = 60;
+		double radians = 0;
+        int flickerTime = 0;
+        float alphaCounter = 0;
+        int chargeTime = 50;
+        bool released = false;
 		public override void AI()
 		{
-			Player player = Main.player[projectile.owner];
-			for (int k = 0; k < 2; k++) {
 				int dust = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 127);
 				Main.dust[dust].velocity *= -1f;
 				Main.dust[dust].noGravity = true;
@@ -41,109 +47,123 @@ namespace SpiritMod.Projectiles.Held
 				Main.dust[dust].velocity = vector2_2;
 				vector2_2.Normalize();
 				Vector2 vector2_3 = vector2_2 * 34f;
-				Main.dust[dust].position = player.Center - vector2_3;
+				Main.dust[dust].position = projectile.Center - vector2_3;
+			alphaCounter += 0.08f;
+            Player player = Main.player[projectile.owner];
+			if (!released)
+			{
+                projectile.scale = MathHelper.Clamp(projectile.ai[0] / 10, 0, 1);
 			}
-			projectile.ownerHitCheck = true;
-			projectile.soundDelay--;
-			if (projectile.soundDelay <= 0) {
-				Main.PlaySound(SoundID.Item, (int)projectile.Center.X, (int)projectile.Center.Y, 1);
-				projectile.soundDelay = 60;
-			}
-			if (Main.myPlayer == projectile.owner) {
-				if (!player.channel || player.noItems || player.CCed) {
-					projectile.Kill();
-				}
-			}
-			projectile.Center = player.MountedCenter;
-			projectile.position.X += player.width / 2 + (10 * -player.direction) * player.direction;
-			projectile.spriteDirection = player.direction;
-			projectile.rotation += 0.2f * player.direction;
-			if (projectile.rotation > MathHelper.TwoPi) {
-				projectile.rotation -= MathHelper.TwoPi;
-			}
-			else if (projectile.rotation < 0) {
-				projectile.rotation += MathHelper.TwoPi;
-			}
-			player.heldProj = projectile.whoAmI;
-			player.itemTime = 2;
-			player.itemAnimation = 2;
-			player.itemRotation = projectile.rotation;
+                if (player.direction == 1)
+                {
+                    radians += (double)((projectile.ai[0] + 10) / 200);
+                }
+                else
+                {
+                    radians -= (double)((projectile.ai[0] + 10) / 200);
+                }
+                if (radians > 6.28)
+                {
+                    radians -= 6.28;
+                }
+                if (radians < -6.28)
+                {
+                    radians += 6.28;
+                }
+                player.itemAnimation -= (int)((projectile.ai[0] + 50) / 6);
+
+                while (player.itemAnimation < 3)
+                {
+                    player.itemAnimation += 320;
+                }
+                player.itemTime = player.itemAnimation;
+                projectile.velocity = Vector2.Zero;
+
+                if (projectile.ai[0] < chargeTime)
+                {
+                    projectile.ai[0]+= 0.7f;
+                     if (projectile.ai[0] >= chargeTime)
+                    {
+                        Main.PlaySound(SoundID.NPCDeath7, projectile.Center);
+                    }
+                }
+                Vector2 direction = Main.MouseWorld - player.position;
+                direction.Normalize();
+                double throwingAngle = direction.ToRotation() + 3.14;
+                if (player.direction != 1)
+                {
+                    throwingAngle -= 6.28;
+                }
+                 if ((!player.channel && Math.Abs(radians - throwingAngle) < 1) || released)
+                {
+                    if (projectile.ai[0] < chargeTime || released)
+                    {
+                        released = true;
+                        projectile.scale -= 0.15f;
+                        if (projectile.scale < 0.15f)
+                        {
+                            projectile.active = false;
+                            player.itemTime = 2;
+                            player.itemAnimation = 2;
+                        }
+                    }
+                    else
+                    {
+                        projectile.active = false;
+                        direction *= 10;
+                        Projectile.NewProjectile(player.Center, direction, ModContent.ProjectileType<SlagHammerProjReturning>(), (int)(projectile.damage * 1.5f), projectile.knockBack, projectile.owner);
+                        player.itemTime = 46;
+                        player.itemAnimation = 46;
+                    }
+                }
+                projectile.position.Y = player.Center.Y - (int)(Math.Sin(radians * 0.96) * 40) - (projectile.height / 2);
+                projectile.position.X = player.Center.X - (int)(Math.Cos(radians * 0.96) * 40) - (projectile.width / 2);
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			Texture2D texture = Main.projectileTexture[projectile.type];
-			spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, new Vector2(texture.Width / 2, texture.Height / 2), 1f, projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
-			return false;
-		}
+        {
+                Color color = lightColor;
+                Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, 0, width, height), color, (float)radians + 3.9f, new Vector2(0, height), projectile.scale, SpriteEffects.None, 0);
+                if (projectile.ai[0] >= chargeTime && projectile.ai[1] == 0)
+                {
+                    Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, height, width, height), Color.White * 0.9f, (float)radians + 3.9f, new Vector2(0, height), projectile.scale, SpriteEffects.None, 1);
+
+                    if (flickerTime < 16)
+                    {
+                        flickerTime++;
+                        color = Color.White;
+                        float flickerTime2 = (float)(flickerTime / 20f);
+                        float alpha = 1.5f - (((flickerTime2 * flickerTime2) / 2) + (2f * flickerTime2));
+                        if (alpha < 0)
+                        {
+                            alpha = 0;
+                        }
+                        Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, height * 2, width, height), color * alpha, (float)radians + 3.9f, new Vector2(0, height), projectile.scale, SpriteEffects.None, 1);
+                    }
+                }
+                return false;
+        }
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
+            if (projectile.ai[1] == 0)
+            {
 			Player player = Main.player[projectile.owner];
 			if (target.Center.X > player.Center.X)
 				hitDirection = 1;
 			else
 				hitDirection = -1;
+            }
 		}
-		int hits;
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(6) == 2)
 				target.AddBuff(BuffID.OnFire, 180);
-			hits++;
-			if (hits >= 4) {
-				projectile.Kill();
-			}
-			{
-				int n = 4;
-				int deviation = Main.rand.Next(0, 300);
-				for (int i = 0; i < n; i++) {
-					float rotation = MathHelper.ToRadians(270 / n * i + deviation);
-					Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(rotation);
-					perturbedSpeed.Normalize();
-					perturbedSpeed.X *= 2.5f;
-					perturbedSpeed.Y *= 2.5f;
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ProjectileID.Spark, projectile.damage / 3, 2, projectile.owner);
-				}
-			}
 		}
-		public override void Kill(int timeLeft)
-		{
-			if (hits >= 4) {
-				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
-				ProjectileExtras.Explode(projectile.whoAmI, 120, 120,
-					delegate {
-						for (int i = 0; i < 40; i++) {
-							int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, -2f, 0, default(Color), 1.2f);
-							Main.dust[num].noGravity = true;
-							Dust expr_62_cp_0 = Main.dust[num];
-							expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
-							Dust expr_92_cp_0 = Main.dust[num];
-							expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
-							if (Main.dust[num].position != projectile.Center) {
-								Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
-							}
-						}
-					});
-				for (int num625 = 0; num625 < 2; num625++) {
-					float scaleFactor10 = 0.33f;
-					if (num625 == 1)
-						scaleFactor10 = 0.66f;
-
-					if (num625 == 2)
-						scaleFactor10 = 1f;
-
-					int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default(Vector2), Main.rand.Next(61, 64), 1f);
-					Main.gore[num626].velocity *= scaleFactor10;
-					Gore expr_13AB6_cp_0 = Main.gore[num626];
-					expr_13AB6_cp_0.velocity.X = expr_13AB6_cp_0.velocity.X + 1f;
-					Gore expr_13AD6_cp_0 = Main.gore[num626];
-					expr_13AD6_cp_0.velocity.Y = expr_13AD6_cp_0.velocity.Y + 1f;
-					num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default(Vector2), Main.rand.Next(61, 64), 1f);
-					Main.gore[num626].velocity *= scaleFactor10;
-					Gore expr_13B79_cp_0 = Main.gore[num626];
-					expr_13B79_cp_0.velocity.X = expr_13B79_cp_0.velocity.X - 1f;
-					Gore expr_13B99_cp_0 = Main.gore[num626];
-					expr_13B99_cp_0.velocity.Y = expr_13B99_cp_0.velocity.Y + 1f;
-				}
+		 public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+			if (projectile.ai[0] > 10)
+			{
+            float sineAdd = (float)Math.Sin(alphaCounter) + 2.5f;
+            Main.spriteBatch.Draw(SpiritMod.instance.GetTexture("Effects/Masks/Extra_49"), projectile.Center - Main.screenPosition, null, new Color((int)(16.5f * sineAdd), (int)(5.5f * sineAdd), (int)(0 * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + 1), SpriteEffects.None, 0f);
 			}
 		}
 	}
