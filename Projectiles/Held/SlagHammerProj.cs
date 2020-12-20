@@ -74,6 +74,7 @@ namespace SpiritMod.Projectiles.Held
 
                 while (player.itemAnimation < 3)
                 {
+                    Main.PlaySound(SoundID.Item1, projectile.Center);
                     player.itemAnimation += 320;
                 }
                 player.itemTime = player.itemAnimation;
