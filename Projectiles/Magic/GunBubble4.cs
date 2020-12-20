@@ -43,9 +43,9 @@ namespace SpiritMod.Projectiles.Magic
 				Main.dust[num].noGravity = true;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
-				Main.dust[num].scale *= .1825f;
+				Main.dust[num].scale *= .3f;
 				if (Main.dust[num].position != projectile.Center)
-					Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 5f;
+					Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 7f;
 			}
 		}
 	}
