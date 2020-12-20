@@ -20,10 +20,10 @@ namespace SpiritMod.Items.Weapon.Yoyo
 		public override void SetDefaults()
 		{
 			item.CloneDefaults(ItemID.WoodYoyo);
-			item.damage = 15;
+			item.damage = 17;
 			item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
 			item.rare = 2;
-			item.knockBack = 3;
+			item.knockBack = 3.5f;
 			item.channel = true;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useAnimation = 25;

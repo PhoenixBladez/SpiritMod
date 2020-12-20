@@ -16,11 +16,12 @@ namespace SpiritMod.Items.Weapon.Club
         public override void SetDefaults()
         {
             item.channel = true;
-            item.damage = 18;
+            item.damage = 19;
             item.width = 58;
             item.height = 58;
             item.useTime = 320;
             item.useAnimation = 320;
+            item.crit = 4;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.melee = true;
             item.noMelee = true;
