@@ -58,7 +58,7 @@ namespace SpiritMod.Items.DonatorItems
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<ZeusLightning>(), 1);
 			recipe.AddIngredient(ItemID.MoonlordTurretStaff, 1);
-			recipe.AddIngredient(ModContent.ItemType<AccursedRelic>(), 6);
+			recipe.AddIngredient(ItemID.LunarBar, 6);
 			recipe.AddTile(TileID.LunarCraftingStation);
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();

@@ -21,9 +21,9 @@ namespace SpiritMod.NPCs.Asteroid
 		{
 			npc.width = 32;
 			npc.height = 48;
-			npc.damage = 18;
-			npc.defense = 6;
-			npc.lifeMax = 106;
+			npc.damage = 28;
+			npc.defense = 8;
+			npc.lifeMax = 85;
 			npc.noGravity = true;
 			npc.value = 90f;
 			npc.noTileCollide = true;

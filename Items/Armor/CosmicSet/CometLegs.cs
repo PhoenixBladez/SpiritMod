@@ -1,9 +1,9 @@
-/*using System.Collections.Generic;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Armor.CosmicArmor
+namespace SpiritMod.Items.Armor.CosmicSet
 {
     [AutoloadEquip(EquipType.Legs)]
     public class CometLegs : ModItem
@@ -11,31 +11,28 @@ namespace SpiritMod.Items.Armor.CosmicArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cosmic Greaves");
-			Tooltip.SetDefault("Increases throwing damage by 33% and throwing velocity by 30%");
 		}
 
         public override void SetDefaults()
         {
             item.width = 22;
             item.height = 18;
-            item.value = 190000;
+            item.value = Item.sellPrice(0, 5, 25, 0);
             item.rare = ItemRarityID.Red;
-            item.defense = 15;
-        }
-        public override void UpdateEquip(Player player)
-        {
 
-            player.thrownVelocity += .30f;
-            player.thrownDamage += 0.33f;
+            item.vanity = true;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AccursedRelic>(), 1);
-            recipe.AddTile(TileID.MythrilAnvil);
+			recipe.AddIngredient(ItemID.FragmentVortex, 4);
+			recipe.AddIngredient(ItemID.FragmentNebula, 4);
+			recipe.AddIngredient(ItemID.FragmentSolar, 4);
+			recipe.AddIngredient(ItemID.FragmentStardust, 4);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();
         }
     }
-}*/
+}

@@ -24,8 +24,8 @@ namespace SpiritMod.NPCs.Asteroid
 			npc.width = 60;
 			npc.height = 60;
 			npc.damage = 24;
-			npc.defense = 10;
-			npc.lifeMax = 110;
+			npc.defense = 4;
+			npc.lifeMax = 80;
 			npc.HitSound = SoundID.NPCHit3;
 			npc.DeathSound = SoundID.NPCDeath6;
 			npc.value = 210f;

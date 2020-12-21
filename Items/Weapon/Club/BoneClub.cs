@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Weapon.Club
             item.noMelee = true;
             item.knockBack = 12;
             item.useTurn = false;
-            item.value = Terraria.Item.sellPrice(0, 1, 42, 0);
+            item.value = Terraria.Item.sellPrice(0, 1, 40, 0);
             item.rare = ItemRarityID.Orange;
             item.autoReuse = false;
             item.shoot = mod.ProjectileType("BoneClubProj");

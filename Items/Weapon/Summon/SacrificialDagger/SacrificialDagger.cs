@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Summon.SacrificialDagger
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sacrificial Dagger");
-			Tooltip.SetDefault("Your summons will target struck enemies\nSummons that hit tagged enemies may deal extra strikes of damage");
+			Tooltip.SetDefault("Your summons will target focus enemies\nSummons that hit tagged enemies may deal extra strikes of damage");
 		}
 
 
@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Weapon.Summon.SacrificialDagger
 			item.width = 18;
 			item.height = 44;
 			item.rare = ItemRarityID.Green;
-			item.value = Terraria.Item.sellPrice(0, 1, 70, 0);
+			item.value = Terraria.Item.sellPrice(0, 0, 80, 0);
 			item.damage = 15;
 			item.knockBack = 2;
             item.mana = 10;

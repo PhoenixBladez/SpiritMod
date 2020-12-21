@@ -44,11 +44,11 @@ namespace SpiritMod.Items.Weapon.Summon.Zones
 		{
 			item.damage = 0;
 			item.summon = true;
-			item.mana = 24;
+			item.mana = 10;
 			item.width = 54;
 			item.height = 50;
-			item.useTime = 35;
-			item.useAnimation = 35;
+			item.useTime = 31;
+			item.useAnimation = 31;
 			item.useStyle = 5;
 			item.noMelee = true;
 			item.knockBack = 0;
