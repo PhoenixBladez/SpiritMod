@@ -467,7 +467,7 @@ namespace SpiritMod
 				throw new ArgumentException("First argument must be of type Item");
 			return (int)item.GetGlobalItem<Items.GItem>().Glyph;
 		}
-
+		public static Effect CircleNoise;
 		public override void Load()
 		{
 			//Always keep this call in the first line of Load!
@@ -483,7 +483,7 @@ namespace SpiritMod
 			On.Terraria.Player.KeyDoubleTap += Player_KeyDoubleTap;
 			//Additive drawing
 			On.Terraria.Main.DrawDust += DrawAdditive;
-
+			
 			GlobalNoise = new PerlinNoise(Main.rand.Next());
 			instance = this;
 			if (Main.rand == null)
@@ -592,6 +592,8 @@ namespace SpiritMod
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/DepthInvasion"), ItemType("TideBox"), TileType("TideBox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/JellySky"), ItemType("JellyDelugeBox"), TileType("JellyDelugeBox"));
             }
+			
+			CircleNoise = instance.GetEffect("Effects/CircleNoise");
 			//primitives = new PrimTrailManager();
 			// LoadDetours();
         }
@@ -705,6 +707,7 @@ namespace SpiritMod
 			glitchScreenShader = null;
 			TrailManager = null;
 			GlobalNoise = null;
+			CircleNoise = null;
 			Items.Glyphs.GlyphBase.UninitGlyphLookup();
 			//UnloadDetours();
 		}

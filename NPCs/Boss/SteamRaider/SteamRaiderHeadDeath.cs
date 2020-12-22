@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Items.Boss;
 using SpiritMod.Items.BossBags;
@@ -36,31 +37,17 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			npc.noGravity = true;
 			npc.dontCountMe = true;
 		}
-		int timeLeft = 200;
-		float alphaCounter;
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
-		{
-			Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height / Main.npcFrameCount[npc.type]) * 0.5f);
-			float sineAdd = alphaCounter + 2;
-			Vector2 drawPos1 = npc.Center - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
-			Main.spriteBatch.Draw(SpiritMod.instance.GetTexture("Effects/Masks/Extra_49"), (npc.Center - Main.screenPosition) - new Vector2(-2, 8), null, new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + .65f), SpriteEffects.None, 0f);
-			return true;
-		}
+		float timeLeft = 200;
 		public override void AI()
 		{
-			alphaCounter += 0.025f;
-			npc.alpha = 255 - timeLeft;
 			if (timeLeft == 200) {
 				npc.rotation = 3.14f;
 			}
 			npc.rotation += Main.rand.Next(-20, 20) / 100f;
-			Dust.NewDustPerfect(npc.Center, 226, new Vector2(Main.rand.Next(-10, 10), Main.rand.Next(-10, 10)));
-			if (timeLeft < 50) {
-				Dust.NewDustPerfect(npc.Center, 226, new Vector2(Main.rand.Next(-10, 10), Main.rand.Next(-10, 10)));
-			}
-			timeLeft--;
+			timeLeft-= 0.7f;
 			if (timeLeft <= 0) {
-
+				Player player = Main.player[Main.myPlayer];
+				player.GetModPlayer<MyPlayer>().Shake += 16;
 				npc.DropItem(ItemID.Heart);
 				npc.DropItem(ItemID.Heart);
 				npc.DropItem(ItemID.Heart);
@@ -96,6 +83,27 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				Main.NewText("Starplate Voyager has been defeated!", 175, 75, 255, false);
 				npc.life = 0;
 			}
+		}
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+			float breakCounter = 1 - (timeLeft / 200f);
+			Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+			SpiritMod.CircleNoise.Parameters["breakCounter"].SetValue(breakCounter);
+            SpiritMod.CircleNoise.Parameters["colorMod"].SetValue(new Vector4(0.5f, 0.8f, 1f, 1f));
+            SpiritMod.CircleNoise.Parameters["noise"].SetValue(mod.GetTexture("Textures/noise"));
+            SpiritMod.CircleNoise.CurrentTechnique.Passes[0].Apply();
+            Main.spriteBatch.Draw(SpiritMod.instance.GetTexture("Effects/Masks/Extra_49"), (npc.Center - Main.screenPosition), null, Color.White, 0f, new Vector2(50, 50), 4 + (breakCounter / 2), SpriteEffects.None, 0f);
+			 Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+
+			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			Texture2D whiteTexture = SpiritMod.instance.GetTexture("NPCs/Boss/SteamRaider/WhiteHead");
+			spriteBatch.Draw(whiteTexture, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+							 Color.White * ((breakCounter * 2) - 1), npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			return false;
 		}
 		public override void NPCLoot()
         {
