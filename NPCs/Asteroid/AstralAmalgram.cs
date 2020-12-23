@@ -15,8 +15,6 @@ namespace SpiritMod.NPCs.Asteroid
 		{
 			DisplayName.SetDefault("Astral Amalgam");
 			Main.npcFrameCount[npc.type] = 4;
-			NPCID.Sets.TrailCacheLength[npc.type] = 3;
-			NPCID.Sets.TrailingMode[npc.type] = 0;
 		}
 		private bool hasSpawnedBoys = false;
 		public override void SetDefaults()
