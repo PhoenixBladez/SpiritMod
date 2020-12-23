@@ -78,7 +78,7 @@ namespace SpiritMod.NPCs.MoonjellyEvent
             int xpos = (int)((npc.Center.X) - Main.screenPosition.X + 16) - (int)(Main.npcTexture[npc.type].Width / 2);
             int ypos = (int)((npc.Center.Y) - Main.screenPosition.Y + 10) - (int)(Main.npcTexture[npc.type].Width / 2);
             Texture2D ripple = mod.GetTexture("Effects/Masks/Extra_49");
-            Main.spriteBatch.Draw(ripple, new Vector2(xpos, ypos), new Microsoft.Xna.Framework.Rectangle?(), new Color((int)(25f * sineAdd), (int)(25f * sineAdd), (int)(13f * sineAdd), 0), npc.rotation, ripple.Size() / 2f, .5f, spriteEffects, 0);
+            Main.spriteBatch.Draw(ripple, new Vector2(xpos, ypos), new Microsoft.Xna.Framework.Rectangle?(), new Color((int)(18f * sineAdd), (int)(25f * sineAdd), (int)(20f * sineAdd), 0), npc.rotation, ripple.Size() / 2f, .5f, spriteEffects, 0);
 
             spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
                              drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, SpriteEffects.None, 0);
