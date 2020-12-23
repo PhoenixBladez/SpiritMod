@@ -65,8 +65,11 @@ namespace SpiritMod.Items.Consumable
 			if (Main.rand.Next(7) == 0) {
 				player.QuickSpawnItem(ModContent.ItemType<SoulStinger>());
 			}
-
-			if (Main.rand.Next(6) == 0) {
+            if (Main.rand.Next(10) == 0)
+            {
+                player.QuickSpawnItem(ModContent.ItemType<Items.Books.Book_SpiritArt>());
+            }
+            if (Main.rand.Next(6) == 0) {
 				int[] lootTable2 = {
 					ModContent.ItemType<StarCutter>(),
 					ModContent.ItemType<GhostJellyBomb>()

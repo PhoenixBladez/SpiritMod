@@ -1,4 +1,4 @@
-author = Yuyutsu and the Unpaid Interns
+author = Yuyutsu and the Rat Circus
 version = 1.4.1
 displayName = Spirit Mod
 homepage = https://discord.gg/FUNqtZQ
