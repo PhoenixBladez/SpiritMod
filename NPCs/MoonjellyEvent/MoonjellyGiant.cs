@@ -35,7 +35,7 @@ namespace SpiritMod.NPCs.MoonjellyEvent
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.aiStyle = -1;
-			banner = npc.type;
+			//banner = npc.type;
 		}
         public override void FindFrame(int frameHeight)
         {
