@@ -17,6 +17,7 @@ using SpiritMod.Mounts;
 using SpiritMod.NPCs;
 using SpiritMod.NPCs.BloodMoon;
 using SpiritMod.NPCs.Boss.Atlas;
+using SpiritMod.NPCs.Boss.MoonWizard;
 using SpiritMod.NPCs.Boss.Overseer;
 using SpiritMod.NPCs.Mimic;
 using SpiritMod.Projectiles;
@@ -217,6 +218,7 @@ namespace SpiritMod
 		public bool CrystalShield = false;
 		public bool carnivorousPlantMinion = false;
 		public bool skeletalonMinion = false;
+        public bool bowSummon = false;
         public bool snapsporeMinion = false;
         public bool butterflyMinion = false;
 		public bool beetleMinion = false;
@@ -432,7 +434,7 @@ namespace SpiritMod
 			bool region1 = ZoneSpirit && player.ZoneRockLayerHeight && player.position.Y / 16 > (Main.rockLayer + Main.maxTilesY - 330) / 2f;
 			bool region2 = ZoneSpirit && player.position.Y / 16 >= Main.maxTilesY - 300;
 
-            bool showJellies = player.ZoneSkyHeight && MyWorld.jellySky;
+            bool showJellies = (player.ZoneSkyHeight && MyWorld.jellySky) || NPC.AnyNPCs(ModContent.NPCType<MoonWizard>());
 
             bool greenOcean = player.ZoneBeach && MyWorld.luminousType == 1 && MyWorld.luminousOcean;
 			bool blueOcean = player.ZoneBeach && MyWorld.luminousType == 2 && MyWorld.luminousOcean;
@@ -721,6 +723,7 @@ namespace SpiritMod
 			terror2Summon = false;
 			terror3Summon = false;
 			terror4Summon = false;
+            bowSummon = false;
 			minior = false;
 			drakomireMount = false;
 			basiliskMount = false;
@@ -2695,7 +2698,7 @@ namespace SpiritMod
 			if(ZoneAsteroid) {
 				Main.numCloudsTemp = 0;
 			}
-			if(Main.rand.NextBool(6) && (ZoneReach || MyWorld.calmNight) && player.ZoneOverworldHeight && !player.ZoneBeach && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneJungle && !player.ZoneHoly) {
+            if (Main.rand.NextBool(6) && (ZoneReach || MyWorld.calmNight) && player.ZoneOverworldHeight && !player.ZoneBeach && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneJungle && !player.ZoneHoly) {
 				float goreScale = 0.01f * Main.rand.Next(20, 70);
 				int a = Gore.NewGore(new Vector2(player.Center.X + Main.rand.Next(-1000, 1000), player.Center.Y + (Main.rand.Next(-1000, -100))), new Vector2(Main.windSpeed * 3f, 0f), 911, goreScale);
 				Main.gore[a].timeLeft = 15;

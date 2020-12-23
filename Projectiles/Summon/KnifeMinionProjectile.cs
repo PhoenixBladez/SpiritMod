@@ -47,6 +47,7 @@ namespace SpiritMod.Projectiles.Summon
         bool trailing = false;
         public override void Behavior()
         {
+            projectile.minionSlots = 0f;
             projectile.rotation = projectile.velocity.X * 0.25f;
             trailing = false;
             projectile.tileCollide = false;

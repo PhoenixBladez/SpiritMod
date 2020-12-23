@@ -45,7 +45,11 @@ namespace SpiritMod.NPCs
 			if (Main.rand.NextBool(100)) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BlackLens);
 			}
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.WoodenArrow, Main.rand.Next(5, 10));
+            if (Main.rand.NextBool(100))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Summon.BowSummonItem.BowSummonItem>());
+            }
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.WoodenArrow, Main.rand.Next(5, 10));
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

@@ -80,7 +80,7 @@ namespace SpiritMod.Projectiles.Bullet
 					{
 						Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
 						direction *= 2.25f;
-						Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, ModContent.ProjectileType<MoonshotBulletLarge>(), (int)(projectile.damage/2), 5, projectile.owner);
+						Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, ModContent.ProjectileType<MoonshotBulletLarge>(), (int)(projectile.damage/4 * 3), 5, projectile.owner);
 					}
 					else if (counter > 140)
 					{

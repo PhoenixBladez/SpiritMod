@@ -21,12 +21,12 @@ namespace SpiritMod.Projectiles.Summon
 			projectile.hostile = false;
 			projectile.minion = true;
 			projectile.penetrate = 1;
-			projectile.timeLeft = 180;
+			projectile.timeLeft = 240;
 			projectile.height = 4;
 			projectile.width = 4;
 			projectile.alpha = 255;
 			aiType = ProjectileID.Bullet;
-			projectile.extraUpdates = 2;
+			projectile.extraUpdates = 3;
 		}
 		int timer;
         public override void AI()

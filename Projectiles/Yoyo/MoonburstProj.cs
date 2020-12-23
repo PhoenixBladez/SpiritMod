@@ -71,7 +71,7 @@ namespace SpiritMod.Projectiles.Yoyo
         }
 		public override void Kill(int timeLeft)
         {
-            ProjectileExtras.Explode(projectile.whoAmI, 130, 130, delegate
+            ProjectileExtras.Explode(projectile.whoAmI, 150, 150, delegate
             {
                 if (projectile.frameCounter >= 8)
                 {

@@ -200,10 +200,10 @@ namespace SpiritMod.Projectiles.Summon.ButterflyMinion
 		}
 		public override void Kill(int timeLeft)
 		{
-            projectile.knockBack = 5.5f;
-            ProjectileExtras.Explode(projectile.whoAmI, 110, 110, delegate
+            projectile.knockBack = 6.75f;
+            ProjectileExtras.Explode(projectile.whoAmI, 150, 150, delegate
             {
-                DustHelper.DrawStar(projectile.Center, 223, pointAmount: 5, mainSize: 1.4425f, dustDensity: 1.5f, dustSize: .5f, pointDepthMult: 0.3f, noGravity: true);
+                DustHelper.DrawStar(projectile.Center, 223, pointAmount: 5, mainSize: 1.6425f, dustDensity: 1.5f, dustSize: .5f, pointDepthMult: 0.3f, noGravity: true);
                 for (int i = 0; i < 15; i++)
                 {
                     Dust d = Dust.NewDustPerfect(projectile.Center, 223, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(3), 0, default, 0.5f);

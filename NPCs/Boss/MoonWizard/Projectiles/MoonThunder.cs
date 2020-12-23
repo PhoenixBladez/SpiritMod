@@ -30,26 +30,12 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
         float fadeOutNum = 1f;
         public override bool PreAI()
         {
-            if (projectile.ai[0] % 5 == 0)
+            if (projectile.ai[0] % 6 == 0)
             {
                 MakeLightning();
             }
             projectile.ai[0]++;
             fadeOutNum -= .08f;
-            if (projectile.ai[0] == 6)
-            {
-                SpiritMod.tremorTime = 3;
-                for (int i = 0; i < 10; i++)
-                {
-                    int num = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 55), projectile.width, projectile.height, 226, 0f, -2f, 0, default(Color), 2f);
-                    Main.dust[num].noGravity = true;
-                    Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-                    Main.dust[num].position.Y += Main.rand.Next(11, 51) * .05f - 1.5f;
-                    Main.dust[num].scale *= .25f;
-                    if (Main.dust[num].position != projectile.Center)
-                        Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * -3f;
-                }
-            }
             if (projectile.ai[0] > 12)
             {
                 projectile.Kill();
@@ -105,7 +91,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
             lines.Add(new List<Line>());
             lines[0].Add(line);
 
-            for (int steps = 0; steps < 4; steps++)
+            for (int steps = 0; steps < 5; steps++)
             {
                 for (int index = 0; index < lines[0].Count; index += 2)
                 {
@@ -175,7 +161,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
             float rotation = delta.ToRotation();
 
             //draw main line
-            spriteBatch.Draw(texture, line.start - Main.screenPosition, new Rectangle(16, 0, 2, 30), new Color(138, 235, 255) *fadeOutNum, rotation, new Vector2(0, 15f), new Vector2(length * 0.5f, 1.35f), SpriteEffects.None, 0f);
+            spriteBatch.Draw(texture, line.start - Main.screenPosition, new Rectangle(16, 0, 2, 30), new Color(138, 235, 255) *fadeOutNum, rotation, new Vector2(0, 15f), new Vector2(length * 0.5f, 1.55f), SpriteEffects.None, 0f);
             //draw ends
             spriteBatch.Draw(texture, line.start - normalised * 16f - Main.screenPosition, new Rectangle(0, 0, 16, 30), new Color(138, 235, 255) * .5f * fadeOutNum, rotation, new Vector2(0, 15f), 1f, SpriteEffects.None, 0f);
             spriteBatch.Draw(texture, line.end - Main.screenPosition, new Rectangle(18, 0, 16, 30), Color.White * .85f * fadeOutNum, rotation, new Vector2(0, 15f), 1f, SpriteEffects.None, 0f);
