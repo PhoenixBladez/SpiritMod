@@ -45,7 +45,7 @@ namespace SpiritMod.NPCs
 			if (Main.rand.NextBool(100)) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BlackLens);
 			}
-            if (Main.rand.NextBool(100))
+            if (Main.rand.NextBool(25))
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Summon.BowSummonItem.BowSummonItem>());
             }
