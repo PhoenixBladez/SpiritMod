@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Weapon.Club
             item.noMelee = true;
             item.knockBack = 8;
             item.useTurn = false;
-            item.value = Terraria.Item.sellPrice(0, 1, 42, 0);
+            item.value = Terraria.Item.sellPrice(0, 0, 1, 0);
             item.rare = 0;
             item.autoReuse = false;
             item.shoot = mod.ProjectileType("WoodClubProj");
