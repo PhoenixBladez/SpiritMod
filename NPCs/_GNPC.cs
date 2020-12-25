@@ -807,7 +807,14 @@ namespace SpiritMod.NPCs
 				if (NPC.downedBoss3) {
 					pool.Add(NPCType<CogTrapperHead>(), 0.45f);
 				}
-			}
+                if (NPC.downedBoss1 || NPC.downedBoss3 || NPC.downedBoss3)
+                {
+                    if (!NPC.AnyNPCs(ModContent.NPCType<NPCs.MoonjellyEvent.DistressJelly>()))
+                    {
+                        pool.Add(NPCType<NPCs.MoonjellyEvent.DistressJelly>(), .045f);
+                    }
+                }
+            }
 			for (int k = 0; k < 255; k++) {
 				Player player = Main.player[k];
 				if (player.ZoneBeach && MyWorld.luminousOcean && !Main.dayTime) {

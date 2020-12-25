@@ -12,8 +12,8 @@ namespace SpiritMod.Items.DonatorItems
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Silva'S Soul");
-			Tooltip.SetDefault("Minions have a chance to spawn Tormented Soldiers");
+			DisplayName.SetDefault("Silva's Soul");
+			Tooltip.SetDefault("Minions have a chance to spawn tormented soldiers");
 		}
 		public override void SetDefaults()
 		{
@@ -31,9 +31,8 @@ namespace SpiritMod.Items.DonatorItems
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Sapphire, 5);
-			recipe.AddIngredient(ItemID.SoulofNight, 5);
-			recipe.AddIngredient(ItemID.Topaz, 5);
+            recipe.AddIngredient(ItemID.ChainLantern, 1);
+            recipe.AddIngredient(ItemID.Topaz, 5);
 			recipe.AddIngredient(ModContent.ItemType<Chitin>(), 10);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);

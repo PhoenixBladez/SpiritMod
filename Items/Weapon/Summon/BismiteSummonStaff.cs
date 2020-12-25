@@ -62,9 +62,7 @@ namespace SpiritMod.Items.Weapon.Summon
         public override void AddRecipes()  
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("Wood", 12);
-            recipe.AddRecipeGroup("Butterflies", 1);
-            recipe.AddIngredient(ItemID.FallenStar, 3);
+            recipe.AddIngredient(ModContent.ItemType<BismiteCrystal>(), 15);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -63,5 +63,15 @@ namespace SpiritMod.Items.Weapon.Summon.ButterflyStaff
             }
             return false;
         }
-	}
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddRecipeGroup(RecipeGroupID.Butterflies, 1);
+            recipe.AddIngredient(ItemID.FallenStar, 2);
+            recipe.AddRecipeGroup(RecipeGroupID.Wood, 15);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+    }
 }
