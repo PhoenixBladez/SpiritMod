@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Effects;
 using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Items.Boss;
 using SpiritMod.Items.BossBags;
@@ -8,7 +9,9 @@ using SpiritMod.Items.Weapon.Bow;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Swung;
 using SpiritMod.Projectiles.Boss;
+using Steamworks;
 using System;
+using System.Security.Cryptography.X509Certificates;
 using Terraria;
 using Terraria.GameContent.Events;
 using Terraria.ID;
@@ -19,54 +22,61 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 	[AutoloadBossHead]
 	public class Scarabeus : ModNPC
 	{
-		int moveSpeed = 0;
-		int moveSpeedY = 0;
-		float HomeY = 120f;
-		private float SpeedMax = 33f;
-		private float SpeedDistanceIncrease = 500f;
 
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Scarabeus");
-			Main.npcFrameCount[npc.type] = 10;
+			Main.npcFrameCount[npc.type] = 22;
 			NPCID.Sets.TrailCacheLength[npc.type] = 3;
 			NPCID.Sets.TrailingMode[npc.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 100;
-			npc.height = 62;
+			npc.width = 42;
+			npc.height = 42;
 			npc.value = 10000;
 			npc.damage = 30;
 			npc.defense = 14;
 			npc.lifeMax = 1700;
 			npc.knockBackResist = 0f;
+			npc.aiStyle = -1;
 			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Scarabeus");
 			npc.boss = true;
+			//npc.stepSpeed /= 20;
 			npc.npcSlots = 15f;
 			npc.HitSound = SoundID.NPCHit31;
 			npc.DeathSound = SoundID.NPCDeath5;
 			bossBag = ModContent.ItemType<BagOScarabs>();
 		}
-		private int Counter;
-		float frametimer = .25f;
 		bool trailbehind;
 		int frame = 0;
+		float extraYoff;
 		int timer = 0;
+		bool canhitplayer;
+		int spriteDirectionY = 1;
+		public float AiTimer {
+			get => npc.ai[0];
+			set => npc.ai[0] = value;
+		}
+		public float AttackType {
+			get => npc.ai[1];
+			set => npc.ai[1] = value;
+		}
 
-		bool wormAI = false;
-		bool charge;
-		bool jump;
-		int npcCounter;
-		int jumpstacks;
-        bool changedToBat;
+		public override bool CheckActive()
+		{
+			Player player = Main.player[npc.target];
+			if (!player.active || player.dead)
+				return false;
 
-		public override bool PreAI()
+			return true;
+		}
+		public override void AI()
 		{
 			npc.TargetClosest(true);
-			npc.spriteDirection = npc.direction;
 			Player player = Main.player[npc.target];
+			canhitplayer = false; //default to being unable to hit the player at the start of each tick, overrided depending on attack pattern
 			if (!player.ZoneDesert) {
 				npc.defense = 50;
 				npc.damage = 60;
@@ -75,510 +85,340 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				npc.damage = 30;
 				npc.defense = 14;
 			}
-			bool expertMode = Main.expertMode;
-			bool rage = (double)npc.life <= (double)npc.lifeMax * 0.2;
-			if (rage)
-				SpeedMax = 40f;
-			if (player.dead) {
-				npc.active = false;
+
+			if (player.dead || !player.active) {
+				npc.timeLeft = 10;
+				npc.velocity.Y = 10;
+				return;
 			}
+			
+			if (npc.life >= 800) {
+				{
+					Phase1(player);
+				}
+			}
+		}
+
+		public void Phase1(Player player)
+		{
+			Sandstorm.Happening = false;
+
+			if (!npc.noTileCollide && !Collision.CanHit(npc.Center, 0, 0, player.Center, 0, 0)) { //check if it can't reach the player
+				AttackType = -1;
+				AiTimer = 0;
+			}
+
+			switch (AttackType) {
+				case -1: FlyToPlayer(player); break; //"attack" used when the boss can't reach the player
+				case 0:
+					Walking(player, 0.15f, 7, 360);
+					break;
+				case 1:
+					Jumping(player);
+					break;
+				case 2:
+					Dash(player);
+					break;
+				case 3: 
+					Walking(player, 0.2f, 10, 180);
+					break;
+				case 4: 
+					FlyDashes(player);
+					break;
+				case 5: Dash(player); //will be changed to ground pound when i add that
+					break;
+				default: AttackType = 0; break; //loop attack pattern
+			}
+
+		}
+
+		private void CheckPlatform(Player player)
+		{
+			bool onplatform = true;
+			for (int i = (int)npc.position.X; i < npc.position.X + npc.width; i += npc.width / 4) {
+				Tile tile = Framing.GetTileSafely(new Point((int)npc.position.X / 16, (int)(npc.position.Y + npc.height + 8) / 16));
+				if (!TileID.Sets.Platforms[tile.type])
+					onplatform = false;
+			}
+			if (onplatform && (npc.Center.Y < player.position.Y)) //if they are, temporarily let the boss ignore tiles to go through them
+				npc.noTileCollide = true;
+			else
+				npc.noTileCollide = false;
+		}
+
+		private void UpdateFrame(int speed, int minframe, int maxframe)
+		{
+			timer++;
+			if (timer >= speed * (5f / Math.Abs(npc.velocity.X))) {
+				frame++;
+				timer = 0;
+			}
+			if (frame >= maxframe) {
+				frame = minframe;
+			}
+
+			if (frame < minframe)
+				frame = minframe;
+		}
+
+		private void NextAttack()
+		{
+			trailbehind = false;
+			AttackType++;
+			AiTimer = 0;
+			npc.rotation = 0;
+			npc.noTileCollide = false;
+			npc.noGravity = false;
+			hasjumped = false;
+			spriteDirectionY = 1;
+		}
+
+		private void StepUp(Player player)
+		{
+			bool flag15 = true; //copy pasted collision step code from zombies
+			if ((player.Center.Y * 16 - 32) > npc.position.Y)
+				flag15 = false;
+
+			if (!flag15 && npc.velocity.Y == 0f)
+				Collision.StepDown(ref npc.position, ref npc.velocity, npc.width, npc.height, ref npc.stepSpeed, ref npc.gfxOffY);
+
+			if (npc.velocity.Y >= 0f)
+				Collision.StepUp(ref npc.position, ref npc.velocity, npc.width, npc.height, ref npc.stepSpeed, ref npc.gfxOffY, 1, flag15, 1);
+		}
+		#region attacks
+		public void Walking(Player player, float acc, float maxspeed, int maxtime)
+		{
+			npc.spriteDirection = npc.direction;
+			AiTimer++;
+			CheckPlatform(player);
+			canhitplayer = true;
+
+			if (npc.Center.X < player.Center.X)
+				npc.velocity.X += acc;
+
+			if (npc.Center.X > player.Center.X)
+				npc.velocity.X -= acc;
+
+			if (npc.velocity.X > maxspeed)
+				npc.velocity.X = maxspeed;
+
+			if (npc.velocity.X < -maxspeed)
+				npc.velocity.X = -maxspeed;
+
+			AiTimer++;
+			if (AiTimer > maxtime) { NextAttack(); }
+
+			StepUp(player);
+			if (npc.collideX)
+				npc.velocity.X *= -1;
+
 			if (Main.rand.Next(500) == 0)
 				Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 44);
 
-			Counter++;
-			if (wormAI) {
-				{
-					trailbehind = true;
-					npc.netUpdate = true;
-					npc.noTileCollide = true;
-					npc.behindTiles = true;
-					npc.noGravity = true;
-					int minTilePosX = (int)(npc.position.X / 16.0) - 1;
-					int maxTilePosX = (int)((npc.position.X + npc.width) / 16.0) + 2;
-					int minTilePosY = (int)(npc.position.Y / 16.0) - 1;
-					int maxTilePosY = (int)((npc.position.Y + npc.height) / 16.0) + 2;
-					if (minTilePosX < 0)
-						minTilePosX = 0;
-					if (maxTilePosX > Main.maxTilesX)
-						maxTilePosX = Main.maxTilesX;
-					if (minTilePosY < 0)
-						minTilePosY = 0;
-					if (maxTilePosY > Main.maxTilesY)
-						maxTilePosY = Main.maxTilesY;
-
-					bool collision = false;
-					for (int i = minTilePosX; i < maxTilePosX; ++i) {
-						for (int j = minTilePosY; j < maxTilePosY; ++j) {
-							if (Main.tile[i, j] != null && (Main.tile[i, j].nactive() && (Main.tileSolid[(int)Main.tile[i, j].type] || Main.tileSolidTop[(int)Main.tile[i, j].type] && (int)Main.tile[i, j].frameY == 0) || (int)Main.tile[i, j].liquid > 64) || Main.tile[i, j].type == TileID.Sand) {
-								Vector2 vector2;
-								vector2.X = (float)(i * 16);
-								vector2.Y = (float)(j * 16);
-								if (npc.position.X + npc.width > vector2.X && npc.position.X < vector2.X + 16.0 && (npc.position.Y + npc.height > (double)vector2.Y && npc.position.Y < vector2.Y + 16.0)) {
-									collision = true;
-									if (Main.rand.Next(100) == 0 && Main.tile[i, j].nactive())
-										WorldGen.KillTile(i, j, true, true, false);
-								}
-							}
-						}
-					}
-					if (!collision) {
-						Rectangle rectangle1 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
-						int maxDistance = 1000;
-						bool playerCollision = true;
-						for (int index = 0; index < 255; ++index) {
-							if (Main.player[index].active) {
-								Rectangle rectangle2 = new Rectangle((int)Main.player[index].position.X - maxDistance, (int)Main.player[index].position.Y - maxDistance, maxDistance * 2, maxDistance * 2);
-								if (rectangle1.Intersects(rectangle2)) {
-									playerCollision = false;
-									break;
-								}
-							}
-						}
-						if (playerCollision)
-							collision = true;
-					}
-
-					float speed = 12f;
-					float acceleration = 0.325f;
-
-					Vector2 npcCenter = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-					float targetXPos = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2);
-					float targetYPos = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2);
-
-					float targetRoundedPosX = (float)((int)(targetXPos / 16.0) * 16);
-					float targetRoundedPosY = (float)((int)(targetYPos / 16.0) * 16);
-					npcCenter.X = (float)((int)(npcCenter.X / 16.0) * 16);
-					npcCenter.Y = (float)((int)(npcCenter.Y / 16.0) * 16);
-					float dirX = targetRoundedPosX - npcCenter.X;
-					float dirY = targetRoundedPosY - npcCenter.Y;
-
-					float length = (float)Math.Sqrt(dirX * dirX + dirY * dirY);
-					if (!collision) {
-						npc.TargetClosest(true);
-						npc.velocity.Y = npc.velocity.Y + 0.17f;
-						if (npc.velocity.Y > speed)
-							npc.velocity.Y = speed;
-						if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < speed * 0.4) {
-							if (npc.velocity.X < 0.0)
-								npc.velocity.X = npc.velocity.X - acceleration * 1.1f;
-							else
-								npc.velocity.X = npc.velocity.X + acceleration * 1.1f;
-						}
-						else if (npc.velocity.Y == speed) {
-							if (npc.velocity.X < dirX)
-								npc.velocity.X = npc.velocity.X + acceleration;
-							else if (npc.velocity.X > dirX)
-								npc.velocity.X = npc.velocity.X - acceleration;
-						}
-						else if (npc.velocity.Y > 4.0) {
-							if (npc.velocity.X < 0.0)
-								npc.velocity.X = npc.velocity.X + acceleration * 0.9f;
-							else
-								npc.velocity.X = npc.velocity.X - acceleration * 0.9f;
-						}
-					}
-					else {
-						if (npc.soundDelay == 0) {
-							float num1 = length / 40f;
-							if (num1 < 10.0)
-								num1 = 10f;
-							if (num1 > 20.0)
-								num1 = 20f;
-							npc.soundDelay = (int)num1;
-							Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 1);
-						}
-						float absDirX = Math.Abs(dirX);
-						float absDirY = Math.Abs(dirY);
-						float newSpeed = speed / length;
-						dirX = dirX * newSpeed;
-						dirY = dirY * newSpeed;
-						if (npc.velocity.X > 0.0 && dirX > 0.0 || npc.velocity.X < 0.0 && dirX < 0.0 || (npc.velocity.Y > 0.0 && dirY > 0.0 || npc.velocity.Y < 0.0 && dirY < 0.0)) {
-							if (npc.velocity.X < dirX)
-								npc.velocity.X = npc.velocity.X + acceleration;
-							else if (npc.velocity.X > dirX)
-								npc.velocity.X = npc.velocity.X - acceleration;
-							if (npc.velocity.Y < dirY)
-								npc.velocity.Y = npc.velocity.Y + acceleration;
-							else if (npc.velocity.Y > dirY)
-								npc.velocity.Y = npc.velocity.Y - acceleration;
-							if (Math.Abs(dirY) < speed * 0.2 && (npc.velocity.X > 0.0 && dirX < 0.0 || npc.velocity.X < 0.0 && dirX > 0.0)) {
-								if (npc.velocity.Y > 0.0)
-									npc.velocity.Y = npc.velocity.Y + acceleration * 2f;
-								else
-									npc.velocity.Y = npc.velocity.Y - acceleration * 2f;
-							}
-							if (Math.Abs(dirX) < speed * 0.2 && (npc.velocity.Y > 0.0 && dirY < 0.0 || npc.velocity.Y < 0.0 && dirY > 0.0)) {
-								if (npc.velocity.X > 0.0)
-									npc.velocity.X = npc.velocity.X + acceleration * 2f;
-								else
-									npc.velocity.X = npc.velocity.X - acceleration * 2f;
-							}
-						}
-						else if (absDirX > absDirY) {
-							if (npc.velocity.X < dirX)
-								npc.velocity.X = npc.velocity.X + acceleration * 1.14f;
-							else if (npc.velocity.X > dirX)
-								npc.velocity.X = npc.velocity.X - acceleration * 1.14f;
-							if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < speed * 0.5) {
-								if (npc.velocity.Y > 0.0)
-									npc.velocity.Y = npc.velocity.Y + acceleration;
-								else
-									npc.velocity.Y = npc.velocity.Y - acceleration;
-							}
-						}
-						else {
-							if (npc.velocity.Y < dirY)
-								npc.velocity.Y = npc.velocity.Y + acceleration * 1.14f;
-							else if (npc.velocity.Y > dirY)
-								npc.velocity.Y = npc.velocity.Y - acceleration * 1.14f;
-							if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < speed * 0.5) {
-								if (npc.velocity.X > 0.0)
-									npc.velocity.X = npc.velocity.X + acceleration;
-								else
-									npc.velocity.X = npc.velocity.X - acceleration;
-							}
-						}
-					}
-					npc.rotation = npc.velocity.X * .06f;
-
-					if (collision) {
-						if (npc.localAI[0] != 1)
-							npc.netUpdate = true;
-						npc.localAI[0] = 1f;
-					}
-					else {
-						if (npc.localAI[0] != 0.0)
-							npc.netUpdate = true;
-						npc.localAI[0] = 0.0f;
-					}
-					if ((npc.velocity.X > 0.0 && npc.oldVelocity.X < 0.0 || npc.velocity.X < 0.0 && npc.oldVelocity.X > 0.0 || (npc.velocity.Y > 0.0 && npc.oldVelocity.Y < 0.0 || npc.velocity.Y < 0.0 && npc.oldVelocity.Y > 0.0)) && !npc.justHit)
-						npc.netUpdate = true;
-				}
-				timer++;
-				if (timer >= 4) {
-					frame++;
-					timer = 0;
-				}
-				if (frame >= 10) {
-					frame = 5;
-				}
-			}
-			if (npc.life >= 800) {
-				{
-					npc.TargetClosest(true);
-					if (Counter == 60) {
-						Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0);
-						Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 44);
-						npc.velocity.Y = 0f;
-						npc.velocity.X = 0f;
-						npc.ai[0] = -180f;
-						npc.ai[3] = 0f;
-						npc.ai[1] = 1f;
-						npc.netUpdate = true;
-					}
-					if (Counter >= 360 && Counter <= 480) {
-						trailbehind = true;
-						wormAI = true;
-						Vector2 position = npc.Center + Vector2.Normalize(npc.velocity) * 14;
-
-						Dust newDust = Main.dust[Dust.NewDust(npc.position, npc.width, npc.height, 0, 0f, 0f, 0, default(Color), 1f)];
-						newDust.position = position;
-						newDust.velocity = npc.velocity.RotatedBy(Math.PI / 2, default(Vector2)) * 0.33F + npc.velocity / 4;
-						newDust.position += npc.velocity.RotatedBy(Math.PI / 2, default(Vector2));
-						newDust.fadeIn = 0.5f;
-						newDust.noGravity = true;
-						newDust = Main.dust[Dust.NewDust(npc.position, npc.width, npc.height, 0, 0f, 0f, 0, default(Color), 1)];
-						newDust.position = position;
-						newDust.velocity = npc.velocity.RotatedBy(-Math.PI / 2, default(Vector2)) * 0.33F + npc.velocity / 4;
-						newDust.position += npc.velocity.RotatedBy(-Math.PI / 2, default(Vector2));
-						newDust.fadeIn = 0.5F;
-						newDust.noGravity = true;
-					}
-					if (Counter >= 600 && Counter <= 720) {
-						npc.rotation *= 0f;
-						wormAI = false;
-						Vector2 position = npc.Center + Vector2.Normalize(npc.velocity) * 14;
-
-						Dust newDust = Main.dust[Dust.NewDust(npc.position, npc.width, npc.height, 0, 0f, 0f, 0, default(Color), 1f)];
-						newDust.position = position;
-						newDust.velocity = npc.velocity.RotatedBy(Math.PI / 2, default(Vector2)) * 0.33F + npc.velocity / 4;
-						newDust.position += npc.velocity.RotatedBy(Math.PI / 2, default(Vector2));
-						newDust.fadeIn = 0.5f;
-						newDust.noGravity = true;
-						newDust = Main.dust[Dust.NewDust(npc.position, npc.width, npc.height, 0, 0f, 0f, 0, default(Color), 1)];
-						newDust.position = position;
-						newDust.velocity = npc.velocity.RotatedBy(-Math.PI / 2, default(Vector2)) * 0.33F + npc.velocity / 4;
-						newDust.position += npc.velocity.RotatedBy(-Math.PI / 2, default(Vector2));
-						newDust.fadeIn = 0.5F;
-						newDust.noGravity = true;
-						int dst = (int)Math.Abs((player.Center - npc.Center).Y);
-						if (dst >= 300 || dst <= -300) {
-							if (Counter == 600) {
-								Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0);
-								npc.velocity.Y = 0f;
-								npc.velocity.X = 0f;
-								npc.ai[0] = -180f;
-								npc.ai[3] = 0f;
-								npc.ai[1] = 1f;
-								npc.netUpdate = true;
-							}
-						}
-						else {
-							if (Counter == 600) {
-								Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0);
-								npc.ai[0] = -30f;
-							}
-						}
-						trailbehind = true;
-						SpeedMax = 69f;
-						npc.netUpdate = true;
-					}
-					if (Counter >= 721 && Counter <= 999) {
-						npc.noTileCollide = false;
-						npc.velocity.Y = npc.ai[0] * .9f;
-						trailbehind = true;
-						npc.velocity.X = .00000001f;
-						for (int i = 0; i < 10; i++) {
-							int dust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + 10), npc.width, npc.height, 5, npc.velocity.X * 0f, 1.5f);
-							Main.dust[dust].scale *= Main.rand.NextFloat(.2f, .8f);
-						}
-						if (Counter == 724 || Counter == 784 || Counter == 800 || Counter == 823 || Counter == 841 || Counter == 861 || Counter == 881) {
-							jumpstacks += 2;
-							npc.ai[0] = -20;
-						}
-						if (Counter == 729 || Counter == 790 || Counter == 806 || Counter == 829 || Counter == 846 || Counter == 867 || Counter == 889) {
-							npc.ai[0] = 70;
-						}
-						if (Counter == 780) {
-							NPC.NewNPC((int)npc.Center.X + Main.rand.Next(-20, 20), (int)npc.Center.Y + Main.rand.Next(-20, 20), ModContent.NPCType<ChildofScarabeus>());
-						}
-					}
-					if (Counter >= 1000) {
-						npc.ai[0] = 0;
-						Counter = 0;
-					}
-					if (Counter < 600) {
-						trailbehind = false;
-						SpeedMax = 33f;
-					}
-					int distance = (int)Math.Abs((player.Center - npc.Center).X);
-					if (distance >= 500 || distance <= -500) {
-						if (Main.rand.Next(450) == 0) {
-							NPC.NewNPC((int)npc.Center.X + Main.rand.Next(-20, 20), (int)npc.Center.Y + Main.rand.Next(-20, 20), ModContent.NPCType<ChildofScarabeus>());
-							Counter = 479;
-						}
-					}
-					if (npc.collideY && jump && npc.velocity.Y > 1) {
-						jump = false;
-						if (jumpstacks >= 3 && npc.life >= 1200 || jumpstacks >= 2 && npc.life < 1200) {
-							Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 34);
-							int damage = expertMode ? 9 : 17;
-							Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 8, 7, 0, ModContent.ProjectileType<DustTornado>(), damage, 1, Main.myPlayer, 0, 0);
-							Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 8, -7, 0, ModContent.ProjectileType<DustTornado>(), damage, 1, Main.myPlayer, 0, 0);
-							jumpstacks = 0;
-						}
-						for (int i = 0; i < 40; i++) {
-							int dust = Dust.NewDust(npc.position, npc.width, npc.height, 0, npc.velocity.X * 0f, npc.velocity.Y * -0.25f);
-							Main.dust[dust].scale *= Main.rand.NextFloat(.2f, .8f);
-						}
-					}
-					if (!npc.collideY) {
-						jump = true;
-					}
-					if (Counter < 720) {
-						if (npc.ai[1] == 0f && !wormAI) {
-							if (npc.Center.X >= player.Center.X && npc.ai[2] >= (0f - SpeedMax)) {
-								for (npc.ai[3] = 0f; npc.ai[3] < Math.Abs(npc.Center.X - player.Center.X); npc.ai[3] = npc.ai[3] + SpeedDistanceIncrease) {
-									npc.ai[2] -= rage ? 4f : 2f;
-								}
-								npc.ai[2] -= rage ? 4f : 2f;
-							}
-							if (npc.Center.X <= player.Center.X && npc.ai[2] <= SpeedMax) {
-								for (npc.ai[3] = 0f; npc.ai[3] < Math.Abs(npc.Center.X - player.Center.X); npc.ai[3] = npc.ai[3] + SpeedDistanceIncrease) {
-									npc.ai[2] += rage ? 4f : 2f;
-								}
-								npc.ai[2] += rage ? 4f : 2f;
-							}
-							if (npc.ai[0] < 100f)
-								npc.ai[0] += expertMode ? 3f : 2f;
-							npc.noGravity = false;
-							npc.noTileCollide = false;
-							if (Main.netMode != NetmodeID.MultiplayerClient) {
-								if (Main.rand.Next(2) > 0) {
-									npc.velocity.X = npc.ai[2] * 0.1f;
-									npc.netUpdate = true;
-								}
-							}
-							
-							if (Main.netMode != NetmodeID.MultiplayerClient) {
-								if (npc.velocity.X == 0f && Main.rand.Next(3) == 0 && npc.collideY) {
-									npc.ai[0] = -40f;
-									npc.noTileCollide = true;
-									npc.netUpdate = true;
-									npc.velocity.Y = npc.ai[0] * 0.26f;
-								}
-							}
-						}
-						else if (npc.ai[1] == 1f) {
-							trailbehind = true;
-							npc.noGravity = true;
-							npc.noTileCollide = true;
-							npc.ai[0] += 4f;
-							if (npc.Center.X >= player.Center.X && npc.ai[2] >= 0f - SpeedMax * 2.73f) // flies to players x position
-								npc.ai[2] -= expertMode ? 3f : 2f;
-
-							if (npc.Center.X <= player.Center.X && npc.ai[2] <= SpeedMax * 2.73f)
-								npc.ai[2] += expertMode ? 3f : 2f;
-
-							npc.velocity.Y = npc.ai[0] * 0.15f;
-							npc.velocity.X = npc.ai[2] * 0.1f;
-							if (Math.Abs(npc.Center.X - player.Center.X) < 10) {
-								trailbehind = true;
-								npc.velocity.Y = 0f;
-								npc.velocity.X = 0f;
-								npc.ai[0] = 0f;
-								npc.ai[2] = 0f;
-								npc.ai[3] = 0f;
-								npc.ai[1] = 2f;
-								npc.netUpdate = true;
-							}
-							if (npc.ai[0] > 0f) {
-								npc.ai[3] = 0f;
-								npc.ai[1] = 0f;
-								npc.netUpdate = true;
-							}
-
-						}
-						else if (npc.ai[1] == 2f) {
-							timer++;
-							if (timer >= 4) {
-								frame++;
-								timer = 0;
-							}
-							if (frame >= 10) {
-								frame = 5;
-							}
-							npc.ai[1] = 0f;
-							trailbehind = true;
-							npc.velocity.X = 0f;
-							npc.noGravity = false;
-							npc.noTileCollide = false;
-							npc.ai[0] += 30f;
-							npc.velocity.Y = npc.ai[0] * 3.1f;
-							if (Math.Abs(npc.Center.Y - player.Center.Y) < 0 || npc.ai[0] > 240f) {
-								npc.velocity.X = 0f;
-								npc.ai[2] = 0f;
-								npc.ai[3] = 0f;
-								npc.ai[1] = 0f;
-								npc.netUpdate = true;
-								if (npc.collideY) {
-									jumpstacks = 3;
-								}
-							}
-						}
-						else if (npc.ai[1] == 3f) {
-							trailbehind = false;
-							npc.damage = 0;
-							npc.defense = 9999;
-							npc.noTileCollide = true;
-							npc.alpha += 7;
-							if (npc.alpha > 255) {
-								npc.alpha = 255;
-							}
-							npc.velocity.X = npc.velocity.X * 0.98f;
-						}
-						if (npc.ai[1] == 2f || Counter <= 720 || Counter >= 1000) {
-							if (!wormAI) {
-								timer++;
-								if (timer >= 5) {
-									frame++;
-									timer = 0;
-								}
-								if (frame >= 5) {
-									frame = 0;
-								}
-							}
-						}
-					}
-				}
-			}
-			else if (npc.life < 800) {
-                trailbehind = true; 
-                npc.FaceTarget();
-                if (!changedToBat)
-                {
-                    npc.collideX = false;
-                    npc.collideY = false;
-                    changedToBat = true;
-                    for (int i = 0; i < NPC.maxAI; i++)
-                    {
-                        npc.localAI[i] = 0f;
-                        npc.ai[i] = 0f;
-                    }
-                    npc.netUpdate = true;
-                }
-                npc.rotation = npc.velocity.X * .1f;
-                wormAI = false;
-                Counter = 0;
-                npc.aiStyle = 44;
-                npc.noGravity = false;
-                npc.noTileCollide = true;
-                npcCounter++;
-
-				if (npcCounter == 300 || npcCounter == 400 || npcCounter == 500 || npcCounter == 600) {
-					Vector2 vector2_2 = Vector2.UnitY.RotatedByRandom(1.57079637050629f) * new Vector2(5f, 3f);
-					NPC.NewNPC((int)npc.Center.X + Main.rand.Next(-20, 20), (int)npc.Center.Y + Main.rand.Next(-20, 20), ModContent.NPCType<ChildofScarabeus>());
-				}
-				if (npcCounter == 200 || npcCounter == 900 || npcCounter == 1050 || npcCounter == 1200 || npcCounter == 1350|| npcCounter == 1500)
-                {
-                    Vector2 direction = Main.player[npc.target].Center - npc.Center;
-                    direction.Normalize();
-                    Main.PlaySound(15, npc.Center, 0);
-                    direction.X = direction.X * Main.rand.Next(9, 12);
-                    direction.Y = direction.Y * Main.rand.Next(9, 12);
-                    npc.velocity.X = direction.X;
-                    npc.velocity.Y = direction.Y;
-                    npc.velocity *= 0.98f;
-                }
-				if (npcCounter > 1500) {
-					npcCounter = 0;
-				}
-
-                npc.noTileCollide = true;
-				if (!Main.gameMenu) {
-					Sandstorm.Happening = true;
-					Sandstorm.TimeLeft = 25200;
-					Sandstorm.Severity = .8f;
-				}
-				timer++;
-				if (timer >= 4) {
-					frame++;
-					timer = 0;
-				}
-				if (frame >= 10) {
-					frame = 5;
-				}
-			}
-			return true;
+			UpdateFrame(4, 0, 6);
 		}
+
+		bool hasjumped = false;
+		public void Jumping(Player player)
+		{
+			npc.spriteDirection = npc.direction;
+			CheckPlatform(player);
+			if (AiTimer < 30) //slow down before jumping
+			{
+				StepUp(player);
+				if (npc.collideX)
+					npc.velocity.X *= -1;
+
+				npc.velocity.X *= 0.9f;
+			}
+
+
+			if (Math.Abs(npc.velocity.X) < 1 && AiTimer < 30 && npc.velocity.Y == 0) { //have a "charge" animation after slowing down enough and on the ground
+				frame = 10;
+				npc.rotation = -0.15f * npc.spriteDirection;
+				extraYoff = 8;
+				AiTimer++;
+			}
+			else { //normal walking animation and rotation otherwise
+
+				if(AiTimer > 0)
+					AiTimer++;
+
+				npc.rotation = 0;
+				extraYoff = 0;
+				timer++;
+
+				UpdateFrame(3, 0, 6);
+			}
+			if (AiTimer >= 30 && npc.velocity.Y != 0 && !hasjumped)
+				AiTimer = 0; //reset charge if in the air and hasn't jumped already
+
+			if(AiTimer == 30) { //jump towards player, at faster speed if farther away
+				Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 44, 1.5f, -1f);
+				hasjumped = true;
+				npc.noTileCollide = true; 
+				Vector2 JumpTo = new Vector2(player.Center.X, player.Center.Y - 300);
+				Vector2 vel = JumpTo - npc.Center;
+				float speed = Math.Max(Math.Min(vel.Length()/30, 18f), 6f);
+				vel.Normalize();
+				vel.Y -= 0.15f;
+				npc.velocity = vel * speed;
+			}
+
+			if(hasjumped && AiTimer % 27 == 0 && AiTimer < 100 && AiTimer > 40) {
+				Main.PlaySound(SoundID.Item5, npc.Center);
+				for(float i = -2; i <= 2; i += 1.25f) {
+					Vector2 velocity = -Vector2.UnitY.RotatedBy( i * (float)Math.PI / 12);
+					velocity *= 10f;
+					velocity.Y += 2f;
+					Projectile.NewProjectile(npc.Center, velocity, mod.ProjectileType("ScarabSandball"), npc.damage / 4, 1f, Main.myPlayer);
+				}
+			}
+
+			npc.noTileCollide = hasjumped && AiTimer < 60;//temporarily disable tile collision after jump so it doesn't get stuck
+			canhitplayer = trailbehind = hasjumped;
+
+			if(AiTimer > 100 && npc.velocity.Y == 0 && hasjumped) { NextAttack(); }
+		}
+		public void Dash(Player player)
+		{
+			if(npc.velocity.Y == 0)
+				AiTimer++;
+			CheckPlatform(player);
+
+			if (AiTimer <= 80) { //home in on closer side of player, do sandstorm jump if player too high up
+				float homevel = (npc.Center.X < player.Center.X) ? player.Center.X - 300 - npc.Center.X : player.Center.X + 300 - npc.Center.X;
+				homevel = Math.Sign(homevel) * 20;
+				if(npc.velocity.Y == 0)
+					npc.velocity.X = MathHelper.Lerp(npc.velocity.X, homevel, 0.06f);
+
+
+				if (AiTimer > 60 && npc.Center.Y > player.Center.Y + 100) { //sandstorm jump if too far below the player
+					npc.noTileCollide = true;
+					npc.velocity.Y = -12;
+					npc.velocity.X = MathHelper.Lerp(npc.velocity.X, homevel, 0.06f);
+					npc.ai[2] ++;
+					npc.spriteDirection = (int)(2 * (Math.Floor(Math.Sin(npc.ai[2])) + 0.5f));
+					if (npc.ai[2] % 4 == 0) {
+						Main.PlaySound(SoundID.DoubleJump, npc.Center);
+						int g = Gore.NewGore(npc.Center, npc.velocity / 2, GoreID.ChimneySmoke1 + Main.rand.Next(3));
+						Main.gore[g].timeLeft = 10;
+					}
+				}
+				else
+					npc.spriteDirection = Math.Sign(player.Center.X - npc.Center.X);
+			}
+			else if (AiTimer < 120 || AiTimer > 140)
+				npc.velocity.X = MathHelper.Lerp(npc.velocity.X, 0, 0.05f);
+
+			if (AiTimer >= 100 && AiTimer < 120) {
+
+				frame = 10;
+				npc.rotation = -0.15f * npc.spriteDirection;
+				extraYoff = 8;
+				if (AiTimer == 100)
+					Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 44, 1.5f, -1f);
+			}
+			else {
+				npc.rotation = 0;
+				extraYoff = 0;
+				UpdateFrame(4, 0, 6);
+			}
+
+			if (AiTimer == 120) {
+				Main.PlaySound(SoundID.Roar, (int)npc.Center.X, (int)npc.Center.Y, 0);
+				trailbehind = true;
+				npc.velocity.X = 18 * npc.direction;
+			}
+
+			canhitplayer = AiTimer >= 120;
+
+			StepUp(player);
+			if (npc.collideX)
+				npc.velocity.X *= -0.25f;
+
+			if (AiTimer > 180) { NextAttack(); }
+		}
+		public void FlyDashes(Player player)
+		{
+			AiTimer++;
+			npc.noTileCollide = true;
+			npc.noGravity = true;
+			UpdateFrame(4, 18, 21);
+			Vector2 ToPlayer = player.Center - npc.Center;
+			ToPlayer.Normalize();
+
+			if (AiTimer == 1)
+				npc.rotation = ToPlayer.ToRotation();
+
+			if (AiTimer < 100) {
+				npc.velocity = (npc.Distance(player.Center) > 380) ?
+					Vector2.Lerp(npc.velocity, ToPlayer * 10, 0.05f) :
+					Vector2.Lerp(npc.velocity, -ToPlayer * 10, 0.05f);
+
+				npc.rotation = Utils.AngleLerp(npc.rotation, ToPlayer.ToRotation(), 0.05f);
+			}
+
+			if (AiTimer >= 100) {
+				npc.velocity *= 0.98f;
+
+				if (AiTimer == 100 || AiTimer == 190)
+					Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 44, 1.5f, -1f);
+
+				if (AiTimer == 120 || AiTimer == 210) {
+					trailbehind = true;
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/BossSFX/Roar"), npc.Center);
+					npc.velocity = ToPlayer * 20;
+				}
+				canhitplayer = true;
+				if(AiTimer > 120 && AiTimer < 150 || AiTimer > 210)
+					npc.rotation = npc.velocity.ToRotation();
+				else
+					npc.rotation = Utils.AngleLerp(npc.rotation, ToPlayer.ToRotation(), 0.05f);
+			}
+
+			npc.spriteDirection = 1;
+			spriteDirectionY = npc.direction;
+			if (AiTimer > 260) {NextAttack();}
+		}
+
+		public void FlyToPlayer(Player player)
+		{
+			npc.noTileCollide = true;
+			npc.noGravity = true;
+			UpdateFrame(4, 18, 21);
+
+			Vector2 ToPlayer = player.Center - npc.Center;
+			ToPlayer.Normalize();
+
+			npc.velocity = Vector2.Lerp(npc.velocity, ToPlayer * 16, 0.1f);
+			if(Collision.CanHit(npc.Center, 0, 0, player.Center, 0, 0)) {NextAttack();}
+		}
+		#endregion
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => canhitplayer;
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-							 lightColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			SpriteEffects verticalflip = spriteDirectionY == -1 ? SpriteEffects.FlipVertically : SpriteEffects.None;
+			SpriteEffects effects = npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(-10 * npc.spriteDirection, npc.gfxOffY - 26 + extraYoff), npc.frame,
+							 lightColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects | verticalflip, 0);
 			if (trailbehind) {
-				Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height / Main.npcFrameCount[npc.type]) * 0.5f);
+				Vector2 drawOrigin = npc.frame.Size() / 2;
 				for (int k = 0; k < npc.oldPos.Length; k++) {
-					Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
+					Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin - new Vector2(npc.width/2, npc.height/2) + new Vector2(-10 * npc.spriteDirection, npc.gfxOffY - 26 + extraYoff);
 					Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
-					spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
+					spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects | verticalflip, 0f);
 				}
 			}
 			return false;
 		}
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Boss/Scarabeus/Scarabeus_Glow"));
+			SpriteEffects verticalflip = spriteDirectionY == -1 ? SpriteEffects.FlipVertically : SpriteEffects.None;
+			SpriteEffects effects = npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(mod.GetTexture("NPCs/Boss/Scarabeus/Scarabeus_Glow"), npc.Center - Main.screenPosition + new Vector2(-10 * npc.spriteDirection, npc.gfxOffY - 26 + extraYoff), npc.frame,
+							 Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, effects | verticalflip, 0);
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
@@ -586,13 +426,9 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
 			}
 			if (npc.life <= 0) {
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Scarabeus/Scarab1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Scarabeus/Scarab5"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Scarabeus/Scarab6"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Scarabeus/Scarab7"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Scarabeus/Scarab2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Scarabeus/Scarab3"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Scarabeus/Scarab4"), 1f);
+				for(int i = 1; i <= 7; i++)
+					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Scarabeus/Scarab" + i.ToString()), 1f);
+
 				npc.position.X = npc.position.X + (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
 				npc.width = 100;
@@ -631,10 +467,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				}
 			}
 		}
-		public override void FindFrame(int frameHeight)
-		{
-			npc.frame.Y = frameHeight * frame;
-		}
+		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.5f * bossLifeScale);
