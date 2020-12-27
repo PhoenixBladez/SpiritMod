@@ -32,6 +32,7 @@ namespace SpiritMod.Projectiles.Hostile
 		public override void AI()
         {
             projectile.ai[1]++;
+			projectile.rotation = projectile.velocity.ToRotation();
             if (projectile.ai[1] == 15)
             {
                 projectile.height += 10;
