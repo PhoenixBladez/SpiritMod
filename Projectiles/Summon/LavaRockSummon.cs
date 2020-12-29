@@ -22,7 +22,7 @@ namespace SpiritMod.Projectiles.Summon
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.minionSlots = 1f;
-			projectile.timeLeft = 999999;
+			projectile.timeLeft = 18000;
 			projectile.penetrate = -1;
 			projectile.tileCollide = false;
 			projectile.timeLeft *= 5;
@@ -31,14 +31,6 @@ namespace SpiritMod.Projectiles.Summon
 
 		public override void AI()
 		{
-			projectile.ai[1] += 1f;
-			if (projectile.ai[1] >= 7200f) {
-				projectile.alpha += 5;
-				if (projectile.alpha > 255) {
-					projectile.alpha = 255;
-					projectile.Kill();
-				}
-			}
 
 			projectile.localAI[0] += 1f;
 			if (projectile.localAI[0] >= 10f) {
@@ -85,7 +77,7 @@ namespace SpiritMod.Projectiles.Summon
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (flag64) {
 				if (player.dead)
-					modPlayer.OG = false;
+					modPlayer.lavaRock = false;
 
 				if (modPlayer.lavaRock)
 					projectile.timeLeft = 2;

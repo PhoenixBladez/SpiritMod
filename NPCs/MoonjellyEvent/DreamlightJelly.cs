@@ -23,7 +23,8 @@ namespace SpiritMod.NPCs.MoonjellyEvent
 		{
 			npc.width = 12;
 			npc.height = 20;
-			npc.damage = 0;
+            npc.rarity = 3;
+            npc.damage = 0;
 			npc.defense = 0;
 			npc.lifeMax = 12;
 			npc.HitSound = SoundID.NPCHit25;

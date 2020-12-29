@@ -31,6 +31,7 @@ namespace SpiritMod.Projectiles.Summon.Zones
             projectile.height = 110;
             projectile.sentry = true;
             projectile.width = 110;
+            projectile.scale = 1.2f;
 		}
 
 		public override void AI()
@@ -38,9 +39,9 @@ namespace SpiritMod.Projectiles.Summon.Zones
 			Player player = Main.LocalPlayer;
 
             int distance = (int)Vector2.Distance(projectile.Center, player.Center);
-			if (distance < 60)
+			if (distance < 85)
             {
-                player.AddBuff(ModContent.BuffType<DefenseZoneBuff>(), 60);
+                player.AddBuff(ModContent.BuffType<DefenseZoneBuff>(), 130);
             }
 			
 		}

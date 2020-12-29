@@ -92,7 +92,14 @@ namespace SpiritMod.NPCs.MoonjellyEvent
         }
         public override void NPCLoot()
         {
-            npc.DropItem(tremorItem, Main.rand.Next(3, 9));
+            if (tremorItem == ModContent.ItemType<Items.Weapon.Summon.ElectricGun.ElectricGun>())
+            {
+                npc.DropItem(tremorItem);
+            }
+            else
+            {
+                npc.DropItem(tremorItem, Main.rand.Next(3, 9));
+            }
             npc.DropItem(ItemID.Gel, Main.rand.Next(1, 4));
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)

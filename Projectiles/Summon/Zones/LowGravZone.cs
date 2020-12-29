@@ -32,7 +32,8 @@ namespace SpiritMod.Projectiles.Summon.Zones
             projectile.sentry = true;
             projectile.width = 110;
             projectile.aiStyle = -1;
-		}
+            projectile.scale = 1.2f;
+        }
 
         public override void AI()
         {
@@ -41,7 +42,7 @@ namespace SpiritMod.Projectiles.Summon.Zones
             int distance1 = (int)Vector2.Distance(projectile.Center, player.Center);
             if (distance1 < 100)
             {
-                player.AddBuff(ModContent.BuffType<LowGravZoneBuff>(), 60);
+                player.AddBuff(ModContent.BuffType<LowGravZoneBuff>(), 100);
             }
         }
         public void DrawAdditive(SpriteBatch spriteBatch)

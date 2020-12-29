@@ -38,7 +38,8 @@ namespace SpiritMod.NPCs.MoonjellyEvent
             npc.scale = 1f;
 			npc.noGravity = true;
             npc.noTileCollide = true;
-			aiType = NPCID.Firefly;
+            npc.rarity = 3;
+            aiType = NPCID.Firefly;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

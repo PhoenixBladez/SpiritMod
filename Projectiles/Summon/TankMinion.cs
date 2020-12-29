@@ -36,8 +36,12 @@ namespace SpiritMod.Projectiles.Summon
 
 			return false;
 		}
-
-		public override void AI()
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        {
+            fallThrough = false;
+            return true;
+        }
+        public override void AI()
 		{
 			if (projectile.velocity.Y < 5)
 				projectile.velocity.Y += 0.3f;

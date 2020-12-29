@@ -109,7 +109,7 @@ namespace SpiritMod.NPCs
 		}
 		public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
 		{
-			if (reflectPhase && !projectile.minion && !Main.player[projectile.owner].channel) {
+			if (reflectPhase && !projectile.minion && !projectile.sentry && !Main.player[projectile.owner].channel) {
 				projectile.hostile = true;
 				projectile.friendly = false;
 				projectile.penetrate = 2;

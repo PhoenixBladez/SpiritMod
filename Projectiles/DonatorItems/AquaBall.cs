@@ -60,13 +60,13 @@ namespace SpiritMod.Projectiles.DonatorItems
 
 			//change trajectory to home in on target
 			if (targetAcquired) {
-				float homingSpeedFactor = 8f;
+				float homingSpeedFactor = 3f;
 				Vector2 homingVect = targetPos - projectile.Center;
 				float dist = projectile.Distance(targetPos);
 				dist = homingSpeedFactor / dist;
 				homingVect *= dist;
 
-				projectile.velocity = (projectile.velocity * 20 + homingVect) / 21f;
+				projectile.velocity = (projectile.velocity * 18.5f + homingVect) / 21f;
 			}
 		}
 

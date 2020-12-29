@@ -200,7 +200,13 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 					}
 
 					Player player = Main.player[npc.target];
-					Vector2 dist = player.Center - npc.Center;
+                    if (!player.active || player.dead || Main.dayTime)
+                    {
+                        npc.TargetClosest(false);
+                        npc.velocity.Y = -200;
+                        npc.active = false;
+                    }
+                    Vector2 dist = player.Center - npc.Center;
 					if (dist.Length() > 1000) 
 					{
 						switch (Main.rand.Next(2)) {
