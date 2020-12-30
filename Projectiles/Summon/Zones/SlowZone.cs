@@ -30,7 +30,8 @@ namespace SpiritMod.Projectiles.Summon.Zones
             projectile.height = 110;
             projectile.sentry = true;
             projectile.width = 110;
-		}
+            projectile.scale = 1.2f;
+        }
 
         public override void AI()
         {
@@ -41,9 +42,9 @@ namespace SpiritMod.Projectiles.Summon.Zones
                 NPC npc = Main.npc[i];
                 int distance = (int)Vector2.Distance(npc.Center, projectile.Center);
                 {
-                    if (distance < 60 && !npc.boss && !npc.friendly && !npc.dontTakeDamage)
+                    if (distance < 85 && !npc.boss && !npc.friendly && !npc.dontTakeDamage)
                     {
-                        npc.AddBuff(ModContent.BuffType<MageFreeze>(), 120);
+                        npc.AddBuff(ModContent.BuffType<MageFreeze>(), 180);
                     }
                 }
 

@@ -22,8 +22,8 @@ namespace SpiritMod.NPCs
 			npc.width = 40;
 			npc.height = 30;
 			npc.damage = 32;
-			npc.defense = 15;
-			npc.lifeMax = 70;
+			npc.defense = 8;
+			npc.lifeMax = 59;
 			npc.HitSound = SoundID.NPCHit35; //Dr Man Fly
 			npc.DeathSound = SoundID.NPCDeath22;
 			npc.value = 110f;
@@ -128,7 +128,7 @@ namespace SpiritMod.NPCs
 		}
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.player.ZoneCorrupt && spawnInfo.player.ZoneOverworldHeight && !NPC.AnyNPCs(ModContent.NPCType<Vilemoth>()) ? .1f : 0f;
+			return spawnInfo.player.ZoneCorrupt && spawnInfo.player.ZoneOverworldHeight && !NPC.AnyNPCs(ModContent.NPCType<Vilemoth>()) ? .05f : 0f;
 		}
 	}
 }

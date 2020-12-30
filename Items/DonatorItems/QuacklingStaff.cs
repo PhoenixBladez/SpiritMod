@@ -22,7 +22,7 @@ namespace SpiritMod.Items.DonatorItems
 			item.value = Item.sellPrice(0, 1, 0, 0);
 			item.rare = ItemRarityID.Orange;
 			item.mana = 9;
-			item.damage = 21;
+			item.damage = 19;
 			item.knockBack = 1;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = 30;

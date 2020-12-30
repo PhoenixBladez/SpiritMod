@@ -46,6 +46,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			Main.spriteBatch.Draw(SpiritMod.instance.GetTexture("Effects/Masks/Extra_49"), (npc.Center - Main.screenPosition) - new Vector2(-2, 8), null, new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + .65f), SpriteEffects.None, 0f);
 			return true;
 		}
+        int playersActive;
 		public override void AI()
 		{
 			alphaCounter += 0.025f;
@@ -60,8 +61,20 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			}
 			timeLeft--;
 			if (timeLeft <= 0) {
-
-				npc.DropItem(ItemID.Heart);
+                if (Main.expertMode) {
+					if (Main.netMode != 0) {
+						for (int i = 0; i < 255; i++) {
+							if (Main.player[i].active) {
+                                playersActive++;  
+                            }
+                        }
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SteamRaiderBag>(), playersActive);
+                    }
+					else { 
+                    npc.DropBossBags();
+					}
+                }
+                npc.DropItem(ItemID.Heart);
 				npc.DropItem(ItemID.Heart);
 				npc.DropItem(ItemID.Heart);
 				npc.DropItem(ItemID.Heart);
@@ -95,14 +108,11 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 
 				Main.NewText("Starplate Voyager has been defeated!", 175, 75, 255, false);
 				npc.life = 0;
+                npc.active = false;
 			}
 		}
 		public override void NPCLoot()
         {
-            if (Main.expertMode)
-            {
-                npc.DropBossBags();
-            }
         }
 	}
 }

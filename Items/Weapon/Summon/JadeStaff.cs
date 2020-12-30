@@ -16,9 +16,9 @@ namespace SpiritMod.Items.Weapon.Summon
 
 		public override void SetDefaults()
 		{
-			item.damage = 14;
+			item.damage = 15;
 			item.summon = true;
-			item.mana = 60;
+			item.mana = 40;
 			item.width = 44;
 			item.height = 48;
 			item.useTime = 80;
@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			Item.staff[item.type] = true;
 			item.noMelee = true;
-			item.knockBack = 1.25f;
+			item.knockBack = 2.25f;
 			item.value = 20000;
 			item.rare = ItemRarityID.Orange;
 			item.UseSound = new Terraria.Audio.LegacySoundStyle(3, 56);

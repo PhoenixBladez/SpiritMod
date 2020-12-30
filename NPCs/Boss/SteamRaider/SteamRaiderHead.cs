@@ -33,7 +33,6 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		{
 			npc.damage = 25; //150
 			npc.npcSlots = 20f;
-			bossBag = mod.ItemType("SteamRaiderBag");
 			npc.width = 64; //324
 			npc.height = 56; //216
 			npc.defense = 0;
@@ -676,10 +675,11 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				if (!MyWorld.downedRaider) {
 					Main.NewText("The Astralite in the Asteroids hums with energy.", 61, 255, 142, false);
 				}
-				MyWorld.downedRaider = true;
+                npc.active = false;
+                MyWorld.downedRaider = true;
 				Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DeathSounds/StarplateDeathSound"));
 				NPC.NewNPC((int)npc.position.X + npc.width - 20, (int)npc.position.Y + npc.height, mod.NPCType("SteamRaiderHeadDeath"), npc.whoAmI);
-			}
+            }
 		}
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{

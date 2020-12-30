@@ -811,7 +811,7 @@ namespace SpiritMod.NPCs
                 {
                     if (!NPC.AnyNPCs(ModContent.NPCType<NPCs.MoonjellyEvent.DistressJelly>()))
                     {
-                        pool.Add(NPCType<NPCs.MoonjellyEvent.DistressJelly>(), .045f);
+                        pool.Add(NPCType<NPCs.MoonjellyEvent.DistressJelly>(), .055f);
                     }
                 }
             }
@@ -1355,7 +1355,7 @@ namespace SpiritMod.NPCs
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CarvedRock>(), Main.rand.Next(1) + 2);
 
 			if (npc.type == NPCID.PigronCorruption || npc.type == NPCID.PigronHallow || npc.type == NPCID.PigronCrimson) {
-				if (Main.rand.Next(18) == 0) {
+				if (Main.rand.Next(12) == 0) {
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PigronStaff>());
 				}
 			}

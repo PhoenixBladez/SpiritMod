@@ -19,19 +19,18 @@ namespace SpiritMod.Projectiles.Summon
 
 		public override void SetDefaults()
 		{
-			//	projectile.CloneDefaults(ProjectileID.OneEyedPirate);
+			projectile.CloneDefaults(ProjectileID.Raven);
 			projectile.netImportant = true;
 			projectile.width = 26;
 			projectile.height = 26;
 			projectile.friendly = true;
-			Main.projPet[projectile.type] = true;
 			projectile.minion = true;
 			projectile.penetrate = -1;
 			projectile.tileCollide = false;
 			projectile.ignoreWater = true;
+            projectile.minionSlots = 0;
 			projectile.penetrate = 3;
 			projectile.timeLeft = 180;
-			aiType = ProjectileID.Raven;
 		}
 
 		public override void AI()

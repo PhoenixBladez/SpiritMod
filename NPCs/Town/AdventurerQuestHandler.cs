@@ -693,7 +693,7 @@ namespace SpiritMod.NPCs.Town
 
 			"So you wanna be an adventurer, eh? Well, you're going to need to gear up if you want to explore the world!" + 
 			" As thanks for savin' me from the Briar, I'd actually planned to craft you a set of special armor, perfect for explorin'." +
-			" Unfortunately, some mangy Hookbats stole the sheaf of Durasilk I was usin'! They're still nearby, but they only come out at night. Mind retrievin' that silk for me so I can thank you properly?",
+			" Unfortunately, some mangy Hookbats stole the sheaf of Durasilk I was usin'! They only come out at night around the forest surface. Mind retrievin' that silk for me so I can thank you properly?",
 
 			"Durasilk's mighty strong stuff, it doesn't even look scratched! I picked it up from a travelling merchant in a far-off land. But, I figure you'll need it more now" +
 			" Thanks again for savin' me back there. This isn't much, but hopefully this armor'll save ya from turning into a monster's snack. You're 'officially' an adventurer now, lad. Welcome!", true,

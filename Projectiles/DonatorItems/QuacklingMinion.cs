@@ -136,7 +136,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 			}
 			else {
 				timer++;
-				if (timer % 60 == 1)
+				if (timer % 100 == 1 && Main.netMode != NetmodeID.MultiplayerClient)
 					Projectile.NewProjectile(projectile.Center, new Vector2(0, 3),
 						ModContent.ProjectileType<AquaBall>(), projectile.damage, 0, Main.myPlayer);
 

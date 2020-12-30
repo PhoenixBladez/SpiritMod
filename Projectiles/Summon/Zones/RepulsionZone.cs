@@ -32,7 +32,8 @@ namespace SpiritMod.Projectiles.Summon.Zones
             projectile.sentry = true;
             projectile.width = 110;
             projectile.aiStyle = -1;
-		}
+            projectile.scale = 1.2f;
+        }
 
         public override void AI()
         {
@@ -60,7 +61,7 @@ namespace SpiritMod.Projectiles.Summon.Zones
                     }
                 }
             }
-            if (projectile.ai[1] >= 24)
+            if (projectile.ai[1] >= 28)
             {
                 projectile.Kill();
             }

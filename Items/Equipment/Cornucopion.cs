@@ -33,6 +33,7 @@ namespace SpiritMod.Items.Equipment
             item.autoReuse = false;
             item.shoot = ModContent.ProjectileType<CornucopionProj>();
             item.shootSpeed = 0f;
+            item.value = 10000;
             item.noUseGraphic = false;
         }
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

@@ -30,16 +30,17 @@ namespace SpiritMod.Projectiles.Summon.Zones
             projectile.height = 110;
             projectile.sentry = true;
             projectile.width = 110;
-		}
+            projectile.scale = 1.2f;
+        }
 
 		public override void AI()
 		{
 			Player player = Main.LocalPlayer;
 
             int distance = (int)Vector2.Distance(projectile.Center, player.Center);
-			if (distance < 60)
+			if (distance < 80)
             {
-                player.AddBuff(ModContent.BuffType<StaminaZoneBuff>(), 100);
+                player.AddBuff(ModContent.BuffType<StaminaZoneBuff>(), 130);
             }
 			
 		}

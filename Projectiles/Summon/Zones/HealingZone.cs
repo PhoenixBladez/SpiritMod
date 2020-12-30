@@ -30,16 +30,17 @@ namespace SpiritMod.Projectiles.Summon.Zones
             projectile.height = 110;
             projectile.sentry = true;
             projectile.width = 110;
-		}
+            projectile.scale = 1.2f;
+        }
 
 		public override void AI()
 		{
 			Player player = Main.LocalPlayer;
 
             int distance = (int)Vector2.Distance(projectile.Center, player.Center);
-			if (distance < 60)
+			if (distance < 85)
             {
-                player.AddBuff(ModContent.BuffType<HealingZoneBuff>(), 60);
+                player.AddBuff(ModContent.BuffType<HealingZoneBuff>(), 130);
                 if (Main.rand.NextBool(30))
                 {
                     int num143 = Gore.NewGore(new Vector2(projectile.Center.X + Main.rand.Next(-50, 50), projectile.Center.Y + Main.rand.Next(-50, 50)), new Vector2((float)Main.rand.Next(-10, 11) * 0.1f, (float)Main.rand.Next(-20, -10) * 0.1f), 331, (float)Main.rand.Next(80, 120) * 0.01f);
