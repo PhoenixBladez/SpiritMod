@@ -140,7 +140,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				if (!TileID.Sets.Platforms[tile.type])
 					onplatform = false;
 			}
-			if (onplatform && (npc.Center.Y < player.position.Y)) //if they are, temporarily let the boss ignore tiles to go through them
+			if (onplatform && (npc.Center.Y < player.position.Y - 20)) //if they are, temporarily let the boss ignore tiles to go through them
 				npc.noTileCollide = true;
 			else
 				npc.noTileCollide = false;
