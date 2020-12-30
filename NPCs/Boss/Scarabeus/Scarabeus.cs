@@ -104,12 +104,11 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			Sandstorm.Happening = false;
 
 			if (!npc.noTileCollide && !Collision.CanHit(npc.Center, 0, 0, player.Center, 0, 0) && AttackType != 5) { //check if it can't reach the player
-				AttackType = -1;
+				AttackType = 4;
 				AiTimer = 0;
 			}
 
 			switch (AttackType) {
-				case -1: FlyToPlayer(player); break; //"attack" used when the boss can't reach the player
 				case 0:
 					Walking(player, 0.15f, 7, 360);
 					break;
@@ -384,19 +383,6 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			}
 			npc.rotation = rotation + ((npc.spriteDirection < 0) ? MathHelper.Pi : 0);
 			if (AiTimer > 260) {NextAttack();}
-		}
-
-		public void FlyToPlayer(Player player)
-		{
-			npc.noTileCollide = true;
-			npc.noGravity = true;
-			UpdateFrame(4, 18, 21);
-
-			Vector2 ToPlayer = player.Center - npc.Center;
-			ToPlayer.Normalize();
-
-			npc.velocity = Vector2.Lerp(npc.velocity, ToPlayer * 16, 0.1f);
-			if(Collision.CanHit(npc.Center, 0, 0, player.Center, 0, 0)) {NextAttack();}
 		}
 		public void GroundPound(Player player)
 		{
