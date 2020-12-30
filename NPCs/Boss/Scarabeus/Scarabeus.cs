@@ -92,18 +92,18 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				return;
 			}
 			
-			if (npc.life >= 800) {
-				{
+			//if (npc.life >= 800) {
+			//	{
 					Phase1(player);
-				}
-			}
+			//	}
+			//}
 		}
 
 		public void Phase1(Player player)
 		{
 			Sandstorm.Happening = false;
 
-			if (!npc.noTileCollide && !Collision.CanHit(npc.Center, 0, 0, player.Center, 0, 0)) { //check if it can't reach the player
+			if (!npc.noTileCollide && !Collision.CanHit(npc.Center, 0, 0, player.Center, 0, 0) && AttackType != 5) { //check if it can't reach the player
 				AttackType = -1;
 				AiTimer = 0;
 			}
@@ -125,7 +125,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				case 4: 
 					FlyDashes(player);
 					break;
-				case 5: Dash(player); //will be changed to ground pound when i add that
+				case 5: GroundPound(player);
 					break;
 				default: AttackType = 0; break; //loop attack pattern
 			}
@@ -339,6 +339,8 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 
 			if (AiTimer > 180) { NextAttack(); }
 		}
+
+		float rotation = 0;
 		public void FlyDashes(Player player)
 		{
 			AiTimer++;
@@ -349,14 +351,16 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			ToPlayer.Normalize();
 
 			if (AiTimer == 1)
-				npc.rotation = ToPlayer.ToRotation();
+				rotation = ToPlayer.ToRotation();
 
 			if (AiTimer < 100) {
+
+				npc.spriteDirection = npc.direction;
 				npc.velocity = (npc.Distance(player.Center) > 380) ?
 					Vector2.Lerp(npc.velocity, ToPlayer * 10, 0.05f) :
 					Vector2.Lerp(npc.velocity, -ToPlayer * 10, 0.05f);
 
-				npc.rotation = Utils.AngleLerp(npc.rotation, ToPlayer.ToRotation(), 0.05f);
+				rotation = Utils.AngleLerp(rotation, ToPlayer.ToRotation(), 0.05f);
 			}
 
 			if (AiTimer >= 100) {
@@ -371,14 +375,14 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 					npc.velocity = ToPlayer * 20;
 				}
 				canhitplayer = true;
-				if(AiTimer > 120 && AiTimer < 150 || AiTimer > 210)
-					npc.rotation = npc.velocity.ToRotation();
-				else
-					npc.rotation = Utils.AngleLerp(npc.rotation, ToPlayer.ToRotation(), 0.05f);
+				if (AiTimer > 120 && AiTimer < 150 || AiTimer > 210)
+					rotation = npc.velocity.ToRotation();
+				else {
+					rotation = Utils.AngleLerp(rotation, ToPlayer.ToRotation(), 0.05f);
+					npc.spriteDirection = npc.direction;
+				}
 			}
-
-			npc.spriteDirection = 1;
-			spriteDirectionY = npc.direction;
+			npc.rotation = rotation + ((npc.spriteDirection < 0) ? MathHelper.Pi : 0);
 			if (AiTimer > 260) {NextAttack();}
 		}
 
@@ -394,31 +398,65 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			npc.velocity = Vector2.Lerp(npc.velocity, ToPlayer * 16, 0.1f);
 			if(Collision.CanHit(npc.Center, 0, 0, player.Center, 0, 0)) {NextAttack();}
 		}
+		public void GroundPound(Player player)
+		{
+			AiTimer++;
+			if(AiTimer < 150) { //home in on spot above player
+
+				npc.noTileCollide = true;
+				npc.noGravity = true;
+				UpdateFrame(4, 18, 21);
+				Vector2 ToPlayer = player.Center - npc.Center;
+				ToPlayer.Y -= 350;
+				ToPlayer.Normalize();
+				npc.velocity = Vector2.Lerp(npc.velocity, ToPlayer * 12, 0.05f);
+			}
+			else {
+				canhitplayer = true;
+				npc.noTileCollide = false;
+				trailbehind = true;
+				npc.noGravity = false;
+				CheckPlatform(player);
+				UpdateFrame(4, 0, 6);
+				if (AiTimer == 150) //initial tick of falling
+				{
+					Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 44, 1.5f, -1f);
+					npc.velocity = new Vector2(0, 5);
+				}
+				else if (npc.velocity.Y == 0) //check when the boss lands
+				{
+					Main.PlaySound(SoundID.Item14, npc.Center);
+					Vector2 spawnpos = new Vector2(npc.Center.X, npc.Center.Y + npc.height / 4);
+					Projectile.NewProjectile(spawnpos, new Vector2(10, 0), mod.ProjectileType("DustTornado"), npc.damage / 4, 5f, Main.myPlayer);
+					Projectile.NewProjectile(spawnpos, new Vector2(-10, 0), mod.ProjectileType("DustTornado"), npc.damage / 4, 5f, Main.myPlayer);
+					NextAttack();
+				}
+
+			}
+		}
 		#endregion
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => canhitplayer;
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			SpriteEffects verticalflip = spriteDirectionY == -1 ? SpriteEffects.FlipVertically : SpriteEffects.None;
 			SpriteEffects effects = npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(-10 * npc.spriteDirection, npc.gfxOffY - 26 + extraYoff), npc.frame,
-							 lightColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects | verticalflip, 0);
+							 lightColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 			if (trailbehind) {
 				Vector2 drawOrigin = npc.frame.Size() / 2;
 				for (int k = 0; k < npc.oldPos.Length; k++) {
-					Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin - new Vector2(npc.width/2, npc.height/2) + new Vector2(-10 * npc.spriteDirection, npc.gfxOffY - 26 + extraYoff);
+					Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + new Vector2(npc.width/2, npc.height/2) + new Vector2(-10 * npc.spriteDirection, npc.gfxOffY - 26 + extraYoff);
 					Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
-					spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects | verticalflip, 0f);
+					spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
 				}
 			}
 			return false;
 		}
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			SpriteEffects verticalflip = spriteDirectionY == -1 ? SpriteEffects.FlipVertically : SpriteEffects.None;
 			SpriteEffects effects = npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			spriteBatch.Draw(mod.GetTexture("NPCs/Boss/Scarabeus/Scarabeus_Glow"), npc.Center - Main.screenPosition + new Vector2(-10 * npc.spriteDirection, npc.gfxOffY - 26 + extraYoff), npc.frame,
-							 Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, effects | verticalflip, 0);
+							 Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{

@@ -1,6 +1,6 @@
 
 using Microsoft.Xna.Framework;
-
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -18,17 +18,16 @@ namespace SpiritMod.Projectiles.Boss
 
 		public override void SetDefaults()
 		{
-			projectile.width = 40;
-			projectile.height = 30;
+			projectile.width = 20;
+			projectile.height = 20;
 			projectile.friendly = false;
 			projectile.hostile = true;
 			projectile.penetrate = 10;
-			projectile.timeLeft = 240;
+			projectile.timeLeft = 120;
 			projectile.tileCollide = true;
 		}
 		public override void AI()
 		{
-			projectile.velocity.Y += 0.4F;
 			projectile.frameCounter++;
 			if (projectile.frameCounter >= 8) {
 				projectile.frameCounter = 0;
@@ -38,18 +37,11 @@ namespace SpiritMod.Projectiles.Boss
 				projectile.alpha++;
 			}
 			projectile.spriteDirection = -projectile.direction;
-			Vector2 position = projectile.Center + Vector2.Normalize(projectile.velocity) * 12;
 
 			Dust newDust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 0, 0f, 0f, 0, default(Color), 1f)];
 			newDust.noGravity = true;
 		}
-		public override bool OnTileCollide(Vector2 oldVelocity)
-		{
-			if (oldVelocity.X != projectile.velocity.X)
-				projectile.velocity.X = -oldVelocity.X;
 
-			return false;
-		}
 		public override void Kill(int timeLeft)
 		{
 			for (int num621 = 0; num621 < 40; num621++) {
@@ -60,5 +52,12 @@ namespace SpiritMod.Projectiles.Boss
 			}
 		}
 
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D tex = Main.projectileTexture[projectile.type];
+			Rectangle rectangle = new Rectangle(0, projectile.frame * tex.Height / Main.projFrames[projectile.type], tex.Width, tex.Height / Main.projFrames[projectile.type]);
+			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, rectangle, lightColor, projectile.rotation, rectangle.Size() / 2, projectile.scale, SpriteEffects.None, 0);
+			return false;
+		}
 	}
 }
