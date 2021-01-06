@@ -762,21 +762,6 @@ namespace SpiritMod.NPCs
 				if (MyWorld.BlueMoon && !Main.dayTime)
 					pool.Remove(0);
 			}
-			if (MyWorld.jellySky && spawnInfo.player.ZoneSkyHeight)
-            {
-                pool.Clear();
-                pool.Add(NPCType<NPCs.MoonjellyEvent.TinyLunazoa>(), 9.35f);
-                pool.Add(NPCType<NPCs.MoonjellyEvent.ExplodingMoonjelly>(), 8.35f);
-                pool.Add(NPCType<NPCs.MoonjellyEvent.MoonlightPreserver>(), 3.25f);
-                if (!NPC.AnyNPCs(ModContent.NPCType<NPCs.MoonjellyEvent.MoonjellyGiant>()))
-                {
-                    pool.Add(NPCType<NPCs.MoonjellyEvent.MoonjellyGiant>(), .85f);
-                }
-                if (!NPC.AnyNPCs(ModContent.NPCType<NPCs.MoonjellyEvent.DreamlightJelly>()))
-                {
-                    pool.Add(NPCType<NPCs.MoonjellyEvent.DreamlightJelly>(), .85f);
-                }
-            }
 			if (TideWorld.TheTide && spawnInfo.player.ZoneBeach) {
 				pool.Clear();
 				if (TideWorld.TidePoints < 99) {
@@ -814,7 +799,24 @@ namespace SpiritMod.NPCs
                         pool.Add(NPCType<NPCs.MoonjellyEvent.DistressJelly>(), .055f);
                     }
                 }
-            }
+			}
+			if (MyWorld.jellySky && spawnInfo.player.ZoneSkyHeight)
+			{
+				if(!spawnInfo.player.GetSpiritPlayer().ZoneAsteroid) //allows asteroid enemies to still spawn during moon jelly event
+					pool.Clear();
+
+				pool.Add(NPCType<NPCs.MoonjellyEvent.TinyLunazoa>(), 9.35f);
+				pool.Add(NPCType<NPCs.MoonjellyEvent.ExplodingMoonjelly>(), 8.35f);
+				pool.Add(NPCType<NPCs.MoonjellyEvent.MoonlightPreserver>(), 3.25f);
+				if (!NPC.AnyNPCs(ModContent.NPCType<NPCs.MoonjellyEvent.MoonjellyGiant>()))
+				{
+					pool.Add(NPCType<NPCs.MoonjellyEvent.MoonjellyGiant>(), .85f);
+				}
+				if (!NPC.AnyNPCs(ModContent.NPCType<NPCs.MoonjellyEvent.DreamlightJelly>()))
+				{
+					pool.Add(NPCType<NPCs.MoonjellyEvent.DreamlightJelly>(), .85f);
+				}
+			}
 			for (int k = 0; k < 255; k++) {
 				Player player = Main.player[k];
 				if (player.ZoneBeach && MyWorld.luminousOcean && !Main.dayTime) {
