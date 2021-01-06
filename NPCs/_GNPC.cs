@@ -787,7 +787,10 @@ namespace SpiritMod.NPCs
 				pool.Clear();
 				pool.Add(NPCType<DeepspaceHopper>(), .35f);
 				pool.Add(NPCType<AstralAmalgram>(), 0.16f);
-				pool.Add(NPCType<Mineroid>(), 0.3f);
+
+				if(NPC.downedBoss2)
+					pool.Add(NPCType<Mineroid>(), 0.3f);
+
 				pool.Add(NPCType<GloopGloop>(), 0.24f);
 				if (NPC.downedBoss3) {
 					pool.Add(NPCType<CogTrapperHead>(), 0.45f);
