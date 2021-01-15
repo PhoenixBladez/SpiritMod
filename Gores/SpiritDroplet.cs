@@ -12,6 +12,7 @@ namespace SpiritMod.Gores
 			gore.numFrames = 15;
 			gore.behindTiles = true;
 			gore.timeLeft = Gore.goreTime * 3;
+			ChildSafety.SafeGore[gore.type] = true;
 		}
 
 		public override bool Update(Gore gore)
