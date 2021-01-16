@@ -101,7 +101,8 @@ namespace SpiritMod.NPCs.MoonjellyEvent
                 npc.DropItem(tremorItem, Main.rand.Next(3, 9));
             }
             npc.DropItem(ItemID.Gel, Main.rand.Next(1, 4));
-        }
+			npc.DropItem(mod.ItemType("MoonJelly"));
+		}
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Microsoft.Xna.Framework.Color color9 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));

@@ -45,6 +45,9 @@ namespace SpiritMod.Items.Consumable
 		public override bool UseItem(Player player)
 		{
 			TideWorld.TheTide = true;
+			if(player.whoAmI == Main.myPlayer)
+				TideWorld.TideWaveIncrease();
+
 			return true;
 		}
 		public override void AddRecipes()

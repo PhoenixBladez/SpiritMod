@@ -113,8 +113,8 @@ namespace SpiritMod.NPCs.BlueMoon
 
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(4) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MoonJelly>());
+			//if (Main.rand.Next(4) == 1)
+				//Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MoonJelly>());
 
 			if (Main.rand.Next(5) == 1)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MoonStone>());

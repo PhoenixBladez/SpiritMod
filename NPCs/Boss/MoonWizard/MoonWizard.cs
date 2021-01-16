@@ -277,7 +277,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 		}
 		public override void BossLoot(ref string name, ref int potionType)
 		{
-			potionType = ItemID.HealingPotion;
+			potionType = mod.ItemType("MoonJelly");
 		}
         public override void NPCLoot()
         {

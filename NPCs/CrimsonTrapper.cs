@@ -130,9 +130,9 @@ namespace SpiritMod.NPCs
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-			=> Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].type == TileID.Crimstone
+			=> Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].wall > 0
 			&& spawnInfo.player.ZoneCrimson
-			&& spawnInfo.player.ZoneRockLayerHeight
+			&& (spawnInfo.player.ZoneRockLayerHeight || spawnInfo.player.ZoneDirtLayerHeight)
 			&& !NPC.AnyNPCs(ModContent.NPCType<CrimsonTrapper>())
 			? 2f : 0f;
 

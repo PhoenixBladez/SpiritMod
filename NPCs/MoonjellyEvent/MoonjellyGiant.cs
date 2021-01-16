@@ -121,6 +121,9 @@ namespace SpiritMod.NPCs.MoonjellyEvent
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Gel, Main.rand.Next(2, 5));
+
+			if (Main.rand.NextBool(2))
+				npc.DropItem(mod.ItemType("MoonJelly"));
 		}
 	}
 }

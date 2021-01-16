@@ -750,10 +750,6 @@ namespace SpiritMod.NPCs
                 maxSpawns = (int)(maxSpawns * 1.18f);
                 spawnRate = 2;
             }
-            if (TideWorld.TheTide && player.ZoneBeach) {
-				maxSpawns = (int)(10 + 1.5f * activePlayers);
-				spawnRate = 20;
-			}
 		}
 
 		public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
@@ -762,47 +758,14 @@ namespace SpiritMod.NPCs
 				if (MyWorld.BlueMoon && !Main.dayTime)
 					pool.Remove(0);
 			}
-			if (MyWorld.jellySky && spawnInfo.player.ZoneSkyHeight)
-            {
-                pool.Clear();
-                pool.Add(NPCType<NPCs.MoonjellyEvent.TinyLunazoa>(), 9.35f);
-                pool.Add(NPCType<NPCs.MoonjellyEvent.ExplodingMoonjelly>(), 8.35f);
-                pool.Add(NPCType<NPCs.MoonjellyEvent.MoonlightPreserver>(), 3.25f);
-                if (!NPC.AnyNPCs(ModContent.NPCType<NPCs.MoonjellyEvent.MoonjellyGiant>()))
-                {
-                    pool.Add(NPCType<NPCs.MoonjellyEvent.MoonjellyGiant>(), .85f);
-                }
-                if (!NPC.AnyNPCs(ModContent.NPCType<NPCs.MoonjellyEvent.DreamlightJelly>()))
-                {
-                    pool.Add(NPCType<NPCs.MoonjellyEvent.DreamlightJelly>(), .85f);
-                }
-            }
-			if (TideWorld.TheTide && spawnInfo.player.ZoneBeach) {
-				pool.Clear();
-				if (TideWorld.TidePoints < 99) {
-					pool.Add(NPCType<SpearKakamora>(), 7.35f);
-					pool.Add(NPCType<KakamoraParachuter>(), 5.35f);
-					pool.Add(NPCType<SwordKakamora>(), 7.35f);
-					pool.Add(NPCType<KakamoraShielder>(), 1.73f);
-					pool.Add(NPCType<KakamoraShielderRare>(), .135f);
-					pool.Add(NPCType<KakamoraRunner>(), 2f);
-					if (!NPC.AnyNPCs(ModContent.NPCType<KakamoraShaman>())) {
-						pool.Add(NPCType<KakamoraShaman>(), 2.35f);
-					}
-					if (TideWorld.TidePoints >= 25) {
-						pool.Add(NPCType<MangoJelly>(), 3.35f);
-					}
-					if (TideWorld.TidePoints >= 50) {
-						pool.Add(NPCType<LargeCrustecean>(), 2.35f);
-					}
-					pool.Add(NPCType<KakamoraRider>(), 2.35f);
-				}
-			}
 			if (spawnInfo.player.GetSpiritPlayer().ZoneAsteroid) {
 				pool.Clear();
 				pool.Add(NPCType<DeepspaceHopper>(), .35f);
 				pool.Add(NPCType<AstralAmalgram>(), 0.16f);
-				pool.Add(NPCType<Mineroid>(), 0.3f);
+
+				if(NPC.downedBoss2)
+					pool.Add(NPCType<Mineroid>(), 0.3f);
+
 				pool.Add(NPCType<GloopGloop>(), 0.24f);
 				if (NPC.downedBoss3) {
 					pool.Add(NPCType<CogTrapperHead>(), 0.45f);
@@ -814,7 +777,24 @@ namespace SpiritMod.NPCs
                         pool.Add(NPCType<NPCs.MoonjellyEvent.DistressJelly>(), .055f);
                     }
                 }
-            }
+			}
+			if (MyWorld.jellySky && spawnInfo.player.ZoneSkyHeight)
+			{
+				if(!spawnInfo.player.GetSpiritPlayer().ZoneAsteroid) //allows asteroid enemies to still spawn during moon jelly event
+					pool.Clear();
+
+				pool.Add(NPCType<NPCs.MoonjellyEvent.TinyLunazoa>(), 9.35f);
+				pool.Add(NPCType<NPCs.MoonjellyEvent.ExplodingMoonjelly>(), 8.35f);
+				pool.Add(NPCType<NPCs.MoonjellyEvent.MoonlightPreserver>(), 3.25f);
+				if (!NPC.AnyNPCs(ModContent.NPCType<NPCs.MoonjellyEvent.MoonjellyGiant>()))
+				{
+					pool.Add(NPCType<NPCs.MoonjellyEvent.MoonjellyGiant>(), .85f);
+				}
+				if (!NPC.AnyNPCs(ModContent.NPCType<NPCs.MoonjellyEvent.DreamlightJelly>()))
+				{
+					pool.Add(NPCType<NPCs.MoonjellyEvent.DreamlightJelly>(), .85f);
+				}
+			}
 			for (int k = 0; k < 255; k++) {
 				Player player = Main.player[k];
 				if (player.ZoneBeach && MyWorld.luminousOcean && !Main.dayTime) {

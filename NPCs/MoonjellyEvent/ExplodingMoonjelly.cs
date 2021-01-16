@@ -147,6 +147,10 @@ namespace SpiritMod.NPCs.MoonjellyEvent
         public override void NPCLoot()
         {
             npc.DropItem(ItemID.Gel, Main.rand.Next(1, 4));
+
+			if(Main.rand.NextBool(2))
+				npc.DropItem(mod.ItemType("MoonJelly"));
+
 			if (Main.rand.NextBool(25))
             {
                 npc.DropItem(ModContent.ItemType<NautilusClub>());

@@ -37,16 +37,14 @@ namespace SpiritMod.NPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return (spawnInfo.player.ZoneMeteor) && spawnInfo.spawnTileY < Main.rockLayer & NPC.downedBoss2 ? 0.15f : 0f;
+			return (spawnInfo.player.ZoneMeteor) && spawnInfo.spawnTileY < Main.rockLayer && NPC.downedBoss2 ? 0.15f : 0f;
 		}
 
 		public override void NPCLoot()
 		{
-			if (NPC.downedBoss2) {
-				if (Main.rand.Next(20) == 0) {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<OrbiterStaff>());
-				}
-			}
+			if (Main.rand.Next(20) == 0) 
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<OrbiterStaff>());
+
 			if (Main.rand.Next(1) == 400) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GravityModulator>());
 			}

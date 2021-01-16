@@ -145,9 +145,6 @@ namespace SpiritMod.NPCs.Tides
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Kakamora_Gore1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Kakamora_Gore2"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Kakamora_Gore3"), 1f);
-				if (TideWorld.TheTide && TideWorld.TidePoints < 99) {
-					TideWorld.TidePoints += 1;
-				}
 			}
 			else if (!blocking) {
 				Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraHit"));

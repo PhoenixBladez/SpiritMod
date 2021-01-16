@@ -2201,7 +2201,7 @@ namespace SpiritMod
                     inGranite = false;
                 }
             }
-            if (TideWorld.TheTide && !NPC.AnyNPCs(ModContent.NPCType<Rylheian>()) && player.ZoneBeach && TideWorld.TidePoints >= 99) {
+            if (TideWorld.TheTide && !NPC.AnyNPCs(ModContent.NPCType<Rylheian>()) && player.ZoneBeach && TideWorld.TideWave == 6) {
 				spawnTimer++;
 				if(spawnTimer >= 30) {
 					spawnTimer = 0;
