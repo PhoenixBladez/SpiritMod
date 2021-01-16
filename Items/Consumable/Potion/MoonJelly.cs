@@ -1,5 +1,8 @@
 
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs.Potion;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -19,8 +22,8 @@ namespace SpiritMod.Items.Consumable.Potion
 
 		public override void SetDefaults()
 		{
-			item.width = 20;
-			item.height = 30;
+			item.width = 34;
+			item.height = 26;
 			item.rare = ItemRarityID.Green;
 			item.maxStack = 30;
 
@@ -29,20 +32,31 @@ namespace SpiritMod.Items.Consumable.Potion
 
 			item.consumable = true;
 			item.autoReuse = false;
-
+			ItemID.Sets.ItemNoGravity[item.type] = true;
 			item.potion = true;
 			item.healLife = 120;
-
 			item.UseSound = SoundID.Item3;
 		}
-
+		public override Color? GetAlpha(Color lightColor) => Color.White;
 		public override bool CanUseItem(Player player)
 		{
 			if (player.FindBuffIndex(BuffID.PotionSickness) >= 0) {
 				return false;
 			}
 			return true;
+		}
 
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) //pulsating glow effect in world
+		{
+			spriteBatch.Draw(Main.itemTexture[item.type], 
+				item.Center - Main.screenPosition,
+				null, 
+				Color.Lerp(Color.White, Color.Transparent, 0.75f), 
+				rotation, 
+				item.Size / 2, 
+				MathHelper.Lerp(1f, 1.3f, (float)Math.Sin(Main.GlobalTime * 3) / 2 + 0.5f), 
+				SpriteEffects.None, 
+				0);
 		}
 		public override bool UseItem(Player player)
 		{
