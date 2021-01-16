@@ -215,9 +215,6 @@ namespace SpiritMod.NPCs.Tides
 			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Tentacle"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/TentacleHead"), 1f);
-				if (TideWorld.TheTide) {
-					TideWorld.TidePoints += 10;
-				}
 			}
 		}
 	}

@@ -52,9 +52,6 @@ namespace SpiritMod.NPCs.Tides
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crocomount/CrocomountGore2"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crocomount/CrocomountGore3"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crocomount/CrocomountGore4"), 1f);
-				if (TideWorld.TheTide && TideWorld.TidePoints < 99) {
-					TideWorld.TidePoints += 1;
-				}
 			}
 		}
 		public override void NPCLoot()

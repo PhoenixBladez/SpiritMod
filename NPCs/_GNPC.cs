@@ -750,10 +750,6 @@ namespace SpiritMod.NPCs
                 maxSpawns = (int)(maxSpawns * 1.18f);
                 spawnRate = 2;
             }
-            if (TideWorld.TheTide && player.ZoneBeach) {
-				maxSpawns = (int)(10 + 1.5f * activePlayers);
-				spawnRate = 20;
-			}
 		}
 
 		public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
@@ -761,27 +757,6 @@ namespace SpiritMod.NPCs
 			if (spawnInfo.spawnTileY <= Main.worldSurface) {
 				if (MyWorld.BlueMoon && !Main.dayTime)
 					pool.Remove(0);
-			}
-			if (TideWorld.TheTide && spawnInfo.player.ZoneBeach) {
-				pool.Clear();
-				if (TideWorld.TidePoints < 99) {
-					pool.Add(NPCType<SpearKakamora>(), 7.35f);
-					pool.Add(NPCType<KakamoraParachuter>(), 5.35f);
-					pool.Add(NPCType<SwordKakamora>(), 7.35f);
-					pool.Add(NPCType<KakamoraShielder>(), 1.73f);
-					pool.Add(NPCType<KakamoraShielderRare>(), .135f);
-					pool.Add(NPCType<KakamoraRunner>(), 2f);
-					if (!NPC.AnyNPCs(ModContent.NPCType<KakamoraShaman>())) {
-						pool.Add(NPCType<KakamoraShaman>(), 2.35f);
-					}
-					if (TideWorld.TidePoints >= 25) {
-						pool.Add(NPCType<MangoJelly>(), 3.35f);
-					}
-					if (TideWorld.TidePoints >= 50) {
-						pool.Add(NPCType<LargeCrustecean>(), 2.35f);
-					}
-					pool.Add(NPCType<KakamoraRider>(), 2.35f);
-				}
 			}
 			if (spawnInfo.player.GetSpiritPlayer().ZoneAsteroid) {
 				pool.Clear();

@@ -128,14 +128,6 @@ namespace SpiritMod.NPCs.Tides
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LargeCrustacean/lobster5"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LargeCrustacean/lobster6"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LargeCrustacean/lobster7"), 1f);
-				if (TideWorld.TheTide && TideWorld.TidePoints < 99) {
-					if (TideWorld.TidePoints < 97) {
-						TideWorld.TidePoints += 3;
-					}
-					else {
-						TideWorld.TidePoints += 1;
-					}
-				}
 			}
 		}
 	}
