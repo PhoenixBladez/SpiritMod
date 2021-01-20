@@ -12,12 +12,6 @@ namespace SpiritMod.Items.Weapon.Thrown
 		{
 			DisplayName.SetDefault("Kunai");
 		}
-
-
-		float downX;
-		float downY;
-		float upX;
-		float upY;
 		public override void SetDefaults()
 		{
 			item.useStyle = ItemUseStyleID.SwingThrow;
@@ -61,26 +55,11 @@ namespace SpiritMod.Items.Weapon.Thrown
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			float SdirX = (float)(Main.MouseWorld.X - player.position.X);
-			float SdirY = (float)(Main.MouseWorld.Y - player.position.Y);
-			float angleup = (float)Math.Atan(SdirX / SdirY) + 25;
-			float angledown = (float)Math.Atan(SdirX / SdirY) - 25;
-			if (SdirY < 0) {
-				downX = (float)(0 - (Math.Sin(angledown) * 8.5));
-				downY = (float)(0 - (Math.Cos(angledown) * 8.5));
-				upX = (float)(0 - (Math.Sin(angleup) * 8.5));
-				upY = (float)(0 - (Math.Cos(angleup) * 8.5));
-			}
+			Vector2 direction = new Vector2(speedX,speedY);
 
-			if (SdirY > 0) {
-				downX = (float)(Math.Sin(angledown) * 8.5);
-				downY = (float)(Math.Cos(angledown) * 8.5);
-				upX = (float)(Math.Sin(angleup) * 8.5);
-				upY = (float)(Math.Cos(angleup) * 8.5);
-			}
-			Terraria.Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Kunai_Throwing"), damage, knockBack, player.whoAmI, 0f, 0f);
-			Terraria.Projectile.NewProjectile(position.X, position.Y, downX, downY, mod.ProjectileType("Kunai_Throwing"), damage, knockBack, player.whoAmI, 0f, 0f);
-			Terraria.Projectile.NewProjectile(position.X, position.Y, upX, upY, mod.ProjectileType("Kunai_Throwing"), damage, knockBack, player.whoAmI, 0f, 0f);
+			Terraria.Projectile.NewProjectile(position, direction.RotatedBy(-0.2f), mod.ProjectileType("Kunai_Throwing"), damage, knockBack, player.whoAmI, 0f, 0f);
+			Terraria.Projectile.NewProjectile(position, direction, mod.ProjectileType("Kunai_Throwing"), damage, knockBack, player.whoAmI, 0f, 0f);
+			Terraria.Projectile.NewProjectile(position, direction.RotatedBy(0.2f), mod.ProjectileType("Kunai_Throwing"), damage, knockBack, player.whoAmI, 0f, 0f);
 			return false;
 		}
 	}
