@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Effects;
 using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Items.Boss;
 using SpiritMod.Items.BossBags;
@@ -8,9 +7,8 @@ using SpiritMod.Items.Material;
 using SpiritMod.Items.Weapon.Bow;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Swung;
-using SpiritMod.Projectiles.Boss;
-using Steamworks;
 using System;
+using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using Terraria;
 using Terraria.GameContent.Events;
@@ -22,7 +20,6 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 	[AutoloadBossHead]
 	public class Scarabeus : ModNPC
 	{
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Scarabeus");
@@ -30,7 +27,6 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			NPCID.Sets.TrailCacheLength[npc.type] = 3;
 			NPCID.Sets.TrailingMode[npc.type] = 0;
 		}
-
 		public override void SetDefaults()
 		{
 			npc.width = 42;
@@ -54,7 +50,6 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		float extraYoff;
 		int timer = 0;
 		bool canhitplayer;
-		int spriteDirectionY = 1;
 		public float AiTimer {
 			get => npc.ai[0];
 			set => npc.ai[0] = value;
@@ -126,6 +121,8 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 					break;
 				case 5: GroundPound(player);
 					break;
+				case 6: Digging(player);
+					break;
 				default: AttackType = 0; break; //loop attack pattern
 			}
 
@@ -145,10 +142,11 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				npc.noTileCollide = false;
 		}
 
-		private void UpdateFrame(int speed, int minframe, int maxframe)
+		private void UpdateFrame(int speed, int minframe, int maxframe, bool usesspeed = false)
 		{
 			timer++;
-			if (timer >= speed * (5f / Math.Abs(npc.velocity.X))) {
+			float timeperframe = (usesspeed) ? (5f / Math.Abs(npc.velocity.X)) * speed : speed;
+			if (timer >= timeperframe) {
 				frame++;
 				timer = 0;
 			}
@@ -169,7 +167,20 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			npc.noTileCollide = false;
 			npc.noGravity = false;
 			hasjumped = false;
-			spriteDirectionY = 1;
+			npc.behindTiles = false;
+			npc.knockBackResist = 0f;
+			npc.netUpdate = true;
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(trailbehind);
+			writer.Write(hasjumped);
+		}
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			trailbehind = reader.ReadBoolean();
+			hasjumped = reader.ReadBoolean();
 		}
 
 		private void StepUp(Player player)
@@ -188,6 +199,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		public void Walking(Player player, float acc, float maxspeed, int maxtime)
 		{
 			npc.spriteDirection = npc.direction;
+			npc.knockBackResist = 1f;
 			AiTimer++;
 			CheckPlatform(player);
 			canhitplayer = true;
@@ -214,7 +226,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			if (Main.rand.Next(500) == 0)
 				Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 44);
 
-			UpdateFrame(4, 0, 6);
+			UpdateFrame(4, 0, 6, true);
 		}
 
 		bool hasjumped = false;
@@ -247,7 +259,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				extraYoff = 0;
 				timer++;
 
-				UpdateFrame(3, 0, 6);
+				UpdateFrame(3, 0, 6, true);
 			}
 			if (AiTimer >= 30 && npc.velocity.Y != 0 && !hasjumped)
 				AiTimer = 0; //reset charge if in the air and hasn't jumped already
@@ -321,7 +333,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			else {
 				npc.rotation = 0;
 				extraYoff = 0;
-				UpdateFrame(4, 0, 6);
+				UpdateFrame(4, 0, 6, true);
 			}
 
 			if (AiTimer == 120) {
@@ -419,6 +431,51 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				}
 
 			}
+		}
+		public void Digging(Player player)
+		{
+			npc.noTileCollide = !(hasjumped && npc.velocity.Y > 0); //dont collide with tiles until it already has jumped, and it's moving downwards
+			bool InSolidTile = (WorldGen.SolidTile((int)npc.Center.X / 16, (int)(npc.Center.Y / 16)));
+			npc.noGravity = InSolidTile;
+			UpdateFrame(4, 12, 17);
+			npc.spriteDirection = Math.Sign(npc.velocity.X);
+			canhitplayer = AiTimer > 170; //only do contact damage after jumping
+			float targetrotation;
+			if (npc.velocity.Length() > 3) {
+				targetrotation = npc.velocity.ToRotation();
+				if (Math.Abs(targetrotation) > MathHelper.PiOver2)
+					targetrotation -= MathHelper.Pi;
+			}
+			else
+				targetrotation = 0;
+
+			npc.behindTiles = true;
+			npc.rotation = Utils.AngleLerp(npc.rotation, targetrotation, 0.1f);
+			if (InSolidTile) {
+				if (AiTimer % 20 == 0)
+					Main.PlaySound(SoundID.Roar, (int)npc.Center.X, (int)npc.Center.Y, 1);
+
+				Collision.HitTiles(npc.position, npc.velocity, npc.width, npc.height);
+				if(++AiTimer < 140) {
+					npc.velocity.X += (npc.Center.X < player.Center.X) ? 0.2f : -0.2f;
+					npc.velocity.Y += (npc.Center.Y < player.Center.Y) ? 0.1f : -0.1f;
+					npc.velocity = new Vector2(MathHelper.Clamp(npc.velocity.X, -10, 10), MathHelper.Clamp(npc.velocity.Y, -4, 4));
+				}
+				else if (AiTimer >= 140 && AiTimer <= 170) {
+					npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.1f);
+					if (AiTimer == 140)
+						Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 44, 1.5f, -1f);
+
+					if (AiTimer == 170) {
+						npc.velocity = npc.DirectionTo(player.Center) * MathHelper.Clamp(npc.Distance(player.Center) / 30, 5, 20);
+						npc.velocity.Y -= 5f;
+						hasjumped = true;
+					}
+				}
+			}
+
+			if (npc.velocity.Y == 0 && hasjumped && npc.oldVelocity.Y > 0)
+				NextAttack();
 		}
 		#endregion
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => canhitplayer;
