@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Consumable.Food;
 
-namespace SpiritMod.NPCs
+namespace SpiritMod.NPCs.Hell
 {
 	public class HellEater : ModNPC
 	{
