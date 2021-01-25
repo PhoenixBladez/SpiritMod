@@ -54,6 +54,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
 using Terraria.Utilities;
+using SpiritMod.Prim;
 
 namespace SpiritMod
 {
@@ -66,7 +67,10 @@ namespace SpiritMod
 		public static AdventurerQuestHandler AdventurerQuests;
 		public static Effect auroraEffect;
 		public static TrailManager TrailManager;
+		public static PrimTrailManager primitives;
 		public static Effect glitchEffect;
+		public static Effect StarjinxNoise;
+		public static Effect StarfirePrims;
 		public static PerlinNoise GlobalNoise;
 		public static GlitchScreenShader glitchScreenShader;
 		public static Texture2D noise;
@@ -477,8 +481,9 @@ namespace SpiritMod
             if (!Main.dedServ)
             {
                 BookUserInterface = new UserInterface();
-            }
-            On.Terraria.Main.DrawProjectiles += Main_DrawProjectiles;
+			}
+			On.Terraria.Main.DrawProjectiles += Main_DrawProjectiles;
+			On.Terraria.Main.DrawNPC += Main_DrawNPC;
 			On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile;
 			On.Terraria.Player.KeyDoubleTap += Player_KeyDoubleTap;
 			//Additive drawing
@@ -520,6 +525,8 @@ namespace SpiritMod
 				glitchScreenShader = new GlitchScreenShader(glitchEffect);
 				Filters.Scene["SpiritMod:Glitch"] = new Filter(glitchScreenShader, EffectPriority.High);
 
+				StarjinxNoise = instance.GetEffect("Effects/StarjinxNoise");
+				StarfirePrims = instance.GetEffect("Effects/StarfirePrims");
 
 				SkyManager.Instance["SpiritMod:AuroraSky"] = new AuroraSky();
 				Filters.Scene["SpiritMod:AuroraSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
@@ -592,7 +599,7 @@ namespace SpiritMod
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/DepthInvasion"), ItemType("TideBox"), TileType("TideBox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/JellySky"), ItemType("JellyDelugeBox"), TileType("JellyDelugeBox"));
             }
-			//primitives = new PrimTrailManager();
+			primitives = new PrimTrailManager();
 			// LoadDetours();
         }
 		//public static PrimTrailManager primitives;
@@ -670,6 +677,11 @@ namespace SpiritMod
 			TrailManager.DrawTrails(Main.spriteBatch);
 			orig(self);
 		}
+		private void Main_DrawNPC(On.Terraria.Main.orig_DrawNPC orig, Main self, int iNPCIndex, bool behindTiles)
+		{
+			primitives.DrawTrails(Main.spriteBatch);
+			orig(self, iNPCIndex, behindTiles);
+		}
 
 		//ugh this name
 		private int Projectile_NewProjectile(On.Terraria.Projectile.orig_NewProjectile_float_float_float_float_int_int_float_int_float_float orig, float X, float Y, float SpeedX, float SpeedY, int Type, int Damage, float KnockBack, int Owner, float ai0, float ai1)
@@ -697,6 +709,8 @@ namespace SpiritMod
             lightWind = null;
             spiritRNG = null;
 			auroraEffect = null;
+			StarjinxNoise = null;
+			StarfirePrims = null;
 			noise = null;
 			instance = null;
 			SpiritGlowmask.Unload();
@@ -706,6 +720,7 @@ namespace SpiritMod
 			TrailManager = null;
 			GlobalNoise = null;
 			Items.Glyphs.GlyphBase.UninitGlyphLookup();
+			primitives = null;
 			//UnloadDetours();
 		}
 
@@ -713,11 +728,11 @@ namespace SpiritMod
 		{
 			if (Main.netMode != NetmodeID.Server) {
 				TrailManager.UpdateTrails();
-				//primitives.UpdateTrails();
+				primitives.UpdateTrails();
 			}
-
 		}
-        public override void UpdateUI(GameTime gameTime)
+
+		public override void UpdateUI(GameTime gameTime)
         {
             BookUserInterface?.Update(gameTime);
         }

@@ -8,6 +8,9 @@ using SpiritMod.Items.Consumable.Food;
 using System.IO;
 using Terraria.Audio;
 using System;
+using SpiritMod.Projectiles;
+using SpiritMod.Gores;
+using SpiritMod.Prim;
 
 namespace SpiritMod.NPCs.Hell
 {
@@ -17,6 +20,7 @@ namespace SpiritMod.NPCs.Hell
 		{
 			DisplayName.SetDefault("Wrathful Soul");
 			Main.npcFrameCount[npc.type] = 17;
+			npc.gfxOffY = 50;
 			//NPCID.Sets.TrailCacheLength[npc.type] = 3;
 			//NPCID.Sets.TrailingMode[npc.type] = 0;
 		}
@@ -34,11 +38,11 @@ namespace SpiritMod.NPCs.Hell
 			npc.aiStyle = -1;
 			npc.noGravity = true;
 			npc.lavaImmune = true;
-			npc.gfxOffY = 50;
 			//banner = npc.type;
 			//bannerItem = ModContent.ItemType<Items.Banners.GluttonousDevourerBanner>();
 		}
 		Vector2 targetpos;
+
 		const int rechargetime = 180;
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.damage = 50;
 		public override void SendExtraAI(BinaryWriter writer) => writer.WriteVector2(targetpos);
@@ -49,9 +53,9 @@ namespace SpiritMod.NPCs.Hell
 		{
 			Lighting.AddLight((int)((npc.position.X + npc.width / 2) / 16f), (int)((npc.position.Y + npc.height / 2) / 16f), 0.1f, 0.04f, 0.02f);
 
-			npc.spriteDirection = -npc.direction;
 			Player player = Main.player[npc.target];
 			npc.TargetClosest(true);
+			npc.spriteDirection = -npc.direction;
 
 			npc.ai[0] = ((npc.Distance(player.Center) < 800 || npc.ai[2] > rechargetime)
 				&& Collision.CanHit(npc.position, npc.width, npc.height, player.position, 0, 0)
@@ -60,10 +64,11 @@ namespace SpiritMod.NPCs.Hell
 
 			if (npc.ai[0] == 0) {
 				IdleMovement();
-				npc.ai[1] = 0;
-				npc.ai[2] = 0;
+				npc.ai[1] = 0; //dash timer
+				npc.ai[2] = 0; //targetting timer
+				npc.ai[3] = 0;
 			}
-			else { //set its target position as the player's center when it starts its enrage, then dash to it once per frame cycle. If it's close enough to the target position, fuck idk yet ill get there later
+			else { //set its target position as the player's center when it starts its enrage, then dash to it once per frame cycle. If it's close enough to the target position, explode and retarget
 
 				if (npc.ai[2] <= rechargetime) {
 					IdleMovement();
@@ -71,12 +76,21 @@ namespace SpiritMod.NPCs.Hell
 					npc.ai[2]++;
 				}
 				else {
+					if (npc.ai[3] == 0) {
+						SpiritMod.primitives.CreateTrail(new PrimFireTrail(npc, new Color(255, 170, 0), 26));
+						npc.ai[3] = 1;
+					}
+
 					npc.spriteDirection = -Math.Sign(npc.velocity.X);
+
+					if(Main.rand.Next(4) == 0)
+						Gore.NewGorePerfect(npc.Center + Main.rand.NextVector2Circular(10, 10), npc.velocity.RotatedByRandom(MathHelper.Pi / 8) / 2, mod.GetGoreSlot("Gores/FireTrail"), Main.rand.NextFloat(0.7f, 1.2f));
+
 					if (Main.expertMode) {
 						targetpos = Vector2.Lerp(targetpos, player.Center, 0.03f);
 					}
 					if (npc.ai[1] == 0) {
-						Main.PlaySound(SoundID.Zombie, npc.Center, 2);
+						Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/skullscrem").WithPitchVariance(0.2f), npc.Center);
 						npc.velocity = npc.DirectionTo(targetpos) * 14;
 						npc.ai[1]++;
 					}
@@ -94,6 +108,7 @@ namespace SpiritMod.NPCs.Hell
 						Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("WrathBoom"), damage, 1, Main.myPlayer);
 						npc.velocity = Vector2.Zero;
 						npc.ai[2] = 0;
+						npc.ai[3] = 0;
 					}
 
 					UpdateFrame(20, 6, 16);
@@ -136,6 +151,16 @@ namespace SpiritMod.NPCs.Hell
 
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
+			spriteBatch.Draw(mod.GetTexture("NPCs/Hell/BlazingSkull_glow"), 
+				npc.Center - Main.screenPosition - new Vector2(0, npc.gfxOffY + 16), 
+				npc.frame, 
+				Color.White, 
+				npc.rotation, 
+				npc.frame.Size() / 2, 
+				npc.scale,
+				(npc.spriteDirection > 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 
+				0);
+
 			if(npc.ai[0] == 1) {
 				Texture2D target = mod.GetTexture("NPCs/Hell/TargetX");
 				spriteBatch.Draw(target, targetpos - Main.screenPosition, target.Bounds, Color.White * 0.75f * (npc.ai[2] / rechargetime), 0, target.Size()/2, 1.5f, SpriteEffects.None, 0);
