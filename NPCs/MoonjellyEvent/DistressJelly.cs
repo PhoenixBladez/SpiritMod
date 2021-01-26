@@ -25,12 +25,12 @@ namespace SpiritMod.NPCs.MoonjellyEvent
 			npc.height = 20;
 			npc.damage = 0;
 			npc.defense = 0;
-			npc.lifeMax = 12;
+			npc.lifeMax = 5;
 			npc.HitSound = SoundID.NPCHit25;
 			npc.DeathSound = SoundID.NPCDeath28;
             npc.buffImmune[BuffID.Poisoned] = true;
             npc.buffImmune[BuffID.Venom] = true;
-            npc.value = 60f;
+            npc.value = 0f;
 			Main.npcCatchable[npc.type] = true;
 			npc.catchItem = (short)ModContent.ItemType<DistressJellyItem>();
 			npc.knockBackResist = .45f;
@@ -41,6 +41,7 @@ namespace SpiritMod.NPCs.MoonjellyEvent
             npc.rarity = 3;
             aiType = NPCID.Firefly;
 		}
+		public override bool? CanBeHitByProjectile(Projectile projectile) => !projectile.minion;
 
 		public override void HitEffect(int hitDirection, double damage)
         {
