@@ -675,11 +675,13 @@ namespace SpiritMod
 		private void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
 		{
 			TrailManager.DrawTrails(Main.spriteBatch);
+			primitives.DrawTrailsProj(Main.spriteBatch);
 			orig(self);
 		}
+
 		private void Main_DrawNPC(On.Terraria.Main.orig_DrawNPC orig, Main self, int iNPCIndex, bool behindTiles)
 		{
-			primitives.DrawTrails(Main.spriteBatch);
+			primitives.DrawTrailsNPC(Main.spriteBatch);
 			orig(self, iNPCIndex, behindTiles);
 		}
 

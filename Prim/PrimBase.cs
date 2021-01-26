@@ -14,14 +14,20 @@ namespace SpiritMod.Prim
     public class PrimTrailManager
     {
         public List<PrimTrail> _trails = new List<PrimTrail>();
-        public void DrawTrails(SpriteBatch spriteBatch)
+        public void DrawTrailsNPC(SpriteBatch spriteBatch)
         {
-            foreach (PrimTrail trail in _trails.ToArray())
+            foreach (PrimTrail trail in _trails.ToArray().Where(x => x._npc != null))
             {
                 trail.Draw();
             }
         }
-        public void UpdateTrails()
+		public void DrawTrailsProj(SpriteBatch spriteBatch)
+		{
+			foreach (PrimTrail trail in _trails.ToArray().Where(x => x._projectile != null)) {
+				trail.Draw();
+			}
+		}
+		public void UpdateTrails()
         {
             foreach (PrimTrail trail in _trails.ToArray())
             {
@@ -34,8 +40,8 @@ namespace SpiritMod.Prim
     public partial class PrimTrail
     {
         protected bool _destroyed = false;
-        protected Projectile _projectile;
-        protected NPC _npc;
+        public Projectile _projectile = null;
+        public NPC _npc = null;
         protected float _width;
         protected float _alphaValue;
         protected int _cap;
