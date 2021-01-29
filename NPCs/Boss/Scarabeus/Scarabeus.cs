@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using IL.Terraria.UI;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Items.Boss;
@@ -29,12 +30,12 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		}
 		public override void SetDefaults()
 		{
-			npc.width = 42;
-			npc.height = 42;
+			npc.width = 64;
+			npc.height = 64;
 			npc.value = 10000;
 			npc.damage = 30;
 			npc.defense = 14;
-			npc.lifeMax = 1700;
+			npc.lifeMax = 1300;
 			npc.knockBackResist = 0f;
 			npc.aiStyle = -1;
 			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Scarabeus");
@@ -101,6 +102,8 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			if (!npc.noTileCollide && !Collision.CanHit(npc.Center, 0, 0, player.Center, 0, 0) && AttackType != 5) { //check if it can't reach the player
 				AttackType = 4;
 				AiTimer = 0;
+				npc.knockBackResist = 0f;
+				npc.behindTiles = false;
 			}
 
 			switch (AttackType) {
@@ -204,17 +207,10 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			CheckPlatform(player);
 			canhitplayer = true;
 
-			if (npc.Center.X < player.Center.X)
-				npc.velocity.X += acc;
-
-			if (npc.Center.X > player.Center.X)
-				npc.velocity.X -= acc;
-
-			if (npc.velocity.X > maxspeed)
-				npc.velocity.X = maxspeed;
-
-			if (npc.velocity.X < -maxspeed)
-				npc.velocity.X = -maxspeed;
+			if (npc.velocity.Y == 0) {
+				npc.velocity.X += (npc.Center.X < player.Center.X) ? acc : -acc;
+				npc.velocity.X = MathHelper.Clamp(npc.velocity.X, -maxspeed, maxspeed);
+			}
 
 			AiTimer++;
 			if (AiTimer > maxtime) { NextAttack(); }
@@ -299,18 +295,21 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 
 			if (AiTimer <= 80) { //home in on closer side of player, do sandstorm jump if player too high up
 				float homevel = (npc.Center.X < player.Center.X) ? player.Center.X - 300 - npc.Center.X : player.Center.X + 300 - npc.Center.X;
-				homevel = Math.Sign(homevel) * 20;
-				if(npc.velocity.Y == 0)
-					npc.velocity.X = MathHelper.Lerp(npc.velocity.X, homevel, 0.06f);
+				if (Math.Abs(homevel) < 20)
+					homevel = 0;
+				else 
+					homevel = Math.Sign(homevel) * MathHelper.Clamp(Math.Abs(homevel) / 20, 5, 20);
 
+				if(npc.velocity.Y == 0 || npc.velocity.Y < 0 && npc.Center.Y > player.Center.Y) 
+					npc.velocity.X = MathHelper.Lerp(npc.velocity.X, homevel, 0.05f);
 
 				if (AiTimer > 60 && npc.Center.Y > player.Center.Y + 100) { //sandstorm jump if too far below the player
 					npc.noTileCollide = true;
 					npc.velocity.Y = -12;
-					npc.velocity.X = MathHelper.Lerp(npc.velocity.X, homevel, 0.06f);
+					npc.velocity.X = MathHelper.Lerp(npc.velocity.X, homevel, 0.05f);
 					npc.ai[2] ++;
 					npc.spriteDirection = (int)(2 * (Math.Floor(Math.Sin(npc.ai[2])) + 0.5f));
-					if (npc.ai[2] % 4 == 0) {
+					if (npc.ai[2] % 3 == 0) {
 						Main.PlaySound(SoundID.DoubleJump, npc.Center);
 						int g = Gore.NewGore(npc.Center, npc.velocity / 2, GoreID.ChimneySmoke1 + Main.rand.Next(3));
 						Main.gore[g].timeLeft = 10;
@@ -322,25 +321,27 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			else if (AiTimer < 120 || AiTimer > 140)
 				npc.velocity.X = MathHelper.Lerp(npc.velocity.X, 0, 0.05f);
 
-			if (AiTimer >= 100 && AiTimer < 120) {
+			if (AiTimer > 90) {
 
-				frame = 10;
-				npc.rotation = -0.15f * npc.spriteDirection;
-				extraYoff = 8;
 				if (AiTimer == 100)
 					Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 44, 1.5f, -1f);
-			}
-			else {
-				npc.rotation = 0;
-				extraYoff = 0;
-				UpdateFrame(4, 0, 6, true);
-			}
 
-			if (AiTimer == 120) {
-				Main.PlaySound(SoundID.Roar, (int)npc.Center.X, (int)npc.Center.Y, 0);
-				trailbehind = true;
-				npc.velocity.X = 18 * npc.direction;
+				if (AiTimer == 120) {
+					Main.PlaySound(SoundID.Roar, (int)npc.Center.X, (int)npc.Center.Y, 0);
+					trailbehind = true;
+					npc.velocity.X = MathHelper.Clamp((player.Center.X - npc.Center.X)/17, 14, 24) * npc.direction;
+				}
+
+				if (frame >= 11) {
+					npc.rotation += (0.025f + (Math.Abs(npc.velocity.X) / 36)) * npc.spriteDirection;
+					frame = 11;
+				}
+				else
+					UpdateFrame(5, 7, 12);
 			}
+			else 
+				UpdateFrame(4, 0, 6, true);
+			
 
 			canhitplayer = AiTimer >= 120;
 
@@ -398,16 +399,20 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		}
 		public void GroundPound(Player player)
 		{
-			AiTimer++;
 			if(AiTimer < 150) { //home in on spot above player
-
+				AiTimer++;
 				npc.noTileCollide = true;
 				npc.noGravity = true;
 				UpdateFrame(4, 18, 21);
 				Vector2 ToPlayer = player.Center - npc.Center;
 				ToPlayer.Y -= 350;
+				if (AiTimer > 120)
+					ToPlayer.Y -= 180;
+				if (Math.Abs(ToPlayer.X) > 50) //flip based on homing direction, but not if too close horizontally
+					npc.spriteDirection = npc.direction;
+				float vel = MathHelper.Clamp(ToPlayer.Length() / 18, 7, 18);
 				ToPlayer.Normalize();
-				npc.velocity = Vector2.Lerp(npc.velocity, ToPlayer * 12, 0.05f);
+				npc.velocity = Vector2.Lerp(npc.velocity, ToPlayer * vel, 0.05f);
 			}
 			else {
 				canhitplayer = true;
@@ -415,21 +420,53 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				trailbehind = true;
 				npc.noGravity = false;
 				CheckPlatform(player);
-				UpdateFrame(4, 0, 6);
 				if (AiTimer == 150) //initial tick of falling
 				{
+					UpdateFrame(4, 0, 6);
+					AiTimer++;
 					Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 44, 1.5f, -1f);
-					npc.velocity = new Vector2(0, 5);
+					npc.velocity = new Vector2(0, 0.25f);
 				}
-				else if (npc.velocity.Y == 0) //check when the boss lands
+				else if (npc.velocity.Y <= 0) //check when the boss lands
 				{
-					Main.PlaySound(SoundID.Item14, npc.Center);
-					Vector2 spawnpos = new Vector2(npc.Center.X, npc.Center.Y + npc.height / 4);
-					Projectile.NewProjectile(spawnpos, new Vector2(10, 0), mod.ProjectileType("DustTornado"), npc.damage / 4, 5f, Main.myPlayer);
-					Projectile.NewProjectile(spawnpos, new Vector2(-10, 0), mod.ProjectileType("DustTornado"), npc.damage / 4, 5f, Main.myPlayer);
-					NextAttack();
-				}
+					UpdateFrame(10, 18, 21);
+					npc.noGravity = true;
+					canhitplayer = false;
+					if (AiTimer == 151) {
+						SpiritMod.tremorTime = 15;
+						npc.velocity.Y = -3;
+						Main.PlaySound(SoundID.Item14, npc.Center);
+					}
+					npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0, 0.07f);
+					if (AiTimer % 10 == 0 && AiTimer < 211) {
+						for (int i = -1; i <= 1; i += 2) {
+							Vector2 center = new Vector2(npc.Center.X, npc.Center.Y + npc.height / 4);
+							center.X += (AiTimer - 150) * 20 * i;
+							int numtries = 0;
+							int x = (int)(center.X / 16);
+							int y = (int)(center.Y / 16);
+							while (y < Main.maxTilesY - 10 && Main.tile[x, y] != null && !WorldGen.SolidTile2(x, y) && Main.tile[x - 1, y] != null && !WorldGen.SolidTile2(x - 1, y) && Main.tile[x + 1, y] != null && !WorldGen.SolidTile2(x + 1, y)) {
+								y++;
+								center.Y = y * 16;
+							}
+							while ((WorldGen.SolidOrSlopedTile(x, y) || WorldGen.SolidTile2(x, y)) && numtries < 10) {
+								numtries++;
+								y--;
+								center.Y = y * 16;
+							}
+							if (numtries >= 10)
+								break;
 
+							Projectile.NewProjectile(center, Vector2.Zero, mod.ProjectileType("SandShockwave"), npc.damage / 4, 5f, Main.myPlayer);
+						}
+					}
+
+					if (++AiTimer > 271) { NextAttack(); }
+				}
+				else if (npc.velocity.Y < 5) { //if it hasnt landed yet, accelerate until at max velocity
+					npc.velocity.Y *= 1.075f;
+					npc.velocity.Y = Math.Min(npc.velocity.Y, 7);
+				}
 			}
 		}
 		public void Digging(Player player)
@@ -467,13 +504,17 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 						Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 44, 1.5f, -1f);
 
 					if (AiTimer == 170) {
-						npc.velocity = npc.DirectionTo(player.Center) * MathHelper.Clamp(npc.Distance(player.Center) / 30, 5, 20);
-						npc.velocity.Y -= 5f;
+						Vector2 center = player.Center;
+						center.Y -= 200;
+						npc.velocity = npc.DirectionTo(center) * MathHelper.Clamp(npc.Distance(center) / 30, 8, 26);
 						hasjumped = true;
 					}
 				}
 			}
-
+			if(hasjumped && npc.spriteDirection != npc.direction) {
+				if (Math.Abs(npc.velocity.X) > 10)
+					npc.velocity.X *= 0.95f;
+			}
 			if (npc.velocity.Y == 0 && hasjumped && npc.oldVelocity.Y > 0)
 				NextAttack();
 		}
@@ -483,12 +524,12 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			SpriteEffects effects = npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(-10 * npc.spriteDirection, npc.gfxOffY - 26 + extraYoff), npc.frame,
+			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(-10 * npc.spriteDirection, npc.gfxOffY - 16 + extraYoff).RotatedBy(npc.rotation), npc.frame,
 							 lightColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 			if (trailbehind) {
 				Vector2 drawOrigin = npc.frame.Size() / 2;
 				for (int k = 0; k < npc.oldPos.Length; k++) {
-					Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + new Vector2(npc.width/2, npc.height/2) + new Vector2(-10 * npc.spriteDirection, npc.gfxOffY - 26 + extraYoff);
+					Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + new Vector2(npc.width/2, npc.height/2) + new Vector2(-10 * npc.spriteDirection, npc.gfxOffY - 16 + extraYoff).RotatedBy(npc.rotation);
 					Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
 					spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
 				}
@@ -498,7 +539,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			SpriteEffects effects = npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(mod.GetTexture("NPCs/Boss/Scarabeus/Scarabeus_Glow"), npc.Center - Main.screenPosition + new Vector2(-10 * npc.spriteDirection, npc.gfxOffY - 26 + extraYoff), npc.frame,
+			spriteBatch.Draw(mod.GetTexture("NPCs/Boss/Scarabeus/Scarabeus_Glow"), npc.Center - Main.screenPosition + new Vector2(-10 * npc.spriteDirection, npc.gfxOffY - 16 + extraYoff).RotatedBy(npc.rotation), npc.frame,
 							 Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 		}
 		public override void HitEffect(int hitDirection, double damage)
@@ -548,10 +589,22 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				}
 			}
 		}
+
+		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			knockback *= 0.6f;
+			if(Main.player[projectile.owner].HeldItem.type == ItemID.Minishark) { //shadow nerfing minishark on scarab because meme balance weapon
+				knockback *= 0.5f;
+				int maxdamage = (Main.rand.Next(2, 5));
+				while(damage - (npc.defense / 2) + (Main.player[projectile.owner].armorPenetration * 0.33f) > maxdamage) {
+					damage--;
+				}
+			}
+		}
 		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
-			npc.lifeMax = (int)(npc.lifeMax * 0.5f * bossLifeScale);
+			npc.lifeMax = (int)(npc.lifeMax * 0.75f * bossLifeScale);
 			npc.damage = (int)(npc.damage * 0.5f);
 		}
 

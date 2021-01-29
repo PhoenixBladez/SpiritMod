@@ -27,10 +27,11 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 
 		public override void Kill(int timeLeft)
 		{
+			Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
 			for (int i = 0; i < 10; i++) {
-				int d = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Sandstorm, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
+				int d = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 32, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
 				Main.dust[d].noGravity = true;
-				Main.dust[d].scale = 2f;
+				Main.dust[d].scale = 1.2f;
 			}
 			Main.PlaySound(SoundID.Dig, (int)projectile.Center.X, (int)projectile.Center.Y);
 		}
@@ -38,11 +39,9 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		public override void AI()
 		{
 			projectile.rotation += 0.1f;
-			if (Main.rand.Next(2) == 0) {
-				int d = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Sandstorm, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
-				Main.dust[d].noGravity = true; 
-				Main.dust[d].scale = 1.5f;
-			}
+			int d = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 32, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
+			Main.dust[d].noGravity = true; 
+			Main.dust[d].scale = 1f;
 
 			if(projectile.velocity.Y < 15f)
 				projectile.velocity.Y += 0.2f;
