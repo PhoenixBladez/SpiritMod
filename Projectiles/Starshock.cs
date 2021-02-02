@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -19,6 +21,7 @@ namespace SpiritMod.Projectiles
 			projectile.alpha = 255;
 			projectile.penetrate = 1;
 			projectile.extraUpdates = 1;
+			projectile.rotation = Main.rand.NextFloat(MathHelper.Pi);
 		}
 
 		public override Color? GetAlpha(Color lightColor)
@@ -41,10 +44,11 @@ namespace SpiritMod.Projectiles
 				projectile.Kill();
 				return;
 			}
+			projectile.rotation += 0.1f;
 
 			int num = 5;
 			for (int k = 0; k < 2; k++) {
-				int index2 = Dust.NewDust(projectile.position, 1, 1, 180, 0.0f, 0.0f, 0, new Color(), 1f);
+				int index2 = Dust.NewDust(projectile.Center, 1, 1, 180, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
 				Main.dust[index2].scale = .5f;
 				Main.dust[index2].velocity *= 0f;
@@ -63,6 +67,13 @@ namespace SpiritMod.Projectiles
 				int d = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 180, projectile.oldVelocity.X * 0.1f, projectile.oldVelocity.Y * 0.1f);
 				Main.dust[d].noGravity = true;
 			}
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, Main.projectileTexture[projectile.type].Bounds, Color.White, projectile.rotation, 
+				Main.projectileTexture[projectile.type].Size()/2, projectile.scale, SpriteEffects.None, 0);
+			return false;
 		}
 	}
 }
