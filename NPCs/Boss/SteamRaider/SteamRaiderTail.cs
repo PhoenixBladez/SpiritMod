@@ -41,51 +41,48 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			npc.dontCountMe = true;
 		}
 
-		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
-		{
-			return false;
-		}
+		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position) => false;
 
 		public override void AI()
 		{
 			Player player = Main.player[npc.target];
 			bool expertMode = Main.expertMode;
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.075f, 0.25f);
-			if (Main.netMode != NetmodeID.MultiplayerClient) {
-				npc.localAI[0] += expertMode ? 2f : 1f;
-				if (npc.localAI[0] >= 200f) {
-					npc.localAI[0] = 0f;
-					npc.TargetClosest(true);
-					if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height)) {
-
-						Main.PlaySound(SoundID.Item, (int)npc.Center.X, (int)npc.Center.Y, 12);
-						float num941 = 8f; //speed
-						Vector2 vector104 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
-						float num942 = player.position.X + (float)player.width * 0.5f - vector104.X + (float)Main.rand.Next(-20, 21);
-						float num943 = player.position.Y + (float)player.height * 0.5f - vector104.Y + (float)Main.rand.Next(-20, 21);
-						float num944 = (float)Math.Sqrt((double)(num942 * num942 + num943 * num943));
-						num944 = num941 / num944;
-						num942 *= num944;
-						num943 *= num944;
-						num942 += (float)Main.rand.Next(-10, 11) * 0.05f;
-						num943 += (float)Main.rand.Next(-10, 11) * 0.05f;
-						int num945 = expertMode ? 17 : 27;
-						int num946 = 440;
-						vector104.X += num942 * 5f;
-						vector104.Y += num943 * 5f;
-						int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, num946, num945, 0f, Main.myPlayer, 0f, 0f);
-						Main.projectile[num947].timeLeft = 300;
-						Main.projectile[num947].hostile = true;
-						Main.projectile[num947].friendly = false;
-						npc.netUpdate = true;
-					}
-				}
-			}
 			int parent = NPC.FindFirstNPC(ModContent.NPCType<SteamRaiderHead>());
 			if (!Main.npc[(int)npc.ai[1]].active) {
 				npc.life = 0;
 				npc.HitEffect(0, 10.0);
 				npc.active = false;
+			}
+			if (Main.npc[parent].ai[2] != 1) {
+				if (Main.netMode != NetmodeID.MultiplayerClient) {
+					npc.localAI[0] += expertMode ? 2f : 1f;
+					if (npc.localAI[0] >= 200f) {
+						npc.localAI[0] = 0f;
+						npc.TargetClosest(true);
+						if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height)) {
+
+							Main.PlaySound(SoundID.Item, (int)npc.Center.X, (int)npc.Center.Y, 12);
+							float num941 = 5f; //speed
+							Vector2 vector104 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
+							float num942 = player.position.X + (float)player.width * 0.5f - vector104.X + (float)Main.rand.Next(-20, 21);
+							float num943 = player.position.Y + (float)player.height * 0.5f - vector104.Y + (float)Main.rand.Next(-20, 21);
+							float num944 = (float)Math.Sqrt((double)(num942 * num942 + num943 * num943));
+							num944 = num941 / num944;
+							num942 *= num944;
+							num943 *= num944;
+							//int num946 = 440;
+							vector104.X += num942 * 5f;
+							vector104.Y += num943 * 5f;
+							int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, ModContent.ProjectileType<GlitchLaser>(), NPCUtils.ToActualDamage(25, 1.5f), 0f, Main.myPlayer, 0f, 0f);
+							Main.projectile[num947].timeLeft = 300;
+							npc.netUpdate = true;
+						}
+					}
+				}
+			}
+			else {
+				npc.localAI[0] = 0;
 			}
 			if ((Main.npc[parent].life <= 6500)) {
 				Main.PlaySound(SoundID.Item, (int)npc.Center.X, (int)npc.Center.Y, 14);

@@ -89,33 +89,36 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			Player player = Main.player[npc.target];
 			bool expertMode = Main.expertMode;
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.075f, 0.25f);
-			if (Main.netMode != NetmodeID.MultiplayerClient) {
-				npc.ai[3]++;
-				if (npc.ai[3] >= (float)Main.rand.Next(1400, 7500)) {
-					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 9);
-					npc.ai[3] = 0f;
-					npc.TargetClosest(true);
-					if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height)) {
-						float num941 = 1f; //speed
-						Vector2 vector104 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
-						float num942 = player.position.X + (float)player.width * 0.5f - vector104.X + (float)Main.rand.Next(-20, 21);
-						float num943 = player.position.Y + (float)player.height * 0.5f - vector104.Y + (float)Main.rand.Next(-20, 21);
-						float num944 = (float)Math.Sqrt((double)(num942 * num942 + num943 * num943));
-						num944 = num941 / num944;
-						num942 *= num944;
-						num943 *= num944;
-						num942 += (float)Main.rand.Next(-10, 11) * 0.0125f;
-						num943 += (float)Main.rand.Next(-10, 11) * 0.0125f;
-						int num945 = expertMode ? 13 : 25;
-						int num946 = ModContent.ProjectileType<Starshock>();
-						vector104.X += num942 * 4f;
-						vector104.Y += num943 * 2.5f;
-						int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, num946, num945, 0f, Main.myPlayer, 0f, 0f);
-						Main.projectile[num947].timeLeft = 350;
-						npc.netUpdate = true;
+			NPC head = Main.npc[(int)npc.ai[2]];
+			if (head.ai[2] == 1) {
+				if (Main.netMode != NetmodeID.MultiplayerClient) {
+					if (--npc.ai[3] == 0) {
+						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 9);
+						npc.TargetClosest(true);
+						if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) && Main.rand.NextBool(2)) {
+							float num941 = 1f; //speed
+							Vector2 vector104 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
+							float num942 = player.position.X + (float)player.width * 0.5f - vector104.X + (float)Main.rand.Next(-20, 21);
+							float num943 = player.position.Y + (float)player.height * 0.5f - vector104.Y + (float)Main.rand.Next(-20, 21);
+							float num944 = (float)Math.Sqrt((double)(num942 * num942 + num943 * num943));
+							num944 = num941 / num944;
+							num942 *= num944;
+							num943 *= num944;
+							num942 += (float)Main.rand.Next(-10, 11) * 0.0125f;
+							num943 += (float)Main.rand.Next(-10, 11) * 0.0125f;
+							int num946 = ModContent.ProjectileType<Starshock>();
+							vector104.X += num942 * 4f;
+							vector104.Y += num943 * 2.5f;
+							int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, num946, NPCUtils.ToActualDamage(24, 1.25f), 0f, Main.myPlayer, 0f, 0f);
+							Main.projectile[num947].timeLeft = 350;
+							npc.netUpdate = true;
+						}
 					}
 				}
 			}
+			else
+				npc.ai[3] = Main.rand.Next(150, 210);
+
 			if (!Main.npc[(int)npc.ai[1]].active || Main.npc[(int)npc.ai[1]].life <= Main.npc[(int)npc.ai[1]].lifeMax * .2f) {
 				npc.life = 0;
 				npc.HitEffect(0, 10.0);

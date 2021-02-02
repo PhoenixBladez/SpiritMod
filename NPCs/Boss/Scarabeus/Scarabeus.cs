@@ -329,7 +329,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				if (AiTimer == 120) {
 					Main.PlaySound(SoundID.Roar, (int)npc.Center.X, (int)npc.Center.Y, 0);
 					trailbehind = true;
-					npc.velocity.X = MathHelper.Clamp((player.Center.X - npc.Center.X)/17, 14, 24) * npc.direction;
+					npc.velocity.X = MathHelper.Clamp(Math.Abs((player.Center.X - npc.Center.X)/17), 14, 22) * npc.direction;
 				}
 
 				if (frame >= 11) {

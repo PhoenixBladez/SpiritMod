@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using System.IO;
+using Terraria;
 
 namespace SpiritMod
 {
@@ -29,6 +30,12 @@ namespace SpiritMod
 
 				nextSlot++;
 			}
+		}
+
+		public static int ToActualDamage(float damagevalue, float expertscaling = 1)
+		{
+			damagevalue = (Main.expertMode) ? (damagevalue / 4) * (expertscaling) : (damagevalue / 2);
+			return (int)damagevalue;
 		}
 	}
 }

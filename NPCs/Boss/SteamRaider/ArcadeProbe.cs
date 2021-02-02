@@ -77,7 +77,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					Vector2 vector2_3 = vector2_2 * 34f;
 					Main.dust[dust].position = (npc.Center) - vector2_3;
 				}
-				Projectile.NewProjectile(npc.Center, new Vector2(0, 10), ModContent.ProjectileType<GlitchLaser>(), 25, 1, Main.myPlayer, 0, 0);
+				Projectile.NewProjectile(npc.Center, new Vector2(0, 10), ModContent.ProjectileType<GlitchLaser>(), NPCUtils.ToActualDamage(55, 1.5f), 1, Main.myPlayer, 0, 0);
 			}
 			lifeSpan--;
 			return false;

@@ -28,7 +28,6 @@ namespace SpiritMod.Effects
 			_basicEffect = new BasicEffect(Main.graphics.GraphicsDevice);
 			_basicEffect.VertexColorEnabled = true;
 		}
-
 		public void DoTrailCreation(Projectile projectile)
 		{
 			Mod mod = SpiritMod.instance;
@@ -45,7 +44,10 @@ namespace SpiritMod.Effects
 				CreateTrail(projectile, new StandardColorTrail(new Color(66, 239, 245)), new RoundCap(), new DefaultTrailPosition(), 10f, 1950f);
 			}
 			if (projectile.type == ModContent.ProjectileType<GlitchLaser>()) {
-				CreateTrail(projectile, new StandardColorTrail(new Color(255, 232, 82)), new RoundCap(), new DefaultTrailPosition(), 10f, 1550f);
+				CreateTrail(projectile, new StandardColorTrail(new Color(255, 232, 82)), new RoundCap(), new DefaultTrailPosition(), 10f, 450f);
+			}
+			if (projectile.type == ModContent.ProjectileType<SteamBeam>()) {
+				CreateTrail(projectile, new StandardColorTrail(new Color(82, 232, 255)), new RoundCap(), new DefaultTrailPosition(), 10f, 450f);
 			}
 			if (projectile.type == ModContent.ProjectileType<StarLaserTrace>()) {
 				CreateTrail(projectile, new StandardColorTrail(new Color(40, 111, 153) * .3f), new RoundCap(), new DefaultTrailPosition(), 10f, 1550f);
