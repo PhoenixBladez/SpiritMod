@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Armor.StreamSurfer
 			item.width = 22;
 			item.height = 20;
 			item.value = Terraria.Item.sellPrice(0, 0, 60, 0);
-			item.rare = ItemRarityID.Blue;
+			item.rare = ItemRarityID.Orange;
 			item.defense = 4;
 		}
 

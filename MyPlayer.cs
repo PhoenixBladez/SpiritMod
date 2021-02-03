@@ -1212,6 +1212,11 @@ namespace SpiritMod
 
 				Projectile.NewProjectile(distX, distY, direction.X + A, direction.Y + B, ModContent.ProjectileType<OriPetal>(), 30, 1, player.whoAmI, 0f, 0f);
 			}
+			if(player.HeldItem.type == mod.ItemType("Minifish") && MinifishTimer <= 0) {
+				MinifishTimer = 180;
+				if(player.ownedProjectileCounts[mod.ProjectileType("MinifishProj")] < 3)
+					Projectile.NewProjectile(player.Center + Main.rand.NextVector2Square(-50, 50) - new Vector2(0, 50), Vector2.Zero, mod.ProjectileType("MinifishProj"), player.HeldItem.damage, player.HeldItem.knockBack, player.whoAmI);
+			}
 
 			LastEnemyHit = victim;
 		}
@@ -2100,7 +2105,9 @@ namespace SpiritMod
 		int shroomtimer;
 		int bloodTimer;
 		int spawnTimer;
-        public override void PreUpdate()
+		int MinifishTimer = 0;
+
+		public override void PreUpdate()
         {
             int x1 = (int)player.Center.X / 16;
             int y1 = (int)player.Center.Y / 16;
@@ -2797,6 +2804,11 @@ namespace SpiritMod
 					Projectile.NewProjectile(player.position.X, player.Center.Y, Main.rand.Next(-10, -6), Main.rand.Next(-3, 3), ProjectileID.CrystalShard, 36, 0f, player.whoAmI);
 				}
 			}
+
+			if (player.HeldItem.type == mod.ItemType("Minifish"))
+				MinifishTimer--;
+			else
+				MinifishTimer = 180;
 		}
 
 		private void CalculateSpeed()
