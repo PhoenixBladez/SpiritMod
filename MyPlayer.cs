@@ -39,6 +39,7 @@ using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using SpiritMod.Items.Equipment;
 
 namespace SpiritMod
 {
@@ -1134,6 +1135,10 @@ namespace SpiritMod
 			}
 			if(modPlayer.ZoneSpirit && NPC.downedMechBossAny && Main.rand.NextBool(5)) {
 				caughtType = ModContent.ItemType<SpiritKoi>();
+			}
+			float chance = 0.02f + Math.Min(player.fishingSkill / 10000, 0.02f);
+			if(modPlayer.ZoneSpirit && NPC.downedMechBossAny && Main.rand.NextFloat() <= chance) {
+				caughtType = ModContent.ItemType<Obolos>();
 			}
 			if(modPlayer.ZoneReach && Main.rand.NextBool(5)) {
 				caughtType = ModContent.ItemType<ReachFishingCatch>();

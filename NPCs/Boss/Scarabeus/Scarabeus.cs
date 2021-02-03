@@ -10,9 +10,11 @@ using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Swung;
 using System;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using Terraria;
 using Terraria.GameContent.Events;
+using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -88,49 +90,21 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				return;
 			}
 			
-			//if (npc.life >= 800) {
-			//	{
+			if (npc.life >= 800) {
+				{
 					Phase1(player);
-			//	}
-			//}
-		}
-
-		public void Phase1(Player player)
-		{
-			Sandstorm.Happening = false;
-
-			if (!npc.noTileCollide && !Collision.CanHit(npc.Center, 0, 0, player.Center, 0, 0) && AttackType != 5) { //check if it can't reach the player
-				AttackType = 4;
-				AiTimer = 0;
-				npc.knockBackResist = 0f;
-				npc.behindTiles = false;
+				}
 			}
+			else {
+				if(npc.ai[3] == 0) {
+					NextAttack();
+					npc.ai[3]++;
+				}
 
-			switch (AttackType) {
-				case 0:
-					Walking(player, 0.15f, 7, 360);
-					break;
-				case 1:
-					Jumping(player);
-					break;
-				case 2:
-					Dash(player);
-					break;
-				case 3: 
-					Walking(player, 0.2f, 10, 180);
-					break;
-				case 4: 
-					FlyDashes(player);
-					break;
-				case 5: GroundPound(player);
-					break;
-				case 6: Digging(player);
-					break;
-				default: AttackType = 0; break; //loop attack pattern
+				Phase2(player);
 			}
-
 		}
-
+		#region utilities
 		private void CheckPlatform(Player player)
 		{
 			bool onplatform = true;
@@ -174,18 +148,6 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			npc.knockBackResist = 0f;
 			npc.netUpdate = true;
 		}
-
-		public override void SendExtraAI(BinaryWriter writer)
-		{
-			writer.Write(trailbehind);
-			writer.Write(hasjumped);
-		}
-		public override void ReceiveExtraAI(BinaryReader reader)
-		{
-			trailbehind = reader.ReadBoolean();
-			hasjumped = reader.ReadBoolean();
-		}
-
 		private void StepUp(Player player)
 		{
 			bool flag15 = true; //copy pasted collision step code from zombies
@@ -198,7 +160,56 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			if (npc.velocity.Y >= 0f)
 				Collision.StepUp(ref npc.position, ref npc.velocity, npc.width, npc.height, ref npc.stepSpeed, ref npc.gfxOffY, 1, flag15, 1);
 		}
-		#region attacks
+		#endregion
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(trailbehind);
+			writer.Write(hasjumped);
+		}
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			trailbehind = reader.ReadBoolean();
+			hasjumped = reader.ReadBoolean();
+		}
+		private void Phase1(Player player)
+		{
+			Sandstorm.Happening = false;
+
+			if (!npc.noTileCollide && !Collision.CanHit(npc.Center, 0, 0, player.Center, 0, 0) && AttackType != 5) { //check if it can't reach the player
+				AttackType = 4;
+				AiTimer = 0;
+				npc.knockBackResist = 0f;
+				npc.behindTiles = false;
+			}
+
+			switch (AttackType) {
+				case 0:
+					Walking(player, 0.15f, 7, 360);
+					break;
+				case 1:
+					Jumping(player);
+					break;
+				case 2:
+					Dash(player);
+					break;
+				case 3:
+					Walking(player, 0.2f, 10, 180);
+					break;
+				case 4:
+					FlyDashes(player);
+					break;
+				case 5:
+					GroundPound(player);
+					break;
+				case 6:
+					Digging(player);
+					break;
+				default: AttackType = 0; break; //loop attack pattern
+			}
+
+		}
+		#region phase 1 attacks
 		public void Walking(Player player, float acc, float maxspeed, int maxtime)
 		{
 			npc.spriteDirection = npc.direction;
@@ -273,12 +284,14 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			}
 
 			if(hasjumped && AiTimer % 27 == 0 && AiTimer < 100 && AiTimer > 40) {
-				Main.PlaySound(SoundID.Item5, npc.Center);
-				for(float i = -2; i <= 2; i += 1.25f) {
-					Vector2 velocity = -Vector2.UnitY.RotatedBy( i * (float)Math.PI / 12);
-					velocity *= 10f;
-					velocity.Y += 2f;
-					Projectile.NewProjectile(npc.Center, velocity, mod.ProjectileType("ScarabSandball"), npc.damage / 4, 1f, Main.myPlayer);
+				if (Main.netMode != NetmodeID.MultiplayerClient) {
+					Main.PlaySound(SoundID.Item5, npc.Center);
+					for (float i = -2; i <= 2; i += 1.25f) {
+						Vector2 velocity = -Vector2.UnitY.RotatedBy(i * (float)Math.PI / 12);
+						velocity *= 10f;
+						velocity.Y += 2f;
+						Projectile.NewProjectile(npc.Center, velocity, mod.ProjectileType("ScarabSandball"), npc.damage / 4, 1f, Main.myPlayer);
+					}
 				}
 			}
 
@@ -329,7 +342,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				if (AiTimer == 120) {
 					Main.PlaySound(SoundID.Roar, (int)npc.Center.X, (int)npc.Center.Y, 0);
 					trailbehind = true;
-					npc.velocity.X = MathHelper.Clamp(Math.Abs((player.Center.X - npc.Center.X)/17), 14, 22) * npc.direction;
+					npc.velocity.X = MathHelper.Clamp(Math.Abs((player.Center.X - npc.Center.X)/17), 14, 26) * npc.direction;
 				}
 
 				if (frame >= 11) {
@@ -457,7 +470,8 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 							if (numtries >= 10)
 								break;
 
-							Projectile.NewProjectile(center, Vector2.Zero, mod.ProjectileType("SandShockwave"), npc.damage / 4, 5f, Main.myPlayer);
+							if(Main.netMode != NetmodeID.MultiplayerClient)
+								Projectile.NewProjectile(center, Vector2.Zero, mod.ProjectileType("SandShockwave"), npc.damage / 4, 5f, Main.myPlayer);
 						}
 					}
 
@@ -519,6 +533,22 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				NextAttack();
 		}
 		#endregion
+		private void Phase2(Player player)
+		{
+			Sandstorm.Happening = true;
+			Sandstorm.TimeLeft = 2;
+			Sandstorm.Severity = 1;
+			Sandstorm.IntendedSeverity = 1;
+			foreach (Player Player in Main.player.Where(x => x.active && !x.dead)) //probably a cleaner way to do visual only sandstorm??
+				Player.buffImmune[BuffID.WindPushed] = true;
+
+			switch (AttackType) { //do things here zoro
+				case 0:
+					FlyDashes(player);
+					break;
+				default: AttackType = 0; break; //loop attack pattern
+			}
+		}
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => canhitplayer;
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -545,48 +575,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
-			}
-			if (npc.life <= 0) {
-				for(int i = 1; i <= 7; i++)
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Scarabeus/Scarab" + i.ToString()), 1f);
-
-				npc.position.X = npc.position.X + (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-				npc.width = 100;
-				npc.height = 60;
-				npc.position.X = npc.position.X - (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
-				for (int num621 = 0; num621 < 30; num621++) {
-					int randomDustType = Main.rand.Next(3);
-					if (randomDustType == 0)
-						randomDustType = 5;
-					else if (randomDustType == 1)
-						randomDustType = 36;
-					else
-						randomDustType = 32;
-
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, randomDustType, 0f, 0f, 100, default(Color), 2f);
-					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0) {
-						Main.dust[num622].scale = 0.5f;
-					}
-				}
-				for (int num623 = 0; num623 < 50; num623++) {
-					int randomDustType = Main.rand.Next(3);
-					if (randomDustType == 0)
-						randomDustType = 5;
-					else if (randomDustType == 1)
-						randomDustType = 36;
-					else
-						randomDustType = 32;
-
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, randomDustType, 0f, 0f, 100, default(Color), 1f);
-					Main.dust[num624].noGravity = true;
-					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, randomDustType, 0f, 0f, 100, default(Color), .82f);
-					Main.dust[num624].velocity *= 2f;
-				}
+				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 			}
 		}
 
@@ -595,7 +584,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			knockback *= 0.6f;
 			if(Main.player[projectile.owner].HeldItem.type == ItemID.Minishark) { //shadow nerfing minishark on scarab because meme balance weapon
 				knockback *= 0.5f;
-				int maxdamage = (Main.rand.Next(2, 5));
+				int maxdamage = (Main.rand.Next(3, 6));
 				while(damage - (npc.defense / 2) + (Main.player[projectile.owner].armorPenetration * 0.33f) > maxdamage) {
 					damage--;
 				}
@@ -622,7 +611,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				npc.DropBossBags();
 				return;
 			}
-
+			Gores();
 			npc.DropItem(ModContent.ItemType<Chitin>(), 25, 36);
 
 			int[] lootTable = {
@@ -635,6 +624,49 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 
 			npc.DropItem(ModContent.ItemType<ScarabMask>(), 1f / 7);
 			npc.DropItem(ModContent.ItemType<Trophy1>(), 1f / 10);
+		}
+
+		private void Gores()
+		{
+			for (int i = 1; i <= 7; i++)
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Scarabeus/Scarab" + i.ToString()), 1f);
+
+			npc.position.X = npc.position.X + (float)(npc.width / 2);
+			npc.position.Y = npc.position.Y + (float)(npc.height / 2);
+			npc.width = 100;
+			npc.height = 60;
+			npc.position.X = npc.position.X - (float)(npc.width / 2);
+			npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+			for (int num621 = 0; num621 < 30; num621++) {
+				int randomDustType = Main.rand.Next(3);
+				if (randomDustType == 0)
+					randomDustType = 5;
+				else if (randomDustType == 1)
+					randomDustType = 36;
+				else
+					randomDustType = 32;
+
+				int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, randomDustType, 0f, 0f, 100, default, 2f);
+				Main.dust[num622].velocity *= 3f;
+				if (Main.rand.Next(2) == 0) {
+					Main.dust[num622].scale = 0.5f;
+				}
+			}
+			for (int num623 = 0; num623 < 50; num623++) {
+				int randomDustType = Main.rand.Next(3);
+				if (randomDustType == 0)
+					randomDustType = 5;
+				else if (randomDustType == 1)
+					randomDustType = 36;
+				else
+					randomDustType = 32;
+
+				int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, randomDustType, 0f, 0f, 100, default, 1f);
+				Main.dust[num624].noGravity = true;
+				Main.dust[num624].velocity *= 5f;
+				num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, randomDustType, 0f, 0f, 100, default, .82f);
+				Main.dust[num624].velocity *= 2f;
+			}
 		}
 	}
 }

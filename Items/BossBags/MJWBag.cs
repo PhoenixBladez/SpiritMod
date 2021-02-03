@@ -13,6 +13,7 @@ using SpiritMod.Items.Equipment;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Consumable;
 
 namespace SpiritMod.Items.BossBags
 {
@@ -56,7 +57,12 @@ namespace SpiritMod.Items.BossBags
                 ModContent.ItemType<MoonjellySummonStaff>()
             };
             int loot = Main.rand.Next(lootTable.Length);
-            player.QuickSpawnItem(lootTable[loot]);
-        }
+			int lunazoastack = Main.rand.Next(20, 22);
+			player.QuickSpawnItem(lootTable[loot]);
+			if (lootTable[loot] == ModContent.ItemType<Moonshot>())
+				lunazoastack += Main.rand.Next(20, 30);
+
+			player.QuickSpawnItem(ModContent.ItemType<TinyLunazoaItem>(), lunazoastack);
+		}
 	}
 }

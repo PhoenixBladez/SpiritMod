@@ -16,6 +16,8 @@ using SpiritMod.Items.Armor.JellynautHelmet;
 using SpiritMod.Items.Boss;
 using SpiritMod.Items.BossBags;
 using System.IO;
+using SpiritMod.NPCs.MoonjellyEvent;
+using SpiritMod.Items.Consumable;
 
 namespace SpiritMod.NPCs.Boss.MoonWizard
 {
@@ -307,7 +309,12 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
                 ModContent.ItemType<MoonjellySummonStaff>()
 				};
                 int loot = Main.rand.Next(lootTable.Length);
+				int lunazoastack = Main.rand.Next(10, 12);
                 npc.DropItem(lootTable[loot]);
+				if (lootTable[loot] == ModContent.ItemType<Moonshot>())
+					lunazoastack += Main.rand.Next(20, 30);
+
+				npc.DropItem(ModContent.ItemType<TinyLunazoaItem>(), lunazoastack);
             }
         }
 
