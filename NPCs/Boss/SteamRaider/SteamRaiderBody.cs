@@ -95,7 +95,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					if (--npc.ai[3] == 0) {
 						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 9);
 						npc.TargetClosest(true);
-						if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) && Main.rand.NextBool(2)) {
+						if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) && Main.rand.NextBool(3)) {
 							float num941 = 1f; //speed
 							Vector2 vector104 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
 							float num942 = player.position.X + (float)player.width * 0.5f - vector104.X + (float)Main.rand.Next(-20, 21);
@@ -109,7 +109,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 							int num946 = ModContent.ProjectileType<Starshock>();
 							vector104.X += num942 * 4f;
 							vector104.Y += num943 * 2.5f;
-							int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, num946, NPCUtils.ToActualDamage(24, 1.25f), 0f, Main.myPlayer, 0f, 0f);
+							int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, num946, NPCUtils.ToActualDamage(30, 1.25f), 0f, Main.myPlayer, 0f, 0f);
 							Main.projectile[num947].timeLeft = 350;
 							npc.netUpdate = true;
 						}

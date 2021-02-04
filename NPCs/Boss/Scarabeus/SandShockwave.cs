@@ -11,13 +11,11 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 	public class SandShockwave : ModProjectile
 	{
 
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Sand");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Sand");
 
 		readonly int passivetime = 30;
 		readonly int activetime = 40;
+		Vector2 startingpoint;
 		public override void SetDefaults()
 		{
 			projectile.width = 18;
@@ -30,6 +28,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			projectile.tileCollide = false;
 		}
 		public override bool CanDamage() => projectile.ai[1] != 0;
+		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => Collision.CheckAABBvLineCollision(targetHitbox.Center.ToVector2() - targetHitbox.Size() / 2, targetHitbox.Size(), startingpoint, projectile.Center);
 		public override void AI()
 		{
 			projectile.ai[0]++;
@@ -44,6 +43,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			}
 
 			if (projectile.ai[1] == 0) {
+				startingpoint = projectile.Center;
 				Vector2 dustvel = -Vector2.UnitY.RotatedByRandom(MathHelper.Pi / 8);
 				for (int i = 0; i < 3; i++) {
 					int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 32, dustvel.X, dustvel.Y);

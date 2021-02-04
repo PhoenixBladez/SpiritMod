@@ -140,7 +140,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					}*/
 			int parent = NPC.FindFirstNPC(ModContent.NPCType<SteamRaiderHead>());
 			{
-				if (Main.npc[parent].life <= Main.npc[parent].lifeMax * .3f) {
+				if (Main.npc[parent].life <= Main.npc[parent].lifeMax * .2f) {
 					npc.life = 0;
 					npc.HitEffect(0, 10.0);
 					npc.active = false;
@@ -185,40 +185,42 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				base.npc.rotation = num7;
 			}
 			base.npc.spriteDirection = base.npc.direction;
-			shoottimer++;
-			if (shoottimer >= 120 && shoottimer <= 180) {
-				{
-					int dust = Dust.NewDust(npc.Center, npc.width, npc.height, DustID.GoldCoin);
-					Main.dust[dust].velocity *= -1f;
-					Main.dust[dust].scale *= .8f;
-					Main.dust[dust].noGravity = true;
-					Vector2 vector2_1 = new Vector2((float)Main.rand.Next(-80, 81), (float)Main.rand.Next(-80, 81));
-					vector2_1.Normalize();
-					Vector2 vector2_2 = vector2_1 * ((float)Main.rand.Next(50, 100) * 0.04f);
-					Main.dust[dust].velocity = vector2_2;
-					vector2_2.Normalize();
-					Vector2 vector2_3 = vector2_2 * 34f;
-					Main.dust[dust].position = npc.Center - vector2_3;
-				}
-			}
-			{
-				if (shoottimer >= 180) {
-					Main.PlaySound(SoundID.Item, (int)npc.Center.X, (int)npc.Center.Y, 12);
-					Vector2 direction = Main.player[npc.target].Center - npc.Center;
-					direction.Normalize();
-					direction.X *= 6f;
-					direction.Y *= 6f;
-
-					int amountOfProjectiles = 1;
-					for (int i = 0; i < amountOfProjectiles; ++i) {
-						float A = (float)Main.rand.Next(-50, 50) * 0.02f;
-						float B = (float)Main.rand.Next(-50, 50) * 0.02f;
-						int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<GlitchLaser>(), NPCUtils.ToActualDamage(25, 1.5f), 1, Main.myPlayer, 0, 0);
-						Main.projectile[p].hostile = true;
+			if (Main.npc[parent].ai[2] == 0) {
+				shoottimer++;
+				if (shoottimer >= 120 && shoottimer <= 180) {
+					{
+						int dust = Dust.NewDust(npc.Center, npc.width, npc.height, DustID.GoldCoin);
+						Main.dust[dust].velocity *= -1f;
+						Main.dust[dust].scale *= .8f;
+						Main.dust[dust].noGravity = true;
+						Vector2 vector2_1 = new Vector2((float)Main.rand.Next(-80, 81), (float)Main.rand.Next(-80, 81));
+						vector2_1.Normalize();
+						Vector2 vector2_2 = vector2_1 * ((float)Main.rand.Next(50, 100) * 0.04f);
+						Main.dust[dust].velocity = vector2_2;
+						vector2_2.Normalize();
+						Vector2 vector2_3 = vector2_2 * 34f;
+						Main.dust[dust].position = npc.Center - vector2_3;
 					}
-					shoottimer = 0;
+				}
+				{
+					if (shoottimer >= 180 && shoottimer % 10 == 0) {
+						Main.PlaySound(SoundID.Item, (int)npc.Center.X, (int)npc.Center.Y, 12);
+						Vector2 direction = Main.player[npc.target].Center - npc.Center;
+						direction.Normalize();
+						direction.X *= 6f;
+						direction.Y *= 6f;
+
+						if(Main.netMode != NetmodeID.MultiplayerClient)
+							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<GlitchLaser>(), NPCUtils.ToActualDamage(32, 1.5f), 1, Main.myPlayer, 0, 0);
+
+						if (!Main.expertMode || shoottimer >= 200)
+							shoottimer = 0;
+					}
+
 				}
 			}
+			else
+				shoottimer = 0;
 
 			npc.TargetClosest(true);
 			if (npc.direction == -1) {
@@ -240,7 +242,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				moveSpeed++;
 			}
 
-			npc.velocity.X = moveSpeed * 0.09f;
+			npc.velocity.X = moveSpeed * 0.12f;
 
 			if (npc.Center.Y >= player.Center.Y - HomeY && moveSpeedY >= -27) //Flies to players Y position
 			{
@@ -252,7 +254,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				moveSpeedY++;
 			}
 
-			npc.velocity.Y = moveSpeedY * 0.1f;
+			npc.velocity.Y = moveSpeedY * 0.14f;
 			if (Main.rand.Next(220) == 33) {
 				HomeY = -35f;
 			}

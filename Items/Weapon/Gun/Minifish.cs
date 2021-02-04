@@ -14,7 +14,7 @@ namespace SpiritMod.Items.Weapon.Gun
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Minifish");
-			Tooltip.SetDefault("'Strength in numbers'");
+			Tooltip.SetDefault("Hitting enemies spawns temporary additional minifish that fire towards your cursor, and do not consume ammo\n'Strength in numbers'");
         }
 		public override void SetDefaults()
 		{

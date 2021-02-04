@@ -1,6 +1,7 @@
 ﻿using IL.Terraria.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Effects;
 using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Items.Boss;
 using SpiritMod.Items.BossBags;
@@ -147,6 +148,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			npc.behindTiles = false;
 			npc.knockBackResist = 0f;
 			npc.netUpdate = true;
+			BaseVel = Vector2.UnitX;
 		}
 		private void StepUp(Player player)
 		{
@@ -435,7 +437,8 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				CheckPlatform(player);
 				if (AiTimer == 150) //initial tick of falling
 				{
-					UpdateFrame(4, 0, 6);
+					UpdateFrame(4, 12, 17);
+					npc.rotation = npc.spriteDirection * MathHelper.PiOver2;
 					AiTimer++;
 					Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 44, 1.5f, -1f);
 					npc.velocity = new Vector2(0, 0.25f);
@@ -444,6 +447,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				{
 					UpdateFrame(10, 18, 21);
 					npc.noGravity = true;
+					npc.rotation = 0;
 					canhitplayer = false;
 					if (AiTimer == 151) {
 						SpiritMod.tremorTime = 15;
@@ -477,9 +481,9 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 
 					if (++AiTimer > 271) { NextAttack(); }
 				}
-				else if (npc.velocity.Y < 5) { //if it hasnt landed yet, accelerate until at max velocity
+				else if (npc.velocity.Y < 8) { //if it hasnt landed yet, accelerate until at max velocity
 					npc.velocity.Y *= 1.075f;
-					npc.velocity.Y = Math.Min(npc.velocity.Y, 7);
+					npc.velocity.Y = Math.Min(npc.velocity.Y, 8);
 				}
 			}
 		}
@@ -542,15 +546,98 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			foreach (Player Player in Main.player.Where(x => x.active && !x.dead)) //probably a cleaner way to do visual only sandstorm??
 				Player.buffImmune[BuffID.WindPushed] = true;
 
-			switch (AttackType) { //do things here zoro
+			switch (AttackType) {
 				case 0:
-					FlyDashes(player);
+					CircleDash(player);
+					break;
+				case 1:
+					SideDash(player, 120);
+					break;
+				case 2:
+					SideDash(player, 40);
 					break;
 				default: AttackType = 0; break; //loop attack pattern
 			}
 		}
-		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => canhitplayer;
+		Vector2 BaseVel = Vector2.UnitX;
+		private void CircleDash(Player player)
+		{
+			AiTimer++;
+			npc.noTileCollide = true;
+			npc.noGravity = true;
+			UpdateFrame(4, 18, 21);
+			float targetrotation;
 
+			if (AiTimer < 60) {
+				npc.spriteDirection = npc.direction;
+				targetrotation = npc.AngleTo(player.Center);
+				if (Math.Abs(targetrotation) > MathHelper.PiOver2)
+					targetrotation -= MathHelper.Pi;
+				npc.rotation = Utils.AngleLerp(npc.rotation, targetrotation, 0.1f);
+				npc.velocity = (npc.Distance(player.Center) < 600) ? Vector2.Lerp(npc.velocity, npc.DirectionFrom(player.Center) * 8, 0.05f) :
+					(npc.Distance(player.Center) > 700) ? Vector2.Lerp(npc.velocity, npc.DirectionTo(player.Center) * 8, 0.05f) : Vector2.Lerp(npc.velocity, Vector2.Zero, 0.05f);
+			}
+			else {
+				trailbehind = true;
+				targetrotation = npc.velocity.ToRotation();
+				if (npc.spriteDirection < 0)
+					targetrotation -= MathHelper.Pi;
+
+				if (AiTimer == 60) {
+					BaseVel = Vector2.UnitX.RotatedBy(npc.rotation) * npc.spriteDirection * 2;
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/BossSFX/Roar"), npc.Center);
+				}
+				if(BaseVel.Length() < 24)
+					BaseVel *= 1.1f;
+
+				npc.rotation = targetrotation;
+				npc.velocity = BaseVel.RotatedBy(MathHelper.ToRadians((AiTimer - 60) * 12));
+
+				if((AiTimer + npc.ai[2]) % 10 == 0) {
+					npc.ai[2] = (Main.rand.Next(10));
+					if(Main.netMode != NetmodeID.MultiplayerClient) {
+						Projectile.NewProjectile(npc.Center, Vector2.Normalize(npc.velocity.RotatedBy(MathHelper.PiOver2)) * 4, mod.ProjectileType("SwarmScarab"), npc.damage / 4, 1, Main.myPlayer);
+					}
+				}
+				if(AiTimer > 180) { NextAttack(); }
+			}
+		}
+		private void SideDash(Player player, int hometime)
+		{
+			AiTimer++;
+			npc.noTileCollide = true;
+			npc.noGravity = true;
+			UpdateFrame(4, 18, 21);
+			if(AiTimer < hometime) {
+				Vector2 homeCenter = player.Center;
+				npc.spriteDirection = npc.direction;
+				homeCenter.X += (npc.Center.X < player.Center.X) ? -280 : 280;
+				float vel = MathHelper.Clamp(npc.Distance(homeCenter) / 18, 7, 18);
+				npc.velocity = Vector2.Lerp(npc.velocity, npc.DirectionTo(homeCenter) * vel, 0.05f);
+			}
+			else if(AiTimer < hometime + 20) {
+				if(AiTimer == hometime)
+					Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 44, 1.5f, -1f);
+
+				npc.rotation = Utils.AngleLerp(npc.rotation, npc.spriteDirection * -MathHelper.Pi / 6, 0.1f);
+				npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.1f);
+			}
+			else if(AiTimer == hometime + 20) {
+				npc.velocity.X = MathHelper.Clamp(Math.Abs((player.Center.X - npc.Center.X) / 14), 14, 26) * npc.direction;
+				canhitplayer = true;
+				Main.PlaySound(SoundID.Roar, (int)npc.Center.X, (int)npc.Center.Y, 0);
+				trailbehind = true;
+				npc.rotation = npc.velocity.X * 0.04f;
+			}
+			else if(AiTimer < hometime + 80) {
+				canhitplayer = true;
+				if(npc.spriteDirection != npc.direction)
+					npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.05f);
+				npc.rotation = npc.velocity.X * 0.04f;
+			}
+			else { NextAttack(); }
+		}
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => canhitplayer;
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			SpriteEffects effects = npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
@@ -600,6 +687,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		public override bool PreNPCLoot()
 		{
 			MyWorld.downedScarabeus = true;
+			Gores();
 			Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DeathSounds/ScarabDeathSound"));
 			return true;
 		}
@@ -611,7 +699,6 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				npc.DropBossBags();
 				return;
 			}
-			Gores();
 			npc.DropItem(ModContent.ItemType<Chitin>(), 25, 36);
 
 			int[] lootTable = {
