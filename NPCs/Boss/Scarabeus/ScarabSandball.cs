@@ -39,9 +39,11 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		public override void AI()
 		{
 			projectile.rotation += 0.1f;
-			int d = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 32, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
-			Main.dust[d].noGravity = true; 
-			Main.dust[d].scale = 1f;
+			for (int i = -2; i < 2; i++) {
+				Dust dust = Dust.NewDustPerfect(projectile.Center + 2 * projectile.velocity, mod.DustType("SandDust"), Vector2.Normalize(projectile.velocity).RotatedBy(Math.Sign(i) * MathHelper.Pi / 4) * Math.Abs(i));
+				dust.noGravity = true;
+				dust.scale = 0.65f;
+			}
 
 			if(projectile.velocity.Y < 15f)
 				projectile.velocity.Y += 0.2f;

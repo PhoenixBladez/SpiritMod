@@ -66,12 +66,16 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			writer.Write(chargetimer);
-			writer.Write((double)npc.localAI[0]);
+			writer.Write(npc.localAI[0]);
+			writer.Write(npc.localAI[1]);
+			writer.Write(npc.localAI[2]);
 		}
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			chargetimer = reader.ReadInt32();
-			npc.localAI[0] = (float)reader.ReadDouble();
+			npc.localAI[0] = reader.ReadSingle();
+			npc.localAI[1] = reader.ReadSingle();
+			npc.localAI[2] = reader.ReadSingle();
 		}
 		public override void AI()
 		{
@@ -153,10 +157,6 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			if (timer == 700 || Charge)
 				timer = 0;
 			chargetimer++;
-			if (npc.life == npc.lifeMax * .2f) {
-				CombatText.NewText(new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height), new Color(255, 155, 0, 100),
-"Instability Detected");
-			}
 			if (npc.life >= npc.lifeMax * .2f) {
 				npc.aiStyle = 6; //new
 				aiType = -1;
@@ -484,7 +484,12 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                     npc.netUpdate = true;
                     timer = 0;
                 }
-				npc.defense = 20;
+				if(npc.localAI[2] == 0) {
+					CombatText.NewText(new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height), new Color(255, 155, 0, 100),
+	"Instability Detected");
+					npc.localAI[2]++;
+					npc.netUpdate = true;
+				}
 				alphaCounter += 0.08f;
 				npc.netUpdate = true;
 				Player nearby = Main.LocalPlayer;
@@ -652,6 +657,14 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
 							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 			return false;
+		}
+
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => npc.life >= npc.lifeMax * .2f;
+		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			if(npc.life < npc.lifeMax * .2f) {
+				damage = (int)(damage * 0.8f);
+			}
 		}
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{

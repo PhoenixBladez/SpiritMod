@@ -315,6 +315,7 @@ namespace SpiritMod.Effects
 
 			if (!MyProjectile.active || MyProjectile.type != _originalProjectileType) {
 				StartDissolve(_maxLength / 10f);
+				return;
 			}
 
 			Vector2 thisPoint = _trailPosition.GetNextTrailPosition(MyProjectile);

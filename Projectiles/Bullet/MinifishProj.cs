@@ -61,7 +61,7 @@ namespace SpiritMod.Projectiles.Bullet
 			}
 			newCenter += projectile.velocity;
 			projectile.Center = homeCenter + newCenter;
-			if (owner.HeldItem.type != mod.ItemType("Minifish"))
+			if (owner.HeldItem.type != mod.ItemType("Minifish") || owner.dead || !owner.active)
 				projectile.ai[1]++;
 
 			projectile.damage = (int)(owner.HeldItem.damage * owner.rangedDamage * 0.8f);

@@ -28,7 +28,10 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			projectile.tileCollide = false;
 		}
 		public override bool CanDamage() => projectile.ai[1] != 0;
-		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => Collision.CheckAABBvLineCollision(targetHitbox.Center.ToVector2() - targetHitbox.Size() / 2, targetHitbox.Size(), startingpoint, projectile.Center);
+		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => Collision.CheckAABBvLineCollision(targetHitbox.Center.ToVector2() - targetHitbox.Size() / 2,
+																													 targetHitbox.Size(),
+																													 startingpoint,
+																													 projectile.Center);
 		public override void AI()
 		{
 			projectile.ai[0]++;
@@ -44,18 +47,29 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 
 			if (projectile.ai[1] == 0) {
 				startingpoint = projectile.Center;
-				Vector2 dustvel = -Vector2.UnitY.RotatedByRandom(MathHelper.Pi / 8);
-				for (int i = 0; i < 3; i++) {
-					int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 32, dustvel.X, dustvel.Y);
-					Main.dust[d].noGravity = true;
+				Vector2 dustvel = -Vector2.UnitY.RotatedByRandom(MathHelper.Pi / 5) * 3;
+				Gore gore = Gore.NewGoreDirect(projectile.Center + Main.rand.NextVector2Square(-18, 18), Main.rand.NextVector2Circular(3, 3), GoreID.ChimneySmoke1, 0.6f);
+				gore.timeLeft = 20;
+				for (int i = 0; i < 4; i++) {
+					Dust dust = Dust.NewDustPerfect(projectile.Center + (Vector2.UnitY * 20), mod.DustType("SandDust"), dustvel);
+					dust.position.X += Main.rand.NextFloat(-6, 6);
+					dust.noGravity = false;
+					dust.scale = 0.75f;
 				}
 			}
 			else {
 				projectile.hide = false;
 				projectile.alpha = (activetime - projectile.timeLeft) * (255 / activetime);
 				projectile.rotation += 0.1f + projectile.direction;
-				if (Main.rand.Next(5) == 0)
+				if (Main.rand.Next(4) == 0)
 					Gore.NewGorePerfect(projectile.Center, projectile.velocity.RotatedByRandom(MathHelper.Pi / 14) / 2, mod.GetGoreSlot("Gores/SandBall"), Main.rand.NextFloat(0.6f, 0.8f));
+
+				for (int i = 0; i < 3; i++) {
+					Dust dust = Dust.NewDustPerfect(projectile.Center + (Vector2.UnitY * 16), mod.DustType("SandDust"), projectile.velocity.RotatedByRandom(MathHelper.Pi / 8) * 0.2f);
+					dust.position += dust.velocity * Main.rand.NextFloat(20, 25);
+					dust.noGravity = true;
+					dust.scale = Main.rand.NextFloat(0.5f, 1.2f);
+				}
 			}
 		}
 

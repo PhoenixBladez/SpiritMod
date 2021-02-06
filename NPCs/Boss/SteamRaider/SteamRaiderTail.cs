@@ -63,7 +63,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 						if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height)) {
 
 							Main.PlaySound(SoundID.Item, (int)npc.Center.X, (int)npc.Center.Y, 12);
-							float num941 = 5f; //speed
+							float num941 = 4f; //speed
 							Vector2 vector104 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
 							float num942 = player.position.X + (float)player.width * 0.5f - vector104.X + (float)Main.rand.Next(-20, 21);
 							float num943 = player.position.Y + (float)player.height * 0.5f - vector104.Y + (float)Main.rand.Next(-20, 21);

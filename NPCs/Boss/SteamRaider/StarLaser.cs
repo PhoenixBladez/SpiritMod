@@ -10,6 +10,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		{
 			DisplayName.SetDefault("Star Laser");
 		}
+		Vector2 startingpoint;
 
 		public override void SetDefaults()
 		{
@@ -24,9 +25,18 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			projectile.tileCollide = false;
 			projectile.extraUpdates = 5;
 		}
+		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => Collision.CheckAABBvLineCollision(targetHitbox.Center.ToVector2() - targetHitbox.Size() / 2,
+																													 targetHitbox.Size(),
+																													 startingpoint,
+																													 projectile.Center);
 
 		public override bool PreAI()
 		{
+			if(projectile.ai[0] == 0) {
+				startingpoint = projectile.Center;
+				projectile.ai[0]++;
+			}
+				
 			Dust dust = Dust.NewDustPerfect(projectile.Center, 226);
 			dust.velocity = Vector2.Zero;
 			dust.noLight = true;

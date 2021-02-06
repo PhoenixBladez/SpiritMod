@@ -22,7 +22,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			npc.width = 30;
 			npc.height = 14;
 			npc.damage = 36;
-			npc.defense = 10;
+			npc.defense = 24;
 			npc.lifeMax = 1;
 			npc.knockBackResist = 0.0f;
 			npc.behindTiles = true;
@@ -96,7 +96,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					if (--npc.ai[3] == 0) {
 						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 9);
 						npc.TargetClosest(true);
-						if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) && Main.rand.NextBool(3)) {
+						if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) && Main.rand.NextBool(2)) {
 							float num941 = 1f; //speed
 							Vector2 vector104 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
 							float num942 = player.position.X + (float)player.width * 0.5f - vector104.X + (float)Main.rand.Next(-20, 21);
@@ -118,7 +118,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				}
 			}
 			else
-				npc.ai[3] = Main.rand.Next(150, 210);
+				npc.ai[3] = Main.rand.Next(175, 190);
 
 			if (!Main.npc[(int)npc.ai[1]].active || Main.npc[(int)npc.ai[1]].life <= Main.npc[(int)npc.ai[1]].lifeMax * .2f) {
 				npc.life = 0;
