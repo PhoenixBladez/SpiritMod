@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Consumable
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Turquoise Lens");
-			Tooltip.SetDefault("Summons the Mystic Moon");
+			Tooltip.SetDefault("Use at nighttime to summon the Mystic Moon");
 		}
 
 

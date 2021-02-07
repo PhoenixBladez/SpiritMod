@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Consumable
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starplate Beacon");
-			Tooltip.SetDefault("'Look toward the night sky...'");
+			Tooltip.SetDefault("Use at an Astralite Beacon to summon the Starplate Voyager");
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Consumable/StarWormSummon_Glow");
 
 		}
@@ -54,8 +54,9 @@ namespace SpiritMod.Items.Consumable
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<TechDrive>(), 1);
-			recipe.AddIngredient(ModContent.ItemType<StarEnergy>(), 2);
-			recipe.AddTile(TileID.Anvils);
+			recipe.AddIngredient(ItemID.Wire, 10);
+            recipe.AddIngredient(ItemID.FallenStar, 4);
+            recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

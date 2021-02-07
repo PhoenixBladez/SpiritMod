@@ -35,6 +35,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 		int colortimer;
 		public override bool PreAI()
 		{
+            projectile.velocity *= 1.01f;
             float num = 1f - (float)projectile.alpha / 255f;
             num *= projectile.scale;
             Lighting.AddLight(projectile.Center, 0.1f * num, 0.2f * num, 0.4f * num);

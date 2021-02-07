@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Consumable
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Dusk Crown");
-			Tooltip.SetDefault("'Beware the King of Night'");
+			Tooltip.SetDefault("Use at nighttime to summon Dusking");
 		}
 
 

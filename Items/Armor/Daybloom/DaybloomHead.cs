@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Armor.Daybloom
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Daybloom Helm");
+			DisplayName.SetDefault("Sunflower Hat");
 			Tooltip.SetDefault("Increases maximum mana by 20");
 		}
 
@@ -50,7 +50,7 @@ namespace SpiritMod.Items.Armor.Daybloom
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Daybloom, 1);
+			recipe.AddIngredient(ItemID.Sunflower, 1);
 			recipe.AddIngredient(ItemID.FallenStar, 1);
 			recipe.AddTile(TileID.WorkBenches);
 			recipe.SetResult(this);

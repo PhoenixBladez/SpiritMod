@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Armor.Daybloom
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Daybloom Leggings");
+			DisplayName.SetDefault("Sunflower Leggings");
 			Tooltip.SetDefault("4% increased magic critical strike chance");
 		}
 
@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Armor.Daybloom
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Daybloom, 1);
+			recipe.AddIngredient(ItemID.Sunflower, 1);
 			recipe.AddIngredient(ItemID.FallenStar, 1);
 			recipe.AddTile(TileID.WorkBenches);
 			recipe.SetResult(this);

@@ -35,6 +35,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 		Vector2 initialSpeed = Vector2.Zero;
 		public override void AI()
 		{
+            projectile.velocity *= 1.009f;
             alphaCounter += 0.04f;
             int rightValue = (int)projectile.ai[1] - 1;
 			if (rightValue < (double)Main.projectile.Length && rightValue != -1) {

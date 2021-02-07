@@ -8,7 +8,7 @@ namespace SpiritMod.Buffs
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Windglider");
-			Description.SetDefault("You're, uh, still falling, but slower");
+			Description.SetDefault("You're still falling, but slower");
 			Main.pvpBuff[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}

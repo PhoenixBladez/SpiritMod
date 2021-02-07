@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Consumable
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pain Caller");
-			Tooltip.SetDefault("Summons Infernon");
+			Tooltip.SetDefault("Use in the Underworld to summon Infernon");
 		}
 
 

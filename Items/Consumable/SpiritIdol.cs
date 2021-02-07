@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Consumable
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spirit Idol");
-			Tooltip.SetDefault("'Awaken the Being, asleep for aeons'");
+			Tooltip.SetDefault("Use in the Spirit Biome at nighttime to summon the Overseer");
 		}
 
 

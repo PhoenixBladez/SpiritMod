@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Consumable
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bramble Tooth");
-            Tooltip.SetDefault("'A malevolent mixture of flora and fauna'\nSummons the Protector of the Briar");
+            Tooltip.SetDefault("'A malevolent mixture of flora and fauna'\nUse in the Underground Briar to summon the Vinewrath Bane");
         }
 
 

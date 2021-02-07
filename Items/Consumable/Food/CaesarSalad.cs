@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Consumable.Food
 			item.buffTime = 56000;
 			item.noMelee = true;
 			item.consumable = true;
-			item.UseSound = SoundID.Item3;
+			item.UseSound = SoundID.Item2;
 			item.autoReuse = false;
 
 		}

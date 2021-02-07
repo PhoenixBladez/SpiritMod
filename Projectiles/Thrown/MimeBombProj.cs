@@ -59,7 +59,7 @@ namespace SpiritMod.Projectiles.Thrown
 		{
 			int sizeX = 120;
 			int sizeY = 45;
-			projectile.hostile = true;
+			projectile.hostile = false;
 			projectile.tileCollide = false;
 			projectile.alpha = 255;
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);

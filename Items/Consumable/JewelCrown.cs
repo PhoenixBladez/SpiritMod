@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Consumable
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Feather Crown");
-			Tooltip.SetDefault("'Summons the ruler of the skies'");
+			Tooltip.SetDefault("Use in the sky to summon the Ancient Avian");
 		}
 
 

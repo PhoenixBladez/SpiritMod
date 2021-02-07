@@ -47,7 +47,7 @@ namespace SpiritMod.Projectiles.Thrown.Charge
 			if (player.channel) {
 				projectile.position = player.position + holdOffset;
 				player.velocity.X *= 0.95f;
-				if (counter < 11) {
+				if (counter < 10) {
 					counter += 0.07f;
 				}
 				projectile.rotation = direction.ToRotation() - 1.57f;

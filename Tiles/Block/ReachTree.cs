@@ -14,7 +14,7 @@ namespace SpiritMod.Tiles.Block
 
 		public override int CreateDust()
 		{
-			return 1;
+			return 22;
 		}
 
 		public override int DropWood()

@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Consumable
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Stone Fist");
-			Tooltip.SetDefault("Summons nature's Protector");
+			Tooltip.SetDefault("Use anywhere to summon Atlas");
 		}
 
 

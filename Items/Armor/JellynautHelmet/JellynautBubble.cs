@@ -65,7 +65,7 @@ namespace SpiritMod.Items.Armor.JellynautHelmet
         public override void UpdateArmorSet(Player player)
         {
             string tapDir = Language.GetTextValue(Main.ReversedUpDownArmorSetBonuses ? "Key.UP" : "Key.DOWN");
-            player.setBonus = $"Killing enemies with magic weapons generates arcane jellyfish around the player\nDouble tap {tapDir} to cause the jellyfish to attack the cursor position";
+            player.setBonus = $"Hitting or killing enemies with magic weapons generates arcane jellyfish around the player\nDouble tap {tapDir} to cause the jellyfish to attack the cursor position";
             player.GetSpiritPlayer().jellynautHelm = true;
         }
 	}

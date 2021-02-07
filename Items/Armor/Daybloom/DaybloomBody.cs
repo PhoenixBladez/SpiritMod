@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Armor.Daybloom
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Daybloom Garb");
+			DisplayName.SetDefault("Sunflower Garb");
 			Tooltip.SetDefault("Increases magic damage by 1");
 		}
 		public override void SetDefaults()
@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Armor.Daybloom
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Daybloom, 1);
+			recipe.AddIngredient(ItemID.Sunflower, 2);
 			recipe.AddIngredient(ItemID.FallenStar, 2);
 			recipe.AddTile(TileID.WorkBenches);
 			recipe.SetResult(this);

@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.height = 46;
 			item.value = Item.buyPrice(0, 1, 0, 0);
 			item.rare = ItemRarityID.Green;
-			item.damage = 14;
+			item.damage = 12;
 			item.knockBack = 4;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			Item.staff[item.type] = true;
@@ -47,7 +47,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		{
 			counter++;
 			int spikes = player.GetSpiritPlayer().shadowCount;
-			if (counter >= 85 && !player.channel && spikes <= 4 && player.whoAmI == Main.myPlayer) {
+			if (counter >= 55 && !player.channel && spikes <= 4 && player.whoAmI == Main.myPlayer) {
 				player.GetSpiritPlayer().shadowCount++;
 				counter = 0;
 				int p = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameStoneBolt>(), item.damage, 2f, player.whoAmI, spikes);

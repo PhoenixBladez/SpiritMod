@@ -156,8 +156,8 @@ namespace SpiritMod.Projectiles.Bullet
 		}
 		public override void Kill(int timeLeft)
 		{
-            ProjectileExtras.Explode(projectile.whoAmI, 150, 150, delegate
             {
+                Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
                 for (int i = 0; i < 40; i++)
                 {
                     int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, -2f, 0, default(Color), 2f);
@@ -171,8 +171,7 @@ namespace SpiritMod.Projectiles.Bullet
                         Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
                     }
                 }
-            });
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
+            }
 		}
 	}
 }
