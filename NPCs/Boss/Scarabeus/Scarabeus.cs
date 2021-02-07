@@ -108,18 +108,18 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		private void CheckPlatform(Player player)
 		{
 			bool onplatform = true;
-			for (int i = (int)npc.position.X; i < npc.position.X + npc.width; i += npc.width / 4) {
+			for (int i = (int)npc.position.X; i < npc.position.X + npc.width; i += npc.width / 4) { //check tiles beneath the boss to see if they are all platforms
 				Tile tile = Framing.GetTileSafely(new Point((int)npc.position.X / 16, (int)(npc.position.Y + npc.height + 8) / 16));
 				if (!TileID.Sets.Platforms[tile.type])
 					onplatform = false;
 			}
-			if (onplatform && (npc.Center.Y < player.position.Y - 20)) //if they are, temporarily let the boss ignore tiles to go through them
+			if (onplatform && (npc.Center.Y < player.position.Y - 20)) //if they are and the player is lower than the boss, temporarily let the boss ignore tiles to go through them
 				npc.noTileCollide = true;
 			else
 				npc.noTileCollide = false;
 		}
 
-		private void UpdateFrame(int speed, int minframe, int maxframe, bool usesspeed = false)
+		private void UpdateFrame(int speed, int minframe, int maxframe, bool usesspeed = false) //method of updating the frame without copy pasting this every time animation is needed
 		{
 			timer++;
 			float timeperframe = (usesspeed) ? (5f / Math.Abs(npc.velocity.X)) * speed : speed;
@@ -135,7 +135,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				frame = minframe;
 		}
 
-		private void NextAttack()
+		private void NextAttack() //reset most variables and netupdate to sync the boss in multiplayer
 		{
 			trailbehind = false;
 			AttackType++;
@@ -222,7 +222,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			CheckPlatform(player);
 			canhitplayer = true;
 
-			if (npc.velocity.Y == 0) {
+			if (npc.velocity.Y == 0) { //simple movement ai, accelerates until it hits a cap
 				npc.velocity.X += (npc.Center.X < player.Center.X) ? acc : -acc;
 				npc.velocity.X = MathHelper.Clamp(npc.velocity.X, -maxspeed, maxspeed);
 			}
@@ -382,7 +382,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			if (AiTimer == 1)
 				rotation = ToPlayer.ToRotation();
 
-			if (AiTimer < 100) {
+			if (AiTimer < 100) { //home in on player, but keeping some distance, also slowly rotating towards them
 
 				npc.spriteDirection = npc.direction;
 				npc.velocity = (npc.Distance(player.Center) > 380) ?
@@ -392,7 +392,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				rotation = Utils.AngleLerp(rotation, ToPlayer.ToRotation(), 0.05f);
 			}
 
-			if (AiTimer >= 100) {
+			if (AiTimer >= 100) { //dash at player, then dash again, swapping between rotating towards the player and only having its rotation be based on its velocity
 				npc.velocity *= 0.98f;
 
 				if (AiTimer == 100 || AiTimer == 190)
@@ -457,13 +457,13 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 						Main.PlaySound(SoundID.Item14, npc.Center);
 					}
 					npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0, 0.07f);
-					if (AiTimer % 10 == 0 && AiTimer < hometime + 61) {
+					if (AiTimer % 10 == 0 && AiTimer < hometime + 61) { //make shockwaves ripple outwards, 2 spawn every 10 ticks, distance from boss is based on how many ticks have passed
 						for (int i = -1; i <= 1; i += 2) {
 							Vector2 center = new Vector2(npc.Center.X, npc.Center.Y + npc.height / 4);
 							center.X += (AiTimer - 150) * 20 * i;
 							int numtries = 0;
 							int x = (int)(center.X / 16);
-							int y = (int)(center.Y / 16);
+							int y = (int)(center.Y / 16);//find the lowest solid tile from the given spawn point, then increase the spawn point if inside a tile, with a limit of 10 tiles upwards
 							while (y < Main.maxTilesY - 10 && Main.tile[x, y] != null && !WorldGen.SolidTile2(x, y) && Main.tile[x - 1, y] != null && !WorldGen.SolidTile2(x - 1, y) && Main.tile[x + 1, y] != null && !WorldGen.SolidTile2(x + 1, y)) {
 								y++;
 								center.Y = y * 16;
@@ -497,6 +497,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			UpdateFrame(4, 12, 17);
 			npc.spriteDirection = Math.Sign(npc.velocity.X);
 			canhitplayer = AiTimer > 170; //only do contact damage after jumping
+			npc.direction = Math.Sign(player.Center.X - npc.Center.X);
 			float targetrotation;
 			if (npc.velocity.Length() > 3) {
 				targetrotation = npc.velocity.ToRotation();
@@ -512,7 +513,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				if (AiTimer % 20 == 0)
 					Main.PlaySound(SoundID.Roar, (int)npc.Center.X, (int)npc.Center.Y, 1);
 
-				float distfromsurface = 0;
+				float distfromsurface = 0; //check the npc's distance from the surface to determine dust velocity, by checking each tile and increasing this float for every solid tile above this npc until a non-solid tile is found
 				Vector2 tilecheck = npc.Center;
 				while (WorldGen.SolidTile((int)(tilecheck.X / 16), (int)(tilecheck.Y / 16))) {
 					tilecheck.Y -= 16;
@@ -536,17 +537,17 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 					}
 				}
 
-				if (++AiTimer < 140) {
+				if (++AiTimer < 140) { //only loosely home in on player for a few seconds, and only while in the ground
 					npc.velocity.X += (npc.Center.X < player.Center.X) ? 0.2f : -0.2f;
 					npc.velocity.Y += (npc.Center.Y < player.Center.Y) ? 0.1f : -0.1f;
 					npc.velocity = new Vector2(MathHelper.Clamp(npc.velocity.X, -10, 10), MathHelper.Clamp(npc.velocity.Y, -4, 4));
 				}
-				else if (AiTimer >= 140 && AiTimer <= 170) {
+				else if (AiTimer >= 140 && AiTimer <= 170) { //if enough time has passed and the boss is in the ground, stop homing and pause its velocity
 					npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.1f);
 					if (AiTimer == 140)
 						Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 44, 1.5f, -1f);
 
-					if (AiTimer == 170) {
+					if (AiTimer == 170) { //jump at the player
 						Vector2 center = player.Center;
 						center.Y -= 200;
 						npc.velocity = npc.DirectionTo(center) * MathHelper.Clamp(npc.Distance(center) / 30, 8, 26);
@@ -554,7 +555,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 					}
 				}
 			}
-			if(hasjumped && npc.spriteDirection != npc.direction) {
+			if(hasjumped && npc.spriteDirection != npc.direction) { //slow down after passing the player
 				if (Math.Abs(npc.velocity.X) > 10)
 					npc.velocity.X *= 0.95f;
 			}
@@ -612,7 +613,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			UpdateFrame(4, 18, 21);
 			float targetrotation;
 
-			if (AiTimer < 60) {
+			if (AiTimer < 60) { //fly away from player until attack starts
 				npc.spriteDirection = npc.direction;
 				targetrotation = npc.AngleTo(player.Center);
 				if (Math.Abs(targetrotation) > MathHelper.PiOver2)
@@ -627,12 +628,13 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				if (npc.spriteDirection < 0)
 					targetrotation -= MathHelper.Pi;
 
-				if (AiTimer == 60) {
+				if (AiTimer == 60) { //when the spin starts, save the initial velocity of the spin to rotate each tick, and store the player's center and a random spot far away from them
 					BaseVel = Vector2.UnitX.RotatedBy(npc.rotation) * npc.spriteDirection * 2;
 					statictarget[0] = player.Center + Main.rand.NextVector2CircularEdge(1000, 800);
 					statictarget[1] = player.Center;
-					if (Main.netMode != NetmodeID.MultiplayerClient) {
+					if (Main.netMode != NetmodeID.MultiplayerClient) { //spawn the telegraph for the scarab storm, going from the random spot to the player's center
 						Projectile proj = Projectile.NewProjectileDirect(statictarget[0], Vector2.Normalize(statictarget[1] - statictarget[0]) * 6, mod.ProjectileType("SwarmTelegraph"), 0, 0, Main.myPlayer);
+						Main.PlaySound(SoundID.Item, (int)statictarget[1].X, (int)statictarget[1].Y, 117, 1, 2);
 						proj.netUpdate = true;
 					}
 					npc.netUpdate = true;
@@ -644,17 +646,19 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				npc.rotation = targetrotation;
 				npc.velocity = BaseVel.RotatedBy(MathHelper.ToRadians((AiTimer - 60) * 12));
 
-				if (Main.expertMode && (AiTimer + npc.ai[2]) % 12 == 0) {
+				if (Main.expertMode && (AiTimer + npc.ai[2]) % 12 == 0) { //only do beetle ring in expert mode, spawns beetles that move perpendicular to the npc's spinning velocity, at semi random timing
 					npc.ai[2] = (Main.rand.Next(12));
 					npc.netUpdate = true;
 					if(Main.netMode != NetmodeID.MultiplayerClient) {
 						NPC Npc = Main.npc[NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("SwarmScarab"), npc.whoAmI, Vector2.Normalize(npc.velocity.RotatedBy(MathHelper.PiOver2)).ToRotation(), 0)];
+						Main.PlaySound(SoundID.Item, (int)statictarget[1].X, (int)statictarget[1].Y, 1, 2, 2);
 						Npc.netUpdate = true;
 					}
 				}
-				if(AiTimer >= 90 && AiTimer % 7 == 0) {
+				if(AiTimer >= 90 && AiTimer % 7 == 0) { //spawn the swarm of beetles, going from the stored random position to the player's center
 					if (Main.netMode != NetmodeID.MultiplayerClient) {
 						NPC Npc = Main.npc[NPC.NewNPC((int)statictarget[0].X + Main.rand.Next(-60, 60), (int)statictarget[0].Y + Main.rand.Next(-60, 60), mod.NPCType("SwarmScarab"), npc.whoAmI, Vector2.Normalize(statictarget[1] - statictarget[0]).ToRotation(), 1)];
+						Main.PlaySound(SoundID.Zombie, (int)Npc.position.X, (int)Npc.position.Y, 44, 0.5f);
 						Npc.netUpdate = true;
 					}
 				}
@@ -683,21 +687,21 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				float vel = MathHelper.Clamp(npc.Distance(homeCenter) / 18, 7, 18);
 				npc.velocity = Vector2.Lerp(npc.velocity, npc.DirectionTo(homeCenter) * vel, 0.05f);
 			}
-			else if(AiTimer < hometime + 20) {
+			else if(AiTimer < hometime + 20) { //rotate backwards to telegraph dash
 				if(AiTimer == hometime)
 					Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 44, 1.5f, -1f);
 
 				npc.rotation = Utils.AngleLerp(npc.rotation, npc.spriteDirection * -MathHelper.Pi / 6, 0.1f);
 				npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.1f);
 			}
-			else if(AiTimer == hometime + 20) {
+			else if(AiTimer == hometime + 20) { //dash towards sprite direction
 				npc.velocity.X = MathHelper.Clamp(Math.Abs((player.Center.X - npc.Center.X) / 14), 14, 26) * npc.spriteDirection;
 				canhitplayer = true;
 				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/BossSFX/Roar"), npc.Center);
 				trailbehind = true;
 				npc.rotation = npc.velocity.X * 0.04f;
 			}
-			else if(AiTimer < hometime + 80) {
+			else if(AiTimer < hometime + 80) { //slow down after enough time has passed and the boss has already moved past the player
 				canhitplayer = true;
 				if(npc.spriteDirection != npc.direction)
 					npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.05f);
@@ -709,9 +713,9 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		{
 			float groundpoundtimer = (npc.ai[2] == 0) ? 100 : 30;
 			if (npc.ai[2] < 3) {
-				if (AiTimer <= groundpoundtimer)
+				if (AiTimer <= groundpoundtimer) //reuse the same ground pound ai until the boss starts falling
 					GroundPound(player, groundpoundtimer);
-				else {
+				else { //mostly the same ground pound code, however shockwaves are all spawned at the same time, and the boss's velocity is increased to help it get to its target spot in time
 					canhitplayer = true;
 					npc.noTileCollide = false;
 					trailbehind = true;
@@ -758,7 +762,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 					}
 				}
 			}
-			if(npc.ai[2] >= 3) {
+			if(npc.ai[2] >= 3) { //rest for a bit after the attack, for easy hits
 				AiTimer++;
 				UpdateFrame(10, 18, 21);
 				npc.noGravity = true;
@@ -784,7 +788,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			Vector2 homepos = statictarget[0];
 			homepos.Y -= 220;
 			homepos.X -= 500 * npc.ai[2];
-			if (AiTimer == 0) //initial tick increase to check if the npc is close enough to its target point before beginning the rest of its ai
+			if (AiTimer == 0) //initial tick increase to check if the npc is close enough to its target point before beginning the rest of its ai, also stores initial player center
 			{
 				statictarget[0] = player.Center;
 				if(npc.Distance(homepos) < 30)
@@ -793,10 +797,10 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			else if (AiTimer > 0) {
 				AiTimer++;
 				statictarget[0].Y = player.Center.Y;
-				if (npc.Distance(homepos) < 30)
+				if (npc.Distance(homepos) < 30) //switch directions when close enough to its target position
 					npc.ai[2] *= -1;
 
-				if (AiTimer % 16 == 0 && Main.netMode != NetmodeID.MultiplayerClient) {
+				if (AiTimer % 16 == 0 && Main.netMode != NetmodeID.MultiplayerClient) { //spit out sand with random angles and slightly varying velocity, rng is ok to use here since everything has plenty of time to be reacted to
 					Main.PlaySound(SoundID.Item5, npc.Center);
 					int numproj = 2;
 					for (int i = 0; i < numproj; i++) {
@@ -806,7 +810,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 						proj.netUpdate = true;
 					}
 				}
-				if (AiTimer % 30 == 0) {
+				if (AiTimer % 30 == 0) { //trap player in with shockwaves, location is based on the player's initial x position and current y position
 					for (int i = -1; i <= 1; i += 2) {
 						Vector2 center = new Vector2(statictarget[0].X, statictarget[0].Y + player.height / 4);
 						center.X += 600 * i;
@@ -845,7 +849,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			npc.velocity.X += (npc.Center.X < player.Center.X) ? 0.2f : -0.2f;
 			npc.velocity.Y += (npc.Center.Y < player.Center.Y) ? 0.2f : -0.2f;
 			npc.velocity = new Vector2(MathHelper.Clamp(npc.velocity.X, -10, 10), MathHelper.Clamp(npc.velocity.Y, -4, 4));
-			if((++AiTimer == 30 || AiTimer == 90) && Main.netMode != NetmodeID.MultiplayerClient) {
+			if((++AiTimer == 30 || AiTimer == 90) && Main.netMode != NetmodeID.MultiplayerClient) { //spawn 2 waves of large scarabs
 				Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 44, 1.5f, -1f);
 				for(int i = 0; i < 3; i++) {
 					Projectile proj = Projectile.NewProjectileDirect(player.Center - new Vector2(Main.rand.Next(-200, 200), 200), -Vector2.UnitY, mod.ProjectileType("LargeScarab"), npc.damage / 4, 1, Main.myPlayer, player.whoAmI, Main.rand.Next(20));
