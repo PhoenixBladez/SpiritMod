@@ -4,6 +4,9 @@ using Terraria.ID;
 using SpiritMod;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
+using System.Runtime.InteropServices;
+using Steamworks;
 
 namespace SpiritMod.Tide
 {
@@ -26,8 +29,8 @@ namespace SpiritMod.Tide
 			if (TidePoints >= 20) {
 				TidePoints = 0;
 				EnemyKills = 0;
+				SendPacket(mod);
 				if (TideWave == 6) {
-					TideWave = 1;
 					Main.NewText("The Tide has waned!", 61, 255, 142);
 					TheTide = false;
 					if (!MyWorld.downedTide) {
@@ -40,7 +43,23 @@ namespace SpiritMod.Tide
 				}
 			}
 		}
-
+		public static void SendPacket(Mod mod)
+		{
+			if (Main.netMode == NetmodeID.SinglePlayer)
+				return;
+			ModPacket packet = mod.GetPacket();
+			packet.Write(TidePoints);
+			packet.Write(EnemyKills);
+			packet.Write(TideWave);
+			packet.Write(TheTide);
+		}
+		public static void HandlePacket(BinaryReader reader)
+		{
+			TidePoints = reader.ReadInt32();
+			EnemyKills = reader.ReadInt32();
+			TideWave = reader.ReadInt32();
+			TheTide = reader.ReadBoolean();
+		}
 		public static void TideWaveIncrease()
 		{
 			TideWave++;

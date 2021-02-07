@@ -191,6 +191,9 @@ namespace SpiritMod
 						Main.npc[npcID].netUpdate2 = true;
 					}
 					break;
+				case MessageType.TideData:
+					TideWorld.HandlePacket(reader);
+					break;
 				default:
 					Logger.Error("Unknown message (" + id + ")");
 					break;

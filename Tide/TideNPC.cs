@@ -95,6 +95,8 @@ namespace SpiritMod.Tide
 						}
 						else
 							TideWorld.TidePoints++;
+
+						TideWorld.SendPacket(mod);
 					}
 				}
 			}

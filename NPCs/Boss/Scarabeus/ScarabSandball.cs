@@ -45,8 +45,24 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				dust.scale = 0.65f;
 			}
 
-			if(projectile.velocity.Y < 15f)
+			if (projectile.ai[0] == 0 && projectile.velocity.Y < 15f) {
 				projectile.velocity.Y += 0.2f;
+			}
+
+			if (projectile.ai[0] == 1) {
+				if(projectile.velocity.Y < 0) {
+					projectile.velocity.Y += 0.01f;
+					projectile.velocity = Vector2.Lerp(projectile.velocity, Vector2.Zero, 0.05f);
+				}
+				else {
+					projectile.velocity.X = 0;
+					projectile.ai[1]++;
+					if (projectile.ai[1] > 15)
+						projectile.velocity.Y += 0.4f;
+					else
+						projectile.velocity.Y = 0f;
+				}
+			}
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -10,6 +10,7 @@
 		AuroraData,
 		AdventurerQuestCompleted,
 		AdventurerNewQuest,
-		BossSpawnFromClient
+		BossSpawnFromClient,
+		TideData
 	}
 }

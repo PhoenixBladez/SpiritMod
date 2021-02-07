@@ -18,6 +18,7 @@ namespace SpiritMod.Prim
             _npc = npc;
             _color = color;
             _width = width;
+			drawtype = PrimTrailManager.DrawNPC;
         }
         public override void SetDefaults()
         {

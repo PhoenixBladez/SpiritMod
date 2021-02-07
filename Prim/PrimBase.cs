@@ -12,18 +12,20 @@ using SpiritMod.Effects;
 namespace SpiritMod.Prim
 {
     public class PrimTrailManager
-    {
-        public List<PrimTrail> _trails = new List<PrimTrail>();
+	{
+		public static int DrawProjectile = 1;
+		public static int DrawNPC = 2;
+		public List<PrimTrail> _trails = new List<PrimTrail>();
         public void DrawTrailsNPC(SpriteBatch spriteBatch)
         {
-            foreach (PrimTrail trail in _trails.ToArray().Where(x => x._npc != null))
+            foreach (PrimTrail trail in _trails.ToArray().Where(x => x.drawtype == DrawNPC))
             {
                 trail.Draw();
             }
         }
 		public void DrawTrailsProj(SpriteBatch spriteBatch)
 		{
-			foreach (PrimTrail trail in _trails.ToArray().Where(x => x._projectile != null)) {
+			foreach (PrimTrail trail in _trails.ToArray().Where(x => x.drawtype == DrawProjectile)) {
 				trail.Draw();
 			}
 		}
@@ -40,8 +42,9 @@ namespace SpiritMod.Prim
     public partial class PrimTrail
     {
         protected bool _destroyed = false;
-        public Projectile _projectile = null;
-        public NPC _npc = null;
+        protected Projectile _projectile = null;
+        protected NPC _npc = null;
+		public int drawtype = 0;
         protected float _width;
         protected float _alphaValue;
         protected int _cap;
