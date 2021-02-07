@@ -667,7 +667,8 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			npc.noTileCollide = true;
 			npc.noGravity = true;
 			UpdateFrame(4, 18, 21);
-			if(AiTimer < hometime) {
+			npc.direction = Math.Sign(player.Center.X - npc.Center.X);
+			if (AiTimer < hometime) {
 				Vector2 homeCenter = player.Center;
 				npc.spriteDirection = npc.direction;
 				if (hometype == 0) //choose closest spot
@@ -906,6 +907,8 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		public override bool PreNPCLoot()
 		{
 			MyWorld.downedScarabeus = true;
+			if (Main.netMode == NetmodeID.Server)
+				NetMessage.SendData(MessageID.WorldData);
 			Gores();
 			Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DeathSounds/ScarabDeathSound"));
 			return true;
