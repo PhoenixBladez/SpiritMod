@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
+using System.Linq;
 
 namespace SpiritMod.Projectiles.Bullet
 {
@@ -142,13 +143,30 @@ namespace SpiritMod.Projectiles.Bullet
                 projectile.Kill();
             else
             {
-                if (projectile.velocity.X != oldVelocity.X)
-                    projectile.velocity.X = -oldVelocity.X;
+				float maxdist = 500; //the maximum distance in pixels to check for an npc
+				var targets = Main.npc.Where(x => x.CanBeChasedBy(this) && x != null && x.active && projectile.Distance(x.Center) < maxdist && Collision.CanHit(projectile.Center, 0, 0, x.Center, 0, 0)); //look through each npc, and find the ones that meet the given requirements
+				if (targets.Any()) { //only run this code if there are any npcs that fulfill the above requirements
+					NPC finaltarget = null;
+					foreach (NPC npc in targets) { //loop through each npc that meets the above requirements, and find the closest by decreasing the maximum distance each time a closer npc is found
+						if (projectile.Distance(npc.Center) <= maxdist) {
+							maxdist = projectile.Distance(npc.Center);
+							finaltarget = npc;
+						}
+					}
+					if(finaltarget != null) { //only run this code if the final target isn't null, to prevent any possible null reference errors
+						projectile.velocity = projectile.DirectionTo(finaltarget.Center) * projectile.velocity.Length() * 0.8f;
+						projectile.velocity.Y = (Math.Sign(oldVelocity.Y) == 1) ? Math.Min(projectile.velocity.Y, -3) : projectile.velocity.Y;
+					}
+				}
+				else {
+					if (projectile.velocity.X != oldVelocity.X)
+						projectile.velocity.X = -oldVelocity.X;
 
-                if (projectile.velocity.Y != oldVelocity.Y)
-                    projectile.velocity.Y = -oldVelocity.Y;
+					if (projectile.velocity.Y != oldVelocity.Y)
+						projectile.velocity.Y = -oldVelocity.Y;
 
-                projectile.velocity *= 0.65f;
+					projectile.velocity *= 0.65f;
+				}
             }
             return false;
         }
