@@ -39,13 +39,13 @@ namespace SpiritMod.Items.Weapon.Magic
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 31;
+			item.damage = 26;
 			item.magic = true;
-			item.mana = 5;
+			item.mana = 8;
 			item.width = 32;
 			item.height = 26;
-			item.useTime = 13;
-			item.useAnimation = 13;
+			item.useTime = 18;
+			item.useAnimation = 18;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.noMelee = true;
 			item.knockBack = 1;
@@ -54,7 +54,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.UseSound = SoundID.Item34;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<FieryFlareMagic>();
-			item.shootSpeed = 1f;
+			item.shootSpeed = 6f;
 		}
 		public override void AddRecipes()
 		{
@@ -74,12 +74,13 @@ namespace SpiritMod.Items.Weapon.Magic
 			if (player.wet) {
 				return false;
 			}
-
-			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 25f;
+			Vector2 vel = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.Pi / 18);
+			player.itemRotation = MathHelper.WrapAngle(vel.ToRotation() - ((player.direction < 0) ? MathHelper.Pi : 0));
+			Vector2 muzzleOffset = Vector2.Normalize(vel) * 5f;
 			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
 				position += muzzleOffset;
 			}
-			Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+			Projectile.NewProjectile(position + new Vector2(-8, 8), vel, type, damage, knockBack, player.whoAmI, 0f, 0f);
 			return false;
 		}
 	}

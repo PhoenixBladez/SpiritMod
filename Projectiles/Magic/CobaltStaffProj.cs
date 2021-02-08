@@ -22,7 +22,8 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.hostile = false;
 			projectile.friendly = true;
 			projectile.magic = true;
-			projectile.timeLeft = 160;
+			projectile.tileCollide = false;
+			projectile.timeLeft = 240;
 			projectile.penetrate = 2;
 			projectile.extraUpdates = 1;
 		}
@@ -30,29 +31,22 @@ namespace SpiritMod.Projectiles.Magic
 		public override void AI()
 		{
 			projectile.rotation += .1f;
-			float num1 = 8f;
-			float num2 = 6f;
-			float num3 = 25f;
-			num1 = 6f;
-			num2 = 3.5f;
-			float num4 = 0.5f;
-			if (projectile.timeLeft < 120)
-				num4 = 1.1f;
-			if (projectile.timeLeft < 60)
-				num4 = 1.6f;
+			float speed = (projectile.timeLeft < 120) ? 12 : 6;
+			float lerpspeed = (projectile.timeLeft < 180) ? 0.1f : 0.05f;
+			float mindist = 25f;
 
 			++projectile.ai[1];
-			double num5 = (double)projectile.ai[1] / 180.0;
 
 
-			int index1 = (int)projectile.ai[0];
-			if (index1 >= 0 && Main.player[index1].active && !Main.player[index1].dead) {
-				if (projectile.Distance(Main.player[index1].Center) <= num3)
+			if (Main.player[projectile.owner].active && !Main.player[projectile.owner].dead) {
+				if (projectile.Hitbox.Intersects(Main.player[projectile.owner].Hitbox))
+					projectile.Kill();
+				if (projectile.Distance(Main.player[projectile.owner].Center) <= mindist)
 					return;
-				Vector2 unitY = projectile.DirectionTo(Main.player[index1].Center);
+				Vector2 unitY = projectile.DirectionTo(Main.player[projectile.owner].Center);
 				if (unitY.HasNaNs())
 					unitY = Vector2.UnitY;
-				projectile.velocity = (projectile.velocity * (num1 - 1f) + unitY * num2) / num1;
+				projectile.velocity = Vector2.Lerp(projectile.velocity, unitY * speed, lerpspeed);
 			}
 			else {
 				if (projectile.timeLeft > 30)

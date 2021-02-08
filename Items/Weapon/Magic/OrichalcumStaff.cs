@@ -37,10 +37,18 @@ namespace SpiritMod.Items.Weapon.Magic
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
-			Terraria.Projectile.NewProjectile(mouse.X, mouse.Y, 0f, 0f, ModContent.ProjectileType<OrichalcumStaffProj>(), (int)(damage * 1), knockBack, player.whoAmI);
+			float[] scanarray = new float[3];
+			float dist = player.Distance(Main.MouseWorld);
+			Collision.LaserScan(player.Center, player.DirectionTo(Main.MouseWorld), 0, dist, scanarray);
+			dist = 0;
+			foreach (float array in scanarray) {
+				dist += array / (scanarray.Length);
+			}
+			Vector2 spawnpos = player.Center + player.DirectionTo(Main.MouseWorld) * dist;
+			Projectile p = Projectile.NewProjectileDirect(spawnpos, Vector2.Zero, type, damage, knockBack, player.whoAmI);
+			p.netUpdate = true;
 			for (int k = 0; k < 30; k++) {
-				Vector2 offset = mouse - player.Center;
+				Vector2 offset = player.DirectionTo(Main.MouseWorld);
 				offset.Normalize();
 				if (speedX > 0) {
 					offset = offset.RotatedBy(-0.1f);

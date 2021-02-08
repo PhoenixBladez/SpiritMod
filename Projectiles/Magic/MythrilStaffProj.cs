@@ -33,6 +33,15 @@ namespace SpiritMod.Projectiles.Magic
 				target.StrikeNPC(projectile.damage / 2, 0f, 0, false);
 			}
 		}
+		public override void Kill(int timeLeft)
+		{
+			Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
+			Main.PlaySound(SoundID.Dig, projectile.Center);
+			for (int num623 = 0; num623 < 15; num623++) {
+				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 49, 0f, 0f, 100, default(Color), .31f);
+				Main.dust[num624].velocity *= .5f;
+			}
+		}
 		int counter;
 		public override bool PreAI()
 		{

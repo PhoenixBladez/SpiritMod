@@ -38,10 +38,19 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			int shardType;
-			shardType = Main.rand.Next(new int[] { ModContent.ProjectileType<CobaltStaffProj>(), mod.ProjectileType("CobaltStaffProj1") });
-			Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
-			int p = Terraria.Projectile.NewProjectile(mouse.X + Main.rand.Next(-20, 20), mouse.Y + Main.rand.Next(-20, 20), 0f, 0f, shardType, damage, knockBack, player.whoAmI);
-			Main.projectile[p].scale = Main.rand.NextFloat(.4f, 1.1f);
+			shardType = Main.rand.Next(new int[] { ModContent.ProjectileType<CobaltStaffProj>(), ModContent.ProjectileType<CobaltStaffProj1>() });
+			float[] scanarray = new float[3];
+			float dist = player.Distance(Main.MouseWorld);
+			Collision.LaserScan(player.Center, player.DirectionTo(Main.MouseWorld), 0, dist, scanarray);
+			dist = 0;
+			foreach(float array in scanarray) {
+				dist += array / (scanarray.Length);
+			}
+			Vector2 spawnpos = player.Center + player.DirectionTo(Main.MouseWorld) * dist;
+			Projectile p = Projectile.NewProjectileDirect(spawnpos + Main.rand.NextVector2Square(-20, 20), Main.rand.NextVector2Circular(10, 10), shardType, damage, knockBack, player.whoAmI);
+			p.scale = Main.rand.NextFloat(.4f, 1.1f);
+			p.netUpdate = true;
+			DustHelper.DrawDiamond(spawnpos, 48, 1.5f, 1.2f, 1f);
 			return false;
 		}
 		public override void AddRecipes()

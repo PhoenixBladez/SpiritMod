@@ -1,5 +1,8 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Prim;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,43 +16,50 @@ namespace SpiritMod.Projectiles.Magic
 			DisplayName.SetDefault("Slag Flare");
 		}
 
+		Vector2 startingpoint;
 		public override void SetDefaults()
 		{
-			projectile.width = 2;
-			projectile.height = 2;
-			aiType = ProjectileID.Flames;
+			projectile.width = 12;
+			projectile.height = 12;
+			aiType = -1;
 			projectile.alpha = 255;
-			projectile.timeLeft = 240;
+			projectile.timeLeft = 120;
 			projectile.penetrate = 3;
 			projectile.friendly = true;
 			projectile.magic = true;
-			projectile.extraUpdates = 36;
+			projectile.extraUpdates = 3;
 		}
-		int counter;
+		public override void SendExtraAI(BinaryWriter writer) => writer.WriteVector2(startingpoint);
+		public override void ReceiveExtraAI(BinaryReader reader) => startingpoint = reader.ReadVector2();
+		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => Collision.CheckAABBvLineCollision(targetHitbox.Center.ToVector2() - targetHitbox.Size() / 2,
+																													 targetHitbox.Size(),
+																													 startingpoint,
+																													 projectile.Center);
 		public override void AI()
 		{
-			Vector2 currentSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y);
-			projectile.velocity = currentSpeed.RotatedBy(Main.rand.Next(-1, 2) * (Math.PI / 60));
-			projectile.rotation += 0.05f;
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 127, projectile.velocity.X * 1.5f, projectile.velocity.Y * 1.5f);
-			Main.dust[dust].scale = .9f;
-			Main.dust[dust].noGravity = true;
-			Main.dust[dust].fadeIn += .25f;
-			int dust1 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 127, projectile.velocity.X * 1.5f, projectile.velocity.Y * 1.5f);
-			Main.dust[dust1].scale = 1.6f;
-			Main.dust[dust1].noGravity = true;
-			Main.dust[dust].fadeIn += .25f;
+			if(projectile.ai[0] == 0) {
+				startingpoint = projectile.Center;
+				projectile.ai[0]++;
+				projectile.netUpdate = true;
+				SpiritMod.primitives.CreateTrail(new PrimFireTrail(projectile, new Color(255, 170, 0), 24, 20));
+			}
+			if (projectile.wet)
+				projectile.Kill();
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			for (int j = 0; j < 8; j++) {
-				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 127, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-				Main.dust[dust].scale = .85f;
+			for (int j = 0; j < 14; j++) {
+				int dust = Dust.NewDust(target.Center, 0, 0, 6);
+				Main.dust[dust].velocity = projectile.velocity.RotatedByRandom(MathHelper.Pi / 8) * Main.rand.NextFloat(1.5f, 2.8f);
+				Main.dust[dust].position += new Vector2(Main.rand.Next(-25, 26), Main.rand.Next(-10, 11)).RotatedBy(Main.dust[dust].velocity.ToRotation());
+				Main.dust[dust].noGravity = true;
+				Main.dust[dust].scale = Main.rand.NextFloat(1.6f, 2f);
 			}
 			if (Main.rand.Next(6) == 2)
 				target.AddBuff(BuffID.OnFire, 180);
-			if (Main.rand.Next(4) == 0) {
+			if (Main.rand.Next(4) == 0 && Main.netMode != NetmodeID.MultiplayerClient) {
+				Main.PlaySound(SoundID.Item74, target.Center);
 				int n = 4;
 				int deviation = Main.rand.Next(0, 300);
 				for (int i = 0; i < n; i++) {
@@ -58,7 +68,7 @@ namespace SpiritMod.Projectiles.Magic
 					perturbedSpeed.Normalize();
 					perturbedSpeed.X *= 2.5f;
 					perturbedSpeed.Y *= 2.5f;
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ProjectileID.Spark, projectile.damage / 2, 2, projectile.owner);
+					Projectile.NewProjectile(target.Center.X, target.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ProjectileID.Spark, projectile.damage / 2, 2, projectile.owner);
 				}
 			}
 		}

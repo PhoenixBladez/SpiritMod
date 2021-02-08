@@ -42,6 +42,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		{
 			return false;
 		}
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] > 0;
 		int counter;
 		public override void HoldItem(Player player)
 		{

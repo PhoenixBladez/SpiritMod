@@ -54,8 +54,12 @@ namespace SpiritMod.Effects
 				CreateTrail(projectile, new StandardColorTrail(new Color(40, 111, 153) * .3f), new RoundCap(), new DefaultTrailPosition(), 10f, 1550f);
             }
             if (projectile.type == ModContent.ProjectileType<OrichHoming>()) {
-				CreateTrail(projectile, new GradientTrail(new Color(241, 173, 255), new Color(105, 42, 168)), new RoundCap(), new DefaultTrailPosition(), 6f, 150f);
-
+				CreateTrail(projectile, new GradientTrail(new Color(241, 173, 255), new Color(105, 42, 168)), new RoundCap(), new DefaultTrailPosition(), 20f, 150f);
+			}
+			if (projectile.type == ModContent.ProjectileType<AdamantiteStaffProj>() || projectile.type == ModContent.ProjectileType<AdamantiteStaffProj2>()) {
+				float trailwidth = (projectile.type == ModContent.ProjectileType<AdamantiteStaffProj>()) ? 30 : 20;
+				float traillength = (projectile.type == ModContent.ProjectileType<AdamantiteStaffProj>()) ? 300 : 150;
+				CreateTrail(projectile, new GradientTrail(new Color(252, 3, 57), new Color(255, 201, 213)), new RoundCap(), new DefaultTrailPosition(), trailwidth, traillength);
 			}
 			if (projectile.type == ModContent.ProjectileType<ShootingStarHostile>()) {
 				CreateTrail(projectile, new GradientTrail(new Color(255, 215, 105), new Color(105, 213, 255)), new RoundCap(), new SleepingStarTrailPosition(), 14f, 150f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));

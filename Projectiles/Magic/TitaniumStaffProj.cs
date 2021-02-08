@@ -28,11 +28,12 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.height = 14;
 			projectile.width = 26;
 			projectile.tileCollide = false;
+			projectile.alpha = 255;
 		}
 
 		public float Offset {
-			get { return projectile.ai[0]; }
-			set { projectile.ai[0] = value; }
+			get => projectile.ai[0];
+			set => projectile.ai[0] = value;
 		}
 
 		public Vector2 Target =>
@@ -41,6 +42,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override void AI()
 		{
 			Player player = Main.player[projectile.owner];
+			projectile.alpha = Math.Max(projectile.alpha - 8, 0);
 			if (Main.player[projectile.owner].channel) {
 				projectile.penetrate = 1;
 				projectile.timeLeft -= 2;
@@ -133,9 +135,8 @@ namespace SpiritMod.Projectiles.Magic
 					num2335 *= num2334;
 					projectile.velocity.X = num2336;
 					projectile.velocity.Y = num2335;
-					if (projectile.velocity.X == 0f && projectile.velocity.Y == 0f) {
+					if (projectile.velocity.X == 0f && projectile.velocity.Y == 0f) 
 						projectile.Kill();
-					}
 				}
 				projectile.ai[0] = 1f;
 			}
@@ -226,11 +227,12 @@ namespace SpiritMod.Projectiles.Magic
 				Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
 				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
 			}
+			spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
 			return false;
 		}
 		public override Color? GetAlpha(Color lightColor)
 		{
-			return new Color(100, 100, 100, 100);
+			return new Color(100, 100, 100, 100) * projectile.Opacity;
 		}
 	}
 }

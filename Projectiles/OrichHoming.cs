@@ -19,7 +19,7 @@ namespace SpiritMod.Projectiles
 			projectile.height = 2;  //projectile height
 			projectile.friendly = true;      //make that the projectile will not damage you
 			projectile.magic = true;         // 
-			projectile.tileCollide = true;   //make that the projectile will be destroed if it hits the terrain
+			projectile.tileCollide = false; 
 			projectile.penetrate = 1;      //how many npc will penetrate
 			projectile.timeLeft = 36;   //how many time projectile projectile has before disepire // projectile light
 			projectile.extraUpdates = 1;
@@ -34,12 +34,14 @@ namespace SpiritMod.Projectiles
 			Lighting.AddLight((int)(projectile.position.X / 16f), (int)(projectile.position.Y / 16f), 0.396f, 0.170588235f, 0.564705882f);
 			bool flag25 = false;
 			int jim = 1;
+			float maxdist = 300f;
 			for (int index1 = 0; index1 < 200; index1++) {
 				if (Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1)) {
 					float num23 = Main.npc[index1].position.X + (float)(Main.npc[index1].width / 2);
 					float num24 = Main.npc[index1].position.Y + (float)(Main.npc[index1].height / 2);
 					float num25 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num23) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num24);
-					if (num25 < 500f) {
+					if (num25 < maxdist) {
+						maxdist = projectile.Distance(Main.npc[jim].Center);
 						flag25 = true;
 						jim = index1;
 					}
@@ -49,7 +51,7 @@ namespace SpiritMod.Projectiles
 
 			if (flag25) {
 
-
+				projectile.timeLeft++;
 				float num1 = 6.5f;
 				Vector2 vector2 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
 				float num2 = Main.npc[jim].Center.X - vector2.X;
