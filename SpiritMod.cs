@@ -677,8 +677,8 @@ namespace SpiritMod
 
 		private void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
 		{
-			TrailManager.DrawTrails(Main.spriteBatch);
 			primitives.DrawTrailsProj(Main.spriteBatch);
+			TrailManager.DrawTrails(Main.spriteBatch);
 			orig(self);
 		}
 

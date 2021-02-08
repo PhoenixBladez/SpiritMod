@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Slag Breath");
-			Tooltip.SetDefault("Expels spurts of magical flame\nThis flame may shower enemies in damaging sparks");
+			Tooltip.SetDefault("Expels spurts of magical flame\nCritical hits shower enemies in damaging sparks");
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Magic/FieryMagicLauncher_Glow");
 		}
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
@@ -41,11 +41,12 @@ namespace SpiritMod.Items.Weapon.Magic
 		{
 			item.damage = 26;
 			item.magic = true;
-			item.mana = 8;
+			item.mana = 9;
 			item.width = 32;
 			item.height = 26;
-			item.useTime = 18;
-			item.useAnimation = 18;
+			item.useTime = 4;
+			item.useAnimation = 16;
+			item.reuseDelay = 12;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.noMelee = true;
 			item.knockBack = 1;
@@ -79,6 +80,12 @@ namespace SpiritMod.Items.Weapon.Magic
 			Vector2 muzzleOffset = Vector2.Normalize(vel) * 5f;
 			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
 				position += muzzleOffset;
+			}
+			for (int j = 0; j < 6; j++) {
+				int dust = Dust.NewDust(position, 0, 0, 6);
+				Main.dust[dust].velocity = vel.RotatedByRandom(MathHelper.Pi / 12) * Main.rand.NextFloat(1.3f, 2.2f);
+				Main.dust[dust].noGravity = true;
+				Main.dust[dust].scale = Main.rand.NextFloat(1.6f, 2f);
 			}
 			Projectile.NewProjectile(position + new Vector2(-8, 8), vel, type, damage, knockBack, player.whoAmI, 0f, 0f);
 			return false;

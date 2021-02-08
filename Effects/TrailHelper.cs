@@ -156,6 +156,9 @@ namespace SpiritMod.Effects
 			if (projectile.type == ModContent.ProjectileType<SwarmTelegraph>()) {
 				CreateTrail(projectile, new StandardColorTrail(new Color(255, 236, 115, 200)), new RoundCap(), new DefaultTrailPosition(), 200f, 800f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
 			}
+			if (projectile.type == ModContent.ProjectileType<FieryFlareMagic>()) {;
+				CreateTrail(projectile, new StandardColorTrail(new Color(255, 170, 0)), new RoundCap(), new DefaultTrailPosition(), 32f, 50f, new DefaultShader());
+			}
 			if (projectile.type == ModContent.ProjectileType<RyBolt>()) {
 				CreateTrail(projectile, new StandardColorTrail(new Color(181, 120, 255)), new RoundCap(), new DefaultTrailPosition(), 28f, 430f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_3"), 0.08f, 1f, 1f));
 				CreateTrail(projectile, new StandardColorTrail(new Color(99, 64, 255, 100)), new RoundCap(), new DefaultTrailPosition(), 20f, 250f, new DefaultShader());
@@ -407,7 +410,6 @@ namespace SpiritMod.Effects
 			Color previousColor = _trailColor.GetColourAt(0f, trailLength, _points);
 
 			_trailCap.AddCap(vertices, ref currentIndex, previousColor, _points[0], startNormal, _widthStart);
-
 			for (int i = 1; i < _points.Count; i++) {
 				currentDistance += Vector2.Distance(_points[i - 1], _points[i]);
 

@@ -16,7 +16,7 @@ namespace SpiritMod.Projectiles.Magic
 			DisplayName.SetDefault("Slag Flare");
 		}
 
-		Vector2 startingpoint;
+		Vector2 startingvel;
 		public override void SetDefaults()
 		{
 			projectile.width = 12;
@@ -29,20 +29,19 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.magic = true;
 			projectile.extraUpdates = 3;
 		}
-		public override void SendExtraAI(BinaryWriter writer) => writer.WriteVector2(startingpoint);
-		public override void ReceiveExtraAI(BinaryReader reader) => startingpoint = reader.ReadVector2();
-		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => Collision.CheckAABBvLineCollision(targetHitbox.Center.ToVector2() - targetHitbox.Size() / 2,
-																													 targetHitbox.Size(),
-																													 startingpoint,
-																													 projectile.Center);
+		public override void SendExtraAI(BinaryWriter writer) => writer.WriteVector2(startingvel);
+		public override void ReceiveExtraAI(BinaryReader reader) => startingvel = reader.ReadVector2();
 		public override void AI()
 		{
 			if(projectile.ai[0] == 0) {
-				startingpoint = projectile.Center;
-				projectile.ai[0]++;
+				projectile.ai[0] = Main.rand.NextBool() ? -1 : 1;
+				projectile.ai[0] *= Main.rand.NextFloat(0.01f, 1.2f);
+				startingvel = projectile.velocity;
 				projectile.netUpdate = true;
-				SpiritMod.primitives.CreateTrail(new PrimFireTrail(projectile, new Color(255, 170, 0), 24, 20));
+				SpiritMod.primitives.CreateTrail(new PrimFireTrail(projectile, new Color(255, 170, 0), 24, 12));
 			}
+			projectile.ai[1]++;
+			projectile.velocity = startingvel.RotatedBy(projectile.ai[0] * Math.Abs(projectile.ai[1] - 60)/60 * MathHelper.Pi / 9);
 			if (projectile.wet)
 				projectile.Kill();
 		}
@@ -56,9 +55,9 @@ namespace SpiritMod.Projectiles.Magic
 				Main.dust[dust].noGravity = true;
 				Main.dust[dust].scale = Main.rand.NextFloat(1.6f, 2f);
 			}
-			if (Main.rand.Next(6) == 2)
+			if (Main.rand.NextBool(6))
 				target.AddBuff(BuffID.OnFire, 180);
-			if (Main.rand.Next(4) == 0 && Main.netMode != NetmodeID.MultiplayerClient) {
+			if (crit && Main.netMode != NetmodeID.MultiplayerClient) {
 				Main.PlaySound(SoundID.Item74, target.Center);
 				int n = 4;
 				int deviation = Main.rand.Next(0, 300);
