@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Glyphs
 {
@@ -51,8 +52,8 @@ namespace SpiritMod.Items.Glyphs
 				return;
 
 			if (target.FindBuffIndex(SpiritMod.instance.BuffType("SanguineBleed")) > -1
-				&& Main.rand.NextDouble() < 0.2) {
-				Leech(player, target, damage);
+				&& Main.rand.NextDouble() < 0.3) {
+				Leech(player);
 			}
 
 			if (Main.rand.Next(5) == 0)
@@ -63,23 +64,18 @@ namespace SpiritMod.Items.Glyphs
 		{
 			if (target.FindBuffIndex(SpiritMod.instance.BuffType("SanguineBleed")) > -1
 				&& Main.rand.NextDouble() < 0.2) {
-				Leech(player, target, damage);
+				Leech(player);
 			}
 
 			if (Main.rand.Next(5) == 0)
 				target.AddBuff(SpiritMod.instance.BuffType("SanguineBleed"), 600, false);
 		}
 
-		private static void Leech(Player player, Entity target, int damage)
+		private static void Leech(Player player)
 		{
-			int leech = (int)Math.Sqrt(damage);
-			if (leech == 0)
-				return;
-			if (player.lifeSteal <= 0f)
-				return;
-
-			player.lifeSteal -= leech;
-			Projectile.NewProjectile(target.position, Vector2.Zero, ProjectileID.VampireHeal, 0, 0f, player.whoAmI, player.whoAmI, leech);
+			player.AddBuff(SpiritMod.instance.BuffType("SanguineRegen"), Main.rand.Next(2, 4) * 60);
+			DustHelper.DrawDiamond(player.Center, ModContent.DustType<Dusts.Blood>(), 3);
+			Main.PlaySound(SoundID.Item, (int)player.Center.X, (int)player.Center.Y, 3, 0.75f, -0.5f);
 		}
 	}
 }

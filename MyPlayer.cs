@@ -1265,15 +1265,13 @@ namespace SpiritMod
 			}
 			if(bloodyBauble) {
 				if(Main.rand.Next(20) <= 1 && player.statLife != player.statLifeMax2) {
-					int lifeToHeal = 0;
+					int leech = Main.rand.Next(1,4);
+					leech = Math.Min(leech, player.statLifeMax2 - player.statLife);
+					if (player.lifeSteal <= 0f)
+						return;
 
-					if(player.statLife + damage / 4 <= player.statLifeMax2)
-						lifeToHeal = damage / 4;
-					else
-						lifeToHeal = player.statLifeMax2 - player.statLife;
-
-					player.statLife += lifeToHeal;
-					player.HealEffect(lifeToHeal);
+					player.lifeSteal -= leech;
+					Projectile.NewProjectile(target.position, Vector2.Zero, ProjectileID.VampireHeal, 0, 0f, player.whoAmI, player.whoAmI, leech);
 				}
 			}
 			if(frigidGloves && crit && item.melee) {
@@ -1413,16 +1411,14 @@ namespace SpiritMod
 			}
 
 			if(bloodyBauble) {
-				if(Main.rand.Next(25) <= 1 && player.statLife != player.statLifeMax2) {
-					int lifeToHeal = 0;
+				if (Main.rand.Next(25) <= 1 && player.statLife != player.statLifeMax2) {
+					int leech = Main.rand.Next(1, 4);
+					leech = Math.Min(leech, player.statLifeMax2 - player.statLife);
+					if (player.lifeSteal <= 0f)
+						return;
 
-					if(player.statLife + damage / 4 <= player.statLifeMax2)
-						lifeToHeal = damage / 4;
-					else
-						lifeToHeal = player.statLifeMax2 - player.statLife;
-
-					player.statLife += lifeToHeal;
-					player.HealEffect(lifeToHeal);
+					player.lifeSteal -= leech;
+					Projectile.NewProjectile(target.position, Vector2.Zero, ProjectileID.VampireHeal, 0, 0f, player.whoAmI, player.whoAmI, leech);
 				}
 			}
 			if(sacredVine) {
