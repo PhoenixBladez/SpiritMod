@@ -33,7 +33,8 @@ namespace SpiritMod.Projectiles.Magic
 		public override void ReceiveExtraAI(BinaryReader reader) => startingvel = reader.ReadVector2();
 		public override void AI()
 		{
-			if(projectile.ai[0] == 0) {
+			Lighting.AddLight(projectile.Center, Color.OrangeRed.ToVector3());
+			if (projectile.ai[0] == 0) {
 				projectile.ai[0] = Main.rand.NextBool() ? -1 : 1;
 				projectile.ai[0] *= Main.rand.NextFloat(0.01f, 1.2f);
 				startingvel = projectile.velocity;

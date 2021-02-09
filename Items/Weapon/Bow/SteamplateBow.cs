@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Weapon.Bow
 			item.UseSound = SoundID.Item5;
 			item.value = Item.sellPrice(0, 1, 0, 0);
 			item.autoReuse = true;
-			item.shootSpeed = 7f;
+			item.shootSpeed = 15f;
 
 		}
 		public override Vector2? HoldoutOffset()

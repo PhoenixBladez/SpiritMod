@@ -37,6 +37,9 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				Main.dust[d].scale = 1.2f;
 			}
 			Main.PlaySound(SoundID.NPCDeath16, (int)projectile.Center.X, (int)projectile.Center.Y);
+			for (int i = 1; i <= 3; i++) {
+				Gore.NewGore(projectile.Center, projectile.velocity, mod.GetGoreSlot("Gores/Scarabeus/largescarab" + i.ToString()));
+			}
 		}
 
 		public override void AI()

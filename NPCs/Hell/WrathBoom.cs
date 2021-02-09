@@ -12,23 +12,24 @@ namespace SpiritMod.NPCs.Hell
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Wrath explosion");
-			Main.projFrames[projectile.type] = Main.projFrames[ProjectileID.LunarFlare];
+			Main.projFrames[projectile.type] = 8;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = projectile.height = 100;
+			projectile.width = projectile.height = 110;
 			projectile.penetrate = -1;
 			projectile.alpha = 0;
 			projectile.tileCollide = false;
 			projectile.hostile = true;
-			projectile.scale = 2.5f;
+			projectile.scale = 1.6f;
 		}
 
 		public override void AI()
 		{
+			Lighting.AddLight(projectile.Center, Color.OrangeRed.ToVector3());
 			projectile.frameCounter++;
-			if (projectile.frameCounter > 3) {
+			if (projectile.frameCounter > 4) {
 				projectile.frameCounter = 0;
 				projectile.frame++;
 				if (projectile.frame > Main.projFrames[projectile.type])
@@ -45,7 +46,7 @@ namespace SpiritMod.NPCs.Hell
 			return false;
 		}
 
-		public override bool CanHitPlayer(Player target) => projectile.frame == (Main.projFrames[projectile.type] / 2);
+		public override bool CanHitPlayer(Player target) => projectile.frame <= (Main.projFrames[projectile.type] / 2);
 
 		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit) => target.AddBuff(BuffID.OnFire, 180);
 	}

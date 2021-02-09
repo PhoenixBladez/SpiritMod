@@ -51,7 +51,7 @@ namespace SpiritMod.NPCs.Hell
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => npc.ai[2] > rechargetime;
 		public override void AI()
 		{
-			Lighting.AddLight((int)((npc.position.X + npc.width / 2) / 16f), (int)((npc.position.Y + npc.height / 2) / 16f), 0.1f, 0.04f, 0.02f);
+			Lighting.AddLight(npc.Center, Color.OrangeRed.ToVector3());
 
 			Player player = Main.player[npc.target];
 			npc.TargetClosest(true);
@@ -170,6 +170,12 @@ namespace SpiritMod.NPCs.Hell
 		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
 		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(BuffID.OnFire, 180);
 
-		public override void NPCLoot() => Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CarvedRock>(), Main.rand.Next(2) + 2);
+		public override void NPCLoot()
+		{
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CarvedRock>(), Main.rand.Next(2) + 2);
+			for(int i = 1; i <= 2; i++) {
+				Gore.NewGore(npc.Center, npc.velocity, mod.GetGoreSlot("Gores/WrathfulSoul/wrathfulskullgore" + i.ToString()));
+			}
+		}
 	}
 }

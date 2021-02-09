@@ -89,16 +89,13 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
                             Vector2 direction = Main.npc[npcFinder].Center - projectile.Center;
                             direction.Normalize();
                             direction *= 12f;
-                            {
-                                float A = (float)Main.rand.Next(-200, 200) * 0.05f;
-                                float B = (float)Main.rand.Next(-200, 200) * 0.05f;
-                                int p = Projectile.NewProjectile(projectile.Center, direction,
-                                ModContent.ProjectileType<JellyfishOrbiter_Projectile>(), projectile.damage, projectile.knockBack, Main.myPlayer);
-                                Main.projectile[p].friendly = true;
-                                Main.projectile[p].hostile = false;
-                                Main.projectile[p].minion = true;
-                                Main.projectile[p].scale = projectile.scale;
-                            }
+                            Projectile p = Projectile.NewProjectileDirect(projectile.Center, direction,
+                            ModContent.ProjectileType<JellyfishOrbiter_Projectile>(), projectile.damage, projectile.knockBack, Main.myPlayer);
+                            p.friendly = true;
+                            p.hostile = false;
+                            p.minion = true;
+							p.netUpdate = true;
+							p.scale = projectile.scale;
                             break;
                         }
                     }
