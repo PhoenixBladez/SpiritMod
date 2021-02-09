@@ -49,6 +49,10 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			bool expertMode = Main.expertMode;
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.075f, 0.25f);
 			int parent = NPC.FindFirstNPC(ModContent.NPCType<SteamRaiderHead>());
+			if (parent < 0 || parent >= Main.npc.Length) {
+				npc.active = false;
+				return;
+			}
 			if (!Main.npc[(int)npc.ai[1]].active) {
 				npc.life = 0;
 				npc.HitEffect(0, 10.0);

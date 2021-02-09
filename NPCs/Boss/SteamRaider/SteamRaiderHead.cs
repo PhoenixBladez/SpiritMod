@@ -154,8 +154,10 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					}
 				}
 			}
-			if (timer == 700 || Charge)
+			if (timer == 700) {
 				timer = 0;
+				npc.netUpdate = true;
+			}
 			chargetimer++;
 			if (npc.life >= npc.lifeMax * .2f) {
 				npc.aiStyle = 6; //new
@@ -246,20 +248,16 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					else if (npc.velocity.X > 0f)
 						npc.spriteDirection = -1;
 				}
-				if (player.dead) {
+				if(Main.netMode != NetmodeID.MultiplayerClient && !Main.dayTime && Main.time > 1) 
+					Main.time--;
+
+				if (player.dead || !player.active) {
 
 					npc.TargetClosest(false);
-					flag94 = false;
-					npc.velocity.Y = npc.velocity.Y + 10f;
-					if ((double)npc.position.Y > Main.worldSurface * 16.0)
-						npc.velocity.Y = npc.velocity.Y + 10f;
+					npc.velocity.Y--;
 
-					if ((double)npc.position.Y > Main.rockLayer * 16.0) {
-						for (int num957 = 0; num957 < 200; num957++) {
-							if (Main.npc[num957].aiStyle == npc.aiStyle)
-								Main.npc[num957].active = false;
-						}
-					}
+					if (npc.position.Y < 0) 
+						npc.active = false;
 				}
 				Vector2 value = npc.Center + (npc.rotation - 1.57079637f).ToRotationVector2() * 8f;
 				Vector2 value2 = npc.rotation.ToRotationVector2() * 16f;
@@ -397,14 +395,15 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				}
 				else {
 					if (Charge && player.active && !player.dead) {
+						timer = 0;
 						if (chargetimer == 700) //use localai[0] to store the rotation of the charge, and set it to the npc's velocity.torotation at the very first tick of the attack
 							npc.localAI[0] = npc.velocity.ToRotation();
 						float toplayer = (chargetimer > 750) ? npc.AngleTo(player.Center) : npc.AngleFrom(player.Center); //for first 5/6 second of attack, move away from the player, then move towards them
 						toplayer = MathHelper.WrapAngle(toplayer);
 
-						float lerpspeed = (chargetimer > 770) ? 0.03f : 0.1f; //turn faster for first part of attack, then have really weak turning speed
+						float lerpspeed = (chargetimer > 770) ? 0.0275f : 0.1f; //turn faster for first part of attack, then have really weak turning speed
 						float length = Math.Min((chargetimer - 700) / 5, 24) + 5; //increase in speed as attack goes on, with a cap
-						length *= (chargetimer > 750) ? MathHelper.Clamp(0.9f, npc.Distance(player.Center) / 1200, 2) : 0.8f; //when charging directly at player, also factor in distance
+						length *= (chargetimer > 750) ? MathHelper.Clamp(1, npc.Distance(player.Center) / 1200, 2) : 0.8f; //when charging directly at player, also factor in distance
 						npc.localAI[0] = Utils.AngleLerp(npc.localAI[0], toplayer, lerpspeed); //change the angle of the boss's velocity over time
 						npc.velocity = Vector2.UnitX.RotatedBy(npc.localAI[0]) * length;
 						return; //dont proceed with the rest of its ai while charging, to prevent unwanted movement
@@ -642,6 +641,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		int atkCounter = 0;
 		int distAbove = 500;
 		Vector2 direction9 = Vector2.Zero;
+
 		//int shootCounter = 150;
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
