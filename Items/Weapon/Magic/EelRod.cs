@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Projectiles;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,7 +13,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Eel Tail");
-			Tooltip.SetDefault("Shoots a delayed spurt of electrical energy\nOccasionally electrifies hit foes");
+			Tooltip.SetDefault("Shoots a bolt of lightning that pauses occasionally and redirects to nearby foes\nSometimes electrifies hit foes");
 			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Magic/EelRod_Glow");
 		}
 
@@ -23,7 +24,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.height = 50;
 			item.value = Item.buyPrice(0, 0, 30, 0);
 			item.rare = ItemRarityID.Green;
-			item.damage = 12;
+			item.damage = 27;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			Item.staff[item.type] = true;
 			item.useTime = 29;
@@ -35,6 +36,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.UseSound = SoundID.Item21;
 			item.shoot = ModContent.ProjectileType<EelOrb>();
 			item.shootSpeed = 8f;
+			item.autoReuse = true;
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
@@ -42,8 +44,10 @@ namespace SpiritMod.Items.Weapon.Magic
 			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
 				position += muzzleOffset;
 			}
-			return true;
+			Projectile.NewProjectile(position, Vector2.Zero, type, damage, knockBack, player.whoAmI, 0, new Vector2(speedX, speedY).ToRotation());
+			return false;
 		}
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] == 0;
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Texture2D texture;

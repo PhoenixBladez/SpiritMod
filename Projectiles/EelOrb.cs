@@ -1,72 +1,101 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 
 namespace SpiritMod.Projectiles
 {
 	class EelOrb : ModProjectile
 	{
-		int timer = 0;
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Electric Orb");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Electric Orb");
 
+		readonly Vector2[] points = new Vector2[] { Vector2.Zero, Vector2.Zero };
+		private static readonly int cycletimer = 50;
+		private int Cycle => (int)(projectile.ai[0] % cycletimer);
 		public override void SetDefaults()
 		{
 			projectile.friendly = true;
 			projectile.hostile = false;
-			projectile.timeLeft = 500;
+			projectile.timeLeft = cycletimer * 4;
 			projectile.height = 6;
 			projectile.magic = true;
 			projectile.width = 6;
 			projectile.alpha = 255;
-			projectile.penetrate = 2;
-			aiType = ProjectileID.Bullet;
+			projectile.penetrate = -1;
+			projectile.tileCollide = true;
 		}
-		int counter;
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			foreach(Vector2 point in points) {
+				writer.WriteVector2(point);
+			}
+		}
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			for(int i = 0; i < points.Count(); i++) {
+				points[i] = reader.ReadVector2();
+			}
+		}
 		public override void AI()
 		{
-			counter++;
-			if (counter >= 720) {
-				counter = -720;
-			}
+			if(Cycle == 0) { //look for point
+				points[0] = projectile.Center;
+				projectile.extraUpdates = 10;
+				float maxdist = 400;
+				var validtargets = Main.npc.Where(x => x.CanBeChasedBy(this) && Collision.CanHit(x.Center, 0, 0, projectile.Center, 0, 0) && x.active && x != null && x.Distance(projectile.Center) < maxdist);
+				if (validtargets.Any() && projectile.ai[0] > 0) { //check if a target is in range, and if it's not the initial cycle
+					NPC Finaltarget = null;
+					foreach (NPC npc in validtargets) {
+						if (npc.Distance(projectile.Center) < maxdist) {
+							maxdist = npc.Distance(projectile.Center);
+							Finaltarget = npc;
+						}
+					}
+					if (Finaltarget != null) {
+						projectile.ai[1] = projectile.DirectionTo(Finaltarget.Center).ToRotation();
+						SetPoint(projectile.DirectionTo(Finaltarget.Center));
+					}
+				}
+				else
+					SetPoint(Vector2.UnitX.RotatedBy(projectile.ai[1]));
 
-			timer++;
-			if (timer == 50) {
-				projectile.velocity *= 0.01f;
-			}
-			if (timer >= 50 && timer <= 100) {
-				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.GoldCoin, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-				int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.GoldCoin, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-				Main.dust[dust].noGravity = true;
-				Main.dust[dust2].noGravity = true;
-				Main.dust[dust2].velocity *= 0f;
-				Main.dust[dust2].velocity *= 0f;
-				Main.dust[dust2].scale = 0.9f;
-				Main.dust[dust].scale = 0.9f;
-			}
-			else {
-				for (int i = 0; i < 6; i++) {
-					float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
-					float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
+				for (int i = 0; i < 2; i++) 
+					DustHelper.DrawElectricity(points[0], points[1], DustID.GoldCoin, 1f, 24);
 
-					int num = Dust.NewDust(projectile.Center + new Vector2(0, (float)Math.Cos(counter / 4.2f) * 13.2f).RotatedBy(projectile.rotation), 6, 6, DustID.GoldCoin, 0f, 0f, 0, default(Color), 1f);
-					Main.dust[num].velocity *= .1f;
-					Main.dust[num].scale *= .7f;
-					Main.dust[num].noGravity = true;
-
+				projectile.Center = points[1];
+				projectile.netUpdate = true;
+			}
+			else if (Cycle >= (cycletimer / 3)) { //pause ai
+				projectile.extraUpdates = 0;
+				for (int i = 0; i < 3; i++) {
+					Dust dust = Dust.NewDustDirect(projectile.Center, 0, 0, DustID.GoldCoin);
+					dust.velocity = Vector2.UnitX.RotatedByRandom(MathHelper.TwoPi) / 3;
 				}
 			}
-			if (timer == 100) {
-				projectile.velocity *= 80f;
-			}
-			if (timer >= 110) {
-				timer = 0;
-			}
+			projectile.ai[0]++;
 		}
+		private void SetPoint(Vector2 direction)
+		{
+			float[] samplearray = new float[3];
+			float maxdistance = Main.rand.NextFloat(200, 400);
+			Collision.LaserScan(projectile.Center, direction, 0, maxdistance, samplearray);
+			maxdistance = 0;
+			foreach(float sample in samplearray) 
+				maxdistance += sample / samplearray.Length;
+
+			if (maxdistance <= 16) {
+				projectile.Kill();
+				return;
+			}
+			Main.PlaySound(SoundID.Item, (int)projectile.Center.X, (int)projectile.Center.Y, 122, 0.7f);
+			points[1] = projectile.Center + (direction * maxdistance);
+		}
+		public override bool CanDamage() => Cycle == 1;
+		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => Collision.CheckAABBvLineCollision(targetHitbox.Center.ToVector2() - targetHitbox.Size() / 2, targetHitbox.Size(), points[0], points[1]);
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{

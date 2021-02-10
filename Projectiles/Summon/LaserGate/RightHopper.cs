@@ -24,13 +24,12 @@ namespace SpiritMod.Projectiles.Summon.LaserGate
 			projectile.aiStyle = -1;
 			projectile.friendly = false;
 			projectile.penetrate = -1;
-			projectile.timeLeft = 600;
+			projectile.timeLeft = Projectile.SentryLifeTime;
 			projectile.alpha = 0;
 			projectile.tileCollide = false;
 		}
 		public override bool PreAI()
 		{
-			projectile.timeLeft = 50;
 			int leftValue = (int)projectile.ai[1];
 			if (leftValue < (double)Main.projectile.Length && leftValue != 0) {
 				Projectile other = Main.projectile[leftValue];

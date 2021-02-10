@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -20,17 +21,10 @@ namespace SpiritMod.Projectiles
 			projectile.width = 30;
 			projectile.height = 30;
 			projectile.friendly = true;
-			projectile.penetrate = 5;
+			projectile.penetrate = 6;
 			projectile.tileCollide = true;
 			projectile.timeLeft = 180;
-		}
-
-		public override bool? CanHitNPC(NPC target)
-		{
-			if (target.whoAmI == projectile.ai[0])
-				return false;
-
-			return null;
+			projectile.alpha = 255;
 		}
 
 		public override void AI()
@@ -41,18 +35,26 @@ namespace SpiritMod.Projectiles
 			}
 
 			projectile.velocity *= 0.95f;
-			int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 75, 0f, 0f);
-			Main.dust[dust].noGravity = true;
-			dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<Dusts.Pestilence>(), 0f, 0f);
-			Main.dust[dust].noGravity = true;
-
+			if (Main.rand.NextBool(3)) {
+				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 75, 0f, 0f);
+				Main.dust[dust].noGravity = true;
+				dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<Dusts.Pestilence>(), 0f, 0f);
+				Main.dust[dust].noGravity = true;
+			}
 			projectile.frameCounter++;
 			if ((float)projectile.frameCounter >= 12f) {
 				if (++projectile.frame >= Main.projFrames[projectile.type])
 					projectile.frame = 0;
 				projectile.frameCounter = 0;
 			}
+			if (projectile.penetrate <= 1 || projectile.timeLeft < 30) {
+				if ((projectile.alpha += 10) >= 255)
+					projectile.Kill();
+			}
+			else
+				projectile.alpha = Math.Max(projectile.alpha - 7, 0);
 		}
+		public override bool CanDamage() => projectile.penetrate > 1;
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{

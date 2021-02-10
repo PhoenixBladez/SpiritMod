@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-using SpiritMod.Dusts;
 
 namespace SpiritMod.Projectiles.Summon.LaserGate
 {
@@ -24,13 +23,12 @@ namespace SpiritMod.Projectiles.Summon.LaserGate
 			projectile.aiStyle = -1;
 			projectile.friendly = false;
 			projectile.penetrate = -1;
-			projectile.timeLeft = 600;
+			projectile.timeLeft = Projectile.SentryLifeTime;
 			projectile.tileCollide = false;
 			projectile.alpha = 0;
 		}
 		public override bool PreAI()
 		{
-			projectile.timeLeft = 50;
 			int rightValue = (int)projectile.ai[1];
 			if (rightValue < (double)Main.projectile.Length && rightValue != 0) {
 				Projectile other = Main.projectile[rightValue];
