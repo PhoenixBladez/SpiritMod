@@ -11,28 +11,24 @@ namespace SpiritMod.Projectiles.Bullet
 		{
 			DisplayName.SetDefault("Coconut Spurt");
 		}
-		public override bool OnTileCollide(Vector2 oldVelocity)
-		{
-			//  Projectile.NewProjectile(projectile.Center, new Vector2(3,0), ModContent.ProjectileType<CoconutSpurtShard>(), projectile.damage, 0, Main.myPlayer);
-			//   Projectile.NewProjectile(projectile.Center, new Vector2(-3,0), ModContent.ProjectileType<CoconutSpurtShard>(), projectile.damage, 0, Main.myPlayer);
-			Vector2 GoreVel = projectile.velocity;
-			GoreVel.X = 2f;
-			GoreVel.Y *= -0.2f;
-			Gore.NewGore(projectile.position, GoreVel, mod.GetGoreSlot("Gores/Coconut/CoconutSpurtGore"), 1f);
-			GoreVel.X = -2f;
-			Gore.NewGore(projectile.position, GoreVel, mod.GetGoreSlot("Gores/Coconut/CoconutSpurtGore"), 1f);
-			return true;
-		}
 		public override void SetDefaults()
 		{
 			projectile.CloneDefaults(ProjectileID.WoodenArrowFriendly);
 			projectile.width = 14;
 			projectile.penetrate = 1;
 			projectile.height = 14;
+			projectile.extraUpdates = 1;
+			projectile.scale = Main.rand.NextFloat(1, 1.5f);
 		}
 
 		public override void Kill(int timeLeft)
 		{
+			Vector2 GoreVel = projectile.velocity;
+			GoreVel.X = 2f;
+			GoreVel.Y *= -0.2f;
+			Gore.NewGore(projectile.position, GoreVel, mod.GetGoreSlot("Gores/Coconut/CoconutSpurtGore"), projectile.scale);
+			GoreVel.X = -2f;
+			Gore.NewGore(projectile.position, GoreVel, mod.GetGoreSlot("Gores/Coconut/CoconutSpurtGore"), projectile.scale);
 			Main.PlaySound(SoundID.NPCHit, (int)projectile.position.X, (int)projectile.position.Y, 18);
 		}
 	}

@@ -14,10 +14,6 @@ namespace SpiritMod.Buffs.SummonTag
 			Main.buffNoTimeDisplay[Type] = false;
 		}
 
-		public override void Update(NPC npc, ref int buffIndex)
-		{
-			npc.GetGlobalNPC<GNPC>().sacrificialDaggerBuff = true;
-		}
-
+		public override void Update(NPC npc, ref int buffIndex) => npc.GetGlobalNPC<GNPC>().sacrificialDaggerBuff = true;
 	}
 }

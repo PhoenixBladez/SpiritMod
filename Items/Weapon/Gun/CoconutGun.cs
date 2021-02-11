@@ -27,12 +27,11 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.noMelee = true;
 			item.knockBack = 7.5f;
-			item.useTurn = true;
 			item.value = Item.sellPrice(0, 1, 0, 0);
 			item.rare = ItemRarityID.Orange;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<CoconutSpurt>();
-			item.shootSpeed = 1f;
+			item.shootSpeed = 1.5f;
 			item.crit = 2;
 			item.UseSound = SoundID.Item61;
 			// item.useAmmo = AmmoID.Bullet;

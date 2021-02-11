@@ -74,8 +74,7 @@ namespace SpiritMod.NPCs
 		public bool frostChill;
 		public bool stormBurst;
 
-        public bool summonTag3;
-        public bool summonTag4;
+		public int summonTag;
         public bool sacrificialDaggerBuff;
 
 
@@ -155,8 +154,7 @@ namespace SpiritMod.NPCs
 			iceCrush = false;
 			blaze1 = false;
 
-            summonTag3 = false;
-            summonTag4 = false;
+			summonTag = 0;
             sacrificialDaggerBuff = false;
 
             felBrand = false;
@@ -855,15 +853,11 @@ namespace SpiritMod.NPCs
 				else if (knockback > 8f)
 					knockback = before > 8 ? before : 8;
 			}
-            if (summonTag3 && !summonTag4 && projectile.minion)
-            {
-                damage += 3;
-            }
-			if (summonTag4 && projectile.minion)
-            {
-                damage += 4;
-            }
-            if (sacrificialDaggerBuff && projectile.minion)
+			bool summon = (projectile.minion || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type] || projectile.sentry);
+			if (summon)
+                damage += summonTag;
+
+            if (sacrificialDaggerBuff && summon)
             {
                 if (Main.rand.NextBool(4))
                 {

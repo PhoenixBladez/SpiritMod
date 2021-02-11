@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Breath of the Zephyr");
-			Tooltip.SetDefault("Creates a mighty gust of wind to damage your foes and knock them back\nRight-click to thrust like a spear, at the cost of mana");
+			Tooltip.SetDefault("Creates a mighty gust of wind to damage your foes and knock them back\nRight-click to thrust like a spear, and leech mana from struck foes");
 		}
 
 
@@ -22,8 +22,8 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.mana = 9;
 			item.width = 46;
 			item.height = 46;
-			item.useTime = 18;
-			item.useAnimation = 18;
+			item.useTime = 24;
+			item.useAnimation = 24;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			Item.staff[item.type] = true;
 			item.noMelee = true;
@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.value = Terraria.Item.sellPrice(0, 0, 40, 0);
 			item.rare = ItemRarityID.Blue;
 			item.shoot = ModContent.ProjectileType<Zephyr>();
-			item.autoReuse = false;
+			item.autoReuse = true;
 		}
 
 		public override bool AltFunctionUse(Player player)
@@ -44,21 +44,22 @@ namespace SpiritMod.Items.Weapon.Magic
 				item.UseSound = SoundID.Item1;
 				item.shoot = ModContent.ProjectileType<ZephyrSpearProj>();
 				item.knockBack = 5;
-				item.noMelee = false;
 				item.shootSpeed = 6f;
-				item.mana = 5;
 				item.noUseGraphic = true;
 			}
 			else {
 				item.UseSound = SoundID.Item34;
 				item.shoot = ModContent.ProjectileType<Zephyr>();
 				item.knockBack = 10;
-				item.noMelee = true;
 				item.noUseGraphic = false;
 				item.shootSpeed = 14f;
-				item.mana = 9;
 			}
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<ZephyrSpearProj>()] > 0)
+				return false;
+
 			return true;
 		}
+
+		public override void ModifyManaCost(Player player, ref float reduce, ref float mult) => mult = (player.altFunctionUse == 2) ? 0 : 1;
 	}
 }

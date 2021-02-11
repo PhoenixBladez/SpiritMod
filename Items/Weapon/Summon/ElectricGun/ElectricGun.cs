@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Weapon.Summon.ElectricGun
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Arcbolter");
-			Tooltip.SetDefault("4 summon tag damage\nYour summons will focus struck enemies\nHit enemies may create static links between each other, dealing additional damage");
+			Tooltip.SetDefault("4 summon tag damage\nYour summons will focus struck enemies\nHit enemies may create static links between each other when struck by minions, dealing additional damage");
 
             SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Summon/ElectricGun/ElectricGun_Glow");
         }
@@ -52,11 +52,11 @@ namespace SpiritMod.Items.Weapon.Summon.ElectricGun
 			item.noMelee = true;
 			item.knockBack = 2;
 			item.value = Terraria.Item.sellPrice(0, 0, 80, 0);
-			item.rare = 2;
+			item.rare = ItemRarityID.Green;
 			item.UseSound = SoundID.Item12;
-			item.autoReuse = false;
+			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<ElectricGunProjectile>();
-			item.shootSpeed = 6f;
+			item.shootSpeed = 12f;
 		}
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -65,17 +65,10 @@ namespace SpiritMod.Items.Weapon.Summon.ElectricGun
             {
                 position += muzzleOffset;
             }
-            {
-                float spread = 20f * 0.0174f;//45 degrees converted to radians
-                float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
-                double baseAngle = Math.Atan2(speedX, speedY);
-                {
-                    double randomAngle = baseAngle + (Main.rand.NextFloat() - 0.5f) * spread;
-                    speedX = baseSpeed * (float)Math.Sin(randomAngle);
-                    speedY = baseSpeed * (float)Math.Cos(randomAngle);
-                    Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, item.damage, knockBack, item.owner, 0, 0);
-                }
-            }
+			Vector2 velocity = new Vector2(speedX, speedY); //convert speedx and speedy into one vector, and rotate it upwards
+			velocity = velocity.RotatedByRandom(MathHelper.ToRadians(10)); //then rotate it randomly, with a maximum spread of 30 degrees
+            Projectile proj = Projectile.NewProjectileDirect(position, velocity, type, item.damage, knockBack, item.owner, 0, 0);
+			proj.netUpdate = true; //sync velocity
             for (int index1 = 0; index1 < 5; ++index1)
             {
                 int index2 = Dust.NewDust(new Vector2(position.X, position.Y), item.width - 60, item.height - 28, 226, speedX, speedY, (int)byte.MaxValue, new Color(), (float)Main.rand.Next(6, 10) * 0.1f);

@@ -8,17 +8,14 @@ namespace SpiritMod.Projectiles.Summon
 {
     class ElectricGunProjectile : ModProjectile
     {
-        int timer = 0;
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Arcbolt");
-        }
-
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Arcbolt");
+		private static readonly int maxtimeleft = 200;
+		private readonly static int numY = -16;
         public override void SetDefaults()
         {
             projectile.friendly = true;
             projectile.hostile = false;
-            projectile.timeLeft = 59;
+            projectile.timeLeft = maxtimeleft;
             projectile.height = 8;
             projectile.minion = true;
             projectile.width = 8;
@@ -31,8 +28,7 @@ namespace SpiritMod.Projectiles.Summon
             projectile.aiStyle = 1;
             aiType = ProjectileID.Bullet;
         }
-        int counter;
-        int numY;
+
         public override void AI()
         {
             int num = 5;
@@ -47,14 +43,16 @@ namespace SpiritMod.Projectiles.Summon
                 Main.dust[index2].fadeIn = (float)(100 + projectile.owner);
 
             }
-            numY = -8;
             if (projectile.timeLeft % 2 == 0)
             {
-                projectile.velocity.Y = projectile.velocity.Y - numY;
+                projectile.velocity.Y -= (projectile.timeLeft == maxtimeleft) ? numY/2 : numY;
             }
             else
             {
-                projectile.velocity.Y = projectile.velocity.Y + numY + .5f;
+                projectile.velocity.Y += numY;
+				if(projectile.timeLeft <= (maxtimeleft * 0.9f)) {
+					projectile.velocity.Y += 0.25f;
+				}
             }
         }
 
