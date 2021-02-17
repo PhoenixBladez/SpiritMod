@@ -55,6 +55,7 @@ using Terraria.ModLoader;
 using Terraria.UI;
 using Terraria.Utilities;
 using SpiritMod.Prim;
+using SpiritMod.NPCs.Boss.Scarabeus;
 
 namespace SpiritMod
 {
@@ -76,6 +77,7 @@ namespace SpiritMod
 		public static Texture2D noise;
 
         public static SoundLooper nighttimeAmbience;
+		public static SoundLooper scarabWings;
         public static SoundLooper wavesAmbience;
         public static SoundLooper lightWind;
         public static SoundLooper desertWind;
@@ -712,6 +714,7 @@ namespace SpiritMod
             desertWind = null;
             caveAmbience = null;
             lightWind = null;
+			scarabWings = null;
             spiritRNG = null;
 			auroraEffect = null;
 			StarjinxNoise = null;
@@ -787,6 +790,7 @@ namespace SpiritMod
             lightWind?.Update();
             desertWind?.Update();
             caveAmbience?.Update();
+			scarabWings?.Update();
         }
 
         public override void PostUpdateEverything()
@@ -818,6 +822,7 @@ namespace SpiritMod
             lightWind = new SoundLooper(this, "Sounds/LightWind");
             desertWind = new SoundLooper(this, "Sounds/DesertWind");
             caveAmbience = new SoundLooper(this, "Sounds/CaveAmbience");
+			scarabWings = new SoundLooper(this, "Sounds/BossSFX/Scarab_Wings");
             Items.Glyphs.GlyphBase.InitializeGlyphLookup();
             Mod bossChecklist = ModLoader.GetMod("BossChecklist");
             if (bossChecklist != null)

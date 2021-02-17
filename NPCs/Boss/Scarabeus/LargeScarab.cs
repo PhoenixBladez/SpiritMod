@@ -45,7 +45,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		public override void AI()
 		{
 			Player player = Main.player[(int)projectile.ai[0]];
-			if (!player.active || player.dead)
+			if (!player.active || player.dead || !NPC.AnyNPCs(ModContent.NPCType<Scarabeus>()))
 				projectile.Kill();
 			if (projectile.alpha > 0)
 				projectile.alpha -= 5;
@@ -73,12 +73,13 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			}
 			else if (projectile.ai[1] == 170) {
 				projectile.spriteDirection = projectile.direction;
-				projectile.tileCollide = true;
+				projectile.tileCollide = (projectile.Center.Y >= player.position.Y);
 				projectile.velocity = Vector2.Lerp(projectile.DirectionTo(player.Center), Vector2.UnitY, 0.25f) * 8;
 				projectile.spriteDirection = -Math.Sign(projectile.velocity.X);
 			}
 			else {
 				projectile.velocity.Y *= 1.03f;
+				projectile.tileCollide = (projectile.Center.Y >= player.position.Y);
 			}
 
 			projectile.frameCounter++;

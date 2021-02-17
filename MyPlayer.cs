@@ -40,6 +40,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using SpiritMod.Items.Equipment;
+using SpiritMod.NPCs.Boss.Scarabeus;
 
 namespace SpiritMod
 {
@@ -2108,6 +2109,8 @@ namespace SpiritMod
             int x1 = (int)player.Center.X / 16;
             int y1 = (int)player.Center.Y / 16;
             var config = ModContent.GetInstance<SpiritClientConfig>();
+			if (!NPC.AnyNPCs(ModContent.NPCType<Scarabeus>()))
+				SpiritMod.scarabWings.Halt();
 			if (config.AmbientSounds)
             { 
 				if (!Main.dayTime && !player.ZoneSnow

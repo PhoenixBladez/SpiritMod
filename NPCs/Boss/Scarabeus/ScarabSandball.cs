@@ -38,6 +38,8 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 
 		public override void AI()
 		{
+			projectile.tileCollide = (projectile.position.Y >= projectile.ai[1]);
+
 			projectile.rotation += 0.1f;
 			for (int i = -2; i < 2; i++) {
 				Dust dust = Dust.NewDustPerfect(projectile.Center + 2 * projectile.velocity, mod.DustType("SandDust"), Vector2.Normalize(projectile.velocity).RotatedBy(Math.Sign(i) * MathHelper.Pi / 4) * Math.Abs(i));
