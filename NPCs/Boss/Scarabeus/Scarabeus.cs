@@ -95,7 +95,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				return;
 			}
 			
-			if (npc.life >= 800) {
+			if (npc.life >= (npc.lifeMax/2)) {
 				{
 					Phase1(player);
 				}
