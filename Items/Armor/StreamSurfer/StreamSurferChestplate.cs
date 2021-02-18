@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.StreamSurfer
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Stream Surfer Chestplate");
-			Tooltip.SetDefault("6% increased damage\nIncreases maximum mana by 40");
+			Tooltip.SetDefault("9% increased magic damage\nIncreases maximum mana by 60");
 
 		}
 		public override void SetDefaults()
@@ -25,8 +25,8 @@ namespace SpiritMod.Items.Armor.StreamSurfer
 
 		public override void UpdateEquip(Player player)
 		{
-			player.allDamage += 0.06f;
-			player.statManaMax2 += 40;
+			player.magicDamage += 0.09f;
+			player.statManaMax2 += 60;
 		}
 		public override void AddRecipes()
 		{

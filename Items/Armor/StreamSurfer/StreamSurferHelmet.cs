@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Armor.StreamSurfer
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Stream Surfer Mask");
-			Tooltip.SetDefault("5% increased critical strike chance\nYou can breathe underwater");
+			Tooltip.SetDefault("8% increased magic critical strike chance\nYou can breathe underwater");
 		}
 
 		public override void SetDefaults()
@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Armor.StreamSurfer
 
 		public override void UpdateEquip(Player player)
 		{
-			player.AddAllCrit(5);
+			player.magicCrit += 8;
 			player.gills = true;
 		}
 

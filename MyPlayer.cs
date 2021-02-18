@@ -4983,7 +4983,7 @@ namespace SpiritMod
 					surferTimer = 420;
 					Main.PlaySound(SoundID.Splash, player.position, 0);
 					Main.PlaySound(SoundID.Item, player.position, 20);
-					Projectile.NewProjectile(player.Center - new Vector2(0, 30), Vector2.Zero, ModContent.ProjectileType<WaterSpout>(), 30, 8, player.whoAmI);
+					Projectile.NewProjectile(player.Center - new Vector2(0, 30), Vector2.Zero, ModContent.ProjectileType<WaterSpout>(), (int)(30 * player.magicDamage), 8, player.whoAmI);
 				}
 				if(graniteSet && !player.mount.Active) {
 					if(player.velocity.Y != 0 && stompCooldown <= 0) {

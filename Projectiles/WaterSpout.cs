@@ -20,7 +20,7 @@ namespace SpiritMod.Projectiles
 			projectile.penetrate = -1;
 			projectile.alpha = 255;
 			projectile.timeLeft = 150;
-
+			projectile.magic = true;
 		}
 		public override bool PreAI()
 		{
