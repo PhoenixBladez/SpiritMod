@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.useTurn = false;
 			item.useAmmo = ModContent.ItemType<TinyLunazoaItem>();
 			item.UseSound = SoundID.Item96;
-			item.value = Item.sellPrice(0, 1, 42, 0);
+			item.value = Item.sellPrice(0, 2, 30, 0);
 			item.rare = ItemRarityID.Green;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<MoonshotProj>();

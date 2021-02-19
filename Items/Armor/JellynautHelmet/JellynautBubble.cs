@@ -25,8 +25,8 @@ namespace SpiritMod.Items.Armor.JellynautHelmet
 		{
 			item.width = 22;
 			item.height = 18;
-			item.value = 3500;
-			item.rare = 1;
+			item.value = Item.sellPrice(0, 2, 30, 0);
+			item.rare = ItemRarityID.Green;
 			item.defense = 1;
 		}
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

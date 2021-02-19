@@ -24,7 +24,6 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 	[AutoloadBossHead]
 	public class MoonWizard : ModNPC
 	{
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Moon Jelly Wizard");
@@ -56,12 +55,37 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
             music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/MoonJelly");
             npc.boss = true;
 		}
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-        }
-        float trueFrame = 0;
-        public void DrawAfterImage(SpriteBatch spriteBatch, Vector2 offset, float trailLengthModifier, Color color, float opacity, float startScale, float endScale) => DrawAfterImage(spriteBatch, offset, trailLengthModifier, color, color, opacity, startScale, endScale);
+		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
+		float trueFrame = 0;
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(attackCounter);
+			writer.Write(timeBetweenAttacks);
+			writer.Write(phaseTwo);
+			writer.Write(jellyRapidFire);
+			writer.WriteVector2(dashDirection);
+			writer.Write(dashDistance);
+			writer.WriteVector2(TeleportPos);
+			writer.Write(numMoves);
+			writer.Write(node);
+			writer.Write(SkyPos);
+			writer.Write(SkyPosY);
+		}
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			attackCounter = reader.ReadInt32();
+			timeBetweenAttacks = reader.ReadInt32();
+			phaseTwo = reader.ReadBoolean();
+			jellyRapidFire = reader.ReadBoolean();
+			dashDirection = reader.ReadVector2();
+			dashDistance = reader.ReadSingle();
+			TeleportPos = reader.ReadVector2();
+			numMoves = reader.ReadInt32();
+			node = reader.ReadInt32();
+			SkyPos = reader.ReadInt32();
+			SkyPosY = reader.ReadInt32();
+		}
+		public void DrawAfterImage(SpriteBatch spriteBatch, Vector2 offset, float trailLengthModifier, Color color, float opacity, float startScale, float endScale) => DrawAfterImage(spriteBatch, offset, trailLengthModifier, color, color, opacity, startScale, endScale);
         public void DrawAfterImage(SpriteBatch spriteBatch, Vector2 offset, float trailLengthModifier, Color startColor, Color endColor, float opacity, float startScale, float endScale)
         {
             SpriteEffects spriteEffects = (npc.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
@@ -127,25 +151,20 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 		{
 			var effects = npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			spriteBatch.Draw(Main.npcTexture[npc.type], new Vector2(npc.Center.X, npc.Center.Y - 18) - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, lightColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
-			drawSpecialGlow(spriteBatch, lightColor);
+			DrawSpecialGlow(spriteBatch, lightColor);
 		}
-		public void drawSpecialGlow(SpriteBatch spriteBatch, Color drawColor)
+		public void DrawSpecialGlow(SpriteBatch spriteBatch, Color drawColor)
         {
-            float num341 = 0f;
-            float num340 = npc.height;
             float num108 = 4;
             float num107 = (float)Math.Cos((double)(Main.GlobalTime % 2.4f / 2.4f * 6.28318548f)) / 2f + 0.5f;
             float num106 = 0f;
 
-
-            Texture2D texture2D6 = Main.npcTexture[npc.type];
-            Vector2 vector15 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
             SpriteEffects spriteEffects3 = (npc.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             Vector2 vector33 = new Vector2(npc.Center.X, npc.Center.Y - 18) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity;
-            Microsoft.Xna.Framework.Color color29 = new Microsoft.Xna.Framework.Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightBlue);
+			Color color29 = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Color.LightBlue);
             for (int num103 = 0; num103 < 4; num103++)
             {
-                Microsoft.Xna.Framework.Color color28 = color29;
+				Color color28 = color29;
                 color28 = npc.GetAlpha(color28);
                 color28 *= 1f - num107;
                 Vector2 vector29 = new Vector2(npc.Center.X, npc.Center.Y -18) + ((float)num103 / (float)num108 * 6.28318548f + npc.rotation + num106).ToRotationVector2() * (4f * num107 + 2f) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity * (float)num103;
@@ -157,8 +176,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 
         int attackCounter;
 		int timeBetweenAttacks = 120;
-
-		int expertTimer = 0;
+		
 		bool phaseTwo = false;
 		//0-3: idle
 		//4-9 propelling
@@ -277,11 +295,8 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				trueFrame = minFrame;
 			}
 		}
-		public override void BossLoot(ref string name, ref int potionType)
-		{
-			potionType = mod.ItemType("MoonJelly");
-		}
-        public override void NPCLoot()
+		public override void BossLoot(ref string name, ref int potionType) => potionType = mod.ItemType("MoonJelly");
+		public override void NPCLoot()
         {
             {
                 if (Main.expertMode)
@@ -289,16 +304,6 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
                     npc.DropBossBags();
                     return;
                 }
-
-                /*int[] lootTable = {
-                    ModContent.ItemType<TalonBlade>(),
-                    ModContent.ItemType<Talonginus>(),
-                    ModContent.ItemType<SoaringScapula>(),
-                    ModContent.ItemType<TalonPiercer>(),
-                    ModContent.ItemType<SkeletalonStaff>()
-                };
-                int loot = Main.rand.Next(lootTable.Length);
-                npc.DropItem(lootTable[loot]);*/
 
                 npc.DropItem(ModContent.ItemType<MJWMask>(), 1f / 7);
                 npc.DropItem(ModContent.ItemType<MJWTrophy>(), 1f / 10);
