@@ -5,6 +5,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Consumable.Food;
+using System.IO;
+using Terraria.ModLoader.Core;
 
 namespace SpiritMod.NPCs.Hell
 {
@@ -38,10 +40,7 @@ namespace SpiritMod.NPCs.Hell
 			bannerItem = ModContent.ItemType<Items.Banners.GluttonousDevourerBanner>();
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			return spawnInfo.player.ZoneUnderworldHeight && NPC.downedBoss3 ? 0.04f : 0f;
-		}
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.player.ZoneUnderworldHeight && NPC.downedBoss3 ? 0.04f : 0f;
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
@@ -61,12 +60,15 @@ namespace SpiritMod.NPCs.Hell
 					}
 				}
 				Main.PlaySound(SoundID.Item, npc.Center, 14);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EaterGore1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EaterGore2"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/EaterGore3"), 1f);
+
+				for(int i = 1; i <= 3; i++) {
+					Gore.NewGore(npc.Center, npc.velocity, mod.GetGoreSlot("Gores/GluttonousDevourer/DevourerGore" + i.ToString()));
+				}
             }
 		}
 		int dashtimer;
+		public override void SendExtraAI(BinaryWriter writer) => writer.Write(dashtimer);
+		public override void ReceiveExtraAI(BinaryReader reader) => dashtimer = reader.ReadInt32();
 		public override void AI()
 		{
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.1f, 0.04f, 0.02f);
@@ -80,8 +82,9 @@ namespace SpiritMod.NPCs.Hell
 			dashtimer++;
 			if (dashtimer >= 180) {
 				dashtimer = 0;
-				direction.X = direction.X * Main.rand.Next(8, 11);
-				direction.Y = direction.Y * Main.rand.Next(8, 11);
+				npc.netUpdate = true;
+				direction.X *= Main.rand.Next(8, 11);
+				direction.Y *= Main.rand.Next(8, 11);
 				npc.velocity.X = direction.X;
 				npc.velocity.Y = direction.Y;
 			}
@@ -90,7 +93,7 @@ namespace SpiritMod.NPCs.Hell
 		{
 			Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height * 0.5f));
 			for (int k = 0; k < npc.oldPos.Length; k++) {
-				var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+				var effects = npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 				Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
 				Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
 				spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);

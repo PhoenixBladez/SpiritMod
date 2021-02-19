@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using SpiritMod.Projectiles.Returning;
+using Terraria.Audio;
 
 namespace SpiritMod.Projectiles.Held
 {
@@ -29,12 +30,12 @@ namespace SpiritMod.Projectiles.Held
 			projectile.ownerHitCheck = true;
 		}
 
-		int height = 62;
-        int width = 60;
+		readonly int height = 62;
+		readonly int width = 60;
 		double radians = 0;
         int flickerTime = 0;
         float alphaCounter = 0;
-        int chargeTime = 50;
+		readonly int chargeTime = 50;
         bool released = false;
 		public override void AI()
 		{
@@ -54,71 +55,65 @@ namespace SpiritMod.Projectiles.Held
 			{
                 projectile.scale = MathHelper.Clamp(projectile.ai[0] / 10, 0, 1);
 			}
-                if (player.direction == 1)
+            if (player.direction == 1)
+            {
+                radians += (double)((projectile.ai[0] + 10) / 200);
+            }
+            else
+            {
+                radians -= (double)((projectile.ai[0] + 10) / 200);
+            }
+            if (radians > 6.28)
+            {
+                radians -= 6.28;
+            }
+            if (radians < -6.28)
+            {
+                radians += 6.28;
+            }
+			projectile.velocity = Vector2.Zero;
+			if (projectile.ai[0] % 20 == 0)
+				Main.PlaySound(new LegacySoundStyle(SoundID.Item, 19).WithPitchVariance(0.1f).WithVolume(0.5f), projectile.Center);
+
+			if (projectile.ai[0] < chargeTime)
+            {
+                projectile.ai[0]+= 0.7f;
+                if (projectile.ai[0] >= chargeTime)
                 {
-                    radians += (double)((projectile.ai[0] + 10) / 200);
+                    Main.PlaySound(SoundID.NPCDeath7, projectile.Center);
+                }
+            }
+            Vector2 direction = Main.MouseWorld - player.position;
+            direction.Normalize();
+            double throwingAngle = direction.ToRotation() + 3.14;
+			projectile.position = player.Center - (Vector2.UnitX.RotatedBy(radians) * 40) - (projectile.Size / 2);
+			player.itemTime = 4;
+			player.itemAnimation = 4;
+			player.itemRotation = MathHelper.WrapAngle((float)radians);
+			if (player.whoAmI == Main.myPlayer)
+				player.ChangeDir(Math.Sign(direction.X));
+			if (player.direction != 1)
+            {
+                throwingAngle -= 6.28;
+            }
+			if ((!player.channel && Math.Abs(radians - throwingAngle) < 1) || released)
+            {
+                if (projectile.ai[0] < chargeTime || released)
+                {
+                    released = true;
+                    projectile.scale -= 0.15f;
+                    if (projectile.scale < 0.15f)
+                    {
+                        projectile.active = false;
+                    }
                 }
                 else
                 {
-                    radians -= (double)((projectile.ai[0] + 10) / 200);
-                }
-                if (radians > 6.28)
-                {
-                    radians -= 6.28;
-                }
-                if (radians < -6.28)
-                {
-                    radians += 6.28;
-                }
-                player.itemAnimation -= (int)((projectile.ai[0] + 50) / 6);
-
-                while (player.itemAnimation < 3)
-                {
-                    Main.PlaySound(SoundID.Item1, projectile.Center);
-                    player.itemAnimation += 320;
-                }
-                player.itemTime = player.itemAnimation;
-                projectile.velocity = Vector2.Zero;
-
-                if (projectile.ai[0] < chargeTime)
-                {
-                    projectile.ai[0]+= 0.7f;
-                     if (projectile.ai[0] >= chargeTime)
-                    {
-                        Main.PlaySound(SoundID.NPCDeath7, projectile.Center);
-                    }
-                }
-                Vector2 direction = Main.MouseWorld - player.position;
-                direction.Normalize();
-                double throwingAngle = direction.ToRotation() + 3.14;
-                if (player.direction != 1)
-                {
-                    throwingAngle -= 6.28;
-                }
-                 if ((!player.channel && Math.Abs(radians - throwingAngle) < 1) || released)
-                {
-                    if (projectile.ai[0] < chargeTime || released)
-                    {
-                        released = true;
-                        projectile.scale -= 0.15f;
-                        if (projectile.scale < 0.15f)
-                        {
-                            projectile.active = false;
-                            player.itemTime = 2;
-                            player.itemAnimation = 2;
-                        }
-                    }
-                    else
-                    {
-                        projectile.active = false;
-                        direction *= 10;
-                        Projectile.NewProjectile(player.Center, direction, ModContent.ProjectileType<SlagHammerProjReturning>(), (int)(projectile.damage * 1.5f), projectile.knockBack, projectile.owner);
-                        player.itemTime = 46;
-                        player.itemAnimation = 46;
-                    }
-                }
-                projectile.position.Y = player.Center.Y - (int)(Math.Sin(radians * 0.96) * 40) - (projectile.height / 2);
-                projectile.position.X = player.Center.X - (int)(Math.Cos(radians * 0.96) * 40) - (projectile.width / 2);
+                    projectile.active = false;
+                    direction *= 16;
+                    Projectile.NewProjectile(player.Center, direction, ModContent.ProjectileType<SlagHammerProjReturning>(), (int)(projectile.damage * 1.5f), projectile.knockBack, projectile.owner);
+				}
+            }
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

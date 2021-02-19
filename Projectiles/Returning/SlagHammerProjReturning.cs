@@ -12,6 +12,8 @@ namespace SpiritMod.Projectiles.Returning
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Slag Breaker");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
 		}
 
 		public override void SetDefaults()
@@ -21,9 +23,9 @@ namespace SpiritMod.Projectiles.Returning
 			projectile.aiStyle = 3;
 			projectile.friendly = true;
 			projectile.melee = true;
-			projectile.magic = false;
 			projectile.penetrate = -1;
 			projectile.timeLeft = 700;
+			projectile.extraUpdates = 1;
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -53,6 +55,16 @@ namespace SpiritMod.Projectiles.Returning
 			Player player = Main.player[projectile.owner];
 			player.GetModPlayer<MyPlayer>().Shake += 8;
 			return base.OnTileCollide(oldVelocity);
+		}
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			for(int i = 0; i < ProjectileID.Sets.TrailCacheLength[projectile.type]; i++) {
+				float opacity = (ProjectileID.Sets.TrailCacheLength[projectile.type] - i) / (float)ProjectileID.Sets.TrailCacheLength[projectile.type];
+				opacity *= 0.5f;
+				spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.oldPos[i] + projectile.Size/2 - Main.screenPosition, null, projectile.GetAlpha(lightColor) * opacity, projectile.oldRot[i],
+					Main.projectileTexture[projectile.type].Size() / 2, projectile.scale, SpriteEffects.None, 0);
+			}
+			return true;
 		}
 		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {

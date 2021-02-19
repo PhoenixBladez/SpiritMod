@@ -28,26 +28,17 @@ namespace SpiritMod.Items.Weapon.Swung
 			item.melee = true;
 			item.channel = true;
 			item.noMelee = true;
-			item.useAnimation = 320;
-			item.useTime = 320;
+			item.useAnimation = 30;
+			item.useTime = 30;
 			item.shootSpeed = 8f;
 			item.knockBack = 5f;
 			item.damage = 29;
 			item.value = Item.sellPrice(0, 0, 60, 0);
 			item.rare = ItemRarityID.Orange;
-			item.useStyle = ItemUseStyleID.SwingThrow;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shoot = ModContent.ProjectileType<SlagHammerProj>();
 		}
-
-		public override bool CanUseItem(Player player)
-		{
-			for (int i = 0; i < 1000; ++i) {
-				if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == ModContent.ProjectileType<SlagHammerProjReturning>()) {
-					return false;
-				}
-			}
-			return base.CanUseItem(player);
-		}
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] == 0 && player.ownedProjectileCounts[ModContent.ProjectileType<SlagHammerProjReturning>()] == 0;
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
