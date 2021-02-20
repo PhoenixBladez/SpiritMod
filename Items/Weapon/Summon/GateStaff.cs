@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.Summon.LaserGate;
 using System;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,12 +10,8 @@ namespace SpiritMod.Items.Weapon.Summon
 {
 	public class GateStaff : ModItem
 	{
-		bool leftactive = false;
-		Vector2 direction9 = Vector2.Zero;
-		int distance = 500;
-		bool rightactive = false;
-		int right = 0;
-		int left = 0;
+		readonly static int righthopper = ModContent.ProjectileType<RightHopper>();
+		readonly static int lefthopper = ModContent.ProjectileType<LeftHopper>();
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gate Staff");
@@ -41,68 +38,36 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.shoot = ModContent.ProjectileType<RightHopper>();
 			item.shootSpeed = 0f;
 		}
-		public override bool AltFunctionUse(Player player)
-		{
-			return true;
-		}
+		public override bool AltFunctionUse(Player player) => true;
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
+			type = (player.altFunctionUse == 2) ? righthopper : lefthopper;
+			float[] scanarray = new float[3];
+			float dist = player.Distance(Main.MouseWorld);
+			Collision.LaserScan(player.Center, player.DirectionTo(Main.MouseWorld), 0, dist, scanarray);
+			dist = 0;
+			foreach (float array in scanarray) {
+				dist += array / (scanarray.Length);
+			}
+			Vector2 spawnpos = player.Center + player.DirectionTo(Main.MouseWorld) * dist;
+			Projectile.NewProjectileDirect(spawnpos, Vector2.Zero, type, damage, knockBack, player.whoAmI, 0, -1);
 			return false;
-		}
-		public override ModItem Clone(Item item)
-		{
-			GateStaff staff = (GateStaff)base.Clone(item);
-			staff.left = this.left;
-			staff.right = this.right;
-			staff.distance = this.distance;
-			staff.rightactive = this.rightactive;
-			staff.leftactive = this.leftactive;
-			return staff;
 		}
 		public override bool CanUseItem(Player player)
 		{
-			if ((rightactive && Main.projectile[right].active == false) || (leftactive && Main.projectile[left].active == false)) //if the gates despawn, reset
-			{
-				Main.projectile[right].active = false;
-				Main.projectile[left].active = false;
-				rightactive = false;
-				leftactive = false;
-				right = 0;
-				left = 0;
-			}
 			if (player.statMana <= 12) {
 				return false;
 			}
 			if (player.altFunctionUse == 2) {
-				if (rightactive) {
-					Main.projectile[right].active = false;
-				}
-				right = Projectile.NewProjectile((int)(Main.screenPosition.X + Main.mouseX), (int)(Main.screenPosition.Y + Main.mouseY), 0, 0, ModContent.ProjectileType<RightHopper>(), item.damage, 1, Main.myPlayer);
-				rightactive = true;
-				if (leftactive) {
-					Main.projectile[right].ai[1] = left;
-					Main.projectile[left].ai[1] = right;
-					direction9 = Main.projectile[right].Center - Main.projectile[left].Center;
-					distance = (int)Math.Sqrt((direction9.X * direction9.X) + (direction9.Y * direction9.Y));
-					if (distance < 200) {
-						Main.PlaySound(SoundID.Item93, player.position);
-					}
+				if(player.ownedProjectileCounts[righthopper] > 0) {
+					foreach (Projectile proj in Main.projectile.Where(x => x.active && x.owner == player.whoAmI && x.type == righthopper))
+						proj.Kill();
 				}
 			}
 			else {
-				if (leftactive) {
-					Main.projectile[left].active = false;
-				}
-				left = Projectile.NewProjectile((int)(Main.screenPosition.X + Main.mouseX), (int)(Main.screenPosition.Y + Main.mouseY), 0, 0, ModContent.ProjectileType<LeftHopper>(), item.damage, 1, Main.myPlayer);
-				leftactive = true;
-				if (rightactive) {
-					Main.projectile[left].ai[1] = right;
-					Main.projectile[right].ai[1] = left;
-					direction9 = Main.projectile[right].Center - Main.projectile[left].Center;
-					distance = (int)Math.Sqrt((direction9.X * direction9.X) + (direction9.Y * direction9.Y));
-					if (distance < 200) {
-						Main.PlaySound(SoundID.Item93, player.position);
-					}
+				if (player.ownedProjectileCounts[lefthopper] > 0) {
+					foreach (Projectile proj in Main.projectile.Where(x => x.active && x.owner == player.whoAmI && x.type == lefthopper))
+						proj.Kill();
 				}
 			}
 			return true;
