@@ -555,18 +555,18 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 					}
 				}
 
-				if (++AiTimer < 140) { //only loosely home in on player for a few seconds, and only while in the ground
+				if (++AiTimer < 110) { //only loosely home in on player for a few seconds, and only while in the ground
 					npc.velocity.X += (npc.Center.X < player.Center.X) ? 0.2f : -0.2f;
 					npc.velocity.Y += (npc.Center.Y < player.Center.Y) ? 0.1f : -0.1f;
 					npc.velocity = new Vector2(MathHelper.Clamp(npc.velocity.X, -10, 10), MathHelper.Clamp(npc.velocity.Y, -4, 4));
 				}
-				else if (AiTimer >= 140 && AiTimer <= 200) { //if enough time has passed and the boss is in the ground, stop homing and pause its velocity
+				else if (AiTimer <= 200) { //if enough time has passed and the boss is in the ground, stop homing and pause its velocity
 					npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.1f);
-					if (AiTimer == 140)
-						Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 44, 1.5f, -1f);
+					if (AiTimer == 120 || AiTimer == 160)
+						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/BossSFX/Scarab_Roar1").WithPitchVariance(0.2f).WithVolume(0.5f), npc.Center);
 
 					if (AiTimer == 200) { //jump at the player
-						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/BossSFX/Scarab_Roar1"), npc.Center);
+						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/BossSFX/Scarab_Roar1").WithVolume(1.5f), npc.Center);
 						statictarget[0] = npc.Center;
 						statictarget[1] = player.Center;
 						npc.velocity = npc.DirectionTo(statictarget[1]) * MathHelper.Clamp(npc.Distance(statictarget[1]) / 40, 16, 20);
@@ -686,6 +686,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 
 				if(AiTimer >= 90 && AiTimer % 7 == 0) { //spawn the swarm of beetles, going from the stored random position to the player's center
 					if (Main.netMode != NetmodeID.MultiplayerClient) {
+						Main.PlaySound(SoundID.Item, (int)statictarget[1].X, (int)statictarget[1].Y, 1, 1, Main.rand.NextFloat(1.5f, 2f));
 						for (int i = 0; i < numwaves; i++) {
 							Vector2 spawnpos = statictarget[0].RotatedBy(MathHelper.PiOver2 * i) + Main.rand.NextVector2Circular(60, 60) + statictarget[1];
 							NPC Npc = Main.npc[NPC.NewNPC((int)spawnpos.X, (int)spawnpos.Y, mod.NPCType("SwarmScarab"), npc.whoAmI,

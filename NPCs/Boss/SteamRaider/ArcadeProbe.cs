@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -36,6 +37,8 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		int lifeSpan = 250;
 		int distAbove = 150;
 		int fireRate = Main.rand.Next(27, 41);
+		public override void SendExtraAI(BinaryWriter writer) => writer.Write(fireRate);
+		public override void ReceiveExtraAI(BinaryReader reader) => fireRate = reader.ReadInt32();
 		public override bool PreAI()
 		{
 

@@ -69,7 +69,7 @@ namespace SpiritMod.Effects
 				CreateTrail(projectile, new StandardColorTrail(Color.White * 0.2f), new RoundCap(), new SleepingStarTrailPosition(), 56f, 30f, new DefaultShader());
 
 			}
-            if (projectile.type == ModContent.ProjectileType<Starshock1>())
+            if (projectile.type == ModContent.ProjectileType<Starshock1>() || projectile.type == ModContent.ProjectileType<Starshock>())
             {
                 CreateTrail(projectile, new GradientTrail(new Color(108, 215, 245), new Color(105, 213, 255)), new RoundCap(), new DefaultTrailPosition(), 8f, 150f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
                 CreateTrail(projectile, new GradientTrail(new Color(255, 255, 255) * .25f, new Color(255, 255, 255) * .25f), new RoundCap(), new DefaultTrailPosition(), 26f, 250f, new DefaultShader());

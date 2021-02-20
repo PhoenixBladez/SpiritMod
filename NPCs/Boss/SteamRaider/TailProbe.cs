@@ -125,6 +125,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 						Main.dust[num622].scale = 0.5f;
 					}
 				}
+				return;
 			}
 			Player player = Main.player[npc.target];
 			/*for (int i = 0; i < 255; ++i)

@@ -34,6 +34,7 @@ namespace SpiritMod.Projectiles.Returning
 			if (projectile.tileCollide)
 			{
 				player.GetModPlayer<MyPlayer>().Shake += 8;
+				Main.PlaySound(SoundID.Item88, projectile.Center);
 			}
 			if (Main.rand.Next(6) == 0)
 				target.AddBuff(BuffID.OnFire, 120, true);
@@ -50,10 +51,16 @@ namespace SpiritMod.Projectiles.Returning
 				}
 			}
 		}
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			if (projectile.tileCollide)
+				damage = (int)(damage * 1.5);
+		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			Player player = Main.player[projectile.owner];
 			player.GetModPlayer<MyPlayer>().Shake += 8;
+			Main.PlaySound(SoundID.Item88, projectile.Center);
 			return base.OnTileCollide(oldVelocity);
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -64,6 +71,11 @@ namespace SpiritMod.Projectiles.Returning
 				spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.oldPos[i] + projectile.Size/2 - Main.screenPosition, null, projectile.GetAlpha(lightColor) * opacity, projectile.oldRot[i],
 					Main.projectileTexture[projectile.type].Size() / 2, projectile.scale, SpriteEffects.None, 0);
 			}
+			return true;
+		}
+		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+		{
+			width = height /= 2;
 			return true;
 		}
 		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)

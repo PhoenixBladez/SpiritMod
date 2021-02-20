@@ -147,7 +147,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					}
 				}
 				if (timer == 600) {
-					if (npc.life <= 5000 && npc.life > npc.lifeMax * .2f && npc.life < npc.lifeMax * .7f) {
+					if (npc.life > npc.lifeMax * .2f && npc.life < npc.lifeMax * .6f) {
 						for (int i = 0; i < 2; i++) {
 							NPC.NewNPC((int)Main.player[npc.target].Center.X + Main.rand.Next(-700, 700), (int)Main.player[npc.target].Center.Y + Main.rand.Next(-700, 700), mod.NPCType("LaserBase"), npc.whoAmI);
 						}

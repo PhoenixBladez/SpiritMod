@@ -43,6 +43,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position) => false;
 
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => false;
 		public override void AI()
 		{
 			Player player = Main.player[npc.target];
@@ -88,7 +89,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			else {
 				npc.localAI[0] = 0;
 			}
-			if ((Main.npc[parent].life <= 6500)) {
+			if ((Main.npc[parent].life <= Main.npc[parent].lifeMax * 0.75f)) {
 				Main.PlaySound(SoundID.Item, (int)npc.Center.X, (int)npc.Center.Y, 14);
 				npc.life = 0;
 				npc.HitEffect(0, 10.0);

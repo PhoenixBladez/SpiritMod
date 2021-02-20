@@ -41,19 +41,14 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			music = MusicID.Boss3;
 			npc.dontCountMe = true;
 		}
-		bool exposed;
+		public bool exposed;
 		//int timer;
-		public override void SendExtraAI(BinaryWriter writer)
-		{
-			writer.Write(exposed);
-		}
-		public override void ReceiveExtraAI(BinaryReader reader)
-		{
-			exposed = reader.ReadBoolean();
-		}
+		public override void SendExtraAI(BinaryWriter writer) => writer.Write(exposed);
+		public override void ReceiveExtraAI(BinaryReader reader) => exposed = reader.ReadBoolean();
+		private NPC Head => Main.npc[(int)npc.ai[2]];
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
 			=> false;
-
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => Head.ai[2] == 1 && npc.ai[3] < 100;
 		public override bool PreAI()
 		{
 			if (Main.netMode != NetmodeID.MultiplayerClient) {
@@ -87,15 +82,14 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				npc.dontTakeDamage = true;
 			}
 			Player player = Main.player[npc.target];
-			bool expertMode = Main.expertMode;
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.075f, 0.25f);
-			NPC head = Main.npc[(int)npc.ai[2]];
-			if (head.ai[2] == 1) {
+			if (Head.ai[2] == 1) {
 				if (Main.netMode != NetmodeID.MultiplayerClient) {
 					if (--npc.ai[3] == 0) {
 						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 9);
 						npc.TargetClosest(true);
-						if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) && Main.rand.NextBool(2)) {
+						npc.netUpdate = true;
+						if (Main.rand.NextBool(2)) {
 							float num941 = 1f; //speed
 							Vector2 vector104 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
 							float num942 = player.position.X + (float)player.width * 0.5f - vector104.X + (float)Main.rand.Next(-20, 21);
@@ -111,7 +105,6 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 							vector104.Y += num943 * 2.5f;
 							int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, num946, NPCUtils.ToActualDamage(30, 1.25f), 0f, Main.myPlayer, 0f, 0f);
 							Main.projectile[num947].timeLeft = 350;
-							npc.netUpdate = true;
 						}
 					}
 				}
@@ -259,17 +252,6 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				}
 			}
 		}
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (projectile.penetrate <= -1)
-            {
-                damage /= 3;
-            }
-            else if (projectile.penetrate >= 3)
-            {
-                damage /= 3;
-            }
-        }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
