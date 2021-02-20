@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Placeable.Furniture
 			item.autoReuse = true;
 			item.consumable = true;
 
-			item.createTile = ModContent.TileType<BriarBigFlower>();
+			item.createTile = ModContent.TileType<BriarBigFlowerUnnatural>();
 		}
 	}
 }

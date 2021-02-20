@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.CryoliteArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cryolite Chestplate");
-			Tooltip.SetDefault("10% increased melee damage\nMelee attacks may slow down hit enemies");
+			Tooltip.SetDefault("10% increased melee damage\nGrants immunity to knockback.");
 		}
 
 		public override void SetDefaults()
@@ -20,14 +20,14 @@ namespace SpiritMod.Items.Armor.CryoliteArmor
 			item.height = 26;
 			item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
 			item.rare = ItemRarityID.Orange;
-			item.defense = 7;
+			item.defense = 12;
 		}
 
 		public override void UpdateEquip(Player player)
 		{
 			player.meleeDamage += 0.1f;
-			player.GetSpiritPlayer().cryoChestplate = true;
-		}
+            player.noKnockback = true;
+        }
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

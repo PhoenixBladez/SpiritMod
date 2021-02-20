@@ -333,7 +333,6 @@ namespace SpiritMod
 		public bool quickSilverSet;
 		public bool stellarSet;
 		public bool magicshadowSet;
-		public bool cryoChestplate;
 		public bool cryoSet;
 		public bool frigidSet;
 		public bool rangedshadowSet;
@@ -778,7 +777,6 @@ namespace SpiritMod
 			bloodfireSet = false;
 			oceanSet = false;
 			titanicSet = false;
-			cryoChestplate = false;
 			cryoSet = false;
 			frigidSet = false;
 			windSet = false;
@@ -1378,9 +1376,6 @@ namespace SpiritMod
 					}
 				}
 			}
-			if(cryoChestplate && item.melee && Main.rand.NextBool(8)) {
-				target.AddBuff(ModContent.BuffType<MageFreeze>(), 180);
-			}
 		}
 
 		int Charger;
@@ -1591,9 +1586,6 @@ namespace SpiritMod
 			}
 
 			if(winterbornCharmMage && proj.magic && Main.rand.NextBool(7)) {
-				target.AddBuff(ModContent.BuffType<MageFreeze>(), 180);
-			}
-			if(cryoChestplate && proj.melee && Main.rand.NextBool(8)) {
 				target.AddBuff(ModContent.BuffType<MageFreeze>(), 180);
 			}
 			if(putridSet && proj.ranged && ++Rangedhits >= 4) {

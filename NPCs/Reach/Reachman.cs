@@ -57,13 +57,6 @@ namespace SpiritMod.NPCs.Reach
 			if (Main.rand.Next(20) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SanctifiedStabber>());
 			}
-
-			if (Main.rand.Next(3) == 1) {
-				int Bark = Main.rand.Next(2) + 1;
-				for (int J = 0; J <= Bark; J++) {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<AncientBark>());
-				}
-            }
             if (Main.rand.NextBool(33))
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CaesarSalad>());

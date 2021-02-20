@@ -208,7 +208,7 @@ namespace SpiritMod.NPCs.Reach
 			int loot = Main.rand.Next(lootTable.Length);
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, lootTable[loot]);
 
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<AncientBark>(), 3);
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EnchantedLeaf>(), Main.rand.Next(5, 8));
 
 			if (!Main.LocalPlayer.HasItem(ModContent.ItemType<SacredVine>())) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SacredVine>());

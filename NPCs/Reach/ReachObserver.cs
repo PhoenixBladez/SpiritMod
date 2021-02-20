@@ -64,7 +64,7 @@ namespace SpiritMod.NPCs.Reach
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<AncientBark>());
 				}
             }
-            if (Main.rand.NextBool(42))
+            if (Main.rand.NextBool(33))
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CaesarSalad>());
             }

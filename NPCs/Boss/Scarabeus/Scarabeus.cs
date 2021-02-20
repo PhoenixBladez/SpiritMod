@@ -35,11 +35,11 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		{
 			npc.width = 64;
 			npc.height = 64;
-			npc.value = 10000;
-			npc.damage = 30;
-			npc.defense = 14;
-			npc.lifeMax = 1300;
-			npc.knockBackResist = 0f;
+			npc.value = 30000;
+			npc.damage = 35;
+			npc.defense = 10;
+			npc.lifeMax = 1750;
+			npc.knockBackResist = 0.3f;
 			npc.aiStyle = -1;
 			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Scarabeus");
 			npc.boss = true;
@@ -81,7 +81,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				npc.defense = 60;
 			
 			else 
-				npc.defense = 14;
+				npc.defense = 10;
 
 			if (frame >= 18 && frame < 21)
 				SpiritMod.scarabWings.SetTo(MathHelper.Clamp((800 - npc.Distance(Main.player[Main.myPlayer].Center)) / 400f, 0, 1));
@@ -107,8 +107,9 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 					npc.ai[3]++;
 				}
 
-				Phase2(player);
-			}
+                Phase2(player);
+                npc.defense = 4;
+            }
 		}
 		#region utilities
 		private void CheckPlatform(Player player)
@@ -841,7 +842,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 					for (int i = 0; i < numproj; i++) {
 						Projectile proj = Projectile.NewProjectileDirect(npc.Center,
 							new Vector2(-Vector2.UnitY.RotatedByRandom(MathHelper.Pi / 2).X * 1.5f, -1) * Main.rand.NextFloat(8, 11),
-							mod.ProjectileType("ScarabSandball"), npc.damage / 4, 1, Main.myPlayer, 1, player.position.Y);
+							mod.ProjectileType("ScarabSandball"), npc.damage / 5, 1, Main.myPlayer, 1, player.position.Y);
 						proj.netUpdate = true;
 					}
 				}
@@ -865,7 +866,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 							break;
 
 						if (Main.netMode != NetmodeID.MultiplayerClient)
-							Projectile.NewProjectile(center, Vector2.Zero, mod.ProjectileType("SandShockwave"), npc.damage / 4, 5f, Main.myPlayer);
+							Projectile.NewProjectile(center, Vector2.Zero, mod.ProjectileType("SandShockwave"), npc.damage / 5, 5f, Main.myPlayer);
 					}
 				}
 				npc.rotation = npc.velocity.X * -0.05f;
@@ -888,7 +889,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			if((++AiTimer == 30 || AiTimer == 90) && Main.netMode != NetmodeID.MultiplayerClient) { //spawn 2 waves of large scarabs
 				Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 44, 1.5f, -1f);
 				for(int i = 0; i < 3; i++) {
-					Projectile proj = Projectile.NewProjectileDirect(player.Center - new Vector2(Main.rand.Next(-200, 200), 200), -Vector2.UnitY, mod.ProjectileType("LargeScarab"), npc.damage / 4, 1, Main.myPlayer, player.whoAmI, Main.rand.Next(20));
+					Projectile proj = Projectile.NewProjectileDirect(player.Center - new Vector2(Main.rand.Next(-200, 200), 200), -Vector2.UnitY, mod.ProjectileType("LargeScarab"), npc.damage / 5, 1, Main.myPlayer, player.whoAmI, Main.rand.Next(20));
 					proj.netUpdate = true;
 				}
 			}
@@ -940,7 +941,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
-			npc.lifeMax = (int)(npc.lifeMax * 0.75f * bossLifeScale);
+			npc.lifeMax = (int)(npc.lifeMax * 0.7143f * bossLifeScale);
 			npc.damage = (int)(npc.damage * 0.5f);
 		}
 
