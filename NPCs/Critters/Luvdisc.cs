@@ -3,6 +3,8 @@ using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System;
+using Microsoft.Xna.Framework;
 
 namespace SpiritMod.NPCs.Critters
 {
@@ -40,6 +42,7 @@ namespace SpiritMod.NPCs.Critters
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Luvdisc1"), 1f);
 			}
 		}
+		
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(2) == 1) {
@@ -49,7 +52,32 @@ namespace SpiritMod.NPCs.Critters
 		public override void AI()
 		{
 			npc.spriteDirection = -npc.direction;
-		}
+            Player player = Main.player[npc.target];
+            {
+                Player target = Main.player[npc.target];
+                int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
+                if (distance < 65 && target.wet && npc.wet)
+                {
+                    Vector2 vel = npc.DirectionFrom(target.Center);
+                    vel.Normalize();
+                    vel *= 4.5f;
+                    npc.velocity = vel;
+                    npc.rotation = npc.velocity.X * .06f;
+                    if (target.position.X > npc.position.X)
+                    {
+                        npc.spriteDirection = -1;
+                        npc.direction = -1;
+                        npc.netUpdate = true;
+                    }
+                    else if (target.position.X < npc.position.X)
+                    {
+                        npc.spriteDirection = 1;
+                        npc.direction = 1;
+                        npc.netUpdate = true;
+                    }
+                }
+            }
+        }
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			return spawnInfo.player.ZoneRockLayerHeight && spawnInfo.water ? 0.2f : 0f;

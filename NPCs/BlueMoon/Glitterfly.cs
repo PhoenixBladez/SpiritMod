@@ -39,7 +39,9 @@ namespace SpiritMod.NPCs.BlueMoon
 			animationType = NPCID.Pixie;
 			npc.HitSound = SoundID.NPCHit44;
 			npc.DeathSound = SoundID.NPCDeath46;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.GlitterflyBanner>();
+        }
 
 		public override void HitEffect(int hitDirection, double damage)
 		{

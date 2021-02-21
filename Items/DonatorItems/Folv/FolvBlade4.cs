@@ -78,8 +78,9 @@ namespace SpiritMod.Items.DonatorItems.Folv
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<Hilt>(), 1);
-			recipe.AddIngredient(ModContent.ItemType<FolvBlade3>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<Items.Material.EternityEssence
+				>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<FolvBlade3>(), 1);
 			recipe.AddTile(TileID.LunarCraftingStation);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

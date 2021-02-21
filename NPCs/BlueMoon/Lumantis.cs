@@ -32,7 +32,9 @@ namespace SpiritMod.NPCs.BlueMoon
 			npc.knockBackResist = .2f;
 			npc.aiStyle = 3;
 			aiType = NPCID.WalkingAntlion;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.LumantisBanner>();
+        }
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{

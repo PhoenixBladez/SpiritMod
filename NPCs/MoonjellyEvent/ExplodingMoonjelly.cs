@@ -36,7 +36,9 @@ namespace SpiritMod.NPCs.MoonjellyEvent
             npc.scale = 1f;
 			npc.noGravity = true;
             npc.noTileCollide = true;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.MoonlightRupturerBanner>();
+        }
 
 		public override void HitEffect(int hitDirection, double damage)
         {

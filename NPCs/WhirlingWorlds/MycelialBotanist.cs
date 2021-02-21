@@ -35,7 +35,9 @@ namespace SpiritMod.NPCs.WhirlingWorlds
 			npc.dontTakeDamage = false;
 			npc.HitSound = new Terraria.Audio.LegacySoundStyle(3, 1);
 			npc.DeathSound = new Terraria.Audio.LegacySoundStyle(29, 76);
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.MyceliumBotanistBanner>();
+        }
 		public override bool PreAI()
 		{
 			npc.TargetClosest();

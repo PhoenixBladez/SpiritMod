@@ -10,8 +10,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Folv's Staff");
-			Tooltip.SetDefault("Grants 2% increased magic damage and +10 maximum mana ");
+			DisplayName.SetDefault("Folv's Worn Staff");
 		}
 		public override void SetDefaults()
 		{
@@ -20,12 +19,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
 			item.rare = ItemRarityID.Blue;
 			item.value = 5000;
 			item.accessory = true;
-		}
-
-		public override void UpdateAccessory(Player player, bool hideVisual)
-		{
-			player.statManaMax2 += 10;
-			player.magicDamage *= 1.02f;
+            item.vanity = true;
 		}
 		public override void AddRecipes()
 		{

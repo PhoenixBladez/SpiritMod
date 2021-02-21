@@ -31,7 +31,9 @@ namespace SpiritMod.NPCs.BloodMoon
 			Main.npcFrameCount[npc.type] = 4;
 			npc.HitSound = SoundID.NPCHit19;
 			npc.DeathSound = SoundID.NPCDeath22;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.BloodGazerBanner>();
+        }
 
 		public override void AI()
 		{

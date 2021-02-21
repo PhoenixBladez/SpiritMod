@@ -10,8 +10,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Folv's Staff of Defense");
-			Tooltip.SetDefault("Grants 3% increased magic damage, +20 maximum mana, and immunity to knockback");
+			DisplayName.SetDefault("Folv's Worn Staff of Defense");
 		}
 		public override void SetDefaults()
 		{
@@ -19,25 +18,13 @@ namespace SpiritMod.Items.DonatorItems.Folv
 			item.height = 30;
 			item.rare = ItemRarityID.LightRed;
 			item.value = 5000;
+            item.vanity = true;
 			item.accessory = true;
-		}
-
-		public override void UpdateAccessory(Player player, bool hideVisual)
-		{
-			player.noKnockback = true;
-			player.statManaMax2 += 20;
-			player.magicDamage *= 1.03f;
 		}
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.CobaltShield, 1);
-			recipe.AddIngredient(ItemID.Amber, 1);
-			recipe.AddIngredient(ItemID.Diamond, 1);
-			recipe.AddIngredient(ItemID.Emerald, 1);
-			recipe.AddIngredient(ItemID.Ruby, 1);
 			recipe.AddIngredient(ItemID.Sapphire, 1);
-			recipe.AddIngredient(ItemID.Topaz, 1);
 			recipe.AddIngredient(ItemID.Amethyst, 1);
 			recipe.AddIngredient(ModContent.ItemType<FolvStaff1>(), 1);
 			recipe.AddTile(TileID.Anvils);

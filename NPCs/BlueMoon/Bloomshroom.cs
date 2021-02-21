@@ -31,7 +31,9 @@ namespace SpiritMod.NPCs.BlueMoon
 			npc.DeathSound = SoundID.NPCDeath16;
 			npc.value = 600f;
 			npc.knockBackResist = .35f;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.BloomshroomBanner>();
+        }
 
 
 		public override void HitEffect(int hitDirection, double damage)

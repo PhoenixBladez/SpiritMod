@@ -77,7 +77,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<Enchantment>(), 1);
+			recipe.AddIngredient(ModContent.ItemType<Items.Material.ArcaneGeyser>(), 5);
 			recipe.AddIngredient(ModContent.ItemType<FolvBlade2>(), 1);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);

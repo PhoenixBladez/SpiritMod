@@ -781,8 +781,6 @@ namespace SpiritMod.NPCs
 			}
 			if (MyWorld.jellySky && spawnInfo.player.ZoneSkyHeight)
 			{
-				if(!spawnInfo.player.GetSpiritPlayer().ZoneAsteroid) //allows asteroid enemies to still spawn during moon jelly event
-					pool.Clear();
 
 				pool.Add(NPCType<NPCs.MoonjellyEvent.TinyLunazoa>(), 9.35f);
 				pool.Add(NPCType<NPCs.MoonjellyEvent.ExplodingMoonjelly>(), 8.35f);
@@ -1074,11 +1072,6 @@ namespace SpiritMod.NPCs
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Magic.GoblinSorcererStaff>());
                 }
             }
-            if (npc.type == NPCID.Plantera) {
-				if (Main.rand.NextBool(4)) {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.DonatorItems.Folv.Enchantment>());
-				}
-			}
 			//IceSculptures
 			if (npc.type == NPCID.UndeadViking) {
 				if (Main.rand.Next(150) == 1 && !npc.SpawnedFromStatue) {
@@ -1368,21 +1361,6 @@ namespace SpiritMod.NPCs
 			if (npc.type == ModContent.NPCType<Scarabeus>() || npc.type == ModContent.NPCType<AncientFlyer>() || npc.type == ModContent.NPCType<SteamRaiderHead>()) {
 				if (Main.rand.Next(10) == 1) {
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<FolvBlade1>(), 1);
-				}
-			}
-			if (npc.type == ModContent.NPCType<Infernon>() || npc.type == ModContent.NPCType<Dusking>()) {
-				if (Main.rand.Next(8) == 1) {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Whetstone>(), 1);
-				}
-			}
-			if (npc.type == ModContent.NPCType<Atlas>()) {
-				if (Main.rand.Next(3) == 1) {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Enchantment>(), 1);
-				}
-			}
-			if (npc.type == ModContent.NPCType<Overseer>()) {
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Hilt>(), 1);
 				}
 			}
 			//End Folv

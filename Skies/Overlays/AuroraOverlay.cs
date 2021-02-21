@@ -96,8 +96,11 @@ namespace SpiritMod.Skies.Overlays
 				DrawSingularAurora(spriteBatch, basePoint, 0, 400, new Color(124, 142, 255), new Color(124, 142, 255), 0.0028f, 0.8f, 0.1f);
 				DrawSingularAurora(spriteBatch, basePoint, 20, 400, new Color(127, 255, 250), new Color(127, 255, 250), 0.0028f, 0.8f, 0.37f);
 			}
-
-			if (!MyWorld.aurora) {
+            else if (MyWorld.auroraType == 9)
+            {
+                DrawSingularAurora(spriteBatch, basePoint, 0, 400, new Color(255, 156, 197), new Color(255, 223, 153), 0.0028f, 0.8f, 0.1f);
+            }
+            if (!MyWorld.aurora) {
 				Deactivate();
 			}
 		}

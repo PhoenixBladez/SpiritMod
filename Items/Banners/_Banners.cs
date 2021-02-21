@@ -313,25 +313,6 @@ namespace SpiritMod.Items.Banners
             item.placeStyle = 15;
         }
     }
-    public class CrystalDrifterBanner : ModItem
-    {
-        public override void SetDefaults()
-        {
-            item.width = 10;
-            item.height = 24;
-            item.maxStack = 99;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = 1;
-            item.consumable = true;
-            item.rare = 1;
-            item.value = Item.buyPrice(0, 0, 10, 0);
-            item.createTile = TileType<BannerTile>();
-            item.placeStyle = 16;
-        }
-    }
     public class GoldCrateMimicBanner : ModItem
     {
         public override void SetDefaults()
@@ -1258,6 +1239,303 @@ namespace SpiritMod.Items.Banners
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 64;
+        }
+    }
+    public class CavernBanditBanner : ModItem
+    {
+        public override void SetDefaults()
+        {
+            item.width = 10;
+            item.height = 24;
+            item.maxStack = 99;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.useStyle = 1;
+            item.consumable = true;
+            item.rare = 1;
+            item.value = Item.buyPrice(0, 0, 10, 0);
+            item.createTile = TileType<BannerTile>();
+            item.placeStyle = 65;
+        }
+    }
+    public class ReachmanBanner : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Feral Hunter Banner");
+        }
+        public override void SetDefaults()
+        {
+            item.width = 10;
+            item.height = 24;
+            item.maxStack = 99;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.useStyle = 1;
+            item.consumable = true;
+            item.rare = 1;
+            item.value = Item.buyPrice(0, 0, 10, 0);
+            item.createTile = TileType<BannerTile>();
+            item.placeStyle = 66;
+        }
+    }
+    public class HemaphoraBanner : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Hemophora Banner");
+        }
+        public override void SetDefaults()
+        {
+            item.width = 10;
+            item.height = 24;
+            item.maxStack = 99;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.useStyle = 1;
+            item.consumable = true;
+            item.rare = 1;
+            item.value = Item.buyPrice(0, 0, 10, 0);
+            item.createTile = TileType<BannerTile>();
+            item.placeStyle = 67;
+        }
+    }
+    public class MyceliumBotanistBanner : ModItem
+    {
+        public override void SetDefaults()
+        {
+            item.width = 10;
+            item.height = 24;
+            item.maxStack = 99;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.useStyle = 1;
+            item.consumable = true;
+            item.rare = 1;
+            item.value = Item.buyPrice(0, 0, 10, 0);
+            item.createTile = TileType<BannerTile>();
+            item.placeStyle = 68;
+        }
+    }
+    public class MoonlightPreserverBanner : ModItem
+    {
+        public override void SetDefaults()
+        {
+            item.width = 10;
+            item.height = 24;
+            item.maxStack = 99;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.useStyle = 1;
+            item.consumable = true;
+            item.rare = 1;
+            item.value = Item.buyPrice(0, 0, 10, 0);
+            item.createTile = TileType<BannerTile>();
+            item.placeStyle = 69;
+        }
+    }
+    public class MoonlightRupturerBanner : ModItem
+    {
+        public override void SetDefaults()
+        {
+            item.width = 10;
+            item.height = 24;
+            item.maxStack = 99;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.useStyle = 1;
+            item.consumable = true;
+            item.rare = 1;
+            item.value = Item.buyPrice(0, 0, 10, 0);
+            item.createTile = TileType<BannerTile>();
+            item.placeStyle = 70;
+        }
+    }
+    public class GiantJellyBanner : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Tethervolt Jelly Banner");
+        }
+        public override void SetDefaults()
+        {
+            item.width = 10;
+            item.height = 24;
+            item.maxStack = 99;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.useStyle = 1;
+            item.consumable = true;
+            item.rare = 1;
+            item.value = Item.buyPrice(0, 0, 10, 0);
+            item.createTile = TileType<BannerTile>();
+            item.placeStyle = 71;
+        }
+    }
+    public class BloomshroomBanner : ModItem
+    {
+        public override void SetDefaults()
+        {
+            item.width = 10;
+            item.height = 24;
+            item.maxStack = 99;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.useStyle = 1;
+            item.consumable = true;
+            item.rare = 1;
+            item.value = Item.buyPrice(0, 0, 10, 0);
+            item.createTile = TileType<BannerTile>();
+            item.placeStyle = 72;
+        }
+    }
+    public class GlitterflyBanner : ModItem
+    {
+        public override void SetDefaults()
+        {
+            item.width = 10;
+            item.height = 24;
+            item.maxStack = 99;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.useStyle = 1;
+            item.consumable = true;
+            item.rare = 1;
+            item.value = Item.buyPrice(0, 0, 10, 0);
+            item.createTile = TileType<BannerTile>();
+            item.placeStyle = 73;
+        }
+    }
+    public class GlowToadBanner : ModItem
+    {
+        public override void SetDefaults()
+        {
+            item.width = 10;
+            item.height = 24;
+            item.maxStack = 99;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.useStyle = 1;
+            item.consumable = true;
+            item.rare = 1;
+            item.value = Item.buyPrice(0, 0, 10, 0);
+            item.createTile = TileType<BannerTile>();
+            item.placeStyle = 74;
+        }
+    }
+    public class LumantisBanner : ModItem
+    {
+        public override void SetDefaults()
+        {
+            item.width = 10;
+            item.height = 24;
+            item.maxStack = 99;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.useStyle = 1;
+            item.consumable = true;
+            item.rare = 1;
+            item.value = Item.buyPrice(0, 0, 10, 0);
+            item.createTile = TileType<BannerTile>();
+            item.placeStyle = 75;
+        }
+    }
+    public class LunarSlimeBanner : ModItem
+    {
+        public override void SetDefaults()
+        {
+            item.width = 10;
+            item.height = 24;
+            item.maxStack = 99;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.useStyle = 1;
+            item.consumable = true;
+            item.rare = 1;
+            item.value = Item.buyPrice(0, 0, 10, 0);
+            item.createTile = TileType<BannerTile>();
+            item.placeStyle = 76;
+        }
+    }
+    public class BlizzardBanditBanner : ModItem
+    {
+        public override void SetDefaults()
+        {
+            item.width = 10;
+            item.height = 24;
+            item.maxStack = 99;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.useStyle = 1;
+            item.consumable = true;
+            item.rare = 1;
+            item.value = Item.buyPrice(0, 0, 10, 0);
+            item.createTile = TileType<BannerTile>();
+            item.placeStyle = 77;
+        }
+    }
+    public class CrystalDrifterBanner : ModItem
+    {
+        public override void SetDefaults()
+        {
+            item.width = 10;
+            item.height = 24;
+            item.maxStack = 99;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.useStyle = 1;
+            item.consumable = true;
+            item.rare = 1;
+            item.value = Item.buyPrice(0, 0, 10, 0);
+            item.createTile = TileType<BannerTile>();
+            item.placeStyle = 78;
+        }
+    }
+    public class BloodGazerBanner : ModItem
+    {
+        public override void SetDefaults()
+        {
+            item.width = 10;
+            item.height = 24;
+            item.maxStack = 99;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.useStyle = 1;
+            item.consumable = true;
+            item.rare = 1;
+            item.value = Item.buyPrice(0, 0, 10, 0);
+            item.createTile = TileType<BannerTile>();
+            item.placeStyle = 79;
         }
     }
 }
