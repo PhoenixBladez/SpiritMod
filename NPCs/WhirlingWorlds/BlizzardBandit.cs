@@ -35,6 +35,8 @@ namespace SpiritMod.NPCs.WhirlingWorlds
             npc.dontTakeDamage = false;
             npc.HitSound = new Terraria.Audio.LegacySoundStyle(3, 1);
             npc.DeathSound = new Terraria.Audio.LegacySoundStyle(4, 1);
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.BlizzardBanditBanner>();
         }
         public override bool PreAI()
         {
@@ -161,7 +163,7 @@ namespace SpiritMod.NPCs.WhirlingWorlds
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.player.ZoneSnow && Main.raining && spawnInfo.player.ZoneOverworldHeight ? 0.085f : 0f;
+            return spawnInfo.player.ZoneSnow && spawnInfo.player.ZoneOverworldHeight && !Main.dayTime ? 0.115f : 0f;
         }
         public override void NPCLoot()
         {

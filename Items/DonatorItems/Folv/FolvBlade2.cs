@@ -73,7 +73,7 @@ namespace SpiritMod.Items.DonatorItems.Folv
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<Whetstone>(), 1);
+			recipe.AddIngredient(ItemID.SoulofMight, 5);
 			recipe.AddIngredient(ModContent.ItemType<FolvBlade1>(), 1);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);

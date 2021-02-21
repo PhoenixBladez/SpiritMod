@@ -20,12 +20,11 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.height = 10;
 			projectile.aiStyle = -1;
 			projectile.friendly = true;
-			projectile.penetrate = 1;
+			projectile.penetrate = -1;
 			projectile.alpha = 255;
 			projectile.timeLeft = 50;
 		}
-
-		int counter = -720;
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => projectile.Kill();
 		public override bool PreAI()
 		{
 			/*int num = 5;

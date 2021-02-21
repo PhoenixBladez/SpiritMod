@@ -230,6 +230,51 @@ namespace SpiritMod.Tiles.Banners
                 case 64:
                     item = "CracklingCoreBanner";
                     break;
+                case 65:
+                    item = "CavernBanditBanner";
+                    break;
+                case 66:
+                    item = "ReachmanBanner";
+                    break;
+                case 67:
+                    item = "HemaphoraBanner";
+                    break;
+                case 68:
+                    item = "MyceliumBotanistBanner";
+                    break;
+                case 69:
+                    item = "MoonlightPreserverBanner";
+                    break;
+                case 70:
+                    item = "MoonlightRupturerBanner";
+                    break;
+                case 71:
+                    item = "GiantJellyBanner";
+                    break;
+                case 72:
+                    item = "BloomshroomBanner";
+                    break;
+                case 73:
+                    item = "GlitterflyBanner";
+                    break;
+                case 74:
+                    item = "GlowToadBanner";
+                    break;
+                case 75:
+                    item = "LumantisBanner";
+                    break;
+                case 76:
+                    item = "LunarSlimeBanner";
+                    break;
+                case 77:
+                    item = "BlizzardBanditBanner";
+                    break;
+                case 78:
+                    item = "CrystalDrifterBanner";
+                    break;
+                case 79:
+                    item = "BloodGazerBanner";
+                    break;
                 default:
 					return;
 			}
@@ -437,6 +482,51 @@ namespace SpiritMod.Tiles.Banners
                         break;
                     case 64:
                         type = "GraniteCore";
+                        break;
+                    case 65:
+                        type = "CavernBandit";
+                        break;
+                    case 66:
+                        type = "Reachman";
+                        break;
+                    case 67:
+                        type = "Hemophora";
+                        break;
+                    case 68:
+                        type = "MycelialBotanist";
+                        break;
+                    case 69:
+                        type = "MoonlightPreserver";
+                        break;
+                    case 70:
+                        type = "ExplodingMoonjelly";
+                        break;
+                    case 71:
+                        type = "MoonjellyGiant";
+                        break;
+                    case 72:
+                        type = "Bloomshroom";
+                        break;
+                    case 73:
+                        type = "Glitterfly";
+                        break;
+                    case 74:
+                        type = "GlowToad";
+                        break;
+                    case 75:
+                        type = "Lumantis";
+                        break;
+                    case 76:
+                        type = "LunarSlime";
+                        break;
+                    case 77:
+                        type = "BlizzardBandit";
+                        break;
+                    case 78:
+                        type = "CrystalDrifter";
+                        break;
+                    case 79:
+                        type = "BloodGazer";
                         break;
                     default:
 						return;

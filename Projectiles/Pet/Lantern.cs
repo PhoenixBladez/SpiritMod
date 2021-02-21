@@ -27,7 +27,7 @@ namespace SpiritMod.Projectiles.Pet
 			int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 110, 0, -1f, 0, default(Color), 1f);
 			Main.dust[d].scale *= 0.5f;
 			Main.dust[d].noGravity = true;
-			Lighting.AddLight((int)(projectile.Center.X / 16f), (int)(projectile.Center.Y / 16f), 0.75f, 1.5f, 0.75f);
+			Lighting.AddLight((int)(projectile.Center.X / 16f), (int)(projectile.Center.Y / 16f), 0.75f/2, 1.5f/2, 0.75f/2);
 
 			Player player = Main.player[projectile.owner];
 			player.zephyrfish = false; // Relic from aiType

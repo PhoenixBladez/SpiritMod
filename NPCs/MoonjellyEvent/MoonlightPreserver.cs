@@ -37,7 +37,9 @@ namespace SpiritMod.NPCs.MoonjellyEvent
 			npc.noGravity = true;
             npc.noTileCollide = true;
 			aiType = NPCID.Firefly;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.MoonlightPreserverBanner>();
+        }
 
 		public override void HitEffect(int hitDirection, double damage)
         {

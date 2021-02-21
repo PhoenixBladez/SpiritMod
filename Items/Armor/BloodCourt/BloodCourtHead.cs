@@ -24,8 +24,7 @@ namespace SpiritMod.Items.Armor.BloodCourt
 			item.rare = ItemRarityID.Green;
 			item.defense = 1;
 		}
-
-		public override void UpdateEquip(Player player)
+        public override void UpdateEquip(Player player)
 		{
 			player.GetSpiritPlayer().bloodCourtHead = true;
 			player.allDamage += 0.04f;

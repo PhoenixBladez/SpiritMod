@@ -27,6 +27,8 @@ namespace SpiritMod.NPCs
             npc.DeathSound = SoundID.NPCDeath1;
             npc.value = 220f;
             npc.knockBackResist = .05f;
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.HemaphoraBanner>();
         }
         int frame = 0;
         public override void AI()

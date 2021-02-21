@@ -32,7 +32,9 @@ namespace SpiritMod.NPCs.Reach
 			npc.knockBackResist = .34f;
 			npc.aiStyle = 3;
 			aiType = NPCID.SnowFlinx;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.ReachmanBanner>();
+        }
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frameCounter += 0.10f;

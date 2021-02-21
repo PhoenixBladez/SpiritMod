@@ -32,9 +32,11 @@ namespace SpiritMod.NPCs.BlueMoon
 			npc.DeathSound = SoundID.NPCDeath5;
 			npc.value = 2000f;
 			npc.knockBackResist = 0.5f;
-			// npc.aiStyle = 26;
-			// aiType = NPCID.Unicorn;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.GlowToadBanner>();
+            // npc.aiStyle = 26;
+            // aiType = NPCID.Unicorn;
+        }
 		public override void HitEffect(int hitDirection, double damage)
 		{
             Main.projectile[tongueproj].active = false;

@@ -3452,8 +3452,10 @@ namespace SpiritMod
 			if (Main.snowMoon) {
 				auroraType = 8;
 			}
-
-			if (!Main.bloodMoon && !Main.pumpkinMoon && !Main.snowMoon && !modPlayer.ZoneSpirit) {
+            if (BlueMoon)  {
+                MyWorld.auroraType = 9;
+            }
+            if (!Main.bloodMoon && !Main.pumpkinMoon && !Main.snowMoon && !modPlayer.ZoneSpirit) {
 				auroraType = auroraTypeFixed;
 			}
 			if (Main.dayTime != dayTimeLast)

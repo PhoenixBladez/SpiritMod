@@ -2,7 +2,8 @@ using SpiritMod.Items.Consumable.Fish;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-
+using System;
+using Microsoft.Xna.Framework;
 namespace SpiritMod.NPCs.Critters
 {
 	public class CrismonTigerfish : ModNPC
@@ -31,7 +32,31 @@ namespace SpiritMod.NPCs.Critters
 			npc.npcSlots = 0;
 			aiType = NPCID.CorruptGoldfish;
 		}
-
+		 public override void AI()
+        {
+            Player player = Main.player[npc.target]; {
+                Player target = Main.player[npc.target];
+                int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
+                if (distance < 65 && target.wet && npc.wet)
+                {
+                    Vector2 vel = npc.DirectionFrom(target.Center);
+                    vel.Normalize();
+                    vel *= 4.5f;
+                    npc.velocity = vel;
+                    npc.rotation = npc.velocity.X * .06f;
+                    if (target.position.X > npc.position.X) {
+                        npc.spriteDirection = -1;
+                        npc.direction = -1;
+                        npc.netUpdate = true;
+                    }
+                    else if (target.position.X < npc.position.X) {
+                        npc.spriteDirection = 1;
+                        npc.direction = 1;
+                        npc.netUpdate = true;
+                    }
+                }
+            }
+        }
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frameCounter += 0.15f;
@@ -47,10 +72,6 @@ namespace SpiritMod.NPCs.Critters
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Tigerfish1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Tigerfish2"), 1f);
 			}
-		}
-		public override void AI()
-		{
-			npc.spriteDirection = npc.direction;
 		}
 		public override void NPCLoot()
 		{

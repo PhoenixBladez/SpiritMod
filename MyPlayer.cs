@@ -2701,14 +2701,14 @@ namespace SpiritMod
 			if(ZoneAsteroid) {
 				Main.numCloudsTemp = 0;
 			}
-            if (Main.rand.NextBool(6) && (ZoneReach || MyWorld.calmNight) && player.ZoneOverworldHeight && !player.ZoneBeach && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneJungle && !player.ZoneHoly) {
+            if (Main.rand.NextBool(6) && (ZoneReach || MyWorld.calmNight) && player.ZoneOverworldHeight && !player.ZoneBeach && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneJungle && !player.ZoneHoly && !player.ZoneSnow) {
 				float goreScale = 0.01f * Main.rand.Next(20, 70);
 				int a = Gore.NewGore(new Vector2(player.Center.X + Main.rand.Next(-1000, 1000), player.Center.Y + (Main.rand.Next(-1000, -100))), new Vector2(Main.windSpeed * 3f, 0f), 911, goreScale);
 				Main.gore[a].timeLeft = 15;
 				Main.gore[a].rotation = 0f;
 				Main.gore[a].velocity = new Vector2(Main.windSpeed * 40f, Main.rand.NextFloat(0.2f, 2f));
 			}
-			if(Main.rand.Next(9) == 0 && (ZoneReach || MyWorld.calmNight) && player.ZoneOverworldHeight && !player.ZoneBeach && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneJungle && !player.ZoneHoly) {
+			if(Main.rand.Next(9) == 0 && (ZoneReach || MyWorld.calmNight) && player.ZoneOverworldHeight && !player.ZoneBeach && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneJungle && !player.ZoneHoly && !player.ZoneSnow) {
 				float goreScale = Main.rand.NextFloat(0.5f, 0.9f);
 				int x = (int)(Main.windSpeed > 0 ? Main.screenPosition.X - 100 : Main.screenPosition.X + Main.screenWidth + 100);
 				int y = (int)Main.screenPosition.Y + Main.rand.Next(-100, Main.screenHeight);
@@ -3996,7 +3996,7 @@ namespace SpiritMod
 			foreach(var effect in effects)
 				effect.PlayerPostUpdate(player);
 
-			if(ZoneReach && Main.expertMode) {
+			/*if(ZoneReach && Main.expertMode) {
 				int off = 5; //Change this value depending on the strength of your light. Too big and it might cause lag, though. Never go above ~20 or so.
 				int x = (int)(Main.screenPosition.X / 16f) - off;
 				int y = (int)(Main.screenPosition.Y / 16f) - off;
@@ -4016,7 +4016,7 @@ namespace SpiritMod
 						}
 					}
 				}
-			}
+			}*/
 			if(ZoneReach && player.wet && Main.expertMode) {
 				player.AddBuff(BuffID.Poisoned, 120);
 			}
@@ -4291,8 +4291,7 @@ namespace SpiritMod
 				npc.StrikeNPC(damage / 3, 1f, 0, crit);
 			}
 		}
-
-		public void Yoraiz0rEye()
+        public void Yoraiz0rEye()
 		{
 			int index = 0 + player.bodyFrame.Y / 56;
 			if(index >= Main.OffsetsPlayerHeadgear.Length) {
@@ -5045,7 +5044,7 @@ namespace SpiritMod
 							Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
 					}
 					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
-					Projectile.NewProjectile(player.Center, dir, ModContent.ProjectileType<DarkAnima>(), 55, 0, player.whoAmI);
+					Projectile.NewProjectile(player.Center, dir, ModContent.ProjectileType<DarkAnima>(), 45, 0, player.whoAmI);
 				}
 
 				if(depthSet && !player.HasBuff(ModContent.BuffType<SharkAttackBuff>())) {

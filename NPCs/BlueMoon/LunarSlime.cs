@@ -36,7 +36,9 @@ namespace SpiritMod.NPCs.BlueMoon
 			npc.buffImmune[BuffID.Venom] = true;
 			aiType = NPCID.BlueSlime;
 			animationType = NPCID.BlueSlime;
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.LunarSlimeBanner>();
+        }
 
 		public override Color? GetAlpha(Color lightColor)
 		{

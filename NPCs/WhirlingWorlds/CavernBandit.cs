@@ -36,7 +36,9 @@ namespace SpiritMod.NPCs.WhirlingWorlds
 			npc.alpha = 0;
 			npc.dontTakeDamage = false;
 			npc.DeathSound = new Terraria.Audio.LegacySoundStyle(4, 1);
-		}
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<Items.Banners.CavernBanditBanner>();
+        }
 		public override bool PreAI()
 		{
 			timer += 0.05;
@@ -73,6 +75,7 @@ namespace SpiritMod.NPCs.WhirlingWorlds
 			}
 			return base.PreAI();
 		}
+
         public override void NPCLoot()
         {
             if (Main.rand.NextBool(24))

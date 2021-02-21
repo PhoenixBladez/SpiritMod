@@ -57,9 +57,11 @@ namespace SpiritMod.Effects
 				CreateTrail(projectile, new GradientTrail(new Color(241, 173, 255), new Color(105, 42, 168)), new RoundCap(), new DefaultTrailPosition(), 20f, 150f);
 			}
 			if (projectile.type == ModContent.ProjectileType<AdamantiteStaffProj>() || projectile.type == ModContent.ProjectileType<AdamantiteStaffProj2>()) {
-				float trailwidth = (projectile.type == ModContent.ProjectileType<AdamantiteStaffProj>()) ? 30 : 20;
+				float trailwidth = (projectile.type == ModContent.ProjectileType<AdamantiteStaffProj>()) ? 25 : 20;
 				float traillength = (projectile.type == ModContent.ProjectileType<AdamantiteStaffProj>()) ? 300 : 150;
-				CreateTrail(projectile, new GradientTrail(new Color(252, 3, 57), new Color(255, 201, 213)), new RoundCap(), new DefaultTrailPosition(), trailwidth, traillength);
+				CreateTrail(projectile, new StandardColorTrail(new Color(252, 3, 57) * 0.9f), new RoundCap(), new DefaultTrailPosition(), trailwidth / 2, traillength * 0.8f);
+				CreateTrail(projectile, new StandardColorTrail(new Color(255, 255, 255)), new RoundCap(), new DefaultTrailPosition(), trailwidth / 3, traillength * 0.75f);
+				CreateTrail(projectile, new GradientTrail(new Color(252, 3, 57) * 0.75f, new Color(255, 201, 213) * 0.75f), new RoundCap(), new DefaultTrailPosition(), trailwidth, traillength);
 			}
 			if (projectile.type == ModContent.ProjectileType<ShootingStarHostile>()) {
 				CreateTrail(projectile, new GradientTrail(new Color(255, 215, 105), new Color(105, 213, 255)), new RoundCap(), new SleepingStarTrailPosition(), 14f, 150f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
@@ -69,7 +71,7 @@ namespace SpiritMod.Effects
 				CreateTrail(projectile, new StandardColorTrail(Color.White * 0.2f), new RoundCap(), new SleepingStarTrailPosition(), 56f, 30f, new DefaultShader());
 
 			}
-            if (projectile.type == ModContent.ProjectileType<Starshock1>())
+            if (projectile.type == ModContent.ProjectileType<Starshock1>() || projectile.type == ModContent.ProjectileType<Starshock>())
             {
                 CreateTrail(projectile, new GradientTrail(new Color(108, 215, 245), new Color(105, 213, 255)), new RoundCap(), new DefaultTrailPosition(), 8f, 150f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
                 CreateTrail(projectile, new GradientTrail(new Color(255, 255, 255) * .25f, new Color(255, 255, 255) * .25f), new RoundCap(), new DefaultTrailPosition(), 26f, 250f, new DefaultShader());
