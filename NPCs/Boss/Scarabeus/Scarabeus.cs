@@ -84,9 +84,9 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				npc.defense = 10;
 
 			if (frame >= 18 && frame < 21)
-				SpiritMod.scarabWings.SetTo(MathHelper.Clamp((800 - npc.Distance(Main.player[Main.myPlayer].Center)) / 400f, 0, 1));
+				SpiritMod.scarabWings.SetTo(Main.ambientVolume * MathHelper.Clamp((800 - npc.Distance(Main.player[Main.myPlayer].Center)) / 400f, 0, 1));
 			else
-				SpiritMod.scarabWings.Halt();
+				SpiritMod.scarabWings.Stop();
 			
 
 			if (player.dead || !player.active) {
