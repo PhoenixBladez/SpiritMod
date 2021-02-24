@@ -25,10 +25,7 @@ namespace SpiritMod.Items.Ammo.Rocket
 			item.shoot = ModContent.ProjectileType<FlakeRocketProj>();
 		}
 
-		public override void PickAmmo(Item weapon, Player player, ref int type, ref float speed, ref int damage, ref float knockback)
-		{
-			type = item.shoot;
-		}
+		public override void PickAmmo(Item weapon, Player player, ref int type, ref float speed, ref int damage, ref float knockback) => type = item.shoot;
 
 		public override void AddRecipes()
 		{

@@ -46,6 +46,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using System.Linq;
+using SpiritMod.Items.Ammo.Rocket.Warhead;
 
 namespace SpiritMod.NPCs
 {
@@ -656,7 +657,8 @@ namespace SpiritMod.NPCs
 			}
 			else if (type == NPCID.ArmsDealer) {
 				shop.item[nextSlot].SetDefaults(ItemType<Items.Ammo.Bullet.RubberBullet>(), false);
-				if(Main.player.Where(x => x.HasItem(ItemType<Moonshot>())).Any())
+				shop.item[nextSlot].SetDefaults(ItemType<Warhead>(), false);
+				if (Main.player.Where(x => x.HasItem(ItemType<Moonshot>())).Any())
 					shop.item[nextSlot].SetDefaults(ItemType<TinyLunazoaItem>(), false);
 				nextSlot++;
 			}

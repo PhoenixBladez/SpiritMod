@@ -41,7 +41,7 @@ namespace SpiritMod
 			}
 		}
 
-		public static void DrawCircle(Vector2 position, int dustType, float mainSize = 1, float RatioX = 1, float RatioY = 1, float dustDensity = 1, float dustSize = 1f, float randomAmount = 0, float rotationAmount = 0)
+		public static void DrawCircle(Vector2 position, int dustType, float mainSize = 1, float RatioX = 1, float RatioY = 1, float dustDensity = 1, float dustSize = 1f, float randomAmount = 0, float rotationAmount = 0, bool nogravity = false)
 		{
 			float rot;
 			if (rotationAmount < 0) { rot = Main.rand.NextFloat(0, (float)Math.PI * 2); } else { rot = rotationAmount; }
@@ -54,7 +54,7 @@ namespace SpiritMod
 
 				float x = (float)Math.Cos(k + rand) * RatioX;
 				float y = (float)Math.Sin(k + rand) * RatioY;
-                if (dustType == 222 || dustType == 130)
+                if (dustType == 222 || dustType == 130 || nogravity)
                 {
                     Dust.NewDustPerfect(position, dustType, new Vector2(x, y).RotatedBy(rot) * mainSize, 0, default, dustSize).noGravity = true;
                 }
