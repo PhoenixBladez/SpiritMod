@@ -177,6 +177,12 @@ namespace SpiritMod.Effects
 			if (projectile.type == ModContent.ProjectileType<NegativeArrow>()) {
 				CreateTrail(projectile, new StandardColorTrail(new Color(255, 113, 36)), new RoundCap(), new ZigZagTrailPosition(3f), 8f, 250f);
 			}
+			if(projectile.type == ModContent.ProjectileType<ScarabArrow>() && projectile.ai[0] == 1) {
+				CreateTrail(projectile, new StandardColorTrail(new Color(163, 255, 246)), new RoundCap(), new DefaultTrailPosition(), 10, 200, new ImageShader(mod.GetTexture("Textures/Trails/CrystalTrail"), Vector2.One));
+				CreateTrail(projectile, new StandardColorTrail(new Color(163, 255, 246)), new RoundCap(), new WaveTrailPos(10), 10, 200, new ImageShader(mod.GetTexture("Textures/Trails/CrystalTrail"), Vector2.One));
+				CreateTrail(projectile, new StandardColorTrail(new Color(163, 255, 246)), new RoundCap(), new WaveTrailPos(-10), 10, 200, new ImageShader(mod.GetTexture("Textures/Trails/CrystalTrail"), Vector2.One));
+				CreateTrail(projectile, new GradientTrail(new Color(163, 255, 246) * 0.5f, Color.Transparent), new RoundCap(), new ArrowGlowPosition(), 25, 300, new DefaultShader());
+			}
 			/*switch (projectile.type)
             {
                 case ProjectileID.WoodenArrowFriendly:
@@ -383,8 +389,7 @@ namespace SpiritMod.Effects
 
 		public void Draw(Effect effect, BasicEffect effect2, GraphicsDevice device)
 		{
-			if (Dead) return;
-			if (_points.Count <= 1) return;
+			if (Dead || _points.Count <= 1) return;
 
 			//calculate trail's length
 			float trailLength = 0f;
@@ -538,6 +543,10 @@ namespace SpiritMod.Effects
 			return projectile.position + drawOrigin + Vector2.UnitY * projectile.gfxOffY;
 		}
 	}
+	public class ArrowGlowPosition : ITrailPosition
+	{
+		public Vector2 GetNextTrailPosition(Projectile projectile) => projectile.Center + projectile.velocity + Vector2.UnitY * projectile.gfxOffY;
+	}
 
 	public class ZigZagTrailPosition : ITrailPosition
 	{
@@ -570,6 +579,23 @@ namespace SpiritMod.Effects
 			}
 
 			return projectile.Center + offset * _strength;
+		}
+	}
+
+	public class WaveTrailPos : ITrailPosition
+	{
+		private float _counter;
+		private readonly float _strength;
+		public WaveTrailPos(float strength)
+		{
+			_strength = strength;
+		}
+
+		public Vector2 GetNextTrailPosition(Projectile proj)
+		{
+			_counter += 0.33f;
+			Vector2 offset = Vector2.UnitX.RotatedBy((float)Math.Sin(MathHelper.PiOver4 * (_counter)));
+			return proj.Center + offset.RotatedBy(proj.velocity.ToRotation()) * _strength;
 		}
 	}
 
