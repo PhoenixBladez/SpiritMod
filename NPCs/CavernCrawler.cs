@@ -15,7 +15,7 @@ namespace SpiritMod.NPCs
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cavern Crawler");
-			Main.npcFrameCount[npc.type] = 16;
+			Main.npcFrameCount[npc.type] = 18;
 			NPCID.Sets.TrailCacheLength[npc.type] = 5;
 			NPCID.Sets.TrailingMode[npc.type] = 0;
 		}
@@ -23,7 +23,7 @@ namespace SpiritMod.NPCs
 		public override void SetDefaults()
 		{
 			npc.width = 46;
-			npc.height = 28;
+			npc.height = 34;
 			npc.damage = 17;
 			npc.defense = 9;
 			npc.lifeMax = 45;
@@ -85,23 +85,23 @@ namespace SpiritMod.NPCs
 			npc.spriteDirection = npc.direction;
 			Player target = Main.player[npc.target];
 			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
-			if (distance < 320) {
+            timer++;
+            if (distance < 320) {
 				{
 					aiType = NPCID.Unicorn;
 					npc.aiStyle = 26;
 					npc.knockBackResist = 0.15f;
 					trailbehind = true;
 				}
-				timer++;
-				if (timer == 4) {
+				if (timer >= 4) {
 					frame++;
 					timer = 0;
 				}
-				if (frame < 14) {
-					frame = 14;
+				if (frame < 8) {
+					frame = 8;
 				}
-				if (frame >= 16) {
-					frame = 14;
+				if (frame >= 17) {
+					frame = 8;
 				}
 			}
 			else {
@@ -110,13 +110,12 @@ namespace SpiritMod.NPCs
 				aiType = NPCID.Snail;
 				npc.aiStyle = 3;
 				npc.knockBackResist = 0.75f;
-				timer++;
-				if (timer == 4) {
+				if (timer >= 4) {
 					frame++;
 					timer = 0;
 				}
-				if (frame >= 13) {
-					frame = 1;
+				if (frame >= 7) {
+					frame = 0;
 				}
 			}
 			if (trailbehind && !playsound) {

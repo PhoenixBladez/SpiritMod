@@ -27,8 +27,8 @@ namespace SpiritMod.Items.Accessory
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<GoldenApple>(), 1);
-			recipe.AddIngredient(ItemID.CobaltShield, 1);
-			recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ModContent.ItemType<Items.Accessory.Leather.LeatherShield>(), 1);
+            recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();
 		}

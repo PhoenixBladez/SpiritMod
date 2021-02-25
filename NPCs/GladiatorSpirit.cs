@@ -12,7 +12,7 @@ namespace SpiritMod.NPCs
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gladiator Spirit");
-			Main.npcFrameCount[npc.type] = Main.npcFrameCount[NPCID.Wraith];
+			Main.npcFrameCount[npc.type] = 8;
 			NPCID.Sets.TrailCacheLength[npc.type] = 3;
 			NPCID.Sets.TrailingMode[npc.type] = 0;
 		}
@@ -32,7 +32,6 @@ namespace SpiritMod.NPCs
 			npc.noTileCollide = true;
 			npc.aiStyle = 22;
 			aiType = NPCID.Wraith;
-			animationType = NPCID.Wraith;
 			banner = npc.type;
 			bannerItem = ModContent.ItemType<Items.Banners.GladiatorSpiritBanner>();
 		}
@@ -60,12 +59,19 @@ namespace SpiritMod.NPCs
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GladSpirit/GladSpirit3"), 1f);
 
 			}
-		}
-		bool reflectPhase;
+        }
+        public override void FindFrame(int frameHeight)
+        {
+            npc.frameCounter += 0.15f;
+            npc.frameCounter %= Main.npcFrameCount[npc.type];
+            int frame = (int)npc.frameCounter;
+            npc.frame.Y = frame * frameHeight;
+        }
+        bool reflectPhase;
 		int reflectTimer;
 		public override void AI()
 		{
-
+            npc.spriteDirection = -npc.direction;
 			reflectTimer++;
 			if (reflectTimer == 720) {
 				Main.PlaySound(SoundID.DD2_WitherBeastAuraPulse, npc.Center);
@@ -94,7 +100,7 @@ namespace SpiritMod.NPCs
 		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			{
-				var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+				var effects = npc.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 				spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
 								 lightColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 				{

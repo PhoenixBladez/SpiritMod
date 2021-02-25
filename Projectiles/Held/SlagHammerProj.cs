@@ -30,7 +30,7 @@ namespace SpiritMod.Projectiles.Held
 			projectile.ownerHitCheck = true;
 		}
 
-		readonly int height = 62;
+		readonly int height = 60;
 		readonly int width = 60;
 		double radians = 0;
         int flickerTime = 0;

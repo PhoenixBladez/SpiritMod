@@ -733,8 +733,10 @@ namespace SpiritMod.NPCs
             else if (type == NPCID.Painter) {
 				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Canvas>(), false);
 				nextSlot++;
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<FloppaPainting>(), false);
+                nextSlot++;
 
-			}
+            }
 		}
 		public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
 		{

@@ -1,5 +1,6 @@
-﻿
+﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Accessory;
 using SpiritMod.Items.DonatorItems.FrostTroll;
 using Terraria;
@@ -25,7 +26,7 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
 		{
 			npc.width = 344;
 			npc.height = 298;
-			npc.damage = 46;
+			npc.damage = 0;
 			npc.lifeMax = 4500;
 			npc.knockBackResist = 0;
 
@@ -38,76 +39,120 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
 		}
 
 		private int Counter;
-		public override bool PreAI()
-		{
-			Counter++;
-			if (Counter > 1000 && !NPC.AnyNPCs(143)) {
-				int newNPC = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, 143, npc.whoAmI);
-				Counter = 0;
-			}
-			npc.netUpdate = true;
-			npc.TargetClosest(true);
-			npc.TargetClosest(false);
-			npc.velocity.Y = -100;
-			if (npc.ai[0] == 0) {
-				npc.spriteDirection = npc.direction;
-				Player player = Main.player[npc.target];
-				if (npc.Center.X >= player.Center.X && moveSpeed >= -53) // flies to players x position
-					moveSpeed--;
-				else if (npc.Center.X <= player.Center.X && moveSpeed <= 53)
-					moveSpeed++;
-
-				npc.velocity.X = moveSpeed * 0.1f;
-
-				if (npc.Center.Y >= player.Center.Y - HomeY && moveSpeedY >= -30) //Flies to players Y position
-				{
-					moveSpeedY--;
-					HomeY = 150f;
-				}
-				else if (npc.Center.Y <= player.Center.Y - HomeY && moveSpeedY <= 30)
-					moveSpeedY++;
-
-				npc.velocity.Y = moveSpeedY * 0.1f;
-				if (Main.rand.Next(220) == 6)
-					HomeY = -35f;
-			}
-			npc.velocity.Y = moveSpeedY * 0.1f;
-
-			timer++;
-			if (timer == 200 || timer == 250) {
-				Vector2 direction = Main.player[npc.target].Center - npc.Center;
-				direction.Normalize();
-				direction.X *= 5f;
-				direction.Y *= 5f;
-
-				int amountOfProjectiles = Main.rand.Next(5, 6);
-				for (int i = 0; i < amountOfProjectiles; ++i) {
-					float A = (float)Main.rand.Next(-150, 150) * 0.03f;
-					float B = (float)Main.rand.Next(-150, 150) * 0.03f;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ProjectileID.FrostBlastHostile, 29, 1, Main.myPlayer, 0, 0);
-				}
-			}
-			else if (timer == 300 || timer == 340 || timer == 380 || timer == 420 || timer == 460 || timer == 470 || timer == 480 || timer == 490) {
-				Vector2 direction = Main.player[npc.target].Center - npc.Center;
-				direction.Normalize();
-				direction.X *= 14f;
-				direction.Y *= 14f;
-
-				int amountOfProjectiles = Main.rand.Next(1, 1);
-				for (int i = 0; i < amountOfProjectiles; ++i) {
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<SnowBall>(), 32, 1, Main.myPlayer, 0, 0);
-				}
-
-			}
-			else if (timer >= 500) {
-				timer = 0;
-			}
-			return true;
+		public override void AI()
+        {
+            float numYPos = -280f;
+            npc.ai[0]++;
+            Lighting.AddLight(new Vector2(npc.Center.X, npc.Center.Y), 0.075f, 0.231f, 0.255f);
+            Player player = Main.player[npc.target];
+            if (npc.ai[0] < 420 || npc.ai[0] > 490)
+            {
+                if (player.position.X > npc.position.X)
+                {
+                    npc.spriteDirection = 1;
+                }
+                else
+                {
+                    npc.spriteDirection = -1;
+                }
+                npc.aiStyle = -1;
+                float num1 = 4.7f;
+                float moveSpeed = 0.13f;
+                if (npc.ai[0] > 320 && npc.ai[0] < 400)
+                {
+                    num1 = 14f;
+                    moveSpeed = .5f;
+                }
+				if (npc.ai[0] > 580 && npc.ai[0] < 625)
+                {
+                    numYPos = -0f;
+                    num1 = 10f;
+                    moveSpeed = .4f;
+                    npc.damage = 45;
+                }
+				else
+                {
+                    npc.damage = 0;
+                }
+                npc.TargetClosest(true);
+                Vector2 vector2_1 = Main.player[npc.target].Center - npc.Center + new Vector2(0.0f, numYPos);
+                float num2 = vector2_1.Length();
+                Vector2 desiredVelocity;
+                if ((double)num2 < 20.0)
+                    desiredVelocity = npc.velocity;
+                else if ((double)num2 < 40.0)
+                {
+                    vector2_1.Normalize();
+                    desiredVelocity = vector2_1 * (num1 * 0.45f);
+                }
+                else if ((double)num2 < 80.0)
+                {
+                    vector2_1.Normalize();
+                    desiredVelocity = vector2_1 * (num1 * 0.75f);
+                }
+                else
+                {
+                    vector2_1.Normalize();
+                    desiredVelocity = vector2_1 * num1;
+                }
+                npc.SimpleFlyMovement(desiredVelocity, moveSpeed);
+            }
+			if (npc.ai[0] == 420)
+            {
+                npc.velocity = Vector2.Zero;
+                npc.netUpdate = true;
+            }
+			if (npc.ai[0] > 420 && npc.ai[0] < 445)
+            {
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Dust dust = Dust.NewDustDirect(new Vector2(npc.Center.X, npc.Center.Y + 120), npc.width, npc.height, 226);
+                    dust.velocity *= -1f;
+                    dust.scale *= .8f;
+                    dust.noGravity = true;
+                    Vector2 vector2_1 = new Vector2(Main.rand.Next(-80, 81), Main.rand.Next(-80, 81));
+                    vector2_1.Normalize();
+                    Vector2 vector2_2 = vector2_1 * (Main.rand.Next(50, 100) * 0.04f);
+                    dust.velocity = vector2_2;
+                    vector2_2.Normalize();
+                    Vector2 vector2_3 = vector2_2 * 34f;
+                    dust.position = new Vector2(npc.Center.X, npc.Center.Y + 120) - vector2_3;
+                }
+            }
+			if (npc.ai[0] == 445 || npc.ai[0] == 455 || npc.ai[0] == 465)
+            {
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 60, 0, 26, ModContent.ProjectileType<SnowMongerBeam>(), 9, 1, Main.myPlayer, 0, 0);
+                    
+                }
+            }
+			if (npc.ai[0] >= 630)
+            {
+                npc.ai[0] = 0;
+                npc.netUpdate = true;
+            }
 		}
 
 		public override void NPCLoot()
 		{
-			int[] lootTable = {
+            if (Main.invasionType == 2)
+            {
+                Main.invasionSize -= 10;
+                if (Main.invasionSize < 0)
+                {
+                    Main.invasionSize = 0;
+                }
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    Main.ReportInvasionProgress(Main.invasionSizeStart - Main.invasionSize, Main.invasionSizeStart, 2, 0);
+                }
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    NetMessage.SendData(MessageID.InvasionProgressReport, -1, -1, null, Main.invasionProgress, (float)Main.invasionProgressMax, (float)Main.invasionProgressIcon, 0f, 0, 0, 0);
+                }
+            }
+            int[] lootTable = {
 				ModContent.ItemType<Bauble>(),
 				ModContent.ItemType<BlizzardEdge>(),
 				ModContent.ItemType<Chillrend>(),
@@ -124,16 +169,46 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
 				}
 			}
 		}
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+                             drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+            Vector2 vector2_3 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
+            Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height / Main.npcFrameCount[npc.type]) * 0.5f);
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			return Main.invasionType == 2 && !NPC.AnyNPCs(ModContent.NPCType<FrostSaucer>()) ? 0.04f : 0f;
-		}
+            return false;
+        }
 
-		public override void AI()
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(
+                mod.GetTexture("NPCs/Boss/FrostTroll/FrostSaucerGlass"),
+                npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY),
+                npc.frame,
+                new Color(100, 100, 100, 100),
+                npc.rotation,
+                npc.frame.Size() / 2,
+                npc.scale,
+                effects,
+                0
+            );
+            spriteBatch.Draw(
+                mod.GetTexture("NPCs/Boss/FrostTroll/FrostSaucerPenguin"),
+                npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY),
+                npc.frame,
+                new Color(100, 100, 100),
+                npc.rotation,
+                npc.frame.Size() / 2,
+                npc.scale,
+                effects,
+                0
+            );
+        }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			int dust = Dust.NewDust(npc.position, npc.width, npc.height - 40, 76);
-			Main.dust[dust].noGravity = true;
+			return Main.invasionType == 2 && !NPC.AnyNPCs(ModContent.NPCType<FrostSaucer>()) ? 0.018f : 0f;
 		}
 
 		public override void BossLoot(ref string name, ref int potionType)

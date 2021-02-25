@@ -54,6 +54,10 @@ namespace SpiritMod.Projectiles
                 {
                     chargeStacks++;
                     Main.PlaySound(25, (int)projectile.position.X, (int)projectile.position.Y);
+					for (int i = 0; i < 14; i++)
+                    {
+                        DoDustEffect(player.Center, 40f);
+                    }
                 }
 				if (counter > 240)
                 {

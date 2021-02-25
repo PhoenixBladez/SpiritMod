@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Nora's Mark");
-			Tooltip.SetDefault("18% increased minion damage\nIncreases your max number of minions\nReduces damage taken by 15% when under half health");
+			Tooltip.SetDefault("18% increased minion damage\nIncreases your max number of minions\nReduces damage taken by 12% when under half health");
 		}
 
 
@@ -29,15 +29,15 @@ namespace SpiritMod.Items.Accessory
 			player.minionDamage += 0.18f;
 			player.maxMinions += 1;
 			if (player.statLife < player.statLifeMax2 / 2) {
-				player.endurance += 0.15f;
+				player.endurance += 0.12f;
 			}
 		}
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.SummonerEmblem, 1);
-			recipe.AddIngredient(ItemID.CobaltShield, 1);
-			recipe.AddRecipeGroup("SpiritMod:GoldBars", 5);
+            recipe.AddIngredient(ModContent.ItemType<Items.Accessory.Leather.LeatherShield>(), 1);
+            recipe.AddRecipeGroup("SpiritMod:GoldBars", 5);
 			recipe.AddIngredient(ItemID.SoulofSight, 15);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);

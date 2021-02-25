@@ -7,6 +7,7 @@ using SpiritMod.Projectiles.Arrow;
 using SpiritMod.Projectiles.Bullet;
 using SpiritMod.Projectiles.Hostile;
 using SpiritMod.Projectiles.Magic;
+using SpiritMod.NPCs.Boss.FrostTroll;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,8 +71,14 @@ namespace SpiritMod.Effects
 				CreateTrail(projectile, new StandardColorTrail(Color.White * 0.3f), new RoundCap(), new SleepingStarTrailPosition(), 12f, 80f, new DefaultShader());
 				CreateTrail(projectile, new StandardColorTrail(Color.White * 0.2f), new RoundCap(), new SleepingStarTrailPosition(), 56f, 30f, new DefaultShader());
 
-			}
-            if (projectile.type == ModContent.ProjectileType<Starshock1>() || projectile.type == ModContent.ProjectileType<Starshock>())
+            }
+            if (projectile.type == ModContent.ProjectileType<SnowMongerBeam>())
+            {
+                CreateTrail(projectile, new GradientTrail(new Color(255, 255, 255), new Color(179, 222, 230)), new RoundCap(), new DefaultTrailPosition(), 10f, 900f, new DefaultShader());
+                CreateTrail(projectile, new GradientTrail(new Color(79, 227, 255) * .46f, new Color(44, 140, 219) * .46f), new RoundCap(), new DefaultTrailPosition(), 30f, 500f, new DefaultShader());
+                CreateTrail(projectile, new StandardColorTrail(Color.White * 0.6f), new RoundCap(), new DefaultTrailPosition(), 12f, 80f, new DefaultShader());
+            }
+                if (projectile.type == ModContent.ProjectileType<Starshock1>() || projectile.type == ModContent.ProjectileType<Starshock>())
             {
                 CreateTrail(projectile, new GradientTrail(new Color(108, 215, 245), new Color(105, 213, 255)), new RoundCap(), new DefaultTrailPosition(), 8f, 150f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
                 CreateTrail(projectile, new GradientTrail(new Color(255, 255, 255) * .25f, new Color(255, 255, 255) * .25f), new RoundCap(), new DefaultTrailPosition(), 26f, 250f, new DefaultShader());

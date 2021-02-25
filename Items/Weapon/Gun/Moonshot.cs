@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Weapon.Gun
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Moonshot");
-			Tooltip.SetDefault("Drains energy from tiny lunazoas for ammo\n33% chance to not consume ammo\n'Aim for the stars!'");
+			Tooltip.SetDefault("Drains energy from tiny lunazoas for ammo\n33% chance to not consume ammo\n'Aim for the stars!'\n'I wonder if the Arms Dealer can scrounge up some more lunazoas...'");
             SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Gun/Moonshot_Glow");
         }
 

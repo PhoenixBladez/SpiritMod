@@ -163,7 +163,7 @@ namespace SpiritMod.NPCs.WhirlingWorlds
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.player.ZoneSnow && spawnInfo.player.ZoneOverworldHeight && !Main.dayTime ? 0.115f : 0f;
+            return spawnInfo.player.ZoneSnow && spawnInfo.player.ZoneOverworldHeight && Main.dayTime ? 0.0895f : 0f;
         }
         public override void NPCLoot()
         {

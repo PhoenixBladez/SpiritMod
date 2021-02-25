@@ -16,7 +16,7 @@ namespace SpiritMod.NPCs
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ancient Apostle");
-			Main.npcFrameCount[npc.type] = 4;
+			Main.npcFrameCount[npc.type] = 7;
 		}
 
 		public override void SetDefaults()
@@ -65,7 +65,7 @@ namespace SpiritMod.NPCs
 				moveSpeedY++;
 			}
 
-			npc.velocity.Y = moveSpeedY * 0.16f;
+			npc.velocity.Y = moveSpeedY * 0.12f;
 			if (Main.rand.Next(220) == 8 && Main.netMode != NetmodeID.MultiplayerClient) {
 				npc.ai[0] = -25f;
 				npc.netUpdate = true;
@@ -127,7 +127,7 @@ namespace SpiritMod.NPCs
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.25f;
+			npc.frameCounter += 0.21f;
 			npc.frameCounter %= Main.npcFrameCount[npc.type];
 			int frame = (int)npc.frameCounter;
 			npc.frame.Y = frame * frameHeight;

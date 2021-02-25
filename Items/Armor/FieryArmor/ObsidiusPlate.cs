@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Armor.FieryArmor
 		}
 		public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
 		{
-			glowMaskColor = Color.White;
+			glowMaskColor = new Color(100, 100, 100, 100);
 		}
 		public override void UpdateEquip(Player player)
 		{
