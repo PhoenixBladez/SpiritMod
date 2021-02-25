@@ -646,7 +646,13 @@ namespace SpiritMod.NPCs
 			else
 				return "Here. I have some candy for you.";
 		}
-
+		public override Color? GetAlpha(NPC npc, Color drawColor)
+		{
+			if(npc.HasBuff(ModContent.BuffType<TopazMarked>())) {
+				return Color.Lerp(base.GetAlpha(npc, drawColor) ?? Color.Transparent, new Color(158, 255, 253), 0.75f);
+			}
+			return base.GetAlpha(npc, drawColor);
+		}
 		public override void SetupShop(int type, Chest shop, ref int nextSlot)
 		{
 			if (type == NPCID.Merchant) {

@@ -15,6 +15,7 @@ namespace SpiritMod.Items.Weapon.Bow
 		{
 			DisplayName.SetDefault("Adorned Bow");
 			Tooltip.SetDefault("Hold longer for more damage\nConverts wooden arrows into piercing adorned arrows, that get enchanted upon full charge");
+			SpiritGlowmask.AddGlowMask(item.type, Texture + "_glow");
 		}
 		public override void SetDefaults()
 		{
@@ -46,10 +47,12 @@ namespace SpiritMod.Items.Weapon.Bow
 			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<AdornedBowProj>(), damage - item.damage, knockBack, player.whoAmI, type);
 			return false;
 		}
+
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, item, mod.GetTexture(Texture.Remove(0, mod.Name.Length + 1) + "_glow"), rotation, scale);
 	}
 	public class AdornedBowProj : ChargeBowProj
 	{
-		public override string Texture => "Starjinx/Items/Weapons/AdornedBow/AdornedBow";
+		public override string Texture => "SpiritMod/Items/Weapon/Bow/ScarabBow";
 
 		protected override void SetBowDefaults()
 		{
@@ -82,12 +85,18 @@ namespace SpiritMod.Items.Weapon.Bow
 			Player player = Main.player[projectile.owner];
 			effect.VertexColorEnabled = true;
 			Color color = Color.Lerp(new Color(158, 255, 253), lightColor, 0.3f);
-			ArrowDraw.DrawArrowBasic(effect, player.Center + direction * 20, direction.ToRotation() + 3.14f, 0 - LerpFloat(minVelocity, maxVelocity, charge) * 3, 25,
+			ArrowDraw.DrawArrowBasic(effect, player.Center + direction * 20, direction.ToRotation() + 3.14f, 0 - LerpFloat(minVelocity, maxVelocity, charge) * 3, 20,
 				color * 0.3f, 0 - LerpFloat(0.7f, 0.4f, charge), 0 - LerpFloat(minVelocity, maxVelocity, charge) * 2);
-			ArrowDraw.DrawArrowBasic(effect, player.Center + direction * 20, direction.ToRotation() + 3.14f, 0 - LerpFloat(minVelocity, maxVelocity, charge) * 3, 15,
+			ArrowDraw.DrawArrowBasic(effect, player.Center + direction * 20, direction.ToRotation() + 3.14f, 0 - LerpFloat(minVelocity, maxVelocity, charge) * 3, 10,
 				color * 0.3f, 0 - LerpFloat(0.7f, 0.4f, charge), 0 - LerpFloat(minVelocity, maxVelocity, charge) * 2);
 			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 			return false;
+		}
+
+		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D glow = mod.GetTexture(Texture.Remove(0, mod.Name.Length + 1) + "_glow");
+			spriteBatch.Draw(glow, projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, glow.Size() / 2, projectile.scale, SpriteEffects.None, 0);
 		}
 	}
 }
