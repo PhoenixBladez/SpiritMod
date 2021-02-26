@@ -305,8 +305,8 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			}
 
 			if(hasjumped && AiTimer % 27 == 0 && AiTimer < 100 && AiTimer > 40) {
+				Main.PlaySound(SoundID.Item5, npc.Center);
 				if (Main.netMode != NetmodeID.MultiplayerClient) {
-					Main.PlaySound(SoundID.Item5, npc.Center);
 					for (float i = -2; i <= 2; i += 1.25f) {
 						Vector2 velocity = -Vector2.UnitY.RotatedBy(i * (float)Math.PI / 12);
 						velocity *= 10f;
@@ -687,8 +687,8 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				npc.velocity = BaseVel.RotatedBy(MathHelper.ToRadians((AiTimer - 60) * 12));
 
 				if(AiTimer >= 90 && AiTimer % 7 == 0) { //spawn the swarm of beetles, going from the stored random position to the player's center
+					Main.PlaySound(SoundID.Item, (int)statictarget[1].X, (int)statictarget[1].Y, 1, 1, Main.rand.NextFloat(1.5f, 2f));
 					if (Main.netMode != NetmodeID.MultiplayerClient) {
-						Main.PlaySound(SoundID.Item, (int)statictarget[1].X, (int)statictarget[1].Y, 1, 1, Main.rand.NextFloat(1.5f, 2f));
 						for (int i = 0; i < numwaves; i++) {
 							Vector2 spawnpos = statictarget[0].RotatedBy(MathHelper.PiOver2 * i) + Main.rand.NextVector2Circular(60, 60) + statictarget[1];
 							NPC Npc = Main.npc[NPC.NewNPC((int)spawnpos.X, (int)spawnpos.Y, mod.NPCType("SwarmScarab"), npc.whoAmI,
@@ -838,14 +838,16 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				if (npc.Distance(homepos) < 30) //switch directions when close enough to its target position
 					npc.ai[2] *= -1;
 
-				if (AiTimer % 16 == 0 && Main.netMode != NetmodeID.MultiplayerClient) { //spit out sand with random angles and slightly varying velocity, rng is ok to use here since everything has plenty of time to be reacted to
-					Main.PlaySound(SoundID.Item5, npc.Center);
+				if (AiTimer % 16 == 0) { //spit out sand with random angles and slightly varying velocity, rng is ok to use here since everything has plenty of time to be reacted to
 					int numproj = 2;
-					for (int i = 0; i < numproj; i++) {
-						Projectile proj = Projectile.NewProjectileDirect(npc.Center,
-							new Vector2(-Vector2.UnitY.RotatedByRandom(MathHelper.Pi / 2).X * 1.5f, -1) * Main.rand.NextFloat(8, 11),
-							mod.ProjectileType("ScarabSandball"), npc.damage / 5, 1, Main.myPlayer, 1, player.position.Y);
-						proj.netUpdate = true;
+					Main.PlaySound(SoundID.Item5, npc.Center);
+					if (Main.netMode != NetmodeID.MultiplayerClient) {
+						for (int i = 0; i < numproj; i++) {
+							Projectile proj = Projectile.NewProjectileDirect(npc.Center,
+								new Vector2(-Vector2.UnitY.RotatedByRandom(MathHelper.Pi / 2).X * 1.5f, -1) * Main.rand.NextFloat(8, 11),
+								mod.ProjectileType("ScarabSandball"), npc.damage / 5, 1, Main.myPlayer, 1, player.position.Y);
+							proj.netUpdate = true;
+						}
 					}
 				}
 				if (AiTimer % 30 == 0) { //trap player in with shockwaves, location is based on the player's initial x position and current y position
@@ -888,11 +890,13 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			npc.velocity.X += (npc.Center.X < player.Center.X) ? 0.2f : -0.2f;
 			npc.velocity.Y += (npc.Center.Y < player.Center.Y) ? 0.2f : -0.2f;
 			npc.velocity = new Vector2(MathHelper.Clamp(npc.velocity.X, -10, 10), MathHelper.Clamp(npc.velocity.Y, -4, 4));
-			if((++AiTimer == 30 || AiTimer == 90) && Main.netMode != NetmodeID.MultiplayerClient) { //spawn 2 waves of large scarabs
+			if((++AiTimer == 30 || AiTimer == 90)) { //spawn 2 waves of large scarabs
 				Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 44, 1.5f, -1f);
-				for(int i = 0; i < 3; i++) {
-					Projectile proj = Projectile.NewProjectileDirect(player.Center - new Vector2(Main.rand.Next(-200, 200), 200), -Vector2.UnitY, mod.ProjectileType("LargeScarab"), npc.damage / 5, 1, Main.myPlayer, player.whoAmI, Main.rand.Next(20));
-					proj.netUpdate = true;
+				if (Main.netMode != NetmodeID.MultiplayerClient) {
+					for (int i = 0; i < 3; i++) {
+						Projectile proj = Projectile.NewProjectileDirect(player.Center - new Vector2(Main.rand.Next(-200, 200), 200), -Vector2.UnitY, mod.ProjectileType("LargeScarab"), npc.damage / 5, 1, Main.myPlayer, player.whoAmI, Main.rand.Next(20));
+						proj.netUpdate = true;
+					}
 				}
 			}
 			if(AiTimer >= 220) {
@@ -950,6 +954,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		public override bool PreNPCLoot()
 		{
 			MyWorld.downedScarabeus = true;
+			Sandstorm.Happening = false;
 			if (Main.netMode == NetmodeID.Server)
 				NetMessage.SendData(MessageID.WorldData);
 			Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DeathSounds/ScarabDeathSound"));
@@ -958,7 +963,6 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 
 		public override void NPCLoot()
 		{
-			Sandstorm.Happening = false;
 			Gores();
 			if (Main.expertMode) {
 				npc.DropBossBags();

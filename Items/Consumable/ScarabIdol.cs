@@ -2,6 +2,7 @@
 using SpiritMod.NPCs.Boss.Scarabeus;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Consumable

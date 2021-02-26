@@ -61,6 +61,11 @@ namespace SpiritMod.Projectiles.BaseProj
 		protected bool firing = false;
 		protected Vector2 direction = Vector2.Zero;
 		int counter = 0;
+
+		public override void SendExtraAI(BinaryWriter writer) => writer.WriteVector2(direction);
+
+		public override void ReceiveExtraAI(BinaryReader reader) => direction = reader.ReadVector2();
+
 		public sealed override void AI()
 		{
 			counter++;
@@ -107,9 +112,12 @@ namespace SpiritMod.Projectiles.BaseProj
 		protected void AdjustDirection(float deviation = 0f)
 		{
 			Player player = Main.player[projectile.owner];
-			direction = Main.MouseWorld - (player.Center - new Vector2(4, 4));
-			direction.Normalize();
-			direction = direction.RotatedBy(deviation);
+			if (Main.myPlayer == player.whoAmI) {
+				direction = Main.MouseWorld - (player.Center - new Vector2(4, 4));
+				direction.Normalize();
+				direction = direction.RotatedBy(deviation);
+				projectile.netUpdate = true;
+			}
 			player.itemRotation = direction.ToRotation();
 			if (player.direction != 1)
 			{

@@ -69,8 +69,11 @@ namespace SpiritMod.Items.Weapon.Bow
 		{
 			if (!firstFire)
 				return;
-			Projectile proj = Main.projectile[CreateArrow()];
-			if (charge >= 1 && projectile.ai[0] == ModContent.ProjectileType<ScarabArrow>()) proj.penetrate += 2;
+			if (Main.myPlayer == projectile.owner) {
+				Projectile proj = Main.projectile[CreateArrow()];
+				if (charge >= 1 && projectile.ai[0] == ModContent.ProjectileType<ScarabArrow>()) proj.penetrate += 2;
+				proj.netUpdate = true;
+			}
 		}
 
 		protected override void Charging() => AdjustDirection();
