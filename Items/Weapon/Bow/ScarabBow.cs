@@ -85,9 +85,9 @@ namespace SpiritMod.Items.Weapon.Bow
 			Player player = Main.player[projectile.owner];
 			effect.VertexColorEnabled = true;
 			Color color = Color.Lerp(new Color(158, 255, 253), lightColor, 0.3f);
-			ArrowDraw.DrawArrowBasic(effect, player.Center + direction * 20, direction.ToRotation() + 3.14f, 0 - LerpFloat(minVelocity, maxVelocity, charge) * 3, 20,
+			ArrowDraw.DrawArrowBasic(effect, player.Center + direction * 20, direction.ToRotation() + 3.14f, 0 - LerpFloat(0, maxVelocity, charge) * 3, 16,
 				color * 0.3f, 0 - LerpFloat(0.7f, 0.4f, charge), 0 - LerpFloat(minVelocity, maxVelocity, charge) * 2);
-			ArrowDraw.DrawArrowBasic(effect, player.Center + direction * 20, direction.ToRotation() + 3.14f, 0 - LerpFloat(minVelocity, maxVelocity, charge) * 3, 10,
+			ArrowDraw.DrawArrowBasic(effect, player.Center + direction * 20, direction.ToRotation() + 3.14f, 0 - LerpFloat(0, maxVelocity, charge) * 3, 8,
 				color * 0.3f, 0 - LerpFloat(0.7f, 0.4f, charge), 0 - LerpFloat(minVelocity, maxVelocity, charge) * 2);
 			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 			return false;

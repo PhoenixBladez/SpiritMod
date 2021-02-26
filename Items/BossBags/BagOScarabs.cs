@@ -5,6 +5,7 @@ using SpiritMod.Items.Material;
 using SpiritMod.Items.Weapon.Bow;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Swung;
+using SpiritMod.Items.Weapon.Swung.Khopesh;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -45,7 +46,7 @@ namespace SpiritMod.Items.BossBags
 			int[] lootTable = {
 				ModContent.ItemType<ScarabBow>(),
 				ModContent.ItemType<OrnateStaff>(),
-				ModContent.ItemType<ScarabSword>()
+				ModContent.ItemType<RoyalKhopesh>()
 			};
 			int loot = Main.rand.Next(lootTable.Length);
 			player.QuickSpawnItem(lootTable[loot]);
