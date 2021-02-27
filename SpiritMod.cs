@@ -782,6 +782,20 @@ namespace SpiritMod
 				ItemID.TungstenBar
 			});
 			RecipeGroup.RegisterGroup("SpiritMod:SilverBars", group);
+
+			group = new RecipeGroup(() => Language.GetTextValue("LegacyMisc.37") + " " + "Emerald or Ruby Bow", new int[]
+			{
+				ModContent.ItemType<Items.Weapon.Bow.GemBows.Emerald_Bow.Emerald_Bow>(),
+				ModContent.ItemType<Items.Weapon.Bow.GemBows.Ruby_Bow.Ruby_Bow>()
+			});
+			RecipeGroup.RegisterGroup("SpiritMod:EmeraldBows", group);
+
+			group = new RecipeGroup(() => Language.GetTextValue("LegacyMisc.37") + " " + "Sapphire or Topaz Bow", new int[]
+			{
+				ModContent.ItemType<Items.Weapon.Bow.GemBows.Sapphire_Bow.Sapphire_Bow>(),
+				ModContent.ItemType<Items.Weapon.Bow.GemBows.Topaz_Bow.Topaz_Bow>()
+			});
+			RecipeGroup.RegisterGroup("SpiritMod:TopazBows", group);
         }
         public override void PostUpdateInput()
         {
