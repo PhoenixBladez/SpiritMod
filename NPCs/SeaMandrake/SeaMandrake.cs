@@ -61,10 +61,8 @@ namespace SpiritMod.NPCs.SeaMandrake
 				npc.velocity.X = 0f;
 			}
 			
-			if (Vector2.Distance(npc.Center, Main.player[npc.target].Center) <= (double) 80f && npc.wet)
+			if (Vector2.Distance(npc.Center, Main.player[npc.target].Center) <= (double) 155f && npc.wet && player.wet)
 				spawnInk();
-			else if (Vector2.Distance(npc.Center, Main.player[npc.target].Center) > (double) 100f)
-				screamed = false;
 			
 			if (npc.wet)
 				movement();
@@ -258,7 +256,7 @@ namespace SpiritMod.NPCs.SeaMandrake
 					npc.direction = 1;
 				}
 				Player player = Main.player[npc.target];
-				if (Vector2.Distance(npc.Center, Main.player[npc.target].Center) <= (double) 80f && npc.velocity.X != 0f)
+				if (Vector2.Distance(npc.Center, Main.player[npc.target].Center) <= (double) 150f && npc.velocity.X != 0f)
 				{
 					Vector2 vector2 = new Vector2(npc.position.X + (float) npc.width * 0.5f, npc.position.Y + (float) npc.height * 0.5f);
 					float num2 = player.position.X + Main.rand.Next(-10,10) + (float) (player.width / 2) - vector2.X;
@@ -298,12 +296,7 @@ namespace SpiritMod.NPCs.SeaMandrake
 		{
 			npc.rotation = npc.velocity.X * 1.25f;
 			Player player = Main.player[npc.target];
-			if (!screamed)
-			{
-				//Main.PlaySound(SoundLoader.customSoundType, (int)npc.position.X, (int)npc.position.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Mandrake_Scream"));
-				screamed = true;
-			}
-			if ((double)Vector2.Distance(player.Center, npc.Center) <= (double)45f && player.position.Y < npc.position.Y + 100 && player.position.Y > npc.position.Y - 100 && Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))  
+			if ((double)Vector2.Distance(player.Center, npc.Center) <= (double)60f && player.position.Y < npc.position.Y + 100 && player.position.Y > npc.position.Y - 100 && Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))  
 			{
 				player.AddBuff(80,2);
 				player.AddBuff(22,2);
@@ -361,7 +354,7 @@ namespace SpiritMod.NPCs.SeaMandrake
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (NPC.AnyNPCs(ModContent.NPCType<SeaMandrake>()))
+			if (NPC.CountNPCS(ModContent.NPCType<SeaMandrake>()) > 2)
 			{
 				return 0f;
 			}
