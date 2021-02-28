@@ -123,6 +123,7 @@ namespace SpiritMod.Projectiles.BaseProj
 			{
 				player.itemRotation -= 3.14f;
 			}
+			player.itemRotation = MathHelper.WrapAngle(player.itemRotation);
 		}
 
 		protected int CreateArrow()

@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod;
 using SpiritMod.Projectiles.Arrow;
 using SpiritMod.Projectiles.BaseProj;
 using Terraria;
@@ -31,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Bow
 			item.useAmmo = AmmoID.Arrow;
 			item.knockBack = 1;
 			item.useTurn = false;
-			item.value = Terraria.Item.sellPrice(0, 0, 20, 0);
+			item.value = Item.sellPrice(0, 0, 20, 0);
 			item.rare = ItemRarityID.Green;
 			item.autoReuse = false;
 			item.shootSpeed = 6.5f;
@@ -94,12 +93,6 @@ namespace SpiritMod.Items.Weapon.Bow
 				color * 0.3f, 0 - LerpFloat(0.7f, 0.4f, charge), 0 - LerpFloat(minVelocity, maxVelocity, charge) * 2);
 			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 			return false;
-		}
-
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			Texture2D glow = mod.GetTexture(Texture.Remove(0, mod.Name.Length + 1) + "_glow");
-			spriteBatch.Draw(glow, projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, glow.Size() / 2, projectile.scale, SpriteEffects.None, 0);
 		}
 	}
 }
