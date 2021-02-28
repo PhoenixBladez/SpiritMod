@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Weapon.Bow.GemBows.Sapphire_Bow
 			projectile.width = 10;
 			projectile.height = 10;
 			projectile.arrow = true;
-			projectile.aiStyle = 1;
+			//projectile.aiStyle = 1;
 			projectile.friendly = true;
 			projectile.ranged = true;
 		}
@@ -33,7 +33,24 @@ namespace SpiritMod.Items.Weapon.Bow.GemBows.Sapphire_Bow
 			}
 			return projHitbox.Intersects(targetHitbox);
 		}
-		
+
+		static readonly int gravitytimer = 30;
+
+		public override void AI()
+		{
+			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Pi / 2;
+
+			if (++projectile.ai[0] <= gravitytimer && Main.myPlayer == projectile.owner) { //check for a timer, if the projectile's owner is the client
+				//messy looking way of making the projectile always maintain the same total velocity, takes the product of a vector2 lerp to home in on cursor, safe normalizes it with a default value of the normalized projectile velocity, then multiplies by projectile velocity length
+				projectile.velocity = projectile.velocity.Length() * Vector2.Lerp(projectile.velocity, projectile.DirectionTo(Main.MouseWorld) * projectile.velocity.Length(), 0.08f).SafeNormalize(Vector2.Normalize(projectile.velocity));
+
+				projectile.netUpdate = true; //netupdate needs to be called due to changes in velocity dependant on mouse position on only one client
+			}
+
+			else if(projectile.ai[0] > gravitytimer) //otherwise, add gravity, but still dependant on a timer
+				projectile.velocity.Y += 0.25f;
+		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			SpriteEffects effects1 = SpriteEffects.None;

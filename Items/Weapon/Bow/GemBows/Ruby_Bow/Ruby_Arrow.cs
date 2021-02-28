@@ -40,6 +40,7 @@ namespace SpiritMod.Items.Weapon.Bow.GemBows.Ruby_Bow
 			if (num <= 0)
 				projectile.Kill();
 			else {
+				Main.PlaySound(42, (int)projectile.position.X, (int)projectile.position.Y, 193, 1f, -0.2f);
 				for (int index = 0; index < 5; ++index)
 				{
 					int i = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 90, 0.0f, 0.0f, 0, new Color(), 1f);

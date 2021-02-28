@@ -20,8 +20,7 @@ namespace SpiritMod.Items.Weapon.Bow.GemBows.Amethyst_Bow
 			item.damage = 10;
 			item.shootSpeed = 6f;
 			item.knockBack = 2.25f;
-			item.rare = 0;
-			item.crit = 4;
+			item.rare = ItemRarityID.White;
 			item.noMelee = true;
 			item.value = Item.sellPrice(silver: 4);
 			item.ranged = true;

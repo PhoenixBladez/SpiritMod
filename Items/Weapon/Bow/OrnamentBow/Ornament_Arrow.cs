@@ -149,21 +149,18 @@ namespace SpiritMod.Items.Weapon.Bow.OrnamentBow
 			}
 			return false;
 		}
-		public override void Kill(int timeLeft)
+		private void SpawnArrows()
 		{
-			for (int index = 0; index < 10; ++index)
-			{
+			for (int index = 0; index < 10; ++index) {
 				int i = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 66, 0.0f, 0.0f, 0, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
 				Main.dust[i].noGravity = true;
 			}
-			Main.PlaySound(42, (int)projectile.position.X, (int)projectile.position.Y, 193, 1f, -0.2f);
+			Main.PlaySound(SoundID.Trackable, (int)projectile.position.X, (int)projectile.position.Y, 193, 1f, -0.2f);
 			Player player = Main.player[projectile.owner];
-			for (int i = 0; i < 1 + Main.rand.Next(5); i++)
-			{
+			for (int i = 0; i < 1 + Main.rand.Next(5); i++) {
 				int arrowType = Main.rand.Next(6);
 				int dustType = 1;
-				switch (arrowType)
-				{
+				switch (arrowType) {
 					case 0:
 						arrowType = mod.ProjectileType("Amethyst_Arrow");
 						dustType = 86;
@@ -191,15 +188,14 @@ namespace SpiritMod.Items.Weapon.Bow.OrnamentBow
 					default:
 						break;
 				}
-				float positionX = Main.rand.Next(-80,80);
-				float positionY = Main.rand.Next(-60,-20);
-				int a = Projectile.NewProjectile(player.Center.X + positionX, player.Center.Y + positionY, 0f, 0f, arrowType, player.HeldItem.damage/2, 2f, player.whoAmI);
-				Vector2 vector2_2 = Vector2.Normalize(new Vector2(projectile.Center.X, projectile.Center.Y) - Main.projectile[a].Center) * (float) Main.rand.Next(12,14);
+				float positionX = Main.rand.Next(-80, 80);
+				float positionY = Main.rand.Next(-60, -20);
+				int a = Projectile.NewProjectile(player.Center.X + positionX, player.Center.Y + positionY, 0f, 0f, arrowType, player.HeldItem.damage, 2f, player.whoAmI);
+				Vector2 vector2_2 = Vector2.Normalize(new Vector2(projectile.Center.X, projectile.Center.Y) - Main.projectile[a].Center) * (float)Main.rand.Next(12, 14);
 				Main.projectile[a].velocity = vector2_2;
-				float nigga = 16f;
-				for (int index1 = 0; (double)index1 < (double)nigga; ++index1)
-				{
-					Vector2 v = (Vector2.UnitX * 0.1f + -Vector2.UnitY.RotatedBy((double)index1 * (6.28318548202515 / (double)nigga), new Vector2()) * new Vector2(4f, 4f)).RotatedBy((double)new Vector2(projectile.velocity.X, projectile.velocity.Y).ToRotation(), new Vector2());
+				float index = 16f;
+				for (int index1 = 0; (double)index1 < (double)index; ++index1) {
+					Vector2 v = (Vector2.UnitX * 0.1f + -Vector2.UnitY.RotatedBy((double)index1 * (6.28318548202515 / (double)index), new Vector2()) * new Vector2(4f, 4f)).RotatedBy((double)new Vector2(projectile.velocity.X, projectile.velocity.Y).ToRotation(), new Vector2());
 					int index2 = Dust.NewDust(new Vector2(player.Center.X + positionX, player.Center.Y + positionY), 8, 8, dustType, 0.0f, 0.0f, 0, new Color(), 1f);
 					Main.dust[index2].scale = 0.9f;
 					Main.dust[index2].alpha = 200;
@@ -210,5 +206,9 @@ namespace SpiritMod.Items.Weapon.Bow.OrnamentBow
 				}
 			}
 		}
+
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => SpawnArrows();
+
+		public override void OnHitPvp(Player target, int damage, bool crit) => SpawnArrows();
 	}
 }

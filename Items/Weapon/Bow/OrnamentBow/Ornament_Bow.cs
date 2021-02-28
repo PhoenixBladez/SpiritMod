@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,22 +9,22 @@ namespace SpiritMod.Items.Weapon.Bow.OrnamentBow
 	{
 		public override void SetDefaults()
 		{
-			item.useStyle = 5;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useAnimation = 42;
 			item.useTime = 42;
 			item.width = 12;
 			item.height = 28;
-			item.shoot = 1;
+			item.shoot = ProjectileID.WoodenArrowFriendly;
 			item.useAmmo = AmmoID.Arrow;
 			item.UseSound = SoundID.Item5;
 			item.damage = 22;
 			item.shootSpeed = 10f;
 			item.knockBack = 6.5f;
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.noMelee = true;
 			item.value = Item.sellPrice(gold: 1, silver: 25);
 			item.ranged = true;
-			item.autoReuse = false;
+			item.autoReuse = true;
 		}
 		
 		public override void SetStaticDefaults()
@@ -48,11 +47,8 @@ namespace SpiritMod.Items.Weapon.Bow.OrnamentBow
 			return true;
 		}
 
-		public override Vector2? HoldoutOffset()
-		{
-			return new Vector2(-1, 0);
-		}
-		
+		public override Vector2? HoldoutOffset() => new Vector2(-1, 0);
+
 		public override void AddRecipes()
 		{
 			
@@ -61,6 +57,8 @@ namespace SpiritMod.Items.Weapon.Bow.OrnamentBow
 			recipe2.AddRecipeGroup("SpiritMod:TopazBows", 1);
 			recipe2.AddRecipeGroup("SpiritMod:EmeraldBows", 1);
 			recipe2.AddIngredient(null, "Diamond_Bow", 1);
+			recipe2.AddIngredient(null, "MarbleChunk", 5);
+			recipe2.AddIngredient(null, "GraniteChunk", 5);
 			recipe2.AddTile(TileID.Anvils);
 			recipe2.SetResult(this);
 			recipe2.AddRecipe();

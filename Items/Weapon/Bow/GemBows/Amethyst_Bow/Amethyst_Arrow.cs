@@ -117,5 +117,11 @@ namespace SpiritMod.Items.Weapon.Bow.GemBows.Amethyst_Bow
 			}
 			Main.PlaySound(42, (int)projectile.position.X, (int)projectile.position.Y, 193, 1f, -0.2f);
 		}
+
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			if (Main.rand.NextBool(10)) //10% extra chance for a crit
+				crit = true;
+		}
 	}
 }
