@@ -24,7 +24,7 @@ namespace SpiritMod.Projectiles.Bullet
             projectile.height = 8;
 			projectile.friendly = true;
 			projectile.hostile = false;
-			projectile.penetrate = 2;
+			projectile.penetrate = 4;
 			projectile.timeLeft = 360;
 			//projectile.tileCollide = true;
 			projectile.ranged = true;

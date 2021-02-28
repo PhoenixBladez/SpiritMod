@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Weapon.Gun
 			item.value = Item.sellPrice(0, 2, 30, 0);
 			item.rare = ItemRarityID.Green;
 			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<MoonshotProj>();
+			item.shoot = ModContent.ProjectileType<LunazoaProj>();
 			item.shootSpeed = 13f;
 		}
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

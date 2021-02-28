@@ -17,12 +17,12 @@ namespace SpiritMod.Items.Weapon.Swung.Khopesh
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Royal Khopesh");
-			Tooltip.SetDefault("Swings in a 3-hit combo\nThe last hit in the combo is bigger and ignores armor");
+			Tooltip.SetDefault("Swings in a 3-hit combo\nThe last hit in the combo is bigger, does more damage, and ignores armor");
 		}
 
 		public override void SetDefaults()
 		{
-			item.damage = 24;
+			item.damage = 28;
 			item.melee = true;
 			item.width = 36;
 			item.height = 44;
@@ -33,6 +33,7 @@ namespace SpiritMod.Items.Weapon.Swung.Khopesh
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.knockBack = 5.5f;
 			item.value = Item.sellPrice(0, 1, 50, 0);
+			item.crit = 4;
 			item.rare = ItemRarityID.Green;
 			item.shootSpeed = 14f;
 			item.autoReuse = false;
@@ -104,10 +105,12 @@ namespace SpiritMod.Items.Weapon.Swung.Khopesh
 
 		public override void AI()
 		{
+			projectile.scale = (Bigswing) ? 1.75f : 1.2f;
+
 			Player.itemTime = 2;
 			Player.itemAnimation = 2;
 			Player.reuseDelay = 20;
-			projectile.Center = Player.Center + projectile.velocity * 30;
+			projectile.Center = Player.Center + projectile.velocity * 45;
 			projectile.rotation = Player.AngleFrom(projectile.Center) - ((projectile.spriteDirection > 0) ? 0 : MathHelper.Pi);
 			Player.ChangeDir(Math.Sign(projectile.Center.X - Player.Center.X));
 			Player.itemRotation = MathHelper.WrapAngle(Player.AngleFrom(projectile.Center) - ((Player.direction < 0) ? 0 : MathHelper.Pi));
@@ -129,15 +132,13 @@ namespace SpiritMod.Items.Weapon.Swung.Khopesh
 				if (projectile.frame >= Main.projFrames[projectile.type])
 					projectile.Kill();
 			}
-
-			projectile.scale = (Bigswing) ? 1.5f : 1f;
 			if(SwingStart && projectile.frameCounter == 1) {
 				int dustamount = (Bigswing) ? 20 : 7;
 				for(int i = 0; i < dustamount; i++) {
 					float dustscale = (Bigswing) ? 2f : 1f;
 					dustscale *= Main.rand.NextFloat(0.7f, 1.3f);
 					float dusvel = dustscale * Main.rand.NextFloat(3, 6);
-					Vector2 dustpos = projectile.velocity.RotatedByRandom(MathHelper.Pi) * Main.rand.NextFloat(30, 40);
+					Vector2 dustpos = projectile.velocity.RotatedByRandom(MathHelper.Pi) * Main.rand.NextFloat(40, 50);
 					Dust dust = Dust.NewDustPerfect(Player.Center + dustpos, ModContent.DustType<SandDust>(), projectile.velocity.RotatedByRandom(MathHelper.Pi / 6) * dusvel, Scale: dustscale);
 					dust.noGravity = true;
 				}
@@ -153,6 +154,7 @@ namespace SpiritMod.Items.Weapon.Swung.Khopesh
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			if (Bigswing) {
+				damage *= 2;
 				damage += target.defense / 2;
 				knockback *= 1.5f;
 			}
