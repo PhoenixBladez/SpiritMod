@@ -26,10 +26,11 @@ namespace SpiritMod.Items.Armor.BloodCourt
 		}
         public override void UpdateEquip(Player player)
 		{
-			player.GetSpiritPlayer().bloodCourtHead = true;
 			player.allDamage += 0.04f;
 			player.maxMinions += 1;
 		}
+
+		public override void UpdateVanity(Player player, EquipType type) => player.GetSpiritPlayer().bloodCourtHead = true;
 
 		public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
 			=> drawHair = true;
