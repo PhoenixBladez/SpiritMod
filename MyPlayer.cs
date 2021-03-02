@@ -143,6 +143,7 @@ namespace SpiritMod
 		public bool leatherGlove = false;
 		public bool forbiddenTome = false;
 		public bool moonHeart = false;
+		public bool teslaCoil = false;
 		public bool Phantom = false;
 		public bool gremlinTooth = false;
 		public bool illusionistEye = false;
@@ -302,7 +303,7 @@ namespace SpiritMod
 		public bool shadowUpdate;
 		public int shadowTally;
 		public int shadowCount;
-
+		public int attackTimer;
 		// Armor set booleans.
 		public bool duskSet;
 		public bool runicSet;
@@ -609,6 +610,7 @@ namespace SpiritMod
 			floranCharm = false;
 			ChaosCrystal = false;
 			twilightTalisman = false;
+			teslaCoil = false;
 			ToxicExtract = false;
 			shadowFang = false;
 			gemPickaxe = false;
@@ -3990,6 +3992,8 @@ namespace SpiritMod
 
 		public override void PostUpdate()
 		{
+			if (teslaCoil)
+				Attack(player);			
 			foreach(var effect in removedEffects)
 				if(!effects.Contains(effect)) effect.EffectRemoved(player);
 
@@ -4068,7 +4072,25 @@ namespace SpiritMod
 			}
 		}
 
-
+		private void Attack(Player player)
+		{
+			attackTimer++;
+			for (int i = 0; i < Main.npc.Length; i++)
+			{
+				NPC npc = Main.npc[i];
+				if ((double)Vector2.Distance(player.Center, npc.Center) <= (double)300f && !npc.friendly && npc.damage > 0 && npc.life > 0 && npc.life < npc.lifeMax && npc.active)
+				{		
+					if (attackTimer % 62 == 0)
+					{
+						int p = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<Items.Accessory.UnstableTeslaCoil.Unstable_Tesla_Coil_Projectile>(), 22, 0f, player.whoAmI, 0.0f, 0.0f);
+						Main.projectile[p].ai[0] = npc.position.X;
+						Main.projectile[p].ai[1] = npc.position.Y;
+						Main.projectile[p].netUpdate = true;
+						break;
+					}
+				}
+			}
+		}
 		public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
 		{
 			foreach(var effect in effects)

@@ -1099,6 +1099,11 @@ namespace SpiritMod.NPCs
 					npc.DropItem(ModContent.ItemType<IceBatSculpture>());
 				}
 			}
+			if (npc.type == NPCID.Bunny) {
+				if (Main.rand.Next(150) == 1 && !npc.SpawnedFromStatue) {
+					npc.DropItem(ModContent.ItemType<Items.Accessory.RabbitFoot.Rabbit_Foot>());
+				}
+			}
 			if (npc.type == ModContent.NPCType<WinterbornMelee>() || npc.type == ModContent.NPCType<WinterbornMagic>()) {
 				if (Main.rand.Next(150) == 1 && !npc.SpawnedFromStatue) {
 					npc.DropItem(ModContent.ItemType<WinterbornSculpture>());

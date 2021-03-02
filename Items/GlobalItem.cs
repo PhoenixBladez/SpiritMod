@@ -433,6 +433,11 @@ namespace SpiritMod.Items
 				if (item.type == 12 || item.type == 699 || item.type == 11 || item.type == 700 || item.type == 14 || item.type == 701 || item.type == 13 || item.type == 702 || item.type == 116 || item.type == 56 || item.type == 880 || item.type == 173 || item.type == 174 || item.type == 364 || item.type == 1104 || item.type == 365 || item.type == 1105 || item.type == 366 || item.type == 1106 || item.type == 947 || item.type == 3460)
 					grabRange *= 10;
 			}
+			if (player.GetModPlayer<MyPlayer>().teslaCoil)
+			{
+				if (item.type == 12 || item.type == 699 || item.type == 11 || item.type == 700 || item.type == 14 || item.type == 701 || item.type == 13 || item.type == 702 || item.type == 116 || item.type == 56 || item.type == 880 || item.type == 173 || item.type == 174 || item.type == 364 || item.type == 1104 || item.type == 365 || item.type == 1105 || item.type == 366 || item.type == 1106 || item.type == 947 || item.type == 3460)
+					grabRange *= 15;
+			}
 		}
 
 		public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
