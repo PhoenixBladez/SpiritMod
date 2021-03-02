@@ -55,7 +55,10 @@ namespace SpiritMod.Effects
 				CreateTrail(projectile, new StandardColorTrail(new Color(40, 111, 153) * .3f), new RoundCap(), new DefaultTrailPosition(), 10f, 1550f);
             }
             if (projectile.type == ModContent.ProjectileType<OrichHoming>()) {
-				CreateTrail(projectile, new GradientTrail(new Color(241, 173, 255), new Color(105, 42, 168)), new RoundCap(), new DefaultTrailPosition(), 20f, 150f);
+				CreateTrail(projectile, new GradientTrail(new Color(182, 66, 245), new Color(105, 42, 168)), new RoundCap(), new DefaultTrailPosition(), 20f, 150f);
+			}
+			if (projectile.type == ModContent.ProjectileType<NPCs.Boss.ReachBoss.ReachBossFlower>()) {
+				CreateTrail(projectile, new GradientTrail(new Color(182, 66, 245) * .95f, new Color(91, 21, 150) * .7f), new RoundCap(), new DefaultTrailPosition(), 150f, 60f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));        
 			}
 			if (projectile.type == ModContent.ProjectileType<AdamantiteStaffProj>() || projectile.type == ModContent.ProjectileType<AdamantiteStaffProj2>()) {
 				float trailwidth = (projectile.type == ModContent.ProjectileType<AdamantiteStaffProj>()) ? 25 : 20;
