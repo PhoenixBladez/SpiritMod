@@ -35,6 +35,7 @@ namespace SpiritMod.NPCs.Tides
 			npc.defense = 14;
 			npc.lifeMax = 1300;
 			npc.knockBackResist = 0;
+			npc.aiStyle = -1;
 			npc.noGravity = true;
             npc.netAlways = true;
 			npc.noTileCollide = true;
@@ -102,7 +103,7 @@ namespace SpiritMod.NPCs.Tides
 					Main.cloudAlpha = .5f;
 				}
 			}
-			if (npc.ai[0] % 400 == 200 && Main.netMode != 1) {
+			if (npc.ai[0] % 400 == 200) {
 				npc.ai[1] = Main.rand.Next(3) + 1;
 				npc.ai[2] = Main.rand.NextFloat(0.785f);
 				npc.netUpdate = true;
@@ -113,10 +114,14 @@ namespace SpiritMod.NPCs.Tides
 				Main.PlaySound(2, npc.Center, 109);
 				for (npc.ai[2] = 0; npc.ai[2] < 6.29; npc.ai[2] += 0.785f) {
 					Vector2 offset = new Vector2((float)Math.Cos(npc.ai[2]), (float)Math.Sin(npc.ai[2])) * 90f;
-						Vector2 direction = player.Center - (npc.Center + offset);
-						direction.Normalize();
-						direction *= 19;
-						Projectile.NewProjectile(npc.Center.X + offset.X, npc.Center.Y + offset.Y, direction.X, direction.Y, ModContent.ProjectileType<RyBolt>(), npc.damage / 2, 0,Main.myPlayer);
+					Vector2 direction = player.Center - (npc.Center + offset);
+					direction.Normalize();
+					direction *= 19;
+
+					if (Main.netMode != NetmodeID.MultiplayerClient) {
+						Projectile proj = Projectile.NewProjectileDirect(npc.Center + offset, direction, ModContent.ProjectileType<RyBolt>(), npc.damage / 2, 0, Main.myPlayer);
+						proj.netUpdate = true;
+					}
 				}
 				npc.ai[1] = 0;
                 npc.netUpdate = true;
@@ -133,7 +138,7 @@ namespace SpiritMod.NPCs.Tides
 			#endregion
 			#region phase 2
 			if (npc.ai[1] == 2) {
-				if (npc.ai[0] % 15 == 10 && Main.netMode != 1) {
+				if (npc.ai[0] % 15 == 10 && Main.netMode != NetmodeID.MultiplayerClient) {
 					int laser = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0, 10, ModContent.ProjectileType<RyTentacle>(), npc.damage / 2, 0);
 					Main.projectile[laser].netUpdate = true;
 					npc.netUpdate = true;

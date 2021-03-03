@@ -45,9 +45,10 @@ namespace SpiritMod.Items.Consumable
 		public override bool UseItem(Player player)
 		{
 			TideWorld.TheTide = true;
-			TideWorld.SendPacket(mod);
 			if (player.whoAmI == Main.myPlayer)
 				TideWorld.TideWaveIncrease();
+
+			TideWorld.SendPacket(mod);
 
 			return true;
 		}
