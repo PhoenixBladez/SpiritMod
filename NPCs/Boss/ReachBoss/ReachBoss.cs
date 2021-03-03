@@ -168,7 +168,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			if ((npc.ai[0] >= 480 && npc.ai[0] < 540) || (npc.ai[0] >= 580 && npc.ai[0] < 670)) {
 				homepos += (npc.ai[0] < 540) ? new Vector2(150, -150f) : new Vector2(-150, -150);
 				npc.TargetClosest(true);
-				float vel = MathHelper.Clamp(npc.Distance(homepos) / 18, 18, 38);
+				float vel = MathHelper.Clamp(npc.Distance(homepos) / 8, 6, 38);
 				npc.velocity = Vector2.Lerp(npc.velocity, npc.DirectionTo(homepos) * vel, 0.05f);
 			}
 			if (npc.ai[0] == 560 || npc.ai[0] == 690)
@@ -239,14 +239,14 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 
 				else if (npc.ai[0] == 1320) {
 					Main.PlaySound(new LegacySoundStyle(SoundID.Roar, 0), npc.Center);
-					npc.velocity.X = MathHelper.Clamp(Math.Abs((player.Center.X - npc.Center.X) / 14), 22, 30) * npc.spriteDirection;
+					npc.velocity.X = MathHelper.Clamp(Math.Abs((player.Center.X - npc.Center.X) / 10), 24, 36) * npc.spriteDirection;
 					npc.netUpdate = true;
 					trailbehind = true;
 				}
 
 				else if (npc.direction != npc.spriteDirection || npc.ai[1] > 0) {
 					npc.ai[1]++; //ai 1 is used here to store this being triggered at least once, so if direction is equal to sprite direction again after this it will continue this part of the ai
-					npc.velocity.X = MathHelper.Lerp(npc.velocity.X, 0, 0.08f);
+					npc.velocity.X = MathHelper.Lerp(npc.velocity.X, 0, 0.06f);
 					npc.noTileCollide = false;
 
 					if (npc.collideX && npc.ai[2] == 0) {
