@@ -123,7 +123,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			else
 				pulseTrailPurple = false;
 
-			if (npc.ai[0] >= 1120 && npc.ai[0] < 1420)
+			if (npc.ai[0] >= 1120 && npc.ai[0] < 1740)
 				DashAttack(player);
 
 			else {
@@ -133,7 +133,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				npc.spriteDirection = npc.direction;
 			}
 
-			if (npc.ai[0] > 1420)
+			if (npc.ai[0] > 1740)
 			{
 				pulseTrailPurple = false;
 				pulseTrailYellow = false;
@@ -221,7 +221,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		{
 			pulseTrailYellow = true;
 			npc.direction = Math.Sign(player.Center.X - npc.Center.X);
-			if (npc.ai[0] < 1280) {
+			if (npc.ai[0] < 1280 || npc.ai[0] > 1420 && npc.ai[0] < 1600) {
 				Vector2 homeCenter = player.Center;
 				npc.spriteDirection = npc.direction;
 				homeCenter.X += (npc.Center.X < player.Center.X) ? -280 : 280;
@@ -232,12 +232,12 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			}
 			else {
 				npc.rotation = npc.velocity.X * 0.04f;
-				if (npc.ai[0] < 1320) {
+				if (npc.ai[0] < 1320 || npc.ai[0] > 1600 && npc.ai[0] < 1640) {
 					npc.velocity.X = -npc.spriteDirection;
 					npc.velocity.Y = 0;
 				}
 
-				else if (npc.ai[0] == 1320) {
+				else if (npc.ai[0] == 1320 || npc.ai[0] == 1640) {
 					Main.PlaySound(new LegacySoundStyle(SoundID.Roar, 0), npc.Center);
 					npc.velocity.X = MathHelper.Clamp(Math.Abs((player.Center.X - npc.Center.X) / 10), 24, 36) * npc.spriteDirection;
 					npc.netUpdate = true;
