@@ -221,7 +221,9 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		{
 			pulseTrailYellow = true;
 			npc.direction = Math.Sign(player.Center.X - npc.Center.X);
+
 			if (npc.ai[0] < 1280 || npc.ai[0] > 1420 && npc.ai[0] < 1600) {
+				npc.ai[1] = 0;
 				Vector2 homeCenter = player.Center;
 				npc.spriteDirection = npc.direction;
 				homeCenter.X += (npc.Center.X < player.Center.X) ? -280 : 280;

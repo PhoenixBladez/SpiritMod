@@ -71,6 +71,7 @@ namespace SpiritMod
 		public static PrimTrailManager primitives;
 		public static Effect glitchEffect;
 		public static Effect StarjinxNoise;
+		public static Effect CircleNoise;
 		public static Effect StarfirePrims;
 		public static PerlinNoise GlobalNoise;
 		public static GlitchScreenShader glitchScreenShader;
@@ -562,7 +563,8 @@ namespace SpiritMod
 				glitchScreenShader = new GlitchScreenShader(glitchEffect);
 				Filters.Scene["SpiritMod:Glitch"] = new Filter(glitchScreenShader, EffectPriority.High);
 
-				StarjinxNoise = instance.GetEffect("Effects/StarjinxNoise");
+				StarjinxNoise = instance.GetEffect("Effects/StarjinxNoise"); 
+				CircleNoise = instance.GetEffect("Effects/CircleNoise");
 				StarfirePrims = instance.GetEffect("Effects/StarfirePrims");
 
 				SkyManager.Instance["SpiritMod:AuroraSky"] = new AuroraSky();
@@ -750,6 +752,7 @@ namespace SpiritMod
             spiritRNG = null;
 			auroraEffect = null;
 			StarjinxNoise = null;
+			CircleNoise = null;
 			StarfirePrims = null;
 			noise = null;
 			instance = null;

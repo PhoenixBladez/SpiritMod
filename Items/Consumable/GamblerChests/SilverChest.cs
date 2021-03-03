@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Consumable.GamblerChests.GamblerChestNPCs;
 
 namespace SpiritMod.Items.Consumable.GamblerChests
 {
@@ -26,17 +27,7 @@ namespace SpiritMod.Items.Consumable.GamblerChests
 
 		public override void RightClick(Player player)
 		{
-			int[] lootTable = { 1, 5, 10, 50, 100, 500, 1000, 2500, 5000, 10000, 35000 };
-
-			int loot = Main.rand.Next(lootTable.Length);
-			int amount = lootTable[loot];
-			player.QuickSpawnItem(ItemID.PlatinumCoin, amount / 1000000);
-			amount %= 1000000;
-			player.QuickSpawnItem(ItemID.GoldCoin, amount / 10000);
-			amount %= 10000;
-			player.QuickSpawnItem(ItemID.SilverCoin, amount / 100);
-			amount %= 100;
-			player.QuickSpawnItem(ItemID.CopperCoin, amount);
+			NPC.NewNPC((int)player.Center.X + player.direction * 30, (int)player.Center.Y, ModContent.NPCType<SilverChestBottom>(), 0);
 		}
 	}
 }
