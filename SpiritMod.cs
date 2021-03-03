@@ -220,7 +220,7 @@ namespace SpiritMod
 			}
             if (Main.invasionType == 2 && config.FrostLegionMusic && player.ZoneOverworldHeight && Main.invasionProgressNearInvasion) {
                 music = GetSoundSlot(SoundType.Music, "Sounds/Music/FrostLegion");
-                priority = MusicPriority.Event;
+                priority = MusicPriority.BossLow;
             }
             if (priority > MusicPriority.Environment)
 				return;
