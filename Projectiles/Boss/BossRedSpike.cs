@@ -18,7 +18,7 @@ namespace SpiritMod.Projectiles.Boss
 		public override void SetDefaults()
 		{
 			projectile.hostile = true;
-			projectile.height = 54;
+			projectile.height = 16;
 			projectile.width = 16;
 			projectile.friendly = false;
 			projectile.aiStyle = 1;

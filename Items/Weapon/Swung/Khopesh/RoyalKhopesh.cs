@@ -105,12 +105,13 @@ namespace SpiritMod.Items.Weapon.Swung.Khopesh
 
 		public override void AI()
 		{
-			projectile.scale = (Bigswing) ? 1.75f : 1.2f;
+			projectile.scale = (Bigswing) ? 1.75f : 1f;
+			float dist = (Bigswing) ? 45f : 35f;
 
 			Player.itemTime = 2;
 			Player.itemAnimation = 2;
 			Player.reuseDelay = 20;
-			projectile.Center = Player.Center + projectile.velocity * 45;
+			projectile.Center = Player.Center + projectile.velocity * dist;
 			projectile.rotation = Player.AngleFrom(projectile.Center) - ((projectile.spriteDirection > 0) ? 0 : MathHelper.Pi);
 			Player.ChangeDir(Math.Sign(projectile.Center.X - Player.Center.X));
 			Player.itemRotation = MathHelper.WrapAngle(Player.AngleFrom(projectile.Center) - ((Player.direction < 0) ? 0 : MathHelper.Pi));
@@ -138,7 +139,7 @@ namespace SpiritMod.Items.Weapon.Swung.Khopesh
 					float dustscale = (Bigswing) ? 2f : 1f;
 					dustscale *= Main.rand.NextFloat(0.7f, 1.3f);
 					float dusvel = dustscale * Main.rand.NextFloat(3, 6);
-					Vector2 dustpos = projectile.velocity.RotatedByRandom(MathHelper.Pi) * Main.rand.NextFloat(40, 50);
+					Vector2 dustpos = projectile.velocity.RotatedByRandom(MathHelper.Pi) * dist * Main.rand.NextFloat(0.8f, 1.2f);
 					Dust dust = Dust.NewDustPerfect(Player.Center + dustpos, ModContent.DustType<SandDust>(), projectile.velocity.RotatedByRandom(MathHelper.Pi / 6) * dusvel, Scale: dustscale);
 					dust.noGravity = true;
 				}

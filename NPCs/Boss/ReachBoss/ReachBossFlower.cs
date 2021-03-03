@@ -18,19 +18,23 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		public override void SetDefaults()
 		{
 			projectile.hostile = true;
-			projectile.width = 28;
-			projectile.height = 28;
 			projectile.friendly = false;
 			projectile.penetrate = -1;
             projectile.aiStyle = -1;
 			projectile.timeLeft = 600;
+			projectile.scale = 0.1f;
+			projectile.width = 28;
+			projectile.height = 28;
 		}
         bool pulseTrail;
 		public override void AI()
 		{		
         	Lighting.AddLight((int)((projectile.position.X + (float)(projectile.width / 2)) / 16f), (int)((projectile.position.Y + (float)(projectile.height / 2)) / 16f), 0.201f, 0.110f, 0.226f);
 			projectile.ai[1]++;
-            if (projectile.ai[1] < 99)
+			projectile.width = 28;
+			projectile.height = 28;
+
+			if (projectile.ai[1] < 99)
             {
                 projectile.tileCollide = false;
             }
@@ -41,7 +45,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			if (projectile.ai[1] < 60)
 			{
 				projectile.velocity *= .98f;
-				projectile.scale += .16f;
+				projectile.scale = MathHelper.Lerp(projectile.scale, 1f, 0.015f);
 			}
 			else
 			{

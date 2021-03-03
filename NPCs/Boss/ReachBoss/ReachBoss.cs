@@ -1,8 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Effects;
 using SpiritMod.Projectiles.Boss;
 using System;
+using System.IO;
+using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -19,12 +23,13 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		{
 			DisplayName.SetDefault("Vinewrath Bane");
 			Main.npcFrameCount[npc.type] = 5;
+			NPCID.Sets.TrailCacheLength[npc.type] = 4;
+			NPCID.Sets.TrailingMode[npc.type] = 1;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 132;
-			npc.height = 222;
+			npc.width = npc.height = 80;
 			npc.damage = 28;
             npc.boss = true;
 			npc.lifeMax = 2500;
@@ -33,7 +38,8 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			npc.noTileCollide = true;
 			npc.npcSlots = 20;
 			npc.defense = 15;
-			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/ReachBoss");
+			npc.aiStyle = -1;
+			music = mod.GetSoundSlot(Terraria.ModLoader.SoundType.Music, "Sounds/Music/ReachBoss");
 			npc.buffImmune[20] = true;
 			npc.buffImmune[31] = true;
 			npc.buffImmune[70] = true;
@@ -42,19 +48,35 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			npc.DeathSound = SoundID.NPCDeath1;
 		}
 
-		float num1;
-		float num2;
 		bool pulseTrail;
 		bool pulseTrailPurple;
-		float movement;
-		Vector2 vector2_1;
-		Vector2 desiredVelocity;
-		
+		bool pulseTrailYellow;
+		bool trailbehind = false;
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(pulseTrail);
+			writer.Write(pulseTrailPurple);
+			writer.Write(pulseTrailYellow);
+			writer.Write(trailbehind);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			pulseTrail = reader.ReadBoolean();
+			pulseTrailPurple = reader.ReadBoolean();
+			pulseTrailYellow = reader.ReadBoolean();
+			trailbehind = reader.ReadBoolean();
+		}
+
 		public override void AI()
 		{
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.301f, 0.110f, 0.126f);
 			Player player = Main.player[npc.target];
 			bool expertMode = Main.expertMode;
+			npc.rotation = MathHelper.Lerp(npc.rotation, 0, 0.06f);
+			npc.noTileCollide = true;
+
 			if (!player.active || player.dead) {
 				npc.TargetClosest(false);
 				npc.velocity.Y = -2000;
@@ -67,48 +89,60 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				npc.defense = 14;
 				npc.damage = 28;
 			}
+
 			npc.ai[0]++;
-			if (npc.ai[0] < 470 || npc.ai[0] > 730 && npc.ai[0] < 900 || npc.ai[0] > 1110 && npc.ai[0] < 1220) {
+			if (npc.ai[0] < 470 || npc.ai[0] > 730 && npc.ai[0] < 900 || npc.ai[0] > 1051 && npc.ai[0] < 1120) {
 				generalMovement(player);
 			}
-			if (npc.ai[0] == 470 || npc.ai[0] == 540 || npc.ai[0] == 590 || npc.ai[0] == 670 || npc.ai[0] == 900 || npc.ai[0] == 1051)
+
+			float[] stoptimes = new float[] { 470, 540, 670, 900, 1051 };
+			if (stoptimes.Contains(npc.ai[0]))
 			{
 				npc.velocity = Vector2.Zero;
 				npc.netUpdate = true;
 			}
-			if (npc.ai[0] > 480  && npc.ai[0] < 730)
+
+			if (npc.ai[0] >= 480  && npc.ai[0] < 730)
 			{
 				sideFloat(player);
 				pulseTrail = true;
-				num1 = 14f;
-				movement = .5f;
 			}	
 			else
-			{
 				pulseTrail = false;
-			}
+
 			if (npc.ai[0] == 880)
 			{
 			    DustHelper.DrawStar(npc.Center, 272, pointAmount: 8, mainSize: 3.7425f, dustDensity: 6, dustSize: .65f, pointDepthMult: 3.6f, noGravity: true);
 			}
+
 			if (npc.ai[0] > 900 && npc.ai[0] < 1050)
 			{
 				pulseTrailPurple = true;
 				flowerAttack(player);
 			}	
-			if (npc.ai[0] > 1051)
-			{
+			else
 				pulseTrailPurple = false;
+
+			if (npc.ai[0] >= 1120 && npc.ai[0] < 1420)
+				DashAttack(player);
+
+			else {
+				pulseTrailYellow = false;
+				trailbehind = false;
+				npc.TargetClosest(true);
+				npc.spriteDirection = npc.direction;
 			}
-			if (npc.ai[0] > 1500)
+
+			if (npc.ai[0] > 1420)
 			{
 				pulseTrailPurple = false;
+				pulseTrailYellow = false;
 				pulseTrail = false;
-				npc.ai[0] = 0;
+				for(int i = 0; i < npc.ai.Length; i++) 
+					npc.ai[i] = 0;
+
 				npc.netUpdate = true;
 			}
-			
-			npc.spriteDirection = npc.direction;
 		}
 		public void generalMovement(Player player)
 		{
@@ -119,6 +153,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				moveSpeed++;
 
 			npc.velocity.X = moveSpeed * 0.13f;
+			npc.rotation = npc.velocity.X * 0.04f;
 
 			if (npc.Center.Y >= player.Center.Y - 140f + value12 && moveSpeedY >= -20) //Flies to players Y position
 				moveSpeedY--;
@@ -129,49 +164,12 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		public void sideFloat(Player player)
 		{
 			bool expertMode = Main.expertMode;
-			if (npc.ai[0] >= 480 && npc.ai[0] < 540) {
-
+			Vector2 homepos = Main.player[npc.target].Center;
+			if ((npc.ai[0] >= 480 && npc.ai[0] < 540) || (npc.ai[0] >= 580 && npc.ai[0] < 670)) {
+				homepos += (npc.ai[0] < 540) ? new Vector2(150, -150f) : new Vector2(-150, -150);
 				npc.TargetClosest(true);
-				vector2_1 = Main.player[npc.target].Center - npc.Center + new Vector2(150, -150f);
-				num2 = vector2_1.Length();
-
-				if ((double)num2 < 20.0)
-					desiredVelocity = npc.velocity;
-				else if ((double)num2 < 40.0) {
-					vector2_1.Normalize();
-					desiredVelocity = vector2_1 * (num1 * 0.45f);
-				}
-				else if ((double)num2 < 80.0) {
-					vector2_1.Normalize();
-					desiredVelocity = vector2_1 * (num1 * 0.75f);
-				}
-				else {
-					vector2_1.Normalize();
-					desiredVelocity = vector2_1 * num1;
-				}
-				npc.SimpleFlyMovement(desiredVelocity, movement);			
-			}
-			if (npc.ai[0] >= 600 && npc.ai[0] < 670)
-			{
-				vector2_1 = Main.player[npc.target].Center - npc.Center + new Vector2(-150f, -150f);
-				num2 = vector2_1.Length();
-
-				if ((double)num2 < 20.0)
-					desiredVelocity = npc.velocity;
-				else if ((double)num2 < 40.0) {
-					vector2_1.Normalize();
-					desiredVelocity = vector2_1 * (num1 * 0.45f);
-				}
-				else if ((double)num2 < 80.0) {
-					vector2_1.Normalize();
-					desiredVelocity = vector2_1 * (num1 * 0.75f);
-				}
-				else {
-					vector2_1.Normalize();
-					desiredVelocity = vector2_1 * num1;
-				}
-				
-				npc.SimpleFlyMovement(desiredVelocity, movement);
+				float vel = MathHelper.Clamp(npc.Distance(homepos) / 18, 18, 38);
+				npc.velocity = Vector2.Lerp(npc.velocity, npc.DirectionTo(homepos) * vel, 0.05f);
 			}
 			if (npc.ai[0] == 560 || npc.ai[0] == 690)
 			{
@@ -180,8 +178,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
                 {
                     Vector2 direction = Main.player[npc.target].Center - npc.Center;
                     direction.Normalize();
-        	         direction.X *= 14f;
-                    direction.Y *= 14f;
+					direction *= 14f;
 
                     int amountOfProjectiles = Main.rand.Next(3, 5);
                     for (int i = 0; i < amountOfProjectiles; ++i)
@@ -189,17 +186,19 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
                         float A = (float)Main.rand.Next(-50, 50) * 0.05f;
                         float B = (float)Main.rand.Next(-50, 50) * 0.05f;
                         int damage = expertMode ? 11 : 16;
-                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BossRedSpike>(), damage, 1, Main.myPlayer, 0, 0);
+                        Projectile p = Projectile.NewProjectileDirect(npc.Center, direction + new Vector2(A, B), ModContent.ProjectileType<BossRedSpike>(), damage, 1, Main.myPlayer, 0, 0);
+						p.netUpdate = true;
                     }
                 }
 			}
 		}
 		public void flowerAttack(Player player)
-		{    
+		{
 			bool expertMode = Main.expertMode;
 			int damage = expertMode ? 11 : 16;
 			if (npc.ai[0] % 16 == 0)
-			{    
+			{
+				Main.PlaySound(new LegacySoundStyle(SoundID.Item, 104).WithPitchVariance(0.2f), npc.Center);
 	            if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
 					int p = Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-60, 60), npc.Center.Y+ Main.rand.Next(-60, 60), Main.rand.NextFloat(-5.3f, 5.3f), Main.rand.NextFloat(-5.3f, 5.3f), ModContent.ProjectileType<ReachBossFlower>(), damage, 1, Main.myPlayer, 0, 0);		
@@ -217,6 +216,50 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				}
 			}
 		}
+
+		void DashAttack(Player player) //basically just copy pasted from scarabeus mostly
+		{
+			pulseTrailYellow = true;
+			npc.direction = Math.Sign(player.Center.X - npc.Center.X);
+			if (npc.ai[0] < 1280) {
+				Vector2 homeCenter = player.Center;
+				npc.spriteDirection = npc.direction;
+				homeCenter.X += (npc.Center.X < player.Center.X) ? -280 : 280;
+				homeCenter.Y -= 30;
+
+				float vel = MathHelper.Clamp(npc.Distance(homeCenter) / 12, 8, 30);
+				npc.velocity = Vector2.Lerp(npc.velocity, npc.DirectionTo(homeCenter) * vel, 0.08f);
+			}
+			else {
+				npc.rotation = npc.velocity.X * 0.04f;
+				if (npc.ai[0] < 1320) {
+					npc.velocity.X = -npc.spriteDirection;
+					npc.velocity.Y = 0;
+				}
+
+				else if (npc.ai[0] == 1320) {
+					Main.PlaySound(new LegacySoundStyle(SoundID.Roar, 0), npc.Center);
+					npc.velocity.X = MathHelper.Clamp(Math.Abs((player.Center.X - npc.Center.X) / 14), 22, 30) * npc.spriteDirection;
+					npc.netUpdate = true;
+					trailbehind = true;
+				}
+
+				else if (npc.direction != npc.spriteDirection || npc.ai[1] > 0) {
+					npc.ai[1]++; //ai 1 is used here to store this being triggered at least once, so if direction is equal to sprite direction again after this it will continue this part of the ai
+					npc.velocity.X = MathHelper.Lerp(npc.velocity.X, 0, 0.08f);
+					npc.noTileCollide = false;
+
+					if (npc.collideX && npc.ai[2] == 0) {
+						npc.ai[2]++; //ai 2 is used here as a flag to make sure the tile collide effects only trigger once
+						Collision.HitTiles(npc.position, npc.velocity, npc.width, npc.height);
+						Main.PlaySound(SoundID.Dig, npc.Center);
+						npc.velocity.X *= -0.5f;
+						//put other things here for on tile collision effects
+					}
+				}
+			}
+		}
+
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frameCounter += .15f;
@@ -224,18 +267,28 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			int frame = (int)npc.frameCounter;
 			npc.frame.Y = frame * frameHeight;
 		}
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.66f * bossLifeScale);
 			npc.damage = (int)(npc.damage * 0.6f);
 		}
 
+		Vector2 Drawoffset => new Vector2(0, npc.gfxOffY) + Vector2.UnitX * npc.spriteDirection * 12;
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+			var effects = npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + Drawoffset, npc.frame,
 							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+
+			if (trailbehind) {
+				for (int i = 0; i < NPCID.Sets.TrailCacheLength[npc.type]; i++) {
+					Vector2 drawpos = npc.oldPos[i] + npc.Size / 2 - Main.screenPosition;
+					float opacity = 0.5f * ((NPCID.Sets.TrailCacheLength[npc.type] - i) / (float)NPCID.Sets.TrailCacheLength[npc.type]);
+					spriteBatch.Draw(Main.npcTexture[npc.type], drawpos + Drawoffset, npc.frame,
+									 drawColor * opacity, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+				}
+			}
 			return false;
 		}
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
@@ -244,10 +297,10 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
             float num107 = (float)Math.Cos((double)(Main.GlobalTime % 2.4f / 2.4f * 6.28318548f)) / 2f + 0.5f;
             float num106 = 0f;
 			Color color1 = Color.White * num107 * .8f;
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			var effects = npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			spriteBatch.Draw(
 				mod.GetTexture("NPCs/Boss/ReachBoss/ReachBoss_Glow"),
-				npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY),
+				npc.Center - Main.screenPosition + Drawoffset,
 				npc.frame,
 				color1,
 				npc.rotation,
@@ -259,29 +312,30 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			if (pulseTrail)
 			{
 				SpriteEffects spriteEffects3 = (npc.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-				Vector2 vector33 = new Vector2(npc.Center.X, npc.Center.Y) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity;
+				Vector2 vector33 = new Vector2(npc.Center.X, npc.Center.Y) - Main.screenPosition + Drawoffset - npc.velocity;
 				Color color29 = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Color.Tomato);
 				for (int num103 = 0; num103 < 4; num103++)
 				{
 					Color color28 = color29;
 					color28 = npc.GetAlpha(color28);
 					color28 *= 1f - num107;
-					Vector2 vector29 = new Vector2(npc.Center.X, npc.Center.Y) + ((float)num103 / (float)num108 * 6.28318548f + npc.rotation + num106).ToRotationVector2() * (4f * num107 + 2f) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity * (float)num103;
+					Vector2 vector29 = npc.Center + ((float)num103 / (float)num108 * 6.28318548f + npc.rotation + num106).ToRotationVector2() * (4f * num107 + 2f) - Main.screenPosition + Drawoffset - npc.velocity * (float)num103;
 					Main.spriteBatch.Draw(mod.GetTexture("NPCs/Boss/ReachBoss/ReachBoss_Glow"), vector29, npc.frame, color28, npc.rotation, npc.frame.Size() / 2f, npc.scale, spriteEffects3, 0f);
 				}
 			}
-			if (pulseTrailPurple)
+			if (pulseTrailPurple || pulseTrailYellow)
 			{
+				Color glowcolor = (pulseTrailYellow) ? Color.Goldenrod : Color.Orchid;
 		        float num1072 = (float)Math.Cos((double)(Main.GlobalTime % 2.4f / 2.4f * 6.28318548f)) / 2f + 0.5f;
 				SpriteEffects spriteEffects3 = (npc.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-				Vector2 vector33 = new Vector2(npc.Center.X, npc.Center.Y) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity;
-				Color color29 = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Color.Orchid);
+				Vector2 vector33 = new Vector2(npc.Center.X, npc.Center.Y) - Main.screenPosition + Drawoffset - npc.velocity;
+				Color color29 = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(glowcolor);
 				for (int num103 = 0; num103 < 4; num103++)
 				{
 					Color color28 = color29;
 					color28 = npc.GetAlpha(color28);
 					color28 *= 1f - num1072;
-					Vector2 vector29 = new Vector2(npc.Center.X, npc.Center.Y) + ((float)num103 / (float)num108 * 6.28318548f + npc.rotation + num106).ToRotationVector2() * (4f * num1072 + 2f) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity * (float)num103;
+					Vector2 vector29 = npc.Center + ((float)num103 / (float)num108 * 6.28318548f + npc.rotation + num106).ToRotationVector2() * (4f * num1072 + 2f) - Main.screenPosition + Drawoffset - npc.velocity * (float)num103;
 					Main.spriteBatch.Draw(mod.GetTexture("NPCs/Boss/ReachBoss/ReachBoss_PurpleGlow"), vector29, npc.frame, color28 * .6f, npc.rotation, npc.frame.Size() / 2f, npc.scale, spriteEffects3, 0f);
 				}
 			}
