@@ -62,5 +62,20 @@ namespace SpiritMod
         [DefaultValue(true)]
         public bool SpiderCaveMusic { get; set; }
 
+        [Label("Frost Legion Music")]
+        [Tooltip("Adds a unique track for the Frost Legion")]
+        [DefaultValue(true)]
+        public bool FrostLegionMusic { get; set; }
+
+        [Label("Meteor Music")]
+        [Tooltip("Adds a unique track for the Meteor")]
+        [DefaultValue(true)]
+        public bool MeteorMusic { get; set; }
+
+        [Label("Corrupt Night Music")]
+        [Tooltip("Adds a unique track for the Corruption at nighttime")]
+        [DefaultValue(true)]
+        public bool CorruptNightMusic { get; set; }
+
     }
 }

@@ -218,8 +218,11 @@ namespace SpiritMod
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/DepthInvasion");
 				priority = MusicPriority.Event;
 			}
-
-			if (priority > MusicPriority.Environment)
+            if (Main.invasionType == 2 && config.FrostLegionMusic && player.ZoneOverworldHeight && Main.invasionProgressNearInvasion) {
+                music = GetSoundSlot(SoundType.Music, "Sounds/Music/FrostLegion");
+                priority = MusicPriority.Event;
+            }
+            if (priority > MusicPriority.Environment)
 				return;
 			if (spirit.ZoneBlueMoon && !Main.dayTime && (player.ZoneOverworldHeight || player.ZoneSkyHeight)) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/BlueMoon");
@@ -252,7 +255,14 @@ namespace SpiritMod
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/AuroraSnow");
 				priority = MusicPriority.BiomeHigh;
 			}
-			if (config.BlizzardMusic
+			if (config.MeteorMusic
+				&& player.ZoneMeteor 
+				&& !Main.bloodMoon) {
+                music = GetSoundSlot(SoundType.Music, "Sounds/Music/Meteor");
+                priority = MusicPriority.BiomeHigh;
+            }
+
+            if (config.BlizzardMusic
 				&& player.ZoneSnow
 				&& player.ZoneOverworldHeight
 				&& !player.ZoneCorrupt
@@ -261,13 +271,15 @@ namespace SpiritMod
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/Blizzard");
 				priority = MusicPriority.BiomeHigh;
 			}
-			if (config.LuminousMusic
+
+            if (config.LuminousMusic
 				&& player.ZoneBeach
 				&& MyWorld.luminousOcean
 				&& !Main.dayTime) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/OceanNighttime");
 				priority = MusicPriority.BiomeHigh;
 			}
+
             if (config.HallowNightMusic
                 && player.ZoneHoly
                 && player.ZoneOverworldHeight
@@ -281,6 +293,21 @@ namespace SpiritMod
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/HallowNight");
 				priority = MusicPriority.BiomeHigh;
 			}
+
+            if (config.CorruptNightMusic
+                && player.ZoneCorrupt
+                && player.ZoneOverworldHeight
+                && !Main.dayTime
+                && !player.ZoneHoly
+                && !player.ZoneCrimson
+                && !player.ZoneJungle
+                && !player.ZoneBeach
+                && !Main.bloodMoon)
+            {
+                music = GetSoundSlot(SoundType.Music, "Sounds/Music/CorruptNight");
+                priority = MusicPriority.BiomeHigh;
+            }
+
             if (config.CalmNightMusic
                 && MyWorld.calmNight
                 && !player.ZoneSnow
@@ -298,6 +325,7 @@ namespace SpiritMod
                 music = GetSoundSlot(SoundType.Music, "Sounds/Music/CalmNight");
                 priority = MusicPriority.BiomeHigh;
             }
+
             if (config.SnowNightMusic
 				&& player.ZoneSnow
 				&& player.ZoneOverworldHeight
@@ -311,7 +339,8 @@ namespace SpiritMod
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/SnowNighttime");
 				priority = MusicPriority.BiomeMedium;
 			}
-			if (config.DesertNightMusic
+
+            if (config.DesertNightMusic
 				&& player.ZoneDesert
 				&& player.ZoneOverworldHeight
 				&& !Main.dayTime
@@ -322,11 +351,13 @@ namespace SpiritMod
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/DesertNighttime");
 				priority = MusicPriority.BiomeHigh;
 			}
-			if (spirit.ZoneAsteroid) {
+
+            if (spirit.ZoneAsteroid) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/Asteroids");
 				priority = MusicPriority.Environment;
 			}
-			if (priority > MusicPriority.BiomeMedium)
+
+            if (priority > MusicPriority.BiomeMedium)
 				return;
 			if (spirit.ZoneSpirit) {
 				priority = MusicPriority.BiomeMedium;
@@ -343,7 +374,8 @@ namespace SpiritMod
 					music = GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritOverworld");
 				}
 			}
-			if (config.GraniteMusic
+
+            if (config.GraniteMusic
 				&& spirit.ZoneGranite && !player.ZoneHoly && !player.ZoneCorrupt && !player.ZoneCrimson
                 && !player.ZoneOverworldHeight && !spirit.ZoneSpirit && spirit.inGranite) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/GraniteBiome");
