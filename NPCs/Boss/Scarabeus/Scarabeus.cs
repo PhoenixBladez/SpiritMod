@@ -79,11 +79,6 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			npc.TargetClosest(true);
 			Player player = Main.player[npc.target];
 			canhitplayer = false; //default to being unable to hit the player at the start of each tick, overrided depending on attack pattern
-			if (!player.ZoneDesert) 
-				npc.defense = 60;
-			
-			else 
-				npc.defense = 10;
 
 			if (frame >= 18 && frame < 21)
 				SpiritMod.scarabWings.SetTo(Main.ambientVolume * MathHelper.Clamp((800 - npc.Distance(Main.player[Main.myPlayer].Center)) / 400f, 0, 1));
@@ -364,7 +359,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				if (AiTimer == 128) {
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/BossSFX/Scarab_Roar1").WithVolume(1.2f), npc.Center);
 					trailbehind = true;
-					npc.velocity.X = MathHelper.Clamp(Math.Abs((player.Center.X - npc.Center.X)/17), 14, 26) * npc.direction;
+					npc.velocity.X = MathHelper.Clamp(Math.Abs((player.Center.X - npc.Center.X)/17), 16, 38) * npc.direction;
 				}
 
 				if (frame >= 11) {
@@ -403,9 +398,10 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			if (AiTimer < 100) { //home in on player, but keeping some distance, also slowly rotating towards them
 
 				npc.spriteDirection = npc.direction;
-				npc.velocity = (npc.Distance(player.Center) > 380) ?
-					Vector2.Lerp(npc.velocity, ToPlayer * 10, 0.05f) :
-					Vector2.Lerp(npc.velocity, -ToPlayer * 10, 0.05f);
+				float vel = MathHelper.Clamp(Math.Abs(ToPlayer.Length() - 400) / 24, 6, 60);
+				npc.velocity = (npc.Distance(player.Center) > 480) ?
+					Vector2.Lerp(npc.velocity, ToPlayer * vel, 0.05f) :
+					(npc.Distance(player.Center) < 380) ? Vector2.Lerp(npc.velocity, -ToPlayer * vel, 0.05f) : Vector2.Lerp(npc.velocity, Vector2.Zero, 0.05f);
 
 				rotation = Utils.AngleLerp(rotation, ToPlayer.ToRotation(), 0.05f);
 			}
@@ -419,7 +415,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				if (AiTimer == 120 || AiTimer == 210) {
 					trailbehind = true;
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/BossSFX/Scarab_Roar1"), npc.Center);
-					npc.velocity = ToPlayer * 20;
+					npc.velocity = ToPlayer * MathHelper.Clamp(npc.Distance(player.Center) / 17, 16, 30);
 				}
 				canhitplayer = true;
 				if (AiTimer > 120 && AiTimer < 150 || AiTimer > 210)
@@ -445,7 +441,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 					ToPlayer.Y -= 180;
 				if (Math.Abs(ToPlayer.X) > 50) //flip based on homing direction, but not if too close horizontally
 					npc.spriteDirection = npc.direction;
-				float vel = MathHelper.Clamp(ToPlayer.Length() / 18, 7, 18);
+				float vel = MathHelper.Clamp(ToPlayer.Length() / 18, 7, 28);
 				ToPlayer.Normalize();
 				npc.velocity = Vector2.Lerp(npc.velocity, ToPlayer * vel, 0.05f);
 			}
@@ -478,10 +474,10 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 						Main.PlaySound(SoundID.Item14, npc.Center);
 					}
 					npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0, 0.07f);
-					if (AiTimer % 10 == 0 && AiTimer < hometime + 61) { //make shockwaves ripple outwards, 2 spawn every 10 ticks, distance from boss is based on how many ticks have passed
+					if (AiTimer % 7 == 0 && AiTimer < hometime + 61) { //make shockwaves ripple outwards, 2 spawn every 10 ticks, distance from boss is based on how many ticks have passed
 						for (int i = -1; i <= 1; i += 2) {
 							Vector2 center = new Vector2(npc.Center.X, npc.Center.Y + npc.height / 4);
-							center.X += (AiTimer - 150) * 20 * i;
+							center.X += (AiTimer - 150) * 32 * i;
 							int numtries = 0;
 							int x = (int)(center.X / 16);
 							int y = (int)(center.Y / 16);//find the lowest solid tile from the given spawn point, then increase the spawn point if inside a tile, with a limit of 10 tiles upwards
@@ -944,7 +940,17 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 					damage--;
 				}
 			}
+
+			if (!Main.player[projectile.owner].ZoneDesert)
+				damage /= 3;
 		}
+
+		public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit)
+		{
+			if (!player.ZoneDesert)
+				damage /= 3;
+		}
+
 		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{

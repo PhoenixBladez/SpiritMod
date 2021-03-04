@@ -58,13 +58,13 @@ namespace SpiritMod.Items.Equipment.ScarabExpertDrop
 		{
 			mountData.buff = ModContent.BuffType<PendantBuff>();
 			mountData.fallDamage = 0.5f;
-			mountData.runSpeed = 10f;
+			mountData.runSpeed = 9f;
 			mountData.dashSpeed = 3f;
 			mountData.flightTimeMax = 0;
 			mountData.fatigueMax = 0;
 			mountData.jumpHeight = 1;
-			mountData.acceleration = 0.06f;
-			mountData.jumpSpeed = 10f;
+			mountData.acceleration = 0.04f;
+			mountData.jumpSpeed = 8f;
 			mountData.blockExtraJumps = false;
 			mountData.totalFrames = 1;
 			mountData.constantJump = false;
@@ -103,7 +103,6 @@ namespace SpiritMod.Items.Equipment.ScarabExpertDrop
 
 			if(Math.Abs(player.velocity.X) > 6) {
 				modplayer.scarabtimer++;
-				player.noKnockback = true;
 				var enemies = Main.npc.Where(x => x.Hitbox.Intersects(player.Hitbox) && x.CanBeChasedBy(this) && x.immune[player.whoAmI] == 0);
 				foreach(NPC npc in enemies) {
 					npc.StrikeNPC((int)(25 * player.meleeDamage * Main.rand.NextFloat(0.9f, 1.2f)), 1, player.direction, Main.rand.NextBool(10));
