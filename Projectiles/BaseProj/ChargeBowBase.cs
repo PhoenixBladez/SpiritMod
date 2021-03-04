@@ -68,6 +68,7 @@ namespace SpiritMod.Projectiles.BaseProj
 
 		public sealed override void AI()
 		{
+			projectile.velocity = Vector2.Zero;
 			counter++;
 			SafeAI();
 			AdjustDirection();
@@ -77,7 +78,7 @@ namespace SpiritMod.Projectiles.BaseProj
 			projectile.timeLeft = 2;
 			player.itemTime = 2;
 			player.itemAnimation = 2;
-			projectile.position = player.Center;
+			projectile.position = player.MountedCenter;
 			if (player.channel && !firing)
 			{
 				if (charge < 1)

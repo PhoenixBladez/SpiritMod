@@ -41,6 +41,8 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using SpiritMod.Items.Equipment;
 using SpiritMod.NPCs.Boss.Scarabeus;
+using System.Linq;
+using Terraria.Audio;
 
 namespace SpiritMod
 {
@@ -247,7 +249,6 @@ namespace SpiritMod
 		public bool phantomPet = false;
 		public bool lanternPet = false;
 		public bool leatherHood = false;
-		public bool chitinSet = false;
 		public bool thrallPet = false;
 		public bool jellyfishPet = false;
 		public int clatterStacks;
@@ -305,6 +306,8 @@ namespace SpiritMod
 		public int shadowCount;
 		public int attackTimer;
 		// Armor set booleans.
+		public bool chitinSet;
+		static int ChitinDashTicks;
 		public bool duskSet;
 		public bool runicSet;
         public bool darkfeatherVisage;
@@ -627,6 +630,7 @@ namespace SpiritMod
             jellynautHelm = false;
 			moonHeart = false;
 			chitinSet = false;
+			ChitinDashTicks = Math.Max(ChitinDashTicks - 1, 0);
 			starplateGlitchEffect = false;
 			Fierysoul = false;
 			infernalFlame = false;
@@ -2215,7 +2219,7 @@ namespace SpiritMod
 						emptyWinterbornScroll = false;
 						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
 						"Contract Complete!");
-						Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SlayerComplete"));
+						Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/SlayerComplete"));
 						break;
 					}
 				}
@@ -2229,7 +2233,7 @@ namespace SpiritMod
 						emptyAntlionScroll = false;
 						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
 						"Contract Complete!");
-						Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SlayerComplete"));
+						Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/SlayerComplete"));
 						break;
 					}
 				}
@@ -2243,7 +2247,7 @@ namespace SpiritMod
 						emptyStardancerScroll = false;
 						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
 						"Contract Complete!");
-						Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SlayerComplete"));
+						Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/SlayerComplete"));
 						break;
 					}
 				}
@@ -2257,7 +2261,7 @@ namespace SpiritMod
 						emptyBeholderScroll = false;
 						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
 						"Contract Complete!");
-						Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SlayerComplete"));
+						Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/SlayerComplete"));
 						break;
 					}
 				}
@@ -2271,7 +2275,7 @@ namespace SpiritMod
                         emptyOwlScroll = false;
 						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
 						"Contract Complete!");
-						Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SlayerComplete"));
+						Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/SlayerComplete"));
 						break;
 					}
 				}
@@ -2285,7 +2289,7 @@ namespace SpiritMod
 						emptyDrBonesScroll = false;
 						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
 						"Contract Complete!");
-						Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SlayerComplete"));
+						Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/SlayerComplete"));
 						break;
 					}
 				}
@@ -2299,7 +2303,7 @@ namespace SpiritMod
 						emptyValkyrieScroll = false;
 						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
 						"Contract Complete!");
-						Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SlayerComplete"));
+						Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/SlayerComplete"));
 						break;
 					}
 				}
@@ -2313,7 +2317,7 @@ namespace SpiritMod
 						emptyWheezerScroll = false;
 						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
 						"Contract Complete!");
-						Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SlayerComplete"));
+						Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/SlayerComplete"));
 						break;
 					}
 				}
@@ -2330,7 +2334,7 @@ namespace SpiritMod
                         emptyBriarMobsScroll = false;
                         CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
                         "Contract Complete!");
-                        Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/SlayerComplete"));
+                        Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/SlayerComplete"));
                         break;
                     }
                 }
@@ -2347,7 +2351,7 @@ namespace SpiritMod
 								player.QuickSpawnItem(ModContent.ItemType<ExplorerScrollMushroomFull>());
 								CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
 								"Map Filled!");
-								Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MapComplete"));
+								Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/MapComplete"));
 								break;
 							}
 						}
@@ -2364,7 +2368,7 @@ namespace SpiritMod
 								player.QuickSpawnItem(ModContent.ItemType<ExplorerScrollAsteroidFull>());
 								CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
 								"Map Filled!");
-								Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MapComplete"));
+								Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/MapComplete"));
 								break;
 							}
 						}
@@ -2381,7 +2385,7 @@ namespace SpiritMod
 								player.QuickSpawnItem(ModContent.ItemType<ExplorerScrollHiveFull>());
 								CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
 								"Map Filled!");
-								Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MapComplete"));
+								Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/MapComplete"));
 								break;
 							}
 						}
@@ -2398,7 +2402,7 @@ namespace SpiritMod
 								player.QuickSpawnItem(ModContent.ItemType<ExplorerScrollGraniteFull>());
 								CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
 								"Map Filled!");
-								Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MapComplete"));
+								Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/MapComplete"));
 								break;
 							}
 						}
@@ -2415,7 +2419,7 @@ namespace SpiritMod
 								player.QuickSpawnItem(ModContent.ItemType<ExplorerScrollMarbleFull>());
 								CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
 								"Map Filled!");
-								Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MapComplete"));
+								Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/MapComplete"));
 								break;
 							}
 						}
@@ -2911,7 +2915,8 @@ namespace SpiritMod
 					decayCapped = 0.985f;
 					decayMax = decayCapped;
 					delay = 30;
-				} else if(ActiveDash == DashType.Firewall) {
+				} 
+				else if(ActiveDash == DashType.Firewall) {
 					if(firewallHit < 0) {
 						Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<BinaryDust>());
 						Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<BinaryDust>());
@@ -2957,7 +2962,8 @@ namespace SpiritMod
 							}
 						}
 					}
-				} else if(ActiveDash == DashType.Shinigami) {
+				} 
+				else if(ActiveDash == DashType.Shinigami) {
 					speedCap = speedMax;
 					decayCapped = 0.88f;
 					delay = 30;
@@ -2968,7 +2974,34 @@ namespace SpiritMod
 					}
 				}
 
-				if(ActiveDash != DashType.None) {
+				else if (ActiveDash == DashType.Chitin) {
+
+					for (int k = 0; k < 2; k++) {
+						int dust;
+						if (player.velocity.Y == 0f) {
+							dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 8, ModContent.DustType<SandDust>(), 0f, 0f, 100, default, 1.4f);
+						}
+						else {
+							dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + (player.height >> 1) - 8f), player.width, 16, ModContent.DustType<SandDust>(), 0f, 0f, 100, default, 1.4f);
+						}
+
+						Main.dust[dust].velocity *= 0.1f;
+						Main.dust[dust].scale *= 1f + Main.rand.Next(20) * 0.01f;
+					}
+					var targets = Main.npc.Where(x => x.CanBeChasedBy(this) && x.Hitbox.Intersects(player.Hitbox) && x.immune[player.whoAmI] == 0);
+					foreach(NPC npc in targets) {
+						npc.StrikeNPC((int)(12 * Main.rand.NextFloat(0.9f, 1.2f)), 1, player.direction, Main.rand.NextBool(25));
+						npc.immune[player.whoAmI] = 10;
+					}
+					ChitinDashTicks = 20;
+					player.noKnockback = true;
+					speedCap = speedMax;
+					decayCapped = 0.97f;
+					decayMax = decayCapped;
+					delay = 25;
+				}
+
+				if (ActiveDash != DashType.None) {
 					if(speedCap < speedMax) {
 						speedCap = speedMax;
 					}
@@ -2988,7 +3021,8 @@ namespace SpiritMod
 						}
 					}
 				}
-			} else if(dash != DashType.None && player.whoAmI == Main.myPlayer) {
+			} 
+			else if(dash != DashType.None && player.whoAmI == Main.myPlayer) {
 				sbyte dir = 0;
 				bool dashInput = false;
 				if(player.dashTime > 0) {
@@ -3040,7 +3074,8 @@ namespace SpiritMod
 					Main.dust[dust].velocity *= 0.2f;
 					Main.dust[dust].scale *= 1.4f + Main.rand.Next(20) * 0.01f;
 				}
-			} else if(dash == DashType.Firewall) {
+			} 
+			else if(dash == DashType.Firewall) {
 				firewallHit = -1;
 
 				Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<BinaryDust>(), 0f, 0f, 0, default, 1f);
@@ -3055,8 +3090,16 @@ namespace SpiritMod
 					Main.dust[num23f].velocity *= 0.2f;
 					Main.dust[num23f].shader = GameShaders.Armor.GetSecondaryShader(player.shield, player);
 				}
-			} else if(dash == DashType.Shinigami) {
+			} 
+			else if(dash == DashType.Shinigami) {
 				velocity *= 40;
+			}
+			else if (dash == DashType.Chitin) {
+				velocity *= 20;
+				Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/BossSFX/Scarab_Roar1").WithPitchVariance(0.2f).WithVolume(0.6f), player.Center);
+				for(int i = 0; i < 16; i++) {
+					Dust.NewDust(player.position, player.width, player.height, mod.DustType("SandDust"), Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1), Scale: Main.rand.NextFloat(1, 2));
+				}
 			}
 
 			player.velocity.X = velocity;
@@ -3082,11 +3125,17 @@ namespace SpiritMod
 
 		public DashType FindDashes()
 		{
-			if(phaseStacks > 0) {
+			if (player.mount.Active)
+				return DashType.None;
+
+			if (phaseStacks > 0) {
 				return DashType.Phase;
-			} else if(firewall) {
+			}
+			else if (firewall) {
 				return DashType.Firewall;
 			}
+			else if (chitinSet)
+				return DashType.Chitin;
 
 			return DashType.None;
 		}
@@ -4439,27 +4488,6 @@ namespace SpiritMod
                 }
             }
 
-			if(chitinSet) {
-				if(player.velocity.X != 0) {
-					int knockBack = 9;
-					int dam = 18;
-
-					int hitDirection = player.direction;
-					if(player.velocity.X < 0f) {
-						hitDirection = -1;
-					}
-
-					if(player.velocity.X > 0f) {
-						hitDirection = 1;
-					}
-
-					npc.StrikeNPCNoInteraction(dam, knockBack, -hitDirection, false, false, false);
-
-					int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, ModContent.ProjectileType<ScarabProjectile>(), dam / 2, knockBack, 0, Main.myPlayer);
-					Main.projectile[p].melee = false;
-				}
-			}
-
 			if(bismiteShield) {
 				npc.AddBuff(BuffID.Poisoned, 300);
 			}
@@ -4849,6 +4877,10 @@ namespace SpiritMod
 				BubbleLayer.visible = true;
 				layers.Add(BubbleLayer);
 			}
+			if(ChitinDashTicks > 0 && player.active && !player.dead) {
+				TornadoLayer.visible = true;
+				layers.Add(TornadoLayer);
+			}
 		}
 
 		public static readonly PlayerLayer WeaponLayer = new PlayerLayer("SpiritMod", "WeaponLayer", PlayerLayer.HeldItem, delegate (PlayerDrawInfo drawInfo) {
@@ -4903,6 +4935,39 @@ namespace SpiritMod
 
 				DrawData drawData = new DrawData(texture, drawPos - Main.screenPosition, new Rectangle?(), Color.White * 0.75f, 0, origin, 1, SpriteEffects.None, 0);
 				Main.playerDrawData.Add(drawData);
+			}
+		});
+
+		public static readonly PlayerLayer TornadoLayer = new PlayerLayer("SpiritMod", "TornadoLayer", PlayerLayer.Body, delegate (PlayerDrawInfo drawInfo) {
+			if (drawInfo.shadow != 0f) {
+				return;
+			}
+
+			Mod mod = ModLoader.GetMod("SpiritMod");
+			Player player = drawInfo.drawPlayer;
+			if (player.active && !player.outOfRange) {
+
+				float halfheight = player.height / 2; //tornado drawcode i made a while ago, based on what vanilla does(draws a ton of this texture with different rotations)
+				float density = 20f;
+				for (float i = 0; i < (int)density; i++) {
+					Color color = new Color(212, 192, 100);
+					color.A /= 2;
+					float lerpamount = (Math.Abs(density / 2 - i) > ((density / 2) * 0.6f)) ? Math.Abs(density / 2 - i) / (density / 2) : 0f; //if too low or too high up, start making it transparent
+					color = Color.Lerp(color, Color.Transparent, lerpamount);
+					Texture2D texture = mod.GetTexture("Textures/TornadoExtra");
+					Vector2 offset = Vector2.SmoothStep(player.Center + Vector2.UnitY * halfheight, player.Center - Vector2.UnitY * halfheight, i / density);
+					float scale = MathHelper.Lerp(0.6f, 1f, i / density);
+					DrawData drawdata = new DrawData(texture, offset - Main.screenPosition,
+						new Rectangle(0, 0, texture.Width, texture.Height),
+						Lighting.GetColor((int)player.Center.X / 16, (int)player.Center.Y / 16).MultiplyRGBA(color) * 0.5f * ((float)ChitinDashTicks / 20),
+						i / 6f - Main.GlobalTime * 7f,
+						texture.Size() / 2,
+						scale,
+						SpriteEffects.None,
+						0);
+
+					Main.playerDrawData.Add(drawdata);
+				}
 			}
 		});
 

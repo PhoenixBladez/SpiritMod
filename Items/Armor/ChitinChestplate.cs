@@ -20,6 +20,8 @@ namespace SpiritMod.Items.Armor
 			item.rare = ItemRarityID.Blue;
 			item.defense = 4;
 		}
+
+		public override bool DrawBody() => false;
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

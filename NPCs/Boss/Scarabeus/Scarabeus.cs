@@ -5,6 +5,7 @@ using SpiritMod.Effects;
 using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Items.Boss;
 using SpiritMod.Items.BossBags;
+using SpiritMod.Items.Equipment;
 using SpiritMod.Items.Material;
 using SpiritMod.Items.Weapon.Bow;
 using SpiritMod.Items.Weapon.Summon;
@@ -980,6 +981,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 
 			npc.DropItem(ModContent.ItemType<ScarabMask>(), 1f / 7);
 			npc.DropItem(ModContent.ItemType<Trophy1>(), 1f / 10);
+			npc.DropItem(ModContent.ItemType<DesertSnowglobe>(), 1f / 4);
 		}
 
 		private void Gores()
