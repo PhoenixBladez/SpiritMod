@@ -220,8 +220,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		void DashAttack(Player player) //basically just copy pasted from scarabeus mostly
 		{
 			pulseTrailYellow = true;
-			npc.direction = Math.Sign(player.Center.X - npc.Center.X);
-
+			npc.direction = Math.Sign(player.Center.X - npc.Center.X);		
 			if (npc.ai[0] < 1280 || npc.ai[0] > 1420 && npc.ai[0] < 1600) {
 				npc.ai[1] = 0;
 				Vector2 homeCenter = player.Center;
@@ -279,10 +278,16 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		Vector2 Drawoffset => new Vector2(0, npc.gfxOffY) + Vector2.UnitX * npc.spriteDirection * 12;
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
+            float num395 = Main.mouseTextColor / 200f - 0.35f;
+            num395 *= 0.2f;
+            float num366 = num395 + .85f;
+			if (npc.ai[0] > 1290 && npc.ai[0] < 1360 || npc.ai[0] > 1600 && npc.ai[0] < 1690)
+			{
+				DrawAfterImage(Main.spriteBatch, new Vector2(0f, 0f), 0.75f, Color.OrangeRed * .7f, Color.Firebrick * .05f, 0.75f, num366, .65f);
+			}	
 			var effects = npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + Drawoffset, npc.frame,
 							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
-
 			if (trailbehind) {
 				for (int i = 0; i < NPCID.Sets.TrailCacheLength[npc.type]; i++) {
 					Vector2 drawpos = npc.oldPos[i] + npc.Size / 2 - Main.screenPosition;
@@ -342,7 +347,16 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				}
 			}
 		}
-
+		public void DrawAfterImage(SpriteBatch spriteBatch, Vector2 offset, float trailLengthModifier, Color color, float opacity, float startScale, float endScale) => DrawAfterImage(spriteBatch, offset, trailLengthModifier, color, color, opacity, startScale, endScale);
+        public void DrawAfterImage(SpriteBatch spriteBatch, Vector2 offset, float trailLengthModifier, Color startColor, Color endColor, float opacity, float startScale, float endScale)
+        {
+            SpriteEffects spriteEffects = (npc.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            for (int i = 1; i < 10; i++)
+            {
+                Color color = Color.Lerp(startColor, endColor, i / 10f) * opacity;
+                spriteBatch.Draw(mod.GetTexture("NPCs/Boss/ReachBoss/ReachBoss_Afterimage"), new Vector2(npc.Center.X, npc.Center.Y) + offset - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity * (float)i * trailLengthModifier, npc.frame, color, npc.rotation, npc.frame.Size() * 0.5f, MathHelper.Lerp(startScale, endScale, i / 10f), spriteEffects, 0f);
+            }
+        }
 	
 		public override void HitEffect(int hitDirection, double damage)
 		{
