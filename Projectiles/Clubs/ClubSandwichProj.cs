@@ -40,11 +40,11 @@ namespace SpiritMod.Projectiles.Clubs
 						break;
 				}
 				int item = Item.NewItem(projectile.position, projectile.Size, type);
-				Main.item[item].velocity = Vector2.UnitY.RotatedBy(3.14f + Main.rand.NextFloat(3.14f));
+				Main.item[item].velocity = Vector2.UnitY.RotatedBy(3.14f + Main.rand.NextFloat(3.14f)) * 8f * player.direction;
 			}
 			Main.PlaySound(2, projectile.Center, 20);
 		}
-		public ClubSandwichProj() : base(58, 13, 26, -1, 58, 5, 14, 1.7f, 12f){}
+		public ClubSandwichProj() : base(58, 17, 34, -1, 58, 5, 9, 1.7f, 12f){}
 	}
 
 }

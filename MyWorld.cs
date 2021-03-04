@@ -18,6 +18,7 @@ using SpiritMod.Items.Weapon.Spear;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Swung;
 using SpiritMod.Items.Books;
+using SpiritMod.Items.Books.MaterialPages;
 using SpiritMod.Items.Weapon.Thrown;
 using SpiritMod.NPCs;
 using SpiritMod.NPCs.Town;
@@ -3351,18 +3352,18 @@ namespace SpiritMod
                 for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
                 {
                     Chest chest = Main.chest[chestIndex];
-                    if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 0 * 36 && Main.rand.NextBool(6))
+                    if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 0 * 36 && Main.rand.NextBool(5))
                     {
                         chest.item[1].SetDefaults(itemsToPlacePrimary[Main.rand.Next(5)], false);
                     }
                 }
             }
-            int[] itemsToPlacePrimaryGold = new int[] { ModContent.ItemType<Book_Lumoth>(), ModContent.ItemType<Book_Soulbloom>(), ModContent.ItemType<Book_Blossmoon>(), ModContent.ItemType<Book_Amea>(), ModContent.ItemType<Book_Slime>(), ModContent.ItemType<Book_Lava>(), ModContent.ItemType<Book_MJW>(), ModContent.ItemType<Book_Yeremy>(), ModContent.ItemType<Book_Mushroom>(), ModContent.ItemType<Book_Jellyfish>(), ModContent.ItemType<Book_Gunslinger>() };
+            int[] itemsToPlacePrimaryGold = new int[] { ModContent.ItemType<Book_Lumoth>(), ModContent.ItemType<GranitePage>(), ModContent.ItemType<MarblePage>(), ModContent.ItemType<EnchantedLeafPage>(), ModContent.ItemType<HeartScalePage>(), ModContent.ItemType<FrigidFragmentPage>(), ModContent.ItemType<BismitePage>(), ModContent.ItemType<GlowrootPage>(), ModContent.ItemType<Book_Soulbloom>(), ModContent.ItemType<Book_Blossmoon>(), ModContent.ItemType<Book_Amea>(), ModContent.ItemType<Book_Slime>(), ModContent.ItemType<Book_Lava>(), ModContent.ItemType<Book_MJW>(), ModContent.ItemType<Book_Yeremy>(), ModContent.ItemType<Book_Mushroom>(), ModContent.ItemType<Book_Jellyfish>(), ModContent.ItemType<Book_Gunslinger>() };
             //int itemsToPlaceInGlassChestsSecondaryChoice = 0;
             for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
             {
                 Chest chest = Main.chest[chestIndex];
-                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 1 * 36 && Main.rand.NextBool(11))
+                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 1 * 36 && Main.rand.NextBool(10))
                 {
                     chest.item[2].SetDefaults(itemsToPlacePrimaryGold[Main.rand.Next(8)], false);
                 }
@@ -3371,7 +3372,7 @@ namespace SpiritMod
             for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
             {
                 Chest chest = Main.chest[chestIndex];
-                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 17 * 36 && Main.rand.NextBool(5))
+                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 17 * 36 && Main.rand.NextBool(4))
                 {
                     chest.item[2].SetDefaults(ModContent.ItemType<Book_LuminousArt>(), false);
                 }

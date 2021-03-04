@@ -23,19 +23,16 @@ namespace SpiritMod.Items
 			item.height = 16;
 			item.maxStack = 1;
 		}
-
 		public override bool ItemSpace(Player player)
 		{
 			return true;
 		}
-		public override void GrabRange(Player player, ref int grabRange)
-		{
-			grabRange = 0;
-		}
 		public override bool OnPickup(Player player)
 		{
-			player.AddBuff(BuffID.WellFed, 120);
-			Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 139, 2);
+			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 2));
+			{
+				player.AddBuff(BuffID.WellFed, 540);
+			}
 			return false;
 		}
 	}

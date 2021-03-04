@@ -29,7 +29,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			npc.knockBackResist = 0f;
 			npc.defense = 20;
 			npc.damage = 50;
-			npc.lifeMax = 2500;
+			npc.lifeMax = 5500;
 			bossBag = ModContent.ItemType<InfernonBag>();
 			npc.aiStyle = -1;
 			npc.npcSlots = 10;
@@ -113,8 +113,8 @@ namespace SpiritMod.NPCs.Boss.Infernon
 					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 33);
 					Vector2 direction = Main.player[npc.target].Center - npc.Center;
 					direction.Normalize();
-					direction.X *= 6f;
-					direction.Y *= 6f;
+					direction.X *= 9.5f;
+					direction.Y *= 9.5f;
 
 					int amountOfProjectiles = 1;
 					for (int z = 0; z < amountOfProjectiles; ++z) {
