@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
@@ -33,7 +34,16 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<BloodVessel>();
-			item.shootSpeed = 19f;
+			item.shootSpeed = 16f;
+		}
+
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+			Vector2 offset = Vector2.UnitX.RotatedBy(new Vector2(speedX, speedY).ToRotation()) * item.width;
+			if (Collision.CanHit(player.Center, 0, 0, player.Center + offset, 0, 0))
+				position += offset;
+
+			return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
 		}
 
 		public override void AddRecipes()

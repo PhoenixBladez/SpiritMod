@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,18 +23,27 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.penetrate = 2;
 			projectile.alpha = 255;
 			projectile.extraUpdates = 2;
-			projectile.timeLeft = 600;
+			projectile.timeLeft = 50;
 			projectile.tileCollide = true;
 		}
 
 		int num2475;
+		Vector2 desiredvel = Vector2.Zero;
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(num2475);
+			writer.WriteVector2(desiredvel);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			num2475 = reader.Read();
+			desiredvel = reader.ReadVector2();
+		}
+
 		public override void AI()
 		{
-
-			projectile.ai[0] += 0.6f * projectile.direction;
-			if (projectile.ai[0] > 30f || projectile.ai[0] < -30f) {
-				projectile.Kill();
-			}
 			for (int num1438 = 0; num1438 < 2; num1438 = num2475 + 1) {
 				Vector2 center22 = projectile.Center;
 				projectile.scale = 1f - projectile.localAI[0];
@@ -47,16 +57,10 @@ namespace SpiritMod.Projectiles.Magic
 				else {
 					projectile.localAI[0] += 0.025f;
 				}
-				if (projectile.localAI[0] >= 0.95f) {
+				if (projectile.localAI[0] >= 0.8f) {
 					projectile.Kill();
 				}
-				projectile.velocity.X = projectile.velocity.X + projectile.ai[0] * 1.5f;
-				projectile.velocity.Y = projectile.velocity.Y + projectile.ai[1] * 3.5f;
-				if (projectile.velocity.Length() > 16f) {
-					projectile.velocity.Normalize();
-					projectile.velocity *= 16f;
-				}
-				projectile.ai[0] *= 1.05f;
+
 				if (projectile.scale < 1f) {
 					int num1448 = 0;
 					while ((float)num1448 < projectile.scale * 10f) {
@@ -82,7 +86,15 @@ namespace SpiritMod.Projectiles.Magic
 				}
 			}
 
+			if (++projectile.ai[1] == 1) {
+				float rotation = (MathHelper.Pi / 6) * (Main.rand.NextBool() ? -1 : 1) * Main.rand.NextFloat(0.5f, 1.2f);
+				desiredvel = projectile.velocity.RotatedBy(rotation);
+				projectile.velocity = projectile.velocity.RotatedBy(-rotation);
+				projectile.netUpdate = true;
+			}
+			projectile.velocity = Vector2.Lerp(projectile.velocity, desiredvel, 0.05f);
 		}
+
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 10; i++) {
@@ -90,13 +102,8 @@ namespace SpiritMod.Projectiles.Magic
 			}
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 103);
 			int n = 4;
-			int deviation = Main.rand.Next(0, 300);
 			for (int i = 0; i < n; i++) {
-				float rotation = MathHelper.ToRadians(270 / n * i + deviation);
-				Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(rotation);
-				perturbedSpeed.Normalize();
-				perturbedSpeed.X *= 2.5f;
-				perturbedSpeed.Y *= 2.5f;
+				Vector2 perturbedSpeed = Main.rand.NextVector2CircularEdge(2.5f, 2.5f);
 				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("Blood3"), projectile.damage / 5 * 4, 2, projectile.owner);
 			}
 		}

@@ -61,8 +61,8 @@ namespace SpiritMod.Projectiles.Magic
 			if (Main.rand.Next(18) <= 9 && player.statLife != player.statLifeMax2) {
 				int lifeToHeal = 0;
 
-				if (player.statLife + 3 <= player.statLifeMax2)
-					lifeToHeal = 5;
+				if (player.statLife + 1 <= player.statLifeMax2)
+					lifeToHeal = 2;
 				else
 					lifeToHeal = player.statLifeMax2 - player.statLife;
 
