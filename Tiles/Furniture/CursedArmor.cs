@@ -1,7 +1,6 @@
-﻿
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
@@ -28,8 +27,17 @@ namespace SpiritMod.Tiles.Furniture
 			TileObjectData.newTile.CoordinatePadding = 2;
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
+
+			mineResist = 0.2f;
+
 			name.SetDefault("Cursed Armor");
 			AddMapEntry(Colors.RarityAmber, name);
+		}
+
+		public override void KillMultiTile(int i, int j, int frameX, int frameY)
+		{
+			Main.PlaySound(new LegacySoundStyle(SoundID.NPCKilled, 6).WithPitchVariance(0.2f), new Vector2(i * 16, j * 16));
+			NPC.NewNPC(i * 16, j * 16, NPCID.Golem);
 		}
 	}
 }

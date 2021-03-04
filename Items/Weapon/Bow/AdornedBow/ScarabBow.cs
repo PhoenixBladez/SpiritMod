@@ -1,12 +1,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Projectiles.Arrow;
 using SpiritMod.Projectiles.BaseProj;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Weapon.Bow
+namespace SpiritMod.Items.Weapon.Bow.AdornedBow
 {
 	public class ScarabBow : ModItem
 	{
@@ -51,7 +50,7 @@ namespace SpiritMod.Items.Weapon.Bow
 	}
 	public class AdornedBowProj : ChargeBowProj
 	{
-		public override string Texture => "SpiritMod/Items/Weapon/Bow/ScarabBow";
+		public override string Texture => "SpiritMod/Items/Weapon/Bow/AdornedBow/ScarabBow";
 
 		protected override void SetBowDefaults()
 		{

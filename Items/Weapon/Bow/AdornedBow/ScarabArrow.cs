@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Projectiles.Arrow
+namespace SpiritMod.Items.Weapon.Bow.AdornedBow
 {
 	public class ScarabArrow : ModProjectile
 	{

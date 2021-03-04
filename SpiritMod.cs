@@ -73,6 +73,7 @@ namespace SpiritMod
 		public static Effect StarjinxNoise;
 		public static Effect CircleNoise;
 		public static Effect StarfirePrims;
+		public static Effect ScreamingSkullTrail;
 		public static PerlinNoise GlobalNoise;
 		public static GlitchScreenShader glitchScreenShader;
 		public static Texture2D noise;
@@ -566,6 +567,7 @@ namespace SpiritMod
 				StarjinxNoise = instance.GetEffect("Effects/StarjinxNoise"); 
 				CircleNoise = instance.GetEffect("Effects/CircleNoise");
 				StarfirePrims = instance.GetEffect("Effects/StarfirePrims");
+				ScreamingSkullTrail = instance.GetEffect("Effects/ScreamingSkullTrail");
 
 				SkyManager.Instance["SpiritMod:AuroraSky"] = new AuroraSky();
 				Filters.Scene["SpiritMod:AuroraSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
@@ -758,6 +760,7 @@ namespace SpiritMod
 			StarjinxNoise = null;
 			CircleNoise = null;
 			StarfirePrims = null;
+			ScreamingSkullTrail = null;
 			noise = null;
 			instance = null;
 			SpiritGlowmask.Unload();
@@ -905,7 +908,7 @@ namespace SpiritMod
                     (Func<bool>)(() => MyWorld.downedScarabeus),
                     ModContent.ItemType<ScarabIdol>(),
                     new List<int> { ModContent.ItemType<Items.Boss.Trophy1>(), ModContent.ItemType<Items.Armor.Masks.ScarabMask>(), ModContent.ItemType<Items.Placeable.MusicBox.ScarabBox>() },
-                    new List<int> { ModContent.ItemType<Items.BossBags.BagOScarabs>(), ModContent.ItemType<Items.Material.Chitin>(), ModContent.ItemType<Items.Weapon.Bow.ScarabBow>(), ModContent.ItemType<Items.Weapon.Summon.OrnateStaff>(), ModContent.ItemType<Items.Weapon.Swung.Khopesh.RoyalKhopesh>() },
+                    new List<int> { ModContent.ItemType<Items.BossBags.BagOScarabs>(), ModContent.ItemType<Items.Material.Chitin>(), ModContent.ItemType<Items.Weapon.Bow.AdornedBow.ScarabBow>(), ModContent.ItemType<Items.Weapon.Summon.OrnateStaff>(), ModContent.ItemType<Items.Weapon.Swung.Khopesh.RoyalKhopesh>() },
                     "Use a [i: " + ModContent.ItemType<ScarabIdol>() + "] in the Desert during daytime. A [i: " + ModContent.ItemType<ScarabIdol>() + "] can be found upon completing a certain Adventurer quest, or cand be crafted, and is non-consumable",
                     null,
                     "SpiritMod/Textures/BossChecklist/ScarabeusTexture",

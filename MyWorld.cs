@@ -47,6 +47,9 @@ using Terraria.World.Generation;
 using Terraria.Utilities;
 using Terraria.Localization;
 using static Terraria.ModLoader.ModContent;
+using SpiritMod.Items.Equipment.ToxicBottle;
+using SpiritMod.Items.Weapon.Swung.AccursedBlade;
+using SpiritMod.Items.Weapon.Summon.OldCross;
 
 namespace SpiritMod
 {
@@ -3275,19 +3278,19 @@ namespace SpiritMod
 					if (chest != null && Main.tile[chest.x, chest.y].frameX == 1 * 36 && Main.rand.Next(40) == 0) {
 						chest.item[1].SetDefaults(ItemType<Items.Accessory.MetalBand>(), false);
 					}
-					if (chest != null && Main.tile[chest.x, chest.y].frameX == 15 * 36 && Main.rand.Next(10) == 0) {
+					if (chest != null && Main.tile[chest.x, chest.y].frameX == 15 * 36) {
 						chest.item[1].SetDefaults(ItemType<Items.Weapon.Swung.HollowNail>(), false);
 					}
 				}
 			}
 			for (int i = 1; i < Main.rand.Next(4, 6); i++) {
-				int[] itemsToPlacePrimary = new int[] { ItemType<SepulchreStaff>(), ItemType<SepulchrePendant>() };
+				int[] itemsToPlacePrimary = new int[] { ItemType<ToxicBottle>(), ItemType<AccursedBlade>(), ItemType<OldCross>() };
 				int[] ammoToPlace = new int[] { ItemType<SepulchreArrow>() };
 				//int itemsToPlaceInGlassChestsSecondaryChoice = 0;	
 				for (int chestIndex = 0; chestIndex < 1000; chestIndex++) {
 					Chest chest = Main.chest[chestIndex];
 					if (chest != null && Main.tile[chest.x, chest.y].type == TileType<SepulchreChestTile>()) {
-						chest.item[0].SetDefaults(itemsToPlacePrimary[Main.rand.Next(2)], false);
+						chest.item[0].SetDefaults(itemsToPlacePrimary[Main.rand.Next(itemsToPlacePrimary.Length)], false);
 						chest.item[1].SetDefaults(commonItems1[Main.rand.Next(4)], false);
 						chest.item[1].stack = WorldGen.genRand.Next(3, 10);
 						chest.item[2].SetDefaults(ammo1[Main.rand.Next(2)], false);

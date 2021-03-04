@@ -1,12 +1,10 @@
-using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Items.Boss;
 using SpiritMod.Items.Equipment;
 using SpiritMod.Items.Equipment.ScarabExpertDrop;
 using SpiritMod.Items.Material;
-using SpiritMod.Items.Weapon.Bow;
+using SpiritMod.Items.Weapon.Bow.AdornedBow;
 using SpiritMod.Items.Weapon.Summon;
-using SpiritMod.Items.Weapon.Swung;
 using SpiritMod.Items.Weapon.Swung.Khopesh;
 using Terraria;
 using Terraria.ID;

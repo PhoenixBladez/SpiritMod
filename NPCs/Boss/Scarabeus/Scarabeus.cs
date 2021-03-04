@@ -8,6 +8,7 @@ using SpiritMod.Items.BossBags;
 using SpiritMod.Items.Equipment;
 using SpiritMod.Items.Material;
 using SpiritMod.Items.Weapon.Bow;
+using SpiritMod.Items.Weapon.Bow.AdornedBow;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Swung;
 using SpiritMod.Items.Weapon.Swung.Khopesh;
