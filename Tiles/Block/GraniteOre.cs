@@ -25,7 +25,10 @@ namespace SpiritMod.Tiles.Block
 			minPick = 65;
 			dustType = 226;
 		}
-
+		public override bool CanExplode(int i, int j)
+		{
+			return false;
+		}
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
 			r = 0.155f / 2;

@@ -3018,7 +3018,24 @@ namespace SpiritMod
 							}
 						}
 					}
-
+					for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 78) * 15E-05); k++) {
+						int EEXX = WorldGen.genRand.Next(0, Main.maxTilesX);
+						int WHHYY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 130);
+						if (Main.tile[EEXX, WHHYY] != null) {
+							if (Main.tile[EEXX, WHHYY].active()) {
+								if (Main.tile[EEXX, WHHYY].type == 368) {
+									WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(4, 8), WorldGen.genRand.Next(4, 8), (ushort)ModContent.TileType<GraniteOre>());
+								}
+                                if (Main.tile[EEXX, WHHYY].type == 367)
+                                {
+                                    WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 8), WorldGen.genRand.Next(4, 9), (ushort)ModContent.TileType<MarbleOre>());
+                                }
+                            }
+						}
+					}
+					{
+						Main.NewText("Energy seeps into marble and granite caverns...", 61, 255, 142);
+					}
 					for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 16.2f) * 6E-03); k++) {
 						{
                             int X = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
@@ -3560,30 +3577,6 @@ namespace SpiritMod
 					}
 					for (int i = 0; i < 3; i++) {
 						NPC.NewNPC((pagodaX + Main.rand.Next(0, 126)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, ModContent.NPCType<SamuraiPassive>());
-					}
-				}
-			}
-
-			if (NPC.downedBoss2) {
-				if (!gmOre) {
-					for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 78) * 15E-05); k++) {
-						int EEXX = WorldGen.genRand.Next(0, Main.maxTilesX);
-						int WHHYY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 130);
-						if (Main.tile[EEXX, WHHYY] != null) {
-							if (Main.tile[EEXX, WHHYY].active()) {
-								if (Main.tile[EEXX, WHHYY].type == 368) {
-									WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(4, 8), WorldGen.genRand.Next(4, 8), (ushort)ModContent.TileType<GraniteOre>());
-								}
-                                if (Main.tile[EEXX, WHHYY].type == 367)
-                                {
-                                    WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 8), WorldGen.genRand.Next(4, 9), (ushort)ModContent.TileType<MarbleOre>());
-                                }
-                            }
-						}
-					}
-					{
-						Main.NewText("Energy seeps into marble and granite caverns...", 61, 255, 142);
-						gmOre = true;
 					}
 				}
 			}
