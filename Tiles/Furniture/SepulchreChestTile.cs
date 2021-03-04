@@ -100,7 +100,7 @@ namespace SpiritMod.Tiles.Furniture
 						WorldGen.KillTile(indexX + i, indexY + j);
 
 						if(Main.netMode != NetmodeID.SinglePlayer)
-							NetMessage.SendData(MessageID.TileChange, -1, -1, null, indexX + i, indexY + j);
+							NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, indexX + i, indexY + j);
 
 						anycursedarmor = true;
 					}

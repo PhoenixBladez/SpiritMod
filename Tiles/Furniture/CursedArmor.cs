@@ -37,7 +37,9 @@ namespace SpiritMod.Tiles.Furniture
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			Main.PlaySound(new LegacySoundStyle(SoundID.NPCKilled, 6).WithPitchVariance(0.2f), new Vector2(i * 16, j * 16));
-			NPC.NewNPC(i * 16, j * 16, NPCID.Golem);
+			NPC npc = Main.npc[NPC.NewNPC(i * 16, j * 16, NPCID.Golem)];
+			if (Main.netMode != NetmodeID.SinglePlayer)
+				NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc.whoAmI);
 		}
 	}
 }
