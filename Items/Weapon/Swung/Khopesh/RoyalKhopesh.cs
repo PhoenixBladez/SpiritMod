@@ -111,7 +111,7 @@ namespace SpiritMod.Items.Weapon.Swung.Khopesh
 			Player.itemTime = 2;
 			Player.itemAnimation = 2;
 			Player.reuseDelay = 20;
-			projectile.Center = Player.Center + projectile.velocity * dist;
+			projectile.Center = Player.MountedCenter + projectile.velocity * dist;
 			projectile.rotation = Player.AngleFrom(projectile.Center) - ((projectile.spriteDirection > 0) ? 0 : MathHelper.Pi);
 			Player.ChangeDir(Math.Sign(projectile.Center.X - Player.Center.X));
 			Player.itemRotation = MathHelper.WrapAngle(Player.AngleFrom(projectile.Center) - ((Player.direction < 0) ? 0 : MathHelper.Pi));

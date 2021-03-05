@@ -8,11 +8,7 @@ namespace SpiritMod.Items.Armor
 	[AutoloadEquip(EquipType.Head)]
 	public class ChitinHelmet : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Chitin Faceguard");
-
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Chitin Faceguard");
 
 		public override void SetDefaults()
 		{
@@ -22,18 +18,14 @@ namespace SpiritMod.Items.Armor
 			item.rare = ItemRarityID.Blue;
 			item.defense = 3;
 		}
-		public override bool IsArmorSet(Item head, Item body, Item legs)
-		{
-			return body.type == ModContent.ItemType<ChitinChestplate>() && legs.type == ModContent.ItemType<ChitinLeggings>();
-		}
+
+		public override bool IsArmorSet(Item head, Item body, Item legs) => body.type == ModContent.ItemType<ChitinChestplate>() && legs.type == ModContent.ItemType<ChitinLeggings>();
+
 		public override void UpdateArmorSet(Player player)
 		{
-			player.setBonus = "Greatly increases running speed\nHitting an enemy while running kicks up damaging dust and knocks them back";
-			if (player.velocity.X != 0) {
-				player.GetSpiritPlayer().chitinSet = true;
-			}
-			player.moveSpeed += .18f;
-			player.maxRunSpeed += .25f;
+			player.setBonus = "Double tap in a direction to dash and envelop yourself in a tornado, damaging any enemies caught within it";
+			player.GetSpiritPlayer().chitinSet = true;
+
 			if (player.velocity.X != 0f) {
 				int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + player.height - 4f), player.width, 0, 0);
 				Main.dust[dust].velocity *= 0f;
@@ -41,11 +33,7 @@ namespace SpiritMod.Items.Armor
 			}
 
 		}
-		public override void ArmorSetShadows(Player player)
-		{
-			if (player.velocity.X != 0)
-				player.armorEffectDrawShadow = true;
-		}
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

@@ -133,10 +133,13 @@ namespace SpiritMod
 		{
 			int chests = 0;
 			int tries = 0;
-			while (chests < 2) {
+			while (chests == 0) {
 				for (int x = i - 50; x < i + 50; x++) {
 					for (int y = j - 90; y < j + 50; y++) {
-						if ((Main.tile[x, y + 1].type == tile || Main.tile[x, y + 1].type == tiletwo) && chests < 2 && Main.rand.Next(100) == 0 && Main.tile[x, y].wall == wall) {
+						if ((Main.tile[x, y + 1].type == tile || Main.tile[x, y + 1].type == tiletwo) &&
+							(Main.tile[x + 1, y + 1].type == tile || Main.tile[x + 1, y + 1].type == tiletwo) &&
+							(Main.tile[x - 1, y + 1].type == tile || Main.tile[x - 1, y + 1].type == tiletwo)
+							&& chests == 0 && Main.rand.Next(100) == 0 && Main.tile[x, y].wall == wall) {
 							WorldGen.PlaceChest(x, y, (ushort)ModContent.TileType<SepulchreChestTile>(), false, 0);
 							if (Main.tile[x, y - 1].type == (ushort)ModContent.TileType<SepulchreChestTile>()) {
 								chests++;
@@ -145,12 +148,13 @@ namespace SpiritMod
 					}
 				}
 				tries++;
-				if (tries > 3000) {
-					Main.NewText("Error: No space to place 2 chests found", 255, 255, 255);
+				if (tries > 6000) {
+					Main.NewText("Error: No space to place a chest found", 255, 255, 255);
 					break;
 				}
 			}
 		}
+
 		public void PolishSepulchre(int i, int j)
 		{
 			bool placedEvilTome = false;

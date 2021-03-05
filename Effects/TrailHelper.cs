@@ -14,6 +14,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Weapon.Bow.AdornedBow;
 
 namespace SpiritMod.Effects
 {

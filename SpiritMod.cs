@@ -73,6 +73,7 @@ namespace SpiritMod
 		public static Effect StarjinxNoise;
 		public static Effect CircleNoise;
 		public static Effect StarfirePrims;
+		public static Effect ScreamingSkullTrail;
 		public static PerlinNoise GlobalNoise;
 		public static GlitchScreenShader glitchScreenShader;
 		public static Texture2D noise;
@@ -218,6 +219,19 @@ namespace SpiritMod
 			if (TideWorld.TheTide && player.ZoneBeach) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/DepthInvasion");
 				priority = MusicPriority.Event;
+			}
+			if (config.NeonBiomeMusic && spirit.ZoneSynthwave) 
+			{
+				if (Main.dayTime)
+				{
+					music = GetSoundSlot(SoundType.Music, "Sounds/Music/NeonTech1");
+					priority = MusicPriority.Event;
+				}
+				else
+				{
+					music = GetSoundSlot(SoundType.Music, "Sounds/Music/NeonTech");
+					priority = MusicPriority.Event;
+				}
 			}
             if (Main.invasionType == 2 && config.FrostLegionMusic && player.ZoneOverworldHeight && Main.invasionProgressNearInvasion) {
                 music = GetSoundSlot(SoundType.Music, "Sounds/Music/FrostLegion");
@@ -566,6 +580,7 @@ namespace SpiritMod
 				StarjinxNoise = instance.GetEffect("Effects/StarjinxNoise"); 
 				CircleNoise = instance.GetEffect("Effects/CircleNoise");
 				StarfirePrims = instance.GetEffect("Effects/StarfirePrims");
+				ScreamingSkullTrail = instance.GetEffect("Effects/ScreamingSkullTrail");
 
 				SkyManager.Instance["SpiritMod:AuroraSky"] = new AuroraSky();
 				Filters.Scene["SpiritMod:AuroraSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
@@ -601,8 +616,11 @@ namespace SpiritMod
 				Filters.Scene["SpiritMod:Atlas"] = new Filter(new AtlasScreenShaderData("FilterMiniTower").UseColor(0.5f, 0.5f, 0.5f).UseOpacity(0.6f), EffectPriority.VeryHigh);
 				SkyManager.Instance["SpiritMod:Atlas"] = new AtlasSky();
 
+				Filters.Scene["SpiritMod:SynthwaveSky"] = new Filter(new AtlasScreenShaderData("FilterMiniTower").UseColor(0.158f, 0.083f, 0.212f).UseOpacity(0.43f), EffectPriority.VeryHigh);
+				SkyManager.Instance["SpiritMod:SynthwaveSky"] = new VaporwaveSky();
+
 				//Music Boxes
-                /*AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/TranquilWinds"), ItemType("TranquilWindsBox"), TileType("TranquilWindsBox"));
+                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/TranquilWinds"), ItemType("TranquilWindsBox"), TileType("TranquilWindsBox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/NeonTech"), ItemType("NeonMusicBox"), TileType("NeonMusicBox"));
 
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritOverworld"), ItemType("SpiritBox1"), TileType("SpiritBox1"));
@@ -621,6 +639,7 @@ namespace SpiritMod
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Atlas"), ItemType("AtlasBox"), TileType("AtlasBox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/ReachBoss"), ItemType("VinewrathBox"), TileType("VinewrathBox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/AncientAvian"), ItemType("AvianBox"), TileType("AvianBox"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Infernon"), ItemType("InfernonBox"), TileType("InfernonBox"));
 
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Blizzard"), ItemType("BlizzardBox"), TileType("BlizzardBox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/AuroraSnow"), ItemType("AuroraBox"), TileType("AuroraBox"));
@@ -629,6 +648,8 @@ namespace SpiritMod
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/OceanNighttime"), ItemType("LuminousNightBox"), TileType("LuminousNightBox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/HallowNight"), ItemType("HallowNightBox"), TileType("HallowNightBox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/CalmNight"), ItemType("CalmNightBox"), TileType("CalmNightBox"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/CorruptNight"), ItemType("CorruptNightBox"), TileType("CorruptNightBox"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Meteor"), ItemType("MeteorBox"), TileType("MeteorBox"));
 
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/MarbleBiome"), ItemType("MarbleBox"), TileType("MarbleBox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/GraniteBiome"), ItemType("GraniteBox"), TileType("GraniteBox"));
@@ -636,7 +657,8 @@ namespace SpiritMod
 
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/BlueMoon"), ItemType("BlueMoonBox"), TileType("BlueMoonBox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/DepthInvasion"), ItemType("TideBox"), TileType("TideBox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/JellySky"), ItemType("JellyDelugeBox"), TileType("JellyDelugeBox"));*/
+                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/JellySky"), ItemType("JellyDelugeBox"), TileType("JellyDelugeBox"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/FrostLegion"), ItemType("FrostLegionBox"), TileType("FrostLegionBox"));
             }
 			primitives = new PrimTrailManager();
 			// LoadDetours();
@@ -754,6 +776,7 @@ namespace SpiritMod
 			StarjinxNoise = null;
 			CircleNoise = null;
 			StarfirePrims = null;
+			ScreamingSkullTrail = null;
 			noise = null;
 			instance = null;
 			SpiritGlowmask.Unload();
@@ -901,7 +924,7 @@ namespace SpiritMod
                     (Func<bool>)(() => MyWorld.downedScarabeus),
                     ModContent.ItemType<ScarabIdol>(),
                     new List<int> { ModContent.ItemType<Items.Boss.Trophy1>(), ModContent.ItemType<Items.Armor.Masks.ScarabMask>(), ModContent.ItemType<Items.Placeable.MusicBox.ScarabBox>() },
-                    new List<int> { ModContent.ItemType<Items.BossBags.BagOScarabs>(), ModContent.ItemType<Items.Material.Chitin>(), ModContent.ItemType<Items.Weapon.Bow.ScarabBow>(), ModContent.ItemType<Items.Weapon.Summon.OrnateStaff>(), ModContent.ItemType<Items.Weapon.Swung.Khopesh.RoyalKhopesh>() },
+                    new List<int> { ModContent.ItemType<Items.BossBags.BagOScarabs>(), ModContent.ItemType<Items.Material.Chitin>(), ModContent.ItemType<Items.Weapon.Bow.AdornedBow.ScarabBow>(), ModContent.ItemType<Items.Weapon.Summon.LocustCrook.LocustCrook>(), ModContent.ItemType<Items.Weapon.Swung.Khopesh.RoyalKhopesh>() },
                     "Use a [i: " + ModContent.ItemType<ScarabIdol>() + "] in the Desert during daytime. A [i: " + ModContent.ItemType<ScarabIdol>() + "] can be found upon completing a certain Adventurer quest, or cand be crafted, and is non-consumable",
                     null,
                     "SpiritMod/Textures/BossChecklist/ScarabeusTexture",

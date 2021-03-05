@@ -1,10 +1,10 @@
-using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Items.Boss;
+using SpiritMod.Items.Equipment;
+using SpiritMod.Items.Equipment.ScarabExpertDrop;
 using SpiritMod.Items.Material;
-using SpiritMod.Items.Weapon.Bow;
-using SpiritMod.Items.Weapon.Summon;
-using SpiritMod.Items.Weapon.Swung;
+using SpiritMod.Items.Weapon.Bow.AdornedBow;
+using SpiritMod.Items.Weapon.Summon.LocustCrook;
 using SpiritMod.Items.Weapon.Swung.Khopesh;
 using Terraria;
 using Terraria.ID;
@@ -32,20 +32,17 @@ namespace SpiritMod.Items.BossBags
 			item.expert = true;
 		}
 
-		public override bool CanRightClick()
-		{
-			return true;
-		}
+		public override bool CanRightClick() => true;
 
 		public override void RightClick(Player player)
 		{
-			player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(2, 3));
-			player.QuickSpawnItem(ModContent.ItemType<ScarabCharm>());
+			player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(4, 6));
+			player.QuickSpawnItem(ModContent.ItemType<ScarabPendant>());
 			player.QuickSpawnItem(ModContent.ItemType<Chitin>(), Main.rand.Next(25, 36));
 
 			int[] lootTable = {
 				ModContent.ItemType<ScarabBow>(),
-				ModContent.ItemType<OrnateStaff>(),
+				ModContent.ItemType<LocustCrook>(),
 				ModContent.ItemType<RoyalKhopesh>()
 			};
 			int loot = Main.rand.Next(lootTable.Length);
@@ -55,6 +52,9 @@ namespace SpiritMod.Items.BossBags
 				player.QuickSpawnItem(ModContent.ItemType<ScarabMask>());
 			if (Main.rand.NextDouble() < 1d / 10)
 				player.QuickSpawnItem(ModContent.ItemType<Trophy1>());
+
+			if(Main.rand.NextBool(3))
+				player.QuickSpawnItem(ModContent.ItemType<DesertSnowglobe>());
 		}
 	}
 }

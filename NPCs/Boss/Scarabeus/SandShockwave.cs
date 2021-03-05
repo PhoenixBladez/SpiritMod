@@ -13,7 +13,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Sand");
 
-		readonly int passivetime = 30;
+		readonly int passivetime = 40;
 		readonly int activetime = 40;
 		Vector2 startingpoint;
 		public override void SetDefaults()

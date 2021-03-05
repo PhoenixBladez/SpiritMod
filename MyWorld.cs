@@ -18,6 +18,7 @@ using SpiritMod.Items.Weapon.Spear;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Swung;
 using SpiritMod.Items.Books;
+using SpiritMod.Items.Books.MaterialPages;
 using SpiritMod.Items.Weapon.Thrown;
 using SpiritMod.NPCs;
 using SpiritMod.NPCs.Town;
@@ -46,6 +47,9 @@ using Terraria.World.Generation;
 using Terraria.Utilities;
 using Terraria.Localization;
 using static Terraria.ModLoader.ModContent;
+using SpiritMod.Items.Equipment.ToxicBottle;
+using SpiritMod.Items.Weapon.Swung.AccursedBlade;
+using SpiritMod.Items.Weapon.Summon.OldCross;
 
 namespace SpiritMod
 {
@@ -1800,294 +1804,7 @@ namespace SpiritMod
 			}
 		}
 		#endregion
-		#region Sepulchre
-		private void PlaceSepulchre(int i, int j, int[,] BlocksArray, int[,] WallsArray, int[,] LootArray)
-		{
-			for (int y = 0; y < WallsArray.GetLength(0); y++) {
-				for (int x = 0; x < WallsArray.GetLength(1); x++) {
-					int k = i - 3 + x;
-					int l = j - 6 + y;
-					if (WorldGen.InWorld(k, l, 30)) {
-						Tile tile = Framing.GetTileSafely(k, l);
-						switch (WallsArray[y, x]) {
-							case 0:
-								break;
-							case 1:
-								WorldGen.KillWall(k, l);
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;
-							case 2:
-								WorldGen.KillWall(k, l);
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;
-							case 3:
-								WorldGen.KillWall(k, l);
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;
-							case 4:
-								WorldGen.KillWall(k, l);
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;
-						}
-					}
-				}
-			}
-			for (int y = 0; y < BlocksArray.GetLength(0); y++) {
-				for (int x = 0; x < BlocksArray.GetLength(1); x++) {
-					int k = i - 3 + x;
-					int l = j - 6 + y;
-					if (WorldGen.InWorld(k, l, 30)) {
-						Tile tile = Framing.GetTileSafely(k, l);
-						switch (BlocksArray[y, x]) {
-							case 0:
-								break;
-							case 1:
-								WorldGen.PlaceTile(k, l, ModContent.TileType<SepulchreBrick>());
-								tile.active(true);
-								break;
-							case 2:
-								WorldGen.PlaceTile(k, l, 19, true, false, -1, 12);
-								tile.active(true);
-								break;
-							case 3:
-								WorldGen.PlaceTile(k, l, 51);
-								tile.active(true);
-								break;
-						}
-					}
-				}
-			}
-			for (int y = 0; y < WallsArray.GetLength(0); y++) {
-				for (int x = 0; x < WallsArray.GetLength(1); x++) {
-					int k = i - 3 + x;
-					int l = j - 6 + y;
-					if (WorldGen.InWorld(k, l, 30)) {
-						Tile tile = Framing.GetTileSafely(k, l);
-						switch (WallsArray[y, x]) {
-							case 0:
-								break;
-							case 2:
-								WorldGen.PlaceWall(k, l, ModContent.WallType<SepulchreWallTile>());
-								break;
-						}
-					}
-				}
-			}
-			for (int y = 0; y < LootArray.GetLength(0); y++) {
-				for (int x = 0; x < LootArray.GetLength(1); x++) {
-					int k = i - 3 + x;
-					int l = j - 6 + y;
-					if (WorldGen.InWorld(k, l, 30)) {
-						Tile tile = Framing.GetTileSafely(k, l);
-						switch (LootArray[y, x]) {
-							case 3:
-								if (Main.rand.Next(2) == 0)
-									WorldGen.PlaceObject(k, l, 50, true, Main.rand.Next(0, 5)); //Books
-								break;
-							case 4:
-								WorldGen.PlaceObject(k, l, ModContent.TileType<SepulchreBannerTile>(), true);
-								break;
-							case 5:
-								int pots;
-								if (Main.rand.Next(3) == 0) {
-									pots = mod.TileType("SepulchrePot1");
-								}
-								else if (Main.rand.Next(2) == 0) {
-									pots = mod.TileType("SepulchrePot1");
-								}
-								else {
-									pots = mod.TileType("SepulchrePot2");
-								}
-								WorldGen.PlaceTile(k, l, (ushort)pots);
-								break;
-							case 6:
-								WorldGen.PlaceChest(k, l, (ushort)ModContent.TileType<SepulchreChestTile>(), false, 0); // Gold Chest
-								break;
-							case 7:
-								WorldGen.PlaceTile(k, l, 4, true, false, -1, 8);
-								break;
-							case 8:
-								WorldGen.PlaceObject(k, l, 13, true, Main.rand.Next(0, 2)); //Bottles
-								break;
-							case 9:
-								WorldGen.PlaceObject(k, l, 187, true, Main.rand.Next(21, 28)); // Crate
-								break;
-						}
-					}
-				}
-			}
-		}
-		public void GenerateSepulchre()
-		{
-			int[,] SepulchreRoom1 = new int[,]
-			{
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,1,1,1,1,1,1,1,0,1,1,1,1,0,1,1,1,1,1,0,0,0,0,1,1,1,1,0,0},
-				{0,0,1,0,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,1,0,0},
-				{0,0,1,0,0,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,1,0,0},
-				{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},
-				{0,0,1,2,2,2,2,2,2,0,0,0,0,0,2,2,2,2,2,2,2,0,0,0,2,2,2,1,0,0},
-				{0,0,1,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,1,0,0},
-				{0,0,1,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0},
-				{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},
-				{0,0,1,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,0,1,0,0},
-				{0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},
-			};
-			int[,] SepulchreWalls1 = new int[,]
-			{
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},
-				{0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0},
-				{0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0},
-				{0,0,1,3,3,2,2,2,2,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,2,2,1,0,0},
-				{0,0,1,3,3,2,3,2,2,2,2,2,2,2,2,3,3,2,2,2,2,2,2,2,3,2,2,1,0,0},
-				{0,0,1,2,2,2,3,3,2,2,2,2,2,2,2,3,3,2,2,2,2,2,2,2,3,2,2,1,0,0},
-				{0,0,1,2,2,2,3,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0},
-				{0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,3,3,2,2,2,2,2,2,2,2,2,2,1,0,0},
-				{0,0,1,2,2,2,2,2,2,2,2,2,2,3,3,3,2,2,2,2,2,2,2,2,2,2,2,1,0,0},
-				{0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},
-			};
-			int[,] SepulchreLoot1 = new int[,]
-			{
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},
-				{0,0,1,4,0,0,0,0,0,0,0,4,0,4,0,0,0,0,0,0,0,0,0,4,0,0,0,1,0,0},
-				{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},
-				{0,0,1,3,3,3,8,8,3,0,0,0,0,0,3,3,5,0,8,3,3,0,0,0,3,3,0,1,0,0},
-				{0,0,1,2,2,2,2,2,2,0,0,0,0,0,2,2,2,2,2,2,2,0,0,0,2,2,2,1,0,0},
-				{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},
-				{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},
-				{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,7,0,1,0,0},
-				{0,0,1,0,5,0,0,5,0,5,0,9,0,0,5,0,5,0,5,0,0,0,0,6,0,0,0,1,0,0},
-				{0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},
-			};
-			int[,] SepulchreRoom2 = new int[,]
-			{
-				{0,0,0,1,1,1,0,1,1,0,0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,0,0,0},
-				{0,0,1,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,1,0,0,0},
-				{0,0,1,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,1,0,0,0},
-				{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0},
-				{0,0,1,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,1,0,0,0},
-				{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0},
-				{0,0,1,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,1,0,0,0},
-				{0,0,1,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,1,0,0,0},
-				{0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0}
-			};
-			int[,] SepulchreWalls2 = new int[,]
-			{
-				{0,0,0,1,1,1,0,1,1,0,0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,0,0,0},
-				{0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0,0},
-				{0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,3,2,2,1,0,0,0},
-				{0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,3,2,2,1,0,0,0},
-				{0,0,1,2,2,3,3,2,2,2,2,3,3,3,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0},
-				{0,0,1,2,2,3,3,2,2,2,2,2,3,3,2,2,2,2,2,2,2,2,2,2,2,1,0,0,0},
-				{0,0,0,2,2,2,3,2,2,2,2,2,2,3,2,2,2,2,3,3,3,3,2,2,2,1,0,0,0},
-				{0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0,0},
-				{0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0,0},
-				{0,0,1,2,2,3,3,2,3,3,3,3,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0,0},
-				{0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0}
-			};
-			int[,] SepulchreLoot2 = new int[,]
-			{
-				{0,0,0,1,1,1,0,1,1,0,0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,0,0,0},
-				{0,0,1,3,3,0,0,4,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,3,3,1,0,0,0},
-				{0,0,1,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,1,0,0,0},
-				{0,0,1,3,3,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0},
-				{0,0,1,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,0,3,3,1,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,1,0,0,0},
-				{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0},
-				{0,0,1,3,3,0,0,0,0,0,0,0,7,0,0,7,0,0,0,0,0,0,0,3,3,1,0,0,0},
-				{0,0,1,3,3,3,0,0,5,0,5,0,0,6,0,0,5,0,9,0,5,0,3,3,3,1,0,0,0},
-				{0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0}
-			};
-			int[,] SepulchreRoom3 = new int[,]
-			{
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,1,1,1,1,0,0,0,0,1,1,1,1,0,1,1,1,1,1,0,0,0,0,0,1,1,1,0,0},
-				{0,0,1,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,1,0,0},
-				{0,0,1,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,1,0,0},
-				{0,0,1,3,3,0,0,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,1,0,0},
-				{0,0,1,3,0,0,0,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,1,0,0},
-				{0,0,1,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,1,0,0},
-				{0,0,1,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0},
-				{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},
-				{0,0,1,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,0,1,0,0},
-				{0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},
-			};
-			int[,] SepulchreWalls3 = new int[,]
-			{
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},
-				{0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,3,3,3,1,0,0},
-				{0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,2,2,2,2,2,2,2,1,0,0},
-				{0,0,1,3,3,3,2,2,2,3,2,2,2,3,3,2,2,2,2,3,2,2,2,2,3,2,2,1,0,0},
-				{0,0,1,3,3,2,2,2,2,2,2,2,2,3,3,3,3,2,2,3,2,2,2,2,3,2,2,1,0,0},
-				{0,0,1,2,2,2,2,2,2,2,2,3,3,2,2,3,3,2,2,2,2,2,2,2,3,2,2,1,0,0},
-				{0,0,1,2,2,2,2,3,2,2,2,2,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0},
-				{0,0,1,3,3,2,2,2,2,2,2,2,2,2,2,3,3,2,2,2,2,2,2,2,2,2,2,1,0,0},
-				{0,0,1,2,3,3,2,2,2,2,2,2,2,3,3,3,2,2,2,2,2,2,2,2,2,2,2,1,0,0},
-				{0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,0,0},
-			};
-			int[,] SepulchreLoot3 = new int[,]
-			{
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},
-				{0,0,1,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,4,0,0,0,1,0,0},
-				{0,0,1,0,0,0,0,0,8,3,3,3,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},
-				{0,0,1,3,3,3,8,8,3,8,8,3,8,8,3,3,5,0,8,3,3,0,0,0,3,3,0,1,0,0},
-				{0,0,1,2,2,2,2,2,2,0,7,0,0,0,2,2,2,2,2,2,2,0,7,0,2,2,2,1,0,0},
-				{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},
-				{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},
-				{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},
-				{0,0,1,0,0,5,0,5,0,5,0,9,0,0,5,0,0,0,5,0,0,0,0,5,0,0,5,1,0,0},
-				{0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},
-			};
-			int hideoutX = 0;
-			int hideoutY = 0;
-			bool validPos = false;
-			int attempts = 0;
-			while (!validPos && attempts++ < 100000) {
-				hideoutX = Main.rand.Next(350, Main.maxTilesX - 350); // from 50 since there's a unaccessible area at the world's borders
-				hideoutY = Main.rand.Next(Main.spawnTileY + 400, Main.maxTilesY - 250);
-				validPos = true;
-				for (int x = hideoutX - 8 - 3; x < hideoutX - 3 + SepulchreRoom1.GetLength(1) + 8; x++) {
-					for (int y = hideoutY - 10 - 6; y < hideoutY - 6 + SepulchreRoom1.GetLength(0) * 2 + 9; y++) {
-						// Don't allow spawning in pyramids, dungeon, granite, marble, underground desert, other sepulchres...
-						if (Main.tile[x, y].active()
-							&& (!CaveHouseBiome._blacklistedTiles[Main.tile[x, y].type]
-								|| Main.tile[x, y].type == TileID.Granite
-								|| Main.tile[x, y].type == TileID.Marble
-								|| Main.tile[x, y].type == TileID.HardenedSand
-								|| Main.tile[x, y].type == TileID.MushroomGrass
-								|| Main.tile[x, y].type == TileID.WoodBlock
-								|| Main.tile[x, y].type == TileID.Mud
-								|| Main.tile[x, y].type == TileID.SnowBlock
-								|| Main.tile[x, y].type == TileID.IceBlock
-								|| Main.tile[x, y].type == TileType<SepulchreBrick>()
-								|| Main.tile[x, y].liquid > 0)) {
-							validPos = false;
-							break;
-						}
-					}
-					if (!validPos) break;
-				}
-			}
-			if (Main.rand.Next(2) == 0) {
-				PlaceSepulchre(hideoutX, hideoutY + 9, SepulchreRoom3, SepulchreWalls3, SepulchreLoot3);
-
-				PlaceSepulchre(hideoutX + Main.rand.Next(-8, 8), hideoutY, SepulchreRoom1, SepulchreWalls1, SepulchreLoot1);
-			}
-			else {
-
-				PlaceSepulchre(hideoutX, hideoutY - 10, SepulchreRoom3, SepulchreWalls3, SepulchreLoot3);
-
-				PlaceSepulchre(hideoutX, hideoutY + 1, SepulchreRoom2, SepulchreWalls2, SepulchreLoot2);
-			}
-		}
-		#endregion
+	
 		#region BanditHideout
 		private void PlaceBanditHideout(int i, int j, int[,] BlocksArray, int[,] WallsArray, int[,] LootArray)
 		{
@@ -2742,6 +2459,11 @@ namespace SpiritMod
 				placed = true;
 			}
 		}
+		public override void ResetNearbyTileEffects()
+		{
+			MyPlayer modPlayer = Main.LocalPlayer.GetModPlayer<MyPlayer>();
+			modPlayer.ZoneSynthwave = false;
+		}
 		#endregion
 		public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
 		{
@@ -2815,9 +2537,6 @@ namespace SpiritMod
 							}
 							else if (Main.maxTilesX == 8400) {
 								num67 = Main.rand.Next(17, 21);
-							}
-							for (int j = 0; j < num67; j++) {
-								GenerateSepulchre();
 							}
 							for (int k = 0; k < Main.rand.Next(5, 7); k++) {
 								GenerateGemStash();
@@ -3017,7 +2736,24 @@ namespace SpiritMod
 							}
 						}
 					}
-
+					for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 78) * 15E-05); k++) {
+						int EEXX = WorldGen.genRand.Next(0, Main.maxTilesX);
+						int WHHYY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 130);
+						if (Main.tile[EEXX, WHHYY] != null) {
+							if (Main.tile[EEXX, WHHYY].active()) {
+								if (Main.tile[EEXX, WHHYY].type == 368) {
+									WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(4, 8), WorldGen.genRand.Next(4, 8), (ushort)ModContent.TileType<GraniteOre>());
+								}
+                                if (Main.tile[EEXX, WHHYY].type == 367)
+                                {
+                                    WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 8), WorldGen.genRand.Next(4, 9), (ushort)ModContent.TileType<MarbleOre>());
+                                }
+                            }
+						}
+					}
+					{
+						Main.NewText("Energy seeps into marble and granite caverns...", 61, 255, 142);
+					}
 					for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 16.2f) * 6E-03); k++) {
 						{
                             int X = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
@@ -3257,19 +2993,19 @@ namespace SpiritMod
 					if (chest != null && Main.tile[chest.x, chest.y].frameX == 1 * 36 && Main.rand.Next(40) == 0) {
 						chest.item[1].SetDefaults(ItemType<Items.Accessory.MetalBand>(), false);
 					}
-					if (chest != null && Main.tile[chest.x, chest.y].frameX == 15 * 36 && Main.rand.Next(10) == 0) {
+					if (chest != null && Main.tile[chest.x, chest.y].frameX == 15 * 36) {
 						chest.item[1].SetDefaults(ItemType<Items.Weapon.Swung.HollowNail>(), false);
 					}
 				}
 			}
 			for (int i = 1; i < Main.rand.Next(4, 6); i++) {
-				int[] itemsToPlacePrimary = new int[] { ItemType<SepulchreStaff>(), ItemType<SepulchrePendant>() };
+				int[] itemsToPlacePrimary = new int[] { ItemType<ToxicBottle>(), ItemType<AccursedBlade>(), ItemType<OldCross>() };
 				int[] ammoToPlace = new int[] { ItemType<SepulchreArrow>() };
 				//int itemsToPlaceInGlassChestsSecondaryChoice = 0;	
 				for (int chestIndex = 0; chestIndex < 1000; chestIndex++) {
 					Chest chest = Main.chest[chestIndex];
 					if (chest != null && Main.tile[chest.x, chest.y].type == TileType<SepulchreChestTile>()) {
-						chest.item[0].SetDefaults(itemsToPlacePrimary[Main.rand.Next(2)], false);
+						chest.item[0].SetDefaults(itemsToPlacePrimary[Main.rand.Next(itemsToPlacePrimary.Length)], false);
 						chest.item[1].SetDefaults(commonItems1[Main.rand.Next(4)], false);
 						chest.item[1].stack = WorldGen.genRand.Next(3, 10);
 						chest.item[2].SetDefaults(ammo1[Main.rand.Next(2)], false);
@@ -3351,18 +3087,18 @@ namespace SpiritMod
                 for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
                 {
                     Chest chest = Main.chest[chestIndex];
-                    if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 0 * 36 && Main.rand.NextBool(6))
+                    if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 0 * 36 && Main.rand.NextBool(5))
                     {
                         chest.item[1].SetDefaults(itemsToPlacePrimary[Main.rand.Next(5)], false);
                     }
                 }
             }
-            int[] itemsToPlacePrimaryGold = new int[] { ModContent.ItemType<Book_Lumoth>(), ModContent.ItemType<Book_Soulbloom>(), ModContent.ItemType<Book_Blossmoon>(), ModContent.ItemType<Book_Amea>(), ModContent.ItemType<Book_Slime>(), ModContent.ItemType<Book_Lava>(), ModContent.ItemType<Book_MJW>(), ModContent.ItemType<Book_Yeremy>(), ModContent.ItemType<Book_Mushroom>(), ModContent.ItemType<Book_Jellyfish>(), ModContent.ItemType<Book_Gunslinger>() };
+            int[] itemsToPlacePrimaryGold = new int[] { ModContent.ItemType<Book_Lumoth>(), ModContent.ItemType<GranitePage>(), ModContent.ItemType<MarblePage>(), ModContent.ItemType<EnchantedLeafPage>(), ModContent.ItemType<HeartScalePage>(), ModContent.ItemType<FrigidFragmentPage>(), ModContent.ItemType<BismitePage>(), ModContent.ItemType<GlowrootPage>(), ModContent.ItemType<Book_Soulbloom>(), ModContent.ItemType<Book_Blossmoon>(), ModContent.ItemType<Book_Amea>(), ModContent.ItemType<Book_Slime>(), ModContent.ItemType<Book_Lava>(), ModContent.ItemType<Book_MJW>(), ModContent.ItemType<Book_Yeremy>(), ModContent.ItemType<Book_Mushroom>(), ModContent.ItemType<Book_Jellyfish>(), ModContent.ItemType<Book_Gunslinger>() };
             //int itemsToPlaceInGlassChestsSecondaryChoice = 0;
             for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
             {
                 Chest chest = Main.chest[chestIndex];
-                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 1 * 36 && Main.rand.NextBool(11))
+                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 1 * 36 && Main.rand.NextBool(10))
                 {
                     chest.item[2].SetDefaults(itemsToPlacePrimaryGold[Main.rand.Next(8)], false);
                 }
@@ -3371,7 +3107,7 @@ namespace SpiritMod
             for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
             {
                 Chest chest = Main.chest[chestIndex];
-                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 17 * 36 && Main.rand.NextBool(5))
+                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 17 * 36 && Main.rand.NextBool(4))
                 {
                     chest.item[2].SetDefaults(ModContent.ItemType<Book_LuminousArt>(), false);
                 }
@@ -3559,30 +3295,6 @@ namespace SpiritMod
 					}
 					for (int i = 0; i < 3; i++) {
 						NPC.NewNPC((pagodaX + Main.rand.Next(0, 126)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, ModContent.NPCType<SamuraiPassive>());
-					}
-				}
-			}
-
-			if (NPC.downedBoss2) {
-				if (!gmOre) {
-					for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 78) * 15E-05); k++) {
-						int EEXX = WorldGen.genRand.Next(0, Main.maxTilesX);
-						int WHHYY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 130);
-						if (Main.tile[EEXX, WHHYY] != null) {
-							if (Main.tile[EEXX, WHHYY].active()) {
-								if (Main.tile[EEXX, WHHYY].type == 368) {
-									WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(4, 8), WorldGen.genRand.Next(4, 8), (ushort)ModContent.TileType<GraniteOre>());
-								}
-                                if (Main.tile[EEXX, WHHYY].type == 367)
-                                {
-                                    WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 8), WorldGen.genRand.Next(4, 9), (ushort)ModContent.TileType<MarbleOre>());
-                                }
-                            }
-						}
-					}
-					{
-						Main.NewText("Energy seeps into marble and granite caverns...", 61, 255, 142);
-						gmOre = true;
 					}
 				}
 			}

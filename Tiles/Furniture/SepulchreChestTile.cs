@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Placeable.Furniture;
+using SpiritMod.Projectiles;
 using System;
 using Terraria;
 using Terraria.DataStructures;
@@ -92,6 +93,24 @@ namespace SpiritMod.Tiles.Furniture
         {
             Player player = Main.LocalPlayer;
             Tile tile = Main.tile[i, j];
+			bool anycursedarmor = false;
+			for(int indexX = -70; indexX <= 70; indexX++) {
+				for (int indexY = -90; indexY <= 90; indexY++) {
+					if(Framing.GetTileSafely(indexX + i, indexY + j).type == mod.TileType("CursedArmor")) {
+						WorldGen.KillTile(indexX + i, indexY + j);
+
+						if(Main.netMode != NetmodeID.SinglePlayer)
+							NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, indexX + i, indexY + j);
+
+						anycursedarmor = true;
+					}
+				}
+			}
+			if(anycursedarmor || NPC.AnyNPCs(NPCID.Golem)) {
+				CombatText.NewText(new Rectangle(i * 16, j * 16, 20, 10), Color.GreenYellow, "Trapped!");
+				return true;
+			}
+
             Main.mouseRightRelease = false;
             int left = i;
             int top = j;

@@ -6,5 +6,6 @@
 		Phase,
 		Firewall,
 		Shinigami,
+		Chitin,
 	}
 }
