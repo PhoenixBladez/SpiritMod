@@ -1,7 +1,5 @@
-﻿
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -20,45 +18,43 @@ namespace SpiritMod.Projectiles
 		public override void SetDefaults()
 		{
 			projectile.friendly = true;
-			projectile.hostile = false;
 			projectile.minion = true;
 			projectile.penetrate = 1;
 			projectile.timeLeft = 500;
 			projectile.height = 18;
 			projectile.width = 10;
 			projectile.alpha = 50;
-			projectile.CloneDefaults(ProjectileID.WoodenArrowFriendly);
+			projectile.CloneDefaults(ProjectileID.BoneArrow);
 			projectile.extraUpdates = 1;
 		}
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return Color.White;
-		}
-		int counter;
+		public override Color? GetAlpha(Color lightColor) => Color.White;
 		public override void AI()
 		{
 			Lighting.AddLight(projectile.position, 0.4f, .12f, .036f);
-
-			{
-				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 127, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-				int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 127, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-				Main.dust[dust].noGravity = true;
-				Main.dust[dust2].noGravity = true;
-				Main.dust[dust2].velocity *= 0.6f;
-				Main.dust[dust2].velocity *= 0.1f;
-				Main.dust[dust2].scale = 1.2f;
-				Main.dust[dust].scale = .8f;
-			}
+			Dust dust = Dust.NewDustDirect(projectile.position + projectile.velocity, projectile.width, projectile.height, 127, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			Dust dust2 = Dust.NewDustDirect(projectile.position + projectile.velocity, projectile.width, projectile.height, 127, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			dust.noGravity = true;
+			dust2.noGravity = true;
+			dust2.velocity *= 0.6f;
+			dust2.velocity *= 0.1f;
+			dust2.scale = 1.2f;
+			dust.scale = .8f;
 		}
+
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (Main.rand.Next(6) == 2)
+			if (Main.rand.NextBool(6))
 				target.AddBuff(BuffID.OnFire, 180);
+
+			target.immune[projectile.owner] = 10;
 		}
+
+		public override bool? CanHitNPC(NPC target) => target.immune[projectile.owner] == 0;
+
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 74);
-			ProjectileExtras.Explode(projectile.whoAmI, 60, 60,
+			ProjectileExtras.Explode(projectile.whoAmI, 80, 80,
 				delegate {
 					for (int i = 0; i < 40; i++) {
 						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, -2f, 0, default(Color), 1.2f);

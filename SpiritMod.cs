@@ -908,7 +908,7 @@ namespace SpiritMod
                     (Func<bool>)(() => MyWorld.downedScarabeus),
                     ModContent.ItemType<ScarabIdol>(),
                     new List<int> { ModContent.ItemType<Items.Boss.Trophy1>(), ModContent.ItemType<Items.Armor.Masks.ScarabMask>(), ModContent.ItemType<Items.Placeable.MusicBox.ScarabBox>() },
-                    new List<int> { ModContent.ItemType<Items.BossBags.BagOScarabs>(), ModContent.ItemType<Items.Material.Chitin>(), ModContent.ItemType<Items.Weapon.Bow.AdornedBow.ScarabBow>(), ModContent.ItemType<Items.Weapon.Summon.OrnateStaff>(), ModContent.ItemType<Items.Weapon.Swung.Khopesh.RoyalKhopesh>() },
+                    new List<int> { ModContent.ItemType<Items.BossBags.BagOScarabs>(), ModContent.ItemType<Items.Material.Chitin>(), ModContent.ItemType<Items.Weapon.Bow.AdornedBow.ScarabBow>(), ModContent.ItemType<Items.Weapon.Summon.LocustCrook.LocustCrook>(), ModContent.ItemType<Items.Weapon.Swung.Khopesh.RoyalKhopesh>() },
                     "Use a [i: " + ModContent.ItemType<ScarabIdol>() + "] in the Desert during daytime. A [i: " + ModContent.ItemType<ScarabIdol>() + "] can be found upon completing a certain Adventurer quest, or cand be crafted, and is non-consumable",
                     null,
                     "SpiritMod/Textures/BossChecklist/ScarabeusTexture",

@@ -10,6 +10,7 @@ using SpiritMod.Items.Material;
 using SpiritMod.Items.Weapon.Bow;
 using SpiritMod.Items.Weapon.Bow.AdornedBow;
 using SpiritMod.Items.Weapon.Summon;
+using SpiritMod.Items.Weapon.Summon.LocustCrook;
 using SpiritMod.Items.Weapon.Swung;
 using SpiritMod.Items.Weapon.Swung.Khopesh;
 using System;
@@ -980,7 +981,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 
 			int[] lootTable = {
 				ModContent.ItemType<ScarabBow>(),
-				ModContent.ItemType<OrnateStaff>(),
+				ModContent.ItemType<LocustCrook>(),
 				ModContent.ItemType<RoyalKhopesh>()
 			};
 			int loot = Main.rand.Next(lootTable.Length);
