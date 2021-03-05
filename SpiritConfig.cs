@@ -77,11 +77,15 @@ namespace SpiritMod
         [DefaultValue(true)]
         public bool CalmNightMusic { get; set; }
 
-        [Label("Synthwave Biome Music")]
+        [Label("Hyperspace Biome Music")]
         [Tooltip("Enables two unique tracks while in Hyperspace")]
         [DefaultValue(true)]
         public bool NeonBiomeMusic { get; set; }
 
+        [Label("Screen Distortion")]
+        [Tooltip("Enables screen distortion while in the Spirit Biome or when fighting the Starplate Voyager")]
+        [DefaultValue(true)]
+        public bool DistortionConfig { get; set; }
 
     }
 }

@@ -432,7 +432,8 @@ namespace SpiritMod
 		private IList<string> candyFromTown = new List<string>();
 
 		public override void UpdateBiomeVisuals()
-		{
+		{          
+			var config = ModContent.GetInstance<SpiritClientConfig>();
 			bool showAurora = (player.ZoneSnow || ZoneSpirit || player.ZoneSkyHeight) && !Main.dayTime && !Main.raining && !player.ZoneCorrupt && !player.ZoneCrimson && MyWorld.aurora;
 			bool reach = (!Main.dayTime && ZoneReach && !reachBrooch && player.ZoneOverworldHeight) || (ZoneReach && player.ZoneOverworldHeight && MyWorld.downedReachBoss && Main.dayTime);
 			bool spirit = (player.ZoneOverworldHeight && ZoneSpirit);
@@ -448,23 +449,25 @@ namespace SpiritMod
 
 			bool blueMoon = ZoneBlueMoon && (player.ZoneOverworldHeight || player.ZoneSkyHeight);
 
-			if(ZoneSpirit && player.position.Y / 16 >= Main.maxTilesY - 330) {
-				SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.2f); //0.4f is default
-				SpiritMod.glitchScreenShader.UseIntensity(0.004f);
-				player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
-			} else if(ZoneSpirit && player.ZoneRockLayerHeight && player.position.Y / 16 > (Main.rockLayer + Main.maxTilesY - 330) / 2f) {
-				SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.1f); //0.4f is default
-				SpiritMod.glitchScreenShader.UseIntensity(0.0005f);
-				player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
-			} else if(starplateGlitchEffect) {
-				SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.3f);
-				SpiritMod.glitchScreenShader.UseIntensity(starplateGlitchIntensity);
-				player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
-			} else if (ZoneSynthwave) {
-				SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.115f); //0.4f is default
-				SpiritMod.glitchScreenShader.UseIntensity(0.0008f);
-				player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
-			}			
+			if (config.DistortionConfig) {
+				if(ZoneSpirit && player.position.Y / 16 >= Main.maxTilesY - 330) {
+					SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.2f); //0.4f is default
+					SpiritMod.glitchScreenShader.UseIntensity(0.004f);
+					player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
+				} else if(ZoneSpirit && player.ZoneRockLayerHeight && player.position.Y / 16 > (Main.rockLayer + Main.maxTilesY - 330) / 2f) {
+					SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.1f); //0.4f is default
+					SpiritMod.glitchScreenShader.UseIntensity(0.0005f);
+					player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
+				} else if(starplateGlitchEffect) {
+					SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.3f);
+					SpiritMod.glitchScreenShader.UseIntensity(starplateGlitchIntensity);
+					player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
+				} else if (ZoneSynthwave) {
+					SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.115f); //0.4f is default
+					SpiritMod.glitchScreenShader.UseIntensity(0.0008f);
+					player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
+				}	
+			}		
 			else {
 				player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);
 			}

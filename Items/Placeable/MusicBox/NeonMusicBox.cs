@@ -7,7 +7,7 @@ namespace SpiritMod.Items.Placeable.MusicBox
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Music Box (Techno Vibes)");
+			DisplayName.SetDefault("Music Box (Hyperspace- Night)");
 		}
 
 		public override void SetDefaults()
@@ -25,13 +25,5 @@ namespace SpiritMod.Items.Placeable.MusicBox
 			item.value = 100000;
 			item.accessory = true;
 		}
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Material.SynthMaterial>(), 10);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
-        }
     }
 }
