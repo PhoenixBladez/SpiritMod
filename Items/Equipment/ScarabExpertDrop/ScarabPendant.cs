@@ -21,8 +21,6 @@ namespace SpiritMod.Items.Equipment.ScarabExpertDrop
         {
             item.width = 20;
 			item.height = 30;
-			item.damage = 25;
-			item.melee = true;
             item.useTime = 20;
             item.useAnimation = 20;
             item.useStyle = ItemUseStyleID.HoldingUp;
@@ -33,8 +31,6 @@ namespace SpiritMod.Items.Equipment.ScarabExpertDrop
             item.mountType = mod.MountType("ScarabMount");
 			item.expert = true;
         }
-
-		public override bool AllowPrefix(int pre) => false;
 	}
 
 	class PendantBuff : ModBuff

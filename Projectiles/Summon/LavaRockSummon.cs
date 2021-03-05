@@ -55,12 +55,13 @@ namespace SpiritMod.Projectiles.Summon
 				}
 			}
 			Lighting.AddLight(projectile.position, 0.4f, .12f, .036f);
+			Player player = Main.player[projectile.owner];
 			//int num = 5;
 			for (int k = 0; k < 3; k++) {
 				int index2 = Dust.NewDust(new Vector2(projectile.Center.X - 6, projectile.Center.Y + 3), 1, 1, 127, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].scale = .5f;
 				Main.dust[index2].noGravity = false;
-				Main.dust[index2].velocity.X *= 0f;
+				Main.dust[index2].velocity.X = player.velocity.X;
 				Main.dust[index2].velocity.Y *= 1.7f;
 				Main.dust[index2].noLight = false;
 			}
@@ -68,12 +69,11 @@ namespace SpiritMod.Projectiles.Summon
 				int index2 = Dust.NewDust(new Vector2(projectile.Center.X - 12, projectile.Center.Y + 3), 1, 1, 127, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].scale = .5f;
 				Main.dust[index2].noGravity = false;
-				Main.dust[index2].velocity.X *= 0f;
+				Main.dust[index2].velocity.X = player.velocity.X;
 				Main.dust[index2].velocity.Y *= 1.7f;
 				Main.dust[index2].noLight = false;
 			}
 			bool flag64 = projectile.type == ModContent.ProjectileType<LavaRockSummon>();
-			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (flag64) {
 				if (player.dead)
@@ -123,7 +123,7 @@ namespace SpiritMod.Projectiles.Summon
 				}
 
 				if (flag11) {
-					float num403 = 6f; //modify the speed the projectile are shot.  Lower number = slower projectile.
+					float num403 = 12f; //modify the speed the projectile are shot.  Lower number = slower projectile.
 					Vector2 vector29 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
 					float num404 = num396 - vector29.X;
 					float num405 = num397 - vector29.Y;
@@ -132,8 +132,6 @@ namespace SpiritMod.Projectiles.Summon
 					num404 *= num406;
 					num405 *= num406;
 					int p = Projectile.NewProjectile(projectile.Center.X - 4f, projectile.Center.Y, num404, num405, ModContent.ProjectileType<Blaze>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-					Main.projectile[p].magic = false;
-					Main.projectile[p].minion = true;
 					projectile.ai[0] = 30f;
 					return;
 				}
