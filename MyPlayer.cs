@@ -174,6 +174,7 @@ namespace SpiritMod
 		public int shootDelay1 = 0;
 		public int shootDelay2 = 0;
 		public int shootDelay3 = 0;
+		public bool ZoneSynthwave = false;
 		public bool unboundSoulMinion = false;
 		public bool cragboundMinion = false;
 		public bool crawlerockMinion = false;
@@ -459,13 +460,20 @@ namespace SpiritMod
 				SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.3f);
 				SpiritMod.glitchScreenShader.UseIntensity(starplateGlitchIntensity);
 				player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
-			} else {
+			} else if (ZoneSynthwave) {
+				SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.115f); //0.4f is default
+				SpiritMod.glitchScreenShader.UseIntensity(0.0008f);
+				player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
+			}			
+			else {
 				player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);
 			}
 
 			player.ManageSpecialBiomeVisuals("SpiritMod:AuroraSky", showAurora);
 			player.ManageSpecialBiomeVisuals("SpiritMod:SpiritBiomeSky", spirit);
 			player.ManageSpecialBiomeVisuals("SpiritMod:AsteroidSky2", ZoneAsteroid);
+
+			player.ManageSpecialBiomeVisuals("SpiritMod:SynthwaveSky", ZoneSynthwave);
 
 			player.ManageSpecialBiomeVisuals("SpiritMod:GreenAlgaeSky", greenOcean);
 			player.ManageSpecialBiomeVisuals("SpiritMod:BlueAlgaeSky", blueOcean);

@@ -220,6 +220,19 @@ namespace SpiritMod
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/DepthInvasion");
 				priority = MusicPriority.Event;
 			}
+			if (config.NeonBiomeMusic && spirit.ZoneSynthwave) 
+			{
+				if (Main.dayTime)
+				{
+					music = GetSoundSlot(SoundType.Music, "Sounds/Music/NeonTech1");
+					priority = MusicPriority.Event;
+				}
+				else
+				{
+					music = GetSoundSlot(SoundType.Music, "Sounds/Music/NeonTech");
+					priority = MusicPriority.Event;
+				}
+			}
             if (Main.invasionType == 2 && config.FrostLegionMusic && player.ZoneOverworldHeight && Main.invasionProgressNearInvasion) {
                 music = GetSoundSlot(SoundType.Music, "Sounds/Music/FrostLegion");
                 priority = MusicPriority.BossLow;
@@ -602,6 +615,9 @@ namespace SpiritMod
 
 				Filters.Scene["SpiritMod:Atlas"] = new Filter(new AtlasScreenShaderData("FilterMiniTower").UseColor(0.5f, 0.5f, 0.5f).UseOpacity(0.6f), EffectPriority.VeryHigh);
 				SkyManager.Instance["SpiritMod:Atlas"] = new AtlasSky();
+
+				Filters.Scene["SpiritMod:SynthwaveSky"] = new Filter(new AtlasScreenShaderData("FilterMiniTower").UseColor(0.158f, 0.083f, 0.212f).UseOpacity(0.43f), EffectPriority.VeryHigh);
+				SkyManager.Instance["SpiritMod:SynthwaveSky"] = new VaporwaveSky();
 
 				//Music Boxes
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/TranquilWinds"), ItemType("TranquilWindsBox"), TileType("TranquilWindsBox"));

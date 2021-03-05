@@ -2459,6 +2459,11 @@ namespace SpiritMod
 				placed = true;
 			}
 		}
+		public override void ResetNearbyTileEffects()
+		{
+			MyPlayer modPlayer = Main.LocalPlayer.GetModPlayer<MyPlayer>();
+			modPlayer.ZoneSynthwave = false;
+		}
 		#endregion
 		public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
 		{

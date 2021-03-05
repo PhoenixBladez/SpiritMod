@@ -42,6 +42,26 @@ namespace SpiritMod
 		[DefaultValue(true)]
 		public bool MarbleMusic { get; set; }
 
+        [Label("New Spider Cavern Music")]
+        [Tooltip("Adds a unique track for Spider caverns")]
+        [DefaultValue(true)]
+        public bool SpiderCaveMusic { get; set; }
+
+        [Label("New Frost Legion Music")]
+        [Tooltip("Adds a unique track for the Frost Legion")]
+        [DefaultValue(true)]
+        public bool FrostLegionMusic { get; set; }
+
+        [Label("New Meteor Music")]
+        [Tooltip("Adds a unique track for the Meteor")]
+        [DefaultValue(true)]
+        public bool MeteorMusic { get; set; }
+
+        [Label("New Corrupt Night Music")]
+        [Tooltip("Adds a unique track for the Corruption at nighttime")]
+        [DefaultValue(true)]
+        public bool CorruptNightMusic { get; set; }
+
 		[Label("Aurora Music")]
 		[Tooltip("Enables unique music for Auroras")]
 		[DefaultValue(true)]
@@ -57,25 +77,11 @@ namespace SpiritMod
         [DefaultValue(true)]
         public bool CalmNightMusic { get; set; }
 
-        [Label("Spider Cavern Music")]
-        [Tooltip("Adds a unique track for Spider caverns")]
+        [Label("Synthwave Biome Music")]
+        [Tooltip("Enables two unique tracks while in Hyperspace")]
         [DefaultValue(true)]
-        public bool SpiderCaveMusic { get; set; }
+        public bool NeonBiomeMusic { get; set; }
 
-        [Label("Frost Legion Music")]
-        [Tooltip("Adds a unique track for the Frost Legion")]
-        [DefaultValue(true)]
-        public bool FrostLegionMusic { get; set; }
-
-        [Label("Meteor Music")]
-        [Tooltip("Adds a unique track for the Meteor")]
-        [DefaultValue(true)]
-        public bool MeteorMusic { get; set; }
-
-        [Label("Corrupt Night Music")]
-        [Tooltip("Adds a unique track for the Corruption at nighttime")]
-        [DefaultValue(true)]
-        public bool CorruptNightMusic { get; set; }
 
     }
 }
