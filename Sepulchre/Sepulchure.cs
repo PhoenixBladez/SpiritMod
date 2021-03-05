@@ -22,9 +22,23 @@ namespace SpiritMod
 		private int wall => ModContent.WallType<SepulchreWallTile>();
 		private int tile => ModContent.TileType<SepulchreBrick>();
 		private int tiletwo => ModContent.TileType<SepulchreBrickTwo>();
+		public static void RemoveWaterFromRegion(int width, int height, Vector2 startingPoint)
+		{
+			for (int i = 0; i < width; i++) {
+				for (int j = 0; j < height; j++) {
+					if (Main.tile[i + (int)startingPoint.X, j + (int)startingPoint.Y].liquidType() == 0 && Main.tile[i + (int)startingPoint.X, j + (int)startingPoint.Y].liquid > 64) {
+						Main.tile[i + (int)startingPoint.X, j + (int)startingPoint.Y].ClearEverything();
+						if (Main.netMode == NetmodeID.MultiplayerClient) // sync
+						{
+							NetMessage.sendWater(i + (int)startingPoint.X, j + (int)startingPoint.Y);
+						}
+					}
+				}
+			}
+		}
 		public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
 		{
-			int index = tasks.FindIndex(genpass => genpass.Name.Equals("Jungle Chests"));
+			int index = tasks.FindIndex(genpass => genpass.Name.Equals("Settle Liquids Again"));
 			if (index == -1) {
 				return;
 			}
@@ -35,12 +49,26 @@ namespace SpiritMod
 					progress.Message = "Sepulchuring";
 
 					for(int i = 0; i< Main.maxTilesX/200; i++) {
-						CreateSepulchre(new Vector2(Main.rand.Next(400,Main.maxTilesX - 400), Main.rand.Next((int)Main.maxTilesY - 400, (int)Main.maxTilesY - 200)));
+						CreateSepulchre(new Vector2(Main.rand.Next(400,Main.maxTilesX - 400), Main.rand.Next(Main.maxTilesY - 500, Main.maxTilesY - 300)));
 					}
 				}, 300f));
 		}
 			public void CreateSepulchre(Vector2 position)
-		{
+			{
+			int[] invalidTypes = new int[]
+				{
+					TileID.BeeHive,
+					TileID.BlueDungeonBrick,
+					TileID.GreenDungeonBrick,
+					TileID.PinkDungeonBrick,
+				};
+			for (int x = (int)position.X - 25; x < (int)position.X + 25; x++) //Main structure, DO NOT USE LOOPTHROUGHTILES HERE
+			{
+				for (int y = (int)position.Y - 20; y < (int)position.Y + 20; y++) {
+					for(int z = 0; z< invalidTypes.Length; z++)
+						if(Framing.GetTileSafely(x,y).type == invalidTypes[z]) return;
+				}
+			}
 			PerlinNoiseTwo noiseType = new PerlinNoiseTwo(WorldGen._genRandSeed);
 			int i = (int)position.X;
 			int j = (int)position.Y;
@@ -68,8 +96,16 @@ namespace SpiritMod
 				}
 			}
 			WallCleanup(i, j);
+			for (int x = i - 50; x < i + 50; x++) {
+				for (int y = j - 90; y < j + 50; y++) {
+					if (Main.rand.Next(25) == 0 && (Main.tile[x, y].type == tile || Main.tile[x, y].type == tiletwo) && Main.tile[x, y].active()) {
+						Main.tile[x, y].active(false);
+					}
+				}
+			}
 			CreateChests(i, j);
 			PolishSepulchre(i, j);
+			RemoveWaterFromRegion(50,40,position - new Vector2(25,20));
 		}
 		public delegate void AtTile(int x, int y);
 		public void WallCleanup(int i, int j)
@@ -191,12 +227,6 @@ namespace SpiritMod
 				if (noiseType2.Noise2D((float)(x * 100) / (float)1200, (float)(y * 100) / (float)1200) > 0.70f && Main.tile[x, y].wall == wall && !Main.tile[x, y].active()) {
 					Main.tile[x, y].active(true);
 					Main.tile[x, y].type = 51;
-				}
-			});
-			delegateList.Add(delegate (int x, int y) //cracks in tiles
-			{
-				if (Main.rand.Next(25) == 0 && (Main.tile[x, y].type == tile || Main.tile[x, y].type == tiletwo) && Main.tile[x, y].active()) {
-					Main.tile[x, y].active(false);
 				}
 			});
 			delegateList.Add(delegate (int x, int y) //torches
