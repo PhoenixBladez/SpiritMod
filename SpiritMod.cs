@@ -57,6 +57,7 @@ using Terraria.Utilities;
 using SpiritMod.Prim;
 using SpiritMod.NPCs.Boss.Scarabeus;
 using SpiritMod.Items.Equipment.ScarabExpertDrop;
+using SpiritMod.Items.Placeable.MusicBox;
 
 namespace SpiritMod
 {
@@ -956,7 +957,7 @@ namespace SpiritMod
                     "Jelly Deluge",
                     (Func<bool>)(() => MyWorld.downedJellyDeluge),
                     ModContent.ItemType<DistressJellyItem>(),
-                    null,
+                    ModContent.ItemType<JellyDelugeBox>(),
                     new List<int> { ModContent.ItemType<NautilusClub>(), ModContent.ItemType<ElectricGun>(), ModContent.ItemType<DreamlightJellyItem>(), ModContent.ItemType<TinyLunazoaItem>(), ModContent.ItemType<MoonJelly>() },
                      "Naturally occurs in space after any boss has been defeated. Can also be summoned by using a Distress Jelly, found in Asteroid Biomes and caught using a bug net. Occurs less frequently after the Moon Jelly Wizard has been defeated.",
                     null,
@@ -1037,7 +1038,7 @@ namespace SpiritMod
                     "Vinewrath Bane",
                     (Func<bool>)(() => MyWorld.downedReachBoss),
                     ModContent.ItemType<ReachBossSummon>(),
-                    new List<int> { ModContent.ItemType<Items.Boss.Trophy5>(), ModContent.ItemType<Items.Armor.Masks.ReachMask>() /*, ModContent.ItemType<Items.Placeable.MusicBox.ScarabBox>()*/ },
+                    new List<int> { ModContent.ItemType<Items.Boss.Trophy5>(), ModContent.ItemType<Items.Armor.Masks.ReachMask>() , ModContent.ItemType<Items.Placeable.MusicBox.VinewrathBox>() },
                     new List<int> { ModContent.ItemType<DeathRose>(), ModContent.ItemType<Items.Weapon.Magic.SunbeamStaff>(), ModContent.ItemType<Items.Weapon.Bow.ThornBow>(), ModContent.ItemType<Items.Weapon.Magic.ReachVineStaff>(), ModContent.ItemType<Items.Weapon.Swung.ReachBossSword>(), ModContent.ItemType<Items.Weapon.Thrown.ReachKnife>(), ItemID.LesserHealingPotion },
                     "Right-click the Bloodblossom, a glowing flower found at the bottom of the Briar. The Vinewrath Bane can be fought at any time and any place in progression. If a Bloodblossom is not present, use a [i: " + ModContent.ItemType<ReachBossSummon>() + "] in the Briar below the surface at any time.",
                     null,
@@ -1053,7 +1054,7 @@ namespace SpiritMod
                     "Ancient Avian",
                     (Func<bool>)(() => MyWorld.downedAncientFlier),
                     ModContent.ItemType<JewelCrown>(),
-                    new List<int> { ModContent.ItemType<Items.Boss.Trophy2>(), ModContent.ItemType<Items.Armor.Masks.FlierMask>() /*, ModContent.ItemType<Items.Placeable.MusicBox.ScarabBox>()*/ },
+                    new List<int> { ModContent.ItemType<Items.Boss.Trophy2>(), ModContent.ItemType<Items.Armor.Masks.FlierMask>() , ModContent.ItemType<Items.Placeable.MusicBox.AvianBox>() },
                     new List<int> { ModContent.ItemType<AvianHook>(), ModContent.ItemType<TalonBlade>(), ModContent.ItemType<Talonginus>(), ModContent.ItemType<SoaringScapula>(), ModContent.ItemType<TalonPiercer>(), ModContent.ItemType<SkeletalonStaff>(), ModContent.ItemType<TalonHeaddress>(), ModContent.ItemType<TalonGarb>(), ItemID.LesserHealingPotion },
                      "Use a [i: " + ModContent.ItemType<JewelCrown>() + "] in the sky biome at any time. Alternatively, smash a Giant Avian Egg, which is found on Avian Islands near the sky layer. The Ancient Avian can be fought at any time and any place in progression.",
                     null,
@@ -1069,7 +1070,7 @@ namespace SpiritMod
                     "The Tide",
                     (Func<bool>)(() => MyWorld.downedTide),
                     ModContent.ItemType<BlackPearl>(),
-                    null,
+					new List<int> { ModContent.ItemType<Trophy10>(), ModContent.ItemType<RlyehMask>(), ModContent.ItemType<TideBox>() },
                     new List<int> { ModContent.ItemType<TribalScale>(), ModContent.ItemType<PumpBubbleGun>(), ModContent.ItemType<MagicConch>(), ModContent.ItemType<TikiJavelin>(), ModContent.ItemType<MangoJellyStaff>(), ModContent.ItemType<TomeOfRylien>(), ModContent.ItemType<TentacleChain>(), ModContent.ItemType<CoconutGun>() },
                      "Use a [i: " + ModContent.ItemType<BlackPearl>() + "] at the Ocean at any time.",
                     null,
