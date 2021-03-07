@@ -61,6 +61,7 @@ namespace SpiritMod
 					TileID.BlueDungeonBrick,
 					TileID.GreenDungeonBrick,
 					TileID.PinkDungeonBrick,
+					TileID.LihzahrdBrick
 				};
 			for (int x = (int)position.X - 25; x < (int)position.X + 25; x++) //Main structure, DO NOT USE LOOPTHROUGHTILES HERE
 			{
