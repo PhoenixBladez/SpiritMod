@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Equipment
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sandglobe");
-			Tooltip.SetDefault("Summons or ends a sandstorm");
+			Tooltip.SetDefault("Summons or ends a sandstorm\nOnly usable in a desert");
 		}
 
 		public override void SetDefaults()
@@ -28,11 +28,10 @@ namespace SpiritMod.Items.Equipment
 			item.autoReuse = false;
 		}
 
+		public override bool CanUseItem(Player player) => player.ZoneDesert;
+
 		public override bool UseItem(Player player)
 		{
-			if (!player.ZoneDesert)
-				return false;
-
 			if(Sandstorm.Happening) {
 				Sandstorm.Happening = false;
 			}

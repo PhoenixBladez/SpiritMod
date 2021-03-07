@@ -152,7 +152,6 @@ namespace SpiritMod.Projectiles.Bullet
 		public override void OnHitNPC(NPC target, int damage, float knockBack, bool crit)
 		{
 			target.AddBuff(BuffID.OnFire, 480);
-			projectile.Kill();
 		}
 		public override void Kill(int timeLeft)
 		{

@@ -29,8 +29,8 @@ namespace SpiritMod.Sepulchre
 			TileObjectData.addTile(Type);
 			dustType = -1;
 			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Painting");
-			AddMapEntry(new Color(150, 150, 150), name);
+			name.SetDefault("Sepulchre Window");
+			AddMapEntry(new Color(100, 100, 100), name);
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)

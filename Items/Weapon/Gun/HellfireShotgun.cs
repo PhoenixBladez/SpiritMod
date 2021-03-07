@@ -121,8 +121,8 @@ namespace SpiritMod.Items.Weapon.Gun
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.OnyxBlaster, 1);
-			recipe.AddIngredient(ModContent.ItemType<SunShard>(), 2);
-			recipe.AddIngredient(ModContent.ItemType<FieryEssence>(), 5);
+            recipe.AddIngredient(ItemID.Ectoplasm, 2);
+            recipe.AddIngredient(ModContent.ItemType<FieryEssence>(), 5);
 			recipe.AddIngredient(ModContent.ItemType<DuskStone>(), 6);
 			recipe.AddIngredient(ItemID.ChlorophyteBar, 12);
 			recipe.AddTile(TileID.MythrilAnvil);

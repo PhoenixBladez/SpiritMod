@@ -15,14 +15,12 @@ namespace SpiritMod.Items.Equipment.ScarabExpertDrop
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Scarab Pendant");
-			Tooltip.SetDefault("Summons a rideable giant pillbug that rolls through enemies at high speed");
+			Tooltip.SetDefault("Summons a rideable giant pillbug that rolls through enemies at high speed\nRolling through an enemy protects against contact damage");
 		}
 		public override void SetDefaults()
         {
             item.width = 20;
 			item.height = 30;
-			item.damage = 25;
-			item.melee = true;
             item.useTime = 20;
             item.useAnimation = 20;
             item.useStyle = ItemUseStyleID.HoldingUp;
@@ -32,8 +30,8 @@ namespace SpiritMod.Items.Equipment.ScarabExpertDrop
             item.noMelee = true;
             item.mountType = mod.MountType("ScarabMount");
 			item.expert = true;
-        }  
-    }
+        }
+	}
 
 	class PendantBuff : ModBuff
 	{
@@ -80,7 +78,6 @@ namespace SpiritMod.Items.Equipment.ScarabExpertDrop
 		}
 		public override void UpdateEffects(Player player)
 		{
-			player.statDefense += 15;
 			ScarabMountPlayer modplayer = player.GetModPlayer<ScarabMountPlayer>();
 			modplayer.scarabrotation += player.velocity.X / 25;
 			modplayer.scarabtimer++;

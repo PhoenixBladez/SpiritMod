@@ -95,7 +95,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				generalMovement(player);
 			}
 
-			float[] stoptimes = new float[] { 470, 540, 670, 900, 1051 };
+			float[] stoptimes = new float[] { 470, 540, 670, 900, 1051, 1800 };
 			if (stoptimes.Contains(npc.ai[0]))
 			{
 				npc.velocity = Vector2.Zero;
@@ -132,8 +132,16 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				npc.TargetClosest(true);
 				npc.spriteDirection = npc.direction;
 			}
-
-			if (npc.ai[0] > 1740)
+			if (npc.ai[0] > 1800 && npc.ai[0] < 1930)
+			{
+				summonBouncingProjectiles();
+				pulseTrail = true;
+			}
+			else
+			{
+				pulseTrail = false;
+			}
+			if (npc.ai[0] > 2000)
 			{
 				pulseTrailPurple = false;
 				pulseTrailYellow = false;
@@ -185,7 +193,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
                     {
                         float A = (float)Main.rand.Next(-50, 50) * 0.05f;
                         float B = (float)Main.rand.Next(-50, 50) * 0.05f;
-                        int damage = expertMode ? 11 : 16;
+                        int damage = expertMode ? 13 : 19;
                         Projectile p = Projectile.NewProjectileDirect(npc.Center, direction + new Vector2(A, B), ModContent.ProjectileType<BossRedSpike>(), damage, 1, Main.myPlayer, 0, 0);
 						p.netUpdate = true;
                     }
@@ -260,7 +268,19 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				}
 			}
 		}
-
+		public void summonBouncingProjectiles()
+		{			
+			bool expertMode = Main.expertMode;
+			int damage = expertMode ? 15 : 21;
+			if (npc.ai[0] % 45 == 0)
+			{
+	            if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+					Vector2 spawnVelocity = (npc.ai[0] < 1845) ? new Vector2(0f, -2f) : new Vector2(0f, 1f);
+					int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, spawnVelocity.X, spawnVelocity.Y, ModContent.ProjectileType<ReachBossBouncingProjectile>(), damage, 1, Main.myPlayer, 0, 0);			
+				}
+			}
+		}
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frameCounter += .15f;

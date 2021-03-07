@@ -2459,6 +2459,11 @@ namespace SpiritMod
 				placed = true;
 			}
 		}
+		public override void ResetNearbyTileEffects()
+		{
+			MyPlayer modPlayer = Main.LocalPlayer.GetModPlayer<MyPlayer>();
+			modPlayer.ZoneSynthwave = false;
+		}
 		#endregion
 		public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
 		{
@@ -3022,7 +3027,7 @@ namespace SpiritMod
 				}
 			}
 			for (int i = 1; i < Main.rand.Next(4, 6); i++) {
-				int[] itemsToPlacePrimary = new int[] { ItemType<CleftHorn>(), ItemType<CactusStaff>() };
+				int[] itemsToPlacePrimary = new int[] { ItemType<CleftHorn>()};
 				//int itemsToPlaceInGlassChestsSecondaryChoice = 0;
 				for (int chestIndex = 0; chestIndex < 1000; chestIndex++) {
 					Chest chest = Main.chest[chestIndex];
