@@ -58,7 +58,7 @@ namespace SpiritMod.Items.Consumable
 			ModRecipe recipe2 = new ModRecipe(mod);
 			recipe2.AddIngredient(ItemID.Topaz, 1);
 			recipe2.AddIngredient(ItemID.AntlionMandible, 3);
-            recipe.AddIngredient(ItemID.DesertFossil, 1);
+            recipe2.AddIngredient(ItemID.DesertFossil, 1);
             recipe2.AddTile(TileID.DemonAltar);
 			recipe2.SetResult(this);
 			recipe2.AddRecipe();

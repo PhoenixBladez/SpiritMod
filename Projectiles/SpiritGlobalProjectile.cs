@@ -25,7 +25,6 @@ namespace SpiritMod.Projectiles
 		public bool shotFromStellarCrosbow = false;
 		public bool shotFromBloodshot = false;
 		public bool shotFromCookieCutter = false;
-		public bool shotFromGaruda = false;
 		public bool shotFromBismiteBow = false;
 		public bool shotFromThornBow = false;
 		public bool shotFromNightSky = false;
@@ -298,23 +297,6 @@ namespace SpiritMod.Projectiles
 				player.AddBuff(ModContent.BuffType<CrimsonRegen>(), 179);
 			} else if(shotFromNightSky && Main.rand.NextBool(8)) {
 				target.AddBuff(ModContent.BuffType<StarFlame>(), 179);
-			} else if(shotFromGaruda && Main.rand.NextBool()) {
-				int n = Main.rand.Next(1, 2);
-				int deviation = Main.rand.Next(0, 300);
-				for(int i = 0; i < n; i++) {
-					float rotation = MathHelper.ToRadians(270 / n * i + deviation);
-					Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(rotation);
-					perturbedSpeed.Normalize();
-					perturbedSpeed.X *= 0f;
-					perturbedSpeed.Y *= 7.5f;
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 200, 0, 12, ModContent.ProjectileType<GodHomingProj>(), projectile.damage / 2 * 3, projectile.knockBack, projectile.owner);
-				}
-			} else if(shotFromGeodeBow) {
-				if(crit) {
-					target.AddBuff(BuffID.CursedInferno, 240, true);
-					target.AddBuff(BuffID.Frostburn, 240, true);
-					target.AddBuff(BuffID.OnFire, 240, true);
-				}
 			}
 
 			if(WitherLeaf) {

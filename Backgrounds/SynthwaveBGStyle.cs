@@ -10,8 +10,8 @@ namespace SpiritMod.Backgrounds
 	{
 		public override int ChooseCloseTexture(ref float scale, ref double parallax, ref float a, ref float b)
 		{
-			scale *= .55f;
-			b -= 800;
+			scale *= .45f;
+			b -= 600;
 			return mod.GetBackgroundSlot("Backgrounds/SynthwaveBackground");
 		}
 		public override bool ChooseBgStyle() => !Main.gameMenu && Main.LocalPlayer.GetSpiritPlayer().ZoneSynthwave;

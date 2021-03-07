@@ -3027,7 +3027,7 @@ namespace SpiritMod
 				}
 			}
 			for (int i = 1; i < Main.rand.Next(4, 6); i++) {
-				int[] itemsToPlacePrimary = new int[] { ItemType<CleftHorn>(), ItemType<CactusStaff>() };
+				int[] itemsToPlacePrimary = new int[] { ItemType<CleftHorn>()};
 				//int itemsToPlaceInGlassChestsSecondaryChoice = 0;
 				for (int chestIndex = 0; chestIndex < 1000; chestIndex++) {
 					Chest chest = Main.chest[chestIndex];

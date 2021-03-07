@@ -22,7 +22,6 @@ using SpiritMod.NPCs.Boss.Overseer;
 using SpiritMod.NPCs.Mimic;
 using SpiritMod.Projectiles;
 using SpiritMod.Tide;
-using SpiritMod.Tide.NPCs;
 using SpiritMod.NPCs.Tides;
 using SpiritMod.Projectiles.DonatorItems;
 using SpiritMod.Projectiles.Magic;
@@ -123,7 +122,6 @@ namespace SpiritMod
 		public bool fireMaw = false;
 		public bool deathRose = false;
 		public bool anglure = false;
-		public bool Fierysoul = false;
 		public bool manaWings = false;
 		public bool infernalFlame = false;
 		public bool floranSet = false;
@@ -313,7 +311,6 @@ namespace SpiritMod
 		public bool runicSet;
         public bool darkfeatherVisage;
 		public bool icySet;
-		public bool depthSet;
 		public bool elderbarkWoodSet;
 		public bool primalSet;
 		public bool spiritSet;
@@ -331,7 +328,6 @@ namespace SpiritMod
 		public bool oceanSet;
         public bool wayfarerSet;
 		public bool marbleSet;
-		public bool windSet;
 		public bool cometSet;
 		public bool hellSet;
 		public bool bloodfireSet;
@@ -432,7 +428,8 @@ namespace SpiritMod
 		private IList<string> candyFromTown = new List<string>();
 
 		public override void UpdateBiomeVisuals()
-		{
+		{          
+			var config = ModContent.GetInstance<SpiritClientConfig>();
 			bool showAurora = (player.ZoneSnow || ZoneSpirit || player.ZoneSkyHeight) && !Main.dayTime && !Main.raining && !player.ZoneCorrupt && !player.ZoneCrimson && MyWorld.aurora;
 			bool reach = (!Main.dayTime && ZoneReach && !reachBrooch && player.ZoneOverworldHeight) || (ZoneReach && player.ZoneOverworldHeight && MyWorld.downedReachBoss && Main.dayTime);
 			bool spirit = (player.ZoneOverworldHeight && ZoneSpirit);
@@ -448,23 +445,25 @@ namespace SpiritMod
 
 			bool blueMoon = ZoneBlueMoon && (player.ZoneOverworldHeight || player.ZoneSkyHeight);
 
-			if(ZoneSpirit && player.position.Y / 16 >= Main.maxTilesY - 330) {
-				SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.2f); //0.4f is default
-				SpiritMod.glitchScreenShader.UseIntensity(0.004f);
-				player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
-			} else if(ZoneSpirit && player.ZoneRockLayerHeight && player.position.Y / 16 > (Main.rockLayer + Main.maxTilesY - 330) / 2f) {
-				SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.1f); //0.4f is default
-				SpiritMod.glitchScreenShader.UseIntensity(0.0005f);
-				player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
-			} else if(starplateGlitchEffect) {
-				SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.3f);
-				SpiritMod.glitchScreenShader.UseIntensity(starplateGlitchIntensity);
-				player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
-			} else if (ZoneSynthwave) {
-				SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.115f); //0.4f is default
-				SpiritMod.glitchScreenShader.UseIntensity(0.0008f);
-				player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
-			}			
+			if (config.DistortionConfig) {
+				if(ZoneSpirit && player.position.Y / 16 >= Main.maxTilesY - 330) {
+					SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.2f); //0.4f is default
+					SpiritMod.glitchScreenShader.UseIntensity(0.004f);
+					player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
+				} else if(ZoneSpirit && player.ZoneRockLayerHeight && player.position.Y / 16 > (Main.rockLayer + Main.maxTilesY - 330) / 2f) {
+					SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.1f); //0.4f is default
+					SpiritMod.glitchScreenShader.UseIntensity(0.0005f);
+					player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
+				} else if(starplateGlitchEffect) {
+					SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.3f);
+					SpiritMod.glitchScreenShader.UseIntensity(starplateGlitchIntensity);
+					player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
+				} else if (ZoneSynthwave) {
+					SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.115f); //0.4f is default
+					SpiritMod.glitchScreenShader.UseIntensity(0.0008f);
+					player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
+				}	
+			}		
 			else {
 				player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);
 			}
@@ -640,7 +639,6 @@ namespace SpiritMod
 			chitinSet = false;
 			ChitinDashTicks = Math.Max(ChitinDashTicks - 1, 0);
 			starplateGlitchEffect = false;
-			Fierysoul = false;
 			infernalFlame = false;
 			reachBrooch = false;
 			windEffect = false;
@@ -793,11 +791,9 @@ namespace SpiritMod
 			titanicSet = false;
 			cryoSet = false;
 			frigidSet = false;
-			windSet = false;
 			marbleSet = false;
 			crystalSet = false;
 			magalaSet = false;
-			depthSet = false;
 			thermalSet = false;
 			infernalSet = false;
 			bloomwindSet = false;
@@ -1546,12 +1542,6 @@ namespace SpiritMod
 				Charger = 0;
 			}
 
-			if(windSet && proj.minion && Main.rand.NextBool(6)) {
-				for(int i = 0; i <= 3; i++) {
-					Projectile.NewProjectile(target.Center.X, target.Center.Y, Main.rand.Next(-2, 4), -5, ModContent.ProjectileType<DeitySoul2>(), 39, 1, player.whoAmI);
-				}
-			}
-
 			if(magalaSet && (proj.melee || proj.minion || proj.magic || proj.ranged)) {
 				target.AddBuff(ModContent.BuffType<FrenzyVirus>(), 180);
 			}
@@ -1589,10 +1579,6 @@ namespace SpiritMod
 
 			if(gremlinBuff) {
 				target.AddBuff(BuffID.Poisoned, 120);
-			}
-
-			if(Fierysoul && proj.minion && Main.rand.NextBool(14)) {
-				target.AddBuff(BuffID.OnFire, 240);
 			}
 
 			if(crystalSet && proj.minion && Main.rand.NextBool(15)) {
@@ -1973,10 +1959,6 @@ namespace SpiritMod
 
 			if(cryoSet) {
 				quiet = true;
-			}
-
-			if(Fierysoul) {
-				Projectile.NewProjectile(player.Center, new Vector2(6, 6), ProjectileID.MolotovFire2, 30, 0f, Main.myPlayer);
 			}
 
 			if(soulPotion && Main.rand.NextBool(5)) {
@@ -5129,15 +5111,6 @@ namespace SpiritMod
 					}
 					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
 					Projectile.NewProjectile(player.Center, dir, ModContent.ProjectileType<DarkAnima>(), 45, 0, player.whoAmI);
-				}
-
-				if(depthSet && !player.HasBuff(ModContent.BuffType<SharkAttackBuff>())) {
-					MyPlayer myPlayer = Main.player[Main.myPlayer].GetModPlayer<MyPlayer>();
-					Rectangle textPos = new Rectangle((int)myPlayer.player.position.X, (int)myPlayer.player.position.Y - 60, myPlayer.player.width, myPlayer.player.height);
-
-					CombatText.NewText(textPos, new Color(29, 240, 255, 100), "Shark Attack!");
-					player.AddBuff(ModContent.BuffType<SharkAttackBuff>(), 1800);
-					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<SharkBlast>(), 35, 0, player.whoAmI);
 				}
 
 				if(ichorSet1 && !player.HasBuff(ModContent.BuffType<GoreCooldown1>())) {

@@ -1386,11 +1386,6 @@ namespace SpiritMod.NPCs
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CombatShotgun>());
 				}
 			}
-			if (npc.type == NPCID.LihzahrdCrawler || npc.type == NPCID.Lihzahrd) {
-				if (Main.rand.Next(6) == 0) {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SunShard>());
-				}
-			}
 		}
 
 		public override void DrawEffects(NPC npc, ref Color drawColor)

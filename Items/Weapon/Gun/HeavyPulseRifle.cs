@@ -177,8 +177,8 @@ namespace SpiritMod.Items.Weapon.Gun
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.Uzi, 1);
-			recipe.AddIngredient(ModContent.ItemType<SunShard>(), 2);
-			recipe.AddIngredient(ModContent.ItemType<TechDrive>(), 5);
+            recipe.AddIngredient(ItemID.Ectoplasm, 2);
+            recipe.AddIngredient(ModContent.ItemType<TechDrive>(), 5);
 			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 15);
 			recipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 10);
 			recipe.AddIngredient(ItemID.ChlorophyteBar, 12);

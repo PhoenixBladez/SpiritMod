@@ -44,8 +44,8 @@ namespace SpiritMod.Items.Accessory
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<WheezerScale>(), 1);
 			recipe.AddIngredient(ModContent.ItemType<Atmos>(), 1);
-			recipe.AddIngredient(ModContent.ItemType<SunShard>(), 5);
-			recipe.AddTile(TileID.TinkerersWorkbench);
+            recipe.AddIngredient(ItemID.Ectoplasm, 5);
+            recipe.AddTile(TileID.TinkerersWorkbench);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 

@@ -13,20 +13,22 @@ namespace SpiritMod.Skies
 		private int AtlasIndex = -1;
 
 		public override void Update(GameTime gameTime)
-		{
+		{			
 			if (isActive && intensity < 1f) {
 				intensity += 0.02f;
 			}
 			else if (!isActive && intensity > 0f) {
-				intensity -= 0.008f;
+				intensity -= 0.0035f;
 			}
 		}
-
-        public override Color OnTileColor(Color inColor)
-        {
-            float amt = intensity * .02f;
-            return inColor.MultiplyRGB(new Color(1f - amt, 1f - amt, 1f - amt));
-        }
+		private float GetIntensity()
+		{
+			return 1f - Utils.SmoothStep(1000f, 6000f, 200f);
+		}
+		public override Color OnTileColor(Color inColor)
+		{
+			return new Color(Vector4.Lerp(new Vector4(0.68f, 0.29f, 1f, 1f), inColor.ToVector4(), 1f - intensity));
+		}
 
 
 
