@@ -37,6 +37,8 @@ namespace SpiritMod.Tiles
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY) => ModContent.GetInstance<CrimsonPustuleTileEntity>().Kill(i, j);
 
+		public override bool Dangersense(int i, int j, Player player) => true;
+
 		public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
 		{
 			Tile tile = Main.tile[i, j];
@@ -44,7 +46,7 @@ namespace SpiritMod.Tiles
 
 			CrimsonPustuleTileEntity tileEntity = TileEntity.ByPosition[tileEntityPos] as CrimsonPustuleTileEntity;
 
-			Color lightColor = Lighting.GetColor(i, j);
+			Color color = Main.LocalPlayer.dangerSense ? new Color(255, 50, 50, Main.mouseTextColor) : Lighting.GetColor(i, j);
 			Vector2 offScreenRange = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
 			Vector2 origin = new Vector2(tile.frameX % 18 == 0 ? 18 : -18, 0);
 			Vector2 drawPos = new Vector2(i * 16 + origin.X, j * 16) - Main.screenPosition + offScreenRange + Vector2.UnitY * 2;
@@ -56,7 +58,7 @@ namespace SpiritMod.Tiles
 				tileTexture,
 				drawPos,
 				new Rectangle(tile.frameX, tile.frameY, 16, 16),
-				lightColor,
+				color,
 				0f,
 				origin,
 				scale,
@@ -68,7 +70,7 @@ namespace SpiritMod.Tiles
 				flashTexture,
 				drawPos,
 				new Rectangle(tile.frameX, tile.frameY, 16, 16),
-				lightColor * tileEntity.Pulse,
+				color * tileEntity.Pulse,
 				0f,
 				origin,
 				scale,
