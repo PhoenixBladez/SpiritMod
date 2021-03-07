@@ -195,7 +195,7 @@ namespace SpiritMod.Tiles
 					if (Framing.GetTileSafely(x, y).active())
 						return;
 
-			if (Main.rand.NextBool(250)) { // TODO: maybe config for this random chance?
+			if (Main.rand.NextBool(180)) { // TODO: maybe config for this random chance?
 				WorldGen.PlaceTile(i, j, TileID.Crimstone, forced: true);
 				WorldGen.PlaceTile(i + 1, j, TileID.Crimstone, forced: true);
 				CrimsonPustuleTile.Spawn(i, j - 2);
