@@ -3032,7 +3032,7 @@ namespace SpiritMod
 				for (int chestIndex = 0; chestIndex < 1000; chestIndex++) {
 					Chest chest = Main.chest[chestIndex];
 					if (chest != null && Main.tile[chest.x, chest.y].type == TileType<GoldScarabChest>()) {
-						chest.item[0].SetDefaults(itemsToPlacePrimary[Main.rand.Next(2)], false);
+						chest.item[0].SetDefaults(itemsToPlacePrimary[Main.rand.Next(itemsToPlacePrimary.Length)], false);
 						chest.item[1].SetDefaults(commonItems1[Main.rand.Next(4)], false);
 						chest.item[1].stack = WorldGen.genRand.Next(3, 10);
 						chest.item[2].SetDefaults(ammo1[Main.rand.Next(2)], false);
