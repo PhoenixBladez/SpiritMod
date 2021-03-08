@@ -1405,7 +1405,7 @@ namespace SpiritMod.World
 		}
 		#endregion Asteroids
 
-		#region GENPASS: Piles/Ambient
+		#region GENPASS: PILES/AMBIENT
 		public static void PilesPass(GenerationProgress progress)
 		{
 			progress.Message = "Spirit Mod: Adding Ambient Objects...";
