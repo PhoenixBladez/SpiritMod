@@ -206,6 +206,50 @@ namespace SpiritMod.World
 			return null;
 		}
 
+		public static void PlaceLine(int xpoint1, int ypoint1, int xpoint2, int ypoint2, int type, bool placewall, int walltype)
+		{
+			int xdist = xpoint2 - xpoint1;
+			int ydist = ypoint2 - ypoint1;
+			float distance = (float)Math.Sqrt((Math.Abs(xpoint2 - xpoint1) ^ 2) + (Math.Abs(ypoint2 - ypoint1) ^ 2));
+			float xDistRelative = (float)xdist / distance;
+			float yDistRelative = (float)ydist / distance;
+			for (float i = 0; i < distance; i += (float)0.1) {
+				int tilePlaceX = xpoint1 + (int)(xDistRelative * i);
+				int tilePlaceY = ypoint1 + (int)(yDistRelative * i);
+				//Tile tile = Main.tile[tilePlaceX, tilePlaceY];
+				if (!WorldGen.InWorld(tilePlaceX, tilePlaceY)) continue;
+				Tile tile = Framing.GetTileSafely(tilePlaceX, tilePlaceY);
+				tile.active(true);
+				tile.type = (ushort)type;
+				if (i < distance - 1 && placewall) {
+					tile.wall = (ushort)walltype;
+				}
+			}
+		}
+
+		public static ushort GetOreCounterpart(ushort ore)
+		{
+			switch (ore) {
+				case TileID.Copper: //copper ==> tin
+					return TileID.Tin;
+				case TileID.Tin: //tin ==> copper
+					return TileID.Copper;
+				case TileID.Iron: //iron ==> lead
+					return TileID.Lead;
+				case TileID.Lead: //lead ==> iron
+					return TileID.Iron;
+				case TileID.Silver: //silver ==> tungsten
+					return TileID.Tungsten;
+				case TileID.Tungsten: //tungsten ==> silver
+					return TileID.Silver;
+				case TileID.Gold: //gold ==> platinum
+					return TileID.Platinum;
+				case TileID.Platinum: //platinum ==> gold
+					return TileID.Gold;
+			}
+			return 0;
+		}
+
 		public static bool ValidTile(float x, float y)
 		{
 			return x >= 0f && x < Main.maxTilesX * 16f + 16f && y >= 0f && y < Main.maxTilesY * 16f + 16f;
