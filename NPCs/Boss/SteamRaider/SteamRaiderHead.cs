@@ -630,7 +630,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 							Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 53);
 							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 40, (float)direction9.Y * 40, ModContent.ProjectileType<StarLaser>(), NPCUtils.ToActualDamage(55, 1.5f), 1, Main.myPlayer);
 						}
-						if (atkCounter % 50 == 49) {
+						if (atkCounter % 50 == 49 && Main.expertMode) {
 							NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, mod.NPCType("SuicideLaser"), npc.whoAmI);
 						}
 				}

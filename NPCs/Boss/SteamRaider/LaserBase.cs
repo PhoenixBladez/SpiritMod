@@ -87,7 +87,10 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 3f;
 					}
 				}
-				npc.Transform(ModContent.NPCType<SuicideLaser>());
+				if (Main.expertMode)
+					npc.Transform(ModContent.NPCType<SuicideLaser>());
+				else
+					npc.active = false;
 				npc.netUpdate = true;
 			}
 			else {

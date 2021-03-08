@@ -34,6 +34,10 @@ namespace SpiritMod.Prim
                 {
                     effect.Parameters["spotTexture"].SetValue(GetInstance<SpiritMod>().GetTexture("Noise/Spot"));
                 }
+                if (effect.HasParameter("ripperTexture"))
+                {
+                    effect.Parameters["ripperTexture"].SetValue(GetInstance<SpiritMod>().GetTexture("Textures/RipperSlug"));
+                }
                 try
                 {
                     effect.Parameters["progress"].SetValue(progressParam);

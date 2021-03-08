@@ -76,6 +76,7 @@ namespace SpiritMod
 		public static Effect CircleNoise;
 		public static Effect StarfirePrims;
 		public static Effect ScreamingSkullTrail;
+		public static Effect RipperSlugShader;
 		public static PerlinNoise GlobalNoise;
 		public static GlitchScreenShader glitchScreenShader;
 		public static Texture2D noise;
@@ -579,6 +580,7 @@ namespace SpiritMod
 				CircleNoise = instance.GetEffect("Effects/CircleNoise");
 				StarfirePrims = instance.GetEffect("Effects/StarfirePrims");
 				ScreamingSkullTrail = instance.GetEffect("Effects/ScreamingSkullTrail");
+				 RipperSlugShader = instance.GetEffect("Effects/RipperSlugShader");
 
 				SkyManager.Instance["SpiritMod:AuroraSky"] = new AuroraSky();
 				Filters.Scene["SpiritMod:AuroraSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
@@ -730,6 +732,7 @@ namespace SpiritMod
 			CircleNoise = null;
 			StarfirePrims = null;
 			ScreamingSkullTrail = null;
+			RipperSlugShader = null;
 			noise = null;
 			instance = null;
 			SpiritGlowmask.Unload();
