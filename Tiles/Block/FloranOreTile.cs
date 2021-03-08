@@ -19,7 +19,7 @@ namespace SpiritMod.Tiles.Block
 			AddMapEntry(new Color(30, 200, 25), name);
 			soundType = SoundID.Tink;
 			dustType = 3;
-			minPick = 55;
+			minPick = 40;
 
 		}
 	}

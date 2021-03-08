@@ -14,7 +14,7 @@ namespace SpiritMod.Tiles.Block
 			AddMapEntry(new Color(99, 79, 49));
 			soundType = SoundID.Tink;
 			Main.tileBlockLight[Type] = true;
-			minPick = 100;
+			minPick = 40;
 			drop = ModContent.ItemType<AsteroidBlock>();
 		}
 		public override bool CanKillTile(int i, int j, ref bool blockDamaged)
