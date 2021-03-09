@@ -26,14 +26,6 @@ namespace SpiritMod.Items.Weapon.Bow.GemBows.Topaz_Bow
 			projectile.ranged = true;
 			projectile.extraUpdates = 2;
 		}
-		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-		{
-			if (targetHitbox.Width > 4 && targetHitbox.Height > 4)
-			{
-				targetHitbox.Inflate(-targetHitbox.Width / 4, -targetHitbox.Height / 4);
-			}
-			return projHitbox.Intersects(targetHitbox);
-		}
 		public override void AI()
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57F;

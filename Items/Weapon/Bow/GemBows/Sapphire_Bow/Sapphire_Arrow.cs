@@ -25,14 +25,6 @@ namespace SpiritMod.Items.Weapon.Bow.GemBows.Sapphire_Bow
 			projectile.friendly = true;
 			projectile.ranged = true;
 		}
-		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-		{
-			if (targetHitbox.Width > 4 && targetHitbox.Height > 4)
-			{
-				targetHitbox.Inflate(-targetHitbox.Width / 4, -targetHitbox.Height / 4);
-			}
-			return projHitbox.Intersects(targetHitbox);
-		}
 
 		static readonly int gravitytimer = 30;
 

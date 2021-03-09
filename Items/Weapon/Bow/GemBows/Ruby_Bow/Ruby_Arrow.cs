@@ -25,14 +25,6 @@ namespace SpiritMod.Items.Weapon.Bow.GemBows.Ruby_Bow
 			projectile.friendly = true;
 			projectile.ranged = true;
 		}
-		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-		{
-			if (targetHitbox.Width > 4 && targetHitbox.Height > 4)
-			{
-				targetHitbox.Inflate(-targetHitbox.Width / 4, -targetHitbox.Height / 4);
-			}
-			return projHitbox.Intersects(targetHitbox);
-		}
 		int num = 2;
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{

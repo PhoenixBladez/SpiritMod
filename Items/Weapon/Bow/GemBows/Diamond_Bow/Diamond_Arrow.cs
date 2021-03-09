@@ -26,14 +26,6 @@ namespace SpiritMod.Items.Weapon.Bow.GemBows.Diamond_Bow
 			projectile.friendly = true;
 			projectile.ranged = true;
 		}
-		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-		{
-			if (targetHitbox.Width > 4 && targetHitbox.Height > 4)
-			{
-				targetHitbox.Inflate(-targetHitbox.Width / 4, -targetHitbox.Height / 4);
-			}
-			return projHitbox.Intersects(targetHitbox);
-		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			SpriteEffects effects1 = SpriteEffects.None;
@@ -116,7 +108,7 @@ namespace SpiritMod.Items.Weapon.Bow.GemBows.Diamond_Bow
 				int i = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 91, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[i].noGravity = true;
 			}
-			Main.PlaySound(42, (int)projectile.position.X, (int)projectile.position.Y, 193, 1f, -0.2f);
+			Main.PlaySound(SoundID.Trackable, (int)projectile.position.X, (int)projectile.position.Y, 193, 1f, -0.2f);
 		}
 	}
 }
