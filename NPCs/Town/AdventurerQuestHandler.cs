@@ -553,6 +553,9 @@ namespace SpiritMod.NPCs.Town
                 if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ValkyrieSlayerScrollEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ValkyrieSlayerScrollEmpty>());
 			};
+			slayerQuestValkyrie.CanGiveQuest = () => {
+				return NPC.downedBoss1;
+			};
 
 			Quest slayerQuestAntlion = RegisterQuest(ModContent.ItemType<AntlionSlayerScrollFull>(),
 
@@ -610,6 +613,9 @@ namespace SpiritMod.NPCs.Town
 
                 if (!Main.LocalPlayer.HasItem(ModContent.ItemType<DrBonesSlayerScrollEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<DrBonesSlayerScrollEmpty>());
+			};
+			slayerQuestDrBones.CanGiveQuest = () => {
+				return NPC.downedBoss1;
 			};
 
 			Quest slayerQuestWheezers = RegisterQuest(ModContent.ItemType<WheezerSlayerScrollFull>(),
