@@ -58,7 +58,14 @@ namespace SpiritMod.Items.Weapon.Bow.GemBows.Emerald_Bow
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.SilverBow, 1);
-			recipe.AddIngredient(179, 8);
+			recipe.AddIngredient(ItemID.Emerald, 8);
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+
+			ModRecipe recipe1 = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.TungstenBow, 1);
+			recipe.AddIngredient(ItemID.Emerald, 8);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

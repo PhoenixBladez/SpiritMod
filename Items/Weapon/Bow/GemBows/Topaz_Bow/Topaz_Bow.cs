@@ -54,11 +54,18 @@ namespace SpiritMod.Items.Weapon.Bow.GemBows.Topaz_Bow
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.IronBow, 1);
-			recipe.AddIngredient(180, 8);
+			recipe.AddIngredient(ItemID.CopperBow, 1);
+			recipe.AddIngredient(ItemID.Topaz, 8);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
+
+			ModRecipe recipe1 = new ModRecipe(mod);
+			recipe1.AddIngredient(ItemID.TinBow, 1);
+			recipe1.AddIngredient(ItemID.Topaz, 8);
+			recipe1.AddTile(TileID.Anvils);
+			recipe1.SetResult(this);
+			recipe1.AddRecipe();
 		}
 	}
 }

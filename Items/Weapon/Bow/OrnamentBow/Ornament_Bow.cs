@@ -10,14 +10,14 @@ namespace SpiritMod.Items.Weapon.Bow.OrnamentBow
 		public override void SetDefaults()
 		{
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useAnimation = 42;
-			item.useTime = 42;
+			item.useAnimation = 32;
+			item.useTime = 32;
 			item.width = 12;
 			item.height = 28;
 			item.shoot = ProjectileID.WoodenArrowFriendly;
 			item.useAmmo = AmmoID.Arrow;
 			item.UseSound = SoundID.Item5;
-			item.damage = 22;
+			item.damage = 19;
 			item.shootSpeed = 10f;
 			item.knockBack = 6.5f;
 			item.rare = ItemRarityID.Orange;
