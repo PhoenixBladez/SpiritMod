@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Armor
 
 		public override void UpdateArmorSet(Player player)
 		{
-			player.setBonus = "Double tap in a direction to dash and envelop yourself in a tornado, damaging any enemies caught within it";
+			player.setBonus = "Double tap in a direction to dash and envelop yourself in a tornado";
 			player.GetSpiritPlayer().chitinSet = true;
 
 			if (player.velocity.X != 0f) {
