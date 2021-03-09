@@ -1504,7 +1504,7 @@ namespace SpiritMod.World
 
 			for (int C = 0; C < Main.maxTilesX * 10; C++) {
 				int X = WorldGen.genRand.Next(300, Main.maxTilesX - 300);
-				int Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
+				int Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY - 200);
 				if (Main.tile[X, Y].type == TileID.Stone) {
 					WorldGen.PlaceObject(X, Y, ModContent.TileType<ExplosiveBarrelTile>());
 					NetMessage.SendObjectPlacment(-1, X, Y, ModContent.TileType<ExplosiveBarrelTile>(), 0, 0, -1, -1);
