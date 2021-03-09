@@ -696,6 +696,11 @@ namespace SpiritMod.NPCs
 					shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Placeable.Tiles.HalloweenGrass>(), false);
 					nextSlot++;
 				}
+				
+				if (Main.LocalPlayer.GetSpiritPlayer().ZoneReach) {
+					shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Placeable.Tiles.BriarGrassSeeds>(), false);
+					nextSlot++;
+				}
 			}
 			else if (type == NPCID.Clothier) {
 				shop.item[nextSlot].SetDefaults(ModContent.ItemType<TheCouch>(), false);
