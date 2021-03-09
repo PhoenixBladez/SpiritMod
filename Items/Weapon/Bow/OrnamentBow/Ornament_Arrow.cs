@@ -25,14 +25,6 @@ namespace SpiritMod.Items.Weapon.Bow.OrnamentBow
 			projectile.friendly = true;
 			projectile.ranged = true;
 		}
-		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-		{
-			if (targetHitbox.Width > 4 && targetHitbox.Height > 4)
-			{
-				targetHitbox.Inflate(-targetHitbox.Width / 4, -targetHitbox.Height / 4);
-			}
-			return projHitbox.Intersects(targetHitbox);
-		}
 		public override void AI()
 		{
 			for (int i = 0; i < 1; i++)
@@ -190,8 +182,8 @@ namespace SpiritMod.Items.Weapon.Bow.OrnamentBow
 				}
 				float positionX = Main.rand.Next(-80, 80);
 				float positionY = Main.rand.Next(-60, -20);
-				int a = Projectile.NewProjectile(player.Center.X + positionX, player.Center.Y + positionY, 0f, 0f, arrowType, player.HeldItem.damage, 2f, player.whoAmI);
-				Vector2 vector2_2 = Vector2.Normalize(new Vector2(projectile.Center.X, projectile.Center.Y) - Main.projectile[a].Center) * (float)Main.rand.Next(12, 14);
+				int a = Projectile.NewProjectile(player.Center.X + positionX, player.Center.Y + positionY, 0f, 0f, arrowType, player.HeldItem.damage / 2, 2f, player.whoAmI);
+				Vector2 vector2_2 = Vector2.Normalize(new Vector2(projectile.Center.X, projectile.Center.Y) - Main.projectile[a].Center) * (float)Main.rand.Next(14, 18);
 				Main.projectile[a].velocity = vector2_2;
 				float index = 16f;
 				for (int index1 = 0; (double)index1 < (double)index; ++index1) {
@@ -206,6 +198,8 @@ namespace SpiritMod.Items.Weapon.Bow.OrnamentBow
 				}
 			}
 		}
+
+		public override void Kill(int timeLeft) => Main.PlaySound(SoundID.Trackable, (int)projectile.position.X, (int)projectile.position.Y, 193, 1f, -0.2f);
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => SpawnArrows();
 

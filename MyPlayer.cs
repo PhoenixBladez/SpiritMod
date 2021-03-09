@@ -2978,11 +2978,7 @@ namespace SpiritMod
 						Main.dust[dust].velocity *= 0.1f;
 						Main.dust[dust].scale *= 1f + Main.rand.Next(20) * 0.01f;
 					}
-					var targets = Main.npc.Where(x => x.CanBeChasedBy(this) && x.Hitbox.Intersects(player.Hitbox) && x.immune[player.whoAmI] == 0);
-					foreach(NPC npc in targets) {
-						npc.StrikeNPC((int)(12 * Main.rand.NextFloat(0.9f, 1.2f)), 1, player.direction, Main.rand.NextBool(25));
-						npc.immune[player.whoAmI] = 10;
-					}
+
 					ChitinDashTicks = 20;
 					player.noKnockback = true;
 					speedCap = speedMax;
@@ -3086,7 +3082,7 @@ namespace SpiritMod
 			}
 			else if (dash == DashType.Chitin) {
 				velocity *= 20;
-				Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/BossSFX/Scarab_Roar1").WithPitchVariance(0.2f).WithVolume(0.6f), player.Center);
+				Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/BossSFX/Scarab_Roar1").WithPitchVariance(0.2f).WithVolume(0.3f), player.Center);
 				for(int i = 0; i < 16; i++) {
 					Dust.NewDust(player.position, player.width, player.height, mod.DustType("SandDust"), Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1), Scale: Main.rand.NextFloat(1, 2));
 				}
