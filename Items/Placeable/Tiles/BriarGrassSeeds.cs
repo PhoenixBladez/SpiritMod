@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Placeable
+namespace SpiritMod.Items.Placeable.Tiles
 {
 	public class BriarGrassSeeds : ModItem
 	{
