@@ -26,6 +26,13 @@ namespace SpiritMod
 			return damageTypes.Min();
 		}
 
+		public static bool WithinPlacementRange(this Player player, int x, int y) =>
+			player.position.X / 16f - Player.tileRangeX - player.inventory[player.selectedItem].tileBoost - player.blockRange <= x
+			&& (player.position.X + player.width) / 16f + Player.tileRangeX + player.inventory[player.selectedItem].tileBoost - 1f + player.blockRange >= x
+			&& player.position.Y / 16f - Player.tileRangeY - player.inventory[player.selectedItem].tileBoost - player.blockRange <= y
+			&& (player.position.Y + player.height) / 16f + Player.tileRangeY + player.inventory[player.selectedItem].tileBoost - 2f + player.blockRange >= y;
+		
+
 		public static Vector2 NextVec2CircularEven(this UnifiedRandom rand, float halfWidth, float halfHeight)
 		{
 			double x = rand.NextDouble();
