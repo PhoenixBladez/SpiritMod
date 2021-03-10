@@ -12,6 +12,7 @@ namespace SpiritMod.Items.Weapon.Thrown.BubbleMine
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bubble Mine");
+			Tooltip.SetDefault("Right-click to make bubble mines detonate");
 		}
 
 
@@ -28,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Thrown.BubbleMine
 			item.knockBack = 1.0f;
 			item.value = Terraria.Item.sellPrice(0, 0, 0, 10);
 			item.crit = 6;
-			item.rare = ItemRarityID.Pink;
+			item.rare = ItemRarityID.Orange;
 			item.ranged = true;
 			item.autoReuse = false;
 		}
@@ -44,10 +45,7 @@ namespace SpiritMod.Items.Weapon.Thrown.BubbleMine
 	}
 	public class BubbleMineProj : ModProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Bubble Mine");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Bubble Mine");
 
 		public override void SetDefaults()
 		{
@@ -66,8 +64,11 @@ namespace SpiritMod.Items.Weapon.Thrown.BubbleMine
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			for (float i = 0; i <= 6.28f; i+= Main.rand.NextFloat(0.5f,2))
 			{
-				Projectile.NewProjectile(projectile.Center, i.ToRotationVector2() * Main.rand.NextFloat(), ModContent.ProjectileType<BubbleMineBubble>(), (int)(projectile.damage * 0.7f), projectile.knockBack, projectile.owner);
+				Projectile.NewProjectile(projectile.Center, i.ToRotationVector2() * Main.rand.NextFloat(), ModContent.ProjectileType<BubbleMineBubble>(), (int)(projectile.damage * 0.5f), projectile.knockBack, projectile.owner);
 			}
+
+			for (int i = 0; i < 8; i++)
+				Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 54, Scale: Main.rand.NextFloat(1f, 1.5f)).noGravity = true;
 		}
 
 
@@ -98,7 +99,7 @@ namespace SpiritMod.Items.Weapon.Thrown.BubbleMine
 						num416++;
 					}
 
-					if (num416 > 15) {
+					if (num416 > 5) {
 						projectile.netUpdate = true;
 						projectile.Kill();
 						return;
@@ -128,21 +129,16 @@ namespace SpiritMod.Items.Weapon.Thrown.BubbleMine
 			projectile.timeLeft = 200;
 			projectile.alpha = 110;
 			projectile.extraUpdates = 1;
+			projectile.scale = Main.rand.NextFloat(0.7f, 1.3f);
 		}
 
 		public override void AI()
 		{
-			if (projectile.timeLeft == 200) {
-				projectile.scale = Main.rand.NextFloat(0.7f, 1.3f);
-			}
-			projectile.velocity.X *= 0.99f;
-			projectile.velocity.Y -= 0.015f;
+			
+			projectile.velocity.X *= 0.9925f;
+			projectile.velocity.Y -= 0.012f;
 		}
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			target.immune[projectile.owner] = 0;
-			projectile.Kill();
-		}
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => projectile.Kill();
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 54);

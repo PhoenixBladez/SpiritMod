@@ -5,6 +5,10 @@ using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using SpiritMod.Items.GamblerChestLoot.Jem;
+using SpiritMod.Items.GamblerChestLoot.FunnyFirework;
+using SpiritMod.Items.GamblerChestLoot.Champagne;
+using SpiritMod.Items.GamblerChestLoot.GildedMustache;
 
 namespace SpiritMod.Items.Consumable.GamblerChests.GamblerChestNPCs
 {
@@ -119,7 +123,22 @@ namespace SpiritMod.Items.Consumable.GamblerChests.GamblerChestNPCs
                     Main.item[item].velocity = Vector2.UnitY.RotatedBy(Main.rand.NextFloat(1.57f, 4.71f)) * 4;
                     Main.item[item].velocity.Y /= 2;
                 }
-            }
+
+				if (counter == 50) {
+					npc.DropItem(ModContent.ItemType<Jem>(), 0.01f);
+					npc.DropItem(ModContent.ItemType<FunnyFirework>(), 0.08f, Main.rand.Next(5, 9));
+					npc.DropItem(ItemID.AngelStatue, 0.02f);
+					npc.DropItem(ModContent.ItemType<Champagne>(), 0.08f, Main.rand.Next(1, 3));
+					switch (Main.rand.NextBool()) { //mutually exclusive
+						case true:
+							npc.DropItem(ModContent.ItemType<GildedMustache>(), 0.05f);
+							break;
+						case false:
+							npc.DropItem(ModContent.ItemType<GildedMustache>(), 0.05f); //replace with staff
+							break;
+					}
+				}
+			}
             if (rightClicked && npc.velocity.Y == 0 && counter < 0)
                 {
                     npc.rotation = 0;

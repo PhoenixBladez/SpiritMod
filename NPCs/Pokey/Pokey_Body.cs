@@ -34,24 +34,25 @@ namespace SpiritMod.NPCs.Pokey
                 npc.frame.Y = 32;
             }
         }
-        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+
+		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = 75;
+
+		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 
 			if (Main.tileSand[spawnInfo.spawnTileType])
 				return SpawnCondition.OverworldDayDesert.Chance * 0.35f;
 			return 0;
 		}
-        private int UpperChain
-        {
-            get{return (int)npc.ai[0];}
-            set{npc.ai[0] = value;}
-        }
-        private int LowerChain
-        {
-            get{return (int)npc.ai[1];}
-            set{npc.ai[1] = value;}
-        }
-        private int QueueFromBottom()
+        private int UpperChain {
+			get => (int)npc.ai[0];
+			set => npc.ai[0] = value;
+		}
+		private int LowerChain {
+			get => (int)npc.ai[1];
+			set => npc.ai[1] = value;
+		}
+		private int QueueFromBottom()
         {
             int ret = 0;
             int bottomChain = LowerChain;
@@ -233,7 +234,7 @@ namespace SpiritMod.NPCs.Pokey
         }
         private void GoTo(float pos) 
         {
-            float lerpspeed = (Math.Abs(npc.position.Y - pos) > npc.height) ? 0.45f : 0.15f;
+            float lerpspeed = (Math.Abs(npc.position.Y - pos) > (npc.height / 2)) ? 0.45f : 0.15f;
             npc.position.Y = MathHelper.Lerp(npc.position.Y, pos, lerpspeed); 
         }
         private void Delete()
@@ -277,7 +278,19 @@ namespace SpiritMod.NPCs.Pokey
             Tail.velocity.X = hitDirection * 2;
         }
 
-        public override void NPCLoot()
+		public override bool CheckDead()
+		{
+			try {
+				if (QueueFromBottom() != 0 || (Head.active && Head.life > 0))
+					Delete();
+			}
+			catch (System.Exception) {
+				throw new Exception("It's in delete number " + QueueFromBottom().ToString());
+			}
+			return true;
+		}
+
+		public override void NPCLoot()
         {
             if(Head.active && Head.life > 0) //no overlapping death sfx on head kill
                 Main.PlaySound(SoundID.Dig, (int)npc.Center.X, (int)npc.Center.Y, 1, 1f, -0.25f);
@@ -295,15 +308,6 @@ namespace SpiritMod.NPCs.Pokey
                     Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/PokeyGores/PokeyHead_Gore1"), 1f);
                     Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/PokeyGores/PokeyHead_Gore2"), 1f);
                     break;
-            }
-            try
-            {
-                if (QueueFromBottom() != 0 || (Head.active && Head.life > 0))
-                    Delete();
-            }
-            catch (System.Exception)
-            {
-                throw new Exception("It's in delete number " + QueueFromBottom().ToString());
             }
         }
     }

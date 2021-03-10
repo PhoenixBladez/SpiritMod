@@ -1,13 +1,8 @@
-﻿using Terraria.ModLoader;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Terraria;
-using System.Collections.Generic;
 using System.Linq;
 using System;
-using static Terraria.ModLoader.ModContent;
-using System.Reflection;
-using SpiritMod.NPCs.Hell;
 
 namespace SpiritMod.Prim
 {

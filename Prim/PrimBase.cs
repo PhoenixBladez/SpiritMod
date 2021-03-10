@@ -13,8 +13,8 @@ namespace SpiritMod.Prim
 {
     public class PrimTrailManager
 	{
-		public static int DrawProjectile = 1;
-		public static int DrawNPC = 2;
+		public const int DrawProjectile = 1;
+		public const int DrawNPC = 2;
 		public List<PrimTrail> _trails = new List<PrimTrail>();
         public void DrawTrailsNPC(SpriteBatch spriteBatch)
         {

@@ -18,10 +18,10 @@ namespace SpiritMod
 			Item.NewItem(ent.Hitbox, type, stack);
 		}
 
-		public static void DropItem(this Entity ent, int type, float chance)
+		public static void DropItem(this Entity ent, int type, float chance, int stack = 1)
 		{
 			if (Main.rand.NextDouble() < chance) {
-				Item.NewItem(ent.Hitbox, type);
+				Item.NewItem(ent.Hitbox, type, stack);
 			}
 		}
 

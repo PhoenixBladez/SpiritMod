@@ -5,6 +5,10 @@ using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using SpiritMod.Items.GamblerChestLoot.Jem;
+using SpiritMod.Items.GamblerChestLoot.FunnyFirework;
+using SpiritMod.Items.GamblerChestLoot.Champagne;
+using SpiritMod.Items.GamblerChestLoot.GildedMustache;
 
 namespace SpiritMod.Items.Consumable.GamblerChests.GamblerChestNPCs
 {
@@ -109,7 +113,22 @@ namespace SpiritMod.Items.Consumable.GamblerChests.GamblerChestNPCs
                     Main.item[item].velocity = Vector2.UnitY.RotatedBy(Main.rand.NextFloat(1.57f, 4.71f)) * 4;
                     Main.item[item].velocity.Y /= 2;
                 }
-            }
+
+				if (counter == 25) {
+					npc.DropItem(ModContent.ItemType<Jem>(), 0.005f);
+					npc.DropItem(ModContent.ItemType<FunnyFirework>(), 0.07f, Main.rand.Next(5, 9));
+					npc.DropItem(ItemID.AngelStatue, 0.03f);
+					npc.DropItem(ModContent.ItemType<Champagne>(), 0.06f, Main.rand.Next(1, 3));
+					switch (Main.rand.NextBool()) { //mutually exclusive
+						case true:
+							npc.DropItem(ModContent.ItemType<GildedMustache>(), 0.03f);
+							break;
+						case false:
+							npc.DropItem(ModContent.ItemType<GildedMustache>(), 0.03f); //replace with staff
+							break;
+					}
+				}
+			}
         }
     }
 }

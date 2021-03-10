@@ -1,18 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Reflection;
 
 using Terraria;
 using Terraria.ID;
-using Terraria.World.Generation;
-using Terraria.GameContent.Generation;
 using Terraria.ModLoader;
-using Terraria.Utilities;
-
-using ReLogic.Graphics;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -127,6 +118,33 @@ namespace SpiritMod
 							dustX *= size;
 							dustY *= size;
 							Dust.NewDustPerfect(position, dustType, new Vector2((float)dustX, (float)dustY).RotatedBy(rotation)).noGravity = noGravity;
+						}
+					}
+				}
+			}
+		}
+
+		public static void DrawDustImageRainbow(Vector2 position, float size, string imagePath, float dustSize = 1f, bool noGravity = true, float rot = 0.34f)
+		{
+			int red = Main.rand.Next(60, 255);
+			int green = Main.rand.Next(60, 255);
+			int blue = Main.rand.Next(60, 255);
+			Color color = new Color(red, green, blue);
+			if (Main.netMode != NetmodeID.Server) {
+				float rotation = Main.rand.NextFloat(0 - rot, rot);
+				Texture2D glyphTexture = ModContent.GetTexture(imagePath);
+				Color[] data = new Color[glyphTexture.Width * glyphTexture.Height];
+				glyphTexture.GetData(data);
+				for (int i = 0; i < glyphTexture.Width; i += 2) {
+					for (int j = 0; j < glyphTexture.Height; j += 2) {
+						Color alpha = data[j * glyphTexture.Width + i];
+						if (alpha == new Color(0, 0, 0)) {
+							double dustX = (i - (glyphTexture.Width / 2));
+							double dustY = (j - (glyphTexture.Height / 2));
+							dustX *= size;
+							dustY *= size;
+							Vector2 dir = new Vector2((float)dustX, (float)dustY).RotatedBy(rotation);
+							Dust.NewDustPerfect(position, 267, dir, 0, color, dustSize).noGravity = noGravity;
 						}
 					}
 				}
