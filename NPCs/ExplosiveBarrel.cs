@@ -56,6 +56,10 @@ namespace SpiritMod.NPCs
                 {
                     Explode();
                 }
+				if (Main.netMode != NetmodeID.Server)
+				{
+					npc.rotation += Main.rand.NextFloat(-0.03f,0.03f);
+				}
             }
             Lighting.AddLight(new Vector2(npc.Center.X, npc.Center.Y), 0.242f/4*3, 0.132f/4*3, 0.068f/4*3);
         }
@@ -71,7 +75,7 @@ namespace SpiritMod.NPCs
         }
         public void Explode()
 		{
-            Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<BarrelExplosionLarge>(), 100, 8, Main.myPlayer);
+            Projectile.NewProjectile(new Vector2(npc.Center.X, npc.Center.Y - 48), Vector2.Zero, ModContent.ProjectileType<BarrelExplosionLarge>(), 100, 8, Main.myPlayer);
             npc.active = false;
    
         }

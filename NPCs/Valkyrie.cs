@@ -120,7 +120,7 @@ namespace SpiritMod.NPCs
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.sky && !NPC.AnyNPCs(ModContent.NPCType<Valkyrie>()) ? 0.06f : 0f;
+			return spawnInfo.sky && !NPC.AnyNPCs(ModContent.NPCType<Valkyrie>()) ? 0.09f : 0f;
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{

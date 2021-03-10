@@ -70,11 +70,11 @@ namespace SpiritMod.Items.Weapon.Bow.GemBows.Sapphire_Bow
 			recipe.AddRecipe();
 
 			ModRecipe recipe1 = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.LeadBow, 1);
-			recipe.AddIngredient(ItemID.Sapphire, 8);
-			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe1.AddIngredient(ItemID.LeadBow, 1);
+			recipe1.AddIngredient(ItemID.Sapphire, 8);
+			recipe1.AddTile(TileID.Anvils);
+			recipe1.SetResult(this);
+			recipe1.AddRecipe();
 		}
 	}
 }

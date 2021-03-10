@@ -10,22 +10,24 @@ namespace SpiritMod.Projectiles.Hostile
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Explosion");
-			Main.projFrames[base.projectile.type] = 7;
+			Main.projFrames[base.projectile.type] = 10;
 		}
 
 		public override void SetDefaults()
 		{
 			projectile.hostile = true;
-			projectile.width = 196;
-			projectile.height = 200;
-			projectile.timeLeft = 10;
+			projectile.width = 149;
+			projectile.height = 170;
+			projectile.timeLeft = 30;
 			projectile.tileCollide = false;
 			projectile.friendly = true;
 			projectile.penetrate = -1;
-            projectile.hide = true;
 		}
-		public override void Kill(int timeLeft)
+	
+    	public override void AI()
         {
+            if (projectile.timeLeft == 29)
+            {
             Main.PlaySound(2, projectile.Center, 14);
             Main.PlaySound(3, projectile.Center, 4);
             for (int num625 = 0; num625 < 2; num625++)
@@ -59,19 +61,18 @@ namespace SpiritMod.Projectiles.Hostile
             {
                 Dust d = Dust.NewDustPerfect(projectile.Center, 6, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(4), 0, default, Main.rand.NextFloat(0.875f, 1.61f));
             }
+            }
+            projectile.frameCounter++;
+			if (projectile.frameCounter >= 3) {
+				projectile.frame++;
+				projectile.frameCounter = 0;
+				if (projectile.frame >= 10)
+					projectile.frame = 0;
+			}
         }
-
-		//public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		//{
-		//    Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-		//    for (int k = 0; k < projectile.oldPos.Length; k++)
-		//    {
-		//        Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-		//        Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-		//        spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
-		//    }
-		//    return true;
-		//}
-
+        public override Color? GetAlpha(Color lightColor)
+		{
+			return Color.White;
+		}
 	}
 }
