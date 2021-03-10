@@ -65,5 +65,22 @@ namespace SpiritMod
             float y = Y(t, startingPos.Y, c1.Y, endPoints.Y);
             return new Vector2(x, y);
         }
+        public static List<Vector2> GetBezier(Vector2 endpoint, Vector2 startPoint, Vector2 c1, Vector2 c2, float chains)
+		{
+			List<Vector2> points = new List<Vector2>();
+			float length = (startPoint - endpoint).Length();
+			for (float i = 0; i <= 1; i += 1f / chains)
+			{
+				float sin = 1 + (float)Math.Sin(i * length / 10);
+				float cos = 1 + (float)Math.Cos(i * length / 10);
+				if (i != 0)
+				{
+					float x = X(i, startPoint.X, c1.X, c2.X, endpoint.X);
+					float y = Y(i, startPoint.Y, c1.Y, c2.Y, endpoint.Y);
+					points.Add(new Vector2(x, y));
+				}
+			}
+			return points;
+		}
     }
 }

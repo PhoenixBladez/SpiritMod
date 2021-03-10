@@ -78,10 +78,11 @@ namespace SpiritMod.NPCs.MoonjellyEvent
             {
                 if (Main.rand.NextBool(3))
                 {
-                    if (Main.rand.NextBool(9))
+                    if (Main.rand.NextBool(6))
                     {
-                        tremorItem = ModContent.ItemType<Items.Weapon.Summon.ElectricGun.ElectricGun>();
+                        tremorItem = Main.rand.Next(new int[] {ModContent.ItemType<Items.Weapon.Summon.ElectricGun.ElectricGun>(), ModContent.ItemType<Items.Weapon.Magic.Arclash.ArcLash>()});
                     }
+                    
 					else
                     {
                         tremorItem = Main.rand.Next(new int[] { 19, 20, 21, 22, ModContent.ItemType<Items.Placeable.Tiles.SpaceJunkItem>(), 286, ModContent.ItemType<Items.Placeable.Tiles.AsteroidBlock>() });
@@ -94,7 +95,7 @@ namespace SpiritMod.NPCs.MoonjellyEvent
         }
         public override void NPCLoot()
         {
-            if (tremorItem == ModContent.ItemType<Items.Weapon.Summon.ElectricGun.ElectricGun>())
+            if (tremorItem == ModContent.ItemType<Items.Weapon.Summon.ElectricGun.ElectricGun>() || tremorItem == ModContent.ItemType<Items.Weapon.Magic.Arclash.ArcLash>())
             {
                 npc.DropItem(tremorItem);
             }

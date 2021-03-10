@@ -38,6 +38,10 @@ namespace SpiritMod.Prim
                 {
                     effect.Parameters["ripperTexture"].SetValue(GetInstance<SpiritMod>().GetTexture("Textures/RipperSlug"));
                 }
+                if (effect.HasParameter("arcLashColorTwo"))
+                {
+                    effect.Parameters["arcLashColorTwo"].SetValue(new Vector3(1.0f, 1.0f, 1.0f));
+                }
                 try
                 {
                     effect.Parameters["progress"].SetValue(progressParam);

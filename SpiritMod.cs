@@ -77,6 +77,7 @@ namespace SpiritMod
 		public static Effect StarfirePrims;
 		public static Effect ScreamingSkullTrail;
 		public static Effect RipperSlugShader;
+		public static Effect ArcLashShader;
 		public static Effect JemShaders;
 		public static PerlinNoise GlobalNoise;
 		public static GlitchScreenShader glitchScreenShader;
@@ -583,6 +584,7 @@ namespace SpiritMod
 				StarfirePrims = instance.GetEffect("Effects/StarfirePrims");
 				ScreamingSkullTrail = instance.GetEffect("Effects/ScreamingSkullTrail");
 				 RipperSlugShader = instance.GetEffect("Effects/RipperSlugShader");
+				 ArcLashShader = instance.GetEffect("Effects/ArcLashShader");
 				JemShaders = instance.GetEffect("Effects/JemShaders");
 
 				SkyManager.Instance["SpiritMod:AuroraSky"] = new AuroraSky();
@@ -736,6 +738,7 @@ namespace SpiritMod
 			StarfirePrims = null;
 			ScreamingSkullTrail = null;
 			RipperSlugShader = null;
+			ArcLashShader = null;
 			JemShaders = null;
 			noise = null;
 			instance = null;
