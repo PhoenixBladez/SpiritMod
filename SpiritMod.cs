@@ -196,6 +196,7 @@ namespace SpiritMod
 						int npcID = NPC.NewNPC(npcCenterX, npcCenterY, bossType);
 						Main.npc[npcID].Center = new Vector2(npcCenterX, npcCenterY);
 						Main.npc[npcID].netUpdate2 = true;
+						NetMessage.BroadcastChatMessage(NetworkText.FromKey("Announcement.HasAwoken", Main.npc[npcID].GetTypeNetName()), new Color(175, 75, 255));
 					}
 					break;
 				case MessageType.TideData:

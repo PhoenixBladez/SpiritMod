@@ -1,25 +1,18 @@
-﻿using IL.Terraria.UI;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Effects;
 using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Items.Boss;
 using SpiritMod.Items.BossBags;
 using SpiritMod.Items.Equipment;
 using SpiritMod.Items.Material;
-using SpiritMod.Items.Weapon.Bow;
 using SpiritMod.Items.Weapon.Bow.AdornedBow;
-using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Summon.LocustCrook;
-using SpiritMod.Items.Weapon.Swung;
 using SpiritMod.Items.Weapon.Swung.Khopesh;
 using System;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using Terraria;
 using Terraria.GameContent.Events;
-using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -82,14 +75,18 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			Player player = Main.player[npc.target];
 			canhitplayer = false; //default to being unable to hit the player at the start of each tick, overrided depending on attack pattern
 
-			if (frame >= 18 && frame < 21)
-				SpiritMod.scarabWings.SetTo(Main.ambientVolume * MathHelper.Clamp((800 - npc.Distance(Main.player[Main.myPlayer].Center)) / 400f, 0, 1));
-			else
-				SpiritMod.scarabWings.Stop();
+			if (Main.netMode != NetmodeID.Server) {
+				if (frame >= 18 && frame < 21)
+					SpiritMod.scarabWings.SetTo(Main.ambientVolume * MathHelper.Clamp((800 - npc.Distance(Main.LocalPlayer.Center)) / 400f, 0, 1));
+				else
+					SpiritMod.scarabWings.Stop();
+			}
 			
 
 			if (player.dead || !player.active) {
 				npc.timeLeft = 10;
+				Digging(player);
+				AiTimer = 0;
 				npc.velocity.Y = 10;
 				return;
 			}
@@ -172,6 +169,12 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				frame = minframe;
 		}
 
+		private void SyncNPC()
+		{
+			if (Main.netMode != NetmodeID.SinglePlayer)
+				NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc.whoAmI);
+		}
+
 		private void NextAttack(bool skipto4 = false) //reset most variables and netupdate to sync the boss in multiplayer
 		{
 			trailbehind = false;
@@ -190,7 +193,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			BaseVel = Vector2.UnitX;
 			statictarget[0] = Vector2.Zero;
 			statictarget[1] = Vector2.Zero;
-			npc.netUpdate = true;
+			SyncNPC();
 		}
 		private void StepUp(Player player)
 		{
@@ -211,6 +214,13 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			writer.Write(trailbehind);
 			writer.Write(hasjumped);
 			writer.WriteVector2(BaseVel);
+			writer.Write(extraYoff);
+			writer.Write(canhitplayer);
+			writer.Write(npc.knockBackResist);
+			writer.Write(npc.rotation);
+			writer.Write(frame);
+			writer.Write(timer);
+			writer.Write(skiptimer);
 			foreach (Vector2 vector in statictarget)
 				writer.WriteVector2(vector);
 		}
@@ -219,9 +229,23 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			trailbehind = reader.ReadBoolean();
 			hasjumped = reader.ReadBoolean();
 			BaseVel = reader.ReadVector2();
+			extraYoff = reader.ReadInt32();
+			canhitplayer = reader.ReadBoolean();
+			npc.knockBackResist = reader.ReadSingle();
+			npc.rotation = reader.ReadSingle();
+			frame = reader.ReadInt32();
+			timer = reader.ReadInt32();
+			skiptimer = reader.ReadSingle();
 			for (int i = 0; i < statictarget.Length; i++)
 				statictarget[i] = reader.ReadVector2();
 		}
+
+		public override int SpawnNPC(int tileX, int tileY)
+		{
+			npc.velocity.Y = 1;
+			return base.SpawnNPC(tileX, tileY);
+		}
+
 		private void Phase1(Player player)
 		{
 			Sandstorm.Happening = false;
@@ -275,17 +299,19 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			}
 
 			AiTimer++;
-			if (AiTimer > maxtime) 
-			{ 
-				NextAttack();
+			if (AiTimer > maxtime) {
 
-				if (AttackType == 4) //lazy hardcoded way to make it skip flying dashes but if it works it workss
+				if (AttackType == 3) //lazy hardcoded way to make it skip flying dashes but if it works it workss
 					AttackType++;
+
+				NextAttack();
 			}
 
 			StepUp(player);
-			if (npc.collideX)
+			if (npc.collideX) {
 				npc.velocity.X *= -1;
+				SyncNPC();
+			}
 
 			if (Main.rand.Next(500) == 0)
 				Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 44);
@@ -301,8 +327,10 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			if (AiTimer < 30) //slow down before jumping
 			{
 				StepUp(player);
-				if (npc.collideX)
+				if (npc.collideX) {
 					npc.velocity.X *= -1;
+					SyncNPC();
+				}
 
 				npc.velocity.X *= 0.9f;
 			}
@@ -347,7 +375,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 						Vector2 velocity = -Vector2.UnitY.RotatedBy(i * (float)Math.PI / 12);
 						velocity *= 10f;
 						velocity.Y += 2f;
-						Projectile.NewProjectile(npc.Center, velocity, mod.ProjectileType("ScarabSandball"), npc.damage / 4, 1f, Main.myPlayer, 0, player.position.Y);
+						Projectile.NewProjectileDirect(npc.Center, velocity, mod.ProjectileType("ScarabSandball"), npc.damage / 4, 1f, Main.myPlayer, 0, player.position.Y).netUpdate = true;
 					}
 				}
 			}
@@ -409,6 +437,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/BossSFX/Scarab_Roar1"), npc.Center);
 					trailbehind = true;
 					npc.velocity.X = MathHelper.Clamp(Math.Abs((player.Center.X - npc.Center.X)/30), 16, 32) * npc.direction;
+					SyncNPC();
 				}
 
 				if (npc.direction != npc.spriteDirection)
@@ -475,7 +504,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 					npc.velocity = -ToPlayer * 6;
 
 				else
-					npc.velocity *= 0.98f;
+					npc.velocity *= 0.975f;
 
 				canhitplayer = true;
 				if (AiTimer > 120 && AiTimer < 150 || AiTimer > 210)
@@ -521,6 +550,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 					AiTimer++;
 					Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 44, 1.5f, -1f);
 					npc.velocity = new Vector2(0, 0.25f);
+					SyncNPC();
 				}
 				else if (npc.velocity.Y <= 0) //check when the boss lands
 				{
@@ -532,6 +562,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 						SpiritMod.tremorTime = 15;
 						npc.velocity.Y = -3;
 						Main.PlaySound(SoundID.Item14, npc.Center);
+						SyncNPC();
 					}
 					npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0, 0.07f);
 					if (AiTimer % 7 == 0 && AiTimer < hometime + 61) { //make shockwaves ripple outwards, 2 spawn every 10 ticks, distance from boss is based on how many ticks have passed
@@ -587,6 +618,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			npc.rotation = Utils.AngleLerp(npc.rotation, targetrotation, 0.1f);
 			trailbehind = hasjumped;
 			if (InSolidTile) {
+
 				if (AiTimer % 20 == 0)
 					Main.PlaySound(SoundID.Roar, (int)npc.Center.X, (int)npc.Center.Y, 1);
 
@@ -621,15 +653,19 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				}
 				else if (AiTimer <= 200) { //if enough time has passed and the boss is in the ground, stop homing and pause its velocity
 					npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.1f);
-					if (AiTimer == 120 || AiTimer == 160)
+					if ((AiTimer == 120 || AiTimer == 160) && Main.netMode != NetmodeID.Server) 
 						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/BossSFX/Scarab_Roar1").WithVolume(0.5f).WithPitchVariance(0.2f), npc.Center);
 
 					if (AiTimer == 200) { //jump at the player
-						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/BossSFX/Scarab_Roar1"), npc.Center);
+
+						if (Main.netMode != NetmodeID.Server)
+							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/BossSFX/Scarab_Roar1"), npc.Center);
+
 						statictarget[0] = npc.Center;
 						statictarget[1] = player.Center;
 						npc.velocity = npc.DirectionTo(statictarget[1]) * MathHelper.Clamp(npc.Distance(statictarget[1]) / 40, 16, 20);
 						hasjumped = true;
+						SyncNPC();
 					}
 				}
 			}
@@ -1013,6 +1049,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		}
 
 		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.7143f * bossLifeScale);

@@ -4,12 +4,7 @@ using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Items.Consumable.Food;
-using System.IO;
-using Terraria.Audio;
 using System;
-using SpiritMod.Projectiles;
-using SpiritMod.Gores;
 using SpiritMod.Prim;
 
 namespace SpiritMod.NPCs.Hell
@@ -44,9 +39,11 @@ namespace SpiritMod.NPCs.Hell
 		Vector2 targetpos;
 
 		const int rechargetime = 180;
-		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.damage = 50;
-		public override void SendExtraAI(BinaryWriter writer) => writer.WriteVector2(targetpos);
-		public override void ReceiveExtraAI(BinaryReader reader) => targetpos = reader.ReadVector2();
+		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.damage = 60;
+		//public override void SendExtraAI(BinaryWriter writer) => writer.WriteVector2(targetpos);
+
+		//public override void ReceiveExtraAI(BinaryReader reader) => targetpos = reader.ReadVector2();
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.player.ZoneUnderworldHeight && NPC.downedBoss3 ? 0.04f : 0f;
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => npc.ai[2] > rechargetime;
 		public override void AI()
@@ -70,27 +67,32 @@ namespace SpiritMod.NPCs.Hell
 			}
 			else { //set its target position as the player's center when it starts its enrage, then dash to it once per frame cycle. If it's close enough to the target position, explode and retarget
 
-				if (npc.ai[2] <= rechargetime) {
+				if (npc.ai[2] <= rechargetime) { //todo: make target position only update on client side in multiplayer, then sync that to the server? since it seems like the server stores player positions differently
 					IdleMovement();
 					targetpos = player.Center;
+
 					npc.ai[2]++;
+
+					if (Main.netMode == NetmodeID.Server)
+						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc.whoAmI);
 				}
 				else {
 					if (npc.ai[3] == 0) {
-						SpiritMod.primitives.CreateTrail(new PrimFireTrail(npc, new Color(255, 170, 0), 26));
+						if (Main.netMode != NetmodeID.Server)
+							SpiritMod.primitives.CreateTrail(new PrimFireTrail(npc, new Color(255, 170, 0), 26));
+
 						npc.ai[3] = 1;
 					}
 
 					npc.spriteDirection = -Math.Sign(npc.velocity.X);
 
-					if(Main.rand.Next(4) == 0)
-						Gore.NewGorePerfect(npc.Center + Main.rand.NextVector2Circular(10, 10), npc.velocity.RotatedByRandom(MathHelper.Pi / 8) / 2, mod.GetGoreSlot("Gores/FireTrail"), Main.rand.NextFloat(0.7f, 1.2f));
-
-					if (Main.expertMode) {
+					if (Main.expertMode) 
 						targetpos = Vector2.Lerp(targetpos, player.Center, 0.03f);
-					}
+					
 					if (npc.ai[1] == 0) {
-						Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/skullscrem").WithPitchVariance(0.2f), npc.Center);
+						if(Main.netMode != NetmodeID.Server)
+							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/skullscrem").WithPitchVariance(0.2f), npc.Center);
+
 						npc.velocity = npc.DirectionTo(targetpos) * 14;
 						npc.ai[1]++;
 					}
@@ -105,11 +107,17 @@ namespace SpiritMod.NPCs.Hell
 						for (int i = 0; i < 6; i++) {
 							Gore.NewGore(npc.Center + Main.rand.NextVector2Square(-20, 20), Main.rand.NextVector2Circular(3, 3), 11);
 						}
-						Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("WrathBoom"), damage, 1, Main.myPlayer);
+
+						if(Main.netMode != NetmodeID.MultiplayerClient)
+							Projectile.NewProjectile(npc.Center, Vector2.Zero, mod.ProjectileType("WrathBoom"), damage, 1, Main.myPlayer);
+
 						npc.velocity = Vector2.Zero;
 						npc.ai[2] = 0;
 						npc.ai[3] = 0;
 					}
+
+					if (Main.netMode == NetmodeID.Server)
+						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc.whoAmI);
 
 					UpdateFrame(20, 6, 16);
 				}
@@ -118,8 +126,13 @@ namespace SpiritMod.NPCs.Hell
 		}
 		private void IdleMovement()
 		{
-			if (Main.rand.Next(10) == 0)
+			if (Main.rand.Next(10) == 0) {
 				npc.velocity = Main.rand.NextVector2Circular(0.75f, 0.75f);
+
+				if (Main.netMode == NetmodeID.Server)
+					NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc.whoAmI);
+			}
+
 			npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.1f);
 			UpdateFrame(10, 0, 5);
 		}

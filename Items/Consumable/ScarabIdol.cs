@@ -1,4 +1,5 @@
 
+using Microsoft.Xna.Framework;
 using SpiritMod.NPCs.Boss.Scarabeus;
 using Terraria;
 using Terraria.ID;
@@ -41,8 +42,23 @@ namespace SpiritMod.Items.Consumable
 
 		public override bool UseItem(Player player)
 		{
-			NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Scarabeus>());
-			Main.PlaySound(SoundID.Roar, player.position, 0);
+			if (Main.netMode != NetmodeID.MultiplayerClient)
+				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Scarabeus>());
+			else if (Main.netMode == NetmodeID.MultiplayerClient && player == Main.LocalPlayer) {
+				Vector2 spawnPos = player.Center;
+				int tries = 0;
+				int maxtries = 300;
+				while ((Vector2.Distance(spawnPos, player.Center) <= 200 || WorldGen.SolidTile((int)spawnPos.X / 16, (int)spawnPos.Y / 16) || WorldGen.SolidTile2((int)spawnPos.X / 16, (int)spawnPos.Y / 16) || WorldGen.SolidTile3((int)spawnPos.X / 16, (int)spawnPos.Y / 16)) && tries <= maxtries) {
+					spawnPos = player.Center + Main.rand.NextVector2Circular(800, 800);
+					tries++;
+				}
+
+				if (tries >= maxtries)
+					return false;
+
+				SpiritMod.WriteToPacket(SpiritMod.instance.GetPacket(), (byte)MessageType.BossSpawnFromClient, (byte)player.whoAmI, ModContent.NPCType<Scarabeus>(), (int)spawnPos.X, (int)spawnPos.Y).Send(-1);
+			}
+			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/BossSFX/Scarab_Roar1").WithVolume(0.3f), player.position);
 			return true;
 		}
 		public override void AddRecipes()
