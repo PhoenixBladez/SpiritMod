@@ -75,12 +75,13 @@ namespace SpiritMod.Projectiles.BaseProj
 			Player player = Main.player[projectile.owner];
 			player.ChangeDir(Main.MouseWorld.X > player.position.X ? 1 : -1);
 			player.heldProj = projectile.whoAmI;
-			projectile.timeLeft = 2;
 			player.itemTime = 2;
 			player.itemAnimation = 2;
+			projectile.timeLeft = Math.Min(projectile.timeLeft, player.HeldItem.useAnimation);
 			projectile.position = player.MountedCenter;
-			if (player.channel && !firing)
+			if (player.channel && !firing) 
 			{
+				projectile.timeLeft = Math.Max(projectile.timeLeft, 2);
 				if (charge < 1)
 				{
 					if ((charge + chargeRate) >= 1)
@@ -98,14 +99,6 @@ namespace SpiritMod.Projectiles.BaseProj
 			{
 				Shoot(!firing);
 				firing = true;
-				if (charge > 0)
-					charge-= dechargeRate;
-				else
-				{
-					projectile.active = false;
-					return;
-				}
-
 			}
 		}
 

@@ -34,7 +34,6 @@ namespace SpiritMod.Items.Weapon.Bow.AdornedBow
 			item.autoReuse = false;
 			item.shootSpeed = 6.5f;
 			item.crit = 8;
-			item.reuseDelay = 20;
 			item.channel = true;
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -60,7 +59,7 @@ namespace SpiritMod.Items.Weapon.Bow.AdornedBow
 			maxVelocity = 18;
 			predictor = -1;
 			chargeRate = 0.02f;
-			dechargeRate = 2;
+			dechargeRate = 1f;
 		}
 
 		protected override void Shoot(bool firstFire) 
