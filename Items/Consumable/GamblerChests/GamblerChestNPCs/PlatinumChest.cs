@@ -124,7 +124,8 @@ namespace SpiritMod.Items.Consumable.GamblerChests.GamblerChestNPCs
                     Main.item[item].velocity = Vector2.UnitY.RotatedBy(Main.rand.NextFloat(1.57f, 4.71f)) * 4;
                     Main.item[item].velocity.Y /= 2;
 
-					npc.DropItem(ModContent.ItemType<Jem>(), 0.02f);
+				}
+                npc.DropItem(ModContent.ItemType<Jem>(), 0.02f);
 					npc.DropItem(ModContent.ItemType<FunnyFirework>(), 0.1f, Main.rand.Next(5, 9));
 					npc.DropItem(ItemID.AngelStatue, 0.01f);
 					npc.DropItem(ModContent.ItemType<Champagne>(), 0.1f, Main.rand.Next(1, 3));
@@ -136,7 +137,6 @@ namespace SpiritMod.Items.Consumable.GamblerChests.GamblerChestNPCs
 							npc.DropItem(ModContent.ItemType<GildedMustache>(), 0.08f); //replace with staff
 							break;
 					}
-				}
                 npc.active = false;
                 Gore.NewGore(npc.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, mod.GetGoreSlot("Gores/GamblerChests/PlatinumChestGore1"), 1f);
                 Gore.NewGore(npc.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, mod.GetGoreSlot("Gores/GamblerChests/PlatinumChestGore2"), 1f);
