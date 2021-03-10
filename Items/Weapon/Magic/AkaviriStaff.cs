@@ -72,7 +72,7 @@ namespace SpiritMod.Items.Weapon.Magic
             }
             for (int I = 0; I < Main.rand.Next(1, 3); I++)
             {
-                int p = Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-180, 180) / 100), speedY + ((float)Main.rand.Next(-180, 180) / 100), type, damage, knockBack, player.whoAmI, 0f, 0f);
+                int p = Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-120, 120) / 100), speedY + ((float)Main.rand.Next(-120, 120) / 100), type, damage, knockBack, player.whoAmI, 0f, 0f);
                 Main.projectile[p].magic = true;
                 Main.projectile[p].hostile = false;
                 Main.projectile[p].friendly = true;

@@ -28,6 +28,7 @@ namespace SpiritMod.NPCs.DarkfeatherMage
 			npc.height = 40;
 			npc.damage = 16;
 			npc.defense = 15;
+			npc.rarity = 3;
 			npc.lifeMax = 600;
             npc.knockBackResist = .05f;
             npc.noGravity = true;

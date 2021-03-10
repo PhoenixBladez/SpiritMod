@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Accessory
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("High-Grav Boots");
-			Tooltip.SetDefault("Increases your gravity when falling and normalizes gravity in space\nBoosts horizontal momentum\nNegates fall damage");
+			Tooltip.SetDefault("Normalizes gravity in space\nHold DOWN to increase gravity and vertical momentum\nNegates fall damage");
 		}
 		public override void SetDefaults()
 		{
@@ -28,10 +28,13 @@ namespace SpiritMod.Items.Accessory
 			player.noFallDmg = true;
 			if (player.gravity < 0.4f)
 				player.gravity = 0.4f;
-			player.portalPhysicsFlag = true;
-			player._portalPhysicsTime = 2;
-			if (player.velocity.Y > 0 && !player.gravControl) {
-				Dust.NewDustPerfect(new Vector2(player.position.X + Main.rand.Next(player.width), player.position.Y + player.height - Main.rand.Next(7)), 206, Vector2.Zero);
+			if (player.controlDown)
+			{
+				player.portalPhysicsFlag = true;
+				player._portalPhysicsTime = 2;
+				if (player.velocity.Y > 0 && !player.gravControl) {
+					Dust.NewDustPerfect(new Vector2(player.position.X + Main.rand.Next(player.width), player.position.Y + player.height - Main.rand.Next(7)), 206, Vector2.Zero);
+				}
 			}
 		}
 	}

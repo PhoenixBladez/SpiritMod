@@ -30,11 +30,11 @@ namespace SpiritMod.Projectiles.Hostile
 			int distance1 = (int)Vector2.Distance(projectile.Center, player.Center);
 			if (distance1 < 80) {
 				player.AddBuff(BuffID.Poisoned, 480);
-			}
-			for (int npcFinder = 0; npcFinder < 200; ++npcFinder) {
-				if (!Main.npc[npcFinder].dontTakeDamage) {
+				for (int npcFinder = 0; npcFinder < 200; ++npcFinder) {
+					if (!Main.npc[npcFinder].dontTakeDamage) {
 
-					Main.npc[npcFinder].AddBuff(BuffID.Poisoned, 480);
+						Main.npc[npcFinder].AddBuff(BuffID.Poisoned, 480);
+					}
 				}
 			}
 		}

@@ -26,6 +26,7 @@ namespace SpiritMod.NPCs
 			npc.knockBackResist = .30f;
 			npc.aiStyle = 25;
 			aiType = NPCID.Mimic;
+			npc.rarity = 4;
 		}
         int frame;
         int timer;

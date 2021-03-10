@@ -10,8 +10,7 @@ namespace SpiritMod.Items.Accessory
 	public class ReachBrooch : SpiritAccessory
 	{
 		public override string SetDisplayName => "Forsworn Pendant";
-		public override string SetTooltip => "4% increased critical strike chance\nAllows for increased night vision in the Briar";
-		public override int AllCrit => 4;
+		public override string SetTooltip => "Generates a subtle glow around the player\nAllows for increased night vision in the Briar";
 		public override List<SpiritPlayerEffect> AccessoryEffects => new List<SpiritPlayerEffect>() {
 			new ReachBroochEffect()
 		};
@@ -37,6 +36,7 @@ namespace SpiritMod.Items.Accessory
 			if (player.GetSpiritPlayer().ZoneReach && !Main.dayTime) {
 				player.nightVision = true;
 			}
+			player.AddBuff(ModContent.BuffType<Buffs.GuidingLight>(), 120);
 		}
 	}
 }

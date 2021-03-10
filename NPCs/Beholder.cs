@@ -38,6 +38,7 @@ namespace SpiritMod.NPCs
 			npc.noGravity = true;
 			aiType = NPCID.Slimer;
 			banner = npc.type;
+			npc.rarity = 3;
 			bannerItem = ModContent.ItemType<Items.Banners.BeholderBanner>();
 
 			npc.noTileCollide = true;
@@ -206,9 +207,9 @@ namespace SpiritMod.NPCs
             int tile = (int)Main.tile[x, y].type;
             if (!MyWorld.downedBeholder)
             {
-                return spawnInfo.player.GetSpiritPlayer().ZoneMarble && NPC.downedBoss2 && !NPC.AnyNPCs(ModContent.NPCType<Beholder>()) && spawnInfo.spawnTileY > Main.rockLayer ? 0.04f : 0f;
+                return spawnInfo.player.GetSpiritPlayer().ZoneMarble && NPC.downedBoss2 && !NPC.AnyNPCs(ModContent.NPCType<Beholder>()) && spawnInfo.spawnTileY > Main.rockLayer ? 0.03f : 0f;
             }
-            return spawnInfo.player.GetSpiritPlayer().ZoneMarble && NPC.downedBoss2 && !NPC.AnyNPCs(ModContent.NPCType<Beholder>()) && spawnInfo.spawnTileY > Main.rockLayer ? 0.00865f : 0f;
+            return spawnInfo.player.GetSpiritPlayer().ZoneMarble && NPC.downedBoss2 && !NPC.AnyNPCs(ModContent.NPCType<Beholder>()) && spawnInfo.spawnTileY > Main.rockLayer ? 0.00765f : 0f;
 
         }
 		public override void FindFrame(int frameHeight)

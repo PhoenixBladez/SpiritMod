@@ -39,6 +39,7 @@ namespace SpiritMod.NPCs
 			aiType = NPCID.FlyingFish;
 			animationType = NPCID.FlyingFish;
 			npc.stepSpeed = 2f;
+			npc.rarity = 3;
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

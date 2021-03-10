@@ -28,6 +28,7 @@ namespace SpiritMod.NPCs
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath1;
 			npc.value = 360f;
+			npc.rarity = 2;
 			npc.knockBackResist = .45f;
 			npc.aiStyle = 14;
 			banner = npc.type;

@@ -116,6 +116,7 @@ namespace SpiritMod.Items.Consumable.GamblerChests.GamblerChestNPCs
 
 				if (counter == 25) {
 					npc.DropItem(ModContent.ItemType<Jem>(), 0.005f);
+                    npc.DropItem(ModContent.ItemType<Items.Consumable.Food.GoldenCaviar>(), 0.07f);
 					npc.DropItem(ModContent.ItemType<FunnyFirework>(), 0.07f, Main.rand.Next(5, 9));
 					npc.DropItem(ItemID.AngelStatue, 0.03f);
 					npc.DropItem(ModContent.ItemType<Champagne>(), 0.06f, Main.rand.Next(1, 3));

@@ -26,6 +26,7 @@ namespace SpiritMod.Items.Weapon.Magic.StarplateGlove
 			item.channel = true;
 			item.width = 26;
 			item.height = 26;
+			item.mana = 6;
 			item.noUseGraphic = true;
 			item.noMelee = true;
 			item.autoReuse = true;
@@ -35,8 +36,8 @@ namespace SpiritMod.Items.Weapon.Magic.StarplateGlove
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Fist of the North Starplate");
-			Tooltip.SetDefault("Right click launch the glove out \n'Omae wa mou shindeiru'");
+			DisplayName.SetDefault("Hundred-Crack Fist");
+			Tooltip.SetDefault("Right click launch multiple punches outward");
 		}	
 		public override bool AltFunctionUse(Player player)
         {
@@ -125,7 +126,7 @@ namespace SpiritMod.Items.Weapon.Magic.StarplateGlove
 			}
 			else
 			{
-				float stray = Main.rand.NextFloat(-0.7f, 0.7f);
+				float stray = Main.rand.NextFloat(-0.5f, 0.5f);
 				Vector2 speed = new Vector2(speedX,speedY).RotatedBy(stray);
 				//speed *= Main.rand.NextFloat(0.9f, 1.1f);
 				position += speed * 8;

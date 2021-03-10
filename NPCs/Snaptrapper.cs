@@ -24,6 +24,7 @@ namespace SpiritMod.NPCs
 			npc.damage = 25;
 			npc.defense = 12;
 			npc.lifeMax = 340;
+    		npc.rarity = 3;
 			npc.HitSound = SoundID.NPCHit32;
             npc.buffImmune[BuffID.Poisoned] = true;
             npc.buffImmune[ModContent.BuffType<Buffs.FesteringWounds>()] = true;

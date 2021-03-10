@@ -5,6 +5,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using SpiritMod.Items.Consumable.Food;
 using SpiritMod.Items.GamblerChestLoot.Jem;
 using SpiritMod.Items.GamblerChestLoot.FunnyFirework;
 using SpiritMod.Items.GamblerChestLoot.Champagne;
@@ -125,7 +126,8 @@ namespace SpiritMod.Items.Consumable.GamblerChests.GamblerChestNPCs
                     Main.item[item].velocity.Y /= 2;
 
 				}
-                npc.DropItem(ModContent.ItemType<Jem>(), 0.02f);
+                    npc.DropItem(ModContent.ItemType<Jem>(), 0.02f);
+                    npc.DropItem(ModContent.ItemType<Items.Consumable.Food.GoldenCaviar>(), 0.15f);
 					npc.DropItem(ModContent.ItemType<FunnyFirework>(), 0.1f, Main.rand.Next(5, 9));
 					npc.DropItem(ItemID.AngelStatue, 0.01f);
 					npc.DropItem(ModContent.ItemType<Champagne>(), 0.1f, Main.rand.Next(1, 3));

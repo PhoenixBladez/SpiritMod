@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Weapon.Summon.LocustCrook
 		public override void SetDefaults()
 		{
 			item.width = item.height = 46;
-			item.damage = 26;
+			item.damage = 13;
 			item.rare = ItemRarityID.Green;
 			item.mana = 20;
 			item.value = Item.sellPrice(0, 2, 0, 0);

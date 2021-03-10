@@ -30,6 +30,7 @@ namespace SpiritMod.NPCs.Hookbat
             npc.height = 38;
             npc.damage = 10;
             npc.defense = 4;
+			npc.rarity = 2;
             npc.lifeMax = 42;
             npc.knockBackResist = .53f;
             npc.noGravity = true;
