@@ -314,10 +314,10 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
                 ModContent.ItemType<MoonjellySummonStaff>()
 				};
                 int loot = Main.rand.Next(lootTable.Length);
-				int lunazoastack = Main.rand.Next(10, 12);
+				int lunazoastack = Main.rand.Next(5, 7);
                 npc.DropItem(lootTable[loot]);
 				if (lootTable[loot] == ModContent.ItemType<Moonshot>())
-					lunazoastack += Main.rand.Next(20, 30);
+					lunazoastack += Main.rand.Next(10, 20);
 
 				npc.DropItem(ModContent.ItemType<TinyLunazoaItem>(), lunazoastack);
             }

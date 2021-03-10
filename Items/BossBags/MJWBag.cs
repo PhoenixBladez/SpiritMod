@@ -57,10 +57,10 @@ namespace SpiritMod.Items.BossBags
                 ModContent.ItemType<MoonjellySummonStaff>()
             };
             int loot = Main.rand.Next(lootTable.Length);
-			int lunazoastack = Main.rand.Next(20, 22);
+			int lunazoastack = Main.rand.Next(10, 12);
 			player.QuickSpawnItem(lootTable[loot]);
 			if (lootTable[loot] == ModContent.ItemType<Moonshot>())
-				lunazoastack += Main.rand.Next(20, 30);
+				lunazoastack += Main.rand.Next(10, 20);
 
 			player.QuickSpawnItem(ModContent.ItemType<TinyLunazoaItem>(), lunazoastack);
 		}
