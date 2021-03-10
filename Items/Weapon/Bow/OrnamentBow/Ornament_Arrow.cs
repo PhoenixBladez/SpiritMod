@@ -65,6 +65,8 @@ namespace SpiritMod.Items.Weapon.Bow.OrnamentBow
 					num = num41;
 				}
 			}
+
+			Lighting.AddLight(projectile.Center, new Vector3(Main.DiscoR, Main.DiscoG, Main.DiscoB) / 512f);
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{

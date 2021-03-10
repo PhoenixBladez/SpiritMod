@@ -44,7 +44,7 @@ namespace SpiritMod.NPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (!NPC.downedBoss1 || NPC.AnyNPCs(ModContent.NPCType<Mecromancer>())) {
+			if (NPC.AnyNPCs(ModContent.NPCType<Mecromancer>())) {
 				return 0f;
 			}
 			return SpawnCondition.GoblinArmy.Chance * 0.0366f;

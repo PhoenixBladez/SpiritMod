@@ -57,8 +57,15 @@ namespace SpiritMod.Items.Weapon.Bow.GemBows.Ruby_Bow
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.SilverBow, 1);
+			recipe.AddIngredient(ItemID.Ruby, 8);
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+
+			ModRecipe recipe1 = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.TungstenBow, 1);
-			recipe.AddIngredient(178, 8);
+			recipe.AddIngredient(ItemID.Ruby, 8);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

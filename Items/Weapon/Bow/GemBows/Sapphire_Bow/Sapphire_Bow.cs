@@ -63,8 +63,15 @@ namespace SpiritMod.Items.Weapon.Bow.GemBows.Sapphire_Bow
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.IronBow, 1);
+			recipe.AddIngredient(ItemID.Sapphire, 8);
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+
+			ModRecipe recipe1 = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.LeadBow, 1);
-			recipe.AddIngredient(177, 8);
+			recipe.AddIngredient(ItemID.Sapphire, 8);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

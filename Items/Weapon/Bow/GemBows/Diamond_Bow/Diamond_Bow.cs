@@ -58,14 +58,14 @@ namespace SpiritMod.Items.Weapon.Bow.GemBows.Diamond_Bow
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.GoldBow, 1);
-			recipe.AddIngredient(182, 8);
+			recipe.AddIngredient(ItemID.Diamond, 8);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 
 			ModRecipe recipe1 = new ModRecipe(mod);
 			recipe1.AddIngredient(ItemID.PlatinumBow, 1);
-			recipe1.AddIngredient(182, 8);
+			recipe1.AddIngredient(ItemID.Diamond, 8);
 			recipe1.AddTile(TileID.Anvils);
 			recipe1.SetResult(this);
 			recipe1.AddRecipe();

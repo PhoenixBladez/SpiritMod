@@ -55,14 +55,14 @@ namespace SpiritMod.Items.Weapon.Bow.GemBows.Amethyst_Bow
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.CopperBow, 1);
-			recipe.AddIngredient(181, 8);
+			recipe.AddIngredient(ItemID.Amethyst, 8);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 
 			ModRecipe recipe1 = new ModRecipe(mod);
 			recipe1.AddIngredient(ItemID.TinBow, 1);
-			recipe1.AddIngredient(181, 8);
+			recipe1.AddIngredient(ItemID.Amethyst, 8);
 			recipe1.AddTile(TileID.Anvils);
 			recipe1.SetResult(this);
 			recipe1.AddRecipe();

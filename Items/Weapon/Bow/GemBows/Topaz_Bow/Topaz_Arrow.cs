@@ -104,6 +104,9 @@ namespace SpiritMod.Items.Weapon.Bow.GemBows.Topaz_Bow
 					Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], position2, new Microsoft.Xna.Framework.Rectangle?(r), faa, projectile.rotation, vector2_3, projectile.scale, spriteEffects, 0.0f);
 				}
 			}
+
+			Lighting.AddLight(projectile.Center, Color.Yellow.ToVector3() / 2f);
+
 			return false;
 		}
 		public override void Kill(int timeLeft)
