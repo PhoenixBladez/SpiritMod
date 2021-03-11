@@ -10,10 +10,7 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 {
 	public class Enchanted_Armor : ModNPC
 	{
-		
-		public int hasPickedClass = 0;
-		public int projectileTimer = 0;
-		public bool hasPickedClassBool = false;
+
 
 		public override void SetStaticDefaults()
 		{
@@ -44,12 +41,6 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 			Player player = Main.player[npc.target];
 			npc.TargetClosest(true);
 			
-			if (!hasPickedClassBool)
-			{
-				hasPickedClassBool = true;
-				hasPickedClass = Main.rand.Next(2)==0 ? 1 : 0;
-			}
-			
 			if ((double)Vector2.Distance(player.Center, npc.Center) > (double)60f)
 			{
 				movement();
@@ -58,10 +49,6 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 			{
 				npc.velocity.X = 0f;
 			}
-			if (hasPickedClass == 0)
-				Lighting.AddLight(new Vector2(npc.Center.X, npc.Center.Y), 206*0.002f, 101*0.002f, 136*0.002f);
-			else
-				Lighting.AddLight(new Vector2(npc.Center.X, npc.Center.Y), 72*0.002f, 175*0.002f, 206*0.002f);
 		}
 		public void movement()
 		{
@@ -88,11 +75,13 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 			if ((double)npc.ai[3] > (double)(num1 * num2))
 			{
 				npc.ai[3] = 0.0f;
+				npc.netUpdate = true;
 			}
 
 			if (npc.justHit)
 			{
 				npc.ai[3] = 0.0f;
+				npc.netUpdate = true;
 			}
 
 			if ((double)npc.ai[3] == (double)num1)
@@ -106,7 +95,7 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 			float num5 = (float)Math.Sqrt((double)num3 * (double)num3 + (double)num4 * (double)num4);
 			if ((double)num5 < 200.0 && !flag3)
 			{
-				npc.ai[3] = 0.0f;
+				npc.ai[3] = 0.0f;	
 			}
 
 			if ((double)npc.ai[3] < (double)num1)
@@ -325,14 +314,7 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 		}
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(25) == 0 && (hasPickedClass == 0))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Purpureus"), 1);
-			}
-			if (Main.rand.Next(25) == 0 && (hasPickedClass == 1))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Caeruleus"), 1);
-			}
+
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
@@ -347,10 +329,7 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 			{
 				Dust.NewDust(npc.position, npc.width, npc.height, 8, 2.5f * hitDirection, -2.5f, 0, default(Color), 1.2f);
 				Dust.NewDust(npc.position, npc.width, npc.height, 8, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.5f);
-				if (hasPickedClass == 0)
-					Dust.NewDust(npc.position, npc.width, npc.height, 112, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);
-				else
-					Dust.NewDust(npc.position, npc.width, npc.height, 111, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 72, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);
 			}
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
@@ -389,39 +368,6 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 			npc.frame.Width = 90;
 			if ((double)Vector2.Distance(player.Center, npc.Center) > (double)60f)
 			{
-				if (hasPickedClass == 0)
-				{
-					if (npc.frameCounter < 6)
-					{
-						npc.frame.Y = 0 * frameHeight;
-						npc.frame.X = 0;
-					}
-					else if (npc.frameCounter < 12)
-					{
-						npc.frame.Y = 1 * frameHeight;
-						npc.frame.X = 0;
-					}
-					else if (npc.frameCounter < 18)
-					{
-						npc.frame.Y = 2 * frameHeight;
-						npc.frame.X = 0;
-					}
-					else if (npc.frameCounter < 24)
-					{
-						npc.frame.Y = 3 * frameHeight;
-						npc.frame.X = 0;
-					}
-					else if (npc.frameCounter < 30)
-					{
-						npc.frame.Y = 4 * frameHeight;
-						npc.frame.X = 0;
-					}
-					else
-					{
-						npc.frameCounter = 0;
-					}
-				}
-				else
 				{
 					if (npc.frameCounter < 6)
 					{
@@ -456,7 +402,6 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 			}
 			else
 			{
-				if (hasPickedClass == 0)
 				{
 					if (npc.frameCounter < 5)
 					{
@@ -493,53 +438,6 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 						if (npc.frameCounter == 30 && Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
 						{
 							player.Hurt(PlayerDeathReason.LegacyDefault(), (int)(npc.damage * 1.5f), npc.direction, false, false, false, -1);
-							npc.frame.Y = Frame_10 * frameHeight;
-						}
-						npc.frame.Y = 11 * frameHeight;
-						npc.frame.X = 0;
-					}
-					else
-					{
-						npc.frameCounter = 0;
-					}
-				}
-				else
-				{
-					if (npc.frameCounter < 5)
-					{
-						npc.frame.Y = 5 * frameHeight;
-						npc.frame.X = 0;
-					}
-					else if (npc.frameCounter < 10)
-					{
-						npc.frame.Y = 6 * frameHeight;
-						npc.frame.X = 0;
-					}
-					else if (npc.frameCounter < 15)
-					{
-						npc.frame.Y = 7 * frameHeight;
-						npc.frame.X = 0;
-					}
-					else if (npc.frameCounter < 20)
-					{
-						npc.frame.Y = 8 * frameHeight;
-						npc.frame.X = 0;
-					}
-					else if (npc.frameCounter < 25)
-					{
-						npc.frame.Y = 9 * frameHeight;
-						npc.frame.X = 0;
-					}
-					else if (npc.frameCounter < 30)
-					{
-						npc.frame.Y = 10 * frameHeight;
-						npc.frame.X = 0;
-					}
-					else if (npc.frameCounter < 35)
-					{
-						if (npc.frameCounter == 30 && Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
-						{
-							player.Hurt(PlayerDeathReason.LegacyDefault(), (int)(npc.damage * 1.5f), -player.direction, false, false, false, -1);
 							npc.frame.Y = Frame_10 * frameHeight;
 						}
 						npc.frame.Y = 11 * frameHeight;

@@ -28,13 +28,11 @@ namespace SpiritMod.Mechanics.Fathomless_Chest.Items.Water_Bottle
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fathomless Water Bottle");
-            Tooltip.SetDefault("Restores 60 life\nCan over-heal\nOver-healing fades away overtime\nGrants 10 seconds of lava immunity\n60 second cooldown");
+            Tooltip.SetDefault("Restores 60 life\nGrants 10 seconds of lava immunity\n60 second cooldown");
         }
 		public override bool UseItem(Player player) 
 		{
 			player.statLife += 60;
-			player.statLifeMax2 += 60;
-			player.statLifeMax += 60;
 			player.HealEffect(60, true);
 			player.AddBuff(21,60*60);
 			player.AddBuff(1,60*10);
@@ -43,8 +41,8 @@ namespace SpiritMod.Mechanics.Fathomless_Chest.Items.Water_Bottle
 		
 		public override bool CanUseItem(Player player) 
 		{
-			/*if (player.HasBuff(21))
-				return false;*/
+			if (player.HasBuff(21))
+				return false;
 			return true;
 		}
     }
