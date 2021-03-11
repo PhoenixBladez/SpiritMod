@@ -10,14 +10,14 @@ namespace SpiritMod.Items.DonatorItems.FrostTroll
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Blizzard's Edge");
-			Tooltip.SetDefault("Occasionally launches a cluster of frost bolts");
+			Tooltip.SetDefault("Occasionally launches a frost bolt");
 		}
 
 
 		int charger;
 		public override void SetDefaults()
 		{
-			item.damage = 63;
+			item.damage = 52;
 			item.useTime = 24;
 			item.useAnimation = 24;
 			item.melee = true;
@@ -43,9 +43,8 @@ namespace SpiritMod.Items.DonatorItems.FrostTroll
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			for (int I = 0; I < 5; I++)
-				if (Main.rand.Next(3) == 0)
-					Projectile.NewProjectile(position.X, position.Y, speedX * (Main.rand.Next(500, 900) / 100), speedY * (Main.rand.Next(500, 900) / 100), ModContent.ProjectileType<FrostBolt>(), damage, knockBack, player.whoAmI);
+			if (Main.rand.Next(5) == 0)
+			Projectile.NewProjectile(position.X, position.Y, speedX * (Main.rand.Next(500, 900) / 100), speedY * (Main.rand.Next(500, 900) / 100), ModContent.ProjectileType<FrostBolt>(), damage/3, knockBack/2, player.whoAmI);
 			return false;
 		}
 

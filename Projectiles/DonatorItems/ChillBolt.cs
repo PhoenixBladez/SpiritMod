@@ -52,7 +52,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 				int randFire = Main.rand.Next(1);
 				int newProj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y,
 					Main.rand.Next(0) / 100, Main.rand.Next(0, 0),
-					ModContent.ProjectileType<FrostRune>(), projectile.damage, 0, projectile.owner);
+					ModContent.ProjectileType<FrostRune>(), projectile.damage/3 * 2, 0, projectile.owner);
 			}
 		}
 
