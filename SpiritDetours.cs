@@ -18,6 +18,7 @@ namespace SpiritMod
 			On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile;
 			On.Terraria.Player.KeyDoubleTap += Player_KeyDoubleTap;
 			On.Terraria.Main.DrawDust += DrawAdditive;
+			On.Terraria.Player.ToggleInv += Player_ToggleInv;
 
 			IL.Terraria.Player.ItemCheck += Player_ItemCheck;
 		}
@@ -64,6 +65,19 @@ namespace SpiritMod
 				if (Main.npc[k].active && Main.npc[k].modNPC is IDrawAdditive) (Main.npc[k].modNPC as IDrawAdditive).DrawAdditive(Main.spriteBatch);
 
 			Main.spriteBatch.End();
+		}
+
+		private static void Player_ToggleInv(On.Terraria.Player.orig_ToggleInv orig, Player self)
+		{
+			SpiritMod spirit = ModContent.GetInstance<SpiritMod>();
+
+			if (spirit.BookUserInterface.CurrentState != null) {
+				spirit.BookUserInterface.SetState(null);
+				Main.PlaySound(SoundID.MenuClose);
+				return;
+			}
+
+			orig(self);
 		}
 
 		// This IL edit is used to allow the unfeller of evergreens to autoplant saplings when trees are destroyed
