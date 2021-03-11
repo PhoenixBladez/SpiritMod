@@ -40,6 +40,7 @@ namespace SpiritMod.NPCs.MoltenCore
 			Player player = Main.player[npc.target];
 			npc.spriteDirection = npc.direction;
 			movement();
+			CheckPlatform();
 			
 			if (Main.rand.Next(15) == 0)
 			{
@@ -59,6 +60,19 @@ namespace SpiritMod.NPCs.MoltenCore
 				}
 				npc.netUpdate = true;
 			}
+		}
+		private void CheckPlatform()
+		{
+			bool onplatform = true;
+			for (int i = (int)npc.position.X; i < npc.position.X + npc.width; i += npc.width / 4) {
+				Tile tile = Framing.GetTileSafely(new Point((int)npc.position.X / 16, (int)(npc.position.Y + npc.height + 8) / 16));
+				if (!TileID.Sets.Platforms[tile.type])
+					onplatform = false;
+			}
+			if (onplatform)
+				npc.noTileCollide = true;
+			else
+				npc.noTileCollide = false;
 		}
 		private void movement()
 		{

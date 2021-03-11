@@ -82,8 +82,7 @@ namespace SpiritMod.NPCs.MoonjellyEvent
                 {
                     Vector2 vector2_2 = Vector2.UnitY.RotatedByRandom(3.14159237050629f) * new Vector2(Main.rand.Next(3, 8), Main.rand.Next(3, 8));
                     bool expertMode = Main.expertMode;
-                    int damage = expertMode ? 6 : 10;
-                    int p = Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-20, 20), npc.Center.Y + Main.rand.Next(-20, 20), vector2_2.X, vector2_2.Y, ModContent.ProjectileType<ElectricJellyfishOrbiter>(), damage, 0.0f, Main.myPlayer, 0.0f, (float)npc.whoAmI);
+                    int p = Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-20, 20), npc.Center.Y + Main.rand.Next(-20, 20), vector2_2.X, vector2_2.Y, ModContent.ProjectileType<ElectricJellyfishOrbiter>(), NPCUtils.ToActualDamage(10, 1.5f), 0.0f, Main.myPlayer, 0.0f, (float)npc.whoAmI);
                     Main.projectile[p].scale = Main.rand.NextFloat(.6f, .95f);
                     Main.projectile[p].ai[0] = npc.whoAmI;
 

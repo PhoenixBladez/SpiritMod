@@ -39,6 +39,12 @@ namespace SpiritMod.Projectiles.Boss
 					Main.dust[d].scale *= .5f;
 				}
 			}
+
+			const int maxvel = 18;
+			if (projectile.velocity.Length() < maxvel)
+				projectile.velocity *= 1.03f;
+			else
+				projectile.velocity = Vector2.Normalize(projectile.velocity) * maxvel;
 		}
 
 		public override void Kill(int timeLeft)

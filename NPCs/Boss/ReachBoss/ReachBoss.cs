@@ -29,7 +29,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 
 		public override void SetDefaults()
 		{
-			npc.width = npc.height = 80;
+			npc.Size = new Vector2(80, 120);
 			npc.damage = 28;
             npc.boss = true;
 			npc.lifeMax = 2500;
@@ -152,6 +152,8 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				npc.netUpdate = true;
 			}
 		}
+
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => npc.ai[0] < 480 || npc.ai[0] >= 730;
 		public void generalMovement(Player player)
 		{
 			float value12 = (float)Math.Cos((double)(Main.GlobalTime % 2.4f / 2.4f * 6.28318548f)) * 60f;
@@ -186,7 +188,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
                 {
                     Vector2 direction = Main.player[npc.target].Center - npc.Center;
                     direction.Normalize();
-					direction *= 14f;
+					direction *= 4f;
 
                     int amountOfProjectiles = Main.rand.Next(3, 5);
                     for (int i = 0; i < amountOfProjectiles; ++i)
@@ -231,6 +233,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			npc.direction = Math.Sign(player.Center.X - npc.Center.X);		
 			if (npc.ai[0] < 1280 || npc.ai[0] > 1420 && npc.ai[0] < 1600) {
 				npc.ai[1] = 0;
+				npc.ai[2] = 0;
 				Vector2 homeCenter = player.Center;
 				npc.spriteDirection = npc.direction;
 				homeCenter.X += (npc.Center.X < player.Center.X) ? -280 : 280;

@@ -49,7 +49,8 @@ namespace SpiritMod.NPCs.AstralAdventurer
 		{
 			Player player = Main.player[npc.target];
 			npc.TargetClosest(true);
-			
+			CheckPlatform(player);
+
 			flyingTimer++;
 			weaponTimer++;
 			projectileTimer++;
@@ -152,6 +153,21 @@ namespace SpiritMod.NPCs.AstralAdventurer
 			}
 			
 		}
+
+		private void CheckPlatform(Player player)
+		{
+			bool onplatform = true;
+			for (int i = (int)npc.position.X; i < npc.position.X + npc.width; i += npc.width / 4) {
+				Tile tile = Framing.GetTileSafely(new Point((int)npc.position.X / 16, (int)(npc.position.Y + npc.height + 8) / 16));
+				if (!TileID.Sets.Platforms[tile.type])
+					onplatform = false;
+			}
+			if (onplatform && npc.Bottom.Y < player.Top.Y)
+				npc.noTileCollide = true;
+			else
+				npc.noTileCollide = false;
+		}
+
 		public void flying()
 		{	 
 			npc.TargetClosest(true);

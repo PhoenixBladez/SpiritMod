@@ -39,7 +39,7 @@ namespace SpiritMod.NPCs.SkeletonBrute
 
 			npc.TargetClosest(true);
 			npc.spriteDirection = npc.direction;
-			if ((double)Vector2.Distance(player.Center, npc.Center) <= (double)120f)
+			if ((double)Vector2.Distance(player.Center, npc.Center) <= (double)120f && player.active && !player.dead)
 			{
 				attacking = 1;
 				npc.aiStyle = 0;
@@ -63,7 +63,9 @@ namespace SpiritMod.NPCs.SkeletonBrute
 				npc.velocity.Y = 8f;				
 			}
 		}
-		
+
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => false;
+
 		public override void NPCLoot()
 		{
 		}

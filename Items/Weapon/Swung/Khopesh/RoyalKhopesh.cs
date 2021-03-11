@@ -22,13 +22,13 @@ namespace SpiritMod.Items.Weapon.Swung.Khopesh
 
 		public override void SetDefaults()
 		{
-			item.damage = 28;
+			item.damage = 24;
 			item.melee = true;
 			item.width = 36;
 			item.height = 44;
 			item.useTime = 12;
 			item.useAnimation = 12;
-			item.reuseDelay = 30;
+			item.reuseDelay = 20;
 			item.channel = true;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.knockBack = 5.5f;
@@ -42,6 +42,8 @@ namespace SpiritMod.Items.Weapon.Swung.Khopesh
 			item.noMelee = true;
 			item.autoReuse = true;
 		}
+
+		public override bool CanUseItem(Player player) => player.GetModPlayer<KhopeshPlayer>().KhopeshDelay == 0;
 	}
 
 	class KhopeshSlash : ModProjectile
@@ -60,7 +62,7 @@ namespace SpiritMod.Items.Weapon.Swung.Khopesh
 			projectile.Size = new Vector2(54, 54);
 			projectile.penetrate = -1;
 			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 20;
+			projectile.localNPCHitCooldown = 16;
 		}
 
 		Player Player => Main.player[projectile.owner];
@@ -110,7 +112,7 @@ namespace SpiritMod.Items.Weapon.Swung.Khopesh
 
 			Player.itemTime = 2;
 			Player.itemAnimation = 2;
-			Player.reuseDelay = 20;
+			Player.GetModPlayer<KhopeshPlayer>().KhopeshDelay = 20;
 			projectile.Center = Player.MountedCenter + projectile.velocity * dist;
 			projectile.rotation = Player.AngleFrom(projectile.Center) - ((projectile.spriteDirection > 0) ? 0 : MathHelper.Pi);
 			Player.ChangeDir(Math.Sign(projectile.Center.X - Player.Center.X));
@@ -119,7 +121,7 @@ namespace SpiritMod.Items.Weapon.Swung.Khopesh
 
 			projectile.frameCounter++;
 
-			if(projectile.frameCounter > 4) {
+			if(projectile.frameCounter > 3) {
 				FirstTickOfSwingFrame = true;
 				projectile.frameCounter = 0;
 				projectile.frame++;
@@ -155,7 +157,7 @@ namespace SpiritMod.Items.Weapon.Swung.Khopesh
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			if (Bigswing) {
-				damage *= 2;
+				damage = (int)(damage * 1.5f);
 				damage += target.defense / 2;
 				knockback *= 1.5f;
 			}
@@ -175,5 +177,11 @@ namespace SpiritMod.Items.Weapon.Swung.Khopesh
 			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, frame, projectile.GetAlpha(lightColor), projectile.rotation, frame.Size() / 2, projectile.scale, effects, 0);
 			return false;
 		}
+	}
+
+	class KhopeshPlayer : ModPlayer
+	{
+		public int KhopeshDelay = 0;
+		public override void ResetEffects() => KhopeshDelay = Math.Max(KhopeshDelay - 1, 0);
 	}
 }

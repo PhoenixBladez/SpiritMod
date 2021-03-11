@@ -107,9 +107,8 @@ namespace SpiritMod.NPCs.MoltenCore
 			}		
 			if (killtimer >= 270)
 				projectile.Kill();
-			if (Main.npc[(int)projectile.ai[1]].life <= 0 || !Main.npc[(int)projectile.ai[1]].active)
+			if (Main.npc[(int)projectile.ai[1]].life <= 0 || !Main.npc[(int)projectile.ai[1]].active || projectile.aiStyle == 1)
 			{
-				projectile.ai[1] = 0;
 				projectile.aiStyle = 1;
 				projectile.tileCollide = true;
 				projectile.hostile = true;
@@ -120,6 +119,7 @@ namespace SpiritMod.NPCs.MoltenCore
 					Main.dust[index].velocity.X = 0f;
 					Main.dust[index].velocity.Y = -2f;
 				}
+				return;
 			}
 			else
 			{

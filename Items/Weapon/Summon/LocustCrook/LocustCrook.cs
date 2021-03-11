@@ -56,7 +56,7 @@ namespace SpiritMod.Items.Weapon.Summon.LocustCrook
 	{
 		public override void SetDefaults()
 		{
-			DisplayName.SetDefault("Locust Minion");
+			DisplayName.SetDefault("Locust");
 			Description.SetDefault("Bringer of a plague");
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;

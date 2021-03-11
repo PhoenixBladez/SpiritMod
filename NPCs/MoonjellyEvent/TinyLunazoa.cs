@@ -25,7 +25,7 @@ namespace SpiritMod.NPCs.MoonjellyEvent
 			npc.height = 20;
 			npc.damage = 0;
 			npc.defense = 0;
-			npc.lifeMax = 12;
+			npc.lifeMax = 5;
 			npc.HitSound = SoundID.NPCHit25;
 			npc.DeathSound = SoundID.NPCDeath28;
             npc.buffImmune[BuffID.Poisoned] = true;
@@ -40,6 +40,7 @@ namespace SpiritMod.NPCs.MoonjellyEvent
             npc.noTileCollide = true;
 			aiType = NPCID.Firefly;
 		}
+		public override bool? CanBeHitByProjectile(Projectile projectile) => !projectile.minion;
 
 		public override void HitEffect(int hitDirection, double damage)
         {
@@ -49,7 +50,7 @@ namespace SpiritMod.NPCs.MoonjellyEvent
                 d.noGravity = true;
             }
             if (npc.life <= 0) {
-                int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, Main.rand.NextFloat(-1.1f, 1.1f), Main.rand.NextFloat(-1.1f, 1.1f), ModContent.ProjectileType<JellyfishOrbiter>(), 7, 0.0f, Main.myPlayer, 0.0f, (float)npc.whoAmI);
+                int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, Main.rand.NextFloat(-1.1f, 1.1f), Main.rand.NextFloat(-1.1f, 1.1f), ModContent.ProjectileType<JellyfishOrbiter>(), NPCUtils.ToActualDamage(7, 1.5f), 0.0f, Main.myPlayer, 0.0f, (float)npc.whoAmI);
                 Main.projectile[p].scale = npc.scale;
                 Main.projectile[p].timeLeft = Main.rand.Next(55, 75);
                 for (int k = 0; k < 10; k++)

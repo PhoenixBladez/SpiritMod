@@ -36,7 +36,6 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			npc.damage = 30;
 			npc.defense = 10;
 			npc.lifeMax = 1750;
-			npc.knockBackResist = 0.3f;
 			npc.aiStyle = -1;
 			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Scarabeus");
 			npc.boss = true;
@@ -251,7 +250,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			Sandstorm.Happening = false;
 
 			if (!npc.noTileCollide && !Collision.CanHit(npc.Center, 0, 0, player.Center, 0, 0) && AttackType < 4) { //check if it can't reach the player
-				if(++skiptimer > 180) //wait 3 seconds before skipping to the attack, to mitigate cases where it isnt needed
+				if(++skiptimer > 180 || WorldGen.SolidTile((int)npc.Center.X / 16, (int)(npc.Center.Y / 16))) //wait 3 seconds before skipping to the attack, to mitigate cases where it isnt needed, instant skip if stuck in a tile
 					NextAttack(true);
 			}
 			else
@@ -287,11 +286,11 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		public void Walking(Player player, float acc, float maxspeed, int maxtime)
 		{
 			npc.spriteDirection = npc.direction;
-			npc.knockBackResist = 1f;
+			npc.knockBackResist = 0.7f;
 			AiTimer++;
 			CheckPlatform(player);
 			CheckPit();
-			canhitplayer = true;
+			//canhitplayer = true;
 
 			if (npc.velocity.Y == 0) { //simple movement ai, accelerates until it hits a cap
 				npc.velocity.X += (npc.Center.X < player.Center.X) ? acc : -acc;
@@ -576,12 +575,12 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 								y++;
 								center.Y = y * 16;
 							}
-							while ((WorldGen.SolidOrSlopedTile(x, y) || WorldGen.SolidTile2(x, y)) && numtries < 10) {
+							while ((WorldGen.SolidOrSlopedTile(x, y) || WorldGen.SolidTile2(x, y)) && numtries < 20) {
 								numtries++;
 								y--;
 								center.Y = y * 16;
 							}
-							if (numtries >= 10)
+							if (numtries >= 20)
 								break;
 
 							if(Main.netMode != NetmodeID.MultiplayerClient)
@@ -599,7 +598,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		}
 		public void Digging(Player player)
 		{
-			bool InSolidTile = (WorldGen.SolidTile((int)npc.Center.X / 16, (int)(npc.Center.Y / 16)));
+			bool InSolidTile = WorldGen.SolidTile((int)npc.Center.X / 16, (int)(npc.Center.Y / 16));
 			npc.noGravity = (InSolidTile || hasjumped);
 			UpdateFrame(4, 12, 17);
 			npc.spriteDirection = Math.Sign(npc.velocity.X);
@@ -902,7 +901,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				canhitplayer = false;
 				trailbehind = false;
 				npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0, 0.07f);
-				if (AiTimer > 90)
+				if (AiTimer > 150)
 					NextAttack(); 
 			}
 		}
@@ -1029,7 +1028,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 
 		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-			knockback *= 0.6f;
+			knockback *= 0.7f;
 			if(Main.player[projectile.owner].HeldItem.type == ItemID.Minishark) { //shadow nerfing minishark on scarab because meme balance weapon
 				knockback *= 0.5f;
 				int maxdamage = (Main.rand.Next(3, 6));

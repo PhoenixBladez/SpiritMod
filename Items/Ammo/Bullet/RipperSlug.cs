@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using SpiritMod.Prim;
+using Terraria.Audio;
 
 namespace SpiritMod.Items.Ammo.Bullet
 {
@@ -13,7 +14,7 @@ namespace SpiritMod.Items.Ammo.Bullet
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ripper Slug");
-			Tooltip.SetDefault("Obeys gravity");
+			Tooltip.SetDefault("Obeys gravity, but does extra damage");
 		}
 
 
@@ -27,7 +28,7 @@ namespace SpiritMod.Items.Ammo.Bullet
 
 			item.maxStack = 999;
 
-			item.damage = 12;
+			item.damage = 7;
 			item.knockBack = 1.5f;
 			item.ammo = AmmoID.Bullet;
 
@@ -41,8 +42,8 @@ namespace SpiritMod.Items.Ammo.Bullet
 		public override void AddRecipes()
 		{
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(97, 50);
-			recipe.AddIngredient(1329, 1);
+            recipe.AddIngredient(ItemID.MusketBall, 50);
+			recipe.AddIngredient(ItemID.TissueSample, 1);
 			recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 50);
             recipe.AddRecipe();
@@ -82,11 +83,15 @@ namespace SpiritMod.Items.Ammo.Bullet
 		}
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 8);
+			Main.PlaySound(new LegacySoundStyle(SoundID.NPCHit, 8).WithPitchVariance(0.2f).WithVolume(0.3f), projectile.Center);
 			for (int i = 0; i < 20; i++)
 			{
 				Dust.NewDustPerfect(projectile.Center, 5, Main.rand.NextFloat(0.25f,0.5f) * projectile.velocity.RotatedBy(3.14f + Main.rand.NextFloat(-0.4f,0.4f)));
 			}
 		}
+
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) => damage = (int)(damage * 1.15f);
+
+		public override void ModifyHitPvp(Player target, ref int damage, ref bool crit) => damage = (int)(damage * 1.15f);
 	}
 }
