@@ -1,8 +1,11 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Placeable.Furniture;
+using SpiritMod.NPCs.Enchanted_Armor;
 using SpiritMod.Projectiles;
 using System;
+using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
@@ -10,7 +13,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
-namespace SpiritMod.Tiles.Furniture
+namespace SpiritMod.Sepulchre
 {
 	public class SepulchreChestTile : ModTile
 	{
@@ -106,8 +109,15 @@ namespace SpiritMod.Tiles.Furniture
 					}
 				}
 			}
-			if(anycursedarmor || NPC.AnyNPCs(NPCID.Golem)) {
+			if(anycursedarmor) {
 				CombatText.NewText(new Rectangle(i * 16, j * 16, 20, 10), Color.GreenYellow, "Trapped!");
+				return true;
+			}
+			else if(NPC.AnyNPCs(ModContent.NPCType<Enchanted_Armor>())) {
+				Main.PlaySound(new LegacySoundStyle(SoundID.NPCKilled, 6).WithPitchVariance(0.2f).WithVolume(0.5f), new Vector2(i * 16, j * 16));
+				foreach (NPC npc in Main.npc.Where(x => x.active && x.type == ModContent.NPCType<Enchanted_Armor>()))
+					npc.ai[1] = 30;
+
 				return true;
 			}
 

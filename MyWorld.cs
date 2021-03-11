@@ -50,6 +50,7 @@ using static Terraria.ModLoader.ModContent;
 using SpiritMod.Items.Equipment.ToxicBottle;
 using SpiritMod.Items.Weapon.Swung.AccursedBlade;
 using SpiritMod.Items.Weapon.Summon.OldCross;
+using SpiritMod.Sepulchre;
 
 namespace SpiritMod
 {
