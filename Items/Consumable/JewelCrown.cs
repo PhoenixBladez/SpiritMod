@@ -48,8 +48,8 @@ namespace SpiritMod.Items.Consumable
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<Talon>(), 4);
-			recipe.AddIngredient(ItemID.Feather, 6);
+            recipe.AddIngredient(ItemID.FallenStar, 2);
+            recipe.AddIngredient(ItemID.Feather, 6);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();

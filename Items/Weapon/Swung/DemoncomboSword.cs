@@ -57,7 +57,7 @@ namespace SpiritMod.Items.Weapon.Swung
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<DemoniceSword>(), 1);
 			recipe.AddIngredient(ModContent.ItemType<DemonfireSword>(), 1);
-			recipe.AddIngredient(ModContent.ItemType<ThermiteBar>(), 8);
+			recipe.AddIngredient(ModContent.ItemType<CarvedRock>(), 8);
 			recipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 8);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);

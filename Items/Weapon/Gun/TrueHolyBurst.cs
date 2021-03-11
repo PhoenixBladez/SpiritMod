@@ -56,8 +56,8 @@ namespace SpiritMod.Items.Weapon.Gun
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<HolyBurst>(), 1);
-			recipe.AddIngredient(ModContent.ItemType<BrokenParts>(), 1);
-			recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ItemID.BrokenHeroSword, 1);
+            recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();
 		}
