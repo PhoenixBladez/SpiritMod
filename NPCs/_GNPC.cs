@@ -1142,9 +1142,6 @@ namespace SpiritMod.NPCs
 			if (npc.type == NPCID.Harpy && Main.rand.Next(45) == 0) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BreathOfTheZephyr>());
 			}
-			if (npc.type == NPCID.Harpy && Main.rand.Next(4) == 0) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Talon>(), Main.rand.Next(2) + 2);
-			}
 			if (npc.type == NPCID.Tim) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TimScroll>());
 			}
@@ -1192,13 +1189,6 @@ namespace SpiritMod.NPCs
 			}
 			if (npc.type == NPCID.LihzahrdCrawler && Main.rand.Next(500) == 1 || npc.type == NPCID.Lihzahrd && Main.rand.Next(500) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SnakeStaff>());
-			}
-			if (npc.type == NPCID.Mothron && NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3) {
-				int dropCheck = Main.rand.Next(5);
-				if (dropCheck == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BrokenStaff>());
-				else if (dropCheck == 1)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BrokenParts>());
 			}
 			if (npc.type == NPCID.DarkCaster && Main.rand.Next(42) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DungeonStaff>());

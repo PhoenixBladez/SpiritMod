@@ -54,7 +54,7 @@ namespace SpiritMod.Items.Weapon.Summon
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<ThermiteBar>(), 11);
+			recipe.AddIngredient(ModContent.ItemType<CarvedRock>(), 12);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

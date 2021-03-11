@@ -38,12 +38,12 @@ namespace SpiritMod.Items.Weapon.Magic
 
 		public override void AddRecipes()
 		{
-			ModRecipe modRecipe = new ModRecipe(mod);
-			modRecipe.AddIngredient(ModContent.ItemType<BrokenStaff>(), 1);
-			modRecipe.AddIngredient(ModContent.ItemType<HallowedStaff>(), 1);
-			modRecipe.AddTile(TileID.MythrilAnvil);
-			modRecipe.SetResult(this, 1);
-			modRecipe.AddRecipe();
+			ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.BrokenHeroSword, 1);
+            recipe.AddIngredient(ModContent.ItemType<HallowedStaff>(), 1);
+			recipe.AddTile(TileID.MythrilAnvil);
+			recipe.SetResult(this, 1);
+			recipe.AddRecipe();
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

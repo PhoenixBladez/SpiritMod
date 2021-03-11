@@ -86,7 +86,6 @@ namespace SpiritMod
 		public static int CorruptHazards = 0;
 
 		public static bool Magicite = false;
-		public static bool Thermite = false;
 		public static bool Cryolite = false;
 		public static bool spiritBiome = false;
 		public static bool rockCandy = false;
@@ -463,11 +462,6 @@ namespace SpiritMod
 				starMessage = true;
 			else
 				starMessage = false;
-
-			if (NPC.downedPlantBoss)
-				Thermite = true;
-			else
-				Thermite = false;
 
 			if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
 				essenceMessage = true;
@@ -1836,23 +1830,6 @@ namespace SpiritMod
 					Main.NewText("The Essences are bursting!", 61, 255, 142);
 
 					essenceMessage = true;
-				}
-			}
-			if (NPC.downedPlantBoss) {
-				if (!Thermite) {
-					for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY * 1.13f) * 15E-05); k++) {
-						int EEXX = WorldGen.genRand.Next(100, Main.maxTilesX - 100);
-						int WHHYY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 500);
-						if (Main.tile[EEXX, WHHYY] != null) {
-							if (Main.tile[EEXX, WHHYY].active()) {
-								if (Main.tile[EEXX, WHHYY].type == 1) {
-									WorldGen.OreRunner(EEXX, WHHYY, WorldGen.genRand.Next(4, 6), WorldGen.genRand.Next(4, 6), (ushort)TileType<Tiles.Block.ThermiteOre>());
-								}
-							}
-						}
-					}
-					Main.NewText("The Caverns have been flooded with lava!", 61, 255, 142);
-					Thermite = true;
 				}
 			}
 

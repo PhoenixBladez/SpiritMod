@@ -331,7 +331,6 @@ namespace SpiritMod
 		public bool cometSet;
 		public bool hellSet;
 		public bool bloodfireSet;
-		public bool quickSilverSet;
 		public bool stellarSet;
 		public bool magicshadowSet;
 		public bool cryoSet;
@@ -341,7 +340,6 @@ namespace SpiritMod
 		public bool graniteslam = false;
 		public bool meleeshadowSet;
 		public bool infernalSet;
-		public bool crystalSet;
 		public bool bloomwindSet;
 		public bool fierySet;
 		public bool starSet;
@@ -771,7 +769,6 @@ namespace SpiritMod
 			magicshadowSet = false;
 			witherSet = false;
 			hellSet = false;
-			quickSilverSet = false;
 			reaperSet = false;
 			spiritSet = false;
 			coralSet = false;
@@ -792,7 +789,6 @@ namespace SpiritMod
 			cryoSet = false;
 			frigidSet = false;
 			marbleSet = false;
-			crystalSet = false;
 			magalaSet = false;
 			thermalSet = false;
 			infernalSet = false;
@@ -1579,10 +1575,6 @@ namespace SpiritMod
 
 			if(gremlinBuff) {
 				target.AddBuff(BuffID.Poisoned, 120);
-			}
-
-			if(crystalSet && proj.minion && Main.rand.NextBool(15)) {
-				target.AddBuff(ModContent.BuffType<SoulBurn>(), 240);
 			}
 
 			if(winterbornCharmMage && proj.magic && Main.rand.NextBool(7)) {
@@ -3514,12 +3506,6 @@ namespace SpiritMod
 				}
 			}
 
-			if(crystalSet) {
-				if(player.ownedProjectileCounts[ModContent.ProjectileType<HedronCrystal>()] <= 1) {
-					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<HedronCrystal>(), 25, 0, player.whoAmI);
-				}
-			}
-
 			if(shadowSet && (Main.rand.NextBool(2))) {
 				if(player.ownedProjectileCounts[ModContent.ProjectileType<Spirit>()] <= 2) {
 					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<Spirit>(), 56, 0, player.whoAmI);
@@ -5067,21 +5053,6 @@ namespace SpiritMod
 					Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<Dazzle>(), 0, 0, player.whoAmI);
 					Main.PlaySound(SoundID.Item, player.position, 9);
 					dazzleStacks = 0;
-				}
-
-				if(quickSilverSet && !player.HasBuff(ModContent.BuffType<SilverCooldown>())) {
-					player.AddBuff(ModContent.BuffType<SilverCooldown>(), 1800);
-
-					for(int h = 0; h < 12; h++) {
-						Vector2 vel = new Vector2(0, -1);
-						float rand = Main.rand.NextFloat() * (float)(Math.PI * 2);
-
-						vel = vel.RotatedBy(rand);
-						vel *= 7f;
-
-						Vector2 mouse = Main.MouseScreen + Main.screenPosition;
-						Projectile.NewProjectile(mouse, vel, ModContent.ProjectileType<QuicksilverDroplet>(), 62, 2, player.whoAmI);
-					}
 				}
 
 				if(reaperSet && !player.HasBuff(ModContent.BuffType<FelCooldown>())) {

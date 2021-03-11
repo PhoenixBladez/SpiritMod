@@ -91,8 +91,6 @@ namespace SpiritMod.NPCs.Spirit
 		{
 			if (Main.rand.Next(25) == 1)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SoulWeaver>());
-			if (Main.rand.Next(2) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SpiritCrystal>(), Main.rand.Next(1) + 1);
 		}
 
 		public override void AI()
