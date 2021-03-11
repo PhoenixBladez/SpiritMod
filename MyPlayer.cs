@@ -373,6 +373,7 @@ namespace SpiritMod
 		public bool icySoul;
 		public bool mythrilCharm;
 		public bool infernalShield;
+		public bool seaSnailVenom;
 		public bool shadowGauntlet;
 		public bool amazonCharm;
 		public bool KingSlayerFlask;
@@ -461,11 +462,11 @@ namespace SpiritMod
 					SpiritMod.glitchScreenShader.UseIntensity(0.0008f);
 					player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
 				}	
-			}		
 			else {
-				player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);
-			}
-
+					player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);
+				}
+			}	
+			player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);	
 			player.ManageSpecialBiomeVisuals("SpiritMod:AuroraSky", showAurora);
 			player.ManageSpecialBiomeVisuals("SpiritMod:SpiritBiomeSky", spirit);
 			player.ManageSpecialBiomeVisuals("SpiritMod:AsteroidSky2", ZoneAsteroid);
@@ -589,6 +590,7 @@ namespace SpiritMod
 			setbonus = null;
             rogueCrest = false;
             cimmerianScepter = false;
+			seaSnailVenom = false;
             spellswordCrest = false;
 			stoneHead = false;
 			silkenRobe = false;
@@ -3999,9 +4001,17 @@ namespace SpiritMod
 
 			DashMovement(FindDashes());
 		}
-
+		int projectileTimer;
 		public override void PostUpdate()
 		{
+			if (seaSnailVenom)
+			{
+				projectileTimer++;
+				if (projectileTimer % 5 == 0 && player.velocity.X != 0f && player.velocity.Y == 0f)
+				{
+					int p = Projectile.NewProjectile(player.Center.X - 10*player.direction, player.Center.Y + 5, 0f, 20f, mod.ProjectileType("Sea_Snail_Poison_Projectile"), 5, 0f, player.whoAmI, 0f, 0f);
+				}
+			}
 			if (teslaCoil)
 				Attack(player);			
 			foreach(var effect in removedEffects)
@@ -4090,9 +4100,9 @@ namespace SpiritMod
 				NPC npc = Main.npc[i];
 				if ((double)Vector2.Distance(player.Center, npc.Center) <= (double)300f && !npc.friendly && npc.damage > 0 && npc.life > 0 && npc.life < npc.lifeMax && npc.active)
 				{		
-					if (attackTimer % 62 == 0)
+					if (attackTimer % 90 == 0)
 					{
-						int p = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<Items.Accessory.UnstableTeslaCoil.Unstable_Tesla_Coil_Projectile>(), 22, 0f, player.whoAmI, 0.0f, 0.0f);
+						int p = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<Items.Accessory.UnstableTeslaCoil.Unstable_Tesla_Coil_Projectile>(), 18, 0f, player.whoAmI, 0.0f, 0.0f);
 						Main.projectile[p].ai[0] = npc.position.X;
 						Main.projectile[p].ai[1] = npc.position.Y;
 						Main.projectile[p].netUpdate = true;

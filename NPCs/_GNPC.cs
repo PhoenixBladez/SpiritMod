@@ -1072,6 +1072,10 @@ namespace SpiritMod.NPCs
 			}
 			#endregion
 			*/
+			if (npc.type == 220 && Main.rand.Next(3)==0)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Sea_Snail_Poison"));
+			}
             if (player.GetSpiritPlayer().arcaneNecklace && Main.rand.Next(5) == 0 && !npc.friendly && player.HeldItem.magic && player.statMana < player.statManaMax2)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 184);
