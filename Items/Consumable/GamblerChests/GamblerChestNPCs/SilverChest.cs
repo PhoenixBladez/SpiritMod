@@ -9,6 +9,7 @@ using SpiritMod.Items.GamblerChestLoot.Jem;
 using SpiritMod.Items.GamblerChestLoot.FunnyFirework;
 using SpiritMod.Items.GamblerChestLoot.Champagne;
 using SpiritMod.Items.GamblerChestLoot.GildedMustache;
+using SpiritMod.Mechanics.Fathomless_Chest;
 
 namespace SpiritMod.Items.Consumable.GamblerChests.GamblerChestNPCs
 {
@@ -120,6 +121,7 @@ namespace SpiritMod.Items.Consumable.GamblerChests.GamblerChestNPCs
 					npc.DropItem(ModContent.ItemType<FunnyFirework>(), 0.07f, Main.rand.Next(5, 9));
 					npc.DropItem(ItemID.AngelStatue, 0.03f);
 					npc.DropItem(ModContent.ItemType<Champagne>(), 0.06f, Main.rand.Next(1, 3));
+                     npc.DropItem(ModContent.ItemType<Mystical_Dice>(), 0.04f);
 					switch (Main.rand.NextBool()) { //mutually exclusive
 						case true:
 							npc.DropItem(ModContent.ItemType<GildedMustache>(), 0.03f);
