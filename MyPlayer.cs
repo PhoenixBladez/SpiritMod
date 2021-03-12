@@ -329,6 +329,7 @@ namespace SpiritMod
         public bool wayfarerSet;
 		public bool marbleSet;
 		public bool cometSet;
+		public bool midasTouch;
 		public bool hellSet;
 		public bool bloodfireSet;
 		public bool stellarSet;
@@ -590,6 +591,7 @@ namespace SpiritMod
 			setbonus = null;
             rogueCrest = false;
             cimmerianScepter = false;
+			midasTouch = false;
 			seaSnailVenom = false;
             spellswordCrest = false;
 			stoneHead = false;
@@ -1270,6 +1272,7 @@ namespace SpiritMod
 					player.statLife -= 3;
 				}
 			}
+			
 			if(bloodyBauble) {
 				if(Main.rand.Next(20) <= 1 && player.statLife != player.statLifeMax2) {
 					int leech = Main.rand.Next(1,4);
@@ -1338,6 +1341,9 @@ namespace SpiritMod
 
 			if(reaperSet && Main.rand.NextBool(15)) {
 				target.AddBuff(ModContent.BuffType<FelBrand>(), 160);
+			}
+			if(midasTouch) {
+				target.AddBuff(BuffID.Midas, 240);
 			}
 
 			if(magalaSet && Main.rand.NextBool(6)) {
@@ -1430,6 +1436,10 @@ namespace SpiritMod
 					player.AddBuff(BuffID.Regeneration, 180);
 				}
 			}
+			if(midasTouch) {
+				target.AddBuff(BuffID.Midas, 240);
+			}
+
 			if(forbiddenTome) {
 				if(target.life <= 0 && !target.SpawnedFromStatue) {
 					for(int i = 0; i < 40; i++) {
@@ -4007,7 +4017,7 @@ namespace SpiritMod
 			if (seaSnailVenom)
 			{
 				projectileTimer++;
-				if (projectileTimer % 5 == 0 && player.velocity.X != 0f && player.velocity.Y == 0f)
+				if (projectileTimer % 5 == 0 && player.velocity.X != 0f && player.velocity.Y == 0f && !player.mount.Active)
 				{
 					int p = Projectile.NewProjectile(player.Center.X - 10*player.direction, player.Center.Y + 5, 0f, 20f, mod.ProjectileType("Sea_Snail_Poison_Projectile"), 5, 0f, player.whoAmI, 0f, 0f);
 				}

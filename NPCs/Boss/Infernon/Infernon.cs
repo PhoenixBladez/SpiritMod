@@ -349,6 +349,33 @@ namespace SpiritMod.NPCs.Boss.Infernon
 
 		public override void NPCLoot()
 		{
+			if (Main.netMode != 1)
+			{
+				int centerX = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
+				int centerY = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
+				int halfLength = npc.width / 2 / 16 + 1;
+				for (int x = centerX - halfLength; x <= centerX + halfLength; x++)
+				{
+					for (int y = centerY - halfLength; y <= centerY + halfLength; y++)
+					{
+						if ((x == centerX - halfLength || x == centerX + halfLength || y == centerY - halfLength || y == centerY + halfLength) && !Main.tile[x, y].active())
+						{
+							Main.tile[x, y].type = TileID.HellstoneBrick;
+							Main.tile[x, y].active(true);
+						}
+						Main.tile[x, y].lava(false);
+						Main.tile[x, y].liquid = 0;
+						if (Main.netMode == 2)
+						{
+							NetMessage.SendTileSquare(-1, x, y, 1);
+						}
+						else
+						{
+							WorldGen.SquareTileFrame(x, y, true);
+						}
+					}
+				}
+			}
 			npc.DropItem(ModContent.ItemType<InfernalAppendage>(), 25, 36);
 
 			int[] lootTable = {

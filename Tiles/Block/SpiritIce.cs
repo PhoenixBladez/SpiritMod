@@ -15,6 +15,7 @@ namespace SpiritMod.Tiles.Block
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = true;
+			TileID.Sets.Conversion.Ice[Type] = true;
 			AddMapEntry(new Color(70, 130, 180));
 			drop = ModContent.ItemType<SpiritIceItem>();
             soundType = -1;

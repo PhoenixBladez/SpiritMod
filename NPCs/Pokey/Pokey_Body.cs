@@ -292,9 +292,19 @@ namespace SpiritMod.NPCs.Pokey
 
 		public override void NPCLoot()
         {
-            if(Head.active && Head.life > 0) //no overlapping death sfx on head kill
+            if(Head.active && Head.life > 0) 
+            {//no overlapping death sfx on head kill
                 Main.PlaySound(SoundID.Dig, (int)npc.Center.X, (int)npc.Center.Y, 1, 1f, -0.25f);
-
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Cactus, Main.rand.Next(0, 3) + 1);
+            }
+            if (Head.life <= 0)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.CopperCoin, Main.rand.Next(10, 20) + 6);
+                if (Main.rand.NextBool(5))
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.PinkPricklyPear);
+                }
+            }
             switch (npc.frame.Y)
             {
                 case 0:

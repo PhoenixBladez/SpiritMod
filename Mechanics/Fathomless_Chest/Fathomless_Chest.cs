@@ -2,7 +2,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.Graphics.Shaders;
 using System;
+using SpiritMod.Items.Glyphs;
 using Terraria.DataStructures;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -72,8 +74,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Structures.Fathomless_Chest.Fathomless_Chest_World.isThereAChest = false;
-			Player player = Main.LocalPlayer;
+			Player player = Main.player[Player.FindClosest(new Vector2(i*16, j*16), 100, 100)];
 			Tile tile = Main.tile[i, j];
 			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(42, 186));
 			for (int index1 = 0; index1 < 3; ++index1)
@@ -93,17 +94,17 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 			}
 			
 			//int randomEffectCounter = 5;
-			int randomEffectCounter = Main.rand.Next(8);
+			int randomEffectCounter = Main.rand.Next(12);
 			switch (randomEffectCounter)
 			{
 				case 0: //SPAWN ZOMBIES
 				{
 					BadLuck();
-					int a = NPC.NewNPC((int)(i * 16) + -8 - 16 - 16, (j * 16) + 6, 3);
-					int b = NPC.NewNPC((int)(i * 16) + -8 - 16, (j * 16) + 6, 3);
-					int c = NPC.NewNPC((int)(i * 16) + 8, (j * 16) + 6, 430);
-					int d = NPC.NewNPC((int)(i * 16) + 24 + 16, (j * 16) + 6, 3);
-					int e = NPC.NewNPC((int)(i * 16) + 24 + 32, (j * 16) + 6, 3);
+					int a = NPC.NewNPC((int)(i * 16) + -8 - 16 - 16, (j * 16) + 6, 21);
+					int b = NPC.NewNPC((int)(i * 16) + -8 - 16, (j * 16) + 6, 21);
+					int c = NPC.NewNPC((int)(i * 16) + 8, (j * 16) + 6, 21);
+					int d = NPC.NewNPC((int)(i * 16) + 24 + 16, (j * 16) + 6, 21);
+					int e = NPC.NewNPC((int)(i * 16) + 24 + 32, (j * 16) + 6, 21);
 					Main.npc[a].netUpdate = true;
 					Main.npc[b].netUpdate = true;
 					Main.npc[c].netUpdate = true;
@@ -120,7 +121,11 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 					{
 						if (player.inventory[index].type >= 71 && player.inventory[index].type <= 74)
 						{
-							int number = Item.NewItem((int)player.position.X, (int)player.position.Y, player.width, player.height, player.inventory[index].type, 1, false, 0, false, false);
+							int number = Item.NewItem((int)player.position.X, (int)player.position.Y, player.width, player.height, player.inventory[index].type, 1);
+							if (Main.netMode == 1 && number >= 0)
+							{
+								NetMessage.SendData(MessageID.SyncItem, -1, -1, null, number, 1f);
+							}							
 							int num2 = player.inventory[index].stack / 5;
 							if (Main.expertMode)
 							{
@@ -175,25 +180,56 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 					int randomPotion2 = Utils.SelectRandom<int>(Main.rand, new int[38] { 2344, 303, 300, 2325, 2324, 2356, 2329, 2346, 295, 2354, 2327, 291, 305, 2323, 304, 2348, 297, 292, 2345, 2352, 294, 293, 2322, 299, 288, 2347, 289, 298, 2355, 296, 2353, 2328, 290, 301, 2326, 2359, 302, 2349 });
 					int randomPotion3 = Utils.SelectRandom<int>(Main.rand, new int[38] { 2344, 303, 300, 2325, 2324, 2356, 2329, 2346, 295, 2354, 2327, 291, 305, 2323, 304, 2348, 297, 292, 2345, 2352, 294, 293, 2322, 299, 288, 2347, 289, 298, 2355, 296, 2353, 2328, 290, 301, 2326, 2359, 302, 2349 });
 					int randomPotion4 = Utils.SelectRandom<int>(Main.rand, new int[38] { 2344, 303, 300, 2325, 2324, 2356, 2329, 2346, 295, 2354, 2327, 291, 305, 2323, 304, 2348, 297, 292, 2345, 2352, 294, 293, 2322, 299, 288, 2347, 289, 298, 2355, 296, 2353, 2328, 290, 301, 2326, 2359, 302, 2349 });
-					int number = Item.NewItem((int)(i * 16) + 8, (int)(j * 16) + 12, 16, 18, randomPotion, 1, false, 0, false, false);
+					if (Main.netMode == 1)
+					{
+						randomPotion = 2344;
+						randomPotion2 = 303;
+						randomPotion3 = 300;
+						randomPotion4 = 2356;
+					}
+					int number = Item.NewItem((int)(i * 16) + 8, (int)(j * 16) + 12, 16, 18, randomPotion, 1);
 					Main.item[number].velocity.Y = (float)Main.rand.Next(-20, 1) * 0.2f;
 					Main.item[number].velocity.X = (float)Main.rand.Next(-20, 21) * 0.2f;
-					int number2 = Item.NewItem((int)(i * 16) + 8, (int)(j * 16) + 12, 16, 18, randomPotion2, 1, false, 0, false, false);
+					if (Main.netMode == 1 && number >= 0)
+					{
+						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, number, 1f);
+					}
+					int number2 = Item.NewItem((int)(i * 16) + 8, (int)(j * 16) + 12, 16, 18, randomPotion2, 1);
 					Main.item[number2].velocity.Y = (float)Main.rand.Next(-20, 1) * 0.2f;
 					Main.item[number2].velocity.X = (float)Main.rand.Next(-20, 21) * 0.2f;
-					int number3 = Item.NewItem((int)(i * 16) + 8, (int)(j * 16) + 12, 16, 18, randomPotion3, 1, false, 0, false, false);
+					if (Main.netMode == 1 && number2 >= 0)
+					{
+						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, number2, 1f);
+					}
+					int number3 = Item.NewItem((int)(i * 16) + 8, (int)(j * 16) + 12, 16, 18, randomPotion3, 1);
 					Main.item[number3].velocity.Y = (float)Main.rand.Next(-20, 1) * 0.2f;
 					Main.item[number3].velocity.X = (float)Main.rand.Next(-20, 21) * 0.2f;
-					int number4 = Item.NewItem((int)(i * 16) + 8, (int)(j * 16) + 12, 16, 18, randomPotion4, 1, false, 0, false, false);
+					if (Main.netMode == 1 && number3 >= 0)
+					{
+						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, number3, 1f);
+					}
+					int number4 = Item.NewItem((int)(i * 16) + 8, (int)(j * 16) + 12, 16, 18, randomPotion4, 1);
 					Main.item[number4].velocity.Y = (float)Main.rand.Next(-20, 1) * 0.2f;
 					Main.item[number4].velocity.X = (float)Main.rand.Next(-20, 21) * 0.2f;
+					if (Main.netMode == 1 && number4 >= 0)
+					{
+						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, number4, 1f);
+					}
 					break;
 				}
 				case 3: //SPAWN AN ITEM
 				{
 					GoodLuck();
-					Item.NewItem((int)(i * 16) + 8, (int)(j * 16) + 12, 16, 18, 393, 1, false, 0, false, false);
-					Item.NewItem((int)(i * 16) + 8, (int)(j * 16) + 12, 16, 18, 18, 1, false, 0, false, false);
+					int item = Item.NewItem((int)(i * 16) + 8, (int)(j * 16) + 12, 16, 18, 393, 1);
+					if (Main.netMode == 1 && item >= 0)
+					{
+						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item, 1f);
+					}
+					int item1 = Item.NewItem((int)(i * 16) + 8, (int)(j * 16) + 12, 16, 18, 18, 1);
+					if (Main.netMode == 1 && item1 >= 0)
+					{
+						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item1, 1f);
+					}
 					break;
 				}
 				case 4: //SPAWN BUNNIES
@@ -205,10 +241,9 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 					{
 						npcposX = (i * 16) + Main.rand.Next(-60,60);
 						npcposY = (j * 16) + Main.rand.Next(-60,60);
-						int a = NPC.NewNPC((int)npcposX, (int)npcposY, 46);
+						int a = NPC.NewNPC((int)npcposX, (int)npcposY, 356);
 						Main.npc[a].value = 0;
 						Main.npc[a].friendly = false;
-						Main.npc[a].dontTakeDamage = true;
 						Main.npc[a].netUpdate = true;
 						Vector2 spinningpoint = new Vector2(0.0f, -3f).RotatedByRandom(3.14159274101257);
 						float num1 = (float) 28;
@@ -238,29 +273,107 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 					Main.tile[i-4, j+2].liquid = byte.MaxValue;
 					Main.tile[i+4, j+2].lava(true);
 					Main.tile[i+4, j+2].liquid = byte.MaxValue;
-					Item.NewItem((int)(i * 16), (int)(j * 16) - 12, 16, 18, ItemID.ObsidianSkinPotion, 1, false, 0, false, false);
+					int item = Item.NewItem((int)(i * 16), (int)(j * 16) - 12, 16, 18, ItemID.ObsidianSkinPotion, 1);
+					if (Main.netMode == 1 && item >= 0)
+					{
+						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item, 1f);
+					}
 					break;
 				}
 				case 6: //Convert regional stone into gems
 				{
 					GoodLuck();
 					int gemType = Main.rand.Next(new int[] { 63, 64, 65, 66, 67, 68 });
-					ConvertStone(i, j, 6, gemType);
-					Item.NewItem((int)(i * 16) + 8, (int)(j * 16) + 12, 16, 18, gemType, 1, false, 0, false, false);
+					if (Main.netMode == 1)
+					{
+						gemType = 64;
+					}
+					ConvertStone(i, j, 8, gemType);
+
+					for (int val = 0; val < 22; val++) {
+					int num = Dust.NewDust(new Vector2(i * 16, j * 16), 80, 80, 226, 0f, -2f, 0, default(Color), 2f);
+					Main.dust[num].noGravity = true;
+					Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(77, player);
+					Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+					Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
+					Main.dust[num].scale *= .25f;
+					}
 					break;
 				}
 				case 7: //Places opposite world evil
 				{
 					BadLuck();
+					for (int value = 0; value < 32; value++) {
+					int num = Dust.NewDust(new Vector2(i * 16, j * 16), 50, 50, 54, 0f, -2f, 0, default(Color), 2f);
+					Main.dust[num].noGravity = true;
+					Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+					Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
+					Main.dust[num].scale *= .35f;
+					Main.dust[num].fadeIn += .1f;
+					}
 					if (WorldGen.crimson)
 					{
-						ConvertStone(i, j, 6, 25);
-						ConvertDirt(i, j, 6, 23);
+						ConvertStone(i, j, 9, 25);
+						ConvertDirt(i, j, 9, 23);
 					}
 					else
 					{
-						ConvertStone(i, j, 6, 203);
-						ConvertDirt(i, j, 6, 199);
+						ConvertStone(i, j, 9, 203);
+						ConvertDirt(i, j, 9, 199);
+					}
+					break;
+				}
+				case 8: //Midas effect
+				{
+					GoodLuck();
+					player.AddBuff(ModContent.BuffType<Buffs.MidasTouch>(), 3600*5);
+					for (int numi = 0; numi < 5; numi++)
+					{
+						float SpeedX = (float)(-(double)1 * (double)Main.rand.Next(40, 70) * 0.00999999977648258 + (double)Main.rand.Next(-20, 21) * 0.400000005960464);
+						float SpeedY = (float)(-(double)1 * (double)Main.rand.Next(40, 70) * 0.00999999977648258 + (double)Main.rand.Next(-20, 21) * 0.400000005960464);				
+						int p = Projectile.NewProjectile((float)(i * 16) + 8 + SpeedX, (float)(j * 16) + 12 + SpeedY, SpeedX, SpeedY, mod.ProjectileType("MidasProjectile"), 0, 0f, player.whoAmI, 0.0f, 0.0f);
+						Main.projectile[p].scale = Main.rand.Next(60,150)*0.01f;
+					}					
+				break;
+				}
+				case 9: //Clear all buffs and debuffs
+				{
+					NeutralLuck();
+					for (int index1 = 0; index1 < 22; ++index1)
+					{
+						player.DelBuff(index1);	
+					}
+					break;					
+				}
+				case 10: //Darkness and Weak
+				{
+					BadLuck();
+					player.AddBuff(BuffID.Darkness, 3600);
+					player.AddBuff(BuffID.Weak, 3600);
+					break;
+				}
+				case 11: //Opposite gold/platinum ore
+				{
+					GoodLuck();
+					int oreType = 13;
+					if (WorldGen.GoldTierOre == TileID.Platinum)	
+					{
+						oreType = 13;
+					}
+					else
+					{
+						oreType = 702;
+					}
+					ConvertStone(i, j, 8, oreType);	
+					break;
+				}
+				case 12:
+				{
+					GoodLuck();
+					int item = Item.NewItem((int)(i * 16) + 8, (int)(j * 16) + 12, 16, 18, ModContent.ItemType<Glyph>(), 1);
+					if (Main.netMode == 1 && item >= 0)
+					{
+						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item, 1f);
 					}
 					break;
 				}

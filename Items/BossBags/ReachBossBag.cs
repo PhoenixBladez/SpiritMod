@@ -45,8 +45,7 @@ namespace SpiritMod.Items.BossBags
 				ModContent.ItemType<ThornBow>(),
 				ModContent.ItemType<SunbeamStaff>(),
 				ModContent.ItemType<ReachVineStaff>(),
-				ModContent.ItemType<ReachBossSword>(),
-				ModContent.ItemType<ReachKnife>()
+				ModContent.ItemType<ReachBossSword>()
 			};
 			int loot = Main.rand.Next(lootTable.Length);
 			player.QuickSpawnItem(lootTable[loot]);

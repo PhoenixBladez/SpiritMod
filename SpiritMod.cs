@@ -6,14 +6,13 @@ using SpiritMod.Items.Pins;
 using SpiritMod.NPCs.Boss.Atlas;
 using SpiritMod.NPCs.Boss.Overseer;
 using SpiritMod.NPCs.Town;
-using SpiritMod.Prim;
 using SpiritMod.Projectiles;
 using SpiritMod.Skies;
 using SpiritMod.Skies.Overlays;
-using SpiritMod.Sounds;
 using SpiritMod.Tide;
 using SpiritMod.Utilities;
 using SpiritMod.World;
+using SpiritMod.Sounds;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,18 +23,19 @@ using Terraria.Graphics;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
+using Terraria.UI;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.UI;
 using Terraria.Utilities;
+using SpiritMod.Prim;
 
 namespace SpiritMod
 {
-	public class SpiritMod : Mod
-    {
-        internal UserInterface BookUserInterface;
+	partial class SpiritMod : Mod
+	{
+		internal UserInterface BookUserInterface;
 
-        public static SpiritMod Instance;
+		public static SpiritMod Instance;
 		public UnifiedRandom spiritRNG;
 		public static AdventurerQuestHandler AdventurerQuests;
 		public static Effect auroraEffect;
@@ -53,15 +53,15 @@ namespace SpiritMod
 		public static GlitchScreenShader glitchScreenShader;
 		public static Texture2D noise;
 
-        public static SoundLooper nighttimeAmbience;
+		public static SoundLooper nighttimeAmbience;
 		public static SoundLooper scarabWings;
-        public static SoundLooper wavesAmbience;
-        public static SoundLooper lightWind;
-        public static SoundLooper desertWind;
-        public static SoundLooper caveAmbience;
+		public static SoundLooper wavesAmbience;
+		public static SoundLooper lightWind;
+		public static SoundLooper desertWind;
+		public static SoundLooper caveAmbience;
 
-        //public static Texture2D MoonTexture;
-        public const string EMPTY_TEXTURE = "SpiritMod/Empty";
+		//public static Texture2D MoonTexture;
+		public const string EMPTY_TEXTURE = "SpiritMod/Empty";
 		public static Texture2D EmptyTexture {
 			get;
 			private set;
@@ -196,36 +196,32 @@ namespace SpiritMod
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/DepthInvasion");
 				priority = MusicPriority.Event;
 			}
-			if (config.NeonBiomeMusic && spirit.ZoneSynthwave) 
-			{
-				if (Main.dayTime)
-				{
+			if (config.NeonBiomeMusic && spirit.ZoneSynthwave) {
+				if (Main.dayTime) {
 					music = GetSoundSlot(SoundType.Music, "Sounds/Music/NeonTech1");
 					priority = MusicPriority.Event;
 				}
-				else
-				{
+				else {
 					music = GetSoundSlot(SoundType.Music, "Sounds/Music/NeonTech");
 					priority = MusicPriority.Event;
 				}
 			}
-            if (Main.invasionType == 2 && config.FrostLegionMusic && player.ZoneOverworldHeight && Main.invasionProgressNearInvasion) {
-                music = GetSoundSlot(SoundType.Music, "Sounds/Music/FrostLegion");
-                priority = MusicPriority.BossLow;
-            }
-            if (priority > MusicPriority.Environment)
+			if (Main.invasionType == 2 && config.FrostLegionMusic && player.ZoneOverworldHeight && Main.invasionProgressNearInvasion) {
+				music = GetSoundSlot(SoundType.Music, "Sounds/Music/FrostLegion");
+				priority = MusicPriority.BossLow;
+			}
+			if (priority > MusicPriority.Environment)
 				return;
 			if (spirit.ZoneBlueMoon && !Main.dayTime && (player.ZoneOverworldHeight || player.ZoneSkyHeight)) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/BlueMoon");
 				priority = MusicPriority.Environment;
 			}
-            if (MyWorld.jellySky && !Main.dayTime && player.ZoneSkyHeight)
-            {
-                music = GetSoundSlot(SoundType.Music, "Sounds/Music/JellySky");
-                priority = MusicPriority.Environment;
-            }
+			if (MyWorld.jellySky && !Main.dayTime && player.ZoneSkyHeight) {
+				music = GetSoundSlot(SoundType.Music, "Sounds/Music/JellySky");
+				priority = MusicPriority.Environment;
+			}
 
-            if (priority > MusicPriority.BiomeHigh)
+			if (priority > MusicPriority.BiomeHigh)
 				return;
 			if (spirit.ZoneReach && Main.dayTime && !player.ZoneRockLayerHeight) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/Reach");
@@ -247,13 +243,13 @@ namespace SpiritMod
 				priority = MusicPriority.BiomeHigh;
 			}
 			if (config.MeteorMusic
-				&& player.ZoneMeteor 
+				&& player.ZoneMeteor
 				&& !Main.bloodMoon) {
-                music = GetSoundSlot(SoundType.Music, "Sounds/Music/Meteor");
-                priority = MusicPriority.BiomeHigh;
-            }
+				music = GetSoundSlot(SoundType.Music, "Sounds/Music/Meteor");
+				priority = MusicPriority.BiomeHigh;
+			}
 
-            if (config.BlizzardMusic
+			if (config.BlizzardMusic
 				&& player.ZoneSnow
 				&& player.ZoneOverworldHeight
 				&& !player.ZoneCorrupt
@@ -263,7 +259,7 @@ namespace SpiritMod
 				priority = MusicPriority.BiomeHigh;
 			}
 
-            if (config.LuminousMusic
+			if (config.LuminousMusic
 				&& player.ZoneBeach
 				&& MyWorld.luminousOcean
 				&& !Main.dayTime) {
@@ -271,84 +267,82 @@ namespace SpiritMod
 				priority = MusicPriority.BiomeHigh;
 			}
 
-            if (config.HallowNightMusic
-                && player.ZoneHoly
-                && player.ZoneOverworldHeight
-                && !Main.dayTime
-                && !player.ZoneCorrupt
-                && !player.ZoneCrimson
-                && !player.ZoneJungle
-                && !player.ZoneBeach
-                && !Main.raining
-                && !Main.bloodMoon) {
+			if (config.HallowNightMusic
+				&& player.ZoneHoly
+				&& player.ZoneOverworldHeight
+				&& !Main.dayTime
+				&& !player.ZoneCorrupt
+				&& !player.ZoneCrimson
+				&& !player.ZoneJungle
+				&& !player.ZoneBeach
+				&& !Main.raining
+				&& !Main.bloodMoon) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/HallowNight");
 				priority = MusicPriority.BiomeHigh;
 			}
 
-            if (config.CorruptNightMusic
-                && player.ZoneCorrupt
-                && player.ZoneOverworldHeight
-                && !Main.dayTime
-                && !player.ZoneHoly
-                && !player.ZoneCrimson
-                && !player.ZoneJungle
-                && !player.ZoneBeach
-                && !Main.bloodMoon)
-            {
-                music = GetSoundSlot(SoundType.Music, "Sounds/Music/CorruptNight");
-                priority = MusicPriority.BiomeHigh;
-            }
+			if (config.CorruptNightMusic
+				&& player.ZoneCorrupt
+				&& player.ZoneOverworldHeight
+				&& !Main.dayTime
+				&& !player.ZoneHoly
+				&& !player.ZoneCrimson
+				&& !player.ZoneJungle
+				&& !player.ZoneBeach
+				&& !Main.bloodMoon) {
+				music = GetSoundSlot(SoundType.Music, "Sounds/Music/CorruptNight");
+				priority = MusicPriority.BiomeHigh;
+			}
 
-            if (config.CalmNightMusic
-                && MyWorld.calmNight
-                && !player.ZoneSnow
-                && player.ZoneOverworldHeight
-                && !Main.dayTime
-                && !player.ZoneCorrupt
-                && !player.ZoneCrimson
-                && !player.ZoneJungle
-                && !player.ZoneBeach
-                && !player.ZoneHoly
-                && !player.ZoneDesert
-                && !Main.raining
-                && !Main.bloodMoon)
-            {
-                music = GetSoundSlot(SoundType.Music, "Sounds/Music/CalmNight");
-                priority = MusicPriority.BiomeHigh;
-            }
+			if (config.CalmNightMusic
+				&& MyWorld.calmNight
+				&& !player.ZoneSnow
+				&& player.ZoneOverworldHeight
+				&& !Main.dayTime
+				&& !player.ZoneCorrupt
+				&& !player.ZoneCrimson
+				&& !player.ZoneJungle
+				&& !player.ZoneBeach
+				&& !player.ZoneHoly
+				&& !player.ZoneDesert
+				&& !Main.raining
+				&& !Main.bloodMoon) {
+				music = GetSoundSlot(SoundType.Music, "Sounds/Music/CalmNight");
+				priority = MusicPriority.BiomeHigh;
+			}
 
-            if (config.SnowNightMusic
+			if (config.SnowNightMusic
 				&& player.ZoneSnow
 				&& player.ZoneOverworldHeight
 				&& !Main.dayTime
 				&& !player.ZoneCorrupt
 				&& !player.ZoneCrimson
-                && !player.ZoneHoly
-                && !MyWorld.aurora
+				&& !player.ZoneHoly
+				&& !MyWorld.aurora
 				&& !Main.raining
 				&& !Main.bloodMoon) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/SnowNighttime");
 				priority = MusicPriority.BiomeMedium;
 			}
 
-            if (config.DesertNightMusic
+			if (config.DesertNightMusic
 				&& player.ZoneDesert
 				&& player.ZoneOverworldHeight
 				&& !Main.dayTime
 				&& !player.ZoneCorrupt
 				&& !player.ZoneCrimson
 				&& !player.ZoneHoly
-                && !player.ZoneBeach) {
+				&& !player.ZoneBeach) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/DesertNighttime");
 				priority = MusicPriority.BiomeHigh;
 			}
 
-            if (spirit.ZoneAsteroid) {
+			if (spirit.ZoneAsteroid) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/Asteroids");
 				priority = MusicPriority.Environment;
 			}
 
-            if (priority > MusicPriority.BiomeMedium)
+			if (priority > MusicPriority.BiomeMedium)
 				return;
 			if (spirit.ZoneSpirit) {
 				priority = MusicPriority.BiomeMedium;
@@ -366,28 +360,26 @@ namespace SpiritMod
 				}
 			}
 
-            if (config.GraniteMusic
+			if (config.GraniteMusic
 				&& spirit.ZoneGranite && !player.ZoneHoly && !player.ZoneCorrupt && !player.ZoneCrimson
-                && !player.ZoneOverworldHeight && !spirit.ZoneSpirit && spirit.inGranite) {
+				&& !player.ZoneOverworldHeight && !spirit.ZoneSpirit && spirit.inGranite) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/GraniteBiome");
 				priority = MusicPriority.BiomeMedium;
 			}
 
-            if (config.MarbleMusic
-                && spirit.ZoneMarble && !player.ZoneHoly && !player.ZoneCorrupt && !player.ZoneCrimson
-                && !player.ZoneOverworldHeight && !spirit.ZoneSpirit && spirit.inMarble)
-            {
-                music = GetSoundSlot(SoundType.Music, "Sounds/Music/MarbleBiome");
-                priority = MusicPriority.BiomeMedium;
-            }
-            if (config.SpiderCaveMusic
-                && spirit.ZoneSpider && !player.ZoneHoly && !player.ZoneCorrupt && !player.ZoneCrimson
-                && !player.ZoneOverworldHeight && !spirit.ZoneSpirit)
-            {
-                music = GetSoundSlot(SoundType.Music, "Sounds/Music/SpiderCave");
-                priority = MusicPriority.BiomeMedium;
-            }
-        }
+			if (config.MarbleMusic
+				&& spirit.ZoneMarble && !player.ZoneHoly && !player.ZoneCorrupt && !player.ZoneCrimson
+				&& !player.ZoneOverworldHeight && !spirit.ZoneSpirit && spirit.inMarble) {
+				music = GetSoundSlot(SoundType.Music, "Sounds/Music/MarbleBiome");
+				priority = MusicPriority.BiomeMedium;
+			}
+			if (config.SpiderCaveMusic
+				&& spirit.ZoneSpider && !player.ZoneHoly && !player.ZoneCorrupt && !player.ZoneCrimson
+				&& !player.ZoneOverworldHeight && !spirit.ZoneSpirit) {
+				music = GetSoundSlot(SoundType.Music, "Sounds/Music/SpiderCave");
+				priority = MusicPriority.BiomeMedium;
+			}
+		}
 
 		public override object Call(params object[] args)
 		{
@@ -450,8 +442,8 @@ namespace SpiritMod
 			string name = args[1] as string;
 			switch (name) {
 				case "Scarabeus": return MyWorld.downedScarabeus;
-                case "Moon Jelly Wizard": return MyWorld.downedMoonWizard;
-                case "Vinewrath Bane": return MyWorld.downedReachBoss;
+				case "Moon Jelly Wizard": return MyWorld.downedMoonWizard;
+				case "Vinewrath Bane": return MyWorld.downedReachBoss;
 				case "Ancient Avian": return MyWorld.downedAncientFlier;
 				case "Starplate Raider": return MyWorld.downedRaider;
 				case "Infernon": return MyWorld.downedInfernon;
@@ -506,9 +498,8 @@ namespace SpiritMod
 			LoadReferences();
 			AdventurerQuests = new AdventurerQuestHandler(this);
 			StructureLoader.Load(this);
-            if (!Main.dedServ)
-            {
-                BookUserInterface = new UserInterface();
+			if (!Main.dedServ) {
+				BookUserInterface = new UserInterface();
 			}
 
 			SpiritDetours.Initialize();
@@ -549,12 +540,12 @@ namespace SpiritMod
 				glitchScreenShader = new GlitchScreenShader(glitchEffect);
 				Filters.Scene["SpiritMod:Glitch"] = new Filter(glitchScreenShader, EffectPriority.High);
 
-				StarjinxNoise = instance.GetEffect("Effects/StarjinxNoise"); 
+				StarjinxNoise = instance.GetEffect("Effects/StarjinxNoise");
 				CircleNoise = instance.GetEffect("Effects/CircleNoise");
 				StarfirePrims = instance.GetEffect("Effects/StarfirePrims");
 				ScreamingSkullTrail = instance.GetEffect("Effects/ScreamingSkullTrail");
-				 RipperSlugShader = instance.GetEffect("Effects/RipperSlugShader");
-				 ArcLashShader = instance.GetEffect("Effects/ArcLashShader");
+				RipperSlugShader = instance.GetEffect("Effects/RipperSlugShader");
+				ArcLashShader = instance.GetEffect("Effects/ArcLashShader");
 				JemShaders = instance.GetEffect("Effects/JemShaders");
 
 				SkyManager.Instance["SpiritMod:AuroraSky"] = new AuroraSky();
@@ -572,10 +563,10 @@ namespace SpiritMod
 				SkyManager.Instance["SpiritMod:SpiritBiomeSky"] = new SpiritBiomeSky();
 				Filters.Scene["SpiritMod:SpiritBiomeSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
 
-                SkyManager.Instance["SpiritMod:JellySky"] = new JellySky();
-                Filters.Scene["SpiritMod:JellySky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
+				SkyManager.Instance["SpiritMod:JellySky"] = new JellySky();
+				Filters.Scene["SpiritMod:JellySky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
 
-                SkyManager.Instance["SpiritMod:PurpleAlgaeSky"] = new PurpleAlgaeSky();
+				SkyManager.Instance["SpiritMod:PurpleAlgaeSky"] = new PurpleAlgaeSky();
 				Filters.Scene["SpiritMod:PurpleAlgaeSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
 
 				SkyManager.Instance["SpiritMod:GreenAlgaeSky"] = new GreenAlgaeSky();
@@ -584,7 +575,7 @@ namespace SpiritMod
 				SkyManager.Instance["SpiritMod:BlueAlgaeSky"] = new BlueAlgaeSky();
 				Filters.Scene["SpiritMod:BlueAlgaeSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
 
-			
+
 				Filters.Scene["SpiritMod:Overseer"] = new Filter(new SeerScreenShaderData("FilterMiniTower").UseColor(0f, 0.3f, 1f).UseOpacity(0.75f), EffectPriority.VeryHigh);
 				SkyManager.Instance["SpiritMod:Overseer"] = new SeerSky();
 
@@ -595,49 +586,49 @@ namespace SpiritMod
 				SkyManager.Instance["SpiritMod:SynthwaveSky"] = new VaporwaveSky();
 
 				//Music Boxes
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/TranquilWinds"), ItemType("TranquilWindsBox"), TileType("TranquilWindsBox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/NeonTech"), ItemType("NeonMusicBox"), TileType("NeonMusicBox"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/TranquilWinds"), ItemType("TranquilWindsBox"), TileType("TranquilWindsBox"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/NeonTech"), ItemType("NeonMusicBox"), TileType("NeonMusicBox"));
 
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritOverworld"), ItemType("SpiritBox1"), TileType("SpiritBox1"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer1"), ItemType("SpiritBox2"), TileType("SpiritBox2"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer2"), ItemType("SpiritBox3"), TileType("SpiritBox3"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer3"), ItemType("SpiritBox4"), TileType("SpiritBox4"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritOverworld"), ItemType("SpiritBox1"), TileType("SpiritBox1"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer1"), ItemType("SpiritBox2"), TileType("SpiritBox2"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer2"), ItemType("SpiritBox3"), TileType("SpiritBox3"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer3"), ItemType("SpiritBox4"), TileType("SpiritBox4"));
 
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Reach"), ItemType("ReachBox"), TileType("ReachBox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/ReachNighttime"), ItemType("BriarNightBox"), TileType("BriarNightBox"));
-              
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Asteroids"), ItemType("AsteroidBox"), TileType("AsteroidBox"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Reach"), ItemType("ReachBox"), TileType("ReachBox"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/ReachNighttime"), ItemType("BriarNightBox"), TileType("BriarNightBox"));
+
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Asteroids"), ItemType("AsteroidBox"), TileType("AsteroidBox"));
 
 				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Starplate"), ItemType("StarplateBox"), TileType("StarplateBox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/MoonJelly"), ItemType("MJWBox"), TileType("MJWBox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Scarabeus"), ItemType("ScarabBox"), TileType("ScarabBox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Atlas"), ItemType("AtlasBox"), TileType("AtlasBox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/ReachBoss"), ItemType("VinewrathBox"), TileType("VinewrathBox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/AncientAvian"), ItemType("AvianBox"), TileType("AvianBox"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/MoonJelly"), ItemType("MJWBox"), TileType("MJWBox"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Scarabeus"), ItemType("ScarabBox"), TileType("ScarabBox"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Atlas"), ItemType("AtlasBox"), TileType("AtlasBox"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/ReachBoss"), ItemType("VinewrathBox"), TileType("VinewrathBox"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/AncientAvian"), ItemType("AvianBox"), TileType("AvianBox"));
 				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Infernon"), ItemType("InfernonBox"), TileType("InfernonBox"));
 
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Blizzard"), ItemType("BlizzardBox"), TileType("BlizzardBox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/AuroraSnow"), ItemType("AuroraBox"), TileType("AuroraBox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SnowNighttime"), ItemType("SnowNightBox"), TileType("SnowNightBox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/DesertNighttime"), ItemType("DesertNightBox"), TileType("DesertNightBox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/OceanNighttime"), ItemType("LuminousNightBox"), TileType("LuminousNightBox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/HallowNight"), ItemType("HallowNightBox"), TileType("HallowNightBox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/CalmNight"), ItemType("CalmNightBox"), TileType("CalmNightBox"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Blizzard"), ItemType("BlizzardBox"), TileType("BlizzardBox"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/AuroraSnow"), ItemType("AuroraBox"), TileType("AuroraBox"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SnowNighttime"), ItemType("SnowNightBox"), TileType("SnowNightBox"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/DesertNighttime"), ItemType("DesertNightBox"), TileType("DesertNightBox"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/OceanNighttime"), ItemType("LuminousNightBox"), TileType("LuminousNightBox"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/HallowNight"), ItemType("HallowNightBox"), TileType("HallowNightBox"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/CalmNight"), ItemType("CalmNightBox"), TileType("CalmNightBox"));
 				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/CorruptNight"), ItemType("CorruptNightBox"), TileType("CorruptNightBox"));
 				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Meteor"), ItemType("MeteorBox"), TileType("MeteorBox"));
 
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/MarbleBiome"), ItemType("MarbleBox"), TileType("MarbleBox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/GraniteBiome"), ItemType("GraniteBox"), TileType("GraniteBox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiderCave"), ItemType("SpiderCaveBox"), TileType("SpiderCaveBox"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/MarbleBiome"), ItemType("MarbleBox"), TileType("MarbleBox"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/GraniteBiome"), ItemType("GraniteBox"), TileType("GraniteBox"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiderCave"), ItemType("SpiderCaveBox"), TileType("SpiderCaveBox"));
 
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/BlueMoon"), ItemType("BlueMoonBox"), TileType("BlueMoonBox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/DepthInvasion"), ItemType("TideBox"), TileType("TideBox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/JellySky"), ItemType("JellyDelugeBox"), TileType("JellyDelugeBox"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/BlueMoon"), ItemType("BlueMoonBox"), TileType("BlueMoonBox"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/DepthInvasion"), ItemType("TideBox"), TileType("TideBox"));
+				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/JellySky"), ItemType("JellyDelugeBox"), TileType("JellyDelugeBox"));
 				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/FrostLegion"), ItemType("FrostLegionBox"), TileType("FrostLegionBox"));
-            }
+			}
 			primitives = new PrimTrailManager();
 			// LoadDetours();
-        }
+		}
 
 		/// <summary>
 		/// Finds additional textures attached to things
@@ -694,14 +685,14 @@ namespace SpiritMod
 		}
 
 		public override void Unload()
-        {
-            nighttimeAmbience = null;
-            wavesAmbience = null;
-            desertWind = null;
-            caveAmbience = null;
-            lightWind = null;
+		{
+			nighttimeAmbience = null;
+			wavesAmbience = null;
+			desertWind = null;
+			caveAmbience = null;
+			lightWind = null;
 			scarabWings = null;
-            spiritRNG = null;
+			spiritRNG = null;
 			auroraEffect = null;
 			StarjinxNoise = null;
 			CircleNoise = null;
@@ -732,10 +723,10 @@ namespace SpiritMod
 		}
 
 		public override void UpdateUI(GameTime gameTime)
-        {
-            BookUserInterface?.Update(gameTime);
-        }
-        public override void AddRecipeGroups()
+		{
+			BookUserInterface?.Update(gameTime);
+		}
+		public override void AddRecipeGroups()
 		{
 			RecipeGroup woodGrp = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Wood"]];
 			woodGrp.ValidItems.Add(ModContent.ItemType<AncientBark>());
@@ -787,18 +778,18 @@ namespace SpiritMod
 				ModContent.ItemType<Items.Weapon.Bow.GemBows.Topaz_Bow.Topaz_Bow>()
 			});
 			RecipeGroup.RegisterGroup("SpiritMod:TopazBows", group);
-        }
-        public override void PostUpdateInput()
-        {
-            nighttimeAmbience?.Update();
-            wavesAmbience?.Update();
-            lightWind?.Update();
-            desertWind?.Update();
-            caveAmbience?.Update();
+		}
+		public override void PostUpdateInput()
+		{
+			nighttimeAmbience?.Update();
+			wavesAmbience?.Update();
+			lightWind?.Update();
+			desertWind?.Update();
+			caveAmbience?.Update();
 			scarabWings?.Update();
-        }
+		}
 
-        public override void PostUpdateEverything()
+		public override void PostUpdateEverything()
 		{
 			if (Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.I) && Terraria.GameInput.PlayerInput.MouseInfo.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed) {
 				Tile tile = Framing.GetTileSafely(Player.tileTargetX, Player.tileTargetY);
@@ -820,35 +811,34 @@ namespace SpiritMod
 			}
 			base.PostUpdateEverything();
 		}
-        public override void PostSetupContent()
-        {
-            nighttimeAmbience = new SoundLooper(this, "Sounds/NighttimeAmbience");
-            wavesAmbience = new SoundLooper(this, "Sounds/WavesAmbience");
-            lightWind = new SoundLooper(this, "Sounds/LightWind");
-            desertWind = new SoundLooper(this, "Sounds/DesertWind");
-            caveAmbience = new SoundLooper(this, "Sounds/CaveAmbience");
+		public override void PostSetupContent()
+		{
+			nighttimeAmbience = new SoundLooper(this, "Sounds/NighttimeAmbience");
+			wavesAmbience = new SoundLooper(this, "Sounds/WavesAmbience");
+			lightWind = new SoundLooper(this, "Sounds/LightWind");
+			desertWind = new SoundLooper(this, "Sounds/DesertWind");
+			caveAmbience = new SoundLooper(this, "Sounds/CaveAmbience");
 			scarabWings = new SoundLooper(this, "Sounds/BossSFX/Scarab_Wings");
-            Items.Glyphs.GlyphBase.InitializeGlyphLookup();
+			Items.Glyphs.GlyphBase.InitializeGlyphLookup();
 			BossChecklistDataHandler.RegisterSpiritData(this);
 			Mod fargos = ModLoader.GetMod("Fargowiltas");
-            if (fargos != null)
-            {
-                // AddSummon, order or value in terms of vanilla bosses, your mod internal name, summon   
-                //item internal name, inline method for retrieving downed value, price to sell for in copper
-                fargos.Call("AddSummon", 1.4f, "SpiritMod", "ScarabIdol", (Func<bool>)(() => MyWorld.downedScarabeus), 100 * 200);
-                fargos.Call("AddSummon", 4.2f, "SpiritMod", "JewelCrown", (Func<bool>)(() => MyWorld.downedAncientFlier), 100 * 200);
-                fargos.Call("AddSummon", 5.9f, "SpiritMod", "StarWormSummon", (Func<bool>)(() => MyWorld.downedRaider), 100 * 400);
-                fargos.Call("AddSummon", 6.5f, "SpiritMod", "CursedCloth", (Func<bool>)(() => MyWorld.downedInfernon), 100 * 500);
-                fargos.Call("AddSummon", 7.3f, "SpiritMod", "DuskCrown", (Func<bool>)(() => MyWorld.downedDusking), 100 * 500);
-                fargos.Call("AddSummon", 12.4f, "SpiritMod", "StoneSkin", (Func<bool>)(() => MyWorld.downedAtlas), 100 * 800);
-                fargos.Call("AddSummon", 7.3f, "SpiritMod", "SpiritIdol", (Func<bool>)(() => MyWorld.downedOverseer), 100 * 1000);
-            }
-        }
+			if (fargos != null) {
+				// AddSummon, order or value in terms of vanilla bosses, your mod internal name, summon   
+				//item internal name, inline method for retrieving downed value, price to sell for in copper
+				fargos.Call("AddSummon", 1.4f, "SpiritMod", "ScarabIdol", (Func<bool>)(() => MyWorld.downedScarabeus), 100 * 200);
+				fargos.Call("AddSummon", 4.2f, "SpiritMod", "JewelCrown", (Func<bool>)(() => MyWorld.downedAncientFlier), 100 * 200);
+				fargos.Call("AddSummon", 5.9f, "SpiritMod", "StarWormSummon", (Func<bool>)(() => MyWorld.downedRaider), 100 * 400);
+				fargos.Call("AddSummon", 6.5f, "SpiritMod", "CursedCloth", (Func<bool>)(() => MyWorld.downedInfernon), 100 * 500);
+				fargos.Call("AddSummon", 7.3f, "SpiritMod", "DuskCrown", (Func<bool>)(() => MyWorld.downedDusking), 100 * 500);
+				fargos.Call("AddSummon", 12.4f, "SpiritMod", "StoneSkin", (Func<bool>)(() => MyWorld.downedAtlas), 100 * 800);
+				fargos.Call("AddSummon", 7.3f, "SpiritMod", "SpiritIdol", (Func<bool>)(() => MyWorld.downedOverseer), 100 * 1000);
+			}
+		}
 
 
 		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
 		{
-            int inventoryIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));
+			int inventoryIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));
 			if (inventoryIndex != -1) {
 				layers.Insert(inventoryIndex, new LegacyGameInterfaceLayer(
 					"SpiritMod: BookUI",
@@ -885,7 +875,7 @@ namespace SpiritMod
 		public override void ModifySunLightColor(ref Color tileColor, ref Color backgroundColor)
 		{
 
-            Color white = Color.White;
+			Color white = Color.White;
 			Color white2 = Color.White;
 			if (MyWorld.SpiritTiles > 0) {
 				float num255 = MyWorld.SpiritTiles / 160f;

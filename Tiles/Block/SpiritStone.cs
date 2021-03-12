@@ -15,6 +15,7 @@ namespace SpiritMod.Tiles.Block
 			Main.tileBlockLight[Type] = true;
 			Main.tileBlendAll[this.Type] = true;
 			Main.tileLighted[Type] = true;
+			TileID.Sets.Conversion.Stone[Type] = true;
 			AddMapEntry(new Color(70, 130, 180));
 			soundType = SoundID.Tink;
 			drop = ModContent.ItemType<SpiritStoneItem>();

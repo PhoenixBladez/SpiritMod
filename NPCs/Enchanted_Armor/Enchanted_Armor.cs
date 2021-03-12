@@ -48,7 +48,7 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 			npc.width = 30;
 			npc.height = 56;
 			npc.damage = 27;
-			npc.lavaImmune = false;
+			npc.lavaImmune = true;
 			npc.noTileCollide = false;
 			npc.noGravity = false;
 			npc.HitSound = SoundID.NPCHit4;
