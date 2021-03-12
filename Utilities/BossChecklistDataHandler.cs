@@ -357,7 +357,7 @@ namespace SpiritMod.Utilities
 						ModContent.ItemType<ThornBow>(),
 						ModContent.ItemType<ReachVineStaff>(),
 						ModContent.ItemType<ReachBossSword>(),
-						ModContent.ItemType<ReachKnife>(),
+						// ModContent.ItemType<ReachKnife>(),
 						ItemID.LesserHealingPotion
 					}),
 				$"Right-click the Bloodblossom, a glowing flower found at the bottom of the Briar. The Vinewrath Bane can be fought at any time and any place in progression. If a Bloodblossom is not present, use a [i:{ModContent.ItemType<ReachBossSummon>()}] in the Briar below the surface at any time.",
