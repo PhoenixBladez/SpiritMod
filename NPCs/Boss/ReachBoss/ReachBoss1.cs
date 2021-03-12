@@ -271,8 +271,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				ModContent.ItemType<ThornBow>(),
 				ModContent.ItemType<SunbeamStaff>(),
 				ModContent.ItemType<ReachVineStaff>(),
-				ModContent.ItemType<ReachBossSword>(),
-				ModContent.ItemType<Items.Weapon.Thrown.ReachKnife>()
+				ModContent.ItemType<ReachBossSword>()
 			};
 			int loot = Main.rand.Next(lootTable.Length);
 			npc.DropItem(lootTable[loot]);

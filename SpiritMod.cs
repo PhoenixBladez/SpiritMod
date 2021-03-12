@@ -1000,7 +1000,7 @@ namespace SpiritMod
                     (Func<bool>)(() => MyWorld.downedReachBoss),
                     ModContent.ItemType<ReachBossSummon>(),
                     new List<int> { ModContent.ItemType<Items.Boss.Trophy5>(), ModContent.ItemType<Items.Armor.Masks.ReachMask>() , ModContent.ItemType<Items.Placeable.MusicBox.VinewrathBox>() },
-                    new List<int> { ModContent.ItemType<DeathRose>(), ModContent.ItemType<Items.Weapon.Magic.SunbeamStaff>(), ModContent.ItemType<Items.Weapon.Bow.ThornBow>(), ModContent.ItemType<Items.Weapon.Magic.ReachVineStaff>(), ModContent.ItemType<Items.Weapon.Swung.ReachBossSword>(), ModContent.ItemType<Items.Weapon.Thrown.ReachKnife>(), ItemID.LesserHealingPotion },
+                    new List<int> { ModContent.ItemType<DeathRose>(), ModContent.ItemType<Items.Weapon.Magic.SunbeamStaff>(), ModContent.ItemType<Items.Weapon.Bow.ThornBow>(), ModContent.ItemType<Items.Weapon.Magic.ReachVineStaff>(), ModContent.ItemType<Items.Weapon.Swung.ReachBossSword>(), ItemID.LesserHealingPotion },
                     "Right-click the Bloodblossom, a glowing flower found at the bottom of the Briar. The Vinewrath Bane can be fought at any time and any place in progression. If a Bloodblossom is not present, use a [i: " + ModContent.ItemType<ReachBossSummon>() + "] in the Briar below the surface at any time.",
                     null,
                     "SpiritMod/Textures/BossChecklist/ReachBossTexture",

@@ -6,7 +6,6 @@ using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Items.Consumable;
 using SpiritMod.Items.DonatorItems;
-using SpiritMod.Items.DonatorItems.Folv;
 using SpiritMod.Items.Equipment;
 using SpiritMod.Items.Glyphs;
 using SpiritMod.Items.Halloween;
@@ -1371,14 +1370,6 @@ namespace SpiritMod.NPCs
 			}
 
 			// Donator Items
-
-			//Folv
-			if (npc.type == ModContent.NPCType<Scarabeus>() || npc.type == ModContent.NPCType<AncientFlyer>() || npc.type == ModContent.NPCType<SteamRaiderHead>()) {
-				if (Main.rand.Next(10) == 1) {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<FolvBlade1>(), 1);
-				}
-			}
-			//End Folv
 
 			if (npc.type == NPCID.RedDevil) {
 				if (Main.rand.Next(80) == 0) {
