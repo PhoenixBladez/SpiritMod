@@ -1411,7 +1411,7 @@ namespace SpiritMod.World
 			progress.Message = "Spirit Mod: Adding Ambient Objects...";
 
 			if (WorldGen.CopperTierOre == TileID.Copper) {
-				for (int i = 0; i < Main.maxTilesX * 19.5; i++) {
+				for (int i = 0; i < Main.maxTilesX * 22.5; i++) {
 					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 					int num4 = WorldGen.genRand.Next((int)Main.worldSurface, Main.maxTilesY);
 					Tile tile = Main.tile[num3, num4];
@@ -1422,7 +1422,7 @@ namespace SpiritMod.World
 				}
 			}
 			else if (WorldGen.CopperTierOre == TileID.Tin) {
-				for (int i = 0; i < Main.maxTilesX * 19.5; i++) {
+				for (int i = 0; i < Main.maxTilesX * 22.5; i++) {
 					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 					int num4 = WorldGen.genRand.Next((int)Main.worldSurface, Main.maxTilesY);
 					Tile tile = Main.tile[num3, num4];
@@ -1434,7 +1434,7 @@ namespace SpiritMod.World
 			}
 
 			if (WorldGen.IronTierOre == TileID.Iron) {
-				for (int i = 0; i < Main.maxTilesX * 12; i++) {
+				for (int i = 0; i < Main.maxTilesX * 15; i++) {
 					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 					int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 					Tile tile = Main.tile[num3, num4];
@@ -1445,7 +1445,7 @@ namespace SpiritMod.World
 				}
 			}
 			else if (WorldGen.IronTierOre == TileID.Lead) {
-				for (int i = 0; i < Main.maxTilesX * 12; i++) {
+				for (int i = 0; i < Main.maxTilesX * 15; i++) {
 					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 					int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 					Tile tile = Main.tile[num3, num4];
@@ -1457,7 +1457,7 @@ namespace SpiritMod.World
 			}
 
 			if (WorldGen.SilverTierOre == TileID.Silver) {
-				for (int i = 0; i < Main.maxTilesX * 9.75f; i++) {
+				for (int i = 0; i < Main.maxTilesX * 11.75f; i++) {
 					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 					int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 					Tile tile = Main.tile[num3, num4];
@@ -1468,7 +1468,7 @@ namespace SpiritMod.World
 				}
 			}
 			else if (WorldGen.SilverTierOre == TileID.Tungsten) {
-				for (int i = 0; i < Main.maxTilesX * 9.75f; i++) {
+				for (int i = 0; i < Main.maxTilesX * 11.75f; i++) {
 					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 					int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 					Tile tile = Main.tile[num3, num4];
@@ -1480,7 +1480,7 @@ namespace SpiritMod.World
 			}
 
 			if (WorldGen.GoldTierOre == TileID.Gold) {
-				for (int i = 0; i < Main.maxTilesX * 6f; i++) {
+				for (int i = 0; i < Main.maxTilesX * 7.5f; i++) {
 					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 					int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 					Tile tile = Main.tile[num3, num4];
@@ -1491,7 +1491,7 @@ namespace SpiritMod.World
 				}
 			}
 			else if (WorldGen.GoldTierOre == TileID.Platinum) {
-				for (int i = 0; i < Main.maxTilesX * 6f; i++) {
+				for (int i = 0; i < Main.maxTilesX * 7.5f; i++) {
 					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 					int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 					Tile tile = Main.tile[num3, num4];
