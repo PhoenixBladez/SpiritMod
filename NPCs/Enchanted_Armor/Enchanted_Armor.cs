@@ -100,12 +100,18 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 
 					if (CanPlaceStatue(CheckTile)) {
 						WorldGen.PlaceObject(CheckTile.X, CheckTile.Y, ModContent.TileType<CursedArmor>(), direction: npc.spriteDirection);
+						if (Main.netMode != NetmodeID.SinglePlayer)
+							NetMessage.SendData(MessageID.TileChange, -1, -1, null, ModContent.TileType<CursedArmor>(), CheckTile.X, CheckTile.Y);
+
 						for (int i = 0; i < 6; i++)
 							Gore.NewGore(CheckTile.ToWorldCoordinates(), Main.rand.NextVector2Circular(2, 2), 99);
 						placed = true;
 					}
 					else if (CanPlaceStatue(new Point(TileX, TileY))) {
 						WorldGen.PlaceObject(TileX, TileY, ModContent.TileType<CursedArmor>(), direction: npc.spriteDirection);
+						if(Main.netMode != NetmodeID.SinglePlayer) 
+							NetMessage.SendData(MessageID.TileChange, -1, -1, null, ModContent.TileType<CursedArmor>(), TileX, TileY);
+
 						for (int i = 0; i < 6; i++)
 							Gore.NewGore(new Point(TileX, TileY).ToWorldCoordinates(), Main.rand.NextVector2Circular(2, 2), 99);
 						placed = true;
@@ -117,6 +123,9 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 								var checkFrom = new Point(indexX + CheckTile.X, indexY + CheckTile.Y);
 								if (CanPlaceStatue(checkFrom) && !placed && Main.rand.NextBool(7)) {
 									WorldGen.PlaceObject(checkFrom.X, checkFrom.Y, ModContent.TileType<CursedArmor>(), direction: npc.spriteDirection);
+									if (Main.netMode != NetmodeID.SinglePlayer)
+										NetMessage.SendData(MessageID.TileChange, -1, -1, null, ModContent.TileType<CursedArmor>(), checkFrom.X, checkFrom.Y);
+
 									for (int i = 0; i < 6; i++)
 										Gore.NewGore(checkFrom.ToWorldCoordinates(), Main.rand.NextVector2Circular(2, 2), 99);
 									placed = true;
