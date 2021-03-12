@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Tool
 			item.height = 44;
 			item.value = 10000;
 			item.rare = ItemRarityID.Blue;
-			item.hammer = 45;
+			item.hammer = 55;
 			item.damage = 16;
 			item.knockBack = 6;
 			item.useStyle = ItemUseStyleID.SwingThrow;
