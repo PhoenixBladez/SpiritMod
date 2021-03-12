@@ -717,8 +717,8 @@ namespace SpiritMod.NPCs
 				nextSlot++;
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Ammo.OliveSolution>());
                 nextSlot++;
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Ammo.SoullessSolution>());
-				nextSlot++;
+                //shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Ammo.SoullessSolution>());
+				//nextSlot++;
 			}
 			else if (type == NPCID.PartyGirl) {
 				if (NPC.downedMechBossAny) {
