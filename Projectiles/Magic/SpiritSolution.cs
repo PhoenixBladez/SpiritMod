@@ -1,7 +1,7 @@
+using System;
 using Microsoft.Xna.Framework;
 using SpiritMod.Tiles.Block;
 using SpiritMod.Tiles.Walls.Natural;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,10 +11,7 @@ namespace SpiritMod.Projectiles.Magic
 	public class SpiritSolution : ModProjectile
 	{
 
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Spirit Spray");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Spirit Spray");
 
 		public override void SetDefaults()
 		{
@@ -30,81 +27,90 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void AI()
 		{
-			int dustType = 206;
+			const int dustType = 206;
+
 			if (projectile.owner == Main.myPlayer)
-				Convert((int)(projectile.position.X + (float)(projectile.width / 2)) / 16, (int)(projectile.position.Y + (float)(projectile.height / 2)) / 16, 2);
+				Convert((int)(projectile.position.X + projectile.width / 2f) / 16, (int)(projectile.position.Y + projectile.height / 2f) / 16, 2);
 
 			if (projectile.timeLeft > 133)
 				projectile.timeLeft = 133;
 
 			if (projectile.ai[0] > 7f) {
 				float dustScale = 1f;
-				if (projectile.ai[0] == 8f)
-					dustScale = 0.2f;
-				else if (projectile.ai[0] == 9f)
-					dustScale = 0.4f;
-				else if (projectile.ai[0] == 10f)
-					dustScale = 0.6f;
-				else if (projectile.ai[0] == 11f)
-					dustScale = 0.8f;
+				switch (projectile.ai[0])
+				{
+					case 8f:
+						dustScale = 0.2f;
+						break;
+					case 9f:
+						dustScale = 0.4f;
+						break;
+					case 10f:
+						dustScale = 0.6f;
+						break;
+					case 11f:
+						dustScale = 0.8f;
+						break;
+				}
 
 				projectile.ai[0] += 1f;
 				for (int i = 0; i < 1; i++) {
-					int dustIndex = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default(Color), 1f);
-					Dust dust = Main.dust[dustIndex];
+					Dust dust = Dust.NewDustDirect(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100);
 					dust.noGravity = true;
 					dust.scale *= 1.75f;
-					dust.velocity.X = dust.velocity.X * 2f;
-					dust.velocity.Y = dust.velocity.Y * 2f;
+					dust.velocity.X *= 2f;
+					dust.velocity.Y *= 2f;
 					dust.scale *= dustScale;
 				}
 			}
-			else {
+			else
 				projectile.ai[0] += 1f;
-			}
+
 			projectile.rotation += 0.3f * projectile.direction;
 		}
 
 		public void Convert(int i, int j, int size = 4)
 		{
-			for (int k = i - size; k <= i + size; k++) {
-				for (int l = j - size; l <= j + size; l++) {
-					if (WorldGen.InWorld(k, l, 1) && Math.Abs(k - i) + Math.Abs(l - j) < Math.Sqrt(size * size + size * size)) {
-						int type = (int)Main.tile[k, l].type;
-						int wall = (int)Main.tile[k, l].wall;
-						if (wall != 0) {
-							if (wall >= 63 && wall <= 70 || wall == 81) {
-								Main.tile[k, l].wall = (ushort)ModContent.WallType<SpiritWall>();
-								WorldGen.SquareWallFrame(k, l, true);
-								NetMessage.SendTileSquare(-1, k, l, 1);
-							}
-						}
-						if (TileID.Sets.Conversion.Stone[type] || type == 179 || type == 180 || type == 181 || type == 182 || type == 183) {
-							Main.tile[k, l].type = (ushort)ModContent.TileType<SpiritStone>();
-							WorldGen.SquareTileFrame(k, l, true);
-							NetMessage.SendTileSquare(-1, k, l, 1);
-						}
-						else if (type == 0) {
-							Main.tile[k, l].type = (ushort)ModContent.TileType<SpiritDirt>();
-							WorldGen.SquareTileFrame(k, l, true);
-							NetMessage.SendTileSquare(-1, k, l, 1);
-						}
-						else if (type == 2 || type == 23 || type == 109 || type == 199) {
-							Main.tile[k, l].type = (ushort)ModContent.TileType<SpiritGrass>();
-							WorldGen.SquareTileFrame(k, l, true);
-							NetMessage.SendTileSquare(-1, k, l, 1);
-						}
-						else if (type == 53) {
-							Main.tile[k, l].type = (ushort)ModContent.TileType<Spiritsand>();
-							WorldGen.SquareTileFrame(k, l, true);
-							NetMessage.SendTileSquare(-1, k, l, 1);
-						}
-						else if (type == 161 || type == 200 || type == 163 || type == 164) {
-							Main.tile[k, l].type = (ushort)ModContent.TileType<SpiritIce>();
-							WorldGen.SquareTileFrame(k, l, true);
-							NetMessage.SendTileSquare(-1, k, l, 1);
-						}
-					}
+			for (int k = i - size; k <= i + size; k++)
+			for (int l = j - size; l <= j + size; l++) {
+				if (!WorldGen.InWorld(k, l, 1) ||
+				    !(Math.Abs(k - i) + Math.Abs(l - j) < Math.Sqrt(size * size + size * size)))
+					continue;
+
+				int type = Main.tile[k, l].type;
+				int wall = Main.tile[k, l].wall;
+
+				if (WallID.Sets.Conversion.Grass[wall]) {
+					Main.tile[k, l].wall = (ushort)ModContent.WallType<SpiritWall>();
+					WorldGen.SquareWallFrame(k, l);
+					NetMessage.SendTileSquare(-1, k, l, 1);
+				}
+
+				if (TileID.Sets.Conversion.Stone[type] || TileID.Sets.Conversion.Moss[type]) {
+					Main.tile[k, l].type = (ushort)ModContent.TileType<SpiritStone>();
+					WorldGen.SquareTileFrame(k, l);
+					NetMessage.SendTileSquare(-1, k, l, 1);
+				}
+
+				if (type == TileID.Dirt) {
+					Main.tile[k, l].type = (ushort)ModContent.TileType<SpiritDirt>();
+					WorldGen.SquareTileFrame(k, l);
+					NetMessage.SendTileSquare(-1, k, l, 1);
+				}
+				else if (TileID.Sets.Conversion.Grass[type]) {
+					Main.tile[k, l].type = (ushort)ModContent.TileType<SpiritGrass>();
+					WorldGen.SquareTileFrame(k, l);
+					NetMessage.SendTileSquare(-1, k, l, 1);
+				} 
+				else if (TileID.Sets.Conversion.Sand[type]) {
+					Main.tile[k, l].type = (ushort)ModContent.TileType<Spiritsand>();
+					WorldGen.SquareTileFrame(k, l);
+					NetMessage.SendTileSquare(-1, k, l, 1);
+				}
+				else if (TileID.Sets.Conversion.Ice[type]) {
+					Main.tile[k, l].type = (ushort)ModContent.TileType<SpiritIce>();
+					WorldGen.SquareTileFrame(k, l);
+					NetMessage.SendTileSquare(-1, k, l, 1);
 				}
 			}
 		}

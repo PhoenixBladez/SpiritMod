@@ -4,6 +4,8 @@ using SpiritMod.Items.Placeable.Tiles;
 using Terraria;
 using Terraria.ModLoader;
 using System;
+using IL.Terraria.ID;
+using TileID = Terraria.ID.TileID;
 
 namespace SpiritMod.Tiles.Block
 {
@@ -18,6 +20,7 @@ namespace SpiritMod.Tiles.Block
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = true;
+			TileID.Sets.Conversion.Grass[Type] = true;
 			AddMapEntry(new Color(0, 191, 255));
 			dustType = 187;
 			drop = ModContent.ItemType<SpiritDirtItem>();
