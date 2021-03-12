@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Graphics.Shaders;
 using System;
+using SpiritMod.Items.Glyphs;
 using Terraria.DataStructures;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -369,7 +370,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 				case 12:
 				{
 					GoodLuck();
-					int item = Item.NewItem((int)(i * 16) + 8, (int)(j * 16) + 12, 16, 18, ModContent.ItemType<Items.Glyphs.Glyph>(), 1);
+					int item = Item.NewItem((int)(i * 16) + 8, (int)(j * 16) + 12, 16, 18, ModContent.ItemType<Glyph>(), 1);
 					if (Main.netMode == 1 && item >= 0)
 					{
 						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item, 1f);
