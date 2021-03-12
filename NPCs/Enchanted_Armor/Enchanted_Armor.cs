@@ -5,27 +5,45 @@ using Terraria;
 using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
+using System.Security.Cryptography;
+using System.IO;
+using MonoMod.Utils;
+using SpiritMod.Projectiles.Clubs;
+using SpiritMod.Sepulchre;
+using System.Linq;
 
 namespace SpiritMod.NPCs.Enchanted_Armor
 {
 	public class Enchanted_Armor : ModNPC
 	{
+		ref float FlashTimer => ref npc.ai[1];
 
+		ref float DespawnTimer => ref npc.localAI[0];
+
+		private int TileX {
+			get => (int)npc.localAI[1] / 16;
+			set => npc.localAI[1] = 16 * value;
+		}
+		private int TileY {
+			get => (int)npc.localAI[2] / 16;
+			set => npc.localAI[2] = 16 * value;
+		}
+
+		private bool SetTiles = false;
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Cursed Armor");
+			DisplayName.SetDefault("Draugr");
 			Main.npcFrameCount[npc.type] = 12;
 			NPCID.Sets.TrailCacheLength[npc.type] = 10; 
 			NPCID.Sets.TrailingMode[npc.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			npc.aiStyle = 0;
+			npc.aiStyle = -1;
 			npc.lifeMax = 85;
 			npc.defense = 15;
 			npc.value = 300f;
-			aiType = 0;
 			npc.knockBackResist = 0.3f;
 			npc.width = 30;
 			npc.height = 56;
@@ -34,13 +52,89 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 			npc.noTileCollide = false;
 			npc.noGravity = false;
 			npc.HitSound = SoundID.NPCHit4;
-			npc.DeathSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Gasp");
+			npc.DeathSound = SoundID.NPCDeath6;
 		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			for (int i = 0; i < npc.localAI.Length; i++)
+				writer.Write(npc.localAI[i]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			for (int i = 0; i < npc.localAI.Length; i++)
+				npc.localAI[i] = reader.ReadSingle();
+		}
+
 		public override void AI()
 		{
 			Player player = Main.player[npc.target];
 			npc.TargetClosest(true);
+			npc.spriteDirection = npc.direction;
+			if((npc.localAI[3] += 2) == 2) { //localai3 was decreasing every tick and i couldnt pinpoint why so i just took the lazy route out and made it increase more to counter it out
+				DespawnTimer = 10;
+				npc.localAI[1] = npc.Left.X;
+				npc.localAI[2] = npc.Left.Y + 16;
+				npc.netUpdate = true;
+			}
+
+			if (!player.active || player.dead || npc.Distance(player.Center) > 1200) {
+				movement();
+				DespawnTimer--;
+				if(DespawnTimer <= 0) {
+					for(int i = 0; i < 6; i++) 
+						Gore.NewGore(npc.Center, Main.rand.NextVector2Circular(2, 2), 99);
+
+					bool placed = false;
+					Point CheckTile = new Point((int)npc.Left.X / 16, (int)(npc.Left.Y + 16) / 16);
+					bool CanPlaceStatue(Point CheckFrom)
+					{
+						return (Collision.SolidTiles(CheckFrom.X, CheckFrom.X + 1, CheckFrom.Y + 1, CheckFrom.Y + 1) || //check if the bottom two tiles are solid
+							(TileID.Sets.Platforms[Framing.GetTileSafely(CheckFrom.X, CheckFrom.Y + 1).type] && TileID.Sets.Platforms[Framing.GetTileSafely(CheckFrom.X + 1, CheckFrom.Y + 1).type])) //or if they're platforms
+							&& !Framing.GetTileSafely(CheckFrom.X, CheckFrom.Y).active() && !Framing.GetTileSafely(CheckFrom.X + 1, CheckFrom.Y).active() //then check if the space to put a statue in is empty, probably a better way to do this??
+							&& !Framing.GetTileSafely(CheckFrom.X, CheckFrom.Y - 1).active() && !Framing.GetTileSafely(CheckFrom.X + 1, CheckFrom.Y - 1).active()
+							&& !Framing.GetTileSafely(CheckFrom.X, CheckFrom.Y - 2).active() && !Framing.GetTileSafely(CheckFrom.X + 1, CheckFrom.Y - 2).active()
+							&& !Framing.GetTileSafely(CheckFrom.X, CheckFrom.Y - 3).active() && !Framing.GetTileSafely(CheckFrom.X + 1, CheckFrom.Y - 3).active();
+					}
+
+					if (CanPlaceStatue(CheckTile)) {
+						WorldGen.PlaceObject(CheckTile.X, CheckTile.Y, ModContent.TileType<CursedArmor>(), direction: npc.spriteDirection);
+						for (int i = 0; i < 6; i++)
+							Gore.NewGore(CheckTile.ToWorldCoordinates(), Main.rand.NextVector2Circular(2, 2), 99);
+						placed = true;
+					}
+					else if (CanPlaceStatue(new Point(TileX, TileY))) {
+						WorldGen.PlaceObject(TileX, TileY, ModContent.TileType<CursedArmor>(), direction: npc.spriteDirection);
+						for (int i = 0; i < 6; i++)
+							Gore.NewGore(new Point(TileX, TileY).ToWorldCoordinates(), Main.rand.NextVector2Circular(2, 2), 99);
+						placed = true;
+					}
+					int tries = 0;
+					while(!placed) {
+						for(int indexX = -20; indexX <= 20; indexX++) {
+							for (int indexY = -20; indexY <= 20; indexY++) {
+								var checkFrom = new Point(indexX + CheckTile.X, indexY + CheckTile.Y);
+								if (CanPlaceStatue(checkFrom) && !placed && Main.rand.NextBool(7)) {
+									WorldGen.PlaceObject(checkFrom.X, checkFrom.Y, ModContent.TileType<CursedArmor>(), direction: npc.spriteDirection);
+									for (int i = 0; i < 6; i++)
+										Gore.NewGore(checkFrom.ToWorldCoordinates(), Main.rand.NextVector2Circular(2, 2), 99);
+									placed = true;
+								}
+							}
+						}
+						tries++;
+						if (tries >= 8)
+							break;
+					}
+
+					npc.active = false;
+				}
+				return;
+			}
 			
+			DespawnTimer = 10;
+
 			if ((double)Vector2.Distance(player.Center, npc.Center) > (double)60f)
 			{
 				movement();
@@ -49,7 +143,26 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 			{
 				npc.velocity.X = 0f;
 			}
+			FlashTimer = Math.Max(FlashTimer - 1, 0);
+
+			Lighting.AddLight(new Vector2(npc.Center.X, npc.Center.Y), 72*0.002f, 175*0.002f, 206*0.002f);
+			CheckPlatform(player);
 		}
+
+		private void CheckPlatform(Player player)
+		{
+			bool onplatform = true;
+			for (int i = (int)npc.position.X; i < npc.position.X + npc.width; i += npc.width / 4) {
+				Tile tile = Framing.GetTileSafely(new Point((int)npc.position.X / 16, (int)(npc.position.Y + npc.height + 8) / 16));
+				if (!TileID.Sets.Platforms[tile.type])
+					onplatform = false;
+			}
+			if (onplatform && npc.Bottom.Y < player.Top.Y)
+				npc.noTileCollide = true;
+			else
+				npc.noTileCollide = false;
+		}
+
 		public void movement()
 		{
 			int num1 = 30;
@@ -312,10 +425,7 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 				}
 			}
 		}
-		public override void NPCLoot()
-		{
 
-		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0)
@@ -329,23 +439,41 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 			{
 				Dust.NewDust(npc.position, npc.width, npc.height, 8, 2.5f * hitDirection, -2.5f, 0, default(Color), 1.2f);
 				Dust.NewDust(npc.position, npc.width, npc.height, 8, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.5f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 72, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 110, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);
 			}
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+
+		public override void NPCLoot()
 		{
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			return false;
+			if(Main.npc.Where(x => x.active && x.type == npc.type).Count() <= 1) {
+				int i = (int)npc.position.X / 16;
+				int j = (int)npc.position.Y / 16;
+				for (int indexX = -70; indexX <= 70; indexX++) {
+					for (int indexY = -90; indexY <= 90; indexY++) {
+						if (Framing.GetTileSafely(indexX + i, indexY + j).type == mod.TileType("SepulchreChestTile") && Framing.GetTileSafely(indexX + i, indexY + j).frameX == 0 && Framing.GetTileSafely(indexX + i, indexY + j).frameY == 0) {
+							CombatText.NewText(new Rectangle((indexX + i) * 16, (indexY + j) * 16, 20, 10), Color.GreenYellow, "Unlocked!");
+						}
+					}
+				}
+			}
 		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor) => false;
+
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => false;
+
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			spriteBatch.Draw(Main.npcTexture[npc.type], new Vector2(npc.Center.X, npc.Center.Y-8) - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
 							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 							 
-			var effects2 = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			spriteBatch.Draw(mod.GetTexture("NPCs/Enchanted_Armor/Enchanted_Armor_Glow"), new Vector2(npc.Center.X, npc.Center.Y-8) - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
 							 Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+
+			float maskopacity = (FlashTimer / 30) * 0.5f;
+			spriteBatch.Draw(mod.GetTexture("NPCs/Enchanted_Armor/Enchanted_Armor_Mask"), new Vector2(npc.Center.X, npc.Center.Y - 8) - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+							 Color.White * maskopacity, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
 		}
 		
 		public override void FindFrame(int frameHeight)
@@ -366,7 +494,7 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 			Player player = Main.player[npc.target];
 			npc.frameCounter++;
 			npc.frame.Width = 90;
-			if ((double)Vector2.Distance(player.Center, npc.Center) > (double)60f)
+			if ((double)Vector2.Distance(player.Center, npc.Center) > (double)60f || !player.active || player.dead)
 			{
 				{
 					if (npc.frameCounter < 6)

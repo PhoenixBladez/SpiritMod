@@ -63,9 +63,9 @@ namespace SpiritMod
 					TileID.PinkDungeonBrick,
 					TileID.LihzahrdBrick
 				};
-			for (int x = (int)position.X - 25; x < (int)position.X + 25; x++) //Main structure, DO NOT USE LOOPTHROUGHTILES HERE
+			for (int x = (int)position.X - 50; x < (int)position.X + 50; x++) //Main structure, DO NOT USE LOOPTHROUGHTILES HERE
 			{
-				for (int y = (int)position.Y - 20; y < (int)position.Y + 20; y++) {
+				for (int y = (int)position.Y - 50; y < (int)position.Y + 50; y++) {
 					for(int z = 0; z< invalidTypes.Length; z++)
 						if(Framing.GetTileSafely(x,y).type == invalidTypes[z]) return;
 				}
@@ -137,10 +137,10 @@ namespace SpiritMod
 			while (chests == 0) {
 				for (int x = i - 50; x < i + 50; x++) {
 					for (int y = j - 90; y < j + 50; y++) {
-						if ((Main.tile[x, y + 1].type == tile || Main.tile[x, y + 1].type == tiletwo) &&
-							(Main.tile[x + 1, y + 1].type == tile || Main.tile[x + 1, y + 1].type == tiletwo) &&
-							(Main.tile[x - 1, y + 1].type == tile || Main.tile[x - 1, y + 1].type == tiletwo)
+						if ((Main.tile[x, y + 1].type == tile || Main.tile[x, y + 1].type == tiletwo)
 							&& chests == 0 && Main.rand.Next(100) == 0 && Main.tile[x, y].wall == wall) {
+							Main.tile[x + 1, y + 1].type = Main.tile[x, y + 1].type;
+							Main.tile[x - 1, y + 1].type = Main.tile[x, y + 1].type;
 							WorldGen.PlaceChest(x, y, (ushort)ModContent.TileType<SepulchreChestTile>(), false, 0);
 							if (Main.tile[x, y - 1].type == (ushort)ModContent.TileType<SepulchreChestTile>()) {
 								chests++;
