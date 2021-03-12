@@ -1,44 +1,19 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Effects;
-
-using SpiritMod.Items.Accessory;
-using SpiritMod.Items.Armor.Masks;
-using SpiritMod.Items.Boss;
-using SpiritMod.Items.BossBags;
-using SpiritMod.Items.Armor;
-using SpiritMod.Items.Consumable.Potion;
-using SpiritMod.Items.Weapon.Bow;
-using SpiritMod.Items.Equipment;
-using SpiritMod.Items.Weapon.Magic;
-using SpiritMod.Items.Weapon.Gun;
-using SpiritMod.Items.Weapon.Flail;
-using SpiritMod.Items.Weapon.Spear;
-using SpiritMod.Items.Weapon.Club;
-using SpiritMod.Items.Weapon.Summon;
-using SpiritMod.Items.Weapon.Summon.ElectricGun;
-using SpiritMod.Items.Weapon.Swung;
-using SpiritMod.Items.Weapon.Thrown;
-using SpiritMod.Items.Weapon.Yoyo;
-using SpiritMod.Items.Accessory;
-using SpiritMod.Items.Consumable;
-using SpiritMod.Items.Consumable.Quest;
 using SpiritMod.Items.Material;
 using SpiritMod.Items.Pins;
-
-using SpiritMod.NPCs.BlueMoon;
-using SpiritMod.NPCs.MoonjellyEvent;
 using SpiritMod.NPCs.Boss.Atlas;
 using SpiritMod.NPCs.Boss.Overseer;
 using SpiritMod.NPCs.Town;
-using SpiritMod.NPCs.Tides;
+using SpiritMod.Prim;
 using SpiritMod.Projectiles;
 using SpiritMod.Skies;
 using SpiritMod.Skies.Overlays;
+using SpiritMod.Sounds;
 using SpiritMod.Tide;
 using SpiritMod.Utilities;
 using SpiritMod.World;
-using SpiritMod.Sounds;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -49,19 +24,14 @@ using Terraria.Graphics;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
-using Terraria.UI;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
 using Terraria.Utilities;
-using SpiritMod.Prim;
-using SpiritMod.NPCs.Boss.Scarabeus;
-using SpiritMod.Items.Equipment.ScarabExpertDrop;
-using SpiritMod.Items.Placeable.MusicBox;
 
 namespace SpiritMod
 {
-	partial class SpiritMod : Mod
+	public class SpiritMod : Mod
     {
         internal UserInterface BookUserInterface;
 
@@ -859,284 +829,8 @@ namespace SpiritMod
             caveAmbience = new SoundLooper(this, "Sounds/CaveAmbience");
 			scarabWings = new SoundLooper(this, "Sounds/BossSFX/Scarab_Wings");
             Items.Glyphs.GlyphBase.InitializeGlyphLookup();
-            Mod bossChecklist = ModLoader.GetMod("BossChecklist");
-            if (bossChecklist != null)
-            {
-                bossChecklist.Call(
-                   "AddMiniBoss",
-                   .8f,
-                   ModContent.NPCType<NPCs.Reach.ForestWraith>(),
-                   this, // Mod
-                   "Glade Wraith",
-                   (Func<bool>)(() => MyWorld.downedGladeWraith),
-                    ModContent.ItemType<GladeWreath>(),
-                   null,
-                   new List<int> { ModContent.ItemType<HuskstalkStaff>(), ModContent.ItemType<AncientBark>(), ModContent.ItemType<SacredVine>() },
-                   "Destroy a Bone Altar in the Underground Briar. The Glade Wraith also spawns naturally at nighttime after defeating the Eye of Cthulhu. Alternatively, find a Glade Wreath in Briar Chests and use it in the Briar at any time.",
-                   null,
-                   "SpiritMod/Textures/BossChecklist/GladeWraithTexture",
-                   "SpiritMod/NPCs/Reach/ForestWraith_Head_Boss",
-                   null);
-
-                bossChecklist.Call(
-                    "AddBoss",
-                    1.4f,
-                    ModContent.NPCType<NPCs.Boss.Scarabeus.Scarabeus>(),
-                    this, // Mod
-                    "Scarabeus",
-                    (Func<bool>)(() => MyWorld.downedScarabeus),
-                    ModContent.ItemType<ScarabIdol>(),
-                    new List<int> { ModContent.ItemType<Items.Boss.Trophy1>(), ModContent.ItemType<Items.Armor.Masks.ScarabMask>(), ModContent.ItemType<Items.Placeable.MusicBox.ScarabBox>() },
-                    new List<int> { ModContent.ItemType<ScarabPendant>(), ModContent.ItemType<Items.Material.Chitin>(), ModContent.ItemType<Items.Weapon.Bow.AdornedBow.ScarabBow>(), ModContent.ItemType<Items.Weapon.Summon.LocustCrook.LocustCrook>(), ModContent.ItemType<Items.Weapon.Swung.Khopesh.RoyalKhopesh>(), ModContent.ItemType<DesertSnowglobe>(), ItemID.LesserHealingPotion },
-                    "Use a [i: " + ModContent.ItemType<ScarabIdol>() + "] in the Desert during daytime. A [i: " + ModContent.ItemType<ScarabIdol>() + "] can be found upon completing a certain Adventurer quest, or can be crafted, and is non-consumable",
-                    null,
-                    "SpiritMod/Textures/BossChecklist/ScarabeusTexture",
-                    "SpiritMod/NPCs/Boss/Scarabeus/Scarabeus_Head_Boss",
-                    null);
-
-                bossChecklist.Call(
-                    "AddMiniBoss",
-                    2.3f,
-                    ModContent.NPCType<NPCs.BloodMoon.Occultist>(),
-                    this, // Mod
-                    "Occultist",
-                    (Func<bool>)(() => MyWorld.downedOccultist),
-                    null,
-                    null,
-                    new List<int> { ModContent.ItemType<Handball>(), ModContent.ItemType<Items.Weapon.Summon.SacrificialDagger.SacrificialDagger>(), ModContent.ItemType<BloodFire>() },
-                    "The Occultist spawns rarely during a Blood Moon after the Eye of Cthulhu has been defeated.",
-                    null,
-                    "SpiritMod/Textures/BossChecklist/OccultistTexture",
-                    "SpiritMod/NPCs/BloodMoon/Occultist_Head_Boss",
-                    null);
-
-                bossChecklist.Call(
-                    "AddEvent",
-                    2.4f,
-                    new List<int> { ModContent.NPCType<DreamlightJelly>(), ModContent.NPCType<ExplodingMoonjelly>(), ModContent.NPCType<MoonjellyGiant>(), ModContent.NPCType<MoonlightPreserver>(), ModContent.NPCType<TinyLunazoa>() },
-                    this, // Mod
-                    "Jelly Deluge",
-                    (Func<bool>)(() => MyWorld.downedJellyDeluge),
-                    ModContent.ItemType<DistressJellyItem>(),
-                    ModContent.ItemType<JellyDelugeBox>(),
-                    new List<int> { ModContent.ItemType<NautilusClub>(), ModContent.ItemType<ElectricGun>(), ModContent.ItemType<DreamlightJellyItem>(), ModContent.ItemType<TinyLunazoaItem>(), ModContent.ItemType<MoonJelly>() },
-                     "Naturally occurs in space after any boss has been defeated. Can also be summoned by using a Distress Jelly, found in Asteroid Biomes and caught using a bug net. Occurs less frequently after the Moon Jelly Wizard has been defeated.",
-                    null,
-                    "SpiritMod/Textures/BossChecklist/JellyDeluge",
-                    "SpiritMod/Textures/BossChecklist/JellyDelugeIcon",
-                    null);
-
-                bossChecklist.Call(
-                  "AddBoss",
-                  2.5f,
-                  ModContent.NPCType<NPCs.Boss.MoonWizard.MoonWizard>(),
-                  this, // Mod
-                  "Moon Jelly Wizard",
-                  (Func<bool>)(() => MyWorld.downedMoonWizard),
-                  ModContent.ItemType<DreamlightJellyItem>(),
-                  new List<int> { ModContent.ItemType<Items.Boss.MJWTrophy>(), ModContent.ItemType<Items.Armor.Masks.MJWMask>(), ModContent.ItemType<Items.Placeable.MusicBox.MJWBox>() },
-                  new List<int> { ModContent.ItemType<Cornucopion>(), ModContent.ItemType<Items.Weapon.Summon.MoonjellySummonStaff>(), ModContent.ItemType<Items.Weapon.Yoyo.Moonburst>(), ModContent.ItemType<Items.Armor.JellynautHelmet.JellynautBubble>(), ModContent.ItemType<Items.Weapon.Gun.Moonshot>(), ModContent.ItemType<MoonJelly>() },
-                  "Use a [i: " + ModContent.ItemType<DreamlightJellyItem>() + "] anywhere at nighttime. A [i: " + ModContent.ItemType<DreamlightJellyItem>() + "] can be caught with a bug net during the Jelly Deluge, and is non-consumable",
-                  null,
-                  "SpiritMod/Textures/BossChecklist/MoonWizardTexture",
-                  "SpiritMod/NPCs/Boss/MoonWizard/MoonWizard_Head_Boss",
-                  null);
-
-                bossChecklist.Call(
-                    "AddMiniBoss",
-                    2.8f,
-                    ModContent.NPCType<NPCs.Mecromancer>(),
-                    this, // Mod
-                    "Mechromancer",
-                    (Func<bool>)(() => MyWorld.downedMechromancer),
-                    null,
-                    new List<int> { ModContent.ItemType<CoiledMask>(), ModContent.ItemType<CoiledChestplate>(), ModContent.ItemType<CoiledLeggings>() },
-                    new List<int> { ModContent.ItemType<KnocbackGun>(), ModContent.ItemType<TechDrive>(), ItemID.RocketBoots },
-                    "The Mechromancer spawns rarely during a Goblin Army after the Eye of Cthulhu has been defeated.",
-                    null,
-                    "SpiritMod/Textures/BossChecklist/MechromancerTexture",
-                    "SpiritMod/NPCs/Mecromancer_Head_Boss",
-                    null);
-
-                bossChecklist.Call(
-                    "AddMiniBoss",
-                    3.1f,
-                    ModContent.NPCType<NPCs.Snaptrapper>(),
-                    this, // Mod
-                    "Snaptrapper",
-                    (Func<bool>)(() => MyWorld.downedSnaptrapper),
-                    null,
-                    null,
-                    new List<int> { ModContent.ItemType<SnapsporeStaff>(), ModContent.ItemType<Items.Weapon.Club.SporeClub>() },
-                    "The Snaptrapper spawns rarely on the Jungle surface after the Eater of Worlds or Brain of Cthulhu has been defeated.",
-                    null,
-                    "SpiritMod/Textures/BossChecklist/SnaptrapperTexture",
-                    "SpiritMod/NPCs/Snaptrapper_Head_Boss",
-                    null);
-
-                bossChecklist.Call(
-                    "AddMiniBoss",
-                    3.2f,
-                    ModContent.NPCType<NPCs.Beholder>(),
-                    this, // Mod
-                    "Beholder",
-                    (Func<bool>)(() => MyWorld.downedBeholder),
-                    null,
-                    null,
-                    new List<int> { ModContent.ItemType<BeholderYoyo>(), ModContent.ItemType<MarbleChunk>() },
-                    "The Beholder spawns rarely in Marble Caverns after the Eater of Worlds or Brain of Cthulhu has been defeated.",
-                    null,
-                    "SpiritMod/Textures/BossChecklist/BeholderTexture",
-                    "SpiritMod/NPCs/Beholder_Head_Boss",
-                    null);
-
-
-                bossChecklist.Call(
-                    "AddBoss",
-                    3.5f,
-                    ModContent.NPCType<NPCs.Boss.ReachBoss.ReachBoss>(),
-                    this, // Mod
-                    "Vinewrath Bane",
-                    (Func<bool>)(() => MyWorld.downedReachBoss),
-                    ModContent.ItemType<ReachBossSummon>(),
-                    new List<int> { ModContent.ItemType<Items.Boss.Trophy5>(), ModContent.ItemType<Items.Armor.Masks.ReachMask>() , ModContent.ItemType<Items.Placeable.MusicBox.VinewrathBox>() },
-                    new List<int> { ModContent.ItemType<DeathRose>(), ModContent.ItemType<Items.Weapon.Magic.SunbeamStaff>(), ModContent.ItemType<Items.Weapon.Bow.ThornBow>(), ModContent.ItemType<Items.Weapon.Magic.ReachVineStaff>(), ModContent.ItemType<Items.Weapon.Swung.ReachBossSword>(), ModContent.ItemType<Items.Weapon.Thrown.ReachKnife>(), ItemID.LesserHealingPotion },
-                    "Right-click the Bloodblossom, a glowing flower found at the bottom of the Briar. The Vinewrath Bane can be fought at any time and any place in progression. If a Bloodblossom is not present, use a [i: " + ModContent.ItemType<ReachBossSummon>() + "] in the Briar below the surface at any time.",
-                    null,
-                    "SpiritMod/Textures/BossChecklist/ReachBossTexture",
-                    "SpiritMod/NPCs/Boss/ReachBoss/ReachBoss/ReachBoss_Head_Boss",
-                    null);
-
-                bossChecklist.Call(
-                    "AddBoss",
-                    4.2f,
-                    ModContent.NPCType<NPCs.Boss.AncientFlyer>(),
-                    this, // Mod
-                    "Ancient Avian",
-                    (Func<bool>)(() => MyWorld.downedAncientFlier),
-                    ModContent.ItemType<JewelCrown>(),
-                    new List<int> { ModContent.ItemType<Items.Boss.Trophy2>(), ModContent.ItemType<Items.Armor.Masks.FlierMask>() , ModContent.ItemType<Items.Placeable.MusicBox.AvianBox>() },
-                    new List<int> { ModContent.ItemType<AvianHook>(), ModContent.ItemType<TalonBlade>(), ModContent.ItemType<Talonginus>(), ModContent.ItemType<SoaringScapula>(), ModContent.ItemType<TalonPiercer>(), ModContent.ItemType<SkeletalonStaff>(), ModContent.ItemType<TalonHeaddress>(), ModContent.ItemType<TalonGarb>(), ItemID.LesserHealingPotion },
-                     "Use a [i: " + ModContent.ItemType<JewelCrown>() + "] in the sky biome at any time. Alternatively, smash a Giant Avian Egg, which is found on Avian Islands near the sky layer. The Ancient Avian can be fought at any time and any place in progression.",
-                    null,
-                    "SpiritMod/Textures/BossChecklist/AvianTexture",
-                    "SpiritMod/NPCs/Boss/AncientFlyer_Head_Boss",
-                    null);
-
-                bossChecklist.Call(
-                    "AddEvent",
-                    5.6f,
-                    new List<int> { ModContent.NPCType<Crocomount>(), ModContent.NPCType<KakamoraParachuter>(), ModContent.NPCType<KakamoraRunner>(), ModContent.NPCType<KakamoraShaman>(), ModContent.NPCType<KakamoraShielder>(), ModContent.NPCType<KakamoraShielderRare>(), ModContent.NPCType<LargeCrustecean>(), ModContent.NPCType<MangoJelly>(), ModContent.NPCType<Rylheian>(), ModContent.NPCType<SpearKakamora>(), ModContent.NPCType<SwordKakamora>() },
-                    this, // Mod
-                    "The Tide",
-                    (Func<bool>)(() => MyWorld.downedTide),
-                    ModContent.ItemType<BlackPearl>(),
-					new List<int> { ModContent.ItemType<Trophy10>(), ModContent.ItemType<RlyehMask>(), ModContent.ItemType<TideBox>() },
-                    new List<int> { ModContent.ItemType<TribalScale>(), ModContent.ItemType<PumpBubbleGun>(), ModContent.ItemType<MagicConch>(), ModContent.ItemType<TikiJavelin>(), ModContent.ItemType<MangoJellyStaff>(), ModContent.ItemType<TomeOfRylien>(), ModContent.ItemType<TentacleChain>(), ModContent.ItemType<CoconutGun>() },
-                     "Use a [i: " + ModContent.ItemType<BlackPearl>() + "] at the Ocean at any time.",
-                    null,
-                    "SpiritMod/Textures/BossChecklist/TideTexture",
-                    "SpiritMod/Effects/InvasionIcons/Depths_Icon",
-                    null);
-
-
-                bossChecklist.Call(
-                    "AddBoss",
-                    5.9f,
-                    ModContent.NPCType<NPCs.Boss.SteamRaider.SteamRaiderHead>(),
-                    this, // Mod
-                    "Starplate Voyager",
-                    (Func<bool>)(() => MyWorld.downedRaider),
-                    ModContent.ItemType<StarWormSummon>(),
-                    new List<int> { ModContent.ItemType<Items.Boss.Trophy3>(), ModContent.ItemType<Items.Armor.Masks.StarplateMask>() , ModContent.ItemType<Items.Placeable.MusicBox.StarplateBox>() },
-                    new List<int> { ModContent.ItemType<StarMap>(), ModContent.ItemType<Items.Material.CosmiliteShard>(), ItemID.LesserHealingPotion },
-                     "Use a [i: " + ModContent.ItemType<StarWormSummon>() + "] at an Astralite Beacon, located in the Asteroids, at nighttime.",
-                    null,
-                    "SpiritMod/Textures/BossChecklist/StarplateTexture",
-                    "SpiritMod/NPCs/Boss/SteamRaider/SteamRaiderHead_Head_Boss",
-                    null);
-
-                bossChecklist.Call(
-                    "AddEvent",
-                    6.5f,
-                    new List<int> { ModContent.NPCType<Bloomshroom>(), ModContent.NPCType<Glitterfly>(), ModContent.NPCType<GlowToad>(), ModContent.NPCType<Lumantis>(), ModContent.NPCType<LunarSlime>(), ModContent.NPCType<MadHatter>() },
-                    this, // Mod
-                    "Mystic Moon",
-                    (Func<bool>)(() => MyWorld.downedBlueMoon),
-                    ModContent.ItemType<BlueMoonSpawn>(),
-                    null,
-                    new List<int> { ModContent.ItemType<MoonStone>(), ModContent.ItemType<StopWatch>(), ModContent.ItemType<MagicConch>(), ModContent.ItemType<GloomgusStaff>(), ModContent.ItemType<MadHat>()},
-                     "Use a [i: " + ModContent.ItemType<BlueMoonSpawn>() + "] at nighttime.",
-                    null,
-                    "SpiritMod/Textures/BossChecklist/MysticMoonTexture",
-                    "SpiritMod/Textures/BossChecklist/BlueMoonIcon",
-                    null);
-
-                bossChecklist.Call(
-                    "AddBoss",
-                    6.8f,
-                    ModContent.NPCType<NPCs.Boss.Infernon.Infernon>(),
-                    this, // Mod
-                    "Infernon",
-                    (Func<bool>)(() => MyWorld.downedInfernon),
-                    ModContent.ItemType<CursedCloth>(),
-                    new List<int> { ModContent.ItemType<Items.Boss.Trophy4>(), ModContent.ItemType<Items.Armor.Masks.InfernonMask>() , ModContent.ItemType<Items.Placeable.MusicBox.InfernonBox>() },
-                    new List<int> { ModContent.ItemType<HellsGaze>(), ModContent.ItemType<InfernalAppendage>(), ModContent.ItemType<Items.Weapon.Thrown.InfernalJavelin>(), ModContent.ItemType<InfernalSword>(), ModContent.ItemType<DiabolicHorn>(), ModContent.ItemType<SevenSins>(), ModContent.ItemType<InfernalStaff>(), ModContent.ItemType<EyeOfTheInferno>(), ModContent.ItemType<InfernalShield>(), ItemID.GreaterHealingPotion },
-                     "Use a [i: " + ModContent.ItemType<CursedCloth>() + "] in the Underworld at any time.",
-                    null,
-                    "SpiritMod/Textures/BossChecklist/InfernonTexture",
-                    "SpiritMod/NPCs/Boss/Infernon/Infernon_Head_Boss",
-                    null);
-
-                bossChecklist.Call(
-                    "AddBoss",
-                    7.3f,
-                    ModContent.NPCType<NPCs.Boss.Dusking.Dusking>(),
-                    this, // Mod
-                    "Dusking",
-                    (Func<bool>)(() => MyWorld.downedDusking),
-                    ModContent.ItemType<DuskCrown>(),
-                    new List<int> { ModContent.ItemType<Items.Boss.Trophy6>(), ModContent.ItemType<Items.Armor.Masks.DuskingMask>() /*, ModContent.ItemType<Items.Placeable.MusicBox.ScarabBox>()*/ },
-                    new List<int> { ModContent.ItemType<DuskPendant>(), ModContent.ItemType<Items.Weapon.Thrown.CrystalShadow>(), ModContent.ItemType<ShadowflameSword>(), ModContent.ItemType<UmbraStaff>(), ModContent.ItemType<ShadowSphere>(), ModContent.ItemType<Shadowmoor>(), ModContent.ItemType<DuskStone>(), ItemID.GreaterHealingPotion },
-                     "Use a [i: " + ModContent.ItemType<DuskCrown>() + "] anywhere at nighttime.",
-                    null,
-                    "SpiritMod/Textures/BossChecklist/DuskingTexture",
-                    "SpiritMod/NPCs/Boss/Dusking/Dusking_Head_Boss",
-                    null);
-
-                bossChecklist.Call(
-                    "AddBoss",
-                    12.4f,
-                    ModContent.NPCType<NPCs.Boss.Atlas.Atlas>(),
-                    this, // Mod
-                    "Atlas",
-                    (Func<bool>)(() => MyWorld.downedAtlas),
-                    ModContent.ItemType<StoneSkin>(),
-                    new List<int> { ModContent.ItemType<Items.Boss.Trophy8>(), ModContent.ItemType<Items.Armor.Masks.AtlasMask>() , ModContent.ItemType<Items.Placeable.MusicBox.AtlasBox>() },
-                    new List<int> { ModContent.ItemType<AtlasEye>(), ModContent.ItemType<KingRock>(), ModContent.ItemType<Mountain>(), ModContent.ItemType<TitanboundBulwark>(), ModContent.ItemType<CragboundStaff>(), ModContent.ItemType<QuakeFist>(), ModContent.ItemType<Earthshatter>(), ModContent.ItemType<ArcaneGeyser>(), ItemID.GreaterHealingPotion },
-                     "Use a [i: " + ModContent.ItemType<StoneSkin>() + "] anywhere at any time.",
-                    null,
-                    "SpiritMod/Textures/BossChecklist/AtlasTexture",
-                    "SpiritMod/NPCs/Boss/Atlas/Atlas_Head_Boss",
-                    null);
-
-                bossChecklist.Call(
-                    "AddBoss",
-                    14.2f,
-                    ModContent.NPCType<NPCs.Boss.Overseer.Overseer>(),
-                    this, // Mod
-                    "Overseer",
-                    (Func<bool>)(() => MyWorld.downedOverseer),
-                    ModContent.ItemType<SpiritIdol>(),
-                    new List<int> { ModContent.ItemType<Items.Boss.Trophy9>(), ModContent.ItemType<Items.Armor.Masks.OverseerMask>() /*, ModContent.ItemType<Items.Placeable.MusicBox.ScarabBox>()*/ },
-                    new List<int> { ModContent.ItemType<EternityCharm>(), ModContent.ItemType<EternityEssence>(), ModContent.ItemType<Eternity>(), ModContent.ItemType<SoulExpulsor>(), ModContent.ItemType<EssenseTearer>(), ModContent.ItemType<AeonRipper>(), ItemID.SuperHealingPotion },
-                     "Use a [i: " + ModContent.ItemType<SpiritIdol>() + "] in the Spirit Biome during nighttime",
-                    null,
-                    "SpiritMod/Textures/BossChecklist/OverseerTexture",
-                    "SpiritMod/NPCs/Boss/Overseer/Overseer_Head_Boss",
-                    null);
-            }
-            Mod fargos = ModLoader.GetMod("Fargowiltas");
+			BossChecklistDataHandler.RegisterSpiritData(this);
+			Mod fargos = ModLoader.GetMod("Fargowiltas");
             if (fargos != null)
             {
                 // AddSummon, order or value in terms of vanilla bosses, your mod internal name, summon   
