@@ -31,7 +31,7 @@ using SpiritMod.Prim;
 
 namespace SpiritMod
 {
-	partial class SpiritMod : Mod
+	public class SpiritMod : Mod
 	{
 		internal UserInterface BookUserInterface;
 
