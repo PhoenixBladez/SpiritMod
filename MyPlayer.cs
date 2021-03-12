@@ -4017,7 +4017,7 @@ namespace SpiritMod
 			if (seaSnailVenom)
 			{
 				projectileTimer++;
-				if (projectileTimer % 5 == 0 && player.velocity.X != 0f && player.velocity.Y == 0f)
+				if (projectileTimer % 5 == 0 && player.velocity.X != 0f && player.velocity.Y == 0f && !player.mount.Active)
 				{
 					int p = Projectile.NewProjectile(player.Center.X - 10*player.direction, player.Center.Y + 5, 0f, 20f, mod.ProjectileType("Sea_Snail_Poison_Projectile"), 5, 0f, player.whoAmI, 0f, 0f);
 				}
