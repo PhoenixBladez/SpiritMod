@@ -20,13 +20,6 @@ namespace SpiritMod.Structures.Fathomless_Chest
 	{
 		public static bool isThereAChest = false;
 
-		public override void PostUpdate()
-		{
-			if (!isThereAChest)
-			{
-				finalShrineGen();
-			}
-		}
 		public override void Initialize()
 		{
 			isThereAChest = false;
@@ -223,51 +216,6 @@ namespace SpiritMod.Structures.Fathomless_Chest
             }
             PlaceShrine(spawnposXa, spawnposYa, Structures.Fathomless_Chest.Fathomless_Chest_Arrays.ShrineShape1);
             PlaceShrineMiscs(spawnposXa, spawnposYa, Structures.Fathomless_Chest.Fathomless_Chest_Arrays.Miscs);
-		}
-		public override TagCompound Save()
-		{
-			var ttt = new List<string>();
-			if (isThereAChest)
-			{
-				ttt.Add("isThereAChestTTT");
-			}
-
-			return new TagCompound {
-				{"ttt", ttt}
-			};
-		}
-		
-		public override void Load(TagCompound tag)
-		{
-			var ttt = tag.GetList<string>("ttt");
-			isThereAChest = ttt.Contains("isThereAChestTTT");
-		}
-		
-		public override void LoadLegacy(BinaryReader reader)
-		{
-			int loadVersion = reader.ReadInt32();
-			if (loadVersion == 0)
-			{
-				BitsByte flags = reader.ReadByte();
-				isThereAChest = flags[0];
-			}
-			else
-			{
-				ErrorLogger.Log("SpiritMod: Unknown loadVersion: " + loadVersion);
-			}
-		}
-		
-		public override void NetSend(BinaryWriter writer)
-		{
-			BitsByte flags = new BitsByte();
-			flags[0] = isThereAChest;
-			writer.Write(flags);
-		}
-
-		public override void NetReceive(BinaryReader reader)
-		{
-			BitsByte flags = reader.ReadByte();
-			isThereAChest = flags[0];
 		}
 	}
 }

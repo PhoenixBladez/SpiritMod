@@ -35,7 +35,6 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 			AddMapEntry(new Color(112, 216, 238), name);
 			disableSmartCursor = true;
 			Main.tileLighted[Type] = true;
-			dustType = 278;
 			soundType = 42;
 			soundStyle = 170;
 		}
@@ -55,7 +54,6 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 		}
 		public override void RightClick(int i, int j)
 		{
-			Player player = Main.LocalPlayer;
 			Tile tile = Main.tile[i, j];
 			WorldGen.KillTile(i, j, false, false, false);
 		}
@@ -78,7 +76,6 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 			Player player = Main.LocalPlayer;
 			Tile tile = Main.tile[i, j];
 			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(42, 186));
-			Item.NewItem((int)(i * 16), (int)(j * 16) - 12, 16*2, 16*3, mod.ItemType("Black_Stone_Item"), Main.rand.Next(3,7), false, 0, false, false);
 			for (int index1 = 0; index1 < 3; ++index1)
 			{
 				for (int index2 = 0; index2 < 2; ++index2)
@@ -95,63 +92,8 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 				Main.projectile[p].scale = Main.rand.Next(30,150)*0.01f;
 			}
 			
-			int spawnposXa = Main.rand.Next(Main.maxTilesX);
-            int spawnposYa = WorldGen.genRand.Next(Convert.ToInt32(Main.rockLayer), Convert.ToInt32(Main.rockLayer + 500));
-            bool safetyCheckLihzard = 
-			Main.tile[spawnposXa - 10,spawnposYa - 10].type == TileID.LihzahrdBrick || Main.tile[spawnposXa + 10,spawnposYa + 10].type == TileID.LihzahrdBrick ||
-			Main.tile[spawnposXa - 10,spawnposYa - 10].wall == 87 || Main.tile[spawnposXa + 10,spawnposYa + 10].wall == 87;
-           
-
-			bool safetyCheckDungeonWalls = 
-			Main.tile[spawnposXa - 10,spawnposYa - 10].wall == 7 || Main.tile[spawnposXa + 10,spawnposYa + 10].wall == 7 ||
-			Main.tile[spawnposXa - 10,spawnposYa - 10].wall == 8 || Main.tile[spawnposXa + 10,spawnposYa + 10].wall == 8 ||
-			Main.tile[spawnposXa - 10,spawnposYa - 10].wall == 9 || Main.tile[spawnposXa + 10,spawnposYa + 10].wall == 9 ||
-			Main.tile[spawnposXa - 10,spawnposYa - 10].wall == 94 || Main.tile[spawnposXa + 10,spawnposYa + 10].wall == 94 ||
-			Main.tile[spawnposXa - 10,spawnposYa - 10].wall == 98 || Main.tile[spawnposXa + 10,spawnposYa + 10].wall == 98 ||
-			Main.tile[spawnposXa - 10,spawnposYa - 10].wall == 96 || Main.tile[spawnposXa + 10,spawnposYa + 10].wall == 96 ||
-			Main.tile[spawnposXa - 10,spawnposYa - 10].wall == 97 || Main.tile[spawnposXa + 10,spawnposYa + 10].wall == 97 ||
-			Main.tile[spawnposXa - 10,spawnposYa - 10].wall == 99 || Main.tile[spawnposXa + 10,spawnposYa + 10].wall == 99 ||
-			Main.tile[spawnposXa - 10,spawnposYa - 10].wall == 95 || Main.tile[spawnposXa + 10,spawnposYa + 10].wall == 95;
-			
-			bool safetyCheckDungeonTiles = 
-			Main.tile[spawnposXa - 10,spawnposYa - 10].type == 41 || Main.tile[spawnposXa + 10,spawnposYa + 10].type == 41 ||
-			Main.tile[spawnposXa - 10,spawnposYa - 10].type == 43 || Main.tile[spawnposXa + 10,spawnposYa + 10].type == 43 ||
-			Main.tile[spawnposXa - 10,spawnposYa - 10].type == 44 || Main.tile[spawnposXa + 10,spawnposYa + 10].type == 44;
-			
-            while (safetyCheckLihzard || safetyCheckDungeonWalls || safetyCheckDungeonTiles)
-            {
-				spawnposXa = Main.rand.Next(Main.maxTilesX);
-                spawnposYa = WorldGen.genRand.Next(Convert.ToInt32(Main.rockLayer), Convert.ToInt32(Main.rockLayer + 500));
-				
-				safetyCheckLihzard = 
-				Main.tile[spawnposXa - 10,spawnposYa - 10].type == TileID.LihzahrdBrick || Main.tile[spawnposXa + 10,spawnposYa + 10].type == TileID.LihzahrdBrick ||
-				Main.tile[spawnposXa - 10,spawnposYa - 10].wall == 87 || Main.tile[spawnposXa + 10,spawnposYa + 10].wall == 87;
-				
-				safetyCheckDungeonWalls = 
-				Main.tile[spawnposXa - 10,spawnposYa - 10].wall == 7 || Main.tile[spawnposXa + 10,spawnposYa + 10].wall == 7 ||
-				Main.tile[spawnposXa - 10,spawnposYa - 10].wall == 8 || Main.tile[spawnposXa + 10,spawnposYa + 10].wall == 8 ||
-				Main.tile[spawnposXa - 10,spawnposYa - 10].wall == 9 || Main.tile[spawnposXa + 10,spawnposYa + 10].wall == 9 ||
-				Main.tile[spawnposXa - 10,spawnposYa - 10].wall == 94 || Main.tile[spawnposXa + 10,spawnposYa + 10].wall == 94 ||
-				Main.tile[spawnposXa - 10,spawnposYa - 10].wall == 98 || Main.tile[spawnposXa + 10,spawnposYa + 10].wall == 98 ||
-				Main.tile[spawnposXa - 10,spawnposYa - 10].wall == 96 || Main.tile[spawnposXa + 10,spawnposYa + 10].wall == 96 ||
-				Main.tile[spawnposXa - 10,spawnposYa - 10].wall == 97 || Main.tile[spawnposXa + 10,spawnposYa + 10].wall == 97 ||
-				Main.tile[spawnposXa - 10,spawnposYa - 10].wall == 99 || Main.tile[spawnposXa + 10,spawnposYa + 10].wall == 99 ||
-				Main.tile[spawnposXa - 10,spawnposYa - 10].wall == 95 || Main.tile[spawnposXa + 10,spawnposYa + 10].wall == 95;
-				
-				safetyCheckDungeonTiles = 
-				Main.tile[spawnposXa - 10,spawnposYa - 10].type == 41 || Main.tile[spawnposXa + 10,spawnposYa + 10].type == 41 ||
-				Main.tile[spawnposXa - 10,spawnposYa - 10].type == 43 || Main.tile[spawnposXa + 10,spawnposYa + 10].type == 43 ||
-				Main.tile[spawnposXa - 10,spawnposYa - 10].type == 44 || Main.tile[spawnposXa + 10,spawnposYa + 10].type == 44;
-            }
-			if (Main.rand.Next(3)==0)
-			{
-				PlaceShrine(spawnposXa, spawnposYa, Structures.Fathomless_Chest.Fathomless_Chest_Arrays.ShrineShape1);
-				PlaceShrineMiscs(spawnposXa, spawnposYa, Structures.Fathomless_Chest.Fathomless_Chest_Arrays.Miscs);
-				Structures.Fathomless_Chest.Fathomless_Chest_World.isThereAChest = true;
-			}
-			
 			//int randomEffectCounter = 5;
-			int randomEffectCounter = Main.rand.Next(6);
+			int randomEffectCounter = Main.rand.Next(8);
 			switch (randomEffectCounter)
 			{
 				case 0: //SPAWN ZOMBIES
@@ -162,6 +104,11 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 					int c = NPC.NewNPC((int)(i * 16) + 8, (j * 16) + 6, 430);
 					int d = NPC.NewNPC((int)(i * 16) + 24 + 16, (j * 16) + 6, 3);
 					int e = NPC.NewNPC((int)(i * 16) + 24 + 32, (j * 16) + 6, 3);
+					Main.npc[a].netUpdate = true;
+					Main.npc[b].netUpdate = true;
+					Main.npc[c].netUpdate = true;
+					Main.npc[d].netUpdate = true;
+					Main.npc[e].netUpdate = true;
 					break;
 				}
 				case 1: //DROP COINS
@@ -262,6 +209,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 						Main.npc[a].value = 0;
 						Main.npc[a].friendly = false;
 						Main.npc[a].dontTakeDamage = true;
+						Main.npc[a].netUpdate = true;
 						Vector2 spinningpoint = new Vector2(0.0f, -3f).RotatedByRandom(3.14159274101257);
 						float num1 = (float) 28;
 						Vector2 vector2 = new Vector2(1.1f, 1f);
@@ -281,7 +229,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 					}
 					break;
 				}
-				case 5: //WATER BOTTLE N LAVA
+				case 5: //Potion N LAVA
 				{
 					NeutralLuck();
 					Main.tile[i, j].lava(true);
@@ -290,145 +238,74 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 					Main.tile[i-4, j+2].liquid = byte.MaxValue;
 					Main.tile[i+4, j+2].lava(true);
 					Main.tile[i+4, j+2].liquid = byte.MaxValue;
-					Item.NewItem((int)(i * 16), (int)(j * 16) - 12, 16, 18, mod.ItemType("Water_Bottle"), 1, false, 0, false, false);
+					Item.NewItem((int)(i * 16), (int)(j * 16) - 12, 16, 18, ItemID.ObsidianSkinPotion, 1, false, 0, false, false);
+					break;
+				}
+				case 6: //Convert regional stone into gems
+				{
+					GoodLuck();
+					int gemType = Main.rand.Next(new int[] { 63, 64, 65, 66, 67, 68 });
+					ConvertStone(i, j, 6, gemType);
+					Item.NewItem((int)(i * 16) + 8, (int)(j * 16) + 12, 16, 18, gemType, 1, false, 0, false, false);
+					break;
+				}
+				case 7: //Places opposite world evil
+				{
+					BadLuck();
+					if (WorldGen.crimson)
+					{
+						ConvertStone(i, j, 6, 25);
+						ConvertDirt(i, j, 6, 23);
+					}
+					else
+					{
+						ConvertStone(i, j, 6, 203);
+						ConvertDirt(i, j, 6, 199);
+					}
 					break;
 				}
 			}
 		}
-		private void PlaceShrineMiscs(int i, int j, int[,] ShrineArray) 
+		public void ConvertStone(int i, int j, int size, int typeConvert)
 		{
-			for (int y = 0; y < ShrineArray.GetLength(0); y++) { // Third Loop Places Furnitures.(So that they have blocks to spawn on).
-				for (int x = 0; x < ShrineArray.GetLength(1); x++) {
-					int k = i - 3 + x;
-					int l = j - 6 + y;
-					Tile tile = Framing.GetTileSafely(k, l);
-					if (WorldGen.InWorld(k, l, 30) && (tile.type != 41 || tile.type != 43 || tile.type != 44 || tile.type != 226))
-					{					
-						switch (ShrineArray[y, x]) {
-							case 8:
-								
-								WorldGen.PlaceObject(k, l, 42, false, 2); //Lantern
-								break;
-						}
-					}
-				}
-			}
-		}
-		private void PlaceShrine(int i, int j, int[,] ShrineArray) 
-		{
-			for (int y = 0; y < ShrineArray.GetLength(0); y++) 
-			{ // First loop is here to clear tiles properly, and not delete objects afterwards.
-				for (int x = 0; x < ShrineArray.GetLength(1); x++) 
+			for (int k = i - size; k <= i + size; k++)
+			{
+				for (int l = j - size; l <= j + size; l++)
 				{
-					int k = i - 3 + x;
-					int l = j - 6 + y;
-					Tile tile = Framing.GetTileSafely(k, l);
-					if (WorldGen.InWorld(k, l, 30) && (tile.type != 41 || tile.type != 43 || tile.type != 44 || tile.type != 226))
+					if (WorldGen.InWorld(k, l, 1) && Math.Abs(k - i) + Math.Abs(l - j) < Math.Sqrt(size * size + size * size))
 					{
-						switch (ShrineArray[y, x])
-						{		
-							case 0:						
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;
-							case 2:						
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;
-							case 3:
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;
-							case 4:
-								Framing.GetTileSafely(k, l).ClearEverything();
-								break;
-							case 5:
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;
-							case 6:
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;
-							case 7:
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;
-							case 8:
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;
-							case 9:
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;
-						}
-					}
-				}
-			}
-			
-			for (int y = 0; y < ShrineArray.GetLength(0); y++) { // Second Loop Places Blocks
-				for (int x = 0; x < ShrineArray.GetLength(1); x++) {
-					int k = i - 3 + x;
-					int l = j - 6 + y;
-					Tile tile = Framing.GetTileSafely(k, l);
-					if (WorldGen.InWorld(k, l, 30) && (tile.type != 41 || tile.type != 43 || tile.type != 44 || tile.type != 226)) {
-						switch (ShrineArray[y, x]) {
-							case 0:
-								break;
-							case 1:				
-								break;
-							case 2:
-								
-								WorldGen.PlaceTile(k, l, mod.TileType("Black_Stone")); // Dirt
-								WorldGen.PlaceWall(k, l, 1); // Stone Wall	
-								tile.active(true);
-								break;
-							case 3:
-								
-								WorldGen.PlaceTile(k, l, 311); // Dynasty Wood							
-								tile.active(true);
-								break;
-							case 4:
-								
-								WorldGen.PlaceWall(k, l, 139); // Rich Mahogany Fence	
-								WorldGen.PlaceObject(k, l, 105, false, 31); // Tree Statue								
-								break;
-							case 5:
-								
-								WorldGen.PlaceTile(k, l, 313); // Blue Dynasty Shingles			
-								tile.active(true);
-								break;
-							case 6:
-								
-								WorldGen.PlaceTile(k, l, 313); // Blue Dynasty Shingles
-								tile.active(true);
-								tile.slope(0); // I give up, this is retarded
-								break;
-							case 7:
-								WorldGen.PlaceTile(k, l, 311); // Dynasty Wood
-								WorldGen.PlaceWall(k, l, 139); // Rich Mahogany Fence
-								
-								tile.active(true);
-								break;
-						}
-					}
-				}
-			}
-			
-			for (int y = 0; y < ShrineArray.GetLength(0); y++) { // Third Loop Places Furnitures.(So that they have blocks to spawn on).
-				for (int x = 0; x < ShrineArray.GetLength(1); x++) {
-					int k = i - 3 + x;
-					int l = j - 6 + y;
-					if (WorldGen.InWorld(k, l, 30)){
-						Tile tile = Framing.GetTileSafely(k, l);
-						switch (ShrineArray[y, x]) {
-							case 8:
-								
-								WorldGen.PlaceObject(k, l, 105, false, 31); // Tree Statue
-								break;
-							case 9:
-								
-								WorldGen.PlaceTile(k, l, mod.TileType("Fathomless_Chest")); // Blue Dynasty Shingles
-								break;
+						int type = (int)Main.tile[k, l].type;
+						int wall = (int)Main.tile[k, l].wall;
+						if (TileID.Sets.Conversion.Stone[type])
+						{
+							Main.tile[k, l].type = (ushort)typeConvert;
+							WorldGen.SquareTileFrame(k, l, true);
+							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
 					}
 				}
 			}
 		}
-
+		public void ConvertDirt(int i, int j, int size, int typeConvert)
+		{
+			for (int k = i - size; k <= i + size; k++)
+			{
+				for (int l = j - size; l <= j + size; l++)
+				{
+					if (WorldGen.InWorld(k, l, 1) && Math.Abs(k - i) + Math.Abs(l - j) < Math.Sqrt(size * size + size * size))
+					{
+						int type = (int)Main.tile[k, l].type;
+						int wall = (int)Main.tile[k, l].wall;
+						if (type == 0 || type == 2)
+						{
+							Main.tile[k, l].type = (ushort)typeConvert;
+							WorldGen.SquareTileFrame(k, l, true);
+							NetMessage.SendTileSquare(-1, k, l, 1);
+						}
+					}
+				}
+			}
+		}
 		public void BadLuck()
 		{
 			Player player = Main.LocalPlayer;
