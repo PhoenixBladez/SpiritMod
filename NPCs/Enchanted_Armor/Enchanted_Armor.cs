@@ -83,8 +83,8 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 				movement();
 				DespawnTimer--;
 				if(DespawnTimer <= 0) {
-					for(int i = 0; i < 7; i++) 
-						Gore.NewGore(npc.Center, Main.rand.NextVector2Circular(5, 5), 11 + Main.rand.Next(2));
+					for(int i = 0; i < 6; i++) 
+						Gore.NewGore(npc.Center, Main.rand.NextVector2Circular(2, 2), 99);
 
 					bool placed = false;
 					Point CheckTile = new Point((int)npc.Left.X / 16, (int)(npc.Left.Y + 16) / 16);
@@ -100,10 +100,14 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 
 					if (CanPlaceStatue(CheckTile)) {
 						WorldGen.PlaceObject(CheckTile.X, CheckTile.Y, ModContent.TileType<CursedArmor>(), direction: npc.spriteDirection);
+						for (int i = 0; i < 6; i++)
+							Gore.NewGore(CheckTile.ToWorldCoordinates(), Main.rand.NextVector2Circular(2, 2), 99);
 						placed = true;
 					}
 					else if (CanPlaceStatue(new Point(TileX, TileY))) {
 						WorldGen.PlaceObject(TileX, TileY, ModContent.TileType<CursedArmor>(), direction: npc.spriteDirection);
+						for (int i = 0; i < 6; i++)
+							Gore.NewGore(new Point(TileX, TileY).ToWorldCoordinates(), Main.rand.NextVector2Circular(2, 2), 99);
 						placed = true;
 					}
 					int tries = 0;
@@ -113,6 +117,8 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 								var checkFrom = new Point(indexX + CheckTile.X, indexY + CheckTile.Y);
 								if (CanPlaceStatue(checkFrom) && !placed && Main.rand.NextBool(7)) {
 									WorldGen.PlaceObject(checkFrom.X, checkFrom.Y, ModContent.TileType<CursedArmor>(), direction: npc.spriteDirection);
+									for (int i = 0; i < 6; i++)
+										Gore.NewGore(checkFrom.ToWorldCoordinates(), Main.rand.NextVector2Circular(2, 2), 99);
 									placed = true;
 								}
 							}
