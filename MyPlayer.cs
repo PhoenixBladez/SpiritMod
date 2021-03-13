@@ -199,6 +199,7 @@ namespace SpiritMod
 		public bool starMap = false;
 		private const int saveVersion = 0;
 		public bool minionName = false;
+		public bool moonlightSack = false;
 		public bool Ward = false;
 		public bool Ward1 = false;
 		public static bool hasProjectile;
@@ -590,6 +591,7 @@ namespace SpiritMod
 			KoiTotem = false;
 			setbonus = null;
             rogueCrest = false;
+			moonlightSack = false;
             cimmerianScepter = false;
 			midasTouch = false;
 			seaSnailVenom = false;
@@ -4011,15 +4013,31 @@ namespace SpiritMod
 
 			DashMovement(FindDashes());
 		}
-		int projectileTimer;
 		public override void PostUpdate()
 		{
 			if (seaSnailVenom)
 			{
-				projectileTimer++;
-				if (projectileTimer % 5 == 0 && player.velocity.X != 0f && player.velocity.Y == 0f && !player.mount.Active)
+				if (player.miscCounter % 5 == 0 && player.velocity.X != 0f && player.velocity.Y == 0f && !player.mount.Active)
 				{
 					int p = Projectile.NewProjectile(player.Center.X - 10*player.direction, player.Center.Y + 5, 0f, 20f, mod.ProjectileType("Sea_Snail_Poison_Projectile"), 5, 0f, player.whoAmI, 0f, 0f);
+				}
+			}
+			if (moonlightSack)
+			{
+				for (int i = 0; i < Main.projectile.Length; i++)
+				{
+					Projectile projectile = Main.projectile[i];
+					if ((double)Vector2.Distance(player.Center, projectile.Center) <= (double)240f && projectile.owner == player.whoAmI && projectile.active && projectile.minion && projectile.type != mod.ProjectileType("Moonlight_Sack_Lightning"))
+					{		
+						if (player.miscCounter % 5 == 0)
+						{
+							int pickedProjectile = mod.ProjectileType("Moonlight_Sack_Lightning");
+							Vector2 vector2_1 = new Vector2((float) player.Center.X, (float) player.Center.Y);
+							Vector2 vector2_2 = Vector2.Normalize(vector2_1 - projectile.Center) * 8f;
+							int p = Projectile.NewProjectile(player.Center.X, player.Center.Y, vector2_2.X, vector2_2.Y, pickedProjectile, (int)(12*player.minionDamage), 1f, player.whoAmI, 0.0f, 0.0f);
+							Main.projectile[p].ai[0] = projectile.whoAmI;
+						}
+					}
 				}
 			}
 			if (teslaCoil)

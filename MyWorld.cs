@@ -1989,7 +1989,7 @@ namespace SpiritMod
 											}
 										}
 									}
-									int[] TileArray2 = { 1, 25, 117, 203 };
+									int[] TileArray2 = { 1, 25, 117, 203, 179, 180, 181, 182, 183 };
 									if (TileArray2.Contains(Main.tile[xAxis, yAxis].type)) {
 										if (Main.tile[xAxis, yAxis + 1] == null) {
 											if (rand.Next(0, 50) == 1) {

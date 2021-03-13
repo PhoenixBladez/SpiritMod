@@ -125,6 +125,9 @@ namespace SpiritMod.NPCs.MoonjellyEvent
 
 			if (Main.rand.NextBool(2))
 				npc.DropItem(mod.ItemType("MoonJelly"));
+
+			if (Main.rand.NextBool(18))
+				npc.DropItem(mod.ItemType("Moonlight_Sack"));
 		}
 	}
 }

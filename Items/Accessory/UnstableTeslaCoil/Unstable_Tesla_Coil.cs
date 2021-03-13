@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Accessory.UnstableTeslaCoil
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Unstable Tesla Coil");
-			Tooltip.SetDefault("Electrocutes nearby enemies\nElectrocuted enemies are targetted by summons\nIncreases pickup range for ores");
+			Tooltip.SetDefault("Electrocutes nearby enemies\nElectrocuted enemies are targeted by summons\nIncreases pickup range for ores");
 		}
 		public override void SetDefaults()
 		{

@@ -1071,6 +1071,10 @@ namespace SpiritMod.NPCs
 			}
 			#endregion
 			*/
+			if (npc.type == 224 && Main.rand.Next(100)==0)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Flying_Fish_Fin"));
+			}
 			if (npc.type == 220 && Main.rand.Next(3)==0)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Sea_Snail_Poison"));
