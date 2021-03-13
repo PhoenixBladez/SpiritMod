@@ -160,14 +160,15 @@ namespace SpiritMod.Structures.Fathomless_Chest
 
 		public override void PostWorldGen()
         {
-			finalShrineGen();
+			int numberOfShrines = Main.maxTilesX / 200;
+			int xSegment = Main.maxTilesX / numberOfShrines;
+			for (int i = 0; i < numberOfShrines; i++)
+				finalShrineGen(WorldGen.genRand.Next(xSegment * i, xSegment * (i + 1)), WorldGen.genRand.Next(Convert.ToInt32(Main.rockLayer), Convert.ToInt32(Main.rockLayer + 500)));
 		}
 		
-		public void finalShrineGen()
+		public void finalShrineGen(int spawnposXa, int spawnposYa)
 		{
 			isThereAChest = true;
-			int spawnposXa = Main.rand.Next(Main.maxTilesX);
-            int spawnposYa = WorldGen.genRand.Next(Convert.ToInt32(Main.rockLayer), Convert.ToInt32(Main.rockLayer + 500));
             bool safetyCheckLihzard = 
 			Main.tile[spawnposXa - 10,spawnposYa - 10].type == TileID.LihzahrdBrick || Main.tile[spawnposXa + 10,spawnposYa + 10].type == TileID.LihzahrdBrick ||
 			Main.tile[spawnposXa - 10,spawnposYa - 10].wall == 87 || Main.tile[spawnposXa + 10,spawnposYa + 10].wall == 87;
