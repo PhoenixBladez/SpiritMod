@@ -24,6 +24,7 @@ namespace SpiritMod.Items.Weapon.Bow.OrnamentBow
 			projectile.aiStyle = 1;
 			projectile.friendly = true;
 			projectile.ranged = true;
+			projectile.arrow = true;
 		}
 		public override void AI()
 		{
@@ -184,7 +185,7 @@ namespace SpiritMod.Items.Weapon.Bow.OrnamentBow
 				}
 				float positionX = Main.rand.Next(-80, 80);
 				float positionY = Main.rand.Next(-60, -20);
-				int a = Projectile.NewProjectile(player.Center.X + positionX, player.Center.Y + positionY, 0f, 0f, arrowType, player.HeldItem.damage / 2, 2f, player.whoAmI);
+				int a = Projectile.NewProjectile(player.Center.X + positionX, player.Center.Y + positionY, 0f, 0f, arrowType, (int)(player.HeldItem.damage * 0.66f * player.rangedDamage), 2f, player.whoAmI);
 				Vector2 vector2_2 = Vector2.Normalize(new Vector2(projectile.Center.X, projectile.Center.Y) - Main.projectile[a].Center) * (float)Main.rand.Next(14, 18);
 				Main.projectile[a].velocity = vector2_2;
 				float index = 16f;

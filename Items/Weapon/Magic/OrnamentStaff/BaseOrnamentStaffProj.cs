@@ -13,10 +13,12 @@ namespace SpiritMod.Items.Weapon.Magic.OrnamentStaff
 		internal bool speedCheck = false;
 		internal float speed = 0f;
 		public int DustType;
+		public Color color;
 
-		public BaseOrnamentStaffProj(int DustType)
+		public BaseOrnamentStaffProj(int DustType, Color color)
 		{
 			this.DustType = DustType;
+			this.color = color;
 		}
 
 		public override void SetDefaults()
@@ -27,13 +29,14 @@ namespace SpiritMod.Items.Weapon.Magic.OrnamentStaff
 			projectile.friendly = true;
 			projectile.magic = true;
 			projectile.tileCollide = true;
-			projectile.timeLeft = 180;
+			projectile.timeLeft = 170;
 			projectile.netUpdate = true;
 		}
 
 		public override void AI()
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + 1.570796f;
+			Lighting.AddLight(projectile.Center, color.ToVector3() / 2);
 			if (projectile.timeLeft < 120)
 			{
 				if (!homing && projectile.owner == Main.myPlayer)
@@ -47,10 +50,9 @@ namespace SpiritMod.Items.Weapon.Magic.OrnamentStaff
 					projectile.netUpdate = true;
 				}
 
-				if (Vector2.Distance(projectile.Center, new Vector2(projectile.ai[0], projectile.ai[1])) <= 12.0) {
-					projectile.Kill();
-					return;
-				}
+				if (Vector2.Distance(projectile.Center, new Vector2(projectile.ai[0], projectile.ai[1])) <= 12.0) 
+					projectile.timeLeft = Math.Min(projectile.timeLeft, 5);
+				
 			}
 			else
 			{
@@ -62,7 +64,9 @@ namespace SpiritMod.Items.Weapon.Magic.OrnamentStaff
 				projectile.velocity *= speed;
 			}
 		}
-		
+
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) => damage += Math.Min(target.defense / 2, 4);
+
 		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
 		{
 			width = 8;

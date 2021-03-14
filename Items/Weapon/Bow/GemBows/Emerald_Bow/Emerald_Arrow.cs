@@ -24,6 +24,7 @@ namespace SpiritMod.Items.Weapon.Bow.GemBows.Emerald_Bow
 			projectile.aiStyle = 1;
 			projectile.friendly = true;
 			projectile.ranged = true;
+			projectile.arrow = true;
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{

@@ -24,6 +24,7 @@ namespace SpiritMod.Items.Weapon.Bow.GemBows.Sapphire_Bow
 			//projectile.aiStyle = 1;
 			projectile.friendly = true;
 			projectile.ranged = true;
+			projectile.arrow = true;
 		}
 
 		static readonly int gravitytimer = 30;

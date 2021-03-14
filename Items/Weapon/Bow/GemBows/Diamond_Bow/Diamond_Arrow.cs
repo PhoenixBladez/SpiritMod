@@ -25,6 +25,7 @@ namespace SpiritMod.Items.Weapon.Bow.GemBows.Diamond_Bow
 			projectile.penetrate = 2;
 			projectile.friendly = true;
 			projectile.ranged = true;
+			projectile.arrow = true;
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{

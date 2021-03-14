@@ -64,7 +64,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
             {
                 npc.velocity *= .97f;
             }
-			if (npc.ai[2] > 300)
+			if (npc.ai[2] > 270)
 			{
 				Explode();
 				npc.netUpdate = true;
@@ -75,7 +75,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			Main.PlaySound(new LegacySoundStyle(2, 14).WithPitchVariance(0.2f), npc.Center);
 			npc.life = 0;
 			npc.active = false;
-			DustHelper.DrawStar(new Vector2(npc.Center.X, npc.Center.Y), DustID.GoldCoin, pointAmount: 4, mainSize: 1.9425f, dustDensity: 2, dustSize: .5f, pointDepthMult: 0.3f, noGravity: true);
+			DustHelper.DrawStar(new Vector2(npc.Center.X, npc.Center.Y), DustID.GoldCoin, pointAmount: 5, mainSize: 8f, dustDensity: 2.5f, dustSize: .75f, pointDepthMult: 0.4f, noGravity: true);
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, ModContent.ProjectileType<SporeExplosion>(), 24, 1, Main.myPlayer, 0, 0);	

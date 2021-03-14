@@ -136,7 +136,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				npc.TargetClosest(true);
 				npc.spriteDirection = npc.direction;
 			}
-			if (npc.ai[0] > 1800 && npc.ai[0] < 1930)
+			if (npc.ai[0] > 1800 && npc.ai[0] < 1970)
 			{
 				summonSpores();
 				pulseTrailYellow = true;
@@ -180,7 +180,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			bool expertMode = Main.expertMode;
 			Vector2 homepos = Main.player[npc.target].Center;
 			if ((npc.ai[0] >= 480 && npc.ai[0] < 540) || (npc.ai[0] >= 580 && npc.ai[0] < 670)) {
-				homepos += (npc.ai[0] < 540) ? new Vector2(150, -150f) : new Vector2(-150, -150);
+				homepos += (npc.ai[0] < 540) ? new Vector2(150, -250f) : new Vector2(-150, -250);
 				npc.TargetClosest(true);
 				float vel = MathHelper.Clamp(npc.Distance(homepos) / 8, 6, 38);
 				npc.velocity = Vector2.Lerp(npc.velocity, npc.DirectionTo(homepos) * vel, 0.05f);
@@ -193,16 +193,16 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
                 {
                     Vector2 direction = Main.player[npc.target].Center - npc.Center;
                     direction.Normalize();
-					direction *= 4f;
+					direction *= 3f;
 
                     int amountOfProjectiles = 5;
                     for (int i = 0; i < amountOfProjectiles; ++i)
                     {
-                        float A = (float)Main.rand.Next(-50, 50) * 0.05f;
-                        float B = (float)Main.rand.Next(-50, 50) * 0.05f;
                         int damage = expertMode ? 13 : 19;
-                        Projectile p = Projectile.NewProjectileDirect(npc.Center, direction + new Vector2(A, B), ModContent.ProjectileType<BossRedSpike>(), damage, 1, Main.myPlayer, 0, 0);
-						p.netUpdate = true;
+                        if(i == 0)
+							Projectile.NewProjectileDirect(npc.Center, direction, ModContent.ProjectileType<BossRedSpike>(), damage, 1, Main.myPlayer, 0, 0).netUpdate = true;
+						else
+							Projectile.NewProjectileDirect(npc.Center, direction.RotatedByRandom(MathHelper.Pi / 4) * Main.rand.NextFloat(0.5f, 1f), ModContent.ProjectileType<BossRedSpike>(), damage, 1, Main.myPlayer, 0, 0).netUpdate = true;
                     }
                 }
 			}

@@ -25,6 +25,7 @@ namespace SpiritMod.Items.Weapon.Bow.GemBows.Topaz_Bow
 			projectile.friendly = true;
 			projectile.ranged = true;
 			projectile.extraUpdates = 2;
+			projectile.arrow = true;
 		}
 		public override void AI()
 		{

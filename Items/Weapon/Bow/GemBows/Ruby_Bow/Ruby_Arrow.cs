@@ -24,6 +24,7 @@ namespace SpiritMod.Items.Weapon.Bow.GemBows.Ruby_Bow
 			projectile.aiStyle = 1;
 			projectile.friendly = true;
 			projectile.ranged = true;
+			projectile.arrow = true;
 		}
 		int num = 2;
 		public override bool OnTileCollide(Vector2 oldVelocity)

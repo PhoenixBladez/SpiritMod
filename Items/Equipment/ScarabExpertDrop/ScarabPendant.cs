@@ -81,6 +81,7 @@ namespace SpiritMod.Items.Equipment.ScarabExpertDrop
 			ScarabMountPlayer modplayer = player.GetModPlayer<ScarabMountPlayer>();
 			modplayer.scarabrotation += player.velocity.X / 25;
 			modplayer.scarabtimer++;
+			player.buffImmune[BuffID.WindPushed] = true;
 
 			for(int i = (modplayer.scaraboldposition.Length - 1); i > 0; i--) {
 				modplayer.scaraboldposition[i] = modplayer.scaraboldposition[i - 1];

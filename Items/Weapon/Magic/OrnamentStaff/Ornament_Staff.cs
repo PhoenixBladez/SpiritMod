@@ -19,12 +19,12 @@ namespace SpiritMod.Items.Weapon.Magic.OrnamentStaff
 			item.height = 40;
 			item.useTime = 48;
 			item.useAnimation = 48;
-			item.useStyle = 5;
-			item.shoot = 1;
+			item.useStyle = ItemUseStyleID.HoldingOut;
+			item.shoot = ProjectileID.WoodenArrowFriendly;
 			item.shootSpeed = 10f;
 			item.knockBack = 5f;
 			item.autoReuse = true;
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.value = Item.sellPrice(gold: 1, silver: 25);
 			item.UseSound = new Terraria.Audio.LegacySoundStyle(42, 139);
 			item.useTurn = false;
@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Weapon.Magic.OrnamentStaff
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Staff of Ornaments");
-			Tooltip.SetDefault("Casts a bunch of gems that will track your mouse");
+			Tooltip.SetDefault("Casts a bunch of gems that will track your cursor position");
 			Item.staff[item.type] = true;
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -94,7 +94,7 @@ namespace SpiritMod.Items.Weapon.Magic.OrnamentStaff
 
 	public class Amethyst_Projectile : BaseOrnamentStaffProj
 	{
-		public Amethyst_Projectile() : base(86) { }
+		public Amethyst_Projectile() : base(86, Color.Purple) { }
 
 		public override void SetStaticDefaults()
 		{
@@ -106,7 +106,7 @@ namespace SpiritMod.Items.Weapon.Magic.OrnamentStaff
 
 	public class Topaz_Projectile : BaseOrnamentStaffProj
 	{
-		public Topaz_Projectile() : base(87) { }
+		public Topaz_Projectile() : base(87, Color.Yellow) { }
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Topaz Magic");
@@ -116,7 +116,7 @@ namespace SpiritMod.Items.Weapon.Magic.OrnamentStaff
 	}
 	public class Sapphire_Projectile : BaseOrnamentStaffProj
 	{
-		public Sapphire_Projectile() : base(88) { }
+		public Sapphire_Projectile() : base(88, Color.Blue) { }
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sapphire Magic");
@@ -127,7 +127,7 @@ namespace SpiritMod.Items.Weapon.Magic.OrnamentStaff
 
 	public class Emerald_Projectile : BaseOrnamentStaffProj
 	{
-		public Emerald_Projectile() : base(89) { }
+		public Emerald_Projectile() : base(89, Color.Green) { }
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Emerald Magic");
@@ -137,7 +137,7 @@ namespace SpiritMod.Items.Weapon.Magic.OrnamentStaff
 	}
 	public class Ruby_Projectile : BaseOrnamentStaffProj
 	{
-		public Ruby_Projectile() : base(90) { }
+		public Ruby_Projectile() : base(90, Color.Red) { }
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ruby Magic");
@@ -147,7 +147,7 @@ namespace SpiritMod.Items.Weapon.Magic.OrnamentStaff
 	}
 	public class Diamond_Projectile : BaseOrnamentStaffProj
 	{
-		public Diamond_Projectile() : base(91) { }
+		public Diamond_Projectile() : base(91, Color.White) { }
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Diamond Magic");

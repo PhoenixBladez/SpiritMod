@@ -24,6 +24,7 @@ namespace SpiritMod.Items.Weapon.Bow.GemBows.Amethyst_Bow
 			projectile.aiStyle = 1;
 			projectile.friendly = true;
 			projectile.ranged = true;
+			projectile.arrow = true;
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{

@@ -13,9 +13,9 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 
 		public override void SetDefaults()
 		{
-			projectile.width = 50;
+			projectile.width = 150;
 			projectile.timeLeft = 10;
-			projectile.height = 50;
+			projectile.height = 150;
 			projectile.penetrate = 3;
 			projectile.ignoreWater = true;
 			projectile.alpha = 255;
