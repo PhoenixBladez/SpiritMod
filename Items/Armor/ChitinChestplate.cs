@@ -1,7 +1,8 @@
 using SpiritMod.Items.Material;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.DataStructures;
 namespace SpiritMod.Items.Armor
 {
 	[AutoloadEquip(EquipType.Body)]
@@ -16,7 +17,7 @@ namespace SpiritMod.Items.Armor
 		{
 			item.width = 30;
 			item.height = 20;
-			item.value = 22000;
+			item.value = Item.sellPrice(silver: 12);
 			item.rare = ItemRarityID.Blue;
 			item.defense = 4;
 		}

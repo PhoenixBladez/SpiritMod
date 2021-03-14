@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Accessory.FlyingFishFin
 		}
 		public override void UpdateEquip(Player player)
 		{
-			Player.jumpHeight = 70;
+			Player.jumpHeight = 39;
 			Player.jumpSpeed = 3f;
 			player.moveSpeed = player.moveSpeed + 0.05f;
 		}	

@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Weapon.Swung.Khopesh
 
 		public override void SetDefaults()
 		{
-			item.damage = 24;
+			item.damage = 16;
 			item.melee = true;
 			item.width = 36;
 			item.height = 44;

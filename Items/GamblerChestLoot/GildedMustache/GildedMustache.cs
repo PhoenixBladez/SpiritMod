@@ -1,3 +1,4 @@
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,7 +12,7 @@ namespace SpiritMod.Items.GamblerChestLoot.GildedMustache
 		{
 			item.width = 40;
 			item.height = 30;
-			item.value = Terraria.Item.sellPrice(0, 0, 0, 1);
+			item.value = Item.sellPrice(0, 0, 0, 0);
 			item.rare = ItemRarityID.Blue;
 
 			item.vanity = true;

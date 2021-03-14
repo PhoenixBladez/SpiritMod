@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 namespace SpiritMod.Items.Armor
 {
@@ -14,7 +15,7 @@ namespace SpiritMod.Items.Armor
 		{
 			item.width = 22;
 			item.height = 20;
-			item.value = 8000;
+			item.value = Item.sellPrice(silver: 14);
 			item.rare = ItemRarityID.Blue;
 			item.defense = 3;
 		}

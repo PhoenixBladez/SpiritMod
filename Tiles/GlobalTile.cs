@@ -31,7 +31,11 @@ namespace SpiritMod.Tiles
 			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
 			ushort eggType = (ushort)ModContent.TileType<Ambient.AvianEgg>();
 			ushort flowerType = (ushort)ModContent.TileType<BloodBlossom>();
-			if (type == flowerType || tileAbove.type == flowerType) {
+			ushort vaseType = (ushort)ModContent.TileType<Mechanics.Fathomless_Chest.Fathomless_Chest>();
+			if (type == flowerType && tileAbove.type == flowerType) {
+				return false;
+			}
+			else if (type == vaseType && tileAbove.type == vaseType) {
 				return false;
 			}
 			else if (type != eggType && tileAbove.type == eggType) {

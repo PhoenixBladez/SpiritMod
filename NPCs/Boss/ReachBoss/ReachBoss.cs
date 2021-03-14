@@ -277,10 +277,16 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			int damage = expertMode ? 15 : 21;
 			if (npc.ai[0] % 45 == 0)
 			{
+                Vector2 direction = Main.player[npc.target].Center - npc.Center;
+            	direction.Normalize();
+				direction *= 10f;
 	            if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-					Vector2 spawnVelocity = (npc.ai[0] < 1845) ? new Vector2(0f, -2f) : new Vector2(0f, 1f);
-					int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, spawnVelocity.X, spawnVelocity.Y, ModContent.ProjectileType<ReachBossBouncingProjectile>(), damage, 1, Main.myPlayer, 0, 0);			
+					    float A = (float)Main.rand.Next(-50, 50) * 0.05f;
+                        float B = (float)Main.rand.Next(-50, 50) * 0.05f;
+                        damage = expertMode ? 13 : 19;
+                        Projectile p = Projectile.NewProjectileDirect(npc.Center, direction + new Vector2(A, B), ModContent.ProjectileType<ReachBossBouncingProjectile>(), damage, 1, Main.myPlayer, 0, 0);
+						p.netUpdate = true;
 				}
 			}
 		}

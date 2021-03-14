@@ -78,11 +78,11 @@ namespace SpiritMod.NPCs.BloodMoon.SkeletonBrute
 			}
 			if (npc.life <= 0)
 			{
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SkeletonBruteGore1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SkeletonBruteGore2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SkeletonBruteGore3"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SkeletonBruteGore4"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SkeletonBruteGore5"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SkeletonBrute/SkeletonBruteGore1"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SkeletonBrute/SkeletonBruteGore2"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SkeletonBrute/SkeletonBruteGore3"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SkeletonBrute/SkeletonBruteGore4"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SkeletonBrute/SkeletonBruteGore5"), 1f);
 			}
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

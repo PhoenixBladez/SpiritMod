@@ -20,7 +20,7 @@ namespace SpiritMod.Items.GamblerChestLoot.Jem
 			item.height = 14;
 			item.maxStack = 1;
 			item.knockBack = 1f;
-			item.value = Item.sellPrice(0, 0, 0, 1);
+			item.value = Item.sellPrice(0, 0, 0, 0);
 			item.rare = ItemRarityID.Purple;
 		}
 		private float alpha;

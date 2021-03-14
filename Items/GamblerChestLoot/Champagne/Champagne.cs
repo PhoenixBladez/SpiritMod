@@ -28,7 +28,7 @@ namespace SpiritMod.Items.GamblerChestLoot.Champagne
 			item.useAnimation = 320;
 			item.useTime = 320;
 			item.shootSpeed = 8f;
-			item.value = Item.sellPrice(0, 0, 0, 1);
+			item.value = Item.sellPrice(0, 0, 0, 0);
 			item.rare = ItemRarityID.Blue;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.shoot = ModContent.ProjectileType<ChampagneProj>();

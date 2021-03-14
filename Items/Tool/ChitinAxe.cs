@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Items.Material;
 using System.Linq;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace SpiritMod.Items.Tool
@@ -19,7 +20,7 @@ namespace SpiritMod.Items.Tool
 		{
 			item.width = 46;
 			item.height = 46;
-			item.value = 10000;
+			item.value = Item.sellPrice(silver: 8);
 			item.rare = ItemRarityID.Blue;
 			item.axe = 11;
 			item.damage = 12;
