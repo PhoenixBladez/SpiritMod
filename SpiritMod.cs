@@ -726,10 +726,7 @@ namespace SpiritMod
 			}
 		}
 
-		public override void UpdateUI(GameTime gameTime)
-		{
-			BookUserInterface?.Update(gameTime);
-		}
+		public override void UpdateUI(GameTime gameTime) => BookUserInterface?.Update(gameTime);
 		public override void AddRecipeGroups()
 		{
 			RecipeGroup woodGrp = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Wood"]];

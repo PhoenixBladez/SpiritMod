@@ -7,65 +7,60 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Weapon.Magic.OrnamentStaff
 {
-	public class Diamond_Projectile : ModProjectile
+	public abstract class BaseOrnamentStaffProj : ModProjectile
 	{
-		public bool homing = false;
-		public bool speedCheck = false;
-		public float speed = 0f;
-		public override void SetStaticDefaults()
+		internal bool homing = false;
+		internal bool speedCheck = false;
+		internal float speed = 0f;
+		public int DustType;
+
+		public BaseOrnamentStaffProj(int DustType)
 		{
-			DisplayName.SetDefault("Diamond Magic");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 14; 
-			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+			this.DustType = DustType;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 18;
-			projectile.height = 16;
+			projectile.width = 14;
+			projectile.height = 18;
 			projectile.aiStyle = -1;
 			projectile.friendly = true;
 			projectile.magic = true;
 			projectile.tileCollide = true;
-			projectile.timeLeft = 240;
+			projectile.timeLeft = 180;
+			projectile.netUpdate = true;
 		}
 
 		public override void AI()
 		{
-			Player player = Main.player[projectile.owner];
 			projectile.rotation = projectile.velocity.ToRotation() + 1.570796f;
-			if (Vector2.Distance(projectile.Center, new Vector2(projectile.ai[0], projectile.ai[1]) * 16f + Vector2.One * 8f) <= 12.0)
-			{
-				projectile.Kill();
-				return;
-			}
 			if (projectile.timeLeft < 120)
 			{
-				if (!homing)
+				if (!homing && projectile.owner == Main.myPlayer)
 				{
+					projectile.ai[0] = Main.MouseWorld.X;
+					projectile.ai[1] = Main.MouseWorld.Y;
 					Vector2 vector2_1 = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY);
-					Vector2 vector2_2 = Vector2.Normalize(vector2_1 - projectile.Center) * 8f;
+					Vector2 vector2_2 = Vector2.Normalize(vector2_1 - projectile.Center) * 14f;
 					projectile.velocity = vector2_2;
 					homing = true;
+					projectile.netUpdate = true;
+				}
+
+				if (Vector2.Distance(projectile.Center, new Vector2(projectile.ai[0], projectile.ai[1])) <= 12.0) {
+					projectile.Kill();
+					return;
 				}
 			}
 			else
 			{
 				if (!speedCheck)
 				{
-					speed = Main.rand.Next(90,98)*0.01f;
+					speed = Main.rand.NextFloat(0.9f, 0.95f);
 					speedCheck = true;
 				}
 				projectile.velocity *= speed;
 			}
-		}
-		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-		{
-			if (targetHitbox.Width > 8 && targetHitbox.Height > 8)
-			{
-				targetHitbox.Inflate(-targetHitbox.Width / 8, -targetHitbox.Height / 8);
-			}
-			return projHitbox.Intersects(targetHitbox);
 		}
 		
 		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
@@ -74,7 +69,8 @@ namespace SpiritMod.Items.Weapon.Magic.OrnamentStaff
 			height = 8;
 			return true;
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) //hell
 		{
 			SpriteEffects effects1 = SpriteEffects.None;
 			if (projectile.direction == 1)
@@ -112,7 +108,7 @@ namespace SpiritMod.Items.Weapon.Magic.OrnamentStaff
 					effects2 = projectile.oldSpriteDirection[index1] == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 				  }
 				  Main.spriteBatch.Draw(glow, oldPo + projectile.Size / 2f - Main.screenPosition + new Vector2(0.0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(r), color2, rotation + projectile.rotation * num6 * (float) (index1 - 1) * (float) -effects1.HasFlag((Enum) SpriteEffects.FlipHorizontally).ToDirectionInt(), origin, MathHelper.Lerp(projectile.scale, num5, (float) index1 / 15f), effects2, 0.0f);
-		label_709:
+				label_709:
 				  index1 += num3;
 				}
 
@@ -156,16 +152,18 @@ namespace SpiritMod.Items.Weapon.Magic.OrnamentStaff
 			Vector2 vector2 = new Vector2(1.1f, 1f);
 			for (float num2 = 0.0f; (double) num2 < (double) num1; ++num2)
 			{
-			  int dustIndex = Dust.NewDust(projectile.Center, 0, 0, 91, 0.0f, 0.0f, 0, new Color(), 1f);
-			  Main.dust[dustIndex].position = projectile.Center;
-			  Main.dust[dustIndex].velocity = spinningpoint.RotatedBy(6.28318548202515 * (double) num2 / (double) num1, new Vector2()) * vector2 * (float) (0.800000011920929 + (double) Main.rand.NextFloat() * 0.400000005960464);
-			  Main.dust[dustIndex].noGravity = true;
-			  Main.dust[dustIndex].scale = 2f;
-			  Main.dust[dustIndex].fadeIn = Main.rand.NextFloat() * 2f;
-			  Dust dust = Dust.CloneDust(dustIndex);
-			  dust.scale /= 2f;
-			  dust.fadeIn /= 2f;		  
-			}Main.PlaySound(42, (int)projectile.position.X, (int)projectile.position.Y, 165, 1f, 0.0f);Main.PlaySound(42, (int)projectile.position.X, (int)projectile.position.Y, 165, 1f, 0.0f);
+				int dustIndex = Dust.NewDust(projectile.Center, 0, 0, DustType, 0.0f, 0.0f, 0, new Color(), 1f);
+				Main.dust[dustIndex].position = projectile.Center;
+				Main.dust[dustIndex].velocity = spinningpoint.RotatedBy(6.28318548202515 * (double) num2 / (double) num1, new Vector2()) * vector2 * (float) (0.800000011920929 + (double) Main.rand.NextFloat() * 0.400000005960464);
+				Main.dust[dustIndex].noGravity = true;
+				Main.dust[dustIndex].scale = 2f;
+				Main.dust[dustIndex].fadeIn = Main.rand.NextFloat() * 2f;
+				Dust dust = Dust.CloneDust(dustIndex);
+				dust.scale /= 2f;
+				dust.fadeIn /= 2f;	  
+			}
+
+			Main.PlaySound(SoundID.Trackable, (int)projectile.position.X, (int)projectile.position.Y, 165, 0.5f, 0.0f);
 		}
 	}
 }

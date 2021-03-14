@@ -46,37 +46,34 @@ namespace SpiritMod.Items.Weapon.Magic.OrnamentStaff
 			}
 			
 			int Type = 0;
-			for (int i = 0; i<6; i++)
+			for (int i = 0; i < 6; i++)
 			{
 				switch (i)
 				{
 					case 0:
-						Type = mod.ProjectileType("Amethyst_Projectile");
+						Type = ModContent.ProjectileType<Amethyst_Projectile>();
 						break;
 					case 1:
-						Type = mod.ProjectileType("Topaz_Projectile");
+						Type = ModContent.ProjectileType<Topaz_Projectile>();
 						break;
 					case 2:
-						Type = mod.ProjectileType("Sapphire_Projectile");
+						Type = ModContent.ProjectileType<Sapphire_Projectile>();
 						break;
 					case 3:
-						Type = mod.ProjectileType("Emerald_Projectile");
+						Type = ModContent.ProjectileType<Emerald_Projectile>();
 						break;
 					case 4:
-						Type = mod.ProjectileType("Ruby_Projectile");
+						Type = ModContent.ProjectileType<Ruby_Projectile>();
 						break;
 					case 5:
-						Type = mod.ProjectileType("Diamond_Projectile");
-						break;
-					default:
+						Type = ModContent.ProjectileType<Diamond_Projectile>();
 						break;
 				}
+
 				int spread = Main.rand.Next(-20,10);
 				spread+=i*5;
 				Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(spread));
-				int p = Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, Type, damage, knockBack, 0, 0.0f, 0.0f);
-				Main.projectile[p].ai[0] = (float)Player.tileTargetX;
-				Main.projectile[p].ai[1] = (float)Player.tileTargetY;
+				Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, Type, damage, knockBack, player.whoAmI);
 			}
 			return false;
 		}
@@ -92,6 +89,70 @@ namespace SpiritMod.Items.Weapon.Magic.OrnamentStaff
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
+		}
+	}
+
+	public class Amethyst_Projectile : BaseOrnamentStaffProj
+	{
+		public Amethyst_Projectile() : base(86) { }
+
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Amethyst Magic");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 14;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+		}
+	}
+
+	public class Topaz_Projectile : BaseOrnamentStaffProj
+	{
+		public Topaz_Projectile() : base(87) { }
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Topaz Magic");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 14;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+		}
+	}
+	public class Sapphire_Projectile : BaseOrnamentStaffProj
+	{
+		public Sapphire_Projectile() : base(88) { }
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Sapphire Magic");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 14;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+		}
+	}
+
+	public class Emerald_Projectile : BaseOrnamentStaffProj
+	{
+		public Emerald_Projectile() : base(89) { }
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Emerald Magic");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 14;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+		}
+	}
+	public class Ruby_Projectile : BaseOrnamentStaffProj
+	{
+		public Ruby_Projectile() : base(90) { }
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Ruby Magic");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 14;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+		}
+	}
+	public class Diamond_Projectile : BaseOrnamentStaffProj
+	{
+		public Diamond_Projectile() : base(91) { }
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Diamond Magic");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 14;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
 		}
 	}
 }
