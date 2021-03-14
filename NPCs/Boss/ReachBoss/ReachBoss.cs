@@ -36,8 +36,8 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			npc.knockBackResist = 0;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
-			npc.npcSlots = 20;
-			npc.defense = 15;
+			npc.npcSlots = 30;
+			npc.defense = 11;
 			npc.aiStyle = -1;
 			music = mod.GetSoundSlot(Terraria.ModLoader.SoundType.Music, "Sounds/Music/ReachBoss");
 			npc.buffImmune[20] = true;
@@ -91,11 +91,11 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			}
 
 			npc.ai[0]++;
-			if (npc.ai[0] < 470 || npc.ai[0] > 730 && npc.ai[0] < 900 || npc.ai[0] > 1051 && npc.ai[0] < 1120) {
+			if (npc.ai[0] < 470 || npc.ai[0] > 730 && npc.ai[0] < 900 || npc.ai[0] > 1051 && npc.ai[0] < 1120 || npc.ai[0] > 1750) {
 				generalMovement(player);
 			}
 
-			float[] stoptimes = new float[] { 470, 540, 670, 900, 1051, 1800 };
+			float[] stoptimes = new float[] { 470, 540, 670, 900, 1051 };
 			if (stoptimes.Contains(npc.ai[0]))
 			{
 				npc.velocity = Vector2.Zero;
@@ -113,6 +113,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			if (npc.ai[0] == 880)
 			{
 			    DustHelper.DrawStar(npc.Center, 272, pointAmount: 8, mainSize: 3.7425f, dustDensity: 6, dustSize: .65f, pointDepthMult: 3.6f, noGravity: true);
+				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 55).WithPitchVariance(0.2f), npc.Center);
 			}
 
 			if (npc.ai[0] > 900 && npc.ai[0] < 1050)
@@ -124,7 +125,10 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				pulseTrailPurple = false;
 
 			if (npc.ai[0] >= 1120 && npc.ai[0] < 1740)
+			{
 				DashAttack(player);
+				pulseTrailYellow = true;
+			}
 
 			else {
 				pulseTrailYellow = false;
@@ -134,12 +138,12 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			}
 			if (npc.ai[0] > 1800 && npc.ai[0] < 1930)
 			{
-				summonBouncingProjectiles();
-				pulseTrail = true;
+				summonSpores();
+				pulseTrailYellow = true;
 			}
 			else
 			{
-				pulseTrail = false;
+				pulseTrailYellow = false;
 			}
 			if (npc.ai[0] > 2000)
 			{
@@ -184,13 +188,14 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			if (npc.ai[0] == 560 || npc.ai[0] == 690)
 			{
 				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
+				Main.PlaySound(42, (int)npc.Center.X, (int)npc.Center.Y, 139, 1f, 0.4f);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     Vector2 direction = Main.player[npc.target].Center - npc.Center;
                     direction.Normalize();
 					direction *= 4f;
 
-                    int amountOfProjectiles = Main.rand.Next(3, 5);
+                    int amountOfProjectiles = 5;
                     for (int i = 0; i < amountOfProjectiles; ++i)
                     {
                         float A = (float)Main.rand.Next(-50, 50) * 0.05f;
@@ -271,23 +276,20 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				}
 			}
 		}
-		public void summonBouncingProjectiles()
+		public void summonSpores()
 		{			
 			bool expertMode = Main.expertMode;
 			int damage = expertMode ? 15 : 21;
-			if (npc.ai[0] % 45 == 0)
+			if (npc.ai[0] % 9 == 0)
 			{
-                Vector2 direction = Main.player[npc.target].Center - npc.Center;
-            	direction.Normalize();
-				direction *= 10f;
-	            if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-					    float A = (float)Main.rand.Next(-50, 50) * 0.05f;
-                        float B = (float)Main.rand.Next(-50, 50) * 0.05f;
-                        damage = expertMode ? 13 : 19;
-                        Projectile p = Projectile.NewProjectileDirect(npc.Center, direction + new Vector2(A, B), ModContent.ProjectileType<ReachBossBouncingProjectile>(), damage, 1, Main.myPlayer, 0, 0);
-						p.netUpdate = true;
-				}
+				
+				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(42, 4), npc.Center);
+				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(6, 0).WithPitchVariance(0.2f), npc.Center);
+				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 55).WithPitchVariance(0.2f), npc.Center);
+				int p = NPC.NewNPC((int)npc.Center.X + Main.rand.Next(-100, 100), (int)npc.Center.Y + Main.rand.Next(-200, -100), mod.NPCType("ExplodingSpore"));
+				DustHelper.DrawStar(new Vector2(Main.npc[p].Center.X, Main.npc[p].Center.Y), DustID.GoldCoin, pointAmount: 4, mainSize: .9425f, dustDensity: 2, dustSize: .5f, pointDepthMult: 0.3f, noGravity: true);
+				Main.npc[p].ai[1] = npc.whoAmI;
+				Main.npc[p].netUpdate = true;
 			}
 		}
 		public override void FindFrame(int frameHeight)
@@ -361,7 +363,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			}
 			if (pulseTrailPurple || pulseTrailYellow)
 			{
-				Color glowcolor = (pulseTrailYellow) ? Color.Goldenrod : Color.Orchid;
+				Color glowcolor = (pulseTrailYellow) ? Color.Gold : Color.Orchid;
 		        float num1072 = (float)Math.Cos((double)(Main.GlobalTime % 2.4f / 2.4f * 6.28318548f)) / 2f + 0.5f;
 				SpriteEffects spriteEffects3 = (npc.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 				Vector2 vector33 = new Vector2(npc.Center.X, npc.Center.Y) - Main.screenPosition + Drawoffset - npc.velocity;
@@ -372,7 +374,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 					color28 = npc.GetAlpha(color28);
 					color28 *= 1f - num1072;
 					Vector2 vector29 = npc.Center + ((float)num103 / (float)num108 * 6.28318548f + npc.rotation + num106).ToRotationVector2() * (4f * num1072 + 2f) - Main.screenPosition + Drawoffset - npc.velocity * (float)num103;
-					Main.spriteBatch.Draw(mod.GetTexture("NPCs/Boss/ReachBoss/ReachBoss_PurpleGlow"), vector29, npc.frame, color28 * .6f, npc.rotation, npc.frame.Size() / 2f, npc.scale, spriteEffects3, 0f);
+					Main.spriteBatch.Draw(mod.GetTexture("NPCs/Boss/ReachBoss/ReachBoss_PurpleGlow"), vector29, npc.frame, color28 * .9f, npc.rotation, npc.frame.Size() / 2f, npc.scale, spriteEffects3, 0f);
 				}
 			}
 		}
@@ -416,6 +418,23 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 					}
 				}
+			}
+			for (int j = 0; j < 2; j++)
+			{
+				float goreScale = 0.01f * Main.rand.Next(20, 70);
+				int a = Gore.NewGore(npc.Center + new Vector2(Main.rand.Next(-50, 50), Main.rand.Next(-50, 50)), npc.velocity, 386, goreScale);
+				Main.gore[a].timeLeft = 15;
+				Main.gore[a].rotation = 10f;
+				Main.gore[a].velocity = new Vector2(hitDirection * 2.5f, Main.rand.NextFloat(1f, 2f));
+				
+				int a1 = Gore.NewGore(npc.Center + new Vector2(Main.rand.Next(-50, 50), Main.rand.Next(-50, 50)), npc.velocity, 911, goreScale);
+				Main.gore[a1].timeLeft = 15;
+				Main.gore[a1].rotation = 1f;
+				Main.gore[a1].velocity = new Vector2(hitDirection * 2.5f, Main.rand.NextFloat(10f, 20f));
+			}
+			for (int k = 0; k < 12; k++) {
+				Dust.NewDust(npc.position, npc.width, npc.height, 167, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 258, 2.5f * hitDirection, -2.5f, 0,  default(Color), 0.7f);
 			}
 		}
 	}
