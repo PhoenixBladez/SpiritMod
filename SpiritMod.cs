@@ -28,6 +28,10 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Utilities;
 using SpiritMod.Prim;
+using SpiritMod.Items.Weapon.Bow.GemBows.Emerald_Bow;
+using SpiritMod.Items.Weapon.Bow.GemBows.Ruby_Bow;
+using SpiritMod.Items.Weapon.Bow.GemBows.Sapphire_Bow;
+using SpiritMod.Items.Weapon.Bow.GemBows.Topaz_Bow;
 
 namespace SpiritMod
 {
@@ -730,54 +734,84 @@ namespace SpiritMod
 		{
 			RecipeGroup woodGrp = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Wood"]];
 			woodGrp.ValidItems.Add(ModContent.ItemType<AncientBark>());
-			RecipeGroup group = new RecipeGroup(() => Language.GetTextValue("LegacyMisc.37") + " " + Lang.GetItemNameValue(ItemID.GoldBar), new int[]
+			RecipeGroup basegroup(object GroupName, int[] Items)
+			{
+				string Name = "";
+				switch(GroupName) 
+				{
+					case int i: //modcontent items
+						Name += Lang.GetItemNameValue((int)GroupName);
+						break;
+					case short s: //vanilla item ids
+						Name += Lang.GetItemNameValue((short)GroupName);
+						break;
+					default: //custom group names
+						Name += GroupName.ToString();
+						break;
+				}
+
+				return new RecipeGroup(() => Language.GetTextValue("LegacyMisc.37") + " " + Name, Items);
+			}
+
+			RecipeGroup.RegisterGroup("SpiritMod:GoldBars", basegroup(ItemID.GoldBar, new int[]
 			{
 				ItemID.GoldBar,
 				ItemID.PlatinumBar
-			});
-			RecipeGroup.RegisterGroup("SpiritMod:GoldBars", group);
+			}));
 
-			group = new RecipeGroup(() => Language.GetTextValue("LegacyMisc.37") + " " + Lang.GetItemNameValue(ItemID.CursedFlame), new int[]
+			RecipeGroup.RegisterGroup("SpiritMod:EvilMaterial", basegroup(ItemID.CursedFlame, new int[]
 			{
 				ItemID.CursedFlame,
 				ItemID.Ichor
-			});
-			RecipeGroup.RegisterGroup("SpiritMod:EvilMaterial", group);
+			}));
 
-			group = new RecipeGroup(() => Language.GetTextValue("LegacyMisc.37") + " " + Lang.GetItemNameValue(ItemID.ShadowScale), new int[]
+			RecipeGroup.RegisterGroup("SpiritMod:EvilMaterial1", basegroup(ItemID.ShadowScale, new int[]
 			{
 				ItemID.ShadowScale,
 				ItemID.TissueSample
-			});
-			RecipeGroup.RegisterGroup("SpiritMod:EvilMaterial1", group);
+			}));
 
-			group = new RecipeGroup(() => Language.GetTextValue("LegacyMisc.37") + " " + Lang.GetItemNameValue(ModContent.ItemType<CursedFire>()), new int[]
+			RecipeGroup.RegisterGroup("SpiritMod:ModEvil", basegroup(ModContent.ItemType<CursedFire>(), new int[]
 			{
 				ModContent.ItemType<CursedFire>(),
 				ModContent.ItemType<NightmareFuel>()
-			});
-			RecipeGroup.RegisterGroup("SpiritMod:ModEvil", group);
+			}));
 
-			group = new RecipeGroup(() => Language.GetTextValue("LegacyMisc.37") + " " + Lang.GetItemNameValue(ItemID.SilverBar), new int[]
+			RecipeGroup.RegisterGroup("SpiritMod:SilverBars", basegroup(ItemID.SilverBar, new int[]
 			{
 				ItemID.SilverBar,
 				ItemID.TungstenBar
-			});
-			RecipeGroup.RegisterGroup("SpiritMod:SilverBars", group);
+			}));
 
-			group = new RecipeGroup(() => Language.GetTextValue("LegacyMisc.37") + " " + "Emerald or Ruby Bow", new int[]
+			RecipeGroup.RegisterGroup("SpiritMod:EmeraldBows", basegroup("Emerald or Ruby Bow", new int[]
 			{
-				ModContent.ItemType<Items.Weapon.Bow.GemBows.Emerald_Bow.Emerald_Bow>(),
-				ModContent.ItemType<Items.Weapon.Bow.GemBows.Ruby_Bow.Ruby_Bow>()
-			});
-			RecipeGroup.RegisterGroup("SpiritMod:EmeraldBows", group);
+				ModContent.ItemType<Emerald_Bow>(),
+				ModContent.ItemType<Ruby_Bow>()
+			}));
 
-			group = new RecipeGroup(() => Language.GetTextValue("LegacyMisc.37") + " " + "Sapphire or Topaz Bow", new int[]
+			RecipeGroup.RegisterGroup("SpiritMod:TopazBows", basegroup("Sapphire or Topaz Bow", new int[]
 			{
-				ModContent.ItemType<Items.Weapon.Bow.GemBows.Sapphire_Bow.Sapphire_Bow>(),
-				ModContent.ItemType<Items.Weapon.Bow.GemBows.Topaz_Bow.Topaz_Bow>()
-			});
-			RecipeGroup.RegisterGroup("SpiritMod:TopazBows", group);
+				ModContent.ItemType<Sapphire_Bow>(),
+				ModContent.ItemType<Topaz_Bow>()
+			}));
+
+			RecipeGroup.RegisterGroup("SpiritMod:AmethystStaffs", basegroup("Amethyst or Topaz Staff", new int[]
+			{
+				ItemID.AmethystStaff,
+				ItemID.TopazStaff
+			}));
+
+			RecipeGroup.RegisterGroup("SpiritMod:SapphireStaffs", basegroup("Sapphire or Emerald Staff", new int[]
+			{
+				ItemID.SapphireStaff,
+				ItemID.EmeraldStaff
+			})); 
+			
+			RecipeGroup.RegisterGroup("SpiritMod:RubyStaffs", basegroup("Ruby or Diamond Staff", new int[]
+			{
+				ItemID.RubyStaff,
+				ItemID.DiamondStaff
+			}));
 		}
 		public override void PostUpdateInput()
 		{

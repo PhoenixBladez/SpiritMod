@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -79,33 +80,18 @@ namespace SpiritMod.Items.Weapon.Magic.OrnamentStaff
 			}
 			return false;
 		}
-		public override Vector2? HoldoutOffset()
-		{
-			return new Vector2(-15, 0);
-		}
+		public override Vector2? HoldoutOffset() => new Vector2(-15, 0);
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(181, 12);
-			recipe.AddIngredient(180, 12);
-			recipe.AddIngredient(177, 12);
-			recipe.AddIngredient(179, 12);
-			recipe.AddIngredient(178, 12);
-			recipe.AddIngredient(182, 12);
+			recipe.AddRecipeGroup("SpiritMod:AmethystStaffs", 1);
+			recipe.AddRecipeGroup("SpiritMod:SapphireStaffs", 1);
+			recipe.AddRecipeGroup("SpiritMod:RubyStaffs", 1);
+			recipe.AddIngredient(ModContent.ItemType<GraniteChunk>(), 5);
+			recipe.AddIngredient(ModContent.ItemType<MarbleChunk>(), 5);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
-			
-			ModRecipe recipe2 = new ModRecipe(mod);
-			recipe2.AddIngredient(739, 1);
-			recipe2.AddIngredient(740, 1);
-			recipe2.AddIngredient(741, 1);
-			recipe2.AddIngredient(742, 1);
-			recipe2.AddIngredient(743, 1);
-			recipe2.AddIngredient(744, 1);
-			recipe2.AddTile(TileID.Anvils);
-			recipe2.SetResult(this);
-			recipe2.AddRecipe();
 		}
 	}
 }

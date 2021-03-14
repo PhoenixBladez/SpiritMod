@@ -2988,7 +2988,7 @@ namespace SpiritMod
 					ChitinDashTicks = 20;
 					player.noKnockback = true;
 					speedCap = speedMax;
-					decayCapped = 0.97f;
+					decayCapped = 0.91f;
 					decayMax = decayCapped;
 					delay = 25;
 				}
@@ -3088,7 +3088,7 @@ namespace SpiritMod
 			}
 			else if (dash == DashType.Chitin) {
 				velocity *= 20;
-				Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/BossSFX/Scarab_Roar1").WithPitchVariance(0.2f).WithVolume(0.3f), player.Center);
+				Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/BossSFX/Scarab_Roar2").WithPitchVariance(0.2f).WithVolume(0.5f), player.Center);
 				for(int i = 0; i < 16; i++) {
 					Dust.NewDust(player.position, player.width, player.height, mod.DustType("SandDust"), Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1), Scale: Main.rand.NextFloat(1, 2));
 				}
