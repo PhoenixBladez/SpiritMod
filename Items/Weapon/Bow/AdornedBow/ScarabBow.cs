@@ -22,8 +22,8 @@ namespace SpiritMod.Items.Weapon.Bow.AdornedBow
 			item.ranged = true;
 			item.width = 20;
 			item.height = 46;
-			item.useTime = 21;
-			item.useAnimation = 21;
+			item.useTime = 30;
+			item.useAnimation = 30;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shoot = ProjectileID.Shuriken;
 			item.useAmmo = AmmoID.Arrow;

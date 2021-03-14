@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Dusts;
 using System;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -21,7 +22,7 @@ namespace SpiritMod.Items.Weapon.Summon.LocustCrook
 		public override void SetDefaults()
 		{
 			item.width = item.height = 46;
-			item.damage = 11;
+			item.damage = 14;
 			item.rare = ItemRarityID.Green;
 			item.mana = 16;
 			item.value = Item.sellPrice(0, 2, 0, 0);
@@ -100,6 +101,8 @@ namespace SpiritMod.Items.Weapon.Summon.LocustCrook
 			projectile.friendly = true;
 			projectile.tileCollide = false;
 			projectile.penetrate = -1;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 20;
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
@@ -148,7 +151,7 @@ namespace SpiritMod.Items.Weapon.Summon.LocustCrook
 				TargettingBehavior(player, target);
 			}
 
-			UpdateFrame((int)MathHelper.Clamp(projectile.velocity.Length(), 8, 16));
+			UpdateFrame((int)MathHelper.Clamp(projectile.velocity.Length(), 10, 20));
 			projectile.rotation = projectile.velocity.ToRotation();
 		}
 		private bool CanHit(Vector2 center1, Vector2 center2) => Collision.CanHit(center1, 0, 0, center2, 0, 0);
@@ -212,7 +215,7 @@ namespace SpiritMod.Items.Weapon.Summon.LocustCrook
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			LocustNPC lnpc = target.GetGlobalNPC<LocustNPC>();
-			lnpc.locustinfo = new LocustNPC.LocustInfo(projectile.damage / 2, Main.rand.Next(40, 80), projectile.owner);
+			lnpc.locustinfo = new LocustNPC.LocustInfo((int)(projectile.damage * 0.65f), Main.rand.Next(40, 80), projectile.owner);
 			if (Main.netMode != NetmodeID.SinglePlayer)
 				NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, target.whoAmI);
 		}
@@ -283,15 +286,17 @@ namespace SpiritMod.Items.Weapon.Summon.LocustCrook
 		public override void PostAI(NPC npc)
 		{
 			if(locustinfo.LocustTime > 0) {
-				if(Main.rand.NextBool(3)) 
+				locustinfo.LocustTime--;
+
+				if (Main.rand.NextBool(3)) 
 					Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<SandDust>(), Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f), Scale: Main.rand.NextFloat(0.8f, 1.3f));
 				
-				if(locustinfo.LocustTime % 10 == 0 && Main.rand.NextBool(3)) {
+				if(locustinfo.LocustTime % 15 == 0 && Main.rand.NextBool(2) && Main.player[locustinfo.LocustPlayerindex].ownedProjectileCounts[ModContent.ProjectileType<LocustSmall>()] < 12) {
+
 					Projectile proj = Projectile.NewProjectileDirect(npc.Center, Main.rand.NextVector2CircularEdge(6, 6), ModContent.ProjectileType<LocustSmall>(), locustinfo.LocustDamage, 1f, locustinfo.LocustPlayerindex);
 					if (Main.netMode != NetmodeID.SinglePlayer)
 						NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj.whoAmI);
 				}
-				locustinfo.LocustTime--;
 			}
 		}
 	}
@@ -345,7 +350,8 @@ namespace SpiritMod.Items.Weapon.Summon.LocustCrook
 			}
 
 			if (target != null && ++projectile.ai[0] > 30) {
-				projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(target.Center) * 8, 0.08f);
+				projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(target.Center) * Math.Max(8, projectile.velocity.Length()), 0.08f);
+				projectile.velocity *= 1.02f + (projectile.ai[0] / 3000);
 			}
 
 			UpdateFrame((int)MathHelper.Clamp(projectile.velocity.Length(), 8, 16));
