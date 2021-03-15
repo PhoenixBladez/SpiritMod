@@ -19,11 +19,17 @@ namespace SpiritMod.Projectiles.Boss
 			projectile.width = 42;
 			projectile.friendly = false;
 			projectile.aiStyle = 2;
-			projectile.penetrate = 4;
+			projectile.penetrate = 3;
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
+			float goreScale = 0.01f * Main.rand.Next(20, 70);
+			int a = Gore.NewGore(projectile.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), projectile.velocity, 386, goreScale);
+			Main.gore[a].timeLeft = 15;
+			Main.gore[a].rotation = 10f;
+			Main.gore[a].velocity = new Vector2(projectile.direction * 2.5f, Main.rand.NextFloat(1f, 2f));
+		
 			projectile.penetrate--;
 			if (projectile.penetrate <= 0)
 				projectile.Kill();
@@ -41,7 +47,8 @@ namespace SpiritMod.Projectiles.Boss
 
 		public override void AI()
 		{
-			projectile.rotation += 0.3f;
+			projectile.rotation += 0.25f;
+			Lighting.AddLight(projectile.Center, .075f, .179f,.084f);
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
@@ -52,9 +59,21 @@ namespace SpiritMod.Projectiles.Boss
 
 		public override void Kill(int timeLeft)
 		{
-			for (int num621 = 0; num621 < 5; num621++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height,
-					2, 0f, 0f, 100, default(Color), 2f);
+			for (int j = 0; j < 2; j++)
+			{
+				float goreScale = 0.01f * Main.rand.Next(20, 70);
+				int a = Gore.NewGore(projectile.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), projectile.velocity, 386, goreScale);
+				Main.gore[a].timeLeft = 15;
+				Main.gore[a].rotation = 10f;
+				Main.gore[a].velocity = new Vector2(projectile.direction * 2.5f, Main.rand.NextFloat(1f, 2f));
+				
+				int a1 = Gore.NewGore(projectile.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), projectile.velocity, 911, goreScale);
+				Main.gore[a1].timeLeft = 15;
+				Main.gore[a1].rotation = 1f;
+				Main.gore[a1].velocity = new Vector2(projectile.direction * 2.5f, Main.rand.NextFloat(10f, 20f));
+			}
+			for (int k = 0; k < 12; k++) {
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, 167, 2.5f * projectile.direction, -2.5f, 0, default(Color), 0.7f);
 			}
 		}
 

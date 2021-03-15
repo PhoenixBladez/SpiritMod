@@ -2178,6 +2178,14 @@ namespace SpiritMod
                 {
                     SpiritMod.caveAmbience.Stop();
                 }
+				if (player.ZoneDungeon || player.ZoneRockLayerHeight && Main.tile[x1, y1 + 1].wall == ModContent.WallType<Tiles.Walls.Natural.SepulchreWallTile>() && Main.tile[x1, y1].wall == ModContent.WallType<Tiles.Walls.Natural.SepulchreWallTile>())
+                {
+                    SpiritMod.spookyAmbience.SetTo(Main.ambientVolume);
+                }
+                else
+                {
+                    SpiritMod.spookyAmbience.Stop();
+                }
             }
             if (!player.ZoneOverworldHeight)
             {

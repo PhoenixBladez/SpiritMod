@@ -30,8 +30,8 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			npc.knockBackResist = 0.2f;
 			npc.lifeMax = 15;
 			npc.value = 0f;
-			npc.HitSound = SoundID.NPCHit2;
-			npc.DeathSound = SoundID.NPCDeath6;
+			npc.HitSound = SoundID.NPCHit1;
+			npc.DeathSound = SoundID.NPCDeath1;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 		}
@@ -83,7 +83,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			Vector2 spinningpoint1 = ((float)Main.rand.NextDouble() * 6.283185f).ToRotationVector2();
 			Vector2 spinningpoint2 = spinningpoint1;
 			float dagada = (float)(Main.rand.Next(3, 6) * 2);
-			int num2 = 20;
+			int num2 = 10;
 			float num3 = Main.rand.Next(2) == 0 ? 1f : -1f;
 			bool flag = true;
 			for (int index1 = 0; (double)index1 < (double)num2 * (double)dagada; ++index1)

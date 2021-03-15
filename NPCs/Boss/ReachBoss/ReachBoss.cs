@@ -89,13 +89,28 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				npc.defense = 14;
 				npc.damage = 28;
 			}
-
-			npc.ai[0]++;
+			if (npc.life <= (npc.lifeMax / 10 * 4) && npc.ai[3] == 0)
+			{
+				npc.ai[0] = 0;
+			    DustHelper.DrawStar(npc.Center, 235, pointAmount: 7, mainSize: 2.7425f, dustDensity: 6, dustSize: .65f, pointDepthMult: 3.6f, noGravity: true);
+				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 55).WithPitchVariance(0.2f), npc.Center);
+				Main.PlaySound(42, (int)npc.position.X, (int)npc.position.Y, 180, 1f, -0.9f);
+				npc.netUpdate = true;
+				npc.ai[3]++;
+			}
+			if (npc.life <= (npc.lifeMax / 10 * 4))
+			{
+				npc.ai[0]+= 1.5f;
+			}
+			else
+			{
+				npc.ai[0]++;
+			}
 			if (npc.ai[0] < 470 || npc.ai[0] > 730 && npc.ai[0] < 900 || npc.ai[0] > 1051 && npc.ai[0] < 1120 || npc.ai[0] > 1750) {
 				generalMovement(player);
 			}
 
-			float[] stoptimes = new float[] { 470, 540, 670, 900, 1051 };
+			float[] stoptimes = new float[] { 471, 540, 669, 900, 1051 };
 			if (stoptimes.Contains(npc.ai[0]))
 			{
 				npc.velocity = Vector2.Zero;
@@ -150,9 +165,9 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				pulseTrailPurple = false;
 				pulseTrailYellow = false;
 				pulseTrail = false;
-				for(int i = 0; i < npc.ai.Length; i++) 
-					npc.ai[i] = 0;
-
+				npc.ai[0] = 0;
+				npc.ai[1] = 0;
+				npc.ai[2] = 0;
 				npc.netUpdate = true;
 			}
 		}
@@ -185,7 +200,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				float vel = MathHelper.Clamp(npc.Distance(homepos) / 8, 6, 38);
 				npc.velocity = Vector2.Lerp(npc.velocity, npc.DirectionTo(homepos) * vel, 0.05f);
 			}
-			if (npc.ai[0] == 560 || npc.ai[0] == 690)
+			if (npc.ai[0] == 561 || npc.ai[0] == 690)
 			{
 				Main.PlaySound(SoundID.Grass, (int)npc.position.X, (int)npc.position.Y);
 				Main.PlaySound(42, (int)npc.Center.X, (int)npc.Center.Y, 139, 1f, 0.4f);
@@ -211,7 +226,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		{
 			bool expertMode = Main.expertMode;
 			int damage = expertMode ? 11 : 16;
-			if (npc.ai[0] % 16 == 0)
+			if (npc.ai[0] % 15 == 0)
 			{
 				Main.PlaySound(new LegacySoundStyle(SoundID.Item, 104).WithPitchVariance(0.2f), npc.Center);
 	            if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -249,12 +264,12 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			}
 			else {
 				npc.rotation = npc.velocity.X * 0.04f;
-				if (npc.ai[0] < 1320 || npc.ai[0] > 1600 && npc.ai[0] < 1640) {
+				if (npc.ai[0] < 1320 || npc.ai[0] > 1600 && npc.ai[0] < 1641) {
 					npc.velocity.X = -npc.spriteDirection;
 					npc.velocity.Y = 0;
 				}
 
-				else if (npc.ai[0] == 1320 || npc.ai[0] == 1640) {
+				else if (npc.ai[0] == 1320 || npc.ai[0] == 1641) {
 					Main.PlaySound(new LegacySoundStyle(SoundID.Roar, 0), npc.Center);
 					npc.velocity.X = MathHelper.Clamp(Math.Abs((player.Center.X - npc.Center.X) / 10), 24, 36) * npc.spriteDirection;
 					npc.netUpdate = true;
@@ -312,7 +327,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
             float num395 = Main.mouseTextColor / 200f - 0.35f;
             num395 *= 0.2f;
             float num366 = num395 + .85f;
-			if (npc.ai[0] > 1290 && npc.ai[0] < 1360 || npc.ai[0] > 1600 && npc.ai[0] < 1690)
+			if ((npc.ai[0] > 1290 && npc.ai[0] < 1360 || npc.ai[0] > 1600 && npc.ai[0] < 1690) || npc.life <= (npc.lifeMax/10 * 4))
 			{
 				DrawAfterImage(Main.spriteBatch, new Vector2(0f, 0f), 0.75f, Color.OrangeRed * .7f, Color.Firebrick * .05f, 0.75f, num366, .65f);
 			}	

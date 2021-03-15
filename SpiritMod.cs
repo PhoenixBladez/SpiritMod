@@ -63,6 +63,7 @@ namespace SpiritMod
 		public static SoundLooper lightWind;
 		public static SoundLooper desertWind;
 		public static SoundLooper caveAmbience;
+		public static SoundLooper spookyAmbience;
 
 		//public static Texture2D MoonTexture;
 		public const string EMPTY_TEXTURE = "SpiritMod/Empty";
@@ -694,6 +695,7 @@ namespace SpiritMod
 			wavesAmbience = null;
 			desertWind = null;
 			caveAmbience = null;
+			spookyAmbience = null;
 			lightWind = null;
 			scarabWings = null;
 			spiritRNG = null;
@@ -817,6 +819,7 @@ namespace SpiritMod
 			lightWind?.Update();
 			desertWind?.Update();
 			caveAmbience?.Update();
+			spookyAmbience?.Update();
 			scarabWings?.Update();
 		}
 
@@ -849,6 +852,7 @@ namespace SpiritMod
 			lightWind = new SoundLooper(this, "Sounds/LightWind");
 			desertWind = new SoundLooper(this, "Sounds/DesertWind");
 			caveAmbience = new SoundLooper(this, "Sounds/CaveAmbience");
+			spookyAmbience = new SoundLooper(this, "Sounds/SpookyAmbience");
 			scarabWings = new SoundLooper(this, "Sounds/BossSFX/Scarab_Wings");
 			Items.Glyphs.GlyphBase.InitializeGlyphLookup();
 			BossChecklistDataHandler.RegisterSpiritData(this);
