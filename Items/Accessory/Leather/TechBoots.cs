@@ -44,7 +44,6 @@ namespace SpiritMod.Items.Accessory.Leather
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<LeatherBoots>(), 1);
 			recipe.AddIngredient(ModContent.ItemType<TechDrive>(), 5);
-			recipe.AddRecipeGroup("SpiritMod:EvilMaterial1", 2);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();

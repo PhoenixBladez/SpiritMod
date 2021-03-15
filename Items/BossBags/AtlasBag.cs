@@ -44,7 +44,6 @@ namespace SpiritMod.Items.BossBags
 			player.QuickSpawnItem(ModContent.ItemType<ArcaneGeyser>(), Main.rand.Next(30, 46));
 
 			int[] lootTable = {
-				ModContent.ItemType<KingRock>(),
 				ModContent.ItemType<Mountain>(),
 				ModContent.ItemType<TitanboundBulwark>(),
 				ModContent.ItemType<CragboundStaff>(),

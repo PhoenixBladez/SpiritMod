@@ -116,7 +116,6 @@ namespace SpiritMod.NPCs.Town
 			AddItem(ref shop, ref nextSlot, ItemID.TrapsightPotion, 2000);
 			AddItem(ref shop, ref nextSlot, ItemID.DartTrap, 5000);
 			AddItem(ref shop, ref nextSlot, ItemType<WornSword>());
-			AddItem(ref shop, ref nextSlot, ItemType<ManaFlame>());
 			AddItem(ref shop, ref nextSlot, ItemID.WhoopieCushion, 15000, NPC.downedBoss2);
 			AddItem(ref shop, ref nextSlot, ItemID.Book, 20, NPC.downedBoss3);
             AddItem(ref shop, ref nextSlot, ItemType<WWPainting>());
@@ -144,10 +143,6 @@ namespace SpiritMod.NPCs.Town
 			if (MyWorld.winterbornComplete) {
 				AddItem(ref shop, ref nextSlot, ItemType<Items.Weapon.Thrown.CryoKnife>());
 			}
-            if (NPC.downedBoss3)
-            {
-                AddItem(ref shop, ref nextSlot, ItemType<Items.Accessory.DawnStone>(), check: Main.dayTime);
-            }
             AddItem(ref shop, ref nextSlot, ItemType<Items.Accessory.VitalityStone>(), check: Main.bloodMoon);
             int glowStick = Main.moonPhase == 4 && !Main.dayTime ? ItemID.SpelunkerGlowstick : ItemID.StickyGlowstick;
             AddItem(ref shop, ref nextSlot, glowStick);

@@ -129,10 +129,6 @@ namespace SpiritMod.NPCs.Town
 			AddItem(ref shop, ref nextSlot, ItemType<Items.Weapon.Thrown.TargetBottle>());
 			AddItem(ref shop, ref nextSlot, ItemType<Items.Placeable.Furniture.TreasureChest>());
             AddItem(ref shop, ref nextSlot, ItemType<Items.Armor.Masks.PsychoMask>());
-            if (NPC.downedBoss3)
-            {
-                AddItem(ref shop, ref nextSlot, ItemType<Items.Accessory.DuskStone1>(), check: !Main.dayTime);
-            }
             AddItem(ref shop, ref nextSlot, ItemType<Items.DonatorItems.BladeOfNoah>(), check: Main.hardMode);
             AddItem(ref shop, ref nextSlot, ItemType<Items.Armor.OperativeSet.OperativeHead>(), check: Main.hardMode);
             AddItem(ref shop, ref nextSlot, ItemType<Items.Armor.OperativeSet.OperativeBody>(), check: Main.hardMode);

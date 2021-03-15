@@ -51,12 +51,5 @@ namespace SpiritMod.NPCs.Reach
 				}
 			}
 		}
-
-		public override void NPCLoot()
-		{
-			if (Main.rand.Next(40) == 1) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GremlinTooth>(), 1);
-			}
-		}
 	}
 }

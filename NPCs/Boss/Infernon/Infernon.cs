@@ -30,13 +30,13 @@ namespace SpiritMod.NPCs.Boss.Infernon
 
 		public override void SetDefaults()
 		{
-			npc.width = 130;
-			npc.height = 190;
+			npc.width = 160;
+			npc.height = 250;
 			npc.damage = 36;
 			npc.defense = 13;
 			npc.lifeMax = 13000;
 			npc.knockBackResist = 0;
-			Main.npcFrameCount[npc.type] = 10;
+			Main.npcFrameCount[npc.type] = 8;
 			npc.boss = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;

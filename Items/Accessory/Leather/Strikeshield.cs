@@ -34,7 +34,6 @@ namespace SpiritMod.Items.Accessory.Leather
 			recipe.AddIngredient(ModContent.ItemType<LeatherShield>(), 1);
             recipe.AddIngredient(ItemID.ManaCrystal, 1);
             recipe.AddIngredient(ModContent.ItemType<Items.Placeable.Tiles.BlastStoneItem>(), 10);
-            recipe.AddRecipeGroup("SpiritMod:EvilMaterial1", 3);
             recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();

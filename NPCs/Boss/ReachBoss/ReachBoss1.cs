@@ -71,7 +71,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			bool expertMode = Main.expertMode;			
 			if (!player.active || player.dead) {
 				npc.TargetClosest(false);
-				npc.velocity.Y = -200;
+				npc.velocity.Y = -2000;
 			}
 			if (npc.life <= npc.lifeMax/2)
 			{

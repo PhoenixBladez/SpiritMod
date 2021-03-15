@@ -1177,11 +1177,6 @@ namespace SpiritMod.NPCs
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Magic.SoulSiphon>());
 				}
 			}
-			if (npc.type == NPCID.MoonLordCore) {
-				if (Main.rand.Next(4) == 0) {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HeartofMoon>());
-				}
-			}
 			if (npc.type == NPCID.MartianOfficer && Main.rand.Next(23) == 1) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SaucerBeacon>());
 			}

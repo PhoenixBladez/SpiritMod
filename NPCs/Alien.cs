@@ -60,14 +60,6 @@ namespace SpiritMod.NPCs
 		{
 			npc.spriteDirection = npc.direction;
 		}
-
-		public override void NPCLoot()
-		{
-			if (Main.rand.Next(40) == 1) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ToxicExtract>());
-			}
-		}
-
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
 			if (Main.rand.Next(4) == 1) {

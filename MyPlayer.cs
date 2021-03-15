@@ -487,6 +487,7 @@ namespace SpiritMod
 			player.ManageSpecialBiomeVisuals("SpiritMod:ReachSky", reach, player.Center);
 			player.ManageSpecialBiomeVisuals("SpiritMod:BlueMoonSky", blueMoon, player.Center);
 			player.ManageSpecialBiomeVisuals("SpiritMod:MeteorSky", ZoneAsteroid);
+			player.ManageSpecialBiomeVisuals("SpiritMod:MeteoriteSky", player.ZoneMeteor);
 			player.ManageSpecialBiomeVisuals("SpiritMod:WindEffect", windEffect, player.Center);
 			player.ManageSpecialBiomeVisuals("SpiritMod:WindEffect2", windEffect2, player.Center);
 			player.ManageSpecialBiomeVisuals("SpiritMod:Overseer", NPC.AnyNPCs(ModContent.NPCType<Overseer>()));
@@ -1243,6 +1244,9 @@ namespace SpiritMod
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<HeartDust>(), 0, -0.8f);
 				}
 			}
+			if(winterbornCharmMage && Main.rand.NextBool(9)) {
+				target.AddBuff(ModContent.BuffType<MageFreeze>(), 180);
+			}
 			if(AceOfDiamonds && target.life <= 0 && crit && !target.friendly && target.lifeMax > 15 && !target.SpawnedFromStatue) {
 				ItemUtils.NewItemWithSync(player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, ModContent.ItemType<DiamondAce>());
 				for(int i = 0; i < 3; i++) {
@@ -1591,7 +1595,7 @@ namespace SpiritMod
 				target.AddBuff(BuffID.Poisoned, 120);
 			}
 
-			if(winterbornCharmMage && proj.magic && Main.rand.NextBool(7)) {
+			if(winterbornCharmMage && Main.rand.NextBool(9)) {
 				target.AddBuff(ModContent.BuffType<MageFreeze>(), 180);
 			}
 			if(putridSet && proj.ranged && ++Rangedhits >= 4) {
@@ -2041,20 +2045,6 @@ namespace SpiritMod
 					}
 				}
 			}
-			if(bubbleShield) {
-				for(int i = 3; i < 8 + player.extraAccessorySlots; i++) {
-					int type = player.armor[i].type;
-					if(type == ModContent.ItemType<BubbleShield>()) {
-						player.armor[i].SetDefaults(0);
-
-						break;
-					}
-				}
-				player.statLife = 150;
-				bubbleTimer = 360;
-				return false;
-			}
-
 			if(clatterboneSet && clatterboneTimer <= 0) {
 				player.AddBuff(ModContent.BuffType<Sturdy>(), 21600);
 				MyPlayer myPlayer = Main.player[Main.myPlayer].GetModPlayer<MyPlayer>();

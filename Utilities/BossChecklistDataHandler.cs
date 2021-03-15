@@ -513,7 +513,6 @@ namespace SpiritMod.Utilities
 					},
 					new List<int> {
 						ModContent.ItemType<AtlasEye>(),
-						ModContent.ItemType<KingRock>(),
 						ModContent.ItemType<Mountain>(),
 						ModContent.ItemType<TitanboundBulwark>(),
 						ModContent.ItemType<CragboundStaff>(),

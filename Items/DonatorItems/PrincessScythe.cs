@@ -40,7 +40,7 @@ namespace SpiritMod.Items.DonatorItems
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<CrystalShield>(), 1);
+			recipe.AddIngredient(ItemID.HallowedBar, 6);
 			recipe.AddIngredient(ItemID.DeathSickle, 1);
 			recipe.AddIngredient(ItemID.ButterflyDust, 2);
 			recipe.AddTile(TileID.MythrilAnvil);

@@ -342,7 +342,6 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			npc.DropItem(ModContent.ItemType<ArcaneGeyser>(), Main.rand.Next(32, 44));
 
 			int[] lootTable = {
-				ModContent.ItemType<KingRock>(),
 				ModContent.ItemType<Mountain>(),
 				ModContent.ItemType<TitanboundBulwark>(),
 				ModContent.ItemType<CragboundStaff>(),

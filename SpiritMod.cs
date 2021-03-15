@@ -590,6 +590,9 @@ namespace SpiritMod
 				Filters.Scene["SpiritMod:SynthwaveSky"] = new Filter(new AtlasScreenShaderData("FilterMiniTower").UseColor(0.158f, 0.083f, 0.212f).UseOpacity(0.43f), EffectPriority.VeryHigh);
 				SkyManager.Instance["SpiritMod:SynthwaveSky"] = new VaporwaveSky();
 
+				Filters.Scene["SpiritMod:MeteoriteSky"] = new Filter(new AtlasScreenShaderData("FilterMiniTower").UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryHigh);
+				SkyManager.Instance["SpiritMod:MeteoriteSky"] = new MeteoriteSky();
+
 				//Music Boxes
 				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/TranquilWinds"), ItemType("TranquilWindsBox"), TileType("TranquilWindsBox"));
 				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/NeonTech"), ItemType("NeonMusicBox"), TileType("NeonMusicBox"));

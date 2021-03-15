@@ -69,7 +69,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 		{
 			Player player = Main.LocalPlayer;
 			Tile tile = Main.tile[i, j];
-			player.showItemIcon2 = 73;
+			player.showItemIcon2 = ModContent.ItemType<Fathomless_Chest_Item>();
 			player.showItemIconText = "";
 			player.noThrow = 2;
 			player.showItemIcon = true;
