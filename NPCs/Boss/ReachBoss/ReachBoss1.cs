@@ -42,7 +42,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.npcSlots = 20;
-			npc.defense = 24;
+			npc.defense = 14;
 			bossBag = ModContent.ItemType<ReachBossBag>();
 			music = mod.GetSoundSlot(Terraria.ModLoader.SoundType.Music, "Sounds/Music/ReachBoss");
 			npc.buffImmune[20] = true;

@@ -32,7 +32,10 @@ namespace SpiritMod.Sepulchre
 			name.SetDefault("Sepulchre Window");
 			AddMapEntry(new Color(100, 100, 100), name);
 		}
-
+        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+		{
+			Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<Sepulchre.SepulchreWindowItem>());
+		}
 		public override void NumDust(int i, int j, bool fail, ref int num)
 		{
 			num = fail ? 1 : 3;
