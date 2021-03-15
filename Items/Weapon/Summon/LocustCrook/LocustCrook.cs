@@ -175,6 +175,8 @@ namespace SpiritMod.Items.Weapon.Summon.LocustCrook
 			projectile.ai[0] = 0;
 		}
 
+		public override bool? CanCutTiles() => false;
+
 		private void TargettingBehavior(Player player, NPC target)
 		{
 			projectile.tileCollide = true;

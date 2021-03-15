@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Weapon.Bow.OrnamentBow
 			item.shoot = ProjectileID.WoodenArrowFriendly;
 			item.useAmmo = AmmoID.Arrow;
 			item.UseSound = SoundID.Item5;
-			item.damage = 19;
+			item.damage = 15;
 			item.shootSpeed = 16f;
 			item.knockBack = 6.5f;
 			item.rare = ItemRarityID.Orange;

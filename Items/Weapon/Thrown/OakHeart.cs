@@ -27,11 +27,11 @@ namespace SpiritMod.Items.Weapon.Thrown
 			item.shoot = ModContent.ProjectileType<Projectiles.Thrown.OakHeart>();
 			item.useAnimation = 25;
 			item.useTime = 25;
-			item.shootSpeed = 11f;
-			item.damage = 13;
+			item.shootSpeed = 5f;
+			item.damage = 12;
 			item.knockBack = 1.5f; ;
 			item.value = Item.sellPrice(0, 1, 0, 0);
-			item.rare = ItemRarityID.Green;
+			item.rare = ItemRarityID.Blue;
 			item.autoReuse = true;
 			item.consumable = false;
 		}

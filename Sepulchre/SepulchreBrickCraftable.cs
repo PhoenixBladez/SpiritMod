@@ -4,9 +4,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Tiles.Block
+namespace SpiritMod.Sepulchre
 {
-	public class SepulchreBrick : ModTile
+	public class SepulchreBrickCraftable : ModTile
 	{
 		public override void SetDefaults()
 		{

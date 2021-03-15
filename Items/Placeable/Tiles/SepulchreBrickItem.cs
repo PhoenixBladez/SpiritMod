@@ -1,4 +1,4 @@
-using SpiritMod.Tiles.Block;
+using SpiritMod.Sepulchre;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Placeable.Tiles
 			item.autoReuse = true;
 			item.consumable = true;
 
-			item.createTile = ModContent.TileType<SepulchreBrick>();
+			item.createTile = ModContent.TileType<SepulchreBrickCraftable>();
 		}
 		public override void AddRecipes()
 		{

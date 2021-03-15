@@ -73,12 +73,9 @@ namespace SpiritMod.Sepulchre
             }
         }
 
-        public override void NumDust(int i, int j, bool fail, ref int num)
-        {
-            num = 1;
-        }
+		public override void NumDust(int i, int j, bool fail, ref int num) => num = 1;
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+		public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<SepulchreChest>());
             Chest.DestroyChest(i, j);
@@ -92,7 +89,9 @@ namespace SpiritMod.Sepulchre
             }
         }
 
-        public override bool NewRightClick(int i, int j)
+		public override bool IsLockedChest(int i, int j) => true;
+
+		public override bool NewRightClick(int i, int j)
         {
             Player player = Main.LocalPlayer;
             Tile tile = Main.tile[i, j];

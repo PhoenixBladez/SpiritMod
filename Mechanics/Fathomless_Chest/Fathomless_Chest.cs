@@ -11,6 +11,8 @@ using Terraria.ModLoader;
 using Terraria.GameInput;
 using Terraria.ObjectData;
 using static Terraria.ModLoader.ModContent;
+using Steamworks;
+using System.Linq;
 
 namespace SpiritMod.Mechanics.Fathomless_Chest
 {
@@ -95,6 +97,34 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 			
 			//int randomEffectCounter = 5;
 			int randomEffectCounter = Main.rand.Next(12);
+			bool CheckTileRange(int[] tiletypes, int size)
+			{
+				for (int k = i - size; k <= i + size; k++) {
+					for (int l = j - size; l <= j + size; l++) {
+						if (WorldGen.InWorld(k, l, 1) && Math.Abs(k - i) + Math.Abs(l - j) < Math.Sqrt(size * size + size * size)) {
+							int type = (int)Main.tile[k, l].type;
+							if (tiletypes.Contains(type))
+								return true;
+						}
+					}
+				}
+				return false;
+			}
+
+			while(randomEffectCounter == 7) {
+				if (CheckTileRange(new int[] { TileID.Dirt, TileID.Stone, TileID.IceBlock }, 22))
+					break;
+
+				randomEffectCounter = Main.rand.Next(12);
+			}
+
+			while (randomEffectCounter == 6 || randomEffectCounter == 11) {
+				if (CheckTileRange(new int[] { TileID.Stone }, 19))
+					break;
+
+				randomEffectCounter = Main.rand.Next(12);
+			}
+
 			switch (randomEffectCounter)
 			{
 				case 0: //SPAWN ZOMBIES
@@ -119,10 +149,10 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 					int num1 = 0;
 					for (int index = 0; index < 59; ++index)
 					{
-						if (player.inventory[index].type >= 71 && player.inventory[index].type <= 74)
+						if (player.inventory[index].type >= ItemID.CopperCoin && player.inventory[index].type <= ItemID.PlatinumCoin)
 						{
 							int number = Item.NewItem((int)player.position.X, (int)player.position.Y, player.width, player.height, player.inventory[index].type, 1);
-							if (Main.netMode == 1 && number >= 0)
+							if (Main.netMode != NetmodeID.SinglePlayer && number >= 0)
 							{
 								NetMessage.SendData(MessageID.SyncItem, -1, -1, null, number, 1f);
 							}							
@@ -134,22 +164,22 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 
 							int num3 = player.inventory[index].stack - num2;
 							player.inventory[index].stack -= num3;
-							if (player.inventory[index].type == 71)
+							if (player.inventory[index].type == ItemID.CopperCoin)
 							{
 								num1 += num3;
 							}
 
-							if (player.inventory[index].type == 72)
+							if (player.inventory[index].type == ItemID.SilverCoin)
 							{
 								num1 += num3 * 100;
 							}
 
-							if (player.inventory[index].type == 73)
+							if (player.inventory[index].type == ItemID.GoldCoin)
 							{
 								num1 += num3 * 10000;
 							}
 
-							if (player.inventory[index].type == 74)
+							if (player.inventory[index].type == ItemID.PlatinumCoin)
 							{
 								num1 += num3 * 1000000;
 							}
@@ -180,7 +210,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 					int randomPotion2 = Utils.SelectRandom<int>(Main.rand, new int[38] { 2344, 303, 300, 2325, 2324, 2356, 2329, 2346, 295, 2354, 2327, 291, 305, 2323, 304, 2348, 297, 292, 2345, 2352, 294, 293, 2322, 299, 288, 2347, 289, 298, 2355, 296, 2353, 2328, 290, 301, 2326, 2359, 302, 2349 });
 					int randomPotion3 = Utils.SelectRandom<int>(Main.rand, new int[38] { 2344, 303, 300, 2325, 2324, 2356, 2329, 2346, 295, 2354, 2327, 291, 305, 2323, 304, 2348, 297, 292, 2345, 2352, 294, 293, 2322, 299, 288, 2347, 289, 298, 2355, 296, 2353, 2328, 290, 301, 2326, 2359, 302, 2349 });
 					int randomPotion4 = Utils.SelectRandom<int>(Main.rand, new int[38] { 2344, 303, 300, 2325, 2324, 2356, 2329, 2346, 295, 2354, 2327, 291, 305, 2323, 304, 2348, 297, 292, 2345, 2352, 294, 293, 2322, 299, 288, 2347, 289, 298, 2355, 296, 2353, 2328, 290, 301, 2326, 2359, 302, 2349 });
-					if (Main.netMode == 1)
+					if (Main.netMode != NetmodeID.SinglePlayer)
 					{
 						randomPotion = 2344;
 						randomPotion2 = 303;
@@ -190,28 +220,28 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 					int number = Item.NewItem((int)(i * 16) + 8, (int)(j * 16) + 12, 16, 18, randomPotion, 1);
 					Main.item[number].velocity.Y = (float)Main.rand.Next(-20, 1) * 0.2f;
 					Main.item[number].velocity.X = (float)Main.rand.Next(-20, 21) * 0.2f;
-					if (Main.netMode == 1 && number >= 0)
+					if (Main.netMode != NetmodeID.SinglePlayer && number >= 0)
 					{
 						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, number, 1f);
 					}
 					int number2 = Item.NewItem((int)(i * 16) + 8, (int)(j * 16) + 12, 16, 18, randomPotion2, 1);
 					Main.item[number2].velocity.Y = (float)Main.rand.Next(-20, 1) * 0.2f;
 					Main.item[number2].velocity.X = (float)Main.rand.Next(-20, 21) * 0.2f;
-					if (Main.netMode == 1 && number2 >= 0)
+					if (Main.netMode != NetmodeID.SinglePlayer && number2 >= 0)
 					{
 						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, number2, 1f);
 					}
 					int number3 = Item.NewItem((int)(i * 16) + 8, (int)(j * 16) + 12, 16, 18, randomPotion3, 1);
 					Main.item[number3].velocity.Y = (float)Main.rand.Next(-20, 1) * 0.2f;
 					Main.item[number3].velocity.X = (float)Main.rand.Next(-20, 21) * 0.2f;
-					if (Main.netMode == 1 && number3 >= 0)
+					if (Main.netMode != NetmodeID.SinglePlayer && number3 >= 0)
 					{
 						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, number3, 1f);
 					}
 					int number4 = Item.NewItem((int)(i * 16) + 8, (int)(j * 16) + 12, 16, 18, randomPotion4, 1);
 					Main.item[number4].velocity.Y = (float)Main.rand.Next(-20, 1) * 0.2f;
 					Main.item[number4].velocity.X = (float)Main.rand.Next(-20, 21) * 0.2f;
-					if (Main.netMode == 1 && number4 >= 0)
+					if (Main.netMode != NetmodeID.SinglePlayer && number4 >= 0)
 					{
 						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, number4, 1f);
 					}
@@ -221,12 +251,12 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 				{
 					GoodLuck();
 					int item = Item.NewItem((int)(i * 16) + 8, (int)(j * 16) + 12, 16, 18, 393, 1);
-					if (Main.netMode == 1 && item >= 0)
+					if (Main.netMode != NetmodeID.SinglePlayer && item >= 0)
 					{
 						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item, 1f);
 					}
 					int item1 = Item.NewItem((int)(i * 16) + 8, (int)(j * 16) + 12, 16, 18, 18, 1);
-					if (Main.netMode == 1 && item1 >= 0)
+					if (Main.netMode != NetmodeID.SinglePlayer && item1 >= 0)
 					{
 						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item1, 1f);
 					}
@@ -269,12 +299,10 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 					NeutralLuck();
 					Main.tile[i, j].lava(true);
 					Main.tile[i, j].liquid = byte.MaxValue;
-					Main.tile[i-4, j+2].lava(true);
-					Main.tile[i-4, j+2].liquid = byte.MaxValue;
-					Main.tile[i+4, j+2].lava(true);
-					Main.tile[i+4, j+2].liquid = byte.MaxValue;
+					Main.tile[i-1, j].lava(true);
+					Main.tile[i-1, j].liquid = byte.MaxValue;
 					int item = Item.NewItem((int)(i * 16), (int)(j * 16) - 12, 16, 18, ItemID.ObsidianSkinPotion, 1);
-					if (Main.netMode == 1 && item >= 0)
+					if (Main.netMode != NetmodeID.SinglePlayer && item >= 0)
 					{
 						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item, 1f);
 					}
@@ -284,19 +312,19 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 				{
 					GoodLuck();
 					int gemType = Main.rand.Next(new int[] { 63, 64, 65, 66, 67, 68 });
-					if (Main.netMode == 1)
+					if (Main.netMode != NetmodeID.SinglePlayer)
 					{
 						gemType = 64;
 					}
-					ConvertStone(i, j, 8, gemType);
+					ConvertStone(i, j, 19, gemType, 0.5f);
 
 					for (int val = 0; val < 22; val++) {
-					int num = Dust.NewDust(new Vector2(i * 16, j * 16), 80, 80, 226, 0f, -2f, 0, default(Color), 2f);
-					Main.dust[num].noGravity = true;
-					Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(77, player);
-					Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-					Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
-					Main.dust[num].scale *= .25f;
+						int num = Dust.NewDust(new Vector2(i * 16, j * 16), 80, 80, 226, 0f, -2f, 0, default(Color), 2f);
+						Main.dust[num].noGravity = true;
+						Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(77, player);
+						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+						Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
+						Main.dust[num].scale *= .25f;
 					}
 					break;
 				}
@@ -313,13 +341,15 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 					}
 					if (WorldGen.crimson)
 					{
-						ConvertStone(i, j, 9, 25);
-						ConvertDirt(i, j, 9, 23);
+						ConvertStone(i, j, 22, 25);
+						ConvertDirt(i, j, 22, 23);
+						ConvertIce(i, j, 22, TileID.CorruptIce);
 					}
 					else
 					{
-						ConvertStone(i, j, 9, 203);
-						ConvertDirt(i, j, 9, 199);
+						ConvertStone(i, j, 22, 203);
+						ConvertDirt(i, j, 22, 199);
+						ConvertIce(i, j, 22, TileID.FleshIce);
 					}
 					break;
 				}
@@ -362,16 +392,16 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 					}
 					else
 					{
-						oreType = 702;
+						oreType = TileID.Platinum;
 					}
-					ConvertStone(i, j, 8, oreType);	
+					ConvertStone(i, j, 19, oreType);	
 					break;
 				}
 				case 12:
 				{
 					GoodLuck();
 					int item = Item.NewItem((int)(i * 16) + 8, (int)(j * 16) + 12, 16, 18, ModContent.ItemType<Glyph>(), 1);
-					if (Main.netMode == 1 && item >= 0)
+					if (Main.netMode != NetmodeID.SinglePlayer && item >= 0)
 					{
 						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item, 1f);
 					}
@@ -379,8 +409,9 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 				}
 			}
 		}
-		public void ConvertStone(int i, int j, int size, int typeConvert)
+		public void ConvertStone(int i, int j, int size, int typeConvert, float density = 1f)
 		{
+			Main.NewText(typeConvert);
 			for (int k = i - size; k <= i + size; k++)
 			{
 				for (int l = j - size; l <= j + size; l++)
@@ -388,8 +419,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 					if (WorldGen.InWorld(k, l, 1) && Math.Abs(k - i) + Math.Abs(l - j) < Math.Sqrt(size * size + size * size))
 					{
 						int type = (int)Main.tile[k, l].type;
-						int wall = (int)Main.tile[k, l].wall;
-						if (TileID.Sets.Conversion.Stone[type])
+						if (TileID.Sets.Conversion.Stone[type] && Main.rand.NextFloat() <= density)
 						{
 							Main.tile[k, l].type = (ushort)typeConvert;
 							WorldGen.SquareTileFrame(k, l, true);
@@ -401,6 +431,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 		}
 		public void ConvertDirt(int i, int j, int size, int typeConvert)
 		{
+			Main.NewText(typeConvert);
 			for (int k = i - size; k <= i + size; k++)
 			{
 				for (int l = j - size; l <= j + size; l++)
@@ -408,7 +439,6 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 					if (WorldGen.InWorld(k, l, 1) && Math.Abs(k - i) + Math.Abs(l - j) < Math.Sqrt(size * size + size * size))
 					{
 						int type = (int)Main.tile[k, l].type;
-						int wall = (int)Main.tile[k, l].wall;
 						if (type == 0 || type == 2)
 						{
 							Main.tile[k, l].type = (ushort)typeConvert;
@@ -419,6 +449,23 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 				}
 			}
 		}
+		public void ConvertIce(int i, int j, int size, int typeConvert)
+		{
+			Main.NewText(typeConvert);
+			for (int k = i - size; k <= i + size; k++) {
+				for (int l = j - size; l <= j + size; l++) {
+					if (WorldGen.InWorld(k, l, 1) && Math.Abs(k - i) + Math.Abs(l - j) < Math.Sqrt(size * size + size * size)) {
+						int type = (int)Main.tile[k, l].type;
+						if (TileID.Sets.Conversion.Ice[type]) {
+							Main.tile[k, l].type = (ushort)typeConvert;
+							WorldGen.SquareTileFrame(k, l, true);
+							NetMessage.SendTileSquare(-1, k, l, 1);
+						}
+					}
+				}
+			}
+		}
+
 		public void BadLuck()
 		{
 			Player player = Main.LocalPlayer;

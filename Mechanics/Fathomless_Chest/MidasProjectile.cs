@@ -32,9 +32,11 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].scale = projectile.scale;
 			}
-			Player player = Main.LocalPlayer;
+			Player player = Main.player[projectile.owner];
 			float x = 0.15f;
 			float y = 0.15f;
+			if (!player.HasBuff(BuffID.Midas))
+				projectile.Kill();
 
 			Vector2 vector2_1 = projectile.velocity + new Vector2((float)Math.Sign(player.Center.X - projectile.Center.X), (float)Math.Sign(player.Center.Y - projectile.Center.Y)) * new Vector2(x, y);
 			projectile.velocity = vector2_1;

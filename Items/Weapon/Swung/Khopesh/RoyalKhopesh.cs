@@ -160,6 +160,9 @@ namespace SpiritMod.Items.Weapon.Swung.Khopesh
 				damage = (int)(damage * 1.5f);
 				damage += target.defense / 2;
 				knockback *= 1.5f;
+
+				if(!Main.player[projectile.owner].noKnockback)
+					Main.player[projectile.owner].velocity = -projectile.velocity * 4;
 			}
 
 			hitDirection = Player.direction;

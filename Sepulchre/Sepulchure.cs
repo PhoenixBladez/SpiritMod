@@ -20,7 +20,7 @@ namespace SpiritMod
 	public class Sepulchure : ModWorld
 	{
 		private int wall => ModContent.WallType<SepulchreWallTile>();
-		private int tile => ModContent.TileType<SepulchreBrick>();
+		private int tile => ModContent.TileType<SepulchreBrickCraftable>();
 		private int tiletwo => ModContent.TileType<SepulchreBrickTwo>();
 		public static void RemoveWaterFromRegion(int width, int height, Vector2 startingPoint)
 		{
@@ -61,7 +61,8 @@ namespace SpiritMod
 					TileID.BlueDungeonBrick,
 					TileID.GreenDungeonBrick,
 					TileID.PinkDungeonBrick,
-					TileID.LihzahrdBrick
+					TileID.LihzahrdBrick,
+					tiletwo
 				};
 			for (int x = (int)position.X - 50; x < (int)position.X + 50; x++) //Main structure, DO NOT USE LOOPTHROUGHTILES HERE
 			{
@@ -268,14 +269,14 @@ namespace SpiritMod
 					pos.Y += Math.Abs(pos.X);
 					Tile tile2 = Main.tile[(int)pos.X + x, (int)pos.Y + y];
 					if (Math.Abs(j - diameter) <= 0.5f) {
-						tile2.active(true);
-						tile2.type = (ushort)tile;
+						tile2.ClearTile();
+						WorldGen.PlaceTile((int)pos.X + x, (int)pos.Y + y, tiletwo);
 					}
 					else {
 						if (tile2.type != tile && tile2.type != tiletwo)
-							tile2.active(false);
-						tile2.wall = (ushort)wall;
+							tile2.ClearEverything();
 
+						WorldGen.PlaceWall((int)pos.X + x, (int)pos.Y + y, wall);
 					}
 				}
 			}
@@ -343,19 +344,18 @@ namespace SpiritMod
 		{
 			for (int x = i - (width / 2); x <= i + (width * 2); x++) {
 				for (int y = j - (height / 2); y <= j + (height * 2); y++) {
-					Tile tile2 = Main.tile[x, y];
+					Tile tile2 = Framing.GetTileSafely(x, y);
 					if (y == j - (height / 2) || y == j + (height * 2) || x == i - (width / 2) || x == i + (width * 2)) {
-						tile2.active(true);
-						tile2.type = (ushort)tiletwo;
+						tile2.ClearTile();
+						WorldGen.PlaceTile(x, y, tiletwo);
 					}
 					else if (y == j - (height / 2) + 1 || y == j + (height * 2) - 1 || x == i - (width / 2) + 1 || x == i + (width * 2) - 1) {
-						tile2.active(true);
-						tile2.type = (ushort)tiletwo;
+						tile2.ClearTile();
+						WorldGen.PlaceTile(x, y, tiletwo);
 					}
 					else {
-						tile2.active(false);
-						tile2.wall = (ushort)wall;
-						tile2.liquid = 0;
+						tile2.ClearEverything();
+						WorldGen.PlaceWall(x, y, wall);
 					}
 				}
 			}
@@ -365,8 +365,8 @@ namespace SpiritMod
 			width /= 2;
 			if (!Main.tile[i, j - width].active() && !Main.tile[i, j + width].active() && Main.tile[i, j + width].wall == wall && Main.tile[i, j - width].wall == wall) {
 				for (int y = j - width; y <= j + width; y++) {
-					Main.tile[i, y].active(false);
-					Main.tile[i, y].wall = (ushort)wall;
+					Framing.GetTileSafely(i, y).ClearEverything();
+					WorldGen.PlaceWall(i, y, wall);
 				}
 			}
 		}
@@ -375,15 +375,15 @@ namespace SpiritMod
 			width /= 2;
 			if (!Main.tile[i - width, j].active() && !Main.tile[i + width, j].active() && Main.tile[i + width, j].wall == wall && Main.tile[i - width, j].wall == wall) {
 				for (int x = i - width; x <= i + width; x++) {
-					Main.tile[x, j].active(false);
-					Main.tile[x, j].wall = (ushort)wall;
+					Framing.GetTileSafely(x, j).ClearEverything();
+					WorldGen.PlaceWall(x, j, wall);
 				}
 			}
 		}
 		public void DeleteOrphan(int i, int j)
 		{
 			if (!Main.tile[i - 1, j].active() && !Main.tile[i + 1, j].active() && !Main.tile[i, j - 1].active() && !Main.tile[i, j + 1].active() && (Main.tile[i, j].type == tile || Main.tile[i, j].type == tiletwo)) {
-				Main.tile[i, j].active(false);
+				Framing.GetTileSafely(i, j).ClearEverything();
 			}
 		}
 	}

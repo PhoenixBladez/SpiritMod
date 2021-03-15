@@ -533,7 +533,7 @@ namespace SpiritMod
 		#region MageTower
 		private void PlaceTower(int i, int j, int[,] ShrineArray, int[,] HammerArray, int[,] WallsArray, int[,] LootArray)
 		{
-			for (int y = 0; y < WallsArray.GetLength(0); y++) { // This Loop Placzs Furnitures.(So that they have blocks to spawn on).
+			for (int y = 0; y < WallsArray.GetLength(0); y++) { // This Loop Places Furnitures.(So that they have blocks to spawn on).
 				for (int x = 0; x < WallsArray.GetLength(1); x++) {
 					int k = i - 3 + x;
 					int l = j - 6 + y;

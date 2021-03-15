@@ -87,40 +87,27 @@ namespace SpiritMod.Tiles.Ambient
 
 		public override bool NewRightClick(int i, int j)
 		{
-			//don't bother if there's already a Crystal King in the world
 			for (int x = 0; x < Main.npc.Length; x++) {
 				if (Main.npc[x].active && Main.npc[x].type == ModContent.NPCType<SteamRaiderHead>()) return false;
 			}
 
-			//check if player has a Cryptic Crystal
 			Player player = Main.player[Main.myPlayer];
 			if (Main.dayTime)
 				return false;
 			if (player.HasItem(ModContent.ItemType<StarWormSummon>())) {
-				//now to search for it
-				Item[] inventory = player.inventory;
-				for (int k = 0; k < inventory.Length; k++) {
-					if (inventory[k].type == ModContent.ItemType<StarWormSummon>()) {
-						//consume it, and summon the Crystal King!
-						inventory[k].stack--;
-						if (Main.netMode != NetmodeID.MultiplayerClient) {
-                            Main.NewText("The Starplate Voyager has awoken!", 175, 75, 255, true);
-                            int npcID = NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<SteamRaiderHead>());
-							Main.npc[npcID].Center = player.Center - new Vector2(600, 600);
-							Main.npc[npcID].netUpdate2 = true;
-						}
-						else {
-							if (Main.netMode == NetmodeID.SinglePlayer) {
-								return false;
-							}
-							SpiritMod.WriteToPacket(SpiritMod.instance.GetPacket(), (byte)MessageType.BossSpawnFromClient, (byte)player.whoAmI, (int)ModContent.NPCType<SteamRaiderHead>(), "Steam Raider Head Has Been Summoned!", (int)player.Center.X - 600, (int)player.Center.Y - 600).Send(-1);
-						}
-						//  Main.PlaySound(SoundID.Roar, (int)player.position.X, (int)player.position.Y, 0);
-						//	Main.NewText("Starplate Voyager has awoken!", 175, 75, 255, false);
-						//and don't spam crystal kings if the player didn't ask for it :P
-						return true;
-					}
+				if (Main.netMode != NetmodeID.MultiplayerClient) {
+                    Main.NewText("The Starplate Voyager has awoken!", 175, 75, 255, true);
+                    int npcID = NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<SteamRaiderHead>());
+					Main.npc[npcID].Center = player.Center - new Vector2(600, 600);
+					Main.npc[npcID].netUpdate2 = true;
 				}
+				else {
+					if (Main.netMode == NetmodeID.SinglePlayer) {
+						return false;
+					}
+					SpiritMod.WriteToPacket(SpiritMod.instance.GetPacket(), (byte)MessageType.BossSpawnFromClient, (byte)player.whoAmI, (int)ModContent.NPCType<SteamRaiderHead>(), "Steam Raider Head Has Been Summoned!", (int)player.Center.X - 600, (int)player.Center.Y - 600).Send(-1);
+				}
+				return true;
 			}
 			return false;
 		}
