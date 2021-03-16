@@ -165,10 +165,13 @@ namespace SpiritMod.Structures.Fathomless_Chest
 
 		public override void PostWorldGen()
         {
-			int numberOfShrines = (Main.maxTilesX - 600) / 200;
-			int xSegment = ((Main.maxTilesX - 600) / numberOfShrines) + 300;
-			for (int i = 0; i < numberOfShrines; i++)
-				finalShrineGen(WorldGen.genRand.Next(xSegment * i, xSegment * (i + 1)), WorldGen.genRand.Next(Convert.ToInt32(Main.rockLayer), Convert.ToInt32(Main.rockLayer + 500)));
+			int numberOfShrines = (Main.maxTilesX - 200) / 200;
+			int xSegment = ((Main.maxTilesX - 200) / numberOfShrines);
+			for (int i = 0; i < numberOfShrines; i++) {
+				int min = Math.Max(xSegment * i, 100);
+				int max = Math.Min(xSegment * (i + 1), Main.maxTilesX - 100);
+				finalShrineGen(WorldGen.genRand.Next(min, max), WorldGen.genRand.Next(Convert.ToInt32(Main.rockLayer), Convert.ToInt32(Main.rockLayer + 500)));
+			}
 		}
 
 		public void finalShrineGen(int spawnposXa, int spawnposYa)
