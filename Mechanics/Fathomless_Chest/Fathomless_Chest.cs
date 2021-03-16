@@ -385,10 +385,10 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 				case 11: //Opposite gold/platinum ore
 				{
 					GoodLuck();
-					int oreType = 13;
+					int oreType = 8;
 					if (WorldGen.GoldTierOre == TileID.Platinum)	
 					{
-						oreType = 13;
+						oreType = 8;
 					}
 					else
 					{
