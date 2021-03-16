@@ -42,7 +42,6 @@ namespace SpiritMod.Items.Weapon.Summon
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<OvergrowthStaff>(), 1);
 			recipe.AddIngredient(ModContent.ItemType<CarvedRock>(), 14);
-			recipe.AddIngredient(ItemID.Bone, 8);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

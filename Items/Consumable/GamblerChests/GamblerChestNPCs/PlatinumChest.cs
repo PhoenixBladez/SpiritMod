@@ -11,6 +11,7 @@ using SpiritMod.Items.GamblerChestLoot.FunnyFirework;
 using SpiritMod.Items.GamblerChestLoot.Champagne;
 using SpiritMod.Items.GamblerChestLoot.GildedMustache;
 using SpiritMod.Mechanics.Fathomless_Chest;
+using SpiritMod.Items.GamblerChestLoot.RegalCane;
 
 namespace SpiritMod.Items.Consumable.GamblerChests.GamblerChestNPCs
 {
@@ -138,7 +139,7 @@ namespace SpiritMod.Items.Consumable.GamblerChests.GamblerChestNPCs
 							npc.DropItem(ModContent.ItemType<GildedMustache>(), 0.08f);
 							break;
 						case false:
-							npc.DropItem(ModContent.ItemType<GildedMustache>(), 0.08f); //replace with staff
+							npc.DropItem(ModContent.ItemType<RegalCane>(), 0.08f);
 							break;
 					}
                 npc.active = false;

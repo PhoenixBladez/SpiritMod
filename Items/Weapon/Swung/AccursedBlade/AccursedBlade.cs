@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Weapon.Swung.AccursedBlade
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Accursed Blade");
-            Tooltip.SetDefault("Kill enemies and collect their souls to build up charge \n Right click to release charge as a cursed bolt");
+            Tooltip.SetDefault("Kill enemies and collect their souls to build up charge\nRight click to release charge as a cursed bolt");
             SpiritGlowmask.AddGlowMask(item.type, Texture + "_glow");
         }
 
@@ -41,7 +41,7 @@ namespace SpiritMod.Items.Weapon.Swung.AccursedBlade
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            GlowmaskUtils.DrawItemGlowMaskWorld(Main.spriteBatch, item, mod.GetTexture(Texture.Remove(0, "Starjinx/".Length) + "_glow"), rotation, scale);
+            GlowmaskUtils.DrawItemGlowMaskWorld(Main.spriteBatch, item, mod.GetTexture(Texture.Remove(0, mod.Name.Length + 1) + "_glow"), rotation, scale);
         }
         public override bool CanUseItem(Player player)
         {

@@ -33,8 +33,8 @@ namespace SpiritMod.Items.Weapon.Swung.Khopesh
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.knockBack = 5.5f;
 			item.value = Item.sellPrice(0, 1, 50, 0);
-			item.crit = 4;
-			item.rare = ItemRarityID.Green;
+			item.crit = 4; 
+			item.rare = ItemRarityID.Blue;
 			item.shootSpeed = 14f;
 			item.autoReuse = false;
 			item.shoot = ModContent.ProjectileType<KhopeshSlash>();

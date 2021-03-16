@@ -61,7 +61,6 @@ namespace SpiritMod.Items.Weapon.Magic
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<CarvedRock>(), 14);
-			recipe.AddIngredient(ItemID.Bone, 10);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

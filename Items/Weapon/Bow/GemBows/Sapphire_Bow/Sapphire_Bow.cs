@@ -35,24 +35,10 @@ namespace SpiritMod.Items.Weapon.Bow.GemBows.Sapphire_Bow
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			
-			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 40f;
-			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
-				position += muzzleOffset;
-			}
-			float angle = Main.rand.NextFloat(MathHelper.PiOver4, -MathHelper.Pi - MathHelper.PiOver4);
-			Vector2 spawnPlace = Vector2.Normalize(new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle))) * 20f;
-			if (Collision.CanHit(position, 0, 0, position + spawnPlace, 0, 0)) {
-			position += spawnPlace;
-			}			
 			if (type == ProjectileID.WoodenArrowFriendly)
-			{
 				type = mod.ProjectileType("Sapphire_Arrow");
-			}
-			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - position) * item.shootSpeed;
-			int p = Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, type, damage, knockBack, 0, 0.0f, 0.0f);
-				
-			return false;
+							
+			return true;
 		}
 
 		public override Vector2? HoldoutOffset()

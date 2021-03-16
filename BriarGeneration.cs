@@ -29,6 +29,8 @@ namespace SpiritMod
 		private float _houseGrassRadius;
 		private PerlinNoise _noise;
 		private List<float> _estimates;
+		private int _bbX = 0;
+		private int _testY = 0;
 
 		private struct BlockSpot
 		{
@@ -844,36 +846,9 @@ namespace SpiritMod
 			RadiusLine pillar = new RadiusLine(0.15f, startPillar, middlePillar, endPillar);
 			pillar.Place(_noise, TileID.Dirt);
 
-			//place blood blossom
-			int bbX = (int)end.X;
-			int testY = (int)endPillar.Point.Y;
-			Tile testTile = Framing.GetTileSafely(bbX, testY);
-			while (testTile.active()) {
-				testY--;
-				testTile = Framing.GetTileSafely(bbX, testY);
-			}
-			ushort bbossom = (ushort)ModContent.TileType<Tiles.BloodBlossom>();
-			int fx = 0;
-			for (int x = bbX - 1; x <= bbX + 1; x++) {
-				//place tile below
-				Tile t = Framing.GetTileSafely(x, testY + 1);
-				t.active(true);
-				t.type = (ushort)ModContent.TileType<Tiles.Block.BriarGrass>();
-				t.slope(0);
-
-				int fy = 0;
-				//place blood blossom itself
-				for (int y = testY - 1; y <= testY; y++) {
-					Tile t2 = Framing.GetTileSafely(x, y);
-					t2.active(true);
-					t2.type = bbossom;
-					t2.frameX = (short)(fx * 18);
-					t2.frameY = (short)(fy * 18);
-					fy++;
-				}
-
-				fx++;
-			}
+			//store blood blossom position
+			_bbX = (int)end.X;
+			_testY = (int)endPillar.Point.Y;
 
 			//place floran ore
 			//FUCKIN
@@ -888,6 +863,29 @@ namespace SpiritMod
 				}
 				DoFlowerOre(x, y, WorldGen.genRand.Next(1, 4) * 2 + 1, WorldGen.genRand.Next(4, 11));
 			}
+		}
+
+		public override void PostWorldGen()
+		{
+			Tile testTile = Framing.GetTileSafely(_bbX, _testY);
+			while (WorldGen.SolidOrSlopedTile(testTile)) {
+				_testY--;
+				testTile = Framing.GetTileSafely(_bbX, _testY);
+			}
+			ushort bbossom = (ushort)ModContent.TileType<Tiles.BloodBlossom>();
+			for (int x = _bbX - 1; x <= _bbX + 1; x++) {
+				//place tile below
+				Tile t = Framing.GetTileSafely(x, _testY + 1);
+				WorldGen.KillTile(x, _testY + 1);
+				WorldGen.PlaceTile(x, _testY + 1, ModContent.TileType<Tiles.Block.BriarGrass>());
+				t.slope(0);
+
+				//clear space for blood blossom
+				for (int y = _testY - 1; y <= _testY; y++) 
+					WorldGen.KillTile(x, y);
+				
+			}
+			WorldGen.PlaceObject(_bbX, _testY, bbossom);
 		}
 
 		private void DoFlowerOre(int x, int y, int k, int size = 10)

@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Equipment.ScarabExpertDrop
             item.useAnimation = 20;
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.value = Item.buyPrice(gold: 1);
-            item.rare = ItemRarityID.Green;
+            item.rare = ItemRarityID.Blue;
 			item.UseSound = SoundID.Item80;
             item.noMelee = true;
             item.mountType = mod.MountType("ScarabMount");

@@ -43,7 +43,6 @@ namespace SpiritMod.Items.Weapon.Swung
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<CarvedRock>(), 16);
-			recipe.AddIngredient(ItemID.Bone, 15);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

@@ -2,12 +2,12 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.GamblerChestLoot.GildedMustache
+namespace SpiritMod.Items.GamblerChestLoot.RegalCane
 {
-	[AutoloadEquip(EquipType.Face)]
-	public class GildedMustache : ModItem
+	[AutoloadEquip(EquipType.HandsOn)]
+	public class RegalCane : ModItem
 	{
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Gilded Mustache");
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Gilded Cane");
 		public override void SetDefaults()
 		{
 			item.width = 40;

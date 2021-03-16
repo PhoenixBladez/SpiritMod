@@ -55,10 +55,14 @@ namespace SpiritMod.Projectiles.Clubs
         public double radians = 0;
         int lingerTimer = 0;
 		int flickerTime = 0;
-        public sealed override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+
+		public SpriteEffects Effects => ((Main.player[projectile.owner].direction * (int)Main.player[projectile.owner].gravDir) < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+		public float Truerotation => ((float)radians + 3.9f) + ((Effects == SpriteEffects.FlipHorizontally) ? MathHelper.PiOver2 : 0);
+		public Vector2 Origin => (Effects == SpriteEffects.FlipHorizontally) ? new Vector2(Size, Size) : new Vector2(0, Size);
+		public sealed override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
 			Color color = lightColor;
-			Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, 0, Size, Size), color, (float)radians + 3.9f, new Vector2(0, Size), projectile.scale, SpriteEffects.None, 0);
+			Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, 0, Size, Size), color, Truerotation, Origin, projectile.scale, Effects, 0);
 			SafeDraw(spriteBatch, lightColor);
 			if (projectile.ai[0] >= chargeTime && !released && flickerTime < 16) {
 				flickerTime++;
@@ -68,7 +72,7 @@ namespace SpiritMod.Projectiles.Clubs
 				if (alpha < 0) {
 					alpha = 0;
 				}
-				Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, Size, Size, Size), color * alpha, (float)radians + 3.9f, new Vector2(0, Size), projectile.scale, SpriteEffects.None, 1);
+				Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, Size, Size, Size), color * alpha, Truerotation, Origin, projectile.scale, Effects, 1);
 			}
             return false;
         }

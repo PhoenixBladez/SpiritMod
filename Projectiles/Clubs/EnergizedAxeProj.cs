@@ -32,7 +32,7 @@ namespace SpiritMod.Projectiles.Clubs
 			int size = 60;
 			if (projectile.ai[0] >= chargeTime) {
 				
-				Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, size * 2, size, size), Color.White * 0.9f, (float)radians + 3.9f, new Vector2(0, size), projectile.scale, SpriteEffects.None, 1);
+				Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, size * 2, size, size), Color.White * 0.9f, Truerotation, Origin, projectile.scale, Effects, 1);
 			}
 		}
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

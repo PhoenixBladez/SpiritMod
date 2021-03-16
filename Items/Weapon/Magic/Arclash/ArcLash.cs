@@ -80,8 +80,8 @@ namespace SpiritMod.Items.Weapon.Magic.Arclash
 			}
 
 			Progress = lengthmult * (cycletime - projectile.timeLeft)/cycletime;
-			Owner.ChangeDir(Math.Sign(projectile.Center.X - Owner.Center.X));
-			Owner.itemRotation = MathHelper.WrapAngle(Angle - ((Owner.direction < 0) ? MathHelper.Pi : 0));
+			Owner.ChangeDir(Math.Sign(projectile.Center.X - Owner.MountedCenter.X));
+			Owner.itemRotation = MathHelper.WrapAngle(Angle - Owner.fullRotation - ((Owner.direction < 0) ? MathHelper.Pi : 0));
 			Owner.itemTime = 2;
 			Owner.itemAnimation = 2;
 

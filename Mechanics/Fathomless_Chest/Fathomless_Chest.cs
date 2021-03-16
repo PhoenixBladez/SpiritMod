@@ -411,7 +411,6 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 		}
 		public void ConvertStone(int i, int j, int size, int typeConvert, float density = 1f)
 		{
-			Main.NewText(typeConvert);
 			for (int k = i - size; k <= i + size; k++)
 			{
 				for (int l = j - size; l <= j + size; l++)
@@ -431,7 +430,6 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 		}
 		public void ConvertDirt(int i, int j, int size, int typeConvert)
 		{
-			Main.NewText(typeConvert);
 			for (int k = i - size; k <= i + size; k++)
 			{
 				for (int l = j - size; l <= j + size; l++)
@@ -451,7 +449,6 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 		}
 		public void ConvertIce(int i, int j, int size, int typeConvert)
 		{
-			Main.NewText(typeConvert);
 			for (int k = i - size; k <= i + size; k++) {
 				for (int l = j - size; l <= j + size; l++) {
 					if (WorldGen.InWorld(k, l, 1) && Math.Abs(k - i) + Math.Abs(l - j) < Math.Sqrt(size * size + size * size)) {

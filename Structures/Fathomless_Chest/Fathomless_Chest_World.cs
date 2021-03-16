@@ -1,17 +1,9 @@
 using System;
-using System.IO;
-using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.World.Generation;
 using Microsoft.Xna.Framework;
-using Terraria.GameContent.Generation;
-using Terraria.ModLoader.IO;
-using Terraria.DataStructures;
-using Microsoft.Xna.Framework.Graphics;
 
 
 namespace SpiritMod.Structures.Fathomless_Chest
@@ -173,8 +165,8 @@ namespace SpiritMod.Structures.Fathomless_Chest
 
 		public override void PostWorldGen()
         {
-			int numberOfShrines = Main.maxTilesX / 200;
-			int xSegment = Main.maxTilesX / numberOfShrines;
+			int numberOfShrines = (Main.maxTilesX - 600) / 200;
+			int xSegment = ((Main.maxTilesX - 600) / numberOfShrines) + 300;
 			for (int i = 0; i < numberOfShrines; i++)
 				finalShrineGen(WorldGen.genRand.Next(xSegment * i, xSegment * (i + 1)), WorldGen.genRand.Next(Convert.ToInt32(Main.rockLayer), Convert.ToInt32(Main.rockLayer + 500)));
 		}

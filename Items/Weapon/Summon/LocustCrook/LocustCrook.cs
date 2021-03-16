@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Weapon.Summon.LocustCrook
 		{
 			item.width = item.height = 46;
 			item.damage = 14;
-			item.rare = ItemRarityID.Green;
+			item.rare = ItemRarityID.Blue;
 			item.mana = 16;
 			item.value = Item.sellPrice(0, 2, 0, 0);
 			item.knockBack = 0;

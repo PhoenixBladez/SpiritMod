@@ -1538,8 +1538,6 @@ namespace SpiritMod.World
 				}
 			}
 			
-			Main.NewText("Energy seeps into marble and granite caverns...", 61, 255, 142);
-			
 			for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 16.2f) * 6E-03); k++) {
 				{
 					int X = WorldGen.genRand.Next(100, Main.maxTilesX - 20);

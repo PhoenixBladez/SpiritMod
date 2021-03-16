@@ -51,6 +51,7 @@ using SpiritMod.Items.Equipment.ToxicBottle;
 using SpiritMod.Items.Weapon.Swung.AccursedBlade;
 using SpiritMod.Items.Weapon.Summon.OldCross;
 using SpiritMod.Sepulchre;
+using System.Diagnostics.Contracts;
 
 namespace SpiritMod
 {
@@ -1365,6 +1366,9 @@ namespace SpiritMod
 			int[] moddedMaterials = new int[] { ItemType<BismiteCrystal>(), ItemType<OldLeather>() };
 			int stack;
 
+			int[] MainAsteroidItems = { ItemType<ZiplineGun>(), ItemType<HighGravityBoots>(), ItemType<MagnetHook>() };
+			bool[] placedItems = Enumerable.Repeat(false, MainAsteroidItems.Length).ToArray();
+
 			//int itemsToPlaceInPagodaChestsChoice = 0;
 			for (int chestIndex = 0; chestIndex < 1000; chestIndex++) {
 				Chest chest = Main.chest[chestIndex];
@@ -1409,10 +1413,21 @@ namespace SpiritMod
 						if (chest.item[inventoryIndex].type == ItemID.None) {
 
 							if (inventoryIndex == 0) {
-								int[] itemsToPlaceInPagodaChests1 = { ItemType<ZiplineGun>(), ItemType<HighGravityBoots>(), ItemType<MagnetHook>() };
-								stack = 1;
-								chest.item[inventoryIndex].SetDefaults(Main.rand.Next(itemsToPlaceInPagodaChests1));
-								chest.item[inventoryIndex].stack = stack;
+								int itemtoplace = WorldGen.genRand.Next(MainAsteroidItems.Length);
+								//bool canplace = false;
+								/*while(!canplace) { //check if the chosen item has been placed before, and if all items havent already been placed
+									tries++;
+									itemtoplace = WorldGen.genRand.Next(MainAsteroidItems.Length);
+									if(!placedItems[itemtoplace] || placedItems.All(x => x == true)) {
+										placedItems[itemtoplace] = true;
+										canplace = true;
+										break;
+									}
+								}*/
+								//if (canplace) {
+									placedItems[itemtoplace] = true;
+									chest.item[inventoryIndex].SetDefaults(MainAsteroidItems[itemtoplace]);
+								//}
 							}
 							if (inventoryIndex == 1) {
 								if (WorldGen.genRand.Next(2) == 0) {
