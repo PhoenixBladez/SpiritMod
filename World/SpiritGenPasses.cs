@@ -1341,6 +1341,7 @@ namespace SpiritMod.World
 					y = j + WorldGen.genRand.Next(0 - height, height);
 					if (WorldGen.PlaceChest(x, y, (ushort)ModContent.TileType<Tiles.Furniture.SpaceJunk.AsteroidChest>(), false, 0) != -1) {
 						Csuccesses++;
+						Ctries = 0;
 					}
 
 					Ctries++;

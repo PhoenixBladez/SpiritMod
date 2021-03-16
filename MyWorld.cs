@@ -1414,8 +1414,9 @@ namespace SpiritMod
 
 							if (inventoryIndex == 0) {
 								int itemtoplace = WorldGen.genRand.Next(MainAsteroidItems.Length);
-								//bool canplace = false;
-								/*while(!canplace) { //check if the chosen item has been placed before, and if all items havent already been placed
+								bool canplace = false;
+								int tries = 0;
+								while(!canplace) { //check if the chosen item has been placed before, and if all items havent already been placed
 									tries++;
 									itemtoplace = WorldGen.genRand.Next(MainAsteroidItems.Length);
 									if(!placedItems[itemtoplace] || placedItems.All(x => x == true)) {
@@ -1423,11 +1424,13 @@ namespace SpiritMod
 										canplace = true;
 										break;
 									}
-								}*/
-								//if (canplace) {
+									if (tries > 1000)
+										break;
+								}
+								if (canplace) {
 									placedItems[itemtoplace] = true;
 									chest.item[inventoryIndex].SetDefaults(MainAsteroidItems[itemtoplace]);
-								//}
+								}
 							}
 							if (inventoryIndex == 1) {
 								if (WorldGen.genRand.Next(2) == 0) {

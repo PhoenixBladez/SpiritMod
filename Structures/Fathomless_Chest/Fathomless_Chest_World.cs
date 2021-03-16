@@ -42,7 +42,7 @@ namespace SpiritMod.Structures.Fathomless_Chest
 			for(int y = j - radius; y <= j + radius; y++) {
 				for(int x = i - radius; x <= i + radius + 1; x++) {
 					if ((int)Vector2.Distance(new Vector2(x, y), new Vector2(i, j)) <= radius)
-						Framing.GetTileSafely(x, y).ClearTile();
+						WorldGen.KillTile(x, y);
 				}
 			}
 		}
@@ -209,14 +209,16 @@ namespace SpiritMod.Structures.Fathomless_Chest
 
 			for (int y = spawnposYa - radius; y <= spawnposYa + radius; y++) {
 				for (int x = spawnposXa - radius; x <= spawnposXa + radius + 1; x++) {
-					if (forbiddentiles.Contains(Framing.GetTileSafely(x, y).type) || forbiddenwalls.Contains(Framing.GetTileSafely(x, y).wall))
+					Tile checktile = Framing.GetTileSafely(x, y);
+
+					if (forbiddentiles.Contains(checktile.type) || forbiddenwalls.Contains(checktile.wall) || TileID.Sets.BasicChest[checktile.type] || TileID.Sets.BasicChestFake[checktile.type])
 						safetyCheck = true;
 				}
 			}
 
 			while (safetyCheck)
             {
-                spawnposXa = Main.rand.Next(Main.maxTilesX);
+                spawnposXa = Main.rand.Next(100, Main.maxTilesX - 100);
                 spawnposYa = WorldGen.genRand.Next(Convert.ToInt32(Main.rockLayer), Convert.ToInt32(Main.rockLayer + 500));
 				safetyCheck = false;
 				for (int y = spawnposYa - radius; y <= spawnposYa + radius; y++) {
