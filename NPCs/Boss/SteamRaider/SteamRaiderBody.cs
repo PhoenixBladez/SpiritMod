@@ -54,13 +54,13 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		{
 			var exposedBodies = Main.npc.Where(x => x.active && (x.type == ModContent.NPCType<SteamRaiderBody>() || x.type == ModContent.NPCType<SteamRaiderBody2>()) && x.localAI[0] > 0).Count();
 			if (Main.netMode != NetmodeID.MultiplayerClient) {
-				if (exposedBodies < 8 && Main.rand.NextBool(50) || (++npc.localAI[1] % 60 == 0 && Main.rand.NextBool(50))) {
+				if (exposedBodies < 7 && Main.rand.NextBool(50) || (++npc.localAI[1] % 60 == 0 && Main.rand.NextBool(50))) {
 					if (!Exposed) {
 						npc.localAI[0] = 1;
 						npc.netUpdate = true;
 					}
 				}
-				if (exposedBodies > 11 || (npc.localAI[1] % 60 == 0 && Main.rand.NextBool(50))) {
+				if (exposedBodies > 10 || (npc.localAI[1] % 60 == 0 && Main.rand.NextBool(50))) {
 					if (Exposed) {
 						npc.localAI[0] = 0;
 						npc.netUpdate = true;
