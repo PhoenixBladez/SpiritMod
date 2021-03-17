@@ -18,6 +18,7 @@ using SpiritMod.Items.Weapon.Club;
 using SpiritMod.Items.Weapon.Flail;
 using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Items.Weapon.Magic.RadiantCane;
 using SpiritMod.Items.Weapon.Spear;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Summon.ElectricGun;
@@ -295,6 +296,7 @@ namespace SpiritMod.Utilities
 						ModContent.ItemType<ScarabBow>(),
 						ModContent.ItemType<LocustCrook>(),
 						ModContent.ItemType<RoyalKhopesh>(),
+						ModContent.ItemType<RadiantCane>(),
 						ModContent.ItemType<DesertSnowglobe>(),
 						ItemID.LesserHealingPotion
 					}),
