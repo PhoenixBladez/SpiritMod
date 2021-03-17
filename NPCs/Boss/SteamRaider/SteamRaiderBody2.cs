@@ -22,7 +22,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		}
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			if (exposed) {
+			if (Exposed) {
 				Microsoft.Xna.Framework.Color color1 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
 				Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, npc.height * 0.5f);
 				int r1 = (int)color1.R;

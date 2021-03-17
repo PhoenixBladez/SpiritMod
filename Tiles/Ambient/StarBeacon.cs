@@ -101,8 +101,7 @@ namespace SpiritMod.Tiles.Ambient
 			}
 
 			Player player = Main.player[Main.myPlayer];
-			if (Main.dayTime)
-				return false;
+
 			if (player.HasItem(ModContent.ItemType<StarWormSummon>())) {
 				if (Main.netMode != NetmodeID.MultiplayerClient) {
                     Main.NewText("The Starplate Voyager has awoken!", 175, 75, 255, true);

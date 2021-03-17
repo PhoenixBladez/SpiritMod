@@ -4,6 +4,7 @@ using SpiritMod.Projectiles;
 using SpiritMod.Projectiles.Boss;
 using System;
 using System.IO;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,7 +23,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			npc.width = 36;              
             npc.height = 36;             
             npc.damage = 35;
-            npc.defense = 24;
+            npc.defense = 8;
             npc.lifeMax = 1;
             npc.knockBackResist = 0.0f;
             npc.behindTiles = true;
@@ -41,31 +42,27 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			music = MusicID.Boss3;
 			npc.dontCountMe = true;
 		}
-		public bool exposed;
+		public bool Exposed => npc.localAI[0] == 1;
 		//int timer;
-		public override void SendExtraAI(BinaryWriter writer) => writer.Write(exposed);
-		public override void ReceiveExtraAI(BinaryReader reader) => exposed = reader.ReadBoolean();
+		public override void SendExtraAI(BinaryWriter writer) => writer.Write(npc.localAI[0]);
+		public override void ReceiveExtraAI(BinaryReader reader) => npc.localAI[0] = reader.ReadSingle();
 		private NPC Head => Main.npc[(int)npc.ai[2]];
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
 			=> false;
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => Head.ai[2] == 1 && npc.ai[3] < 100;
 		public override bool PreAI()
 		{
+			var exposedBodies = Main.npc.Where(x => x.active && (x.type == ModContent.NPCType<SteamRaiderBody>() || x.type == ModContent.NPCType<SteamRaiderBody2>()) && x.localAI[0] > 0).Count();
 			if (Main.netMode != NetmodeID.MultiplayerClient) {
-				npc.localAI[1] += 1;
-				if (npc.localAI[1] == Main.rand.Next(100, 500)) {
-					if (!exposed) {
-						exposed = true;
+				if (exposedBodies < 8 && Main.rand.NextBool(50) || (++npc.localAI[1] % 60 == 0 && Main.rand.NextBool(50))) {
+					if (!Exposed) {
+						npc.localAI[0] = 1;
 						npc.netUpdate = true;
 					}
 				}
-				if (npc.localAI[1] >= 651) {
-					npc.localAI[1] = 0f;
-				}
-				npc.localAI[2] += 1;
-				if (npc.localAI[2] == Main.rand.Next(200, 600)) {
-					if (exposed) {
-						exposed = false;
+				if (exposedBodies > 11 || (npc.localAI[1] % 60 == 0 && Main.rand.NextBool(50))) {
+					if (Exposed) {
+						npc.localAI[0] = 0;
 						npc.netUpdate = true;
 					}
 				}
@@ -73,7 +70,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					npc.localAI[2] = 0f;
 				}
 			}
-			if (exposed) {
+			if (Exposed) {
 				npc.defense = 8;
 				npc.dontTakeDamage = false;
 			}
@@ -177,7 +174,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		}
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			if (exposed) {
+			if (Exposed) {
 				Color color1 = Lighting.GetColor((int)(npc.position.X + npc.width * 0.5) / 16, (int)((npc.position.Y + npc.height * 0.5) / 16.0));
 				Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, npc.height * 0.5f);
 				int r1 = color1.R;
@@ -218,6 +215,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
+
 			for (int k = 0; k < 5; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, 226, hitDirection, -1f, 0, default(Color), 1f);
 			}

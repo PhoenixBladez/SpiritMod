@@ -248,9 +248,6 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					else if (npc.velocity.X > 0f)
 						npc.spriteDirection = -1;
 				}
-
-				if (Main.netMode == NetmodeID.SinglePlayer && !Main.dayTime && Main.time > 1) 
-					Main.time--;
 				
 
 				if (player.dead || !player.active) {

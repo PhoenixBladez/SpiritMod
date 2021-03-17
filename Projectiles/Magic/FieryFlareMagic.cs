@@ -24,7 +24,7 @@ namespace SpiritMod.Projectiles.Magic
 			aiType = -1;
 			projectile.alpha = 255;
 			projectile.timeLeft = 120;
-			projectile.penetrate = 3;
+			projectile.penetrate = 2;
 			projectile.friendly = true;
 			projectile.magic = true;
 			projectile.extraUpdates = 3;
