@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Placeable.Tiles
 			item.autoReuse = true;
 			item.consumable = true;
 
-			item.createTile = ModContent.TileType<SepulchreBrickCraftable>();
+			item.createTile = ModContent.TileType<SepulchreBrickTwo>();
 		}
 		public override void AddRecipes()
 		{

@@ -386,7 +386,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 					int oreType = 8;
 					if (WorldGen.GoldTierOre == TileID.Platinum)	
 					{
-						oreType = 8;
+						oreType = 13;
 					}
 					else
 					{

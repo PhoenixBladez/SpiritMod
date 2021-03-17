@@ -20,7 +20,7 @@ namespace SpiritMod
 	public class Sepulchure : ModWorld
 	{
 		private int wall => ModContent.WallType<SepulchreWallTile>();
-		private int tile => ModContent.TileType<SepulchreBrickCraftable>();
+		private int tile => ModContent.TileType<SepulchreBrick>();
 		private int tiletwo => ModContent.TileType<SepulchreBrickTwo>();
 		public static void RemoveWaterFromRegion(int width, int height, Vector2 startingPoint)
 		{
@@ -270,7 +270,7 @@ namespace SpiritMod
 					Tile tile2 = Main.tile[(int)pos.X + x, (int)pos.Y + y];
 					if (Math.Abs(j - diameter) <= 0.5f) {
 						tile2.ClearTile();
-						WorldGen.PlaceTile((int)pos.X + x, (int)pos.Y + y, tiletwo);
+						WorldGen.PlaceTile((int)pos.X + x, (int)pos.Y + y, tile);
 					}
 					else {
 						if (tile2.type != tile && tile2.type != tiletwo)
