@@ -20,7 +20,7 @@ namespace SpiritMod.Tiles.Ambient
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
 			Main.tileLighted[Type] = true;
-			Main.tileLavaDeath[Type] = true;
+			Main.tileLavaDeath[Type] = false;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
 			TileObjectData.newTile.Height = 3;
 			TileObjectData.newTile.Width = 2;
@@ -45,6 +45,15 @@ namespace SpiritMod.Tiles.Ambient
 			b = 0.5f;
 
 		}
+
+		public override bool CanExplode(int i, int j) => false;
+
+		public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
+		{
+			TileUtilities.BlockActuators(i, j);
+			return base.TileFrame(i, j, ref resetFrame, ref noBreak);
+		}
+
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{
 			alphaCounter += 0.04f;

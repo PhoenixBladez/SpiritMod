@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using SpiritMod.Items.Material;
+﻿using SpiritMod.Items.Material;
 using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Items.Weapon.Thrown;
 using SpiritMod.NPCs.Ocean;
@@ -8,8 +7,8 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Items;
 using SpiritMod.Tiles.Ambient;
+using SpiritMod.Mechanics.Fathomless_Chest;
 
 namespace SpiritMod.Tiles
 {
@@ -26,21 +25,14 @@ namespace SpiritMod.Tiles
 		static ushort IceType6 = (ushort)ModContent.TileType<Ambient.IceSculpture.IceBatPassive>();
 		static ushort IceType7 = (ushort)ModContent.TileType<Ambient.IceSculpture.Hostile.IceFlinxHostile>();
 		static ushort IceType8 = (ushort)ModContent.TileType<Ambient.IceSculpture.IceFlinxPassive>();
+
+		readonly int[] indestructibletiles = new int[] { ModContent.TileType<StarBeacon>(), ModContent.TileType<AvianEgg>(), ModContent.TileType<Fathomless_Chest>(), ModContent.TileType<BloodBlossom>() };
 		public override bool CanKillTile(int i, int j, int type, ref bool blockDamaged)
 		{
 			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
-			ushort eggType = (ushort)ModContent.TileType<Ambient.AvianEgg>();
-			ushort flowerType = (ushort)ModContent.TileType<BloodBlossom>();
-			ushort vaseType = (ushort)ModContent.TileType<Mechanics.Fathomless_Chest.Fathomless_Chest>();
-			if (type == flowerType && tileAbove.type == flowerType) {
+			if (indestructibletiles.Contains(tileAbove.type) && type != tileAbove.type)
 				return false;
-			}
-			else if (type == vaseType && tileAbove.type == vaseType) {
-				return false;
-			}
-			else if (type != eggType && tileAbove.type == eggType) {
-				return false;
-			}
+
 			else if (type != IceType1 && tileAbove.type == IceType1) {
 				return false;
 			}
@@ -67,7 +59,27 @@ namespace SpiritMod.Tiles
 			}
 			return base.CanKillTile(i, j, type, ref blockDamaged);
 		}
-        public virtual bool Slope(int i, int j, int type)
+		public override bool TileFrame(int i, int j, int type, ref bool resetFrame, ref bool noBreak)
+		{
+			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
+			if (indestructibletiles.Contains(tileAbove.type) && type != tileAbove.type && TileID.Sets.Falling[type]) {
+				//add something here to make the frame of the tile reset properly
+				return false;
+			}
+
+			return base.TileFrame(i, j, type, ref resetFrame, ref noBreak);
+		}
+
+		public override bool PreHitWire(int i, int j, int type)
+		{
+			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
+			if (indestructibletiles.Contains(tileAbove.type) && type != tileAbove.type) {
+				Main.tile[i, j].inActive(false);
+			}
+			return true;
+		}
+
+		public virtual bool Slope(int i, int j, int type)
         {
             Tile tileAbove = Framing.GetTileSafely(i, j - 1);
             Tile tileRight = Framing.GetTileSafely(i + 1, j - 1);
@@ -109,15 +121,10 @@ namespace SpiritMod.Tiles
         public override bool CanExplode(int i, int j, int type)
 		{
 			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
-			ushort eggType = (ushort)ModContent.TileType<Ambient.AvianEgg>();
-			ushort flowerType = (ushort)ModContent.TileType<BloodBlossom>();
-			if (type == flowerType || tileAbove.type == flowerType) {
+			if (indestructibletiles.Contains(tileAbove.type) && type != tileAbove.type)
 				return false;
-			}
-			else if (type == eggType || tileAbove.type == eggType) {
-				return false;
-			}
-			else if (type != IceType1 && tileAbove.type == IceType1) {
+
+			if (type != IceType1 && tileAbove.type == IceType1) {
 				return false;
 			}
 			else if (type != IceType2 && tileAbove.type == IceType2) {

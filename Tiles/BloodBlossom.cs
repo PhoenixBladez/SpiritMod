@@ -18,6 +18,7 @@ namespace SpiritMod.Tiles
 			Main.tileLighted[Type] = true;
 
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
+			
 			TileObjectData.addTile(Type);
 			//dustType = 7;
 			disableSmartCursor = true;
@@ -33,6 +34,15 @@ namespace SpiritMod.Tiles
 			}
 			return true;
 		}
+
+		public override bool CanExplode(int i, int j) => false;
+
+		public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
+		{
+			TileUtilities.BlockActuators(i, j);
+			return base.TileFrame(i, j, ref resetFrame, ref noBreak);
+		}
+
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
 			Tile tile = Framing.GetTileSafely(i, j);

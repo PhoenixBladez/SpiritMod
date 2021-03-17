@@ -10,6 +10,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.GameInput;
 using Terraria.ObjectData;
+using Terraria.Enums;
 using static Terraria.ModLoader.ModContent;
 using Steamworks;
 using System.Linq;
@@ -39,32 +40,29 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 			AddMapEntry(new Color(112, 216, 238), name);
 			disableSmartCursor = true;
 			Main.tileLighted[Type] = true;
-			soundType = 42;
+			soundType = SoundID.Trackable;
 			soundStyle = 170;
 		}
-		public override bool CanExplode(int i, int j)
-		{
-			return false;
-		}
+		public override bool CanExplode(int i, int j) => false;
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
 			r = 0f;
 			g = 0.2f;
 			b = 0.5f;
 		}
-		public override bool CanKillTile(int i, int j, ref bool blockDamaged)
-		{
-			return false;
-		}
+		public override bool CanKillTile(int i, int j, ref bool blockDamaged) => false;
 		public override void RightClick(int i, int j)
 		{
 			Tile tile = Main.tile[i, j];
 			WorldGen.KillTile(i, j, false, false, false);
 		}
-		public override bool HasSmartInteract()
+
+		public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
 		{
-			return false;
+			TileUtilities.BlockActuators(i, j);
+			return base.TileFrame(i, j, ref resetFrame, ref noBreak);
 		}
+
 		public override void MouseOver(int i, int j)
 		{
 			Player player = Main.LocalPlayer;

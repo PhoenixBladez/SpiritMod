@@ -41,6 +41,15 @@ namespace SpiritMod.Tiles.Ambient
 		{
 			offsetY = 2;
 		}
+
+		public override bool CanExplode(int i, int j) => false;
+
+		public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
+		{
+			TileUtilities.BlockActuators(i, j);
+			return base.TileFrame(i, j, ref resetFrame, ref noBreak);
+		}
+
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			{
