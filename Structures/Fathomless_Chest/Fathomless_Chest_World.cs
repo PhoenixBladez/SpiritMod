@@ -4,7 +4,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-
+using SpiritMod.Tiles;
+using SpiritMod.Tiles.Block;
 
 namespace SpiritMod.Structures.Fathomless_Chest
 {
@@ -186,7 +187,9 @@ namespace SpiritMod.Structures.Fathomless_Chest
 				TileID.Hive,
 				TileID.BlueDungeonBrick,
 				TileID.GreenDungeonBrick,
-				TileID.PinkDungeonBrick
+				TileID.PinkDungeonBrick,
+				ModContent.TileType<BloodBlossom>(),
+				ModContent.TileType<ReachGrassTile>()
 			};
 
 			ushort[] forbiddenwalls = new ushort[]

@@ -32,6 +32,7 @@ using SpiritMod.Items.Weapon.Bow.GemBows.Emerald_Bow;
 using SpiritMod.Items.Weapon.Bow.GemBows.Ruby_Bow;
 using SpiritMod.Items.Weapon.Bow.GemBows.Sapphire_Bow;
 using SpiritMod.Items.Weapon.Bow.GemBows.Topaz_Bow;
+using SpiritMod.Items.Consumable;
 
 namespace SpiritMod
 {
@@ -739,6 +740,10 @@ namespace SpiritMod
 		{
 			RecipeGroup woodGrp = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Wood"]];
 			woodGrp.ValidItems.Add(ModContent.ItemType<AncientBark>());
+
+			RecipeGroup butterflyGrp = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Butterflies"]];
+			butterflyGrp.ValidItems.Add(ModContent.ItemType<BriarmothItem>());
+
 			RecipeGroup basegroup(object GroupName, int[] Items)
 			{
 				string Name = "";

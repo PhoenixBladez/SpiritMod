@@ -46,7 +46,8 @@ namespace SpiritMod.Sepulchre
 			chestDrop = ModContent.ItemType<SepulchreChest>();
 			chest = "Sepulchre Chest";
             TileID.Sets.HasOutlines[Type] = true;
-        }
+			TileID.Sets.BasicChest[Type] = true;
+		}
         public override bool HasSmartInteract() => true;
 
         public string MapChestName(string name, int i, int j)
@@ -80,13 +81,13 @@ namespace SpiritMod.Sepulchre
             Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<SepulchreChest>());
             Chest.DestroyChest(i, j);
             Main.PlaySound(SoundID.NPCKilled, (int)i * 16, (int)j * 16, 6);
-            Player player = Main.LocalPlayer;
+            /*Player player = Main.LocalPlayer;
             int distance = (int)Vector2.Distance(new Vector2(i * 16, j * 16), player.Center);
             if (distance < 360)
             {
                 Main.LocalPlayer.AddBuff(BuffID.Cursed, 300);
                 Main.LocalPlayer.AddBuff(BuffID.Obstructed, 600);
-            }
+            }*/
         }
 
 		public override bool IsLockedChest(int i, int j) => true;

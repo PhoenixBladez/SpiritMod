@@ -1576,7 +1576,8 @@ namespace SpiritMod
 						WallID.CorruptionUnsafe3,
 						WallID.CorruptionUnsafe4,
 						WallID.Sandstone,
-						WallID.HiveUnsafe
+						WallID.HiveUnsafe,
+						WallID.LihzahrdBrickUnsafe
 					};
 
 					int yTop = (int)(_y - _topSize.Y * 0.5f);
@@ -1601,7 +1602,7 @@ namespace SpiritMod
 								TryPlaceGrass(tileX, tileY, briarGrass);
 
 								Tile tile = Framing.GetTileSafely(tileX, tileY);
-								if (tile.wall != 0 && !ignoreWalls.Contains(tile.wall)) {
+								if (tile.wall != 0 && !ignoreWalls.Contains(tile.wall) && !Main.wallDungeon[tile.wall]) {
 									float yProgress = (tileY - yTop) / yTotal; //value between 0f and 1f
 									float wallTypeValue = yProgress + (_noise.Noise(tileX * noiseScale, tileY * noiseScale) + 1f) * 0.5f;
 									float doWall = yProgress + (_noise.Noise(tileY * -noiseScale, tileX * noiseScale) + 1f) * 0.5f;

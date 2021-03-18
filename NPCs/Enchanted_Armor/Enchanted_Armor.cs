@@ -79,7 +79,7 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 				npc.netUpdate = true;
 			}
 
-			if (!player.active || player.dead || npc.Distance(player.Center) > 1200) {
+			if (!player.active || player.dead || npc.Distance(player.Center) > 2000) {
 				movement();
 				DespawnTimer--;
 				if(DespawnTimer <= 0) {
@@ -452,18 +452,37 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 			}
 		}
 
+		delegate void OnTileCheck(int x, int y);
+
 		public override void NPCLoot()
 		{
-			if(Main.npc.Where(x => x.active && x.type == npc.type).Count() <= 1) {
-				int i = (int)npc.position.X / 16;
-				int j = (int)npc.position.Y / 16;
-				for (int indexX = -70; indexX <= 70; indexX++) {
-					for (int indexY = -90; indexY <= 90; indexY++) {
-						if (Framing.GetTileSafely(indexX + i, indexY + j).type == mod.TileType("SepulchreChestTile") && Framing.GetTileSafely(indexX + i, indexY + j).frameX == 0 && Framing.GetTileSafely(indexX + i, indexY + j).frameY == 0) {
-							CombatText.NewText(new Rectangle((indexX + i) * 16, (indexY + j) * 16, 20, 10), Color.GreenYellow, "Unlocked!");
+
+			void tilecheck(int i, int j, int maxX, int maxY, int tiletofind, OnTileCheck onTileCheck)
+			{
+				for (int indexX = -maxX; indexX <= maxX; indexX++) {
+					for (int indexY = -maxY; indexY <= maxY; indexY++) {
+						if (Framing.GetTileSafely(indexX + i, indexY + j).type == tiletofind && Framing.GetTileSafely(indexX + i, indexY + j).frameX == 0 && Framing.GetTileSafely(indexX + i, indexY + j).frameY == 0) {
+
+							onTileCheck(indexX + i, indexY + j);
 						}
 					}
 				}
+			}
+
+			if(Main.npc.Where(x => x.active && x.type == npc.type).Count() <= 1) { //only run if no cursed armors are left after this dies
+				tilecheck(npc.position.ToTileCoordinates().X, npc.position.ToTileCoordinates().Y, 90, 90, ModContent.TileType<SepulchreChestTile>(), delegate(int x, int y) //first, check if any chests are nearby
+				{//if so, run a check from the chest's position to see if there are any cursed armor tiles near it
+					bool anyarmor = false;
+					tilecheck(x, y, 70, 90, ModContent.TileType<CursedArmor>(), delegate {
+						anyarmor = true;
+					});
+					if (!anyarmor) { //if not, display text and play miniboss jingle
+						CombatText.NewText(new Rectangle(x * 16, y * 16, 20, 10), Color.GreenYellow, "Unlocked!");
+
+						if(Main.netMode != NetmodeID.Server) //custom sounds bad on server
+							Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DownedMiniboss"));
+					}
+				});
 			}
 		}
 

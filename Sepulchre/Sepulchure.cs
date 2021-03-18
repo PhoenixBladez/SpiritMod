@@ -9,6 +9,7 @@ using SpiritMod.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using Terraria;
 using Terraria.GameContent.Generation;
 using Terraria.ID;
@@ -49,38 +50,67 @@ namespace SpiritMod
 					progress.Message = "Sepulchuring";
 
 					for(int i = 0; i< Main.maxTilesX/200; i++) {
-						CreateSepulchre(new Vector2(Main.rand.Next(400,Main.maxTilesX - 400), Main.rand.Next(Main.maxTilesY - 500, Main.maxTilesY - 300)));
+						CreateSepulchre(new Vector2(WorldGen.genRand.Next((int)(Main.maxTilesX * 0.2f), (int)(Main.maxTilesX * 0.8f)), WorldGen.genRand.Next(Main.maxTilesY - 500, Main.maxTilesY - 300)));
 					}
 				}, 300f));
 		}
-			public void CreateSepulchre(Vector2 position)
-			{
+		public void CreateSepulchre(Vector2 position)
+		{
 			int[] invalidTypes = new int[]
-				{
-					TileID.BeeHive,
-					TileID.BlueDungeonBrick,
-					TileID.GreenDungeonBrick,
-					TileID.PinkDungeonBrick,
-					TileID.LihzahrdBrick,
-					tiletwo
-				};
-			for (int x = (int)position.X - 50; x < (int)position.X + 50; x++) //Main structure, DO NOT USE LOOPTHROUGHTILES HERE
 			{
-				for (int y = (int)position.Y - 50; y < (int)position.Y + 50; y++) {
-					for(int z = 0; z< invalidTypes.Length; z++)
-						if(Framing.GetTileSafely(x,y).type == invalidTypes[z]) return;
+				TileID.BeeHive,
+				TileID.BlueDungeonBrick,
+				TileID.GreenDungeonBrick,
+				TileID.PinkDungeonBrick,
+				TileID.LihzahrdBrick,
+				tiletwo
+			};
+			bool cantgenerate = false;
+			for (int x = (int)position.X - 150; x < (int)position.X + 150; x++)
+			{
+				for (int y = (int)position.Y - 150; y < (int)position.Y + 150; y++) {
+					for (int z = 0; z < invalidTypes.Length; z++)
+						if (Framing.GetTileSafely(x, y).type == invalidTypes[z]) {
+							cantgenerate = true;
+							break;
+						}
+
+					if (cantgenerate)
+						break;
 				}
 			}
+			int tries = 0;
+			while (cantgenerate) {
+				position = new Vector2(WorldGen.genRand.Next((int)(Main.maxTilesX * 0.2f), (int)(Main.maxTilesX * 0.8f)), WorldGen.genRand.Next(Main.maxTilesY - 500, Main.maxTilesY - 300));
+				cantgenerate = false;
+				for (int x = (int)position.X - 150; x < (int)position.X + 150; x++) //Main structure, DO NOT USE LOOPTHROUGHTILES HERE
+				{
+					for (int y = (int)position.Y - 150; y < (int)position.Y + 150; y++) {
+						for (int z = 0; z < invalidTypes.Length; z++)
+							if (Framing.GetTileSafely(x, y).type == invalidTypes[z]) {
+								cantgenerate = true;
+								break;
+							}
+
+						if (cantgenerate)
+							break;
+					}
+				}
+				tries++;
+				if (tries > 100)
+					return;
+			}
+
 			PerlinNoiseTwo noiseType = new PerlinNoiseTwo(WorldGen._genRandSeed);
 			int i = (int)position.X;
 			int j = (int)position.Y;
 			/*for (int x = i - 50; x < i + 50; x++) //dirt square
-             {
-                 for (int y = j - 90; y < j + 50; y++)
-                 {
-                    Main.tile[x,y].active(true);
-                 }
-             }*/
+				{
+					for (int y = j - 90; y < j + 50; y++)
+					{
+					Main.tile[x,y].active(true);
+					}
+				}*/
 			for (int x = i - 25; x < i + 25; x++) //Main structure, DO NOT USE LOOPTHROUGHTILES HERE
 			{
 				for (int y = j - 20; y < j + 20; y++) {
@@ -140,8 +170,8 @@ namespace SpiritMod
 					for (int y = j - 90; y < j + 50; y++) {
 						if ((Main.tile[x, y + 1].type == tile || Main.tile[x, y + 1].type == tiletwo)
 							&& chests == 0 && Main.rand.Next(100) == 0 && Main.tile[x, y].wall == wall) {
+							Main.tile[x + 1, y + 1].active(true);
 							Main.tile[x + 1, y + 1].type = Main.tile[x, y + 1].type;
-							Main.tile[x - 1, y + 1].type = Main.tile[x, y + 1].type;
 							WorldGen.PlaceChest(x, y, (ushort)ModContent.TileType<SepulchreChestTile>(), false, 0);
 							if (Main.tile[x, y - 1].type == (ushort)ModContent.TileType<SepulchreChestTile>()) {
 								chests++;
