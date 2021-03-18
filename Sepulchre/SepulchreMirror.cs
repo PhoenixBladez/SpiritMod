@@ -64,7 +64,7 @@ namespace SpiritMod.Sepulchre
 			item.autoReuse = true;
 			item.consumable = true;
 
-			item.createTile = ModContent.TileType<SepulchreWindowOne>();
+			item.createTile = ModContent.TileType<SepulchreMirror>();
 		}
 		public override void AddRecipes()
 		{
