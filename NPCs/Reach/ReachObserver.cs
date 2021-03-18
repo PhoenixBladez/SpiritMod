@@ -19,8 +19,8 @@ namespace SpiritMod.NPCs.Reach
 
 		public override void SetDefaults()
 		{
-			npc.width = 24;
-			npc.height = 24;
+			npc.width = 44;
+			npc.height = 30;
 			npc.damage = 21;
 			npc.defense = 6;
 			npc.lifeMax = 44;

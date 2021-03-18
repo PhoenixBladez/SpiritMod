@@ -66,9 +66,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "Black_Stone_Item", 15);	
-			recipe.AddIngredient(ItemID.Diamond, 5);
-			recipe.AddIngredient(ItemID.Ruby, 5);
+			recipe.AddIngredient(null, "Black_Stone_Item", 18);	
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

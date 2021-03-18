@@ -123,7 +123,11 @@ namespace SpiritMod.Items.Equipment.ToxicBottle
 			for (int num424 = 0; num424 < 30; num424++)
 			{
 				int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 13, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 0, default(Color), 0.75f);
-				Main.dust[dust].scale = 1.4f;
+				Main.dust[dust].scale = .8f;
+				int dust1 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 72, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 0, default(Color), 0.75f);
+				Main.dust[dust1].scale = .8f;
+				int dust12 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 54, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 0, default(Color), 0.75f);
+				Main.dust[dust12].scale = .8f;
 
 				if(timeLeft > 0)
 					Projectile.NewProjectile(projectile.position, Vector2.Zero, ModContent.ProjectileType<ToxicBottleField>(), 0, 0, projectile.owner);
@@ -178,7 +182,7 @@ namespace SpiritMod.Items.Equipment.ToxicBottle
 				if (projectile.timeLeft > 50 && Main.rand.Next(3) == 1)
 				{
 					Dust dust = Dust.NewDustPerfect(projectile.Center + direction, ModContent.DustType<PoisonGas>());
-					dust.scale = 8;
+					dust.scale = 3;
 				}
 			}
 

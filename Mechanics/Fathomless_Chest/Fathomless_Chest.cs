@@ -34,6 +34,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 			TileObjectData.newTile.Origin = new Point16(0, 2);
 			Main.tileValue[Type] = 1000;
 			TileObjectData.addTile(Type);
+			drop = ModContent.ItemType<Tiles.Black_Stone_Item>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Fathomless Vase");
 			Main.tileSpelunker[Type] = true;

@@ -72,12 +72,12 @@ namespace SpiritMod.Items.Weapon.Swung.AccursedBlade
             Main.PlaySound(SoundID.NPCKilled, (int)player.position.X, (int)player.position.Y, 52, 1.2f, -0.3f);
             return true;
         }
-        public override void HoldItem(Player player)
+        /*public override void HoldItem(Player player)
         {
 			ChargeMeterPlayer modPlayer = player.GetModPlayer<ChargeMeterPlayer>();
             modPlayer.chargeMeter.drawMeter = true;
             modPlayer.chargeMeter.charge = player.GetModPlayer<AccursedBladePlayer>().charge;
-        }
+        }*/
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
             if (target.life <= 0)

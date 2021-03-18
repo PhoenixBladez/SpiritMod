@@ -31,6 +31,14 @@ namespace SpiritMod.Tiles.Block
 			g = .112f * 1.5f;
 			b = .128f * 1.5f;
 		}
+		public override bool CanKillTile(int i, int j, ref bool blockDamaged)
+		{
+			Player player = Main.LocalPlayer;
+			if (player.inventory[player.selectedItem].type == ItemID.ReaverShark) {
+				return false;
+			}
+			return true;
+		}
 		public override bool CanExplode(int i, int j)
 		{
 			return false;
