@@ -1229,7 +1229,7 @@ namespace SpiritMod
 				Projectile.NewProjectile(distX, distY, direction.X + A, direction.Y + B, ModContent.ProjectileType<OriPetal>(), 30, 1, player.whoAmI, 0f, 0f);
 			}
 			if(player.HeldItem.type == mod.ItemType("Minifish") && MinifishTimer <= 0) {
-				MinifishTimer = 180;
+				MinifishTimer = 120;
 				if(player.ownedProjectileCounts[mod.ProjectileType("MinifishProj")] < 3)
 					Projectile.NewProjectile(player.Center + Main.rand.NextVector2Square(-50, 50) - new Vector2(0, 50), Vector2.Zero, mod.ProjectileType("MinifishProj"), player.HeldItem.damage, player.HeldItem.knockBack, player.whoAmI);
 			}
@@ -2795,7 +2795,7 @@ namespace SpiritMod
 			if (player.HeldItem.type == mod.ItemType("Minifish"))
 				MinifishTimer--;
 			else
-				MinifishTimer = 180;
+				MinifishTimer = 120;
 		}
 
 		private void CalculateSpeed()

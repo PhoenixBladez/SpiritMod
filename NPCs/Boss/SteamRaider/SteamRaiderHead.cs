@@ -37,7 +37,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			npc.width = 64; //324
 			npc.height = 56; //216
 			npc.defense = 0;
-			npc.lifeMax = 10000; //250000 //new
+			npc.lifeMax = 8000; //250000 //new
 			Main.npcFrameCount[npc.type] = 1; //new //new
 			animationType = 10; //new
 			npc.knockBackResist = 0f;

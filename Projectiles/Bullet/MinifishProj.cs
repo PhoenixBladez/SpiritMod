@@ -47,7 +47,7 @@ namespace SpiritMod.Projectiles.Bullet
 			Vector2 homeCenter = owner.Center;
 			homeCenter.Y -= 50;
 			if (Main.myPlayer == owner.whoAmI)
-				projectile.ai[0] = Utils.AngleLerp(owner.AngleTo(Main.MouseWorld), projectile.AngleTo(Main.MouseWorld), 0.5f);
+				projectile.ai[0] = Utils.AngleLerp(owner.AngleTo(Main.MouseWorld), projectile.AngleTo(Main.MouseWorld), 0.75f);
 
 			if (projectile.localAI[1] == 0) {
 				projectile.rotation = projectile.ai[0];
@@ -75,7 +75,7 @@ namespace SpiritMod.Projectiles.Bullet
 			else {
 				projectile.alpha = (projectile.alpha > 0) ? projectile.alpha - 10 : 0;
 
-				projectile.rotation = Utils.AngleLerp(projectile.rotation, projectile.ai[0], 0.05f);
+				projectile.rotation = Utils.AngleLerp(projectile.rotation, projectile.ai[0], 0.075f);
 				offset = (owner.itemTime > 0) ? MathHelper.Lerp(offset, 50, 0.07f) : MathHelper.Lerp(offset, 0, 0.07f);
 
 				if (owner.itemTime > 1) {

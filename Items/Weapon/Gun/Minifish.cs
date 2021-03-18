@@ -1,9 +1,5 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Consumable;
 using SpiritMod.Items.Material;
-using SpiritMod.Projectiles.Bullet;
-using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -18,7 +14,7 @@ namespace SpiritMod.Items.Weapon.Gun
         }
 		public override void SetDefaults()
 		{
-			item.damage = 9;
+			item.damage = 12;
 			item.ranged = true;
 			item.width = 24;
 			item.height = 24;
