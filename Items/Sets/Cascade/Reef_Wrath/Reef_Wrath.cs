@@ -16,18 +16,18 @@ namespace SpiritMod.Items.Sets.Cascade.Reef_Wrath
 			item.magic = true;
 			item.width = 36;
 			item.height = 40;
-			item.useTime = 40;
-			item.useAnimation = 40;
-			item.useStyle = 5;
+			item.useTime = 20;
+			item.useAnimation = 20;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shoot = mod.ProjectileType("Reef_Wrath_Projectile_Alt");
 			item.shootSpeed = 0f;
 			item.knockBack = 8f;
 			item.autoReuse = false;
-			item.rare = 2;
+			item.rare = ItemRarityID.Green;
 			item.UseSound = SoundID.Item109;
 			item.value = Item.sellPrice(silver: 70);
 			item.useTurn = false;
-			item.mana = 9;
+			item.mana = 5;
 		}
 
 		public override void SetStaticDefaults()
@@ -35,13 +35,53 @@ namespace SpiritMod.Items.Sets.Cascade.Reef_Wrath
 			DisplayName.SetDefault("Reef Wrath");
 			Tooltip.SetDefault("Conjures harmful coral spires along the ground");
 		}
+
+		private Vector2 CollisionPoint(Player player) {
+			float[] scanarray = new float[3];
+			float dist = player.Distance(Main.MouseWorld);
+			Collision.LaserScan(player.Center, player.DirectionTo(Main.MouseWorld), 0, dist, scanarray);
+			dist = 0;
+			foreach(float fl in scanarray) {
+				dist += fl / scanarray.Length;
+			}
+			return player.MountedCenter + player.DirectionTo(Main.MouseWorld) * dist;
+		}
 		
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			for (int i = 0; i < 3; i++)
 			{
-				int randomiseX = Main.rand.Next(-150,151);
-				Projectile.NewProjectile((int)(Main.mouseX + Main.screenPosition.X) + randomiseX, (int)(Main.mouseY + Main.screenPosition.Y), 0f, 1f, mod.ProjectileType("Reef_Wrath_Projectile_Alt"), 0, 0f, player.whoAmI);
+				Vector2 collisionpoint = CollisionPoint(player);
+				int x = (int)(collisionpoint.X) / 16;
+				int y = (int)(collisionpoint.Y) / 16;
+				int randomiseX = Main.rand.Next(-2, 3);
+
+				if (WorldGen.SolidTile(x + randomiseX, y) || WorldGen.SolidTile3(x + randomiseX, y))
+					randomiseX = 0;
+
+				x += randomiseX;
+
+				while (y < Main.maxTilesY - 10 && Main.tile[x, y] != null && !(WorldGen.SolidTile(x, y) || WorldGen.SolidTile2(x, y) || WorldGen.SolidTile3(x, y))) {
+					y++;
+				}
+				y--;
+
+				Vector2 pos = new Vector2(x, y).ToWorldCoordinates();
+				Vector2 vel = Vector2.UnitX.RotatedByRandom(MathHelper.Pi / 8);
+
+				if (Framing.GetTileSafely(x, y + 1).halfBrick())
+					pos.Y += 8;
+
+				switch (Framing.GetTileSafely(x, y + 1).slope()) {
+					case 1: vel = vel.RotatedBy(MathHelper.Pi / 4);
+						break;
+					case 2: vel = vel.RotatedBy(-MathHelper.Pi / 4);
+						break;
+					default:
+						break;
+				}
+
+				Projectile.NewProjectile(pos, vel, mod.ProjectileType("Reef_Wrath_Projectile_Alt"), 0, 0f, player.whoAmI);
 			}
 			
 			return false;
