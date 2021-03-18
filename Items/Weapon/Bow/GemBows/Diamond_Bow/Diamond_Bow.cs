@@ -10,20 +10,20 @@ namespace SpiritMod.Items.Weapon.Bow.GemBows.Diamond_Bow
 		public override void SetDefaults()
 		{
 			item.useStyle = 5;
-			item.useAnimation = 25-5;
-			item.useTime = 25-5;
+			item.useAnimation = 25;
+			item.useTime = 25;
 			item.width = 12;
 			item.height = 28;
 			item.shoot = 1;
 			item.useAmmo = AmmoID.Arrow;
 			item.UseSound = SoundID.Item5;
-			item.damage = 23-4;
-			item.shootSpeed = 9.5f;
-			item.knockBack = 4.5f;
+			item.damage = 16;
+			item.shootSpeed = 9f;
+			item.knockBack = 0.5f;
 			item.rare = 2;
 			item.noMelee = true;
-			item.value = Item.sellPrice(silver: 60);
-			item.ranged = true;
+            item.value = Terraria.Item.sellPrice(0, 1, 80, 0);
+            item.ranged = true;
 			item.autoReuse = true;
 		}
 		

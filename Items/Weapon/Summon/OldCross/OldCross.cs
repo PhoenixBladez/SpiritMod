@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Weapon.Summon.OldCross
 		public override void SetDefaults()
 		{
 			item.CloneDefaults(ItemID.StaffoftheFrostHydra);
-			item.damage = 20;
+			item.damage = 25;
 			item.Size = new Vector2(36, 52);
 			item.shoot = mod.ProjectileType("CrossCoffin");
 			item.value = Item.sellPrice(gold: 1);

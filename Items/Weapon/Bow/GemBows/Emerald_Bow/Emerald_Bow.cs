@@ -10,19 +10,19 @@ namespace SpiritMod.Items.Weapon.Bow.GemBows.Emerald_Bow
 		public override void SetDefaults()
 		{
 			item.useStyle = 5;
-			item.useAnimation = 31-5;
-			item.useTime = 31-5;
+			item.useAnimation = 26;
+			item.useTime = 26;
 			item.width = 12;
 			item.height = 28;
 			item.shoot = 1;
 			item.useAmmo = AmmoID.Arrow;
 			item.UseSound = SoundID.Item5;
-			item.damage = 14;
-			item.shootSpeed = 8.7f;
-			item.knockBack = 3.25f;
+			item.damage = 13;
+			item.shootSpeed = 8f;
+			item.knockBack = 0.5f;
 			item.rare = 1;
 			item.noMelee = true;
-			item.value = Item.sellPrice(silver: 30);
+			item.value = Item.sellPrice(silver: 90);
 			item.ranged = true;
 			item.autoReuse = true;
 		}

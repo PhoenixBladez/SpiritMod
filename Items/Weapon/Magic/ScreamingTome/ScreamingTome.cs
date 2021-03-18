@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Weapon.Magic.ScreamingTome
     {
         public override void SetDefaults()
         {
-            item.damage = 16;
+            item.damage = 19;
             item.noMelee = true;
             item.magic = true;
             item.width = 36;
@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Weapon.Magic.ScreamingTome
             item.autoReuse = true;
             item.rare = ItemRarityID.Green;
             item.UseSound = SoundID.Item104;
-            item.value = Item.sellPrice(silver: 55);
+            item.value = Item.buyPrice(0, 1, 40, 0);
             item.useTurn = false;
             item.mana = 8;
             item.channel = true;

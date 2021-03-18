@@ -10,20 +10,20 @@ namespace SpiritMod.Items.Weapon.Bow.GemBows.Amethyst_Bow
 		public override void SetDefaults()
 		{
 			item.useStyle = 5;
-			item.useAnimation = 39-5;
-			item.useTime = 39-5;
+			item.useAnimation = 29;
+			item.useTime = 29;
 			item.width = 12;
 			item.height = 28;
 			item.shoot = 1;
 			item.useAmmo = AmmoID.Arrow;
 			item.UseSound = SoundID.Item5;
 			item.damage = 10;
-			item.shootSpeed = 6f;
-			item.knockBack = 2.25f;
+			item.shootSpeed = 7f;
+			item.knockBack = 0.5f;
 			item.rare = ItemRarityID.White;
 			item.noMelee = true;
-			item.value = Item.sellPrice(silver: 4);
-			item.ranged = true;
+            item.value = Terraria.Item.sellPrice(0, 0, 22, 50);
+            item.ranged = true;
 		}
 		
 		public override void SetStaticDefaults()

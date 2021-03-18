@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Magic.RadiantCane
 			item.useAnimation = 25;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.knockBack = 2;
-			item.value = Item.sellPrice(0, 1, 50, 0);
+			item.value = Item.sellPrice(0, 1, 80, 0);
 			item.autoReuse = true;
 			item.shootSpeed = 9;
 			item.UseSound = SoundID.Item20;

@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
+
 namespace SpiritMod.Items.Tool
 {
 	public class ChitinHammer : ModItem
@@ -20,7 +21,7 @@ namespace SpiritMod.Items.Tool
 		{
 			item.width = 44;
 			item.height = 44;
-			item.value = Item.sellPrice(silver: 8);
+			item.value = Item.sellPrice(silver: 14);
 			item.rare = ItemRarityID.Blue;
 			item.hammer = 55;
 			item.damage = 16;

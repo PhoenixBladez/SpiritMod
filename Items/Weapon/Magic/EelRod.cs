@@ -24,12 +24,12 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.height = 50;
 			item.value = Item.buyPrice(0, 0, 30, 0);
 			item.rare = ItemRarityID.Green;
-			item.damage = 27;
+			item.damage = 25;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			Item.staff[item.type] = true;
 			item.useTime = 29;
 			item.useAnimation = 29;
-			item.mana = 6;
+			item.mana = 12;
 			item.knockBack = 3;
 			item.magic = true;
 			item.noMelee = true;

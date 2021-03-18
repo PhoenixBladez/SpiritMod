@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Equipment.ToxicBottle
 			item.noUseGraphic = true;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 0;
-			item.value = Terraria.Item.sellPrice(0, 0, 15, 0);
+			item.value = Terraria.Item.sellPrice(0, 1, 10, 0);
 			item.rare = ItemRarityID.Green;
 			item.shootSpeed = 5f;
 			item.shoot = mod.ProjectileType("ToxicBottleProj");
