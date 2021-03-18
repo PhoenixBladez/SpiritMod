@@ -10,20 +10,20 @@ namespace SpiritMod.Items.Weapon.Bow.GemBows.Topaz_Bow
 		public override void SetDefaults()
 		{
 			item.useStyle = 5;
-			item.useAnimation = 32;
-			item.useTime = 32;
+			item.useAnimation = 28;
+			item.useTime = 28;
 			item.width = 12;
 			item.height = 28;
 			item.shoot = 1;
 			item.useAmmo = AmmoID.Arrow;
 			item.UseSound = SoundID.Item5;
 			item.damage = 11;
-			item.shootSpeed = 6.5f;
-			item.knockBack = 2f;
+			item.shootSpeed = 7f;
+			item.knockBack = 0.5f;
 			item.rare = 0;
 			item.noMelee = true;
-			item.value = Item.sellPrice(silver: 6);
-			item.ranged = true;
+            item.value = Terraria.Item.sellPrice(0, 0, 45, 0);
+            item.ranged = true;
 		}
 		
 		public override void SetStaticDefaults()

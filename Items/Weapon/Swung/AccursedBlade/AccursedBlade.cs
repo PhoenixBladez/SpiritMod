@@ -26,8 +26,8 @@ namespace SpiritMod.Items.Weapon.Swung.AccursedBlade
             item.knockBack = 3f; 
             item.useTime = 25;
             item.useAnimation = 25;
-            item.value = Item.buyPrice(0, 0, 30, 0);
-            item.damage = 15;
+            item.value = Item.buyPrice(0, 1, 20, 0);
+            item.damage = 16;
             item.width = 30;
             item.height = 30;
             item.UseSound = SoundID.Item1;
@@ -72,12 +72,12 @@ namespace SpiritMod.Items.Weapon.Swung.AccursedBlade
             Main.PlaySound(SoundID.NPCKilled, (int)player.position.X, (int)player.position.Y, 52, 1.2f, -0.3f);
             return true;
         }
-        public override void HoldItem(Player player)
+        /*public override void HoldItem(Player player)
         {
 			ChargeMeterPlayer modPlayer = player.GetModPlayer<ChargeMeterPlayer>();
             modPlayer.chargeMeter.drawMeter = true;
             modPlayer.chargeMeter.charge = player.GetModPlayer<AccursedBladePlayer>().charge;
-        }
+        }*/
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
             if (target.life <= 0)

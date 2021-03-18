@@ -37,9 +37,9 @@ namespace SpiritMod.Items.BossBags
 
 		public override void RightClick(Player player)
 		{
-			player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(4, 6));
+			player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(3, 5));
 			player.QuickSpawnItem(ModContent.ItemType<ScarabPendant>());
-			player.QuickSpawnItem(ModContent.ItemType<Chitin>(), Main.rand.Next(25, 36));
+			player.QuickSpawnItem(ModContent.ItemType<Chitin>(), Main.rand.Next(24, 37));
 
 			int[] lootTable = {
 				ModContent.ItemType<ScarabBow>(),

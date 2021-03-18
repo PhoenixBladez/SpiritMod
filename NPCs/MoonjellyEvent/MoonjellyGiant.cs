@@ -24,7 +24,7 @@ namespace SpiritMod.NPCs.MoonjellyEvent
 			npc.height = 70;
 			npc.damage = 16;
 			npc.defense = 10;
-			npc.lifeMax = 90;
+			npc.lifeMax = 65;
             npc.HitSound = SoundID.NPCHit25;
             npc.DeathSound = SoundID.NPCDeath28;
             npc.buffImmune[BuffID.Poisoned] = true;

@@ -36,7 +36,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 		{
 			npc.lifeMax = 1600;
 			npc.defense = 10;
-			npc.value = 43000;
+			npc.value = 40000;
 			npc.aiStyle = -1;
             bossBag = ModContent.ItemType<MJWBag>();
             npc.knockBackResist = 0f;
@@ -317,7 +317,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				int lunazoastack = Main.rand.Next(5, 7);
                 npc.DropItem(lootTable[loot]);
 				if (lootTable[loot] == ModContent.ItemType<Moonshot>())
-					lunazoastack += Main.rand.Next(10, 20);
+					lunazoastack += Main.rand.Next(55, 75);
 
 				npc.DropItem(ModContent.ItemType<TinyLunazoaItem>(), lunazoastack);
             }

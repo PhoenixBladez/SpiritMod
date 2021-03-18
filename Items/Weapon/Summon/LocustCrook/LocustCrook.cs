@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Weapon.Summon.LocustCrook
 			item.damage = 14;
 			item.rare = ItemRarityID.Blue;
 			item.mana = 16;
-			item.value = Item.sellPrice(0, 2, 0, 0);
+			item.value = Item.sellPrice(0, 1, 80, 0);
 			item.knockBack = 0;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = 30;

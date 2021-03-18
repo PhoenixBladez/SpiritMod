@@ -16,8 +16,8 @@ namespace SpiritMod.Projectiles.Summon
 
 		public override void SetDefaults()
 		{
-			projectile.width = 24;
-			projectile.height = 24;
+			projectile.width = 34;
+			projectile.height = 34;
 			projectile.netImportant = true;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;

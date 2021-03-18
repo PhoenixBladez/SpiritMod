@@ -18,7 +18,7 @@ namespace SpiritMod.NPCs.MoltenCore
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
-			npc.lifeMax = 44;
+			npc.lifeMax = 65;
 			npc.defense = 6;
 			npc.value = 350f;
 			npc.knockBackResist = 0.5f;

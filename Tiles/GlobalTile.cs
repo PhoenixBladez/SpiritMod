@@ -208,7 +208,13 @@ namespace SpiritMod.Tiles
                 }
 				if (player.cordage && type == ModContent.TileType<Tiles.Ambient.Briar.BriarVines>())
 				{
-					Item.NewItem(i * 16, j * 16, 64, 48, ItemID.VineRope, Main.rand.Next(1, 3));
+					Item.NewItem(i * 16, j * 16, 64, 48, ItemID.VineRope);
+				}
+				if (player.inventory[player.selectedItem].type == ItemID.Sickle && (type == ModContent.TileType<Tiles.Ambient.Briar.BriarFoliage>() || type == ModContent.TileType<Tiles.Ambient.Briar.BriarFoliage1>()))
+				{
+                    {
+                        Item.NewItem(i * 16, j * 16, 64, 48, ItemID.Hay);
+                    }				
 				}
             }
 		}

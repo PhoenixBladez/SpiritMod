@@ -20,8 +20,8 @@ namespace SpiritMod.NPCs.FallingAsteroid
 		public override void SetDefaults()
 		{
 			npc.aiStyle = 0;
-			npc.lifeMax = 52;
-			npc.defense = 6;
+			npc.lifeMax = 115;
+			npc.defense = 8;
 			npc.value = 350f;
 			npc.knockBackResist = 0f;
 			npc.width = 30;

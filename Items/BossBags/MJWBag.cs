@@ -44,7 +44,7 @@ namespace SpiritMod.Items.BossBags
 
 		public override void RightClick(Player player)
 		{
-			player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(3, 6));
+			player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(4, 5));
 			if (Main.rand.NextDouble() < 1d / 7)
 				player.QuickSpawnItem(ModContent.ItemType<MJWMask>());
 			if (Main.rand.NextDouble() < 1d / 10)

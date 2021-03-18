@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Bow.AdornedBow
 			item.useAmmo = AmmoID.Arrow;
 			item.knockBack = 1;
 			item.useTurn = false;
-			item.value = Item.sellPrice(0, 0, 20, 0);
+			item.value = Item.sellPrice(0, 1, 80, 0);
 			item.rare = ItemRarityID.Blue;
 			item.autoReuse = false;
 			item.shootSpeed = 6.5f;

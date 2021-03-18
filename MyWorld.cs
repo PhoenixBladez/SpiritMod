@@ -1514,8 +1514,8 @@ namespace SpiritMod
 				for (int chestIndex = 0; chestIndex < 1000; chestIndex++) {
 					Chest chest = Main.chest[chestIndex];
 					if (chest != null && Main.tile[chest.x, chest.y].frameX == 13 * 36 && Main.rand.Next(3) == 0) {
-						chest.item[6].SetDefaults(ItemType<Items.Consumable.ChaosPearl>(), false);
-						chest.item[6].stack = WorldGen.genRand.Next(20, 30);
+						chest.item[4].SetDefaults(ItemType<Items.Consumable.ChaosPearl>(), false);
+						chest.item[4].stack = WorldGen.genRand.Next(20, 30);
 					}
 					if (chest != null && Main.tile[chest.x, chest.y].frameX == 2 * 36) {
 						if (Main.rand.Next(10) == 0)

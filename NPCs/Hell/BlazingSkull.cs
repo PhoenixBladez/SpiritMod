@@ -24,8 +24,8 @@ namespace SpiritMod.NPCs.Hell
 		{
 			npc.Size = new Vector2(54, 50);
 			npc.damage = 50;
-			npc.defense = 6;
-			npc.lifeMax = 90;
+			npc.defense = 10;
+			npc.lifeMax = 125;
 			npc.HitSound = SoundID.NPCHit2;
 			npc.DeathSound = SoundID.NPCDeath6;
 			npc.value = 300f;
