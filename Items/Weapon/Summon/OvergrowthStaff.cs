@@ -39,12 +39,20 @@ namespace SpiritMod.Items.Weapon.Summon
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.Wood, 40);
-			recipe.AddIngredient(ItemID.Acorn, 16);
-			recipe.AddTile(TileID.Anvils);
+			recipe.AddIngredient(ItemID.Acorn, 8);
+			recipe.AddTile(TileID.WorkBenches);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}
-
+		public override bool CanUseItem(Player player)       
+		{
+			for (int i = 0; i < 1000; ++i) {
+				if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot) {
+					return false;
+				}
+			}
+			return true;
+		}
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			player.AddBuff(ModContent.BuffType<Buffs.Summon.Overgrowth>(), 3600);

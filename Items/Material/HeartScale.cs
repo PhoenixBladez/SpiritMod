@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Material
 		{
 			ModRecipe recipe1 = new ModRecipe(mod);
 			recipe1.AddIngredient(ItemID.BottledWater, 1);
-			recipe1.AddIngredient(ModContent.ItemType<HeartScale>(), 9);
+			recipe1.AddIngredient(ModContent.ItemType<HeartScale>(), 3);
 			recipe1.AddIngredient(ItemID.Waterleaf, 1);
 			recipe1.AddIngredient(ItemID.Moonglow, 1);
 			recipe1.AddIngredient(ItemID.Shiverthorn, 1);
@@ -36,7 +36,8 @@ namespace SpiritMod.Items.Material
 			recipe1.AddRecipe();
 
 			ModRecipe recipe2 = new ModRecipe(mod);
-			recipe2.AddIngredient(ModContent.ItemType<HeartScale>(), 6);
+			recipe2.AddIngredient(ModContent.ItemType<HeartScale>(), 3);
+			recipe2.AddIngredient(ModContent.ItemType<BismiteCrystal>(), 3);
 			recipe2.AddTile(TileID.Anvils);
 			recipe2.SetResult(ItemID.LifeCrystal, 1);
 			recipe2.AddRecipe();

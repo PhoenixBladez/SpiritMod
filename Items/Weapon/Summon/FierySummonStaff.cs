@@ -51,5 +51,14 @@ namespace SpiritMod.Items.Weapon.Summon
 			player.AddBuff(ModContent.BuffType<Buffs.Summon.LavaRockSummonBuff>(), 3600);
             return player.altFunctionUse != 2; 
 		}
+		public override bool CanUseItem(Player player)       
+		{
+			for (int i = 0; i < 1000; ++i) {
+				if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot) {
+					return false;
+				}
+			}
+			return true;
+		}
 	}
 }

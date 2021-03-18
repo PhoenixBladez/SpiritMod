@@ -50,8 +50,8 @@ namespace SpiritMod.Items.Armor
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<FloranBar>(), 12);
-			recipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 7);
+			recipe.AddIngredient(ModContent.ItemType<FloranBar>(), 8);
+			recipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 5);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();

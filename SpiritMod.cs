@@ -349,7 +349,7 @@ namespace SpiritMod
 
 			if (priority > MusicPriority.BiomeMedium)
 				return;
-			if (spirit.ZoneSpirit) {
+			if (spirit.ZoneSpirit && NPC.downedMechBossAny) {
 				priority = MusicPriority.BiomeMedium;
 				if (player.ZoneRockLayerHeight && player.position.Y / 16 < (Main.rockLayer + Main.maxTilesY - 330) / 2f) {
 					music = GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer1");

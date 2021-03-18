@@ -22,6 +22,7 @@ namespace SpiritMod.Items.Material
 
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = 10;
+			item.value = 100;
 			item.useAnimation = 15;
 			item.rare = ItemRarityID.Green;
 			item.useTurn = true;

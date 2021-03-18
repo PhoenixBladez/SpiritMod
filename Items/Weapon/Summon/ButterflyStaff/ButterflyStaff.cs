@@ -72,6 +72,14 @@ namespace SpiritMod.Items.Weapon.Summon.ButterflyStaff
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
+
+			ModRecipe recipe1 = new ModRecipe(mod);
+            recipe1.AddRecipeGroup(ModContent.ItemType<Items.Consumable.BriarmothItem>(), 1);
+            recipe1.AddIngredient(ItemID.FallenStar, 2);
+            recipe1.AddRecipeGroup(RecipeGroupID.Wood, 15);
+            recipe1.AddTile(TileID.Anvils);
+            recipe1.SetResult(this);
+            recipe1.AddRecipe();
         }
     }
 }

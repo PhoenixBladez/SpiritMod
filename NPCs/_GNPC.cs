@@ -961,7 +961,7 @@ namespace SpiritMod.NPCs
 					MyWorld.droppedGlyphs[name] = true;
 				}
 			}
-			else if (!npc.SpawnedFromStatue && npc.CanDamage() && Main.rand.Next(750) == 0) {
+			else if (!npc.SpawnedFromStatue && npc.CanDamage() && Main.rand.Next(750) == 0 && npc.type != ModContent.NPCType<NPCs.Boss.ReachBoss.ExplodingSpore>()) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Glyph>());
 			}
 

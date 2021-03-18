@@ -36,6 +36,7 @@ using Terraria.GameInput;
 using Terraria.Graphics.Shaders;
 using Terraria.GameContent.Events;
 using Terraria.ID;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using SpiritMod.Items.Equipment;
@@ -464,9 +465,12 @@ namespace SpiritMod
 					SpiritMod.glitchScreenShader.UseIntensity(0.0008f);
 					player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
 				}	
-			else {
+				else {
 					player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);
 				}
+			}	
+			else {
+				player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);
 			}	
 			player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);	
 			player.ManageSpecialBiomeVisuals("SpiritMod:AuroraSky", showAurora);
@@ -1280,7 +1284,7 @@ namespace SpiritMod
 			}
 			
 			if(bloodyBauble) {
-				if(Main.rand.Next(20) <= 1 && player.statLife != player.statLifeMax2) {
+				if(Main.rand.Next(50) <= 1 && player.statLife != player.statLifeMax2) {
 					int leech = Main.rand.Next(1,4);
 					leech = Math.Min(leech, player.statLifeMax2 - player.statLife);
 					if (player.lifeSteal <= 0f)
@@ -2690,20 +2694,23 @@ namespace SpiritMod
 			if(ZoneAsteroid) {
 				Main.numCloudsTemp = 0;
 			}
-            if (Main.rand.NextBool(6) && (ZoneReach || MyWorld.calmNight) && player.ZoneOverworldHeight && !player.ZoneBeach && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneJungle && !player.ZoneHoly && !player.ZoneSnow) {
-				float goreScale = 0.01f * Main.rand.Next(20, 70);
-				int a = Gore.NewGore(new Vector2(player.Center.X + Main.rand.Next(-1000, 1000), player.Center.Y + (Main.rand.Next(-1000, -100))), new Vector2(Main.windSpeed * 3f, 0f), 911, goreScale);
-				Main.gore[a].timeLeft = 15;
-				Main.gore[a].rotation = 0f;
-				Main.gore[a].velocity = new Vector2(Main.windSpeed * 40f, Main.rand.NextFloat(0.2f, 2f));
-			}
-			if(Main.rand.Next(9) == 0 && (ZoneReach || MyWorld.calmNight) && player.ZoneOverworldHeight && !player.ZoneBeach && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneJungle && !player.ZoneHoly && !player.ZoneSnow) {
-				float goreScale = Main.rand.NextFloat(0.5f, 0.9f);
-				int x = (int)(Main.windSpeed > 0 ? Main.screenPosition.X - 100 : Main.screenPosition.X + Main.screenWidth + 100);
-				int y = (int)Main.screenPosition.Y + Main.rand.Next(-100, Main.screenHeight);
-				int a = Gore.NewGore(new Vector2(x, y), Vector2.Zero, mod.GetGoreSlot("Gores/GreenLeaf"), goreScale);
-				Main.gore[a].rotation = 0f;
-				Main.gore[a].velocity.Y = Main.rand.NextFloat(1f, 3f);
+			if (ChildSafety.Disabled)
+			{
+				if (Main.rand.NextBool(6) && (ZoneReach || MyWorld.calmNight) && player.ZoneOverworldHeight && !player.ZoneBeach && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneJungle && !player.ZoneHoly && !player.ZoneSnow) {
+					float goreScale = 0.01f * Main.rand.Next(20, 70);
+					int a = Gore.NewGore(new Vector2(player.Center.X + Main.rand.Next(-1000, 1000), player.Center.Y + (Main.rand.Next(-1000, -100))), new Vector2(Main.windSpeed * 3f, 0f), 911, goreScale);
+					Main.gore[a].timeLeft = 15;
+					Main.gore[a].rotation = 0f;
+					Main.gore[a].velocity = new Vector2(Main.windSpeed * 40f, Main.rand.NextFloat(0.2f, 2f));
+				}
+				if(Main.rand.Next(9) == 0 && (ZoneReach || MyWorld.calmNight) && player.ZoneOverworldHeight && !player.ZoneBeach && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneJungle && !player.ZoneHoly && !player.ZoneSnow) {
+					float goreScale = Main.rand.NextFloat(0.5f, 0.9f);
+					int x = (int)(Main.windSpeed > 0 ? Main.screenPosition.X - 100 : Main.screenPosition.X + Main.screenWidth + 100);
+					int y = (int)Main.screenPosition.Y + Main.rand.Next(-100, Main.screenHeight);
+					int a = Gore.NewGore(new Vector2(x, y), Vector2.Zero, mod.GetGoreSlot("Gores/GreenLeaf"), goreScale);
+					Main.gore[a].rotation = 0f;
+					Main.gore[a].velocity.Y = Main.rand.NextFloat(1f, 3f);
+				}
 			}
 
 			if(windEffect) {

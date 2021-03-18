@@ -1,10 +1,10 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using BlastStoneTile = SpiritMod.Tiles.Block.BlastStone;
-
+using SpiritMod.Tiles.Block.Ambient;
 namespace SpiritMod.Items.Placeable.Tiles
 {
-	public class BlastStoneItem : ModItem
+	public class BlastStoneItem : AmbientStoneItem
 	{
 		public override void SetStaticDefaults()
 		{

@@ -206,6 +206,10 @@ namespace SpiritMod.Tiles
                         Item.NewItem(i * 16, j * 16, 64, 48, ItemID.Seed, Main.rand.Next(1, 3));
                     }
                 }
+				if (player.cordage && type == ModContent.TileType<Tiles.Ambient.Briar.BriarVines>())
+				{
+					Item.NewItem(i * 16, j * 16, 64, 48, ItemID.VineRope, Main.rand.Next(1, 3));
+				}
             }
 		}
 		public override void FloorVisuals(int type, Player player)

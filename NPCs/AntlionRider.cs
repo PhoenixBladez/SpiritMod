@@ -26,7 +26,7 @@ namespace SpiritMod.NPCs
 			npc.value = 329f;
 			npc.knockBackResist = .65f;
 			npc.aiStyle = 3;
-			aiType = NPCID.AngryBones;
+			aiType = NPCID.SnowFlinx;
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

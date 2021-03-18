@@ -32,8 +32,8 @@ namespace SpiritMod.Items.Armor
 		public override void AddRecipes()  //How to craft this item
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<FloranBar>(), 14);   //you need 10 Wood
-			recipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 6);
+			recipe.AddIngredient(ModContent.ItemType<FloranBar>(), 10);   //you need 10 Wood
+			recipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 7);
 			recipe.AddTile(TileID.Anvils);   //at work bench
 			recipe.SetResult(this);
 			recipe.AddRecipe();

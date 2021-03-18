@@ -24,7 +24,9 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.tileCollide = false;
 			projectile.ignoreWater = true;
 		}
-
+		public override bool? CanCutTiles() {
+               return false;
+         }
 		public override void AI()
 		{
 			const int dustType = 206;
