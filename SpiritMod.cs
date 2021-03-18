@@ -895,7 +895,7 @@ namespace SpiritMod
 					InterfaceScaleType.UI)
 				);
 			}
-			TidePlayer modPlayer1 = Main.player[Main.myPlayer].GetModPlayer<TidePlayer>();
+
 			if (TideWorld.TheTide) {
 				int index = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));
 				LegacyGameInterfaceLayer NewLayer = new LegacyGameInterfaceLayer("InstallFix2: NewLayer",
@@ -1135,10 +1135,10 @@ namespace SpiritMod
 					int height = (int)(46f * scmp);
 					Rectangle waveBackground = Utils.CenteredRectangle(new Vector2(Main.screenWidth - offsetX - 100f, Main.screenHeight - offsetY - 23f), new Vector2(width, height));
 					Utils.DrawInvBG(spriteBatch, waveBackground, new Color(63, 65, 151, 255) * 0.785f);
-					string waveText = "Wave " + TideWorld.TideWave + " : " + TideWorld.TidePoints * 5 + "%";
+					string waveText = "Wave " + TideWorld.TideWave + " : " + TideWorld.TidePoints+ "%";
 					Utils.DrawBorderString(spriteBatch, waveText, new Vector2(waveBackground.X + waveBackground.Width / 2, waveBackground.Y + 5), Color.White, scmp, 0.5f, -0.1f);
 					Rectangle waveProgressBar = Utils.CenteredRectangle(new Vector2(waveBackground.X + waveBackground.Width * 0.5f, waveBackground.Y + waveBackground.Height * 0.75f), new Vector2(progressColor.Width, progressColor.Height));
-					Rectangle waveProgressAmount = new Rectangle(0, 0, (int)(progressColor.Width * 0.01f * MathHelper.Clamp(TideWorld.TidePoints * 5, 0f, 100f)), progressColor.Height);
+					Rectangle waveProgressAmount = new Rectangle(0, 0, (int)(progressColor.Width * 0.01f * MathHelper.Clamp(TideWorld.TidePoints, 0f, 100f)), progressColor.Height);
 					Vector2 offset = new Vector2((waveProgressBar.Width - (int)(waveProgressBar.Width * scmp)) * 0.5f, (waveProgressBar.Height - (int)(waveProgressBar.Height * scmp)) * 0.5f);
 					spriteBatch.Draw(backGround1, waveProgressBar.Location.ToVector2() + offset, null, Color.White * alpha, 0f, new Vector2(0f), scmp, SpriteEffects.None, 0f);
 					spriteBatch.Draw(backGround1, waveProgressBar.Location.ToVector2() + offset, waveProgressAmount, waveColor, 0f, new Vector2(0f), scmp, SpriteEffects.None, 0f);

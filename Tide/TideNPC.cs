@@ -20,8 +20,8 @@ namespace SpiritMod.Tide
 			}
 
 			if (TideWorld.TheTide && player.ZoneBeach) {
-				maxSpawns = (int)(10 + 1.5f * activePlayers);
-				spawnRate = 20;
+				maxSpawns = (int)(5 + 1.5f * activePlayers);
+				spawnRate = 10;
 			}
 		}
 
@@ -61,10 +61,10 @@ namespace SpiritMod.Tide
 				{NPCType<MangoJelly>(), 3.35f},
 				{NPCType<LargeCrustecean>(), 2.35f}
 			},
-			new Dictionary<int, float> { //wave 5
+			/*new Dictionary<int, float> { //wave 5, temp removed
 				{NPCType<MangoJelly>(), 3.35f},
 				{NPCType<LargeCrustecean>(), 2.35f}
-			},
+			},*/
 			new Dictionary<int, float> { //wave 6
 				{NPCType<Rylheian>(), 0f}, //no spawn rate because custom spawn method, just here for checking the dictionary
 			}
@@ -74,11 +74,9 @@ namespace SpiritMod.Tide
 		{
 			if (TideWorld.TheTide && spawnInfo.player.ZoneBeach) {
 				pool.Clear();
-				if (TideWorld.TidePoints < 99) {
-					IDictionary<int, float> spawnpool = Spawnpool.ElementAt(TideWorld.TideWave - 1); //find the spawn pool dictionary corresponding to the current tide wave
-					foreach(KeyValuePair<int, float> key in spawnpool) { //then add that dictionary info to the actual spawn pool
-						pool.Add(key.Key, key.Value);
-					}
+				IDictionary<int, float> spawnpool = Spawnpool.ElementAt(TideWorld.TideWave - 1); //find the spawn pool dictionary corresponding to the current tide wave
+				foreach(KeyValuePair<int, float> key in spawnpool) { //then add that dictionary info to the actual spawn pool
+					pool.Add(key.Key, key.Value);
 				}
 			}
 		}
@@ -91,10 +89,10 @@ namespace SpiritMod.Tide
 				foreach (KeyValuePair<int, float> key in spawnpool) { //iterate through the spawn pool, and check if the killed npc's type is in the spawn pool
 					if(key.Key == npc.type) { //if it is, add progress to the wave, and complete the wave instantly if it's a rylheian
 						if(npc.type == NPCType<Rylheian>()) {
-							TideWorld.TidePoints += 20;
+							TideWorld.TidePoints = 100;
 						}
 						else
-							TideWorld.TidePoints++;
+							TideWorld.TidePoints += 7;
 
 						TideWorld.SendPacket(mod);
 					}

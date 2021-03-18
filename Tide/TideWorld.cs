@@ -29,14 +29,14 @@ namespace SpiritMod.Tide
 		public override void PostUpdate()
 		{
 			//TidePoints = EnemyKills / 2;
-			if (TidePoints >= 20) {
+			if (TidePoints >= 100) {
 				TidePoints = 0;
 				EnemyKills = 0;
 				TideWaveIncrease();
 				SendPacket(mod);
 			}
 
-			if(TheTide && TideWave == 6) {
+			if(TheTide && TideWave == 5) {
 				var players = Main.player.Where(x => x.ZoneBeach && x.active && !x.dead);
 				foreach(Player player in players) {
 					if(!NPC.AnyNPCs(ModContent.NPCType<Rylheian>())) {
@@ -75,7 +75,7 @@ namespace SpiritMod.Tide
 		public static void TideWaveIncrease()
 		{
 			TideWave++;
-			if (TideWave > 6) {
+			if (TideWave > 5) {
 
 				if (Main.netMode == NetmodeID.Server)
 					NetMessage.BroadcastChatMessage(NetworkText.FromLiteral("The Tide has waned!"), new Color(61, 255, 142));

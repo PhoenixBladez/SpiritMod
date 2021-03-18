@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace SpiritMod.Tide
 {
-	public class TidePlayer : ModPlayer
+	/*public class TidePlayer : ModPlayer
 	{
 		public bool createdProjectiles;
 		public override void PostUpdate()
@@ -26,5 +26,5 @@ namespace SpiritMod.Tide
 				}
 			}
 		}
-	}
+	}*/
 }
