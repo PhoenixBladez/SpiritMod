@@ -9,6 +9,8 @@ namespace SpiritMod.Items.Weapon.Club
 {
 	public class BruteHammer : ModItem
 	{
+		public override bool Autoload(ref string name) => false;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Brute Hammer");

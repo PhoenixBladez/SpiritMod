@@ -9,63 +9,55 @@ namespace SpiritMod.Projectiles.Hostile
 {
 	public class TendonEffect : ModProjectile
 	{
-		Vector2 direction9 = Vector2.Zero;
-		int timer = 0;
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Flesh Tendon");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Flesh Tendon");
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = false;
 			projectile.width = 2;
 			projectile.height = 2;
 			projectile.aiStyle = -1;
-			projectile.friendly = false;
 			projectile.penetrate = -1;
-			projectile.hide = true;
-			projectile.timeLeft = 100000;
 			projectile.tileCollide = true;
 			projectile.alpha = 0;
+			projectile.extraUpdates = 1;
 		}
 		bool stuck = false;
-		bool typeChain = false;
+
+		readonly int num1 = ModContent.NPCType<CrimsonTrapper>();
 		public override void AI()
 		{
-			int num1 = ModContent.NPCType<CrimsonTrapper>();
-			if (!Main.npc[(int)projectile.ai[1]].active) {
-				projectile.timeLeft = 0;
-				projectile.active = false;
+			if (!Main.npc[(int)projectile.ai[1]].active || Main.npc[(int)projectile.ai[1]].type != num1) {
+				projectile.Kill();
+				return;
 			}
-			if (!stuck) {
+
+			projectile.timeLeft++;
+
+			if (!stuck) 
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-			}
-			if (stuck) {
+			
+			else
 				projectile.velocity = Vector2.Zero;
-			}
+			
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
+			NPC parent = Main.npc[(int)projectile.ai[1]];
+			if (Main.npc[(int)projectile.ai[1]].active && Main.npc[(int)projectile.ai[1]].type == num1)
 			{
-				NPC parent = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<CrimsonTrapper>())];
 				Vector2 direction9 = parent.Center - projectile.Center;
 				direction9.Normalize();
 				//	direction9 *= 6;
 				ProjectileExtras.DrawChain(projectile.whoAmI, parent.Center,
-				"SpiritMod/Projectiles/Hostile/TendonEffect_Chain");
+				"SpiritMod/Projectiles/Hostile/" + Name + "_Chain");
 			}
 			return false;
 
 		}
 
-		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
-		{
-			drawCacheProjsBehindNPCsAndTiles.Add(index);
-		}
+		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI) => drawCacheProjsBehindNPCsAndTiles.Add(index);
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			return false;
 			stuck = true;
 			if (oldVelocity.X != projectile.velocity.X) //if its an X axis collision
 			{
@@ -85,6 +77,7 @@ namespace SpiritMod.Projectiles.Hostile
 					projectile.rotation = 0f;
 				}
 			}
+			return false;
 		}
 	}
 }

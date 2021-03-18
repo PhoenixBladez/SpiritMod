@@ -58,11 +58,11 @@ namespace SpiritMod.NPCs
                 {
                     for (int i = 0; i < Main.rand.Next(2, 4); i++)
                     {
-                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 10, Main.rand.Next(-10, 10), -6, ModContent.ProjectileType<TendonEffect>(), 0, 0);
+                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 10, Main.rand.Next(-10, 10), -6, ModContent.ProjectileType<TendonEffect>(), 0, 0, Main.myPlayer, 0, npc.whoAmI);
                     }
                     for (int i = 0; i < Main.rand.Next(2, 3); i++)
                     {
-                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 10, Main.rand.Next(-10, 10), -6, ModContent.ProjectileType<TendonEffect1>(), 0, 0);
+                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 10, Main.rand.Next(-10, 10), -6, ModContent.ProjectileType<TendonEffect1>(), 0, 0, Main.myPlayer, 0, npc.whoAmI);
                     }
                 }
 				spawnedHooks = true;
@@ -133,8 +133,7 @@ namespace SpiritMod.NPCs
 			=> Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].wall > 0
 			&& spawnInfo.player.ZoneCrimson
 			&& (spawnInfo.player.ZoneRockLayerHeight || spawnInfo.player.ZoneDirtLayerHeight)
-			&& !NPC.AnyNPCs(ModContent.NPCType<CrimsonTrapper>())
-			? 2f : 0f;
+			? SpawnCondition.Crimson.Chance * 0.2f : 0f;
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
