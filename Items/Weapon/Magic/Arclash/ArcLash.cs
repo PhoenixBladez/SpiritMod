@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Weapon.Magic.Arclash
 		{
 			item.damage = 12;
 			item.magic = true;
-			item.mana = 6;
+			item.mana = 5;
 			item.width = 44;
 			item.height = 46;
 			item.channel = true;
