@@ -16,9 +16,11 @@ namespace SpiritMod.Sepulchre
             Main.tileLighted[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.StyleOnTable1x1);
 			TileObjectData.addTile(Type);
+			drop = ModContent.ItemType<Items.Weapon.Magic.ScreamingTome.ScreamingTome>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Mysterious Tome");
 			AddMapEntry(new Color(179, 146, 107), name);
+			dustType = -1;
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)
@@ -26,12 +28,6 @@ namespace SpiritMod.Sepulchre
 			num = fail ? 1 : 3;
 		}
 
-		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
-		{
-			r = 0.1f;
-			g = 0.9f;
-			b = 0.3f;
-		}
 		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
 		{
 			offsetY = 2;
