@@ -601,6 +601,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					//shootCounter = 180; //make sure he fires lasers immediately after ending this section
 				}
 				else if (atkCounter % 2000 >= 1500 && atkCounter % 2000 < 1850) {
+					Charge = false;
 					npc.velocity = Vector2.Zero; //sets his velocity to 0 in the teleport phase
 					if (atkCounter % 50 == 0) {
 						bool outOfBlock = false;

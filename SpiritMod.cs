@@ -53,6 +53,7 @@ namespace SpiritMod
 		public static Effect RipperSlugShader;
 		public static Effect ArcLashShader;
 		public static Effect JemShaders;
+		public static Effect SunOrbShader;
 		public static PerlinNoise GlobalNoise;
 		public static GlitchScreenShader glitchScreenShader;
 		public static Texture2D noise;
@@ -552,6 +553,7 @@ namespace SpiritMod
 				RipperSlugShader = instance.GetEffect("Effects/RipperSlugShader");
 				ArcLashShader = instance.GetEffect("Effects/ArcLashShader");
 				JemShaders = instance.GetEffect("Effects/JemShaders");
+				SunOrbShader = instance.GetEffect("Effects/SunOrbShader");
 
 				SkyManager.Instance["SpiritMod:AuroraSky"] = new AuroraSky();
 				Filters.Scene["SpiritMod:AuroraSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
@@ -710,6 +712,7 @@ namespace SpiritMod
 			RipperSlugShader = null;
 			ArcLashShader = null;
 			JemShaders = null;
+			SunOrbShader = null;
 			noise = null;
 			instance = null;
 			SpiritGlowmask.Unload();
