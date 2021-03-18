@@ -12,6 +12,7 @@ using SpiritMod.Items.GamblerChestLoot.Champagne;
 using SpiritMod.Items.GamblerChestLoot.GildedMustache;
 using SpiritMod.Mechanics.Fathomless_Chest;
 using SpiritMod.Items.GamblerChestLoot.RegalCane;
+using Terraria.Audio;
 
 namespace SpiritMod.Items.Consumable.GamblerChests.GamblerChestNPCs
 {
@@ -98,6 +99,10 @@ namespace SpiritMod.Items.Consumable.GamblerChests.GamblerChestNPCs
             {
                 npc.rotation += Main.rand.NextFloat(-0.1f,0.1f);
             }
+			if(rightClicked && npc.velocity.Y == 0 && npc.localAI[0] == 0) {
+				npc.localAI[0]++;
+				Main.PlaySound(SoundID.Dig, npc.Center);
+			}
             counter--;
             if (counter == 0)
             {
@@ -128,21 +133,24 @@ namespace SpiritMod.Items.Consumable.GamblerChests.GamblerChestNPCs
                     Main.item[item].velocity.Y /= 2;
 
 				}
-                    npc.DropItem(ModContent.ItemType<Jem>(), 0.02f);
-                    npc.DropItem(ModContent.ItemType<Items.Consumable.Food.GoldenCaviar>(), 0.15f);
-					npc.DropItem(ModContent.ItemType<FunnyFirework>(), 0.1f, Main.rand.Next(5, 9));
-					npc.DropItem(ItemID.AngelStatue, 0.01f);
-					npc.DropItem(ModContent.ItemType<Champagne>(), 0.1f, Main.rand.Next(1, 3));
-                     npc.DropItem(ModContent.ItemType<Mystical_Dice>(), 0.06f);
-					switch (Main.rand.NextBool()) { //mutually exclusive
-						case true:
-							npc.DropItem(ModContent.ItemType<GildedMustache>(), 0.08f);
-							break;
-						case false:
-							npc.DropItem(ModContent.ItemType<RegalCane>(), 0.08f);
-							break;
-					}
+
+                npc.DropItem(ModContent.ItemType<Jem>(), 0.02f);
+                npc.DropItem(ModContent.ItemType<Items.Consumable.Food.GoldenCaviar>(), 0.15f);
+				npc.DropItem(ModContent.ItemType<FunnyFirework>(), 0.1f, Main.rand.Next(5, 9));
+				npc.DropItem(ItemID.AngelStatue, 0.01f);
+				npc.DropItem(ModContent.ItemType<Champagne>(), 0.1f, Main.rand.Next(1, 3));
+                    npc.DropItem(ModContent.ItemType<Mystical_Dice>(), 0.06f);
+				switch (Main.rand.NextBool()) { //mutually exclusive
+					case true:
+						npc.DropItem(ModContent.ItemType<GildedMustache>(), 0.08f);
+						break;
+					case false:
+						npc.DropItem(ModContent.ItemType<RegalCane>(), 0.08f);
+						break;
+				}
                 npc.active = false;
+				Main.PlaySound(SoundID.Item14, npc.Center);
+
                 Gore.NewGore(npc.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, mod.GetGoreSlot("Gores/GamblerChests/PlatinumChestGore1"), 1f);
                 Gore.NewGore(npc.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, mod.GetGoreSlot("Gores/GamblerChests/PlatinumChestGore2"), 1f);
                 Gore.NewGore(npc.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, mod.GetGoreSlot("Gores/GamblerChests/PlatinumChestGore3"), 1f);
@@ -163,9 +171,9 @@ namespace SpiritMod.Items.Consumable.GamblerChests.GamblerChestNPCs
                 }
                 if (counter % 10 == 0 && counter < 70)
                 {
-                    int proj = Projectile.NewProjectile(npc.Center + new Vector2(Main.rand.Next(-20,20), Main.rand.Next(-20,20)), Vector2.Zero, 645, 0, 0, npc.target);
+                    int proj = Projectile.NewProjectile(npc.Center + new Vector2(Main.rand.Next(-20,20), Main.rand.Next(-20,20)), Vector2.Zero, ProjectileID.LunarFlare, 0, 0, npc.target);
                     Main.projectile[proj].timeLeft = 2;
-                }
+				}
             }
             if (rightClicked && npc.velocity.Y == 0 && counter < 0)
                 {

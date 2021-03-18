@@ -65,7 +65,8 @@ namespace SpiritMod.Items.Consumable.GamblerChests.GamblerChestNPCs
                 Gore.NewGore(npc.position, npc.velocity, 11);
 				Gore.NewGore(npc.position, npc.velocity, 12);
                 Gore.NewGore(npc.position, npc.velocity, 13);
-                npc.active = false;
+				Main.PlaySound(SoundID.DoubleJump, npc.Center);
+				npc.active = false;
                // Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/XynonCrateGore_2"), 1f);
                // Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/XynonCrateGore_3"), 1f);
                // Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/XynonCrateGore_4"), 1f);

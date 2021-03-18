@@ -88,15 +88,21 @@ namespace SpiritMod.Items.Consumable.GamblerChests.GamblerChestNPCs
             if (rightClicked && npc.velocity.Y != 0)
             {
                 npc.rotation += Main.rand.NextFloat(-0.1f,0.1f);
-            }
-            counter--;
+			}
+			if (rightClicked && npc.velocity.Y == 0 && npc.localAI[0] == 0) {
+				npc.localAI[0]++;
+				Main.PlaySound(SoundID.Dig, npc.Center);
+			}
+
+			counter--;
             if (counter == 0)
             {
                 npc.active = false;
                 Gore.NewGore(npc.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, mod.GetGoreSlot("Gores/GamblerChests/GoldChestGore4"), 1f);
                 Gore.NewGore(npc.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, mod.GetGoreSlot("Gores/GamblerChests/GoldChestGore5"), 1f);
-                Projectile.NewProjectile(npc.Center - new Vector2(0, 30), Vector2.Zero, 695, 0, 0, npc.target);
-            }
+                Projectile.NewProjectile(npc.Center - new Vector2(0, 30), Vector2.Zero, ProjectileID.DD2ExplosiveTrapT2Explosion, 0, 0, npc.target);
+				Main.PlaySound(SoundID.Item14, npc.Center);
+			}
             if (counter > 0)
             {
                 if (counter <= 100 && counter % 5 == 0)
