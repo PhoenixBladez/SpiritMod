@@ -5,22 +5,25 @@
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
 namespace SpritMod.Utilities
 {
-	public delegate void Update(Particle particle);
 
 	public class ParticleSystem
 	{
+		public delegate void Update(Particle particle);
+
 		private readonly List<Particle> Particles = new List<Particle>();
 		private readonly Texture2D Texture;
 		private readonly Update UpdateDelegate;
 		private readonly int Styles;
 
-		public static bool ShowParticles => true; //change to whatever you need this. I'd reccomend making this a config option.
+		public static bool ShowParticles => GetInstance<SpiritClientConfig>().Particles;
 
 		public ParticleSystem(string texture, Update updateDelegate, int styles = 1)
 		{
@@ -31,16 +34,19 @@ namespace SpritMod.Utilities
 
 		public static bool OnScreen(Vector2 pos) => pos.X > -16 && pos.X < Main.screenWidth + 16 && pos.Y > -16 && pos.Y < Main.screenHeight + 16;
 
-		public void DrawParticles(SpriteBatch spriteBatch)
+		public void DrawParticles(SpriteBatch spriteBatch, float opacity)
 		{
 			if (ShowParticles)
 				for (int k = 0; k < Particles.Count; k++) {
 					Particle particle = Particles[k];
 
-					if (!Main.gameInactive) UpdateDelegate(particle);
+					if (!Main.gameInactive) 
+					{ 
+						UpdateDelegate(particle);
+					}
 					if (OnScreen(particle.Position)) {
 						int height = Texture.Height / Styles;
-						spriteBatch.Draw(Texture, particle.Position, new Rectangle(0, particle.GetHashCode() % Styles * height, Texture.Width, height), particle.Color, particle.Rotation, Texture.Size() / 2, particle.Scale, 0, 0);
+						spriteBatch.Draw(Texture, particle.Position, new Rectangle(0, particle.GetHashCode() % Styles * height, Texture.Width, height), particle.Color * opacity, particle.Rotation, Utils.Size(Texture) / 2, particle.Scale, 0, 0);
 					}
 					if (particle.Timer <= 0) Particles.Remove(particle);
 				}

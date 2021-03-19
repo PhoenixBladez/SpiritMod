@@ -7,18 +7,25 @@ namespace SpiritMod.ParticleHandler
 {
     public class SpiritParticles : ParticleEffects
 	{
-		public SpiritParticles() : base(new ParticleSystem("SpiritMod/ParticleHandler/HyperspaceParticle", OnUpdate),
-			delegate { return Main.LocalPlayer.GetModPlayer<MyPlayer>().ZoneSpirit; },
+		readonly static int maxtime = 960;
+		public SpiritParticles() : base(new ParticleSystem("SpiritMod/ParticleHandler/SpiritParticle", OnUpdate),
+			delegate { return SpawnCondition(); },
 			delegate { return SInfo(); },
-			480)
-		{ }
+			maxtime, 0.33f) { }
 		static void OnUpdate(Particle particle)
 		{
 			particle.Position = particle.StoredPosition - Main.screenPosition;
 			particle.StoredPosition += particle.Velocity;
-			particle.Color = Color.Lerp(Color.White, Color.Transparent, (float)Math.Sin(MathHelper.TwoPi * (particle.Timer / 480)) / 2 + 0.5f);
+			particle.Color = Color.White * (float)Math.Sin(MathHelper.TwoPi * (particle.Timer / (float)maxtime));
 			particle.Timer--;
 		}
-		private static SpawnInfo SInfo() => new SpawnInfo(Main.LocalPlayer.Center + new Vector2(Main.rand.Next(-1500, 1500), Main.rand.Next(1000, 1200)), Main.rand.NextFloat(-4, -2) * Vector2.UnitY, Main.rand.NextFloat(MathHelper.TwoPi), Main.rand.NextFloat(0.4f, 0.6f), Color.White);
+
+		private static bool SpawnCondition() => Main.LocalPlayer.GetModPlayer<MyPlayer>().ZoneSpirit;
+
+		private static SpawnInfo SInfo()
+		{
+			Vector2 position = new Vector2(Main.rand.Next(-2500, 2500), Main.rand.Next(1000, 1200));
+			return new SpawnInfo(Main.LocalPlayer.Center + position, Main.rand.NextFloat(-2, -1) * Vector2.UnitY, Main.rand.NextFloat(MathHelper.TwoPi), Main.rand.NextFloat(0.2f, 0.4f), Color.White);
+		}
 	}
 }

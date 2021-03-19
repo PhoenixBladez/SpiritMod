@@ -87,5 +87,9 @@ namespace SpiritMod
         [DefaultValue(true)]
         public bool DistortionConfig { get; set; }
 
-    }
+		[Label("Extra Particles")]
+		[Tooltip("Enables extra particles in the foreground when in Hyperspace or the Spirit Biome")]
+		[DefaultValue(true)]
+		public bool Particles { get; set; }
+	}
 }

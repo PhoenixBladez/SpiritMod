@@ -28,20 +28,25 @@ namespace SpiritMod.ParticleHandler
 		public static void DrawParticles(SpriteBatch spriteBatch)
 		{
 			foreach(ParticleEffects pEffect in _particleEffects) {
-				if (!pEffect.Condition())
+				pEffect.particlesystem.DrawParticles(spriteBatch, pEffect.opacity);
+
+				if (!pEffect.Condition()) {
+					pEffect.opacity = MathHelper.Lerp(pEffect.opacity, 0, 0.05f);
+					continue;
+				}
+
+				pEffect.opacity = MathHelper.Lerp(pEffect.opacity, 1, 0.05f);
+
+				if (Main.rand.NextFloat() <= pEffect.density)
 					continue;
 
-				Vector2 spawnPosition = pEffect.spawninfo().SpawnPosition;
-
-				pEffect.particlesystem.AddParticle(new Particle(spawnPosition, 
+				pEffect.particlesystem.AddParticle(new Particle(pEffect.spawninfo().SpawnPosition, 
 					pEffect.spawninfo().SpawnVel, 
 					pEffect.spawninfo().SpawnRot, 
 					pEffect.spawninfo().SpawnScale, 
-					pEffect.spawninfo().spawnColor, 
+					pEffect.spawninfo().SpawnColor, 
 					pEffect.MaxTimeLeft, 
-					spawnPosition));
-
-				pEffect.particlesystem.DrawParticles(spriteBatch);
+					pEffect.spawninfo().StoredPosition));
 			}
 		}
 
@@ -62,14 +67,16 @@ namespace SpiritMod.ParticleHandler
 			public Vector2 SpawnVel;
 			public float SpawnRot;
 			public float SpawnScale;
-			public Color spawnColor;
-			public SpawnInfo(Vector2 SpawnPosition, Vector2 SpawnVel, float SpawnRot, float SpawnScale, Color spawnColor)
+			public Color SpawnColor;
+			public Vector2 StoredPosition;
+			public SpawnInfo(Vector2 SpawnPosition, Vector2 SpawnVel, float SpawnRot, float SpawnScale, Color SpawnColor, Vector2? StoredPosition = null)
 			{
 				this.SpawnPosition = SpawnPosition;
 				this.SpawnVel = SpawnVel;
 				this.SpawnRot = SpawnRot;
 				this.SpawnScale = SpawnScale;
-				this.spawnColor = spawnColor;
+				this.SpawnColor = SpawnColor;
+				this.StoredPosition = StoredPosition ?? SpawnPosition; //default to storing the spawn position if stored position is null
 			}
 		}
 
@@ -79,13 +86,16 @@ namespace SpiritMod.ParticleHandler
 		public Conditional Condition;
 		public spawnInfo spawninfo;
 		public int MaxTimeLeft;
+		public float density;
+		public float opacity = 0;
 
-		public ParticleEffects(ParticleSystem particlesystem, Conditional Condition, spawnInfo spawninfo, int MaxTimeLeft)
+		public ParticleEffects(ParticleSystem particlesystem, Conditional Condition, spawnInfo spawninfo, int MaxTimeLeft, float density = 1f)
 		{
 			this.particlesystem = particlesystem;
 			this.Condition = Condition;
 			this.spawninfo = spawninfo;
 			this.MaxTimeLeft = MaxTimeLeft;
+			this.density = density;
 		}
 	}
 }

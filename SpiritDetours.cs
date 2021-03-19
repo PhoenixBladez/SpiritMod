@@ -1,4 +1,5 @@
 ﻿using log4net;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoMod.Cil;
 using SpiritMod.Items.Tool;
@@ -19,7 +20,7 @@ namespace SpiritMod
 			On.Terraria.Player.KeyDoubleTap += Player_KeyDoubleTap;
 			On.Terraria.Main.DrawDust += DrawAdditive;
 			On.Terraria.Player.ToggleInv += Player_ToggleInv;
-			On.Terraria.Main.DrawWater += DrawParticles;
+			On.Terraria.Main.DrawItems += DrawParticles;
 
 			IL.Terraria.Player.ItemCheck += Player_ItemCheck;
 		}
@@ -68,10 +69,13 @@ namespace SpiritMod
 			Main.spriteBatch.End();
 		}
 
-		public static void DrawParticles(On.Terraria.Main.orig_DrawWater orig, Main self, bool bg, int style, float alpha)
+		public static void DrawParticles(On.Terraria.Main.orig_DrawItems orig, Main self)
 		{
-			orig(self, bg, style, alpha);
+			orig(self);
+
+			//Main.spriteBatch.Begin();
 			ParticleHandler.ParticleHandler.DrawParticles(Main.spriteBatch);
+			//Main.spriteBatch.End();
 		}
 
 		private static void Player_ToggleInv(On.Terraria.Player.orig_ToggleInv orig, Player self)
