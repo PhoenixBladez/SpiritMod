@@ -1359,7 +1359,6 @@ namespace SpiritMod
 		public override void PostWorldGen()
 		{
 			int[] commonItems1 = new int[] { ItemID.CopperBar, ItemID.IronBar, ItemID.TinBar, ItemID.LeadBar };
-			int[] commonItems2 = new int[] { ItemID.GoldBar, ItemID.PlatinumBar };
 			int[] ammo1 = new int[] { ItemID.WoodenArrow, ItemID.Shuriken };
 			int[] potions = new int[] { ItemID.SwiftnessPotion, ItemID.IronskinPotion, ItemID.ShinePotion, ItemID.NightOwlPotion, ItemID.ArcheryPotion, ItemID.HunterPotion };
 			int[] recall = new int[] { ItemID.RecallPotion };
@@ -1479,17 +1478,19 @@ namespace SpiritMod
 			};
 			AddToModdedChestWithOverlapCheck(AsteroidPool, TileType<AsteroidChest>());
 
-			List<ChestInfo> sepulchreLootPool = new List<ChestInfo> 
-			{ 
+			List<ChestInfo> sepulchreLootPool = new List<ChestInfo>
+			{
 				new ChestInfo(new int[] { ItemType<ToxicBottle>(), ItemType<AccursedBlade>(), ItemType<OldCross>() }),
-				new ChestInfo(commonItems2, WorldGen.genRand.Next(3, 10)),
-				new ChestInfo(ItemType<SepulchreArrow>(), WorldGen.genRand.Next(20, 50)),
-				new ChestInfo(potions, WorldGen.genRand.Next(2, 3)),
-				new ChestInfo(recall, WorldGen.genRand.Next(2, 3)),
-				new ChestInfo(other1, WorldGen.genRand.Next(1, 4)),
-				new ChestInfo(other2, WorldGen.genRand.Next(2, 3)),
-				new ChestInfo(moddedMaterials, WorldGen.genRand.Next(2, 6)),
-				new ChestInfo(ItemID.GoldCoin, WorldGen.genRand.Next(4, 8))
+				new ChestInfo(ItemID.SuspiciousLookingEye, 1, 0.5f),
+				new ChestInfo(ItemType<SepulchreArrow>(), WorldGen.genRand.Next(20, 50), 0.5f),
+				new ChestInfo(ItemID.Book, WorldGen.genRand.Next(1, 4)),
+				new ChestInfo(new int[]{ItemID.SilverBar, ItemID.GoldBar, ItemID.TungstenBar, ItemID.PlatinumBar }, WorldGen.genRand.Next(5, 12), 0.5f),
+				new ChestInfo(potions, WorldGen.genRand.Next(2, 4), 0.66f),
+				new ChestInfo((WorldGen.crimson) ? potionscorrupt : potionscrim, WorldGen.genRand.Next(2, 4), 0.66f),
+				new ChestInfo(moddedMaterials, WorldGen.genRand.Next(2, 6), 0.5f),
+				new ChestInfo(ItemID.CursedTorch, WorldGen.genRand.Next(15, 31), 0.75f),
+				new ChestInfo(ItemID.GoldCoin, WorldGen.genRand.Next(1, 3)),
+				new ChestInfo(ItemID.SilverCoin, WorldGen.genRand.Next(100)),
 			};
 			AddToModdedChest(sepulchreLootPool, TileType<SepulchreChestTile>());
 
