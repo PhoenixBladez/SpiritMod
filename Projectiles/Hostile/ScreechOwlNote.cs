@@ -102,7 +102,7 @@ namespace SpiritMod.Projectiles.Hostile
 		{
             if (Main.rand.NextBool(5))
             {
-                player.AddBuff(BuffID.Confused, 120);
+                target.AddBuff(BuffID.Confused, 120);
             }
         }
     }
