@@ -2,7 +2,7 @@ using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Tool.CoralCatcher
+namespace SpiritMod.Items.Tool.Coral_Catcher
 {
     public class Coral_Catcher : ModItem
     {

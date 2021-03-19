@@ -244,15 +244,6 @@ namespace SpiritMod.NPCs.Town
                 if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollMushroomEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ExplorerScrollMushroomEmpty>());
 			};
-			explorerQuestMushroom.TrySkipQuest = () => {
-				int index = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollMushroomEmpty>());
-				int index2 = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollMushroomFull>());
-				if (index == -1 && index2 == -1) return false;
-
-				TryRemoveItem(index);
-				TryRemoveItem(index2);
-				return true;
-			};
 			Quest explorerQuestAsteroids = RegisterQuest(ModContent.ItemType<ExplorerScrollAsteroidFull>(),
 
 				"Up for a little explorin'? This world's massive, and even I haven't seen it all." +
@@ -278,15 +269,6 @@ namespace SpiritMod.NPCs.Town
                 Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/ExplorerStart"));
                 if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollAsteroidEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ExplorerScrollAsteroidEmpty>());
-			};
-			explorerQuestAsteroids.TrySkipQuest = () => {
-				int index = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollAsteroidEmpty>());
-				int index2 = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollAsteroidFull>());
-				if (index == -1 && index2 == -1) return false;
-
-				TryRemoveItem(index);
-				TryRemoveItem(index2);
-				return true;
 			};
 			Quest explorerQuestMarble = RegisterQuest(ModContent.ItemType<ExplorerScrollMarbleFull>(),
 
@@ -314,15 +296,6 @@ namespace SpiritMod.NPCs.Town
                 if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollMarbleEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ExplorerScrollMarbleEmpty>());
 			};
-			explorerQuestMarble.TrySkipQuest = () => {
-				int index = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollMarbleEmpty>());
-				int index2 = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollMarbleFull>());
-				if (index == -1 && index2 == -1) return false;
-
-				TryRemoveItem(index);
-				TryRemoveItem(index2);
-				return true;
-			};
 
 			Quest explorerQuestGranite = RegisterQuest(ModContent.ItemType<ExplorerScrollGraniteFull>(),
 
@@ -348,15 +321,6 @@ namespace SpiritMod.NPCs.Town
                 if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollGraniteEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ExplorerScrollGraniteEmpty>());
 			};
-			explorerQuestMarble.TrySkipQuest = () => {
-				int index = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollGraniteEmpty>());
-				int index2 = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollGraniteFull>());
-				if (index == -1 && index2 == -1) return false;
-
-				TryRemoveItem(index);
-				TryRemoveItem(index2);
-				return true;
-			};
 			Quest explorerQuestHive = RegisterQuest(ModContent.ItemType<ExplorerScrollHiveFull>(),
 
 				"Up for a little explorin'? This world's massive, and even I haven't seen it all." +
@@ -379,15 +343,6 @@ namespace SpiritMod.NPCs.Town
                 Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/ExplorerStart"));
                 if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ExplorerScrollHiveEmpty>()))
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ExplorerScrollHiveEmpty>());
-			};
-			explorerQuestMarble.TrySkipQuest = () => {
-				int index = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollHiveEmpty>());
-				int index2 = Main.LocalPlayer.FindItem(ModContent.ItemType<ExplorerScrollHiveFull>());
-				if (index == -1 && index2 == -1) return false;
-
-				TryRemoveItem(index);
-				TryRemoveItem(index2);
-				return true;
 			};
 
 

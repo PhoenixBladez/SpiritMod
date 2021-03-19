@@ -116,8 +116,14 @@ namespace SpiritMod.NPCs.Town
 			AddItem(ref shop, ref nextSlot, ItemType<RoguePlate>());
 			AddItem(ref shop, ref nextSlot, ItemType<RoguePants>());
             AddItem(ref shop, ref nextSlot, ItemType<RogueCrest>());
-            AddItem(ref shop, ref nextSlot, ItemType<EoWDagger>(), check: NPC.downedBoss2);
-			AddItem(ref shop, ref nextSlot, ItemType<BoCShuriken>(), check: NPC.downedBoss2);
+			if (!WorldGen.crimson)
+			{
+            	AddItem(ref shop, ref nextSlot, ItemType<EoWDagger>(), check: NPC.downedBoss2);
+			}
+			else
+			{
+				AddItem(ref shop, ref nextSlot, ItemType<BoCShuriken>(), check: NPC.downedBoss2);
+			}
 			AddItem(ref shop, ref nextSlot, ItemType<SkeletronHand>(), check: NPC.downedBoss3);
 			AddItem(ref shop, ref nextSlot, ItemType<TwilightBlades>(), check: NPC.downedMechBossAny);
 			AddItem(ref shop, ref nextSlot, ItemType<MechKnife>(), check: NPC.downedMechBossAny);

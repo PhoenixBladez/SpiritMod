@@ -19,16 +19,13 @@ namespace SpiritMod.Items.Accessory
 			item.height = 36;
 			item.value = Item.sellPrice(gold: 1);
 			item.rare = 1;
-
 			item.accessory = true;
-
+			item.consumable = true;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = 10;
 			item.useAnimation = 15;
 
 			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
 			item.createTile = ModContent.TileType<KoiTotem_Tile>();
 		}
 		public override void UpdateAccessory(Player player, bool hideVisual)

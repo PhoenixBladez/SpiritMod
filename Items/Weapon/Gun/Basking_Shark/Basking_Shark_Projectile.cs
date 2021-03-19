@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Sets.Cascade.Basking_Shark
+namespace SpiritMod.Items.Weapon.Gun.Basking_Shark
 {
 	public class Basking_Shark_Projectile : ModProjectile
 	{
