@@ -20,12 +20,12 @@ namespace SpiritMod.Items.Equipment.Mantaray_Hunting_Harpoon
 			mountData.fatigueMax = 99999;
 			mountData.fallDamage = 0.0f;
 			mountData.usesHover = true;
-			mountData.runSpeed = 2f;
+			mountData.runSpeed = 13f;
 			mountData.dashSpeed = 3f;
-			mountData.acceleration = 0.5f;
+			mountData.acceleration = 0.35f;
 			mountData.jumpHeight = 4;
 			mountData.jumpSpeed = 3f;
-			mountData.swimSpeed = 20f;
+			mountData.swimSpeed = 120f;
 			mountData.blockExtraJumps = true;
 			mountData.totalFrames = 7;
 			int[] numArray13 = new int[mountData.totalFrames];
@@ -66,9 +66,9 @@ namespace SpiritMod.Items.Equipment.Mantaray_Hunting_Harpoon
         {
             float num1 = (float) player.velocity.X / mountData.dashSpeed;
 			if ((double) num1 > 0.95)
-			  num1 = 3.95f;
+			  num1 = .95f;
 			if ((double) num1 < -0.95)
-			  num1 = -3.95f;
+			  num1 = -.95f;
 			float num2 = (float) (0.785398185253143 * (double) num1 / 2.0);
 
 			if (!player.wet)
