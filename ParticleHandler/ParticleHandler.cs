@@ -37,7 +37,7 @@ namespace SpiritMod.ParticleHandler
 
 				pEffect.opacity = MathHelper.Lerp(pEffect.opacity, 1, 0.05f);
 
-				if (Main.rand.NextFloat() <= pEffect.density)
+				if (Main.rand.NextFloat() > pEffect.density)
 					continue;
 
 				pEffect.particlesystem.AddParticle(new Particle(pEffect.spawninfo().SpawnPosition, 
