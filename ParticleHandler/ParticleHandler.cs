@@ -13,12 +13,13 @@ namespace SpiritMod.ParticleHandler
 	public static class ParticleHandler
 	{
 		private static Mod _mod;
-		private static List<ParticleEffects> _particleEffects = new List<ParticleEffects>();
+		private static List<ParticleEffects> _particleEffects;
 
 		public static void Load(Mod mod)
 		{
 			_mod = mod;
 
+			_particleEffects = new List<ParticleEffects>();
 			var pEffects = mod.Code.GetTypes().Where(x => !x.IsAbstract && x.IsSubclassOf(typeof(ParticleEffects)) && x.IsClass); //use reflection to get types in the mod, then find particleeffects types that arent the abstract class
 			foreach(Type t in pEffects) 
 				_particleEffects.Add(Activator.CreateInstance(t) as ParticleEffects);//use activator to convert the types into objects, as a direct conversion to particleeffects does not work
