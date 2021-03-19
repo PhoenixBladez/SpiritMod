@@ -19,6 +19,7 @@ namespace SpiritMod
 			On.Terraria.Player.KeyDoubleTap += Player_KeyDoubleTap;
 			On.Terraria.Main.DrawDust += DrawAdditive;
 			On.Terraria.Player.ToggleInv += Player_ToggleInv;
+			On.Terraria.Main.DrawWater += DrawParticles;
 
 			IL.Terraria.Player.ItemCheck += Player_ItemCheck;
 		}
@@ -65,6 +66,12 @@ namespace SpiritMod
 				if (Main.npc[k].active && Main.npc[k].modNPC is IDrawAdditive) (Main.npc[k].modNPC as IDrawAdditive).DrawAdditive(Main.spriteBatch);
 
 			Main.spriteBatch.End();
+		}
+
+		public static void DrawParticles(On.Terraria.Main.orig_DrawWater orig, Main self, bool bg, int style, float alpha)
+		{
+			orig(self, bg, style, alpha);
+			ParticleHandler.ParticleHandler.DrawParticles(Main.spriteBatch);
 		}
 
 		private static void Player_ToggleInv(On.Terraria.Player.orig_ToggleInv orig, Player self)

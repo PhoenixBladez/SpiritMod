@@ -33,6 +33,7 @@ using SpiritMod.Items.Weapon.Bow.GemBows.Ruby_Bow;
 using SpiritMod.Items.Weapon.Bow.GemBows.Sapphire_Bow;
 using SpiritMod.Items.Weapon.Bow.GemBows.Topaz_Bow;
 using SpiritMod.Items.Consumable;
+using SpiritMod.ParticleHandler;
 
 namespace SpiritMod
 {
@@ -505,10 +506,10 @@ namespace SpiritMod
 			LoadReferences();
 			AdventurerQuests = new AdventurerQuestHandler(this);
 			StructureLoader.Load(this);
+			ParticleHandler.ParticleHandler.Load(this);
 			if (!Main.dedServ) {
 				BookUserInterface = new UserInterface();
 			}
-
 			SpiritDetours.Initialize();
 
 			GlobalNoise = new PerlinNoise(Main.rand.Next());
@@ -718,6 +719,7 @@ namespace SpiritMod
 			instance = null;
 			SpiritGlowmask.Unload();
 			StructureLoader.Unload();
+			ParticleHandler.ParticleHandler.Unload();
 			glitchEffect = null;
 			glitchScreenShader = null;
 			TrailManager = null;

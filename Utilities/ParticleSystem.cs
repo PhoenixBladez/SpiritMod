@@ -11,10 +11,10 @@ using static Terraria.ModLoader.ModContent;
 
 namespace SpritMod.Utilities
 {
+	public delegate void Update(Particle particle);
+
 	public class ParticleSystem
 	{
-		public delegate void Update(Particle particle);
-
 		private readonly List<Particle> Particles = new List<Particle>();
 		private readonly Texture2D Texture;
 		private readonly Update UpdateDelegate;
