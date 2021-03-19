@@ -18,6 +18,7 @@ namespace SpiritMod.Projectiles.Boss
 			projectile.height = 44;
 			projectile.width = 42;
 			projectile.friendly = false;
+			projectile.ignoreWater = true;
 			projectile.aiStyle = 2;
 			projectile.penetrate = 3;
 		}

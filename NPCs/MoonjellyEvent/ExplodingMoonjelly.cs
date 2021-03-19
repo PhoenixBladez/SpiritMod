@@ -150,7 +150,7 @@ namespace SpiritMod.NPCs.MoonjellyEvent
         {
             npc.DropItem(ItemID.Gel, Main.rand.Next(1, 4));
 
-			if(Main.rand.NextBool(2))
+			if(Main.rand.NextBool(5))
 				npc.DropItem(mod.ItemType("MoonJelly"));
 
 			if (Main.rand.NextBool(25))

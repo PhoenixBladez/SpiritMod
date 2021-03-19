@@ -24,11 +24,13 @@ namespace SpiritMod.Tiles.Furniture
 			disableSmartCursor = true;
 			dustType = -1;
 			adjTiles = new int[]{ TileID.LunarMonolith };
+			ModTranslation name = CreateMapEntryName();
+			name.SetDefault("Hyperspace Bust");
 		}
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 32, 48, mod.ItemType("SynthhwaveHeadItem"));
+			Item.NewItem(i * 16, j * 16, 32, 48, mod.ItemType("SynthwaveHeadItem"));
 		}
 
 		public override void NearbyEffects(int i, int j, bool closer)

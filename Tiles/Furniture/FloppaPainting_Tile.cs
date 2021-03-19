@@ -30,7 +30,7 @@ namespace SpiritMod.Tiles.Furniture
 			disableSmartCursor = true;
 			dustType -= 1;
 			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Map");
+			name.SetDefault("Painting");
 			AddMapEntry(new Color(150, 150, 150), name);
 		}
 

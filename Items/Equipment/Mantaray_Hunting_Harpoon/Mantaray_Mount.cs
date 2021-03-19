@@ -20,12 +20,12 @@ namespace SpiritMod.Items.Equipment.Mantaray_Hunting_Harpoon
 			mountData.fatigueMax = 99999;
 			mountData.fallDamage = 0.0f;
 			mountData.usesHover = true;
-			mountData.runSpeed = 13f;
+			mountData.runSpeed = 6f;
 			mountData.dashSpeed = 3f;
 			mountData.acceleration = 0.35f;
 			mountData.jumpHeight = 4;
 			mountData.jumpSpeed = 3f;
-			mountData.swimSpeed = 120f;
+			mountData.swimSpeed = 75f;
 			mountData.blockExtraJumps = true;
 			mountData.totalFrames = 7;
 			int[] numArray13 = new int[mountData.totalFrames];

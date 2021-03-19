@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Equipment
 			item.noMelee = true;
 			item.value = Item.sellPrice(gold: 1);
 			item.rare = ItemRarityID.Blue;
-			item.mana = 50;
+			item.mana = 20;
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = false;
 		}

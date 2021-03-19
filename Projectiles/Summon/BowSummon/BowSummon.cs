@@ -106,10 +106,10 @@ namespace SpiritMod.Projectiles.Summon.BowSummon
             {
                 projectile.spriteDirection = 1;
                 timer++;
-                if (timer >= 100)
+                if (timer >= 70)
                 {
                     int range = 30;   //How many tiles away the projectile targets NPCs
-                    float shootVelocity = 10.5f; //magnitude of the shoot vector (speed of arrows shot)
+                    float shootVelocity = 13.5f; //magnitude of the shoot vector (speed of arrows shot)
                     int shootSpeed = 20;
 
                     //TARGET NEAREST NPC WITHIN RANGE

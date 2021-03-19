@@ -1,8 +1,10 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Consumable.Food;
+using Terraria.DataStructures;
 
 namespace SpiritMod.NPCs
 {
@@ -146,5 +148,19 @@ namespace SpiritMod.NPCs
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Hummus>());
             }
         }
+		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (npc.spriteDirection == 1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+			Vector2 vector2_3 = new Vector2((float) (Main.npcTexture[npc.type].Width / 2), (float) (Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
+			Microsoft.Xna.Framework.Color color12 = Lighting.GetColor((int) ((double) npc.position.X + (double) npc.width * 0.5) / 16, (int) (((double) npc.position.Y + (double) npc.height * 0.5) / 16.0));
+			Main.spriteBatch.Draw(mod.GetTexture("NPCs/AntlionAssassin_Glow"), new Vector2((float) ((double) npc.position.X - (double) Main.screenPosition.X + (double) (npc.width / 2) - (double) Main.npcTexture[npc.type].Width * (double) npc.scale / 2.0 + (double) vector2_3.X * (double) npc.scale), (float) ((double) npc.position.Y - (double) Main.screenPosition.Y + (double) npc.height - (double) Main.npcTexture[npc.type].Height * (double) npc.scale / (double) Main.npcFrameCount[npc.type] + 4.0 + (double) vector2_3.Y * (double) npc.scale) ), new Microsoft.Xna.Framework.Rectangle?(npc.frame), Microsoft.Xna.Framework.Color.White, npc.rotation, vector2_3, npc.scale, spriteEffects, 0.0f);
+			for (int index = 1; index < 10; ++index)
+			{
+				Microsoft.Xna.Framework.Color color2 = new Microsoft.Xna.Framework.Color(255 - index * 10, 110 - index * 10, 110 - index * 10, 110 - index * 10);
+				Main.spriteBatch.Draw(mod.GetTexture("NPCs/AntlionAssassin_Glow"), new Vector2((float) ((double) npc.position.X - (double) Main.screenPosition.X + (double) (npc.width / 2) - (double) Main.npcTexture[npc.type].Width * (double) npc.scale / 2.0 + (double) vector2_3.X * (double) npc.scale), (float) ((double) npc.position.Y - (double) Main.screenPosition.Y + (double) npc.height - (double) Main.npcTexture[npc.type].Height * (double) npc.scale / (double) Main.npcFrameCount[npc.type] + 4.0 + (double) vector2_3.Y * (double) npc.scale) ) - npc.velocity * (float) index * 0.5f, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color2, npc.rotation, vector2_3, npc.scale, spriteEffects, 0.0f);
+			}
+		}
 	}
 }

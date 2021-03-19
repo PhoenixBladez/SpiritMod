@@ -131,7 +131,7 @@ namespace SpiritMod.Items.Weapon.Summon.OldCross
 			{
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 46);
 			}
-			for(int i = 1; i <= 4; i++)
+			for(int i = 1; i <= Main.rand.Next(2, 5); i++)
 			{
 				Gore.NewGore(projectile.position, projectile.velocity / 2, mod.GetGoreSlot("Gores/Skelet/skeler" + i));
 			}

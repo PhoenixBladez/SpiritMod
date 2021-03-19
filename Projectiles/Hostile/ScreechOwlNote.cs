@@ -98,5 +98,12 @@ namespace SpiritMod.Projectiles.Hostile
                 }
             }
         }
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+            if (Main.rand.NextBool(5))
+            {
+                player.AddBuff(BuffID.Confused, 120);
+            }
+        }
     }
 }

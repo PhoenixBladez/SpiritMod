@@ -34,7 +34,7 @@ namespace SpiritMod.Sepulchre
 			name.SetDefault("Cursed Armor");
 			AddMapEntry(Color.DarkSlateGray, name);
 		}
-
+		public override bool Dangersense(int i, int j, Player player) => true;
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			Main.PlaySound(new LegacySoundStyle(SoundID.NPCKilled, 6).WithPitchVariance(0.2f), new Vector2(i * 16, j * 16));

@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Weapon.Summon.BowSummonItem
 			item.value = Item.sellPrice(0, 0, 55, 0);
 			item.rare = 1;
 			item.mana = 10;
-			item.damage = 8;
+			item.damage = 11;
 			item.knockBack = 2;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = 30;

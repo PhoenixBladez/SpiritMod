@@ -99,7 +99,8 @@ namespace SpiritMod.Items.Weapon.Gun
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.Boomstick);
 			recipe.AddIngredient(ItemID.TheUndertaker);
-			recipe.AddIngredient(ItemID.PhoenixBlaster, 1);
+			recipe.AddIngredient(ItemID.Handgun, 1);
+			recipe.AddIngredient(ModContent.ItemType<Items.Weapon.Gun.CoilPistol>(), 1);
 			recipe.AddTile(TileID.DemonAltar);
 			recipe.SetResult(this, 1);
 			recipe.AddRecipe();

@@ -67,7 +67,7 @@ namespace SpiritMod.NPCs.Dungeon
 			if (xchase) {
 				npc.velocity.Y = 0;
 				if (Math.Abs(npc.position.X - player.position.X) > 48 && xacc && timer < 200) {
-					if (xacc && npc.velocity.X < 15) {
+					if (xacc && npc.velocity.X < 8) {
 						npc.velocity.X *= 1.06f;
 					}
 				}
@@ -106,7 +106,7 @@ namespace SpiritMod.NPCs.Dungeon
 			if (ychase) {
 				npc.velocity.X = 0;
 				if (Math.Abs(npc.position.Y - player.position.Y) > 48 && yacc && timer < 200) {
-					if (yacc && npc.velocity.Y < 15) {
+					if (yacc && npc.velocity.Y < 8) {
 						npc.velocity.Y *= 1.06f;
 					}
 				}

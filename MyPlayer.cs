@@ -1295,7 +1295,7 @@ namespace SpiritMod
 				}
 			}
 			if(frigidGloves && crit && item.melee) {
-				if(Main.rand.NextBool(2)) {
+				{
 					target.AddBuff(BuffID.Frostburn, 180);
 				}
 			}

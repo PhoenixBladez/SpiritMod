@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Weapon.Summon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Two-Faced Mask");
-			Tooltip.SetDefault("Summons either a Soul of Happiness or Sadness at the cursor position with a left or right click\nThe Soul of Happiness shoots out beams at foes\nThe Soul of Sadness shoots out homing tears at foes\nOnly one of either soul can exist at once");
+			Tooltip.SetDefault("Summons either a Soul of Happiness or Sadness at the cursor position with a left or right click\nThe Soul of Happiness shoots out beams at foes\nThe Soul of Sadness shoots out homing tears at foes");
 		}
 
 
@@ -59,7 +59,7 @@ namespace SpiritMod.Items.Weapon.Summon
 		{
 			ModRecipe modRecipe = new ModRecipe(mod);
 			modRecipe.AddIngredient(ModContent.ItemType<MimeMask>(), 1);
-			modRecipe.AddIngredient(ModContent.ItemType<BloodFire>(), 5);
+			modRecipe.AddIngredient(ModContent.ItemType<BloodFire>(), 8);
 			modRecipe.AddTile(TileID.Anvils);
 			modRecipe.SetResult(this, 1);
 			modRecipe.AddRecipe();

@@ -32,12 +32,12 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			npc.Size = new Vector2(80, 120);
 			npc.damage = 28;
             npc.boss = true;
-			npc.lifeMax = 2500;
+			npc.lifeMax = 2800;
 			npc.knockBackResist = 0;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.npcSlots = 30;
-			npc.defense = 11;
+			npc.defense = 9;
 			npc.aiStyle = -1;
 			music = mod.GetSoundSlot(Terraria.ModLoader.SoundType.Music, "Sounds/Music/ReachBoss");
 			npc.buffImmune[20] = true;
@@ -68,7 +68,6 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			pulseTrailYellow = reader.ReadBoolean();
 			trailbehind = reader.ReadBoolean();
 		}
-
 		public override void AI()
 		{
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.301f, 0.110f, 0.126f);
@@ -451,6 +450,10 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				Dust.NewDust(npc.position, npc.width, npc.height, 167, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);
 				Dust.NewDust(npc.position, npc.width, npc.height, 258, 2.5f * hitDirection, -2.5f, 0,  default(Color), 0.7f);
 			}
+		}
+		public override bool PreNPCLoot()
+		{
+			return false;
 		}
 	}
 }

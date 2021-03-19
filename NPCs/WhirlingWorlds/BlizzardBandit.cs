@@ -33,7 +33,7 @@ namespace SpiritMod.NPCs.WhirlingWorlds
             npc.noTileCollide = false;
             npc.alpha = 0;
             npc.dontTakeDamage = false;
-            npc.HitSound = new Terraria.Audio.LegacySoundStyle(3, 1);
+            npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = new Terraria.Audio.LegacySoundStyle(4, 1);
             banner = npc.type;
             bannerItem = ModContent.ItemType<Items.Banners.BlizzardBanditBanner>();

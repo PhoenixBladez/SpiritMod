@@ -93,7 +93,7 @@ namespace SpiritMod.Projectiles.Summon
                         Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 2f;
                     }
                 }
-                if (Main.netMode != NetmodeID.MultiplayerClient) {
+                if (Main.netMode != NetmodeID.MultiplayerClient && projectile.alpha <= 100) {
 
 					int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 13, direction.X, direction.Y, mod.ProjectileType("BismiteShot"), projectile.damage, 0, Main.myPlayer);
 					Main.projectile[proj2].ranged = false;
