@@ -22,13 +22,13 @@ namespace SpiritMod.Items.Weapon.Thrown.BubbleMine
 			item.width = 37;
 			item.height = 26;
 			item.shoot = ModContent.ProjectileType<BubbleMineProj>();
-			item.useAnimation = 27;
-			item.useTime = 27;
+			item.useAnimation = 30;
+			item.useTime = 30;
 			item.shootSpeed = 11f;
-			item.damage = 35;
+			item.damage = 18;
 			item.knockBack = 1.0f;
-			item.value = Terraria.Item.sellPrice(0, 0, 0, 10);
-			item.crit = 6;
+			item.value = Terraria.Item.sellPrice(0, 0, 0, 5);
+			item.crit = 8;
 			item.rare = ItemRarityID.Orange;
 			item.ranged = true;
 			item.autoReuse = false;
@@ -37,9 +37,9 @@ namespace SpiritMod.Items.Weapon.Thrown.BubbleMine
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<TribalScale>(), 1);
+			recipe.AddIngredient(ItemID.Coral, 1);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 50);
+			recipe.SetResult(this, 70);
 			recipe.AddRecipe();
 		}
 	}

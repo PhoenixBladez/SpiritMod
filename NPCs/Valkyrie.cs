@@ -21,9 +21,9 @@ namespace SpiritMod.NPCs
 		{
 			npc.width = 88;
 			npc.height = 60;
-			npc.damage = 23;
+			npc.damage = 20;
 			npc.defense = 15;
-			npc.lifeMax = 110;
+			npc.lifeMax = 120;
 			npc.noGravity = true;
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath1;
@@ -39,10 +39,10 @@ namespace SpiritMod.NPCs
 		public override void NPCLoot()
 		{
 			{
-				if (Main.rand.Next(20) == 0) {
+				if (Main.rand.Next(10) == 0) {
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ValkyrieSpear>());
 				}
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Feather, Main.rand.Next(1, 2));
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Feather, Main.rand.Next(2, 4));
 				if (Main.rand.NextBool(100)) {
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GiantHarpyFeather);
 				}

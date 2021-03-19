@@ -4,33 +4,43 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Sets.Cascade.Reef_Wrath
+namespace SpiritMod.Items.Weapon.Magic.Reef_Wrath
 {
 	public class Reef_Wrath : ModItem
 	{
 		public override void SetDefaults()
 		{
-			item.damage = 10;
+			item.damage = 18;
 			item.noMelee = true;
 			item.noUseGraphic = false;
 			item.magic = true;
 			item.width = 36;
 			item.height = 40;
-			item.useTime = 20;
-			item.useAnimation = 20;
+			item.useTime = 36;
+			item.useAnimation = 36;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shoot = mod.ProjectileType("Reef_Wrath_Projectile_Alt");
 			item.shootSpeed = 0f;
-			item.knockBack = 8f;
+			item.knockBack = 2.5f;
 			item.autoReuse = false;
 			item.rare = ItemRarityID.Green;
 			item.UseSound = SoundID.Item109;
-			item.value = Item.sellPrice(silver: 70);
+			item.value = Item.sellPrice(silver: 30);
 			item.useTurn = false;
-			item.mana = 5;
+			item.mana = 8;
 		}
 
-		public override void SetStaticDefaults()
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.Coral, 5);
+            recipe.AddIngredient(ItemID.SharkFin, 3);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+
+        public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Reef Wrath");
 			Tooltip.SetDefault("Conjures harmful coral spires along the ground");

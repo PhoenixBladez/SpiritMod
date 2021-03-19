@@ -59,8 +59,8 @@ namespace SpiritMod.Items.Weapon.Summon
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Coral, 8);
-            recipe.AddIngredient(ItemID.Starfish, 2);
+            recipe.AddIngredient(ItemID.Coral, 5);
+            recipe.AddIngredient(ItemID.Starfish, 1);
             recipe.AddIngredient(ItemID.Glowstick, 5);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 1);

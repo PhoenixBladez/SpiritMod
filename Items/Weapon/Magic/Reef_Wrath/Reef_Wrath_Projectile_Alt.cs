@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Sets.Cascade.Reef_Wrath
+namespace SpiritMod.Items.Weapon.Magic.Reef_Wrath
 {
 	public class Reef_Wrath_Projectile_Alt : ModProjectile
 	{

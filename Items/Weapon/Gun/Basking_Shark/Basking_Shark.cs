@@ -17,23 +17,33 @@ namespace SpiritMod.Items.Sets.Cascade.Basking_Shark
 		{
 			item.useStyle = 5;
 			item.autoReuse = true;
-			item.useAnimation = 30;
-			item.useTime = 10;
+			item.useAnimation = 39;
+			item.useTime = 13;
 			item.width = 38;
 			item.height = 6;
 			item.shoot = 10;
-			item.damage = 13;
-			item.shootSpeed = 9f;
+			item.damage = 8;
+			item.shootSpeed = 8f;
 			item.noMelee = true;
 			item.reuseDelay = 45;
-			item.value = Item.sellPrice(silver: 70);
-			item.knockBack = 2f;
+			item.value = Item.sellPrice(silver: 30);
+			item.knockBack = 1.25f;
 			item.useAmmo = AmmoID.Bullet;
 			item.ranged = true;
 			item.rare = 2;
 		}
-		
-		public override Vector2? HoldoutOffset()
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.Coral, 6);
+            recipe.AddIngredient(ItemID.SharkFin, 4);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+
+        public override Vector2? HoldoutOffset()
 		{
 			return new Vector2(-4, 2);
 		}
