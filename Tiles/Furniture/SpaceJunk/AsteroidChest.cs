@@ -36,8 +36,8 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 			name.SetDefault("Asteroid Chest");
 			AddMapEntry(new Color(125, 116, 115), name, MapChestName);
 			dustType = 0;
-			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.Containers };
+			TileID.Sets.BasicChest[Type] = true;
 			chestDrop = ModContent.ItemType<Items.Placeable.Furniture.AsteroidChest>();
 			chest = "Asteroid Chest";
 		}
