@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Equipment.ToxicBottle
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Toxic Bottle");
-			Tooltip.SetDefault("Explodes into cursed gas upon being struck");
+			Tooltip.SetDefault("Can be placed or thrown\nExplodes into cursed gas upon being struck");
 		}
 
 

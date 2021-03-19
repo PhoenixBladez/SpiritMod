@@ -22,7 +22,7 @@ namespace SpiritMod.NPCs.Dungeon
 		{
 			npc.width = 58;
 			npc.height = 46;
-			npc.damage = 30;
+			npc.damage = 25;
 			npc.defense = 16;
 			npc.lifeMax = 300;
 			npc.buffImmune[BuffID.Poisoned] = true;
@@ -30,7 +30,7 @@ namespace SpiritMod.NPCs.Dungeon
 			npc.buffImmune[BuffID.OnFire] = true;
 			npc.HitSound = SoundID.NPCHit2;
 			npc.DeathSound = SoundID.NPCDeath2;
-			npc.value = 1000f;
+			npc.value = 800f;
 			npc.knockBackResist = .35f;
 			npc.aiStyle = 3;
 			aiType = 218;
@@ -82,7 +82,7 @@ namespace SpiritMod.NPCs.Dungeon
 					Main.PlaySound(SoundID.Item20, npc.Center);
 					float A = (float)Main.rand.Next(-200, 200) * 0.01f;
 					float B = (float)Main.rand.Next(-200, 200) * 0.01f;
-					int damagenumber = expertMode ? 12 : 17;
+					int damagenumber = expertMode ? 10 : 15;
 					int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, dir.X + A, dir.Y + B, ProjectileID.BallofFire, damagenumber, 1, Main.myPlayer, 0, 0);
 					Main.projectile[p].friendly = false;
 					Main.projectile[p].hostile = true;
@@ -106,7 +106,7 @@ namespace SpiritMod.NPCs.Dungeon
 				for (int i = 0; i < 3; ++i) {
 					float A = (float)Main.rand.Next(-200, 200) * 0.01f;
 					float B = (float)Main.rand.Next(-200, 200) * 0.01f;
-					int damagenumber = expertMode ? 12 : 17;
+					int damagenumber = expertMode ? 10 : 15;
 					int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, dir.X + A, dir.Y + B, ProjectileID.BallofFire, damagenumber, 1, Main.myPlayer, 0, 0);
 					Main.projectile[p].friendly = false;
 					Main.projectile[p].hostile = true;

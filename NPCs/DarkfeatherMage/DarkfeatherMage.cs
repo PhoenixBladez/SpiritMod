@@ -9,6 +9,8 @@ using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using SpiritMod.NPCs.DarkfeatherMage.Projectiles;
 using System;
+using SpiritMod.Mechanics.Fathomless_Chest;
+
 namespace SpiritMod.NPCs.DarkfeatherMage
 {
 	public class DarkfeatherMage : ModNPC
@@ -336,6 +338,7 @@ namespace SpiritMod.NPCs.DarkfeatherMage
         public override void NPCLoot()
         {
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Accessory.DarkfeatherVisage.DarkfeatherVisage>());
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Mechanics.Fathomless_Chest.Mystical_Dice>());
 
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

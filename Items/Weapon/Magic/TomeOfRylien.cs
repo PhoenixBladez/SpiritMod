@@ -26,9 +26,9 @@ namespace SpiritMod.Items.Weapon.Magic
 			item.magic = true;
 			item.width = 22;
 			item.height = 22;
-			item.useTime = 16;
-			item.mana = 13;
-			item.useAnimation = 16;
+			item.useTime = 12;
+			item.mana = 9;
+			item.useAnimation = 12;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.knockBack = 4;
 			item.value = Terraria.Item.buyPrice(0, 7, 0, 0);

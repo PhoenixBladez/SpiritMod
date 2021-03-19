@@ -61,7 +61,7 @@ namespace SpiritMod.Items.Accessory.MoonlightSack
 				Microsoft.Xna.Framework.Color newColor2 = color2;
 				Microsoft.Xna.Framework.Color faa = item.GetAlpha(newColor2) * (1f - num8);
 				Vector2 position2 = item.Center + ((float) ((double) index2 / (double) num7 * 6.28318548202515) + rotation + num10).ToRotationVector2() * (float) (2.0 * (double) num8 + 2.0) - Main.screenPosition - new Vector2((float) texture.Width, (float) (texture.Height / 1)) * item.scale / 2f + vector2_3 * item.scale + new Vector2(0.0f, addY + addHeight);
-				Main.spriteBatch.Draw(mod.GetTexture("Items/Accessory/Moonlight_Sack/Moonlight_Sack_Glow"), position2, new Microsoft.Xna.Framework.Rectangle?(aga), faa, rotation, vector2_3, item.scale, spriteEffects, 0.0f);
+				Main.spriteBatch.Draw(mod.GetTexture("Items/Accessory/MoonlightSack/Moonlight_Sack_Glow"), position2, new Microsoft.Xna.Framework.Rectangle?(aga), faa, rotation, vector2_3, item.scale, spriteEffects, 0.0f);
 			}
 			for (int index2 = 0; index2 < 4; ++index2)
 			{
@@ -69,9 +69,9 @@ namespace SpiritMod.Items.Accessory.MoonlightSack
 				Microsoft.Xna.Framework.Color faa = item.GetAlpha(newColor2) * (1f - num9);
 				Vector2 position2 = item.Center + ((float) ((double) index2 / (double) 4 * 6.28318548202515) + rotation + num10).ToRotationVector2() * (float) (4.0 * (double) num9 + 2.0) - Main.screenPosition - new Vector2((float) texture.Width, (float) (texture.Height / 1)) * item.scale / 2f + vector2_3 * item.scale + new Vector2(0.0f, addY + addHeight);
 				Vector2 pos2 = item.Center + ((float) ((double) index2 / (double) 4 * 6.28318548202515) + rotation + num10).ToRotationVector2() * (float) (2.0 * (double) num9 + 2.0) - Main.screenPosition - new Vector2((float) texture.Width, (float) (texture.Height / 1)) * item.scale / 2f + vector2_3 * item.scale + new Vector2(0.0f, addY + addHeight);
-				Main.spriteBatch.Draw(mod.GetTexture("Items/Accessory/Moonlight_Sack/Moonlight_Sack_Glow"), pos2, new Microsoft.Xna.Framework.Rectangle?(aga), color2, rotation, vector2_3, item.scale, spriteEffects, 0.0f);
+				Main.spriteBatch.Draw(mod.GetTexture("Items/Accessory/MoonlightSack/Moonlight_Sack_Glow"), pos2, new Microsoft.Xna.Framework.Rectangle?(aga), color2, rotation, vector2_3, item.scale, spriteEffects, 0.0f);
 			}
-			Main.spriteBatch.Draw(mod.GetTexture("Items/Accessory/Moonlight_Sack/Moonlight_Sack_Glow"), bb, new Microsoft.Xna.Framework.Rectangle?(aga), color2, rotation, vector2_3, item.scale, spriteEffects, 0.0f);
+			Main.spriteBatch.Draw(mod.GetTexture("Items/Accessory/MoonlightSack/Moonlight_Sack_Glow"), bb, new Microsoft.Xna.Framework.Rectangle?(aga), color2, rotation, vector2_3, item.scale, spriteEffects, 0.0f);
 			return false;
 		}
 	}

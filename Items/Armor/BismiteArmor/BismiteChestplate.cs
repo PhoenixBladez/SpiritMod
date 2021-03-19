@@ -11,24 +11,23 @@ namespace SpiritMod.Items.Armor.BismiteArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bismite Chestplate");
-			Tooltip.SetDefault("4% increased damage and critical strike chance");
+			Tooltip.SetDefault("3% increased critical strike chance");
 
 		}
 		public override void SetDefaults()
 		{
 			item.width = 30;
 			item.height = 20;
-			item.value = 6000;
+			item.value = Item.buyPrice(silver: 8);
 			item.rare = ItemRarityID.Blue;
 			item.defense = 3;
 		}
 
 		public override void UpdateEquip(Player player)
 		{
-			player.allDamage += 0.04f;
-			player.magicCrit += 4;
-			player.meleeCrit += 4;
-			player.rangedCrit += 4;
+			player.magicCrit += 3;
+			player.meleeCrit += 3;
+			player.rangedCrit += 3;
 		}
 		public override void AddRecipes()
 		{

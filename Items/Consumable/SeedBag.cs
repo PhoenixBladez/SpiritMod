@@ -38,6 +38,7 @@ namespace SpiritMod.Items.Consumable
 		{
 			player.QuickSpawnItem(ItemID.MushroomGrassSeeds, Main.rand.Next(1, 5));
 			player.QuickSpawnItem(ItemID.JungleGrassSeeds, Main.rand.Next(1, 5));
+			player.QuickSpawnItem(ModContent.ItemType<Items.Placeable.Tiles.BriarGrassSeeds>(), Main.rand.Next(1, 5));
 		}
 	}
 }

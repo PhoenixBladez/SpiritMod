@@ -19,16 +19,16 @@ namespace SpiritMod.Items.Armor.BismiteArmor
 			=> "Not getting hit builds up stacks of Virulence\n"
 			+ "Virulence charges up every 10 seconds\n"
 			+ "Striking while Virulence is charged releases a toxic explosion\n"
-			+ "Getting hit depletes Virulence entirely and releases a smaller blast";
+			+ "Getting hit depletes Virulence entirely";
 		public override SpiritPlayerEffect SetbonusEffect => new BismiteSetbonusEffect();
 
 		public override void SetDefaults()
 		{
 			item.width = 22;
 			item.height = 20;
-			item.value = Item.buyPrice(silver: 30);
+			item.value = Item.buyPrice(silver: 10);
 			item.rare = ItemRarityID.Blue;
-			item.defense = 3;
+			item.defense = 2;
 		}
 
 		public override void DrawHair(ref bool drawHair, ref bool drawAltHair) => drawAltHair = true;
@@ -79,12 +79,6 @@ namespace SpiritMod.Items.Armor.BismiteArmor
 		public override void PlayerHurt(Player player, bool pvp, bool quiet, double damage, int hitDirection, bool crit)
 		{
 			virulence = 600f;
-
-			if (!player.HasBuff(ModContent.BuffType<VirulenceCooldown>())) {
-				Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<VirulenceExplosion>(), projDamage, 5, Main.myPlayer);
-			}
-
-			player.AddBuff(ModContent.BuffType<VirulenceCooldown>(), 140);
 		}
 
 		public override void PlayerOnHitNPC(Player player, Item item, NPC target, int damage, float knockback, bool crit)

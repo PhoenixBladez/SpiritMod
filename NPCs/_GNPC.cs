@@ -964,7 +964,10 @@ namespace SpiritMod.NPCs
 			else if (!npc.SpawnedFromStatue && npc.CanDamage() && Main.rand.Next(750) == 0 && npc.type != ModContent.NPCType<NPCs.Boss.ReachBoss.ExplodingSpore>()) {
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Glyph>());
 			}
-
+			if (npc.type == NPCID.Tim || npc.type == NPCID.RuneWizard)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Glyph>());
+			}
             #endregion
             /* 
 			if (Main.rand.Next(40) == 1 && !npc.SpawnedFromStatue)
@@ -1131,13 +1134,6 @@ namespace SpiritMod.NPCs
                 if (Main.rand.Next(Main.expertMode ? 95 : 110) < 1)
                 {
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Club.BoneClub>());
-                }
-                if (Main.rand.Next(Main.expertMode ? 130 : 150) < 1 && Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 53);
-                    NPC.NewNPC((int)npc.position.X + Main.rand.Next(-10, 10), (int)npc.position.Y + Main.rand.Next(-10, 10), ModContent.NPCType<SpectralSkull>());
-                    NPC.NewNPC((int)npc.position.X + Main.rand.Next(-10, 10), (int)npc.position.Y + Main.rand.Next(-10, 10), ModContent.NPCType<SpectralSkull>());
-                    NPC.NewNPC((int)npc.position.X + Main.rand.Next(-10, 10), (int)npc.position.Y + Main.rand.Next(-10, 10), ModContent.NPCType<SpectralSkull>());
                 }
             }
             if (closest.GetSpiritPlayer().ZoneAsteroid && Main.rand.Next(50) == 0) {

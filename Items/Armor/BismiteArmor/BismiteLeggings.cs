@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Armor.BismiteArmor
 		{
 			item.width = 22;
 			item.height = 18;
-			item.value = Item.buyPrice(silver: 40);
+			item.value = Item.buyPrice(silver: 6);
 			item.rare = ItemRarityID.Blue;
 			item.defense = 2;
 		}

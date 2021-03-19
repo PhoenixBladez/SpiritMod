@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.width = 50;
 			item.height = 50;
 			item.value = Terraria.Item.sellPrice(0, 0, 20, 0);
-			item.rare = ItemRarityID.Green;
+			item.rare = 1;
 			item.knockBack = 2.5f;
 			item.UseSound = SoundID.Item20;
 			item.shoot = ModContent.ProjectileType<BismiteSentrySummon>();

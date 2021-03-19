@@ -5,6 +5,7 @@ using SpiritMod.Items.Armor.CowboySet;
 using SpiritMod.Items.Armor.BeekeeperSet;
 using SpiritMod.Items.Armor.CapacitorSet;
 using SpiritMod.Items.Armor.CenturionSet;
+using SpiritMod.Items.Armor.ClatterboneArmor;
 using SpiritMod.Items.Armor.WayfarerSet;
 using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Items.Accessory;
@@ -16,6 +17,7 @@ using SpiritMod.Items.Pets;
 using SpiritMod.Items.Pins;
 using SpiritMod.Items.Placeable;
 using SpiritMod.Items.Placeable.Furniture;
+using SpiritMod.Items.Placeable.MusicBox;
 using SpiritMod.Items.Placeable.IceSculpture;
 using SpiritMod.Items.Placeable.Tiles;
 using SpiritMod.Items.Weapon.Magic;
@@ -263,6 +265,7 @@ namespace SpiritMod.NPCs.Town
 				() => {
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<PinRed>());
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<OldTelescope>());
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<AsteroidBox>());
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MapScroll>(), Main.rand.Next(1, 3));
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<JumpPadItem>(), Main.rand.Next(1, 2));
@@ -298,6 +301,7 @@ namespace SpiritMod.NPCs.Town
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CenturionHead>());
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CenturionBody>());
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CenturionLegs>());
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MarbleBox>());
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MapScroll>(), Main.rand.Next(1, 3));
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
 					Main.LocalPlayer.QuickSpawnItem(ItemID.Javelin, Main.rand.Next(50, 95));
@@ -333,6 +337,7 @@ namespace SpiritMod.NPCs.Town
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CapacitorHead>());
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CapacitorBody>());
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<CapacitorLegs>());
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<GraniteBox>());
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<MapScroll>(), Main.rand.Next(1, 4));
 					Main.LocalPlayer.QuickSpawnItem(ItemID.NightVisionHelmet);
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
@@ -635,7 +640,10 @@ namespace SpiritMod.NPCs.Town
 					int loot3 = Main.rand.Next(lootTable1.Length);
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<WheezerPainting>());
 					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<SatchelReward>());
-					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ClatterSpear>(), Main.rand.Next(4, 10));
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ClatterSpear>());
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ClatterboneFaceplate>());
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ClatterboneBreastplate>());
+					Main.LocalPlayer.QuickSpawnItem(ModContent.ItemType<ClatterboneLeggings>());
 					Main.LocalPlayer.QuickSpawnItem(lootTable1[loot3], Main.rand.Next(18, 30));
 					Main.LocalPlayer.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(99, 175));
 				});

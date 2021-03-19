@@ -356,7 +356,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 				{
 					GoodLuck();
 					player.AddBuff(ModContent.BuffType<Buffs.MidasTouch>(), 3600*5);
-					for (int numi = 0; numi < 5; numi++)
+					for (int numi = 0; numi < 8; numi++)
 					{
 						float SpeedX = (float)(-(double)1 * (double)Main.rand.Next(40, 70) * 0.00999999977648258 + (double)Main.rand.Next(-20, 21) * 0.400000005960464);
 						float SpeedY = (float)(-(double)1 * (double)Main.rand.Next(40, 70) * 0.00999999977648258 + (double)Main.rand.Next(-20, 21) * 0.400000005960464);				
