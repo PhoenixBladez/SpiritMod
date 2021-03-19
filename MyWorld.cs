@@ -52,6 +52,8 @@ using SpiritMod.Items.Weapon.Swung.AccursedBlade;
 using SpiritMod.Items.Weapon.Summon.OldCross;
 using SpiritMod.Sepulchre;
 using System.Diagnostics.Contracts;
+using static SpiritMod.Utilities.ChestPoolUtils;
+using SpiritMod.Items.Tool;
 
 namespace SpiritMod
 {
@@ -67,7 +69,7 @@ namespace SpiritMod
 		public static int auroraChance = 4;
 
 		public static bool luminousOcean = false;
-        public static bool calmNight = false;
+		public static bool calmNight = false;
 		public static int luminousType = 1;
 
 		public static bool stardustWeather = false;
@@ -78,11 +80,11 @@ namespace SpiritMod
 		public static float spiritLight = 0;
 
 		public static bool BlueMoon = false;
-        public static bool jellySky = false;
+		public static bool jellySky = false;
 		public static int SpiritTiles = 0;
 		public static int AsteroidTiles = 0;
 		public static int MarbleTiles = 0;
-        public static int GraniteTiles = 0;
+		public static int GraniteTiles = 0;
 		public static int ReachTiles = 0;
 		public static int HiveTiles = 0;
 		public static int CorruptHazards = 0;
@@ -109,13 +111,13 @@ namespace SpiritMod
 		public static bool downedIlluminantMaster = false;
 		public static bool downedOverseer = false;
 
-        public static bool downedMechromancer = false;
-        public static bool downedOccultist = false;
-        public static bool downedGladeWraith = false;
-        public static bool downedSnaptrapper = false;
-        public static bool downedBeholder = false;
-        public static bool downedJellyDeluge = false;
-        public static bool downedTide = false;
+		public static bool downedMechromancer = false;
+		public static bool downedOccultist = false;
+		public static bool downedGladeWraith = false;
+		public static bool downedSnaptrapper = false;
+		public static bool downedBeholder = false;
+		public static bool downedJellyDeluge = false;
+		public static bool downedTide = false;
 		public static bool downedBlueMoon = false;
 
 		//Adventurer variables
@@ -127,19 +129,19 @@ namespace SpiritMod
 		public static bool drBonesComplete = false;
 		public static bool spawnHornetFish = false;
 		public static bool spawnVibeshrooms = false;
-        public static bool spawnDarkfeather = false;
-        public static bool spawnHookbats = false;
-        public static bool owlComplete = false;
+		public static bool spawnDarkfeather = false;
+		public static bool spawnHookbats = false;
+		public static bool owlComplete = false;
 
-        public static int numWinterbornKilled;
+		public static int numWinterbornKilled;
 		public static int numBeholdersKilled;
 		public static int numValkyriesKilled;
 		public static int numAntlionsKilled;
 		public static int numDrBonesKilled;
 		public static int numWheezersKilled;
 		public static int numStardancersKilled;
-        public static int numBriarMobsKilled;
-        public static int numOwlsKilled;
+		public static int numBriarMobsKilled;
+		public static int numOwlsKilled;
 
 		//pagoda enemy spawn variables
 		public static int pagodaX = 0;
@@ -194,21 +196,21 @@ namespace SpiritMod
 				downed.Add("overseer");
 			if (downedBlueMoon)
 				downed.Add("bluemoon");
-            if (downedJellyDeluge)
-                downed.Add("jellyDeluge");
-            if (downedTide)
-                downed.Add("tide");
-            if (downedMechromancer)
-                downed.Add("mechromancer");
-            if (downedOccultist)
-                downed.Add("occultist");
-            if (downedGladeWraith)
-                downed.Add("gladeWraith");
-            if (downedBeholder)
-                downed.Add("beholder");
-            if (downedSnaptrapper)
-                downed.Add("snaptrapper");
-            data.Add("downed", downed);
+			if (downedJellyDeluge)
+				downed.Add("jellyDeluge");
+			if (downedTide)
+				downed.Add("tide");
+			if (downedMechromancer)
+				downed.Add("mechromancer");
+			if (downedOccultist)
+				downed.Add("occultist");
+			if (downedGladeWraith)
+				downed.Add("gladeWraith");
+			if (downedBeholder)
+				downed.Add("beholder");
+			if (downedSnaptrapper)
+				downed.Add("snaptrapper");
+			data.Add("downed", downed);
 
 			TagCompound droppedGlyphTag = new TagCompound();
 			foreach (KeyValuePair<string, bool> entry in droppedGlyphs) {
@@ -217,7 +219,7 @@ namespace SpiritMod
 			data.Add("droppedGlyphs", droppedGlyphTag);
 
 			data.Add("blueMoon", BlueMoon);
-            data.Add("jellySky", jellySky);
+			data.Add("jellySky", jellySky);
 
 			data.Add("gennedBandits", gennedBandits);
 			data.Add("gennedTower", gennedTower);
@@ -230,17 +232,17 @@ namespace SpiritMod
 			data.Add("winterbornComplete", winterbornComplete);
 			data.Add("drBonesComplete", drBonesComplete);
 			data.Add("spawnHornetFish", spawnHornetFish);
-            data.Add("spawnDarkfeather", spawnDarkfeather);
-            data.Add("spawnVibeshrooms", spawnVibeshrooms);
-            data.Add("spawnHookbats", spawnHookbats);
-            data.Add("owlComplete", owlComplete);
+			data.Add("spawnDarkfeather", spawnDarkfeather);
+			data.Add("spawnVibeshrooms", spawnVibeshrooms);
+			data.Add("spawnHookbats", spawnHookbats);
+			data.Add("owlComplete", owlComplete);
 
-            data.Add("numWinterbornKilled", numWinterbornKilled);
+			data.Add("numWinterbornKilled", numWinterbornKilled);
 			data.Add("numAntlionsKilled", numAntlionsKilled);
 			data.Add("numWheezersKilled", numWheezersKilled);
-            data.Add("numBriarMobsKilled", numBriarMobsKilled);
+			data.Add("numBriarMobsKilled", numBriarMobsKilled);
 
-            data.Add("pagodaX", pagodaX);
+			data.Add("pagodaX", pagodaX);
 			data.Add("pagodaY", pagodaY);
 			data.Add("spawnedPagodaEnemies", spawnedPagodaEnemies);
 
@@ -262,16 +264,16 @@ namespace SpiritMod
 			downedIlluminantMaster = downed.Contains("illuminantMaster");
 			downedAtlas = downed.Contains("atlas");
 			downedOverseer = downed.Contains("overseer");
-            downedTide = downed.Contains("tide");
-            downedMechromancer = downed.Contains("mechromancer");
-            downedOccultist = downed.Contains("occultist");
-            downedGladeWraith = downed.Contains("gladeWraith");
-            downedBeholder = downed.Contains("beholder");
-            downedSnaptrapper = downed.Contains("snaptrapper");
-            downedBlueMoon = downed.Contains("bluemoon");
-            downedJellyDeluge = downed.Contains("jellyDeluge");
-            //LoadSpecialNPCs(tag);
-            SpiritMod.AdventurerQuests.WorldLoad(tag);
+			downedTide = downed.Contains("tide");
+			downedMechromancer = downed.Contains("mechromancer");
+			downedOccultist = downed.Contains("occultist");
+			downedGladeWraith = downed.Contains("gladeWraith");
+			downedBeholder = downed.Contains("beholder");
+			downedSnaptrapper = downed.Contains("snaptrapper");
+			downedBlueMoon = downed.Contains("bluemoon");
+			downedJellyDeluge = downed.Contains("jellyDeluge");
+			//LoadSpecialNPCs(tag);
+			SpiritMod.AdventurerQuests.WorldLoad(tag);
 			TagCompound droppedGlyphTag = tag.GetCompound("droppedGlyphs");
 			droppedGlyphs.Clear();
 			foreach (KeyValuePair<string, object> entry in droppedGlyphTag) {
@@ -279,7 +281,7 @@ namespace SpiritMod
 			}
 
 			BlueMoon = tag.GetBool("blueMoon");
-            jellySky = tag.GetBool("jellySky");
+			jellySky = tag.GetBool("jellySky");
 
 			gennedBandits = tag.GetBool("gennedBandits");
 			gennedTower = tag.GetBool("gennedTower");
@@ -292,17 +294,17 @@ namespace SpiritMod
 			drBonesComplete = tag.GetBool("drBonesComplete");
 			spawnHornetFish = tag.GetBool("spawnHornetFish");
 			spawnVibeshrooms = tag.GetBool("spawnVibeshrooms");
-            spawnDarkfeather = tag.GetBool("spawnDarkfeather");
-            spawnHookbats = tag.GetBool("spawnHookbats");
-            owlComplete = tag.GetBool("owlComplete");
+			spawnDarkfeather = tag.GetBool("spawnDarkfeather");
+			spawnHookbats = tag.GetBool("spawnHookbats");
+			owlComplete = tag.GetBool("owlComplete");
 
-            numWinterbornKilled = tag.Get<int>("numWinterbornKilled");
+			numWinterbornKilled = tag.Get<int>("numWinterbornKilled");
 			numAntlionsKilled = tag.Get<int>("numAntlionsKilled");
 			numWheezersKilled = tag.Get<int>("numWheezersKilled");
 			numStardancersKilled = tag.Get<int>("numStardancersKilled");
-            numBriarMobsKilled = tag.Get<int>("numBriarMobsKilled");
+			numBriarMobsKilled = tag.Get<int>("numBriarMobsKilled");
 
-            pagodaX = tag.Get<int>("pagodaX");
+			pagodaX = tag.Get<int>("pagodaX");
 			pagodaY = tag.Get<int>("pagodaY");
 			spawnedPagodaEnemies = tag.Get<bool>("spawnedPagodaEnemies");
 		}
@@ -315,9 +317,9 @@ namespace SpiritMod
 				BitsByte flags1 = reader.ReadByte();
 				BitsByte flags2 = reader.ReadByte();
 				BitsByte flags3 = reader.ReadByte();
-                BitsByte flags4 = reader.ReadByte();
+				BitsByte flags4 = reader.ReadByte();
 
-                downedScarabeus = flags[0];
+				downedScarabeus = flags[0];
 				downedAncientFlier = flags[1];
 				downedRaider = flags[2];
 				downedInfernon = flags[3];
@@ -329,21 +331,21 @@ namespace SpiritMod
 
 				downedReachBoss = flags1[0];
 				downedMoonWizard = flags1[1];
-                downedTide = flags1[2];
-                downedMechromancer = flags1[3];
-                downedOccultist = flags2[4];
-                downedGladeWraith = flags2[5];
-                downedBeholder = flags2[6];
-                downedSnaptrapper = flags2[7];
-                downedJellyDeluge = flags2[8];
+				downedTide = flags1[2];
+				downedMechromancer = flags1[3];
+				downedOccultist = flags2[4];
+				downedGladeWraith = flags2[5];
+				downedBeholder = flags2[6];
+				downedSnaptrapper = flags2[7];
+				downedJellyDeluge = flags2[8];
 
-                gennedBandits = flags2[0];
+				gennedBandits = flags2[0];
 				gennedTower = flags2[1];
-                spawnDarkfeather = flags2[2];
-                spawnHookbats = flags2[3];
-                owlComplete = flags2[4];
+				spawnDarkfeather = flags2[2];
+				spawnHookbats = flags2[3];
+				owlComplete = flags2[4];
 
-                sepulchreComplete = flags3[0];
+				sepulchreComplete = flags3[0];
 				spawnHornetFish = flags3[1];
 				spawnVibeshrooms = flags3[2];
 				jadeStaffComplete = flags3[3];
@@ -373,8 +375,8 @@ namespace SpiritMod
 			writer.Write(numAntlionsKilled);
 			writer.Write(numWheezersKilled);
 			writer.Write(numStardancersKilled);
-            writer.Write(numBriarMobsKilled);
-        }
+			writer.Write(numBriarMobsKilled);
+		}
 
 		public override void NetReceive(BinaryReader reader)
 		{
@@ -392,27 +394,27 @@ namespace SpiritMod
 
 			downedReachBoss = bosses2[0];
 			downedMoonWizard = bosses2[1];
-            downedTide = bosses2[2];
-            downedMechromancer = bosses2[3];
-            downedOccultist = bosses2[4];
-            downedGladeWraith = bosses2[5];
-            downedBeholder = bosses2[6];
-            downedSnaptrapper = bosses2[7];
+			downedTide = bosses2[2];
+			downedMechromancer = bosses2[3];
+			downedOccultist = bosses2[4];
+			downedGladeWraith = bosses2[5];
+			downedBeholder = bosses2[6];
+			downedSnaptrapper = bosses2[7];
 
-            BitsByte environment = reader.ReadByte();
+			BitsByte environment = reader.ReadByte();
 			BlueMoon = environment[0];
-            downedBlueMoon = environment[1];
-            jellySky = environment[2];
-            downedJellyDeluge = environment[3];
+			downedBlueMoon = environment[1];
+			jellySky = environment[2];
+			downedJellyDeluge = environment[3];
 
-            BitsByte worldgen = reader.ReadByte();
+			BitsByte worldgen = reader.ReadByte();
 			gennedBandits = worldgen[0];
 			gennedTower = worldgen[1];
-            spawnDarkfeather = worldgen[2];
-            spawnHookbats = worldgen[3];
-            owlComplete = worldgen[4];
+			spawnDarkfeather = worldgen[2];
+			spawnHookbats = worldgen[3];
+			owlComplete = worldgen[4];
 
-            BitsByte adventurerQuests = reader.ReadByte();
+			BitsByte adventurerQuests = reader.ReadByte();
 
 			sepulchreComplete = adventurerQuests[0];
 			spawnHornetFish = adventurerQuests[1];
@@ -427,7 +429,7 @@ namespace SpiritMod
 			numAntlionsKilled = reader.ReadInt32();
 			numWheezersKilled = reader.ReadInt32();
 			numStardancersKilled = reader.ReadInt32();
-            numBriarMobsKilled = reader.ReadInt32();
+			numBriarMobsKilled = reader.ReadInt32();
 		}
 		public override void PreUpdate()
 		{
@@ -480,14 +482,14 @@ namespace SpiritMod
 			downedMoonWizard = false;
 			downedIlluminantMaster = false;
 			downedOverseer = false;
-            downedTide = false;
-            downedMechromancer = false;
-            downedOccultist = false;
-            downedGladeWraith = false;
-            downedBeholder = false;
-            downedSnaptrapper = false;
+			downedTide = false;
+			downedMechromancer = false;
+			downedOccultist = false;
+			downedGladeWraith = false;
+			downedBeholder = false;
+			downedSnaptrapper = false;
 
-        }
+		}
 
 		/// <summary>
 		/// Checks if the given area is more or less flattish.
@@ -945,7 +947,7 @@ namespace SpiritMod
 			return placed;
 		}
 		#endregion
-	
+
 		#region BanditHideout
 		private void PlaceBanditHideout(int i, int j, int[,] BlocksArray, int[,] WallsArray, int[,] LootArray)
 		{
@@ -1353,9 +1355,11 @@ namespace SpiritMod
 
 			tasks.Insert(ShiniesIndex + 1, new PassLegacy("Piles", SpiritGenPasses.PilesPass));
 		}
+
 		public override void PostWorldGen()
 		{
 			int[] commonItems1 = new int[] { ItemID.CopperBar, ItemID.IronBar, ItemID.TinBar, ItemID.LeadBar };
+			int[] commonItems2 = new int[] { ItemID.GoldBar, ItemID.PlatinumBar };
 			int[] ammo1 = new int[] { ItemID.WoodenArrow, ItemID.Shuriken };
 			int[] potions = new int[] { ItemID.SwiftnessPotion, ItemID.IronskinPotion, ItemID.ShinePotion, ItemID.NightOwlPotion, ItemID.ArcheryPotion, ItemID.HunterPotion };
 			int[] recall = new int[] { ItemID.RecallPotion };
@@ -1364,110 +1368,7 @@ namespace SpiritMod
 			int[] other1 = new int[] { ItemID.HerbBag, ItemID.Grenade };
 			int[] other2 = new int[] { ItemID.Bottle, ItemID.Torch };
 			int[] moddedMaterials = new int[] { ItemType<BismiteCrystal>(), ItemType<OldLeather>() };
-			int stack;
 
-			int[] MainAsteroidItems = { ItemType<ZiplineGun>(), ItemType<HighGravityBoots>(), ItemType<MagnetHook>() };
-			bool[] placedItems = Enumerable.Repeat(false, MainAsteroidItems.Length).ToArray();
-
-			//int itemsToPlaceInPagodaChestsChoice = 0;
-			for (int chestIndex = 0; chestIndex < 1000; chestIndex++) {
-				Chest chest = Main.chest[chestIndex];
-				// If you look at the sprite for Chests by extracting Tiles_21.xnb, you'll see that the 12th chest is the Ice Chest. Since we are counting from 0, this is where 11 comes from. 36 comes from the width of each tile including padding. 
-				if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 28 * 36) {
-					for (int inventoryIndex = 0; inventoryIndex < 5; inventoryIndex++) {
-						if (chest.item[inventoryIndex].type == ItemID.None) {
-
-							if (inventoryIndex == 0) {
-								int[] itemsToPlaceInPagodaChests1 = { ItemType<JadeStaff>(), ItemType<JadeStaff>() };
-								stack = 1;
-								chest.item[inventoryIndex].SetDefaults(Main.rand.Next(itemsToPlaceInPagodaChests1));
-								chest.item[inventoryIndex].stack = stack;
-							}
-							if (inventoryIndex == 1) {
-								int[] itemsToPlaceInPagodaChests2 = { ItemType<DynastyFan>(), ItemType<DynastyFan>() };
-								stack = 1;
-								chest.item[inventoryIndex].SetDefaults(Main.rand.Next(itemsToPlaceInPagodaChests2));
-								chest.item[inventoryIndex].stack = stack;
-							}
-							chest.item[2].SetDefaults(commonItems1[Main.rand.Next(4)], false);
-							chest.item[2].stack = WorldGen.genRand.Next(3, 10);
-							chest.item[3].SetDefaults(ammo1[Main.rand.Next(2)], false);
-							chest.item[3].stack = WorldGen.genRand.Next(20, 50);
-							chest.item[4].SetDefaults(potions[Main.rand.Next(6)], false);
-							chest.item[4].stack = WorldGen.genRand.Next(2, 3);
-							chest.item[5].SetDefaults(recall[Main.rand.Next(1)], false);
-							chest.item[5].stack = WorldGen.genRand.Next(2, 3);
-							chest.item[6].SetDefaults(other1[Main.rand.Next(2)], false);
-							chest.item[6].stack = WorldGen.genRand.Next(1, 4);
-							chest.item[7].SetDefaults(other2[Main.rand.Next(2)], false);
-							chest.item[7].stack = WorldGen.genRand.Next(1, 4);
-							chest.item[8].SetDefaults(moddedMaterials[Main.rand.Next(2)], false);
-							chest.item[8].stack = WorldGen.genRand.Next(2, 6);
-							chest.item[9].SetDefaults(72, false);
-							chest.item[9].stack = WorldGen.genRand.Next(12, 30);
-						}
-					}
-				}
-				if (chest != null && Main.tile[chest.x, chest.y].type == TileType<AsteroidChest>()) {
-					for (int inventoryIndex = 0; inventoryIndex < 5; inventoryIndex++) {
-						if (chest.item[inventoryIndex].type == ItemID.None) {
-
-							if (inventoryIndex == 0) {
-								int itemtoplace = WorldGen.genRand.Next(MainAsteroidItems.Length);
-								bool canplace = false;
-								while(!canplace) { //check if the chosen item has been placed before, and if all items havent already been placed
-									itemtoplace = WorldGen.genRand.Next(MainAsteroidItems.Length);
-									if(!placedItems[itemtoplace] || placedItems.All(x => x == true)) {
-										placedItems[itemtoplace] = true;
-										canplace = true;
-										break;
-									}
-								}
-								if (canplace) {
-									placedItems[itemtoplace] = true;
-									chest.item[inventoryIndex].SetDefaults(MainAsteroidItems[itemtoplace]);
-								}
-							}
-							if (inventoryIndex == 1) {
-								if (WorldGen.genRand.Next(2) == 0) {
-									int[] itemsToPlaceInPagodaChests2 = { ItemType<JumpPadItem>(), ItemID.SuspiciousLookingEye };
-									stack = 1;
-									chest.item[inventoryIndex].SetDefaults(Main.rand.Next(itemsToPlaceInPagodaChests2));
-									chest.item[inventoryIndex].stack = stack;
-								}
-								else if (WorldGen.genRand.Next(2) == 0) {
-									int[] itemsToPlaceInPagodaChests2 = { ItemType<TargetCan>() };
-									stack = WorldGen.genRand.Next(10, 15);
-									chest.item[inventoryIndex].SetDefaults(Main.rand.Next(itemsToPlaceInPagodaChests2));
-									chest.item[inventoryIndex].stack = stack;
-								}
-								else {
-									int[] itemsToPlaceInPagodaChests2 = { ItemType<SpaceJunkItem>(), ItemType<SpaceJunkItem>() };
-									stack = WorldGen.genRand.Next(30, 55);
-									chest.item[inventoryIndex].SetDefaults(Main.rand.Next(itemsToPlaceInPagodaChests2));
-									chest.item[inventoryIndex].stack = stack;
-								}
-							}
-							chest.item[2].SetDefaults(commonItems1[Main.rand.Next(4)], false);
-							chest.item[2].stack = WorldGen.genRand.Next(3, 10);
-							chest.item[3].SetDefaults(ammo1[Main.rand.Next(2)], false);
-							chest.item[3].stack = WorldGen.genRand.Next(20, 50);
-							chest.item[4].SetDefaults(potions[Main.rand.Next(6)], false);
-							chest.item[4].stack = WorldGen.genRand.Next(2, 3);
-							chest.item[5].SetDefaults(recall[Main.rand.Next(1)], false);
-							chest.item[5].stack = WorldGen.genRand.Next(2, 3);
-							chest.item[6].SetDefaults(other1[Main.rand.Next(2)], false);
-							chest.item[6].stack = WorldGen.genRand.Next(1, 4);
-							chest.item[7].SetDefaults(other2[Main.rand.Next(2)], false);
-							chest.item[7].stack = WorldGen.genRand.Next(1, 4);
-							chest.item[8].SetDefaults(moddedMaterials[Main.rand.Next(2)], false);
-							chest.item[8].stack = WorldGen.genRand.Next(2, 6);
-							chest.item[9].SetDefaults(72, false);
-							chest.item[9].stack = WorldGen.genRand.Next(12, 30);
-						}
-					}
-				}
-			}
 			//Tile tile;
 			for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY) * 15E-05); k++) {
 				int EEXX = WorldGen.genRand.Next(100, Main.maxTilesX - 100);
@@ -1475,16 +1376,16 @@ namespace SpiritMod
 				if (Main.tile[EEXX, WHHYY] != null) {
 					if (Main.tile[EEXX, WHHYY].active()) {
 						if (Main.tile[EEXX, WHHYY].type == 161) {
-							WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)ModContent.TileType<CryoliteOreTile>());
+							WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)TileType<CryoliteOreTile>());
 						}
 						else if (Main.tile[EEXX, WHHYY].type == 163) {
-							WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)ModContent.TileType<CryoliteOreTile>());
+							WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)TileType<CryoliteOreTile>());
 						}
 						else if (Main.tile[EEXX, WHHYY].type == 164) {
-							WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)ModContent.TileType<CryoliteOreTile>());
+							WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)TileType<CryoliteOreTile>());
 						}
 						else if (Main.tile[EEXX, WHHYY].type == 200) {
-							WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)ModContent.TileType<CryoliteOreTile>());
+							WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)TileType<CryoliteOreTile>());
 						}
 					}
 				}
@@ -1495,222 +1396,144 @@ namespace SpiritMod
 				if (Main.tile[EEXX, WHHYY] != null) {
 					if (Main.tile[EEXX, WHHYY].active()) {
 						if (Main.tile[EEXX, WHHYY].type == 161) {
-							WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(6, 7), WorldGen.genRand.Next(6, 7), (ushort)ModContent.TileType<CreepingIceTile>());
+							WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(6, 7), WorldGen.genRand.Next(6, 7), (ushort)TileType<CreepingIceTile>());
 						}
 						else if (Main.tile[EEXX, WHHYY].type == 163) {
-							WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(6, 7), WorldGen.genRand.Next(6, 7), (ushort)ModContent.TileType<CreepingIceTile>());
+							WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(6, 7), WorldGen.genRand.Next(6, 7), (ushort)TileType<CreepingIceTile>());
 						}
 						else if (Main.tile[EEXX, WHHYY].type == 164) {
-							WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(6, 7), WorldGen.genRand.Next(6, 7), (ushort)ModContent.TileType<CreepingIceTile>());
+							WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(6, 7), WorldGen.genRand.Next(6, 7), (ushort)TileType<CreepingIceTile>());
 						}
 						else if (Main.tile[EEXX, WHHYY].type == 200) {
-							WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(6, 7), WorldGen.genRand.Next(6, 7), (ushort)ModContent.TileType<CreepingIceTile>());
+							WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(6, 7), WorldGen.genRand.Next(6, 7), (ushort)TileType<CreepingIceTile>());
 						}
 					}
 				}
 			}
-			for (int i = 1; i < Main.rand.Next(4, 6); i++) {
-				//int itemsToPlaceInGlassChestsSecondaryChoice = 0;
-				for (int chestIndex = 0; chestIndex < 1000; chestIndex++) {
-					Chest chest = Main.chest[chestIndex];
-					if (chest != null && Main.tile[chest.x, chest.y].frameX == 13 * 36 && Main.rand.Next(3) == 0) {
-						chest.item[4].SetDefaults(ItemType<Items.Consumable.ChaosPearl>(), false);
-						chest.item[4].stack = WorldGen.genRand.Next(20, 30);
-					}
-					if (chest != null && Main.tile[chest.x, chest.y].frameX == 2 * 36) {
-						if (Main.rand.Next(10) == 0)
-                        { 
-							if (WorldGen.crimson) {
-								chest.item[1].SetDefaults(ItemType<Tenderizer>(), false);
-							}
-							else {
-								chest.item[1].SetDefaults(ItemType<Slugger>(), false);
-							}
-						}
-						if (Main.rand.Next(10) == 0)
-                        {
-                            chest.item[1].SetDefaults(ItemType<CimmerianScepter>(), false);
-                        }
-					}
-					if (chest != null && Main.tile[chest.x, chest.y].frameX == 1 * 36 && Main.rand.Next(40) == 0) {
-						chest.item[1].SetDefaults(ItemType<Items.Accessory.MetalBand>(), false);
-					}
-					if (chest != null && Main.tile[chest.x, chest.y].frameX == 15 * 36) {
-						chest.item[1].SetDefaults(ItemType<Items.Weapon.Swung.HollowNail>(), false);
-					}
-				}
-			}
-			for (int i = 1; i < Main.rand.Next(4, 6); i++) {
-				int[] itemsToPlacePrimary = new int[] { ItemType<ToxicBottle>(), ItemType<AccursedBlade>(), ItemType<OldCross>() };
-				int[] ammoToPlace = new int[] { ItemType<SepulchreArrow>() };
-				//int itemsToPlaceInGlassChestsSecondaryChoice = 0;	
-				for (int chestIndex = 0; chestIndex < 1000; chestIndex++) {
-					Chest chest = Main.chest[chestIndex];
-					if (chest != null && Main.tile[chest.x, chest.y].type == TileType<SepulchreChestTile>()) {
-						chest.item[0].SetDefaults(itemsToPlacePrimary[Main.rand.Next(itemsToPlacePrimary.Length)], false);
-						chest.item[1].SetDefaults(commonItems1[Main.rand.Next(4)], false);
-						chest.item[1].stack = WorldGen.genRand.Next(3, 10);
-						chest.item[2].SetDefaults(ammo1[Main.rand.Next(2)], false);
-						chest.item[2].stack = WorldGen.genRand.Next(20, 50);
-						chest.item[3].SetDefaults(potions[Main.rand.Next(6)], false);
-						chest.item[3].stack = WorldGen.genRand.Next(2, 3);
-						chest.item[4].SetDefaults(recall[Main.rand.Next(1)], false);
-						chest.item[4].stack = WorldGen.genRand.Next(2, 3);
-						chest.item[5].SetDefaults(other1[Main.rand.Next(2)], false);
-						chest.item[5].stack = WorldGen.genRand.Next(1, 4);
-						chest.item[6].SetDefaults(other2[Main.rand.Next(2)], false);
-						chest.item[6].stack = WorldGen.genRand.Next(1, 4);
-						chest.item[7].SetDefaults(moddedMaterials[Main.rand.Next(2)], false);
-						chest.item[7].stack = WorldGen.genRand.Next(2, 6);
-						chest.item[8].SetDefaults(72, false);
-						chest.item[8].stack = WorldGen.genRand.Next(12, 30);
-					}
 
-				}
-			}
-			for (int i = 1; i < Main.rand.Next(4, 6); i++) {
-				int[] itemsToPlacePrimary = new int[] { ItemType<CleftHorn>()};
-				//int itemsToPlaceInGlassChestsSecondaryChoice = 0;
-				for (int chestIndex = 0; chestIndex < 1000; chestIndex++) {
-					Chest chest = Main.chest[chestIndex];
-					if (chest != null && Main.tile[chest.x, chest.y].type == TileType<GoldScarabChest>()) {
-						chest.item[0].SetDefaults(itemsToPlacePrimary[Main.rand.Next(itemsToPlacePrimary.Length)], false);
-						chest.item[1].SetDefaults(commonItems1[Main.rand.Next(4)], false);
-						chest.item[1].stack = WorldGen.genRand.Next(3, 10);
-						chest.item[2].SetDefaults(ammo1[Main.rand.Next(2)], false);
-						chest.item[2].stack = WorldGen.genRand.Next(20, 50);
-						chest.item[3].SetDefaults(potions[Main.rand.Next(6)], false);
-						chest.item[3].stack = WorldGen.genRand.Next(2, 3);
-						chest.item[4].SetDefaults(recall[Main.rand.Next(1)], false);
-						chest.item[4].stack = WorldGen.genRand.Next(2, 3);
-						chest.item[5].SetDefaults(other1[Main.rand.Next(2)], false);
-						chest.item[5].stack = WorldGen.genRand.Next(1, 4);
-						chest.item[6].SetDefaults(other2[Main.rand.Next(2)], false);
-						chest.item[6].stack = WorldGen.genRand.Next(1, 4);
-						chest.item[7].SetDefaults(moddedMaterials[Main.rand.Next(2)], false);
-						chest.item[7].stack = WorldGen.genRand.Next(2, 6);
-						chest.item[8].SetDefaults(72, false);
-						chest.item[8].stack = WorldGen.genRand.Next(12, 30);
-						break;
-					}
-				}
-			}
-			for (int i = 1; i < Main.rand.Next(4, 6); i++) {
-				int[] itemsToPlacePrimary = new int[] { ModContent.ItemType<Glyph>(), ItemID.MagicMirror, ItemID.WandofSparking };
-				//int itemsToPlaceInGlassChestsSecondaryChoice = 0;
-				for (int chestIndex = 0; chestIndex < 1000; chestIndex++) {
-					Chest chest = Main.chest[chestIndex];
-					if (chest != null && Main.tile[chest.x, chest.y].type == ModContent.TileType<GoblinChest>()) {
-						chest.item[0].SetDefaults(itemsToPlacePrimary[Main.rand.Next(2)], false);
-						chest.item[0].stack = WorldGen.genRand.Next(1, 1);
-						chest.item[1].SetDefaults(commonItems1[Main.rand.Next(4)], false);
-						chest.item[1].stack = WorldGen.genRand.Next(3, 10);
-						chest.item[2].SetDefaults(ammo1[Main.rand.Next(2)], false);
-						chest.item[2].stack = WorldGen.genRand.Next(20, 50);
-						chest.item[3].SetDefaults(potions[Main.rand.Next(6)], false);
-						chest.item[3].stack = WorldGen.genRand.Next(2, 3);
-						chest.item[4].SetDefaults(recall[Main.rand.Next(1)], false);
-						chest.item[4].stack = WorldGen.genRand.Next(2, 3);
-						chest.item[5].SetDefaults(other1[Main.rand.Next(2)], false);
-						chest.item[5].stack = WorldGen.genRand.Next(1, 4);
-						chest.item[6].SetDefaults(other2[Main.rand.Next(2)], false);
-						chest.item[6].stack = WorldGen.genRand.Next(1, 4);
-						chest.item[7].SetDefaults(moddedMaterials[Main.rand.Next(2)], false);
-						chest.item[7].stack = WorldGen.genRand.Next(2, 6);
-						chest.item[8].SetDefaults(72, false);
-						chest.item[8].stack = WorldGen.genRand.Next(12, 30);
-						break;
-					}
-				}
-			}
-            for (int i = 1; i < Main.rand.Next(4, 6); i++)
-            {
-                int[] itemsToPlacePrimary = new int[] { ModContent.ItemType<Book_AccessoryGuide>(), ModContent.ItemType<Book_Alchemist1>(), ModContent.ItemType<Book_ArmorGuide>(), ModContent.ItemType<Book_FoodGuide>(), ModContent.ItemType<Book_WeaponGuide>() };	                //int itemsToPlaceInGlassChestsSecondaryChoice = 0;
-                for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
-                {
-                    Chest chest = Main.chest[chestIndex];
-                    if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 0 * 36 && Main.rand.NextBool(5))
-                    {
-                        chest.item[1].SetDefaults(itemsToPlacePrimary[Main.rand.Next(5)], false);
-                    }
-                }
-            }
-            int[] itemsToPlacePrimaryGold = new int[] { ModContent.ItemType<Book_Lumoth>(), ModContent.ItemType<GranitePage>(), ModContent.ItemType<MarblePage>(), ModContent.ItemType<EnchantedLeafPage>(), ModContent.ItemType<HeartScalePage>(), ModContent.ItemType<FrigidFragmentPage>(), ModContent.ItemType<BismitePage>(), ModContent.ItemType<GlowrootPage>(), ModContent.ItemType<Book_Soulbloom>(), ModContent.ItemType<Book_Blossmoon>(), ModContent.ItemType<Book_Amea>(), ModContent.ItemType<Book_Slime>(), ModContent.ItemType<Book_Lava>(), ModContent.ItemType<Book_MJW>(), ModContent.ItemType<Book_Yeremy>(), ModContent.ItemType<Book_Mushroom>(), ModContent.ItemType<Book_Jellyfish>(), ModContent.ItemType<Book_Gunslinger>() };
-            //int itemsToPlaceInGlassChestsSecondaryChoice = 0;
-            for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
-            {
-                Chest chest = Main.chest[chestIndex];
-                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 1 * 36 && Main.rand.NextBool(10))
-                {
-                    chest.item[2].SetDefaults(itemsToPlacePrimaryGold[Main.rand.Next(8)], false);
-                }
-            }
-            //int itemsToPlaceInGlassChestsSecondaryChoice = 0;
-            for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
-            {
-                Chest chest = Main.chest[chestIndex];
-                if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers && Main.tile[chest.x, chest.y].frameX == 17 * 36 && Main.rand.NextBool(4))
-                {
-                    chest.item[2].SetDefaults(ModContent.ItemType<Book_LuminousArt>(), false);
-                }
-            }
-            {
-				for (int i = 1; i < Main.rand.Next(4, 6); i++) {
-					//int itemsToPlaceInGlassChestsSecondaryChoice = 0;
-					for (int chestIndex = 0; chestIndex < 1000; chestIndex++) {
-						Chest chest = Main.chest[chestIndex];
-						if (chest != null && Main.tile[chest.x, chest.y].type == ModContent.TileType<ReachChest>()) {
-							for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++) {
-								chest.item[1].SetDefaults(commonItems1[Main.rand.Next(4)], false);
-								chest.item[1].stack = WorldGen.genRand.Next(3, 10);
-								chest.item[2].SetDefaults(ammo1[Main.rand.Next(2)], false);
-								chest.item[2].stack = WorldGen.genRand.Next(20, 50);
-								chest.item[3].SetDefaults(potions[Main.rand.Next(6)], false);
-								chest.item[3].stack = WorldGen.genRand.Next(2, 3);
-								chest.item[4].SetDefaults(recall[Main.rand.Next(1)], false);
-								chest.item[4].stack = WorldGen.genRand.Next(2, 3);
-								chest.item[5].SetDefaults(other1[Main.rand.Next(2)], false);
-								chest.item[5].stack = WorldGen.genRand.Next(1, 4);
-								chest.item[6].SetDefaults(other2[Main.rand.Next(2)], false);
-								chest.item[6].stack = WorldGen.genRand.Next(1, 4);
-								chest.item[7].SetDefaults(moddedMaterials[Main.rand.Next(2)], false);
-								chest.item[7].stack = WorldGen.genRand.Next(2, 6);
-								chest.item[8].SetDefaults(72, false);
-								chest.item[8].stack = WorldGen.genRand.Next(12, 30);
-                                if (Main.rand.NextBool(4))
-                                {
-                                    switch (Main.rand.Next(3))
-                                    {
-                                        case 0:
-                                            chest.item[9].SetDefaults(ModContent.ItemType<Book_Briar>(), false);
-                                            break;
-                                        case 1:
-                                            chest.item[9].SetDefaults(ModContent.ItemType<Book_BriarArt>(), false);
-                                            break;
-                                        case 3:
-                                            chest.item[9].SetDefaults(ModContent.ItemType<GladeWreath>(), false);
-                                            break;
-                                    }
-                                }
+			AddToVanillaChest(new ChestInfo(ItemType<ChaosPearl>(), Main.rand.Next(20, 30)), skyChests, 4);
+			AddToVanillaChest(new ChestInfo(new int[] { 
+				WorldGen.crimson ? ItemType<Tenderizer>() : ItemType<Slugger>(), 
+				ItemType<CimmerianScepter>() }, 
+				1, 0.33f) , lockedgoldChests, 1);
+			AddToVanillaChest(new ChestInfo(ItemType<MetalBand>(), 1, 0.1f) , goldChests, 1);
+			AddToVanillaChest(new ChestInfo(ItemType<HollowNail>()), spiderChests, 1);
+			AddToVanillaChest(new ChestInfo(new int[] {
+				ItemType<Book_AccessoryGuide>(),
+				ItemType<Book_Alchemist1>(),
+				ItemType<Book_ArmorGuide>(),
+				ItemType<Book_FoodGuide>(),
+				ItemType<Book_WeaponGuide>() },
+				1, 0.5f), woodChests, 1);
+			AddToVanillaChest(new ChestInfo(new int[] {
+				ItemType<Book_Lumoth>(),
+				ItemType<GranitePage>(),
+				ItemType<MarblePage>(),
+				ItemType<EnchantedLeafPage>(),
+				ItemType<HeartScalePage>(),
+				ItemType<FrigidFragmentPage>(),
+				ItemType<BismitePage>(),
+				ItemType<GlowrootPage>(),
+				ItemType<Book_Soulbloom>(),
+				ItemType<Book_Blossmoon>(),
+				ItemType<FrigidFragmentPage>(), 
+				ItemType<Book_Amea>(), 
+				ItemType<Book_Slime>(), 
+				ItemType<Book_Lava>(), 
+				ItemType<Book_MJW>(), 
+				ItemType<Book_Yeremy>(), 
+				ItemType<Book_Mushroom>(), 
+				ItemType<Book_Jellyfish>(), 
+				ItemType<Book_Gunslinger>()},
+				1, 0.33f), goldChests, 2);
+			AddToVanillaChest(new ChestInfo(ItemType<Book_LuminousArt>(), 1, 0.33f), waterChests, 2);
+			AddToVanillaChest(new ChestInfo(ItemType<UnfellerOfEvergreens>(), 1, 0.175f), ivyChests, 1);
 
-                            }
-						}
-					}
-				}
-			}
-			int[] itemsToPlaceInGlassChests = new int[] { ModContent.ItemType<ReachChestMagic>(), ModContent.ItemType<TwigStaff>(), ModContent.ItemType<Items.Tool.ThornHook>(), ModContent.ItemType<ReachStaffChest>(), ModContent.ItemType<Items.Weapon.Returning.ReachBoomerang>(), ModContent.ItemType<ReachBrooch>() };
-			int itemsToPlaceInGlassChestsChoice = 0;
-			for (int chestIndex = 0; chestIndex < 1000; chestIndex++) {
-				Chest chest = Main.chest[chestIndex];
-				if (chest != null && Main.tile[chest.x, chest.y].type == ModContent.TileType<ReachChest>()) {
-					for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++) {
-						itemsToPlaceInGlassChestsChoice = Main.rand.Next(itemsToPlaceInGlassChests.Length);
-						chest.item[0].SetDefaults(itemsToPlaceInGlassChests[itemsToPlaceInGlassChestsChoice]);
+			List<ChestInfo> PagodaPool = new List<ChestInfo> {
+				new ChestInfo(ItemType<JadeStaff>()),
+				new ChestInfo(ItemType<DynastyFan>()),
+				new ChestInfo(commonItems1, WorldGen.genRand.Next(3, 10)),
+				new ChestInfo(ammo1, WorldGen.genRand.Next(20, 50)),
+				new ChestInfo(potions, WorldGen.genRand.Next(2, 3)),
+				new ChestInfo(ItemID.RecallPotion, WorldGen.genRand.Next(2, 3)),
+				new ChestInfo(other1, WorldGen.genRand.Next(1, 4)),
+				new ChestInfo(other2, WorldGen.genRand.Next(1, 4)),
+				new ChestInfo(moddedMaterials, WorldGen.genRand.Next(2, 6)),
+				new ChestInfo(ItemID.SilverCoin, WorldGen.genRand.Next(12, 30))
+			};
+			AddToVanillaChest(PagodaPool, dynastyChests);
 
-					}
-				}
-			}
+			List<ChestInfo> AsteroidPool = new List<ChestInfo> {
+				new ChestInfo(new int[]{ ItemType<ZiplineGun>(), ItemType<HighGravityBoots>(), ItemType<MagnetHook>() }),
+				new ChestInfo(new int[]{ItemType<JumpPadItem>(), ItemID.SuspiciousLookingEye }, 1, 0.5f),
+				new ChestInfo(ItemType<TargetCan>(), WorldGen.genRand.Next(10, 15), 0.5f),
+				new ChestInfo(ItemType<SpaceJunkItem>(), WorldGen.genRand.Next(30, 55), 0.5f),
+				new ChestInfo(commonItems1, WorldGen.genRand.Next(3, 10)),
+				new ChestInfo(ammo1, WorldGen.genRand.Next(20, 50)),
+				new ChestInfo(potions, WorldGen.genRand.Next(2, 4)),
+				new ChestInfo(ItemID.RecallPotion, WorldGen.genRand.Next(1, 3)),
+				new ChestInfo(other1, WorldGen.genRand.Next(1, 4)),
+				new ChestInfo(other2, WorldGen.genRand.Next(1, 4)),
+				new ChestInfo(moddedMaterials, WorldGen.genRand.Next(2, 6)),
+				new ChestInfo(ItemID.SilverCoin, WorldGen.genRand.Next(12, 30))
+			};
+			AddToModdedChestWithOverlapCheck(AsteroidPool, TileType<AsteroidChest>());
+
+			List<ChestInfo> sepulchreLootPool = new List<ChestInfo> 
+			{ 
+				new ChestInfo(new int[] { ItemType<ToxicBottle>(), ItemType<AccursedBlade>(), ItemType<OldCross>() }),
+				new ChestInfo(commonItems2, WorldGen.genRand.Next(3, 10)),
+				new ChestInfo(ItemType<SepulchreArrow>(), WorldGen.genRand.Next(20, 50)),
+				new ChestInfo(potions, WorldGen.genRand.Next(2, 3)),
+				new ChestInfo(recall, WorldGen.genRand.Next(2, 3)),
+				new ChestInfo(other1, WorldGen.genRand.Next(1, 4)),
+				new ChestInfo(other2, WorldGen.genRand.Next(2, 3)),
+				new ChestInfo(moddedMaterials, WorldGen.genRand.Next(2, 6)),
+				new ChestInfo(ItemID.GoldCoin, WorldGen.genRand.Next(4, 8))
+			};
+			AddToModdedChest(sepulchreLootPool, TileType<SepulchreChestTile>());
+
+			List<ChestInfo> scarabChestPool = new List<ChestInfo> {
+				new ChestInfo(ItemType<CleftHorn>()),
+				new ChestInfo(commonItems1, WorldGen.genRand.Next(3, 10)),
+				new ChestInfo(ammo1, WorldGen.genRand.Next(20, 50)),
+				new ChestInfo(potions, WorldGen.genRand.Next(2, 4)),
+				new ChestInfo(ItemID.RecallPotion, WorldGen.genRand.Next(1, 3)),
+				new ChestInfo(other1, WorldGen.genRand.Next(1, 4)),
+				new ChestInfo(other2, WorldGen.genRand.Next(1, 4)),
+				new ChestInfo(moddedMaterials, WorldGen.genRand.Next(2, 6)),
+				new ChestInfo(ItemID.SilverCoin, WorldGen.genRand.Next(12, 30))
+			};
+			AddToModdedChest(scarabChestPool, TileType<GoldScarabChest>());
+
+			List<ChestInfo> goblinPool = new List<ChestInfo> {
+				new ChestInfo(new int[] { ItemType<Glyph>(), ItemID.MagicMirror, ItemID.WandofSparking }),
+				new ChestInfo(commonItems1, WorldGen.genRand.Next(3, 10)),
+				new ChestInfo(ammo1, WorldGen.genRand.Next(20, 50)),
+				new ChestInfo(potions, WorldGen.genRand.Next(2, 4)),
+				new ChestInfo(ItemID.RecallPotion, WorldGen.genRand.Next(1, 3)),
+				new ChestInfo(other1, WorldGen.genRand.Next(1, 4)),
+				new ChestInfo(other2, WorldGen.genRand.Next(1, 4)),
+				new ChestInfo(moddedMaterials, WorldGen.genRand.Next(2, 6)),
+				new ChestInfo(ItemID.SilverCoin, WorldGen.genRand.Next(12, 30))
+			};
+			AddToModdedChest(goblinPool, TileType<GoblinChest>());
+
+			List<ChestInfo> briarPool = new List<ChestInfo> {
+				new ChestInfo(new int[] { ItemType<ReachChestMagic>(), ItemType<TwigStaff>(), ItemType<ThornHook>(), ItemType<ReachStaffChest>(), ItemType<ReachBoomerang>(), ItemType<ReachBrooch>() }),
+				new ChestInfo(new int[]{ ItemType<Book_Briar>(), ItemType<Book_BriarArt>(), ItemType<GladeWreath>() }, 1, 0.25f),
+				new ChestInfo(commonItems1, WorldGen.genRand.Next(3, 10)),
+				new ChestInfo(ammo1, WorldGen.genRand.Next(20, 50)),
+				new ChestInfo(potions, WorldGen.genRand.Next(2, 4)),
+				new ChestInfo(ItemID.RecallPotion, WorldGen.genRand.Next(1, 3)),
+				new ChestInfo(other1, WorldGen.genRand.Next(1, 4)),
+				new ChestInfo(other2, WorldGen.genRand.Next(1, 4)),
+				new ChestInfo(moddedMaterials, WorldGen.genRand.Next(2, 6)),
+				new ChestInfo(ItemID.SilverCoin, WorldGen.genRand.Next(12, 30)),
+			};
+			AddToModdedChest(briarPool, TileType<ReachChest>());
 		}
+
 		public override void PostUpdate()
 		{
 			Player player = Main.LocalPlayer;
@@ -2115,11 +1938,6 @@ namespace SpiritMod
 				}
 			}
 		}
-
-
-
-
-
 
 		#region Gray's stupid shenanagins with boffins godlike code
 
