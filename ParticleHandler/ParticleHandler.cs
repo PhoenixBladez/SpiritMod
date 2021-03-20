@@ -28,6 +28,7 @@ namespace SpiritMod.ParticleHandler
 		public static void DrawParticles(SpriteBatch spriteBatch)
 		{
 			foreach(ParticleEffects pEffect in _particleEffects) {
+
 				pEffect.particlesystem.DrawParticles(spriteBatch, pEffect.opacity);
 
 				if (!pEffect.Condition()) {
@@ -68,15 +69,15 @@ namespace SpiritMod.ParticleHandler
 			public float SpawnRot;
 			public float SpawnScale;
 			public Color SpawnColor;
-			public Vector2 StoredPosition;
-			public SpawnInfo(Vector2 SpawnPosition, Vector2 SpawnVel, float SpawnRot, float SpawnScale, Color SpawnColor, Vector2? StoredPosition = null)
+			public Vector2[] StoredPosition;
+			public SpawnInfo(Vector2 SpawnPosition, Vector2 SpawnVel, float SpawnRot, float SpawnScale, Color SpawnColor, Vector2[] StoredPosition = null)
 			{
 				this.SpawnPosition = SpawnPosition;
 				this.SpawnVel = SpawnVel;
 				this.SpawnRot = SpawnRot;
 				this.SpawnScale = SpawnScale;
 				this.SpawnColor = SpawnColor;
-				this.StoredPosition = StoredPosition ?? SpawnPosition; //default to storing the spawn position if stored position is null
+				this.StoredPosition = StoredPosition ?? new Vector2[] { SpawnPosition }; //default to storing the spawn position if stored position is null
 			}
 		}
 

@@ -44,9 +44,9 @@ namespace SpritMod.Utilities
 					{ 
 						UpdateDelegate(particle);
 					}
-					if (OnScreen(particle.Position)) {
+					if (OnScreen(particle.DrawPosition)) {
 						int height = Texture.Height / Styles;
-						spriteBatch.Draw(Texture, particle.Position, new Rectangle(0, particle.GetHashCode() % Styles * height, Texture.Width, height), particle.Color * opacity, particle.Rotation, Utils.Size(Texture) / 2, particle.Scale, 0, 0);
+						spriteBatch.Draw(Texture, particle.DrawPosition, new Rectangle(0, particle.GetHashCode() % Styles * height, Texture.Width, height), particle.Color * opacity, particle.Rotation, Utils.Size(Texture) / 2, particle.Scale, 0, 0);
 					}
 					if (particle.Timer <= 0) Particles.Remove(particle);
 				}
@@ -62,17 +62,18 @@ namespace SpritMod.Utilities
 
 	public class Particle
 	{
-		internal Vector2 Position;
+		internal Vector2 DrawPosition;
 		internal Vector2 Velocity;
-		internal Vector2 StoredPosition;
+		internal Vector2[] StoredPosition;
+		internal Vector2 ScreenPosition;
 		internal float Rotation;
 		internal float Scale;
 		internal Color Color;
 		internal int Timer;
 
-		public Particle(Vector2 position, Vector2 velocity, float rotation, float scale, Color color, int timer, Vector2 storedPosition)
+		public Particle(Vector2 position, Vector2 velocity, float rotation, float scale, Color color, int timer, Vector2[] storedPosition)
 		{
-			Position = position; Velocity = velocity; Rotation = rotation; Scale = scale; Color = color; Timer = timer; StoredPosition = storedPosition;
+			DrawPosition = position; Velocity = velocity; Rotation = rotation; Scale = scale; Color = color; Timer = timer; StoredPosition = storedPosition;
 		}
 	}
 }
