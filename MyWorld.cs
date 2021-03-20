@@ -1543,7 +1543,7 @@ namespace SpiritMod
 				if (!aurora) {
 					aurora = true;
 				}
-				auroraType = 5;
+				auroraType = 10;
 			}
 			if (Main.bloodMoon) {
 				MyWorld.auroraType = 6;
@@ -1860,8 +1860,26 @@ namespace SpiritMod
 											}
 										}
 									}
+									if (WallID.Sets.Conversion.Grass[Main.tile[xAxis, yAxis].wall]) {
+										if (Main.tile[xAxis, yAxis + 1] == null) {
+											if (rand.Next(0, 50) == 1) {
+												WillGenn = 0;
+												if (xAxis < xAxisMid - 1) {
+													Meme = xAxisMid - xAxis;
+													WillGenn = Main.rand.Next(Meme);
+												}
+												if (xAxis > xAxisEdge + 1) {
+													Meme = xAxis - xAxisEdge;
+													WillGenn = Main.rand.Next(Meme);
+												}
+												if (WillGenn < 18) {
+													Main.tile[xAxis, yAxis].wall = (ushort)ModContent.WallType<SpiritWall>();
+												}
+											}
+										}
+									}							
 
-									int[] TileArray89 = { 3, 24, 110, 113, 115, 201, 205, 52, 62, 32, 165 };
+									int[] TileArray89 = { 2, 3, 23, 24, 110, 113, 115, 201, 205, 52, 62, 32, 165, 109, 199, 185, 186, 187 };
 									if (TileArray89.Contains(Main.tile[xAxis, yAxis].type)) {
 										if (Main.tile[xAxis, yAxis + 1] == null) {
 											if (rand.Next(0, 50) == 1) {
@@ -1894,7 +1912,6 @@ namespace SpiritMod
 											}
 										}
 									}
-
 
 									int[] TileArray3 = { 53, 116, 112, 234 };
 									if (TileArray3.Contains(Main.tile[xAxis, yAxis].type)) {
