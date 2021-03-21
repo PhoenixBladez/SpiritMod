@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Weapon.Magic.RadiantCane
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Sunrise Sceptre");
+			DisplayName.SetDefault("Sunrise Scepter");
 			Tooltip.SetDefault("Conjures a slow, controllable sun orb");
 			SpiritGlowmask.AddGlowMask(item.type, Texture + "_glow");
         }
