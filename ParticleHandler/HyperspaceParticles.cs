@@ -12,14 +12,19 @@ namespace SpiritMod.ParticleHandler
 		public HyperspaceParticles() : base(new ParticleSystem("SpiritMod/ParticleHandler/HyperspaceParticle", OnUpdate, 2), 
 			delegate { return SpawnCondition(); }, 
 			delegate { return SInfo(); },
-			maxtime, 0.5f) { }
+			maxtime, 0.25f) { }
 
 		static void OnUpdate(Particle particle)
 		{
-			particle.DrawPosition = Vector2.Lerp(particle.StoredPosition[0] - Main.screenPosition, particle.StoredPosition[1] - Main.screenPosition + Main.LocalPlayer.position, 0.75f * (1f - particle.Scale));
+			Vector2 WorldPosition = particle.StoredPosition[0] - Main.screenPosition;
+			Vector2 ScreenPosition = particle.StoredPosition[1];
+			particle.DrawPosition = Vector2.Lerp(ScreenPosition, ScreenPosition - 3 * (ScreenPosition - WorldPosition), particle.Scale);
 
-			for(int i = 0; i < particle.StoredPosition.Length; i++)
+			ParticleHandler.WrapEdges(ref particle.DrawPosition);
+
+			for (int i = 0; i < particle.StoredPosition.Length; i++)
 				particle.StoredPosition[i] += particle.Velocity.RotatedBy(MathHelper.Pi / 6 * (float)Math.Sin(Math.PI * (particle.Timer / 60f) * (1f - particle.Scale)));
+
 
 			particle.Color = Color.White * (float)Math.Sin(MathHelper.TwoPi * (particle.Timer / (float)maxtime));
 			particle.Timer--;

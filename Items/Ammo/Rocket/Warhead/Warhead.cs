@@ -9,6 +9,8 @@ namespace SpiritMod.Items.Ammo.Rocket.Warhead
 {
 	class Warhead : ModItem
 	{
+
+		public override bool Autoload(ref string name) => false;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Warhead");

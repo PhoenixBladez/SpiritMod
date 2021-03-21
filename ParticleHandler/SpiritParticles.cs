@@ -14,7 +14,14 @@ namespace SpiritMod.ParticleHandler
 			maxtime, 0.125f) { }
 		static void OnUpdate(Particle particle)
 		{
-			particle.DrawPosition = Vector2.Lerp(particle.StoredPosition[0] - Main.screenPosition, particle.StoredPosition[1], 0.75f * (1f - particle.Scale));
+			Vector2 WorldPosition = particle.StoredPosition[0] - Main.screenPosition;
+			Vector2 ScreenPosition = particle.StoredPosition[1];
+			particle.DrawPosition = Vector2.Lerp(ScreenPosition, ScreenPosition - 3 * (ScreenPosition - WorldPosition), particle.Scale);
+
+			ParticleHandler.WrapEdges(ref particle.DrawPosition);
+
+			if (!ParticleSystem.OnScreen(particle.DrawPosition))
+				Main.NewText(particle.DrawPosition.Y % Main.screenHeight);
 
 			for (int i = 0; i < particle.StoredPosition.Length; i++)
 				particle.StoredPosition[i] += particle.Velocity;

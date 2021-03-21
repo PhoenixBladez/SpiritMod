@@ -56,6 +56,16 @@ namespace SpiritMod.ParticleHandler
 			_mod = null;
 			_particleEffects = null;
 		}
+
+		public static void WrapEdges(ref Vector2 position)
+		{
+			while(position.X < 0)
+				position.X += Main.screenWidth;
+			while (position.Y < 0)
+				position.Y += Main.screenHeight;
+
+			position = new Vector2(position.X % Main.screenWidth, position.Y % Main.screenHeight);
+		}
 	}
 	public abstract class ParticleEffects
 	{
