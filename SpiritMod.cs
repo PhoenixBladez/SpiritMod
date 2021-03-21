@@ -528,6 +528,9 @@ namespace SpiritMod
 
 			Filters.Scene["SpiritMod:ReachSky"] = new Filter(new ScreenShaderData("FilterBloodMoon").UseColor(0.05f, 0.05f, .05f).UseOpacity(0.4f), EffectPriority.High);
 
+			Filters.Scene["CystalTower"] = new Filter(new ScreenShaderData("FilterMiniTower").UseColor(0.149f, 0.142f, 0.207f).UseOpacity(0.5f), EffectPriority.VeryHigh);
+			Filters.Scene["CystalBloodMoon"] = new Filter(new ScreenShaderData("FilterBloodMoon").UseColor(0.149f, 0.142f, 0.207f).UseOpacity(2f), EffectPriority.VeryHigh);
+
 			Filters.Scene["SpiritMod:SpiritUG1"] = new Filter(new ScreenShaderData("FilterBloodMoon").UseColor(0.2f, 0.2f, .2f).UseOpacity(0.8f), EffectPriority.High);
 			Filters.Scene["SpiritMod:SpiritUG2"] = new Filter(new ScreenShaderData("FilterBloodMoon").UseColor(0.45f, 0.45f, .45f).UseOpacity(0.9f), EffectPriority.High);
 
