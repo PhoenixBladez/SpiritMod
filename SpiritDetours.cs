@@ -20,7 +20,7 @@ namespace SpiritMod
 			On.Terraria.Player.KeyDoubleTap += Player_KeyDoubleTap;
 			On.Terraria.Main.DrawDust += DrawAdditive;
 			On.Terraria.Player.ToggleInv += Player_ToggleInv;
-			On.Terraria.Main.DrawItems += DrawParticles;
+			On.Terraria.Main.DrawInterface += DrawParticles;
 
 			IL.Terraria.Player.ItemCheck += Player_ItemCheck;
 		}
@@ -69,13 +69,13 @@ namespace SpiritMod
 			Main.spriteBatch.End();
 		}
 
-		public static void DrawParticles(On.Terraria.Main.orig_DrawItems orig, Main self)
+		public static void DrawParticles(On.Terraria.Main.orig_DrawInterface orig, Main self, GameTime gameTime)
 		{
-			orig(self);
-
-			//Main.spriteBatch.Begin();
+			Main.spriteBatch.Begin(default, default, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
 			ParticleHandler.ParticleHandler.DrawParticles(Main.spriteBatch);
-			//Main.spriteBatch.End();
+			Main.spriteBatch.End();
+
+			orig(self, gameTime);
 		}
 
 		private static void Player_ToggleInv(On.Terraria.Player.orig_ToggleInv orig, Player self)

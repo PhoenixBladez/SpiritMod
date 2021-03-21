@@ -57,14 +57,16 @@ namespace SpiritMod.ParticleHandler
 			_particleEffects = null;
 		}
 
+		public static Vector2 UiScreenSize => new Vector2(Main.screenWidth * Main.UIScale, Main.screenHeight * Main.UIScale);
+
 		public static void WrapEdges(ref Vector2 position)
 		{
 			while(position.X < 0)
-				position.X += Main.screenWidth;
+				position.X += UiScreenSize.X;
 			while (position.Y < 0)
-				position.Y += Main.screenHeight;
+				position.Y += UiScreenSize.Y;
 
-			position = new Vector2(position.X % Main.screenWidth, position.Y % Main.screenHeight);
+			position = new Vector2(position.X % UiScreenSize.X, position.Y % UiScreenSize.Y);
 		}
 	}
 	public abstract class ParticleEffects

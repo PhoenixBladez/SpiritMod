@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
+using static SpiritMod.ParticleHandler.ParticleHandler;
 
 namespace SpritMod.Utilities
 {
@@ -32,7 +33,7 @@ namespace SpritMod.Utilities
 			Styles = styles;
 		}
 
-		public static bool OnScreen(Vector2 pos) => pos.X > -16 && pos.X < Main.screenWidth + 16 && pos.Y > -16 && pos.Y < Main.screenHeight + 16;
+		public static bool OnScreen(Vector2 pos) => pos.X > -16 && pos.X < UiScreenSize.X + 16 && pos.Y > -16 && pos.Y < UiScreenSize.Y + 16;
 
 		public void DrawParticles(SpriteBatch spriteBatch, float opacity)
 		{
