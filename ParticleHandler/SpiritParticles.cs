@@ -20,9 +20,6 @@ namespace SpiritMod.ParticleHandler
 
 			ParticleHandler.WrapEdges(ref particle.DrawPosition);
 
-			if (!ParticleSystem.OnScreen(particle.DrawPosition))
-				Main.NewText(particle.DrawPosition.Y % Main.screenHeight);
-
 			for (int i = 0; i < particle.StoredPosition.Length; i++)
 				particle.StoredPosition[i] += particle.Velocity;
 
