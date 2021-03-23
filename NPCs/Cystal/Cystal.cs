@@ -23,7 +23,7 @@ namespace SpiritMod.NPCs.Cystal
 		public override void SetDefaults()
 		{
 			npc.aiStyle = 0;
-			npc.lifeMax = 56;
+			npc.lifeMax = 82;
 			npc.defense = 2;
 			npc.value = 500f;
 			npc.knockBackResist = 0.1f;
