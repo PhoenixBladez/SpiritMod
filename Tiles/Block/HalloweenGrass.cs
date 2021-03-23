@@ -17,7 +17,7 @@ namespace SpiritMod.Tiles.Block
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
 			//Main.tileLighted[Type] = true;
-			AddMapEntry(new Color(0, 255, 167));
+			AddMapEntry(new Color(252, 161, 3));
 			drop = ModContent.ItemType<Items.Placeable.Tiles.HalloweenGrass>();
 		}
 

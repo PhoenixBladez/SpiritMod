@@ -5,8 +5,6 @@ namespace SpiritMod.Items.Ammo
 {
 	class SoullessSolution : ModItem
 	{
-		public override bool Autoload(ref string name) => false;
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Grey Solution");
