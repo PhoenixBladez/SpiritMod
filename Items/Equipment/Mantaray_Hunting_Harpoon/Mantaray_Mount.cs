@@ -53,7 +53,7 @@ namespace SpiritMod.Items.Equipment.Mantaray_Hunting_Harpoon
 			mountData.idleFrameStart = 0;
 			mountData.idleFrameLoop = false;
 			mountData.swimFrameCount = 7;
-			mountData.swimFrameDelay = 4;
+			mountData.swimFrameDelay = 12;
 			mountData.swimFrameStart = 0;
 			if (Main.netMode != 2)
 			{

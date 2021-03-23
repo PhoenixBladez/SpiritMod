@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Weapon.Gun.Basking_Shark
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Basking Shark");
-			Tooltip.SetDefault("");
+			Tooltip.SetDefault("Converts bullets into chum chunks");
 		}
 
 		public override void SetDefaults()
@@ -27,10 +27,10 @@ namespace SpiritMod.Items.Weapon.Gun.Basking_Shark
 			item.noMelee = true;
 			item.reuseDelay = 45;
 			item.value = Item.sellPrice(silver: 30);
-			item.knockBack = 1.25f;
+			item.knockBack = .25f;
 			item.useAmmo = AmmoID.Bullet;
 			item.ranged = true;
-			item.rare = 2;
+			item.rare = 1;
 		}
 
         public override void AddRecipes()
