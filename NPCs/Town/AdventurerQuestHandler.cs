@@ -676,6 +676,8 @@ namespace SpiritMod.NPCs.Town
 			});
             hookbatQuest.OnQuestStart = () => {
                 MyWorld.spawnHookbats = true;
+				if (Main.netMode != NetmodeID.SinglePlayer)
+					NetMessage.SendData(MessageID.WorldData);
                 Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MainQuestComplete"));
             };
             hookbatQuest.NthQuest = 1;
