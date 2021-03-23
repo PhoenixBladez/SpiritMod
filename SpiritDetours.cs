@@ -21,7 +21,7 @@ namespace SpiritMod
 			On.Terraria.Main.DrawDust += DrawAdditive;
 			On.Terraria.Player.ToggleInv += Player_ToggleInv;
 			On.Terraria.Main.DrawInterface += DrawParticles;
-
+            On.Terraria.Localization.LanguageManager.GetTextValue_string += LanguageManager_GetTextValue_string1;
 			IL.Terraria.Player.ItemCheck += Player_ItemCheck;
 		}
 
@@ -90,7 +90,16 @@ namespace SpiritMod
 
 			orig(self);
 		}
-
+       
+        private static string LanguageManager_GetTextValue_string1(On.Terraria.Localization.LanguageManager.orig_GetTextValue_string orig, Terraria.Localization.LanguageManager self, string key)
+        {
+            if (key == "GameUI.LightRain" || key == "GameUI.Rain" || key == "GameUI.HeavyRain" || key == "GameUI.Clear" || key == "GameUI.PartlyCloudy" || key == "GameUI.MostlyCloudy" || key == "GameUI.Overcast"|| key == "GameUI.Cloudy")
+            {
+                return SpiritMod.GetWeatherRadioText(key);
+            }
+            return orig(self, key);
+        }
+		
 		// This IL edit is used to allow the unfeller of evergreens to autoplant saplings when trees are destroyed
 		// Sadly tML doesn't provide tile destruction info by default in a way feasible in MP, so we have to resort to this
 		//

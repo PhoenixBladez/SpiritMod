@@ -388,7 +388,6 @@ namespace SpiritMod
 				priority = MusicPriority.BiomeMedium;
 			}
 		}
-
 		public override object Call(params object[] args)
 		{
 			if (args.Length < 1) {
@@ -731,7 +730,34 @@ namespace SpiritMod
 			primitives = null;
 			//UnloadDetours();
 		}
-
+        internal static string GetWeatherRadioText(string key)
+        {
+			if (MyWorld.ashRain)
+			{
+				return "Ashfall";
+			}
+            if (MyWorld.aurora)
+			{
+				return "Aurora";
+			}
+			if (MyWorld.BlueMoon)
+			{
+				return "Mystic Moon";
+			}
+			if (MyWorld.jellySky)
+			{
+				return "Jelly Deluge";
+			}
+			if (MyWorld.luminousOcean)
+			{
+				return "Luminous Seas";
+			}
+			if (MyWorld.calmNight)
+			{
+				return "Calm Conditions";
+			}
+            return LanguageManager.Instance.GetText(key).Value;
+        }
 		public override void MidUpdateProjectileItem()
 		{
 			if (Main.netMode != NetmodeID.Server) {

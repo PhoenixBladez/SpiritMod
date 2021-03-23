@@ -64,6 +64,7 @@ namespace SpiritMod
 		public static bool dayTimeSwitched;
 
 		public static bool aurora = false;
+		public static bool ashRain = false;
 		public static int auroraType = 1;
 		public static int auroraTypeFixed;
 		public static int auroraChance = 4;
@@ -81,6 +82,7 @@ namespace SpiritMod
 
 		public static bool BlueMoon = false;
 		public static bool jellySky = false;
+
 		public static int SpiritTiles = 0;
 		public static int AsteroidTiles = 0;
 		public static int MarbleTiles = 0;
@@ -439,6 +441,7 @@ namespace SpiritMod
 		public override void Initialize()
 		{
 			BlueMoon = false;
+			ashRain = false;
 			dayTimeLast = Main.dayTime;
 			dayTimeSwitched = false;
 
@@ -1626,6 +1629,14 @@ namespace SpiritMod
                 {
                     calmNight = false;
                 }
+				if (Main.rand.NextBool(8))
+				{
+					ashRain = true;
+				}
+				else
+				{
+					ashRain = false;
+				}
                 if (!Main.dayTime && (NPC.downedBoss1 || NPC.downedBoss2 || NPC.downedBoss3 || downedScarabeus || downedReachBoss || downedRaider || downedAncientFlier) && (!downedMoonWizard && Main.rand.Next(5) == 0 || downedMoonWizard && Main.rand.Next(36) == 0))
                 {
                     Main.NewText("Strange jellyfish are pouring out of the sky!", 61, 255, 142);
