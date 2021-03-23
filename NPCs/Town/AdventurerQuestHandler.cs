@@ -676,8 +676,6 @@ namespace SpiritMod.NPCs.Town
 			});
             hookbatQuest.OnQuestStart = () => {
                 MyWorld.spawnHookbats = true;
-				if (Main.netMode != NetmodeID.SinglePlayer)
-					NetMessage.SendData(MessageID.WorldData);
                 Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MainQuestComplete"));
             };
             hookbatQuest.NthQuest = 1;
@@ -875,9 +873,10 @@ namespace SpiritMod.NPCs.Town
 				packet.Write((byte)MessageType.AdventurerNewQuest);
 				packet.Write(_currentQuest);
 				packet.Send();
-				NetMessage.SendData(MessageID.WorldData);
 			}
 			_quests[_currentQuest].OnQuestStart?.Invoke();
+			if (Main.netMode != NetmodeID.SinglePlayer)
+				NetMessage.SendData(MessageID.WorldData);
 		}
 		public void HandlePacket(MessageType type, BinaryReader reader)
 		{
