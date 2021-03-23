@@ -83,7 +83,7 @@ namespace SpiritMod.NPCs.GoblinGrenadier
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return Main.invasionType == InvasionID.GoblinArmy && spawnInfo.spawnTileY < Main.worldSurface ? 0.24f : 0f;
+			return Main.invasionType == InvasionID.GoblinArmy && spawnInfo.spawnTileY < Main.worldSurface ? 0.12f : 0f;
 		}
 		
 		public override void FindFrame(int frameHeight)

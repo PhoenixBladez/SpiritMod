@@ -29,13 +29,12 @@ namespace SpiritMod.NPCs.Cystal
 
 		public override void UpdateBadLifeRegen()
 		{
-			if (crystallization && player.statLife > 10) {
+			if (crystallization && player.statLife > 4) {
 				if (player.lifeRegen > 0) {
 					player.lifeRegen = 0;
 				}
 				player.lifeRegenTime = 0;
-				player.lifeRegen = player.lifeRegen - 10;
-				player.moveSpeed = player.moveSpeed * 0.25f;
+				player.lifeRegen = player.lifeRegen - 4;
 			}
 		}
 
