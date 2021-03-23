@@ -842,12 +842,13 @@ namespace SpiritMod.NPCs.Town
 						_previousQuest = _currentQuest;
 						_currentQuest = -1;
 
-						current.OnComplete?.Invoke();
+						current.OnComplete?.Invoke(); 
 						_questsCompleted++;
-						if (Main.netMode != 0) {
+						if (Main.netMode != NetmodeID.SinglePlayer) {
 							ModPacket packet = _mod.GetPacket();
 							packet.Write((byte)MessageType.AdventurerQuestCompleted);
 							packet.Send();
+							NetMessage.SendData(MessageID.WorldData);
 						}
 						return false;
 					}
@@ -867,11 +868,12 @@ namespace SpiritMod.NPCs.Town
 				return;
 			}
 			_currentQuest = Main.rand.Next(availableIndexes);
-			if (Main.netMode != 0) {
+			if (Main.netMode != NetmodeID.SinglePlayer) {
 				ModPacket packet = _mod.GetPacket();
 				packet.Write((byte)MessageType.AdventurerNewQuest);
 				packet.Write(_currentQuest);
 				packet.Send();
+				NetMessage.SendData(MessageID.WorldData);
 			}
 			_quests[_currentQuest].OnQuestStart?.Invoke();
 		}

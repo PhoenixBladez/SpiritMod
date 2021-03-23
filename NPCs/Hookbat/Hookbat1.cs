@@ -43,7 +43,10 @@ namespace SpiritMod.NPCs.Hookbat
         public override bool PreNPCLoot()
         {
             MyWorld.spawnHookbats = false;
-            return true;
+			if (Main.netMode != NetmodeID.SinglePlayer)
+				NetMessage.SendData(MessageID.WorldData);
+
+			return true;
         }
         bool setUpSpawn = false;
         float num384 = 0f;
