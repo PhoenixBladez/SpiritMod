@@ -254,7 +254,7 @@ namespace SpiritMod
 				&& player.ZoneMeteor
 				&& !Main.bloodMoon) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/Meteor");
-				priority = MusicPriority.BiomeHigh;
+				priority = MusicPriority.Environment;
 			}
 
 			if (config.BlizzardMusic
