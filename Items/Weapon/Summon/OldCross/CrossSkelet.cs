@@ -113,10 +113,13 @@ namespace SpiritMod.Items.Weapon.Summon.OldCross
 
 			if (onground)
 			{
-				projectile.velocity.X = MathHelper.Lerp(projectile.velocity.X, projectile.DirectionTo(hometarget).X * 12, 0.075f);
+				projectile.velocity.X = MathHelper.Lerp(projectile.velocity.X, Math.Sign(projectile.DirectionTo(hometarget).X) * 8, 0.05f);
 
-				if(projectile.Center.Y > hometarget.Y + 20 && Math.Abs(projectile.Center.X - hometarget.X) < 100)
-					projectile.velocity.Y = -18;
+				if(projectile.Center.Y > hometarget.Y + 20 && Math.Abs(projectile.Center.X - hometarget.X) < 100) {
+
+					projectile.velocity.Y = MathHelper.Clamp((hometarget.Y - projectile.Center.Y) / 10, -16, -6); 
+					projectile.velocity.X = MathHelper.Clamp((hometarget.X - projectile.Center.X) / 12, -8, 8);
+				}
 			}
 			if (projectile.velocity.Y < 16)
 				projectile.velocity.Y += 0.4f;
@@ -133,14 +136,12 @@ namespace SpiritMod.Items.Weapon.Summon.OldCross
 			}
 			for(int i = 1; i <= Main.rand.Next(2, 5); i++)
 			{
-				Gore.NewGore(projectile.position, projectile.velocity / 2, mod.GetGoreSlot("Gores/Skelet/skeler" + i));
+				Gore gore = Gore.NewGoreDirect(projectile.position, projectile.velocity / 2, mod.GetGoreSlot("Gores/Skelet/skeler" + i));
+				gore.timeLeft = 40;
 			}
 			Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 2, 0.75f, 0.25f);
 		}
-		public override bool MinionContactDamage()
-		{
-			return true;
-		}
+		public override bool MinionContactDamage() => true;
 		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
 		{
 			fallThrough = (projectile.Center.Y < hometarget.Y - 20);

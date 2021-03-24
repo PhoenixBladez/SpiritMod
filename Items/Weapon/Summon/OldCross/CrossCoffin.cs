@@ -108,9 +108,10 @@ namespace SpiritMod.Items.Weapon.Summon.OldCross
 
 						for (int i = 0; i <= 12 + skeletstospawn; i++)
 						{
-							Gore.NewGore(projectile.position + new Vector2(Main.rand.Next(projectile.width), Main.rand.Next(projectile.height)), 
+							Gore gore = Gore.NewGoreDirect(projectile.position + new Vector2(Main.rand.Next(projectile.width), Main.rand.Next(projectile.height)), 
 								Main.rand.NextVector2Circular(-3, 3), 
 								mod.GetGoreSlot("Gores/Skelet/bonger" + Main.rand.Next(1, 5)));
+							gore.timeLeft = 40;
 						}
 					}
 					if (projectile.ai[0] > 160)
