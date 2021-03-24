@@ -1,11 +1,12 @@
-﻿using System;
-using Terraria.ModLoader;
-using Terraria;
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework;
 using SpiritMod.Utilities;
-using Terraria.ID;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Terraria;
 using Terraria.Audio;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.HauntedTome
 {
@@ -16,7 +17,8 @@ namespace SpiritMod.NPCs.HauntedTome
 			DisplayName.SetDefault("Haunted Tome");
 			Main.npcFrameCount[npc.type] = 19;
 		}
-		int frame = 0;
+
+		private int frame = 0;
 
 		public override void SetDefaults()
 		{
@@ -33,7 +35,7 @@ namespace SpiritMod.NPCs.HauntedTome
 			npc.DeathSound = SoundID.NPCDeath6;
 		}
 
-		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = (int)(npc.lifeMax * 0.66f * bossLifeScale); 
+		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = (int)(npc.lifeMax * 0.66f * bossLifeScale);
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => false;
 
@@ -43,11 +45,30 @@ namespace SpiritMod.NPCs.HauntedTome
 
 		private delegate void Attack(Player player, NPC npc);
 
-		private List<Attack> Attacks = new List<Attack> 
-		{ 
-			delegate(Player player, NPC npc) { Skulls(player, npc); },
-			delegate(Player player, NPC npc) { Fireballs(player, npc); },
+		private enum Attacks
+		{
+			Skulls = 1,
+			Fireballs = 2
+		}
+
+		private static readonly IDictionary<int, Attack> AttackDict = new Dictionary<int, Attack> {
+			{ (int)Attacks.Skulls, delegate(Player player, NPC npc) { Skulls(player, npc); } },
+			{ (int)Attacks.Fireballs, delegate(Player player, NPC npc) { Fireballs(player, npc); } },
 		};
+
+		private List<int> Pattern = new List<int>
+		{
+			(int)Attacks.Skulls,
+			(int)Attacks.Fireballs
+		};
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			foreach (int i in Pattern)
+				writer.Write(i);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader) => Pattern = Pattern.Select(i => reader.ReadInt32()).ToList();
 
 		public override void AI()
 		{
@@ -55,7 +76,7 @@ namespace SpiritMod.NPCs.HauntedTome
 			npc.TargetClosest(true);
 			npc.spriteDirection = npc.direction;
 
-			if(++AiTimer < 180) {
+			if (++AiTimer < 180) {
 				Vector2 homeCenter = player.Center;
 				homeCenter.Y -= 100;
 
@@ -64,19 +85,17 @@ namespace SpiritMod.NPCs.HauntedTome
 			if (AiTimer == 180)
 				npc.velocity = -npc.DirectionTo(player.Center) * 6;
 
-			if(AiTimer > 180) {
-				Attacks[(int)AttackType].Invoke(Main.player[npc.target], npc);
+			if (AiTimer > 180) {
+				AttackDict[Pattern[(int)AttackType]].Invoke(Main.player[npc.target], npc);
 
 				if (frame < 9)
 					UpdateFrame(12, 0, 9);
-
 				else
 					UpdateFrame(15, 9, 13);
 			}
 			else {
-				if(frame > 4 && frame < 18)
+				if (frame > 4 && frame < 18)
 					UpdateFrame(12, 4, 18);
-
 				else
 					UpdateFrame(10, 0, 4);
 			}
@@ -86,10 +105,11 @@ namespace SpiritMod.NPCs.HauntedTome
 		{
 			AttackType++;
 			AiTimer = 0;
-			if (AttackType >= Attacks.Count) {
+			if (AttackType >= Pattern.Count) {
 				AttackType = 0;
-				Attacks.Randomize();
+				Pattern.Randomize();
 			}
+			npc.netUpdate = true;
 		}
 
 		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) => knockback = (AiTimer < 180) ? knockback : 0;
@@ -121,17 +141,17 @@ namespace SpiritMod.NPCs.HauntedTome
 				frame++;
 				npc.frameCounter = 0;
 			}
-			if (frame > maxframe || frame < minframe) 
+			if (frame > maxframe || frame < minframe)
 				frame = minframe;
 		}
 
 		public override void NPCLoot()
 		{
 			npc.DropItem(ModContent.ItemType<Items.Weapon.Magic.ScreamingTome.ScreamingTome>());
-			for(int i = 0; i < 8; i++) 
+			for (int i = 0; i < 8; i++)
 				Gore.NewGore(npc.Center, Main.rand.NextVector2Circular(0.5f, 0.5f), 99, Main.rand.NextFloat(0.6f, 1.2f));
-			
-			if(Main.netMode != NetmodeID.Server)
+
+			if (Main.netMode != NetmodeID.Server)
 				Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/DownedMiniboss"));
 		}
 
