@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using SpiritMod.Utilities;
 using Terraria.ID;
+using Terraria.Audio;
 
 namespace SpiritMod.NPCs.HauntedTome
 {
@@ -19,7 +20,7 @@ namespace SpiritMod.NPCs.HauntedTome
 
 		public override void SetDefaults()
 		{
-			npc.Size = new Vector2(44, 44);
+			npc.Size = new Vector2(34, 34);
 			npc.lifeMax = 600;
 			npc.damage = 20;
 			npc.defense = 8;
@@ -28,7 +29,7 @@ namespace SpiritMod.NPCs.HauntedTome
 			npc.aiStyle = -1;
 			npc.value = 600;
 			npc.knockBackResist = 1f;
-			//npc.HitSound = SoundID.NPCHit4;
+			npc.HitSound = new LegacySoundStyle(SoundID.NPCHit, 15).WithPitchVariance(0.2f);
 			npc.DeathSound = SoundID.NPCDeath6;
 		}
 
@@ -131,7 +132,7 @@ namespace SpiritMod.NPCs.HauntedTome
 				Gore.NewGore(npc.Center, Main.rand.NextVector2Circular(0.5f, 0.5f), 99, Main.rand.NextFloat(0.6f, 1.2f));
 			
 			if(Main.netMode != NetmodeID.Server)
-				Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DownedMiniboss"));
+				Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/DownedMiniboss"));
 		}
 
 		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
