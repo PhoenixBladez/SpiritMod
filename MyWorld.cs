@@ -1335,6 +1335,7 @@ namespace SpiritMod
 		{
 			MyPlayer modPlayer = Main.LocalPlayer.GetModPlayer<MyPlayer>();
 			modPlayer.ZoneSynthwave = false;
+			modPlayer.ZoneLantern = false;
 		}
 		#endregion
 		public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
@@ -1425,7 +1426,8 @@ namespace SpiritMod
 				ItemType<Book_Alchemist1>(),
 				ItemType<Book_ArmorGuide>(),
 				ItemType<Book_FoodGuide>(),
-				ItemType<Book_WeaponGuide>() },
+				ItemType<Book_WeaponGuide>(),
+				ItemType<BismitePage>() },
 				1, 0.5f), woodChests, 1);
 			AddToVanillaChest(new ChestInfo(new int[] {
 				ItemType<Book_Lumoth>(),
@@ -1454,6 +1456,7 @@ namespace SpiritMod
 			List<ChestInfo> PagodaPool = new List<ChestInfo> {
 				new ChestInfo(ItemType<JadeStaff>()),
 				new ChestInfo(ItemType<DynastyFan>()),
+				new ChestInfo(ItemType<FestivalLanternItem>()),
 				new ChestInfo(commonItems1, WorldGen.genRand.Next(3, 10)),
 				new ChestInfo(ammo1, WorldGen.genRand.Next(20, 50)),
 				new ChestInfo(potions, WorldGen.genRand.Next(2, 3)),

@@ -174,6 +174,7 @@ namespace SpiritMod
 		public int shootDelay2 = 0;
 		public int shootDelay3 = 0;
 		public bool ZoneSynthwave = false;
+		public bool ZoneLantern = false;
 		public bool unboundSoulMinion = false;
 		public bool cragboundMinion = false;
 		public bool crawlerockMinion = false;
@@ -4074,7 +4075,7 @@ namespace SpiritMod
 					}
 				}
 			}*/
-			if(ZoneReach && player.wet && Main.expertMode) {
+			if(ZoneReach && player.wet && Main.expertMode && !MyWorld.downedReachBoss) {
 				player.AddBuff(BuffID.Poisoned, 120);
 			}
 			if(cryoSet) {
