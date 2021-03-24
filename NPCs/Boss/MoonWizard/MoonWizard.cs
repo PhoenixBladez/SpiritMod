@@ -797,7 +797,10 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
         public override bool PreNPCLoot()
         {
             MyWorld.downedMoonWizard = true;
-            Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DeathSounds/MJWDeathSound"));
+			if (Main.netMode != NetmodeID.SinglePlayer)
+				NetMessage.SendData(MessageID.WorldData);
+			npc.PlayDeathSound("MJWDeathSound");
+
             return true;
         }
 

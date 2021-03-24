@@ -259,7 +259,10 @@ namespace SpiritMod.NPCs.Boss
 		public override bool PreNPCLoot()
 		{
 			MyWorld.downedAncientFlier = true;
-			Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DeathSounds/AvianDeathSound"));
+			if (Main.netMode != NetmodeID.SinglePlayer)
+				NetMessage.SendData(MessageID.WorldData);
+
+			npc.PlayDeathSound("AvianDeathSound");
 			return true;
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -316,31 +319,29 @@ namespace SpiritMod.NPCs.Boss
 		}
         public override void NPCLoot()
         {
-            {
-                if (Main.expertMode) {
-                    npc.DropBossBags();
-                    return;
-                }
-
-                int[] lootTable = {
-                    ModContent.ItemType<TalonBlade>(),
-                    ModContent.ItemType<Talonginus>(),
-                    ModContent.ItemType<SoaringScapula>(),
-                    ModContent.ItemType<TalonPiercer>(),
-                    ModContent.ItemType<SkeletalonStaff>()
-                };
-                int loot = Main.rand.Next(lootTable.Length);
-                int[] lootTable1 = {
-                    ModContent.ItemType<TalonHeaddress>(),
-                    ModContent.ItemType<TalonGarb>()
-                };
-                int loot1 = Main.rand.Next(lootTable1.Length);
-                npc.DropItem(lootTable[loot]);
-                npc.DropItem(lootTable1[loot1]);
-
-                npc.DropItem(ModContent.ItemType<FlierMask>(), 1f / 7);
-                npc.DropItem(ModContent.ItemType<Trophy2>(), 1f / 10);
+            if (Main.expertMode) {
+                npc.DropBossBags();
+                return;
             }
+
+            int[] lootTable = {
+                ModContent.ItemType<TalonBlade>(),
+                ModContent.ItemType<Talonginus>(),
+                ModContent.ItemType<SoaringScapula>(),
+                ModContent.ItemType<TalonPiercer>(),
+                ModContent.ItemType<SkeletalonStaff>()
+            };
+            int loot = Main.rand.Next(lootTable.Length);
+            int[] lootTable1 = {
+                ModContent.ItemType<TalonHeaddress>(),
+                ModContent.ItemType<TalonGarb>()
+            };
+            int loot1 = Main.rand.Next(lootTable1.Length);
+            npc.DropItem(lootTable[loot]);
+            npc.DropItem(lootTable1[loot1]);
+
+            npc.DropItem(ModContent.ItemType<FlierMask>(), 1f / 7);
+            npc.DropItem(ModContent.ItemType<Trophy2>(), 1f / 10);
         }
 
 

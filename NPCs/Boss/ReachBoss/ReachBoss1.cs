@@ -279,8 +279,11 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
                 Main.NewText("The torrential downpour in the Briar has lifted!", 61, 255, 142, false);
             }
             MyWorld.downedReachBoss = true;
-			Main.PlaySound(Terraria.ModLoader.SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/DeathSounds/VinewrathDeathSound"));
-            return true;
+			if(Main.netMode != NetmodeID.SinglePlayer)
+				NetMessage.SendData(MessageID.WorldData);
+
+			npc.PlayDeathSound("VinewrathDeathSound");
+			return true;
 		}
 		Vector2 Drawoffset => new Vector2(0, npc.gfxOffY) + Vector2.UnitX * npc.spriteDirection * 12;
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)

@@ -1,16 +1,9 @@
-﻿using Microsoft.Xna.Framework.Audio;
-using Terraria.ModLoader;
+﻿using SpiritMod.Sounds.DeathSounds;
 
 namespace SpiritMod.Sounds
 {
-	public class DownedMiniboss : ModSound
+	public class DownedMiniboss : DeathSound
 	{
-		public override SoundEffectInstance PlaySound(ref SoundEffectInstance soundInstance, float volume, float pan, SoundType type)
-		{
-			soundInstance = sound.CreateInstance();
-            type = SoundType.Music;
-            return soundInstance;
 
-		}
 	}
 }

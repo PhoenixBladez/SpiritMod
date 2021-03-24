@@ -713,16 +713,23 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			for (int k = 0; k < 5; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, 226, hitDirection, -1f, 0, default(Color), 1f);
 			}
-			if (npc.life <= 0) {
-				if (!MyWorld.downedRaider) {
-					Main.NewText("The Astralite in the Asteroids hums with energy.", 61, 255, 142, false);
-				}
-                npc.active = false;
-                MyWorld.downedRaider = true;
-				Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DeathSounds/StarplateDeathSound"));
-				NPC.NewNPC((int)npc.position.X + npc.width - 20, (int)npc.position.Y + npc.height, mod.NPCType("SteamRaiderHeadDeath"), npc.whoAmI);
-            }
 		}
+
+		public override bool PreNPCLoot()
+		{
+			if (!MyWorld.downedRaider) {
+				Main.NewText("The Astralite in the Asteroids hums with energy.", 61, 255, 142, false);
+			}
+
+			MyWorld.downedRaider = true;
+			if (Main.netMode != NetmodeID.SinglePlayer)
+				NetMessage.SendData(MessageID.WorldData);
+
+			npc.PlayDeathSound("StarplateDeathSound");
+			NPC.NewNPC((int)npc.position.X + npc.width - 20, (int)npc.position.Y + npc.height, mod.NPCType("SteamRaiderHeadDeath"), npc.whoAmI);
+			return true;
+		}
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.6f * bossLifeScale);

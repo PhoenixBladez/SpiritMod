@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Items.Boss;
@@ -46,6 +47,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			npc.DeathSound = SoundID.NPCDeath5;
 			bossBag = ModContent.ItemType<BagOScarabs>();
 		}
+
 		bool trailbehind;
 		int frame = 0;
 		float extraYoff;
@@ -1060,9 +1062,10 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		{
 			MyWorld.downedScarabeus = true;
 			Sandstorm.Happening = false;
-			if (Main.netMode == NetmodeID.Server)
+			if (Main.netMode != NetmodeID.SinglePlayer)
 				NetMessage.SendData(MessageID.WorldData);
-			Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DeathSounds/ScarabDeathSound"));
+
+			npc.PlayDeathSound("ScarabDeathSound");
 			return true;
 		}
 
