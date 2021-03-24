@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.ModLoader;
@@ -96,7 +97,7 @@ namespace SpiritMod.Items.Weapon.Summon.OldCross
 					if(projectile.ai[0] == 90)
 					{
 						MakeDust();
-						int skeletstospawn = Main.rand.Next(1, 4);
+						int skeletstospawn = Main.rand.Next(1, 3);
 						projectile.velocity.Y -= 3;
 						for(int i = 0; i <= skeletstospawn; i++)
                         {
@@ -132,10 +133,9 @@ namespace SpiritMod.Items.Weapon.Summon.OldCross
 			return base.TileCollideStyle(ref width, ref height, ref fallThrough);
 		}
 
-		public override void Kill(int timeLeft)
-		{
-			MakeDust();
-		}
+		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI) => drawCacheProjsBehindNPCs.Add(projectile.type);
+
+		public override void Kill(int timeLeft) => MakeDust();
 
 		public void MakeDust()
 		{

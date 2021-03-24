@@ -104,6 +104,8 @@ namespace SpiritMod.Items.Weapon.Magic.ScreamingTome
 			projectile.Kill();
 		}
 
+		public override bool CanDamage() => mousePos != null;
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			/* Main.spriteBatch.End();
