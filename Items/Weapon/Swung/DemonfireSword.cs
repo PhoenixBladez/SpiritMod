@@ -52,8 +52,8 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<FieryEssence>(), 5);
-			recipe.AddIngredient(ModContent.ItemType<CarvedRock>(), 10);
+            recipe.AddIngredient(ItemID.ChlorophyteBar, 5);
+            recipe.AddIngredient(ModContent.ItemType<CarvedRock>(), 10);
 			recipe.AddIngredient(ItemID.SoulofNight, 10);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);

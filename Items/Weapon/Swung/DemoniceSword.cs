@@ -54,8 +54,8 @@ namespace SpiritMod.Items.Weapon.Swung
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<CryoliteBar>(), 12);
-			recipe.AddIngredient(ModContent.ItemType<IcyEssence>(), 6);
-			recipe.AddIngredient(ItemID.SoulofNight, 10);
+            recipe.AddIngredient(ItemID.ChlorophyteBar, 6);
+            recipe.AddIngredient(ItemID.SoulofNight, 10);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

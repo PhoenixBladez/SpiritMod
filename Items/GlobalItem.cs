@@ -362,22 +362,10 @@ namespace SpiritMod.Items
 				Main.projectile[proj].hostile = false;
 				Main.projectile[proj].friendly = true;
 			}
-			if (modPlayer.titanicSet && item.melee && Main.rand.Next(6) == 0) {
-				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<WaterMass>(), 40, 2f, player.whoAmI);
-				Main.projectile[proj].hostile = false;
-				Main.projectile[proj].friendly = true;
-			}
 			if (modPlayer.cultistScarf && item.magic && Main.rand.Next(8) == 0) {
 				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<WildMagic>(), 66, 2f, player.whoAmI);
 				Main.projectile[proj].hostile = false;
 				Main.projectile[proj].friendly = true;
-			}
-			if (modPlayer.thermalSet && item.melee && Main.rand.Next(6) == 0) {
-				for (int I = 0; I < 4; I++) {
-					int proj = Projectile.NewProjectile(position.X, position.Y, speedX * (Main.rand.Next(300, 500) / 100), speedY * (Main.rand.Next(300, 500) / 100), ProjectileID.RocketI, 65, 7f, player.whoAmI, 0f, 0f);
-					Main.projectile[proj].friendly = true;
-					Main.projectile[proj].hostile = false;
-				}
 			}
 			if (modPlayer.timScroll && item.magic && Main.rand.Next(12) == 0) {
 				int p = Main.rand.Next(9, 23);

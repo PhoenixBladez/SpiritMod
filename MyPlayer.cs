@@ -46,219 +46,219 @@ using Terraria.Audio;
 
 namespace SpiritMod
 {
-	public class MyPlayer : ModPlayer
-	{
-		 public int Shake = 0;
-		public List<SpiritPlayerEffect> effects = new List<SpiritPlayerEffect>();
-		public List<SpiritPlayerEffect> removedEffects = new List<SpiritPlayerEffect>();
-		public SpiritPlayerEffect setbonus = null;
-		public const int CAMO_DELAY = 100;
-		public int Soldiers = 0;
-		internal static bool swingingCheck;
-		internal static Item swingingItem;
-		public bool TormentLantern = false;
-		public bool clockActive = false;
-		public bool QuacklingMinion = false;
-		public bool bismiteShield = false;
-		public bool zipline = false;
-		public bool ziplineActive = false;
-		public float ziplineX = 0;
-		public float ziplineY = 0;
-		public float ziplineCounter = 0f;
-		public int shieldCounter = 0;
-		public int bismiteShieldStacks;
-		public bool MetalBand = false;
-		public bool KoiTotem = false;
-		public bool VampireCloak = false;
-		public bool starplateGlitchEffect = false;
-		public bool HealCloak = false;
-		public bool SpiritCloak = false;
-		public bool firewall = false;
-		public int clockX = 0;
-		public int clockY = 0;
-		private int Counter;
-		private int timerz;
-		public bool caltfist = false;
-		public bool briarSlimePet = false;
-		public bool ZoneBlueMoon = false;
-		private int timer1;
-		public bool astralSet = false;
-		public bool bloodcourtSet = false;
-		public int astralSetStacks;
-		public bool frigidGloves = false;
-		public bool mushroomPotion = false;
-		public bool magnifyingGlass = false;
-		public bool ShieldCore = false;
-		public int shieldsLeft = 2;
-		public bool spawnedShield = false;
-		public bool SoulStone = false;
-		public bool AceOfSpades = false;
-		public bool AceOfHearts = false;
-		public bool AceOfClubs = false;
-		public bool AceOfDiamonds = false;
-		public bool geodeSet = false;
-		public bool assassinMag = false;
-		public bool shadowFang = false;
-		public bool reachBrooch = false;
-		public bool cleftHorn = false;
+    public class MyPlayer : ModPlayer
+    {
+        public int Shake = 0;
+        public List<SpiritPlayerEffect> effects = new List<SpiritPlayerEffect>();
+        public List<SpiritPlayerEffect> removedEffects = new List<SpiritPlayerEffect>();
+        public SpiritPlayerEffect setbonus = null;
+        public const int CAMO_DELAY = 100;
+        public int Soldiers = 0;
+        internal static bool swingingCheck;
+        internal static Item swingingItem;
+        public bool TormentLantern = false;
+        public bool clockActive = false;
+        public bool QuacklingMinion = false;
+        public bool bismiteShield = false;
+        public bool zipline = false;
+        public bool ziplineActive = false;
+        public float ziplineX = 0;
+        public float ziplineY = 0;
+        public float ziplineCounter = 0f;
+        public int shieldCounter = 0;
+        public int bismiteShieldStacks;
+        public bool MetalBand = false;
+        public bool KoiTotem = false;
+        public bool VampireCloak = false;
+        public bool starplateGlitchEffect = false;
+        public bool HealCloak = false;
+        public bool SpiritCloak = false;
+        public bool firewall = false;
+        public int clockX = 0;
+        public int clockY = 0;
+        private int Counter;
+        private int timerz;
+        public bool caltfist = false;
+        public bool briarSlimePet = false;
+        public bool ZoneBlueMoon = false;
+        private int timer1;
+        public bool astralSet = false;
+        public bool bloodcourtSet = false;
+        public int astralSetStacks;
+        public bool frigidGloves = false;
+        public bool mushroomPotion = false;
+        public bool magnifyingGlass = false;
+        public bool ShieldCore = false;
+        public int shieldsLeft = 2;
+        public bool spawnedShield = false;
+        public bool SoulStone = false;
+        public bool AceOfSpades = false;
+        public bool AceOfHearts = false;
+        public bool AceOfClubs = false;
+        public bool AceOfDiamonds = false;
+        public bool geodeSet = false;
+        public bool assassinMag = false;
+        public bool shadowFang = false;
+        public bool reachBrooch = false;
+        public bool cleftHorn = false;
         public bool mimicRepellent = false;
-		public bool daybloomSet = false;
-		public int dazzleStacks;
-		public bool ToxicExtract = false;
-		public bool vitaStone = false;
-		public bool throwerGlove = false;
-		public bool firedSharpshooter = false;
-		public int throwerStacks;
-		public bool scarabCharm = false;
-		public bool floranCharm = false;
-		public bool sunStone = false;
-		public bool moonStone = false;
-		public bool bloodCourtHead = false;
-		public bool animusLens = false;
-		public bool timScroll = false;
-		public bool cultistScarf = false;
-		public bool fateToken = false;
-		public bool geodeRanged = false;
-		public bool atmos = false;
-		public bool fireMaw = false;
-		public bool deathRose = false;
-		public bool anglure = false;
-		public bool manaWings = false;
-		public bool infernalFlame = false;
-		public bool floranSet = false;
-		public bool silkenLegs = false;
-		public bool silkenRobe = false;
-		public bool rogueSet = false;
-		public bool crystal = false;
-		public bool eyezorEye = false;
-		public bool shamanBand = false;
-		public bool ChaosCrystal = false;
-		public bool wheezeScale = false;
-		public bool winterbornCharmMage = false;
-		public bool sepulchreCharm = false;
-		public bool HellGaze = false;
-		public bool hungryMinion = false;
-		public bool magazine = false;
-		public bool EaterSummon = false;
-		public bool CreeperSummon = false;
-		public bool leatherGlove = false;
-		public bool forbiddenTome = false;
-		public bool moonHeart = false;
-		public bool teslaCoil = false;
-		public bool Phantom = false;
-		public bool gremlinTooth = false;
-		public bool illusionistEye = false;
-		public bool sacredVine = false;
-		public bool BlueDust = false;
+        public bool daybloomSet = false;
+        public int dazzleStacks;
+        public bool ToxicExtract = false;
+        public bool vitaStone = false;
+        public bool throwerGlove = false;
+        public bool firedSharpshooter = false;
+        public int throwerStacks;
+        public bool scarabCharm = false;
+        public bool floranCharm = false;
+        public bool sunStone = false;
+        public bool moonStone = false;
+        public bool bloodCourtHead = false;
+        public bool animusLens = false;
+        public bool timScroll = false;
+        public bool cultistScarf = false;
+        public bool fateToken = false;
+        public bool geodeRanged = false;
+        public bool atmos = false;
+        public bool fireMaw = false;
+        public bool deathRose = false;
+        public bool anglure = false;
+        public bool manaWings = false;
+        public bool infernalFlame = false;
+        public bool floranSet = false;
+        public bool silkenLegs = false;
+        public bool silkenRobe = false;
+        public bool rogueSet = false;
+        public bool crystal = false;
+        public bool eyezorEye = false;
+        public bool shamanBand = false;
+        public bool ChaosCrystal = false;
+        public bool wheezeScale = false;
+        public bool winterbornCharmMage = false;
+        public bool sepulchreCharm = false;
+        public bool HellGaze = false;
+        public bool hungryMinion = false;
+        public bool magazine = false;
+        public bool EaterSummon = false;
+        public bool CreeperSummon = false;
+        public bool leatherGlove = false;
+        public bool forbiddenTome = false;
+        public bool moonHeart = false;
+        public bool teslaCoil = false;
+        public bool Phantom = false;
+        public bool gremlinTooth = false;
+        public bool illusionistEye = false;
+        public bool sacredVine = false;
+        public bool BlueDust = false;
 
-		public bool reachFireflies = false;
+        public bool reachFireflies = false;
 
-		public bool onGround = false;
-		public bool moving = false;
-		public bool flying = false;
-		public bool swimming = false;
-		public bool copterBrake = false;
-		public bool copterFiring = false;
-		public int copterFireFrame = 1000;
+        public bool onGround = false;
+        public bool moving = false;
+        public bool flying = false;
+        public bool swimming = false;
+        public bool copterBrake = false;
+        public bool copterFiring = false;
+        public int copterFireFrame = 1000;
 
-		public int beetleStacks = 1;
+        public int beetleStacks = 1;
 
         public int miningStacks = 1;
         public int damageStacks = 1;
         public int movementStacks = 1;
 
-		public int shootDelay = 0;
-		public bool bloodfireShield;
-		public int bloodfireShieldStacks;
-		public int shootDelay1 = 0;
-		public int shootDelay2 = 0;
-		public int shootDelay3 = 0;
-		public bool ZoneSynthwave = false;
-		public bool ZoneLantern = false;
-		public bool unboundSoulMinion = false;
-		public bool cragboundMinion = false;
-		public bool crawlerockMinion = false;
-		public bool pigronMinion = false;
-		public bool mangoMinion = false;
-		public bool terror1Summon = false;
-		public bool terror2Summon = false;
-		public bool terror3Summon = false;
-		public bool clatterboneShield = false;
-		public bool terror4Summon = false;
-		public bool minior = false;
+        public int shootDelay = 0;
+        public bool bloodfireShield;
+        public int bloodfireShieldStacks;
+        public int shootDelay1 = 0;
+        public int shootDelay2 = 0;
+        public int shootDelay3 = 0;
+        public bool ZoneSynthwave = false;
+        public bool ZoneLantern = false;
+        public bool unboundSoulMinion = false;
+        public bool cragboundMinion = false;
+        public bool crawlerockMinion = false;
+        public bool pigronMinion = false;
+        public bool mangoMinion = false;
+        public bool terror1Summon = false;
+        public bool terror2Summon = false;
+        public bool terror3Summon = false;
+        public bool clatterboneShield = false;
+        public bool terror4Summon = false;
+        public bool minior = false;
 
-		public bool cthulhuMinion = false;
-		public double pressedSpecial;
-		float distYT = 0f;
-		float distXT = 0f;
-		float distY = 0f;
-		float distX = 0f;
-		public Entity LastEnemyHit = null;
-		public bool TiteRing = false;
-		public bool NebulaPearl = false;
-		public bool CursedPendant = false;
-		public bool KingRock = false;
-		public bool starMap = false;
-		private const int saveVersion = 0;
-		public bool minionName = false;
-		public bool moonlightSack = false;
-		public bool Ward = false;
-		public bool Ward1 = false;
-		public static bool hasProjectile;
-		public bool DoomDestiny = false;
-		public int HitNumber;
-		public bool ZoneSpirit = false;
-		public bool ZoneReach = false;
-		public int PutridHits = 0;
-		public int Rangedhits = 0;
-		public bool flametrail = false;
-		public bool daybloomGarb = false;
-		public bool icytrail = false;
-		public bool silkenSet = false;
-		public bool EnchantedPaladinsHammerMinion = false;
-		public bool ProbeMinion = false;
-		public int frigidGloveStacks;
-		public int weaponAnimationCounter;
+        public bool cthulhuMinion = false;
+        public double pressedSpecial;
+        float distYT = 0f;
+        float distXT = 0f;
+        float distY = 0f;
+        float distX = 0f;
+        public Entity LastEnemyHit = null;
+        public bool TiteRing = false;
+        public bool NebulaPearl = false;
+        public bool CursedPendant = false;
+        public bool KingRock = false;
+        public bool starMap = false;
+        private const int saveVersion = 0;
+        public bool minionName = false;
+        public bool moonlightSack = false;
+        public bool Ward = false;
+        public bool Ward1 = false;
+        public static bool hasProjectile;
+        public bool DoomDestiny = false;
+        public int HitNumber;
+        public bool ZoneSpirit = false;
+        public bool ZoneReach = false;
+        public int PutridHits = 0;
+        public int Rangedhits = 0;
+        public bool flametrail = false;
+        public bool daybloomGarb = false;
+        public bool icytrail = false;
+        public bool silkenSet = false;
+        public bool EnchantedPaladinsHammerMinion = false;
+        public bool ProbeMinion = false;
+        public int frigidGloveStacks;
+        public int weaponAnimationCounter;
 
-		public bool gemPickaxe = false;
-		public int hexBowAnimationFrame;
-		public bool CrystalShield = false;
-		public bool carnivorousPlantMinion = false;
-		public bool skeletalonMinion = false;
+        public bool gemPickaxe = false;
+        public int hexBowAnimationFrame;
+        public bool CrystalShield = false;
+        public bool carnivorousPlantMinion = false;
+        public bool skeletalonMinion = false;
         public bool bowSummon = false;
         public bool snapsporeMinion = false;
         public bool butterflyMinion = false;
-		public bool beetleMinion = false;
-		public bool steamMinion = false;
-		public bool aeonMinion = false;
-		public bool lihzahrdMinion = false;
-		public bool SnakeMinion = false;
-		public bool Ghast = false;
+        public bool beetleMinion = false;
+        public bool steamMinion = false;
+        public bool aeonMinion = false;
+        public bool lihzahrdMinion = false;
+        public bool SnakeMinion = false;
+        public bool Ghast = false;
         public bool jellyfishMinion = false;
-		public bool DungeonSummon = false;
-		public bool ReachSummon = false;
-		public bool gasopodMinion = false;
+        public bool DungeonSummon = false;
+        public bool ReachSummon = false;
+        public bool gasopodMinion = false;
         public bool lunazoa = false;
         public bool rogueCrest = false;
         public bool cimmerianScepter = false;
         public bool spellswordCrest = false;
-		public bool tankMinion = false;
-		public bool OG = false;
-		public bool lavaRock = false;
-		public bool Flayer = false;
-		public int soulSiphon;
-		public bool maskPet = false;
-		public bool phantomPet = false;
-		public bool lanternPet = false;
-		public bool leatherHood = false;
-		public bool thrallPet = false;
-		public bool jellyfishPet = false;
-		public int clatterStacks;
-		public bool starPet = false;
-		public bool saucerPet = false;
-		public bool bookPet = false;
-		public bool SwordPet = false;
-		public bool shadowPet = false;
+        public bool tankMinion = false;
+        public bool OG = false;
+        public bool lavaRock = false;
+        public bool Flayer = false;
+        public int soulSiphon;
+        public bool maskPet = false;
+        public bool phantomPet = false;
+        public bool lanternPet = false;
+        public bool leatherHood = false;
+        public bool thrallPet = false;
+        public bool jellyfishPet = false;
+        public int clatterStacks;
+        public bool starPet = false;
+        public bool saucerPet = false;
+        public bool bookPet = false;
+        public bool SwordPet = false;
+        public bool shadowPet = false;
 
         public bool arcaneNecklace = false;
         public bool manaShield = false;
@@ -266,274 +266,265 @@ namespace SpiritMod
 
         public bool strikeshield = false;
 
-		//Adventurer related
-		public int explorerTimer;
-		public bool emptyExplorerScroll = false;
-		public bool emptyWinterbornScroll = false;
-		public bool emptyBeholderScroll = false;
+        //Adventurer related
+        public int explorerTimer;
+        public bool emptyExplorerScroll = false;
+        public bool emptyWinterbornScroll = false;
+        public bool emptyBeholderScroll = false;
         public bool emptyOwlScroll = false;
-		public bool emptyValkyrieScroll = false;
-		public bool emptyAntlionScroll = false;
-		public bool emptyDrBonesScroll = false;
-		public bool emptyWheezerScroll = false;
-		public bool emptyStardancerScroll = false;
+        public bool emptyValkyrieScroll = false;
+        public bool emptyAntlionScroll = false;
+        public bool emptyDrBonesScroll = false;
+        public bool emptyWheezerScroll = false;
+        public bool emptyStardancerScroll = false;
         public bool emptyBriarMobsScroll = false;
 
         public float SpeedMPH { get; private set; }
-		public DashType ActiveDash { get; private set; }
-		public GlyphType glyph;
-		public int voidStacks = 1;
-		public int camoCounter;
-		public int veilCounter;
+        public DashType ActiveDash { get; private set; }
+        public GlyphType glyph;
+        public int voidStacks = 1;
+        public int camoCounter;
+        public int veilCounter;
         public int jellynautStacks;
-		public bool blazeBurn;
-		public int phaseCounter;
-		public int phaseStacks;
-		public bool phaseShift;
-		private float[] phaseSlice = new float[60];
-		public int divineCounter;
-		public int divineStacks = 1;
-		public int stormStacks;
-		public int frostCooldown;
-		public float frostRotation;
-		public bool frostUpdate;
-		public int frostTally;
-		public int frostCount;
-		public bool stoneHead;
+        public bool blazeBurn;
+        public int phaseCounter;
+        public int phaseStacks;
+        public bool phaseShift;
+        private float[] phaseSlice = new float[60];
+        public int divineCounter;
+        public int divineStacks = 1;
+        public int stormStacks;
+        public int frostCooldown;
+        public float frostRotation;
+        public bool frostUpdate;
+        public int frostTally;
+        public int frostCount;
+        public bool stoneHead;
         public bool jellynautHelm;
 
-		public float shadowRotation;
-		public bool shadowUpdate;
-		public int shadowTally;
-		public int shadowCount;
-		public int attackTimer;
-		// Armor set booleans.
-		public bool chitinSet;
-		static int ChitinDashTicks;
-		public bool duskSet;
-		public bool runicSet;
+        public float shadowRotation;
+        public bool shadowUpdate;
+        public int shadowTally;
+        public int shadowCount;
+        public int attackTimer;
+        // Armor set booleans.
+        public bool chitinSet;
+        static int ChitinDashTicks;
+        public bool duskSet;
+        public bool runicSet;
         public bool darkfeatherVisage;
-		public bool icySet;
-		public bool elderbarkWoodSet;
-		public bool primalSet;
-		public bool spiritSet;
-		public bool putridSet;
-		public bool duneSet;
-		public bool lihzahrdSet;
-		public bool acidSet;
-		public bool reachSet;
-		public bool coralSet;
-		public bool leatherSet;
-		public bool witherSet;
-		public bool titanicSet;
-		public bool reaperSet;
-		public bool shadowSet;
-		public bool oceanSet;
+        public bool elderbarkWoodSet;
+        public bool primalSet;
+        public bool spiritSet;
+        public bool putridSet;
+        public bool reachSet;
+        public bool coralSet;
+        public bool leatherSet;
+        public bool witherSet;
+        public bool reaperSet;
+        public bool shadowSet;
+        public bool oceanSet;
         public bool wayfarerSet;
-		public bool marbleSet;
-		public bool cometSet;
-		public bool midasTouch;
-		public bool hellSet;
-		public bool bloodfireSet;
-		public bool stellarSet;
-		public bool magicshadowSet;
-		public bool cryoSet;
-		public bool frigidSet;
-		public bool rangedshadowSet;
-		public bool graniteSet;
-		public bool graniteslam = false;
-		public bool meleeshadowSet;
-		public bool infernalSet;
-		public bool bloomwindSet;
-		public bool fierySet;
-		public bool starSet;
-		public bool magalaSet;
-		public bool thermalSet;
-		public bool veinstoneSet;
-		public bool clatterboneSet;
-		public bool ichorSet1;
-		public bool ichorSet2;
-		public bool talonSet;
-		public bool OverseerCharm = false;
+        public bool marbleSet;
+        public bool midasTouch;
+        public bool bloodfireSet;
+        public bool stellarSet;
+        public bool magicshadowSet;
+        public bool cryoSet;
+        public bool frigidSet;
+        public bool rangedshadowSet;
+        public bool graniteSet;
+        public bool graniteslam = false;
+        public bool meleeshadowSet;
+        public bool infernalSet;
+        public bool fierySet;
+        public bool starSet;
+        public bool magalaSet;
+        public bool veinstoneSet;
+        public bool clatterboneSet;
+        public bool ichorSet1;
+        public bool ichorSet2;
+        public bool talonSet;
+        public bool OverseerCharm = false;
 
-		public bool ZoneAsteroid = false;
-		public bool ZoneMarble = false;
-		public bool ZoneGranite = false;
+        public bool ZoneAsteroid = false;
+        public bool ZoneMarble = false;
+        public bool ZoneGranite = false;
         public bool inGranite = false;
         public bool inMarble = false;
         public bool ZoneSpider = false;
-		public bool ZoneHive = false;
+        public bool ZoneHive = false;
 
-		public bool Bauble = false;
+        public bool Bauble = false;
 
-		public bool marbleJustJumped;
+        public bool marbleJustJumped;
 
-		// Accessory booleans.
-		public bool OriRing;
-		public bool SRingOn;
-		public bool goldenApple;
-		public bool hpRegenRing;
-		public bool bubbleShield;
-		public bool icySoul;
-		public bool mythrilCharm;
-		public bool infernalShield;
-		public bool seaSnailVenom;
-		public bool shadowGauntlet;
-		public bool amazonCharm;
-		public bool KingSlayerFlask;
-		public bool Resolve;
-		public bool DarkBough;
-		public bool hellCharm;
-		public bool bloodyBauble;
-		public bool twilightTalisman;
-		public bool MoonSongBlossom;
-		public bool HolyGrail;
-		public bool surferSet;
-		public float virulence = 600f;
-		public int illusionistTimer;
-		public float cryoTimer = 0f;
-		public float marbleJump = 420f;
-		public bool moonGauntlet;
-		public bool starCharm;
-		public int timeLeft = 0;
-		public int infernalHit;
-		public int infernalDash;
+        // Accessory booleans.
+        public bool OriRing;
+        public bool SRingOn;
+        public bool goldenApple;
+        public bool hpRegenRing;
+        public bool bubbleShield;
+        public bool icySoul;
+        public bool mythrilCharm;
+        public bool infernalShield;
+        public bool seaSnailVenom;
+        public bool shadowGauntlet;
+        public bool amazonCharm;
+        public bool KingSlayerFlask;
+        public bool Resolve;
+        public bool DarkBough;
+        public bool hellCharm;
+        public bool bloodyBauble;
+        public bool twilightTalisman;
+        public bool MoonSongBlossom;
+        public bool HolyGrail;
+        public bool surferSet;
+        public float virulence = 600f;
+        public int illusionistTimer;
+        public float cryoTimer = 0f;
+        public float marbleJump = 420f;
+        public bool moonGauntlet;
+        public bool starCharm;
+        public int timeLeft = 0;
+        public int infernalHit;
+        public int infernalDash;
 
-		public bool windEffect;
-		public bool windEffect2;
-		public int infernalSetCooldown;
-		public int fierySetTimer = 480;
-		public int surferTimer = 330;
-		public int firewallHit;
-		public int bubbleTimer;
-		public float starplateGlitchIntensity;
-		public int clatterboneTimer;
-		public int roseTimer;
-		public int baubleTimer;
-		public int cometTimer;
-		public bool concentrated; // For the leather armor set.
-		public int concentratedCooldown = 360;
-		public int stompCooldown = 600;
-		public bool basiliskMount;
-		public bool drakomireMount;
-		public int drakomireFlameTimer;
-		public bool drakinMount;
-		public bool toxify;
-		public bool acidImbue;
-		public bool spiritBuff;
-		public bool starBuff;
-		public bool runeBuff;
-		public bool poisonPotion;
-		public bool soulPotion;
-		public bool gremlinBuff;
+        public bool windEffect;
+        public bool windEffect2;
+        public int infernalSetCooldown;
+        public int fierySetTimer = 480;
+        public int surferTimer = 330;
+        public int firewallHit;
+        public int bubbleTimer;
+        public float starplateGlitchIntensity;
+        public int clatterboneTimer;
+        public int roseTimer;
+        public int baubleTimer;
+        public int cometTimer;
+        public bool concentrated; // For the leather armor set.
+        public int concentratedCooldown = 360;
+        public int stompCooldown = 600;
+        public bool basiliskMount;
+        public bool drakomireMount;
+        public int drakomireFlameTimer;
+        public bool drakinMount;
+        public bool toxify;
+        public bool acidImbue;
+        public bool spiritBuff;
+        public bool starBuff;
+        public bool runeBuff;
+        public bool poisonPotion;
+        public bool soulPotion;
+        public bool gremlinBuff;
 
-		public int candyInBowl;
-		private IList<string> candyFromTown = new List<string>();
+        public int candyInBowl;
+        private IList<string> candyFromTown = new List<string>();
 
-		public override void UpdateBiomeVisuals()
-		{          
-			var config = ModContent.GetInstance<SpiritClientConfig>();
-			bool showAurora = (player.ZoneSnow || ZoneSpirit || player.ZoneSkyHeight) && !Main.dayTime && !Main.raining && !player.ZoneCorrupt && !player.ZoneCrimson && MyWorld.aurora;
-			bool reach = (!Main.dayTime && ZoneReach && !reachBrooch && player.ZoneOverworldHeight) || (ZoneReach && player.ZoneOverworldHeight && MyWorld.downedReachBoss && Main.dayTime);
-			bool spirit = (player.ZoneOverworldHeight && ZoneSpirit);
+        public override void UpdateBiomeVisuals()
+        {
+            var config = ModContent.GetInstance<SpiritClientConfig>();
+            bool showAurora = (player.ZoneSnow || ZoneSpirit || player.ZoneSkyHeight) && !Main.dayTime && !Main.raining && !player.ZoneCorrupt && !player.ZoneCrimson && MyWorld.aurora;
+            bool reach = (!Main.dayTime && ZoneReach && !reachBrooch && player.ZoneOverworldHeight) || (ZoneReach && player.ZoneOverworldHeight && MyWorld.downedReachBoss && Main.dayTime);
+            bool spirit = (player.ZoneOverworldHeight && ZoneSpirit);
 
-			bool region1 = ZoneSpirit && player.ZoneRockLayerHeight && player.position.Y / 16 > (Main.rockLayer + Main.maxTilesY - 330) / 2f;
-			bool region2 = ZoneSpirit && player.position.Y / 16 >= Main.maxTilesY - 300;
+            bool region1 = ZoneSpirit && player.ZoneRockLayerHeight && player.position.Y / 16 > (Main.rockLayer + Main.maxTilesY - 330) / 2f;
+            bool region2 = ZoneSpirit && player.position.Y / 16 >= Main.maxTilesY - 300;
 
             bool showJellies = (player.ZoneSkyHeight && MyWorld.jellySky) || NPC.AnyNPCs(ModContent.NPCType<MoonWizard>());
 
             bool greenOcean = player.ZoneBeach && MyWorld.luminousType == 1 && MyWorld.luminousOcean;
-			bool blueOcean = player.ZoneBeach && MyWorld.luminousType == 2 && MyWorld.luminousOcean;
-			bool purpleOcean = player.ZoneBeach && MyWorld.luminousType == 3 && MyWorld.luminousOcean;
+            bool blueOcean = player.ZoneBeach && MyWorld.luminousType == 2 && MyWorld.luminousOcean;
+            bool purpleOcean = player.ZoneBeach && MyWorld.luminousType == 3 && MyWorld.luminousOcean;
 
-			bool blueMoon = ZoneBlueMoon && (player.ZoneOverworldHeight || player.ZoneSkyHeight);
+            bool blueMoon = ZoneBlueMoon && (player.ZoneOverworldHeight || player.ZoneSkyHeight);
 
-			if (config.DistortionConfig) {
-				if(ZoneSpirit && player.position.Y / 16 >= Main.maxTilesY - 330) {
-					SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.2f); //0.4f is default
-					SpiritMod.glitchScreenShader.UseIntensity(0.004f);
-					player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
-				} else if(ZoneSpirit && player.ZoneRockLayerHeight && player.position.Y / 16 > (Main.rockLayer + Main.maxTilesY - 330) / 2f) {
-					SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.1f); //0.4f is default
-					SpiritMod.glitchScreenShader.UseIntensity(0.0005f);
-					player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
-				} else if(starplateGlitchEffect) {
-					SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.3f);
-					SpiritMod.glitchScreenShader.UseIntensity(starplateGlitchIntensity);
-					player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
-				} else if (ZoneSynthwave) {
-					SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.115f); //0.4f is default
-					SpiritMod.glitchScreenShader.UseIntensity(0.0008f);
-					player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
-				}	
-				else {
-					player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);
-				}
-			}	
-			else {
-				player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);
-			}	
-			player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);	
-			player.ManageSpecialBiomeVisuals("SpiritMod:AuroraSky", showAurora);
-			player.ManageSpecialBiomeVisuals("SpiritMod:SpiritBiomeSky", spirit);
-			player.ManageSpecialBiomeVisuals("SpiritMod:AsteroidSky2", ZoneAsteroid);
+            if (config.DistortionConfig) {
+                if (ZoneSpirit && player.position.Y / 16 >= Main.maxTilesY - 330) {
+                    SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.2f); //0.4f is default
+                    SpiritMod.glitchScreenShader.UseIntensity(0.004f);
+                    player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
+                } else if (ZoneSpirit && player.ZoneRockLayerHeight && player.position.Y / 16 > (Main.rockLayer + Main.maxTilesY - 330) / 2f) {
+                    SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.1f); //0.4f is default
+                    SpiritMod.glitchScreenShader.UseIntensity(0.0005f);
+                    player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
+                } else if (starplateGlitchEffect) {
+                    SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.3f);
+                    SpiritMod.glitchScreenShader.UseIntensity(starplateGlitchIntensity);
+                    player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
+                } else if (ZoneSynthwave) {
+                    SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.115f); //0.4f is default
+                    SpiritMod.glitchScreenShader.UseIntensity(0.0008f);
+                    player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
+                }
+                else {
+                    player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);
+                }
+            }
+            else {
+                player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);
+            }
+            player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);
+            player.ManageSpecialBiomeVisuals("SpiritMod:AuroraSky", showAurora);
+            player.ManageSpecialBiomeVisuals("SpiritMod:SpiritBiomeSky", spirit);
+            player.ManageSpecialBiomeVisuals("SpiritMod:AsteroidSky2", ZoneAsteroid);
 
-			player.ManageSpecialBiomeVisuals("SpiritMod:SynthwaveSky", ZoneSynthwave);
+            player.ManageSpecialBiomeVisuals("SpiritMod:SynthwaveSky", ZoneSynthwave);
 
-			player.ManageSpecialBiomeVisuals("SpiritMod:GreenAlgaeSky", greenOcean);
-			player.ManageSpecialBiomeVisuals("SpiritMod:BlueAlgaeSky", blueOcean);
-			player.ManageSpecialBiomeVisuals("SpiritMod:PurpleAlgaeSky", purpleOcean);
+            player.ManageSpecialBiomeVisuals("SpiritMod:GreenAlgaeSky", greenOcean);
+            player.ManageSpecialBiomeVisuals("SpiritMod:BlueAlgaeSky", blueOcean);
+            player.ManageSpecialBiomeVisuals("SpiritMod:PurpleAlgaeSky", purpleOcean);
 
             player.ManageSpecialBiomeVisuals("SpiritMod:JellySky", showJellies);
 
             player.ManageSpecialBiomeVisuals("SpiritMod:SpiritUG1", region1);
-			player.ManageSpecialBiomeVisuals("SpiritMod:SpiritUG2", region2);
+            player.ManageSpecialBiomeVisuals("SpiritMod:SpiritUG2", region2);
 
-			player.ManageSpecialBiomeVisuals("SpiritMod:ReachSky", reach, player.Center);
-			player.ManageSpecialBiomeVisuals("SpiritMod:BlueMoonSky", blueMoon, player.Center);
-			player.ManageSpecialBiomeVisuals("SpiritMod:MeteorSky", ZoneAsteroid);
-			player.ManageSpecialBiomeVisuals("SpiritMod:MeteoriteSky", player.ZoneMeteor);
-			player.ManageSpecialBiomeVisuals("SpiritMod:WindEffect", windEffect, player.Center);
-			player.ManageSpecialBiomeVisuals("SpiritMod:WindEffect2", windEffect2, player.Center);
-			player.ManageSpecialBiomeVisuals("SpiritMod:Overseer", NPC.AnyNPCs(ModContent.NPCType<Overseer>()));
-			player.ManageSpecialBiomeVisuals("SpiritMod:Atlas", NPC.AnyNPCs(ModContent.NPCType<Atlas>()));
-		}
+            player.ManageSpecialBiomeVisuals("SpiritMod:ReachSky", reach, player.Center);
+            player.ManageSpecialBiomeVisuals("SpiritMod:BlueMoonSky", blueMoon, player.Center);
+            player.ManageSpecialBiomeVisuals("SpiritMod:MeteorSky", ZoneAsteroid);
+            player.ManageSpecialBiomeVisuals("SpiritMod:MeteoriteSky", player.ZoneMeteor);
+            player.ManageSpecialBiomeVisuals("SpiritMod:WindEffect", windEffect, player.Center);
+            player.ManageSpecialBiomeVisuals("SpiritMod:WindEffect2", windEffect2, player.Center);
+            player.ManageSpecialBiomeVisuals("SpiritMod:Overseer", NPC.AnyNPCs(ModContent.NPCType<Overseer>()));
+            player.ManageSpecialBiomeVisuals("SpiritMod:Atlas", NPC.AnyNPCs(ModContent.NPCType<Atlas>()));
+        }
 
-		public override void UpdateBiomes()
-		{
-			ZoneSpirit = MyWorld.SpiritTiles > 200;
-			ZoneBlueMoon = MyWorld.BlueMoon;
-			ZoneReach = MyWorld.ReachTiles > 50;
-			ZoneMarble = MyWorld.MarbleTiles > 310;
-			ZoneGranite = MyWorld.GraniteTiles > 400;
-			ZoneAsteroid = MyWorld.AsteroidTiles > 130;
-			ZoneHive = MyWorld.HiveTiles > 100;
-		}
+        public override void UpdateBiomes()
+        {
+            ZoneSpirit = MyWorld.SpiritTiles > 200;
+            ZoneBlueMoon = MyWorld.BlueMoon;
+            ZoneReach = MyWorld.ReachTiles > 50;
+            ZoneMarble = MyWorld.MarbleTiles > 310;
+            ZoneGranite = MyWorld.GraniteTiles > 400;
+            ZoneAsteroid = MyWorld.AsteroidTiles > 130;
+            ZoneHive = MyWorld.HiveTiles > 100;
+        }
 
-		public override bool CustomBiomesMatch(Player other)
-		{
-			MyPlayer modOther = other.GetSpiritPlayer();
+        public override bool CustomBiomesMatch(Player other)
+        {
+            MyPlayer modOther = other.GetSpiritPlayer();
             return ZoneSpirit == modOther.ZoneSpirit
                 && ZoneReach == modOther.ZoneReach
                 && ZoneAsteroid == modOther.ZoneAsteroid
                 && ZoneGranite == modOther.ZoneGranite
-				&& ZoneMarble == modOther.ZoneMarble 
-				&& ZoneHive == modOther.ZoneHive;
-		}
+                && ZoneMarble == modOther.ZoneMarble
+                && ZoneHive == modOther.ZoneHive;
+        }
 
-		public override void CopyCustomBiomesTo(Player other)
-		{
-			MyPlayer modOther = other.GetSpiritPlayer();
-			modOther.ZoneSpirit = ZoneSpirit;
-			modOther.ZoneReach = ZoneReach;
-			modOther.ZoneAsteroid = ZoneAsteroid;
-			modOther.ZoneGranite = ZoneGranite;
-			modOther.ZoneMarble = ZoneMarble;
-			modOther.ZoneHive = ZoneHive;
-		}
+        public override void CopyCustomBiomesTo(Player other)
+        {
+            MyPlayer modOther = other.GetSpiritPlayer();
+            modOther.ZoneSpirit = ZoneSpirit;
+            modOther.ZoneReach = ZoneReach;
+            modOther.ZoneAsteroid = ZoneAsteroid;
+            modOther.ZoneGranite = ZoneGranite;
+            modOther.ZoneMarble = ZoneMarble;
+            modOther.ZoneHive = ZoneHive;
+        }
 
-		public override void SendCustomBiomes(BinaryWriter writer)
-		{
+        public override void SendCustomBiomes(BinaryWriter writer)
+        {
             BitsByte flags = new BitsByte();
             flags[0] = ZoneSpirit;
             flags[1] = ZoneReach;
@@ -544,8 +535,8 @@ namespace SpiritMod
             writer.Write(flags);
         }
 
-		public override void ReceiveCustomBiomes(BinaryReader reader)
-		{
+        public override void ReceiveCustomBiomes(BinaryReader reader)
+        {
             BitsByte flags = reader.ReadByte();
             ZoneSpirit = flags[0];
             ZoneReach = flags[1];
@@ -555,288 +546,280 @@ namespace SpiritMod
             ZoneHive = flags[5];
         }
 
-		public override Texture2D GetMapBackgroundImage()
-		{
-			if(ZoneSpirit)
+        public override Texture2D GetMapBackgroundImage()
+        {
+            if (ZoneSpirit)
             {
-				return mod.GetTexture("Backgrounds/SpiritMapBackground");
-			}
-			if (ZoneReach)
+                return mod.GetTexture("Backgrounds/SpiritMapBackground");
+            }
+            if (ZoneReach)
             {
                 return mod.GetTexture("Backgrounds/BriarMapBG");
             }
-			if (ZoneAsteroid)
+            if (ZoneAsteroid)
             {
                 return mod.GetTexture("Backgrounds/AsteroidMapBG");
             }
-			return null;
-		}
-		public override TagCompound Save()
-		{
-			TagCompound tag = new TagCompound
-			{
-				{ "candyInBowl", candyInBowl },
-				{ "candyFromTown", candyFromTown }
-			};
-			return tag;
-		}
+            return null;
+        }
+        public override TagCompound Save()
+        {
+            TagCompound tag = new TagCompound
+            {
+                { "candyInBowl", candyInBowl },
+                { "candyFromTown", candyFromTown }
+            };
+            return tag;
+        }
 
-		public override void Load(TagCompound tag)
-		{
-			candyInBowl = tag.GetInt("candyInBowl");
-			candyFromTown = tag.GetList<string>("candyFromTown");
-		}
+        public override void Load(TagCompound tag)
+        {
+            candyInBowl = tag.GetInt("candyInBowl");
+            candyFromTown = tag.GetList<string>("candyFromTown");
+        }
 
 
-		public override void ResetEffects()
-		{
-			removedEffects = effects;
-			effects = new List<SpiritPlayerEffect>();
-			MetalBand = false;
+        public override void ResetEffects()
+        {
+            removedEffects = effects;
+            effects = new List<SpiritPlayerEffect>();
+            MetalBand = false;
             strikeshield = false;
-			KoiTotem = false;
-			setbonus = null;
+            KoiTotem = false;
+            setbonus = null;
             rogueCrest = false;
-			moonlightSack = false;
+            moonlightSack = false;
             cimmerianScepter = false;
-			midasTouch = false;
-			seaSnailVenom = false;
+            midasTouch = false;
+            seaSnailVenom = false;
             spellswordCrest = false;
-			stoneHead = false;
-			silkenRobe = false;
-			zipline = false;
-			clockActive = false;
-			bloodcourtSet = false;
-			ShieldCore = false;
-			caltfist = false;
-			briarSlimePet = false;
-			firewall = false;
-			hellCharm = false;
-			bloodyBauble = false;
-			elderbarkWoodSet = false;
-			amazonCharm = false;
-			cleftHorn = false;
-			TormentLantern = false;
-			phantomPet = false;
-			throwerGlove = false;
-			QuacklingMinion = false;
-			VampireCloak = false;
-			SpiritCloak = false;
-			HealCloak = false;
-			vitaStone = false;
-			silkenLegs = false;
-			astralSet = false;
-			mushroomPotion = false;
-			floranCharm = false;
-			ChaosCrystal = false;
-			twilightTalisman = false;
-			teslaCoil = false;
-			ToxicExtract = false;
-			shadowFang = false;
-			gemPickaxe = false;
-			cultistScarf = false;
-			surferSet = false;
-			bloodCourtHead = false;
-			scarabCharm = false;
-			assassinMag = false;
+            stoneHead = false;
+            silkenRobe = false;
+            zipline = false;
+            clockActive = false;
+            bloodcourtSet = false;
+            ShieldCore = false;
+            caltfist = false;
+            briarSlimePet = false;
+            firewall = false;
+            hellCharm = false;
+            bloodyBauble = false;
+            elderbarkWoodSet = false;
+            amazonCharm = false;
+            cleftHorn = false;
+            TormentLantern = false;
+            phantomPet = false;
+            throwerGlove = false;
+            QuacklingMinion = false;
+            VampireCloak = false;
+            SpiritCloak = false;
+            HealCloak = false;
+            vitaStone = false;
+            silkenLegs = false;
+            astralSet = false;
+            mushroomPotion = false;
+            floranCharm = false;
+            ChaosCrystal = false;
+            twilightTalisman = false;
+            teslaCoil = false;
+            ToxicExtract = false;
+            shadowFang = false;
+            gemPickaxe = false;
+            cultistScarf = false;
+            surferSet = false;
+            bloodCourtHead = false;
+            scarabCharm = false;
+            assassinMag = false;
 
             arcaneNecklace = false;
             manaShield = false;
             seraphimBulwark = false;
 
             jellynautHelm = false;
-			moonHeart = false;
-			chitinSet = false;
-			ChitinDashTicks = Math.Max(ChitinDashTicks - 1, 0);
-			starplateGlitchEffect = false;
-			infernalFlame = false;
-			reachBrooch = false;
-			windEffect = false;
-			windEffect2 = false;
-			gremlinTooth = false;
-			leatherHood = false;
-			floranSet = false;
-			atmos = false;
-			SoulStone = false;
-			AceOfSpades = false;
-			AceOfHearts = false;
-			AceOfClubs = false;
-			AceOfDiamonds = false;
-			anglure = false;
-			geodeSet = false;
-			manaWings = false;
-			sunStone = false;
-			fireMaw = false;
-			moonStone = false;
-			rogueSet = false;
-			timScroll = false;
-			wheezeScale = false;
-			crystal = false;
-			HellGaze = false;
-			Bauble = false;
-			geodeRanged = false;
-			OverseerCharm = false;
-			ReachSummon = false;
-			hungryMinion = false;
-			silkenSet = false;
+            moonHeart = false;
+            chitinSet = false;
+            ChitinDashTicks = Math.Max(ChitinDashTicks - 1, 0);
+            starplateGlitchEffect = false;
+            infernalFlame = false;
+            reachBrooch = false;
+            windEffect = false;
+            windEffect2 = false;
+            gremlinTooth = false;
+            leatherHood = false;
+            floranSet = false;
+            atmos = false;
+            SoulStone = false;
+            AceOfSpades = false;
+            AceOfHearts = false;
+            AceOfClubs = false;
+            AceOfDiamonds = false;
+            anglure = false;
+            geodeSet = false;
+            manaWings = false;
+            sunStone = false;
+            fireMaw = false;
+            moonStone = false;
+            rogueSet = false;
+            timScroll = false;
+            wheezeScale = false;
+            crystal = false;
+            HellGaze = false;
+            Bauble = false;
+            geodeRanged = false;
+            OverseerCharm = false;
+            ReachSummon = false;
+            hungryMinion = false;
+            silkenSet = false;
             snapsporeMinion = false;
-			EaterSummon = false;
-			CreeperSummon = false;
-			CrystalShield = false;
-			bloodfireShield = false;
-			tankMinion = false;
-			Phantom = false;
-			magnifyingGlass = false;
-			magazine = false;
-			daybloomSet = false;
-			daybloomGarb = false;
-			Ward = false;
-			Ward1 = false;
-			CursedPendant = false;
-			BlueDust = false;
-			SnakeMinion = false;
-			Ghast = false;
-			starCharm = false;
-			eyezorEye = false;
-			minionName = false;
-			starMap = false;
-			frigidGloves = false;
-			NebulaPearl = false;
-			TiteRing = false;
-			bismiteShield = false;
-			sacredVine = false;
-			winterbornCharmMage = false;
-			sepulchreCharm = false;
-			clatterboneShield = false;
-			KingRock = false;
-			cthulhuMinion = false;
-			leatherGlove = false;
-			flametrail = false;
-			icytrail = false;
-			EnchantedPaladinsHammerMinion = false;
-			ProbeMinion = false;
-			crawlerockMinion = false;
-			mangoMinion = false;
-			pigronMinion = false;
-			skeletalonMinion = false;
-			cragboundMinion = false;
-			beetleMinion = false;
-			shamanBand = false;
-			lihzahrdMinion = false;
-			aeonMinion = false;
-			gasopodMinion = false;
-			Flayer = false;
-			steamMinion = false;
-			DungeonSummon = false;
+            EaterSummon = false;
+            CreeperSummon = false;
+            CrystalShield = false;
+            bloodfireShield = false;
+            tankMinion = false;
+            Phantom = false;
+            magnifyingGlass = false;
+            magazine = false;
+            daybloomSet = false;
+            daybloomGarb = false;
+            Ward = false;
+            Ward1 = false;
+            CursedPendant = false;
+            BlueDust = false;
+            SnakeMinion = false;
+            Ghast = false;
+            starCharm = false;
+            eyezorEye = false;
+            minionName = false;
+            starMap = false;
+            frigidGloves = false;
+            NebulaPearl = false;
+            TiteRing = false;
+            bismiteShield = false;
+            sacredVine = false;
+            winterbornCharmMage = false;
+            sepulchreCharm = false;
+            clatterboneShield = false;
+            KingRock = false;
+            cthulhuMinion = false;
+            leatherGlove = false;
+            flametrail = false;
+            icytrail = false;
+            EnchantedPaladinsHammerMinion = false;
+            ProbeMinion = false;
+            crawlerockMinion = false;
+            mangoMinion = false;
+            pigronMinion = false;
+            skeletalonMinion = false;
+            cragboundMinion = false;
+            beetleMinion = false;
+            shamanBand = false;
+            lihzahrdMinion = false;
+            aeonMinion = false;
+            gasopodMinion = false;
+            Flayer = false;
+            steamMinion = false;
+            DungeonSummon = false;
             lunazoa = false;
-			OG = false;
-			lavaRock = false;
-			maskPet = false;
-			starPet = false;
-			bookPet = false;
-			SwordPet = false;
-			lanternPet = false;
-			jellyfishPet = false;
-			thrallPet = false;
+            OG = false;
+            lavaRock = false;
+            maskPet = false;
+            starPet = false;
+            bookPet = false;
+            SwordPet = false;
+            lanternPet = false;
+            jellyfishPet = false;
+            thrallPet = false;
             jellyfishMinion = false;
             butterflyMinion = false;
-			shadowPet = false;
-			saucerPet = false;
-			terror1Summon = false;
-			terror2Summon = false;
-			terror3Summon = false;
-			terror4Summon = false;
+            shadowPet = false;
+            saucerPet = false;
+            terror1Summon = false;
+            terror2Summon = false;
+            terror3Summon = false;
+            terror4Summon = false;
             bowSummon = false;
-			minior = false;
-			drakomireMount = false;
-			basiliskMount = false;
-			toxify = false;
-			gremlinBuff = false;
-			spiritBuff = false;
-			drakinMount = false;
-			poisonPotion = false;
-			starBuff = false;
-			runeBuff = false;
-			soulPotion = false;
-			carnivorousPlantMinion = false;
+            minior = false;
+            drakomireMount = false;
+            basiliskMount = false;
+            toxify = false;
+            gremlinBuff = false;
+            spiritBuff = false;
+            drakinMount = false;
+            poisonPotion = false;
+            starBuff = false;
+            runeBuff = false;
+            soulPotion = false;
+            carnivorousPlantMinion = false;
 
-			emptyExplorerScroll = false;
-			emptyWinterbornScroll = false;
-			emptyBeholderScroll = false;
-			emptyValkyrieScroll = false;
-			emptyDrBonesScroll = false;
-			emptyWheezerScroll = false;
-			emptyStardancerScroll = false;
+            emptyExplorerScroll = false;
+            emptyWinterbornScroll = false;
+            emptyBeholderScroll = false;
+            emptyValkyrieScroll = false;
+            emptyDrBonesScroll = false;
+            emptyWheezerScroll = false;
+            emptyStardancerScroll = false;
 
-			// Reset armor set booleans.
-			duskSet = false;
-			runicSet = false;
+            // Reset armor set booleans.
+            duskSet = false;
+            runicSet = false;
             darkfeatherVisage = false;
-			primalSet = false;
-			shadowSet = false;
+            primalSet = false;
+            shadowSet = false;
             wayfarerSet = false;
-			cometSet = false;
-			meleeshadowSet = false;
-			rangedshadowSet = false;
-			magicshadowSet = false;
-			witherSet = false;
-			hellSet = false;
-			reaperSet = false;
-			spiritSet = false;
-			coralSet = false;
-			ichorSet1 = false;
-			stellarSet = false;
-			ichorSet2 = false;
-			icySet = false;
-			graniteSet = false;
-			fierySet = false;
-			putridSet = false;
-			reachSet = false;
-			duneSet = false;
-			leatherSet = false;
-			starSet = false;
-			bloodfireSet = false;
-			oceanSet = false;
-			titanicSet = false;
-			cryoSet = false;
-			frigidSet = false;
-			marbleSet = false;
-			magalaSet = false;
-			thermalSet = false;
-			infernalSet = false;
-			bloomwindSet = false;
-			veinstoneSet = false;
-			clatterboneSet = false;
-			lihzahrdSet = false;
-			talonSet = false;
+            meleeshadowSet = false;
+            rangedshadowSet = false;
+            magicshadowSet = false;
+            witherSet = false;
+            reaperSet = false;
+            spiritSet = false;
+            coralSet = false;
+            ichorSet1 = false;
+            stellarSet = false;
+            ichorSet2 = false;
+            graniteSet = false;
+            fierySet = false;
+            putridSet = false;
+            reachSet = false;
+            leatherSet = false;
+            starSet = false;
+            bloodfireSet = false;
+            oceanSet = false;
+            cryoSet = false;
+            frigidSet = false;
+            marbleSet = false;
+            magalaSet = false;
+            infernalSet = false;
+            veinstoneSet = false;
+            clatterboneSet = false;
+            talonSet = false;
 
-			marbleJustJumped = false;
+            marbleJustJumped = false;
 
-			// Reset accessory booleans.
-			OriRing = false;
-			SRingOn = false;
-			goldenApple = false;
+            // Reset accessory booleans.
+            OriRing = false;
+            SRingOn = false;
+            goldenApple = false;
             mimicRepellent = false;
-			hpRegenRing = false;
-			forbiddenTome = false;
-			bubbleShield = false;
-			animusLens = false;
-			deathRose = false;
-			mythrilCharm = false;
-			KingSlayerFlask = false;
-			DarkBough = false;
-			Resolve = false;
-			MoonSongBlossom = false;
-			HolyGrail = false;
-			infernalShield = false;
-			illusionistEye = false;
-			shadowGauntlet = false;
-			moonGauntlet = false;
-			unboundSoulMinion = false;
+            hpRegenRing = false;
+            forbiddenTome = false;
+            bubbleShield = false;
+            animusLens = false;
+            deathRose = false;
+            mythrilCharm = false;
+            KingSlayerFlask = false;
+            DarkBough = false;
+            Resolve = false;
+            MoonSongBlossom = false;
+            HolyGrail = false;
+            infernalShield = false;
+            illusionistEye = false;
+            shadowGauntlet = false;
+            moonGauntlet = false;
+            unboundSoulMinion = false;
 
-			if(player.FindBuffIndex(ModContent.BuffType<BeetleFortitude>()) < 0) {
-				beetleStacks = 1;
-			}
+            if (player.FindBuffIndex(ModContent.BuffType<BeetleFortitude>()) < 0) {
+                beetleStacks = 1;
+            }
 
             if (player.FindBuffIndex(ModContent.BuffType<ExplorerFight>()) < 0)
             {
@@ -854,321 +837,321 @@ namespace SpiritMod
             }
 
             if (player.FindBuffIndex(ModContent.BuffType<CollapsingVoid>()) < 0) {
-				voidStacks = 1;
-			}
+                voidStacks = 1;
+            }
 
-			phaseShift = false;
-			blazeBurn = false;
+            phaseShift = false;
+            blazeBurn = false;
 
-			if(glyph != GlyphType.Phase) {
-				phaseStacks = 0;
-				phaseCounter = 0;
-			}
+            if (glyph != GlyphType.Phase) {
+                phaseStacks = 0;
+                phaseCounter = 0;
+            }
 
-			if(glyph != GlyphType.Veil) {
-				veilCounter = 0;
-			}
+            if (glyph != GlyphType.Veil) {
+                veilCounter = 0;
+            }
 
-			if(glyph != GlyphType.Radiant) {
-				divineStacks = 1;
-				divineCounter = 0;
-			}
+            if (glyph != GlyphType.Radiant) {
+                divineStacks = 1;
+                divineCounter = 0;
+            }
 
-			if(glyph != GlyphType.Storm) {
-				stormStacks = 0;
-			}
+            if (glyph != GlyphType.Storm) {
+                stormStacks = 0;
+            }
 
-			if(frostCooldown > 0) {
-				frostCooldown--;
-			}
+            if (frostCooldown > 0) {
+                frostCooldown--;
+            }
 
-			frostRotation += Items.Glyphs.FrostGlyph.TURNRATE;
-			if(frostRotation > MathHelper.TwoPi) {
-				frostRotation -= MathHelper.TwoPi;
-			}
+            frostRotation += Items.Glyphs.FrostGlyph.TURNRATE;
+            if (frostRotation > MathHelper.TwoPi) {
+                frostRotation -= MathHelper.TwoPi;
+            }
 
-			if(frostUpdate) {
-				frostUpdate = false;
-				if(glyph == GlyphType.Frost) {
-					Items.Glyphs.FrostGlyph.UpdateIceSpikes(player);
-				}
-			}
+            if (frostUpdate) {
+                frostUpdate = false;
+                if (glyph == GlyphType.Frost) {
+                    Items.Glyphs.FrostGlyph.UpdateIceSpikes(player);
+                }
+            }
 
-			frostCount = frostTally;
-			frostTally = 0;
+            frostCount = frostTally;
+            frostTally = 0;
 
-			copterFireFrame++;
+            copterFireFrame++;
 
-			onGround = false;
-			flying = false;
-			swimming = false;
-			if(player.velocity.Y != 0f) {
-				if(player.mount.Active && player.mount.FlyTime > 0 && player.jump == 0 && player.controlJump && !player.mount.CanHover) {
-					flying = true;
-				} else if(player.wet) {
-					swimming = true;
-				}
-			} else {
-				onGround = true;
-			}
+            onGround = false;
+            flying = false;
+            swimming = false;
+            if (player.velocity.Y != 0f) {
+                if (player.mount.Active && player.mount.FlyTime > 0 && player.jump == 0 && player.controlJump && !player.mount.CanHover) {
+                    flying = true;
+                } else if (player.wet) {
+                    swimming = true;
+                }
+            } else {
+                onGround = true;
+            }
 
-			moving = false;
-			if(player.velocity.X != 0f) {
-				moving = true;
-			}
-		}
+            moving = false;
+            if (player.velocity.X != 0f) {
+                moving = true;
+            }
+        }
 
-		public bool flag8 = false;
-		public bool marbleJumpEffects = false;
-		public override void ProcessTriggers(TriggersSet triggersSet)
-		{
-			if(marbleSet && player.controlUp && player.releaseUp && marbleJump <= 0) {
-				player.AddBuff(ModContent.BuffType<MarbleDivineWinds>(), 120);
-				Main.PlaySound(SoundID.Item, player.position, 20);
-				for(int i = 0; i < 8; i++) {
-					int num = Dust.NewDust(player.position, player.width, player.height, 222, 0f, -2f, 0, default, 2f);
-					Main.dust[num].noGravity = true;
-					Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-					Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
-					Main.dust[num].scale *= .25f;
-					if(Main.dust[num].position != player.Center)
-						Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
-				}
-				marbleJump = 420;
-			}
-			if(marbleSet) {
-				if(player.sliding || player.velocity.Y == 0f) {
-					player.justJumped = true;
-				}
-			}
-			if(player.controlJump) {
-				if(marbleJustJumped) {
-					marbleJustJumped = false;
-					flag8 = true;
-					if(flag8 && player.HasBuff(ModContent.BuffType<MarbleDivineWinds>())) {
-						if(Main.rand.Next(20) == 0) {
-							Main.PlaySound(SoundID.Item, player.position, 24);
-						}
-						marbleJumpEffects = true;
-						int num23 = player.height;
-						if(player.gravDir == -1f) {
-							num23 = 0;
-						}
-						player.velocity.Y = (0f - Player.jumpSpeed) * player.gravDir;
-						player.jump = (int)(Player.jumpHeight * 1.25);
-						for(int m = 0; m < 4; m++) {
-							int num22 = Dust.NewDust(new Vector2(player.position.X, player.position.Y + num23), player.width, 6, 222, player.velocity.X * 0.3f, player.velocity.Y * 0.3f, 100, Color.White, .8f);
-							if(m % 2 == 0) {
-								Dust expr_79B_cp_0 = Main.dust[num22];
-								expr_79B_cp_0.velocity.X = expr_79B_cp_0.velocity.X + (float)Main.rand.Next(10, 31) * 0.1f;
-							} else {
-								Dust expr_7CB_cp_0 = Main.dust[num22];
-								expr_7CB_cp_0.velocity.X = expr_7CB_cp_0.velocity.X - Main.rand.Next(31, 71) * 0.1f;
-							}
-							Dust expr_7F9_cp_0 = Main.dust[num22];
-							expr_7F9_cp_0.velocity.Y = expr_7F9_cp_0.velocity.Y + Main.rand.Next(-10, 31) * 0.1f;
-							Main.dust[num22].noGravity = true;
-							Main.dust[num22].scale += Main.rand.Next(-10, 11) * .0025f;
-							Dust obj = Main.dust[num22];
-							obj.velocity *= Main.dust[num22].scale * 0.7f;
-							Vector2 value3 = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
-							value3.Normalize();
-							value3 *= Main.rand.Next(81) * 0.08f;
-						}
-					}
-				}
-			}
-		}
+        public bool flag8 = false;
+        public bool marbleJumpEffects = false;
+        public override void ProcessTriggers(TriggersSet triggersSet)
+        {
+            if (marbleSet && player.controlUp && player.releaseUp && marbleJump <= 0) {
+                player.AddBuff(ModContent.BuffType<MarbleDivineWinds>(), 120);
+                Main.PlaySound(SoundID.Item, player.position, 20);
+                for (int i = 0; i < 8; i++) {
+                    int num = Dust.NewDust(player.position, player.width, player.height, 222, 0f, -2f, 0, default, 2f);
+                    Main.dust[num].noGravity = true;
+                    Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+                    Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
+                    Main.dust[num].scale *= .25f;
+                    if (Main.dust[num].position != player.Center)
+                        Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
+                }
+                marbleJump = 420;
+            }
+            if (marbleSet) {
+                if (player.sliding || player.velocity.Y == 0f) {
+                    player.justJumped = true;
+                }
+            }
+            if (player.controlJump) {
+                if (marbleJustJumped) {
+                    marbleJustJumped = false;
+                    flag8 = true;
+                    if (flag8 && player.HasBuff(ModContent.BuffType<MarbleDivineWinds>())) {
+                        if (Main.rand.Next(20) == 0) {
+                            Main.PlaySound(SoundID.Item, player.position, 24);
+                        }
+                        marbleJumpEffects = true;
+                        int num23 = player.height;
+                        if (player.gravDir == -1f) {
+                            num23 = 0;
+                        }
+                        player.velocity.Y = (0f - Player.jumpSpeed) * player.gravDir;
+                        player.jump = (int)(Player.jumpHeight * 1.25);
+                        for (int m = 0; m < 4; m++) {
+                            int num22 = Dust.NewDust(new Vector2(player.position.X, player.position.Y + num23), player.width, 6, 222, player.velocity.X * 0.3f, player.velocity.Y * 0.3f, 100, Color.White, .8f);
+                            if (m % 2 == 0) {
+                                Dust expr_79B_cp_0 = Main.dust[num22];
+                                expr_79B_cp_0.velocity.X = expr_79B_cp_0.velocity.X + (float)Main.rand.Next(10, 31) * 0.1f;
+                            } else {
+                                Dust expr_7CB_cp_0 = Main.dust[num22];
+                                expr_7CB_cp_0.velocity.X = expr_7CB_cp_0.velocity.X - Main.rand.Next(31, 71) * 0.1f;
+                            }
+                            Dust expr_7F9_cp_0 = Main.dust[num22];
+                            expr_7F9_cp_0.velocity.Y = expr_7F9_cp_0.velocity.Y + Main.rand.Next(-10, 31) * 0.1f;
+                            Main.dust[num22].noGravity = true;
+                            Main.dust[num22].scale += Main.rand.Next(-10, 11) * .0025f;
+                            Dust obj = Main.dust[num22];
+                            obj.velocity *= Main.dust[num22].scale * 0.7f;
+                            Vector2 value3 = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
+                            value3.Normalize();
+                            value3 *= Main.rand.Next(81) * 0.08f;
+                        }
+                    }
+                }
+            }
+        }
 
-		public override bool PreItemCheck()
-		{
-			PrepareShotDetection();
-			return true;
-		}
+        public override bool PreItemCheck()
+        {
+            PrepareShotDetection();
+            return true;
+        }
 
-		public override void ModifyWeaponDamage(Item item, ref float add, ref float mult, ref float flat)
-		{
-			BeginShotDetection(item);
+        public override void ModifyWeaponDamage(Item item, ref float add, ref float mult, ref float flat)
+        {
+            BeginShotDetection(item);
 
-			if(silkenRobe) {
-				if(item.summon) {
-					flat += 1;
-				}
-			}
-			if(stoneHead) {
-				if(item.melee) {
-					flat += 1;
-				}
-			}
-			if(daybloomGarb) {
-				if(item.magic) {
-					flat += 1;
-				}
-			}
-			if(leatherHood) {
-				if(item.ranged) {
-					flat += 1;
-				}
-			}
-			if(elderbarkWoodSet) {
-				flat += 1;
-			}
-		}
+            if (silkenRobe) {
+                if (item.summon) {
+                    flat += 1;
+                }
+            }
+            if (stoneHead) {
+                if (item.melee) {
+                    flat += 1;
+                }
+            }
+            if (daybloomGarb) {
+                if (item.magic) {
+                    flat += 1;
+                }
+            }
+            if (leatherHood) {
+                if (item.ranged) {
+                    flat += 1;
+                }
+            }
+            if (elderbarkWoodSet) {
+                flat += 1;
+            }
+        }
 
-		public override void PostItemCheck()
-		{
-			EndShotDetection();
-		}
+        public override void PostItemCheck()
+        {
+            EndShotDetection();
+        }
 
-		private void PrepareShotDetection()
-		{
-			if(player.whoAmI == Main.myPlayer && !player.HeldItem.IsAir && !Main.gamePaused) {
-				swingingItem = player.HeldItem;
-			}
-		}
+        private void PrepareShotDetection()
+        {
+            if (player.whoAmI == Main.myPlayer && !player.HeldItem.IsAir && !Main.gamePaused) {
+                swingingItem = player.HeldItem;
+            }
+        }
 
-		private void BeginShotDetection(Item item)
-		{
-			if(swingingItem == item) {
-				swingingCheck = true;
-			}
-		}
+        private void BeginShotDetection(Item item)
+        {
+            if (swingingItem == item) {
+                swingingCheck = true;
+            }
+        }
 
-		private void EndShotDetection()
-		{
-			swingingItem = null;
-			swingingCheck = false;
-		}
+        private void EndShotDetection()
+        {
+            swingingItem = null;
+            swingingCheck = false;
+        }
 
-		public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath)
-		{
-			/* Item item = new Item();
+        public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath)
+        {
+            /* Item item = new Item();
              item.SetDefaults(ModContent.ItemType<OddKeystone>());
              items.Add(item);*/
-		}
+        }
 
-		public override void CatchFish(Item fishingRod, Item bait, int power, int liquidType, int poolSize, int worldLayer, int questFish, ref int caughtType, ref bool junk)
-		{
-			if(junk) {
-				return;
-			}
-			if (KoiTotem && Main.rand.Next(10) == 0)
-			{
-				for (int j = 0; j < player.inventory.Length; ++j)
+        public override void CatchFish(Item fishingRod, Item bait, int power, int liquidType, int poolSize, int worldLayer, int questFish, ref int caughtType, ref bool junk)
+        {
+            if (junk) {
+                return;
+            }
+            if (KoiTotem && Main.rand.Next(10) == 0)
+            {
+                for (int j = 0; j < player.inventory.Length; ++j)
                 {
                     if (player.inventory[j].stack > 0 && player.inventory[j].bait > 0)
                     {
-						Item.NewItem((int) player.position.X, (int) player.position.Y, player.width, player.height, player.inventory[j].type, 1, false, 0, false, false);
-						break;
-					}			
+                        Item.NewItem((int)player.position.X, (int)player.position.Y, player.width, player.height, player.inventory[j].type, 1, false, 0, false, false);
+                        break;
+                    }
                 }
-			}
-			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
-			int bobberIndex = -1;
-			if(Main.bloodMoon && Main.rand.Next(20) == 0) {
-				for(int i = 0; i < 1000; i++) {
-					if(Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber) {
-						bobberIndex = i;
-					}
-				}
-				if(bobberIndex != -1) {
-					Vector2 bobberPos = Main.projectile[bobberIndex].Center;
-					caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<BottomFeeder>(), 0, 2, 1, 0, 0, Main.myPlayer);
+            }
+            MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
+            int bobberIndex = -1;
+            if (Main.bloodMoon && Main.rand.Next(20) == 0) {
+                for (int i = 0; i < 1000; i++) {
+                    if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber) {
+                        bobberIndex = i;
+                    }
+                }
+                if (bobberIndex != -1) {
+                    Vector2 bobberPos = Main.projectile[bobberIndex].Center;
+                    caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<BottomFeeder>(), 0, 2, 1, 0, 0, Main.myPlayer);
                     if (Main.netMode == 1)
                     {
                         NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, ModContent.NPCType<BottomFeeder>());
                     }
                 }
-			}
-			if(MyWorld.spawnHornetFish && Main.rand.Next(15) == 0 && player.ZoneJungle) {
-				for(int i = 0; i < 1000; i++) {
-					if(Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber) {
-						bobberIndex = i;
-					}
-				}
-				if(bobberIndex != -1) {
-					Vector2 bobberPos = Main.projectile[bobberIndex].Center;
-					caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<Hornetfish>(), 0, 2, 1, 0, 0, Main.myPlayer);
+            }
+            if (MyWorld.spawnHornetFish && Main.rand.Next(15) == 0 && player.ZoneJungle) {
+                for (int i = 0; i < 1000; i++) {
+                    if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber) {
+                        bobberIndex = i;
+                    }
+                }
+                if (bobberIndex != -1) {
+                    Vector2 bobberPos = Main.projectile[bobberIndex].Center;
+                    caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<Hornetfish>(), 0, 2, 1, 0, 0, Main.myPlayer);
                     if (Main.netMode == 1)
                     {
                         NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, ModContent.NPCType<Hornetfish>());
                     }
                 }
-			}
-			if(player.ZoneDungeon && power >= 30 && Main.rand.NextBool(25)) {
-				caughtType = ModContent.ItemType<MysticalCage>();
-			}
+            }
+            if (player.ZoneDungeon && power >= 30 && Main.rand.NextBool(25)) {
+                caughtType = ModContent.ItemType<MysticalCage>();
+            }
 
-			if(modPlayer.ZoneSpirit && NPC.downedMechBossAny && Main.rand.NextBool(player.cratePotion ? 35 : 65)) {
-				caughtType = ModContent.ItemType<SpiritCrate>();
-			}
-			if (!mimicRepellent)
-            { 
-				if(Main.rand.NextBool(player.cratePotion ? 2 : 95)) {
-					for(int i = 0; i < 1000; i++) {
-						if(Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber) {
-							bobberIndex = i;
-						}
-					}
-					if(bobberIndex != -1) {
-						Vector2 bobberPos = Main.projectile[bobberIndex].Center;
-						caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<WoodCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
-						if (Main.netMode == 1)
-						{
-							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, caughtType);
-						}
-					}
-				}
-				if(Main.rand.NextBool(player.cratePotion ? 100 : 125)) {
-					for(int i = 0; i < 1000; i++) {
-						if(Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber) {
-							bobberIndex = i;
-						}
-					}
-					if(bobberIndex != -1) {
-						Vector2 bobberPos = Main.projectile[bobberIndex].Center;
-						caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<IronCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
-						if (Main.netMode == 1)
-						{
-							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, ModContent.NPCType<IronCrateMimic>());
-						}
-					}
-				}
-				if(Main.rand.NextBool(player.cratePotion ? 100 : 125) && Main.raining) {
-					for(int i = 0; i < 1000; i++) {
-						if(Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber) {
-							bobberIndex = i;
-						}
-					}
-					if(bobberIndex != -1) {
-						Vector2 bobberPos = Main.projectile[bobberIndex].Center;
-						caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<GoldCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
-						if (Main.netMode == 1)
-						{
-							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, ModContent.NPCType<GoldCrateMimic>());
-						}
-					}
-				}
-			}
-			if(modPlayer.ZoneSpirit && NPC.downedMechBossAny && Main.rand.NextBool(5)) {
-				caughtType = ModContent.ItemType<SpiritKoi>();
-			}
-			float chance = 0.02f + Math.Min(player.fishingSkill / 10000, 0.02f);
-			if(modPlayer.ZoneSpirit && NPC.downedMechBossAny && Main.rand.NextFloat() <= chance) {
-				caughtType = ModContent.ItemType<Obolos>();
-			}
-			if(modPlayer.ZoneReach && Main.rand.NextBool(5)) {
-				caughtType = ModContent.ItemType<ReachFishingCatch>();
-			}
-			if(modPlayer.ZoneReach && Main.rand.NextBool(player.cratePotion ? 25 : 45)) {
-				caughtType = ModContent.ItemType<ReachCrate>();
-			}
-			if(modPlayer.ZoneReach && Main.rand.NextBool(25)) {
-				caughtType = ModContent.ItemType<ThornDevilfish>();
-			}
-			if(player.ZoneGlowshroom && Main.rand.NextBool(27)) {
-				caughtType = ModContent.ItemType<ShroomFishSummon>();
-			}
+            if (modPlayer.ZoneSpirit && NPC.downedMechBossAny && Main.rand.NextBool(player.cratePotion ? 35 : 65)) {
+                caughtType = ModContent.ItemType<SpiritCrate>();
+            }
+            if (!mimicRepellent)
+            {
+                if (Main.rand.NextBool(player.cratePotion ? 2 : 95)) {
+                    for (int i = 0; i < 1000; i++) {
+                        if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber) {
+                            bobberIndex = i;
+                        }
+                    }
+                    if (bobberIndex != -1) {
+                        Vector2 bobberPos = Main.projectile[bobberIndex].Center;
+                        caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<WoodCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
+                        if (Main.netMode == 1)
+                        {
+                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, caughtType);
+                        }
+                    }
+                }
+                if (Main.rand.NextBool(player.cratePotion ? 100 : 125)) {
+                    for (int i = 0; i < 1000; i++) {
+                        if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber) {
+                            bobberIndex = i;
+                        }
+                    }
+                    if (bobberIndex != -1) {
+                        Vector2 bobberPos = Main.projectile[bobberIndex].Center;
+                        caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<IronCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
+                        if (Main.netMode == 1)
+                        {
+                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, ModContent.NPCType<IronCrateMimic>());
+                        }
+                    }
+                }
+                if (Main.rand.NextBool(player.cratePotion ? 100 : 125) && Main.raining) {
+                    for (int i = 0; i < 1000; i++) {
+                        if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber) {
+                            bobberIndex = i;
+                        }
+                    }
+                    if (bobberIndex != -1) {
+                        Vector2 bobberPos = Main.projectile[bobberIndex].Center;
+                        caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<GoldCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
+                        if (Main.netMode == 1)
+                        {
+                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, ModContent.NPCType<GoldCrateMimic>());
+                        }
+                    }
+                }
+            }
+            if (modPlayer.ZoneSpirit && NPC.downedMechBossAny && Main.rand.NextBool(5)) {
+                caughtType = ModContent.ItemType<SpiritKoi>();
+            }
+            float chance = 0.02f + Math.Min(player.fishingSkill / 10000, 0.02f);
+            if (modPlayer.ZoneSpirit && NPC.downedMechBossAny && Main.rand.NextFloat() <= chance) {
+                caughtType = ModContent.ItemType<Obolos>();
+            }
+            if (modPlayer.ZoneReach && Main.rand.NextBool(5)) {
+                caughtType = ModContent.ItemType<ReachFishingCatch>();
+            }
+            if (modPlayer.ZoneReach && Main.rand.NextBool(player.cratePotion ? 25 : 45)) {
+                caughtType = ModContent.ItemType<ReachCrate>();
+            }
+            if (modPlayer.ZoneReach && Main.rand.NextBool(25)) {
+                caughtType = ModContent.ItemType<ThornDevilfish>();
+            }
+            if (player.ZoneGlowshroom && Main.rand.NextBool(27)) {
+                caughtType = ModContent.ItemType<ShroomFishSummon>();
+            }
             if (player.ZoneBeach && Main.rand.NextBool(125))
             {
                 caughtType = ModContent.ItemType<Items.Weapon.Club.BassSlapper>();
@@ -1185,492 +1168,455 @@ namespace SpiritMod
             }
         }
         public override void OnHitAnything(float x, float y, Entity victim)
-		{
-			if(TiteRing && LastEnemyHit == victim && Main.rand.NextBool(10)) {
-				player.AddBuff(BuffID.ShadowDodge, 145);
-			}
+        {
+            if (TiteRing && LastEnemyHit == victim && Main.rand.NextBool(10)) {
+                player.AddBuff(BuffID.ShadowDodge, 145);
+            }
 
-			if(hpRegenRing && LastEnemyHit == victim && Main.rand.NextBool(3)) {
-				player.AddBuff(BuffID.RapidHealing, 120);
-			}
+            if (hpRegenRing && LastEnemyHit == victim && Main.rand.NextBool(3)) {
+                player.AddBuff(BuffID.RapidHealing, 120);
+            }
 
-			if(OriRing && LastEnemyHit == victim && Main.rand.NextBool(10)) {
-				if(player.position.Y <= victim.position.Y) {
-					float distanceX = player.position.X - victim.position.X;  // change myplayer to nearest player in full version
-					float distanceY = player.position.Y - victim.position.Y; // change myplayer to nearest player in full version
-					float angle = (float)Math.Atan(distanceX / distanceY);
+            if (OriRing && LastEnemyHit == victim && Main.rand.NextBool(10)) {
+                if (player.position.Y <= victim.position.Y) {
+                    float distanceX = player.position.X - victim.position.X;  // change myplayer to nearest player in full version
+                    float distanceY = player.position.Y - victim.position.Y; // change myplayer to nearest player in full version
+                    float angle = (float)Math.Atan(distanceX / distanceY);
 
-					distXT = (float)(Math.Sin(angle) * 300);
-					distYT = (float)(Math.Cos(angle) * 300);
+                    distXT = (float)(Math.Sin(angle) * 300);
+                    distYT = (float)(Math.Cos(angle) * 300);
 
-					distX = player.position.X - distXT;
-					distY = player.position.Y - distYT;
-				}
-
-				if(player.position.Y > victim.position.Y) {
-					float distanceX = player.position.X - victim.position.X;  // change myplayer to nearest player in full version
-					float distanceY = player.position.Y - victim.position.Y; // change myplayer to nearest player in full version
-					float angle = (float)Math.Atan(distanceX / distanceY);
-
-					distXT = (float)(Math.Sin(angle) * 300);
-					distYT = (float)(Math.Cos(angle) * 300);
-
-					distX = (player.position.X + distXT);
-					distY = (player.position.Y + distYT);
-				}
-
-				Vector2 direction = victim.Center - player.Center;
-				direction.Normalize();
-				direction.X *= 20f;
-				direction.Y *= 20f;
-
-				float A = Main.rand.Next(-100, 100) * 0.01f;
-				float B = Main.rand.Next(-100, 100) * 0.01f;
-
-				Projectile.NewProjectile(distX, distY, direction.X + A, direction.Y + B, ModContent.ProjectileType<OriPetal>(), 30, 1, player.whoAmI, 0f, 0f);
-			}
-			if(player.HeldItem.type == mod.ItemType("Minifish") && MinifishTimer <= 0) {
-				MinifishTimer = 120;
-				if(player.ownedProjectileCounts[mod.ProjectileType("MinifishProj")] < 3)
-					Projectile.NewProjectile(player.Center + Main.rand.NextVector2Square(-50, 50) - new Vector2(0, 50), Vector2.Zero, mod.ProjectileType("MinifishProj"), player.HeldItem.damage, player.HeldItem.knockBack, player.whoAmI);
-			}
-
-			LastEnemyHit = victim;
-		}
-
-		public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
-		{
-			foreach(var effect in effects)
-				effect.PlayerOnHitNPC(player, item, target, damage, knockback, crit);
-
-			if(AceOfHearts && target.life <= 0 && crit && !target.friendly && target.lifeMax > 15 && !target.SpawnedFromStatue) {
-				ItemUtils.NewItemWithSync(player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, Main.halloween ? ItemID.CandyApple : ItemID.Heart);
-				for(int i = 0; i < 3; i++) {
-					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<HeartDust>(), 0, -0.8f);
-				}
-			}
-			if(winterbornCharmMage && Main.rand.NextBool(9)) {
-				target.AddBuff(ModContent.BuffType<MageFreeze>(), 180);
-			}
-			if(AceOfDiamonds && target.life <= 0 && crit && !target.friendly && target.lifeMax > 15 && !target.SpawnedFromStatue) {
-				ItemUtils.NewItemWithSync(player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, ModContent.ItemType<DiamondAce>());
-				for(int i = 0; i < 3; i++) {
-					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<DiamondDust>(), 0, -0.8f);
-				}
-			}
-			if(AceOfClubs && crit && target.lifeMax > 15 && !target.friendly && !target.SpawnedFromStatue && target.type != 488) {
-				int money = (int)(300 * MathHelper.Clamp((float)damage / target.lifeMax, 1/300f, 1f));
-				for(int i = 0; i < 3; i++) {
-					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<ClubDust>(), 0, -0.8f);
-				}
-				if(money / 1000000 > 0) ItemUtils.NewItemWithSync(player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.PlatinumCoin, money / 1000000);
-				money %= 1000000;
-				if(money / 10000 > 0) ItemUtils.NewItemWithSync(player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.GoldCoin, money / 10000);
-				money %= 10000;
-				if(money / 100 > 0) ItemUtils.NewItemWithSync(player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.SilverCoin, money / 100);
-				money %= 100;
-				if(money > 0) ItemUtils.NewItemWithSync(player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.CopperCoin, money);
-			}
-			if(astralSet) {
-				if(crit) {
-					damage = (int)(damage + (.1f * astralSetStacks));
-				}
-			}
-			if(shadowFang) {
-				if(target.life <= target.lifeMax / 2 && Main.rand.Next(7) == 0) {
-					Projectile.NewProjectile(target.position, Vector2.Zero, ModContent.ProjectileType<ShadowSingeProj>(), item.damage / 3 * 2, 4, Main.myPlayer);
-					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 6));
-					player.statLife -= 3;
-				}
-			}
-			
-			if(bloodyBauble) {
-				if(Main.rand.Next(50) <= 1 && player.statLife != player.statLifeMax2) {
-					int leech = Main.rand.Next(1,4);
-					leech = Math.Min(leech, player.statLifeMax2 - player.statLife);
-					if (player.lifeSteal <= 0f)
-						return;
-
-					player.lifeSteal -= leech;
-					Projectile.NewProjectile(target.position, Vector2.Zero, ProjectileID.VampireHeal, 0, 0f, player.whoAmI, player.whoAmI, leech);
-				}
-			}
-			if(frigidGloves && crit && item.melee) {
-				{
-					target.AddBuff(BuffID.Frostburn, 180);
-				}
-			}
-
-			if(forbiddenTome) {
-				if(target.life <= 0 && !target.SpawnedFromStatue) {
-					for(int i = 0; i < 40; i++) {
-						int num = Dust.NewDust(target.position, target.width, target.height, 156, 0f, -2f, 117, new Color(0, 255, 142), .6f);
-						Main.dust[num].noGravity = true;
-						Dust expr_62_cp_0 = Main.dust[num];
-						expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((Main.rand.Next(-50, 51) / 20) - 1.5f);
-						Dust expr_92_cp_0 = Main.dust[num];
-						expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((Main.rand.Next(-50, 51) / 20) - 1.5f);
-						if(Main.dust[num].position != target.Center) {
-							Main.dust[num].velocity = target.DirectionTo(Main.dust[num].position) * 6f;
-						}
-					}
-					int upperClamp = (int)MathHelper.Clamp(target.lifeMax, 0, 75);
-					int p = Projectile.NewProjectile(target.position, new Vector2(Main.rand.Next(-6, 6), Main.rand.Next(-5, -1)), ModContent.ProjectileType<GhastSkullFriendly>(), (int)MathHelper.Clamp((damage / 5 * 2), 0, upperClamp), knockback, Main.myPlayer);
-					if(item.ranged) {
-						Main.projectile[p].ranged = true;
-					}
-					if(item.melee) {
-						Main.projectile[p].melee = true;
-					}
-					if(item.magic) {
-						Main.projectile[p].magic = true;
-					}
-					if(item.summon) {
-						Main.projectile[p].minion = true;
-					}
-				}
-			}
-			if(icySet && item.magic && Main.rand.NextBool(14)) {
-				player.AddBuff(ModContent.BuffType<BlizzardWrath>(), 240);
-			}
-
-			if(meleeshadowSet && Main.rand.NextBool(14) && item.melee) {
-				Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, -12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
-			}
-
-			if(magicshadowSet && Main.rand.NextBool(14) && item.magic) {
-				Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, -12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
-			}
-
-			if(magicshadowSet && Main.rand.NextBool(14) && item.summon) {
-				Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, -12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
-			}
-
-			if(rangedshadowSet && Main.rand.NextBool(14) && item.ranged) {
-				Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, -12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
-			}
-
-			if(reaperSet && Main.rand.NextBool(15)) {
-				target.AddBuff(ModContent.BuffType<FelBrand>(), 160);
-			}
-			if(midasTouch) {
-				target.AddBuff(BuffID.Midas, 240);
-			}
-
-			if(magalaSet && Main.rand.NextBool(6)) {
-				target.AddBuff(ModContent.BuffType<FrenzyVirus>(), 240);
-			}
-
-			if(wheezeScale && Main.rand.NextBool(9) && item.melee) {
-				Vector2 vel = new Vector2(0, -1);
-				float rand = Main.rand.NextFloat() * 6.283f;
-				vel = vel.RotatedBy(rand);
-				vel *= 8f;
-				Projectile.NewProjectile(target.Center, vel, ModContent.ProjectileType<Wheeze>(), item.damage / 2, 0, Main.myPlayer);
-			}
-
-			if(ToxicExtract && Main.rand.NextBool(5) && item.magic) {
-				target.AddBuff(BuffID.Venom, 240);
-			}
-
-			if(magalaSet && (item.magic || item.ranged || item.melee) && Main.rand.NextBool(14)) {
-				player.AddBuff(ModContent.BuffType<FrenzyVirus1>(), 240);
-			}
-
-			if(sunStone && item.melee && Main.rand.NextBool(18)) {
-				target.AddBuff(ModContent.BuffType<SunBurn>(), 240);
-			}
-
-			if(geodeSet && crit && Main.rand.NextBool(5)) {
-				target.AddBuff(ModContent.BuffType<Buffs.Crystal>(), 180);
-			}
-
-			if(gremlinBuff && item.melee) {
-				target.AddBuff(BuffID.Poisoned, 120);
-			}
-			if(amazonCharm && item.melee && Main.rand.Next(10) == 0) {
-				target.AddBuff(BuffID.Poisoned, 120);
-			}
-			if(hellCharm && item.melee && Main.rand.Next(10) == 0) {
-				target.AddBuff(BuffID.OnFire, 120);
-			}
-			if(infernalFlame && item.melee) {
-				if(crit) {
-					if(Main.rand.NextBool(12)) {
-						Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<PhoenixProjectile>(), 50, 4, Main.myPlayer);
-					}
-				}
-			}
-		}
-
-		int Charger;
-		public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
-		{
-			foreach(var effect in effects)
-				effect.PlayerOnHitNPCWithProj(player, proj, target, damage, knockback, crit);
-
-			if(stellarSet) {
-				if(proj.minion) {
-					if(target.life <= 0) {
-						player.AddBuff(ModContent.BuffType<StellarSpeed>(), 300);
-					}
-				}
-				if(!target.SpawnedFromStatue) {
-					if(proj.ranged && crit) {
-						player.AddBuff(ModContent.BuffType<StellarMinionBonus>(), 360);
-					}
-				}
-			}
-			if(shadowFang) {
-				if(target.life <= target.lifeMax / 2 && Main.rand.Next(7) == 0) {
-					Projectile.NewProjectile(target.position, Vector2.Zero, ModContent.ProjectileType<ShadowSingeProj>(), proj.damage / 3 * 2, 4, Main.myPlayer);
-					player.statLife -= 3;
-				}
-			}
-			if(throwerGlove && proj.ranged) {
-				throwerStacks++;
-			}
-
-			if(bloodyBauble) {
-				if (Main.rand.Next(25) <= 1 && player.statLife != player.statLifeMax2) {
-					int leech = Main.rand.Next(1, 4);
-					leech = Math.Min(leech, player.statLifeMax2 - player.statLife);
-					if (player.lifeSteal <= 0f)
-						return;
-
-					player.lifeSteal -= leech;
-					Projectile.NewProjectile(target.position, Vector2.Zero, ProjectileID.VampireHeal, 0, 0f, player.whoAmI, player.whoAmI, leech);
-				}
-			}
-			if(sacredVine) {
-				if(Main.rand.NextBool(20)) {
-					player.AddBuff(BuffID.Regeneration, 180);
-				}
-			}
-			if(midasTouch) {
-				target.AddBuff(BuffID.Midas, 240);
-			}
-
-			if(forbiddenTome) {
-				if(target.life <= 0 && !target.SpawnedFromStatue) {
-					for(int i = 0; i < 40; i++) {
-						int num = Dust.NewDust(target.position, target.width, target.height, 156, 0f, -2f, 117, new Color(0, 255, 142), .6f);
-						Main.dust[num].noGravity = true;
-						Dust expr_62_cp_0 = Main.dust[num];
-						expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
-						Dust expr_92_cp_0 = Main.dust[num];
-						expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
-						if(Main.dust[num].position != target.Center) {
-							Main.dust[num].velocity = target.DirectionTo(Main.dust[num].position) * 6f;
-						}
-					}
-					int upperClamp = (int)MathHelper.Clamp(target.lifeMax, 0, 75);
-					int p = Projectile.NewProjectile(target.position, new Vector2(Main.rand.Next(-6, 6), Main.rand.Next(-5, -1)), ModContent.ProjectileType<GhastSkullFriendly>(), (int)MathHelper.Clamp((damage / 5 * 2), 0, upperClamp), knockback, Main.myPlayer);
-					if(proj.ranged) {
-						Main.projectile[p].ranged = true;
-					}
-					if(proj.melee) {
-						Main.projectile[p].melee = true;
-					}
-					if(proj.magic) {
-						Main.projectile[p].magic = true;
-					}
-					if(proj.minion) {
-						Main.projectile[p].minion = true;
-					}
-				}
-			}
-			if(reaperSet && Main.rand.NextBool(15)) {
-				target.AddBuff(ModContent.BuffType<FelBrand>(), 160);
-			}
-
-			if(KingRock && Main.rand.NextBool(5) && proj.magic) {
-				Projectile.NewProjectile(player.position.X + Main.rand.Next(-350, 350), player.position.Y - 350, 0, 12, ModContent.ProjectileType<PrismaticBolt>(), 55, 0, Main.myPlayer);
-				Projectile.NewProjectile(player.position.X + Main.rand.Next(-350, 350), player.position.Y - 350, 0, 12, ModContent.ProjectileType<PrismaticBolt>(), 55, 0, Main.myPlayer);
-			}
-
-			if(geodeSet && crit && Main.rand.NextBool(5)) {
-				target.AddBuff(ModContent.BuffType<Buffs.Crystal>(), 180);
-			}
-			if(amazonCharm && Main.rand.Next(12) == 0) {
-				target.AddBuff(BuffID.Poisoned, 120);
-			}
-			if(hellCharm && Main.rand.Next(12) == 0) {
-				target.AddBuff(BuffID.OnFire, 120);
-			}
-			if(geodeRanged && proj.ranged && Main.rand.NextBool(24)) {
-				target.AddBuff(BuffID.Frostburn, 180);
-				target.AddBuff(BuffID.OnFire, 180);
-				target.AddBuff(BuffID.CursedInferno, 180);
-			}
-
-			if(shamanBand && proj.magic && Main.rand.NextBool(9)) {
-				target.AddBuff(BuffID.OnFire, 180);
-			}
-
-			if(bloodfireSet && proj.magic) {
-				if(Main.rand.NextBool(15)) {
-					target.AddBuff(ModContent.BuffType<BCorrupt>(), 180);
-				}
-
-				if(Main.rand.NextBool(30)) {
-					player.statLife += 2;
-					player.HealEffect(2);
-				}
-			}
-
-			if(eyezorEye && proj.magic && crit && Main.rand.NextBool(3)) {
-				target.StrikeNPC(40, 0f, 0, crit);
-			}
-
-			if(sunStone && proj.melee && Main.rand.NextBool(18)) {
-				target.AddBuff(ModContent.BuffType<SunBurn>(), 240);
-			}
-
-			if(moonStone && proj.ranged && Main.rand.NextBool(18)) {
-				target.AddBuff(ModContent.BuffType<MoonBurn>(), 240);
-			}
-
-			if(wheezeScale && Main.rand.NextBool(9) && proj.melee) {
-				Vector2 vel = new Vector2(0, -1);
-				float rand = Main.rand.NextFloat() * 6.283f;
-				vel = vel.RotatedBy(rand);
-				vel *= 8f;
-				Projectile.NewProjectile(target.Center, vel, ModContent.ProjectileType<Wheeze>(), Main.hardMode ? 40 : 20, 0, player.whoAmI);
-			}
-
-			if(DarkBough && proj.minion) {
-				if(Main.rand.NextBool(15)) {
-					for(int h = 0; h < 6; h++) {
-						Vector2 vel = new Vector2(0, -1);
-						float rand = Main.rand.NextFloat() * 6.283f;
-						vel = vel.RotatedBy(rand);
-						vel *= 8f;
-						Projectile.NewProjectile(target.Center, vel, ModContent.ProjectileType<NightmareBarb>(), 29, 1, player.whoAmI);
-					}
-				}
-
-				if(Main.rand.NextBool(30)) {
-					player.statLife += 2;
-					player.HealEffect(2);
-				}
-			}
-
-			if(magazine && proj.ranged && ++Charger > 10) {
-				crit = true;
-				Charger = 0;
-			}
-
-			if(magalaSet && (proj.melee || proj.minion || proj.magic || proj.ranged)) {
-				target.AddBuff(ModContent.BuffType<FrenzyVirus>(), 180);
-			}
-
-			if(timScroll && proj.magic) {
-				switch(Main.rand.Next(12)) {
-					case 0:
-						target.AddBuff(BuffID.OnFire, 120);
-						break;
-
-					case 1:
-						target.AddBuff(BuffID.Venom, 120);
-						break;
-
-					case 2:
-						target.AddBuff(BuffID.CursedInferno, 120);
-						break;
-
-					case 3:
-						target.AddBuff(BuffID.Frostburn, 120);
-						break;
-
-					case 4:
-						target.AddBuff(BuffID.Confused, 120);
-						break;
-
-					case 5:
-						target.AddBuff(BuffID.ShadowFlame, 120);
-						break;
-
-					default:
-						break;
-				}
-			}
-
-			if(gremlinBuff) {
-				target.AddBuff(BuffID.Poisoned, 120);
-			}
-
-			if(winterbornCharmMage && Main.rand.NextBool(9)) {
-				target.AddBuff(ModContent.BuffType<MageFreeze>(), 180);
-			}
-			if(putridSet && proj.ranged && ++Rangedhits >= 4) {
-				Projectile.NewProjectile(proj.position, Vector2.Zero, ModContent.ProjectileType<CursedFlame>(), proj.damage, 0f, proj.owner);
-				Rangedhits = 0;
-			}
-
-			if(magicshadowSet && Main.rand.NextBool(10) && proj.magic) {
-				Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, 12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
-			}
-
-			if(meleeshadowSet && Main.rand.NextBool(10) && proj.melee) {
-				Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, 12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
-			}
-
-			if(rangedshadowSet && Main.rand.Next(10) == 2 && (proj.ranged)) {
-				Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, 12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
-			}
-
-			if(ToxicExtract && Main.rand.NextBool(5) && proj.magic) {
-				target.AddBuff(BuffID.Venom, 240);
-			}
-
-			if(infernalFlame && proj.melee && crit && Main.rand.NextBool(8)) {
-				Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<PhoenixProjectile>(), 50, 4, player.whoAmI);
-			}
-
-			if(NebulaPearl && Main.rand.NextBool(8) && proj.magic) {
-				Item.NewItem(target.Hitbox, 3454);
-			}
-
-			if(hellSet && Main.rand.NextBool(8) && proj.ranged) {
-				for(int h = 0; h < 4; h++) {
-					Vector2 vel = new Vector2(0, -1);
-					float rand = Main.rand.NextFloat() * 6.283f;
-					vel = vel.RotatedBy(rand);
-					vel *= 4f;
-					Projectile.NewProjectile(Main.player[Main.myPlayer].Center, vel, ProjectileID.BallofFire, 40, 0, Main.myPlayer);
-				}
-
-				Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, 0, ModContent.ProjectileType<FireExplosion>(), 39, 0, Main.myPlayer);
-			}
-
-			/*if (duneSet && proj.thrown)
-            {
-                GNPC info = target.GetGlobalNPC<GNPC>();
-                if (info.duneSetStacks++ >= 4)
-                {
-                    player.AddBuff(ModContent.BuffType<DesertWinds>(), 180);
-                    Projectile.NewProjectile(player.position.X + 20, player.position.Y, 0, -2, ModContent.ProjectileType<DuneKnife>(), 40, 0, Main.myPlayer);
-                    info.duneSetStacks = 0;
+                    distX = player.position.X - distXT;
+                    distY = player.position.Y - distYT;
                 }
-            }*/
 
-			if(icySet && proj.magic && Main.rand.NextBool(14)) {
-				player.AddBuff(ModContent.BuffType<BlizzardWrath>(), 240);
-			}
+                if (player.position.Y > victim.position.Y) {
+                    float distanceX = player.position.X - victim.position.X;  // change myplayer to nearest player in full version
+                    float distanceY = player.position.Y - victim.position.Y; // change myplayer to nearest player in full version
+                    float angle = (float)Math.Atan(distanceX / distanceY);
 
-			if(magalaSet && Main.rand.NextBool(6)) {
-				player.AddBuff(ModContent.BuffType<FrenzyVirus1>(), 240);
-			}
+                    distXT = (float)(Math.Sin(angle) * 300);
+                    distYT = (float)(Math.Cos(angle) * 300);
 
-			if(titanicSet && proj.melee) {
-				GNPC info = target.GetGlobalNPC<GNPC>();
-				if(info.titanicSetStacks++ >= 4) {
-					Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, 12, ModContent.ProjectileType<WaterMass>(), 60, 0, Main.myPlayer);
-					info.titanicSetStacks = 0;
-				}
-			}
-		}
+                    distX = (player.position.X + distXT);
+                    distY = (player.position.Y + distYT);
+                }
+
+                Vector2 direction = victim.Center - player.Center;
+                direction.Normalize();
+                direction.X *= 20f;
+                direction.Y *= 20f;
+
+                float A = Main.rand.Next(-100, 100) * 0.01f;
+                float B = Main.rand.Next(-100, 100) * 0.01f;
+
+                Projectile.NewProjectile(distX, distY, direction.X + A, direction.Y + B, ModContent.ProjectileType<OriPetal>(), 30, 1, player.whoAmI, 0f, 0f);
+            }
+            if (player.HeldItem.type == mod.ItemType("Minifish") && MinifishTimer <= 0) {
+                MinifishTimer = 120;
+                if (player.ownedProjectileCounts[mod.ProjectileType("MinifishProj")] < 3)
+                    Projectile.NewProjectile(player.Center + Main.rand.NextVector2Square(-50, 50) - new Vector2(0, 50), Vector2.Zero, mod.ProjectileType("MinifishProj"), player.HeldItem.damage, player.HeldItem.knockBack, player.whoAmI);
+            }
+
+            LastEnemyHit = victim;
+        }
+
+        public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
+        {
+            foreach (var effect in effects)
+                effect.PlayerOnHitNPC(player, item, target, damage, knockback, crit);
+
+            if (AceOfHearts && target.life <= 0 && crit && !target.friendly && target.lifeMax > 15 && !target.SpawnedFromStatue) {
+                ItemUtils.NewItemWithSync(player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, Main.halloween ? ItemID.CandyApple : ItemID.Heart);
+                for (int i = 0; i < 3; i++) {
+                    Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<HeartDust>(), 0, -0.8f);
+                }
+            }
+            if (winterbornCharmMage && Main.rand.NextBool(9)) {
+                target.AddBuff(ModContent.BuffType<MageFreeze>(), 180);
+            }
+            if (AceOfDiamonds && target.life <= 0 && crit && !target.friendly && target.lifeMax > 15 && !target.SpawnedFromStatue) {
+                ItemUtils.NewItemWithSync(player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, ModContent.ItemType<DiamondAce>());
+                for (int i = 0; i < 3; i++) {
+                    Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<DiamondDust>(), 0, -0.8f);
+                }
+            }
+            if (AceOfClubs && crit && target.lifeMax > 15 && !target.friendly && !target.SpawnedFromStatue && target.type != 488) {
+                int money = (int)(300 * MathHelper.Clamp((float)damage / target.lifeMax, 1 / 300f, 1f));
+                for (int i = 0; i < 3; i++) {
+                    Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<ClubDust>(), 0, -0.8f);
+                }
+                if (money / 1000000 > 0) ItemUtils.NewItemWithSync(player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.PlatinumCoin, money / 1000000);
+                money %= 1000000;
+                if (money / 10000 > 0) ItemUtils.NewItemWithSync(player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.GoldCoin, money / 10000);
+                money %= 10000;
+                if (money / 100 > 0) ItemUtils.NewItemWithSync(player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.SilverCoin, money / 100);
+                money %= 100;
+                if (money > 0) ItemUtils.NewItemWithSync(player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.CopperCoin, money);
+            }
+            if (astralSet) {
+                if (crit) {
+                    damage = (int)(damage + (.1f * astralSetStacks));
+                }
+            }
+            if (shadowFang) {
+                if (target.life <= target.lifeMax / 2 && Main.rand.Next(7) == 0) {
+                    Projectile.NewProjectile(target.position, Vector2.Zero, ModContent.ProjectileType<ShadowSingeProj>(), item.damage / 3 * 2, 4, Main.myPlayer);
+                    Main.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 6));
+                    player.statLife -= 3;
+                }
+            }
+
+            if (bloodyBauble) {
+                if (Main.rand.Next(50) <= 1 && player.statLife != player.statLifeMax2) {
+                    int leech = Main.rand.Next(1, 4);
+                    leech = Math.Min(leech, player.statLifeMax2 - player.statLife);
+                    if (player.lifeSteal <= 0f)
+                        return;
+
+                    player.lifeSteal -= leech;
+                    Projectile.NewProjectile(target.position, Vector2.Zero, ProjectileID.VampireHeal, 0, 0f, player.whoAmI, player.whoAmI, leech);
+                }
+            }
+            if (frigidGloves && crit && item.melee) {
+                {
+                    target.AddBuff(BuffID.Frostburn, 180);
+                }
+            }
+
+            if (forbiddenTome) {
+                if (target.life <= 0 && !target.SpawnedFromStatue) {
+                    for (int i = 0; i < 40; i++) {
+                        int num = Dust.NewDust(target.position, target.width, target.height, 156, 0f, -2f, 117, new Color(0, 255, 142), .6f);
+                        Main.dust[num].noGravity = true;
+                        Dust expr_62_cp_0 = Main.dust[num];
+                        expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((Main.rand.Next(-50, 51) / 20) - 1.5f);
+                        Dust expr_92_cp_0 = Main.dust[num];
+                        expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((Main.rand.Next(-50, 51) / 20) - 1.5f);
+                        if (Main.dust[num].position != target.Center) {
+                            Main.dust[num].velocity = target.DirectionTo(Main.dust[num].position) * 6f;
+                        }
+                    }
+                    int upperClamp = (int)MathHelper.Clamp(target.lifeMax, 0, 75);
+                    int p = Projectile.NewProjectile(target.position, new Vector2(Main.rand.Next(-6, 6), Main.rand.Next(-5, -1)), ModContent.ProjectileType<GhastSkullFriendly>(), (int)MathHelper.Clamp((damage / 5 * 2), 0, upperClamp), knockback, Main.myPlayer);
+                    if (item.ranged) {
+                        Main.projectile[p].ranged = true;
+                    }
+                    if (item.melee) {
+                        Main.projectile[p].melee = true;
+                    }
+                    if (item.magic) {
+                        Main.projectile[p].magic = true;
+                    }
+                    if (item.summon) {
+                        Main.projectile[p].minion = true;
+                    }
+                }
+            }
+
+            if (meleeshadowSet && Main.rand.NextBool(14) && item.melee) {
+                Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, -12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
+            }
+
+            if (magicshadowSet && Main.rand.NextBool(14) && item.magic) {
+                Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, -12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
+            }
+
+            if (magicshadowSet && Main.rand.NextBool(14) && item.summon) {
+                Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, -12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
+            }
+
+            if (rangedshadowSet && Main.rand.NextBool(14) && item.ranged) {
+                Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, -12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
+            }
+
+            if (reaperSet && Main.rand.NextBool(15)) {
+                target.AddBuff(ModContent.BuffType<FelBrand>(), 160);
+            }
+            if (midasTouch) {
+                target.AddBuff(BuffID.Midas, 240);
+            }
+
+            if (magalaSet && Main.rand.NextBool(6)) {
+                target.AddBuff(ModContent.BuffType<FrenzyVirus>(), 240);
+            }
+
+            if (wheezeScale && Main.rand.NextBool(9) && item.melee) {
+                Vector2 vel = new Vector2(0, -1);
+                float rand = Main.rand.NextFloat() * 6.283f;
+                vel = vel.RotatedBy(rand);
+                vel *= 8f;
+                Projectile.NewProjectile(target.Center, vel, ModContent.ProjectileType<Wheeze>(), item.damage / 2, 0, Main.myPlayer);
+            }
+
+            if (ToxicExtract && Main.rand.NextBool(5) && item.magic) {
+                target.AddBuff(BuffID.Venom, 240);
+            }
+
+            if (magalaSet && (item.magic || item.ranged || item.melee) && Main.rand.NextBool(14)) {
+                player.AddBuff(ModContent.BuffType<FrenzyVirus1>(), 240);
+            }
+
+            if (sunStone && item.melee && Main.rand.NextBool(18)) {
+                target.AddBuff(ModContent.BuffType<SunBurn>(), 240);
+            }
+
+            if (geodeSet && crit && Main.rand.NextBool(5)) {
+                target.AddBuff(ModContent.BuffType<Buffs.Crystal>(), 180);
+            }
+
+            if (gremlinBuff && item.melee) {
+                target.AddBuff(BuffID.Poisoned, 120);
+            }
+            if (amazonCharm && item.melee && Main.rand.Next(10) == 0) {
+                target.AddBuff(BuffID.Poisoned, 120);
+            }
+            if (hellCharm && item.melee && Main.rand.Next(10) == 0) {
+                target.AddBuff(BuffID.OnFire, 120);
+            }
+            if (infernalFlame && item.melee) {
+                if (crit) {
+                    if (Main.rand.NextBool(12)) {
+                        Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<PhoenixProjectile>(), 50, 4, Main.myPlayer);
+                    }
+                }
+            }
+        }
+
+        int Charger;
+        public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
+        {
+            foreach (var effect in effects)
+                effect.PlayerOnHitNPCWithProj(player, proj, target, damage, knockback, crit);
+
+            if (stellarSet) {
+                if (proj.minion) {
+                    if (target.life <= 0) {
+                        player.AddBuff(ModContent.BuffType<StellarSpeed>(), 300);
+                    }
+                }
+                if (!target.SpawnedFromStatue) {
+                    if (proj.ranged && crit) {
+                        player.AddBuff(ModContent.BuffType<StellarMinionBonus>(), 360);
+                    }
+                }
+            }
+            if (shadowFang) {
+                if (target.life <= target.lifeMax / 2 && Main.rand.Next(7) == 0) {
+                    Projectile.NewProjectile(target.position, Vector2.Zero, ModContent.ProjectileType<ShadowSingeProj>(), proj.damage / 3 * 2, 4, Main.myPlayer);
+                    player.statLife -= 3;
+                }
+            }
+            if (throwerGlove && proj.ranged) {
+                throwerStacks++;
+            }
+
+            if (bloodyBauble) {
+                if (Main.rand.Next(25) <= 1 && player.statLife != player.statLifeMax2) {
+                    int leech = Main.rand.Next(1, 4);
+                    leech = Math.Min(leech, player.statLifeMax2 - player.statLife);
+                    if (player.lifeSteal <= 0f)
+                        return;
+
+                    player.lifeSteal -= leech;
+                    Projectile.NewProjectile(target.position, Vector2.Zero, ProjectileID.VampireHeal, 0, 0f, player.whoAmI, player.whoAmI, leech);
+                }
+            }
+            if (sacredVine) {
+                if (Main.rand.NextBool(20)) {
+                    player.AddBuff(BuffID.Regeneration, 180);
+                }
+            }
+            if (midasTouch) {
+                target.AddBuff(BuffID.Midas, 240);
+            }
+
+            if (forbiddenTome) {
+                if (target.life <= 0 && !target.SpawnedFromStatue) {
+                    for (int i = 0; i < 40; i++) {
+                        int num = Dust.NewDust(target.position, target.width, target.height, 156, 0f, -2f, 117, new Color(0, 255, 142), .6f);
+                        Main.dust[num].noGravity = true;
+                        Dust expr_62_cp_0 = Main.dust[num];
+                        expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
+                        Dust expr_92_cp_0 = Main.dust[num];
+                        expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
+                        if (Main.dust[num].position != target.Center) {
+                            Main.dust[num].velocity = target.DirectionTo(Main.dust[num].position) * 6f;
+                        }
+                    }
+                    int upperClamp = (int)MathHelper.Clamp(target.lifeMax, 0, 75);
+                    int p = Projectile.NewProjectile(target.position, new Vector2(Main.rand.Next(-6, 6), Main.rand.Next(-5, -1)), ModContent.ProjectileType<GhastSkullFriendly>(), (int)MathHelper.Clamp((damage / 5 * 2), 0, upperClamp), knockback, Main.myPlayer);
+                    if (proj.ranged) {
+                        Main.projectile[p].ranged = true;
+                    }
+                    if (proj.melee) {
+                        Main.projectile[p].melee = true;
+                    }
+                    if (proj.magic) {
+                        Main.projectile[p].magic = true;
+                    }
+                    if (proj.minion) {
+                        Main.projectile[p].minion = true;
+                    }
+                }
+            }
+            if (reaperSet && Main.rand.NextBool(15)) {
+                target.AddBuff(ModContent.BuffType<FelBrand>(), 160);
+            }
+
+            if (KingRock && Main.rand.NextBool(5) && proj.magic) {
+                Projectile.NewProjectile(player.position.X + Main.rand.Next(-350, 350), player.position.Y - 350, 0, 12, ModContent.ProjectileType<PrismaticBolt>(), 55, 0, Main.myPlayer);
+                Projectile.NewProjectile(player.position.X + Main.rand.Next(-350, 350), player.position.Y - 350, 0, 12, ModContent.ProjectileType<PrismaticBolt>(), 55, 0, Main.myPlayer);
+            }
+
+            if (geodeSet && crit && Main.rand.NextBool(5)) {
+                target.AddBuff(ModContent.BuffType<Buffs.Crystal>(), 180);
+            }
+            if (amazonCharm && Main.rand.Next(12) == 0) {
+                target.AddBuff(BuffID.Poisoned, 120);
+            }
+            if (hellCharm && Main.rand.Next(12) == 0) {
+                target.AddBuff(BuffID.OnFire, 120);
+            }
+            if (geodeRanged && proj.ranged && Main.rand.NextBool(24)) {
+                target.AddBuff(BuffID.Frostburn, 180);
+                target.AddBuff(BuffID.OnFire, 180);
+                target.AddBuff(BuffID.CursedInferno, 180);
+            }
+
+            if (shamanBand && proj.magic && Main.rand.NextBool(9)) {
+                target.AddBuff(BuffID.OnFire, 180);
+            }
+
+            if (bloodfireSet && proj.magic) {
+                if (Main.rand.NextBool(15)) {
+                    target.AddBuff(ModContent.BuffType<BCorrupt>(), 180);
+                }
+
+                if (Main.rand.NextBool(30)) {
+                    player.statLife += 2;
+                    player.HealEffect(2);
+                }
+            }
+
+            if (eyezorEye && proj.magic && crit && Main.rand.NextBool(3)) {
+                target.StrikeNPC(40, 0f, 0, crit);
+            }
+
+            if (sunStone && proj.melee && Main.rand.NextBool(18)) {
+                target.AddBuff(ModContent.BuffType<SunBurn>(), 240);
+            }
+
+            if (moonStone && proj.ranged && Main.rand.NextBool(18)) {
+                target.AddBuff(ModContent.BuffType<MoonBurn>(), 240);
+            }
+
+            if (wheezeScale && Main.rand.NextBool(9) && proj.melee) {
+                Vector2 vel = new Vector2(0, -1);
+                float rand = Main.rand.NextFloat() * 6.283f;
+                vel = vel.RotatedBy(rand);
+                vel *= 8f;
+                Projectile.NewProjectile(target.Center, vel, ModContent.ProjectileType<Wheeze>(), Main.hardMode ? 40 : 20, 0, player.whoAmI);
+            }
+
+            if (DarkBough && proj.minion) {
+                if (Main.rand.NextBool(15)) {
+                    for (int h = 0; h < 6; h++) {
+                        Vector2 vel = new Vector2(0, -1);
+                        float rand = Main.rand.NextFloat() * 6.283f;
+                        vel = vel.RotatedBy(rand);
+                        vel *= 8f;
+                        Projectile.NewProjectile(target.Center, vel, ModContent.ProjectileType<NightmareBarb>(), 29, 1, player.whoAmI);
+                    }
+                }
+
+                if (Main.rand.NextBool(30)) {
+                    player.statLife += 2;
+                    player.HealEffect(2);
+                }
+            }
+
+            if (magazine && proj.ranged && ++Charger > 10) {
+                crit = true;
+                Charger = 0;
+            }
+
+            if (magalaSet && (proj.melee || proj.minion || proj.magic || proj.ranged)) {
+                target.AddBuff(ModContent.BuffType<FrenzyVirus>(), 180);
+            }
+
+            if (timScroll && proj.magic) {
+                switch (Main.rand.Next(12)) {
+                    case 0:
+                        target.AddBuff(BuffID.OnFire, 120);
+                        break;
+
+                    case 1:
+                        target.AddBuff(BuffID.Venom, 120);
+                        break;
+
+                    case 2:
+                        target.AddBuff(BuffID.CursedInferno, 120);
+                        break;
+
+                    case 3:
+                        target.AddBuff(BuffID.Frostburn, 120);
+                        break;
+
+                    case 4:
+                        target.AddBuff(BuffID.Confused, 120);
+                        break;
+
+                    case 5:
+                        target.AddBuff(BuffID.ShadowFlame, 120);
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+            if (gremlinBuff) {
+                target.AddBuff(BuffID.Poisoned, 120);
+            }
+
+            if (winterbornCharmMage && Main.rand.NextBool(9)) {
+                target.AddBuff(ModContent.BuffType<MageFreeze>(), 180);
+            }
+            if (putridSet && proj.ranged && ++Rangedhits >= 4) {
+                Projectile.NewProjectile(proj.position, Vector2.Zero, ModContent.ProjectileType<CursedFlame>(), proj.damage, 0f, proj.owner);
+                Rangedhits = 0;
+            }
+
+            if (magicshadowSet && Main.rand.NextBool(10) && proj.magic) {
+                Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, 12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
+            }
+
+            if (meleeshadowSet && Main.rand.NextBool(10) && proj.melee) {
+                Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, 12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
+            }
+
+            if (rangedshadowSet && Main.rand.Next(10) == 2 && (proj.ranged)) {
+                Projectile.NewProjectile(player.position.X + 20, player.position.Y + 30, 0, 12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
+            }
+
+            if (ToxicExtract && Main.rand.NextBool(5) && proj.magic) {
+                target.AddBuff(BuffID.Venom, 240);
+            }
+
+            if (infernalFlame && proj.melee && crit && Main.rand.NextBool(8)) {
+                Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<PhoenixProjectile>(), 50, 4, player.whoAmI);
+            }
+
+            if (NebulaPearl && Main.rand.NextBool(8) && proj.magic) {
+                Item.NewItem(target.Hitbox, 3454);
+            }
+
+            if (magalaSet && Main.rand.NextBool(6))
+            {
+                player.AddBuff(ModContent.BuffType<FrenzyVirus1>(), 240);
+            }
+        }
 
 		public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
 		{
@@ -3474,15 +3420,6 @@ namespace SpiritMod
 					player.lifeRegenTime += 5;
 				} else if(player.statLife > 0) {
 					player.noKnockback = true;
-				}
-			}
-
-			if(bloomwindSet) {
-				player.AddBuff(ModContent.BuffType<BloomwindMinionBuff>(), 3600);
-				timer1++;
-				if(player.ownedProjectileCounts[ModContent.ProjectileType<BloomwindMinion>()] <= 0 && timer1 > 30) {
-					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<BloomwindMinion>(), 35, 0, player.whoAmI);
-					timer1 = 0;
 				}
 			}
 

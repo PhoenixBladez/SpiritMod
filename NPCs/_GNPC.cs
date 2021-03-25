@@ -609,12 +609,6 @@ namespace SpiritMod.NPCs
 				else
 					return "I hear you can get more candy from the goodie bags that monsters hold. As if I needed an excuse to slay some zombies!";
 			}
-			else if (npc.type == NPCType<LoneTrapper>()) {
-				if (dialogue == 0)
-					return "The only thing that makes me forget my suffering is candy. I suppose you can have some.";
-				else
-					return "Candy helps fill the aching void where my sould used to be. Maybe it can help you too.";
-			}
 			else if (npc.type == NPCType<Town.Martian>()) {
 				if (dialogue == 0)
 					return "I've determined through years of scientific analysis that this candy here is irresistible to any anyone who- hey, give it back!";
@@ -1237,37 +1231,6 @@ namespace SpiritMod.NPCs
 					}
 				}
 			}
-
-			#region Iriazul
-			// Bubble Shield dropping.
-			/*if(martianMobs.Contains(npc.type)) {
-                if(Main.rand.Next(100) <= 2)
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BubbleShield>());
-            }*/
-
-			// Essence Dropping
-			if (Main.hardMode && NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3 && npc.lifeMax > 99) {
-				int chance = npc.FindBuffIndex(ModContent.BuffType<EssenceTrap>()) > -1 ? 4 : 8;
-				if (Main.rand.Next(chance) == 0) {
-					// Drop essence according to closest player location.
-					if (closest.ZoneUnderworldHeight) {
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<FieryEssence>());
-					}
-					else if (closest.ZoneBeach) {
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TidalEssence>());
-					}
-					else if (closest.ZoneUndergroundDesert) {
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DuneEssence>());
-					}
-					else if (closest.ZoneSnow && closest.position.Y > WorldGen.worldSurfaceLow) {
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<IcyEssence>());
-					}
-					else if (closest.ZoneJungle && closest.position.Y > WorldGen.worldSurfaceLow) {
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PrimevalEssence>());
-					}
-				}
-			}
-			#endregion
 
 			if (npc.type == NPCID.QueenBee && Main.rand.Next(Main.expertMode ? 10 : 20) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SweetThrow>());

@@ -57,10 +57,6 @@ namespace SpiritMod.NPCs
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0 && Main.rand.Next(2) == 0) {
-				Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 6);
-				npc.Transform(ModContent.NPCType<CaptiveMask>());
-			}
 			int d = 5;
 			for (int k = 0; k < 10; k++) {
 				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.27f);
