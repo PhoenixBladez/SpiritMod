@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Armor.StreamSurfer
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Stream Surfer Loincloth");
-			Tooltip.SetDefault("7% increased magic damage\n10% reduced mana usage\n6% increased move speed");
+			Tooltip.SetDefault("7% increased magic damage\n10% reduced mana usage");
 
 		}
 		public override void SetDefaults()
@@ -26,7 +26,6 @@ namespace SpiritMod.Items.Armor.StreamSurfer
 		{
 			player.magicDamage += .07f;
 			player.manaCost -= 0.10f;
-			player.moveSpeed += .06f;
 		}
 		public override void AddRecipes()
 		{

@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Weapon.Thrown.BubbleMine
 			item.knockBack = 1.0f;
 			item.value = Terraria.Item.sellPrice(0, 0, 0, 5);
 			item.crit = 8;
-			item.rare = ItemRarityID.Orange;
+			item.rare = 1;
 			item.ranged = true;
 			item.autoReuse = false;
 		}
