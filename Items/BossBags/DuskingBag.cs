@@ -45,17 +45,12 @@ namespace SpiritMod.Items.BossBags
 			player.QuickSpawnItem(ModContent.ItemType<DuskStone>(), Main.rand.Next(25, 36));
 
 			int[] lootTable = {
-				ModContent.ItemType<CrystalShadow>(),
 				ModContent.ItemType<ShadowflameSword>(),
 				ModContent.ItemType<UmbraStaff>(),
 				ModContent.ItemType<ShadowSphere>(),
 				ModContent.ItemType<Shadowmoor>()
 			};
 			int loot = Main.rand.Next(lootTable.Length);
-			if (loot == 0)
-				player.QuickSpawnItem(lootTable[0], Main.rand.Next(29, 49));
-			else
-				player.QuickSpawnItem(lootTable[loot]);
 
 			if (Main.rand.NextDouble() < 1d / 7)
 				player.QuickSpawnItem(ModContent.ItemType<DuskingMask>());

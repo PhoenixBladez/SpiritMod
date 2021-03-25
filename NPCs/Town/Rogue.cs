@@ -126,7 +126,6 @@ namespace SpiritMod.NPCs.Town
 			}
 			AddItem(ref shop, ref nextSlot, ItemType<SkeletronHand>(), check: NPC.downedBoss3);
 			AddItem(ref shop, ref nextSlot, ItemType<TwilightBlades>(), check: NPC.downedMechBossAny);
-			AddItem(ref shop, ref nextSlot, ItemType<MechKnife>(), check: NPC.downedMechBossAny);
 			AddItem(ref shop, ref nextSlot, ItemType<PlagueVial>(), check: Main.hardMode);
 			AddItem(ref shop, ref nextSlot, ItemType<ShurikenLauncher>());
 			AddItem(ref shop, ref nextSlot, ItemType<SwiftRune>());

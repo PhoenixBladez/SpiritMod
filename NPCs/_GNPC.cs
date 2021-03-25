@@ -1278,11 +1278,6 @@ namespace SpiritMod.NPCs
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<OldLeather>(), amount);
 				}
 			}
-			if (npc.type == NPCID.MartianTurret || npc.type == NPCID.GigaZapper) {
-				if (Main.rand.Next(98) == 0) {
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TeslaSpike>());
-				}
-			}
 			if (npc.type == NPCID.SolarDrakomire || npc.type == NPCID.SolarDrakomireRider) {
 				if (Main.rand.Next(50) == 0) {
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SolarRattle>());
@@ -1323,9 +1318,6 @@ namespace SpiritMod.NPCs
 			}
 			if (npc.type == NPCID.IchorSticker && Main.rand.Next(50) == 0)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<IchorPendant>());
-
-			if (npc.type == NPCID.RedDevil && Main.rand.Next(40) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<FieryPendant>());
 
 			if (npc.type == NPCID.DukeFishron)
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Yoyo.Typhoon>());

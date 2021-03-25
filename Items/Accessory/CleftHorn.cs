@@ -16,9 +16,6 @@ namespace SpiritMod.Items.Accessory
         public override List<SpiritPlayerEffect> AccessoryEffects => new List<SpiritPlayerEffect>() {
             new CleftHornEffect()
         };
-        public override List<int> MutualExclusives => new List<int>() {
-            ModContent.ItemType<HuntingNecklace>()
-        };
 
         public override void SetDefaults()
         {

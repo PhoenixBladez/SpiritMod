@@ -397,7 +397,6 @@ namespace SpiritMod.NPCs.Boss.Dusking
 			npc.DropItem(ModContent.ItemType<DuskStone>(), Main.rand.Next(25, 36));
 
 			int[] lootTable = {
-				ModContent.ItemType<Items.Weapon.Thrown.CrystalShadow>(),
 				ModContent.ItemType<ShadowflameSword>(),
 				ModContent.ItemType<UmbraStaff>(),
 				ModContent.ItemType<ShadowSphere>(),

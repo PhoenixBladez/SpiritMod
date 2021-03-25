@@ -45,7 +45,6 @@ using SpiritMod.NPCs.Reach;
 using SpiritMod.NPCs.Tides;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CrystalShadow = SpiritMod.Items.Weapon.Thrown.CrystalShadow;
 
 namespace SpiritMod.Utilities
 {
@@ -482,7 +481,6 @@ namespace SpiritMod.Utilities
 					},
 					new List<int> {
 						ModContent.ItemType<DuskPendant>(),
-						ModContent.ItemType<CrystalShadow>(),
 						ModContent.ItemType<ShadowflameSword>(),
 						ModContent.ItemType<UmbraStaff>(),
 						ModContent.ItemType<ShadowSphere>(),

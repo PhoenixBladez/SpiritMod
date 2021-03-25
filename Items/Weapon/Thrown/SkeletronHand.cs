@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Weapon.Thrown
 			item.height = 15;
 			item.noUseGraphic = true;
 			item.UseSound = SoundID.Item1;
-			item.melee = true;
+			item.ranged = true;
 			item.noMelee = true;
 			item.consumable = true;
 			item.maxStack = 999;
