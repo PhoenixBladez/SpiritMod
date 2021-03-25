@@ -18,7 +18,7 @@ namespace SpiritMod.NPCs.Critters
 
 		public override void SetDefaults()
 		{
-			npc.width = 34;
+			npc.width = 44;
 			npc.height = 20;
 			npc.damage = 40;
 			npc.defense = 0;
@@ -42,31 +42,20 @@ namespace SpiritMod.NPCs.Critters
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0) {
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Swordfish/SwordfishGore"));
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SwordfishGore"));
 			}
+			for (int k = 0; k < 5; k++) {
+					Dust.NewDust(npc.position, npc.width, npc.height, 5, npc.direction, -1f, 1, default(Color), .61f);
+				}
 		}
 		private int Counter;
-		public override void AI()
-		{
-			npc.spriteDirection = npc.direction;
-			Counter++;
-			if (Main.player[npc.target].wet)
-			{
-				if (Counter == 100) {
-					npc.velocity.Y *= 10.0f;
-					npc.velocity.X *= 4.0f;
-				}
-				if (Counter >= 200) {
-					Counter = 0;
-				}
-			}
-        }
+		
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			if (spawnInfo.playerSafe) {
 				return 0f;
 			}
-			return SpawnCondition.OceanMonster.Chance * 0.031f;
+			return SpawnCondition.OceanMonster.Chance * 0.0131f;
 		}
 
 		public override void NPCLoot()

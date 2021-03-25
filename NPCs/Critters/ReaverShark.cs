@@ -16,7 +16,7 @@ namespace SpiritMod.NPCs.Critters
 
 		public override void SetDefaults()
 		{
-			npc.width = 44;
+			npc.width = 54;
 			npc.height = 24;
 			npc.damage = 36;
 			npc.defense = 0;
@@ -48,13 +48,16 @@ namespace SpiritMod.NPCs.Critters
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ReaverSharkGore"), 1f);
 			}
 			for (int k = 0; k < 11; k++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, 5, npc.direction, -1f, 1, default(Color), .61f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 5, npc.direction, -1f, 1, default(Color), .31f);
+				}
+			for (int k = 0; k < 5; k++) {
+					Dust.NewDust(npc.position, npc.width, npc.height, 5, npc.direction, -1f, 1, default(Color), .71f);
 				}
 		}
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
 			if(Main.rand.NextBool(4)) {
-				target.AddBuff(BuffID.Bleeding, 1200);
+				target.AddBuff(BuffID.Bleeding, 200);
 			}
 		}
 		public override void NPCLoot()
