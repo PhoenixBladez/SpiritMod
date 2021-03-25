@@ -61,24 +61,16 @@ namespace SpiritMod.Items.Consumable
 			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/BossSFX/Scarab_Roar1").WithVolume(0.3f), player.position);
 			return true;
 		}
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Sapphire, 1);
-			recipe.AddIngredient(ItemID.AntlionMandible, 3);
-            recipe.AddIngredient(ItemID.DesertFossil, 1);
+			recipe.AddRecipeGroup(ItemID.Amber, 3);
+			recipe.AddIngredient(ItemID.AntlionMandible, 6);
+			recipe.AddRecipeGroup("SpiritMod:GoldBars", 12);
             recipe.AddTile(TileID.DemonAltar);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
-
-			ModRecipe recipe2 = new ModRecipe(mod);
-			recipe2.AddIngredient(ItemID.Topaz, 1);
-			recipe2.AddIngredient(ItemID.AntlionMandible, 3);
-            recipe2.AddIngredient(ItemID.DesertFossil, 1);
-            recipe2.AddTile(TileID.DemonAltar);
-			recipe2.SetResult(this);
-			recipe2.AddRecipe();
-
 		}
 	}
 }
