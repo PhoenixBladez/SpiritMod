@@ -37,6 +37,22 @@ namespace SpiritMod.Tiles.Furniture
 
 			item.createTile = ModContent.TileType<FestivalLanternTile>();
 		}
+        public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.ChineseLantern, 1);
+			recipe.AddIngredient(ItemID.IronBar, 1);
+			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
+			recipe.SetResult(this, 1);
+			recipe.AddRecipe();
+
+			ModRecipe recipe1 = new ModRecipe(mod);
+			recipe1.AddIngredient(ItemID.ChineseLantern, 1);
+			recipe1.AddIngredient(ItemID.LeadBar, 1);
+			recipe1.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
+			recipe1.SetResult(this, 1);
+			recipe1.AddRecipe();
+		}
 	}
 	public class FestivalLanternTile : ModTile
 	{

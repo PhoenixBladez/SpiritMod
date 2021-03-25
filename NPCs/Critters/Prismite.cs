@@ -27,7 +27,7 @@ namespace SpiritMod.NPCs.Critters
 			npc.catchItem = (short)ItemID.Prismite;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
-			npc.knockBackResist = .35f;
+			npc.knockBackResist = 0f;
 			npc.aiStyle = 16;
 			npc.noGravity = true;
 			npc.dontCountMe = true;
@@ -61,7 +61,7 @@ namespace SpiritMod.NPCs.Critters
 		}
 		public override void AI()
 		{
-			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), .5f, .5f, .5f);
+			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), Main.DiscoR * .001f, Main.DiscoG * .001f, Main.DiscoB * .001f);
 			npc.spriteDirection = -npc.direction;
             Player player = Main.player[npc.target];
             {
