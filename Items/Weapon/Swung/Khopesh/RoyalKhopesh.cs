@@ -1,10 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Newtonsoft.Json.Schema;
 using SpiritMod.Dusts;
 using System;
-using System.IO;
-using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -33,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Swung.Khopesh
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.knockBack = 5.5f;
 			item.value = Item.sellPrice(0, 1, 80, 0);
-			item.crit = 4; 
+			item.crit = 4;
 			item.rare = ItemRarityID.Blue;
 			item.shootSpeed = 14f;
 			item.autoReuse = false;
@@ -46,7 +43,7 @@ namespace SpiritMod.Items.Weapon.Swung.Khopesh
 		public override bool CanUseItem(Player player) => player.GetModPlayer<KhopeshPlayer>().KhopeshDelay == 0;
 	}
 
-	class KhopeshSlash : ModProjectile
+	internal class KhopeshSlash : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{
@@ -63,6 +60,7 @@ namespace SpiritMod.Items.Weapon.Swung.Khopesh
 			projectile.penetrate = -1;
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 16;
+			projectile.ownerHitCheck = true;
 		}
 
 		Player Player => Main.player[projectile.owner];
@@ -72,9 +70,9 @@ namespace SpiritMod.Items.Weapon.Swung.Khopesh
 			set => projectile.ai[1] = value ? 0 : 1;
 		}
 
-		bool Bigswing => (projectile.frame >= 4);
+		private bool Bigswing => (projectile.frame >= 4);
 
-		bool SwingStart => projectile.frame == 0 || projectile.frame == 4 && projectile.ai[0] > 0;
+		private bool SwingStart => projectile.frame == 0 || projectile.frame == 4 && projectile.ai[0] > 0;
 		public override bool PreAI()
 		{
 			projectile.position -= projectile.velocity;
@@ -121,11 +119,11 @@ namespace SpiritMod.Items.Weapon.Swung.Khopesh
 
 			projectile.frameCounter++;
 
-			if(projectile.frameCounter > 3) {
+			if (projectile.frameCounter > 3) {
 				FirstTickOfSwingFrame = true;
 				projectile.frameCounter = 0;
 				projectile.frame++;
-				if(projectile.frame == 4 && projectile.ai[0] == 0) {
+				if (projectile.frame == 4 && projectile.ai[0] == 0) {
 					projectile.spriteDirection *= -1;
 					projectile.rotation -= MathHelper.Pi;
 					projectile.frame = 0;
@@ -135,9 +133,9 @@ namespace SpiritMod.Items.Weapon.Swung.Khopesh
 				if (projectile.frame >= Main.projFrames[projectile.type])
 					projectile.Kill();
 			}
-			if(SwingStart && projectile.frameCounter == 1) {
+			if (SwingStart && projectile.frameCounter == 1) {
 				int dustamount = (Bigswing) ? 20 : 7;
-				for(int i = 0; i < dustamount; i++) {
+				for (int i = 0; i < dustamount; i++) {
 					float dustscale = (Bigswing) ? 2f : 1f;
 					dustscale *= Main.rand.NextFloat(0.7f, 1.3f);
 					float dusvel = dustscale * Main.rand.NextFloat(3, 6);
@@ -161,17 +159,18 @@ namespace SpiritMod.Items.Weapon.Swung.Khopesh
 				damage += target.defense / 2;
 				knockback *= 1.5f;
 
-				if(!Main.player[projectile.owner].noKnockback)
+				if (!Main.player[projectile.owner].noKnockback)
 					Main.player[projectile.owner].velocity = -projectile.velocity * 4;
 			}
 
 			hitDirection = Player.direction;
 		}
+
 		public override Color? GetAlpha(Color lightColor) => Color.Lerp(lightColor, Color.White, 0.2f);
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			if((projectile.frame == 0 || projectile.frame == 4 && projectile.ai[0] > 0) && !Player.channel)
+			if ((projectile.frame == 0 || projectile.frame == 4 && projectile.ai[0] > 0) && !Player.channel)
 				return false;
 
 			Texture2D tex = Main.projectileTexture[projectile.type];
@@ -182,7 +181,7 @@ namespace SpiritMod.Items.Weapon.Swung.Khopesh
 		}
 	}
 
-	class KhopeshPlayer : ModPlayer
+	internal class KhopeshPlayer : ModPlayer
 	{
 		public int KhopeshDelay = 0;
 		public override void ResetEffects() => KhopeshDelay = Math.Max(KhopeshDelay - 1, 0);
