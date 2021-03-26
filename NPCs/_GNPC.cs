@@ -272,6 +272,7 @@ namespace SpiritMod.NPCs
 				npc.lifeRegen -= 16;
 				damage = Math.Max(damage, fireStacks * 20);
 			}
+			#endregion
 
 			if (voidStacks > 0) {
 				damage += 5 + 5 * (voidStacks / VoidGlyph.DELAY);
