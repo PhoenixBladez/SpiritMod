@@ -33,7 +33,7 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
 			npc.width = 344;
 			npc.height = 298;
 			npc.damage = 45;
-			npc.lifeMax = 3800;
+			npc.lifeMax = 5600;
 			npc.knockBackResist = 0;
 
 			npc.boss = true;
@@ -191,12 +191,12 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
                     Main.projectile[p1].timeLeft = 280;  
                 } 
             }
-			if (npc.ai[0] == 420)
+			if (npc.ai[0] == 435)
             {
                 npc.velocity = Vector2.Zero;
                 npc.netUpdate = true;
             }
-			if (npc.ai[0] > 420 && npc.ai[0] < 445)
+			if (npc.ai[0] > 435 && npc.ai[0] < 445)
             {
                 if (Main.netMode != NetmodeID.Server)
                 {
@@ -218,7 +218,7 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
                 Main.PlaySound(2, npc.Center, 91);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 70, 0, 26, ModContent.ProjectileType<SnowMongerBeam>(), 45, 1, Main.myPlayer, 0, 0);                  
+                    int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 70, 0, 26, ModContent.ProjectileType<SnowMongerBeam>(), 70, 1, Main.myPlayer, 0, 0);                  
                 }
             }
             if (npc.ai[0] == 570)
@@ -321,7 +321,7 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
         }		
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return Main.invasionType == 2 && !NPC.AnyNPCs(ModContent.NPCType<FrostSaucer>()) ? 0.018f : 0f;
+			return Main.invasionType == 2 && !NPC.AnyNPCs(ModContent.NPCType<FrostSaucer>()) && spawnInfo.player.ZoneOverworldHeight ? 0.018f : 0f;
 		}
 
 		public override void BossLoot(ref string name, ref int potionType)

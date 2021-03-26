@@ -23,7 +23,7 @@ namespace SpiritMod.NPCs.Critters
 			npc.lifeMax = 320;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
-			npc.knockBackResist = 0f;
+			npc.knockBackResist = 0.2f;
 			npc.aiStyle = 16;
 			npc.dontCountMe = true;
 			npc.noGravity = true;
@@ -48,10 +48,10 @@ namespace SpiritMod.NPCs.Critters
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ReaverSharkGore"), 1f);
 			}
 			for (int k = 0; k < 11; k++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, 5, npc.direction, -1f, 1, default(Color), .31f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 5, npc.direction, -1f, 1, default(Color), .61f);
 				}
 			for (int k = 0; k < 5; k++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, 5, npc.direction, -1f, 1, default(Color), .71f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 5, npc.direction, -1f, 1, default(Color), .91f);
 				}
 		}
 		public override void OnHitPlayer(Player target, int damage, bool crit)
