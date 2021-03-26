@@ -138,6 +138,17 @@ namespace SpiritMod.Items.Weapon.Magic.ScreamingTome
 			}
 		}
 
-		public override void Kill(int timeLeft) => Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 3, 1f, 0f);
+		public override void Kill(int timeLeft)
+		{
+			Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 3, 1f, 0f); 
+
+			for (int i = 0; i <= 3; i++) {
+				Gore gore = Gore.NewGoreDirect(projectile.position + new Vector2(Main.rand.Next(projectile.width), Main.rand.Next(projectile.height)),
+					Main.rand.NextVector2Circular(-1, 1),
+					mod.GetGoreSlot("Gores/Skelet/bonger" + Main.rand.Next(1, 5)),
+					projectile.scale);
+				gore.timeLeft = 20;
+			}
+		}
 	}
 }

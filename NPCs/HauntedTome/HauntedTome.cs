@@ -56,7 +56,7 @@ namespace SpiritMod.NPCs.HauntedTome
 
 		private static readonly IDictionary<int, Attack> AttackDict = new Dictionary<int, Attack> {
 			{ (int)Attacks.Skulls, delegate(Player player, NPC npc) { Skulls(player, npc); } },
-			{ (int)Attacks.Fireballs, delegate(Player player, NPC npc) { Fireballs(player, npc); } },
+			{ (int)Attacks.Fireballs, delegate(Player player, NPC npc) { Planes(player, npc); } },
 		};
 
 		private List<int> Pattern = new List<int>
@@ -102,6 +102,8 @@ namespace SpiritMod.NPCs.HauntedTome
 				else
 					UpdateFrame(10, 0, 4);
 			}
+
+			npc.localAI[0] = Math.Max(npc.localAI[0] - 0.05f, 0);
 		}
 
 		private void ResetPattern()
@@ -139,17 +141,32 @@ namespace SpiritMod.NPCs.HauntedTome
 									npc.target).netUpdate = true;
 			}
 
-			if (modnpc.AiTimer == 340) //todo: replace dust triangle with green flash(same as draugr)
-				DustHelper.DrawTriangle(npc.Center, 75, 2);
+			if (modnpc.AiTimer == 340)
+				npc.localAI[0] = 1;
 
 			if (modnpc.AiTimer > 360)
 				modnpc.ResetPattern();
 		}
 
-		private static void Fireballs(Player player, NPC npc)
+		private static void Planes(Player player, NPC npc)
 		{
 			HauntedTome modnpc = npc.modNPC as HauntedTome;
 			npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.1f);
+
+			if (modnpc.AiTimer % 45 == 0) {
+				if (Main.netMode != NetmodeID.Server)
+					Main.PlaySound(new LegacySoundStyle(SoundID.Item, 104).WithPitchVariance(0.2f), npc.Center);
+
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+					Projectile.NewProjectileDirect(npc.Center,
+									-Vector2.UnitY.RotatedByRandom(MathHelper.Pi / 4) * 3,
+									ModContent.ProjectileType<HauntedPaperPlane>(),
+									NPCUtils.ToActualDamage(24, 1.25f),
+									1,
+									Main.myPlayer,
+									npc.whoAmI,
+									npc.target).netUpdate = true;
+			}
 
 			if (modnpc.AiTimer > 360)
 				modnpc.ResetPattern();
@@ -177,6 +194,12 @@ namespace SpiritMod.NPCs.HauntedTome
 		}
 
 		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
+
+		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture(Texture.Remove(0, mod.Name.Length + 1) + "_glow"));
+			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture(Texture.Remove(0, mod.Name.Length + 1) + "_mask"), Color.White * npc.localAI[0]);
+		}
 	}
 
 	internal class HauntedSkull : ModProjectile
@@ -209,7 +232,7 @@ namespace SpiritMod.NPCs.HauntedTome
 			}
 
 			if (npc.ai[0] < 180 && projectile.localAI[0] == 0) {
-				projectile.velocity = projectile.DirectionTo(player.Center) * 10;
+				projectile.velocity = projectile.DirectionTo(player.Center) * 14;
 				projectile.localAI[0]++;
 				projectile.timeLeft = 180;
 				if (Main.netMode != NetmodeID.Server)
@@ -282,5 +305,116 @@ namespace SpiritMod.NPCs.HauntedTome
 				gore.timeLeft = 20;
 			}
 		}
+	}
+
+	internal class HauntedPaperPlane : ModProjectile
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Paper Plane");
+			Main.projFrames[projectile.type] = 9;
+		}
+
+		public override void SetDefaults()
+		{
+			projectile.Size = new Vector2(26, 26);
+			projectile.scale = Main.rand.NextFloat(0.9f, 1.1f);
+			projectile.hostile = true;
+			projectile.tileCollide = false;
+			projectile.timeLeft = 180;
+			projectile.spriteDirection = Main.rand.NextBool() ? -1 : 1;
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			foreach (float fl in projectile.localAI)
+				writer.Write(fl);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader) => projectile.localAI = projectile.localAI.Select(i => reader.ReadSingle()).ToArray();
+
+		public override void AI()
+		{
+			NPC npc = Main.npc[(int)projectile.ai[0]];
+			Player player = Main.player[(int)projectile.ai[1]];
+			if (!npc.active || npc.type != ModContent.NPCType<HauntedTome>() || !player.active || player.dead) {
+				projectile.Kill();
+				return;
+			}
+
+			switch (projectile.localAI[0]) {
+				case 0: projectile.alpha = Math.Min(projectile.alpha + 16, 255); //fade out after emerging from tome
+					projectile.velocity *= 0.98f;
+					if(projectile.alpha >= 255) {//teleport to player's sides
+						projectile.localAI[0]++;
+						projectile.velocity = Vector2.Zero;
+						float X = 250 * Main.rand.NextFloat(0.9f, 1.2f);
+						float Y = -100 * Main.rand.NextFloat(0.9f, 1.2f);
+						projectile.position = player.position + new Vector2(Main.rand.NextBool() ? -X : X, Y);
+						projectile.netUpdate = true;
+						projectile.localAI[1] = 1;
+					}
+					break;
+				case 1: projectile.alpha = Math.Max(projectile.alpha - 18, 0); //fade in and animate
+					projectile.localAI[1] = Math.Max(projectile.localAI[1] - 0.03f, 0);
+					projectile.spriteDirection = Math.Sign(-projectile.DirectionTo(player.Center).X);
+					projectile.rotation = Utils.AngleLerp(projectile.rotation, projectile.AngleTo(player.Center), 0.08f);
+					if (projectile.alpha <= 0) {
+						projectile.frameCounter++;
+						if(projectile.frameCounter % 6 == 0) {
+							projectile.frame++;
+							if(projectile.frame >= Main.projFrames[projectile.type]) { //swoop in on the player
+								projectile.frame = Main.projFrames[projectile.type] - 1;
+								projectile.localAI[0]++;
+								projectile.velocity = projectile.DirectionTo(player.Center) * 12;
+								projectile.netUpdate = true;
+							}
+						}
+					}
+					break;
+				default:
+					projectile.rotation = projectile.velocity.ToRotation();
+					if (++projectile.localAI[0] > 20) //move upwards after a delay
+						projectile.velocity = Vector2.Lerp(projectile.velocity, -Vector2.UnitY * 8, 0.01f);
+
+					if (projectile.velocity.Length() < 8)
+						projectile.velocity = Vector2.Normalize(projectile.velocity) * 8;
+
+					break;
+			}
+		}
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			float scalemod = (projectile.localAI[0] == 0) ? 0.5f : 1;
+			Texture2D tex = Main.projectileTexture[projectile.type];
+			Rectangle drawFrame = new Rectangle(0, projectile.frame * tex.Height / Main.projFrames[projectile.type], tex.Width, tex.Height / Main.projFrames[projectile.type]);
+			spriteBatch.Draw(tex,
+					projectile.Center - Main.screenPosition,
+					drawFrame,
+					projectile.GetAlpha(lightColor),
+					projectile.rotation - ((projectile.spriteDirection > 0) ? MathHelper.Pi : 0),
+					drawFrame.Size() / 2,
+					projectile.scale * scalemod,
+					(projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
+					0);
+			return false;
+		}
+
+		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D tex = mod.GetTexture("NPCs/HauntedTome/HauntedPaperPlane_mask");
+			Rectangle drawFrame = new Rectangle(0, projectile.frame * tex.Height / Main.projFrames[projectile.type], tex.Width, tex.Height / Main.projFrames[projectile.type]);
+			spriteBatch.Draw(tex,
+					projectile.Center - Main.screenPosition,
+					drawFrame,
+					projectile.GetAlpha(Color.White) * projectile.localAI[1],
+					projectile.rotation - ((projectile.spriteDirection > 0) ? MathHelper.Pi : 0),
+					drawFrame.Size() / 2,
+					projectile.scale,
+					(projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
+					0);
+		}
+
+		public override void Kill(int timeLeft) => Gore.NewGore(projectile.position, projectile.velocity, mod.GetGoreSlot("Gores/HauntedPaperPlane_gore"));
 	}
 }

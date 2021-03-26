@@ -1,4 +1,6 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Items.Weapon.Magic.ScreamingTome;
+using SpiritMod.NPCs.HauntedTome;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,22 +18,38 @@ namespace SpiritMod.Sepulchre
             Main.tileLighted[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.StyleOnTable1x1);
 			TileObjectData.addTile(Type);
-			drop = ModContent.ItemType<Items.Weapon.Magic.ScreamingTome.ScreamingTome>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Mysterious Tome");
 			AddMapEntry(new Color(179, 146, 107), name);
 			dustType = -1;
 		}
 
-		public override void NumDust(int i, int j, bool fail, ref int num)
+		public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3; 
+		
+		public override void MouseOver(int i, int j)
 		{
-			num = fail ? 1 : 3;
+			Main.player[Main.myPlayer].showItemIcon = true;
+			Main.player[Main.myPlayer].showItemIcon2 = ModContent.ItemType<ScreamingTome>();
 		}
 
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+		public override bool NewRightClick(int i, int j)
 		{
-			offsetY = 2;
+			WorldGen.KillTile(i, j);
+			if (Main.netMode != NetmodeID.SinglePlayer)
+				NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, i, j);
+
+			return true;
 		}
 
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) => offsetY = 2;
+
+		public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
+		{
+			if (Main.netMode == NetmodeID.MultiplayerClient || fail)
+				return;
+
+			Main.PlaySound(SoundID.NPCKilled, i * 16, j * 16, 6);
+			Main.npc[NPC.NewNPC(i * 16, j * 16, ModContent.NPCType<HauntedTome>())].netUpdate = true;
+		}
 	}
 }
