@@ -44,7 +44,7 @@ namespace SpiritMod.Items.Consumable
 				ModContent.ItemType<SpiritOre>(),
 				ModContent.ItemType<Rune>(),
 				ModContent.ItemType<StarPiece>(),
-				ModContent.ItemType<Geode>()
+				ModContent.ItemType<MoonStone>()
 			};
 			int loot = Main.rand.Next(lootTable.Length);
 
@@ -56,7 +56,7 @@ namespace SpiritMod.Items.Consumable
 					ModContent.ItemType<SpiritOre>(),
 					ModContent.ItemType<Rune>(),
 					ModContent.ItemType<StarPiece>(),
-					ModContent.ItemType<Geode>()
+					ModContent.ItemType<MoonStone>()
 				};
 				int loot3 = Main.rand.Next(lootTable3.Length);
 

@@ -4,12 +4,12 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs.Summon
 {
-	public class SteamMinionBuff : ModBuff
+	public class JellyfishMinionBuff : ModBuff
 	{
 		public override void SetDefaults()
 		{
-			DisplayName.SetDefault("Starplate Minion");
-			Description.SetDefault("Uses stars as a conduit");
+			DisplayName.SetDefault("Jellyfish Minion");
+			Description.SetDefault("A cute, bouncy Jellyfish fights for you!");
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}
@@ -17,11 +17,11 @@ namespace SpiritMod.Buffs.Summon
 		public override void Update(Player player, ref int buffIndex)
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if (player.ownedProjectileCounts[ModContent.ProjectileType<SteamMinion>()] > 0) {
-				modPlayer.steamMinion = true;
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<JellyfishMinion>()] > 0) {
+				modPlayer.jellyfishMinion = true;
 			}
 
-			if (!modPlayer.steamMinion) {
+			if (!modPlayer.jellyfishMinion) {
 				player.DelBuff(buffIndex);
 				buffIndex--;
 				return;

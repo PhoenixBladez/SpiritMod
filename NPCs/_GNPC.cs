@@ -1250,9 +1250,6 @@ namespace SpiritMod.NPCs
 						item = ModContent.ItemType<CultistScarf>();
 						break;
 					case 2:
-						item = ModContent.ItemType<CosmicHourglass>();
-						break;
-					case 3:
 						item = ModContent.ItemType<Tesseract>();
 						break;
 				}

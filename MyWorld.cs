@@ -1416,7 +1416,6 @@ namespace SpiritMod
 
 			AddToVanillaChest(new ChestInfo(ItemType<ChaosPearl>(), Main.rand.Next(20, 30)), skyChests, 4);
 			AddToVanillaChest(new ChestInfo(new int[] { 
-				WorldGen.crimson ? ItemType<Tenderizer>() : ItemType<Slugger>(), 
 				ItemType<CimmerianScepter>() }, 
 				1, 0.33f) , lockedgoldChests, 1);
 			AddToVanillaChest(new ChestInfo(ItemType<MetalBand>(), 1, 0.1f) , goldChests, 1);
