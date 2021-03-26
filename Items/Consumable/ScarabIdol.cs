@@ -65,7 +65,7 @@ namespace SpiritMod.Items.Consumable
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddRecipeGroup(ItemID.Amber, 3);
+			recipe.AddIngredient(ItemID.Amber, 3);
 			recipe.AddIngredient(ItemID.AntlionMandible, 6);
 			recipe.AddRecipeGroup("SpiritMod:GoldBars", 12);
             recipe.AddTile(TileID.DemonAltar);
