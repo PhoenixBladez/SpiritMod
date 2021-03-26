@@ -48,8 +48,8 @@ namespace SpiritMod.Sepulchre
 			if (Main.netMode == NetmodeID.MultiplayerClient || fail)
 				return;
 
-			Main.PlaySound(SoundID.NPCKilled, i * 16, j * 16, 6);
 			Main.npc[NPC.NewNPC(i * 16, j * 16, ModContent.NPCType<HauntedTome>())].netUpdate = true;
+			Main.PlaySound(SoundID.NPCKilled, i * 16, j * 16, 6);
 		}
 	}
 }

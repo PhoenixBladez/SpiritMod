@@ -137,6 +137,7 @@ namespace SpiritMod
 			}
 			CreateChests(i, j);
 			PolishSepulchre(i, j);
+			PlaceHauntedTome(i, j);
 			RemoveWaterFromRegion(50,40,position - new Vector2(25,20));
 		}
 		public delegate void AtTile(int x, int y);
@@ -163,39 +164,58 @@ namespace SpiritMod
 		}
 		public void CreateChests(int i, int j)
 		{
-			int chests = 0;
+			bool placedchest = false;
 			int tries = 0;
-			while (chests == 0) {
+			while (!placedchest) {
 				for (int x = i - 50; x < i + 50; x++) {
 					for (int y = j - 90; y < j + 50; y++) {
 						if ((Main.tile[x, y + 1].type == tile || Main.tile[x, y + 1].type == tiletwo)
-							&& chests == 0 && Main.rand.Next(100) == 0 && Main.tile[x, y].wall == wall) {
+							&& !placedchest && Main.rand.Next(100) == 0 && Main.tile[x, y].wall == wall) {
 							Main.tile[x + 1, y + 1].active(true);
 							Main.tile[x + 1, y + 1].type = Main.tile[x, y + 1].type;
 							WorldGen.PlaceChest(x, y, (ushort)ModContent.TileType<SepulchreChestTile>(), false, 0);
-							if (Main.tile[x, y - 1].type == (ushort)ModContent.TileType<SepulchreChestTile>()) {
-								chests++;
+							if (Main.tile[x, y - 1].type == (ushort)ModContent.TileType<SepulchreChestTile>()) 
+								placedchest = true;
+
+						}
+					}
+				}
+				tries++;
+				if (tries > 6000)
+					break;
+			}
+		}
+
+		public void PlaceHauntedTome(int i, int j)
+		{
+			bool placedeviltome = false;
+			int tries = 0;
+			while (!placedeviltome) {
+				for (int x = i - 50; x < i + 50; x++) {
+					for (int y = j - 90; y < j + 50; y++) {
+						if (Main.tile[x, y + 1].type == TileID.Platforms && !placedeviltome && Main.rand.Next(100) == 0 && Main.tile[x, y].wall == wall) {
+							WorldGen.KillTile(x, y);
+							WorldGen.PlaceTile(x, y, (ushort)ModContent.TileType<ScreamingTomeTile>(), false);
+							if (Main.tile[x, y].type == (ushort)ModContent.TileType<ScreamingTomeTile>()) {
+								placedeviltome = true;
 							}
 						}
 					}
 				}
 				tries++;
-				if (tries > 6000) {
-					Main.NewText("Error: No space to place a chest found", 255, 255, 255);
+				if (tries > 6000) 
 					break;
-				}
 			}
 		}
 
 		public void PolishSepulchre(int i, int j)
 		{
-			bool placedEvilTome = false;
 			PerlinNoiseTwo noiseType2 = new PerlinNoiseTwo(WorldGen._genRandSeed);
 			List<AtTile> delegateList = new List<AtTile>();
 			delegateList.Add(delegate (int x, int y) //platforms
 			{
 				if (Main.rand.Next(50) == 0 && Main.tile[x - 1, y].type == tile && Main.tile[x - 1, y].active()) {
-					CreateShelf(x, y, 50, 12, false, ref placedEvilTome);
+					CreateShelf(x, y, 50, 12, false);
 				}
 			});
 			delegateList.Add(delegate (int x, int y) //cursed armor
@@ -251,11 +271,11 @@ namespace SpiritMod
 			});
 			delegateList.Add(delegate (int x, int y) //shelves
 			{
-				if (Main.rand.Next(30) == 0 && (Main.tile[x - 1, y].type == tile || Main.tile[x - 1, y].type == tiletwo) && Main.tile[x - 1, y].active()) {
-					CreateShelf(x, y, Main.rand.Next(4, 8), 12, true, ref placedEvilTome);
+				if (Main.rand.Next(20) == 0 && (Main.tile[x - 1, y].type == tile || Main.tile[x - 1, y].type == tiletwo) && Main.tile[x - 1, y].active()) {
+					CreateShelf(x, y, Main.rand.Next(4, 8), 12, true);
 				}
-				if (Main.rand.Next(30) == 0 && (Main.tile[x - 1, y].type == tile || Main.tile[x - 1, y].type == tiletwo) && Main.tile[x + 1, y].active()) {
-					CreateShelfBackwards(x, y, Main.rand.Next(4, 8), 12, true, ref placedEvilTome);
+				if (Main.rand.Next(20) == 0 && (Main.tile[x - 1, y].type == tile || Main.tile[x - 1, y].type == tiletwo) && Main.tile[x + 1, y].active()) {
+					CreateShelfBackwards(x, y, Main.rand.Next(4, 8), 12, true);
 				}
 			});
 			delegateList.Add(delegate (int x, int y) //cobwebs
@@ -322,13 +342,8 @@ namespace SpiritMod
 			}
 			return false;
 		}
-		public static void PlaceShelfItem(int x, int y, ref bool placedEvilTome)
+		public static void PlaceShelfItem(int x, int y)
 		{
-			if (Main.rand.Next(15) == 1 && !placedEvilTome) {
-				WorldGen.PlaceTile(x, y, ModContent.TileType<ScreamingTomeTile>(), true, false, -1);
-				placedEvilTome = true;
-				return;
-			}
 			switch (Main.rand.Next(3)) {
 				case 0:
 					WorldGen.PlaceTile(x, y, 50, true, false, -1, Main.rand.Next(5));
@@ -338,7 +353,7 @@ namespace SpiritMod
 					break;
 			}
 		}
-		public void CreateShelf(int i, int j, int length, int platformType, bool placeobjects, ref bool placedEvilTome)
+		public void CreateShelf(int i, int j, int length, int platformType, bool placeobjects)
 		{
 			for (int x = i; x < i + length; x++) {
 				if (Main.tile[x, j].active() || Main.tile[x, j - 1].active() || Main.tile[x, j - 2].active() || Main.tile[x, j].wall != wall) {
@@ -346,10 +361,10 @@ namespace SpiritMod
 				}
 				WorldGen.PlaceTile(x, j, 19, true, false, -1, platformType);
 				if (placeobjects)
-					PlaceShelfItem(x, j - 1, ref placedEvilTome);
+					PlaceShelfItem(x, j - 1);
 			}
 		}
-		public void CreateShelfBackwards(int i, int j, int length, int platformType, bool placeobjects, ref bool placedEvilTome)
+		public void CreateShelfBackwards(int i, int j, int length, int platformType, bool placeobjects)
 		{
 			for (int x = i; x > i - length; x--) {
 				if (Main.tile[x, j].active() || Main.tile[x, j - 1].active() || Main.tile[x, j - 2].active() || Main.tile[x, j].wall != wall) {
@@ -357,7 +372,7 @@ namespace SpiritMod
 				}
 				WorldGen.PlaceTile(x, j, 19, true, false, -1, platformType);
 				if (placeobjects)
-					PlaceShelfItem(x, j - 1, ref placedEvilTome);
+					PlaceShelfItem(x, j - 1);
 			}
 		}
 		public void CreateWindowRow(int i, int j, int length, int windowType)
