@@ -95,7 +95,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 			}
 			
 			//int randomEffectCounter = 5;
-			int randomEffectCounter = Main.rand.Next(12);
+			int randomEffectCounter = Main.rand.Next(13);
 			bool CheckTileRange(int[] tiletypes, int size)
 			{
 				for (int k = i - size; k <= i + size; k++) {
@@ -114,14 +114,21 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 				if (CheckTileRange(new int[] { TileID.Dirt, TileID.Stone, TileID.IceBlock }, 22))
 					break;
 
-				randomEffectCounter = Main.rand.Next(12);
+				randomEffectCounter = Main.rand.Next(13);
 			}
 
 			while (randomEffectCounter == 6 || randomEffectCounter == 11) {
 				if (CheckTileRange(new int[] { TileID.Stone }, 19))
 					break;
 
-				randomEffectCounter = Main.rand.Next(12);
+				randomEffectCounter = Main.rand.Next(13);
+			}
+
+			while(randomEffectCounter == 9) {
+				if (player.CountBuffs() > 0)
+					break;
+
+				randomEffectCounter = Main.rand.Next(13);
 			}
 
 			switch (randomEffectCounter)
@@ -384,10 +391,10 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 				case 11: //Opposite gold/platinum ore
 				{
 					GoodLuck();
-					int oreType = 8;
+					int oreType;
 					if (WorldGen.GoldTierOre == TileID.Platinum)	
 					{
-						oreType = 13;
+						oreType = TileID.Gold;
 					}
 					else
 					{
