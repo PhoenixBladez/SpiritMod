@@ -56,6 +56,8 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 		{
 			Tile tile = Main.tile[i, j];
 			WorldGen.KillTile(i, j, false, false, false);
+			if (Main.netMode != NetmodeID.SinglePlayer)
+				NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, i, j);
 		}
 
 		public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)

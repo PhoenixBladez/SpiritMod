@@ -22,7 +22,7 @@ namespace SpiritMod.NPCs.ChestZombie
 			npc.lifeMax = 120;
 			npc.defense = 10;
 			npc.value = 100f;
-			aiType = 0;
+			aiType = -1;
 			npc.knockBackResist = 0.2f;
 			npc.width = 30;
 			npc.height = 50;
@@ -32,10 +32,7 @@ namespace SpiritMod.NPCs.ChestZombie
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath2;
 		}
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			return SpawnCondition.OverworldNightMonster.Chance * 0.011f;
-		}
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => SpawnCondition.OverworldNightMonster.Chance * 0.011f;
 		public override void AI()
 		{
 			Player player = Main.player[npc.target];
@@ -46,11 +43,12 @@ namespace SpiritMod.NPCs.ChestZombie
 					npc.spriteDirection = 1;
 			else
 				npc.spriteDirection = -1;
-				
+
 			dashTimer++;
 			npc.aiStyle = 3;
-			if (dashTimer >= 120)
-			{
+			if (dashTimer >= 120) {
+				npc.aiStyle = -1;
+				npc.velocity.X *= 0.98f;
 				npc.damage = 60;
 				if (dashTimer == 120)
 				{
@@ -58,11 +56,17 @@ namespace SpiritMod.NPCs.ChestZombie
 					npc.netUpdate = true;
 				}
 				isDashing = true;
-				if (npc.collideX)
+
+				Collision.StepUp(ref npc.position, ref npc.velocity, npc.width, npc.height, ref npc.stepSpeed, ref npc.gfxOffY);
+
+				if (npc.velocity.X == 0)
 					dashTimer = 0;
 			}
-			else
+			else {
 				npc.damage = 30;
+				if (Math.Abs(npc.velocity.X) > 4)
+					npc.velocity.X *= 0.94f;
+			}
 		}
 		public override void NPCLoot()
 		{
@@ -141,8 +145,8 @@ namespace SpiritMod.NPCs.ChestZombie
 					{
 						if (npc.frameCounter == 25)
 						{
-							Main.PlaySound(42, (int)npc.position.X, (int)npc.position.Y, 220, 1f, 0f);
-							npc.velocity.X += 20f * (float) npc.direction;
+							Main.PlaySound(SoundID.Trackable, (int)npc.position.X, (int)npc.position.Y, 220, 1f, 0f);
+							npc.velocity.X = 10f * (float) npc.direction;
 							npc.velocity.Y = 0f;
 							npc.netUpdate = true;
 						}
