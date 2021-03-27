@@ -11,7 +11,10 @@ namespace SpiritMod.Projectiles.Summon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Overgrowth");
+			Main.projPet[projectile.type] = true;
+			Main.projFrames[base.projectile.type] = 1;
 			ProjectileID.Sets.MinionSacrificable[base.projectile.type] = true;
+			ProjectileID.Sets.Homing[base.projectile.type] = true;
 		}
 
 		public override void SetDefaults()
@@ -19,13 +22,11 @@ namespace SpiritMod.Projectiles.Summon
 			projectile.width = 34;
 			projectile.height = 34;
 			projectile.netImportant = true;
-			projectile.friendly = false;
+			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.minionSlots = 1f;
-			projectile.timeLeft = 18000;
 			projectile.penetrate = -1;
 			projectile.tileCollide = false;
-			projectile.timeLeft *= 5;
 			projectile.minion = true;
 		}
 
@@ -37,11 +38,9 @@ namespace SpiritMod.Projectiles.Summon
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (flag64) {
 				if (player.dead)
-					modPlayer.OG = false;
-
+				modPlayer.OG = false;
 				if (modPlayer.OG)
-					projectile.timeLeft = 2;
-
+				projectile.timeLeft = 2;
 			}
 
 			projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
@@ -97,5 +96,6 @@ namespace SpiritMod.Projectiles.Summon
 				}
 			}
 		}
+
 	}
 }

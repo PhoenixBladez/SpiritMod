@@ -7,8 +7,8 @@ namespace SpiritMod.Buffs.Summon
 	{
 		public override void SetDefaults()
 		{
-			DisplayName.SetDefault("Overgrowth Minion");
-			Description.SetDefault("The Overgrowth Minion will protect you!");
+			DisplayName.SetDefault("Overgrowth Spirit");
+			Description.SetDefault("The overgrowth spirit will protect you!");
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.buffNoSave[Type] = true;
 		}
@@ -18,14 +18,13 @@ namespace SpiritMod.Buffs.Summon
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Summon.Overgrowth>()] > 0) {
 				modPlayer.OG = true;
+				player.buffTime[buffIndex] = 18000;
 			}
 
 			if (!modPlayer.OG) {
 				player.DelBuff(buffIndex);
 				buffIndex--;
-			}
-			else {
-				player.buffTime[buffIndex] = 18000;
+				return;
 			}
 		}
 	}

@@ -15,31 +15,30 @@ namespace SpiritMod.Items.Weapon.Summon
 
 		}
 
-
 		public override void SetDefaults()
 		{
-			item.damage = 7;
+			item.damage = 9;
 			item.summon = true;
-			item.mana = 10;
+			item.mana = 20;
 			item.UseSound = SoundID.Item44;
 			item.width = 36;
 			item.height = 38;
-			item.useTime = 36;
-			item.useAnimation = 36;
+			item.useTime = 45;
+			item.useAnimation = 45;
 			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.noMelee = true; //so the item's animation doesn't do damage
+			item.noMelee = true;
 			item.knockBack = 1.25f;
-			item.value = 1000;
-			item.rare = ItemRarityID.Blue;
-			item.autoReuse = true;
+			item.value = Item.sellPrice(0, 0, 5, 0);
+			item.rare = ItemRarityID.White;
+			item.buffType = ModContent.BuffType<Buffs.Summon.Overgrowth>();
 			item.shoot = ModContent.ProjectileType<Projectiles.Summon.Overgrowth>();
 			item.shootSpeed = 10f;
 		}
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Wood, 40);
-			recipe.AddIngredient(ItemID.Acorn, 8);
+			recipe.AddIngredient(ItemID.Wood, 25);
+			recipe.AddIngredient(ItemID.Acorn, 3);
 			recipe.AddTile(TileID.WorkBenches);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
@@ -55,7 +54,7 @@ namespace SpiritMod.Items.Weapon.Summon
 		}
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			player.AddBuff(ModContent.BuffType<Buffs.Summon.Overgrowth>(), 3600);
+			player.AddBuff(item.buffType, 2);
 			int i = Main.myPlayer;
 			float num72 = item.shootSpeed;
 			int num73 = item.damage;

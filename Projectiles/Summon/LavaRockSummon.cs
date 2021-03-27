@@ -11,7 +11,10 @@ namespace SpiritMod.Projectiles.Summon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Magmarock");
+			Main.projPet[projectile.type] = true;
+			Main.projFrames[base.projectile.type] = 1;
 			ProjectileID.Sets.MinionSacrificable[base.projectile.type] = true;
+			ProjectileID.Sets.Homing[base.projectile.type] = true;
 		}
 
 		public override void SetDefaults()
@@ -22,10 +25,8 @@ namespace SpiritMod.Projectiles.Summon
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.minionSlots = 1f;
-			projectile.timeLeft = 18000;
 			projectile.penetrate = -1;
 			projectile.tileCollide = false;
-			projectile.timeLeft *= 5;
 			projectile.minion = true;
 		}
 
@@ -77,11 +78,9 @@ namespace SpiritMod.Projectiles.Summon
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (flag64) {
 				if (player.dead)
-					modPlayer.lavaRock = false;
-
+				modPlayer.lavaRock = false;
 				if (modPlayer.lavaRock)
-					projectile.timeLeft = 2;
-
+				projectile.timeLeft = 2;
 			}
 
 			projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);

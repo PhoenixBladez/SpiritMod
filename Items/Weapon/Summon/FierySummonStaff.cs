@@ -32,7 +32,6 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.value = 10000;
 			item.UseSound = SoundID.Item73;
 			item.rare = ItemRarityID.Orange;
-			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<Projectiles.Summon.LavaRockSummon>();
             item.buffType = ModContent.BuffType<Buffs.Summon.LavaRockSummonBuff>();
             item.shootSpeed = 10f;
