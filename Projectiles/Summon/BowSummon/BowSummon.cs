@@ -30,7 +30,6 @@ namespace SpiritMod.Projectiles.Summon.BowSummon
 			projectile.friendly = true;
 			Main.projPet[projectile.type] = true;
 			projectile.minion = true;
-			projectile.minionSlots = 1;
 			projectile.penetrate = -1;
 			projectile.timeLeft = 18000;
 			projectile.tileCollide = false;
@@ -109,7 +108,7 @@ namespace SpiritMod.Projectiles.Summon.BowSummon
                 if (timer >= 70)
                 {
                     int range = 30;   //How many tiles away the projectile targets NPCs
-                    float shootVelocity = 13.5f; //magnitude of the shoot vector (speed of arrows shot)
+                    float shootVelocity = 16f; //magnitude of the shoot vector (speed of arrows shot)
                     int shootSpeed = 20;
 
                     //TARGET NEAREST NPC WITHIN RANGE
@@ -160,21 +159,33 @@ namespace SpiritMod.Projectiles.Summon.BowSummon
                         {
                             shootType = 1;
                         }
-                        if (player.HasItem(ModContent.ItemType<Items.Ammo.Arrow.SepulchreArrow>()))
+						if (player.HasItem(ItemID.EndlessQuiver))
                         {
-                            shootType = ModContent.ProjectileType<Projectiles.Arrow.AccursedArrow>();
+                            shootType = 1;
+                        }
+						if (player.HasItem(ItemID.BoneArrow))
+                        {
+                            shootType = 117;
+                        }
+						if (player.HasItem(ModContent.ItemType<Items.Ammo.Arrow.PoisonArrow>()))
+                        {
+                            shootType = ModContent.ProjectileType<Projectiles.Arrow.PoisonArrowProj>();
                         }
                         if (player.HasItem(ItemID.FlamingArrow))
                         {
                             shootType = 2;
                         }
-                        if (player.HasItem(ItemID.UnholyArrow))
-                        {
-                            shootType = 4;
-                        }
 						if (player.HasItem(ItemID.FrostburnArrow))
                         {
                             shootType = 172;
+                        }
+                        if (player.HasItem(ModContent.ItemType<Items.Ammo.Arrow.SepulchreArrow>()))
+                        {
+                            shootType = ModContent.ProjectileType<Projectiles.Arrow.AccursedArrow>();
+                        }
+                        if (player.HasItem(ItemID.UnholyArrow))
+                        {
+                            shootType = 4;
                         }
 						if (player.HasItem(ItemID.JestersArrow))
                         {
@@ -184,11 +195,59 @@ namespace SpiritMod.Projectiles.Summon.BowSummon
                         {
                             shootType = 41;
                         }
+						if (player.HasItem(ItemID.CursedArrow))
+                        {
+                            shootType = 103;
+                        }
+						if (player.HasItem(ItemID.IchorArrow))
+                        {
+                            shootType = 278;
+                        }
+						if (player.HasItem(ItemID.HolyArrow))
+                        {
+                            shootType = 91;
+                        }
+						if (player.HasItem(ItemID.ChlorophyteArrow))
+                        {
+                            shootType = 225;
+                        }
+						if (player.HasItem(ItemID.VenomArrow))
+                        {
+                            shootType = 282;
+                        }
+						if (player.HasItem(ModContent.ItemType<Items.Ammo.Arrow.ShroomiteArrow>()))
+                        {
+                            shootType = ModContent.ProjectileType<Projectiles.Arrow.ShroomiteArrow>();
+                        }
+						if (player.HasItem(ModContent.ItemType<Items.Ammo.Arrow.SpectreArrow>()))
+                        {
+                            shootType = ModContent.ProjectileType<Projectiles.Arrow.SpectreArrow>();
+                        }
+						if (player.HasItem(ModContent.ItemType<Items.Ammo.Arrow.BeetleArrow>()))
+                        {
+                            shootType = ModContent.ProjectileType<Projectiles.Arrow.BeetleArrow>();
+                        }
+						if (player.HasItem(ModContent.ItemType<Items.Ammo.Arrow.MartianArrow>()))
+                        {
+                            shootType = ModContent.ProjectileType<Projectiles.Arrow.ElectricArrow>();
+                        }
+						if (player.HasItem(ItemID.MoonlordArrow))
+                        {
+                            shootType = 639;
+                        }
                         for (int index = 0; index < 58; ++index)
                         {
-                            if (player.inventory[index].ammo == AmmoID.Arrow && player.inventory[index].stack > 1)
+                            if (player.inventory[index].ammo == AmmoID.Arrow && player.HasItem(ItemID.EndlessQuiver) == false && player.inventory[index].stack >= 1)
                             {
                                 player.inventory[index].stack -= 1;
+                                int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, direction.X, direction.Y, shootType, projectile.damage, projectile.knockBack, Main.myPlayer);
+                                Main.projectile[proj2].minion = true;
+                                Main.projectile[proj2].ranged = false;
+                                Main.projectile[proj2].netUpdate = true;
+                                break;
+                            }
+							else if (player.inventory[index].ammo != AmmoID.Arrow && player.HasItem(ItemID.EndlessQuiver))
+                            {
                                 int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, direction.X, direction.Y, shootType, projectile.damage, projectile.knockBack, Main.myPlayer);
                                 Main.projectile[proj2].minion = true;
                                 Main.projectile[proj2].ranged = false;
@@ -209,6 +268,5 @@ namespace SpiritMod.Projectiles.Summon.BowSummon
 		{
 			return false;
 		}
-
 	}
 }

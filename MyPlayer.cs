@@ -3357,6 +3357,13 @@ namespace SpiritMod
                     int newProj = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.Summon.CimmerianStaff.CimmerianScepterProjectile>(), (int)(22 * player.minionDamage), 1.5f, player.whoAmI);
                 }
             }
+			if (bowSummon)
+            {
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Summon.BowSummon.BowSummon>()] < 1)
+                {
+                    int newProj = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.Summon.BowSummon.BowSummon>(), (int)(22 * player.minionDamage), 1.5f, player.whoAmI);
+                }
+            }
             if (spellswordCrest)
             {
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<HolyKnifeMinion>()] < 1)

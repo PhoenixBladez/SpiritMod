@@ -97,6 +97,5 @@ namespace SpiritMod.Projectiles.Summon
 				}
 			}
 		}
-
 	}
 }
