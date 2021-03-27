@@ -35,7 +35,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			npc.width = 64;
 			npc.height = 64;
 			npc.value = 30000;
-			npc.damage = 30;
+			npc.damage = 40;
 			npc.defense = 10;
 			npc.lifeMax = 1750;
 			npc.aiStyle = -1;
@@ -106,7 +106,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				}
 
                 Phase2(player);
-                npc.defense = 4;
+                npc.defense = 6;
             }
 		}
 		#region utilities
@@ -1055,7 +1055,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.7143f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.6667f);
+			npc.damage = (int)(npc.damage * 0.626f);
 		}
 
 		public override bool PreNPCLoot()
