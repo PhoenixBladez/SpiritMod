@@ -1,19 +1,20 @@
-Spirit's 1.4 Update is here! Here are some highlights from this long-awaited Pre-Hardmode Overhaul:
-- 250+ new items
-- 52 new enemies
-- 20 new soundtracks for bosses, events, and biomes (including vanilla ones!)
-- Hundreds of overhauled weapons and equipment
-- Revamped enemy and boss AIs
-- A new NPC, the Gambler
-- A new Quest System, used by the Adventurer
-- Hundreds of resprites
-- New mini-events, the Aurora and the Luminous Ocean
-- Countless fixed bugs and balancing issues
+Spirit's 1.4.2 update, Sinister Sands, is here! It adds:
+
+- 120 new items
+- 19 new enemies
+- Brand new **Scarabeus**, **Vinewrath Bane**, and **Snow Monger** complete overhauls
+- New **Fathomless Vases**, an Underground Microstructure to explore and test your luck with...
+- Completely overhauled **Dark Sepulchres**, now complete with new loot, a special encounter, *and* a miniboss encounter
+- The new artificial **Hyperspace Biome**
+- Gambler **Lootbox overhaul**
+- 5 new music tracks
+- New ambient effects, overlays, and sounds
+- Countless resprites, bug fixes, weapon and NPC improvements, and **so much more!**
 
 
 The Spirit Mod is a huge Terraria mod, with plenty of content to explore, new enemies to fight, and new weapons to wield.
 Current content:
-- 1200+ Items
+- 1350+ Items
 - 210 NPCs, including boss minions, enemies, and town NPCs
 - 8 New bosses with interesting AIs
 - 6 New Minibosses to be fought in different events
