@@ -50,19 +50,19 @@ namespace SpiritMod.NPCs.Cystal
 			{
 				shieldSpawned = true;
 				int shield1 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + (int)(npc.height / 2), mod.NPCType("Cystal_Shield"));
-				Main.npc[shield1].Center += new Vector2(0, 100).RotatedBy(MathHelper.ToRadians(90));
+				Main.npc[shield1].Center += new Vector2(0, 150).RotatedBy(MathHelper.ToRadians(90));
 				Main.npc[shield1].ai[1] = npc.whoAmI;
 
 				int shield2 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + (int)(npc.height / 2), mod.NPCType("Cystal_Shield"));
-				Main.npc[shield2].Center += new Vector2(0, 100).RotatedBy(MathHelper.ToRadians(180));
+				Main.npc[shield2].Center += new Vector2(0, 150).RotatedBy(MathHelper.ToRadians(180));
 				Main.npc[shield2].ai[1] = npc.whoAmI;
 
 				int shield3 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + (int)(npc.height / 2), mod.NPCType("Cystal_Shield"));
-				Main.npc[shield3].Center += new Vector2(0, 100).RotatedBy(MathHelper.ToRadians(270));
+				Main.npc[shield3].Center += new Vector2(0, 150).RotatedBy(MathHelper.ToRadians(270));
 				Main.npc[shield3].ai[1] = npc.whoAmI;
 
 				int shield4 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + (int)(npc.height / 2), mod.NPCType("Cystal_Shield"));
-				Main.npc[shield4].Center += new Vector2(0, 100).RotatedBy(MathHelper.ToRadians(360));
+				Main.npc[shield4].Center += new Vector2(0, 150).RotatedBy(MathHelper.ToRadians(360));
 				Main.npc[shield4].ai[1] = npc.whoAmI;
 			}
 			if ((double)Vector2.Distance(npc.Center, player.Center) < (double)100f)

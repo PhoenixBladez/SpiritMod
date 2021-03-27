@@ -90,7 +90,7 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
                             direction.Normalize();
                             direction *= 12f;
                             Projectile p = Projectile.NewProjectileDirect(projectile.Center, direction,
-                            ModContent.ProjectileType<JellyfishOrbiter_Projectile>(), projectile.damage, projectile.knockBack, Main.myPlayer);
+                            ModContent.ProjectileType<JellyfishOrbiter_Friendly>(), projectile.damage, projectile.knockBack, Main.myPlayer);
                             p.friendly = true;
                             p.hostile = false;
                             p.minion = true;

@@ -209,7 +209,11 @@ namespace SpiritMod.NPCs.Hookbat
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.spawnTileY < Main.rockLayer && (!Main.dayTime) && spawnInfo.player.ZoneOverworldHeight && MyWorld.spawnHookbats && !NPC.AnyNPCs(ModContent.NPCType<Hookbat>())? 0.75f : 0f;
+            if (MyWorld.spawnHookbats)
+            {
+               return spawnInfo.spawnTileY < Main.rockLayer && (!Main.dayTime) && spawnInfo.player.ZoneOverworldHeight && !NPC.AnyNPCs(ModContent.NPCType<Hookbat>())? 0.75f : 0f; 
+            }
+            return spawnInfo.spawnTileY < Main.rockLayer && (!Main.dayTime) && spawnInfo.player.ZoneOverworldHeight && !NPC.AnyNPCs(ModContent.NPCType<Hookbat>())? 0.003f : 0f;
 
         }
         public override void HitEffect(int hitDirection, double damage)
