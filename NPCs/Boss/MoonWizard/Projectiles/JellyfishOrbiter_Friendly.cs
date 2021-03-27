@@ -23,7 +23,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
             projectile.height = 16;
             projectile.hostile = false;
 			projectile.friendly = true;
-            projectile,minion = true;
+            projectile.minion = true;
 			projectile.penetrate = 1;
 			projectile.timeLeft = 70;
 			projectile.tileCollide = false;
