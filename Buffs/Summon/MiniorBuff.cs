@@ -14,13 +14,18 @@ namespace SpiritMod.Buffs.Summon
 			Main.buffNoTimeDisplay[Type] = true;
 		}
 
-		public override void Update(Player player, ref int buffIndex) {
-			if (player.ownedProjectileCounts[ModContent.ProjectileType<Minior>()] > 0) {
-				player.buffTime[buffIndex] = 18000;
+		public override void Update(Player player, ref int buffIndex)
+		{
+		MyPlayer modPlayer = player.GetSpiritPlayer();
+		if (player.ownedProjectileCounts[ModContent.ProjectileType<Minior>()] > 0) {
+			modPlayer.minior = true;
+			player.buffTime[buffIndex] = 18000;
 			}
-			else {
-				player.DelBuff(buffIndex);
-				buffIndex--;
+
+		if (!modPlayer.minior) {
+			player.DelBuff(buffIndex);
+			buffIndex--;
+			return;
 			}
 		}
 	}
