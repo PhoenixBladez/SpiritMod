@@ -10,6 +10,8 @@ namespace SpiritMod.Projectiles.Summon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Briar Spirit");
+			Main.projPet[projectile.type] = true;
+			Main.projFrames[base.projectile.type] = 1;
 			ProjectileID.Sets.MinionSacrificable[base.projectile.type] = true;
 			ProjectileID.Sets.Homing[base.projectile.type] = true;
 			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
@@ -18,6 +20,7 @@ namespace SpiritMod.Projectiles.Summon
 		public override void SetDefaults()
 		{
 			projectile.CloneDefaults(ProjectileID.Spazmamini);
+			aiType = ProjectileID.Spazmamini;
 			projectile.width = 24;
 			projectile.height = 24;
 			projectile.minion = true;
@@ -25,18 +28,19 @@ namespace SpiritMod.Projectiles.Summon
 			projectile.ignoreWater = true;
 			projectile.tileCollide = true;
 			projectile.netImportant = true;
-			aiType = ProjectileID.Spazmamini;
 			projectile.alpha = 0;
 			projectile.penetrate = -10;
-			projectile.timeLeft = 18000;
 			projectile.minionSlots = 1;
+		}
+		
+		public override bool? CanCutTiles() {
+			return false;
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			if (projectile.penetrate == 0)
 				projectile.Kill();
-
 			return false;
 		}
 
@@ -47,11 +51,9 @@ namespace SpiritMod.Projectiles.Summon
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (flag64) {
 				if (player.dead)
-					modPlayer.ReachSummon = false;
-
+				modPlayer.ReachSummon = false;
 				if (modPlayer.ReachSummon)
-					projectile.timeLeft = 2;
-
+				projectile.timeLeft = 2;
 			}
 		}
 
@@ -59,6 +61,5 @@ namespace SpiritMod.Projectiles.Summon
 		{
 			return true;
 		}
-
 	}
 }
