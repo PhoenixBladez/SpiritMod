@@ -11,7 +11,7 @@ namespace SpiritMod.ParticleHandler
 		public FireParticles() : base(new ParticleSystem("SpiritMod/ParticleHandler/FireParticle", OnUpdate),
 			delegate { return SpawnCondition(); },
 			delegate { return SInfo(); },
-			maxtime, 0.025f) { }
+			maxtime, 0.05f) { }
 		static void OnUpdate(Particle particle)
 		{
 			Vector2 WorldPosition = particle.StoredPosition[0] - Main.screenPosition;
