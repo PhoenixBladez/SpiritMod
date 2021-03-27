@@ -42,8 +42,9 @@ namespace SpiritMod.Items.Consumable
 
 		public override bool UseItem(Player player)
 		{
-			if (Main.netMode != NetmodeID.MultiplayerClient)
+			if (Main.netMode == NetmodeID.SinglePlayer)
 				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Scarabeus>());
+
 			else if (Main.netMode == NetmodeID.MultiplayerClient && player == Main.LocalPlayer) {
 				Vector2 spawnPos = player.Center;
 				int tries = 0;
