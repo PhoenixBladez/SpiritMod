@@ -130,7 +130,9 @@ namespace SpiritMod.Items.Consumable.GamblerChests.GamblerChestNPCs
                     item = Item.NewItem(npc.Center, Vector2.Zero, itemid, 1);
                     Main.item[item].velocity = Vector2.UnitY.RotatedBy(Main.rand.NextFloat(1.57f, 4.71f)) * 4;
                     Main.item[item].velocity.Y /= 2;
-                }
+					if (Main.netMode != NetmodeID.SinglePlayer)
+						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item);
+				}
 
 				if (counter == 50) {
 					npc.DropItem(ModContent.ItemType<Jem>(), 0.01f);

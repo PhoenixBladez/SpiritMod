@@ -402,7 +402,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 					{
 						oreType = TileID.Platinum;
 					}
-					ConvertStone(i, j, 22, oreType);	
+					ConvertStone(i, j, 22, oreType, 0.5f);	
 					break;
 				}
 				case 12:

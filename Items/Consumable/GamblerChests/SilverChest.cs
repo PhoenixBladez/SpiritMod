@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Consumable.GamblerChests
 
 		public override void RightClick(Player player)
 		{
-			NPC.NewNPC((int)player.Center.X + player.direction * 30, (int)player.Center.Y, ModContent.NPCType<SilverChestBottom>(), 0);
+			Main.npc[NPC.NewNPC((int)player.Center.X + player.direction * 30, (int)player.Center.Y, ModContent.NPCType<SilverChestBottom>(), 0)].netUpdate = true;
 		}
 	}
 }

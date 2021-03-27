@@ -15,19 +15,25 @@ namespace SpiritMod
 
 		public static void DropItem(this Entity ent, int type, int stack = 1)
 		{
-			Item.NewItem(ent.Hitbox, type, stack);
+			int i = Item.NewItem(ent.Hitbox, type, stack);
+			if (Main.netMode != NetmodeID.SinglePlayer)
+				NetMessage.SendData(MessageID.SyncItem, -1, -1, null, i);
 		}
 
 		public static void DropItem(this Entity ent, int type, float chance, int stack = 1)
 		{
 			if (Main.rand.NextDouble() < chance) {
-				Item.NewItem(ent.Hitbox, type, stack);
+				int i = Item.NewItem(ent.Hitbox, type, stack);
+				if (Main.netMode != NetmodeID.SinglePlayer)
+					NetMessage.SendData(MessageID.SyncItem, -1, -1, null, i);
 			}
 		}
 
 		public static void DropItem(this Entity ent, int type, int min, int max)
 		{
-			Item.NewItem(ent.Hitbox, type, Main.rand.Next(min, max));
+			int i = Item.NewItem(ent.Hitbox, type, Main.rand.Next(min, max));
+			if (Main.netMode != NetmodeID.SinglePlayer)
+				NetMessage.SendData(MessageID.SyncItem, -1, -1, null, i);
 		}
 
 		public static int NewItemWithSync(int owner, int x, int y, int width, int height, int type, int stack = 1, bool noBroadcast = false, int prefix = 0, bool noGrabDelay = false, bool reverseLookup = false)
