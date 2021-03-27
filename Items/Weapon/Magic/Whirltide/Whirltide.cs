@@ -9,14 +9,14 @@ namespace SpiritMod.Items.Weapon.Magic.Whirltide
 		public override void SetDefaults()
 		{
 
-			item.damage = 12;
+			item.damage = 25;
 			item.noMelee = true;
 			item.noUseGraphic = false;
 			item.magic = true;
 			item.width = 30;
 			item.height = 30;
-			item.useTime = 30;
-			item.useAnimation = 15;
+			item.useTime = 25;
+			item.useAnimation = 12;
 			item.useStyle = 5;
 			item.shoot = mod.ProjectileType("Whirltide_Bullet");
 			item.knockBack = 10f;

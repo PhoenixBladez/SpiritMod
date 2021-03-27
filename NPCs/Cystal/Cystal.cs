@@ -50,22 +50,22 @@ namespace SpiritMod.NPCs.Cystal
 			{
 				shieldSpawned = true;
 				int shield1 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + (int)(npc.height / 2), mod.NPCType("Cystal_Shield"));
-				Main.npc[shield1].Center += new Vector2(0, 100).RotatedBy(MathHelper.ToRadians(90));
+				Main.npc[shield1].Center += new Vector2(0, 150).RotatedBy(MathHelper.ToRadians(90));
 				Main.npc[shield1].ai[1] = npc.whoAmI;
 
 				int shield2 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + (int)(npc.height / 2), mod.NPCType("Cystal_Shield"));
-				Main.npc[shield2].Center += new Vector2(0, 100).RotatedBy(MathHelper.ToRadians(180));
+				Main.npc[shield2].Center += new Vector2(0, 150).RotatedBy(MathHelper.ToRadians(180));
 				Main.npc[shield2].ai[1] = npc.whoAmI;
 
 				int shield3 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + (int)(npc.height / 2), mod.NPCType("Cystal_Shield"));
-				Main.npc[shield3].Center += new Vector2(0, 100).RotatedBy(MathHelper.ToRadians(270));
+				Main.npc[shield3].Center += new Vector2(0, 150).RotatedBy(MathHelper.ToRadians(270));
 				Main.npc[shield3].ai[1] = npc.whoAmI;
 
 				int shield4 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + (int)(npc.height / 2), mod.NPCType("Cystal_Shield"));
-				Main.npc[shield4].Center += new Vector2(0, 100).RotatedBy(MathHelper.ToRadians(360));
+				Main.npc[shield4].Center += new Vector2(0, 150).RotatedBy(MathHelper.ToRadians(360));
 				Main.npc[shield4].ai[1] = npc.whoAmI;
 			}
-			if ((double)Vector2.Distance(npc.Center, player.Center) < (double)100f)
+			if ((double)Vector2.Distance(npc.Center, player.Center) < (double)150f)
 			{
 				Filters.Scene.Activate("CystalTower", Main.player[Main.myPlayer].position);
 				Filters.Scene.Activate("CystalBloodMoon", Main.player[Main.myPlayer].position);
@@ -80,7 +80,7 @@ namespace SpiritMod.NPCs.Cystal
 			for (int i = 0; i < 200; i++)
 			{
 				NPC npc2 = Main.npc[i];
-				if ((double)Vector2.Distance(npc.Center, npc2.Center) < (double)100f && healTimer % 60 == 0 && npc2.type != mod.NPCType("Cystal") && npc2.type != mod.NPCType("Cystal_Shield"))
+				if ((double)Vector2.Distance(npc.Center, npc2.Center) < (double)150f && healTimer % 60 == 0 && npc2.type != mod.NPCType("Cystal") && npc2.type != mod.NPCType("Cystal_Shield"))
 				{
 					if (npc2.life < npc2.lifeMax - 10)
 					{
@@ -95,7 +95,7 @@ namespace SpiritMod.NPCs.Cystal
 				}
 			}
 
-			if ((double)Vector2.Distance(player.Center, npc.Center) <= (double)100f && player.active)
+			if ((double)Vector2.Distance(player.Center, npc.Center) <= (double)150f && player.active)
 			{
 				Vector2 vector2 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 				float num2 = player.position.X + (float)(player.width / 2) - vector2.X;
@@ -106,12 +106,12 @@ namespace SpiritMod.NPCs.Cystal
 				npc.spriteDirection = -1;
 				npc.direction = -1;
 			}
-			if ((double)Vector2.Distance(player.Center, npc.Center) <= (double)100f && (double)Vector2.Distance(player.Center, npc.Center) > (double)100f)
+			if ((double)Vector2.Distance(player.Center, npc.Center) <= (double)150f && (double)Vector2.Distance(player.Center, npc.Center) > (double)100f)
 			{
 				npc.velocity = Vector2.Zero;
 			}
 
-			if ((double)Vector2.Distance(player.Center, npc.Center) > (double)100f && player.active)
+			if ((double)Vector2.Distance(player.Center, npc.Center) > (double)150f && player.active)
 			{
 				float num1 = 4f;
 				float number2 = 0.25f;

@@ -33,10 +33,23 @@ namespace SpiritMod.Items.Weapon.Summon
             item.shoot = ModContent.ProjectileType<Crawlerock>();
 			item.UseSound = SoundID.Item44;
 		}
+		public override bool AltFunctionUse(Player player)
+		{
+			return true;
+		}
+		
+		public override bool UseItem(Player player)
+		{
+			if (player.altFunctionUse == 2) {
+				player.MinionNPCTargetAim();
+			}
+			return base.UseItem(player);
+		}
 		
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) {
 			player.AddBuff(item.buffType, 2);
 			position = Main.MouseWorld;
+			return player.altFunctionUse != 2;
 			return true;
 		}
 	}
