@@ -26,6 +26,7 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
 			DisplayName.SetDefault("Snow Monger");
         	NPCID.Sets.TrailCacheLength[npc.type] = 5;
 			NPCID.Sets.TrailingMode[npc.type] = 0;
+			Main.npcFrameCount[npc.type] = 5;
 		}
 
 		public override void SetDefaults()
@@ -42,7 +43,13 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath5;
 		}
-
+	    public override void FindFrame(int frameHeight)
+		{
+			npc.frameCounter += .15f;
+			npc.frameCounter %= Main.npcFrameCount[npc.type];
+			int frame = (int)npc.frameCounter;
+			npc.frame.Y = frame * frameHeight;
+		}
 		private int Counter;
         bool trailBehind;
         bool canHitPlayer;
@@ -292,32 +299,6 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
             return false;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
-        {
-            var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            spriteBatch.Draw(
-                mod.GetTexture("NPCs/Boss/FrostTroll/FrostSaucerGlass"),
-                npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY),
-                npc.frame,
-                new Color(100, 100, 100, 100),
-                npc.rotation,
-                npc.frame.Size() / 2,
-                npc.scale,
-                effects,
-                0
-            );
-            spriteBatch.Draw(
-                mod.GetTexture("NPCs/Boss/FrostTroll/FrostSaucerPenguin"),
-                npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY),
-                npc.frame,
-                new Color(100, 100, 100),
-                npc.rotation,
-                npc.frame.Size() / 2,
-                npc.scale,
-                effects,
-                0
-            );
-        }		
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			return Main.invasionType == 2 && !NPC.AnyNPCs(ModContent.NPCType<FrostSaucer>()) && spawnInfo.player.ZoneOverworldHeight ? 0.018f : 0f;

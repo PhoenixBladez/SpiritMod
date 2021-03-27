@@ -34,7 +34,7 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Asteroid Chest");
-			AddMapEntry(new Color(125, 116, 115), name, MapChestName);
+			AddMapEntry(new Color(125, 116, 115), name);
 			dustType = 0;
 			adjTiles = new int[] { TileID.Containers };
 			TileID.Sets.BasicChest[Type] = true;
