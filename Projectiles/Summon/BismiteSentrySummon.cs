@@ -82,25 +82,28 @@ namespace SpiritMod.Projectiles.Summon
 				direction.Normalize();
 				direction.X *= shootVelocity;
 				direction.Y *= shootVelocity;
-                for (int i = 0; i < 10; i++)
-                {
-                    int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 167, 0f, -2f, 0, default(Color), 1.5f);
-                    Main.dust[num].noGravity = true;
-                    Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-                    Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-                    if (Main.dust[num].position != projectile.Center)
-                    {
-                        Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 2f;
-                    }
-                }
-                if (Main.netMode != NetmodeID.MultiplayerClient && projectile.alpha <= 100) {
+ 				if (projectile.alpha <= 100)
+				{
+					for (int i = 0; i < 10; i++)
+					{
+						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 167, 0f, -2f, 0, default(Color), 1.5f);
+						Main.dust[num].noGravity = true;
+						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+						if (Main.dust[num].position != projectile.Center)
+						{
+							Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 2f;
+						}
+					}
+					if (Main.netMode != NetmodeID.MultiplayerClient) {
 
-					int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 13, direction.X, direction.Y, mod.ProjectileType("BismiteShot"), projectile.damage, 0, Main.myPlayer);
-					Main.projectile[proj2].ranged = false;
-					Main.projectile[proj2].minion = true;
+						int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 13, direction.X, direction.Y, mod.ProjectileType("BismiteShot"), projectile.damage, 0, Main.myPlayer);
+						Main.projectile[proj2].ranged = false;
+						Main.projectile[proj2].minion = true;
+					}
+					
+					Main.PlaySound(SoundID.DD2_CrystalCartImpact, projectile.Center);  //make bow shooty sound
 				}
-				
-				Main.PlaySound(SoundID.DD2_CrystalCartImpact, projectile.Center);  //make bow shooty sound
 			}
 		}
 		public void specialAttack()

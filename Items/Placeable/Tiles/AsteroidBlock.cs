@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Placeable.Tiles
 	{
 		public override void SetStaticDefaults()
 		{
-			Tooltip.SetDefault("'Ore-rich space debris'");
+			Tooltip.SetDefault("'Ore-rich space debris'\nCan be used with an extractinator");
             ItemID.Sets.ExtractinatorMode[item.type] = item.type;
         }
 

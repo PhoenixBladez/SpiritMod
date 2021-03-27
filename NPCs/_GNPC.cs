@@ -1068,6 +1068,13 @@ namespace SpiritMod.NPCs
 			}
 			#endregion
 			*/
+			if (npc.type == NPCID.GoblinArcher)
+			{
+				if (Main.rand.Next(Main.expertMode ? 95 : 100) == 0)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Weapon.Summon.BowSummonItem.BowSummonItem>());
+				}
+			}
 			if (npc.type == 224 && Main.rand.Next(100)==0)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Flying_Fish_Fin"));

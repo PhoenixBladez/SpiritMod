@@ -36,7 +36,6 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
 			npc.lifeMax = 5600;
 			npc.knockBackResist = 0;
 
-			npc.boss = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 

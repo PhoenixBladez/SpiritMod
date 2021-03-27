@@ -36,6 +36,8 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			npc.defense = 13;
 			npc.lifeMax = 13000;
 			npc.knockBackResist = 0;
+			npc.buffImmune[BuffID.OnFire] = true;
+			npc.buffImmune[BuffID.CursedInferno] = true;
 			Main.npcFrameCount[npc.type] = 8;
 			npc.boss = true;
 			npc.noGravity = true;

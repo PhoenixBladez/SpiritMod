@@ -1,5 +1,5 @@
 author = Yuyutsu and the Rat Circus
-version = 1.4.2
+version = 1.4.3
 displayName = Spirit Mod
 homepage = https://discord.gg/FUNqtZQ
 hideCode = true
