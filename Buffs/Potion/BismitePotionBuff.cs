@@ -8,7 +8,7 @@ namespace SpiritMod.Buffs.Potion
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Toxin Strike");
-			Description.SetDefault("Critical strikes may Poison hit foes\n4% increased critical strike chance");
+			Description.SetDefault("Critical strikes inflict Festering Wounds\n4% increased critical strike chance");
 			Main.pvpBuff[Type] = true;
 			Main.buffNoTimeDisplay[Type] = false;
 		}

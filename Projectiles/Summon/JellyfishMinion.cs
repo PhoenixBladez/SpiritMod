@@ -15,10 +15,11 @@ namespace SpiritMod.Projectiles.Summon
 		{
 			DisplayName.SetDefault("Little Jellyfish");
 			Main.projFrames[base.projectile.type] = 6;
+			Main.projPet[projectile.type] = true;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 1;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-            ProjectileID.Sets.MinionSacrificable[base.projectile.type] = true;
 			ProjectileID.Sets.Homing[base.projectile.type] = true;
+            ProjectileID.Sets.MinionSacrificable[base.projectile.type] = true;
 			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
 		}
 
@@ -28,19 +29,23 @@ namespace SpiritMod.Projectiles.Summon
 			projectile.width = 28;
 			projectile.height = 28;
 			projectile.friendly = true;
-			Main.projPet[projectile.type] = true;
 			projectile.minion = true;
 			projectile.minionSlots = 1;
 			projectile.penetrate = -1;
-			projectile.timeLeft = 18000;
 			projectile.tileCollide = false;
 			projectile.ignoreWater = true;
 			aiType = ProjectileID.Raven;
 		}
+		
         int colorType;
         Color colorVer;
         bool showOutline;
         bool chosenColor;
+		
+		public override bool? CanCutTiles() {
+		return false;
+		}
+		
 		public override void AI()
 		{
             showOutline = false;

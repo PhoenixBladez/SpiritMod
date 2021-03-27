@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Boss
 			dustType = 7;
 			disableSmartCursor = true;
 			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Starplate Raider Trophy");
+			name.SetDefault("Starplate Voyager Trophy");
 			AddMapEntry(new Color(120, 85, 60), name);
 		}
 

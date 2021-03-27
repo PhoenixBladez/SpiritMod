@@ -19,7 +19,7 @@ namespace SpiritMod.Projectiles.Summon
 			projectile.width = 34;
 			projectile.height = 34;
 			projectile.netImportant = true;
-			projectile.friendly = true;
+			projectile.friendly = false;
 			projectile.ignoreWater = true;
 			projectile.minionSlots = 1f;
 			projectile.timeLeft = 18000;

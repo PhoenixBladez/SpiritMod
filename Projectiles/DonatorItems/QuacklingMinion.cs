@@ -14,8 +14,9 @@ namespace SpiritMod.Projectiles.DonatorItems
 		{
 			DisplayName.SetDefault("Quackling Minion");
 			Main.projFrames[base.projectile.type] = 4;
-			ProjectileID.Sets.MinionSacrificable[base.projectile.type] = true;
+			Main.projPet[projectile.type] = true;
 			ProjectileID.Sets.Homing[base.projectile.type] = true;
+			ProjectileID.Sets.MinionSacrificable[base.projectile.type] = true;
 			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
 		}
 
@@ -25,16 +26,14 @@ namespace SpiritMod.Projectiles.DonatorItems
 			projectile.width = 52;
 			projectile.height = 40;
 			projectile.friendly = true;
-			Main.projPet[projectile.type] = true;
 			projectile.minion = true;
 			projectile.minionSlots = 1;
 			projectile.penetrate = -1;
-			projectile.timeLeft = 18000;
 			projectile.tileCollide = false;
 			projectile.ignoreWater = true;
 			aiType = ProjectileID.Raven;
 		}
-
+		
 		public override void AI()
 		{
 			projectile.frameCounter++;
@@ -48,11 +47,9 @@ namespace SpiritMod.Projectiles.DonatorItems
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (flag64) {
 				if (player.dead)
-					modPlayer.QuacklingMinion = false;
-
+				modPlayer.QuacklingMinion = false;
 				if (modPlayer.QuacklingMinion)
-					projectile.timeLeft = 2;
-
+				projectile.timeLeft = 2;
 			}
 
 			for (int num526 = 0; num526 < 1000; num526++) {
@@ -76,7 +73,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 			bool flag19 = false;
 
 			if (projectile.ai[0] == 0f) {
-				for (int num531 = 0; num531 < 200; num531++) {
+				for (int num531 = 0; num531 < 100; num531++) {
 					if (Main.npc[num531].CanBeChasedBy(projectile, false)) {
 						float num532 = Main.npc[num531].position.X + (float)(Main.npc[num531].width / 2);
 						float num533 = Main.npc[num531].position.Y - 250 + (float)(Main.npc[num531].height / 2);

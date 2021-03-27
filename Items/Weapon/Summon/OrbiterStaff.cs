@@ -4,6 +4,7 @@ using SpiritMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace SpiritMod.Items.Weapon.Summon
 {
 	public class OrbiterStaff : ModItem
@@ -29,24 +30,14 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.summon = true;
 			item.noMelee = true;
 			item.shoot = ModContent.ProjectileType<Minior>();
+            item.buffType = ModContent.BuffType<MiniorBuff>();
 			item.UseSound = SoundID.Item44;
 		}
-		public override bool AltFunctionUse(Player player)
-		{
+		
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) {
+			player.AddBuff(item.buffType, 2);
+			position = Main.MouseWorld;
 			return true;
-		}
-
-		public override bool UseItem(Player player)
-		{
-			if (player.altFunctionUse == 2) {
-				player.MinionNPCTargetAim();
-			}
-			return base.UseItem(player);
-		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			player.AddBuff(ModContent.BuffType<MiniorBuff>(), 3600);
-			return player.altFunctionUse != 2;
 		}
 	}
 }

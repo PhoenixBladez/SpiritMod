@@ -15,6 +15,7 @@ namespace SpiritMod.Items.Weapon.Summon
 			Tooltip.SetDefault("Summons a tiny jellyfish to fight for you!");
             SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Summon/JellyfishStaff_Glow");
         }
+		
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
             Lighting.AddLight(item.position, .224f, .133f, .255f);
@@ -22,6 +23,7 @@ namespace SpiritMod.Items.Weapon.Summon
             texture = Main.itemTexture[item.type];
             spriteBatch.Draw
             (
+			
                 mod.GetTexture("Items/Weapon/Summon/JellyfishStaff_Glow"),
                 new Vector2
                 (
@@ -36,7 +38,7 @@ namespace SpiritMod.Items.Weapon.Summon
                 SpriteEffects.None,
                 0f
             );
-        }////
+        }
 
         public override void SetDefaults()
 		{
@@ -56,6 +58,7 @@ namespace SpiritMod.Items.Weapon.Summon
             item.buffType = ModContent.BuffType<JellyfishMinionBuff>();
             item.UseSound = SoundID.Item44;
         }
+		
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -66,11 +69,12 @@ namespace SpiritMod.Items.Weapon.Summon
             recipe.SetResult(this, 1);
             recipe.AddRecipe();
         }
-        public override bool AltFunctionUse(Player player)
+		
+		public override bool AltFunctionUse(Player player)
 		{
 			return true;
 		}
-
+		
 		public override bool UseItem(Player player)
 		{
 			if (player.altFunctionUse == 2) {
@@ -78,11 +82,14 @@ namespace SpiritMod.Items.Weapon.Summon
 			}
 			return base.UseItem(player);
 		}
+		
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			player.AddBuff(ModContent.BuffType<JellyfishMinionBuff>(), 3600);
+			player.AddBuff(item.buffType, 2);
+			position = Main.MouseWorld;
 			return player.altFunctionUse != 2;
+			
+			return true;
 		}
-
 	}
 }

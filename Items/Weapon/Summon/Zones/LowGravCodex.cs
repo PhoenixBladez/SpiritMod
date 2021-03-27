@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Weapon.Summon.Zones
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Arcane Codex: Low Gravity Zone");
-			Tooltip.SetDefault("Summons a low gravity zone at the cursor position\nLow gravity zones decrease player gravity and increase aerial acceleration\nLow gravity zones have a wide area\nZones count as sentries");
+			Tooltip.SetDefault("Summons a low gravity zone at the cursor position\nLow gravity zones decrease player gravity and increase aerial acceleration\nZones count as sentries");
             SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Summon/Zones/LowGravCodex_Glow");
         }
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

@@ -59,6 +59,7 @@ namespace SpiritMod
         public bool TormentLantern = false;
         public bool clockActive = false;
         public bool QuacklingMinion = false;
+        public bool rabbitMinion = false;
         public bool bismiteShield = false;
         public bool zipline = false;
         public bool ziplineActive = false;
@@ -611,6 +612,7 @@ namespace SpiritMod
             phantomPet = false;
             throwerGlove = false;
             QuacklingMinion = false;
+			rabbitMinion = false;
             VampireCloak = false;
             SpiritCloak = false;
             HealCloak = false;
@@ -4149,9 +4151,7 @@ namespace SpiritMod
 			}
 
 			if(poisonPotion && crit) {
-				if(Main.rand.NextBool(2)) {
-					target.AddBuff(BuffID.Poisoned, 150);
-				}
+				target.AddBuff(ModContent.BuffType<FesteringWounds>(), 180);
 			}
 
 			if(runeBuff && item.magic) {
@@ -4216,8 +4216,8 @@ namespace SpiritMod
 				target.AddBuff(BuffID.ShadowFlame, 180);
 			}
 
-			if(poisonPotion && crit && Main.rand.NextBool(10)) {
-				target.AddBuff(BuffID.Poisoned, 180);
+			if(poisonPotion && crit) {
+				target.AddBuff(ModContent.BuffType<FesteringWounds>(), 180);
 			}
 
 			if(moonGauntlet && proj.melee) {

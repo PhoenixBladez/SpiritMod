@@ -10,34 +10,37 @@ namespace SpiritMod.Projectiles.Summon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Crawlerock");
+			Main.projPet[projectile.type] = true;
 			Main.projFrames[base.projectile.type] = 4;
-			ProjectileID.Sets.MinionSacrificable[base.projectile.type] = true;
 			ProjectileID.Sets.Homing[base.projectile.type] = true;
+			ProjectileID.Sets.MinionSacrificable[base.projectile.type] = true;
 			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.OneEyedPirate);
+			aiType = ProjectileID.BabySlime;
+			projectile.CloneDefaults(ProjectileID.BabySlime);
 			projectile.width = 32;
 			projectile.height = 32;
-			aiType = ProjectileID.OneEyedPirate;
 			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = true;
 			projectile.netImportant = true;
-			aiType = ProjectileID.BabySlime;
 			projectile.penetrate = -1;
-			projectile.timeLeft = 18000;
 			projectile.minionSlots = 1;
+			projectile.alpha = 0;
+		}
+		
+		public override bool? CanCutTiles() {
+			return false;
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			if (projectile.penetrate == 0)
 				projectile.Kill();
-
 			return false;
 		}
 
@@ -48,12 +51,11 @@ namespace SpiritMod.Projectiles.Summon
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (flag64) {
 				if (player.dead)
-					modPlayer.crawlerockMinion = false;
-
+				modPlayer.crawlerockMinion = false;
 				if (modPlayer.crawlerockMinion)
-					projectile.timeLeft = 2;
-
+				projectile.timeLeft = 2;
 			}
+			
 			projectile.spriteDirection = -projectile.direction;
 			projectile.frameCounter++;
 			if (projectile.frameCounter > 6) {
@@ -62,6 +64,20 @@ namespace SpiritMod.Projectiles.Summon
 			}
 			if (projectile.frame > 3) {
 				projectile.frame = 0;
+			}
+			
+			float distanceFromTarget = 700f;
+			Vector2 targetCenter = projectile.position;
+			bool foundTarget = false;
+			
+			if (player.HasMinionAttackTargetNPC) {
+				NPC npc = Main.npc[player.MinionAttackTargetNPC];
+				float between = Vector2.Distance(npc.Center, projectile.Center);
+				if (between < 2000f) {
+					distanceFromTarget = between;
+					targetCenter = npc.Center;
+					foundTarget = true;
+				}
 			}
 		}
 

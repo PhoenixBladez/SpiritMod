@@ -19,6 +19,7 @@ namespace SpiritMod.Buffs.Summon
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (player.ownedProjectileCounts[ModContent.ProjectileType<JellyfishMinion>()] > 0) {
 				modPlayer.jellyfishMinion = true;
+				player.buffTime[buffIndex] = 18000;
 			}
 
 			if (!modPlayer.jellyfishMinion) {
@@ -26,8 +27,6 @@ namespace SpiritMod.Buffs.Summon
 				buffIndex--;
 				return;
 			}
-
-			player.buffTime[buffIndex] = 18000;
 		}
 	}
 }

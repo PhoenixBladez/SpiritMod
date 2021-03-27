@@ -14,24 +14,24 @@ namespace SpiritMod.Projectiles.Summon
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 			Main.projFrames[projectile.type] = 1;
+			Main.projPet[projectile.type] = true;
+			ProjectileID.Sets.Homing[base.projectile.type] = true;
+            ProjectileID.Sets.MinionSacrificable[base.projectile.type] = true;
 			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
 		}
 
 		public override void SetDefaults()
 		{
 			projectile.CloneDefaults(ProjectileID.Spazmamini);
-			projectile.width = 30;
-			projectile.height = 30;
+			aiType = ProjectileID.Spazmamini;
+			projectile.width = 20;
+			projectile.height = 20;
 			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
-			projectile.tileCollide = false;
-			projectile.scale = .9f;
+			projectile.tileCollide = true;
 			projectile.netImportant = true;
-			aiType = ProjectileID.Spazmamini;
-			projectile.alpha = 0;
-			projectile.penetrate = -10;
-			projectile.timeLeft = 18000;
+			projectile.penetrate = -1;
 			projectile.minionSlots = 1;
 		}
 
@@ -42,19 +42,35 @@ namespace SpiritMod.Projectiles.Summon
 
 			return false;
 		}
+		
+		public override bool? CanCutTiles() {
+		return false;
+		}
 
 		public override void AI()
 		{
-			Player player = Main.player[projectile.owner];
 			bool flag64 = projectile.type == ModContent.ProjectileType<Minior>();
+			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (flag64) {
 				if (player.dead)
-					modPlayer.minior = false;
-
+				modPlayer.minior = false;
 				if (modPlayer.minior)
-					projectile.timeLeft = 2;
-
+				projectile.timeLeft = 2;
+			}
+			
+			float distanceFromTarget = 700f;
+			Vector2 targetCenter = projectile.position;
+			bool foundTarget = false;
+			
+			if (player.HasMinionAttackTargetNPC) {
+				NPC npc = Main.npc[player.MinionAttackTargetNPC];
+				float between = Vector2.Distance(npc.Center, projectile.Center);
+				if (between < 2000f) {
+					distanceFromTarget = between;
+					targetCenter = npc.Center;
+					foundTarget = true;
+				}
 			}
 		}
 
@@ -75,6 +91,5 @@ namespace SpiritMod.Projectiles.Summon
 			}
 			return false;
 		}
-
 	}
 }

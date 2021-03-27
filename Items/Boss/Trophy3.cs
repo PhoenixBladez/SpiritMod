@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Boss
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Starplate Raider Trophy");
+			DisplayName.SetDefault("Starplate Voyager Trophy");
 		}
 
 		public override void SetDefaults()

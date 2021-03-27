@@ -19,15 +19,13 @@ namespace SpiritMod.Buffs.Summon
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (player.ownedProjectileCounts[ModContent.ProjectileType<QuacklingMinion>()] > 0) {
 				modPlayer.QuacklingMinion = true;
+				player.buffTime[buffIndex] = 18000;
 			}
 
-			if (!modPlayer.QuacklingMinion) {
+			else if (!modPlayer.QuacklingMinion) {
 				player.DelBuff(buffIndex);
 				buffIndex--;
-				return;
 			}
-
-			player.buffTime[buffIndex] = 18000;
 		}
 	}
 }
