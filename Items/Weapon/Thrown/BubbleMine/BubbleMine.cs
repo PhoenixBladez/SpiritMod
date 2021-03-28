@@ -53,6 +53,8 @@ namespace SpiritMod.Items.Weapon.Thrown.BubbleMine
 			aiType = ProjectileID.StickyGrenade;
 			projectile.friendly = true;
 			projectile.hostile = false;
+			projectile.ranged = true;
+			projectile.thrown = false;
 			projectile.timeLeft = 600;
 			projectile.width = 20;
 			projectile.height = 30;
