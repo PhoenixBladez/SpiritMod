@@ -42,7 +42,7 @@ namespace SpiritMod.Items.Equipment
 				Sandstorm.IntendedSeverity = 1;
 			}
 
-			if (Main.netMode == NetmodeID.Server)
+			if (Main.netMode != NetmodeID.SinglePlayer)
 				NetMessage.SendData(MessageID.WorldData);
 
 			return true;
