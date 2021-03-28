@@ -324,7 +324,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 					{
 						gemType = 64;
 					}
-					ConvertStone(i, j, 22, gemType, 0.25f);
+					ConvertStone(i, j, 22, gemType, 0.1f);
 
 					for (int val = 0; val < 22; val++) {
 						int num = Dust.NewDust(new Vector2(i * 16, j * 16), 80, 80, 226, 0f, -2f, 0, default(Color), 2f);
@@ -402,7 +402,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 					{
 						oreType = TileID.Platinum;
 					}
-					ConvertStone(i, j, 22, oreType, 0.5f);	
+					ConvertStone(i, j, 22, oreType, 0.25f);	
 					break;
 				}
 				case 12:
