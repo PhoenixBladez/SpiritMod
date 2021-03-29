@@ -25,6 +25,7 @@ namespace SpiritMod.Items.Weapon.Summon.OldCross
 			projectile.aiStyle = -1;
 			projectile.penetrate = -1;
 			projectile.tileCollide = true;
+			projectile.hide = true;
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity) => false;
@@ -133,7 +134,7 @@ namespace SpiritMod.Items.Weapon.Summon.OldCross
 			return base.TileCollideStyle(ref width, ref height, ref fallThrough);
 		}
 
-		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI) => drawCacheProjsBehindNPCs.Add(projectile.type);
+		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI) => drawCacheProjsBehindNPCs.Add(index);
 
 		public override void Kill(int timeLeft) => MakeDust();
 
@@ -154,7 +155,7 @@ namespace SpiritMod.Items.Weapon.Summon.OldCross
 			spriteBatch.Draw(tex,
 					projectile.Center - Main.screenPosition + (Vector2.UnitX * projectile.spriteDirection * 10),
 					drawframe,
-					projectile.GetAlpha(lightColor),
+					projectile.GetAlpha(Lighting.GetColor((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16)),
 					projectile.rotation,
 					drawframe.Size() / 2,
 					projectile.scale,
