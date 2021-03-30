@@ -77,9 +77,6 @@ namespace SpiritMod.NPCs
 		public int summonTag;
         public bool sacrificialDaggerBuff;
 
-
-        public bool amberFracture;
-
 		public bool felBrand = false;
 		public bool spectre = false;
 		public bool soulBurn = false;
@@ -97,9 +94,6 @@ namespace SpiritMod.NPCs
 		public bool holyBurn = false;
 
 		public bool DoomDestiny = false;
-
-		public bool DoomDestiny1 = false;
-
 
 		public bool sFracture = false;
 		public bool Etrap = false;
@@ -278,16 +272,6 @@ namespace SpiritMod.NPCs
 				npc.lifeRegen -= 16;
 				damage = Math.Max(damage, fireStacks * 20);
 			}
-			if (amberFracture) {
-				if (npc.FindBuffIndex(ModContent.BuffType<AmberFracture>()) < 0) {
-					fireStacks = 0;
-					return;
-				}
-
-				drain = true;
-				npc.lifeRegen -= 16;
-				damage = Math.Max(damage, 25);
-			}
 			#endregion
 
 			if (voidStacks > 0) {
@@ -319,11 +303,6 @@ namespace SpiritMod.NPCs
 				drain = true;
 				npc.lifeRegen -= 9;
 				damage = 3;
-			}
-			if (DoomDestiny1) {
-				drain = true;
-				npc.lifeRegen -= 30;
-				damage = 10;
 			}
 			if (soulBurn) {
 				drain = true;
@@ -1278,9 +1257,6 @@ namespace SpiritMod.NPCs
 						item = ModContent.ItemType<CultistScarf>();
 						break;
 					case 2:
-						item = ModContent.ItemType<CosmicHourglass>();
-						break;
-					case 3:
 						item = ModContent.ItemType<Tesseract>();
 						break;
 				}

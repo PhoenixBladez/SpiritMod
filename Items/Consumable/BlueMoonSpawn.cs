@@ -56,7 +56,8 @@ namespace SpiritMod.Items.Consumable
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<Geode>(), 8);
+			recipe.AddIngredient(ItemID.CrystalShard, 6);
+			recipe.AddIngredient(ModContent.ItemType<Items.Placeable.Tiles.AsteroidBlock>(), 30);
 			recipe.AddIngredient(ItemID.SoulofLight, 10);
 			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 4);
 			recipe.AddTile(TileID.MythrilAnvil);

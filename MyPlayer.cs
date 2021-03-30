@@ -120,7 +120,6 @@ namespace SpiritMod
         public bool cultistScarf = false;
         public bool fateToken = false;
         public bool geodeRanged = false;
-        public bool atmos = false;
         public bool fireMaw = false;
         public bool deathRose = false;
         public bool anglure = false;
@@ -144,7 +143,6 @@ namespace SpiritMod
         public bool CreeperSummon = false;
         public bool leatherGlove = false;
         public bool forbiddenTome = false;
-        public bool moonHeart = false;
         public bool teslaCoil = false;
         public bool Phantom = false;
         public bool gremlinTooth = false;
@@ -188,7 +186,6 @@ namespace SpiritMod
         public bool terror4Summon = false;
         public bool minior = false;
 
-        public bool cthulhuMinion = false;
         public double pressedSpecial;
         float distYT = 0f;
         float distXT = 0f;
@@ -229,10 +226,8 @@ namespace SpiritMod
         public bool bowSummon = false;
         public bool snapsporeMinion = false;
         public bool butterflyMinion = false;
-        public bool beetleMinion = false;
         public bool steamMinion = false;
         public bool aeonMinion = false;
-        public bool lihzahrdMinion = false;
         public bool SnakeMinion = false;
         public bool Ghast = false;
         public bool jellyfishMinion = false;
@@ -341,7 +336,6 @@ namespace SpiritMod
         public bool fierySet;
         public bool starSet;
         public bool magalaSet;
-        public bool veinstoneSet;
         public bool clatterboneSet;
         public bool ichorSet1;
         public bool ichorSet2;
@@ -410,7 +404,6 @@ namespace SpiritMod
         public bool drakomireMount;
         public int drakomireFlameTimer;
         public bool drakinMount;
-        public bool toxify;
         public bool acidImbue;
         public bool spiritBuff;
         public bool starBuff;
@@ -638,7 +631,6 @@ namespace SpiritMod
             seraphimBulwark = false;
 
             jellynautHelm = false;
-            moonHeart = false;
             chitinSet = false;
             ChitinDashTicks = Math.Max(ChitinDashTicks - 1, 0);
             starplateGlitchEffect = false;
@@ -649,7 +641,6 @@ namespace SpiritMod
             gremlinTooth = false;
             leatherHood = false;
             floranSet = false;
-            atmos = false;
             SoulStone = false;
             AceOfSpades = false;
             AceOfHearts = false;
@@ -702,7 +693,6 @@ namespace SpiritMod
             sepulchreCharm = false;
             clatterboneShield = false;
             KingRock = false;
-            cthulhuMinion = false;
             leatherGlove = false;
             flametrail = false;
             icytrail = false;
@@ -713,9 +703,7 @@ namespace SpiritMod
             pigronMinion = false;
             skeletalonMinion = false;
             cragboundMinion = false;
-            beetleMinion = false;
             shamanBand = false;
-            lihzahrdMinion = false;
             aeonMinion = false;
             gasopodMinion = false;
             Flayer = false;
@@ -743,7 +731,6 @@ namespace SpiritMod
             minior = false;
             drakomireMount = false;
             basiliskMount = false;
-            toxify = false;
             gremlinBuff = false;
             spiritBuff = false;
             drakinMount = false;
@@ -791,7 +778,6 @@ namespace SpiritMod
             marbleSet = false;
             magalaSet = false;
             infernalSet = false;
-            veinstoneSet = false;
             clatterboneSet = false;
             talonSet = false;
 
@@ -1726,17 +1712,6 @@ namespace SpiritMod
 				}
 			}
 
-			if(moonHeart) {
-				int n = 5;
-				for(int i = 0; i < n; i++) {
-					Vector2 vel = new Vector2(0, -1);
-					float rand = Main.rand.NextFloat() * MathHelper.TwoPi;
-					vel = vel.RotatedBy(rand);
-					vel *= 5f;
-					Projectile.NewProjectile(Main.player[Main.myPlayer].Center, vel, ModContent.ProjectileType<AlienSpit>(), 65, 0, Main.myPlayer);
-				}
-			}
-
 			if(cryoSet) {
 				Main.PlaySound(SoundID.Item, player.position, 50);
 			}
@@ -1762,39 +1737,7 @@ namespace SpiritMod
 				}
 
 			}
-
-			// IRIAZUL
-			if(veinstoneSet && Main.rand.NextBool(8)) {
-				int amount = Main.rand.Next(2, 5);
-				for(int i = 0; i < amount; ++i) {
-					Vector2 position = new Vector2(player.position.X + player.width * 0.5f + Main.rand.Next(-200, 201), player.Center.Y - 600f);
-					position.X = (position.X * 10f + player.position.X) / 11f + Main.rand.Next(-100, 101);
-					position.Y -= 150;
-
-					float speedX = player.position.X + player.width * 0.5f + Main.rand.Next(-200, 201) - position.X;
-					float speedY = player.Center.Y - position.Y;
-					if(speedY < 0f) {
-						speedY *= -1f;
-					}
-
-					if(speedY < 20f) {
-						speedY = 20f;
-					}
-
-					float length = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
-					length = 12 / length;
-
-					speedX *= length;
-					speedY *= length;
-					speedX += Main.rand.Next(-40, 41) * 0.03f;
-					speedY += Main.rand.Next(-40, 41) * 0.03f;
-					speedX *= Main.rand.Next(75, 150) * 0.01f;
-
-					position.X += Main.rand.Next(-50, 51);
-					Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<VeinstoneBlood>(), 40, 1, player.whoAmI);
-				}
-			}
-
+			
 			if(infernalSet && Main.rand.NextBool(10)) {
 				Projectile.NewProjectile(player.position, new Vector2(0, -2), ModContent.ProjectileType<InfernalBlast>(), 50, 7, Main.myPlayer);
 			}
@@ -1828,10 +1771,6 @@ namespace SpiritMod
 					position.X += Main.rand.Next(-50, 51);
 					Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<Starshock1>(), 35, 1, player.whoAmI);
 				}
-			}
-
-			if(gremlinTooth && Main.rand.NextBool(3)) {
-				player.AddBuff(ModContent.BuffType<ToothBuff>(), 300);
 			}
 
 			if(starMap && Main.rand.NextBool(2)) {
@@ -3442,12 +3381,6 @@ namespace SpiritMod
 					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<CryoProj>(), 0, 0, player.whoAmI);
 				}
 			}
-			if(atmos) {
-				if(player.ownedProjectileCounts[ModContent.ProjectileType<AtmosProj>()] <= 1) {
-					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<AtmosProj>(), 0, 0, player.whoAmI);
-				}
-			}
-
 			if(animusLens) {
 				if(player.ownedProjectileCounts[ModContent.ProjectileType<ShadowGuard>()] <= 0) {
 					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<ShadowGuard>(), 20, 0, player.whoAmI);
@@ -3921,26 +3854,7 @@ namespace SpiritMod
 			}
 		}
 
-		public override void PostUpdateRunSpeeds()
-		{
-			if(copterBrake && player.mount.Active && player.mount.Type == ModContent.MountType<CandyCopter>()) {
-				// Prevent horizontal movement
-				player.maxRunSpeed = 0f;
-				player.runAcceleration = 0f;
-
-				// Deplete horizontal velocity
-				if(player.velocity.X > CandyCopter.groundSlowdown) {
-					player.velocity.X -= CandyCopter.groundSlowdown;
-				} else if(player.velocity.X < -CandyCopter.groundSlowdown) {
-					player.velocity.X += CandyCopter.groundSlowdown;
-				} else {
-					player.velocity.X = 0f;
-				}
-
-				// Prevent further depletion by game engine
-				player.runSlowdown = 0f;
-			}
-
+		public override void PostUpdateRunSpeeds() {
 			// Adjust speed here to also affect mounted speed.
 			float speed = 1f;
 			float sprint = 1f;
@@ -3965,6 +3879,7 @@ namespace SpiritMod
 
 			DashMovement(FindDashes());
 		}
+		
 		public override void PostUpdate()
 		{
 			if (seaSnailVenom)
@@ -4166,12 +4081,6 @@ namespace SpiritMod
 				}
 			}
 
-			if(moonHeart && Main.rand.NextBool(12)) {
-				if(item.melee || item.ranged || item.magic) {
-					player.AddBuff(ModContent.BuffType<CelestialWill>(), 300);
-				}
-			}
-
 			if(concentrated) {
 				for(int i = 0; i < 40; i++) {
 					int dust = Dust.NewDust(target.Center, target.width, target.height, DustID.GoldCoin);
@@ -4254,9 +4163,6 @@ namespace SpiritMod
 						Projectile.NewProjectile(target.Center.X + Main.rand.Next(-140, 140), target.Center.Y - 1000 + Main.rand.Next(-50, 50), 0, Main.rand.Next(18, 28), ProjectileID.HallowStar, 40, 3, player.whoAmI);
 					}
 				}
-			}
-			if(moonHeart && Main.rand.NextBool(15)) {
-				player.AddBuff(ModContent.BuffType<CelestialWill>(), 300);
 			}
 
 			if(primalSet && Main.rand.NextBool(2)) {
@@ -4717,15 +4623,7 @@ namespace SpiritMod
 			// Hide players wings, etc. when mounted
 			if(player.mount.Active) {
 				int mount = player.mount.Type;
-				if(mount == ModContent.MountType<CandyCopter>()) {
-					// Supposed to make players legs disappear, but only makes them skin-colored.
-					player.legs = -1;
-					player.wings = -1;
-					player.back = -1;
-					player.shield = -1;
-					// player.handoff = -1;
-					// player.handon = -1;
-				} else if(mount == ModContent.MountType<Drakomire>()) {
+				if(mount == ModContent.MountType<Drakomire>()) {
 					player.wings = -1;
 				}
 			}
@@ -4741,21 +4639,6 @@ namespace SpiritMod
 				if(dazzleStacks >= 1800) {
 					a = 255 - .0001180555f * 1800;
 				}
-			}
-
-			if(toxify) {
-				if(Main.rand.Next(2) == 0) {
-					int dust = Dust.NewDust(player.position, player.width + 4, 30, 110, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 1f);
-					Main.dust[dust].noGravity = true;
-					Main.dust[dust].velocity *= 1.8f;
-					Main.dust[dust].velocity.Y -= 0.5f;
-					Main.playerDrawDust.Add(dust);
-				}
-
-				r *= 0f;
-				g *= 1f;
-				b *= 0f;
-				fullBright = true;
 			}
 
 			if(BlueDust) {

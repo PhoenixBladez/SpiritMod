@@ -26,7 +26,8 @@ namespace SpiritMod.Items.Armor.GeodeArmor
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<Geode>(), 6);
+			recipe.AddIngredient(ItemID.CrystalShard, 2);
+			recipe.AddIngredient(ModContent.ItemType<Items.Placeable.Tiles.AsteroidBlock>(), 20);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

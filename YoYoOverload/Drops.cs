@@ -38,9 +38,7 @@ namespace SpiritMod.YoyoOverload
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PBoot>(), 1, false, 0, false, false);
 			}*/
-			if (npc.type == NPCID.SkeletronPrime && Main.rand.Next(4) == 0) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SkellyV>(), 1, false, 0, false, false);
-			}
+			
 			/*if (npc.type == NPCID.GoblinSorcerer && Main.rand.Next(30) == 0)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CBall>(), 1, false, 0, false, false);

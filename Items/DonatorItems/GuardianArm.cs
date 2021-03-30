@@ -30,9 +30,9 @@ namespace SpiritMod.Items.DonatorItems
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<Geode>(), 4);
-			recipe.AddIngredient(ItemID.SoulofLight, 5);
-			recipe.AddIngredient(ItemID.CrystalShard, 10);
+			recipe.AddIngredient(ItemID.CrystalShard, 8);
+			recipe.AddIngredient(ModContent.ItemType<MoonStone>(), 6);
+			recipe.AddIngredient(ItemID.SoulofLight, 12);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

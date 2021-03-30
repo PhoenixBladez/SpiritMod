@@ -24,7 +24,6 @@ namespace SpiritMod.Projectiles
 		public bool WitherLeaf = false;
 		public bool shotFromStellarCrosbow = false;
 		public bool shotFromBloodshot = false;
-		public bool shotFromCookieCutter = false;
 		public bool shotFromBismiteBow = false;
 		public bool shotFromThornBow = false;
 		public bool shotFromNightSky = false;
@@ -293,8 +292,6 @@ namespace SpiritMod.Projectiles
 				target.AddBuff(BuffID.CursedInferno, 120);
 			} else if(shotFromBloodshot) {
 				target.AddBuff(ModContent.BuffType<BCorrupt>(), 120);
-			} else if(shotFromCookieCutter) {
-				player.AddBuff(ModContent.BuffType<CrimsonRegen>(), 179);
 			} else if(shotFromNightSky && Main.rand.NextBool(8)) {
 				target.AddBuff(ModContent.BuffType<StarFlame>(), 179);
 			}
