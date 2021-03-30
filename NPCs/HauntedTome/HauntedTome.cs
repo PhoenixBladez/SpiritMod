@@ -185,6 +185,17 @@ namespace SpiritMod.NPCs.HauntedTome
 			if (frame > maxframe || frame < minframe)
 				frame = minframe;
 		}
+		
+		public override void HitEffect(int hitDirection, double damage)
+		{
+			if (npc.life <= 0) {
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HauntedTomeGore3"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HauntedTomeGore2"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HauntedTomeGore1"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HauntedTomeGore1"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HauntedTomeGore1"), 1f);
+			}
+		}
 
 		public override void NPCLoot()
 		{

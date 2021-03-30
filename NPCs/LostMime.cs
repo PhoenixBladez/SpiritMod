@@ -63,16 +63,10 @@ namespace SpiritMod.NPCs
 				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.87f);
 			}
 			if (npc.life <= 0) {
-				Gore.NewGore(npc.position, npc.velocity, 99);
-				Gore.NewGore(npc.position, npc.velocity, 99);
-				Gore.NewGore(npc.position, npc.velocity, 99);
-			}
-		}
-		
-		public override void HitEffect(int hitDirection, double damage)
-		{
-			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LostMimeGore"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, 99);
+				Gore.NewGore(npc.position, npc.velocity, 99);
+				Gore.NewGore(npc.position, npc.velocity, 99);
 			}
 		}
 
