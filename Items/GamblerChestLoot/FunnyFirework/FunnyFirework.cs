@@ -49,7 +49,7 @@ namespace SpiritMod.Items.GamblerChestLoot.FunnyFirework
 			projectile.friendly = false;
 			projectile.ranged = true;
 			projectile.penetrate = 1;
-			projectile.timeLeft = 50;
+			projectile.timeLeft = 90;
 		}
 		public override void AI()
 		{

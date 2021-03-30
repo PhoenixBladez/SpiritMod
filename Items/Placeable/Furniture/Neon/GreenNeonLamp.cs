@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Placeable.Furniture.Neon
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Green Fluorescent Lamp");
+			DisplayName.SetDefault("Green Fluorescent Lantern");
 		}
 
 		public override void SetDefaults()
