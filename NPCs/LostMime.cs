@@ -68,6 +68,13 @@ namespace SpiritMod.NPCs
 				Gore.NewGore(npc.position, npc.velocity, 99);
 			}
 		}
+		
+		public override void HitEffect(int hitDirection, double damage)
+		{
+			if (npc.life <= 0) {
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LostMimeGore"), 1f);
+			}
+		}
 
 		public override void NPCLoot()
 		{

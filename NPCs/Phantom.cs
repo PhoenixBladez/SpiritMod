@@ -6,7 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.NPCs.BloodMoon
+namespace SpiritMod.NPCs
 {
 
 	public class Phantom : ModNPC
@@ -132,7 +132,7 @@ namespace SpiritMod.NPCs.BloodMoon
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			if (trailbehind) {
-				GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/BloodMoon/Phantom_Glow"));
+				GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Phantom_Glow"));
 			}
 		}
 		public override void HitEffect(int hitDirection, double damage)
