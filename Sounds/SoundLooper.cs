@@ -46,7 +46,7 @@ namespace SpiritMod.Sounds
 
         public void Update()
         {
-            if (!_playing) return;
+            if (!_playing || _instance == null) return;
 
             if (_instance.State == SoundState.Stopped)
             {
@@ -85,8 +85,11 @@ namespace SpiritMod.Sounds
         }
 
         public void SetTo(float volume = 1f, float pitch = 0f, float pan = 0f)
-        {
-            if (!_playing)
+		{
+			if (_instance == null)
+				return;
+
+			if (!_playing)
             {
                 _playing = true;
 
@@ -110,6 +113,9 @@ namespace SpiritMod.Sounds
         /// </summary>
         public void Halt()
         {
+			if (_instance == null)
+				return;
+
             _instance.Stop();
             _playing = false;
         }
