@@ -83,6 +83,7 @@ namespace SpiritMod.Tide
 					Main.NewText("The Tide has waned!", 61, 255, 142);
 
 				TheTide = false;
+				TideWave = 0;
 				SendPacket(SpiritMod.instance);
 				if(Main.netMode != NetmodeID.Server) {
 					Main.musicFade[SpiritMod.instance.GetSoundSlot(SoundType.Music, "Sounds/Music/DepthInvasion")] = 0;

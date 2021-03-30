@@ -246,6 +246,7 @@ namespace SpiritMod
 				&& !player.ZoneCorrupt
 				&& !player.ZoneCrimson
 				&& !Main.bloodMoon
+				&& !player.ZoneMeteor
 				&& !Main.dayTime) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/AuroraSnow");
 				priority = MusicPriority.BiomeHigh;
@@ -261,6 +262,7 @@ namespace SpiritMod
 				&& player.ZoneSnow
 				&& player.ZoneOverworldHeight
 				&& !player.ZoneCorrupt
+				&& !player.ZoneMeteor
 				&& !player.ZoneCrimson
 				&& Main.raining) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/Blizzard");
@@ -283,6 +285,7 @@ namespace SpiritMod
 				&& !player.ZoneCrimson
 				&& !player.ZoneJungle
 				&& !player.ZoneBeach
+				&& !player.ZoneMeteor
 				&& !Main.raining
 				&& !Main.bloodMoon) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/HallowNight");
@@ -294,9 +297,8 @@ namespace SpiritMod
 				&& player.ZoneOverworldHeight
 				&& !Main.dayTime
 				&& !player.ZoneHoly
+				&& !player.ZoneMeteor
 				&& !player.ZoneCrimson
-				&& !player.ZoneJungle
-				&& !player.ZoneBeach
 				&& !Main.bloodMoon) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/CorruptNight");
 				priority = MusicPriority.BiomeHigh;
@@ -305,6 +307,7 @@ namespace SpiritMod
 			if (config.CalmNightMusic
 				&& MyWorld.calmNight
 				&& !player.ZoneSnow
+				&& !spirit.ZoneReach
 				&& player.ZoneOverworldHeight
 				&& !Main.dayTime
 				&& !player.ZoneCorrupt
@@ -312,6 +315,7 @@ namespace SpiritMod
 				&& !player.ZoneJungle
 				&& !player.ZoneBeach
 				&& !player.ZoneHoly
+				&& !player.ZoneMeteor
 				&& !player.ZoneDesert
 				&& !Main.raining
 				&& !Main.bloodMoon) {
@@ -324,6 +328,7 @@ namespace SpiritMod
 				&& player.ZoneOverworldHeight
 				&& !Main.dayTime
 				&& !player.ZoneCorrupt
+				&& !player.ZoneMeteor
 				&& !player.ZoneCrimson
 				&& !player.ZoneHoly
 				&& !MyWorld.aurora
@@ -339,7 +344,6 @@ namespace SpiritMod
 				&& !Main.dayTime
 				&& !player.ZoneCorrupt
 				&& !player.ZoneCrimson
-				&& !player.ZoneHoly
 				&& !player.ZoneBeach) {
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/DesertNighttime");
 				priority = MusicPriority.BiomeHigh;
