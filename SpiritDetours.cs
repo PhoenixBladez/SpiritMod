@@ -27,14 +27,20 @@ namespace SpiritMod
 
 		private static void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
 		{
-			SpiritMod.primitives.DrawTrailsProj(Main.spriteBatch);
-			SpiritMod.TrailManager.DrawTrails(Main.spriteBatch);
+			if (!Main.dedServ)
+			{
+				SpiritMod.primitives.DrawTrailsProj(Main.spriteBatch);
+				SpiritMod.TrailManager.DrawTrails(Main.spriteBatch);
+			}
 			orig(self);
 		}
 
 		private static void Main_DrawNPC(On.Terraria.Main.orig_DrawNPC orig, Main self, int iNPCIndex, bool behindTiles)
 		{
-			SpiritMod.primitives.DrawTrailsNPC(Main.spriteBatch);
+			if (!Main.dedServ)
+			{
+				SpiritMod.primitives.DrawTrailsNPC(Main.spriteBatch);
+			}
 			orig(self, iNPCIndex, behindTiles);
 		}
 
