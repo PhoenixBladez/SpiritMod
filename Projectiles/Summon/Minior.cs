@@ -14,7 +14,6 @@ namespace SpiritMod.Projectiles.Summon
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 			Main.projFrames[projectile.type] = 1;
-			Main.projPet[projectile.type] = true;
 			ProjectileID.Sets.Homing[base.projectile.type] = true;
             ProjectileID.Sets.MinionSacrificable[base.projectile.type] = true;
 			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
@@ -41,10 +40,6 @@ namespace SpiritMod.Projectiles.Summon
 				projectile.Kill();
 
 			return false;
-		}
-		
-		public override bool? CanCutTiles() {
-		return false;
 		}
 
 		public override void AI()

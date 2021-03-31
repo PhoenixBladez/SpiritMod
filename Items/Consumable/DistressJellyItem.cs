@@ -33,6 +33,10 @@ namespace SpiritMod.Items.Consumable
 
         public override bool CanUseItem(Player player)
         {
+            if (!MyWorld.jellySky && !Main.dayTime && (player.ZoneSkyHeight || player.ZoneOverworldHeight))
+            {
+            Main.NewText("Strange jellyfish are pouring out of the sky!", 61, 255, 142);
+            }
             return !MyWorld.jellySky && !Main.dayTime && (player.ZoneSkyHeight || player.ZoneOverworldHeight);
         }
 
@@ -40,8 +44,8 @@ namespace SpiritMod.Items.Consumable
         public override bool UseItem(Player player)
         {
             MyWorld.jellySky = true;
-            Main.NewText("Strange jellyfish are pouring out of the sky!", 61, 255, 142);
-            Main.PlaySound(SoundID.Roar, player.position, 0);
+    		if (Main.netMode != NetmodeID.SinglePlayer)
+				NetMessage.SendData(MessageID.WorldData);
             return true;
 
         }

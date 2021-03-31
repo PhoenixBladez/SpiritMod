@@ -441,6 +441,7 @@ namespace SpiritMod
 		public override void Initialize()
 		{
 			BlueMoon = false;
+			jellySky = false;
 			ashRain = false;
 			dayTimeLast = Main.dayTime;
 			dayTimeSwitched = false;
@@ -1644,7 +1645,7 @@ namespace SpiritMod
                     Main.NewText("Strange jellyfish are pouring out of the sky!", 61, 255, 142);
                     jellySky = true;
                 }
-                else
+                if (!Main.dayTime)
                 {
                     jellySky = false;
                 }

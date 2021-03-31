@@ -54,15 +54,17 @@ namespace SpiritMod.NPCs.GoblinGrenadier
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 168, Main.rand.Next(5,15));
-			if (Main.invasionType == InvasionID.GoblinArmy)
-			{
+				if (Main.invasionType == 1) {
 				Main.invasionSize -= 1;
-				if (Main.invasionSize < 0)
+				if (Main.invasionSize < 0) {
 					Main.invasionSize = 0;
-				if (Main.netMode != 1)
-					Main.ReportInvasionProgress(Main.invasionSizeStart - Main.invasionSize, Main.invasionSizeStart, InvasionID.GoblinArmy + 3, 0);
-				if (Main.netMode == 2)
-					NetMessage.SendData(78, -1, -1, null, Main.invasionProgress, Main.invasionProgressMax, Main.invasionProgressIcon, 0f, 0, 0, 0);
+				}
+				if (Main.netMode != NetmodeID.MultiplayerClient) {
+					Main.ReportInvasionProgress(Main.invasionSizeStart - Main.invasionSize, Main.invasionSizeStart, 4, 0);
+				}
+				if (Main.netMode == NetmodeID.Server) {
+					NetMessage.SendData(MessageID.InvasionProgressReport, -1, -1, null, Main.invasionProgress, (float)Main.invasionProgressMax, (float)Main.invasionProgressIcon, 0f, 0, 0, 0);
+				}
 			}
 		}
 		public override void HitEffect(int hitDirection, double damage)
@@ -83,7 +85,7 @@ namespace SpiritMod.NPCs.GoblinGrenadier
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return Main.invasionType == InvasionID.GoblinArmy && spawnInfo.spawnTileY < Main.worldSurface ? 0.12f : 0f;
+			return SpawnCondition.GoblinArmy.Chance * 0.0666f;
 		}
 		
 		public override void FindFrame(int frameHeight)
