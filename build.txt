@@ -1,5 +1,5 @@
 author = Yuyutsu and the Unread FAQ
-version = 1.4.2.2
+version = 1.4.2.3
 displayName = Spirit Mod
 homepage = https://discord.gg/FUNqtZQ
 hideCode = true
