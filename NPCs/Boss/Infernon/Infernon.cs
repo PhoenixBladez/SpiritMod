@@ -174,7 +174,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 							Vector2 dir = player.Center - pos;
 							dir.Normalize();
 							dir *= 12;
-							Projectile.NewProjectile(pos.X, pos.Y, dir.X, dir.Y, ModContent.ProjectileType<FireSpike>(), 22, 0, Main.myPlayer);
+							Projectile.NewProjectile(pos.X, pos.Y, dir.X, dir.Y, ModContent.ProjectileType<FireSpike>(), 24, 0, Main.myPlayer);
 							currentSpread++;
 						}
 					}

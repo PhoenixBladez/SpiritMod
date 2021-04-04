@@ -29,7 +29,6 @@ using SpiritMod.NPCs.Boss.Atlas;
 using SpiritMod.NPCs.Boss.Dusking;
 using SpiritMod.NPCs.Boss.Infernon;
 using SpiritMod.NPCs.Boss.ReachBoss;
-using SpiritMod.NPCs.Boss.Overseer;
 using SpiritMod.NPCs.Boss.Scarabeus;
 using SpiritMod.NPCs.Boss.SteamRaider;
 using SpiritMod.NPCs.Critters.Algae;
@@ -893,8 +892,7 @@ namespace SpiritMod.NPCs
 				|| boss.type == NPCID.Golem
 				|| boss.type == NPCID.DukeFishron
 				|| boss.type == NPCID.CultistBoss
-				|| boss.type == NPCType<Atlas>()
-				|| boss.type == NPCType<Overseer>())
+				|| boss.type == NPCType<Atlas>())
 				return 5;
 
 			if (boss.type == NPCID.MoonLordCore)

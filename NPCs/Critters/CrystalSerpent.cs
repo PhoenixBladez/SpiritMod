@@ -23,8 +23,6 @@ namespace SpiritMod.NPCs.Critters
 			npc.damage = 55;
 			npc.defense = 10;
 			npc.lifeMax = 260;
-			Main.npcCatchable[npc.type] = true;
-			npc.catchItem = (short)ItemID.Prismite;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
 			npc.knockBackResist = 0f;

@@ -18,7 +18,6 @@ using SpiritMod.NPCs;
 using SpiritMod.NPCs.BloodMoon;
 using SpiritMod.NPCs.Boss.Atlas;
 using SpiritMod.NPCs.Boss.MoonWizard;
-using SpiritMod.NPCs.Boss.Overseer;
 using SpiritMod.NPCs.Mimic;
 using SpiritMod.Projectiles;
 using SpiritMod.Tide;
@@ -480,7 +479,6 @@ namespace SpiritMod
             player.ManageSpecialBiomeVisuals("SpiritMod:MeteoriteSky", player.ZoneMeteor);
             player.ManageSpecialBiomeVisuals("SpiritMod:WindEffect", windEffect, player.Center);
             player.ManageSpecialBiomeVisuals("SpiritMod:WindEffect2", windEffect2, player.Center);
-            player.ManageSpecialBiomeVisuals("SpiritMod:Overseer", NPC.AnyNPCs(ModContent.NPCType<Overseer>()));
             player.ManageSpecialBiomeVisuals("SpiritMod:Atlas", NPC.AnyNPCs(ModContent.NPCType<Atlas>()));
         }
 

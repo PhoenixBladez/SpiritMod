@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Consumable.Food
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Baguette");
-			Tooltip.SetDefault("'You feel fancier already'");
+			Tooltip.SetDefault("Minor improvements to all stats\n'You feel fancier already'");
 		}
 
 
@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Consumable.Food
 			item.noUseGraphic = true;
 			item.useStyle = ItemUseStyleID.EatingUsing;
 			item.useTime = item.useAnimation = 30;
-
+			item.value = Terraria.Item.sellPrice(0, 0, 0, 10);
 			item.buffType = BuffID.WellFed;
 			item.buffTime = 54000;
 			item.noMelee = true;

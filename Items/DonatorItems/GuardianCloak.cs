@@ -35,7 +35,7 @@ namespace SpiritMod.Items.DonatorItems
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<CloakOfVampire>());
 			recipe.AddIngredient(ModContent.ItemType<GuardianArm>());
-			recipe.AddIngredient(ModContent.ItemType<EternityEssence>());
+			recipe.AddIngredient(ItemID.LunarBar, 1);
 			recipe.AddTile(TileID.TinkerersWorkbench);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

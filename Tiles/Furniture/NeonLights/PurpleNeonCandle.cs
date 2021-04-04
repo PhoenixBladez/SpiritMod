@@ -22,6 +22,7 @@ namespace SpiritMod.Tiles.Furniture.NeonLights
             TileObjectData.newTile.StyleMultiplier = 2; //same as above
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
+			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight; //allows me to place example chairs facing the same way as the player
             TileObjectData.addAlternate(1); //facing right will use the second texture style
             TileObjectData.addTile(Type);

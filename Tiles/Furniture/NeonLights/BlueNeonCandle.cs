@@ -26,6 +26,7 @@ namespace SpiritMod.Tiles.Furniture.NeonLights
             TileObjectData.addAlternate(1); //facing right will use the second texture style
             TileObjectData.addTile(Type);
             drop = ModContent.ItemType<Items.Placeable.Furniture.Neon.NeonCandleBlue>();
+			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
 			ModTranslation name = CreateMapEntryName();
 			Main.tileLighted[Type] = true;
 			name.SetDefault("Fluorescent Candle");

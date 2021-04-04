@@ -4,7 +4,6 @@ using SpiritMod.Effects;
 using SpiritMod.Items.Material;
 using SpiritMod.Items.Pins;
 using SpiritMod.NPCs.Boss.Atlas;
-using SpiritMod.NPCs.Boss.Overseer;
 using SpiritMod.NPCs.Town;
 using SpiritMod.Projectiles;
 using SpiritMod.Skies;
@@ -460,7 +459,6 @@ namespace SpiritMod
 				case "Infernon": return MyWorld.downedInfernon;
 				case "Dusking": return MyWorld.downedDusking;
 				case "Atlas": return MyWorld.downedAtlas;
-				case "Overseer": return MyWorld.downedOverseer;
 			}
 			throw new ArgumentException("Invalid boss name:" + name);
 		}
@@ -589,10 +587,6 @@ namespace SpiritMod
 
 				SkyManager.Instance["SpiritMod:BlueAlgaeSky"] = new BlueAlgaeSky();
 				Filters.Scene["SpiritMod:BlueAlgaeSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
-
-
-				Filters.Scene["SpiritMod:Overseer"] = new Filter(new SeerScreenShaderData("FilterMiniTower").UseColor(0f, 0.3f, 1f).UseOpacity(0.75f), EffectPriority.VeryHigh);
-				SkyManager.Instance["SpiritMod:Overseer"] = new SeerSky();
 
 				Filters.Scene["SpiritMod:Atlas"] = new Filter(new AtlasScreenShaderData("FilterMiniTower").UseColor(0.5f, 0.5f, 0.5f).UseOpacity(0.6f), EffectPriority.VeryHigh);
 				SkyManager.Instance["SpiritMod:Atlas"] = new AtlasSky();
@@ -912,7 +906,6 @@ namespace SpiritMod
 				fargos.Call("AddSummon", 6.5f, "SpiritMod", "CursedCloth", (Func<bool>)(() => MyWorld.downedInfernon), 100 * 500);
 				fargos.Call("AddSummon", 7.3f, "SpiritMod", "DuskCrown", (Func<bool>)(() => MyWorld.downedDusking), 100 * 500);
 				fargos.Call("AddSummon", 12.4f, "SpiritMod", "StoneSkin", (Func<bool>)(() => MyWorld.downedAtlas), 100 * 800);
-				fargos.Call("AddSummon", 7.3f, "SpiritMod", "SpiritIdol", (Func<bool>)(() => MyWorld.downedOverseer), 100 * 1000);
 			}
 		}
 

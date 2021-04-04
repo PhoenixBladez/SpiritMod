@@ -24,6 +24,7 @@ namespace SpiritMod.Tiles.Furniture.NeonLights
             TileObjectData.newTile.StyleWrapLimit = 2; //not really necessary but allows me to add more subtypes of chairs below the example chair texture
             TileObjectData.newTile.StyleMultiplier = 2; //same as above
             TileObjectData.newTile.StyleHorizontal = true;
+			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
             TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight; //allows me to place example chairs facing the same way as the player
             TileObjectData.addAlternate(1);

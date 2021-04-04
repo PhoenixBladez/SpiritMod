@@ -49,6 +49,11 @@ namespace SpiritMod.NPCs.FallingAsteroid
 			if (npc.ai[0] == 320 ||npc.ai[0] == 360) {
 				npc.netUpdate = true;
 			}
+			if (npc.ai[0] >= 580)
+			{
+				npc.ai[0] = 0;
+				npc.netUpdate = true;
+			}
 			Vector2 vector2 = npc.Center + Vector2.Normalize(npc.velocity) / 2f;
 			Dust dust1 = Main.dust[Dust.NewDust(npc.position, npc.width, npc.height, 6, 0.0f, 0.0f, 0, new Color(), 1f)];
 			dust1.position = vector2;

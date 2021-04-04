@@ -57,7 +57,10 @@ namespace SpiritMod.NPCs.Critters
 			}
 			return SpawnCondition.OceanMonster.Chance * 0.0131f;
 		}
-
+		public override void AI()
+		{
+			npc.spriteDirection = npc.direction;
+		}
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(2) == 1) {

@@ -21,7 +21,7 @@ namespace SpiritMod.Projectiles.Hostile
 			projectile.penetrate = 8;
 			projectile.alpha = 255;
 			projectile.timeLeft = 16;
-			projectile.tileCollide = false;
+			projectile.tileCollide = true;
 			projectile.extraUpdates = 2;
 		}
 

@@ -55,7 +55,6 @@ namespace SpiritMod.Items.Weapon.Swung
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<EternityEssence>(), 20);
 			recipe.AddIngredient(ModContent.ItemType<SpiritStar>(), 1);
 			recipe.AddIngredient(ItemID.LunarBar, 10);
 			recipe.AddIngredient(ItemID.FragmentVortex, 4);

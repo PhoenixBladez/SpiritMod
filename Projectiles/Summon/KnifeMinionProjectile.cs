@@ -136,7 +136,7 @@ namespace SpiritMod.Projectiles.Summon
                     float num6 = num2 * num5;
                     float num7 = num3 * num5;
                     int num8 = 10;
-                    if (Main.rand.Next(15) == 0)
+                    if (Main.rand.Next(20) == 0)
                     {
                         projectile.velocity.X = (projectile.velocity.X * (float)(num8 - 1) + num6) / (float)num8;
                         projectile.velocity.Y = (projectile.velocity.Y * (float)(num8 - 1) + num7) / (float)num8;

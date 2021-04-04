@@ -25,6 +25,7 @@ namespace SpiritMod.Tiles.Furniture.NeonLights
             TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight; //allows me to place example chairs facing the same way as the player
             TileObjectData.addAlternate(1); //facing right will use the second texture style
             TileObjectData.addTile(Type);
+			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             drop = ModContent.ItemType<Items.Placeable.Furniture.Neon.NeonCandleGreen>();
 			ModTranslation name = CreateMapEntryName();
 			Main.tileLighted[Type] = true;
