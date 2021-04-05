@@ -18,8 +18,8 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			npc.width = npc.height = 27;
 			npc.alpha = 255;
 
-			npc.damage = 32;
-			npc.lifeMax = 30;
+			npc.damage = 45;
+			npc.lifeMax = 65;
 			npc.defense = 5;
 			Main.npcFrameCount[npc.type] = 4;
 			npc.noGravity = true;

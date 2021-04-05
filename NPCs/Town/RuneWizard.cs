@@ -172,7 +172,7 @@ namespace SpiritMod.NPCs.Town
 
 		public override void TownNPCAttackProj(ref int projType, ref int attackDelay)
 		{
-			projType = ProjectileType<Projectiles.Blaze>();
+			projType = ProjectileID.RubyBolt;
 			attackDelay = 1;
 		}
 

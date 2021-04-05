@@ -405,8 +405,8 @@ namespace SpiritMod
 
 			BitsByte environment = reader.ReadByte();
 			BlueMoon = environment[0];
-			downedBlueMoon = environment[1];
-			jellySky = environment[2];
+			jellySky = environment[1];
+			downedBlueMoon = environment[2];
 			downedJellyDeluge = environment[3];
 
 			BitsByte worldgen = reader.ReadByte();
@@ -1645,10 +1645,10 @@ namespace SpiritMod
                     Main.NewText("Strange jellyfish are pouring out of the sky!", 61, 255, 142);
                     jellySky = true;
                 }
-                if (!Main.dayTime)
-                {
-                    jellySky = false;
-                }
+				else
+				{
+					jellySky = false;
+				}
             }
 
 			//pagoda enemy spawning

@@ -23,6 +23,7 @@ namespace SpiritMod.Items.GamblerChestLoot.FunnyFirework
 			item.noUseGraphic = true;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 0;
+			item.damage = 4;
 			item.value = Item.sellPrice(0, 0, 0, 0);
 			item.rare = ItemRarityID.Blue;
 			item.shootSpeed = 10f;

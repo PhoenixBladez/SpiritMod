@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Consumable.Food
 			item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.EatingUsing;
             item.useTime = item.useAnimation = 30;
-            item.value = Terraria.Item.sellPrice(0, 5, 0, 0);
+            item.value = Terraria.Item.sellPrice(0, 0, 0, 50);
 			item.buffType = BuffID.WellFed;
 			item.buffTime = 180000;
 			item.noMelee = true;

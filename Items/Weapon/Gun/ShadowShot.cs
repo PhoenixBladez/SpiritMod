@@ -63,7 +63,7 @@ namespace SpiritMod.Items.Weapon.Gun
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 94));
 				MyPlayer modPlayer = player.GetSpiritPlayer();
 				modPlayer.shootDelay2 = 300;
-				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ShadowShotTracker>(), item.damage / 3, knockBack, item.owner, 0, 0);
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ShadowShotTracker>(), item.damage / 3, knockBack, player.whoAmI);
 			}
 			else {
 				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 11));

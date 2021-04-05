@@ -28,6 +28,14 @@ namespace SpiritMod.Tiles.Block
             r = .154f*3;
             g = .077f*3;
             b = .255f*3;
+
+			Tile tile = Framing.GetTileSafely(i, j);
+			if (tile.slope() == 0 && !tile.halfBrick()) 
+			{
+				r = .154f*3/2;
+				g = .077f*3/2;
+				b = .255f*3/2;
+			}
         }
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{

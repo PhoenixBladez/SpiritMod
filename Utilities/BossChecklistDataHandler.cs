@@ -36,7 +36,6 @@ using SpiritMod.NPCs.Boss.Atlas;
 using SpiritMod.NPCs.Boss.Dusking;
 using SpiritMod.NPCs.Boss.Infernon;
 using SpiritMod.NPCs.Boss.MoonWizard;
-using SpiritMod.NPCs.Boss.Overseer;
 using SpiritMod.NPCs.Boss.ReachBoss;
 using SpiritMod.NPCs.Boss.Scarabeus;
 using SpiritMod.NPCs.Boss.SteamRaider;
@@ -177,6 +176,24 @@ namespace SpiritMod.Utilities
 				"",
 				"SpiritMod/Textures/BossChecklist/GladeWraithTexture",
 				"SpiritMod/NPCs/Reach/ForestWraith_Head_Boss",
+				null
+			);
+
+			spiritMod.AddMiniBoss(
+				1.5f,
+				"Haunted Tome",
+				() => MyWorld.downedGladeWraith,
+				new BCIDData(
+					new List<int> { ModContent.NPCType<NPCs.HauntedTome.HauntedTome>() },
+					null,
+					null,
+					new List<int> {
+						ModContent.ItemType<Items.Weapon.Magic.ScreamingTome.ScreamingTome>()
+					}),
+				"Haunted Tomes can be found while exploring Dark Sepulchres and interacting with certain items.",
+				"",
+				"SpiritMod/Textures/BossChecklist/HauntedTomeTexture",
+				"SpiritMod/NPCs/HauntedTome/HauntedTome_Head_Boss",
 				null
 			);
 
@@ -525,37 +542,6 @@ namespace SpiritMod.Utilities
 				"",
 				"SpiritMod/Textures/BossChecklist/AtlasTexture",
 				"SpiritMod/NPCs/Boss/Atlas/Atlas_Head_Boss",
-				null
-			);
-
-			spiritMod.AddBoss(
-				14.2f,
-				"Overseer",
-				() => MyWorld.downedOverseer,
-				new BCIDData(
-					new List<int> {
-						ModContent.NPCType<Overseer>()
-					},
-					new List<int> {
-						ModContent.ItemType<SpiritIdol>()
-					},
-					new List<int> {
-						ModContent.ItemType<Trophy9>(),
-						ModContent.ItemType<OverseerMask>()
-					},
-					new List<int> {
-						ModContent.ItemType<EternityCharm>(),
-						ModContent.ItemType<EternityEssence>(),
-						ModContent.ItemType<Eternity>(),
-						ModContent.ItemType<SoulExpulsor>(),
-						ModContent.ItemType<EssenseTearer>(),
-						ModContent.ItemType<AeonRipper>(),
-						ItemID.SuperHealingPotion
-					}),
-				$"Use a [i:{ModContent.ItemType<SpiritIdol>()}] in the Spirit Biome during nighttime",
-				"",
-				"SpiritMod/Textures/BossChecklist/OverseerTexture",
-				"SpiritMod/NPCs/Boss/Overseer/Overseer_Head_Boss",
 				null
 			);
 		}

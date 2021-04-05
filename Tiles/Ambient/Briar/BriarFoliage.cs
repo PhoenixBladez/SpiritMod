@@ -65,10 +65,6 @@ namespace SpiritMod.Tiles.Ambient.Briar
 
 			return true;
 		}
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<Items.Placeable.Furniture.BriarFlowerItem>());
-        }
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{
 			Tile tile = Framing.GetTileSafely(i, j);

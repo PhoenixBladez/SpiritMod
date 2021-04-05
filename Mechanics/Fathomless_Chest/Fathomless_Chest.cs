@@ -79,7 +79,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 		{
 			Player player = Main.player[Player.FindClosest(new Vector2(i*16, j*16), 100, 100)];
 			Tile tile = Main.tile[i, j];
-			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(42, 186));
+			Main.PlaySound(42, i * 16, j * 16, 186);
 			for (int index1 = 0; index1 < 3; ++index1)
 			{
 				for (int index2 = 0; index2 < 2; ++index2)
@@ -153,7 +153,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 				case 1: //DROP COINS
 				{
 					BadLuck();
-					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(18, 0));
+					Main.PlaySound(18, i *16, j * 16, 0);
 					int num1 = 0;
 					for (int index = 0; index < 59; ++index)
 					{
