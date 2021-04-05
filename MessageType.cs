@@ -11,6 +11,7 @@
 		AdventurerQuestCompleted,
 		AdventurerNewQuest,
 		BossSpawnFromClient,
-		TideData
+		TideData,
+		TameAuroraStag
 	}
 }

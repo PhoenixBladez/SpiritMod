@@ -34,6 +34,7 @@ using SpiritMod.Items.Weapon.Bow.GemBows.Sapphire_Bow;
 using SpiritMod.Items.Weapon.Bow.GemBows.Topaz_Bow;
 using SpiritMod.Items.Consumable;
 using SpiritMod.ParticleHandler;
+using SpiritMod.NPCs.AuroraStag;
 
 namespace SpiritMod
 {
@@ -181,6 +182,14 @@ namespace SpiritMod
 					break;
 				case MessageType.TideData:
 					TideWorld.HandlePacket(reader);
+					break;
+				case MessageType.TameAuroraStag:
+					int stagWhoAmI = reader.ReadInt32();
+
+					if (Main.netMode == NetmodeID.Server)
+						WriteToPacket(GetPacket(4), (byte)MessageType.TameAuroraStag, stagWhoAmI).Send();
+
+					(Main.npc[stagWhoAmI].modNPC as AuroraStag).TameAnimationTimer = AuroraStag.TameAnimationLength;
 					break;
 				default:
 					Logger.Error("Unknown message (" + id + ")");
@@ -940,6 +949,26 @@ namespace SpiritMod
 					},
 					InterfaceScaleType.UI);
 				layers.Insert(index, NewLayer);
+			}
+
+			int mouseIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Item / NPC Head"));
+			if (mouseIndex != -1) {
+				layers.Insert(mouseIndex, new LegacyGameInterfaceLayer(
+					"Spirit: Stag Hover",
+					delegate {
+						Item item = Main.mouseItem.IsAir ? Main.LocalPlayer.inventory[Main.LocalPlayer.selectedItem] : Main.mouseItem;
+						AuroraStag auroraStag = Main.LocalPlayer.GetModPlayer<MyPlayer>().hoveredStag;
+
+						if (item.type == ModContent.ItemType<Items.Consumable.Food.IceBerries>() && auroraStag != null && !auroraStag.npc.immortal && auroraStag.TameAnimationTimer == 0) {
+							Texture2D itemTexture = Main.itemTexture[item.type];
+							Vector2 itemPos = Main.MouseScreen + Vector2.UnitX * -(itemTexture.Width / 2 + 4);
+							Vector2 origin = new Vector2(itemTexture.Width / 2, 0);
+							Main.spriteBatch.Draw(itemTexture, itemPos, null, Color.White, (float)Math.Sin(Main.GlobalTime * 1.5f) * 0.2f, origin, 1f, SpriteEffects.None, 0f);
+						}
+						return true;
+					},
+					InterfaceScaleType.UI)
+				);
 			}
 		}
 

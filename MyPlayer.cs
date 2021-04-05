@@ -43,6 +43,8 @@ using SpiritMod.Items.Equipment;
 using SpiritMod.NPCs.Boss.Scarabeus;
 using System.Linq;
 using Terraria.Audio;
+using SpiritMod.Items.Consumable.Food;
+using SpiritMod.NPCs.AuroraStag;
 
 namespace SpiritMod
 {
@@ -412,8 +414,10 @@ namespace SpiritMod
         public bool soulPotion;
         public bool gremlinBuff;
 
+		public AuroraStag hoveredStag;
+
         public int candyInBowl;
-        private IList<string> candyFromTown = new List<string>();
+		private IList<string> candyFromTown = new List<string>();
 
         public override void UpdateBiomeVisuals()
         {
@@ -2684,6 +2688,31 @@ namespace SpiritMod
 				MinifishTimer--;
 			else
 				MinifishTimer = 120;
+
+			Vector2 zoom = Main.GameViewMatrix.Zoom;
+
+			foreach (NPC npc in Main.npc) {
+				if (!npc.active || npc.type != ModContent.NPCType<AuroraStag>())
+					continue;
+
+				AuroraStag auroraStag = (AuroraStag)npc.modNPC;
+				if (auroraStag.Scared)
+					continue;
+
+				Rectangle npcBox = npc.getRect();
+				npcBox.Inflate((int)zoom.X, (int)zoom.Y);
+
+				if (Vector2.DistanceSquared(player.Center, npc.Center) < 5000 && npcBox.Contains(Main.MouseWorld.ToPoint()))
+					hoveredStag = auroraStag;
+			}
+
+			if (hoveredStag != null) {
+				Rectangle npcBox = hoveredStag.npc.getRect();
+				npcBox.Inflate((int)zoom.X, (int)zoom.Y);
+
+				if (Vector2.DistanceSquared(player.Center, hoveredStag.npc.Center) > 5000 || !npcBox.Contains(Main.MouseWorld.ToPoint()))
+					hoveredStag = null;
+			}
 		}
 
 		private void CalculateSpeed()
