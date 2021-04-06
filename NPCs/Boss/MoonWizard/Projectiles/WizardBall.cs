@@ -49,7 +49,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 
             }
         }
-        public void DrawAdditive(SpriteBatch spriteBatch)
+        public void AdditiveCall(SpriteBatch spriteBatch)
         {
             {
                 for (int k = 0; k < 1; k++)

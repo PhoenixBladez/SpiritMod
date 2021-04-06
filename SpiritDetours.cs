@@ -18,11 +18,20 @@ namespace SpiritMod
 			On.Terraria.Main.DrawNPC += Main_DrawNPC;
 			On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile;
 			On.Terraria.Player.KeyDoubleTap += Player_KeyDoubleTap;
-			On.Terraria.Main.DrawDust += DrawAdditive;
+			On.Terraria.Main.DrawProjectiles += AddtiveCalls;
 			On.Terraria.Player.ToggleInv += Player_ToggleInv;
 			On.Terraria.Main.DrawInterface += DrawParticles;
             On.Terraria.Localization.LanguageManager.GetTextValue_string += LanguageManager_GetTextValue_string1;
 			IL.Terraria.Player.ItemCheck += Player_ItemCheck;
+		}
+
+		private static void AddtiveCalls(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
+		{
+			Main.spriteBatch.Begin(default, BlendState.Additive, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
+
+
+			Main.spriteBatch.End();
+			orig(self);
 		}
 
 		private static void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)

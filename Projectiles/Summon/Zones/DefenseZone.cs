@@ -45,7 +45,7 @@ namespace SpiritMod.Projectiles.Summon.Zones
             }
 			
 		}
-        public void DrawAdditive(SpriteBatch spriteBatch)
+        public void AdditiveCall(SpriteBatch spriteBatch)
         {
             {
                 for (int k = 0; k < projectile.oldPos.Length; k++)

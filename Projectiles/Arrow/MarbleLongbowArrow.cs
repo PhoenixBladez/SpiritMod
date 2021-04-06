@@ -64,7 +64,7 @@ namespace SpiritMod.Projectiles.Arrow
 			}
 		}
 
-		public void DrawAdditive(SpriteBatch spriteBatch)
+		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
 			for (int k = 0; k < projectile.oldPos.Length; k++) {
 				Color color = new Color(255, 255, 200) * 0.75f * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);

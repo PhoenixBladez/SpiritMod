@@ -39,7 +39,7 @@ namespace SpiritMod.Projectiles.Yoyo
         {
             projectile.frameCounter++;
         }
-        public void DrawAdditive(SpriteBatch spriteBatch)
+        public void AdditiveCall(SpriteBatch spriteBatch)
         {
             if (projectile.frameCounter >= 1)
             {

@@ -143,7 +143,7 @@ namespace SpiritMod.Items.Weapon.Magic.RadiantCane
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => false;
 
-		public void DrawAdditive(SpriteBatch spriteBatch)
+		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
 			int numrays = 7;
 			for (int i = 0; i < numrays; i++) {
