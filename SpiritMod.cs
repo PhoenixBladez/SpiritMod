@@ -648,6 +648,7 @@ namespace SpiritMod
 				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/FrostLegion"), ItemType("FrostLegionBox"), TileType("FrostLegionBox"));
 			}
 			primitives = new PrimTrailManager();
+			AdditiveCallManager.Load();
 			// LoadDetours();
 		}
 
@@ -726,6 +727,7 @@ namespace SpiritMod
 			SunOrbShader = null;
 			noise = null;
 			instance = null;
+			AdditiveCallManager.Unload();
 			SpiritGlowmask.Unload();
 			StructureLoader.Unload();
 			ParticleHandler.Unload();

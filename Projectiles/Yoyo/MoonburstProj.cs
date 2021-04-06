@@ -17,7 +17,7 @@ namespace SpiritMod.Projectiles.Yoyo
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 
 		}
-
+		
 		public override void SetDefaults()
 		{
 			projectile.CloneDefaults(ProjectileID.Valor);

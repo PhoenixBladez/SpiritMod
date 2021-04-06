@@ -21,17 +21,14 @@ namespace SpiritMod
 			On.Terraria.Player.KeyDoubleTap += Player_KeyDoubleTap;
 			On.Terraria.Main.DrawProjectiles += AddtiveCalls;
 			On.Terraria.Player.ToggleInv += Player_ToggleInv;
-            On.Terraria.Localization.LanguageManager.GetTextValue_string += LanguageManager_GetTextValue_string1;
 			On.Terraria.Main.DrawInterface += Main_DrawInterface;
+			On.Terraria.Localization.LanguageManager.GetTextValue_string += LanguageManager_GetTextValue_string1;
 			IL.Terraria.Player.ItemCheck += Player_ItemCheck;
 		}
 
 		private static void AddtiveCalls(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
 		{
-			Main.spriteBatch.Begin(default, BlendState.Additive, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
-
-
-			Main.spriteBatch.End();
+			AdditiveCallManager.DrawAdditiveCalls(Main.spriteBatch);
 			orig(self);
 		}
 
@@ -82,7 +79,7 @@ namespace SpiritMod
 
 			orig(self);
 		}
-       
+
         private static string LanguageManager_GetTextValue_string1(On.Terraria.Localization.LanguageManager.orig_GetTextValue_string orig, Terraria.Localization.LanguageManager self, string key)
         {
             if (key == "GameUI.LightRain" || key == "GameUI.Rain" || key == "GameUI.HeavyRain" || key == "GameUI.Clear" || key == "GameUI.PartlyCloudy" || key == "GameUI.MostlyCloudy" || key == "GameUI.Overcast"|| key == "GameUI.Cloudy")
