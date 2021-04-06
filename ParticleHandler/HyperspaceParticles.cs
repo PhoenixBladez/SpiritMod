@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using SpritMod.Utilities;
+using SpiritMod.Utilities;
 using System;
 using System.Threading;
 using Terraria;

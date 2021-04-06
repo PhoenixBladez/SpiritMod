@@ -57,7 +57,7 @@ namespace SpiritMod.Projectiles.Arrow
             Vector2 currentSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y);
             projectile.velocity = currentSpeed.RotatedBy(Main.rand.Next(-1, 1) * (Math.PI / 50));
         }
-        public void DrawAdditive(SpriteBatch spriteBatch)
+        public void AdditiveCall(SpriteBatch spriteBatch)
         {
             {
                 for (int k = 0; k < projectile.oldPos.Length; k++)

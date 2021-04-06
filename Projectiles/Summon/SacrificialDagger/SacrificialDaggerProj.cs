@@ -65,7 +65,7 @@ namespace SpiritMod.Projectiles.Summon.SacrificialDagger
 		}
 		int checkNum;
         
-        public void DrawAdditive(SpriteBatch spriteBatch)
+        public void AdditiveCall(SpriteBatch spriteBatch)
         {
             float sineAdd = (float)Math.Sin(alphaCounter) + 2f;
             {

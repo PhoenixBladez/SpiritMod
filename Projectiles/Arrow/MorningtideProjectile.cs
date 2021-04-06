@@ -103,7 +103,7 @@ namespace SpiritMod.Projectiles.Arrow
             }
 			return true;
 		}
-        public void DrawAdditive(SpriteBatch spriteBatch)
+        public void AdditiveCall(SpriteBatch spriteBatch)
         {
             if (projectile.timeLeft < 196)
             {

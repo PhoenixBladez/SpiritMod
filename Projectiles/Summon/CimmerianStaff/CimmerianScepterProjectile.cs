@@ -289,7 +289,7 @@ namespace SpiritMod.Projectiles.Summon.CimmerianStaff
                 }
             }
 		}
-        public void DrawAdditive(SpriteBatch spriteBatch)
+        public void AdditiveCall(SpriteBatch spriteBatch)
         {
             float sineAdd = (float)Math.Sin(alphaCounter) + 2;
             {

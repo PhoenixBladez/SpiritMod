@@ -56,7 +56,7 @@ namespace SpiritMod.Projectiles.Summon.CimmerianStaff
                 dust.velocity *= .6f;
             }
         }
-        public void DrawAdditive(SpriteBatch spriteBatch)
+        public void AdditiveCall(SpriteBatch spriteBatch)
         {
             {
                 for (int k = 0; k < projectile.oldPos.Length; k++)

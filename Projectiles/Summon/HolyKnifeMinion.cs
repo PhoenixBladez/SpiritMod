@@ -44,7 +44,7 @@ namespace SpiritMod.Projectiles.Summon
 				projectile.timeLeft = 2;
 
 		}
-        public void DrawAdditive(SpriteBatch spriteBatch)
+        public void AdditiveCall(SpriteBatch spriteBatch)
         {
             if (projectile.timeLeft < 196)
             {

@@ -187,7 +187,7 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
 
 		public override void SelectFrame()
 		{
-		}        public void DrawAdditive(SpriteBatch spriteBatch)
+		}        public void AdditiveCall(SpriteBatch spriteBatch)
         {
             {
                 for (int k = 0; k < projectile.oldPos.Length; k++)

@@ -9,7 +9,6 @@ using SpritMod.Utilities;
 
 namespace SpiritMod.ParticleHandler
 {
-
 	public static class ParticleHandler
 	{
 		private static Mod _mod;
