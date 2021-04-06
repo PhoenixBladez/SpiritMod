@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoMod.Cil;
 using SpiritMod.Items.Tool;
+using SpiritMod.Particles;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -20,8 +21,8 @@ namespace SpiritMod
 			On.Terraria.Player.KeyDoubleTap += Player_KeyDoubleTap;
 			On.Terraria.Main.DrawProjectiles += AddtiveCalls;
 			On.Terraria.Player.ToggleInv += Player_ToggleInv;
-			On.Terraria.Main.DrawInterface += DrawParticles;
             On.Terraria.Localization.LanguageManager.GetTextValue_string += LanguageManager_GetTextValue_string1;
+			On.Terraria.Main.DrawInterface += Main_DrawInterface;
 			IL.Terraria.Player.ItemCheck += Player_ItemCheck;
 		}
 
@@ -69,15 +70,6 @@ namespace SpiritMod
 			self.GetSpiritPlayer().DoubleTapEffects(keyDir);
 		}
 
-		public static void DrawParticles(On.Terraria.Main.orig_DrawInterface orig, Main self, GameTime gameTime)
-		{
-			Main.spriteBatch.Begin(default, default, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
-			ParticleHandler.ParticleHandler.DrawParticles(Main.spriteBatch);
-			Main.spriteBatch.End();
-
-			orig(self, gameTime);
-		}
-
 		private static void Player_ToggleInv(On.Terraria.Player.orig_ToggleInv orig, Player self)
 		{
 			SpiritMod spirit = ModContent.GetInstance<SpiritMod>();
@@ -99,7 +91,16 @@ namespace SpiritMod
             }
             return orig(self, key);
         }
-		
+
+		private static void Main_DrawInterface(On.Terraria.Main.orig_DrawInterface orig, Main self, GameTime gameTime)
+		{
+			orig(self, gameTime);
+
+			Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
+			ParticleHandler.DrawAllParticles(Main.spriteBatch);
+			Main.spriteBatch.End();
+		}
+
 		// This IL edit is used to allow the unfeller of evergreens to autoplant saplings when trees are destroyed
 		// Sadly tML doesn't provide tile destruction info by default in a way feasible in MP, so we have to resort to this
 		//
