@@ -35,7 +35,7 @@ namespace SpiritMod.Particles
 			foreach (Type type in spiritMod.Code.GetTypes()) {
 				if (type.IsSubclassOf(baseParticleType) && type != baseParticleType) {
 					int assignedType = particleTypes.Count;
-					particleTypes[baseParticleType] = assignedType;
+					particleTypes[type] = assignedType;
 
 					string texturePath = type.Namespace.Replace('.', '/') + "/" + type.Name;
 					particleTextures[assignedType] = ModContent.GetTexture(texturePath);

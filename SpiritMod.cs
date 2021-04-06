@@ -893,6 +893,7 @@ namespace SpiritMod
 				}
 			}
 
+			ParticleHandler.RunRandomSpawnAttempts();
 			ParticleHandler.UpdateAllParticles();
 		}
 		public override void PostSetupContent()
