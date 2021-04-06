@@ -32,7 +32,7 @@ namespace SpiritMod.Particles
 		{
 			AshParticle ashParticle = new AshParticle();
 
-			Vector2 startingPosition = new Vector2(Main.rand.Next(-2000, 2000), Main.rand.Next(1200, 1800));
+			Vector2 startingPosition = new Vector2(Main.rand.Next(-2000, 2000), Main.rand.Next(1200, 1800)) + Main.screenPosition;
 			ashParticle.Position = startingPosition;
 			ashParticle.Velocity = new Vector2(Main.windSpeed * 12f, Main.rand.NextFloat(1, 3f));
 			ashParticle.Rotation = Main.rand.NextFloat(MathHelper.TwoPi);

@@ -9,7 +9,7 @@ namespace SpiritMod.Particles
 {
 	public static class ParticleHandler
 	{
-		private static readonly int MaxParticlesAllowed = 300;
+		private static readonly int MaxParticlesAllowed = 500;
 
 		private static Particle[] particles;
 		private static int nextVacantIndex;
@@ -113,6 +113,18 @@ namespace SpiritMod.Particles
 			particles[index] = null;
 			activeParticles--;
 			nextVacantIndex = index;
+		}
+
+		/// <summary>
+		/// Clears all the currently spawned particles.
+		/// </summary>
+		public static void ClearAllParticles()
+		{
+			for (int i = 0; i < particles.Length; i++)
+				particles[i] = null;
+
+			activeParticles = 0;
+			nextVacantIndex = 0;
 		}
 
 		internal static void UpdateAllParticles()
