@@ -33,7 +33,7 @@ namespace SpiritMod.Particles
 			SpiritMod spiritMod = ModContent.GetInstance<SpiritMod>();
 
 			foreach (Type type in spiritMod.Code.GetTypes()) {
-				if (type.IsSubclassOf(baseParticleType)) {
+				if (type.IsSubclassOf(baseParticleType) && type != baseParticleType) {
 					int assignedType = particleTypes.Count;
 					particleTypes[baseParticleType] = assignedType;
 
