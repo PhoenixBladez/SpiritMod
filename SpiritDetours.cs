@@ -21,7 +21,7 @@ namespace SpiritMod
 			On.Terraria.Player.KeyDoubleTap += Player_KeyDoubleTap;
 			On.Terraria.Main.DrawProjectiles += AddtiveCalls;
 			On.Terraria.Player.ToggleInv += Player_ToggleInv;
-			On.Terraria.Main.DrawInterface += Main_DrawInterface;
+			On.Terraria.Main.DrawInterface += DrawParticles;
 			On.Terraria.Localization.LanguageManager.GetTextValue_string += LanguageManager_GetTextValue_string1;
 			IL.Terraria.Player.ItemCheck += Player_ItemCheck;
 		}
@@ -89,7 +89,7 @@ namespace SpiritMod
             return orig(self, key);
         }
 
-		private static void Main_DrawInterface(On.Terraria.Main.orig_DrawInterface orig, Main self, GameTime gameTime)
+		private static void DrawParticles(On.Terraria.Main.orig_DrawInterface orig, Main self, GameTime gameTime)
 		{
 			orig(self, gameTime);
 

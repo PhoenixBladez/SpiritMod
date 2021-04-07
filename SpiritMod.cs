@@ -516,8 +516,8 @@ namespace SpiritMod
 			LoadReferences();
 			AdventurerQuests = new AdventurerQuestHandler(this);
 			StructureLoader.Load(this);
-			ParticleHandler.RegisterParticles();
 			if (!Main.dedServ) {
+				ParticleHandler.RegisterParticles();
 				BookUserInterface = new UserInterface();
 			}
 			SpiritDetours.Initialize();
@@ -895,8 +895,10 @@ namespace SpiritMod
 				}
 			}
 
-			ParticleHandler.RunRandomSpawnAttempts();
-			ParticleHandler.UpdateAllParticles();
+			if (!Main.dedServ) {
+				ParticleHandler.RunRandomSpawnAttempts();
+				ParticleHandler.UpdateAllParticles();
+			}
 		}
 		public override void PostSetupContent()
 		{
