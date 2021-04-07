@@ -4,7 +4,7 @@ using Terraria;
 
 namespace SpiritMod.Particles
 {
-    public class HyperspaceParticle : Particle
+    public class HyperSpaceParticle : Particle
 	{
 		private readonly static int MaxTime = 1200;
 
@@ -31,7 +31,7 @@ namespace SpiritMod.Particles
 
 		public override void OnSpawnAttempt()
 		{
-			HyperspaceParticle hyperSpaceParticle = new HyperspaceParticle();
+			HyperSpaceParticle hyperSpaceParticle = new HyperSpaceParticle();
 			Vector2 position = new Vector2(Main.rand.Next(-2000, 2000), Main.rand.Next(1200, 1600));
 
 			hyperSpaceParticle.Position = Vector2.Zero;
