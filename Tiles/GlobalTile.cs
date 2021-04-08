@@ -1,7 +1,7 @@
 ﻿using SpiritMod.Items.Material;
 using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Items.Weapon.Thrown;
-using SpiritMod.NPCs.Ocean;
+using SpiritMod.NPCs.OceanSlime;
 using SpiritMod.Items.Consumable.Food;
 using System.Linq;
 using Terraria;

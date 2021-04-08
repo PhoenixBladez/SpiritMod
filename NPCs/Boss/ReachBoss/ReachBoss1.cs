@@ -5,7 +5,6 @@ using SpiritMod.Items.Material;
 using SpiritMod.Items.Weapon.Bow;
 using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Items.Weapon.Swung;
-using SpiritMod.Projectiles.Boss;
 using Terraria;
 using Terraria.Audio;
 using System;

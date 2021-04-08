@@ -9,7 +9,6 @@ using SpiritMod.Items.Weapon.Spear;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Swung;
 using SpiritMod.Items.Weapon.Thrown;
-using SpiritMod.Projectiles.Boss;
 using SpiritMod.Projectiles.Hostile;
 using Terraria;
 using Terraria.ID;

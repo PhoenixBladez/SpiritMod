@@ -68,7 +68,7 @@ namespace SpiritMod.Effects
 				CreateTrail(projectile, new StandardColorTrail(new Color(255, 255, 255)), new RoundCap(), new DefaultTrailPosition(), trailwidth / 3, traillength * 0.75f);
 				CreateTrail(projectile, new GradientTrail(new Color(252, 3, 57) * 0.75f, new Color(255, 201, 213) * 0.75f), new RoundCap(), new DefaultTrailPosition(), trailwidth, traillength);
 			}
-			if (projectile.type == ModContent.ProjectileType<ShootingStarHostile>()) {
+			if (projectile.type == ModContent.ProjectileType<NPCs.FallenAngel.ShootingStarHostile>()) {
 				CreateTrail(projectile, new GradientTrail(new Color(255, 215, 105), new Color(105, 213, 255)), new RoundCap(), new SleepingStarTrailPosition(), 14f, 150f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
 				CreateTrail(projectile, new GradientTrail(new Color(255, 215, 105) * .5f, new Color(105, 213, 255) * .5f), new RoundCap(), new SleepingStarTrailPosition(), 56f, 250f, new DefaultShader());
 				CreateTrail(projectile, new StandardColorTrail(Color.White * 0.3f), new RoundCap(), new SleepingStarTrailPosition(), 12f, 80f, new DefaultShader());
@@ -135,7 +135,7 @@ namespace SpiritMod.Effects
                 CreateTrail(projectile, new GradientTrail(new Color(255, 225, 117), new Color(91, 21, 150)), new RoundCap(), new SleepingStarTrailPosition(), 60f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
 
             }
-            if (projectile.type == ModContent.ProjectileType<BloomshroomHostile>()) {
+            if (projectile.type == ModContent.ProjectileType<NPCs.BlueMoon.Bloomshroom.BloomshroomHostile>()) {
 				switch (Main.rand.Next(2)) {
 					case 0:
 						CreateTrail(projectile, new StandardColorTrail(new Color(120, 217, 255)), new RoundCap(), new SleepingStarTrailPosition(), 18f, 250f);
@@ -148,7 +148,7 @@ namespace SpiritMod.Effects
 			if (projectile.type == ModContent.ProjectileType<TrueHallowedStaffProj>()) {
 				CreateTrail(projectile, new RainbowTrail(5f, 0.002f, 1f, .75f), new RoundCap(), new SleepingStarTrailPosition(), 150f, 130f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
 			}
-			if (projectile.type == ModContent.ProjectileType<StarSting>()) {
+			if (projectile.type == ModContent.ProjectileType<NPCs.BlueMoon.Glitterfly.StarSting>()) {
 				CreateTrail(projectile, new StandardColorTrail(new Color(255, 214, 99)), new RoundCap(), new DefaultTrailPosition(), 80f, 450f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
 			}
 			if (projectile.type == ModContent.ProjectileType<TeleportBolt>()) {
@@ -172,7 +172,7 @@ namespace SpiritMod.Effects
 			if (projectile.type == ModContent.ProjectileType<FieryFlareMagic>()) {;
 				CreateTrail(projectile, new StandardColorTrail(new Color(255, 170, 0)), new RoundCap(), new DefaultTrailPosition(), 32f, 50f, new DefaultShader());
 			}
-			if (projectile.type == ModContent.ProjectileType<RyBolt>()) {
+			if (projectile.type == ModContent.ProjectileType<NPCs.Tides.RyBolt>()) {
 				CreateTrail(projectile, new StandardColorTrail(new Color(181, 120, 255)), new RoundCap(), new DefaultTrailPosition(), 28f, 430f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_3"), 0.08f, 1f, 1f));
 				CreateTrail(projectile, new StandardColorTrail(new Color(99, 64, 255, 100)), new RoundCap(), new DefaultTrailPosition(), 20f, 250f, new DefaultShader());
 			}

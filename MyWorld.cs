@@ -1419,6 +1419,9 @@ namespace SpiritMod
 			AddToVanillaChest(new ChestInfo(new int[] { 
 				ItemType<CimmerianScepter>() }, 
 				1, 0.33f) , lockedgoldChests, 1);
+			AddToVanillaChest(new ChestInfo(new int[] { 
+				ItemType<OvergrowthStaff>() }, 
+				1, 0.33f) , livingWoodChests, 1);
 			AddToVanillaChest(new ChestInfo(ItemType<MetalBand>(), 1, 0.1f) , goldChests, 1);
 			AddToVanillaChest(new ChestInfo(ItemType<HollowNail>()), spiderChests, 1);
 			AddToVanillaChest(new ChestInfo(new int[] {
@@ -1671,10 +1674,10 @@ namespace SpiritMod
 				if (shouldSpawn) {
 					spawnedPagodaEnemies = true;
 					for (int i = 0; i < Main.rand.Next(8, 10); i++) {
-						NPC.NewNPC((pagodaX + Main.rand.Next(0, 126)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, ModContent.NPCType<PagodaGhostPassive>());
+						NPC.NewNPC((pagodaX + Main.rand.Next(0, 126)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, ModContent.NPCType<NPCs.Yurei.PagodaGhostPassive>());
 					}
 					for (int i = 0; i < 3; i++) {
-						NPC.NewNPC((pagodaX + Main.rand.Next(0, 126)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, ModContent.NPCType<SamuraiPassive>());
+						NPC.NewNPC((pagodaX + Main.rand.Next(0, 126)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, ModContent.NPCType<NPCs.SamuraiGhost.SamuraiPassive>());
 					}
 				}
 			}

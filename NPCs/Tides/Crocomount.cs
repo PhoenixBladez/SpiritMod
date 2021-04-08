@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Equipment;
 using SpiritMod.Projectiles.Hostile;
-using SpiritMod.NPCs.Dungeon;
 using System;
 using Terraria;
 using Terraria.ID;

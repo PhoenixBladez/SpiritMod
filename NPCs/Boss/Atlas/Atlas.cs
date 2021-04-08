@@ -10,7 +10,6 @@ using SpiritMod.Items.Weapon.Bow;
 using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Swung;
-using SpiritMod.Projectiles.Boss;
 using System;
 using Terraria;
 using Terraria.ID;

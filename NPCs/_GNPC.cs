@@ -23,7 +23,6 @@ using SpiritMod.Items.Weapon.Spear;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Swung;
 using SpiritMod.Items.Weapon.Yoyo;
-using SpiritMod.NPCs.Asteroid;
 using SpiritMod.NPCs.Boss;
 using SpiritMod.NPCs.Boss.Atlas;
 using SpiritMod.NPCs.Boss.Dusking;
@@ -32,7 +31,6 @@ using SpiritMod.NPCs.Boss.ReachBoss;
 using SpiritMod.NPCs.Boss.Scarabeus;
 using SpiritMod.NPCs.Boss.SteamRaider;
 using SpiritMod.NPCs.Critters.Algae;
-using SpiritMod.NPCs.Dungeon;
 using SpiritMod.NPCs.Town;
 using SpiritMod.NPCs.Tides;
 using SpiritMod.Projectiles.Arrow;
@@ -215,7 +213,7 @@ namespace SpiritMod.NPCs
 							Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
 					}
 					Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
-					NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<GraniteCore>());
+					NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<NPCs.CracklingCore.GraniteCore>());
 				}
 			}
 			if (npc.life <= 0 && npc.FindBuffIndex(ModContent.BuffType<WanderingPlague>()) >= 0)
@@ -722,16 +720,14 @@ namespace SpiritMod.NPCs
 				if (Main.player[i].active)
 					activePlayers++;
 			}
-
+			if (player.GetSpiritPlayer().ZoneSpirit) {
+				spawnRate = (int)(spawnRate * 0.73f);
+				maxSpawns = (int)(maxSpawns * 1.1f);
+			}
 			if (MyWorld.BlueMoon && surface) {
 				maxSpawns = (int)(maxSpawns * 1.1f);
 				spawnRate = (int)(spawnRate * 0.4f);
 			}
-            if (MyWorld.BlueMoon && surface)
-            {
-                maxSpawns = (int)(maxSpawns * 1.08f);
-                spawnRate = (int)(spawnRate * 0.87f);
-            }
             if (MyWorld.jellySky && player.ZoneSkyHeight)
             {
                 maxSpawns = (int)(maxSpawns * 1.18f);
@@ -747,15 +743,15 @@ namespace SpiritMod.NPCs
 			}
 			if (spawnInfo.player.GetSpiritPlayer().ZoneAsteroid) {
 				pool.Clear();
-				pool.Add(NPCType<DeepspaceHopper>(), .35f);
-				pool.Add(NPCType<AstralAmalgram>(), 0.16f);
+				pool.Add(NPCType<NPCs.Shockhopper.DeepspaceHopper>(), .35f);
+				pool.Add(NPCType<NPCs.AstralAmalgam.AstralAmalgram>(), 0.16f);
 
 				if(NPC.downedBoss2)
-					pool.Add(NPCType<Mineroid>(), 0.3f);
+					pool.Add(NPCType<NPCs.Orbitite.Mineroid>(), 0.3f);
 
-				pool.Add(NPCType<GloopGloop>(), 0.24f);
+				pool.Add(NPCType<NPCs.Gloop.GloopGloop>(), 0.24f);
 				if (NPC.downedBoss3) {
-					pool.Add(NPCType<CogTrapperHead>(), 0.45f);
+					pool.Add(NPCType<NPCs.Starfarer.CogTrapperHead>(), 0.45f);
 				}
                 if (NPC.downedBoss1 || NPC.downedBoss3 || NPC.downedBoss3)
                 {
@@ -882,7 +878,7 @@ namespace SpiritMod.NPCs
 				return 5;
 
 			if (boss.type == NPCID.TheDestroyer
-				|| boss.type == NPCType<Infernon>()
+				|| boss.type == NPCType<NPCs.Boss.Infernon.Infernon>()
 				|| boss.type == NPCType<InfernoSkull>()
 				|| boss.type == NPCID.SkeletronPrime
 				|| boss.type == NPCType<Dusking>())
@@ -1097,12 +1093,12 @@ namespace SpiritMod.NPCs
 					npc.DropItem(ModContent.ItemType<Items.Accessory.RabbitFoot.Rabbit_Foot>());
 				}
 			}
-			if (npc.type == ModContent.NPCType<WinterbornMelee>() || npc.type == ModContent.NPCType<WinterbornMagic>()) {
+			if (npc.type == ModContent.NPCType<NPCs.Winterborn.WinterbornMelee>() || npc.type == ModContent.NPCType<NPCs.WinterbornHerald.WinterbornMagic>()) {
 				if (Main.rand.Next(150) == 1 && !npc.SpawnedFromStatue) {
 					npc.DropItem(ModContent.ItemType<WinterbornSculpture>());
 				}
 			}
-			if (npc.type == ModContent.NPCType<Wheezer>() && closest.ZoneSnow) {
+			if (npc.type == ModContent.NPCType<NPCs.Wheezer.Wheezer>() && closest.ZoneSnow) {
 				if (Main.rand.Next(100) == 1 && !npc.SpawnedFromStatue) {
 					npc.DropItem(ModContent.ItemType<IceWheezerSculpture>());
 				}

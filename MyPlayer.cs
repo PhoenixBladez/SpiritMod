@@ -15,7 +15,6 @@ using SpiritMod.Items.Material;
 using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Mounts;
 using SpiritMod.NPCs;
-using SpiritMod.NPCs.BloodMoon;
 using SpiritMod.NPCs.Boss.Atlas;
 using SpiritMod.NPCs.Boss.MoonWizard;
 using SpiritMod.NPCs.Mimic;
@@ -26,6 +25,7 @@ using SpiritMod.Projectiles.DonatorItems;
 using SpiritMod.Projectiles.Magic;
 using SpiritMod.Projectiles.Summon;
 using SpiritMod.Projectiles.Sword;
+using SpiritMod.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -1046,10 +1046,10 @@ namespace SpiritMod
                 }
                 if (bobberIndex != -1) {
                     Vector2 bobberPos = Main.projectile[bobberIndex].Center;
-                    caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<BottomFeeder>(), 0, 2, 1, 0, 0, Main.myPlayer);
+                    caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<NPCs.BottomFeeder.BottomFeeder>(), 0, 2, 1, 0, 0, Main.myPlayer);
                     if (Main.netMode == 1)
                     {
-                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, ModContent.NPCType<BottomFeeder>());
+                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, ModContent.NPCType<NPCs.BottomFeeder.BottomFeeder>());
                     }
                 }
             }
@@ -1061,10 +1061,10 @@ namespace SpiritMod
                 }
                 if (bobberIndex != -1) {
                     Vector2 bobberPos = Main.projectile[bobberIndex].Center;
-                    caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<Hornetfish>(), 0, 2, 1, 0, 0, Main.myPlayer);
+                    caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<NPCs.Hornetfish.Hornetfish>(), 0, 2, 1, 0, 0, Main.myPlayer);
                     if (Main.netMode == 1)
                     {
-                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, ModContent.NPCType<Hornetfish>());
+                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, ModContent.NPCType<NPCs.Hornetfish.Hornetfish>());
                     }
                 }
             }
@@ -2437,7 +2437,7 @@ namespace SpiritMod
 			if(ZoneAsteroid && MyWorld.spaceJunkWeather && Main.rand.Next(59) == 0) {
 				Vector2 vector2_1 = new Vector2((float)(player.position.X + player.width * 0.5 + (Main.rand.Next(201) * -player.direction) + ((double)Main.mouseX + (double)Main.screenPosition.X - (double)player.position.X)), (float)((double)player.position.Y + (double)player.height * 0.5 - 600.0));   //this defines the projectile width, direction and position
 
-				string[] smallDebris = { "SpaceDebris1", "SpaceDebris2", "MeteorShard3", "MeteorShard4" };
+				string[] smallDebris = { "SpaceDebris1", "SpaceDebris2" };
 				int small = Main.rand.Next(smallDebris.Length);
 				string[] bigDebris = { "SpaceDebris3", "SpaceDebris4", "MeteorShard5", "MeteorShard6" };
 				int big = Main.rand.Next(bigDebris.Length);

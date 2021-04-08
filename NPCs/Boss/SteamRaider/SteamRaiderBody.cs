@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Projectiles;
-using SpiritMod.Projectiles.Boss;
 using System;
 using System.IO;
 using System.Linq;

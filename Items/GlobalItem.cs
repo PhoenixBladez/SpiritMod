@@ -4,8 +4,8 @@ using SpiritMod.Items.Halloween.DevMasks;
 using SpiritMod.NPCs.Critters;
 using SpiritMod.NPCs;
 using SpiritMod.NPCs.Reach;
-using SpiritMod.NPCs.BlueMoon;
-using SpiritMod.NPCs.Ocean;
+using SpiritMod.NPCs.BlueMoon.LunarSlime;
+using SpiritMod.NPCs.OceanSlime;
 using SpiritMod.Projectiles;
 using SpiritMod.Projectiles.Sword;
 using System;
@@ -129,8 +129,8 @@ namespace SpiritMod.Items
 			if (item.type == 3090) {
 				player.npcTypeNoAggro[ModContent.NPCType<LunarSlime>()] = true;
 				player.npcTypeNoAggro[ModContent.NPCType<ReachSlime>()] = true;
-				player.npcTypeNoAggro[ModContent.NPCType<GraniteSlime>()] = true;
-				player.npcTypeNoAggro[ModContent.NPCType<DiseasedSlime>()] = true;
+				player.npcTypeNoAggro[ModContent.NPCType<NPCs.GraniteSlime.GraniteSlime>()] = true;
+				player.npcTypeNoAggro[ModContent.NPCType<NPCs.DiseasedSlime.DiseasedSlime>()] = true;
 				player.npcTypeNoAggro[ModContent.NPCType<OceanSlime>()] = true;
 			}
 		}

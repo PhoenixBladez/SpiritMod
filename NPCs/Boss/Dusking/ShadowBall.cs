@@ -157,7 +157,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 		{
 			bool expertMode = Main.expertMode;
 			int dam = expertMode ? 19 : 35;
-			int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, ModContent.ProjectileType<HostileWrath>(), dam, 1, Main.myPlayer, 0, 0);
+			int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, ModContent.ProjectileType<Projectiles.HostileWrath>(), dam, 1, Main.myPlayer, 0, 0);
 			Main.projectile[p].timeLeft = 30;
 
 			Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 14);

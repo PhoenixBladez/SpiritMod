@@ -29,7 +29,6 @@ using SpiritMod.Items.Weapon.Swung.Khopesh;
 using SpiritMod.Items.Weapon.Thrown;
 using SpiritMod.Items.Weapon.Yoyo;
 using SpiritMod.NPCs;
-using SpiritMod.NPCs.BloodMoon;
 using SpiritMod.NPCs.BlueMoon;
 using SpiritMod.NPCs.Boss;
 using SpiritMod.NPCs.Boss.Atlas;
@@ -203,7 +202,7 @@ namespace SpiritMod.Utilities
 				() => MyWorld.downedOccultist,
 				new BCIDData(
 					new List<int> {
-						ModContent.NPCType<Occultist>()
+						ModContent.NPCType<NPCs.Occultist.Occultist>()
 					},
 					null,
 					null,
@@ -225,7 +224,7 @@ namespace SpiritMod.Utilities
 				() => MyWorld.downedMechromancer,
 				new BCIDData(
 					new List<int> {
-						ModContent.NPCType<Mecromancer>()
+						ModContent.NPCType<NPCs.Mechromancer.Mecromancer>()
 					},
 					null,
 					new List<int> {
@@ -251,7 +250,7 @@ namespace SpiritMod.Utilities
 				() => MyWorld.downedSnaptrapper,
 				new BCIDData(
 					new List<int> {
-						ModContent.NPCType<Snaptrapper>()
+						ModContent.NPCType<NPCs.Snaptrapper.Snaptrapper>()
 					},
 					null,
 					null,
@@ -272,7 +271,7 @@ namespace SpiritMod.Utilities
 				() => MyWorld.downedBeholder,
 				new BCIDData(
 					new List<int> {
-						ModContent.NPCType<Beholder>()
+						ModContent.NPCType<NPCs.Beholder.Beholder>()
 					},
 					null,
 					null,
@@ -625,12 +624,12 @@ namespace SpiritMod.Utilities
 				() => MyWorld.downedBlueMoon,
 				new BCIDData(
 					new List<int> {
-						ModContent.NPCType<Bloomshroom>(),
-						ModContent.NPCType<Glitterfly>(),
-						ModContent.NPCType<GlowToad>(),
-						ModContent.NPCType<Lumantis>(),
-						ModContent.NPCType<LunarSlime>(),
-						ModContent.NPCType<MadHatter>()
+						ModContent.NPCType<NPCs.BlueMoon.Bloomshroom.Bloomshroom>(),
+						ModContent.NPCType<NPCs.BlueMoon.Glitterfly.Glitterfly>(),
+						ModContent.NPCType<NPCs.BlueMoon.GlowToad.GlowToad>(),
+						ModContent.NPCType<NPCs.BlueMoon.Lumantis.Lumantis>(),
+						ModContent.NPCType<NPCs.BlueMoon.LunarSlime.LunarSlime>(),
+						ModContent.NPCType<NPCs.BlueMoon.MadHatter.MadHatter>()
 					},
 					new List<int> {
 						ModContent.ItemType<BlueMoonSpawn>()
