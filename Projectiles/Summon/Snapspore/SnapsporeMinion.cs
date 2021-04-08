@@ -185,7 +185,7 @@ namespace SpiritMod.Projectiles.Summon.Snapspore
                     {
                         for (int i = 0; i < amountOfProjectiles; ++i)
                         {
-                            int p = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, Main.rand.Next(-2, 2), Main.rand.Next(-2, 2), ModContent.ProjectileType<Projectiles.Thrown.Artifact.Miasma>(), projectile.damage / 2, 1, Main.myPlayer, 0, 0);
+                            int p = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, Main.rand.Next(-2, 2), Main.rand.Next(-2, 2), ModContent.ProjectileType<Projectiles.PoisonCloud>(), projectile.damage / 2, 1, Main.myPlayer, 0, 0);
                         }
                     }
                 }

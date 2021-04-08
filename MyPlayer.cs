@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs;
 using SpiritMod.Buffs.Armor;
-using SpiritMod.Buffs.Artifact;
 using SpiritMod.Buffs.Glyph;
 using SpiritMod.Buffs.Summon;
 using SpiritMod.Dusts;
@@ -105,7 +104,6 @@ namespace SpiritMod
         public bool cleftHorn = false;
         public bool mimicRepellent = false;
         public bool daybloomSet = false;
-        public int dazzleStacks;
         public bool ToxicExtract = false;
         public bool vitaStone = false;
         public bool throwerGlove = false;
@@ -212,7 +210,6 @@ namespace SpiritMod
         public int Rangedhits = 0;
         public bool flametrail = false;
         public bool daybloomGarb = false;
-        public bool icytrail = false;
         public bool silkenSet = false;
         public bool EnchantedPaladinsHammerMinion = false;
         public bool ProbeMinion = false;
@@ -369,7 +366,6 @@ namespace SpiritMod
         public bool amazonCharm;
         public bool KingSlayerFlask;
         public bool Resolve;
-        public bool DarkBough;
         public bool hellCharm;
         public bool bloodyBauble;
         public bool twilightTalisman;
@@ -697,7 +693,6 @@ namespace SpiritMod
             KingRock = false;
             leatherGlove = false;
             flametrail = false;
-            icytrail = false;
             EnchantedPaladinsHammerMinion = false;
             ProbeMinion = false;
             crawlerockMinion = false;
@@ -797,7 +792,6 @@ namespace SpiritMod
             deathRose = false;
             mythrilCharm = false;
             KingSlayerFlask = false;
-            DarkBough = false;
             Resolve = false;
             MoonSongBlossom = false;
             HolyGrail = false;
@@ -1347,10 +1341,6 @@ namespace SpiritMod
                 player.AddBuff(ModContent.BuffType<FrenzyVirus1>(), 240);
             }
 
-            if (sunStone && item.melee && Main.rand.NextBool(18)) {
-                target.AddBuff(ModContent.BuffType<SunBurn>(), 240);
-            }
-
             if (geodeSet && crit && Main.rand.NextBool(5)) {
                 target.AddBuff(ModContent.BuffType<Buffs.Crystal>(), 180);
             }
@@ -1493,37 +1483,12 @@ namespace SpiritMod
                 target.StrikeNPC(40, 0f, 0, crit);
             }
 
-            if (sunStone && proj.melee && Main.rand.NextBool(18)) {
-                target.AddBuff(ModContent.BuffType<SunBurn>(), 240);
-            }
-
-            if (moonStone && proj.ranged && Main.rand.NextBool(18)) {
-                target.AddBuff(ModContent.BuffType<MoonBurn>(), 240);
-            }
-
             if (wheezeScale && Main.rand.NextBool(9) && proj.melee) {
                 Vector2 vel = new Vector2(0, -1);
                 float rand = Main.rand.NextFloat() * 6.283f;
                 vel = vel.RotatedBy(rand);
                 vel *= 8f;
                 Projectile.NewProjectile(target.Center, vel, ModContent.ProjectileType<Wheeze>(), Main.hardMode ? 40 : 20, 0, player.whoAmI);
-            }
-
-            if (DarkBough && proj.minion) {
-                if (Main.rand.NextBool(15)) {
-                    for (int h = 0; h < 6; h++) {
-                        Vector2 vel = new Vector2(0, -1);
-                        float rand = Main.rand.NextFloat() * 6.283f;
-                        vel = vel.RotatedBy(rand);
-                        vel *= 8f;
-                        Projectile.NewProjectile(target.Center, vel, ModContent.ProjectileType<NightmareBarb>(), 29, 1, player.whoAmI);
-                    }
-                }
-
-                if (Main.rand.NextBool(30)) {
-                    player.statLife += 2;
-                    player.HealEffect(2);
-                }
             }
 
             if (magazine && proj.ranged && ++Charger > 10) {
@@ -2664,9 +2629,6 @@ namespace SpiritMod
 			if(phaseStacks > 3) {
 				phaseStacks = 3;
 			}
-			if(icytrail && player.velocity.X != 0) {
-				Projectile.NewProjectile(player.position.X, player.position.Y + 40, 0f, 0f, ModContent.ProjectileType<FrostTrail>(), 35, 0f, player.whoAmI);
-			}
 
 			if(flametrail && player.velocity.X != 0) {
 				Projectile.NewProjectile(player.position.X, player.position.Y + 40, 0f, 0f, ModContent.ProjectileType<CursedFlameTrail>(), 35, 0f, player.whoAmI);
@@ -3408,15 +3370,6 @@ namespace SpiritMod
 					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<CryoProj>(), 0, 0, player.whoAmI);
 				}
 			}
-			if(animusLens) {
-				if(player.ownedProjectileCounts[ModContent.ProjectileType<ShadowGuard>()] <= 0) {
-					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<ShadowGuard>(), 20, 0, player.whoAmI);
-				}
-
-				if(player.ownedProjectileCounts[ModContent.ProjectileType<SpiritGuard>()] <= 0) {
-					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<SpiritGuard>(), 20, 0, player.whoAmI);
-				}
-			}
 
 			if(witherSet) {
 				if(player.ownedProjectileCounts[ModContent.ProjectileType<WitherOrb>()] <= 0) {
@@ -3425,18 +3378,6 @@ namespace SpiritMod
 			}
 
 			Counter++;
-			if(MoonSongBlossom) {
-				if(player.ownedProjectileCounts[ModContent.ProjectileType<MoonShard>()] <= 2 && Counter > 120) {
-					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<MoonShard>(), 25, 0, player.whoAmI);
-					Counter = 0;
-				}
-			}
-
-			if(shadowSet && (Main.rand.NextBool(2))) {
-				if(player.ownedProjectileCounts[ModContent.ProjectileType<Spirit>()] <= 2) {
-					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<Spirit>(), 56, 0, player.whoAmI);
-				}
-			}
 
 			if(SoulStone && (Main.rand.NextBool(2))) {
 				if(player.ownedProjectileCounts[ModContent.ProjectileType<StoneSpirit>()] < 1) {
@@ -3978,19 +3919,7 @@ namespace SpiritMod
 				Rectangle textPos = new Rectangle((int)player.position.X, (int)player.position.Y - 20, player.width, player.height);
 				CombatText.NewText(textPos, new Color(121, 195, 237, 100), "Water Spout Charged!");
 			}
-			if(daybloomSet) {
-				if(dazzleStacks == 1800) {
-					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(25, 1));
-					Rectangle textPos = new Rectangle((int)player.position.X, (int)player.position.Y - 20, player.width, player.height);
-					CombatText.NewText(textPos, new Color(245, 212, 69, 100), "Energy Charged!");
-				}
-
-				if(dazzleStacks >= 1800) {
-					if(Main.rand.Next(6) == 0) {
-						int d = Dust.NewDust(player.position, player.width, player.height, 228, 0f, 0f, 0, default, .14f * bloodfireShieldStacks);
-					}
-				}
-			}
+			
 
 			if(shootDelay > 0) {
 				shootDelay--;
@@ -4661,12 +4590,6 @@ namespace SpiritMod
 			foreach(var effect in effects)
 				effect.PlayerDrawEffects(drawInfo, ref r, ref g, ref b, ref a, ref fullBright);
 
-			if(daybloomSet && dazzleStacks != 0 && !player.mount.Active) {
-				a = 255 - .0001180555f * dazzleStacks;
-				if(dazzleStacks >= 1800) {
-					a = 255 - .0001180555f * 1800;
-				}
-			}
 
 			if(BlueDust) {
 				if(Main.rand.NextBool(4)) {
@@ -4947,11 +4870,6 @@ namespace SpiritMod
 					}
 				}
 
-				if(daybloomSet && dazzleStacks >= 1800) {
-					Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<Dazzle>(), 0, 0, player.whoAmI);
-					Main.PlaySound(SoundID.Item, player.position, 9);
-					dazzleStacks = 0;
-				}
 
 				if(reaperSet && !player.HasBuff(ModContent.BuffType<FelCooldown>())) {
 					player.AddBuff(ModContent.BuffType<FelCooldown>(), 2700);

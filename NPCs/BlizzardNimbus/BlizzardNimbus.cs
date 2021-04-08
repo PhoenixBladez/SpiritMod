@@ -105,13 +105,6 @@ namespace SpiritMod.NPCs.BlizzardNimbus
 			}
 		}
 
-		public override void NPCLoot()
-		{
-			if (Main.rand.Next(20) == 0) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<FrigidWind>());
-			}
-		}
-
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frameCounter += 0.15f;
