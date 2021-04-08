@@ -51,10 +51,10 @@ namespace SpiritMod.NPCs
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			if (!NPC.downedBoss1) {
-				return spawnInfo.spawnTileY < Main.rockLayer && (!Main.dayTime) && spawnInfo.player.ZoneOverworldHeight && !spawnInfo.player.ZoneDesert && !spawnInfo.player.ZoneCorrupt && !spawnInfo.player.ZoneCrimson && !spawnInfo.player.ZoneBeach && !spawnInfo.player.ZoneJungle ? 0.025f : 0f;
+				return spawnInfo.spawnTileY < Main.rockLayer && (!Main.dayTime) && !spawnInfo.playerSafe && spawnInfo.player.ZoneOverworldHeight && !spawnInfo.player.ZoneDesert && !spawnInfo.player.ZoneCorrupt && !spawnInfo.player.ZoneCrimson && !spawnInfo.player.ZoneBeach && !spawnInfo.player.ZoneJungle ? 0.025f : 0f;
 			}
 			else {
-				return spawnInfo.spawnTileY < Main.rockLayer && (!Main.dayTime) && spawnInfo.player.ZoneOverworldHeight && !spawnInfo.player.ZoneDesert && !spawnInfo.player.ZoneCorrupt && !spawnInfo.player.ZoneCrimson && !spawnInfo.player.ZoneBeach && !spawnInfo.player.ZoneJungle ? 0.04f : 0f;
+				return spawnInfo.spawnTileY < Main.rockLayer && (!Main.dayTime) && !spawnInfo.playerSafe && spawnInfo.player.ZoneOverworldHeight && !spawnInfo.player.ZoneDesert && !spawnInfo.player.ZoneCorrupt && !spawnInfo.player.ZoneCrimson && !spawnInfo.player.ZoneBeach && !spawnInfo.player.ZoneJungle ? 0.04f : 0f;
 			}
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

@@ -20,14 +20,14 @@ namespace SpiritMod.NPCs.BloodMoon.SkeletonBrute
 		}
 		public override void SetDefaults()
 		{
-			npc.lifeMax = 125;
+			npc.lifeMax = 250;
 			npc.defense = 10;
 			npc.value = 400f;
 			aiType = 0;
 			npc.knockBackResist = 0.3f;
 			npc.width = 35;
 			npc.height = 80;
-			npc.damage = 22;
+			npc.damage = 26;
 			npc.lavaImmune = false;
 			npc.noTileCollide = false;
 			npc.alpha = 0;
@@ -87,7 +87,7 @@ namespace SpiritMod.NPCs.BloodMoon.SkeletonBrute
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.spawnTileY < Main.rockLayer && (Main.bloodMoon) && !NPC.AnyNPCs(ModContent.NPCType<Skeleton_Brute>()) ? 0.05f : 0f;
+			return spawnInfo.spawnTileY < Main.rockLayer && (Main.bloodMoon) && !NPC.AnyNPCs(ModContent.NPCType<Skeleton_Brute>()) && (NPC.downedBoss1 || NPC.downedBoss2 || NPC.downedBoss3 || MyWorld.downedScarabeus || MyWorld.downedAncientFlier || MyWorld.downedMoonWizard || MyWorld.downedRaider) ? 0.05f : 0f;
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{

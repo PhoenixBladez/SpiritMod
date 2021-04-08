@@ -110,7 +110,7 @@ namespace SpiritMod.NPCs
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.player.ZoneOverworldHeight && spawnInfo.player.ZoneSnow && Main.raining && !NPC.AnyNPCs(ModContent.NPCType<CrystalDrifter>()) && NPC.downedBoss3 ? 0.09f : 0f;
+			return spawnInfo.player.ZoneOverworldHeight && spawnInfo.player.ZoneSnow && Main.raining && !spawnInfo.playerSafe && !NPC.AnyNPCs(ModContent.NPCType<CrystalDrifter>()) && NPC.downedBoss3 ? 0.09f : 0f;
 		}
 
 

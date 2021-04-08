@@ -88,7 +88,7 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
                             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 110);
                             Vector2 direction = Main.npc[npcFinder].Center - projectile.Center;
                             direction.Normalize();
-                            direction *= 12f;
+                            direction *= 15f;
                             Projectile p = Projectile.NewProjectileDirect(projectile.Center, direction,
                             ModContent.ProjectileType<JellyfishOrbiter_Friendly>(), projectile.damage, projectile.knockBack, Main.myPlayer);
                             p.friendly = true;

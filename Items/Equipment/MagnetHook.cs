@@ -181,6 +181,7 @@ namespace SpiritMod.Items.Equipment
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].noLight = false;
 			}
+			if (projectile.timeLeft < 1180)
 			{
 				int tilepositionx = (int)(projectile.position.X / 16);
 				int tilepositiony = (int)(projectile.position.Y / 16);
@@ -200,7 +201,7 @@ namespace SpiritMod.Items.Equipment
 						}
 					}
 				}
-				if (lowestDist < 113.137085 && projectile.timeLeft < 9888 && !retracting && Main.tileSolid[Main.tile[targetpositionx / 16, targetpositiony / 16].type] && Main.tile[targetpositionx / 16, targetpositiony / 16].active()) {
+				if (lowestDist < 113.137085 && !retracting && Main.tileSolid[Main.tile[targetpositionx / 16, targetpositiony / 16].type] && Main.tile[targetpositionx / 16, targetpositiony / 16].active()) {
 					Vector2 direction = new Vector2(targetpositionx - projectile.position.X, targetpositiony - projectile.position.Y);
 					direction.Normalize();
 					projectile.velocity = direction * (int)Math.Sqrt((projectile.velocity.X * projectile.velocity.X) + (projectile.velocity.Y * projectile.velocity.Y));

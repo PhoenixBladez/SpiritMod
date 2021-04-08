@@ -76,7 +76,7 @@ namespace SpiritMod.Projectiles.Summon
 			{
 				foreach (NPC npc in Main.npc) {
 					//if npc is a valid target (active, not friendly, and not a critter)
-					if (npc.active && !npc.friendly && npc.catchItem == 0) {
+					if (npc.active && !npc.friendly && npc.catchItem == 0 && npc.CanBeChasedBy(projectile, false)) {
 						//if npc is within 50 blocks
 						float dist = projectile.Distance(npc.Center);
 						if (dist / 16 < range) {

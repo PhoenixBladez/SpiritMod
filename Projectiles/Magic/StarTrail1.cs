@@ -36,7 +36,7 @@ namespace SpiritMod.Projectiles.Magic
 					float num23 = Main.npc[index1].position.X + (float)(Main.npc[index1].width / 2);
 					float num24 = Main.npc[index1].position.Y + (float)(Main.npc[index1].height / 2);
 					float num25 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num23) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num24);
-					if (num25 < 300f) {
+					if (num25 < 400f) {
 						flag25 = true;
 						jim = index1;
 					}

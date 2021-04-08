@@ -35,8 +35,8 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		public override void SetDefaults()
 		{
 			npc.Size = new Vector2(80, 120);
-			npc.damage = 32;
-			npc.lifeMax = 1790;
+			npc.damage = 36;
+			npc.lifeMax = 1850;
 			npc.knockBackResist = 0;
 			npc.boss = true;
 			npc.noGravity = true;

@@ -20,8 +20,8 @@ namespace SpiritMod.Projectiles.Bullet
 			projectile.penetrate = 3;
 			projectile.timeLeft = 300;
 			projectile.aiStyle = -1;
-			projectile.height = 7;
-			projectile.width = 7;
+			projectile.height = 10;
+			projectile.width = 10;
 			projectile.alpha = 255;
 		}
 		private int Mode {

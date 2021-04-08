@@ -96,57 +96,7 @@ namespace SpiritMod.NPCs.Mimic
 		}
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(20) == 1) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 3200);
-			}
-			if (Main.rand.Next(20) == 1) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 3201);
-			}
-			if (Main.rand.Next(23) == 1) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 997);
-			}
-			if (Main.rand.Next(18) == 1) {
-				int loot;
-				loot = Main.rand.Next(new int[] { 285, 946, 953, 3068, 3084 });
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, loot);
-			}
-			if (Main.rand.Next(5) == 4) {
-				int ores;
-				ores = Main.rand.Next(new int[] { 11, 12, 13, 14, 699, 700, 701, 702 });
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ores, Main.rand.Next(8, 20));
-			}
-			else {
-				int bars;
-				bars = Main.rand.Next(new int[] { 19, 20, 21, 22, 703, 704, 705, 706 });
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, bars, Main.rand.Next(2, 7));
-			}
-			if (Main.rand.Next(3) == 2) {
-				int potions;
-				potions = Main.rand.Next(new int[] { 288, 290, 292, 304, 298, 2322, 2323, 291, 2329 });
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, potions, Main.rand.Next(1, 3));
-			}
-			{
-				int Gpotions;
-				Gpotions = Main.rand.Next(new int[] { 28, 110 });
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, Gpotions, Main.rand.Next(5, 15));
-			}
-			if (Main.rand.Next(3) == 2) {
-
-				int bait;
-				bait = Main.rand.Next(new int[] { 2675 });
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, bait, Main.rand.Next(3, 7));
-
-			}
-			else {
-				int bait;
-				bait = Main.rand.Next(new int[] { 2674 });
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, bait, Main.rand.Next(3, 7));
-			}
-			if (Main.rand.Next(5) == 2) {
-				int coins;
-				coins = Main.rand.Next(new int[] { 73 });
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, coins, Main.rand.Next(1, 5));
-			}
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.WoodenCrate);
 		}
 	}
 }

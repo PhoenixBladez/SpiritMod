@@ -27,7 +27,7 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.width = 10;
 			projectile.magic = true;
 			projectile.melee = true;
-			aiType = ProjectileID.DeathLaser;
+			aiType = ProjectileID.Bullet;
 		}
 		float num;
 		public override void AI()

@@ -55,7 +55,7 @@ namespace SpiritMod.Items.Equipment.ScarabExpertDrop
 		public override void SetDefaults()
 		{
 			mountData.buff = ModContent.BuffType<PendantBuff>();
-			mountData.fallDamage = 0.5f;
+			mountData.fallDamage = 0f;
 			mountData.runSpeed = 9f;
 			mountData.dashSpeed = 3f;
 			mountData.flightTimeMax = 0;
@@ -67,6 +67,7 @@ namespace SpiritMod.Items.Equipment.ScarabExpertDrop
 			mountData.totalFrames = 1;
 			mountData.constantJump = false;
 			mountData.playerYOffsets = new int[] { 26 };
+			mountData.playerHeadOffset = 30;
 			mountData.bodyFrame = 3;
 			mountData.heightBoost = 26;
 			mountData.standingFrameCount = 1;

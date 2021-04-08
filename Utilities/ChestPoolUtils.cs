@@ -139,6 +139,7 @@ namespace SpiritMod.Utilities
 		public const int lockedgoldChests = 2;
 		public const int ivyChests = 10;
 		public const int skyChests = 13;
+		public const int livingWoodChests = 12;
 		public const int spiderChests = 15;
 		public const int waterChests = 17;
 		public const int dynastyChests = 28;

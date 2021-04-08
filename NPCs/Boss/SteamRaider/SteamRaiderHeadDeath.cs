@@ -106,7 +106,6 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				direction.X *= 4f;
 				direction.Y *= -4f;
 
-				Main.NewText("Starplate Voyager has been defeated!", 175, 75, 255, false);
 				npc.life = 0;
                 npc.active = false;
 			}

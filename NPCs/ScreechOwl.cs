@@ -169,7 +169,7 @@ namespace SpiritMod.NPCs
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.spawnTileY < Main.worldSurface && spawnInfo.player.ZoneSnow && !Main.dayTime ? 0.025f : 0f;
+            return spawnInfo.spawnTileY < Main.worldSurface && spawnInfo.player.ZoneSnow && !Main.dayTime && !spawnInfo.playerSafe ? 0.025f : 0f;
         }
         public override void HitEffect(int hitDirection, double damage)
         {

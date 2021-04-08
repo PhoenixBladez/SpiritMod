@@ -47,7 +47,7 @@ namespace SpiritMod
 
 			tasks.Insert(++index, new PassLegacy("Sepulchure",
 				delegate (GenerationProgress progress) {
-					progress.Message = "Sepulchuring";
+					progress.Message = "Spirit Mod: Generating Dark Sepulchres...";
 
 					for(int i = 0; i< Main.maxTilesX/200; i++) {
 						CreateSepulchre(new Vector2(WorldGen.genRand.Next((int)(Main.maxTilesX * 0.2f), (int)(Main.maxTilesX * 0.8f)), WorldGen.genRand.Next(Main.maxTilesY - 500, Main.maxTilesY - 300)));

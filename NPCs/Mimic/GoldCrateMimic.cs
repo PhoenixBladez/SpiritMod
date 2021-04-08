@@ -131,34 +131,7 @@ namespace SpiritMod.NPCs.Mimic
 		}
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(10) == 1) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 2491);
-			}
-			if (Main.rand.Next(2) == 0) {
-				int bars;
-				bars = Main.rand.Next(new int[] { 21, 705, 19, 706 });
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, bars, Main.rand.Next(15, 30));
-			}
-			if (Main.rand.Next(2) == 0) {
-				int potions;
-				potions = Main.rand.Next(new int[] { 288, 296, 305, 2322, 2323 });
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, potions, Main.rand.Next(2, 5));
-			}
-			{
-				int Gpotions;
-				Gpotions = Main.rand.Next(new int[] { 499, 500 });
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, Gpotions, Main.rand.Next(5, 14));
-			}
-			{
-				int bait;
-				bait = Main.rand.Next(new int[] { 2676 });
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, bait, Main.rand.Next(3, 7));
-			}
-			{
-				int coins;
-				coins = Main.rand.Next(new int[] { 73 });
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, coins, Main.rand.Next(3, 7));
-			}
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GoldenCrate);
 		}
 	}
 }

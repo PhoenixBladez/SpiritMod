@@ -13,7 +13,7 @@ namespace SpiritMod.Projectiles.Flail
 	{
 		bool readytostick = true;
 		bool stuck = false;
-		int timeStuck = 150;
+		int timeStuck = 600;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Magnet Flail");

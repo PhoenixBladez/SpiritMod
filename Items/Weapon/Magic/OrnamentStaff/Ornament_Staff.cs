@@ -11,14 +11,14 @@ namespace SpiritMod.Items.Weapon.Magic.OrnamentStaff
 		public override void SetDefaults()
 		{
 
-			item.damage = 15;
+			item.damage = 16;
 			item.noMelee = true;
 			item.noUseGraphic = false;
 			item.magic = true;
 			item.width = 36;
 			item.height = 40;
-			item.useTime = 48;
-			item.useAnimation = 48;
+			item.useTime = 43;
+			item.useAnimation = 43;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shoot = ProjectileID.WoodenArrowFriendly;
 			item.shootSpeed = 10f;
