@@ -137,7 +137,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 			{
 				case 0: //SPAWN ZOMBIES
 				{
-					BadLuck();
+					BadLuck(i, j);
 					int a = NPC.NewNPC((int)(i * 16) + -8 - 16 - 16, (j * 16) + 6, 21);
 					int b = NPC.NewNPC((int)(i * 16) + -8 - 16, (j * 16) + 6, 21);
 					int c = NPC.NewNPC((int)(i * 16) + 8, (j * 16) + 6, 21);
@@ -152,7 +152,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 				}
 				case 1: //DROP COINS
 				{
-					BadLuck();
+					BadLuck(i, j);
 					Main.PlaySound(18, i *16, j * 16, 0);
 					int num1 = 0;
 					for (int index = 0; index < 59; ++index)
@@ -213,7 +213,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 				}
 				case 2: //SPAWN POTIONS
 				{
-					GoodLuck();
+					GoodLuck(i, j);
 					int randomPotion = Utils.SelectRandom<int>(Main.rand, new int[38] { 2344, 303, 300, 2325, 2324, 2356, 2329, 2346, 295, 2354, 2327, 291, 305, 2323, 304, 2348, 297, 292, 2345, 2352, 294, 293, 2322, 299, 288, 2347, 289, 298, 2355, 296, 2353, 2328, 290, 301, 2326, 2359, 302, 2349 });
 					int randomPotion2 = Utils.SelectRandom<int>(Main.rand, new int[38] { 2344, 303, 300, 2325, 2324, 2356, 2329, 2346, 295, 2354, 2327, 291, 305, 2323, 304, 2348, 297, 292, 2345, 2352, 294, 293, 2322, 299, 288, 2347, 289, 298, 2355, 296, 2353, 2328, 290, 301, 2326, 2359, 302, 2349 });
 					int randomPotion3 = Utils.SelectRandom<int>(Main.rand, new int[38] { 2344, 303, 300, 2325, 2324, 2356, 2329, 2346, 295, 2354, 2327, 291, 305, 2323, 304, 2348, 297, 292, 2345, 2352, 294, 293, 2322, 299, 288, 2347, 289, 298, 2355, 296, 2353, 2328, 290, 301, 2326, 2359, 302, 2349 });
@@ -257,7 +257,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 				}
 				case 3: //SPAWN AN ITEM
 				{
-					GoodLuck();
+					GoodLuck(i, j);
 					int item = Item.NewItem((int)(i * 16) + 8, (int)(j * 16) + 12, 16, 18, 393, 1);
 					if (Main.netMode != NetmodeID.SinglePlayer && item >= 0)
 					{
@@ -272,7 +272,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 				}
 				case 4: //SPAWN BUNNIES
 				{
-					NeutralLuck();
+					NeutralLuck(i, j);
 					float npcposX = 0f;
 					float npcposY = 0f;
 					for (int g = 0; g < 8 +	Main.rand.Next(6); g++)
@@ -304,7 +304,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 				}
 				case 5: //Potion N LAVA
 				{
-					NeutralLuck();
+					NeutralLuck(i, j);
 					Main.tile[i, j].lava(true);
 					Main.tile[i, j].liquid = byte.MaxValue;
 					Main.tile[i-1, j].lava(true);
@@ -318,7 +318,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 				}
 				case 6: //Convert regional stone into gems
 				{
-					GoodLuck();
+					GoodLuck(i, j);
 					int gemType = Main.rand.Next(new int[] { 63, 64, 65, 66, 67, 68 });
 					if (Main.netMode != NetmodeID.SinglePlayer)
 					{
@@ -338,7 +338,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 				}
 				case 7: //Places opposite world evil
 				{
-					BadLuck();
+					BadLuck(i, j);
 					for (int value = 0; value < 32; value++) {
 					int num = Dust.NewDust(new Vector2(i * 16, j * 16), 50, 50, 54, 0f, -2f, 0, default(Color), 2f);
 					Main.dust[num].noGravity = true;
@@ -363,7 +363,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 				}
 				case 8: //Midas effect
 				{
-					GoodLuck();
+					GoodLuck(i, j);
 					player.AddBuff(ModContent.BuffType<Buffs.MidasTouch>(), 3600*5);
 					for (int numi = 0; numi < 8; numi++)
 					{
@@ -376,7 +376,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 				}
 				case 9: //Clear all buffs and debuffs
 				{
-					NeutralLuck();
+					NeutralLuck(i, j);
 					for (int index1 = 0; index1 < 22; ++index1)
 					{
 						player.DelBuff(index1);	
@@ -385,14 +385,14 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 				}
 				case 10: //Darkness and Weak
 				{
-					BadLuck();
+					BadLuck(i, j);
 					player.AddBuff(BuffID.Darkness, 3600);
 					player.AddBuff(BuffID.Weak, 3600);
 					break;
 				}
 				case 11: //Opposite gold/platinum ore
 				{
-					GoodLuck();
+					GoodLuck(i, j);
 					int oreType;
 					if (WorldGen.GoldTierOre == TileID.Platinum)	
 					{
@@ -407,7 +407,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 				}
 				case 12:
 				{
-					GoodLuck();
+					GoodLuck(i, j);
 					int item = Item.NewItem((int)(i * 16) + 8, (int)(j * 16) + 12, 16, 18, ModContent.ItemType<Glyph>(), 1);
 					if (Main.netMode != NetmodeID.SinglePlayer && item >= 0)
 					{
@@ -471,24 +471,24 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 			}
 		}
 
-		public void BadLuck()
+		public void BadLuck(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
-			int index = CombatText.NewText(new Microsoft.Xna.Framework.Rectangle((int)player.position.X, (int)player.position.Y, player.width, player.height), new Color(255,150,150), string.Concat((object)"Bad Luck!"), false, false);
+			int index = CombatText.NewText(new Microsoft.Xna.Framework.Rectangle((int)i * 16, (int)j * 16, player.width, player.height), new Color(255,150,150), string.Concat((object)"Bad Luck!"), false, false);
 			CombatText combatText = Main.combatText[index];
 			NetMessage.SendData(81, -1, -1, NetworkText.FromLiteral(combatText.text), (int)combatText.color.PackedValue, combatText.position.X, combatText.position.Y, 0.0f, 0, 0, 0);
 		}
-		public void GoodLuck()
+		public void GoodLuck(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
-			int index = CombatText.NewText(new Microsoft.Xna.Framework.Rectangle((int)player.position.X, (int)player.position.Y, player.width, player.height), new Color(150, 255, 150), string.Concat((object)"Good Luck!"), false, false);
+			int index = CombatText.NewText(new Microsoft.Xna.Framework.Rectangle((int)i * 16, (int)j * 16, player.width, player.height), new Color(150, 255, 150), string.Concat((object)"Good Luck!"), false, false);
 			CombatText combatText = Main.combatText[index];
 			NetMessage.SendData(81, -1, -1, NetworkText.FromLiteral(combatText.text), (int)combatText.color.PackedValue, combatText.position.X, combatText.position.Y, 0.0f, 0, 0, 0);
 		}
-		public void NeutralLuck()
+		public void NeutralLuck(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
-			int index = CombatText.NewText(new Microsoft.Xna.Framework.Rectangle((int)player.position.X, (int)player.position.Y, player.width, player.height), new Color(150, 150, 255), string.Concat((object)"Neutral Luck!"), false, false);
+			int index = CombatText.NewText(new Microsoft.Xna.Framework.Rectangle((int)i * 16, (int)j * 16, player.width, player.height), new Color(150, 150, 255), string.Concat((object)"Neutral Luck!"), false, false);
 			CombatText combatText = Main.combatText[index];
 			NetMessage.SendData(81, -1, -1, NetworkText.FromLiteral(combatText.text), (int)combatText.color.PackedValue, combatText.position.X, combatText.position.Y, 0.0f, 0, 0, 0);
 		}

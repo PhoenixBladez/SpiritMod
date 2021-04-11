@@ -72,38 +72,74 @@ namespace SpiritMod.Projectiles.Summon
                 specialAttack();
                 projectile.alpha--;
             }
+			NPC mainTarget = projectile.OwnerMinionAttackTargetNPC;
             NPC target = (Main.npc[(int)projectile.ai[1]] ?? new NPC()); //our target
-																		 //firing
+																 //firing
 			projectile.ai[0]++;
-			if (projectile.ai[0] >= 60 && target.active && !target.friendly && projectile.Distance(target.Center) / 16 < range) {
-				projectile.ai[0] = 0;
-				Vector2 ShootArea = new Vector2(projectile.Center.X, projectile.Center.Y - 13);
-				Vector2 direction = target.Center - ShootArea;
-				direction.Normalize();
-				direction.X *= shootVelocity;
-				direction.Y *= shootVelocity;
- 				if (projectile.alpha <= 100)
+			if (projectile.ai[0] >= 60 && projectile.Distance(target.Center) / 16 < range)
+			{
+				if (mainTarget != null && mainTarget.CanBeChasedBy(projectile))
 				{
-					for (int i = 0; i < 10; i++)
+					Vector2 ShootArea = new Vector2(projectile.Center.X, projectile.Center.Y - 13);
+					Vector2 direction = mainTarget.Center - ShootArea;
+					direction.Normalize();
+					direction.X *= shootVelocity;
+					direction.Y *= shootVelocity;
+					if (projectile.alpha <= 100)
 					{
-						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 167, 0f, -2f, 0, default(Color), 1.5f);
-						Main.dust[num].noGravity = true;
-						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-						if (Main.dust[num].position != projectile.Center)
+						for (int i = 0; i < 10; i++)
 						{
-							Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 2f;
+							int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 167, 0f, -2f, 0, default(Color), 1.5f);
+							Main.dust[num].noGravity = true;
+							Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+							Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+							if (Main.dust[num].position != projectile.Center)
+							{
+								Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 2f;
+							}
 						}
-					}
-					if (Main.netMode != NetmodeID.MultiplayerClient) {
+						if (Main.netMode != NetmodeID.MultiplayerClient) {
 
-						int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 13, direction.X, direction.Y, mod.ProjectileType("BismiteShot"), projectile.damage, 0, Main.myPlayer);
-						Main.projectile[proj2].ranged = false;
-						Main.projectile[proj2].minion = true;
+							int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 13, direction.X, direction.Y, mod.ProjectileType("BismiteShot"), projectile.damage, 0, Main.myPlayer);
+							Main.projectile[proj2].ranged = false;
+							Main.projectile[proj2].minion = true;
+						}
+						
+						Main.PlaySound(SoundID.DD2_CrystalCartImpact, projectile.Center);  //make bow shooty sound
 					}
-					
-					Main.PlaySound(SoundID.DD2_CrystalCartImpact, projectile.Center);  //make bow shooty sound
 				}
+				else if (target != null && target.CanBeChasedBy(projectile))
+				{
+					Vector2 ShootArea = new Vector2(projectile.Center.X, projectile.Center.Y - 13);
+					Vector2 direction = target.Center - ShootArea;
+					direction.Normalize();
+					direction.X *= shootVelocity;
+					direction.Y *= shootVelocity;
+					if (projectile.alpha <= 100)
+					{
+						for (int i = 0; i < 10; i++)
+						{
+							int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 167, 0f, -2f, 0, default(Color), 1.5f);
+							Main.dust[num].noGravity = true;
+							Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+							Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+							if (Main.dust[num].position != projectile.Center)
+							{
+								Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 2f;
+							}
+						}
+						if (Main.netMode != NetmodeID.MultiplayerClient) {
+
+							int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 13, direction.X, direction.Y, mod.ProjectileType("BismiteShot"), projectile.damage, 0, Main.myPlayer);
+							Main.projectile[proj2].ranged = false;
+							Main.projectile[proj2].minion = true;
+						}
+						
+						Main.PlaySound(SoundID.DD2_CrystalCartImpact, projectile.Center);  //make bow shooty sound
+					}
+				}
+				projectile.ai[0] = 0;
+				projectile.netUpdate = true;
 			}
 		}
 		public void specialAttack()

@@ -53,19 +53,7 @@ namespace SpiritMod.NPCs.Hookbat
         int frame;
         public override void AI()
         {
-			if (!setUpSpawn)
-            {
-                for (int i = 0; i < 3; ++i)
-                {
-                    Vector2 dir = Main.player[npc.target].Center - npc.Center;
-                    dir.Normalize();
-                    dir *= 1;
-                    int newNPC = NPC.NewNPC((int)npc.Center.X + (Main.rand.Next(-50, 50)), (int)npc.Center.Y + (Main.rand.Next(-50, 50)), mod.NPCType("Hookbat1"), npc.whoAmI);
-                    Main.npc[newNPC].velocity = dir;
-                    Main.npc[newNPC].netUpdate = true;
-                }
-                setUpSpawn = true;
-            }
+			
             npc.spriteDirection = npc.direction;
 			Player player = Main.player[npc.target];
 

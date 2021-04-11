@@ -92,13 +92,15 @@ namespace SpiritMod.Items.Weapon.Summon
         }
         public override bool CanUseItem(Player player)
         {
-            for (int i = 0; i < 1000; ++i)
-            {
-                if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot)
+            if (player.altFunctionUse != 2) {
+                for (int i = 0; i < 1000; ++i)
                 {
-                    Main.projectile[i].minionSlots += 1f;
-					if (Main.projectile[i].scale < 1.3f)
-                    Main.projectile[i].scale += .062f;
+                    if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot)
+                    {
+                        Main.projectile[i].minionSlots += 1f;
+                        if (Main.projectile[i].scale < 1.3f)
+                        Main.projectile[i].scale += .062f;
+                    }
                 }
             }
             return true;

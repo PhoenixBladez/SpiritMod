@@ -74,29 +74,51 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
         }
         public override void Kill(int timeLeft)
         {
-            for (int npcFinder = 0; npcFinder < 200; ++npcFinder)
+			NPC mainTarget = projectile.OwnerMinionAttackTargetNPC;
+            if (mainTarget != null && mainTarget.CanBeChasedBy(projectile))
             {
-                NPC npc = Main.npc[npcFinder];
-                if (npc.active && npc.CanBeChasedBy(projectile) && !npc.friendly)
+                float dist = projectile.Distance(mainTarget.Center);
+                if (dist / 16 < 30)
                 {
-                    //if npc is within 50 blocks
-                    float dist = projectile.Distance(npc.Center);
-                    if (dist / 16 < 30)
+                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 110);
+                    Vector2 direction = mainTarget.Center - projectile.Center;
+                    direction.Normalize();
+                    direction *= 15f;
+                    Projectile p = Projectile.NewProjectileDirect(projectile.Center, direction,
+                    ModContent.ProjectileType<JellyfishOrbiter_Friendly>(), projectile.damage, projectile.knockBack, Main.myPlayer);
+                    p.friendly = true;
+                    p.hostile = false;
+                    p.minion = true;
+                    p.netUpdate = true;
+                    p.scale = projectile.scale;
+                }
+            }
+            else
+            {
+                for (int npcFinder = 0; npcFinder < 200; ++npcFinder)
+                {
+                    NPC npc = Main.npc[npcFinder];
+                    if (npc.active && npc.CanBeChasedBy(projectile) && !npc.friendly)
                     {
-                        if (!Main.npc[npcFinder].friendly && !Main.npc[npcFinder].townNPC && Main.npc[npcFinder].active)
+                        //if npc is within 50 blocks
+                        float dist = projectile.Distance(npc.Center);
+                        if (dist / 16 < 30)
                         {
-                            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 110);
-                            Vector2 direction = Main.npc[npcFinder].Center - projectile.Center;
-                            direction.Normalize();
-                            direction *= 15f;
-                            Projectile p = Projectile.NewProjectileDirect(projectile.Center, direction,
-                            ModContent.ProjectileType<JellyfishOrbiter_Friendly>(), projectile.damage, projectile.knockBack, Main.myPlayer);
-                            p.friendly = true;
-                            p.hostile = false;
-                            p.minion = true;
-							p.netUpdate = true;
-							p.scale = projectile.scale;
-                            break;
+                            if (!Main.npc[npcFinder].friendly && !Main.npc[npcFinder].townNPC && Main.npc[npcFinder].active)
+                            {
+                                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 110);
+                                Vector2 direction = Main.npc[npcFinder].Center - projectile.Center;
+                                direction.Normalize();
+                                direction *= 15f;
+                                Projectile p = Projectile.NewProjectileDirect(projectile.Center, direction,
+                                ModContent.ProjectileType<JellyfishOrbiter_Friendly>(), projectile.damage, projectile.knockBack, Main.myPlayer);
+                                p.friendly = true;
+                                p.hostile = false;
+                                p.minion = true;
+                                p.netUpdate = true;
+                                p.scale = projectile.scale;
+                                break;
+                            }
                         }
                     }
                 }
