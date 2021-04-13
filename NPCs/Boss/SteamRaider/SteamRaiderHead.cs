@@ -168,6 +168,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				if (chargetimer == 700) {
 					npc.netUpdate = true;
 					Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0);
+
 					CombatText.NewText(new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height), new Color(255, 155, 0, 100),
 "Target Engaged");
 				}
