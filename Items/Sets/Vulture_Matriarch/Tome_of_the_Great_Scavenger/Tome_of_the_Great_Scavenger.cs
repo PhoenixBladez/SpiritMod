@@ -10,7 +10,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Tome_of_the_Great_Scavenger
 	{
 		public override void SetDefaults()
 		{
-			item.damage = 33;
+			item.damage = 35;
 			item.noMelee = true;
 			item.noUseGraphic = false;
 			item.magic = true;
@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Tome_of_the_Great_Scavenger
 			item.useAnimation = 30;
 			item.useStyle = 5;
 			item.shoot = mod.ProjectileType("Tome_of_the_Great_Scavenger_Projectile");
-			item.shootSpeed = 9f;
+			item.shootSpeed = 10f;
 			item.knockBack = 4.4f;
 			item.autoReuse = true;
 			item.rare = 4;

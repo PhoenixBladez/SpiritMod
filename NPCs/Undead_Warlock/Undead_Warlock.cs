@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.Undead_Warlock

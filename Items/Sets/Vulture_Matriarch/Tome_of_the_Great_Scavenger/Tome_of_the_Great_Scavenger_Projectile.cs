@@ -20,6 +20,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Tome_of_the_Great_Scavenger
             projectile.width = 18;
             projectile.height = 18;
             projectile.aiStyle = -1;
+			projectile.penetrate = 2;
             projectile.friendly = true;
 			projectile.magic = true;
             projectile.hostile = false;
@@ -88,7 +89,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Tome_of_the_Great_Scavenger
 					if (frameY < 0)
 						frameY += 4;
 					Microsoft.Xna.Framework.Rectangle rectangle = texture2D.Frame(1, 1, 0, frameY);
-					Main.spriteBatch.Draw(texture2D, new Vector2((float) ((double) projectile.oldPos[index].X - (double) Main.screenPosition.X + (double) (projectile.width / 2) - (double) Main.projectileTexture[projectile.type].Width * (double) projectile.scale / 2.0 + (double) vector2_3.X * (double) projectile.scale) + addWidth, (float) ((double) projectile.oldPos[index].Y - (double) Main.screenPosition.Y + (double) projectile.height - (double) Main.projectileTexture[projectile.type].Height * (double) projectile.scale / (double) 1 + 1.0 + (double) vector2_3.Y * (double) projectile.scale) + addHeight), new Microsoft.Xna.Framework.Rectangle?(rectangle), color2, num2, origin, MathHelper.Lerp(0.1f, 1.2f, (float) ((10.0 - (double) index) / 9.0)), spriteEffects, 0.0f);
+					Main.spriteBatch.Draw(texture2D, new Vector2((float) ((double) projectile.oldPos[index].X - (double) Main.screenPosition.X + (double) (projectile.width / 2) - (double) Main.projectileTexture[projectile.type].Width * (double) projectile.scale / 2.0 + (double) vector2_3.X * (double) projectile.scale) + addWidth, (float) ((double) projectile.oldPos[index].Y - (double) Main.screenPosition.Y + (double) projectile.height - (double) Main.projectileTexture[projectile.type].Height * (double) projectile.scale / (double) 1 + 1.0 + (double) vector2_3.Y * (double) projectile.scale) + addHeight), new Microsoft.Xna.Framework.Rectangle?(rectangle), color2, projectile.rotation, origin, MathHelper.Lerp(0.1f, 1.2f, (float) ((10.0 - (double) index) / 9.0)), spriteEffects, 0.0f);
 				}
 			}
 		}

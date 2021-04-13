@@ -16,12 +16,12 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Sovereign_Talon
 
 		public override void SetDefaults()
 		{
-			item.damage = 33;
+			item.damage = 36;
 			item.useStyle = 5;
-			item.useAnimation = 18;
-			item.useTime = 18;
+			item.useAnimation = 16;
+			item.useTime = 16;
 			item.shootSpeed = 2.7f;
-			item.knockBack = 2.5f;
+			item.knockBack = 3.5f;
 			item.width = 32;
 			item.height = 32;
 			item.scale = 1f;
@@ -66,7 +66,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Sovereign_Talon
 			{
 				Main.PlaySound(2, (int)position.X, (int)position.Y, 73, 1f, 0f);
 				charger = 0;
-				int p = Projectile.NewProjectile(position.X, position.Y, speedX*8f, speedY*8f, mod.ProjectileType("Talon_Projectile"), damage*2, knockBack*2f, player.whoAmI);
+				int p = Projectile.NewProjectile(position.X, position.Y, speedX*8f, speedY*8f, mod.ProjectileType("Talon_Projectile"), damage*2, knockBack*3f, player.whoAmI);
 			}
 				
 			Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(12));
