@@ -135,6 +135,11 @@ namespace SpiritMod.Particles
 
 				particle.TimeActive++;
 				particle.Position += particle.Velocity;
+				if (particle.ActiveCondition())
+					particle.ActiveOpacity = Math.Min(particle.ActiveOpacity + 0.075f, 1);
+				else
+					particle.ActiveOpacity = Math.Max(particle.ActiveOpacity - 0.075f, 0);
+
 				particle.Update();
 			}
 		}
@@ -142,17 +147,15 @@ namespace SpiritMod.Particles
 		internal static void RunRandomSpawnAttempts()
 		{
 			foreach (Particle particle in particleInstances)
-				if (Main.rand.NextFloat() < particle.SpawnChance())
+				if (particle.ActiveCondition() && Main.rand.NextFloat() < particle.SpawnChance())
 					particle.OnSpawnAttempt();
 		}
 
 		internal static void DrawAllParticles(SpriteBatch spriteBatch)
 		{
 			foreach (Particle particle in particles) {
-				if (particle == null)
+				if (particle == null || particle.ActiveOpacity == 0)
 					continue;
-
-				// TODO: Stop particles from drawing if they're offscreen. I emitted this for now because 300 particles is a reasonably low limit so it should be fine
 
 				if (particle.UseCustomDraw) {
 					if (particle.UseAdditiveBlend)
@@ -160,8 +163,8 @@ namespace SpiritMod.Particles
 					else
 						batchedAlphaBlendParticles.Add(particle);
 				}
-				else
-					spriteBatch.Draw(particleTextures[particle.Type], particle.Position - Main.screenPosition, null, particle.Color, particle.Rotation, particle.Origin, particle.Scale, SpriteEffects.None, 0f);
+				else 
+					spriteBatch.Draw(particleTextures[particle.Type], particle.DrawPosition(), null, particle.Color * particle.ActiveOpacity, particle.Rotation, particle.Origin, particle.Scale * Main.GameViewMatrix.Zoom, SpriteEffects.None, 0f);
 			}
 
 			spriteBatch.End();

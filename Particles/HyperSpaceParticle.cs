@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 
@@ -8,40 +9,43 @@ namespace SpiritMod.Particles
 	{
 		private readonly static int MaxTime = 1200;
 
-		private Vector2 centerPlusPosition;
-		private Vector2 spawnPosition;
-
 		public override void Update()
 		{
 			if (TimeActive >= MaxTime)
 				Kill();
 
-			Vector2 worldPosition = centerPlusPosition;
-			Vector2 screenPosition = spawnPosition;
-			Position = Vector2.Lerp(screenPosition, screenPosition - 3 * (screenPosition - worldPosition), Scale);
-
-			Vector2 addedVelocity = Velocity.RotatedBy(MathHelper.Pi / 6 * (float)Math.Sin(Math.PI * ((MaxTime - TimeActive) / 60f) * (1f - Scale)));
-			centerPlusPosition += addedVelocity;
-			spawnPosition += addedVelocity;
+			Vector2 addedVelocity = 1.5f * Velocity.RotatedBy(MathHelper.Pi / 6 * (float)Math.Sin(Math.PI * ((MaxTime - TimeActive) / 60f) * (1f - Scale)));
+			Position += addedVelocity;
 
 			Color = Color.White * (float)Math.Sin(MathHelper.TwoPi * ((TimeActive - MaxTime) / (float)MaxTime));
 		}
 
-		public override float SpawnChance() => Main.LocalPlayer.GetModPlayer<MyPlayer>().ZoneSynthwave ? 0.25f : 0f;
+		public override bool ActiveCondition() => Main.LocalPlayer.GetModPlayer<MyPlayer>().ZoneSynthwave;
+
+		public override float SpawnChance() => 0.2f;
+
+		public override bool UseCustomDraw => true;
+
+		public override void CustomDraw(SpriteBatch spriteBatch)
+		{
+			Rectangle drawFrame = new Rectangle(0, ((GetHashCode() % 2 == 0) ? 0 : 1) * Texture.Height / 2, Texture.Width, Texture.Height/2);
+			spriteBatch.Draw(Texture, DrawPosition(), drawFrame, Color * ActiveOpacity, Rotation, Origin, Scale * Main.GameViewMatrix.Zoom, SpriteEffects.None, 0);
+		}
 
 		public override void OnSpawnAttempt()
 		{
-			HyperSpaceParticle hyperSpaceParticle = new HyperSpaceParticle();
-			Vector2 position = new Vector2(Main.rand.Next(-2000, 2000), Main.rand.Next(1200, 1600));
+			HyperSpaceParticle hyperSpaceParticle = new HyperSpaceParticle(); 
+			Vector2 screenCenter = Main.screenPosition + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
+			Vector2 startingPosition = new Vector2(Main.rand.NextFloat(screenCenter.X - Main.screenWidth * 2, screenCenter.X + Main.screenWidth * 2), Main.screenPosition.Y + Main.screenHeight);
 
-			hyperSpaceParticle.Position = Vector2.Zero;
-			hyperSpaceParticle.Velocity = Main.rand.NextFloat(-2, -1) * Vector2.UnitY;
+			hyperSpaceParticle.Position = startingPosition;
+			hyperSpaceParticle.origScreenpos = Main.screenPosition;
+			hyperSpaceParticle.Velocity = Main.rand.NextFloat(-1, -0.5f) * Vector2.UnitY;
 			hyperSpaceParticle.Rotation = Main.rand.NextFloat(MathHelper.TwoPi);
 			hyperSpaceParticle.Scale = Main.rand.NextFloat(0.4f, 0.6f);
 			hyperSpaceParticle.Color = Color.White;
 
-			hyperSpaceParticle.centerPlusPosition = Main.LocalPlayer.position + position;
-			hyperSpaceParticle.spawnPosition = position;
+			ParticleHandler.SpawnParticle(hyperSpaceParticle);
 		}
 	}
 }

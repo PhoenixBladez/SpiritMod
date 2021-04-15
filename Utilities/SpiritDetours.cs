@@ -91,11 +91,11 @@ namespace SpiritMod.Utilities
 
 		private static void DrawParticles(On.Terraria.Main.orig_DrawInterface orig, Main self, GameTime gameTime)
 		{
-			orig(self, gameTime);
-
 			Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
 			ParticleHandler.DrawAllParticles(Main.spriteBatch);
 			Main.spriteBatch.End();
+
+			orig(self, gameTime);
 		}
 
 		// This IL edit is used to allow the unfeller of evergreens to autoplant saplings when trees are destroyed

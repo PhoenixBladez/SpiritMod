@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 
@@ -8,40 +9,40 @@ namespace SpiritMod.Particles
 	{
 		private readonly static int MaxTime = 3000;
 
-		private Vector2 centerPlusPosition;
-		private Vector2 spawnPosition;
-
 		public override void Update()
 		{
 			if (TimeActive >= MaxTime)
 				Kill();
 
-			Vector2 WorldPosition = centerPlusPosition - Main.screenPosition;
-			Vector2 ScreenPosition = spawnPosition;
-			Position = Vector2.Lerp(ScreenPosition, ScreenPosition - 3 * (ScreenPosition - WorldPosition), Scale);
-
 			Vector2 addedVelocity = Velocity.RotatedBy(MathHelper.Pi / 4 * (float)Math.Sin(Math.PI * ((MaxTime - TimeActive) / 60f) * (1f - Scale)));
-			centerPlusPosition += addedVelocity;
-			spawnPosition += addedVelocity;
+			Position += addedVelocity;
 
 			Rotation = MathHelper.Pi / 4 * (float)Math.Sin(Math.PI * ((MaxTime - TimeActive) / 60f) * (1f - Scale)) * .75f;
 			Color = Color.White * (float)Math.Sin(MathHelper.TwoPi * ((MaxTime - TimeActive) / (float)MaxTime));
 		}
 
-		public override float SpawnChance() => Main.LocalPlayer.GetModPlayer<MyPlayer>().ZoneLantern ? 0.0125f : 0f;
+		/*public override bool UseCustomDraw => true;
+
+		public override void CustomDraw(SpriteBatch spriteBatch)
+		{
+			base.CustomDraw(spriteBatch);
+		}*/
+
+		public override bool ActiveCondition() => Main.LocalPlayer.GetModPlayer<MyPlayer>().ZoneLantern;
+
+		public override float SpawnChance() => 0.0125f;
 
 		public override void OnSpawnAttempt()
 		{
 			LanternParticle lanternParticle = new LanternParticle();
-			Vector2 position = new Vector2(Main.rand.Next(-2000, 2000), Main.rand.Next(1200, 1600));
+			Vector2 screenCenter = Main.screenPosition + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
+			Vector2 startingPosition = new Vector2(Main.rand.NextFloat(screenCenter.X - Main.screenWidth * 2, screenCenter.X + Main.screenWidth * 2), Main.screenPosition.Y + Main.screenHeight);
 
-			lanternParticle.Position = Vector2.Zero;
-			lanternParticle.Velocity = Main.rand.NextFloat(-2, -.6f) * Vector2.UnitY;
+			lanternParticle.Position = startingPosition;
+			lanternParticle.origScreenpos = Main.screenPosition;
+			lanternParticle.Velocity = Main.rand.NextFloat(-1, -.3f) * Vector2.UnitY;
 			lanternParticle.Scale = Main.rand.NextFloat(0.5f, 1f);
 			lanternParticle.Color = Color.White;
-
-			lanternParticle.centerPlusPosition = Main.LocalPlayer.Center + position;
-			lanternParticle.spawnPosition = position;
 
 			ParticleHandler.SpawnParticle(lanternParticle);
 		}

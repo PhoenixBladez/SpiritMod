@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria;
 
 namespace SpiritMod.Particles
 {
@@ -13,11 +14,30 @@ namespace SpiritMod.Particles
 		public int Type; // you don't have to use this
 		public Vector2 Position;
 		public Vector2 Velocity;
+		public Vector2 origScreenpos;
 		public Vector2 Origin;
 		public Color Color;
 		public float Rotation;
 		public float Scale;
 		public uint TimeActive;
+
+		/// <summary>
+		/// Used by the default spritebatch drawing for particles, use if needed for custom drawing
+		/// </summary>
+		/// <returns>The position on the screen to draw the particle, with a parallax effect, screen wrapping, and adjusting for game zoom</returns>
+		public Vector2 DrawPosition() {
+			//modify the drawing position based on the difference between the current screen position, the original screen position when spawned, and the scale of the particle
+			Vector2 drawPosition = Position - Vector2.Lerp(Main.screenPosition, Main.screenPosition - 2 * (origScreenpos - Main.screenPosition), Scale);
+			//modify the position to keep particles onscreen at all times, as to not easily all be cleared due to parallax effect
+			Vector2 ScreenSize = new Vector2(Main.screenWidth, Main.screenHeight);
+			Vector2 UiScreenSize = ScreenSize * Main.UIScale;
+			while (drawPosition.X < 0)
+				drawPosition.X += UiScreenSize.X;
+			while (drawPosition.Y < 0)
+				drawPosition.Y += UiScreenSize.Y;
+			drawPosition = new Vector2(drawPosition.X % UiScreenSize.X, drawPosition.Y % UiScreenSize.Y) * Main.GameViewMatrix.Zoom;
+			return drawPosition - 3 * ((ScreenSize * Main.GameViewMatrix.Zoom) - ScreenSize)/4;
+		}
 
 		public Texture2D Texture => ParticleHandler.GetTexture(Type);
 
@@ -46,6 +66,18 @@ namespace SpiritMod.Particles
 		/// Allows you to do custom drawing for your particle. Only called if Particle.UseCustomDrawing is true.
 		/// </summary>
 		public virtual void CustomDraw(SpriteBatch spriteBatch) { }
+
+		/// <summary>
+		/// The condition determining when the particle fades in or out, and when the particle is able to spawn.
+		/// Used in conjunction with spawnchance to determine when a particle is spawned.
+		/// </summary>
+		public virtual bool ActiveCondition() => false;
+
+		/// <summary>
+		/// The opacity of the particle, adjusts to be more transparent or less transparent depending on the active condition
+		/// 0 means the particle is invisible, 1 means it is fully visible
+		/// </summary>
+		public float ActiveOpacity = 0;
 
 		/// <summary>
 		/// The chance at any given tick that this particle will spawn.
