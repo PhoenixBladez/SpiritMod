@@ -60,6 +60,16 @@ namespace SpiritMod
 		public static GlitchScreenShader glitchScreenShader;
 		public static Texture2D noise;
 
+		public Mechanics.AutoSell.AutoSellUI AutoSellUI_SHORTCUT;
+		public Mechanics.AutoSell.Sell_NoValue.Sell_NoValue SellNoValue_SHORTCUT;
+		public Mechanics.AutoSell.Sell_Lock.Sell_Lock SellLock_SHORTCUT;
+		public Mechanics.AutoSell.Sell_Weapons.Sell_Weapons SellWeapons_SHORTCUT;
+
+		public UserInterface AutoSellUI_INTERFACE;
+		public UserInterface SellNoValue_INTERFACE;
+		public UserInterface SellLock_INTERFACE;
+		public UserInterface SellWeapons_INTERFACE;
+
 		public static SoundLooper nighttimeAmbience;
 		public static SoundLooper scarabWings;
 		public static SoundLooper wavesAmbience;
@@ -557,6 +567,23 @@ namespace SpiritMod
 				auroraEffect = GetEffect("Effects/aurora");
 				noise = GetTexture("Textures/noise");
 
+				SpiritModAutoSellTextures.Load();
+
+				AutoSellUI_INTERFACE = new UserInterface();
+				SellNoValue_INTERFACE = new UserInterface();
+				SellLock_INTERFACE = new UserInterface();
+				SellWeapons_INTERFACE = new UserInterface();
+				
+				AutoSellUI_SHORTCUT = new Mechanics.AutoSell.AutoSellUI();
+				SellNoValue_SHORTCUT = new Mechanics.AutoSell.Sell_NoValue.Sell_NoValue();
+				SellLock_SHORTCUT = new Mechanics.AutoSell.Sell_Lock.Sell_Lock();
+				SellWeapons_SHORTCUT = new Mechanics.AutoSell.Sell_Weapons.Sell_Weapons();
+
+				AutoSellUI_SHORTCUT.Activate();
+				SellNoValue_SHORTCUT.Activate();
+				SellLock_SHORTCUT.Activate();
+				SellWeapons_SHORTCUT.Activate();
+
 				glitchEffect = GetEffect("Effects/glitch");
 				glitchScreenShader = new GlitchScreenShader(glitchEffect);
 				Filters.Scene["SpiritMod:Glitch"] = new Filter(glitchScreenShader, EffectPriority.High);
@@ -646,6 +673,17 @@ namespace SpiritMod
 				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/DepthInvasion"), ItemType("TideBox"), TileType("TideBox"));
 				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/JellySky"), ItemType("JellyDelugeBox"), TileType("JellyDelugeBox"));
 				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/FrostLegion"), ItemType("FrostLegionBox"), TileType("FrostLegionBox"));
+
+				Mechanics.AutoSell.AutoSellUI.visible = false;
+				Mechanics.AutoSell.Sell_NoValue.Sell_NoValue.visible = false;
+				Mechanics.AutoSell.Sell_Lock.Sell_Lock.visible = false;
+				Mechanics.AutoSell.Sell_Weapons.Sell_Weapons.visible = false;
+
+				AutoSellUI_INTERFACE.SetState(AutoSellUI_SHORTCUT);
+				SellNoValue_INTERFACE.SetState(SellNoValue_SHORTCUT);
+				SellLock_INTERFACE.SetState(SellLock_SHORTCUT);
+				SellWeapons_INTERFACE.SetState(SellWeapons_SHORTCUT);	
+				
 			}
 			primitives = new PrimTrailManager();
 			AdditiveCallManager.Load();
@@ -727,6 +765,14 @@ namespace SpiritMod
 			SunOrbShader = null;
 			noise = null;
 			instance = null;
+
+			AutoSellUI_INTERFACE = null;
+			SellNoValue_INTERFACE = null;
+			SellWeapons_INTERFACE = null;
+			SellLock_INTERFACE = null;
+			
+			SpiritModAutoSellTextures.Unload();	
+
 			AdditiveCallManager.Unload();
 			SpiritGlowmask.Unload();
 			StructureLoader.Unload();
@@ -935,6 +981,36 @@ namespace SpiritMod
 						BookUserInterface.Draw(Main.spriteBatch, new GameTime());
 						return true;
 					},
+					InterfaceScaleType.UI)
+				);
+				layers.Insert(inventoryIndex, new LegacyGameInterfaceLayer (
+				"SpiritMod: SellUI",
+				delegate  {
+						{
+							DrawUpdateToggles();
+						}
+						if (Mechanics.AutoSell.AutoSellUI.visible)
+						{
+							AutoSellUI_INTERFACE.Update(Main._drawInterfaceGameTime);
+							AutoSellUI_SHORTCUT.Draw(Main.spriteBatch);
+						}
+						if (Mechanics.AutoSell.Sell_NoValue.Sell_NoValue.visible)
+						{
+							SellNoValue_INTERFACE.Update(Main._drawInterfaceGameTime);
+							SellNoValue_SHORTCUT.Draw(Main.spriteBatch);
+						}
+						if (Mechanics.AutoSell.Sell_Lock.Sell_Lock.visible)
+						{
+							SellLock_INTERFACE.Update(Main._drawInterfaceGameTime);
+							SellLock_SHORTCUT.Draw(Main.spriteBatch);
+						}
+						if (Mechanics.AutoSell.Sell_Weapons.Sell_Weapons.visible)
+						{
+							SellWeapons_INTERFACE.Update(Main._drawInterfaceGameTime);
+							SellWeapons_SHORTCUT.Draw(Main.spriteBatch);
+						}
+						return true;
+					}, 
 					InterfaceScaleType.UI)
 				);
 			}
@@ -1177,7 +1253,69 @@ namespace SpiritMod
 				screenshakeTimer = 0;
 			}
 		}
+		internal void DrawUpdateToggles()
+		{
+			Player player = Main.player[Main.myPlayer];
+			Point mousePoint = new Point(Main.mouseX, Main.mouseY);
+			int xPositionUI_ON_OFF = 66;
+			int yPositionUI_ON_OFF = 258;
 
+			Rectangle AutoSellUI_TOGGLERECTANGLE = new Rectangle(494, 426, 39, 39);
+			bool AutoSellUI_TOGGLE = false;
+			if (AutoSellUI_TOGGLERECTANGLE.Contains(mousePoint))
+			{
+				Main.LocalPlayer.mouseInterface = true;
+				AutoSellUI_TOGGLE = true;
+			}
+
+			if (AutoSellUI_TOGGLE && Main.playerInventory && Main.npcShop > 0)
+			{
+				Main.HoverItem = new Item();
+				Main.hoverItemName = "Click to quick-sell your items";
+			}
+
+			Rectangle Sell_NoValue_TOGGLERECTANGLE = new Rectangle(502, 394, 24, 24);
+			bool Sell_NoValue_TOGGLE = false;
+			if (Sell_NoValue_TOGGLERECTANGLE.Contains(mousePoint))
+			{
+				Main.LocalPlayer.mouseInterface = true;
+				Sell_NoValue_TOGGLE = true;
+			}
+
+			if (Sell_NoValue_TOGGLE && Main.playerInventory && Main.npcShop > 0)
+			{
+				Main.HoverItem = new Item();
+				Main.hoverItemName = "Toggle this to sell 'no value' items with quick-sell";
+			}
+
+			Rectangle Sell_Lock_TOGGLERECTANGLE = new Rectangle(502, 356, 24, 24);
+			bool Sell_Lock_TOGGLE = false;
+			if (Sell_Lock_TOGGLERECTANGLE.Contains(mousePoint))
+			{
+				Main.LocalPlayer.mouseInterface = true;
+				Sell_Lock_TOGGLE = true;
+			}
+
+			if (Sell_Lock_TOGGLE && Main.playerInventory && Main.npcShop > 0)
+			{
+				Main.HoverItem = new Item();
+				Main.hoverItemName = "Toggle this to lock quick-sell mechanic\nYou won't be able to use quick-sell while this is toggled";
+			}
+
+			Rectangle Sell_Weapons_TOGGLERECTANGLE = new Rectangle(502, 318, 24, 24);
+			bool Sell_Weapons_TOGGLE = false;
+			if (Sell_Weapons_TOGGLERECTANGLE.Contains(mousePoint))
+			{
+				Main.LocalPlayer.mouseInterface = true;
+				Sell_Weapons_TOGGLE = true;
+			}
+
+			if (Sell_Weapons_TOGGLE && Main.playerInventory && Main.npcShop > 0)
+			{
+				Main.HoverItem = new Item();
+				Main.hoverItemName = "Toggle this to disable the selling of weapons";
+			}
+		}
 		public void DrawEventUi(SpriteBatch spriteBatch)
 		{
 			{

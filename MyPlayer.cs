@@ -3016,6 +3016,10 @@ namespace SpiritMod
 
 		public override void PostUpdateEquips()
 		{
+			if (player.ownedProjectileCounts[mod.ProjectileType("MiningHelmet")] < 1 && player.head == 11)
+			{
+				Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<MiningHelmet>(), 0, 0, player.whoAmI);
+			}
 			int num323;
 			if(graniteSet) {
 

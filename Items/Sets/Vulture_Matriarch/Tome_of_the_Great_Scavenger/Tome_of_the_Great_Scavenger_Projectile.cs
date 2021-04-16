@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Tome_of_the_Great_Scavenger
         public override void SetDefaults()
         {
             projectile.width = 18;
-            projectile.height = 18;
+            projectile.height = 32;
             projectile.aiStyle = -1;
 			projectile.penetrate = 2;
             projectile.friendly = true;
