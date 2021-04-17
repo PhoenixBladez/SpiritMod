@@ -7,36 +7,50 @@ namespace SpiritMod.Prim
 {
 	public partial class PrimTrail
 	{
-		// TODO: why the hell aren't these properties? hello?
-		protected bool _destroyed = false;
-		protected Projectile _projectile = null;
-		protected NPC _npc = null;
-		protected int _entitytype;
-		public int _drawtype = 0;
-		protected float _width;
-		protected float _alphaValue;
-		protected int _cap;
-		protected ITrailShader _trailShader;
-		protected int _counter;
-		protected int _noOfPoints;
-		protected Color _color = new Color(255, 255, 255);
-		protected List<Vector2> _points = new List<Vector2>();
+		public bool Destroyed { get; protected set; } = false;
 
-		protected GraphicsDevice _device;
-		protected Effect _effect;
-		protected BasicEffect _basicEffect;
+		public Projectile Projectile { get; protected set; } = null;
 
-		protected VertexPositionColorTexture[] vertices;
-		protected int currentIndex;
+		public NPC NPC { get; protected set; } = null;
+
+		public int EntityType { get; protected set; }
+
+		public int DrawType { get; set; } = 0;
+
+		public float Width { get; protected set; }
+
+		public float AlphaValue { get; protected set; }
+
+		public int Cap { get; protected set; }
+
+		public ITrailShader TrailShader { get; protected set; }
+
+		public int Counter { get; protected set; }
+
+		public int PointCount { get; protected set; }
+
+		public Color Color { get; protected set; } = new Color(255, 255, 255);
+
+		public List<Vector2> Points { get; protected set; } = new List<Vector2>();
+
+		public GraphicsDevice GraphicsDevice { get; protected set; }
+
+		public Effect Effect { get; protected set; }
+
+		public BasicEffect BasicEffect { get; protected set; }
+
+		public VertexPositionColorTexture[] Vertices { get; protected set; }
+
+		public int CurrentIndex { get; protected set; }
 
 		public PrimTrail()
 		{
-			_trailShader = new DefaultShader();
-			_device = Main.graphics.GraphicsDevice;
-			_basicEffect = new BasicEffect(_device) { VertexColorEnabled = true };
+			TrailShader = new DefaultShader();
+			GraphicsDevice = Main.graphics.GraphicsDevice;
+			BasicEffect = new BasicEffect(GraphicsDevice) { VertexColorEnabled = true };
 			// ReSharper disable once VirtualMemberCallInConstructor
 			SetDefaults();
-			vertices = new VertexPositionColorTexture[_cap];
+			Vertices = new VertexPositionColorTexture[Cap];
 		}
 
 
@@ -48,14 +62,14 @@ namespace SpiritMod.Prim
 
 		public void Draw()
 		{
-			vertices = new VertexPositionColorTexture[_noOfPoints];
-			currentIndex = 0;
+			Vertices = new VertexPositionColorTexture[PointCount];
+			CurrentIndex = 0;
 
 			PrimStructure(Main.spriteBatch);
 			SetShaders();
 
-			if (_noOfPoints >= 1)
-				_device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, _noOfPoints / 3);
+			if (PointCount >= 1)
+				GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, Vertices, 0, PointCount / 3);
 		}
 
 		public virtual void PrimStructure(SpriteBatch spriteBatch) { }

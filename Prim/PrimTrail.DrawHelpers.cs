@@ -69,8 +69,8 @@ namespace SpiritMod.Prim
 			if (color == null)
 				color = Color.White;
 
-			int width = _device.Viewport.Width;
-			int height = _device.Viewport.Height;
+			int width = GraphicsDevice.Viewport.Width;
+			int height = GraphicsDevice.Viewport.Height;
 
 			Vector2 zoom = Main.GameViewMatrix.Zoom;
 			Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) *
@@ -83,13 +83,13 @@ namespace SpiritMod.Prim
 			if (effects.HasParameter("uColor"))
 				effects.Parameters["uColor"].SetValue(color.Value.ToVector3());
 
-			_trailShader.ApplyShader(effects, this, _points, passName, progress);
+			TrailShader.ApplyShader(effects, this, Points, passName, progress);
 		}
 
 		protected void PrepareBasicShader()
 		{
-			int width = _device.Viewport.Width;
-			int height = _device.Viewport.Height;
+			int width = GraphicsDevice.Viewport.Width;
+			int height = GraphicsDevice.Viewport.Height;
 
 			Vector2 zoom = Main.GameViewMatrix.Zoom;
 
@@ -99,48 +99,48 @@ namespace SpiritMod.Prim
 
 			Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
 
-			_basicEffect.View = view;
-			_basicEffect.Projection = projection;
+			BasicEffect.View = view;
+			BasicEffect.Projection = projection;
 
-			foreach (EffectPass pass in _basicEffect.CurrentTechnique.Passes)
+			foreach (EffectPass pass in BasicEffect.CurrentTechnique.Passes)
 				pass.Apply();
 		}
 
 		protected void AddVertex(Vector2 position, Color color, Vector2 uv)
 		{
-			if (currentIndex < vertices.Length)
-				vertices[currentIndex++] =
+			if (CurrentIndex < Vertices.Length)
+				Vertices[CurrentIndex++] =
 					new VertexPositionColorTexture(new Vector3(position - Main.screenPosition, 0f), color, uv);
 		}
 
 		protected void MakePrimHelix(int index, int baseWidth, float alphaValue, Color baseColor = default,
 			float fadeValue = 1, float sineFactor = 0)
 		{
-			float floatCap = _cap;
+			float floatCap = Cap;
 			Color color = (baseColor == default ? Color.White : baseColor) * (index / floatCap) * fadeValue;
 
-			Vector2 normal = CurveNormal(_points, index);
-			Vector2 normalAhead = CurveNormal(_points, index + 1);
+			Vector2 normal = CurveNormal(Points, index);
+			Vector2 normalAhead = CurveNormal(Points, index + 1);
 
 			float fallout1 = (float) Math.Sin(index * (3.14f / floatCap));
 			float fallout2 = (float) Math.Sin((index + 1) * (3.14f / floatCap));
-			float lerpAmount = _counter / 15f;
-			float sine1 = index * (6.14f / _points.Count);
+			float lerpAmount = Counter / 15f;
+			float sine1 = index * (6.14f / Points.Count);
 			float sine2 = (index + 1) * (6.14f / floatCap);
 			float width1 = baseWidth * Math.Abs((float) Math.Sin(sine1 + lerpAmount) * (index / floatCap)) * fallout1;
 			float width2 = baseWidth * Math.Abs((float) Math.Sin(sine2 + lerpAmount) * ((index + 1) / floatCap)) * fallout2;
 
-			Vector2 firstUp = _points[index] - normal * width1 +
-			                  new Vector2(0, (float) Math.Sin(_counter / 10f + index / 3f)) * sineFactor;
+			Vector2 firstUp = Points[index] - normal * width1 +
+			                  new Vector2(0, (float) Math.Sin(Counter / 10f + index / 3f)) * sineFactor;
 
-			Vector2 firstDown = _points[index] + normal * width1 +
-			                    new Vector2(0, (float) Math.Sin(_counter / 10f + index / 3f)) * sineFactor;
+			Vector2 firstDown = Points[index] + normal * width1 +
+			                    new Vector2(0, (float) Math.Sin(Counter / 10f + index / 3f)) * sineFactor;
 
-			Vector2 secondUp = _points[index + 1] - normalAhead * width2 +
-			                   new Vector2(0, (float) Math.Sin(_counter / 10f + (index + 1) / 3f)) * sineFactor;
+			Vector2 secondUp = Points[index + 1] - normalAhead * width2 +
+			                   new Vector2(0, (float) Math.Sin(Counter / 10f + (index + 1) / 3f)) * sineFactor;
 
-			Vector2 secondDown = _points[index + 1] + normalAhead * width2 +
-			                     new Vector2(0, (float) Math.Sin(_counter / 10f + (index + 1) / 3f)) * sineFactor;
+			Vector2 secondDown = Points[index + 1] + normalAhead * width2 +
+			                     new Vector2(0, (float) Math.Sin(Counter / 10f + (index + 1) / 3f)) * sineFactor;
 
 			AddVertex(firstDown, color * alphaValue, new Vector2(index / floatCap, 1));
 			AddVertex(firstUp, color * alphaValue, new Vector2(index / floatCap, 0));
@@ -154,27 +154,27 @@ namespace SpiritMod.Prim
 		protected void MakePrimMidFade(int i, int baseWidth, float alphaValue, Color baseColor = default,
 			float fadeValue = 1, float sineFactor = 0)
 		{
-			float floatCap = _cap;
+			float floatCap = Cap;
 
 			Color color = (baseColor == default ? Color.White : baseColor) * (i / floatCap) * fadeValue;
 
-			Vector2 normal = CurveNormal(_points, i);
-			Vector2 normalAhead = CurveNormal(_points, i + 1);
+			Vector2 normal = CurveNormal(Points, i);
+			Vector2 normalAhead = CurveNormal(Points, i + 1);
 
 			float width1 = i / floatCap * baseWidth;
 			float width2 = (i + 1) / floatCap * baseWidth;
 
-			Vector2 firstUp = _points[i] - normal * width1 +
-			                  new Vector2(0, (float) Math.Sin(_counter / 10f + i / 3f)) * sineFactor;
+			Vector2 firstUp = Points[i] - normal * width1 +
+			                  new Vector2(0, (float) Math.Sin(Counter / 10f + i / 3f)) * sineFactor;
 
-			Vector2 firstDown = _points[i] + normal * width1 +
-			                    new Vector2(0, (float) Math.Sin(_counter / 10f + i / 3f)) * sineFactor;
+			Vector2 firstDown = Points[i] + normal * width1 +
+			                    new Vector2(0, (float) Math.Sin(Counter / 10f + i / 3f)) * sineFactor;
 
-			Vector2 secondUp = _points[i + 1] - normalAhead * width2 +
-			                   new Vector2(0, (float) Math.Sin(_counter / 10f + (i + 1) / 3f)) * sineFactor;
+			Vector2 secondUp = Points[i + 1] - normalAhead * width2 +
+			                   new Vector2(0, (float) Math.Sin(Counter / 10f + (i + 1) / 3f)) * sineFactor;
 
-			Vector2 secondDown = _points[i + 1] + normalAhead * width2 +
-			                     new Vector2(0, (float) Math.Sin(_counter / 10f + (i + 1) / 3f)) * sineFactor;
+			Vector2 secondDown = Points[i + 1] + normalAhead * width2 +
+			                     new Vector2(0, (float) Math.Sin(Counter / 10f + (i + 1) / 3f)) * sineFactor;
 
 			AddVertex(firstDown, color * alphaValue, new Vector2(i / floatCap, 1));
 			AddVertex(firstUp, color * alphaValue, new Vector2(i / floatCap, 0));
@@ -189,46 +189,46 @@ namespace SpiritMod.Prim
 		{
 			//int currentIndex = 0;
 			//VertexPositionColorTexture[] vertices = new VertexPositionColorTexture[_noOfPoints];
-			for (int i = 0; i < _points.Count; i++)
+			for (int i = 0; i < Points.Count; i++)
 				if (i == 0) {
 
-					Vector2 normalAhead = CurveNormal(_points, i + 1);
-					Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
-					Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
+					Vector2 normalAhead = CurveNormal(Points, i + 1);
+					Vector2 secondUp = Points[i + 1] - normalAhead * widthVar;
+					Vector2 secondDown = Points[i + 1] + normalAhead * widthVar;
 
-					AddVertex(_points[i], color * _alphaValue,
-						new Vector2((float) Math.Sin(_counter / 20f), (float) Math.Sin(_counter / 20f)));
+					AddVertex(Points[i], color * AlphaValue,
+						new Vector2((float) Math.Sin(Counter / 20f), (float) Math.Sin(Counter / 20f)));
 
-					AddVertex(secondUp, color * _alphaValue,
-						new Vector2((float) Math.Sin(_counter / 20f), (float) Math.Sin(_counter / 20f)));
+					AddVertex(secondUp, color * AlphaValue,
+						new Vector2((float) Math.Sin(Counter / 20f), (float) Math.Sin(Counter / 20f)));
 
-					AddVertex(secondDown, color * _alphaValue,
-						new Vector2((float) Math.Sin(_counter / 20f), (float) Math.Sin(_counter / 20f)));
+					AddVertex(secondDown, color * AlphaValue,
+						new Vector2((float) Math.Sin(Counter / 20f), (float) Math.Sin(Counter / 20f)));
 				}
 				else {
-					if (i == _points.Count - 1)
+					if (i == Points.Count - 1)
 						continue;
 
-					float floatCap = _cap;
+					float floatCap = Cap;
 
-					Vector2 normal = CurveNormal(_points, i);
-					Vector2 normalAhead = CurveNormal(_points, i + 1);
+					Vector2 normal = CurveNormal(Points, i);
+					Vector2 normalAhead = CurveNormal(Points, i + 1);
 
-					float j = (floatCap + (float) Math.Sin(_counter / 10f) * 1 - i * 0.1f) / floatCap;
+					float j = (floatCap + (float) Math.Sin(Counter / 10f) * 1 - i * 0.1f) / floatCap;
 					widthVar *= j;
 
-					Vector2 firstUp = _points[i] - normal * widthVar;
-					Vector2 firstDown = _points[i] + normal * widthVar;
-					Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
-					Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
+					Vector2 firstUp = Points[i] - normal * widthVar;
+					Vector2 firstDown = Points[i] + normal * widthVar;
+					Vector2 secondUp = Points[i + 1] - normalAhead * widthVar;
+					Vector2 secondDown = Points[i + 1] + normalAhead * widthVar;
 
-					AddVertex(firstDown, color * _alphaValue, new Vector2(i / floatCap, 1));
-					AddVertex(firstUp, color * _alphaValue, new Vector2(i / floatCap, 0));
-					AddVertex(secondDown, color * _alphaValue, new Vector2((i + 1) / floatCap, 1));
+					AddVertex(firstDown, color * AlphaValue, new Vector2(i / floatCap, 1));
+					AddVertex(firstUp, color * AlphaValue, new Vector2(i / floatCap, 0));
+					AddVertex(secondDown, color * AlphaValue, new Vector2((i + 1) / floatCap, 1));
 
-					AddVertex(secondUp, color * _alphaValue, new Vector2((i + 1) / floatCap, 0));
-					AddVertex(secondDown, color * _alphaValue, new Vector2((i + 1) / floatCap, 1));
-					AddVertex(firstUp, color * _alphaValue, new Vector2(i / floatCap, 0));
+					AddVertex(secondUp, color * AlphaValue, new Vector2((i + 1) / floatCap, 0));
+					AddVertex(secondDown, color * AlphaValue, new Vector2((i + 1) / floatCap, 1));
+					AddVertex(firstUp, color * AlphaValue, new Vector2(i / floatCap, 0));
 				}
 		}
 	}

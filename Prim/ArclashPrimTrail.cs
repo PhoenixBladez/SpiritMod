@@ -11,15 +11,15 @@ namespace SpiritMod.Prim
 
 		public ArclashPrimTrail(Projectile projectile)
 		{
-			_projectile = projectile;
-			_entitytype = _projectile.type;
-			_drawtype = PrimTrailManager.DrawProjectile;
+			Projectile = projectile;
+			EntityType = Projectile.type;
+			DrawType = PrimTrailManager.DrawProjectile;
 		}
 
 		public override void SetDefaults()
 		{
-			_alphaValue = 0.7f;
-			_width = 4;
+			AlphaValue = 0.7f;
+			Width = 4;
 		}
 
 		public override void PrimStructure(SpriteBatch spriteBatch)
@@ -30,51 +30,51 @@ namespace SpiritMod.Prim
 			float widthVar = (float)Math.Sqrt(_points.Count) * _width;
 			DrawBasicTrail(c1, widthVar);*/
 
-			if (_noOfPoints <= 6 || _destroyed) 
+			if (PointCount <= 6 || Destroyed) 
 				return;
 
-			for (int i = 0; i < _points.Count; i++) {
+			for (int i = 0; i < Points.Count; i++) {
 				float widthVar;
 
 				if (i == 0) {
-					widthVar = _width;
+					widthVar = Width;
 
 					Color color = Color.White;
 
-					Vector2 normalAhead = CurveNormal(_points, i + 1);
-					Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
-					Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
+					Vector2 normalAhead = CurveNormal(Points, i + 1);
+					Vector2 secondUp = Points[i + 1] - normalAhead * widthVar;
+					Vector2 secondDown = Points[i + 1] + normalAhead * widthVar;
 
-					AddVertex(_points[i], color * _alphaValue, new Vector2(0, 0.5f));
-					AddVertex(secondUp, color * _alphaValue, new Vector2(1 / (float) _points.Count, 0));
-					AddVertex(secondDown, color * _alphaValue, new Vector2(1 / (float) _points.Count, 1));
+					AddVertex(Points[i], color * AlphaValue, new Vector2(0, 0.5f));
+					AddVertex(secondUp, color * AlphaValue, new Vector2(1 / (float) Points.Count, 0));
+					AddVertex(secondDown, color * AlphaValue, new Vector2(1 / (float) Points.Count, 1));
 				}
 				else {
-					if (i == _points.Count - 1)
+					if (i == Points.Count - 1)
 						continue;
 
-					widthVar = _width;
+					widthVar = Width;
 
 					Color color = Color.Cyan;
 
-					Vector2 normal = CurveNormal(_points, i);
-					Vector2 normalAhead = CurveNormal(_points, i + 1);
+					Vector2 normal = CurveNormal(Points, i);
+					Vector2 normalAhead = CurveNormal(Points, i + 1);
 
-					float j = (_points.Count + (float) Math.Sin(_counter / 10f) * 1 - i * 0.1f) / _points.Count;
+					float j = (Points.Count + (float) Math.Sin(Counter / 10f) * 1 - i * 0.1f) / Points.Count;
 					widthVar *= j;
 
-					Vector2 firstUp = _points[i] - normal * widthVar;
-					Vector2 firstDown = _points[i] + normal * widthVar;
-					Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
-					Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
+					Vector2 firstUp = Points[i] - normal * widthVar;
+					Vector2 firstDown = Points[i] + normal * widthVar;
+					Vector2 secondUp = Points[i + 1] - normalAhead * widthVar;
+					Vector2 secondDown = Points[i + 1] + normalAhead * widthVar;
 
-					AddVertex(firstDown, color * _alphaValue, new Vector2(i / (float) _points.Count, 1));
-					AddVertex(firstUp, color * _alphaValue, new Vector2(i / (float) _points.Count, 0));
-					AddVertex(secondDown, color * _alphaValue, new Vector2((i + 1) / (float) _points.Count, 1));
+					AddVertex(firstDown, color * AlphaValue, new Vector2(i / (float) Points.Count, 1));
+					AddVertex(firstUp, color * AlphaValue, new Vector2(i / (float) Points.Count, 0));
+					AddVertex(secondDown, color * AlphaValue, new Vector2((i + 1) / (float) Points.Count, 1));
 
-					AddVertex(secondUp, color * _alphaValue, new Vector2((i + 1) / (float) _points.Count, 0));
-					AddVertex(secondDown, color * _alphaValue, new Vector2((i + 1) / (float) _points.Count, 1));
-					AddVertex(firstUp, color * _alphaValue, new Vector2(i / (float) _points.Count, 0));
+					AddVertex(secondUp, color * AlphaValue, new Vector2((i + 1) / (float) Points.Count, 0));
+					AddVertex(secondDown, color * AlphaValue, new Vector2((i + 1) / (float) Points.Count, 1));
+					AddVertex(firstUp, color * AlphaValue, new Vector2(i / (float) Points.Count, 0));
 				}
 			}
 		}
@@ -84,35 +84,35 @@ namespace SpiritMod.Prim
 
 		public override void OnUpdate()
 		{
-			_arcProgress = _projectile.ai[0];
+			_arcProgress = Projectile.ai[0];
 
 			Vector2 direction = Vector2.UnitX * 8;
-			direction = direction.RotatedBy(_projectile.ai[1]);
+			direction = direction.RotatedBy(Projectile.ai[1]);
 
-			Vector2 position = Main.player[_projectile.owner].MountedCenter + direction * (7 + _arcProgress / 30);
+			Vector2 position = Main.player[Projectile.owner].MountedCenter + direction * (7 + _arcProgress / 30);
 			Vector2 c1 = position + direction.RotatedBy(-0.3f - _arcProgress / 250f) * _arcProgress;
 			Vector2 c2 = position + direction.RotatedBy(0.3f + _arcProgress / 250f) * _arcProgress;
 
-			_counter++;
-			_noOfPoints = _points.Count * 6;
+			Counter++;
+			PointCount = Points.Count * 6;
 
-			if (!_projectile.active && _projectile != null || _destroyed)
+			if (!Projectile.active && Projectile != null || Destroyed)
 				OnDestroy();
 			else {
-				_points.Clear();
+				Points.Clear();
 
 				foreach (Vector2 point in Helpers.GetBezier(position, position, c1, c2, _arcProgress + 6)) {
 					Vector2 point2 = point;
 					point2.X += Main.rand.Next(-2, 2);
 					point2.Y += Main.rand.Next(-2, 2);
-					_points.Add(point2);
+					Points.Add(point2);
 				}
 			}
 		}
 
 		public override void OnDestroy()
 		{
-			_destroyed = true;
+			Destroyed = true;
 			Dispose();
 		}
 	}

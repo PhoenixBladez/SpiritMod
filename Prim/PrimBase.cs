@@ -11,13 +11,13 @@ namespace SpiritMod.Prim
 
 		public void DrawTrailsNPC()
 		{
-			foreach (PrimTrail trail in _trails.ToArray().Where(x => x._drawtype == DrawNPC)) 
+			foreach (PrimTrail trail in _trails.ToArray().Where(x => x.DrawType == DrawNPC)) 
 				trail.Draw();
 		}
 
 		public void DrawTrailsProj()
 		{
-			foreach (PrimTrail trail in _trails.ToArray().Where(x => x._drawtype == DrawProjectile)) 
+			foreach (PrimTrail trail in _trails.ToArray().Where(x => x.DrawType == DrawProjectile)) 
 				trail.Draw();
 		}
 
