@@ -36,18 +36,18 @@ namespace SpiritMod.Utilities
 		{
 			if (!Main.dedServ)
 			{
-				SpiritMod.primitives.DrawTrailsProj(Main.spriteBatch);
+				SpiritMod.primitives.DrawTrailsProj();
 				SpiritMod.TrailManager.DrawTrails(Main.spriteBatch);
 			}
+
 			orig(self);
 		}
 
 		private static void Main_DrawNPC(On.Terraria.Main.orig_DrawNPC orig, Main self, int iNPCIndex, bool behindTiles)
 		{
 			if (!Main.dedServ)
-			{
-				SpiritMod.primitives.DrawTrailsNPC(Main.spriteBatch);
-			}
+				SpiritMod.primitives.DrawTrailsNPC();
+
 			orig(self, iNPCIndex, behindTiles);
 		}
 
