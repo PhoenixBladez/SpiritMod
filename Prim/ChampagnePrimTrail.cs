@@ -9,7 +9,7 @@ namespace SpiritMod.Prim
 	{
 		public ChampagnePrimTrail(Projectile projectile, Color color, int width = 12, int cap = 20)
 		{
-			Projectile = projectile;
+			Entity = projectile;
 			EntityType = projectile.type;
 			DrawType = PrimTrailManager.DrawProjectile;
 			Color = color;
@@ -73,6 +73,9 @@ namespace SpiritMod.Prim
 
 		public override void OnUpdate()
 		{
+			if (!(Entity is Projectile projectile))
+				return;
+
 			Counter++;
 			PointCount = Points.Count * 6;
 
@@ -81,10 +84,10 @@ namespace SpiritMod.Prim
 			if (Cap < PointCount / 6)
 				Points.RemoveAt(0);
 
-			if (!Projectile.active && Projectile != null || Destroyed)
+			if (!projectile.active || Destroyed)
 				OnDestroy();
 			else
-				Points.Add(Projectile.Center);
+				Points.Add(projectile.Center);
 		}
 
 		public override void OnDestroy()

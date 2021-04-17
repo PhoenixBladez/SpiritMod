@@ -9,8 +9,8 @@ namespace SpiritMod.Prim
 	{
 		public SkullPrimTrail(Projectile projectile, Color color, int width = 12, int cap = 20)
 		{
-			Projectile = projectile;
-			EntityType = Projectile.type;
+			Entity = projectile;
+			EntityType = projectile.type;
 			DrawType = PrimTrailManager.DrawProjectile;
 			Color = color;
 			Width = width;
@@ -29,6 +29,7 @@ namespace SpiritMod.Prim
 
 			if (PointCount <= 6) 
 				return;
+
 			for (int i = 0; i < Points.Count; i++) {
 				float widthVar;
 
@@ -44,24 +45,25 @@ namespace SpiritMod.Prim
 					AddVertex(secondDown, Color * AlphaValue, Vector2.Zero);
 				}
 				else {
-					if (i != Points.Count - 1) {
-						widthVar = Width;
+					if (i == Points.Count - 1)
+						continue;
 
-						Vector2 normal = CurveNormal(Points, i);
-						Vector2 normalAhead = CurveNormal(Points, i + 1);
-						Vector2 firstUp = Points[i] - normal * widthVar;
-						Vector2 firstDown = Points[i] + normal * widthVar;
-						Vector2 secondUp = Points[i + 1] - normalAhead * widthVar;
-						Vector2 secondDown = Points[i + 1] + normalAhead * widthVar;
+					widthVar = Width;
 
-						AddVertex(firstDown, Color * AlphaValue, new Vector2(i / (float) Points.Count, 1));
-						AddVertex(firstUp, Color * AlphaValue, new Vector2(i / (float) Points.Count, 0));
-						AddVertex(secondDown, Color * AlphaValue, new Vector2((i + 1) / (float) Points.Count, 1));
+					Vector2 normal = CurveNormal(Points, i);
+					Vector2 normalAhead = CurveNormal(Points, i + 1);
+					Vector2 firstUp = Points[i] - normal * widthVar;
+					Vector2 firstDown = Points[i] + normal * widthVar;
+					Vector2 secondUp = Points[i + 1] - normalAhead * widthVar;
+					Vector2 secondDown = Points[i + 1] + normalAhead * widthVar;
 
-						AddVertex(secondUp, Color * AlphaValue, new Vector2((i + 1) / (float) Points.Count, 0));
-						AddVertex(secondDown, Color * AlphaValue, new Vector2((i + 1) / (float) Points.Count, 1));
-						AddVertex(firstUp, Color * AlphaValue, new Vector2(i / (float) Points.Count, 0));
-					}
+					AddVertex(firstDown, Color * AlphaValue, new Vector2(i / (float) Points.Count, 1));
+					AddVertex(firstUp, Color * AlphaValue, new Vector2(i / (float) Points.Count, 0));
+					AddVertex(secondDown, Color * AlphaValue, new Vector2((i + 1) / (float) Points.Count, 1));
+
+					AddVertex(secondUp, Color * AlphaValue, new Vector2((i + 1) / (float) Points.Count, 0));
+					AddVertex(secondDown, Color * AlphaValue, new Vector2((i + 1) / (float) Points.Count, 1));
+					AddVertex(firstUp, Color * AlphaValue, new Vector2(i / (float) Points.Count, 0));
 				}
 			}
 		}
@@ -71,16 +73,19 @@ namespace SpiritMod.Prim
 
 		public override void OnUpdate()
 		{
+			if (!(Entity is Projectile projectile))
+				return;
+
 			Counter++;
 			PointCount = Points.Count * 6;
 
 			if (Cap < PointCount / 6)
 				Points.RemoveAt(0);
 
-			if (!Projectile.active && Projectile != null || Destroyed)
+			if (!projectile.active || Destroyed)
 				OnDestroy();
 			else
-				Points.Add(Projectile.Center);
+				Points.Add(projectile.Center);
 		}
 
 		public override void OnDestroy()

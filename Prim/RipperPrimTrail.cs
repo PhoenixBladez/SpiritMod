@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Terraria;
-using System.Linq;
 
 namespace SpiritMod.Prim
 {
@@ -9,8 +8,8 @@ namespace SpiritMod.Prim
 	{
 		public RipperPrimTrail(Projectile projectile)
 		{
-			Projectile = projectile;
-			EntityType = Projectile.type;
+			Entity = projectile;
+			EntityType = projectile.type;
 			DrawType = PrimTrailManager.DrawProjectile;
 		}
 
@@ -72,16 +71,19 @@ namespace SpiritMod.Prim
 
 		public override void OnUpdate()
 		{
+			if (!(Entity is Projectile projectile))
+				return;
+
 			Counter++;
 			PointCount = Points.Count * 6;
 
 			if (Cap < PointCount / 6)
 				Points.RemoveAt(0);
 
-			if (!Projectile.active && Projectile != null || Destroyed)
+			if (!projectile.active || Destroyed)
 				OnDestroy();
 			else
-				Points.Add(Projectile.Center);
+				Points.Add(projectile.Center);
 		}
 
 		public override void OnDestroy()

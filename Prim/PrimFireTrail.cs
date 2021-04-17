@@ -11,17 +11,17 @@ namespace SpiritMod.Prim
 
 		public PrimFireTrail(Entity entity, Color color, int width = 8, int cap = 20)
 		{
-			switch (entity)
+			Entity = entity;
+
+			switch (Entity)
 			{
 				case NPC npc:
-					NPC = npc;
-					EntityType = NPC.type;
+					EntityType = npc.type;
 					DrawType = PrimTrailManager.DrawNPC;
 					break;
 
 				case Projectile projectile:
-					Projectile = projectile;
-					EntityType = Projectile.type;
+					EntityType = projectile.type;
 					DrawType = PrimTrailManager.DrawProjectile;
 					break;
 			}
@@ -80,25 +80,30 @@ namespace SpiritMod.Prim
 			if (Cap < PointCount / 6)
 				Points.RemoveAt(0);
 
-			if (DrawType == PrimTrailManager.DrawNPC) {
-				Width = _widthCap;
+			switch (Entity) {
+				case NPC npc:
+					if (DrawType == PrimTrailManager.DrawNPC) {
+						Width = _widthCap;
 
-				if (!NPC.active || Destroyed || NPC.type != EntityType || NPC.ai[2] == 0 || NPC.ai[0] == 0)
-					OnDestroy();
-				else
-					Points.Add(NPC.Center);
+						if (!npc.active || Destroyed || npc.type != EntityType || npc.ai[2] == 0 || npc.ai[0] == 0)
+							OnDestroy();
+						else
+							Points.Add(npc.Center);
+					}
+					break;
+
+				case Projectile projectile:
+					if (DrawType == PrimTrailManager.DrawProjectile) {
+						if (Width < _widthCap && !Destroyed)
+							Width = MathHelper.Lerp(Width, _widthCap, 0.08f);
+
+						if (!projectile.active || projectile.type != EntityType || Destroyed)
+							OnDestroy();
+						else
+							Points.Add(projectile.Center);
+					}
+					break;
 			}
-
-			if (DrawType != PrimTrailManager.DrawProjectile)
-				return;
-
-			if (Width < _widthCap && !Destroyed)
-				Width = MathHelper.Lerp(Width, _widthCap, 0.08f);
-
-			if (!Projectile.active || Projectile.type != EntityType || Destroyed)
-				OnDestroy();
-			else
-				Points.Add(Projectile.Center);
 		}
 
 		public override void OnDestroy()

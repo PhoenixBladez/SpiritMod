@@ -9,9 +9,7 @@ namespace SpiritMod.Prim
 	{
 		public bool Destroyed { get; protected set; } = false;
 
-		public Projectile Projectile { get; protected set; } = null;
-
-		public NPC NPC { get; protected set; } = null;
+		public Entity Entity = null;
 
 		public int EntityType { get; protected set; }
 

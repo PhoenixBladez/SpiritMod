@@ -11,8 +11,8 @@ namespace SpiritMod.Prim
 
 		public ArclashPrimTrail(Projectile projectile)
 		{
-			Projectile = projectile;
-			EntityType = Projectile.type;
+			Entity = projectile;
+			EntityType = projectile.type;
 			DrawType = PrimTrailManager.DrawProjectile;
 		}
 
@@ -84,19 +84,22 @@ namespace SpiritMod.Prim
 
 		public override void OnUpdate()
 		{
-			_arcProgress = Projectile.ai[0];
+			if (!(Entity is Projectile projectile))
+				return;
+
+			_arcProgress = projectile.ai[0];
 
 			Vector2 direction = Vector2.UnitX * 8;
-			direction = direction.RotatedBy(Projectile.ai[1]);
+			direction = direction.RotatedBy(projectile.ai[1]);
 
-			Vector2 position = Main.player[Projectile.owner].MountedCenter + direction * (7 + _arcProgress / 30);
+			Vector2 position = Main.player[projectile.owner].MountedCenter + direction * (7 + _arcProgress / 30);
 			Vector2 c1 = position + direction.RotatedBy(-0.3f - _arcProgress / 250f) * _arcProgress;
 			Vector2 c2 = position + direction.RotatedBy(0.3f + _arcProgress / 250f) * _arcProgress;
 
 			Counter++;
 			PointCount = Points.Count * 6;
 
-			if (!Projectile.active && Projectile != null || Destroyed)
+			if (!projectile.active || Destroyed)
 				OnDestroy();
 			else {
 				Points.Clear();
