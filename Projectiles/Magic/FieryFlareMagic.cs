@@ -50,7 +50,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			for (int j = 0; j < 14; j++) {
-				int dust = Dust.NewDust(target.Center, 0, 0, 6);
+				int dust = Dust.NewDust(target.Center, 0, 0, DustID.Fire);
 				Main.dust[dust].velocity = projectile.velocity.RotatedByRandom(MathHelper.Pi / 8) * Main.rand.NextFloat(1.5f, 2.8f);
 				Main.dust[dust].position += new Vector2(Main.rand.Next(-25, 26), Main.rand.Next(-10, 11)).RotatedBy(Main.dust[dust].velocity.ToRotation());
 				Main.dust[dust].noGravity = true;
