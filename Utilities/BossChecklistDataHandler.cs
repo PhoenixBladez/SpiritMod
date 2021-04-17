@@ -659,28 +659,14 @@ namespace SpiritMod.Utilities
 				string headTextureOverride = "";
 				Func<bool> isAvailable = null;
 
-				if (Activator.CreateInstance(type) is IBCRegistrable registrableType) {
-					registrableType.RegisterToChecklist(out EntryType entryType, out float progression, out string name,
-						out Func<bool> downedCondition, ref identificationData, ref spawnInfo, ref despawnMessage,
-						ref texture, ref headTextureOverride, ref isAvailable);
+				if (!(Activator.CreateInstance(type) is IBCRegistrable registrableType))
+					continue;
 
-					switch (entryType) {
-						case EntryType.Boss:
-							spiritMod.AddBoss(progression, name, downedCondition, identificationData, spawnInfo, despawnMessage, texture, headTextureOverride, isAvailable);
-							break;
+				registrableType.RegisterToChecklist(out EntryType entryType, out float progression, out string name,
+					out Func<bool> downedCondition, ref identificationData, ref spawnInfo, ref despawnMessage,
+					ref texture, ref headTextureOverride, ref isAvailable);
 
-						case EntryType.Miniboss:
-							spiritMod.AddMiniBoss(progression, name, downedCondition, identificationData, spawnInfo, despawnMessage, texture, headTextureOverride, isAvailable);
-							break;
-
-						case EntryType.Event:
-							spiritMod.AddEvent(progression, name, downedCondition, identificationData, spawnInfo, despawnMessage, texture, headTextureOverride, isAvailable);
-							break;
-
-						default:
-							throw new ArgumentOutOfRangeException();
-					}
-				}
+				AddBCEntry(entryType, spiritMod, progression, name, downedCondition, identificationData, spawnInfo, despawnMessage, texture, headTextureOverride, isAvailable);
 			}
 		}
 	}
