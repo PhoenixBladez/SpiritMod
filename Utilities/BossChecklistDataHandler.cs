@@ -8,7 +8,6 @@ using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Items.Boss;
 using SpiritMod.Items.Consumable;
 using SpiritMod.Items.Consumable.Potion;
-using SpiritMod.Items.Consumable.Quest;
 using SpiritMod.Items.Equipment;
 using SpiritMod.Items.Equipment.ScarabExpertDrop;
 using SpiritMod.Items.Material;
@@ -24,13 +23,10 @@ using SpiritMod.Items.Weapon.Spear;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Summon.ElectricGun;
 using SpiritMod.Items.Weapon.Summon.LocustCrook;
-using SpiritMod.Items.Weapon.Summon.SacrificialDagger;
 using SpiritMod.Items.Weapon.Swung;
 using SpiritMod.Items.Weapon.Swung.Khopesh;
 using SpiritMod.Items.Weapon.Thrown;
 using SpiritMod.Items.Weapon.Yoyo;
-using SpiritMod.NPCs;
-using SpiritMod.NPCs.BlueMoon;
 using SpiritMod.NPCs.Boss;
 using SpiritMod.NPCs.Boss.Atlas;
 using SpiritMod.NPCs.Boss.Dusking;
@@ -40,7 +36,6 @@ using SpiritMod.NPCs.Boss.ReachBoss;
 using SpiritMod.NPCs.Boss.Scarabeus;
 using SpiritMod.NPCs.Boss.SteamRaider;
 using SpiritMod.NPCs.MoonjellyEvent;
-using SpiritMod.NPCs.Reach;
 using SpiritMod.NPCs.Tides;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -518,7 +513,7 @@ namespace SpiritMod.Utilities
 
 		private static void RegisterInterfaces(Mod spiritMod)
 		{
-			foreach (Type type in spiritMod.Code.GetTypes().Where(x => x.IsAssignableFrom(typeof(IBCRegistrable)))) {
+			foreach (Type type in spiritMod.Code.GetTypes().Where(x => x.GetInterfaces().Contains(typeof(IBCRegistrable)))) {
 				BCIDData identificationData = new BCIDData(null, null, null, null);
 				string spawnInfo = "";
 				string despawnMessage = "";
