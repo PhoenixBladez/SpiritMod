@@ -935,6 +935,20 @@ namespace SpiritMod.NPCs
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Glyph>());
 			}
+			if (npc.type == NPCID.Mimic)
+			{
+				if (Main.rand.NextBool(5))
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Consumable.Potion.BottomlessHealingPotion>());
+				}
+			}
+			if (npc.type == NPCID.Pixie)
+			{
+				if (Main.rand.NextBool(100))
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Items.Consumable.Potion.BottomlessAle>());
+				}
+			}
             #endregion
             /* 
 			if (Main.rand.Next(40) == 1 && !npc.SpawnedFromStatue)

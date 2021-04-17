@@ -32,6 +32,10 @@ namespace SpiritMod.Projectiles.Summon
 			projectile.tileCollide = false;
 			projectile.ignoreWater = true;
 			projectile.netImportant = true;
+
+			projectile.usesLocalNPCImmunity = true;
+			//5a: projectile.localNPCHitCooldown = -1; // 1 hit per npc max
+			projectile.localNPCHitCooldown = 20; // o
 		}
 
 		public override void CheckActive()

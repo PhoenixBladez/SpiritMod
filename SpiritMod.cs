@@ -770,7 +770,7 @@ namespace SpiritMod
 			SellNoValue_INTERFACE = null;
 			SellWeapons_INTERFACE = null;
 			SellLock_INTERFACE = null;
-			
+
 			SpiritModAutoSellTextures.Unload();	
 
 			AdditiveCallManager.Unload();
@@ -1257,10 +1257,8 @@ namespace SpiritMod
 		{
 			Player player = Main.player[Main.myPlayer];
 			Point mousePoint = new Point(Main.mouseX, Main.mouseY);
-			int xPositionUI_ON_OFF = 66;
-			int yPositionUI_ON_OFF = 258;
 
-			Rectangle AutoSellUI_TOGGLERECTANGLE = new Rectangle(494, 426, 39, 39);
+			Rectangle AutoSellUI_TOGGLERECTANGLE = new Rectangle(494, 312, 39, 39);
 			bool AutoSellUI_TOGGLE = false;
 			if (AutoSellUI_TOGGLERECTANGLE.Contains(mousePoint))
 			{
@@ -1274,7 +1272,7 @@ namespace SpiritMod
 				Main.hoverItemName = "Click to quick-sell your items";
 			}
 
-			Rectangle Sell_NoValue_TOGGLERECTANGLE = new Rectangle(502, 394, 24, 24);
+			Rectangle Sell_NoValue_TOGGLERECTANGLE = new Rectangle(502, 432, 32, 32);
 			bool Sell_NoValue_TOGGLE = false;
 			if (Sell_NoValue_TOGGLERECTANGLE.Contains(mousePoint))
 			{
@@ -1288,7 +1286,7 @@ namespace SpiritMod
 				Main.hoverItemName = "Toggle this to sell 'no value' items with quick-sell";
 			}
 
-			Rectangle Sell_Lock_TOGGLERECTANGLE = new Rectangle(502, 356, 24, 24);
+			Rectangle Sell_Lock_TOGGLERECTANGLE = new Rectangle(502, 356, 32, 32);
 			bool Sell_Lock_TOGGLE = false;
 			if (Sell_Lock_TOGGLERECTANGLE.Contains(mousePoint))
 			{
@@ -1302,7 +1300,7 @@ namespace SpiritMod
 				Main.hoverItemName = "Toggle this to lock quick-sell mechanic\nYou won't be able to use quick-sell while this is toggled";
 			}
 
-			Rectangle Sell_Weapons_TOGGLERECTANGLE = new Rectangle(502, 318, 24, 24);
+			Rectangle Sell_Weapons_TOGGLERECTANGLE = new Rectangle(502, 394, 32, 32);
 			bool Sell_Weapons_TOGGLE = false;
 			if (Sell_Weapons_TOGGLERECTANGLE.Contains(mousePoint))
 			{

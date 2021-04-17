@@ -1071,7 +1071,7 @@ namespace SpiritMod
             }
             if (!mimicRepellent)
             {
-                if (Main.rand.NextBool(player.cratePotion ? 2 : 95)) {
+                if (Main.rand.NextBool(player.cratePotion ? 70 : 95)) {
                     for (int i = 0; i < 1000; i++) {
                         if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].bobber) {
                             bobberIndex = i;
@@ -1082,7 +1082,7 @@ namespace SpiritMod
                         caughtType = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<WoodCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
                         if (Main.netMode == 1)
                         {
-                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, caughtType);
+                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, ModContent.NPCType<WoodCrateMimic>());
                         }
                     }
                 }

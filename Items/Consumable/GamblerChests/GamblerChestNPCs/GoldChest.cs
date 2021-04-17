@@ -118,7 +118,7 @@ namespace SpiritMod.Items.Consumable.GamblerChests.GamblerChestNPCs
                     {
                         itemid = ItemID.SilverCoin;
                     }
-                    else if (val < 0.999f)
+                    else if (val < 1.005f)
                     {
                         itemid = ItemID.GoldCoin;
                     }

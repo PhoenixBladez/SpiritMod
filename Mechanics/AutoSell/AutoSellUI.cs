@@ -17,7 +17,7 @@ namespace SpiritMod.Mechanics.AutoSell
 			Texture2D buttonPlayTexture = SpiritModAutoSellTextures.autoSellUIButton;
 			UIImageButton playButton = new UIImageButton(buttonPlayTexture);
 			playButton.Left.Set(494, 0f);
-			playButton.Top.Set(426, 0f);
+			playButton.Top.Set(312, 0f);
 			playButton.Width.Set(39, 0f);
 			playButton.Height.Set(39, 0f);
 			playButton.OnClick += new MouseEvent(PlayButtonClicked);

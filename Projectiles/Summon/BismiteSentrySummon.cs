@@ -35,7 +35,7 @@ namespace SpiritMod.Projectiles.Summon
         public override void AI()
 		{
 
-			if (projectile.alpha > 0 && projectile.alpha < 239)
+			if (projectile.alpha > 0 && projectile.alpha <= 240)
             {
                 projectile.alpha--;
             }

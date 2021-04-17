@@ -16,8 +16,8 @@ namespace SpiritMod.Mechanics.AutoSell.Sell_Lock
 			UIImageButton playButton = new UIImageButton(buttonPlayTexture);
 			playButton.Left.Set(502, 0f);
 			playButton.Top.Set(356, 0f);
-			playButton.Width.Set(24, 0f);
-			playButton.Height.Set(24, 0f);
+			playButton.Width.Set(32, 0f);
+			playButton.Height.Set(32, 0f);
 			playButton.OnClick += new MouseEvent(PlayButtonClicked);
 
 			base.Append(playButton);

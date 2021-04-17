@@ -32,17 +32,17 @@ namespace SpiritMod.Mechanics.AutoSell
 				
 				if (player.GetModPlayer<AutoSellPlayer>().sell_NoValue && Main.npcShop > 0)
 				{
-					spriteBatch.Draw(sell_NoValueActive, new Rectangle(502, 394, 24, 24), Color.White);
+					spriteBatch.Draw(sell_NoValueActive, new Rectangle(502, 432, 32, 32), Color.White);
 				}
 
 				if (player.GetModPlayer<AutoSellPlayer>().sell_Lock && Main.npcShop > 0)
 				{
-					spriteBatch.Draw(sell_LockActive, new Rectangle(502, 356, 24, 24), Color.White);
+					spriteBatch.Draw(sell_LockActive, new Rectangle(502, 356, 32, 32), Color.White);
 				}
 
 				if (player.GetModPlayer<AutoSellPlayer>().sell_Weapons && Main.npcShop > 0)
 				{
-					spriteBatch.Draw(sell_WeaponsActive, new Rectangle(502, 318, 24, 24), Color.White);
+					spriteBatch.Draw(sell_WeaponsActive, new Rectangle(502, 394, 32, 32), Color.White);
 				}
 			}
 		}
