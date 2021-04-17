@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Armor;
 using SpiritMod.Items.Armor.JellynautHelmet;
@@ -52,7 +53,7 @@ namespace SpiritMod.Utilities
 	/// </summary>
 	public static class BossChecklistDataHandler
 	{
-		private enum EntryType
+		public enum EntryType
 		{
 			Boss,
 			Miniboss,
@@ -63,15 +64,15 @@ namespace SpiritMod.Utilities
 
 		public static bool BossChecklistIsLoaded => BossChecklistMod != null;
 
-		public readonly struct BCIDData
+		public class BCIDData
 		{
 			public readonly List<int> npcIDs;
 			public readonly List<int> itemSpawnIDs;
 			public readonly List<int> itemCollectionIDs;
 			public readonly List<int> itemLootIDs;
 
-			public BCIDData(List<int> npcIDs, List<int> itemSpawnIDs, List<int> itemCollectionIDs,
-				List<int> itemLootIDs)
+			public BCIDData(List<int> npcIDs, List<int> itemSpawnIDs, 
+				List<int> itemCollectionIDs, List<int> itemLootIDs)
 			{
 				this.npcIDs = npcIDs;
 				this.itemSpawnIDs = itemSpawnIDs;
@@ -142,16 +143,14 @@ namespace SpiritMod.Utilities
 				bossAvailable ?? (() => true)
 			);
 		}
-
-		// TODO: (Epically) OOP-ify this? (I really like object-oriented programming) - Stevie
+		
 		internal static void RegisterSpiritData(Mod spiritMod)
 		{
 			if (!BossChecklistIsLoaded)
 				return;
 
-			RegisterSpiritMiniBosses(spiritMod);
-			RegisterSpiritBosses(spiritMod);
 			RegisterSpiritEvents(spiritMod);
+			RegisterInterfaces(spiritMod);
 		}
 
 		private static void RegisterSpiritMiniBosses(Mod spiritMod)
@@ -648,6 +647,41 @@ namespace SpiritMod.Utilities
 				"SpiritMod/Textures/BossChecklist/BlueMoonIcon",
 				null
 			);
+		}
+
+		private static void RegisterInterfaces(Mod spiritMod)
+		{
+			foreach (Type type in spiritMod.Code.GetTypes().Where(x => x.IsAssignableFrom(typeof(IBCRegistrable)))) {
+				BCIDData identificationData = new BCIDData(null, null, null, null);
+				string spawnInfo = "";
+				string despawnMessage = "";
+				string texture = "";
+				string headTextureOverride = "";
+				Func<bool> isAvailable = null;
+
+				if (Activator.CreateInstance(type) is IBCRegistrable registrableType) {
+					registrableType.RegisterToChecklist(out EntryType entryType, out float progression, out string name,
+						out Func<bool> downedCondition, ref identificationData, ref spawnInfo, ref despawnMessage,
+						ref texture, ref headTextureOverride, ref isAvailable);
+
+					switch (entryType) {
+						case EntryType.Boss:
+							spiritMod.AddBoss(progression, name, downedCondition, identificationData, spawnInfo, despawnMessage, texture, headTextureOverride, isAvailable);
+							break;
+
+						case EntryType.Miniboss:
+							spiritMod.AddMiniBoss(progression, name, downedCondition, identificationData, spawnInfo, despawnMessage, texture, headTextureOverride, isAvailable);
+							break;
+
+						case EntryType.Event:
+							spiritMod.AddEvent(progression, name, downedCondition, identificationData, spawnInfo, despawnMessage, texture, headTextureOverride, isAvailable);
+							break;
+
+						default:
+							throw new ArgumentOutOfRangeException();
+					}
+				}
+			}
 		}
 	}
 }
