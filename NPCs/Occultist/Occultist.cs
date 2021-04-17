@@ -1,8 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Material;
-using SpiritMod.Projectiles.Hostile;
 using System;
+using System.Collections.Generic;
+using SpiritMod.Items.Weapon.Summon.SacrificialDagger;
+using SpiritMod.Items.Weapon.Yoyo;
+using SpiritMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,7 +13,7 @@ using Terraria.ModLoader;
 namespace SpiritMod.NPCs.Occultist
 {
 	[AutoloadBossHead]
-	public class Occultist : ModNPC
+	public class Occultist : ModNPC, IBCRegistrable
 	{
 		public override void SetStaticDefaults()
 		{
@@ -309,6 +312,32 @@ namespace SpiritMod.NPCs.Occultist
 					Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -4.5f, 0, default(Color), Main.rand.NextFloat(.9f, 1.4f));
 				}
 			}
+		}
+
+		public void RegisterToChecklist(out BossChecklistDataHandler.EntryType entryType, out float progression,
+			out string name, out Func<bool> downedCondition, ref BossChecklistDataHandler.BCIDData identificationData,
+			ref string spawnInfo, ref string despawnMessage, ref string texture, ref string headTextureOverride,
+			ref Func<bool> isAvailable)
+		{
+			entryType = BossChecklistDataHandler.EntryType.Miniboss;
+			progression = 1.5f;
+			name = "Occultist";
+			downedCondition = () => MyWorld.downedOccultist;
+			identificationData = new BossChecklistDataHandler.BCIDData(
+				new List<int> {
+					ModContent.NPCType<Occultist>()
+				},
+				null,
+				null,
+				new List<int> {
+					ModContent.ItemType<Handball>(),
+					ModContent.ItemType<SacrificialDagger>(),
+					ModContent.ItemType<BloodFire>()
+				});
+			spawnInfo =
+				"The Occultist spawns rarely during a Blood Moon after the Eye of Cthulhu has been defeated.";
+			texture = "SpiritMod/Textures/BossChecklist/OccultistTexture";
+			headTextureOverride = "SpiritMod/NPCs/BloodMoon/Occultist_Head_Boss";
 		}
 	}
 }

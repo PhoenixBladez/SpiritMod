@@ -13,7 +13,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.HauntedTome
 {
-	public class HauntedTome : ModNPC
+	public class HauntedTome : ModNPC, IBCRegistrable
 	{
 		public override void SetStaticDefaults()
 		{
@@ -213,6 +213,28 @@ namespace SpiritMod.NPCs.HauntedTome
 		{
 			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture(Texture.Remove(0, mod.Name.Length + 1) + "_glow"));
 			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture(Texture.Remove(0, mod.Name.Length + 1) + "_mask"), Color.White * npc.localAI[0]);
+		}
+
+		public void RegisterToChecklist(out BossChecklistDataHandler.EntryType entryType, out float progression,
+			out string name, out Func<bool> downedCondition, ref BossChecklistDataHandler.BCIDData identificationData,
+			ref string spawnInfo, ref string despawnMessage, ref string texture, ref string headTextureOverride,
+			ref Func<bool> isAvailable)
+		{
+			entryType = BossChecklistDataHandler.EntryType.Miniboss;
+			progression = 1.5f;
+			name = "Haunted Tome";
+			downedCondition = () => MyWorld.downedGladeWraith;
+			identificationData = new BossChecklistDataHandler.BCIDData(
+				new List<int> { ModContent.NPCType<HauntedTome>() },
+				null,
+				null,
+				new List<int> {
+					ModContent.ItemType<Items.Weapon.Magic.ScreamingTome.ScreamingTome>()
+				});
+			spawnInfo =
+				"Haunted Tomes can be found while exploring Dark Sepulchres and interacting with certain items.";
+			texture = "SpiritMod/Textures/BossChecklist/HauntedTomeTexture";
+			headTextureOverride = "SpiritMod/NPCs/HauntedTome/HauntedTome_Head_Boss";
 		}
 	}
 

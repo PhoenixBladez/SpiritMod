@@ -3,15 +3,17 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Material;
 using SpiritMod.Items.Weapon.Yoyo;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Consumable.Food;
+using SpiritMod.Utilities;
 
 namespace SpiritMod.NPCs.Beholder
 {
 	[AutoloadBossHead]
-	public class Beholder : ModNPC
+	public class Beholder : ModNPC, IBCRegistrable
 	{
 		public override void SetStaticDefaults()
 		{
@@ -270,5 +272,30 @@ namespace SpiritMod.NPCs.Beholder
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TofuSatay>());
             }
         }
+
+		public void RegisterToChecklist(out BossChecklistDataHandler.EntryType entryType, out float progression,
+			out string name, out Func<bool> downedCondition, ref BossChecklistDataHandler.BCIDData identificationData,
+			ref string spawnInfo, ref string despawnMessage, ref string texture, ref string headTextureOverride,
+			ref Func<bool> isAvailable)
+		{
+			entryType = BossChecklistDataHandler.EntryType.Miniboss;
+			progression = 3.2f;
+			name = "Beholder";
+			downedCondition = () => MyWorld.downedBeholder;
+			identificationData = new BossChecklistDataHandler.BCIDData(
+				new List<int> {
+					ModContent.NPCType<Beholder>()
+				},
+				null,
+				null,
+				new List<int> {
+					ModContent.ItemType<BeholderYoyo>(),
+					ModContent.ItemType<MarbleChunk>()
+				});
+			spawnInfo =
+				"The Beholder spawns rarely in Marble Caverns after the Eater of Worlds or Brain of Cthulhu has been defeated.";
+			texture = "SpiritMod/Textures/BossChecklist/BeholderTexture";
+			headTextureOverride = "SpiritMod/NPCs/Beholder_Head_Boss";
+		}
 	}
 }
