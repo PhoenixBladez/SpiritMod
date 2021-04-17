@@ -80,9 +80,8 @@ namespace SpiritMod.Prim
 			Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
 			effects.Parameters["WorldViewProjection"].SetValue(view * projection);
 
-			if (effects.HasParameter("uColor")) {
+			if (effects.HasParameter("uColor"))
 				effects.Parameters["uColor"].SetValue(color.Value.ToVector3());
-			}
 
 			_trailShader.ApplyShader(effects, this, _points, passName, progress);
 		}
