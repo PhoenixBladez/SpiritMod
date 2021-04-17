@@ -1,11 +1,15 @@
+using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Items.Consumable;
 using SpiritMod.Items.Consumable.Quest;
 using SpiritMod.Items.Material;
 using SpiritMod.Items.Weapon.Thrown;
 using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Projectiles;
 using SpiritMod.Projectiles.Hostile;
+using SpiritMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,7 +18,7 @@ using Terraria.ModLoader;
 namespace SpiritMod.NPCs.Reach
 {
 	[AutoloadBossHead]
-	public class ForestWraith : ModNPC
+	public class ForestWraith : ModNPC, IBCRegistrable
 	{
 		public override void SetStaticDefaults()
 		{
@@ -215,5 +219,30 @@ namespace SpiritMod.NPCs.Reach
 			}
 		}
 
+		public void RegisterToChecklist(out BossChecklistDataHandler.EntryType entryType, out float progression,
+			out string name, out Func<bool> downedCondition, ref BossChecklistDataHandler.BCIDData identificationData,
+			ref string spawnInfo, ref string despawnMessage, ref string texture, ref string headTextureOverride,
+			ref Func<bool> isAvailable)
+		{
+			entryType = BossChecklistDataHandler.EntryType.Miniboss;
+			progression = 0.8f;
+			name = "Glade Wraith";
+			downedCondition = () => MyWorld.downedGladeWraith;
+			identificationData = new BossChecklistDataHandler.BCIDData(
+				new List<int> { ModContent.NPCType<ForestWraith>() },
+				new List<int> {
+					ModContent.ItemType<GladeWreath>()
+				},
+				null,
+				new List<int> {
+					ModContent.ItemType<HuskstalkStaff>(),
+					ModContent.ItemType<AncientBark>(),
+					ModContent.ItemType<SacredVine>()
+				});
+			spawnInfo =
+				"Destroy a Bone Altar in the Underground Briar. The Glade Wraith also spawns naturally at nighttime after defeating the Eye of Cthulhu. Alternatively, find a Glade Wreath in Briar Chests and use it in the Briar at any time.";
+			texture = "SpiritMod/Textures/BossChecklist/GladeWraithTexture";
+			headTextureOverride = "SpiritMod/NPCs/Reach/ForestWraith_Head_Boss";
+		}
 	}
 }
