@@ -1,7 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Effects;
+using SpiritMod.Items.Accessory;
+using SpiritMod.Items.Armor.Masks;
+using SpiritMod.Items.Boss;
+using SpiritMod.Items.Consumable;
+using SpiritMod.Items.Placeable.MusicBox;
+using SpiritMod.Items.Weapon.Bow;
+using SpiritMod.Items.Weapon.Magic;
+using SpiritMod.Items.Weapon.Swung;
+using SpiritMod.Utilities;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Terraria;
@@ -12,7 +22,7 @@ using Terraria.ModLoader;
 namespace SpiritMod.NPCs.Boss.ReachBoss
 {
 	[AutoloadBossHead]
-	public class ReachBoss : ModNPC
+	public class ReachBoss : ModNPC, IBCRegistrable
 	{
 		int moveSpeed = 0;
 		bool text = false;
@@ -450,9 +460,42 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				Dust.NewDust(npc.position, npc.width, npc.height, 258, 2.5f * hitDirection, -2.5f, 0,  default(Color), 0.7f);
 			}
 		}
-		public override bool PreNPCLoot()
+		public override bool PreNPCLoot() => false;
+
+		public void RegisterToChecklist(out BossChecklistDataHandler.EntryType entryType, out float progression,
+			out string name, out Func<bool> downedCondition, ref BossChecklistDataHandler.BCIDData identificationData,
+			ref string spawnInfo, ref string despawnMessage, ref string texture, ref string headTextureOverride,
+			ref Func<bool> isAvailable)
 		{
-			return false;
+			entryType = BossChecklistDataHandler.EntryType.Boss;
+			progression = 3.5f;
+			name = "Vinewrath Bane";
+			downedCondition = () => MyWorld.downedReachBoss;
+			identificationData = new BossChecklistDataHandler.BCIDData(
+				new List<int> {
+					ModContent.NPCType<ReachBoss>()
+				},
+				new List<int> {
+					ModContent.ItemType<ReachBossSummon>()
+				},
+				new List<int> {
+					ModContent.ItemType<Trophy5>(),
+					ModContent.ItemType<ReachMask>(),
+					ModContent.ItemType<VinewrathBox>()
+				},
+				new List<int> {
+					ModContent.ItemType<DeathRose>(),
+					ModContent.ItemType<SunbeamStaff>(),
+					ModContent.ItemType<ThornBow>(),
+					ModContent.ItemType<ReachVineStaff>(),
+					ModContent.ItemType<ReachBossSword>(),
+					// ModContent.ItemType<ReachKnife>(),
+					ItemID.LesserHealingPotion
+				});
+			spawnInfo =
+				$"Right-click the Bloodblossom, a glowing flower found at the bottom of the Briar. The Vinewrath Bane can be fought at any time and any place in progression. If a Bloodblossom is not present, use a [i:{ModContent.ItemType<ReachBossSummon>()}] in the Briar below the surface at any time.";
+			texture = "SpiritMod/Textures/BossChecklist/ReachBossTexture";
+			headTextureOverride = "SpiritMod/NPCs/Boss/ReachBoss/ReachBoss/ReachBoss_Head_Boss";
 		}
 	}
 }

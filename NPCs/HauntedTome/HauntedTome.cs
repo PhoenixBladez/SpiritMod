@@ -13,6 +13,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.HauntedTome
 {
+	[AutoloadBossHead]
 	public class HauntedTome : ModNPC, IBCRegistrable
 	{
 		public override void SetStaticDefaults()
@@ -200,6 +201,10 @@ namespace SpiritMod.NPCs.HauntedTome
 		public override void NPCLoot()
 		{
 			npc.DropItem(ModContent.ItemType<Items.Weapon.Magic.ScreamingTome.ScreamingTome>());
+			MyWorld.downedTome = true;
+			if (Main.netMode != NetmodeID.SinglePlayer)
+				NetMessage.SendData(MessageID.WorldData);
+
 			for (int i = 0; i < 8; i++)
 				Gore.NewGore(npc.Center, Main.rand.NextVector2Circular(0.5f, 0.5f), 99, Main.rand.NextFloat(0.6f, 1.2f));
 
@@ -223,7 +228,7 @@ namespace SpiritMod.NPCs.HauntedTome
 			entryType = BossChecklistDataHandler.EntryType.Miniboss;
 			progression = 1.5f;
 			name = "Haunted Tome";
-			downedCondition = () => MyWorld.downedGladeWraith;
+			downedCondition = () => MyWorld.downedTome;
 			identificationData = new BossChecklistDataHandler.BCIDData(
 				new List<int> { ModContent.NPCType<HauntedTome>() },
 				null,

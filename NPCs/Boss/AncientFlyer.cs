@@ -10,14 +10,20 @@ using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Swung;
 using SpiritMod.Items.Weapon.Thrown;
 using SpiritMod.Projectiles.Hostile;
+using SpiritMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System;
+using System.Collections.Generic;
+using SpiritMod.Items.Equipment;
+using SpiritMod.Items.Placeable.MusicBox;
+using SpiritMod.Items.Consumable;
 
 namespace SpiritMod.NPCs.Boss
 {
 	[AutoloadBossHead]
-	public class AncientFlyer : ModNPC
+	public class AncientFlyer : ModNPC, IBCRegistrable
 	{
 
 		int tornadoX = 0;
@@ -366,6 +372,43 @@ namespace SpiritMod.NPCs.Boss
 			npc.frameCounter %= Main.npcFrameCount[npc.type];
 			int frame = (int)npc.frameCounter;
 			npc.frame.Y = frame * frameHeight;
+		}
+
+		public void RegisterToChecklist(out BossChecklistDataHandler.EntryType entryType, out float progression,
+			out string name, out Func<bool> downedCondition, ref BossChecklistDataHandler.BCIDData identificationData,
+			ref string spawnInfo, ref string despawnMessage, ref string texture, ref string headTextureOverride,
+			ref Func<bool> isAvailable)
+		{
+			entryType = BossChecklistDataHandler.EntryType.Boss;
+			progression = 4.2f;
+			name = "Ancient Avian";
+			downedCondition = () => MyWorld.downedAncientFlier;
+			identificationData = new BossChecklistDataHandler.BCIDData(
+				new List<int> {
+					ModContent.NPCType<AncientFlyer>()
+				},
+				new List<int> {
+					ModContent.ItemType<JewelCrown>()
+				},
+				new List<int> {
+					ModContent.ItemType<Trophy2>(), ModContent.ItemType<FlierMask>(),
+					ModContent.ItemType<AvianBox>()
+				},
+				new List<int> {
+					ModContent.ItemType<AvianHook>(),
+					ModContent.ItemType<TalonBlade>(),
+					ModContent.ItemType<Talonginus>(),
+					ModContent.ItemType<SoaringScapula>(),
+					ModContent.ItemType<TalonPiercer>(),
+					ModContent.ItemType<SkeletalonStaff>(),
+					ModContent.ItemType<TalonHeaddress>(),
+					ModContent.ItemType<TalonGarb>(),
+					ItemID.LesserHealingPotion
+				});
+			spawnInfo =
+				$"Use a[i:{ModContent.ItemType<JewelCrown>()}] in the sky biome at any time.Alternatively, smash a Giant Avian Egg, which is found on Avian Islands near the sky layer.The Ancient Avian can be fought at any time and any place in progression.";
+			texture = "SpiritMod/Textures/BossChecklist/AvianTexture";
+			headTextureOverride = "SpiritMod/NPCs/Boss/AncientFlyer_Head_Boss";
 		}
 	}
 }

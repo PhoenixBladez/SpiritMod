@@ -1,22 +1,26 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs;
+using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Items.Boss;
 using SpiritMod.Items.BossBags;
+using SpiritMod.Items.Consumable;
 using SpiritMod.Items.Material;
 using SpiritMod.Items.Weapon.Bow;
 using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Items.Weapon.Swung;
 using SpiritMod.Projectiles.Hostile;
+using SpiritMod.Utilities;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace SpiritMod.NPCs.Boss.Dusking
 {
 	[AutoloadBossHead]
-	public class Dusking : ModNPC
+	public class Dusking : ModNPC, IBCRegistrable
 	{
 		// npc.ai[0] = State Manager.
 		// npc.ai[1] = Additional timer (charge timer, state timer, etc).
@@ -429,6 +433,41 @@ namespace SpiritMod.NPCs.Boss.Dusking
 		public override Color? GetAlpha(Color lightColor)
 		{
 			return Color.White;
+		}
+
+		public void RegisterToChecklist(out BossChecklistDataHandler.EntryType entryType, out float progression,
+			out string name, out Func<bool> downedCondition, ref BossChecklistDataHandler.BCIDData identificationData,
+			ref string spawnInfo, ref string despawnMessage, ref string texture, ref string headTextureOverride,
+			ref Func<bool> isAvailable)
+		{
+			entryType = BossChecklistDataHandler.EntryType.Boss;
+			progression = 7.3f;
+			name = "Dusking";
+			downedCondition = () => MyWorld.downedDusking;
+			identificationData = new BossChecklistDataHandler.BCIDData(
+				new List<int> {
+					ModContent.NPCType<Dusking>()
+				},
+				new List<int> {
+					ModContent.ItemType<DuskCrown>()
+				},
+				new List<int> {
+					ModContent.ItemType<Trophy6>(),
+					ModContent.ItemType<DuskingMask>()
+				},
+				new List<int> {
+					ModContent.ItemType<DuskPendant>(),
+					ModContent.ItemType<ShadowflameSword>(),
+					ModContent.ItemType<UmbraStaff>(),
+					ModContent.ItemType<ShadowSphere>(),
+					ModContent.ItemType<Shadowmoor>(),
+					ModContent.ItemType<DuskStone>(),
+					ItemID.GreaterHealingPotion
+				});
+			spawnInfo =
+				$"Use a [i:{ModContent.ItemType<DuskCrown>()}] anywhere at nighttime.";
+			texture = "SpiritMod/Textures/BossChecklist/DuskingTexture";
+			headTextureOverride = "SpiritMod/NPCs/Boss/Dusking/Dusking_Head_Boss";
 		}
 	}
 }

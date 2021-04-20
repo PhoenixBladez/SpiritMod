@@ -4,13 +4,18 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Items.Boss;
 using SpiritMod.Items.BossBags;
+using SpiritMod.Items.Consumable;
 using SpiritMod.Items.Equipment;
+using SpiritMod.Items.Equipment.ScarabExpertDrop;
 using SpiritMod.Items.Material;
+using SpiritMod.Items.Placeable.MusicBox;
 using SpiritMod.Items.Weapon.Bow.AdornedBow;
 using SpiritMod.Items.Weapon.Magic.RadiantCane;
 using SpiritMod.Items.Weapon.Summon.LocustCrook;
 using SpiritMod.Items.Weapon.Swung.Khopesh;
+using SpiritMod.Utilities;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Terraria;
@@ -21,7 +26,7 @@ using Terraria.ModLoader;
 namespace SpiritMod.NPCs.Boss.Scarabeus
 {
 	[AutoloadBossHead]
-	public class Scarabeus : ModNPC
+	public class Scarabeus : ModNPC, IBCRegistrable
 	{
 		public override void SetStaticDefaults()
 		{
@@ -1096,44 +1101,67 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		{
 			for (int i = 1; i <= 7; i++) 
 				Gore.NewGoreDirect(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Scarabeus/Scarab" + i.ToString()), 1f);
-			
 
-			npc.position.X = npc.position.X + (float)(npc.width / 2);
-			npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-			npc.width = 100;
-			npc.height = 60;
-			npc.position.X = npc.position.X - (float)(npc.width / 2);
-			npc.position.Y = npc.position.Y - (float)(npc.height / 2);
-			for (int num621 = 0; num621 < 30; num621++) {
-				int randomDustType = Main.rand.Next(3);
-				if (randomDustType == 0)
-					randomDustType = 5;
-				else if (randomDustType == 1)
-					randomDustType = 36;
-				else
-					randomDustType = 32;
+			npc.position += npc.Size / 2;
+			npc.Size = new Vector2(100, 60);
+			npc.position -= npc.Size / 2;
 
-				int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, randomDustType, 0f, 0f, 100, default, 2f);
-				Main.dust[num622].velocity *= 3f;
-				if (Main.rand.Next(2) == 0) {
-					Main.dust[num622].scale = 0.5f;
+			int randomDustType()
+			{
+				switch (Main.rand.Next(3)) {
+					case 0: return 5;
+					case 1: return 36;
+					default: return 32;
 				}
 			}
-			for (int num623 = 0; num623 < 50; num623++) {
-				int randomDustType = Main.rand.Next(3);
-				if (randomDustType == 0)
-					randomDustType = 5;
-				else if (randomDustType == 1)
-					randomDustType = 36;
-				else
-					randomDustType = 32;
 
-				int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, randomDustType, 0f, 0f, 100, default, 1f);
-				Main.dust[num624].noGravity = true;
-				Main.dust[num624].velocity *= 5f;
-				num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, randomDustType, 0f, 0f, 100, default, .82f);
-				Main.dust[num624].velocity *= 2f;
+			for (int i = 0; i < 30; i++)
+				Dust.NewDustDirect(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, randomDustType(), 0f, 0f, 100, default, Main.rand.NextBool() ? 2f : 0.5f).velocity *= 3f;
+
+			for (int j = 0; j < 50; j++) {
+				Dust dust = Dust.NewDustDirect(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, randomDustType(), 0f, 0f, 100, default, 1f);
+				dust.velocity *= 5f;
+				dust.noGravity = true;
+
+				Dust.NewDustDirect(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, randomDustType(), 0f, 0f, 100, default, .82f).velocity *= 2f;
 			}
+		}
+
+		public void RegisterToChecklist(out BossChecklistDataHandler.EntryType entryType, out float progression,
+			out string name, out Func<bool> downedCondition, ref BossChecklistDataHandler.BCIDData identificationData,
+			ref string spawnInfo, ref string despawnMessage, ref string texture, ref string headTextureOverride,
+			ref Func<bool> isAvailable)
+		{
+			entryType = BossChecklistDataHandler.EntryType.Boss;
+			progression = 1.4f;
+			name = "Scarabeus";
+			downedCondition = () => MyWorld.downedScarabeus;
+			identificationData = new BossChecklistDataHandler.BCIDData(
+				new List<int> {
+					ModContent.NPCType<Scarabeus>()
+				},
+				new List<int> {
+					ModContent.ItemType<ScarabIdol>()
+				},
+				new List<int> {
+					ModContent.ItemType<Trophy1>(),
+					ModContent.ItemType<ScarabMask>(),
+					ModContent.ItemType<ScarabBox>()
+				},
+				new List<int> {
+					ModContent.ItemType<ScarabPendant>(),
+					ModContent.ItemType<Chitin>(),
+					ModContent.ItemType<ScarabBow>(),
+					ModContent.ItemType<LocustCrook>(),
+					ModContent.ItemType<RoyalKhopesh>(),
+					ModContent.ItemType<RadiantCane>(),
+					ModContent.ItemType<DesertSnowglobe>(),
+					ItemID.LesserHealingPotion
+				});
+			spawnInfo =
+				$"Use a [i:{ModContent.ItemType<ScarabIdol>()}] in the Desert during the daytime. A [i:{ModContent.ItemType<ScarabIdol>()}] can be found upon completing a certain Adventurer quest, or can be crafted, and is non-consumable.";
+			texture = "SpiritMod/Textures/BossChecklist/ScarabeusTexture";
+			headTextureOverride = "SpiritMod/NPCs/Boss/Scarabeus/Scarabeus_Head_Boss";
 		}
 	}
 }
