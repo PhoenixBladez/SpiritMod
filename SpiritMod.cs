@@ -201,8 +201,14 @@ namespace SpiritMod
 					break;
 				case MessageType.SpawnTrail:
 					int projindex = reader.ReadInt32();
+
+					if (Main.netMode == NetmodeID.Server) { //if received by the server, send to all clients instead
+						WriteToPacket(GetPacket(), (byte)MessageType.SpawnTrail, projindex).Send();
+						break;
+					}
+
 					ITrailProjectile trailproj = (Main.projectile[projindex].modProjectile as ITrailProjectile);
-					if (Main.netMode != NetmodeID.Server && trailproj != null) 
+					if (trailproj != null) 
 						trailproj.DoTrailCreation(TrailManager);
 
 					break;
