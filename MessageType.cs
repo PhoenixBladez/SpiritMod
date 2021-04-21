@@ -12,6 +12,7 @@
 		AdventurerNewQuest,
 		BossSpawnFromClient,
 		TideData,
-		TameAuroraStag
+		TameAuroraStag,
+		SpawnTrail
 	}
 }

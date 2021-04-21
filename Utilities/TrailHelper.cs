@@ -110,6 +110,10 @@ namespace SpiritMod.Utilities
 
 	public interface ITrailProjectile
 	{
+		/// <summary>
+		/// Method for creating vertex strips, called on projectile creation.
+		/// </summary>
+		/// <param name="tManager"></param>
 		void DoTrailCreation(TrailManager tManager);
 	}
 

@@ -50,15 +50,13 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void Kill(int timeLeft)
 		{
-			if (Main.netMode != NetmodeID.MultiplayerClient) {
-				Main.PlaySound(SoundID.Item110, projectile.Center);
-				float maxprojs = 8;
-				for (int i = 0; i < 8; i++) {
-					if (i != 3 && i != 7) {
-						Vector2 BaseSpeed = new Vector2(0, 7.5f);
-						BaseSpeed = BaseSpeed.RotatedBy(i * MathHelper.TwoPi / maxprojs);
-						Projectile.NewProjectile(projectile.Center, BaseSpeed, mod.ProjectileType("AdamantiteStaffProj2"), projectile.damage, 0f, projectile.owner, 0f, 0f);
-					}
+			Main.PlaySound(SoundID.Item110, projectile.Center);
+			float maxprojs = 8;
+			for (int i = 0; i < 8; i++) {
+				if (i != 3 && i != 7) {
+					Vector2 BaseSpeed = new Vector2(0, 7.5f);
+					BaseSpeed = BaseSpeed.RotatedBy(i * MathHelper.TwoPi / maxprojs);
+					Projectile.NewProjectile(projectile.Center, BaseSpeed, mod.ProjectileType("AdamantiteStaffProj2"), projectile.damage, 0f, projectile.owner, 0f, 0f);
 				}
 			}
 		}

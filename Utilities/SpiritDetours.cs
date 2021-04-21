@@ -56,8 +56,15 @@ namespace SpiritMod.Utilities
 			int index = orig(X, Y, SpeedX, SpeedY, Type, Damage, KnockBack, Owner, ai0, ai1);
 			Projectile projectile = Main.projectile[index];
 
-			if (projectile.modProjectile is ITrailProjectile)
-				(projectile.modProjectile as ITrailProjectile).DoTrailCreation(SpiritMod.TrailManager);
+			if (projectile.modProjectile is ITrailProjectile) {
+				if(Main.netMode == NetmodeID.SinglePlayer)
+					(projectile.modProjectile as ITrailProjectile).DoTrailCreation(SpiritMod.TrailManager);
+
+				else {
+					NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, index);
+					SpiritMod.WriteToPacket(SpiritMod.instance.GetPacket(), (byte)MessageType.SpawnTrail, index).Send();
+				}
+			}
 			//if (Main.netMode != NetmodeID.Server) SpiritMod.TrailManager.DoTrailCreation(projectile);
 
 			return index;

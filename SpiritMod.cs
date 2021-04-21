@@ -199,6 +199,13 @@ namespace SpiritMod
 
 					(Main.npc[stagWhoAmI].modNPC as AuroraStag).TameAnimationTimer = AuroraStag.TameAnimationLength;
 					break;
+				case MessageType.SpawnTrail:
+					int projindex = reader.ReadInt32();
+					ITrailProjectile trailproj = (Main.projectile[projindex].modProjectile as ITrailProjectile);
+					if (Main.netMode != NetmodeID.Server && trailproj != null) 
+						trailproj.DoTrailCreation(TrailManager);
+
+					break;
 				default:
 					Logger.Error("Unknown message (" + id + ")");
 					break;
