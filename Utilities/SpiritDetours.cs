@@ -60,10 +60,8 @@ namespace SpiritMod.Utilities
 				if(Main.netMode == NetmodeID.SinglePlayer)
 					(projectile.modProjectile as ITrailProjectile).DoTrailCreation(SpiritMod.TrailManager);
 
-				else {
-					NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, index);
+				else 
 					SpiritMod.WriteToPacket(SpiritMod.instance.GetPacket(), (byte)MessageType.SpawnTrail, index).Send();
-				}
 			}
 			//if (Main.netMode != NetmodeID.Server) SpiritMod.TrailManager.DoTrailCreation(projectile);
 
