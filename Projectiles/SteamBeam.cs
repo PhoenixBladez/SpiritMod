@@ -1,13 +1,12 @@
-﻿
-using Microsoft.Xna.Framework;
-
+﻿using Microsoft.Xna.Framework;
+using SpiritMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles
 {
-	class SteamBeam : ModProjectile
+	class SteamBeam : ModProjectile, ITrailProjectile
 	{
 		public override void SetStaticDefaults()
 		{
@@ -33,6 +32,9 @@ namespace SpiritMod.Projectiles
 			else
 				projectile.velocity = Vector2.Normalize(projectile.velocity) * 28;
 		}
+
+		public void DoTrailCreation(TrailManager tManager) => tManager.CreateTrail(projectile, new StandardColorTrail(new Color(82, 232, 255)), new RoundCap(), new DefaultTrailPosition(), 10f, 450f);
+
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			projectile.penetrate--;

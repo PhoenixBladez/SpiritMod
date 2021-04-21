@@ -1,10 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
+using SpiritMod.Utilities;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.Boss.SteamRaider
 {
-	public class StarLaser : ModProjectile
+	public class StarLaser : ModProjectile, ITrailProjectile
 	{
 		public override void SetStaticDefaults()
 		{
@@ -29,6 +30,8 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 																													 targetHitbox.Size(),
 																													 startingpoint,
 																													 projectile.Center);
+
+		public void DoTrailCreation(TrailManager tManager) => tManager.CreateTrail(projectile, new StandardColorTrail(new Color(66, 239, 245)), new RoundCap(), new DefaultTrailPosition(), 10f, 1950f);
 
 		public override bool PreAI()
 		{

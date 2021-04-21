@@ -1,14 +1,14 @@
-﻿
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
+using SpiritMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.BlueMoon.Bloomshroom
 {
-	public class BloomshroomHostile : ModProjectile
+	public class BloomshroomHostile : ModProjectile, ITrailProjectile
 	{
 		public override void SetStaticDefaults()
 		{
@@ -26,6 +26,19 @@ namespace SpiritMod.NPCs.BlueMoon.Bloomshroom
 			projectile.height = 20;
 			projectile.width = 20;
 		}
+
+		public void DoTrailCreation(TrailManager tM)
+		{
+			switch (Main.rand.Next(2)) {
+				case 0:
+					tM.CreateTrail(projectile, new StandardColorTrail(new Color(120, 217, 255)), new RoundCap(), new SleepingStarTrailPosition(), 18f, 250f);
+					break;
+				case 1:
+					tM.CreateTrail(projectile, new StandardColorTrail(new Color(218, 94, 255)), new RoundCap(), new SleepingStarTrailPosition(), 18f, 250f);
+					break;
+			}
+		}
+
 		int target;
 		public override bool PreAI()
 		{

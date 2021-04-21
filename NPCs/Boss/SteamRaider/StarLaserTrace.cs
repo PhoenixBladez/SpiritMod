@@ -1,13 +1,14 @@
 ﻿using Terraria.ModLoader;
+using SpiritMod.Utilities;
+using Microsoft.Xna.Framework;
 
 namespace SpiritMod.NPCs.Boss.SteamRaider
 {
-	public class StarLaserTrace : ModProjectile
+	public class StarLaserTrace : ModProjectile, ITrailProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Star Laser");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Star Laser");
+
+		public void DoTrailCreation(TrailManager tManager) => tManager.CreateTrail(projectile, new StandardColorTrail(new Color(40, 111, 153) * .3f), new RoundCap(), new DefaultTrailPosition(), 10f, 1550f);
 
 		public override void SetDefaults()
 		{

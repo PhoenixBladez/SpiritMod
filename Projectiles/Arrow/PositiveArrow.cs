@@ -3,12 +3,13 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Utilities;
 using System;
 using System.IO;
 
 namespace SpiritMod.Projectiles.Arrow
 {
-	public class PositiveArrow : ModProjectile
+	public class PositiveArrow : ModProjectile, ITrailProjectile
 	{
 		bool stuck = false;
 		public int oppositearrow;
@@ -24,6 +25,9 @@ namespace SpiritMod.Projectiles.Arrow
 			projectile.friendly = true;
 			projectile.penetrate = -1;
 		}
+
+		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(projectile, new StandardColorTrail(new Color(122, 233, 255)), new RoundCap(), new ZigZagTrailPosition(3f), 8f, 250f);
+
 		public override void SendExtraAI(BinaryWriter writer) => writer.Write(stuck);
 		public override void ReceiveExtraAI(BinaryReader reader) => stuck = reader.ReadBoolean();
 

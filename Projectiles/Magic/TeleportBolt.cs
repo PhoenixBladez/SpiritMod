@@ -1,23 +1,19 @@
-﻿
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using SpiritMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Magic
 {
-	public class TeleportBolt : ModProjectile
+	public class TeleportBolt : ModProjectile, ITrailProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Teleport Bolt");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Teleport Bolt");
 
 		public override void SetDefaults()
 		{
 			projectile.width = 16;
 			projectile.height = 16;
-
 			projectile.aiStyle = 1;
 			aiType = ProjectileID.WoodenArrowFriendly;
 			projectile.friendly = true;
@@ -25,6 +21,8 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.damage = 0;
 			projectile.alpha = 255;
 		}
+
+		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(projectile, new StandardColorTrail(new Color(122, 233, 255) * .6f), new RoundCap(), new SleepingStarTrailPosition(), 15f, 130f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
 
 		public override bool PreAI()
 		{

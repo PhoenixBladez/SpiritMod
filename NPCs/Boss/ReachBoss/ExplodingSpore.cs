@@ -2,12 +2,10 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod;
-using SpiritMod.Effects;
 using Terraria.ModLoader;
 using Terraria;
 using Terraria.ID;
 using Terraria.Audio;
-using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.Boss.ReachBoss
 {

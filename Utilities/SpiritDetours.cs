@@ -56,7 +56,9 @@ namespace SpiritMod.Utilities
 			int index = orig(X, Y, SpeedX, SpeedY, Type, Damage, KnockBack, Owner, ai0, ai1);
 			Projectile projectile = Main.projectile[index];
 
-			if (Main.netMode != NetmodeID.Server) SpiritMod.TrailManager.DoTrailCreation(projectile);
+			if (projectile.modProjectile is ITrailProjectile)
+				(projectile.modProjectile as ITrailProjectile).DoTrailCreation(SpiritMod.TrailManager);
+			//if (Main.netMode != NetmodeID.Server) SpiritMod.TrailManager.DoTrailCreation(projectile);
 
 			return index;
 		}

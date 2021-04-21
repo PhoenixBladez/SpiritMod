@@ -1,16 +1,14 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Utilities;
 using Microsoft.Xna.Framework;
 
 namespace SpiritMod.NPCs.Boss.FrostTroll
 {
-	public class SnowMongerBeam : ModProjectile
+	public class SnowMongerBeam : ModProjectile, ITrailProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Icy Beam");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Icy Beam");
 
 		public override void SetDefaults()
 		{
@@ -24,6 +22,14 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
 			projectile.tileCollide = false;
             projectile.hide = true;
 		}
+
+		public void DoTrailCreation(TrailManager tManager)
+		{
+			tManager.CreateTrail(projectile, new GradientTrail(new Color(255, 255, 255), new Color(179, 222, 230)), new RoundCap(), new DefaultTrailPosition(), 10f, 900f, new DefaultShader());
+			tManager.CreateTrail(projectile, new GradientTrail(new Color(79, 227, 255) * .46f, new Color(44, 140, 219) * .46f), new RoundCap(), new DefaultTrailPosition(), 30f, 500f, new DefaultShader());
+			tManager.CreateTrail(projectile, new StandardColorTrail(Color.White * 0.6f), new RoundCap(), new DefaultTrailPosition(), 12f, 80f, new DefaultShader());
+		}
+
 		public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             if (Main.rand.Next(4) == 0)

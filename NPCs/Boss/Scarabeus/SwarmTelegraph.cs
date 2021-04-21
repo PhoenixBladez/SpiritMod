@@ -1,12 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
-using Terraria;
+using SpiritMod.Utilities;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.Boss.Scarabeus
 {
-	public class SwarmTelegraph : ModProjectile
+	public class SwarmTelegraph : ModProjectile, ITrailProjectile
 	{
 		public override void SetStaticDefaults()
 		{
@@ -26,6 +25,8 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			projectile.alpha = 255;
 			projectile.extraUpdates = 3;
 		}
+
+		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(projectile, new StandardColorTrail(new Color(255, 236, 115, 200)), new RoundCap(), new DefaultTrailPosition(), 200f, 800f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
 
 		public override void AI()
 		{

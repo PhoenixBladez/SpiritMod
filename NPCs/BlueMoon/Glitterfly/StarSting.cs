@@ -1,18 +1,14 @@
-﻿
-using Microsoft.Xna.Framework;
-
+﻿using Microsoft.Xna.Framework;
+using SpiritMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.BlueMoon.Glitterfly
 {
-	public class StarSting : ModProjectile
+	public class StarSting : ModProjectile, ITrailProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Star Sting");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Star Sting");
 
 		public override void SetDefaults()
 		{
@@ -25,6 +21,8 @@ namespace SpiritMod.NPCs.BlueMoon.Glitterfly
 			aiType = ProjectileID.DeathLaser;
 			projectile.extraUpdates = 1;
 		}
+
+		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(projectile, new StandardColorTrail(new Color(255, 214, 99)), new RoundCap(), new DefaultTrailPosition(), 80f, 450f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
 
 		int timer = 1;
 		public override void AI()

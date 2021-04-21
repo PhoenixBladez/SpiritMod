@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Utilities;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -7,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Magic
 {
-	public class LeafProjReachChest : ModProjectile
+	public class LeafProjReachChest : ModProjectile, ITrailProjectile
 	{
 		public override void SetStaticDefaults()
 		{
@@ -30,6 +31,8 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.penetrate = 3;
 			projectile.timeLeft = 180;
 		}
+
+		public void DoTrailCreation(TrailManager tManager) => tManager.CreateTrail(projectile, new StandardColorTrail(new Color(56, 194, 93)), new RoundCap(), new DefaultTrailPosition(), 6f, 210f, new ImageShader(mod.GetTexture("Textures/noise"), 0.2f, .4f, 1f));
 
 		public override void AI()
 		{

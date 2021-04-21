@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using SpiritMod.Utilities;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -8,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Magic
 {
-	public class TrueHallowedStaffProj : ModProjectile
+	public class TrueHallowedStaffProj : ModProjectile, ITrailProjectile
 	{
 		int target;
 		public override void SetStaticDefaults()
@@ -31,6 +32,9 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.ignoreWater = true;
 			projectile.aiStyle = -1;
 		}
+
+		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(projectile, new RainbowTrail(5f, 0.002f, 1f, .75f), new RoundCap(), new SleepingStarTrailPosition(), 150f, 130f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
+
 		int timer;
 		int colortimer;
 		public override void AI()

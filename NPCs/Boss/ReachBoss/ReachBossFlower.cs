@@ -4,16 +4,19 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Utilities;
 
 namespace SpiritMod.NPCs.Boss.ReachBoss
 {   
-	public class ReachBossFlower : ModProjectile
+	public class ReachBossFlower : ModProjectile, ITrailProjectile
 	{
 		int target;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Glowflower");
 		}
+
+		public void DoTrailCreation(TrailManager tManager) => tManager.CreateTrail(projectile, new GradientTrail(new Color(182, 66, 245) * .95f, new Color(91, 21, 150) * .7f), new RoundCap(), new DefaultTrailPosition(), 150f, 60f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
 
 		public override void SetDefaults()
 		{

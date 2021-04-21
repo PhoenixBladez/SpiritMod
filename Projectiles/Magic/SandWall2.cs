@@ -1,12 +1,13 @@
 using Microsoft.Xna.Framework;
 using System;
+using SpiritMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Magic
 {
-	public class SandWall2 : ModProjectile
+	public class SandWall2 : ModProjectile, ITrailProjectile
 	{
 		public override void SetStaticDefaults()
 		{
@@ -30,6 +31,15 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.extraUpdates = 2;
 			projectile.tileCollide = true; //Tells the game whether or not it can collide with a tile
 		}
+
+		public void DoTrailCreation(TrailManager tM)
+		{
+			tM.CreateTrail(projectile, new StandardColorTrail(new Color(255, 236, 115, 200)), new RoundCap(), new DefaultTrailPosition(), 100f, 130f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
+			tM.CreateTrail(projectile, new StandardColorTrail(Color.White * 0.2f), new RoundCap(), new DefaultTrailPosition(), 12f, 80f, new DefaultShader());
+			tM.CreateTrail(projectile, new StandardColorTrail(Color.White * 0.2f), new RoundCap(), new DefaultTrailPosition(), 12f, 80f, new DefaultShader());
+			tM.CreateTrail(projectile, new StandardColorTrail(Color.Gold * 0.4f), new RoundCap(), new DefaultTrailPosition(), 20f, 250f, new DefaultShader());
+		}
+
 		public override void AI()
 		{
 

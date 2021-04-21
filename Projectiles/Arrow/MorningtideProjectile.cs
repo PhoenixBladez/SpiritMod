@@ -1,16 +1,15 @@
-﻿
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using SpiritMod.Dusts;
+using SpiritMod.Utilities;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 
 namespace SpiritMod.Projectiles.Arrow
 {
-	public class MorningtideProjectile : ModProjectile, IDrawAdditive
+	public class MorningtideProjectile : ModProjectile, IDrawAdditive, ITrailProjectile
 	{
 		public override void SetStaticDefaults()
 		{
@@ -32,6 +31,14 @@ namespace SpiritMod.Projectiles.Arrow
             projectile.aiStyle = 1;
             aiType = ProjectileID.WoodenArrowFriendly;
 		}
+
+		public void DoTrailCreation(TrailManager tM)
+		{
+			tM.CreateTrail(projectile, new GradientTrail(new Color(255, 225, 117), new Color(91, 21, 150)), new RoundCap(), new SleepingStarTrailPosition(), 100f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
+			tM.CreateTrail(projectile, new GradientTrail(new Color(255, 225, 117), new Color(91, 21, 150)), new RoundCap(), new SleepingStarTrailPosition(), 90f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
+			tM.CreateTrail(projectile, new StandardColorTrail(Color.White * 0.3f), new RoundCap(), new SleepingStarTrailPosition(), 12f, 80f, new DefaultShader());
+		}
+
 		float num;
         bool escaped = false;
         Color colorField;
