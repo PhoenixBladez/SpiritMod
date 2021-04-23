@@ -32,6 +32,10 @@ namespace SpiritMod.Items.Books
             return new Vector2(-10, 0);
         }
         public override bool UseItem(Player player) {
+
+			if(player != Main.LocalPlayer)
+				return false;
+
 			if (ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == item.Name) {
 			}
 			else {
