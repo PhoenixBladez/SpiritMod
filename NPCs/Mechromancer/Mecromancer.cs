@@ -1,9 +1,13 @@
+using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Items.Armor;
 using SpiritMod.Items.Material;
 using SpiritMod.Items.Weapon.Gun;
 using SpiritMod.Projectiles;
 using SpiritMod.Projectiles.Hostile;
+using SpiritMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,7 +15,7 @@ using Terraria.ModLoader;
 namespace SpiritMod.NPCs.Mechromancer
 {
 	[AutoloadBossHead]
-	public class Mecromancer : ModNPC
+	public class Mecromancer : ModNPC, IBCRegistrable
 	{
 		public override void SetStaticDefaults()
 		{
@@ -221,6 +225,36 @@ namespace SpiritMod.NPCs.Mechromancer
             MyWorld.downedMechromancer = true;
             Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DownedMiniboss"));
             return true;
+        }
+
+        public void RegisterToChecklist(out BossChecklistDataHandler.EntryType entryType, out float progression,
+	        out string name, out Func<bool> downedCondition, ref BossChecklistDataHandler.BCIDData identificationData,
+	        ref string spawnInfo, ref string despawnMessage, ref string texture, ref string headTextureOverride,
+	        ref Func<bool> isAvailable)
+        {
+	        entryType = BossChecklistDataHandler.EntryType.Miniboss;
+	        progression = 2.8f;
+	        name = "Mechromancer";
+	        downedCondition = () => MyWorld.downedMechromancer;
+	        identificationData = new BossChecklistDataHandler.BCIDData(
+		        new List<int> {
+			        ModContent.NPCType<Mecromancer>()
+		        },
+		        null,
+		        new List<int> {
+			        ModContent.ItemType<CoiledMask>(),
+			        ModContent.ItemType<CoiledChestplate>(),
+			        ModContent.ItemType<CoiledLeggings>()
+		        },
+		        new List<int> {
+			        ModContent.ItemType<KnocbackGun>(),
+			        ModContent.ItemType<TechDrive>(),
+			        ItemID.RocketBoots
+		        });
+	        spawnInfo =
+		        "The Mechromancer spawns rarely during a Goblin Army after the Eye of Cthulhu has been defeated.";
+	        texture = "SpiritMod/Textures/BossChecklist/MechromancerTexture";
+	        headTextureOverride = "SpiritMod/NPCs/Mecromancer_Head_Boss";
         }
 	}
 }

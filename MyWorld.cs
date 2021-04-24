@@ -110,12 +110,11 @@ namespace SpiritMod
 		public static bool downedMoonWizard = false;
 		public static bool downedReachBoss = false;
 		public static bool downedDusking = false;
-		public static bool downedIlluminantMaster = false;
-		public static bool downedOverseer = false;
 
 		public static bool downedMechromancer = false;
 		public static bool downedOccultist = false;
 		public static bool downedGladeWraith = false;
+		public static bool downedTome = false;
 		public static bool downedSnaptrapper = false;
 		public static bool downedBeholder = false;
 		public static bool downedJellyDeluge = false;
@@ -190,12 +189,8 @@ namespace SpiritMod
 				downed.Add("moonWizard");
 			if (downedDusking)
 				downed.Add("dusking");
-			if (downedIlluminantMaster)
-				downed.Add("illuminantMaster");
 			if (downedAtlas)
 				downed.Add("atlas");
-			if (downedOverseer)
-				downed.Add("overseer");
 			if (downedBlueMoon)
 				downed.Add("bluemoon");
 			if (downedJellyDeluge)
@@ -208,6 +203,8 @@ namespace SpiritMod
 				downed.Add("occultist");
 			if (downedGladeWraith)
 				downed.Add("gladeWraith");
+			if (downedTome)
+				downed.Add("hauntedTome");
 			if (downedBeholder)
 				downed.Add("beholder");
 			if (downedSnaptrapper)
@@ -263,13 +260,12 @@ namespace SpiritMod
 			downedReachBoss = downed.Contains("vinewrathBane");
 			downedDusking = downed.Contains("dusking");
 			downedMoonWizard = downed.Contains("moonWizard");
-			downedIlluminantMaster = downed.Contains("illuminantMaster");
 			downedAtlas = downed.Contains("atlas");
-			downedOverseer = downed.Contains("overseer");
 			downedTide = downed.Contains("tide");
 			downedMechromancer = downed.Contains("mechromancer");
 			downedOccultist = downed.Contains("occultist");
 			downedGladeWraith = downed.Contains("gladeWraith");
+			downedTome = downed.Contains("hauntedTome");
 			downedBeholder = downed.Contains("beholder");
 			downedSnaptrapper = downed.Contains("snaptrapper");
 			downedBlueMoon = downed.Contains("bluemoon");
@@ -326,9 +322,7 @@ namespace SpiritMod
 				downedRaider = flags[2];
 				downedInfernon = flags[3];
 				downedDusking = flags[4];
-				downedIlluminantMaster = flags[5];
 				downedAtlas = flags[6];
-				downedOverseer = flags[7];
 				downedBlueMoon = flags[8];
 
 				downedReachBoss = flags1[0];
@@ -363,8 +357,8 @@ namespace SpiritMod
 
 		public override void NetSend(BinaryWriter writer)
 		{
-			BitsByte bosses1 = new BitsByte(downedScarabeus, downedAncientFlier, downedRaider, downedInfernon, downedDusking, downedIlluminantMaster, downedAtlas, downedOverseer);
-			BitsByte bosses2 = new BitsByte(downedReachBoss, downedMoonWizard, downedTide, downedMechromancer, downedOccultist, downedGladeWraith, downedBeholder, downedSnaptrapper);
+			BitsByte bosses1 = new BitsByte(downedScarabeus, downedAncientFlier, downedRaider, downedInfernon, downedDusking, downedAtlas, downedReachBoss, downedMoonWizard);
+			BitsByte bosses2 = new BitsByte(downedTide, downedMechromancer, downedOccultist, downedGladeWraith, downedBeholder, downedSnaptrapper, downedTome);
 			writer.Write(bosses1);
 			writer.Write(bosses2);
 			BitsByte environment = new BitsByte(BlueMoon, jellySky, downedBlueMoon, downedJellyDeluge);
@@ -390,18 +384,17 @@ namespace SpiritMod
 			downedRaider = bosses1[2];
 			downedInfernon = bosses1[3];
 			downedDusking = bosses1[4];
-			downedIlluminantMaster = bosses1[5];
-			downedAtlas = bosses1[6];
-			downedOverseer = bosses1[7];
+			downedAtlas = bosses1[5];
+			downedReachBoss = bosses1[6];
+			downedMoonWizard = bosses1[7];
 
-			downedReachBoss = bosses2[0];
-			downedMoonWizard = bosses2[1];
-			downedTide = bosses2[2];
-			downedMechromancer = bosses2[3];
-			downedOccultist = bosses2[4];
-			downedGladeWraith = bosses2[5];
-			downedBeholder = bosses2[6];
-			downedSnaptrapper = bosses2[7];
+			downedTide = bosses2[0];
+			downedMechromancer = bosses2[1];
+			downedOccultist = bosses2[2];
+			downedGladeWraith = bosses2[3];
+			downedBeholder = bosses2[4];
+			downedSnaptrapper = bosses2[5];
+			downedTome = bosses2[6];
 
 			BitsByte environment = reader.ReadByte();
 			BlueMoon = environment[0];
@@ -484,15 +477,13 @@ namespace SpiritMod
 			downedDusking = false;
 			downedAtlas = false;
 			downedMoonWizard = false;
-			downedIlluminantMaster = false;
-			downedOverseer = false;
 			downedTide = false;
 			downedMechromancer = false;
 			downedOccultist = false;
 			downedGladeWraith = false;
 			downedBeholder = false;
 			downedSnaptrapper = false;
-
+			downedTome = false;
 		}
 
 		/// <summary>

@@ -18,11 +18,16 @@ using SpiritMod.Items.BossBags;
 using System.IO;
 using SpiritMod.NPCs.MoonjellyEvent;
 using SpiritMod.Items.Consumable;
+using SpiritMod.Utilities;
+using System.Collections.Generic;
+using SpiritMod.Items.Placeable.MusicBox;
+using SpiritMod.Items.Equipment;
+using SpiritMod.Items.Consumable.Potion;
 
 namespace SpiritMod.NPCs.Boss.MoonWizard
 {
 	[AutoloadBossHead]
-	public class MoonWizard : ModNPC
+	public class MoonWizard : ModNPC, IBCRegistrable
 	{
 		public override void SetStaticDefaults()
 		{
@@ -804,5 +809,39 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
             return true;
         }
 
-    }
+		public void RegisterToChecklist(out BossChecklistDataHandler.EntryType entryType, out float progression,
+			out string name, out Func<bool> downedCondition, ref BossChecklistDataHandler.BCIDData identificationData,
+			ref string spawnInfo, ref string despawnMessage, ref string texture, ref string headTextureOverride,
+			ref Func<bool> isAvailable)
+		{
+			entryType = BossChecklistDataHandler.EntryType.Boss;
+			progression = 2.5f;
+			name = "Moon Jelly Wizard";
+			downedCondition = () => MyWorld.downedMoonWizard;
+			identificationData = new BossChecklistDataHandler.BCIDData(
+				new List<int> {
+					ModContent.NPCType<MoonWizard>()
+				},
+				new List<int> {
+					ModContent.ItemType<DreamlightJellyItem>()
+				},
+				new List<int> {
+					ModContent.ItemType<MJWTrophy>(),
+					ModContent.ItemType<MJWMask>(),
+					ModContent.ItemType<MJWBox>()
+				},
+				new List<int> {
+					ModContent.ItemType<Cornucopion>(),
+					ModContent.ItemType<MoonjellySummonStaff>(),
+					ModContent.ItemType<Moonburst>(),
+					ModContent.ItemType<JellynautBubble>(),
+					ModContent.ItemType<Moonshot>(),
+					ModContent.ItemType<MoonJelly>()
+				});
+			spawnInfo =
+				$"Use a [i:{ModContent.ItemType<DreamlightJellyItem>()}] anywhere at nighttime. A [i:{ModContent.ItemType<DreamlightJellyItem>()}] can be caught with a bug net during the Jelly Deluge, and is non-consumable";
+			texture = "SpiritMod/Textures/BossChecklist/MoonWizardTexture";
+			headTextureOverride = "SpiritMod/NPCs/Boss/MoonWizard/MoonWizard_Head_Boss";
+		}
+	}
 }
