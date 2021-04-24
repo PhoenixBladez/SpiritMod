@@ -2,12 +2,13 @@
 using System;
 using Terraria;
 using Terraria.Graphics.Shaders;
+using SpiritMod.Utilities;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Bullet
 {
-	public class PartyExplosives : ModProjectile
+	public class PartyExplosives : ModProjectile, ITrailProjectile
 	{
 		public override void SetStaticDefaults()
 		{
@@ -25,8 +26,9 @@ namespace SpiritMod.Projectiles.Bullet
 			projectile.height = 8;
 			projectile.width = 8;
 			aiType = ProjectileID.Bullet;
-
 		}
+
+		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(projectile, new RainbowTrail(Main.rand.NextFloat(5f, 9f), 0.002f, 1f, .85f), new RoundCap(), new DefaultTrailPosition(), 6f, 200f);
 
 		int timer = 1;
 		public override void AI()

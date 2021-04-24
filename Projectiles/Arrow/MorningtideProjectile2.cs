@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Buffs;
+using SpiritMod.Utilities;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -9,7 +9,7 @@ using Terraria.Graphics.Shaders;
 
 namespace SpiritMod.Projectiles.Arrow
 {
-	public class MorningtideProjectile2 : ModProjectile, IDrawAdditive
+	public class MorningtideProjectile2 : ModProjectile, IDrawAdditive, ITrailProjectile
     {
 		private int lastFrame = 0;
 		int mode = 0; //1 = loops and changes, 2 = slower default change
@@ -30,9 +30,15 @@ namespace SpiritMod.Projectiles.Arrow
             projectile.timeLeft = 300;
             projectile.width = 26;
             projectile.height = 54;
-
 		}
-        public override void Kill(int timLeft)
+
+		public void DoTrailCreation(TrailManager tM)
+		{
+			tM.CreateTrail(projectile, new GradientTrail(new Color(255, 225, 117), new Color(91, 21, 150)), new RoundCap(), new SleepingStarTrailPosition(), 80f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
+			tM.CreateTrail(projectile, new GradientTrail(new Color(255, 225, 117), new Color(91, 21, 150)), new RoundCap(), new SleepingStarTrailPosition(), 60f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
+		}
+
+		public override void Kill(int timLeft)
         {
             Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 3);
 

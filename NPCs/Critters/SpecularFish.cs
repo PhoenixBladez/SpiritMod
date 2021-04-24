@@ -19,7 +19,7 @@ namespace SpiritMod.NPCs.Critters
 		public override void SetDefaults()
 		{
 			npc.width = 34;
-			npc.height = 30;
+			npc.height = 16;
 			npc.damage = 0;
 			npc.defense = 0;
 			npc.lifeMax = 5;

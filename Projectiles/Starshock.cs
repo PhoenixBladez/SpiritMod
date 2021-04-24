@@ -1,17 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
+using SpiritMod.Utilities;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles
 {
-	public class Starshock : ModProjectile
+	public class Starshock : ModProjectile, ITrailProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Starshock");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Starshock");
 
 		public override void SetDefaults()
 		{
@@ -22,6 +19,12 @@ namespace SpiritMod.Projectiles
 			projectile.rotation = Main.rand.NextFloat(MathHelper.Pi);
 			projectile.tileCollide = false;
 			projectile.timeLeft = 100;
+		}
+
+		public void DoTrailCreation(TrailManager tManager)
+		{
+			tManager.CreateTrail(projectile, new GradientTrail(new Color(108, 215, 245), new Color(105, 213, 255)), new RoundCap(), new DefaultTrailPosition(), 8f, 150f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
+			tManager.CreateTrail(projectile, new GradientTrail(new Color(255, 255, 255) * .25f, new Color(255, 255, 255) * .25f), new RoundCap(), new DefaultTrailPosition(), 26f, 250f, new DefaultShader());
 		}
 
 		public override void AI()

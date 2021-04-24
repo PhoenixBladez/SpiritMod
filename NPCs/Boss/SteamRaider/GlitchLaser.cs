@@ -1,9 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
+using SpiritMod.Utilities;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.Boss.SteamRaider
 {
-	public class GlitchLaser : ModProjectile
+	public class GlitchLaser : ModProjectile, ITrailProjectile
 	{
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Glitch Laser");
 
@@ -19,6 +20,8 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			projectile.timeLeft = 150;
 			projectile.tileCollide = true;
 		}
+
+		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(projectile, new StandardColorTrail(new Color(255, 232, 82)), new RoundCap(), new DefaultTrailPosition(), 10f, 450f);
 
 		public override void AI()
 		{

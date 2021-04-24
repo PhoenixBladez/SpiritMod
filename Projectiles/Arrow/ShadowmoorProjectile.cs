@@ -1,15 +1,14 @@
-﻿
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using SpiritMod.Dusts;
+using SpiritMod.Utilities;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Arrow
 {
-	public class ShadowmoorProjectile : ModProjectile
+	public class ShadowmoorProjectile : ModProjectile, ITrailProjectile
 	{
 		public override void SetStaticDefaults()
 		{
@@ -30,6 +29,23 @@ namespace SpiritMod.Projectiles.Arrow
 			projectile.ranged = true;
 			aiType = ProjectileID.DeathLaser;
 		}
+
+		public void DoTrailCreation(TrailManager tManager)
+		{
+			switch (Main.rand.Next(3)) {
+				case 0:
+					tManager.CreateTrail(projectile, new GradientTrail(new Color(142, 8, 255), new Color(91, 21, 150)), new RoundCap(), new SleepingStarTrailPosition(), 90f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
+					break;
+				case 1:
+					tManager.CreateTrail(projectile, new GradientTrail(new Color(222, 84, 128), new Color(190, 72, 194)), new RoundCap(), new SleepingStarTrailPosition(), 90f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
+					break;
+				case 2:
+					tManager.CreateTrail(projectile, new GradientTrail(new Color(126, 55, 250), new Color(230, 117, 255)), new RoundCap(), new SleepingStarTrailPosition(), 90f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
+					break;
+			}
+			tManager.CreateTrail(projectile, new StandardColorTrail(Color.White * 0.3f), new RoundCap(), new SleepingStarTrailPosition(), 12f, 80f, new DefaultShader());
+		}
+
 		float num;
         bool escaped = false;
         Color colorField;

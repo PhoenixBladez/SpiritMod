@@ -1,15 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using SpiritMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Magic
 {
-	public class HallowedStaffProj : ModProjectile
+	public class HallowedStaffProj : ModProjectile, ITrailProjectile
 	{
-		int target;
+		readonly int target;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Hallowed Mageblade");
@@ -32,6 +33,22 @@ namespace SpiritMod.Projectiles.Magic
 		}
 		int timer;
 		int colortimer;
+
+		public void DoTrailCreation(TrailManager tManager)
+		{
+			switch (Main.rand.Next(3)) {
+				case 0:
+					tManager.CreateTrail(projectile, new StandardColorTrail(new Color(115, 220, 255)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 100f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
+					break;
+				case 1:
+					tManager.CreateTrail(projectile, new StandardColorTrail(new Color(255, 231, 145)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 100f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
+					break;
+				case 2:
+					tManager.CreateTrail(projectile, new StandardColorTrail(new Color(255, 128, 244)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 100f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
+					break;
+			}
+		}
+
 		public override void AI()
 		{
 

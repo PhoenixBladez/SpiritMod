@@ -1,18 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using SpiritMod.Utilities;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Bullet
 {
-	public class PartyStarterBullet : ModProjectile
+	public class PartyStarterBullet : ModProjectile, ITrailProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Party Bullet");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Party Bullet");
 
 		public override void SetDefaults()
 		{
@@ -27,6 +25,8 @@ namespace SpiritMod.Projectiles.Bullet
 			aiType = ProjectileID.Bullet;
 
 		}
+
+		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(projectile, new RainbowTrail(8f, 0.002f, 1f, .65f), new RoundCap(), new DefaultTrailPosition(), 9f, 150f);
 
 		int timer = 1;
 		public override void AI()

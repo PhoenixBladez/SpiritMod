@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs;
+using SpiritMod.Utilities;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -8,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Arrow
 {
-	public class SleepingStar1 : ModProjectile
+	public class SleepingStar1 : ModProjectile, ITrailProjectile
 	{
 		public override void SetStaticDefaults()
 		{
@@ -25,6 +26,8 @@ namespace SpiritMod.Projectiles.Arrow
 			projectile.ranged = true;
 
 		}
+
+		public void DoTrailCreation(TrailManager tManager) => tManager.CreateTrail(projectile, new StandardColorTrail(new Color(218, 94, 255)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 250f);
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{

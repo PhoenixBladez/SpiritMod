@@ -1,17 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
+using SpiritMod.Utilities;
 using System;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles
 {
-	public class OrichHoming : ModProjectile
+	public class OrichHoming : ModProjectile, ITrailProjectile
 	{
-		int target;
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Orichalcum Bloom");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Orichalcum Bloom");
 
 		public override void SetDefaults()
 		{
@@ -27,6 +24,8 @@ namespace SpiritMod.Projectiles
 			projectile.alpha = 255;
 			projectile.aiStyle = -1;
 		}
+
+		public void DoTrailCreation(TrailManager tManager) => tManager.CreateTrail(projectile, new GradientTrail(new Color(182, 66, 245), new Color(105, 42, 168)), new RoundCap(), new DefaultTrailPosition(), 20f, 150f);
 
 		public override void AI()
 		{

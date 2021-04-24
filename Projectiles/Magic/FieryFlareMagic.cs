@@ -1,5 +1,5 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Utilities;
 using SpiritMod.Prim;
 using System;
 using System.IO;
@@ -9,12 +9,9 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Magic
 {
-	public class FieryFlareMagic : ModProjectile
+	public class FieryFlareMagic : ModProjectile, ITrailProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Slag Flare");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Slag Flare");
 
 		Vector2 startingvel;
 		public override void SetDefaults()
@@ -29,6 +26,9 @@ namespace SpiritMod.Projectiles.Magic
 			projectile.magic = true;
 			projectile.extraUpdates = 3;
 		}
+
+		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(projectile, new StandardColorTrail(new Color(255, 170, 0)), new RoundCap(), new DefaultTrailPosition(), 32f, 50f, new DefaultShader());
+
 		public override void SendExtraAI(BinaryWriter writer) => writer.WriteVector2(startingvel);
 		public override void ReceiveExtraAI(BinaryReader reader) => startingvel = reader.ReadVector2();
 		public override void AI()

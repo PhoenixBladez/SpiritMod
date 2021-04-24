@@ -1952,6 +1952,13 @@ namespace SpiritMod
             int x1 = (int)player.Center.X / 16;
             int y1 = (int)player.Center.Y / 16;
             var config = ModContent.GetInstance<SpiritClientConfig>();
+
+			if (player.ZoneSnow && Main.rand.NextBool(27))
+			{
+				int d = Dust.NewDust(new Vector2(player.position.X + 8 * player.direction, player.Center.Y - 13f), player.width, 10, ModContent.DustType<FrostBreath>(), 1.5f * player.direction, 0f, 100, default, Main.rand.NextFloat(.7f, 1.7f));
+				Main.dust[d].velocity.Y *= 0f;
+			}
+
 			if (!NPC.AnyNPCs(ModContent.NPCType<Scarabeus>()))
 				SpiritMod.scarabWings.Halt();
 			if (config.AmbientSounds)
@@ -4593,7 +4600,6 @@ namespace SpiritMod
 		{
 			foreach(var effect in effects)
 				effect.PlayerDrawEffects(drawInfo, ref r, ref g, ref b, ref a, ref fullBright);
-
 
 			if(BlueDust) {
 				if(Main.rand.NextBool(4)) {

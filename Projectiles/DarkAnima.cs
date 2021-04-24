@@ -1,13 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using SpiritMod.Dusts;
 using SpiritMod.Projectiles.Arrow;
+using SpiritMod.Utilities;
 using Terraria;
 using Terraria.ModLoader;
 using System;
 
 namespace SpiritMod.Projectiles
 {
-	class DarkAnima : ModProjectile
+	class DarkAnima : ModProjectile, ITrailProjectile
 	{
 		public override void SetStaticDefaults()
 		{
@@ -25,6 +26,9 @@ namespace SpiritMod.Projectiles
 			projectile.scale = .8f;
             projectile.extraUpdates = 5;
         }
+
+		public void DoTrailCreation(TrailManager tManager) => tManager.CreateTrail(projectile, new GradientTrail(new Color(207, 25, 25), new Color(0, 0, 0)), new RoundCap(), new DefaultTrailPosition(), 12f, 150f);
+
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			projectile.Kill();

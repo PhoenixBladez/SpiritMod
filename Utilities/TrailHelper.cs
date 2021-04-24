@@ -16,7 +16,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Weapon.Bow.AdornedBow;
 
-namespace SpiritMod.Effects
+namespace SpiritMod.Utilities
 {
 	public class TrailManager
 	{
@@ -31,184 +31,10 @@ namespace SpiritMod.Effects
 			_basicEffect = new BasicEffect(Main.graphics.GraphicsDevice);
 			_basicEffect.VertexColorEnabled = true;
 		}
-		public void DoTrailCreation(Projectile projectile)
-		{
-			Mod mod = SpiritMod.instance;
-			if (projectile.type == ModContent.ProjectileType<SleepingStar>()) {
-				CreateTrail(projectile, new StandardColorTrail(new Color(120, 217, 255)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 250f);
-			}
-			if (projectile.type == ModContent.ProjectileType<SleepingStar1>()) {
-				CreateTrail(projectile, new StandardColorTrail(new Color(218, 94, 255)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 250f);
-			}
-			if (projectile.type == ModContent.ProjectileType<LeafProjReachChest>()) {
-				CreateTrail(projectile, new StandardColorTrail(new Color(56, 194, 93)), new RoundCap(), new DefaultTrailPosition(), 6f, 210f, new ImageShader(mod.GetTexture("Textures/noise"), 0.2f, .4f, 1f));
-			}
-			if (projectile.type == ModContent.ProjectileType<StarLaser>()) {
-				CreateTrail(projectile, new StandardColorTrail(new Color(66, 239, 245)), new RoundCap(), new DefaultTrailPosition(), 10f, 1950f);
-			}
-			if (projectile.type == ModContent.ProjectileType<GlitchLaser>()) {
-				CreateTrail(projectile, new StandardColorTrail(new Color(255, 232, 82)), new RoundCap(), new DefaultTrailPosition(), 10f, 450f);
-			}
-			if (projectile.type == ModContent.ProjectileType<SteamBeam>()) {
-				CreateTrail(projectile, new StandardColorTrail(new Color(82, 232, 255)), new RoundCap(), new DefaultTrailPosition(), 10f, 450f);
-			}
-			if (projectile.type == ModContent.ProjectileType<StarLaserTrace>()) {
-				CreateTrail(projectile, new StandardColorTrail(new Color(40, 111, 153) * .3f), new RoundCap(), new DefaultTrailPosition(), 10f, 1550f);
-            }
-            if (projectile.type == ModContent.ProjectileType<OrichHoming>()) {
-				CreateTrail(projectile, new GradientTrail(new Color(182, 66, 245), new Color(105, 42, 168)), new RoundCap(), new DefaultTrailPosition(), 20f, 150f);
-			}
-			if (projectile.type == ModContent.ProjectileType<NPCs.Boss.ReachBoss.ReachBossFlower>()) {
-				CreateTrail(projectile, new GradientTrail(new Color(182, 66, 245) * .95f, new Color(91, 21, 150) * .7f), new RoundCap(), new DefaultTrailPosition(), 150f, 60f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));        
-			}
-			if (projectile.type == ModContent.ProjectileType<AdamantiteStaffProj>() || projectile.type == ModContent.ProjectileType<AdamantiteStaffProj2>()) {
-				float trailwidth = (projectile.type == ModContent.ProjectileType<AdamantiteStaffProj>()) ? 25 : 20;
-				float traillength = (projectile.type == ModContent.ProjectileType<AdamantiteStaffProj>()) ? 300 : 150;
-				CreateTrail(projectile, new StandardColorTrail(new Color(252, 3, 57) * 0.9f), new RoundCap(), new DefaultTrailPosition(), trailwidth / 2, traillength * 0.8f);
-				CreateTrail(projectile, new StandardColorTrail(new Color(255, 255, 255)), new RoundCap(), new DefaultTrailPosition(), trailwidth / 3, traillength * 0.75f);
-				CreateTrail(projectile, new GradientTrail(new Color(252, 3, 57) * 0.75f, new Color(255, 201, 213) * 0.75f), new RoundCap(), new DefaultTrailPosition(), trailwidth, traillength);
-			}
-			if (projectile.type == ModContent.ProjectileType<NPCs.FallenAngel.ShootingStarHostile>()) {
-				CreateTrail(projectile, new GradientTrail(new Color(255, 215, 105), new Color(105, 213, 255)), new RoundCap(), new SleepingStarTrailPosition(), 14f, 150f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
-				CreateTrail(projectile, new GradientTrail(new Color(255, 215, 105) * .5f, new Color(105, 213, 255) * .5f), new RoundCap(), new SleepingStarTrailPosition(), 56f, 250f, new DefaultShader());
-				CreateTrail(projectile, new StandardColorTrail(Color.White * 0.3f), new RoundCap(), new SleepingStarTrailPosition(), 12f, 80f, new DefaultShader());
-				CreateTrail(projectile, new StandardColorTrail(Color.White * 0.3f), new RoundCap(), new SleepingStarTrailPosition(), 12f, 80f, new DefaultShader());
-				CreateTrail(projectile, new StandardColorTrail(Color.White * 0.2f), new RoundCap(), new SleepingStarTrailPosition(), 56f, 30f, new DefaultShader());
-
-            }
-            if (projectile.type == ModContent.ProjectileType<SnowMongerBeam>())
-            {
-                CreateTrail(projectile, new GradientTrail(new Color(255, 255, 255), new Color(179, 222, 230)), new RoundCap(), new DefaultTrailPosition(), 10f, 900f, new DefaultShader());
-                CreateTrail(projectile, new GradientTrail(new Color(79, 227, 255) * .46f, new Color(44, 140, 219) * .46f), new RoundCap(), new DefaultTrailPosition(), 30f, 500f, new DefaultShader());
-                CreateTrail(projectile, new StandardColorTrail(Color.White * 0.6f), new RoundCap(), new DefaultTrailPosition(), 12f, 80f, new DefaultShader());
-            }
-                if (projectile.type == ModContent.ProjectileType<Starshock1>() || projectile.type == ModContent.ProjectileType<Starshock>())
-            {
-                CreateTrail(projectile, new GradientTrail(new Color(108, 215, 245), new Color(105, 213, 255)), new RoundCap(), new DefaultTrailPosition(), 8f, 150f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
-                CreateTrail(projectile, new GradientTrail(new Color(255, 255, 255) * .25f, new Color(255, 255, 255) * .25f), new RoundCap(), new DefaultTrailPosition(), 26f, 250f, new DefaultShader());
-
-            }
-            if (projectile.type == ModContent.ProjectileType<DarkAnima>()) {
-				CreateTrail(projectile, new GradientTrail(new Color(207, 25, 25), new Color(0, 0, 0)), new RoundCap(), new DefaultTrailPosition(), 12f, 150f);
-			}
-			if (projectile.type == ModContent.ProjectileType<HallowedStaffProj>()) {
-				switch (Main.rand.Next(3)) {
-					case 0:
-						CreateTrail(projectile, new StandardColorTrail(new Color(115, 220, 255)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 100f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
-						break;
-					case 1:
-						CreateTrail(projectile, new StandardColorTrail(new Color(255, 231, 145)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 100f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
-						break;
-					case 2:
-						CreateTrail(projectile, new StandardColorTrail(new Color(255, 128, 244)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 100f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
-						break;
-				}
-			}
-            if (projectile.type == ModContent.ProjectileType<ShadowmoorProjectile>())
-            {
-                switch (Main.rand.Next(3))
-                {
-                    case 0:
-                        CreateTrail(projectile, new GradientTrail(new Color(142, 8, 255), new Color(91, 21, 150)), new RoundCap(), new SleepingStarTrailPosition(), 90f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
-                        CreateTrail(projectile, new StandardColorTrail(Color.White * 0.3f), new RoundCap(), new SleepingStarTrailPosition(), 12f, 80f, new DefaultShader());
-                        break;
-                    case 1:
-                        CreateTrail(projectile, new GradientTrail(new Color(222, 84, 128), new Color(190, 72, 194)), new RoundCap(), new SleepingStarTrailPosition(), 90f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
-                        CreateTrail(projectile, new StandardColorTrail(Color.White * 0.3f), new RoundCap(), new SleepingStarTrailPosition(), 12f, 80f, new DefaultShader());
-                        break;
-                    case 2:
-                        CreateTrail(projectile, new GradientTrail(new Color(126, 55, 250), new Color(230, 117, 255)), new RoundCap(), new SleepingStarTrailPosition(), 90f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
-                        CreateTrail(projectile, new StandardColorTrail(Color.White * 0.3f), new RoundCap(), new SleepingStarTrailPosition(), 12f, 80f, new DefaultShader());
-                        break;
-                }
-            }
-            if (projectile.type == ModContent.ProjectileType<MorningtideProjectile>())
-            {
-                CreateTrail(projectile, new GradientTrail(new Color(255, 225, 117), new Color(91, 21, 150)), new RoundCap(), new SleepingStarTrailPosition(), 100f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
-                CreateTrail(projectile, new GradientTrail(new Color(255, 225, 117), new Color(91, 21, 150)), new RoundCap(), new SleepingStarTrailPosition(), 90f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
-                CreateTrail(projectile, new StandardColorTrail(Color.White * 0.3f), new RoundCap(), new SleepingStarTrailPosition(), 12f, 80f, new DefaultShader());
-
-            }
-            if (projectile.type == ModContent.ProjectileType<MorningtideProjectile2>())
-            {
-                CreateTrail(projectile, new GradientTrail(new Color(255, 225, 117), new Color(91, 21, 150)), new RoundCap(), new SleepingStarTrailPosition(), 80f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
-                CreateTrail(projectile, new GradientTrail(new Color(255, 225, 117), new Color(91, 21, 150)), new RoundCap(), new SleepingStarTrailPosition(), 60f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
-
-            }
-            if (projectile.type == ModContent.ProjectileType<NPCs.BlueMoon.Bloomshroom.BloomshroomHostile>()) {
-				switch (Main.rand.Next(2)) {
-					case 0:
-						CreateTrail(projectile, new StandardColorTrail(new Color(120, 217, 255)), new RoundCap(), new SleepingStarTrailPosition(), 18f, 250f);
-						break;
-					case 1:
-						CreateTrail(projectile, new StandardColorTrail(new Color(218, 94, 255)), new RoundCap(), new SleepingStarTrailPosition(), 18f, 250f);
-						break;
-				}
-			}
-			if (projectile.type == ModContent.ProjectileType<TrueHallowedStaffProj>()) {
-				CreateTrail(projectile, new RainbowTrail(5f, 0.002f, 1f, .75f), new RoundCap(), new SleepingStarTrailPosition(), 150f, 130f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
-			}
-			if (projectile.type == ModContent.ProjectileType<NPCs.BlueMoon.Glitterfly.StarSting>()) {
-				CreateTrail(projectile, new StandardColorTrail(new Color(255, 214, 99)), new RoundCap(), new DefaultTrailPosition(), 80f, 450f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
-			}
-			if (projectile.type == ModContent.ProjectileType<TeleportBolt>()) {
-				CreateTrail(projectile, new StandardColorTrail(new Color(122, 233, 255) * .6f), new RoundCap(), new SleepingStarTrailPosition(), 15f, 130f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
-			}
-			if (projectile.type == ModContent.ProjectileType<AquaFlareProj>()) {
-				CreateTrail(projectile, new StandardColorTrail(new Color(0, 98, 255) * .95f), new RoundCap(), new SleepingStarTrailPosition(), 18f, 450f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
-				CreateTrail(projectile, new StandardColorTrail(new Color(255, 68, 0)), new RoundCap(), new SleepingStarTrailPosition(), 18f, 330f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
-				CreateTrail(projectile, new StandardColorTrail(new Color(107, 211, 255) * 0.5f), new RoundCap(), new DefaultTrailPosition(), 12f, 80f, new DefaultShader());
-			}
-			if (projectile.type == ModContent.ProjectileType<SandWall>() || projectile.type == ModContent.ProjectileType<SandWall2>()) {
-				CreateTrail(projectile, new StandardColorTrail(new Color(255, 236, 115, 200)), new RoundCap(), new DefaultTrailPosition(), 100f, 130f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
-				CreateTrail(projectile, new StandardColorTrail(Color.White * 0.2f), new RoundCap(), new DefaultTrailPosition(), 12f, 80f, new DefaultShader());
-				CreateTrail(projectile, new StandardColorTrail(Color.White * 0.2f), new RoundCap(), new DefaultTrailPosition(), 12f, 80f, new DefaultShader());
-				CreateTrail(projectile, new StandardColorTrail(Color.Gold * 0.4f), new RoundCap(), new DefaultTrailPosition(), 20f, 250f, new DefaultShader());
-
-			}
-			if (projectile.type == ModContent.ProjectileType<SwarmTelegraph>()) {
-				CreateTrail(projectile, new StandardColorTrail(new Color(255, 236, 115, 200)), new RoundCap(), new DefaultTrailPosition(), 200f, 800f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
-			}
-			if (projectile.type == ModContent.ProjectileType<FieryFlareMagic>()) {;
-				CreateTrail(projectile, new StandardColorTrail(new Color(255, 170, 0)), new RoundCap(), new DefaultTrailPosition(), 32f, 50f, new DefaultShader());
-			}
-			if (projectile.type == ModContent.ProjectileType<NPCs.Tides.RyBolt>()) {
-				CreateTrail(projectile, new StandardColorTrail(new Color(181, 120, 255)), new RoundCap(), new DefaultTrailPosition(), 28f, 430f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_3"), 0.08f, 1f, 1f));
-				CreateTrail(projectile, new StandardColorTrail(new Color(99, 64, 255, 100)), new RoundCap(), new DefaultTrailPosition(), 20f, 250f, new DefaultShader());
-			}
-            if (projectile.type == ModContent.ProjectileType<PartyStarterBullet>()) {
-				CreateTrail(projectile, new RainbowTrail(8f, 0.002f, 1f, .65f), new RoundCap(), new DefaultTrailPosition(), 9f, 150f);
-			}
-			if (projectile.type == ModContent.ProjectileType<PartyExplosives>()) {
-				CreateTrail(projectile, new RainbowTrail(Main.rand.NextFloat(5f, 9f), 0.002f, 1f, .85f), new RoundCap(), new DefaultTrailPosition(), 6f, 200f);
-			}
-			if (projectile.type == ModContent.ProjectileType<PositiveArrow>()) {
-				CreateTrail(projectile, new StandardColorTrail(new Color(122, 233, 255)), new RoundCap(), new ZigZagTrailPosition(3f), 8f, 250f);
-			}
-			if (projectile.type == ModContent.ProjectileType<NegativeArrow>()) {
-				CreateTrail(projectile, new StandardColorTrail(new Color(255, 113, 36)), new RoundCap(), new ZigZagTrailPosition(3f), 8f, 250f);
-			}
-			if(projectile.type == ModContent.ProjectileType<ScarabArrow>() && projectile.ai[0] == 1) {
-				CreateTrail(projectile, new StandardColorTrail(new Color(163, 255, 246)), new RoundCap(), new DefaultTrailPosition(), 10, 200, new ImageShader(mod.GetTexture("Textures/Trails/CrystalTrail"), Vector2.One));
-				CreateTrail(projectile, new StandardColorTrail(new Color(163, 255, 246)), new RoundCap(), new WaveTrailPos(10), 10, 200, new ImageShader(mod.GetTexture("Textures/Trails/CrystalTrail"), Vector2.One));
-				CreateTrail(projectile, new StandardColorTrail(new Color(163, 255, 246)), new RoundCap(), new WaveTrailPos(-10), 10, 200, new ImageShader(mod.GetTexture("Textures/Trails/CrystalTrail"), Vector2.One));
-				CreateTrail(projectile, new GradientTrail(new Color(163, 255, 246) * 0.5f, Color.Transparent), new RoundCap(), new ArrowGlowPosition(), 25, 300, new DefaultShader());
-			}
-			/*switch (projectile.type)
-            {
-                case ProjectileID.WoodenArrowFriendly:
-                    //CreateTrail(projectile, new RainbowTrail(), new RoundCap(), new DefaultTrailPosition(), 64f, 750f, new ImageShader(mod.GetTexture("Textures/trail_triangle"), 0.01f, 1f, 1f));
-                    CreateTrail(projectile, new StandardColorTrail(Color.Purple * 0.8f), new RoundCap(), new DefaultTrailPosition(), 56f, 250f, new DefaultShader());
-                    CreateTrail(projectile, new StandardColorTrail(Color.White * 0.2f), new RoundCap(), new DefaultTrailPosition(), 44f, 80f, new DefaultShader());
-                    //duplicate for sharper effect
-                    CreateTrail(projectile, new StandardColorTrail(Color.White * 0.2f), new RoundCap(), new DefaultTrailPosition(), 44f, 80f, new DefaultShader());
-                    CreateTrail(projectile, new StandardColorTrail(Color.HotPink * 0.8f), new RoundCap(), new DefaultTrailPosition(), 150f, 250f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
-                    break;
-            }*/
-		}
 
 		public void TryTrailKill(Projectile projectile)
 		{
+			//todo: refactor this to be based on the itrailprojectile interface? wanted to have a dissolve speed parameter with a default value so it doesnt need to be specified but not possible in this version of C#
 			Mod mod = SpiritMod.instance;
 			if (projectile.type == ModContent.ProjectileType<SleepingStar>() || projectile.type == ModContent.ProjectileType<SleepingStar1>() || projectile.type == ModContent.ProjectileType<LeafProjReachChest>() || projectile.type == ModContent.ProjectileType<HallowedStaffProj>() || projectile.type == ModContent.ProjectileType<TrueHallowedStaffProj>() || projectile.type == ModContent.ProjectileType<PositiveArrow>() || projectile.type == ModContent.ProjectileType<NegativeArrow>() || projectile.type == ModContent.ProjectileType<PartyStarterBullet>() || projectile.type == ModContent.ProjectileType<SandWall>() || projectile.type == ModContent.ProjectileType<SandWall2>()) {
 				SpiritMod.TrailManager.TryEndTrail(projectile, Math.Max(15f, projectile.velocity.Length() * 3f));
@@ -244,7 +70,7 @@ namespace SpiritMod.Effects
 
 		public void CreateTrail(Projectile projectile, ITrailColor trailType, ITrailCap trailCap, ITrailPosition trailPosition, float widthAtFront, float maxLength, ITrailShader shader = null)
 		{
-			Trail newTrail = new Trail(projectile, trailType, trailCap, trailPosition, shader == null ? new DefaultShader() : shader, widthAtFront, maxLength);
+			Trail newTrail = new Trail(projectile, trailType, trailCap, trailPosition, shader ?? new DefaultShader(), widthAtFront, maxLength);
 			newTrail.Update();
 			_trails.Add(newTrail);
 		}
@@ -280,6 +106,15 @@ namespace SpiritMod.Effects
 				}
 			}
 		}
+	}
+
+	public interface ITrailProjectile
+	{
+		/// <summary>
+		/// Method for creating vertex strips, called on projectile creation.
+		/// </summary>
+		/// <param name="tManager"></param>
+		void DoTrailCreation(TrailManager tManager);
 	}
 
 	public class Trail

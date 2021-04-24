@@ -19,7 +19,7 @@ namespace SpiritMod.NPCs.Reach
 
 		public override void SetDefaults()
 		{
-			npc.width = 44;
+			npc.width = 34;
 			npc.height = 30;
 			npc.damage = 21;
 			npc.defense = 6;
@@ -52,10 +52,29 @@ namespace SpiritMod.NPCs.Reach
 				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, default(Color), .34f);
 			}
 			if (npc.life <= 0) {
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Reach3"));
+				for (int i = 0; i<4; i++)
+				{
+					float goreScale = 0.01f * Main.rand.Next(20, 70);
+					int a = Gore.NewGore(new Vector2(npc.position.X, npc.position.Y + (Main.rand.Next(-50,10))), new Vector2(hitDirection*3f, 0f), 386, goreScale);
+					Main.gore[a].timeLeft = 5;
+				}
+				for (int i = 0; i<4; i++)
+				{
+					float goreScale = 0.01f * Main.rand.Next(20, 70);
+					int a = Gore.NewGore(new Vector2(npc.position.X, npc.position.Y + (Main.rand.Next(-50,10))), new Vector2(hitDirection*3f, 0f), 387, goreScale);
+					Main.gore[a].timeLeft = 5;
+				}
 			}
 		}
-
+		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (npc.spriteDirection == 1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+			Vector2 vector2_3 = new Vector2((float) (Main.npcTexture[npc.type].Width / 2), (float) (Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
+			Microsoft.Xna.Framework.Color color12 = Lighting.GetColor((int) ((double) npc.position.X + (double) npc.width * 0.5) / 16, (int) (((double) npc.position.Y + (double) npc.height * 0.5) / 16.0));
+			Main.spriteBatch.Draw(mod.GetTexture("NPCs/Reach/ReachObserver_Glow"), new Vector2((float) ((double) npc.position.X - (double) Main.screenPosition.X + (double) (npc.width / 2) - (double) Main.npcTexture[npc.type].Width * (double) npc.scale / 2.0 + (double) vector2_3.X * (double) npc.scale), (float) ((double) npc.position.Y - (double) Main.screenPosition.Y + (double) npc.height - (double) Main.npcTexture[npc.type].Height * (double) npc.scale / (double) Main.npcFrameCount[npc.type] + 4.0 + (double) vector2_3.Y * (double) npc.scale) ), new Microsoft.Xna.Framework.Rectangle?(npc.frame), Microsoft.Xna.Framework.Color.White * .485f, npc.rotation, vector2_3, npc.scale, spriteEffects, 0.0f);
+		}
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(2) == 1) {
@@ -78,7 +97,7 @@ namespace SpiritMod.NPCs.Reach
 		}
 		public override void AI()
 		{
-
+			npc.spriteDirection = npc.direction;
 			{
 				if (Main.rand.NextFloat() < 0.131579f) {
 					{

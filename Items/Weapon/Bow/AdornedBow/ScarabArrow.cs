@@ -1,13 +1,14 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs;
+using SpiritMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Weapon.Bow.AdornedBow
 {
-	public class ScarabArrow : ModProjectile
+	public class ScarabArrow : ModProjectile, ITrailProjectile
 	{
 		static readonly int traillength = 10;
 		public override void SetStaticDefaults()
@@ -23,6 +24,18 @@ namespace SpiritMod.Items.Weapon.Bow.AdornedBow
 			projectile.penetrate = 2;
 			projectile.timeLeft = 720;
 		}
+
+		public void DoTrailCreation(TrailManager tM)
+		{
+			if (projectile.ai[0] != 1)
+				return;
+
+			tM.CreateTrail(projectile, new StandardColorTrail(new Color(163, 255, 246)), new RoundCap(), new DefaultTrailPosition(), 10, 200, new ImageShader(mod.GetTexture("Textures/Trails/CrystalTrail"), Vector2.One));
+			tM.CreateTrail(projectile, new StandardColorTrail(new Color(163, 255, 246)), new RoundCap(), new WaveTrailPos(10), 10, 200, new ImageShader(mod.GetTexture("Textures/Trails/CrystalTrail"), Vector2.One));
+			tM.CreateTrail(projectile, new StandardColorTrail(new Color(163, 255, 246)), new RoundCap(), new WaveTrailPos(-10), 10, 200, new ImageShader(mod.GetTexture("Textures/Trails/CrystalTrail"), Vector2.One));
+			tM.CreateTrail(projectile, new GradientTrail(new Color(163, 255, 246) * 0.5f, Color.Transparent), new RoundCap(), new ArrowGlowPosition(), 25, 300, new DefaultShader());
+		}
+
 		bool Enchanted => projectile.ai[0] == 1;
 		public override void AI()
 		{

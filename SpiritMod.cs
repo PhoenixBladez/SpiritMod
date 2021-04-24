@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Effects;
 using SpiritMod.Items.Material;
 using SpiritMod.Items.Pins;
 using SpiritMod.NPCs.Boss.Atlas;
@@ -199,6 +198,19 @@ namespace SpiritMod
 						WriteToPacket(GetPacket(4), (byte)MessageType.TameAuroraStag, stagWhoAmI).Send();
 
 					(Main.npc[stagWhoAmI].modNPC as AuroraStag).TameAnimationTimer = AuroraStag.TameAnimationLength;
+					break;
+				case MessageType.SpawnTrail:
+					int projindex = reader.ReadInt32();
+
+					if (Main.netMode == NetmodeID.Server) { //if received by the server, send to all clients instead
+						WriteToPacket(GetPacket(), (byte)MessageType.SpawnTrail, projindex).Send();
+						break;
+					}
+
+					ITrailProjectile trailproj = (Main.projectile[projindex].modProjectile as ITrailProjectile);
+					if (trailproj != null) 
+						trailproj.DoTrailCreation(TrailManager);
+
 					break;
 				default:
 					Logger.Error("Unknown message (" + id + ")");

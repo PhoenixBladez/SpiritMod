@@ -1,11 +1,11 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Dusts;
+using SpiritMod.Utilities;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.Tides
 {
-	public class RyBolt : ModProjectile
+	public class RyBolt : ModProjectile, ITrailProjectile
 	{
 		public override void SetStaticDefaults()
 		{
@@ -24,6 +24,13 @@ namespace SpiritMod.NPCs.Tides
 			projectile.tileCollide = true;
 			projectile.alpha = 255;
 		}
+
+		public void DoTrailCreation(TrailManager tM)
+		{
+			tM.CreateTrail(projectile, new StandardColorTrail(new Color(181, 120, 255)), new RoundCap(), new DefaultTrailPosition(), 28f, 430f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_3"), 0.08f, 1f, 1f));
+			tM.CreateTrail(projectile, new StandardColorTrail(new Color(99, 64, 255, 100)), new RoundCap(), new DefaultTrailPosition(), 20f, 250f, new DefaultShader());
+		}
+
 		bool summoned = false;
 		public override void AI()
 		{

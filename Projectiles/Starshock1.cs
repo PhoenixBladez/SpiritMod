@@ -1,14 +1,14 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Projectiles.DonatorItems;
+using SpiritMod.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles
 {
-	public class Starshock1 : ModProjectile
+	public class Starshock1 : ModProjectile, ITrailProjectile
 
     {
 		public override void SetStaticDefaults()
@@ -29,6 +29,12 @@ namespace SpiritMod.Projectiles
 			projectile.timeLeft = 140;
 			projectile.penetrate = 2;
 			projectile.extraUpdates = 1;
+		}
+
+		public void DoTrailCreation(TrailManager tManager)
+		{
+			tManager.CreateTrail(projectile, new GradientTrail(new Color(108, 215, 245), new Color(105, 213, 255)), new RoundCap(), new DefaultTrailPosition(), 8f, 150f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
+			tManager.CreateTrail(projectile, new GradientTrail(new Color(255, 255, 255) * .25f, new Color(255, 255, 255) * .25f), new RoundCap(), new DefaultTrailPosition(), 26f, 250f, new DefaultShader());
 		}
 
 		public override void AI()
