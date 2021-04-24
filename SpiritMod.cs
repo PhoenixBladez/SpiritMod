@@ -33,12 +33,15 @@ using SpiritMod.Items.Weapon.Bow.GemBows.Topaz_Bow;
 using SpiritMod.Items.Consumable;
 using SpiritMod.NPCs.AuroraStag;
 using SpiritMod.Particles;
+using SpiritMod.UI;
+using SpiritMod.NPCs.Town.QuestSystem;
 
 namespace SpiritMod
 {
 	public class SpiritMod : Mod
 	{
 		internal UserInterface BookUserInterface;
+		public static QuestBookUI QuestBookUIState;
 
 		public static SpiritMod Instance;
 		public UnifiedRandom spiritRNG;
@@ -538,9 +541,15 @@ namespace SpiritMod
 			LoadReferences();
 			AdventurerQuests = new AdventurerQuestHandler(this);
 			StructureLoader.Load(this);
-			if (!Main.dedServ) {
+			QuestManager.Load();
+			if (!Main.dedServ) 
+				{
 				ParticleHandler.RegisterParticles();
 				BookUserInterface = new UserInterface();
+
+				// TODO: Remove!
+				QuestBookUIState = new QuestBookUI();
+				BookUserInterface.SetState(QuestBookUIState);
 			}
 			SpiritDetours.Initialize();
 
@@ -783,7 +792,10 @@ namespace SpiritMod
 			SellWeapons_INTERFACE = null;
 			SellLock_INTERFACE = null;
 
-			SpiritModAutoSellTextures.Unload();	
+			SpiritModAutoSellTextures.Unload();
+
+			QuestManager.Unload();
+			QuestBookUIState = null;
 
 			AdditiveCallManager.Unload();
 			SpiritGlowmask.Unload();

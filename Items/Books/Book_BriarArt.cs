@@ -33,6 +33,8 @@ namespace SpiritMod.Items.Books
         }
         public override bool UseItem(Player player)
         {
+			if (player.whoAmI != Main.LocalPlayer.whoAmI) return true;
+
             if (ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == item.Name)
             {
             }
