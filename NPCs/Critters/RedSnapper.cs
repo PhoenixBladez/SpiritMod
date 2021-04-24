@@ -12,13 +12,13 @@ namespace SpiritMod.NPCs.Critters
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Red Snapper");
-			Main.npcFrameCount[npc.type] = 6;
+			Main.npcFrameCount[npc.type] = 4;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 34;
-			npc.height = 28;
+			npc.width = 32;
+			npc.height = 22;
 			npc.damage = 0;
 			npc.defense = 0;
 			npc.lifeMax = 5;

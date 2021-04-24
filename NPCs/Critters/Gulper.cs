@@ -73,13 +73,13 @@ namespace SpiritMod.NPCs.Critters
                     npc.rotation = npc.velocity.X * .06f;
                     if (target.position.X > npc.position.X)
                     {
-                        npc.spriteDirection = -1;
+                        npc.spriteDirection = 1;
                         npc.direction = -1;
                         npc.netUpdate = true;
                     }
                     else if (target.position.X < npc.position.X)
                     {
-                        npc.spriteDirection = 1;
+                        npc.spriteDirection = -1;
                         npc.direction = 1;
                         npc.netUpdate = true;
                     }

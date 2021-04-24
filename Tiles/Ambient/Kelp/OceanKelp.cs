@@ -83,7 +83,7 @@ namespace SpiritMod.Tiles.Ambient.Kelp
 
         public override void NearbyEffects(int i, int j, bool closer) //Dust effects
         {
-            if (Main.rand.Next(10) <= 8) //Spawns little bubbles
+            if (Main.rand.Next(1000) <= 5) //Spawns little bubbles
                 Dust.NewDustPerfect(new Vector2(i * 16, j * 16) + new Vector2(2 + Main.rand.Next(12), Main.rand.Next(16)), 34, new Vector2(Main.rand.NextFloat(-0.08f, 0.08f), Main.rand.NextFloat(-0.2f, -0.02f)));
 
             if (!Framing.GetTileSafely(i, j + 1).active()) //KILL ME if there's no ground below me
@@ -104,7 +104,7 @@ namespace SpiritMod.Tiles.Ambient.Kelp
             Texture2D tile = ModContent.GetTexture(TexName); //Associated texture - loaded automatically
             Color col = Lighting.GetColor(i, j); //Lighting colour
 
-            float xOff = (float)Math.Sin((Main.time + (i * 24) + (j * 19)) * (0.04f * (!Lighting.NotRetro ? 0f : 1))) * 1.3f; //Sin offset. Really ugly line I'm sorry
+            float xOff = (float)Math.Sin((Main.time + (i * 24) + (j * 19)) * (0.04f * (!Lighting.NotRetro ? 0f : 1))) * 2.3f; //Sin offset. Really ugly line I'm sorry
             if (Framing.GetTileSafely(i, j + 1).type != Type) //Adjusts the sine wave offset to make it look nicer when closer to ground
                 xOff *= 0.25f;
             else if (Framing.GetTileSafely(i, j + 2).type != Type)
