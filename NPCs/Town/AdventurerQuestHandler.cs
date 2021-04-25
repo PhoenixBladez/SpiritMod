@@ -846,7 +846,7 @@ namespace SpiritMod.NPCs.Town
 						_questsCompleted++;
 						if (Main.netMode != NetmodeID.SinglePlayer) {
 							ModPacket packet = _mod.GetPacket();
-							packet.Write((byte)MessageType.AdventurerQuestCompleted);
+							//packet.Write((byte)MessageType.AdventurerQuestCompleted);
 							packet.Send();
 							NetMessage.SendData(MessageID.WorldData);
 						}
@@ -870,7 +870,7 @@ namespace SpiritMod.NPCs.Town
 			_currentQuest = Main.rand.Next(availableIndexes);
 			if (Main.netMode != NetmodeID.SinglePlayer) {
 				ModPacket packet = _mod.GetPacket();
-				packet.Write((byte)MessageType.AdventurerNewQuest);
+				//packet.Write((byte)MessageType.AdventurerNewQuest);
 				packet.Write(_currentQuest);
 				packet.Send();
 			}
@@ -880,6 +880,7 @@ namespace SpiritMod.NPCs.Town
 		}
 		public void HandlePacket(MessageType type, BinaryReader reader)
 		{
+			/*
 			switch (type) {
 				case MessageType.AdventurerNewQuest:
 					_currentQuest = reader.ReadInt32();
@@ -891,6 +892,7 @@ namespace SpiritMod.NPCs.Town
 					_questsCompleted++;
 					break;
 			}
+			*/
 		}
 		public string GetChatText()
 		{

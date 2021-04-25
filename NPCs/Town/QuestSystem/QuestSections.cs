@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.Town.QuestSystem
 {
@@ -89,7 +90,15 @@ namespace SpiritMod.NPCs.Town.QuestSystem
             StringBuilder builder = new StringBuilder();
 
             // start with: - Kill x monster
-            string monsterName = Lang.GetNPCNameValue(_monsterID);
+            string monsterName = "";
+			if (_monsterID < Terraria.ID.NPCID.Count)
+			{
+				monsterName = Lang.GetNPCNameValue(_monsterID);
+			}
+			else
+			{
+				monsterName = NPCLoader.GetNPC(_monsterID).DisplayName.GetTranslation(Terraria.Localization.Language.ActiveCulture);
+			}
             string count = _killsRequired > 1 ? _killsRequired.ToString() : "a";
             builder.Append("- Kill ").Append(count).Append(" ").Append(monsterName);
 

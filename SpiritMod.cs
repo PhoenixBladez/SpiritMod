@@ -45,7 +45,6 @@ namespace SpiritMod
 
 		public static SpiritMod Instance;
 		public UnifiedRandom spiritRNG;
-		public static AdventurerQuestHandler AdventurerQuests;
 		public static Effect auroraEffect;
 		public static TrailManager TrailManager;
 		public static PrimTrailManager primitives;
@@ -169,10 +168,6 @@ namespace SpiritMod
 					if (player == Main.myPlayer)
 						break;
 					Main.player[player].GetModPlayer<MyPlayer>().glyph = glyph;
-					break;
-				case MessageType.AdventurerNewQuest:
-				case MessageType.AdventurerQuestCompleted:
-					AdventurerQuests.HandlePacket(id, reader);
 					break;
 				case MessageType.BossSpawnFromClient:
 					if (Main.netMode == NetmodeID.Server) {
@@ -539,7 +534,6 @@ namespace SpiritMod
 		{
 			//Always keep this call in the first line of Load!
 			LoadReferences();
-			AdventurerQuests = new AdventurerQuestHandler(this);
 			StructureLoader.Load(this);
 			QuestManager.Load();
 			if (!Main.dedServ) 
@@ -547,9 +541,7 @@ namespace SpiritMod
 				ParticleHandler.RegisterParticles();
 				BookUserInterface = new UserInterface();
 
-				// TODO: Remove!
 				QuestBookUIState = new QuestBookUI();
-				BookUserInterface.SetState(QuestBookUIState);
 			}
 			SpiritDetours.Initialize();
 

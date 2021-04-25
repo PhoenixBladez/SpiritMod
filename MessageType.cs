@@ -8,8 +8,6 @@
 		Dash,
 		PlayerGlyph,
 		AuroraData,
-		AdventurerQuestCompleted,
-		AdventurerNewQuest,
 		BossSpawnFromClient,
 		TideData,
 		TameAuroraStag,

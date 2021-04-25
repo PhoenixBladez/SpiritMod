@@ -23,16 +23,17 @@ namespace SpiritMod.UI.QuestUI
             spriteBatch.Draw(Main.blackTileTexture, new Rectangle(rect.X, rect.Bottom - 1, rect.Width, 1), null, colour);
         }
 
-        public static UIElement QuestAsPanel(Quest quest)
+        public static UISelectableQuest QuestAsPanel(Quest quest)
         {
-            UISelectableOutlineRectPanel panel = new UISelectableOutlineRectPanel();
+			UISelectableQuest panel = new UISelectableQuest(quest);
             panel.SelectedOutlineColour = new Color(102, 86, 67);
             panel.HoverOutlineColour = new Color(102, 86, 67) * 0.5f;
             panel.Height.Set(22f, 0f);
             panel.Width.Set(0f, 1f);
 
-            // icon
-            UIImage image = new UIImage(SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/SlayerIcon"));
+			// icon
+			QuestType baseType = GetBaseQuestType(quest.QuestType);
+            UIImageFramed image = new UIImageFramed(SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/Icons"), new Rectangle(Log2((int)baseType) * 18, 0, 18, 18));
             image.Left.Set(-10f, 0f);
             image.Top.Set(-10f, 0f);
             panel.Append(image);
@@ -58,5 +59,55 @@ namespace SpiritMod.UI.QuestUI
 
             return panel;
         }
-    }
+
+		// https://stackoverflow.com/questions/15967240/fastest-implementation-of-log2int-and-log2float
+		private static int Log2(int v)
+		{
+			int r = 0xFFFF - v >> 31 & 0x10;
+			v >>= r;
+			int shift = 0xFF - v >> 31 & 0x8;
+			v >>= shift;
+			r |= shift;
+			shift = 0xF - v >> 31 & 0x4;
+			v >>= shift;
+			r |= shift;
+			shift = 0x3 - v >> 31 & 0x2;
+			v >>= shift;
+			r |= shift;
+			r |= (v >> 1);
+			return r;
+		}
+
+		private static Dictionary<QuestType, Color> ColorByType = new Dictionary<QuestType, Color>()
+		{
+			{QuestType.Main, new Color(102, 160, 255)},
+			{QuestType.Slayer, new Color(188, 38, 38)},
+			{QuestType.Forager, new Color(68, 163, 112)},
+			{QuestType.Explorer, new Color(153, 137, 196)},
+			{QuestType.Designer, new Color(183, 151, 62)},
+			{QuestType.Other, new Color(183, 71, 125)}
+		};
+		private static QuestType[] QuestTypes = (QuestType[])Enum.GetValues(typeof(QuestType));
+
+		public static QuestType GetBaseQuestType(QuestType type)
+		{
+			SpiritMod.instance.Logger.Debug("passed in: " + type);
+			for (int i = 0; i < QuestTypes.Length; i++)
+			{
+				if ((type & QuestTypes[i]) != 0)
+				{
+					SpiritMod.instance.Logger.Debug("returning: " + QuestTypes[i]);
+					return QuestTypes[i];
+				}
+			}
+			return QuestType.Other;
+		}
+
+		public static (Color, string) GetCategoryInfo (QuestType type)
+		{
+			QuestType baseType = GetBaseQuestType(type);
+
+			return (ColorByType[baseType], baseType.ToString());
+		}
+	}
 }

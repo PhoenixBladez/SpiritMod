@@ -187,47 +187,24 @@ namespace SpiritMod.NPCs.Town
 			randomOffset = 2f;
 		}
 
-		private bool clickedQuest = false;
-		public override void PostAI()
-		{
-			if (Main.LocalPlayer.talkNPC == -1) {
-				clickedQuest = false;
-			}
-		}
-
 		public override void SetChatButtons(ref string button, ref string button2)
 		{
 			button = Language.GetTextValue("LegacyInterface.28");
-			if (SpiritMod.AdventurerQuests.QuestsAvailable()) {
-				if (clickedQuest) {
-					if (SpiritMod.AdventurerQuests.CurrentQuestSkippable) {
-						button2 = "Skip";
-					}
-				}
-				else {
-					button2 = "Quest";
-				}
-			}
+			button2 = "Quest";
 		}
 
 		public override void OnChatButtonClicked(bool firstButton, ref bool shop)
 		{
-			if (firstButton) {
+			if (firstButton) 
+			{
 				shop = true;
-				clickedQuest = false;
 			}
-			else if (SpiritMod.AdventurerQuests.QuestsAvailable()) {
-				Main.PlaySound(SoundID.Chat);
-				if (!clickedQuest) {
-					//Check if there is a current quest, if the player has gotten everything required, etc.
-					//returns true if the quest is not complete yet.
-					clickedQuest = SpiritMod.AdventurerQuests.QuestCheck();
-				}
-				else {
-					SpiritMod.AdventurerQuests.SetNextQuest();
-				}
-
-				Main.npcChatText = SpiritMod.AdventurerQuests.GetChatText();
+			else
+			{
+				//Main.LocalPlayer.talkNPC = -1;
+				// inventory should already be closed but im paranoid
+				//if (!Main.playerInventory) Main.LocalPlayer.ToggleInv();
+				QuestSystem.QuestManager.SetBookState(true);
 			}
 		}
 	}

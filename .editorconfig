@@ -11,7 +11,7 @@ indent_size = 4
 #Formatting - new line options
 #require braces to be on a new line for types (Allman)
 #everything else uses K&R
-csharp_new_line_before_open_brace = types, methods
+csharp_new_line_before_open_brace = all
 
 #Style - expression bodied member options
 

@@ -248,7 +248,6 @@ namespace SpiritMod
 			data.Add("pagodaY", pagodaY);
 			data.Add("spawnedPagodaEnemies", spawnedPagodaEnemies);
 
-			SpiritMod.AdventurerQuests.WorldSave(data);
 			//SaveSpecialNPCs(data);
 			return data;
 		}
@@ -275,7 +274,6 @@ namespace SpiritMod
 			downedBlueMoon = downed.Contains("bluemoon");
 			downedJellyDeluge = downed.Contains("jellyDeluge");
 			//LoadSpecialNPCs(tag);
-			SpiritMod.AdventurerQuests.WorldLoad(tag);
 			TagCompound droppedGlyphTag = tag.GetCompound("droppedGlyphs");
 			droppedGlyphs.Clear();
 			foreach (KeyValuePair<string, object> entry in droppedGlyphTag) {

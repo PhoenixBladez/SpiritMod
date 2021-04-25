@@ -14,13 +14,13 @@ namespace SpiritMod.NPCs.Town.QuestSystem
         protected List<IQuestSection> _questSections;
         protected int _currentSection;
 
-        public virtual int ID => -1;
         public virtual int Difficulty => 0;
         public virtual QuestType QuestType => QuestType.Other;
         public virtual string QuestName => "";
         public virtual string QuestDescription => "";
+		public virtual string QuestClient => "";
 
-        public bool QuestCompleted { get; private set; }
+		public bool QuestCompleted { get; private set; }
 
         public Quest()
         {
@@ -69,6 +69,8 @@ namespace SpiritMod.NPCs.Town.QuestSystem
                 _currentSection++;
                 if (_currentSection == _questSections.Count)
                 {
+					QuestCompleted = true;
+					OnQuestComplete();
                     // quest completed
                 }
                 else

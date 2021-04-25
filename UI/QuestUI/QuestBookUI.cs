@@ -25,21 +25,27 @@ namespace SpiritMod.UI
         private int _questFilterIndex;
         private int _selectedQuestIndex;
 
+		private UISelectableQuest[] _allQuestButtons;
         private UIQuestBookButtonTextPanel[] _questSectionButtons;
         private UIQuestBookButtonTextPanel[] _questFilterButtons;
         private UIList _questList;
-        private UISimpleWrappableText _questObjectivesText;
+		private UISimpleWrappableText _questTitleText;
+		private UISimpleWrappableText _questCategoryText;
+		private UISimpleWrappableText _questObjectivesText;
         private UISimpleWrappableText _questClientText;
+		private UISimpleWrappableText _questClientTitle;
 
-        public override void OnInitialize()
+		public override void OnInitialize()
         {
             UIMoveExpandWindow mainWindow = new UIMoveExpandWindow(SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/AdventurerBook"), false, false, 10);
 
-            mainWindow.Left.Set(400, 0);
-            mainWindow.Top.Set(400, 0);
+            mainWindow.Left.Set(450, 0);
+            mainWindow.Top.Set(230, 0);
             mainWindow.Width.Set(1019, 0);
             mainWindow.Height.Set(706, 0);
-            mainWindow.SetPadding(0f);
+			mainWindow.MinWidth.Set(1019, 0);
+			mainWindow.MinHeight.Set(706, 0);
+			mainWindow.SetPadding(0f);
             // ensure the UI stays on screen when moved
             mainWindow.ForceScreenStick = true;
 
@@ -99,37 +105,68 @@ namespace SpiritMod.UI
 
             leftPage.Append(CreateLine(48f));
 
+			UIElement questContainer = new UIElement();
+			questContainer.Width.Set(0f, 1f);
+			questContainer.Top.Set(52f, 0f);
+			questContainer.Height.Set(-52f, 1f);
+			questContainer.SetPadding(0f);
+
             _questList = new UIList();
-            _questList.Width.Set(0f, 1f);
-            _questList.Top.Set(52f, 0f);
+            _questList.Width.Set(-18f, 1f);
             _questList.Height.Set(0f, 1f);
             _questList.SetPadding(0f);
             _questList.ListPadding = 2f;
 
-            _questList.Add(QuestUtils.QuestAsPanel(QuestManager.GetQuest<CacophonousCries>()));
-            _questList.Add(QuestUtils.QuestAsPanel(QuestManager.GetQuest<CacophonousCries>()));
-            _questList.Add(QuestUtils.QuestAsPanel(QuestManager.GetQuest<CacophonousCries>()));
+			// create all the quest panels
+			#region quests
+			_allQuestButtons = new UISelectableQuest[QuestManager.Quests.Count];
+			for (int i = 0; i < QuestManager.Quests.Count; i++)
+			{
+				_allQuestButtons[i] = QuestUtils.QuestAsPanel(QuestManager.Quests[i]);
+			}
+			for (int i = 0; i < _allQuestButtons.Length; i++)
+			{
+				int index = i;
+				_allQuestButtons[i].OnMouseDown += (UIMouseEvent evt, UIElement el) =>
+				{
+					_selectedQuestIndex = index;
+					ButtonArraySelect(index, _allQuestButtons);
 
-            leftPage.Append(_questList);
+					SelectQuest((el as UISelectableQuest).MyQuest);
+				};
+				_questList.Add(_allQuestButtons[i]);
+			}
+			ButtonArraySelect(_selectedQuestIndex, _allQuestButtons);
+			#endregion
 
-            // quest title
-            UISimpleWrappableText questTitle = new UISimpleWrappableText("", 0.8f);
-            questTitle.Top.Set(-8f, 0f);
-            questTitle.Width.Set(0f, 1f);
-            questTitle.Large = true;
-            questTitle.Centered = true;
-            questTitle.Text = QuestManager.GetQuest<CacophonousCries>().QuestName;
-            questTitle.Colour = new Color(43, 28, 17);
-            rightPage.Append(questTitle);
+			UIQuestBookScrollBar questListScrollbar = new UIQuestBookScrollBar(SpiritMod.Instance.BookUserInterface);
+			questListScrollbar.SetView(100f, 1000f);
+			questListScrollbar.Height.Set(-2f, 1f);
+			questListScrollbar.Top.Set(2f, 0f);
+			questListScrollbar.HAlign = 1f;
+			questListScrollbar.Colour = new Color(43, 28, 17);
+
+			_questList.SetScrollbar(questListScrollbar);
+
+			questContainer.Append(questListScrollbar);
+			questContainer.Append(_questList);
+			leftPage.Append(questContainer);
+
+			// quest title
+			_questTitleText = new UISimpleWrappableText("", 0.8f);
+			_questTitleText.Top.Set(-8f, 0f);
+			_questTitleText.Width.Set(0f, 1f);
+			_questTitleText.Large = true;
+			_questTitleText.Centered = true;
+			_questTitleText.Colour = new Color(43, 28, 17);
+            rightPage.Append(_questTitleText);
 
             // quest category
-            UISimpleWrappableText questCategory = new UISimpleWrappableText("", 0.8f);
-            questCategory.Top.Set(30f, 0f);
-            questCategory.Width.Set(0f, 1f);
-            questCategory.Centered = true;
-            questCategory.Text = QuestManager.GetQuest<CacophonousCries>().QuestType.ToString();
-            questCategory.Colour = new Color(188, 38, 38);
-            rightPage.Append(questCategory);
+            _questCategoryText = new UISimpleWrappableText("", 0.8f);
+			_questCategoryText.Top.Set(30f, 0f);
+			_questCategoryText.Width.Set(0f, 1f);
+			_questCategoryText.Centered = true;
+            rightPage.Append(_questCategoryText);
 
             // objectives title
             UISimpleWrappableText objectivesTitle = new UISimpleWrappableText("Objectives", 0.8f);
@@ -139,25 +176,24 @@ namespace SpiritMod.UI
 
             rightPage.Append(CreateLine(161f));
 
-            UISimpleWrappableText objectivesText = new UISimpleWrappableText("", 0.7f);
-            objectivesText.Top.Set(165f, 0f);
-            objectivesText.Text = QuestManager.GetQuest<CacophonousCries>().GetObjectives(false);
-            objectivesText.Colour = new Color(43, 28, 17);
-            rightPage.Append(objectivesText);
+			_questObjectivesText = new UISimpleWrappableText("", 0.7f);
+			_questObjectivesText.Top.Set(165f, 0f);
+			_questObjectivesText.Colour = new Color(43, 28, 17);
+            rightPage.Append(_questObjectivesText);
 
-            // client title
-            UISimpleWrappableText clientTitle = new UISimpleWrappableText("Client - The Guide", 0.8f);
-            clientTitle.Top.Set(226f, 0f);
-            clientTitle.Colour = new Color(43, 28, 17);
-            rightPage.Append(clientTitle);
+			// client title
+			_questClientTitle = new UISimpleWrappableText("Client - ", 0.8f);
+			_questClientTitle.Top.Set(226f, 0f);
+			_questClientTitle.Colour = new Color(43, 28, 17);
+            rightPage.Append(_questClientTitle);
 
             rightPage.Append(CreateLine(240f));
 
-            UISimpleWrappableText clientText = new UISimpleWrappableText("", 0.7f, false, true);
-            clientText.Top.Set(244f, 0f);
-            clientText.Width.Set(0f, 1f);
-            clientText.Colour = new Color(43, 28, 17);
-            rightPage.Append(clientText);
+            _questClientText = new UISimpleWrappableText("", 0.7f, false, true);
+			_questClientText.Top.Set(244f, 0f);
+			_questClientText.Width.Set(0f, 1f);
+			_questClientText.Colour = new Color(43, 28, 17);
+            rightPage.Append(_questClientText);
 
             // rewards title
             UISimpleWrappableText rewardsTitle = new UISimpleWrappableText("Rewards", 0.8f);
@@ -170,9 +206,9 @@ namespace SpiritMod.UI
             mainWindow.Append(leftPage);
             mainWindow.Append(rightPage);
 
-            Append(mainWindow);
+			SelectQuest(_allQuestButtons[_selectedQuestIndex].MyQuest);
 
-            clientText.Text = QuestManager.GetQuest<CacophonousCries>().QuestDescription;
+			Append(mainWindow);
         }
 
         private UIQuestBookButtonTextPanel[] CreateButtons(float y, float textScale, bool equalWidths, params string[] texts)
@@ -216,6 +252,18 @@ namespace SpiritMod.UI
             return array;
         }
 
+		public void SelectQuest(Quest quest)
+		{
+			_questTitleText.Text = quest.QuestName;
+			_questClientTitle.Text = "Client - " + quest.QuestClient;
+			_questClientText.Text = quest.QuestDescription;
+			_questClientText.UpdateText();
+			(Color, string) category = QuestUtils.GetCategoryInfo(quest.QuestType);
+			_questCategoryText.Text = category.Item2;
+			_questCategoryText.Colour = category.Item1;
+			_questObjectivesText.Text = quest.GetObjectives(false);
+		}
+
         private UISolid CreateLine(float y)
         {
             UISolid solid = new UISolid();
@@ -227,7 +275,7 @@ namespace SpiritMod.UI
             return solid;
         }
 
-        private void ButtonArraySelect(int selectIndex, UIQuestBookButtonTextPanel[] buttons)
+        private void ButtonArraySelect(int selectIndex, UISelectableOutlineRectPanel[] buttons)
         {
             for (int i = 0; i < buttons.Length; i++)
             {

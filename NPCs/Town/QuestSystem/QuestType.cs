@@ -9,9 +9,10 @@ namespace SpiritMod.NPCs.Town.QuestSystem
     public enum QuestType
     {
         Main = 1,
-        Explorer = 2,
-        Forager = 4,
-        Slayer = 8,
-        Other = 16
+		Slayer = 2,
+		Forager = 4,
+		Explorer = 8,
+		Designer = 16,
+		Other = 32
     }
 }
