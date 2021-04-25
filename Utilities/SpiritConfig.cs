@@ -102,5 +102,9 @@ namespace SpiritMod.Utilities
         [DefaultValue(true)]
         public bool NeonBiomeMusic { get; set; }
 
+		[Label("Town NPC Portraits")]
+		[Tooltip("Enables the showing of NPC portraits when talking to a Town NPC")]
+		[DefaultValue(true)]
+		public bool ShowNPCPortraits { get; set; }
 	}
 }

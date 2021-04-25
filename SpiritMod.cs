@@ -77,6 +77,8 @@ namespace SpiritMod
 		public static SoundLooper caveAmbience;
 		public static SoundLooper spookyAmbience;
 
+		public static Dictionary<int, Texture2D> Portraits = new Dictionary<int, Texture2D>(); //Portraits dict - Gabe
+
 		//public static Texture2D MoonTexture;
 		public const string EMPTY_TEXTURE = "SpiritMod/Empty";
 		public static Texture2D EmptyTexture {
@@ -694,8 +696,15 @@ namespace SpiritMod
 				AutoSellUI_INTERFACE.SetState(AutoSellUI_SHORTCUT);
 				SellNoValue_INTERFACE.SetState(SellNoValue_SHORTCUT);
 				SellLock_INTERFACE.SetState(SellLock_SHORTCUT);
-				SellWeapons_INTERFACE.SetState(SellWeapons_SHORTCUT);	
-				
+				SellWeapons_INTERFACE.SetState(SellWeapons_SHORTCUT);
+
+				//Portrait textures - Gabe
+				Portraits.Add(NPCID.Guide, GetTexture("NPCs/Portraits/Guide"));
+				Portraits.Add(NPCID.Merchant, GetTexture("NPCs/Portraits/Merchant"));
+				Portraits.Add(NPCID.Truffle, GetTexture("NPCs/Portraits/Truffle"));
+				Portraits.Add(NPCID.Wizard, GetTexture("NPCs/Portraits/Wizard"));
+				Portraits.Add(NPCID.Dryad, GetTexture("NPCs/Portraits/Dryad"));
+				Portraits.Add(ModContent.NPCType<Gambler>(), GetTexture("NPCs/Portraits/Gambler"));
 			}
 			primitives = new PrimTrailManager();
 			AdditiveCallManager.Load();
@@ -795,9 +804,11 @@ namespace SpiritMod
 			GlobalNoise = null;
 			Items.Glyphs.GlyphBase.UninitGlyphLookup();
 			primitives = null;
+
+			Portraits.Clear(); //Idk if this is necessary but it seems like a good move - Gabe
 			//UnloadDetours();
 		}
-        internal static string GetWeatherRadioText(string key)
+		internal static string GetWeatherRadioText(string key)
         {
 			if (MyWorld.ashRain)
 			{

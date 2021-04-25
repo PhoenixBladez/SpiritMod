@@ -5,6 +5,7 @@ using MonoMod.Cil;
 using SpiritMod.Items.Tool;
 using SpiritMod.Particles;
 using System;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -23,6 +24,7 @@ namespace SpiritMod.Utilities
 			On.Terraria.Player.ToggleInv += Player_ToggleInv;
 			On.Terraria.Main.DrawInterface += DrawParticles;
 			On.Terraria.Localization.LanguageManager.GetTextValue_string += LanguageManager_GetTextValue_string1;
+			On.Terraria.Main.DrawNPCChatButtons += Main_DrawNPCChatButtons;
 			IL.Terraria.Player.ItemCheck += Player_ItemCheck;
 		}
 
@@ -30,6 +32,27 @@ namespace SpiritMod.Utilities
 		{
 			AdditiveCallManager.DrawAdditiveCalls(Main.spriteBatch);
 			orig(self);
+		}
+
+		private const float ProfileNameScale = 1f; //Profile name scale - 1f because the higher is poorly resized
+		private static void Main_DrawNPCChatButtons(On.Terraria.Main.orig_DrawNPCChatButtons orig, int superColor, Color chatColor, int numLines, string focusText, string focusText3) //Portrait drawing - Gabe
+		{
+			if (ModContent.GetInstance<SpiritClientConfig>().ShowNPCPortraits) 
+			{
+				var townNPCWhoAmI = Main.npc.Where((npc) => npc.townNPC && npc.active);
+				NPC talkNPC = townNPCWhoAmI.ElementAt(Main.LocalPlayer.talkNPC);
+				string name = talkNPC.GivenName; //Kinda ugly, might wanna clean up/optimize?
+
+				//Portrait
+				if (SpiritMod.Portraits.ContainsKey(talkNPC.type)) {
+					Main.spriteBatch.Draw(SpiritMod.Portraits[talkNPC.type], new Vector2(Main.screenWidth / 3 - 43, 104), null, Color.White, 0f, default, 1f, SpriteEffects.None, 0f); //Portrait
+
+					//Name
+					Vector2 textPos = new Vector2(Main.screenWidth / 3 + 10, 226) - (Terraria.UI.Chat.ChatManager.GetStringSize(Main.fontItemStack, name, new Vector2(ProfileNameScale)) / 2);
+					Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, Main.fontItemStack, name, textPos, new Color(240, 240, 240), 0f, new Vector2(), new Vector2(ProfileNameScale), -1, 2f);
+				}
+			}
+			orig(superColor, chatColor, numLines, focusText, focusText3);
 		}
 
 		private static void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
