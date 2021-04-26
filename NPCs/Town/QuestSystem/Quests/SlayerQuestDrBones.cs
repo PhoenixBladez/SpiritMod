@@ -9,15 +9,15 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.Town.QuestSystem.Quests
 {
-    public class CacophonousCries : Quest
+    public class SlayerQuestDrBones : Quest
     {
-        public override string QuestName => "Cacophonous Cries";
+        public override string QuestName => "Zombies... Why Zombies";
 		public override string QuestClient => "The Adventurer";
-		public override string QuestDescription => "I'd like to think I'm an animal lover, y'know? I love dogs, an' cats, and all kinds of furry creatures. Except for that horrifying beast... You guessed it, I'm talkin' about Screech Owls. Those things are horrifyin'! Every night, I hear their screeches echoin' from the snowy tundra. It ruins my sleep! Could ya get rid of some for me?";
+		public override string QuestDescription => "My colleague, an expert archaeologist, went roamin' the jungle for some ancient temple. He didn't make it, though. Reports have told me that he's still roamin' the Jungle surface as a zombie. Mind going out there and puttin' him to rest for me? He's been exploring enough.";
 		public override int Difficulty => 2;
         public override QuestType QuestType => QuestType.Slayer;
 
-        public CacophonousCries()
+        public SlayerQuestDrBones()
         {
             _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
         }
