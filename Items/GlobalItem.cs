@@ -598,6 +598,10 @@ namespace SpiritMod.Items
 				NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<SpecularFish>());
 				return true;
 			}
+			if (item.type == ItemID.Ebonkoi) {
+				NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<Ebonkoi>());
+				return true;
+			}
 			if (item.type == ItemID.Prismite) {
 				NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<Prismite>());
 				return true;

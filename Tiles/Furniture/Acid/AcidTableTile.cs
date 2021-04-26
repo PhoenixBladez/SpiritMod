@@ -25,6 +25,7 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			AddMapEntry(new Color(100, 122, 111), name);
 			disableSmartCursor = true;
 			dustType = -1;
+			adjTiles = new int[]{ TileID.Tables };
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{

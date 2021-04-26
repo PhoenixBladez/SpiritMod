@@ -12,6 +12,7 @@ namespace SpiritMod.Items.Pets
 		{
 			DisplayName.SetDefault("Jelly Peace Candle");
 			Tooltip.SetDefault("Summons a peaceful jellyfish");
+			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 8));
 		}
 
 		public override void SetDefaults()
@@ -32,7 +33,10 @@ namespace SpiritMod.Items.Pets
 		{
 			return player.miscEquips[0].IsAir;
 		}
-
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(200, 200, 200, 100);
+		}
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
