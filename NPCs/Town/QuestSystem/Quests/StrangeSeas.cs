@@ -13,7 +13,7 @@ namespace SpiritMod.NPCs.Town.QuestSystem.Quests
     {
         public override string QuestName => "Strange Seas";
 		public override string QuestClient => "The Adventurer";
-		public override string QuestDescription => "The mythical Seabreak Pearl... I've been hearin' rumors about it popping up recently. It's one of the rarest treasures out there, but it's almost like it has a mind of its own and wants to be found. People have searched for it for ages because of its untold power, but I feel like somethin' deeper and more sinister is at work here. We should find the pearl an' get to the bottom of this mystery as soon as we can.";
+		public override string QuestDescription => "The mythical Seabreak Pearl... I've been hearin' rumors about it popping up recently. It's one of the rarest treasures out there, but it's almost like it has a mind of its own and wants to be found. I feel like somethin' deeper and more sinister is at work here. We should find the pearl an' get to the bottom of this mystery as soon as we can.";
 		public override int Difficulty => 4;
         public override QuestType QuestType =>  QuestType.Main;
 
