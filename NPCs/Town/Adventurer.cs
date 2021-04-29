@@ -190,7 +190,9 @@ namespace SpiritMod.NPCs.Town
 		public override void SetChatButtons(ref string button, ref string button2)
 		{
 			button = Language.GetTextValue("LegacyInterface.28");
-			button2 = "Quest";
+
+			// TODO: only show this if the player hasn't gotten their quest book yet?
+			button2 = "Quest Book";
 		}
 
 		public override void OnChatButtonClicked(bool firstButton, ref bool shop)
@@ -204,7 +206,9 @@ namespace SpiritMod.NPCs.Town
 				//Main.LocalPlayer.talkNPC = -1;
 				// inventory should already be closed but im paranoid
 				//if (!Main.playerInventory) Main.LocalPlayer.ToggleInv();
-				QuestSystem.QuestManager.SetBookState(true);
+				Mechanics.QuestSystem.QuestManager.SetBookState(true);
+
+				// TODO: clicking this gives quest book if not unlocked already
 			}
 		}
 	}

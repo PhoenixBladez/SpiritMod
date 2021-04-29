@@ -34,7 +34,7 @@ using SpiritMod.Items.Consumable;
 using SpiritMod.NPCs.AuroraStag;
 using SpiritMod.Particles;
 using SpiritMod.UI;
-using SpiritMod.NPCs.Town.QuestSystem;
+using SpiritMod.Mechanics.QuestSystem;
 
 namespace SpiritMod
 {
@@ -535,7 +535,6 @@ namespace SpiritMod
 			//Always keep this call in the first line of Load!
 			LoadReferences();
 			StructureLoader.Load(this);
-			QuestManager.Load();
 			if (!Main.dedServ) 
 				{
 				ParticleHandler.RegisterParticles();
@@ -543,6 +542,7 @@ namespace SpiritMod
 
 				QuestBookUIState = new QuestBookUI();
 			}
+			QuestManager.Load();
 			SpiritDetours.Initialize();
 
 			GlobalNoise = new PerlinNoise(Main.rand.Next());

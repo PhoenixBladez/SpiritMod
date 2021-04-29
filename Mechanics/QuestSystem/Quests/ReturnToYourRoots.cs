@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using Terraria;
+using Terraria.ModLoader;
+
+namespace SpiritMod.Mechanics.QuestSystem.Quests
+{
+    public class ReturnToYourRoots : Quest
+    {
+        public override string QuestName => "A Return to Your Roots";
+		public override string QuestClient => "The Adventurer";
+		public override string QuestDescription => "Did you know that I was part of a research team that tried to survey the Briar? It was led by some scientist- Laywatts, I think. She learned about some interestin' stuff down there. Apparently, all the roots in the Briar connect to one central... thing. That monster is a menace to everyone, so could you deal with it once an' for all, lad?";
+		public override int Difficulty => 4;
+        public override QuestType QuestType =>  QuestType.Slayer | QuestType.Main;
+
+        public ReturnToYourRoots()
+        {
+            _questSections.Add(new KillSection(ModContent.NPCType<NPCs.Boss.ReachBoss.ReachBoss>(), 1));        
+        }
+    }
+}

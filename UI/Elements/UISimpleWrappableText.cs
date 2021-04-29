@@ -28,6 +28,8 @@ namespace SpiritMod.UI.Elements
 		public float Scale { get; set; }
 		public bool Large { get; set; }
 		public bool Centered { get; set; }
+		public bool Border { get; set; }
+		public Color BorderColour { get; set; }
 		protected DynamicSpriteFont Font { get => Large ? Main.fontDeathText : Main.fontMouseText; }
 		private float _drawOffsetX;
 		protected bool _wrappable;
@@ -87,7 +89,16 @@ namespace SpiritMod.UI.Elements
 		{
 			Vector2 tl = GetDimensions().Position();
 			if (Centered) tl = new Vector2(GetDimensions().Center().X, tl.Y);
-			DynamicSpriteFontExtensionMethods.DrawString(spriteBatch, Font, Text, tl - Vector2.UnitX * _drawOffsetX, Colour, 0f, Vector2.Zero, Scale, SpriteEffects.None, 0f);
+
+			Vector2 pos = tl - Vector2.UnitX * _drawOffsetX;
+			if (Border)
+			{
+				DynamicSpriteFontExtensionMethods.DrawString(spriteBatch, Font, Text, pos + Vector2.UnitX, BorderColour, 0f, Vector2.Zero, Scale, SpriteEffects.None, 0f);
+				DynamicSpriteFontExtensionMethods.DrawString(spriteBatch, Font, Text, pos - Vector2.UnitX, BorderColour, 0f, Vector2.Zero, Scale, SpriteEffects.None, 0f);
+				DynamicSpriteFontExtensionMethods.DrawString(spriteBatch, Font, Text, pos + Vector2.UnitY, BorderColour, 0f, Vector2.Zero, Scale, SpriteEffects.None, 0f);
+				DynamicSpriteFontExtensionMethods.DrawString(spriteBatch, Font, Text, pos - Vector2.UnitY, BorderColour, 0f, Vector2.Zero, Scale, SpriteEffects.None, 0f);
+			}
+			DynamicSpriteFontExtensionMethods.DrawString(spriteBatch, Font, Text, pos, Colour, 0f, Vector2.Zero, Scale, SpriteEffects.None, 0f);
 		}
 	}
 }

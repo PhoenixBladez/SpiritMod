@@ -14,8 +14,8 @@ using Terraria.UI;
 using SpiritMod.UI.Elements;
 using SpiritMod.UI.QuestUI;
 
-using SpiritMod.NPCs.Town.QuestSystem;
-using SpiritMod.NPCs.Town.QuestSystem.Quests;
+using SpiritMod.Mechanics.QuestSystem;
+using SpiritMod.Mechanics.QuestSystem.Quests;
 
 namespace SpiritMod.UI
 {
@@ -28,7 +28,7 @@ namespace SpiritMod.UI
 		private UISelectableQuest[] _allQuestButtons;
         private UIQuestBookButtonTextPanel[] _questSectionButtons;
         private UIQuestBookButtonTextPanel[] _questFilterButtons;
-        private UIList _questList;
+        private UIModifiedList _questList;
 		private UISimpleWrappableText _questTitleText;
 		private UISimpleWrappableText _questCategoryText;
 		private UISimpleWrappableText _questObjectivesText;
@@ -76,8 +76,9 @@ namespace SpiritMod.UI
                 {
                     _questSectionIndex = index;
                     ButtonArraySelect(index, _questSectionButtons);
-                    // refresh
-                };
+					// refresh
+					UpdateList();
+				};
                 leftPage.Append(_questSectionButtons[i]);
             }
             ButtonArraySelect(_questSectionIndex, _questSectionButtons);
@@ -88,7 +89,7 @@ namespace SpiritMod.UI
             // bottom buttons
             #region bottom buttons
             _questFilterIndex = 0;
-            _questFilterButtons = CreateButtons(26f, 0.7f, false, "All", "Main", "Explorer", "Forager", "Hunter", "Other");
+            _questFilterButtons = CreateButtons(26f, 0.7f, false, "All", "Main", "Explorer", "Forager", "Slayer", "Other");
             for (int i = 0; i < _questFilterButtons.Length; i++)
             {
                 int index = i;
@@ -96,7 +97,8 @@ namespace SpiritMod.UI
                 {
                     _questFilterIndex = index;
                     ButtonArraySelect(index, _questFilterButtons);
-                    // refresh
+					// refresh
+					UpdateList();
                 };
                 leftPage.Append(_questFilterButtons[i]);
             }
@@ -111,7 +113,7 @@ namespace SpiritMod.UI
 			questContainer.Height.Set(-52f, 1f);
 			questContainer.SetPadding(0f);
 
-            _questList = new UIList();
+            _questList = new UIModifiedList();
             _questList.Width.Set(-18f, 1f);
             _questList.Height.Set(0f, 1f);
             _questList.SetPadding(0f);
@@ -123,6 +125,7 @@ namespace SpiritMod.UI
 			for (int i = 0; i < QuestManager.Quests.Count; i++)
 			{
 				_allQuestButtons[i] = QuestUtils.QuestAsPanel(QuestManager.Quests[i]);
+				QuestManager.Quests[i].OnQuestUnlockChanged += _allQuestButtons[i].HandleUnlock;
 			}
 			for (int i = 0; i < _allQuestButtons.Length; i++)
 			{
@@ -134,7 +137,6 @@ namespace SpiritMod.UI
 
 					SelectQuest((el as UISelectableQuest).MyQuest);
 				};
-				_questList.Add(_allQuestButtons[i]);
 			}
 			ButtonArraySelect(_selectedQuestIndex, _allQuestButtons);
 			#endregion
@@ -163,35 +165,39 @@ namespace SpiritMod.UI
 
             // quest category
             _questCategoryText = new UISimpleWrappableText("", 0.8f);
-			_questCategoryText.Top.Set(30f, 0f);
+			_questCategoryText.Top.Set(26f, 0f);
 			_questCategoryText.Width.Set(0f, 1f);
 			_questCategoryText.Centered = true;
-            rightPage.Append(_questCategoryText);
+			_questCategoryText.Scale = 1.08f;
+			_questCategoryText.Border = true;
+			_questCategoryText.BorderColour = new Color(43, 28, 17) * 0.8f;
+			rightPage.Append(_questCategoryText);
 
             // objectives title
             UISimpleWrappableText objectivesTitle = new UISimpleWrappableText("Objectives", 0.8f);
-            objectivesTitle.Top.Set(147f, 0f);
+            objectivesTitle.Top.Set(187f, 0f);
             objectivesTitle.Colour = new Color(43, 28, 17);
             rightPage.Append(objectivesTitle);
 
-            rightPage.Append(CreateLine(161f));
+            rightPage.Append(CreateLine(201f));
 
 			_questObjectivesText = new UISimpleWrappableText("", 0.7f);
-			_questObjectivesText.Top.Set(165f, 0f);
+			_questObjectivesText.Top.Set(205f, 0f);
 			_questObjectivesText.Colour = new Color(43, 28, 17);
             rightPage.Append(_questObjectivesText);
 
 			// client title
 			_questClientTitle = new UISimpleWrappableText("Client - ", 0.8f);
-			_questClientTitle.Top.Set(226f, 0f);
+			_questClientTitle.Top.Set(266f, 0f);
 			_questClientTitle.Colour = new Color(43, 28, 17);
             rightPage.Append(_questClientTitle);
 
-            rightPage.Append(CreateLine(240f));
+            rightPage.Append(CreateLine(280f));
 
             _questClientText = new UISimpleWrappableText("", 0.7f, false, true);
-			_questClientText.Top.Set(244f, 0f);
+			_questClientText.Top.Set(284f, 0f);
 			_questClientText.Width.Set(0f, 1f);
+			_questClientText.MinWidth.Set(0f, 1f);
 			_questClientText.Colour = new Color(43, 28, 17);
             rightPage.Append(_questClientText);
 
@@ -206,12 +212,14 @@ namespace SpiritMod.UI
             mainWindow.Append(leftPage);
             mainWindow.Append(rightPage);
 
+			UpdateList();
+
 			SelectQuest(_allQuestButtons[_selectedQuestIndex].MyQuest);
 
 			Append(mainWindow);
         }
 
-        private UIQuestBookButtonTextPanel[] CreateButtons(float y, float textScale, bool equalWidths, params string[] texts)
+		private UIQuestBookButtonTextPanel[] CreateButtons(float y, float textScale, bool equalWidths, params string[] texts)
         {
             UIQuestBookButtonTextPanel[] array = new UIQuestBookButtonTextPanel[texts.Length];
             
@@ -254,6 +262,7 @@ namespace SpiritMod.UI
 
 		public void SelectQuest(Quest quest)
 		{
+			_questTitleText.Scale = quest.QuestTitleScale;
 			_questTitleText.Text = quest.QuestName;
 			_questClientTitle.Text = "Client - " + quest.QuestClient;
 			_questClientText.Text = quest.QuestDescription;
@@ -282,5 +291,76 @@ namespace SpiritMod.UI
                 buttons[i].IsSelected = (i == selectIndex);
             }
         }
-    }
+
+		private void UpdateList()
+		{
+			_questList.Clear();
+
+			IEnumerable<UISelectableQuest> orderedFilteredQuests = _allQuestButtons.ToList();
+
+			// filter by section
+			switch (_questSectionIndex)
+			{
+				case 0:
+					// get all inactive quests
+					orderedFilteredQuests = orderedFilteredQuests.Where(q => !q.MyQuest.QuestActive);
+					break;
+				case 1:
+					// get all active quests
+					orderedFilteredQuests = orderedFilteredQuests.Where(q => q.MyQuest.QuestActive);
+					break;
+				case 2:
+					// get all completed quests
+					orderedFilteredQuests = orderedFilteredQuests.Where(q => q.MyQuest.QuestCompleted);
+					break;
+			}
+
+			// filter by quest type
+			if (_questFilterIndex > 0)
+			{
+				int typeFilter = (int)QuestType.Other;
+				switch (_questFilterIndex)
+				{
+					case 1:
+						// get all Main quests
+						typeFilter = (int)QuestType.Main;
+						break;
+					case 2:
+						// get all Explorer quests
+						typeFilter = (int)QuestType.Explorer;
+						break;
+					case 3:
+						// get all Forager quests
+						typeFilter = (int)QuestType.Forager;
+						break;
+					case 4:
+						// get all Slayer quests
+						typeFilter = (int)QuestType.Slayer;
+						break;
+				}
+				orderedFilteredQuests = orderedFilteredQuests
+					.Where(q => ((int)q.MyQuest.QuestType & typeFilter) != 0)
+					.OrderBy(q => (q.MyQuest.QuestUnlocked ? -100 : 0) + q.MyQuest.Difficulty);
+			}
+			else
+			{
+				orderedFilteredQuests = orderedFilteredQuests
+					.OrderBy(q => (q.MyQuest.QuestUnlocked ? -10000000 : 0) + ((int)QuestUtils.GetBaseQuestType(q.MyQuest.QuestType)) * 1000 + q.MyQuest.Difficulty);
+			}
+
+			foreach (var quest in orderedFilteredQuests)
+			{
+				SpiritMod.Instance.Logger.Debug(quest.MyQuest.QuestName);
+				_questList.Add(quest);
+			}
+		}
+
+		public override void OnActivate()
+		{
+			// update this text every time we activate just to ensure no wrapping issues occur.
+			_questClientText?.UpdateText();
+
+			base.OnActivate();
+		}
+	}
 }

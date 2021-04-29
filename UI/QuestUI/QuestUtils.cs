@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.NPCs.Town.QuestSystem;
+using SpiritMod.Mechanics.QuestSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,18 +50,22 @@ namespace SpiritMod.UI.QuestUI
             Texture2D starImage = SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/Star");
             for (int i = 0; i < quest.Difficulty; i++)
             {
-                UIImage star = new UIImage(starImage);
+				UIImageFramed star = new UIImageFramed(starImage, starImage.Bounds);
                 star.Left.Set(pixels, 1f);
                 star.Top.Set(-8f, 0f);
                 pixels -= 13f;
                 panel.Append(star);
+				panel.Stars.Add(star);
             }
+
+			panel.Icon = image;
+			panel.Title = title;
 
             return panel;
         }
 
 		// https://stackoverflow.com/questions/15967240/fastest-implementation-of-log2int-and-log2float
-		private static int Log2(int v)
+		public static int Log2(int v)
 		{
 			int r = 0xFFFF - v >> 31 & 0x10;
 			v >>= r;
@@ -91,12 +95,10 @@ namespace SpiritMod.UI.QuestUI
 
 		public static QuestType GetBaseQuestType(QuestType type)
 		{
-			SpiritMod.instance.Logger.Debug("passed in: " + type);
 			for (int i = 0; i < QuestTypes.Length; i++)
 			{
 				if ((type & QuestTypes[i]) != 0)
 				{
-					SpiritMod.instance.Logger.Debug("returning: " + QuestTypes[i]);
 					return QuestTypes[i];
 				}
 			}
