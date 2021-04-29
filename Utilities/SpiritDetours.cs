@@ -39,16 +39,14 @@ namespace SpiritMod.Utilities
 		{
 			if (ModContent.GetInstance<SpiritClientConfig>().ShowNPCPortraits) 
 			{
-				var townNPCWhoAmI = Main.npc.Where((npc) => npc.townNPC && npc.active);
-				NPC talkNPC = townNPCWhoAmI.ElementAt(Main.LocalPlayer.talkNPC);
-				string name = talkNPC.GivenName; //Kinda ugly, might wanna clean up/optimize?
+				NPC talkNPC = Main.npc[Main.LocalPlayer.talkNPC];
+				string name = talkNPC.GivenName;
 
 				//Portrait
 				if (SpiritMod.Portraits.ContainsKey(talkNPC.type)) {
 					Main.spriteBatch.Draw(SpiritMod.Portraits[talkNPC.type], new Vector2(Main.screenWidth / 3 - 43, 104), null, Color.White, 0f, default, 1f, SpriteEffects.None, 0f); //Portrait
 
-					//Name
-					Vector2 textPos = new Vector2(Main.screenWidth / 3 + 10, 226) - (Terraria.UI.Chat.ChatManager.GetStringSize(Main.fontItemStack, name, new Vector2(ProfileNameScale)) / 2);
+					Vector2 textPos = new Vector2(Main.screenWidth / 3 + 10, 226) - (Terraria.UI.Chat.ChatManager.GetStringSize(Main.fontItemStack, name, new Vector2(ProfileNameScale)) / 2); //Name
 					Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, Main.fontItemStack, name, textPos, new Color(240, 240, 240), 0f, new Vector2(), new Vector2(ProfileNameScale), -1, 2f);
 				}
 			}
@@ -62,7 +60,6 @@ namespace SpiritMod.Utilities
 				SpiritMod.primitives.DrawTrailsProj();
 				SpiritMod.TrailManager.DrawTrails(Main.spriteBatch);
 			}
-
 			orig(self);
 		}
 

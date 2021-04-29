@@ -30,9 +30,9 @@ namespace SpiritMod.Items.Accessory.MoonlightSack
 			Player player = Main.player[item.owner];
 			float num7 = 5E-06f;
 			float num8 = 15 * player.minionDamage;
-			TooltipLine aga = new TooltipLine(mod, "summonDamageText", (int)(num8+num7) + " summon damage");
+			var aga = new TooltipLine(mod, "summonDamageText", (int)(num8+num7) + " summon damage");
 			tooltips.Add(aga);
-			TooltipLine aga2 = new TooltipLine(mod, "summonDamageText2", "Creates a chain of lightning between you and your minions that deal damage");
+			var aga2 = new TooltipLine(mod, "summonDamageText2", "Creates a chain of lightning between you and your minions that deal damage");
 			tooltips.Add(aga2);
 		}
 		public override void UpdateEquip(Player player)
@@ -42,31 +42,30 @@ namespace SpiritMod.Items.Accessory.MoonlightSack
 		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI) 
 		{
 			SpriteEffects spriteEffects = SpriteEffects.None;
-			Microsoft.Xna.Framework.Rectangle aga = Main.itemTexture[item.type].Frame(1, 1, 0, 0);
+			Rectangle aga = Main.itemTexture[item.type].Frame(1, 1, 0, 0);
 			Lighting.AddLight(new Vector2(item.Center.X, item.Center.Y), 0.075f, 0.231f, 0.255f);
-			Vector2 vector2_3 = new Vector2((float) (Main.itemTexture[item.type].Width / 2), (float) (Main.itemTexture[item.type].Height / 1 / 2));
+			var vector2_3 = new Vector2((float) (Main.itemTexture[item.type].Width / 2), (float) (Main.itemTexture[item.type].Height / 1 / 2));
 			spriteBatch.Draw(Main.itemTexture[item.type], item.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(aga), lightColor, rotation, vector2_3, item.scale, spriteEffects, 0);
 			float addY = 0f;
 			float addHeight = -2f;
 			int num7 = 5;
 			float num9 = (float) (Math.Cos((double) Main.GlobalTime % 2.40000009536743 / 2.40000009536743 * 6.28318548202515) / 1.0 + 0.5);
 			float num8 = 0f;
-			Microsoft.Xna.Framework.Color secondColor = Microsoft.Xna.Framework.Color.Yellow;
 			Texture2D texture = Main.itemTexture[item.type];
 			float num10 = 0.0f;
 			Vector2 bb = item.Center - Main.screenPosition - new Vector2((float) texture.Width, (float) (texture.Height / 1)) * item.scale / 2f + vector2_3 * item.scale + new Vector2(0.0f, addY + addHeight);
-			Microsoft.Xna.Framework.Color color2 = new Microsoft.Xna.Framework.Color((int) sbyte.MaxValue - item.alpha, (int) sbyte.MaxValue - item.alpha, (int) sbyte.MaxValue - item.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.White);
+			Color color2 = new Color((int) sbyte.MaxValue - item.alpha, (int) sbyte.MaxValue - item.alpha, (int) sbyte.MaxValue - item.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.White);
 			for (int index2 = 0; index2 < num7; ++index2)
 			{
-				Microsoft.Xna.Framework.Color newColor2 = color2;
-				Microsoft.Xna.Framework.Color faa = item.GetAlpha(newColor2) * (1f - num8);
+				Color newColor2 = color2;
+				Color faa = item.GetAlpha(newColor2) * (1f - num8);
 				Vector2 position2 = item.Center + ((float) ((double) index2 / (double) num7 * 6.28318548202515) + rotation + num10).ToRotationVector2() * (float) (2.0 * (double) num8 + 2.0) - Main.screenPosition - new Vector2((float) texture.Width, (float) (texture.Height / 1)) * item.scale / 2f + vector2_3 * item.scale + new Vector2(0.0f, addY + addHeight);
 				Main.spriteBatch.Draw(mod.GetTexture("Items/Accessory/MoonlightSack/Moonlight_Sack_Glow"), position2, new Microsoft.Xna.Framework.Rectangle?(aga), faa, rotation, vector2_3, item.scale, spriteEffects, 0.0f);
 			}
 			for (int index2 = 0; index2 < 4; ++index2)
 			{
-				Microsoft.Xna.Framework.Color newColor2 = color2;
-				Microsoft.Xna.Framework.Color faa = item.GetAlpha(newColor2) * (1f - num9);
+				Color newColor2 = color2;
+				Color faa = item.GetAlpha(newColor2) * (1f - num9);
 				Vector2 position2 = item.Center + ((float) ((double) index2 / (double) 4 * 6.28318548202515) + rotation + num10).ToRotationVector2() * (float) (4.0 * (double) num9 + 2.0) - Main.screenPosition - new Vector2((float) texture.Width, (float) (texture.Height / 1)) * item.scale / 2f + vector2_3 * item.scale + new Vector2(0.0f, addY + addHeight);
 				Vector2 pos2 = item.Center + ((float) ((double) index2 / (double) 4 * 6.28318548202515) + rotation + num10).ToRotationVector2() * (float) (2.0 * (double) num9 + 2.0) - Main.screenPosition - new Vector2((float) texture.Width, (float) (texture.Height / 1)) * item.scale / 2f + vector2_3 * item.scale + new Vector2(0.0f, addY + addHeight);
 				Main.spriteBatch.Draw(mod.GetTexture("Items/Accessory/MoonlightSack/Moonlight_Sack_Glow"), pos2, new Microsoft.Xna.Framework.Rectangle?(aga), color2, rotation, vector2_3, item.scale, spriteEffects, 0.0f);

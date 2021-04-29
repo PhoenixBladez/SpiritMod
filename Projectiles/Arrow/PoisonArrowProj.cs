@@ -38,6 +38,5 @@ namespace SpiritMod.Projectiles.Arrow
 			if (Main.rand.Next(5) == 0)
 				target.AddBuff(BuffID.Poisoned, 180);
 		}
-
 	}
 }

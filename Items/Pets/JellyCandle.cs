@@ -1,6 +1,8 @@
+using Microsoft.Xna.Framework;
 using SpiritMod.Buffs.Pet;
 using SpiritMod.Projectiles.Pet;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -24,19 +26,14 @@ namespace SpiritMod.Items.Pets
 
 		public override void UseStyle(Player player)
 		{
-			if (player.whoAmI == Main.myPlayer && player.itemTime == 0) {
+			if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
 				player.AddBuff(item.buffType, 3600, true);
-			}
 		}
 
-		public override bool CanUseItem(Player player)
-		{
-			return player.miscEquips[0].IsAir;
-		}
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return new Color(200, 200, 200, 100);
-		}
+		public override bool CanUseItem(Player player) => player.miscEquips[0].IsAir;
+
+		public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, 100);
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
