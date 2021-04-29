@@ -23,6 +23,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 		public virtual float QuestTitleScale => 0.8f;
 		public virtual string QuestDescription => "";
 		public virtual string QuestClient => "";
+		public Texture2D QuestImage { get; set; }
 
 		public bool QuestActive { get => _questActive; set { OnQuestActivityChanged?.Invoke(this, value); _questActive = value; } }
 		public bool QuestUnlocked { get => _questUnlocked; set { OnQuestUnlockChanged?.Invoke(this, value); _questUnlocked = value; } }
@@ -84,7 +85,5 @@ namespace SpiritMod.Mechanics.QuestSystem
 				}
 			}
 		}
-
-		public virtual void DrawQuestTexture(SpriteBatch spriteBatch, Rectangle area) { }
 	}
 }

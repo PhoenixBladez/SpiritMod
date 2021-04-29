@@ -34,9 +34,18 @@ namespace SpiritMod.UI
 		private UISimpleWrappableText _questObjectivesText;
         private UISimpleWrappableText _questClientText;
 		private UISimpleWrappableText _questClientTitle;
+		private UIShaderImage _questImage;
+
+		private Texture2D[] _imageMasks;
 
 		public override void OnInitialize()
         {
+			_imageMasks = new Texture2D[7];
+			for (int i =0; i < _imageMasks.Length; i++)
+			{
+				_imageMasks[i] = SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/ImageMask" + i);
+			}
+
             UIMoveExpandWindow mainWindow = new UIMoveExpandWindow(SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/AdventurerBook"), false, false, 10);
 
             mainWindow.Left.Set(450, 0);
@@ -173,8 +182,18 @@ namespace SpiritMod.UI
 			_questCategoryText.BorderColour = new Color(43, 28, 17) * 0.8f;
 			rightPage.Append(_questCategoryText);
 
-            // objectives title
-            UISimpleWrappableText objectivesTitle = new UISimpleWrappableText("Objectives", 0.8f);
+			// image
+			_questImage = new UIShaderImage(null);
+			_questImage.Effect = SpiritMod.Instance.GetEffect("Effects/Sepia");
+			_questImage.Pass = _questImage.Effect.CurrentTechnique.Passes["Sepia"];
+			_questImage.Effect.Parameters["SolidColour"].SetValue(new Color(43, 28, 17, 255).ToVector4());
+			_questImage.Top.Set(50f, 0f);
+			_questImage.Width.Set(0f, 1f);
+			_questImage.Height.Set(130f, 0f);
+			rightPage.Append(_questImage);
+
+			// objectives title
+			UISimpleWrappableText objectivesTitle = new UISimpleWrappableText("Objectives", 0.8f);
             objectivesTitle.Top.Set(187f, 0f);
             objectivesTitle.Colour = new Color(43, 28, 17);
             rightPage.Append(objectivesTitle);
@@ -264,6 +283,7 @@ namespace SpiritMod.UI
 		{
 			_questTitleText.Scale = quest.QuestTitleScale;
 			_questTitleText.Text = quest.QuestName;
+			_questImage.Texture = quest.QuestImage;
 			_questClientTitle.Text = "Client - " + quest.QuestClient;
 			_questClientText.Text = quest.QuestDescription;
 			_questClientText.UpdateText();
@@ -271,6 +291,10 @@ namespace SpiritMod.UI
 			_questCategoryText.Text = category.Item2;
 			_questCategoryText.Colour = category.Item1;
 			_questObjectivesText.Text = quest.GetObjectives(false);
+
+			// pick a "random" mask
+			int maskIndex = (quest.QuestName.Length * quest.QuestDescription.Length) % _imageMasks.Length;
+			_questImage.Effect.Parameters["AlphaMaskTexture"].SetValue(_imageMasks[maskIndex]);
 		}
 
         private UISolid CreateLine(float y)
@@ -361,6 +385,11 @@ namespace SpiritMod.UI
 			_questClientText?.UpdateText();
 
 			base.OnActivate();
+		}
+
+		public override void Draw(SpriteBatch spriteBatch)
+		{
+			base.Draw(spriteBatch);
 		}
 	}
 }

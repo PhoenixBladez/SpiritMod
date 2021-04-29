@@ -26,6 +26,13 @@ namespace SpiritMod.Mechanics.QuestSystem
             {
 				Quest q = (Quest)Activator.CreateInstance(type);
 
+				// load related quest image
+				string tex = "UI/QuestUI/Textures/Quests/" + type.Name;
+				if (SpiritMod.Instance.TextureExists(tex))
+				{
+					q.QuestImage = SpiritMod.Instance.GetTexture(tex);
+				}
+
 				Quests.Add(q);
 				_questDict[type] = q;
             }
