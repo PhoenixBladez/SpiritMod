@@ -122,7 +122,7 @@ namespace SpiritMod.Tiles.Furniture.Critters
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<BriarmothItem>(), 1);
-            recipe.AddIngredient(ItemID.Terrarium, 1);
+            recipe.AddIngredient(ItemID.Bottle, 1);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();
