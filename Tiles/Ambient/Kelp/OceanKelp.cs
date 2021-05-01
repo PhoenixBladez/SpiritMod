@@ -112,7 +112,7 @@ namespace SpiritMod.Tiles.Ambient.Kelp
             else if (Framing.GetTileSafely(i, j + 3).type != Type)
                 xOff *= 0.75f;
 
-            Rectangle source = new Rectangle(t.frameX, t.frameY, 16, 16); //Source rectangle used for drawing
+			var source = new Rectangle(t.frameX, t.frameY, 16, 16); //Source rectangle used for drawing
             if (t.frameX == 44)
             {
                 source = new Rectangle(t.frameX, t.frameY, 36, 16);

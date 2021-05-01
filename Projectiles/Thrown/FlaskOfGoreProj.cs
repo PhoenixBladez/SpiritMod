@@ -26,17 +26,16 @@ namespace SpiritMod.Projectiles.Thrown
 			projectile.ranged = true;
 			projectile.alpha = 0;
 		}
+
 		public override void Kill(int timeLeft)
 		{
 			Player player = Main.player[projectile.owner];
 			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 19));
             Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 107));
-            for (int j = 0; j < 4; j++) {
-				Gore.NewGore(new Vector2(projectile.position.X, projectile.position.Y), new Vector2(), Main.rand.Next(134, 137), 1);
-			}
-			if (Main.rand.Next(4) == 0 && !player.HasBuff(mod.BuffType("CrimsonSkullBuff")) && projectile.friendly) {
-				int p = Item.NewItem((int)projectile.position.X, (int)projectile.position.Y - 20, projectile.width, projectile.height, mod.ItemType("CrimsonSkull"));
-			}
+            for (int j = 0; j < 4; j++)
+				Gore.NewGore(projectile.position, new Vector2(), Main.rand.Next(134, 137), 1);
+			if (Main.rand.Next(4) == 0 && !player.HasBuff(ModContent.BuffType<CrimsonSkullBuff>()) && projectile.friendly)
+				Item.NewItem((int)projectile.position.X, (int)projectile.position.Y - 20, projectile.width, projectile.height, ModContent.ItemType<CrimsonSkull>());
 		}
 	}
 }

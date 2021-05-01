@@ -18,14 +18,9 @@ namespace SpiritMod.Tiles.Ambient
 			Main.tileLavaDeath[Type] = true;
 			Main.tileLighted[Type] = true;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
-			TileObjectData.newTile.Height = 3;
 			TileObjectData.newTile.Width = 2;
-			TileObjectData.newTile.CoordinateHeights = new int[]
-			{
-			16,
-			16,
-			16
-			};
+			TileObjectData.newTile.Height = 3;
+			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Pot");
