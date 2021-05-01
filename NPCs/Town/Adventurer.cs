@@ -72,7 +72,7 @@ namespace SpiritMod.NPCs.Town
 		}
 		public override void NPCLoot()
 		{
-			npc.DropItem(ModContent.ItemType<AdventurerMap>());
+			npc.DropItem(ItemType<AdventurerMap>());
 		}
 		public override string GetChat()
 		{
@@ -112,7 +112,6 @@ namespace SpiritMod.NPCs.Town
 
 		public override void SetupShop(Chest shop, ref int nextSlot)
 		{
-
 			AddItem(ref shop, ref nextSlot, ItemID.TrapsightPotion, 2000);
 			AddItem(ref shop, ref nextSlot, ItemID.DartTrap, 5000);
 			AddItem(ref shop, ref nextSlot, ItemType<WornSword>());

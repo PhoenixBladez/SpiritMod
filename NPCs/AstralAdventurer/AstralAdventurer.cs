@@ -512,7 +512,7 @@ namespace SpiritMod.NPCs.AstralAdventurer
 		{
 			if (npc.life <= 0)
 			{
-                Main.PlaySound(2, npc.Center, 14);
+                Main.PlaySound(SoundID.Item, npc.Center, 14);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AstralAdventurer/AstralAdventurerGore1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AstralAdventurer/AstralAdventurerGore2"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AstralAdventurer/AstralAdventurerGore3"), 1f);
@@ -520,9 +520,9 @@ namespace SpiritMod.NPCs.AstralAdventurer
 			}
 			for (int k = 0; k < 7; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 240, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.7f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 240, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.5f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 6, 2.5f * hitDirection, -2.5f, 0, default(Color), 1.2f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 240, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 240, 2.5f * hitDirection, -2.5f, 0, default, 0.5f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 6, 2.5f * hitDirection, -2.5f, 0, default, 1.2f);
 			}
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
