@@ -43,12 +43,12 @@ namespace SpiritMod.UI.QuestUI
 
 		private static Dictionary<QuestType, Color> ColorByType = new Dictionary<QuestType, Color>()
 		{
-			{QuestType.Main, new Color(102, 160, 255)},
-			{QuestType.Slayer, new Color(188, 38, 38)},
-			{QuestType.Forager, new Color(68, 163, 112)},
-			{QuestType.Explorer, new Color(153, 137, 196)},
-			{QuestType.Designer, new Color(183, 151, 62)},
-			{QuestType.Other, new Color(183, 71, 125)}
+			{QuestType.Main, new Color(234, 194, 107)},
+			{QuestType.Slayer, new Color(196, 66, 77)},
+			{QuestType.Forager, new Color(153, 196, 102)},
+			{QuestType.Explorer, new Color(186, 141, 117)},
+			{QuestType.Designer, new Color(125, 183, 224)},
+			{QuestType.Other, new Color(173, 117, 198)}
 		};
 		private static QuestType[] QuestTypes = (QuestType[])Enum.GetValues(typeof(QuestType));
 

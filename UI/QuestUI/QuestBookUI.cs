@@ -35,6 +35,7 @@ namespace SpiritMod.UI
         private UIQuestBookButtonTextPanel[] _questSectionButtons;
         private UIQuestBookButtonTextPanel[] _questFilterButtons;
         private UIModifiedList _questList;
+		private UISimpleWrappableText _questProgressCounterText;
 		private UISimpleWrappableText _questTitleText;
 		private UISimpleWrappableText _questCategoryText;
 		private UISimpleWrappableText _questObjectivesText;
@@ -50,6 +51,7 @@ namespace SpiritMod.UI
 		private List<UISolid> _rightPageLines;
 		private UIGridList _questRewardList;
 
+		private bool _showingWarning;
 		private Texture2D[] _imageMasks;
 
 		public override void OnInitialize()
@@ -96,7 +98,8 @@ namespace SpiritMod.UI
             {
                 int index = i;
                 _questSectionButtons[i].OnMouseDown += (UIMouseEvent evt, UIElement el) =>
-                {
+				{
+					ChangeFilter(0);
 					ChangeSection(index);
 				};
                 leftPage.Append(_questSectionButtons[i]);
@@ -127,7 +130,7 @@ namespace SpiritMod.UI
 			UIElement questContainer = new UIElement();
 			questContainer.Width.Set(0f, 1f);
 			questContainer.Top.Set(52f, 0f);
-			questContainer.Height.Set(-52f, 1f);
+			questContainer.Height.Set(-72f, 1f);
 			questContainer.SetPadding(0f);
 
             _questList = new UIModifiedList();
@@ -172,6 +175,15 @@ namespace SpiritMod.UI
 			questContainer.Append(questListScrollbar);
 			questContainer.Append(_questList);
 			leftPage.Append(questContainer);
+
+			_questProgressCounterText = new UISimpleWrappableText("", 0.8f);
+			_questProgressCounterText.Top.Set(-16f, 1f);
+			_questProgressCounterText.Left.Set(-50f, 1f);
+			_questProgressCounterText.Width.Set(50f, 0f);
+			_questProgressCounterText.Height.Set(16f, 0f);
+			_questProgressCounterText.Centered = true;
+			_questProgressCounterText.Colour = new Color(43, 28, 17);
+			leftPage.Append(_questProgressCounterText);
 
 			// quest title
 			_questTitleText = new UISimpleWrappableText("", 0.8f);
@@ -285,21 +297,33 @@ namespace SpiritMod.UI
 				}
 				else if (!SelectedQuest.IsActive)
 				{
-					QuestManager.ActivateQuest(_selectedQuestIndex);
-					ChangeSection(1); // change section to active section
-					UpdateCurrentQuest();
+					bool success = QuestManager.ActivateQuest(_selectedQuestIndex);
+					if (success)
+					{
+						ChangeSection(1); // change section to active section
+						UpdateCurrentQuest();
+					}
+					else
+					{
+						if (QuestManager.ActiveQuests.Count >= QuestManager.MAX_QUESTS_ACTIVE)
+						{
+							_interactionWarningText.Text = "You cannot activate any more quests.";
+						}
+					}
 				}
 				else
 				{
-					if (_interactionWarningText.Text.Length > 0)
+					if (_showingWarning)
 					{
 						QuestManager.DeactivateQuest(_selectedQuestIndex);
 						_interactionWarningText.Text = "";
+						_showingWarning = false;
 						return;
 					}
 
 					// show a warning
-					_interactionWarningText.Text = "Are you sure? You will [c/910000:lose your progress]."; 
+					_interactionWarningText.Text = "Are you sure? You will [c/910000:lose your progress].";
+					_showingWarning = true;
 				}
 			};
 
@@ -450,6 +474,7 @@ namespace SpiritMod.UI
 			}
 
 			_interactionWarningText.Text = "";
+			_showingWarning = false;
 
 			// show the undiscovered page.
 			if (!quest.IsUnlocked)
@@ -571,21 +596,24 @@ namespace SpiritMod.UI
 				case 0:
 					// get all inactive quests
 					orderedFilteredQuests = orderedFilteredQuests.Where(q => !q.MyQuest.IsActive && !q.MyQuest.IsCompleted);
+					_questProgressCounterText.Text = "";
 					break;
 				case 1:
 					// get all active quests
 					orderedFilteredQuests = orderedFilteredQuests.Where(q => q.MyQuest.IsActive);
+					_questProgressCounterText.Text = "(" + orderedFilteredQuests.Count() + "/" + QuestManager.MAX_QUESTS_ACTIVE + ")";
 					break;
 				case 2:
 					// get all completed quests
 					orderedFilteredQuests = orderedFilteredQuests.Where(q => q.MyQuest.IsCompleted);
+					_questProgressCounterText.Text = "(" + orderedFilteredQuests.Count() + "/" + QuestManager.Quests.Count + ")";
 					break;
 			}
 
 			// filter by quest type
 			if (_questFilterIndex > 0)
 			{
-				int typeFilter = (int)QuestType.Other;
+				int typeFilter = (int)QuestType.Other | (int)QuestType.Designer;
 				switch (_questFilterIndex)
 				{
 					case 1:

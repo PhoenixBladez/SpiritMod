@@ -11,6 +11,8 @@ namespace SpiritMod.Mechanics.QuestSystem
 {
     public static class QuestManager
     {
+		public const int MAX_QUESTS_ACTIVE = 5;
+
 		public static List<Quest> Quests { get; private set; }
 		public static List<Quest> ActiveQuests { get; private set; }
 		private static Dictionary<Type, Quest> _questDict;
@@ -51,25 +53,26 @@ namespace SpiritMod.Mechanics.QuestSystem
             ActiveQuests = null;
         }
 
-		public static void ActivateQuest(int index)
+		public static bool ActivateQuest(int index)
 		{
-			ActivateQuest(Quests[index]);
+			return ActivateQuest(Quests[index]);
 		}
 
-		public static void ActivateQuest(Quest quest)
+		public static bool ActivateQuest(Quest quest)
 		{
-			if (quest.IsActive) return;
-			if (ActiveQuests.Count >= 5)
+			if (quest.IsActive) return false;
+			if (ActiveQuests.Count >= MAX_QUESTS_ACTIVE)
 			{
 				// cannot activate quest.
-				// TODO: Show this in the book? warning message or something?
-				return;
+				return false;
 			}
 
 			// set to active.
 			quest.IsActive = true;
 
 			ActiveQuests.Add(quest);
+
+			return true;
 		}
 
 		public static void DeactivateQuest(int index)
