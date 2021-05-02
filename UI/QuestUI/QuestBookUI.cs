@@ -16,14 +16,20 @@ using SpiritMod.UI.QuestUI;
 
 using SpiritMod.Mechanics.QuestSystem;
 using SpiritMod.Mechanics.QuestSystem.Quests;
+using Terraria.UI.Chat;
 
 namespace SpiritMod.UI
 {
     public class QuestBookUI : UIState
     {
-        private int _questSectionIndex;
+		public const float SELECTED_OPACITY = 0.25f;
+		public const float HOVERED_OPACITY = 0.1f;
+
+		private int _questSectionIndex;
         private int _questFilterIndex;
         private int _selectedQuestIndex;
+		
+		public Quest SelectedQuest { get; private set; }
 
 		private UISelectableQuest[] _allQuestButtons;
         private UIQuestBookButtonTextPanel[] _questSectionButtons;
@@ -34,12 +40,21 @@ namespace SpiritMod.UI
 		private UISimpleWrappableText _questObjectivesText;
         private UISimpleWrappableText _questClientText;
 		private UISimpleWrappableText _questClientTitle;
+		private UISimpleWrappableText _questRewardsTitle;
+		private UISimpleWrappableText _questObjectivesTitle;
+		private UIShaderImage _obnoxiousTutorialGlow;
 		private UIShaderImage _questImage;
+		private UISimpleWrappableText _interactionWarningText;
+		private UISelectableOutlineRectPanel _questInteractButton;
+		private UISimpleWrappableText _questInteractText;
+		private List<UISolid> _rightPageLines;
+		private UIGridList _questRewardList;
 
 		private Texture2D[] _imageMasks;
 
 		public override void OnInitialize()
         {
+			_rightPageLines = new List<UISolid>();
 			_imageMasks = new Texture2D[7];
 			for (int i =0; i < _imageMasks.Length; i++)
 			{
@@ -47,7 +62,6 @@ namespace SpiritMod.UI
 			}
 
             UIMoveExpandWindow mainWindow = new UIMoveExpandWindow(SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/AdventurerBook"), false, false, 10);
-
             mainWindow.Left.Set(450, 0);
             mainWindow.Top.Set(230, 0);
             mainWindow.Width.Set(1019, 0);
@@ -71,7 +85,7 @@ namespace SpiritMod.UI
             rightPage.Left.Set(605f, 0f);
             rightPage.Top.Set(120f, 0f);
             rightPage.Width.Set(340f, 0f);
-            rightPage.Height.Set(470f, 0f);
+            rightPage.Height.Set(510f, 0f);
             rightPage.SetPadding(0);
 
             // top buttons
@@ -83,17 +97,14 @@ namespace SpiritMod.UI
                 int index = i;
                 _questSectionButtons[i].OnMouseDown += (UIMouseEvent evt, UIElement el) =>
                 {
-                    _questSectionIndex = index;
-                    ButtonArraySelect(index, _questSectionButtons);
-					// refresh
-					UpdateList();
+					ChangeSection(index);
 				};
                 leftPage.Append(_questSectionButtons[i]);
             }
             ButtonArraySelect(_questSectionIndex, _questSectionButtons);
             #endregion
 
-            leftPage.Append(CreateLine(22f));
+            leftPage.Append(CreateLine(22f, false));
 
             // bottom buttons
             #region bottom buttons
@@ -103,18 +114,15 @@ namespace SpiritMod.UI
             {
                 int index = i;
                 _questFilterButtons[i].OnMouseDown += (UIMouseEvent evt, UIElement el) =>
-                {
-                    _questFilterIndex = index;
-                    ButtonArraySelect(index, _questFilterButtons);
-					// refresh
-					UpdateList();
-                };
+				{
+					ChangeFilter(index);
+				};
                 leftPage.Append(_questFilterButtons[i]);
             }
             ButtonArraySelect(_questFilterIndex, _questFilterButtons);
             #endregion
 
-            leftPage.Append(CreateLine(48f));
+            leftPage.Append(CreateLine(48f, false));
 
 			UIElement questContainer = new UIElement();
 			questContainer.Width.Set(0f, 1f);
@@ -133,8 +141,12 @@ namespace SpiritMod.UI
 			_allQuestButtons = new UISelectableQuest[QuestManager.Quests.Count];
 			for (int i = 0; i < QuestManager.Quests.Count; i++)
 			{
-				_allQuestButtons[i] = QuestUtils.QuestAsPanel(QuestManager.Quests[i]);
-				QuestManager.Quests[i].OnQuestUnlockChanged += _allQuestButtons[i].HandleUnlock;
+				_allQuestButtons[i] = new UISelectableQuest(QuestManager.Quests[i], this);
+
+				QuestManager.Quests[i].OnQuestStateChanged += _allQuestButtons[i].HandleState;
+				QuestManager.Quests[i].OnQuestStateChanged += (Quest q) => FullBookUpdate();
+
+				_allQuestButtons[i].HandleState(QuestManager.Quests[i]);
 			}
 			for (int i = 0; i < _allQuestButtons.Length; i++)
 			{
@@ -143,8 +155,6 @@ namespace SpiritMod.UI
 				{
 					_selectedQuestIndex = index;
 					ButtonArraySelect(index, _allQuestButtons);
-
-					SelectQuest((el as UISelectableQuest).MyQuest);
 				};
 			}
 			ButtonArraySelect(_selectedQuestIndex, _allQuestButtons);
@@ -165,7 +175,7 @@ namespace SpiritMod.UI
 
 			// quest title
 			_questTitleText = new UISimpleWrappableText("", 0.8f);
-			_questTitleText.Top.Set(-8f, 0f);
+			_questTitleText.Top.Set(-26f, 0f);
 			_questTitleText.Width.Set(0f, 1f);
 			_questTitleText.Large = true;
 			_questTitleText.Centered = true;
@@ -173,62 +183,167 @@ namespace SpiritMod.UI
             rightPage.Append(_questTitleText);
 
             // quest category
-            _questCategoryText = new UISimpleWrappableText("", 0.8f);
-			_questCategoryText.Top.Set(26f, 0f);
+            _questCategoryText = new UISimpleWrappableText("", 1.08f);
+			_questCategoryText.Top.Set(21f, 0f);
 			_questCategoryText.Width.Set(0f, 1f);
 			_questCategoryText.Centered = true;
-			_questCategoryText.Scale = 1.08f;
 			_questCategoryText.Border = true;
 			_questCategoryText.BorderColour = new Color(43, 28, 17) * 0.8f;
 			rightPage.Append(_questCategoryText);
 
 			// image
 			_questImage = new UIShaderImage(null);
-			_questImage.Effect = SpiritMod.Instance.GetEffect("Effects/Sepia");
+			_questImage.Effect = SpiritMod.Instance.GetEffect("Effects/QuestShaders");
 			_questImage.Pass = _questImage.Effect.CurrentTechnique.Passes["Sepia"];
-			_questImage.Effect.Parameters["SolidColour"].SetValue(new Color(43, 28, 17, 255).ToVector4());
-			_questImage.Top.Set(50f, 0f);
+			_questImage.Top.Set(44f, 0f);
 			_questImage.Width.Set(0f, 1f);
 			_questImage.Height.Set(130f, 0f);
 			rightPage.Append(_questImage);
 
 			// objectives title
-			UISimpleWrappableText objectivesTitle = new UISimpleWrappableText("Objectives", 0.8f);
-            objectivesTitle.Top.Set(187f, 0f);
-            objectivesTitle.Colour = new Color(43, 28, 17);
-            rightPage.Append(objectivesTitle);
+			_questObjectivesTitle = new UISimpleWrappableText("Objectives", 0.8f);
+			_questObjectivesTitle.Top.Set(175f, 0f);
+			_questObjectivesTitle.Colour = new Color(43, 28, 17);
+            rightPage.Append(_questObjectivesTitle);
 
-            rightPage.Append(CreateLine(201f));
+            rightPage.Append(CreateLine(189f));
 
 			_questObjectivesText = new UISimpleWrappableText("", 0.7f);
-			_questObjectivesText.Top.Set(205f, 0f);
+			_questObjectivesText.Top.Set(195f, 0f);
 			_questObjectivesText.Colour = new Color(43, 28, 17);
             rightPage.Append(_questObjectivesText);
 
 			// client title
 			_questClientTitle = new UISimpleWrappableText("Client - ", 0.8f);
-			_questClientTitle.Top.Set(266f, 0f);
+			_questClientTitle.Top.Set(254f, 0f);
 			_questClientTitle.Colour = new Color(43, 28, 17);
             rightPage.Append(_questClientTitle);
 
-            rightPage.Append(CreateLine(280f));
+            rightPage.Append(CreateLine(268f));
 
             _questClientText = new UISimpleWrappableText("", 0.7f, false, true);
-			_questClientText.Top.Set(284f, 0f);
+			_questClientText.Top.Set(272f, 0f);
 			_questClientText.Width.Set(0f, 1f);
 			_questClientText.MinWidth.Set(0f, 1f);
 			_questClientText.Colour = new Color(43, 28, 17);
             rightPage.Append(_questClientText);
 
             // rewards title
-            UISimpleWrappableText rewardsTitle = new UISimpleWrappableText("Rewards", 0.8f);
-            rewardsTitle.Top.Set(404f, 0f);
-            rewardsTitle.Colour = new Color(43, 28, 17);
-            rightPage.Append(rewardsTitle);
+            _questRewardsTitle = new UISimpleWrappableText("Rewards", 0.8f);
+			_questRewardsTitle.Top.Set(392f, 0f);
+			_questRewardsTitle.Colour = new Color(43, 28, 17);
+            rightPage.Append(_questRewardsTitle);
 
-            rightPage.Append(CreateLine(418f));
+            rightPage.Append(CreateLine(406f));
 
-            mainWindow.Append(leftPage);
+			_questRewardList = new UIGridList();
+			_questRewardList.Top.Set(410, 0f);
+			_questRewardList.Height.Set(44f, 0f);
+			_questRewardList.Width.Set(0f, 1f);
+			_questRewardList.ItemSize = new Vector2(42);
+			_questRewardList.ListPadding = 4f;
+			rightPage.Append(_questRewardList);
+
+			_interactionWarningText = new UISimpleWrappableText("", 0.65f);
+			_interactionWarningText.Top.Set(459f, 0f);
+			_interactionWarningText.Left.Set(0f, 0f);
+			_interactionWarningText.Height.Set(22f, 0f);
+			_interactionWarningText.Width.Set(-106f, 1f);
+			_interactionWarningText.UseChatManager = true;
+			_interactionWarningText.Colour = new Color(43, 28, 17);
+			//_interactionWarningText.Centered = true;
+			rightPage.Append(_interactionWarningText);
+
+			_questInteractButton = new UISelectableOutlineRectPanel();
+			_questInteractButton.Top.Set(455f, 0f);
+			_questInteractButton.Left.Set(-110f, 1f);
+			_questInteractButton.Height.Set(22f, 0f);
+			_questInteractButton.Width.Set(110f, 0f);
+			_questInteractButton.DrawBorder = true;
+			_questInteractButton.SelectedFillColour = new Color(102, 86, 67) * SELECTED_OPACITY;
+			_questInteractButton.HoverFillColour = new Color(102, 86, 67) * HOVERED_OPACITY;
+			_questInteractButton.NormalOutlineColour = new Color(102, 86, 67) * 0.5f;
+			_questInteractButton.SelectedOutlineColour = new Color(102, 86, 67) * 0.9f;
+			_questInteractButton.HoverOutlineColour = new Color(102, 86, 67) * 0.7f;
+			_questInteractButton.OnMouseDown += (UIMouseEvent evt, UIElement listeningElement) => 
+			{
+				_questInteractButton.IsSelected = true;
+			};
+			_questInteractButton.OnMouseUp += (UIMouseEvent evt, UIElement listeningElement) =>
+			{
+				_questInteractButton.IsSelected = false;
+			};
+			_questInteractButton.OnClick += (UIMouseEvent evt, UIElement listeningElement) =>
+			{
+				if (SelectedQuest.RewardsGiven) return;
+
+				if (SelectedQuest.IsCompleted)
+				{
+					QuestManager.GiveRewards(SelectedQuest);
+					UpdateCurrentQuest();
+				}
+				else if (!SelectedQuest.IsActive)
+				{
+					QuestManager.ActivateQuest(_selectedQuestIndex);
+					ChangeSection(1); // change section to active section
+					UpdateCurrentQuest();
+				}
+				else
+				{
+					if (_interactionWarningText.Text.Length > 0)
+					{
+						QuestManager.DeactivateQuest(_selectedQuestIndex);
+						_interactionWarningText.Text = "";
+						return;
+					}
+
+					// show a warning
+					_interactionWarningText.Text = "Are you sure? You will [c/910000:lose your progress]."; 
+				}
+			};
+
+			_questInteractText = new UISimpleWrappableText("Activate");
+			_questInteractText.Centered = true;
+			_questInteractText.Top.Set(-9f, 0f);
+			_questInteractText.Width.Set(0f, 1f);
+			_questInteractText.Height.Set(0f, 1f);
+			_questInteractText.Scale = 0.8f;
+			_questInteractText.UpdateText();
+			_questInteractText.Colour = new Color(43, 28, 17);
+			_questInteractButton.Append(_questInteractText);
+			rightPage.Append(_questInteractButton);
+
+			_obnoxiousTutorialGlow = new UIShaderImage(Main.blackTileTexture);
+			_obnoxiousTutorialGlow.Top.Set(424f, 0f);
+			_obnoxiousTutorialGlow.Left.Set(-140f, 1f);
+			_obnoxiousTutorialGlow.Height.Set(82f, 0f);
+			_obnoxiousTutorialGlow.Width.Set(169f, 0f);
+			_obnoxiousTutorialGlow.Effect = SpiritMod.Instance.GetEffect("Effects/QuestShaders");
+			_obnoxiousTutorialGlow.Effect.Parameters["NoiseTexture"].SetValue(SpiritMod.Instance.GetTexture("Noise/noise"));
+			_obnoxiousTutorialGlow.Effect.Parameters["NoiseWidth"].SetValue(489f);
+			_obnoxiousTutorialGlow.Pass = _obnoxiousTutorialGlow.Effect.CurrentTechnique.Passes["GodRays"];
+			_obnoxiousTutorialGlow.PreDraw += () =>
+			{
+				var e = _obnoxiousTutorialGlow.Effect;
+				float radius = 30f;
+				Vector2 size = new Vector2(170f, 82f);
+				e.Parameters["GodRayRadius"].SetValue(radius);
+				e.Parameters["GodRayRadiusTimesPi"].SetValue(radius * MathHelper.Pi);
+				e.Parameters["GodRayMovementMultiplier"].SetValue(0.25f);
+				e.Parameters["GodRayRadiusTimesPiOverTwo"].SetValue(radius * MathHelper.PiOver2);
+				e.Parameters["RectSize"].SetValue(size);
+				e.Parameters["InnerRectSize"].SetValue(new Vector2(size.X - radius * 2f, size.Y - radius * 2f));
+				e.Parameters["RectCenter"].SetValue(size * 0.5f);
+				e.Parameters["Time"].SetValue((float)(Main._drawInterfaceGameTime.TotalGameTime.TotalSeconds));
+				e.Parameters["UVRectMinX"].SetValue(radius / size.X);
+				e.Parameters["UVRectMinY"].SetValue(radius / size.Y);
+				e.Parameters["UVRectMaxX"].SetValue((size.X - radius) / size.X);
+				e.Parameters["UVRectMaxY"].SetValue((size.Y - radius) / size.Y);
+				e.Parameters["GodRayColour"].SetValue(new Color(255, 243, 178, 255).ToVector4());
+			};
+			rightPage.Append(_obnoxiousTutorialGlow);
+
+			mainWindow.Append(leftPage);
             mainWindow.Append(rightPage);
 
 			UpdateList();
@@ -237,6 +352,17 @@ namespace SpiritMod.UI
 
 			Append(mainWindow);
         }
+
+		private void FullBookUpdate()
+		{
+			if (!(SpiritMod.Instance.BookUserInterface.CurrentState is QuestBookUI)) return;
+
+			ButtonArraySelect(_questSectionIndex, _questSectionButtons);
+			ButtonArraySelect(_questFilterIndex, _questFilterButtons);
+			ButtonArraySelect(_selectedQuestIndex, _allQuestButtons);
+			UpdateList();
+			UpdateCurrentQuest();
+		}
 
 		private UIQuestBookButtonTextPanel[] CreateButtons(float y, float textScale, bool equalWidths, params string[] texts)
         {
@@ -268,7 +394,10 @@ namespace SpiritMod.UI
             {
                 UIQuestBookButtonTextPanel button = new UIQuestBookButtonTextPanel(texts[i]);
                 button.TextScale = textScale;
-                button.Top.Set(y, 0f);
+				button.DrawFilled = true;
+				button.SelectedFillColour = new Color(102, 86, 67) * SELECTED_OPACITY;
+				button.HoverFillColour = new Color(102, 86, 67) * HOVERED_OPACITY;
+				button.Top.Set(y, 0f);
                 button.Left.Set(0f, totalPrec);
                 button.Width.Set(0f, widths[i]);
                 button.Height.Set(18f, 0f);
@@ -279,25 +408,137 @@ namespace SpiritMod.UI
             return array;
         }
 
-		public void SelectQuest(Quest quest)
+		private void UpdateCurrentQuest()
 		{
+			if (SelectedQuest == null) return;
+
+			if (SelectedQuest.IsCompleted) ChangeSection(2);
+			else if (SelectedQuest.IsActive) ChangeSection(1);
+			else ChangeSection(0);
+
+			SelectQuest(SelectedQuest, false);
+		}
+
+		public void SelectQuest(Quest quest, bool selectOnLeftPage = true)
+		{
+			// open book if not open.
+			if (!(SpiritMod.Instance.BookUserInterface.CurrentState is QuestBookUI))
+			{
+				QuestManager.SetBookState(true);
+			}
+
+			// this is here for external quest book openings.
+			if (selectOnLeftPage)
+			{
+				_questSectionIndex = quest.IsCompleted ? 2 : (quest.IsActive ? 1 : 0);
+				_questFilterIndex = 0;
+				for (int i = 0; i < _allQuestButtons.Length; i++)
+				{
+					if (_allQuestButtons[i].MyQuest == quest)
+					{
+						_selectedQuestIndex = i;
+						break;
+					}
+				}
+
+				_questList.Goto((UIElement el) => (el is UISelectableQuest q) && q.MyQuest == quest);
+
+				ButtonArraySelect(_questSectionIndex, _questSectionButtons);
+				ButtonArraySelect(_questFilterIndex, _questFilterButtons);
+				ButtonArraySelect(_selectedQuestIndex, _allQuestButtons);
+			}
+
+			_interactionWarningText.Text = "";
+
+			// show the undiscovered page.
+			if (!quest.IsUnlocked)
+			{
+				_questTitleText.Scale = 0.47f;
+				_questTitleText.Text = "This quest hasn't been discovered.";
+				_questTitleText.Top.Set(-14f, 0.5f);
+
+				_questImage.Texture = null;
+				_questClientText.Text = "";
+				_questCategoryText.Text = "";
+				_questObjectivesText.Text = "";
+				_questClientTitle.Text = "";
+				_questObjectivesTitle.Text = "";
+				_questRewardsTitle.Text = "";
+				_questRewardList.Clear();
+				_obnoxiousTutorialGlow.Texture = null;
+				// just move this off screen
+				_questInteractButton.Left.Set(-1000000f, 0f);
+
+				foreach (UISolid solid in _rightPageLines)
+				{
+					solid.Color = Color.Transparent;
+				}
+				return;
+			}
+
+			foreach (UISolid solid in _rightPageLines)
+			{
+				solid.Color = new Color(102, 86, 67);
+			}
+
+			if (quest.RewardsGiven)
+			{
+				// just move this off screen
+				_questInteractButton.Left.Set(-1000000f, 0f);
+			}
+			else
+			{
+				// bring the interact button back to the screen if it's gone
+				_questInteractButton.Left.Set(-110f, 1f);
+			}
+
+			_obnoxiousTutorialGlow.Texture = (quest.TutorialActivateButton && !quest.IsActive) ? Main.blackTileTexture : null;
+			_questTitleText.Top.Set(-8f, 0f);
 			_questTitleText.Scale = quest.QuestTitleScale;
 			_questTitleText.Text = quest.QuestName;
+			_questObjectivesTitle.Text = "Objectives";
+			_questRewardsTitle.Text = "Rewards";
 			_questImage.Texture = quest.QuestImage;
+			_questInteractText.Text = quest.IsCompleted ? "Claim rewards!" : (quest.IsActive ? "Deactivate" : "Activate");
 			_questClientTitle.Text = "Client - " + quest.QuestClient;
 			_questClientText.Text = quest.QuestDescription;
 			_questClientText.UpdateText();
 			(Color, string) category = QuestUtils.GetCategoryInfo(quest.QuestType);
 			_questCategoryText.Text = category.Item2;
 			_questCategoryText.Colour = category.Item1;
-			_questObjectivesText.Text = quest.GetObjectives(false);
+			_questObjectivesText.Text = quest.GetObjectives(quest.IsActive);
+
+			_questRewardList.Clear();
+			if (quest.QuestRewards != null)
+			{
+				foreach (var reward in quest.QuestRewards)
+				{
+					_questRewardList.Add(new UIRewardItem(reward.Item1, reward.Item2));
+				}
+			}
 
 			// pick a "random" mask
 			int maskIndex = (quest.QuestName.Length * quest.QuestDescription.Length) % _imageMasks.Length;
 			_questImage.Effect.Parameters["AlphaMaskTexture"].SetValue(_imageMasks[maskIndex]);
+
+			SelectedQuest = quest;
 		}
 
-        private UISolid CreateLine(float y)
+		private void ChangeSection(int newSection)
+		{
+			_questSectionIndex = newSection;
+			ButtonArraySelect(_questSectionIndex, _questSectionButtons);
+			UpdateList();
+		}
+
+		private void ChangeFilter(int newFilter)
+		{
+			_questFilterIndex = newFilter;
+			ButtonArraySelect(_questFilterIndex, _questFilterButtons);
+			UpdateList();
+		}
+
+		private UISolid CreateLine(float y, bool rightPage = true)
         {
             UISolid solid = new UISolid();
             solid.Left.Set(0f, 0f);
@@ -305,7 +546,8 @@ namespace SpiritMod.UI
             solid.Width.Set(0f, 1f);
             solid.Height.Set(1f, 0f);
             solid.Color = new Color(102, 86, 67);
-            return solid;
+			if (rightPage) _rightPageLines.Add(solid);
+			return solid;
         }
 
         private void ButtonArraySelect(int selectIndex, UISelectableOutlineRectPanel[] buttons)
@@ -327,15 +569,15 @@ namespace SpiritMod.UI
 			{
 				case 0:
 					// get all inactive quests
-					orderedFilteredQuests = orderedFilteredQuests.Where(q => !q.MyQuest.QuestActive);
+					orderedFilteredQuests = orderedFilteredQuests.Where(q => !q.MyQuest.IsActive && !q.MyQuest.IsCompleted);
 					break;
 				case 1:
 					// get all active quests
-					orderedFilteredQuests = orderedFilteredQuests.Where(q => q.MyQuest.QuestActive);
+					orderedFilteredQuests = orderedFilteredQuests.Where(q => q.MyQuest.IsActive);
 					break;
 				case 2:
 					// get all completed quests
-					orderedFilteredQuests = orderedFilteredQuests.Where(q => q.MyQuest.QuestCompleted);
+					orderedFilteredQuests = orderedFilteredQuests.Where(q => q.MyQuest.IsCompleted);
 					break;
 			}
 
@@ -364,17 +606,16 @@ namespace SpiritMod.UI
 				}
 				orderedFilteredQuests = orderedFilteredQuests
 					.Where(q => ((int)q.MyQuest.QuestType & typeFilter) != 0)
-					.OrderBy(q => (q.MyQuest.QuestUnlocked ? -100 : 0) + q.MyQuest.Difficulty);
+					.OrderBy(q => (q.MyQuest.IsUnlocked ? -100 : 0) + q.MyQuest.Difficulty);
 			}
 			else
 			{
 				orderedFilteredQuests = orderedFilteredQuests
-					.OrderBy(q => (q.MyQuest.QuestUnlocked ? -10000000 : 0) + ((int)QuestUtils.GetBaseQuestType(q.MyQuest.QuestType)) * 1000 + q.MyQuest.Difficulty);
+					.OrderBy(q => (q.MyQuest.IsUnlocked ? -10000000 : 0) + ((int)QuestUtils.GetBaseQuestType(q.MyQuest.QuestType)) * 1000 + q.MyQuest.Difficulty);
 			}
 
 			foreach (var quest in orderedFilteredQuests)
 			{
-				SpiritMod.Instance.Logger.Debug(quest.MyQuest.QuestName);
 				_questList.Add(quest);
 			}
 		}
@@ -384,11 +625,26 @@ namespace SpiritMod.UI
 			// update this text every time we activate just to ensure no wrapping issues occur.
 			_questClientText?.UpdateText();
 
+			SelectQuest(_allQuestButtons[_selectedQuestIndex].MyQuest, false);
+			UpdateList();
+
 			base.OnActivate();
+		}
+
+		public override void Update(GameTime gameTime)
+		{
+			if (SelectedQuest != null && SelectedQuest.IsActive)
+			{
+				_questObjectivesText.Text = SelectedQuest.GetObjectives(true);
+			}
+			base.Update(gameTime);
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)
 		{
+			var viewPort = Main.graphics.GraphicsDevice.Viewport;
+			_questImage.Effect.Parameters["MATRIX"].SetValue(Matrix.CreateOrthographicOffCenter(0, viewPort.Width, viewPort.Height, 0, 0, -1));
+
 			base.Draw(spriteBatch);
 		}
 	}

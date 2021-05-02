@@ -17,6 +17,7 @@ namespace SpiritMod.UI.Elements
 		public Texture2D Texture { get; set; }
 		public Effect Effect { get; set; }
 		public EffectPass Pass { get; set; }
+		public event Action PreDraw;
 
 		public UIShaderImage(Texture2D texture)
 		{
@@ -32,6 +33,8 @@ namespace SpiritMod.UI.Elements
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
 			if (Texture == null) return;
+
+			PreDraw?.Invoke();
 
 			CalculatedStyle dimensions = base.GetDimensions();
 			Rectangle? nullable = null;

@@ -23,47 +23,6 @@ namespace SpiritMod.UI.QuestUI
             spriteBatch.Draw(Main.blackTileTexture, new Rectangle(rect.X, rect.Bottom - 1, rect.Width, 1), null, colour);
         }
 
-        public static UISelectableQuest QuestAsPanel(Quest quest)
-        {
-			UISelectableQuest panel = new UISelectableQuest(quest);
-            panel.SelectedOutlineColour = new Color(102, 86, 67);
-            panel.HoverOutlineColour = new Color(102, 86, 67) * 0.5f;
-            panel.Height.Set(22f, 0f);
-            panel.Width.Set(0f, 1f);
-
-			// icon
-			QuestType baseType = GetBaseQuestType(quest.QuestType);
-            UIImageFramed image = new UIImageFramed(SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/Icons"), new Rectangle(Log2((int)baseType) * 18, 0, 18, 18));
-            image.Left.Set(-10f, 0f);
-            image.Top.Set(-10f, 0f);
-            panel.Append(image);
-
-            // text
-            UISimpleWrappableText title = new UISimpleWrappableText(quest.QuestName, 0.7f);
-            title.Left.Set(14f, 0f);
-            title.Top.Set(-8f, 0f);
-            title.Colour = new Color(43, 28, 17);
-            panel.Append(title);
-
-            // difficulty stars
-            float pixels = -5f;
-            Texture2D starImage = SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/Star");
-            for (int i = 0; i < quest.Difficulty; i++)
-            {
-				UIImageFramed star = new UIImageFramed(starImage, starImage.Bounds);
-                star.Left.Set(pixels, 1f);
-                star.Top.Set(-8f, 0f);
-                pixels -= 13f;
-                panel.Append(star);
-				panel.Stars.Add(star);
-            }
-
-			panel.Icon = image;
-			panel.Title = title;
-
-            return panel;
-        }
-
 		// https://stackoverflow.com/questions/15967240/fastest-implementation-of-log2int-and-log2float
 		public static int Log2(int v)
 		{

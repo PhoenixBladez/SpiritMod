@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.Localization;
 using Terraria.UI;
+using Terraria.UI.Chat;
 
 namespace SpiritMod.UI.Elements
 {
@@ -29,8 +30,9 @@ namespace SpiritMod.UI.Elements
 		public bool Large { get; set; }
 		public bool Centered { get; set; }
 		public bool Border { get; set; }
+		public bool UseChatManager { get; set; }
 		public Color BorderColour { get; set; }
-		protected DynamicSpriteFont Font { get => Large ? Main.fontDeathText : Main.fontMouseText; }
+		public DynamicSpriteFont Font { get => Large ? Main.fontDeathText : Main.fontMouseText; }
 		private float _drawOffsetX;
 		protected bool _wrappable;
 
@@ -47,11 +49,25 @@ namespace SpiritMod.UI.Elements
 		{
 			if (_wrappable)
 			{
-				WrapText();
+				if (UseChatManager)
+				{
+					SpiritMod.Instance.Logger.Debug("Trying to use ChatManager for SimpleWrappableText isn't possible at the moment.");
+				}
+				else
+				{
+					WrapText();
+				}
 			}
 			if (Centered)
 			{
-				_drawOffsetX = Font.MeasureString(_text).X * 0.5f * Scale;
+				if (UseChatManager)
+				{
+					_drawOffsetX = ChatManager.GetStringSize(Font, _text, new Vector2(Scale)).X;
+				}
+				else
+				{
+					_drawOffsetX = Font.MeasureString(_text).X * 0.5f * Scale;
+				}
 			}
 		}
 
@@ -91,6 +107,20 @@ namespace SpiritMod.UI.Elements
 			if (Centered) tl = new Vector2(GetDimensions().Center().X, tl.Y);
 
 			Vector2 pos = tl - Vector2.UnitX * _drawOffsetX;
+			if (UseChatManager)
+			{
+				TextSnippet[] array = ChatManager.ParseMessage(Text, Colour).ToArray();
+				ChatManager.ConvertNormalSnippets(array);
+				if (Border)
+				{
+					ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Font, array, pos, 0f, Vector2.Zero, new Vector2(Scale), out int hov);
+				}
+				else
+				{
+					ChatManager.DrawColorCodedString(spriteBatch, Font, array, pos, Colour, 0f, Vector2.Zero, new Vector2(Scale), out int hov2, -1f);
+				}
+				return;
+			}
 			if (Border)
 			{
 				DynamicSpriteFontExtensionMethods.DrawString(spriteBatch, Font, Text, pos + Vector2.UnitX, BorderColour, 0f, Vector2.Zero, Scale, SpriteEffects.None, 0f);

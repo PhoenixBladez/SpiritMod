@@ -48,9 +48,6 @@ namespace SpiritMod.UI.Elements
 		{
 			_textAffectsSize = textAffectsSize;
 
-			SelectedOutlineColour = new Color(102, 86, 67);
-			HoverOutlineColour = new Color(102, 86, 67) * 0.5f;
-
 			this.SetText(text, textScale, large);
 		}
 
