@@ -86,6 +86,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 			// set to not active.
 			quest.IsActive = false;
+			quest.ResetProgress();
 		}
 
 		public static void GiveRewards(Quest quest)

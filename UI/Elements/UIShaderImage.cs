@@ -17,6 +17,7 @@ namespace SpiritMod.UI.Elements
 		public Texture2D Texture { get; set; }
 		public Effect Effect { get; set; }
 		public EffectPass Pass { get; set; }
+		public bool PointSample { get; set; }
 		public event Action PreDraw;
 
 		public UIShaderImage(Texture2D texture)
@@ -39,7 +40,7 @@ namespace SpiritMod.UI.Elements
 			CalculatedStyle dimensions = base.GetDimensions();
 			Rectangle? nullable = null;
 			spriteBatch.End();
-			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.AnisotropicClamp, DepthStencilState.None, _overflowRaster, null, Main.UIScaleMatrix);
+			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, PointSample ? SamplerState.PointClamp : SamplerState.AnisotropicClamp, DepthStencilState.None, _overflowRaster, null, Main.UIScaleMatrix);
 
 			Pass.Apply();
 			spriteBatch.Draw(this.Texture, dimensions.ToRectangle(), nullable, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0f);

@@ -62,9 +62,9 @@ namespace SpiritMod.Mechanics.QuestSystem
 			return builder.ToString();
 		}
 
-		public virtual void ResetProgress()
+		public virtual void ResetProgress(bool resetCompletion = false)
 		{
-			IsCompleted = false;
+			if (resetCompletion) IsCompleted = false;
 
 			foreach (IQuestSection section in _questSections)
 			{

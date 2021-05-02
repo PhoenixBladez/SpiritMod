@@ -195,6 +195,7 @@ namespace SpiritMod.UI
 			_questImage = new UIShaderImage(null);
 			_questImage.Effect = SpiritMod.Instance.GetEffect("Effects/QuestShaders");
 			_questImage.Pass = _questImage.Effect.CurrentTechnique.Passes["Sepia"];
+			_questImage.PointSample = true;
 			_questImage.Top.Set(44f, 0f);
 			_questImage.Width.Set(0f, 1f);
 			_questImage.Height.Set(130f, 0f);
