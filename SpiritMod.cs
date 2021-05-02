@@ -705,6 +705,9 @@ namespace SpiritMod
 				Portraits.Add(NPCID.Wizard, GetTexture("NPCs/Portraits/Wizard"));
 				Portraits.Add(NPCID.Dryad, GetTexture("NPCs/Portraits/Dryad"));
 				Portraits.Add(ModContent.NPCType<Gambler>(), GetTexture("NPCs/Portraits/Gambler"));
+				Portraits.Add(NPCID.ArmsDealer, GetTexture("NPCs/Portraits/ArmsDealer"));
+				Portraits.Add(NPCID.Nurse, GetTexture("NPCs/Portraits/Nurse"));
+				Portraits.Add(NPCID.SkeletonMerchant, GetTexture("NPCs/Portraits/SkeletonMerchant"));
 			}
 			primitives = new PrimTrailManager();
 			AdditiveCallManager.Load();
