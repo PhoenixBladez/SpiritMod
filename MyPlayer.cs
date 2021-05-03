@@ -382,6 +382,7 @@ namespace SpiritMod
         public int timeLeft = 0;
         public int infernalHit;
         public int infernalDash;
+		public bool longFuse;
 
         public bool windEffect;
         public bool windEffect2;
@@ -554,6 +555,7 @@ namespace SpiritMod
             }
             return null;
         }
+
         public override TagCompound Save()
         {
             TagCompound tag = new TagCompound
@@ -800,6 +802,7 @@ namespace SpiritMod
             shadowGauntlet = false;
             moonGauntlet = false;
             unboundSoulMinion = false;
+			longFuse = false;
 
             if (player.FindBuffIndex(ModContent.BuffType<BeetleFortitude>()) < 0)
                 beetleStacks = 1;
