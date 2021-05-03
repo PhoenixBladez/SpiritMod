@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Mechanics.QuestSystem
@@ -15,8 +17,9 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public static List<Quest> Quests { get; private set; }
 		public static List<Quest> ActiveQuests { get; private set; }
-		private static Dictionary<Type, Quest> _questDict;
+		public static bool QuestBookUnlocked { get; set; }
 
+		private static Dictionary<Type, Quest> _questDict;
 		private static int _serverSyncCounter;
 
         public static void Load()
@@ -38,6 +41,8 @@ namespace SpiritMod.Mechanics.QuestSystem
 					q.QuestImage = SpiritMod.Instance.GetTexture(tex);
 				}
 
+				q.WhoAmI = Quests.Count;
+
 				Quests.Add(q);
 				_questDict[type] = q;
 			}
@@ -51,6 +56,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 
             Quests = null;
             ActiveQuests = null;
+			_questDict = null;
         }
 
 		public static bool ActivateQuest(int index)
@@ -135,7 +141,30 @@ namespace SpiritMod.Mechanics.QuestSystem
         {
 			if (_questDict.TryGetValue(typeof(T), out Quest q)) return q;
             return null;
-        }
+		}
+
+		public static void UnlockQuest<T>(bool showInChat = true)
+		{
+			Quest q = GetQuest<T>();
+			if (q == null) return;
+
+			UnlockQuest(q, showInChat);
+		}
+
+		public static void UnlockQuest(Quest quest, bool showInChat = true)
+		{
+			if (quest.IsUnlocked) return;
+
+			quest.IsUnlocked = true;
+
+			if (showInChat)
+			{
+				string text = "You have unlocked a new quest! [[sQ/" + quest.WhoAmI + ":" + quest.QuestName + "]]";
+
+				if (Main.netMode == NetmodeID.SinglePlayer) Main.NewText(text, 255, 255, 255, false);
+				else if (Main.netMode == NetmodeID.Server) NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(text), Color.White, -1);
+			}
+		}
 
 		public static void SetBookState(bool open)
 		{

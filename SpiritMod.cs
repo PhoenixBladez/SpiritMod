@@ -12,6 +12,7 @@ using SpiritMod.Utilities;
 using SpiritMod.World;
 using SpiritMod.Sounds;
 using System;
+using System.Reflection;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
@@ -25,6 +26,7 @@ using Terraria.UI;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Utilities;
+using Terraria.UI.Chat;
 using SpiritMod.Prim;
 using SpiritMod.Items.Weapon.Bow.GemBows.Emerald_Bow;
 using SpiritMod.Items.Weapon.Bow.GemBows.Ruby_Bow;
@@ -33,8 +35,9 @@ using SpiritMod.Items.Weapon.Bow.GemBows.Topaz_Bow;
 using SpiritMod.Items.Consumable;
 using SpiritMod.NPCs.AuroraStag;
 using SpiritMod.Particles;
-using SpiritMod.UI;
+using SpiritMod.UI.QuestUI;
 using SpiritMod.Mechanics.QuestSystem;
+using System.Collections.Concurrent;
 
 namespace SpiritMod
 {
@@ -218,7 +221,7 @@ namespace SpiritMod
 
 		public override void UpdateMusic(ref int music, ref MusicPriority priority)
 		{
-			var config = ModContent.GetInstance<SpiritClientConfig>();
+			var config = ModContent.GetInstance<SpiritMusicConfig>();
 
 			if (Main.gameMenu)
 				return;
@@ -701,6 +704,9 @@ namespace SpiritMod
 			primitives = new PrimTrailManager();
 			AdditiveCallManager.Load();
 			// LoadDetours();
+
+			// using a mildly specific name to avoid mod clashes
+			ChatManager.Register<UI.Chat.QuestTagHandler>(new string[] { "sq", "spiritQuest" });
 		}
 
 		/// <summary>
@@ -800,6 +806,10 @@ namespace SpiritMod
 			Items.Glyphs.GlyphBase.UninitGlyphLookup();
 			primitives = null;
 			//UnloadDetours();
+
+			// remove any custom chat tag handlers
+			ConcurrentDictionary<string, ITagHandler> handlerDict = (ConcurrentDictionary<string, ITagHandler>)typeof(ChatManager).GetField("_handlers", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
+			handlerDict.TryRemove("spiritQuest", out var ignore);
 		}
         internal static string GetWeatherRadioText(string key)
         {
@@ -986,7 +996,7 @@ namespace SpiritMod
 			}
 		}
 
-
+		private bool _questBookHover;
 		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
 		{
 			int inventoryIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));
@@ -994,6 +1004,47 @@ namespace SpiritMod
 				layers.Insert(inventoryIndex, new LegacyGameInterfaceLayer(
 					"SpiritMod: BookUI",
 					delegate {
+						if (Main.playerInventory && QuestManager.QuestBookUnlocked)
+						{
+							Texture2D bookTexture = SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/QuestBookInventoryButton");
+							Vector2 bookSize = new Vector2(50, 52);
+							QuestUtils.QuestInvLocation loc = ModContent.GetInstance<SpiritClientConfig>().QuestBookLocation;
+							Vector2 position = Vector2.Zero;
+							switch (loc)
+							{
+								case QuestUtils.QuestInvLocation.Minimap:
+									position = new Vector2(Main.miniMapX - bookSize.X - 10, Main.miniMapY + 4);
+									break;
+								case QuestUtils.QuestInvLocation.Trashcan:
+									position = new Vector2(388, 258);
+									break;
+								case QuestUtils.QuestInvLocation.FarLeft:
+									position = new Vector2(20, 258);
+									break;
+							}
+							Rectangle frame = new Rectangle(0, 0, 50, 52);
+							bool hover = false;
+							if (Main.MouseScreen.Between(position, position + bookSize))
+							{
+								hover = true;
+								frame.X = 50;
+								Main.LocalPlayer.mouseInterface = true;
+								if (Main.mouseLeft && Main.mouseLeftRelease)
+								{
+									Main.mouseLeftRelease = false;
+									QuestManager.SetBookState(true);
+								}
+							}
+
+							if (hover != _questBookHover)
+							{
+								_questBookHover = hover;
+								Main.PlaySound(SoundID.MenuTick);
+							}
+
+							Main.spriteBatch.Draw(bookTexture, position, frame, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+						}
+
 						BookUserInterface.Draw(Main.spriteBatch, new GameTime());
 						return true;
 					},

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
@@ -19,7 +20,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public SlayerQuestUGDesert()
         {
-            _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
+            _questSections.Add(new KillSection(new int[] { NPCID.TombCrawlerHead, NPCID.FlyingAntlion, NPCID.WalkingAntlion}, 8, "Underground desert enemies"));
         }
     }
 }

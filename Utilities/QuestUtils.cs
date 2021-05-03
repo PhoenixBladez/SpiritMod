@@ -11,10 +11,17 @@ using Terraria.UI;
 using Terraria.GameContent.UI.Elements;
 using SpiritMod.UI.Elements;
 
-namespace SpiritMod.UI.QuestUI
+namespace SpiritMod.Utilities
 {
     public static class QuestUtils
     {
+		public enum QuestInvLocation
+		{
+			Minimap,
+			Trashcan,
+			FarLeft
+		}
+
         public static void DrawRectangleBorder(SpriteBatch spriteBatch, Rectangle rect, Color colour)
         {
             spriteBatch.Draw(Main.blackTileTexture, new Rectangle(rect.X, rect.Y, rect.Width, 1), null, colour);
@@ -69,6 +76,16 @@ namespace SpiritMod.UI.QuestUI
 			QuestType baseType = GetBaseQuestType(type);
 
 			return (ColorByType[baseType], baseType.ToString());
+		}
+
+		public static string GetPluralEnding(int value, string word)
+		{
+			if (value > 1)
+			{
+				if (word.Last() != 's') return "s";
+				return "\'";
+			}
+			return "";
 		}
 	}
 }

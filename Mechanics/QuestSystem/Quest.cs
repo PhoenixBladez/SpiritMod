@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Terraria;
+using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Mechanics.QuestSystem
@@ -42,6 +45,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 		public bool IsUnlocked { get => _questUnlocked; set { _questUnlocked = value; OnQuestStateChanged?.Invoke(this); } }
 		public bool IsCompleted { get => _questCompleted; set { _questCompleted = value; OnQuestStateChanged?.Invoke(this); } }
 		public bool RewardsGiven { get => rewardsGiven; set { rewardsGiven = value; OnQuestStateChanged?.Invoke(this); } }
+		public int WhoAmI { get; set; }
 
 		public event Action<Quest> OnQuestStateChanged;
 
@@ -77,6 +81,11 @@ namespace SpiritMod.Mechanics.QuestSystem
 		public virtual void OnQuestComplete()
 		{
 			IsCompleted = true;
+
+			string text = "You have completed a new quest! [[sQ/" + WhoAmI + ":" + QuestName + "]]";
+
+			if (Main.netMode == NetmodeID.SinglePlayer) Main.NewText(text, 255, 255, 255, false);
+			else if (Main.netMode == NetmodeID.Server) NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(text), Color.White, -1);
 		}
 
 		public virtual void OnActivate()

@@ -4081,9 +4081,10 @@ namespace SpiritMod
 
         public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
+			// TODO: Remove
 			foreach (var quest in Mechanics.QuestSystem.QuestManager.Quests)
 			{
-				quest.IsUnlocked = true;
+				//Mechanics.QuestSystem.QuestManager.UnlockQuest(quest);
 				//break;
 			}
 

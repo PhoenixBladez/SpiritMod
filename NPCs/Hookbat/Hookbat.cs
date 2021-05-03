@@ -197,10 +197,6 @@ namespace SpiritMod.NPCs.Hookbat
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (MyWorld.spawnHookbats)
-            {
-               return spawnInfo.spawnTileY < Main.rockLayer && (!Main.dayTime) && spawnInfo.player.ZoneOverworldHeight && !NPC.AnyNPCs(ModContent.NPCType<Hookbat>())? 0.75f : 0f; 
-            }
             return spawnInfo.spawnTileY < Main.rockLayer && (!Main.dayTime) && spawnInfo.player.ZoneOverworldHeight && !NPC.AnyNPCs(ModContent.NPCType<Hookbat>())? 0.003f : 0f;
 
         }
@@ -216,13 +212,6 @@ namespace SpiritMod.NPCs.Hookbat
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hookbat/Hookbat2"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hookbat/Hookbat3"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hookbat/Hookbat1"), 1f);
-            }
-        }
-        public override void NPCLoot()
-        {
-            if (!Main.LocalPlayer.HasItem(ModContent.ItemType<Items.Consumable.Quest.DurasilkSheaf>()))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Consumable.Quest.DurasilkSheaf>());
             }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

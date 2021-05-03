@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 using Terraria;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
 {
@@ -21,12 +20,12 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
-			(ItemType<Items.Armor.CapacitorSet.CapacitorHead>(), 1),
-			(ItemType<Items.Armor.CapacitorSet.CapacitorBody>(), 1),
-			(ItemType<Items.Armor.CapacitorSet.CapacitorLegs>(), 1),
+			(ModContent.ItemType<Items.Armor.CapacitorSet.CapacitorHead>(), 1),
+			(ModContent.ItemType<Items.Armor.CapacitorSet.CapacitorBody>(), 1),
+			(ModContent.ItemType<Items.Armor.CapacitorSet.CapacitorLegs>(), 1),
 			(Terraria.ID.ItemID.NightVisionHelmet, 1),
-			(ItemType<Items.Placeable.MusicBox.GraniteBox>(), 1),
-			(ItemType<Items.Consumable.MapScroll>(), 2),
+			(ModContent.ItemType<Items.Placeable.MusicBox.GraniteBox>(), 1),
+			(ModContent.ItemType<Items.Consumable.MapScroll>(), 2),
 			(Terraria.ID.ItemID.GoldCoin, 3)
 		};
 

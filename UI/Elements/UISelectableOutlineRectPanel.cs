@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Terraria.GameContent.UI.Elements;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.UI.QuestUI;
+using SpiritMod.Utilities;
 using Terraria;
 using Terraria.UI;
 
@@ -31,7 +31,13 @@ namespace SpiritMod.UI.Elements
 			DrawFilled = true;
 		}
 
-        protected override void DrawSelf(SpriteBatch spriteBatch)
+		public override void MouseOver(UIMouseEvent evt)
+		{
+			Main.PlaySound(Terraria.ID.SoundID.MenuTick);
+			base.MouseOver(evt);
+		}
+
+		protected override void DrawSelf(SpriteBatch spriteBatch)
         {
             if (IsMouseHovering || IsSelected)
             {

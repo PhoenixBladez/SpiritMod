@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 using Terraria.GameContent.UI.Elements;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.UI.QuestUI;
+using SpiritMod.Utilities;
 using Terraria.UI;
 using SpiritMod.Mechanics.QuestSystem;
+using SpiritMod.UI.QuestUI;
 
 namespace SpiritMod.UI.Elements
 {
@@ -71,6 +72,13 @@ namespace SpiritMod.UI.Elements
 			Append(Exclamation);
 
 			MyQuest = quest;
+		}
+
+		public override void MouseOver(UIMouseEvent evt)
+		{
+			Exclamation.Color = Color.Transparent;
+			_showExcl = false;
+			base.MouseOver(evt);
 		}
 
 		public override void MouseDown(UIMouseEvent evt)

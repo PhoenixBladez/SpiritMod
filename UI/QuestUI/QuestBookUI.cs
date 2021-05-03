@@ -12,13 +12,12 @@ using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
 
 using SpiritMod.UI.Elements;
-using SpiritMod.UI.QuestUI;
-
+using SpiritMod.Utilities;
 using SpiritMod.Mechanics.QuestSystem;
 using SpiritMod.Mechanics.QuestSystem.Quests;
 using Terraria.UI.Chat;
 
-namespace SpiritMod.UI
+namespace SpiritMod.UI.QuestUI
 {
     public class QuestBookUI : UIState
     {
@@ -57,8 +56,8 @@ namespace SpiritMod.UI
 		public override void OnInitialize()
         {
 			_rightPageLines = new List<UISolid>();
-			_imageMasks = new Texture2D[7];
-			for (int i =0; i < _imageMasks.Length; i++)
+			_imageMasks = new Texture2D[15];
+			for (int i = 0; i < _imageMasks.Length; i++)
 			{
 				_imageMasks[i] = SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/ImageMask" + i);
 			}
@@ -339,10 +338,10 @@ namespace SpiritMod.UI
 			rightPage.Append(_questInteractButton);
 
 			_obnoxiousTutorialGlow = new UIShaderImage(Main.blackTileTexture);
-			_obnoxiousTutorialGlow.Top.Set(424f, 0f);
-			_obnoxiousTutorialGlow.Left.Set(-140f, 1f);
-			_obnoxiousTutorialGlow.Height.Set(82f, 0f);
-			_obnoxiousTutorialGlow.Width.Set(169f, 0f);
+			_obnoxiousTutorialGlow.Top.Set(414f, 0f);
+			_obnoxiousTutorialGlow.Left.Set(-150f, 1f);
+			_obnoxiousTutorialGlow.Height.Set(102f, 0f);
+			_obnoxiousTutorialGlow.Width.Set(189f, 0f);
 			_obnoxiousTutorialGlow.Effect = SpiritMod.Instance.GetEffect("Effects/QuestShaders");
 			_obnoxiousTutorialGlow.Effect.Parameters["NoiseTexture"].SetValue(SpiritMod.Instance.GetTexture("Noise/noise"));
 			_obnoxiousTutorialGlow.Effect.Parameters["NoiseWidth"].SetValue(489f);
@@ -350,8 +349,8 @@ namespace SpiritMod.UI
 			_obnoxiousTutorialGlow.PreDraw += () =>
 			{
 				var e = _obnoxiousTutorialGlow.Effect;
-				float radius = 30f;
-				Vector2 size = new Vector2(170f, 82f);
+				float radius = 40f;
+				Vector2 size = new Vector2(190f, 102f);
 				e.Parameters["GodRayRadius"].SetValue(radius);
 				e.Parameters["GodRayRadiusTimesPi"].SetValue(radius * MathHelper.Pi);
 				e.Parameters["GodRayMovementMultiplier"].SetValue(0.25f);
@@ -466,6 +465,8 @@ namespace SpiritMod.UI
 					}
 				}
 
+				UpdateList();
+
 				_questList.Goto((UIElement el) => (el is UISelectableQuest q) && q.MyQuest == quest);
 
 				ButtonArraySelect(_questSectionIndex, _questSectionButtons);
@@ -518,7 +519,7 @@ namespace SpiritMod.UI
 				_questInteractButton.Left.Set(-110f, 1f);
 			}
 
-			_obnoxiousTutorialGlow.Texture = (quest.TutorialActivateButton && !quest.IsActive) ? Main.blackTileTexture : null;
+			_obnoxiousTutorialGlow.Texture = (quest.TutorialActivateButton && !quest.IsActive && !quest.RewardsGiven) ? Main.blackTileTexture : null;
 			_questTitleText.Top.Set(-8f, 0f);
 			_questTitleText.Scale = quest.QuestTitleScale;
 			_questTitleText.Text = quest.QuestName;

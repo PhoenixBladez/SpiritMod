@@ -203,12 +203,8 @@ namespace SpiritMod.NPCs.Town
 			}
 			else
 			{
-				//Main.LocalPlayer.talkNPC = -1;
-				// inventory should already be closed but im paranoid
-				//if (!Main.playerInventory) Main.LocalPlayer.ToggleInv();
-				Mechanics.QuestSystem.QuestManager.SetBookState(true);
-
-				// TODO: clicking this gives quest book if not unlocked already
+				Mechanics.QuestSystem.QuestManager.QuestBookUnlocked = true;
+				Mechanics.QuestSystem.QuestManager.UnlockQuest<Mechanics.QuestSystem.Quests.FirstAdventure>(false);
 			}
 		}
 	}

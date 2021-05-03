@@ -86,38 +86,71 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 	public class KillSection : IQuestSection
 	{
-		private int _monsterID;
+		private int[] _monsterIDs;
 		private int _killsRequired;
 		private int _killCount;
+		private string _monsterNameOverride;
 
-		public KillSection(int monsterID, int amount)
+		public KillSection(int monsterID, int amount, string monsterNameOverride = null)
 		{
-			_monsterID = monsterID;
+			_monsterIDs = new int[] { monsterID };
 			_killsRequired = amount;
+			_monsterNameOverride = monsterNameOverride;
+		}
+
+		public KillSection(int[] monsterIDs, int amount, string monsterNameOverride = null)
+		{
+			_monsterIDs = monsterIDs;
+			_killsRequired = amount;
+			_monsterNameOverride = monsterNameOverride;
 		}
 
 		public string GetObjectives(bool showProgress)
 		{
 			StringBuilder builder = new StringBuilder();
 
-			// start with: - Kill x monster
-			string monsterName = "";
-			if (_monsterID < Terraria.ID.NPCID.Count)
+			string count = _killsRequired > 1 ? _killsRequired.ToString() : "a";
+			builder.Append("- Kill ").Append(count).Append(" ");
+
+			// start with: - Kill x monster, monster or monster
+			if (_monsterNameOverride == null)
 			{
-				monsterName = Lang.GetNPCNameValue(_monsterID);
+				for (int i = 0; i < _monsterIDs.Length; i++)
+				{
+					string monsterName = "";
+					if (_monsterIDs[i] < NPCID.Count)
+					{
+						monsterName = Lang.GetNPCNameValue(_monsterIDs[i]);
+					}
+					else
+					{
+						monsterName = NPCLoader.GetNPC(_monsterIDs[i]).DisplayName.GetTranslation(Terraria.Localization.Language.ActiveCulture);
+					}
+					monsterName = Utilities.QuestUtils.GetPluralEnding(_killsRequired, monsterName);
+
+					if (_monsterIDs.Length == 1)
+					{
+						// if there's multiple monsters, add a character to show plurality
+						builder.Append(monsterName);
+						break;
+					}
+					else
+					{
+						builder.Append(monsterName);
+						if (i < _monsterIDs.Length - 2)
+						{
+							builder.Append(", ");
+						}
+						else if (i == _monsterIDs.Length - 2)
+						{
+							builder.Append(" or ");
+						}
+					}
+				}
 			}
 			else
 			{
-				monsterName = NPCLoader.GetNPC(_monsterID).DisplayName.GetTranslation(Terraria.Localization.Language.ActiveCulture);
-			}
-			string count = _killsRequired > 1 ? _killsRequired.ToString() : "a";
-			builder.Append("- Kill ").Append(count).Append(" ").Append(monsterName);
-
-			// if there's multiple monsters, add a character to show plurality
-			if (_killsRequired > 1)
-			{
-				if (monsterName.Last() != 's') builder.Append('s');
-				else builder.Append('\'');
+				builder.Append(_monsterNameOverride);
 			}
 
 			// add a progress bracket at the end like: (x/y)
@@ -152,7 +185,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 		private void QuestGlobalNPC_OnNPCLoot(NPC npc)
 		{
 			// make it so killing this type of NPC progresses the section
-			if (npc.netID == _monsterID)
+			if (_monsterIDs.Contains(npc.netID))
 			{
 				_killCount++;
 				if (_killCount > _killsRequired) 
@@ -236,6 +269,70 @@ namespace SpiritMod.Mechanics.QuestSystem
 		{
 			// TODO: send the server our stored distance, then reset to 0
 			_storedDistance = 0;
+		}
+	}
+
+	public class RetrievalSection : IQuestSection
+	{
+		private int _itemID;
+		private int _itemsNeeded;
+		private string _wording;
+		private int _lastCount;
+
+		public RetrievalSection(int itemID, int amount, string wordChoice = "Retrieve")
+		{
+			_itemID = itemID;
+			_itemsNeeded = amount;
+			_wording = wordChoice;
+		}
+
+		public string GetObjectives(bool showProgress)
+		{
+			StringBuilder builder = new StringBuilder();
+
+			string itemName = Lang.GetItemNameValue(_itemID);
+			builder.Append("- ").Append(_wording).Append(" ").Append(_itemsNeeded).Append(" ").Append(itemName);
+
+			// pluralness
+			builder.Append(Utilities.QuestUtils.GetPluralEnding(_itemsNeeded, itemName));
+
+			// add a progress bracket at the end like: (x/y)
+			if (showProgress)
+			{
+				builder.Append(" (").Append(_lastCount).Append("/").Append(_itemsNeeded).Append(")");
+			}
+
+			return builder.ToString();
+		}
+
+		public void ResetProgress()
+		{
+		}
+
+		public void Activate()
+		{
+		}
+
+		public void Deactivate()
+		{
+		}
+
+		public bool CheckCompletion()
+		{
+			if (Main.netMode == NetmodeID.SinglePlayer)
+			{
+				_lastCount = Main.LocalPlayer.CountItem(_itemID, _itemsNeeded);
+				return _lastCount >= _itemsNeeded;
+			}
+			else if (Main.netMode == NetmodeID.Server)
+			{
+				return false;
+			}
+			return false;
+		}
+
+		public void OnMPSyncTick()
+		{
 		}
 	}
 }
