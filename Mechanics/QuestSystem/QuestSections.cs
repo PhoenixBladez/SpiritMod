@@ -12,6 +12,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 {
 	public interface IQuestSection
 	{
+		string ObjectiveOverride { get; set; }
 		bool CheckCompletion();
 		void Activate();
 		void Deactivate();
@@ -336,5 +337,45 @@ namespace SpiritMod.Mechanics.QuestSystem
 		{
 		}
 	}
-	
+
+	public class TalkNPCSection : IQuestSection
+	{
+		private int _npcType;
+		private string _objective;
+
+		public TalkNPCSection(int npcType, string objective)
+		{
+			_npcType = npcType;
+			_objective = objective;
+		}
+
+		public bool CheckCompletion()
+		{
+			if (Main.netMode == Terraria.ID.NetmodeID.SinglePlayer)
+			{
+				return Main.LocalPlayer.talkNPC == _npcType;
+			}
+			else if (Main.netMode == Terraria.ID.NetmodeID.Server)
+			{
+				for (int i = 0; i < Main.player.Length; i++)
+				{
+					if (Main.player[i].active && Main.player[i].talkNPC == _npcType)
+					{
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+
+		public string GetObjectives(bool showProgress)
+		{
+			return "- " + _objective;
+		}
+
+		public void Activate() { }
+		public void Deactivate() { }
+		public void OnMPSyncTick() { }
+		public void ResetProgress() { }
+	}
 }

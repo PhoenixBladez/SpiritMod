@@ -29,11 +29,8 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public RaidingTheStars()
         {
-            //TODO: '+Craft 1 Starplate Beacon'
-            _questSections.Add(
-				new ConcurrentSection(
-					new KillSection(ModContent.NPCType<NPCs.Starfarer.CogTrapperHead>(), 2, "Starfarers"), 
-					new RetrievalSection(ModContent.ItemType<Items.Material.StarEnergy>(), 1, "Craft")));
+			_questSections.Add(new KillSection(ModContent.NPCType<NPCs.Starfarer.CogTrapperHead>(), 2));
+			_questSections.Add(new RetrievalSection(ModContent.ItemType<Items.Material.StarEnergy>(), 1, "Craft"));
         }
     }
 }

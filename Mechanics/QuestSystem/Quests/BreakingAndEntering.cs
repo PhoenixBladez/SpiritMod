@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpiritMod.NPCs.Town;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,8 +29,9 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public BreakingAndEntering()
         {
-            _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
-        }
+            _questSections.Add(new TalkNPCSection(ModContent.NPCType<Gambler>(), "Find the Arcane Goblin Tower and rescue the prisoner."));
+			_questSections.Add(new RetrievalSection(ModContent.ItemType<Items.Weapon.Magic.ShadowflameStoneStaff>(), 1));
+		}
 
 		public override bool IsQuestPossible()
 		{
