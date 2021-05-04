@@ -126,7 +126,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 					{
 						monsterName = NPCLoader.GetNPC(_monsterIDs[i]).DisplayName.GetTranslation(Terraria.Localization.Language.ActiveCulture);
 					}
-					monsterName = Utilities.QuestUtils.GetPluralEnding(_killsRequired, monsterName);
+					monsterName += Utilities.QuestUtils.GetPluralEnding(_killsRequired, monsterName);
 
 					if (_monsterIDs.Length == 1)
 					{
@@ -291,7 +291,8 @@ namespace SpiritMod.Mechanics.QuestSystem
 			StringBuilder builder = new StringBuilder();
 
 			string itemName = Lang.GetItemNameValue(_itemID);
-			builder.Append("- ").Append(_wording).Append(" ").Append(_itemsNeeded).Append(" ").Append(itemName);
+			string count = _itemsNeeded > 1 ? _itemsNeeded.ToString() : "a";
+			builder.Append("- ").Append(_wording).Append(" ").Append(count).Append(" ").Append(itemName);
 
 			// pluralness
 			builder.Append(Utilities.QuestUtils.GetPluralEnding(_itemsNeeded, itemName));

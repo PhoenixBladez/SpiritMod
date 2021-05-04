@@ -81,7 +81,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		private void QuestGlobalNPC_OnEditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
 		{
-			if (pool.TryGetValue(ModContent.NPCType<NPCs.Hookbat.Hookbat>(), out float w))
+			if (pool[ModContent.NPCType<NPCs.Hookbat.Hookbat>()] > 0f)
 			{
 				pool[ModContent.NPCType<NPCs.Hookbat.Hookbat>()] = 0.75f;
 			}

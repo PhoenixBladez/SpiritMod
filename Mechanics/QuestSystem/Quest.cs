@@ -122,6 +122,8 @@ namespace SpiritMod.Mechanics.QuestSystem
 			}
 		}
 
+		public virtual bool IsQuestPossible() => true;
+
 		public virtual void OnMPSync()
 		{
 			foreach (IQuestSection section in _questSections)

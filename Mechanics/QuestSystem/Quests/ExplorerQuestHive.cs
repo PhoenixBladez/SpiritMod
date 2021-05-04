@@ -17,10 +17,6 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 2;
         public override QuestType QuestType =>  QuestType.Explorer;
 
-		public ExplorerQuestHive()
-        {
-            _questSections.Add(new ExploreSection((Player player) => player.GetModPlayer<MyPlayer>().ZoneHive, 3000f, "giant beehives in the Jungle"));
-        }
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
@@ -32,5 +28,10 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ModContent.ItemType<Items.Consumable.MapScroll>(), 2),
 			(Terraria.ID.ItemID.GoldCoin, 1)
 		};
+
+		public ExplorerQuestHive()
+        {
+            _questSections.Add(new ExploreSection((Player player) => player.GetModPlayer<MyPlayer>().ZoneHive, 3000f, "giant beehives in the Jungle"));
+        }
     }
 }

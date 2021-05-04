@@ -31,6 +31,9 @@ namespace SpiritMod.UI.QuestUI
 		public Quest SelectedQuest { get; private set; }
 
 		private UISelectableQuest[] _allQuestButtons;
+		private bool[] _isPossible;
+		private int _currentMaxPossible;
+
         private UIQuestBookButtonTextPanel[] _questSectionButtons;
         private UIQuestBookButtonTextPanel[] _questFilterButtons;
         private UIModifiedList _questList;
@@ -589,7 +592,7 @@ namespace SpiritMod.UI.QuestUI
 		{
 			_questList.Clear();
 
-			IEnumerable<UISelectableQuest> orderedFilteredQuests = _allQuestButtons.ToList();
+			IEnumerable<UISelectableQuest> orderedFilteredQuests = _allQuestButtons.ToList().Where(q => _isPossible[q.MyQuest.WhoAmI]);
 
 			// filter by section
 			switch (_questSectionIndex)
@@ -607,7 +610,7 @@ namespace SpiritMod.UI.QuestUI
 				case 2:
 					// get all completed quests
 					orderedFilteredQuests = orderedFilteredQuests.Where(q => q.MyQuest.IsCompleted);
-					_questProgressCounterText.Text = "(" + orderedFilteredQuests.Count() + "/" + QuestManager.Quests.Count + ")";
+					_questProgressCounterText.Text = "(" + orderedFilteredQuests.Count() + "/" + _currentMaxPossible + ")";
 					break;
 			}
 
@@ -650,8 +653,20 @@ namespace SpiritMod.UI.QuestUI
 			}
 		}
 
+		private void CalculatePossible()
+		{
+			_currentMaxPossible = 0;
+			for (int i = 0; i < QuestManager.Quests.Count; i++)
+			{
+				_isPossible[i] = QuestManager.Quests[i].IsQuestPossible();
+				if (_isPossible[i]) _currentMaxPossible++;
+			}
+		}
+
 		public override void OnActivate()
 		{
+			CalculatePossible();
+
 			// update this text every time we activate just to ensure no wrapping issues occur.
 			_questClientText?.UpdateText();
 

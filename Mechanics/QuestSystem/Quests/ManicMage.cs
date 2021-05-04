@@ -17,15 +17,19 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 3;
         public override QuestType QuestType => QuestType.Forager;
 
-        public ManicMage()
-        {
-            _questSections.Add(new ConcurrentSection(new KillSection(new int[] { ModContent.NPCType<NPCs.DarkfeatherMage.DarkfeatherMage>()}, 1, "Darkfeather Mage"), new RetrievalSection(ModContent.ItemType<Items.Accessory.DarkfeatherVisage.DarkfeatherVisage>(), 1)));
-        }
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
 			(ModContent.ItemType<Items.Weapon.Magic.AkaviriStaff>(), 1),
 			(Terraria.ID.ItemID.GoldCoin, 3)
 		};
+
+		public ManicMage()
+        {
+            _questSections.Add(
+				new ConcurrentSection(
+					new KillSection(ModContent.NPCType<NPCs.DarkfeatherMage.DarkfeatherMage>(), 1), 
+					new RetrievalSection(ModContent.ItemType<Items.Accessory.DarkfeatherVisage.DarkfeatherVisage>(), 1)));
+        }
     }
 }

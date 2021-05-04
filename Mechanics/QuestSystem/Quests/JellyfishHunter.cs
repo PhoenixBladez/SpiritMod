@@ -18,16 +18,17 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 3;
         public override QuestType QuestType => QuestType.Main | QuestType.Slayer;
 
-        public JellyfishHunter()
-        {
-            _questSections.Add(new KillSection(new int[] {ModContent.NPCType<MoonWizard>()}, 1, "Moon Jelly Wizard"));
-        }
-        public override (int, int)[] QuestRewards => _rewards;
+		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
 			(ModContent.ItemType<Items.Consumable.Potion.MoonJelly>(), 8),
-            (ModContent.ItemType<Items.Placeable.Tiles.AsteroidBlock>(), 50),
+			(ModContent.ItemType<Items.Placeable.Tiles.AsteroidBlock>(), 50),
 			(Terraria.ID.ItemID.GoldCoin, 4)
 		};
+
+		public JellyfishHunter()
+        {
+            _questSections.Add(new KillSection(ModContent.NPCType<MoonWizard>(), 1));
+        }
     }
 }

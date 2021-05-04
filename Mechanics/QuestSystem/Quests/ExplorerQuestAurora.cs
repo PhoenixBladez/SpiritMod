@@ -17,11 +17,6 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 1;
         public override QuestType QuestType =>  QuestType.Explorer;
 
-        public ExplorerQuestAurora()
-        {
-            _questSections.Add(new ExploreSection((Player player) => (player.ZoneSnow || player.ZoneSkyHeight) && MyWorld.aurora, 1500f, "boreal auroras in the snowy tundra\n or at high altitudes"));
-        }
-
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
@@ -31,5 +26,10 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ModContent.ItemType<Items.Consumable.MapScroll>(), 2),
 			(Terraria.ID.ItemID.SilverCoin, 55)
 		};
+
+		public ExplorerQuestAurora()
+        {
+            _questSections.Add(new ExploreSection((Player player) => (player.ZoneSnow || player.ZoneSkyHeight) && MyWorld.aurora, 1500f, "boreal auroras in the snowy tundra\nor at high altitudes"));
+        }
     }
 }

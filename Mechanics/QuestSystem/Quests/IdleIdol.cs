@@ -17,17 +17,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 2;
         public override QuestType QuestType =>  QuestType.Main;
 
-        public IdleIdol()
-        {
-            _questSections.Add(new RetrievalSection(ModContent.ItemType<Items.Consumable.Quest.ScarabIdolQuest>(), 1));
-        }
-        public override void OnQuestComplete()
-		{
-			bool showUnlocks = true;
-			QuestManager.UnlockQuest<SinisterSands>(showUnlocks);
-			base.OnQuestComplete();
-		}
-        public override (int, int)[] QuestRewards => _rewards;
+		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
 			(ModContent.ItemType<Items.Consumable.ScarabIdol>(), 1),
@@ -37,5 +27,17 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.PharaohsRobe, 1),
 			(Terraria.ID.ItemID.GoldCoin, 1)
 		};
+
+		public IdleIdol()
+        {
+            _questSections.Add(new RetrievalSection(ModContent.ItemType<Items.Consumable.Quest.ScarabIdolQuest>(), 1));
+        }
+
+        public override void OnQuestComplete()
+		{
+			QuestManager.UnlockQuest<SinisterSands>(true);
+
+			base.OnQuestComplete();
+		}
     }
 }

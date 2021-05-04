@@ -17,11 +17,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 2;
         public override QuestType QuestType =>  QuestType.Explorer;
 
-        public ExplorerQuestMarble()
-        {
-            _questSections.Add(new ExploreSection((Player player) => player.GetModPlayer<MyPlayer>().ZoneMarble, 5000f, "marble caverns"));
-        }
-        public override (int, int)[] QuestRewards => _rewards;
+		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
 			(ModContent.ItemType<Items.Armor.CenturionSet.CenturionHead>(), 1),
@@ -32,5 +28,10 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ModContent.ItemType<Items.Consumable.MapScroll>(), 2),
 			(Terraria.ID.ItemID.GoldCoin, 2)
 		};
+
+		public ExplorerQuestMarble()
+        {
+            _questSections.Add(new ExploreSection((Player player) => player.GetModPlayer<MyPlayer>().ZoneMarble, 5000f, "marble caverns"));
+        }
     }
 }

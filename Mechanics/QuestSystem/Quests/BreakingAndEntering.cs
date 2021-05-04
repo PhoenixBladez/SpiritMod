@@ -17,11 +17,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 2;
         public override QuestType QuestType => QuestType.Main;
 
-        public BreakingAndEntering()
-        {
-            _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
-        }
-        public override (int, int)[] QuestRewards => _rewards;
+		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
 			(ModContent.ItemType<Items.Consumable.GamblerChests.SilverChest>(), 1),
@@ -29,5 +25,15 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ModContent.ItemType<Items.Placeable.Furniture.PottedSakura>(), 3),
 			(Terraria.ID.ItemID.GoldCoin, 1)
 		};
-    }
+
+		public BreakingAndEntering()
+        {
+            _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
+        }
+
+		public override bool IsQuestPossible()
+		{
+			return MyWorld.gennedTower;
+		}
+	}
 }

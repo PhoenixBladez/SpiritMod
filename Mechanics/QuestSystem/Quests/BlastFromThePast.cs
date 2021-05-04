@@ -17,10 +17,6 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 1;
         public override QuestType QuestType => QuestType.Designer;
 
-        public BlastFromThePast()
-        {
-            _questSections.Add(new RetrievalSection(ModContent.ItemType<Items.Placeable.Furniture.SynthwaveHeadItem>(), 1));
-        }
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
@@ -29,5 +25,10 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ModContent.ItemType<Items.Placeable.Furniture.Neon.ArcadeMachineItem>(), 2),
 			(Terraria.ID.ItemID.SilverCoin, 75)
 		};
+
+		public BlastFromThePast()
+        {
+            _questSections.Add(new RetrievalSection(ModContent.ItemType<Items.Placeable.Furniture.SynthwaveHeadItem>(), 1, "Craft"));
+        }
     }
 }

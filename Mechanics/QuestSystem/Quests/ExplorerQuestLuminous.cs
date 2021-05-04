@@ -17,11 +17,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 1;
         public override QuestType QuestType =>  QuestType.Explorer;
 
-        public ExplorerQuestLuminous()
-        {
-             _questSections.Add(new ExploreSection((Player player) => player.ZoneBeach && MyWorld.luminousOcean, 1500f, "a Luminous Ocean at the beach"));
-        }
-        public override (int, int)[] QuestRewards => _rewards;
+		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
 			(Terraria.ID.ItemID.WeatherRadio, 1),
@@ -30,5 +26,10 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ModContent.ItemType<Items.Consumable.MapScroll>(), 2),
 			(Terraria.ID.ItemID.SilverCoin, 75)
 		};
+
+		public ExplorerQuestLuminous()
+        {
+             _questSections.Add(new ExploreSection((Player player) => player.ZoneBeach && MyWorld.luminousOcean, 1500f, "a Luminous Ocean at the beach"));
+        }
     }
 }

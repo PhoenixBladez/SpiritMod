@@ -17,10 +17,6 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 3;
         public override QuestType QuestType => QuestType.Forager;
 
-        public DecrepitDepths()
-        {
-            _questSections.Add(new RetrievalSection(ModContent.ItemType<Items.Placeable.Furniture.SepulchreChest>(), 1));
-        }
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
@@ -29,5 +25,10 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ModContent.ItemType<Items.Placeable.Tiles.SepulchreBrickTwoItem>(), 50),
 			(Terraria.ID.ItemID.GoldCoin, 1)
 		};
+
+		public DecrepitDepths()
+        {
+            _questSections.Add(new RetrievalSection(ModContent.ItemType<Items.Placeable.Furniture.SepulchreChest>(), 1));
+        }
     }
 }

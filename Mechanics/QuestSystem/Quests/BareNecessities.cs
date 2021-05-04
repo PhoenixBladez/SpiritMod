@@ -17,10 +17,6 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 1;
         public override QuestType QuestType => QuestType.Designer;
 
-        public BareNecessities()
-        {
-           _questSections.Add(new RetrievalSection(ModContent.ItemType<Items.Placeable.Furniture.ForagerTableItem>(), 1));
-        }
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
@@ -29,5 +25,10 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ModContent.ItemType<Tiles.Block.Ambient.CragstoneItem>(), 50),
 			(Terraria.ID.ItemID.SilverCoin, 25)
 		};
+
+		public BareNecessities()
+        {
+           _questSections.Add(new RetrievalSection(ModContent.ItemType<Items.Placeable.Furniture.ForagerTableItem>(), 1, "Craft"));
+        }
     }
 }

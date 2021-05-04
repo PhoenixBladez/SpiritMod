@@ -157,7 +157,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 			quest.IsUnlocked = true;
 
-			if (showInChat)
+			if (showInChat && quest.IsQuestPossible())
 			{
 				string text = "You have unlocked a new quest! [[sQ/" + quest.WhoAmI + ":" + quest.QuestName + "]]";
 

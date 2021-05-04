@@ -19,15 +19,16 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 3;
         public override QuestType QuestType =>  QuestType.Slayer | QuestType.Main;
 
-        public SinisterSands()
-        {
-            _questSections.Add(new KillSection(ModContent.NPCType<NPCs.Boss.Scarabeus.Scarabeus>(), 1));        
-        }
-	    public override (int, int)[] QuestRewards => _rewards;
+		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
 			(ModContent.ItemType<Items.Equipment.DesertSnowglobe>(), 1),
 			(Terraria.ID.ItemID.GoldCoin, 5)
 		};
+
+		public SinisterSands()
+        {
+            _questSections.Add(new KillSection(ModContent.NPCType<NPCs.Boss.Scarabeus.Scarabeus>(), 1));        
+        }
     }
 }

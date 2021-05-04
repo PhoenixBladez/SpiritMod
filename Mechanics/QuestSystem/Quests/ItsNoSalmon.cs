@@ -17,11 +17,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 2;
         public override QuestType QuestType => QuestType.Forager;
 
-        public ItsNoSalmon()
-        {
-            _questSections.Add(new RetrievalSection(ModContent.ItemType<Items.Consumable.Quest.HornetfishQuest>(), 1));
-        }
-        public override (int, int)[] QuestRewards => _rewards;
+		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
 			(ModContent.ItemType<Items.Accessory.KoiTotem>(), 1),
@@ -30,5 +26,10 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.Vine, 3),
 			(Terraria.ID.ItemID.GoldCoin, 1)
 		};
+
+		public ItsNoSalmon()
+        {
+            _questSections.Add(new RetrievalSection(ModContent.ItemType<Items.Consumable.Quest.HornetfishQuest>(), 1));
+        }
     }
 }

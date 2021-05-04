@@ -17,16 +17,17 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 3;
         public override QuestType QuestType => QuestType.Forager;
 
-        public SkyHigh()
+		public override (int, int)[] QuestRewards => _rewards;
+		private (int, int)[] _rewards = new[]
+		{
+			((int)Terraria.ID.ItemID.GypsyRobe, 1),
+			(Terraria.ID.ItemID.DynastyWood, 50),
+			(Terraria.ID.ItemID.GoldCoin, 1)
+		};
+
+		public SkyHigh()
         {
             _questSections.Add(new RetrievalSection(ModContent.ItemType<Items.Weapon.Summon.JadeStaff>(), 1));
         }
-		//public override (int, int)[] QuestRewards => _rewards;
-		/*private (int, int)[] _rewards = new[]
-		{
-			(Terraria.ID.ItemID.GypsyRobe, 1),
-			(Terraria.ID.ItemID.DynastyWood, 50),
-			(Terraria.ID.ItemID.GoldCoin, 1)
-		};*/
     }
 }

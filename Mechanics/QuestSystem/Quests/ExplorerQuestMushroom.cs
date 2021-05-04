@@ -17,11 +17,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 2;
         public override QuestType QuestType =>  QuestType.Explorer;
 
-        public ExplorerQuestMushroom()
-        {
-                _questSections.Add(new ExploreSection((Player player) => player.ZoneGlowshroom, 5000f, "glowing mushroom fields"));
-        }
-        public override (int, int)[] QuestRewards => _rewards;
+		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
 			(ModContent.ItemType<Items.Pins.PinBlue>(), 1),
@@ -31,5 +27,10 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ModContent.ItemType<Items.Consumable.MapScroll>(), 2),
 			(Terraria.ID.ItemID.GoldCoin, 2)
 		};
+
+		public ExplorerQuestMushroom()
+        {
+                _questSections.Add(new ExploreSection((Player player) => player.ZoneGlowshroom, 5000f, "glowing mushroom fields"));
+        }
    }
 }

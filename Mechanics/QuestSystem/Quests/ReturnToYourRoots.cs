@@ -17,11 +17,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 4;
         public override QuestType QuestType =>  QuestType.Slayer | QuestType.Main;
 
-        public ReturnToYourRoots()
-        {
-            _questSections.Add(new KillSection(ModContent.NPCType<NPCs.Boss.ReachBoss.ReachBoss1>(), 1, "Vinewrath Bane"));        
-        }
-	    public override (int, int)[] QuestRewards => _rewards;
+		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
 			(ModContent.ItemType<Items.Armor.ReachBoss.ReachBossHead>(), 1),
@@ -31,5 +27,9 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.GoldCoin, 7)
 		};
 
+		public ReturnToYourRoots()
+        {
+            _questSections.Add(new KillSection(ModContent.NPCType<NPCs.Boss.ReachBoss.ReachBoss1>(), 1));        
+        }
     }
 }

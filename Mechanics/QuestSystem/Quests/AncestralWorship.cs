@@ -25,6 +25,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ModContent.ItemType<Items.Placeable.Tiles.BriarGrassSeeds>(), 5),
 			(Terraria.ID.ItemID.SilverCoin, 50)
 		};
+
 		public AncestralWorship()
         {
             _questSections.Add(new RetrievalSection(ModContent.ItemType<Items.Placeable.Furniture.Reach.TreemanStatue>(), 1));
