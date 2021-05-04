@@ -27,7 +27,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ModContent.ItemType<Items.Pins.PinBlue>(), 1),
 			(Terraria.ID.ItemID.MushroomGrassSeeds, 5),
 			(Terraria.ID.ItemID.GlowingMushroom, 10),
-			(ModContent.ItemType<Items.Consumable.Quest.ExplorerScrollMushoomFull>(), 1),
+			(ModContent.ItemType<Items.Consumable.Quest.ExplorerScrollMushroomFull>(), 1),
 			(ModContent.ItemType<Items.Consumable.MapScroll>(), 2),
 			(Terraria.ID.ItemID.GoldCoin, 2)
 		};

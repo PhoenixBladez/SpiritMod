@@ -21,12 +21,12 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
         {
             _questSections.Add(new RetrievalSection(ModContent.ItemType<Items.Weapon.Summon.JadeStaff>(), 1));
         }
-		public override (int, int)[] QuestRewards => _rewards;
-		private (int, int)[] _rewards = new[]
+		//public override (int, int)[] QuestRewards => _rewards;
+		/*private (int, int)[] _rewards = new[]
 		{
-			(Terraria.ID.ItemID.MysticRobe, 1),
+			(Terraria.ID.ItemID.GypsyRobe, 1),
 			(Terraria.ID.ItemID.DynastyWood, 50),
 			(Terraria.ID.ItemID.GoldCoin, 1)
-		};
+		};*/
     }
 }

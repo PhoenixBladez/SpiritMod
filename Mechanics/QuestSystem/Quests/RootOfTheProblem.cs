@@ -30,9 +30,9 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
         public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
-			(ModContent.ItemType<Items.Armor.Masks.GladeWriathMask>(), 1),    
+			(ModContent.ItemType<Items.Armor.Masks.GladeWraithMask>(), 1),    
 			(ModContent.ItemType<Items.Material.FloranOre>(), 15),
-			(Terraria.ID.ItemID.HealingPotion, 5)
+			(Terraria.ID.ItemID.HealingPotion, 5),
 			(Terraria.ID.ItemID.GoldCoin, 1)
 		};
 		private void QuestGlobalNPC_OnNPCLoot(NPC npc)
