@@ -335,4 +335,5 @@ namespace SpiritMod.Mechanics.QuestSystem
 		{
 		}
 	}
+	
 }

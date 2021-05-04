@@ -23,10 +23,10 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ModContent.ItemType<Items.Armor.CapacitorSet.CapacitorHead>(), 1),
 			(ModContent.ItemType<Items.Armor.CapacitorSet.CapacitorBody>(), 1),
 			(ModContent.ItemType<Items.Armor.CapacitorSet.CapacitorLegs>(), 1),
-			(Terraria.ID.ItemID.NightVisionHelmet, 1),
+			(ModContent.ItemType<Items.Consumable.Quest.ExplorerScrollGraniteFull>(), 1),
 			(ModContent.ItemType<Items.Placeable.MusicBox.GraniteBox>(), 1),
 			(ModContent.ItemType<Items.Consumable.MapScroll>(), 2),
-			(Terraria.ID.ItemID.GoldCoin, 3)
+			(Terraria.ID.ItemID.GoldCoin, 2)
 		};
 
 		public ExplorerQuestGranite()

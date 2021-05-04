@@ -19,7 +19,17 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public ReturnToYourRoots()
         {
-            _questSections.Add(new KillSection(ModContent.NPCType<NPCs.Boss.ReachBoss.ReachBoss>(), 1));        
+            _questSections.Add(new KillSection(ModContent.NPCType<NPCs.Boss.ReachBoss.ReachBoss1>(), 1), "Vinewrath Bane");        
         }
+	    public override (int, int)[] QuestRewards => _rewards;
+		private (int, int)[] _rewards = new[]
+		{
+			(ModContent.ItemType<Items.Armor.ReachBoss.ReachBossHead>(), 1),
+			(ModContent.ItemType<Items.Armor.ReachBoss.ReachBossBody>(), 1),
+			(ModContent.ItemType<Items.Armor.ReachBoss.ReachBossLegs>(), 1),
+			(ModContent.ItemType<Items.Placeable.Furniture.ReachPainting>(), 1),
+			(Terraria.ID.ItemID.GoldCoin, 7)
+		};
+
     }
 }

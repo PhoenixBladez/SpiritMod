@@ -19,7 +19,23 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public IdleIdol()
         {
-            _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
+            _questSections.Add(new RetrievalSection(ModContent.ItemType<Items.Consumable.Quest.ScarabIdolQuest>(), 1));
         }
+        public override void OnQuestComplete()
+		{
+			bool showUnlocks = true;
+			QuestManager.UnlockQuest<SinisterSands>(showUnlocks);
+			base.OnQuestComplete();
+		}
+        public override (int, int)[] QuestRewards => _rewards;
+		private (int, int)[] _rewards = new[]
+		{
+			(ModContent.ItemType<Items.Consumable.ScarabIdol>(), 1),
+			(Terraria.ID.ItemID.Topaz, 2),
+			(Terraria.ID.ItemID.Sapphire, 2),
+			(Terraria.ID.ItemID.PharaohsMask, 1),
+			(Terraria.ID.ItemID.PharaohsRobe, 1),
+			(Terraria.ID.ItemID.GoldCoin, 1)
+		};
     }
 }

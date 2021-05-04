@@ -19,7 +19,16 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public ExplorerQuestLuminous()
         {
-            _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
+             _questSections.Add(new ExploreSection((Player player) => player.ZoneBeach && MyWorld.luminousOcean, 1500f, "a Luminous Ocean at the beach"));
         }
+        public override (int, int)[] QuestRewards => _rewards;
+		private (int, int)[] _rewards = new[]
+		{
+			(Terraria.ID.ItemID.WeatherRadio, 1),
+			(ModContent.ItemType<Items.Books.Book_LuminousArt>(), 1),
+			(ModContent.ItemType<Items.Placeable.MusicBox.LuminousNightBox>(), 1),
+			(ModContent.ItemType<Items.Consumable.MapScroll>(), 2),
+			(Terraria.ID.ItemID.SilverCoin, 75)
+		};
     }
 }

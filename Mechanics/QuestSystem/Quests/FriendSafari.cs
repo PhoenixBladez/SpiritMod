@@ -21,5 +21,13 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
         {
             _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
         }
+        public override (int, int)[] QuestRewards => _rewards;
+		private (int, int)[] _rewards = new[]
+		{
+			(ModContent.ItemType<Items.Consumable.GamblerChests.SilverChest>(), 1),
+			(ModContent.ItemType<Items.Placeable.Furniture.TreasureChest>(), 2),
+			(ModContent.ItemType<Items.Placeable.Furniture.PottedWillow>(), 3),
+			(Terraria.ID.ItemID.GoldCoin, 1)
+		};
     }
 }

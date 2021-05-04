@@ -19,7 +19,17 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public ExplorerQuestMushroom()
         {
-            _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
+                _questSections.Add(new ExploreSection((Player player) => player.ZoneGlowshroom, 5000f, "glowing mushroom fields"));
         }
-    }
+        public override (int, int)[] QuestRewards => _rewards;
+		private (int, int)[] _rewards = new[]
+		{
+			(ModContent.ItemType<Items.Pins.PinBlue>(), 1),
+			(Terraria.ID.ItemID.MushroomGrassSeeds, 5),
+			(Terraria.ID.ItemID.GlowingMushroom, 10),
+			(ModContent.ItemType<Items.Consumable.Quest.ExplorerScrollMushoomFull>(), 1),
+			(ModContent.ItemType<Items.Consumable.MapScroll>(), 2),
+			(Terraria.ID.ItemID.GoldCoin, 2)
+		};
+   }
 }

@@ -17,9 +17,17 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 1;
         public override QuestType QuestType => QuestType.Designer;
 
-        public AncestralWorship()
+        public override (int, int)[] QuestRewards => _rewards;
+		private (int, int)[] _rewards = new[]
+		{
+			(ModContent.ItemType<Items.Books.Book_BriarArt>(), 1),
+			(ModContent.ItemType<Items.Placeable.Furniture.BriarFlowerItem>(), 2),
+			(ModContent.ItemType<Items.Placeable.Tiles.BriarGrassSeeds>(), 5),
+			(Terraria.ID.ItemID.SilverCoin, 50)
+		};
+		public AncestralWorship()
         {
-            _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
+            _questSections.Add(new RetrievalSection(ModContent.ItemType<Items.Placeable.Furniture.Reach.TreemanStatue>(), 1));
         }
     }
 }

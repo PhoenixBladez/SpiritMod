@@ -19,7 +19,15 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public DecrepitDepths()
         {
-            _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
+            _questSections.Add(new RetrievalSection(ModContent.ItemType<Items.Placeable.Furniture.SepulchreChest>(), 1));
         }
+		public override (int, int)[] QuestRewards => _rewards;
+		private (int, int)[] _rewards = new[]
+		{
+			(ModContent.ItemType<Items.Placeable.Furniture.SepulchrePotItem1>(), 4),
+			(ModContent.ItemType<Items.Placeable.Furniture.SepulchrePotItem1>(), 4),
+			(ModContent.ItemType<Items.Placeable.Tiles.SepulchreBrickTwoItem>(), 50),
+			(Terraria.ID.ItemID.GoldCoin, 1)
+		};
     }
 }

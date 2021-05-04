@@ -20,7 +20,14 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public JellyfishHunter()
         {
-            _questSections.Add(new ConcurrentSection(new KillSection(ModContent.NPCType<MoonWizard>(), 1)));
+            _questSections.Add(new KillSection(new int[] {ModContent.NPCType<MoonWizard>()}, 1, "Moon Jelly Wizard"));
         }
+        public override (int, int)[] QuestRewards => _rewards;
+		private (int, int)[] _rewards = new[]
+		{
+			(ModContent.ItemType<Items.Consumable.Potion.MoonJelly>(), 8),
+            (ModContent.ItemType<Items.Placeable.Tiles.AsteroidBlock>(), 50),
+			(Terraria.ID.ItemID.GoldCoin, 4)
+		};
     }
 }

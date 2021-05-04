@@ -19,7 +19,15 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public BareNecessities()
         {
-            _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
+           _questSections.Add(new RetrievalSection(ModContent.ItemType<Items.Placeable.Furniture.ForagerTableItem>(), 1));
         }
+		public override (int, int)[] QuestRewards => _rewards;
+		private (int, int)[] _rewards = new[]
+		{
+			(ModContent.ItemType<Tiles.Block.Ambient.RuinstoneItem>(), 50),
+			(ModContent.ItemType<Tiles.Block.Ambient.FracturedStoneItem>(), 50),
+			(ModContent.ItemType<Tiles.Block.Ambient.CragstoneItem>(), 50),
+			(Terraria.ID.ItemID.SilverCoin, 25)
+		};
     }
 }

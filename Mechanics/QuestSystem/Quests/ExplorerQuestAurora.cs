@@ -19,7 +19,17 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public ExplorerQuestAurora()
         {
-            _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
+            _questSections.Add(new ExploreSection((Player player) => (player.ZoneSnow || player.ZoneSkyHeight) && MyWorld.aurora, 1500f, "boreal auroras in the snowy tundra\n or at high altitudes"));
         }
+
+		public override (int, int)[] QuestRewards => _rewards;
+		private (int, int)[] _rewards = new[]
+		{
+			(ModContent.ItemType<Items.Consumable.Food.IceBerries>(), 4),
+			(ModContent.ItemType<Items.Placeable.Furniture.AdvPaintings.AdvPainting15>(), 1),
+			(ModContent.ItemType<Items.Placeable.MusicBox.AuroraBox>(), 1),
+			(ModContent.ItemType<Items.Consumable.MapScroll>(), 2),
+			(Terraria.ID.ItemID.SilverCoin, 55)
+		};
     }
 }

@@ -19,7 +19,18 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public ExplorerQuestMarble()
         {
-            _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
+            _questSections.Add(new ExploreSection((Player player) => player.GetModPlayer<MyPlayer>().ZoneMarble, 5000f, "marble caverns"));
         }
+        public override (int, int)[] QuestRewards => _rewards;
+		private (int, int)[] _rewards = new[]
+		{
+			(ModContent.ItemType<Items.Armor.CenturionSet.CenturionHead>(), 1),
+			(ModContent.ItemType<Items.Armor.CenturionSet.CenturionBody>(), 1),
+			(ModContent.ItemType<Items.Armor.CenturionSet.CenturionLegs>(), 1),
+			(ModContent.ItemType<Items.Consumable.Quest.ExplorerScrollMarbleFull>(), 1),
+			(ModContent.ItemType<Items.Placeable.MusicBox.MarbleBox>(), 1),
+			(ModContent.ItemType<Items.Consumable.MapScroll>(), 2),
+			(Terraria.ID.ItemID.GoldCoin, 2)
+		};
     }
 }

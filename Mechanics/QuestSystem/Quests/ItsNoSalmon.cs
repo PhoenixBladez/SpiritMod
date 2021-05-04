@@ -19,7 +19,16 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public ItsNoSalmon()
         {
-            _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
+            _questSections.Add(new RetrievalSection(ModContent.ItemType<Items.Consumable.Quest.HornetfishQuest>(), 1));
         }
+        public override (int, int)[] QuestRewards => _rewards;
+		private (int, int)[] _rewards = new[]
+		{
+			(ModContent.ItemType<Items.Accessory.KoiTotem>(), 1),
+			(Terraria.ID.ItemID.FishermansGuide, 1),
+			(ModContent.ItemType<Items.Placeable.Furniture.FishingPainting>(), 1),
+			(Terraria.ID.ItemID.Vine, 3),
+			(Terraria.ID.ItemID.GoldCoin, 1)
+		};
     }
 }

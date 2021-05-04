@@ -17,9 +17,20 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 2;
         public override QuestType QuestType =>  QuestType.Explorer;
 
-        public ExplorerQuestHive()
+		public ExplorerQuestHive()
         {
-            _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
+            _questSections.Add(new ExploreSection((Player player) => player.GetModPlayer<MyPlayer>().ZoneHive, 3000f, "giant beehives in the Jungle"));
         }
+		public override (int, int)[] QuestRewards => _rewards;
+		private (int, int)[] _rewards = new[]
+		{
+			(ModContent.ItemType<Items.Armor.BeekeeperSet.BeekeeperHead>(), 1),
+			(ModContent.ItemType<Items.Armor.BeekeeperSet.BeekeeperBody>(), 1),
+			(ModContent.ItemType<Items.Armor.BeekeeperSet.BeekeeperLegs>(), 1),
+			(ModContent.ItemType<Items.Consumable.Quest.ExplorerScrollHiveFull>(), 1),
+			(Terraria.ID.ItemID.BottledHoney, 10),
+			(ModContent.ItemType<Items.Consumable.MapScroll>(), 2),
+			(Terraria.ID.ItemID.GoldCoin, 1)
+		};
     }
 }

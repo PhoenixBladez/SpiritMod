@@ -17,9 +17,20 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 2;
         public override QuestType QuestType =>  QuestType.Explorer;
 
-        public ExplorerQuestAsteroid()
+		public override (int, int)[] QuestRewards => _rewards;
+		private (int, int)[] _rewards = new[]
+		{
+			(ModContent.ItemType<Items.Pins.PinRed>(), 1),
+			(ModContent.ItemType<Items.Placeable.JumpPadItem>(), 2),
+			(ModContent.ItemType<Items.Consumable.Quest.ExplorerScrollAsteroidFull>(), 1),
+			(ModContent.ItemType<Items.Placeable.MusicBox.AsteroidBox>(), 1),
+			(ModContent.ItemType<Items.Consumable.MapScroll>(), 3),
+			(Terraria.ID.ItemID.GoldCoin, 3)
+		};
+
+		public ExplorerQuestAsteroid()
         {
-            _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
+            _questSections.Add(new ExploreSection((Player player) => player.GetModPlayer<MyPlayer>().ZoneAsteroid, 5000f, "the Asteroid Field"));
         }
     }
 }

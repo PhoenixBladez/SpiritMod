@@ -19,7 +19,13 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public ManicMage()
         {
-            _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
+            _questSections.Add(new ConcurrentSection(new KillSection(new int[] { ModContent.NPCType<NPCs.DarkfeatherMage.DarkfeatherMage>()}, 1, "Darkfeather Mage"), new RetrievalSection(ModContent.ItemType<Items.Accessory.DarkfeatherVisage.DarkfeatherVisage>(), 1)));
         }
+		public override (int, int)[] QuestRewards => _rewards;
+		private (int, int)[] _rewards = new[]
+		{
+			(ModContent.ItemType<Items.Weapon.Magic.AkaviriStaff>(), 1),
+			(Terraria.ID.ItemID.GoldCoin, 3)
+		};
     }
 }

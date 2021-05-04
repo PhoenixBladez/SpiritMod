@@ -20,7 +20,16 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public RaidingTheStars()
         {
-            _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
+            //TODO: '+Craft 1 Starplate Beacon'
+            _questSections.Add(new ConcurrentSection(new KillSection(new int[] { ModContent.NPCType<NPCs.Starfarer.CogTrapperHead>()}, 2, "Starfarers"), new RetrievalSection(ModContent.ItemType<Items.Material.StarEnergy>(), 1)));
         }
+	    public override (int, int)[] QuestRewards => _rewards;
+		private (int, int)[] _rewards = new[]
+		{
+			(ModContent.ItemType<Items.Placeable.Furniture.StarplatePainting>(), 1),    
+			(ModContent.ItemType<Items.Material.TechDrive>(), 7),
+			(ModContent.ItemType<Items.Placeable.Tiles.ScrapItem>(), 50),
+			(Terraria.ID.ItemID.GoldCoin, 4)
+		};
     }
 }
