@@ -39,28 +39,26 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			bool showUnlocks = true;
 			QuestManager.UnlockQuest<RootOfTheProblem>(showUnlocks);
 			QuestManager.UnlockQuest<IdleIdol>(showUnlocks);
-			QuestManager.UnlockQuest<ExplorerQuestMarble>(showUnlocks);
-			QuestManager.UnlockQuest<ExplorerQuestGranite>(showUnlocks);
-			QuestManager.UnlockQuest<ExplorerQuestAsteroid>(showUnlocks);
-			QuestManager.UnlockQuest<ExplorerQuestHive>(showUnlocks);
-			QuestManager.UnlockQuest<ExplorerQuestMushroom>(showUnlocks);
-			QuestManager.UnlockQuest<ExplorerQuestAurora>(showUnlocks);
-			QuestManager.UnlockQuest<ExplorerQuestLuminous>(showUnlocks);
-			QuestManager.UnlockQuest<DecrepitDepths>(showUnlocks);
-			QuestManager.UnlockQuest<SkyHigh>(showUnlocks);
-			QuestManager.UnlockQuest<ItsNoSalmon>(showUnlocks);
-			QuestManager.UnlockQuest<SporeSalvage>(showUnlocks);
-			QuestManager.UnlockQuest<ManicMage>(showUnlocks);
+
+
 			QuestManager.UnlockQuest<BareNecessities>(showUnlocks);
-			QuestManager.UnlockQuest<StylishSetup>(showUnlocks);
-			QuestManager.UnlockQuest<AncestralWorship>(showUnlocks);
+
+			if (WorldGen.crimson)
+			{
+				QuestManager.UnlockQuest<ExplorerQuestCrimson>(showUnlocks);
+			}
+			else
+			{
+				QuestManager.UnlockQuest<ExplorerQuestCorrupt>(showUnlocks);
+			}
+
+			QuestManager.UnlockQuest<HeartCrystalQuest>(showUnlocks);
+
 			QuestManager.UnlockQuest<SlayerQuestScreechOwls>(showUnlocks);
-			QuestManager.UnlockQuest<SlayerQuestValkyrie>(showUnlocks);
-			QuestManager.UnlockQuest<SlayerQuestDrBones>(showUnlocks);
-			QuestManager.UnlockQuest<SlayerQuestNymph>(showUnlocks);
-			QuestManager.UnlockQuest<SlayerQuestUGDesert>(showUnlocks);
-			QuestManager.UnlockQuest<SlayerQuestCavern>(showUnlocks);
 			QuestManager.UnlockQuest<SlayerQuestBriar>(showUnlocks);
+		
+			QuestManager.UnlockQuest<FriendSafari>(showUnlocks);
+			QuestManager.UnlockQuest<BreakingAndEntering>(showUnlocks);
 
 			base.OnQuestComplete();
 		}

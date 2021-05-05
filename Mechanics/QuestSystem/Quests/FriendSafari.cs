@@ -28,7 +28,11 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public FriendSafari()
         {
-            _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
+            _questSections.Add(new TalkNPCSection(ModContent.NPCType<NPCs.Town.Rogue>(), "Find the bandit hideout and rescue the prisoner."));
         }
+		public override bool IsQuestPossible()
+		{
+			return !MyWorld.gennedTower;
+		}
     }
 }

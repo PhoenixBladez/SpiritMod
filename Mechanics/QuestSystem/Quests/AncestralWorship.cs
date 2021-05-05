@@ -28,7 +28,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public AncestralWorship()
         {
-            _questSections.Add(new RetrievalSection(ModContent.ItemType<Items.Placeable.Furniture.Reach.TreemanStatue>(), 1));
+            _questSections.Add(new RetrievalSection(ModContent.ItemType<Items.Placeable.Furniture.Reach.TreemanStatue>(), 1, "Craft"));
         }
     }
 }

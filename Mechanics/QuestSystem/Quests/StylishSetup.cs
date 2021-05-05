@@ -21,5 +21,12 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
         {
             _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
         }
+        public override void OnQuestComplete()
+		{
+            bool showUnlocks = true;
+            QuestManager.UnlockQuest<BlastFromThePast>(showUnlocks);
+
+            base.OnQuestComplete();
+        }
     }
 }

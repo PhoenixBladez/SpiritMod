@@ -25,7 +25,14 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ModContent.ItemType<Tiles.Block.Ambient.CragstoneItem>(), 50),
 			(Terraria.ID.ItemID.SilverCoin, 25)
 		};
+ 		public override void OnQuestComplete()
+		{
+            bool showUnlocks = true;
+            QuestManager.UnlockQuest<AncestralWorship>(showUnlocks);
+			QuestManager.UnlockQuest<StylishSetup>(showUnlocks);
 
+            base.OnQuestComplete();
+        }
 		public BareNecessities()
         {
            _questSections.Add(new RetrievalSection(ModContent.ItemType<Items.Placeable.Furniture.ForagerTableItem>(), 1, "Craft"));
