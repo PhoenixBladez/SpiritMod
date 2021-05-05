@@ -9,7 +9,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 {
 	public class SlayTask : IQuestTask
 	{
-		public string ModCallName => "Slay";
+		//public string ModCallName => "Slay";
 
 		private int[] _monsterIDs;
 		private int _killsRequired;

@@ -23,6 +23,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ModContent.ItemType<Items.Placeable.Furniture.OccultistMap>(), 1),
 			(ModContent.ItemType<Items.Placeable.Furniture.SkullPile>(), 3),
 			(ModContent.ItemType<Items.Material.BloodFire>(), 8),
+			(ModContent.ItemType<Items.Weapon.Thrown.TargetBottle>(), 35),
 			(Terraria.ID.ItemID.GoldCoin, 2)
 		};
 

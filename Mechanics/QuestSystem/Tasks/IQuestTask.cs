@@ -8,7 +8,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 {
 	public interface IQuestTask
 	{
-		string ModCallName { get; }
+		//string ModCallName { get; }
 		IQuestTask Parse(object[] args);
 
 		bool CheckCompletion();

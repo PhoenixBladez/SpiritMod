@@ -7,7 +7,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 {
 	public class RetrievalTask : IQuestTask
 	{
-		public string ModCallName => "Retrieve";
+		//public string ModCallName => "Retrieve";
 
 		private int _itemID;
 		private int _itemsNeeded;

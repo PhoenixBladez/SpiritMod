@@ -23,6 +23,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ModContent.ItemType<Items.Armor.Masks.WinterHat>(), 1),
 			(Terraria.ID.ItemID.MusicBox, 1),
 			(ModContent.ItemType<Items.Material.FrigidFragment>(), 5),
+			(ModContent.ItemType<Items.Weapon.Thrown.TargetBottle>(), 25),
 			(Terraria.ID.ItemID.Snowball, 50),
 			(Terraria.ID.ItemID.SilverCoin, 25)
 		};

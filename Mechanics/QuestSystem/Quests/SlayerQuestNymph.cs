@@ -21,11 +21,30 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		private (int, int)[] _rewards = new[]
 		{
 			((int)Terraria.ID.ItemID.NypmhBanner, 1),
+			(ModContent.ItemType<Items.Weapon.Thrown.TargetBottle>(), 35),
 			(Terraria.ID.ItemID.GoldCoin, 2)
 		};
         public SlayerQuestNymph()
         {
             _questSections.Add(new SlayTask(Terraria.ID.NPCID.Nymph, 1));
         }
+        public override void OnActivate()
+		{
+			QuestGlobalNPC.OnEditSpawnPool += QuestGlobalNPC_OnEditSpawnPool;
+			base.OnActivate();
+		}
+
+		public override void OnDeactivate()
+		{
+			QuestGlobalNPC.OnEditSpawnPool -= QuestGlobalNPC_OnEditSpawnPool;
+			base.OnDeactivate();
+		}
+        private void QuestGlobalNPC_OnEditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
+		{
+			if (spawnInfo.player.ZoneRockLayerHeight && !spawnInfo.playerSafe && spawnInfo.spawnTileY > Main.rockLayer && !NPC.AnyNPCs(Terraria.ID.NPCID.LostGirl))
+			{
+				pool[Terraria.ID.NPCID.LostGirl] = 0.05f;
+			}
+		}
     }
 }

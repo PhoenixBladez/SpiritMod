@@ -456,7 +456,7 @@ namespace SpiritMod
 					SetGlyph(args);
 					return null;
 				}
-				if (context == CallContext.AddQuest)
+				/*if (context == CallContext.AddQuest)
 				{
 					QuestManager.ModCallAddQuest(args);
 					return null;
@@ -465,7 +465,7 @@ namespace SpiritMod
 				{
 					QuestManager.ModCallUnlockQuest(args);
 					return null;
-				}
+				}*/
 			}
 			catch (Exception e) {
 				Logger.Error("Call Error: " + e.Message + "\n" + e.StackTrace);

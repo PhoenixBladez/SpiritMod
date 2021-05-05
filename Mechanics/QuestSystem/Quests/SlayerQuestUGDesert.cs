@@ -24,6 +24,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ModContent.ItemType<Items.Armor.CowboySet.CowboyHead>(), 1),
 			(ModContent.ItemType<Items.Armor.CowboySet.CowboyBody>(), 1),
 			(ModContent.ItemType<Items.Armor.CowboySet.CowboyLegs>(), 1),
+			(ModContent.ItemType<Items.Weapon.Thrown.TargetBottle>(), 25),
 			(Terraria.ID.ItemID.SilverCoin, 90)
 		};
 

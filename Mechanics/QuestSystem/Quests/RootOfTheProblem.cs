@@ -34,6 +34,12 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override void OnQuestComplete()
 		{
 			QuestManager.UnlockQuest<ReturnToYourRoots>(true);
+			QuestManager.UnlockQuest<RootOfTheProblem>(true);
+            QuestManager.UnlockQuest<SlayerQuestValkyrie>(true);
+			QuestManager.UnlockQuest<SlayerQuestDrBones>(true);
+			QuestManager.UnlockQuest<SlayerQuestNymph>(true);
+			QuestManager.UnlockQuest<SlayerQuestUGDesert>(true);
+			QuestManager.UnlockQuest<SlayerQuestCavern>(true);
 			base.OnQuestComplete();
 		}
 

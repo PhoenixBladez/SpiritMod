@@ -23,6 +23,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		{
 			(Terraria.ID.ItemID.SkyMill, 1),
 			(ModContent.ItemType<Items.Consumable.ChaosPearl>(), 25),
+			(ModContent.ItemType<Items.Weapon.Thrown.TargetBottle>(), 35),
 			(Terraria.ID.ItemID.SilverCoin, 90)
 		};
 
@@ -30,5 +31,12 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
         {
             _questSections.Add(new SlayTask(ModContent.NPCType<NPCs.Valkyrie.Valkyrie>(), 1));
         }
+		private void QuestGlobalNPC_OnEditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
+		{
+			if (pool[ModContent.NPCType<NPCs.Valkyrie.Valkyrie>()] > 0f && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Valkyrie.Valkyrie>()))
+			{
+				pool[ModContent.NPCType<NPCs.Valkyrie.Valkyrie>()] = 0.15f;
+			}
+		}
     }
 }

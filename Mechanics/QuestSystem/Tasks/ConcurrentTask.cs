@@ -6,7 +6,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 {
 	public class ConcurrentTask : IQuestTask
 	{
-		string ModCallName => "Concurrent";
+		//string ModCallName => "Concurrent";
 
 		private IEnumerable<IQuestTask> _sections;
 

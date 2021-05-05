@@ -9,7 +9,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 {
 	public class ExploreTask : IQuestTask
 	{
-		public string ModCallName => "Explore";
+		//public string ModCallName => "Explore";
 
 		private Func<Player, bool> _exploreFunc;
 		private float _requiredDistance;
