@@ -26,7 +26,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public ExplorerQuestCorrupt()
         {
-                _questSections.Add(new ExploreTask((Player player) => player.ZoneCorrupt, 4000f, "the Corruption"));
+                _questTasks.Add(new ExploreTask((Player player) => player.ZoneCorrupt, 4000f, "the Corruption"));
         }
 		public override bool IsQuestPossible()
 		{

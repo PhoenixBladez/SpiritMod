@@ -14,7 +14,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 {
 	public abstract class Quest
 	{
-		protected List<IQuestTask> _questSections;
+		protected List<IQuestTask> _questTasks;
 		protected int _currentSection;
 		private bool _questActive;
 		private bool _questUnlocked;
@@ -24,7 +24,6 @@ namespace SpiritMod.Mechanics.QuestSystem
 		public virtual int Difficulty => 0;
 		public virtual QuestType QuestType => QuestType.Other;
 		public virtual string QuestName => "";
-		public virtual float QuestTitleScale => 0.8f;
 		public virtual string QuestDescription => "";
 		public virtual string QuestClient => "";
 		public virtual (int, int)[] QuestRewards => null;
@@ -51,14 +50,14 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public Quest()
 		{
-			_questSections = new List<IQuestTask>();
+			_questTasks = new List<IQuestTask>();
 		}
 
 		public virtual string GetObjectives(bool showProgresss)
 		{
 			StringBuilder builder = new StringBuilder();
 
-			foreach (IQuestTask section in _questSections)
+			foreach (IQuestTask section in _questTasks)
 			{
 				builder.AppendLine(section.GetObjectives(showProgresss));
 			}
@@ -70,7 +69,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 		{
 			if (resetCompletion) IsCompleted = false;
 
-			foreach (IQuestTask section in _questSections)
+			foreach (IQuestTask section in _questTasks)
 			{
 				section.ResetProgress();
 			}
@@ -82,7 +81,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 		{
 			IsCompleted = true;
 
-			string text = "You have completed a new quest! [[sQ/" + WhoAmI + ":" + QuestName + "]]";
+			string text = "You have completed a quest! [[sQ/" + WhoAmI + ":" + QuestName + "]]";
 
 			if (Main.netMode == NetmodeID.SinglePlayer) Main.NewText(text, 255, 255, 255, false);
 			else if (Main.netMode == NetmodeID.Server) NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(text), Color.White, -1);
@@ -90,25 +89,25 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public virtual void OnActivate()
 		{
-			_questSections[_currentSection].Activate();
+			_questTasks[_currentSection].Activate();
 		}
 
 		public virtual void OnDeactivate()
 		{
-			if (_currentSection < _questSections.Count)
+			if (_currentSection < _questTasks.Count)
 			{
-				_questSections[_currentSection].Deactivate();
+				_questTasks[_currentSection].Deactivate();
 			}
 		}
 
 		public virtual void Update()
 		{
-			if (_questSections[_currentSection].CheckCompletion())
+			if (_questTasks[_currentSection].CheckCompletion())
 			{
-				_questSections[_currentSection].Deactivate();
+				_questTasks[_currentSection].Deactivate();
 
 				_currentSection++;
-				if (_currentSection == _questSections.Count)
+				if (_currentSection == _questTasks.Count)
 				{
 					// quest completed
 					OnQuestComplete();
@@ -117,7 +116,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 				}
 				else
 				{
-					_questSections[_currentSection].Activate();
+					_questTasks[_currentSection].Activate();
 				}
 			}
 		}
@@ -126,7 +125,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public virtual void OnMPSync()
 		{
-			foreach (IQuestTask section in _questSections)
+			foreach (IQuestTask section in _questTasks)
 			{
 				section.OnMPSyncTick();
 			}

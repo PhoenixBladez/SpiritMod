@@ -28,7 +28,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public SporeSalvage()
         {
-            _questSections.Add(new RetrievalTask(ModContent.ItemType<Items.Consumable.VibeshroomItem>(), 1));
+            _questTasks.Add(new RetrievalTask(ModContent.ItemType<Items.Consumable.VibeshroomItem>(), 1));
         }
     }
 }

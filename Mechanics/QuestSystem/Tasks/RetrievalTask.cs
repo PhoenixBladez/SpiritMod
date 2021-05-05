@@ -14,6 +14,8 @@ namespace SpiritMod.Mechanics.QuestSystem
 		private string _wording;
 		private int _lastCount;
 
+		public RetrievalTask() { }
+
 		public RetrievalTask(int itemID, int amount, string wordChoice = "Retrieve")
 		{
 			_itemID = itemID;
@@ -27,7 +29,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 			int itemID = -1;
 			if (!QuestUtils.TryUnbox(args[1], out itemID))
 			{
-				if (QuestUtils.TryUnbox(args[1], out short IDasShort))
+				if (QuestUtils.TryUnbox(args[1], out short IDasShort, "Item ID"))
 				{
 					itemID = IDasShort;
 				}
@@ -38,7 +40,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 			}
 
 			// get the amount
-			if (!QuestUtils.TryUnbox(args[2], out int amount))
+			if (!QuestUtils.TryUnbox(args[2], out int amount, "Item amount"))
 			{
 				return null;
 			}
@@ -47,7 +49,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 			string wordChoice = "Retrieve";
 			if (args.Length > 3)
 			{
-				if (!QuestUtils.TryUnbox(args[3], out wordChoice))
+				if (!QuestUtils.TryUnbox(args[3], out wordChoice, "Word choice"))
 				{
 					return null;
 				}

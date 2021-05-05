@@ -29,7 +29,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public SlayerQuestOccultist()
         {
-            _questSections.Add(new SlayTask(ModContent.NPCType<NPCs.Occultist.Occultist>(), 1));
+            _questTasks.Add(new SlayTask(ModContent.NPCType<NPCs.Occultist.Occultist>(), 1));
         }
     }
 }

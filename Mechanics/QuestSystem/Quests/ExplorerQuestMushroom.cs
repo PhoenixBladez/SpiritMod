@@ -30,7 +30,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public ExplorerQuestMushroom()
         {
-                _questSections.Add(new ExploreTask((Player player) => player.ZoneGlowshroom, 5000f, "glowing mushroom fields"));
+                _questTasks.Add(new ExploreTask((Player player) => player.ZoneGlowshroom, 5000f, "glowing mushroom fields"));
         }
    }
 }

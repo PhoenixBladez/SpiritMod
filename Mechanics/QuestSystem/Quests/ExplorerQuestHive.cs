@@ -31,7 +31,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public ExplorerQuestHive()
         {
-            _questSections.Add(new ExploreTask((Player player) => player.GetModPlayer<MyPlayer>().ZoneHive, 2000f, "giant beehives in the Jungle"));
+            _questTasks.Add(new ExploreTask((Player player) => player.GetModPlayer<MyPlayer>().ZoneHive, 2000f, "giant beehives in the Jungle"));
         }
     }
 }

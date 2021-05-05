@@ -29,8 +29,8 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public BreakingAndEntering()
         {
-            _questSections.Add(new TalkNPCTask(ModContent.NPCType<Gambler>(), "Find the Arcane Goblin Tower and rescue the prisoner."));
-			_questSections.Add(new RetrievalTask(ModContent.ItemType<Items.Weapon.Magic.ShadowflameStoneStaff>(), 1));
+            _questTasks.Add(new TalkNPCTask(ModContent.NPCType<Gambler>(), "Find the Arcane Goblin Tower and rescue the prisoner."));
+			_questTasks.Add(new RetrievalTask(ModContent.ItemType<Items.Weapon.Magic.ShadowflameStoneStaff>(), 1));
 		}
 
 		public override bool IsQuestPossible()

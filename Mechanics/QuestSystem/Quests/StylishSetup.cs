@@ -28,7 +28,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public StylishSetup()
         {
-            _questSections.Add(new RetrievalTask(ModContent.ItemType<Items.Material.SynthMaterial>(), 1, "Craft"));
+            _questTasks.Add(new RetrievalTask(ModContent.ItemType<Items.Material.SynthMaterial>(), 1, "Craft"));
         }
 
         public override void OnQuestComplete()

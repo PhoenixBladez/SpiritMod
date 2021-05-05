@@ -16,6 +16,8 @@ namespace SpiritMod.Mechanics.QuestSystem
 		private int _killCount;
 		private string _monsterNameOverride;
 
+		public SlayTask() { }
+
 		public SlayTask(int monsterID, int amount, string monsterNameOverride = null)
 		{
 			_monsterIDs = new int[] { monsterID };
@@ -52,7 +54,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 			if (monsterIDs == null || monsterIDs.Length == 0) return null;
 
 			// get the amount of kills required
-			if (!QuestUtils.TryUnbox(args[2], out int amount))
+			if (!QuestUtils.TryUnbox(args[2], out int amount, "Kills required"))
 			{
 				return null;
 			}
@@ -61,7 +63,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 			string nameOverride = null;
 			if (args.Length > 3)
 			{
-				if (!QuestUtils.TryUnbox(args[3], out nameOverride))
+				if (!QuestUtils.TryUnbox(args[3], out nameOverride, "Slay Task name override"))
 				{
 					return null;
 				}

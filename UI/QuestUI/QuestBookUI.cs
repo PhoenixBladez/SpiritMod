@@ -525,7 +525,8 @@ namespace SpiritMod.UI.QuestUI
 
 			_obnoxiousTutorialGlow.Texture = (quest.TutorialActivateButton && !quest.IsActive && !quest.RewardsGiven) ? Main.blackTileTexture : null;
 			_questTitleText.Top.Set(-8f, 0f);
-			_questTitleText.Scale = quest.QuestTitleScale;
+			// TODO: Automate the scaling here:
+			_questTitleText.Scale = 0.8f;
 			_questTitleText.Text = quest.QuestName;
 			_questObjectivesTitle.Text = "Objectives";
 			_questRewardsTitle.Text = "Rewards";

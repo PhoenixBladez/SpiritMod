@@ -17,6 +17,8 @@ namespace SpiritMod.Mechanics.QuestSystem
 		private float _storedDistance;
 		private string _areaName;
 
+		public ExploreTask() { }
+
 		/// <param name="areaName">Will be used for the objectives like so: - Explore [areaName] (x%)</param>
 		public ExploreTask(Func<Player, bool> exploreFunction, float travelDistance, string areaName)
 		{
@@ -28,19 +30,19 @@ namespace SpiritMod.Mechanics.QuestSystem
 		public IQuestTask Parse(object[] args)
 		{
 			// get the func
-			if (!QuestUtils.TryUnbox(args[1], out Func<Player, bool> func))
+			if (!QuestUtils.TryUnbox(args[1], out Func<Player, bool> func, "Explore function"))
 			{
 				return null;
 			}
 
 			// get the distance
-			if (!QuestUtils.TryUnbox(args[2], out float distance))
+			if (!QuestUtils.TryUnbox(args[2], out float distance, "Distance"))
 			{
 				return null;
 			}
 
 			// get the area's name
-			if (!QuestUtils.TryUnbox(args[3], out string name))
+			if (!QuestUtils.TryUnbox(args[3], out string name, "Area name"))
 			{
 				return null;
 			}

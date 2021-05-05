@@ -31,7 +31,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public ExplorerQuestGranite()
         {
-            _questSections.Add(new ExploreTask((Player player) => player.GetModPlayer<MyPlayer>().ZoneGranite, 5000f, "granite caverns"));
+            _questTasks.Add(new ExploreTask((Player player) => player.GetModPlayer<MyPlayer>().ZoneGranite, 5000f, "granite caverns"));
         }
     }
 }

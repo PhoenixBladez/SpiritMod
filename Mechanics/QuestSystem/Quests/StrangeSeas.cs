@@ -28,8 +28,8 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		};
         public StrangeSeas()
         {
-            _questSections.Add(new RetrievalTask(ModContent.ItemType<Items.Consumable.BlackPearl>(), 1));
-            _questSections.Add(new SlayTask(ModContent.NPCType<NPCs.Tides.Rylheian>(), 1, "the monster controlling the Tide"));
+            _questTasks.Add(new RetrievalTask(ModContent.ItemType<Items.Consumable.BlackPearl>(), 1));
+            _questTasks.Add(new SlayTask(ModContent.NPCType<NPCs.Tides.Rylheian>(), 1, "the monster controlling the Tide"));
         }
     }
 }

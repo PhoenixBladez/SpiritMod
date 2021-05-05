@@ -30,7 +30,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public FirstAdventure()
         {
-            _questSections.Add(new RetrievalTask(ModContent.ItemType<Items.Consumable.Quest.DurasilkSheaf>(), 1));
+            _questTasks.Add(new RetrievalTask(ModContent.ItemType<Items.Consumable.Quest.DurasilkSheaf>(), 1));
         }
 
 		public override void OnQuestComplete()

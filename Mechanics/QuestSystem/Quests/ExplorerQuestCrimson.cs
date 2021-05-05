@@ -26,12 +26,14 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public ExplorerQuestCrimson()
         {
-                _questSections.Add(new ExploreTask((Player player) => player.ZoneCrimson, 4000f, "the Crimson"));
+                _questTasks.Add(new ExploreTask((Player player) => player.ZoneCrimson, 4000f, "the Crimson"));
         }
+
 		public override bool IsQuestPossible()
 		{
             return !WorldGen.crimson;
         }
+
         public override void OnQuestComplete()
 		{
             bool showUnlocks = true;

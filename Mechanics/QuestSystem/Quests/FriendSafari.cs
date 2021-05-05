@@ -28,7 +28,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public FriendSafari()
         {
-            _questSections.Add(new TalkNPCTask(ModContent.NPCType<NPCs.Town.Rogue>(), "Find the bandit hideout and rescue the prisoner."));
+            _questTasks.Add(new TalkNPCTask(ModContent.NPCType<NPCs.Town.Rogue>(), "Find the bandit hideout and rescue the prisoner."));
         }
 		public override bool IsQuestPossible()
 		{

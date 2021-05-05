@@ -30,7 +30,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public ExplorerQuestAsteroid()
         {
-            _questSections.Add(new ExploreTask((Player player) => player.GetModPlayer<MyPlayer>().ZoneAsteroid, 5000f, "the Asteroid Field"));
+            _questTasks.Add(new ExploreTask((Player player) => player.GetModPlayer<MyPlayer>().ZoneAsteroid, 5000f, "the Asteroid Field"));
         }
     }
 }

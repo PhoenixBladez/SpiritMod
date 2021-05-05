@@ -19,7 +19,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public BlackMarket()
         {
-            _questSections.Add(new ConcurrentTask(new SlayTask(10, 10), new SlayTask(15, 10), new SlayTask(20, 10)));
+            _questTasks.Add(new ConcurrentTask(new SlayTask(10, 10), new SlayTask(15, 10), new SlayTask(20, 10)));
         }
     }
 }

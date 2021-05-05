@@ -13,6 +13,8 @@ namespace SpiritMod.Mechanics.QuestSystem
 		private int _npcType;
 		private string _objective;
 
+		public TalkNPCTask() { }
+
 		public TalkNPCTask(int npcType, string objective = null)
 		{
 			_npcType = npcType;
@@ -25,7 +27,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 			int npcID = -1;
 			if (!QuestUtils.TryUnbox(args[1], out npcID))
 			{
-				if (QuestUtils.TryUnbox(args[1], out short IDasShort))
+				if (QuestUtils.TryUnbox(args[1], out short IDasShort, "NPC Type"))
 				{
 					npcID = IDasShort;
 				}
@@ -39,7 +41,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 			string objective = null;
 			if (args.Length > 2)
 			{
-				if (!QuestUtils.TryUnbox(args[2], out objective))
+				if (!QuestUtils.TryUnbox(args[2], out objective, "Talk NPC Objective"))
 				{
 					return null;
 				}

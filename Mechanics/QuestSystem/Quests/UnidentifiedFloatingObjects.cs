@@ -26,8 +26,8 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public UnidentifiedFloatingObjects()
         {
-            _questSections.Add(new ExploreTask((Player player) => player.ZoneSkyHeight && MyWorld.jellySky, 500f, "the strange Jelly Deluge"));
-            _questSections.Add(new RetrievalTask(ModContent.ItemType<Items.Consumable.DreamlightJellyItem>(), 1, "Catch"));
+            _questTasks.Add(new ExploreTask((Player player) => player.ZoneSkyHeight && MyWorld.jellySky, 500f, "the strange Jelly Deluge"));
+            _questTasks.Add(new RetrievalTask(ModContent.ItemType<Items.Consumable.DreamlightJellyItem>(), 1, "Catch"));
         }
     }
 }

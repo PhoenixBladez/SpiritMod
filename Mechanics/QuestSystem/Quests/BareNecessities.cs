@@ -35,7 +35,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
         }
 		public BareNecessities()
         {
-           _questSections.Add(new RetrievalTask(ModContent.ItemType<Items.Placeable.Furniture.ForagerTableItem>(), 1, "Craft"));
+           _questTasks.Add(new RetrievalTask(ModContent.ItemType<Items.Placeable.Furniture.ForagerTableItem>(), 1, "Craft"));
         }
     }
 }

@@ -456,16 +456,31 @@ namespace SpiritMod
 					SetGlyph(args);
 					return null;
 				}
-				/*if (context == CallContext.AddQuest)
+				if (context == CallContext.AddQuest)
 				{
-					QuestManager.ModCallAddQuest(args);
-					return null;
+					return QuestManager.ModCallAddQuest(args);
 				}
 				if (context == CallContext.UnlockQuest)
 				{
 					QuestManager.ModCallUnlockQuest(args);
 					return null;
-				}*/
+				}
+				if (context == CallContext.GetQuestIsUnlocked)
+				{
+					return QuestManager.ModCallGetQuestValueFromContext(args, 0);
+				}
+				if (context == CallContext.GetQuestIsCompleted)
+				{
+					return QuestManager.ModCallGetQuestValueFromContext(args, 2);
+				}
+				if (context == CallContext.GetQuestIsActive)
+				{
+					return QuestManager.ModCallGetQuestValueFromContext(args, 1);
+				}
+				if (context == CallContext.GetQuestRewardsGiven)
+				{
+					return QuestManager.ModCallGetQuestValueFromContext(args, 3);
+				}
 			}
 			catch (Exception e) {
 				Logger.Error("Call Error: " + e.Message + "\n" + e.StackTrace);
@@ -488,6 +503,14 @@ namespace SpiritMod
 					return CallContext.AddQuest;
 				case "UnlockQuest":
 					return CallContext.UnlockQuest;
+				case "IsQuestUnlocked":
+					return CallContext.GetQuestIsUnlocked;
+				case "IsQuestActive":
+					return CallContext.GetQuestIsActive;
+				case "IsQuestCompleted":
+					return CallContext.GetQuestIsCompleted;
+				case "QuestRewardsGiven":
+					return CallContext.GetQuestRewardsGiven;
 			}
 			return CallContext.Invalid;
 		}
@@ -1534,8 +1557,12 @@ namespace SpiritMod
 		Downed,
 		GlyphGet,
 		GlyphSet,
-		Limit,
 		AddQuest,
-		UnlockQuest
+		UnlockQuest,
+		GetQuestIsUnlocked,
+		GetQuestIsActive,
+		GetQuestIsCompleted,
+		GetQuestRewardsGiven,
+		Limit
 	}
 }

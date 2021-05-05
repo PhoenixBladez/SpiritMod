@@ -29,8 +29,8 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public RaidingTheStars()
         {
-			_questSections.Add(new SlayTask(ModContent.NPCType<NPCs.Starfarer.CogTrapperHead>(), 2));
-			_questSections.Add(new RetrievalTask(ModContent.ItemType<Items.Material.StarEnergy>(), 1, "Craft"));
+			_questTasks.Add(new SlayTask(ModContent.NPCType<NPCs.Starfarer.CogTrapperHead>(), 2));
+			_questTasks.Add(new RetrievalTask(ModContent.ItemType<Items.Material.StarEnergy>(), 1, "Craft"));
         }
     }
 }

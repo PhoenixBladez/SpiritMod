@@ -88,11 +88,17 @@ namespace SpiritMod.Utilities
 			return "";
 		}
 
-		public static bool TryUnbox<T>(object obj, out T value)
+		public static bool TryUnbox<T>(object obj, out T value, string what = null)
 		{
 			if (!(obj is T val))
 			{
 				value = default(T);
+
+				if (what != null) 
+					SpiritMod.Instance.Logger.Warn("Error unboxing object! " + what + " is not a " + typeof(T).Name);
+				else
+					SpiritMod.Instance.Logger.Warn("Error unboxing object!");
+
 				return false;
 			}
 			value = val;

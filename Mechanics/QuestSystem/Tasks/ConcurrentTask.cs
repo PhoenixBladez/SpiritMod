@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SpiritMod.Utilities;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -6,32 +7,44 @@ namespace SpiritMod.Mechanics.QuestSystem
 {
 	public class ConcurrentTask : IQuestTask
 	{
-		//string ModCallName => "Concurrent";
+		public string ModCallName => "Concurrent";
 
-		private IEnumerable<IQuestTask> _sections;
+		private IEnumerable<IQuestTask> _tasks;
 
-		public ConcurrentTask(params IQuestTask[] sections)
+		public ConcurrentTask() { }
+
+		public ConcurrentTask(params IQuestTask[] tasks)
 		{
-			_sections = sections;
-			QuestManager.Quests.Where(q => q.IsCompleted).Count();
+			_tasks = tasks;
 		}
 
 		public IQuestTask Parse(object[] args)
 		{
-			if (!(args[1] is object[] sections))
+			if (!QuestUtils.TryUnbox(args[1], out object[] tasks, "Concurrent Task's Tasks"))
 			{
 				return null;
 			}
 
-			// TODO: Implement
-			return null;
+			IQuestTask[] taskArray = new IQuestTask[tasks.Length];
+			for (int i = 0; i < tasks.Length; i++)
+			{
+				if (!QuestUtils.TryUnbox(tasks[i], out object[] taskArgs, "Concurrent Task's Task " + (i + 1)))
+				{
+					return null;
+				}
+				IQuestTask task = QuestManager.ParseTaskFromArguments(taskArgs);
+				if (task == null) return null;
+				taskArray[i] = task;
+			}
+
+			return new ConcurrentTask(taskArray);
 		}
 
 		public string GetObjectives(bool showProgress)
 		{
 			StringBuilder builder = new StringBuilder();
 
-			foreach (IQuestTask section in _sections)
+			foreach (IQuestTask section in _tasks)
 			{
 				builder.AppendLine(section.GetObjectives(showProgress));
 			}
@@ -41,7 +54,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public void ResetProgress()
 		{
-			foreach (IQuestTask section in _sections)
+			foreach (IQuestTask section in _tasks)
 			{
 				section.ResetProgress();
 			}
@@ -49,7 +62,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public void Activate()
 		{
-			foreach (IQuestTask section in _sections)
+			foreach (IQuestTask section in _tasks)
 			{
 				section.Activate();
 			}
@@ -57,7 +70,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public void Deactivate()
 		{
-			foreach (IQuestTask section in _sections)
+			foreach (IQuestTask section in _tasks)
 			{
 				section.Deactivate();
 			}
@@ -65,7 +78,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public bool CheckCompletion()
 		{
-			foreach (IQuestTask section in _sections)
+			foreach (IQuestTask section in _tasks)
 			{
 				if (!section.CheckCompletion()) return false;
 			}
@@ -75,7 +88,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public void OnMPSyncTick()
 		{
-			foreach (IQuestTask section in _sections)
+			foreach (IQuestTask section in _tasks)
 			{
 				section.OnMPSyncTick();
 			}
