@@ -28,7 +28,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public SlayerQuestValkyrie()
         {
-            _questSections.Add(new KillSection(ModContent.NPCType<NPCs.Valkyrie.Valkyrie>(), 1));
+            _questSections.Add(new SlayTask(ModContent.NPCType<NPCs.Valkyrie.Valkyrie>(), 1));
         }
     }
 }

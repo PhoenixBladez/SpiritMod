@@ -36,7 +36,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		}
 		public HeartCrystalQuest()
         {
-            _questSections.Add(new RetrievalSection(Terraria.ID.ItemID.LifeCrystal, 1));
+            _questSections.Add(new RetrievalTask(Terraria.ID.ItemID.LifeCrystal, 1));
         }
     }
 }

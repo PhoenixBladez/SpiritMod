@@ -87,5 +87,16 @@ namespace SpiritMod.Utilities
 			}
 			return "";
 		}
+
+		public static bool TryUnbox<T>(object obj, out T value)
+		{
+			if (!(obj is T val))
+			{
+				value = default(T);
+				return false;
+			}
+			value = val;
+			return true;
+		}
 	}
 }

@@ -28,7 +28,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public DecrepitDepths()
         {
-            _questSections.Add(new RetrievalSection(ModContent.ItemType<Items.Placeable.Furniture.SepulchreChest>(), 1));
+            _questSections.Add(new RetrievalTask(ModContent.ItemType<Items.Placeable.Furniture.SepulchreChest>(), 1));
         }
     }
 }

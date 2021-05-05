@@ -29,7 +29,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public ReturnToYourRoots()
         {
-            _questSections.Add(new KillSection(ModContent.NPCType<NPCs.Boss.ReachBoss.ReachBoss1>(), 1, "Vinewrath Bane"));        
+            _questSections.Add(new SlayTask(ModContent.NPCType<NPCs.Boss.ReachBoss.ReachBoss1>(), 1, "Vinewrath Bane"));        
         }
     }
 }

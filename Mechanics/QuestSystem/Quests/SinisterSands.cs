@@ -28,7 +28,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public SinisterSands()
         {
-            _questSections.Add(new KillSection(ModContent.NPCType<NPCs.Boss.Scarabeus.Scarabeus>(), 1));        
+            _questSections.Add(new SlayTask(ModContent.NPCType<NPCs.Boss.Scarabeus.Scarabeus>(), 1));        
         }
     }
 }

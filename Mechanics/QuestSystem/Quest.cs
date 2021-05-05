@@ -14,7 +14,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 {
 	public abstract class Quest
 	{
-		protected List<IQuestSection> _questSections;
+		protected List<IQuestTask> _questSections;
 		protected int _currentSection;
 		private bool _questActive;
 		private bool _questUnlocked;
@@ -42,7 +42,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 				else OnDeactivate();
 			}
 		}
-		public bool IsUnlocked { get => _questUnlocked; set { _questUnlocked = value; OnQuestStateChanged?.Invoke(this); } }
+		public virtual bool IsUnlocked { get => _questUnlocked; set { _questUnlocked = value; OnQuestStateChanged?.Invoke(this); } }
 		public bool IsCompleted { get => _questCompleted; set { _questCompleted = value; OnQuestStateChanged?.Invoke(this); } }
 		public bool RewardsGiven { get => rewardsGiven; set { rewardsGiven = value; OnQuestStateChanged?.Invoke(this); } }
 		public int WhoAmI { get; set; }
@@ -51,14 +51,14 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public Quest()
 		{
-			_questSections = new List<IQuestSection>();
+			_questSections = new List<IQuestTask>();
 		}
 
 		public virtual string GetObjectives(bool showProgresss)
 		{
 			StringBuilder builder = new StringBuilder();
 
-			foreach (IQuestSection section in _questSections)
+			foreach (IQuestTask section in _questSections)
 			{
 				builder.AppendLine(section.GetObjectives(showProgresss));
 			}
@@ -70,7 +70,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 		{
 			if (resetCompletion) IsCompleted = false;
 
-			foreach (IQuestSection section in _questSections)
+			foreach (IQuestTask section in _questSections)
 			{
 				section.ResetProgress();
 			}
@@ -126,7 +126,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public virtual void OnMPSync()
 		{
-			foreach (IQuestSection section in _questSections)
+			foreach (IQuestTask section in _questSections)
 			{
 				section.OnMPSyncTick();
 			}

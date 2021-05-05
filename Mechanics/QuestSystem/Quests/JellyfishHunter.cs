@@ -28,7 +28,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public JellyfishHunter()
         {
-            _questSections.Add(new KillSection(ModContent.NPCType<MoonWizard>(), 1));
+            _questSections.Add(new SlayTask(ModContent.NPCType<MoonWizard>(), 1));
         }
     }
 }

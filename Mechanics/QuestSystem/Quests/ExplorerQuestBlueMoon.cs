@@ -19,7 +19,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public ExplorerQuestBlueMoon()
         {
-            _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
+            _questSections.Add(new ConcurrentTask(new SlayTask(10, 10), new SlayTask(15, 10), new SlayTask(20, 10)));
         }
     }
 }

@@ -28,7 +28,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		};
         public SlayerQuestDrBones()
         {
-            _questSections.Add(new KillSection(Terraria.ID.NPCID.DoctorBones, 1));    
+            _questSections.Add(new SlayTask(Terraria.ID.NPCID.DoctorBones, 1));    
         }
     }
 }

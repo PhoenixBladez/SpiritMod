@@ -436,6 +436,7 @@ namespace SpiritMod
 				context = (CallContext)contextNum.Value;
 			else
 				context = ParseCallName(args[0] as string);
+
 			if (context == CallContext.Invalid && !contextNum.HasValue) {
 				var stack = new System.Diagnostics.StackTrace(true);
 				Logger.Error("Call Error: Context invalid or null:\n" + stack.ToString());
@@ -453,6 +454,16 @@ namespace SpiritMod
 					return GetGlyph(args);
 				if (context == CallContext.GlyphSet) {
 					SetGlyph(args);
+					return null;
+				}
+				if (context == CallContext.AddQuest)
+				{
+					QuestManager.ModCallAddQuest(args);
+					return null;
+				}
+				if (context == CallContext.UnlockQuest)
+				{
+					QuestManager.ModCallUnlockQuest(args);
 					return null;
 				}
 			}
@@ -473,6 +484,10 @@ namespace SpiritMod
 					return CallContext.GlyphGet;
 				case "setGlyph":
 					return CallContext.GlyphSet;
+				case "AddQuest":
+					return CallContext.AddQuest;
+				case "UnlockQuest":
+					return CallContext.UnlockQuest;
 			}
 			return CallContext.Invalid;
 		}
@@ -1519,6 +1534,8 @@ namespace SpiritMod
 		Downed,
 		GlyphGet,
 		GlyphSet,
-		Limit
+		Limit,
+		AddQuest,
+		UnlockQuest
 	}
 }

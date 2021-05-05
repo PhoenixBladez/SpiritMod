@@ -27,7 +27,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public SlayerQuestMeteor()
         {
-            _questSections.Add(new KillSection(new int[] { ModContent.NPCType<NPCs.AstralAdventurer.AstralAdventurer>(), ModContent.NPCType<NPCs.FallingAsteroid.Falling_Asteroid>(), ModContent.NPCType<NPCs.Orbitite.Mineroid>(), ModContent.NPCType<NPCs.MoltenCore.Molten_Core>()}, 10, "meteorite enemies"));
+            _questSections.Add(new SlayTask(new int[] { ModContent.NPCType<NPCs.AstralAdventurer.AstralAdventurer>(), ModContent.NPCType<NPCs.FallingAsteroid.Falling_Asteroid>(), ModContent.NPCType<NPCs.Orbitite.Mineroid>(), ModContent.NPCType<NPCs.MoltenCore.Molten_Core>()}, 10, "meteorite enemies"));
         }
     }
 }

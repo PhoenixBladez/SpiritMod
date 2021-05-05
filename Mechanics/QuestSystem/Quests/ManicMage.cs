@@ -27,9 +27,9 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public ManicMage()
         {
             _questSections.Add(
-				new ConcurrentSection(
-					new KillSection(ModContent.NPCType<NPCs.DarkfeatherMage.DarkfeatherMage>(), 1), 
-					new RetrievalSection(ModContent.ItemType<Items.Accessory.DarkfeatherVisage.DarkfeatherVisage>(), 1)));
+				new ConcurrentTask(
+					new SlayTask(ModContent.NPCType<NPCs.DarkfeatherMage.DarkfeatherMage>(), 1), 
+					new RetrievalTask(ModContent.ItemType<Items.Accessory.DarkfeatherVisage.DarkfeatherVisage>(), 1)));
         }
     }
 }

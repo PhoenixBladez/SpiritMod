@@ -28,7 +28,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public BlastFromThePast()
         {
-            _questSections.Add(new RetrievalSection(ModContent.ItemType<Items.Placeable.Furniture.SynthwaveHeadItem>(), 1, "Craft"));
+            _questSections.Add(new RetrievalTask(ModContent.ItemType<Items.Placeable.Furniture.SynthwaveHeadItem>(), 1, "Craft"));
         }
     }
 }

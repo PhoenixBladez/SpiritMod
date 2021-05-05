@@ -1,4 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using log4net;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,12 +23,15 @@ namespace SpiritMod.Mechanics.QuestSystem
 		public static bool QuestBookUnlocked { get; set; }
 
 		private static Dictionary<Type, Quest> _questDict;
+		private static Dictionary<Type, IQuestTask> _tasksDict;
 		private static int _serverSyncCounter;
 
         public static void Load()
         {
 			_questDict = new Dictionary<Type, Quest>();
-            Quests = new List<Quest>();
+			_tasksDict = new Dictionary<Type, IQuestTask>();
+
+			Quests = new List<Quest>();
             ActiveQuests = new List<Quest>();
             
             // add all quests from the assembly
@@ -45,6 +51,14 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 				Quests.Add(q);
 				_questDict[type] = q;
+			}
+
+			// store an instance of all quest tasks for cross-mod compatibility purposes.
+			IEnumerable<Type> taskTypes = typeof(QuestManager).Assembly.GetTypes().Where(t => t is IQuestTask);
+			foreach (Type type in taskTypes)
+			{
+				var task = (IQuestTask)Activator.CreateInstance(type);
+				_tasksDict[type] = task;
 			}
 
 			Main.OnTick += Update;
@@ -170,5 +184,58 @@ namespace SpiritMod.Mechanics.QuestSystem
 		{
 			SpiritMod.Instance.BookUserInterface.SetState(open ? SpiritMod.QuestBookUIState : null);
 		}
-    }
+
+		public static void ModCallAddQuest(object[] args)
+		{
+			if (args.Length < 10)
+			{
+				SpiritMod.Instance.Logger.Warn("Error adding custom quest! Less than 10 arguments means something must be missing, check you've added everything you need to add!");
+				return;
+			}
+
+			// quest name
+			if (!QuestUnboxTest(args[1], out string questName, "Quest name")) return;
+
+			// quest category
+			if (!QuestUnboxTest(args[2], out string questCategory, "Quest category")) return;
+			// TODO: check if quest category exists. if it doesn't, add it, make the colour white.
+
+			// quest client
+			if (!QuestUnboxTest(args[3], out string questClient, "Quest client")) return;
+
+			// quest description
+			if (!QuestUnboxTest(args[4], out string questDesc, "Quest description")) return;
+
+			// quest rewards
+			if (!QuestUnboxTest(args[5], out (int, int)[] questRewards, "Quest rewards")) return;
+
+			// quest difficulty
+			if (!QuestUnboxTest(args[6], out int questDifficulty, "Quest difficulty")) return;
+
+			// quest title scale
+			if (!QuestUnboxTest(args[7], out int questTitleScale, "Quest title scale")) return;
+
+			// quest image
+			if (!QuestUnboxTest(args[8], out Texture2D questImage, "Quest image")) return;
+
+			// quest objectives
+			for (int i = 9; i < args.Length; i++)
+			{
+				if (!QuestUnboxTest(args[i], out object[] objectiveArgs, "Quest objective " + (i - 8))) return;
+
+
+			}
+		}
+
+		private static bool QuestUnboxTest<T>(object obj, out T value, string what)
+		{
+			if (!QuestUtils.TryUnbox(obj, out value))
+			{
+				SpiritMod.Instance.Logger.Warn("Error adding custom quest! " + what + " is not a " + typeof(T).Name);
+				return false;
+			}
+
+			return true;
+		}
+	}
 }

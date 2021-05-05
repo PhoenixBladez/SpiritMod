@@ -29,7 +29,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public SongOfIceAndFire()
         {
-            _questSections.Add(new ConcurrentSection(new RetrievalSection(ModContent.ItemType<Items.Material.CryoliteOre>(), 15), new RetrievalSection(ModContent.ItemType<Items.Material.CarvedRock>(), 10)));
+            _questSections.Add(new ConcurrentTask(new RetrievalTask(ModContent.ItemType<Items.Material.CryoliteOre>(), 15), new RetrievalTask(ModContent.ItemType<Items.Material.CarvedRock>(), 10)));
         }
     }
 }

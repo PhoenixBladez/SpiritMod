@@ -28,7 +28,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public RootOfTheProblem()
         {
-            _questSections.Add(new ConcurrentSection(new KillSection(new int[] { ModContent.NPCType<NPCs.Reach.ForestWraith>()}, 1, "Glade Wraith"), new RetrievalSection(ModContent.ItemType<Items.Consumable.Quest.SacredVine>(), 1)));
+            _questSections.Add(new ConcurrentTask(new SlayTask(new int[] { ModContent.NPCType<NPCs.Reach.ForestWraith>()}, 1, "Glade Wraith"), new RetrievalTask(ModContent.ItemType<Items.Consumable.Quest.SacredVine>(), 1)));
         }
 
 		public override void OnQuestComplete()

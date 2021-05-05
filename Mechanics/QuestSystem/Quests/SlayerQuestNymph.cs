@@ -25,7 +25,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		};
         public SlayerQuestNymph()
         {
-            _questSections.Add(new KillSection(Terraria.ID.NPCID.Nymph, 1));
+            _questSections.Add(new SlayTask(Terraria.ID.NPCID.Nymph, 1));
         }
     }
 }

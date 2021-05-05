@@ -29,7 +29,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public ExplorerQuestAurora()
         {
-            _questSections.Add(new ExploreSection((Player player) => (player.ZoneSnow || player.ZoneSkyHeight) && MyWorld.aurora, 1500f, "boreal auroras in the snowy tundra\nor at high altitudes"));
+            _questSections.Add(new ExploreTask((Player player) => (player.ZoneSnow || player.ZoneSkyHeight) && MyWorld.aurora, 1500f, "boreal auroras in the snowy tundra\nor at high altitudes"));
         }
     }
 }
