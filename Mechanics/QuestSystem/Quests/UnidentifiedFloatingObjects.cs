@@ -17,9 +17,17 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 2;
         public override QuestType QuestType =>  QuestType.Main;
 
+		public override (int, int)[] QuestRewards => _rewards;
+		private (int, int)[] _rewards = new[]
+		{
+			(ModContent.ItemType<Items.Consumable.DistressJellyItem>(), 1),
+			(Terraria.ID.ItemID.GoldCoin, 1)
+		};
+
         public UnidentifiedFloatingObjects()
         {
-            _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
+            _questSections.Add(new ExploreSection((Player player) => player.ZoneSkyHeight && MyWorld.jellySky, 500f, "the strange Jelly Deluge"));
+            _questSections.Add(new RetrievalSection(ModContent.ItemType<Items.Consumable.DreamlightJellyItem>(), 1, "Catch"));
         }
     }
 }

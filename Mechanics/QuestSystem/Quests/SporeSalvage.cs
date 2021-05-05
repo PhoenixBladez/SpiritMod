@@ -17,9 +17,18 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 2;
         public override QuestType QuestType => QuestType.Forager;
 
+		public override (int, int)[] QuestRewards => _rewards;
+		private (int, int)[] _rewards = new[]
+		{
+			(ModContent.ItemType<Tiles.Furniture.Critters.VibeshroomJarItem>(), 1),
+			(ModContent.ItemType<Items.Material.GlowRoot>(), 3),
+			(Terraria.ID.ItemID.GlowingMushroom, 16),
+			(Terraria.ID.ItemID.GoldCoin, 3)
+		};
+
         public SporeSalvage()
         {
-            _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
+            _questSections.Add(new RetrievalSection(ModContent.ItemType<Items.Consumable.VibeshroomItem>(), 1));
         }
     }
 }

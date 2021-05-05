@@ -27,15 +27,6 @@ namespace SpiritMod.Items.Accessory
 			item.accessory = true;
 		}
 
-		public override void AddRecipes()
-		{
-			ModRecipe modRecipe = new ModRecipe(mod);
-			modRecipe.AddIngredient(ModContent.ItemType<FloranBar>(), 9);
-			modRecipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 3);
-			modRecipe.AddTile(TileID.Anvils);
-			modRecipe.SetResult(this);
-			modRecipe.AddRecipe();
-		}
 	}
 
 	public class FloranCharmEffect : SpiritPlayerEffect

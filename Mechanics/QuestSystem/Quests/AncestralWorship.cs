@@ -23,7 +23,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ModContent.ItemType<Items.Books.Book_BriarArt>(), 1),
 			(ModContent.ItemType<Items.Placeable.Furniture.BriarFlowerItem>(), 2),
 			(ModContent.ItemType<Items.Placeable.Tiles.BriarGrassSeeds>(), 5),
-			(Terraria.ID.ItemID.SilverCoin, 50)
+			(Terraria.ID.ItemID.SilverCoin, 40)
 		};
 
 		public AncestralWorship()

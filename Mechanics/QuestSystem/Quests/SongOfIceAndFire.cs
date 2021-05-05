@@ -17,9 +17,19 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 3;
         public override QuestType QuestType =>  QuestType.Forager | QuestType.Main;
 
+		public override (int, int)[] QuestRewards => _rewards;
+		private (int, int)[] _rewards = new[]
+		{
+			((int)Terraria.ID.ItemID.PlumbersHat, 1),
+			(Terraria.ID.ItemID.PlumbersShirt, 1),
+			(Terraria.ID.ItemID.PlumbersPants, 1),
+			(Terraria.ID.ItemID.GoldCoin, 3)
+		};
+
+
         public SongOfIceAndFire()
         {
-            _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
+            _questSections.Add(new ConcurrentSection(new RetrievalSection(ModContent.ItemType<Items.Material.CryoliteOre>(), 15), new RetrievalSection(ModContent.ItemType<Items.Material.CarvedRock>(), 10)));
         }
     }
 }

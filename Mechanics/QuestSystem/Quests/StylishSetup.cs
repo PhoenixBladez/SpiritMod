@@ -17,10 +17,20 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 1;
         public override QuestType QuestType => QuestType.Designer;
 
+        public override (int, int)[] QuestRewards => _rewards;
+		private (int, int)[] _rewards = new[]
+		{
+			(ModContent.ItemType<Items.Placeable.Furniture.Neon.BlueNeonSign>(), 1),
+			(ModContent.ItemType<Items.Placeable.Furniture.Neon.NeonPlantBlue>(), 1),
+			(ModContent.ItemType<Items.Placeable.Tiles.NeonBlockBlueItem>(), 50),
+			(Terraria.ID.ItemID.SilverCoin, 30)
+		};
+
         public StylishSetup()
         {
-            _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
+            _questSections.Add(new RetrievalSection(ModContent.ItemType<Items.Material.SynthMaterial>(), 1, "Craft"));
         }
+
         public override void OnQuestComplete()
 		{
             bool showUnlocks = true;

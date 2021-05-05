@@ -18,6 +18,16 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 3;
         public override QuestType QuestType => QuestType.Slayer;
 
+		public override (int, int)[] QuestRewards => _rewards;
+		private (int, int)[] _rewards = new[]
+		{
+			(ModContent.ItemType<Items.Armor.CowboySet.CowboyHead>(), 1),
+			(ModContent.ItemType<Items.Armor.CowboySet.CowboyBody>(), 1),
+			(ModContent.ItemType<Items.Armor.CowboySet.CowboyLegs>(), 1),
+			(Terraria.ID.ItemID.SilverCoin, 90)
+		};
+
+
         public SlayerQuestUGDesert()
         {
             _questSections.Add(new KillSection(new int[] { NPCID.TombCrawlerHead, NPCID.FlyingAntlion, NPCID.WalkingAntlion}, 8, "Underground desert enemies"));

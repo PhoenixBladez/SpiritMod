@@ -17,9 +17,18 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 3;
         public override QuestType QuestType => QuestType.Slayer;
 
+		public override (int, int)[] QuestRewards => _rewards;
+		private (int, int)[] _rewards = new[]
+		{
+			(ModContent.ItemType<Items.Placeable.Furniture.OccultistMap>(), 1),
+			(ModContent.ItemType<Items.Placeable.Furniture.SkullPile>(), 3),
+			(ModContent.ItemType<Items.Material.BloodFire>(), 8),
+			(Terraria.ID.ItemID.GoldCoin, 2)
+		};
+
         public SlayerQuestOccultist()
         {
-            _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
+            _questSections.Add(new KillSection(ModContent.NPCType<NPCs.Occultist.Occultist>(), 1));
         }
     }
 }

@@ -17,9 +17,18 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 2;
         public override QuestType QuestType => QuestType.Slayer;
 
+		public override (int, int)[] QuestRewards => _rewards;
+		private (int, int)[] _rewards = new[]
+		{
+			(ModContent.ItemType<Items.Armor.Masks.WinterHat>(), 1),
+			(Terraria.ID.ItemID.MusicBox, 1),
+			(ModContent.ItemType<Items.Material.FrigidFragment>(), 5),
+			(Terraria.ID.ItemID.Snowball, 50),
+			(Terraria.ID.ItemID.SilverCoin, 25)
+		};
         public SlayerQuestScreechOwls()
         {
-            _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
+            _questSections.Add(new KillSection(ModContent.NPCType<NPCs.ScreechOwl.ScreechOwl>(), 2, "Screech Owls"));
         }
     	public override void OnQuestComplete()
 		{

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Terraria;
 using Terraria.ModLoader;
+using SpiritMod.NPCs.Reach;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
 {
@@ -17,9 +18,18 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 3;
         public override QuestType QuestType => QuestType.Slayer;
 
+		public override (int, int)[] QuestRewards => _rewards;
+		private (int, int)[] _rewards = new[]
+		{
+			(ModContent.ItemType<Items.Accessory.FeralConcoction>(), 1),
+			(ModContent.ItemType<Items.Accessory.FloranCharm>(), 1),
+			(ModContent.ItemType<Items.Material.EnchantedLeaf>(), 6),
+			(Terraria.ID.ItemID.SilverCoin, 50)
+		};
+
         public SlayerQuestBriar()
         {
-            _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
+            _questSections.Add(new KillSection(new int[] { ModContent.NPCType<Reachman>(), ModContent.NPCType<ReachObserver>(), ModContent.NPCType<BlossomHound>(), ModContent.NPCType<ThornStalker>()}, 12, "Briar monsters"));
         }
         public override void OnQuestComplete()
 		{

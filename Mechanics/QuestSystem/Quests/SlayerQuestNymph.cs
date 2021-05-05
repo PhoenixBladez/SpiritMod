@@ -17,9 +17,15 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 3;
         public override QuestType QuestType => QuestType.Slayer;
 
+		public override (int, int)[] QuestRewards => _rewards;
+		private (int, int)[] _rewards = new[]
+		{
+			((int)Terraria.ID.ItemID.NypmhBanner, 1),
+			(Terraria.ID.ItemID.GoldCoin, 2)
+		};
         public SlayerQuestNymph()
         {
-            _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
+            _questSections.Add(new KillSection(Terraria.ID.NPCID.Nymph, 1));
         }
     }
 }

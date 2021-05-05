@@ -17,9 +17,19 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 4;
         public override QuestType QuestType =>  QuestType.Main;
 
+		public override (int, int)[] QuestRewards => _rewards;
+		private (int, int)[] _rewards = new[]
+		{
+			(ModContent.ItemType<Items.Armor.DiverSet.DiverHead>(), 1),
+			(ModContent.ItemType<Items.Armor.DiverSet.DiverBody>(), 1),
+			(ModContent.ItemType<Items.Armor.DiverSet.DiverLegs>(), 1),
+			(ModContent.ItemType<Items.Material.TribalScale>(), 3),
+			(Terraria.ID.ItemID.GoldCoin, 6)
+		};
         public StrangeSeas()
         {
-            _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
+            _questSections.Add(new RetrievalSection(ModContent.ItemType<Items.Consumable.BlackPearl>(), 1));
+            _questSections.Add(new KillSection(ModContent.NPCType<NPCs.Tides.Rylheian>(), 1, "the monster controlling the Tide"));
         }
     }
 }

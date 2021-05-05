@@ -17,9 +17,17 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 3;
         public override QuestType QuestType => QuestType.Slayer;
 
+		public override (int, int)[] QuestRewards => _rewards;
+		private (int, int)[] _rewards = new[]
+		{
+			(ModContent.ItemType<Items.Material.TechDrive>(), 5),
+			(ModContent.ItemType<Items.Ammo.FaerieStar>(), 75),
+			(Terraria.ID.ItemID.GoldCoin, 2)
+		};
+
         public SlayerQuestMeteor()
         {
-            _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
+            _questSections.Add(new KillSection(new int[] { ModContent.NPCType<NPCs.AstralAdventurer.AstralAdventurer>(), ModContent.NPCType<NPCs.FallingAsteroid.Falling_Asteroid>(), ModContent.NPCType<NPCs.Orbitite.Mineroid>(), ModContent.NPCType<NPCs.MoltenCore.Molten_Core>()}, 10, "meteorite enemies"));
         }
     }
 }

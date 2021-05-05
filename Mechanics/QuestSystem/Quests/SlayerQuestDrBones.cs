@@ -18,9 +18,17 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 2;
         public override QuestType QuestType => QuestType.Slayer;
 
+		public override (int, int)[] QuestRewards => _rewards;
+		private (int, int)[] _rewards = new[]
+		{
+			((int)Terraria.ID.ItemID.ArchaeologistsJacket, 1),
+            (Terraria.ID.ItemID.ArchaeologistsPants, 1),
+            (Terraria.ID.ItemID.TigerSkin, 1),
+			(Terraria.ID.ItemID.GoldCoin, 1)
+		};
         public SlayerQuestDrBones()
         {
-            _questSections.Add(new ConcurrentSection(new KillSection(10, 10), new KillSection(15, 10), new KillSection(20, 10)));
+            _questSections.Add(new KillSection(Terraria.ID.NPCID.DoctorBones, 1));    
         }
     }
 }
