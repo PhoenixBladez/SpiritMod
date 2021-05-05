@@ -58,6 +58,7 @@ namespace SpiritMod.UI.QuestUI
 
 		public override void OnInitialize()
         {
+			_isPossible = new bool[QuestManager.Quests.Count];
 			_rightPageLines = new List<UISolid>();
 			_imageMasks = new Texture2D[15];
 			for (int i = 0; i < _imageMasks.Length; i++)

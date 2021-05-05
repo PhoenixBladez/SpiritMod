@@ -12,7 +12,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 {
 	public interface IQuestSection
 	{
-		string ObjectiveOverride { get; set; }
+		//string ObjectiveOverride { get; set; }
 		bool CheckCompletion();
 		void Activate();
 		void Deactivate();
