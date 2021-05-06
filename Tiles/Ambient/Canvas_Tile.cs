@@ -20,8 +20,8 @@ namespace SpiritMod.Tiles.Ambient
 				16,
 				16
 			};
-			TileObjectData.newTile.AnchorBottom = default(AnchorData);
-			TileObjectData.newTile.AnchorTop = default(AnchorData);
+			TileObjectData.newTile.AnchorBottom = default;
+			TileObjectData.newTile.AnchorTop = default;
 			TileObjectData.newTile.AnchorWall = true;
 			TileObjectData.addTile(Type);
 			disableSmartCursor = true;
@@ -31,14 +31,8 @@ namespace SpiritMod.Tiles.Ambient
 			AddMapEntry(new Color(150, 150, 150), name);
 		}
 
-		public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = fail ? 1 : 3;
-		}
+		public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
 
-		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<Items.Material.Canvas>());
-		}
+		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<Items.Material.Canvas>());
 	}
 }

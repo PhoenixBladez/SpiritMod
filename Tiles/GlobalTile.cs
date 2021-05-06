@@ -150,12 +150,15 @@ namespace SpiritMod.Tiles
 			}
 			return base.CanExplode(i, j, type);
 		}
-		int[] TileArray212 = { 0, 3, 185, 186, 187, 71, 28 };
+
+		int[] TileArray212 = { TileID.Dirt, TileID.Plants, TileID.SmallPiles, TileID.LargePiles, TileID.LargePiles2, TileID.MushroomPlants, TileID.Pots };
+
 		public override void RandomUpdate(int i, int j, int type)
 		{
 			bool inOcean = (i < Main.maxTilesX / 16 || i > (Main.maxTilesX / 16) * 15) && j < (int)Main.worldSurface; //Might need adjustment; don't know if this will be exclusively in the ocean
-    		if (type == TileID.Sand && inOcean && Framing.GetTileSafely(i, j - 1).liquid > 155 && Main.rand.NextBool(25) && !Framing.GetTileSafely(i, j).topSlope() && Framing.GetTileSafely(i, j-1).type != ModContent.TileType<Tiles.Ambient.Kelp.OceanKelp>()) //woo
-        			WorldGen.PlaceTile(i, j - 1, ModContent.TileType<Tiles.Ambient.Kelp.OceanKelp>());
+    		if (type == TileID.Sand && inOcean && !Framing.GetTileSafely(i, j - 1).active() && Framing.GetTileSafely(i, j - 1).liquid > 155 && Main.rand.NextBool(25) && !Framing.GetTileSafely(i, j).topSlope()) //woo
+        			WorldGen.PlaceTile(i, j - 1, ModContent.TileType<Ambient.Kelp.OceanKelp>()); //Kelp spawning
+
 			if (type == TileID.CorruptGrass || type == TileID.Ebonstone) {
 				if (MyWorld.CorruptHazards < 20) {
 					if ((TileArray212.Contains(Framing.GetTileSafely(i, j - 1).type) && TileArray212.Contains(Framing.GetTileSafely(i, j - 2).type) && TileArray212.Contains(Framing.GetTileSafely(i, j - 3).type)) && (j > (int)Main.worldSurface - 100 && j < (int)Main.rockLayer - 20)) {

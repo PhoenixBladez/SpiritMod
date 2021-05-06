@@ -1365,44 +1365,22 @@ namespace SpiritMod
 			int[] moddedMaterials = new int[] { ItemType<BismiteCrystal>(), ItemType<OldLeather>() };
 
 			//Tile tile;
-			for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY) * 15E-05); k++) {
-				int EEXX = WorldGen.genRand.Next(100, Main.maxTilesX - 100);
-				int WHHYY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 300);
-				if (Main.tile[EEXX, WHHYY] != null) {
-					if (Main.tile[EEXX, WHHYY].active()) {
-						if (Main.tile[EEXX, WHHYY].type == 161) {
-							WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)TileType<CryoliteOreTile>());
-						}
-						else if (Main.tile[EEXX, WHHYY].type == 163) {
-							WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)TileType<CryoliteOreTile>());
-						}
-						else if (Main.tile[EEXX, WHHYY].type == 164) {
-							WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)TileType<CryoliteOreTile>());
-						}
-						else if (Main.tile[EEXX, WHHYY].type == 200) {
-							WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)TileType<CryoliteOreTile>());
-						}
-					}
+			for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY) * 15E-05); k++) {
+				int x = WorldGen.genRand.Next(100, Main.maxTilesX - 100);
+				int y = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 300);
+				Tile t = Framing.GetTileSafely(x, y);
+				if (t.active()) {
+					if (t.type == TileID.IceBlock || t.type == TileID.CorruptIce || t.type == TileID.HallowedIce || t.type == TileID.FleshIce)
+						WorldGen.OreRunner(x, y, WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)TileType<CryoliteOreTile>());
 				}
 			}
-			for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 5.5f) * 15E-05); k++) {
-				int EEXX = WorldGen.genRand.Next(100, Main.maxTilesX - 100);
-				int WHHYY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 300);
-				if (Main.tile[EEXX, WHHYY] != null) {
-					if (Main.tile[EEXX, WHHYY].active()) {
-						if (Main.tile[EEXX, WHHYY].type == 161) {
-							WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(6, 7), WorldGen.genRand.Next(6, 7), (ushort)TileType<CreepingIceTile>());
-						}
-						else if (Main.tile[EEXX, WHHYY].type == 163) {
-							WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(6, 7), WorldGen.genRand.Next(6, 7), (ushort)TileType<CreepingIceTile>());
-						}
-						else if (Main.tile[EEXX, WHHYY].type == 164) {
-							WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(6, 7), WorldGen.genRand.Next(6, 7), (ushort)TileType<CreepingIceTile>());
-						}
-						else if (Main.tile[EEXX, WHHYY].type == 200) {
-							WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(6, 7), WorldGen.genRand.Next(6, 7), (ushort)TileType<CreepingIceTile>());
-						}
-					}
+			for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY * 5.5f) * 15E-05); k++) {
+				int x = WorldGen.genRand.Next(100, Main.maxTilesX - 100);
+				int y = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 300);
+				Tile t = Framing.GetTileSafely(x, y);
+				if (t.active()) {
+					if (t.type == TileID.IceBlock || t.type == TileID.CorruptIce || t.type == TileID.HallowedIce || t.type == TileID.FleshIce)
+						WorldGen.OreRunner(x, y, WorldGen.genRand.Next(6, 7), WorldGen.genRand.Next(6, 7), (ushort)TileType<CreepingIceTile>());
 				}
 			}
 
@@ -1413,7 +1391,7 @@ namespace SpiritMod
 			AddToVanillaChest(new ChestInfo(new int[] { 
 				ItemType<OvergrowthStaff>() }, 
 				1, 0.33f) , livingWoodChests, 1);
-			AddToVanillaChest(new ChestInfo(ItemType<MetalBand>(), 1, 0.1f) , goldChests, 1);
+			AddToVanillaChest(new ChestInfo(new int[] { ItemType<MetalBand>(), ItemType<ShortFuse>(), ItemType<LongFuse>() }, 1, 0.1f) , goldChests, 1);
 			AddToVanillaChest(new ChestInfo(ItemType<HollowNail>()), spiderChests, 1);
 			AddToVanillaChest(new ChestInfo(new int[] {
 				ItemType<Book_AccessoryGuide>(),
