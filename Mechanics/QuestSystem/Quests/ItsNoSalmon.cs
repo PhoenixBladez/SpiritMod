@@ -15,7 +15,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestClient => "The Adventurer";
 		public override string QuestDescription => "I've got a, uh, perfectly normal quest for ya. Why don't you go ahead and head to the Jungle to fish up a Hornetfish for me? It's supposed to be a real delicacy. Be careful, though. I've heard it can be a... tough catch. Whaddya mean, this sounds exactly like something the Angler would want you to do?";
 		public override int Difficulty => 2;
-        public override QuestType QuestType => QuestType.Forager;
+		public override string QuestCategory => "Forager";
 
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
@@ -29,7 +29,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public ItsNoSalmon()
         {
-            _questTasks.Add(new RetrievalTask(ModContent.ItemType<Items.Consumable.Quest.HornetfishQuest>(), 1));
+            _tasks.AddTask(new RetrievalTask(ModContent.ItemType<Items.Consumable.Quest.HornetfishQuest>(), 1));
         }
     }
 }

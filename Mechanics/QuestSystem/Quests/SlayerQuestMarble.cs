@@ -15,7 +15,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestClient => "The Adventurer";
 		public override string QuestDescription => "You've really shaken up the world after slaying the great evil in that disgusting biome. New horrors are startin' to crop up everwhere. The Marble Caverns have seen quite a stir especially. This new monstrosity's got tentacles, eyes, fireballs, you name it. Can you go kill this monstrosity for me, lad?";
 		public override int Difficulty => 3;
-        public override QuestType QuestType => QuestType.Slayer;
+		public override string QuestCategory => "Slayer";
 
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
@@ -28,7 +28,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		};
         public SlayerQuestMarble()
         {
-            _questTasks.Add(new SlayTask(ModContent.NPCType<NPCs.Beholder.Beholder>(), 1));
+            _tasks.AddTask(new SlayTask(ModContent.NPCType<NPCs.Beholder.Beholder>(), 1));
 
         }
 		

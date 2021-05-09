@@ -15,7 +15,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestClient => "The Adventurer";
 		public override string QuestDescription => "As if these freaky Blood Moons weren't enough, a new necromancer has taken control over a horde of zombies! The freakshow keeps summonin' zombies and is sure to overrun our town if we don't do anythin'. If you see one, take it out immediately, you hear?";
 		public override int Difficulty => 3;
-        public override QuestType QuestType => QuestType.Slayer;
+		public override string QuestCategory => "Slayer";
 
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
@@ -29,7 +29,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public SlayerQuestOccultist()
         {
-            _questTasks.Add(new SlayTask(ModContent.NPCType<NPCs.Occultist.Occultist>(), 1));
+            _tasks.AddTask(new SlayTask(ModContent.NPCType<NPCs.Occultist.Occultist>(), 1));
         }
     }
 }

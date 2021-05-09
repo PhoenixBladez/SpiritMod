@@ -15,7 +15,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestClient => "The Adventurer";
 		public override string QuestDescription => "The sands of the desert hide a lot of secrets beneath 'em. There's supposed to be an Ancient Ziggurat buried near the surface of one of those wastelands. Could ya head down there and scavenge some relics from me? ";
 		public override int Difficulty => 2;
-        public override QuestType QuestType =>  QuestType.Main;
+		public override string QuestCategory => "Main";
 
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
@@ -30,7 +30,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public IdleIdol()
         {
-            _questTasks.Add(new RetrievalTask(ModContent.ItemType<Items.Consumable.Quest.ScarabIdolQuest>(), 1));
+            _tasks.AddTask(new RetrievalTask(ModContent.ItemType<Items.Consumable.Quest.ScarabIdolQuest>(), 1));
         }
 
         public override void OnQuestComplete()

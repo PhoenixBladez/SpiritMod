@@ -15,9 +15,9 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestClient => "The Adventurer";
 		public override string QuestDescription => "D'you ever feel like spicin' things up, lad? I've got the perfect new aesthetic for you- retrofuturism! What, d'you think that isn't my style? I dabble in everythin', lad! Trust me, your town will look fabulous with some '80s funk mixed in.";
 		public override int Difficulty => 1;
-        public override QuestType QuestType => QuestType.Designer;
+		public override string QuestCategory => "Designer";
 
-        public override (int, int)[] QuestRewards => _rewards;
+		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
 			(ModContent.ItemType<Items.Placeable.Furniture.Neon.BlueNeonSign>(), 1),
@@ -28,7 +28,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public StylishSetup()
         {
-            _questTasks.Add(new RetrievalTask(ModContent.ItemType<Items.Material.SynthMaterial>(), 1, "Craft"));
+            _tasks.AddTask(new RetrievalTask(ModContent.ItemType<Items.Material.SynthMaterial>(), 1, "Craft"));
         }
 
         public override void OnQuestComplete()

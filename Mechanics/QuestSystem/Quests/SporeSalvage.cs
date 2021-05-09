@@ -15,7 +15,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestClient => "The Adventurer";
 		public override string QuestDescription => "I've been hearin' stories about some new flora that's cropped up around those strange Mushroom Forests recently. These lil' buggers seem to just sway from side to side, as if they're dancin'. I have no real motive this time around, I just wanna see one of 'em. Mind fetching one for me?";
 		public override int Difficulty => 2;
-        public override QuestType QuestType => QuestType.Forager;
+		public override string QuestCategory => "Forager";
 
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
@@ -28,7 +28,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public SporeSalvage()
         {
-            _questTasks.Add(new RetrievalTask(ModContent.ItemType<Items.Consumable.VibeshroomItem>(), 1));
+            _tasks.AddTask(new RetrievalTask(ModContent.ItemType<Items.Consumable.VibeshroomItem>(), 1));
         }
     }
 }

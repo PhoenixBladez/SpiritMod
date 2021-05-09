@@ -16,26 +16,51 @@ namespace SpiritMod.Mechanics.QuestSystem
 {
     public static class QuestManager
     {
+		/* Boffin's TODO list
+		
+		 * Quest HUD!
+		 * Book objectives need a scroll bar and wrapping.
+		 * Daily quests / favours? Quests that don't appear in the completed section when
+		   completed because they're small.
+		 * NPC text override and quest buttons. (a helper class with a bunch of queued up quests to give for town npcs!)
+		 * 
+		 * 
+		 * 
+		 * 
+		 * 
+
+		*/
 		public const int MAX_QUESTS_ACTIVE = 5;
 
 		public static List<Quest> Quests { get; private set; }
 		public static List<Quest> ActiveQuests { get; private set; }
 		public static bool QuestBookUnlocked { get; set; }
+		public static Dictionary<string, QuestCategory> Categories { get; private set; }
 
 		private static Dictionary<Type, Quest> _questDict;
-		private static Dictionary<string, IQuestTask> _tasksDict;
+		private static Dictionary<string, QuestTask> _tasksDict;
 		private static int _serverSyncCounter;
 
         public static void Load()
         {
 			_questDict = new Dictionary<Type, Quest>();
-			_tasksDict = new Dictionary<string, IQuestTask>();
+			_tasksDict = new Dictionary<string, QuestTask>();
+			Categories = new Dictionary<string, QuestCategory>();
 
 			Quests = new List<Quest>();
             ActiveQuests = new List<Quest>();
-            
-            // add all quests from the assembly
-            IEnumerable<Type> questTypes = typeof(QuestManager).Assembly.GetTypes().Where(t => t.IsSubclassOf(typeof(Quest)) && t != typeof(InstancedQuest));
+
+			// register our categories
+			Texture2D iconTexture = SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/Icons");
+			RegisterCategory("Main", new Color(234, 194, 107), iconTexture, new Rectangle(0, 0, 18, 18));
+			RegisterCategory("Explorer", new Color(186, 141, 117), iconTexture, new Rectangle(54, 0, 18, 18));
+			RegisterCategory("Forager", new Color(153, 196, 102), iconTexture, new Rectangle(36, 0, 18, 18));
+			RegisterCategory("Slayer", new Color(196, 66, 77), iconTexture, new Rectangle(18, 0, 18, 18));
+			RegisterCategory("Designer", new Color(125, 183, 224), iconTexture, new Rectangle(72, 0, 18, 18));
+			RegisterCategory("Other", new Color(173, 117, 198), iconTexture, new Rectangle(90, 0, 18, 18));
+
+			// add all quests from the assembly
+			IEnumerable<Type> questTypes = typeof(QuestManager).Assembly.GetTypes().Where(t => t.IsSubclassOf(typeof(Quest)) && t != typeof(InstancedQuest));
             foreach (Type type in questTypes)
             {
 				Quest q = (Quest)Activator.CreateInstance(type);
@@ -49,17 +74,23 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 				q.WhoAmI = Quests.Count;
 
+				// if it contains a unique category name, just add it to the list of categories.
+				if (!Categories.ContainsKey(q.QuestCategory))
+				{
+					RegisterCategory(q.QuestCategory, Color.White, null, null);
+				}
+
 				Quests.Add(q);
 				_questDict[type] = q;
 			}
 
 			// store an instance of all quest tasks for cross-mod compatibility purposes.
-			IEnumerable<Type> taskTypes = typeof(QuestManager).Assembly.GetTypes().Where(t => typeof(IQuestTask).IsAssignableFrom(t));
+			IEnumerable<Type> taskTypes = typeof(QuestManager).Assembly.GetTypes().Where(t => typeof(QuestTask).IsAssignableFrom(t));
 			foreach (Type type in taskTypes)
 			{
 				if (type.IsInterface) continue;
 
-				var task = (IQuestTask)Activator.CreateInstance(type);
+				var task = (QuestTask)Activator.CreateInstance(type);
 				_tasksDict[task.ModCallName] = task;
 			}
 
@@ -72,8 +103,10 @@ namespace SpiritMod.Mechanics.QuestSystem
 
             Quests = null;
             ActiveQuests = null;
+			Categories = null;
 			_questDict = null;
-        }
+			_tasksDict = null;
+		}
 
 		public static bool ActivateQuest(int index)
 		{
@@ -111,7 +144,6 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 			// set to not active.
 			quest.IsActive = false;
-			quest.ResetProgress();
 		}
 
 		public static void GiveRewards(Quest quest)
@@ -119,6 +151,19 @@ namespace SpiritMod.Mechanics.QuestSystem
 			if (quest.RewardsGiven) return;
 
 			quest.RewardsGiven = true;
+		}
+
+		private static void RegisterCategory(string category, Color colour, Texture2D iconTexture, Rectangle? frame)
+		{
+			Categories[category] = new QuestCategory() { Index = Categories.Count, Name = category, Color = colour, Texture = iconTexture, Frame = frame };
+		}
+
+		public static QuestCategory GetCategoryInfo(string category)
+		{
+			if (Categories.TryGetValue(category, out var data)) return data;
+			// if it doesn't exist, register
+			RegisterCategory(category, Color.White, null, null);
+			return Categories[category];
 		}
 
 		public static void Update()
@@ -219,12 +264,12 @@ namespace SpiritMod.Mechanics.QuestSystem
 			if (!QuestUtils.TryUnbox(args[index++], out Texture2D questImage, "Quest image")) return -1;
 
 			// quest objectives
-			List<IQuestTask> tasks = new List<IQuestTask>();
+			List<QuestTask> tasks = new List<QuestTask>();
 			for (int i = index; i < args.Length; i++)
 			{
 				if (!QuestUtils.TryUnbox(args[i], out object[] objectiveArgs, "Quest objective " + (i - index + 1))) return -1;
 
-				IQuestTask task = ParseTaskFromArguments(objectiveArgs);
+				QuestTask task = ParseTaskFromArguments(objectiveArgs);
 				if (task == null)
 				{
 					SpiritMod.Instance.Logger.Warn("Task returned null.");
@@ -235,7 +280,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 			}
 
 			// add the quest
-			Quest q = new InstancedQuest(questName, questDifficulty, questClient, questDesc, questRewards, questImage, tasks);
+			Quest q = new InstancedQuest(questName, questCategory, questDifficulty, questClient, questDesc, questRewards, questImage, tasks);
 			q.WhoAmI = Quests.Count;
 			Quests.Add(q);
 
@@ -279,20 +324,29 @@ namespace SpiritMod.Mechanics.QuestSystem
 			}
 		}
 
-		public static IQuestTask ParseTaskFromArguments(object[] args)
+		public static QuestTask ParseTaskFromArguments(object[] args)
 		{
 			if (!QuestUtils.TryUnbox(args[0], out string name, "Quest Objective Type"))
 			{
 				return null;
 			}
 
-			if (!_tasksDict.TryGetValue(name, out IQuestTask task))
+			if (!_tasksDict.TryGetValue(name, out QuestTask task))
 			{
 				SpiritMod.Instance.Logger.Warn("Quest task " + name + " does not exist.");
 				return null;
 			}
 
 			return task.Parse(args);
+		}
+
+		public struct QuestCategory
+		{
+			public int Index;
+			public string Name;
+			public Color Color;
+			public Texture2D Texture;
+			public Rectangle? Frame;
 		}
 	}
 }

@@ -15,7 +15,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestClient => "The Adventurer";
 		public override string QuestDescription => "So you're plannin' on living in this crazy world, huh? We've got a lot of explorin' to do before we can get a lay of the land aroun' these parts. Let's start by bitin' the bullet- we need to know how dangerous those Corrupt Chasms are and how to deal with those freaky Eaters. Tread with caution, lad.";
 		public override int Difficulty => 2;
-        public override QuestType QuestType =>  QuestType.Explorer;
+		public override string QuestCategory => "Explorer";
 
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
@@ -26,12 +26,14 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public ExplorerQuestCorrupt()
         {
-                _questTasks.Add(new ExploreTask((Player player) => player.ZoneCorrupt, 4000f, "the Corruption"));
+            _tasks.AddTask(new ExploreTask((Player player) => player.ZoneCorrupt, 4000f, "the Corruption"));
         }
+
 		public override bool IsQuestPossible()
 		{
             return !WorldGen.crimson;
         }
+
 		public override void OnQuestComplete()
 		{
             bool showUnlocks = true;

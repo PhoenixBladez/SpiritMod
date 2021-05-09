@@ -69,28 +69,28 @@ namespace SpiritMod.UI.QuestUI
             UIMoveExpandWindow mainWindow = new UIMoveExpandWindow(SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/AdventurerBook"), false, false, 10);
             mainWindow.Left.Set(450, 0);
             mainWindow.Top.Set(230, 0);
-            mainWindow.Width.Set(1019, 0);
-            mainWindow.Height.Set(706, 0);
-			mainWindow.MinWidth.Set(1019, 0);
-			mainWindow.MinHeight.Set(706, 0);
+            mainWindow.Width.Set(1098, 0);
+            mainWindow.Height.Set(760, 0);
+			mainWindow.MinWidth.Set(1098, 0); // 1019
+			mainWindow.MinHeight.Set(760, 0); // 706
 			mainWindow.SetPadding(0f);
             // ensure the UI stays on screen when moved
             mainWindow.ForceScreenStick = true;
 
             // left page area
             UIElement leftPage = new UIElement();
-            leftPage.Left.Set(204f, 0f);
-            leftPage.Top.Set(135f, 0f);
-            leftPage.Width.Set(340f, 0f);
-            leftPage.Height.Set(450f, 0f);
+            leftPage.Left.Set(0f, 0.200196271f);
+            leftPage.Top.Set(0f, 0.19121813f);
+            leftPage.Width.Set(0f, 0.333660451f);
+            leftPage.Height.Set(0f, 0.637393768f);
             leftPage.SetPadding(0);
 
             // right page area
             UIElement rightPage = new UIElement();
-            rightPage.Left.Set(605f, 0f);
-            rightPage.Top.Set(120f, 0f);
-            rightPage.Width.Set(340f, 0f);
-            rightPage.Height.Set(510f, 0f);
+            rightPage.Left.Set(0f, 0.593719333f);
+            rightPage.Top.Set(0f, 0.169971671f);
+            rightPage.Width.Set(0f, 0.333660451f);
+            rightPage.Height.Set(0f, 0.722379603f);
             rightPage.SetPadding(0);
 
             // top buttons
@@ -199,7 +199,7 @@ namespace SpiritMod.UI.QuestUI
 
             // quest category
             _questCategoryText = new UISimpleWrappableText("", 1.08f);
-			_questCategoryText.Top.Set(21f, 0f);
+			_questCategoryText.Top.Set(25f, 0f);
 			_questCategoryText.Width.Set(0f, 1f);
 			_questCategoryText.Centered = true;
 			_questCategoryText.Border = true;
@@ -231,14 +231,14 @@ namespace SpiritMod.UI.QuestUI
 
 			// client title
 			_questClientTitle = new UISimpleWrappableText("Client - ", 0.8f);
-			_questClientTitle.Top.Set(254f, 0f);
+			_questClientTitle.Top.Set(286f, 0f);
 			_questClientTitle.Colour = new Color(43, 28, 17);
             rightPage.Append(_questClientTitle);
 
-            rightPage.Append(CreateLine(268f));
+            rightPage.Append(CreateLine(300f));
 
             _questClientText = new UISimpleWrappableText("", 0.7f, false, true);
-			_questClientText.Top.Set(272f, 0f);
+			_questClientText.Top.Set(304f, 0f);
 			_questClientText.Width.Set(0f, 1f);
 			_questClientText.MinWidth.Set(0f, 1f);
 			_questClientText.Colour = new Color(43, 28, 17);
@@ -246,14 +246,14 @@ namespace SpiritMod.UI.QuestUI
 
             // rewards title
             _questRewardsTitle = new UISimpleWrappableText("Rewards", 0.8f);
-			_questRewardsTitle.Top.Set(392f, 0f);
+			_questRewardsTitle.Top.Set(424f, 0f);
 			_questRewardsTitle.Colour = new Color(43, 28, 17);
             rightPage.Append(_questRewardsTitle);
 
-            rightPage.Append(CreateLine(406f));
+            rightPage.Append(CreateLine(438f));
 
 			_questRewardList = new UIGridList();
-			_questRewardList.Top.Set(410, 0f);
+			_questRewardList.Top.Set(442, 0f);
 			_questRewardList.Height.Set(44f, 0f);
 			_questRewardList.Width.Set(0f, 1f);
 			_questRewardList.ItemSize = new Vector2(42);
@@ -261,17 +261,16 @@ namespace SpiritMod.UI.QuestUI
 			rightPage.Append(_questRewardList);
 
 			_interactionWarningText = new UISimpleWrappableText("", 0.65f);
-			_interactionWarningText.Top.Set(459f, 0f);
+			_interactionWarningText.Top.Set(491f, 0f);
 			_interactionWarningText.Left.Set(0f, 0f);
 			_interactionWarningText.Height.Set(22f, 0f);
 			_interactionWarningText.Width.Set(-106f, 1f);
-			_interactionWarningText.UseChatManager = true;
 			_interactionWarningText.Colour = new Color(43, 28, 17);
 			//_interactionWarningText.Centered = true;
 			rightPage.Append(_interactionWarningText);
 
 			_questInteractButton = new UISelectableOutlineRectPanel();
-			_questInteractButton.Top.Set(455f, 0f);
+			_questInteractButton.Top.Set(489f, 0f);
 			_questInteractButton.Left.Set(-110f, 1f);
 			_questInteractButton.Height.Set(22f, 0f);
 			_questInteractButton.Width.Set(110f, 0f);
@@ -342,7 +341,7 @@ namespace SpiritMod.UI.QuestUI
 			rightPage.Append(_questInteractButton);
 
 			_obnoxiousTutorialGlow = new UIShaderImage(Main.blackTileTexture);
-			_obnoxiousTutorialGlow.Top.Set(414f, 0f);
+			_obnoxiousTutorialGlow.Top.Set(448f, 0f);
 			_obnoxiousTutorialGlow.Left.Set(-150f, 1f);
 			_obnoxiousTutorialGlow.Height.Set(102f, 0f);
 			_obnoxiousTutorialGlow.Width.Set(189f, 0f);
@@ -535,10 +534,10 @@ namespace SpiritMod.UI.QuestUI
 			_questClientTitle.Text = "Client - " + quest.QuestClient;
 			_questClientText.Text = quest.QuestDescription;
 			_questClientText.UpdateText();
-			(Color, string) category = QuestUtils.GetCategoryInfo(quest.QuestType);
-			_questCategoryText.Text = category.Item2;
-			_questCategoryText.Colour = category.Item1;
-			_questObjectivesText.Text = quest.GetObjectives(quest.IsActive);
+			var category = QuestManager.GetCategoryInfo(quest.QuestCategory);
+			_questCategoryText.Text = category.Name;
+			_questCategoryText.Colour = category.Color;
+			_questObjectivesText.Text = quest.GetObjectivesBook();
 
 			_questRewardList.Clear();
 			if (quest.QuestRewards != null)
@@ -619,35 +618,45 @@ namespace SpiritMod.UI.QuestUI
 			// filter by quest type
 			if (_questFilterIndex > 0)
 			{
-				int typeFilter = (int)QuestType.Other | (int)QuestType.Designer;
 				switch (_questFilterIndex)
 				{
 					case 1:
 						// get all Main quests
-						typeFilter = (int)QuestType.Main;
+						int main = QuestManager.GetCategoryInfo("Main").Index;
+						orderedFilteredQuests = orderedFilteredQuests
+							.Where(q => q.MyQuest.QuestCategoryIndex == main);
 						break;
 					case 2:
 						// get all Explorer quests
-						typeFilter = (int)QuestType.Explorer;
+						int explorer = QuestManager.GetCategoryInfo("Explorer").Index;
+						orderedFilteredQuests = orderedFilteredQuests
+							.Where(q => q.MyQuest.QuestCategoryIndex == explorer);
 						break;
 					case 3:
 						// get all Forager quests
-						typeFilter = (int)QuestType.Forager;
+						int forager = QuestManager.GetCategoryInfo("Forager").Index;
+						orderedFilteredQuests = orderedFilteredQuests
+							.Where(q => q.MyQuest.QuestCategoryIndex == forager);
 						break;
 					case 4:
 						// get all Slayer quests
-						typeFilter = (int)QuestType.Slayer;
+						int slayer = QuestManager.GetCategoryInfo("Slayer").Index;
+						orderedFilteredQuests = orderedFilteredQuests
+							.Where(q => q.MyQuest.QuestCategoryIndex == slayer);
+						break;
+					case 5:
+						// get all Other quests
+						// the first 4 quest categories will *always* be considered the main categories unless quests
+						// need reworking, so this should hold up for the time being.
+						orderedFilteredQuests = orderedFilteredQuests
+							.Where(q => q.MyQuest.QuestCategoryIndex > 3);
 						break;
 				}
-				orderedFilteredQuests = orderedFilteredQuests
-					.Where(q => ((int)q.MyQuest.QuestType & typeFilter) != 0)
-					.OrderBy(q => (q.MyQuest.IsUnlocked ? -100 : 0) + q.MyQuest.Difficulty);
 			}
-			else
-			{
-				orderedFilteredQuests = orderedFilteredQuests
-					.OrderBy(q => (q.MyQuest.IsUnlocked ? -10000000 : 0) + ((int)QuestUtils.GetBaseQuestType(q.MyQuest.QuestType)) * 1000 + q.MyQuest.Difficulty);
-			}
+
+			// sort by unlocked, then category index, then by difficulty
+			orderedFilteredQuests = orderedFilteredQuests
+				.OrderBy(q => !q.MyQuest.IsUnlocked).ThenBy(q => q.MyQuest.QuestCategoryIndex).ThenBy(q => q.MyQuest.Difficulty);
 
 			foreach (var quest in orderedFilteredQuests)
 			{
@@ -682,7 +691,7 @@ namespace SpiritMod.UI.QuestUI
 		{
 			if (SelectedQuest != null && SelectedQuest.IsActive)
 			{
-				_questObjectivesText.Text = SelectedQuest.GetObjectives(true);
+				_questObjectivesText.Text = SelectedQuest.GetObjectivesBook();
 			}
 			base.Update(gameTime);
 		}

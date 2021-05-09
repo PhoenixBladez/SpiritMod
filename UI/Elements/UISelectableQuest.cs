@@ -36,8 +36,9 @@ namespace SpiritMod.UI.Elements
 			Width.Set(0f, 1f);
 
 			// icon
-			QuestType baseType = QuestUtils.GetBaseQuestType(quest.QuestType);
-			Icon = new UIImageFramed(SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/Icons"), new Rectangle(QuestUtils.Log2((int)baseType) * 18, 0, 18, 18));
+			string questCategory = quest.QuestCategory;
+			var categoryInfo = QuestManager.GetCategoryInfo(questCategory);
+			Icon = new UIImageFramed(categoryInfo.Texture, categoryInfo.Frame.HasValue ? categoryInfo.Frame.Value : categoryInfo.Texture.Bounds);
 			Icon.Left.Set(-10f, 0f);
 			Icon.Top.Set(-10f, 0f);
 			Append(Icon);

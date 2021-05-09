@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 using Terraria;
+using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
@@ -15,7 +18,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestClient => "The Adventurer";
 		public override string QuestDescription => "So you wanna be an adventurer, eh? Well, pack a bag and get out there! I'd actually planned to craft you a set of special armor. Unfortunately, some mangy Hookbats stole the sheaf of Durasilk I was usin'! They only come out at night around the forest surface. Mind retrievin' that silk for me so I can thank you properly?";
 		public override int Difficulty => 1;
-        public override QuestType QuestType => QuestType.Main;
+		public override string QuestCategory => "Main";
 		public override bool TutorialActivateButton => true;
 
 		public override (int, int)[] QuestRewards => _rewards;
@@ -30,8 +33,8 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public FirstAdventure()
         {
-            _questTasks.Add(new RetrievalTask(ModContent.ItemType<Items.Consumable.Quest.DurasilkSheaf>(), 1));
-        }
+			_tasks.AddTask(new RetrievalTask(ModContent.ItemType<Items.Consumable.Quest.DurasilkSheaf>(), 1));
+		}
 
 		public override void OnQuestComplete()
 		{
@@ -40,17 +43,10 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			QuestManager.UnlockQuest<RootOfTheProblem>(showUnlocks);
 			QuestManager.UnlockQuest<IdleIdol>(showUnlocks);
 
-
 			QuestManager.UnlockQuest<BareNecessities>(showUnlocks);
 
-			if (WorldGen.crimson)
-			{
-				QuestManager.UnlockQuest<ExplorerQuestCrimson>(showUnlocks);
-			}
-			else
-			{
-				QuestManager.UnlockQuest<ExplorerQuestCorrupt>(showUnlocks);
-			}
+			QuestManager.UnlockQuest<ExplorerQuestCrimson>(showUnlocks);
+			QuestManager.UnlockQuest<ExplorerQuestCorrupt>(showUnlocks);
 
 			QuestManager.UnlockQuest<HeartCrystalQuest>(showUnlocks);
 
@@ -61,6 +57,10 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			QuestManager.UnlockQuest<BreakingAndEntering>(showUnlocks);
 
 			base.OnQuestComplete();
+
+			string text = "Click on quests in the chat to open them in the book!";
+			if (Main.netMode == NetmodeID.SinglePlayer) Main.NewText(text);
+			else if (Main.netMode == NetmodeID.Server) NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(text), Color.White, -1);
 		}
 
 		public override void OnActivate()
@@ -79,7 +79,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		private void QuestGlobalNPC_OnEditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
 		{
-			if (pool[ModContent.NPCType<NPCs.Hookbat.Hookbat>()] > 0f)
+			if (pool.ContainsKey(ModContent.NPCType<NPCs.Hookbat.Hookbat>()))
 			{
 				pool[ModContent.NPCType<NPCs.Hookbat.Hookbat>()] = 0.75f;
 			}

@@ -82,6 +82,8 @@ namespace SpiritMod
 		public static SoundLooper caveAmbience;
 		public static SoundLooper spookyAmbience;
 
+		public static event Action<SpriteViewMatrix> OnModifyTransformMatrix;
+
 		//public static Texture2D MoonTexture;
 		public const string EMPTY_TEXTURE = "SpiritMod/Empty";
 		public static Texture2D EmptyTexture {
@@ -584,6 +586,7 @@ namespace SpiritMod
 				QuestBookUIState = new QuestBookUI();
 			}
 			QuestManager.Load();
+			Mechanics.EventSystem.EventManager.Load();
 			SpiritDetours.Initialize();
 
 			GlobalNoise = new PerlinNoise(Main.rand.Next());
@@ -832,6 +835,8 @@ namespace SpiritMod
 
 			QuestManager.Unload();
 			QuestBookUIState = null;
+
+			Mechanics.EventSystem.EventManager.Unload();
 
 			AdditiveCallManager.Unload();
 			SpiritGlowmask.Unload();
@@ -1357,6 +1362,8 @@ namespace SpiritMod
 				tremorTime = 0;
 				screenshakeTimer = 0;
 			}
+
+			OnModifyTransformMatrix?.Invoke(Transform);
 		}
 		internal void DrawUpdateToggles()
 		{

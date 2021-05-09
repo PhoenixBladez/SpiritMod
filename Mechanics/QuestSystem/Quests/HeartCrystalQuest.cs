@@ -15,7 +15,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestClient => "The Adventurer";
 		public override string QuestDescription => "So you've got some armor now, an' even a trusty weapon to boot! That's a great start, lad, but you're going to need to get even stronger to adventure properly. Head underground and collect a Life Crystal. They'll make sure you live longer when you're backpackin' across the land!";
 		public override int Difficulty => 2;
-        public override QuestType QuestType => QuestType.Forager;
+		public override string QuestCategory => "Forager";
 
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
@@ -36,7 +36,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		}
 		public HeartCrystalQuest()
         {
-            _questTasks.Add(new RetrievalTask(Terraria.ID.ItemID.LifeCrystal, 1));
+            _tasks.AddTask(new RetrievalTask(Terraria.ID.ItemID.LifeCrystal, 1));
         }
     }
 }

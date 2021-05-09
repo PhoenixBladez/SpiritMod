@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.ModLoader;
 
 using SpiritMod.Mechanics.QuestSystem.Quests;
+using Terraria.ID;
 
 namespace SpiritMod.Mechanics.QuestSystem
 {
@@ -23,22 +24,29 @@ namespace SpiritMod.Mechanics.QuestSystem
 
         public override void NPCLoot(NPC npc)
         {            
-            bool showUnlocks = true;
-            if (NPC.downedBoss1 || NPC.downedBoss2 || NPC.downedBoss3 || MyWorld.downedScarabeus || MyWorld.downedAncientFlier || MyWorld.downedMoonWizard || MyWorld.downedRaider)
+            if (npc.type == NPCID.EyeofCthulhu || 
+				npc.type == NPCID.EaterofWorldsHead || 
+				npc.type == NPCID.SkeletronHead || 
+				npc.type == ModContent.NPCType<NPCs.Boss.Scarabeus.Scarabeus>() ||
+				npc.type == ModContent.NPCType<NPCs.Boss.AncientFlyer>() ||
+				npc.type == ModContent.NPCType<NPCs.Boss.MoonWizard.MoonWizard>() ||
+				npc.type == ModContent.NPCType<NPCs.Boss.SteamRaider.SteamRaiderHead>())
             {
-                QuestManager.UnlockQuest<SlayerQuestOccultist>(showUnlocks);
-                QuestManager.UnlockQuest<UnidentifiedFloatingObjects>(showUnlocks);
+                QuestManager.UnlockQuest<SlayerQuestOccultist>(true);
+                QuestManager.UnlockQuest<UnidentifiedFloatingObjects>(true);
             }
-            if (NPC.downedBoss2)
-            {
-                QuestManager.UnlockQuest<SlayerQuestMarble>(showUnlocks);
-                QuestManager.UnlockQuest<SlayerQuestMeteor>(showUnlocks);                
+
+            if (npc.type == NPCID.EaterofWorldsHead)
+			{
+                QuestManager.UnlockQuest<SlayerQuestMarble>(true);
+                QuestManager.UnlockQuest<SlayerQuestMeteor>(true);                
             }
-            if (NPC.downedBoss3)
+
+            if (npc.type == NPCID.SkeletronHead)
             {
-                QuestManager.UnlockQuest<RaidingTheStars>(showUnlocks);
-                QuestManager.UnlockQuest<SongOfIceAndFire>(showUnlocks);  
-                QuestManager.UnlockQuest<StrangeSeas>(showUnlocks);                
+                QuestManager.UnlockQuest<RaidingTheStars>(true);
+                QuestManager.UnlockQuest<SongOfIceAndFire>(true);  
+                QuestManager.UnlockQuest<StrangeSeas>(true);                
             }
             OnNPCLoot?.Invoke(npc);
         }

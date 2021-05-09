@@ -15,7 +15,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestClient => "The Adventurer";
 		public override string QuestDescription => "I'm sure the monsters around the world haven't taken to kindly to you shakin' things up. It's time to gear up and get stronger. I've noticed two new materials that could be useful to you. Unfortunately, one of 'em is found only in the pits of the Underworld, while the other is found in the depths of the tundra. Are you up to the challenge?";
 		public override int Difficulty => 3;
-        public override QuestType QuestType =>  QuestType.Forager | QuestType.Main;
+		public override string QuestCategory => "Main";
 
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
@@ -29,7 +29,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public SongOfIceAndFire()
         {
-            _questTasks.Add(new ConcurrentTask(new RetrievalTask(ModContent.ItemType<Items.Material.CryoliteOre>(), 15), new RetrievalTask(ModContent.ItemType<Items.Material.CarvedRock>(), 10)));
+			_tasks.AddParallelTasks(new RetrievalTask(ModContent.ItemType<Items.Material.CryoliteOre>(), 15), new RetrievalTask(ModContent.ItemType<Items.Material.CarvedRock>(), 10));
         }
     }
 }

@@ -15,7 +15,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestClient => "The Adventurer";
 		public override string QuestDescription => "The mythical Seabreak Pearl... I've been hearin' rumors about it popping up recently. It's one of the rarest treasures out there, but it's almost like it has a mind of its own and wants to be found. I feel like somethin' deeper and more sinister is at work here. We should find the pearl an' get to the bottom of this mystery as soon as we can.";
 		public override int Difficulty => 4;
-        public override QuestType QuestType =>  QuestType.Main;
+		public override string QuestCategory => "Main";
 
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
@@ -26,10 +26,11 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(ModContent.ItemType<Items.Material.TribalScale>(), 3),
 			(Terraria.ID.ItemID.GoldCoin, 6)
 		};
+
         public StrangeSeas()
         {
-            _questTasks.Add(new RetrievalTask(ModContent.ItemType<Items.Consumable.BlackPearl>(), 1));
-            _questTasks.Add(new SlayTask(ModContent.NPCType<NPCs.Tides.Rylheian>(), 1, "the monster controlling the Tide"));
+            _tasks.AddTask(new RetrievalTask(ModContent.ItemType<Items.Consumable.BlackPearl>(), 1))
+				.AddTask(new SlayTask(ModContent.NPCType<NPCs.Tides.Rylheian>(), 1, "the monster controlling the Tide"));
         }
     }
 }

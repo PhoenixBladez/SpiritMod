@@ -15,6 +15,7 @@ namespace SpiritMod.UI.Elements
 {
 	public class UISimpleWrappableText : UIElement
 	{
+		private TextSnippet[] _array;
 		protected string _text;
 		public string Text
 		{
@@ -25,110 +26,158 @@ namespace SpiritMod.UI.Elements
 				UpdateText();
 			}
 		}
-		public Color Colour { get; set; }
+		private bool centered;
+		protected bool _wrappable;
+		private Color _colour;
+		public bool Centered { get => centered; set { centered = value; UpdateText(); } }
+		public Color Colour { get => _colour; set { _colour = value; UpdateText(); } }
 		public float Scale { get; set; }
 		public bool Large { get; set; }
-		public bool Centered { get; set; }
 		public bool Border { get; set; }
-		public bool UseChatManager { get; set; }
+		public bool Wrappable { get => _wrappable; set { _wrappable = value; UpdateText(); } }
 		public Color BorderColour { get; set; }
-		public DynamicSpriteFont Font { get => Large ? Main.fontDeathText : Main.fontMouseText; }
+		public DynamicSpriteFont Font => Large ? Main.fontDeathText : Main.fontMouseText;
 		private float _drawOffsetX;
-		protected bool _wrappable;
 
 		public UISimpleWrappableText(string text, float textScale = 1f, bool large = false, bool wrappable = false)
 		{
+			_text = text;
 			_wrappable = wrappable;
-			Colour = Color.White;
+			_colour = Color.White;
 			Scale = textScale;
 			Large = large;
-			Text = text;
+
+			UpdateText();
 		}
 
 		public void UpdateText()
 		{
-			if (_wrappable)
+			if (string.IsNullOrEmpty(_text))
 			{
-				if (UseChatManager)
-				{
-					SpiritMod.Instance.Logger.Debug("Trying to use ChatManager for SimpleWrappableText isn't possible at the moment.");
-				}
-				else
-				{
-					WrapText();
-				}
+				_array = null;
+				return;
 			}
+
+			_array = ChatManager.ParseMessage(_text, Colour).ToArray();
+			ChatManager.ConvertNormalSnippets(_array);
+
 			if (Centered)
 			{
-				if (UseChatManager)
-				{
-					_drawOffsetX = ChatManager.GetStringSize(Font, _text, new Vector2(Scale)).X;
-				}
-				else
-				{
-					_drawOffsetX = Font.MeasureString(_text).X * 0.5f * Scale;
-				}
+				_drawOffsetX = ChatManager.GetStringSize(Font, _array, new Vector2(Scale), Wrappable ? GetDimensions().Width : -1f).X * 0.5f;
 			}
-		}
-
-		protected void WrapText()
-		{
-			float width = GetDimensions().Width;
-			SpiritMod.Instance.Logger.Debug(width);
-			string textNoLines = Text.Replace('\n', ' ');
-			string[] words = textNoLines.Split(' ');
-			StringBuilder final = new StringBuilder();
-			float currentWidth = 0;
-			DynamicSpriteFont font = Large ? Main.fontDeathText : Main.fontMouseText;
-			float spaceWidth = font.MeasureString(" ").X * Scale;
-			for (int i = 0; i < words.Length; i++)
-			{
-				float wordWidth = font.MeasureString(words[i]).X * Scale;
-				if (currentWidth + spaceWidth + wordWidth >= width)
-				{
-					// add to next line
-					final.Append("\n");
-					currentWidth = 0;
-				}
-				else if (i > 0)
-				{
-					final.Append(" ");
-					currentWidth += spaceWidth;
-				}
-				final.Append(words[i]);
-				currentWidth += wordWidth;
-			}
-			_text = final.ToString();
 		}
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
-			Vector2 tl = GetDimensions().Position();
-			if (Centered) tl = new Vector2(GetDimensions().Center().X, tl.Y);
-
-			Vector2 pos = tl - Vector2.UnitX * _drawOffsetX;
-			if (UseChatManager)
+			if (_array == null)
 			{
-				TextSnippet[] array = ChatManager.ParseMessage(Text, Colour).ToArray();
-				ChatManager.ConvertNormalSnippets(array);
-				if (Border)
+				// no text to draw
+				return;
+			}
+
+			// get positions
+			var style = GetDimensions();
+			Vector2 tl = style.Position();
+			if (Centered) tl = new Vector2(style.Center().X, tl.Y);
+			Vector2 pos = tl - Vector2.UnitX * _drawOffsetX;
+
+			float maxWidth = Wrappable ? style.Width : -1f;
+
+			// draw
+			if (Border)
+			{
+				DrawColorCodedStringShadow(spriteBatch, Font, _array, pos, BorderColour, 0f, Vector2.Zero, new Vector2(Scale), maxWidth);
+			}
+			DrawColorCodedString(spriteBatch, Font, _array, pos, Colour, 0f, Vector2.Zero, new Vector2(Scale), out int h, maxWidth);
+		}
+
+		public static void DrawColorCodedStringShadow(SpriteBatch spriteBatch, DynamicSpriteFont font, TextSnippet[] snippets, Vector2 position, Color baseColor, float rotation, Vector2 origin, Vector2 baseScale, float maxWidth = -1f, float spread = 2f)
+		{
+			int num;
+			for (int i = 0; i < (int)ChatManager.ShadowDirections.Length; i++)
+			{
+				DrawColorCodedString(spriteBatch, font, snippets, position + (ChatManager.ShadowDirections[i] * spread), baseColor, rotation, origin, baseScale, out num, maxWidth, true);
+			}
+		}
+
+		public static Vector2 DrawColorCodedString(SpriteBatch spriteBatch, DynamicSpriteFont font, TextSnippet[] snippets, Vector2 position, Color baseColor, float rotation, Vector2 origin, Vector2 baseScale, out int hoveredSnippet, float maxWidth, bool ignoreColors = false)
+		{
+			Vector2 vector2;
+			int num = -1;
+			Vector2 vector21 = new Vector2((float)Main.mouseX, (float)Main.mouseY);
+			Vector2 x = position;
+			Vector2 vector22 = x;
+			float single = font.MeasureString(" ").X;
+			Color visibleColor = baseColor;
+			float single1 = 0f;
+			for (int i = 0; i < (int)snippets.Length; i++)
+			{
+				TextSnippet textSnippet = snippets[i];
+				textSnippet.Update();
+				if (!ignoreColors)
 				{
-					ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Font, array, pos, 0f, Vector2.Zero, new Vector2(Scale), out int hov);
+					visibleColor = textSnippet.GetVisibleColor();
+				}
+				float scale = textSnippet.Scale;
+				if (!textSnippet.UniqueDraw(false, out vector2, spriteBatch, x, visibleColor, scale))
+				{
+					string[] strArrays = textSnippet.Text.Split(new char[] { '\n' });
+					string[] strArrays1 = strArrays;
+					for (int j = 0; j < (int)strArrays1.Length; j++)
+					{
+						string[] strArrays2 = strArrays1[j].Split(new char[] { ' ' });
+						for (int k = 0; k < (int)strArrays2.Length; k++)
+						{
+							if (k != 0)
+							{
+								ref float singlePointer = ref x.X;
+								singlePointer = singlePointer + single * baseScale.X * scale;
+							}
+							if (maxWidth > 0f && x.X - position.X + font.MeasureString(strArrays2[k]).X * baseScale.X * scale > maxWidth)
+							{
+								x.X = position.X;
+								ref float y = ref x.Y;
+								y = y + (float)font.LineSpacing * single1 * baseScale.Y;
+								vector22.Y = Math.Max(vector22.Y, x.Y);
+								single1 = 0f;
+							}
+							if (single1 < scale)
+							{
+								single1 = scale;
+							}
+							DynamicSpriteFontExtensionMethods.DrawString(spriteBatch, font, strArrays2[k], x, visibleColor, rotation, origin, (baseScale * textSnippet.Scale) * scale, SpriteEffects.None, 0f);
+							Vector2 vector23 = font.MeasureString(strArrays2[k]);
+							if (vector21.Between(x, x + vector23))
+							{
+								num = i;
+							}
+							ref float x1 = ref x.X;
+							x1 = x1 + vector23.X * baseScale.X * scale;
+							vector22.X = Math.Max(vector22.X, x.X);
+						}
+						if ((int)strArrays.Length > 1 && j < strArrays1.Length - 1)
+						{
+							ref float lineSpacing = ref x.Y;
+							lineSpacing = lineSpacing + (float)font.LineSpacing * single1 * baseScale.Y;
+							x.X = position.X;
+							vector22.Y = Math.Max(vector22.Y, x.Y);
+							single1 = 0f;
+						}
+					}
 				}
 				else
 				{
-					ChatManager.DrawColorCodedString(spriteBatch, Font, array, pos, Colour, 0f, Vector2.Zero, new Vector2(Scale), out int hov2, -1f);
+					if (vector21.Between(x, x + vector2))
+					{
+						num = i;
+					}
+					ref float singlePointer1 = ref x.X;
+					singlePointer1 = singlePointer1 + vector2.X * baseScale.X * scale;
+					vector22.X = Math.Max(vector22.X, x.X);
 				}
-				return;
 			}
-			if (Border)
-			{
-				DynamicSpriteFontExtensionMethods.DrawString(spriteBatch, Font, Text, pos + Vector2.UnitX, BorderColour, 0f, Vector2.Zero, Scale, SpriteEffects.None, 0f);
-				DynamicSpriteFontExtensionMethods.DrawString(spriteBatch, Font, Text, pos - Vector2.UnitX, BorderColour, 0f, Vector2.Zero, Scale, SpriteEffects.None, 0f);
-				DynamicSpriteFontExtensionMethods.DrawString(spriteBatch, Font, Text, pos + Vector2.UnitY, BorderColour, 0f, Vector2.Zero, Scale, SpriteEffects.None, 0f);
-				DynamicSpriteFontExtensionMethods.DrawString(spriteBatch, Font, Text, pos - Vector2.UnitY, BorderColour, 0f, Vector2.Zero, Scale, SpriteEffects.None, 0f);
-			}
-			DynamicSpriteFontExtensionMethods.DrawString(spriteBatch, Font, Text, pos, Colour, 0f, Vector2.Zero, Scale, SpriteEffects.None, 0f);
+			hoveredSnippet = num;
+			return vector22;
 		}
 	}
 }

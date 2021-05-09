@@ -16,7 +16,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestClient => "The Adventurer";
 		public override string QuestDescription => " I need ya to go down to the Briar and show those beasts who's boss. Kill some of those big hounds an' those Thorn Stalkers. Maybe we can make the Briar a safer place... Ah, who am I kiddin'? That place is bound to stay a hellhole.";
 		public override int Difficulty => 3;
-        public override QuestType QuestType => QuestType.Slayer;
+		public override string QuestCategory => "Slayer";
 
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
@@ -29,7 +29,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public SlayerQuestBriar()
         {
-            _questTasks.Add(new SlayTask(new int[] { ModContent.NPCType<Reachman>(), ModContent.NPCType<ReachObserver>(), ModContent.NPCType<BlossomHound>(), ModContent.NPCType<ThornStalker>()}, 12, "Briar monsters"));
+            _tasks.AddTask(new SlayTask(new int[] { ModContent.NPCType<Reachman>(), ModContent.NPCType<ReachObserver>(), ModContent.NPCType<BlossomHound>(), ModContent.NPCType<ThornStalker>()}, 12, "Briar monsters"));
         }
         public override void OnQuestComplete()
 		{

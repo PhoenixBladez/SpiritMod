@@ -15,7 +15,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestClient => "The Adventurer";
 		public override string QuestDescription => "I see you've got some Discharge Tubules there, lad. I'm glad you've taken my design advice, so let's take it one step further. Try grabbin' some Enchanted Marble Chunks to really set the scene with a Hyperspace Bust. I'm tellin' ya, it'll look spectacular!";
 		public override int Difficulty => 1;
-        public override QuestType QuestType => QuestType.Designer;
+		public override string QuestCategory => "Designer";
 
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
@@ -28,7 +28,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public BlastFromThePast()
         {
-            _questTasks.Add(new RetrievalTask(ModContent.ItemType<Items.Placeable.Furniture.SynthwaveHeadItem>(), 1, "Craft"));
+            _tasks.AddTask(new RetrievalTask(ModContent.ItemType<Items.Placeable.Furniture.SynthwaveHeadItem>(), 1, "Craft"));
         }
     }
 }

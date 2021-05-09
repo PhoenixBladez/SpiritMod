@@ -15,7 +15,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestClient => "The Adventurer";
 		public override string QuestDescription => "Have you checked out the lower parts of the Jungle? I've recently heard about a series of massive hives around there. I loathe bees... an' hornets... an' giant man eatin' plants, so would ya like to check one of these hives out for me?";
 		public override int Difficulty => 2;
-        public override QuestType QuestType =>  QuestType.Explorer;
+		public override string QuestCategory => "Explorer";
 
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
@@ -31,7 +31,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public ExplorerQuestHive()
         {
-            _questTasks.Add(new ExploreTask((Player player) => player.GetModPlayer<MyPlayer>().ZoneHive, 2000f, "giant beehives in the Jungle"));
+            _tasks.AddTask(new ExploreTask((Player player) => player.GetModPlayer<MyPlayer>().ZoneHive, 2000f, "giant beehives in the Jungle"));
         }
     }
 }

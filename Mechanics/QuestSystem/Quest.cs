@@ -10,19 +10,21 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
+using SpiritMod.Mechanics.QuestSystem.Tasks;
+
 namespace SpiritMod.Mechanics.QuestSystem
 {
 	public abstract class Quest
 	{
-		protected List<IQuestTask> _questTasks;
-		protected int _currentSection;
+		protected TaskBuilder _tasks;
+		protected QuestTask _currentTask;
 		private bool _questActive;
 		private bool _questUnlocked;
 		private bool _questCompleted;
 		private bool rewardsGiven;
 
 		public virtual int Difficulty => 0;
-		public virtual QuestType QuestType => QuestType.Other;
+		public virtual string QuestCategory => "";
 		public virtual string QuestName => "";
 		public virtual string QuestDescription => "";
 		public virtual string QuestClient => "";
@@ -30,6 +32,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 		public virtual bool TutorialActivateButton => false;
 		public Texture2D QuestImage { get; set; }
 
+		public int QuestCategoryIndex => QuestManager.GetCategoryInfo(QuestCategory).Index;
 		public bool IsActive
 		{
 			get => _questActive; set
@@ -50,31 +53,42 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public Quest()
 		{
-			_questTasks = new List<IQuestTask>();
+			_tasks = new TaskBuilder();
 		}
 
-		public virtual string GetObjectives(bool showProgresss)
+		public virtual string GetObjectivesBook()
 		{
-			StringBuilder builder = new StringBuilder();
+			var lines = new List<string>();
+			var final = new List<(string, bool)>();
 
-			foreach (IQuestTask section in _questTasks)
+			for (QuestTask task = _tasks.Start; task != null; task = task.NextTask)
 			{
-				builder.AppendLine(section.GetObjectives(showProgresss));
+				task.GetBookText(lines);
+				foreach (string s in lines)
+				{
+					final.Add((s, task.Completed));
+				}
+				lines.Clear();
+			}
+
+			StringBuilder builder = new StringBuilder();
+			for (int i = 0; i < final.Count; i++)
+			{
+				if (!final[i].Item2) builder.Append("[c/2B1C11:");
+				else builder.Append("[c/928269:");
+
+				builder.Append("- ").Append(final[i].Item1).Append("]");
+
+				if (i < final.Count - 1) builder.Append("\n");
 			}
 
 			return builder.ToString();
 		}
 
-		public virtual void ResetProgress(bool resetCompletion = false)
+		public virtual string GetObjectivesHUD()
 		{
-			if (resetCompletion) IsCompleted = false;
-
-			foreach (IQuestTask section in _questTasks)
-			{
-				section.ResetProgress();
-			}
-
-			_currentSection = 0;
+			// TODO: Access current task, call GetHUDText()
+			return null;
 		}
 
 		public virtual void OnQuestComplete()
@@ -89,25 +103,36 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public virtual void OnActivate()
 		{
-			_questTasks[_currentSection].Activate();
+			_currentTask = _tasks.Start;
+
+			_currentTask.Activate();
 		}
 
 		public virtual void OnDeactivate()
 		{
-			if (_currentSection < _questTasks.Count)
+			if (_currentTask != null)
 			{
-				_questTasks[_currentSection].Deactivate();
+				_currentTask.Deactivate();
+			}
+		}
+
+		public void ResetAllProgress()
+		{
+			for (QuestTask task = _tasks.Start; task != null; task = task.NextTask)
+			{
+				task.ResetProgress();
 			}
 		}
 
 		public virtual void Update()
 		{
-			if (_questTasks[_currentSection].CheckCompletion())
+			if (_currentTask.CheckCompletion())
 			{
-				_questTasks[_currentSection].Deactivate();
+				_currentTask.Completed = true;
+				_currentTask.Deactivate();
 
-				_currentSection++;
-				if (_currentSection == _questTasks.Count)
+				_currentTask = _currentTask.NextTask;
+				if (_currentTask == null)
 				{
 					// quest completed
 					OnQuestComplete();
@@ -116,7 +141,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 				}
 				else
 				{
-					_questTasks[_currentSection].Activate();
+					_currentTask.Activate();
 				}
 			}
 		}
@@ -125,9 +150,9 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public virtual void OnMPSync()
 		{
-			foreach (IQuestTask section in _questTasks)
+			for (QuestTask task = _tasks.Start; task != null; task = task.NextTask)
 			{
-				section.OnMPSyncTick();
+				task.OnMPSyncTick();
 			}
 		}
 

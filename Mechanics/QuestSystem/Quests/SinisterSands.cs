@@ -17,7 +17,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 				"That's a Scarab Idol right there. I'm warning ya, don't mess with it until you get real strong. " +
 				"Me and some bounty hunters tried to take that thing on years ago. We barely escaped with our lives. Be safe, lad.";
 		public override int Difficulty => 3;
-        public override QuestType QuestType =>  QuestType.Slayer | QuestType.Main;
+		public override string QuestCategory => "Main";
 
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
@@ -28,7 +28,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public SinisterSands()
         {
-            _questTasks.Add(new SlayTask(ModContent.NPCType<NPCs.Boss.Scarabeus.Scarabeus>(), 1));        
+            _tasks.AddTask(new SlayTask(ModContent.NPCType<NPCs.Boss.Scarabeus.Scarabeus>(), 1));        
         }
     }
 }

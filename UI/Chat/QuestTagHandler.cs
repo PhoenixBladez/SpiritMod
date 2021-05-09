@@ -26,7 +26,8 @@ namespace SpiritMod.UI.Chat
 				return new TextSnippet(text);
 			}
 
-			Color color = QuestUtils.GetCategoryInfo(QuestUtils.GetBaseQuestType(QuestManager.Quests[questID].QuestType)).Item1;
+			var categoryInfo = QuestManager.GetCategoryInfo(QuestManager.Quests[questID].QuestCategory);
+			Color color = categoryInfo.Color;
 
 			return new QuestSnippet(text, color, questID);
 		}

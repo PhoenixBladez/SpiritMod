@@ -15,7 +15,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestClient => "The Adventurer";
 		public override string QuestDescription => "Ever since I was captured by those savages from the Briar, I've been doin' some research on the place. That altar you found me at is supposed to harbor a really venegeful nature spirit. Mind investigating? ";
 		public override int Difficulty => 3;
-        public override QuestType QuestType => QuestType.Slayer | QuestType.Main;
+		public override string QuestCategory => "Main";
 
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
@@ -28,7 +28,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public RootOfTheProblem()
         {
-            _questTasks.Add(new ConcurrentTask(new SlayTask(new int[] { ModContent.NPCType<NPCs.Reach.ForestWraith>()}, 1, "Glade Wraith"), new RetrievalTask(ModContent.ItemType<Items.Consumable.Quest.SacredVine>(), 1)));
+			_tasks.AddParallelTasks(new SlayTask(new int[] { ModContent.NPCType<NPCs.Reach.ForestWraith>()}, 1, "Glade Wraith"), new RetrievalTask(ModContent.ItemType<Items.Consumable.Quest.SacredVine>(), 1));
         }
 
 		public override void OnQuestComplete()
@@ -41,6 +41,18 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			QuestManager.UnlockQuest<SlayerQuestUGDesert>(true);
 			QuestManager.UnlockQuest<SlayerQuestCavern>(true);
 			base.OnQuestComplete();
+		}
+
+		public override void OnActivate()
+		{
+			QuestGlobalNPC.OnNPCLoot += QuestGlobalNPC_OnNPCLoot;
+			base.OnActivate();
+		}
+
+		public override void OnDeactivate()
+		{
+			QuestGlobalNPC.OnNPCLoot -= QuestGlobalNPC_OnNPCLoot;
+			base.OnDeactivate();
 		}
 
 		private void QuestGlobalNPC_OnNPCLoot(NPC npc)

@@ -16,7 +16,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestClient => "The Adventurer";
 		public override string QuestDescription => "A couple of my scout friends spotted something troubling near the far shores of the world. They caught a glimpse of a bound woman up there. Would you mind headin' there and checking things out? Maybe she needs rescuing! If you're not feeling too altruistic, I'm sure there's plenty of loot for the taking, too!";
 		public override int Difficulty => 2;
-        public override QuestType QuestType => QuestType.Main;
+		public override string QuestCategory => "Main";
 
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
@@ -29,8 +29,8 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public BreakingAndEntering()
         {
-            _questTasks.Add(new TalkNPCTask(ModContent.NPCType<Gambler>(), "Find the Arcane Goblin Tower and rescue the prisoner."));
-			_questTasks.Add(new RetrievalTask(ModContent.ItemType<Items.Weapon.Magic.ShadowflameStoneStaff>(), 1));
+            _tasks.AddTask(new TalkNPCTask(ModContent.NPCType<Gambler>(), "Find the Arcane Goblin Tower and rescue the prisoner."))
+				.AddTask(new RetrievalTask(ModContent.ItemType<Items.Weapon.Magic.ShadowflameStoneStaff>(), 1));
 		}
 
 		public override bool IsQuestPossible()

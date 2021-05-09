@@ -24,8 +24,6 @@ namespace SpiritMod.UI.Elements
 
 		private bool _textAffectsSize;
 
-		public float LeftSideTextPadding;
-
 		public string Text
 		{
 			get

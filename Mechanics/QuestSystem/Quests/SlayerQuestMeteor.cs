@@ -15,7 +15,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestClient => "The Adventurer";
 		public override string QuestDescription => "We're under attack! Well, not really. But we might be soon- strange aliens and creatures have been gatherin' around that meteor that crashed nearby a while ago. We need to make sure that they're not up to anythin' scary. And by we, I mean you. Get out there an' save our planet, lad!";
 		public override int Difficulty => 3;
-        public override QuestType QuestType => QuestType.Slayer;
+		public override string QuestCategory => "Slayer";
 
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
@@ -27,7 +27,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public SlayerQuestMeteor()
         {
-            _questTasks.Add(new SlayTask(new int[] { ModContent.NPCType<NPCs.AstralAdventurer.AstralAdventurer>(), ModContent.NPCType<NPCs.FallingAsteroid.Falling_Asteroid>(), ModContent.NPCType<NPCs.Orbitite.Mineroid>(), ModContent.NPCType<NPCs.MoltenCore.Molten_Core>()}, 10, "meteorite enemies"));
+            _tasks.AddTask(new SlayTask(new int[] { ModContent.NPCType<NPCs.AstralAdventurer.AstralAdventurer>(), ModContent.NPCType<NPCs.FallingAsteroid.Falling_Asteroid>(), ModContent.NPCType<NPCs.Orbitite.Mineroid>(), ModContent.NPCType<NPCs.MoltenCore.Molten_Core>()}, 10, "meteorite enemies"));
         }
     }
 }

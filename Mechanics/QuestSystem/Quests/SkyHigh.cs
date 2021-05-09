@@ -15,7 +15,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestClient => "The Adventurer";
 		public override string QuestDescription => "I've been looking at some old maps and I've learned about a cluster of Floating Pagodas above the oceans of this world. Trouble is, I can't make out whether it's to the left or right, so would ya go explorin' for me? I'm looking for an ornate staff, hundreds of years old. Happy hunting!";
 		public override int Difficulty => 3;
-        public override QuestType QuestType => QuestType.Forager;
+		public override string QuestCategory => "Forager";
 
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
@@ -27,7 +27,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public SkyHigh()
         {
-            _questTasks.Add(new RetrievalTask(ModContent.ItemType<Items.Weapon.Summon.JadeStaff>(), 1));
+            _tasks.AddTask(new RetrievalTask(ModContent.ItemType<Items.Weapon.Summon.JadeStaff>(), 1));
         }
     }
 }

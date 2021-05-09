@@ -15,7 +15,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestClient => "The Adventurer";
 		public override string QuestDescription => "You ever been high enough where those infuriatin' harpies can shoot at ya? Well, to make things worse, I've heard tales of a harpy clad in armor and weapons! I'm sure you can handle it. We've taken to calling it a Valkyrie, but don't go joinin' the afterlife when you take it on! ";
 		public override int Difficulty => 3;
-        public override QuestType QuestType => QuestType.Slayer;
+		public override string QuestCategory => "Slayer";
 
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
@@ -28,8 +28,9 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public SlayerQuestValkyrie()
         {
-            _questTasks.Add(new SlayTask(ModContent.NPCType<NPCs.Valkyrie.Valkyrie>(), 1));
+            _tasks.AddTask(new SlayTask(ModContent.NPCType<NPCs.Valkyrie.Valkyrie>(), 1));
         }
+
 		private void QuestGlobalNPC_OnEditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
 		{
 			if (pool[ModContent.NPCType<NPCs.Valkyrie.Valkyrie>()] > 0f && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Valkyrie.Valkyrie>()))

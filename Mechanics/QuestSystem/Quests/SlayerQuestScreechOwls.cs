@@ -15,7 +15,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestClient => "The Adventurer";
 		public override string QuestDescription => "I'd like to think I'm an animal lover, y'know? I love dogs, an' cats, and all kinds of furry creatures. Except for that horrifying beast... You guessed it, I'm talkin' about Screech Owls. Those things are horrifyin'! Every night, I hear their screeches echoin' from the snowy tundra. It ruins my sleep! Could ya get rid of some for me?";
 		public override int Difficulty => 2;
-        public override QuestType QuestType => QuestType.Slayer;
+		public override string QuestCategory => "Slayer";
 
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
@@ -27,10 +27,12 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			(Terraria.ID.ItemID.Snowball, 50),
 			(Terraria.ID.ItemID.SilverCoin, 25)
 		};
+
         public SlayerQuestScreechOwls()
         {
-            _questTasks.Add(new SlayTask(ModContent.NPCType<NPCs.ScreechOwl.ScreechOwl>(), 2, "Screech Owls"));
+            _tasks.AddTask(new SlayTask(ModContent.NPCType<NPCs.ScreechOwl.ScreechOwl>(), 2, "Screech Owls"));
         }
+
     	public override void OnQuestComplete()
 		{
             bool showUnlocks = true;

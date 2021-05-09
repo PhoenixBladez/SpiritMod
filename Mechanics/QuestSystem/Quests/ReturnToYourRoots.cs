@@ -15,7 +15,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestClient => "The Adventurer";
 		public override string QuestDescription => "Did you know that I was part of a research team that tried to survey the Briar? It was led by some scientist- Laywatts, I think. She learned about some interestin' stuff down there. Apparently, all the roots in the Briar connect to one central... thing. That monster is a menace to everyone, so could you deal with it once an' for all, lad?";
 		public override int Difficulty => 4;
-        public override QuestType QuestType =>  QuestType.Slayer | QuestType.Main;
+		public override string QuestCategory => "Main";
 
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
@@ -29,7 +29,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public ReturnToYourRoots()
         {
-            _questTasks.Add(new SlayTask(ModContent.NPCType<NPCs.Boss.ReachBoss.ReachBoss1>(), 1, "Vinewrath Bane"));        
+            _tasks.AddTask(new SlayTask(ModContent.NPCType<NPCs.Boss.ReachBoss.ReachBoss1>(), 1, "Vinewrath Bane"));        
         }
     }
 }

@@ -16,7 +16,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestClient => "The Adventurer";
 		public override string QuestDescription => "We need to go deeper! That's right, deeper into the desert to slay those pesky terrors that live down there. They've made spelunkin' so difficult for some local miners, and I need you to help clear the path for them!";
 		public override int Difficulty => 3;
-        public override QuestType QuestType => QuestType.Slayer;
+		public override string QuestCategory => "Slayer";
 
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
@@ -31,7 +31,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
         public SlayerQuestUGDesert()
         {
-            _questTasks.Add(new SlayTask(new int[] { NPCID.TombCrawlerHead, NPCID.FlyingAntlion, NPCID.WalkingAntlion}, 8, "Underground desert enemies"));
+            _tasks.AddTask(new SlayTask(new int[] { NPCID.TombCrawlerHead, NPCID.FlyingAntlion, NPCID.WalkingAntlion}, 8, "Underground desert enemies"));
         }
     }
 }
