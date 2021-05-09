@@ -8,26 +8,27 @@ namespace SpiritMod.Mechanics.EventSystem.Controllers
 {
 	public class ExpressionController : EventController
 	{
-		private Action _method;
+		private Action<int> _method;
 		private int _frames;
+		private int _currentFrame;
 
-		public ExpressionController(float start, Action method) : base(start)
+		public ExpressionController(float start, Action<int> method) : base(start)
 		{
 			_method = method;
 			_frames = 1;
-			AmICompleted = () => _frames <= 0;
+			AmICompleted = () => _currentFrame >= _frames;
 		}
 
-		public ExpressionController(float start, int frameCount, Action method) : base(start)
+		public ExpressionController(float start, int frameCount, Action<int> method) : base(start)
 		{
 			_method = method;
 			_frames = frameCount;
-			AmICompleted = () => _frames <= 0;
+			AmICompleted = () => _currentFrame >= _frames;
 		}
 
 		public override void Update(float time)
 		{
-			_method?.Invoke();
+			_method?.Invoke(_currentFrame++);
 			_frames--;
 		}
 	}

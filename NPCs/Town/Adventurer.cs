@@ -205,6 +205,7 @@ namespace SpiritMod.NPCs.Town
 			{
 				Mechanics.QuestSystem.QuestManager.QuestBookUnlocked = true;
 				Mechanics.QuestSystem.QuestManager.UnlockQuest<Mechanics.QuestSystem.Quests.FirstAdventure>(false);
+				Mechanics.QuestSystem.QuestManager.SetBookState(true);
 			}
 		}
 	}

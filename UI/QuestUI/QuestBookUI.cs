@@ -226,6 +226,8 @@ namespace SpiritMod.UI.QuestUI
 
 			_questObjectivesText = new UISimpleWrappableText("", 0.7f);
 			_questObjectivesText.Top.Set(195f, 0f);
+			_questObjectivesText.Wrappable = true;
+			_questObjectivesText.MaxLines = 5;
 			_questObjectivesText.Colour = new Color(43, 28, 17);
             rightPage.Append(_questObjectivesText);
 
@@ -537,7 +539,9 @@ namespace SpiritMod.UI.QuestUI
 			var category = QuestManager.GetCategoryInfo(quest.QuestCategory);
 			_questCategoryText.Text = category.Name;
 			_questCategoryText.Colour = category.Color;
+			_questObjectivesText.Page = 0;
 			_questObjectivesText.Text = quest.GetObjectivesBook();
+			_questObjectivesText.MaxPages
 
 			_questRewardList.Clear();
 			if (quest.QuestRewards != null)

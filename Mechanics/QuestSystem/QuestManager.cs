@@ -19,7 +19,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 		/* Boffin's TODO list
 		
 		 * Quest HUD!
-		 * Book objectives need a scroll bar and wrapping.
+		 * Book objectives need pages and arrows
 		 * Daily quests / favours? Quests that don't appear in the completed section when
 		   completed because they're small.
 		 * NPC text override and quest buttons. (a helper class with a bunch of queued up quests to give for town npcs!)

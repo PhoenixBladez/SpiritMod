@@ -13,6 +13,9 @@ using Terraria.UI.Chat;
 
 namespace SpiritMod.UI.Elements
 {
+	// Yeah this started out simple and got a little out of hand.
+	// I would fix it and make it more suitable but at this point I'm quite tired of user interface.
+	// Bad mentality, maybe. Saving my own sanity, yes. I'm choosing my sanity kthx
 	public class UISimpleWrappableText : UIElement
 	{
 		private TextSnippet[] _array;
@@ -32,12 +35,17 @@ namespace SpiritMod.UI.Elements
 		public bool Centered { get => centered; set { centered = value; UpdateText(); } }
 		public Color Colour { get => _colour; set { _colour = value; UpdateText(); } }
 		public float Scale { get; set; }
+		public int MaxLines { get; set; } = 99;
 		public bool Large { get; set; }
 		public bool Border { get; set; }
+		public int Page { get => page; set { page = value; UpdateText(); } }
+		public int MaxPages { get; protected set; }
 		public bool Wrappable { get => _wrappable; set { _wrappable = value; UpdateText(); } }
 		public Color BorderColour { get; set; }
 		public DynamicSpriteFont Font => Large ? Main.fontDeathText : Main.fontMouseText;
 		private float _drawOffsetX;
+		private int _startLine;
+		private int page = 0;
 
 		public UISimpleWrappableText(string text, float textScale = 1f, bool large = false, bool wrappable = false)
 		{
@@ -56,6 +64,20 @@ namespace SpiritMod.UI.Elements
 			{
 				_array = null;
 				return;
+			}
+
+			string[] lines = _text.Split('\n');
+			MaxPages = 1 + lines.Length / MaxLines;
+			// sort by lines
+			if (lines.Length > MaxLines)
+			{
+				int startLine = MaxLines * Page;
+				StringBuilder builder = new StringBuilder();
+				for (int i = startLine; i < startLine + MaxLines && i < lines.Length; i++)
+				{
+					builder.AppendLine(lines[i]);
+				}
+				_text = builder.ToString();
 			}
 
 			_array = ChatManager.ParseMessage(_text, Colour).ToArray();
