@@ -541,9 +541,9 @@ namespace SpiritMod.UI.QuestUI
 			_questCategoryText.Colour = category.Color;
 			_questObjectivesText.Page = 0;
 			_questObjectivesText.Text = quest.GetObjectivesBook();
-			_questObjectivesText.MaxPages
+			//_questObjectivesText.MaxPages
 
-			_questRewardList.Clear();
+			//_questRewardList.Clear();
 			if (quest.QuestRewards != null)
 			{
 				foreach (var reward in quest.QuestRewards)

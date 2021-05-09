@@ -62,13 +62,13 @@ namespace SpiritMod.Mechanics.EventSystem.Cutscenes
 				NPC npc = _destroyerInOrder[i];
 
 				// play an explosion
-				AddToQueue(new ExpressionController(time, () =>
+				AddToQueue(new ExpressionController(time, (int k) =>
 				{
 					PlayExplosionAt(npc.Center);
 				}));
 
 				// then change the ai for the bodies at the right time to make them disappear
-				AddToQueue(new ExpressionController(time + timeBetween * 0.04f, () =>
+				AddToQueue(new ExpressionController(time + timeBetween * 0.04f, (int k) =>
 				{
 					npc.ai[2] = 2000f;
 				}));
@@ -88,7 +88,7 @@ namespace SpiritMod.Mechanics.EventSystem.Cutscenes
 			}
 
 			// kill the head at the end
-			AddToQueue(new ExpressionController(time + 2.98f, () =>
+			AddToQueue(new ExpressionController(time + 2.98f, (int k) =>
 			{
 				_head.StrikeNPC(1000, 0f, 1);
 			}));
