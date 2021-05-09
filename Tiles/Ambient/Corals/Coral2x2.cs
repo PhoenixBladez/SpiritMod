@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -34,12 +35,13 @@ namespace SpiritMod.Tiles.Ambient.Corals
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			if (frameX < 36) //French fry coral
-				Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<Items.Material.Canvas>());
-			else if (frameX < 72) //Blue tabletop coral
-				Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<Items.Material.Canvas>());
-			else //Brain coral
-				Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<Items.Material.Canvas>());
+			Item.NewItem(i * 16, j * 16, 32, 48, ItemID.Coral, Main.rand.Next(2, 4));
+			//if (frameX < 36) //French fry coral
+			//	Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<Items.Material.Canvas>());
+			//else if (frameX < 72) //Blue tabletop coral
+			//	Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<Items.Material.Canvas>());
+			//else //Brain coral
+			//	Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<Items.Material.Canvas>());
 		}
 	}
 }

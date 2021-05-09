@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using SpiritMod.Tiles.Ambient;
+using SpiritMod.Tiles.Ambient.Corals;
 using SpiritMod.Tiles.Ambient.IceSculpture;
 using SpiritMod.Tiles.Ambient.IceSculpture.Hostile;
 using SpiritMod.Tiles.Ambient.SpaceCrystals;
@@ -1337,7 +1338,7 @@ namespace SpiritMod.World
 					}
 				}
 			}
-			
+
 			for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 16.2f) * 6E-03); k++) {
 				{
 					int X = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
@@ -1348,48 +1349,43 @@ namespace SpiritMod.World
 					}
 				}
 			}
-			if (WorldGen.genRand.NextBool(2)) {
-				for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 7.2f) * 6E-03); k++) {
-					{
-						int X = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 
-						int Y = WorldGen.genRand.Next((int)Main.worldSurface - 100, (int)Main.worldSurface + 30);
-						if ((Main.tile[X, Y].type == TileID.SnowBlock || Main.tile[X, Y].type == TileID.IceBlock)) {
-							if (Main.rand.Next(3) == 0) {
-								WorldGen.PlaceObject(X, Y, (ushort)ModContent.TileType<SnowBush3>());
-								NetMessage.SendObjectPlacment(-1, X, Y, (ushort)ModContent.TileType<SnowBush3>(), 0, 0, -1, -1);
-							}
-							else if (Main.rand.Next(2) == 0) {
-								WorldGen.PlaceObject(X, Y, (ushort)ModContent.TileType<SnowBush2>());
-								NetMessage.SendObjectPlacment(-1, X, Y, (ushort)ModContent.TileType<SnowBush2>(), 0, 0, -1, -1);
-							}
-							else {
-								WorldGen.PlaceObject(X, Y, (ushort)ModContent.TileType<SnowBush1>());
-								NetMessage.SendObjectPlacment(-1, X, Y, (ushort)ModContent.TileType<SnowBush1>(), 0, 0, -1, -1);
-							}
-						}
+			for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY * 7.2f) * 6E-03); k++) {
+				int X = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
+				int Y = WorldGen.genRand.Next((int)Main.worldSurface - 100, (int)Main.worldSurface + 30);
+
+				bool ice = WorldGen.genRand.NextBool(2);
+				ushort[] types = new ushort[] { (ushort)ModContent.TileType<SnowBush1>(), (ushort)ModContent.TileType<SnowBush2>(), (ushort)ModContent.TileType<SnowBush3>() };
+				if (ice)
+					types = new ushort[] { (ushort)ModContent.TileType<IceCube1>(), (ushort)ModContent.TileType<IceCube2>(), (ushort)ModContent.TileType<IceCube3>() };
+
+				if (Main.tile[X, Y].type == TileID.SnowBlock || Main.tile[X, Y].type == TileID.IceBlock) {
+					if (Main.rand.Next(3) == 0) {
+						WorldGen.PlaceObject(X, Y, types[2]);
+						NetMessage.SendObjectPlacment(-1, X, Y, types[2], 0, 0, -1, -1);
+					}
+					else if (Main.rand.Next(2) == 0) {
+						WorldGen.PlaceObject(X, Y, types[1]);
+						NetMessage.SendObjectPlacment(-1, X, Y, types[1], 0, 0, -1, -1);
+					}
+					else {
+						WorldGen.PlaceObject(X, Y, types[0]);
+						NetMessage.SendObjectPlacment(-1, X, Y, types[0], 0, 0, -1, -1);
 					}
 				}
 			}
-			else {
-				for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 7.2f) * 6E-03); k++) {
-					{
-						int X = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
-						int Y = WorldGen.genRand.Next((int)Main.worldSurface - 100, (int)Main.worldSurface + 30);
-						if ((Main.tile[X, Y].type == TileID.SnowBlock || Main.tile[X, Y].type == TileID.IceBlock)) {
-							if (Main.rand.Next(2) == 0) {
-								WorldGen.PlaceObject(X, Y, (ushort)ModContent.TileType<IceCube3>());
-								NetMessage.SendObjectPlacment(-1, X, Y, (ushort)ModContent.TileType<IceCube3>(), 0, 0, -1, -1);
-							}
-							else if (Main.rand.Next(2) == 0) {
-								WorldGen.PlaceObject(X, Y, (ushort)ModContent.TileType<IceCube2>());
-								NetMessage.SendObjectPlacment(-1, X, Y, (ushort)ModContent.TileType<IceCube2>(), 0, 0, -1, -1);
-							}
-							else {
-								WorldGen.PlaceObject(X, Y, (ushort)ModContent.TileType<IceCube1>());
-								NetMessage.SendObjectPlacment(-1, X, Y, (ushort)ModContent.TileType<IceCube1>(), 0, 0, -1, -1);
-							}
-						}
+
+			//Ocean corals
+			for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY * 16.2f) * 6E-03); k++) { //I hate the usage of scientific notation here but for consistency's sake it stays
+				int X = WorldGen.genRand.Next(5, 338);
+				if (WorldGen.genRand.NextBool())
+					X = WorldGen.genRand.Next(Main.maxTilesX - 338, Main.maxTilesX - 5); //Choose a random ocean
+				int Y = WorldGen.genRand.Next(200, Main.maxTilesY / 2);
+
+				if (Framing.GetTileSafely(X, Y).type == TileID.Sand) {
+					if (Framing.GetTileSafely(X + 1, Y).type == TileID.Sand && WorldGen.genRand.NextBool(2)) { //Check for ground & randomize
+						WorldGen.PlaceObject(X, Y, ModContent.TileType<Coral2x2>(), true, WorldGen.genRand.Next(3));
+						NetMessage.SendObjectPlacment(-1, X, Y, ModContent.TileType<Coral2x2>(), 0, 0, -1, -1);
 					}
 				}
 			}
