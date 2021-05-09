@@ -24,10 +24,9 @@ namespace SpiritMod.Mechanics.EventSystem.Cutscenes
 			
 			// create the camera controller
 			var camera = 
-				new CameraController(0f, 1f, new CameraController.EntityRelativePoint(Main.LocalPlayer, Vector2.Zero))
+				new CameraController(0f, new CameraController.EntityRelativePoint(Main.LocalPlayer, Vector2.Zero))
 				.AddPoint(lerpTime, new CameraController.EntityRelativePoint(projectile, Vector2.Zero) { Zoom = new Vector2(zoom) }, EaseFunction.EaseQuadInOut);
-			camera.Centered = true;
-			camera.CheckIfCompleted = () =>
+			camera.AmICompleted = () =>
 			{
 				if (_setReturn) return _currentTime >= lerpTime;
 
@@ -46,7 +45,7 @@ namespace SpiritMod.Mechanics.EventSystem.Cutscenes
 				}
 				return false;
 			};
-			_controllers.AddLast(camera);
+			AddToQueue(camera);
 		}
 
 		public override bool Update(float deltaTime)

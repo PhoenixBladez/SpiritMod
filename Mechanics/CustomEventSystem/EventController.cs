@@ -4,37 +4,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Priority_Queue;
+
 namespace SpiritMod.Mechanics.EventSystem
 {
-	public abstract class EventController
+	public abstract class EventController : FastPriorityQueueNode
 	{
 		public float StartTime { get; set; }
-		public float Length { get; set; }
-		public Func<bool> CheckIfCompleted { get; set; }
+		/// <summary>
+		/// A function used to determine whether the controller is completed or not.
+		/// </summary>
+		public Func<bool> AmICompleted { get; set; }
 
-		protected float _progress;
-
-		public EventController(float start, float length)
+		public EventController(float start)
 		{
 			StartTime = start;
-			Length = length;
-			CheckIfCompleted = () => _progress >= 1f;
+			AmICompleted = () => false;
 		}
 
 		public bool DoUpdate(float time)
 		{
-			_progress = (time - StartTime) / Length;
-
 			Update(time);
 
-			return CheckIfCompleted();
+			return AmICompleted();
 		}
 
-		public virtual void Reset()
-		{
-			_progress = 0f;
-		}
-
+		public virtual void Reset() { }
 		public virtual void Activate() { }
 		public virtual void Deactivate() { }
 		public virtual void Update(float time) { }

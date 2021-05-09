@@ -4,26 +4,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Priority_Queue;
+
 namespace SpiritMod.Mechanics.EventSystem
 {
 	public abstract class Event
 	{
-		protected LinkedList<EventController> _controllers;
-		protected LinkedListNode<EventController> _currentController;
+		private FastPriorityQueue<EventController> _controllerQueue;
 		protected List<EventController> _currentlyPlaying;
 		protected float _currentTime;
 		private bool _playedLast;
 
 		public Event()
 		{
-			_controllers = new LinkedList<EventController>();
+			_controllerQueue = new FastPriorityQueue<EventController>(256);
 			_currentlyPlaying = new List<EventController>();
 		}
 
-		public virtual void Play()
+		protected void AddToQueue(EventController controller)
 		{
-			_currentController = _controllers.First;
+			_controllerQueue.Enqueue(controller, controller.StartTime);
 		}
+
+		public virtual void Play() { }
 
 		/// <returns>true if the cutscene is finished.</returns>
 		public virtual bool Update(float deltaTime)
@@ -45,17 +48,20 @@ namespace SpiritMod.Mechanics.EventSystem
 			}
 
 			// update which controllers should now play
-			while (!_playedLast && _currentTime >= _currentController.Value.StartTime)
+			if (_controllerQueue.Count > 0)
 			{
-				_currentlyPlaying.Add(_currentController.Value);
-				_currentController.Value.Activate();
-
-				if (_currentController.Next == null)
+				while (!_playedLast && _currentTime >= _controllerQueue.First.StartTime)
 				{
-					_playedLast = true;
-					break;
+					var controller = _controllerQueue.Dequeue();
+					_currentlyPlaying.Add(controller);
+					controller.Activate();
+
+					if (_controllerQueue.Count == 0)
+					{
+						_playedLast = true;
+						break;
+					}
 				}
-				_currentController = _currentController.Next;
 			}
 
 			return false;

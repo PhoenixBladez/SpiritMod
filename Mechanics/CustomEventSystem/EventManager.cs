@@ -11,17 +11,17 @@ namespace SpiritMod.Mechanics.EventSystem
 {
 	public static class EventManager
 	{
-		private static List<Event> _activeCutscenes;
+		private static List<Event> _activeEvents;
 
 		public static void Load()
 		{
-			_activeCutscenes = new List<Event>();
+			_activeEvents = new List<Event>();
 			On.Terraria.Main.DoUpdate += Main_DoUpdate;
 		}
 
 		public static void Unload()
 		{
-			_activeCutscenes = null;
+			_activeEvents = null;
 			On.Terraria.Main.DoUpdate -= Main_DoUpdate;
 		}
 
@@ -33,19 +33,28 @@ namespace SpiritMod.Mechanics.EventSystem
 			Update(gameTime);
 		}
 
+		public static bool IsPlaying<T>()
+		{
+			foreach (Event e in _activeEvents)
+			{
+				if (e is T) return true;
+			}
+			return false;
+		}
+
 		public static void Update(GameTime gameTime)
 		{
 			if (Main.gameMenu)
 			{
-				_activeCutscenes.Clear();
+				_activeEvents.Clear();
 				return;
 			}
 
-			for (int i = 0; i < _activeCutscenes.Count; i++)
+			for (int i = 0; i < _activeEvents.Count; i++)
 			{
-				if (_activeCutscenes[i].Update((float)gameTime.ElapsedGameTime.TotalSeconds))
+				if (_activeEvents[i].Update((float)gameTime.ElapsedGameTime.TotalSeconds))
 				{
-					_activeCutscenes.RemoveAt(i--);
+					_activeEvents.RemoveAt(i--);
 				}
 			}
 		}
@@ -54,7 +63,7 @@ namespace SpiritMod.Mechanics.EventSystem
 		{
 			scene.Play();
 
-			_activeCutscenes.Add(scene);
+			_activeEvents.Add(scene);
 		}
 	}
 }

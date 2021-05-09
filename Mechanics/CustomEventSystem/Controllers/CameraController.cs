@@ -20,14 +20,16 @@ namespace SpiritMod.Mechanics.EventSystem.Controllers
 		private CameraPoint NextPoint => _points[_current + 1];
 		private CameraPointData _nextData;
 		private bool _hasCalculatedBefore = false;
+		private bool _completed;
 
 		public CameraPointData CurrentData => _nextData;
-		public bool Centered { get; set; } = true;
 
-		public CameraController(float start, float length, IValueGrabber<CameraPointData> startPoint) : base(start, length)
+		public CameraController(float start, IValueGrabber<CameraPointData> startPoint) : base(start)
 		{
 			_points = new List<CameraPoint>();
 			AddPoint(StartTime, startPoint, EaseFunction.Linear);
+
+			AmICompleted = () => _completed;
 		}
 
 		public CameraController AddPoint(float time, IValueGrabber<CameraPointData> point, EaseFunction easing)
@@ -49,7 +51,11 @@ namespace SpiritMod.Mechanics.EventSystem.Controllers
 			if (time > NextPoint.Time)
 			{
 				_current++;
-				if (_current >= _points.Count - 1) _current--;
+				if (_current >= _points.Count - 1)
+				{
+					_completed = true;
+					_current--;
+				}
 			}
 
 			float between = NextPoint.Time - CurrentPoint.Time;
@@ -98,11 +104,8 @@ namespace SpiritMod.Mechanics.EventSystem.Controllers
 		{
 			if (!_hasCalculatedBefore) return;
 
-			if (Centered)
-			{
-				Main.screenPosition = _nextData.Position - new Vector2(Main.screenWidth, Main.screenHeight) * 0.5f;
-				// TODO: Magically make the camera rotate? manually modify the existing thing? idk
-			}
+			Main.screenPosition = _nextData.Position - new Vector2(Main.screenWidth, Main.screenHeight) * 0.5f;
+			// TODO: Magically make the camera rotate? manually modify the existing thing? idk
 		}
 
 		public struct CameraPoint

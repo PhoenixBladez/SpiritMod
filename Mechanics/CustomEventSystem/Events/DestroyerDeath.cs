@@ -41,12 +41,12 @@ namespace SpiritMod.Mechanics.EventSystem.Cutscenes
 			}
 
 			// create camera controller object
-			var cameraMoves = new CameraController(0f, 10f, new CameraController.EntityRelativePoint(Main.LocalPlayer, Vector2.Zero))
+			var cameraMoves = new CameraController(0f, new CameraController.EntityRelativePoint(Main.LocalPlayer, Vector2.Zero))
 				.AddPoint(2f, new CameraController.EntityRelativePoint(_head, Vector2.Zero), EaseFunction.EaseCubicInOut)
 				.RepeatPoint(3f);
 
 			// add it to the controllers
-			_controllers.AddLast(cameraMoves);
+			AddToQueue(cameraMoves);
 
 			float time = 3f;
 			float timeBetween = 0.4f;
@@ -62,12 +62,13 @@ namespace SpiritMod.Mechanics.EventSystem.Cutscenes
 				NPC npc = _destroyerInOrder[i];
 
 				// play an explosion
-				_controllers.AddLast(new ExpressionController(time, 0.001f, () =>
+				AddToQueue(new ExpressionController(time, () =>
 				{
 					PlayExplosionAt(npc.Center);
 				}));
+
 				// then change the ai for the bodies at the right time to make them disappear
-				_controllers.AddLast(new ExpressionController(time + timeBetween * 0.8f, 0.5f, () =>
+				AddToQueue(new ExpressionController(time + timeBetween * 0.04f, () =>
 				{
 					npc.ai[2] = 2000f;
 				}));
@@ -87,7 +88,7 @@ namespace SpiritMod.Mechanics.EventSystem.Cutscenes
 			}
 
 			// kill the head at the end
-			_controllers.AddLast(new ExpressionController(time + 2.98f, 0.0001f, () =>
+			AddToQueue(new ExpressionController(time + 2.98f, () =>
 			{
 				_head.StrikeNPC(1000, 0f, 1);
 			}));
@@ -95,9 +96,6 @@ namespace SpiritMod.Mechanics.EventSystem.Cutscenes
 			// add the final camera moves
 			cameraMoves.RepeatPoint(time + 1.5f)
 				.AddPoint(time + 3f, new CameraController.EntityRelativePoint(Main.LocalPlayer, Vector2.Zero), EaseFunction.EaseQuadInOut);
-
-			// this will be removed in a small refactor soon
-			cameraMoves.Length = time + 3f;
 		}
 
 		private void PlayExplosionAt(Vector2 pos)
