@@ -13,7 +13,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace SpiritMod.Mechanics.EventSystem.Cutscenes
+namespace SpiritMod.Mechanics.EventSystem.Events
 {
 	public class DestroyerDeath : Event
 	{

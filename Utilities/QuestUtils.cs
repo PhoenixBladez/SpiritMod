@@ -10,6 +10,8 @@ using Terraria;
 using Terraria.UI;
 using Terraria.GameContent.UI.Elements;
 using SpiritMod.UI.Elements;
+using ReLogic.Graphics;
+using Terraria.UI.Chat;
 
 namespace SpiritMod.Utilities
 {
@@ -55,6 +57,92 @@ namespace SpiritMod.Utilities
 			}
 			value = val;
 			return true;
+		}
+
+		public static string WrapText(DynamicSpriteFont font, TextSnippet[] snippets, string fullText, float maxLineWidth, float fontScale = 1f)
+		{
+			var regex = new System.Text.RegularExpressions.Regex(@"\s+(?![^\[]*\])");
+
+			string baseText = "";
+			foreach (TextSnippet snippet in snippets)
+			{
+				baseText += snippet.Text;
+			}
+
+			if (string.IsNullOrEmpty(baseText)) return "";
+
+			string[] lines = baseText.Split('\n');
+			string[] actualLines = fullText.Split('\n');
+			string newText = "";
+			float currentWidth = 0f;
+			float spaceWidth = font.MeasureString(" ").X * fontScale;
+
+			for (int i = 0; i < Math.Min(lines.Length, actualLines.Length); i++)
+			{
+				string line = lines[i];
+				string[] words = line.Split(' ');
+				string[] actualWords = regex.Split(actualLines[i]);
+				for (int k = 0; k < Math.Min(words.Length, actualWords.Length); k++)
+				{
+					string word = words[k];
+					string actualWord = actualWords[k];
+					Vector2 wordSize = font.MeasureString(word) * fontScale;
+
+					if (currentWidth + wordSize.X < maxLineWidth)
+					{
+						newText += actualWord + " ";
+						currentWidth += wordSize.X + spaceWidth;
+						continue;
+					}
+
+					newText += Environment.NewLine + actualWord + " ";
+					currentWidth = wordSize.X + spaceWidth;
+				}
+				currentWidth = 0f;
+				if (i < lines.Length - 1)
+				{
+					newText += "\n";
+				}
+			}
+
+			return newText;
+		}
+
+		public static string WrapText(DynamicSpriteFont font, string text, float maxLineWidth, float fontScale = 1f)
+		{
+			if (string.IsNullOrEmpty(text)) return "";
+
+			string[] lines = text.Split('\n');
+			string newText = "";
+			float currentWidth = 0f;
+			float spaceWidth = font.MeasureString(" ").X * fontScale;
+
+			for (int i = 0; i < lines.Length; i++)
+			{
+				string line = lines[i];
+				string[] words = line.Split(' ');
+				foreach (string word in words)
+				{
+					Vector2 wordSize = font.MeasureString(word) * fontScale;
+
+					if (currentWidth + wordSize.X < maxLineWidth)
+					{
+						newText += word + " ";
+						currentWidth += wordSize.X + spaceWidth;
+						continue;
+					}
+
+					newText += Environment.NewLine + word + " ";
+					currentWidth = wordSize.X + spaceWidth;
+				}
+				currentWidth = 0f;
+				if (i < lines.Length - 1)
+				{
+					newText += "\n";
+				}
+			}
+
+			return newText;
 		}
 	}
 }

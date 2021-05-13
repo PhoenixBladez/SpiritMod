@@ -11,7 +11,7 @@ using SpiritMod.Mechanics.EventSystem.Controllers;
 
 using Terraria;
 
-namespace SpiritMod.Mechanics.EventSystem.Cutscenes
+namespace SpiritMod.Mechanics.EventSystem.Events
 {
 	public class FollowProjectileThenReturn : Event
 	{

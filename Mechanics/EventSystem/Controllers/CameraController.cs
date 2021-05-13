@@ -21,6 +21,7 @@ namespace SpiritMod.Mechanics.EventSystem.Controllers
 		private CameraPointData _nextData;
 		private bool _hasCalculatedBefore = false;
 		private bool _completed;
+		private float _time;
 
 		public CameraPointData CurrentData => _nextData;
 
@@ -48,24 +49,7 @@ namespace SpiritMod.Mechanics.EventSystem.Controllers
 
 		public override void Update(float time)
 		{
-			if (time > NextPoint.Time)
-			{
-				_current++;
-				if (_current >= _points.Count - 1)
-				{
-					_completed = true;
-					_current--;
-				}
-			}
-
-			float between = NextPoint.Time - CurrentPoint.Time;
-			float progress = time - CurrentPoint.Time;
-			float div = progress / between;
-			if (div > 1f) div = 1f;
-			float val = NextPoint.Easing.Ease(div);
-			_hasCalculatedBefore = true;
-
-			_nextData = CameraPointData.Lerp(CurrentPoint.Data.Method(), NextPoint.Data.Method(), val);
+			_time = time;
 		}
 
 		public override void Reset()
@@ -93,6 +77,7 @@ namespace SpiritMod.Mechanics.EventSystem.Controllers
 		private void SpiritMod_OnModifyTransformMatrix(Terraria.Graphics.SpriteViewMatrix obj)
 		{
 			if (!_hasCalculatedBefore) return;
+			if (_nextData.Zoom.X < 0f || _nextData.Zoom.Y < 0f) return;
 
 			Vector2 z = _nextData.Zoom;
 			z.X = MathHelper.Clamp(z.X, 1f, 999f);
@@ -102,7 +87,24 @@ namespace SpiritMod.Mechanics.EventSystem.Controllers
 
 		private void CutscenePlayer_OnModifyScreenPosition()
 		{
-			if (!_hasCalculatedBefore) return;
+			if (_time > NextPoint.Time)
+			{
+				_current++;
+				if (_current >= _points.Count - 1)
+				{
+					_completed = true;
+					_current--;
+				}
+			}
+
+			float between = NextPoint.Time - CurrentPoint.Time;
+			float progress = _time - CurrentPoint.Time;
+			float div = progress / between;
+			if (div > 1f) div = 1f;
+			float val = NextPoint.Easing.Ease(div);
+			_hasCalculatedBefore = true;
+
+			_nextData = CameraPointData.Lerp(CurrentPoint.Data.Method(), NextPoint.Data.Method(), val);
 
 			Main.screenPosition = _nextData.Position - new Vector2(Main.screenWidth, Main.screenHeight) * 0.5f;
 			// TODO: Magically make the camera rotate? manually modify the existing thing? idk
@@ -132,7 +134,7 @@ namespace SpiritMod.Mechanics.EventSystem.Controllers
 			{
 				Position = vector;
 				Rotation = 0f;
-				Zoom = Vector2.One;
+				Zoom = -Vector2.One;
 			}
 
 			public CameraPointData(Vector2 vector, float rot, float zoom)

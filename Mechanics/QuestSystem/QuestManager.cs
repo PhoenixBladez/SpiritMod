@@ -19,7 +19,6 @@ namespace SpiritMod.Mechanics.QuestSystem
 		/* Boffin's TODO list
 		
 		 * Quest HUD!
-		 * Book objectives need pages and arrows
 		 * Daily quests / favours? Quests that don't appear in the completed section when
 		   completed because they're small.
 		 * NPC text override and quest buttons. (a helper class with a bunch of queued up quests to give for town npcs!)
@@ -40,6 +39,9 @@ namespace SpiritMod.Mechanics.QuestSystem
 		private static Dictionary<Type, Quest> _questDict;
 		private static Dictionary<string, QuestTask> _tasksDict;
 		private static int _serverSyncCounter;
+
+		public static event Action<Quest> OnQuestActivate;
+		public static event Action<Quest> OnQuestDeactivate;
 
         public static void Load()
         {
@@ -127,6 +129,8 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 			ActiveQuests.Add(quest);
 
+			OnQuestActivate?.Invoke(quest);
+
 			return true;
 		}
 
@@ -141,6 +145,10 @@ namespace SpiritMod.Mechanics.QuestSystem
 			if (!ActiveQuests.Contains(quest)) return;
 
 			ActiveQuests.Remove(quest);
+
+			OnQuestDeactivate?.Invoke(quest);
+
+			quest.ResetAllProgress();
 
 			// set to not active.
 			quest.IsActive = false;

@@ -96,12 +96,27 @@ namespace SpiritMod.Tiles.Ambient
 
 		public override bool NewRightClick(int i, int j)
 		{
-			for (int x = 0; x < Main.npc.Length; x++) {
-				if (Main.npc[x].active && Main.npc[x].type == ModContent.NPCType<SteamRaiderHead>()) return false;
+			for (int k = 0; k < Main.npc.Length; k++) {
+				if (Main.npc[k].active && Main.npc[k].type == ModContent.NPCType<SteamRaiderHead>()) return false;
 			}
+
+			if (Mechanics.EventSystem.EventManager.IsPlaying<Mechanics.EventSystem.Events.StarblateBeaconTrigger>())
+			{
+				return false;
+			}
+
+			int x = i;
+			int y = j;
+			while (Main.tile[x, y].type == Type) x--;
+			x++;
+			while (Main.tile[x, y].type == Type) y--;
+			y++;
+
+			Mechanics.EventSystem.EventManager.PlayEvent(new Mechanics.EventSystem.Events.StarblateBeaconTrigger(new Vector2(x * 16f + 16f, y * 16f + 12f)));
 
 			Player player = Main.player[Main.myPlayer];
 
+			/*
 			if (player.HasItem(ModContent.ItemType<StarWormSummon>())) {
 				if (Main.netMode != NetmodeID.MultiplayerClient) {
                     Main.NewText("The Starplate Voyager has awoken!", 175, 75, 255, true);
@@ -117,6 +132,7 @@ namespace SpiritMod.Tiles.Ambient
 				}
 				return true;
 			}
+			*/
 			return false;
 		}
 

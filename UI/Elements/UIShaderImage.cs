@@ -31,6 +31,11 @@ namespace SpiritMod.UI.Elements
 			Texture = texture;
 		}
 
+		public override bool ContainsPoint(Vector2 point)
+		{
+			return false;
+		}
+
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
 			if (Texture == null) return;
@@ -42,7 +47,7 @@ namespace SpiritMod.UI.Elements
 			spriteBatch.End();
 			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, PointSample ? SamplerState.PointClamp : SamplerState.AnisotropicClamp, DepthStencilState.None, _overflowRaster, null, Main.UIScaleMatrix);
 
-			Pass.Apply();
+			if (Pass != null) Pass.Apply();
 			spriteBatch.Draw(this.Texture, dimensions.ToRectangle(), nullable, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0f);
 
 			spriteBatch.End();

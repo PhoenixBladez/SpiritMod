@@ -4,6 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
+using Terraria.Graphics.Effects;
+
 using Priority_Queue;
 
 namespace SpiritMod.Mechanics.EventSystem
@@ -26,7 +31,10 @@ namespace SpiritMod.Mechanics.EventSystem
 			_controllerQueue.Enqueue(controller, controller.StartTime);
 		}
 
-		public virtual void Play() { }
+		public virtual void Activate() { }
+		public virtual void Deactivate() { }
+
+		public virtual void DrawAtLayer(SpriteBatch spriteBatch, RenderLayers layer, bool beginSB) { }
 
 		/// <returns>true if the cutscene is finished.</returns>
 		public virtual bool Update(float deltaTime)

@@ -83,7 +83,8 @@ namespace SpiritMod.Mechanics.QuestSystem
 			// add a progress bracket at the end like: (x/y)
 			if (showProgress)
 			{
-				builder.Append(" (").Append(_lastCount).Append("/").Append(_itemsNeeded).Append(")");
+				int showAmount = System.Math.Min(_itemsNeeded, _lastCount);
+				builder.Append(" [c/97E2E2:(").Append(showAmount).Append("/").Append(_itemsNeeded).Append(")]");
 			}
 
 			return builder.ToString();

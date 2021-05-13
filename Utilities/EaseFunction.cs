@@ -67,7 +67,7 @@ namespace SpiritMod.Utilities
 
 		public void AddPoint(Vector2 vector, EaseFunction function)
 		{
-			if (vector.X > 1f || vector.X < 0f) throw new ArgumentException("X value of point is not in valid range!");
+			if (vector.X < 0f) throw new ArgumentException("X value of point is not in valid range!");
 
 			EasePoint newPoint = new EasePoint(vector, function);
 			if (_points.Count == 0) {
@@ -94,6 +94,7 @@ namespace SpiritMod.Utilities
 			}
 			float dist = usePoint.Point.X - prevPoint.X;
 			float progress = (time - prevPoint.X) / dist;
+			if (progress > 1f) progress = 1f;
 			return MathHelper.Lerp(prevPoint.Y, usePoint.Point.Y, usePoint.Function.Ease(progress));
 		}
 

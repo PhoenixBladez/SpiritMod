@@ -17,12 +17,24 @@ namespace SpiritMod.Mechanics.EventSystem
 		{
 			_activeEvents = new List<Event>();
 			On.Terraria.Main.DoUpdate += Main_DoUpdate;
+			On.Terraria.Graphics.Effects.OverlayManager.Draw += OverlayManager_Draw;
 		}
 
 		public static void Unload()
 		{
 			_activeEvents = null;
 			On.Terraria.Main.DoUpdate -= Main_DoUpdate;
+			On.Terraria.Graphics.Effects.OverlayManager.Draw -= OverlayManager_Draw;
+		}
+
+		private static void OverlayManager_Draw(On.Terraria.Graphics.Effects.OverlayManager.orig_Draw orig, Terraria.Graphics.Effects.OverlayManager self, Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, Terraria.Graphics.Effects.RenderLayers layer, bool beginSpriteBatch)
+		{
+			orig(self, spriteBatch, layer, beginSpriteBatch);
+
+			foreach (Event e in _activeEvents)
+			{
+				e.DrawAtLayer(spriteBatch, layer, beginSpriteBatch);
+			}
 		}
 
 		private static void Main_DoUpdate(On.Terraria.Main.orig_DoUpdate orig, Terraria.Main self, GameTime gameTime)
@@ -54,6 +66,7 @@ namespace SpiritMod.Mechanics.EventSystem
 			{
 				if (_activeEvents[i].Update((float)gameTime.ElapsedGameTime.TotalSeconds))
 				{
+					_activeEvents[i].Deactivate();
 					_activeEvents.RemoveAt(i--);
 				}
 			}
@@ -61,7 +74,7 @@ namespace SpiritMod.Mechanics.EventSystem
 
 		public static void PlayEvent(Event scene)
 		{
-			scene.Play();
+			scene.Activate();
 
 			_activeEvents.Add(scene);
 		}

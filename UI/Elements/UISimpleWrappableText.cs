@@ -20,6 +20,7 @@ namespace SpiritMod.UI.Elements
 	{
 		private TextSnippet[] _array;
 		protected string _text;
+		protected string _pageText;
 		public string Text
 		{
 			get => _text;
@@ -34,18 +35,18 @@ namespace SpiritMod.UI.Elements
 		private Color _colour;
 		public bool Centered { get => centered; set { centered = value; UpdateText(); } }
 		public Color Colour { get => _colour; set { _colour = value; UpdateText(); } }
-		public float Scale { get; set; }
+		public float Scale { get => scale; set { scale = value; UpdateText(); } }
 		public int MaxLines { get; set; } = 99;
 		public bool Large { get; set; }
 		public bool Border { get; set; }
 		public int Page { get => page; set { page = value; UpdateText(); } }
-		public int MaxPages { get; protected set; }
+		public int MaxPage { get; protected set; }
 		public bool Wrappable { get => _wrappable; set { _wrappable = value; UpdateText(); } }
 		public Color BorderColour { get; set; }
 		public DynamicSpriteFont Font => Large ? Main.fontDeathText : Main.fontMouseText;
 		private float _drawOffsetX;
-		private int _startLine;
 		private int page = 0;
+		private float scale;
 
 		public UISimpleWrappableText(string text, float textScale = 1f, bool large = false, bool wrappable = false)
 		{
@@ -66,9 +67,10 @@ namespace SpiritMod.UI.Elements
 				return;
 			}
 
-			string[] lines = _text.Split('\n');
-			MaxPages = 1 + lines.Length / MaxLines;
-			// sort by lines
+			string[] lines = Wrappable ? Utilities.QuestUtils.WrapText(Font, _text, GetDimensions().Width, Scale).Split('\n') : _text.Split('\n');
+			MaxPage = (lines.Length - 1) / MaxLines;
+			if (MaxPage < 0) MaxPage = 0;
+			// add the right lines to the page
 			if (lines.Length > MaxLines)
 			{
 				int startLine = MaxLines * Page;
@@ -77,10 +79,11 @@ namespace SpiritMod.UI.Elements
 				{
 					builder.AppendLine(lines[i]);
 				}
-				_text = builder.ToString();
+				_pageText = builder.ToString();
 			}
+			else _pageText = _text;
 
-			_array = ChatManager.ParseMessage(_text, Colour).ToArray();
+			_array = ChatManager.ParseMessage(_pageText, Colour).ToArray();
 			ChatManager.ConvertNormalSnippets(_array);
 
 			if (Centered)

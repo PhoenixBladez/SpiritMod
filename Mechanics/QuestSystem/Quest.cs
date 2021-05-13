@@ -11,6 +11,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 
 using SpiritMod.Mechanics.QuestSystem.Tasks;
+using SpiritMod.UI.Elements;
 
 namespace SpiritMod.Mechanics.QuestSystem
 {
@@ -21,7 +22,8 @@ namespace SpiritMod.Mechanics.QuestSystem
 		private bool _questActive;
 		private bool _questUnlocked;
 		private bool _questCompleted;
-		private bool rewardsGiven;
+		private bool _rewardsGiven;
+		private int _completedCounter = 0;
 
 		public virtual int Difficulty => 0;
 		public virtual string QuestCategory => "";
@@ -46,7 +48,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 		}
 		public virtual bool IsUnlocked { get => _questUnlocked; set { _questUnlocked = value; OnQuestStateChanged?.Invoke(this); } }
 		public bool IsCompleted { get => _questCompleted; set { _questCompleted = value; OnQuestStateChanged?.Invoke(this); } }
-		public bool RewardsGiven { get => rewardsGiven; set { rewardsGiven = value; OnQuestStateChanged?.Invoke(this); } }
+		public bool RewardsGiven { get => _rewardsGiven; set { _rewardsGiven = value; OnQuestStateChanged?.Invoke(this); } }
 		public int WhoAmI { get; set; }
 
 		public event Action<Quest> OnQuestStateChanged;
@@ -87,8 +89,18 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public virtual string GetObjectivesHUD()
 		{
-			// TODO: Access current task, call GetHUDText()
-			return null;
+			var lines = new List<string>();
+			_currentTask.GetHUDText(lines);
+
+			StringBuilder builder = new StringBuilder();
+			for (int i = 0; i < lines.Count; i++)
+			{
+				builder.Append("- ").Append(lines[i]);
+
+				if (i < lines.Count - 1) builder.Append("\n");
+			}
+
+			return builder.ToString();
 		}
 
 		public virtual void OnQuestComplete()
@@ -124,24 +136,31 @@ namespace SpiritMod.Mechanics.QuestSystem
 			}
 		}
 
+		public virtual void UpdateBookOverlay(UIShaderImage image) { image.Texture = null; }
+
 		public virtual void Update()
 		{
 			if (_currentTask.CheckCompletion())
 			{
-				_currentTask.Completed = true;
-				_currentTask.Deactivate();
-
-				_currentTask = _currentTask.NextTask;
-				if (_currentTask == null)
+				// this counter is here so the HUD works. that's all.
+				_completedCounter++;
+				if (_completedCounter >= 3)
 				{
-					// quest completed
-					OnQuestComplete();
+					_currentTask.Completed = true;
+					_currentTask.Deactivate();
 
-					QuestManager.DeactivateQuest(this);
-				}
-				else
-				{
-					_currentTask.Activate();
+					_currentTask = _currentTask.NextTask;
+					if (_currentTask == null)
+					{
+						// quest completed
+						OnQuestComplete();
+
+						QuestManager.DeactivateQuest(this);
+					}
+					else
+					{
+						_currentTask.Activate();
+					}
 				}
 			}
 		}

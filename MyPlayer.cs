@@ -457,7 +457,7 @@ namespace SpiritMod
             else {
                 player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);
             }
-            player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);
+            //player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);
             player.ManageSpecialBiomeVisuals("SpiritMod:AuroraSky", showAurora);
             player.ManageSpecialBiomeVisuals("SpiritMod:SpiritBiomeSky", spirit);
             player.ManageSpecialBiomeVisuals("SpiritMod:AsteroidSky2", ZoneAsteroid);
@@ -945,7 +945,19 @@ namespace SpiritMod
                     }
                 }
             }
-        }
+
+			// quest related hotkeys
+			if (SpiritMod.QuestBookHotkey.JustPressed)
+			{
+				// swap the quest book's state around, if it's open, close it, and vice versa.
+				Mechanics.QuestSystem.QuestManager.SetBookState(!(SpiritMod.instance.BookUserInterface.CurrentState is UI.QuestUI.QuestBookUI));
+			}
+			if (SpiritMod.QuestHUDHotkey.JustPressed)
+			{
+				// swap the quest book's state around, if it's open, close it, and vice versa.
+				SpiritMod.QuestHUD.Toggle();
+			}
+		}
 
         public override bool PreItemCheck()
         {

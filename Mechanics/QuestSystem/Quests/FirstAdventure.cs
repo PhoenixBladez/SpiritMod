@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using SpiritMod.UI.Elements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,6 +76,11 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 			QuestGlobalNPC.OnEditSpawnPool -= QuestGlobalNPC_OnEditSpawnPool;
 			QuestGlobalNPC.OnNPCLoot -= QuestGlobalNPC_OnNPCLoot;
 			base.OnDeactivate();
+		}
+
+		public override string GetObjectivesBook()
+		{
+			return "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec est pretium, consectetur augue et, rhoncus urna. Proin pretium euismod nisl et varius. Vivamus porttitor fringilla ligula nec luctus. In pellentesque gravida ligula fringilla tincidunt. Ut malesuada dapibus odio, euismod finibus nunc malesuada eget. Donec porta turpis urna, nec posuere massa tempor at. Nam id tempus mi. In sollicitudin mauris vel porttitor porta. Nullam congue libero eu arcu lobortis, at mattis magna iaculis. Integer eget posuere risus. Nam efficitur lacinia lacus non tempor. Maecenas suscipit ante nec convallis convallis. Morbi lacinia nunc maximus orci gravida, in vestibulum odio volutpat. Pellentesque vitae leo libero. Aenean vitae augue ac dui maximus aliquam quis ac ante. Nullam id tortor volutpat, aliquet eros at, ultrices sapien.";
 		}
 
 		private void QuestGlobalNPC_OnEditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)

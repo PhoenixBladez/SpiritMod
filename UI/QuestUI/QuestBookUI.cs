@@ -34,6 +34,7 @@ namespace SpiritMod.UI.QuestUI
 		private bool[] _isPossible;
 		private int _currentMaxPossible;
 
+		private UIShaderImage _bookOverlay;
         private UIQuestBookButtonTextPanel[] _questSectionButtons;
         private UIQuestBookButtonTextPanel[] _questFilterButtons;
         private UIModifiedList _questList;
@@ -45,6 +46,9 @@ namespace SpiritMod.UI.QuestUI
 		private UISimpleWrappableText _questClientTitle;
 		private UISimpleWrappableText _questRewardsTitle;
 		private UISimpleWrappableText _questObjectivesTitle;
+		private UIImageButton _questObjectivesLeftArrow;
+		private UISimpleWrappableText _questObjectivesPageText;
+		private UIImageButton _questObjectivesRightArrow;
 		private UIShaderImage _obnoxiousTutorialGlow;
 		private UIShaderImage _questImage;
 		private UISimpleWrappableText _interactionWarningText;
@@ -77,8 +81,15 @@ namespace SpiritMod.UI.QuestUI
             // ensure the UI stays on screen when moved
             mainWindow.ForceScreenStick = true;
 
-            // left page area
-            UIElement leftPage = new UIElement();
+			_bookOverlay = new UIShaderImage(null);
+			_bookOverlay.Left.Set(0f, 0f);
+			_bookOverlay.Top.Set(0f, 0f);
+			_bookOverlay.Width.Set(0f, 1f);
+			_bookOverlay.Height.Set(0f, 1f);
+			mainWindow.Append(_bookOverlay);
+
+			// left page area
+			UIElement leftPage = new UIElement();
             leftPage.Left.Set(0f, 0.200196271f);
             leftPage.Top.Set(0f, 0.19121813f);
             leftPage.Width.Set(0f, 0.333660451f);
@@ -211,36 +222,73 @@ namespace SpiritMod.UI.QuestUI
 			_questImage.Effect = SpiritMod.Instance.GetEffect("Effects/QuestShaders");
 			_questImage.Pass = _questImage.Effect.CurrentTechnique.Passes["Sepia"];
 			_questImage.PointSample = true;
-			_questImage.Top.Set(44f, 0f);
+			_questImage.Top.Set(50f, 0f);
 			_questImage.Width.Set(0f, 1f);
 			_questImage.Height.Set(130f, 0f);
 			rightPage.Append(_questImage);
 
 			// objectives title
 			_questObjectivesTitle = new UISimpleWrappableText("Objectives", 0.8f);
-			_questObjectivesTitle.Top.Set(175f, 0f);
+			_questObjectivesTitle.Top.Set(189f, 0f);
 			_questObjectivesTitle.Colour = new Color(43, 28, 17);
             rightPage.Append(_questObjectivesTitle);
 
-            rightPage.Append(CreateLine(189f));
+			_questObjectivesLeftArrow = new UIImageButton(SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/LeftArrow"));
+			_questObjectivesLeftArrow.Left.Set(-60f, 1f);
+			_questObjectivesLeftArrow.Top.Set(188f, 0f);
+			_questObjectivesLeftArrow.SetVisibility(1f, 0.5f);
+			_questObjectivesLeftArrow.OnClick += (UIMouseEvent evt, UIElement listeningElement) =>
+			{
+				int page = _questObjectivesText.Page;
+				page--;
+				if (page < 0) page = 0;
+				_questObjectivesText.Page = page;
+				UpdateArrows(page, _questObjectivesText.MaxPage);
+			};
+			rightPage.Append(_questObjectivesLeftArrow);
+
+			_questObjectivesRightArrow = new UIImageButton(SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/RightArrow"));
+			_questObjectivesRightArrow.Left.Set(-14f, 1f);
+			_questObjectivesRightArrow.Top.Set(188f, 0f);
+			_questObjectivesRightArrow.SetVisibility(1f, 0.5f);
+			_questObjectivesRightArrow.OnClick += (UIMouseEvent evt, UIElement listeningElement) =>
+			{
+				int page = _questObjectivesText.Page;
+				page++;
+				if (page > _questObjectivesText.MaxPage) page = _questObjectivesText.MaxPage;
+				_questObjectivesText.Page = page;
+				UpdateArrows(page, _questObjectivesText.MaxPage);
+			};
+			rightPage.Append(_questObjectivesRightArrow);
+
+			_questObjectivesPageText = new UISimpleWrappableText("1 / 1", 0.62f);
+			_questObjectivesPageText.Centered = true;
+			_questObjectivesPageText.Left.Set(-31f, 1f);
+			_questObjectivesPageText.Top.Set(188f, 0f);
+			_questObjectivesPageText.Colour = new Color(43, 28, 17);
+			rightPage.Append(_questObjectivesPageText);
+
+			rightPage.Append(CreateLine(203f));
 
 			_questObjectivesText = new UISimpleWrappableText("", 0.7f);
-			_questObjectivesText.Top.Set(195f, 0f);
+			_questObjectivesText.Top.Set(209f, 0f);
+			_questObjectivesText.Width.Set(0f, 1f);
+			_questObjectivesText.MinWidth.Set(0f, 1f);
 			_questObjectivesText.Wrappable = true;
-			_questObjectivesText.MaxLines = 5;
+			_questObjectivesText.MaxLines = 4;
 			_questObjectivesText.Colour = new Color(43, 28, 17);
             rightPage.Append(_questObjectivesText);
 
 			// client title
 			_questClientTitle = new UISimpleWrappableText("Client - ", 0.8f);
-			_questClientTitle.Top.Set(286f, 0f);
+			_questClientTitle.Top.Set(288f, 0f);
 			_questClientTitle.Colour = new Color(43, 28, 17);
             rightPage.Append(_questClientTitle);
 
-            rightPage.Append(CreateLine(300f));
+            rightPage.Append(CreateLine(302f));
 
             _questClientText = new UISimpleWrappableText("", 0.7f, false, true);
-			_questClientText.Top.Set(304f, 0f);
+			_questClientText.Top.Set(306f, 0f);
 			_questClientText.Width.Set(0f, 1f);
 			_questClientText.MinWidth.Set(0f, 1f);
 			_questClientText.Colour = new Color(43, 28, 17);
@@ -248,14 +296,14 @@ namespace SpiritMod.UI.QuestUI
 
             // rewards title
             _questRewardsTitle = new UISimpleWrappableText("Rewards", 0.8f);
-			_questRewardsTitle.Top.Set(424f, 0f);
+			_questRewardsTitle.Top.Set(426f, 0f);
 			_questRewardsTitle.Colour = new Color(43, 28, 17);
             rightPage.Append(_questRewardsTitle);
 
-            rightPage.Append(CreateLine(438f));
+            rightPage.Append(CreateLine(440f));
 
 			_questRewardList = new UIGridList();
-			_questRewardList.Top.Set(442, 0f);
+			_questRewardList.Top.Set(444f, 0f);
 			_questRewardList.Height.Set(44f, 0f);
 			_questRewardList.Width.Set(0f, 1f);
 			_questRewardList.ItemSize = new Vector2(42);
@@ -272,7 +320,7 @@ namespace SpiritMod.UI.QuestUI
 			rightPage.Append(_interactionWarningText);
 
 			_questInteractButton = new UISelectableOutlineRectPanel();
-			_questInteractButton.Top.Set(489f, 0f);
+			_questInteractButton.Top.Set(491f, 0f);
 			_questInteractButton.Left.Set(-110f, 1f);
 			_questInteractButton.Height.Set(22f, 0f);
 			_questInteractButton.Width.Set(110f, 0f);
@@ -343,7 +391,7 @@ namespace SpiritMod.UI.QuestUI
 			rightPage.Append(_questInteractButton);
 
 			_obnoxiousTutorialGlow = new UIShaderImage(Main.blackTileTexture);
-			_obnoxiousTutorialGlow.Top.Set(448f, 0f);
+			_obnoxiousTutorialGlow.Top.Set(450f, 0f);
 			_obnoxiousTutorialGlow.Left.Set(-150f, 1f);
 			_obnoxiousTutorialGlow.Height.Set(102f, 0f);
 			_obnoxiousTutorialGlow.Width.Set(189f, 0f);
@@ -487,7 +535,7 @@ namespace SpiritMod.UI.QuestUI
 			{
 				_questTitleText.Scale = 0.47f;
 				_questTitleText.Text = "This quest hasn't been discovered.";
-				_questTitleText.Top.Set(-14f, 0.5f);
+				_questTitleText.Top.Set(-28f, 0.5f);
 
 				_questImage.Texture = null;
 				_questClientText.Text = "";
@@ -497,6 +545,8 @@ namespace SpiritMod.UI.QuestUI
 				_questObjectivesTitle.Text = "";
 				_questRewardsTitle.Text = "";
 				_questRewardList.Clear();
+				_questObjectivesPageText.Top.Set(-1000000f, 0f);
+				UpdateArrows(0, -20);
 				_obnoxiousTutorialGlow.Texture = null;
 				// just move this off screen
 				_questInteractButton.Left.Set(-1000000f, 0f);
@@ -524,11 +574,18 @@ namespace SpiritMod.UI.QuestUI
 				_questInteractButton.Left.Set(-110f, 1f);
 			}
 
+			quest.UpdateBookOverlay(_bookOverlay);
 			_obnoxiousTutorialGlow.Texture = (quest.TutorialActivateButton && !quest.IsActive && !quest.RewardsGiven) ? Main.blackTileTexture : null;
 			_questTitleText.Top.Set(-8f, 0f);
 			// TODO: Automate the scaling here:
-			_questTitleText.Scale = 0.8f;
 			_questTitleText.Text = quest.QuestName;
+			float titleWidth = _questTitleText.Font.MeasureString(_questTitleText.Text).X;
+			float scale = 0.8f;
+			if (titleWidth >= 416.25f)
+			{
+				scale = 0.8f * (416.25f / titleWidth);
+			}
+			_questTitleText.Scale = scale;
 			_questObjectivesTitle.Text = "Objectives";
 			_questRewardsTitle.Text = "Rewards";
 			_questImage.Texture = quest.QuestImage;
@@ -541,9 +598,10 @@ namespace SpiritMod.UI.QuestUI
 			_questCategoryText.Colour = category.Color;
 			_questObjectivesText.Page = 0;
 			_questObjectivesText.Text = quest.GetObjectivesBook();
-			//_questObjectivesText.MaxPages
+			_questObjectivesPageText.Top.Set(188f, 0f);
+			UpdateArrows(_questObjectivesText.Page, _questObjectivesText.MaxPage);
 
-			//_questRewardList.Clear();
+			_questRewardList.Clear();
 			if (quest.QuestRewards != null)
 			{
 				foreach (var reward in quest.QuestRewards)
@@ -557,6 +615,17 @@ namespace SpiritMod.UI.QuestUI
 			_questImage.Effect.Parameters["AlphaMaskTexture"].SetValue(_imageMasks[maskIndex]);
 
 			SelectedQuest = quest;
+		}
+
+		private void UpdateArrows(int page, int maxPage)
+		{
+			_questObjectivesPageText.Text = (page + 1) + " / " + (maxPage + 1);
+
+			if (page <= 0) _questObjectivesLeftArrow.Top.Set(-1000000f, 0f);
+			else _questObjectivesLeftArrow.Top.Set(188f, 0f);
+
+			if (page >= maxPage) _questObjectivesRightArrow.Top.Set(-1000000f, 0f);
+			else _questObjectivesRightArrow.Top.Set(188f, 0f);
 		}
 
 		private void ChangeSection(int newSection)
@@ -696,6 +765,7 @@ namespace SpiritMod.UI.QuestUI
 			if (SelectedQuest != null && SelectedQuest.IsActive)
 			{
 				_questObjectivesText.Text = SelectedQuest.GetObjectivesBook();
+				SelectedQuest.UpdateBookOverlay(_bookOverlay);
 			}
 			base.Update(gameTime);
 		}
