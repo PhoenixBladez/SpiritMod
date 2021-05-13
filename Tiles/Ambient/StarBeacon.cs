@@ -100,7 +100,7 @@ namespace SpiritMod.Tiles.Ambient
 				if (Main.npc[k].active && Main.npc[k].type == ModContent.NPCType<SteamRaiderHead>()) return false;
 			}
 
-			if (Mechanics.EventSystem.EventManager.IsPlaying<Mechanics.EventSystem.Events.StarblateBeaconTrigger>())
+			if (Mechanics.EventSystem.EventManager.IsPlaying<Mechanics.EventSystem.Events.StarplateBeaconIntroEvent>())
 			{
 				return false;
 			}
@@ -112,7 +112,7 @@ namespace SpiritMod.Tiles.Ambient
 			while (Main.tile[x, y].type == Type) y--;
 			y++;
 
-			Mechanics.EventSystem.EventManager.PlayEvent(new Mechanics.EventSystem.Events.StarblateBeaconTrigger(new Vector2(x * 16f + 16f, y * 16f + 12f)));
+			Mechanics.EventSystem.EventManager.PlayEvent(new Mechanics.EventSystem.Events.StarplateBeaconIntroEvent(new Vector2(x * 16f + 16f, y * 16f + 12f)));
 
 			Player player = Main.player[Main.myPlayer];
 

@@ -16,7 +16,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.Mechanics.EventSystem.Events
 {
-	public class StarblateBeaconTrigger : Event
+	public class StarplateBeaconIntroEvent : Event
 	{
 		private const float BUILDUP_LENGTH = 4f;
 		private const float PAUSE_TIME = 0.5f;
@@ -39,18 +39,15 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 		private float _gravEquationTop;
 		private List<Particle> _particles;
 
-		public StarblateBeaconTrigger(Vector2 center)
+		public StarplateBeaconIntroEvent(Vector2 center)
 		{
 			_center = center;
+
+			// set up the screen shaders
 			_ripContrastData = new BeaconShaderData(new Ref<Effect>(SpiritMod.Instance.GetEffect("Effects/EventShaders")), "BeaconStartScreen");
 			_burstData = new BeaconShaderData(new Ref<Effect>(SpiritMod.Instance.GetEffect("Effects/EventShaders")), "BeaconBurstScreen");
 			Filters.Scene["SpiritMod:Event-BeaconDistortion"] = new Filter(_ripContrastData, (EffectPriority)20);
 			Filters.Scene["SpiritMod:Event-BeaconBurst"] = new Filter(_burstData, (EffectPriority)35);
-
-			AddToQueue(new ExpressionController(BUILDUP_LENGTH + PAUSE_TIME, (int frame) =>
-			{
-				EventManager.PlayEvent(new ScreenShake(20f, 0.6f));
-			}));
 
 			const float BURST_START = BUILDUP_LENGTH + PAUSE_TIME;
 
@@ -60,7 +57,6 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 			_screenRipStrength.AddPoint(BUILDUP_LENGTH * 0.9f, 1f, EaseFunction.EaseCubicIn);
 			_screenRipStrength.AddPoint(BURST_START, 1f, EaseFunction.EaseCubicIn);
 			_screenRipStrength.AddPoint(BURST_START + BURST_LENGTH, 0f, EaseFunction.EaseCubicOut);
-			//_screenRipStrength.AddPoint(BURST_START + BURST_LENGTH + 5f, 0f, EaseFunction.Linear);
 
 			// contrast animation
 			_contrastBubbleStrength = new EaseBuilder();
@@ -68,14 +64,12 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 			_contrastBubbleStrength.AddPoint(BUILDUP_LENGTH, 1f, new PolynomialEase(x => x * x * x * x * x * x * x));
 			_contrastBubbleStrength.AddPoint(BURST_START, 1f, EaseFunction.Linear);
 			_contrastBubbleStrength.AddPoint(BURST_START + BURST_LENGTH, 0f, EaseFunction.EaseQuadOut);
-			//_contrastBubbleStrength.AddPoint(BURST_START + BURST_LENGTH + 5f, 0f, EaseFunction.Linear);
 
 			// burst radius animation
 			_burstRadius = new EaseBuilder();
 			_burstRadius.AddPoint(0f, 0f, EaseFunction.Linear);
 			_burstRadius.AddPoint(BURST_START, 0f, EaseFunction.Linear);
 			_burstRadius.AddPoint(BURST_START + BURST_LENGTH, BURST_RADIUS, EaseFunction.EaseQuadOut);
-			//_burstRadius.AddPoint(BURST_START + BURST_LENGTH + 5f, BURST_RADIUS, EaseFunction.Linear);
 
 			// burst strength animation
 			_burstStrength = new EaseBuilder();
@@ -83,7 +77,6 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 			_burstStrength.AddPoint(BURST_START - 0.01f, 0f, EaseFunction.Linear);
 			_burstStrength.AddPoint(BURST_START, 1f, EaseFunction.Linear);
 			_burstStrength.AddPoint(BURST_START + BURST_LENGTH, 0f, EaseFunction.EaseQuadOut);
-			//_burstStrength.AddPoint(BURST_START + BURST_LENGTH + 5f, 0f, EaseFunction.Linear);
 
 			// overlay opacity animation
 			_overlayOpacity = new EaseBuilder();
@@ -94,7 +87,6 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 			// particle mass animation
 			_particleMass = new EaseBuilder();
 			_particleMass.AddPoint(0f, 1f, EaseFunction.Linear);
-			// 4000000000000000f
 			_particleMass.AddPoint(BUILDUP_LENGTH, 5000000000000000f, EaseFunction.EaseQuadIn);
 
 			// particle spawn count animation
@@ -110,10 +102,17 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 			_flashOpacity.AddPoint(BURST_START + 0.2f, 0f, EaseFunction.EaseQuadOut);
 
 			_particles = new List<Particle>();
+
+			// add a screen shake event to the queue
+			AddToQueue(new ExpressionController(BUILDUP_LENGTH + PAUSE_TIME, (int frame) =>
+			{
+				EventManager.PlayEvent(new ScreenShake(20f, 0.6f));
+			}));
 		}
 
 		public override void Activate()
 		{
+			// activate all filters
 			Filters.Scene.Activate("SpiritMod:Event-BeaconDistortion", _center, null);
 			Filters.Scene.Activate("SpiritMod:Event-BeaconBurst", _center, null);
 			Filters.Scene.Activate("SpiritMod:Glitch", _center, null);
@@ -122,6 +121,7 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 
 		public override void Deactivate()
 		{
+			// deactivate all filters
 			Filters.Scene["SpiritMod:Event-BeaconDistortion"].Deactivate(null);
 			Filters.Scene["SpiritMod:Event-BeaconBurst"].Deactivate(null);
 			Filters.Scene["SpiritMod:Glitch"].Deactivate(null);
@@ -135,28 +135,30 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 
 			float endTime = (BUILDUP_LENGTH + PAUSE_TIME + BURST_LENGTH);
 
+			// update shader parameters
 			_ripContrastData.Shader.Parameters["Time"].SetValue(_currentTime);
 			_ripContrastData.Shader.Parameters["NoiseTexture"].SetValue(SpiritMod.Instance.GetTexture("Textures/Events/BigNoise"));
 			_ripContrastData.Shader.Parameters["FieldCenter"].SetValue(_center);
 			_ripContrastData.Shader.Parameters["ScreenRipStrength"].SetValue(_screenRipStrength.Ease(_currentTime));
 			_ripContrastData.Shader.Parameters["ContrastBubbleStrength"].SetValue(_contrastBubbleStrength.Ease(_currentTime));
-
 			_ripContrastData.Shader.Parameters["ScreenRipOffsetMultiplier"].SetValue((_currentTime < BUILDUP_LENGTH + PAUSE_TIME * 0.5f) ? 1f : -1f);
-
 			_burstData.Shader.Parameters["FieldTexture"].SetValue(SpiritMod.Instance.GetTexture("Textures/Events/BeaconBurstTexture"));
 			_burstData.Shader.Parameters["BurstRadius"].SetValue(_burstRadius.Ease(_currentTime));
 			_burstData.Shader.Parameters["BurstStrength"].SetValue(_burstStrength.Ease(_currentTime));
 
+			// glitch effect
 			Main.LocalPlayer.GetSpiritPlayer().starplateGlitchEffect = true;
 
-			float mult = _screenRipStrength.Ease(_currentTime);
+			// giltch effect paramaters
+			float glitchMultiplier = _screenRipStrength.Ease(_currentTime);
 			if (_currentTime >= BUILDUP_LENGTH)
 			{
-				mult *= Math.Max(1.0f - (_currentTime - BUILDUP_LENGTH) * 8f, 0f);
+				glitchMultiplier *= Math.Max(1.0f - (_currentTime - BUILDUP_LENGTH) * 8f, 0f);
 			}
-			SpiritMod.glitchEffect.Parameters["Speed"].SetValue(mult * 0.3f); //0.4f is default
-			SpiritMod.glitchScreenShader.UseIntensity(mult * 0.03f);
+			SpiritMod.glitchEffect.Parameters["Speed"].SetValue(glitchMultiplier * 0.3f); //0.4f is default
+			SpiritMod.glitchScreenShader.UseIntensity(glitchMultiplier * 0.03f);
 
+			// spawn new particles
 			_gravEquationTop = G * _particleMass.Ease(_currentTime);
 			int count = (int)_particleSpawnCount.Ease(_currentTime);
 			if (_currentTime > BUILDUP_LENGTH) count = 0;
@@ -167,13 +169,12 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 				_particles.Add(new Particle(_center + angle.ToRotationVector2() * distance, (angle + MathHelper.PiOver2).ToRotationVector2() * Main.rand.NextFloat(1f, 3f)));
 			}
 
-			float opacityEase = _overlayOpacity.Ease(_currentTime);
+			// update existing particles (using gravitational equation, mass of 1 so F=V)
 			for (int i = 0; i < _particles.Count; i++)
 			{
 				Particle particle = _particles[i];
 
 				Vector2 newPos = particle.Position + particle.Velocity;
-				//particle.Position = Vector2.Lerp(newPos, _center, EaseFunction.EaseCubicIn.Ease(opacityEase));
 				particle.Position = newPos;
 
 				Vector2 dir = _center - particle.Position;
@@ -198,6 +199,7 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 
 		public override void DrawAtLayer(SpriteBatch spriteBatch, RenderLayers layer, bool beginSB)
 		{
+			// draw beacon overlay and particles
 			if (layer == RenderLayers.TilesAndNPCs)
 			{
 				if (beginSB) spriteBatch.Begin();
@@ -217,6 +219,7 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 				if (beginSB) spriteBatch.End();
 			}
 
+			// draw screen flash
 			if (layer == RenderLayers.All)
 			{
 				if (beginSB) spriteBatch.Begin();
@@ -257,12 +260,13 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 
 			public override void Apply()
 			{
+				// calculate screen related parameters right before applying.
+				// matrix requires a half pixel offset
 				var viewport = Main.graphics.GraphicsDevice.Viewport;
 				Matrix m = Matrix.CreateOrthographicOffCenter(0, viewport.Width, viewport.Height, 0, 0, -1);
 				m.M41 += -0.5f * m.M11;
 				m.M42 += -0.5f * m.M22;
 				Shader.Parameters["MATRIX"].SetValue(m);
-
 				Shader.Parameters["ScreenPosition"].SetValue(Main.screenPosition);
 				Shader.Parameters["ScreenSize"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight));
 

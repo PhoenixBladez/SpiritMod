@@ -25,6 +25,9 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 			AddToQueue(camera);
 		}
 
+		/// <summary>
+		/// Custom value grabber for generating a random value relative to the current screen position based on distance
+		/// </summary>
 		private class RandomRelativePoint : CameraController.IValueGrabber<CameraController.CameraPointData>
 		{
 			private float _distance;
@@ -32,7 +35,7 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 			public Func<CameraController.CameraPointData> Method => () =>
 			{
 				return new CameraController.CameraPointData(
-					(Main.screenPosition + new Vector2(Main.screenWidth, Main.screenHeight) * 0.5f) + // center screen
+					(Main.screenPosition + new Vector2(Main.screenWidth, Main.screenHeight) * 0.5f) + // center screen +
 					Main.rand.NextFloat(-MathHelper.Pi, MathHelper.Pi).ToRotationVector2() * _distance); // random offset
 			};
 
