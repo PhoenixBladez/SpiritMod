@@ -33,6 +33,7 @@ using SpiritMod.Items.Weapon.Bow.GemBows.Topaz_Bow;
 using SpiritMod.Items.Consumable;
 using SpiritMod.NPCs.AuroraStag;
 using SpiritMod.Particles;
+using Terraria.DataStructures;
 
 namespace SpiritMod
 {
@@ -213,6 +214,12 @@ namespace SpiritMod
 					if (trailproj != null) 
 						trailproj.DoTrailCreation(TrailManager);
 
+					break;
+				case MessageType.PlaceSuperSunFlower:
+					MyWorld.superSunFlowerPositions.Add(new Point16(reader.ReadUInt16(), reader.ReadUInt16()));
+					break;
+				case MessageType.DestroySuperSunFlower:
+					MyWorld.superSunFlowerPositions.Remove(new Point16(reader.ReadUInt16(), reader.ReadUInt16()));
 					break;
 				default:
 					Logger.Error("Unknown message (" + id + ")");

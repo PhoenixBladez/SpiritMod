@@ -13,6 +13,8 @@
 		BossSpawnFromClient,
 		TideData,
 		TameAuroraStag,
-		SpawnTrail
+		SpawnTrail,
+		PlaceSuperSunFlower,
+		DestroySuperSunFlower
 	}
 }
