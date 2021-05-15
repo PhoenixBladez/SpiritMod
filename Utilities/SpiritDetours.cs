@@ -8,10 +8,13 @@ using SpiritMod.Particles;
 using SpiritMod.Tiles;
 using System;
 using System.Linq;
+using ReLogic.Graphics;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.UI.Chat;
 
 namespace SpiritMod.Utilities
 {
@@ -40,11 +43,12 @@ namespace SpiritMod.Utilities
 		}
 
 		private const float ProfileNameScale = 1f; //Profile name scale - 1f because the higher is poorly resized
+		public static bool HoveringQuestButton = false;
 		private static void Main_DrawNPCChatButtons(On.Terraria.Main.orig_DrawNPCChatButtons orig, int superColor, Color chatColor, int numLines, string focusText, string focusText3) //Portrait drawing - Gabe
 		{
-			if (ModContent.GetInstance<SpiritClientConfig>().ShowNPCPortraits) 
+			NPC talkNPC = Main.npc[Main.LocalPlayer.talkNPC];
+			if (ModContent.GetInstance<SpiritClientConfig>().ShowNPCPortraits)
 			{
-				NPC talkNPC = Main.npc[Main.LocalPlayer.talkNPC];
 				string name = talkNPC.GivenName;
 
 				//Portrait
@@ -55,6 +59,39 @@ namespace SpiritMod.Utilities
 					Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, Main.fontItemStack, name, textPos, new Color(240, 240, 240), 0f, new Vector2(), new Vector2(ProfileNameScale), -1, 2f);
 				}
 			}
+
+			if (talkNPC.type == NPCID.Angler)
+				focusText = ""; // empty string, we'll add our own angler quest button
+
+			// TODO: localization
+			string questText = "Quest";
+			DynamicSpriteFont font = Main.fontMouseText;
+			Vector2 scale = new Vector2(0.9f);
+			Vector2 stringSize = ChatManager.GetStringSize(font, questText, scale);
+			Vector2 position = new Vector2((180 + Main.screenWidth / 2) + stringSize.X - 50f, 130 + numLines * 30);
+			Color baseColor = new Color(superColor, (int)(superColor / 1.1), superColor / 2, superColor);
+			Vector2 mousePos = new Vector2(Main.mouseX, Main.mouseY);
+
+			if (mousePos.Between(position, position + stringSize * scale) && !PlayerInput.IgnoreMouseInterface) {
+				Main.LocalPlayer.mouseInterface = true;
+				Main.LocalPlayer.releaseUseItem = true;
+				scale *= 1.1f;
+
+				if (!HoveringQuestButton)
+					Main.PlaySound(SoundID.MenuTick);
+
+				HoveringQuestButton = true;
+			}
+			else {
+				if (HoveringQuestButton)
+					Main.PlaySound(SoundID.MenuTick);
+
+				HoveringQuestButton = false;
+			}
+
+			ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, font, questText, position + new Vector2(16f, 14f), baseColor, 0f,
+				stringSize * 0.5f, scale * new Vector2(1f));
+
 			orig(superColor, chatColor, numLines, focusText, focusText3);
 		}
 
