@@ -34,7 +34,7 @@ namespace SpiritMod.Utilities
 			orig(self);
 		}
 
-		private const float ProfileNameScale = 1f; //Profile name scale - 1f because the higher is poorly resized
+		private const float ProfileNameScale = 1f; //Profile name scale - 1f because anything higher is poorly resized
 		private static void Main_DrawNPCChatButtons(On.Terraria.Main.orig_DrawNPCChatButtons orig, int superColor, Color chatColor, int numLines, string focusText, string focusText3) //Portrait drawing - Gabe
 		{
 			if (ModContent.GetInstance<SpiritClientConfig>().ShowNPCPortraits) 
@@ -44,10 +44,12 @@ namespace SpiritMod.Utilities
 
 				//Portrait
 				if (SpiritMod.Portraits.ContainsKey(talkNPC.type)) {
-					Main.spriteBatch.Draw(SpiritMod.Portraits[talkNPC.type], new Vector2(Main.screenWidth / 3 - 43, 104), null, Color.White, 0f, default, 1f, SpriteEffects.None, 0f); //Portrait
+					Vector2 offset = new Vector2(190, 0) * (Main.UIScale - 1); //UI scale...scaling
+					offset.Y -= ((numLines - 2) * 20); //So it's centred
+					Main.spriteBatch.Draw(SpiritMod.Portraits[talkNPC.type], new Vector2(Main.screenWidth / 3 - 43, 104) - offset, null, Color.White, 0f, default, 1f, SpriteEffects.None, 0f); //Portrait
 
 					Vector2 textPos = new Vector2(Main.screenWidth / 3 + 10, 226) - (Terraria.UI.Chat.ChatManager.GetStringSize(Main.fontItemStack, name, new Vector2(ProfileNameScale)) / 2); //Name
-					Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, Main.fontItemStack, name, textPos, new Color(240, 240, 240), 0f, new Vector2(), new Vector2(ProfileNameScale), -1, 2f);
+					Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, Main.fontItemStack, name, textPos - offset, new Color(240, 240, 240), 0f, new Vector2(), new Vector2(ProfileNameScale), -1, 2f);
 				}
 			}
 			orig(superColor, chatColor, numLines, focusText, focusText3);

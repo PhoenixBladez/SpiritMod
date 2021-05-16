@@ -405,8 +405,8 @@ namespace SpiritMod.NPCs
 
 		public override void GetChat(NPC npc, ref string chat)
 		{
-			Player player = Main.player[Main.myPlayer];
-			MyPlayer modPlayer = Main.player[Main.myPlayer].GetModPlayer<MyPlayer>();
+			Player player = Main.LocalPlayer;
+			MyPlayer modPlayer = Main.LocalPlayer.GetModPlayer<MyPlayer>();
 			if (Main.halloween && !Main.dayTime && AllowTrickOrTreat(npc) && modPlayer.CanTrickOrTreat(npc)) {
 				if (npc.type == NPCID.Guide && !player.HasItem(ItemType<CandyBag>())) {
 					chat = "Take this bag; you can use it to store your Candy. \"How do I get candy?\", you ask? Try talking to the other villagers.";
@@ -417,7 +417,6 @@ namespace SpiritMod.NPCs
 					ItemUtils.DropCandy(player);
 				}
 			}
-
 		}
 
 		internal bool AllowTrickOrTreat(NPC npc)
