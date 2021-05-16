@@ -5,11 +5,11 @@ using Terraria;
 
 namespace SpiritMod.Particles
 {
-    public class LanternParticle : Particle
+    public class LanternParticle : ScreenParticle
 	{
 		private readonly static int MaxTime = 3000;
 
-		public override void Update()
+		public override void UpdateOnScreen()
 		{
 			if (TimeActive >= MaxTime)
 				Kill();
@@ -21,16 +21,9 @@ namespace SpiritMod.Particles
 			Color = Color.White * (float)Math.Sin(MathHelper.TwoPi * ((MaxTime - TimeActive) / (float)MaxTime));
 		}
 
-		/*public override bool UseCustomDraw => true;
+		public override bool ActiveCondition => Main.LocalPlayer.GetModPlayer<MyPlayer>().ZoneLantern;
 
-		public override void CustomDraw(SpriteBatch spriteBatch)
-		{
-			base.CustomDraw(spriteBatch);
-		}*/
-
-		public override bool ActiveCondition() => Main.LocalPlayer.GetModPlayer<MyPlayer>().ZoneLantern;
-
-		public override float SpawnChance() => 0.0125f;
+		public override float ScreenSpawnChance => 0.0125f;
 
 		public override void OnSpawnAttempt()
 		{
@@ -39,7 +32,7 @@ namespace SpiritMod.Particles
 			Vector2 startingPosition = new Vector2(Main.rand.NextFloat(screenCenter.X - Main.screenWidth * 2, screenCenter.X + Main.screenWidth * 2), Main.screenPosition.Y + Main.screenHeight);
 
 			lanternParticle.Position = startingPosition;
-			lanternParticle.origScreenpos = Main.screenPosition;
+			lanternParticle.OriginalScreenPosition = Main.screenPosition;
 			lanternParticle.Velocity = Main.rand.NextFloat(-1, -.3f) * Vector2.UnitY;
 			lanternParticle.Scale = Main.rand.NextFloat(0.5f, 1f);
 			lanternParticle.Color = Color.White;

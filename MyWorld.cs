@@ -54,6 +54,8 @@ using SpiritMod.Sepulchre;
 using System.Diagnostics.Contracts;
 using static SpiritMod.Utilities.ChestPoolUtils;
 using SpiritMod.Items.Tool;
+using SpiritMod.Tiles;
+using Terraria.DataStructures;
 
 namespace SpiritMod
 {
@@ -151,6 +153,8 @@ namespace SpiritMod
 
 		public static Dictionary<string, bool> droppedGlyphs = new Dictionary<string, bool>();
 
+		public static HashSet<Point16> superSunFlowerPositions = new HashSet<Point16>();
+
 		//bool night = false;
 		public bool txt = false;
 
@@ -247,6 +251,9 @@ namespace SpiritMod
 
 			SpiritMod.AdventurerQuests.WorldSave(data);
 			//SaveSpecialNPCs(data);
+
+			data.Add("superSunFlowerPositions", superSunFlowerPositions.ToList());
+
 			return data;
 		}
 
@@ -305,6 +312,12 @@ namespace SpiritMod
 			pagodaX = tag.Get<int>("pagodaX");
 			pagodaY = tag.Get<int>("pagodaY");
 			spawnedPagodaEnemies = tag.Get<bool>("spawnedPagodaEnemies");
+
+			superSunFlowerPositions = new HashSet<Point16>(tag.GetList<Point16>("superSunFlowerPositions"));
+			// verify that there are super sunflowers at the loaded positions
+			foreach (Point16 point in superSunFlowerPositions)
+				if (Framing.GetTileSafely(point).type != ModContent.TileType<SuperSunFlower>())
+					superSunFlowerPositions.Remove(point);
 		}
 
 		public override void LoadLegacy(BinaryReader reader)
