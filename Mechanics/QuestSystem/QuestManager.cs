@@ -18,11 +18,8 @@ namespace SpiritMod.Mechanics.QuestSystem
     {
 		/* Boffin's TODO list
 		
-		 * Quest HUD!
-		 * Daily quests / favours? Quests that don't appear in the completed section when
-		   completed because they're small.
 		 * NPC text override and quest buttons. (a helper class with a bunch of queued up quests to give for town npcs!)
-		 * 
+		 * New clients joining servers need to sync their quest managers up.
 		 * 
 		 * 
 		 * 
@@ -35,6 +32,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 		public static List<Quest> ActiveQuests { get; private set; }
 		public static bool QuestBookUnlocked { get; set; }
 		public static Dictionary<string, QuestCategory> Categories { get; private set; }
+		public static Dictionary<string, StoredQuestData> UnloadedQuests { get; private set; }
 
 		private static Dictionary<Type, Quest> _questDict;
 		private static Dictionary<string, QuestTask> _tasksDict;
@@ -51,6 +49,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 			Quests = new List<Quest>();
             ActiveQuests = new List<Quest>();
+			UnloadedQuests = new Dictionary<string, StoredQuestData>();
 
 			// register our categories
 			Texture2D iconTexture = SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/Icons");
@@ -154,6 +153,15 @@ namespace SpiritMod.Mechanics.QuestSystem
 			quest.IsActive = false;
 		}
 
+		public static void RestartEverything()
+		{
+			foreach (Quest quest in Quests)
+			{
+				DeactivateQuest(quest);
+				quest.ResetEverything();
+			}
+		}
+
 		public static void GiveRewards(Quest quest)
 		{
 			if (quest.RewardsGiven) return;
@@ -187,6 +195,23 @@ namespace SpiritMod.Mechanics.QuestSystem
 				{
 					_serverSyncCounter = 0;
 					syncMP = true;
+				}
+			}
+
+			// handle limited time unlock quests
+			foreach (Quest quest in Quests)
+			{
+				if (quest.IsUnlocked && quest.LimitedUnlock)
+				{
+					quest.UnlockTime--;
+					if (quest.UnlockTime <= 0)
+					{
+						quest.IsUnlocked = false;
+						if (quest.AnnounceRelocking)
+						{
+							SayInChat("[[sQ/" + quest.WhoAmI + ":" + quest.QuestName + "]] has been locked again.", Color.White);
+						}
+					}
 				}
 			}
 
@@ -225,13 +250,11 @@ namespace SpiritMod.Mechanics.QuestSystem
 			if (quest.IsUnlocked) return;
 
 			quest.IsUnlocked = true;
+			quest.OnUnlock();
 
 			if (showInChat && quest.IsQuestPossible())
 			{
-				string text = "You have unlocked a new quest! [[sQ/" + quest.WhoAmI + ":" + quest.QuestName + "]]";
-
-				if (Main.netMode == NetmodeID.SinglePlayer) Main.NewText(text, 255, 255, 255, false);
-				else if (Main.netMode == NetmodeID.Server) NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(text), Color.White, -1);
+				SayInChat("You have unlocked a new quest! [[sQ/" + quest.WhoAmI + ":" + quest.QuestName + "]]", Color.White);
 			}
 		}
 
@@ -348,6 +371,12 @@ namespace SpiritMod.Mechanics.QuestSystem
 			return task.Parse(args);
 		}
 
+		public static void SayInChat(string text, Color colour)
+		{
+			if (Main.netMode == NetmodeID.SinglePlayer) Main.NewText(text, colour.R, colour.G, colour.B, false);
+			else if (Main.netMode == NetmodeID.Server) NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(text), colour, -1);
+		}
+
 		public struct QuestCategory
 		{
 			public int Index;
@@ -356,5 +385,16 @@ namespace SpiritMod.Mechanics.QuestSystem
 			public Texture2D Texture;
 			public Rectangle? Frame;
 		}
+	}
+
+	public struct StoredQuestData
+	{
+		public bool IsUnlocked;
+		public bool IsActive;
+		public bool IsCompleted;
+		public bool RewardsGiven;
+		public short TimeLeftUnlocked;
+		public short TimeLeftActive;
+		public byte[] Buffer;
 	}
 }

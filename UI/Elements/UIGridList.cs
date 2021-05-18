@@ -187,6 +187,14 @@ namespace SpiritMod.UI.Elements
 			return item1.CompareTo(item2);
 		}
 
+		public override void Update(GameTime gameTime)
+		{
+			for (int i = 0; i < this.Elements.Count; i++)
+			{
+				this.Elements[i].Update(gameTime);
+			}
+		}
+
 		public void UpdateOrder()
 		{
 			this._items.Sort(new Comparison<UIElement>(this.SortMethod));
@@ -218,8 +226,9 @@ namespace SpiritMod.UI.Elements
 			{
 				Vector2 vector2 = this.Parent.GetDimensions().Position();
 				Vector2 vector21 = new Vector2(this.Parent.GetDimensions().Width, this.Parent.GetDimensions().Height);
-				foreach (UIElement element in this.Elements)
+				for (int i = 0; i < this.Elements.Count; i++)
 				{
+					UIElement element = this.Elements[i];
 					Vector2 vector22 = element.GetDimensions().Position();
 					Vector2 vector23 = new Vector2(element.GetDimensions().Width, element.GetDimensions().Height);
 					if (!Collision.CheckAABBvAABBCollision(vector2, vector21, vector22, vector23))

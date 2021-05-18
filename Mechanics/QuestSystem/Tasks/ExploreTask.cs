@@ -2,6 +2,7 @@
 using SpiritMod.Utilities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using Terraria;
 using Terraria.ID;
@@ -111,6 +112,16 @@ namespace SpiritMod.Mechanics.QuestSystem
 		{
 			// TODO: send the server our stored distance, then reset to 0
 			_storedDistance = 0;
+		}
+
+		public override void ReadData(BinaryReader reader)
+		{
+			_distancedTravelled = reader.ReadSingle();
+		}
+
+		public override void WriteData(BinaryWriter writer)
+		{
+			writer.Write(_distancedTravelled);
 		}
 	}
 }

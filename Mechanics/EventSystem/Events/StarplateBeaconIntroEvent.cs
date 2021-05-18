@@ -13,6 +13,9 @@ using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria.ID;
+using Terraria.ModLoader;
+using SpiritMod.NPCs.Boss.SteamRaider;
 
 namespace SpiritMod.Mechanics.EventSystem.Events
 {
@@ -107,6 +110,24 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 			AddToQueue(new ExpressionController(BUILDUP_LENGTH + PAUSE_TIME, (int frame) =>
 			{
 				EventManager.PlayEvent(new ScreenShake(20f, 0.6f));
+			}));
+
+			// add the summoning to the queue
+			AddToQueue(new ExpressionController(BUILDUP_LENGTH + PAUSE_TIME + BURST_LENGTH - 0.5f, (int frame) =>
+			{
+				Player player = Main.LocalPlayer;
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					Main.NewText("The Starplate Voyager has awoken!", 175, 75, 255, true);
+					int npcID = NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<SteamRaiderHead>());
+					Main.npc[npcID].Center = player.Center - new Vector2(600, 600);
+					Main.npc[npcID].netUpdate2 = true;
+				}
+				else
+				{
+					SpiritMod.WriteToPacket(SpiritMod.instance.GetPacket(), (byte)MessageType.BossSpawnFromClient, (byte)player.whoAmI, (int)ModContent.NPCType<SteamRaiderHead>(), "The Starplate Voyager has awoken!", (int)player.Center.X - 600, (int)player.Center.Y - 600).Send(-1);
+				}
+
 			}));
 		}
 

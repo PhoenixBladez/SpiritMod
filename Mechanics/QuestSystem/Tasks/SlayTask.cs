@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -163,6 +164,16 @@ namespace SpiritMod.Mechanics.QuestSystem
 				if (_killCount > _killsRequired)
 					_killCount = _killsRequired;
 			}
+		}
+
+		public override void ReadData(BinaryReader reader)
+		{
+			_killCount = reader.ReadInt32();
+		}
+
+		public override void WriteData(BinaryWriter writer)
+		{
+			writer.Write(_killCount);
 		}
 	}
 }

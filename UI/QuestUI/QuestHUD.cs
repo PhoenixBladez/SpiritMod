@@ -42,6 +42,11 @@ namespace SpiritMod.UI.QuestUI
 			_questDisplays.Add(new QuestDisplay() { Quest = quest, IsActive = true });
 		}
 
+		public void Clear()
+		{
+			_questDisplays.Clear();
+		}
+
 		public void RemoveQuest(Quest quest)
 		{
 			for (int i = 0; i < _questDisplays.Count; i++)

@@ -81,6 +81,28 @@ namespace SpiritMod.UI.QuestUI
             // ensure the UI stays on screen when moved
             mainWindow.ForceScreenStick = true;
 
+			// DEBUGGING FEATURE
+			// TODO: REMOVE BEFORE RELEASE!
+			mainWindow.OnMiddleDoubleClick += (UIMouseEvent evt, UIElement listeningElement) =>
+			{
+				if (Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftControl) &&
+					Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftAlt) &&
+					Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftShift))
+				{
+					QuestManager.RestartEverything();
+					QuestManager.UnlockQuest<FirstAdventure>(false);
+				}
+			};
+			mainWindow.OnRightDoubleClick += (UIMouseEvent evt, UIElement listeningElement) =>
+			{
+				if (Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftControl) &&
+					Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftAlt) &&
+					Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftShift))
+				{
+					foreach (Quest quest in QuestManager.Quests) QuestManager.UnlockQuest(quest, false);
+				}
+			};
+
 			_bookOverlay = new UIShaderImage(null);
 			_bookOverlay.Left.Set(0f, 0f);
 			_bookOverlay.Top.Set(0f, 0f);
@@ -684,7 +706,7 @@ namespace SpiritMod.UI.QuestUI
 				case 2:
 					// get all completed quests
 					orderedFilteredQuests = orderedFilteredQuests.Where(q => q.MyQuest.IsCompleted);
-					_questProgressCounterText.Text = "(" + orderedFilteredQuests.Count() + "/" + _currentMaxPossible + ")";
+					_questProgressCounterText.Text = "(" + orderedFilteredQuests.Where(q => q.MyQuest.CountsTowardsQuestTotal).Count() + "/" + _currentMaxPossible + ")";
 					break;
 			}
 
@@ -727,9 +749,14 @@ namespace SpiritMod.UI.QuestUI
 				}
 			}
 
-			// sort by unlocked, then category index, then by difficulty
+			orderedFilteredQuests = orderedFilteredQuests.Where(q => q.MyQuest.IsUnlocked || q.MyQuest.AppearsWhenUnlocked);
+
+			// sort by whether it's limited, then unlocked, then category index, then by difficulty
 			orderedFilteredQuests = orderedFilteredQuests
-				.OrderBy(q => !q.MyQuest.IsUnlocked).ThenBy(q => q.MyQuest.QuestCategoryIndex).ThenBy(q => q.MyQuest.Difficulty);
+				.OrderBy(q => _questSectionIndex == 0 ? q.MyQuest.LimitedUnlock : q.MyQuest.LimitedActive)
+				.ThenBy(q => !q.MyQuest.IsUnlocked)
+				.ThenBy(q => q.MyQuest.QuestCategoryIndex)
+				.ThenBy(q => q.MyQuest.Difficulty);
 
 			foreach (var quest in orderedFilteredQuests)
 			{

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
@@ -24,15 +25,25 @@ namespace SpiritMod.Mechanics.QuestSystem
 		private bool _questCompleted;
 		private bool _rewardsGiven;
 		private int _completedCounter = 0;
+		internal List<string> _altNames;
 
-		public virtual int Difficulty => 0;
+		public virtual int Difficulty => 1;
 		public virtual string QuestCategory => "";
 		public virtual string QuestName => "";
 		public virtual string QuestDescription => "";
 		public virtual string QuestClient => "";
 		public virtual (int, int)[] QuestRewards => null;
 		public virtual bool TutorialActivateButton => false;
-		public Texture2D QuestImage { get; set; }
+		public virtual Texture2D QuestImage { get; set; }
+
+		public virtual bool AppearsWhenUnlocked => true;
+		public virtual bool CountsTowardsQuestTotal => true;
+		public virtual bool AnnounceRelocking => false;
+		public virtual bool LimitedUnlock => false;
+		public virtual bool AnnounceDeactivation => false;
+		public virtual bool LimitedActive => false;
+		public int UnlockTime { get; set; }
+		public int ActiveTime { get; set; }
 
 		public int QuestCategoryIndex => QuestManager.GetCategoryInfo(QuestCategory).Index;
 		public bool IsActive
@@ -55,6 +66,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public Quest()
 		{
+			_altNames = new List<string>();
 			_tasks = new TaskBuilder();
 		}
 
@@ -107,11 +119,10 @@ namespace SpiritMod.Mechanics.QuestSystem
 		{
 			IsCompleted = true;
 
-			string text = "You have completed a quest! [[sQ/" + WhoAmI + ":" + QuestName + "]]";
-
-			if (Main.netMode == NetmodeID.SinglePlayer) Main.NewText(text, 255, 255, 255, false);
-			else if (Main.netMode == NetmodeID.Server) NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(text), Color.White, -1);
+			QuestManager.SayInChat("You have completed a quest! [[sQ/" + WhoAmI + ":" + QuestName + "]]", Color.White);
 		}
+
+		public virtual void OnUnlock() { }
 
 		public virtual void OnActivate()
 		{
@@ -128,7 +139,16 @@ namespace SpiritMod.Mechanics.QuestSystem
 			}
 		}
 
-		public void ResetAllProgress()
+		public virtual void ResetEverything()
+		{
+			ResetAllProgress();
+			IsActive = false;
+			IsCompleted = false;
+			IsUnlocked = false;
+			RewardsGiven = false;
+		}
+
+		public virtual void ResetAllProgress()
 		{
 			for (QuestTask task = _tasks.Start; task != null; task = task.NextTask)
 			{
@@ -140,6 +160,19 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public virtual void Update()
 		{
+			if (LimitedActive)
+			{
+				ActiveTime--;
+				if (ActiveTime <= 0)
+				{
+					if (AnnounceDeactivation)
+					{
+						QuestManager.SayInChat("[[sQ/" + WhoAmI + ":" + QuestName + "]] is no longer active.", Color.White);
+					}
+					QuestManager.DeactivateQuest(this);
+				}
+			}
+
 			if (_currentTask.CheckCompletion())
 			{
 				// this counter is here so the HUD works. that's all.
@@ -172,6 +205,34 @@ namespace SpiritMod.Mechanics.QuestSystem
 			for (QuestTask task = _tasks.Start; task != null; task = task.NextTask)
 			{
 				task.OnMPSyncTick();
+			}
+		}
+
+		public virtual byte[] GetTaskDataBuffer()
+		{
+			byte[] buffer = new byte[16];
+			using (var stream = new MemoryStream(buffer))
+			{
+				using (var writer = new BinaryWriter(stream))
+				{
+					writer.Write(_currentTask.TaskID);
+					_currentTask.WriteData(writer);
+				}
+			}
+			return buffer;
+		}
+
+		public virtual void ReadFromDataBuffer(byte[] buffer)
+		{
+			using (var stream = new MemoryStream(buffer))
+			{
+				using (var reader = new BinaryReader(stream))
+				{
+					int taskId = reader.ReadInt32();
+
+					_currentTask = _tasks[taskId];
+					_currentTask.ReadData(reader);
+				}
 			}
 		}
 

@@ -22,6 +22,7 @@ namespace SpiritMod.UI.Elements
 		public List<UIImageFramed> Stars { get; protected set; }
 
 		private bool _showExcl;
+		private bool _highlighted;
 		private QuestBookUI _state;
 
 		public UISelectableQuest(Quest quest, QuestBookUI state)
@@ -64,15 +65,20 @@ namespace SpiritMod.UI.Elements
 			}
 
 			Exclamation = new UIImageFramed(SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/ExclamationMark"), new Rectangle(6, 0, 3, 12));
-			float pos = 20f + Title.Font.MeasureString(Title.Text).X * Title.Scale;
 			Exclamation.Width.Set(3f, 0f);
 			Exclamation.Height.Set(12f, 0f);
-			Exclamation.Left.Set(pos, 0f);
 			Exclamation.Top.Set(-7f, 0f);
+			SetExclamationPosition();
 			Exclamation.Color = Color.Transparent;
 			Append(Exclamation);
 
 			MyQuest = quest;
+		}
+
+		private void SetExclamationPosition()
+		{
+			float pos = 20f + Title.Font.MeasureString(Title.Text).X * Title.Scale;
+			Exclamation.Left.Set(pos, 0f);
 		}
 
 		public override void MouseOver(UIMouseEvent evt)
@@ -98,6 +104,25 @@ namespace SpiritMod.UI.Elements
 				float opacity = (float)(1f + Math.Sin(gameTime.TotalGameTime.TotalSeconds * 4.5f)) * 0.5f;
 				Exclamation.Color = Color.White * opacity;
 			}
+
+			if (_highlighted)
+			{
+				int seconds = (MyQuest.UnlockTime / 60) % 60;
+				int minutes = MyQuest.UnlockTime / 3600;
+				Title.Text = MyQuest.QuestName + $" ({minutes}m {seconds}s)";
+				SetExclamationPosition();
+			}
+		}
+
+		protected override void DrawSelf(SpriteBatch spriteBatch)
+		{
+			base.DrawSelf(spriteBatch);
+
+			if (_highlighted)
+			{
+				Rectangle area = GetDimensions().ToRectangle();
+				spriteBatch.Draw(SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/Highlight"), area, Color.White * 0.3f);
+			}
 		}
 
 		public void HandleState(Quest quest)
@@ -115,6 +140,7 @@ namespace SpiritMod.UI.Elements
 
 			if (!quest.IsUnlocked)
 			{
+				_highlighted = false;
 				_showExcl = false;
 				if (!quest.RewardsGiven)
 				{
@@ -137,6 +163,8 @@ namespace SpiritMod.UI.Elements
 				return;
 			}
 
+			_highlighted = quest.LimitedUnlock || (quest.LimitedActive && quest.IsActive);
+
 			Title.Text = quest.QuestName;
 			Title.Colour = new Color(43, 28, 17);
 			Icon.Color = Color.White;
@@ -147,5 +175,13 @@ namespace SpiritMod.UI.Elements
 			Exclamation.Color = Color.White;
 			_showExcl = true;
 		}
-    }
+
+		public override void RecalculateChildren()
+		{
+			for (int i = 0; i < this.Elements.Count; i++)
+			{
+				this.Elements[i].Recalculate();
+			}
+		}
+	}
 }

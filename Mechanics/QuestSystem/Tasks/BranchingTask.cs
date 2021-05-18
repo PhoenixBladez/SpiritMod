@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -87,6 +88,22 @@ namespace SpiritMod.Mechanics.QuestSystem.Tasks
 			foreach (QuestTask section in _tasks)
 			{
 				section.OnMPSyncTick();
+			}
+		}
+
+		public override void ReadData(BinaryReader reader)
+		{
+			foreach (QuestTask section in _tasks)
+			{
+				section.ReadData(reader);
+			}
+		}
+
+		public override void WriteData(BinaryWriter writer)
+		{
+			foreach (QuestTask section in _tasks)
+			{
+				section.WriteData(writer);
 			}
 		}
 	}
