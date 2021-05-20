@@ -4,6 +4,7 @@ using SpiritMod.Particles;
 using System;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -28,6 +29,8 @@ namespace SpiritMod.Tiles
 			TileObjectData.newTile.CoordinateHeights = new[] { 16, 16, 16, 16, 16, 6 };
 			TileObjectData.newTile.DrawYOffset = 12;
 			TileObjectData.newTile.Origin = new Point16(1, 5);
+			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
+			TileObjectData.newTile.AnchorValidTiles = new int[] { TileID.Grass, TileID.Dirt, TileID.JungleGrass, TileID.Mud };
 			TileObjectData.addTile(Type);
 
 			AddMapEntry(Color.LightGoldenrodYellow);
