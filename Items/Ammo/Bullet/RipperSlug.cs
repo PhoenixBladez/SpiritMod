@@ -51,10 +51,7 @@ namespace SpiritMod.Items.Ammo.Bullet
 	}
 	public class RipperSlugProj : ModProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Ripper Slug");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Ripper Slug");
 
 		public override void SetDefaults()
 		{
