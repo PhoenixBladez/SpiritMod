@@ -1,6 +1,4 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ID;
@@ -29,6 +27,7 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.UseSound = SoundID.Item25;
 			item.shoot = ModContent.ProjectileType<HeartilleryMinion>();
 			item.shootSpeed = 0f;
+			item.UseSound = SoundID.Item77;
 		}
 
 		public override bool CanUseItem(Player player)
@@ -39,19 +38,7 @@ namespace SpiritMod.Items.Weapon.Summon
 			worldY--;
 			return !WorldGen.SolidTile(worldX, worldY);
 		}
-        public override bool AltFunctionUse(Player player)
-        {
-            return true;
-        }
 
-        public override bool UseItem(Player player)
-        {
-            if (player.altFunctionUse == 2)
-            {
-                player.MinionNPCTargetAim();
-            }
-            return base.UseItem(player);
-        }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			player.FindSentryRestingSpot(type, out int worldX, out int worldY, out int pushYUp);

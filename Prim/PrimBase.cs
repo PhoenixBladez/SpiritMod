@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Terraria;
+using Terraria.ID;
 
 namespace SpiritMod.Prim
 {
@@ -27,7 +29,11 @@ namespace SpiritMod.Prim
 				trail.Update();
 		}
 
-		public void CreateTrail(PrimTrail trail) => _trails.Add(trail);
-
+		public void CreateTrail(PrimTrail trail)
+		{
+			if (Main.netMode == NetmodeID.Server) //never make trails on servers
+				return;
+			_trails.Add(trail);
+		}
 	}
 }
