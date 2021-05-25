@@ -10,6 +10,9 @@ namespace SpiritMod.Prim
 		public bool Destroyed { get; protected set; } = false;
 
 		public Entity Entity = null;
+		public bool Pixellated { get; set; } = false;
+
+		public bool Disabled { get; set; } = false;
 
 		public int EntityType { get; protected set; }
 

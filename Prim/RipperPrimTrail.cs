@@ -19,6 +19,7 @@ namespace SpiritMod.Prim
 			Cap = 8;
 			Color = Color.White;
 			Width = 5;
+			Pixellated = true;
 		}
 
 		public override void PrimStructure(SpriteBatch spriteBatch)

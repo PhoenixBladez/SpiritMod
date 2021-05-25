@@ -37,6 +37,9 @@ namespace SpiritMod.Prim
 				if (effect.HasParameter("arcLashColorTwo"))
 					effect.Parameters["arcLashColorTwo"].SetValue(new Vector3(1.0f, 1.0f, 1.0f));
 
+				if (effect.HasParameter("vineTexture")) 
+					effect.Parameters["vineTexture"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Textures/ThyrsusVine"));
+				
 				try {
 					effect.Parameters["progress"].SetValue(progressParam);
 					effect.CurrentTechnique.Passes[esp].Apply();
@@ -108,9 +111,15 @@ namespace SpiritMod.Prim
 
 		protected void AddVertex(Vector2 position, Color color, Vector2 uv)
 		{
-			if (CurrentIndex < Vertices.Length)
-				Vertices[CurrentIndex++] =
-					new VertexPositionColorTexture(new Vector3(position - Main.screenPosition, 0f), color, uv);
+			if (CurrentIndex < Vertices.Length) 
+			{
+				if (Pixellated)
+					Vertices[CurrentIndex++] =
+						new VertexPositionColorTexture(new Vector3((position - Main.screenPosition) / 2, 0f), color, uv);
+				else
+					Vertices[CurrentIndex++] =
+						new VertexPositionColorTexture(new Vector3(position - Main.screenPosition, 0f), color, uv);
+			}
 		}
 
 		protected void MakePrimHelix(int index, int baseWidth, float alphaValue, Color baseColor = default,

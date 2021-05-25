@@ -23,7 +23,8 @@ namespace SpiritMod.Utilities
 		public static void Initialize()
 		{
 			On.Terraria.Main.DrawProjectiles += Main_DrawProjectiles;
-			On.Terraria.Main.DrawNPC += Main_DrawNPC;
+			On.Terraria.Main.DrawNPCs += Main_DrawNPCs;
+			On.Terraria.Main.DrawPlayers += Main_DrawPlayers;
 			On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile;
 			On.Terraria.Player.KeyDoubleTap += Player_KeyDoubleTap;
 			On.Terraria.Main.DrawDust += AddtiveCalls;
@@ -34,6 +35,7 @@ namespace SpiritMod.Utilities
 			On.Terraria.WorldGen.SpreadGrass += WorldGen_SpreadGrass;
 			IL.Terraria.Player.ItemCheck += Player_ItemCheck;
 			IL.Terraria.WorldGen.hardUpdateWorld += WorldGen_hardUpdateWorld;
+			Main.OnPreDraw += Main_OnPreDraw;
 		}
 
 		private static void AddtiveCalls(On.Terraria.Main.orig_DrawDust orig, Main self)
@@ -97,22 +99,39 @@ namespace SpiritMod.Utilities
 			orig(superColor, chatColor, numLines, focusText, focusText3);
 		}
 
+		private static void Main_OnPreDraw(GameTime obj)
+		{
+			if (Main.spriteBatch != null && SpiritMod.primitives != null) 
+			{
+				SpiritMod.primitives.DrawTrailsProj(Main.spriteBatch, Main.graphics.GraphicsDevice);
+				SpiritMod.primitives.DrawTrailsNPC(Main.spriteBatch, Main.graphics.GraphicsDevice);
+			}
+		}
 		private static void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
 		{
 			if (!Main.dedServ)
 			{
-				SpiritMod.primitives.DrawTrailsProj();
+				SpiritMod.primitives.DrawTargetProj(Main.spriteBatch);
 				SpiritMod.TrailManager.DrawTrails(Main.spriteBatch);
 			}
 			orig(self);
 		}
 
-		private static void Main_DrawNPC(On.Terraria.Main.orig_DrawNPC orig, Main self, int iNPCIndex, bool behindTiles)
+		private static void Main_DrawNPCs(On.Terraria.Main.orig_DrawNPCs orig, Main self, bool behindTiles)
 		{
-			if (!Main.dedServ)
-				SpiritMod.primitives.DrawTrailsNPC();
+			if (!Main.dedServ) 
+			{
+				SpiritMod.primitives.DrawTargetNPC(Main.spriteBatch);
+			}
+			SpiritMod.Metaballs.DrawEnemyLayer(Main.spriteBatch);
+			SpiritMod.Metaballs.DrawNebulaLayer(Main.spriteBatch);
+			orig(self, behindTiles);
+		}
 
-			orig(self, iNPCIndex, behindTiles);
+		private static void Main_DrawPlayers(On.Terraria.Main.orig_DrawPlayers orig, Main self)
+		{
+			orig(self);
+			SpiritMod.Metaballs.DrawFriendlyLayer(Main.spriteBatch);
 		}
 
 		private static int Projectile_NewProjectile(On.Terraria.Projectile.orig_NewProjectile_float_float_float_float_int_int_float_int_float_float orig, float X, float Y, float SpeedX, float SpeedY, int Type, int Damage, float KnockBack, int Owner, float ai0, float ai1)

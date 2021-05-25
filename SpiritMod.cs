@@ -11,6 +11,7 @@ using SpiritMod.Tide;
 using SpiritMod.Utilities;
 using SpiritMod.World;
 using SpiritMod.Sounds;
+using SpiritMod.Dusts;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -34,6 +35,7 @@ using SpiritMod.Items.Consumable;
 using SpiritMod.NPCs.AuroraStag;
 using SpiritMod.Particles;
 using Terraria.DataStructures;
+using SpiritMod.Stargoop;
 
 namespace SpiritMod
 {
@@ -47,6 +49,7 @@ namespace SpiritMod
 		public static Effect auroraEffect;
 		public static TrailManager TrailManager;
 		public static PrimTrailManager primitives;
+		public static StargoopManager Metaballs;
 		public static Effect glitchEffect;
 		public static Effect StarjinxNoise;
 		public static Effect CircleNoise;
@@ -715,8 +718,14 @@ namespace SpiritMod
 				Portraits.Add(NPCID.ArmsDealer, GetTexture("NPCs/Portraits/ArmsDealer"));
 				Portraits.Add(NPCID.Nurse, GetTexture("NPCs/Portraits/Nurse"));
 				Portraits.Add(NPCID.SkeletonMerchant, GetTexture("NPCs/Portraits/SkeletonMerchant"));
+
+				Main.OnPreDraw += DrawStarGoopTarget;
 			}
 			primitives = new PrimTrailManager();
+			primitives.LoadContent(Main.graphics.GraphicsDevice);
+
+			InitStargoop();
+
 			AdditiveCallManager.Load();
 			// LoadDetours();
 		}
@@ -775,6 +784,18 @@ namespace SpiritMod
 			}
 		}
 
+		public static void InitStargoop()
+		{
+			Metaballs = new StargoopManager();
+			Metaballs.LoadContent();
+			Metaballs.Initialize(Main.graphics.GraphicsDevice);
+
+			var friendlyDust = (FriendlyStargoopDust)ModContent.GetModDust(ModContent.DustType<FriendlyStargoopDust>());
+			var enemyDust = (EnemyStargoopDust)ModContent.GetModDust(ModContent.DustType<EnemyStargoopDust>());
+
+			friendlyDust.Reset();
+			enemyDust.Reset();
+		}
 		public override void Unload()
 		{
 			nighttimeAmbience = null;
@@ -814,9 +835,30 @@ namespace SpiritMod
 			GlobalNoise = null;
 			Items.Glyphs.GlyphBase.UninitGlyphLookup();
 			primitives = null;
+			Metaballs = null;
 
 			Portraits.Clear(); //Idk if this is necessary but it seems like a good move - Gabe
 			//UnloadDetours();
+		}
+
+		private void DrawStarGoopTarget(GameTime obj)
+		{
+			if (Metaballs != null && Main.graphics.GraphicsDevice != null && Main.spriteBatch != null) {
+				Metaballs.DrawToTarget(Main.spriteBatch, Main.graphics.GraphicsDevice);
+			}
+		}
+		public static Color StarjinxColor(float Timer)
+		{
+			float timer = Timer % 10;
+			Color yellow = new Color(238, 207, 91);
+			Color orange = new Color(255, 131, 91);
+			Color pink = new Color(230, 55, 166);
+			if (timer < 3)
+				return Color.Lerp(yellow, orange, timer / 3);
+			else if (timer < 6)
+				return Color.Lerp(orange, pink, (timer - 3) / 3);
+			else
+				return Color.Lerp(pink, yellow, (timer - 6) / 3);
 		}
 		internal static string GetWeatherRadioText(string key)
         {
