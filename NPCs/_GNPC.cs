@@ -188,6 +188,7 @@ namespace SpiritMod.NPCs
 
 			return base.PreAI(npc);
 		}
+
 		public override void HitEffect(NPC npc, int hitDirection, double damage)
 		{
 			if (npc.type == NPCID.DoctorBones) {
@@ -616,7 +617,7 @@ namespace SpiritMod.NPCs
 		}
 		public override Color? GetAlpha(NPC npc, Color drawColor)
 		{
-			if(npc.HasBuff(ModContent.BuffType<TopazMarked>())) {
+			if(npc.HasBuff(BuffType<TopazMarked>())) {
 				return Color.Lerp(base.GetAlpha(npc, drawColor) ?? Color.Transparent, new Color(158, 255, 253), 0.75f);
 			}
 			return base.GetAlpha(npc, drawColor);

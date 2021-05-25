@@ -58,7 +58,7 @@ namespace SpiritMod.Utilities
 					Main.spriteBatch.Draw(SpiritMod.Portraits[talkNPC.type], new Vector2(Main.screenWidth / 3 - 43, 104) - offset, null, Color.White, 0f, default, 1f, SpriteEffects.None, 0f); //Portrait
 
 					Vector2 textPos = new Vector2(Main.screenWidth / 3 + 10, 226) - (ChatManager.GetStringSize(Main.fontItemStack, name, new Vector2(ProfileNameScale)) / 2); //Name
-					Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, Main.fontItemStack, name, textPos - offset, new Color(240, 240, 240), 0f, new Vector2(), new Vector2(ProfileNameScale), -1, 2f);
+					ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, Main.fontItemStack, name, textPos - offset, new Color(240, 240, 240), 0f, new Vector2(), new Vector2(ProfileNameScale), -1, 2f);
 				}
 			}
 
