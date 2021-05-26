@@ -55,13 +55,16 @@ namespace SpiritMod.Mechanics.QuestSystem
 		{
 			if (Main.netMode == Terraria.ID.NetmodeID.SinglePlayer)
 			{
-				return Main.npc[Main.LocalPlayer.talkNPC].type == _npcType;
+				if (Main.LocalPlayer.talkNPC != -1)
+				{
+					return Main.npc[Main.LocalPlayer.talkNPC].type == _npcType;
+				}
 			}
 			else if (Main.netMode == Terraria.ID.NetmodeID.Server)
 			{
 				for (int i = 0; i < Main.player.Length; i++)
 				{
-					if (Main.player[i].active && Main.npc[Main.player[i].talkNPC].netID == _npcType)
+					if (Main.player[i].active && Main.player[i].talkNPC >= 0 && Main.npc[Main.player[i].talkNPC].netID == _npcType)
 					{
 						return true;
 					}
