@@ -150,6 +150,10 @@ namespace SpiritMod.Items.Weapon.Magic.StarLance
 		}
 		public override void Kill(int timeLeft)
 		{
+			for (int i = 0; i < 6; i++)
+			{
+				Dust.NewDustPerfect(projectile.Center, ModContent.DustType<FriendlyStargoopDust>(), Main.rand.NextFloat(6.28f).ToRotationVector2() * 3, Scale: Main.rand.NextFloat(1.4f, 1.8f));
+			}
 			SpiritMod.Metaballs.FriendlyLayer.Sprites.Remove(this);
 		}
 		public override bool PreDraw(SpriteBatch sb, Color color) => false;
