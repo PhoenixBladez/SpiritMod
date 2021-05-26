@@ -42,8 +42,9 @@ namespace SpiritMod.Projectiles.Summon
 			int shootSpeed = 20;
             //TARGET NEAREST NPC WITHIN RANGE
             float lowestDist = float.MaxValue;
+			NPC target = new NPC();
 			if (projectile.OwnerMinionAttackTargetNPC != null && projectile.Distance(projectile.OwnerMinionAttackTargetNPC.Center) / 16 < range)
-					projectile.ai[1] = projectile.OwnerMinionAttackTargetNPC.whoAmI;
+				target = projectile.OwnerMinionAttackTargetNPC;
 
 			else {
 				for (int i = 0; i < 200; ++i) {
@@ -58,7 +59,7 @@ namespace SpiritMod.Projectiles.Summon
 								lowestDist = dist;
 
 								//target this npc
-								projectile.ai[1] = npc.whoAmI;
+								target = npc;
 								projectile.netUpdate = true;
 							}
 						}
@@ -66,7 +67,6 @@ namespace SpiritMod.Projectiles.Summon
 				}
 			}
 
-			NPC target = (Main.npc[(int)projectile.ai[1]] ?? new NPC()); //our target
 
 			projectile.frameCounter++;
 			if (target.CanBeChasedBy(this)) {

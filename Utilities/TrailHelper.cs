@@ -42,14 +42,13 @@ namespace SpiritMod.Utilities
 			if (projectile.type == ModContent.ProjectileType<OrichHoming>() || projectile.type == ModContent.ProjectileType<DarkAnima>()) {
 				SpiritMod.TrailManager.TryEndTrail(projectile, Math.Max(2f, projectile.velocity.Length() * 1f));
 			}
-            if (projectile.type == ModContent.ProjectileType<Starshock1>())
-            {
-                SpiritMod.TrailManager.TryEndTrail(projectile, Math.Max(1f, projectile.velocity.Length() * .6f));
-            }
-            //This is where it tries to kill a trail (assuming said projectile is linked to a trail)
-            //here you can specify dissolve speed. however, I recommend you just keep using the same case
-            //like so:
-            /*
+			if (projectile.type == ModContent.ProjectileType<Starshock1>()) {
+				SpiritMod.TrailManager.TryEndTrail(projectile, Math.Max(1f, projectile.velocity.Length() * .6f));
+			}
+			//This is where it tries to kill a trail (assuming said projectile is linked to a trail)
+			//here you can specify dissolve speed. however, I recommend you just keep using the same case
+			//like so:
+			/*
             switch (projectile.type)
             {
                 case ProjectileID.WoodenArrowFriendly:
@@ -61,7 +60,7 @@ namespace SpiritMod.Utilities
                     break;
             } 
             */
-            switch (projectile.type) {
+			switch (projectile.type) {
 				case ProjectileID.WoodenArrowFriendly:
 					SpiritMod.TrailManager.TryEndTrail(projectile, Math.Max(15f, projectile.velocity.Length() * 3f));
 					break;
@@ -607,6 +606,26 @@ namespace SpiritMod.Utilities
 		public void AddCap(VertexPositionColorTexture[] array, ref int currentIndex, Color colour, Vector2 position, Vector2 startNormal, float width)
 		{
 
+		}
+	}
+
+	public class StarjinxTrail : ITrailColor
+	{
+		private float _start;
+		private readonly float _speed;
+		private readonly float _opacity;
+
+		public StarjinxTrail(float StartingTimer, float AnimationSpeed = 1f, float Opacity = 1f)
+		{
+			_start = StartingTimer;
+			_speed = AnimationSpeed;
+			_opacity = Opacity;
+		}
+
+		public Color GetColourAt(float distanceFromStart, float trailLength, List<Vector2> points)
+		{
+			float progress = distanceFromStart / trailLength;
+			return Color.Lerp(SpiritMod.StarjinxColor(_start + Main.GlobalTime * _speed), SpiritMod.StarjinxColor(_start + 5 + Main.GlobalTime * _speed), progress) * (1f - progress) * _opacity;
 		}
 	}
 	#endregion

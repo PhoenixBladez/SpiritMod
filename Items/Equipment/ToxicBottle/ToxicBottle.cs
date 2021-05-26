@@ -21,21 +21,23 @@ namespace SpiritMod.Items.Equipment.ToxicBottle
 		{
 			item.width = 44;
 			item.height = 40;
-			item.useTime = 61;
-			item.useAnimation = 61;
+			item.useTime = 30;
+			item.useAnimation = 30;
 			item.noUseGraphic = true;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 0;
 			item.value = Terraria.Item.sellPrice(0, 1, 10, 0);
 			item.rare = ItemRarityID.Green;
-			item.shootSpeed = 5f;
+			item.shootSpeed = 8f;
 			item.shoot = mod.ProjectileType("ToxicBottleProj");
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = false;
 			item.noMelee = true;
+			item.ranged = true;
+			item.damage = 15;
 		}
 
-		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] == 0;
+		//public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] == 0;
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
@@ -56,10 +58,10 @@ namespace SpiritMod.Items.Equipment.ToxicBottle
 		{
 			projectile.width = 24;
 			projectile.height = 34;
-			projectile.friendly = false;
+			projectile.friendly = true;
 			projectile.ranged = true;
 			projectile.penetrate = 1;
-			projectile.timeLeft = 600;
+			projectile.timeLeft = 200;
 			projectile.ai[0] = 6;
 		}
 		ref float JumpCounter => ref projectile.ai[0];
@@ -76,7 +78,7 @@ namespace SpiritMod.Items.Equipment.ToxicBottle
 			projectile.velocity.X *= 0.98F;
 			var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
 			foreach (var proj in list) {
-				if (proj.active && proj.friendly && !proj.hostile) {
+				if (proj.active && proj.friendly && !proj.hostile && proj != projectile) {
 					projectile.Kill();
 
 					if (Main.netMode != NetmodeID.SinglePlayer)
@@ -154,20 +156,20 @@ namespace SpiritMod.Items.Equipment.ToxicBottle
 
 		public override void SetDefaults()
 		{
-			projectile.width = 300;
-			projectile.height = 300;
+			projectile.width = 150;
+			projectile.height = 150;
 			projectile.friendly = false;
 			projectile.ranged = true;
 			projectile.penetrate = 1;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
-			projectile.timeLeft = 250;
+			projectile.timeLeft = 150;
 			projectile.hide = true;
 			projectile.extraUpdates = 1;
 		}
 		public override void AI()
 		{
-			for (int i = 50; i < 310 - projectile.timeLeft; i+= 30)
+			for (int i = 50; i < 200 - projectile.timeLeft; i+= 60)
 			{
 				Vector2 direction = Main.rand.NextFloat(6.28f).ToRotationVector2();
 				direction *= Main.rand.Next(i + 1);

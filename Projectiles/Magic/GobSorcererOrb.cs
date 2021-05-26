@@ -66,7 +66,7 @@ namespace SpiritMod.Projectiles.Magic
                     pos += spawnPlace;
                 }
 
-                Vector2 velocity = Vector2.Normalize(Main.MouseWorld - pos) * 6f;
+                Vector2 velocity = Vector2.Normalize(Main.MouseWorld - pos) * 8f;
                 int p = Projectile.NewProjectile(pos.X, pos.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Magic.ShadowflameOrbBolt>(), projectile.damage, projectile.knockBack, 0, 0.0f, 0.0f);
                 for (float num2 = 0.0f; (double)num2 < 10; ++num2)
                 {

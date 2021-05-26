@@ -44,6 +44,7 @@ using Terraria.Audio;
 using SpiritMod.Items.Consumable.Food;
 using SpiritMod.NPCs.AuroraStag;
 using SpiritMod.Tiles.Walls.Natural;
+using SpiritMod.Items.Accessory.GranitechDrones;
 
 namespace SpiritMod
 {
@@ -119,6 +120,7 @@ namespace SpiritMod
         public bool timScroll = false;
         public bool cultistScarf = false;
         public bool fateToken = false;
+		public bool AnimeSword = false;
         public bool geodeRanged = false;
         public bool fireMaw = false;
         public bool deathRose = false;
@@ -383,8 +385,9 @@ namespace SpiritMod
         public int infernalHit;
         public int infernalDash;
 		public bool longFuse;
+		public bool granitechDrones;
 
-        public bool windEffect;
+		public bool windEffect;
         public bool windEffect2;
         public int infernalSetCooldown;
         public int fierySetTimer = 480;
@@ -410,6 +413,14 @@ namespace SpiritMod
         public bool poisonPotion;
         public bool soulPotion;
         public bool gremlinBuff;
+
+		public bool Jinxprobe = false;
+		public float WingTimeMaxMultiplier = 1f;
+		public bool StarjinxSet = false;
+		public int starjinxtimer = 0;
+
+		public bool usingHelios = false;
+		public bool oldHelios = false;
 
 		public AuroraStag hoveredStag;
 
@@ -599,7 +610,7 @@ namespace SpiritMod
             hellCharm = false;
             bloodyBauble = false;
             elderbarkWoodSet = false;
-            amazonCharm = false;
+			amazonCharm = false;
             cleftHorn = false;
             TormentLantern = false;
             phantomPet = false;
@@ -803,8 +814,15 @@ namespace SpiritMod
             moonGauntlet = false;
             unboundSoulMinion = false;
 			longFuse = false;
+			granitechDrones = false;
 
-            if (player.FindBuffIndex(ModContent.BuffType<BeetleFortitude>()) < 0)
+			Jinxprobe = false;
+			WingTimeMaxMultiplier = 1f;
+			StarjinxSet = false;
+			oldHelios = usingHelios;
+			usingHelios = false;
+
+			if (player.FindBuffIndex(ModContent.BuffType<BeetleFortitude>()) < 0)
                 beetleStacks = 1;
 
             if (player.FindBuffIndex(ModContent.BuffType<ExplorerFight>()) < 0)
@@ -1543,7 +1561,8 @@ namespace SpiritMod
 			if(bubbleTimer > 0) {
 				return false;
 			}
-
+			if (AnimeSword)
+				return false;
 			return true;
 		}
 		public override void ModifyScreenPosition()
@@ -2924,7 +2943,12 @@ namespace SpiritMod
 
 			return DashType.None;
 		}
-
+		public override void UpdateEquips(ref bool wallSpeedBuff, ref bool tileSpeedBuff, ref bool tileRangeBuff)
+		{
+			player.wingTimeMax = (int)(player.wingTimeMax * WingTimeMaxMultiplier);
+			if (player.manaFlower)
+				player.manaFlower = !StarjinxSet;
+		}
 		public override void PostUpdateEquips()
 		{
 			if (player.ownedProjectileCounts[mod.ProjectileType("MiningHelmet")] < 1 && player.head == 11)
@@ -3735,6 +3759,15 @@ namespace SpiritMod
 					Dust.NewDust(vector2, 16, 16, 6, 0f, 0f, 0, default, 1f);
 				}
 			}
+
+			if (granitechDrones) 
+			{
+				if (player.ownedProjectileCounts[ModContent.ProjectileType<GranitechDrone>()] < 3) 
+				{
+					int newProj = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<GranitechDrone>(), (int)(72 * player.minionDamage), 1.5f, player.whoAmI);
+					Main.projectile[newProj].ai[1] = player.ownedProjectileCounts[ModContent.ProjectileType<GranitechDrone>()];
+				}
+			}
 		}
 
 		public override void PostUpdateRunSpeeds() {
@@ -3761,10 +3794,28 @@ namespace SpiritMod
 			player.runSlowdown *= slowdown;
 
 			DashMovement(FindDashes());
+
+			if (oldHelios) {
+				player.maxRunSpeed *= 1.2f;
+				player.runAcceleration *= 1.8f;
+				player.maxFallSpeed *= 20;
+			}
 		}
 		
 		public override void PostUpdate()
 		{
+			if (starjinxtimer > 0)
+				starjinxtimer--;
+
+			Item Helditem = player.HeldItem; //kinda scuffed way of implementing stars on shoot but overriding the actual shoot hook does not work with vanilla weapons that fire projectiles in unique ways(ie most magic weapons), also has benefit of working with channel weapons
+			if (Helditem.magic && player.HasBuff(mod.BuffType("ManajinxBuff")) && starjinxtimer <= 0 && Helditem.damage > 0 && player.itemTime > 0) {
+				Main.PlaySound(SoundID.Item9, player.Center);
+				starjinxtimer = Helditem.useTime + 10; //nerf the effect on fast firing weapons since they're typically busted and also benefit more from ichor
+				Vector2 tomouse = Vector2.Normalize(Main.MouseWorld - player.Center);
+				tomouse *= 8f;
+				tomouse = tomouse.RotatedByRandom(MathHelper.Pi / 8);
+				Projectile.NewProjectile(player.Center, tomouse, mod.ProjectileType("ManajinxStar"), Helditem.damage / 3, Helditem.knockBack, player.whoAmI, 0, Main.rand.Next(10));
+			}
 			if (seaSnailVenom)
 			{
 				if (player.miscCounter % 5 == 0 && player.velocity.X != 0f && player.velocity.Y == 0f && !player.mount.Active)
@@ -4826,6 +4877,27 @@ namespace SpiritMod
 					Vector2 mouse = Main.MouseScreen + Main.screenPosition;
 					Projectile.NewProjectile(mouse, Vector2.Zero, ModContent.ProjectileType<FrigidWall>(), 14, 8, player.whoAmI);
 					player.AddBuff(ModContent.BuffType<FrigidCooldown>(), 500);
+				}
+			}
+		}
+		public override void GetHealMana(Item item, bool quickHeal, ref int healValue)
+		{
+			if (StarjinxSet)
+				healValue = 0;
+		}
+		public override void OnMissingMana(Item item, int neededMana)
+		{
+			if (StarjinxSet && player.ownedProjectileCounts[mod.ProjectileType("Manajinx")] == 0) {
+				Vector2 spawnpos = player.Center + Main.rand.NextVector2CircularEdge(Main.rand.Next(500, 600), Main.rand.Next(500, 600));
+				int spawntries = 0;
+				while ((WorldGen.SolidTile((int)spawnpos.X / 16, (int)spawnpos.Y / 16) || WorldGen.SolidTile3((int)spawnpos.X / 16, (int)spawnpos.Y / 16)) && spawntries < 50) {
+					spawnpos = player.Center + Main.rand.NextVector2CircularEdge(Main.rand.Next(500, 600), Main.rand.Next(500, 600));
+					spawntries++;
+				}
+
+				if (spawntries < 50) {
+					Main.PlaySound(SoundID.Item9, spawnpos);
+					Projectile.NewProjectile(spawnpos, Vector2.Zero, mod.ProjectileType("Manajinx"), 0, 0, player.whoAmI);
 				}
 			}
 		}
