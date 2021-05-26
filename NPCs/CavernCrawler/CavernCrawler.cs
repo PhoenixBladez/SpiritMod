@@ -146,9 +146,6 @@ namespace SpiritMod.NPCs.CavernCrawler
 				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), .61f);
 			}
 			if (npc.life <= 0) {
-				if (Main.LocalPlayer.GetSpiritPlayer().emptyWheezerScroll) {
-					MyWorld.numWheezersKilled++;
-				}
 				Main.PlaySound(SoundID.DD2_WitherBeastDeath, npc.Center);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crawler1"));
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crawler2"));

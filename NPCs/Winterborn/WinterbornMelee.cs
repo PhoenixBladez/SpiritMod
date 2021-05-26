@@ -60,9 +60,6 @@ namespace SpiritMod.NPCs.Winterborn
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore3"), 1f);
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore3"), 1f);
 				}
-				if (Main.LocalPlayer.GetSpiritPlayer().emptyWinterbornScroll) {
-					MyWorld.numWinterbornKilled++;
-				}
 				npc.position.X = npc.position.X + (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
 				npc.width = 30;
