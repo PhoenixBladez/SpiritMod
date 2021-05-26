@@ -11,6 +11,7 @@ using SpiritMod.Tiles.Piles;
 using SpiritMod.Tiles.Walls.Natural;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -1297,10 +1298,19 @@ namespace SpiritMod.World
 					X = WorldGen.genRand.Next(Main.maxTilesX - 338, Main.maxTilesX - 5); //Choose a random ocean
 				int Y = WorldGen.genRand.Next(200, Main.maxTilesY / 2);
 
-				if (Framing.GetTileSafely(X, Y).type == TileID.Sand) {
-					if (Framing.GetTileSafely(X + 1, Y).type == TileID.Sand && WorldGen.genRand.NextBool(2)) { //Check for ground & randomize
+				int[] validTypes = new int[] { TileID.Sand, TileID.Crimsand, TileID.Ebonsand };
+				if (validTypes.Contains(Framing.GetTileSafely(X, Y).type)) {
+					if (validTypes.Contains(Framing.GetTileSafely(X + 1, Y).type) && validTypes.Contains(Framing.GetTileSafely(X + 2, Y).type) && WorldGen.genRand.NextBool(5)) { //Check for ground & randomize - 3x3 coral
+						WorldGen.PlaceObject(X, Y, ModContent.TileType<Coral3x3>(), true, 0);
+						NetMessage.SendObjectPlacment(-1, X, Y, ModContent.TileType<Coral3x3>(), 0, 0, -1, -1);
+					}
+					if (validTypes.Contains(Framing.GetTileSafely(X + 1, Y).type) && WorldGen.genRand.NextBool(4)) { //Check for ground & randomize - 2x2 Coral
 						WorldGen.PlaceObject(X, Y, ModContent.TileType<Coral2x2>(), true, WorldGen.genRand.Next(3));
 						NetMessage.SendObjectPlacment(-1, X, Y, ModContent.TileType<Coral2x2>(), 0, 0, -1, -1);
+					}
+					if (WorldGen.genRand.NextBool(3)) { //Randomize - 1x2 coral
+						WorldGen.PlaceObject(X, Y, ModContent.TileType<Coral1x2>(), true, 0);
+						NetMessage.SendObjectPlacment(-1, X, Y, ModContent.TileType<Coral1x2>(), 0, 0, -1, -1);
 					}
 				}
 			}
