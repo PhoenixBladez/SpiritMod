@@ -119,6 +119,29 @@ namespace SpiritMod.Mechanics.QuestSystem
 		{
 			IsCompleted = true;
 
+			List<Player> players = new List<Player>();
+
+			// get all the players to give items to
+			if (Main.netMode == NetmodeID.SinglePlayer) players.Add(Main.LocalPlayer);
+			else if (Main.netMode == NetmodeID.Server)
+			{
+				for (int i = 0; i < Main.player.Length; i++)
+				{
+					if (!Main.player[i].active) continue;
+
+					players.Add(Main.player[i]);
+				}
+			}
+
+			// spawn items
+			foreach (var itemPair in QuestRewards)
+			{
+				foreach (Player player in players)
+				{
+					player.QuickSpawnItem(itemPair.Item1, itemPair.Item2);
+				}
+			}
+			
 			QuestManager.SayInChat("You have completed a quest! [[sQ/" + WhoAmI + ":" + QuestName + "]]", Color.White);
 		}
 
