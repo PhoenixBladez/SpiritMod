@@ -120,6 +120,7 @@ namespace SpiritMod
         public bool timScroll = false;
         public bool cultistScarf = false;
         public bool fateToken = false;
+		public bool AnimeSword = false;
         public bool geodeRanged = false;
         public bool fireMaw = false;
         public bool deathRose = false;
@@ -609,7 +610,7 @@ namespace SpiritMod
             hellCharm = false;
             bloodyBauble = false;
             elderbarkWoodSet = false;
-            amazonCharm = false;
+			amazonCharm = false;
             cleftHorn = false;
             TormentLantern = false;
             phantomPet = false;
@@ -1560,7 +1561,8 @@ namespace SpiritMod
 			if(bubbleTimer > 0) {
 				return false;
 			}
-
+			if (AnimeSword)
+				return false;
 			return true;
 		}
 		public override void ModifyScreenPosition()

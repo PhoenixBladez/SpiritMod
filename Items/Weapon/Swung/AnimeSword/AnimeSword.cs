@@ -15,13 +15,13 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Anime Sword");
+            DisplayName.SetDefault("Samurai Sword");
         }
 
         public override void SetDefaults()
         {
             item.channel = true;
-            item.damage = 600;
+            item.damage = 40;
             item.width = 60;
             item.height = 60;
             item.useTime = 60;
@@ -88,6 +88,7 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
                 }
                 if (charge > 60 && charge < MAXCHARGE)
                 {
+					player.GetModPlayer<MyPlayer>().AnimeSword = true;
                     Vector2 direction = Main.MouseWorld - (player.Center);
 			        direction.Normalize();
 			        direction *= 45f;
@@ -108,14 +109,16 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
                 }
                 if (charge == MAXCHARGE)
                 {
-                    player.velocity = Vector2.Zero;
+					player.GetModPlayer<MyPlayer>().AnimeSword = false;
+					player.velocity = Vector2.Zero;
                 }
             }
             else
             {
                 if (charge > 60 && charge < MAXCHARGE)
                 {
-                    player.velocity = Vector2.Zero;
+					player.GetModPlayer<MyPlayer>().AnimeSword = false;
+					player.velocity = Vector2.Zero;
                     charge = MAXCHARGE + 1;
                 }
                 if (projectile.timeLeft % 5 == 0)
@@ -126,7 +129,7 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
                     {
                         if (npc != null)
                         {
-                            if (npc.active)
+                            if (npc.active && (!npc.townNPC || !npc.friendly))
                             {
                                 float distance = (npc.Center - projectile.Center).Length();
                                 if (mostrecent == null)
@@ -185,10 +188,13 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
                 return false;
             foreach (var npc in hit)
 				if (target == npc)
-					return true;
+					return base.CanHitNPC(target);
 			return false;
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+
+		public override void Kill(int timeLeft) => Main.player[projectile.owner].GetModPlayer<MyPlayer>().AnimeSword = false;
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Player player = Main.player[projectile.owner];
             Texture2D texture = Main.projectileTexture[projectile.type];
