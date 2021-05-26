@@ -24,10 +24,10 @@ namespace SpiritMod.Prim
 
 		public override void PrimStructure(SpriteBatch spriteBatch)
 		{
-			/*if (_noOfPoints <= 1) return; //for easier, but less customizable, drawing
-			float colorSin = (float)Math.Sin(_counter / 3f);
+			/*if (PointCount<= 1) return; //for easier, but less customizable, drawing
+			float colorSin = (float)Math.Sin(Counter / 3f);
 			Color c1 = Color.Lerp(Color.White, Color.Cyan, colorSin);
-			float widthVar = (float)Math.Sqrt(_points.Count) * _width;
+			float widthVar = (float)Math.Sqrt(Points.Count) * Width;
 			DrawBasicTrail(c1, widthVar);*/
 
 			if (PointCount <= 6)
@@ -36,13 +36,13 @@ namespace SpiritMod.Prim
 			for (int i = 0; i < Points.Count; i++)
 				// float widthVar;
 				if (i == 0) {
-					/*widthVar = _width;
-					Vector2 normalAhead = CurveNormal(_points, i + 1);
-					Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
-					Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
-					//AddVertex(_points[i], _color * _alphaValue, Vector2.Zero);
-					//AddVertex(secondUp, _color * _alphaValue, Vector2.Zero);
-					//AddVertex(secondDown, _color * _alphaValue, Vector2.Zero);*/
+					/*widthVar = Width;
+					Vector2 normalAhead = CurveNormal(Points, i + 1);
+					Vector2 secondUp = Points[i + 1] - normalAhead * widthVar;
+					Vector2 secondDown = Points[i + 1] + normalAhead * widthVar;
+					//AddVertex(Points[i], Color * AlphaValue, Vector2.Zero);
+					//AddVertex(secondUp, Color * AlphaValue, Vector2.Zero);
+					//AddVertex(secondDown, Color * AlphaValue, Vector2.Zero);*/
 				}
 				else {
 					if (i == Points.Count - 1)
