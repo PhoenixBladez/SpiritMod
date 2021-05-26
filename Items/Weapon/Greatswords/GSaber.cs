@@ -97,7 +97,7 @@ namespace SpiritMod.Items.Weapon.Greatswords
         float chargePerSwing = 15;
         float dechargeRate = 1.5f;
         float swingRadians = 2.333f;
-        float swingMax = 5;
+        float swingMax = 9;
         int range = 100;
         int extraRange = 25;
         public override void AI()
