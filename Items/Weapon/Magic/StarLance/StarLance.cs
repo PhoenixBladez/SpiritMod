@@ -70,7 +70,7 @@ namespace SpiritMod.Items.Weapon.Magic.StarLance
 		}
 		public override void SetDefaults()
 		{
-			projectile.penetrate = -1;
+			projectile.penetrate = 1;
 			projectile.tileCollide = true;
 			projectile.hostile = false;
 			projectile.friendly = true;
@@ -136,6 +136,7 @@ namespace SpiritMod.Items.Weapon.Magic.StarLance
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
+			projectile.penetrate++;
 			if (!stuck && target.life > 0)
 			{
 				stuck = true;
