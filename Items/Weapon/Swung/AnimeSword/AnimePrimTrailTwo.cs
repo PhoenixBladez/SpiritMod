@@ -13,11 +13,13 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
 {
     class AnimePrimTrailTwo : PrimTrail
     {
-		public AnimePrimTrailTwo(Projectile projectile)
+		public AnimePrimTrailTwo(NPC npc)
 		{
-			Entity = projectile;
-			EntityType = projectile.type;
+			Entity = npc;
+			EntityType = npc.type;
 			DrawType = PrimTrailManager.DrawProjectile;
+			angle = Main.rand.NextFloat(6.28f);
+			Points.Add(Entity.Center + (angle.ToRotationVector2() * Entity.height * 1.5f));
 		}
 
 		public override void SetDefaults()
@@ -90,7 +92,7 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
         {
             if (Counter == 1)
             {
-                 Points.Add(_npc.Center + ((angle + 3.14f).ToRotationVector2() * _npc.height * 1.5f));
+                 Points.Add(Entity.Center + ((angle + 3.14f).ToRotationVector2() * Entity.height * 1.5f));
             }
             Counter++;
             PointCount = Points.Count() * 6;

@@ -154,7 +154,7 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
                         mostrecent = closest;
                         if (mostrecent.active)
                         {
-                            SpiritMod.primitives.CreateTrail(new AnimePrimTrailTwo(projectile));
+                            SpiritMod.primitives.CreateTrail(new AnimePrimTrailTwo(mostrecent));
                         }
                     }
                     else if (projectile.timeLeft > 15)
