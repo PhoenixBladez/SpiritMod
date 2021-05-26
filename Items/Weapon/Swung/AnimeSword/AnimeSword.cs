@@ -15,7 +15,7 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Samurai Sword");
+            DisplayName.SetDefault("Anime Sword");
         }
 
         public override void SetDefaults()
