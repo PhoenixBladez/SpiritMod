@@ -26,61 +26,68 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 		public override void Load(TagCompound tag)
 		{
-			List<string> allQuests = tag.Get<List<string>>("SpiritMod:AllQuests");
-
-			QuestManager.QuestBookUnlocked = tag.Get<bool>("SpiritMod:QuestBookUnlocked");
-
-			for (int i = 0; i < QuestManager.Quests.Count; i++)
+			try
 			{
-				Quest quest = QuestManager.Quests[i];
+				List<string> allQuests = tag.Get<List<string>>("SpiritMod:AllQuests");
 
-				quest.ResetEverything();
+				QuestManager.QuestBookUnlocked = tag.Get<bool>("SpiritMod:QuestBookUnlocked");
 
-				// get the key for this quest
-				string key = "SpiritMod:" + quest.QuestName;
-				if (!tag.ContainsKey(key))
+				for (int i = 0; i < QuestManager.Quests.Count; i++)
 				{
-					bool failed = true;
-					foreach (string s in quest._altNames)
+					Quest quest = QuestManager.Quests[i];
+
+					quest.ResetEverything();
+
+					// get the key for this quest
+					string key = "SpiritMod:" + quest.QuestName;
+					if (!tag.ContainsKey(key))
 					{
-						key = "SpiritMod:" + s;
-						if (tag.ContainsKey(key))
+						bool failed = true;
+						foreach (string s in quest._altNames)
 						{
-							failed = false;
-							break;
+							key = "SpiritMod:" + s;
+							if (tag.ContainsKey(key))
+							{
+								failed = false;
+								break;
+							}
+						}
+
+						if (failed)
+						{
+							// this quest doesn't exist at all, so skip.
+							continue;
 						}
 					}
 
-					if (failed)
+					StoredQuestData data = ConvertBack(tag.Get<TagCompound>(key));
+
+					quest.IsUnlocked = data.IsUnlocked;
+					quest.IsCompleted = data.IsCompleted;
+					quest.RewardsGiven = data.RewardsGiven;
+
+					if (data.IsActive)
 					{
-						// this quest doesn't exist at all, so skip.
-						continue;
+						QuestManager.ActivateQuest(quest);
+						quest.ReadFromDataBuffer(data.Buffer);
 					}
+
+					quest.ActiveTime = data.TimeLeftActive;
+					quest.UnlockTime = data.TimeLeftUnlocked;
+
+					if (allQuests.Contains(key)) allQuests.Remove(key);
 				}
 
-				StoredQuestData data = ConvertBack(tag.Get<TagCompound>(key));
-
-				quest.IsUnlocked = data.IsUnlocked;
-				quest.IsCompleted = data.IsCompleted;
-				quest.RewardsGiven = data.RewardsGiven;
-
-				if (data.IsActive)
+				// get all the unloaded quests
+				QuestManager.UnloadedQuests.Clear();
+				for (int i = 0; i < allQuests.Count; i++)
 				{
-					QuestManager.ActivateQuest(quest);
-					quest.ReadFromDataBuffer(data.Buffer);
+					QuestManager.UnloadedQuests.Add(allQuests[i], ConvertBack(tag.Get<TagCompound>(allQuests[i])));
 				}
-
-				quest.ActiveTime = data.TimeLeftActive;
-				quest.UnlockTime = data.TimeLeftUnlocked;
-
-				if (allQuests.Contains(key)) allQuests.Remove(key);
 			}
-
-			// get all the unloaded quests
-			QuestManager.UnloadedQuests.Clear();
-			for (int i = 0; i < allQuests.Count; i++)
+			catch(Exception e)
 			{
-				QuestManager.UnloadedQuests.Add(allQuests[i], ConvertBack(tag.Get<TagCompound>(allQuests[i])));
+				SpiritMod.Instance.Logger.Error("Error loading quests! Error:\n" + e);
 			}
 		}
 
