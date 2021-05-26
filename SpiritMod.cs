@@ -42,11 +42,13 @@ namespace SpiritMod
 	public class SpiritMod : Mod
 	{
 		internal UserInterface BookUserInterface;
+		internal UserInterface SlotUserInterface;
 
 		public static SpiritMod Instance;
 		public UnifiedRandom spiritRNG;
 		public static AdventurerQuestHandler AdventurerQuests;
 		public static Effect auroraEffect;
+		public static Effect GSaber;
 		public static TrailManager TrailManager;
 		public static PrimTrailManager primitives;
 		public static StargoopManager Metaballs;
@@ -568,6 +570,8 @@ namespace SpiritMod
 				Ref<Effect> screenRef = new Ref<Effect>(GetEffect("Effects/ShockwaveEffect")); // The path to the compiled shader file.
 				Filters.Scene["Shockwave"] = new Filter(new ScreenShaderData(screenRef, "Shockwave"), EffectPriority.VeryHigh);
 				Filters.Scene["Shockwave"].Load();
+
+				SlotUserInterface = new UserInterface();
 			}
 
 			Filters.Scene["SpiritMod:ReachSky"] = new Filter(new ScreenShaderData("FilterBloodMoon").UseColor(0.05f, 0.05f, .05f).UseOpacity(0.4f), EffectPriority.High);
@@ -581,6 +585,10 @@ namespace SpiritMod
 
 			Filters.Scene["SpiritMod:WindEffect"] = new Filter((new BlizzardShaderData("FilterBlizzardForeground")).UseColor(0.4f, 0.4f, 0.4f).UseSecondaryColor(0.2f, 0.2f, 0.2f).UseImage("Images/Misc/noise", 0, null).UseOpacity(0.149f).UseImageScale(new Vector2(3f, 0.75f), 0), EffectPriority.High);
 			Filters.Scene["SpiritMod:WindEffect2"] = new Filter((new BlizzardShaderData("FilterBlizzardForeground")).UseColor(0.4f, 0.4f, 0.4f).UseSecondaryColor(0.2f, 0.2f, 0.2f).UseImage("Images/Misc/noise", 0, null).UseOpacity(0.549f).UseImageScale(new Vector2(3f, 0.75f), 0), EffectPriority.High);
+
+			Ref<Effect> screenRef2 = new Ref<Effect>(GetEffect("Effects/ShockwaveTwo")); // The path to the compiled shader file.
+			Filters.Scene["ShockwaveTwo"] = new Filter(new ScreenShaderData(screenRef2, "ShockwaveTwo"), EffectPriority.VeryHigh);
+			Filters.Scene["ShockwaveTwo"].Load();
 
 			GlyphCurrencyID = CustomCurrencyManager.RegisterCurrency(new Currency(ModContent.ItemType<Items.Glyphs.Glyph>(), 999L));
 
@@ -620,6 +628,7 @@ namespace SpiritMod
 				ArcLashShader = instance.GetEffect("Effects/ArcLashShader");
 				JemShaders = instance.GetEffect("Effects/JemShaders");
 				SunOrbShader = instance.GetEffect("Effects/SunOrbShader");
+				GSaber = instance.GetEffect("Effects/GSaber");
 
 				SkyManager.Instance["SpiritMod:AuroraSky"] = new AuroraSky();
 				Filters.Scene["SpiritMod:AuroraSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
@@ -884,7 +893,12 @@ namespace SpiritMod
 			}
 		}
 
-		public override void UpdateUI(GameTime gameTime) => BookUserInterface?.Update(gameTime);
+		public override void UpdateUI(GameTime gameTime)
+		{
+			BookUserInterface?.Update(gameTime);
+			SlotUserInterface?.Update(gameTime);
+		}
+
 		public override void AddRecipeGroups()
 		{
 			RecipeGroup woodGrp = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Wood"]];
@@ -1046,6 +1060,15 @@ namespace SpiritMod
 					},
 					InterfaceScaleType.UI)
 				);
+				layers.Insert(inventoryIndex, new LegacyGameInterfaceLayer(
+					"Starjinx: SlotUI",
+					delegate {
+						SlotUserInterface.Draw(Main.spriteBatch, new GameTime());
+						return true;
+					},
+					InterfaceScaleType.UI)
+				);
+
 				layers.Insert(inventoryIndex, new LegacyGameInterfaceLayer (
 				"SpiritMod: SellUI",
 				delegate  {

@@ -44,6 +44,7 @@ using Terraria.Audio;
 using SpiritMod.Items.Consumable.Food;
 using SpiritMod.NPCs.AuroraStag;
 using SpiritMod.Tiles.Walls.Natural;
+using SpiritMod.Items.Accessory.GranitechDrones;
 
 namespace SpiritMod
 {
@@ -383,8 +384,9 @@ namespace SpiritMod
         public int infernalHit;
         public int infernalDash;
 		public bool longFuse;
+		public bool granitechDrones;
 
-        public bool windEffect;
+		public bool windEffect;
         public bool windEffect2;
         public int infernalSetCooldown;
         public int fierySetTimer = 480;
@@ -811,6 +813,7 @@ namespace SpiritMod
             moonGauntlet = false;
             unboundSoulMinion = false;
 			longFuse = false;
+			granitechDrones = false;
 
 			Jinxprobe = false;
 			WingTimeMaxMultiplier = 1f;
@@ -3752,6 +3755,15 @@ namespace SpiritMod
 					}
 
 					Dust.NewDust(vector2, 16, 16, 6, 0f, 0f, 0, default, 1f);
+				}
+			}
+
+			if (granitechDrones) 
+			{
+				if (player.ownedProjectileCounts[ModContent.ProjectileType<GranitechDrone>()] < 3) 
+				{
+					int newProj = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<GranitechDrone>(), (int)(72 * player.minionDamage), 1.5f, player.whoAmI);
+					Main.projectile[newProj].ai[1] = player.ownedProjectileCounts[ModContent.ProjectileType<GranitechDrone>()];
 				}
 			}
 		}

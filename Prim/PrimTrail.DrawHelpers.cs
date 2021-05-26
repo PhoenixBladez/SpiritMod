@@ -23,7 +23,7 @@ namespace SpiritMod.Prim
 			public void ApplyShader<T>(Effect effect, T trail, List<Vector2> positions, string esp, float progressParam)
 			{
 				if (effect.HasParameter("vnoise"))
-					effect.Parameters["vnoise"].SetValue(ModContent.GetTexture("SpiritMod/Textures/vnoise"));
+					effect.Parameters["vnoise"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Noise/vnoise"));
 
 				if (effect.HasParameter("noiseTexture"))
 					effect.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Noise/noise"));
