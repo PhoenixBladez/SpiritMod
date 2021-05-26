@@ -5,12 +5,16 @@ using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Items.Boss;
 using SpiritMod.Items.BossBags;
+using SpiritMod.Items.Consumable;
 using SpiritMod.Items.Material;
+using SpiritMod.Items.Placeable.MusicBox;
 using SpiritMod.Items.Weapon.Bow;
 using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Swung;
+using SpiritMod.Utilities;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -18,7 +22,7 @@ using Terraria.ModLoader;
 namespace SpiritMod.NPCs.Boss.Atlas
 {
 	[AutoloadBossHead]
-	public class Atlas : ModNPC
+	public class Atlas : ModNPC, IBCRegistrable
 	{
 
 		int[] arms = new int[2];
@@ -370,5 +374,42 @@ namespace SpiritMod.NPCs.Boss.Atlas
 
 		public override void BossLoot(ref string name, ref int potionType)
 			=> potionType = ItemID.GreaterHealingPotion;
+
+		public void RegisterToChecklist(out BossChecklistDataHandler.EntryType entryType, out float progression,
+			out string name, out Func<bool> downedCondition, ref BossChecklistDataHandler.BCIDData identificationData,
+			ref string spawnInfo, ref string despawnMessage, ref string texture, ref string headTextureOverride,
+			ref Func<bool> isAvailable)
+		{
+			entryType = BossChecklistDataHandler.EntryType.Boss;
+			progression = 12.4f;
+			name = "Atlas";
+			downedCondition = () => MyWorld.downedAtlas;
+			identificationData = new BossChecklistDataHandler.BCIDData(
+				new List<int> {
+					ModContent.NPCType<Atlas>()
+				},
+				new List<int> {
+					ModContent.ItemType<StoneSkin>()
+				},
+				new List<int> {
+					ModContent.ItemType<Trophy8>(),
+					ModContent.ItemType<AtlasMask>(),
+					ModContent.ItemType<AtlasBox>()
+				},
+				new List<int> {
+					ModContent.ItemType<AtlasEye>(),
+					ModContent.ItemType<Mountain>(),
+					ModContent.ItemType<TitanboundBulwark>(),
+					ModContent.ItemType<CragboundStaff>(),
+					ModContent.ItemType<QuakeFist>(),
+					ModContent.ItemType<Earthshatter>(),
+					ModContent.ItemType<ArcaneGeyser>(),
+					ItemID.GreaterHealingPotion
+				});
+			spawnInfo =
+				$"Use a [i:{ModContent.ItemType<StoneSkin>()}] anywhere at any time.";
+			texture = "SpiritMod/Textures/BossChecklist/AtlasTexture";
+			headTextureOverride = "SpiritMod/NPCs/Boss/Atlas/Atlas_Head_Boss";
+		}
 	}
 }

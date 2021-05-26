@@ -25,7 +25,7 @@ namespace SpiritMod.Tide
 			}
 		}
 
-		public static List<IDictionary<int, float>> Spawnpool = new List<IDictionary<int, float>> { //list containing a dictionary of spawn pool information for each wave of the tide, key int is enemy type and value float is spawn rate
+		public static List<IDictionary<int, float>> Spawnpool { get => new List<IDictionary<int, float>> { //list containing a dictionary of spawn pool information for each wave of the tide, key int is enemy type and value float is spawn rate
 			new Dictionary<int, float> { //wave 1
 				{NPCType<SpearKakamora>(), 7.35f},
 				{NPCType<KakamoraParachuter>(), 5.35f},
@@ -68,7 +68,7 @@ namespace SpiritMod.Tide
 			new Dictionary<int, float> { //wave 6
 				{NPCType<Rylheian>(), 0f}, //no spawn rate because custom spawn method, just here for checking the dictionary
 			}
-		};
+		}; }
 
 		public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
 		{

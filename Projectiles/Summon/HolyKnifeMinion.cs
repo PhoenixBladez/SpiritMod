@@ -68,7 +68,7 @@ namespace SpiritMod.Projectiles.Summon
         int jim = 1;
         public override void Behavior()
         {
-            projectile.rotation = projectile.velocity.X * 0.25f;
+            projectile.rotation = projectile.velocity.X * 0.1f;
             trailing = false;
             projectile.tileCollide = false;
 			Player player = Main.player[projectile.owner];

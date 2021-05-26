@@ -1,12 +1,10 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Armor;
 using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Summon.Zones;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Items.Material;
 
 namespace SpiritMod.Items.Weapon.Summon.Zones
 {

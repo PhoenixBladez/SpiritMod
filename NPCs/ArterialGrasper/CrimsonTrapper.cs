@@ -116,7 +116,8 @@ namespace SpiritMod.NPCs.ArterialGrasper
 					npc.ai[2] = 0;
                     npc.netUpdate = true;
 					Lighting.AddLight((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f), .153f * .5f, .028f * .5f, 0.055f * .5f);
-					Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/HeartbeatFx"));
+					if(Main.netMode != NetmodeID.Server)
+						Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/HeartbeatFx"));
 				}
 			}
 		}

@@ -253,7 +253,7 @@ namespace SpiritMod.NPCs.AuroraStag
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			spriteBatch.End();
-			spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
+			spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 
 			Texture2D orbTexture = mod.GetTexture("NPCs/AuroraStag/GlowOrb");
 			Vector2 orbOrigin = new Vector2(orbTexture.Width / 2, orbTexture.Height / 2);
@@ -265,7 +265,7 @@ namespace SpiritMod.NPCs.AuroraStag
 				spriteBatch.Draw(orbTexture, npc.Center - Main.screenPosition, null, Color.White, 0f, orbOrigin, (float)Math.Sin(TameAnimationTimer / 30) * ((TameAnimationTimer - TameAnimationLength) / TameAnimationLength) * 2, SpriteEffects.None, 0f);
 
 			spriteBatch.End();
-			spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+			spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 
 			Texture2D stagTexture = Main.npcTexture[npc.type];
 			int frameHeight = stagTexture.Height / Main.npcFrameCount[npc.type];

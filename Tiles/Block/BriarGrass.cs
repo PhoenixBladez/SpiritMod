@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Tiles.Ambient.Briar;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -71,6 +72,11 @@ namespace SpiritMod.Tiles.Block
 					}
 				}
 			}
+
+			// Try place super sunflower
+			if (Main.hardMode && WorldGen.genRand.NextBool(500))
+				if (WorldGen.PlaceTile(i, j - 1, ModContent.TileType<SuperSunFlower>(), true))
+					MyWorld.superSunFlowerPositions.Add(new Point16(i, j - 1));
 		}
 
 		public override int SaplingGrowthType(ref int style)

@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using SpiritMod.Tiles.Ambient;
+using SpiritMod.Tiles.Ambient.Corals;
 using SpiritMod.Tiles.Ambient.IceSculpture;
 using SpiritMod.Tiles.Ambient.IceSculpture.Hostile;
+using SpiritMod.Tiles.Ambient.Kelp;
 using SpiritMod.Tiles.Ambient.SpaceCrystals;
 using SpiritMod.Tiles.Ambient.SurfaceIce;
 using SpiritMod.Tiles.Block;
@@ -10,6 +12,7 @@ using SpiritMod.Tiles.Piles;
 using SpiritMod.Tiles.Walls.Natural;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -983,178 +986,98 @@ namespace SpiritMod.World
 		#region GENPASS: ASTEROIDS
 		public static void AsteroidsPass(GenerationProgress progress)
 		{
-			bool success = false;
-			int attempts = 0;
-			while (!success) {
-				attempts++;
-				if (attempts > 1000) {
-					success = true;
-					continue;
-				}
-				progress.Message = "Creating an asteroid belt";
-				{
-					int width = 350;
-					int height = 75;
-					int x = 0;
-					int y = 0;
-					if (Main.maxTilesX == 4200) {
-						width = 200;
-						height = 40;
-					}
-					if (Main.maxTilesX == 6400) {
-						width = 275;
-						height = 60;
-					}
-					if (Main.maxTilesX == 8400) {
-						width = 350;
-						height = 75;
-					}
+			progress.Message = "Creating an asteroid belt";
+			int width = 200 + (int)(((Main.maxTilesX / 4200f) - 1) * 75); //Automatically scales based on world size (WORKS WITH CUSTOM SIZES!! WOOOO)
+			int height = 40 + (int)(((Main.maxTilesX / 4200f) - 1) * 15);
+			int x = width + 80;
+			MyWorld.asteroidSide = 0;
 
-					if (Main.rand.Next(2) == 0) //change to check for dungeon later, idk how rn.
-					{
-						MyWorld.asteroidSide = 0;
-						x = width + 80;
-					}
-					else {
-						MyWorld.asteroidSide = 1;
-						x = Main.maxTilesX - (width + 80);
-					}
-
-					y = height + 60;
-					PlaceAsteroids(x, y);
-
-				}
-				success = true;
+			if (WorldGen.genRand.NextBool()) {
+				x = Main.maxTilesX - (width + 80);
+				MyWorld.asteroidSide = 1;
 			}
+
+			int y = height + WorldGen.genRand.Next(30, 38); //If you want to change the top of the asteroid biome, change this
+			PlaceAsteroids(x, y, width, height);
 		}
 		#endregion GENPASS: ASTEROIDS
 
 		#region Asteroid Methods
-		private static void PlaceAsteroids(int i, int j)
+		private static void PlaceAsteroids(int i, int j, int width, int height)
 		{
-			bool success = false;
-			int attempts = 0;
-			while (!success) {
-				attempts++;
-				if (attempts > 1000) {
-					success = true;
-					continue;
-				}
-				int basex = i;
-				int basey = j;
-				int x = basex;
-				int y = basey;
+			int numberOfAsteroids = 33 + (int)(((Main.maxTilesX / 4200f) - 1) * 20); //easy world size scaling woo
+			int numJunkPiles = 15 + (int)(((Main.maxTilesX / 4200f) - 1) * 8);
+			int numberOfOres = 140 + (int)(((Main.maxTilesX / 4200f) - 1) * 80);
+			int numberOfBigs = 1;
 
-				int numberOfAsteroids = 110;
-				int numJunkPiles = 1;
-				int numberOfBigs = 4;
-				int numberOfOres = 310;
-				int width = 350;
-				int height = 75;
+			if (Main.maxTilesX == 6400) //didn't want to redo this since it seems important, but I did fix it for XL worlds
+				numberOfBigs = 2;
+			else if (Main.maxTilesX >= 8400)
+				numberOfBigs = 4;
 
-				if (Main.maxTilesX == 4200) {
-					numberOfAsteroids = 33;
-					numberOfBigs = 1;
-					numberOfOres = 140;
-					numJunkPiles = 15;
-					width = 200;
-					height = 40;
-				}
-
-				if (Main.maxTilesX == 6400) {
-					numberOfAsteroids = 50;
-					numberOfBigs = 2;
-					numberOfOres = 220;
-					width = 275;
-					numJunkPiles = 21;
-					height = 60;
-				}
-
-				if (Main.maxTilesX == 8400) {
-					numberOfAsteroids = 79;
-					numberOfBigs = 4;
-					numberOfOres = 300;
-					width = 350;
-					numJunkPiles = 32;
-					height = 75;
-				}
-
-				int radius = (int)Math.Sqrt((width * width) + (height * height));
-
-				for (int b = 0; b < numberOfAsteroids; b++) //small asteroids
-				{
-					float distance = (int)(((float)(Main.rand.Next(1000)) / 1000) * (float)Main.rand.Next(radius));
-					int angle = Main.rand.Next(360);
-					float xsize = (float)(Main.rand.Next(100, 120)) / 100;
-					float ysize = (float)(Main.rand.Next(100, 120)) / 100;
-					int size = Main.rand.Next(6, 7);
-					x = basex + (int)(Main.rand.Next(width) * Math.Sin(angle * (Math.PI / 180))) + Main.rand.Next(-100, 100);
-					y = basey + (int)(Main.rand.Next(height) * Math.Cos(angle * (Math.PI / 180))) + Main.rand.Next(-10, 15);
-					PlaceBlob(x, y, xsize, ysize, size, ModContent.TileType<Asteroid>(), 50, true, ModContent.WallType<AsteroidWall>());
-				}
-
-				for (int b = 0; b < numJunkPiles; b++) //junkPiles
-				{
-					float distance = (int)(((float)(Main.rand.Next(1000)) / 1000) * (float)Main.rand.Next(radius));
-					int angle = Main.rand.Next(360);
-					float xsize = (float)(Main.rand.Next(100, 120)) / 100;
-					float ysize = (float)(Main.rand.Next(100, 120)) / 100;
-					int size = Main.rand.Next(3, 4);
-					x = basex + (int)(Main.rand.Next(width) * Math.Sin(angle * (Math.PI / 180))) + Main.rand.Next(-100, 100);
-					y = basey + (int)(Main.rand.Next(height) * Math.Cos(angle * (Math.PI / 180))) + Main.rand.Next(-10, 15);
-					PlaceBlob(x, y, xsize, ysize, size, ModContent.TileType<SpaceJunkTile>(), 50);
-				}
-
-				for (int b = 0; b < numberOfBigs; b++) //big asteroids
-				{
-					x = basex + (int)(Main.rand.Next(0 - width, width) / 1.5f);
-					y = basey + Main.rand.Next(0 - height, height);
-					float xsize = (float)(Main.rand.Next(75, 133)) / 100;
-					float ysize = (float)(Main.rand.Next(75, 133)) / 100;
-					int size = Main.rand.Next(11, 17);
-					PlaceBlob(x, y, xsize, ysize, size, ModContent.TileType<BigAsteroid>(), 10, true, ModContent.WallType<AsteroidWall>());
-				}
-
-				for (int b = 0; b < numberOfOres; b++) //ores
-				{
-					float distance = (int)(((float)(Main.rand.Next(1000)) / 1000) * (float)Main.rand.Next(radius));
-					int angle = Main.rand.Next(360);
-					int size = Main.rand.Next(2, 5);
-					x = basex + (int)(Main.rand.Next(width) * Math.Sin(angle * (Math.PI / 180))) + Main.rand.Next(-100, 100);
-					y = basey + (int)(Main.rand.Next(height) * Math.Cos(angle * (Math.PI / 180))) + Main.rand.Next(-10, 15);
-					ushort ore = OreRoller((ushort)ModContent.TileType<Glowstone>(), (ushort)ModContent.TileType<Glowstone>());
-					WorldGen.TileRunner(x, y, Main.rand.Next(2, 10), 2, ore, false, 0f, 0f, false, true);
-				}
-
-				List<Point> location = new List<Point>(); //these are for ease of use if we ever want to add containers to these existing structures
-				Point[] containers = location.ToArray();
-				StructureLoader.GetStructure("StarAltar").PlaceForce(basex + (int)(Main.rand.Next(0 - width, width) / 1.5f), basey + Main.rand.Next(0 - height, height), out containers);
-
-				//chest spawning
-				int CmaxTries = 20000;
-				int Ctries = 0;
-				int Csuccesses = 0;
-
-				while (Ctries < CmaxTries && Csuccesses < 4) {
-					x = i + WorldGen.genRand.Next(0 - width, width);
-					y = j + WorldGen.genRand.Next(0 - height, height);
-					if (WorldGen.PlaceChest(x, y, (ushort)ModContent.TileType<Tiles.Furniture.SpaceJunk.AsteroidChest>(), false, 0) != -1) {
-						Csuccesses++;
-						Ctries = 0;
-					}
-
-					Ctries++;
-				}
-
-				success = true;
+			for (int k = 0; k < numberOfAsteroids; k++) //small asteroids
+			{
+				int angle = Main.rand.Next(360);
+				float xsize = (float)(Main.rand.Next(100, 120)) / 100;
+				float ysize = (float)(Main.rand.Next(100, 120)) / 100;
+				int size = Main.rand.Next(6, 7);
+				int x = i + (int)(Main.rand.Next(width) * Math.Sin(angle * (Math.PI / 180))) + Main.rand.Next(-100, 100);
+				int y = j + (int)(Main.rand.Next(height) * Math.Cos(angle * (Math.PI / 180))) + Main.rand.Next(-10, 15);
+				PlaceBlob(x, y, xsize, ysize, size, ModContent.TileType<Asteroid>(), 50, true, ModContent.WallType<AsteroidWall>());
 			}
 
+			for (int k = 0; k < numJunkPiles; k++) //junkPiles
+			{
+				int angle = Main.rand.Next(360);
+				float xsize = (float)(Main.rand.Next(100, 120)) / 100;
+				float ysize = (float)(Main.rand.Next(100, 120)) / 100;
+				int size = Main.rand.Next(3, 4);
+				int x = i + (int)(Main.rand.Next(width) * Math.Sin(angle * (Math.PI / 180))) + Main.rand.Next(-100, 100);
+				int y = j + (int)(Main.rand.Next(height) * Math.Cos(angle * (Math.PI / 180))) + Main.rand.Next(-10, 15);
+				PlaceBlob(x, y, xsize, ysize, size, ModContent.TileType<SpaceJunkTile>(), 50);
+			}
+
+			for (int k = 0; k < numberOfBigs; k++) //big asteroids
+			{
+				int x = i + (int)(Main.rand.Next(0 - width, width) / 1.5f);
+				int y = j + Main.rand.Next(0 - height, height);
+				float xsize = (float)(Main.rand.Next(75, 133)) / 100;
+				float ysize = (float)(Main.rand.Next(75, 133)) / 100;
+				int size = Main.rand.Next(11, 17);
+				PlaceBlob(x, y, xsize, ysize, size, ModContent.TileType<BigAsteroid>(), 10, true, ModContent.WallType<AsteroidWall>());
+			}
+
+			for (int k = 0; k < numberOfOres; k++) //ores
+			{
+				int angle = Main.rand.Next(360);
+				int x = i + (int)(Main.rand.Next(width) * Math.Sin(angle * (Math.PI / 180))) + Main.rand.Next(-100, 100);
+				int y = j + (int)(Main.rand.Next(height) * Math.Cos(angle * (Math.PI / 180))) + Main.rand.Next(-10, 15);
+				ushort ore = OreRoller((ushort)ModContent.TileType<Glowstone>());
+				WorldGen.TileRunner(x, y, Main.rand.Next(2, 10), 2, ore, false, 0f, 0f, false, true);
+			}
+
+			var location = new List<Point>().ToArray(); //these are for ease of use if we ever want to add containers to these existing structures
+			StructureLoader.GetStructure("StarAltar").PlaceForce(i + (int)(Main.rand.Next(0 - width, width) / 1.5f), j + Main.rand.Next(-10, height), out location);
+
+			//chest spawning
+			const int MaxChestTries = 10000;
+			int chestTries = 0;
+			int chestSuccesses = 0;
+
+			while (chestTries < MaxChestTries && chestSuccesses < 4) {
+				int x = i + WorldGen.genRand.Next(0 - width, width);
+				int y = j + WorldGen.genRand.Next(0 - height, height);
+				if (WorldGen.PlaceChest(x, y, (ushort)ModContent.TileType<Tiles.Furniture.SpaceJunk.AsteroidChest>(), false, 0) != -1) {
+					chestSuccesses++;
+					chestTries = 0;
+				}
+				chestTries++;
+			}
 		}
 
 		private static void PlaceBlob(int x, int y, float xsize, float ysize, int size, int type, int roundness, bool placewall = false, int walltype = 0)
 		{
 			int distance = size;
-
 			for (int i = 0; i < 360; i++) {
 				if (360 - i <= Math.Abs(size - distance) / Math.Sqrt(size) * 50) {
 					if (size > distance) {
@@ -1180,28 +1103,23 @@ namespace SpiritMod.World
 			}
 		}
 
-		private static ushort OreRoller(ushort glowstone, ushort none)
+		private static ushort OreRoller(ushort glowstone)
 		{
 			ushort iron = WorldExtras.GetOreCounterpart(WorldGen.IronTierOre);
 			ushort silver = WorldExtras.GetOreCounterpart(WorldGen.SilverTierOre);
 			ushort gold = WorldExtras.GetOreCounterpart(WorldGen.GoldTierOre);
 
-			int OreRoll = Main.rand.Next(1120);
-			if (OreRoll < 250) {
+			int roll = Main.rand.Next(1120);
+			if (roll < 250)
 				return WorldExtras.GetOreCounterpart(iron);
-			}
-			else if (OreRoll < 400) {
+			else if (roll < 400)
 				return WorldExtras.GetOreCounterpart(silver);
-			}
-			else if (OreRoll < 600) {
+			else if (roll < 600)
 				return WorldExtras.GetOreCounterpart(gold);
-			}
-			else if (OreRoll < 650) {
-				return 37; //meteorite
-			}
-			else {
+			else if (roll < 650)
+				return TileID.Meteorite;
+			else
 				return glowstone;
-			}
 		}
 		#endregion Asteroids
 
@@ -1313,13 +1231,11 @@ namespace SpiritMod.World
 
 			for (int C = 0; C < Main.maxTilesX * 45; C++) {
 				int[] sculptures = new int[] { ModContent.TileType<IceWheezerPassive>(), ModContent.TileType<IceFlinxPassive>(), ModContent.TileType<IceBatPassive>(), ModContent.TileType<IceVikingPassive>(), ModContent.TileType<IceWheezerHostile>(), ModContent.TileType<IceFlinxHostile>(), ModContent.TileType<IceBatHostile>(), ModContent.TileType<IceVikingHostile>() };
-				{
-					int X = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
-					int Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
-					if ((Main.tile[X, Y].type == TileID.IceBlock || Main.tile[X, Y].type == TileID.SnowBlock) && Main.tile[X, Y + 1].type != 162) {
-						WorldGen.PlaceObject(X, Y, (ushort)sculptures[Main.rand.Next(8)]);
-						NetMessage.SendObjectPlacment(-1, X, Y, (ushort)sculptures[Main.rand.Next(4)], 0, 0, -1, -1);
-					}
+				int X = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
+				int Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
+				if ((Main.tile[X, Y].type == TileID.IceBlock || Main.tile[X, Y].type == TileID.SnowBlock) && Main.tile[X, Y + 1].type != 162) {
+					WorldGen.PlaceObject(X, Y, (ushort)sculptures[Main.rand.Next(8)]);
+					NetMessage.SendObjectPlacment(-1, X, Y, (ushort)sculptures[Main.rand.Next(4)], 0, 0, -1, -1);
 				}
 			}
 
@@ -1337,7 +1253,7 @@ namespace SpiritMod.World
 					}
 				}
 			}
-			
+
 			for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 16.2f) * 6E-03); k++) {
 				{
 					int X = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
@@ -1348,48 +1264,72 @@ namespace SpiritMod.World
 					}
 				}
 			}
-			if (WorldGen.genRand.NextBool(2)) {
-				for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 7.2f) * 6E-03); k++) {
-					{
-						int X = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 
-						int Y = WorldGen.genRand.Next((int)Main.worldSurface - 100, (int)Main.worldSurface + 30);
-						if ((Main.tile[X, Y].type == TileID.SnowBlock || Main.tile[X, Y].type == TileID.IceBlock)) {
-							if (Main.rand.Next(3) == 0) {
-								WorldGen.PlaceObject(X, Y, (ushort)ModContent.TileType<SnowBush3>());
-								NetMessage.SendObjectPlacment(-1, X, Y, (ushort)ModContent.TileType<SnowBush3>(), 0, 0, -1, -1);
-							}
-							else if (Main.rand.Next(2) == 0) {
-								WorldGen.PlaceObject(X, Y, (ushort)ModContent.TileType<SnowBush2>());
-								NetMessage.SendObjectPlacment(-1, X, Y, (ushort)ModContent.TileType<SnowBush2>(), 0, 0, -1, -1);
-							}
-							else {
-								WorldGen.PlaceObject(X, Y, (ushort)ModContent.TileType<SnowBush1>());
-								NetMessage.SendObjectPlacment(-1, X, Y, (ushort)ModContent.TileType<SnowBush1>(), 0, 0, -1, -1);
-							}
-						}
+			for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY * 7.2f) * 6E-03); k++) {
+				int X = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
+				int Y = WorldGen.genRand.Next((int)Main.worldSurface - 100, (int)Main.worldSurface + 30);
+
+				bool ice = WorldGen.genRand.NextBool(2);
+				ushort[] types = new ushort[] { (ushort)ModContent.TileType<SnowBush1>(), (ushort)ModContent.TileType<SnowBush2>(), (ushort)ModContent.TileType<SnowBush3>() };
+				if (ice)
+					types = new ushort[] { (ushort)ModContent.TileType<IceCube1>(), (ushort)ModContent.TileType<IceCube2>(), (ushort)ModContent.TileType<IceCube3>() };
+
+				if (Main.tile[X, Y].type == TileID.SnowBlock || Main.tile[X, Y].type == TileID.IceBlock) {
+					if (Main.rand.Next(3) == 0) {
+						WorldGen.PlaceObject(X, Y, types[2]);
+						NetMessage.SendObjectPlacment(-1, X, Y, types[2], 0, 0, -1, -1);
+					}
+					else if (Main.rand.Next(2) == 0) {
+						WorldGen.PlaceObject(X, Y, types[1]);
+						NetMessage.SendObjectPlacment(-1, X, Y, types[1], 0, 0, -1, -1);
+					}
+					else {
+						WorldGen.PlaceObject(X, Y, types[0]);
+						NetMessage.SendObjectPlacment(-1, X, Y, types[0], 0, 0, -1, -1);
 					}
 				}
 			}
-			else {
-				for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 7.2f) * 6E-03); k++) {
-					{
-						int X = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
-						int Y = WorldGen.genRand.Next((int)Main.worldSurface - 100, (int)Main.worldSurface + 30);
-						if ((Main.tile[X, Y].type == TileID.SnowBlock || Main.tile[X, Y].type == TileID.IceBlock)) {
-							if (Main.rand.Next(2) == 0) {
-								WorldGen.PlaceObject(X, Y, (ushort)ModContent.TileType<IceCube3>());
-								NetMessage.SendObjectPlacment(-1, X, Y, (ushort)ModContent.TileType<IceCube3>(), 0, 0, -1, -1);
-							}
-							else if (Main.rand.Next(2) == 0) {
-								WorldGen.PlaceObject(X, Y, (ushort)ModContent.TileType<IceCube2>());
-								NetMessage.SendObjectPlacment(-1, X, Y, (ushort)ModContent.TileType<IceCube2>(), 0, 0, -1, -1);
-							}
-							else {
-								WorldGen.PlaceObject(X, Y, (ushort)ModContent.TileType<IceCube1>());
-								NetMessage.SendObjectPlacment(-1, X, Y, (ushort)ModContent.TileType<IceCube1>(), 0, 0, -1, -1);
-							}
-						}
+
+			//Ocean corals
+			for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY * 16.2f) * 6E-03); k++) 
+			{ //I hate the usage of scientific notation here but for consistency's sake it stays
+				int X = WorldGen.genRand.Next(5, 338);
+				if (WorldGen.genRand.NextBool())
+					X = WorldGen.genRand.Next(Main.maxTilesX - 338, Main.maxTilesX - 5); //Choose a random ocean
+				int Y = WorldGen.genRand.Next(200, Main.maxTilesY / 2);
+
+				int[] validTypes = new int[] { TileID.Sand, TileID.Crimsand, TileID.Ebonsand }; //Valid sand types
+
+				if (validTypes.Contains(Framing.GetTileSafely(X, Y).type) && Framing.GetTileSafely(X, Y).liquid > 155) 
+				{
+					if (validTypes.Contains(Framing.GetTileSafely(X + 1, Y).type) && validTypes.Contains(Framing.GetTileSafely(X + 2, Y).type) && WorldGen.genRand.NextBool(4)) { //Check for ground & randomize - 3x3 coral
+						WorldGen.PlaceObject(X, Y, ModContent.TileType<Coral3x3>(), true, 0);
+						NetMessage.SendObjectPlacment(-1, X, Y, ModContent.TileType<Coral3x3>(), 0, 0, -1, -1);
+						continue;
+					}
+
+					if (validTypes.Contains(Framing.GetTileSafely(X + 1, Y).type) && WorldGen.genRand.NextBool(4)) { //Check for ground & randomize - 2x2/2x3 Coral/Kelp
+						int type = ModContent.TileType<Coral2x2>();
+						int choice = WorldGen.genRand.Next(6);
+						if (choice == 0)
+							type = ModContent.TileType<Kelp2x2>();
+						if (choice == 1)
+							type = ModContent.TileType<Kelp2x3>();
+
+						int styleRange = type == ModContent.TileType<Coral2x2>() ? 3 : 1;
+
+						WorldGen.PlaceObject(X, Y, type, true, WorldGen.genRand.Next(styleRange));
+						NetMessage.SendObjectPlacment(-1, X, Y, type, 0, 0, -1, -1);
+						continue;
+					}
+
+					if (WorldGen.genRand.NextBool(2)) { //Randomize - 1x2 Coral/Kelp
+						int type = ModContent.TileType<Coral1x2>();
+						if (WorldGen.genRand.NextBool(3))
+							type = ModContent.TileType<Kelp1x2>();
+
+						WorldGen.PlaceObject(X, Y, type, true, 0);
+						NetMessage.SendObjectPlacment(-1, X, Y, type, 0, 0, -1, -1);
 					}
 				}
 			}

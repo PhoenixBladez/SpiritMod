@@ -9,12 +9,12 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Tiles.Ambient;
 using SpiritMod.Mechanics.Fathomless_Chest;
+using SpiritMod.Tiles.Ambient.Kelp;
 
 namespace SpiritMod.Tiles
 {
 	public class GTile : GlobalTile
 	{
-		int[] TileArray2 = { 0, 3, 185, 186, 187, 71, 28 };
 		public int tremorItem = 0;
 
 		static ushort IceType1 = (ushort)ModContent.TileType<Ambient.IceSculpture.Hostile.IceWheezerHostile>();
@@ -150,12 +150,32 @@ namespace SpiritMod.Tiles
 			}
 			return base.CanExplode(i, j, type);
 		}
-		int[] TileArray212 = { 0, 3, 185, 186, 187, 71, 28 };
+
+		int[] TileArray212 = { TileID.Dirt, TileID.Plants, TileID.SmallPiles, TileID.LargePiles, TileID.LargePiles2, TileID.MushroomPlants, TileID.Pots };
+
 		public override void RandomUpdate(int i, int j, int type)
 		{
+			int[] sands = new int[] { TileID.Sand, TileID.Crimsand, TileID.Ebonsand }; //All valid sands
+
 			bool inOcean = (i < Main.maxTilesX / 16 || i > (Main.maxTilesX / 16) * 15) && j < (int)Main.worldSurface; //Might need adjustment; don't know if this will be exclusively in the ocean
-    		if (type == TileID.Sand && inOcean && Framing.GetTileSafely(i, j - 1).liquid > 155 && Main.rand.NextBool(25) && !Framing.GetTileSafely(i, j).topSlope() && Framing.GetTileSafely(i, j-1).type != ModContent.TileType<Tiles.Ambient.Kelp.OceanKelp>()) //woo
-        			WorldGen.PlaceTile(i, j - 1, ModContent.TileType<Tiles.Ambient.Kelp.OceanKelp>());
+			if (sands.Contains(type) && inOcean && !Framing.GetTileSafely(i, j - 1).active() && Framing.GetTileSafely(i, j - 1).liquid > 155 && !Framing.GetTileSafely(i, j).topSlope()) //woo
+			{
+				if (Main.rand.NextBool(25))
+					WorldGen.PlaceTile(i, j - 1, ModContent.TileType<OceanKelp>()); //Kelp spawning
+
+				bool openSpace = !Framing.GetTileSafely(i, j - 2).active();
+				if (openSpace && Main.rand.NextBool(40)) //1x2 kelp
+					WorldGen.PlaceObject(i, j - 1, ModContent.TileType<Kelp1x2>());
+
+				openSpace = !Framing.GetTileSafely(i + 1, j - 1).active() && !Framing.GetTileSafely(i + 1, j - 2).active() && !Framing.GetTileSafely(i, j - 2).active();
+				if (openSpace && Framing.GetTileSafely(i + 1, j).active() && Main.tileSolid[Framing.GetTileSafely(i + 1, j).type] && Framing.GetTileSafely(i + 1, j).topSlope() && Main.rand.NextBool(80)) //2x2 kelp
+					WorldGen.PlaceObject(i, j - 1, ModContent.TileType<Kelp2x2>());
+
+				openSpace = !Framing.GetTileSafely(i + 1, j - 1).active() && !Framing.GetTileSafely(i + 1, j - 2).active() && !Framing.GetTileSafely(i, j - 2).active() && !Framing.GetTileSafely(i + 1, j - 3).active() && !Framing.GetTileSafely(i, j - 3).active();
+				if (openSpace && Framing.GetTileSafely(i + 1, j).active() && Main.tileSolid[Framing.GetTileSafely(i + 1, j).type] && Framing.GetTileSafely(i + 1, j).topSlope() && Main.rand.NextBool(90)) //2x3 kelp
+					WorldGen.PlaceObject(i, j - 1, ModContent.TileType<Kelp2x3>());
+			}
+
 			if (type == TileID.CorruptGrass || type == TileID.Ebonstone) {
 				if (MyWorld.CorruptHazards < 20) {
 					if ((TileArray212.Contains(Framing.GetTileSafely(i, j - 1).type) && TileArray212.Contains(Framing.GetTileSafely(i, j - 2).type) && TileArray212.Contains(Framing.GetTileSafely(i, j - 3).type)) && (j > (int)Main.worldSurface - 100 && j < (int)Main.rockLayer - 20)) {

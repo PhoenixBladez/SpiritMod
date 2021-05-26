@@ -16,6 +16,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using System.Linq;
 
 namespace SpiritMod.Items
 {
@@ -124,9 +125,10 @@ namespace SpiritMod.Items
 			this.glyph = glyph;
 			AdjustStats(item);
 		}
+
 		public override void UpdateAccessory(Item item, Player player, bool hideVisual)
 		{
-			if (item.type == 3090) {
+			if (item.type == ItemID.RoyalGel) {
 				player.npcTypeNoAggro[ModContent.NPCType<LunarSlime>()] = true;
 				player.npcTypeNoAggro[ModContent.NPCType<ReachSlime>()] = true;
 				player.npcTypeNoAggro[ModContent.NPCType<NPCs.GraniteSlime.GraniteSlime>()] = true;
@@ -134,6 +136,7 @@ namespace SpiritMod.Items
 				player.npcTypeNoAggro[ModContent.NPCType<OceanSlime>()] = true;
 			}
 		}
+
 		private void AdjustStats(Item item, bool remove = false)
 		{
 			Item norm = new Item();
@@ -196,10 +199,7 @@ namespace SpiritMod.Items
 		}
 
 
-		public override bool NeedsSaving(Item item)
-		{
-			return glyph != GlyphType.None;
-		}
+		public override bool NeedsSaving(Item item) => glyph != GlyphType.None;
 
 		public override TagCompound Save(Item item)
 		{
@@ -218,10 +218,7 @@ namespace SpiritMod.Items
 			AdjustStats(item);
 		}
 
-		public override void NetSend(Item item, BinaryWriter writer)
-		{
-			writer.Write((byte)glyph);
-		}
+		public override void NetSend(Item item, BinaryWriter writer) => writer.Write((byte)glyph);
 
 		public override void NetReceive(Item item, BinaryReader reader)
 		{
@@ -233,12 +230,7 @@ namespace SpiritMod.Items
 			AdjustStats(item);
 		}
 
-
-		public override void PostReforge(Item item)
-		{
-			AdjustStats(item);
-		}
-
+		public override void PostReforge(Item item) => AdjustStats(item);
 
 		public override void OpenVanillaBag(string context, Player player, int arg)
 		{
@@ -262,7 +254,6 @@ namespace SpiritMod.Items
 				player.QuickSpawnItem(lootTable[loot]);
 			}
 		}
-
 
 		public override float UseTimeMultiplier(Item item, Player player)
 		{
@@ -342,7 +333,6 @@ namespace SpiritMod.Items
 			}
 		}
 
-
 		public override void UseStyle(Item item, Player player)
 		{
 			//First frame of useage
@@ -397,16 +387,14 @@ namespace SpiritMod.Items
 		}
 		public override void GrabRange(Item item, Player player, ref int grabRange)
 		{
+			int[] metalItems = new int[] { ItemID.IronOre, ItemID.CopperOre, ItemID.SilverOre, ItemID.GoldOre, ItemID.TinOre, ItemID.LeadOre, ItemID.TungstenOre, ItemID.PlatinumOre, ItemID.Meteorite, ItemID.LunarOre, ItemID.ChlorophyteOre, 
+				ItemID.DemoniteOre, ItemID.CrimtaneOre, ItemID.Obsidian, ItemID.Hellstone, ItemID.CobaltOre, ItemID.PalladiumOre, ItemID.MythrilOre, ItemID.OrichalcumOre, ItemID.AdamantiteOre, ItemID.TitaniumOre };
 			if (player.GetModPlayer<MyPlayer>().MetalBand)
-			{
-				if (item.type == 12 || item.type == 699 || item.type == 11 || item.type == 700 || item.type == 14 || item.type == 701 || item.type == 13 || item.type == 702 || item.type == 116 || item.type == 56 || item.type == 880 || item.type == 173 || item.type == 174 || item.type == 364 || item.type == 1104 || item.type == 365 || item.type == 1105 || item.type == 366 || item.type == 1106 || item.type == 947 || item.type == 3460)
+				if (metalItems.Contains(item.type))
 					grabRange *= 10;
-			}
 			if (player.GetModPlayer<MyPlayer>().teslaCoil)
-			{
-				if (item.type == 12 || item.type == 699 || item.type == 11 || item.type == 700 || item.type == 14 || item.type == 701 || item.type == 13 || item.type == 702 || item.type == 116 || item.type == 56 || item.type == 880 || item.type == 173 || item.type == 174 || item.type == 364 || item.type == 1104 || item.type == 365 || item.type == 1105 || item.type == 366 || item.type == 1106 || item.type == 947 || item.type == 3460)
+				if (metalItems.Contains(item.type))
 					grabRange *= 15;
-			}
 		}
 
 		public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
@@ -596,6 +584,10 @@ namespace SpiritMod.Items
 			}
 			if (item.type == ItemID.SpecularFish) {
 				NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<SpecularFish>());
+				return true;
+			}
+			if (item.type == ItemID.Ebonkoi) {
+				NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<Ebonkoi>());
 				return true;
 			}
 			if (item.type == ItemID.Prismite) {

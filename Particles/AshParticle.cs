@@ -4,11 +4,11 @@ using Terraria;
 
 namespace SpiritMod.Particles
 {
-	public class AshParticle : Particle
+	public class AshParticle : ScreenParticle
 	{
 		private static readonly int MaxTime = 1100;
 
-		public override void Update()
+		public override void UpdateOnScreen()
 		{
 			if (TimeActive >= MaxTime)
 				Kill();
@@ -16,9 +16,9 @@ namespace SpiritMod.Particles
 			Color = Color.Black * (float)Math.Sin(MathHelper.TwoPi * ((MaxTime - TimeActive) / (float)MaxTime)) * 0.85f;
 		}
 
-		public override bool ActiveCondition() => Main.LocalPlayer.ZoneUnderworldHeight && MyWorld.ashRain;
+		public override bool ActiveCondition => Main.LocalPlayer.ZoneUnderworldHeight && MyWorld.ashRain;
 
-		public override float SpawnChance() => 0.65f;
+		public override float ScreenSpawnChance => 0.65f;
 
 		public override void OnSpawnAttempt()
 		{
@@ -27,7 +27,7 @@ namespace SpiritMod.Particles
 			Vector2 startingPosition = new Vector2(Main.rand.NextFloat(screenCenter.X - Main.screenWidth * 2, screenCenter.X + Main.screenWidth * 2), Main.screenPosition.Y);
 
 			ashParticle.Position = startingPosition;
-			ashParticle.origScreenpos = Main.screenPosition;
+			ashParticle.OriginalScreenPosition = Main.screenPosition;
 			ashParticle.Velocity = new Vector2(Main.windSpeed * 12f, Main.rand.NextFloat(1, 3f));
 			ashParticle.Rotation = Main.rand.NextFloat(MathHelper.TwoPi);
 			ashParticle.Scale = Main.rand.NextFloat(0.3f, 1.05f);

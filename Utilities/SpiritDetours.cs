@@ -1,13 +1,20 @@
 ﻿using log4net;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using SpiritMod.Items.Tool;
 using SpiritMod.Particles;
+using SpiritMod.Tiles;
 using System;
+using System.Linq;
+using ReLogic.Graphics;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.UI.Chat;
 
 namespace SpiritMod.Utilities
 {
@@ -16,15 +23,39 @@ namespace SpiritMod.Utilities
 		public static void Initialize()
 		{
 			On.Terraria.Main.DrawProjectiles += Main_DrawProjectiles;
-			On.Terraria.Main.DrawNPC += Main_DrawNPC;
+			On.Terraria.Main.DrawNPCs += Main_DrawNPCs;
+			On.Terraria.Main.DrawPlayers += Main_DrawPlayers;
 			On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile;
 			On.Terraria.Player.KeyDoubleTap += Player_KeyDoubleTap;
 			On.Terraria.Main.DrawDust += AddtiveCalls;
 			On.Terraria.Player.ToggleInv += Player_ToggleInv;
 			On.Terraria.Main.DrawInterface += DrawParticles;
 			On.Terraria.Localization.LanguageManager.GetTextValue_string += LanguageManager_GetTextValue_string1;
+
 			On.Terraria.Main.DrawPlayerChat += Main_DrawPlayerChat;
+
+			On.Terraria.Main.DrawNPCChatButtons += Main_DrawNPCChatButtons;
+			On.Terraria.WorldGen.SpreadGrass += WorldGen_SpreadGrass;
+
 			IL.Terraria.Player.ItemCheck += Player_ItemCheck;
+			IL.Terraria.WorldGen.hardUpdateWorld += WorldGen_hardUpdateWorld;
+			Main.OnPreDraw += Main_OnPreDraw;
+		}
+
+		public static void Unload()
+		{
+			On.Terraria.Main.DrawProjectiles -= Main_DrawProjectiles;
+			On.Terraria.Main.DrawNPCs -= Main_DrawNPCs;
+			On.Terraria.Main.DrawPlayers -= Main_DrawPlayers;
+			On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float -= Projectile_NewProjectile;
+			On.Terraria.Player.KeyDoubleTap -= Player_KeyDoubleTap;
+			On.Terraria.Main.DrawDust -= AddtiveCalls;
+			On.Terraria.Player.ToggleInv -= Player_ToggleInv;
+			On.Terraria.Main.DrawInterface -= DrawParticles;
+			On.Terraria.Localization.LanguageManager.GetTextValue_string -= LanguageManager_GetTextValue_string1;
+			On.Terraria.Main.DrawNPCChatButtons -= Main_DrawNPCChatButtons;
+			On.Terraria.WorldGen.SpreadGrass -= WorldGen_SpreadGrass;
+			Main.OnPreDraw -= Main_OnPreDraw;
 		}
 
 		private static void Main_DrawPlayerChat(On.Terraria.Main.orig_DrawPlayerChat orig, Main self)
@@ -61,23 +92,94 @@ namespace SpiritMod.Utilities
 			orig(self);
 		}
 
+		private const float ProfileNameScale = 1f; //Profile name scale - 1f because the higher is poorly resized
+		public static bool HoveringQuestButton = false;
+		private static void Main_DrawNPCChatButtons(On.Terraria.Main.orig_DrawNPCChatButtons orig, int superColor, Color chatColor, int numLines, string focusText, string focusText3) //Portrait drawing - Gabe
+		{
+			NPC talkNPC = Main.npc[Main.LocalPlayer.talkNPC];
+			if (ModContent.GetInstance<SpiritClientConfig>().ShowNPCPortraits)
+			{
+				string name = talkNPC.GivenName;
+
+				//Portrait
+				if (SpiritMod.Portraits.ContainsKey(talkNPC.type)) {
+					Vector2 offset = new Vector2(190, 0) * (Main.UIScale - 1); //UI scale...scaling
+					offset.Y -= ((numLines - 2) * 20); //So it's centred
+					Main.spriteBatch.Draw(SpiritMod.Portraits[talkNPC.type], new Vector2(Main.screenWidth / 3 - 43, 104) - offset, null, Color.White, 0f, default, 1f, SpriteEffects.None, 0f); //Portrait
+
+					Vector2 textPos = new Vector2(Main.screenWidth / 3 + 10, 226) - (ChatManager.GetStringSize(Main.fontItemStack, name, new Vector2(ProfileNameScale)) / 2); //Name
+					ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, Main.fontItemStack, name, textPos - offset, new Color(240, 240, 240), 0f, new Vector2(), new Vector2(ProfileNameScale), -1, 2f);
+				}
+			}
+
+			if (talkNPC.type == NPCID.Angler)
+				focusText = ""; // empty string, we'll add our own angler quest button
+
+			// TODO: localization
+			string questText = "Quest";
+			DynamicSpriteFont font = Main.fontMouseText;
+			Vector2 scale = new Vector2(0.9f);
+			Vector2 stringSize = ChatManager.GetStringSize(font, questText, scale);
+			Vector2 position = new Vector2((180 + Main.screenWidth / 2) + stringSize.X - 50f, 130 + numLines * 30);
+			Color baseColor = new Color(superColor, (int)(superColor / 1.1), superColor / 2, superColor);
+			Vector2 mousePos = new Vector2(Main.mouseX, Main.mouseY);
+
+			if (mousePos.Between(position, position + stringSize * scale) && !PlayerInput.IgnoreMouseInterface) {
+				Main.LocalPlayer.mouseInterface = true;
+				Main.LocalPlayer.releaseUseItem = true;
+				scale *= 1.1f;
+
+				if (!HoveringQuestButton)
+					Main.PlaySound(SoundID.MenuTick);
+
+				HoveringQuestButton = true;
+			}
+			else {
+				if (HoveringQuestButton)
+					Main.PlaySound(SoundID.MenuTick);
+
+				HoveringQuestButton = false;
+			}
+
+			ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, font, questText, position + new Vector2(16f, 14f), baseColor, 0f,
+				stringSize * 0.5f, scale * new Vector2(1f));
+
+			orig(superColor, chatColor, numLines, focusText, focusText3);
+		}
+
+		private static void Main_OnPreDraw(GameTime obj)
+		{
+			if (Main.spriteBatch != null && SpiritMod.primitives != null) 
+			{
+				SpiritMod.primitives.DrawTrailsProj(Main.spriteBatch, Main.graphics.GraphicsDevice);
+				SpiritMod.primitives.DrawTrailsNPC(Main.spriteBatch, Main.graphics.GraphicsDevice);
+			}
+		}
 		private static void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
 		{
 			if (!Main.dedServ)
 			{
-				SpiritMod.primitives.DrawTrailsProj();
+				SpiritMod.primitives.DrawTargetProj(Main.spriteBatch);
 				SpiritMod.TrailManager.DrawTrails(Main.spriteBatch);
 			}
-
 			orig(self);
 		}
 
-		private static void Main_DrawNPC(On.Terraria.Main.orig_DrawNPC orig, Main self, int iNPCIndex, bool behindTiles)
+		private static void Main_DrawNPCs(On.Terraria.Main.orig_DrawNPCs orig, Main self, bool behindTiles)
 		{
-			if (!Main.dedServ)
-				SpiritMod.primitives.DrawTrailsNPC();
+			if (!Main.dedServ) 
+			{
+				SpiritMod.primitives.DrawTargetNPC(Main.spriteBatch);
+			}
+			SpiritMod.Metaballs.DrawEnemyLayer(Main.spriteBatch);
+			SpiritMod.Metaballs.DrawNebulaLayer(Main.spriteBatch);
+			orig(self, behindTiles);
+		}
 
-			orig(self, iNPCIndex, behindTiles);
+		private static void Main_DrawPlayers(On.Terraria.Main.orig_DrawPlayers orig, Main self)
+		{
+			orig(self);
+			SpiritMod.Metaballs.DrawFriendlyLayer(Main.spriteBatch);
 		}
 
 		private static int Projectile_NewProjectile(On.Terraria.Projectile.orig_NewProjectile_float_float_float_float_int_int_float_int_float_float orig, float X, float Y, float SpeedX, float SpeedY, int Type, int Damage, float KnockBack, int Owner, float ai0, float ai1)
@@ -132,6 +234,17 @@ namespace SpiritMod.Utilities
 			Main.spriteBatch.End();
 
 			orig(self, gameTime);
+		}
+
+		// detour to stop evil grass from spreading into areas protected by super sunflowers
+		private static void WorldGen_SpreadGrass(On.Terraria.WorldGen.orig_SpreadGrass orig, int i, int j, int dirt, int grass, bool repeat, byte color)
+		{
+			if (grass == TileID.CorruptGrass || grass == TileID.FleshGrass)
+				foreach (Point16 point in MyWorld.superSunFlowerPositions)
+					if (Math.Abs(point.X - i) < SuperSunFlower.Range * 2)
+							return;
+
+			orig(i, j, dirt, grass, repeat, color);
 		}
 
 		// This IL edit is used to allow the unfeller of evergreens to autoplant saplings when trees are destroyed
@@ -211,6 +324,62 @@ namespace SpiritMod.Utilities
 				// Now we finish up and plant a sapling above the tile we hit
 				WorldGen.PlaceTile(currentX, currentY - 1, TileID.Saplings);
 			});
+		}
+
+		// This IL edit is used to stop evil stones (ebonstone/crimstone) from spreading into areas protected by super sunflowers
+		// Evil grass is also handled in a separate detour (WorldGen_SpreadGrass)
+		//
+		// This edit is simple. We just need to search for one instruction that loads NPC.downedPlantBoss (as all instructions afterwards have to do with evil spreading).
+		// Then we need to push the "i" parameter onto the stack (the x coordinate of the updated tile)
+		// 
+		// THESE ARE THE IL INSTRUCTIONS WE'LL HARASS AND WHAT IT'LL LOOK LIKE WHEN WE'RE DONE
+		//   IL_XXXX: [WE INSERT AN INSTRUCTION HERE TO PUSH THE FIRST PARAMETER, i (THE X COORDINATE OF THE TILE)]
+		//   IL_XXXX: [WE RUN OUR CODE HERE TO CHECK IF THE X COORDINATE IS IN A PROTECTED ZONE. WE PUSH TRUE ONTO THE STACK IF IT IS, OTHERWISE FALSE]
+		//   IL_XXXX: [WE INSERT AN INSTRUCTION HERE TO CHECK THE BOOL WE PUSHED, AND SKIP THE NEXT INSTRUCTION IF IT IS FALSE]
+		//   IL_XXXX: [WE INSERT AN INSTRUCTION HERE TO RETURN FROM THE METHOD. THIS IS ONLY REACHED IF THE ABOVE INSTRUCTION DOESN'T BRANCH]
+		//   IL_050f: ldsfld bool [Terraria]Terraria.NPC::downedPlantBoss   <------ WE WILL JUMP TO THIS INSTRUCTION TO APPLY THE ABOVE EDITS
+		private static void WorldGen_hardUpdateWorld(ILContext il)
+		{
+			// Get an ILCursor and a logger to report errors if we find any
+			ILCursor cursor = new ILCursor(il);
+			ILog logger = ModContent.GetInstance<SpiritMod>().Logger;
+
+			// Try to jump to the specified instruction and stop if we can't find it
+			// We use MoveType.AfterLabel because there are labels from previous instructions pointing to the location we're emitting to
+			// and thus we want our emitted instructions to become the target for the labels, instead of the NPC.downedPlantBoss instruction
+			if (!cursor.TryGotoNext(MoveType.AfterLabel, i => i.MatchLdsfld<NPC>("downedPlantBoss"))) {
+				logger.Error("Failed to patch WorldGen.hardUpdateWorld to add super sunflower functionality");
+				return;
+			}
+
+			// We'll make use of this empty label shortly. It is supposed to target the NPC.downedPlantBoss instruction; but we initialize it later
+			// This is to account for the fact that you can't spell "branch" without "bitch" and will save us from pain
+			ILLabel label = cursor.DefineLabel();
+
+			// Now that the cursor is behind the target instruction, we need to push the parameter "i" onto the stack
+			cursor.Emit(OpCodes.Ldarg_0);
+
+			// Now we run our own code that consumes "i" off the stack, checks if they're in a protected zone and returns the result of the check
+			cursor.EmitDelegate<Func<int, bool>>(i => {
+				foreach (Point16 point in MyWorld.superSunFlowerPositions)
+					if (Math.Abs(point.X - i) < SuperSunFlower.Range * 2)
+						return true;
+
+				return false;
+			});
+			
+			// We check the bool we pushed, and branch to the label we defined earlier (the one supposed to be looking at the NPC.downedPlantBoss instruction) if it is false
+			// Doing so would skip over the return instruction we are about to emit
+			cursor.Emit(OpCodes.Brfalse_S, label);
+
+			// A return instruction that will get run if the tile is in a protected zone (meaning that the above branch didn't run)
+			cursor.Emit(OpCodes.Ret);
+
+			// We finish off by moving the cursor forwards again to the NPC.downedPlantBoss instruction and actually initializing the label
+			// The reason we do this now is because emitting instructions can easily mess with labels and move them around
+			// But since we only have 1 label to worry about we can just initialize it after everything has been emitted
+			cursor.GotoNext(i => i.MatchLdsfld<NPC>("downedPlantBoss"));
+			cursor.MarkLabel(label);
 		}
 	}
 }

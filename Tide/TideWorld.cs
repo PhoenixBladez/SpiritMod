@@ -36,19 +36,17 @@ namespace SpiritMod.Tide
 				SendPacket(mod);
 			}
 
-			if(TheTide && TideWave == 5) {
-				var players = Main.player.Where(x => x.ZoneBeach && x.active && !x.dead);
-				foreach(Player player in players) {
-					if(!NPC.AnyNPCs(ModContent.NPCType<Rylheian>())) {
-						NPC npc = Main.npc[NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 400, ModContent.NPCType<Rylheian>(), 0, 2, 1, 0, 0, player.whoAmI)];
-						DustHelper.DrawDiamond(new Vector2(npc.Center.X, npc.Center.Y), 173, 8);
-						DustHelper.DrawTriangle(new Vector2(npc.Center.X, npc.Center.Y), 173, 8);
-						Main.PlaySound(SoundID.Zombie, npc.Center, 89);
+			if (TheTide && TideWave == 5) {
+				if (!NPC.AnyNPCs(ModContent.NPCType<Rylheian>())) {
+					Player player = Main.rand.Next(Main.player.Where(x => x.active && !x.dead && x.ZoneBeach).ToArray());
 
-						if (Main.netMode != NetmodeID.SinglePlayer) 
-							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc.whoAmI);
+					NPC npc = Main.npc[NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 400, ModContent.NPCType<Rylheian>(), 0, 2, 1, 0, 0, player.whoAmI)];
+					DustHelper.DrawDiamond(new Vector2(npc.Center.X, npc.Center.Y), 173, 8);
+					DustHelper.DrawTriangle(new Vector2(npc.Center.X, npc.Center.Y), 173, 8);
+					Main.PlaySound(SoundID.Zombie, npc.Center, 89);
 
-					}
+					if (Main.netMode != NetmodeID.SinglePlayer)
+						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc.whoAmI);
 				}
 			}
 		}
@@ -65,6 +63,7 @@ namespace SpiritMod.Tide
 			packet.Write(TheTide);
 			packet.Send();
 		}
+
 		public static void HandlePacket(BinaryReader reader)
 		{
 			TidePoints = reader.ReadInt32();
@@ -72,11 +71,11 @@ namespace SpiritMod.Tide
 			TideWave = reader.ReadInt32();
 			TheTide = reader.ReadBoolean();
 		}
+
 		public static void TideWaveIncrease()
 		{
 			TideWave++;
 			if (TideWave > 5) {
-
 				if (Main.netMode == NetmodeID.Server)
 					NetMessage.BroadcastChatMessage(NetworkText.FromLiteral("The Tide has waned!"), new Color(61, 255, 142));
 				else if(Main.netMode == NetmodeID.SinglePlayer)
@@ -85,6 +84,7 @@ namespace SpiritMod.Tide
 				TheTide = false;
 				TideWave = 0;
 				SendPacket(SpiritMod.instance);
+
 				if(Main.netMode != NetmodeID.Server) {
 					Main.musicFade[SpiritMod.instance.GetSoundSlot(SoundType.Music, "Sounds/Music/DepthInvasion")] = 0;
 					float temp = Main.soundVolume; //temporarily store main.soundvolume, since sounds dont play at all if sound volume is at 0, regardless of actual volume of the sound

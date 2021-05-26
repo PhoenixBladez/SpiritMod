@@ -63,18 +63,18 @@ namespace SpiritMod.Mechanics.AutoSell
 				if (Main.playerInventory && Main.npcShop > 0)
 				{
 					SpiritModAutoSellTextures.Load();
-					Mechanics.AutoSell.AutoSellUI.visible = true;
-					Mechanics.AutoSell.Sell_NoValue.Sell_NoValue.visible = true;
-					Mechanics.AutoSell.Sell_Lock.Sell_Lock.visible = true;
-					Mechanics.AutoSell.Sell_Weapons.Sell_Weapons.visible = true;			
+					AutoSellUI.visible = true;
+					Sell_NoValue.Sell_NoValue.visible = true;
+					Sell_Lock.Sell_Lock.visible = true;
+					Sell_Weapons.Sell_Weapons.visible = true;			
 				}
 				else
 				{
 					SpiritModAutoSellTextures.Unload();
-					Mechanics.AutoSell.AutoSellUI.visible = false;
-					Mechanics.AutoSell.Sell_NoValue.Sell_NoValue.visible = false;
-					Mechanics.AutoSell.Sell_Lock.Sell_Lock.visible = false;
-					Mechanics.AutoSell.Sell_Weapons.Sell_Weapons.visible = false;
+					AutoSellUI.visible = false;
+					Sell_NoValue.Sell_NoValue.visible = false;
+					Sell_Lock.Sell_Lock.visible = false;
+					Sell_Weapons.Sell_Weapons.visible = false;
 				}
 			}
 		}

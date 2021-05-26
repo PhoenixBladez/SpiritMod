@@ -3,18 +3,20 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs;
 using SpiritMod.Buffs.Armor;
 using SpiritMod.Items;
-using SpiritMod.Projectiles.Bullet;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles
 {
-
 	public class SpiritGlobalProjectile : GlobalProjectile
 	{
+		public static int[] Explosives { get => new int[] { ProjectileID.Bomb, ProjectileID.BombFish, ProjectileID.BouncyBomb, ProjectileID.Grenade, ProjectileID.BouncyGrenade,
+			ProjectileID.StickyGrenade, ProjectileID.Dynamite, ProjectileID.BouncyDynamite, ProjectileID.StickyDynamite }; }
+
 		public override bool InstancePerEntity => true;
 
 		public List<SpiritProjectileEffect> effects = new List<SpiritProjectileEffect>();
@@ -76,26 +78,27 @@ namespace SpiritMod.Projectiles
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
 
-			if(projectile.friendly
-				&& projectile.owner != 255
-				&& projectile.ranged
-				&& modPlayer.throwerGlove
-				&& modPlayer.throwerStacks >= 7
-				&& !runOnce) {
-				modPlayer.firedSharpshooter = true;
-				projectile.extraUpdates += 1;
-				projectile.scale *= 1.1f;
-				projectile.damage += (int)(projectile.damage / 4f + 0.5f);
-				projectile.knockBack += 2;
-				throwerGloveBoost = true;
+			if (projectile.friendly && projectile.owner != 255 && !runOnce) 
+			{
+				if (projectile.ranged && modPlayer.throwerGlove && modPlayer.throwerStacks >= 7) //Thrower glove functionality
+				{
+					modPlayer.firedSharpshooter = true;
+					projectile.extraUpdates += 1;
+					projectile.scale *= 1.1f;
+					projectile.damage += (int)(projectile.damage / 4f + 0.5f);
+					projectile.knockBack += 2;
+					throwerGloveBoost = true;
+				}
+				else if (player.GetModPlayer<MyPlayer>().longFuse && Explosives.Contains(projectile.type)) //Long fuse functionality
+					projectile.timeLeft = (int)(projectile.timeLeft * 1.5f); //Makes it last 150% longer
 			}
 
 			runOnce = true;
 
-			if(projectile.minion && modPlayer.stellarSet && player.HasBuff(ModContent.BuffType<StellarMinionBonus>())) {
+			if (projectile.minion && modPlayer.stellarSet && player.HasBuff(ModContent.BuffType<StellarMinionBonus>())) 
 				alphaCounter += .04f;
-			}
-			if(shotFromMaliwanFreezeCommon == true) {
+
+			if(shotFromMaliwanFreezeCommon) {
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 				for(int k = 0; k < 3; k++) {
 					int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 180);
@@ -104,7 +107,8 @@ namespace SpiritMod.Projectiles
 					Main.dust[dust].scale = .78f;
 				}
 			}
-			if(shotFromMaliwanFireCommon == true) {
+
+			if(shotFromMaliwanFireCommon) {
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 				for(int k = 0; k < 3; k++) {
 					int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 127);
@@ -113,7 +117,8 @@ namespace SpiritMod.Projectiles
 					Main.dust[dust].scale = .78f;
 				}
 			}
-			if(shotFromMaliwanAcidCommon == true) {
+
+			if(shotFromMaliwanAcidCommon) {
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 				for(int k = 0; k < 3; k++) {
 					int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 163);
@@ -122,7 +127,8 @@ namespace SpiritMod.Projectiles
 					Main.dust[dust].scale = .78f;
 				}
 			}
-			if(shotFromMaliwanShockCommon == true) {
+
+			if(shotFromMaliwanShockCommon) {
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 				for(int k = 0; k < 3; k++) {
 					int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 226);
@@ -131,6 +137,7 @@ namespace SpiritMod.Projectiles
 					Main.dust[dust].scale = .58f;
 				}
 			}
+
 			if(WitherLeaf) {
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 				if(Main.rand.NextBool()) {
@@ -138,21 +145,24 @@ namespace SpiritMod.Projectiles
 					return true;
 				}
 			}
+
 			if(projectile.minion && modPlayer.silkenSet) {
 				int dust = Dust.NewDust(projectile.Center, projectile.width, projectile.height, DustID.GoldCoin);
 				Main.dust[dust].velocity *= -1f;
 				Main.dust[dust].noGravity = true;
-				Vector2 vel = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
+				var vel = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
 				vel.Normalize();
 				Main.dust[dust].velocity = vel * Main.rand.Next(50, 100) * 0.04f;
 				Main.dust[dust].position = projectile.Center - vel * 34f;
 			}
+
 			if(shotFromStellarCrosbow) {
 				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
 				if(Main.rand.Next(2) == 0)
 					Dust.NewDust(projectile.position, projectile.width, projectile.height, 133);
 				return false;
 			}
+
 			if(shotFromHolyBurst || shotFromTrueHolyBurst) {
 				counter++;
 				if(counter >= 1440) {
@@ -230,13 +240,11 @@ namespace SpiritMod.Projectiles
 			if(shotFromMaliwanFireCommon) {
 				if(Main.rand.Next(6) == 0) {
 					target.AddBuff(BuffID.OnFire, Main.rand.Next(120, 180));
-					int d = 6;
-					int d1 = 6;
 					for(int k = 0; k < 20; k++) {
-						Dust.NewDust(target.position, target.width, target.height, d, 2.5f, -2.5f, 0, Color.White, .7f);
-						Dust.NewDust(target.position, target.width, target.height, d, 2.5f, -2.5f, 0, Color.White, 0.27f);
-						Dust.NewDust(target.position, target.width, target.height, d1, 2.5f, -2.5f, 0, Color.White, .9f);
-						Dust.NewDust(target.position, target.width, target.height, d1, 2.5f, -2.5f, 0, Color.White, 0.27f);
+						Dust.NewDust(target.position, target.width, target.height, DustID.Fire, 2.5f, -2.5f, 0, Color.White, .7f);
+						Dust.NewDust(target.position, target.width, target.height, DustID.Fire, 2.5f, -2.5f, 0, Color.White, 0.27f);
+						Dust.NewDust(target.position, target.width, target.height, DustID.Fire, 2.5f, -2.5f, 0, Color.White, .9f);
+						Dust.NewDust(target.position, target.width, target.height, DustID.Fire, 2.5f, -2.5f, 0, Color.White, 0.27f);
 					}
 				}
 
@@ -321,7 +329,8 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(Projectile projectile, int timeLeft)
 		{
-			if(Main.netMode != NetmodeID.Server) SpiritMod.TrailManager.TryTrailKill(projectile);
+			if (Main.netMode != NetmodeID.Server)
+				SpiritMod.TrailManager.TryTrailKill(projectile);
 		}
 	}
 }

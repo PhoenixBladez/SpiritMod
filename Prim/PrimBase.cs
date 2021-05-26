@@ -1,5 +1,9 @@
 ﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 using System.Linq;
+using Terraria;
+using Terraria.ID;
 
 namespace SpiritMod.Prim
 {
@@ -9,16 +13,61 @@ namespace SpiritMod.Prim
 		public const int DrawNPC = 2;
 		public List<PrimTrail> _trails = new List<PrimTrail>();
 
-		public void DrawTrailsNPC()
+		public RenderTarget2D primTargetNPC;
+		public RenderTarget2D primTargetProjectile;
+		public void LoadContent(GraphicsDevice GD)
 		{
-			foreach (PrimTrail trail in _trails.ToArray().Where(x => x.DrawType == DrawNPC)) 
-				trail.Draw();
+			primTargetNPC = new RenderTarget2D(GD, Main.screenWidth / 2, Main.screenHeight / 2);
+			primTargetProjectile = new RenderTarget2D(GD, Main.screenWidth / 2, Main.screenHeight / 2);
 		}
 
-		public void DrawTrailsProj()
+		public void DrawTrailsNPC(SpriteBatch spriteBatch, GraphicsDevice gD)
 		{
-			foreach (PrimTrail trail in _trails.ToArray().Where(x => x.DrawType == DrawProjectile)) 
-				trail.Draw();
+			RenderTargetBinding[] bindings = gD.GetRenderTargets();
+
+			gD.SetRenderTarget(primTargetNPC);
+			gD.Clear(Color.Transparent);
+			spriteBatch.Begin();
+			foreach (PrimTrail trail in _trails.ToArray().Where(x => x.DrawType == DrawNPC)) {
+				if (trail.Pixellated && !trail.Disabled)
+					trail.Draw();
+			}
+			spriteBatch.End();
+			gD.SetRenderTargets(bindings);
+		}
+		public void DrawTargetNPC(SpriteBatch spriteBatch)
+		{
+			if (primTargetNPC != null)
+				Main.spriteBatch.Draw(primTargetNPC, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
+			foreach (PrimTrail trail in _trails.ToArray().Where(x => x.DrawType == DrawNPC)) {
+				if (!trail.Pixellated && !trail.Disabled)
+					trail.Draw();
+			}
+		}
+		public void DrawTrailsProj(SpriteBatch spriteBatch, GraphicsDevice gD)
+		{
+			RenderTargetBinding[] bindings = gD.GetRenderTargets();
+
+			gD.SetRenderTarget(primTargetProjectile);
+			gD.Clear(Color.Transparent);
+			spriteBatch.Begin();
+			foreach (PrimTrail trail in _trails.ToArray().Where(x => x.DrawType == DrawProjectile)) {
+				if (trail.Pixellated && !trail.Disabled)
+					trail.Draw();
+			}
+			spriteBatch.End();
+			gD.SetRenderTargets(bindings);
+		}
+		public void DrawTargetProj(SpriteBatch spriteBatch)
+		{
+			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null);
+			if (primTargetProjectile != null)
+				Main.spriteBatch.Draw(primTargetProjectile, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
+			spriteBatch.End();
+			foreach (PrimTrail trail in _trails.ToArray().Where(x => x.DrawType == DrawProjectile)) {
+				if (!trail.Pixellated && !trail.Disabled)
+					trail.Draw();
+			}
 		}
 
 		public void UpdateTrails()
@@ -27,7 +76,11 @@ namespace SpiritMod.Prim
 				trail.Update();
 		}
 
-		public void CreateTrail(PrimTrail trail) => _trails.Add(trail);
-
+		public void CreateTrail(PrimTrail trail)
+		{
+			if (Main.netMode == NetmodeID.Server) //never make trails on servers
+				return;
+			_trails.Add(trail);
+		}
 	}
 }

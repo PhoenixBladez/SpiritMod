@@ -30,9 +30,8 @@ namespace SpiritMod.NPCs.Cystal
 		public override void UpdateBadLifeRegen()
 		{
 			if (crystallization && player.statLife > 4) {
-				if (player.lifeRegen > 0) {
+				if (player.lifeRegen > 0)
 					player.lifeRegen = 0;
-				}
 				player.lifeRegenTime = 0;
 				player.lifeRegen = player.lifeRegen - 4;
 			}
@@ -40,9 +39,9 @@ namespace SpiritMod.NPCs.Cystal
 
 		public override void DrawEffects(PlayerDrawInfo drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
 		{
-			if (crystallization) {
+			if (drawInfo.drawPlayer.GetModPlayer<CrystalDebuffPlayer>().crystallization) {
 				if (drawInfo.shadow == 0f) {
-					int index = Dust.NewDust(new Vector2((float)player.getRect().X, (float)player.getRect().Y), player.getRect().Width, player.getRect().Height, 164, 0.0f, 0.0f, 0, new Color(), 1f);
+					int index = Dust.NewDust(new Vector2(player.getRect().X, player.getRect().Y), player.getRect().Width, player.getRect().Height, 164, 0.0f, 0.0f, 0, new Color(), 1f);
 					Main.dust[index].scale = 1.5f;
 					Main.dust[index].noGravity = true;
 					Main.dust[index].velocity *= 1.1f;

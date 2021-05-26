@@ -25,29 +25,26 @@ namespace SpiritMod.NPCs.PlagueDoctor
 
 			projectile.alpha = 0;
 		}
+
 		public override bool PreAI()
 		{
 			var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
-			foreach (var proj in list) {
-				if (Main.player[projectile.owner].channel) {
-					if (projectile != proj && proj.friendly) {
+			foreach (var proj in list)
+				if (Main.player[projectile.owner].channel)
+					if (projectile != proj && proj.friendly)
 						projectile.Kill();
-					}
-				}
-			}
 			return true;
 		}
+
 		public override void Kill(int timeLeft)
 		{
-
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 107);
 			for (int i = 0; i < 30; i++) {
-				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 75, 0f, -2f, 0, default(Color), 1.2f);
+				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 75, 0f, -2f, 0, default, 1.2f);
 				Main.dust[num].noGravity = true;
-				Dust expr_62_cp_0 = Main.dust[num];
-				expr_62_cp_0.position.X = expr_62_cp_0.position.X + ((float)(Main.rand.Next(-30, 31) / 20) - 1.5f);
-				Dust expr_92_cp_0 = Main.dust[num];
-				expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-30, 31) / 20) - 1.5f);
+				Dust dust = Main.dust[num];
+				dust.position.X += (Main.rand.Next(-30, 31) / 20 - 1.5f);
+				dust.position.Y += (Main.rand.Next(-30, 31) / 20 - 1.5f);
 				if (Main.dust[num].position != projectile.Center) {
 					Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
 				}

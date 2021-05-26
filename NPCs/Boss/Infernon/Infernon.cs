@@ -4,13 +4,18 @@ using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Items.Boss;
 using SpiritMod.Items.BossBags;
+using SpiritMod.Items.Consumable;
 using SpiritMod.Items.Equipment;
 using SpiritMod.Items.Material;
+using SpiritMod.Items.Placeable.MusicBox;
 using SpiritMod.Items.Weapon.Bow;
 using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Items.Weapon.Swung;
+using SpiritMod.Items.Weapon.Thrown;
 using SpiritMod.Items.Weapon.Yoyo;
+using SpiritMod.Utilities;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -18,7 +23,7 @@ using Terraria.ModLoader;
 namespace SpiritMod.NPCs.Boss.Infernon
 {
 	[AutoloadBossHead]
-	public class Infernon : ModNPC
+	public class Infernon : ModNPC, IBCRegistrable
 	{
 
 		public int currentSpread;
@@ -381,7 +386,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			npc.DropItem(ModContent.ItemType<InfernalAppendage>(), 25, 36);
 
 			int[] lootTable = {
-				ModContent.ItemType<Items.Weapon.Thrown.InfernalJavelin>(),
+				ModContent.ItemType<InfernalJavelin>(),
 				ModContent.ItemType<InfernalSword>(),
 				ModContent.ItemType<DiabolicHorn>(),
 				ModContent.ItemType<SevenSins>(),
@@ -399,6 +404,45 @@ namespace SpiritMod.NPCs.Boss.Infernon
 		public override void BossLoot(ref string name, ref int potionType)
 		{
 			potionType = ItemID.GreaterHealingPotion;
+		}
+
+		public void RegisterToChecklist(out BossChecklistDataHandler.EntryType entryType, out float progression,
+			out string name, out Func<bool> downedCondition, ref BossChecklistDataHandler.BCIDData identificationData,
+			ref string spawnInfo, ref string despawnMessage, ref string texture, ref string headTextureOverride,
+			ref Func<bool> isAvailable)
+		{
+			entryType = BossChecklistDataHandler.EntryType.Boss;
+			progression = 6.8f;
+			name = "Infernon";
+			downedCondition = () => MyWorld.downedInfernon;
+			identificationData = new BossChecklistDataHandler.BCIDData(
+				new List<int> {
+					ModContent.NPCType<Infernon>()
+				},
+				new List<int> {
+					ModContent.ItemType<CursedCloth>()
+				},
+				new List<int> {
+					ModContent.ItemType<Trophy4>(),
+					ModContent.ItemType<InfernonMask>(),
+					ModContent.ItemType<InfernonBox>()
+				},
+				new List<int> {
+					ModContent.ItemType<HellsGaze>(),
+					ModContent.ItemType<InfernalAppendage>(),
+					ModContent.ItemType<InfernalJavelin>(),
+					ModContent.ItemType<InfernalSword>(),
+					ModContent.ItemType<DiabolicHorn>(),
+					ModContent.ItemType<SevenSins>(),
+					ModContent.ItemType<InfernalStaff>(),
+					ModContent.ItemType<EyeOfTheInferno>(),
+					ModContent.ItemType<InfernalShield>(),
+					ItemID.GreaterHealingPotion
+				});
+			spawnInfo =
+				$"Use a [i:{ModContent.ItemType<CursedCloth>()}] in the Underworld at any time.";
+			texture = "SpiritMod/Textures/BossChecklist/InfernonTexture";
+			headTextureOverride = "SpiritMod/NPCs/Boss/Infernon/Infernon_Head_Boss";
 		}
 	}
 }

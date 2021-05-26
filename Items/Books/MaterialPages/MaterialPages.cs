@@ -99,7 +99,7 @@ namespace SpiritMod.Items.Books.MaterialPages
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Notes on Bismite Crystals");
-            Tooltip.SetDefault("by Professor Alex Tannis\nContains information on a toxic ore fond around the caversn");
+            Tooltip.SetDefault("by Professor Alex Tannis\nContains information on a toxic ore fond around the caverns");
         }
         public override bool UseItem(Player player)
 		{

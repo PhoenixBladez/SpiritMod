@@ -11,6 +11,7 @@ using SpiritMod.Tide;
 using SpiritMod.Utilities;
 using SpiritMod.World;
 using SpiritMod.Sounds;
+using SpiritMod.Dusts;
 using System;
 using System.Reflection;
 using System.Collections.Generic;
@@ -38,6 +39,8 @@ using SpiritMod.Particles;
 using SpiritMod.UI.QuestUI;
 using SpiritMod.Mechanics.QuestSystem;
 using System.Collections.Concurrent;
+using Terraria.DataStructures;
+using SpiritMod.Stargoop;
 
 namespace SpiritMod
 {
@@ -49,12 +52,16 @@ namespace SpiritMod
 
 		public static ModHotKey QuestBookHotkey;
 		public static ModHotKey QuestHUDHotkey;
+    
+		internal UserInterface SlotUserInterface;
 
 		public static SpiritMod Instance;
 		public UnifiedRandom spiritRNG;
 		public static Effect auroraEffect;
+		public static Effect GSaber;
 		public static TrailManager TrailManager;
 		public static PrimTrailManager primitives;
+		public static StargoopManager Metaballs;
 		public static Effect glitchEffect;
 		public static Effect StarjinxNoise;
 		public static Effect CircleNoise;
@@ -87,6 +94,7 @@ namespace SpiritMod
 		public static SoundLooper spookyAmbience;
 
 		public static event Action<SpriteViewMatrix> OnModifyTransformMatrix;
+		public static Dictionary<int, Texture2D> Portraits = new Dictionary<int, Texture2D>(); //Portraits dict - Gabe
 
 		//public static Texture2D MoonTexture;
 		public const string EMPTY_TEXTURE = "SpiritMod/Empty";
@@ -220,6 +228,12 @@ namespace SpiritMod
 					if (trailproj != null) 
 						trailproj.DoTrailCreation(TrailManager);
 
+					break;
+				case MessageType.PlaceSuperSunFlower:
+					MyWorld.superSunFlowerPositions.Add(new Point16(reader.ReadUInt16(), reader.ReadUInt16()));
+					break;
+				case MessageType.DestroySuperSunFlower:
+					MyWorld.superSunFlowerPositions.Remove(new Point16(reader.ReadUInt16(), reader.ReadUInt16()));
 					break;
 				default:
 					Logger.Error("Unknown message (" + id + ")");
@@ -613,6 +627,8 @@ namespace SpiritMod
 				Ref<Effect> screenRef = new Ref<Effect>(GetEffect("Effects/ShockwaveEffect")); // The path to the compiled shader file.
 				Filters.Scene["Shockwave"] = new Filter(new ScreenShaderData(screenRef, "Shockwave"), EffectPriority.VeryHigh);
 				Filters.Scene["Shockwave"].Load();
+
+				SlotUserInterface = new UserInterface();
 			}
 
 			Filters.Scene["SpiritMod:ReachSky"] = new Filter(new ScreenShaderData("FilterBloodMoon").UseColor(0.05f, 0.05f, .05f).UseOpacity(0.4f), EffectPriority.High);
@@ -626,6 +642,10 @@ namespace SpiritMod
 
 			Filters.Scene["SpiritMod:WindEffect"] = new Filter((new BlizzardShaderData("FilterBlizzardForeground")).UseColor(0.4f, 0.4f, 0.4f).UseSecondaryColor(0.2f, 0.2f, 0.2f).UseImage("Images/Misc/noise", 0, null).UseOpacity(0.149f).UseImageScale(new Vector2(3f, 0.75f), 0), EffectPriority.High);
 			Filters.Scene["SpiritMod:WindEffect2"] = new Filter((new BlizzardShaderData("FilterBlizzardForeground")).UseColor(0.4f, 0.4f, 0.4f).UseSecondaryColor(0.2f, 0.2f, 0.2f).UseImage("Images/Misc/noise", 0, null).UseOpacity(0.549f).UseImageScale(new Vector2(3f, 0.75f), 0), EffectPriority.High);
+
+			Ref<Effect> screenRef2 = new Ref<Effect>(GetEffect("Effects/ShockwaveTwo")); // The path to the compiled shader file.
+			Filters.Scene["ShockwaveTwo"] = new Filter(new ScreenShaderData(screenRef2, "ShockwaveTwo"), EffectPriority.VeryHigh);
+			Filters.Scene["ShockwaveTwo"].Load();
 
 			GlyphCurrencyID = CustomCurrencyManager.RegisterCurrency(new Currency(ModContent.ItemType<Items.Glyphs.Glyph>(), 999L));
 
@@ -665,6 +685,7 @@ namespace SpiritMod
 				ArcLashShader = instance.GetEffect("Effects/ArcLashShader");
 				JemShaders = instance.GetEffect("Effects/JemShaders");
 				SunOrbShader = instance.GetEffect("Effects/SunOrbShader");
+				GSaber = instance.GetEffect("Effects/GSaber");
 
 				SkyManager.Instance["SpiritMod:AuroraSky"] = new AuroraSky();
 				Filters.Scene["SpiritMod:AuroraSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
@@ -751,10 +772,26 @@ namespace SpiritMod
 				AutoSellUI_INTERFACE.SetState(AutoSellUI_SHORTCUT);
 				SellNoValue_INTERFACE.SetState(SellNoValue_SHORTCUT);
 				SellLock_INTERFACE.SetState(SellLock_SHORTCUT);
-				SellWeapons_INTERFACE.SetState(SellWeapons_SHORTCUT);	
-				
+				SellWeapons_INTERFACE.SetState(SellWeapons_SHORTCUT);
+
+				//Portrait textures - Gabe
+				Portraits.Add(NPCID.Guide, GetTexture("NPCs/Portraits/Guide"));
+				Portraits.Add(NPCID.Merchant, GetTexture("NPCs/Portraits/Merchant"));
+				Portraits.Add(NPCID.Truffle, GetTexture("NPCs/Portraits/Truffle"));
+				Portraits.Add(NPCID.Wizard, GetTexture("NPCs/Portraits/Wizard"));
+				Portraits.Add(NPCID.Dryad, GetTexture("NPCs/Portraits/Dryad"));
+				Portraits.Add(ModContent.NPCType<Gambler>(), GetTexture("NPCs/Portraits/Gambler"));
+				Portraits.Add(NPCID.ArmsDealer, GetTexture("NPCs/Portraits/ArmsDealer"));
+				Portraits.Add(NPCID.Nurse, GetTexture("NPCs/Portraits/Nurse"));
+				Portraits.Add(NPCID.SkeletonMerchant, GetTexture("NPCs/Portraits/SkeletonMerchant"));
+
+				Main.OnPreDraw += DrawStarGoopTarget;
 			}
 			primitives = new PrimTrailManager();
+			primitives.LoadContent(Main.graphics.GraphicsDevice);
+
+			InitStargoop();
+
 			AdditiveCallManager.Load();
 			// LoadDetours();
 
@@ -816,6 +853,18 @@ namespace SpiritMod
 			}
 		}
 
+		public static void InitStargoop()
+		{
+			Metaballs = new StargoopManager();
+			Metaballs.LoadContent();
+			Metaballs.Initialize(Main.graphics.GraphicsDevice);
+
+			var friendlyDust = (FriendlyStargoopDust)ModContent.GetModDust(ModContent.DustType<FriendlyStargoopDust>());
+			var enemyDust = (EnemyStargoopDust)ModContent.GetModDust(ModContent.DustType<EnemyStargoopDust>());
+
+			friendlyDust.Reset();
+			enemyDust.Reset();
+		}
 		public override void Unload()
 		{
 			nighttimeAmbience = null;
@@ -862,6 +911,10 @@ namespace SpiritMod
 			GlobalNoise = null;
 			Items.Glyphs.GlyphBase.UninitGlyphLookup();
 			primitives = null;
+			Metaballs = null;
+			SpiritDetours.Unload();
+
+			Portraits.Clear(); //Idk if this is necessary but it seems like a good move - Gabe
 			//UnloadDetours();
 
 			// remove any custom chat tag handlers
@@ -869,32 +922,41 @@ namespace SpiritMod
 			handlerDict.TryRemove("spiritQuest", out var ignore);
 		}
 
-        internal static string GetWeatherRadioText(string key)
+		private void DrawStarGoopTarget(GameTime obj)
+		{
+			if (Metaballs != null && Main.graphics.GraphicsDevice != null && Main.spriteBatch != null) {
+				Metaballs.DrawToTarget(Main.spriteBatch, Main.graphics.GraphicsDevice);
+			}
+		}
+    
+		public static Color StarjinxColor(float Timer)
+		{
+			float timer = Timer % 10;
+			Color yellow = new Color(238, 207, 91);
+			Color orange = new Color(255, 131, 91);
+			Color pink = new Color(230, 55, 166);
+			if (timer < 3)
+				return Color.Lerp(yellow, orange, timer / 3);
+			else if (timer < 6)
+				return Color.Lerp(orange, pink, (timer - 3) / 3);
+			else
+				return Color.Lerp(pink, yellow, (timer - 6) / 3);
+		}
+    
+		internal static string GetWeatherRadioText(string key)
         {
 			if (MyWorld.ashRain)
-			{
 				return "Ashfall";
-			}
             if (MyWorld.aurora)
-			{
 				return "Aurora";
-			}
 			if (MyWorld.BlueMoon)
-			{
 				return "Mystic Moon";
-			}
 			if (MyWorld.jellySky)
-			{
 				return "Jelly Deluge";
-			}
 			if (MyWorld.luminousOcean)
-			{
 				return "Luminous Seas";
-			}
 			if (MyWorld.calmNight)
-			{
 				return "Calm Conditions";
-			}
             return LanguageManager.Instance.GetText(key).Value;
         }
 		
@@ -906,8 +968,12 @@ namespace SpiritMod
 			}
 		}
 
-		public override void UpdateUI(GameTime gameTime) => BookUserInterface?.Update(gameTime);
-		
+		public override void UpdateUI(GameTime gameTime)
+		{
+			BookUserInterface?.Update(gameTime);
+			SlotUserInterface?.Update(gameTime);
+		}
+
 		public override void AddRecipeGroups()
 		{
 			RecipeGroup woodGrp = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Wood"]];
@@ -1115,6 +1181,15 @@ namespace SpiritMod
 					},
 					InterfaceScaleType.UI)
 				);
+				layers.Insert(inventoryIndex, new LegacyGameInterfaceLayer(
+					"Starjinx: SlotUI",
+					delegate {
+						SlotUserInterface.Draw(Main.spriteBatch, new GameTime());
+						return true;
+					},
+					InterfaceScaleType.UI)
+				);
+
 				layers.Insert(inventoryIndex, new LegacyGameInterfaceLayer (
 				"SpiritMod: SellUI",
 				delegate  {

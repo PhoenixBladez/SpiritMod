@@ -36,6 +36,7 @@ namespace SpiritMod.Tiles.Furniture.Shiverbark
 			AddMapEntry(new Color(118, 155, 163), name);
 			disableSmartCursor = true;
 			dustType = -1;
+			adjTiles = new int[]{ TileID.Tables };
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{

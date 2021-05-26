@@ -1,6 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Items.Armor.Masks;
+using SpiritMod.Items.Boss;
+using SpiritMod.Items.Consumable;
+using SpiritMod.Items.Equipment;
+using SpiritMod.Items.Material;
+using SpiritMod.Items.Placeable.MusicBox;
+using SpiritMod.Utilities;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.ID;
@@ -9,7 +17,7 @@ using Terraria.ModLoader;
 namespace SpiritMod.NPCs.Boss.SteamRaider
 {
 	[AutoloadBossHead]
-	public class SteamRaiderHead : ModNPC
+	public class SteamRaiderHead : ModNPC, IBCRegistrable
 	{
 
 		int timer = 20;
@@ -731,9 +739,38 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			return true;
 		}
 
-		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = (int)(npc.lifeMax * 0.6f * bossLifeScale);
+
+		public void RegisterToChecklist(out BossChecklistDataHandler.EntryType entryType, out float progression,
+			out string name, out Func<bool> downedCondition, ref BossChecklistDataHandler.BCIDData identificationData,
+			ref string spawnInfo, ref string despawnMessage, ref string texture, ref string headTextureOverride,
+			ref Func<bool> isAvailable)
 		{
-			npc.lifeMax = (int)(npc.lifeMax * 0.6f * bossLifeScale);
+			entryType = BossChecklistDataHandler.EntryType.Boss;
+			progression = 5.9f;
+			name = "Starplate Voyager";
+			downedCondition = () => MyWorld.downedRaider;
+			identificationData = new BossChecklistDataHandler.BCIDData(
+				new List<int> {
+					ModContent.NPCType<SteamRaiderHead>()
+				},
+				new List<int> {
+					ModContent.ItemType<StarWormSummon>()
+				},
+				new List<int> {
+					ModContent.ItemType<Trophy3>(),
+					ModContent.ItemType<StarplateMask>(),
+					ModContent.ItemType<StarplateBox>()
+				},
+				new List<int> {
+					ModContent.ItemType<StarMap>(),
+					ModContent.ItemType<CosmiliteShard>(),
+					ItemID.LesserHealingPotion
+				});
+			spawnInfo =
+				$"Use a [i:{ModContent.ItemType<StarWormSummon>()}] at an Astralite Beacon, located in the Asteroids, at nighttime.";
+			texture = "SpiritMod/Textures/BossChecklist/StarplateTexture";
+			headTextureOverride = "SpiritMod/NPCs/Boss/SteamRaider/SteamRaiderHead_Head_Boss";
 		}
 	}
 }

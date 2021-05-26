@@ -4,10 +4,15 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
+using System.Collections.Generic;
+using SpiritMod.Items.Weapon.Club;
+using SpiritMod.Items.Weapon.Summon;
+using SpiritMod.Utilities;
+
 namespace SpiritMod.NPCs.Snaptrapper
 {
     [AutoloadBossHead]
-    public class Snaptrapper : ModNPC
+    public class Snaptrapper : ModNPC, IBCRegistrable
 	{
 		public override void SetStaticDefaults()
 		{
@@ -450,6 +455,31 @@ namespace SpiritMod.NPCs.Snaptrapper
                 }
             }
             return true;
+        }
+
+        public void RegisterToChecklist(out BossChecklistDataHandler.EntryType entryType, out float progression,
+	        out string name, out Func<bool> downedCondition, ref BossChecklistDataHandler.BCIDData identificationData,
+	        ref string spawnInfo, ref string despawnMessage, ref string texture, ref string headTextureOverride,
+	        ref Func<bool> isAvailable)
+        {
+	        entryType = BossChecklistDataHandler.EntryType.Miniboss;
+	        progression = 3.1f;
+	        name = "Snaptrapper";
+	        downedCondition = () => MyWorld.downedSnaptrapper;
+	        identificationData = new BossChecklistDataHandler.BCIDData(
+		        new List<int> {
+			        ModContent.NPCType<Snaptrapper>()
+		        },
+		        null,
+		        null,
+		        new List<int> {
+			        ModContent.ItemType<SnapsporeStaff>(),
+			        ModContent.ItemType<SporeClub>()
+		        });
+	        spawnInfo =
+		        "The Snaptrapper spawns rarely on the Jungle surface after the Eater of Worlds or Brain of Cthulhu has been defeated.";
+	        texture = "SpiritMod/Textures/BossChecklist/SnaptrapperTexture";
+	        headTextureOverride = "SpiritMod/NPCs/Snaptrapper_Head_Boss";
         }
 	}
 }
