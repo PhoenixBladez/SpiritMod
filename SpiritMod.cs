@@ -845,6 +845,7 @@ namespace SpiritMod
 			Items.Glyphs.GlyphBase.UninitGlyphLookup();
 			primitives = null;
 			Metaballs = null;
+			SpiritDetours.Unload();
 
 			Portraits.Clear(); //Idk if this is necessary but it seems like a good move - Gabe
 			//UnloadDetours();
