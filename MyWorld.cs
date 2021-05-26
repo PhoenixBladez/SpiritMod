@@ -315,7 +315,7 @@ namespace SpiritMod
 
 			superSunFlowerPositions = new HashSet<Point16>(tag.GetList<Point16>("superSunFlowerPositions"));
 			// verify that there are super sunflowers at the loaded positions
-			foreach (Point16 point in superSunFlowerPositions)
+			foreach (Point16 point in superSunFlowerPositions.ToList())
 				if (Framing.GetTileSafely(point).type != ModContent.TileType<SuperSunFlower>())
 					superSunFlowerPositions.Remove(point);
 		}
