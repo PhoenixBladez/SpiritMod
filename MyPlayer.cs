@@ -56,7 +56,6 @@ namespace SpiritMod
         public int Soldiers = 0;
         internal static bool swingingCheck;
         internal static Item swingingItem;
-        public bool TormentLantern = false;
         public bool clockActive = false;
         public bool QuacklingMinion = false;
         public bool rabbitMinion = false;
@@ -106,6 +105,7 @@ namespace SpiritMod
         public bool daybloomSet = false;
         public bool ToxicExtract = false;
         public bool vitaStone = false;
+		public bool harpyPet;
         public bool throwerGlove = false;
         public bool firedSharpshooter = false;
         public int throwerStacks;
@@ -599,7 +599,6 @@ namespace SpiritMod
             elderbarkWoodSet = false;
             amazonCharm = false;
             cleftHorn = false;
-            TormentLantern = false;
             phantomPet = false;
             throwerGlove = false;
             QuacklingMinion = false;
@@ -634,6 +633,7 @@ namespace SpiritMod
             starplateGlitchEffect = false;
             infernalFlame = false;
             reachBrooch = false;
+			harpyPet = false;
             windEffect = false;
             windEffect2 = false;
             gremlinTooth = false;

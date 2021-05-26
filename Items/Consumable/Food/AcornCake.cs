@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Consumable.Food
 			item.useTime = item.useAnimation = 30;
 
 			item.buffType = BuffID.WellFed;
-			item.buffTime = 10800;
+			item.buffTime = 14800;
 			item.noMelee = true;
 			item.consumable = true;
 			item.UseSound = SoundID.Item2;
