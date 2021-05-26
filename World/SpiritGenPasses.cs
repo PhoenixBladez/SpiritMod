@@ -3,6 +3,7 @@ using SpiritMod.Tiles.Ambient;
 using SpiritMod.Tiles.Ambient.Corals;
 using SpiritMod.Tiles.Ambient.IceSculpture;
 using SpiritMod.Tiles.Ambient.IceSculpture.Hostile;
+using SpiritMod.Tiles.Ambient.Kelp;
 using SpiritMod.Tiles.Ambient.SpaceCrystals;
 using SpiritMod.Tiles.Ambient.SurfaceIce;
 using SpiritMod.Tiles.Block;
@@ -1230,13 +1231,11 @@ namespace SpiritMod.World
 
 			for (int C = 0; C < Main.maxTilesX * 45; C++) {
 				int[] sculptures = new int[] { ModContent.TileType<IceWheezerPassive>(), ModContent.TileType<IceFlinxPassive>(), ModContent.TileType<IceBatPassive>(), ModContent.TileType<IceVikingPassive>(), ModContent.TileType<IceWheezerHostile>(), ModContent.TileType<IceFlinxHostile>(), ModContent.TileType<IceBatHostile>(), ModContent.TileType<IceVikingHostile>() };
-				{
-					int X = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
-					int Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
-					if ((Main.tile[X, Y].type == TileID.IceBlock || Main.tile[X, Y].type == TileID.SnowBlock) && Main.tile[X, Y + 1].type != 162) {
-						WorldGen.PlaceObject(X, Y, (ushort)sculptures[Main.rand.Next(8)]);
-						NetMessage.SendObjectPlacment(-1, X, Y, (ushort)sculptures[Main.rand.Next(4)], 0, 0, -1, -1);
-					}
+				int X = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
+				int Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
+				if ((Main.tile[X, Y].type == TileID.IceBlock || Main.tile[X, Y].type == TileID.SnowBlock) && Main.tile[X, Y + 1].type != 162) {
+					WorldGen.PlaceObject(X, Y, (ushort)sculptures[Main.rand.Next(8)]);
+					NetMessage.SendObjectPlacment(-1, X, Y, (ushort)sculptures[Main.rand.Next(4)], 0, 0, -1, -1);
 				}
 			}
 
@@ -1292,25 +1291,45 @@ namespace SpiritMod.World
 			}
 
 			//Ocean corals
-			for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY * 16.2f) * 6E-03); k++) { //I hate the usage of scientific notation here but for consistency's sake it stays
+			for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY * 16.2f) * 6E-03); k++) 
+			{ //I hate the usage of scientific notation here but for consistency's sake it stays
 				int X = WorldGen.genRand.Next(5, 338);
 				if (WorldGen.genRand.NextBool())
 					X = WorldGen.genRand.Next(Main.maxTilesX - 338, Main.maxTilesX - 5); //Choose a random ocean
 				int Y = WorldGen.genRand.Next(200, Main.maxTilesY / 2);
 
-				int[] validTypes = new int[] { TileID.Sand, TileID.Crimsand, TileID.Ebonsand };
-				if (validTypes.Contains(Framing.GetTileSafely(X, Y).type)) {
-					if (validTypes.Contains(Framing.GetTileSafely(X + 1, Y).type) && validTypes.Contains(Framing.GetTileSafely(X + 2, Y).type) && WorldGen.genRand.NextBool(5)) { //Check for ground & randomize - 3x3 coral
+				int[] validTypes = new int[] { TileID.Sand, TileID.Crimsand, TileID.Ebonsand }; //Valid sand types
+
+				if (validTypes.Contains(Framing.GetTileSafely(X, Y).type) && Framing.GetTileSafely(X, Y).liquid > 155) 
+				{
+					if (validTypes.Contains(Framing.GetTileSafely(X + 1, Y).type) && validTypes.Contains(Framing.GetTileSafely(X + 2, Y).type) && WorldGen.genRand.NextBool(4)) { //Check for ground & randomize - 3x3 coral
 						WorldGen.PlaceObject(X, Y, ModContent.TileType<Coral3x3>(), true, 0);
 						NetMessage.SendObjectPlacment(-1, X, Y, ModContent.TileType<Coral3x3>(), 0, 0, -1, -1);
+						continue;
 					}
-					if (validTypes.Contains(Framing.GetTileSafely(X + 1, Y).type) && WorldGen.genRand.NextBool(4)) { //Check for ground & randomize - 2x2 Coral
-						WorldGen.PlaceObject(X, Y, ModContent.TileType<Coral2x2>(), true, WorldGen.genRand.Next(3));
-						NetMessage.SendObjectPlacment(-1, X, Y, ModContent.TileType<Coral2x2>(), 0, 0, -1, -1);
+
+					if (validTypes.Contains(Framing.GetTileSafely(X + 1, Y).type) && WorldGen.genRand.NextBool(4)) { //Check for ground & randomize - 2x2/2x3 Coral/Kelp
+						int type = ModContent.TileType<Coral2x2>();
+						int choice = WorldGen.genRand.Next(6);
+						if (choice == 0)
+							type = ModContent.TileType<Kelp2x2>();
+						if (choice == 1)
+							type = ModContent.TileType<Kelp2x3>();
+
+						int styleRange = type == ModContent.TileType<Coral2x2>() ? 3 : 1;
+
+						WorldGen.PlaceObject(X, Y, type, true, WorldGen.genRand.Next(styleRange));
+						NetMessage.SendObjectPlacment(-1, X, Y, type, 0, 0, -1, -1);
+						continue;
 					}
-					if (WorldGen.genRand.NextBool(3)) { //Randomize - 1x2 coral
-						WorldGen.PlaceObject(X, Y, ModContent.TileType<Coral1x2>(), true, 0);
-						NetMessage.SendObjectPlacment(-1, X, Y, ModContent.TileType<Coral1x2>(), 0, 0, -1, -1);
+
+					if (WorldGen.genRand.NextBool(2)) { //Randomize - 1x2 Coral/Kelp
+						int type = ModContent.TileType<Coral1x2>();
+						if (WorldGen.genRand.NextBool(3))
+							type = ModContent.TileType<Kelp1x2>();
+
+						WorldGen.PlaceObject(X, Y, type, true, 0);
+						NetMessage.SendObjectPlacment(-1, X, Y, type, 0, 0, -1, -1);
 					}
 				}
 			}
