@@ -38,5 +38,10 @@ namespace SpiritMod.Utilities
 		[DefaultValue(QuestUtils.QuestInvLocation.Minimap)]
 		[DrawTicks]
 		public QuestUtils.QuestInvLocation QuestBookLocation { get; set; }
+
+		[Label("Town NPC Portraits")]
+		[Tooltip("Enables the showing of NPC portraits when talking to a Town NPC")]
+		[DefaultValue(true)]
+		public bool ShowNPCPortraits { get; set; }
 	}
 }

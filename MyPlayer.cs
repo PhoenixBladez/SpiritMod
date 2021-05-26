@@ -467,6 +467,7 @@ namespace SpiritMod
                     player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);
             }
             else 
+			{
                 player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);
             }
             //player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);
