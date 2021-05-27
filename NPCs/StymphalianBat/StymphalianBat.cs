@@ -1,16 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Consumable;
-using SpiritMod.Items.Material;
-using SpiritMod.NPCs.Boss;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Graphics.Shaders;
-using SpiritMod.NPCs.DarkfeatherMage.Projectiles;
 using System;
 using System.IO;
-using System.Linq;
+
 namespace SpiritMod.NPCs.StymphalianBat
 {
     public class StymphalianBat : ModNPC
