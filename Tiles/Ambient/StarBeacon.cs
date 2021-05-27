@@ -96,27 +96,28 @@ namespace SpiritMod.Tiles.Ambient
 
 		public override bool NewRightClick(int i, int j)
 		{
-			for (int x = 0; x < Main.npc.Length; x++) {
-				if (Main.npc[x].active && Main.npc[x].type == ModContent.NPCType<SteamRaiderHead>()) return false;
+			for (int k = 0; k < Main.npc.Length; k++) {
+				if (Main.npc[k].active && Main.npc[k].type == ModContent.NPCType<SteamRaiderHead>()) return false;
+			}
+
+			if (Mechanics.EventSystem.EventManager.IsPlaying<Mechanics.EventSystem.Events.StarplateBeaconIntroEvent>())
+			{
+				return false;
 			}
 
 			Player player = Main.player[Main.myPlayer];
+			if (player.HasItem(ModContent.ItemType<StarWormSummon>()))
+			{
+				int x = i;
+				int y = j;
+				while (Main.tile[x, y].type == Type) x--;
+				x++;
+				while (Main.tile[x, y].type == Type) y--;
+				y++;
 
-			if (player.HasItem(ModContent.ItemType<StarWormSummon>())) {
-				if (Main.netMode != NetmodeID.MultiplayerClient) {
-                    Main.NewText("The Starplate Voyager has awoken!", 175, 75, 255, true);
-                    int npcID = NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<SteamRaiderHead>());
-					Main.npc[npcID].Center = player.Center - new Vector2(600, 600);
-					Main.npc[npcID].netUpdate2 = true;
-				}
-				else {
-					if (Main.netMode == NetmodeID.SinglePlayer) {
-						return false;
-					}
-					SpiritMod.WriteToPacket(SpiritMod.instance.GetPacket(), (byte)MessageType.BossSpawnFromClient, (byte)player.whoAmI, (int)ModContent.NPCType<SteamRaiderHead>(), "Steam Raider Head Has Been Summoned!", (int)player.Center.X - 600, (int)player.Center.Y - 600).Send(-1);
-				}
-				return true;
+				Mechanics.EventSystem.EventManager.PlayEvent(new Mechanics.EventSystem.Events.StarplateBeaconIntroEvent(new Vector2(x * 16f + 16f, y * 16f + 12f)));
 			}
+
 			return false;
 		}
 

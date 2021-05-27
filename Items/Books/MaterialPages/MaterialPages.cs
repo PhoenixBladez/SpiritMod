@@ -14,8 +14,10 @@ namespace SpiritMod.Items.Books.MaterialPages
             Tooltip.SetDefault("by Professor Alex Tannis\nContains information on a strange ore found in Marble Caverns");
         }
         public override bool UseItem(Player player)
-        {
-            if (ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == item.Name)
+		{
+			if (player.whoAmI != Main.LocalPlayer.whoAmI) return true;
+
+			if (ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == item.Name)
             {
             }
             else
@@ -34,8 +36,10 @@ namespace SpiritMod.Items.Books.MaterialPages
             Tooltip.SetDefault("by Professor Alex Tannis\nContains information on mystical leaves found in the Briar");
         }
         public override bool UseItem(Player player)
-        {
-            if (ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == item.Name)
+		{
+			if (player.whoAmI != Main.LocalPlayer.whoAmI) return true;
+
+			if (ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == item.Name)
             {
             }
             else
@@ -54,8 +58,10 @@ namespace SpiritMod.Items.Books.MaterialPages
             Tooltip.SetDefault("by Professor Alex Tannis\nContains information on a strange ore found in Granite Caverns");
         }
         public override bool UseItem(Player player)
-        {
-            if (ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == item.Name)
+		{
+			if (player.whoAmI != Main.LocalPlayer.whoAmI) return true;
+
+			if (ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == item.Name)
             {
             }
             else
@@ -74,8 +80,10 @@ namespace SpiritMod.Items.Books.MaterialPages
             Tooltip.SetDefault("by Professor Alex Tannis\nContains information on a glimmering scale often found near Ardorfish");
         }
         public override bool UseItem(Player player)
-        {
-            if (ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == item.Name)
+		{
+			if (player.whoAmI != Main.LocalPlayer.whoAmI) return true;
+
+			if (ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == item.Name)
             {
             }
             else
@@ -94,8 +102,10 @@ namespace SpiritMod.Items.Books.MaterialPages
             Tooltip.SetDefault("by Professor Alex Tannis\nContains information on a toxic ore fond around the caverns");
         }
         public override bool UseItem(Player player)
-        {
-            if (ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == item.Name)
+		{
+			if (player.whoAmI != Main.LocalPlayer.whoAmI) return true;
+
+			if (ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == item.Name)
             {
             }
             else
@@ -114,8 +124,10 @@ namespace SpiritMod.Items.Books.MaterialPages
             Tooltip.SetDefault("by Professor Alex Tannis\nContains information on a strange root found at the base of tall mushroom trees");
         }
         public override bool UseItem(Player player)
-        {
-            if (ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == item.Name)
+		{
+			if (player.whoAmI != Main.LocalPlayer.whoAmI) return true;
+
+			if (ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == item.Name)
             {
             }
             else
@@ -134,8 +146,10 @@ namespace SpiritMod.Items.Books.MaterialPages
             Tooltip.SetDefault("by Professor Alex Tannis\nContains information on an icy crystal found in the frozen tundra");
         }
         public override bool UseItem(Player player)
-        {
-            if (ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == item.Name)
+		{
+			if (player.whoAmI != Main.LocalPlayer.whoAmI) return true;
+
+			if (ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == item.Name)
             {
             }
             else

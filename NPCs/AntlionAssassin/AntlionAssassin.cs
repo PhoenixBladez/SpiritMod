@@ -53,9 +53,6 @@ namespace SpiritMod.NPCs.AntlionAssassin
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AntlionAssassin/Assassin3"), 1f);
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AntlionAssassin/Assassin4"), 1f);
 				}
-				if (Main.LocalPlayer.GetSpiritPlayer().emptyAntlionScroll) {
-					MyWorld.numAntlionsKilled++;
-				}
 				for (int k = 0; k < 11; k++) {
 					Dust.NewDust(npc.position, npc.width, npc.height, 85, hitDirection, -1f, 1, default(Color), .61f);
 				}

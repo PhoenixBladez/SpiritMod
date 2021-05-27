@@ -81,7 +81,7 @@ namespace SpiritMod.Prim
 			if (Cap < PointCount / 6)
 				Points.RemoveAt(0);
 
-			if (!projectile.active || Destroyed)
+			if (!projectile.active || Destroyed || projectile.type != EntityType)
 				OnDestroy();
 			else
 				Points.Add(projectile.Center);

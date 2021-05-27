@@ -58,7 +58,6 @@ namespace SpiritMod
         public int Soldiers = 0;
         internal static bool swingingCheck;
         internal static Item swingingItem;
-        public bool TormentLantern = false;
         public bool clockActive = false;
         public bool QuacklingMinion = false;
         public bool rabbitMinion = false;
@@ -108,6 +107,7 @@ namespace SpiritMod
         public bool daybloomSet = false;
         public bool ToxicExtract = false;
         public bool vitaStone = false;
+		public bool harpyPet;
         public bool throwerGlove = false;
         public bool firedSharpshooter = false;
         public int throwerStacks;
@@ -467,9 +467,10 @@ namespace SpiritMod
                     player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);
             }
             else 
+			{
                 player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);
-
-			player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);
+            }
+            //player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", false);
             player.ManageSpecialBiomeVisuals("SpiritMod:AuroraSky", showAurora);
             player.ManageSpecialBiomeVisuals("SpiritMod:SpiritBiomeSky", spirit);
             player.ManageSpecialBiomeVisuals("SpiritMod:AsteroidSky2", ZoneAsteroid);
@@ -612,7 +613,6 @@ namespace SpiritMod
             elderbarkWoodSet = false;
 			amazonCharm = false;
             cleftHorn = false;
-            TormentLantern = false;
             phantomPet = false;
             throwerGlove = false;
             QuacklingMinion = false;
@@ -647,6 +647,7 @@ namespace SpiritMod
             starplateGlitchEffect = false;
             infernalFlame = false;
             reachBrooch = false;
+			harpyPet = false;
             windEffect = false;
             windEffect2 = false;
             gremlinTooth = false;
@@ -952,7 +953,19 @@ namespace SpiritMod
                     }
                 }
             }
-        }
+
+			// quest related hotkeys
+			if (SpiritMod.QuestBookHotkey.JustPressed)
+			{
+				// swap the quest book's state around, if it's open, close it, and vice versa.
+				Mechanics.QuestSystem.QuestManager.SetBookState(!(SpiritMod.instance.BookUserInterface.CurrentState is UI.QuestUI.QuestBookUI));
+			}
+			if (SpiritMod.QuestHUDHotkey.JustPressed)
+			{
+				// swap the quest book's state around, if it's open, close it, and vice versa.
+				SpiritMod.QuestHUD.Toggle();
+			}
+		}
 
         public override bool PreItemCheck()
         {
@@ -1993,224 +2006,7 @@ namespace SpiritMod
                     inGranite = false;
                 }
             }
-			if(emptyWinterbornScroll && MyWorld.numWinterbornKilled >= 10) {
-				for(int index = 0; index < 58; ++index) {
-					if(player.inventory[index].type == ModContent.ItemType<WinterbornSlayerScrollEmpty>()) {
-						player.inventory[index].stack -= 1;
-						MyWorld.numWinterbornKilled = 0;
-						player.QuickSpawnItem(ModContent.ItemType<WinterbornSlayerScrollFull>());
-						emptyWinterbornScroll = false;
-						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
-						"Contract Complete!");
-						Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/SlayerComplete"));
-						break;
-					}
-				}
-			}
-			if(emptyAntlionScroll && MyWorld.numAntlionsKilled >= 5) {
-				for(int index = 0; index < 58; ++index) {
-					if(player.inventory[index].type == ModContent.ItemType<AntlionSlayerScrollEmpty>()) {
-						player.inventory[index].stack -= 1;
-						MyWorld.numAntlionsKilled = 0;
-						player.QuickSpawnItem(ModContent.ItemType<AntlionSlayerScrollFull>());
-						emptyAntlionScroll = false;
-						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
-						"Contract Complete!");
-						Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/SlayerComplete"));
-						break;
-					}
-				}
-			}
-			if(emptyStardancerScroll && MyWorld.numStardancersKilled >= 3) {
-				for(int index = 0; index < 58; ++index) {
-					if(player.inventory[index].type == ModContent.ItemType<StardancerSlayerScrollEmpty>()) {
-						player.inventory[index].stack -= 1;
-						MyWorld.numStardancersKilled = 0;
-						player.QuickSpawnItem(ModContent.ItemType<StardancerSlayerScrollFull>());
-						emptyStardancerScroll = false;
-						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
-						"Contract Complete!");
-						Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/SlayerComplete"));
-						break;
-					}
-				}
-			}
-			if(emptyBeholderScroll && MyWorld.numBeholdersKilled > 0) {
-				for(int index = 0; index < 58; ++index) {
-					if(player.inventory[index].type == ModContent.ItemType<BeholderSlayerScrollEmpty>()) {
-						player.inventory[index].stack -= 1;
-						MyWorld.numBeholdersKilled = 0;
-						player.QuickSpawnItem(ModContent.ItemType<BeholderSlayerScrollFull>());
-						emptyBeholderScroll = false;
-						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
-						"Contract Complete!");
-						Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/SlayerComplete"));
-						break;
-					}
-				}
-			}
-			if(emptyOwlScroll && MyWorld.numOwlsKilled > 0) {
-				for(int index = 0; index < 58; ++index) {
-					if(player.inventory[index].type == ModContent.ItemType<ScreechOwlScrollEmpty>()) {
-						player.inventory[index].stack -= 1;
-						MyWorld.numOwlsKilled = 0;
-						player.QuickSpawnItem(ModContent.ItemType<ScreechOwlScrollFull>());
-                        emptyOwlScroll = false;
-						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
-						"Contract Complete!");
-						Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/SlayerComplete"));
-						break;
-					}
-				}
-			}
-			if(emptyDrBonesScroll && MyWorld.numDrBonesKilled >= 1) {
-				for(int index = 0; index < 58; ++index) {
-					if(player.inventory[index].type == ModContent.ItemType<DrBonesSlayerScrollEmpty>()) {
-						player.inventory[index].stack -= 1;
-						MyWorld.numDrBonesKilled = 0;
-						player.QuickSpawnItem(ModContent.ItemType<DrBonesSlayerQuestFull>());
-						emptyDrBonesScroll = false;
-						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
-						"Contract Complete!");
-						Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/SlayerComplete"));
-						break;
-					}
-				}
-			}
-			if(emptyValkyrieScroll && MyWorld.numValkyriesKilled > 0) {
-				for(int index = 0; index < 58; ++index) {
-					if(player.inventory[index].type == ModContent.ItemType<ValkyrieSlayerScrollEmpty>()) {
-						player.inventory[index].stack -= 1;
-						MyWorld.numValkyriesKilled = 0;
-						player.QuickSpawnItem(ModContent.ItemType<ValkyrieSlayerScrollFull>());
-						emptyValkyrieScroll = false;
-						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
-						"Contract Complete!");
-						Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/SlayerComplete"));
-						break;
-					}
-				}
-			}
-			if(emptyWheezerScroll && MyWorld.numWheezersKilled >= 12) {
-				for(int index = 0; index < 58; ++index) {
-					if(player.inventory[index].type == ModContent.ItemType<WheezerSlayerScrollEmpty>()) {
-						player.inventory[index].stack -= 1;
-						MyWorld.numWheezersKilled = 0;
-						player.QuickSpawnItem(ModContent.ItemType<WheezerSlayerScrollFull>());
-						emptyWheezerScroll = false;
-						CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
-						"Contract Complete!");
-						Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/SlayerComplete"));
-						break;
-					}
-				}
-			}
-            if (emptyBriarMobsScroll && MyWorld.numBriarMobsKilled >= 10)
-            {
-                for (int index = 0; index < 58; ++index)
-                {
-                    if (player.inventory[index].type == ModContent.ItemType<BriarSlayerScrollEmpty>())
-                    {
-                        player.inventory[index].stack -= 1;
-                        MyWorld.numWheezersKilled = 0;
-                        player.QuickSpawnItem(ModContent.ItemType<BriarSlayerScrollFull>());
-                        emptyBriarMobsScroll = false;
-                        CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
-                        "Contract Complete!");
-                        Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/SlayerComplete"));
-                        break;
-                    }
-                }
-            }
-            if (emptyExplorerScroll) {
-				if(player.ZoneGlowshroom) {
-					explorerTimer++;
-					if(explorerTimer >= 900) {
-						for(int index = 0; index < 58; ++index) {
-							if(player.inventory[index].type == ModContent.ItemType<ExplorerScrollMushroomEmpty>()) {
-								emptyExplorerScroll = false;
-								explorerTimer = 0;
-								player.inventory[index].stack -= 1;
-								player.QuickSpawnItem(ModContent.ItemType<ExplorerScrollMushroomFull>());
-								CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
-								"Map Filled!");
-								Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/MapComplete"));
-								break;
-							}
-						}
-					}
-				}
-				if(ZoneAsteroid) {
-					explorerTimer++;
-					if(explorerTimer >= 900) {
-						for(int index = 0; index < 58; ++index) {
-							if(player.inventory[index].type == ModContent.ItemType<ExplorerScrollAsteroidEmpty>()) {
-								emptyExplorerScroll = false;
-								explorerTimer = 0;
-								player.inventory[index].stack -= 1;
-								player.QuickSpawnItem(ModContent.ItemType<ExplorerScrollAsteroidFull>());
-								CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
-								"Map Filled!");
-								Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/MapComplete"));
-								break;
-							}
-						}
-					}
-				}
-				if(ZoneHive) {
-					explorerTimer++;
-					if(explorerTimer >= 900) {
-						for(int index = 0; index < 58; ++index) {
-							if(player.inventory[index].type == ModContent.ItemType<ExplorerScrollHiveEmpty>()) {
-								emptyExplorerScroll = false;
-								explorerTimer = 0;
-								player.inventory[index].stack -= 1;
-								player.QuickSpawnItem(ModContent.ItemType<ExplorerScrollHiveFull>());
-								CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
-								"Map Filled!");
-								Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/MapComplete"));
-								break;
-							}
-						}
-					}
-				}
-				if(ZoneGranite) {
-					explorerTimer++;
-					if(explorerTimer >= 900) {
-						for(int index = 0; index < 58; ++index) {
-							if(player.inventory[index].type == ModContent.ItemType<ExplorerScrollGraniteEmpty>()) {
-								emptyExplorerScroll = false;
-								explorerTimer = 0;
-								player.inventory[index].stack -= 1;
-								player.QuickSpawnItem(ModContent.ItemType<ExplorerScrollGraniteFull>());
-								CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
-								"Map Filled!");
-								Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/MapComplete"));
-								break;
-							}
-						}
-					}
-				}
-				if(ZoneMarble) {
-					explorerTimer++;
-					if(explorerTimer >= 900) {
-						for(int index = 0; index < 58; ++index) {
-							if(player.inventory[index].type == ModContent.ItemType<ExplorerScrollMarbleEmpty>()) {
-								emptyExplorerScroll = false;
-								explorerTimer = 0;
-								player.inventory[index].stack -= 1;
-								player.QuickSpawnItem(ModContent.ItemType<ExplorerScrollMarbleFull>());
-								CombatText.NewText(new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y - 20, Main.LocalPlayer.width, Main.LocalPlayer.height), new Color(29, 240, 255, 100),
-								"Map Filled!");
-								Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/MapComplete"));
-								break;
-							}
-						}
-					}
-				}
-			} else {
-				explorerTimer = 0;
-			}
+			
 			if(zipline) {
 				if(!ziplineActive) {
 					ziplineCounter = 45;
@@ -4033,8 +3829,16 @@ namespace SpiritMod
 				}
 			}
 		}
+
         public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
+			// TODO: Remove
+			foreach (var quest in Mechanics.QuestSystem.QuestManager.Quests)
+			{
+				//Mechanics.QuestSystem.QuestManager.UnlockQuest(quest);
+				//break;
+			}
+
 			if(icySoul && Main.rand.NextBool(6)) {
 				if(proj.magic) {
 					target.AddBuff(BuffID.Frostburn, 280);

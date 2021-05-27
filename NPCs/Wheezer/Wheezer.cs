@@ -46,9 +46,6 @@ namespace SpiritMod.NPCs.Wheezer
 				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), .61f);
 			}
 			if (npc.life <= 0) {
-				if (Main.LocalPlayer.GetSpiritPlayer().emptyWheezerScroll) {
-					MyWorld.numWheezersKilled++;
-				}
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/WheezerGore1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/WheezerGore2"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/WheezerGore3"), 1f);

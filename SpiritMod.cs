@@ -13,6 +13,7 @@ using SpiritMod.World;
 using SpiritMod.Sounds;
 using SpiritMod.Dusts;
 using System;
+using System.Reflection;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
@@ -26,6 +27,7 @@ using Terraria.UI;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Utilities;
+using Terraria.UI.Chat;
 using SpiritMod.Prim;
 using SpiritMod.Items.Weapon.Bow.GemBows.Emerald_Bow;
 using SpiritMod.Items.Weapon.Bow.GemBows.Ruby_Bow;
@@ -34,6 +36,9 @@ using SpiritMod.Items.Weapon.Bow.GemBows.Topaz_Bow;
 using SpiritMod.Items.Consumable;
 using SpiritMod.NPCs.AuroraStag;
 using SpiritMod.Particles;
+using SpiritMod.UI.QuestUI;
+using SpiritMod.Mechanics.QuestSystem;
+using System.Collections.Concurrent;
 using Terraria.DataStructures;
 using SpiritMod.Stargoop;
 
@@ -42,11 +47,16 @@ namespace SpiritMod
 	public class SpiritMod : Mod
 	{
 		internal UserInterface BookUserInterface;
+		public static QuestBookUI QuestBookUIState;
+		public static QuestHUD QuestHUD;
+
+		public static ModHotKey QuestBookHotkey;
+		public static ModHotKey QuestHUDHotkey;
+    
 		internal UserInterface SlotUserInterface;
 
 		public static SpiritMod Instance;
 		public UnifiedRandom spiritRNG;
-		public static AdventurerQuestHandler AdventurerQuests;
 		public static Effect auroraEffect;
 		public static Effect GSaber;
 		public static TrailManager TrailManager;
@@ -83,6 +93,7 @@ namespace SpiritMod
 		public static SoundLooper caveAmbience;
 		public static SoundLooper spookyAmbience;
 
+		public static event Action<SpriteViewMatrix> OnModifyTransformMatrix;
 		public static Dictionary<int, Texture2D> Portraits = new Dictionary<int, Texture2D>(); //Portraits dict - Gabe
 
 		//public static Texture2D MoonTexture;
@@ -95,6 +106,7 @@ namespace SpiritMod
 		public static int GlyphCurrencyID;
 
 		internal static SpiritMod instance;
+		
 		public SpiritMod()
 		{
 			Instance = this;
@@ -107,6 +119,7 @@ namespace SpiritMod
 			packet.Write((byte)type);
 			return packet;
 		}
+		
 		public static ModPacket WriteToPacket(ModPacket packet, byte msg, params object[] param)
 		{
 			packet.Write(msg);
@@ -175,10 +188,6 @@ namespace SpiritMod
 						break;
 					Main.player[player].GetModPlayer<MyPlayer>().glyph = glyph;
 					break;
-				case MessageType.AdventurerNewQuest:
-				case MessageType.AdventurerQuestCompleted:
-					AdventurerQuests.HandlePacket(id, reader);
-					break;
 				case MessageType.BossSpawnFromClient:
 					if (Main.netMode == NetmodeID.Server) {
 						player = reader.ReadByte();
@@ -234,7 +243,7 @@ namespace SpiritMod
 
 		public override void UpdateMusic(ref int music, ref MusicPriority priority)
 		{
-			var config = ModContent.GetInstance<SpiritClientConfig>();
+			var config = ModContent.GetInstance<SpiritMusicConfig>();
 
 			if (Main.gameMenu)
 				return;
@@ -436,6 +445,7 @@ namespace SpiritMod
 				priority = MusicPriority.BiomeMedium;
 			}
 		}
+
 		public override object Call(params object[] args)
 		{
 			if (args.Length < 1) {
@@ -449,6 +459,7 @@ namespace SpiritMod
 				context = (CallContext)contextNum.Value;
 			else
 				context = ParseCallName(args[0] as string);
+
 			if (context == CallContext.Invalid && !contextNum.HasValue) {
 				var stack = new System.Diagnostics.StackTrace(true);
 				Logger.Error("Call Error: Context invalid or null:\n" + stack.ToString());
@@ -468,6 +479,31 @@ namespace SpiritMod
 					SetGlyph(args);
 					return null;
 				}
+				if (context == CallContext.AddQuest)
+				{
+					return QuestManager.ModCallAddQuest(args);
+				}
+				if (context == CallContext.UnlockQuest)
+				{
+					QuestManager.ModCallUnlockQuest(args);
+					return null;
+				}
+				if (context == CallContext.GetQuestIsUnlocked)
+				{
+					return QuestManager.ModCallGetQuestValueFromContext(args, 0);
+				}
+				if (context == CallContext.GetQuestIsCompleted)
+				{
+					return QuestManager.ModCallGetQuestValueFromContext(args, 2);
+				}
+				if (context == CallContext.GetQuestIsActive)
+				{
+					return QuestManager.ModCallGetQuestValueFromContext(args, 1);
+				}
+				if (context == CallContext.GetQuestRewardsGiven)
+				{
+					return QuestManager.ModCallGetQuestValueFromContext(args, 3);
+				}
 			}
 			catch (Exception e) {
 				Logger.Error("Call Error: " + e.Message + "\n" + e.StackTrace);
@@ -486,6 +522,18 @@ namespace SpiritMod
 					return CallContext.GlyphGet;
 				case "setGlyph":
 					return CallContext.GlyphSet;
+				case "AddQuest":
+					return CallContext.AddQuest;
+				case "UnlockQuest":
+					return CallContext.UnlockQuest;
+				case "IsQuestUnlocked":
+					return CallContext.GetQuestIsUnlocked;
+				case "IsQuestActive":
+					return CallContext.GetQuestIsActive;
+				case "IsQuestCompleted":
+					return CallContext.GetQuestIsCompleted;
+				case "QuestRewardsGiven":
+					return CallContext.GetQuestRewardsGiven;
 			}
 			return CallContext.Invalid;
 		}
@@ -550,11 +598,20 @@ namespace SpiritMod
 		{
 			//Always keep this call in the first line of Load!
 			LoadReferences();
-			AdventurerQuests = new AdventurerQuestHandler(this);
 			StructureLoader.Load(this);
-			if (!Main.dedServ) {
+
+			QuestBookHotkey = RegisterHotKey("SpiritMod:QuestBookToggle", "C");
+			QuestHUDHotkey = RegisterHotKey("SpiritMod:QuestHUDToggle", "V");
+
+			QuestManager.Load();
+			if (!Main.dedServ) 
+			{
 				ParticleHandler.RegisterParticles();
 				BookUserInterface = new UserInterface();
+
+				QuestBookUIState = new QuestBookUI();
+				QuestHUD = new QuestHUD();
+				Mechanics.EventSystem.EventManager.Load();
 			}
 			SpiritDetours.Initialize();
 
@@ -618,7 +675,7 @@ namespace SpiritMod
 
 				glitchEffect = GetEffect("Effects/glitch");
 				glitchScreenShader = new GlitchScreenShader(glitchEffect);
-				Filters.Scene["SpiritMod:Glitch"] = new Filter(glitchScreenShader, EffectPriority.High);
+				Filters.Scene["SpiritMod:Glitch"] = new Filter(glitchScreenShader, (EffectPriority)50);
 
 				StarjinxNoise = instance.GetEffect("Effects/StarjinxNoise");
 				CircleNoise = instance.GetEffect("Effects/CircleNoise");
@@ -739,6 +796,9 @@ namespace SpiritMod
 
 			AdditiveCallManager.Load();
 			// LoadDetours();
+
+			// using a mildly specific name to avoid mod clashes
+			ChatManager.Register<UI.Chat.QuestTagHandler>(new string[] { "sq", "spiritQuest" });
 		}
 
 		/// <summary>
@@ -834,7 +894,14 @@ namespace SpiritMod
 			SellWeapons_INTERFACE = null;
 			SellLock_INTERFACE = null;
 
-			SpiritModAutoSellTextures.Unload();	
+			SpiritModAutoSellTextures.Unload();
+
+			QuestManager.Unload();
+			QuestBookUIState = null;
+			QuestHUD = null;
+			QuestBookHotkey = null;
+			QuestHUDHotkey = null;
+			Mechanics.EventSystem.EventManager.Unload();
 
 			AdditiveCallManager.Unload();
 			SpiritGlowmask.Unload();
@@ -851,6 +918,10 @@ namespace SpiritMod
 
 			Portraits.Clear(); //Idk if this is necessary but it seems like a good move - Gabe
 			//UnloadDetours();
+
+			// remove any custom chat tag handlers
+			ConcurrentDictionary<string, ITagHandler> handlerDict = (ConcurrentDictionary<string, ITagHandler>)typeof(ChatManager).GetField("_handlers", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
+			handlerDict.TryRemove("spiritQuest", out var ignore);
 		}
 
 		private void DrawStarGoopTarget(GameTime obj)
@@ -859,6 +930,7 @@ namespace SpiritMod
 				Metaballs.DrawToTarget(Main.spriteBatch, Main.graphics.GraphicsDevice);
 			}
 		}
+    
 		public static Color StarjinxColor(float Timer)
 		{
 			float timer = Timer % 10;
@@ -872,6 +944,7 @@ namespace SpiritMod
 			else
 				return Color.Lerp(pink, yellow, (timer - 6) / 3);
 		}
+    
 		internal static string GetWeatherRadioText(string key)
         {
 			if (MyWorld.ashRain)
@@ -888,6 +961,7 @@ namespace SpiritMod
 				return "Calm Conditions";
             return LanguageManager.Instance.GetText(key).Value;
         }
+		
 		public override void MidUpdateProjectileItem()
 		{
 			if (Main.netMode != NetmodeID.Server) {
@@ -989,6 +1063,7 @@ namespace SpiritMod
 				ItemID.DiamondStaff
 			}));
 		}
+		
 		public override void PostUpdateInput()
 		{
 			nighttimeAmbience?.Update();
@@ -1026,6 +1101,7 @@ namespace SpiritMod
 				ParticleHandler.UpdateAllParticles();
 			}
 		}
+		
 		public override void PostSetupContent()
 		{
 			nighttimeAmbience = new SoundLooper(this, "Sounds/NighttimeAmbience");
@@ -1050,7 +1126,8 @@ namespace SpiritMod
 			}
 		}
 
-
+		private bool _questBookHover;
+		
 		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
 		{
 			int inventoryIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));
@@ -1058,6 +1135,49 @@ namespace SpiritMod
 				layers.Insert(inventoryIndex, new LegacyGameInterfaceLayer(
 					"SpiritMod: BookUI",
 					delegate {
+						QuestHUD.Draw(Main.spriteBatch);
+						
+						if (Main.playerInventory && QuestManager.QuestBookUnlocked)
+						{
+							Texture2D bookTexture = SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/QuestBookInventoryButton");
+							Vector2 bookSize = new Vector2(50, 52);
+							QuestUtils.QuestInvLocation loc = ModContent.GetInstance<SpiritClientConfig>().QuestBookLocation;
+							Vector2 position = Vector2.Zero;
+							switch (loc)
+							{
+								case QuestUtils.QuestInvLocation.Minimap:
+									position = new Vector2(Main.miniMapX - bookSize.X - 10, Main.miniMapY + 4);
+									break;
+								case QuestUtils.QuestInvLocation.Trashcan:
+									position = new Vector2(388, 258);
+									break;
+								case QuestUtils.QuestInvLocation.FarLeft:
+									position = new Vector2(20, 258);
+									break;
+							}
+							Rectangle frame = new Rectangle(0, 0, 50, 52);
+							bool hover = false;
+							if (Main.MouseScreen.Between(position, position + bookSize))
+							{
+								hover = true;
+								frame.X = 50;
+								Main.LocalPlayer.mouseInterface = true;
+								if (Main.mouseLeft && Main.mouseLeftRelease)
+								{
+									Main.mouseLeftRelease = false;
+									QuestManager.SetBookState(true);
+								}
+							}
+
+							if (hover != _questBookHover)
+							{
+								_questBookHover = hover;
+								Main.PlaySound(SoundID.MenuTick);
+							}
+
+							Main.spriteBatch.Draw(bookTexture, position, frame, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+						}
+
 						BookUserInterface.Draw(Main.spriteBatch, new GameTime());
 						return true;
 					},
@@ -1310,7 +1430,6 @@ namespace SpiritMod
 			int num230 = 32;*/
 		}
 
-
 		/*const int ShakeLength = 5;
 		int ShakeCount = 0;
 		float previousRotation = 0;
@@ -1323,6 +1442,7 @@ namespace SpiritMod
 		public static float shittyModTime;*/
 		public static float tremorTime;
 		public int screenshakeTimer = 0;
+
 		public override void ModifyTransformMatrix(ref SpriteViewMatrix Transform)
 		{
 			if (!Main.gameMenu) {
@@ -1341,7 +1461,10 @@ namespace SpiritMod
 				tremorTime = 0;
 				screenshakeTimer = 0;
 			}
+
+			OnModifyTransformMatrix?.Invoke(Transform);
 		}
+		
 		internal void DrawUpdateToggles()
 		{
 			Player player = Main.player[Main.myPlayer];
@@ -1403,6 +1526,7 @@ namespace SpiritMod
 				Main.hoverItemName = "Toggle this to disable the selling of weapons";
 			}
 		}
+
 		public void DrawEventUi(SpriteBatch spriteBatch)
 		{
 			{
@@ -1442,6 +1566,7 @@ namespace SpiritMod
 				}
 			}
 		}
+		
 		#region pin stuff
 		public override void PostDrawFullscreenMap(ref string mouseText)
 		{
@@ -1535,12 +1660,19 @@ namespace SpiritMod
 		}
 		#endregion
 	}
+
 	internal enum CallContext
 	{
 		Invalid = -1,
 		Downed,
 		GlyphGet,
 		GlyphSet,
+		AddQuest,
+		UnlockQuest,
+		GetQuestIsUnlocked,
+		GetQuestIsActive,
+		GetQuestIsCompleted,
+		GetQuestRewardsGiven,
 		Limit
 	}
 }

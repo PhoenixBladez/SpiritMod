@@ -207,11 +207,7 @@ namespace SpiritMod.NPCs.Beholder
             int x = spawnInfo.spawnTileX;
             int y = spawnInfo.spawnTileY;
             int tile = (int)Main.tile[x, y].type;
-            if (!MyWorld.downedBeholder)
-            {
-                return spawnInfo.player.GetSpiritPlayer().ZoneMarble && NPC.downedBoss2 && !NPC.AnyNPCs(ModContent.NPCType<Beholder>()) && spawnInfo.spawnTileY > Main.rockLayer ? 0.03f : 0f;
-            }
-            return spawnInfo.player.GetSpiritPlayer().ZoneMarble && NPC.downedBoss2 && !NPC.AnyNPCs(ModContent.NPCType<Beholder>()) && spawnInfo.spawnTileY > Main.rockLayer ? 0.00765f : 0f;
+            return spawnInfo.player.GetSpiritPlayer().ZoneMarble && NPC.downedBoss2 && !NPC.AnyNPCs(ModContent.NPCType<Beholder>()) && spawnInfo.spawnTileY > Main.rockLayer ? 0.002765f : 0f;
 
         }
 		public override void FindFrame(int frameHeight)

@@ -110,7 +110,7 @@ namespace SpiritMod.NPCs.BloodGazer
 				case BloodGazerAiStates.Hostile:
 					npc.velocity = Vector2.Lerp(npc.velocity, npc.DirectionTo(player.Center), 0.03f);
 
-					if (AiTimer >= 240)
+					if (AiTimer >= 200)
 						UpdateAiState(Main.rand.NextBool() ? BloodGazerAiStates.EyeSwing : BloodGazerAiStates.EyeSwing);
 
 					break;
@@ -118,7 +118,7 @@ namespace SpiritMod.NPCs.BloodGazer
 				case BloodGazerAiStates.EyeSwing:
 					npc.velocity = Vector2.Lerp(npc.velocity, npc.DirectionTo(player.Center), 0.03f);
 
-					if (AiTimer >= 300)
+					if (AiTimer >= 250)
 						UpdateAiState(BloodGazerAiStates.DetatchingEyes);
 
 					break;
@@ -208,7 +208,7 @@ namespace SpiritMod.NPCs.BloodGazer
 
 		private Player Target => Main.player[Parent.target];
 
-		private bool Active => Parent.active && Parent.type == ModContent.NPCType<BloodGazer>() && Parent.ai[0] != (float)BloodGazerAiStates.Passive;
+		private bool Active => Parent.active && Parent.type == ModContent.NPCType<BloodGazer>() && (Parent.ai[0] != (float)BloodGazerAiStates.Passive || detatched);
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Blood Gazer");
 
 		public override void SetDefaults()
@@ -281,7 +281,7 @@ namespace SpiritMod.NPCs.BloodGazer
 					return;
 				}
 
-				npc.velocity = Vector2.Lerp(npc.velocity, npc.DirectionTo(Target.Center) * 18, 0.015f);
+				npc.velocity = Vector2.Lerp(npc.velocity, npc.DirectionTo(Target.Center) * 22, 0.015f);
 			}
 
 			else {
@@ -295,13 +295,13 @@ namespace SpiritMod.NPCs.BloodGazer
 						npc.knockBackResist = 0f;
 						float chandistratio = 0.3f;
 						Vector2 targetPos = Parent.Center + Parent.DirectionTo(Target.Center).RotatedBy(MathHelper.PiOver4 * ((npc.ai[1] % 2 == 0) ? -1 : 1)) * ChainLength * chandistratio;
-						//entire attack takes 80 ticks, offset by eye number so only 1 swing happens at a time
-						float SwingTime = 80;
-
-						int starthomingtime = (int)(SwingTime * (EyeNumber - 2f));
-						int startpullbacktime = (int)(SwingTime * (EyeNumber - 0.3f));
-						int startswingtime = (int)(SwingTime * (EyeNumber - 0.25f));
-						int startslowdowntime = (int)(SwingTime * (EyeNumber - 0.05f));
+						//entire attack takes 60 ticks, offset by eye number so only 1 swing happens at a time, and offset by a static 20 ticks so the first swing takes longer
+						int SwingTime = 60;
+						int StaticDelay = 20;
+						int starthomingtime = (int)(SwingTime * (EyeNumber - 2f)) + StaticDelay;
+						int startpullbacktime = (int)(SwingTime * (EyeNumber - 0.3f)) + StaticDelay;
+						int startswingtime = (int)(SwingTime * (EyeNumber - 0.25f)) + StaticDelay;
+						int startslowdowntime = (int)(SwingTime * (EyeNumber + 0.05f)) + StaticDelay;
 
 						if (AiTimer >= starthomingtime && AiTimer < startpullbacktime)  //half time spent homing in on target position
 							npc.velocity = Vector2.Lerp(npc.velocity, npc.DirectionTo(targetPos) * MathHelper.Clamp(npc.Distance(targetPos) / 40, 6, 12), 0.1f);
@@ -330,6 +330,8 @@ namespace SpiritMod.NPCs.BloodGazer
 
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 									Projectile.NewProjectileDirect(npc.Center, npc.DirectionFrom(Parent.Center) * 5, ModContent.ProjectileType<BloodGazerEyeShot>(), NPCUtils.ToActualDamage(40, 1.5f), 1, Main.myPlayer).netUpdate = true;
+
+								npc.velocity += npc.DirectionTo(Parent.Center);
 							}
 						}
 
@@ -346,7 +348,8 @@ namespace SpiritMod.NPCs.BloodGazer
 						npc.velocity = Vector2.Lerp(npc.velocity, npc.DirectionTo(Target.Center) * 4, 0.02f * (1 / npc.ai[1]));
 						break;
 					case (BloodGazerAiStates.DetatchingEyes):
-						if(AiTimer > 30 * EyeNumber) {
+						pullbackstrength = 0.75f;
+						if (AiTimer > 30 * EyeNumber) {
 							detatched = true;
 							Parent.velocity = npc.DirectionTo(Parent.Center) * 4;
 							if (Main.netMode != NetmodeID.Server)
@@ -398,7 +401,7 @@ namespace SpiritMod.NPCs.BloodGazer
 		bool primsCreated = false;
 		public override void AI()
 		{
-			if (projectile.velocity.Length() < 18)
+			if (projectile.velocity.Length() < 22)
 				projectile.velocity *= 1.03f;
 
 			if (!primsCreated) {

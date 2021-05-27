@@ -249,7 +249,6 @@ namespace SpiritMod
 			data.Add("pagodaY", pagodaY);
 			data.Add("spawnedPagodaEnemies", spawnedPagodaEnemies);
 
-			SpiritMod.AdventurerQuests.WorldSave(data);
 			//SaveSpecialNPCs(data);
 
 			data.Add("superSunFlowerPositions", superSunFlowerPositions.ToList());
@@ -278,7 +277,6 @@ namespace SpiritMod
 			downedBlueMoon = downed.Contains("bluemoon");
 			downedJellyDeluge = downed.Contains("jellyDeluge");
 			//LoadSpecialNPCs(tag);
-			SpiritMod.AdventurerQuests.WorldLoad(tag);
 			TagCompound droppedGlyphTag = tag.GetCompound("droppedGlyphs");
 			droppedGlyphs.Clear();
 			foreach (KeyValuePair<string, object> entry in droppedGlyphTag) {
@@ -451,6 +449,7 @@ namespace SpiritMod
 			ashRain = false;
 			dayTimeLast = Main.dayTime;
 			dayTimeSwitched = false;
+			SpiritMod.TrailManager.ClearAllTrails(); //trails break on world unload and reload(their projectile is still counted as being active???), so this just clears them all on reload
 
 			if (NPC.downedBoss2 == true)
 				gmOre = true;

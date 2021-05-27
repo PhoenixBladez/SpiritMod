@@ -70,7 +70,7 @@ namespace SpiritMod.Items.Weapon.Magic.StarLance
 		}
 		public override void SetDefaults()
 		{
-			projectile.penetrate = -1;
+			projectile.penetrate = 1;
 			projectile.tileCollide = true;
 			projectile.hostile = false;
 			projectile.friendly = true;
@@ -136,6 +136,7 @@ namespace SpiritMod.Items.Weapon.Magic.StarLance
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
+			projectile.penetrate++;
 			if (!stuck && target.life > 0)
 			{
 				stuck = true;
@@ -150,6 +151,10 @@ namespace SpiritMod.Items.Weapon.Magic.StarLance
 		}
 		public override void Kill(int timeLeft)
 		{
+			for (int i = 0; i < 6; i++)
+			{
+				Dust.NewDustPerfect(projectile.Center, ModContent.DustType<FriendlyStargoopDust>(), Main.rand.NextFloat(6.28f).ToRotationVector2() * 3, Scale: Main.rand.NextFloat(1.4f, 1.8f));
+			}
 			SpiritMod.Metaballs.FriendlyLayer.Sprites.Remove(this);
 		}
 		public override bool PreDraw(SpriteBatch sb, Color color) => false;
