@@ -30,6 +30,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 			{
 				List<string> allQuests = tag.Get<List<string>>("SpiritMod:AllQuests");
 
+				SpiritMod.QuestHUD.Clear();
 				QuestManager.QuestBookUnlocked = tag.Get<bool>("SpiritMod:QuestBookUnlocked");
 
 				for (int i = 0; i < QuestManager.Quests.Count; i++)
@@ -132,7 +133,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 			tag.Add("SpiritMod:AllQuests", allQuestNames);
 
-			foreach (Quest quest in QuestManager.Quests)
+			/*foreach (Quest quest in QuestManager.Quests)
 			{
 				quest.ResetEverything();
 			}
@@ -140,7 +141,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 			if (!Main.dedServ)
 			{
 				SpiritMod.QuestHUD.Clear();
-			}
+			}*/
 
 			return tag;
 		}
