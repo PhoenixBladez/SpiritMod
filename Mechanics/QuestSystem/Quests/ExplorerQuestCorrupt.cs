@@ -17,8 +17,8 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override int Difficulty => 2;
 		public override string QuestCategory => "Explorer";
 
-		public override bool AnnounceRelocking => true;
-		public override bool LimitedUnlock => true;
+		//public override bool AnnounceRelocking => true;
+		//public override bool LimitedUnlock => true;
 
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
@@ -52,9 +52,9 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
             base.OnQuestComplete();
         }
 
-		public override void OnUnlock()
+		/*public override void OnUnlock()
 		{
 			UnlockTime = 900;
-		}
+		}*/
 	}
 }
