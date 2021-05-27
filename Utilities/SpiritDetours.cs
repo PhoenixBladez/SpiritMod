@@ -161,6 +161,31 @@ namespace SpiritMod.Utilities
 			{
 				SpiritMod.primitives.DrawTargetProj(Main.spriteBatch);
 				SpiritMod.TrailManager.DrawTrails(Main.spriteBatch);
+
+
+				//make this cleaner later probably
+				var primdrawprojs = Main.projectile.Where(x => x.active && x.modProjectile is IBasicPrimDraw);
+				if (primdrawprojs.Any())
+				{
+					int width = Main.graphics.GraphicsDevice.Viewport.Width;
+					int height = Main.graphics.GraphicsDevice.Viewport.Height;
+					Vector2 zoom = Main.GameViewMatrix.Zoom;
+					Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / 2, height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
+					Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
+
+					BasicEffect effect = new BasicEffect(Main.graphics.GraphicsDevice)
+					{
+						VertexColorEnabled = true,
+						View = view,
+						Projection = projection
+					};
+					foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+					{
+						pass.Apply();
+					}
+					foreach (Projectile proj in Main.projectile.Where(x => x.active && x.modProjectile is IBasicPrimDraw))
+						(proj.modProjectile as IBasicPrimDraw).DrawPrimShape(effect);
+				}
 			}
 			orig(self);
 		}

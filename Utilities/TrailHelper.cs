@@ -87,6 +87,8 @@ namespace SpiritMod.Utilities
 			}
 		}
 
+		public void ClearAllTrails() => _trails.Clear();
+
 		public void DrawTrails(SpriteBatch spriteBatch)
 		{
 			foreach (Trail trail in _trails) {
