@@ -784,6 +784,8 @@ namespace SpiritMod
 				Portraits.Add(NPCID.ArmsDealer, GetTexture("NPCs/Portraits/ArmsDealer"));
 				Portraits.Add(NPCID.Nurse, GetTexture("NPCs/Portraits/Nurse"));
 				Portraits.Add(NPCID.SkeletonMerchant, GetTexture("NPCs/Portraits/SkeletonMerchant"));
+				Portraits.Add(NPCID.Demolitionist, GetTexture("NPCs/Portraits/Demolitionist"));
+				Portraits.Add(NPCID.TaxCollector, GetTexture("NPCs/Portraits/TaxCollector"));
 
 				Main.OnPreDraw += DrawStarGoopTarget;
 			}

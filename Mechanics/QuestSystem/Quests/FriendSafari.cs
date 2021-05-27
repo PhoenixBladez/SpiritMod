@@ -33,7 +33,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public override bool IsQuestPossible()
 		{
-			return !MyWorld.gennedTower;
+			return MyWorld.gennedBandits;
 		}
     }
 }

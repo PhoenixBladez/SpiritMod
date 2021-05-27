@@ -1,21 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Consumable;
-using SpiritMod.Items.Material;
-using SpiritMod.NPCs.Boss;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Graphics.Shaders;
-using SpiritMod.NPCs.DarkfeatherMage.Projectiles;
 using System;
+
 namespace SpiritMod.NPCs.Hookbat
 {
     public class Hookbat : ModNPC
     {
-        int moveSpeed = 0;
-        int moveSpeedY = 0;
-        Vector2 pos;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hookbat");
@@ -40,116 +33,93 @@ namespace SpiritMod.NPCs.Hookbat
             npc.DeathSound = SoundID.NPCDeath4;
 
         }
+
         public override bool PreNPCLoot()
         {
             MyWorld.spawnHookbats = false;
-			if(Main.netMode != NetmodeID.SinglePlayer) 
+			if (Main.netMode != NetmodeID.SinglePlayer)
 				NetMessage.SendData(MessageID.WorldData);
 
             return true;
         }
-        bool setUpSpawn = false;
-        float num384 = 0f;
+
         int frame;
+
         public override void AI()
         {
-			
             npc.spriteDirection = npc.direction;
-			Player player = Main.player[npc.target];
-
-            Vector2 vector37 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+			Player target = Main.player[npc.target];
 
             npc.ai[0]++;
-            if (!Main.player[npc.target].dead && npc.ai[1] < 2f)
+            if (!target.dead && npc.ai[1] < 2f)
             {
                 if (npc.collideX)
                 {
                     npc.velocity.X = npc.oldVelocity.X * -0.5f;
                     if (npc.direction == -1 && npc.velocity.X > 0f && npc.velocity.X < 2f)
-                    {
                         npc.velocity.X = 2f;
-                    }
                     if (npc.direction == 1 && npc.velocity.X < 0f && npc.velocity.X > -2f)
-                    {
                         npc.velocity.X = -2f;
-                    }
                 }
                 if (npc.collideY)
                 {
                     npc.velocity.Y = npc.oldVelocity.Y * -0.5f;
                     if (npc.velocity.Y > 0f && npc.velocity.Y < 1f)
-                    {
                         npc.velocity.Y = 1f;
-                    }
                     if (npc.velocity.Y < 0f && npc.velocity.Y > -1f)
-                    {
                         npc.velocity.Y = -1f;
-                    }
                 }
+
                 npc.TargetClosest(true);
+
                 if (npc.direction == -1 && npc.velocity.X > -5f)
                 {
                     npc.velocity.X = npc.velocity.X - 0.21f;
                     if (npc.velocity.X > 5f)
-                    {
                         npc.velocity.X = npc.velocity.X - 0.21f;
-                    }
                     else if (npc.velocity.X > 0f)
-                    {
                         npc.velocity.X = npc.velocity.X - 0.05f;
-                    }
+
                     if (npc.velocity.X < -5f)
-                    {
                         npc.velocity.X = -5f;
-                    }
                 }
                 else if (npc.direction == 1 && npc.velocity.X < 5f)
                 {
                     npc.velocity.X = npc.velocity.X + 0.21f;
                     if (npc.velocity.X < -5f)
-                    {
                         npc.velocity.X = npc.velocity.X + 0.21f;
-                    }
                     else if (npc.velocity.X < 0f)
-                    {
                         npc.velocity.X = npc.velocity.X + 0.05f;
-                    }
+
                     if (npc.velocity.X > 5f)
-                    {
                         npc.velocity.X = 5f;
-                    }
                 }
-                float num3225 = Math.Abs(npc.position.X + (float)(npc.width / 2) - (Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2)));
-                float num3224 = Main.player[npc.target].position.Y - (float)(npc.height / 2);
+
+                float num3225 = Math.Abs(npc.Center.X - target.Center.X);
+                float num3224 = target.position.Y - (npc.height / 2f);
+
                 if (num3225 > 50f)
-                {
                     num3224 -= 150f;
-                }
+
                 if (npc.position.Y < num3224)
                 {
                     npc.velocity.Y = npc.velocity.Y + 0.05f;
                     if (npc.velocity.Y < 0f)
-                    {
                         npc.velocity.Y = npc.velocity.Y + 0.01f;
-                    }
                 }
                 else
                 {
                     npc.velocity.Y = npc.velocity.Y - 0.05f;
                     if (npc.velocity.Y > 0f)
-                    {
                         npc.velocity.Y = npc.velocity.Y - 0.01f;
-                    }
                 }
+
                 if (npc.velocity.Y < -4f)
-                {
                     npc.velocity.Y = -4f;
-                }
                 if (npc.velocity.Y > 4f)
-                {
                     npc.velocity.Y = 3f;
-                }
             }
+
             Vector2 direction = Main.player[npc.target].Center - npc.Center;
 
             if (npc.ai[0] == 190)
@@ -157,7 +127,9 @@ namespace SpiritMod.NPCs.Hookbat
                 npc.ai[1] = 1f;
                 npc.netUpdate = true;
             }
+
             npc.ai[3]++;
+
             if (npc.ai[3] >= 6)
             {
                 frame++;
@@ -165,9 +137,7 @@ namespace SpiritMod.NPCs.Hookbat
                 npc.netUpdate = true;
             }
             if (frame > 3)
-            {
                 frame = 0;
-            }
             if (npc.ai[1] == 1f)
             {
                 frame = 4;
@@ -175,16 +145,15 @@ namespace SpiritMod.NPCs.Hookbat
                 {
                     direction.Normalize();
                     Main.PlaySound(SoundID.DD2_WyvernDiveDown, npc.Center);
-                    direction.X = direction.X * Main.rand.Next(14, 17);
-                    direction.Y = direction.Y * Main.rand.Next(19, 27);
+                    direction.X *= Main.rand.Next(14, 17);
+                    direction.Y *= Main.rand.Next(19, 27);
                     npc.velocity.X = direction.X;
                     npc.velocity.Y = direction.Y;
                     npc.ai[2]++;
                 }
 				else
-                {
                     npc.velocity.Y -= .0625f;
-                }
+
 				if (npc.ai[0] > 235)
                 {
                     npc.ai[0] = 0f;
@@ -192,15 +161,12 @@ namespace SpiritMod.NPCs.Hookbat
                     npc.ai[2] = 0f;
                     npc.netUpdate = true;
                 }
-
             }
         }
-        public override float SpawnChance(NPCSpawnInfo spawnInfo)
-        {
-            return spawnInfo.spawnTileY < Main.rockLayer && (!Main.dayTime) && spawnInfo.player.ZoneOverworldHeight && !NPC.AnyNPCs(ModContent.NPCType<Hookbat>())? 0.003f : 0f;
 
-        }
-        public override void HitEffect(int hitDirection, double damage)
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.spawnTileY < Main.rockLayer && (!Main.dayTime) && spawnInfo.player.ZoneOverworldHeight && !NPC.AnyNPCs(ModContent.NPCType<Hookbat>()) ? 0.003f : 0f;
+
+		public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 10; k++)
             {
@@ -208,12 +174,12 @@ namespace SpiritMod.NPCs.Hookbat
             }
             if (npc.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hookbat/Hookbat1"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hookbat/Hookbat2"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hookbat/Hookbat3"), 1f);
+				for (int i = 1; i < 4; ++i)
+					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hookbat/Hookbat" + i), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hookbat/Hookbat1"), 1f);
             }
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             if (npc.ai[1] == 1f)
@@ -229,9 +195,7 @@ namespace SpiritMod.NPCs.Hookbat
             }
             return true;
         }
-        public override void FindFrame(int frameHeight)
-        {
-            npc.frame.Y = frameHeight * frame;
-        }
-    }
+
+		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
+	}
 }

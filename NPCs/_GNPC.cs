@@ -837,7 +837,21 @@ namespace SpiritMod.NPCs
             {
                 if (Main.rand.NextBool(4))
                 {
-                    target.StrikeNPC((int)(projectile.damage / 5f) * 3, projectile.knockBack, 0, false);
+					target.immune[projectile.owner] = 7;
+					{
+						int randX = target.position.X > Main.player[projectile.owner].position.X ? 1 : -1;
+						int randY = Main.rand.Next(2) == 0 ? -1 : 1;
+
+						Vector2 randPos = target.Center + new Vector2(randX * Main.rand.Next(100, 151), randY * 400);
+						Vector2 dir = target.Center - randPos;
+						dir.Normalize();
+						dir *= 11;
+						int newProj = Projectile.NewProjectile(randPos.X, randPos.Y, dir.X, dir.Y, mod.ProjectileType("SacrificialDaggerProjectile"), 15, 0);
+						Main.projectile[newProj].tileCollide = false;
+						Main.projectile[newProj].penetrate = 1;
+						Main.projectile[newProj].timeLeft = 40;
+						Main.projectile[newProj].extraUpdates = 1;
+					}
                     DustHelper.DrawTriangle(target.Center, 173, 5, 1.5f, 1f);
                 }
             }

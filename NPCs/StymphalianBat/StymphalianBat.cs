@@ -1,23 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Consumable;
-using SpiritMod.Items.Material;
-using SpiritMod.NPCs.Boss;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Graphics.Shaders;
-using SpiritMod.NPCs.DarkfeatherMage.Projectiles;
 using System;
 using System.IO;
-using System.Linq;
+
 namespace SpiritMod.NPCs.StymphalianBat
 {
     public class StymphalianBat : ModNPC
     {
-        int moveSpeed = 0;
-        int moveSpeedY = 0;
-        Vector2 pos;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stymphalian Bat");
@@ -41,9 +33,9 @@ namespace SpiritMod.NPCs.StymphalianBat
             npc.DeathSound = SoundID.NPCDeath4;
 
         }
-        bool setUpSpawn = false;
-        float num384 = 0f;
+
         int frame;
+
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			writer.Write(npc.localAI[0]);
@@ -70,116 +62,82 @@ namespace SpiritMod.NPCs.StymphalianBat
                 }
             }
             npc.spriteDirection = npc.direction;
-			Player player = Main.player[npc.target];
+			Player target = Main.player[npc.target];
 
-            Vector2 vector37 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-            
             if (npc.ai[1] != 1f)
-            {
                 npc.rotation = npc.velocity.X * .1f;
-            }
             else
             {
                 if (npc.direction == 1)
-                {
-                    npc.rotation = (float)Math.Sqrt((double)(npc.velocity.X * npc.velocity.X) + (double)(npc.velocity.Y * npc.velocity.Y)) * .1f;             
-                }
+                    npc.rotation = (float)Math.Sqrt((npc.velocity.X * npc.velocity.X) + (npc.velocity.Y * npc.velocity.Y)) * .1f;             
                 else
-                {
-                      npc.rotation = (float)Math.Sqrt((double)(npc.velocity.X * npc.velocity.X) + (double)(npc.velocity.Y * npc.velocity.Y)) * .1f - 1.57f;             
-                }
+                    npc.rotation = (float)Math.Sqrt((npc.velocity.X * npc.velocity.X) + (npc.velocity.Y * npc.velocity.Y)) * .1f - 1.57f;             
             }
             
             npc.ai[0]++;
-            if (!Main.player[npc.target].dead && npc.ai[1] < 1f)
+            if (!target.dead && npc.ai[1] < 1f)
             {
                 if (npc.collideX)
                 {
                     npc.velocity.X = npc.oldVelocity.X * -0.5f;
                     if (npc.direction == -1 && npc.velocity.X > 0f && npc.velocity.X < 2f)
-                    {
                         npc.velocity.X = 2f;
-                    }
                     if (npc.direction == 1 && npc.velocity.X < 0f && npc.velocity.X > -2f)
-                    {
                         npc.velocity.X = -2f;
-                    }
                 }
                 if (npc.collideY)
                 {
                     npc.velocity.Y = npc.oldVelocity.Y * -0.5f;
                     if (npc.velocity.Y > 0f && npc.velocity.Y < 1f)
-                    {
                         npc.velocity.Y = 1f;
-                    }
                     if (npc.velocity.Y < 0f && npc.velocity.Y > -1f)
-                    {
                         npc.velocity.Y = -1f;
-                    }
                 }
+
                 npc.TargetClosest(true);
+
                 if (npc.direction == -1 && npc.velocity.X > -7f)
                 {
                     npc.velocity.X = npc.velocity.X - 0.26f;
                     if (npc.velocity.X > 7f)
-                    {
                         npc.velocity.X = npc.velocity.X - 0.26f;
-                    }
                     else if (npc.velocity.X > 0f)
-                    {
                         npc.velocity.X = npc.velocity.X - 0.05f;
-                    }
                     if (npc.velocity.X < -7f)
-                    {
                         npc.velocity.X = -7f;
-                    }
                 }
                 else if (npc.direction == 1 && npc.velocity.X < 7f)
                 {
                     npc.velocity.X = npc.velocity.X + 0.26f;
                     if (npc.velocity.X < -7f)
-                    {
                         npc.velocity.X = npc.velocity.X + 0.26f;
-                    }
                     else if (npc.velocity.X < 0f)
-                    {
                         npc.velocity.X = npc.velocity.X + 0.05f;
-                    }
                     if (npc.velocity.X > 7f)
-                    {
                         npc.velocity.X = 7f;
-                    }
                 }
-                float num3225 = Math.Abs(npc.position.X + (float)(npc.width / 2) - (Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2)));
-                float num3224 = Main.player[npc.target].position.Y - (float)(npc.height / 2);
+
+                float num3225 = Math.Abs(npc.Center.X - target.Center.X);
+                float num3224 = target.position.Y - (npc.height / 2f);
+
                 if (num3225 > 50f)
-                {
                     num3224 -= 150f;
-                }
                 if (npc.position.Y < num3224)
                 {
                     npc.velocity.Y = npc.velocity.Y + 0.05f;
                     if (npc.velocity.Y < 0f)
-                    {
                         npc.velocity.Y = npc.velocity.Y + 0.01f;
-                    }
                 }
                 else
                 {
                     npc.velocity.Y = npc.velocity.Y - 0.05f;
                     if (npc.velocity.Y > 0f)
-                    {
                         npc.velocity.Y = npc.velocity.Y - 0.01f;
-                    }
                 }
                 if (npc.velocity.Y < -4f)
-                {
                     npc.velocity.Y = -4f;
-                }
                 if (npc.velocity.Y > 4f)
-                {
                     npc.velocity.Y = 3f;
-                }
             }
             if ((npc.collideX || npc.collideY) && npc.ai[1] == 1f)
             {
@@ -187,13 +145,15 @@ namespace SpiritMod.NPCs.StymphalianBat
                 npc.noGravity = false;
                 frame = 6;
                 npc.netUpdate = true;
+
  				if (Main.netMode != NetmodeID.Server)
 				{
 					npc.rotation += Main.rand.NextFloat(-0.06f,0.06f);
                     drawOffsetY = 15;
 				}
             }
-            Vector2 direction = Main.player[npc.target].Center - npc.Center;
+
+            Vector2 direction = target.Center - npc.Center;
 
             if (npc.ai[0] == 190)
             {
@@ -208,9 +168,7 @@ namespace SpiritMod.NPCs.StymphalianBat
                 npc.netUpdate = true;
             }
             if (frame > 5)
-            {
                 frame = 0;
-            }
             if (npc.ai[1] == 1f)
             {
                 frame = 6;
@@ -218,8 +176,8 @@ namespace SpiritMod.NPCs.StymphalianBat
                 {
                     direction.Normalize();
                     Main.PlaySound(SoundID.DD2_WyvernDiveDown, npc.Center);
-                    direction.X = direction.X * Main.rand.Next(16, 22);
-                    direction.Y = direction.Y * Main.rand.Next(10, 15);
+                    direction.X *= Main.rand.Next(16, 22);
+                    direction.Y *= Main.rand.Next(10, 15);
                     npc.velocity.X = direction.X;
                     npc.velocity.Y = direction.Y;
                     npc.ai[2]++;
@@ -235,29 +193,26 @@ namespace SpiritMod.NPCs.StymphalianBat
                 drawOffsetY = 0;
             }
         }
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			return spawnInfo.player.GetSpiritPlayer().ZoneMarble && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 0.135f : 0f;
-		}
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.player.GetSpiritPlayer().ZoneMarble && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 0.135f : 0f;
+
+		public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 10; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection * 2.5f, -1f, 0, default(Color), Main.rand.NextFloat(.45f, 1.15f));
-                Dust.NewDust(npc.position, npc.width, npc.height, 54, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.27f);
+                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection * 2.5f, -1f, 0, default, Main.rand.NextFloat(.45f, 1.15f));
+                Dust.NewDust(npc.position, npc.width, npc.height, 54, 2.5f * hitDirection, -2.5f, 0, default, 0.27f);
             }
             if (npc.life <= 0)
             {
-				Gore.NewGore(npc.position, npc.velocity, 99);
-				Gore.NewGore(npc.position, npc.velocity, 99);
-				Gore.NewGore(npc.position, npc.velocity, 99);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/StymphalianBat/StymphalianBat1"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/StymphalianBat/StymphalianBat2"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/StymphalianBat/StymphalianBat3"), 1f);
+				for (int i = 0; i < 3; ++i)
+					Gore.NewGore(npc.position, npc.velocity, 99);
+				for (int i = 1; i < 4; ++i)
+					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/StymphalianBat/StymphalianBat" + i), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/StymphalianBat/StymphalianBat1"), 1f);
             }
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             if (npc.ai[2] == 1f && !npc.collideX && !npc.collideY)
@@ -267,15 +222,13 @@ namespace SpiritMod.NPCs.StymphalianBat
                 {
                     var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
                     Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
-                    Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
+                    Color color = npc.GetAlpha(lightColor) * (float)(((npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2f);
                     spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
                 }
             }
             return true;
         }
-        public override void FindFrame(int frameHeight)
-        {
-            npc.frame.Y = frameHeight * frame;
-        }
-    }
+
+		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
+	}
 }
