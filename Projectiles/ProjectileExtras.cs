@@ -807,7 +807,7 @@ namespace SpiritMod.Projectiles
 			}
 		}
 
-		public static void DrawChain(int index, Vector2 to, string chainPath, bool electric = false, int damage = 0, bool zipline = false, float velocityX = 0, float velocityY = 0)
+		public static void DrawChain(int index, Vector2 to, string chainPath, bool electric = false, int damage = 0, bool zipline = false, float velocityX = 0, float velocityY = 0, bool white = false)
 		{
 			Texture2D texture = ModContent.GetTexture(chainPath);
 			Projectile projectile = Main.projectile[index];
@@ -834,7 +834,8 @@ namespace SpiritMod.Projectiles
 					value.Normalize();
 					vector += value * num;
 					vector2 = to - vector;
-					Color color = Lighting.GetColor((int)vector.X / 16, (int)((double)vector.Y / 16.0));
+					Color color = Color.White;
+					if (!white) color = Lighting.GetColor((int)vector.X / 16, (int)((double)vector.Y / 16.0));
 					color = projectile.GetAlpha(color);
 					Main.spriteBatch.Draw(texture, vector - Main.screenPosition, sourceRectangle, color, rotation, origin, 1f, SpriteEffects.None, 0f);
 					if (electric) {

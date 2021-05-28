@@ -630,5 +630,37 @@ namespace SpiritMod.Utilities
 			return Color.Lerp(SpiritMod.StarjinxColor(_start + Main.GlobalTime * _speed), SpiritMod.StarjinxColor(_start + 5 + Main.GlobalTime * _speed), progress) * (1f - progress) * _opacity;
 		}
 	}
+
+	public class OpacityUpdatingTrail : ITrailColor
+	{
+
+		private Color _startcolor;
+		private Color _endcolor;
+		private Projectile _proj;
+		private float _opacity = 1f;
+
+		public OpacityUpdatingTrail(Projectile proj, Color color)
+		{
+			_startcolor = color;
+			_endcolor = color;
+			_proj = proj;
+		}
+
+		public OpacityUpdatingTrail(Projectile proj, Color startColor, Color endColor)
+		{
+			_startcolor = startColor;
+			_endcolor = endColor;
+			_proj = proj;
+		}
+
+		public Color GetColourAt(float distanceFromStart, float trailLength, List<Vector2> points)
+		{
+			float progress = distanceFromStart / trailLength;
+			if (_proj.active && _proj != null)
+				_opacity = _proj.Opacity;
+
+			return Color.Lerp(_startcolor, _endcolor, progress) * (1f - progress) * _opacity;
+		}
+	}
 	#endregion
 }
