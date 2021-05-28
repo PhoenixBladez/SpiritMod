@@ -31,6 +31,7 @@ using SpiritMod.NPCs.Boss.ReachBoss;
 using SpiritMod.NPCs.Boss.Scarabeus;
 using SpiritMod.NPCs.Boss.SteamRaider;
 using SpiritMod.NPCs.Critters.Algae;
+using SpiritMod.Items.Weapon.Thrown.SlingHammers;
 using SpiritMod.NPCs.Town;
 using SpiritMod.NPCs.Tides;
 using SpiritMod.Projectiles.Arrow;
