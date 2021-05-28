@@ -4,7 +4,6 @@ using Terraria;
 using Terraria.ID;
 using System;
 using Terraria.ModLoader;
-using Terraria.Graphics.Shaders;
 namespace SpiritMod.Projectiles.Summon.SacrificialDagger
 {
 	public class SacrificialDaggerProj : ModProjectile, IDrawAdditive
@@ -14,6 +13,7 @@ namespace SpiritMod.Projectiles.Summon.SacrificialDagger
 			DisplayName.SetDefault("Sacrificial Dagger");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 7;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.MinionShot[projectile.type] = true;
         }
 
 		public override void SetDefaults()
@@ -21,12 +21,13 @@ namespace SpiritMod.Projectiles.Summon.SacrificialDagger
             projectile.width = 16;
 			projectile.height = 30;
             projectile.aiStyle = -1;
-			projectile.minion = true;
 			projectile.friendly = true;
-            projectile.timeLeft = 360;
+            projectile.timeLeft = 600;
 			projectile.penetrate = -1;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 10;
 		}
-        float sineAdd;
+
         float alphaCounter;
 		public override bool PreAI()
         {

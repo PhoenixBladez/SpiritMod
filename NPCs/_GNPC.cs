@@ -43,6 +43,8 @@ using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using System.Linq;
 using SpiritMod.Items.Ammo.Rocket.Warhead;
+using SpiritMod.Projectiles.Summon.SacrificialDagger;
+using Terraria.Audio;
 
 namespace SpiritMod.NPCs
 {
@@ -833,25 +835,22 @@ namespace SpiritMod.NPCs
 			if (summon)
                 damage += summonTag;
 
-            if (sacrificialDaggerBuff && summon)
+            if (sacrificialDaggerBuff && summon && projectile.type != ProjectileType<SacrificialDaggerProj>() && projectile.type != ProjectileType<SacrificialDaggerProjectile>())
             {
                 if (Main.rand.NextBool(4))
-                {
-					target.immune[projectile.owner] = 7;
-					{
-						int randX = target.position.X > Main.player[projectile.owner].position.X ? 1 : -1;
-						int randY = Main.rand.Next(2) == 0 ? -1 : 1;
+				{
+					if(Main.netMode != NetmodeID.Server)
+						Main.PlaySound(new LegacySoundStyle(SoundID.Item, 71).WithPitchVariance(0.2f).WithVolume(0.5f), target.Center);
 
-						Vector2 randPos = target.Center + new Vector2(randX * Main.rand.Next(100, 151), randY * 400);
-						Vector2 dir = target.Center - randPos;
-						dir.Normalize();
-						dir *= 11;
-						int newProj = Projectile.NewProjectile(randPos.X, randPos.Y, dir.X, dir.Y, mod.ProjectileType("SacrificialDaggerProjectile"), 15, 0);
-						Main.projectile[newProj].tileCollide = false;
-						Main.projectile[newProj].penetrate = 1;
-						Main.projectile[newProj].timeLeft = 40;
-						Main.projectile[newProj].extraUpdates = 1;
-					}
+					int direction = target.position.X > Main.player[projectile.owner].position.X ? 1 : -1;
+
+					Vector2 randPos = target.Center + new Vector2(direction, 0).RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(70, 121);
+					Vector2 dir = target.Center - randPos;
+					dir.Normalize();
+					dir *= 6;
+					if(Main.netMode != NetmodeID.MultiplayerClient)
+						Projectile.NewProjectile(randPos.X, randPos.Y, dir.X, dir.Y, mod.ProjectileType("SacrificialDaggerProjectile"), (int)(damage * 0.75f), 0, projectile.owner);
+
                     DustHelper.DrawTriangle(target.Center, 173, 5, 1.5f, 1f);
                 }
             }
@@ -911,7 +910,7 @@ namespace SpiritMod.NPCs
             Player player = Main.LocalPlayer;
             int num160 = Item.NPCtoBanner(npc.BannerID());
 			if (NPC.killCount[num160] == 50)
-                Main.PlaySound(SoundLoader.customSoundType, player.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/BannerSfx"));
+                Main.PlaySound(SoundLoader.customSoundType, player.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/BannerSfx"));
 
 			if (bloodInfused)
 				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, ProjectileType<FlayedExplosion>(), 25, 0, Main.myPlayer);

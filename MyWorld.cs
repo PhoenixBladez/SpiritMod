@@ -449,7 +449,8 @@ namespace SpiritMod
 			ashRain = false;
 			dayTimeLast = Main.dayTime;
 			dayTimeSwitched = false;
-			SpiritMod.TrailManager.ClearAllTrails(); //trails break on world unload and reload(their projectile is still counted as being active???), so this just clears them all on reload
+			if(SpiritMod.TrailManager != null)
+				SpiritMod.TrailManager.ClearAllTrails(); //trails break on world unload and reload(their projectile is still counted as being active???), so this just clears them all on reload
 
 			if (NPC.downedBoss2 == true)
 				gmOre = true;

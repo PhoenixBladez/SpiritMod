@@ -19,6 +19,7 @@ namespace SpiritMod.Items.Weapon.Summon.JinxprobeWand
         {
             DisplayName.SetDefault("Mini Star");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 16;
+			ProjectileID.Sets.MinionShot[projectile.type] = true;
             ProjectileID.Sets.TrailingMode[projectile.type] = 2;
         }
 
@@ -30,7 +31,6 @@ namespace SpiritMod.Items.Weapon.Summon.JinxprobeWand
             projectile.tileCollide = true;
             projectile.timeLeft = 360;
             projectile.extraUpdates = 3;
-            projectile.ranged = true;
             projectile.friendly = true;
             projectile.penetrate = 3;
             projectile.ignoreWater = true;

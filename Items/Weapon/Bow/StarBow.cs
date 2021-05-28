@@ -55,14 +55,15 @@ namespace SpiritMod.Items.Weapon.Bow
                  }
                  return false;
              }*/
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			int projType;
-			projType = Main.rand.Next(new int[] { mod.ProjectileType("SleepingStar1"), ModContent.ProjectileType<SleepingStar>() });
-			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("SleepingStar1"), damage, knockBack, player.whoAmI, 1);
-			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SleepingStar>(), damage, knockBack, player.whoAmI, 2);
+			for(int i = 1; i <= 2; i++)
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SleepingStar>(), damage, knockBack, player.whoAmI, i);
+
 			return false;
 		}
+
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Texture2D texture;

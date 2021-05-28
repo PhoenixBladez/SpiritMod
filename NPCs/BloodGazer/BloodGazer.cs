@@ -18,6 +18,7 @@ namespace SpiritMod.NPCs.BloodGazer
 		EyeSwing = 3,
 		EyeSpin = 4,
 		DetatchingEyes = 5,
+		Despawn = 6
 	}
 
 	public class BloodGazer : ModNPC
@@ -70,7 +71,6 @@ namespace SpiritMod.NPCs.BloodGazer
 			npc.spriteDirection = npc.direction;
 			npc.TargetClosest();
 			Player player = Main.player[npc.target];
-
 			if (player.active && !player.dead && Collision.CanHit(npc.Center, 0, 0, player.Center, 0, 0) && npc.Distance(player.Center) < 500 && AiState == (float)BloodGazerAiStates.Passive)   //aggro on player if able to reach them, and in its passive state
 				UpdateAiState(BloodGazerAiStates.EyeSpawn);
 
@@ -141,13 +141,25 @@ namespace SpiritMod.NPCs.BloodGazer
 				case BloodGazerAiStates.Passive:
 					npc.spriteDirection = Math.Sign(npc.velocity.X) < 0 ? -1 : 1;
 					AiTimer++;
-					npc.velocity.X = (float)Math.Sin(AiTimer / 60) * 0.33f;
-					npc.velocity.Y = (float)Math.Cos(AiTimer / 30) * 0.165f;
+					npc.velocity.X = (float)Math.Sin(AiTimer / 720) * 2;
+					npc.velocity.Y = (float)Math.Cos(AiTimer / 180);
+					break;
+
+				case BloodGazerAiStates.Despawn:
+					npc.knockBackResist = 0f;
+					npc.spriteDirection = Math.Sign(npc.velocity.X) < 0 ? -1 : 1;
+					npc.timeLeft = Math.Min(npc.timeLeft - 1, 60);
+					AiTimer++;
+					npc.velocity.X = MathHelper.Lerp(npc.velocity.X, npc.spriteDirection * 14, 0.0015f);
+					npc.velocity.Y = (float)Math.Cos(AiTimer / 180);
 					break;
 			}
 
-			if((!player.active || player.dead || npc.Distance(player.Center) > 1500) && AiState != (float)BloodGazerAiStates.Passive)  //deaggro if player is dead or too far away
+			if((!player.active || player.dead || npc.Distance(player.Center) > 1200) && AiState != (float)BloodGazerAiStates.Passive && AiState != (float)BloodGazerAiStates.Despawn)  //deaggro if player is dead or too far away
 				UpdateAiState(BloodGazerAiStates.Passive);
+
+			if (((npc.Distance(player.Center) > 2000) || Main.dayTime) && AiState != (float)BloodGazerAiStates.Despawn)  //despawn if day
+				UpdateAiState(BloodGazerAiStates.Despawn);
 		}
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => trailing;
@@ -208,7 +220,7 @@ namespace SpiritMod.NPCs.BloodGazer
 
 		private Player Target => Main.player[Parent.target];
 
-		private bool Active => Parent.active && Parent.type == ModContent.NPCType<BloodGazer>() && (Parent.ai[0] != (float)BloodGazerAiStates.Passive || detatched);
+		private bool Active => Parent.active && Parent.type == ModContent.NPCType<BloodGazer>() && ((Parent.ai[0] != (float)BloodGazerAiStates.Passive && Parent.ai[0] != (float)BloodGazerAiStates.Despawn) || detatched);
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Blood Gazer");
 
 		public override void SetDefaults()
