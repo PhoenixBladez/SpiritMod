@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Weapon.Gun.KineticRailgun
 
 		public override void SetDefaults()
 		{
-			item.damage = 110;
+			item.damage = 100;
 			item.width = 65;
 			item.height = 21;
 			item.useTime = 65;
@@ -119,7 +119,7 @@ namespace SpiritMod.Items.Weapon.Gun.KineticRailgun
 									targetted = true;
 							}
 						}
-						if (!targetted && Main.rand.Next(15) == 0)
+						if (!targetted)
 						{
 							SpiritMod.primitives.CreateTrail(new RailgunPrimTrail(projectile, npc));
 							targets.Add(npc);
