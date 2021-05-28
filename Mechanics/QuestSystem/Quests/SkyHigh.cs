@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Terraria;
 using Terraria.ModLoader;
+using SpiritMod.Items.Weapon.Swung.AnimeSword;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
 {
@@ -22,7 +23,8 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		{
 			((int)Terraria.ID.ItemID.GypsyRobe, 1),
 			(Terraria.ID.ItemID.DynastyWood, 50),
-			(Terraria.ID.ItemID.GoldCoin, 1)
+			(Terraria.ID.ItemID.GoldCoin, 1),
+			(ModContent.ItemType<AnimeSword>(), 1)
 		};
 
 		public SkyHigh()
