@@ -107,6 +107,13 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 			_particles = new List<Particle>();
 
 			// add a screen shake event to the queue
+			AddToQueue(new ExpressionController(0, (int frame) =>
+			{
+				if(Main.netMode != NetmodeID.Server)
+					Main.PlaySound(SpiritMod.instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/StarplateBlast"), center);
+			}));
+
+			// add a screen shake event to the queue
 			AddToQueue(new ExpressionController(BUILDUP_LENGTH + PAUSE_TIME, (int frame) =>
 			{
 				EventManager.PlayEvent(new ScreenShake(20f, 0.6f));
@@ -155,6 +162,9 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 			base.Update(deltaTime);
 
 			float endTime = (BUILDUP_LENGTH + PAUSE_TIME + BURST_LENGTH);
+
+			float fadespeed = 2; //speed at which music fades out relative to the total amount of time taken, 2 would be fully fading out halfway through
+			Main.musicFade[Main.curMusic] = Math.Max(1 - ((_currentTime * fadespeed) / endTime), 0);
 
 			// update shader parameters
 			_ripContrastData.Shader.Parameters["Time"].SetValue(_currentTime);

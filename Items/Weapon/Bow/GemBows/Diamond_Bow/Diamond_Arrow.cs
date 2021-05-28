@@ -26,6 +26,8 @@ namespace SpiritMod.Items.Weapon.Bow.GemBows.Diamond_Bow
 			projectile.friendly = true;
 			projectile.ranged = true;
 			projectile.arrow = true;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = -1;
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{

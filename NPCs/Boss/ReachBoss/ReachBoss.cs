@@ -41,7 +41,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			npc.Size = new Vector2(80, 120);
 			npc.damage = 28;
             npc.boss = true;
-			npc.lifeMax = 2800;
+			npc.lifeMax = 3400;
 			npc.knockBackResist = 0;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
@@ -89,14 +89,15 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				npc.TargetClosest(false);
 				npc.velocity.Y = -2000;
 			}
-			if (player.GetSpiritPlayer().ZoneReach) {
+			if (!player.GetSpiritPlayer().ZoneReach) {
 				npc.defense = 25;
 				npc.damage = 45;
 			}
 			else {
-				npc.defense = 14;
+				npc.defense = 9;
 				npc.damage = 28;
 			}
+
 			if (npc.life <= (npc.lifeMax / 10 * 4) && npc.ai[3] == 0)
 			{
 				npc.ai[0] = 0;
