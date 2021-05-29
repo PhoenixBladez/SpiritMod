@@ -24,8 +24,8 @@ namespace SpiritMod.Items.Weapon.Bow.ArtemisHunt
 			item.ranged = true;
 			item.width = 20;
 			item.height = 38;
-			item.useTime = 17;
-			item.useAnimation = 17;
+			item.useTime = 18;
+			item.useAnimation = 18;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shoot = ProjectileID.Shuriken;
 			item.useAmmo = AmmoID.Arrow;
@@ -102,7 +102,7 @@ namespace SpiritMod.Items.Weapon.Bow.ArtemisHunt
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			int proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ArtemisCrescent>(), (int)(projectile.damage * 0.66f), 0, projectile.owner);
+			int proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ArtemisCrescent>(), (int)(projectile.damage * 0.75f), 0, projectile.owner);
 			float offset = Main.rand.NextFloat(0.5f) * Main.rand.NextBool().ToDirectionInt();
 			if (Main.projectile[proj].modProjectile is ArtemisCrescent modProj)
 			{
