@@ -3,14 +3,24 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System;
 
 namespace SpiritMod.NPCs.Automata
 {
 	public class AutomataCreeper : ModNPC
 	{
 
-		bool attacking = false;
-		Vector2 moveDirection;
+		protected bool attacking = false;
+		protected Vector2 moveDirection;
+		protected Vector2 newVelocity = Vector2.Zero;
+
+		protected int initialDirection = 0;
+
+		protected int aiCounter = 0;
+
+		protected const int TIMERAMOUNT = 300;
+
+		Vector2 oldVelocity = Vector2.Zero;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Automata Creeper");
@@ -29,20 +39,69 @@ namespace SpiritMod.NPCs.Automata
 			npc.value = 10000f;
 			npc.knockBackResist = 0;
 			npc.noGravity = true;
-			moveDirection = new Vector2((Main.rand.Next(2) * 2) - 1, 0);
-			npc.noTileCollide = false;
+			initialDirection = (Main.rand.Next(2) * 2) - 1;
+			moveDirection = new Vector2(initialDirection, 0);
+			npc.noTileCollide = true;
 		}
 		public override void AI()
         {
+			aiCounter++;
+			if (aiCounter % TIMERAMOUNT == 200)
+			{
+				attacking = true;
+				npc.frameCounter = 0;
+				oldVelocity = npc.velocity;
+			}
+			if (aiCounter % TIMERAMOUNT == 0)
+			{
+				attacking = false;
+				npc.velocity = oldVelocity;
+			}
+
 			if (!attacking)
             {
 				Crawl();
             }
+			else
+			{
+				Attack();
+			}
         }
+		protected void Attack()
+		{
+			npc.velocity = Vector2.Zero;
+		}
 
-		private void Crawl()
+		protected virtual Vector2 Collide()
+		{
+			return Collision.noSlopeCollision(npc.position, npc.velocity, npc.width, npc.height, true, true);
+		}
+
+		protected virtual void RotateCrawl()
+		{
+
+			float rotDifference = ((((npc.velocity.ToRotation() - npc.rotation) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
+			if (Math.Abs(rotDifference) < 0.15f)
+			{
+				npc.rotation = npc.velocity.ToRotation();
+				return;
+			}
+			npc.rotation += Math.Sign(rotDifference) * 0.1f;
+		}
+		protected void Crawl()
         {
-			npc.rotation = npc.velocity.ToRotation() + 3.14f;
+			newVelocity = Collide();
+			if (Math.Abs(newVelocity.X) < 0.5f)
+				npc.collideX = true;
+			else
+				npc.collideX = false;
+			if (Math.Abs(newVelocity.Y) < 0.5f)
+				npc.collideY = true;
+			else
+				npc.collideY = false;
+
+			RotateCrawl();
+
 			if (npc.ai[0] == 0f)
 			{
 				npc.TargetClosest(true);
@@ -87,11 +146,12 @@ namespace SpiritMod.NPCs.Automata
 				}
 			}
 			npc.velocity = speed * moveDirection;
+			npc.velocity = Collide();
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, SpriteEffects.None, 0);
+			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, drawColor, npc.rotation % 6.28f, npc.frame.Size() / 2, npc.scale, initialDirection == 1 ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
 			return false;
 		}
 
@@ -108,13 +168,13 @@ namespace SpiritMod.NPCs.Automata
 			npc.frame.Y = frame * frameHeight;
 			if (attacking)
 			{
-				npc.frameCounter += 0.40f;
-				npc.frame.X = npc.frame.Width;
+				npc.frameCounter += 0.20f;
+				npc.frame.X = 0;
 			}
 			else
 			{
-				npc.frameCounter += 0.40f;
-				npc.frame.X = 0;
+				npc.frameCounter += 0.20f;
+				npc.frame.X = npc.frame.Width;
 			}
 		}
 	}
