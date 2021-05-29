@@ -1,6 +1,7 @@
 using SpiritMod.Tiles.Banners;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 using static Terraria.ModLoader.ModContent;
 
 namespace SpiritMod.Items.Banners
@@ -16,9 +17,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 0;
@@ -35,9 +36,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 1;
@@ -54,9 +55,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 2;
@@ -73,9 +74,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 3;
@@ -83,11 +84,9 @@ namespace SpiritMod.Items.Banners
     }
     public class YureiBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Yuurei Banner");
-        }
-        public override void SetDefaults()
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Yuurei Banner");
+
+		public override void SetDefaults()
         {
             item.width = 10;
             item.height = 24;
@@ -96,12 +95,12 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
-            item.createTile = TileType<BannerTile>();
-            item.placeStyle = 4;
+            item.createTile = TileType<Tiles.Ambient.Kelp.OceanKelp>();//TileType<BannerTile>();
+			item.placeStyle = 4;
         }
     }
     public class SporeWheezerBanner : ModItem
@@ -115,9 +114,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 5;
@@ -134,9 +133,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 6;
@@ -153,9 +152,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 7;
@@ -172,9 +171,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 8;
@@ -191,9 +190,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 9;
@@ -210,9 +209,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 10;
@@ -229,9 +228,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 11;
@@ -248,9 +247,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 12;
@@ -267,9 +266,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 13;
@@ -286,9 +285,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 14;
@@ -305,9 +304,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 15;
@@ -324,9 +323,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 17;
@@ -343,9 +342,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 18;
@@ -362,9 +361,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 19;
@@ -381,9 +380,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 20;
@@ -400,9 +399,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 21;
@@ -419,9 +418,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 22;
@@ -438,9 +437,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 23;
@@ -457,9 +456,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 24;
@@ -476,9 +475,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 25;
@@ -495,9 +494,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 26;
@@ -514,9 +513,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 27;
@@ -533,9 +532,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 28;
@@ -552,9 +551,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 29;
@@ -571,9 +570,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 30;
@@ -590,9 +589,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 31;
@@ -609,9 +608,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 32;
@@ -628,9 +627,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 33;
@@ -647,9 +646,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 34;
@@ -666,9 +665,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 35;
@@ -685,9 +684,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 36;
@@ -704,9 +703,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 37;
@@ -723,9 +722,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 38;
@@ -742,9 +741,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 39;
@@ -761,9 +760,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 40;
@@ -771,10 +770,8 @@ namespace SpiritMod.Items.Banners
     }
     public class RlyehianBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("R'lyehian Banner");
-        }
+        public override void SetStaticDefaults() => DisplayName.SetDefault("R'lyehian Banner");
+
         public override void SetDefaults()
         {
             item.width = 10;
@@ -784,9 +781,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 41;
@@ -794,10 +791,8 @@ namespace SpiritMod.Items.Banners
     }
     public class MangoWarBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Mang O' War Banner");
-        }
+        public override void SetStaticDefaults() => DisplayName.SetDefault("Mang O' War Banner");
+
         public override void SetDefaults()
         {
             item.width = 10;
@@ -807,9 +802,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 42;
@@ -826,9 +821,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 43;
@@ -845,9 +840,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 44;
@@ -855,11 +850,8 @@ namespace SpiritMod.Items.Banners
     }
     public class KakamoraThrowerBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Kakamora Lobber Banner");
-        }
-        public override void SetDefaults()
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Kakamora Lobber Banner");
+		public override void SetDefaults()
         {
             item.width = 10;
             item.height = 24;
@@ -868,9 +860,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 45;
@@ -887,9 +879,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 46;
@@ -906,9 +898,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 47;
@@ -916,10 +908,8 @@ namespace SpiritMod.Items.Banners
     }
     public class KakamoraShielderBanner1 : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Kakamora Guard Banner");
-        }
+        public override void SetStaticDefaults() => DisplayName.SetDefault("Kakamora Guard Banner");
+
         public override void SetDefaults()
         {
             item.width = 10;
@@ -929,9 +919,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 48;
@@ -948,9 +938,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 49;
@@ -967,9 +957,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 50;
@@ -986,9 +976,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 51;
@@ -1005,9 +995,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 52;
@@ -1024,9 +1014,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 53;
@@ -1043,9 +1033,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 54;
@@ -1062,9 +1052,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 55;
@@ -1081,9 +1071,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 56;
@@ -1100,9 +1090,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 57;
@@ -1119,9 +1109,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 58;
@@ -1138,9 +1128,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 59;
@@ -1157,9 +1147,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 60;
@@ -1176,9 +1166,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 61;
@@ -1195,9 +1185,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 62;
@@ -1214,9 +1204,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 63;
@@ -1233,9 +1223,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 64;
@@ -1252,9 +1242,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 65;
@@ -1262,10 +1252,8 @@ namespace SpiritMod.Items.Banners
     }
     public class ReachmanBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Feral Hunter Banner");
-        }
+        public override void SetStaticDefaults() => DisplayName.SetDefault("Feral Hunter Banner");
+
         public override void SetDefaults()
         {
             item.width = 10;
@@ -1275,9 +1263,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 66;
@@ -1285,11 +1273,9 @@ namespace SpiritMod.Items.Banners
     }
     public class HemaphoraBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Hemophora Banner");
-        }
-        public override void SetDefaults()
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Hemophora Banner");
+
+		public override void SetDefaults()
         {
             item.width = 10;
             item.height = 24;
@@ -1298,9 +1284,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 67;
@@ -1317,9 +1303,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 68;
@@ -1336,9 +1322,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 69;
@@ -1355,9 +1341,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 70;
@@ -1365,11 +1351,8 @@ namespace SpiritMod.Items.Banners
     }
     public class GiantJellyBanner : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Tethervolt Jelly Banner");
-        }
-        public override void SetDefaults()
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Tethervolt Jelly Banner");
+		public override void SetDefaults()
         {
             item.width = 10;
             item.height = 24;
@@ -1378,9 +1361,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 71;
@@ -1397,9 +1380,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 72;
@@ -1416,9 +1399,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 73;
@@ -1435,9 +1418,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 74;
@@ -1454,9 +1437,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 75;
@@ -1473,9 +1456,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 76;
@@ -1492,9 +1475,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 77;
@@ -1511,9 +1494,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 78;
@@ -1530,9 +1513,9 @@ namespace SpiritMod.Items.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = TileType<BannerTile>();
             item.placeStyle = 79;

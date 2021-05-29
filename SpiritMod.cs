@@ -775,18 +775,19 @@ namespace SpiritMod
 				SellWeapons_INTERFACE.SetState(SellWeapons_SHORTCUT);
 
 				//Portrait textures - Gabe
-				Portraits.Add(NPCID.Guide, GetTexture("NPCs/Portraits/Guide"));
+				Portraits.Add(NPCID.SkeletonMerchant, GetTexture("NPCs/Portraits/SkeletonMerchant"));
+				Portraits.Add(ModContent.NPCType<Gambler>(), GetTexture("NPCs/Portraits/Gambler"));
+				Portraits.Add(NPCID.Demolitionist, GetTexture("NPCs/Portraits/Demolitionist"));
+				Portraits.Add(NPCID.TaxCollector, GetTexture("NPCs/Portraits/TaxCollector"));
+				Portraits.Add(NPCID.DD2Bartender, GetTexture("NPCs/Portraits/Tavernkeep"));
+				Portraits.Add(NPCID.ArmsDealer, GetTexture("NPCs/Portraits/ArmsDealer"));
+				Portraits.Add(NPCID.DyeTrader, GetTexture("NPCs/Portraits/DyeTrader"));
 				Portraits.Add(NPCID.Merchant, GetTexture("NPCs/Portraits/Merchant"));
 				Portraits.Add(NPCID.Truffle, GetTexture("NPCs/Portraits/Truffle"));
 				Portraits.Add(NPCID.Wizard, GetTexture("NPCs/Portraits/Wizard"));
+				Portraits.Add(NPCID.Guide, GetTexture("NPCs/Portraits/Guide"));
 				Portraits.Add(NPCID.Dryad, GetTexture("NPCs/Portraits/Dryad"));
-				Portraits.Add(ModContent.NPCType<Gambler>(), GetTexture("NPCs/Portraits/Gambler"));
-				Portraits.Add(NPCID.ArmsDealer, GetTexture("NPCs/Portraits/ArmsDealer"));
 				Portraits.Add(NPCID.Nurse, GetTexture("NPCs/Portraits/Nurse"));
-				Portraits.Add(NPCID.SkeletonMerchant, GetTexture("NPCs/Portraits/SkeletonMerchant"));
-				Portraits.Add(NPCID.Demolitionist, GetTexture("NPCs/Portraits/Demolitionist"));
-				Portraits.Add(NPCID.TaxCollector, GetTexture("NPCs/Portraits/TaxCollector"));
-
 				Main.OnPreDraw += DrawStarGoopTarget;
 			}
 			primitives = new PrimTrailManager();
@@ -836,7 +837,7 @@ namespace SpiritMod
 				if (Main.dedServ || !modType)
 					continue;
 
-				System.Reflection.FieldInfo _texField = type.GetField("_textures");
+				FieldInfo _texField = type.GetField("_textures");
 				if (_texField == null || !_texField.IsStatic || _texField.FieldType != typeof(Texture2D[]))
 					continue;
 

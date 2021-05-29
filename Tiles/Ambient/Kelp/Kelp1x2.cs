@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -10,6 +11,13 @@ namespace SpiritMod.Tiles.Ambient.Kelp
 {
 	public class Kelp1x2 : ModTile
 	{
+		readonly Texture2D glowmask;
+
+		public Kelp1x2()
+		{
+			glowmask = ModContent.GetTexture("SpiritMod/Tiles/Ambient/Kelp/Kelp1x2_Glow");
+		}
+
 		public override void SetDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
@@ -39,12 +47,24 @@ namespace SpiritMod.Tiles.Ambient.Kelp
 
 		public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
 
+		public override void SetSpriteEffects(int i, int j, ref SpriteEffects spriteEffects) => spriteEffects = (i % 2 == 0) ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
 			if (Framing.GetTileSafely(i, j).frameY == 0) {
-				r = 0.26f;
-				g = 0.26f;
+				r = 0.34f;
+				g = 0.34f;
 				b = 0;
+			}
+		}
+
+		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+		{
+			Tile t = Framing.GetTileSafely(i, j);
+			if (t.frameY == 0)
+			{
+				Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
+				spriteBatch.Draw(glowmask, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(t.frameX, t.frameY, 16, 16), Color.LightYellow);
 			}
 		}
 	}
