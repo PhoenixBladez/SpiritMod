@@ -102,22 +102,10 @@ namespace SpiritMod.NPCs.Reach
 				if ((int)npc.frameCounter == 4 && !thrown)
 				{
 					thrown = true;
-					Vector2 direction = Main.player[npc.target].Center - npc.Center;
-					direction.Normalize();
-					direction.X *= 3f;
-					direction.Y *= 11f;
+					Vector2 direction = npc.GetArcVel(Main.player[npc.target].Center, 0.4f, 100, 500, maxXvel : 14);
 					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
 					if (Main.netMode != NetmodeID.MultiplayerClient)
-					{
-						int amountOfProjectiles = Main.rand.Next(1, 1);
-						for (int i = 0; i < amountOfProjectiles; ++i) {
-							float A = Main.rand.Next(-120, 120) * 0.05f;
-							float B = Main.rand.Next(-120, -10) * 0.05f;
-							int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, -direction.Y + B, ModContent.ProjectileType<LittleBouncingSpore>(), 8, 1, Main.myPlayer, 0, 0);
-							Main.projectile[p].hostile = true;
-							Main.projectile[p].friendly = false;
-						}
-					}
+						Projectile.NewProjectile(npc.Center, direction, ModContent.ProjectileType<LittleBouncingSpore>(), 8, 1, Main.myPlayer, 0, 0);
 				}
 				if ((int)npc.frameCounter != 4)
 				{

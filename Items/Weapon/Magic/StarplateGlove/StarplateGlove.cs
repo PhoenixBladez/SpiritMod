@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Magic.StarplateGlove
 			item.noMelee = true;
 			item.autoReuse = true;
 			item.value = Item.sellPrice(silver: 55);
-			item.rare = 2;
+			item.rare = ItemRarityID.Orange;
 		}
 
 		public override void SetStaticDefaults()
@@ -113,13 +113,9 @@ namespace SpiritMod.Items.Weapon.Magic.StarplateGlove
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			for (int i = 0; i < 1000; ++i)
-				{
-					if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == ModContent.ProjectileType<StarplateGloveProj>())
-					{
-						return false;
-					}
-				}
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<StarplateGloveProj>()] != 0)
+				return false;
+
 			if (player.altFunctionUse == 2)
 			{
 				Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<StarplateGloveProj>(), damage, knockBack, player.whoAmI);

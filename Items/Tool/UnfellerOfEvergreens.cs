@@ -7,7 +7,7 @@ namespace SpiritMod.Items.Tool
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Unfeller of Evergreens");
+			DisplayName.SetDefault("Evergreen");
 			Tooltip.SetDefault("Plants saplings when it chops trees down");
 		}
 

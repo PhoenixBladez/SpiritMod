@@ -18,13 +18,13 @@ namespace SpiritMod.Items.Weapon.Bow
 
 		public override void SetDefaults()
 		{
-			item.damage = 15;
+			item.damage = 14;
 			item.noMelee = true;
 			item.ranged = true;
 			item.width = 50;
 			item.height = 30;
-			item.useTime = 22;
-			item.useAnimation = 22;
+			item.useTime = 25;
+			item.useAnimation = 25;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shoot = ProjectileID.Shuriken;
 			item.useAmmo = AmmoID.Arrow;
@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Weapon.Bow
 			item.rare = ItemRarityID.Blue;
 			item.UseSound = SoundID.Item5;
 			item.autoReuse = true;
-			item.shootSpeed = 4.5f;
+			item.shootSpeed = 4.25f;
 		}
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{

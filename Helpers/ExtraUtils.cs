@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -7,9 +8,12 @@ namespace SpiritMod
 {
 	public static class ExtraUtils
 	{
-		public static void Bounce(this Projectile projectile, Vector2 oldVelocity, float VelocityKeptRatio = 1f)
-        {
-			projectile.velocity = new Vector2((projectile.velocity.X == oldVelocity.X) ? projectile.velocity.X : -oldVelocity.X * VelocityKeptRatio, (projectile.velocity.Y == oldVelocity.Y) ? projectile.velocity.Y : -oldVelocity.Y * VelocityKeptRatio/ 2);
+		public static void Bounce(this Projectile projectile, Vector2 oldVelocity, float VelocityKeptRatio = 1f) => projectile.velocity = new Vector2((projectile.velocity.X == oldVelocity.X) ? projectile.velocity.X : -oldVelocity.X * VelocityKeptRatio, (projectile.velocity.Y == oldVelocity.Y) ? projectile.velocity.Y : -oldVelocity.Y * VelocityKeptRatio);
+
+		public static Rectangle DrawFrame(this Projectile projectile)
+		{
+			Texture2D texture = Main.projectileTexture[projectile.type];
+			return new Rectangle(0, projectile.frame * texture.Height / Main.projFrames[projectile.type], texture.Width, texture.Height / Main.projFrames[projectile.type]);
 		}
 
 		public static Vector2 GetArcVel(Vector2 startingPos, Vector2 targetPos, float gravity, float? minArcHeight = null, float? maxArcHeight = null, float? maxXvel = null, float? heightabovetarget = null)
@@ -17,10 +21,10 @@ namespace SpiritMod
 			Vector2 DistanceToTravel = targetPos - startingPos;
 			float MaxHeight = DistanceToTravel.Y - (heightabovetarget ?? 0);
 			if(minArcHeight != null)
-				MaxHeight = Math.Min((sbyte)MaxHeight, -(sbyte)minArcHeight);
+				MaxHeight = Math.Min(MaxHeight, -(float)minArcHeight);
 
 			if (maxArcHeight != null)
-				MaxHeight = Math.Max((sbyte)MaxHeight, -(sbyte)maxArcHeight);
+				MaxHeight = Math.Max(MaxHeight, -(float)maxArcHeight);
 
 			float TravelTime;
 			float neededYvel;

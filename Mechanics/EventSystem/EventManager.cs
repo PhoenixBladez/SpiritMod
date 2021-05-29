@@ -60,6 +60,8 @@ namespace SpiritMod.Mechanics.EventSystem
 
 		public static void Update(GameTime gameTime)
 		{
+			if (_activeEvents == null)
+				return;
 			if (Main.gameMenu)
 			{
 				_activeEvents.Clear();

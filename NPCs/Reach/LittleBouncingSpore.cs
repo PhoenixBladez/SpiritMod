@@ -18,22 +18,14 @@ namespace SpiritMod.NPCs.Reach
 			projectile.height = 32;
 			projectile.width = 30;
 			projectile.friendly = false;
-			projectile.aiStyle = 2;
+			projectile.aiStyle = -1;
 			projectile.penetrate = 4;
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			projectile.penetrate--;
-			if (projectile.penetrate <= 0)
-				projectile.Kill();
-
-
-			if (projectile.velocity.X != oldVelocity.X)
-				projectile.velocity.X = oldVelocity.X * 1.1f;
-
-			if (projectile.velocity.Y != oldVelocity.Y)
-				projectile.velocity.Y = oldVelocity.Y * -.98f;
+			projectile.Bounce(oldVelocity, 0.5f);
 
 			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 10);
 			return false;
@@ -41,7 +33,8 @@ namespace SpiritMod.NPCs.Reach
 
 		public override void AI()
 		{
-			projectile.rotation += 0.3f;
+			projectile.rotation += 0.1f * projectile.velocity.X;
+			projectile.velocity.Y += 0.4f;
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)

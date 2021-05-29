@@ -12,6 +12,7 @@ namespace SpiritMod.Projectiles.Bullet
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Coiled Rocket");
+			Main.projFrames[projectile.type] = 4;
 		}
 
 		public override void SetDefaults()
@@ -29,6 +30,14 @@ namespace SpiritMod.Projectiles.Bullet
 
 		public override void AI()
 		{
+
+			projectile.frameCounter++;
+			if (projectile.frameCounter >= 3) {
+				projectile.frame++;
+				projectile.frameCounter = 0;
+				if (projectile.frame >= 4)
+					projectile.frame = 0;
+			}
 			var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
 			foreach (var proj in list) {
 				if (projectile != proj && proj.type == ModContent.ProjectileType<FreemanRocket>() && proj.active) {

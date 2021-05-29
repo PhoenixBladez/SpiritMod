@@ -561,7 +561,7 @@ namespace SpiritMod
 			Player player = Main.LocalPlayer;
 			MyPlayer spirit = player.GetModPlayer<MyPlayer>();
 			if (spirit.ZoneReach && !Main.dayTime) {
-				scale *= .89f;
+				scale *= .95f;
 			}
 		}
 
@@ -627,6 +627,10 @@ namespace SpiritMod
 				Ref<Effect> screenRef = new Ref<Effect>(GetEffect("Effects/ShockwaveEffect")); // The path to the compiled shader file.
 				Filters.Scene["Shockwave"] = new Filter(new ScreenShaderData(screenRef, "Shockwave"), EffectPriority.VeryHigh);
 				Filters.Scene["Shockwave"].Load();
+
+				Ref<Effect> screenRef3 = new Ref<Effect>(GetEffect("Effects/PulsarShockwave")); // The path to the compiled shader file.
+				Filters.Scene["PulsarShockwave"] = new Filter(new ScreenShaderData(screenRef3, "PulsarShockwave"), EffectPriority.VeryHigh);
+				Filters.Scene["PulsarShockwave"].Load();
 
 				SlotUserInterface = new UserInterface();
 			}

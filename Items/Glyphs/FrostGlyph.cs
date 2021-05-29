@@ -73,18 +73,23 @@ namespace SpiritMod.Items.Glyphs
 				else
 					velocity *= length;
 				velocity *= 5;
-				Projectile.NewProjectileDirect(player.MountedCenter, velocity, ModContent.ProjectileType<FrostSpike>(),
-				damage, 2f, player.whoAmI, -1);
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					Projectile.NewProjectileDirect(player.MountedCenter, velocity, ModContent.ProjectileType<FrostSpike>(),
+						damage, 2f, player.whoAmI, -1);
+				}
 				modPlayer.frostCooldown = 3 * COOLDOWN;
 				return;
 			}
 
 			float sector = MathHelper.TwoPi / (spikes + 1);
 			float rotation = modPlayer.frostRotation + spikes * sector;
-			Projectile.NewProjectileDirect(player.Center, Vector2.Zero, ModContent.ProjectileType<FrostSpike>(),
-				damage, 2f, player.whoAmI, spikes)
-				.rotation = rotation;
-
+			if (Main.netMode != NetmodeID.MultiplayerClient)
+			{
+				Projectile.NewProjectileDirect(player.Center, Vector2.Zero, ModContent.ProjectileType<FrostSpike>(),
+					damage, 2f, player.whoAmI, spikes)
+					.rotation = rotation;
+			}
 			modPlayer.frostCount++;
 			modPlayer.frostCooldown = COOLDOWN;
 		}

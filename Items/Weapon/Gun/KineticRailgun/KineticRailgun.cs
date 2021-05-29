@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -15,12 +16,12 @@ namespace SpiritMod.Items.Weapon.Gun.KineticRailgun
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Tesla Cannon");
-			Tooltip.SetDefault("Consumes gel\n'Zap your enemies to oblivion!'");
+			Tooltip.SetDefault("Consumes gel\nDoes more damage to single targets \n'Zap your enemies to oblivion!'");
 		}
 
 		public override void SetDefaults()
 		{
-			item.damage = 480;
+			item.damage = 100;
 			item.width = 65;
 			item.height = 21;
 			item.useTime = 65;
@@ -41,10 +42,21 @@ namespace SpiritMod.Items.Weapon.Gun.KineticRailgun
 		{
 			return new Vector2(-15, 0);
 		}
+
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.FragmentVortex, 18);
+			recipe.AddTile(TileID.LunarCraftingStation);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
 	}
 	public class KineticRailgunProj : ModProjectile
 	{
-		const int RANGE = 500;
+		const int RANGE = 600;
+
+		const float CONE = 0.7f;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Tesla Cannon");
@@ -96,7 +108,7 @@ namespace SpiritMod.Items.Weapon.Gun.KineticRailgun
 				{
 					NPC npc = Main.npc[i];
 					Vector2 toNPC = npc.Center - player.Center;
-					if (toNPC.Length() < RANGE && npc.active && Math.Abs(MathHelper.WrapAngle(toNPC.ToRotation()) % 6.28f - MathHelper.WrapAngle(direction.ToRotation()) % 6.28f) < 0.5f)
+					if (toNPC.Length() < RANGE && npc.active && AnglesWithinCone(toNPC.ToRotation(), direction.ToRotation()) && (!npc.townNPC || !npc.friendly))
 					{
 						bool targetted = false;
 						foreach (var npc2 in targets)
@@ -107,7 +119,7 @@ namespace SpiritMod.Items.Weapon.Gun.KineticRailgun
 									targetted = true;
 							}
 						}
-						if (!targetted && Main.rand.Next(15) == 0)
+						if (!targetted)
 						{
 							SpiritMod.primitives.CreateTrail(new RailgunPrimTrail(projectile, npc));
 							targets.Add(npc);
@@ -115,8 +127,6 @@ namespace SpiritMod.Items.Weapon.Gun.KineticRailgun
 					}
 					else
 					{
-						if (npc.active)
-							npc.GetGlobalNPC<RailNPC>().charge = 0;
 						targets.Remove(npc);
 					}
 				}
@@ -124,24 +134,18 @@ namespace SpiritMod.Items.Weapon.Gun.KineticRailgun
 				{
 					if (!npc2.active)
 						targets.Remove(npc2);
-					npc2.GetGlobalNPC<RailNPC>().charge++;
 				}
 			}
 			else
 			{
-				foreach (var npc2 in targets.ToArray())
-				{
-					if (npc2.active)
-						npc2.GetGlobalNPC<RailNPC>().charge = 0;
-				}
 				projectile.active = false;
 			}
 		}
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
 			Player player = Main.player[projectile.owner];
             Vector2 toNPC = targetHitbox.Center.ToVector2() - player.Center;
-			return toNPC.Length() < RANGE && Math.Abs(MathHelper.WrapAngle(toNPC.ToRotation()) % 6.28f - MathHelper.WrapAngle(direction.ToRotation()) % 6.28f) < 0.5f;
-        }
+			return toNPC.Length() < RANGE && AnglesWithinCone(toNPC.ToRotation(), direction.ToRotation());
+		}
 		public override bool? CanHitNPC(NPC target)
 		{
 			foreach (var npc2 in targets)
@@ -149,7 +153,7 @@ namespace SpiritMod.Items.Weapon.Gun.KineticRailgun
 				if (npc2.active)
 				{
 					if (npc2 == target)
-						return target.GetGlobalNPC<RailNPC>().charge % 33 >= 29;
+						return base.CanHitNPC(target);
 				}
 			}
 			return false;
@@ -162,6 +166,23 @@ namespace SpiritMod.Items.Weapon.Gun.KineticRailgun
 				Main.dust[dust].scale = 0.8f;
 			}
 		}
+
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			if (targets.Count == 1)
+				damage *= 2;
+		}
+
+		private bool AnglesWithinCone(float angle1, float angle2)
+		{
+			if (Math.Abs(MathHelper.WrapAngle(angle1) % 6.28f - MathHelper.WrapAngle(angle2) % 6.28f) < CONE)
+				return true;
+			if (Math.Abs((MathHelper.WrapAngle(angle1) % 6.28f - MathHelper.WrapAngle(angle2) % 6.28f) + 6.28f) < CONE)
+				return true;
+			if (Math.Abs((MathHelper.WrapAngle(angle1) % 6.28f - MathHelper.WrapAngle(angle2) % 6.28f) - 6.28f) < CONE)
+				return true;
+			return false;
+		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Player player = Main.player[projectile.owner];
@@ -172,7 +193,6 @@ namespace SpiritMod.Items.Weapon.Gun.KineticRailgun
 				int height = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
 				int y2 = height * projectile.frame;
 				Vector2 position = (projectile.position - (0.5f * direction) + new Vector2((float) projectile.width, (float) projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition).Floor();
-				float num1 = 1f;
 				Main.spriteBatch.Draw(mod.GetTexture("Items/Weapon/Gun/KineticRailgun/KineticRailgunProj"), position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), lightColor, direction.ToRotation(), new Vector2((float) texture.Width / 2f, (float) height / 2f), projectile.scale, effects1, 0.0f);
 				Main.spriteBatch.Draw(mod.GetTexture("Items/Weapon/Gun/KineticRailgun/KineticRailgunProj_Glow"), position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), Color.White, direction.ToRotation(), new Vector2((float) texture.Width / 2f, (float) height / 2f), projectile.scale, effects1, 0.0f);
 			}
@@ -183,17 +203,10 @@ namespace SpiritMod.Items.Weapon.Gun.KineticRailgun
 				int height = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
 				int y2 = height * projectile.frame;
 				Vector2 position = (projectile.position - (0.5f * direction) + new Vector2((float) projectile.width, (float) projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition).Floor();
-				float num1 = 1f;
 				Main.spriteBatch.Draw(mod.GetTexture("Items/Weapon/Gun/KineticRailgun/KineticRailgunProj"), position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), lightColor, direction.ToRotation() - 3.14f, new Vector2((float) texture.Width / 2f, (float) height / 2f), projectile.scale, effects1, 0.0f); 
 				Main.spriteBatch.Draw(mod.GetTexture("Items/Weapon/Gun/KineticRailgun/KineticRailgunProj_Glow"), position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), Color.White, direction.ToRotation() - 3.14f, new Vector2((float) texture.Width / 2f, (float) height / 2f), projectile.scale, effects1, 0.0f); 
 			}
 			return false;
 		}
-	}
-	public class RailNPC: GlobalNPC
-	{
-		public override bool InstancePerEntity => true;
-
-		public int charge = 0;
 	}
 }

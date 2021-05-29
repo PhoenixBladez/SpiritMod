@@ -94,25 +94,19 @@ namespace SpiritMod.Projectiles.Bullet
 
             }
         }
-        Color color;
         public void AdditiveCall(SpriteBatch spriteBatch)
         {
+            for (int k = 0; k < projectile.oldPos.Length; k++)
             {
-                for (int k = 0; k < projectile.oldPos.Length; k++)
-                {
-                    {
-                        color = new Color(240, 199, 255) * 0.65f * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
+				Color color = new Color(240, 199, 255) * 0.65f * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
+                float scale = projectile.scale;
+                Texture2D tex = ModContent.GetTexture("SpiritMod/Projectiles/Bullet/ConfluxPellet");
 
-                    }
-
-                    float scale = projectile.scale;
-                    Texture2D tex = ModContent.GetTexture("SpiritMod/Projectiles/Bullet/ConfluxPellet");
-
-                    spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color, projectile.rotation, tex.Size() / 2, scale, default, default);
+                spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color, projectile.rotation, tex.Size() / 2, scale, default, default);
                    
-                }
             }
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
@@ -124,15 +118,14 @@ namespace SpiritMod.Projectiles.Bullet
             }
             return false;
         }
-        public override void Kill(int timeLeft)
-		{
-			Main.PlaySound(SoundID.NPCHit, projectile.position, 3);
-		}
-        public override bool OnTileCollide(Vector2 oldVelocity)
+
+		public override void Kill(int timeLeft) => Main.PlaySound(SoundID.NPCHit, projectile.position, 3);
+
+		public override bool OnTileCollide(Vector2 oldVelocity)
         {
             for (float numBounce = 0.0f; (double)numBounce < 10; ++numBounce)
             {
-                int dustIndex = Dust.NewDust(projectile.Center, 2, 2, 272, 0f, 0f, 0, default(Color), .56f);
+                int dustIndex = Dust.NewDust(projectile.Center, 2, 2, 272, 0f, 0f, 0, default, .56f);
                 Main.dust[dustIndex].noGravity = true;
                 Main.dust[dustIndex].velocity = Vector2.Normalize(projectile.Center.RotatedBy(Main.rand.NextFloat(MathHelper.TwoPi))) * 1.6f;
             }
@@ -145,28 +138,22 @@ namespace SpiritMod.Projectiles.Bullet
             {
 				float maxdist = 500; //the maximum distance in pixels to check for an npc
 				var targets = Main.npc.Where(x => x.CanBeChasedBy(this) && x != null && x.active && projectile.Distance(x.Center) < maxdist && Collision.CanHit(projectile.Center, 0, 0, x.Center, 0, 0)); //look through each npc, and find the ones that meet the given requirements
-				if (targets.Any()) { //only run this code if there are any npcs that fulfill the above requirements
+				if (targets.Any())
+				{ //only run this code if there are any npcs that fulfill the above requirements
 					NPC finaltarget = null;
-					foreach (NPC npc in targets) { //loop through each npc that meets the above requirements, and find the closest by decreasing the maximum distance each time a closer npc is found
-						if (projectile.Distance(npc.Center) <= maxdist) {
+					foreach (NPC npc in targets)
+					{ //loop through each npc that meets the above requirements, and find the closest by decreasing the maximum distance each time a closer npc is found
+						if (projectile.Distance(npc.Center) <= maxdist)
+						{
 							maxdist = projectile.Distance(npc.Center);
 							finaltarget = npc;
 						}
 					}
-					if(finaltarget != null) { //only run this code if the final target isn't null, to prevent any possible null reference errors
-						projectile.velocity = projectile.DirectionTo(finaltarget.Center) * projectile.velocity.Length() * 0.8f;
-						projectile.velocity.Y = (Math.Sign(oldVelocity.Y) == 1) ? Math.Min(projectile.velocity.Y, -3) : projectile.velocity.Y;
-					}
+					if (finaltarget != null) //only run this code if the final target isn't null, to prevent any possible null reference errors
+						projectile.velocity = projectile.GetArcVel(finaltarget.Center, 0.1f, maxXvel: 8);
 				}
-				else {
-					if (projectile.velocity.X != oldVelocity.X)
-						projectile.velocity.X = -oldVelocity.X;
-
-					if (projectile.velocity.Y != oldVelocity.Y)
-						projectile.velocity.Y = -oldVelocity.Y;
-
-					projectile.velocity *= 0.65f;
-				}
+				else 
+					projectile.Bounce(oldVelocity, 0.75f);
             }
             return false;
         }

@@ -48,6 +48,8 @@ namespace SpiritMod.NPCs.DeadeyeMarksman
 			bool conditions = spawnInfo.spawnTileY < Main.rockLayer && !Main.dayTime && !spawnInfo.playerSafe && spawnInfo.player.ZoneOverworldHeight && !spawnInfo.player.ZoneDesert && !spawnInfo.player.ZoneCorrupt && !spawnInfo.player.ZoneCrimson && !spawnInfo.player.ZoneBeach && !spawnInfo.player.ZoneJungle && !Main.pumpkinMoon && !Main.snowMoon;
 			if (!NPC.downedBoss1)
 				return conditions ? 0.025f : 0f;
+			if (Main.hardMode)
+				return conditions ? 0.01f : 0f;
 			return conditions ? 0.04f : 0f;
 		}
 

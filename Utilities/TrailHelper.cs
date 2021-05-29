@@ -36,7 +36,7 @@ namespace SpiritMod.Utilities
 		{
 			//todo: refactor this to be based on the itrailprojectile interface? wanted to have a dissolve speed parameter with a default value so it doesnt need to be specified but not possible in this version of C#
 			Mod mod = SpiritMod.instance;
-			if (projectile.type == ModContent.ProjectileType<SleepingStar>() || projectile.type == ModContent.ProjectileType<SleepingStar1>() || projectile.type == ModContent.ProjectileType<LeafProjReachChest>() || projectile.type == ModContent.ProjectileType<HallowedStaffProj>() || projectile.type == ModContent.ProjectileType<TrueHallowedStaffProj>() || projectile.type == ModContent.ProjectileType<PositiveArrow>() || projectile.type == ModContent.ProjectileType<NegativeArrow>() || projectile.type == ModContent.ProjectileType<PartyStarterBullet>() || projectile.type == ModContent.ProjectileType<SandWall>() || projectile.type == ModContent.ProjectileType<SandWall2>()) {
+			if (projectile.type == ModContent.ProjectileType<SleepingStar>() || projectile.type == ModContent.ProjectileType<LeafProjReachChest>() || projectile.type == ModContent.ProjectileType<HallowedStaffProj>() || projectile.type == ModContent.ProjectileType<TrueHallowedStaffProj>() || projectile.type == ModContent.ProjectileType<PositiveArrow>() || projectile.type == ModContent.ProjectileType<NegativeArrow>() || projectile.type == ModContent.ProjectileType<PartyStarterBullet>() || projectile.type == ModContent.ProjectileType<SandWall>() || projectile.type == ModContent.ProjectileType<SandWall2>()) {
 				SpiritMod.TrailManager.TryEndTrail(projectile, Math.Max(15f, projectile.velocity.Length() * 3f));
 			}
 			if (projectile.type == ModContent.ProjectileType<OrichHoming>() || projectile.type == ModContent.ProjectileType<DarkAnima>()) {
@@ -628,6 +628,38 @@ namespace SpiritMod.Utilities
 		{
 			float progress = distanceFromStart / trailLength;
 			return Color.Lerp(SpiritMod.StarjinxColor(_start + Main.GlobalTime * _speed), SpiritMod.StarjinxColor(_start + 5 + Main.GlobalTime * _speed), progress) * (1f - progress) * _opacity;
+		}
+	}
+
+	public class OpacityUpdatingTrail : ITrailColor
+	{
+
+		private Color _startcolor;
+		private Color _endcolor;
+		private Projectile _proj;
+		private float _opacity = 1f;
+
+		public OpacityUpdatingTrail(Projectile proj, Color color)
+		{
+			_startcolor = color;
+			_endcolor = color;
+			_proj = proj;
+		}
+
+		public OpacityUpdatingTrail(Projectile proj, Color startColor, Color endColor)
+		{
+			_startcolor = startColor;
+			_endcolor = endColor;
+			_proj = proj;
+		}
+
+		public Color GetColourAt(float distanceFromStart, float trailLength, List<Vector2> points)
+		{
+			float progress = distanceFromStart / trailLength;
+			if (_proj.active && _proj != null)
+				_opacity = _proj.Opacity;
+
+			return Color.Lerp(_startcolor, _endcolor, progress) * (1f - progress) * _opacity;
 		}
 	}
 	#endregion

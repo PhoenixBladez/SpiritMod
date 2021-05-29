@@ -47,13 +47,12 @@ namespace SpiritMod.World
 				
 
 				if (Main.rand.Next(2) == 0) {
-					MyWorld.gennedBandits = new BanditHideout().Generate();
-					//GenerateBanditHideout();
-					//gennedBandits = true;
+					new BanditHideout().Generate();
+					MyWorld.gennedBandits = true;
 				}
 				else {
-					MyWorld.gennedTower = new GoblinTower().Generate();
-					//gennedTower = GenerateTower();
+					new GoblinTower().Generate();
+					MyWorld.gennedTower = true;
 				}
 
 				int num584 = 1;
