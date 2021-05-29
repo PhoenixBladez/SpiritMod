@@ -50,13 +50,13 @@ namespace SpiritMod.Items.Weapon.Thrown.SlingHammers
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
-		protected override int height => 44;
-		protected override int width => 44;
+		protected override int height => 66;
+		protected override int width => 58;
 		protected override int chargeTime => 50;
 		protected override float chargeRate => 1f;
 		protected override int thrownProj => ModContent.ProjectileType<ShadowAxeProjReturning>();
 		protected override float damageMult => 1.25f;
-		protected override int throwSpeed => 20;
+		protected override int throwSpeed => 18;
 	}
 	public class ShadowAxeProjReturning : ModProjectile
 	{
@@ -76,6 +76,7 @@ namespace SpiritMod.Items.Weapon.Thrown.SlingHammers
 			projectile.melee = true;
 			projectile.penetrate = -1;
 			projectile.timeLeft = 700;
+			projectile.extraUpdates = 1;
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
