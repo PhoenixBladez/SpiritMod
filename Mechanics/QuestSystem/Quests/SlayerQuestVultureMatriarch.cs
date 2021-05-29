@@ -19,7 +19,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public SlayerQuestVultureMatriarch()
         {
-			_tasks.AddParallelTasks(new SlayTask(10, 10), new SlayTask(15, 10), new SlayTask(20, 10));
+            _tasks.AddTask(new SlayTask(ModContent.NPCType<NPCs.Vulture_Matriarch.Vulture_Matriarch>(), 1));
         }
     }
 }

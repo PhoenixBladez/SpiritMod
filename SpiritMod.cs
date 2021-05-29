@@ -561,7 +561,7 @@ namespace SpiritMod
 			Player player = Main.LocalPlayer;
 			MyPlayer spirit = player.GetModPlayer<MyPlayer>();
 			if (spirit.ZoneReach && !Main.dayTime) {
-				scale *= .89f;
+				scale *= .95f;
 			}
 		}
 

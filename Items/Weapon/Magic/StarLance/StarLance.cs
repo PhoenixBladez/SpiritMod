@@ -151,9 +151,18 @@ namespace SpiritMod.Items.Weapon.Magic.StarLance
 		}
 		public override void Kill(int timeLeft)
 		{
-			for (int i = 0; i < 6; i++)
+			Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 3);
+			Vector2 vector9 = projectile.position;
+			Vector2 value19 = projectile.rotation.ToRotationVector2();
+			vector9 += value19 * 16f;
+			for (int num257 = 0; num257 < 20; num257++)
 			{
-				Dust.NewDustPerfect(projectile.Center, ModContent.DustType<FriendlyStargoopDust>(), Main.rand.NextFloat(6.28f).ToRotationVector2() * 3, Scale: Main.rand.NextFloat(1.4f, 1.8f));
+				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, ModContent.DustType<FriendlyStargoopDust>(), 0f, 0f, 0, default(Color), 1f);
+				Main.dust[newDust].position = (Main.dust[newDust].position + projectile.Center) / 2f;
+				Main.dust[newDust].velocity += value19 * 2f;
+				Main.dust[newDust].velocity *= 0.5f;
+				Main.dust[newDust].noGravity = true;
+				vector9 -= value19 * 8f;
 			}
 			SpiritMod.Metaballs.FriendlyLayer.Sprites.Remove(this);
 		}

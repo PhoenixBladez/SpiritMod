@@ -36,7 +36,23 @@ namespace SpiritMod.NPCs.BlueMoon.GlowToad
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-
+			for (int k = 0; k < 11; k++) {
+				Dust.NewDust(npc.position, npc.width, npc.height, 187, hitDirection, -1f, 1, default(Color), .81f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 205, hitDirection, -1f, 1, default(Color), .51f);
+			}
+			if (npc.life <= 0) {
+				for (int k = 0; k < 11; k++) {
+					Dust.NewDust(npc.position, npc.width, npc.height, 187, hitDirection, -1f, 1, default(Color), .81f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 205, hitDirection, -1f, 1, default(Color), .71f);
+				}
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GlowToad/GlowToad1"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GlowToad/GlowToad2"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GlowToad/GlowToad3"), 1f);
+			}
+		}
+		public override float SpawnChance(NPCSpawnInfo spawnInfo)
+		{
+			return MyWorld.BlueMoon && NPC.CountNPCS(ModContent.NPCType<GlowToad>()) < 4 && spawnInfo.player.ZoneOverworldHeight ? .6f : 0f;
 		}
 		public override void SendExtraAI(BinaryWriter writer)
 		{

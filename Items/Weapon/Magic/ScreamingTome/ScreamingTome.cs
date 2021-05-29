@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Weapon.Magic.ScreamingTome
     {
         public override void SetDefaults()
         {
-            item.damage = 14;
+            item.damage = 16;
             item.noMelee = true;
             item.magic = true;
             item.width = 36;

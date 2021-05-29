@@ -1263,7 +1263,7 @@ namespace SpiritMod
                 target.AddBuff(BuffID.Frostburn, 180);
 
             if (forbiddenTome) {
-                if (target.life <= 0 && !target.SpawnedFromStatue) {
+                if (target.life <= 0 && !target.SpawnedFromStatue && player.ownedProjectileCounts[ModContent.ProjectileType<GhastSkullFriendly>()] <= 8) {
                     for (int i = 0; i < 40; i++) {
                         int num = Dust.NewDust(target.position, target.width, target.height, 156, 0f, -2f, 117, new Color(0, 255, 142), .6f);
                         Main.dust[num].noGravity = true;
@@ -4645,7 +4645,7 @@ namespace SpiritMod
 					Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<FelProj>(), 0, 0, player.whoAmI);
 				}
 
-				if(bloodcourtSet && !player.HasBuff(ModContent.BuffType<CourtCooldown>())) {
+				if(bloodcourtSet && !player.HasBuff(ModContent.BuffType<CourtCooldown>()) && player.statLife > (int)(player.statLifeMax * .08f)) {
 					player.AddBuff(ModContent.BuffType<CourtCooldown>(), 500);
 					Vector2 mouse = Main.MouseScreen + Main.screenPosition;
 					Vector2 dir = mouse - player.Center;

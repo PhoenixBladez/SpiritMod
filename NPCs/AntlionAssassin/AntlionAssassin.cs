@@ -53,15 +53,15 @@ namespace SpiritMod.NPCs.AntlionAssassin
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AntlionAssassin/Assassin3"), 1f);
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AntlionAssassin/Assassin4"), 1f);
 				}
-				for (int k = 0; k < 11; k++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, 85, hitDirection, -1f, 1, default(Color), .61f);
-				}
 				int ing = Gore.NewGore(npc.position, npc.velocity, 825);
 				Main.gore[ing].timeLeft = 30;
 				int ing1 = Gore.NewGore(npc.position, npc.velocity, 826);
 				Main.gore[ing1].timeLeft = 30;
 				int ing2 = Gore.NewGore(npc.position, npc.velocity, 827);
 				Main.gore[ing2].timeLeft = 30;
+				for (int k = 0; k < 11; k++) {
+					Dust.NewDust(npc.position, npc.width, npc.height, 85, hitDirection, -1f, 1, default(Color), .61f);
+				}
 			}
 		}
 

@@ -51,7 +51,8 @@ namespace SpiritMod.Items.BossBags
 				ModContent.ItemType<Shadowmoor>()
 			};
 			int loot = Main.rand.Next(lootTable.Length);
-
+			player.QuickSpawnItem(lootTable[loot]);
+			
 			if (Main.rand.NextDouble() < 1d / 7)
 				player.QuickSpawnItem(ModContent.ItemType<DuskingMask>());
 			if (Main.rand.NextDouble() < 1d / 10)
