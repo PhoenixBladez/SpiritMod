@@ -1,16 +1,16 @@
-Hello, all! I'm Yuyutsu, and I'd like to introduce you to the Spirit Mod, one of Terraria's largest content mods. I've been developing the Spirit Mod for more than 5 years alongside a wonderfully talented team, and we've added multiple bosses, biomes, weapon sets, events, and mechanics in that time! My ultimate goal is to create a fresh, immersive Terraria experience with endless possibilities for you all to explore. We hope you enjoy the mod!
-
-Spirit adds:
+Spirit currently adds:
 - 1300 new items!​
 - 41 new armor sets!​
-- 143 new enemies and minibosses!​
-- 8 new bosses​
-- 3 new events: the Tide, the Jelly Deluge, and the Mystic Moon!​
+- 8 new bosses​!
 - 2 brand new biomes, the Spirit Biome and the Briar!​
 - A brand new Quest System!​
+- 143 new enemies and minibosses!​
+- 3 new events: the Tide, the Jelly Deluge, and the Mystic Moon!​
 - A new Weapon Enchantment system!​
 - 34 brand new music tracks for vanilla and modded events and biomes!​
 ...and so much more for you to discover!​
+
+Hello, all! I'm Yuyutsu, and I'd like to introduce you to the Spirit Mod, one of Terraria's largest content mods. I've been developing the Spirit Mod for more than 5 years alongside a wonderfully talented team, and we've added multiple bosses, biomes, weapon sets, events, and mechanics in that time! My ultimate goal is to create a fresh, immersive Terraria experience with endless possibilities for you all to explore. We hope you enjoy the mod!
 
 Discord: https://discord.gg/FUNqtZQ
 
