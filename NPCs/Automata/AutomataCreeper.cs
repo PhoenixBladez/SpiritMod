@@ -215,7 +215,7 @@ namespace SpiritMod.NPCs.Automata
 		}
 		public override void AI()
 		{
-			if (speed < 15)
+			if (speed < 12)
 				speed *= 1.03f;
 
 			newVelocity = Collide();
@@ -230,7 +230,7 @@ namespace SpiritMod.NPCs.Automata
 
 			if (projectile.ai[1] == 0f)
 			{
-				projectile.rotation += (float)(moveDirection.X * moveDirection.Y) * 0.03f;
+				projectile.rotation += (float)(moveDirection.X * moveDirection.Y) * 0.13f;
 				if (collideY)
 				{
 					projectile.ai[0] = 2f;
@@ -249,7 +249,7 @@ namespace SpiritMod.NPCs.Automata
 			}
 			else
 			{
-				projectile.rotation -= (float)(moveDirection.X * moveDirection.Y) * 0.03f;
+				projectile.rotation -= (float)(moveDirection.X * moveDirection.Y) * 0.13f;
 				if (collideX)
 				{
 					projectile.ai[0] = 2f;
