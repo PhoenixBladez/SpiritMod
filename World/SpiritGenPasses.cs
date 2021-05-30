@@ -29,22 +29,17 @@ namespace SpiritMod.World
 		#region GENPASS: SPIRIT MICROS
 		public static void MicrosPass(GenerationProgress progress)
 		{
-			bool success = false;
 			int attempts = 0;
-			while (!success) {
+
+			while (true) {
 				attempts++;
-				if (attempts > 1000) {
-					success = true;
-					continue;
-				}
+				if (attempts > 20)
+					break;
 
 				progress.Message = "Spirit Mod: Adding Microstructures...";
 
-
-				if (WorldGen.genRand.Next(4) == 0) {
+				if (WorldGen.genRand.Next(4) == 0)
 						GenerateCampsite();
-				}
-				
 
 				if (Main.rand.Next(2) == 0) {
 					new BanditHideout().Generate();
@@ -55,59 +50,32 @@ namespace SpiritMod.World
 					MyWorld.gennedTower = true;
 				}
 
-				int num584 = 1;
-				if (Main.maxTilesX == 4200) {
-					num584 = Main.rand.Next(7, 10);
-				}
-				else if (Main.maxTilesX == 6400) {
-					num584 = Main.rand.Next(12, 14);
-				}
-				else if (Main.maxTilesX == 8400) {
-					num584 = Main.rand.Next(15, 19);
-				}
+				int siz = (int)((Main.maxTilesX / 4200f) * 7);
+				int repeats = WorldGen.genRand.Next(siz, siz + 4);
 
-				for (int k = 0; k < num584 - 2; k++) {
+				for (int k = 0; k < repeats - 2; k++)
 					GenerateCrateStash();
-				}
 
-				for (int k = 0; k < (num584 / 2 + 1); k++) {
+				for (int k = 0; k < (repeats / 2 + 1); k++)
 					GenerateCrateStashJungle();
-				}
 
-				for (int k = 0; k < (num584 / 3 * 2 + 2); k++) {
+				for (int k = 0; k < (repeats / 3 * 2 + 2); k++)
 					GenerateBismiteCavern();
-				}
 
-				if (WorldGen.genRand.Next(2) == 0) {
-					for (int k = 0; k < (num584 / 4); k++) {
+				if (WorldGen.genRand.Next(2) == 0)
+					for (int k = 0; k < (repeats / 4); k++)
 						GenerateStoneDungeon();
-					}
-				}
 
-				for (int k = 0; k < Main.rand.Next(5, 7); k++) {
+				for (int k = 0; k < Main.rand.Next(5, 7); k++)
 					GenerateGemStash();
-				}
 
-				int num8827 = 1;
-				if (Main.maxTilesX == 4200) {
-					num8827 = 2;
-				}
-				else if (Main.maxTilesX == 6400) {
-					num8827 = 3;
-				}
-				else if (Main.maxTilesX == 8400) {
-					num8827 = 4;
-				}
-
-				for (int i = 0; i < num8827; i++) {
-					GenerateBoneIsland(num8827, i);
-				}
+				for (int i = 0; i < Main.maxTilesX / 4200f * 2f; i++)
+					GenerateBoneIsland((int)(Main.maxTilesX / 4200f * 2f), i);
 
 				GeneratePagoda();
 				GenerateZiggurat();
 
-				success = true;
-
+				break;
 			}
 		}
 		#endregion Spirit Micros
@@ -125,8 +93,7 @@ namespace SpiritMod.World
 				{1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 			};
 
-			bool placed = false;
-			while (!placed) {
+			while (true) {
 				// Select a place in the first 6th of the world
 				int towerX = Main.spawnTileX + Main.rand.Next(-800, 800); // from 50 since there's a unaccessible area at the world's borders
 																		  // 50% of choosing the last 6th of the world
@@ -136,9 +103,8 @@ namespace SpiritMod.World
 
 				int towerY = 0;
 				// We go down until we hit a solid tile or go under the world's surface
-				while (!WorldGen.SolidTile(towerX, towerY) && towerY <= Main.worldSurface) {
+				while (!WorldGen.SolidTile(towerX, towerY) && towerY <= Main.worldSurface)
 					towerY++;
-				}
 
 				// If we went under the world's surface, try again
 				if (towerY > Main.worldSurface) {
@@ -147,14 +113,13 @@ namespace SpiritMod.World
 
 				Tile tile = Main.tile[towerX, towerY];
 				// If the type of the tile we are placing the tower on doesn't match what we want, try again
-				if (tile.type != TileID.Dirt && tile.type != TileID.Grass && tile.type != TileID.Stone) {
+				if (tile.type != TileID.Dirt && tile.type != TileID.Grass && tile.type != TileID.Stone)
 					continue;
-				}
 
 				// place the tower
 				PlaceCampsite(towerX, towerY + 1, CampShape1);
 
-				placed = true;
+				break;
 			}
 		}
 
@@ -172,29 +137,23 @@ namespace SpiritMod.World
 							case 0:
 								tile.ClearTile();
 								break;
-
 							case 1:
 								tile.ClearTile();
 								tile.type = 0;
 								tile.active(true);
 								break;
-
 							case 2:
 								tile.ClearTile();
 								break;
-
 							case 3:
 								tile.ClearTile();
 								break;
-
 							case 4:
 								tile.ClearTile();
 								break;
-
 							case 5:
 								tile.ClearTile();
 								break;
-
 							case 6:
 								break;
 						}
@@ -250,9 +209,8 @@ namespace SpiritMod.World
 				int hideoutY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 450);
 				Tile tile = Main.tile[hideoutX, hideoutY];
 
-				if (!tile.active() || tile.type != TileID.Stone) {
+				if (!tile.active() || tile.type != TileID.Stone)
 					continue;
-				}
 
 				List<Point> location = new List<Point>(); //these are for ease of use if we ever want to add containers to these existing structures
 				Point[] containers = location.ToArray();
@@ -271,9 +229,8 @@ namespace SpiritMod.World
 				int hideoutY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 450);
 				Tile tile = Framing.GetTileSafely(hideoutX, hideoutY);
 
-				if (!tile.active() || tile.type != 60) {
+				if (!tile.active() || tile.type != 60)
 					continue;
-				}
 
 				List<Point> location = new List<Point>(); //these are for ease of use if we ever want to add containers to these existing structures
 				Point[] containers = location.ToArray();
@@ -288,8 +245,7 @@ namespace SpiritMod.World
 		#region Bismite Cavern
 		private static void GenerateBismiteCavern()
 		{
-			bool placed = false;
-			while (!placed) {
+			while (true) {
 				int hideoutX = Main.rand.Next(300, Main.maxTilesX - 200); // from 50 since there's a unaccessible area at the world's borders
 				int hideoutY = Main.rand.Next((int)Main.rockLayer, Main.maxTilesY - 300);
 				Tile tile = Framing.GetTileSafely(hideoutX, hideoutY);
@@ -297,21 +253,17 @@ namespace SpiritMod.World
 				List<Point> location = new List<Point>(); //these are for ease of use if we ever want to add containers to these existing structures
 				Point[] containers = location.ToArray();
 
-				if (!tile.active() || tile.type != TileID.Stone) {
+				if (!tile.active() || tile.type != TileID.Stone)
 					continue;
-				}
 
-				if (WorldGen.genRand.Next(2) == 0) {
+				if (WorldGen.genRand.Next(2) == 0)
 					StructureLoader.GetStructure("BismiteCavern1").PlaceForce(hideoutX, hideoutY, out containers);
-				}
-				else if (WorldGen.genRand.Next(2) == 0) {
+				else if (WorldGen.genRand.Next(2) == 0)
 					StructureLoader.GetStructure("BismiteCavern2").PlaceForce(hideoutX, hideoutY, out containers);
-				}
-				else {
+				else
 					StructureLoader.GetStructure("BismiteCavern3").PlaceForce(hideoutX, hideoutY, out containers);
-				}
 
-				placed = true;
+				break;
 			}
 		}
 		#endregion Bismite Cavern
@@ -319,8 +271,7 @@ namespace SpiritMod.World
 		#region Stone Dungeon
 		private static void GenerateStoneDungeon()
 		{
-			bool placed = false;
-			while (!placed) {
+			while (true) {
 				int hideoutX = Main.rand.Next(50, Main.maxTilesX - 200); // from 50 since there's a unaccessible area at the world's borders
 				int hideoutY = Main.rand.Next((int)Main.rockLayer, Main.maxTilesY);
 				Tile tile = Framing.GetTileSafely(hideoutX, hideoutY);
@@ -341,8 +292,7 @@ namespace SpiritMod.World
 				else {
 					StructureLoader.GetStructure("StoneDungeon3").PlaceForce(hideoutX, hideoutY, out containers);
 				}
-
-				placed = true;
+				break;
 			}
 		}
 		#endregion Stone Dungeon
@@ -462,25 +412,17 @@ namespace SpiritMod.World
 				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 			};
 
-			bool placed = false;
-			while (!placed) {
-				int hideoutX = (Main.spawnTileX + Main.rand.Next(-800, 800)); // from 50 since there's a unaccessible area at the world's borders
-				int hideoutY = Main.spawnTileY + Main.rand.Next(120, 400);
+			int hideoutX = (Main.spawnTileX + Main.rand.Next(-800, 800)); // from 50 since there's a unaccessible area at the world's borders
+			int hideoutY = Main.spawnTileY + Main.rand.Next(120, 400);
 
-				// place the hideout
-				if (WorldGen.genRand.Next(2) == 0) {
-					PlaceGemStash(hideoutX, hideoutY, StashRoomMain, StashMainWalls, StashMainLoot);
-				}
-				else {
-					PlaceGemStash(hideoutX, hideoutY, StashRoomMain1, StashMainWalls, StashMainLoot1);
-				}
+			// place the hideout
+			if (WorldGen.genRand.Next(2) == 0)
+				PlaceGemStash(hideoutX, hideoutY, StashRoomMain, StashMainWalls, StashMainLoot);
+			else
+				PlaceGemStash(hideoutX, hideoutY, StashRoomMain1, StashMainWalls, StashMainLoot1);
 
-				if (WorldGen.genRand.Next(2) == 0) {
-					PlaceGemStash(hideoutX + (Main.rand.Next(-5, 5)), hideoutY - 8, StashRoom1, Stash1Walls, Stash1Loot);
-				}
-
-				placed = true;
-			}
+			if (WorldGen.genRand.Next(2) == 0)
+				PlaceGemStash(hideoutX + (Main.rand.Next(-5, 5)), hideoutY - 8, StashRoom1, Stash1Walls, Stash1Loot);
 		}
 
 		private static void PlaceGemStash(int i, int j, int[,] BlocksArray, int[,] WallsArray, int[,] LootArray)
@@ -494,17 +436,14 @@ namespace SpiritMod.World
 						switch (WallsArray[y, x]) {
 							case 0:
 								break;
-
 							case 1:
 								WorldGen.KillWall(k, l);
 								Framing.GetTileSafely(k, l).ClearTile();
 								break;
-
 							case 2:
 								WorldGen.KillWall(k, l);
 								Framing.GetTileSafely(k, l).ClearTile();
 								break;
-
 							case 3:
 								WorldGen.KillWall(k, l);
 								Framing.GetTileSafely(k, l).ClearTile();
@@ -680,29 +619,25 @@ namespace SpiritMod.World
 		#region Bone Island
 		private static void GenerateBoneIsland(int islands, int section)
 		{
-			bool placed = false;
-			while (!placed) {
+			while (true) {
 				// Select a place in the first 6th of the world
 				int sectionSize = Main.maxTilesX / 3 * 2 / islands;
 				int towerX = Main.rand.Next((sectionSize * section) + 50, (sectionSize * (section + 1)) - 50);
 				int towerY = WorldGen.genRand.Next(Main.maxTilesY / 9, Main.maxTilesY / 8);
 
 				Tile tile = Main.tile[towerX, towerY];
-				if (tile.active()) {
+				if (tile.active())
 					continue;
-				}
 
 				List<Point> location = new List<Point>(); //these are for ease of use if we ever want to add containers to these existing structures
 				Point[] containers = location.ToArray();
 
-				if (WorldGen.genRand.Next(2) == 0) {
+				if (WorldGen.genRand.Next(2) == 0)
 					StructureLoader.GetStructure("BoneIsland").PlaceForce(towerX, towerY, out containers);
-				}
-				else {
+				else
 					StructureLoader.GetStructure("BoneIsland1").PlaceForce(towerX, towerY, out containers);
-				}
 
-				placed = true;
+				break;
 			}
 		}
 		#endregion Bone Island
@@ -710,34 +645,26 @@ namespace SpiritMod.World
 		#region Pagoda
 		private static void GeneratePagoda()
 		{
-			bool placed = false;
-			MyWorld.pagodaX = 0;
+			if (MyWorld.asteroidSide == 0)
+				MyWorld.pagodaX = Main.maxTilesX - Main.rand.Next(200, 350);
+			else
+				MyWorld.pagodaX = Main.rand.Next(200, 350);
 
-			while (!placed) {
-				if (MyWorld.asteroidSide == 0) {
-					MyWorld.pagodaX = Main.maxTilesX - Main.rand.Next(200, 350);
-				}
-				else {
-					MyWorld.pagodaX = Main.rand.Next(200, 350);
-				}
+			MyWorld.pagodaY = (int)(Main.worldSurface / 5.0);
+			StructureLoader.GetStructure("Pagoda").PlaceForce(MyWorld.pagodaX, MyWorld.pagodaY, out Point[] containers);
 
-				MyWorld.pagodaY = (int)(Main.worldSurface / 5.0);
-				List<Point> location = new List<Point>(); //these are for ease of use if we ever want to add containers to these existing structures
-				Point[] containers = location.ToArray();
-				StructureLoader.GetStructure("Pagoda").PlaceForce(MyWorld.pagodaX, MyWorld.pagodaY, out containers);
-
-				//foreach incase we decide to add a second chest.
-				foreach (Point chestLocation in containers) {
-					for (int x = 0; x < 2; x++) {
-						for (int y = 0; y < 2; y++) {
-							Main.tile[chestLocation.X + x, chestLocation.Y + y].active(false);
-							Main.tile[chestLocation.X + x, chestLocation.Y + y].type = 0;
-						}
+			//foreach incase we decide to add a second chest.
+			foreach (Point chestLocation in containers)
+			{
+				for (int x = 0; x < 2; x++)
+				{
+					for (int y = 0; y < 2; y++)
+					{
+						Main.tile[chestLocation.X + x, chestLocation.Y + y].active(false);
+						Main.tile[chestLocation.X + x, chestLocation.Y + y].type = 0;
 					}
-					WorldGen.PlaceChest(chestLocation.X, chestLocation.Y + 1, 21, true, 28);
 				}
-
-				placed = true;
+				WorldGen.PlaceChest(chestLocation.X, chestLocation.Y + 1, 21, true, 28);
 			}
 		}
 		#endregion Pagoda

@@ -16,7 +16,6 @@ namespace SpiritMod.Items.Weapon.Summon
 			Tooltip.SetDefault("Summons either a Soul of Happiness or Sadness at the cursor position with a left or right click\nThe Soul of Happiness shoots out beams at foes\nThe Soul of Sadness shoots out homing tears at foes");
 		}
 
-
 		public override void SetDefaults()
 		{
 			item.damage = 17;
@@ -37,24 +36,21 @@ namespace SpiritMod.Items.Weapon.Summon
 			item.shoot = ModContent.ProjectileType<HappySoul>();
 			item.shootSpeed = 0f;
 		}
-		public override bool AltFunctionUse(Player player)
-		{
-			return true;
-		}
+
+		public override bool AltFunctionUse(Player player) => true;
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if (player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2)
 				type = ModContent.ProjectileType<SadSoul>();
-			}
-			else {
+			else
 				type = ModContent.ProjectileType<HappySoul>();
-			}
-			Vector2 value18 = Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY);
-			position = value18;
+			position = Main.MouseWorld;
 			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
 			player.UpdateMaxTurrets();
 			return false;
 		}
+
 		public override void AddRecipes()
 		{
 			ModRecipe modRecipe = new ModRecipe(mod);

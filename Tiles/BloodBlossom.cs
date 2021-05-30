@@ -40,7 +40,7 @@ namespace SpiritMod.Tiles
 		public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
 		{
 			TileUtilities.BlockActuators(i, j);
-			return base.TileFrame(i, j, ref resetFrame, ref noBreak);
+			return true;
 		}
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
@@ -54,45 +54,42 @@ namespace SpiritMod.Tiles
 		}
 		public override void MouseOver(int i, int j)
 		{
-			//shows the Cryptic Crystal icon while mousing over this tile
-			Main.player[Main.myPlayer].showItemIcon = true;
-			Main.player[Main.myPlayer].showItemIcon2 = mod.ItemType("VinewrathBox");
-			Main.player[Main.myPlayer].showItemIconText = "Disturbing this flower surely isn't a good idea...";
+			Main.LocalPlayer.showItemIcon = true; //Show text when hovering over this tile
+			Main.LocalPlayer.showItemIcon2 = -1;// mod.ItemType("VinewrathBox");
+			if (NPC.AnyNPCs(ModContent.NPCType<ReachBoss>()) || NPC.AnyNPCs(ModContent.NPCType<ReachBoss1>()))
+				Main.LocalPlayer.showItemIconText = "";
+			else
+				Main.LocalPlayer.showItemIconText = "Disturbing this flower surely isn't a good idea...";
 		}
 		
 		public override bool NewRightClick(int i, int j)
 		{
-			//don't bother if there's already a Crystal King in the world
-			for (int x = 0; x < Main.npc.Length; x++) {
-				if (Main.npc[x].active && Main.npc[x].type == ModContent.NPCType<ReachBoss>()) return false;
-			}
-				Player player = Main.LocalPlayer;
+			if (NPC.AnyNPCs(ModContent.NPCType<ReachBoss>()) || NPC.AnyNPCs(ModContent.NPCType<ReachBoss1>())) //Do nothing if the boss is alive
+				return false;
+
+			Player p = Main.LocalPlayer;
 			if (Main.netMode != NetmodeID.MultiplayerClient) {
                 Main.NewText("The Vinewrath Bane has awoken!", 175, 75, 255, true);
-                int npcID = NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<ReachBoss>());
-				Main.npc[npcID].Center = player.Center + new Vector2(600, 600);
+                int npcID = NPC.NewNPC((int)p.Center.X + 600, (int)p.Center.Y + 600, ModContent.NPCType<ReachBoss>());
 				Main.npc[npcID].netUpdate2 = true;
 			}
 			else {
-				if (Main.netMode == NetmodeID.SinglePlayer) {
+				if (Main.netMode == NetmodeID.SinglePlayer)
 					return false;
-				}
-				SpiritMod.WriteToPacket(SpiritMod.instance.GetPacket(), (byte)MessageType.BossSpawnFromClient, (byte)player.whoAmI, (int)ModContent.NPCType<ReachBoss>(), "Vinewrath Bane Has Been Summoned!", (int)player.Center.X + 600, (int)player.Center.Y + 600).Send(-1);
+				SpiritMod.WriteToPacket(SpiritMod.instance.GetPacket(), (byte)MessageType.BossSpawnFromClient, (byte)p.whoAmI, ModContent.NPCType<ReachBoss>(), "Vinewrath Bane Has Been Summoned!", (int)p.Center.X + 600, (int)p.Center.Y + 600).Send(-1);
 			}
 			return true;
 		}
+
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{
 			Tile tile = Framing.GetTileSafely(i, j);
-			//if (tile.frameY == 18 || (tile.frameY == 36 && (tile.frameX == 18 || tile.frameX == 72)))
-			{
-				Color colour = Color.White * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTime * 1.3f) + 1f) * 0.5f));
+			Color colour = Color.White * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTime * 1.3f) + 1f) * 0.5f));
 
-				Texture2D glow = ModContent.GetTexture("SpiritMod/Tiles/BloodBlossom_Glow");
-				Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
+			Texture2D glow = ModContent.GetTexture("SpiritMod/Tiles/BloodBlossom_Glow");
+			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
 
-				spriteBatch.Draw(glow, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(tile.frameX, tile.frameY, 16, 16), colour);
-			}
+			spriteBatch.Draw(glow, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(tile.frameX, tile.frameY, 16, 16), colour);
 		}
 	}
 }

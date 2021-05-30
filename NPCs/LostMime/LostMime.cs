@@ -32,9 +32,8 @@ namespace SpiritMod.NPCs.LostMime
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.playerSafe) {
+			if (spawnInfo.playerSafe)
 				return 0f;
-			}
 			return SpawnCondition.Cavern.Chance * 0.015f;
 		}
 
@@ -46,21 +45,16 @@ namespace SpiritMod.NPCs.LostMime
 			npc.frame.Y = frame * frameHeight;
 		}
 
-		public override void AI()
-		{
-			npc.spriteDirection = npc.direction;
-		}
+		public override void AI() => npc.spriteDirection = npc.direction;
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
-		{
-			target.AddBuff(BuffID.Confused, 60);
-		}
+		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(BuffID.Confused, 60);
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			int d = 5;
 			for (int k = 0; k < 10; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.27f);
-				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default(Color), 0.87f);
+				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default, 0.27f);
+				Dust.NewDust(npc.position, npc.width, npc.height, d, 2.5f * hitDirection, -2.5f, 0, default, 0.87f);
 			}
 			if (npc.life <= 0) {
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LostMimeGore"), 1f);
@@ -72,15 +66,11 @@ namespace SpiritMod.NPCs.LostMime
 
 		public override void NPCLoot()
 		{
-			if (Main.rand.NextBool(16)) {
+			if (Main.rand.NextBool(16))
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MimeMask>(), 1);
-            }
-            if (Main.rand.Next(30) == 1)
-            {
+            if (Main.rand.NextBool(30))
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Consumable.Food.Baguette>());
-            }
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MimeBomb>(), Main.rand.Next(12, 23));
 		}
-
 	}
 }

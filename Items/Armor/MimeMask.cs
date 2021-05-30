@@ -22,12 +22,13 @@ namespace SpiritMod.Items.Armor
 			item.rare = ItemRarityID.Blue;
 			item.defense = 3;
 		}
+
 		public override void UpdateEquip(Player player)
 		{
 			player.minionDamage += 0.03f;
 			player.maxMinions += 1;
 		}
-		public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
-			=> drawHair = true;
+
+		public override void DrawHair(ref bool drawHair, ref bool drawAltHair) => drawHair = true;
 	}
 }
