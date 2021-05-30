@@ -201,6 +201,7 @@ namespace SpiritMod.NPCs.Automata
 		public Vector2 newVelocity = Vector2.Zero;
 		public float speed = 1f;
 
+		private float growCounter = 0;
 		bool collideX = false;
 		bool collideY = false;
 		public override void SetDefaults()
@@ -217,6 +218,8 @@ namespace SpiritMod.NPCs.Automata
 		{
 			if (speed < 12)
 				speed *= 1.03f;
+			if (growCounter < 1)
+				projectile.scale = growCounter += 0.1f;
 
 			newVelocity = Collide();
 			if (Math.Abs(newVelocity.X) < 0.5f)
